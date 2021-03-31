@@ -2,111 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DD783505A0
-	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 19:37:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F9D53505AE
+	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 19:44:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234333AbhCaRhZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Mar 2021 13:37:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58190 "EHLO
+        id S234382AbhCaRnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Mar 2021 13:43:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234473AbhCaRhI (ORCPT
+        with ESMTP id S229787AbhCaRnB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Mar 2021 13:37:08 -0400
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AB30C061574;
-        Wed, 31 Mar 2021 10:37:07 -0700 (PDT)
-Received: by mail-vs1-xe2a.google.com with SMTP id l8so8935274vsj.13;
-        Wed, 31 Mar 2021 10:37:07 -0700 (PDT)
+        Wed, 31 Mar 2021 13:43:01 -0400
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC51C061574;
+        Wed, 31 Mar 2021 10:43:01 -0700 (PDT)
+Received: by mail-ua1-x92b.google.com with SMTP id h34so6387461uah.5;
+        Wed, 31 Mar 2021 10:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=T5aWfvcz8u1FqqDGdDL6+xvWowM95AwK3yzA+ivU68k=;
-        b=LGe9GR1/zmzY7Bw4iwGyqNB2EfzGnXvve/KRMSnvZPaD9vRsQvM9zW7KnUMj7Z52WB
-         JUq8LviYd5S3NqWtANefpx78Oj9GNy3egbUVIPa7OPIJlLvoq+i85ViNPl04DBqAH9R7
-         798uNuQScz3YyGrdsFIQvUj/VYhHqazF56aY3EqcY5HVXqFjVNLpiCzV+hwktzO+veno
-         K/no0vaawRUmVpCstcMKSB86B6A0jxcjdh+67YFtGITjw7pgr+7PQjwQ0J7Fd5wjwzCp
-         vZRYCcj9L0J8zTtrorZLwVd1JLtzGyjFbceOnfANunmQhcuxzdHD2XIjYWUmOffyS0o2
-         /XuQ==
+        bh=6QUinmrvLjexZh4h6qxhdrf+90LRRGclLO2gy+3m3h0=;
+        b=bDcIcHosuB1gdY9wWuOho+xe1EAqCn/mgVXT0aZV46gFLzCOHAQts+kRA+maDvEzKZ
+         Xdcws4+Y71rHgxYyRITbYHFu470S75k5aUzTzr9q7GoMLH9rMTP/BFMXJcBHj4+LuuBF
+         NiPR16CudOKuhuFNzxzslz0SFU6pIyYXXt1+TRKCYJOer/8nZIikcWUiGuprajWuUvbj
+         RXhF4FHNCyG9fZYlOlT9i0+rIhzOpluCg0J12gphF75/Wsx+XbLb5Nb5QH5ZZGQRZZuX
+         /Tjyhm+eKWJr6/raA8h92pbHaFmileDu4ghji83D9rY8Hx0xFWMZcvwNjnWUStmEBPjs
+         ei6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=T5aWfvcz8u1FqqDGdDL6+xvWowM95AwK3yzA+ivU68k=;
-        b=fTjcX/GUSkZNZSN1n5l55RCHkjzcT8mjEGvzZ7LFLvtUvxUvANc12DzHcN8n5snoml
-         xLDBczXxHagPBGPqKInPlvqR8OF1t8LkdxIdSuXfg5pMFvFswRNxUwAnYpjR+7sK//Ex
-         54xZZWIgOyKP7mFrZnSGfV5XMs3FKEovZYtH5g6PG9i7NHmZsNdNhEu0B7axDXTe3aqL
-         5aHvihCdotN/lerIRHUOm+21F+w9krR7OO/2HzKuE0S396WM+7976drA/aKxR+DQl+qd
-         clA689dQ75lXeblBdlQdowqCgerofv4KIrK+7NH3rzvjYP83HrvdVC9nax4gSFZaz2Xt
-         P9NA==
-X-Gm-Message-State: AOAM531oVRz2HSVtTfZbH9FVBCMIRkojHxZ1ANbhdKXhvrWQ/xLKO/rR
-        T5NcLiLPyGvPQ5SiQJDbxwiL+1qurZinnps9nfA=
-X-Google-Smtp-Source: ABdhPJzCfcI4pNU+3xrqudaT5wmZzJPE2MZmFf8fWWrNRShRIebblLgnhDIz2xErtIx2+kBt2nF5dMlJiVxMhH7uqCw=
-X-Received: by 2002:a05:6102:21d1:: with SMTP id r17mr2544845vsg.19.1617212226819;
- Wed, 31 Mar 2021 10:37:06 -0700 (PDT)
+        bh=6QUinmrvLjexZh4h6qxhdrf+90LRRGclLO2gy+3m3h0=;
+        b=TrDTVzwU8KDRj58WGdt5/KaNAwgoP92aC7GdlYrF1yEaQwzIfAoE5r/umMsG0D1BTa
+         z1HfjE1PrmJTg6end2cWUrAJivAX2pYO9yOIoDNUpzFVaTBE/Td4BGsmYVS69N7FlUtv
+         Kg/M5U1XNgErrp/HrkFQRDBe40Cu333/shLHDxuKb1toxl267kzBMPhYLGL5AyvYZI04
+         WwyFrJOXq4DcQLsz5mQRyxcVmFFCUp4rtDPVPJZDQqh1tFHI7j8UH31MnpxL2MXHzlQp
+         aqQ0gtDhoEex9bpamN8qssosZ1rAtd+2anHLQZwD/lRBWlxdjXvaujVaJGVEjTUxRlsX
+         Jr0Q==
+X-Gm-Message-State: AOAM532A44OeBLzZC4FBYA8pkX9GvT/NK6JbdKYuosrYqBEzjYnjMUgY
+        UN4zec5u4OZZJU0KD0i5a/tk3Qy9JkLTRayHsaIHY3l3HGbOig==
+X-Google-Smtp-Source: ABdhPJy3yexeTGobTP9R8fdNLFXCSzmoWAuERwfQlI+gE5cqr3/I+uy//5OSLMXkzsMGB3WDh2SXsV+7KZ2Ml4hXzkA=
+X-Received: by 2002:ab0:12a:: with SMTP id 39mr2339668uak.19.1617212580827;
+ Wed, 31 Mar 2021 10:43:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210311154055.3496076-1-emil.l.velikov@gmail.com>
- <5ecf1d3b8a8f88d6387a1549faeb4f4180cf5d4b.camel@collabora.com>
- <CACvgo51uNyQgzGdW=f-0wxvjv-+OD1p7E4DJXRzu1GvnAHbcCQ@mail.gmail.com>
- <50b3b4b3-6c5b-3f1e-3499-c88574ce9f74@microchip.com> <YFxObibxqK23WTMf@piout.net>
- <CACvgo53V8sZ2PA0NTR1=JCqcFGBecqs7=aB4uofApOa-C0GZCA@mail.gmail.com> <3aeb1924-d461-ab8b-440b-81f33a1a8213@microchip.com>
-In-Reply-To: <3aeb1924-d461-ab8b-440b-81f33a1a8213@microchip.com>
+ <20210311154055.3496076-7-emil.l.velikov@gmail.com> <20210324151715.GA3070006@robh.at.kernel.org>
+ <CACvgo51EpUqRBDQ0tO8aoUM3eo=y9R5VFOazWD05hOaiGwgZPg@mail.gmail.com> <a47cea7f31abdd25e6c9d4262be07ce2d852881e.camel@collabora.com>
+In-Reply-To: <a47cea7f31abdd25e6c9d4262be07ce2d852881e.camel@collabora.com>
 From:   Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Wed, 31 Mar 2021 18:36:55 +0100
-Message-ID: <CACvgo53CCZ8N2w9+6s8KfVtoVYxZPGQYOWYrRTdXv_y9ZqMs5A@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] Microship SAMA5D4 VPU support et al
-To:     Nicolas Ferre <nicolas.ferre@microchip.com>
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
+Date:   Wed, 31 Mar 2021 18:42:49 +0100
+Message-ID: <CACvgo53GKQDZeiCjWKnt_hEp8Ctnueau_BKTqw7WXuPz-HUaPw@mail.gmail.com>
+Subject: Re: [PATCH v2 06/10] media: dt-bindings: Document SAMA5D4 VDEC bindings
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Rob Herring <robh@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         linux-media@vger.kernel.org,
-        linux-rockchip <linux-rockchip@lists.infradead.org>
+        linux-rockchip <linux-rockchip@lists.infradead.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 29 Mar 2021 at 10:54, Nicolas Ferre <nicolas.ferre@microchip.com> wrote:
+On Fri, 26 Mar 2021 at 14:29, Ezequiel Garcia <ezequiel@collabora.com> wrote:
 >
-> On 25/03/2021 at 15:22, Emil Velikov wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> >
-> > Greetings all,
-> >
-> > On Thu, 25 Mar 2021 at 08:48, Alexandre Belloni
-> > <alexandre.belloni@bootlin.com> wrote:
-> >>
-> >> On 24/03/2021 14:44:14+0100, Nicolas Ferre wrote:
-> >>> Now, when we have the tag from Rob, how to coordinate these different
-> >>> pieces? Will it go through the media git tree? Will we benefit from a stable
-> >>> branch to share or will we just have to wait for the driver to hit Mainline
-> >>> before adding the defconfig and DT patches?
-> >>>
-> > Thanks for the Acked-by Nicolas.
-> >
-> >>
-> >> I think the defconfig and dt patches can go through at91 as soon as we
-> >> get Rob's ack. There is no build dependency so it can be taken at any
-> >> time. Worst case, we end up with a selected config option that doesn't
-> >> exist.
-> >>
-> > My personal preference is to merge everything in one go.
-> > I believe it will be easier from maintainer's point of view, plus odds
-> > of conflicts with the AT91 tree are close to zero.
-> >
-> > Then again, as long as the maintainers are happy - I'm fine either way.
+> Hi Emil,
 >
-> I'm taking defconfig 2 last patches of your series right now. No need to
-> include them in subsequent versions.
+> On Thu, 2021-03-25 at 14:14 +0000, Emil Velikov wrote:
+> > On Wed, 24 Mar 2021 at 15:17, Rob Herring <robh@kernel.org> wrote:
+> > >
+> > > On Thu, Mar 11, 2021 at 03:40:51PM +0000, Emil Velikov wrote:
+> > > > From: Emil Velikov <emil.velikov@collabora.com>
+> > > >
+> > > > Add devicetree binding documentation for the Hantro G1/G2 VDEC on
+> > > > the Microchip SAMAS5D4 SoC.
+> > > >
+> > > > Cc: Rob Herring <robh+dt@kernel.org>
+> > > > Cc: Frank Rowand <frowand.list@gmail.com>
+> > > > Cc: devicetree@vger.kernel.org>
+> > > > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> > > > ---
+> > > > v2
+> > > >  - Newly introduced
+> > > >  - s/Atmel/Microchip/ (Nicolas)
+> > > >  - Drop leading 0 in node name/address
+> > > > ---
+> > > >  .../media/microchip,sama5d4-vdec.yaml         | 59 +++++++++++++++++++
+> > > >  1 file changed, 59 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml b/Documentation/devicetree/bindings/media/microchip,sama5d4-
+> > > > vdec.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..9cb2c0295d54
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+> > > > @@ -0,0 +1,59 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > > +
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: "http://devicetree.org/schemas/media/microchip,sama5d4-vdec.yaml#"
+> > > > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > > > +
+> > > > +title: Hantro G1 VPU codec implemented on Microchip SAMA5D4 SoCs
+> > > > +
+> > > > +maintainers:
+> > > > +  - Emil Velikov <emil.velikov@collabora.com>
+> > > > +
+> > > > +description:
+> > > > +  Hantro G1 video decode accelerator present on Microchip SAMA5D4 SoCs.
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    const: microchip,sama5d4-vdec
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  interrupts:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  interrupt-names:
+> > > > +    items:
+> > > > +      - const: vdec
+> > >
+> > > Why do you need a name? *-names are used to distinguish multiple entries
+> > > and don't add anything if only a single entry.
+> > >
+> > On one hand the names are used to describe the hardware - the SAMA
+> > board uses designated clock and interrupt lines - both called "vdec".
+> > Additionally the names are ultimately required by the underlying API -
+> > platform_get_irq_byname and  devm_clk_bulk_get respectively.
+> > How can we get the respective entries without the name?
+> >
 >
-> For DT, I'm waiting for settlement on refined code. As indicated by
-> Alexandre, changes will need to travel through arm-soc tree so we'll
-> coordinate when patches are ready.
+> There are APIs to get the resource by index as opposed to by name.
+> E.g. platform_get_irq.
 >
-Ack, dropped from v3 (also fixed the Microchip typo).
+> However, you are confusing here internal kernel implementation
+> with devicetree bindings. The latter is just a representation
+> of the hardware.
+>
+My train of thought was that if we're missing API to fetch the entries
+via non-name means, then there's a reasonable precedent to expose the
+name. Clearly I missed the API, so my argument is just off.
 
-Thanks again
-Emil
+> > Skimming through the existing dts file -
+> > arch/arm/boot/dts/sama5d4.dtsi and other dts files - there are lots of
+> > examples where the device tree binding contains the name for a single
+> > clock/interrupt.
+> >
+>
+>
+> Note that dtsi and dts are the device-tree files, not the bindings.
+> And even if you find examples, the fact that there exist examples
+> doesn't mean it's the right thing to do.
+>
+Fully agreed. Thanks for the correction and hints.
+
+The v3, just submitted, lacks the names all together.
+
+-Emil
