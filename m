@@ -2,110 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9CF435059C
-	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 19:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DD783505A0
+	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 19:37:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234582AbhCaRf4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Mar 2021 13:35:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57874 "EHLO
+        id S234333AbhCaRhZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Mar 2021 13:37:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234472AbhCaRfj (ORCPT
+        with ESMTP id S234473AbhCaRhI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Mar 2021 13:35:39 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 276E4C061574;
-        Wed, 31 Mar 2021 10:35:39 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id m20-20020a7bcb940000b029010cab7e5a9fso1535240wmi.3;
-        Wed, 31 Mar 2021 10:35:39 -0700 (PDT)
+        Wed, 31 Mar 2021 13:37:08 -0400
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AB30C061574;
+        Wed, 31 Mar 2021 10:37:07 -0700 (PDT)
+Received: by mail-vs1-xe2a.google.com with SMTP id l8so8935274vsj.13;
+        Wed, 31 Mar 2021 10:37:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=c9dnfwn3uUQXnRGTtGdPI5EXjcVR5rT5ZIvAQLeTWB0=;
-        b=WCzlqR6P/SJcQRG8ZJhW0JgDKZwNXWVNT0P8HMH4MCT5hPUS6PXalp4CoXzfamAgq+
-         zBQ1utZxjBRsVGd23sJ9ofKZbKQxv1krZ0EHv3gDMkzrsXFSdI2bx7/JT7+YPpajylsS
-         ugbM5qPu7Yzowim/m953+AXX1SK5CKZWA13mPgLMKqcyaat3wHKSNSGVL0cYtX30pNTU
-         sMzFUF2J3LMfVh8kLYG17BQSa8qrryJPyvLpbqmweoAnlaIXcKpFEm4DNCONU4+X/zCT
-         YQ2TE7NNoPS+AbhcKNB1j9HPw/3dLlUy8L6/Le1ESMnNKq+hd5m5c5rNr3gqMKbV3JZD
-         A/PA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=T5aWfvcz8u1FqqDGdDL6+xvWowM95AwK3yzA+ivU68k=;
+        b=LGe9GR1/zmzY7Bw4iwGyqNB2EfzGnXvve/KRMSnvZPaD9vRsQvM9zW7KnUMj7Z52WB
+         JUq8LviYd5S3NqWtANefpx78Oj9GNy3egbUVIPa7OPIJlLvoq+i85ViNPl04DBqAH9R7
+         798uNuQScz3YyGrdsFIQvUj/VYhHqazF56aY3EqcY5HVXqFjVNLpiCzV+hwktzO+veno
+         K/no0vaawRUmVpCstcMKSB86B6A0jxcjdh+67YFtGITjw7pgr+7PQjwQ0J7Fd5wjwzCp
+         vZRYCcj9L0J8zTtrorZLwVd1JLtzGyjFbceOnfANunmQhcuxzdHD2XIjYWUmOffyS0o2
+         /XuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=c9dnfwn3uUQXnRGTtGdPI5EXjcVR5rT5ZIvAQLeTWB0=;
-        b=ArL+H66Ck5Y6w2gKPYdAux4HKZ4wEiDiY9QhUPMO2VA919CobgK5i0Z8VteJd1jQMM
-         gE8VR6+yL+tLOkuU+xgnu21B3S4OrghScyZIRojs5dqaUnOTz+K4xk135QegqwrF3rVJ
-         55rrTRs+xC420ee6fD8OkloB6VHF9f45v8q5Ca7LOx3xlsbPfGJU9q/a/2KA4KShfFyF
-         Uh8DWE8fumupGsxdcPxYCydOSQ9FWG1meT0/MLtu5obmbIbracGu1N37ZNUM3NjPEWPh
-         3krmaiXn4aiK2OcppcrfbCoYyx894stJPZYYYD+kzYWenia2tIW/VfQiJtTp86cas/he
-         YHnw==
-X-Gm-Message-State: AOAM533LALX+RkrFwfQalrPiV3BWTJKO2MYEtdmmnOV3978SSOp6nZOb
-        5RPsVty0AN4tXNKFWQOo2tA=
-X-Google-Smtp-Source: ABdhPJxVIpTnZ6aBrQGee2qYidNtRG733Qb/IoI1wVPHki4azaPWSOVPcGbgOfhdcfiXWhpV4GfaVg==
-X-Received: by 2002:a1c:1f4c:: with SMTP id f73mr4183679wmf.25.1617212137932;
-        Wed, 31 Mar 2021 10:35:37 -0700 (PDT)
-Received: from arch-x1c3.. ([2a00:5f00:102:0:6e1d:cfb9:fb12:552d])
-        by smtp.gmail.com with ESMTPSA id 12sm4714200wmw.43.2021.03.31.10.35.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 10:35:37 -0700 (PDT)
-From:   Emil Velikov <emil.l.velikov@gmail.com>
-To:     kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Cc:     emil.l.velikov@gmail.com, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v3 9/9] ARM: dts: sama5d4: enable Hantro G1 VDEC
-Date:   Wed, 31 Mar 2021 18:35:20 +0100
-Message-Id: <20210331173520.184191-10-emil.l.velikov@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210331173520.184191-1-emil.l.velikov@gmail.com>
-References: <20210331173520.184191-1-emil.l.velikov@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=T5aWfvcz8u1FqqDGdDL6+xvWowM95AwK3yzA+ivU68k=;
+        b=fTjcX/GUSkZNZSN1n5l55RCHkjzcT8mjEGvzZ7LFLvtUvxUvANc12DzHcN8n5snoml
+         xLDBczXxHagPBGPqKInPlvqR8OF1t8LkdxIdSuXfg5pMFvFswRNxUwAnYpjR+7sK//Ex
+         54xZZWIgOyKP7mFrZnSGfV5XMs3FKEovZYtH5g6PG9i7NHmZsNdNhEu0B7axDXTe3aqL
+         5aHvihCdotN/lerIRHUOm+21F+w9krR7OO/2HzKuE0S396WM+7976drA/aKxR+DQl+qd
+         clA689dQ75lXeblBdlQdowqCgerofv4KIrK+7NH3rzvjYP83HrvdVC9nax4gSFZaz2Xt
+         P9NA==
+X-Gm-Message-State: AOAM531oVRz2HSVtTfZbH9FVBCMIRkojHxZ1ANbhdKXhvrWQ/xLKO/rR
+        T5NcLiLPyGvPQ5SiQJDbxwiL+1qurZinnps9nfA=
+X-Google-Smtp-Source: ABdhPJzCfcI4pNU+3xrqudaT5wmZzJPE2MZmFf8fWWrNRShRIebblLgnhDIz2xErtIx2+kBt2nF5dMlJiVxMhH7uqCw=
+X-Received: by 2002:a05:6102:21d1:: with SMTP id r17mr2544845vsg.19.1617212226819;
+ Wed, 31 Mar 2021 10:37:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210311154055.3496076-1-emil.l.velikov@gmail.com>
+ <5ecf1d3b8a8f88d6387a1549faeb4f4180cf5d4b.camel@collabora.com>
+ <CACvgo51uNyQgzGdW=f-0wxvjv-+OD1p7E4DJXRzu1GvnAHbcCQ@mail.gmail.com>
+ <50b3b4b3-6c5b-3f1e-3499-c88574ce9f74@microchip.com> <YFxObibxqK23WTMf@piout.net>
+ <CACvgo53V8sZ2PA0NTR1=JCqcFGBecqs7=aB4uofApOa-C0GZCA@mail.gmail.com> <3aeb1924-d461-ab8b-440b-81f33a1a8213@microchip.com>
+In-Reply-To: <3aeb1924-d461-ab8b-440b-81f33a1a8213@microchip.com>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Wed, 31 Mar 2021 18:36:55 +0100
+Message-ID: <CACvgo53CCZ8N2w9+6s8KfVtoVYxZPGQYOWYrRTdXv_y9ZqMs5A@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] Microship SAMA5D4 VPU support et al
+To:     Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media@vger.kernel.org,
+        linux-rockchip <linux-rockchip@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Emil Velikov <emil.velikov@collabora.com>
+On Mon, 29 Mar 2021 at 10:54, Nicolas Ferre <nicolas.ferre@microchip.com> wrote:
+>
+> On 25/03/2021 at 15:22, Emil Velikov wrote:
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> >
+> > Greetings all,
+> >
+> > On Thu, 25 Mar 2021 at 08:48, Alexandre Belloni
+> > <alexandre.belloni@bootlin.com> wrote:
+> >>
+> >> On 24/03/2021 14:44:14+0100, Nicolas Ferre wrote:
+> >>> Now, when we have the tag from Rob, how to coordinate these different
+> >>> pieces? Will it go through the media git tree? Will we benefit from a stable
+> >>> branch to share or will we just have to wait for the driver to hit Mainline
+> >>> before adding the defconfig and DT patches?
+> >>>
+> > Thanks for the Acked-by Nicolas.
+> >
+> >>
+> >> I think the defconfig and dt patches can go through at91 as soon as we
+> >> get Rob's ack. There is no build dependency so it can be taken at any
+> >> time. Worst case, we end up with a selected config option that doesn't
+> >> exist.
+> >>
+> > My personal preference is to merge everything in one go.
+> > I believe it will be easier from maintainer's point of view, plus odds
+> > of conflicts with the AT91 tree are close to zero.
+> >
+> > Then again, as long as the maintainers are happy - I'm fine either way.
+>
+> I'm taking defconfig 2 last patches of your series right now. No need to
+> include them in subsequent versions.
+>
+> For DT, I'm waiting for settlement on refined code. As indicated by
+> Alexandre, changes will need to travel through arm-soc tree so we'll
+> coordinate when patches are ready.
+>
+Ack, dropped from v3 (also fixed the Microchip typo).
 
-Add the SAMA5D4 VDEC module which comprises Hantro G1 video decoder
-core.
-
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Frank Rowand <frowand.list@gmail.com>
-Cc: devicetree@vger.kernel.org
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
-Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
----
-v2
- - Split out of larger patch (Eze)
- - s/Atmel/Microchip/ (Nicolas)
- - Drop leading 0 in node name/address
-
-v3
- - Drop the clk/irq names (RobH)
----
- arch/arm/boot/dts/sama5d4.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/arch/arm/boot/dts/sama5d4.dtsi b/arch/arm/boot/dts/sama5d4.dtsi
-index 05c55875835d..e47e1ca63043 100644
---- a/arch/arm/boot/dts/sama5d4.dtsi
-+++ b/arch/arm/boot/dts/sama5d4.dtsi
-@@ -101,6 +101,13 @@ nfc_sram: sram@100000 {
- 			ranges = <0 0x100000 0x2400>;
- 		};
- 
-+		vdec0: vdec@300000 {
-+			compatible = "microchip,sama5d4-vdec";
-+			reg = <0x00300000 0x100000>;
-+			interrupts = <19 IRQ_TYPE_LEVEL_HIGH 4>;
-+			clocks = <&pmc PMC_TYPE_PERIPHERAL 19>;
-+		};
-+
- 		usb0: gadget@400000 {
- 			compatible = "atmel,sama5d3-udc";
- 			reg = <0x00400000 0x100000
--- 
-2.31.1
-
+Thanks again
+Emil
