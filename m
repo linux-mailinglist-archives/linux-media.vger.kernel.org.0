@@ -2,90 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 890303506E4
-	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 20:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBE7835074B
+	for <lists+linux-media@lfdr.de>; Wed, 31 Mar 2021 21:18:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235860AbhCaSxc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Mar 2021 14:53:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46496 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233888AbhCaSx3 (ORCPT
+        id S235497AbhCaTSZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Mar 2021 15:18:25 -0400
+Received: from mail-il1-f198.google.com ([209.85.166.198]:54227 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235429AbhCaTSP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Mar 2021 14:53:29 -0400
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F10EC061574;
-        Wed, 31 Mar 2021 11:53:29 -0700 (PDT)
-Received: by mail-ua1-x932.google.com with SMTP id v23so6442763uaq.13;
-        Wed, 31 Mar 2021 11:53:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/DTSYMrEtM32KqUkoX69dgcR0XfKVqt64r7rpIZMI+o=;
-        b=lzBUVM7fAdQp6jF1nv79FrRYbTDgKatA7+5Xc/NDE1pKgF1sRIJbbhYMcnSNhx+OWG
-         I/KAtnlPCwyJtlTkwvB6xg6zj/0krE2VJD+vis2HeaW5myJa3pamZhdsKiWzWJx0x/DY
-         C7+X2OptR8BlNJoPLjjOj+SgOLOlEoXahAUGcwxvzSFQBlkaxa/GXXrjW+usZ4X4xg/r
-         BOY4aguhPcNSzZzG0DvBmIb5AF2PF+MaastcJng1hUvOzYOdkHvYThjQSNb5vOeB5Ypt
-         o1S7e9VbhAOoBak9AUJoa89iTcY9AQ34GW05OdjxsCR/jrIgn8dUrlgQcVtFnRh3M+cA
-         gXgA==
+        Wed, 31 Mar 2021 15:18:15 -0400
+Received: by mail-il1-f198.google.com with SMTP id k12so2252485ilo.20
+        for <linux-media@vger.kernel.org>; Wed, 31 Mar 2021 12:18:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/DTSYMrEtM32KqUkoX69dgcR0XfKVqt64r7rpIZMI+o=;
-        b=rKvSQlY6mx5XVgtfE+I2Q1B8EyMJH05718Oa/VGW+PnveZBk2oUmqiwG8M6X48J7kV
-         lHgXLkjENaf6RO9K0LXuTSN7oEBHRmwpt+wS8siLJkelzGKGdqa33EOv8t0p0NIdGTFR
-         xV5TJhKZFakAveBWoP1bjvxMhGcuD2VRTJUrzPnSM39zvfMdrr1xm1cHmXealzZq5bza
-         xvpYORyFRsTJomL247HRnmvpF/IpPSj30kgLdrmzEog9ZQIUDTqodRyAQK48QD47auXf
-         6pS+rGDFDMszd26QhTWoQiVUomA6CuNx2q4EK0dn+BH9r1GMdXp2SKnIjqQwwdKec5IN
-         7D8w==
-X-Gm-Message-State: AOAM532U3WbTi7zNAkCtk2N7AKLGeUm2K/0GgGOIVqy2dmXw0Niklj1S
-        5fgp6o+lHc58nkUk4IOO5xadqOKU4pWGNvo+LQlWTs3Cf3pelw==
-X-Google-Smtp-Source: ABdhPJwmPNCFsiJzns1U1Ag88HVXFSC8Gu6TlDAr9HbjDdXBoq3OeZwlIhn43M5A/GfVl61XXISCL4WZKbRk/lKveSA=
-X-Received: by 2002:ab0:32d0:: with SMTP id f16mr2628332uao.64.1617216808828;
- Wed, 31 Mar 2021 11:53:28 -0700 (PDT)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=zI5rz79lvwSeB44SWVVZPpyrakLxjesZfijHo0YURIM=;
+        b=T9WYfRQkek5Ay4CwPaWot/36Pt8UfCFh0sKGCai/iFieLTpfEWGrjLGzITG3qnpZSe
+         f0RHpzHvnjQMvWuwFt4zFuZ7Th5Fte0eupcEYFjGYzWL6PCSEGXlsvRXeLe8rousTy+b
+         sRt+Osx46EoEBaznDpqWq0Y3lbomPffqi3yAqj+DloRrVlMGGRdpoyMDJfDIvK7Tyaw6
+         hmO7C7RZl0RSmpk4+45vRE1FzwJZiug8/XWoIlPufjiKiOCl3BeclNzOSt4k45B1oqOf
+         c32l/v05dGEhso8blNWxh+/GcgSGrwhd5Sl/h/CMRlz/Vc/NhD5kizAyRiFxJR3NkIbA
+         lyUw==
+X-Gm-Message-State: AOAM533c5eg4jxqT32PFaYoODN2lsvCUx06IL5N2KLar8xgC1wLrOiLH
+        ONNV4Q2MypEB5g36hJjDbWQIVREXMLInqByucZivEANyoRsA
+X-Google-Smtp-Source: ABdhPJzEAeCWDEVGLDiG0xJyfXDqxE1ox/wzziCBmS4IFhCcdS+LnHaSpE5wOfDF/TG3zQMabHvf39+0yr2wo7O1B070EDESvDUX
 MIME-Version: 1.0
-References: <20210331173520.184191-1-emil.l.velikov@gmail.com> <20210331173520.184191-8-emil.l.velikov@gmail.com>
-In-Reply-To: <20210331173520.184191-8-emil.l.velikov@gmail.com>
-From:   Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Wed, 31 Mar 2021 19:53:17 +0100
-Message-ID: <CACvgo524v7pib6L0Bgx8Ygx5E+_Hg0fVEz+LQ_V_GshOghZZUw@mail.gmail.com>
-Subject: Re: [PATCH v3 7/9] media: dt-bindings: Document SAMA5D4 VDEC bindings
-To:     kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-media@vger.kernel.org,
-        linux-rockchip <linux-rockchip@lists.infradead.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>
+X-Received: by 2002:a05:6e02:eaf:: with SMTP id u15mr3502042ilj.45.1617218295308;
+ Wed, 31 Mar 2021 12:18:15 -0700 (PDT)
+Date:   Wed, 31 Mar 2021 12:18:15 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000004274005bed9fa32@google.com>
+Subject: [syzbot] memory leak in hdcs_probe_1020
+From:   syzbot <syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com>
+To:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 31 Mar 2021 at 18:35, Emil Velikov <emil.l.velikov@gmail.com> wrote:
->
-> From: Emil Velikov <emil.velikov@collabora.com>
->
-> Add devicetree binding documentation for the Hantro G1/G2 VDEC on
-> the Microchip SAMAS5D4 SoC.
->
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: devicetree@vger.kernel.org>
-> Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-> ---
-> v2
->  - Newly introduced
->  - s/Atmel/Microchip/ (Nicolas)
->  - Drop leading 0 in node name/address
-> ---
+Hello,
 
-Please ignore this patch, I might have forgotten to squash the fixup :-]
-v3.5 has just been sent out [1].
+syzbot found the following issue on:
 
-Thanks
-Emil
+HEAD commit:    0f4498ce Merge tag 'for-5.12/dm-fixes-2' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=17e1514ad00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=49f2683f4e7a4347
+dashboard link: https://syzkaller.appspot.com/bug?extid=990626a4ef6f043ed4cd
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16fb3d9ed00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=117539aad00000
 
-[1] https://lore.kernel.org/linux-media/20210331173520.184191-8-emil.l.velikov@gmail.com/T/#mf6b5c1f2be535abba8b254f11c9f3017c1c9fc86
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
+
+BUG: memory leak
+unreferenced object 0xffff888110dd9f00 (size 64):
+  comm "kworker/0:0", pid 5, jiffies 4294944081 (age 15.000s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 18 00 00 00  ................
+    04 00 00 00 60 01 00 00 30 01 00 00 04 00 00 00  ....`...0.......
+  backtrace:
+    [<ffffffff8424c055>] kmalloc include/linux/slab.h:554 [inline]
+    [<ffffffff8424c055>] hdcs_probe_1020 drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c:428 [inline]
+    [<ffffffff8424c055>] hdcs_probe_1020.cold+0x39/0x96 drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c:413
+    [<ffffffff82fe2db7>] stv06xx_config+0x107/0x190 drivers/media/usb/gspca/stv06xx/stv06xx.c:575
+    [<ffffffff842427ca>] gspca_dev_probe2+0x359/0x6c5 drivers/media/usb/gspca/gspca.c:1529
+    [<ffffffff84242b78>] gspca_dev_probe.cold+0x42/0x4a drivers/media/usb/gspca/gspca.c:1606
+    [<ffffffff82ba7c87>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
+    [<ffffffff825f6079>] really_probe+0x159/0x4a0 drivers/base/dd.c:554
+    [<ffffffff825f6444>] driver_probe_device+0x84/0x100 drivers/base/dd.c:740
+    [<ffffffff825f6b5e>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:846
+    [<ffffffff825f2ff7>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
+    [<ffffffff825f66f2>] __device_attach+0x122/0x250 drivers/base/dd.c:914
+    [<ffffffff825f4c96>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
+    [<ffffffff825f11e5>] device_add+0x5d5/0xc40 drivers/base/core.c:3242
+    [<ffffffff82ba5229>] usb_set_configuration+0x9d9/0xb90 drivers/usb/core/message.c:2164
+    [<ffffffff82bb568c>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
+    [<ffffffff82ba73ec>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+    [<ffffffff825f6079>] really_probe+0x159/0x4a0 drivers/base/dd.c:554
+
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
