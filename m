@@ -2,224 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D048351B01
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E3E7351E37
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:53:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234994AbhDASEJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 14:04:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34006 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235088AbhDASBg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:01:36 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C472C02FE92;
-        Thu,  1 Apr 2021 09:00:31 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 497941F46898
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, lee.jones@linaro.org,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
-        emil.l.velikov@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v8 12/13] media: hantro: IMX8M: add variant for G2/HEVC codec
-Date:   Thu,  1 Apr 2021 18:00:02 +0200
-Message-Id: <20210401160003.88803-13-benjamin.gaignard@collabora.com>
+        id S237889AbhDASg2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 14:36:28 -0400
+Received: from esa.microchip.iphmx.com ([68.232.153.233]:60700 "EHLO
+        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240278AbhDAS37 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:29:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1617301800; x=1648837800;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ANYILC4KFHHPOqkn3Kt/JVVfmJ/GX8EhWAKE0t/gtX8=;
+  b=LhYzEU+8cuDHUQP9CfxBHw/dnVN+toKUzlAyzjLAPqpkNVXwtLvMukOJ
+   mKo3izcuXHV2CIHv2kQuEWdlDM3hN5cfwPaiuVKs7ZTA4cNq/R3FpvnSa
+   GgwBVwMuDlBehrdUZeGFAJJVrQ7+CbMkbDeju0rW0ln+hkxPWjEPYwMno
+   DQB2JVwc/nUScspDGh6NXEiEPfc2SR0EiG5ApUJp/CqevBwVSSoYMRD/m
+   jSPg3zVsio3bCqYBVp/vlUNvm2GBBTjc2+7H64UdSo5gWCXHnJeL0T/0G
+   Rz95ctVh7kVSAdfSUDgr8D8Ez3Gg6LX4UbDtOA4L4Pey/ct5dWQnqnMO9
+   g==;
+IronPort-SDR: Iz8F7oHxV6Abz+7VeBkfcXFpT9QpcizyiA6y8O6wWPqYn/JqBa179FmtHZefzDzRLk4Kw9bPN/
+ 4jKbh+sSl4eIQAN+I2Z6IhXnVUTf8LOvYq6WZhmtkACaVZPMoEAxymEQp/+fRK+XYT6FXcWI4q
+ sfWekB/xd4SM7tUURRDGtzqkViZ/RvNt9kq0TV6TEQ5lvWMa8hRGYv6XIl1xBf+2ziHGEc4yBk
+ DYE7g/prGfH64yQC0eQBvh5CeOA/UsNBhbyn4MQaaRWIuvFaAgCdMrwfFv4i+z5adsrXucamtS
+ 9YE=
+X-IronPort-AV: E=Sophos;i="5.81,296,1610434800"; 
+   d="scan'208";a="114976396"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Apr 2021 04:28:25 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 1 Apr 2021 04:28:23 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2176.2 via Frontend Transport; Thu, 1 Apr 2021 04:28:06 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH 00/30] media: atmel: atmel-isc: add support for xisc
+Date:   Thu, 1 Apr 2021 14:26:53 +0300
+Message-ID: <20210401112723.189107-1-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210401160003.88803-1-benjamin.gaignard@collabora.com>
-References: <20210401160003.88803-1-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add variant to IMX8M to enable G2/HEVC codec.
-Define the capabilities for the hardware up to 3840x2160.
-G2 doesn't have postprocessor, use the same clocks and got it
-own interruption.
+Hello,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
----
-version 8:
- - Add Ezequiel Reviewed-by tag.
+This series adds support for a variant of the ISC named XISC.
+This block is present in the product named sama7g5.
 
-version 7:
- - Add Philipp Reviewed-by tag.
+I started by moving code around, the code which was specialized for sama5d2
+type of ISC, to have it inside the dedicated sama5d2 file.
 
-version 5:
- - remove useless postproc fields for G2
+I added several new pipeline elements to the code base, which would be common
+to sama5d2 and the new sama7g5, but only used by the new style pipeline.
 
-version 2:
-- remove useless clocks
+I separated the input and output formats on a per-product separate array.
 
- drivers/staging/media/hantro/hantro_drv.c   |  1 +
- drivers/staging/media/hantro/hantro_hw.h    |  1 +
- drivers/staging/media/hantro/imx8m_vpu_hw.c | 76 ++++++++++++++++++++-
- 3 files changed, 76 insertions(+), 2 deletions(-)
+I added the new sama7g5 compatible driver for the xisc, which is similar with
+the sama5d2, but with differences in terms of DT, clocks and callbacks to
+specific operations.
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 33b8bd38eac1..ed380a8bef93 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -574,6 +574,7 @@ static const struct of_device_id of_hantro_match[] = {
- #endif
- #ifdef CONFIG_VIDEO_HANTRO_IMX8M
- 	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
-+	{ .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
- #endif
- 	{ /* sentinel */ }
- };
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 5788188aae50..b4e7490bbe45 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -193,6 +193,7 @@ extern const struct hantro_variant rk3399_vpu_variant;
- extern const struct hantro_variant rk3328_vpu_variant;
- extern const struct hantro_variant rk3288_vpu_variant;
- extern const struct hantro_variant imx8mq_vpu_variant;
-+extern const struct hantro_variant imx8mq_vpu_g2_variant;
- 
- extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
- 
-diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index 8d0c3425234b..6de43e0edc36 100644
---- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-+++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -12,6 +12,7 @@
- #include "hantro.h"
- #include "hantro_jpeg.h"
- #include "hantro_g1_regs.h"
-+#include "hantro_g2_regs.h"
- 
- #define CTRL_SOFT_RESET		0x00
- #define RESET_G1		BIT(1)
-@@ -129,6 +130,26 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
- 	},
- };
- 
-+static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
-+	{
-+		.fourcc = V4L2_PIX_FMT_NV12,
-+		.codec_mode = HANTRO_MODE_NONE,
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
-+		.codec_mode = HANTRO_MODE_HEVC_DEC,
-+		.max_depth = 2,
-+		.frmsize = {
-+			.min_width = 48,
-+			.max_width = 3840,
-+			.step_width = MB_DIM,
-+			.min_height = 48,
-+			.max_height = 2160,
-+			.step_height = MB_DIM,
-+		},
-+	},
-+};
-+
- static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
- {
- 	struct hantro_dev *vpu = dev_id;
-@@ -147,6 +168,24 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
-+{
-+	struct hantro_dev *vpu = dev_id;
-+	enum vb2_buffer_state state;
-+	u32 status;
-+
-+	status = vdpu_read(vpu, HEVC_REG_INTERRUPT);
-+	state = (status & HEVC_REG_INTERRUPT_DEC_RDY_INT) ?
-+		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
-+
-+	vdpu_write(vpu, 0, HEVC_REG_INTERRUPT);
-+	vdpu_write(vpu, HEVC_REG_CONFIG_DEC_CLK_GATE_E, HEVC_REG_CONFIG);
-+
-+	hantro_irq_done(vpu, state);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
- {
- 	struct device_node *np = vpu->dev->of_node;
-@@ -176,6 +215,13 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
- 	imx8m_soft_reset(vpu, RESET_G1);
- }
- 
-+static void imx8m_vpu_g2_reset(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+
-+	imx8m_soft_reset(vpu, RESET_G2);
-+}
-+
- /*
-  * Supported codec ops.
-  */
-@@ -201,16 +247,28 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
- 	},
- };
- 
-+static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
-+	[HANTRO_MODE_HEVC_DEC] = {
-+		.run = hantro_g2_hevc_dec_run,
-+		.reset = imx8m_vpu_g2_reset,
-+		.init = hantro_hevc_dec_init,
-+		.exit = hantro_hevc_dec_exit,
-+	},
-+};
-+
- /*
-  * VPU variants.
-  */
- 
- static const struct hantro_irq imx8mq_irqs[] = {
- 	{ "g1", imx8m_vpu_g1_irq },
--	{ "g2", NULL /* TODO: imx8m_vpu_g2_irq */ },
- };
- 
--static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
-+static const struct hantro_irq imx8mq_g2_irqs[] = {
-+	{ "g2", imx8m_vpu_g2_irq },
-+};
-+
-+static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus"};
- 
- const struct hantro_variant imx8mq_vpu_variant = {
- 	.dec_fmts = imx8m_vpu_dec_fmts,
-@@ -228,3 +286,17 @@ const struct hantro_variant imx8mq_vpu_variant = {
- 	.clk_names = imx8mq_clk_names,
- 	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
- };
-+
-+const struct hantro_variant imx8mq_vpu_g2_variant = {
-+	.dec_offset = 0x0,
-+	.dec_fmts = imx8m_vpu_g2_dec_fmts,
-+	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
-+	.codec = HANTRO_HEVC_DECODER,
-+	.codec_ops = imx8mq_vpu_g2_codec_ops,
-+	.init = imx8mq_vpu_hw_init,
-+	.runtime_resume = imx8mq_runtime_resume,
-+	.irqs = imx8mq_g2_irqs,
-+	.num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
-+	.clk_names = imx8mq_clk_names,
-+	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
-+};
+I added the binding for the xisc by copying and modifying the existing
+isc one. I know that it has to be converted to yaml, and I will do that if
+it looks good.
+
+Feedback is appreciated.
+Thanks,
+Eugen
+
+Eugen Hristev (30):
+  media: atmel: atmel-isc: specialize gamma table into product specific
+  media: atmel: atmel-isc: specialize driver name constant
+  media: atmel: atmel-isc: add checks for limiting frame sizes
+  media: atmel: atmel-isc: specialize max width and max height
+  media: atmel: atmel-isc: specialize dma cfg
+  media: atmel: atmel-isc: extract CSC submodule config into separate
+    function
+  media: atmel: atmel-isc-base: add id to clock debug message
+  media: atmel: atmel-isc: create register offsets struct
+  media: atmel: atmel-isc: extract CBC submodule config into separate
+    function
+  media: atmel: atmel-isc: add CBC to the reg offsets struct
+  media: atmel: atmel-isc: add SUB422 and SUB420 to register offsets
+  media: atmel: atmel-isc: add RLP to register offsets
+  media: atmel: atmel-isc: add HIS to register offsets
+  media: atmel: atmel-isc: add DMA to register offsets
+  media: atmel: atmel-isc: add support for version register
+  media: atmel: atmel-isc: add his_entry to register offsets
+  media: atmel: atmel-isc: add register description for additional
+    modules
+  media: atmel: atmel-isc: extend pipeline with extra modules
+  media: atmel: atmel-isc: add CC initialization function
+  media: atmel: atmel-isc: create product specific v4l2 controls config
+  media: atmel: atmel-isc: create callback for DPC submodule product
+    specific
+  media: atmel: atmel-isc: create callback for GAM submodule product
+    specific
+  media: atmel: atmel-isc: create callback for RLP submodule product
+    specific
+  media: atmel: atmel-isc: move the formats list into product specific
+    code
+  media: atmel: atmel-isc: create an adapt pipeline callback for product
+    specific
+  media: atmel: atmel-isc-regs: add additional fields for sama7g5 type
+    pipeline
+  media: atmel: atmel-isc-base: add support for more formats and
+    additional pipeline modules
+  dt-bindings: media: atmel: add microchip-xisc binding
+  media: atmel: atmel-isc-sama5d2: remove duplicate define
+  media: atmel: atmel-isc: add microchip-xisc driver
+
+ .../bindings/media/microchip-xisc.txt         |  64 ++
+ drivers/media/platform/Makefile               |   1 +
+ drivers/media/platform/atmel/Kconfig          |  11 +
+ drivers/media/platform/atmel/Makefile         |   2 +
+ drivers/media/platform/atmel/atmel-isc-base.c | 381 ++++-------
+ drivers/media/platform/atmel/atmel-isc-regs.h | 133 +++-
+ drivers/media/platform/atmel/atmel-isc.h      | 122 +++-
+ .../media/platform/atmel/atmel-sama5d2-isc.c  | 300 +++++++-
+ .../media/platform/atmel/atmel-sama7g5-isc.c  | 644 ++++++++++++++++++
+ 9 files changed, 1381 insertions(+), 277 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/microchip-xisc.txt
+ create mode 100644 drivers/media/platform/atmel/atmel-sama7g5-isc.c
+
 -- 
 2.25.1
 
