@@ -2,109 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6E2F351743
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 19:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82DF0351747
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 19:42:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234184AbhDARln (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 13:41:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57212 "EHLO
+        id S234976AbhDARlq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 13:41:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234565AbhDARiD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 13:38:03 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABE3C02D569;
-        Thu,  1 Apr 2021 08:53:04 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id c24-20020a9d6c980000b02902662e210895so2020039otr.9;
-        Thu, 01 Apr 2021 08:53:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=vkQJQ0O5X0ESy+J810FdCD0SpVEINsP0ZlnS7rJtykA=;
-        b=t7Dfd7aJiKBH3JXEyyEPFaogHg3o0Z0Arf+OEq24zx6z9Hb0+Fm0M403EmPBOXpd6D
-         /LWgM6PFhazklnzoCjeGaw+8qWFrfNc5c5ZW+80q2ZaLaQOfu6+uTSYHcEel7mfzjCD4
-         6xpywc8Degy7g+h5htBTBFhj98zy0cWqhXvGRiOhiPdUv3Pjz/1R/KBUn0NyC8giL2KT
-         x20UI0tx2XNS4qiMPM2FUBf2sa4/kdWagpfwO9sFvBe71Ntbhpcf/Xf7AwgN04eODwV5
-         5HZtEdny/D6EiKYLJjWwr4Pg4dSe3h/eiNJOp/PKTIbziIkdSRGPl6E7dOCsTOL076Og
-         dg9A==
-X-Gm-Message-State: AOAM530hq7XzTAxMZx5PS2a1GT+5o8sUigH/VT1f2n6FgkXYEsQmtdxr
-        oxljLbGw0/u/YwAskEmFIw==
-X-Google-Smtp-Source: ABdhPJxTYMWgRjWTTEUoN54xBzLN6y375nT/Dx7htqlExcUIh3M3GXE6xcxxoCnomOvmTM8L0T/+ZQ==
-X-Received: by 2002:a9d:7e8d:: with SMTP id m13mr7362910otp.54.1617292383853;
-        Thu, 01 Apr 2021 08:53:03 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id d2sm1271592otl.48.2021.04.01.08.53.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 08:53:02 -0700 (PDT)
-Received: (nullmailer pid 498399 invoked by uid 1000);
-        Thu, 01 Apr 2021 15:52:59 -0000
-Date:   Thu, 1 Apr 2021 10:52:59 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Pratyush Yadav <p.yadav@ti.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Peter Chen <peter.chen@nxp.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        dmaengine@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 12/16] dt-bindings: media: Add DT bindings for TI CSI2RX
- driver
-Message-ID: <20210401155259.GB488101@robh.at.kernel.org>
-References: <20210330173348.30135-1-p.yadav@ti.com>
- <20210330173348.30135-13-p.yadav@ti.com>
+        with ESMTP id S234718AbhDARj0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 13:39:26 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96EFCC02FE87;
+        Thu,  1 Apr 2021 09:00:17 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: benjamin.gaignard)
+        with ESMTPSA id 06AD41F4688D
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        festevam@gmail.com, lee.jones@linaro.org,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
+        emil.l.velikov@gmail.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v8 01/13] dt-bindings: mfd: Add 'nxp,imx8mq-vpu-ctrl' to syscon list
+Date:   Thu,  1 Apr 2021 17:59:51 +0200
+Message-Id: <20210401160003.88803-2-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210401160003.88803-1-benjamin.gaignard@collabora.com>
+References: <20210401160003.88803-1-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210330173348.30135-13-p.yadav@ti.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 30, 2021 at 11:03:44PM +0530, Pratyush Yadav wrote:
-> TI's J721E uses the Cadence CSI2RX and DPHY peripherals to facilitate
-> capture over a CSI-2 bus. The TI CSI2RX platform driver glues all the
-> parts together.
-> 
-> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> ---
->  .../devicetree/bindings/media/ti,csi2rx.yaml  | 70 +++++++++++++++++++
->  1 file changed, 70 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/ti,csi2rx.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/ti,csi2rx.yaml b/Documentation/devicetree/bindings/media/ti,csi2rx.yaml
-> new file mode 100644
-> index 000000000000..ebd894364391
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/ti,csi2rx.yaml
-> @@ -0,0 +1,70 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/ti,csi2rx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI CSI2RX Wrapper Device Tree Bindings
-> +
-> +maintainers:
-> +  - Pratyush Yadav <p.yadav@ti.com>
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: ti,csi2rx
+Add 'nxp,imx8mq-vpu-ctrl' in the list of possible syscon.
+It will used to access to the VPU control registers.
 
-Also, needs an SoC specific compatible.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Acked-by: Rob Herring <robh@kernel.org>
+Acked-by: Lee Jones <lee.jones@linaro.org>
+---
+version 8:
+ - Add Lee ack
 
-Rob
+version 7:
+ - Add Rob ack
+
+ Documentation/devicetree/bindings/mfd/syscon.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
+index f14ae6da0068..ae22c4730613 100644
+--- a/Documentation/devicetree/bindings/mfd/syscon.yaml
++++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
+@@ -44,6 +44,7 @@ properties:
+               - hisilicon,peri-subctrl
+               - microchip,sparx5-cpu-syscon
+               - mstar,msc313-pmsleep
++              - nxp,imx8mq-vpu-ctrl
+               - rockchip,px30-qos
+               - rockchip,rk3066-qos
+               - rockchip,rk3288-qos
+-- 
+2.25.1
+
