@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BBB5351A89
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 586873519AD
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:03:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234810AbhDASBz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 14:01:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34006 "EHLO
+        id S235946AbhDARz5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 13:55:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237135AbhDAR7g (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 13:59:36 -0400
+        with ESMTP id S237287AbhDARvP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 13:51:15 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E12C02FE8B;
-        Thu,  1 Apr 2021 09:00:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B847C02FE91;
+        Thu,  1 Apr 2021 09:00:30 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id DDE5D1F46891
+        with ESMTPSA id 675AD1F46897
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
         robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -30,10 +30,11 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
         kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v8 05/13] media: hevc: Add decode params control
-Date:   Thu,  1 Apr 2021 17:59:55 +0200
-Message-Id: <20210401160003.88803-6-benjamin.gaignard@collabora.com>
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Adrian Ratiu <adrian.ratiu@collabora.com>
+Subject: [PATCH v8 11/13] media: hantro: Introduce G2/HEVC decoder
+Date:   Thu,  1 Apr 2021 18:00:01 +0200
+Message-Id: <20210401160003.88803-12-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210401160003.88803-1-benjamin.gaignard@collabora.com>
 References: <20210401160003.88803-1-benjamin.gaignard@collabora.com>
@@ -43,406 +44,1342 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add decode params control and it associated structure to regroup
-all the information that are needed to decode a reference frame as
-it is describe in ITU-T Rec. H.265 section "8.3.2 Decoding process
-for reference picture set".
+Implement all the logic to get G2 hardware decoding HEVC frames.
+It support up level 5.1 HEVC stream.
+It doesn't support yet 10 bits formats or scaling feature.
 
-Adapt Cedrus driver to these changes.
+Add HANTRO HEVC dedicated control to skip some bits at the beginning
+of the slice header. That is very specific to this hardware so can't
+go into uapi structures. Compute the needed value is complex and require
+information from the stream that only the userland knows so let it
+provide the correct value to the driver.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Co-developed-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
 version 8:
- - add Ezequiel review tag
+ - Fix compilation warnings
 
 version 7:
- - rebased on top of media_tree/master branch
+ - Improve motion vectors requested memory size computation.
 
-version 6:
- - fix compilation errors
+ drivers/staging/media/hantro/Makefile         |   2 +
+ drivers/staging/media/hantro/hantro.h         |   2 +
+ drivers/staging/media/hantro/hantro_drv.c     |  36 ++
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 587 ++++++++++++++++++
+ drivers/staging/media/hantro/hantro_g2_regs.h | 198 ++++++
+ drivers/staging/media/hantro/hantro_hevc.c    | 325 ++++++++++
+ drivers/staging/media/hantro/hantro_hw.h      |  49 ++
+ 7 files changed, 1199 insertions(+)
+ create mode 100644 drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+ create mode 100644 drivers/staging/media/hantro/hantro_g2_regs.h
+ create mode 100644 drivers/staging/media/hantro/hantro_hevc.c
 
- .../media/v4l/ext-ctrls-codec.rst             | 94 +++++++++++++++----
- .../media/v4l/vidioc-queryctrl.rst            |  6 ++
- drivers/media/v4l2-core/v4l2-ctrls.c          | 26 +++--
- drivers/staging/media/sunxi/cedrus/cedrus.c   |  6 ++
- drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
- .../staging/media/sunxi/cedrus/cedrus_dec.c   |  2 +
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 12 ++-
- include/media/hevc-ctrls.h                    | 29 ++++--
- 8 files changed, 137 insertions(+), 39 deletions(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 92314aec655a..7552869687f7 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -3181,9 +3181,6 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     * - __u8
-       - ``pic_struct``
-       -
--    * - __u8
--      - ``num_active_dpb_entries``
--      - The number of entries in ``dpb``.
-     * - __u8
-       - ``ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-       - The list of L0 reference elements as indices in the DPB.
-@@ -3191,22 +3188,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-       - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-       - The list of L1 reference elements as indices in the DPB.
-     * - __u8
--      - ``num_rps_poc_st_curr_before``
--      - The number of reference pictures in the short-term set that come before
--        the current frame.
--    * - __u8
--      - ``num_rps_poc_st_curr_after``
--      - The number of reference pictures in the short-term set that come after
--        the current frame.
--    * - __u8
--      - ``num_rps_poc_lt_curr``
--      - The number of reference pictures in the long-term set.
--    * - __u8
--      - ``padding[7]``
-+      - ``padding``
-       - Applications and drivers must set this to zero.
--    * - struct :c:type:`v4l2_hevc_dpb_entry`
--      - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
--      - The decoded picture buffer, for meta-data about reference frames.
-     * - struct :c:type:`v4l2_hevc_pred_weight_table`
-       - ``pred_weight_table``
-       - The prediction weight coefficients for inter-picture prediction.
-@@ -3441,3 +3424,78 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     so this has to come from client.
-     This is applicable to H264 and valid Range is from 0 to 63.
-     Source Rec. ITU-T H.264 (06/2019); G.7.4.1.1, G.8.8.1.
-+
-+``V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS (struct)``
-+    Specifies various decode parameters, especially the references picture order
-+    count (POC) for all the lists (short, long, before, current, after) and the
-+    number of entries for each of them.
-+    These parameters are defined according to :ref:`hevc`.
-+    They are described in section 8.3 "Slice decoding process" of the
-+    specification.
-+
-+.. c:type:: v4l2_ctrl_hevc_decode_params
-+
-+.. cssclass:: longtable
-+
-+.. flat-table:: struct v4l2_ctrl_hevc_decode_params
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __s32
-+      - ``pic_order_cnt_val``
-+      - PicOrderCntVal as described in section 8.3.1 "Decoding process
-+        for picture order count" of the specification.
-+    * - __u8
-+      - ``num_active_dpb_entries``
-+      - The number of entries in ``dpb``.
-+    * - struct :c:type:`v4l2_hevc_dpb_entry`
-+      - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-+      - The decoded picture buffer, for meta-data about reference frames.
-+    * - __u8
-+      - ``num_poc_st_curr_before``
-+      - The number of reference pictures in the short-term set that come before
-+        the current frame.
-+    * - __u8
-+      - ``num_poc_st_curr_after``
-+      - The number of reference pictures in the short-term set that come after
-+        the current frame.
-+    * - __u8
-+      - ``num_poc_lt_curr``
-+      - The number of reference pictures in the long-term set.
-+    * - __u8
-+      - ``poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-+      - PocStCurrBefore as described in section 8.3.2 "Decoding process for reference
-+        picture set.
-+    * - __u8
-+      - ``poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-+      - PocStCurrAfter as described in section 8.3.2 "Decoding process for reference
-+        picture set.
-+    * - __u8
-+      - ``poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-+      - PocLtCurr as described in section 8.3.2 "Decoding process for reference
-+        picture set.
-+    * - __u64
-+      - ``flags``
-+      - See :ref:`Decode Parameters Flags <hevc_decode_params_flags>`
-+
-+.. _hevc_decode_params_flags:
-+
-+``Decode Parameters Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_HEVC_DECODE_PARAM_FLAG_IRAP_PIC``
-+      - 0x00000001
-+      -
-+    * - ``V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC``
-+      - 0x00000002
-+      -
-+    * - ``V4L2_HEVC_DECODE_PARAM_FLAG_NO_OUTPUT_OF_PRIOR``
-+      - 0x00000004
-+      -
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index 8a285daedc6a..cf8f94693c39 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -495,6 +495,12 @@ See also the examples in :ref:`control`.
-       - n/a
-       - A struct :c:type:`v4l2_ctrl_vp8_frame`, containing VP8
- 	frame parameters for stateless video decoders.
-+    * - ``V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_ctrl_hevc_decode_params`, containing HEVC
-+	decoding parameters for stateless video decoders.
+diff --git a/drivers/staging/media/hantro/Makefile b/drivers/staging/media/hantro/Makefile
+index 743ce08eb184..0357f1772267 100644
+--- a/drivers/staging/media/hantro/Makefile
++++ b/drivers/staging/media/hantro/Makefile
+@@ -9,12 +9,14 @@ hantro-vpu-y += \
+ 		hantro_h1_jpeg_enc.o \
+ 		hantro_g1_h264_dec.o \
+ 		hantro_g1_mpeg2_dec.o \
++		hantro_g2_hevc_dec.o \
+ 		hantro_g1_vp8_dec.o \
+ 		rk3399_vpu_hw_jpeg_enc.o \
+ 		rk3399_vpu_hw_mpeg2_dec.o \
+ 		rk3399_vpu_hw_vp8_dec.o \
+ 		hantro_jpeg.o \
+ 		hantro_h264.o \
++		hantro_hevc.o \
+ 		hantro_mpeg2.o \
+ 		hantro_vp8.o
  
- .. raw:: latex
- 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 39038c6ad8fb..8c1a98ed4ca4 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -1037,6 +1037,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SPS:			return "HEVC Sequence Parameter Set";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_PPS:			return "HEVC Picture Parameter Set";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
-+	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:		return "HEVC Decode Parameters";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
- 
-@@ -1496,6 +1497,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
- 		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:
-+		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
-+		break;
- 	case V4L2_CID_UNIT_CELL_SIZE:
- 		*type = V4L2_CTRL_TYPE_AREA;
- 		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-@@ -1852,6 +1856,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
- 	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
- 	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
-+	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
- 	struct v4l2_area *area;
- 	void *p = ptr.p + idx * ctrl->elem_size;
- 	unsigned int i;
-@@ -2127,23 +2132,27 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 		zero_padding(*p_hevc_pps);
- 		break;
- 
--	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
--		p_hevc_slice_params = p;
-+	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
-+		p_hevc_decode_params = p;
- 
--		if (p_hevc_slice_params->num_active_dpb_entries >
-+		if (p_hevc_decode_params->num_active_dpb_entries >
- 		    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
- 			return -EINVAL;
- 
--		zero_padding(p_hevc_slice_params->pred_weight_table);
--
--		for (i = 0; i < p_hevc_slice_params->num_active_dpb_entries;
-+		for (i = 0; i < p_hevc_decode_params->num_active_dpb_entries;
- 		     i++) {
- 			struct v4l2_hevc_dpb_entry *dpb_entry =
--				&p_hevc_slice_params->dpb[i];
-+				&p_hevc_decode_params->dpb[i];
- 
- 			zero_padding(*dpb_entry);
- 		}
- 
-+		break;
-+
-+	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
-+		p_hevc_slice_params = p;
-+
-+		zero_padding(p_hevc_slice_params->pred_weight_table);
- 		zero_padding(*p_hevc_slice_params);
- 		break;
- 
-@@ -2840,6 +2849,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
- 		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
- 		break;
-+	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
-+		elem_size = sizeof(struct v4l2_ctrl_hevc_decode_params);
-+		break;
- 	case V4L2_CTRL_TYPE_AREA:
- 		elem_size = sizeof(struct v4l2_area);
- 		break;
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 92812d1a39d4..6f095ae53818 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -151,6 +151,12 @@ static const struct cedrus_control cedrus_controls[] = {
- 		},
- 		.codec		= CEDRUS_CODEC_VP8,
- 	},
-+	{
-+		.cfg = {
-+			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
-+		},
-+		.codec		= CEDRUS_CODEC_H265,
-+	},
+diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+index 7a5ad93466c8..6a21d1e95b34 100644
+--- a/drivers/staging/media/hantro/hantro.h
++++ b/drivers/staging/media/hantro/hantro.h
+@@ -222,6 +222,7 @@ struct hantro_dev {
+  * @jpeg_enc:		JPEG-encoding context.
+  * @mpeg2_dec:		MPEG-2-decoding context.
+  * @vp8_dec:		VP8-decoding context.
++ * @hevc_dec:		HEVC-decoding context.
+  */
+ struct hantro_ctx {
+ 	struct hantro_dev *dev;
+@@ -248,6 +249,7 @@ struct hantro_ctx {
+ 		struct hantro_jpeg_enc_hw_ctx jpeg_enc;
+ 		struct hantro_mpeg2_dec_hw_ctx mpeg2_dec;
+ 		struct hantro_vp8_dec_hw_ctx vp8_dec;
++		struct hantro_hevc_dec_hw_ctx hevc_dec;
+ 	};
  };
  
- #define CEDRUS_CONTROLS_COUNT	ARRAY_SIZE(cedrus_controls)
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index 15f147dad4cb..930922bd4e46 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -76,6 +76,7 @@ struct cedrus_h265_run {
- 	const struct v4l2_ctrl_hevc_sps			*sps;
- 	const struct v4l2_ctrl_hevc_pps			*pps;
- 	const struct v4l2_ctrl_hevc_slice_params	*slice_params;
-+	const struct v4l2_ctrl_hevc_decode_params	*decode_params;
- };
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index d9a3a5ef9330..33b8bd38eac1 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -281,6 +281,26 @@ static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	return 0;
+ }
  
- struct cedrus_vp8_run {
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-index d696b3ec70c0..8a7e44f92812 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-@@ -68,6 +68,8 @@ void cedrus_device_run(void *priv)
- 			V4L2_CID_MPEG_VIDEO_HEVC_PPS);
- 		run.h265.slice_params = cedrus_find_control_data(ctx,
- 			V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS);
-+		run.h265.decode_params = cedrus_find_control_data(ctx,
-+			V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS);
- 		break;
- 
- 	case V4L2_PIX_FMT_VP8_FRAME:
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index ce497d0197df..397a4ba5df4c 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -245,6 +245,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	const struct v4l2_ctrl_hevc_sps *sps;
- 	const struct v4l2_ctrl_hevc_pps *pps;
- 	const struct v4l2_ctrl_hevc_slice_params *slice_params;
-+	const struct v4l2_ctrl_hevc_decode_params *decode_params;
- 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
- 	dma_addr_t src_buf_addr;
- 	dma_addr_t src_buf_end_addr;
-@@ -256,6 +257,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	sps = run->h265.sps;
- 	pps = run->h265.pps;
- 	slice_params = run->h265.slice_params;
-+	decode_params = run->h265.decode_params;
- 	pred_weight_table = &slice_params->pred_weight_table;
- 
- 	/* MV column buffer size and allocation. */
-@@ -487,7 +489,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 
- 	reg = VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_TC_OFFSET_DIV2(slice_params->slice_tc_offset_div2) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_BETA_OFFSET_DIV2(slice_params->slice_beta_offset_div2) |
--	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_POC_BIGEST_IN_RPS_ST(slice_params->num_rps_poc_st_curr_after == 0) |
-+	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_POC_BIGEST_IN_RPS_ST(decode_params->num_poc_st_curr_after == 0) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CR_QP_OFFSET(slice_params->slice_cr_qp_offset) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CB_QP_OFFSET(slice_params->slice_cb_qp_offset) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_QP_DELTA(slice_params->slice_qp_delta);
-@@ -527,8 +529,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	cedrus_write(dev, VE_DEC_H265_NEIGHBOR_INFO_ADDR, reg);
- 
- 	/* Write decoded picture buffer in pic list. */
--	cedrus_h265_frame_info_write_dpb(ctx, slice_params->dpb,
--					 slice_params->num_active_dpb_entries);
-+	cedrus_h265_frame_info_write_dpb(ctx, decode_params->dpb,
-+					 decode_params->num_active_dpb_entries);
- 
- 	/* Output frame. */
- 
-@@ -545,7 +547,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 
- 	/* Reference picture list 0 (for P/B frames). */
- 	if (slice_params->slice_type != V4L2_HEVC_SLICE_TYPE_I) {
--		cedrus_h265_ref_pic_list_write(dev, slice_params->dpb,
-+		cedrus_h265_ref_pic_list_write(dev, decode_params->dpb,
- 					       slice_params->ref_idx_l0,
- 					       slice_params->num_ref_idx_l0_active_minus1 + 1,
- 					       VE_DEC_H265_SRAM_OFFSET_REF_PIC_LIST0);
-@@ -564,7 +566,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 
- 	/* Reference picture list 1 (for B frames). */
- 	if (slice_params->slice_type == V4L2_HEVC_SLICE_TYPE_B) {
--		cedrus_h265_ref_pic_list_write(dev, slice_params->dpb,
-+		cedrus_h265_ref_pic_list_write(dev, decode_params->dpb,
- 					       slice_params->ref_idx_l1,
- 					       slice_params->num_ref_idx_l1_active_minus1 + 1,
- 					       VE_DEC_H265_SRAM_OFFSET_REF_PIC_LIST1);
-diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-index 003f819ecb26..8e0109eea454 100644
---- a/include/media/hevc-ctrls.h
-+++ b/include/media/hevc-ctrls.h
-@@ -19,6 +19,7 @@
- #define V4L2_CID_MPEG_VIDEO_HEVC_SPS		(V4L2_CID_CODEC_BASE + 1008)
- #define V4L2_CID_MPEG_VIDEO_HEVC_PPS		(V4L2_CID_CODEC_BASE + 1009)
- #define V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS	(V4L2_CID_CODEC_BASE + 1010)
-+#define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE + 1012)
- #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
- #define V4L2_CID_MPEG_VIDEO_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
- 
-@@ -26,6 +27,7 @@
- #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
- #define V4L2_CTRL_TYPE_HEVC_PPS 0x0121
- #define V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS 0x0122
-+#define V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS 0x0124
- 
- enum v4l2_mpeg_video_hevc_decode_mode {
- 	V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_SLICE_BASED,
-@@ -194,18 +196,10 @@ struct v4l2_ctrl_hevc_slice_params {
- 	__u8	pic_struct;
- 
- 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
--	__u8	num_active_dpb_entries;
- 	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
- 	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
- 
--	__u8	num_rps_poc_st_curr_before;
--	__u8	num_rps_poc_st_curr_after;
--	__u8	num_rps_poc_lt_curr;
--
--	__u8	padding;
--
--	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
--	struct v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-+	__u8	padding[5];
- 
- 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
- 	struct v4l2_hevc_pred_weight_table pred_weight_table;
-@@ -213,4 +207,21 @@ struct v4l2_ctrl_hevc_slice_params {
- 	__u64	flags;
- };
- 
-+#define V4L2_HEVC_DECODE_PARAM_FLAG_IRAP_PIC		0x1
-+#define V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC		0x2
-+#define V4L2_HEVC_DECODE_PARAM_FLAG_NO_OUTPUT_OF_PRIOR  0x4
++static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct hantro_ctx *ctx;
 +
-+struct v4l2_ctrl_hevc_decode_params {
-+	__s32	pic_order_cnt_val;
-+	__u8	num_active_dpb_entries;
-+	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-+	__u8	num_poc_st_curr_before;
-+	__u8	num_poc_st_curr_after;
-+	__u8	num_poc_lt_curr;
-+	__u8	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-+	__u8	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-+	__u8	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-+	__u64	flags;
++	ctx = container_of(ctrl->handler,
++			   struct hantro_ctx, ctrl_handler);
++
++	vpu_debug(1, "s_ctrl: id = %d, val = %d\n", ctrl->id, ctrl->val);
++
++	switch (ctrl->id) {
++	case V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP:
++		ctx->hevc_dec.ctrls.hevc_hdr_skip_length = ctrl->val;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+ 	.try_ctrl = hantro_try_ctrl,
+ };
+@@ -289,6 +309,10 @@ static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
+ 	.s_ctrl = hantro_jpeg_s_ctrl,
+ };
+ 
++static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
++	.s_ctrl = hantro_hevc_s_ctrl,
 +};
 +
- #endif
+ static const struct hantro_ctrl controls[] = {
+ 	{
+ 		.codec = HANTRO_JPEG_ENCODER,
+@@ -409,6 +433,18 @@ static const struct hantro_ctrl controls[] = {
+ 		.cfg = {
+ 			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
+ 		},
++	}, {
++		.codec = HANTRO_HEVC_DECODER,
++		.cfg = {
++			.id = V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP,
++			.name = "Hantro HEVC slice header skip bytes",
++			.type = V4L2_CTRL_TYPE_INTEGER,
++			.min = 0,
++			.def = 0,
++			.max = 0x7fffffff,
++			.step = 1,
++			.ops = &hantro_hevc_ctrl_ops,
++		},
+ 	},
+ };
+ 
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+new file mode 100644
+index 000000000000..03a193a50c09
+--- /dev/null
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -0,0 +1,587 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Hantro VPU HEVC codec driver
++ *
++ * Copyright (C) 2020 Safran Passenger Innovations LLC
++ */
++
++#include "hantro_hw.h"
++#include "hantro_g2_regs.h"
++
++#define HEVC_DEC_MODE	0xC
++
++#define BUS_WIDTH_32		0
++#define BUS_WIDTH_64		1
++#define BUS_WIDTH_128		2
++#define BUS_WIDTH_256		3
++
++static inline void hantro_write_addr(struct hantro_dev *vpu,
++				     unsigned long offset,
++				     dma_addr_t addr)
++{
++	vdpu_write(vpu, addr & 0xffffffff, offset);
++}
++
++static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
++{
++	struct hantro_dev *vpu = ctx->dev;
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	const struct v4l2_ctrl_hevc_pps *pps = ctrls->pps;
++	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
++	u16 *p = (u16 *)((u8 *)ctx->hevc_dec.tile_sizes.cpu);
++	unsigned int num_tile_rows = pps->num_tile_rows_minus1 + 1;
++	unsigned int num_tile_cols = pps->num_tile_columns_minus1 + 1;
++	unsigned int pic_width_in_ctbs, pic_height_in_ctbs;
++	unsigned int max_log2_ctb_size, ctb_size;
++	bool tiles_enabled, uniform_spacing;
++	u32 no_chroma = 0;
++
++	tiles_enabled = !!(pps->flags & V4L2_HEVC_PPS_FLAG_TILES_ENABLED);
++	uniform_spacing = !!(pps->flags & V4L2_HEVC_PPS_FLAG_UNIFORM_SPACING);
++
++	hantro_reg_write(vpu, hevc_tile_e, tiles_enabled);
++
++	max_log2_ctb_size = sps->log2_min_luma_coding_block_size_minus3 + 3 +
++			    sps->log2_diff_max_min_luma_coding_block_size;
++	pic_width_in_ctbs = (sps->pic_width_in_luma_samples +
++			    (1 << max_log2_ctb_size) - 1) >> max_log2_ctb_size;
++	pic_height_in_ctbs = (sps->pic_height_in_luma_samples + (1 << max_log2_ctb_size) - 1)
++			     >> max_log2_ctb_size;
++	ctb_size = 1 << max_log2_ctb_size;
++
++	vpu_debug(1, "Preparing tile sizes buffer for %dx%d CTBs (CTB size %d)\n",
++		  pic_width_in_ctbs, pic_height_in_ctbs, ctb_size);
++
++	if (tiles_enabled) {
++		unsigned int i, j, h;
++
++		vpu_debug(1, "Tiles enabled! %dx%d\n", num_tile_cols, num_tile_rows);
++
++		hantro_reg_write(vpu, hevc_num_tile_rows, num_tile_rows);
++		hantro_reg_write(vpu, hevc_num_tile_cols, num_tile_cols);
++
++		/* write width + height for each tile in pic */
++		if (!uniform_spacing) {
++			u32 tmp_w = 0, tmp_h = 0;
++
++			for (i = 0; i < num_tile_rows; i++) {
++				if (i == num_tile_rows - 1)
++					h = pic_height_in_ctbs - tmp_h;
++				else
++					h = pps->row_height_minus1[i] + 1;
++				tmp_h += h;
++				if (i == 0 && h == 1 && ctb_size == 16)
++					no_chroma = 1;
++				for (j = 0, tmp_w = 0; j < num_tile_cols - 1; j++) {
++					tmp_w += pps->column_width_minus1[j] + 1;
++					*p++ = pps->column_width_minus1[j + 1];
++					*p++ = h;
++					if (i == 0 && h == 1 && ctb_size == 16)
++						no_chroma = 1;
++				}
++				/* last column */
++				*p++ = pic_width_in_ctbs - tmp_w;
++				*p++ = h;
++			}
++		} else { /* uniform spacing */
++			u32 tmp, prev_h, prev_w;
++
++			for (i = 0, prev_h = 0; i < num_tile_rows; i++) {
++				tmp = (i + 1) * pic_height_in_ctbs / num_tile_rows;
++				h = tmp - prev_h;
++				prev_h = tmp;
++				if (i == 0 && h == 1 && ctb_size == 16)
++					no_chroma = 1;
++				for (j = 0, prev_w = 0; j < num_tile_cols; j++) {
++					tmp = (j + 1) * pic_width_in_ctbs / num_tile_cols;
++					*p++ = tmp - prev_w;
++					*p++ = h;
++					if (j == 0 &&
++					    (pps->column_width_minus1[0] + 1) == 1 &&
++					    ctb_size == 16)
++						no_chroma = 1;
++					prev_w = tmp;
++				}
++			}
++		}
++	} else {
++		hantro_reg_write(vpu, hevc_num_tile_rows, 1);
++		hantro_reg_write(vpu, hevc_num_tile_cols, 1);
++
++		/* There's one tile, with dimensions equal to pic size. */
++		p[0] = pic_width_in_ctbs;
++		p[1] = pic_height_in_ctbs;
++	}
++
++	if (no_chroma)
++		vpu_debug(1, "%s: no chroma!\n", __func__);
++}
++
++static void set_params(struct hantro_ctx *ctx)
++{
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
++	const struct v4l2_ctrl_hevc_pps *pps = ctrls->pps;
++	const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
++	struct hantro_dev *vpu = ctx->dev;
++	u32 min_log2_cb_size, max_log2_ctb_size, min_cb_size, max_ctb_size;
++	u32 pic_width_in_min_cbs, pic_height_in_min_cbs;
++	u32 pic_width_aligned, pic_height_aligned;
++	u32 partial_ctb_x, partial_ctb_y;
++
++	hantro_reg_write(vpu, hevc_bit_depth_y_minus8, sps->bit_depth_luma_minus8);
++	hantro_reg_write(vpu, hevc_bit_depth_c_minus8, sps->bit_depth_chroma_minus8);
++
++	hantro_reg_write(vpu, hevc_output_8_bits, 0);
++
++	hantro_reg_write(vpu, hevc_hdr_skip_length, ctrls->hevc_hdr_skip_length);
++
++	min_log2_cb_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
++	max_log2_ctb_size = min_log2_cb_size + sps->log2_diff_max_min_luma_coding_block_size;
++
++	hantro_reg_write(vpu, hevc_min_cb_size, min_log2_cb_size);
++	hantro_reg_write(vpu, hevc_max_cb_size, max_log2_ctb_size);
++
++	min_cb_size = 1 << min_log2_cb_size;
++	max_ctb_size = 1 << max_log2_ctb_size;
++
++	pic_width_in_min_cbs = sps->pic_width_in_luma_samples / min_cb_size;
++	pic_height_in_min_cbs = sps->pic_height_in_luma_samples / min_cb_size;
++	pic_width_aligned = ALIGN(sps->pic_width_in_luma_samples, max_ctb_size);
++	pic_height_aligned = ALIGN(sps->pic_height_in_luma_samples, max_ctb_size);
++
++	partial_ctb_x = !!(sps->pic_width_in_luma_samples != pic_width_aligned);
++	partial_ctb_y = !!(sps->pic_height_in_luma_samples != pic_height_aligned);
++
++	hantro_reg_write(vpu, hevc_partial_ctb_x, partial_ctb_x);
++	hantro_reg_write(vpu, hevc_partial_ctb_y, partial_ctb_y);
++
++	hantro_reg_write(vpu, hevc_pic_width_in_cbs, pic_width_in_min_cbs);
++	hantro_reg_write(vpu, hevc_pic_height_in_cbs, pic_height_in_min_cbs);
++
++	hantro_reg_write(vpu, hevc_pic_width_4x4,
++			 (pic_width_in_min_cbs * min_cb_size) / 4);
++	hantro_reg_write(vpu, hevc_pic_height_4x4,
++			 (pic_height_in_min_cbs * min_cb_size) / 4);
++
++	hantro_reg_write(vpu, hevc_max_inter_hierdepth,
++			 sps->max_transform_hierarchy_depth_inter);
++	hantro_reg_write(vpu, hevc_max_intra_hierdepth,
++			 sps->max_transform_hierarchy_depth_intra);
++	hantro_reg_write(vpu, hevc_min_trb_size,
++			 sps->log2_min_luma_transform_block_size_minus2 + 2);
++	hantro_reg_write(vpu, hevc_max_trb_size,
++			 sps->log2_min_luma_transform_block_size_minus2 + 2 +
++			 sps->log2_diff_max_min_luma_transform_block_size);
++
++	hantro_reg_write(vpu, hevc_tempor_mvp_e,
++			 !!(sps->flags & V4L2_HEVC_SPS_FLAG_SPS_TEMPORAL_MVP_ENABLED) &&
++			 !(decode_params->flags & V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC));
++	hantro_reg_write(vpu, hevc_strong_smooth_e,
++			 !!(sps->flags & V4L2_HEVC_SPS_FLAG_STRONG_INTRA_SMOOTHING_ENABLED));
++	hantro_reg_write(vpu, hevc_asym_pred_e,
++			 !!(sps->flags & V4L2_HEVC_SPS_FLAG_AMP_ENABLED));
++	hantro_reg_write(vpu, hevc_sao_e,
++			 !!(sps->flags & V4L2_HEVC_SPS_FLAG_SAMPLE_ADAPTIVE_OFFSET));
++	hantro_reg_write(vpu, hevc_sign_data_hide,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED));
++
++	if (pps->flags & V4L2_HEVC_PPS_FLAG_CU_QP_DELTA_ENABLED) {
++		hantro_reg_write(vpu, hevc_cu_qpd_e, 1);
++		hantro_reg_write(vpu, hevc_max_cu_qpd_depth, pps->diff_cu_qp_delta_depth);
++	} else {
++		hantro_reg_write(vpu, hevc_cu_qpd_e, 0);
++		hantro_reg_write(vpu, hevc_max_cu_qpd_depth, 0);
++	}
++
++	if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
++		hantro_reg_write(vpu, hevc_cb_qp_offset, pps->pps_cb_qp_offset);
++		hantro_reg_write(vpu, hevc_cr_qp_offset, pps->pps_cr_qp_offset);
++	} else {
++		hantro_reg_write(vpu, hevc_cb_qp_offset, 0);
++		hantro_reg_write(vpu, hevc_cr_qp_offset, 0);
++	}
++
++	hantro_reg_write(vpu, hevc_filt_offset_beta, pps->pps_beta_offset_div2);
++	hantro_reg_write(vpu, hevc_filt_offset_tc, pps->pps_tc_offset_div2);
++	hantro_reg_write(vpu, hevc_slice_hdr_ext_e,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_SLICE_SEGMENT_HEADER_EXTENSION_PRESENT));
++	hantro_reg_write(vpu, hevc_slice_hdr_ext_bits, pps->num_extra_slice_header_bits);
++	hantro_reg_write(vpu, hevc_slice_chqp_present,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT));
++	hantro_reg_write(vpu, hevc_weight_bipr_idc,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_BIPRED));
++	hantro_reg_write(vpu, hevc_transq_bypass,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_TRANSQUANT_BYPASS_ENABLED));
++	hantro_reg_write(vpu, hevc_list_mod_e,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_LISTS_MODIFICATION_PRESENT));
++	hantro_reg_write(vpu, hevc_entropy_sync_e,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_ENTROPY_CODING_SYNC_ENABLED));
++	hantro_reg_write(vpu, hevc_cabac_init_present,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT));
++	hantro_reg_write(vpu, hevc_idr_pic_e,
++			 !!(decode_params->flags & V4L2_HEVC_DECODE_PARAM_FLAG_IRAP_PIC));
++	hantro_reg_write(vpu, hevc_parallel_merge,
++			 pps->log2_parallel_merge_level_minus2 + 2);
++	hantro_reg_write(vpu, hevc_pcm_filt_d,
++			 !!(sps->flags & V4L2_HEVC_SPS_FLAG_PCM_LOOP_FILTER_DISABLED));
++	hantro_reg_write(vpu, hevc_pcm_e,
++			 !!(sps->flags & V4L2_HEVC_SPS_FLAG_PCM_ENABLED));
++	if (sps->flags & V4L2_HEVC_SPS_FLAG_PCM_ENABLED) {
++		hantro_reg_write(vpu, hevc_max_pcm_size,
++				 sps->log2_diff_max_min_pcm_luma_coding_block_size +
++				 sps->log2_min_pcm_luma_coding_block_size_minus3 + 3);
++		hantro_reg_write(vpu, hevc_min_pcm_size,
++				 sps->log2_min_pcm_luma_coding_block_size_minus3 + 3);
++		hantro_reg_write(vpu, hevc_bit_depth_pcm_y,
++				 sps->pcm_sample_bit_depth_luma_minus1 + 1);
++		hantro_reg_write(vpu, hevc_bit_depth_pcm_c,
++				 sps->pcm_sample_bit_depth_chroma_minus1 + 1);
++	} else {
++		hantro_reg_write(vpu, hevc_max_pcm_size, 0);
++		hantro_reg_write(vpu, hevc_min_pcm_size, 0);
++		hantro_reg_write(vpu, hevc_bit_depth_pcm_y, 0);
++		hantro_reg_write(vpu, hevc_bit_depth_pcm_c, 0);
++	}
++
++	hantro_reg_write(vpu, hevc_start_code_e, 1);
++	hantro_reg_write(vpu, hevc_init_qp, pps->init_qp_minus26 + 26);
++	hantro_reg_write(vpu, hevc_weight_pred_e,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_PRED));
++	hantro_reg_write(vpu, hevc_cabac_init_present,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT));
++	hantro_reg_write(vpu, hevc_const_intra_e,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_CONSTRAINED_INTRA_PRED));
++	hantro_reg_write(vpu, hevc_transform_skip,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_TRANSFORM_SKIP_ENABLED));
++	hantro_reg_write(vpu, hevc_out_filtering_dis,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_DISABLE_DEBLOCKING_FILTER));
++	hantro_reg_write(vpu, hevc_filt_ctrl_pres,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_CONTROL_PRESENT));
++	hantro_reg_write(vpu, hevc_dependent_slice,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT));
++	hantro_reg_write(vpu, hevc_filter_override,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_OVERRIDE_ENABLED));
++	hantro_reg_write(vpu, hevc_refidx0_active,
++			 pps->num_ref_idx_l0_default_active_minus1 + 1);
++	hantro_reg_write(vpu, hevc_refidx1_active,
++			 pps->num_ref_idx_l1_default_active_minus1 + 1);
++	hantro_reg_write(vpu, hevc_apf_threshold, 8);
++}
++
++static int find_ref_pic_index(const struct v4l2_hevc_dpb_entry *dpb, int pic_order_cnt)
++{
++	int i;
++
++	for (i = 0; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
++		if (dpb[i].pic_order_cnt[0] == pic_order_cnt)
++			return i;
++	}
++
++	return 0x0;
++}
++
++static void set_ref_pic_list(struct hantro_ctx *ctx)
++{
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	struct hantro_dev *vpu = ctx->dev;
++	const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
++	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
++	u32 list0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX] = {0};
++	u32 list1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX] = {0};
++	const struct hantro_reg *ref_pic_regs0[] = {
++		hevc_rlist_f0,
++		hevc_rlist_f1,
++		hevc_rlist_f2,
++		hevc_rlist_f3,
++		hevc_rlist_f4,
++		hevc_rlist_f5,
++		hevc_rlist_f6,
++		hevc_rlist_f7,
++		hevc_rlist_f8,
++		hevc_rlist_f9,
++		hevc_rlist_f10,
++		hevc_rlist_f11,
++		hevc_rlist_f12,
++		hevc_rlist_f13,
++		hevc_rlist_f14,
++		hevc_rlist_f15,
++	};
++	const struct hantro_reg *ref_pic_regs1[] = {
++		hevc_rlist_b0,
++		hevc_rlist_b1,
++		hevc_rlist_b2,
++		hevc_rlist_b3,
++		hevc_rlist_b4,
++		hevc_rlist_b5,
++		hevc_rlist_b6,
++		hevc_rlist_b7,
++		hevc_rlist_b8,
++		hevc_rlist_b9,
++		hevc_rlist_b10,
++		hevc_rlist_b11,
++		hevc_rlist_b12,
++		hevc_rlist_b13,
++		hevc_rlist_b14,
++		hevc_rlist_b15,
++	};
++	unsigned int i, j;
++
++	/* List 0 contains: short term before, short term after and long term */
++	j = 0;
++	for (i = 0; i < decode_params->num_poc_st_curr_before && j < ARRAY_SIZE(list0); i++)
++		list0[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_before[i]);
++	for (i = 0; i < decode_params->num_poc_st_curr_after && j < ARRAY_SIZE(list0); i++)
++		list0[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_after[i]);
++	for (i = 0; i < decode_params->num_poc_lt_curr && j < ARRAY_SIZE(list0); i++)
++		list0[j++] = find_ref_pic_index(dpb, decode_params->poc_lt_curr[i]);
++
++	/* Fill the list, copying over and over */
++	i = 0;
++	while (j < ARRAY_SIZE(list0))
++		list0[j++] = list0[i++];
++
++	j = 0;
++	for (i = 0; i < decode_params->num_poc_st_curr_after && j < ARRAY_SIZE(list1); i++)
++		list1[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_after[i]);
++	for (i = 0; i < decode_params->num_poc_st_curr_before && j < ARRAY_SIZE(list1); i++)
++		list1[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_before[i]);
++	for (i = 0; i < decode_params->num_poc_lt_curr && j < ARRAY_SIZE(list1); i++)
++		list1[j++] = find_ref_pic_index(dpb, decode_params->poc_lt_curr[i]);
++
++	i = 0;
++	while (j < ARRAY_SIZE(list1))
++		list1[j++] = list1[i++];
++
++	for (i = 0; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
++		hantro_reg_write(vpu, ref_pic_regs0[i], list0[i]);
++		hantro_reg_write(vpu, ref_pic_regs1[i], list1[i]);
++	}
++}
++
++static int set_ref(struct hantro_ctx *ctx)
++{
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
++	const struct v4l2_ctrl_hevc_pps *pps = ctrls->pps;
++	const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
++	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
++	dma_addr_t luma_addr, chroma_addr, mv_addr = 0;
++	struct hantro_dev *vpu = ctx->dev;
++	size_t cr_offset = hantro_hevc_chroma_offset(sps);
++	size_t mv_offset = hantro_hevc_motion_vectors_offset(sps);
++	u32 max_ref_frames;
++	u16 dpb_longterm_e;
++
++	const struct hantro_reg *cur_poc[] = {
++		hevc_cur_poc_00,
++		hevc_cur_poc_01,
++		hevc_cur_poc_02,
++		hevc_cur_poc_03,
++		hevc_cur_poc_04,
++		hevc_cur_poc_05,
++		hevc_cur_poc_06,
++		hevc_cur_poc_07,
++		hevc_cur_poc_08,
++		hevc_cur_poc_09,
++		hevc_cur_poc_10,
++		hevc_cur_poc_11,
++		hevc_cur_poc_12,
++		hevc_cur_poc_13,
++		hevc_cur_poc_14,
++		hevc_cur_poc_15,
++	};
++	unsigned int i;
++
++	max_ref_frames = decode_params->num_poc_lt_curr +
++		decode_params->num_poc_st_curr_before +
++		decode_params->num_poc_st_curr_after;
++	/*
++	 * Set max_ref_frames to non-zero to avoid HW hang when decoding
++	 * badly marked I-frames.
++	 */
++	max_ref_frames = max_ref_frames ? max_ref_frames : 1;
++	hantro_reg_write(vpu, hevc_num_ref_frames, max_ref_frames);
++	hantro_reg_write(vpu, hevc_filter_over_slices,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED));
++	hantro_reg_write(vpu, hevc_filter_over_tiles,
++			 !!(pps->flags & V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED));
++
++	/*
++	 * Write POC count diff from current pic. For frame decoding only compute
++	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
++	 */
++	for (i = 0; i < decode_params->num_active_dpb_entries && i < ARRAY_SIZE(cur_poc); i++) {
++		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt[0];
++
++		hantro_reg_write(vpu, cur_poc[i], poc_diff);
++	}
++
++	if (i < ARRAY_SIZE(cur_poc)) {
++		/*
++		 * After the references, fill one entry pointing to itself,
++		 * i.e. difference is zero.
++		 */
++		hantro_reg_write(vpu, cur_poc[i], 0);
++		i++;
++	}
++
++	/* Fill the rest with the current picture */
++	for (; i < ARRAY_SIZE(cur_poc); i++)
++		hantro_reg_write(vpu, cur_poc[i], decode_params->pic_order_cnt_val);
++
++	set_ref_pic_list(ctx);
++
++	/* We will only keep the references picture that are still used */
++	ctx->hevc_dec.ref_bufs_used = 0;
++
++	/* Set up addresses of DPB buffers */
++	dpb_longterm_e = 0;
++	for (i = 0; i < decode_params->num_active_dpb_entries &&
++	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
++		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
++		if (!luma_addr)
++			return -ENOMEM;
++
++		chroma_addr = luma_addr + cr_offset;
++		mv_addr = luma_addr + mv_offset;
++
++		if (dpb[i].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
++			dpb_longterm_e |= BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
++
++		hantro_write_addr(vpu, HEVC_REG_ADDR_REF(i), luma_addr);
++		hantro_write_addr(vpu, HEVC_REG_CHR_REF(i), chroma_addr);
++		hantro_write_addr(vpu, HEVC_REG_DMV_REF(i), mv_addr);
++	}
++
++	luma_addr = hantro_hevc_get_ref_buf(ctx, decode_params->pic_order_cnt_val);
++	if (!luma_addr)
++		return -ENOMEM;
++
++	chroma_addr = luma_addr + cr_offset;
++	mv_addr = luma_addr + mv_offset;
++
++	hantro_write_addr(vpu, HEVC_REG_ADDR_REF(i), luma_addr);
++	hantro_write_addr(vpu, HEVC_REG_CHR_REF(i), chroma_addr);
++	hantro_write_addr(vpu, HEVC_REG_DMV_REF(i++), mv_addr);
++
++	hantro_write_addr(vpu, HEVC_ADDR_DST, luma_addr);
++	hantro_write_addr(vpu, HEVC_ADDR_DST_CHR, chroma_addr);
++	hantro_write_addr(vpu, HEVC_ADDR_DST_MV, mv_addr);
++
++	hantro_hevc_ref_remove_unused(ctx);
++
++	for (; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
++		hantro_write_addr(vpu, HEVC_REG_ADDR_REF(i), 0);
++		hantro_write_addr(vpu, HEVC_REG_CHR_REF(i), 0);
++		hantro_write_addr(vpu, HEVC_REG_DMV_REF(i), 0);
++	}
++
++	hantro_reg_write(vpu, hevc_refer_lterm_e, dpb_longterm_e);
++
++	return 0;
++}
++
++static void set_buffers(struct hantro_ctx *ctx)
++{
++	struct vb2_v4l2_buffer *src_buf, *dst_buf;
++	struct hantro_dev *vpu = ctx->dev;
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
++	size_t cr_offset = hantro_hevc_chroma_offset(sps);
++	dma_addr_t src_dma, dst_dma;
++	u32 src_len, src_buf_len;
++
++	src_buf = hantro_get_src_buf(ctx);
++	dst_buf = hantro_get_dst_buf(ctx);
++
++	/* Source (stream) buffer. */
++	src_dma = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
++	src_len = vb2_get_plane_payload(&src_buf->vb2_buf, 0);
++	src_buf_len = vb2_plane_size(&src_buf->vb2_buf, 0);
++
++	hantro_write_addr(vpu, HEVC_ADDR_STR, src_dma);
++	hantro_reg_write(vpu, hevc_stream_len, src_len);
++	hantro_reg_write(vpu, hevc_strm_buffer_len, src_buf_len);
++	hantro_reg_write(vpu, hevc_strm_start_offset, 0);
++	hantro_reg_write(vpu, hevc_write_mvs_e, 1);
++
++	/* Destination (decoded frame) buffer. */
++	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
++
++	hantro_write_addr(vpu, HEVC_RASTER_SCAN, dst_dma);
++	hantro_write_addr(vpu, HEVC_RASTER_SCAN_CHR, dst_dma + cr_offset);
++	hantro_write_addr(vpu, HEVC_ADDR_TILE_SIZE, ctx->hevc_dec.tile_sizes.dma);
++	hantro_write_addr(vpu, HEVC_TILE_FILTER, ctx->hevc_dec.tile_filter.dma);
++	hantro_write_addr(vpu, HEVC_TILE_SAO, ctx->hevc_dec.tile_sao.dma);
++	hantro_write_addr(vpu, HEVC_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
++}
++
++static void hantro_g2_check_idle(struct hantro_dev *vpu)
++{
++	int i;
++
++	for (i = 0; i < 3; i++) {
++		u32 status;
++
++		/* Make sure the VPU is idle */
++		status = vdpu_read(vpu, HEVC_REG_INTERRUPT);
++		if (status & HEVC_REG_INTERRUPT_DEC_E) {
++			dev_warn(vpu->dev, "device still running, aborting");
++			status |= HEVC_REG_INTERRUPT_DEC_ABORT_E | HEVC_REG_INTERRUPT_DEC_IRQ_DIS;
++			vdpu_write(vpu, status, HEVC_REG_INTERRUPT);
++		}
++	}
++}
++
++int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
++{
++	struct hantro_dev *vpu = ctx->dev;
++	int ret;
++
++	hantro_g2_check_idle(vpu);
++
++	/* Prepare HEVC decoder context. */
++	ret = hantro_hevc_dec_prepare_run(ctx);
++	if (ret)
++		return ret;
++
++	/* Configure hardware registers. */
++	set_params(ctx);
++
++	/* set reference pictures */
++	ret = set_ref(ctx);
++	if (ret)
++		return ret;
++
++	set_buffers(ctx);
++	prepare_tile_info_buffer(ctx);
++
++	hantro_end_prepare_run(ctx);
++
++	hantro_reg_write(vpu, hevc_mode, HEVC_DEC_MODE);
++	hantro_reg_write(vpu, hevc_clk_gate_e, 1);
++
++	/* Don't disable output */
++	hantro_reg_write(vpu, hevc_out_dis, 0);
++
++	/* Don't compress buffers */
++	hantro_reg_write(vpu, hevc_ref_compress_bypass, 1);
++
++	/* use NV12 as output format */
++	hantro_reg_write(vpu, hevc_out_rs_e, 1);
++
++	/* Bus width and max burst */
++	hantro_reg_write(vpu, hevc_buswidth, BUS_WIDTH_128);
++	hantro_reg_write(vpu, hevc_max_burst, 16);
++
++	/* Swap */
++	hantro_reg_write(vpu, hevc_strm_swap, 0xf);
++	hantro_reg_write(vpu, hevc_dirmv_swap, 0xf);
++	hantro_reg_write(vpu, hevc_compress_swap, 0xf);
++
++	/* Start decoding! */
++	vdpu_write(vpu, HEVC_REG_INTERRUPT_DEC_E, HEVC_REG_INTERRUPT);
++
++	return 0;
++}
+diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
+new file mode 100644
+index 000000000000..a361c9ba911d
+--- /dev/null
++++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+@@ -0,0 +1,198 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2021, Collabora
++ *
++ * Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
++ */
++
++#ifndef HANTRO_G2_REGS_H_
++#define HANTRO_G2_REGS_H_
++
++#include "hantro.h"
++
++#define G2_SWREG(nr)	((nr) * 4)
++
++#define HEVC_DEC_REG(name, base, shift, mask) \
++	static const struct hantro_reg _hevc_##name[] = { \
++		{ G2_SWREG(base), (shift), (mask) } \
++	}; \
++	static const struct hantro_reg __maybe_unused *hevc_##name = &_hevc_##name[0];
++
++#define HEVC_REG_VERSION		G2_SWREG(0)
++
++#define HEVC_REG_INTERRUPT		G2_SWREG(1)
++#define HEVC_REG_INTERRUPT_DEC_RDY_INT	BIT(12)
++#define HEVC_REG_INTERRUPT_DEC_ABORT_E	BIT(5)
++#define HEVC_REG_INTERRUPT_DEC_IRQ_DIS	BIT(4)
++#define HEVC_REG_INTERRUPT_DEC_E	BIT(0)
++
++HEVC_DEC_REG(strm_swap,		2, 28,	0xf)
++HEVC_DEC_REG(dirmv_swap,	2, 20,	0xf)
++
++HEVC_DEC_REG(mode,		  3, 27, 0x1f)
++HEVC_DEC_REG(compress_swap,	  3, 20, 0xf)
++HEVC_DEC_REG(ref_compress_bypass, 3, 17, 0x1)
++HEVC_DEC_REG(out_rs_e,		  3, 16, 0x1)
++HEVC_DEC_REG(out_dis,		  3, 15, 0x1)
++HEVC_DEC_REG(out_filtering_dis,   3, 14, 0x1)
++HEVC_DEC_REG(write_mvs_e,	  3, 12, 0x1)
++
++HEVC_DEC_REG(pic_width_in_cbs,	4, 19,	0x1ff)
++HEVC_DEC_REG(pic_height_in_cbs,	4, 6,	0x1ff)
++HEVC_DEC_REG(num_ref_frames,	4, 0,	0x1f)
++
++HEVC_DEC_REG(scaling_list_e,	5, 24,	0x1)
++HEVC_DEC_REG(cb_qp_offset,	5, 19,	0x1f)
++HEVC_DEC_REG(cr_qp_offset,	5, 14,	0x1f)
++HEVC_DEC_REG(sign_data_hide,	5, 12,	0x1)
++HEVC_DEC_REG(tempor_mvp_e,	5, 11,	0x1)
++HEVC_DEC_REG(max_cu_qpd_depth,	5, 5,	0x3f)
++HEVC_DEC_REG(cu_qpd_e,		5, 4,	0x1)
++
++HEVC_DEC_REG(stream_len,	6, 0,	0xffffffff)
++
++HEVC_DEC_REG(cabac_init_present, 7, 31, 0x1)
++HEVC_DEC_REG(weight_pred_e,	 7, 28, 0x1)
++HEVC_DEC_REG(weight_bipr_idc,	 7, 26, 0x3)
++HEVC_DEC_REG(filter_over_slices, 7, 25, 0x1)
++HEVC_DEC_REG(filter_over_tiles,  7, 24, 0x1)
++HEVC_DEC_REG(asym_pred_e,	 7, 23, 0x1)
++HEVC_DEC_REG(sao_e,		 7, 22, 0x1)
++HEVC_DEC_REG(pcm_filt_d,	 7, 21, 0x1)
++HEVC_DEC_REG(slice_chqp_present, 7, 20, 0x1)
++HEVC_DEC_REG(dependent_slice,	 7, 19, 0x1)
++HEVC_DEC_REG(filter_override,	 7, 18, 0x1)
++HEVC_DEC_REG(strong_smooth_e,	 7, 17, 0x1)
++HEVC_DEC_REG(filt_offset_beta,	 7, 12, 0x1f)
++HEVC_DEC_REG(filt_offset_tc,	 7, 7,  0x1f)
++HEVC_DEC_REG(slice_hdr_ext_e,	 7, 6,	0x1)
++HEVC_DEC_REG(slice_hdr_ext_bits, 7, 3,	0x7)
++
++HEVC_DEC_REG(const_intra_e,	 8, 31, 0x1)
++HEVC_DEC_REG(filt_ctrl_pres,	 8, 30, 0x1)
++HEVC_DEC_REG(idr_pic_e,		 8, 16, 0x1)
++HEVC_DEC_REG(bit_depth_pcm_y,	 8, 12, 0xf)
++HEVC_DEC_REG(bit_depth_pcm_c,	 8, 8,  0xf)
++HEVC_DEC_REG(bit_depth_y_minus8, 8, 6,  0x3)
++HEVC_DEC_REG(bit_depth_c_minus8, 8, 4,  0x3)
++HEVC_DEC_REG(output_8_bits,	 8, 3,  0x1)
++
++HEVC_DEC_REG(refidx1_active,	9, 19,	0x1f)
++HEVC_DEC_REG(refidx0_active,	9, 14,	0x1f)
++HEVC_DEC_REG(hdr_skip_length,	9, 0,	0x3fff)
++
++HEVC_DEC_REG(start_code_e,	10, 31, 0x1)
++HEVC_DEC_REG(init_qp,		10, 24, 0x3f)
++HEVC_DEC_REG(num_tile_cols,	10, 19, 0x1f)
++HEVC_DEC_REG(num_tile_rows,	10, 14, 0x1f)
++HEVC_DEC_REG(tile_e,		10, 1,	0x1)
++HEVC_DEC_REG(entropy_sync_e,	10, 0,	0x1)
++
++HEVC_DEC_REG(refer_lterm_e,	12, 16, 0xffff)
++HEVC_DEC_REG(min_cb_size,	12, 13, 0x7)
++HEVC_DEC_REG(max_cb_size,	12, 10, 0x7)
++HEVC_DEC_REG(min_pcm_size,	12, 7,  0x7)
++HEVC_DEC_REG(max_pcm_size,	12, 4,  0x7)
++HEVC_DEC_REG(pcm_e,		12, 3,  0x1)
++HEVC_DEC_REG(transform_skip,	12, 2,	0x1)
++HEVC_DEC_REG(transq_bypass,	12, 1,	0x1)
++HEVC_DEC_REG(list_mod_e,	12, 0,	0x1)
++
++HEVC_DEC_REG(min_trb_size,	  13, 13, 0x7)
++HEVC_DEC_REG(max_trb_size,	  13, 10, 0x7)
++HEVC_DEC_REG(max_intra_hierdepth, 13, 7,  0x7)
++HEVC_DEC_REG(max_inter_hierdepth, 13, 4,  0x7)
++HEVC_DEC_REG(parallel_merge,	  13, 0,  0xf)
++
++HEVC_DEC_REG(rlist_f0,		14, 0,	0x1f)
++HEVC_DEC_REG(rlist_f1,		14, 10,	0x1f)
++HEVC_DEC_REG(rlist_f2,		14, 20,	0x1f)
++HEVC_DEC_REG(rlist_b0,		14, 5,	0x1f)
++HEVC_DEC_REG(rlist_b1,		14, 15, 0x1f)
++HEVC_DEC_REG(rlist_b2,		14, 25, 0x1f)
++
++HEVC_DEC_REG(rlist_f3,		15, 0,	0x1f)
++HEVC_DEC_REG(rlist_f4,		15, 10, 0x1f)
++HEVC_DEC_REG(rlist_f5,		15, 20, 0x1f)
++HEVC_DEC_REG(rlist_b3,		15, 5,	0x1f)
++HEVC_DEC_REG(rlist_b4,		15, 15, 0x1f)
++HEVC_DEC_REG(rlist_b5,		15, 25, 0x1f)
++
++HEVC_DEC_REG(rlist_f6,		16, 0,	0x1f)
++HEVC_DEC_REG(rlist_f7,		16, 10, 0x1f)
++HEVC_DEC_REG(rlist_f8,		16, 20, 0x1f)
++HEVC_DEC_REG(rlist_b6,		16, 5,	0x1f)
++HEVC_DEC_REG(rlist_b7,		16, 15, 0x1f)
++HEVC_DEC_REG(rlist_b8,		16, 25, 0x1f)
++
++HEVC_DEC_REG(rlist_f9,		17, 0,	0x1f)
++HEVC_DEC_REG(rlist_f10,		17, 10, 0x1f)
++HEVC_DEC_REG(rlist_f11,		17, 20, 0x1f)
++HEVC_DEC_REG(rlist_b9,		17, 5,	0x1f)
++HEVC_DEC_REG(rlist_b10,		17, 15, 0x1f)
++HEVC_DEC_REG(rlist_b11,		17, 25, 0x1f)
++
++HEVC_DEC_REG(rlist_f12,		18, 0,	0x1f)
++HEVC_DEC_REG(rlist_f13,		18, 10, 0x1f)
++HEVC_DEC_REG(rlist_f14,		18, 20, 0x1f)
++HEVC_DEC_REG(rlist_b12,		18, 5,	0x1f)
++HEVC_DEC_REG(rlist_b13,		18, 15, 0x1f)
++HEVC_DEC_REG(rlist_b14,		18, 25, 0x1f)
++
++HEVC_DEC_REG(rlist_f15,		19, 0,	0x1f)
++HEVC_DEC_REG(rlist_b15,		19, 5,	0x1f)
++
++HEVC_DEC_REG(partial_ctb_x,	20, 31, 0x1)
++HEVC_DEC_REG(partial_ctb_y,	20, 30, 0x1)
++HEVC_DEC_REG(pic_width_4x4,	20, 16, 0xfff)
++HEVC_DEC_REG(pic_height_4x4,	20, 0,  0xfff)
++
++HEVC_DEC_REG(cur_poc_00,	46, 24,	0xff)
++HEVC_DEC_REG(cur_poc_01,	46, 16,	0xff)
++HEVC_DEC_REG(cur_poc_02,	46, 8,	0xff)
++HEVC_DEC_REG(cur_poc_03,	46, 0,	0xff)
++
++HEVC_DEC_REG(cur_poc_04,	47, 24,	0xff)
++HEVC_DEC_REG(cur_poc_05,	47, 16,	0xff)
++HEVC_DEC_REG(cur_poc_06,	47, 8,	0xff)
++HEVC_DEC_REG(cur_poc_07,	47, 0,	0xff)
++
++HEVC_DEC_REG(cur_poc_08,	48, 24,	0xff)
++HEVC_DEC_REG(cur_poc_09,	48, 16,	0xff)
++HEVC_DEC_REG(cur_poc_10,	48, 8,	0xff)
++HEVC_DEC_REG(cur_poc_11,	48, 0,	0xff)
++
++HEVC_DEC_REG(cur_poc_12,	49, 24, 0xff)
++HEVC_DEC_REG(cur_poc_13,	49, 16, 0xff)
++HEVC_DEC_REG(cur_poc_14,	49, 8,	0xff)
++HEVC_DEC_REG(cur_poc_15,	49, 0,	0xff)
++
++HEVC_DEC_REG(apf_threshold,	55, 0,	0xffff)
++
++HEVC_DEC_REG(clk_gate_e,	58, 16,	0x1)
++HEVC_DEC_REG(buswidth,		58, 8,	0x7)
++HEVC_DEC_REG(max_burst,		58, 0,	0xff)
++
++#define HEVC_REG_CONFIG				G2_SWREG(58)
++#define HEVC_REG_CONFIG_DEC_CLK_GATE_E		BIT(16)
++#define HEVC_REG_CONFIG_DEC_CLK_GATE_IDLE_E	BIT(17)
++
++#define HEVC_ADDR_DST		(G2_SWREG(65))
++#define HEVC_REG_ADDR_REF(i)	(G2_SWREG(67)  + ((i) * 0x8))
++#define HEVC_ADDR_DST_CHR	(G2_SWREG(99))
++#define HEVC_REG_CHR_REF(i)	(G2_SWREG(101) + ((i) * 0x8))
++#define HEVC_ADDR_DST_MV	(G2_SWREG(133))
++#define HEVC_REG_DMV_REF(i)	(G2_SWREG(135) + ((i) * 0x8))
++#define HEVC_ADDR_TILE_SIZE	(G2_SWREG(167))
++#define HEVC_ADDR_STR		(G2_SWREG(169))
++#define HEVC_SCALING_LIST	(G2_SWREG(171))
++#define HEVC_RASTER_SCAN	(G2_SWREG(175))
++#define HEVC_RASTER_SCAN_CHR	(G2_SWREG(177))
++#define HEVC_TILE_FILTER	(G2_SWREG(179))
++#define HEVC_TILE_SAO		(G2_SWREG(181))
++#define HEVC_TILE_BSD		(G2_SWREG(183))
++
++HEVC_DEC_REG(strm_buffer_len,	258, 0,	0xffffffff)
++HEVC_DEC_REG(strm_start_offset,	259, 0,	0xffffffff)
++
++#endif
+diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+new file mode 100644
+index 000000000000..3d40aea444f5
+--- /dev/null
++++ b/drivers/staging/media/hantro/hantro_hevc.c
+@@ -0,0 +1,325 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Hantro VPU HEVC codec driver
++ *
++ * Copyright (C) 2020 Safran Passenger Innovations LLC
++ */
++
++#include <linux/types.h>
++#include <media/v4l2-mem2mem.h>
++
++#include "hantro.h"
++#include "hantro_hw.h"
++
++#define VERT_FILTER_RAM_SIZE 8 /* bytes per pixel row */
++/*
++ * BSD control data of current picture at tile border
++ * 128 bits per 4x4 tile = 128/(8*4) bytes per row
++ */
++#define BSD_CTRL_RAM_SIZE 4 /* bytes per pixel row */
++/* tile border coefficients of filter */
++#define VERT_SAO_RAM_SIZE 48 /* bytes per pixel */
++
++#define MAX_TILE_COLS 20
++#define MAX_TILE_ROWS 22
++
++#define UNUSED_REF	-1
++
++#define G2_ALIGN		16
++
++size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps)
++{
++	int bytes_per_pixel = sps->bit_depth_luma_minus8 == 0 ? 1 : 2;
++
++	return sps->pic_width_in_luma_samples *
++	       sps->pic_height_in_luma_samples * bytes_per_pixel;
++}
++
++size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps)
++{
++	size_t cr_offset = hantro_hevc_chroma_offset(sps);
++
++	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
++}
++
++static size_t hantro_hevc_mv_size(const struct v4l2_ctrl_hevc_sps *sps)
++{
++	u32 min_cb_log2_size_y = sps->log2_min_luma_coding_block_size_minus3 + 3;
++	u32 ctb_log2_size_y = min_cb_log2_size_y + sps->log2_diff_max_min_luma_coding_block_size;
++	u32 pic_width_in_ctbs_y = (sps->pic_width_in_luma_samples + (1 << ctb_log2_size_y) - 1) >> ctb_log2_size_y;
++	u32 pic_height_in_ctbs_y = (sps->pic_height_in_luma_samples + (1 << ctb_log2_size_y) - 1) >> ctb_log2_size_y;
++	size_t mv_size;
++
++	mv_size = pic_width_in_ctbs_y * pic_height_in_ctbs_y *
++		  (1 << (2 * (ctb_log2_size_y - 4))) * 16;
++
++	vpu_debug(4, "%dx%d (CTBs) %ld MV bytes\n",
++		  pic_width_in_ctbs_y, pic_height_in_ctbs_y, mv_size);
++
++	return mv_size;
++}
++
++static size_t hantro_hevc_ref_size(struct hantro_ctx *ctx)
++{
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
++
++	return hantro_hevc_motion_vectors_offset(sps) + hantro_hevc_mv_size(sps);
++}
++
++static void hantro_hevc_ref_free(struct hantro_ctx *ctx)
++{
++	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
++	struct hantro_dev *vpu = ctx->dev;
++	int i;
++
++	for (i = 0;  i < NUM_REF_PICTURES; i++) {
++		if (hevc_dec->ref_bufs[i].cpu)
++			dma_free_coherent(vpu->dev, hevc_dec->ref_bufs[i].size,
++					  hevc_dec->ref_bufs[i].cpu,
++					  hevc_dec->ref_bufs[i].dma);
++	}
++}
++
++static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
++{
++	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
++	int i;
++
++	for (i = 0;  i < NUM_REF_PICTURES; i++)
++		hevc_dec->ref_bufs_poc[i] = UNUSED_REF;
++}
++
++dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
++				   int poc)
++{
++	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
++	int i;
++
++	/* Find the reference buffer in already know ones */
++	for (i = 0;  i < NUM_REF_PICTURES; i++) {
++		if (hevc_dec->ref_bufs_poc[i] == poc) {
++			hevc_dec->ref_bufs_used |= 1 << i;
++			return hevc_dec->ref_bufs[i].dma;
++		}
++	}
++
++	/* Allocate a new reference buffer */
++	for (i = 0; i < NUM_REF_PICTURES; i++) {
++		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF) {
++			if (!hevc_dec->ref_bufs[i].cpu) {
++				struct hantro_dev *vpu = ctx->dev;
++
++				/*
++				 * Allocate the space needed for the raw data +
++				 * motion vector data. Optimizations could be to
++				 * allocate raw data in non coherent memory and only
++				 * clear the motion vector data.
++				 */
++				hevc_dec->ref_bufs[i].cpu =
++					dma_alloc_coherent(vpu->dev,
++							   hantro_hevc_ref_size(ctx),
++							   &hevc_dec->ref_bufs[i].dma,
++							   GFP_KERNEL);
++				if (!hevc_dec->ref_bufs[i].cpu)
++					return 0;
++
++				hevc_dec->ref_bufs[i].size = hantro_hevc_ref_size(ctx);
++			}
++			hevc_dec->ref_bufs_used |= 1 << i;
++			memset(hevc_dec->ref_bufs[i].cpu, 0, hantro_hevc_ref_size(ctx));
++			hevc_dec->ref_bufs_poc[i] = poc;
++
++			return hevc_dec->ref_bufs[i].dma;
++		}
++	}
++
++	return 0;
++}
++
++void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx)
++{
++	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
++	int i;
++
++	/* Just tag buffer as unused, do not free them */
++	for (i = 0;  i < NUM_REF_PICTURES; i++) {
++		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF)
++			continue;
++
++		if (hevc_dec->ref_bufs_used & (1 << i))
++			continue;
++
++		hevc_dec->ref_bufs_poc[i] = UNUSED_REF;
++	}
++}
++
++static int tile_buffer_reallocate(struct hantro_ctx *ctx)
++{
++	struct hantro_dev *vpu = ctx->dev;
++	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	const struct v4l2_ctrl_hevc_pps *pps = ctrls->pps;
++	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
++	unsigned int num_tile_cols = pps->num_tile_columns_minus1 + 1;
++	unsigned int height64 = (sps->pic_height_in_luma_samples + 63) & ~63;
++	unsigned int size;
++
++	if (num_tile_cols <= 1 ||
++	    num_tile_cols <= hevc_dec->num_tile_cols_allocated)
++		return 0;
++
++	/* Need to reallocate due to tiles passed via PPS */
++	if (hevc_dec->tile_filter.size)
++		dma_free_coherent(vpu->dev, hevc_dec->tile_filter.size,
++				  hevc_dec->tile_filter.cpu,
++				  hevc_dec->tile_filter.dma);
++
++	if (hevc_dec->tile_sao.cpu)
++		dma_free_coherent(vpu->dev, hevc_dec->tile_sao.size,
++				  hevc_dec->tile_sao.cpu,
++				  hevc_dec->tile_sao.dma);
++
++	if (hevc_dec->tile_bsd.cpu)
++		dma_free_coherent(vpu->dev, hevc_dec->tile_bsd.size,
++				  hevc_dec->tile_bsd.cpu,
++				  hevc_dec->tile_bsd.dma);
++
++	size = VERT_FILTER_RAM_SIZE * height64 * (num_tile_cols - 1);
++	hevc_dec->tile_filter.cpu = dma_alloc_coherent(vpu->dev, size,
++						       &hevc_dec->tile_filter.dma,
++						       GFP_KERNEL);
++	if (!hevc_dec->tile_filter.cpu)
++		goto err_free_tile_buffers;
++	hevc_dec->tile_filter.size = size;
++
++	size = VERT_SAO_RAM_SIZE * height64 * (num_tile_cols - 1);
++	hevc_dec->tile_sao.cpu = dma_alloc_coherent(vpu->dev, size,
++						    &hevc_dec->tile_sao.dma,
++						    GFP_KERNEL);
++	if (!hevc_dec->tile_sao.cpu)
++		goto err_free_tile_buffers;
++	hevc_dec->tile_sao.size = size;
++
++	size = BSD_CTRL_RAM_SIZE * height64 * (num_tile_cols - 1);
++	hevc_dec->tile_bsd.cpu = dma_alloc_coherent(vpu->dev, size,
++						    &hevc_dec->tile_bsd.dma,
++						    GFP_KERNEL);
++	if (!hevc_dec->tile_bsd.cpu)
++		goto err_free_tile_buffers;
++	hevc_dec->tile_bsd.size = size;
++
++	hevc_dec->num_tile_cols_allocated = num_tile_cols;
++
++	return 0;
++
++err_free_tile_buffers:
++	if (hevc_dec->tile_filter.size)
++		dma_free_coherent(vpu->dev, hevc_dec->tile_filter.size,
++				  hevc_dec->tile_filter.cpu,
++				  hevc_dec->tile_filter.dma);
++	hevc_dec->tile_filter.cpu = NULL;
++
++	if (hevc_dec->tile_sao.cpu)
++		dma_free_coherent(vpu->dev, hevc_dec->tile_sao.size,
++				  hevc_dec->tile_sao.cpu,
++				  hevc_dec->tile_sao.dma);
++	hevc_dec->tile_sao.cpu = NULL;
++
++	if (hevc_dec->tile_bsd.cpu)
++		dma_free_coherent(vpu->dev, hevc_dec->tile_bsd.size,
++				  hevc_dec->tile_bsd.cpu,
++				  hevc_dec->tile_bsd.dma);
++	hevc_dec->tile_bsd.cpu = NULL;
++
++	return -ENOMEM;
++}
++
++int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
++{
++	struct hantro_hevc_dec_hw_ctx *hevc_ctx = &ctx->hevc_dec;
++	struct hantro_hevc_dec_ctrls *ctrls = &hevc_ctx->ctrls;
++	int ret;
++
++	hantro_start_prepare_run(ctx);
++
++	ctrls->decode_params =
++		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS);
++	if (WARN_ON(!ctrls->decode_params))
++		return -EINVAL;
++
++	ctrls->sps =
++		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SPS);
++	if (WARN_ON(!ctrls->sps))
++		return -EINVAL;
++
++	ctrls->pps =
++		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_PPS);
++	if (WARN_ON(!ctrls->pps))
++		return -EINVAL;
++
++	ret = tile_buffer_reallocate(ctx);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
++{
++	struct hantro_dev *vpu = ctx->dev;
++	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
++
++	if (hevc_dec->tile_sizes.cpu)
++		dma_free_coherent(vpu->dev, hevc_dec->tile_sizes.size,
++				  hevc_dec->tile_sizes.cpu,
++				  hevc_dec->tile_sizes.dma);
++	hevc_dec->tile_sizes.cpu = NULL;
++
++	if (hevc_dec->tile_filter.cpu)
++		dma_free_coherent(vpu->dev, hevc_dec->tile_filter.size,
++				  hevc_dec->tile_filter.cpu,
++				  hevc_dec->tile_filter.dma);
++	hevc_dec->tile_filter.cpu = NULL;
++
++	if (hevc_dec->tile_sao.cpu)
++		dma_free_coherent(vpu->dev, hevc_dec->tile_sao.size,
++				  hevc_dec->tile_sao.cpu,
++				  hevc_dec->tile_sao.dma);
++	hevc_dec->tile_sao.cpu = NULL;
++
++	if (hevc_dec->tile_bsd.cpu)
++		dma_free_coherent(vpu->dev, hevc_dec->tile_bsd.size,
++				  hevc_dec->tile_bsd.cpu,
++				  hevc_dec->tile_bsd.dma);
++	hevc_dec->tile_bsd.cpu = NULL;
++
++	hantro_hevc_ref_free(ctx);
++}
++
++int hantro_hevc_dec_init(struct hantro_ctx *ctx)
++{
++	struct hantro_dev *vpu = ctx->dev;
++	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
++	unsigned int size;
++
++	memset(hevc_dec, 0, sizeof(*hevc_dec));
++
++	/*
++	 * Maximum number of tiles times width and height (2 bytes each),
++	 * rounding up to next 16 bytes boundary + one extra 16 byte
++	 * chunk (HW guys wanted to have this).
++	 */
++	size = round_up(MAX_TILE_COLS * MAX_TILE_ROWS * 4 * sizeof(u16) + 16, 16);
++	hevc_dec->tile_sizes.cpu = dma_alloc_coherent(vpu->dev, size,
++						      &hevc_dec->tile_sizes.dma,
++						      GFP_KERNEL);
++	if (!hevc_dec->tile_sizes.cpu)
++		return -ENOMEM;
++
++	hevc_dec->tile_sizes.size = size;
++
++	hantro_hevc_ref_init(ctx);
++
++	return 0;
++}
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index a76852966578..5788188aae50 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -20,6 +20,8 @@
+ #define MB_WIDTH(w)		DIV_ROUND_UP(w, MB_DIM)
+ #define MB_HEIGHT(h)		DIV_ROUND_UP(h, MB_DIM)
+ 
++#define NUM_REF_PICTURES	(V4L2_HEVC_DPB_ENTRIES_NUM_MAX + 1)
++
+ struct hantro_dev;
+ struct hantro_ctx;
+ struct hantro_buf;
+@@ -90,6 +92,44 @@ struct hantro_h264_dec_hw_ctx {
+ 	struct hantro_h264_dec_ctrls ctrls;
+ };
+ 
++/**
++ * struct hantro_hevc_dec_ctrls
++ * @decode_params: Decode params
++ * @sps:	SPS info
++ * @pps:	PPS info
++ * @hevc_hdr_skip_length: the number of data (in bits) to skip in the
++ *			  slice segment header syntax after 'slice type'
++ *			  token
++ */
++struct hantro_hevc_dec_ctrls {
++	const struct v4l2_ctrl_hevc_decode_params *decode_params;
++	const struct v4l2_ctrl_hevc_sps *sps;
++	const struct v4l2_ctrl_hevc_pps *pps;
++	u32 hevc_hdr_skip_length;
++};
++
++/**
++ * struct hantro_hevc_dec_hw_ctx
++ * @tile_sizes:		Tile sizes buffer
++ * @tile_filter:	Tile vertical filter buffer
++ * @tile_sao:		Tile SAO buffer
++ * @tile_bsd:		Tile BSD control buffer
++ * @dpb:	DPB
++ * @reflists:	P/B0/B1 reflists
++ * @ctrls:	V4L2 controls attached to a run
++ */
++struct hantro_hevc_dec_hw_ctx {
++	struct hantro_aux_buf tile_sizes;
++	struct hantro_aux_buf tile_filter;
++	struct hantro_aux_buf tile_sao;
++	struct hantro_aux_buf tile_bsd;
++	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
++	int ref_bufs_poc[NUM_REF_PICTURES];
++	u32 ref_bufs_used;
++	struct hantro_hevc_dec_ctrls ctrls;
++	unsigned int num_tile_cols_allocated;
++};
++
+ /**
+  * struct hantro_mpeg2_dec_hw_ctx
+  * @qtable:		Quantization table
+@@ -178,6 +218,15 @@ int hantro_g1_h264_dec_run(struct hantro_ctx *ctx);
+ int hantro_h264_dec_init(struct hantro_ctx *ctx);
+ void hantro_h264_dec_exit(struct hantro_ctx *ctx);
+ 
++int hantro_hevc_dec_init(struct hantro_ctx *ctx);
++void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
++int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
++int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
++dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
++void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
++size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
++size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps);
++
+ static inline size_t
+ hantro_h264_mv_size(unsigned int width, unsigned int height)
+ {
 -- 
 2.25.1
 
