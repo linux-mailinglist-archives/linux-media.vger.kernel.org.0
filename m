@@ -2,132 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3394E35174F
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 19:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE02E35175C
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 19:42:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234963AbhDARlq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 13:41:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57128 "EHLO
+        id S234874AbhDARmE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 13:42:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234640AbhDARik (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 13:38:40 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85F1CC02FE93;
-        Thu,  1 Apr 2021 09:00:38 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 8220F1F46899
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, lee.jones@linaro.org,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
-        emil.l.velikov@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v8 13/13] arm64: dts: imx8mq: Add node to G2 hardware
-Date:   Thu,  1 Apr 2021 18:00:03 +0200
-Message-Id: <20210401160003.88803-14-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210401160003.88803-1-benjamin.gaignard@collabora.com>
-References: <20210401160003.88803-1-benjamin.gaignard@collabora.com>
+        with ESMTP id S234900AbhDARlM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 13:41:12 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06926C0319C6
+        for <linux-media@vger.kernel.org>; Thu,  1 Apr 2021 10:19:16 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id v26so2906482iox.11
+        for <linux-media@vger.kernel.org>; Thu, 01 Apr 2021 10:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=uvaJxOMF68u/mryvJz6oilbFQS2YMDQUaK8sfeTQE6s=;
+        b=u4Ng5iKTx/8pfjq+0NCQlJn6npbZ6gyXKcSx5SZiOjPF7ItW7hWvxl0O31HMs/Qi65
+         tOiz3oKmLHMfQO+nb3JfjIJ4M/w+J9fOWPyAZuVnmwShQwkisqXY5lK7LLdhNn1GRfgC
+         MrSRwJxUIBTgV3nKJJK0geUvIxS/8D+PD7qKQQr0MuLDlaQImeEvC9rQRUQkDiySBcsy
+         WUxQ0MoRLLeu2iDbVqAJSzo4w8ZA3DDVOvRt5eDCZfyHD3+RSg3s477KMnrry2bjXeuV
+         4ua/hMH078+HP8RPontC65BYPIAbpKzmCNbel6at1I8sbx03NK931GbISplJOChi/YTl
+         FqAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=uvaJxOMF68u/mryvJz6oilbFQS2YMDQUaK8sfeTQE6s=;
+        b=g4os0ZQKCmgzXZK/ENSesF/lKeIF6qkk92PksMNfDDC3TRlgO6FnE4PbjIKvOq7fHE
+         nlc8+zdTFEeCOJ3W6i1OdBY6TskBzy2dJMvr1gfOdfxt82weaO9OT7ofnmE1jBAr1UFR
+         ozfdNgK7Q856XNpGfFSs/pqTrtbUOdaJGgpcoaIlhavL0azVPGEWXyVQcO0s54LxxtQM
+         k7Gnpq0wgWmuW3tKr1l7lMXil4RKQWfKS9TO739yjgsIuHC5SL5C6WbO1tEL/Cr1GKU4
+         SN2l2d82IwxGZRyFLc2fIvRj6olWWJeTy2exJtg710ebyDrpFr1BpGy+OkI+saNXB3y3
+         FxhQ==
+X-Gm-Message-State: AOAM533gKALLlXhCtCavPdnumoePDvWfzPIgYvPf3n34EKDL/x54c2pF
+        zrIDZbKMlHPdx+fc3H5GS2atkJ/54n+6urBWAw==
+X-Google-Smtp-Source: ABdhPJy3j/YU9rgBf7ZRHJAp506+uVOIy8K7uVygLKJps4Z6UHivoFnywM9BPMqwdg0IIKP2negYWMEC4WsnAvRJ8jA=
+X-Received: by 2002:a05:6638:43:: with SMTP id a3mr8582007jap.102.1617297555441;
+ Thu, 01 Apr 2021 10:19:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Reply-To: tofilbaman1@gmail.com
+Sender: shippinglinecompany46@gmail.com
+Received: by 2002:a05:6638:13cc:0:0:0:0 with HTTP; Thu, 1 Apr 2021 10:19:14
+ -0700 (PDT)
+From:   Tofil Bama <tofilbaman@gmail.com>
+Date:   Thu, 1 Apr 2021 18:19:14 +0100
+X-Google-Sender-Auth: LFIkDg-455UxVOCkFAZJCGp_BNQ
+Message-ID: <CAO8gpBmiAvi1CQQo7RHeAKZbJA-G45uGhACVDiNOXus9kt+oQQ@mail.gmail.com>
+Subject: GREAT OPPORTUNITY.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Split VPU node in two: one for G1 and one for G2 since they are
-different hardware blocks.
-Add syscon for hardware control block.
-Remove reg-names property that is useless.
-Each VPU node only need one interrupt.
-Change G2 assigned clock to match to the specifications.
-In the both nodes all the clocks need to assigned to make
-sure that control block will be correctly clocked even if
-only one device node is enabled.
+Dear,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
-version 7:
- - use nxp,imx8m-vpu-ctrl as phandle syscon property name
+My name is Mr Tofil Bama, I am the Bill and Exchange assistant
+Manager in Bank of Africa Ouagadougou Burkina Faso. In my department
+I discovered an abandoned sum of eighteen million three hundred
+thousand United State of American dollars (18.3MILLION USA DOLLARS)
+in an account that belongs to one of our foreign customer
+(late Mr Shitu Nuri) who died in Ethiopian Airlines Flight 409 that
+crashed into the Mediterranean Sea on 25th January 2010.
 
-version 5:
- - use syscon instead of VPU reset
+Since I got information about his death I have been expecting
+his next of kin to come over and claim his money because we
+cannot release it unless somebody applies for it as the next
+of kin or relation to the deceased as indicated in our banking
+guidelines, unfortunately we learnt that all his supposed next of
+kin or relation died alongside with him in the plane crash leaving
+nobody behind for the claim.
 
- arch/arm64/boot/dts/freescale/imx8mq.dtsi | 43 ++++++++++++++++++-----
- 1 file changed, 34 insertions(+), 9 deletions(-)
+It is therefore upon this discovery that I decided to make this
+business proposal to you and release the money to you as next of kin
+to the deceased for safety and subsequent disbursement since nobody
+is coming for the fund, it is 10 years now the money is lying pending in
+the account of our deceased and I don't want the money to go into the
+bank treasury as unclaimed bill.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 17c449e12c2e..65158414d255 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -1329,15 +1329,16 @@ usb3_phy1: usb-phy@382f0040 {
- 			status = "disabled";
- 		};
- 
--		vpu: video-codec@38300000 {
-+		vpu_ctrl: syscon@38320000 {
-+			compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
-+			reg = <0x38320000 0x10000>;
-+		};
-+
-+		vpu_g1: video-codec@38300000 {
- 			compatible = "nxp,imx8mq-vpu";
--			reg = <0x38300000 0x10000>,
--			      <0x38310000 0x10000>,
--			      <0x38320000 0x10000>;
--			reg-names = "g1", "g2", "ctrl";
--			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
--			interrupt-names = "g1", "g2";
-+			reg = <0x38300000 0x10000>;
-+			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g1";
- 			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
- 				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
- 				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-@@ -1350,9 +1351,33 @@ vpu: video-codec@38300000 {
- 						 <&clk IMX8MQ_VPU_PLL_OUT>,
- 						 <&clk IMX8MQ_SYS1_PLL_800M>,
- 						 <&clk IMX8MQ_VPU_PLL>;
--			assigned-clock-rates = <600000000>, <600000000>,
-+			assigned-clock-rates = <600000000>, <300000000>,
-+					       <800000000>, <0>;
-+			power-domains = <&pgc_vpu>;
-+			nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
-+		};
-+
-+		vpu_g2: video-codec@38310000 {
-+			compatible = "nxp,imx8mq-vpu-g2";
-+			reg = <0x38310000 0x10000>;
-+			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g2";
-+			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-+				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
-+				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-+			clock-names = "g1", "g2",  "bus";
-+			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
-+					  <&clk IMX8MQ_CLK_VPU_G2>,
-+					  <&clk IMX8MQ_CLK_VPU_BUS>,
-+					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
-+			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-+						 <&clk IMX8MQ_VPU_PLL_OUT>,
-+						 <&clk IMX8MQ_SYS1_PLL_800M>,
-+						 <&clk IMX8MQ_VPU_PLL>;
-+			assigned-clock-rates = <600000000>, <300000000>,
- 					       <800000000>, <0>;
- 			power-domains = <&pgc_vpu>;
-+			nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
- 		};
- 
- 		pcie0: pcie@33800000 {
--- 
-2.25.1
+You will be entitled with 40% of the total sum while 60% will be for
+me after which I will visit your Country to invest my own share when
+the fund is successfully transferred into your account, Please I would
+like you to keep this transaction confidential and as a top secret
+between me and you until we successfully achieve this golden
+opportunity.
 
+Yours sincerely,
+Mr Tofil Bama.
