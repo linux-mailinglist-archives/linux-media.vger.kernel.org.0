@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5062C351B74
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C3C0351B95
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:11:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237694AbhDASIm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 14:08:42 -0400
-Received: from esa.microchip.iphmx.com ([68.232.154.123]:19898 "EHLO
+        id S236770AbhDASI5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 14:08:57 -0400
+Received: from esa.microchip.iphmx.com ([68.232.154.123]:19744 "EHLO
         esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236389AbhDASCY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:02:24 -0400
+        with ESMTP id S237779AbhDASEY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:04:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1617300144; x=1648836144;
+  t=1617300265; x=1648836265;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=AQJEQgxg0dYK65pobo2TAYjrkhPkUnYyMd5LnexLNkE=;
-  b=PAeYdoyFknBh07bZCFZgDsmn7O5ZIRv2fAQVOVC16jbOOArpo67AyC24
-   04gyYNW9Lgs4OcsuUvDAxhjCZh87UuQlmi63Kc+XryYuZtkaTsPGUlIWz
-   22LKlloGr1FLOhet7f3MD2Zc6nreXXP6OzgVaaOQHcirMWTYhkO/buCBl
-   C24HtmwNxdWg7k1ILoa7yqoKkkTZlXTQjKAFVamnZ2Xa2a8OIE9lUN3Pp
-   dXixxuROM7NoYMXHq9rPq5XFl75G66tsXE50r7B3lfHw5vaugVIFMc4UR
-   aJQoB6UPxAsuR50NsK+1sYLNAGR6BbjXAthBL9Ea7sXRIKiIanAE9Y5Bw
-   Q==;
-IronPort-SDR: aHuXYiIkgG1ikQoj79SNHlhLiI0ZGhUhou2fTuJY15le9MnJe5LjgAahaPrlkCiDJ0Mv8rVIl2
- 1tJ28oSSALsD/F2wBAuhI0MYM0tfru5E5cIHEJsTYsgoHbVAY6llasMbNJsCyxyU3NWs19SvQ1
- Akog63QJo5VhTLxHs7EZ0/6cd+Xf+/oUpSG0btxjswYGUNpVS0mwJdbfatBT+YF72dT3D82j1+
- AcctcWsYIuiB8eaCvLlqLNhm0VQDNHngDdfwDsch3Nik+5+j4vsidn5xijSPTRBnl4/u2VeYDN
- 9+E=
+  bh=XhzC42OpEuuZbRiFkhPyJBwbf2DhtCryGSIJP5xQ8GU=;
+  b=B+LYfF/DH505Hxs39Y/0+KyKuroRzohIJD8DVzKl4PGXM0jzAXMo0CHJ
+   DgAmlyMvWH5FijDNy/28KsuU9msGvslb0YjP89Lr3nMoKyBJGK45/gsRI
+   G/gv8rWO9L5wTlogT6o3Yz4dxugiBCVuy+Qu5Y+gNNF+ydjKCEBtf4rJx
+   RdIsYxM3ujE59LeuIwYbTS6NrHjJFH9ThAufGqvDvKkYn/v90qN45QUcM
+   uH1R1JW22YdP0nAGqo1cZTWTus6q+9O+WR9txzBUYS1fIQUdP8ywZkJx3
+   hNhHPD5esjXP8ZhwkFFuaxXPSbHJYM17mFQmr3gYFTEKyo7PMNhnznPin
+   A==;
+IronPort-SDR: +o8ycAI5mnJ5QRwL5cPiEwkq6mnsQYtDiUNWm1eSY+OI+ppWNLoD+867TnwLQm8sQJPaALldH+
+ AL1yOuE/rPQdUjdxxwVMacYUpXBetb/TcVaCgQVYwhIVYe1XPAfcepy390NmygU3joAy7VCU/b
+ t5iarpO8TG+WCdMM6fMyfE4PECM7hHq41PH/MTWOwSOyl3mEf99GADqjEYs5/lXYUU87fDupkN
+ sa9Oo5PVSAjlEEX5o+gm4tXUXZDlpu4MpYWTKwBgrLCSssqKqS4+NvpVUhyfm10Lj/q5tbZQHa
+ zpU=
 X-IronPort-AV: E=Sophos;i="5.81,296,1610434800"; 
-   d="scan'208";a="109338418"
+   d="scan'208";a="109338449"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Apr 2021 04:30:31 -0700
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Apr 2021 04:30:39 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 1 Apr 2021 04:30:31 -0700
+ 15.1.2176.2; Thu, 1 Apr 2021 04:30:38 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Thu, 1 Apr 2021 04:30:22 -0700
+ 15.1.2176.2 via Frontend Transport; Thu, 1 Apr 2021 04:30:32 -0700
 From:   Eugen Hristev <eugen.hristev@microchip.com>
 To:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>
 CC:     <linux-arm-kernel@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>,
         Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH 11/30] media: atmel: atmel-isc: add SUB422 and SUB420 to register offsets
-Date:   Thu, 1 Apr 2021 14:27:04 +0300
-Message-ID: <20210401112723.189107-12-eugen.hristev@microchip.com>
+Subject: [PATCH 12/30] media: atmel: atmel-isc: add RLP to register offsets
+Date:   Thu, 1 Apr 2021 14:27:05 +0300
+Message-ID: <20210401112723.189107-13-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210401112723.189107-1-eugen.hristev@microchip.com>
 References: <20210401112723.189107-1-eugen.hristev@microchip.com>
@@ -58,80 +58,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add sub420 and sub422 to the reg offsets struct.
-This will allow different products to have a different reg offset for these
-particular modules.
+Add rlp to the reg offsets struct.
+This will allow different products to have a different reg offset for this
+particular module.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
  drivers/media/platform/atmel/atmel-isc-base.c    | 4 ++--
- drivers/media/platform/atmel/atmel-isc-regs.h    | 4 ++++
- drivers/media/platform/atmel/atmel-isc.h         | 4 ++++
- drivers/media/platform/atmel/atmel-sama5d2-isc.c | 2 ++
- 4 files changed, 12 insertions(+), 2 deletions(-)
+ drivers/media/platform/atmel/atmel-isc-regs.h    | 2 ++
+ drivers/media/platform/atmel/atmel-isc.h         | 2 ++
+ drivers/media/platform/atmel/atmel-sama5d2-isc.c | 1 +
+ 4 files changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
-index d4bf7fd5929f..b2067d75499b 100644
+index b2067d75499b..317172959370 100644
 --- a/drivers/media/platform/atmel/atmel-isc-base.c
 +++ b/drivers/media/platform/atmel/atmel-isc-base.c
-@@ -2311,8 +2311,8 @@ int isc_pipeline_init(struct isc_device *isc)
- 		REG_FIELD(ISC_GAM_CTRL, 3, 3),
- 		REG_FIELD(ISC_CSC_CTRL + isc->offsets.csc, 0, 0),
- 		REG_FIELD(ISC_CBC_CTRL + isc->offsets.cbc, 0, 0),
--		REG_FIELD(ISC_SUB422_CTRL, 0, 0),
--		REG_FIELD(ISC_SUB420_CTRL, 0, 0),
-+		REG_FIELD(ISC_SUB422_CTRL + isc->offsets.sub422, 0, 0),
-+		REG_FIELD(ISC_SUB420_CTRL + isc->offsets.sub420, 0, 0),
- 	};
+@@ -718,8 +718,8 @@ static int isc_configure(struct isc_device *isc)
  
- 	for (i = 0; i < ISC_PIPE_LINE_NODE_NUM; i++) {
+ 	regmap_update_bits(regmap, ISC_PFE_CFG0, mask, pfe_cfg0);
+ 
+-	regmap_update_bits(regmap, ISC_RLP_CFG, ISC_RLP_CFG_MODE_MASK,
+-			   rlp_mode);
++	regmap_update_bits(regmap, ISC_RLP_CFG + isc->offsets.rlp,
++			   ISC_RLP_CFG_MODE_MASK, rlp_mode);
+ 
+ 	regmap_write(regmap, ISC_DCFG, dcfg);
+ 
 diff --git a/drivers/media/platform/atmel/atmel-isc-regs.h b/drivers/media/platform/atmel/atmel-isc-regs.h
-index a5e2fe01ba9f..04839def6ef6 100644
+index 04839def6ef6..2205484e04fc 100644
 --- a/drivers/media/platform/atmel/atmel-isc-regs.h
 +++ b/drivers/media/platform/atmel/atmel-isc-regs.h
-@@ -194,9 +194,13 @@
- #define ISC_CBC_CONTRAST	0x000003c0
- #define ISC_CBC_CONTRAST_MASK	GENMASK(11, 0)
- 
-+/* Offset for SUB422 register specific to sama5d2 product */
-+#define ISC_SAMA5D2_SUB422_OFFSET	0
- /* Subsampling 4:4:4 to 4:2:2 Control Register */
- #define ISC_SUB422_CTRL 0x000003c4
- 
-+/* Offset for SUB420 register specific to sama5d2 product */
-+#define ISC_SAMA5D2_SUB420_OFFSET	0
+@@ -204,6 +204,8 @@
  /* Subsampling 4:2:2 to 4:2:0 Control Register */
  #define ISC_SUB420_CTRL 0x000003cc
  
++/* Offset for RLP register specific to sama5d2 product */
++#define ISC_SAMA5D2_RLP_OFFSET	0
+ /* Rounding, Limiting and Packing Configuration Register */
+ #define ISC_RLP_CFG     0x000003d0
+ 
 diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
-index b1fe93c93c61..fb7257872e7c 100644
+index fb7257872e7c..b7d4e7fab570 100644
 --- a/drivers/media/platform/atmel/atmel-isc.h
 +++ b/drivers/media/platform/atmel/atmel-isc.h
-@@ -148,10 +148,14 @@ struct isc_ctrls {
-  * struct isc_reg_offsets - ISC device register offsets
-  * @csc:		Offset for the CSC register
+@@ -150,12 +150,14 @@ struct isc_ctrls {
   * @cbc:		Offset for the CBC register
-+ * @sub422:		Offset for the SUB422 register
-+ * @sub420:		Offset for the SUB420 register
+  * @sub422:		Offset for the SUB422 register
+  * @sub420:		Offset for the SUB420 register
++ * @rlp:		Offset for the RLP register
   */
  struct isc_reg_offsets {
  	u32 csc;
  	u32 cbc;
-+	u32 sub422;
-+	u32 sub420;
+ 	u32 sub422;
+ 	u32 sub420;
++	u32 rlp;
  };
  
  /*
 diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-index 275999314e61..1bf83959a9e4 100644
+index 1bf83959a9e4..32c05eb1c16d 100644
 --- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
 +++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-@@ -232,6 +232,8 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 
- 	isc->offsets.csc = ISC_SAMA5D2_CSC_OFFSET;
+@@ -234,6 +234,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
  	isc->offsets.cbc = ISC_SAMA5D2_CBC_OFFSET;
-+	isc->offsets.sub422 = ISC_SAMA5D2_SUB422_OFFSET;
-+	isc->offsets.sub420 = ISC_SAMA5D2_SUB420_OFFSET;
+ 	isc->offsets.sub422 = ISC_SAMA5D2_SUB422_OFFSET;
+ 	isc->offsets.sub420 = ISC_SAMA5D2_SUB420_OFFSET;
++	isc->offsets.rlp = ISC_SAMA5D2_RLP_OFFSET;
  
  	/* sama5d2-isc - 8 bits per beat */
  	isc->dcfg = ISC_DCFG_YMBSIZE_BEATS8 | ISC_DCFG_CMBSIZE_BEATS8;
