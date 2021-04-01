@@ -2,121 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C59A3519A8
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:03:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BA8D351A00
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:04:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235259AbhDARzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 13:55:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59940 "EHLO
+        id S235982AbhDAR5f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 13:57:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237254AbhDARvL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 13:51:11 -0400
+        with ESMTP id S236721AbhDARzL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 13:55:11 -0400
 Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 312D7C0045E6;
-        Thu,  1 Apr 2021 07:43:46 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id hq27so3239082ejc.9;
-        Thu, 01 Apr 2021 07:43:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67955C0045E7;
+        Thu,  1 Apr 2021 07:43:47 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id w3so3264176ejc.4;
+        Thu, 01 Apr 2021 07:43:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vGRnRc4EiqHm7b2pUbRyZl6rzcmsmwjQh7bNofLlUuY=;
-        b=MyxQ20sfTAywgbai+wk7ZvWXfSkJUVecChe18QL6TczcAgHEpUi2w36cjGqqHdmLzE
-         kjJbJDLGPTvM7YwygO5A5TpZEnRB1kA9oYHVF+s+Wka8H1Y+zdGE4YK/slo2aHhEfAEX
-         NR5XquLGwpYWs4DTY1hx/CC1t/f0qLdt6bXJj88olbVHwd6U6IJgW50bMDI4Ea7EZnYk
-         ObhTos73br5fMsJHRd1L6PO8UBsQpqfTxEpGEw7BWpEaRY+7naoPpd4O2M1/2WodPIST
-         KV84ahNPw0rSBoJ1igkLbar5Skp4m5j8sjZK9gxjRnzD7YkzSTEziFFNzOCG0s3cI9bA
-         RqrQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=J7Mm6/g9DScNG5FEVhWNdLSdW972ryQCD27uTAegArs=;
+        b=cocP5aFSaDQz8YX9rCZCsYjT4pyAyRqKwmr4Mz497RoajsgGF2xqbQCtJ9O1AY1Gok
+         ztzYsKCqUuhznyQHYNx2Ba6KCc28I3YlyUPf+rRN55qv+nTIwfMsXFpH1R+VsnczpIsn
+         AHdxpAHTqlY7owm9DUO/EWWQc0gyCbJ84Ia71jjxSrFwE+HNkgTzErq5IJPuKGBXzjYT
+         sxrjIr4B9GpD9yQvDcDIqYCd8CPisH9MTH4PUN8ypRhG7B0+q81iEIvldW03OaV/sYVY
+         I+7YmjudeoZ+90m1q30mzvPcIALWSTMjdDS3lm7yhQaGuhM88R53g0IXZGctH+u/a4xD
+         Wt6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vGRnRc4EiqHm7b2pUbRyZl6rzcmsmwjQh7bNofLlUuY=;
-        b=Fr5Seeypi5NLVIWPfQk3Z1XNGxlQTk/96/AmHiuinrwSJPoFlXITjrgj1Q8oKSN149
-         +fp/sr620ObHUZ0NqMdghT9xDZNNpzSmLz7egcu5T/3nM46gLYWQ6dpUCtymBFE/Zbho
-         AldEApQETH+jB7E+Dmz5Pm+T/B7bamXa/Z/hKlTCZ3pOS4Xk6yDycGcZ+wigrhQXRXfG
-         J/CFLpVqObwwzCzi7w80zFFYUShQxr/LQm1OksDE4iiVCuGeE9VdA8unZZTnF8DcNkmO
-         3+nmvzBBQr/J46oSoQku5fIReYNG2MhAQXB9hu2uq1IObn73PHl4+3CehYf0SMgHuc+D
-         04Hg==
-X-Gm-Message-State: AOAM533SnTdZgqMV9yyDQ1SB4FngdZhs1+x4Ph/HLhGpuGJM1kN2bECJ
-        YY+5DS0MNb57y/xOJxIsz+XqvOLzryBpbA==
-X-Google-Smtp-Source: ABdhPJxxYx3spcGpvcCzf2aWZy9En8ZfunJVJEDElWBWl5sWdu16b7F24NFDmMuQHwobVdPumTM1Xw==
-X-Received: by 2002:a17:907:76ed:: with SMTP id kg13mr9022159ejc.99.1617288224942;
-        Thu, 01 Apr 2021 07:43:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=J7Mm6/g9DScNG5FEVhWNdLSdW972ryQCD27uTAegArs=;
+        b=B6WeRZiAKzmHv0CNpacxGxl9ykMFjkgW2EKvfxSgT2rCqrplWs+E9Ovgh8BFFopH8s
+         bg2oVAHtIfRipqIDJhcOfeBKiLb6pTs9u7pRWZ6xXm2vPpMI6+q/n/JDaLfsGcfWTDNW
+         KT7sbuYcYTn3diXMlDXte2CLet/r2eYsJ9ZgubBwNDw7hfWfQXVLT4Pux0XtEk7E0Or6
+         RDZ1stCEeQpAOz7Wwi/OQuHPpgOOvyIp4monSErtKfzFAda57HHQKszmq5LqyuuPSMMx
+         L3jcWzwlNUAuVdT4XeMMjELenofK9qO//HwYWE1nw+yLKXPx58/78OTNAeQ3TCZVIV9b
+         kPWg==
+X-Gm-Message-State: AOAM5323CVd+xhOiMuD+SiyN6VD27z6YvP6FKpW9k5r2AkGx12NXgqhN
+        iWv/KRDtbp5K33vQIrHTaY0=
+X-Google-Smtp-Source: ABdhPJyVac4iu3IdmV+i/AHmGdiPnVtIYRQD5L8PxGyrsvDy5FaLQyPgzgxpLJNCatATCQIbVe94Ww==
+X-Received: by 2002:a17:907:37a:: with SMTP id rs26mr9422030ejb.336.1617288226183;
+        Thu, 01 Apr 2021 07:43:46 -0700 (PDT)
 Received: from arch-x1c3.. (cpc92308-cmbg19-2-0-cust99.5-4.cable.virginm.net. [82.24.248.100])
-        by smtp.gmail.com with ESMTPSA id nd36sm2854950ejc.21.2021.04.01.07.43.43
+        by smtp.gmail.com with ESMTPSA id nd36sm2854950ejc.21.2021.04.01.07.43.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 07:43:44 -0700 (PDT)
+        Thu, 01 Apr 2021 07:43:45 -0700 (PDT)
 From:   Emil Velikov <emil.l.velikov@gmail.com>
 To:     kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
 Cc:     emil.l.velikov@gmail.com
-Subject: [PATCH v4 0/9] Microchip SAMA5D4 VPU support et al
-Date:   Thu,  1 Apr 2021 15:43:27 +0100
-Message-Id: <20210401144336.2495479-1-emil.l.velikov@gmail.com>
+Subject: [PATCH v4 1/9] media: hantro: use G1_REG_INTERRUPT directly for the mpeg2
+Date:   Thu,  1 Apr 2021 15:43:28 +0100
+Message-Id: <20210401144336.2495479-2-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210401144336.2495479-1-emil.l.velikov@gmail.com>
+References: <20210401144336.2495479-1-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+From: Emil Velikov <emil.velikov@collabora.com>
 
-This is here is another small revision of the series adding support for
-the Microchip SAMA5D4 VPU, which it based on the Hantro G1.
+Use the register directly over the existing SWREG().
 
-For more details, please see the v2 cover letter.
-https://lore.kernel.org/linux-media/20210311154055.3496076-1-emil.l.velikov@gmail.com
+Ideally we'll port the driver away from the local registers, but for
+now this is enough. For context - I was reading through the IRQ register
+handling across the variants.
 
-Changes since v2:
- - Added RB (thanks Eze)
- - Added AB (thanks Nicolas)
- - Reworked Hantro driver to support modules lacking irq/clk name
-   (thanks RobH and Eze)
- - Dropped defconfig patches - merged separatelly (thanks Nicolas)
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+---
+ drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Changes since v3:
- - Include the fixed dt-binding patch
- - Reinstante clk/irq names within the SAMA driver (Eze)
- - Use num_{clk,irq} in Hantro, instead of WARN_ON/NULL checks (Eze)
- - Drop Nicolas ack from a patch he never gave it to. (Eze)
-
-Note: patches 6/9, 7/9 and 9/9 need reviews. Everything else has been
-covered already.
-
-Thanks
-Emil
-
-Emil Velikov (9):
-  media: hantro: use G1_REG_INTERRUPT directly for the mpeg2
-  media: hantro: imx: reuse MB_DIM define
-  media: hantro: imx: remove duplicate dec_base init
-  media: hantro: imx: remove unused include
-  media: hantro: introduce hantro_g1.c for common API
-  media: hantro: add fallback handling for single irq/clk
-  media: dt-bindings: Document SAMA5D4 VDEC bindings
-  media: hantro: add initial SAMA5D4 support
-  ARM: dts: sama5d4: enable Hantro G1 VDEC
-
- .../media/microchip,sama5d4-vdec.yaml         |  47 +++++++
- arch/arm/boot/dts/sama5d4.dtsi                |   7 ++
- drivers/staging/media/hantro/Kconfig          |  10 +-
- drivers/staging/media/hantro/Makefile         |   4 +
- drivers/staging/media/hantro/hantro_drv.c     |  40 ++++--
- drivers/staging/media/hantro/hantro_g1.c      |  39 ++++++
- .../media/hantro/hantro_g1_mpeg2_dec.c        |   5 +-
- drivers/staging/media/hantro/hantro_hw.h      |   4 +
- drivers/staging/media/hantro/imx8m_vpu_hw.c   |  27 +---
- drivers/staging/media/hantro/rk3288_vpu_hw.c  |  36 +-----
- .../staging/media/hantro/sama5d4_vdec_hw.c    | 117 ++++++++++++++++++
- 11 files changed, 268 insertions(+), 68 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
- create mode 100644 drivers/staging/media/hantro/hantro_g1.c
- create mode 100644 drivers/staging/media/hantro/sama5d4_vdec_hw.c
-
+diff --git a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
+index 6386a3989bfe..0fd306806f16 100644
+--- a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
+@@ -10,6 +10,7 @@
+ #include <media/v4l2-mem2mem.h>
+ #include "hantro.h"
+ #include "hantro_hw.h"
++#include "hantro_g1_regs.h"
+ 
+ #define G1_SWREG(nr)			((nr) * 4)
+ 
+@@ -20,7 +21,6 @@
+ #define G1_REG_REFER2_BASE		G1_SWREG(16)
+ #define G1_REG_REFER3_BASE		G1_SWREG(17)
+ #define G1_REG_QTABLE_BASE		G1_SWREG(40)
+-#define G1_REG_DEC_E(v)			((v) ? BIT(0) : 0)
+ 
+ #define G1_REG_DEC_AXI_RD_ID(v)		(((v) << 24) & GENMASK(31, 24))
+ #define G1_REG_DEC_TIMEOUT_E(v)		((v) ? BIT(23) : 0)
+@@ -246,6 +246,5 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
+ 
+ 	hantro_end_prepare_run(ctx);
+ 
+-	reg = G1_REG_DEC_E(1);
+-	vdpu_write(vpu, reg, G1_SWREG(1));
++	vdpu_write(vpu, G1_REG_INTERRUPT_DEC_E, G1_REG_INTERRUPT);
+ }
 -- 
 2.31.1
 
