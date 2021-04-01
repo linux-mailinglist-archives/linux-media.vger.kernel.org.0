@@ -2,64 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 101153526FF
-	for <lists+linux-media@lfdr.de>; Fri,  2 Apr 2021 09:41:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C65A35274A
+	for <lists+linux-media@lfdr.de>; Fri,  2 Apr 2021 10:16:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234139AbhDBHk7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Apr 2021 03:40:59 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:14675 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229684AbhDBHk6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Apr 2021 03:40:58 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FBX3B6x2BznY8P;
-        Fri,  2 Apr 2021 15:38:14 +0800 (CST)
-Received: from huawei.com (10.174.28.241) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Fri, 2 Apr 2021
- 15:40:44 +0800
-From:   Bixuan Cui <cuibixuan@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <skomatineni@nvidia.com>, <mchehab@kernel.org>,
-        <treding@nvidia.com>, <mperttunen@nvidia.com>,
-        <john.wanghui@huawei.com>
-Subject: [PATCH] media: Fix compilation error
-Date:   Fri, 2 Apr 2021 15:40:17 +0800
-Message-ID: <20210402074017.49009-1-cuibixuan@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S234354AbhDBIPK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Apr 2021 04:15:10 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:42940 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234204AbhDBIPJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Apr 2021 04:15:09 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 131E0oSk043683;
+        Thu, 1 Apr 2021 09:00:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1617285650;
+        bh=6vwQNZo5ftmpAQDWiqrSRII+Nhoan6pvhRRC3VNDWDk=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=bZqY+GbYWHyJo4dSw8JY1kWRmo/fpxBEoyPS3qIK4xd7D55CXixhjDWFpnUkaVIAG
+         qF71Nvz0BuBBYBnFPzFdK20AYZrOzzLU4TN9FvU3yny6DweCINUXVeksNiKpr8fu+E
+         Ao7ORKEz2769omR/wtWQIxy/YqqNTTseL19eITJ0=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 131E0o82015784
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 1 Apr 2021 09:00:50 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 1 Apr
+ 2021 09:00:49 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Thu, 1 Apr 2021 09:00:49 -0500
+Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with SMTP id 131E0n3h086947;
+        Thu, 1 Apr 2021 09:00:49 -0500
+Date:   Thu, 1 Apr 2021 09:00:49 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <mchehab@kernel.org>
+Subject: Re: [PATCH -next] media: ti-vpe: csc: remove redundant dev_err call
+ in csc_create()
+Message-ID: <20210401140049.snh4z53hj7a7eizg@ti.com>
+References: <20210401102850.1555368-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.28.241]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20210401102850.1555368-1-yangyingliang@huawei.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the error:
+Yang,
 
-drivers/staging/media/tegra-video/vi.c:1180:4:
-error: implicit declaration of function 'host1x_syncpt_free' [-Werror,-Wimplicit-function-declaration]
+Thank you for the patch.
 
-Fixes: 3028a00c55bf ('gpu: host1x: Cleanup and refcounting for syncpoints')
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Bixuan Cui <cuibixuan@huawei.com>
----
- drivers/staging/media/tegra-video/vi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yang Yingliang <yangyingliang@huawei.com> wrote on Thu [2021-Apr-01 18:28:50 +0800]:
+> There is an error message within devm_ioremap_resource
+> already, so remove the dev_err call to avoid redundant
+> error message.
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> ---
+>  drivers/media/platform/ti-vpe/csc.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/ti-vpe/csc.c b/drivers/media/platform/ti-vpe/csc.c
+> index f4e0cf72d1cf..ff15bc589f1b 100644
+> --- a/drivers/media/platform/ti-vpe/csc.c
+> +++ b/drivers/media/platform/ti-vpe/csc.c
+> @@ -267,10 +267,8 @@ struct csc_data *csc_create(struct platform_device *pdev, const char *res_name)
+>  	}
+>  
+>  	csc->base = devm_ioremap_resource(&pdev->dev, csc->res);
+> -	if (IS_ERR(csc->base)) {
+> -		dev_err(&pdev->dev, "failed to ioremap\n");
+> +	if (IS_ERR(csc->base))
+>  		return ERR_CAST(csc->base);
+> -	}
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 7e0cb5529b49..df5ca3596470 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1177,7 +1177,7 @@ static int tegra_channel_host1x_syncpt_init(struct tegra_vi_channel *chan)
- 		mw_sp = host1x_syncpt_request(&vi->client, flags);
- 		if (!mw_sp) {
- 			dev_err(vi->dev, "failed to request memory ack syncpoint\n");
--			host1x_syncpt_free(fs_sp);
-+			host1x_syncpt_put(fs_sp);
- 			ret = -ENOMEM;
- 			goto free_syncpts;
- 		}
--- 
-2.17.1
+Reviewed-by: Benoit Parrot <bparrot@ti.com>
 
+>  
+>  	return csc;
+>  }
+> -- 
+> 2.25.1
+> 
