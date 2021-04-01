@@ -2,113 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC4E5351C7F
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E0DB351D7C
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:49:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236167AbhDASRw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 14:17:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36682 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237151AbhDASNr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:13:47 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17ED8C0613AD
-        for <linux-media@vger.kernel.org>; Thu,  1 Apr 2021 04:44:28 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id t20so868604plr.13
-        for <linux-media@vger.kernel.org>; Thu, 01 Apr 2021 04:44:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=U32Xl3i+DvBGu9DIngpNbbKksxWeEgvCfpwavzhzq+M=;
-        b=U6k0aRtyT/YAqwZ9LCwDNUsQlw+SFxWmQ9bh45GG1kmLh9rU4+q0zApmYH+7u0K037
-         dgE/ybzBNXvCrXQRW1wQPS/ECzvh8JmmeKGrYDL3BA1tbx+kaHflL9TOlFgRJRr7JTzq
-         x7AL/rKBEaoxV4vUnCTHVFRlQTqUqCd2pAgTMd+rUvf5zK1gTZmTJ7xWKdzQ8dtjwFs/
-         bPXymJ5zhMO0yBSoj+IJCjC8+2Uy8yH/pc+jlNG0v3NjwVA/xP1QsczpLi3+L2VEenUD
-         PVnrPikzvh6JXVNZi7JGkVHMmU1YK1mEUyQmJxo/EDaW3br+1tWvrWHSOUEMp3LY336b
-         LAvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=U32Xl3i+DvBGu9DIngpNbbKksxWeEgvCfpwavzhzq+M=;
-        b=f7ORCvY8PyVxB0kMy+zK09BWRx0hBkPHbsIFzaQ9y1eiAkxKyABVgZ3c+5zhMUKNQr
-         Qw2Kfnxew+KdWjQzgpjk3p1UaNXhmTqK0aZ4VgXNQtj7zktYQAc08akov9nfxXz41V+0
-         aRcUQ2AlSIko6zV21fK0nIXl5hnOnd53lJNvi+71y3pd5ffjrytIH9lNln3sofoR1BF+
-         7lZ0Lv1E0sAYw5oR4p3P/kDElukVZ6E3CKQZLJ0s4N7KCNFc6LISE4QJWqZTXY7QFGfQ
-         o7wBmpsixq9Ae86+P0emYuSzYz3NK1RyJkB6+4MKw7oGsVMhHHwcdfgpxAzvGxDi6tMY
-         Pz4g==
-X-Gm-Message-State: AOAM532aovEaigBYFVER07xvhdgfzE/KMyMO9aWZdWMXBgK8sRSHOJvb
-        tVuSQnzMMQlUwIgBTCKkhIVd4cQ/16rP4y9CIS+XJw==
-X-Google-Smtp-Source: ABdhPJwbu1LZT4NHxa6D/4UADQAFr2uPFpDu6MUnRoVyM5I3njWKwU7En/mUJvtnAV19sz3G1xPHaNXgEINtnmo/3Nw=
-X-Received: by 2002:a17:902:f68a:b029:e5:b17f:9154 with SMTP id
- l10-20020a170902f68ab02900e5b17f9154mr7458337plg.28.1617277467431; Thu, 01
- Apr 2021 04:44:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210401103500.1558058-1-yangyingliang@huawei.com>
-In-Reply-To: <20210401103500.1558058-1-yangyingliang@huawei.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 1 Apr 2021 13:44:15 +0200
-Message-ID: <CAG3jFyupb==xBb19wdv=TKheKuS_TEojhsvzmAATJsh1VUrdzg@mail.gmail.com>
-Subject: Re: [PATCH -next] media: camss: csiphy: Remove redundant dev_err call
- in msm_csiphy_subdev_init()
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
+        id S237741AbhDAS2r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 14:28:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45700 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239627AbhDASQn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 1 Apr 2021 14:16:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0169F6113E;
+        Thu,  1 Apr 2021 12:17:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617279476;
+        bh=wRad7N84rWD9dSoio69a4lZ1e70YET8Y/U4ELbCnnho=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Q1xGCX8CjWBXtQC1pgo9/9vi4nDHYsR9ze0Q3GiyebU0GCkZVF2x7Dm68maSFFiUb
+         aYhFb4Mtsxe3dwyRk1InCmoNe+43BkSOmz3+yXmoJlqQon680CoD7Fu0OV/kMatoKB
+         POCl1bXAfQ85z4s39lkLH+3JCvV54zR+CeAxccTEvavGiJh0qGmRlyOcVNt9cvXxRq
+         kYRsUf12VYN3g12XZxM/SAQ9Jf1Po6QForEFkcVk/jW0b2lIFgc1wXKAcg30pF7BC8
+         U8xRKFjOp2o3cBdsuc5vEOD8ftGdy/B8MUbxDoRdCuirrnPb1300SCFtXBNU1EX6Km
+         N9eYgXDgwnnkA==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lRwGn-001c2K-FQ; Thu, 01 Apr 2021 14:17:53 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?q?Przemys=C5=82aw=20Gaj?= <pgaj@cadence.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Rob Herring <robh+dt@kernel.org>,
+        Vitor Soares <vitor.soares@synopsys.com>,
+        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-pm@vger.kernel.org, patches@opensource.cirrus.com
+Subject: [PATCH 00/32] Fix broken documentation file references
+Date:   Thu,  1 Apr 2021 14:17:20 +0200
+Message-Id: <cover.1617279355.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Yang,
+Each patch on this series can be applied independently. They fix broken
+file references.
 
-Thanks for the patch, feel free to add my r-b.
+Most of them are due to DT binding renames, but there are also other
+unrelated changes.
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+This series is based on next-20210401.
 
-On Thu, 1 Apr 2021 at 12:33, Yang Yingliang <yangyingliang@huawei.com> wrote:
->
-> There is an error message within devm_ioremap_resource
-> already, so remove the dev_err call to avoid redundant
-> error message.
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  drivers/media/platform/qcom/camss/camss-csiphy.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> index 6ceb6d7d53d1..b3c3bf19e522 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> @@ -593,20 +593,16 @@ int msm_csiphy_subdev_init(struct camss *camss,
->
->         r = platform_get_resource_byname(pdev, IORESOURCE_MEM, res->reg[0]);
->         csiphy->base = devm_ioremap_resource(dev, r);
-> -       if (IS_ERR(csiphy->base)) {
-> -               dev_err(dev, "could not map memory\n");
-> +       if (IS_ERR(csiphy->base))
->                 return PTR_ERR(csiphy->base);
-> -       }
->
->         if (camss->version == CAMSS_8x16 ||
->             camss->version == CAMSS_8x96) {
->                 r = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->                                                  res->reg[1]);
->                 csiphy->base_clk_mux = devm_ioremap_resource(dev, r);
-> -               if (IS_ERR(csiphy->base_clk_mux)) {
-> -                       dev_err(dev, "could not map memory\n");
-> +               if (IS_ERR(csiphy->base_clk_mux))
->                         return PTR_ERR(csiphy->base_clk_mux);
-> -               }
->         } else {
->                 csiphy->base_clk_mux = NULL;
->         }
-> --
-> 2.25.1
->
+Mauro Carvalho Chehab (32):
+  MAINTAINERS: update adi,ad5758.yaml reference
+  MAINTAINERS: update ste,mcde.yaml reference
+  MAINTAINERS: update brcm,bcm-v3d.yaml reference
+  MAINTAINERS: update fsl,dpaa2-console.yaml reference
+  MAINTAINERS: update st,hts221.yaml reference
+  MAINTAINERS: update dpot-dac.yaml reference
+  MAINTAINERS: update envelope-detector.yaml reference
+  MAINTAINERS: update current-sense-amplifier.yaml reference
+  MAINTAINERS: update current-sense-shunt.yaml reference
+  MAINTAINERS: update voltage-divider.yaml reference
+  MAINTAINERS: update invensense,mpu3050.yaml reference
+  MAINTAINERS: update lego,ev3-battery.yaml reference
+  MAINTAINERS: update marvell,armada-3700-utmi-phy.yaml reference
+  MAINTAINERS: update mtk-sd.yaml reference
+  MAINTAINERS: update atmel,sama5d2-adc.yaml reference
+  MAINTAINERS: update pni,rm3100.yaml reference
+  MAINTAINERS: update renesas,rcar-gyroadc.yaml reference
+  MAINTAINERS: update st,lsm6dsx.yaml reference
+  MAINTAINERS: update st,vl53l0x.yaml reference
+  MAINTAINERS: update snps,dw-axi-dmac.yaml reference
+  MAINTAINERS: update ti,dac7612.yaml reference
+  MAINTAINERS: update nxp,imx8-jpeg.yaml reference
+  MAINTAINERS: update ovti,ov2680.yaml reference
+  MAINTAINERS: update imi,rdacm2x-gmsl.yaml reference
+  dt-bindings:iio:dac: update microchip,mcp4725.yaml reference
+  dt-bindings: iommu: mediatek: update mediatek,iommu.yaml references
+  dt-bindings: i3c: update i3c.yaml references
+  dt-bindings: power: update battery.yaml reference
+  docs: dt: update writing-schema.rst references
+  Documentation: net: dsa: update configuration.rst reference
+  Documentation: update sysfs-platform_profile.rst reference
+  pinctrl: update pin-control.rst references
+
+ .../display/mediatek/mediatek,disp.txt        |  2 +-
+ .../bindings/i3c/cdns,i3c-master.txt          |  6 +--
+ .../bindings/i3c/snps,dw-i3c-master.txt       |  6 +--
+ .../bindings/media/mediatek-jpeg-decoder.txt  |  2 +-
+ .../bindings/media/mediatek-jpeg-encoder.txt  |  2 +-
+ .../bindings/media/mediatek-mdp.txt           |  2 +-
+ .../bindings/media/mediatek-vcodec.txt        |  2 +-
+ .../bindings/submitting-patches.rst           |  2 +-
+ Documentation/filesystems/cifs/cifsd.rst      |  2 +-
+ Documentation/power/power_supply_class.rst    |  2 +-
+ MAINTAINERS                                   | 48 +++++++++----------
+ include/linux/device.h                        |  2 +-
+ include/linux/iio/dac/mcp4725.h               |  2 +-
+ include/linux/mfd/madera/pdata.h              |  2 +-
+ include/linux/pinctrl/pinconf-generic.h       |  2 +-
+ include/linux/platform_profile.h              |  2 +-
+ scripts/checkpatch.pl                         |  2 +-
+ 17 files changed, 44 insertions(+), 44 deletions(-)
+
+-- 
+2.30.2
+
+
