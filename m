@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44C66351C79
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:46:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3870A351C7B
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:46:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235595AbhDASRr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 14:17:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35610 "EHLO
+        id S235844AbhDASRs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 14:17:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234651AbhDASKo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:10:44 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC2BC0045E8;
-        Thu,  1 Apr 2021 07:43:48 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id x21so2256460eds.4;
-        Thu, 01 Apr 2021 07:43:48 -0700 (PDT)
+        with ESMTP id S234680AbhDASKq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:10:46 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 556B5C0045E9;
+        Thu,  1 Apr 2021 07:43:49 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id y6so2266089eds.1;
+        Thu, 01 Apr 2021 07:43:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6B26f3IlajNfnhYcTkXd3V9kuoJqzsJf9D1voUcVJjo=;
-        b=PQD/yD5wECUFHyUXqIIV6kgZEBoPNySiNLhipn5PaPgwdwqEZMV/JOvfNwzPouldSH
-         yFOXRCAVF6syQpz1q+7SuyWq0t8aB+S2R6hVI6lPvSgIj0Vz9xLJhX9Np+Hd83JaFL1j
-         sZc/f4pPcW6wIATINRATOVun4cyzKK6gw227gFRHkYanowJ3XWx3XF2pRq3aY/Wb2YkF
-         uioaXeOOD+Ysm2m8u8tOPtHDwRtDggFO/wqsOfH8z4RJmtoBS0x3ClV5D2fZCan3rlYg
-         iBqY65qefYhJQenmjxpCRpXrRRl6rN43jyjECL1ve0Fytry0wgQIkQ5x83nvxDtlSJET
-         yuVw==
+        bh=zVDA2U87siFM4bZ03zT66KCDipDzfZC9XU/CesvHFfk=;
+        b=ppjMXHiKLN4nrgzpuZWnErAVl4VqKZhSm767onbkZd3jCkdF9RFeJcLceb3RjPrQP/
+         0cRXkoEpt0a+YJ4pvQELXNYptTgiOZjodVCpqi/hdUOVJ7bly6TetsSrZJp2rG8n10LZ
+         NVipJJUp6zrh944qg6i+6/y3xf+raLRS1kTntUju58niMldgO2LwSze05TjwaWeClZkH
+         TdWXEi5vTK8EZKxw9cnM1rHgp51UMYq44cbMPaqXxKApsbnD47EPbqQXr1TrC4EkHvJ/
+         g7afBz7qMgp8U2UJt6Pw7wAaSVvBEUrPI+mbS1aZ22kH0Nx9bhrqLk06iZ/qgmmLh/Hh
+         EBdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6B26f3IlajNfnhYcTkXd3V9kuoJqzsJf9D1voUcVJjo=;
-        b=Nos1aeAh5dJrqZfXqezR5igY4Uz5NZizbKc9nq6xq7fqdF6mti5bi8dBC3n9k95+wc
-         oHWohLnDvsBNSCp8F4OXoPnng+XaV/OlFYbtO747OFMaOnKDuXGhYJ4zj+TDk7liLaU7
-         wDfRrxL80oG5JAr59u+JDdZpazhg4p+kw24OED7aCAQGhTlFYZSaL8V+7K6UbhBLQb7Q
-         XSE+p+hoB2vj0z8+z1DnXsr6QczEw5rfSRdyuxEo3QLCmwt2WCDiLdjQ/eSjoYru1QcZ
-         IgfybYPJHC8mmsGHN+McEqHVKYLxFhZQk+tGbBO5Pl//EyQw0lEjJulv1gsNSxLRB5mk
-         AlCg==
-X-Gm-Message-State: AOAM531WNKrx7FmyTHqqPyHGZ/feJYzZZIrlowv3BRyQxF4E1FDyDguP
-        epH3gexFBXgjZZe4sVogAfc=
-X-Google-Smtp-Source: ABdhPJys+1L+GR0Q8RJlO+aVJo1otlu7AICp0FPiPRQPvqFgdpuDu2gCuA6ngwmguDf6yWL4FXMWJg==
-X-Received: by 2002:a05:6402:3550:: with SMTP id f16mr10175223edd.134.1617288227200;
-        Thu, 01 Apr 2021 07:43:47 -0700 (PDT)
+        bh=zVDA2U87siFM4bZ03zT66KCDipDzfZC9XU/CesvHFfk=;
+        b=SFrDjG1pJ3LzgmqLDhaH4RRcf7SZUShgYwrhkdDFISCP3w9BMlL9yQ9+kmuSoyIB3k
+         tIJkchAZB6rCP6o+rfNAJ099X4cGYlNXNJa6fbWtxKZIyDHdoHSjSKSl6+L/ELaN5U+d
+         /0ig2tSmzVBQVxRLRXRsGaSM/BjdCi93LVLJu/z8hQCnXHMk5f8dc5YFiiuhsLLfJ2aB
+         F6R4FFBEtnrLJvwNwx4jKTaksN3KH0iDXPtaiOvMZZzTicxKQ/H+EWN0V8paSEWE+4K8
+         IOCC9mGQn5WfpavN5mKZk6jYzclv4ufK4AqKiKLrVRMi+NO/9ZGvmRsRr6C81Pa3K+zC
+         SFgg==
+X-Gm-Message-State: AOAM531DC9f+a0Iylg/VZWG00/YzzJfZYjBuVnlIWqdmT+vw5VpPPD+y
+        cu4CBgU7JCk+BNAg1fXx7MM=
+X-Google-Smtp-Source: ABdhPJxDjWYWAJ6CH7cpMYUtIYM3bzWT+WYeumva0k/FHVEhLjz31ru+X9G8m029yNHv5J5ZNSvlWA==
+X-Received: by 2002:a05:6402:c11:: with SMTP id co17mr10540834edb.246.1617288228170;
+        Thu, 01 Apr 2021 07:43:48 -0700 (PDT)
 Received: from arch-x1c3.. (cpc92308-cmbg19-2-0-cust99.5-4.cable.virginm.net. [82.24.248.100])
-        by smtp.gmail.com with ESMTPSA id nd36sm2854950ejc.21.2021.04.01.07.43.46
+        by smtp.gmail.com with ESMTPSA id nd36sm2854950ejc.21.2021.04.01.07.43.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 07:43:46 -0700 (PDT)
+        Thu, 01 Apr 2021 07:43:47 -0700 (PDT)
 From:   Emil Velikov <emil.l.velikov@gmail.com>
 To:     kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
 Cc:     emil.l.velikov@gmail.com
-Subject: [PATCH v4 2/9] media: hantro: imx: reuse MB_DIM define
-Date:   Thu,  1 Apr 2021 15:43:29 +0100
-Message-Id: <20210401144336.2495479-3-emil.l.velikov@gmail.com>
+Subject: [PATCH v4 3/9] media: hantro: imx: remove duplicate dec_base init
+Date:   Thu,  1 Apr 2021 15:43:30 +0100
+Message-Id: <20210401144336.2495479-4-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210401144336.2495479-1-emil.l.velikov@gmail.com>
 References: <20210401144336.2495479-1-emil.l.velikov@gmail.com>
@@ -67,7 +67,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Emil Velikov <emil.velikov@collabora.com>
 
-Swap the hardcoded 16 with MB_DIM define.
+The vpu->dec_base is already set by the hantro driver itself.
 
 Fixes: 8e4aaa687863 ("media: hantro: add initial i.MX8MQ support")
 Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
@@ -75,26 +75,21 @@ Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- drivers/staging/media/hantro/imx8m_vpu_hw.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/hantro/imx8m_vpu_hw.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index c222de075ef4..1f48c1956cd2 100644
+index 1f48c1956cd2..cb1ac02c03d2 100644
 --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
 +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -109,10 +109,10 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
- 		.frmsize = {
- 			.min_width = 48,
- 			.max_width = 3840,
--			.step_width = 16,
-+			.step_width = MB_DIM,
- 			.min_height = 48,
- 			.max_height = 2160,
--			.step_height = 16,
-+			.step_height = MB_DIM,
- 		},
- 	},
- 	{
+@@ -150,7 +150,6 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
+ 
+ static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
+ {
+-	vpu->dec_base = vpu->reg_bases[0];
+ 	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
+ 
+ 	return 0;
 -- 
 2.31.1
 
