@@ -2,53 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E3E7351E37
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:53:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B497351E39
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:53:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237889AbhDASg2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 14:36:28 -0400
+        id S237975AbhDASg3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 14:36:29 -0400
 Received: from esa.microchip.iphmx.com ([68.232.153.233]:60700 "EHLO
         esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240278AbhDAS37 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:29:59 -0400
+        with ESMTP id S240828AbhDASbi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:31:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1617301800; x=1648837800;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ANYILC4KFHHPOqkn3Kt/JVVfmJ/GX8EhWAKE0t/gtX8=;
-  b=LhYzEU+8cuDHUQP9CfxBHw/dnVN+toKUzlAyzjLAPqpkNVXwtLvMukOJ
-   mKo3izcuXHV2CIHv2kQuEWdlDM3hN5cfwPaiuVKs7ZTA4cNq/R3FpvnSa
-   GgwBVwMuDlBehrdUZeGFAJJVrQ7+CbMkbDeju0rW0ln+hkxPWjEPYwMno
-   DQB2JVwc/nUScspDGh6NXEiEPfc2SR0EiG5ApUJp/CqevBwVSSoYMRD/m
-   jSPg3zVsio3bCqYBVp/vlUNvm2GBBTjc2+7H64UdSo5gWCXHnJeL0T/0G
-   Rz95ctVh7kVSAdfSUDgr8D8Ez3Gg6LX4UbDtOA4L4Pey/ct5dWQnqnMO9
-   g==;
-IronPort-SDR: Iz8F7oHxV6Abz+7VeBkfcXFpT9QpcizyiA6y8O6wWPqYn/JqBa179FmtHZefzDzRLk4Kw9bPN/
- 4jKbh+sSl4eIQAN+I2Z6IhXnVUTf8LOvYq6WZhmtkACaVZPMoEAxymEQp/+fRK+XYT6FXcWI4q
- sfWekB/xd4SM7tUURRDGtzqkViZ/RvNt9kq0TV6TEQ5lvWMa8hRGYv6XIl1xBf+2ziHGEc4yBk
- DYE7g/prGfH64yQC0eQBvh5CeOA/UsNBhbyn4MQaaRWIuvFaAgCdMrwfFv4i+z5adsrXucamtS
- 9YE=
+  t=1617301899; x=1648837899;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=jCzGB/5nxDRF5zHetU+FXH2sdCatrGHOQpHiMo1ettU=;
+  b=L8o+i2qhuQDJizr6T/wt27dF7as5umxGI0sZAMT0nmhF7wKOASQHYMeg
+   /Q8CRXpohm8AFv5Bszw07k2P1N72F85P5pmQ9+fNGFyVYOCLgnUk9zCfU
+   Nnqnx+9e+yiy44y/0q06TTDDZ+J8dN09nOkxYAJL/n+uc6+ctPETmXEzt
+   fmqUX9e+L24qUDcOwszyiwdYThKczdUYrDnHCmFZVYSosHNcKpUxU78I/
+   NzoHIaNggvApjFgwvu7gVCFOJMhC4wee71gpeoRlabGx1IZXU3WP+kGpb
+   ffL4JAkX+QobmePOcXzZdBdrFdH+KlvAptDpOuqm//GhHBqMbg6YC6QEx
+   Q==;
+IronPort-SDR: MeC3eHuwf+PoH+EQpHRmRP5z6lY02fAzawQm4i8a19dGak7j94eJ1tptfjm3UjCXd/L4JzbL+b
+ R79mmxmrdbXAdTRs9B571ynkO/1OnwbEBzmXHC2bZOpo67G7LyKWI3BeKaJ/ZLaUZh9C0WG6dr
+ 7RWLn/9M4suzK7uiIhbwuBcHoGLNSQ0DuR7h8Z1PlPXw5E6gFqV9j661F27PKKVvsg3Bk7ARRs
+ jChCQacKNOb+FyYWm/hq+CHVbS+hXsN/O5BK+UNlgfnMTFsd764iH/UTtV9mpY9HIY2zsgbrEQ
+ 2A8=
 X-IronPort-AV: E=Sophos;i="5.81,296,1610434800"; 
-   d="scan'208";a="114976396"
+   d="scan'208";a="114976413"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Apr 2021 04:28:25 -0700
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Apr 2021 04:29:03 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 1 Apr 2021 04:28:23 -0700
+ 15.1.2176.2; Thu, 1 Apr 2021 04:29:02 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Thu, 1 Apr 2021 04:28:06 -0700
+ 15.1.2176.2 via Frontend Transport; Thu, 1 Apr 2021 04:28:56 -0700
 From:   Eugen Hristev <eugen.hristev@microchip.com>
 To:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>
 CC:     <linux-arm-kernel@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>,
         Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH 00/30] media: atmel: atmel-isc: add support for xisc
-Date:   Thu, 1 Apr 2021 14:26:53 +0300
-Message-ID: <20210401112723.189107-1-eugen.hristev@microchip.com>
+Subject: [PATCH 02/30] media: atmel: atmel-isc: specialize driver name constant
+Date:   Thu, 1 Apr 2021 14:26:55 +0300
+Message-ID: <20210401112723.189107-3-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210401112723.189107-1-eugen.hristev@microchip.com>
+References: <20210401112723.189107-1-eugen.hristev@microchip.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -56,86 +58,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+The driver name constant must defined based on product driver, thus moving
+the constant directly where it's required. This will allow each ISC based
+product to define it's own name.
 
-This series adds support for a variant of the ISC named XISC.
-This block is present in the product named sama7g5.
+Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+---
+ drivers/media/platform/atmel/atmel-isc-base.c    | 4 ++--
+ drivers/media/platform/atmel/atmel-isc.h         | 2 --
+ drivers/media/platform/atmel/atmel-sama5d2-isc.c | 4 ++--
+ 3 files changed, 4 insertions(+), 6 deletions(-)
 
-I started by moving code around, the code which was specialized for sama5d2
-type of ISC, to have it inside the dedicated sama5d2 file.
-
-I added several new pipeline elements to the code base, which would be common
-to sama5d2 and the new sama7g5, but only used by the new style pipeline.
-
-I separated the input and output formats on a per-product separate array.
-
-I added the new sama7g5 compatible driver for the xisc, which is similar with
-the sama5d2, but with differences in terms of DT, clocks and callbacks to
-specific operations.
-
-I added the binding for the xisc by copying and modifying the existing
-isc one. I know that it has to be converted to yaml, and I will do that if
-it looks good.
-
-Feedback is appreciated.
-Thanks,
-Eugen
-
-Eugen Hristev (30):
-  media: atmel: atmel-isc: specialize gamma table into product specific
-  media: atmel: atmel-isc: specialize driver name constant
-  media: atmel: atmel-isc: add checks for limiting frame sizes
-  media: atmel: atmel-isc: specialize max width and max height
-  media: atmel: atmel-isc: specialize dma cfg
-  media: atmel: atmel-isc: extract CSC submodule config into separate
-    function
-  media: atmel: atmel-isc-base: add id to clock debug message
-  media: atmel: atmel-isc: create register offsets struct
-  media: atmel: atmel-isc: extract CBC submodule config into separate
-    function
-  media: atmel: atmel-isc: add CBC to the reg offsets struct
-  media: atmel: atmel-isc: add SUB422 and SUB420 to register offsets
-  media: atmel: atmel-isc: add RLP to register offsets
-  media: atmel: atmel-isc: add HIS to register offsets
-  media: atmel: atmel-isc: add DMA to register offsets
-  media: atmel: atmel-isc: add support for version register
-  media: atmel: atmel-isc: add his_entry to register offsets
-  media: atmel: atmel-isc: add register description for additional
-    modules
-  media: atmel: atmel-isc: extend pipeline with extra modules
-  media: atmel: atmel-isc: add CC initialization function
-  media: atmel: atmel-isc: create product specific v4l2 controls config
-  media: atmel: atmel-isc: create callback for DPC submodule product
-    specific
-  media: atmel: atmel-isc: create callback for GAM submodule product
-    specific
-  media: atmel: atmel-isc: create callback for RLP submodule product
-    specific
-  media: atmel: atmel-isc: move the formats list into product specific
-    code
-  media: atmel: atmel-isc: create an adapt pipeline callback for product
-    specific
-  media: atmel: atmel-isc-regs: add additional fields for sama7g5 type
-    pipeline
-  media: atmel: atmel-isc-base: add support for more formats and
-    additional pipeline modules
-  dt-bindings: media: atmel: add microchip-xisc binding
-  media: atmel: atmel-isc-sama5d2: remove duplicate define
-  media: atmel: atmel-isc: add microchip-xisc driver
-
- .../bindings/media/microchip-xisc.txt         |  64 ++
- drivers/media/platform/Makefile               |   1 +
- drivers/media/platform/atmel/Kconfig          |  11 +
- drivers/media/platform/atmel/Makefile         |   2 +
- drivers/media/platform/atmel/atmel-isc-base.c | 381 ++++-------
- drivers/media/platform/atmel/atmel-isc-regs.h | 133 +++-
- drivers/media/platform/atmel/atmel-isc.h      | 122 +++-
- .../media/platform/atmel/atmel-sama5d2-isc.c  | 300 +++++++-
- .../media/platform/atmel/atmel-sama7g5-isc.c  | 644 ++++++++++++++++++
- 9 files changed, 1381 insertions(+), 277 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/microchip-xisc.txt
- create mode 100644 drivers/media/platform/atmel/atmel-sama7g5-isc.c
-
+diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
+index 8b6c5e339cb8..277a8fd8b83d 100644
+--- a/drivers/media/platform/atmel/atmel-isc-base.c
++++ b/drivers/media/platform/atmel/atmel-isc-base.c
+@@ -896,7 +896,7 @@ static int isc_querycap(struct file *file, void *priv,
+ {
+ 	struct isc_device *isc = video_drvdata(file);
+ 
+-	strscpy(cap->driver, ATMEL_ISC_NAME, sizeof(cap->driver));
++	strscpy(cap->driver, "microchip-isc", sizeof(cap->driver));
+ 	strscpy(cap->card, "Atmel Image Sensor Controller", sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info),
+ 		 "platform:%s", isc->v4l2_dev.name);
+@@ -2246,7 +2246,7 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+ 	}
+ 
+ 	/* Register video device */
+-	strscpy(vdev->name, ATMEL_ISC_NAME, sizeof(vdev->name));
++	strscpy(vdev->name, "microchip-isc", sizeof(vdev->name));
+ 	vdev->release		= video_device_release_empty;
+ 	vdev->fops		= &isc_fops;
+ 	vdev->ioctl_ops		= &isc_ioctl_ops;
+diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
+index f1df47a4655b..8d81d9967ad2 100644
+--- a/drivers/media/platform/atmel/atmel-isc.h
++++ b/drivers/media/platform/atmel/atmel-isc.h
+@@ -256,8 +256,6 @@ struct isc_device {
+ 	u32		gamma_max;
+ };
+ 
+-#define ATMEL_ISC_NAME "atmel-isc"
+-
+ extern struct isc_format formats_list[];
+ extern const struct isc_format controller_formats[];
+ extern const struct regmap_config isc_regmap_config;
+diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+index c74f36245bd5..f45d8b96bfb8 100644
+--- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
++++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+@@ -185,7 +185,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
+ 		return irq;
+ 
+ 	ret = devm_request_irq(dev, irq, isc_interrupt, 0,
+-			       ATMEL_ISC_NAME, isc);
++			       "atmel-sama5d2-isc", isc);
+ 	if (ret < 0) {
+ 		dev_err(dev, "can't register ISR for IRQ %u (ret=%i)\n",
+ 			irq, ret);
+@@ -364,7 +364,7 @@ static struct platform_driver atmel_isc_driver = {
+ 	.probe	= atmel_isc_probe,
+ 	.remove	= atmel_isc_remove,
+ 	.driver	= {
+-		.name		= ATMEL_ISC_NAME,
++		.name		= "atmel-sama5d2-isc",
+ 		.pm		= &atmel_isc_dev_pm_ops,
+ 		.of_match_table = of_match_ptr(atmel_isc_of_match),
+ 	},
 -- 
 2.25.1
 
