@@ -2,84 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CDBB351D86
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:49:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D46EF351C78
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:46:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239102AbhDAS3A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 14:29:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37858 "EHLO
+        id S235326AbhDASRq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 14:17:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237320AbhDASTH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:19:07 -0400
-Received: from mail.tuxforce.de (mail.tuxforce.de [IPv6:2a00:5080:1:16d::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B11FEC0F26D3
-        for <linux-media@vger.kernel.org>; Thu,  1 Apr 2021 07:59:49 -0700 (PDT)
-Received: from [IPv6:2001:4dd5:b099:0:19b2:6b8c:f4bb:b22d] (2001-4dd5-b099-0-19b2-6b8c-f4bb-b22d.ipv6dyn.netcologne.de [IPv6:2001:4dd5:b099:0:19b2:6b8c:f4bb:b22d])
-        by mail.tuxforce.de (Postfix) with ESMTPSA id 0A22152007A;
-        Thu,  1 Apr 2021 16:59:48 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.tuxforce.de 0A22152007A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tuxforce.de;
-        s=202009; t=1617289188;
-        bh=3a6WlI18tPbA5gRTLysYpeWkw8mZwnceMr/ns0Zzj1w=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=EfoCDaI0jR5YqXlG8sUTB9/OXuhCp/xJ3sDumLcZMYQWJ6dtRePXG86osxhpa375u
-         jlKUtBmN+xE1pKPDHIoSf/n/7ylPgD/Qd2hd1sCILzCJB1C7OFThwGpNQufTdXaSba
-         z9cAosTiPFT0dxbVdsDDFmTW1uOfwj1UnMAGQTRYXhX6TKY/1mXE5cnVJqt5PYpFGs
-         Ft1OiKiJRcalYM3pzDY5nRx+pxzTJD3vf7w8GJgRp9kcG9DVYYkvU5Pyc77puFU+rG
-         JFKy5ACNyNj6orNBnuDU/LBBoNBNA7mCuk61dc8mEMyNP/qSqjQdu0JOfQsubKUY02
-         h5p7uLPSAvtAw==
-Subject: Re: Is request_firmware() really safe to call in resume callback when
- /usr/lib/firmware is on btrfs?
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     linux-btrfs@vger.kernel.org, Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Lukas Middendorf <kernel@tuxforce.de>
-References: <c79e24a5-f808-d1f0-1f09-ee6f135d9679@tuxforce.de>
- <20200813163749.GV4332@42.do-not-panic.com>
- <0b1621bf-fc82-1a56-c11f-c5c46677e59e@tuxforce.de>
- <20200813221348.GB4332@42.do-not-panic.com>
- <fc887e06-874c-79d8-0607-4e27ae788446@tuxforce.de>
- <20200814163723.GC4332@42.do-not-panic.com>
- <a79f1a0c-012d-bebe-c9c7-b505f59079c2@tuxforce.de>
- <20200817152056.GD4332@42.do-not-panic.com>
- <9e5c716e-1736-9890-54be-75739ea5462f@tuxforce.de>
- <20200818143715.GF4332@42.do-not-panic.com>
-From:   Lukas Middendorf <kernel@tuxforce.de>
-Message-ID: <6b61e549-42b8-8e71-ff57-43b7c5b4291f@tuxforce.de>
-Date:   Thu, 1 Apr 2021 16:59:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        with ESMTP id S238590AbhDASJj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 14:09:39 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE31C0225A9;
+        Thu,  1 Apr 2021 08:30:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=miloN6DGw1sq8TwRfQqBfE3nU1vq3X8oB+icH0CHsp8=; b=ih5mRSpb3Oj6LJUx+Ph6Z6FA+B
+        VMfYDwEsuVumiZWxiEz7wgQAlhLEGqEsDVz7leYoL9HqW94qxnvzAi8pzK3zNxCZ27faXCsIAE4Io
+        lCI6eiYrHkkWanKTjaNUbEuXRE14U4i+KLJLX1RtUnbBtHARwh0fMmDCFOfm/GJ+7FTaZCOdw/a2h
+        C24cvu70+OFvDA3OiGBgV/apvynx3MdNmBLMNkK3w7womxDmjxwwUlRlLYUHMbL3FixGSAdvhuTF3
+        +8DJSuphaZHfc5zUktTD8SJM8AV9/GfPSt3epB7J9HlhZBy9CYU4acRqL+YRdhD+MJSxOxbGpokm2
+        8mCmwhvA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lRzGX-006IJe-F0; Thu, 01 Apr 2021 15:29:51 +0000
+Date:   Thu, 1 Apr 2021 16:29:49 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        outreachy-kernel@googlegroups.com
+Subject: Re: [Outreachy kernel] [PATCH 2/2] staging: media: omap4iss: align
+ arguments with open parenthesis
+Message-ID: <20210401152949.GG351017@casper.infradead.org>
+References: <cover.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
+ <475dbbe5774cbfed2d924807d8a3cfeb84b3d845.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200818143715.GF4332@42.do-not-panic.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <475dbbe5774cbfed2d924807d8a3cfeb84b3d845.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Luis,
+On Thu, Apr 01, 2021 at 04:07:39PM +0100, Beatriz Martins de Carvalho wrote:
+>  		subdev = v4l2_i2c_new_subdev_board(&iss->v4l2_dev, adapter,
+> -				board_info->board_info, NULL);
+> +						   board_info->board_info, NULL);
 
-
-On 18/08/2020 16:37, Luis Chamberlain wrote:
-> On Tue, Aug 18, 2020 at 12:04:51AM +0200, Lukas Middendorf wrote:
->> On 17/08/2020 17:20, Luis Chamberlain wrote:
->>> This helps, thanks so much, now we'll have to write a reproducer, thanks
->>> for the report!!
->>
->> Will you do it yourself or do you expect me to do anything for this?
-> 
-> I meant to imply that we'd do this, now that we understand the problem. Thanks
-> for your report!
-
-any news on this issue? Did you succeed with reproducing this at your end?
-
-I retested this with 5.12-rc5 and everything still seems unchanged. I 
-still get freezes on resume under the same circumstances described 
-previously if /usr/lib/firmware is on btrfs. My patches to si2168.c were 
-not merged.
-The documentation of request_firmware() seems unchanged and does not 
-reflect the fact that prerequisites exist for making it safe to call 
-during resume callbacks.
-
-Lukas
+Also not a readability improvement.  This checkpatch warning should
+be disregarded.
