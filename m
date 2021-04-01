@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0AB63519B4
-	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B0493519A6
+	for <lists+linux-media@lfdr.de>; Thu,  1 Apr 2021 20:03:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236933AbhDAR4E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 13:56:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59966 "EHLO
+        id S234986AbhDARzw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 13:55:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235665AbhDARxQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 13:53:16 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62860C00F7D8;
-        Thu,  1 Apr 2021 08:07:43 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id c8so2150059wrq.11;
-        Thu, 01 Apr 2021 08:07:43 -0700 (PDT)
+        with ESMTP id S236616AbhDARt0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 13:49:26 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D53C00F7D9;
+        Thu,  1 Apr 2021 08:07:44 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id z2so2168309wrl.5;
+        Thu, 01 Apr 2021 08:07:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=6e8KU9fk/1P7iY76hALRoVzDDpKZGRE6STiYdEDt5Z8=;
-        b=tkZ3WeOnNZ/rYuTknOHdEl8iGi2/VAZhTwJWoyFipF7BHeyFfnWA2HDqWIzy+75TS3
-         lzTGaBvba9eO0rcyi5pSePT0dj6mk79RfK4W1b5Lan7a1PuMVmvxchI8GBtoTAsiPuyt
-         wZqrJEg3GvudG7OqfJebmoYOrbcmaD4Z2AQiAai//EI5V0wPIHvOGa+Z7ys2WFUyQM4X
-         r5Kxjz38AG2xmHAmsDyDMJxXaliI7yVLNIUumcGATgynjj6nGBRD/SaUKchtYhRCtxoh
-         ByMWTcPB1o1HAlnZlyZOGH2E+2ifR9nyVdT0Z2+HVrffjuXrOCOnu/iM5KiIq8Ttktpa
-         I4qw==
+        bh=MbKLAGz4OO4bkaK2mn5gJbhDW+pmNyk19HFcUZTJdJg=;
+        b=GRr7eS+aFYlubvf1mPOYcVQQgMHnfQ0NegZX00k4kHoMYsIKZ4BVrmlZlAzofy5DWv
+         R95KUIOcwiQhJZXStFdhS6EGKVRwm0AYzLWs8C89sMpKtNfHNgts2zl68Mq3jekWTY21
+         3eORmfMoCBoLlha/R4Hcec0dxt6jUWvkHMFiKgMM5i/TJcGZP73R1SrM6m9Cu9Ahfgj4
+         J/qgd94AonllohzFWegDtH3E4+6geuEY7eZgVNSwvUsvdrwXTMUB9ZqcMMAbLYxGinnG
+         tVof+nifxAlS28roJ6tKUY1BQi+5nhjDaLWeqtpmo6oNgYTsV6WsRsRibSXCxOINXm6Y
+         Jl7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6e8KU9fk/1P7iY76hALRoVzDDpKZGRE6STiYdEDt5Z8=;
-        b=Pz+Y1/sW66YjCDuX6ULVC5cnjcbfN6wHe2WzUCqNuNdmdeYhlvXxcbqXLJmtGQvKqX
-         AtaDR/vhyyPkESUnybMnPiduVllRIGbu+Or/AHiapJ7jKagJlmFCGE+eq1lP1jeWQROY
-         XRDd+/hSmXvLr6upS3M8XFUiqXSOPQSlJl67t1i/VdPYnaVtTeeYC2MEzyg5UIFGmoiJ
-         V6AinXaxlGTDkPX0puE5sJeBV2/TtHpTVYpmg47fEny5DCEZjqU93tEK5B+ZI4l3DgSi
-         pDqIXTwbaJH5yfsswOi6T5fH3d/YyaG8vx4zd1knFCGNbQhOiOCd8RuvlKd7Z7QvGfm+
-         QFjQ==
-X-Gm-Message-State: AOAM531QCZG/AbIg89M1GtnvyEloCNl7eDN0O4YkMiVwKDZoT4DzZ2px
-        y0oYD1FNe7LJr6pKj/VJA38=
-X-Google-Smtp-Source: ABdhPJx+dAauf32J5TWx3pS1+GTETRZNWc8x8kwAJZRD/qQcDdjNlf8E31TlkCFk66+mOcZtPzeAVw==
-X-Received: by 2002:adf:b355:: with SMTP id k21mr10360675wrd.156.1617289662171;
-        Thu, 01 Apr 2021 08:07:42 -0700 (PDT)
+        bh=MbKLAGz4OO4bkaK2mn5gJbhDW+pmNyk19HFcUZTJdJg=;
+        b=NuRiNjLFyCqaG5Tj0kT/S+v1YtVLDa606YvhGZkVRpa/EW6tn90Wu5EMHNI8nmpmRf
+         7paudvIAgYICI/zcb0pZkSBsghlu0uXl9IzZljaumA4L+9Z4zZ3yQbIG+pRd2XNGSjig
+         wOkVxNxHnOJMtrCqF70rnKETJlPANGxlnv+tEPLQGZitX+lqq35YP6t3iztwvc9ezGVO
+         s6M328pXi1/28/kaMAWsPPiMFQN+O8HAm46xNCwnKeqC7mET9i61uv4bI7+SmR9Ivcp2
+         FljHdwOkFvm2Wanu6C+yOIdX9+UToQd8hzMQR43BcRw8Y5ptj/bHcGocRFAJCIDaGYpV
+         6LHg==
+X-Gm-Message-State: AOAM531axYhR8fc8A6dDXiVPGKm+Oxa7vHRGHoepq18MjRfPdz9mXG5A
+        R9NA8RLoktwZZ+Od4fjLjd0=
+X-Google-Smtp-Source: ABdhPJxQciKxKjLxekC/0FTunb06t06BDPKTfdhNYB9ydwv7ENmiHDDN+Ryg92CSwjPJcqAh3IswWg==
+X-Received: by 2002:a5d:5492:: with SMTP id h18mr10435295wrv.340.1617289663089;
+        Thu, 01 Apr 2021 08:07:43 -0700 (PDT)
 Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:a182:b5f0:9f7c:c891])
-        by smtp.gmail.com with ESMTPSA id n8sm9710108wrm.70.2021.04.01.08.07.41
+        by smtp.gmail.com with ESMTPSA id n8sm9710108wrm.70.2021.04.01.08.07.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 08:07:41 -0700 (PDT)
+        Thu, 01 Apr 2021 08:07:42 -0700 (PDT)
 From:   Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
         gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
         outreachy-kernel@googlegroups.com
-Subject: [PATCH 1/2] staging: media: omap4iss: Ending line with argument
-Date:   Thu,  1 Apr 2021 16:07:38 +0100
-Message-Id: <441d27060ff6477d0ad418f41e194b96373c1f7f.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
+Subject: [PATCH 2/2] staging: media: omap4iss: align arguments with open parenthesis
+Date:   Thu,  1 Apr 2021 16:07:39 +0100
+Message-Id: <475dbbe5774cbfed2d924807d8a3cfeb84b3d845.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
 References: <cover.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
@@ -64,105 +64,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove checkpatch check "CHECK: Lines should not end with a '('" with
-argument present in next line and reorganize characters so the lines
-are under 100 columns
+Cleans up checks of "Alignment should match open parenthesis"
+in iss.c:96.
 
 Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 ---
- drivers/staging/media/omap4iss/iss.c | 46 +++++++++++++---------------
- 1 file changed, 22 insertions(+), 24 deletions(-)
+ drivers/staging/media/omap4iss/iss.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
-index dae9073e7d3c..e8f724dbf810 100644
+index e8f724dbf810..472f1837632e 100644
 --- a/drivers/staging/media/omap4iss/iss.c
 +++ b/drivers/staging/media/omap4iss/iss.c
-@@ -559,9 +559,10 @@ static int iss_reset(struct iss_device *iss)
- 	iss_reg_set(iss, OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG,
- 		    ISS_HL_SYSCONFIG_SOFTRESET);
+@@ -963,7 +963,7 @@ iss_register_subdev_group(struct iss_device *iss,
+ 		}
  
--	timeout = iss_poll_condition_timeout(
--		!(iss_reg_read(iss, OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG) &
--		ISS_HL_SYSCONFIG_SOFTRESET), 1000, 10, 100);
-+	timeout = iss_poll_condition_timeout(!(iss_reg_read(iss,
-+							    OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG)
-+							    & ISS_HL_SYSCONFIG_SOFTRESET),
-+							    1000, 10, 100);
- 	if (timeout) {
- 		dev_err(iss->dev, "ISS reset timeout\n");
- 		return -ETIMEDOUT;
-@@ -583,9 +584,10 @@ static int iss_isp_reset(struct iss_device *iss)
- 
- 	iss_reg_set(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL, ISP5_CTRL_MSTANDBY);
- 
--	timeout = iss_poll_condition_timeout(
--		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL) &
--		ISP5_CTRL_MSTANDBY_WAIT, 1000000, 1000, 1500);
-+	timeout = iss_poll_condition_timeout(iss_reg_read(iss,
-+							  OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL)
-+							  & ISP5_CTRL_MSTANDBY_WAIT, 1000000,
-+							  1000, 1500);
- 	if (timeout) {
- 		dev_err(iss->dev, "ISP5 standby timeout\n");
- 		return -ETIMEDOUT;
-@@ -595,9 +597,10 @@ static int iss_isp_reset(struct iss_device *iss)
- 	iss_reg_set(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_SYSCONFIG,
- 		    ISP5_SYSCONFIG_SOFTRESET);
- 
--	timeout = iss_poll_condition_timeout(
--		!(iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_SYSCONFIG) &
--		ISP5_SYSCONFIG_SOFTRESET), 1000000, 1000, 1500);
-+	timeout = iss_poll_condition_timeout(!(iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1,
-+							    ISP5_SYSCONFIG) &
-+							    ISP5_SYSCONFIG_SOFTRESET), 1000000,
-+							    1000, 1500);
- 	if (timeout) {
- 		dev_err(iss->dev, "ISP5 reset timeout\n");
- 		return -ETIMEDOUT;
-@@ -1104,33 +1107,28 @@ static int iss_create_links(struct iss_device *iss)
- 	}
- 
- 	/* Connect the submodules. */
--	ret = media_create_pad_link(
--			&iss->csi2a.subdev.entity, CSI2_PAD_SOURCE,
--			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
-+	ret = media_create_pad_link(&iss->csi2a.subdev.entity, CSI2_PAD_SOURCE,
-+				    &iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = media_create_pad_link(
--			&iss->csi2b.subdev.entity, CSI2_PAD_SOURCE,
--			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
-+	ret = media_create_pad_link(&iss->csi2b.subdev.entity, CSI2_PAD_SOURCE,
-+				    &iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = media_create_pad_link(
--			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
--			&iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
-+	ret = media_create_pad_link(&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
-+				    &iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = media_create_pad_link(
--			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
--			&iss->ipipe.subdev.entity, IPIPE_PAD_SINK, 0);
-+	ret = media_create_pad_link(&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
-+				    &iss->ipipe.subdev.entity, IPIPE_PAD_SINK, 0);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = media_create_pad_link(
--			&iss->ipipe.subdev.entity, IPIPE_PAD_SOURCE_VP,
--			&iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
-+	ret = media_create_pad_link(&iss->ipipe.subdev.entity, IPIPE_PAD_SOURCE_VP,
-+				    &iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
- 	if (ret < 0)
- 		return ret;
- 
+ 		subdev = v4l2_i2c_new_subdev_board(&iss->v4l2_dev, adapter,
+-				board_info->board_info, NULL);
++						   board_info->board_info, NULL);
+ 		if (!subdev) {
+ 			dev_err(iss->dev, "Unable to register subdev %s\n",
+ 				board_info->board_info->type);
 -- 
 2.25.1
 
