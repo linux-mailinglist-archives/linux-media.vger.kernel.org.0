@@ -2,119 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A524E352A04
-	for <lists+linux-media@lfdr.de>; Fri,  2 Apr 2021 12:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6733352AA8
+	for <lists+linux-media@lfdr.de>; Fri,  2 Apr 2021 14:28:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234563AbhDBK6m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Apr 2021 06:58:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56998 "EHLO
+        id S235377AbhDBM1o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Apr 2021 08:27:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229599AbhDBK6l (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Apr 2021 06:58:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B220C0613E6;
-        Fri,  2 Apr 2021 03:58:41 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 197672C1;
-        Fri,  2 Apr 2021 12:58:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1617361119;
-        bh=o16YH/amK93o9sUsyfCF2kW9i62zSal5yr6Wff73gGw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kx4XXqd3VRUrP3Velb+mNLGyx25fqfqRT0i3xkTijHxD4jxV+YpE4yGtyfMmY2iXp
-         drld9qdcUOkJ4O3aBP43rV2dslhKBZiQzvhbBfZ4juJyF9VLMTzW30TumcZpXoCuxS
-         W13lxx4pdwY0THf0JbG+xp/LM/qknhEt6GSuNKSk=
-Date:   Fri, 2 Apr 2021 13:57:55 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Pratyush Yadav <p.yadav@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Peter Chen <peter.chen@nxp.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        dmaengine@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 00/16] CSI2RX support on J721E
-Message-ID: <YGb4s1rSuZLr3Iv0@pendragon.ideasonboard.com>
-References: <20210330173348.30135-1-p.yadav@ti.com>
- <YGRB/42Q6aVBLoAq@vkoul-mobl.Dlink>
+        with ESMTP id S235373AbhDBM1n (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Apr 2021 08:27:43 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94B49C0613E6;
+        Fri,  2 Apr 2021 05:27:41 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 5C3AE1F442CC
+Message-ID: <5674859659f93ba547cad43528ac94ef145347b3.camel@collabora.com>
+Subject: Re: [PATCH v8 09/13] media: uapi: Add a control for HANTRO driver
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        lee.jones@linaro.org, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
+        emil.l.velikov@gmail.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        kernel@collabora.com
+Date:   Fri, 02 Apr 2021 09:27:28 -0300
+In-Reply-To: <20210401160003.88803-10-benjamin.gaignard@collabora.com>
+References: <20210401160003.88803-1-benjamin.gaignard@collabora.com>
+         <20210401160003.88803-10-benjamin.gaignard@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YGRB/42Q6aVBLoAq@vkoul-mobl.Dlink>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 03:03:51PM +0530, Vinod Koul wrote:
-> On 30-03-21, 23:03, Pratyush Yadav wrote:
-> > Hi,
-> > 
-> > This series adds support for CSI2 capture on J721E. It includes some
-> > fixes to the Cadence CSI2RX driver, adds Rx support to Cadence DPHY
-> > driver, and finally adds the TI CSI2RX wrapper driver.
-> > 
-> > Tested on TI's J721E with OV5640 sensor.
-> > 
-> > Paul Kocialkowski (1):
-> >   phy: Distinguish between Rx and Tx for MIPI D-PHY with submodes
-> > 
-> > Pratyush Yadav (15):
-> >   phy: cdns-dphy: Prepare for Rx support
-> >   phy: cdns-dphy: Allow setting mode
-> >   phy: cdns-dphy: Add Rx support
-> >   media: cadence: csi2rx: Add external DPHY support
-> >   media: cadence: csi2rx: Soft reset the streams before starting capture
-> >   media: cadence: csi2rx: Set the STOP bit when stopping a stream
-> >   media: cadence: csi2rx: Fix stream data configuration
-> >   media: cadence: csi2rx: Turn subdev power on before starting stream
-> >   media: cadence: csi2rx: Add wrappers for subdev calls
-> >   dmaengine: ti: k3-psil-j721e: Add entry for CSI2RX
-> >   dt-bindings: media: Add DT bindings for TI CSI2RX driver
-> >   media: ti-vpe: csi2rx: Add CSI2RX support
-> >   dt-bindings: phy: Convert Cadence DPHY binding to YAML
-> >   dt-bindings: phy: cdns,dphy: make clocks optional
-> >   dt-bindings: phy: cdns,dphy: add power-domains property
+Hi Benjamin,
+
+Thanks for the patch.
+
+On Thu, 2021-04-01 at 17:59 +0200, Benjamin Gaignard wrote:
+> The HEVC HANTRO driver needs to know the number of bits to skip at
+> the beginning of the slice header.
+> That is a hardware specific requirement so create a dedicated control
+> that this purpose.
 > 
-> Is there any dependency between patches to various subsystems, if not
-> please do consider sending a series per subsystem...
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 5:
+>  - Be even more verbose in control documentation.
+>  - Do not create class for the control.
+> version 4:
+> - The control is now an integer which is enough to provide the numbers
+>   of bits to skip.
+> version 3:
+> - Fix typo in field name
+> 
+>  .../userspace-api/media/drivers/hantro.rst         | 14 ++++++++++++++
+>  .../userspace-api/media/drivers/index.rst          |  1 +
+>  include/uapi/linux/v4l2-controls.h                 | 13 +++++++++++++
+>  3 files changed, 28 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/drivers/hantro.rst
+> 
+> diff --git a/Documentation/userspace-api/media/drivers/hantro.rst b/Documentation/userspace-api/media/drivers/hantro.rst
+> new file mode 100644
+> index 000000000000..78dcd2a44a03
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/drivers/hantro.rst
+> @@ -0,0 +1,14 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Hantro video decoder driver
+> +===========================
+> +
+> +The Hantro video decoder driver implements the following driver-specific controls:
+> +
+> +``V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP (integer)``
+> +    Specifies to Hantro HEVC video decoder driver the number of data (in bits) to
+> +    skip in the slice segment header.
+> +    If non-IDR, the bits to be skipped go from syntax element "pic_output_flag"
+> +    to before syntax element "slice_temporal_mvp_enabled_flag".
+> +    If IDR, the skipped bits are just "pic_output_flag"
+> +    (separate_colour_plane_flag is not supported).
+> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> index 1a9038f5f9fa..12e3c512d718 100644
+> --- a/Documentation/userspace-api/media/drivers/index.rst
+> +++ b/Documentation/userspace-api/media/drivers/index.rst
+> @@ -33,6 +33,7 @@ For more details see the file COPYING in the source distribution of Linux.
+>  
+>         ccs
+>         cx2341x-uapi
+> +        hantro
+>         imx-uapi
+>         max2175
+>         meye-uapi
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index f3376aafea65..1dfb874b6272 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -869,6 +869,19 @@ enum v4l2_mpeg_mfc51_video_force_frame_type {
+>  #define V4L2_CID_MPEG_MFC51_VIDEO_H264_ADAPTIVE_RC_STATIC              (V4L2_CID_CODEC_MFC51_BASE+53)
+>  #define V4L2_CID_MPEG_MFC51_VIDEO_H264_NUM_REF_PIC_FOR_P               (V4L2_CID_CODEC_MFC51_BASE+54)
+>  
+> +/*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 */
 
-Splitting the series per subsystem will facilitate merging, but for the
-first versions, keeping all patches together facilitate review. I'd
-prefer if we could have a v2 that still includes everything, until we
-agree on the interface between the two subsystems. At that point, we can
-split the series if needed.
+We are moving away from "MPEG" terminology for codecs.
 
-> > 
-> >  .../devicetree/bindings/media/ti,csi2rx.yaml  |  70 ++
-> >  .../devicetree/bindings/phy/cdns,dphy.txt     |  20 -
-> >  .../devicetree/bindings/phy/cdns,dphy.yaml    |  52 +
-> >  MAINTAINERS                                   |   7 +
-> >  drivers/dma/ti/k3-psil-j721e.c                |  10 +
-> >  drivers/media/platform/Kconfig                |  11 +
-> >  drivers/media/platform/cadence/cdns-csi2rx.c  | 269 ++++-
-> >  drivers/media/platform/ti-vpe/Makefile        |   1 +
-> >  drivers/media/platform/ti-vpe/ti-csi2rx.c     | 964 ++++++++++++++++++
-> >  drivers/phy/cadence/cdns-dphy.c               | 407 +++++++-
-> >  include/linux/phy/phy-mipi-dphy.h             |  13 +
-> >  11 files changed, 1754 insertions(+), 70 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/media/ti,csi2rx.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/phy/cdns,dphy.txt
-> >  create mode 100644 Documentation/devicetree/bindings/phy/cdns,dphy.yaml
-> >  create mode 100644 drivers/media/platform/ti-vpe/ti-csi2rx.c
+> +#define V4L2_CID_CODEC_HANTRO_BASE                             (V4L2_CTRL_CLASS_CODEC | 0x1200)
 
--- 
+Using V4L2_CTRL_CLASS_CODEC_STATELESS is IMO better,
+since this belongs to a stateless decoder.
+
+And also, since we are still a bit unsure about the
+syntax of this parameter (given it's not documented):
+
+how about keeping the V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP
+definition in drivers/staging/media/hantro/hantro.h ?
+
+This would be a hint for applications that this control
+is a quirk.
+
+Hans, Philipp, any thoughts on this?
+
 Regards,
+Ezequiel
 
-Laurent Pinchart
