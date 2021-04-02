@@ -2,136 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6733352AA8
-	for <lists+linux-media@lfdr.de>; Fri,  2 Apr 2021 14:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2162352B83
+	for <lists+linux-media@lfdr.de>; Fri,  2 Apr 2021 16:42:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235377AbhDBM1o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Apr 2021 08:27:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235373AbhDBM1n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Apr 2021 08:27:43 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94B49C0613E6;
-        Fri,  2 Apr 2021 05:27:41 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 5C3AE1F442CC
-Message-ID: <5674859659f93ba547cad43528ac94ef145347b3.camel@collabora.com>
-Subject: Re: [PATCH v8 09/13] media: uapi: Add a control for HANTRO driver
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        lee.jones@linaro.org, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
-        emil.l.velikov@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com
-Date:   Fri, 02 Apr 2021 09:27:28 -0300
-In-Reply-To: <20210401160003.88803-10-benjamin.gaignard@collabora.com>
-References: <20210401160003.88803-1-benjamin.gaignard@collabora.com>
-         <20210401160003.88803-10-benjamin.gaignard@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        id S235874AbhDBOgC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Apr 2021 10:36:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59302 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235285AbhDBOgC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Apr 2021 10:36:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617374161;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dbSLew8mhA3CPW9rGzb5rYU5719GfEykfUChPKVn5Jw=;
+        b=bvumKqG3kF3ZQfGDgmEz9RZrgbTASGKMfUKxk5UKCcwLLofsYmz1zt23pwPQodOSkqLZxQ
+        CjVGeFPwZI1S861UB0PIB6D/m4FVUa4gv5ZS6NsPjLfYLHuoqp5TpVC3fDVBMjhs0D4FQe
+        LR0qrbY4RnQUc+WE0Mk/LGPva+G+yio=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-447-XLlOkPuvODysgFUKliSiwQ-1; Fri, 02 Apr 2021 10:35:57 -0400
+X-MC-Unique: XLlOkPuvODysgFUKliSiwQ-1
+Received: by mail-qk1-f200.google.com with SMTP id c7so5856270qka.6
+        for <linux-media@vger.kernel.org>; Fri, 02 Apr 2021 07:35:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=dbSLew8mhA3CPW9rGzb5rYU5719GfEykfUChPKVn5Jw=;
+        b=WNjW2J/ZdYkbPluMQDiMBQE3i1mx30bHj3rzbFs7zgV2UUvA4OsPsTRFdYXIv4vVmG
+         49Qq7mESxvFf+ICmeAjh1dfPBI+rKWOUMcJEwMwJjGe1BpJKY5AgSVgI+2KXuEPUXc4w
+         LmkpQro7zshrmCJ0605lr5RRqCKdVQMrcYF0eMBf1Oq7Eg2W7JVsBFExoSwz5XAmipHS
+         WkFFRJyQ3pMrxDBc6zhAyPvF2SuxMum2rj8On/O0GVAhCthaoFBH35AbarX2TYjiL6yy
+         tLIda1biDKtQ7+rHQly40V6kZSDPgdpcSXTGqRaGlBFFYAB+wWLOhqotrxDYpts7HlqF
+         LCXg==
+X-Gm-Message-State: AOAM5333jQWg54YrBmaDtJjXBSWMEJFiUF9pTvhNu9ti0EIvZ4ngOGHd
+        1f8j08+r8Y25e1BiwdrS/IzVvKnPAohhur8s3kbMgRr/lq2TmeWdZeWpRPLaFF4HQjgnmD1mOx5
+        4PbXRj2yjWXvOlXTc0HK7Gzw=
+X-Received: by 2002:a37:615:: with SMTP id 21mr13401243qkg.421.1617374157126;
+        Fri, 02 Apr 2021 07:35:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2JYxQhsnq8GXwaJBpbPQ9qEbMufMffGDiB8BqHyePDcCzZbxxbZ8pdHCByvdi8v+81NIOKw==
+X-Received: by 2002:a37:615:: with SMTP id 21mr13401229qkg.421.1617374156960;
+        Fri, 02 Apr 2021 07:35:56 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id g17sm6488596qts.93.2021.04.02.07.35.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Apr 2021 07:35:56 -0700 (PDT)
+Subject: Re: [PATCH RFC 0/3] Adds support to allow the bitstream configuration
+ from pre-allocated dma-buffer
+To:     Nava kishore Manne <nava.manne@xilinx.com>, mdf@kernel.org,
+        robh+dt@kernel.org, michal.simek@xilinx.com,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        linux-fpga@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, git@xilinx.com
+References: <20210402090933.32276-1-nava.manne@xilinx.com>
+From:   Tom Rix <trix@redhat.com>
+Message-ID: <979ebb17-bc76-e0ef-10b4-996edc12dfa3@redhat.com>
+Date:   Fri, 2 Apr 2021 07:35:53 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210402090933.32276-1-nava.manne@xilinx.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Please add to this patch cover letter what you want to discuss.
 
-Thanks for the patch.
+Got this new feature, not sure about ...
 
-On Thu, 2021-04-01 at 17:59 +0200, Benjamin Gaignard wrote:
-> The HEVC HANTRO driver needs to know the number of bits to skip at
-> the beginning of the slice header.
-> That is a hardware specific requirement so create a dedicated control
-> that this purpose.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> version 5:
->  - Be even more verbose in control documentation.
->  - Do not create class for the control.
-> version 4:
-> - The control is now an integer which is enough to provide the numbers
->   of bits to skip.
-> version 3:
-> - Fix typo in field name
-> 
->  .../userspace-api/media/drivers/hantro.rst         | 14 ++++++++++++++
->  .../userspace-api/media/drivers/index.rst          |  1 +
->  include/uapi/linux/v4l2-controls.h                 | 13 +++++++++++++
->  3 files changed, 28 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/drivers/hantro.rst
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/hantro.rst b/Documentation/userspace-api/media/drivers/hantro.rst
-> new file mode 100644
-> index 000000000000..78dcd2a44a03
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/drivers/hantro.rst
-> @@ -0,0 +1,14 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Hantro video decoder driver
-> +===========================
-> +
-> +The Hantro video decoder driver implements the following driver-specific controls:
-> +
-> +``V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP (integer)``
-> +    Specifies to Hantro HEVC video decoder driver the number of data (in bits) to
-> +    skip in the slice segment header.
-> +    If non-IDR, the bits to be skipped go from syntax element "pic_output_flag"
-> +    to before syntax element "slice_temporal_mvp_enabled_flag".
-> +    If IDR, the skipped bits are just "pic_output_flag"
-> +    (separate_colour_plane_flag is not supported).
-> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> index 1a9038f5f9fa..12e3c512d718 100644
-> --- a/Documentation/userspace-api/media/drivers/index.rst
-> +++ b/Documentation/userspace-api/media/drivers/index.rst
-> @@ -33,6 +33,7 @@ For more details see the file COPYING in the source distribution of Linux.
->  
->         ccs
->         cx2341x-uapi
-> +        hantro
->         imx-uapi
->         max2175
->         meye-uapi
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index f3376aafea65..1dfb874b6272 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -869,6 +869,19 @@ enum v4l2_mpeg_mfc51_video_force_frame_type {
->  #define V4L2_CID_MPEG_MFC51_VIDEO_H264_ADAPTIVE_RC_STATIC              (V4L2_CID_CODEC_MFC51_BASE+53)
->  #define V4L2_CID_MPEG_MFC51_VIDEO_H264_NUM_REF_PIC_FOR_P               (V4L2_CID_CODEC_MFC51_BASE+54)
->  
-> +/*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 */
+Tom
 
-We are moving away from "MPEG" terminology for codecs.
-
-> +#define V4L2_CID_CODEC_HANTRO_BASE                             (V4L2_CTRL_CLASS_CODEC | 0x1200)
-
-Using V4L2_CTRL_CLASS_CODEC_STATELESS is IMO better,
-since this belongs to a stateless decoder.
-
-And also, since we are still a bit unsure about the
-syntax of this parameter (given it's not documented):
-
-how about keeping the V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP
-definition in drivers/staging/media/hantro/hantro.h ?
-
-This would be a hint for applications that this control
-is a quirk.
-
-Hans, Philipp, any thoughts on this?
-
-Regards,
-Ezequiel
+On 4/2/21 2:09 AM, Nava kishore Manne wrote:
+> Nava kishore Manne (3):
+>   fpga: region: Add fpga-region property 'fpga-config-from-dmabuf'
+>   fpga: support loading from a pre-allocated buffer
+>   fpga: zynqmp: Use the scatterlist interface
+>
+>  .../devicetree/bindings/fpga/fpga-region.txt  |   2 +
+>  drivers/fpga/fpga-mgr.c                       | 126 +++++++++++++++++-
+>  drivers/fpga/of-fpga-region.c                 |   3 +
+>  drivers/fpga/zynqmp-fpga.c                    |  35 +++++
+>  include/linux/fpga/fpga-mgr.h                 |   6 +-
+>  5 files changed, 169 insertions(+), 3 deletions(-)
+>
 
