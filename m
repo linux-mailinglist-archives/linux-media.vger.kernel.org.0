@@ -2,97 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7A9B352472
-	for <lists+linux-media@lfdr.de>; Fri,  2 Apr 2021 02:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C8035258F
+	for <lists+linux-media@lfdr.de>; Fri,  2 Apr 2021 04:51:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236174AbhDBAZu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Apr 2021 20:25:50 -0400
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21318 "EHLO
-        sender4-of-o53.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233677AbhDBAZt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 20:25:49 -0400
-X-Greylist: delayed 14403 seconds by postgrey-1.27 at vger.kernel.org; Thu, 01 Apr 2021 20:25:49 EDT
-ARC-Seal: i=1; a=rsa-sha256; t=1617280451; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=Hphq8jqHjlxUUzmfeGTplrmlvxjbDQfagXj6aFK0A5e7DjRI5x6IddOZIm8iLLJaNUzyWGglzTgtR4Fl74SWXWlQx7xkBF6iHkJDnizzZql9bxFPnyhVmrG4dQwJ2bpg3HebLi0OijLixVT/OF74A11aC94DdRKWfRDdt+XQ31E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1617280451; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
-        bh=FmOnjU0+A8QfoCamxd5H0OwzMaGlHS8vAIU7QBMAShY=; 
-        b=dBIP7hwIM//OWpxAsFrN3jSMxFd+fE9Du15ZDgq42QKJ7stEVS+gYHxUFW2yItYJR3EI2NIrDkmeUHgR6F/pwWHlRj6KisrzxtziOy/c3NlhOd6ZY5BKOVcGodTjrdOGAMOcq9Mg4hX6T3jqL+2shKolxtC73jzvwt3hchpF/JI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=anirudhrb.com;
-        spf=pass  smtp.mailfrom=mail@anirudhrb.com;
-        dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1617280451;
-        s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
-        bh=FmOnjU0+A8QfoCamxd5H0OwzMaGlHS8vAIU7QBMAShY=;
-        b=lkVz8x40dot3CU1cFJ4F1+JLyCuA1XESqq3I03UjLCnDsVrPBjyT8z/On9Ejamjz
-        mAaIsMwLrJcxaaJOgjL+z/09tg2cc38o7dIM+IVb9hVJXjvyaaXSnbBnV12r29TYIHy
-        VztKp8sl4T8cemv7J9Q5j3EA2UzeDaL0qrcMojXk=
-Received: from localhost.localdomain (106.51.106.233 [106.51.106.233]) by mx.zohomail.com
-        with SMTPS id 16172804475521015.1822725426097; Thu, 1 Apr 2021 05:34:07 -0700 (PDT)
-From:   Anirudh Rayabharam <mail@anirudhrb.com>
-To:     Mike Isely <isely@pobox.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     gregkh@linuxfoundation.org,
-        Anirudh Rayabharam <mail@anirudhrb.com>,
-        syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: pvrusb2: fix warning in pvr2_i2c_core_done
-Date:   Thu,  1 Apr 2021 18:03:38 +0530
-Message-Id: <20210401123338.3937-1-mail@anirudhrb.com>
-X-Mailer: git-send-email 2.26.2
+        id S234311AbhDBCvE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Apr 2021 22:51:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234287AbhDBCvE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Apr 2021 22:51:04 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD5BC0613E6
+        for <linux-media@vger.kernel.org>; Thu,  1 Apr 2021 19:51:00 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id e14so5655190ejz.11
+        for <linux-media@vger.kernel.org>; Thu, 01 Apr 2021 19:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=j6XxPke5LD1nAipEXvkY6x4mx+Z9DuUCRz1Jm7iuUKA=;
+        b=XxYgKbhyLhYwcqwHk/FPfahilkQhxmrZb04CQOEcZW2g6yH/Rovv91Y1IXHYuroxMb
+         eZTexywFtIq6AOm5m+eWt9EuD3vbTgAA84ftEirqTn81D9Ab3PKopF5yF2ftK8tGZAAx
+         XGgdYftYeFfWbKLDq7dEPaO72JdkPur/6H+rw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=j6XxPke5LD1nAipEXvkY6x4mx+Z9DuUCRz1Jm7iuUKA=;
+        b=sxJSTv+8wdrykIo9fNar9+oDdfd4OCSW3y57oFha1G/U6jyQy8AbFKM+8AHy+8+fxe
+         FKQOiyuXhlhlKtlTZOCbqZBSBuZU6QQNszRES3y6MCDP5Li6GqaUktkGdEJK6zLBvvwf
+         xxtcnxUcwl+2GVwSNojpnn1iasF4c1TWAvf+CoiA6fV8AhqSzH2iALiT5WBVFmvI69Cm
+         srkyX3T5fmL6qPg83cSB1bMwJtZQ/wdU6rJNwPT99ymwZYqgNiqxLGMF+ccH4Ekp0EUS
+         2iiffwKhgBE2qrHziTvjMbPBLvkPrqvLuJB7VwwCiiu40Tg4uPgoBSBMUsYm73KnqPJj
+         oNuQ==
+X-Gm-Message-State: AOAM53134XCzBP4kKA8GZH/+f7EDxqS3ecqJ284Z1Cnl95OmTQ3wCfZA
+        vQx3XNR4pxRTM2o+uedI5a/myW7DqGs/qw==
+X-Google-Smtp-Source: ABdhPJwI3wdxO1QEkpLDNngIMRtFvsdqY/U24l2ESeju8159981jkLklJsCNC/gZ90kjkxgBWs12sQ==
+X-Received: by 2002:a17:906:5597:: with SMTP id y23mr12171010ejp.165.1617331858632;
+        Thu, 01 Apr 2021 19:50:58 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
+        by smtp.gmail.com with ESMTPSA id g25sm4456458edp.95.2021.04.01.19.50.57
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Apr 2021 19:50:57 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id j9so3550865wrx.12
+        for <linux-media@vger.kernel.org>; Thu, 01 Apr 2021 19:50:57 -0700 (PDT)
+X-Received: by 2002:a05:6000:1549:: with SMTP id 9mr12962467wry.192.1617331856969;
+ Thu, 01 Apr 2021 19:50:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20210326095840.364424-1-ribalda@chromium.org> <20210326095840.364424-23-ribalda@chromium.org>
+In-Reply-To: <20210326095840.364424-23-ribalda@chromium.org>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 2 Apr 2021 11:50:44 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BCydvzYx4FGyNQSbrT9twGVcFGn2vTfsvLHKYdRhE8GQ@mail.gmail.com>
+Message-ID: <CAAFQd5BCydvzYx4FGyNQSbrT9twGVcFGn2vTfsvLHKYdRhE8GQ@mail.gmail.com>
+Subject: Re: [PATCH v9 22/22] uvc: use vb2 ioctl and fop helpers
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has reported the following warning in pvr2_i2c_done:
+Hi Ricardo,
 
-	sysfs group 'power' not found for kobject '1-0043'
+On Fri, Mar 26, 2021 at 7:00 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> From: Hans Verkuil <hverkuil@xs4all.nl>
+>
+> When uvc was written the vb2 ioctl and file operation helpers didn't exist.
+>
+> This patch switches uvc over to those helpers, which removes a lot of boilerplate
+> code and simplifies VIDIOC_G/S_PRIORITY handling and allows us to drop the
+> 'privileges' scheme, since that's now handled inside the vb2 helpers.
+>
+> This makes it possible for uvc to pass the v4l2-compliance streaming tests.
+>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-When the device is disconnected (pvr_hdw_disconnect), the i2c adapter is
-not unregistered along with the USB and vl42 teardown. As part of the
-USB device disconnect, the sysfs files of the subdevices are also
-deleted. So, by the time pvr_i2c_core_done is called by
-pvr_context_destroy, the sysfs files have been deleted.
+Thanks for the patch. Did you perhaps miss adding your sign-off?
 
-To fix this, unregister the i2c adapter too in pvr_hdw_disconnect. Make
-the device deregistration code shared by calling pvr_hdw_disconnect from
-pvr2_hdw_destory.
+Also, see my comments inline.
 
-Reported-and-tested-by: syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
----
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+[snip]
+> @@ -1166,11 +969,6 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
+>  {
+>         struct uvc_fh *handle = fh;
+>         struct uvc_streaming *stream = handle->stream;
+> -       int ret;
+> -
+> -       ret = uvc_acquire_privileges(handle);
+> -       if (ret < 0)
+> -               return ret;
 
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-index f4a727918e35..791227787ff5 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-@@ -2676,9 +2676,7 @@ void pvr2_hdw_destroy(struct pvr2_hdw *hdw)
- 		pvr2_stream_destroy(hdw->vid_stream);
- 		hdw->vid_stream = NULL;
- 	}
--	pvr2_i2c_core_done(hdw);
--	v4l2_device_unregister(&hdw->v4l2_dev);
--	pvr2_hdw_remove_usb_stuff(hdw);
-+	pvr2_hdw_disconnect(hdw);
- 	mutex_lock(&pvr2_unit_mtx);
- 	do {
- 		if ((hdw->unit_number >= 0) &&
-@@ -2705,6 +2703,7 @@ void pvr2_hdw_disconnect(struct pvr2_hdw *hdw)
- {
- 	pvr2_trace(PVR2_TRACE_INIT,"pvr2_hdw_disconnect(hdw=%p)",hdw);
- 	LOCK_TAKE(hdw->big_lock);
-+	pvr2_i2c_core_done(hdw);
- 	LOCK_TAKE(hdw->ctl_lock);
- 	pvr2_hdw_remove_usb_stuff(hdw);
- 	LOCK_GIVE(hdw->ctl_lock);
--- 
-2.26.2
+Why is it okay not to acquire the privileges here?
 
+>
+>         return uvc_v4l2_set_streamparm(stream, parm);
+>  }
+
+Best regards,
+Tomasz
