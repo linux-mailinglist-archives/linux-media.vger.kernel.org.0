@@ -2,175 +2,640 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DCDA352DB3
-	for <lists+linux-media@lfdr.de>; Fri,  2 Apr 2021 18:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B2AE352E46
+	for <lists+linux-media@lfdr.de>; Fri,  2 Apr 2021 19:30:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234628AbhDBQZy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Apr 2021 12:25:54 -0400
-Received: from mail-co1nam11on2065.outbound.protection.outlook.com ([40.107.220.65]:10849
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229932AbhDBQZv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 2 Apr 2021 12:25:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JltJTlX4U+nycgx1/fr6HArMo5KlfVJ6pQIjioViFq+HrwoOR1ppnNLJi1c5ztgE/CB4BOVsxCq2skH6ZhOMgJhOIKj2yawwfopKcxKhl8ryE0QLD0SM3sihg+nNDuqur/4HXGsRP7B5H3CJzPU2/2H2Lb6Quj4ihtlbAAOaoeNW9SgSMDrh9izBJamqEjVQBLaO0cs5SoAEr+IqNG4ThXMOSVOTx59Rvvu4xPJGTex8VW57YJDZNyR5SQH3ilQegqQ1fOw/HhVCZ5qfDChO31DjIoey/rx00bFh50oWuyjXC9nhUGGju129YjRjB5ZdBvkGrHv0N99HZNCDrulHtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P7DS9UEYuavuquQVLpiCzHbtQf7oRDdcccoV076hLVc=;
- b=OacZfc1e9zPwHo0BAywaGZosKVfYL3RbskQ1lb9US30q6z3NYXAGVFiyANx1rHaAsAFGOMsawpDxwnRFrlfejDjCvHg72SBJAOuZ9C6iPRYSd8TYqnskgmLYXzupAZM9Yie0aeSwHRj6ytz0pnqgbpXcjJy6ASRe9FYK2ONtgkL9vGjYkaCm1IzCf44jrsNMmpz9c8W3miVU71GQxV1xqwjuswaeX1SUILRAJeNtdyaFRpoiahy2OhgdLhErmQqM0Qwc8JgAiL0Tzjmm2r5uYo0Z25c5dackodd8pJDuP2cbaKfInaX8Eov7DQdVsvIMf3f2pmMTMtdPDMfTWZfWhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P7DS9UEYuavuquQVLpiCzHbtQf7oRDdcccoV076hLVc=;
- b=smkYpqGGk/sbT50rbtnG4Wv/SALhCQfFJzOnHryads0CcyPLkyzEs75VVgQ6GIRqvVMeHvMdDTtV3eiXLtta7aazGUy8aPQl2gaPAlbz6PAHVA1NxRV6YSmq4pHlcOirn4294hydDhLqDmC3h78jucSdS4Lh/pT63G9Q3d/7S2s=
-Authentication-Results: lists.linaro.org; dkim=none (message not signed)
- header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Fri, 2 Apr
- 2021 16:25:48 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3999.029; Fri, 2 Apr 2021
- 16:25:48 +0000
-Subject: Re: [PATCH] drm/amdgpu: Fix a potential sdma invalid access
-To:     Qu Huang <jinsdb@126.com>, alexander.deucher@amd.com,
-        airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
-        airlied@redhat.com, ray.huang@amd.com, Mihir.Patel@amd.com,
-        nirmoy.aiemd@gmail.com
-Cc:     amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-References: <1617333527-89782-1-git-send-email-jinsdb@126.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <9b876791-7fa4-46da-7aec-1d1bfde83f4e@amd.com>
-Date:   Fri, 2 Apr 2021 18:25:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <1617333527-89782-1-git-send-email-jinsdb@126.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:242f:cf66:3716:ed]
-X-ClientProxiedBy: AM0PR08CA0035.eurprd08.prod.outlook.com
- (2603:10a6:208:d2::48) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:242f:cf66:3716:ed] (2a02:908:1252:fb60:242f:cf66:3716:ed) by AM0PR08CA0035.eurprd08.prod.outlook.com (2603:10a6:208:d2::48) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.27 via Frontend Transport; Fri, 2 Apr 2021 16:25:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a23da487-dc06-42e1-841b-08d8f5f3f89e
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4948:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB4948F86CC937477C1DE5777D837A9@BL0PR12MB4948.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Fs+w+m0aauqOKaKlxTGYSADsD2yHvTzijtIMkwN5b43G5AHhcIbbPXaBW8AZ3H4bjnw4aDiWK1bUqTmQx+CH8oLv8FanmwmivCOUfPwByeEAPgCs8XbA/hKxHU2e5a5Ze6CFGFdxjJlENPLlS/lNGY0e1tl+OaVRfRvuv+3Mxscg9jecnLq7iTuq0hfGDWQWtmDzlNrz2npt0SIJDifn4SPZM1xT3fGNG82t7LVkgs0jQWqBbhtAmmGpQorHKl+F39lOUX0ZG1+CP4TBAml/L4zeJmUAwVxDuvYY/iwlOYXFPXfKJZkXWL80XnL0qsMk/aiemQK807WNFDtIgPoB6RLQQbkpvaF++SNxXY4yG0miAZcsOa0Vj3eyi/zfsHFqK3L4+1vK+r6HBGEJqW4/+np4ZOFLqh/hEvqbRjN4U90WNYee1by6hvwaTVSRnbQMD3Ugm+puyXoTDjYEPpF5F5SqT17DP+YBUftORJu3/2XTfvK18uHG8HzluFyBQkxTPpK2ytzZ9FSOz2HQoHm0re0osm65vADCBOAual8iaTAoaunKeUjJdoUVW1cxCibkcYQAkshl3Cc41DTfJKuiVmdSXTGuBrFyQKv2Py+IrefQDuhyy89D1TeikgL9CYeG+eDDEO2Y7RHjE4n/JD7pp1tK7ZlUDIv2WDQ3V+flJmlvfddVBOqfLh1eyH2fGJ1d+WxXyaIdRz/L0paiFM3yq0F/vOvGngJgrnLD3GmxG7vrvlLW5+ulhS4UJohBOXNh
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(366004)(396003)(136003)(346002)(2906002)(186003)(38100700001)(8936002)(66476007)(66556008)(86362001)(36756003)(31696002)(31686004)(2616005)(5660300002)(52116002)(478600001)(6666004)(83380400001)(7416002)(16526019)(4326008)(8676002)(6486002)(316002)(66946007)(525324003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WUs5SU4weXR3MzRrM3I0LzVDcWNhZHhtUXB3dHZwTW1CTnJNVUFtbXBrN2NE?=
- =?utf-8?B?YVBTSTVzYSs1NTlvNmZvQi80enVTZnlIdHhZQ1NxRkhLNnhWSGR5eVkwTGpJ?=
- =?utf-8?B?eGQ4K0FMdFZ5elBIOWVtaXpielJZbklQNmVtWmNqOGF6ZnU2aklNd2Y3S0E3?=
- =?utf-8?B?UkJSYVJLbkdxUU1mNDZjNjA5dkZwelRaRkhDNFpSbzZ3UERJcW90QTVGY0pa?=
- =?utf-8?B?ZGNyWXFRNEhVNFRFaTJlZ2xnV0s0clg3VXZ5d1BUYWhnaWEya200RGVLSWhm?=
- =?utf-8?B?dVFKelVrSHp3UjlxeXhUNHdLK2x0WjRYVXpNN0twditpUWZqajZHanNkaVNk?=
- =?utf-8?B?djFuUmlKQTF6SjM5ZGppRVF5SHI0dkxWdGt5OEVBMkZMRm5wYXhieFFoVHBs?=
- =?utf-8?B?Y0p4NHhRS3F3dm84THRMcVVhbElnTklwMFVZQ211amMraDBJNEhBQXl1VmVN?=
- =?utf-8?B?TCtPSTBJTTNxSFVlMkppUTBaWkVvTFFMbEVMNVB0NVp6ZWNrMWE4WEpTYnVh?=
- =?utf-8?B?ZjNMbGcxRjRFUE43dkFudCtMeDhDeUdZWEtlWnhTanpPdS8xWVdwRGxid2VJ?=
- =?utf-8?B?a3RYVDhjNzJURlBBT09FbkloL2d6MlN2NkQyWlc1REdRZzF5dlNlSHdCTHdK?=
- =?utf-8?B?QXFwS2x5N0ZhMUpuaDlZeHZmcVkrR2o5cXhRTmEzNkdHdUEyUlpGajZhWm41?=
- =?utf-8?B?U1VldGsxYm4yUU55WlBUTHhYaWRad096R0JZM1d3UGsyY0gzZmNvTTZXM3lF?=
- =?utf-8?B?VjIyTEZXY0xXRnVqSkVxWTM1QlhJdHBnOWg2bXNQaXBWT2ZFbW9zTUZoOTlO?=
- =?utf-8?B?RGdRRXkvdUxsVytRYWFYUGhOTHBGbXNMelFUOUliMTArV1VYYzJaSXVFbzlQ?=
- =?utf-8?B?TXhQUUZ2VkZ6Z2UySkRmOHBYSTdwaDA1TGFSTHkzWmhLeWRYTUVncHRsNmNJ?=
- =?utf-8?B?NWE1UWVXZWcyazJScmw0S3B5MWcxd2MwT2JmdGY4d08rVVlHeUQvbFZya1BW?=
- =?utf-8?B?dkhiWlU2UU8rZmxjOVdTL05yWGI0bXFRTklJa3ZNL0xEZmxTcUw0RzNkTnpS?=
- =?utf-8?B?THdRYXVYQ2I1Tk1KT1l6cUJpaFJnZ0FsNmU2S0tvdDQwU1FKRjcxYU1lWjdx?=
- =?utf-8?B?QTdIWUE2NmUrNjFxb01HN2lKQzAyTTBBMi9LVjNSVWp1ZVJ2N3E2K1NNNzhD?=
- =?utf-8?B?Q0pDVFgvQkFzWXhJOGpmU2luRmZ6OHlSQjVNWDljbjUrZXl5aXBXZkMyc0t1?=
- =?utf-8?B?TWdMWFg4WmloQzgwUWxnYlZwNEdoazV4ZTNnbUZpY1ZNSVF3SHRySTA1MGlB?=
- =?utf-8?B?ak90S0I4V09waEF0NkF2WlZ3MHd0V0Q2QzlCMGR3YXNNNlNDTnRrczdDLyt0?=
- =?utf-8?B?Q1dvZkIwdnRPTy92d2hJeEs2SlE2bW1Kc01TbC8rRjhzOHRWa1lTamZONlU3?=
- =?utf-8?B?ZDlmT2FXMkZwZmlGUndkc3JrN2ZIVERxalg2d1NlY0pyRmVZdFUxMGxoTWRr?=
- =?utf-8?B?aHZZV21lMWtNSG1YU012czBnSGtaUUdrb0FYNmwxbGJVZHZnR2lhSGw4VHRr?=
- =?utf-8?B?Zkd5d2pVMTR1Z3BEaHFOZnFCdUpJb3ZVZnpRakk4KzdOK2ZLSDJPem1ybERL?=
- =?utf-8?B?WlBxQ1AwaTdLbkE4clYwR3RZcXlLRndJdmtEYW5xMXNNUHA0c0xqU3hIZnlK?=
- =?utf-8?B?SGVZVkVpRzdSN0hBMFd3V1VFRlV0NjJLUUtLdm15c1lva2pEclFRWmhPYzg0?=
- =?utf-8?B?NlBsZnltZEt0c2pVb29MWkE5Z251cTBNVm0wYlo0Q09HTUxKMDBxK3FlYWVH?=
- =?utf-8?B?anpKOTJsVmRQVzE3Z1VsS3BiR2VGYlAwSlhZOSs5MmxXUXdwU1c4YnVCWktG?=
- =?utf-8?Q?Jo/27VCqyvvnc?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a23da487-dc06-42e1-841b-08d8f5f3f89e
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2021 16:25:47.9955
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SLgE9m6eOn3lEGVXDOo4fB23sa/YdGEz+jTbFoe56JXNJ0OKulnxP1ZYHvYOKgNV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4948
+        id S234207AbhDBRaF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 2 Apr 2021 13:30:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56996 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229553AbhDBRaE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Apr 2021 13:30:04 -0400
+X-Greylist: delayed 539 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 02 Apr 2021 10:30:02 PDT
+Received: from nwxrelay.clusters.de (mxa.nwxi.net [IPv6:2a00:1418:2a00:204::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 904CEC0613E6
+        for <linux-media@vger.kernel.org>; Fri,  2 Apr 2021 10:30:02 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at avscan.clusters.de
+Received: from mailer.nwxi.net (mailer.nwxi.net [94.136.164.4])
+        by nwxrelay.clusters.de (8.14.4/8.14.4/Debian-4+wheezy1) with ESMTP id 132HL2Zh029943
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-media@vger.kernel.org>; Fri, 2 Apr 2021 19:21:02 +0200
+Received: from [192.168.2.132] (HSI-KBW-109-192-197-076.hsi6.kabel-badenwuerttemberg.de [109.192.197.76])
+        (authenticated bits=0)
+        by mailer.nwxi.net (8.14.4/8.14.4/Debian-4+wheezy1) with ESMTP id 132HKvkM004638
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-media@vger.kernel.org>; Fri, 2 Apr 2021 19:21:01 +0200
+From:   "Christopher Ott" <mail@christopher-ott.de>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Pi4 & Terratec Cinergy HTC - drxk & em28xx issues
+Date:   Fri, 02 Apr 2021 17:20:54 +0000
+Message-Id: <em1b74acac-cfaa-4c39-be3a-5183ed055307@desktop-bnq4ue3>
+Reply-To: "Christopher Ott" <mail@christopher-ott.de>
+User-Agent: eM_Client/8.1.1060.0
+Mime-Version: 1.0
+Content-Type: text/plain; format=flowed; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Qu,
+Hey guys,
 
-Am 02.04.21 um 05:18 schrieb Qu Huang:
-> Before dma_resv_lock(bo->base.resv, NULL) in amdgpu_bo_release_notify(),
-> the bo->base.resv lock may be held by ttm_mem_evict_first(),
+I don't know if this is the right place to ask for some help - I really 
+hope it is.
 
-That can't happen since when bo_release_notify is called the BO has not 
-more references and is therefore deleted.
+I use 2 Terratec Cinergy HTC DVB-C sticks with tvheadend. Now I switched 
+my NAS hardware from an old Synology NAS to a Raspberry Pi 4 
+Openmediavault NAS system. Both sticks worked well with Synology. but 
+with the Raspberry Pi environment it's difficult. I tried it with 2 
+different Pi4s. I still get a connection and a signal, but running both 
+sticks simultaniously is spamming the logs, crashing the system and 
+sometimes the video and audio quality is dropping.
 
-And we never evict a deleted BO, we just wait for it to become idle.
+I thought building a new kernel with your media build will solve my 
+issues, but after that it is still the same.
 
-Regards,
-Christian.
+My kernel version: Linux 5.10.17-v7l+ armv7l
 
-> and the VRAM mem will be evicted, mem region was replaced
-> by Gtt mem region. amdgpu_bo_release_notify() will then
-> hold the bo->base.resv lock, and SDMA will get an invalid
-> address in amdgpu_fill_buffer(), resulting in a VMFAULT
-> or memory corruption.
->
-> To avoid it, we have to hold bo->base.resv lock first, and
-> check whether the mem.mem_type is TTM_PL_VRAM.
->
-> Signed-off-by: Qu Huang <jinsdb@126.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 4b29b82..8018574 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -1300,12 +1300,16 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
->   	if (bo->base.resv == &bo->base._resv)
->   		amdgpu_amdkfd_remove_fence_on_pt_pd_bos(abo);
->
-> -	if (bo->mem.mem_type != TTM_PL_VRAM || !bo->mem.mm_node ||
-> -	    !(abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE))
-> +	if (!(abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE))
->   		return;
->
->   	dma_resv_lock(bo->base.resv, NULL);
->
-> +	if (bo->mem.mem_type != TTM_PL_VRAM || !bo->mem.mm_node) {
-> +		dma_resv_unlock(bo->base.resv);
-> +		return;
-> +	}
-> +
->   	r = amdgpu_fill_buffer(abo, AMDGPU_POISON, bo->base.resv, &fence);
->   	if (!WARN_ON(r)) {
->   		amdgpu_bo_fence(abo, fence, false);
-> --
-> 1.8.3.1
->
+My syslog:
+
+>[  252.382976] usb 1-1.1: new high-speed USB device number 4 using 
+>xhci_hcd
+>[  252.724028] usb 1-1.1: config 1 interface 0 altsetting 1 endpoint 
+>0x82 has invalid wMaxPacketSize 0
+>[  252.724367] usb 1-1.1: New USB device found, idVendor=0ccd, 
+>idProduct=00b2, bcdDevice= 1.00
+>[  252.724375] usb 1-1.1: New USB device strings: Mfr=3, Product=1, 
+>SerialNumber=2
+>[  252.724383] usb 1-1.1: Product: Cinergy HTC Stick
+>[  252.724390] usb 1-1.1: Manufacturer: TERRATEC
+>[  252.724396] usb 1-1.1: SerialNumber: 123456789ABCD
+>[  252.769246] em28xx 1-1.1:1.0: New device TERRATEC  Cinergy HTC Stick 
+>@ 480 Mbps (0ccd:00b2, interface 0, class 0)
+>[  252.769256] em28xx 1-1.1:1.0: Audio interface 0 found (Vendor Class)
+>[  252.769264] em28xx 1-1.1:1.0: Video interface 0 found: isoc
+>[  252.769272] em28xx 1-1.1:1.0: DVB interface 0 found: isoc
+>[  252.833131] em28xx 1-1.1:1.0: chip ID is em2884
+>[  252.909513] em28xx 1-1.1:1.0: EEPROM ID = 26 00 00 00, EEPROM hash = 
+>0xfebadddc
+>[  252.909521] em28xx 1-1.1:1.0: EEPROM info:
+>[  252.909529] em28xx 1-1.1:1.0:        microcode start address = 
+>0x0004, boot configuration = 0x00
+>[  252.916136] em28xx 1-1.1:1.0:        I2S audio, 5 sample rates
+>[  252.916145] em28xx 1-1.1:1.0:        500mA max power
+>[  252.916153] em28xx 1-1.1:1.0:        Table at offset 0x27, 
+>strings=0x249a, 0x1c6a, 0x1486
+>[  252.992738] em28xx 1-1.1:1.0: Identified as Terratec Cinergy HTC 
+>Stick (card=82)
+>[  252.992751] em28xx 1-1.1:1.0: Currently, V4L2 is not supported on 
+>this model
+>[  252.992758] em28xx 1-1.1:1.0: dvb set to isoc mode.
+>[  252.993788] usbcore: registered new interface driver em28xx
+>[  253.008940] em28xx 1-1.1:1.0: Binding audio extension
+>[  253.008951] em28xx 1-1.1:1.0: em28xx-audio.c: Copyright (C) 2006 
+>Markus Rechberger
+>[  253.008959] em28xx 1-1.1:1.0: em28xx-audio.c: Copyright (C) 
+>2007-2016 Mauro Carvalho Chehab
+>[  253.009003] em28xx 1-1.1:1.0: Endpoint 0x83 high-speed on intf 0 alt 
+>7 interval = 8, size 196
+>[  253.009012] em28xx 1-1.1:1.0: Number of URBs: 1, with 64 packets and 
+>192 size
+>[  253.009734] em28xx 1-1.1:1.0: Audio extension successfully 
+>initialized
+>[  253.009743] em28xx: Registered (Em28xx Audio Extension) extension
+>[  253.031262] WARNING: You are using an experimental version of the 
+>media stack.
+>                 As the driver is backported to an older kernel, it 
+>doesn't offer
+>                 enough quality for its usage in production.
+>                 Use it with care.
+>                Latest git patches (needed if you report a bug to 
+>linux-media@vger.kernel.org):
+>                 97b34809ec240d82c82af97626c2071a4062e0e6 media: 
+>staging: atomisp: reduce kernel stack usage
+>                 21ad53f206a95eda09a7b3780fb2f0b30ded314a media: 
+>staging: media: omap4iss: code style - avoid macro argument precedence 
+>issues
+>                 ee06162d98c399eb4ffc03d7b1141469177bee5a media: 
+>staging: media: ipu3: code style fix - missing a blank line after 
+>declarations
+>[  253.034561] em28xx 1-1.1:1.0: Binding DVB extension
+>[  253.643633] drxk: status = 0x639260d9
+>[  253.643643] drxk: detected a drx-3926k, spin A3, xtal 20.250 MHz
+>[  257.687047] drxk: DRXK driver version 0.9.4300
+>[  257.720560] drxk: frontend initialized.
+>[  257.742838] tda18271 12-0060: creating new instance
+>[  257.745066] tda18271: TDA18271HD/C2 detected @ 12-0060
+>[  258.224637] dvbdev: DVB: registering new adapter (1-1.1:1.0)
+>[  258.224669] em28xx 1-1.1:1.0: DVB: registering adapter 0 frontend 0 
+>(DRXK DVB-C DVB-T)...
+>[  258.224700] dvbdev: dvb_create_media_entity: media entity 'DRXK 
+>DVB-C DVB-T' registered.
+>[  258.228146] dvbdev: dvb_create_media_entity: media entity 
+>'dvb-demux' registered.
+>[  258.244401] em28xx 1-1.1:1.0: DVB extension successfully initialized
+>[  258.244424] em28xx: Registered (Em28xx dvb Extension) extension
+>[  258.265551] em28xx_rc: disagrees about version of symbol 
+>rc_register_device
+>[  258.265574] em28xx_rc: Unknown symbol rc_register_device (err -22)
+>[  258.265603] em28xx_rc: disagrees about version of symbol rc_keydown
+>[  258.265621] em28xx_rc: Unknown symbol rc_keydown (err -22)
+>[  258.265648] em28xx_rc: disagrees about version of symbol 
+>rc_free_device
+>[  258.265665] em28xx_rc: Unknown symbol rc_free_device (err -22)
+>[  258.265701] em28xx_rc: disagrees about version of symbol 
+>rc_allocate_device
+>[  258.265717] em28xx_rc: Unknown symbol rc_allocate_device (err -22)
+>[  258.265782] em28xx_rc: disagrees about version of symbol 
+>rc_unregister_device
+>[  258.265799] em28xx_rc: Unknown symbol rc_unregister_device (err -22)
+>[  258.328048] tda18271: performing RF tracking filter calibration
+>[  260.743241] tda18271: RF tracking filter calibration complete
+>[  260.743372] em28xx 1-1.1:1.0: DVB: adapter 0 frontend 0 frequency 0 
+>out of range (47000000..864000000)
+>[  364.894422] em28xx 1-1.1:1.0: read from i2c device at 0x52 failed 
+>with unknown error (status=108)
+>[  364.894434] drxk: i2c read error at addr 0x29
+>[  364.894442] drxk: Error -5 on get_qam_signal_to_noise
+>[  366.894751] em28xx 1-1.1:1.0: read from i2c device at 0x52 failed 
+>with unknown error (status=102)
+>[  366.894767] drxk: i2c read error at addr 0x29
+>[  366.894780] drxk: Error -5 on get_qam_signal_to_noise
+>[  447.909286] em28xx 1-1.1:1.0: read from i2c device at 0x52 failed 
+>with unknown error (status=155)
+>[  447.909304] drxk: i2c read error at addr 0x29
+>[  456.910675] em28xx 1-1.1:1.0: read from i2c device at 0x52 failed 
+>with unknown error (status=196)
+>[  456.910693] drxk: i2c read error at addr 0x29
+>[  471.904849] drxk: ERROR: -32000
+>                 while sending cmd 0x0205 with params:
+>[  471.904857] drxk: Error -22 on get_qam_lock_status
+>[  471.904865] drxk: Error -22 on get_lock_status
+>[  474.905258] drxk: ERROR: -32000
+>                 while sending cmd 0x0205 with params:
+>[  474.905266] drxk: Error -22 on get_qam_lock_status
+>[  474.905273] drxk: Error -22 on get_lock_status
+>[  476.905638] drxk: ERROR: -32000
+>                 while sending cmd 0x0205 with params:
+>[  476.905650] drxk: Error -22 on get_qam_lock_status
+>[  476.905663] drxk: Error -22 on get_lock_status
+>[  477.905881] drxk: ERROR: -32000
+>                 while sending cmd 0x0205 with params:
+>[  477.905894] drxk: Error -22 on get_qam_lock_status
+>[  477.905906] drxk: Error -22 on get_lock_status
+>[  479.906355] drxk: ERROR: -32000
+>                 while sending cmd 0x0205 with params:
+>[  479.906371] drxk: Error -22 on get_qam_lock_status
+>[  479.906386] drxk: Error -22 on get_lock_status
+>[  503.909738] drxk: ERROR: -32000
+>                 while sending cmd 0x0205 with params:
+>[  503.909747] drxk: Error -22 on get_qam_lock_status
+>[  503.909754] drxk: Error -22 on get_lock_status
+>[  506.910199] drxk: ERROR: -32000
+>                 while sending cmd 0x0205 with params:
+>[  506.910211] drxk: Error -22 on get_qam_lock_status
+>[  506.910223] drxk: Error -22 on get_lock_status
+>[  515.591453] drxk: ERROR: -32000
+>                 while sending cmd 0x0205 with params:
+>[  515.591465] drxk: Error -22 on get_qam_lock_status
+>[  515.591472] drxk: Error -22 on get_lock_status
+>[  519.512044] drxk: ERROR: -32000
+>                 while sending cmd 0x0205 with params:
+>[  519.512052] drxk: Error -22 on get_qam_lock_status
+>[  519.512060] drxk: Error -22 on get_lock_status
+
+lsusb -v:
+
+>Bus 001 Device 004: ID 0ccd:00b2 TerraTec Electronic GmbH
+>Couldn't open device, some information will be missing
+>Device Descriptor:
+>   bLength                18
+>   bDescriptorType         1
+>   bcdUSB               2.00
+>   bDeviceClass            0
+>   bDeviceSubClass         0
+>   bDeviceProtocol         0
+>   bMaxPacketSize0        64
+>   idVendor           0x0ccd TerraTec Electronic GmbH
+>   idProduct          0x00b2
+>   bcdDevice            1.00
+>   iManufacturer           3
+>   iProduct                1
+>   iSerial                 2
+>   bNumConfigurations      1
+>   Configuration Descriptor:
+>     bLength                 9
+>     bDescriptorType         2
+>     wTotalLength       0x0131
+>     bNumInterfaces          1
+>     bConfigurationValue     1
+>     iConfiguration          0
+>     bmAttributes         0x80
+>       (Bus Powered)
+>     MaxPower              500mA
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       0
+>       bNumEndpoints           4
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      0
+>       bInterfaceProtocol    255
+>       iInterface              0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0001  1x 1 bytes
+>         bInterval              11
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0000  1x 0 bytes
+>         bInterval               1
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x83  EP 3 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0000  1x 0 bytes
+>         bInterval               4
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x84  EP 4 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0000  1x 0 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       1
+>       bNumEndpoints           4
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      0
+>       bInterfaceProtocol    255
+>       iInterface              0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0001  1x 1 bytes
+>         bInterval              11
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0000  1x 0 bytes
+>         bInterval               1
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x83  EP 3 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x00c4  1x 196 bytes
+>         bInterval               4
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x84  EP 4 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x03ac  1x 940 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       2
+>       bNumEndpoints           4
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      0
+>       bInterfaceProtocol    255
+>       iInterface              0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0001  1x 1 bytes
+>         bInterval              11
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0ad0  2x 720 bytes
+>         bInterval               1
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x83  EP 3 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x00c4  1x 196 bytes
+>         bInterval               4
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x84  EP 4 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x03ac  1x 940 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       3
+>       bNumEndpoints           4
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      0
+>       bInterfaceProtocol    255
+>       iInterface              0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0001  1x 1 bytes
+>         bInterval              11
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0c00  2x 1024 bytes
+>         bInterval               1
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x83  EP 3 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x00c4  1x 196 bytes
+>         bInterval               4
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x84  EP 4 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x03ac  1x 940 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       4
+>       bNumEndpoints           4
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      0
+>       bInterfaceProtocol    255
+>       iInterface              0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0001  1x 1 bytes
+>         bInterval              11
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x1300  3x 768 bytes
+>         bInterval               1
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x83  EP 3 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x00c4  1x 196 bytes
+>         bInterval               4
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x84  EP 4 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x03ac  1x 940 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       5
+>       bNumEndpoints           4
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      0
+>       bInterfaceProtocol    255
+>       iInterface              0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0001  1x 1 bytes
+>         bInterval              11
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x1380  3x 896 bytes
+>         bInterval               1
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x83  EP 3 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x00c4  1x 196 bytes
+>         bInterval               4
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x84  EP 4 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x03ac  1x 940 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       6
+>       bNumEndpoints           4
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      0
+>       bInterfaceProtocol    255
+>       iInterface              0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0001  1x 1 bytes
+>         bInterval              11
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x13c0  3x 960 bytes
+>         bInterval               1
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x83  EP 3 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x00c4  1x 196 bytes
+>         bInterval               4
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x84  EP 4 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x03ac  1x 940 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       7
+>       bNumEndpoints           4
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      0
+>       bInterfaceProtocol    255
+>       iInterface              0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0001  1x 1 bytes
+>         bInterval              11
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x1400  3x 1024 bytes
+>         bInterval               1
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x83  EP 3 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x00c4  1x 196 bytes
+>         bInterval               4
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x84  EP 4 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x03ac  1x 940 bytes
+>         bInterval               1
+
+Please tell me if you need more information. Thanks for your support & 
+enjoy the easter weekend
+
+Chris
 
