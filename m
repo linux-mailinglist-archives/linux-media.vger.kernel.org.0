@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69B0B35351C
+	by mail.lfdr.de (Postfix) with ESMTP id 1AE5435351B
 	for <lists+linux-media@lfdr.de>; Sat,  3 Apr 2021 20:09:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236924AbhDCSJI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Apr 2021 14:09:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35094 "EHLO
+        id S236919AbhDCSJH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Apr 2021 14:09:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236907AbhDCSJG (ORCPT
+        with ESMTP id S236893AbhDCSJG (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Sat, 3 Apr 2021 14:09:06 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E18C4C061788;
-        Sat,  3 Apr 2021 11:09:01 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id r20so8684148ljk.4;
-        Sat, 03 Apr 2021 11:09:01 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18AFC061793;
+        Sat,  3 Apr 2021 11:09:02 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id g8so11704329lfv.12;
+        Sat, 03 Apr 2021 11:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=P4L7V3F+4F2OsutYm9zIXnd8ryH/kFEzVMXabtRtrgk=;
-        b=lRBp5XWB67XwzXmrSb70V7fo3Wxrzm8PBa/F8TImBkan1WX/LKrH0IHmQUagWTQ2n4
-         6IAHtIds6+/RBi1DIeffQPYParjg8zPeoYhgQPGQNBfNt74WeICCS3p6ImxgErGl2ECO
-         r/BeRFErk4YYNZE0QEsYAwOwNDRpzfJjvK8+6jZZE7vHCT4xKjOiBxKssl+6IoKMfBPq
-         Y8GxsEMwNl590e+yOfVfwWoza3EyWX3HO+vCoavfhyK60lbvfWCcleUkvVqx0JwNczxp
-         1oFqXD8N3Se7pSgvGNmQ4YSyXZZIXtHqvdwf8c16XeEyiWRKaC54cbqyAtUFpeVwPv1g
-         d15A==
+        bh=v0krWIe7+jYDq9Qsx+sHNhNnuq8bykK1gj9DfeDqL2U=;
+        b=lqTneHiHyE7nJi6VT50kSLAtJT6Srdtr42dCNISwj7s9/zm3Keihaa9ktxHQx+ve2A
+         gl+IVB2sis7pHB/LPbH7J8YTxmDexoa6gJHq9awj9ZJfDeevtBfC9QoWHRernWfDd+2g
+         zus2bgqvRIJZMwyauQP/xHEoyf+6vghSIwWSTLo3itWO2g42RAjhwyqEA3A74SziqdT8
+         Wz8UFDTmU2rli294STEc9C3wOTP8WD1QAgjrWgYDdmCW7oT4bdzoauYPJbQ3Q84E9pRD
+         xzQwTAxfs7IEAQfuX8kquWQCOkJJ0oNf3t6f/JgnMyNuB8BoRvGsRyvrG6+nAcvJVXn7
+         U+Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=P4L7V3F+4F2OsutYm9zIXnd8ryH/kFEzVMXabtRtrgk=;
-        b=giooRozSd6beecIewZ5zBHcNENap5oKgBEHdhquOqsnoWTDkT2XzrqDnIhVvpsl5gg
-         0nCCGUI9TgtqNde2wwtPOy3hbMB6rXRik9qj7ezgXyzHKir90dXRk517Sc5v4jE/CAIg
-         oMuqFU7265PZcS/f3KFYVlrnPgdXtqQDNHJhj4X7Vmb7ldXI8Emhj97evITuRW6Xv3ty
-         7fiI9ZT+wMRmriTbUiUwrno4myF1pQ+KRIkcDrc4EFW4idhPemeY4bnTRcyQNAIC7HC7
-         0NJz3IoQtKWm0psVNV5NNL268SvCr8EJV9Rr6sPYwrvKBRH212w5zZG0udekzg18Akdh
-         u6Tg==
-X-Gm-Message-State: AOAM530tWGBjeZRUoz+BdpAbqNclVKt8Qsc68M3UKzt2jDZcOdTryxWR
-        ktRStyxnFwZ/yhH/+3Pa9/bzpfJTcZ/oBCRT
-X-Google-Smtp-Source: ABdhPJyX4kGkwpY8zgU97BOHq6W5uukFi46485HqHo5bQiWvzZu4M9hkVrUAbAuoGqfoaSpTCbAXbg==
-X-Received: by 2002:a2e:a415:: with SMTP id p21mr11798268ljn.108.1617473340519;
-        Sat, 03 Apr 2021 11:09:00 -0700 (PDT)
+        bh=v0krWIe7+jYDq9Qsx+sHNhNnuq8bykK1gj9DfeDqL2U=;
+        b=DKseOhHxA6zEEKZEIXi90N7MJvm0NZEnrWW3OFfFm7SNJ+NUvwcr8q5y2ppYXjrqGl
+         +jc88tG3VXUB1OSSp0NJqTZbmeSRwOuV7xkstCo6MZseOSmSirOpn5q73UXXVZFRAeOg
+         sShzT7feR/DSi/jVxS9Et1rt++YAKNOg/YQiJxoWGLxZxfRDw3FMKmWwv6PxHI5ZWb8B
+         /VewyzHw1CVWxP6sngOMn4Pw/mJjZAbJhvQoGAjFBEEuy6ruK6gwkKjAJ//30+xeBZZk
+         mmgb47wWxQ8kHfWiZJWiuJeAbqJZUQPBjpruzC0lV6AejAL8aReT9WI/nIciZiERa0O4
+         /Ntw==
+X-Gm-Message-State: AOAM5336xKgtdWl2PKHW2mfxyBRsTm46az0H3S05aso74OQG3lJu3SAt
+        BxgFMSK7AYCYSv1jsNQsx0U=
+X-Google-Smtp-Source: ABdhPJyDymodgWo417Oj1iCrFieudvRS35T9DQ6VoDJ2vERDoIeDlO3wIZrUC61MWf2xYB3FUM6QSA==
+X-Received: by 2002:ac2:46d5:: with SMTP id p21mr13422183lfo.295.1617473341443;
+        Sat, 03 Apr 2021 11:09:01 -0700 (PDT)
 Received: from zhans ([37.151.32.231])
-        by smtp.gmail.com with ESMTPSA id r4sm1204044lfn.135.2021.04.03.11.09.00
+        by smtp.gmail.com with ESMTPSA id i185sm1201092lfd.279.2021.04.03.11.09.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Apr 2021 11:09:00 -0700 (PDT)
-Date:   Sun, 4 Apr 2021 00:08:59 +0600
+        Sat, 03 Apr 2021 11:09:01 -0700 (PDT)
+Date:   Sun, 4 Apr 2021 00:09:00 +0600
 From:   Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
 To:     clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: [PATCH 1/7] staging: media: zoran: Rename 'HEnd' to 'h_end'
-Message-ID: <b5713f89cb4c52f50cfb3db6ac1e1e9dc2665f2d.1617472411.git.zhansayabagdaulet@gmail.com>
+Subject: [PATCH 2/7] staging: media: zoran: Rename 'VEnd' to 'v_end'
+Message-ID: <bda5e77d271173e8ab6c2180b39e2aa7b1fd65de.1617472411.git.zhansayabagdaulet@gmail.com>
 References: <cover.1617472411.git.zhansayabagdaulet@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -63,7 +63,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename variable 'HEnd' to 'h_end' to eliminate camelcase
+Rename variable 'VEnd' to 'v_end' to eliminate camelcase.
 Reported by checkpatch.pl.
 
 Signed-off-by: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
@@ -72,33 +72,33 @@ Signed-off-by: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/zoran/zoran_device.c b/drivers/staging/media/zoran/zoran_device.c
-index e569a1341d01..415b3cf4826e 100644
+index 415b3cf4826e..6764b51fc595 100644
 --- a/drivers/staging/media/zoran/zoran_device.c
 +++ b/drivers/staging/media/zoran/zoran_device.c
 @@ -291,7 +291,7 @@ static void zr36057_set_vfe(struct zoran *zr, int video_width, int video_height,
  			    const struct zoran_format *format)
  {
  	const struct tvnorm *tvn;
--	unsigned int h_start, HEnd, v_start, VEnd;
-+	unsigned int h_start, h_end, v_start, VEnd;
+-	unsigned int h_start, h_end, v_start, VEnd;
++	unsigned int h_start, h_end, v_start, v_end;
  	unsigned int DispMode;
  	unsigned int VidWinWid, VidWinHt;
  	unsigned int hcrop1, hcrop2, vcrop1, vcrop2;
-@@ -331,11 +331,11 @@ static void zr36057_set_vfe(struct zoran *zr, int video_width, int video_height,
- 	 * However, the DC10 has '0' as h_start, but does need |1, so we
- 	 * use a dirty check...
- 	 */
--	HEnd = h_start + tvn->wa - 1;
-+	h_end = h_start + tvn->wa - 1;
- 	h_start += hcrop1;
--	HEnd -= hcrop2;
-+	h_end -= hcrop2;
- 	reg = ((h_start & ZR36057_VFEHCR_HMASK) << ZR36057_VFEHCR_H_START)
--	    | ((HEnd & ZR36057_VFEHCR_HMASK) << ZR36057_VFEHCR_H_END);
-+	    | ((h_end & ZR36057_VFEHCR_HMASK) << ZR36057_VFEHCR_H_END);
- 	if (zr->card.vfe_pol.hsync_pol)
- 		reg |= ZR36057_VFEHCR_HS_POL;
- 	btwrite(reg, ZR36057_VFEHCR);
+@@ -349,11 +349,11 @@ static void zr36057_set_vfe(struct zoran *zr, int video_width, int video_height,
+ 	vcrop1 = (tvn->ha / 2 - He) / 2;
+ 	vcrop2 = tvn->ha / 2 - He - vcrop1;
+ 	v_start = tvn->v_start;
+-	VEnd = v_start + tvn->ha / 2;	// - 1; FIXME SnapShot times out with -1 in 768*576 on the DC10 - LP
++	v_end = v_start + tvn->ha / 2;	// - 1; FIXME SnapShot times out with -1 in 768*576 on the DC10 - LP
+ 	v_start += vcrop1;
+-	VEnd -= vcrop2;
++	v_end -= vcrop2;
+ 	reg = ((v_start & ZR36057_VFEVCR_VMASK) << ZR36057_VFEVCR_V_START)
+-	    | ((VEnd & ZR36057_VFEVCR_VMASK) << ZR36057_VFEVCR_V_END);
++	    | ((v_end & ZR36057_VFEVCR_VMASK) << ZR36057_VFEVCR_V_END);
+ 	if (zr->card.vfe_pol.vsync_pol)
+ 		reg |= ZR36057_VFEVCR_VS_POL;
+ 	btwrite(reg, ZR36057_VFEVCR);
 -- 
 2.25.1
 
