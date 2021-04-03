@@ -2,21 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB0B5353509
-	for <lists+linux-media@lfdr.de>; Sat,  3 Apr 2021 20:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B14C35350A
+	for <lists+linux-media@lfdr.de>; Sat,  3 Apr 2021 20:08:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236662AbhDCSI3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Apr 2021 14:08:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34926 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236660AbhDCSI0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Apr 2021 14:08:26 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40CFAC06178C;
-        Sat,  3 Apr 2021 11:08:21 -0700 (PDT)
+        id S236698AbhDCSIa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Apr 2021 14:08:30 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42320 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236671AbhDCSI1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Apr 2021 14:08:27 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id F34191F4580F
+        with ESMTPSA id 612B61F45811
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
@@ -28,9 +25,9 @@ Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Daniel Almeida <daniel.almeida@collabora.com>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v5 03/10] media: uapi: mpeg2: Cleanup flags
-Date:   Sat,  3 Apr 2021 15:07:49 -0300
-Message-Id: <20210403180756.175881-4-ezequiel@collabora.com>
+Subject: [PATCH v5 04/10] media: uapi: mpeg2: Split sequence and picture parameters
+Date:   Sat,  3 Apr 2021 15:07:50 -0300
+Message-Id: <20210403180756.175881-5-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210403180756.175881-1-ezequiel@collabora.com>
 References: <20210403180756.175881-1-ezequiel@collabora.com>
@@ -40,1388 +37,498 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Our current MPEG-2 uAPI uses 1-byte fields for MPEG-2
-boolean syntax elements. Clean these by adding a 'flags'
-field and flag macro for each boolean syntax element.
+Typically, bitstreams are composed of a sequence header,
+followed by a number of picture header and picture coding extension
+headers. Each picture can be composed by a number of slices.
 
-A follow-up change will refactor this uAPI so we don't need
-to add padding fields just yet.
+Let's split the MPEG-2 uAPI to follow these semantics more closely,
+allowing more usage flexibility. Having these controls splitted
+allows applications to set a sequence control at the beginning
+of a sequence, and then set a picture control for each frame.
+
+While here add padding fields where needed, and document
+the uAPI header thoroughly.
+
+Note that the V4L2_CTRL_TYPE_{} defines had to be moved because
+it clashes with existing ones. This is not really an issue
+since they will be re-defined when the controls are moved
+out of staging.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Tested-by: Jonas Karlman <jonas@kwiboo.se>
 ---
- .../media/v4l/ext-ctrls-codec.rst             |  77 +-
- drivers/media/v4l2-core/v4l2-async-core.c     | 880 ++++++++++++++++++
- drivers/media/v4l2-core/v4l2-ctrls.c          |  14 +-
- .../media/hantro/hantro_g1_mpeg2_dec.c        |  76 +-
- .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |  76 +-
- .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |  38 +-
- include/media/mpeg2-ctrls.h                   |  36 +-
- 7 files changed, 1055 insertions(+), 142 deletions(-)
- create mode 100644 drivers/media/v4l2-core/v4l2-async-core.c
+ .../media/v4l/ext-ctrls-codec.rst             | 47 ++++++---
+ .../media/v4l/pixfmt-compressed.rst           |  5 +-
+ .../media/v4l/vidioc-queryctrl.rst            | 12 +++
+ .../media/videodev2.h.rst.exceptions          |  2 +
+ drivers/media/v4l2-core/v4l2-ctrls.c          | 57 ++++++++---
+ drivers/staging/media/hantro/hantro_drv.c     | 10 ++
+ .../media/hantro/hantro_g1_mpeg2_dec.c        | 14 +--
+ .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    | 14 +--
+ drivers/staging/media/sunxi/cedrus/cedrus.c   | 12 +++
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  2 +
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +
+ .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |  8 +-
+ include/media/mpeg2-ctrls.h                   | 97 +++++++++++++++----
+ include/media/v4l2-ctrls.h                    |  4 +
+ 14 files changed, 228 insertions(+), 60 deletions(-)
 
 diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index d9546f0aa2e8..7d5ac7fb6579 100644
+index 7d5ac7fb6579..8a0d6139db34 100644
 --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
 +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -1654,13 +1654,28 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-       - ``profile_and_level_indication``
-       - The current profile and level indication as extracted from the
- 	bitstream.
--    * - __u8
--      - ``progressive_sequence``
--      - Indication that all the frames for the sequence are progressive instead
--	of interlaced.
+@@ -1603,14 +1603,6 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+     * - __u32
+       - ``data_bit_offset``
+       - Offset (in bits) to the video data in the current slice data.
+-    * - struct :c:type:`v4l2_mpeg2_sequence`
+-      - ``sequence``
+-      - Structure with MPEG-2 sequence metadata, merging relevant fields from
+-	the sequence header and sequence extension parts of the bitstream.
+-    * - struct :c:type:`v4l2_mpeg2_picture`
+-      - ``picture``
+-      - Structure with MPEG-2 picture metadata, merging relevant fields from
+-	the picture header and picture coding extension parts of the bitstream.
+     * - __u64
+       - ``backward_ref_ts``
+       - Timestamp of the V4L2 capture buffer to use as backward reference, used
+@@ -1628,14 +1620,28 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+     * - __u32
+       - ``quantiser_scale_code``
+       - Code used to determine the quantization scale to use for the IDCT.
++    * - __u8
++      - ``reserved``
++      - Applications and drivers must set this to zero.
+ 
+-.. c:type:: v4l2_mpeg2_sequence
++``V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE (struct)``
++    Specifies the sequence parameters (as extracted from the bitstream) for the
++    associated MPEG-2 slice data. This includes fields matching the syntax
++    elements from the sequence header and sequence extension parts of the
++    bitstream as specified by :ref:`mpeg2part2`.
++
++    .. note::
++
++       This compound control is not yet part of the public kernel API and
++       it is expected to change.
++
++.. c:type:: v4l2_ctrl_mpeg2_sequence
+ 
+ .. cssclass:: longtable
+ 
+ .. tabularcolumns:: |p{1.4cm}|p{6.5cm}|p{9.4cm}|
+ 
+-.. flat-table:: struct v4l2_mpeg2_sequence
++.. flat-table:: struct v4l2_ctrl_mpeg2_sequence
+     :header-rows:  0
+     :stub-columns: 0
+     :widths:       1 1 2
+@@ -1657,6 +1663,9 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
      * - __u8
        - ``chroma_format``
        - The chrominance sub-sampling format (1: 4:2:0, 2: 4:2:2, 3: 4:4:4).
-+    * - __u32
-+      - ``flags``
-+      - See :ref:`MPEG-2 Sequence Flags <mpeg2_sequence_flags>`.
-+
-+.. _mpeg2_sequence_flags:
-+
-+``MPEG-2 Sequence Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE``
-+      - 0x00000001
-+      - Indication that all the frames for the sequence are progressive instead
-+	of interlaced.
++    * - __u8
++      - ``reserved``
++      - Applications and drivers must set this to zero.
+     * - __u32
+       - ``flags``
+       - See :ref:`MPEG-2 Sequence Flags <mpeg2_sequence_flags>`.
+@@ -1677,7 +1686,18 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+       - Indication that all the frames for the sequence are progressive instead
+ 	of interlaced.
  
- .. c:type:: v4l2_mpeg2_picture
+-.. c:type:: v4l2_mpeg2_picture
++``V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE (struct)``
++    Specifies the picture parameters (as extracted from the bitstream) for the
++    associated MPEG-2 slice data. This includes fields matching the syntax
++    elements from the picture header and picture coding extension parts of the
++    bitstream as specified by :ref:`mpeg2part2`.
++
++    .. note::
++
++       This compound control is not yet part of the public kernel API and
++       it is expected to change.
++
++.. c:type:: v4l2_ctrl_mpeg2_picture
  
-@@ -1693,29 +1708,45 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+ .. raw:: latex
+ 
+@@ -1687,7 +1707,7 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+ 
+ .. tabularcolumns:: |p{1.0cm}|p{5.6cm}|p{10.7cm}|
+ 
+-.. flat-table:: struct v4l2_mpeg2_picture
++.. flat-table:: struct v4l2_ctrl_mpeg2_picture
+     :header-rows:  0
+     :stub-columns: 0
+     :widths:       1 1 2
+@@ -1708,6 +1728,9 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
        - ``picture_structure``
        - Picture structure (1: interlaced top field, 2: interlaced bottom field,
  	3: progressive frame).
--    * - __u8
--      - ``top_field_first``
--      - If set to 1 and interlaced stream, top field is output first.
--    * - __u8
--      - ``frame_pred_frame_dct``
--      - If set to 1, only frame-DCT and frame prediction are used.
--    * - __u8
--      - ``concealment_motion_vectors``
--      -  If set to 1, motion vectors are coded for intra macroblocks.
--    * - __u8
--      - ``q_scale_type``
-+    * - __u32
-+      - ``flags``
-+      - See :ref:`MPEG-2 Picture Flags <mpeg2_picture_flags>`.
-+
-+
-+.. _mpeg2_picture_flags:
-+
-+``MPEG-2 Picture Flags``
-+
-+.. cssclass:: longtable
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - ``V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST``
-+      - 0x00000001
-+      - If set and it's an interlaced stream, top field is output first.
-+    * - ``V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT``
-+      - 0x00000002
-+      - If set only frame-DCT and frame prediction are used.
-+    * - ``V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV``
-+      - 0x00000004
-+      -  If set motion vectors are coded for intra macroblocks.
-+    * - ``V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE``
-+      - 0x00000008
-       - This flag affects the inverse quantization process.
--    * - __u8
--      - ``intra_vlc_format``
-+    * - ``V4L2_MPEG2_PIC_FLAG_INTRA_VLC``
-+      - 0x00000010
-       - This flag affects the decoding of transform coefficient data.
--    * - __u8
--      - ``alternate_scan``
-+    * - ``V4L2_MPEG2_PIC_FLAG_ALT_SCAN``
-+      - 0x00000020
-       - This flag affects the decoding of transform coefficient data.
--    * - __u8
--      - ``repeat_first_field``
-+    * - ``V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST``
-+      - 0x00000040
-       - This flag affects the decoding process of progressive frames.
--    * - __u16
--      - ``progressive_frame``
-+    * - ``V4L2_MPEG2_PIC_FLAG_PROGRESSIVE``
-+      - 0x00000080
-       - Indicates whether the current frame is progressive.
- 
- .. raw:: latex
-diff --git a/drivers/media/v4l2-core/v4l2-async-core.c b/drivers/media/v4l2-core/v4l2-async-core.c
-new file mode 100644
-index 000000000000..cd9e78c63791
---- /dev/null
-+++ b/drivers/media/v4l2-core/v4l2-async-core.c
-@@ -0,0 +1,880 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * V4L2 asynchronous subdevice registration API
-+ *
-+ * Copyright (C) 2012-2013, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-+ */
-+
-+#include <linux/debugfs.h>
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/list.h>
-+#include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/seq_file.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+
-+#include <media/v4l2-async.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-subdev.h>
-+
-+static int v4l2_async_notifier_call_bound(struct v4l2_async_notifier *n,
-+					  struct v4l2_subdev *subdev,
-+					  struct v4l2_async_subdev *asd)
-+{
-+	if (!n->ops || !n->ops->bound)
-+		return 0;
-+
-+	return n->ops->bound(n, subdev, asd);
-+}
-+
-+static void v4l2_async_notifier_call_unbind(struct v4l2_async_notifier *n,
-+					    struct v4l2_subdev *subdev,
-+					    struct v4l2_async_subdev *asd)
-+{
-+	if (!n->ops || !n->ops->unbind)
-+		return;
-+
-+	n->ops->unbind(n, subdev, asd);
-+}
-+
-+static int v4l2_async_notifier_call_complete(struct v4l2_async_notifier *n)
-+{
-+	if (!n->ops || !n->ops->complete)
-+		return 0;
-+
-+	return n->ops->complete(n);
-+}
-+
-+static bool match_i2c(struct v4l2_async_notifier *notifier,
-+		      struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-+{
-+#if IS_ENABLED(CONFIG_I2C)
-+	struct i2c_client *client = i2c_verify_client(sd->dev);
-+
-+	return client &&
-+		asd->match.i2c.adapter_id == client->adapter->nr &&
-+		asd->match.i2c.address == client->addr;
-+#else
-+	return false;
-+#endif
-+}
-+
-+static bool match_fwnode(struct v4l2_async_notifier *notifier,
-+			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-+{
-+	struct fwnode_handle *other_fwnode;
-+	struct fwnode_handle *dev_fwnode;
-+	bool asd_fwnode_is_ep;
-+	bool sd_fwnode_is_ep;
-+	struct device *dev;
-+
-+	/*
-+	 * Both the subdev and the async subdev can provide either an endpoint
-+	 * fwnode or a device fwnode. Start with the simple case of direct
-+	 * fwnode matching.
-+	 */
-+	if (sd->fwnode == asd->match.fwnode)
-+		return true;
-+
-+	/*
-+	 * Check the same situation for any possible secondary assigned to the
-+	 * subdev's fwnode
-+	 */
-+	if (!IS_ERR_OR_NULL(sd->fwnode->secondary) &&
-+	    sd->fwnode->secondary == asd->match.fwnode)
-+		return true;
-+
-+	/*
-+	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
-+	 * endpoint or a device. If they're of the same type, there's no match.
-+	 * Technically speaking this checks if the nodes refer to a connected
-+	 * endpoint, which is the simplest check that works for both OF and
-+	 * ACPI. This won't make a difference, as drivers should not try to
-+	 * match unconnected endpoints.
-+	 */
-+	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd->fwnode);
-+	asd_fwnode_is_ep = fwnode_graph_is_endpoint(asd->match.fwnode);
-+
-+	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
-+		return false;
-+
-+	/*
-+	 * The sd and asd fwnodes are of different types. Get the device fwnode
-+	 * parent of the endpoint fwnode, and compare it with the other fwnode.
-+	 */
-+	if (sd_fwnode_is_ep) {
-+		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
-+		other_fwnode = asd->match.fwnode;
-+	} else {
-+		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
-+		other_fwnode = sd->fwnode;
-+	}
-+
-+	fwnode_handle_put(dev_fwnode);
-+
-+	if (dev_fwnode != other_fwnode)
-+		return false;
-+
-+	/*
-+	 * We have a heterogeneous match. Retrieve the struct device of the side
-+	 * that matched on a device fwnode to print its driver name.
-+	 */
-+	if (sd_fwnode_is_ep)
-+		dev = notifier->v4l2_dev ? notifier->v4l2_dev->dev
-+		    : notifier->sd->dev;
-+	else
-+		dev = sd->dev;
-+
-+	if (dev && dev->driver) {
-+		if (sd_fwnode_is_ep)
-+			dev_warn(dev, "Driver %s uses device fwnode, incorrect match may occur\n",
-+				 dev->driver->name);
-+		dev_notice(dev, "Consider updating driver %s to match on endpoints\n",
-+			   dev->driver->name);
-+	}
-+
-+	return true;
-+}
-+
-+static LIST_HEAD(subdev_list);
-+static LIST_HEAD(notifier_list);
-+static DEFINE_MUTEX(list_lock);
-+
-+static struct v4l2_async_subdev *
-+v4l2_async_find_match(struct v4l2_async_notifier *notifier,
-+		      struct v4l2_subdev *sd)
-+{
-+	bool (*match)(struct v4l2_async_notifier *notifier,
-+		      struct v4l2_subdev *sd, struct v4l2_async_subdev *asd);
-+	struct v4l2_async_subdev *asd;
-+
-+	list_for_each_entry(asd, &notifier->waiting, list) {
-+		/* bus_type has been verified valid before */
-+		switch (asd->match_type) {
-+		case V4L2_ASYNC_MATCH_I2C:
-+			match = match_i2c;
-+			break;
-+		case V4L2_ASYNC_MATCH_FWNODE:
-+			match = match_fwnode;
-+			break;
-+		default:
-+			/* Cannot happen, unless someone breaks us */
-+			WARN_ON(true);
-+			return NULL;
-+		}
-+
-+		/* match cannot be NULL here */
-+		if (match(notifier, sd, asd))
-+			return asd;
-+	}
-+
-+	return NULL;
-+}
-+
-+/* Compare two async sub-device descriptors for equivalence */
-+static bool asd_equal(struct v4l2_async_subdev *asd_x,
-+		      struct v4l2_async_subdev *asd_y)
-+{
-+	if (asd_x->match_type != asd_y->match_type)
-+		return false;
-+
-+	switch (asd_x->match_type) {
-+	case V4L2_ASYNC_MATCH_I2C:
-+		return asd_x->match.i2c.adapter_id ==
-+			asd_y->match.i2c.adapter_id &&
-+			asd_x->match.i2c.address ==
-+			asd_y->match.i2c.address;
-+	case V4L2_ASYNC_MATCH_FWNODE:
-+		return asd_x->match.fwnode == asd_y->match.fwnode;
-+	default:
-+		break;
-+	}
-+
-+	return false;
-+}
-+
-+/* Find the sub-device notifier registered by a sub-device driver. */
-+static struct v4l2_async_notifier *
-+v4l2_async_find_subdev_notifier(struct v4l2_subdev *sd)
-+{
-+	struct v4l2_async_notifier *n;
-+
-+	list_for_each_entry(n, &notifier_list, list)
-+		if (n->sd == sd)
-+			return n;
-+
-+	return NULL;
-+}
-+
-+/* Get v4l2_device related to the notifier if one can be found. */
-+static struct v4l2_device *
-+v4l2_async_notifier_find_v4l2_dev(struct v4l2_async_notifier *notifier)
-+{
-+	while (notifier->parent)
-+		notifier = notifier->parent;
-+
-+	return notifier->v4l2_dev;
-+}
-+
-+/*
-+ * Return true if all child sub-device notifiers are complete, false otherwise.
-+ */
-+static bool
-+v4l2_async_notifier_can_complete(struct v4l2_async_notifier *notifier)
-+{
-+	struct v4l2_subdev *sd;
-+
-+	if (!list_empty(&notifier->waiting))
-+		return false;
-+
-+	list_for_each_entry(sd, &notifier->done, async_list) {
-+		struct v4l2_async_notifier *subdev_notifier =
-+			v4l2_async_find_subdev_notifier(sd);
-+
-+		if (subdev_notifier &&
-+		    !v4l2_async_notifier_can_complete(subdev_notifier))
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
-+/*
-+ * Complete the master notifier if possible. This is done when all async
-+ * sub-devices have been bound; v4l2_device is also available then.
-+ */
-+static int
-+v4l2_async_notifier_try_complete(struct v4l2_async_notifier *notifier)
-+{
-+	/* Quick check whether there are still more sub-devices here. */
-+	if (!list_empty(&notifier->waiting))
-+		return 0;
-+
-+	/* Check the entire notifier tree; find the root notifier first. */
-+	while (notifier->parent)
-+		notifier = notifier->parent;
-+
-+	/* This is root if it has v4l2_dev. */
-+	if (!notifier->v4l2_dev)
-+		return 0;
-+
-+	/* Is everything ready? */
-+	if (!v4l2_async_notifier_can_complete(notifier))
-+		return 0;
-+
-+	return v4l2_async_notifier_call_complete(notifier);
-+}
-+
-+static int
-+v4l2_async_notifier_try_all_subdevs(struct v4l2_async_notifier *notifier);
-+
-+static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
-+				   struct v4l2_device *v4l2_dev,
-+				   struct v4l2_subdev *sd,
-+				   struct v4l2_async_subdev *asd)
-+{
-+	struct v4l2_async_notifier *subdev_notifier;
-+	int ret;
-+
-+	ret = v4l2_device_register_subdev(v4l2_dev, sd);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = v4l2_async_notifier_call_bound(notifier, sd, asd);
-+	if (ret < 0) {
-+		v4l2_device_unregister_subdev(sd);
-+		return ret;
-+	}
-+
-+	/* Remove from the waiting list */
-+	list_del(&asd->list);
-+	sd->asd = asd;
-+	sd->notifier = notifier;
-+
-+	/* Move from the global subdevice list to notifier's done */
-+	list_move(&sd->async_list, &notifier->done);
-+
-+	/*
-+	 * See if the sub-device has a notifier. If not, return here.
-+	 */
-+	subdev_notifier = v4l2_async_find_subdev_notifier(sd);
-+	if (!subdev_notifier || subdev_notifier->parent)
-+		return 0;
-+
-+	/*
-+	 * Proceed with checking for the sub-device notifier's async
-+	 * sub-devices, and return the result. The error will be handled by the
-+	 * caller.
-+	 */
-+	subdev_notifier->parent = notifier;
-+
-+	return v4l2_async_notifier_try_all_subdevs(subdev_notifier);
-+}
-+
-+/* Test all async sub-devices in a notifier for a match. */
-+static int
-+v4l2_async_notifier_try_all_subdevs(struct v4l2_async_notifier *notifier)
-+{
-+	struct v4l2_device *v4l2_dev =
-+		v4l2_async_notifier_find_v4l2_dev(notifier);
-+	struct v4l2_subdev *sd;
-+
-+	if (!v4l2_dev)
-+		return 0;
-+
-+again:
-+	list_for_each_entry(sd, &subdev_list, async_list) {
-+		struct v4l2_async_subdev *asd;
-+		int ret;
-+
-+		asd = v4l2_async_find_match(notifier, sd);
-+		if (!asd)
-+			continue;
-+
-+		ret = v4l2_async_match_notify(notifier, v4l2_dev, sd, asd);
-+		if (ret < 0)
-+			return ret;
-+
-+		/*
-+		 * v4l2_async_match_notify() may lead to registering a
-+		 * new notifier and thus changing the async subdevs
-+		 * list. In order to proceed safely from here, restart
-+		 * parsing the list from the beginning.
-+		 */
-+		goto again;
-+	}
-+
-+	return 0;
-+}
-+
-+static void v4l2_async_cleanup(struct v4l2_subdev *sd)
-+{
-+	v4l2_device_unregister_subdev(sd);
-+	/*
-+	 * Subdevice driver will reprobe and put the subdev back
-+	 * onto the list
-+	 */
-+	list_del_init(&sd->async_list);
-+	sd->asd = NULL;
-+}
-+
-+/* Unbind all sub-devices in the notifier tree. */
-+static void
-+v4l2_async_notifier_unbind_all_subdevs(struct v4l2_async_notifier *notifier)
-+{
-+	struct v4l2_subdev *sd, *tmp;
-+
-+	list_for_each_entry_safe(sd, tmp, &notifier->done, async_list) {
-+		struct v4l2_async_notifier *subdev_notifier =
-+			v4l2_async_find_subdev_notifier(sd);
-+
-+		if (subdev_notifier)
-+			v4l2_async_notifier_unbind_all_subdevs(subdev_notifier);
-+
-+		v4l2_async_notifier_call_unbind(notifier, sd, sd->asd);
-+		v4l2_async_cleanup(sd);
-+
-+		list_move(&sd->async_list, &subdev_list);
-+	}
-+
-+	notifier->parent = NULL;
-+}
-+
-+/* See if an async sub-device can be found in a notifier's lists. */
-+static bool
-+__v4l2_async_notifier_has_async_subdev(struct v4l2_async_notifier *notifier,
-+				       struct v4l2_async_subdev *asd)
-+{
-+	struct v4l2_async_subdev *asd_y;
-+	struct v4l2_subdev *sd;
-+
-+	list_for_each_entry(asd_y, &notifier->waiting, list)
-+		if (asd_equal(asd, asd_y))
-+			return true;
-+
-+	list_for_each_entry(sd, &notifier->done, async_list) {
-+		if (WARN_ON(!sd->asd))
-+			continue;
-+
-+		if (asd_equal(asd, sd->asd))
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+/*
-+ * Find out whether an async sub-device was set up already or
-+ * whether it exists in a given notifier before @this_index.
-+ * If @this_index < 0, search the notifier's entire @asd_list.
-+ */
-+static bool
-+v4l2_async_notifier_has_async_subdev(struct v4l2_async_notifier *notifier,
-+				     struct v4l2_async_subdev *asd,
-+				     int this_index)
-+{
-+	struct v4l2_async_subdev *asd_y;
-+	int j = 0;
-+
-+	lockdep_assert_held(&list_lock);
-+
-+	/* Check that an asd is not being added more than once. */
-+	list_for_each_entry(asd_y, &notifier->asd_list, asd_list) {
-+		if (this_index >= 0 && j++ >= this_index)
-+			break;
-+		if (asd_equal(asd, asd_y))
-+			return true;
-+	}
-+
-+	/* Check that an asd does not exist in other notifiers. */
-+	list_for_each_entry(notifier, &notifier_list, list)
-+		if (__v4l2_async_notifier_has_async_subdev(notifier, asd))
-+			return true;
-+
-+	return false;
-+}
-+
-+static int v4l2_async_notifier_asd_valid(struct v4l2_async_notifier *notifier,
-+					 struct v4l2_async_subdev *asd,
-+					 int this_index)
-+{
-+	struct device *dev =
-+		notifier->v4l2_dev ? notifier->v4l2_dev->dev : NULL;
-+
-+	if (!asd)
-+		return -EINVAL;
-+
-+	switch (asd->match_type) {
-+	case V4L2_ASYNC_MATCH_I2C:
-+	case V4L2_ASYNC_MATCH_FWNODE:
-+		if (v4l2_async_notifier_has_async_subdev(notifier, asd,
-+							 this_index)) {
-+			dev_dbg(dev, "subdev descriptor already listed in this or other notifiers\n");
-+			return -EEXIST;
-+		}
-+		break;
-+	default:
-+		dev_err(dev, "Invalid match type %u on %p\n",
-+			asd->match_type, asd);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+void v4l2_async_notifier_init(struct v4l2_async_notifier *notifier)
-+{
-+	INIT_LIST_HEAD(&notifier->asd_list);
-+}
-+EXPORT_SYMBOL(v4l2_async_notifier_init);
-+
-+static int __v4l2_async_notifier_register(struct v4l2_async_notifier *notifier)
-+{
-+	struct v4l2_async_subdev *asd;
-+	int ret, i = 0;
-+
-+	INIT_LIST_HEAD(&notifier->waiting);
-+	INIT_LIST_HEAD(&notifier->done);
-+
-+	mutex_lock(&list_lock);
-+
-+	list_for_each_entry(asd, &notifier->asd_list, asd_list) {
-+		ret = v4l2_async_notifier_asd_valid(notifier, asd, i++);
-+		if (ret)
-+			goto err_unlock;
-+
-+		list_add_tail(&asd->list, &notifier->waiting);
-+	}
-+
-+	ret = v4l2_async_notifier_try_all_subdevs(notifier);
-+	if (ret < 0)
-+		goto err_unbind;
-+
-+	ret = v4l2_async_notifier_try_complete(notifier);
-+	if (ret < 0)
-+		goto err_unbind;
-+
-+	/* Keep also completed notifiers on the list */
-+	list_add(&notifier->list, &notifier_list);
-+
-+	mutex_unlock(&list_lock);
-+
-+	return 0;
-+
-+err_unbind:
-+	/*
-+	 * On failure, unbind all sub-devices registered through this notifier.
-+	 */
-+	v4l2_async_notifier_unbind_all_subdevs(notifier);
-+
-+err_unlock:
-+	mutex_unlock(&list_lock);
-+
-+	return ret;
-+}
-+
-+int v4l2_async_notifier_register(struct v4l2_device *v4l2_dev,
-+				 struct v4l2_async_notifier *notifier)
-+{
-+	int ret;
-+
-+	if (WARN_ON(!v4l2_dev || notifier->sd))
-+		return -EINVAL;
-+
-+	notifier->v4l2_dev = v4l2_dev;
-+
-+	ret = __v4l2_async_notifier_register(notifier);
-+	if (ret)
-+		notifier->v4l2_dev = NULL;
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(v4l2_async_notifier_register);
-+
-+int v4l2_async_subdev_notifier_register(struct v4l2_subdev *sd,
-+					struct v4l2_async_notifier *notifier)
-+{
-+	int ret;
-+
-+	if (WARN_ON(!sd || notifier->v4l2_dev))
-+		return -EINVAL;
-+
-+	notifier->sd = sd;
-+
-+	ret = __v4l2_async_notifier_register(notifier);
-+	if (ret)
-+		notifier->sd = NULL;
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(v4l2_async_subdev_notifier_register);
-+
-+static void
-+__v4l2_async_notifier_unregister(struct v4l2_async_notifier *notifier)
-+{
-+	if (!notifier || (!notifier->v4l2_dev && !notifier->sd))
-+		return;
-+
-+	v4l2_async_notifier_unbind_all_subdevs(notifier);
-+
-+	notifier->sd = NULL;
-+	notifier->v4l2_dev = NULL;
-+
-+	list_del(&notifier->list);
-+}
-+
-+void v4l2_async_notifier_unregister(struct v4l2_async_notifier *notifier)
-+{
-+	mutex_lock(&list_lock);
-+
-+	__v4l2_async_notifier_unregister(notifier);
-+
-+	mutex_unlock(&list_lock);
-+}
-+EXPORT_SYMBOL(v4l2_async_notifier_unregister);
-+
-+static void __v4l2_async_notifier_cleanup(struct v4l2_async_notifier *notifier)
-+{
-+	struct v4l2_async_subdev *asd, *tmp;
-+
-+	if (!notifier || !notifier->asd_list.next)
-+		return;
-+
-+	list_for_each_entry_safe(asd, tmp, &notifier->asd_list, asd_list) {
-+		switch (asd->match_type) {
-+		case V4L2_ASYNC_MATCH_FWNODE:
-+			fwnode_handle_put(asd->match.fwnode);
-+			break;
-+		default:
-+			break;
-+		}
-+
-+		list_del(&asd->asd_list);
-+		kfree(asd);
-+	}
-+}
-+
-+void v4l2_async_notifier_cleanup(struct v4l2_async_notifier *notifier)
-+{
-+	mutex_lock(&list_lock);
-+
-+	__v4l2_async_notifier_cleanup(notifier);
-+
-+	mutex_unlock(&list_lock);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_async_notifier_cleanup);
-+
-+int __v4l2_async_notifier_add_subdev(struct v4l2_async_notifier *notifier,
-+				   struct v4l2_async_subdev *asd)
-+{
-+	int ret;
-+
-+	mutex_lock(&list_lock);
-+
-+	ret = v4l2_async_notifier_asd_valid(notifier, asd, -1);
-+	if (ret)
-+		goto unlock;
-+
-+	list_add_tail(&asd->asd_list, &notifier->asd_list);
-+
-+unlock:
-+	mutex_unlock(&list_lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_subdev);
-+
-+struct v4l2_async_subdev *
-+__v4l2_async_notifier_add_fwnode_subdev(struct v4l2_async_notifier *notifier,
-+					struct fwnode_handle *fwnode,
-+					unsigned int asd_struct_size)
-+{
-+	struct v4l2_async_subdev *asd;
-+	int ret;
-+
-+	asd = kzalloc(asd_struct_size, GFP_KERNEL);
-+	if (!asd)
-+		return ERR_PTR(-ENOMEM);
-+
-+	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
-+	asd->match.fwnode = fwnode_handle_get(fwnode);
-+
-+	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
-+	if (ret) {
-+		fwnode_handle_put(fwnode);
-+		kfree(asd);
-+		return ERR_PTR(ret);
-+	}
-+
-+	return asd;
-+}
-+EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_fwnode_subdev);
-+
-+struct v4l2_async_subdev *
-+__v4l2_async_notifier_add_fwnode_remote_subdev(struct v4l2_async_notifier *notif,
-+					       struct fwnode_handle *endpoint,
-+					       unsigned int asd_struct_size)
-+{
-+	struct v4l2_async_subdev *asd;
-+	struct fwnode_handle *remote;
-+
-+	remote = fwnode_graph_get_remote_port_parent(endpoint);
-+	if (!remote)
-+		return ERR_PTR(-ENOTCONN);
-+
-+	asd = __v4l2_async_notifier_add_fwnode_subdev(notif, remote,
-+						      asd_struct_size);
-+	/*
-+	 * Calling __v4l2_async_notifier_add_fwnode_subdev grabs a refcount,
-+	 * so drop the one we got in fwnode_graph_get_remote_port_parent.
-+	 */
-+	fwnode_handle_put(remote);
-+	return asd;
-+}
-+EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_fwnode_remote_subdev);
-+
-+struct v4l2_async_subdev *
-+__v4l2_async_notifier_add_i2c_subdev(struct v4l2_async_notifier *notifier,
-+				     int adapter_id, unsigned short address,
-+				     unsigned int asd_struct_size)
-+{
-+	struct v4l2_async_subdev *asd;
-+	int ret;
-+
-+	asd = kzalloc(asd_struct_size, GFP_KERNEL);
-+	if (!asd)
-+		return ERR_PTR(-ENOMEM);
-+
-+	asd->match_type = V4L2_ASYNC_MATCH_I2C;
-+	asd->match.i2c.adapter_id = adapter_id;
-+	asd->match.i2c.address = address;
-+
-+	ret = __v4l2_async_notifier_add_subdev(notifier, asd);
-+	if (ret) {
-+		kfree(asd);
-+		return ERR_PTR(ret);
-+	}
-+
-+	return asd;
-+}
-+EXPORT_SYMBOL_GPL(__v4l2_async_notifier_add_i2c_subdev);
-+
-+int v4l2_async_register_subdev(struct v4l2_subdev *sd)
-+{
-+	struct v4l2_async_notifier *subdev_notifier;
-+	struct v4l2_async_notifier *notifier;
-+	int ret;
-+
-+	/*
-+	 * No reference taken. The reference is held by the device
-+	 * (struct v4l2_subdev.dev), and async sub-device does not
-+	 * exist independently of the device at any point of time.
-+	 */
-+	if (!sd->fwnode && sd->dev)
-+		sd->fwnode = dev_fwnode(sd->dev);
-+
-+	mutex_lock(&list_lock);
-+
-+	INIT_LIST_HEAD(&sd->async_list);
-+
-+	list_for_each_entry(notifier, &notifier_list, list) {
-+		struct v4l2_device *v4l2_dev =
-+			v4l2_async_notifier_find_v4l2_dev(notifier);
-+		struct v4l2_async_subdev *asd;
-+
-+		if (!v4l2_dev)
-+			continue;
-+
-+		asd = v4l2_async_find_match(notifier, sd);
-+		if (!asd)
-+			continue;
-+
-+		ret = v4l2_async_match_notify(notifier, v4l2_dev, sd, asd);
-+		if (ret)
-+			goto err_unbind;
-+
-+		ret = v4l2_async_notifier_try_complete(notifier);
-+		if (ret)
-+			goto err_unbind;
-+
-+		goto out_unlock;
-+	}
-+
-+	/* None matched, wait for hot-plugging */
-+	list_add(&sd->async_list, &subdev_list);
-+
-+out_unlock:
-+	mutex_unlock(&list_lock);
-+
-+	return 0;
-+
-+err_unbind:
-+	/*
-+	 * Complete failed. Unbind the sub-devices bound through registering
-+	 * this async sub-device.
-+	 */
-+	subdev_notifier = v4l2_async_find_subdev_notifier(sd);
-+	if (subdev_notifier)
-+		v4l2_async_notifier_unbind_all_subdevs(subdev_notifier);
-+
-+	if (sd->asd)
-+		v4l2_async_notifier_call_unbind(notifier, sd, sd->asd);
-+	v4l2_async_cleanup(sd);
-+
-+	mutex_unlock(&list_lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(v4l2_async_register_subdev);
-+
-+void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
-+{
-+	if (!sd->async_list.next)
-+		return;
-+
-+	mutex_lock(&list_lock);
-+
-+	__v4l2_async_notifier_unregister(sd->subdev_notifier);
-+	__v4l2_async_notifier_cleanup(sd->subdev_notifier);
-+	kfree(sd->subdev_notifier);
-+	sd->subdev_notifier = NULL;
-+
-+	if (sd->asd) {
-+		struct v4l2_async_notifier *notifier = sd->notifier;
-+
-+		list_add(&sd->asd->list, &notifier->waiting);
-+
-+		v4l2_async_notifier_call_unbind(notifier, sd, sd->asd);
-+	}
-+
-+	v4l2_async_cleanup(sd);
-+
-+	mutex_unlock(&list_lock);
-+}
-+EXPORT_SYMBOL(v4l2_async_unregister_subdev);
-+
-+static void print_waiting_subdev(struct seq_file *s,
-+				 struct v4l2_async_subdev *asd)
-+{
-+	switch (asd->match_type) {
-+	case V4L2_ASYNC_MATCH_I2C:
-+		seq_printf(s, " [i2c] dev=%d-%04x\n", asd->match.i2c.adapter_id,
-+			   asd->match.i2c.address);
-+		break;
-+	case V4L2_ASYNC_MATCH_FWNODE: {
-+		struct fwnode_handle *devnode, *fwnode = asd->match.fwnode;
-+
-+		devnode = fwnode_graph_is_endpoint(fwnode) ?
-+			  fwnode_graph_get_port_parent(fwnode) :
-+			  fwnode_handle_get(fwnode);
-+
-+		seq_printf(s, " [fwnode] dev=%s, node=%pfw\n",
-+			   devnode->dev ? dev_name(devnode->dev) : "nil",
-+			   fwnode);
-+
-+		fwnode_handle_put(devnode);
-+		break;
-+	}
-+	}
-+}
-+
-+static const char *
-+v4l2_async_notifier_name(struct v4l2_async_notifier *notifier)
-+{
-+	if (notifier->v4l2_dev)
-+		return notifier->v4l2_dev->name;
-+	else if (notifier->sd)
-+		return notifier->sd->name;
-+	else
-+		return "nil";
-+}
-+
-+static int pending_subdevs_show(struct seq_file *s, void *data)
-+{
-+	struct v4l2_async_notifier *notif;
-+	struct v4l2_async_subdev *asd;
-+
-+	mutex_lock(&list_lock);
-+
-+	list_for_each_entry(notif, &notifier_list, list) {
-+		seq_printf(s, "%s:\n", v4l2_async_notifier_name(notif));
-+		list_for_each_entry(asd, &notif->waiting, list)
-+			print_waiting_subdev(s, asd);
-+	}
-+
-+	mutex_unlock(&list_lock);
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
-+
-+static struct dentry *v4l2_async_debugfs_dir;
-+
-+static int __init v4l2_async_init(void)
-+{
-+	v4l2_async_debugfs_dir = debugfs_create_dir("v4l2-async", NULL);
-+	debugfs_create_file("pending_async_subdevices", 0444,
-+			    v4l2_async_debugfs_dir, NULL,
-+			    &pending_subdevs_fops);
-+
-+	return 0;
-+}
-+
-+static void __exit v4l2_async_exit(void)
-+{
-+	debugfs_remove_recursive(v4l2_async_debugfs_dir);
-+}
-+
-+subsys_initcall(v4l2_async_init);
-+module_exit(v4l2_async_exit);
-+
-+MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
-+MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
-+MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
-+MODULE_LICENSE("GPL");
++    * - __u8
++      - ``reserved``
++      - Applications and drivers must set this to zero.
+     * - __u32
+       - ``flags``
+       - See :ref:`MPEG-2 Picture Flags <mpeg2_picture_flags>`.
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+index cba607f789f0..bbbacbd65d6f 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+@@ -114,8 +114,9 @@ Compressed Formats
+ 	This format is adapted for stateless video decoders that implement a
+ 	MPEG-2 pipeline (using the :ref:`mem2mem` and :ref:`media-request-api`).
+ 	Metadata associated with the frame to decode is required to be passed
+-	through the ``V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS`` control and
+-	quantisation matrices can optionally be specified through the
++	through the ``V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE``,
++        ``V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE``, and ``V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS``
++        controls. Quantisation matrices can optionally be specified through the
+ 	``V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION`` control.
+ 	See the :ref:`associated Codec Control IDs <v4l2-mpeg-mpeg2>`.
+ 	Exactly one output and one capture buffer must be provided for use with
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+index 4362945fd39b..afc1505a3a7e 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+@@ -429,6 +429,18 @@ See also the examples in :ref:`control`.
+       - n/a
+       - A struct :c:type:`v4l2_ctrl_mpeg2_quantisation`, containing MPEG-2
+ 	quantisation matrices for stateless video decoders.
++    * - ``V4L2_CTRL_TYPE_MPEG2_SEQUENCE``
++      - n/a
++      - n/a
++      - n/a
++      - A struct :c:type:`v4l2_ctrl_mpeg2_sequence`, containing MPEG-2
++	sequence parameters for stateless video decoders.
++    * - ``V4L2_CTRL_TYPE_MPEG2_PICTURE``
++      - n/a
++      - n/a
++      - n/a
++      - A struct :c:type:`v4l2_ctrl_mpeg2_picture`, containing MPEG-2
++	picture parameters for stateless video decoders.
+     * - ``V4L2_CTRL_TYPE_AREA``
+       - n/a
+       - n/a
+diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+index d14a807e8f9e..6bba3e6d3ef3 100644
+--- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
++++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+@@ -134,6 +134,8 @@ replace symbol V4L2_CTRL_TYPE_STRING :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_U16 :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_U32 :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_U8 :c:type:`v4l2_ctrl_type`
++replace symbol V4L2_CTRL_TYPE_MPEG2_SEQUENCE :c:type:`v4l2_ctrl_type`
++replace symbol V4L2_CTRL_TYPE_MPEG2_PICTURE :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_MPEG2_QUANTISATION :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_H264_SPS :c:type:`v4l2_ctrl_type`
 diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 5d92a2b33a6e..99064683cfb5 100644
+index 99064683cfb5..1145dec744e8 100644
 --- a/drivers/media/v4l2-core/v4l2-ctrls.c
 +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -1691,7 +1691,7 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+@@ -973,6 +973,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence Header";
+ 	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
+ 	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID:		return "Base Layer Priority ID";
++	case V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE:		return "MPEG-2 Sequence Header";
++	case V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE:			return "MPEG-2 Picture Header";
+ 	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
+ 	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION:		return "MPEG-2 Quantisation Matrices";
+ 	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
+@@ -1469,6 +1471,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_RDS_TX_ALT_FREQS:
+ 		*type = V4L2_CTRL_TYPE_U32;
+ 		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE:
++		*type = V4L2_CTRL_TYPE_MPEG2_SEQUENCE;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE:
++		*type = V4L2_CTRL_TYPE_MPEG2_PICTURE;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:
+ 		*type = V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS;
+ 		break;
+@@ -1667,7 +1675,8 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
+ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 			      union v4l2_ctrl_ptr ptr)
+ {
+-	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
++	struct v4l2_ctrl_mpeg2_sequence *p_mpeg2_sequence;
++	struct v4l2_ctrl_mpeg2_picture *p_mpeg2_picture;
+ 	struct v4l2_ctrl_mpeg2_quantisation *p_mpeg2_quant;
+ 	struct v4l2_ctrl_vp8_frame *p_vp8_frame;
+ 	struct v4l2_ctrl_fwht_params *p_fwht_params;
+@@ -1684,13 +1693,18 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 	 * v4l2_ctrl_type enum.
+ 	 */
+ 	switch ((u32)ctrl->type) {
+-	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
+-		p_mpeg2_slice_params = p;
++	case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
++		p_mpeg2_sequence = p;
++
+ 		/* 4:2:0 */
+-		p_mpeg2_slice_params->sequence.chroma_format = 1;
++		p_mpeg2_sequence->chroma_format = 1;
++		break;
++	case V4L2_CTRL_TYPE_MPEG2_PICTURE:
++		p_mpeg2_picture = p;
++
  		/* interlaced top field */
- 		p_mpeg2_slice_params->picture.picture_structure = 1;
- 		p_mpeg2_slice_params->picture.picture_coding_type =
--					V4L2_MPEG2_PICTURE_CODING_TYPE_I;
-+					V4L2_MPEG2_PIC_CODING_TYPE_I;
+-		p_mpeg2_slice_params->picture.picture_structure = 1;
+-		p_mpeg2_slice_params->picture.picture_coding_type =
++		p_mpeg2_picture->picture_structure = V4L2_MPEG2_PIC_TOP_FIELD;
++		p_mpeg2_picture->picture_coding_type =
+ 					V4L2_MPEG2_PIC_CODING_TYPE_I;
  		break;
  	case V4L2_CTRL_TYPE_MPEG2_QUANTISATION:
- 		p_mpeg2_quant = p;
-@@ -1901,18 +1901,18 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 		}
+@@ -1862,6 +1876,8 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 				 union v4l2_ctrl_ptr ptr)
+ {
++	struct v4l2_ctrl_mpeg2_sequence *p_mpeg2_sequence;
++	struct v4l2_ctrl_mpeg2_picture *p_mpeg2_picture;
+ 	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
+ 	struct v4l2_ctrl_vp8_frame *p_vp8_frame;
+ 	struct v4l2_ctrl_fwht_params *p_fwht_params;
+@@ -1878,10 +1894,10 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 	unsigned int i;
  
- 		switch (p_mpeg2_slice_params->picture.picture_structure) {
--		case 1: /* interlaced top field */
--		case 2: /* interlaced bottom field */
--		case 3: /* progressive */
-+		case V4L2_MPEG2_PIC_TOP_FIELD:
-+		case V4L2_MPEG2_PIC_BOTTOM_FIELD:
-+		case V4L2_MPEG2_PIC_FRAME:
- 			break;
+ 	switch ((u32)ctrl->type) {
+-	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
+-		p_mpeg2_slice_params = p;
++	case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
++		p_mpeg2_sequence = p;
+ 
+-		switch (p_mpeg2_slice_params->sequence.chroma_format) {
++		switch (p_mpeg2_sequence->chroma_format) {
+ 		case 1: /* 4:2:0 */
+ 		case 2: /* 4:2:2 */
+ 		case 3: /* 4:4:4 */
+@@ -1889,8 +1905,13 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
  		default:
  			return -EINVAL;
  		}
++		zero_reserved(*p_mpeg2_sequence);
++		break;
++
++	case V4L2_CTRL_TYPE_MPEG2_PICTURE:
++		p_mpeg2_picture = p;
  
- 		switch (p_mpeg2_slice_params->picture.picture_coding_type) {
--		case V4L2_MPEG2_PICTURE_CODING_TYPE_I:
--		case V4L2_MPEG2_PICTURE_CODING_TYPE_P:
--		case V4L2_MPEG2_PICTURE_CODING_TYPE_B:
-+		case V4L2_MPEG2_PIC_CODING_TYPE_I:
-+		case V4L2_MPEG2_PIC_CODING_TYPE_P:
-+		case V4L2_MPEG2_PIC_CODING_TYPE_B:
- 			break;
+-		switch (p_mpeg2_slice_params->picture.intra_dc_precision) {
++		switch (p_mpeg2_picture->intra_dc_precision) {
+ 		case 0: /* 8 bits */
+ 		case 1: /* 9 bits */
+ 		case 2: /* 10 bits */
+@@ -1900,7 +1921,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 			return -EINVAL;
+ 		}
+ 
+-		switch (p_mpeg2_slice_params->picture.picture_structure) {
++		switch (p_mpeg2_picture->picture_structure) {
+ 		case V4L2_MPEG2_PIC_TOP_FIELD:
+ 		case V4L2_MPEG2_PIC_BOTTOM_FIELD:
+ 		case V4L2_MPEG2_PIC_FRAME:
+@@ -1909,7 +1930,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 			return -EINVAL;
+ 		}
+ 
+-		switch (p_mpeg2_slice_params->picture.picture_coding_type) {
++		switch (p_mpeg2_picture->picture_coding_type) {
+ 		case V4L2_MPEG2_PIC_CODING_TYPE_I:
+ 		case V4L2_MPEG2_PIC_CODING_TYPE_P:
+ 		case V4L2_MPEG2_PIC_CODING_TYPE_B:
+@@ -1917,7 +1938,13 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
  		default:
  			return -EINVAL;
+ 		}
++		zero_reserved(*p_mpeg2_picture);
++		break;
+ 
++	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
++		p_mpeg2_slice_params = p;
++
++		zero_reserved(*p_mpeg2_slice_params);
+ 		break;
+ 
+ 	case V4L2_CTRL_TYPE_MPEG2_QUANTISATION:
+@@ -2822,6 +2849,12 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+ 	case V4L2_CTRL_TYPE_U32:
+ 		elem_size = sizeof(u32);
+ 		break;
++	case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
++		elem_size = sizeof(struct v4l2_ctrl_mpeg2_sequence);
++		break;
++	case V4L2_CTRL_TYPE_MPEG2_PICTURE:
++		elem_size = sizeof(struct v4l2_ctrl_mpeg2_picture);
++		break;
+ 	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
+ 		elem_size = sizeof(struct v4l2_ctrl_mpeg2_slice_params);
+ 		break;
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 9e3552cd5cf8..067205fb89f6 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -286,6 +286,16 @@ static const struct hantro_ctrl controls[] = {
+ 			.def = 50,
+ 			.ops = &hantro_jpeg_ctrl_ops,
+ 		},
++	}, {
++		.codec = HANTRO_MPEG2_DECODER,
++		.cfg = {
++			.id = V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE,
++		},
++	}, {
++		.codec = HANTRO_MPEG2_DECODER,
++		.cfg = {
++			.id = V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE,
++		},
+ 	}, {
+ 		.codec = HANTRO_MPEG2_DECODER,
+ 		.cfg = {
 diff --git a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-index dedb5c502ae0..6ef7ded863b2 100644
+index 6ef7ded863b2..f3494a70aa12 100644
 --- a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
 +++ b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-@@ -77,10 +77,6 @@
- 
- #define G1_REG_APF_THRESHOLD(v)		(((v) << 0) & GENMASK(13, 0))
- 
--#define PICT_TOP_FIELD     1
--#define PICT_BOTTOM_FIELD  2
--#define PICT_FRAME         3
--
- static void
- hantro_g1_mpeg2_dec_set_quantisation(struct hantro_dev *vpu,
- 				     struct hantro_ctx *ctx)
-@@ -96,19 +92,19 @@ static void
+@@ -92,8 +92,8 @@ static void
  hantro_g1_mpeg2_dec_set_buffers(struct hantro_dev *vpu, struct hantro_ctx *ctx,
  				struct vb2_buffer *src_buf,
  				struct vb2_buffer *dst_buf,
--				const struct v4l2_mpeg2_sequence *sequence,
--				const struct v4l2_mpeg2_picture *picture,
-+				const struct v4l2_mpeg2_sequence *seq,
-+				const struct v4l2_mpeg2_picture *pic,
+-				const struct v4l2_mpeg2_sequence *seq,
+-				const struct v4l2_mpeg2_picture *pic,
++				const struct v4l2_ctrl_mpeg2_sequence *seq,
++				const struct v4l2_ctrl_mpeg2_picture *pic,
  				const struct v4l2_ctrl_mpeg2_slice_params *slice_params)
  {
  	dma_addr_t forward_addr = 0, backward_addr = 0;
- 	dma_addr_t current_addr, addr;
- 
--	switch (picture->picture_coding_type) {
--	case V4L2_MPEG2_PICTURE_CODING_TYPE_B:
-+	switch (pic->picture_coding_type) {
-+	case V4L2_MPEG2_PIC_CODING_TYPE_B:
- 		backward_addr = hantro_get_ref(ctx,
- 					       slice_params->backward_ref_ts);
- 		fallthrough;
--	case V4L2_MPEG2_PICTURE_CODING_TYPE_P:
-+	case V4L2_MPEG2_PIC_CODING_TYPE_P:
- 		forward_addr = hantro_get_ref(ctx,
- 					      slice_params->forward_ref_ts);
- 	}
-@@ -121,7 +117,7 @@ hantro_g1_mpeg2_dec_set_buffers(struct hantro_dev *vpu, struct hantro_ctx *ctx,
- 	addr = hantro_get_dec_buf_addr(ctx, dst_buf);
- 	current_addr = addr;
- 
--	if (picture->picture_structure == PICT_BOTTOM_FIELD)
-+	if (pic->picture_structure == V4L2_MPEG2_PIC_BOTTOM_FIELD)
- 		addr += ALIGN(ctx->dst_fmt.width, 16);
- 	vdpu_write_relaxed(vpu, addr, G1_REG_DEC_OUT_BASE);
- 
-@@ -131,18 +127,18 @@ hantro_g1_mpeg2_dec_set_buffers(struct hantro_dev *vpu, struct hantro_ctx *ctx,
- 		backward_addr = current_addr;
- 
- 	/* Set forward ref frame (top/bottom field) */
--	if (picture->picture_structure == PICT_FRAME ||
--	    picture->picture_coding_type == V4L2_MPEG2_PICTURE_CODING_TYPE_B ||
--	    (picture->picture_structure == PICT_TOP_FIELD &&
--	     picture->top_field_first) ||
--	    (picture->picture_structure == PICT_BOTTOM_FIELD &&
--	     !picture->top_field_first)) {
-+	if (pic->picture_structure == V4L2_MPEG2_PIC_FRAME ||
-+	    pic->picture_coding_type == V4L2_MPEG2_PIC_CODING_TYPE_B ||
-+	    (pic->picture_structure == V4L2_MPEG2_PIC_TOP_FIELD &&
-+	     pic->flags & V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST) ||
-+	    (pic->picture_structure == V4L2_MPEG2_PIC_BOTTOM_FIELD &&
-+	     !(pic->flags & V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST))) {
- 		vdpu_write_relaxed(vpu, forward_addr, G1_REG_REFER0_BASE);
- 		vdpu_write_relaxed(vpu, forward_addr, G1_REG_REFER1_BASE);
--	} else if (picture->picture_structure == PICT_TOP_FIELD) {
-+	} else if (pic->picture_structure == V4L2_MPEG2_PIC_TOP_FIELD) {
- 		vdpu_write_relaxed(vpu, forward_addr, G1_REG_REFER0_BASE);
- 		vdpu_write_relaxed(vpu, current_addr, G1_REG_REFER1_BASE);
--	} else if (picture->picture_structure == PICT_BOTTOM_FIELD) {
-+	} else if (pic->picture_structure == V4L2_MPEG2_PIC_BOTTOM_FIELD) {
- 		vdpu_write_relaxed(vpu, current_addr, G1_REG_REFER0_BASE);
- 		vdpu_write_relaxed(vpu, forward_addr, G1_REG_REFER1_BASE);
- 	}
-@@ -157,8 +153,8 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
+@@ -153,8 +153,8 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
  	struct hantro_dev *vpu = ctx->dev;
  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
  	const struct v4l2_ctrl_mpeg2_slice_params *slice_params;
--	const struct v4l2_mpeg2_sequence *sequence;
--	const struct v4l2_mpeg2_picture *picture;
-+	const struct v4l2_mpeg2_sequence *seq;
-+	const struct v4l2_mpeg2_picture *pic;
+-	const struct v4l2_mpeg2_sequence *seq;
+-	const struct v4l2_mpeg2_picture *pic;
++	const struct v4l2_ctrl_mpeg2_sequence *seq;
++	const struct v4l2_ctrl_mpeg2_picture *pic;
  	u32 reg;
  
  	src_buf = hantro_get_src_buf(ctx);
-@@ -169,8 +165,8 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
+@@ -165,8 +165,10 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
  
  	slice_params = hantro_get_ctrl(ctx,
  				       V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
--	sequence = &slice_params->sequence;
--	picture = &slice_params->picture;
-+	seq = &slice_params->sequence;
-+	pic = &slice_params->picture;
+-	seq = &slice_params->sequence;
+-	pic = &slice_params->picture;
++	seq = hantro_get_ctrl(ctx,
++			      V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE);
++	pic = hantro_get_ctrl(ctx,
++			      V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE);
  
  	reg = G1_REG_DEC_AXI_RD_ID(0) |
  	      G1_REG_DEC_TIMEOUT_E(1) |
-@@ -190,11 +186,11 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
- 
- 	reg = G1_REG_DEC_MODE(5) |
- 	      G1_REG_RLC_MODE_E(0) |
--	      G1_REG_PIC_INTERLACE_E(!sequence->progressive_sequence) |
--	      G1_REG_PIC_FIELDMODE_E(picture->picture_structure != PICT_FRAME) |
--	      G1_REG_PIC_B_E(picture->picture_coding_type == V4L2_MPEG2_PICTURE_CODING_TYPE_B) |
--	      G1_REG_PIC_INTER_E(picture->picture_coding_type != V4L2_MPEG2_PICTURE_CODING_TYPE_I) |
--	      G1_REG_PIC_TOPFIELD_E(picture->picture_structure == PICT_TOP_FIELD) |
-+	      G1_REG_PIC_INTERLACE_E(!(seq->flags & V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE)) |
-+	      G1_REG_PIC_FIELDMODE_E(pic->picture_structure != V4L2_MPEG2_PIC_FRAME) |
-+	      G1_REG_PIC_B_E(pic->picture_coding_type == V4L2_MPEG2_PIC_CODING_TYPE_B) |
-+	      G1_REG_PIC_INTER_E(pic->picture_coding_type != V4L2_MPEG2_PIC_CODING_TYPE_I) |
-+	      G1_REG_PIC_TOPFIELD_E(pic->picture_structure == V4L2_MPEG2_PIC_TOP_FIELD) |
- 	      G1_REG_FWD_INTERLACE_E(0) |
- 	      G1_REG_FILTERING_DIS(1) |
- 	      G1_REG_WRITE_MVS_E(0) |
-@@ -203,27 +199,27 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
- 
- 	reg = G1_REG_PIC_MB_WIDTH(MB_WIDTH(ctx->dst_fmt.width)) |
- 	      G1_REG_PIC_MB_HEIGHT_P(MB_HEIGHT(ctx->dst_fmt.height)) |
--	      G1_REG_ALT_SCAN_E(picture->alternate_scan) |
--	      G1_REG_TOPFIELDFIRST_E(picture->top_field_first);
-+	      G1_REG_ALT_SCAN_E(pic->flags & V4L2_MPEG2_PIC_FLAG_ALT_SCAN) |
-+	      G1_REG_TOPFIELDFIRST_E(pic->flags & V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST);
- 	vdpu_write_relaxed(vpu, reg, G1_SWREG(4));
- 
- 	reg = G1_REG_STRM_START_BIT(slice_params->data_bit_offset) |
--	      G1_REG_QSCALE_TYPE(picture->q_scale_type) |
--	      G1_REG_CON_MV_E(picture->concealment_motion_vectors) |
--	      G1_REG_INTRA_DC_PREC(picture->intra_dc_precision) |
--	      G1_REG_INTRA_VLC_TAB(picture->intra_vlc_format) |
--	      G1_REG_FRAME_PRED_DCT(picture->frame_pred_frame_dct);
-+	      G1_REG_QSCALE_TYPE(pic->flags & V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE) |
-+	      G1_REG_CON_MV_E(pic->flags & V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV) |
-+	      G1_REG_INTRA_DC_PREC(pic->intra_dc_precision) |
-+	      G1_REG_INTRA_VLC_TAB(pic->flags & V4L2_MPEG2_PIC_FLAG_INTRA_VLC) |
-+	      G1_REG_FRAME_PRED_DCT(pic->flags & V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT);
- 	vdpu_write_relaxed(vpu, reg, G1_SWREG(5));
- 
- 	reg = G1_REG_INIT_QP(1) |
- 	      G1_REG_STREAM_LEN(slice_params->bit_size >> 3);
- 	vdpu_write_relaxed(vpu, reg, G1_SWREG(6));
- 
--	reg = G1_REG_ALT_SCAN_FLAG_E(picture->alternate_scan) |
--	      G1_REG_FCODE_FWD_HOR(picture->f_code[0][0]) |
--	      G1_REG_FCODE_FWD_VER(picture->f_code[0][1]) |
--	      G1_REG_FCODE_BWD_HOR(picture->f_code[1][0]) |
--	      G1_REG_FCODE_BWD_VER(picture->f_code[1][1]) |
-+	reg = G1_REG_ALT_SCAN_FLAG_E(pic->flags & V4L2_MPEG2_PIC_FLAG_ALT_SCAN) |
-+	      G1_REG_FCODE_FWD_HOR(pic->f_code[0][0]) |
-+	      G1_REG_FCODE_FWD_VER(pic->f_code[0][1]) |
-+	      G1_REG_FCODE_BWD_HOR(pic->f_code[1][0]) |
-+	      G1_REG_FCODE_BWD_VER(pic->f_code[1][1]) |
- 	      G1_REG_MV_ACCURACY_FWD(1) |
- 	      G1_REG_MV_ACCURACY_BWD(1);
- 	vdpu_write_relaxed(vpu, reg, G1_SWREG(18));
-@@ -239,7 +235,7 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
- 
- 	hantro_g1_mpeg2_dec_set_buffers(vpu, ctx, &src_buf->vb2_buf,
- 					&dst_buf->vb2_buf,
--					sequence, picture, slice_params);
-+					seq, pic, slice_params);
- 
- 	hantro_end_prepare_run(ctx);
- 
 diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c b/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
-index 61a54549774d..ff54398f6643 100644
+index ff54398f6643..5b383906af59 100644
 --- a/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
 +++ b/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
-@@ -79,10 +79,6 @@
- #define VDPU_REG_MV_ACCURACY_FWD(v)	((v) ? BIT(2) : 0)
- #define VDPU_REG_MV_ACCURACY_BWD(v)	((v) ? BIT(1) : 0)
- 
--#define PICT_TOP_FIELD     1
--#define PICT_BOTTOM_FIELD  2
--#define PICT_FRAME         3
--
- static void
- rk3399_vpu_mpeg2_dec_set_quantisation(struct hantro_dev *vpu,
- 				      struct hantro_ctx *ctx)
-@@ -99,19 +95,19 @@ rk3399_vpu_mpeg2_dec_set_buffers(struct hantro_dev *vpu,
+@@ -95,8 +95,8 @@ rk3399_vpu_mpeg2_dec_set_buffers(struct hantro_dev *vpu,
  				 struct hantro_ctx *ctx,
  				 struct vb2_buffer *src_buf,
  				 struct vb2_buffer *dst_buf,
--				 const struct v4l2_mpeg2_sequence *sequence,
--				 const struct v4l2_mpeg2_picture *picture,
-+				 const struct v4l2_mpeg2_sequence *seq,
-+				 const struct v4l2_mpeg2_picture *pic,
+-				 const struct v4l2_mpeg2_sequence *seq,
+-				 const struct v4l2_mpeg2_picture *pic,
++				 const struct v4l2_ctrl_mpeg2_sequence *seq,
++				 const struct v4l2_ctrl_mpeg2_picture *pic,
  				 const struct v4l2_ctrl_mpeg2_slice_params *slice_params)
  {
  	dma_addr_t forward_addr = 0, backward_addr = 0;
- 	dma_addr_t current_addr, addr;
- 
--	switch (picture->picture_coding_type) {
--	case V4L2_MPEG2_PICTURE_CODING_TYPE_B:
-+	switch (pic->picture_coding_type) {
-+	case V4L2_MPEG2_PIC_CODING_TYPE_B:
- 		backward_addr = hantro_get_ref(ctx,
- 					       slice_params->backward_ref_ts);
- 		fallthrough;
--	case V4L2_MPEG2_PICTURE_CODING_TYPE_P:
-+	case V4L2_MPEG2_PIC_CODING_TYPE_P:
- 		forward_addr = hantro_get_ref(ctx,
- 					      slice_params->forward_ref_ts);
- 	}
-@@ -124,7 +120,7 @@ rk3399_vpu_mpeg2_dec_set_buffers(struct hantro_dev *vpu,
- 	addr = vb2_dma_contig_plane_dma_addr(dst_buf, 0);
- 	current_addr = addr;
- 
--	if (picture->picture_structure == PICT_BOTTOM_FIELD)
-+	if (pic->picture_structure == V4L2_MPEG2_PIC_BOTTOM_FIELD)
- 		addr += ALIGN(ctx->dst_fmt.width, 16);
- 	vdpu_write_relaxed(vpu, addr, VDPU_REG_DEC_OUT_BASE);
- 
-@@ -134,18 +130,18 @@ rk3399_vpu_mpeg2_dec_set_buffers(struct hantro_dev *vpu,
- 		backward_addr = current_addr;
- 
- 	/* Set forward ref frame (top/bottom field) */
--	if (picture->picture_structure == PICT_FRAME ||
--	    picture->picture_coding_type == V4L2_MPEG2_PICTURE_CODING_TYPE_B ||
--	    (picture->picture_structure == PICT_TOP_FIELD &&
--	     picture->top_field_first) ||
--	    (picture->picture_structure == PICT_BOTTOM_FIELD &&
--	     !picture->top_field_first)) {
-+	if (pic->picture_structure == V4L2_MPEG2_PIC_FRAME ||
-+	    pic->picture_coding_type == V4L2_MPEG2_PIC_CODING_TYPE_B ||
-+	    (pic->picture_structure == V4L2_MPEG2_PIC_TOP_FIELD &&
-+	     pic->flags & V4L2_MPEG2_PIC_TOP_FIELD) ||
-+	    (pic->picture_structure == V4L2_MPEG2_PIC_BOTTOM_FIELD &&
-+	     !(pic->flags & V4L2_MPEG2_PIC_TOP_FIELD))) {
- 		vdpu_write_relaxed(vpu, forward_addr, VDPU_REG_REFER0_BASE);
- 		vdpu_write_relaxed(vpu, forward_addr, VDPU_REG_REFER1_BASE);
--	} else if (picture->picture_structure == PICT_TOP_FIELD) {
-+	} else if (pic->picture_structure == V4L2_MPEG2_PIC_TOP_FIELD) {
- 		vdpu_write_relaxed(vpu, forward_addr, VDPU_REG_REFER0_BASE);
- 		vdpu_write_relaxed(vpu, current_addr, VDPU_REG_REFER1_BASE);
--	} else if (picture->picture_structure == PICT_BOTTOM_FIELD) {
-+	} else if (pic->picture_structure == V4L2_MPEG2_PIC_BOTTOM_FIELD) {
- 		vdpu_write_relaxed(vpu, current_addr, VDPU_REG_REFER0_BASE);
- 		vdpu_write_relaxed(vpu, forward_addr, VDPU_REG_REFER1_BASE);
- 	}
-@@ -160,8 +156,8 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
+@@ -156,8 +156,8 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
  	struct hantro_dev *vpu = ctx->dev;
  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
  	const struct v4l2_ctrl_mpeg2_slice_params *slice_params;
--	const struct v4l2_mpeg2_sequence *sequence;
--	const struct v4l2_mpeg2_picture *picture;
-+	const struct v4l2_mpeg2_sequence *seq;
-+	const struct v4l2_mpeg2_picture *pic;
+-	const struct v4l2_mpeg2_sequence *seq;
+-	const struct v4l2_mpeg2_picture *pic;
++	const struct v4l2_ctrl_mpeg2_sequence *seq;
++	const struct v4l2_ctrl_mpeg2_picture *pic;
  	u32 reg;
  
  	src_buf = hantro_get_src_buf(ctx);
-@@ -171,8 +167,8 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
+@@ -167,8 +167,10 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
  
  	slice_params = hantro_get_ctrl(ctx,
  				       V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
--	sequence = &slice_params->sequence;
--	picture = &slice_params->picture;
-+	seq = &slice_params->sequence;
-+	pic = &slice_params->picture;
+-	seq = &slice_params->sequence;
+-	pic = &slice_params->picture;
++	seq = hantro_get_ctrl(ctx,
++			      V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE);
++	pic = hantro_get_ctrl(ctx,
++			      V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE);
  
  	reg = VDPU_REG_DEC_ADV_PRE_DIS(0) |
  	      VDPU_REG_DEC_SCMD_DIS(0) |
-@@ -207,11 +203,11 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
- 	vdpu_write_relaxed(vpu, reg, VDPU_SWREG(56));
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 62a5407664ae..878752b30c10 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -29,6 +29,18 @@
+ #include "cedrus_hw.h"
  
- 	reg = VDPU_REG_RLC_MODE_E(0) |
--	      VDPU_REG_PIC_INTERLACE_E(!sequence->progressive_sequence) |
--	      VDPU_REG_PIC_FIELDMODE_E(picture->picture_structure != PICT_FRAME) |
--	      VDPU_REG_PIC_B_E(picture->picture_coding_type == V4L2_MPEG2_PICTURE_CODING_TYPE_B) |
--	      VDPU_REG_PIC_INTER_E(picture->picture_coding_type != V4L2_MPEG2_PICTURE_CODING_TYPE_I) |
--	      VDPU_REG_PIC_TOPFIELD_E(picture->picture_structure == PICT_TOP_FIELD) |
-+	      VDPU_REG_PIC_INTERLACE_E(!(seq->flags & V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE)) |
-+	      VDPU_REG_PIC_FIELDMODE_E(pic->picture_structure != V4L2_MPEG2_PIC_FRAME) |
-+	      VDPU_REG_PIC_B_E(pic->picture_coding_type == V4L2_MPEG2_PIC_CODING_TYPE_B) |
-+	      VDPU_REG_PIC_INTER_E(pic->picture_coding_type != V4L2_MPEG2_PIC_CODING_TYPE_I) |
-+	      VDPU_REG_PIC_TOPFIELD_E(pic->picture_structure == V4L2_MPEG2_PIC_TOP_FIELD) |
- 	      VDPU_REG_FWD_INTERLACE_E(0) |
- 	      VDPU_REG_WRITE_MVS_E(0) |
- 	      VDPU_REG_DEC_TIMEOUT_E(1) |
-@@ -220,23 +216,23 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
+ static const struct cedrus_control cedrus_controls[] = {
++	{
++		.cfg = {
++			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE,
++		},
++		.codec		= CEDRUS_CODEC_MPEG2,
++	},
++	{
++		.cfg = {
++			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE,
++		},
++		.codec		= CEDRUS_CODEC_MPEG2,
++	},
+ 	{
+ 		.cfg = {
+ 			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS,
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+index 6516bff3d319..989873ccb98c 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+@@ -68,6 +68,8 @@ struct cedrus_h264_run {
+ };
  
- 	reg = VDPU_REG_PIC_MB_WIDTH(MB_WIDTH(ctx->dst_fmt.width)) |
- 	      VDPU_REG_PIC_MB_HEIGHT_P(MB_HEIGHT(ctx->dst_fmt.height)) |
--	      VDPU_REG_ALT_SCAN_E(picture->alternate_scan) |
--	      VDPU_REG_TOPFIELDFIRST_E(picture->top_field_first);
-+	      VDPU_REG_ALT_SCAN_E(pic->flags & V4L2_MPEG2_PIC_FLAG_ALT_SCAN) |
-+	      VDPU_REG_TOPFIELDFIRST_E(pic->flags & V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST);
- 	vdpu_write_relaxed(vpu, reg, VDPU_SWREG(120));
+ struct cedrus_mpeg2_run {
++	const struct v4l2_ctrl_mpeg2_sequence		*sequence;
++	const struct v4l2_ctrl_mpeg2_picture		*picture;
+ 	const struct v4l2_ctrl_mpeg2_slice_params	*slice_params;
+ 	const struct v4l2_ctrl_mpeg2_quantisation	*quantisation;
+ };
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+index 238f779d2ba4..f4cc6aebfac9 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+@@ -40,6 +40,10 @@ void cedrus_device_run(void *priv)
  
- 	reg = VDPU_REG_STRM_START_BIT(slice_params->data_bit_offset) |
--	      VDPU_REG_QSCALE_TYPE(picture->q_scale_type) |
--	      VDPU_REG_CON_MV_E(picture->concealment_motion_vectors) |
--	      VDPU_REG_INTRA_DC_PREC(picture->intra_dc_precision) |
--	      VDPU_REG_INTRA_VLC_TAB(picture->intra_vlc_format) |
--	      VDPU_REG_FRAME_PRED_DCT(picture->frame_pred_frame_dct);
-+	      VDPU_REG_QSCALE_TYPE(pic->flags & V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE) |
-+	      VDPU_REG_CON_MV_E(pic->flags & V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV) |
-+	      VDPU_REG_INTRA_DC_PREC(pic->intra_dc_precision) |
-+	      VDPU_REG_INTRA_VLC_TAB(pic->flags & V4L2_MPEG2_PIC_FLAG_INTRA_VLC) |
-+	      VDPU_REG_FRAME_PRED_DCT(pic->flags & V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT);
- 	vdpu_write_relaxed(vpu, reg, VDPU_SWREG(122));
- 
--	reg = VDPU_REG_ALT_SCAN_FLAG_E(picture->alternate_scan) |
--	      VDPU_REG_FCODE_FWD_HOR(picture->f_code[0][0]) |
--	      VDPU_REG_FCODE_FWD_VER(picture->f_code[0][1]) |
--	      VDPU_REG_FCODE_BWD_HOR(picture->f_code[1][0]) |
--	      VDPU_REG_FCODE_BWD_VER(picture->f_code[1][1]) |
-+	reg = VDPU_REG_ALT_SCAN_FLAG_E(pic->flags & V4L2_MPEG2_PIC_FLAG_ALT_SCAN) |
-+	      VDPU_REG_FCODE_FWD_HOR(pic->f_code[0][0]) |
-+	      VDPU_REG_FCODE_FWD_VER(pic->f_code[0][1]) |
-+	      VDPU_REG_FCODE_BWD_HOR(pic->f_code[1][0]) |
-+	      VDPU_REG_FCODE_BWD_VER(pic->f_code[1][1]) |
- 	      VDPU_REG_MV_ACCURACY_FWD(1) |
- 	      VDPU_REG_MV_ACCURACY_BWD(1);
- 	vdpu_write_relaxed(vpu, reg, VDPU_SWREG(136));
-@@ -245,7 +241,7 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
- 
- 	rk3399_vpu_mpeg2_dec_set_buffers(vpu, ctx, &src_buf->vb2_buf,
- 					 &dst_buf->vb2_buf,
--					 sequence, picture, slice_params);
-+					 seq, pic, slice_params);
- 
- 	/* Kick the watchdog and start decoding */
- 	hantro_end_prepare_run(ctx);
+ 	switch (ctx->src_fmt.pixelformat) {
+ 	case V4L2_PIX_FMT_MPEG2_SLICE:
++		run.mpeg2.sequence = cedrus_find_control_data(ctx,
++			V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE);
++		run.mpeg2.picture = cedrus_find_control_data(ctx,
++			V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE);
+ 		run.mpeg2.slice_params = cedrus_find_control_data(ctx,
+ 			V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
+ 		run.mpeg2.quantisation = cedrus_find_control_data(ctx,
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-index e3154f631858..e39a17d28c7d 100644
+index e39a17d28c7d..65a175c6a5c2 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
 @@ -51,8 +51,8 @@ static void cedrus_mpeg2_irq_disable(struct cedrus_ctx *ctx)
  static void cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
  {
  	const struct v4l2_ctrl_mpeg2_slice_params *slice_params;
--	const struct v4l2_mpeg2_sequence *sequence;
--	const struct v4l2_mpeg2_picture *picture;
-+	const struct v4l2_mpeg2_sequence *seq;
-+	const struct v4l2_mpeg2_picture *pic;
+-	const struct v4l2_mpeg2_sequence *seq;
+-	const struct v4l2_mpeg2_picture *pic;
++	const struct v4l2_ctrl_mpeg2_sequence *seq;
++	const struct v4l2_ctrl_mpeg2_picture *pic;
  	const struct v4l2_ctrl_mpeg2_quantisation *quantisation;
  	dma_addr_t src_buf_addr, dst_luma_addr, dst_chroma_addr;
  	dma_addr_t fwd_luma_addr, fwd_chroma_addr;
@@ -1429,121 +536,176 @@ index e3154f631858..e39a17d28c7d 100644
  	u32 reg;
  
  	slice_params = run->mpeg2.slice_params;
--	sequence = &slice_params->sequence;
--	picture = &slice_params->picture;
-+	seq = &slice_params->sequence;
-+	pic = &slice_params->picture;
+-	seq = &slice_params->sequence;
+-	pic = &slice_params->picture;
++	seq = run->mpeg2.sequence;
++	pic = run->mpeg2.picture;
  
  	quantisation = run->mpeg2.quantisation;
  
-@@ -94,19 +94,19 @@ static void cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 
- 	/* Set MPEG picture header. */
- 
--	reg = VE_DEC_MPEG_MP12HDR_SLICE_TYPE(picture->picture_coding_type);
--	reg |= VE_DEC_MPEG_MP12HDR_F_CODE(0, 0, picture->f_code[0][0]);
--	reg |= VE_DEC_MPEG_MP12HDR_F_CODE(0, 1, picture->f_code[0][1]);
--	reg |= VE_DEC_MPEG_MP12HDR_F_CODE(1, 0, picture->f_code[1][0]);
--	reg |= VE_DEC_MPEG_MP12HDR_F_CODE(1, 1, picture->f_code[1][1]);
--	reg |= VE_DEC_MPEG_MP12HDR_INTRA_DC_PRECISION(picture->intra_dc_precision);
--	reg |= VE_DEC_MPEG_MP12HDR_INTRA_PICTURE_STRUCTURE(picture->picture_structure);
--	reg |= VE_DEC_MPEG_MP12HDR_TOP_FIELD_FIRST(picture->top_field_first);
--	reg |= VE_DEC_MPEG_MP12HDR_FRAME_PRED_FRAME_DCT(picture->frame_pred_frame_dct);
--	reg |= VE_DEC_MPEG_MP12HDR_CONCEALMENT_MOTION_VECTORS(picture->concealment_motion_vectors);
--	reg |= VE_DEC_MPEG_MP12HDR_Q_SCALE_TYPE(picture->q_scale_type);
--	reg |= VE_DEC_MPEG_MP12HDR_INTRA_VLC_FORMAT(picture->intra_vlc_format);
--	reg |= VE_DEC_MPEG_MP12HDR_ALTERNATE_SCAN(picture->alternate_scan);
-+	reg = VE_DEC_MPEG_MP12HDR_SLICE_TYPE(pic->picture_coding_type);
-+	reg |= VE_DEC_MPEG_MP12HDR_F_CODE(0, 0, pic->f_code[0][0]);
-+	reg |= VE_DEC_MPEG_MP12HDR_F_CODE(0, 1, pic->f_code[0][1]);
-+	reg |= VE_DEC_MPEG_MP12HDR_F_CODE(1, 0, pic->f_code[1][0]);
-+	reg |= VE_DEC_MPEG_MP12HDR_F_CODE(1, 1, pic->f_code[1][1]);
-+	reg |= VE_DEC_MPEG_MP12HDR_INTRA_DC_PRECISION(pic->intra_dc_precision);
-+	reg |= VE_DEC_MPEG_MP12HDR_INTRA_PICTURE_STRUCTURE(pic->picture_structure);
-+	reg |= VE_DEC_MPEG_MP12HDR_TOP_FIELD_FIRST(pic->flags & V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST);
-+	reg |= VE_DEC_MPEG_MP12HDR_FRAME_PRED_FRAME_DCT(pic->flags & V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT);
-+	reg |= VE_DEC_MPEG_MP12HDR_CONCEALMENT_MOTION_VECTORS(pic->flags & V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV);
-+	reg |= VE_DEC_MPEG_MP12HDR_Q_SCALE_TYPE(pic->flags & V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE);
-+	reg |= VE_DEC_MPEG_MP12HDR_INTRA_VLC_FORMAT(pic->flags & V4L2_MPEG2_PIC_FLAG_INTRA_VLC);
-+	reg |= VE_DEC_MPEG_MP12HDR_ALTERNATE_SCAN(pic->flags & V4L2_MPEG2_PIC_FLAG_ALT_SCAN);
- 	reg |= VE_DEC_MPEG_MP12HDR_FULL_PEL_FORWARD_VECTOR(0);
- 	reg |= VE_DEC_MPEG_MP12HDR_FULL_PEL_BACKWARD_VECTOR(0);
- 
-@@ -114,8 +114,8 @@ static void cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 
- 	/* Set frame dimensions. */
- 
--	reg = VE_DEC_MPEG_PICCODEDSIZE_WIDTH(sequence->horizontal_size);
--	reg |= VE_DEC_MPEG_PICCODEDSIZE_HEIGHT(sequence->vertical_size);
-+	reg = VE_DEC_MPEG_PICCODEDSIZE_WIDTH(seq->horizontal_size);
-+	reg |= VE_DEC_MPEG_PICCODEDSIZE_HEIGHT(seq->vertical_size);
- 
- 	cedrus_write(dev, VE_DEC_MPEG_PICCODEDSIZE, reg);
- 
 diff --git a/include/media/mpeg2-ctrls.h b/include/media/mpeg2-ctrls.h
-index 8ea2c7f3a172..d3190979d574 100644
+index d3190979d574..2a26c03e3ead 100644
 --- a/include/media/mpeg2-ctrls.h
 +++ b/include/media/mpeg2-ctrls.h
-@@ -18,10 +18,7 @@
- #define V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS 0x0103
- #define	V4L2_CTRL_TYPE_MPEG2_QUANTISATION 0x0104
+@@ -13,23 +13,45 @@
  
--#define V4L2_MPEG2_PICTURE_CODING_TYPE_I	1
--#define V4L2_MPEG2_PICTURE_CODING_TYPE_P	2
--#define V4L2_MPEG2_PICTURE_CODING_TYPE_B	3
--#define V4L2_MPEG2_PICTURE_CODING_TYPE_D	4
-+#define V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE		0x0001
+ #define V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS		(V4L2_CID_CODEC_BASE+250)
+ #define V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION		(V4L2_CID_CODEC_BASE+251)
++#define V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE		(V4L2_CID_CODEC_BASE+252)
++#define V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE		(V4L2_CID_CODEC_BASE+253)
  
- struct v4l2_mpeg2_sequence {
- 	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Sequence header */
-@@ -31,10 +28,29 @@ struct v4l2_mpeg2_sequence {
+ /* enum v4l2_ctrl_type type values */
+-#define V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS 0x0103
+-#define	V4L2_CTRL_TYPE_MPEG2_QUANTISATION 0x0104
++#define V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS 0x0130
++#define V4L2_CTRL_TYPE_MPEG2_QUANTISATION 0x0131
++#define V4L2_CTRL_TYPE_MPEG2_SEQUENCE 0x0132
++#define V4L2_CTRL_TYPE_MPEG2_PICTURE 0x0133
  
- 	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Sequence extension */
+ #define V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE		0x0001
+ 
+-struct v4l2_mpeg2_sequence {
+-	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Sequence header */
++/**
++ * struct v4l2_ctrl_mpeg2_sequence - MPEG-2 sequence header
++ *
++ * All the members on this structure match the sequence header and sequence
++ * extension syntaxes as specified by the MPEG-2 specification.
++ *
++ * Fields horizontal_size, vertical_size and vbv_buffer_size are a
++ * combination of respective _value and extension syntax elements,
++ * as described in section 6.3.3 "Sequence header".
++ *
++ * @horizontal_size: combination of elements horizontal_size_value and
++ * horizontal_size_extension.
++ * @vertical_size: combination of elements vertical_size_value and
++ * vertical_size_extension.
++ * @vbv_buffer_size: combination of elements vbv_buffer_size_value and
++ * vbv_buffer_size_extension.
++ * @profile_and_level_indication: see MPEG-2 specification.
++ * @chroma_format: see MPEG-2 specification.
++ * @reserved: padding field. Should be zeroed by applications.
++ * @flags: see V4L2_MPEG2_SEQ_FLAG_{}.
++ */
++struct v4l2_ctrl_mpeg2_sequence {
+ 	__u16	horizontal_size;
+ 	__u16	vertical_size;
+ 	__u32	vbv_buffer_size;
+-
+-	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Sequence extension */
  	__u16	profile_and_level_indication;
--	__u8	progressive_sequence;
  	__u8	chroma_format;
-+
-+	__u32	flags;
+-
++	__u8	reserved;
+ 	__u32	flags;
  };
  
-+#define V4L2_MPEG2_PIC_CODING_TYPE_I			1
-+#define V4L2_MPEG2_PIC_CODING_TYPE_P			2
-+#define V4L2_MPEG2_PIC_CODING_TYPE_B			3
-+#define V4L2_MPEG2_PIC_CODING_TYPE_D			4
-+
-+#define V4L2_MPEG2_PIC_TOP_FIELD			0x1
-+#define V4L2_MPEG2_PIC_BOTTOM_FIELD			0x2
-+#define V4L2_MPEG2_PIC_FRAME				0x3
-+
-+#define V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST		0x0001
-+#define V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT		0x0002
-+#define V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV		0x0004
-+#define V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE		0x0008
-+#define V4L2_MPEG2_PIC_FLAG_INTRA_VLC			0x0010
-+#define V4L2_MPEG2_PIC_FLAG_ALT_SCAN			0x0020
-+#define V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST		0x0040
-+#define V4L2_MPEG2_PIC_FLAG_PROGRESSIVE			0x0080
-+
- struct v4l2_mpeg2_picture {
- 	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Picture header */
+@@ -51,33 +73,72 @@ struct v4l2_mpeg2_sequence {
+ #define V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST		0x0040
+ #define V4L2_MPEG2_PIC_FLAG_PROGRESSIVE			0x0080
+ 
+-struct v4l2_mpeg2_picture {
+-	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Picture header */
++/**
++ * struct v4l2_ctrl_mpeg2_picture - MPEG-2 picture header
++ *
++ * All the members on this structure match the picture header and picture
++ * coding extension syntaxes as specified by the MPEG-2 specification.
++ *
++ * @picture_coding_type: see MPEG-2 specification.
++ * @f_code[2][2]: see MPEG-2 specification.
++ * @intra_dc_precision: see MPEG-2 specification.
++ * @picture_structure: see V4L2_MPEG2_PIC_{}_FIELD.
++ * @reserved: padding field. Should be zeroed by applications.
++ * @flags: see V4L2_MPEG2_PIC_FLAG_{}.
++ */
++struct v4l2_ctrl_mpeg2_picture {
  	__u8	picture_coding_type;
-@@ -43,14 +59,8 @@ struct v4l2_mpeg2_picture {
+-
+-	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Picture coding extension */
  	__u8	f_code[2][2];
  	__u8	intra_dc_precision;
  	__u8	picture_structure;
--	__u8	top_field_first;
--	__u8	frame_pred_frame_dct;
--	__u8	concealment_motion_vectors;
--	__u8	q_scale_type;
--	__u8	intra_vlc_format;
--	__u8	alternate_scan;
--	__u8	repeat_first_field;
--	__u16	progressive_frame;
-+
-+	__u32	flags;
+-
++	__u8	reserved;
+ 	__u32	flags;
  };
  
++/**
++ * struct v4l2_ctrl_mpeg2_slice_params - MPEG-2 slice header
++ *
++ * @backward_ref_ts: timestamp of the V4L2 capture buffer to use as
++ * reference for backward prediction.
++ * @forward_ref_ts: timestamp of the V4L2 capture buffer to use as
++ * reference for forward prediction. These timestamp refers to the
++ * timestamp field in struct v4l2_buffer. Use v4l2_timeval_to_ns()
++ * to convert the struct timeval to a __u64.
++ * @quantiser_scale_code: quantiser scale integer matching an
++ * homonymous syntax element.
++ * @reserved: padding field. Should be zeroed by applications.
++ */
  struct v4l2_ctrl_mpeg2_slice_params {
+ 	__u32	bit_size;
+ 	__u32	data_bit_offset;
+ 	__u64	backward_ref_ts;
+ 	__u64	forward_ref_ts;
+-
+-	struct v4l2_mpeg2_sequence sequence;
+-	struct v4l2_mpeg2_picture picture;
+-
+-	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Slice */
+ 	__u32	quantiser_scale_code;
++	__u32	reserved;
+ };
+ 
++/**
++ * struct v4l2_ctrl_mpeg2_quantisation - MPEG-2 quantisation
++ *
++ * Quantization matrices as specified by section 6.3.7
++ * "Quant matrix extension".
++ *
++ * @intra_quantiser_matrix: The quantisation matrix coefficients
++ * for intra-coded frames, in zigzag scanning order. It is relevant
++ * for both luma and chroma components, although it can be superseded
++ * by the chroma-specific matrix for non-4:2:0 YUV formats.
++ * @non_intra_quantiser_matrix: The quantisation matrix coefficients
++ * for non-intra-coded frames, in zigzag scanning order. It is relevant
++ * for both luma and chroma components, although it can be superseded
++ * by the chroma-specific matrix for non-4:2:0 YUV formats.
++ * @chroma_intra_quantiser_matrix: The quantisation matrix coefficients
++ * for the chominance component of intra-coded frames, in zigzag scanning
++ * order. Only relevant for 4:2:2 and 4:4:4 YUV formats.
++ * @chroma_non_intra_quantiser_matrix: The quantisation matrix coefficients
++ * for the chrominance component of non-intra-coded frames, in zigzag scanning
++ * order. Only relevant for 4:2:2 and 4:4:4 YUV formats.
++ */
+ struct v4l2_ctrl_mpeg2_quantisation {
+-	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Quant matrix extension */
+ 	__u8	intra_quantiser_matrix[64];
+ 	__u8	non_intra_quantiser_matrix[64];
+ 	__u8	chroma_intra_quantiser_matrix[64];
+diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+index a560005c575a..6406cdc3f56d 100644
+--- a/include/media/v4l2-ctrls.h
++++ b/include/media/v4l2-ctrls.h
+@@ -40,6 +40,8 @@ struct video_device;
+  * @p_u16:			Pointer to a 16-bit unsigned value.
+  * @p_u32:			Pointer to a 32-bit unsigned value.
+  * @p_char:			Pointer to a string.
++ * @p_mpeg2_sequence:		Pointer to a MPEG2 sequence structure.
++ * @p_mpeg2_picture:		Pointer to a MPEG2 picture structure.
+  * @p_mpeg2_slice_params:	Pointer to a MPEG2 slice parameters structure.
+  * @p_mpeg2_quantisation:	Pointer to a MPEG2 quantisation data structure.
+  * @p_fwht_params:		Pointer to a FWHT stateless parameters structure.
+@@ -64,6 +66,8 @@ union v4l2_ctrl_ptr {
+ 	u16 *p_u16;
+ 	u32 *p_u32;
+ 	char *p_char;
++	struct v4l2_ctrl_mpeg2_sequence *p_mpeg2_sequence;
++	struct v4l2_ctrl_mpeg2_picture *p_mpeg2_picture;
+ 	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
+ 	struct v4l2_ctrl_mpeg2_quantisation *p_mpeg2_quantisation;
+ 	struct v4l2_ctrl_fwht_params *p_fwht_params;
 -- 
 2.30.0
 
