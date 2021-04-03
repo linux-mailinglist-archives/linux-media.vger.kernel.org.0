@@ -2,88 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B13493534A4
-	for <lists+linux-media@lfdr.de>; Sat,  3 Apr 2021 18:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5815D3534E1
+	for <lists+linux-media@lfdr.de>; Sat,  3 Apr 2021 19:18:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236832AbhDCQHO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Apr 2021 12:07:14 -0400
-Received: from mail.tuxforce.de ([84.38.66.179]:40226 "EHLO mail.tuxforce.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230266AbhDCQHO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 3 Apr 2021 12:07:14 -0400
-X-Greylist: delayed 20582 seconds by postgrey-1.27 at vger.kernel.org; Sat, 03 Apr 2021 12:07:13 EDT
-Received: from [IPv6:2001:4dd5:b099:0:19b2:6b8c:f4bb:b22d] (2001-4dd5-b099-0-19b2-6b8c-f4bb-b22d.ipv6dyn.netcologne.de [IPv6:2001:4dd5:b099:0:19b2:6b8c:f4bb:b22d])
-        by mail.tuxforce.de (Postfix) with ESMTPSA id 8AA2D520021;
-        Sat,  3 Apr 2021 18:07:09 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.tuxforce.de 8AA2D520021
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tuxforce.de;
-        s=202009; t=1617466029;
-        bh=F9D8Fz6r0vFJ7T8IlWCjkWshdami/ReunTBZlMPl54k=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=uLEeQNAa4+DwA5cBI1RGMA9kVr70gDDxlt5WbKwvoaJVcHPrVh156x4AA3N5QEC96
-         9UNEAmdd0ijuYTR36Iugy0E9O3lwDmFfoL1Kfgxd6777N/3duFNmk36aWFA9at49Cz
-         5iVV7Fx/KBofpOVzfVyg5YLln0zRfr074XTq5U/wsR4DKPyEAs5wU8NyopfT/6i/Fa
-         YeYlv5rFySzpPlqACTL0HUW1QC1WBfxXhPLKL8dyazoVpCXWCUA3b1DVmFLSE1tHzf
-         UBuJHRWLvzelaiiERtT3NHQujlo3qhPX7JdjKVBwpXa1OtxtiNnIa1GbaRZDbjqK/9
-         fvWolb2XckgZg==
-Subject: Re: Is request_firmware() really safe to call in resume callback when
- /usr/lib/firmware is on btrfs?
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     linux-btrfs@vger.kernel.org, Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Lukas Middendorf <kernel@tuxforce.de>
-References: <20200813163749.GV4332@42.do-not-panic.com>
- <0b1621bf-fc82-1a56-c11f-c5c46677e59e@tuxforce.de>
- <20200813221348.GB4332@42.do-not-panic.com>
- <fc887e06-874c-79d8-0607-4e27ae788446@tuxforce.de>
- <20200814163723.GC4332@42.do-not-panic.com>
- <a79f1a0c-012d-bebe-c9c7-b505f59079c2@tuxforce.de>
- <20200817152056.GD4332@42.do-not-panic.com>
- <9e5c716e-1736-9890-54be-75739ea5462f@tuxforce.de>
- <20200818143715.GF4332@42.do-not-panic.com>
- <6b61e549-42b8-8e71-ff57-43b7c5b4291f@tuxforce.de>
- <20210402180253.GS4332@42.do-not-panic.com>
- <CAB=NE6WVnR197DnH+EgHDoyy98x15D0fVdoGjZcHW9W5P7Jipg@mail.gmail.com>
- <CAB=NE6X8bXUoTuTxhy-DDqO8ByaFiJqbjzCSmmGwTbbLY95FhA@mail.gmail.com>
- <679f1f74-1304-9e79-1d83-0810361b4503@tuxforce.de>
-From:   Lukas Middendorf <kernel@tuxforce.de>
-Message-ID: <63de0271-5222-efb0-b7ba-1ccf3d2401fa@tuxforce.de>
-Date:   Sat, 3 Apr 2021 18:07:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S236866AbhDCRSI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Apr 2021 13:18:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52412 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236364AbhDCRSI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Apr 2021 13:18:08 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 948FCC0613E6;
+        Sat,  3 Apr 2021 10:18:05 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 9018F1F457AA
+Message-ID: <59328f10f03f9bf20ba0d1fbc2b4e7657e782c92.camel@collabora.com>
+Subject: Re: [PATCH v4 1/9] media: uapi: mpeg2: Rework quantization matrices
+ semantics
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Daniel Almeida <daniel.almeida@collabora.com>
+Date:   Sat, 03 Apr 2021 14:17:49 -0300
+In-Reply-To: <6488f83a1a46c43991d239137c26c40817b3e459.camel@collabora.com>
+References: <20210329181329.48006-1-ezequiel@collabora.com>
+         <20210329181329.48006-2-ezequiel@collabora.com>
+         <6488f83a1a46c43991d239137c26c40817b3e459.camel@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-In-Reply-To: <679f1f74-1304-9e79-1d83-0810361b4503@tuxforce.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luis,
+Hi Nicolas,
 
-I now succeeded in reproducing this in VirtualBox running a F34 minimal 
-installation with / on btrfs (with default firmware files).
-I can send you the virtual disk file if you want it. With the kernel 
-sourcecode and the compiled and installed kernel it currently is 21.8GiB.
+On Mon, 2021-03-29 at 16:53 -0400, Nicolas Dufresne wrote:
+> Le lundi 29 mars 2021 à 15:13 -0300, Ezequiel Garcia a écrit :
+> > As stated in the MPEG-2 specification, section 6.3.7 "Quant matrix
+> > extension":
+> > 
+> >   Each quantisation matrix has a default set of values. When a
+> >   sequence_header_code is decoded all matrices shall be reset to
+> >   their default values. User defined matrices may be downloaded
+> >   and this can occur in a sequence_header() or in a
+> >   quant_matrix_extension().
+> > 
+> > The load_intra_quantiser_matrix syntax elements are transmitted
+> > in the bistream headers, signalling that a quantization matrix
+>                                              quantisation
+> 
+> Not really a typo, just a suggestion to follow the specification spelling. I
+> would like to see concistant spelling the API. My rational is that you can copy
+> and paste the strings when searching inside the specification PDF, and you don't
+> mix both in the API like we do now.
+> 
 
+Absolutely. Thanks for spotting this.
 
-On 03/04/2021 12:24, Lukas Middendorf wrote:
-> On 03/04/2021 00:58, Luis Chamberlain wrote:
->> Can you provide kernel logs for where you are seeing things get stuck at? 
+> > needs to be loaded and used for pictures transmitted afterwards
+> > (until the matrices are reset).
+> > 
+> > These "load" semantics are implemented in the V4L2 interface
+> > without the need of any "load" flags: passing the control
+> > is effectively a load.
+> > 
+> > Therefore, rework the V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION
+>                                                         S
+> 
+> > semantics to match the MPEG-2 semantics. Quantization matrices
+>                                                  s
+> 
+> etc.
+> 
+> > values are now initialized by the V4L2 control core to their
+> > reset default value, and applications are expected to reset
+> > their values as specified.
+> > 
+> > The quantization control is therefore optional, and used to
+> > load bitstream-defined values in the quantization matrices.
+> 
+> Perhaps:
+> 
+> "The quantisation controls is therefore optional for decoding streams that uses
+> the default matrices."
+> 
+> A stack that would not handle the default, would have to read the control at
+> least once in order to avoid overriding valid values with 0s, not sure if that
+> is worth mentioning ?
+> 
 
-I have dumped the output of the serial console with all outputs cranked 
-to the max.
-In [1] is the output with test_firmware loaded and suspend test running. 
-This leads to a freeze. However it is not completely dead. While it does 
-not visually react, at least from time to time there still are some 
-messages from the kernel and the cursor is still blinking.
+Hm, not entirely sure. If application calls S_EXT_CTRL with 0s,
+then that's what will happen.
 
+Thanks,
+Ezequiel
 
-In [2] is a (successful) suspend and resume cycle with test_firmware not 
-loaded.
-
-Lukas
-
-[1] https://gist.github.com/midluk/05716f714f778d26dc02771245df0ac9
-[2] https://gist.github.com/midluk/a03eb953b6cf097688b8be2e0cd387fd
