@@ -2,155 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45DB435364D
-	for <lists+linux-media@lfdr.de>; Sun,  4 Apr 2021 05:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A6935377D
+	for <lists+linux-media@lfdr.de>; Sun,  4 Apr 2021 10:42:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236666AbhDDDjK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Apr 2021 23:39:10 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:48863 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236641AbhDDDjI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 3 Apr 2021 23:39:08 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id StbGls8kk43ycStbJlJxju; Sun, 04 Apr 2021 05:39:01 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1617507541; bh=zu9zij3aEDb7Qh81sD8Rst4KfI2l8N5KeI7rikELpP0=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=G/sU/Im7J+EbN1bvt/l1CmFx4JyL4RHM7eYwaNWdbpqZlRdYZT7KT4IDRd8oK6rgL
-         Cisyt13kG5cgsfGHjNbYF24zgvpRNjfZdvmpG1qF4w2evmtTtz+fGyZIBrqbMUx7R4
-         8zS6clDwPaBZl8GaXx0+H7l8BaiWqIeF+p4iKwoLDqbDjm07VIhYKo0AEqWQHxBKA4
-         Ou/IYqH2jrdE4T9JBSgLe1Kwm8qgA5jbtDleNnFtjQrO0bWmp2IZ1wIyTwJBzAKvDc
-         4XZ83N+9o7xMD3K7rqPanr5o1UXabmwe8ePCEFs8FRl0ki7yUby07FGUvbseojp8Tl
-         pGcdGKoqUiERA==
-Message-ID: <c7dbbbbdd5ebbefca17a783e7d276671@smtp-cloud9.xs4all.net>
-Date:   Sun, 04 Apr 2021 05:38:58 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        id S229550AbhDDImj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Apr 2021 04:42:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52154 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229483AbhDDImj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Apr 2021 04:42:39 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FF7BC061756
+        for <linux-media@vger.kernel.org>; Sun,  4 Apr 2021 01:42:33 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id r12so12964363ejr.5
+        for <linux-media@vger.kernel.org>; Sun, 04 Apr 2021 01:42:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6/FsJ3jRODRujlgLae07rHac1f8iqgcFfyFSBisI19k=;
+        b=Jv4AtU32WzcPfp2n8x3/H59z46DzkBaM0VE5rId99BGEIj6Cx5Y6JUCjs+5YoT5IrD
+         HdGB+EmTvLDejftVGNo+cm2QbUiapXmzf28ddJJYzc9sFbWOn4+GkSkcwCJrlanmBaPG
+         xDRSbJJJ8tLTVnF6j5uQuRO1GVM58sjgh7X2Kl3XP6evj0zkVEvpcKmpqDuKJsgY0V9J
+         L8F1TWlTUCndi5UvHasewX0j+emnZY/oTM+qRQtA0GRE4sx15BjhD9mNktV+fZ4d87+T
+         TMg6xwnX/S7UD2pfQRV3DY7sp4VGtyc06qwHzw5AiRkyb7aGLjuLv4hUoz0tA62DwGJU
+         tl2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6/FsJ3jRODRujlgLae07rHac1f8iqgcFfyFSBisI19k=;
+        b=lrEESbsH9OcVTpiWep6jD9qppPwMB4LkIeLXHDsM0S6nsG/IZF/1dWT9bnhFuQ020x
+         REX1NUHz0OGXzJg2ZWfHJSa+8sUxSDfiHZg4T8WqHZwt/RBTQABWJKab7eXpxDXKrn8T
+         M/YkZkuGo7pWJBdZrxX7PVb3Jv6CQu+nOMQRbm6/5CFx93mXYh18Wq5yf/QywEG/+44E
+         y+UYrBFYvDb4jiOee52NAgAKGHLW5Aw3jh5Ukb20vxXlnYI92CHLRQihftzyuXF8c1Fx
+         7gKlh0gu28hs7uVrANBbfpgzuDWLz2w1kvH6XDWGn91rTiNXns7fpM0e2ttgMtoiiufZ
+         jPaA==
+X-Gm-Message-State: AOAM532H1g6+yGuxnZYNBIDA9WNnfAdrnuqqFpUU9zo/u0Lti8jWmaCC
+        axD71/bmPsI/+d2BIu/XzDrqBDnCXJGB2QvK
+X-Google-Smtp-Source: ABdhPJztxSrdsroFySHhE8eBRKN9TN7LzLRgUzI7BJWUYNToWuo4WpbhEZ79AGAbX/nWMc7g3fu0LA==
+X-Received: by 2002:a17:906:d790:: with SMTP id pj16mr22209075ejb.255.1617525751717;
+        Sun, 04 Apr 2021 01:42:31 -0700 (PDT)
+Received: from localhost.localdomain (hst-221-13.medicom.bg. [84.238.221.13])
+        by smtp.gmail.com with ESMTPSA id e16sm6513585ejc.63.2021.04.04.01.42.30
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Apr 2021 01:42:31 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfLYxDWkrDQZiPI2he8hk9IY9hq1aJ7QMDUclJzZbfi9+mrzYpLrpkT5nHbFCH9LkJRs5L1G+LHX3UhSAkaSAD5eGNNCpmye3crrYAh1IIhFiXPfOJLRR
- LczWnQ6pMZhaoYq8rQPRj3zCisOZ2lXYguvlX4w0B64WCyuiauzJOJvgP0En4ACY/LC9fhZm7Qttg5+kjbnOhAdEwtKuCNx6JJ02dqzQRhweOBi0T2jeQeD5
- hvcKJjCJn3u1fuqakKlVbQ==
+Subject: [GIT PULL FOR v5.13] Venus updates - part3
+Date:   Sun,  4 Apr 2021 11:42:23 +0300
+Message-Id: <20210404084223.2141401-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Mauro,
 
-Results of the daily build of media_tree:
+This adds Venus v6xx support found on sm8250 Qualcomm SoCs.
 
-date:			Sun Apr  4 05:00:11 CEST 2021
-media-tree git hash:	97b34809ec240d82c82af97626c2071a4062e0e6
-media_build git hash:	70188fdddcfedda190f1118529888cd3dc2581d6
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7413-g9bb66fa2d
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+regards,
+Stan
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-x86_64: OK
-linux-git-i686: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12-rc1-i686: OK
-linux-5.12-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 1
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+The following changes since commit 97b34809ec240d82c82af97626c2071a4062e0e6:
 
-Detailed results are available here:
+  media: staging: atomisp: reduce kernel stack usage (2021-03-23 16:55:52 +0100)
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+are available in the Git repository at:
 
-Detailed regression test results are available here:
+  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.13-part3
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+for you to fetch changes up to f345ee419dd70bb6b41d93946b3d0159631ab43d:
 
-Full logs are available here:
+  media: venus: vdec: Fix decoder cmd STOP issue (2021-04-04 10:14:08 +0300)
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+----------------------------------------------------------------
+Venus updates for v5.13 part3
 
-The Media Infrastructure API from this daily build is here:
+----------------------------------------------------------------
+Bryan O'Donoghue (11):
+      media: venus: Update v6 buffer descriptors
+      media: venus: core: add sm8250 DT compatible and resource data
+      media: venus: core: Add io base variables for each block
+      media: venus: hfi,pm,firmware: Convert to block relative addressing
+      media: venus: core: Add differentiator IS_V6(core)
+      media: venus: core: Add an io base for TZ wrapper regs
+      media: venus: core: Add an io base for AON regs
+      media: venus: core: Hook to V6 base registers when appropriate
+      media: venus: hfi: Read WRAPPER_TZ_CPU_STATUS_V6 on 6xx
+      media: venus: hfi, vdec: v6 Add IS_V6() to existing IS_V4() if locations
+      media: venus: pm: Hook 6xx pm ops into 4xx pm ops
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Dikshita Agarwal (12):
+      media: venus: hfi: Define block offsets for V6 hardware
+      media: venus: hfi: Define additional 6xx registers
+      media: venus: hfi: Add a 6xx boot logic
+      media: venus: hfi: Add 6xx interrupt support
+      media: venus: core,pm: Vote for min clk freq during venus boot
+      media: venus: hfi: Add 6xx AXI halt logic
+      media: venus: pm: Toggle 6xx wrapper power in vcodec_control
+      media: venus: firmware: Do not toggle WRAPPER_A9SS_SW_RESET on 6xx
+      media: venus: helpers: Add internal buffer list for v6
+      media: venus: helpers, hfi, vdec: Set actual plane constraints to FW
+      media: venus: hfi: Increase plat_buf_v6 o/p buffer count.
+      media: venus: helper: Decide work mode
+
+Stanimir Varbanov (2):
+      media: venus: core,pm: Add handling for resets
+      media: venus: vdec: Fix decoder cmd STOP issue
+
+ drivers/media/platform/qcom/venus/core.c           |  78 ++++++++++
+ drivers/media/platform/qcom/venus/core.h           |  19 +++
+ drivers/media/platform/qcom/venus/firmware.c       |  34 +++--
+ drivers/media/platform/qcom/venus/helpers.c        |  71 ++++++++-
+ drivers/media/platform/qcom/venus/helpers.h        |   3 +-
+ drivers/media/platform/qcom/venus/hfi_cmds.c       |  15 +-
+ drivers/media/platform/qcom/venus/hfi_helper.h     |   9 +-
+ .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   |   6 +-
+ .../media/platform/qcom/venus/hfi_platform_v6.c    | 138 ++++++++---------
+ drivers/media/platform/qcom/venus/hfi_venus.c      | 164 +++++++++++++++------
+ drivers/media/platform/qcom/venus/hfi_venus_io.h   | 118 +++++++++------
+ drivers/media/platform/qcom/venus/pm_helpers.c     |  92 +++++++++++-
+ drivers/media/platform/qcom/venus/vdec.c           |  17 ++-
+ drivers/media/platform/qcom/venus/venc.c           |   2 +-
+ 14 files changed, 567 insertions(+), 199 deletions(-)
