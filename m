@@ -2,75 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E21C353791
-	for <lists+linux-media@lfdr.de>; Sun,  4 Apr 2021 11:01:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 801183537B0
+	for <lists+linux-media@lfdr.de>; Sun,  4 Apr 2021 11:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbhDDJAo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Apr 2021 05:00:44 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:44940 "EHLO www.linuxtv.org"
+        id S230252AbhDDJzg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Apr 2021 05:55:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49834 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229530AbhDDJAn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 4 Apr 2021 05:00:43 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lSycY-00BUWn-Ec; Sun, 04 Apr 2021 09:00:38 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lSygN-0005kS-S8; Sun, 04 Apr 2021 09:04:37 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.13] Venus updates - part3 (#72913)
-Date:   Sun,  4 Apr 2021 09:04:35 +0000
-Message-Id: <20210404090435.22055-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210404084223.2141401-1-stanimir.varbanov@linaro.org>
-References: 
+        id S229483AbhDDJzf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 4 Apr 2021 05:55:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B34CB61380;
+        Sun,  4 Apr 2021 09:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617530131;
+        bh=FhEaW2cmEgSgSaC3SbBCxav57AyEtDTZ4e+3qBA+FkE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dWIkycwoXooVgqIedtlP6WI6HZ7u663QH3KqsMpIVBzKrAQQiC065kvQWoMRntHBJ
+         GSvAQPhs/tedheWCzJJrNctXHnoisBp4Nb3hTzTKyfMUeSpLOBm1lxoi02ag59gviR
+         iJGj3rRJMf53nfmHeAsjK7kIDtgvdxUzSXC0FMUo=
+Date:   Sun, 4 Apr 2021 11:55:26 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
+Cc:     clabbe@baylibre.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [PATCH 0/7] staging: media: zoran: Eliminate camelcase
+Message-ID: <YGmNDmT/aqU/+ygn@kroah.com>
+References: <cover.1617472411.git.zhansayabagdaulet@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1617472411.git.zhansayabagdaulet@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On Sun, Apr 04, 2021 at 12:08:57AM +0600, Zhansaya Bagdauletkyzy wrote:
+> This patchset fixes 'avoid camelcase' warning by converting local variables to lowercase and separating words using '_'.
+> Renaming of each variable is implemented in separate patches.
+> 
+> Zhansaya Bagdauletkyzy (7):
+>   Rename 'HEnd' to 'h_end'
+>   Rename 'VEnd' to 'v_end'
+>   Rename 'DispMode' to 'disp_mode'
+>   Rename 'VidWinWid' to 'vid_win_wid'
+>   Rename 'VidWinHt' to 'vid_win_ht'
+>   Rename 'We' to 'we'
+>   Rename 'He' to 'he'
+> 
+>  drivers/staging/media/zoran/zoran_device.c | 48 +++++++++++-----------
+>  1 file changed, 24 insertions(+), 24 deletions(-)
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210404084223.2141401-1-stanimir.varbanov@linaro.org/
-Build log: https://builder.linuxtv.org/job/patchwork/97233/
-Build time: 00:11:46
-Link: https://lore.kernel.org/linux-media/20210404084223.2141401-1-stanimir.varbanov@linaro.org
+You did not read the instructions for the outreachy work, sorry, but I
+can not take these.
 
-gpg: Signature made Sun 04 Apr 2021 07:18:22 AM UTC
-gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
-gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
-gpg: Note: This key has expired!
-Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
-     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+good luck!
 
-Summary: got 3/25 patches with issues, being 0 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0002-media-venus-core-pm-Add-handling-for-resets.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-venus-core-pm-Add-handling-for-resets.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:12: WARNING: Duplicate signature
-
-patches/0003-media-venus-core-add-sm8250-DT-compatible-and-resour.patch:
-
-   checkpatch.pl:
-	$ cat patches/0003-media-venus-core-add-sm8250-DT-compatible-and-resour.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:86: WARNING: DT compatible string "qcom,sm8250-venus" appears un-documented -- check ./Documentation/devicetree/bindings/
-
-patches/0025-media-venus-vdec-Fix-decoder-cmd-STOP-issue.patch:
-
-   checkpatch.pl:
-	$ cat patches/0025-media-venus-vdec-Fix-decoder-cmd-STOP-issue.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:15: WARNING: Duplicate signature
-
-
-Error #512 when building PDF docs
-
+greg k-h
