@@ -2,106 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62759353875
-	for <lists+linux-media@lfdr.de>; Sun,  4 Apr 2021 16:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD81B353969
+	for <lists+linux-media@lfdr.de>; Sun,  4 Apr 2021 20:30:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229918AbhDDOYX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Apr 2021 10:24:23 -0400
-Received: from aibo.runbox.com ([91.220.196.211]:51906 "EHLO aibo.runbox.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229633AbhDDOYX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 4 Apr 2021 10:24:23 -0400
-X-Greylist: delayed 2385 seconds by postgrey-1.27 at vger.kernel.org; Sun, 04 Apr 2021 10:24:22 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=norwegianrockcat.com; s=selector1; h=Content-Transfer-Encoding:MIME-Version
-        :Message-Id:Date:Subject:To:From;
-        bh=kIrnzLyUPzvh/Tv0B6Qz6xxDa5pWQ3j2XYirUxZWSRs=; b=R/zV9wCRLyVogZxLItfSTMgxZV
-        cRcJPfEay2R+VGalhy4EXsIbRz39nKLkipGsX7PXxp4Z4y8z/7y8Zk93L82yExxl+hC5uLMN9jf+e
-        8WGYgYkcCPRWpQpBevQ6Ho3n6k+L+/qQ1QPiE3nrrB0qq/qE/3sOSsr4hEdY0Rh6cBI6Fi8ORT4PT
-        ce9n1GleD3YKYqMpt8VDjWCDOIaX5487DiQT5KRgDJpK+oFnGH8YV1IZcMQ1/ZzUrylR5arVL1Ows
-        Kq71jGYczCZ9frcI4tHbwfh0Z5J5yGjr+252l1XpUUggl8X0RxIifTRyBeevEa31XwmpzQ2U87r+2
-        2P2PYrAg==;
-Received: from [10.9.9.73] (helo=submission02.runbox)
-        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-        (envelope-from <trenton@norwegianrockcat.com>)
-        id 1lT33H-0001Au-DU
-        for linux-media@vger.kernel.org; Sun, 04 Apr 2021 15:44:31 +0200
-Received: by submission02.runbox with esmtpsa  [Authenticated alias (786124)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        id 1lT33H-00008P-2p
-        for linux-media@vger.kernel.org; Sun, 04 Apr 2021 15:44:31 +0200
-From:   Trenton Schulz <trenton@norwegianrockcat.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH] Rudimentary support for mi_media_detect_type on FreeBSD.
-Date:   Sun,  4 Apr 2021 15:44:30 +0200
-Message-Id: <20210404134430.4537-1-trenton@norwegianrockcat.com>
-X-Mailer: git-send-email 2.31.0
+        id S230169AbhDDSa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Apr 2021 14:30:29 -0400
+Received: from fgw23-7.mail.saunalahti.fi ([62.142.5.84]:18191 "EHLO
+        fgw23-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229861AbhDDSa2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 4 Apr 2021 14:30:28 -0400
+X-Greylist: delayed 963 seconds by postgrey-1.27 at vger.kernel.org; Sun, 04 Apr 2021 14:30:28 EDT
+Received: from localhost (88-115-248-186.elisa-laajakaista.fi [88.115.248.186])
+        by fgw23.mail.saunalahti.fi (Halon) with ESMTP
+        id 911d8938-9571-11eb-8ccd-005056bdfda7;
+        Sun, 04 Apr 2021 21:14:16 +0300 (EEST)
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v1 1/1] media: ipu3-cio2: Fix referece counting when looping over ACPI devices
+Date:   Sun,  4 Apr 2021 21:14:09 +0300
+Message-Id: <20210404181409.1451026-1-andy.shevchenko@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-FreeBSD doesn't have the same uevent and sys filesystem that Linux
-does. So, use the VIDIOC_QUERYCAP ioctl to find out basic capabilities
-for a device. The ioctl doesn't give us as much information, but it
-gets things like webcams, VBIs, and radios. This is better than what
-was there previously, which was returning unknown.
+When we continue, due to device is disabled, loop we have to drop reference count.
+When we have an array full of devices we have to also drop the reference count.
+Note, in this case the cio2_bridge_unregister_sensors() is called by the caller.
 
-This makes some v4l-utils like v4l2-ctl a little more useful.
-
-Signed-off-by: Trenton Schulz <trenton@norwegianrockcat.com>
+Fixes: 803abec64ef9 ("media: ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver")
+Cc: Daniel Scally <djrscally@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- utils/common/media-info.cpp | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ drivers/media/pci/intel/ipu3/cio2-bridge.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/utils/common/media-info.cpp b/utils/common/media-info.cpp
-index 29a43fb3..3fed5a46 100644
---- a/utils/common/media-info.cpp
-+++ b/utils/common/media-info.cpp
-@@ -17,6 +17,10 @@
- #include <linux/media.h>
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+index c2199042d3db..85f8b587405e 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+@@ -173,14 +173,15 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 	int ret;
  
- #include <media-info.h>
-+#ifndef __linux__
-+#include <linux/videodev2.h>
-+#include <fcntl.h>
-+#endif
- 
- static std::string num2s(unsigned num, bool is_hex = true)
- {
-@@ -54,7 +58,7 @@ media_type mi_media_detect_type(const char *device)
- 
- 	if (stat(device, &sb) == -1)
- 		return MEDIA_TYPE_CANT_STAT;
--
-+#ifdef __linux__
- 	std::string uevent_path("/sys/dev/char/");
- 
- 	uevent_path += num2s(major(sb.st_rdev), false) + ":" +
-@@ -90,6 +94,22 @@ media_type mi_media_detect_type(const char *device)
- 	}
- 
- 	uevent_file.close();
-+#else // Not Linux
-+	int fd = open(device, O_RDONLY);
-+	if (fd >= 0) {
-+		struct v4l2_capability caps;
-+		if (ioctl(fd, VIDIOC_QUERYCAP, &caps) == 0) {
-+			if (caps.device_caps & V4L2_CAP_VIDEO_CAPTURE) {
-+				return MEDIA_TYPE_VIDEO;
-+			} else if (caps.device_caps & V4L2_CAP_VBI_CAPTURE) {
-+				return MEDIA_TYPE_VBI;
-+			} else if (caps.device_caps & V4L2_CAP_RADIO) {
-+				return MEDIA_TYPE_RADIO;
-+			}
+ 	for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
+-		if (!adev->status.enabled)
++		if (!adev->status.enabled) {
++			acpi_dev_put(adev);
+ 			continue;
 +		}
-+		close(fd);
-+	}
-+#endif
- 	return MEDIA_TYPE_UNKNOWN;
+ 
+ 		if (bridge->n_sensors >= CIO2_NUM_PORTS) {
++			acpi_dev_put(adev);
+ 			dev_err(&cio2->dev, "Exceeded available CIO2 ports\n");
+-			cio2_bridge_unregister_sensors(bridge);
+-			ret = -EINVAL;
+-			goto err_out;
++			return -EINVAL;
+ 		}
+ 
+ 		sensor = &bridge->sensors[bridge->n_sensors];
+@@ -228,7 +229,6 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 	software_node_unregister_nodes(sensor->swnodes);
+ err_put_adev:
+ 	acpi_dev_put(sensor->adev);
+-err_out:
+ 	return ret;
  }
  
 -- 
-2.31.0
+2.31.1
 
