@@ -2,91 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 605F935479C
-	for <lists+linux-media@lfdr.de>; Mon,  5 Apr 2021 22:37:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BB8A3547D6
+	for <lists+linux-media@lfdr.de>; Mon,  5 Apr 2021 22:52:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240937AbhDEUhk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Apr 2021 16:37:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36062 "EHLO
+        id S237277AbhDEUwf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Apr 2021 16:52:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237073AbhDEUhj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Apr 2021 16:37:39 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FA2C061788;
-        Mon,  5 Apr 2021 13:37:32 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id u5-20020a7bcb050000b029010e9316b9d5so6180435wmj.2;
-        Mon, 05 Apr 2021 13:37:32 -0700 (PDT)
+        with ESMTP id S237144AbhDEUwe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Apr 2021 16:52:34 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70C88C061756;
+        Mon,  5 Apr 2021 13:52:26 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id a6so5973581wrw.8;
+        Mon, 05 Apr 2021 13:52:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=zSdJzo4zoszwh3Ropy9vcijZc4A27t1uaB8gJuuiu4g=;
-        b=hmVYR+JY6euACjuRwMjEvkG0WrRGtN9CAFdInTC2M0Vl9ezJsRsiyqHtMXYe7kQmMO
-         Yyk4bABlSI+X8WQmYS8WsbhxJiaRCZrXyTsu32jw0N4qO8M5lu0srht25bZJvJFAn2r5
-         JXqbnEChpJxkUohqQGqWEHBdchlFlpupZZB4jLmaWbO7+q+XgctquRjn+j8OaLkhMNAY
-         Souxwwno2tEy0NrmCHzJ82ciFqmlF8SlfJWiXXZd+V/j5z7XI5IQO334BjUjml16yRQ4
-         9TYeflMTWDIjld/UXHbJwIZQeecU5leg3uJMZRf2IMf7nRzRYCkIbONYwEUwpxk9UvaZ
-         r5cg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=7C13XlUdOgzQF9sLGdJgUoIrOgcp/sITEfTitDZiIdc=;
+        b=Rb0mNRmGnTqpOkvNQ3ypJ//C+oH+JTE77MmLtNerx1gz8lpqfS3w/FpotN9eMElTK1
+         5s1YM9rg69RanWIoObVijLEX2ZXvtS3xh3s7gXl/0Wpwi/ka9gaDgbIw968Nupzdg+s8
+         0meS+b2N5AmzOuGK8e9Aj3uzxD5WsGnebHbLuMmqEV/dTEZEizGNRmcaPXCK2J3YMYf/
+         5QdnalUNF+IEHJpKvhNpTD3fVkrwgfnfBV/mknETE13sjBXBo/hmdiOLY4iWnj7mZyM+
+         sujyhmJx/sqhwn9VxTPFlITbOnGrRscCoTEAwJYMez8ePvgt1IYCMUjaZcYCZyj3RTkV
+         HWIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=zSdJzo4zoszwh3Ropy9vcijZc4A27t1uaB8gJuuiu4g=;
-        b=JNAG63dgWW72qOfwRePELqqMA5EqWiSVL3fxevJETRmwhvAc/uVlSy1abIgUbRT3pf
-         kEb5Q+nz2bKR/480/E2357tDMe2jD/7QGXHvcU7IiQKa59VXHKplE7V8aQrs9rQxOC57
-         x7xwt7PixdKQooCJyVHf9nbLw4bh5IfOuoGUrna7GttnRhVeiHlFuZ1uiSUzNkKxjrYk
-         xxoHfs7OhQGonHCBZU0mZ0//cPWfP1urEk9T6BhdxhBoAnXbRPKlM86JLEwXGur8r2q1
-         7XpsVym74l7B0zP+/1SVy+nxGiKKNpoajqV07Go4c/Oeyc5l8l+0NRfSzKFggDb0ROxe
-         4aSQ==
-X-Gm-Message-State: AOAM533nbfg5MbvwLFAjkD5Nbg8DMKH0koDE9rwkYrypZjCpJrWxxIIQ
-        U9OkN3NL6UMss7aEN9JPHj0=
-X-Google-Smtp-Source: ABdhPJxLvu1nDd41bm0vAQpJa/jWZ5c+AmGLkoqj2+wngMdm3FzMnHaMKgrH9TLW1Z+BZthq4sf80g==
-X-Received: by 2002:a05:600c:2947:: with SMTP id n7mr777816wmd.61.1617655051662;
-        Mon, 05 Apr 2021 13:37:31 -0700 (PDT)
-Received: from [192.168.1.211] ([2.29.208.21])
-        by smtp.gmail.com with ESMTPSA id v3sm679284wmj.25.2021.04.05.13.37.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Apr 2021 13:37:31 -0700 (PDT)
-Subject: Re: [PATCH v1 1/1] media: ipu3-cio2: Fix referece counting when
- looping over ACPI devices
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20210404181409.1451026-1-andy.shevchenko@gmail.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <1ab48622-be85-f1d7-caa4-8b04a4727d5d@gmail.com>
-Date:   Mon, 5 Apr 2021 21:37:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=7C13XlUdOgzQF9sLGdJgUoIrOgcp/sITEfTitDZiIdc=;
+        b=sbD3XifXb3B+xz1Rhlx0iuA5CdMF3aOKT1T+f1f1dCJgeLYN30bRmSA8BHGDsX1LCD
+         OMAHEUnM8QIw/T5DnEDK8t57NdDeVaEDMMEdYZ6dbiTK27yAPuoZXtQEvdqLM4tAg05g
+         1hN5TbSb+Sbxwtom94g0T0/yt99YBw8h3EW5Igc4P4lmk6P4m+NAl/0s0ftVikurNtmH
+         oim+pHNG00iulq9iYpIunCcfX951/Pzw7VRNLWDHIP+MtUNULccB+Hc8xRUYGPniKrTL
+         r7AsIpNyAKYfEp5Aq2XUCjXifoXc/PWoF1qvYjTKYgc951RI0tavBn1oFZkSZucOKP1D
+         8hbA==
+X-Gm-Message-State: AOAM532hGr5PVK6K2EA9mLGRF2q1ulQ+dOH0GXBuKt6HCUxgSc6Cjm8h
+        0Nq1YE0yOZ95P1jKc/dWUYZ8FDK1i2q5Hg==
+X-Google-Smtp-Source: ABdhPJxSaXmM69ki950ZgNjz250o54xGZUeAdsgGMVuD5hSefBTuPhvsiW+81TLLy1bZ+hHNZYQrUw==
+X-Received: by 2002:a05:6000:181:: with SMTP id p1mr30779028wrx.73.1617655945220;
+        Mon, 05 Apr 2021 13:52:25 -0700 (PDT)
+Received: from LEGION ([39.46.7.73])
+        by smtp.gmail.com with ESMTPSA id x11sm674939wmi.3.2021.04.05.13.52.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Apr 2021 13:52:24 -0700 (PDT)
+Date:   Tue, 6 Apr 2021 01:52:19 +0500
+From:   Muhammad Usama Anjum <musamaanjum@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:SIANO DVB DRIVER" <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        zhengyongjun3@huawei.com, kernel-janitors@vger.kernel.org,
+        colin.king@canonical.com, dan.carpenter@oracle.com
+Cc:     musamaanjum@gmail.com
+Subject: [PATCH] media: siano: use DEFINE_MUTEX() for mutex lock
+Message-ID: <20210405205219.GA687366@LEGION>
 MIME-Version: 1.0
-In-Reply-To: <20210404181409.1451026-1-andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy
+mutex lock can be initialized with DEFINE_MUTEX() rather than
+explicitly calling mutex_init().
 
-On 04/04/2021 19:14, Andy Shevchenko wrote:
-> When we continue, due to device is disabled, loop we have to drop reference count.
-> When we have an array full of devices we have to also drop the reference count.
-> Note, in this case the cio2_bridge_unregister_sensors() is called by the caller.
->
-> Fixes: 803abec64ef9 ("media: ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver")
-> Cc: Daniel Scally <djrscally@gmail.com>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Muhammad Usama Anjum <musamaanjum@gmail.com>
+---
+ drivers/media/common/siano/smscoreapi.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-
-Ah; thanks for catching those, I'm annoyed to have missed the
-acpi_dev_put() calls in particular
-
-Reviewed-by: Daniel Scally <djrscally@gmail.com>
+diff --git a/drivers/media/common/siano/smscoreapi.c b/drivers/media/common/siano/smscoreapi.c
+index 410cc3ac6f94..7f5b638d2458 100644
+--- a/drivers/media/common/siano/smscoreapi.c
++++ b/drivers/media/common/siano/smscoreapi.c
+@@ -414,10 +414,10 @@ struct smscore_registry_entry_t {
+ 
+ static struct list_head g_smscore_notifyees;
+ static struct list_head g_smscore_devices;
+-static struct mutex g_smscore_deviceslock;
++static DEFINE_MUTEX(g_smscore_deviceslock);
+ 
+ static struct list_head g_smscore_registry;
+-static struct mutex g_smscore_registrylock;
++static DEFINE_MUTEX(g_smscore_registrylock);
+ 
+ static int default_mode = DEVICE_MODE_NONE;
+ 
+@@ -2123,10 +2123,7 @@ static int __init smscore_module_init(void)
+ {
+ 	INIT_LIST_HEAD(&g_smscore_notifyees);
+ 	INIT_LIST_HEAD(&g_smscore_devices);
+-	mutex_init(&g_smscore_deviceslock);
+-
+ 	INIT_LIST_HEAD(&g_smscore_registry);
+-	mutex_init(&g_smscore_registrylock);
+ 
+ 	return 0;
+ }
+-- 
+2.25.1
 
