@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EE123543AF
-	for <lists+linux-media@lfdr.de>; Mon,  5 Apr 2021 17:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 667693543B2
+	for <lists+linux-media@lfdr.de>; Mon,  5 Apr 2021 17:54:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241762AbhDEPyB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Apr 2021 11:54:01 -0400
-Received: from esa.microchip.iphmx.com ([68.232.153.233]:57531 "EHLO
+        id S241806AbhDEPyO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Apr 2021 11:54:14 -0400
+Received: from esa.microchip.iphmx.com ([68.232.154.123]:14576 "EHLO
         esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241752AbhDEPx6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Apr 2021 11:53:58 -0400
+        with ESMTP id S236161AbhDEPyG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Apr 2021 11:54:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1617638032; x=1649174032;
+  t=1617638040; x=1649174040;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=rdvIzi/L0XfqY6KKlPcjVlfFG0pyj+7V8L1NdsX9Lig=;
-  b=zYz+Ve3VgwWR055YoZL9uRYVZBrpxap2XnGc0p1b9OVqGfeG91vv5Aox
-   jbT6I3C5t7/O3XnbwklkmQVNCZ634mX1IUb9hleQtpHECEGtDbl4ElBKB
-   FDWk0ug0KSwlAfDozEwACTjWKYoGLh9RRbdZwdTFt2Ga/WIeEmG1JdC1N
-   PBIIySyNzjwBvObNXS10B2q+bvd6kKrKt8IB5CF0XgWD4CWKVb2je0POx
-   9A/af/MrAjpFIUg3SiX5Fr3b1n6WfjUSm6an9/3fQed7JXdgRcdGXIXkZ
-   qdYc28MO9OffbrxBmna55wS/gnxLzEODqgVZIdF71c79gsVZeHCFbt+tV
+  bh=qixaoOoS6G5y4Lp/2bypowj426ioyHUaH1KSheoHqaY=;
+  b=KOxEBgf9V4TghI5RmiTQf7bjcW+qAy7EuauQW+Nel1FefV/GyBwN32IR
+   R14GIu0CmTUNL9BgeuPiJBWhYvH5c5XSpe9/NpZSpRhTjmBZc5c+QCJXi
+   UQ3CAvkHIyxnkg68+tLTx500Au/7tN3VZgI1zJgF/SKDQxLv0sr9+8j0e
+   aeAZAtkK3kAwinwkn2By82NT3YMI24IEY6Qq0SBePIS8w2P4AbGspqvLk
+   sHieNaW9PBA2VTC1VPuupEEsFWu07VYhHpOJ1zrz03PDqsW6Z3lIofiHo
+   wQ/TX1Cibj2m4XD766+laAOegdJl0OKinbjUD7aeV5WOdzVeTajHofVuq
    Q==;
-IronPort-SDR: WtJgYnqNL5CmEJ8R3HnPg1XfChDTB9ZfFOLEK3ua4FPT0DTsk6M4HvlDQmbAqs328keik1D8ku
- Ic4/Tw2BcUVeHo91iagkOFynsSEymrju+Guxg6igr41TZT8S/niXkhFNymNJXtmjiZi8OD/uKU
- 3kSmpWojtCoS6OOOGuWc+4I2Ytvc205o5ClX79W4mGhc4flfoupUllTw264cHbGXw+6VRVnTkd
- YSqYTbQeLwpTURVNKyPhL/oWDS2VElcX2I2oBfvGJ8CO0PRuUYmVkZTXmUXN2qptJCiobRNCSd
- WIs=
+IronPort-SDR: O3B3V0/4Q5NJjy2DLKnUxXEZI7OrcMfoBvlfy+9EG8T94sBwa1Bb9bjYK7SYVKDwetHlCrrFC8
+ uCV0dBT4J0twwCDsbPAS5dRsSlI8rl1ySxZDdNuRMX7460u6NFcZbH3DmdBAPsjhZ+icRDcnfg
+ E8yU6uU95HrKsCHji74zcIWV4/ekMG7EJ15i/Ue7IDPtFM1iY5XB7xck85SsO88GxT8N3p96aT
+ mqQyuHTE6glnCDbhIoOsSlNesPrB7smaa4Y9iQDKchAdvXY/VUmqhGCa3N9zHVKhWXBBkJXrZ6
+ V4k=
 X-IronPort-AV: E=Sophos;i="5.81,307,1610434800"; 
-   d="scan'208";a="121808146"
+   d="scan'208";a="109700919"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 05 Apr 2021 08:53:52 -0700
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 05 Apr 2021 08:53:59 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 5 Apr 2021 08:53:52 -0700
+ 15.1.2176.2; Mon, 5 Apr 2021 08:53:59 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Mon, 5 Apr 2021 08:53:50 -0700
+ 15.1.2176.2 via Frontend Transport; Mon, 5 Apr 2021 08:53:52 -0700
 From:   Eugen Hristev <eugen.hristev@microchip.com>
 To:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>
 CC:     <linux-arm-kernel@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>,
         Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH v2 09/30] media: atmel: atmel-isc: extract CBC submodule config into separate function
-Date:   Mon, 5 Apr 2021 18:50:44 +0300
-Message-ID: <20210405155105.162529-10-eugen.hristev@microchip.com>
+Subject: [PATCH v2 10/30] media: atmel: atmel-isc: add CBC to the reg offsets struct
+Date:   Mon, 5 Apr 2021 18:50:45 +0300
+Message-ID: <20210405155105.162529-11-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210405155105.162529-1-eugen.hristev@microchip.com>
 References: <20210405155105.162529-1-eugen.hristev@microchip.com>
@@ -58,90 +58,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The CBC submodule should be initialized in the product specific driver
-as it's product specific. Other products can implement it differently
+Add cbc to the reg offsets struct. This will allow different products
+to have a different reg offset for this particular module.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
-Changes in v2:
-- addded function prototype to avoid warning with W=1
-
- drivers/media/platform/atmel/atmel-isc-base.c    |  4 +---
- drivers/media/platform/atmel/atmel-isc.h         |  3 +++
- drivers/media/platform/atmel/atmel-sama5d2-isc.c | 10 ++++++++++
- 3 files changed, 14 insertions(+), 3 deletions(-)
+ drivers/media/platform/atmel/atmel-isc-base.c    | 2 +-
+ drivers/media/platform/atmel/atmel-isc-regs.h    | 3 +++
+ drivers/media/platform/atmel/atmel-isc.h         | 2 ++
+ drivers/media/platform/atmel/atmel-sama5d2-isc.c | 7 +++++--
+ 4 files changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
-index 019d931d1367..446fe232956b 100644
+index 446fe232956b..d4bf7fd5929f 100644
 --- a/drivers/media/platform/atmel/atmel-isc-base.c
 +++ b/drivers/media/platform/atmel/atmel-isc-base.c
-@@ -647,9 +647,7 @@ static void isc_set_pipeline(struct isc_device *isc, u32 pipeline)
- 	regmap_bulk_write(regmap, ISC_GAM_RENTRY, gamma, GAMMA_ENTRIES);
+@@ -2310,7 +2310,7 @@ int isc_pipeline_init(struct isc_device *isc)
+ 		REG_FIELD(ISC_GAM_CTRL, 2, 2),
+ 		REG_FIELD(ISC_GAM_CTRL, 3, 3),
+ 		REG_FIELD(ISC_CSC_CTRL + isc->offsets.csc, 0, 0),
+-		REG_FIELD(ISC_CBC_CTRL, 0, 0),
++		REG_FIELD(ISC_CBC_CTRL + isc->offsets.cbc, 0, 0),
+ 		REG_FIELD(ISC_SUB422_CTRL, 0, 0),
+ 		REG_FIELD(ISC_SUB420_CTRL, 0, 0),
+ 	};
+diff --git a/drivers/media/platform/atmel/atmel-isc-regs.h b/drivers/media/platform/atmel/atmel-isc-regs.h
+index 5a65600c5f88..a5e2fe01ba9f 100644
+--- a/drivers/media/platform/atmel/atmel-isc-regs.h
++++ b/drivers/media/platform/atmel/atmel-isc-regs.h
+@@ -177,6 +177,9 @@
+ /* Color Space Conversion CRB OCR Register */
+ #define ISC_CSC_CRB_OCR	0x000003b0
  
- 	isc->config_csc(isc);
--
--	regmap_write(regmap, ISC_CBC_BRIGHT, ctrls->brightness);
--	regmap_write(regmap, ISC_CBC_CONTRAST, ctrls->contrast);
-+	isc->config_cbc(isc);
- }
++/* Offset for CBC register specific to sama5d2 product */
++#define ISC_SAMA5D2_CBC_OFFSET	0
++
+ /* Contrast And Brightness Control Register */
+ #define ISC_CBC_CTRL    0x000003b4
  
- static int isc_update_profile(struct isc_device *isc)
 diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
-index ef3a0451192d..cb47932197b1 100644
+index cb47932197b1..b1fe93c93c61 100644
 --- a/drivers/media/platform/atmel/atmel-isc.h
 +++ b/drivers/media/platform/atmel/atmel-isc.h
-@@ -203,6 +203,8 @@ struct isc_reg_offsets {
-  *
-  * @config_csc:		pointer to a function that initializes product
-  *			specific CSC module
-+ * @config_cbc:		pointer to a function that initializes product
-+ *			specific CBC module
-  *
-  * @offsets:		struct holding the product specific register offsets
+@@ -147,9 +147,11 @@ struct isc_ctrls {
+ /*
+  * struct isc_reg_offsets - ISC device register offsets
+  * @csc:		Offset for the CSC register
++ * @cbc:		Offset for the CBC register
   */
-@@ -275,6 +277,7 @@ struct isc_device {
+ struct isc_reg_offsets {
+ 	u32 csc;
++	u32 cbc;
+ };
  
- 	struct {
- 		void (*config_csc)(struct isc_device *isc);
-+		void (*config_cbc)(struct isc_device *isc);
- 	};
- 
- 	struct isc_reg_offsets		offsets;
+ /*
 diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-index 9e557d17e731..66b92fa1c752 100644
+index 66b92fa1c752..c3037244e01e 100644
 --- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
 +++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-@@ -55,6 +55,7 @@
- #define ISC_CLK_MAX_DIV		255
- 
- void isc_sama5d2_config_csc(struct isc_device *isc);
-+void isc_sama5d2_config_cbc(struct isc_device *isc);
- 
- void isc_sama5d2_config_csc(struct isc_device *isc)
+@@ -80,8 +80,10 @@ void isc_sama5d2_config_cbc(struct isc_device *isc)
  {
-@@ -75,6 +76,14 @@ void isc_sama5d2_config_csc(struct isc_device *isc)
- 		     0xFEE | (0x80 << 16));
+ 	struct regmap *regmap = isc->regmap;
+ 
+-	regmap_write(regmap, ISC_CBC_BRIGHT, isc->ctrls.brightness);
+-	regmap_write(regmap, ISC_CBC_CONTRAST, isc->ctrls.contrast);
++	regmap_write(regmap, ISC_CBC_BRIGHT + isc->offsets.cbc,
++		     isc->ctrls.brightness);
++	regmap_write(regmap, ISC_CBC_CONTRAST + isc->offsets.cbc,
++		     isc->ctrls.contrast);
  }
  
-+void isc_sama5d2_config_cbc(struct isc_device *isc)
-+{
-+	struct regmap *regmap = isc->regmap;
-+
-+	regmap_write(regmap, ISC_CBC_BRIGHT, isc->ctrls.brightness);
-+	regmap_write(regmap, ISC_CBC_CONTRAST, isc->ctrls.contrast);
-+}
-+
  /* Gamma table with gamma 1/2.2 */
- const u32 isc_sama5d2_gamma_table[][GAMMA_ENTRIES] = {
- 	/* 0 --> gamma 1/1.8 */
-@@ -220,6 +229,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	isc->max_height = ISC_SAMA5D2_MAX_SUPPORT_HEIGHT;
- 
- 	isc->config_csc = isc_sama5d2_config_csc;
-+	isc->config_cbc = isc_sama5d2_config_cbc;
+@@ -232,6 +234,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
+ 	isc->config_cbc = isc_sama5d2_config_cbc;
  
  	isc->offsets.csc = ISC_SAMA5D2_CSC_OFFSET;
++	isc->offsets.cbc = ISC_SAMA5D2_CBC_OFFSET;
  
+ 	/* sama5d2-isc - 8 bits per beat */
+ 	isc->dcfg = ISC_DCFG_YMBSIZE_BEATS8 | ISC_DCFG_CMBSIZE_BEATS8;
 -- 
 2.25.1
 
