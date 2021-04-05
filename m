@@ -2,67 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95B5835466D
-	for <lists+linux-media@lfdr.de>; Mon,  5 Apr 2021 19:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 605F935479C
+	for <lists+linux-media@lfdr.de>; Mon,  5 Apr 2021 22:37:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239927AbhDER7u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Apr 2021 13:59:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58396 "EHLO
+        id S240937AbhDEUhk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Apr 2021 16:37:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239855AbhDER7r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Apr 2021 13:59:47 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD35DC061756;
-        Mon,  5 Apr 2021 10:59:40 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id f12so5627013wro.0;
-        Mon, 05 Apr 2021 10:59:40 -0700 (PDT)
+        with ESMTP id S237073AbhDEUhj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Apr 2021 16:37:39 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FA2C061788;
+        Mon,  5 Apr 2021 13:37:32 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id u5-20020a7bcb050000b029010e9316b9d5so6180435wmj.2;
+        Mon, 05 Apr 2021 13:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=V+ZL6IBlYhDhqaW2K8qSQL0I2+furW7I5Lbh2PK3hX0=;
-        b=l2T+1pjPiqS4z2wLYCYOTUrk/0QICHmKh2+VkM/gV4oPNIQLjnL+2NaC+fHOKyfdMN
-         ZbRoPOU5ffCLYx5j1BOqEVcmdj16/FUPpdHQ19Q/Zdpt9ILWi+Sd5Pcwo9nujYxUwXSP
-         vC37pDY2/56RuAwnYL+eghBQh7V40w0etvIimwgZvfo1Wtbh5H4T1mouRkEZarDzmgED
-         YMY6AROjBpNru2Q3n3eoHqgkWgjbr83KzGqESm+YW893AvI79Blbit3z0vN/c2z/0VZN
-         /PdZI88hhk6d2StkIoz9iJuMfXx07z2E8MO45TDo09y/g7MM0e3KLVBqvMZfm5IdIu7f
-         kqag==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=zSdJzo4zoszwh3Ropy9vcijZc4A27t1uaB8gJuuiu4g=;
+        b=hmVYR+JY6euACjuRwMjEvkG0WrRGtN9CAFdInTC2M0Vl9ezJsRsiyqHtMXYe7kQmMO
+         Yyk4bABlSI+X8WQmYS8WsbhxJiaRCZrXyTsu32jw0N4qO8M5lu0srht25bZJvJFAn2r5
+         JXqbnEChpJxkUohqQGqWEHBdchlFlpupZZB4jLmaWbO7+q+XgctquRjn+j8OaLkhMNAY
+         Souxwwno2tEy0NrmCHzJ82ciFqmlF8SlfJWiXXZd+V/j5z7XI5IQO334BjUjml16yRQ4
+         9TYeflMTWDIjld/UXHbJwIZQeecU5leg3uJMZRf2IMf7nRzRYCkIbONYwEUwpxk9UvaZ
+         r5cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=V+ZL6IBlYhDhqaW2K8qSQL0I2+furW7I5Lbh2PK3hX0=;
-        b=o+9dP/CSFkzB388yuCwlHK2dIoTVRtiDjkHUa6GLlJ8v8Qt13WMgWe+P6bdh7nlDO3
-         8iwF5aF3wkPUpe4gPARuJO9oAmfsbiHJOG7v++13+qoTiGUaPCVKoqPzObaq3ZXzW919
-         AH5G7nCCS3Zuzmn9mf+Gtfj/jJ3XepnajJyOi48+3YBdmt7yGc8feggbTO9gVkP7hFve
-         uTLepaPxtAdvfUMuUTqXXA5m0tuKWE3c8q3F70jzvptrhRAnh354X+GAYmI5dmJcRZs0
-         6A4U47pdt4w/qktNQM2zYm5ToPYB7xfroMWqeZvHI/AYodcuNOf264hsDS3bK+FJA8us
-         BzJQ==
-X-Gm-Message-State: AOAM532MlI5gTIkcyWpWEclAQ6cRB02FPi4I6h7vtMzMXSChRGxnxa0v
-        I1Sl+YdQmPAo+AlxXUHYrgEbNlzgiy4=
-X-Google-Smtp-Source: ABdhPJz6MDxMzw9xvqjmXw2WBnI3TqceWj5UG8FNzqpQVqz06QmJ2o5xcCpd9qEanZromdmo2x8LkA==
-X-Received: by 2002:a05:6000:2a7:: with SMTP id l7mr30216361wry.30.1617645579514;
-        Mon, 05 Apr 2021 10:59:39 -0700 (PDT)
-Received: from [192.168.1.152] ([102.64.185.200])
-        by smtp.gmail.com with ESMTPSA id j23sm248553wmo.33.2021.04.05.10.59.33
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Mon, 05 Apr 2021 10:59:36 -0700 (PDT)
-Message-ID: <606b5008.1c69fb81.d28d1.0ad5@mx.google.com>
-From:   Vanina curt <mahamadousalissou094@gmail.com>
-X-Google-Original-From: Vanina curt
-Content-Type: text/plain; charset="iso-8859-1"
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=zSdJzo4zoszwh3Ropy9vcijZc4A27t1uaB8gJuuiu4g=;
+        b=JNAG63dgWW72qOfwRePELqqMA5EqWiSVL3fxevJETRmwhvAc/uVlSy1abIgUbRT3pf
+         kEb5Q+nz2bKR/480/E2357tDMe2jD/7QGXHvcU7IiQKa59VXHKplE7V8aQrs9rQxOC57
+         x7xwt7PixdKQooCJyVHf9nbLw4bh5IfOuoGUrna7GttnRhVeiHlFuZ1uiSUzNkKxjrYk
+         xxoHfs7OhQGonHCBZU0mZ0//cPWfP1urEk9T6BhdxhBoAnXbRPKlM86JLEwXGur8r2q1
+         7XpsVym74l7B0zP+/1SVy+nxGiKKNpoajqV07Go4c/Oeyc5l8l+0NRfSzKFggDb0ROxe
+         4aSQ==
+X-Gm-Message-State: AOAM533nbfg5MbvwLFAjkD5Nbg8DMKH0koDE9rwkYrypZjCpJrWxxIIQ
+        U9OkN3NL6UMss7aEN9JPHj0=
+X-Google-Smtp-Source: ABdhPJxLvu1nDd41bm0vAQpJa/jWZ5c+AmGLkoqj2+wngMdm3FzMnHaMKgrH9TLW1Z+BZthq4sf80g==
+X-Received: by 2002:a05:600c:2947:: with SMTP id n7mr777816wmd.61.1617655051662;
+        Mon, 05 Apr 2021 13:37:31 -0700 (PDT)
+Received: from [192.168.1.211] ([2.29.208.21])
+        by smtp.gmail.com with ESMTPSA id v3sm679284wmj.25.2021.04.05.13.37.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Apr 2021 13:37:31 -0700 (PDT)
+Subject: Re: [PATCH v1 1/1] media: ipu3-cio2: Fix referece counting when
+ looping over ACPI devices
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20210404181409.1451026-1-andy.shevchenko@gmail.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <1ab48622-be85-f1d7-caa4-8b04a4727d5d@gmail.com>
+Date:   Mon, 5 Apr 2021 21:37:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: HI,
-To:     Recipients <Vanina@vger.kernel.org>
-Date:   Mon, 05 Apr 2021 17:59:27 +0000
-Reply-To: curtisvani9008@gmail.com
+In-Reply-To: <20210404181409.1451026-1-andy.shevchenko@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-How are you? I'm Vanina. I picked interest in you and I would like to know =
-more about you and establish relationship with you. i will wait for your re=
-sponse. thank you.
+Hi Andy
+
+On 04/04/2021 19:14, Andy Shevchenko wrote:
+> When we continue, due to device is disabled, loop we have to drop reference count.
+> When we have an array full of devices we have to also drop the reference count.
+> Note, in this case the cio2_bridge_unregister_sensors() is called by the caller.
+>
+> Fixes: 803abec64ef9 ("media: ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver")
+> Cc: Daniel Scally <djrscally@gmail.com>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+
+Ah; thanks for catching those, I'm annoyed to have missed the
+acpi_dev_put() calls in particular
+
+Reviewed-by: Daniel Scally <djrscally@gmail.com>
+
