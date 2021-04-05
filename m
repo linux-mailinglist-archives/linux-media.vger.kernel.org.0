@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5C723543CA
-	for <lists+linux-media@lfdr.de>; Mon,  5 Apr 2021 17:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C41D53543CD
+	for <lists+linux-media@lfdr.de>; Mon,  5 Apr 2021 17:56:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235896AbhDEPzz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Apr 2021 11:55:55 -0400
-Received: from esa.microchip.iphmx.com ([68.232.153.233]:43539 "EHLO
+        id S238259AbhDEP4O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Apr 2021 11:56:14 -0400
+Received: from esa.microchip.iphmx.com ([68.232.153.233]:5563 "EHLO
         esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235453AbhDEPzz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Apr 2021 11:55:55 -0400
+        with ESMTP id S235453AbhDEP4N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Apr 2021 11:56:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1617638148; x=1649174148;
+  t=1617638168; x=1649174168;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=eEFZK/hSf05itEILHRf197/MjzOOVQu1dFzDN6v4vnA=;
-  b=tLii0qJkmhHDewF2pH7YZyGgKR4j2HN1OnNg/uGbGerVzzZ3n78mS3dy
-   JkILF89K2a0aMgG25axcZBrYM4tPMWYK7aamQUcy7WhWbTeC7YCQ07bjU
-   2EpPQ7oTP+BXgXfF3VPlX9vlsp5fKdv49HEFMUs1mY0Fd1iZ7pDARDRqk
-   TQdr2t0WGBXsIiO1+kHTMTCZA1YTXL1ms3ZoT+OH98M6IGAW+meozH26Z
-   Z6DwsR85stKjMczaSYaHnaWfATmN3JQJbY9da+YZ9Ko2ONfHA1V37DRZO
-   K/3NeDWnY3SNwURjgEbLTXqdZn8Ibkddi1h5bweAUwmQtGicWn1WedT9R
-   w==;
-IronPort-SDR: ycrgj04Sxxhrqe8UkRP/OOKVdx4UcTmq5SAChhZyl+oFtSqnxdEYpCeESfqnpRFMOJohei5aYa
- s9NXRrgIaJvsiSDqIS413pjN2SdRJkI2769jRsZw7yh+MLj0ox6+2KXKMmr9Ux/BcIZDDH0yjB
- 96BKwgP3eOcx5aY77PSz/epp24G6wRxZ4GIt5xwtHbh2/z2AoNK5j3rBJJll6Ym8w2jCzKOlQw
- oErniOkO5qPCdhUg+ehhXSe+/yVriyFKYzqHp/nyungw1L4+egtt3EYJWZjIBjzKvaGKsJ0tQb
- l+Y=
+  bh=TBEXU4Ly8SglyXAY2VWYA9gAClSi/maWKT5ll7y8lYs=;
+  b=DpKhn9y0N1AIMsIenh738mdjJuGzOlObGP0Kgjj7oyrKMSQwHQO7o2Fr
+   KrgfuQkfPd8s0P1lojJOpK6f4uyMIUHx0Q9N7AxfBSPLWFPZeE+O8LYnt
+   6wqv+LjZV2cEkMGxqOvfEEvI1Y24qZQwW2eXF3S4DdcjJIQIHdg9j8GA/
+   I0pzFekhaKEA+u8BD/8DwwFAyVc4dDJNgj0gae4peKEoP75QoLYrmkcuM
+   g6s+PePtkYT6kBzl/GHCjp+kcOGO/W+11bupk/wPdw7xdYytyV52mBSOo
+   2Mx60H6ppQ4arNTm7V5SzrTMJFg4bnS2eaNML3tXkB8GvC9Bdi1avmTF9
+   g==;
+IronPort-SDR: ytOPFeiKroGb5UK8/oMLQeVme6LaLdTSDddyyz7pOB7UN69RYcpYs5N1XVbErWhbhehOf8x4bo
+ wk0wGzZCMngMvYlF9Nw9+WAk2u/XLlefv9FRf9V2jGGnKq1yu9v7eMd1Fgvqg4RNHXg0GerRGc
+ n5saWI/oge9U3Xxkb41MSz+RCpAdjdruwdtU11sbEDcAxiFnw+zsjF2KqcFHEpRROVP3XQIJGu
+ 9g90JQoiYmjfTMOd/fnZK5TzfAg/SbvhpI8oLxFWFD2OCYE8/pGS7GulwfZoYOvCh/dQHNTXjv
+ 0CU=
 X-IronPort-AV: E=Sophos;i="5.81,307,1610434800"; 
-   d="scan'208";a="115869574"
+   d="scan'208";a="115341898"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 05 Apr 2021 08:55:48 -0700
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 05 Apr 2021 08:56:08 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 5 Apr 2021 08:55:48 -0700
+ 15.1.2176.2; Mon, 5 Apr 2021 08:56:06 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Mon, 5 Apr 2021 08:55:27 -0700
+ 15.1.2176.2 via Frontend Transport; Mon, 5 Apr 2021 08:55:49 -0700
 From:   Eugen Hristev <eugen.hristev@microchip.com>
 To:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>
 CC:     <linux-arm-kernel@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>,
         Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH v2 17/30] media: atmel: atmel-isc: add register description for additional modules
-Date:   Mon, 5 Apr 2021 18:50:52 +0300
-Message-ID: <20210405155105.162529-18-eugen.hristev@microchip.com>
+Subject: [PATCH v2 18/30] media: atmel: atmel-isc: extend pipeline with extra modules
+Date:   Mon, 5 Apr 2021 18:50:53 +0300
+Message-ID: <20210405155105.162529-19-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210405155105.162529-1-eugen.hristev@microchip.com>
 References: <20210405155105.162529-1-eugen.hristev@microchip.com>
@@ -58,99 +58,106 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add register description for additional pipeline modules: the
-Defective Pixel Correction (DPC) and the Vertical and Horizontal Scaler(VHXS)
+Newer ISC pipelines have the additional modules of
+Defective Pixel Correction -> DPC itself,
+Defective Pixel Correction -> Green Disparity Correction (DPC_GDC)
+Defective Pixel Correction -> Black Level Correction (DPC_BLC)
+Vertical and Horizontal Scaler -> VHXS
+
+Some products have this full pipeline (sama7g5), other products do not (sama5d2)
+
+Add the modules to the isc base, and also extend the register range to include
+the modules.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
- drivers/media/platform/atmel/atmel-isc-regs.h | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
+ drivers/media/platform/atmel/atmel-isc-base.c | 11 ++++++--
+ drivers/media/platform/atmel/atmel-isc.h      | 28 +++++++++++--------
+ 2 files changed, 25 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/platform/atmel/atmel-isc-regs.h b/drivers/media/platform/atmel/atmel-isc-regs.h
-index a15c13e1a833..457eed74cda9 100644
---- a/drivers/media/platform/atmel/atmel-isc-regs.h
-+++ b/drivers/media/platform/atmel/atmel-isc-regs.h
-@@ -90,6 +90,46 @@
- #define ISC_INT_DDONE		BIT(8)
- #define ISC_INT_HISDONE		BIT(12)
+diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
+index 2a619eef6aa3..66005cb3940f 100644
+--- a/drivers/media/platform/atmel/atmel-isc-base.c
++++ b/drivers/media/platform/atmel/atmel-isc-base.c
+@@ -2309,8 +2309,14 @@ int isc_pipeline_init(struct isc_device *isc)
+ 	struct regmap_field *regs;
+ 	unsigned int i;
  
-+/* ISC DPC Control Register */
-+#define ISC_DPC_CTRL	0x40
-+
-+#define ISC_DPC_CTRL_DPCEN	BIT(0)
-+#define ISC_DPC_CTRL_GDCEN	BIT(1)
-+#define ISC_DPC_CTRL_BLCEN	BIT(2)
-+
-+/* ISC DPC Config Register */
-+#define ISC_DPC_CFG	0x44
-+
-+#define ISC_DPC_CFG_BAYSEL_SHIFT	0
-+
-+#define ISC_DPC_CFG_EITPOL		BIT(4)
-+
-+#define ISC_DPC_CFG_TA_ENABLE		BIT(14)
-+#define ISC_DPC_CFG_TC_ENABLE		BIT(13)
-+#define ISC_DPC_CFG_TM_ENABLE		BIT(12)
-+
-+#define ISC_DPC_CFG_RE_MODE		BIT(17)
-+
-+#define ISC_DPC_CFG_GDCCLP_SHIFT	20
-+#define ISC_DPC_CFG_GDCCLP_MASK		GENMASK(22, 20)
-+
-+#define ISC_DPC_CFG_BLOFF_SHIFT		24
-+#define ISC_DPC_CFG_BLOFF_MASK		GENMASK(31, 24)
-+
-+#define ISC_DPC_CFG_BAYCFG_SHIFT	0
-+#define ISC_DPC_CFG_BAYCFG_MASK		GENMASK(1, 0)
-+/* ISC DPC Threshold Median Register */
-+#define ISC_DPC_THRESHM	0x48
-+
-+/* ISC DPC Threshold Closest Register */
-+#define ISC_DPC_THRESHC	0x4C
-+
-+/* ISC DPC Threshold Average Register */
-+#define ISC_DPC_THRESHA	0x50
-+
-+/* ISC DPC STatus Register */
-+#define ISC_DPC_SR	0x54
-+
- /* ISC White Balance Control Register */
- #define ISC_WB_CTRL     0x00000058
+-	/* WB-->CFA-->CC-->GAM-->CSC-->CBC-->SUB422-->SUB420 */
++	/*
++	 * DPCEN-->GDCEN-->BLCEN-->WB-->CFA-->CC-->
++	 * GAM-->VHXS-->CSC-->CBC-->SUB422-->SUB420
++	 */
+ 	const struct reg_field regfields[ISC_PIPE_LINE_NODE_NUM] = {
++		REG_FIELD(ISC_DPC_CTRL, 0, 0),
++		REG_FIELD(ISC_DPC_CTRL, 1, 1),
++		REG_FIELD(ISC_DPC_CTRL, 2, 2),
+ 		REG_FIELD(ISC_WB_CTRL, 0, 0),
+ 		REG_FIELD(ISC_CFA_CTRL, 0, 0),
+ 		REG_FIELD(ISC_CC_CTRL, 0, 0),
+@@ -2318,6 +2324,7 @@ int isc_pipeline_init(struct isc_device *isc)
+ 		REG_FIELD(ISC_GAM_CTRL, 1, 1),
+ 		REG_FIELD(ISC_GAM_CTRL, 2, 2),
+ 		REG_FIELD(ISC_GAM_CTRL, 3, 3),
++		REG_FIELD(ISC_VHXS_CTRL, 0, 0),
+ 		REG_FIELD(ISC_CSC_CTRL + isc->offsets.csc, 0, 0),
+ 		REG_FIELD(ISC_CBC_CTRL + isc->offsets.cbc, 0, 0),
+ 		REG_FIELD(ISC_SUB422_CTRL + isc->offsets.sub422, 0, 0),
+@@ -2336,7 +2343,7 @@ int isc_pipeline_init(struct isc_device *isc)
+ }
  
-@@ -153,6 +193,33 @@
- /* ISC_Gamma Correction Green Entry Register */
- #define ISC_GAM_RENTRY	0x00000298
+ /* regmap configuration */
+-#define ATMEL_ISC_REG_MAX    0xbfc
++#define ATMEL_ISC_REG_MAX    0xd5c
+ const struct regmap_config isc_regmap_config = {
+ 	.reg_bits       = 32,
+ 	.reg_stride     = 4,
+diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
+index c5d956fd20a0..f574bcc3ba67 100644
+--- a/drivers/media/platform/atmel/atmel-isc.h
++++ b/drivers/media/platform/atmel/atmel-isc.h
+@@ -68,17 +68,21 @@ struct isc_format {
+ };
  
-+/* ISC VHXS Control Register */
-+#define ISC_VHXS_CTRL	0x398
-+
-+/* ISC VHXS Source Size Register */
-+#define ISC_VHXS_SS	0x39C
-+
-+/* ISC VHXS Destination Size Register */
-+#define ISC_VHXS_DS	0x3A0
-+
-+/* ISC Vertical Factor Register */
-+#define ISC_VXS_FACT	0x3a4
-+
-+/* ISC Horizontal Factor Register */
-+#define ISC_HXS_FACT	0x3a8
-+
-+/* ISC Vertical Config Register */
-+#define ISC_VXS_CFG	0x3ac
-+
-+/* ISC Horizontal Config Register */
-+#define ISC_HXS_CFG	0x3b0
-+
-+/* ISC Vertical Tap Register */
-+#define ISC_VXS_TAP	0x3b4
-+
-+/* ISC Horizontal Tap Register */
-+#define ISC_HXS_TAP	0x434
-+
- /* Offset for CSC register specific to sama5d2 product */
- #define ISC_SAMA5D2_CSC_OFFSET	0
+ /* Pipeline bitmap */
+-#define WB_ENABLE	BIT(0)
+-#define CFA_ENABLE	BIT(1)
+-#define CC_ENABLE	BIT(2)
+-#define GAM_ENABLE	BIT(3)
+-#define GAM_BENABLE	BIT(4)
+-#define GAM_GENABLE	BIT(5)
+-#define GAM_RENABLE	BIT(6)
+-#define CSC_ENABLE	BIT(7)
+-#define CBC_ENABLE	BIT(8)
+-#define SUB422_ENABLE	BIT(9)
+-#define SUB420_ENABLE	BIT(10)
++#define DPC_DPCENABLE	BIT(0)
++#define DPC_GDCENABLE	BIT(1)
++#define DPC_BLCENABLE	BIT(2)
++#define WB_ENABLE	BIT(3)
++#define CFA_ENABLE	BIT(4)
++#define CC_ENABLE	BIT(5)
++#define GAM_ENABLE	BIT(6)
++#define GAM_BENABLE	BIT(7)
++#define GAM_GENABLE	BIT(8)
++#define GAM_RENABLE	BIT(9)
++#define VHXS_ENABLE	BIT(10)
++#define CSC_ENABLE	BIT(11)
++#define CBC_ENABLE	BIT(12)
++#define SUB422_ENABLE	BIT(13)
++#define SUB420_ENABLE	BIT(14)
  
+ #define GAM_ENABLES	(GAM_RENABLE | GAM_GENABLE | GAM_BENABLE | GAM_ENABLE)
+ 
+@@ -142,7 +146,7 @@ struct isc_ctrls {
+ 	u32 hist_minmax[HIST_BAYER][2];
+ };
+ 
+-#define ISC_PIPE_LINE_NODE_NUM	11
++#define ISC_PIPE_LINE_NODE_NUM	15
+ 
+ /*
+  * struct isc_reg_offsets - ISC device register offsets
 -- 
 2.25.1
 
