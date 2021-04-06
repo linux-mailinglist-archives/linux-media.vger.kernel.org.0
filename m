@@ -2,98 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3010F354EAF
-	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 10:31:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66E7A354ED4
+	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 10:42:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232820AbhDFIbS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Apr 2021 04:31:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49050 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230337AbhDFIbR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Apr 2021 04:31:17 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09DF7C061756
-        for <linux-media@vger.kernel.org>; Tue,  6 Apr 2021 01:31:10 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id v8so7064188plz.10
-        for <linux-media@vger.kernel.org>; Tue, 06 Apr 2021 01:31:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gm4kCiogAkI78+mLUObZxBjBM0j57F/TvToNpIy9z3Y=;
-        b=eINOdpHbzO+V37M3z/6K96WyaV4Vh4kXYW8GpHJ+hlaOK4AUS8lpl6jjGj43x434TK
-         1GdMHmDq+AMUdl6gkP9GOYsH194Yz7qvkvS+f8ZLBo9fhn0GzoKlzWGM9lvQwLWfAWrM
-         jAAaDj1StPuQ0pO+oVwuM7IEuTKlPGd+vuIogf7ZeSsHBR5tpTBgOF0zKc6J+vyACJUQ
-         cu6W4Me/6V2Y/YD7lwpM0+mXP/hWn1iDFiLnUsHJNb0Lfxw7dE7q6/IeJ/uNRv4i578o
-         c/mFtMjtk+Sta1rjSb5ySISVwSGRcOV9+5YvNLji82zIDNhFZrfslyrQb7ps3Xu+aNmC
-         IoPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gm4kCiogAkI78+mLUObZxBjBM0j57F/TvToNpIy9z3Y=;
-        b=fe/qXpzY2GSk7SuZpiizUqEk33KJJeg/pTunWaNZp7qq5nBRkavQcu9dtqVQ7ogUfS
-         K4nyiv+CxXut6F7vIZRHdkiVriE+mXkQHXEWG2e2NdyBA6puWh3/1nP0YFrsS15Ep/B3
-         VDCMKZsdk8sl3eCWPfn87h6x7LiqkITCcRlWsJUcvrKxXmhBCWQ7PTEg9eXjA2zTP0JA
-         sNM4M0Z8LSlG6UW6Y6TFlK99JJ/xBPmbAkLcLDrExRPn1nFYcSMPGzWVv82sqYX6m7hl
-         aJtkOSQBoSiZmao5zd8RYWWOX6ipMrekPa2qDb0pSpK0kAiyUcnIjc23UkP1ux/KGcHI
-         DVaw==
-X-Gm-Message-State: AOAM532n76t13pxZ+SOSs9aRYe6slnjWdE9Jb/TmaEG26b16mPNQ6xhR
-        wBN78z5ic2UUfLC7B5kaL1omtLIE12osKv3usEFbnA==
-X-Google-Smtp-Source: ABdhPJywC7pKeT35dxTuADanUaA07cRvZDmhJp2mf6McnAv/Ygqaj6eNJPwn2QxjYKn5mIhcB28ZShNdcIabXaJyx08=
-X-Received: by 2002:a17:90a:c908:: with SMTP id v8mr3356831pjt.75.1617697869378;
- Tue, 06 Apr 2021 01:31:09 -0700 (PDT)
+        id S244432AbhDFImh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Apr 2021 04:42:37 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:39149 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S244435AbhDFImg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 6 Apr 2021 04:42:36 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ThHkl3mrC43ycThI3lNFjZ; Tue, 06 Apr 2021 10:42:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1617698547; bh=lcqWjwFrf31I9NhlkKKXonsdKIJtUwdCVBR8OrCnfms=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ANOkMVusQF/dWoksIIxpMKFuYt/M6Kmm5PLFtNWrn89MQam/E71nYwIh0pAAQFEv0
+         fg90mlchNgEcKirdbAPvF+0HMsKqQYtR9WPwRLXn3aNIVzNi16wIpGWsFjsJnDUAP4
+         3o9KKQtcIyOD7RtDlxLXizdqULAD5iWOR7dgh7xfKSEqTKO52VcRsydlNnWiYtqiho
+         6GsW/sTVFA3Ql0n75dcNbV+Z4KvMZqeE/X78W9d6M2exd4/lAhUPHvTWHLYbBhWi7i
+         0yExuV8VTrk3n73jTKsdP52R9VKBjIPMnCTdKf32SZq9dqTCva15kMpYNYeBk3dbNe
+         vpTgQayTjbuiQ==
+Subject: Re: [PATCH] media: videobuf2: num_buffers should record the number of
+ all buffers
+To:     Dianlong Li <dianlong_lee@163.com>, mchehab+huawei@kernel.org
+Cc:     linux-media@vger.kernel.org
+References: <20210329005917.2201436-1-dianlong_lee@163.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a58dc827-dd2d-d9a9-a7c1-f9117cfa3726@xs4all.nl>
+Date:   Tue, 6 Apr 2021 10:42:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-References: <20210402093255.2457184-1-yangyingliang@huawei.com>
-In-Reply-To: <20210402093255.2457184-1-yangyingliang@huawei.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Tue, 6 Apr 2021 10:30:58 +0200
-Message-ID: <CAG3jFyteoPaHe=0Q2FrduRchH+Or+M+PDBCor0uKYaGH3feyog@mail.gmail.com>
-Subject: Re: [PATCH -next] media: camss: csid: Remove redundant dev_err call
- in msm_csid_subdev_init()
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        MSM <linux-arm-msm@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210329005917.2201436-1-dianlong_lee@163.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfOpL6RM3T4w1eNJ9rt7s1dbmSzK0SYZI3pExbtLovuPIpU36Z0TDQMmIjwKTkNIDjpMkgF3NmMuYA06ori9B0gfs+k4NXvSPGn3lyliUp60anr957gFW
+ bPZt6PXW9AtKUfflaTzOYt5qHemvtmg/KOCCyti7WJKFLRtgHu56XEw92c52lt051FrYIYajhsKDBBaazdfiBBgJuYITWyQd+wC25SDLy+10mqwyDbfkI78U
+ VKfWNUEvj9VtXNW0yESiXV/J/4BhdZetpOf4IifJBoE=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yang,
-
-Thanks for the fix.
-
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-
-On Fri, 2 Apr 2021 at 11:29, Yang Yingliang <yangyingliang@huawei.com> wrote:
->
-> There is a error message within devm_ioremap_resource
-> already, so remove the dev_err call to avoid redundant
-> error message.
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+On 29/03/2021 02:59, Dianlong Li wrote:
+> The variable q->num_buffers records the number of buffers previously
+> applied for, and the variable allocated_buffers records the number of
+> buffers applied for this time, so the total number should be the sum
+> of these two buffers.
+> 
+> Signed-off-by: Dianlong Li <dianlong_lee@163.com>
 > ---
->  drivers/media/platform/qcom/camss/camss-csid.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-> index 463760c29294..cc11fbfdae13 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-> @@ -568,10 +568,8 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
->
->         r = platform_get_resource_byname(pdev, IORESOURCE_MEM, res->reg[0]);
->         csid->base = devm_ioremap_resource(dev, r);
-> -       if (IS_ERR(csid->base)) {
-> -               dev_err(dev, "could not map memory\n");
-> +       if (IS_ERR(csid->base))
->                 return PTR_ERR(csid->base);
-> -       }
->
->         /* Interrupt */
->
-> --
-> 2.25.1
->
+>  drivers/media/common/videobuf2/videobuf2-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 4eab6d81cce1..2716c4138655 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -836,7 +836,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	}
+>  
+>  	mutex_lock(&q->mmap_lock);
+> -	q->num_buffers = allocated_buffers;
+> +	q->num_buffers += allocated_buffers;
+>  
+>  	if (ret < 0) {
+>  		/*
+> 
+
+Nacked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+The VIDIOC_REQBUFS ioctl releases all existing buffers (if any) and allocates new buffers.
+So the existing code is correct.
+
+Regards,
+
+	Hans
