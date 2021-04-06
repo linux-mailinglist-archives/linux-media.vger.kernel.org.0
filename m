@@ -2,161 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 250803559C1
-	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 18:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C66043559E3
+	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 19:01:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346675AbhDFQ4c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Apr 2021 12:56:32 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:46230 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232598AbhDFQ40 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Apr 2021 12:56:26 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 136Gtw5h047850;
-        Tue, 6 Apr 2021 11:55:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1617728158;
-        bh=+9XjRgYfCOrNjdj1kkEqP/Q3v02FwLNYKDPldfbcuiI=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=tjAN7lxASQ7GQgzBSfvPUAJVbed53QtBUL9oOxt1+Px6vCgCJYXJKr17FC9lKR7rS
-         oJwnUGUbf3qZ1to0kpE4KZPESWsmElTk4g34/qqHqGNT6PTMWOW6qTbBOTu8lbineW
-         KkEhEZ7bcZx3Sq/y1NYfjS6Iepw1ZCwLjlrx9lrU=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 136Gtwrb021543
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 6 Apr 2021 11:55:58 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 6 Apr
- 2021 11:55:58 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Tue, 6 Apr 2021 11:55:58 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 136Gtvuo052410;
-        Tue, 6 Apr 2021 11:55:57 -0500
-Date:   Tue, 6 Apr 2021 22:25:56 +0530
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@gmail.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Peter Chen <peter.chen@nxp.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <dmaengine@vger.kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 11/16] dmaengine: ti: k3-psil-j721e: Add entry for CSI2RX
-Message-ID: <20210406165554.5mhn4u5enbf2tvaz@ti.com>
-References: <20210330173348.30135-1-p.yadav@ti.com>
- <20210330173348.30135-12-p.yadav@ti.com>
- <78a5983c-04c8-4a4c-04fe-bb1f31e87375@gmail.com>
- <20210406150942.4kyjh2ehsvklupjr@ti.com>
- <54b0846e-d633-2a03-2c64-f1f0a85c2410@gmail.com>
+        id S1346742AbhDFRBr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Apr 2021 13:01:47 -0400
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21323 "EHLO
+        sender4-of-o53.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240167AbhDFRBn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Apr 2021 13:01:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1617728479; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=XbFTVgU/xkJOzdHuqgDEfVUKwb5uKRbf1QiGuhisMr+pcTkAM75lHqf6Idl00p1tfflXkQ21lIS9/qnyIxDPeF8oW83IAkk6q8ndSwGRi/wPX4nq0Ftv1RSjbPpPjE9fcvg9+zbDMLlK8sgioYCM6sgWGnDH+pGgKTiuzIYG2mk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1617728479; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=UN7j970QECBU1lJ+nppRUAXZpJ0cNzt7rfhTuQktpoc=; 
+        b=DVKYrXOr2E7DnAZBdyt80pGeNMfEtFFqI8EqjqQP/E6MBDNRA4S8X/D0keSK0HCPxfoF/Cel6dwwkNuXBB+BNUnvCVk87dV0ZmjjEpc9uNWV66l+K2u9NYMCPx9bEeVDPOJvqQVUgOmwxRW9tQs8Q3m4uf/76lFBVldyQ8k8+Ic=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=anirudhrb.com;
+        spf=pass  smtp.mailfrom=mail@anirudhrb.com;
+        dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1617728479;
+        s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
+        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
+        bh=UN7j970QECBU1lJ+nppRUAXZpJ0cNzt7rfhTuQktpoc=;
+        b=Q9xf4HVV69XPi9taG4ewFUjNYavO0qC/IXlKJJYHOpPw80mUjWAtgfBADALbS0WJ
+        R+tewmYemTArqemBuSU/ogER6Ut328o+QagBaqanOpYhEDrvQIBKFiPGWDHortcUBYs
+        +UpbQ7KFL9bhDWQ8O9WhcXP1yKuHGLxLAWT84nzU=
+Received: from anirudhrb.com (106.51.110.82 [106.51.110.82]) by mx.zohomail.com
+        with SMTPS id 1617728465453354.6554727774635; Tue, 6 Apr 2021 10:01:05 -0700 (PDT)
+Date:   Tue, 6 Apr 2021 22:30:59 +0530
+From:   Anirudh Rayabharam <mail@anirudhrb.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Mike Isely <isely@pobox.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        gregkh@linuxfoundation.org,
+        syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: pvrusb2: fix warning in pvr2_i2c_core_done
+Message-ID: <YGyTyz4XOuqO8Fd0@anirudhrb.com>
+References: <20210401123338.3937-1-mail@anirudhrb.com>
+ <b81e4612-dde3-d6e5-e647-b61c7c3501da@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <54b0846e-d633-2a03-2c64-f1f0a85c2410@gmail.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <b81e4612-dde3-d6e5-e647-b61c7c3501da@xs4all.nl>
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/04/21 06:33PM, Péter Ujfalusi wrote:
-> 
-> 
-> On 4/6/21 6:09 PM, Pratyush Yadav wrote:
-> > On 04/04/21 04:24PM, Péter Ujfalusi wrote:
-> >> Hi Pratyush,
-> >>
-> >> On 3/30/21 8:33 PM, Pratyush Yadav wrote:
-> >>> The CSI2RX subsystem uses PSI-L DMA to transfer frames to memory. It can
-> >>> have up to 32 threads but the current driver only supports using one. So
-> >>> add an entry for that one thread.
-> >>
-> >> If you are absolutely sure that the other threads are not going to be
-> >> used, then:
+On Tue, Apr 06, 2021 at 11:38:25AM +0200, Hans Verkuil wrote:
+> On 01/04/2021 14:33, Anirudh Rayabharam wrote:
+> > syzbot has reported the following warning in pvr2_i2c_done:
 > > 
-> > The opposite in fact. I do expect other threads to be used in the 
-> > future. But the current driver can only use one so I figured it is 
-> > better to add just the thread that is currently needed and then I can 
-> > always add the rest later.
+> > 	sysfs group 'power' not found for kobject '1-0043'
 > > 
-> > Why does this have to be a one-and-done deal? Is there anything wrong 
-> > with adding the other threads when the driver can actually use them?
+> > When the device is disconnected (pvr_hdw_disconnect), the i2c adapter is
+> > not unregistered along with the USB and vl42 teardown. As part of the
 > 
-> You can skip CCing DMAengine (and me ;) ). Less subsystems is the better
-> when sending patches...
+> vl42 -> v4l2
+> 
+> > USB device disconnect, the sysfs files of the subdevices are also
+> > deleted. So, by the time pvr_i2c_core_done is called by
+> > pvr_context_destroy, the sysfs files have been deleted.
+> > 
+> > To fix this, unregister the i2c adapter too in pvr_hdw_disconnect. Make
+> > the device deregistration code shared by calling pvr_hdw_disconnect from
+> > pvr2_hdw_destory.
+> 
+> destory -> destroy
+> 
 
-I'm a bit confused here. If you are no longer interested in maintaining 
-the TI DMA drivers then that's fine, I can skip CCing you. But the patch 
-is still relevant to the dmaengine list so why should I skip CCing it? 
-And if I don't CC the dmaengine list then on which list would I get 
-comments/reviews for the patch?
+Ack, will fix these typos in v2.
+
+> > 
+> > Reported-and-tested-by: syzbot+e74a998ca8f1df9cc332@syzkaller.appspotmail.com
+> > Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+> > ---
+> >  drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+> > index f4a727918e35..791227787ff5 100644
+> > --- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+> > +++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+> > @@ -2676,9 +2676,7 @@ void pvr2_hdw_destroy(struct pvr2_hdw *hdw)
+> >  		pvr2_stream_destroy(hdw->vid_stream);
+> >  		hdw->vid_stream = NULL;
+> >  	}
+> > -	pvr2_i2c_core_done(hdw);
+> > -	v4l2_device_unregister(&hdw->v4l2_dev);
+> 
+> I think this should still remain since pvr2_hdw_disconnect() doesn't call
+> v4l2_device_unregister().
+
+Then we might run into the same warning again. pvr2_hdw_disconnect()
+calls pvr2_hdw_remove_usb_stuff() which calls v4l2_device_disconnect().
+Perhaps there we should call v4l2_device_unregister() instead?
 
 > 
-> > 
-> >> Acked-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-> >>
-> >> but I would consider adding the other threads if there is a chance that
-> >> the cs2rx will need to support it in the future.
-> >>
-> >>> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> >>> ---
-> >>>  drivers/dma/ti/k3-psil-j721e.c | 10 ++++++++++
-> >>>  1 file changed, 10 insertions(+)
-> >>>
-> >>> diff --git a/drivers/dma/ti/k3-psil-j721e.c b/drivers/dma/ti/k3-psil-j721e.c
-> >>> index 7580870ed746..19ffa31e6dc6 100644
-> >>> --- a/drivers/dma/ti/k3-psil-j721e.c
-> >>> +++ b/drivers/dma/ti/k3-psil-j721e.c
-> >>> @@ -58,6 +58,14 @@
-> >>>  		},					\
-> >>>  	}
-> >>>  
-> >>> +#define PSIL_CSI2RX(x)					\
-> >>> +	{						\
-> >>> +		.thread_id = x,				\
-> >>> +		.ep_config = {				\
-> >>> +			.ep_type = PSIL_EP_NATIVE,	\
-> >>> +		},					\
-> >>> +	}
-> >>> +
-> >>>  /* PSI-L source thread IDs, used for RX (DMA_DEV_TO_MEM) */
-> >>>  static struct psil_ep j721e_src_ep_map[] = {
-> >>>  	/* SA2UL */
-> >>> @@ -138,6 +146,8 @@ static struct psil_ep j721e_src_ep_map[] = {
-> >>>  	PSIL_PDMA_XY_PKT(0x4707),
-> >>>  	PSIL_PDMA_XY_PKT(0x4708),
-> >>>  	PSIL_PDMA_XY_PKT(0x4709),
-> >>> +	/* CSI2RX */
-> >>> +	PSIL_CSI2RX(0x4940),
-> >>>  	/* CPSW9 */
-> >>>  	PSIL_ETHERNET(0x4a00),
-> >>>  	/* CPSW0 */
-> >>>
-> >>
-> >> -- 
-> >> Péter
+> Can you test that with syzbot?
+
+Will do.
+
+Thanks!
+
+	- Anirudh.
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > -	pvr2_hdw_remove_usb_stuff(hdw);
+> > +	pvr2_hdw_disconnect(hdw);
+> >  	mutex_lock(&pvr2_unit_mtx);
+> >  	do {
+> >  		if ((hdw->unit_number >= 0) &&
+> > @@ -2705,6 +2703,7 @@ void pvr2_hdw_disconnect(struct pvr2_hdw *hdw)
+> >  {
+> >  	pvr2_trace(PVR2_TRACE_INIT,"pvr2_hdw_disconnect(hdw=%p)",hdw);
+> >  	LOCK_TAKE(hdw->big_lock);
+> > +	pvr2_i2c_core_done(hdw);
+> >  	LOCK_TAKE(hdw->ctl_lock);
+> >  	pvr2_hdw_remove_usb_stuff(hdw);
+> >  	LOCK_GIVE(hdw->ctl_lock);
 > > 
 > 
-> -- 
-> Péter
-
--- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
