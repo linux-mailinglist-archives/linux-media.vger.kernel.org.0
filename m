@@ -2,214 +2,325 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B40A6355BC7
-	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 20:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C0E6355BD7
+	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 20:55:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239484AbhDFSyx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Apr 2021 14:54:53 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:43638 "EHLO mout01.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238645AbhDFSyv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 6 Apr 2021 14:54:51 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id D37FC160060
-        for <linux-media@vger.kernel.org>; Tue,  6 Apr 2021 20:54:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1617735278; bh=ugtDz1y8CClLoroN7+ydtBLi4BSk5I0VDLx9Q4EnZVU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=IFXJL7/+TMBSjQoNgbnOf2lbqRffDIuRp17CPkmO2l1s3UQPHnu3FxZTvm8FlM/0D
-         SrxVrsFnk8M5TMuLtouj7xcEBY8SI2VpcndFSZjfqhT9oiHV63/UMUmNvh2/NdQFXV
-         pWmrmenbBAHbsduRdOTV+HW1+4+9Mq43nxwzHQIMSXotlXO6P0QkoDQccoKTUQechO
-         xHKGAngumQVodkyJ8wTSn57Iwn3y3x+avYsbH74v4/l8ItsMbz5rM2vtHikDW1IWrt
-         men6Qz9CaBHSRfxztufauL8O0PqB+fQ4Fl3WjV54YH34y9uO0S+rj/xPVveJv+A3e7
-         +TxGG2MSbEaSg==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4FFGsn6Yqrz9rxF;
-        Tue,  6 Apr 2021 20:54:37 +0200 (CEST)
-From:   Benjamin Drung <bdrung@posteo.de>
-To:     Adam Goode <agoode@google.com>,
+        id S237557AbhDFSzQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Apr 2021 14:55:16 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:38844 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239795AbhDFSzJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Apr 2021 14:55:09 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 136Ishfb009079;
+        Tue, 6 Apr 2021 13:54:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1617735283;
+        bh=kQbNzrF7H82xGpKlMst9m3Fs0xnlp9w54dXKEwPlWBE=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=kFP+EYPVCuDhQNXUoQs8jCFmvH3/BA2IOptP/4ITP2Z3zPwHXf7BausRsRkgRdYgQ
+         bf6RZMQlumFq3iacbU0a3NcEggo2zdHPgRLysQ8BN0YQyHH4585/GmkfanxrOe5w4C
+         D0MuSZ3jQyJ1VJqrpv4w2hCyv8D9jb8AeFmdGjD0=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 136Ishgr087495
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 6 Apr 2021 13:54:43 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 6 Apr
+ 2021 13:54:43 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Tue, 6 Apr 2021 13:54:43 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 136IsgCU034245;
+        Tue, 6 Apr 2021 13:54:42 -0500
+Date:   Wed, 7 Apr 2021 00:24:41 +0530
+From:   Pratyush Yadav <p.yadav@ti.com>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Benoit Parrot <bparrot@ti.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Drung <bdrung@posteo.de>, stable@vger.kernel.org
-Subject: [PATCH v2] media: uvcvideo: Fix pixel format change for Elgato Cam Link 4K
-Date:   Tue,  6 Apr 2021 20:52:35 +0200
-Message-Id: <20210406185234.19688-1-bdrung@posteo.de>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <CAOf41NnKMks8UgM+4Z5ymNtBnioPzsTE-1fh1ERMEcFfX=UoMg@mail.gmail.com>
-References: <CAOf41NnKMks8UgM+4Z5ymNtBnioPzsTE-1fh1ERMEcFfX=UoMg@mail.gmail.com>
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Peter Chen <peter.chen@nxp.com>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <dmaengine@vger.kernel.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 05/16] media: cadence: csi2rx: Add external DPHY support
+Message-ID: <20210406185439.6o5hkejtinq7y7sy@ti.com>
+References: <20210330173348.30135-1-p.yadav@ti.com>
+ <20210330173348.30135-6-p.yadav@ti.com>
+ <1617182653.2752.9.camel@mhfsdcap03>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <1617182653.2752.9.camel@mhfsdcap03>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Elgato Cam Link 4K HDMI video capture card reports to support three
-different pixel formats, where the first format depends on the connected
-HDMI device.
+On 31/03/21 05:24PM, Chunfeng Yun wrote:
+> On Tue, 2021-03-30 at 23:03 +0530, Pratyush Yadav wrote:
+> > Some platforms like TI's J721E can have the CSI2RX paired with an
+> > external DPHY. Add support to enable and configure the DPHY using the
+> > generic PHY framework.
+> > 
+> > Get the pixel rate and bpp from the subdev and pass them on to the DPHY
+> > along with the number of lanes. All other settings are left to their
+> > default values.
+> > 
+> > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> > ---
+> >  drivers/media/platform/cadence/cdns-csi2rx.c | 147 +++++++++++++++++--
+> >  1 file changed, 137 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+> > index c68a3eac62cd..31bd80e3f780 100644
+> > --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> > +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> > @@ -30,6 +30,12 @@
+> >  #define CSI2RX_STATIC_CFG_DLANE_MAP(llane, plane)	((plane) << (16 + (llane) * 4))
+> >  #define CSI2RX_STATIC_CFG_LANES_MASK			GENMASK(11, 8)
+> >  
+> > +#define CSI2RX_DPHY_LANE_CTRL_REG		0x40
+> > +#define CSI2RX_DPHY_CL_RST			BIT(16)
+> > +#define CSI2RX_DPHY_DL_RST(i)			BIT((i) + 12)
+> > +#define CSI2RX_DPHY_CL_EN			BIT(4)
+> > +#define CSI2RX_DPHY_DL_EN(i)			BIT(i)
+> > +
+> >  #define CSI2RX_STREAM_BASE(n)		(((n) + 1) * 0x100)
+> >  
+> >  #define CSI2RX_STREAM_CTRL_REG(n)		(CSI2RX_STREAM_BASE(n) + 0x000)
+> > @@ -54,6 +60,11 @@ enum csi2rx_pads {
+> >  	CSI2RX_PAD_MAX,
+> >  };
+> >  
+> > +struct csi2rx_fmt {
+> > +	u32				code;
+> > +	u8				bpp;
+> > +};
+> > +
+> >  struct csi2rx_priv {
+> >  	struct device			*dev;
+> >  	unsigned int			count;
+> > @@ -85,6 +96,52 @@ struct csi2rx_priv {
+> >  	int				source_pad;
+> >  };
+> >  
+> > +static const struct csi2rx_fmt formats[] = {
+> > +	{
+> > +		.code	= MEDIA_BUS_FMT_YUYV8_2X8,
+> > +		.bpp	= 16,
+> > +	},
+> > +	{
+> > +		.code	= MEDIA_BUS_FMT_UYVY8_2X8,
+> > +		.bpp	= 16,
+> > +	},
+> > +	{
+> > +		.code	= MEDIA_BUS_FMT_YVYU8_2X8,
+> > +		.bpp	= 16,
+> > +	},
+> > +	{
+> > +		.code	= MEDIA_BUS_FMT_VYUY8_2X8,
+> > +		.bpp	= 16,
+> > +	},
+> > +};
+> > +
+> > +static u8 csi2rx_get_bpp(u32 code)
+> > +{
+> > +	int i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(formats); i++) {
+> > +		if (formats[i].code == code)
+> > +			return formats[i].bpp;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static s64 csi2rx_get_pixel_rate(struct csi2rx_priv *csi2rx)
+> > +{
+> > +	struct v4l2_ctrl *ctrl;
+> > +
+> > +	ctrl = v4l2_ctrl_find(csi2rx->source_subdev->ctrl_handler,
+> > +			      V4L2_CID_PIXEL_RATE);
+> > +	if (!ctrl) {
+> > +		dev_err(csi2rx->dev, "no pixel rate control in subdev: %s\n",
+> > +			csi2rx->source_subdev->name);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return v4l2_ctrl_g_ctrl_int64(ctrl);
+> > +}
+> > +
+> >  static inline
+> >  struct csi2rx_priv *v4l2_subdev_to_csi2rx(struct v4l2_subdev *subdev)
+> >  {
+> > @@ -101,6 +158,55 @@ static void csi2rx_reset(struct csi2rx_priv *csi2rx)
+> >  	writel(0, csi2rx->base + CSI2RX_SOFT_RESET_REG);
+> >  }
+> >  
+> > +static int csi2rx_configure_external_dphy(struct csi2rx_priv *csi2rx)
+> > +{
+> > +	union phy_configure_opts opts = { };
+> > +	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
+> > +	struct v4l2_subdev_format sd_fmt;
+> > +	s64 pixel_rate;
+> > +	int ret;
+> > +	u8 bpp;
+> > +
+> > +	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> > +	sd_fmt.pad = 0;
+> > +
+> > +	ret = v4l2_subdev_call(csi2rx->source_subdev, pad, get_fmt, NULL,
+> > +			       &sd_fmt);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	bpp = csi2rx_get_bpp(sd_fmt.format.code);
+> > +	if (!bpp)
+> > +		return -EINVAL;
+> > +
+> > +	pixel_rate = csi2rx_get_pixel_rate(csi2rx);
+> > +	if (pixel_rate < 0)
+> > +		return pixel_rate;
+> > +
+> > +	ret = phy_mipi_dphy_get_default_config(pixel_rate, bpp,
+> > +					       csi2rx->num_lanes, cfg);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = phy_set_mode_ext(csi2rx->dphy, PHY_MODE_MIPI_DPHY,
+> > +			       PHY_MIPI_DPHY_SUBMODE_RX);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = phy_power_on(csi2rx->dphy);
+> > +	if (ret)
+> > +		return ret;
+> Seems phy_power_on, then phy_set_mode_ext?
 
-```
-$ v4l2-ctl -d /dev/video0 --list-formats-ext
-ioctl: VIDIOC_ENUM_FMT
-	Type: Video Capture
+Shouldn't the mode be set before the PHY is powered on so the correct 
+power on procedure can be performed based on the mode of operation?
 
-	[0]: 'NV12' (Y/CbCr 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-	[1]: 'NV12' (Y/CbCr 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-	[2]: 'YU12' (Planar YUV 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-```
+> 
+> > +
+> > +	ret = phy_configure(csi2rx->dphy, &opts);
+> > +	if (ret) {
+> > +		/* Can't do anything if it fails. Ignore the return value. */
+> > +		phy_power_off(csi2rx->dphy);
+> > +		return ret;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int csi2rx_start(struct csi2rx_priv *csi2rx)
+> >  {
+> >  	unsigned int i;
+> > @@ -139,6 +245,17 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+> >  	if (ret)
+> >  		goto err_disable_pclk;
+> >  
+> > +	/* Enable DPHY clk and data lanes. */
+> > +	if (csi2rx->dphy) {
+> > +		reg = CSI2RX_DPHY_CL_EN | CSI2RX_DPHY_CL_RST;
+> > +		for (i = 0; i < csi2rx->num_lanes; i++) {
+> > +			reg |= CSI2RX_DPHY_DL_EN(csi2rx->lanes[i] - 1);
+> > +			reg |= CSI2RX_DPHY_DL_RST(csi2rx->lanes[i] - 1);
+> > +		}
+> > +
+> > +		writel(reg, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+> > +	}
+> > +
+> >  	/*
+> >  	 * Create a static mapping between the CSI virtual channels
+> >  	 * and the output stream.
+> > @@ -169,10 +286,21 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+> >  	if (ret)
+> >  		goto err_disable_pixclk;
+> >  
+> > +	if (csi2rx->dphy) {
+> > +		ret = csi2rx_configure_external_dphy(csi2rx);
+> > +		if (ret) {
+> > +			dev_err(csi2rx->dev,
+> > +				"Failed to configure external DPHY: %d\n", ret);
+> > +			goto err_disable_sysclk;
+> > +		}
+> > +	}
+> > +
+> >  	clk_disable_unprepare(csi2rx->p_clk);
+> >  
+> >  	return 0;
+> >  
+> > +err_disable_sysclk:
+> > +	clk_disable_unprepare(csi2rx->sys_clk);
+> >  err_disable_pixclk:
+> >  	for (; i > 0; i--)
+> >  		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+> > @@ -200,6 +328,13 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+> >  
+> >  	if (v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, false))
+> >  		dev_warn(csi2rx->dev, "Couldn't disable our subdev\n");
+> > +
+> > +	if (csi2rx->dphy) {
+> > +		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+> > +
+> > +		if (phy_power_off(csi2rx->dphy))
+> > +			dev_warn(csi2rx->dev, "Couldn't power off DPHY\n");
+> > +	}
+> >  }
+> >  
+> >  static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+> > @@ -306,15 +441,6 @@ static int csi2rx_get_resources(struct csi2rx_priv *csi2rx,
+> >  		return PTR_ERR(csi2rx->dphy);
+> >  	}
+> >  
+> > -	/*
+> > -	 * FIXME: Once we'll have external D-PHY support, the check
+> > -	 * will need to be removed.
+> > -	 */
+> > -	if (csi2rx->dphy) {
+> > -		dev_err(&pdev->dev, "External D-PHY not supported yet\n");
+> > -		return -EINVAL;
+> > -	}
+> > -
+> >  	clk_prepare_enable(csi2rx->p_clk);
+> >  	dev_cfg = readl(csi2rx->base + CSI2RX_DEVICE_CFG_REG);
+> >  	clk_disable_unprepare(csi2rx->p_clk);
+> > @@ -339,7 +465,7 @@ static int csi2rx_get_resources(struct csi2rx_priv *csi2rx,
+> >  	 * FIXME: Once we'll have internal D-PHY support, the check
+> >  	 * will need to be removed.
+> >  	 */
+> > -	if (csi2rx->has_internal_dphy) {
+> > +	if (!csi2rx->dphy && csi2rx->has_internal_dphy) {
+> >  		dev_err(&pdev->dev, "Internal D-PHY not supported yet\n");
+> >  		return -EINVAL;
+> >  	}
+> > @@ -460,6 +586,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+> >  	dev_info(&pdev->dev,
+> >  		 "Probed CSI2RX with %u/%u lanes, %u streams, %s D-PHY\n",
+> >  		 csi2rx->num_lanes, csi2rx->max_lanes, csi2rx->max_streams,
+> > +		 csi2rx->dphy ? "external" :
+> >  		 csi2rx->has_internal_dphy ? "internal" : "no");
+> >  
+> >  	return 0;
+> 
 
-Changing the pixel format to anything besides the first pixel format
-does not work:
-
-```
-v4l2-ctl -d /dev/video0 --try-fmt-video pixelformat=YU12
-Format Video Capture:
-	Width/Height      : 3840/2160
-	Pixel Format      : 'NV12' (Y/CbCr 4:2:0)
-	Field             : None
-	Bytes per Line    : 3840
-	Size Image        : 12441600
-	Colorspace        : sRGB
-	Transfer Function : Rec. 709
-	YCbCr/HSV Encoding: Rec. 709
-	Quantization      : Default (maps to Limited Range)
-	Flags             :
-```
-
-User space applications like VLC might show an error message on the
-terminal in that case:
-
-```
-libv4l2: error set_fmt gave us a different result than try_fmt!
-```
-
-Depending on the error handling of the user space applications, they
-might display a distorted video, because they use the wrong pixel format
-for decoding the stream.
-
-The Elgato Cam Link 4K responds to the USB video probe
-VS_PROBE_CONTROL/VS_COMMIT_CONTROL with a malformed data structure: The
-second byte contains bFormatIndex (instead of being the second byte of
-bmHint). The first byte is always zero. The third byte is always 1.
-
-The firmware bug was reported to Elgato on 2020-12-01 and it was
-forwarded by the support team to the developers as feature request.
-There is no firmware update available since then. The latest firmware
-for Elgato Cam Link 4K as of 2021-03-23 has MCU 20.02.19 and FPGA 67.
-
-Therefore add a quirk to correct the malformed data structure.
-
-The quirk was successfully tested with VLC, OBS, and Chromium using
-different pixel formats (YUYV, NV12, YU12), resolutions (3840x2160,
-1920x1080), and frame rates (29.970 and 59.940 fps).
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Benjamin Drung <bdrung@posteo.de>
----
-
-In version 2, I only enhanced the comment in the code to document that
-the quirk is only applied to broken responses (guarded by
-ctrl->bmHint > 255). So in case Elgato fixes the firmware, the quirk
-will be skipped.
-
-Adam Goode suggested to also apply the quirk to Elgato Game Capture HD
-60 S+ (0fd9:006a). Can someone owning this device test this patch/quirk
-(or can someone borrow me one for testing)?
-
-Feel free to propose a better name for the quirk than
-UVC_QUIRK_FIX_FORMAT_INDEX.
-
-To backport to version 5.11 and earlier, the line
-
-```
-uvc_dbg(stream->dev, CONTROL,
-```
-
-needs to be changed back to
-
-```
-uvc_trace(UVC_TRACE_CONTROL,
-```
-
- drivers/media/usb/uvc/uvc_driver.c | 13 +++++++++++++
- drivers/media/usb/uvc/uvc_video.c  | 21 +++++++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 3 files changed, 35 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 30ef2a3110f7..4f245b3f8bd9 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3132,6 +3132,19 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/*
-+	 * Elgato Cam Link 4K
-+	 * Latest firmware as of 2021-03-23 needs this quirk.
-+	 * MCU: 20.02.19, FPGA: 67
-+	 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x0fd9,
-+	  .idProduct		= 0x0066,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FIX_FORMAT_INDEX) },
- 	/* Generic USB Video Class */
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index f2f565281e63..06a538d1008b 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -128,6 +128,27 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
- 	struct uvc_frame *frame = NULL;
- 	unsigned int i;
- 
-+	/*
-+	 * The response of the Elgato Cam Link 4K is incorrect: The second byte
-+	 * contains bFormatIndex (instead of being the second byte of bmHint).
-+	 * The first byte is always zero. The third byte is always 1.
-+	 *
-+	 * The UVC 1.5 class specification defines the first five bits in the
-+	 * bmHint bitfield. The remaining bits are reserved and should be zero.
-+	 * Therefore a valid bmHint will be less than 32.
-+	 */
-+	if (stream->dev->quirks & UVC_QUIRK_FIX_FORMAT_INDEX && ctrl->bmHint > 255) {
-+		__u8 corrected_format_index;
-+
-+		corrected_format_index = ctrl->bmHint >> 8;
-+		uvc_dbg(stream->dev, CONTROL,
-+			"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: 0x%02x} to {bmHint: 0x%04x, bFormatIndex: 0x%02x}.\n",
-+			ctrl->bmHint, ctrl->bFormatIndex,
-+			ctrl->bFormatIndex, corrected_format_index);
-+		ctrl->bmHint = ctrl->bFormatIndex;
-+		ctrl->bFormatIndex = corrected_format_index;
-+	}
-+
- 	for (i = 0; i < stream->nformats; ++i) {
- 		if (stream->format[i].index == ctrl->bFormatIndex) {
- 			format = &stream->format[i];
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 97df5ecd66c9..bf401d5ba27d 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -209,6 +209,7 @@
- #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
- #define UVC_QUIRK_FORCE_Y8		0x00000800
- #define UVC_QUIRK_FORCE_BPP		0x00001000
-+#define UVC_QUIRK_FIX_FORMAT_INDEX	0x00002000
- 
- /* Format flags */
- #define UVC_FMT_FLAG_COMPRESSED		0x00000001
 -- 
-2.27.0
-
+Regards,
+Pratyush Yadav
+Texas Instruments Inc.
