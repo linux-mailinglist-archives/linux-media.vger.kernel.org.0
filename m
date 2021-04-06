@@ -2,218 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD5EF355BB3
-	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 20:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B40A6355BC7
+	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 20:54:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237452AbhDFSvo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Apr 2021 14:51:44 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:38306 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234102AbhDFSvl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Apr 2021 14:51:41 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 136IpEDw007939;
-        Tue, 6 Apr 2021 13:51:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1617735074;
-        bh=Vs1ay3jn3W1+KiUPHbAfauoyCwmztua6vBwO95z5HqQ=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=VYYrwQEOWc1SWk7ciLNyA57LJbw9tFtBCpQ5AWnHTVMG8Q7Ic8QgaPtvDQVM0Sbd8
-         CybIiBCgqJ+uEK2AwvIqiJPFj+/WiYewKhjMyaP+P0eHVk5UK49tGjHB2dIgpgqxYv
-         +VMVoom29gWlw545GN/4lqcbMGyKQpfnTNXy1wXM=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 136IpEAL076140
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 6 Apr 2021 13:51:14 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 6 Apr
- 2021 13:51:14 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Tue, 6 Apr 2021 13:51:14 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 136IpD3k028810;
-        Tue, 6 Apr 2021 13:51:13 -0500
-Date:   Wed, 7 Apr 2021 00:21:12 +0530
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Peter Chen <peter.chen@nxp.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <dmaengine@vger.kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 14/16] dt-bindings: phy: Convert Cadence DPHY binding to
- YAML
-Message-ID: <20210406185110.d7mp7grsevndcrr2@ti.com>
-References: <20210330173348.30135-1-p.yadav@ti.com>
- <20210330173348.30135-15-p.yadav@ti.com>
- <YGbwnTNiL6WYoxPF@pendragon.ideasonboard.com>
+        id S239484AbhDFSyx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Apr 2021 14:54:53 -0400
+Received: from mout01.posteo.de ([185.67.36.65]:43638 "EHLO mout01.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238645AbhDFSyv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 6 Apr 2021 14:54:51 -0400
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id D37FC160060
+        for <linux-media@vger.kernel.org>; Tue,  6 Apr 2021 20:54:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1617735278; bh=ugtDz1y8CClLoroN7+ydtBLi4BSk5I0VDLx9Q4EnZVU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IFXJL7/+TMBSjQoNgbnOf2lbqRffDIuRp17CPkmO2l1s3UQPHnu3FxZTvm8FlM/0D
+         SrxVrsFnk8M5TMuLtouj7xcEBY8SI2VpcndFSZjfqhT9oiHV63/UMUmNvh2/NdQFXV
+         pWmrmenbBAHbsduRdOTV+HW1+4+9Mq43nxwzHQIMSXotlXO6P0QkoDQccoKTUQechO
+         xHKGAngumQVodkyJ8wTSn57Iwn3y3x+avYsbH74v4/l8ItsMbz5rM2vtHikDW1IWrt
+         men6Qz9CaBHSRfxztufauL8O0PqB+fQ4Fl3WjV54YH34y9uO0S+rj/xPVveJv+A3e7
+         +TxGG2MSbEaSg==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4FFGsn6Yqrz9rxF;
+        Tue,  6 Apr 2021 20:54:37 +0200 (CEST)
+From:   Benjamin Drung <bdrung@posteo.de>
+To:     Adam Goode <agoode@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Drung <bdrung@posteo.de>, stable@vger.kernel.org
+Subject: [PATCH v2] media: uvcvideo: Fix pixel format change for Elgato Cam Link 4K
+Date:   Tue,  6 Apr 2021 20:52:35 +0200
+Message-Id: <20210406185234.19688-1-bdrung@posteo.de>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <CAOf41NnKMks8UgM+4Z5ymNtBnioPzsTE-1fh1ERMEcFfX=UoMg@mail.gmail.com>
+References: <CAOf41NnKMks8UgM+4Z5ymNtBnioPzsTE-1fh1ERMEcFfX=UoMg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <YGbwnTNiL6WYoxPF@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/04/21 01:23PM, Laurent Pinchart wrote:
-> Hi Pratyush,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Mar 30, 2021 at 11:03:46PM +0530, Pratyush Yadav wrote:
-> > Convert Cadence DPHY binding to YAML.
-> > 
-> > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> > ---
-> >  .../devicetree/bindings/phy/cdns,dphy.txt     | 20 --------
-> >  .../devicetree/bindings/phy/cdns,dphy.yaml    | 51 +++++++++++++++++++
-> >  2 files changed, 51 insertions(+), 20 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/phy/cdns,dphy.txt
-> >  create mode 100644 Documentation/devicetree/bindings/phy/cdns,dphy.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/phy/cdns,dphy.txt b/Documentation/devicetree/bindings/phy/cdns,dphy.txt
-> > deleted file mode 100644
-> > index 1095bc4e72d9..000000000000
-> > --- a/Documentation/devicetree/bindings/phy/cdns,dphy.txt
-> > +++ /dev/null
-> > @@ -1,20 +0,0 @@
-> > -Cadence DPHY
-> > -============
-> > -
-> > -Cadence DPHY block.
-> > -
-> > -Required properties:
-> > -- compatible: should be set to "cdns,dphy".
-> > -- reg: physical base address and length of the DPHY registers.
-> > -- clocks: DPHY reference clocks.
-> > -- clock-names: must contain "psm" and "pll_ref".
-> > -- #phy-cells: must be set to 0.
-> > -
-> > -Example:
-> > -	dphy0: dphy@fd0e0000{
-> > -		compatible = "cdns,dphy";
-> > -		reg = <0x0 0xfd0e0000 0x0 0x1000>;
-> > -		clocks = <&psm_clk>, <&pll_ref_clk>;
-> > -		clock-names = "psm", "pll_ref";
-> > -		#phy-cells = <0>;
-> > -	};
-> > diff --git a/Documentation/devicetree/bindings/phy/cdns,dphy.yaml b/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
-> > new file mode 100644
-> > index 000000000000..d1bbf96a8250
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
-> > @@ -0,0 +1,51 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/phy/cdns,dphy.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Cadence DPHY Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Pratyush Yadav <p.yadav@ti.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - const: cdns,dphy
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +    description: Physical base address and length of the DPHY registers.
-> 
-> You can drop the description.
+The Elgato Cam Link 4K HDMI video capture card reports to support three
+different pixel formats, where the first format depends on the connected
+HDMI device.
 
-Ok.
+```
+$ v4l2-ctl -d /dev/video0 --list-formats-ext
+ioctl: VIDIOC_ENUM_FMT
+	Type: Video Capture
 
-> 
-> > +
-> > +  clocks:
-> > +    maxItems: 2
-> > +    description: DPHY reference clocks.
-> 
-> It's best to describe individual items, which will then allow dropping
-> the maxItems property:
-> 
->   clocks:
->     items:
->       - description: Description of the psm clock
->       - description: Description of the pll_ref clock
+	[0]: 'NV12' (Y/CbCr 4:2:0)
+		Size: Discrete 3840x2160
+			Interval: Discrete 0.033s (29.970 fps)
+	[1]: 'NV12' (Y/CbCr 4:2:0)
+		Size: Discrete 3840x2160
+			Interval: Discrete 0.033s (29.970 fps)
+	[2]: 'YU12' (Planar YUV 4:2:0)
+		Size: Discrete 3840x2160
+			Interval: Discrete 0.033s (29.970 fps)
+```
 
-Ok. Though I'd mention that I am not 100% sure what the pll_ref clock is 
-supposed to be. The original binding doesn't have a description either.
+Changing the pixel format to anything besides the first pixel format
+does not work:
 
-> 
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: psm
-> > +      - const: pll_ref
-> > +
-> > +  "#phy-cells":
-> > +    const: 0
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +  - "#phy-cells"
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +
-> > +    dphy0: dphy@fd0e0000{
-> 
-> This is copied verbatim from the existing description, but while at it,
-> I'd rename the node from dphy@... to phy@..., as DT node are supposed to
-> be named according to the class of devices, not the specific device
-> type.
+```
+v4l2-ctl -d /dev/video0 --try-fmt-video pixelformat=YU12
+Format Video Capture:
+	Width/Height      : 3840/2160
+	Pixel Format      : 'NV12' (Y/CbCr 4:2:0)
+	Field             : None
+	Bytes per Line    : 3840
+	Size Image        : 12441600
+	Colorspace        : sRGB
+	Transfer Function : Rec. 709
+	YCbCr/HSV Encoding: Rec. 709
+	Quantization      : Default (maps to Limited Range)
+	Flags             :
+```
 
-Ok.
+User space applications like VLC might show an error message on the
+terminal in that case:
 
-> 
-> With these small issues addressed,
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+```
+libv4l2: error set_fmt gave us a different result than try_fmt!
+```
 
-Thanks.
+Depending on the error handling of the user space applications, they
+might display a distorted video, because they use the wrong pixel format
+for decoding the stream.
 
-> 
-> > +        compatible = "cdns,dphy";
-> > +        reg = <0xfd0e0000 0x1000>;
-> > +        clocks = <&psm_clk>, <&pll_ref_clk>;
-> > +        clock-names = "psm", "pll_ref";
-> > +        #phy-cells = <0>;
-> > +    };
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+The Elgato Cam Link 4K responds to the USB video probe
+VS_PROBE_CONTROL/VS_COMMIT_CONTROL with a malformed data structure: The
+second byte contains bFormatIndex (instead of being the second byte of
+bmHint). The first byte is always zero. The third byte is always 1.
 
+The firmware bug was reported to Elgato on 2020-12-01 and it was
+forwarded by the support team to the developers as feature request.
+There is no firmware update available since then. The latest firmware
+for Elgato Cam Link 4K as of 2021-03-23 has MCU 20.02.19 and FPGA 67.
+
+Therefore add a quirk to correct the malformed data structure.
+
+The quirk was successfully tested with VLC, OBS, and Chromium using
+different pixel formats (YUYV, NV12, YU12), resolutions (3840x2160,
+1920x1080), and frame rates (29.970 and 59.940 fps).
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Benjamin Drung <bdrung@posteo.de>
+---
+
+In version 2, I only enhanced the comment in the code to document that
+the quirk is only applied to broken responses (guarded by
+ctrl->bmHint > 255). So in case Elgato fixes the firmware, the quirk
+will be skipped.
+
+Adam Goode suggested to also apply the quirk to Elgato Game Capture HD
+60 S+ (0fd9:006a). Can someone owning this device test this patch/quirk
+(or can someone borrow me one for testing)?
+
+Feel free to propose a better name for the quirk than
+UVC_QUIRK_FIX_FORMAT_INDEX.
+
+To backport to version 5.11 and earlier, the line
+
+```
+uvc_dbg(stream->dev, CONTROL,
+```
+
+needs to be changed back to
+
+```
+uvc_trace(UVC_TRACE_CONTROL,
+```
+
+ drivers/media/usb/uvc/uvc_driver.c | 13 +++++++++++++
+ drivers/media/usb/uvc/uvc_video.c  | 21 +++++++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 35 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 30ef2a3110f7..4f245b3f8bd9 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -3132,6 +3132,19 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/*
++	 * Elgato Cam Link 4K
++	 * Latest firmware as of 2021-03-23 needs this quirk.
++	 * MCU: 20.02.19, FPGA: 67
++	 */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x0fd9,
++	  .idProduct		= 0x0066,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FIX_FORMAT_INDEX) },
+ 	/* Generic USB Video Class */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index f2f565281e63..06a538d1008b 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -128,6 +128,27 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+ 	struct uvc_frame *frame = NULL;
+ 	unsigned int i;
+ 
++	/*
++	 * The response of the Elgato Cam Link 4K is incorrect: The second byte
++	 * contains bFormatIndex (instead of being the second byte of bmHint).
++	 * The first byte is always zero. The third byte is always 1.
++	 *
++	 * The UVC 1.5 class specification defines the first five bits in the
++	 * bmHint bitfield. The remaining bits are reserved and should be zero.
++	 * Therefore a valid bmHint will be less than 32.
++	 */
++	if (stream->dev->quirks & UVC_QUIRK_FIX_FORMAT_INDEX && ctrl->bmHint > 255) {
++		__u8 corrected_format_index;
++
++		corrected_format_index = ctrl->bmHint >> 8;
++		uvc_dbg(stream->dev, CONTROL,
++			"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: 0x%02x} to {bmHint: 0x%04x, bFormatIndex: 0x%02x}.\n",
++			ctrl->bmHint, ctrl->bFormatIndex,
++			ctrl->bFormatIndex, corrected_format_index);
++		ctrl->bmHint = ctrl->bFormatIndex;
++		ctrl->bFormatIndex = corrected_format_index;
++	}
++
+ 	for (i = 0; i < stream->nformats; ++i) {
+ 		if (stream->format[i].index == ctrl->bFormatIndex) {
+ 			format = &stream->format[i];
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 97df5ecd66c9..bf401d5ba27d 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -209,6 +209,7 @@
+ #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
+ #define UVC_QUIRK_FORCE_Y8		0x00000800
+ #define UVC_QUIRK_FORCE_BPP		0x00001000
++#define UVC_QUIRK_FIX_FORMAT_INDEX	0x00002000
+ 
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
 -- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+2.27.0
+
