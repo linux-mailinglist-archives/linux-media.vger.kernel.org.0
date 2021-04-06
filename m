@@ -2,119 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C076355119
-	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 12:44:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B199735511D
+	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 12:46:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237995AbhDFKoc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Apr 2021 06:44:32 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:57571 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229787AbhDFKoc (ORCPT
+        id S242685AbhDFKq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Apr 2021 06:46:59 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:40193 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237178AbhDFKq6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 6 Apr 2021 06:44:32 -0400
+        Tue, 6 Apr 2021 06:46:58 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id TjC0l4Pqx43ycTjC4lNbKY; Tue, 06 Apr 2021 12:44:24 +0200
+        id TjEKl4QZl43ycTjENlNbh6; Tue, 06 Apr 2021 12:46:49 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1617705864; bh=U9js880s2lWVcDDmhDqa2vbCL3AW9bev9kFZtSGU+ko=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1617706009; bh=BijuNj/gB+ekaEmmA8LrY661zA7h8cfh54Fp9N5XImY=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=gF4jDXewZl++0kXw3IYMqkJepx14fVsc+CPKboRuwRsdqm7LD4DQxy/YMCXRdqY+E
-         gXLJCCE4k+u78fSMGDlqUF3VR8AxwVzXaAI5Pupn0L/2uMh5V2bfDJR9VGJscIIUqi
-         nncrG0sCRR7mpo8jp2xiojPmouL5M7PkEaHIhVGddAPt9Afa04OWtS6ncdyHv9pUn6
-         YuN2bzqPG6y8LTB6JnJG8KVZvzhJwJ3mOcNgK4pv2HeXObTAOHYw5X8Occ0ibgA8Sr
-         Y8hXF4BgE7CTqrVpAc76NApswJBByhc6znOYGwjKbN4vk1R1igTZwZjLCz9oPPe3ns
-         32gYaBG2ga4lg==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.13] Various fixes and enhancements
-Message-ID: <f4f3897a-c55d-162e-0ddb-5657a04789a9@xs4all.nl>
-Date:   Tue, 6 Apr 2021 12:44:20 +0200
+        b=Mj25JZmODKqH9Wa319CsXY/rf/agUte6VdLGCWrTwn1PapxIdqHWcoSSdYI49hfpl
+         iicPi+DEA5/ZnEeBf1w0FLfZATxHCkVCj1qjjFxblvkq+FIlIhl62NbmnWV5vpDsjq
+         Skd6gqWYNyZR04lRIlFMFMTpNRjJqaDVOs3SHYXlL4Se2CGwtMfe61htvU5YlrPKm1
+         6BNQahOLRPzstWSVvMKqWI0kwcfLgHQ0JxpQk5CndLk3srw4Ws0UmiqbdGriFzf0Pg
+         0wuaof6nJ7yEvYVUZsFdnmZAODLr+n5xKzFmfq9pvSaO6J7HsvTGTq3uEe1j7D9Fsh
+         G5OCQ7rd0JLgw==
+Subject: Re: [PATCH v4,2/3] arm64: dts: mt8173: Separating mtk-vcodec-enc
+ device node
+To:     Irui Wang <irui.wang@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>, yong.wu@mediatek.com
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org
+References: <20210325122625.15100-1-irui.wang@mediatek.com>
+ <20210325122625.15100-2-irui.wang@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <245594e6-a4c9-0f53-58e3-1b32ca6dc651@xs4all.nl>
+Date:   Tue, 6 Apr 2021 12:46:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
+In-Reply-To: <20210325122625.15100-2-irui.wang@mediatek.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLb8L5dK8OpWHWWRALHseZ2EXB75xw1SfY7/l6JfbzzVvuKqb/cAUHHQy3KPYvSDBr03Va7iFj5/8d+IdSeY6+rKT7xBmiNy5IXfOA19I8O3EDhk85Ih
- FpiLOIz6tig9kzzVGFtcu23yXTTDgORcc3eOOhu7BT8r1WvTMfJb48tOMg2duW0rE6FmaY4V1JpwEcbQyDGnOKqd+o1PTrbWJTk=
+X-CMAE-Envelope: MS4xfGS8Ozq7AoDb3Y768nCuFXbTPFDoeRRpDRihEFX9V+FsXaIXLur8lgJ3uFHKRwo8r4NDnNh0X/stl/UcYJsaOiks5kkt/Q+8AMDbddiMV+HystE0LP+p
+ Dsuvhf6dvovyGwfs+12Q3N1n7hJ22nwlR8ppm6x9KDUjfj1SlHv6W+nuR5mZHlzFW50J+sveyy0gaDQOzOvyCq91Xk25A/E/VI1l0WTZrznNjWg8fxmy6vPN
+ wd5SeiFDHeHPe3a0vxpLLBMa3ZiD1zl/f5WFIKoruigFzdZmSeL1NdcAlmjpQY9rgg177F2y5hZjQns3JvbKEvaqxjNNJC+36h7amyqnzNCE1LcEZS6teYmK
+ gEHzpMJpAZQ6EPZXumjs+4mFET1co90XCYrzNhYWBQccf21STBaL2/BL6KtuWXWJMnMEdxRbusZoJORIMwq3sS7xFH15Km1DnDVMzCm2EpQ3ppf6N1aMcMMI
+ Td6mvD2DcBcWfpzf1ujhu9XsKGPVWYbU4g34HfT4e/ttPT707+GbMz+z9wxPInwmuCboVC2NSv3P1/248BuaNEKQ8Rm8xR7jDy/mY/suV7pn0caD6IvFWTD0
+ JuWWrXnHFQdT5SHbxHGQBTYUCRmfoSUMXtp1V2uABfdWbN1movOCKw6IdhgHrOzq8Nr4+C4DhuemH78LUODT7ng/2uVC3z9e39XrHPOpvLP9Kmb8KnfCBuJH
+ dOdQ9CZVH3NZMV6C/iXw7vjIk9seppgkTZ2Fp8Rt6sEvAn+6C9rg4VIV5XnEvfnvFmjVEECz2FNYUdJTFR046jLxnrYO6WzDPWsf3zA2iCI4G+AWD4Tv/jm6
+ rHW565cZ3T/015OjdYmIKwGXzpxaKE+pj69Vc+NVkqZr0ZRAcRz6q2xGK/UpCg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 97b34809ec240d82c82af97626c2071a4062e0e6:
+Hi Irui,
 
-  media: staging: atomisp: reduce kernel stack usage (2021-03-23 16:55:52 +0100)
+On 25/03/2021 13:26, Irui Wang wrote:
+> There are two separate hardware encoder blocks inside MT8173.
+> Split the current mtk-vcodec-enc node to match the hardware architecture.
 
-are available in the Git repository at:
+I've accepted patches 1 & 3, so this patch can be merged by whoever maintains these dts
+files.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.13d
+Regards,
 
-for you to fetch changes up to 46c2b36f0d409a918cab39fd345295a8dbc4e833:
+	Hans
 
-  media: VIDEO_IMX8_JPEG should depend on ARCH_MXC and not default to m (2021-04-06 11:40:34 +0200)
+> 
+> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Signed-off-by: Maoguang Meng <maoguang.meng@mediatek.com>
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> ---
+>  arch/arm64/boot/dts/mediatek/mt8173.dtsi | 60 ++++++++++++------------
+>  1 file changed, 31 insertions(+), 29 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8173.dtsi b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
+> index 7fa870e4386a..f5950e9fc51d 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8173.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
+> @@ -1458,14 +1458,11 @@
+>  			clock-names = "apb", "smi";
+>  		};
+>  
+> -		vcodec_enc: vcodec@18002000 {
+> +		vcodec_enc_avc: vcodec@18002000 {
+>  			compatible = "mediatek,mt8173-vcodec-enc";
+> -			reg = <0 0x18002000 0 0x1000>,	/* VENC_SYS */
+> -			      <0 0x19002000 0 0x1000>;	/* VENC_LT_SYS */
+> -			interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>,
+> -				     <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
+> -			mediatek,larb = <&larb3>,
+> -					<&larb5>;
+> +			reg = <0 0x18002000 0 0x1000>;	/* VENC_SYS */
+> +			interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>;
+> +			mediatek,larb = <&larb3>;
+>  			iommus = <&iommu M4U_PORT_VENC_RCPU>,
+>  				 <&iommu M4U_PORT_VENC_REC>,
+>  				 <&iommu M4U_PORT_VENC_BSDMA>,
+> @@ -1476,29 +1473,12 @@
+>  				 <&iommu M4U_PORT_VENC_REF_LUMA>,
+>  				 <&iommu M4U_PORT_VENC_REF_CHROMA>,
+>  				 <&iommu M4U_PORT_VENC_NBM_RDMA>,
+> -				 <&iommu M4U_PORT_VENC_NBM_WDMA>,
+> -				 <&iommu M4U_PORT_VENC_RCPU_SET2>,
+> -				 <&iommu M4U_PORT_VENC_REC_FRM_SET2>,
+> -				 <&iommu M4U_PORT_VENC_BSDMA_SET2>,
+> -				 <&iommu M4U_PORT_VENC_SV_COMA_SET2>,
+> -				 <&iommu M4U_PORT_VENC_RD_COMA_SET2>,
+> -				 <&iommu M4U_PORT_VENC_CUR_LUMA_SET2>,
+> -				 <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
+> -				 <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
+> -				 <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
+> +				 <&iommu M4U_PORT_VENC_NBM_WDMA>;
+>  			mediatek,vpu = <&vpu>;
+> -			clocks = <&topckgen CLK_TOP_VENCPLL_D2>,
+> -				 <&topckgen CLK_TOP_VENC_SEL>,
+> -				 <&topckgen CLK_TOP_UNIVPLL1_D2>,
+> -				 <&topckgen CLK_TOP_VENC_LT_SEL>;
+> -			clock-names = "venc_sel_src",
+> -				      "venc_sel",
+> -				      "venc_lt_sel_src",
+> -				      "venc_lt_sel";
+> -			assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>,
+> -					  <&topckgen CLK_TOP_VENC_LT_SEL>;
+> -			assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>,
+> -						 <&topckgen CLK_TOP_VCODECPLL_370P5>;
+> +			clocks = <&topckgen CLK_TOP_VENC_SEL>;
+> +			clock-names = "venc_sel";
+> +			assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>;
+> +			assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>;
+>  		};
+>  
+>  		jpegdec: jpegdec@18004000 {
+> @@ -1530,5 +1510,27 @@
+>  				 <&vencltsys CLK_VENCLT_CKE0>;
+>  			clock-names = "apb", "smi";
+>  		};
+> +
+> +		vcodec_enc_vp8: vcodec@19002000 {
+> +			compatible = "mediatek,mt8173-vcodec-enc-vp8";
+> +			reg =  <0 0x19002000 0 0x1000>; /* VENC_LT_SYS */
+> +			interrupts = <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
+> +			iommus = <&iommu M4U_PORT_VENC_RCPU_SET2>,
+> +				 <&iommu M4U_PORT_VENC_REC_FRM_SET2>,
+> +				 <&iommu M4U_PORT_VENC_BSDMA_SET2>,
+> +				 <&iommu M4U_PORT_VENC_SV_COMA_SET2>,
+> +				 <&iommu M4U_PORT_VENC_RD_COMA_SET2>,
+> +				 <&iommu M4U_PORT_VENC_CUR_LUMA_SET2>,
+> +				 <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
+> +				 <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
+> +				 <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
+> +			mediatek,larb = <&larb5>;
+> +			mediatek,vpu = <&vpu>;
+> +			clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
+> +			clock-names = "venc_lt_sel";
+> +			assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
+> +			assigned-clock-parents =
+> +				 <&topckgen CLK_TOP_VCODECPLL_370P5>;
+> +		};
+>  	};
+>  };
+> 
 
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Christophe JAILLET (3):
-      media: cx23885: switch from 'pci_' to 'dma_' API
-      media: tw686x: switch from 'pci_' to 'dma_' API
-      media: tw68: switch from 'pci_' to 'dma_' API
-
-Fabio Estevam (1):
-      media: imx-pxp: Remove unneeded of_match_ptr()
-
-Geert Uytterhoeven (1):
-      media: VIDEO_IMX8_JPEG should depend on ARCH_MXC and not default to m
-
-Hans Verkuil (3):
-      vivid: add read-only int32 control
-      v4l2-ctrls.c: fix race condition in hdl->requests list
-      cec/core: clarify rx-arb-lost usage message
-
-Irui Wang (2):
-      dt-bindings: media: mtk-vcodec: Separating mtk vcodec encoder node
-      media: mtk-vcodec: Separating mtk encoder driver
-
-Wan Jiabing (2):
-      cx231xx/cx231xx.h: Remove repeated struct declaration
-      em28xx/em28xx.h: Remove duplicate struct declaration
-
-Yang Yingliang (5):
-      media: imx-pxp: remove redundant dev_err call in pxp_probe()
-      media: ti-vpe: csc: remove redundant dev_err call in csc_create()
-      media: ti-vpe: sc: remove redundant dev_err call in sc_create()
-      media: camss: csiphy: Remove redundant dev_err call in msm_csiphy_subdev_init()
-      media: camss: csid: Remove redundant dev_err call in msm_csid_subdev_init()
-
- Documentation/devicetree/bindings/media/mediatek-vcodec.txt |  55 ++++++++++----------
- Documentation/userspace-api/media/cec/cec-pin-error-inj.rst |   2 +-
- drivers/media/cec/core/cec-pin-error-inj.c                  |   2 +-
- drivers/media/pci/cx23885/cx23885-alsa.c                    |   2 +-
- drivers/media/pci/cx23885/cx23885-core.c                    |  13 +++--
- drivers/media/pci/tw68/tw68-core.c                          |   2 +-
- drivers/media/pci/tw68/tw68-risc.c                          |   3 +-
- drivers/media/pci/tw68/tw68-video.c                         |   2 +-
- drivers/media/pci/tw686x/tw686x-audio.c                     |  13 ++---
- drivers/media/pci/tw686x/tw686x-core.c                      |   2 +-
- drivers/media/pci/tw686x/tw686x-video.c                     |  17 +++----
- drivers/media/platform/imx-jpeg/Kconfig                     |   2 +-
- drivers/media/platform/imx-pxp.c                            |   9 ++--
- drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h          |   7 +--
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c          |  18 ++++++-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c      | 108 +++++++++++++++-------------------------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c       |  40 +++------------
- drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c        |   4 +-
- drivers/media/platform/qcom/camss/camss-csid.c              |   4 +-
- drivers/media/platform/qcom/camss/camss-csiphy.c            |   8 +--
- drivers/media/platform/ti-vpe/csc.c                         |   4 +-
- drivers/media/platform/ti-vpe/sc.c                          |   4 +-
- drivers/media/test-drivers/vivid/vivid-core.h               |   1 +
- drivers/media/test-drivers/vivid/vivid-ctrls.c              |  13 +++++
- drivers/media/test-drivers/vivid/vivid-kthread-cap.c        |  10 ++--
- drivers/media/usb/cx231xx/cx231xx.h                         |   2 -
- drivers/media/usb/em28xx/em28xx.h                           |   2 -
- drivers/media/v4l2-core/v4l2-ctrls.c                        |  17 +++++--
- 28 files changed, 170 insertions(+), 196 deletions(-)
