@@ -2,116 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74C95355A0E
-	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 19:10:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2385355A12
+	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 19:13:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346782AbhDFRK7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Apr 2021 13:10:59 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:42198 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244253AbhDFRK7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Apr 2021 13:10:59 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 136HAXJs099221;
-        Tue, 6 Apr 2021 12:10:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1617729033;
-        bh=5cgGv2ddS7xAI9SJVy7TZDsonSl+Ly4iKerJkT8q2kM=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=yUGf6lgh+7CoxRNKDNBa83ksW+Cifbw+m1HyAhX3oy0PIGNV00OxXdkUjq74NWmv3
-         f3VKptBV2gZVSBQR+YbT9i7SGJPTeW0WD3kX8ptWmPGCKHPt1tVD6uLXRxVi/PPmxx
-         5c1RNf6CctmE+lLeGA0vfgShYqsxYu2tnRp0cNPE=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 136HAXEc036568
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 6 Apr 2021 12:10:33 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 6 Apr
- 2021 12:10:33 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Tue, 6 Apr 2021 12:10:33 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 136HAWC0099528;
-        Tue, 6 Apr 2021 12:10:32 -0500
-Date:   Tue, 6 Apr 2021 22:40:31 +0530
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@gmail.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Peter Chen <peter.chen@nxp.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <dmaengine@vger.kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 11/16] dmaengine: ti: k3-psil-j721e: Add entry for CSI2RX
-Message-ID: <20210406171029.nku6hrmw7pohr5ri@ti.com>
-References: <20210330173348.30135-1-p.yadav@ti.com>
- <20210330173348.30135-12-p.yadav@ti.com>
- <78a5983c-04c8-4a4c-04fe-bb1f31e87375@gmail.com>
- <20210406150942.4kyjh2ehsvklupjr@ti.com>
- <54b0846e-d633-2a03-2c64-f1f0a85c2410@gmail.com>
- <20210406165554.5mhn4u5enbf2tvaz@ti.com>
+        id S244345AbhDFRNu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Apr 2021 13:13:50 -0400
+Received: from aibo.runbox.com ([91.220.196.211]:36130 "EHLO aibo.runbox.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233879AbhDFRNt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 6 Apr 2021 13:13:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=norwegianrockcat.com; s=selector1; h=Content-Transfer-Encoding:MIME-Version
+        :Content-Type:References:In-Reply-To:Date:To:From:Subject:Message-ID;
+        bh=L0vt7I6EDLY1Iscvk2l74j8EMpWx4FaCvIpbe7sp3zY=; b=mJedZBSMr8+VspoT1jP0wtoZiu
+        LLYQsy/FiGsncSuaJj/rOc2Vs0ypZtJ7TnRQe2pIrA5VT6Gk1GPlgUag2+Fr1pGvxi63PtLdOIUUw
+        uOrfH5TmR52tB+jQbX3sIWiz1yAIEXwB/Syob8c2s10nuROqibKRZI+WEeDN+EefUtj/+VNflU05U
+        2MyeVHAy6FkkCIjvoOJdfoUPIYZoTx4kZjHvg5mOVxMm2S4OserucchupU68WePNzEdHp514uXZn6
+        MD6G7/Hu6TEhDxcc1GsaapRKgdQeJ3PWpxAtJDn2Sprpk+rJc5FzDl+4e6CvOrdCuExhJpJqhMjxr
+        Z/V2oEdw==;
+Received: from [10.9.9.74] (helo=submission03.runbox)
+        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+        (envelope-from <trenton@norwegianrockcat.com>)
+        id 1lTpGl-0003ek-LL; Tue, 06 Apr 2021 19:13:39 +0200
+Received: by submission03.runbox with esmtpsa  [Authenticated alias (786124)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        id 1lTpGV-0002ZW-Sl; Tue, 06 Apr 2021 19:13:23 +0200
+Message-ID: <bd4512b4d1cfc03273b44b0a166607f311081e86.camel@norwegianrockcat.com>
+Subject: Re: [PATCH] Rudimentary support for mi_media_detect_type on FreeBSD.
+From:   Trenton Schulz <trenton@norwegianrockcat.com>
+To:     Hans Petter Selasky <hps@selasky.org>, linux-media@vger.kernel.org
+Date:   Tue, 06 Apr 2021 19:13:22 +0200
+In-Reply-To: <055d59d5-da2f-0f42-9ae0-328ce1ac51cc@selasky.org>
+References: <20210404134430.4537-1-trenton@norwegianrockcat.com>
+         <055d59d5-da2f-0f42-9ae0-328ce1ac51cc@selasky.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2 FreeBSD GNOME Team
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210406165554.5mhn4u5enbf2tvaz@ti.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/04/21 10:25PM, Pratyush Yadav wrote:
-> On 06/04/21 06:33PM, Péter Ujfalusi wrote:
-> > 
-> > 
-> > On 4/6/21 6:09 PM, Pratyush Yadav wrote:
-> > > On 04/04/21 04:24PM, Péter Ujfalusi wrote:
-> > >> Hi Pratyush,
-> > >>
-> > >> On 3/30/21 8:33 PM, Pratyush Yadav wrote:
-> > >>> The CSI2RX subsystem uses PSI-L DMA to transfer frames to memory. It can
-> > >>> have up to 32 threads but the current driver only supports using one. So
-> > >>> add an entry for that one thread.
-> > >>
-> > >> If you are absolutely sure that the other threads are not going to be
-> > >> used, then:
-> > > 
-> > > The opposite in fact. I do expect other threads to be used in the 
-> > > future. But the current driver can only use one so I figured it is 
-> > > better to add just the thread that is currently needed and then I can 
-> > > always add the rest later.
-> > > 
-> > > Why does this have to be a one-and-done deal? Is there anything wrong 
-> > > with adding the other threads when the driver can actually use them?
-> > 
-> > You can skip CCing DMAengine (and me ;) ). Less subsystems is the better
-> > when sending patches...
-> 
-> I'm a bit confused here. If you are no longer interested in maintaining 
-> the TI DMA drivers then that's fine, I can skip CCing you. But the patch 
-> is still relevant to the dmaengine list so why should I skip CCing it? 
-> And if I don't CC the dmaengine list then on which list would I get 
-> comments/reviews for the patch?
+Thank you for the catch. Patch is updated.
+FreeBSD doesn't have the same uevent and sys filesystem that Linux
+does. So, use the VIDIOC_QUERYCAP ioctl to find out basic capabilities
+for a device. The ioctl doesn't give us as much information, but it
+gets things like webcams, VBIs, and radios. This is better than what
+was there previously, which was returning unknown.
 
-Ignore this. Got your point. Will do it in v2.
+This makes some v4l-utils, like v4l2-ctl, a little more useful.
 
+Signed-off-by: Trenton Schulz <trenton@norwegianrockcat.com>
+---
+ utils/common/media-info.cpp | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
+
+diff --git a/utils/common/media-info.cpp b/utils/common/media-info.cpp
+index 29a43fb3..299591bf 100644
+--- a/utils/common/media-info.cpp
++++ b/utils/common/media-info.cpp
+@@ -17,6 +17,10 @@
+ #include <linux/media.h>
+ 
+ #include <media-info.h>
++#ifndef __linux__
++#include <linux/videodev2.h>
++#include <fcntl.h>
++#endif
+ 
+ static std::string num2s(unsigned num, bool is_hex = true)
+ {
+@@ -54,7 +58,7 @@ media_type mi_media_detect_type(const char *device)
+ 
+ 	if (stat(device, &sb) == -1)
+ 		return MEDIA_TYPE_CANT_STAT;
+-
++#ifdef __linux__
+ 	std::string uevent_path("/sys/dev/char/");
+ 
+ 	uevent_path += num2s(major(sb.st_rdev), false) + ":" +
+@@ -90,6 +94,24 @@ media_type mi_media_detect_type(const char *device)
+ 	}
+ 
+ 	uevent_file.close();
++#else // Not Linux
++	int fd = open(device, O_RDONLY);
++	if (fd >= 0) {
++		struct v4l2_capability caps;
++		int error = ioctl(fd, VIDIOC_QUERYCAP, &caps);
++		close(fd);
++		if (error == 0) {
++			if (caps.device_caps & V4L2_CAP_VIDEO_CAPTURE)
+{
++				return MEDIA_TYPE_VIDEO;
++			} else if (caps.device_caps &
+V4L2_CAP_VBI_CAPTURE) {
++				return MEDIA_TYPE_VBI;
++			} else if (caps.device_caps & V4L2_CAP_RADIO)
+{
++				return MEDIA_TYPE_RADIO;
++			}
++		}
++		close(fd);
++	}
++#endif
+ 	return MEDIA_TYPE_UNKNOWN;
+ }
+ 
 -- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+2.30.1
+
+
+
