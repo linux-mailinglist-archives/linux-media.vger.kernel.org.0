@@ -2,86 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFFCC354FEF
-	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 11:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70AB7354FF1
+	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 11:33:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236696AbhDFJcl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Apr 2021 05:32:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34346 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236715AbhDFJcl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Apr 2021 05:32:41 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B2F5C06174A
-        for <linux-media@vger.kernel.org>; Tue,  6 Apr 2021 02:32:33 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:99b7:c6e7:5cb7:6273])
-        by laurent.telenet-ops.be with bizsmtp
-        id pMYU2400B2foaxb01MYUCL; Tue, 06 Apr 2021 11:32:30 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lTi4R-00DU5H-Rn; Tue, 06 Apr 2021 11:32:27 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lTi4R-00ENAh-55; Tue, 06 Apr 2021 11:32:27 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        id S237208AbhDFJdW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Apr 2021 05:33:22 -0400
+Received: from mail-vk1-f169.google.com ([209.85.221.169]:41962 "EHLO
+        mail-vk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236696AbhDFJdV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Apr 2021 05:33:21 -0400
+Received: by mail-vk1-f169.google.com with SMTP id o17so3043492vko.8;
+        Tue, 06 Apr 2021 02:33:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=grgIxmSma2JlieWtBX3rMxJzJxBIyz4KExnfhvygE5M=;
+        b=byuWXyERSSoZNxADdXcP7qj3Gh+lRcEXrhE/XKdlLO7AsPuVKfCdBKxL64ncn3nBi/
+         kAV4XYOj8w4i39dgrcNED8NsDHb1R0yA6U6txu5E6wC8t8UWuRVSiCf2t3yfZJ/AzrGG
+         s3rCOZyosY7SBBCEZGKAF7aBGlCJTYnyXFjsicTRQsQdqeYmn67cDsQditOkRkilNagh
+         9Rn+6qqeFR9ZZ+3QVlDhq/gxxAcxvG8sunBwAUO5esMPgP/nBDM9jJIjWq91M0QlxeUC
+         VzBbZFjYwwq41DdNLFzQA59eaP/roBD1P43tu5cr5AFPdAN7Zprmm6JxSqQI9dwK6IaG
+         /8wA==
+X-Gm-Message-State: AOAM530+dUhlV4msIUyoVoONjliCOvYa8nDSN2/xHn03aFBv2tfFjFXq
+        vPunDGV/4HHF7cnc8tCcqoyYLy41Y0Kp19We8lscidvf
+X-Google-Smtp-Source: ABdhPJzgJNbsIKr5NP1kHfRMwi9+BcmAuttYIVdrxWa1dLq56Xb06r6Zg7tF1EDTF5IKCMc00RB5P7qIa5UgLW9cGhU=
+X-Received: by 2002:a1f:2502:: with SMTP id l2mr16362671vkl.5.1617701593632;
+ Tue, 06 Apr 2021 02:33:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210331081735.367238-1-geert+renesas@glider.be> <e566f40a-dcfb-d863-bc6a-369e7972114a@xs4all.nl>
+In-Reply-To: <e566f40a-dcfb-d863-bc6a-369e7972114a@xs4all.nl>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 6 Apr 2021 11:33:02 +0200
+Message-ID: <CAMuHMdXCjhDQhtAXir5zd7u=NCsCFhVvB6kmckWkmXbiQJix4A@mail.gmail.com>
+Subject: Re: [PATCH] media: VIDEO_IMX8_JPEG should depend on ARCH_MXC and not
+ default to m
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Cc:     NXP Linux Team <linux-imx@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] media: VIDEO_IMX8_JPEG should depend on ARCH_MXC and not default to m
-Date:   Tue,  6 Apr 2021 11:32:26 +0200
-Message-Id: <129d6bab29b47c265cf0e2a70545e7c0422ce7ba.1617701454.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The i.MX8 QXP/QM integrated JPEG encoder/decoder is only present on
-Freescale/NXP i.MX8 QXP and QM SoCs.  Hence add a dependency on
-ARCH_MXC, to prevent asking the user about this driver when configuring
-a kernel without i.MX8 support.
+Hoi Hans,
 
-Drop the "default m" (which means "default y" if CONFIG_MODULES is not
-enabled), as merely enabling CONFIG_COMPILE_TEST should not enable
-additional code.
+On Tue, Apr 6, 2021 at 11:24 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> On 31/03/2021 10:17, Geert Uytterhoeven wrote:
+> > The i.MX8 QXP/QM integrated JPEG encoder/decoder is only present on
+> > Freescale/NXP i.MX8 QXP and QM SoCs.  Hence add a dependency on
+> > ARCH_MXC, to prevent asking the user about this driver when configuring
+> > a kernel without i.MX8 support.
+> >
+> > Drop the "default m" (which means "default y" if CONFIG_MODULES is not
+> > enabled), as merely enabling CONFIG_COMPILE_TEST should not enable
+> > additional code.
+>
+> You do not actually drop 'default m' in the patch. Either the patch or the
+> commit message is wrong.
 
-Fixes: 2db16c6ed72ce644 ("media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Really drop the "default m".
----
- drivers/media/platform/imx-jpeg/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Oops, the patch is wrong.
+V2 sent.
+Thanks!
 
-diff --git a/drivers/media/platform/imx-jpeg/Kconfig b/drivers/media/platform/imx-jpeg/Kconfig
-index d875f7c88cdad125..2fdd648cda80af8e 100644
---- a/drivers/media/platform/imx-jpeg/Kconfig
-+++ b/drivers/media/platform/imx-jpeg/Kconfig
-@@ -1,11 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0
- config VIDEO_IMX8_JPEG
- 	tristate "IMX8 JPEG Encoder/Decoder"
-+	depends on ARCH_MXC || COMPILE_TEST
- 	depends on VIDEO_DEV && VIDEO_V4L2
- 	select VIDEOBUF2_DMA_CONTIG
- 	select V4L2_MEM2MEM_DEV
- 	select V4L2_JPEG_HELPER
--	default m
- 	help
- 	  This is a video4linux2 driver for the i.MX8 QXP/QM integrated
- 	  JPEG encoder/decoder.
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
