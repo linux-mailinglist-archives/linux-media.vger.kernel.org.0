@@ -2,53 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BE93354ACA
-	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 04:15:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36E6C354C33
+	for <lists+linux-media@lfdr.de>; Tue,  6 Apr 2021 07:23:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242289AbhDFCPb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Apr 2021 22:15:31 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:54863 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232976AbhDFCP0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 5 Apr 2021 22:15:26 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R261e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UUeS7-i_1617675317;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0UUeS7-i_1617675317)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 06 Apr 2021 10:15:18 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     laurent.pinchart@ideasonboard.com
+        id S243783AbhDFFRd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Apr 2021 01:17:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59022 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243725AbhDFFRc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 6 Apr 2021 01:17:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 04A7B613A3;
+        Tue,  6 Apr 2021 05:17:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617686245;
+        bh=+znzAHRb+50H/RORNjCd4hc3uJ2CmZGOiy6dCAaomfs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=s/yFExXqWE9W1zGxI3GwhSnrxA2GOkC1X0Bb9CqUZ+8WnioY1wf1vohouyft2Bqyh
+         466TCRsW4tXnXQRLw5LcmsBL/KRAJfo9javWyUkpS2KAVDH6GaLtT7jQzUp4NWJBgN
+         ewps1Wi/KOHhlgAqgk7OP3kagmOQAW0z8W6Hds5w=
+Date:   Tue, 6 Apr 2021 07:17:23 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     David Villasana =?iso-8859-1?Q?Jim=E9nez?= 
+        <davidvillasana14@gmail.com>
 Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>
-Subject: [PATCH] media: uvc: remove unused including <linux/version.h>
-Date:   Tue,  6 Apr 2021 10:15:15 +0800
-Message-Id: <1617675315-10453-1-git-send-email-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        linux-staging@lists.linux.dev
+Subject: Re:
+Message-ID: <YGvu4x6+argAcs4z@kroah.com>
+References: <YGt9UNqRnOx2j+4M@fedora>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YGt9UNqRnOx2j+4M@fedora>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the following versioncheck warning:
-./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
+On Mon, Apr 05, 2021 at 04:12:48PM -0500, David Villasana Jiménez wrote:
+> linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+> Bcc: 
+> Subject: [PATCH] staging: media: atomisp: i2c: Fix alignment to match open
+>  parenthesis
+> Reply-To: 
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 30ef2a3..9f9473d 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -16,7 +16,6 @@
- #include <linux/videodev2.h>
- #include <linux/vmalloc.h>
- #include <linux/wait.h>
--#include <linux/version.h>
- #include <asm/unaligned.h>
- 
- #include <media/v4l2-common.h>
--- 
-1.8.3.1
-
+Something went wrong with your email again :(
