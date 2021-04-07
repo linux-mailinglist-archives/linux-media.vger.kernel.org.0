@@ -2,251 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17ED3356E48
-	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 16:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6DB0356E5F
+	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 16:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348176AbhDGOQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Apr 2021 10:16:34 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:46787 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S243058AbhDGOQd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Apr 2021 10:16:33 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id U8yglSP3zMxedU8yjlIlFz; Wed, 07 Apr 2021 16:16:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1617804982; bh=S83PAm0KA7RhWYgZY/SJuS+T5vxQnZNe6qRok09zaXE=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=boNE3qZu2jhBqPgFE5RfmXsm95ydbxyAPWY2vDgiFQyoMRH83t5gUQsw0H7h28qDk
-         SLcxsfcZ4oDMtWQhBsx7lY4vzB8esfiJ+B/Gpq2RqX2PE/gTMLm4Ks+b5ChoOH/Uxu
-         KymvITZfrGm1araA6q9iGro43yWg5GSFVjHG1uh21efrB3+ZUAzxhZ52HgUHN7BHB5
-         ab5E6Opbhc3TrqZTaVV7UZb3YOJvo38vP5hvU1qe+q+NTDHcVhvu5uIQP+bbRfkKuV
-         22jk6cgjqm3qtaupZgM0xKedQST5BQ5NsxSSzc2ShTTufSpp7u50jFsnE3N9PzRBvJ
-         kC1HrivWv6+6A==
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 2/2] adv7842: support 1 block EDIDs, fix clearing EDID
-Date:   Wed,  7 Apr 2021 16:16:18 +0200
-Message-Id: <20210407141618.196617-3-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210407141618.196617-1-hverkuil-cisco@xs4all.nl>
-References: <20210407141618.196617-1-hverkuil-cisco@xs4all.nl>
+        id S1348317AbhDGOTa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Apr 2021 10:19:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1352902AbhDGOTX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Apr 2021 10:19:23 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D91C061756;
+        Wed,  7 Apr 2021 07:19:13 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id a4so1244237wrr.2;
+        Wed, 07 Apr 2021 07:19:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=hk6O1+YsLCe8qBF6gMN+3M1D1gXE0oXAs3ZDrHvZOkc=;
+        b=qbwAVGrCFye6M/nU4HSaDpQmhzHWShlbTv2YMAlwPD73fUgpT8QLzXMRb1A97RvM9x
+         WnfAc9NtdVTS5rvXaxatLWLe4o6xVlG8C69A0LWuLO0jU/sHVA+kaucL7n7VajWnOGF7
+         4D8pK3J38YC23K2O6umsL3CYV0fnqbTYdayfjgYc5ShPqereBe8sliGCg1cNsWauhR9x
+         TebZrnwOPnDU0sCESFvlee45TRgSt4as7rpEjPKo+LJKIdIwePcnCxsjYEyxje1Yn9P5
+         smBX17QZFgvqsGuQ8DsqYZT12B/AbficNYOlM+xcyyXaKyctpuzwTcEy5wmRaCApLENj
+         D1ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=hk6O1+YsLCe8qBF6gMN+3M1D1gXE0oXAs3ZDrHvZOkc=;
+        b=U9rEshPT9tErVv51ncUSV5THmvvDRlKg7WdY9f6yY4xQKDRAYXiWoQUKhdTZGb259t
+         odjHdyClhlJp00UtClo+20uZBa1muOHnBPjRP5lxm42pwdvJuCPMeVZFoiyyO/62Aaa8
+         gNDHOuDKNtUdonchW3+E2LxKLSQhnfIuUljgz64tNf4zMyWb2Cl1IXn294IkSGZlEBHu
+         cdEQD2qGRaw8hDBFAfMmTMXqlmQr7Fl2uTuMC2YlOnZsTb/rCexvwemF7ZxpnDVkGerv
+         PNQkWh5X6HsHOyS+TYhNqzOGRgh6Z2o8n4GIXtDXOXawXCA6nJLGwAatNNMyjD3CT1q1
+         l8mg==
+X-Gm-Message-State: AOAM533PIudfHo5gRuW3oPEvUB5bX4IXuw6y1AcLNr8l2uo3+UrC12UO
+        lpvdqJwI/hvFSrnBqdI5+qA=
+X-Google-Smtp-Source: ABdhPJwUcwSJAIHk2OCtR+24DQShpSo3zGo/9gzczxTU1Ct2vayQA6uI0NS42UkEL7Nyzxbv3sIGcA==
+X-Received: by 2002:a5d:424c:: with SMTP id s12mr4803031wrr.174.1617805152679;
+        Wed, 07 Apr 2021 07:19:12 -0700 (PDT)
+Received: from ?IPv6:2001:818:de85:7e00:ef5c:3f2a:a646:d6ec? ([2001:818:de85:7e00:ef5c:3f2a:a646:d6ec])
+        by smtp.gmail.com with ESMTPSA id 61sm29613174wrn.25.2021.04.07.07.19.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Apr 2021 07:19:11 -0700 (PDT)
+Subject: Re: [PATCH 1/2] staging: media: omap4iss: Ending line with argument
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        outreachy-kernel@googlegroups.com
+References: <cover.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
+ <441d27060ff6477d0ad418f41e194b96373c1f7f.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
+ <e1b25826-1359-24dd-47ad-41fbd3a406b9@xs4all.nl>
+From:   Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+Message-ID: <1df312a9-6216-1926-ff42-012654b81f3b@gmail.com>
+Date:   Wed, 7 Apr 2021 15:19:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfGJVeeZa+ocSy0LhvrOj7GEwyuK1h7x/tshZzs0fDeJdUeWNHueckOj2P8H0zyatvycKKdX8PT3oDxuT6YpSjkPiXYyf4cpe1+fNQAq13vkMK3rjE7RQ
- ir9oQpXheOYAgejOOZ1xYbGU1N2Gp2nL++yiko9Jkgxl/StfLoLpjehoqpjq0jKJ11faCMe1U4mw/JrPbW1pUjJjWG8K2XL+uVGIil8Hf7VX8c2y1OtmeFmR
- 3l41zSEAxwuomEXMYnQJWQ==
+In-Reply-To: <e1b25826-1359-24dd-47ad-41fbd3a406b9@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for EDIDs consisting of one EDID block.
 
-Related to this, improve CEC physical address handling.
 
-Clearing the EDID caused a bug since v4l2_calc_aspect_ratio() was
-called with a NULL pointer.
+Em 07/04/21 14:46, Hans Verkuil escreveu:
+> Hi Beatriz,
+Hi,
+>
+> I'm now reviewing staging/media patches instead of Greg KH. See Vaishali's
+> email from today: "Sending patches for the drivers/staging/media".
+Yes, I saw the email! Thanks for helping us!
+>
+> On 01/04/2021 17:07, Beatriz Martins de Carvalho wrote:
+>> Remove checkpatch check "CHECK: Lines should not end with a '('" with
+>> argument present in next line and reorganize characters so the lines
+>> are under 100 columns
+>>
+>> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+>> ---
+>>   drivers/staging/media/omap4iss/iss.c | 46 +++++++++++++---------------
+>>   1 file changed, 22 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
+>> index dae9073e7d3c..e8f724dbf810 100644
+>> --- a/drivers/staging/media/omap4iss/iss.c
+>> +++ b/drivers/staging/media/omap4iss/iss.c
+>> @@ -559,9 +559,10 @@ static int iss_reset(struct iss_device *iss)
+>>   	iss_reg_set(iss, OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG,
+>>   		    ISS_HL_SYSCONFIG_SOFTRESET);
+>>   
+>> -	timeout = iss_poll_condition_timeout(
+>> -		!(iss_reg_read(iss, OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG) &
+>> -		ISS_HL_SYSCONFIG_SOFTRESET), 1000, 10, 100);
+>> +	timeout = iss_poll_condition_timeout(!(iss_reg_read(iss,
+>> +							    OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG)
+>> +							    & ISS_HL_SYSCONFIG_SOFTRESET),
+>> +							    1000, 10, 100);
+>>   	if (timeout) {
+>>   		dev_err(iss->dev, "ISS reset timeout\n");
+>>   		return -ETIMEDOUT;
+>> @@ -583,9 +584,10 @@ static int iss_isp_reset(struct iss_device *iss)
+>>   
+>>   	iss_reg_set(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL, ISP5_CTRL_MSTANDBY);
+>>   
+>> -	timeout = iss_poll_condition_timeout(
+>> -		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL) &
+>> -		ISP5_CTRL_MSTANDBY_WAIT, 1000000, 1000, 1500);
+>> +	timeout = iss_poll_condition_timeout(iss_reg_read(iss,
+>> +							  OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL)
+>> +							  & ISP5_CTRL_MSTANDBY_WAIT, 1000000,
+>> +							  1000, 1500);
+>>   	if (timeout) {
+>>   		dev_err(iss->dev, "ISP5 standby timeout\n");
+>>   		return -ETIMEDOUT;
+>> @@ -595,9 +597,10 @@ static int iss_isp_reset(struct iss_device *iss)
+>>   	iss_reg_set(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_SYSCONFIG,
+>>   		    ISP5_SYSCONFIG_SOFTRESET);
+>>   
+>> -	timeout = iss_poll_condition_timeout(
+>> -		!(iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_SYSCONFIG) &
+>> -		ISP5_SYSCONFIG_SOFTRESET), 1000000, 1000, 1500);
+>> +	timeout = iss_poll_condition_timeout(!(iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1,
+>> +							    ISP5_SYSCONFIG) &
+>> +							    ISP5_SYSCONFIG_SOFTRESET), 1000000,
+>> +							    1000, 1500);
+> As several other people already commented, these changes do not improve readability.
+> Just leave this code alone, it's good enough. Even splitting up the condition into
+> a separate function would degrade readability since that would make it harder to
+> discover the exact condition that will be polled for.
+>
+> Not everything that checkpatch.pl flags is necessarily bad code :-)
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/i2c/adv7842.c | 71 ++++++++++++++++++++++---------------
- 1 file changed, 43 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-index 10a1a9a711e6..29140d0c4c0e 100644
---- a/drivers/media/i2c/adv7842.c
-+++ b/drivers/media/i2c/adv7842.c
-@@ -99,10 +99,12 @@ struct adv7842_state {
- 	v4l2_std_id norm;
- 	struct {
- 		u8 edid[256];
-+		u32 blocks;
- 		u32 present;
- 	} hdmi_edid;
- 	struct {
- 		u8 edid[256];
-+		u32 blocks;
- 		u32 present;
- 	} vga_edid;
- 	struct v4l2_fract aspect_ratio;
-@@ -711,7 +713,8 @@ static int edid_write_vga_segment(struct v4l2_subdev *sd)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	struct adv7842_state *state = to_state(sd);
--	const u8 *val = state->vga_edid.edid;
-+	const u8 *edid = state->vga_edid.edid;
-+	u32 blocks = state->vga_edid.blocks;
- 	int err = 0;
- 	int i;
- 
-@@ -726,10 +729,10 @@ static int edid_write_vga_segment(struct v4l2_subdev *sd)
- 	/* edid segment pointer '1' for VGA port */
- 	rep_write_and_or(sd, 0x77, 0xef, 0x10);
- 
--	for (i = 0; !err && i < 256; i += I2C_SMBUS_BLOCK_MAX)
-+	for (i = 0; !err && i < blocks * 128; i += I2C_SMBUS_BLOCK_MAX)
- 		err = i2c_smbus_write_i2c_block_data(state->i2c_edid, i,
- 						     I2C_SMBUS_BLOCK_MAX,
--						     val + i);
-+						     edid + i);
- 	if (err)
- 		return err;
- 
-@@ -759,8 +762,9 @@ static int edid_write_hdmi_segment(struct v4l2_subdev *sd, u8 port)
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	struct adv7842_state *state = to_state(sd);
- 	const u8 *edid = state->hdmi_edid.edid;
-+	u32 blocks = state->hdmi_edid.blocks;
- 	int spa_loc;
--	u16 pa;
-+	u16 pa, parent_pa;
- 	int err = 0;
- 	int i;
- 
-@@ -778,33 +782,35 @@ static int edid_write_hdmi_segment(struct v4l2_subdev *sd, u8 port)
- 		return 0;
- 	}
- 
--	pa = v4l2_get_edid_phys_addr(edid, 256, &spa_loc);
--	err = v4l2_phys_addr_validate(pa, &pa, NULL);
-+	pa = v4l2_get_edid_phys_addr(edid, blocks * 128, &spa_loc);
-+	err = v4l2_phys_addr_validate(pa, &parent_pa, NULL);
- 	if (err)
- 		return err;
- 
--	/*
--	 * Return an error if no location of the source physical address
--	 * was found.
--	 */
--	if (spa_loc == 0)
--		return -EINVAL;
-+	if (!spa_loc) {
-+		/*
-+		 * There is no SPA, so just set spa_loc to 128 and pa to whatever
-+		 * data is there.
-+		 */
-+		spa_loc = 128;
-+		pa = (edid[spa_loc] << 8) | edid[spa_loc + 1];
-+	}
- 
- 	/* edid segment pointer '0' for HDMI ports */
- 	rep_write_and_or(sd, 0x77, 0xef, 0x00);
- 
--	for (i = 0; !err && i < 256; i += I2C_SMBUS_BLOCK_MAX)
-+	for (i = 0; !err && i < blocks * 128; i += I2C_SMBUS_BLOCK_MAX)
- 		err = i2c_smbus_write_i2c_block_data(state->i2c_edid, i,
- 						     I2C_SMBUS_BLOCK_MAX, edid + i);
- 	if (err)
- 		return err;
- 
- 	if (port == ADV7842_EDID_PORT_A) {
--		rep_write(sd, 0x72, edid[spa_loc]);
--		rep_write(sd, 0x73, edid[spa_loc + 1]);
-+		rep_write(sd, 0x72, pa >> 8);
-+		rep_write(sd, 0x73, pa & 0xff);
- 	} else {
--		rep_write(sd, 0x74, edid[spa_loc]);
--		rep_write(sd, 0x75, edid[spa_loc + 1]);
-+		rep_write(sd, 0x74, pa >> 8);
-+		rep_write(sd, 0x75, pa & 0xff);
- 	}
- 	rep_write(sd, 0x76, spa_loc & 0xff);
- 	rep_write_and_or(sd, 0x77, 0xbf, (spa_loc >> 2) & 0x40);
-@@ -824,7 +830,7 @@ static int edid_write_hdmi_segment(struct v4l2_subdev *sd, u8 port)
- 				(port == ADV7842_EDID_PORT_A) ? 'A' : 'B');
- 		return -EIO;
- 	}
--	cec_s_phys_addr(state->cec_adap, pa, false);
-+	cec_s_phys_addr(state->cec_adap, parent_pa, false);
- 
- 	/* enable hotplug after 200 ms */
- 	schedule_delayed_work(&state->delayed_work_enable_hotplug, HZ / 5);
-@@ -2443,6 +2449,7 @@ static int adv7842_isr(struct v4l2_subdev *sd, u32 status, bool *handled)
- static int adv7842_get_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
- {
- 	struct adv7842_state *state = to_state(sd);
-+	u32 blocks = 0;
- 	u8 *data = NULL;
- 
- 	memset(edid->reserved, 0, sizeof(edid->reserved));
-@@ -2450,30 +2457,34 @@ static int adv7842_get_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
- 	switch (edid->pad) {
- 	case ADV7842_EDID_PORT_A:
- 	case ADV7842_EDID_PORT_B:
--		if (state->hdmi_edid.present & (0x04 << edid->pad))
-+		if (state->hdmi_edid.present & (0x04 << edid->pad)) {
- 			data = state->hdmi_edid.edid;
-+			blocks = state->hdmi_edid.blocks;
-+		}
- 		break;
- 	case ADV7842_EDID_PORT_VGA:
--		if (state->vga_edid.present)
-+		if (state->vga_edid.present) {
- 			data = state->vga_edid.edid;
-+			blocks = state->vga_edid.blocks;
-+		}
- 		break;
- 	default:
- 		return -EINVAL;
- 	}
- 
- 	if (edid->start_block == 0 && edid->blocks == 0) {
--		edid->blocks = data ? 2 : 0;
-+		edid->blocks = blocks;
- 		return 0;
- 	}
- 
- 	if (!data)
- 		return -ENODATA;
- 
--	if (edid->start_block >= 2)
-+	if (edid->start_block >= blocks)
- 		return -EINVAL;
- 
--	if (edid->start_block + edid->blocks > 2)
--		edid->blocks = 2 - edid->start_block;
-+	if (edid->start_block + edid->blocks > blocks)
-+		edid->blocks = blocks - edid->start_block;
- 
- 	memcpy(edid->edid, data + edid->start_block * 128, edid->blocks * 128);
- 
-@@ -2497,26 +2508,30 @@ static int adv7842_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *e)
- 	}
- 
- 	/* todo, per edid */
--	state->aspect_ratio = v4l2_calc_aspect_ratio(e->edid[0x15],
--			e->edid[0x16]);
-+	if (e->blocks)
-+		state->aspect_ratio = v4l2_calc_aspect_ratio(e->edid[0x15],
-+							     e->edid[0x16]);
- 
- 	switch (e->pad) {
- 	case ADV7842_EDID_PORT_VGA:
- 		memset(&state->vga_edid.edid, 0, 256);
-+		state->vga_edid.blocks = e->blocks;
- 		state->vga_edid.present = e->blocks ? 0x1 : 0x0;
--		memcpy(&state->vga_edid.edid, e->edid, 128 * e->blocks);
-+		if (e->blocks)
-+			memcpy(&state->vga_edid.edid, e->edid, 128 * e->blocks);
- 		err = edid_write_vga_segment(sd);
- 		break;
- 	case ADV7842_EDID_PORT_A:
- 	case ADV7842_EDID_PORT_B:
- 		memset(&state->hdmi_edid.edid, 0, 256);
-+		state->hdmi_edid.blocks = e->blocks;
- 		if (e->blocks) {
- 			state->hdmi_edid.present |= 0x04 << e->pad;
-+			memcpy(&state->hdmi_edid.edid, e->edid, 128 * e->blocks);
- 		} else {
- 			state->hdmi_edid.present &= ~(0x04 << e->pad);
- 			adv7842_s_detect_tx_5v_ctrl(sd);
- 		}
--		memcpy(&state->hdmi_edid.edid, e->edid, 128 * e->blocks);
- 		err = edid_write_hdmi_segment(sd, e->pad);
- 		break;
- 	default:
--- 
-2.30.2
+Yes, I learning about this. And I will using this for the next patches.
+>
+>>   	if (timeout) {
+>>   		dev_err(iss->dev, "ISP5 reset timeout\n");
+>>   		return -ETIMEDOUT;
+>> @@ -1104,33 +1107,28 @@ static int iss_create_links(struct iss_device *iss)
+>>   	}
+>>   
+>>   	/* Connect the submodules. */
+>> -	ret = media_create_pad_link(
+>> -			&iss->csi2a.subdev.entity, CSI2_PAD_SOURCE,
+>> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
+>> +	ret = media_create_pad_link(&iss->csi2a.subdev.entity, CSI2_PAD_SOURCE,
+>> +				    &iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>> -	ret = media_create_pad_link(
+>> -			&iss->csi2b.subdev.entity, CSI2_PAD_SOURCE,
+>> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
+>> +	ret = media_create_pad_link(&iss->csi2b.subdev.entity, CSI2_PAD_SOURCE,
+>> +				    &iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>> -	ret = media_create_pad_link(
+>> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
+>> -			&iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
+>> +	ret = media_create_pad_link(&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
+>> +				    &iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>> -	ret = media_create_pad_link(
+>> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
+>> -			&iss->ipipe.subdev.entity, IPIPE_PAD_SINK, 0);
+>> +	ret = media_create_pad_link(&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
+>> +				    &iss->ipipe.subdev.entity, IPIPE_PAD_SINK, 0);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>> -	ret = media_create_pad_link(
+>> -			&iss->ipipe.subdev.entity, IPIPE_PAD_SOURCE_VP,
+>> -			&iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
+>> +	ret = media_create_pad_link(&iss->ipipe.subdev.entity, IPIPE_PAD_SOURCE_VP,
+>> +				    &iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>>
+> These, however, are readability improvements, so I'm happy with that.
+Thank!
+>
+> Regards,
+>
+> 	Hans
+Best wishes,
+Beatriz Carvalho
 
