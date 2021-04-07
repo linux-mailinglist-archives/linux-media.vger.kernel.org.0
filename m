@@ -2,148 +2,317 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35C0835653A
-	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 09:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14576356553
+	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 09:35:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233768AbhDGHbG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Apr 2021 03:31:06 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:55041 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233299AbhDGHbG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Apr 2021 03:31:06 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id U2eJlABJQ43ycU2eMlPXXc; Wed, 07 Apr 2021 09:30:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1617780655; bh=HiovhSw7IvJpTXadCmtti0e+cPIsSYCvJmRC1aHG4BU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=fv84menCqp+5MkN5qAY4MYfN1Cv/4fe1ALAajMZnniVw+3dqp3hJl7U46wa8uW7C5
-         vHEepJ4mlO8is1QzV7uZ9hIEXU1TMBOnYbxOaf21kRvkvYDw7cDA0Rn9GzdFM1CmVY
-         qPr4FbYp3jN8mrkBtfq4iM506blk+exVJkq2Nkl8YObcjgfkFb5vgIDC2OnHIZiZWe
-         rUSZBYIyS6PiRRLDqD+qAb+M0PpZAsjwmJW0HPUMqD1Mn/qgv+nQ9AT/tDPb6Qt091
-         G2Ny6YMVgjIe5WyGYc4yAyuAs8TcdM8trclAxK9Hl/LpP88zF4NzgiNTG4JPMxxlqo
-         Nsfb7gysvn+LQ==
-Subject: Re: [PATCH v2 00/30] media: atmel: atmel-isc: add support for xisc
-To:     Eugen Hristev <eugen.hristev@microchip.com>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20210405155105.162529-1-eugen.hristev@microchip.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d12caa29-2ed9-e99a-43ac-a2eb3413f1c6@xs4all.nl>
-Date:   Wed, 7 Apr 2021 09:30:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        id S1346717AbhDGHf5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Apr 2021 03:35:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41098 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233320AbhDGHf5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Apr 2021 03:35:57 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D30C061756;
+        Wed,  7 Apr 2021 00:35:48 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: benjamin.gaignard)
+        with ESMTPSA id 387031F40DF0
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        festevam@gmail.com, lee.jones@linaro.org,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
+        emil.l.velikov@gmail.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        kernel@collabora.com, cphealy@gmail.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 00/13] Add HANTRO G2/HEVC decoder support for IMX8MQ
+Date:   Wed,  7 Apr 2021 09:35:21 +0200
+Message-Id: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210405155105.162529-1-eugen.hristev@microchip.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNsM/RAXgd5azz7ICrRqZGw+dEssfgliUD4LKscmZIFveWs8gE561/RwIHnDZfe3QhWzVjo8jd8WYnd8w6pwJdLSj/4DC3Ne7l1fZT2nwS8SA+t8wgbb
- nPOJinBongpzzjrn0bLo2FDH4XSP7GDDNELzMzM+oQmhR90CSxORv6zp7NKLmyys1pxKBiebufuIutTvCqlAxc4q3TWxG6DmnZoBP5jPn32nk+MmhO6uV48m
- nh4VLJfjoqn7E36ABmx5CiTvRg33q+EoTYybW21uprSvAiqby3VQnEHqWvrA5Re7Qh9IwAufls9x+AOEJ4w729PHAVjV0TW0hXGHiWuyfo8QbvB1F0vbCwE5
- 3QryamxEiLYXGYwPcYVQJl0wQS+ikA==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen,
+The IMX8MQ got two VPUs but until now only G1 has been enabled.
+This series aim to add the second VPU (aka G2) and provide basic 
+HEVC decoding support.
 
-On 05/04/2021 17:50, Eugen Hristev wrote:
-> Hello,
-> 
-> This series adds support for a variant of the ISC named XISC.
-> This block is present in the product named sama7g5.
-> 
-> I started by moving code around, the code which was specialized for sama5d2
-> type of ISC, to have it inside the dedicated sama5d2 file.
-> 
-> I added several new pipeline elements to the code base, which would be common
-> to sama5d2 and the new sama7g5, but only used by the new style pipeline.
-> 
-> I separated the input and output formats on a per-product separate array.
-> 
-> I added the new sama7g5 compatible driver for the xisc, which is similar with
-> the sama5d2, but with differences in terms of DT, clocks and callbacks to
-> specific operations.
-> 
-> I added the binding for the xisc by copying and modifying the existing
-> isc one. I know that it has to be converted to yaml, and I will do that if
-> it looks good.
+To be able to decode HEVC it is needed to add/update some of the
+structures in the uapi. In addition of them one HANTRO dedicated
+control is required to inform the driver of the numbre of bits to skip
+at the beginning of the slice header.
+The hardware require to allocate few auxiliary buffers to store the
+references frame or tile size data.
 
-This series looks good to me.
+The driver has been tested with fluster test suite stream.
+For example with this command: ./fluster.py run -ts JCT-VC-HEVC_V1 -d GStreamer-H.265-V4L2SL-Gst1.0
 
-One thing that can be improved in a v3 is a short explanation of the various
-abbreviations: CBV, RLP, HIS, DPC, etc.
+Finally the both VPUs will have a node the device-tree and be
+independent from v4l2 point of view.
 
-Regards,
+A branch with all the dev is available here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/upstream_g2_v9
 
-	Hans
+version 9:
+ - Corrections in commits messages.
+ - Define the dedicated control in hevc-controls.h
+ - Add note in documentation.
+ - Change max value of the dedicated control.
+ - Rebased on media_tree/master branch.
 
-> 
-> Feedback is appreciated.
-> Thanks,
-> Eugen
-> 
-> Changes in v2:
-> - Fixed krobot warnings with W=1 regarding functions with no prototype
-> - Fixed new sama7g5 driver to use the new subdev fwnode API in kernel 5.12. my driver was
-> based on old 5.10 style API.
-> 
-> Eugen Hristev (30):
->   media: atmel: atmel-isc: specialize gamma table into product specific
->   media: atmel: atmel-isc: specialize driver name constant
->   media: atmel: atmel-isc: add checks for limiting frame sizes
->   media: atmel: atmel-isc: specialize max width and max height
->   media: atmel: atmel-isc: specialize dma cfg
->   media: atmel: atmel-isc: extract CSC submodule config into separate
->     function
->   media: atmel: atmel-isc-base: add id to clock debug message
->   media: atmel: atmel-isc: create register offsets struct
->   media: atmel: atmel-isc: extract CBC submodule config into separate
->     function
->   media: atmel: atmel-isc: add CBC to the reg offsets struct
->   media: atmel: atmel-isc: add SUB422 and SUB420 to register offsets
->   media: atmel: atmel-isc: add RLP to register offsets
->   media: atmel: atmel-isc: add HIS to register offsets
->   media: atmel: atmel-isc: add DMA to register offsets
->   media: atmel: atmel-isc: add support for version register
->   media: atmel: atmel-isc: add his_entry to register offsets
->   media: atmel: atmel-isc: add register description for additional
->     modules
->   media: atmel: atmel-isc: extend pipeline with extra modules
->   media: atmel: atmel-isc: add CC initialization function
->   media: atmel: atmel-isc: create product specific v4l2 controls config
->   media: atmel: atmel-isc: create callback for DPC submodule product
->     specific
->   media: atmel: atmel-isc: create callback for GAM submodule product
->     specific
->   media: atmel: atmel-isc: create callback for RLP submodule product
->     specific
->   media: atmel: atmel-isc: move the formats list into product specific
->     code
->   media: atmel: atmel-isc: create an adapt pipeline callback for product
->     specific
->   media: atmel: atmel-isc-regs: add additional fields for sama7g5 type
->     pipeline
->   media: atmel: atmel-isc-base: add support for more formats and
->     additional pipeline modules
->   dt-bindings: media: atmel: add microchip-xisc binding
->   media: atmel: atmel-isc-sama5d2: remove duplicate define
->   media: atmel: atmel-isc: add microchip-xisc driver
-> 
->  .../bindings/media/microchip-xisc.txt         |  64 ++
->  drivers/media/platform/Makefile               |   1 +
->  drivers/media/platform/atmel/Kconfig          |  11 +
->  drivers/media/platform/atmel/Makefile         |   2 +
->  drivers/media/platform/atmel/atmel-isc-base.c | 381 ++++-------
->  drivers/media/platform/atmel/atmel-isc-regs.h | 133 +++-
->  drivers/media/platform/atmel/atmel-isc.h      | 122 +++-
->  .../media/platform/atmel/atmel-sama5d2-isc.c  | 311 ++++++++-
->  .../media/platform/atmel/atmel-sama7g5-isc.c  | 643 ++++++++++++++++++
->  9 files changed, 1391 insertions(+), 277 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/microchip-xisc.txt
->  create mode 100644 drivers/media/platform/atmel/atmel-sama7g5-isc.c
-> 
+version 8:
+ - Add reviewed-by and ack-by tags 
+ - Fix the warnings reported by kernel test robot
+ - Only patch 9 (adding dedicated control), patch 11 (HEVC support) and
+   patch 13 (DT changes) are still missing of review/ack tag.
+
+version 7:
+ - Remove 'q' from syscon phandle name to make usable for iMX8MM too.
+   Update the bindings documentation.
+ - Add review/ack tags.
+ - Rebase on top of media_tree/master
+ - Be more accurate when computing the size of the memory needed motion
+   vectors.
+ - Explain why the all clocks need to set in the both DT node.
+
+version 6:
+ - fix the errors reported by kernel test robot
+
+version 5:
+ - use syscon instead of VPU reset driver.
+ - Do not break kernel/DT backward compatibility.
+ - Add documentation for dedicated Hantro control.
+ - Fix the remarks done by Ezequeil (typo, comments, unused function)
+ - Run v4l2-compliance without errors (see below).
+ - Do not add field to distinguish version, check postproc reg instead
+
+version 4:
+- Split the changes in hevc controls in 2 commits to make them easier to
+  review.
+- Change hantro_codec_ops run() prototype to return errors   
+- Hantro v4l2 dedicated control is now only an integer
+- rebase on top of VPU reset changes posted here:
+  https://www.spinics.net/lists/arm-kernel/msg878440.html
+- Various fix from previous remarks
+- Limit the modifications in API to what the driver needs
+
+version 3:
+- Fix typo in Hantro v4l2 dedicated control
+- Add documentation for the new structures and fields
+- Rebased on top of media_tree for-linus-5.12-rc1 tag
+
+version 2:
+- remove all change related to scaling
+- squash commits to a coherent split
+- be more verbose about the added fields
+- fix the comments done by Ezequiel about dma_alloc_coherent usage
+- fix Dan's comments about control copy, reverse the test logic
+in tile_buffer_reallocate, rework some goto and return cases.
+- be more verbose about why I change the bindings
+- remove all sign-off expect mime since it is confusing
+- remove useless clocks in VPUs nodes
+
+./v4l2-compliance -m 1 
+v4l2-compliance 1.21.0-4705, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 733f7a54f79d 2021-02-03 08:25:49
+
+Compliance test for hantro-vpu device /dev/media1:
+
+Media Driver Info:
+	Driver name      : hantro-vpu
+	Model            : hantro-vpu
+	Serial           : 
+	Bus info         : platform: hantro-vpu
+	Media version    : 5.11.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 5.11.0
+
+Required ioctls:
+	test MEDIA_IOC_DEVICE_INFO: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/media1 open: OK
+	test MEDIA_IOC_DEVICE_INFO: OK
+	test for unlimited opens: OK
+
+Media Controller ioctls:
+	test MEDIA_IOC_G_TOPOLOGY: OK
+	Entities: 3 Interfaces: 1 Pads: 4 Links: 4
+	test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
+	test MEDIA_IOC_SETUP_LINK: OK
+
+Total for hantro-vpu device /dev/media1: 8, Succeeded: 8, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for hantro-vpu device /dev/video1:
+
+Driver Info:
+	Driver name      : hantro-vpu
+	Card type        : nxp,imx8mq-vpu-g2-dec
+	Bus info         : platform: hantro-vpu
+	Driver version   : 5.11.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : hantro-vpu
+	Model            : hantro-vpu
+	Serial           : 
+	Bus info         : platform: hantro-vpu
+	Media version    : 5.11.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 5.11.0
+Interface Info:
+	ID               : 0x0300000c
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000001 (1)
+	Name             : nxp,imx8mq-vpu-g2-dec-source
+	Function         : V4L2 I/O
+	Pad 0x01000002   : 0: Source
+	  Link 0x02000008: to remote pad 0x1000004 of entity 'nxp,imx8mq-vpu-g2-dec-proc': Data, Enabled, Immutable
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 8 Private Controls: 1
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK
+
+Total for hantro-vpu device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+Grand Total for hantro-vpu device /dev/media1: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+Benjamin
+ 
+Benjamin Gaignard (13):
+  dt-bindings: mfd: Add 'nxp,imx8mq-vpu-ctrl' to syscon list
+  dt-bindings: media: nxp,imx8mq-vpu: Update the bindings for G2 support
+  media: hantro: Use syscon instead of 'ctrl' register
+  media: hevc: Add fields and flags for hevc PPS
+  media: hevc: Add decode params control
+  media: hantro: change hantro_codec_ops run prototype to return errors
+  media: hantro: Define HEVC codec profiles and supported features
+  media: hantro: Only use postproc when post processed formats are
+    defined
+  media: uapi: Add a control for HANTRO driver
+  media: hantro: handle V4L2_PIX_FMT_HEVC_SLICE control
+  media: hantro: Introduce G2/HEVC decoder
+  media: hantro: IMX8M: add variant for G2/HEVC codec
+  arm64: dts: imx8mq: Add node to G2 hardware
+
+ .../bindings/media/nxp,imx8mq-vpu.yaml        |  53 +-
+ .../devicetree/bindings/mfd/syscon.yaml       |   1 +
+ .../userspace-api/media/drivers/hantro.rst    |  19 +
+ .../userspace-api/media/drivers/index.rst     |   1 +
+ .../media/v4l/ext-ctrls-codec.rst             | 108 +++-
+ .../media/v4l/vidioc-queryctrl.rst            |   6 +
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  43 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  28 +-
+ drivers/staging/media/hantro/Makefile         |   2 +
+ drivers/staging/media/hantro/hantro.h         |  18 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  99 ++-
+ .../staging/media/hantro/hantro_g1_h264_dec.c |  10 +-
+ .../media/hantro/hantro_g1_mpeg2_dec.c        |   4 +-
+ .../staging/media/hantro/hantro_g1_vp8_dec.c  |   6 +-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 587 ++++++++++++++++++
+ drivers/staging/media/hantro/hantro_g2_regs.h | 198 ++++++
+ .../staging/media/hantro/hantro_h1_jpeg_enc.c |   4 +-
+ drivers/staging/media/hantro/hantro_hevc.c    | 327 ++++++++++
+ drivers/staging/media/hantro/hantro_hw.h      |  69 +-
+ .../staging/media/hantro/hantro_postproc.c    |  14 +
+ drivers/staging/media/hantro/hantro_v4l2.c    |   5 +-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   | 128 +++-
+ .../media/hantro/rk3399_vpu_hw_jpeg_enc.c     |   4 +-
+ .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |   4 +-
+ .../media/hantro/rk3399_vpu_hw_vp8_dec.c      |   6 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |   6 +
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   1 +
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |   2 +
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  12 +-
+ include/media/hevc-ctrls.h                    |  46 +-
+ 30 files changed, 1690 insertions(+), 121 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/drivers/hantro.rst
+ create mode 100644 drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+ create mode 100644 drivers/staging/media/hantro/hantro_g2_regs.h
+ create mode 100644 drivers/staging/media/hantro/hantro_hevc.c
+
+-- 
+2.25.1
 
