@@ -2,261 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B97A6356B8C
-	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 13:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D836356BBB
+	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 14:06:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234532AbhDGLwn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Apr 2021 07:52:43 -0400
-Received: from gusto.metanet.ch ([80.74.154.155]:54346 "EHLO gusto.metanet.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230280AbhDGLwn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Apr 2021 07:52:43 -0400
-Received: from [IPv6:2001:67c:10ec:574f:8000::269] (localhost [127.0.0.1]) by gusto.metanet.ch (Postfix) with ESMTPSA id A02EC4F01785;
-        Wed,  7 Apr 2021 13:52:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fabwu.ch; s=default;
-        t=1617796351; bh=fVJNVHj55izMJA/w+mtY0G9abUkMWd87sq5HjyjVuy4=;
-        h=Subject:To:From;
-        b=4ECwXAzsxQcNQILFDka5GITZLF2nqgcn52Vr2ZypAvxmZXUh/KOJkgObyFRq3FJwP
-         9n9Qqp3jAZPUnB56nhntgzbi7WjHFf+vqqA3BWY83c3arX9Tgh/0nQVJW5N/bmgrdM
-         sQ9fMwxMJigUOkL1doIKGkyLWbyaGIw6Z5SlTji0=
-Authentication-Results: gusto.metanet.ch;
-        spf=pass (sender IP is 2001:67c:10ec:574f:8000::269) smtp.mailfrom=me@fabwu.ch smtp.helo=[IPv6:2001:67c:10ec:574f:8000::269]
-Received-SPF: pass (gusto.metanet.ch: connection is authenticated)
-Subject: Re: [PATCH] ipu3-cio2: Parse sensor orientation and rotation
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Dan Scally <djrscally@gmail.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20210321191155.55723-1-me@fabwu.ch>
- <20210407082205.pdbwwnv72cuuqkdy@uno.localdomain>
-From:   =?UTF-8?Q?Fabian_W=c3=bcthrich?= <me@fabwu.ch>
-Message-ID: <4298d41f-8b06-356d-ea29-11eb0da6e00b@fabwu.ch>
-Date:   Wed, 7 Apr 2021 13:52:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        id S1351994AbhDGMGM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Apr 2021 08:06:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233233AbhDGMGL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Apr 2021 08:06:11 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E140BC061756
+        for <linux-media@vger.kernel.org>; Wed,  7 Apr 2021 05:06:01 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id u8so13457067qtq.12
+        for <linux-media@vger.kernel.org>; Wed, 07 Apr 2021 05:06:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Y+YARt14fmokAsOvseCZEIRHDfC26a2yk9eKE6iP1dw=;
+        b=pRO2bWn8iJcs3cub1vzOqJU9Oy9Z9vOMUkxt4ycqCLvsT2j1iDCYPQ4c6yXZZA8DYX
+         hgP8oWbkpjaTPuydhEFJ2Hxhm2QmY7eV2PsXFst/LQqGaecTStpsBHpVdzeFng7m+SRM
+         kHOQNjcQmgCbHtKWKJ3rxKsnkx+J9OMl+PKphO8fdBM+yQx7SOzWXZ+mhC+OpaAEZF8z
+         Z0P6p3hFwpcjVXM8W1sgd8ne3I+PR4ZxW07w4Fib0vk6BxQgeSNjKBS8bEw5nbkbMNJo
+         rLpH3nqL2K7C3CxwKfXwzXthk48A4w40yjDmRBsrMYD9cl7ilR0+YEqJWi7e6FDTQ0ef
+         JQlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Y+YARt14fmokAsOvseCZEIRHDfC26a2yk9eKE6iP1dw=;
+        b=UtlXIEBstBHDLnU/pLur51bc/Fmw85khTxeGmkmErP0iCnQdqJO521h7rFUeBp9Cib
+         KV90ApRu4Jfavj8XMVLpW+0V+rXdSkXpdCzQwHylSwKCAhmhN4UOICvcKOAx78pBmms2
+         GHSOEJCE7eR3wH76CIGedPdzXkYtPLccVxuIIoLulVL1OxfxgDghZX4ZcGet8M2wT1ih
+         hR5cb61qH3ewf0lWLFIlpEfxkF2tEYhOCLR8Xl6kVh/RuXO1xo0s8iEfV2wA6Haw1gIy
+         fdzrqzUB50KylnOosvhDUguQz/iHlaF5DuejA/NV9Pn27HhtQ5HoCScOFf9CqMvWZjy8
+         0zGQ==
+X-Gm-Message-State: AOAM532FlYJQn9GnV61KUOSIlmF5PpSPCZI1dE6o8JSr/V0/Kwb/aDa/
+        huACXNnJfXHevw1IbIhpn6U=
+X-Google-Smtp-Source: ABdhPJyiRRRuB6Q4KlrFtBD2el/M/ZuEMxYNUrwMP5bADhgLasPonvDAtRmoePWbIOuGvHAC0qzg3g==
+X-Received: by 2002:ac8:703:: with SMTP id g3mr2368183qth.167.1617797161121;
+        Wed, 07 Apr 2021 05:06:01 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:919:40fe:63:1f2b:cd67])
+        by smtp.gmail.com with ESMTPSA id b1sm18667036qkk.117.2021.04.07.05.05.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Apr 2021 05:06:00 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     stanimir.varbanov@linaro.org
+Cc:     bryan.odonoghue@linaro.org, linux-media@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH] media: venus: core: Use NULL for pointers
+Date:   Wed,  7 Apr 2021 09:05:51 -0300
+Message-Id: <20210407120551.510049-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210407082205.pdbwwnv72cuuqkdy@uno.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+core->wrapper_tz_base and core->aon_base are pointers, so use NULL
+instead of 0 to fix the following sparse warning:
 
+>> drivers/media/platform/qcom/venus/core.c:218:33: sparse: sparse: Using plain integer as NULL pointer
 
-On 07.04.21 10:22, Jacopo Mondi wrote:
-> Hi Fabian,
-> 
-> On Sun, Mar 21, 2021 at 08:11:56PM +0100, Fabian Wüthrich wrote:
->> The sensor orientation is read from the _PLC ACPI buffer and converted
->> to a v4l2 format.
->>
->> See https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
->> page 351 for a definition of the Panel property.
->>
->> The sensor rotation is read from the SSDB ACPI buffer and converted into
->> degrees.
->>
-> 
-> The framework has v4l2_fwnode_device_parse() in v4l2-fwnode.c which
-> works for DT based systems. Could support for retreiving those
-> properties from the SSDB block be added there ?
-> 
-> Thanks
->   j
-> 
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ drivers/media/platform/qcom/venus/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This is exactly the purpose of this patch. I've should have been more precise
-in the commit message but basically this patch converts the properties from
-the SSDB block into fwnodes which are then picked up by v4l2_fwnode_device_parse().
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index f5b88b96f5f7..4451e3c11bc0 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -224,8 +224,8 @@ static void venus_assign_register_offsets(struct venus_core *core)
+ 		core->cpu_cs_base = core->base + CPU_CS_BASE;
+ 		core->cpu_ic_base = core->base + CPU_IC_BASE;
+ 		core->wrapper_base = core->base + WRAPPER_BASE;
+-		core->wrapper_tz_base = 0;
+-		core->aon_base = 0;
++		core->wrapper_tz_base = NULL;
++		core->aon_base = NULL;
+ 	}
+ }
+ 
+-- 
+2.25.1
 
-P.S. I have a quick question below
-
->> Signed-off-by: Fabian Wüthrich <me@fabwu.ch>
->> ---
->>  drivers/media/pci/intel/ipu3/cio2-bridge.c | 60 ++++++++++++++++++++--
->>  drivers/media/pci/intel/ipu3/cio2-bridge.h | 16 ++++++
->>  2 files changed, 72 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
->> index c2199042d3db..503809907b92 100644
->> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
->> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
->> @@ -29,6 +29,7 @@ static const struct cio2_sensor_config cio2_supported_sensors[] = {
->>  static const struct cio2_property_names prop_names = {
->>  	.clock_frequency = "clock-frequency",
->>  	.rotation = "rotation",
->> +	.orientation = "orientation",
->>  	.bus_type = "bus-type",
->>  	.data_lanes = "data-lanes",
->>  	.remote_endpoint = "remote-endpoint",
->> @@ -72,11 +73,51 @@ static int cio2_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
->>  	return ret;
->>  }
->>
->> +static u32 cio2_bridge_parse_rotation(struct cio2_sensor *sensor)
->> +{
->> +	switch (sensor->ssdb.degree) {
->> +	case CIO2_SENSOR_ROTATION_NORMAL:
->> +		return 0;
->> +	case CIO2_SENSOR_ROTATION_INVERTED:
->> +		return 180;
->> +	default:
->> +		dev_warn(&sensor->adev->dev,
->> +			 "Unknown rotation %d. Assume 0 degree rotation\n",
->> +			 sensor->ssdb.degree);
->> +		return 0;
->> +	}
->> +}
->> +
->> +static enum v4l2_fwnode_orientation cio2_bridge_parse_orientation(struct cio2_sensor *sensor)
->> +{
->> +	switch (sensor->pld->panel) {
->> +	case CIO2_PLD_PANEL_FRONT:
->> +		return V4L2_FWNODE_ORIENTATION_FRONT;
->> +	case CIO2_PLD_PANEL_BACK:
->> +		return V4L2_FWNODE_ORIENTATION_BACK;
->> +	case CIO2_PLD_PANEL_TOP:
->> +	case CIO2_PLD_PANEL_LEFT:
->> +	case CIO2_PLD_PANEL_RIGHT:
->> +	case CIO2_PLD_PANEL_UNKNOWN:
->> +		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
->> +	default:
->> +		dev_warn(&sensor->adev->dev, "Unknown _PLD panel value %d\n",
->> +			 sensor->pld->panel);
->> +		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
->> +	}
->> +}
-
-These constants are ACPI related and shouldn't be here. Should I move them to e.g. 
-include/acpi/acbuffer.h or do you know a better place?
-
->> +
->>  static void cio2_bridge_create_fwnode_properties(
->>  	struct cio2_sensor *sensor,
->>  	struct cio2_bridge *bridge,
->>  	const struct cio2_sensor_config *cfg)
->>  {
->> +	u32 rotation;
->> +	enum v4l2_fwnode_orientation orientation;
->> +
->> +	rotation = cio2_bridge_parse_rotation(sensor);
->> +	orientation = cio2_bridge_parse_orientation(sensor);
->> +
->>  	sensor->prop_names = prop_names;
->>
->>  	sensor->local_ref[0].node = &sensor->swnodes[SWNODE_CIO2_ENDPOINT];
->> @@ -85,9 +126,12 @@ static void cio2_bridge_create_fwnode_properties(
->>  	sensor->dev_properties[0] = PROPERTY_ENTRY_U32(
->>  					sensor->prop_names.clock_frequency,
->>  					sensor->ssdb.mclkspeed);
->> -	sensor->dev_properties[1] = PROPERTY_ENTRY_U8(
->> +	sensor->dev_properties[1] = PROPERTY_ENTRY_U32(
->>  					sensor->prop_names.rotation,
->> -					sensor->ssdb.degree);
->> +					rotation);
->> +	sensor->dev_properties[2] = PROPERTY_ENTRY_U32(
->> +					sensor->prop_names.orientation,
->> +					orientation);
->>
->>  	sensor->ep_properties[0] = PROPERTY_ENTRY_U32(
->>  					sensor->prop_names.bus_type,
->> @@ -159,6 +203,7 @@ static void cio2_bridge_unregister_sensors(struct cio2_bridge *bridge)
->>  	for (i = 0; i < bridge->n_sensors; i++) {
->>  		sensor = &bridge->sensors[i];
->>  		software_node_unregister_nodes(sensor->swnodes);
->> +		ACPI_FREE(sensor->pld);
->>  		acpi_dev_put(sensor->adev);
->>  	}
->>  }
->> @@ -170,6 +215,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
->>  	struct fwnode_handle *fwnode;
->>  	struct cio2_sensor *sensor;
->>  	struct acpi_device *adev;
->> +	acpi_status status;
->>  	int ret;
->>
->>  	for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
->> @@ -193,11 +239,15 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
->>  		if (ret)
->>  			goto err_put_adev;
->>
->> +		status = acpi_get_physical_device_location(adev->handle, &sensor->pld);
->> +		if (ACPI_FAILURE(status))
->> +			goto err_put_adev;
->> +
->>  		if (sensor->ssdb.lanes > CIO2_MAX_LANES) {
->>  			dev_err(&adev->dev,
->>  				"Number of lanes in SSDB is invalid\n");
->>  			ret = -EINVAL;
->> -			goto err_put_adev;
->> +			goto err_free_pld;
->>  		}
->>
->>  		cio2_bridge_create_fwnode_properties(sensor, bridge, cfg);
->> @@ -205,7 +255,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
->>
->>  		ret = software_node_register_nodes(sensor->swnodes);
->>  		if (ret)
->> -			goto err_put_adev;
->> +			goto err_free_pld;
->>
->>  		fwnode = software_node_fwnode(&sensor->swnodes[
->>  						      SWNODE_SENSOR_HID]);
->> @@ -226,6 +276,8 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
->>
->>  err_free_swnodes:
->>  	software_node_unregister_nodes(sensor->swnodes);
->> +err_free_pld:
->> +	ACPI_FREE(sensor->pld);
->>  err_put_adev:
->>  	acpi_dev_put(sensor->adev);
->>  err_out:
->> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.h b/drivers/media/pci/intel/ipu3/cio2-bridge.h
->> index dd0ffcafa489..e1e388cc9f45 100644
->> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.h
->> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.h
->> @@ -12,6 +12,19 @@
->>  #define CIO2_MAX_LANES				4
->>  #define MAX_NUM_LINK_FREQS			3
->>
->> +/* Values are estimated guesses as we don't have a spec */
->> +#define CIO2_SENSOR_ROTATION_NORMAL		0
->> +#define CIO2_SENSOR_ROTATION_INVERTED		1
->> +
->> +/* Panel position defined in _PLD section of ACPI Specification 6.3 */
->> +#define CIO2_PLD_PANEL_TOP			0
->> +#define CIO2_PLD_PANEL_BOTTOM			1
->> +#define CIO2_PLD_PANEL_LEFT			2
->> +#define CIO2_PLD_PANEL_RIGHT			3
->> +#define CIO2_PLD_PANEL_FRONT			4
->> +#define CIO2_PLD_PANEL_BACK			5
->> +#define CIO2_PLD_PANEL_UNKNOWN			6
->> +
->>  #define CIO2_SENSOR_CONFIG(_HID, _NR, ...)	\
->>  	(const struct cio2_sensor_config) {	\
->>  		.hid = _HID,			\
->> @@ -80,6 +93,7 @@ struct cio2_sensor_ssdb {
->>  struct cio2_property_names {
->>  	char clock_frequency[16];
->>  	char rotation[9];
->> +	char orientation[12];
->>  	char bus_type[9];
->>  	char data_lanes[11];
->>  	char remote_endpoint[16];
->> @@ -106,6 +120,8 @@ struct cio2_sensor {
->>  	struct cio2_node_names node_names;
->>
->>  	struct cio2_sensor_ssdb ssdb;
->> +	struct acpi_pld_info *pld;
->> +
->>  	struct cio2_property_names prop_names;
->>  	struct property_entry ep_properties[5];
->>  	struct property_entry dev_properties[3];
->> --
->> 2.31.0
->>
