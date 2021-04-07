@@ -2,83 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 026AD356588
-	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 09:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C58DC356673
+	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 10:21:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346717AbhDGHhV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Apr 2021 03:37:21 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:34769 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1349454AbhDGHhM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Apr 2021 03:37:12 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id U2kDlADF043ycU2kHlPYqA; Wed, 07 Apr 2021 09:37:01 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1617781021; bh=4t8wMq1u4T8fO9b8Ofrn7PGodO6CU55/WpBbeI18PAs=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=m1TKv8lNcG0utIzW3g5vHF7pNI6NO/vFgpVdWM0HM3P8lY2pvLO5Q0/y1MfJJ35RV
-         uq886vLhUWkY6V0E01f3AOtBYZdCL5MHSeMmmuHGbmpT5jgcN7ahuJn+yK2d1RlQem
-         p1BZMH+DIV3sh8bCXe6qbOh2O947HtcNnsZKs7euwviE7eT0+39igngdFRbzhhxoJX
-         WcB2bLV1iTxkD5yRojhsy3AnRQx4UYzo477eLkk53LIO7fWntQ8RHLrLx/kqMDZHu7
-         r/G4OVHfKbqxx7thRbjFOqJrKLpq4W/rlcQe0pW1yPE/mCwfoDSIS3v0+2HkusPaAe
-         3f5hqlqn06Kfw==
-Subject: Re: Can you fix the remaining meson kernel-doc warnings?
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Neil Armstrong <narmstrong@baylibre.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <847e3b30-98f1-eebc-355d-0038fa1bbf2e@xs4all.nl>
-Message-ID: <032fc641-06b4-37a0-fe6c-d933b4fd7fd8@xs4all.nl>
-Date:   Wed, 7 Apr 2021 09:36:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        id S239701AbhDGIVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Apr 2021 04:21:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48644 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240626AbhDGIVR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Apr 2021 04:21:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F450613CF;
+        Wed,  7 Apr 2021 08:21:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617783662;
+        bh=1IWlmRG9OD413dWYIjvrcWiKG5N1mPS/69ftZBnxCPE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MU/hOdvwtzxehLxToSu65R5aOnRU3HIBxCz57ZiasngM+1MaaWazON3N+zEdOJZYr
+         lE/KionJZjqUql+6V09QR1bUu6M/Qzp30HMFgSPenbnw9CCxb2i+Qqcl0VX7BDmpmR
+         72Bj0HiREn8JRuhw+qPf2Z0zeTluUs0xTJtuLdltHzF1SvY7HcsWGui04BfyRIU/J3
+         RBXvcAMPzUyJR/kmeTo5tEfpXoyEyzNJ088/ukU4X+xY5oshHbYlcUgWMGVUob0u3b
+         6EIxlJUed/GABQ+UyyICvPqtEJrxu8Ym8Ad1HvtfmGdAqRpoZG0oW++4Tx/bGTfSnR
+         oSZ3RBmaWKnhg==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lU3Qq-005i24-4N; Wed, 07 Apr 2021 10:21:00 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Przemys=C5=82aw=20Gaj?= <pgaj@cadence.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Vitor Soares <vitor.soares@synopsys.com>,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kvm@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org
+Subject: [PATCH v2 00/19] Fix broken documentation file references
+Date:   Wed,  7 Apr 2021 10:20:39 +0200
+Message-Id: <cover.1617783062.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <847e3b30-98f1-eebc-355d-0038fa1bbf2e@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfH8UhPqihf7aUSIzRNNOYlQTZAXjtlrWyJmeBURkFfRZinmLQ52FdauLbbz3MWBXc3om8Y8ZmH4l5HxMGpd3t4Pbq3I/U2gkFcO9sJxLKaCTLUBUqpqn
- gTPtCsqn38Lk2lBCGX845wbXuaWfeEXn0vaMwrpyjFQEFCO5GCVzuv8UwUAOOtk+C5BJWC5CsnchxsydmK0qmKwXLQ2rdu+ZKNRjx8AUCW6D4KwjTUpUA6+4
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/03/2021 09:00, Hans Verkuil wrote:
-> Hi Neil,
-> 
-> I've been cleaning up kernel-doc warnings in driver headers. Any issues are now
-> reported by the daily build, but there are way too many, so this needs to be
-> fixed.
-> 
-> Can you take a look at the following meson warnings?
+Hi Jon,
 
-Ping!
+As files keep being moved around and DT bindings are 
+converted and renamed to yaml, their doc references get 
+outdated, pointing to an invalid places.
 
-	Hans
+This series address those. It is based on the top of docs-next tree,
+and most patches here are independent from the other ones.
 
-> 
-> drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'core' not described in 'esparser_queue_eos'
-> drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'data' not described in 'esparser_queue_eos'
-> drivers/staging/media/meson/vdec/esparser.h:22: warning: Function parameter or member 'len' not described in 'esparser_queue_eos'
-> drivers/staging/media/meson/vdec/esparser.h:28: warning: Function parameter or member 'work' not described in 'esparser_queue_all_src'
-> drivers/staging/media/meson/vdec/vdec_helpers.h:59: warning: Function parameter or member 'tc' not described in 'amvdec_add_ts'
-> drivers/staging/media/meson/vdec/vdec_helpers.h:59: warning: Function parameter or member 'flags' not described in 'amvdec_add_ts'
-> drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'vdec_hevcf_clk' not described in 'amvdec_core'
-> drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'vdev_dec' not described in 'amvdec_core'
-> drivers/staging/media/meson/vdec/vdec.h:92: warning: Function parameter or member 'lock' not described in 'amvdec_core'
-> drivers/staging/media/meson/vdec/vdec.h:141: warning: Function parameter or member 'resume' not described in 'amvdec_codec_ops'
-> drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'lock' not described in 'amvdec_session'
-> drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'sequence_out' not described in 'amvdec_session'
-> drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'num_dst_bufs' not described in 'amvdec_session'
-> drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'changed_format' not described in 'amvdec_session'
-> drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'last_offset' not described in 'amvdec_session'
-> drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'wrap_count' not described in 'amvdec_session'
-> drivers/staging/media/meson/vdec/vdec.h:274: warning: Function parameter or member 'fw_idx_to_vb2_idx' not described in 'amvdec_session'
-> 
-> Thanks!
-> 
-> 	Hans
-> 
+v2:
+  - Dropped patches that were already applied, Most of those
+    will be following via Jonathan Cameron's iio tree;
+  - Dropped patches that don't apply on the top of docs next.
+  - Added some new patches fixing other breakages.
+
+PS.:  
+  I placed the dropped patches on a separate branch. I'll track 
+  them and re-submit any missing ones after -rc1.
+
+Mauro Carvalho Chehab (19):
+  MAINTAINERS: update ste,mcde.yaml reference
+  MAINTAINERS: update brcm,bcm-v3d.yaml reference
+  MAINTAINERS: update fsl,dpaa2-console.yaml reference
+  MAINTAINERS: update mtk-sd.yaml reference
+  MAINTAINERS: update snps,dw-axi-dmac.yaml reference
+  dt-bindings: don't use ../dir for doc references
+  dt-bindings: fix references for iio-bindings.txt
+  dt-bindings: iommu: mediatek: update mediatek,iommu.yaml references
+  dt-bindings: i3c: update i3c.yaml references
+  dt-bindings:iio:adc: update motorola,cpcap-adc.yaml reference
+  dt-bindings:iio:adc: update dlg,da9150-gpadc.yaml reference
+  dt-bindings: power: supply: da9150: update da9150-charger.txt
+    reference
+  dt-bindings: power: supply: da9150: update da9150-fg.txt reference
+  docs: update sysfs-platform_profile.rst reference
+  docs: update rcu_dereference.rst reference
+  docs: vcpu-requests.rst: fix reference for atomic ops
+  docs: replace transation references for reporting-bugs.rst
+  docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
+  docs: sched-bwc.rst: fix a typo on a doc name
+
+ .../bindings/display/mediatek/mediatek,disp.txt  |  2 +-
+ .../devicetree/bindings/hwmon/ntc_thermistor.txt |  2 +-
+ .../devicetree/bindings/i3c/cdns,i3c-master.txt  |  6 +++---
+ .../bindings/i3c/snps,dw-i3c-master.txt          |  6 +++---
+ .../devicetree/bindings/iio/adc/ingenic,adc.yaml |  5 +++--
+ .../devicetree/bindings/input/adc-joystick.yaml  |  4 +++-
+ .../input/touchscreen/resistive-adc-touch.txt    |  5 ++++-
+ .../bindings/media/mediatek-jpeg-decoder.txt     |  2 +-
+ .../bindings/media/mediatek-jpeg-encoder.txt     |  2 +-
+ .../devicetree/bindings/media/mediatek-mdp.txt   |  2 +-
+ .../bindings/media/mediatek-vcodec.txt           |  2 +-
+ Documentation/devicetree/bindings/mfd/ab8500.txt |  4 +++-
+ Documentation/devicetree/bindings/mfd/da9150.txt |  8 ++++----
+ .../devicetree/bindings/mfd/motorola-cpcap.txt   | 16 ++++++++--------
+ .../bindings/power/supply/da9150-charger.txt     |  2 +-
+ Documentation/scheduler/sched-bwc.rst            |  2 +-
+ .../translations/it_IT/process/howto.rst         |  2 +-
+ Documentation/translations/ja_JP/howto.rst       |  2 +-
+ Documentation/translations/zh_CN/SecurityBugs    |  2 +-
+ .../zh_CN/admin-guide/reporting-issues.rst       |  4 ++--
+ .../translations/zh_CN/process/8.Conclusion.rst  |  2 +-
+ .../translations/zh_CN/process/howto.rst         |  2 +-
+ Documentation/virt/kvm/vcpu-requests.rst         |  2 +-
+ MAINTAINERS                                      | 10 +++++-----
+ include/linux/platform_profile.h                 |  2 +-
+ tools/memory-model/Documentation/glossary.txt    |  2 +-
+ 26 files changed, 54 insertions(+), 46 deletions(-)
+
+-- 
+2.30.2
+
 
