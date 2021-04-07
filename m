@@ -2,67 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E6CD356E36
-	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 16:12:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CDD5356E46
+	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 16:16:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343942AbhDGOMN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Apr 2021 10:12:13 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:34287 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234168AbhDGOML (ORCPT
+        id S1344321AbhDGOQd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Apr 2021 10:16:33 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:44553 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232839AbhDGOQd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Apr 2021 10:12:11 -0400
+        Wed, 7 Apr 2021 10:16:33 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id U8uTlSN3QMxedU8uWlIjtd; Wed, 07 Apr 2021 16:12:00 +0200
+        id U8yglSP3zMxedU8yjlIlFk; Wed, 07 Apr 2021 16:16:21 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1617804720; bh=Xx5kbZ9xpKm/0KgyCLD8S8JRZ8Q8d2Cjm/dXc0bmx88=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=a1lyi849PDejn+dQcTqMjq6j8n8Uf47uBo7Yj0lc7BiP9E06E5g7QLKMHJkm5xfuv
-         ooOKVMNWvmJmw/g5mQWvW25WpxrcNybEU/AaFq+/QYZ45rNSFZEeYXHqkn6ZojBybZ
-         d+uk/76QZLw5jigJP2Yjv/i+7NnAZx4VTPHwC97sXJl0YfZ9dHZt353hKaFzZa554v
-         /j5+bo/a8ueDMo6CMdj6b5iSJ6iJU0W0OjNQDhsiAGk+Jcxt0jkSjytFwVjOy71FvW
-         gOnXVOMV4k9XnqFjVru1ki3wYc3g3+9LtBSa7Dqcm9uh5Sfr+zegP8GRjYoToCuj+R
-         jVb3K8pZKj7Aw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] cobalt: drop static for sd_fmt
-Message-ID: <ed6cecc3-14e0-2cbc-8722-b1baa814ffe3@xs4all.nl>
-Date:   Wed, 7 Apr 2021 16:11:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        t=1617804981; bh=IsG8FvnYVpgdJNRgzCZ2evHn1fmb45MTm5fXbXT7bH4=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+        b=XvGhlLPO4SG+R9789RAiVICOyfB6ubaTOSB05EhK7BWBLJIRImqvQToYxYY939EsM
+         Epa/rj4gGjMTsB91iCsG0tj9s89+OR+XtsbNp3S8bvyLSWt+iFXe4K6MSA17hcLq1E
+         Lqal0pfAf1Y6+dHY9lEtvafGJetguq3jyq+QxFRC76lJogeA13XgnTxzO0cHn/do0O
+         WOaopN3kLqZtJ1jsUpalz1w5tHPtQu6CO8jPpzlVpgjcfgzB5+1KUCi9mkH4Y6pagL
+         dI9i0EnwjhNcLcPWRUBV6/mokGuQOQ1yP7x5L3cOid3cwiwaPmQPTzMAGIERYH7KCp
+         SfixYAszeTZ/A==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 0/2] adv7842 fixes
+Date:   Wed,  7 Apr 2021 16:16:16 +0200
+Message-Id: <20210407141618.196617-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLl2zXgLtQmfUleuRQQH7t9HxU1UJ6hMojTleN1FPqf2LXh2pjcU1ovHn89fDRdMlKqf+NIn2uOwBQyys+VgpMDJ6RX6oNC2qENfnvkThUTiNvmB34Kd
- k4+WAAMdNcrARwegbETqJd08C59yiwCbNoB8mD+jD0RALKe85scQHk4drqizKeIf2Sb8Eu5j+Y+kGQYQ4a0Deg5lcVS8FWCBIDs=
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfGyGCop30MyFVBBPIP6FFYHLC/LuTcnNd1bp6n37Fa/QzDP8Db/JUnkKB/hEJED6XM74/Ioj+ZO0wERvYS6iJb6b/CHvvhsHUoiTE8ueK9684aalyraf
+ j4NGQ9C7yy/WUpP4xZ/g6ZVscUXEO8hCWnr9FkoJqnXEk5nbW6FSYqnQaWMfcyFf+FfPvcGvbqxL5WSsPAPtsi3FDGRN83wIKEo=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The struct v4l2_subdev_format sd_fmt cannot be static since it can be
-written back by the subdev. Just have it on the stack.
+I hadn't tested adv7842 for years and it had suffered some bit rot.
+The first patch fixes incorrect pad configuration that wasn't checked
+before, but now makes it impossible to call the pad ops.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/pci/cobalt/cobalt-driver.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The second adds support for reading EDIDs consisting of a single block
+and fixes a kernel oops when clearing the EDID.
 
-diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
-index 9c754e01c186..839503e654f4 100644
---- a/drivers/media/pci/cobalt/cobalt-driver.c
-+++ b/drivers/media/pci/cobalt/cobalt-driver.c
-@@ -572,7 +572,7 @@ static int cobalt_subdevs_hsma_init(struct cobalt *cobalt)
- 		.addr = 0x20,
- 		.platform_data = &adv7842_pdata,
- 	};
--	static struct v4l2_subdev_format sd_fmt = {
-+	struct v4l2_subdev_format sd_fmt = {
- 		.pad = ADV7842_PAD_SOURCE,
- 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
- 		.format.code = MEDIA_BUS_FMT_YUYV8_1X16,
+Regards,
+
+	Hans
+
+Hans Verkuil (2):
+  adv7842: configure all pads
+  adv7842: support 1 block EDIDs, fix clearing EDID
+
+ drivers/media/i2c/adv7842.c | 81 +++++++++++++++++++++++--------------
+ 1 file changed, 50 insertions(+), 31 deletions(-)
+
 -- 
 2.30.2
 
