@@ -2,92 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D836356BBB
-	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 14:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C68B356C56
+	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 14:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351994AbhDGMGM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Apr 2021 08:06:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44480 "EHLO
+        id S245617AbhDGMku (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Apr 2021 08:40:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233233AbhDGMGL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Apr 2021 08:06:11 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E140BC061756
-        for <linux-media@vger.kernel.org>; Wed,  7 Apr 2021 05:06:01 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id u8so13457067qtq.12
-        for <linux-media@vger.kernel.org>; Wed, 07 Apr 2021 05:06:01 -0700 (PDT)
+        with ESMTP id S229615AbhDGMkl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Apr 2021 08:40:41 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5C4DC061756
+        for <linux-media@vger.kernel.org>; Wed,  7 Apr 2021 05:40:30 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id 184so20474079ljf.9
+        for <linux-media@vger.kernel.org>; Wed, 07 Apr 2021 05:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y+YARt14fmokAsOvseCZEIRHDfC26a2yk9eKE6iP1dw=;
-        b=pRO2bWn8iJcs3cub1vzOqJU9Oy9Z9vOMUkxt4ycqCLvsT2j1iDCYPQ4c6yXZZA8DYX
-         hgP8oWbkpjaTPuydhEFJ2Hxhm2QmY7eV2PsXFst/LQqGaecTStpsBHpVdzeFng7m+SRM
-         kHOQNjcQmgCbHtKWKJ3rxKsnkx+J9OMl+PKphO8fdBM+yQx7SOzWXZ+mhC+OpaAEZF8z
-         Z0P6p3hFwpcjVXM8W1sgd8ne3I+PR4ZxW07w4Fib0vk6BxQgeSNjKBS8bEw5nbkbMNJo
-         rLpH3nqL2K7C3CxwKfXwzXthk48A4w40yjDmRBsrMYD9cl7ilR0+YEqJWi7e6FDTQ0ef
-         JQlA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Rd7e/jtpUxeuvKLkUMh6oQaE/fxz3yxbf4FPN9GQVu0=;
+        b=BeD/ep2sjkHkAv7TXhX0cjv6dz3gLjd9VnK0S/V2CPMGl5sV9puUK4Ep8Gpw8sTCEU
+         /ARRpCdbedfeRLoGv/QdaJHh+6PrRDsb/4iW0ntgidN4KGjwxukPublL8/2Yl53EBgZi
+         qe6wya/Rm9Cijs+jmuEUnC2TXbwMfr+UjJr+/NBqEBr5vzKPRqdGc8hOt4SYurSKwwgx
+         89bLjoEMwVBa9rxbH41odx7Vh3MkTmD/9+MkL1svLrkeOcVYtJNJQ/3yX9MfeSeFwrRA
+         hXw/briRKXVSB5mc8UXSM9C9AHnxHO3ZndoNe3sU8MFsglz+X7p4sVOX9vSUjd2Odc2C
+         E3Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y+YARt14fmokAsOvseCZEIRHDfC26a2yk9eKE6iP1dw=;
-        b=UtlXIEBstBHDLnU/pLur51bc/Fmw85khTxeGmkmErP0iCnQdqJO521h7rFUeBp9Cib
-         KV90ApRu4Jfavj8XMVLpW+0V+rXdSkXpdCzQwHylSwKCAhmhN4UOICvcKOAx78pBmms2
-         GHSOEJCE7eR3wH76CIGedPdzXkYtPLccVxuIIoLulVL1OxfxgDghZX4ZcGet8M2wT1ih
-         hR5cb61qH3ewf0lWLFIlpEfxkF2tEYhOCLR8Xl6kVh/RuXO1xo0s8iEfV2wA6Haw1gIy
-         fdzrqzUB50KylnOosvhDUguQz/iHlaF5DuejA/NV9Pn27HhtQ5HoCScOFf9CqMvWZjy8
-         0zGQ==
-X-Gm-Message-State: AOAM532FlYJQn9GnV61KUOSIlmF5PpSPCZI1dE6o8JSr/V0/Kwb/aDa/
-        huACXNnJfXHevw1IbIhpn6U=
-X-Google-Smtp-Source: ABdhPJyiRRRuB6Q4KlrFtBD2el/M/ZuEMxYNUrwMP5bADhgLasPonvDAtRmoePWbIOuGvHAC0qzg3g==
-X-Received: by 2002:ac8:703:: with SMTP id g3mr2368183qth.167.1617797161121;
-        Wed, 07 Apr 2021 05:06:01 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:482:919:40fe:63:1f2b:cd67])
-        by smtp.gmail.com with ESMTPSA id b1sm18667036qkk.117.2021.04.07.05.05.58
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Rd7e/jtpUxeuvKLkUMh6oQaE/fxz3yxbf4FPN9GQVu0=;
+        b=S7rQx4Wl9eRVFYMyQkiHrww/+JVdDZTIibzO9D7WAyyGcvxXDYLksZm4EYfUsEzVtl
+         gBEQVXGbYrtQIv8hQfoZjk52MImTjQLMW0nA9E/uVrHmL3uF0lRLNRdxn6/D8nbf4aXR
+         13pmmRPonxgFF2FHsiOezyIcjJireVv6wXTmleyUiLLbZNMgQbrRzaQgXO0mlIqnVBYH
+         Sqi82/Te4iiOyuYCtIeaPOiUAKz202V1MqAnI2hJlfdyGE8jZoEDKjQg6lCajc6iZybE
+         6ZhAAzoyGGW0PKlM0oXviVq6B0naGdQBfGVCC63yvnld7yW2dAqXes1ryqdTcRVr8ARF
+         0few==
+X-Gm-Message-State: AOAM532AM1ZO+9N5o01bj+hklmNYCha3oJqxm9Dwm0t6zVdGsbDIIfRZ
+        mkjT+QAB1ThdImdvpugf6ss=
+X-Google-Smtp-Source: ABdhPJzidBV+ZOPfmgXq8lG43JGpp3hqDnC4jedoK2nrpg2u65sNTtEoDMoNt1vYZ2NDQZKHKKEfWQ==
+X-Received: by 2002:a2e:998d:: with SMTP id w13mr1963138lji.424.1617799229452;
+        Wed, 07 Apr 2021 05:40:29 -0700 (PDT)
+Received: from gmail.com (h-155-4-128-43.NA.cust.bahnhof.se. [155.4.128.43])
+        by smtp.gmail.com with ESMTPSA id z21sm2439068ljh.104.2021.04.07.05.40.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 05:06:00 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     stanimir.varbanov@linaro.org
-Cc:     bryan.odonoghue@linaro.org, linux-media@vger.kernel.org,
-        Fabio Estevam <festevam@gmail.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH] media: venus: core: Use NULL for pointers
-Date:   Wed,  7 Apr 2021 09:05:51 -0300
-Message-Id: <20210407120551.510049-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 07 Apr 2021 05:40:29 -0700 (PDT)
+Date:   Wed, 7 Apr 2021 14:40:26 +0200
+From:   Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
+To:     Simon Ser <contact@emersion.fr>
+Cc:     Pekka Paalanen <ppaalanen@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        xorg-devel@lists.x.org, dri-devel@lists.freedesktop.org,
+        wayland-devel@lists.freedesktop.org
+Subject: Re: Call for an EDID parsing library
+Message-ID: <YG2oOtvsHmOfBYMb@gmail.com>
+References: <20210407114404.13b41822@eldfell>
+ <DJjftAG6WNev87c34XyXFLCHe49rJBCYdqENxfO3uHXUFJXmPerOg5LuQKAbd3D_pdO34vkWgfy9uggujNI12VE-ttglyarF5wAogYC8m3E=@emersion.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DJjftAG6WNev87c34XyXFLCHe49rJBCYdqENxfO3uHXUFJXmPerOg5LuQKAbd3D_pdO34vkWgfy9uggujNI12VE-ttglyarF5wAogYC8m3E=@emersion.fr>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-core->wrapper_tz_base and core->aon_base are pointers, so use NULL
-instead of 0 to fix the following sparse warning:
+On Wed, Apr 07, 2021 at 10:59:18AM +0000, Simon Ser wrote:
+> FWIW, with my Sway/wlroots hat on I think this is a great idea and I'd
+> definitely be interested in using such as library. A C API with no
+> dependencies is pretty important from my point-of-view.
+> 
+> I'd prefer if C++ was not used at all (and could almost be baited into
+> doing the work if that were the case), but it seems that ship has
+> sailed already.
 
->> drivers/media/platform/qcom/venus/core.c:218:33: sparse: sparse: Using plain integer as NULL pointer
+The same for Mutter / GNOME, not having to maintain a EDID parser would
+be great. Though personally I don't care if it's implemented in C++, C
+or whatever, as long as there is a C API to use.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- drivers/media/platform/qcom/venus/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index f5b88b96f5f7..4451e3c11bc0 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -224,8 +224,8 @@ static void venus_assign_register_offsets(struct venus_core *core)
- 		core->cpu_cs_base = core->base + CPU_CS_BASE;
- 		core->cpu_ic_base = core->base + CPU_IC_BASE;
- 		core->wrapper_base = core->base + WRAPPER_BASE;
--		core->wrapper_tz_base = 0;
--		core->aon_base = 0;
-+		core->wrapper_tz_base = NULL;
-+		core->aon_base = NULL;
- 	}
- }
- 
--- 
-2.25.1
+Jonas
 
+> 
+> Simon
+> _______________________________________________
+> wayland-devel mailing list
+> wayland-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/wayland-devel
