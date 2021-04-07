@@ -2,18 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3734435655B
+	by mail.lfdr.de (Postfix) with ESMTP id D6BD135655D
 	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 09:36:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349438AbhDGHf7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Apr 2021 03:35:59 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55290 "EHLO
+        id S1349459AbhDGHgA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Apr 2021 03:36:00 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55316 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233582AbhDGHf6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Apr 2021 03:35:58 -0400
+        with ESMTP id S1346707AbhDGHf7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Apr 2021 03:35:59 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id C7D121F44F89
+        with ESMTPSA id 1A3111F44F88
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
         robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -29,9 +29,9 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         kernel@collabora.com, cphealy@gmail.com,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v9 01/13] dt-bindings: mfd: Add 'nxp,imx8mq-vpu-ctrl' to syscon list
-Date:   Wed,  7 Apr 2021 09:35:22 +0200
-Message-Id: <20210407073534.376722-2-benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 02/13] dt-bindings: media: nxp,imx8mq-vpu: Update the bindings for G2 support
+Date:   Wed,  7 Apr 2021 09:35:23 +0200
+Message-Id: <20210407073534.376722-3-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
 References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
@@ -41,37 +41,131 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add 'nxp,imx8mq-vpu-ctrl' to the list of possible syscon.
-It will used to access the VPU control registers.
+Introducing the G2 hevc video decoder requires modifications of the bindings to allow
+one node per VPU.
+
+VPUs share one hardware control block which is provided as a phandle on
+a syscon.
+Each node has now one reg and one interrupt.
+Add a compatible for G2 hardware block: nxp,imx8mq-vpu-g2.
+
+To be compatible with older DT the driver is still capable to use the 'ctrl'
+reg-name even if it is deprecated now.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Acked-by: Rob Herring <robh@kernel.org>
-Acked-by: Lee Jones <lee.jones@linaro.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
 version 9:
- - corrections in commit message
-
-version 8:
- - Add Lee ack
+ - Corrections in commit message
 
 version 7:
- - Add Rob ack
+ - Add Rob and Philipp reviewed-by tag
+ - Change syscon phandle name to nxp,imx8m-vpu-ctrl (remove 'q' to be
+   usable for iMX8MM too)
 
- Documentation/devicetree/bindings/mfd/syscon.yaml | 1 +
- 1 file changed, 1 insertion(+)
+version 5:
+- This version doesn't break the backward compatibilty between kernel
+  and DT.
 
-diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
-index f14ae6da0068..ae22c4730613 100644
---- a/Documentation/devicetree/bindings/mfd/syscon.yaml
-+++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
-@@ -44,6 +44,7 @@ properties:
-               - hisilicon,peri-subctrl
-               - microchip,sparx5-cpu-syscon
-               - mstar,msc313-pmsleep
-+              - nxp,imx8mq-vpu-ctrl
-               - rockchip,px30-qos
-               - rockchip,rk3066-qos
-               - rockchip,rk3288-qos
+ .../bindings/media/nxp,imx8mq-vpu.yaml        | 53 ++++++++++++-------
+ 1 file changed, 34 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+index 762be3f96ce9..18e7d40a5f24 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+@@ -15,22 +15,18 @@ description:
+ 
+ properties:
+   compatible:
+-    const: nxp,imx8mq-vpu
++    oneOf:
++      - const: nxp,imx8mq-vpu
++      - const: nxp,imx8mq-vpu-g2
+ 
+   reg:
+-    maxItems: 3
+-
+-  reg-names:
+-    items:
+-      - const: g1
+-      - const: g2
+-      - const: ctrl
++    maxItems: 1
+ 
+   interrupts:
+-    maxItems: 2
++    maxItems: 1
+ 
+   interrupt-names:
+-    items:
++    oneOf:
+       - const: g1
+       - const: g2
+ 
+@@ -46,14 +42,18 @@ properties:
+   power-domains:
+     maxItems: 1
+ 
++  nxp,imx8m-vpu-ctrl:
++    description: Specifies a phandle to syscon VPU hardware control block
++    $ref: "/schemas/types.yaml#/definitions/phandle"
++
+ required:
+   - compatible
+   - reg
+-  - reg-names
+   - interrupts
+   - interrupt-names
+   - clocks
+   - clock-names
++  - nxp,imx8m-vpu-ctrl
+ 
+ additionalProperties: false
+ 
+@@ -62,18 +62,33 @@ examples:
+         #include <dt-bindings/clock/imx8mq-clock.h>
+         #include <dt-bindings/interrupt-controller/arm-gic.h>
+ 
+-        vpu: video-codec@38300000 {
++        vpu_ctrl: syscon@38320000 {
++                 compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
++                 reg = <0x38320000 0x10000>;
++        };
++
++        vpu_g1: video-codec@38300000 {
+                 compatible = "nxp,imx8mq-vpu";
+-                reg = <0x38300000 0x10000>,
+-                      <0x38310000 0x10000>,
+-                      <0x38320000 0x10000>;
+-                reg-names = "g1", "g2", "ctrl";
+-                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+-                             <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+-                interrupt-names = "g1", "g2";
++                reg = <0x38300000 0x10000>;
++                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
++                interrupt-names = "g1";
++                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
++                         <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
++                         <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
++                clock-names = "g1", "g2", "bus";
++                power-domains = <&pgc_vpu>;
++                nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
++        };
++
++        vpu_g2: video-codec@38310000 {
++                compatible = "nxp,imx8mq-vpu-g2";
++                reg = <0x38300000 0x10000>;
++                interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
++                interrupt-names = "g2";
+                 clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+                          <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+                          <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+                 clock-names = "g1", "g2", "bus";
+                 power-domains = <&pgc_vpu>;
++                nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
+         };
 -- 
 2.25.1
 
