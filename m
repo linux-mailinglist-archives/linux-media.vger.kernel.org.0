@@ -2,66 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 756D6356E87
-	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 16:27:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D22C356EED
+	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 16:40:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348448AbhDGO1v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Apr 2021 10:27:51 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:15951 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348416AbhDGO1u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Apr 2021 10:27:50 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FFmrl4Mt4zrdGY;
-        Wed,  7 Apr 2021 22:25:27 +0800 (CST)
-Received: from localhost.localdomain (10.175.102.38) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 7 Apr 2021 22:27:27 +0800
-From:   Wei Yongjun <weiyongjun1@huawei.com>
-To:     <weiyongjun1@huawei.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
-        "Hulk Robot" <hulkci@huawei.com>
-Subject: [PATCH -next] media: omap3isp: Fix missing unlock in isp_subdev_notifier_complete()
-Date:   Wed, 7 Apr 2021 14:37:33 +0000
-Message-ID: <20210407143733.1608806-1-weiyongjun1@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        id S235747AbhDGOkV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Apr 2021 10:40:21 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:54753 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232909AbhDGOkV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Apr 2021 10:40:21 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id U9LjlSZROMxedU9LmlIrrM; Wed, 07 Apr 2021 16:40:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1617806410; bh=nEylqVJh5z2fj1xEqX7ydepdGhOsxnJYC4oex+krT64=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Tv11rmS25JPmzEQuHfdI/CnONWp2Hm4KeGpmK9g31qTRU/hALXMcbq4IA0O/xU/MV
+         3FXUjhTvrjVFxuntmHL4sLmUGmXVqaJDHv9bd59R+5+7+Q3+9BAe1zFu/a/Wqhf8G3
+         +Xa2aNolgOnM5jVw/6WIRo6onpS8M1q8jUCdbrhexvMOB9SEfyVHnHzusWvAI7tydU
+         V9ObRJDZMmJGI2I7gbbhZAIWeard0RJzvj4znAtqJjskOLXR4o5qM/UZBszglW5EWu
+         TMujlCC12DrVdE140f7EqptCGf+uQFyupsFD01B/IekYz9FoACtHDehVTPZrjNwoCe
+         vFm80T6kFJOmQ==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.13] Various random fixes
+Message-ID: <5a84f8e8-ede2-f0bd-f3be-ea12efa386c4@xs4all.nl>
+Date:   Wed, 7 Apr 2021 16:40:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type:   text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
-X-Originating-IP: [10.175.102.38]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfNV0x1bEfdv3IqPKMw6+YrgqNNtH7wIh+VQ0oevw/9enjYFtD47+GUOX6lJgcNkTF3DsAuUtT0OhoIlL6mpJ/9pM2KCuYPWjgtT4QX84C3Fwf/p42Ewz
+ IpOkYfSD/FMTO0RNmNxCJVS5EUhhU3Bl5GmtGq932FE3C2UUbN/drQ1qLmuGssrCHEHzVm+Z5KSN9F5exES403Olva9RG00EZWI=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the missing unlock before return from function
-isp_subdev_notifier_complete() in the init error
-handling case.
+The following changes since commit c1c1d437b1f0a84de6b53416026f7ea1ef3df996:
 
-Fixes: ba689d933361 ("media: omap3isp: Acquire graph mutex for graph traversal")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
----
- drivers/media/platform/omap3isp/isp.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+  MAINTAINERS: update ovti,ov2680.yaml reference (2021-04-07 10:01:07 +0200)
 
-diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
-index 53025c8c7531..20f59c59ff8a 100644
---- a/drivers/media/platform/omap3isp/isp.c
-+++ b/drivers/media/platform/omap3isp/isp.c
-@@ -2037,8 +2037,10 @@ static int isp_subdev_notifier_complete(struct v4l2_async_notifier *async)
- 	mutex_lock(&isp->media_dev.graph_mutex);
- 
- 	ret = media_entity_enum_init(&isp->crashed, &isp->media_dev);
--	if (ret)
-+	if (ret) {
-+		mutex_unlock(&isp->media_dev.graph_mutex);
- 		return ret;
-+	}
- 
- 	list_for_each_entry(sd, &v4l2_dev->subdevs, list) {
- 		if (sd->notifier != &isp->notifier)
+are available in the Git repository at:
 
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.13a
+
+for you to fetch changes up to 39ff66cb46464777417246317d136cf8e8ac2fa7:
+
+  cobalt: drop static for sd_fmt (2021-04-07 16:17:23 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Dinghao Liu (2):
+      media: platform: sti: Fix runtime PM imbalance in regs_show
+      media: sun8i-di: Fix runtime PM imbalance in deinterlace_start_streaming
+
+Hans Verkuil (1):
+      cobalt: drop static for sd_fmt
+
+Mirela Rabulea (1):
+      media: imx-jpeg: Fix double free in mxc_jpeg_remove
+
+Yang Yingliang (5):
+      media: tc358743: fix possible use-after-free in tc358743_remove()
+      media: adv7604: fix possible use-after-free in adv76xx_remove()
+      media: i2c: adv7511-v4l2: fix possible use-after-free in adv7511_remove()
+      media: i2c: tda1997: Fix possible use-after-free in tda1997x_remove()
+      media: i2c: adv7842: fix possible use-after-free in adv7842_remove()
+
+ drivers/media/i2c/adv7511-v4l2.c                 | 2 +-
+ drivers/media/i2c/adv7604.c                      | 2 +-
+ drivers/media/i2c/adv7842.c                      | 2 +-
+ drivers/media/i2c/tc358743.c                     | 2 +-
+ drivers/media/i2c/tda1997x.c                     | 2 +-
+ drivers/media/pci/cobalt/cobalt-driver.c         | 2 +-
+ drivers/media/platform/imx-jpeg/mxc-jpeg.c       | 1 -
+ drivers/media/platform/sti/bdisp/bdisp-debug.c   | 2 +-
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c | 2 +-
+ 9 files changed, 8 insertions(+), 9 deletions(-)
