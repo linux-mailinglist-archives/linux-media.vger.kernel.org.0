@@ -2,89 +2,277 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C68B356C56
-	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 14:40:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B557D356C59
+	for <lists+linux-media@lfdr.de>; Wed,  7 Apr 2021 14:41:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245617AbhDGMku (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Apr 2021 08:40:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52048 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229615AbhDGMkl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Apr 2021 08:40:41 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5C4DC061756
-        for <linux-media@vger.kernel.org>; Wed,  7 Apr 2021 05:40:30 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id 184so20474079ljf.9
-        for <linux-media@vger.kernel.org>; Wed, 07 Apr 2021 05:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Rd7e/jtpUxeuvKLkUMh6oQaE/fxz3yxbf4FPN9GQVu0=;
-        b=BeD/ep2sjkHkAv7TXhX0cjv6dz3gLjd9VnK0S/V2CPMGl5sV9puUK4Ep8Gpw8sTCEU
-         /ARRpCdbedfeRLoGv/QdaJHh+6PrRDsb/4iW0ntgidN4KGjwxukPublL8/2Yl53EBgZi
-         qe6wya/Rm9Cijs+jmuEUnC2TXbwMfr+UjJr+/NBqEBr5vzKPRqdGc8hOt4SYurSKwwgx
-         89bLjoEMwVBa9rxbH41odx7Vh3MkTmD/9+MkL1svLrkeOcVYtJNJQ/3yX9MfeSeFwrRA
-         hXw/briRKXVSB5mc8UXSM9C9AHnxHO3ZndoNe3sU8MFsglz+X7p4sVOX9vSUjd2Odc2C
-         E3Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Rd7e/jtpUxeuvKLkUMh6oQaE/fxz3yxbf4FPN9GQVu0=;
-        b=S7rQx4Wl9eRVFYMyQkiHrww/+JVdDZTIibzO9D7WAyyGcvxXDYLksZm4EYfUsEzVtl
-         gBEQVXGbYrtQIv8hQfoZjk52MImTjQLMW0nA9E/uVrHmL3uF0lRLNRdxn6/D8nbf4aXR
-         13pmmRPonxgFF2FHsiOezyIcjJireVv6wXTmleyUiLLbZNMgQbrRzaQgXO0mlIqnVBYH
-         Sqi82/Te4iiOyuYCtIeaPOiUAKz202V1MqAnI2hJlfdyGE8jZoEDKjQg6lCajc6iZybE
-         6ZhAAzoyGGW0PKlM0oXviVq6B0naGdQBfGVCC63yvnld7yW2dAqXes1ryqdTcRVr8ARF
-         0few==
-X-Gm-Message-State: AOAM532AM1ZO+9N5o01bj+hklmNYCha3oJqxm9Dwm0t6zVdGsbDIIfRZ
-        mkjT+QAB1ThdImdvpugf6ss=
-X-Google-Smtp-Source: ABdhPJzidBV+ZOPfmgXq8lG43JGpp3hqDnC4jedoK2nrpg2u65sNTtEoDMoNt1vYZ2NDQZKHKKEfWQ==
-X-Received: by 2002:a2e:998d:: with SMTP id w13mr1963138lji.424.1617799229452;
-        Wed, 07 Apr 2021 05:40:29 -0700 (PDT)
-Received: from gmail.com (h-155-4-128-43.NA.cust.bahnhof.se. [155.4.128.43])
-        by smtp.gmail.com with ESMTPSA id z21sm2439068ljh.104.2021.04.07.05.40.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 05:40:29 -0700 (PDT)
-Date:   Wed, 7 Apr 2021 14:40:26 +0200
-From:   Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
-To:     Simon Ser <contact@emersion.fr>
-Cc:     Pekka Paalanen <ppaalanen@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        xorg-devel@lists.x.org, dri-devel@lists.freedesktop.org,
-        wayland-devel@lists.freedesktop.org
-Subject: Re: Call for an EDID parsing library
-Message-ID: <YG2oOtvsHmOfBYMb@gmail.com>
-References: <20210407114404.13b41822@eldfell>
- <DJjftAG6WNev87c34XyXFLCHe49rJBCYdqENxfO3uHXUFJXmPerOg5LuQKAbd3D_pdO34vkWgfy9uggujNI12VE-ttglyarF5wAogYC8m3E=@emersion.fr>
+        id S234296AbhDGMlQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Apr 2021 08:41:16 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:37259 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229615AbhDGMlO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Apr 2021 08:41:14 -0400
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 6FD1A24000D;
+        Wed,  7 Apr 2021 12:41:02 +0000 (UTC)
+Date:   Wed, 7 Apr 2021 14:41:39 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Fabian =?utf-8?B?V8O8dGhyaWNo?= <me@fabwu.ch>
+Cc:     linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] ipu3-cio2: Parse sensor orientation and rotation
+Message-ID: <20210407124139.6w32oosdd4kyjcde@uno.localdomain>
+References: <20210321191155.55723-1-me@fabwu.ch>
+ <20210407082205.pdbwwnv72cuuqkdy@uno.localdomain>
+ <4298d41f-8b06-356d-ea29-11eb0da6e00b@fabwu.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DJjftAG6WNev87c34XyXFLCHe49rJBCYdqENxfO3uHXUFJXmPerOg5LuQKAbd3D_pdO34vkWgfy9uggujNI12VE-ttglyarF5wAogYC8m3E=@emersion.fr>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4298d41f-8b06-356d-ea29-11eb0da6e00b@fabwu.ch>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 07, 2021 at 10:59:18AM +0000, Simon Ser wrote:
-> FWIW, with my Sway/wlroots hat on I think this is a great idea and I'd
-> definitely be interested in using such as library. A C API with no
-> dependencies is pretty important from my point-of-view.
-> 
-> I'd prefer if C++ was not used at all (and could almost be baited into
-> doing the work if that were the case), but it seems that ship has
-> sailed already.
+Hi Fabian,
 
-The same for Mutter / GNOME, not having to maintain a EDID parser would
-be great. Though personally I don't care if it's implemented in C++, C
-or whatever, as long as there is a C API to use.
+On Wed, Apr 07, 2021 at 01:52:31PM +0200, Fabian Wüthrich wrote:
+>
+>
+> On 07.04.21 10:22, Jacopo Mondi wrote:
+> > Hi Fabian,
+> >
+> > On Sun, Mar 21, 2021 at 08:11:56PM +0100, Fabian Wüthrich wrote:
+> >> The sensor orientation is read from the _PLC ACPI buffer and converted
+> >> to a v4l2 format.
+> >>
+> >> See https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+> >> page 351 for a definition of the Panel property.
+> >>
+> >> The sensor rotation is read from the SSDB ACPI buffer and converted into
+> >> degrees.
+> >>
+> >
+> > The framework has v4l2_fwnode_device_parse() in v4l2-fwnode.c which
+> > works for DT based systems. Could support for retreiving those
+> > properties from the SSDB block be added there ?
+> >
+> > Thanks
+> >   j
+> >
+>
+> This is exactly the purpose of this patch. I've should have been more precise
+> in the commit message but basically this patch converts the properties from
+> the SSDB block into fwnodes which are then picked up by v4l2_fwnode_device_parse().
 
+Ah, right! The cio2_bridge_create_fwnode_properties() should have
+hinted me... My question was more on the lines of: "Instead of parsing
+the SSDB block in the CIO2 driver to translate into v4l2-fwnode
+consumable properties, can the parsing be done directly into the
+core" due to my poor understanding of the swnode infrastructure.
 
-Jonas
+Thanks for clarifying
 
-> 
-> Simon
-> _______________________________________________
-> wayland-devel mailing list
-> wayland-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/wayland-devel
+>
+> P.S. I have a quick question below
+>
+> >> Signed-off-by: Fabian Wüthrich <me@fabwu.ch>
+> >> ---
+> >>  drivers/media/pci/intel/ipu3/cio2-bridge.c | 60 ++++++++++++++++++++--
+> >>  drivers/media/pci/intel/ipu3/cio2-bridge.h | 16 ++++++
+> >>  2 files changed, 72 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+> >> index c2199042d3db..503809907b92 100644
+> >> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
+> >> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+> >> @@ -29,6 +29,7 @@ static const struct cio2_sensor_config cio2_supported_sensors[] = {
+> >>  static const struct cio2_property_names prop_names = {
+> >>  	.clock_frequency = "clock-frequency",
+> >>  	.rotation = "rotation",
+> >> +	.orientation = "orientation",
+> >>  	.bus_type = "bus-type",
+> >>  	.data_lanes = "data-lanes",
+> >>  	.remote_endpoint = "remote-endpoint",
+> >> @@ -72,11 +73,51 @@ static int cio2_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
+> >>  	return ret;
+> >>  }
+> >>
+> >> +static u32 cio2_bridge_parse_rotation(struct cio2_sensor *sensor)
+> >> +{
+> >> +	switch (sensor->ssdb.degree) {
+> >> +	case CIO2_SENSOR_ROTATION_NORMAL:
+> >> +		return 0;
+> >> +	case CIO2_SENSOR_ROTATION_INVERTED:
+> >> +		return 180;
+> >> +	default:
+> >> +		dev_warn(&sensor->adev->dev,
+> >> +			 "Unknown rotation %d. Assume 0 degree rotation\n",
+> >> +			 sensor->ssdb.degree);
+> >> +		return 0;
+> >> +	}
+> >> +}
+> >> +
+> >> +static enum v4l2_fwnode_orientation cio2_bridge_parse_orientation(struct cio2_sensor *sensor)
+> >> +{
+> >> +	switch (sensor->pld->panel) {
+> >> +	case CIO2_PLD_PANEL_FRONT:
+> >> +		return V4L2_FWNODE_ORIENTATION_FRONT;
+> >> +	case CIO2_PLD_PANEL_BACK:
+> >> +		return V4L2_FWNODE_ORIENTATION_BACK;
+> >> +	case CIO2_PLD_PANEL_TOP:
+> >> +	case CIO2_PLD_PANEL_LEFT:
+> >> +	case CIO2_PLD_PANEL_RIGHT:
+> >> +	case CIO2_PLD_PANEL_UNKNOWN:
+> >> +		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
+> >> +	default:
+> >> +		dev_warn(&sensor->adev->dev, "Unknown _PLD panel value %d\n",
+> >> +			 sensor->pld->panel);
+> >> +		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
+> >> +	}
+> >> +}
+>
+> These constants are ACPI related and shouldn't be here. Should I move them to e.g.
+> include/acpi/acbuffer.h or do you know a better place?
+>
+
+I know very few things about ACPI, don't think I'm the right person to
+answer that question :)
+
+Although as I read the definitions of ACPI_PLD_GET_ROTATION() and
+ACPI_PLD_GET_PANEL() and see they match the bit offset as reported by
+the ACPI specs you linked here above, I would say your suggestion
+makes sense, but please confirm with someone that knows better :)
+
+Thanks
+  j
+
+> >> +
+> >>  static void cio2_bridge_create_fwnode_properties(
+> >>  	struct cio2_sensor *sensor,
+> >>  	struct cio2_bridge *bridge,
+> >>  	const struct cio2_sensor_config *cfg)
+> >>  {
+> >> +	u32 rotation;
+> >> +	enum v4l2_fwnode_orientation orientation;
+> >> +
+> >> +	rotation = cio2_bridge_parse_rotation(sensor);
+> >> +	orientation = cio2_bridge_parse_orientation(sensor);
+> >> +
+> >>  	sensor->prop_names = prop_names;
+> >>
+> >>  	sensor->local_ref[0].node = &sensor->swnodes[SWNODE_CIO2_ENDPOINT];
+> >> @@ -85,9 +126,12 @@ static void cio2_bridge_create_fwnode_properties(
+> >>  	sensor->dev_properties[0] = PROPERTY_ENTRY_U32(
+> >>  					sensor->prop_names.clock_frequency,
+> >>  					sensor->ssdb.mclkspeed);
+> >> -	sensor->dev_properties[1] = PROPERTY_ENTRY_U8(
+> >> +	sensor->dev_properties[1] = PROPERTY_ENTRY_U32(
+> >>  					sensor->prop_names.rotation,
+> >> -					sensor->ssdb.degree);
+> >> +					rotation);
+> >> +	sensor->dev_properties[2] = PROPERTY_ENTRY_U32(
+> >> +					sensor->prop_names.orientation,
+> >> +					orientation);
+> >>
+> >>  	sensor->ep_properties[0] = PROPERTY_ENTRY_U32(
+> >>  					sensor->prop_names.bus_type,
+> >> @@ -159,6 +203,7 @@ static void cio2_bridge_unregister_sensors(struct cio2_bridge *bridge)
+> >>  	for (i = 0; i < bridge->n_sensors; i++) {
+> >>  		sensor = &bridge->sensors[i];
+> >>  		software_node_unregister_nodes(sensor->swnodes);
+> >> +		ACPI_FREE(sensor->pld);
+> >>  		acpi_dev_put(sensor->adev);
+> >>  	}
+> >>  }
+> >> @@ -170,6 +215,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+> >>  	struct fwnode_handle *fwnode;
+> >>  	struct cio2_sensor *sensor;
+> >>  	struct acpi_device *adev;
+> >> +	acpi_status status;
+> >>  	int ret;
+> >>
+> >>  	for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
+> >> @@ -193,11 +239,15 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+> >>  		if (ret)
+> >>  			goto err_put_adev;
+> >>
+> >> +		status = acpi_get_physical_device_location(adev->handle, &sensor->pld);
+> >> +		if (ACPI_FAILURE(status))
+> >> +			goto err_put_adev;
+> >> +
+> >>  		if (sensor->ssdb.lanes > CIO2_MAX_LANES) {
+> >>  			dev_err(&adev->dev,
+> >>  				"Number of lanes in SSDB is invalid\n");
+> >>  			ret = -EINVAL;
+> >> -			goto err_put_adev;
+> >> +			goto err_free_pld;
+> >>  		}
+> >>
+> >>  		cio2_bridge_create_fwnode_properties(sensor, bridge, cfg);
+> >> @@ -205,7 +255,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+> >>
+> >>  		ret = software_node_register_nodes(sensor->swnodes);
+> >>  		if (ret)
+> >> -			goto err_put_adev;
+> >> +			goto err_free_pld;
+> >>
+> >>  		fwnode = software_node_fwnode(&sensor->swnodes[
+> >>  						      SWNODE_SENSOR_HID]);
+> >> @@ -226,6 +276,8 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+> >>
+> >>  err_free_swnodes:
+> >>  	software_node_unregister_nodes(sensor->swnodes);
+> >> +err_free_pld:
+> >> +	ACPI_FREE(sensor->pld);
+> >>  err_put_adev:
+> >>  	acpi_dev_put(sensor->adev);
+> >>  err_out:
+> >> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.h b/drivers/media/pci/intel/ipu3/cio2-bridge.h
+> >> index dd0ffcafa489..e1e388cc9f45 100644
+> >> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.h
+> >> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.h
+> >> @@ -12,6 +12,19 @@
+> >>  #define CIO2_MAX_LANES				4
+> >>  #define MAX_NUM_LINK_FREQS			3
+> >>
+> >> +/* Values are estimated guesses as we don't have a spec */
+> >> +#define CIO2_SENSOR_ROTATION_NORMAL		0
+> >> +#define CIO2_SENSOR_ROTATION_INVERTED		1
+> >> +
+> >> +/* Panel position defined in _PLD section of ACPI Specification 6.3 */
+> >> +#define CIO2_PLD_PANEL_TOP			0
+> >> +#define CIO2_PLD_PANEL_BOTTOM			1
+> >> +#define CIO2_PLD_PANEL_LEFT			2
+> >> +#define CIO2_PLD_PANEL_RIGHT			3
+> >> +#define CIO2_PLD_PANEL_FRONT			4
+> >> +#define CIO2_PLD_PANEL_BACK			5
+> >> +#define CIO2_PLD_PANEL_UNKNOWN			6
+> >> +
+> >>  #define CIO2_SENSOR_CONFIG(_HID, _NR, ...)	\
+> >>  	(const struct cio2_sensor_config) {	\
+> >>  		.hid = _HID,			\
+> >> @@ -80,6 +93,7 @@ struct cio2_sensor_ssdb {
+> >>  struct cio2_property_names {
+> >>  	char clock_frequency[16];
+> >>  	char rotation[9];
+> >> +	char orientation[12];
+> >>  	char bus_type[9];
+> >>  	char data_lanes[11];
+> >>  	char remote_endpoint[16];
+> >> @@ -106,6 +120,8 @@ struct cio2_sensor {
+> >>  	struct cio2_node_names node_names;
+> >>
+> >>  	struct cio2_sensor_ssdb ssdb;
+> >> +	struct acpi_pld_info *pld;
+> >> +
+> >>  	struct cio2_property_names prop_names;
+> >>  	struct property_entry ep_properties[5];
+> >>  	struct property_entry dev_properties[3];
+> >> --
+> >> 2.31.0
+> >>
