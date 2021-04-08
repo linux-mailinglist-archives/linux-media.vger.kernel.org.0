@@ -2,134 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50BFE358B8C
-	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 19:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C8CC358BE1
+	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 20:02:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232383AbhDHRle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Apr 2021 13:41:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231566AbhDHRl2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Apr 2021 13:41:28 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B5BC061760;
-        Thu,  8 Apr 2021 10:41:15 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id q3so3024423qkq.12;
-        Thu, 08 Apr 2021 10:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=mdN1Jw+gb2OecTVeF2v17EO+ynpqxrd3oGCmcBY+OBM=;
-        b=rQ/FpK2Z0CI3YxPS+hWS4mebh5dGyrxeoRFSIvHIUZCutspu4O5XOqMS3IVisPgFA8
-         rbSjgrxIysU4gO2j25SNe694SSJx9g3BRpn1/kzNqmHISxn6pVoMJmeahsg7y5Mc0rwB
-         a9IgI/LPySkZi+BOS4DBnh4mnlEsRPSuQRMg6OLAHLyhhQWIsyt5pjvP7sD8XZJJYpWY
-         mCroKgdLoRPSzVIqj6+/91K+OWiLKLTb5/6P6ch3y8YnkC0i7GuKXtHlIJTlcLfqhCzB
-         L8msNiKFv3QOT75WWHp9CLjTpAeBgv+p8J4fq96KhCMsBDdoEzRMNs8Wi+FBIdgcATxi
-         9+pQ==
+        id S232568AbhDHSCi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Apr 2021 14:02:38 -0400
+Received: from mail-pf1-f180.google.com ([209.85.210.180]:37535 "EHLO
+        mail-pf1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232267AbhDHSCi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Apr 2021 14:02:38 -0400
+Received: by mail-pf1-f180.google.com with SMTP id o123so2420530pfb.4;
+        Thu, 08 Apr 2021 11:02:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=mdN1Jw+gb2OecTVeF2v17EO+ynpqxrd3oGCmcBY+OBM=;
-        b=gcb+d+bApTmkndyyXVMm+b6MEKDP24nEn7ml758F9deY97l28ETrV1oTOXiiJXvpQT
-         6XQQTqQwA58u/hZtOmgv8GNYZ/4TK4/DbVIjLIMY75vR7M3hRbCRQcXGPMRF31oldcpJ
-         aiCHwucxpCLP2v5/OTT0o0CeonXsB+BKF4YmFiN10rWicRS5Q+MlhKEH1mzs5OLcf81A
-         hbB6F3nfa5UTotsoCGVjTsn52KPNMyoBCTKBAUy8E9N7zfTNhv2j7wjLML8a0si5boZM
-         TWvbOQY3V1dcG3mRZrvn8DGjJsaNzdD9ELPFPxP2f9JQkC3OGDxXotGm099qulqmW9jV
-         BurQ==
-X-Gm-Message-State: AOAM530SYFtD9U35XbNIQDhpmA2XWKPIlW+eCBqVkRMIG8DazW/uvI5+
-        jXrKjet0rJfazfGVLWOycAM=
-X-Google-Smtp-Source: ABdhPJwChQvTmLNRRPsxLWBk6i0S/I28pVczZQKyNZ94Z4lsjeYx//nGZU/H3GCpeL278TBHubKGrQ==
-X-Received: by 2002:a37:ae44:: with SMTP id x65mr9633255qke.9.1617903675135;
-        Thu, 08 Apr 2021 10:41:15 -0700 (PDT)
-Received: from [192.168.100.7] ([177.220.174.147])
-        by smtp.gmail.com with ESMTPSA id o30sm129666qtl.8.2021.04.08.10.41.12
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mmRxsFwPJZvgZ2ZutPHOUue/cGAfIG+bHPlIWgMNM/E=;
+        b=E4RsyJEK0WD9SPIGmj4LRgTkt//ymUew7chXpkHG17xon77d10JxZ5QGFMa0gG44gk
+         U+7ywlb8Bn8VRMxUD8AfXNDVx3O/qnmde1wIOF6q+wcMuJY/WeMC6a9aYJWpbrs/jeCw
+         IcY8vdnU71JaasSjkx3uH9dU+HnCd9LYfAvpAKW6zJlpGu18iEGnDmaXc4EuFvjX0ije
+         vHnPOao/RK16Jq6QCqoSlwTw8oX7u1gyTiKCgeP4PziwcY9bFYFIm1BJsTBBXn0vysVI
+         1sD1tbEbM/DkLku41ucsUv/SGgdBGUgbyUZCpZ5cuSFw9HFEeyRwlItmDEVrwFvt380C
+         onDA==
+X-Gm-Message-State: AOAM533gDshVBs9tQP4DrnwEWV/pKf5XHBzmWRF6n3qhhMxEQ7InvQ4B
+        4AKXWhAaZOvGRQPTe9j5tJQ=
+X-Google-Smtp-Source: ABdhPJyDMh4PSxd/V9evdQx1SANBlCgmjCjNhtVIKYT0qS6zPrk0gCNheU4HLnmN0SJVeR0acVBlzA==
+X-Received: by 2002:a63:4c66:: with SMTP id m38mr9190242pgl.313.1617904946227;
+        Thu, 08 Apr 2021 11:02:26 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id d75sm127540pfd.100.2021.04.08.11.02.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 10:41:14 -0700 (PDT)
-Message-ID: <6bba0e0a5768e902ffec4bda563d4ca810412f84.camel@gmail.com>
-Subject: Re: [PATCH 1/2 v2] staging: media: hantro: Align line break to the
- open parenthesis in file hantro_hw.h
-From:   ascordeiro <alinesantanacordeiro@gmail.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Thu, 08 Apr 2021 11:02:24 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 46C62402D7; Thu,  8 Apr 2021 18:02:24 +0000 (UTC)
+Date:   Thu, 8 Apr 2021 18:02:24 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Lukas Middendorf <kernel@tuxforce.de>,
+        Greg KH <gregkh@linuxfoundation.org>, dsterba@suse.cz
+Cc:     linux-btrfs@vger.kernel.org, Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Date:   Thu, 08 Apr 2021 14:41:10 -0300
-In-Reply-To: <d4000598fddcf45e578462aa04b556c0ca057091.camel@collabora.com>
-References: <cover.1617890467.git.alinesantanacordeiro@gmail.com>
-         <1e6d73432d60dfb8bb3f7f2bd6bf3084091a2a39.1617890467.git.alinesantanacordeiro@gmail.com>
-         <d4000598fddcf45e578462aa04b556c0ca057091.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (by Flathub.org) 
+        linux-media@vger.kernel.org
+Subject: Re: Is request_firmware() really safe to call in resume callback
+ when /usr/lib/firmware is on btrfs?
+Message-ID: <20210408180224.GV13911@42.do-not-panic.com>
+References: <a79f1a0c-012d-bebe-c9c7-b505f59079c2@tuxforce.de>
+ <20200817152056.GD4332@42.do-not-panic.com>
+ <9e5c716e-1736-9890-54be-75739ea5462f@tuxforce.de>
+ <20200818143715.GF4332@42.do-not-panic.com>
+ <6b61e549-42b8-8e71-ff57-43b7c5b4291f@tuxforce.de>
+ <20210402180253.GS4332@42.do-not-panic.com>
+ <CAB=NE6WVnR197DnH+EgHDoyy98x15D0fVdoGjZcHW9W5P7Jipg@mail.gmail.com>
+ <CAB=NE6X8bXUoTuTxhy-DDqO8ByaFiJqbjzCSmmGwTbbLY95FhA@mail.gmail.com>
+ <679f1f74-1304-9e79-1d83-0810361b4503@tuxforce.de>
+ <20210403202538.GW4332@42.do-not-panic.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210403202538.GW4332@42.do-not-panic.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em qui, 2021-04-08 às 13:20 -0300, Ezequiel Garcia escreveu:
-> Ola Aline,
-Ola Ezequiel,
-
-> Welcome to the kernel community. Hope you enjoy some of this
-> Outreachy adventures.
-Thank you!
-
-> Normally, when you submit a v2, we want to know what changed
-> between the first submission and v2.
+On Sat, Apr 03, 2021 at 08:25:38PM +0000, Luis Chamberlain wrote:
+> So creating say 1000 random files in /lib/firmware on a freshly created
+> btrfs partition helps reproduce:
 > 
-> If you are subscribed to linux-media, you can read some
-> of the series with a vN+1 and look how it's done. Examples:
+> mkfs.btrfs /dev/whatever
+> mount /dev/wahtever /lib/firmware
+> # Put it on /etc/fstab too
 > 
-> https://www.spinics.net/lists/linux-media/msg190043.html
+> Generate 1000 random files on it:
 > 
-> https://www.spinics.net/lists/linux-media/msg189923.html
+> ```
+> for n in {1..1000}; do                                                          
+>     dd if=/dev/urandom of=/lib/firmware/file$( printf %03d "$n" ).bin bs=1 count=$((RANDOM + 1024 ))
+> done  
+> ```
 > 
-> I'm sure your Outreachy mentors can tell you more.
-Thank you for the examples, it won't happen again.
-
-The reason for sending a v2 is that I sent my very first patchset
-yesterday and I sent the cover-letter together, but (I think) I wasn't
-supposed to, and as the patches weren't marked as [PATCH 1/2] and
-[PATCH 2/2] in the email - since I commited all the files with the same
-message - I tought it was wrong and sent again today.
-
-However, I just realized that I've changed just the subject of the e-
-mail, but I would've to change the commit message, right? And then, it
-would be a second version, am I right? 
-
-Thank you in advance,
-
-> On Thu, 2021-04-08 at 11:07 -0300, Aline Santana Cordeiro wrote:
-> > Aligns line break with the remaining function arguments
-> > to the open parenthesis. Issue found by checkpatch.
-> > 
-> > Signed-off-by: Aline Santana Cordeiro <   
-> > alinesantanacordeiro@gmail.com>
-> > ---
-> >  drivers/staging/media/hantro/hantro_hw.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/hantro/hantro_hw.h
-> > b/drivers/staging/media/hantro/hantro_hw.h
-> > index 34c9e46..a650b9c 100644
-> > --- a/drivers/staging/media/hantro/hantro_hw.h
-> > +++ b/drivers/staging/media/hantro/hantro_hw.h
-> > @@ -207,7 +207,7 @@ hantro_h264_mv_size(unsigned int width,
-> > unsigned int height)
-> >  void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
-> >  void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx);
-> >  void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
-> > -       const struct v4l2_ctrl_mpeg2_quantization *ctrl);
-> > +                                 const struct
-> > v4l2_ctrl_mpeg2_quantization *ctrl);
-> >  int hantro_mpeg2_dec_init(struct hantro_ctx *ctx);
-> >  void hantro_mpeg2_dec_exit(struct hantro_ctx *ctx);
-> >  
+> Then reboot, upon reboot do:
 > 
+> modprobe test_firmware
+> echo 1 > /sys/devices/virtual/misc/test_firmware/config_enable_resume_test
+> systemctl suspend
 > 
+> If its a guest wake it up:
+> 
+> virsh dompmwakeup domidofguest
 
+This happens because:
 
+btrfs_lookup() --> ... -->                                                      
+btrfs_search_slot() --> read_block_for_search() -->                             
+	--> read_tree_block() --> btree_read_extent_buffer_pages() -->                
+	--> submit_one_bio() --> btrfs_submit_metadata_bio() -->                      
+	--> btrfsic_submit_bio() --> submit_bio()
+		--> this completes and then
+	--> wait_on_page_locked() on the first page
+	--> never returns                                                             
+
+I also managed to reproduce this easily with XFS as well, so this is not
+a btrfs thing as I suspected. It does not happen with ext4 though.
+However I think that's just by chance, it should still be prone to the
+same issue.
+
+Either way, I'm dusting off my patches for fs freeze as I believe that
+should fix this problem. I am not sure if we want a stop gap hack like
+the one I posted in the meantime... I don't think so. I rather fix this
+well with the series I'll post for fs freeze. Give me a bit of time and
+I'll CC you on the patches.
+
+  Luis
