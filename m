@@ -2,64 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06876357E53
-	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 10:44:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BCF6357EB9
+	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 11:08:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229618AbhDHIoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Apr 2021 04:44:20 -0400
-Received: from gofer.mess.org ([88.97.38.141]:46423 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229602AbhDHIoT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Apr 2021 04:44:19 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 469DCC63A5; Thu,  8 Apr 2021 09:44:07 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1617871447; bh=EtJiALi37guJLoFZQJPgBc/QTHyIv1MzvfxgWStZ/JY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=f9gBe1baNiKME70gkW7bYokOLOG6aR6FeN+OArBSbhiWCvQUHETLrsEX+J7PPi2Rs
-         05GJFj9SdAlYuKL81e5wH7BkcGR0Kgr5Ihi0Ue4YVaunYuSKVpFlKU+PvxBMzD9PHN
-         v1LA9NIO5onJYHHZh5jWOC/zx//IaDwhqUxpfWbKPSEd3OL+LnYyyKhKL6Pbrgo9Zt
-         wrN7F2NBFi+erXBioS3kWGP5eVCJafan72ufgRrRiR/82RHJCZPC4/NpKC2nFlnbc5
-         DGFJX6i7u93knjoUb/SeJi0ZsCNlkvzst65hsh0I/+s8B4+lA9pWJgwTNGTDsm0K39
-         9q/aoAIDvP4zQ==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Cc:     Nikolaos Beredimas <beredim@gmail.com>,
-        Michael Zimmermann <sigmaepsilon92@gmail.com>
-Subject: [PATCH] media: ite-cir: probe of ITE8708 on ASUS PN50 fails
-Date:   Thu,  8 Apr 2021 09:44:07 +0100
-Message-Id: <20210408084407.21828-1-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S229751AbhDHJJF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Apr 2021 05:09:05 -0400
+Received: from spam.zju.edu.cn ([61.164.42.155]:42634 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229600AbhDHJJF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Apr 2021 05:09:05 -0400
+Received: from localhost.localdomain (unknown [10.192.24.118])
+        by mail-app3 (Coremail) with SMTP id cC_KCgAHnz0MyG5gbiToAA--.50767S4;
+        Thu, 08 Apr 2021 17:08:31 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: imx: imx7-mipi-csis: Fix runtime PM imbalance in mipi_csis_s_stream
+Date:   Thu,  8 Apr 2021 17:08:27 +0800
+Message-Id: <20210408090827.32612-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cC_KCgAHnz0MyG5gbiToAA--.50767S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw45ur1Utr4rCF48ZFykuFg_yoW8JFWrpr
+        4xK34Fyry8JFn5CrZrA3W7Xr98G34Sk3s7Gry7G3WF9Fs5t3Wag34kta4YqF48WrWrA345
+        AF1rJw1avFWjkr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvC1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wA2z4x0Y4vEx4A2
+        jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
+        x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
+        GwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
+        8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY
+        0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+        1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+        14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+        IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY
+        6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2Kf
+        nxnUUI43ZEXa7VUb0D73UUUUU==
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0JBlZdtTTcOgAQs8
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Asus PN50 has 16 byte io region for the ITE8708 in its DSDT, which
-causes the probe fail. So, accept larger regions.
+When v4l2_subdev_call() fails, a pairing PM usage counter
+decrement is needed to keep the counter balanced. It's the
+same for the following error paths in case 'enable' is on.
 
-Link: https://www.spinics.net/lists/linux-media/msg177725.html
-Cc: Nikolaos Beredimas <beredim@gmail.com>
-Reported-by: Michael Zimmermann <sigmaepsilon92@gmail.com>
-Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 ---
- drivers/media/rc/ite-cir.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/rc/ite-cir.c b/drivers/media/rc/ite-cir.c
-index 9388774df9d7..5bc23e8c6d91 100644
---- a/drivers/media/rc/ite-cir.c
-+++ b/drivers/media/rc/ite-cir.c
-@@ -1333,7 +1333,7 @@ static int ite_probe(struct pnp_dev *pdev, const struct pnp_device_id
- 
- 	/* validate pnp resources */
- 	if (!pnp_port_valid(pdev, io_rsrc_no) ||
--	    pnp_port_len(pdev, io_rsrc_no) != dev_desc->io_region_size) {
-+	    pnp_port_len(pdev, io_rsrc_no) < dev_desc->io_region_size) {
- 		dev_err(&pdev->dev, "IR PNP Port not valid!\n");
- 		goto exit_free_dev_rdev;
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index a01a7364b4b9..2a3fff231a40 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -627,21 +627,26 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+ 			return ret;
+ 		}
+ 		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
+-		if (ret < 0)
++		if (ret < 0) {
++			pm_runtime_put_noidle(&state->pdev->dev);
+ 			return ret;
++		}
  	}
+ 
+ 	mutex_lock(&state->lock);
+ 	if (enable) {
+ 		if (state->flags & ST_SUSPENDED) {
+ 			ret = -EBUSY;
++			pm_runtime_put_noidle(&state->pdev->dev);
+ 			goto unlock;
+ 		}
+ 
+ 		mipi_csis_start_stream(state);
+ 		ret = v4l2_subdev_call(state->src_sd, video, s_stream, 1);
+-		if (ret < 0)
++		if (ret < 0) {
++			pm_runtime_put_noidle(&state->pdev->dev);
+ 			goto unlock;
++		}
+ 
+ 		mipi_csis_log_counters(state, true);
+ 
 -- 
-2.30.2
+2.17.1
 
