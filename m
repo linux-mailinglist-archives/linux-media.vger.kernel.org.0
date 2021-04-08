@@ -2,155 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6987E357AD7
-	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 05:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4509E357BA5
+	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 07:00:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229714AbhDHDkT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Apr 2021 23:40:19 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:60353 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229680AbhDHDkP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Apr 2021 23:40:15 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id ULWRlElrv43ycULWUlRyAz; Thu, 08 Apr 2021 05:40:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1617853202; bh=TaYPZHGkOj8JUqOJJf3EQx/BfoiWIms3ke6fkd1mVyQ=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=XPpcw/jKVnVmrVEDny/+rwxmeEoB6ViPaMH7D17LY5MDsW557/5W6Png2kOx8V7ae
-         FChZ9EDsjBr6EZL+i6GRlDf62oEUKyFhjTJ1D6pJXNvTTL6fRARs/FdWo0I6ykOALA
-         sTgdx6BvCJ9v1KF5x/x+Ekgv13nIvGGvQc8lIJBS5fG6gbRc7JhAfGuRvcYDsUbeCq
-         ZDnl3pWVMJoVuMAq01E5u+lsJdV41jAfMmwuWaCJprYQ0fanmf22gH017fYp37sVqr
-         Rq7Sg3KFepJeNr5aAaInvlK4xmFxZYlheo2gU2XKBD1DjKU5xBN61U3IYCIHk2PuXs
-         qphh/ysbK+jew==
-Message-ID: <ae2a5e0331b206f67110d307acfac893@smtp-cloud9.xs4all.net>
-Date:   Thu, 08 Apr 2021 05:39:59 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfEymNJUWiPAFu6uUVIhoSApOd26sfmYbKa2pVvIISqMNuCDsxZJlnIYsYIxSzCZH5nveZ3P2QHg7pcdG/kClpD12N4FDGh0uDvv/+U/sqAVcWwH/vbW6
- dM5082CcK1pB+0pqPDxoq9igZGv1siRvl8yQOucVhR6HT6KMTYAQ/NOChB2qmo71rMnA+4C7ETlaEOhACjr/BYEoTh8I0fGqE9woptsE4o7Y6PvODloca0ng
- PhiAbhRa4go7twj4ol7Kcg==
+        id S229559AbhDHFAf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Apr 2021 01:00:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229506AbhDHFAf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Apr 2021 01:00:35 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 754D0C061760
+        for <linux-media@vger.kernel.org>; Wed,  7 Apr 2021 22:00:24 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id t22so558605pgu.0
+        for <linux-media@vger.kernel.org>; Wed, 07 Apr 2021 22:00:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yAhu6CqdAQ+BdgBQcTHerGRp4ijsbWysCLX6FzCbuNw=;
+        b=ADhdKz4Sx9y75de5EanjHhDJY5wMx53a0RBpg55jv4x21G0Bt/bR3dpLd2DEUyprKN
+         aZTY3tjatR+vD34kAUTWc6yMHUc39U9snLdbdNI/3JtD+Z9ZET5Fd7TK+FvfWZuMbqm9
+         dp4d2H6TcXRdMqXoBY9SeW4EJDR6lFDEnS1ls=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yAhu6CqdAQ+BdgBQcTHerGRp4ijsbWysCLX6FzCbuNw=;
+        b=cITCEffz9Y0gMEx4xhUfr+TWM29N2Yepz7FPLTrlvN9QLTKHyW3nBQRIjfkqrme1Ra
+         ct9dwN+OB7hBTaXnZAyfmrY4YwWvbU62ZJ9x8DDGGD9U/SW0b35fSYKKi6WKekKaWeB5
+         Dof/4Pe7t/fAAiV3Md5XfTt4tNppMfoNaFzHX08HQzQca6C1ByeLPlhyysO2zwI9LUvW
+         zZmHTp2j2i38qdmSVwR88+3QtPh038zlWXxLOWjmPohaELqItz8vKokgZcMxBro1Sbjh
+         8cau1mMptyVjcHEpW1Pc7h9PbxYY3MH+thnDgqemRK1ugOJp1ZBtBHcID0fROFo6PCX8
+         nU3A==
+X-Gm-Message-State: AOAM532W7D4/KzURZ/pS4eWfRr602AU4ORNXikatQxGNStK25F8gcSVk
+        UKoS7M08bn9RhV5OYRv988aUXg==
+X-Google-Smtp-Source: ABdhPJz087ziF9CITNv68k2QMOx7nCzUgfYsJUromTlsf7o5zATa6GEr68p54yhZQi867KciJ0i4+g==
+X-Received: by 2002:a65:5c88:: with SMTP id a8mr6238482pgt.130.1617858024006;
+        Wed, 07 Apr 2021 22:00:24 -0700 (PDT)
+Received: from localhost ([2401:fa00:8f:203:25d8:8458:73e8:75ac])
+        by smtp.gmail.com with UTF8SMTPSA id w67sm23753647pgb.87.2021.04.07.22.00.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Apr 2021 22:00:23 -0700 (PDT)
+From:   David Stevens <stevensd@chromium.org>
+X-Google-Original-From: David Stevens <stevensd@google.com>
+To:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        David Stevens <stevensd@chromium.org>
+Subject: [PATCH] Revert "drm/syncobj: use dma_fence_get_stub"
+Date:   Thu,  8 Apr 2021 13:59:26 +0900
+Message-Id: <20210408045926.3202160-1-stevensd@google.com>
+X-Mailer: git-send-email 2.31.0.208.g409f899ff0-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: David Stevens <stevensd@chromium.org>
 
-Results of the daily build of media_tree:
+This reverts commit 86bbd89d5da66fe760049ad3f04adc407ec0c4d6.
 
-date:			Thu Apr  8 05:00:11 CEST 2021
-media-tree git hash:	c1c1d437b1f0a84de6b53416026f7ea1ef3df996
-media_build git hash:	70188fdddcfedda190f1118529888cd3dc2581d6
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7413-g9bb66fa2d
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Using the singleton stub fence in drm_syncobj_assign_null_handle means
+that all syncobjs created in an already signaled state or any syncobjs
+signaled by userspace will reference the singleton fence when exported
+to a sync_file. If those sync_files are queried with SYNC_IOC_FILE_INFO,
+then the timestamp_ns value returned will correspond to whenever the
+singleton stub fence was first initialized. This can break the ability
+of userspace to use timestamps of these fences, as the singleton stub
+fence's timestamp bears no relationship to any meaningful event.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-x86_64: OK
-linux-git-i686: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12-rc1-i686: OK
-linux-5.12-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 1
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Signed-off-by: David Stevens <stevensd@chromium.org>
+---
+ drivers/gpu/drm/drm_syncobj.c | 58 ++++++++++++++++++++++++++---------
+ 1 file changed, 44 insertions(+), 14 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 349146049849..7cc11f1a83f4 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -211,6 +211,21 @@ struct syncobj_wait_entry {
+ static void syncobj_wait_syncobj_func(struct drm_syncobj *syncobj,
+ 				      struct syncobj_wait_entry *wait);
+ 
++struct drm_syncobj_stub_fence {
++	struct dma_fence base;
++	spinlock_t lock;
++};
++
++static const char *drm_syncobj_stub_fence_get_name(struct dma_fence *fence)
++{
++	return "syncobjstub";
++}
++
++static const struct dma_fence_ops drm_syncobj_stub_fence_ops = {
++	.get_driver_name = drm_syncobj_stub_fence_get_name,
++	.get_timeline_name = drm_syncobj_stub_fence_get_name,
++};
++
+ /**
+  * drm_syncobj_find - lookup and reference a sync object.
+  * @file_private: drm file private pointer
+@@ -344,18 +359,24 @@ void drm_syncobj_replace_fence(struct drm_syncobj *syncobj,
+ }
+ EXPORT_SYMBOL(drm_syncobj_replace_fence);
+ 
+-/**
+- * drm_syncobj_assign_null_handle - assign a stub fence to the sync object
+- * @syncobj: sync object to assign the fence on
+- *
+- * Assign a already signaled stub fence to the sync object.
+- */
+-static void drm_syncobj_assign_null_handle(struct drm_syncobj *syncobj)
++static int drm_syncobj_assign_null_handle(struct drm_syncobj *syncobj)
+ {
+-	struct dma_fence *fence = dma_fence_get_stub();
++	struct drm_syncobj_stub_fence *fence;
+ 
+-	drm_syncobj_replace_fence(syncobj, fence);
+-	dma_fence_put(fence);
++	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
++	if (fence == NULL)
++		return -ENOMEM;
++
++	spin_lock_init(&fence->lock);
++	dma_fence_init(&fence->base, &drm_syncobj_stub_fence_ops,
++		       &fence->lock, 0, 0);
++	dma_fence_signal(&fence->base);
++
++	drm_syncobj_replace_fence(syncobj, &fence->base);
++
++	dma_fence_put(&fence->base);
++
++	return 0;
+ }
+ 
+ /* 5s default for wait submission */
+@@ -469,6 +490,7 @@ EXPORT_SYMBOL(drm_syncobj_free);
+ int drm_syncobj_create(struct drm_syncobj **out_syncobj, uint32_t flags,
+ 		       struct dma_fence *fence)
+ {
++	int ret;
+ 	struct drm_syncobj *syncobj;
+ 
+ 	syncobj = kzalloc(sizeof(struct drm_syncobj), GFP_KERNEL);
+@@ -479,8 +501,13 @@ int drm_syncobj_create(struct drm_syncobj **out_syncobj, uint32_t flags,
+ 	INIT_LIST_HEAD(&syncobj->cb_list);
+ 	spin_lock_init(&syncobj->lock);
+ 
+-	if (flags & DRM_SYNCOBJ_CREATE_SIGNALED)
+-		drm_syncobj_assign_null_handle(syncobj);
++	if (flags & DRM_SYNCOBJ_CREATE_SIGNALED) {
++		ret = drm_syncobj_assign_null_handle(syncobj);
++		if (ret < 0) {
++			drm_syncobj_put(syncobj);
++			return ret;
++		}
++	}
+ 
+ 	if (fence)
+ 		drm_syncobj_replace_fence(syncobj, fence);
+@@ -1322,8 +1349,11 @@ drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	for (i = 0; i < args->count_handles; i++)
+-		drm_syncobj_assign_null_handle(syncobjs[i]);
++	for (i = 0; i < args->count_handles; i++) {
++		ret = drm_syncobj_assign_null_handle(syncobjs[i]);
++		if (ret < 0)
++			break;
++	}
+ 
+ 	drm_syncobj_array_free(syncobjs, args->count_handles);
+ 
+-- 
+2.31.0.208.g409f899ff0-goog
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
