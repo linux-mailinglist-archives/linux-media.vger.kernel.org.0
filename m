@@ -2,58 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 545AA3587E8
-	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 17:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88757358805
+	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 17:18:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232011AbhDHPLF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Apr 2021 11:11:05 -0400
-Received: from mail-40134.protonmail.ch ([185.70.40.134]:54087 "EHLO
-        mail-40134.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231848AbhDHPLE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Apr 2021 11:11:04 -0400
-Date:   Thu, 08 Apr 2021 15:10:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-        s=protonmail3; t=1617894651;
-        bh=w9Ll73lXc4jbHSDyvX8yN7Cj0kZoc2l9DiDSA0gWKfQ=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=m/35YXydKWQ01MVvB+QD/EZYy50RPVsltK4AvFbWTJPBAXsnwxxfJ+//d7QKk3RVn
-         kSU5zsVMY6rmPVV0gVQn5q+kb0f0cG3cx8pMXN9mTVO5wXXgs99y3fokQ0Q6S8W865
-         /5FWMbyUhkdOn39pkXAM1C3Wa+C90RM+HByHGL5kvN42oZyJjZW4CeVXhwGuNu1HGN
-         fDvSP7kUiST/acmJ2W6qONFD/aPJTo4yAvGZ2E1VxDs22laX/iSJZ2y6QB4YuuQvzs
-         qZgiof0stInYmoOI5IK/PqqTpXpa6TpKeFzHelslsaLkc2ksNn9YtYQoEW1I1eNk2T
-         LQKPoOF50grzw==
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-From:   Simon Ser <contact@emersion.fr>
-Cc:     Pekka Paalanen <ppaalanen@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        xorg-devel@lists.x.org, dri-devel@lists.freedesktop.org,
-        wayland-devel@lists.freedesktop.org
-Reply-To: Simon Ser <contact@emersion.fr>
-Subject: Re: Call for an EDID parsing library
-Message-ID: <BIyXHmd9St1ss-z2I5n6mdZZFRRBj2zhTq4eMGjlN-mmPpp_7VC2HjUyF22htq84SlVwil4LBddopV6slVnJIKWd6VcFmzVZOxSTzTpt0BY=@emersion.fr>
-In-Reply-To: <87o8eoj01m.fsf@intel.com>
-References: <20210407114404.13b41822@eldfell> <7d8dc3ea-a935-5145-482c-42ea43dfd782@xs4all.nl> <87mtuajshc.fsf@intel.com> <33467672-b66a-7658-de04-7bc37153613f@xs4all.nl> <87r1jkj37y.fsf@intel.com> <20210408171311.61f433bd@eldfell> <87o8eoj01m.fsf@intel.com>
+        id S232115AbhDHPSn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Apr 2021 11:18:43 -0400
+Received: from mga18.intel.com ([134.134.136.126]:12959 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231863AbhDHPSn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Apr 2021 11:18:43 -0400
+IronPort-SDR: uwv3zUhJX8P/oJJYaY1fyYfdA+SaE6ZTMb9um9Nyd+wTFY8RIPojpvv54Gr5CrV6fERwGWDfOB
+ zSig7IAo363w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="181100255"
+X-IronPort-AV: E=Sophos;i="5.82,206,1613462400"; 
+   d="scan'208";a="181100255"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 08:18:27 -0700
+IronPort-SDR: CN0TnCj9/GfHpXe0J91ryrKNLjRxO8VDVphFqV0GVR6NMENKY/CdBbEIcBbIIOP4v9cbAPMMPi
+ wiXr70/7gf5w==
+X-IronPort-AV: E=Sophos;i="5.82,206,1613462400"; 
+   d="scan'208";a="397121016"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 08:18:24 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lUWQH-002Jst-EX; Thu, 08 Apr 2021 18:18:21 +0300
+Date:   Thu, 8 Apr 2021 18:18:21 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 1/6] software node: Free resources explicitly when
+ swnode_register() fails
+Message-ID: <YG8evZfHNyBmTJu7@smile.fi.intel.com>
+References: <20210329151207.36619-1-andriy.shevchenko@linux.intel.com>
+ <YGRXmOMfCTxy31Rj@kuha.fi.intel.com>
+ <CAJZ5v0jJCYD9+j57-CL-OqiZKL7bBQ7NetcewE_37wODOG_Jkg@mail.gmail.com>
+ <YG8YSPHMBbBJadvp@smile.fi.intel.com>
+ <CAJZ5v0j0XpD6mbaCxAjBARsiScSG2T0v_2m8NdrnoQVmsqDDXQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0j0XpD6mbaCxAjBARsiScSG2T0v_2m8NdrnoQVmsqDDXQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thursday, April 8th, 2021 at 4:58 PM, Jani Nikula <jani.nikula@linux.int=
-el.com> wrote:
+On Thu, Apr 08, 2021 at 05:04:32PM +0200, Rafael J. Wysocki wrote:
+> On Thu, Apr 8, 2021 at 4:50 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Thu, Apr 08, 2021 at 04:15:37PM +0200, Rafael J. Wysocki wrote:
+> > > On Wed, Mar 31, 2021 at 1:06 PM Heikki Krogerus
+> > > <heikki.krogerus@linux.intel.com> wrote:
+> > > >
+> > > > On Mon, Mar 29, 2021 at 06:12:02PM +0300, Andy Shevchenko wrote:
+> > > > > Currently we have a slightly twisted logic in swnode_register().
+> > > > > It frees resources that it doesn't allocate on error path and
+> > > > > in once case it relies on the ->release() implementation.
+> > > > >
+> > > > > Untwist the logic by freeing resources explicitly when swnode_register()
+> > > > > fails. Currently it happens only in fwnode_create_software_node().
+> > > > >
+> > > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > >
+> > > > It all looks OK to me. FWIW, for the whole series:
+> > > >
+> > > > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > >
+> > > Whole series applied (with some minor changelog edits) as 5.13 material, thanks!
+> >
+> > It seems Greg applied it already. Was it dropped there?
+> 
+> Did he?
+> 
+> OK, so please let me know if it's still there in the Greg's tree.
 
-> Perhaps that should be the takeaway; try to minimize parsed data
-> where the consumer needs to know whether it originated from DisplayID or
-> EDID?
+Here [1] what I see. Seems still there.
 
-So an EDID/DisplayID abstraction layer?
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?h=driver-core-next&id=6e11b376fd74356e32d842be588e12dc9bf6e197
 
-It sounds like only an EDID and DisplayID expert could come up with a
-sane API for that. Also some metadata will only be available in one
-format and not the other.
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
