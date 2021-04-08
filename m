@@ -2,67 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26FF43584D5
-	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 15:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8214A35853C
+	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 15:50:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231707AbhDHNgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Apr 2021 09:36:48 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:16846 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231255AbhDHNgs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Apr 2021 09:36:48 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4FGMgL5xYXz9wbq;
-        Thu,  8 Apr 2021 21:34:22 +0800 (CST)
-Received: from ubuntu1804.huawei.com (10.67.174.175) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 8 Apr 2021 21:36:26 +0800
-From:   Lu Jialin <lujialin4@huawei.com>
-To:     <lujialin4@huawei.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     <linux-media@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <kernel-janitors@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] media: sun8i: Fix PM reference leak in deinterlace_start_streaming()
-Date:   Thu, 8 Apr 2021 21:36:30 +0800
-Message-ID: <20210408133630.56299-1-lujialin4@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S231910AbhDHNuD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Apr 2021 09:50:03 -0400
+Received: from mga02.intel.com ([134.134.136.20]:34758 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231809AbhDHNty (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Apr 2021 09:49:54 -0400
+IronPort-SDR: e2bTk+LJN1SkST8FoFdcXzCq/8jdUXVA8LXKDMPgkYYTqHncw2+8XkMnLUWMPm+layQdkhxc9f
+ P1iIRu5+XUaA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="180671803"
+X-IronPort-AV: E=Sophos;i="5.82,206,1613462400"; 
+   d="scan'208";a="180671803"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 06:49:42 -0700
+IronPort-SDR: fUibmGKxzyzFqlQNTm9BdVVKyP1BK/engqrOtAIhz/X4VnCNEQM59xRJI7tZ/+WYFpfb4XIQ2M
+ ZJE2v0wTROpQ==
+X-IronPort-AV: E=Sophos;i="5.82,206,1613462400"; 
+   d="scan'208";a="422253777"
+Received: from akervine-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.34.131])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 06:49:39 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        wayland-devel@lists.freedesktop.org, xorg-devel@lists.x.org,
+        linux-media@vger.kernel.org
+Subject: Re: Call for an EDID parsing library
+In-Reply-To: <33467672-b66a-7658-de04-7bc37153613f@xs4all.nl>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210407114404.13b41822@eldfell> <7d8dc3ea-a935-5145-482c-42ea43dfd782@xs4all.nl> <87mtuajshc.fsf@intel.com> <33467672-b66a-7658-de04-7bc37153613f@xs4all.nl>
+Date:   Thu, 08 Apr 2021 16:49:37 +0300
+Message-ID: <87r1jkj37y.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.174.175]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, 07 Apr 2021, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> On 07/04/2021 12:31, Jani Nikula wrote:
+>> On Wed, 07 Apr 2021, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>> It is the most complete EDID parser I know based on the various standards.
+>> 
+>> Does it support pure DisplayID in addition to DisplayID blocks embedded
+>> to EDID extension blocks? I think we'll be needing that sometime in the
+>> near future. (We don't yet support that in the kernel either.)
+>
+> It doesn't, but that shouldn't be too hard to implement.
+>
+> Do you have examples of that? If I had some, then I could implement support
+> for it in edid-decode.
 
-pm_runtime_get_sync will increment pm usage counter even it failed.
-Forgetting to putting operation will result in reference leak here.
-Fix it by replacing it with pm_runtime_resume_and_get to keep usage
-counter balanced.
+Alas, I don't. We don't come across them naturally, because the kernel
+does not follow VESA E-DDC 1.3 to read 0x52 address to read the plain
+DisplayID. I guess it's also common to add DisplayID 2.0 data blocks in
+EDID extensions (and I see that edid-decode handles them), though this
+is not described in DisplayID 2.0 spec the way it is in older DisplayID
+specs.
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Lu Jialin <lujialin4@huawei.com>
----
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The differences aren't that big, really. Slightly different constraints
+on the block size when they're not embedded in EDID, as well as
+different mandatory blocks.
 
-diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-index ed863bf5ea80..671e4a928993 100644
---- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-+++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-@@ -589,7 +589,7 @@ static int deinterlace_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	int ret;
- 
- 	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
--		ret = pm_runtime_get_sync(dev);
-+		ret = pm_runtime_resume_and_get(dev);
- 		if (ret < 0) {
- 			dev_err(dev, "Failed to enable module\n");
- 
+Anyway, this is only tangentially related to the library. I just think
+we need to take DisplayID better into account also in the *users* of the
+library, as they shouldn't really even look at the EDID if the plain
+DisplayID is there, per E-DDC 1.3 section 3.1.
 
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
