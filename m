@@ -2,96 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B45735880F
-	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 17:20:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64107358864
+	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 17:28:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232115AbhDHPUO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Apr 2021 11:20:14 -0400
-Received: from mail-ot1-f50.google.com ([209.85.210.50]:35365 "EHLO
-        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232011AbhDHPUN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Apr 2021 11:20:13 -0400
-Received: by mail-ot1-f50.google.com with SMTP id v24-20020a9d69d80000b02901b9aec33371so2659702oto.2;
-        Thu, 08 Apr 2021 08:20:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1l55izRQ8nY+x+SOR4VHV/Ao5jxbNbjMrx+sLpOPjK4=;
-        b=C/Kn71JmLdyyBkzm3e3O8lWwiXV086yiusM7P4Sct0QvdYGto2uthly5S9TRBps6tf
-         QfhXJq30s4vUOIrxzxIlgYKS3dH0wjgTmJE3i8YGjSbdh+C2o/e5RAjY24nogAQqvC4h
-         r0ErSIqtFOSGXkeR485VdFcyjVCfKUuYefSbxSmOjpkKaN9m6oiqC+507pw8FlERbZnb
-         DHn0PZJeKte2MxUUz1mLGajjJeSAVVnVvczKEXRZyHiNwKe/8crqzN12AFp4YCX/Tn5R
-         AyO/0haN4h9rE1YVMY6ofVO3QNNcoJDMWUrpDxEAx3rMLy0Ccms1VeQK4y0yAXQLtXkv
-         3G9A==
-X-Gm-Message-State: AOAM531ASOKpR2LimvjoIbzJm0O7/axoeKjA1c+dCWk73zC5E0QHkNLQ
-        vYxzK3syVnwS+kefrT7mguCWtdMB4P3sOlBZKoo=
-X-Google-Smtp-Source: ABdhPJzXTh1xK/TXuaFzcfuDiP0bRY81Ch5oD1yLb+clFYHQuyc9IeAmu6+se8lJ0br1jyreWUfN8c4PgxAA/bj3kzM=
-X-Received: by 2002:a9d:4811:: with SMTP id c17mr8347014otf.206.1617895202303;
- Thu, 08 Apr 2021 08:20:02 -0700 (PDT)
+        id S231925AbhDHP2t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Apr 2021 11:28:49 -0400
+Received: from mga01.intel.com ([192.55.52.88]:15800 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231843AbhDHP2t (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Apr 2021 11:28:49 -0400
+IronPort-SDR: 0KogtiFLORpWVcT2AEiAf1c60SXBxRdof2RMthVe5osTclE91W6RvXkk14TezEnww3Sr3r22qh
+ 6LLDbcm/GxbQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="213975222"
+X-IronPort-AV: E=Sophos;i="5.82,206,1613462400"; 
+   d="scan'208";a="213975222"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 08:28:37 -0700
+IronPort-SDR: y0yQYBO9Y8idC9OV3H0oyxgxvYcCTTD/WePaijxQ1pIAaMaLc6GzKqhsogxesMSA+vqPiNuBbW
+ qiD0TpEzOqhA==
+X-IronPort-AV: E=Sophos;i="5.82,206,1613462400"; 
+   d="scan'208";a="422294334"
+Received: from akervine-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.34.131])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 08:28:32 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Simon Ser <contact@emersion.fr>
+Cc:     Pekka Paalanen <ppaalanen@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        xorg-devel@lists.x.org, dri-devel@lists.freedesktop.org,
+        wayland-devel@lists.freedesktop.org
+Subject: Re: Call for an EDID parsing library
+In-Reply-To: <BIyXHmd9St1ss-z2I5n6mdZZFRRBj2zhTq4eMGjlN-mmPpp_7VC2HjUyF22htq84SlVwil4LBddopV6slVnJIKWd6VcFmzVZOxSTzTpt0BY=@emersion.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210407114404.13b41822@eldfell> <7d8dc3ea-a935-5145-482c-42ea43dfd782@xs4all.nl> <87mtuajshc.fsf@intel.com> <33467672-b66a-7658-de04-7bc37153613f@xs4all.nl> <87r1jkj37y.fsf@intel.com> <20210408171311.61f433bd@eldfell> <87o8eoj01m.fsf@intel.com> <BIyXHmd9St1ss-z2I5n6mdZZFRRBj2zhTq4eMGjlN-mmPpp_7VC2HjUyF22htq84SlVwil4LBddopV6slVnJIKWd6VcFmzVZOxSTzTpt0BY=@emersion.fr>
+Date:   Thu, 08 Apr 2021 18:28:29 +0300
+Message-ID: <87lf9siyn6.fsf@intel.com>
 MIME-Version: 1.0
-References: <20210329151207.36619-1-andriy.shevchenko@linux.intel.com>
- <YGRXmOMfCTxy31Rj@kuha.fi.intel.com> <CAJZ5v0jJCYD9+j57-CL-OqiZKL7bBQ7NetcewE_37wODOG_Jkg@mail.gmail.com>
- <YG8YSPHMBbBJadvp@smile.fi.intel.com> <CAJZ5v0j0XpD6mbaCxAjBARsiScSG2T0v_2m8NdrnoQVmsqDDXQ@mail.gmail.com>
- <YG8evZfHNyBmTJu7@smile.fi.intel.com>
-In-Reply-To: <YG8evZfHNyBmTJu7@smile.fi.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 8 Apr 2021 17:19:51 +0200
-Message-ID: <CAJZ5v0g32KqeyWM-pzXj6hvD1EixAuz9_QgYXBYZTQC+z2DKyA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] software node: Free resources explicitly when
- swnode_register() fails
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 8, 2021 at 5:18 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Thu, 08 Apr 2021, Simon Ser <contact@emersion.fr> wrote:
+> On Thursday, April 8th, 2021 at 4:58 PM, Jani Nikula <jani.nikula@linux.intel.com> wrote:
 >
-> On Thu, Apr 08, 2021 at 05:04:32PM +0200, Rafael J. Wysocki wrote:
-> > On Thu, Apr 8, 2021 at 4:50 PM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Thu, Apr 08, 2021 at 04:15:37PM +0200, Rafael J. Wysocki wrote:
-> > > > On Wed, Mar 31, 2021 at 1:06 PM Heikki Krogerus
-> > > > <heikki.krogerus@linux.intel.com> wrote:
-> > > > >
-> > > > > On Mon, Mar 29, 2021 at 06:12:02PM +0300, Andy Shevchenko wrote:
-> > > > > > Currently we have a slightly twisted logic in swnode_register().
-> > > > > > It frees resources that it doesn't allocate on error path and
-> > > > > > in once case it relies on the ->release() implementation.
-> > > > > >
-> > > > > > Untwist the logic by freeing resources explicitly when swnode_register()
-> > > > > > fails. Currently it happens only in fwnode_create_software_node().
-> > > > > >
-> > > > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > > >
-> > > > > It all looks OK to me. FWIW, for the whole series:
-> > > > >
-> > > > > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > > >
-> > > > Whole series applied (with some minor changelog edits) as 5.13 material, thanks!
-> > >
-> > > It seems Greg applied it already. Was it dropped there?
-> >
-> > Did he?
-> >
-> > OK, so please let me know if it's still there in the Greg's tree.
+>> Perhaps that should be the takeaway; try to minimize parsed data
+>> where the consumer needs to know whether it originated from DisplayID or
+>> EDID?
 >
-> Here [1] what I see. Seems still there.
+> So an EDID/DisplayID abstraction layer?
 >
-> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?h=driver-core-next&id=6e11b376fd74356e32d842be588e12dc9bf6e197
+> It sounds like only an EDID and DisplayID expert could come up with a
+> sane API for that. Also some metadata will only be available in one
+> format and not the other.
 
-I will not be applying it then, sorry for the confusion.
+Well, some of the data *already* comes from DisplayID extensions in the
+EDID.
+
+My point is, if you parse displayid and edid into different structures
+and APIs, what will the code bases using the library end up looking
+like? Not pretty? Implementing the same conditionals all over the place?
+
+Anyway. I feel like I'm derailing this a bit, and I really don't want
+that to happen. I think DisplayID is a consideration that should not be
+forgotten, but it's probably not the first priority here.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
