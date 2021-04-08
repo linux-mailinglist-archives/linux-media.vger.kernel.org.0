@@ -2,367 +2,288 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E42D358BEE
-	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 20:08:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D06C7358D3F
+	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 21:06:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232735AbhDHSI6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Apr 2021 14:08:58 -0400
-Received: from mga07.intel.com ([134.134.136.100]:25586 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232604AbhDHSI5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Apr 2021 14:08:57 -0400
-IronPort-SDR: K0iZTZt5mF7BLoHFxP55oH8ys1MaR1s6DyfKsXLYzVvp0QOpb730AP4oryLDLJIvhTU+qf3oq7
- i2P6m2favDiw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="257584201"
-X-IronPort-AV: E=Sophos;i="5.82,207,1613462400"; 
-   d="scan'208";a="257584201"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 11:08:45 -0700
-IronPort-SDR: wYhdwH0Lz49B1a1TxODUt1s1E6T5BwggyRefMG5HHig+iAAdVp+nReXmO44IQ16CFSYmq3msNt
- wGsUE8VXmWqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,207,1613462400"; 
-   d="scan'208";a="387479938"
-Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 08 Apr 2021 11:08:44 -0700
-Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lUZ59-000FQz-KE; Thu, 08 Apr 2021 18:08:43 +0000
-Date:   Fri, 09 Apr 2021 02:07:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- c1c1d437b1f0a84de6b53416026f7ea1ef3df996
-Message-ID: <606f4673.jd3/lp41XAQtm8XY%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S232969AbhDHTGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Apr 2021 15:06:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56790 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232804AbhDHTGa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Apr 2021 15:06:30 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EB28C061760
+        for <linux-media@vger.kernel.org>; Thu,  8 Apr 2021 12:06:18 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id w7-20020a1cdf070000b0290125f388fb34so982860wmg.0
+        for <linux-media@vger.kernel.org>; Thu, 08 Apr 2021 12:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=from:to:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=avZZf+CRAZuJ9scymQ3KqjL7gG+/KVD6TaEPV6oIwa0=;
+        b=kftFeE1xrrnxy2bCwSt2kaWU1jMT//++swrm3Yw3DKJ7IvFm9MR8yw0t7tYVaEpJcB
+         CfNUcEJSLX2+o1u2CslOHEeZAiwj/+KNGAd48CO+8xTpRemiyZQGD3IOu8Oc2gs0VIzY
+         6M2BNxrUczeE9LM+K4xwsNx+t3rbnUCDseOnK1rnHHpNTbSbKx55mYoljvFOmt+k2sEY
+         34dZMlcJ6jnNlSVS/h6Tqimbmm5pCo7MPIiqwN1pjXLkpSN29sVMeljF6aGhkngIWCTi
+         M4fBDZ6CIsQTBWKX5765lkHFBqB58BRFVnXii94+qU1YeIwmLqymFLsE5EoUbS2mIF55
+         Bq3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=avZZf+CRAZuJ9scymQ3KqjL7gG+/KVD6TaEPV6oIwa0=;
+        b=Ze2nL/SD1w8dzdJBlIw/Q64qxOxqvBUzx+5LresZuZw5RN5lSK+N48fxwJhXXHduKV
+         YVCO8NgJpuEgZ0/h75R1B5lvZGRVyAGFYCQA/VpfRBMY9Q2xU7J3RSRebWOH4M9FWPf7
+         El+vLKUbL3RC0NkSLc0mxECEbaWvVBtSlvVJK2xaWrO6UPwFq0hoOa49kdTXkVWfUDJm
+         oHhLepjke9mJ9ecoD4snVyWE96wKE/v2Hg79Xd4XwKk2Hrtevywn/1B9hYkG0FLCeSVY
+         Yx2TKx1gm3RL13VhKG9XKkTd7y1hLNf2jEFRPjlHsS3TBOg2mbG7RffFpm6LEguxEV14
+         UxeQ==
+X-Gm-Message-State: AOAM530ozVN4k3DEzFDrMyGccGFI/ma+uloyBCrgvABmcQr6oJ5W9ACX
+        DEJPYPXAtQ7wY6uQd44/YQ==
+X-Google-Smtp-Source: ABdhPJwO9/Voml2OC7RgaBJswluJ9LzJvDDY+U6YHdqWUoxaCkX/ynydjasDGHrx/3ohwn6mPXxkcw==
+X-Received: by 2002:a1c:1b4d:: with SMTP id b74mr10439140wmb.106.1617908776961;
+        Thu, 08 Apr 2021 12:06:16 -0700 (PDT)
+Received: from [192.168.1.3] ([77.100.226.17])
+        by smtp.googlemail.com with ESMTPSA id j6sm174021wmq.16.2021.04.08.12.06.16
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Apr 2021 12:06:16 -0700 (PDT)
+From:   test9876543 <wulf.rajek@googlemail.com>
+X-Google-Original-From: test9876543 <test9876543@googlemail.com>
+To:     linux-media@vger.kernel.org
+Subject: UVC compliant device 0c45:6366 Microdia - Victure SC30
+Message-ID: <6c331a90-8f85-5c9e-c480-40b1f634267c@googlemail.com>
+Date:   Thu, 8 Apr 2021 20:06:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-tree
-branch HEAD: c1c1d437b1f0a84de6b53416026f7ea1ef3df996  MAINTAINERS: update ovti,ov2680.yaml reference
+As per http://www.ideasonboard.org/uvc/#devices, I'm reporting a working 
+device not listed in the table. Please see details of lsusb, dmesg, 
+ffmpeg and gst-device-monitor-1.0 below.
 
-elapsed time: 1981m
+The product is advertised as "Victure Webcam SC30"
+https://www.amazon.co.uk/gp/product/B086QF84DK/
 
-configs tested: 305
-configs skipped: 5
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-i386                             allyesconfig
-riscv                            allyesconfig
-arm                         hackkit_defconfig
-arm                           u8500_defconfig
-mips                       bmips_be_defconfig
-arm                           h5000_defconfig
-mips                      loongson3_defconfig
-ia64                             allyesconfig
-arm                         lpc18xx_defconfig
-arc                         haps_hs_defconfig
-riscv                            alldefconfig
-powerpc                     mpc83xx_defconfig
-openrisc                 simple_smp_defconfig
-nios2                               defconfig
-arc                          axs101_defconfig
-alpha                            alldefconfig
-s390                                defconfig
-mips                        nlm_xlp_defconfig
-m68k                                defconfig
-arm                            lart_defconfig
-arm                         assabet_defconfig
-arm                          exynos_defconfig
-arm                           viper_defconfig
-sh                          lboxre2_defconfig
-powerpc                 mpc834x_itx_defconfig
-mips                  maltasmvp_eva_defconfig
-arm                       netwinder_defconfig
-arm                     am200epdkit_defconfig
-mips                          rb532_defconfig
-powerpc                   currituck_defconfig
-powerpc                      chrp32_defconfig
-arm                        keystone_defconfig
-alpha                            allyesconfig
-sh                            shmin_defconfig
-mips                           ci20_defconfig
-mips                        maltaup_defconfig
-mips                         mpc30x_defconfig
-arm                        cerfcube_defconfig
-xtensa                  cadence_csp_defconfig
-m68k                             allyesconfig
-powerpc                     akebono_defconfig
-arm                     eseries_pxa_defconfig
-arm                            pleb_defconfig
-m68k                         amcore_defconfig
-sparc                       sparc32_defconfig
-powerpc                     ppa8548_defconfig
-xtensa                         virt_defconfig
-arm                         lubbock_defconfig
-powerpc                     tqm8555_defconfig
-s390                             alldefconfig
-sh                           se7619_defconfig
-powerpc                 mpc836x_mds_defconfig
-m68k                        m5307c3_defconfig
-m68k                       m5208evb_defconfig
-mips                malta_qemu_32r6_defconfig
-sh                           se7712_defconfig
-arm                        oxnas_v6_defconfig
-powerpc                      ppc44x_defconfig
-arm                  colibri_pxa300_defconfig
-m68k                         apollo_defconfig
-sh                          r7785rp_defconfig
-powerpc                      pmac32_defconfig
-mips                       lemote2f_defconfig
-arm                         bcm2835_defconfig
-arc                      axs103_smp_defconfig
-arm                            hisi_defconfig
-mips                            e55_defconfig
-sh                            hp6xx_defconfig
-arc                     nsimosci_hs_defconfig
-arm                        clps711x_defconfig
-openrisc                  or1klitex_defconfig
-powerpc                    amigaone_defconfig
-sh                ecovec24-romimage_defconfig
-mips                         cobalt_defconfig
-m68k                        m5407c3_defconfig
-arm                           spitz_defconfig
-arm                         palmz72_defconfig
-arm                         lpc32xx_defconfig
-ia64                             alldefconfig
-powerpc                 mpc836x_rdk_defconfig
-arm                         socfpga_defconfig
-mips                      malta_kvm_defconfig
-i386                                defconfig
-mips                             allyesconfig
-arm                         at91_dt_defconfig
-powerpc                 mpc8272_ads_defconfig
-sh                   sh7770_generic_defconfig
-arm                          collie_defconfig
-arm                           sama5_defconfig
-xtensa                           alldefconfig
-sh                          sdk7780_defconfig
-powerpc                      arches_defconfig
-csky                             alldefconfig
-powerpc                           allnoconfig
-powerpc                     mpc5200_defconfig
-arm                       omap2plus_defconfig
-csky                                defconfig
-arm                        mvebu_v7_defconfig
-arm                        neponset_defconfig
-mips                  cavium_octeon_defconfig
-ia64                        generic_defconfig
-arm                           tegra_defconfig
-powerpc                     stx_gp3_defconfig
-m68k                        stmark2_defconfig
-arm                        spear3xx_defconfig
-mips                           gcw0_defconfig
-arm                          moxart_defconfig
-m68k                       m5475evb_defconfig
-s390                             allyesconfig
-m68k                             alldefconfig
-arm                          gemini_defconfig
-mips                           mtx1_defconfig
-arc                           tb10x_defconfig
-mips                            gpr_defconfig
-arm                            zeus_defconfig
-sh                   rts7751r2dplus_defconfig
-powerpc                       maple_defconfig
-powerpc64                           defconfig
-mips                     cu1000-neo_defconfig
-sh                   secureedge5410_defconfig
-arm                         nhk8815_defconfig
-sh                          landisk_defconfig
-sh                          kfr2r09_defconfig
-arm                      footbridge_defconfig
-arm                          iop32x_defconfig
-powerpc                 mpc832x_rdb_defconfig
-powerpc                      ppc64e_defconfig
-sh                           se7343_defconfig
-sh                        sh7785lcr_defconfig
-sh                          rsk7201_defconfig
-m68k                          hp300_defconfig
-s390                          debug_defconfig
-sh                 kfr2r09-romimage_defconfig
-arm                             mxs_defconfig
-mips                          malta_defconfig
-h8300                     edosk2674_defconfig
-arm                       versatile_defconfig
-mips                      pistachio_defconfig
-parisc                           allyesconfig
-arm                         axm55xx_defconfig
-mips                      fuloong2e_defconfig
-sh                        sh7757lcr_defconfig
-sh                               j2_defconfig
-sh                            titan_defconfig
-arm                           omap1_defconfig
-arm                        shmobile_defconfig
-riscv             nommu_k210_sdcard_defconfig
-arc                                 defconfig
-powerpc                    socrates_defconfig
-mips                            ar7_defconfig
-sh                          sdk7786_defconfig
-arm                           sunxi_defconfig
-powerpc                   motionpro_defconfig
-powerpc                     powernv_defconfig
-powerpc                 mpc8313_rdb_defconfig
-sh                              ul2_defconfig
-sh                           se7206_defconfig
-nios2                            alldefconfig
-arc                        vdk_hs38_defconfig
-m68k                            q40_defconfig
-mips                        nlm_xlr_defconfig
-powerpc                     sbc8548_defconfig
-powerpc                        warp_defconfig
-arm                         cm_x300_defconfig
-sh                          urquell_defconfig
-arm                      tct_hammer_defconfig
-mips                           ip28_defconfig
-sh                   sh7724_generic_defconfig
-sh                          rsk7269_defconfig
-mips                        bcm47xx_defconfig
-powerpc                mpc7448_hpc2_defconfig
-powerpc                      walnut_defconfig
-m68k                       m5275evb_defconfig
-arm                        mini2440_defconfig
-xtensa                  audio_kc705_defconfig
-sh                               alldefconfig
-m68k                       m5249evb_defconfig
-sh                        sh7763rdp_defconfig
-h8300                               defconfig
-arm                    vt8500_v6_v7_defconfig
-powerpc                  mpc866_ads_defconfig
-mips                     cu1830-neo_defconfig
-mips                           ip32_defconfig
-powerpc                         ps3_defconfig
-x86_64                           alldefconfig
-arm                            xcep_defconfig
-powerpc                      ep88xc_defconfig
-m68k                          amiga_defconfig
-arm                  colibri_pxa270_defconfig
-mips                           ip22_defconfig
-arm                     davinci_all_defconfig
-sh                      rts7751r2d1_defconfig
-powerpc                      mgcoge_defconfig
-powerpc                         wii_defconfig
-powerpc                    mvme5100_defconfig
-mips                    maltaup_xpa_defconfig
-arm                        trizeps4_defconfig
-mips                         rt305x_defconfig
-ia64                            zx1_defconfig
-sh                  sh7785lcr_32bit_defconfig
-powerpc                      tqm8xx_defconfig
-powerpc                     tqm8541_defconfig
-powerpc                        fsp2_defconfig
-um                               allyesconfig
-powerpc                      pasemi_defconfig
-powerpc               mpc834x_itxgp_defconfig
-arm                          ep93xx_defconfig
-arc                        nsim_700_defconfig
-nios2                         3c120_defconfig
-powerpc                      ppc40x_defconfig
-arm                          pxa3xx_defconfig
-arc                    vdk_hs38_smp_defconfig
-sh                         ap325rxa_defconfig
-powerpc                 mpc832x_mds_defconfig
-powerpc                      bamboo_defconfig
-arm                         shannon_defconfig
-openrisc                            defconfig
-mips                          ath25_defconfig
-mips                          ath79_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allmodconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-x86_64               randconfig-a004-20210408
-x86_64               randconfig-a005-20210408
-x86_64               randconfig-a003-20210408
-x86_64               randconfig-a001-20210408
-x86_64               randconfig-a002-20210408
-x86_64               randconfig-a006-20210408
-i386                 randconfig-a006-20210407
-i386                 randconfig-a003-20210407
-i386                 randconfig-a001-20210407
-i386                 randconfig-a004-20210407
-i386                 randconfig-a002-20210407
-i386                 randconfig-a005-20210407
-i386                 randconfig-a006-20210408
-i386                 randconfig-a003-20210408
-i386                 randconfig-a001-20210408
-i386                 randconfig-a004-20210408
-i386                 randconfig-a005-20210408
-i386                 randconfig-a002-20210408
-x86_64               randconfig-a014-20210407
-x86_64               randconfig-a015-20210407
-x86_64               randconfig-a013-20210407
-x86_64               randconfig-a011-20210407
-x86_64               randconfig-a012-20210407
-x86_64               randconfig-a016-20210407
-i386                 randconfig-a014-20210407
-i386                 randconfig-a011-20210407
-i386                 randconfig-a016-20210407
-i386                 randconfig-a012-20210407
-i386                 randconfig-a015-20210407
-i386                 randconfig-a013-20210407
-i386                 randconfig-a014-20210408
-i386                 randconfig-a016-20210408
-i386                 randconfig-a011-20210408
-i386                 randconfig-a012-20210408
-i386                 randconfig-a013-20210408
-i386                 randconfig-a015-20210408
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+lsusb:
+Bus 001 Device 016: ID 0c45:6366 Microdia
 
-clang tested configs:
-x86_64               randconfig-a004-20210407
-x86_64               randconfig-a003-20210407
-x86_64               randconfig-a005-20210407
-x86_64               randconfig-a001-20210407
-x86_64               randconfig-a002-20210407
-x86_64               randconfig-a006-20210407
-x86_64               randconfig-a014-20210408
-x86_64               randconfig-a015-20210408
-x86_64               randconfig-a012-20210408
-x86_64               randconfig-a011-20210408
-x86_64               randconfig-a013-20210408
-x86_64               randconfig-a016-20210408
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+dmesg:
+[200407.743816] usb 1-2.4: new high-speed USB device number 19 using 
+xhci_hcd
+[200408.361398] usb 1-2.4: New USB device found, idVendor=0c45, 
+idProduct=6366, bcdDevice= 1.00
+[200408.361406] usb 1-2.4: New USB device strings: Mfr=2, Product=1, 
+SerialNumber=3
+[200408.361411] usb 1-2.4: Product: USB  Camera
+[200408.361414] usb 1-2.4: Manufacturer: USB  Camera
+[200408.361417] usb 1-2.4: SerialNumber: USB  Camera
+[200408.364677] uvcvideo: Found UVC 1.00 device USB  Camera (0c45:6366)
+[200408.406090] input: USB  Camera: USB  Camera as 
+/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2.4/1-2.4:1.0/input/input22
+
+
+
+ffmpeg -hide_banner -f v4l2 -list_formats all -i /dev/video2
+[video4linux2,v4l2 @ 0x564561b2a6c0] Compressed:       mjpeg : 
+Motion-JPEG : 1920x1080 1280x720 960x540 800x600 640x480 320x240 320x180 
+176x144 160x120 1920x1080
+[video4linux2,v4l2 @ 0x564561b2a6c0] Raw       :     yuyv422 : 
+YUYV 4:2:2 : 1920x1080 1280x720 640x480 320x240 1920x1080
+
+ffmpeg -hide_banner -f v4l2 -list_formats all -i /dev/video4
+[video4linux2,v4l2 @ 0x55a5550af6c0] Compressed:        h264 : 
+      H.264 : 1920x1080 1280x720 640x480 320x240 176x144 160x120 1920x1080
+
+
+gst-device-monitor-1.0:
+
+Device found:
+
+	name  : USB  Camera: USB  Camera
+	class : Video/Source
+	caps  : video/x-raw, format=(string)YUY2, width=(int)1920, 
+height=(int)1080, pixel-aspect-ratio=(fraction)1/1, 
+framerate=(fraction){ 5/1, 5/1 };
+	        video/x-raw, format=(string)YUY2, width=(int)1920, 
+height=(int)1080, pixel-aspect-ratio=(fraction)1/1, 
+framerate=(fraction){ 5/1, 5/1 };
+	        video/x-raw, format=(string)YUY2, width=(int)1280, 
+height=(int)720, pixel-aspect-ratio=(fraction)1/1, framerate=(fraction)5/1;
+	        video/x-raw, format=(string)YUY2, width=(int)640, 
+height=(int)480, pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 
+30/1, 20/1, 15/1, 10/1, 5/1 };
+	        video/x-raw, format=(string)YUY2, width=(int)320, 
+height=(int)240, pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 
+30/1, 20/1, 15/1, 10/1, 5/1 };
+	        image/jpeg, width=(int)1920, height=(int)1080, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1, 30/1, 20/1, 15/1, 10/1, 5/1 };
+	        image/jpeg, width=(int)1920, height=(int)1080, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1, 30/1, 20/1, 15/1, 10/1, 5/1 };
+	        image/jpeg, width=(int)1280, height=(int)720, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        image/jpeg, width=(int)960, height=(int)540, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        image/jpeg, width=(int)800, height=(int)600, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        image/jpeg, width=(int)640, height=(int)480, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        image/jpeg, width=(int)320, height=(int)240, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        image/jpeg, width=(int)320, height=(int)180, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        image/jpeg, width=(int)176, height=(int)144, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        image/jpeg, width=(int)160, height=(int)120, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	properties:
+		udev-probed = true
+		device.bus_path = pci-0000:00:14.0-usb-0:2.4:1.0
+		sysfs.path = 
+/sys/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2.4/1-2.4:1.0/video4linux/video2
+		device.bus = usb
+		device.subsystem = video4linux
+		device.vendor.id = 0c45
+		device.vendor.name = "USB\\x20\\x20Camera"
+		device.product.id = 6366
+		device.product.name = "USB\ \ Camera:\ USB\ \ Camera"
+		device.serial = USB_Camera_USB_Camera_USB_Camera
+		device.capabilities = :capture:
+		device.api = v4l2
+		device.path = /dev/video2
+		v4l2.device.driver = uvcvideo
+		v4l2.device.card = "USB\ \ Camera:\ USB\ \ Camera"
+		v4l2.device.bus_info = usb-0000:00:14.0-2.4
+		v4l2.device.version = 329746 (0x00050812)
+		v4l2.device.capabilities = 2225078273 (0x84a00001)
+		v4l2.device.device_caps = 69206017 (0x04200001)
+	gst-launch-1.0 v4l2src device=/dev/video2 ! ...
+
+
+Device found:
+
+	name  : USB  Camera: USB  Camera
+	class : Video/Source
+	caps  : video/x-h264, stream-format=(string)byte-stream, 
+alignment=(string)au, width=(int)1920, height=(int)1080, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1, 30/1, 20/1, 15/1, 10/1, 5/1 };
+	        video/x-h264, stream-format=(string)byte-stream, 
+alignment=(string)au, width=(int)1920, height=(int)1080, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1, 30/1, 20/1, 15/1, 10/1, 5/1 };
+	        video/x-h264, stream-format=(string)byte-stream, 
+alignment=(string)au, width=(int)1280, height=(int)720, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        video/x-h264, stream-format=(string)byte-stream, 
+alignment=(string)au, width=(int)640, height=(int)480, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        video/x-h264, stream-format=(string)byte-stream, 
+alignment=(string)au, width=(int)320, height=(int)240, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        video/x-h264, stream-format=(string)byte-stream, 
+alignment=(string)au, width=(int)176, height=(int)144, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	        video/x-h264, stream-format=(string)byte-stream, 
+alignment=(string)au, width=(int)160, height=(int)120, 
+pixel-aspect-ratio=(fraction)1/1, framerate=(fraction){ 30/1, 20/1, 
+15/1, 10/1, 5/1 };
+	properties:
+		udev-probed = true
+		device.bus_path = pci-0000:00:14.0-usb-0:2.4:1.0
+		sysfs.path = 
+/sys/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2.4/1-2.4:1.0/video4linux/video4
+		device.bus = usb
+		device.subsystem = video4linux
+		device.vendor.id = 0c45
+		device.vendor.name = "USB\\x20\\x20Camera"
+		device.product.id = 6366
+		device.product.name = "USB\ \ Camera:\ USB\ \ Camera"
+		device.serial = USB_Camera_USB_Camera_USB_Camera
+		device.capabilities = :capture:
+		device.api = v4l2
+		device.path = /dev/video4
+		v4l2.device.driver = uvcvideo
+		v4l2.device.card = "USB\ \ Camera:\ USB\ \ Camera"
+		v4l2.device.bus_info = usb-0000:00:14.0-2.4
+		v4l2.device.version = 329746 (0x00050812)
+		v4l2.device.capabilities = 2225078273 (0x84a00001)
+		v4l2.device.device_caps = 69206017 (0x04200001)
+	gst-launch-1.0 v4l2src device=/dev/video4 ! ...
+
+
+
+Device found:
+
+	name  : USB  Camera Analogue Stereo
+	class : Audio/Source
+	caps  : audio/x-raw, format=(string){ S16LE, S16BE, F32LE, F32BE, 
+S32LE, S32BE, S24LE, S24BE, S24_32LE, S24_32BE, U8 }, 
+layout=(string)interleaved, rate=(int)[ 1, 384000 ], channels=(int)[ 1, 
+32 ];
+	        audio/x-alaw, rate=(int)[ 1, 384000 ], channels=(int)[ 1, 32 ];
+	        audio/x-mulaw, rate=(int)[ 1, 384000 ], channels=(int)[ 1, 32 ];
+	properties:
+		alsa.resolution_bits = 16
+		device.api = alsa
+		device.class = sound
+		alsa.class = generic
+		alsa.subclass = generic-mix
+		alsa.name = "USB\ Audio"
+		alsa.id = "USB\ Audio"
+		alsa.subdevice = 0
+		alsa.subdevice_name = "subdevice\ \#0"
+		alsa.device = 0
+		alsa.card = 4
+		alsa.card_name = "USB\ \ Camera"
+		alsa.long_card_name = "USB\ \ Camera\ USB\ \ Camera\ at\ 
+usb-0000:00:14.0-2.4\,\ high\ speed"
+		alsa.driver_name = snd_usb_audio
+		device.bus_path = pci-0000:00:14.0-usb-0:2.4:1.3
+		sysfs.path = 
+/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2.4/1-2.4:1.3/sound/card4
+		udev.id = usb-USB_Camera_USB_Camera_USB_Camera-03
+		device.bus = usb
+		device.vendor.id = 0c45
+		device.vendor.name = Microdia
+		device.product.id = 6366
+		device.product.name = "USB\ \ Camera"
+		device.serial = USB_Camera_USB_Camera_USB_Camera
+		device.form_factor = webcam
+		device.string = front:4
+		device.buffering.buffer_size = 352800
+		device.buffering.fragment_size = 176400
+		device.access_mode = mmap+timer
+		device.profile.name = analog-stereo
+		device.profile.description = "Analogue\ Stereo"
+		device.description = "USB\ \ Camera\ Analogue\ Stereo"
+		module-udev-detect.discovered = 1
+		device.icon_name = camera-web-usb
+		is-default = true
+	gst-launch-1.0 pulsesrc 
+device=alsa_input.usb-USB_Camera_USB_Camera_USB_Camera-03.analog-stereo 
+! ...
+
