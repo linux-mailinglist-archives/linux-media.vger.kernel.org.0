@@ -2,74 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BCE7358E50
-	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 22:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EEF7358E8D
+	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 22:38:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232158AbhDHUZH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Apr 2021 16:25:07 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:43474 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231699AbhDHUZG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Apr 2021 16:25:06 -0400
-X-IronPort-AV: E=Sophos;i="5.82,207,1613401200"; 
-   d="scan'208";a="77693642"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 09 Apr 2021 05:24:52 +0900
-Received: from devel.example.org?044ree.adwin.renesas.com (unknown [10.226.36.85])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 50F7940061B4;
-        Fri,  9 Apr 2021 05:24:50 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH] media: dt-bindings: media: renesas,drif: Fix fck definition
-Date:   Thu,  8 Apr 2021 21:24:36 +0100
-Message-Id: <20210408202436.3706-1-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.25.1
+        id S232362AbhDHUif (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Apr 2021 16:38:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48704 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232373AbhDHUie (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Apr 2021 16:38:34 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37C17C061761;
+        Thu,  8 Apr 2021 13:38:23 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id d10so2213452pgf.12;
+        Thu, 08 Apr 2021 13:38:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=zk2h9OUEkeXCZ1HjAVgUvuKrSyf0eKRwZjnK1zVYlOY=;
+        b=j9vp1INpqRgcAVyQuSBKK92aYEkDbB18yrDakdH+SoIGf5sTjgfXICPQ8B9BekXBhm
+         BQB9SpejECNfJc1VGUgJzCc38zZ0PKk7qp14uaYYyVlowycmVC3SznXbFcwcBogGH4Dm
+         K6w6hGLCUBdaByPgPgMEPC9xPsGwPSb0QXIuCwGbajlTJ6chjAIx2ZxKcHXRJFC/lqNl
+         6n56dwNQ2DSm0Fcbp0OcDJr4E/zDc1MTAJuifaitmJKtOIAMgDFpB81qc3TXiM08m6OW
+         +xWY2BDew3vayMWVNyLWuY0ruJo4ikKgdqDfYTkQhz5uc4smWaPlcH3V+QPt3II6O7f0
+         CiDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=zk2h9OUEkeXCZ1HjAVgUvuKrSyf0eKRwZjnK1zVYlOY=;
+        b=Zfrdit0tkVOzoTDYZ5KUTtW2wkGqQp3vT/LLPeAhOlx9TEbagqXzio1sAhtp/i8p11
+         WK4U44ILq9YESfrDPUrCM+6nZDScebXfxBvtmEDePPjN/wnuOaU2bdX08EZQAPqz/cA4
+         LU7PWxQzX8894NqnSIVdgxy1oqHNs1lJ9VVvVoUydAyI2X/n9ae6XdiqldgACro/+xUB
+         NCs1C5HqtUXA6mG2Tl0DNHlt9ptALl8TNcbsBnsvSPMe0NzVM80T/jfdQOwEmfu/K9Dp
+         q09mCIiNeS8dAKuDPezZgLYuF3LrnrwQLYXxDVX0BZsRWkvgrs1zqMrpw8Mp6KKAjkON
+         QmxA==
+X-Gm-Message-State: AOAM5331rtQs/8sF0XeXNuV3rIV8bepCDudIGhKr+jWr1iDVetzxpkWs
+        VEJuSc6WcKbnu2X0bjmmbtg=
+X-Google-Smtp-Source: ABdhPJyZgsymT634l5QOHhmDLjr6UpV0Ear1AXUybJKL/yRxTyDCO7ppsi4gXPHj4ivqPT60g/QeZw==
+X-Received: by 2002:a63:3189:: with SMTP id x131mr9652577pgx.430.1617914302551;
+        Thu, 08 Apr 2021 13:38:22 -0700 (PDT)
+Received: from kali ([152.57.11.236])
+        by smtp.gmail.com with ESMTPSA id y17sm316669pfl.10.2021.04.08.13.38.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 13:38:22 -0700 (PDT)
+Date:   Fri, 9 Apr 2021 02:08:14 +0530
+From:   Mitali Borkar <mitaliborkar810@gmail.com>
+To:     clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+        mitali_s@me.iitr.ac.in
+Subject: [PATCH 0/2] media: zoran: clean up style issues
+Message-ID: <cover.1617912177.git.mitaliborkar810@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dt_binding_check reports the below error with the latest schema:
+These patches make changes to clean up style issues
+as identified by checkpatch
 
-Documentation/devicetree/bindings/media/renesas,drif.yaml:
-  properties:clock-names:maxItems: False schema does not allow 1
-Documentation/devicetree/bindings/media/renesas,drif.yaml:
-  ignoring, error in schema: properties: clock-names: maxItems
+Mitali Borkar (2):
+  media: zoran: add spaces around '<<'
+  media: zoran: replace bit shifts by BIT() macro
 
-This patch fixes the problem.
+ drivers/staging/media/zoran/zr36057.h | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
----
- Documentation/devicetree/bindings/media/renesas,drif.yaml | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/media/renesas,drif.yaml b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-index f1bdaeab4053..e28396f35ee6 100644
---- a/Documentation/devicetree/bindings/media/renesas,drif.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-@@ -67,9 +67,7 @@ properties:
-     maxItems: 1
- 
-   clock-names:
--    maxItems: 1
--    items:
--      - const: fck
-+    const: fck
- 
-   resets:
-     maxItems: 1
 -- 
-2.25.1
+2.30.2
 
