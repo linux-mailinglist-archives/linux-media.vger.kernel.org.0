@@ -2,140 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47354358036
-	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 12:05:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04AF8358048
+	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 12:07:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231165AbhDHKF3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Apr 2021 06:05:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50294 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229686AbhDHKF2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Apr 2021 06:05:28 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73D8BC061760
-        for <linux-media@vger.kernel.org>; Thu,  8 Apr 2021 03:05:17 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id q26so1465949wrz.9
-        for <linux-media@vger.kernel.org>; Thu, 08 Apr 2021 03:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=36bvTqcToGLAmD+a9gwi7UztJJlmmlryLAr2BU8KQ8s=;
-        b=lIdZTKCpObM4Wmr4t/JuIwVigP9bm6yi8C5UN+QUf40InjOtA1Jdt5+tp80w3zNnQo
-         VlSZtKdBmzi+ZwGrhGIMLGEyI3q+id+HoCUH4Q4tHYGMh2RoGkmAJXhHhZHaecvlKMmC
-         QlFz7G/ND8mE2P823Sob9sGXYc3DtI/97X/D0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=36bvTqcToGLAmD+a9gwi7UztJJlmmlryLAr2BU8KQ8s=;
-        b=UidVEQepHJ5KIuRhJ5FzRbCrHhFh4cfj7YTEwIY2Lo3oLC5oh+tgWlIy8BSJ8Yzyme
-         PCXggTbsXZ600YpPZPdQVPBJrnvYqMUZmCGVGLfsu2BMuAMl1cqPykHASwOi8DAnNhUy
-         rKcjET2Leo1UYNXstNk7aI3ty+HDS4G0qKo/j2nSj6NA3w0VIDEVvc+t+YOUvybQWy6n
-         xAu7212UCI3bMwoloK2r08+M8zQB7uFXcQ8GPjzSJo/Zzwot3+XqRhbgi2/1PPDbB2+z
-         FU1uy1jbFqCfQZvVcCK2QWkmxYb+zbtaK50wvjA/q1JK9qRA/UAkFByUcHofk8/TZSTO
-         3iBw==
-X-Gm-Message-State: AOAM532BY0Y4t9D/ku6rfpFRg++A25i4YyONY7YrNzsNV8nuNgletraE
-        h9HwHrDPWLbltHFid6nqxDshjY+P2CKHUQ==
-X-Google-Smtp-Source: ABdhPJzpwqYXCVUB+8r0nQC2/W7H7J7o+XDWVlyU4mTtGNJrkB+UEdkDLgvXZNrPAgIv0wJQsQSfww==
-X-Received: by 2002:adf:f692:: with SMTP id v18mr713305wrp.206.1617876316263;
-        Thu, 08 Apr 2021 03:05:16 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id l4sm12802446wmh.8.2021.04.08.03.05.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 03:05:15 -0700 (PDT)
-Date:   Thu, 8 Apr 2021 12:05:13 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        3pvd@google.com, Jann Horn <jannh@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Peter Xu <peterx@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: [PATCH 3/3] mm: unexport follow_pfn
-Message-ID: <YG7VWWkvnv2IPEXt@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        3pvd@google.com, Jann Horn <jannh@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-References: <20210316153303.3216674-1-daniel.vetter@ffwll.ch>
- <20210316153303.3216674-4-daniel.vetter@ffwll.ch>
- <20210329133101.GA1168973@nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210329133101.GA1168973@nvidia.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+        id S230424AbhDHKHx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Apr 2021 06:07:53 -0400
+Received: from m12-17.163.com ([220.181.12.17]:56796 "EHLO m12-17.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229686AbhDHKHw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Apr 2021 06:07:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id; bh=M2OaCHzUbcKFMpkgmL
+        SJXouxVjaz/v0tIBcQHByDqNg=; b=LEeDEEcalCLDX+Dz9m8cvZJJl8GxpPx9Ja
+        P8wxvlBzQK2hG4/SVSOI1q+29rmeMLxlNXQWxIE16WSUxCUm8rh7bDostyUWYbsI
+        5G7nqbDefQStTgAk9FY/zAgIYsToO4c2q9/aWeeMj5ijvOSeekOFGVKtmGFhSjJl
+        kH9anTkVc=
+Received: from wengjianfeng.ccdomain.com (unknown [218.17.89.92])
+        by smtp13 (Coremail) with SMTP id EcCowACXnpbm1W5gaTYSuQ--.57298S2;
+        Thu, 08 Apr 2021 18:07:36 +0800 (CST)
+From:   samirweng1979 <samirweng1979@163.com>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        wengjianfeng <wengjianfeng@yulong.com>
+Subject: [PATCH] media: dvb-frontends: remove redundant words and fix several typos
+Date:   Thu,  8 Apr 2021 18:07:31 +0800
+Message-Id: <20210408100731.31168-1-samirweng1979@163.com>
+X-Mailer: git-send-email 2.15.0.windows.1
+X-CM-TRANSID: EcCowACXnpbm1W5gaTYSuQ--.57298S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxtFyfJryfCF1DZF4rtr1DZFb_yoW7WF4rpF
+        Z7J3s3Kr4UJa4q93WUtrW8Wr909ws5Aryakr18Cw10qw1jvry7XF1jk34qyrW5WFZak34a
+        qa4jkrWDWw409FJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07bjCztUUUUU=
+X-Originating-IP: [218.17.89.92]
+X-CM-SenderInfo: pvdpx25zhqwiqzxzqiywtou0bp/xtbBLAhusV++LHlBKQAAsn
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 29, 2021 at 10:31:01AM -0300, Jason Gunthorpe wrote:
-> On Tue, Mar 16, 2021 at 04:33:03PM +0100, Daniel Vetter wrote:
-> > Both kvm (in bd2fae8da794 ("KVM: do not assume PTE is writable after
-> > follow_pfn")) and vfio (in 07956b6269d3 ("vfio/type1: Use
-> > follow_pte()")) have lost their callsites of follow_pfn(). All the
-> > other ones have been switched over to unsafe_follow_pfn because they
-> > cannot be fixed without breaking userspace api.
-> > 
-> > Argueably the vfio code is still racy, but that's kinda a bigger
-> 
-> vfio and kvm
+From: wengjianfeng <wengjianfeng@yulong.com>
 
-Hm I thought kvm is non-racy due to the mmu notifier catch races?
+change 'purpous' to 'purpose'.
+change 'frequecy' to 'frequency'.
+remove redundant words struct and enum.
 
-> 
-> > picture. But since it does leak the pte beyond where it drops the pt
-> > lock, without anything else like an mmu notifier guaranteeing
-> > coherence, the problem is at least clearly visible in the vfio code.
-> > So good enough with me.
-> > 
-> > I've decided to keep the explanation that after dropping the pt lock
-> > you must have an mmu notifier if you keep using the pte somehow by
-> > adjusting it and moving it into the kerneldoc for the new follow_pte()
-> > function.
-> > 
-> > Cc: 3pvd@google.com
-> > Cc: Jann Horn <jannh@google.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Jason Gunthorpe <jgg@nvidia.com>
-> > Cc: Cornelia Huck <cohuck@redhat.com>
-> > Cc: Peter Xu <peterx@redhat.com>
-> > Cc: Alex Williamson <alex.williamson@redhat.com>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-samsung-soc@vger.kernel.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: kvm@vger.kernel.org
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > --- 
-> >  include/linux/mm.h |  2 --
-> >  mm/memory.c        | 26 +++++---------------------
-> >  mm/nommu.c         | 13 +------------
-> >  3 files changed, 6 insertions(+), 35 deletions(-)
-> 
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: wengjianfeng <wengjianfeng@yulong.com>
+---
+ drivers/media/dvb-frontends/drx39xyj/drxj.h | 35 +++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
-Thanks for your r-b tags, I'll add them.
--Daniel
-
-> 
-> Jason
-
+diff --git a/drivers/media/dvb-frontends/drx39xyj/drxj.h b/drivers/media/dvb-frontends/drx39xyj/drxj.h
+index d62412f..232b3b0 100644
+--- a/drivers/media/dvb-frontends/drx39xyj/drxj.h
++++ b/drivers/media/dvb-frontends/drx39xyj/drxj.h
+@@ -75,9 +75,9 @@
+ 		u16 result_len;
+ 			/*< result length in byte */
+ 		u16 *parameter;
+-			/*< General purpous param */
++			/*< General purpose param */
+ 		u16 *result;
+-			/*< General purpous param */};
++			/*< General purpose param */};
+ 
+ /*============================================================================*/
+ /*============================================================================*/
+@@ -131,7 +131,7 @@
+ 		DRXJ_CFG_MAX	/* dummy, never to be used */};
+ 
+ /*
+-* /struct enum drxj_cfg_smart_ant_io * smart antenna i/o.
++* /enum drxj_cfg_smart_ant_io * smart antenna i/o.
+ */
+ enum drxj_cfg_smart_ant_io {
+ 	DRXJ_SMT_ANT_OUTPUT = 0,
+@@ -139,7 +139,7 @@ enum drxj_cfg_smart_ant_io {
+ };
+ 
+ /*
+-* /struct struct drxj_cfg_smart_ant * Set smart antenna.
++* /struct drxj_cfg_smart_ant * Set smart antenna.
+ */
+ 	struct drxj_cfg_smart_ant {
+ 		enum drxj_cfg_smart_ant_io io;
+@@ -159,7 +159,7 @@ struct drxj_agc_status {
+ /* DRXJ_CFG_AGC_RF, DRXJ_CFG_AGC_IF */
+ 
+ /*
+-* /struct enum drxj_agc_ctrl_mode * Available AGCs modes in the DRXJ.
++* /enum drxj_agc_ctrl_mode * Available AGCs modes in the DRXJ.
+ */
+ 	enum drxj_agc_ctrl_mode {
+ 		DRX_AGC_CTRL_AUTO = 0,
+@@ -167,7 +167,7 @@ struct drxj_agc_status {
+ 		DRX_AGC_CTRL_OFF};
+ 
+ /*
+-* /struct struct drxj_cfg_agc * Generic interface for all AGCs present on the DRXJ.
++* /struct drxj_cfg_agc * Generic interface for all AGCs present on the DRXJ.
+ */
+ 	struct drxj_cfg_agc {
+ 		enum drx_standard standard;	/* standard for which these settings apply */
+@@ -183,7 +183,7 @@ struct drxj_agc_status {
+ /* DRXJ_CFG_PRE_SAW */
+ 
+ /*
+-* /struct struct drxj_cfg_pre_saw * Interface to configure pre SAW sense.
++* /struct drxj_cfg_pre_saw * Interface to configure pre SAW sense.
+ */
+ 	struct drxj_cfg_pre_saw {
+ 		enum drx_standard standard;	/* standard to which these settings apply */
+@@ -193,7 +193,7 @@ struct drxj_agc_status {
+ /* DRXJ_CFG_AFE_GAIN */
+ 
+ /*
+-* /struct struct drxj_cfg_afe_gain * Interface to configure gain of AFE (LNA + PGA).
++* /struct drxj_cfg_afe_gain * Interface to configure gain of AFE (LNA + PGA).
+ */
+ 	struct drxj_cfg_afe_gain {
+ 		enum drx_standard standard;	/* standard to which these settings apply */
+@@ -220,14 +220,14 @@ struct drxj_agc_status {
+ 	};
+ 
+ /*
+-* /struct struct drxj_cfg_vsb_misc * symbol error rate
++* /struct drxj_cfg_vsb_misc * symbol error rate
+ */
+ 	struct drxj_cfg_vsb_misc {
+ 		u32 symb_error;
+ 			      /*< symbol error rate sps */};
+ 
+ /*
+-* /enum enum drxj_mpeg_output_clock_rate * Mpeg output clock rate.
++* /enum drxj_mpeg_output_clock_rate * Mpeg output clock rate.
+ *
+ */
+ 	enum drxj_mpeg_start_width {
+@@ -235,7 +235,7 @@ struct drxj_agc_status {
+ 		DRXJ_MPEG_START_WIDTH_8CLKCYC};
+ 
+ /*
+-* /enum enum drxj_mpeg_output_clock_rate * Mpeg output clock rate.
++* /enum drxj_mpeg_output_clock_rate * Mpeg output clock rate.
+ *
+ */
+ 	enum drxj_mpeg_output_clock_rate {
+@@ -261,7 +261,7 @@ struct drxj_agc_status {
+ 		enum drxj_mpeg_start_width mpeg_start_width;  /*< set MPEG output start width */};
+ 
+ /*
+-* /enum enum drxj_xtal_freq * Supported external crystal reference frequency.
++* /enum drxj_xtal_freq * Supported external crystal reference frequency.
+ */
+ 	enum drxj_xtal_freq {
+ 		DRXJ_XTAL_FREQ_RSVD,
+@@ -270,14 +270,15 @@ struct drxj_agc_status {
+ 		DRXJ_XTAL_FREQ_4MHZ};
+ 
+ /*
+-* /enum enum drxj_xtal_freq * Supported external crystal reference frequency.
++* /enum drxj_xtal_freq * Supported external crystal reference frequency.
+ */
+ 	enum drxji2c_speed {
+ 		DRXJ_I2C_SPEED_400KBPS,
+ 		DRXJ_I2C_SPEED_100KBPS};
+ 
+ /*
+-* /struct struct drxj_cfg_hw_cfg * Get hw configuration, such as crystal reference frequency, I2C speed, etc...
++* /struct drxj_cfg_hw_cfg * Get hw configuration, such as crystal
++*  reference frequency, I2C speed, etc...
+ */
+ 	struct drxj_cfg_hw_cfg {
+ 		enum drxj_xtal_freq xtal_freq;
+@@ -364,7 +365,7 @@ struct drxj_cfg_oob_misc {
+ 		DRXJ_SIF_ATTENUATION_9DB};
+ 
+ /*
+-* /struct struct drxj_cfg_atv_output * SIF attenuation setting.
++* /struct drxj_cfg_atv_output * SIF attenuation setting.
+ *
+ */
+ struct drxj_cfg_atv_output {
+@@ -453,10 +454,10 @@ struct drxj_cfg_atv_output {
+ 		enum drxuio_mode uio_gpio_mode; /*< current mode of ASEL pin                         */
+ 		enum drxuio_mode uio_irqn_mode; /*< current mode of IRQN pin                         */
+ 
+-		/* IQM fs frequecy shift and inversion */
++		/* IQM fs frequency shift and inversion */
+ 		u32 iqm_fs_rate_ofs;	   /*< frequency shifter setting after setchannel      */
+ 		bool pos_image;	   /*< True: positive image                            */
+-		/* IQM RC frequecy shift */
++		/* IQM RC frequency shift */
+ 		u32 iqm_rc_rate_ofs;	   /*< frequency shifter setting after setchannel      */
+ 
+ 		/* ATV configuration */
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+1.9.1
+
+
