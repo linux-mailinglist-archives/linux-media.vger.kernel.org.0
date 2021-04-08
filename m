@@ -2,44 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67D143586AC
-	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 16:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 002C135877A
+	for <lists+linux-media@lfdr.de>; Thu,  8 Apr 2021 16:50:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231679AbhDHOQC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Apr 2021 10:16:02 -0400
-Received: from mail-oi1-f180.google.com ([209.85.167.180]:37659 "EHLO
-        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231557AbhDHOQB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Apr 2021 10:16:01 -0400
-Received: by mail-oi1-f180.google.com with SMTP id k25so2322380oic.4;
-        Thu, 08 Apr 2021 07:15:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XKaKZwwBYbSDypnMTwWmdNXdv3aMqiPbwiFjzwyaea8=;
-        b=Xx/1Bg/cJt6mnLmJiM3r5f5HI8GHEIsW1GzjotZbAS5UP/VqOXN7forf8LLTboHjMp
-         Z9wvU8C+zvjccMc5rXblJ3sbG3uWK0/TJ2lqqwprFUv9Ybgx+opc5Hg7TeCmbgHjO8T9
-         TLBn7wDOCuLktq1rCUgmQNOpBuF2QAcYGwyRihA5nNitGJzmxPnz/VlOYCpXNtrrFRQj
-         dyZEAAQ61sqYopcfO8UAMvKFitiRF/bijtjazNPFELZVJNr/g5ya+hpwygMWRpMS+BQV
-         +gD86POF9xJXTaWXTunLTVRDdcs0Z07hNpZ0RN1UytC/tHhDtv+i09rFhMh0nzsoj/sI
-         JPpw==
-X-Gm-Message-State: AOAM531C6hAC1qAEgFppjxQrjjQgIBQMdPYS43Aw/NYIhiEJ3rMbNW3Q
-        Yg295xhI7n6lAwLq+c+UK1TRLO0YDPfi/0PF4TU=
-X-Google-Smtp-Source: ABdhPJwiALjwekHCc+Ich21y+wp6AEm2/FF2HTVRjPXNXvRSaLwP5ctEddxdWnsyLrEAUjsssVgRp2Eaf33o6knW/CA=
-X-Received: by 2002:a05:6808:24b:: with SMTP id m11mr6343068oie.157.1617891348563;
- Thu, 08 Apr 2021 07:15:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210329151207.36619-1-andriy.shevchenko@linux.intel.com> <YGRXmOMfCTxy31Rj@kuha.fi.intel.com>
-In-Reply-To: <YGRXmOMfCTxy31Rj@kuha.fi.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 8 Apr 2021 16:15:37 +0200
-Message-ID: <CAJZ5v0jJCYD9+j57-CL-OqiZKL7bBQ7NetcewE_37wODOG_Jkg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] software node: Free resources explicitly when
- swnode_register() fails
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Daniel Scally <djrscally@gmail.com>,
+        id S231863AbhDHOvH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Apr 2021 10:51:07 -0400
+Received: from mga14.intel.com ([192.55.52.115]:55774 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231370AbhDHOvG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Apr 2021 10:51:06 -0400
+IronPort-SDR: PyfR4KSRMWhwIODmzjvS2Ds8ZZmESnEeetwQV1Twb/Y+VQy5/9pN9fkvwzNfFks15IExRVhGW5
+ 1SA7FPuNHQAw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="193098223"
+X-IronPort-AV: E=Sophos;i="5.82,206,1613462400"; 
+   d="scan'208";a="193098223"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 07:50:54 -0700
+IronPort-SDR: BS4SlAfK9CZiY//qxN6ZKNqI5YZNfe0ydolQv7hV/Jlm95wCYH1X2Wh1rWiwOuB1a+8dzJ0y3r
+ 5FT64U57HTrg==
+X-IronPort-AV: E=Sophos;i="5.82,206,1613462400"; 
+   d="scan'208";a="381748717"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 07:50:51 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lUVzc-002JWc-BM; Thu, 08 Apr 2021 17:50:48 +0300
+Date:   Thu, 8 Apr 2021 17:50:48 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
@@ -49,26 +41,45 @@ Cc:     Daniel Scally <djrscally@gmail.com>,
         Bingbu Cao <bingbu.cao@intel.com>,
         Tianshu Qiu <tian.shu.qiu@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 1/6] software node: Free resources explicitly when
+ swnode_register() fails
+Message-ID: <YG8YSPHMBbBJadvp@smile.fi.intel.com>
+References: <20210329151207.36619-1-andriy.shevchenko@linux.intel.com>
+ <YGRXmOMfCTxy31Rj@kuha.fi.intel.com>
+ <CAJZ5v0jJCYD9+j57-CL-OqiZKL7bBQ7NetcewE_37wODOG_Jkg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0jJCYD9+j57-CL-OqiZKL7bBQ7NetcewE_37wODOG_Jkg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 1:06 PM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> On Mon, Mar 29, 2021 at 06:12:02PM +0300, Andy Shevchenko wrote:
-> > Currently we have a slightly twisted logic in swnode_register().
-> > It frees resources that it doesn't allocate on error path and
-> > in once case it relies on the ->release() implementation.
+On Thu, Apr 08, 2021 at 04:15:37PM +0200, Rafael J. Wysocki wrote:
+> On Wed, Mar 31, 2021 at 1:06 PM Heikki Krogerus
+> <heikki.krogerus@linux.intel.com> wrote:
 > >
-> > Untwist the logic by freeing resources explicitly when swnode_register()
-> > fails. Currently it happens only in fwnode_create_software_node().
+> > On Mon, Mar 29, 2021 at 06:12:02PM +0300, Andy Shevchenko wrote:
+> > > Currently we have a slightly twisted logic in swnode_register().
+> > > It frees resources that it doesn't allocate on error path and
+> > > in once case it relies on the ->release() implementation.
+> > >
+> > > Untwist the logic by freeing resources explicitly when swnode_register()
+> > > fails. Currently it happens only in fwnode_create_software_node().
+> > >
+> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > >
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->
-> It all looks OK to me. FWIW, for the whole series:
->
-> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > It all looks OK to me. FWIW, for the whole series:
+> >
+> > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> 
+> Whole series applied (with some minor changelog edits) as 5.13 material, thanks!
 
-Whole series applied (with some minor changelog edits) as 5.13 material, thanks!
+It seems Greg applied it already. Was it dropped there?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
