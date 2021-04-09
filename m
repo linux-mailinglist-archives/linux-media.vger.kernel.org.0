@@ -2,101 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B63A359E8D
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 14:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 964DC359E9D
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 14:26:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233468AbhDIMYr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 08:24:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57374 "EHLO
+        id S232763AbhDIM0p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 08:26:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233363AbhDIMYl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 08:24:41 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6E2C061760;
-        Fri,  9 Apr 2021 05:24:28 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id c123so720188qke.1;
-        Fri, 09 Apr 2021 05:24:28 -0700 (PDT)
+        with ESMTP id S231127AbhDIM0o (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 08:26:44 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3A0C061760
+        for <linux-media@vger.kernel.org>; Fri,  9 Apr 2021 05:26:30 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id b9so5475005wrs.1
+        for <linux-media@vger.kernel.org>; Fri, 09 Apr 2021 05:26:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=FFyKVQiiCs5puSz3WES2iYZgay4qT5NEj+d2mqioyWY=;
-        b=Z3neBw2YL7iaEMhoqCq7Li4M/YjKFuEfckanqHotLbExe4Q2djjXb2dGWlQqaW+c8r
-         CWvZOzcCZy/G/+pXQwODwqD88jKLpOvotARANlWv4dzd4AI4RaW2K5cTrui/rm3MoQ7z
-         KO1kHhuWblajOaR/KW1xCeGbAA6mk9OIdWNIfXBzm0q1R4t/16OJSUmA/fGdO+Bn9OqS
-         kXkRLc1nxXJOgBllIlegiWn3VYcwu71Bam+eRczRJEB9Epojo0a4z+I+GAvAW7zzz9Nq
-         jj1K/ZDHyp5OxRXgolrvGk+QuOI2m451xzAiaQ65vYZHzZo7D5yBbhbxqTgIj3EbyB04
-         o1rw==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=4awueOEbMCIUE9FtvviXnk0Lavbxtvtjjw6CqsZEuAI=;
+        b=FML9Mm49PWPCJkXWjWVweqRuno3eEQl+ZptjEk/PEZRuCXhyEH5IcALsaYEg0PFrNc
+         XnYp8u9++Ul/l8/3sNB/K/6OsCszJ0qK1FBi2kbWg2QQfuhTJihF+XBfeEPSNDVHZw48
+         P6q66c/CqqIe9+iJAUfAUEKgXt0iSBMiKqy3DESZ7QyaKcIvhRb88JROIHhqKVuqw4p0
+         vHkxFh/gF/NrIe+cjohRKUYLQHUIiZG7AYJzgdmcoKE8rGVoAX4FC9a9jbi/gzrh2L30
+         HETqgQ5uPsmLlr+usZOUP3azKms2+m1E2oA2LX2LvDEtaYG1iL5R6ttxuJQ1bO91LiaB
+         aOpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FFyKVQiiCs5puSz3WES2iYZgay4qT5NEj+d2mqioyWY=;
-        b=C9nTrIjIMk3MzcK628MrwkQUib+jgABeL2TOMjHHqGAXrN+yRYaP6rHykjAjDiXoLf
-         pw3hEn4Z6NktO3VIGkNIVRBk0A+HZOjOOY4spq6jf1N7a4HGLFXRAAeyLmiu+ctHczJ5
-         vEx/BSodWS1ZQrZ8PZrTtO8HtsuLBYTXybSQXqca1f/BBgNGPTfuJ+RVA08s3lujwoN1
-         aeQABfdmJbuTuCV9jr7Aa0JQyndB4JV5xMwSR3mlY3FfrYNVHtcLaH71fOshQbkSMf2A
-         aP8RzkQ+RvFezqA4JnA44eGWebazh+ruHir1qE7IMtlomD+Tpez8lViTiMFp34AC6jvp
-         Ijag==
-X-Gm-Message-State: AOAM531Lqh7G3eRA4aSkDasEbkodvYc5HS5IUdib6am9mGWsx6Boid3s
-        4jjczRKoYInoGFqAhSWHQcEz4TDhZMfOpZnC
-X-Google-Smtp-Source: ABdhPJwZO170GmUfRXKwffIyZXccIeGIdNKr6SdeRDoJHGlHzqzG68TuosmYyukDuZKxo2ckJXrT1A==
-X-Received: by 2002:a37:93c2:: with SMTP id v185mr5189190qkd.179.1617971067966;
-        Fri, 09 Apr 2021 05:24:27 -0700 (PDT)
-Received: from focaruja ([2001:1284:f013:b099:8056:1dc0:5a27:acd7])
-        by smtp.gmail.com with ESMTPSA id k4sm1610193qke.13.2021.04.09.05.24.27
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Fri, 09 Apr 2021 05:24:27 -0700 (PDT)
-Date:   Fri, 9 Apr 2021 09:24:25 -0300
-From:   Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-        alinesantanacordeiro@gmail.com
-Subject: [Outreachy kernel][PATCH 2/2 v3] staging: media: hantro: Align line
- break to the open parenthesis in file hantro_mpeg2.c
-Message-ID: <790e0b3def9e7bc747122c9b6f336b857cd05d11.1617970550.git.alinesantanacordeiro@gmail.com>
-References: <cover.1617970550.git.alinesantanacordeiro@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=4awueOEbMCIUE9FtvviXnk0Lavbxtvtjjw6CqsZEuAI=;
+        b=iinh9oK7pHIOyXyFKPLC5sgZr+eLP/JyYc187FV9wT+XrjpQTK7klhSweyb4tvonCc
+         4wXCMVGxLwFDk/JXtiANnF2xbBu1sdBFhH+VVxOdWqHEgohc0bV9zlN6u7KQEF06L6Zj
+         SGUYurrq9usNf/uEQPBTUE5MipjoGs1NAKlO50sm91TdgYqelhD5rNzXhl7Dfka57z9h
+         ANMTY5KKV+Jh2qR7xxX7oIucB0l5q/pJc0Yplbd1zgVHrrt0TBKmC3CKaizIRIdavCV9
+         p+vmZuTqDCJShBW0jwcobaYDr9+ScetorCmWdbBE/T96Ob8HrB2aVudMm5OzbEzSU/cA
+         fKHA==
+X-Gm-Message-State: AOAM533wAAWLYpUMhUI+I3oL7SdSMx1jaKVBTRyZfNn6uX6eYH7FD9K/
+        3b2YhNsfaFCem/3Ow57kXPHWJHUw7Ho8lw==
+X-Google-Smtp-Source: ABdhPJxZ6KePxvayjqJw4t9HkhtOMkdfAA8OBHgdlP7xKU4SFLmt6PMDGuYXV94+EUtzZ8mQWyFYVw==
+X-Received: by 2002:a05:6000:1789:: with SMTP id e9mr17480345wrg.237.1617971188649;
+        Fri, 09 Apr 2021 05:26:28 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id u63sm3546467wmg.24.2021.04.09.05.26.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Apr 2021 05:26:28 -0700 (PDT)
+Subject: Re: [bug report] media: venus: hfi,pm,firmware: Convert to block
+ relative addressing
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     linux-media@vger.kernel.org
+References: <YHBGRasttETWBHxW@mwanda>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Message-ID: <1eb51961-aadf-e982-b126-57be68a56319@linaro.org>
+Date:   Fri, 9 Apr 2021 13:28:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1617970550.git.alinesantanacordeiro@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <YHBGRasttETWBHxW@mwanda>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Aligns line break with the remaining function arguments
-to the open parenthesis. Issue found by checkpatch.
+On 09/04/2021 13:19, Dan Carpenter wrote:
+> Hello Bryan O'Donoghue,
+> 
+> This is a semi-automatic email about new static checker warnings.
+> 
+> The patch ff2a7013b3e6: "media: venus: hfi,pm,firmware: Convert to
+> block relative addressing" from Apr 2, 2021, leads to the following
+> Smatch complaint:
+> 
+>      drivers/media/platform/qcom/venus/hfi_venus.c:1100 venus_isr()
+>      warn: variable dereferenced before check 'hdev' (see line 1097)
+> 
+> drivers/media/platform/qcom/venus/hfi_venus.c
+>    1096		u32 status;
+>    1097		void __iomem *cpu_cs_base = hdev->core->cpu_cs_base;
+>                                              ^^^^^^^^^^
+>    1098		void __iomem *wrapper_base = hdev->core->wrapper_base;
+>                                               ^^^^^^^^^^
+> The patch adds new unchecked dereferences before ...
+> 
+>    1099	
+>    1100		if (!hdev)
+>                      ^^^^^
+> ... this check.
+> 
+>    1101			return IRQ_NONE;
+>    1102	
+> 
+> regards,
+> dan carpenter
+>
 
-Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
----
-Changes since v2:
- - Rename the commit messages properly
- 
- Changes since v1:
-  - Send patchset without the cover-letter
-   - Rename the commit messages wrongly in the email subject only
-   
- drivers/staging/media/hantro/hantro_mpeg2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/hantro/hantro_mpeg2.c b/drivers/staging/media/hantro/hantro_mpeg2.c
-index 1d334e6..53a99a9 100644
---- a/drivers/staging/media/hantro/hantro_mpeg2.c
-+++ b/drivers/staging/media/hantro/hantro_mpeg2.c
-@@ -19,7 +19,7 @@ static const u8 zigzag[64] = {
- };
- 
- void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
--	const struct v4l2_ctrl_mpeg2_quantization *ctrl)
-+				  const struct v4l2_ctrl_mpeg2_quantization *ctrl)
- {
- 	int i, n;
- 
--- 
-2.7.4
-
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2540720.html
