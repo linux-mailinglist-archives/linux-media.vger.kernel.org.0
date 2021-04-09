@@ -2,99 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB5B53595E8
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 08:56:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D818F359649
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 09:25:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233335AbhDIG4O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 02:56:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231540AbhDIG4M (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 02:56:12 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2148C061760
-        for <linux-media@vger.kernel.org>; Thu,  8 Apr 2021 23:55:59 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id b4so8035627lfi.6
-        for <linux-media@vger.kernel.org>; Thu, 08 Apr 2021 23:55:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wO+lF3IfRHW1CPr0KDMDy+ZwUfGnCkz2VoaMP2WdfwM=;
-        b=XvBFZigO6sHp3nfYgU6GkYJzru8p1a5IIa5Rg8jkEVritBKV2ejV/ofneAuVodZLv1
-         wugd142zRFmN3G8q5ErysvaEcdiGRu2tshH150DWvmUYypjNot+rgrKtgDaJgTwsIkJG
-         i4ZEOjJ+fnvPehOOGi2n2VLh0L9mOUWA0LBSBJXhM2AxOaBB5X6esAcGM9lMjWDeUcEV
-         0QT25tYe+b1N4IeGXhJqDeTjUCOqXVHKq3MFU+hzus+snFbhUHzE7XiWpiwzAmZv+ves
-         gggo6vrSvEo5xkLQ31PThaeIwWZyRSpu81ppovtP+jDBL6uZmTNGvN1cwMv+Mhz/Kfw1
-         TlrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wO+lF3IfRHW1CPr0KDMDy+ZwUfGnCkz2VoaMP2WdfwM=;
-        b=hHVwoBZUmfr3MToCtx6GRCKLi9qfXvRrKUW4CzOA9lXQUks8x3GaLLw6JxPwGPASVO
-         KALBHjKP0EQk0Kc00bXuL/pmS2QTPzVpmcH7wWHNUOKXGPkiDGFCDizXrl93x6dyCoSf
-         s79lb2BwtGIobZf5eVEgvXhZRcGJ6gnqtifvbUveRb4XJLuD5B/GddHR4CX0VJsxkw+i
-         RrPaur4VpHEDQBu83jRnY+6Kt9WW8oNMloB8iYMPAkITzeYYwVmCXoY+Ciq9p31LRLya
-         1+hwjWM0xh4mNtXWjZCKJ9CCN/AtUVOqhEk0LiBVpfhgBraa71kPsW760yRiJN3IsZ8A
-         ExbQ==
-X-Gm-Message-State: AOAM533SjGIiDjtuG6uxF5MiQvjqC/HZZhrWLIQJmkOkSH4vexZ/U7oK
-        ukXYWR5o77Y1eMRrjTCdmVxaEHPWWYHuOJxN2Og=
-X-Google-Smtp-Source: ABdhPJz5sjenoNiLSk/wuLBYEXYGgp7vhiqwl/YchWRDojHWLHx60M94NfcmMhepFisatX6q7p/CT09RpRI8/LmNFU4=
-X-Received: by 2002:a19:5513:: with SMTP id n19mr4188887lfe.313.1617951358280;
- Thu, 08 Apr 2021 23:55:58 -0700 (PDT)
+        id S231371AbhDIHXw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 03:23:52 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34093 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229703AbhDIHXw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Apr 2021 03:23:52 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id UlUBlYkTxgIC3UlUFlBLws; Fri, 09 Apr 2021 09:23:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1617953018; bh=APMETB3zEpAOU0Fhyt/OJ+787Q+BXlzWzrvJwZIggc4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=N5ap1onb6j7+Tx4jnvefbPQ4XZO6dcDfKA6Kg3aiUFMbmUlU2XJCkUVxI7fG5tuz7
+         MjAjKLL65r0ZN0B+Mak7LFOGTExr7X4jjBtWTt2dUH78W8dslnG8cj3uC26Qc7VYDz
+         GDodWjMGFW3bwUaKQByvTw+3ITI5zY8EqJxubjt8a+8IvPVYhC7lE5GddyhmoS4qzU
+         /NrJyLrt0xDftUF2zVYym3QgG4KSUAhyRQXvcDE89cNYtWocCacZb7HmwrbBcEMqu6
+         q+ykCImDfWJywMRmofDN/dYV1VJxQK+nqvXSDhq3IdEB7Jc9KBGyGrvSFw08t5IsgE
+         +L3cIngH8UolQ==
+Subject: Re: [PATCH 1/2] media: zoran: add spaces around '<<'
+To:     Mitali Borkar <mitaliborkar810@gmail.com>, clabbe@baylibre.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+        mitali_s@me.iitr.ac.in
+References: <cover.1617912177.git.mitaliborkar810@gmail.com>
+ <8e8ac690d97478f7cbb9b91d46ef7a95e4444e5f.1617912177.git.mitaliborkar810@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f196d8ff-e8bf-360e-ee7b-cd2dcafd9742@xs4all.nl>
+Date:   Fri, 9 Apr 2021 09:23:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-References: <20210408084407.21828-1-sean@mess.org>
-In-Reply-To: <20210408084407.21828-1-sean@mess.org>
-From:   Michael Zimmermann <sigmaepsilon92@gmail.com>
-Date:   Fri, 9 Apr 2021 08:55:47 +0200
-Message-ID: <CAN9vWDLeqTjykCQmtb5WWKYTt9tQjOW1d6SYUiS8HLAkcCgVTw@mail.gmail.com>
-Subject: Re: [PATCH] media: ite-cir: probe of ITE8708 on ASUS PN50 fails
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org, Nikolaos Beredimas <beredim@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <8e8ac690d97478f7cbb9b91d46ef7a95e4444e5f.1617912177.git.mitaliborkar810@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfFSut/hMT23athPR8Gw35GGx/7yXe9fJ57927job9mtszK0c4rZKiinzjFbtd3e44QBA4nA09Oqpr1SAofOFrNl4o1NKVo4d+FgCAMkv5hY4BZO8Pkkz
+ epx9AWKyNxlz0P/GzrQx5c5roQHyX8uHpC2D3x2C+UiSELaiP26oprS2JTs4qKKLmiAlieX/A5XELkDe8tIXflQvKj8c/zJZnAMja4qRkVo1EZs4jEuHsg6r
+ OW4abAbqpNqN9Yg5Yjw+BzhX7p3ZV3eGxRG+e18+zqAsGK+t0CdJONWL0em9CVMOPSiZCNx3zfto1Kn+/gYzaWNnrq7o/Vm8TVdq1mEtXd4kVVdKAVcXEX6M
+ T9Liy9eCfmp2QB3s3FTzYGUbiquD/4wFhMpSIdCevvEm13DgXndvgbghO4lpFAz1jEyoJqQb62UUpamtKhL+qM/Vy+V4Jeb99pNhsBf70uBVp9fDyXs4CYpM
+ Dt+v5t40l6tIuvVDgOiVv2E7/r87EaRZg+bn6g==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I tested this on 5.11.11.zen1-1 (from arch linux) and it works:
-ite_cir: Auto-detected model: ITE8708 CIR transceiver
-ite_cir: Using model: ITE8708 CIR transceiver
-ite_cir: TX-capable: 1
-ite_cir: Sample period (ns): 8680
-ite_cir: TX carrier frequency (Hz): 38000
-ite_cir: TX duty cycle (%): 33
-ite_cir: RX low carrier frequency (Hz): 0
-ite_cir: RX high carrier frequency (Hz): 0
+Hi Mitali,
 
-Thanks :)
-
-On Thu, Apr 8, 2021 at 10:44 AM Sean Young <sean@mess.org> wrote:
->
-> The Asus PN50 has 16 byte io region for the ITE8708 in its DSDT, which
-> causes the probe fail. So, accept larger regions.
->
-> Link: https://www.spinics.net/lists/linux-media/msg177725.html
-> Cc: Nikolaos Beredimas <beredim@gmail.com>
-> Reported-by: Michael Zimmermann <sigmaepsilon92@gmail.com>
-> Signed-off-by: Sean Young <sean@mess.org>
+On 08/04/2021 22:38, Mitali Borkar wrote:
+> Added spaces around '<<' operator to improve readability and meet linux
+> kernel coding style.
+> Reported by checkpatch
+> 
+> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 > ---
->  drivers/media/rc/ite-cir.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/rc/ite-cir.c b/drivers/media/rc/ite-cir.c
-> index 9388774df9d7..5bc23e8c6d91 100644
-> --- a/drivers/media/rc/ite-cir.c
-> +++ b/drivers/media/rc/ite-cir.c
-> @@ -1333,7 +1333,7 @@ static int ite_probe(struct pnp_dev *pdev, const struct pnp_device_id
->
->         /* validate pnp resources */
->         if (!pnp_port_valid(pdev, io_rsrc_no) ||
-> -           pnp_port_len(pdev, io_rsrc_no) != dev_desc->io_region_size) {
-> +           pnp_port_len(pdev, io_rsrc_no) < dev_desc->io_region_size) {
->                 dev_err(&pdev->dev, "IR PNP Port not valid!\n");
->                 goto exit_free_dev_rdev;
->         }
-> --
-> 2.30.2
->
+>  drivers/staging/media/zoran/zr36057.h | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
+> index 71b651add35a..a2a75fd9f535 100644
+> --- a/drivers/staging/media/zoran/zr36057.h
+> +++ b/drivers/staging/media/zoran/zr36057.h
+> @@ -30,13 +30,13 @@
+>  #define ZR36057_VFESPFR_HOR_DCM          14
+>  #define ZR36057_VFESPFR_VER_DCM          8
+>  #define ZR36057_VFESPFR_DISP_MODE        6
+> -#define ZR36057_VFESPFR_YUV422          (0<<3)
+> -#define ZR36057_VFESPFR_RGB888          (1<<3)
+> -#define ZR36057_VFESPFR_RGB565          (2<<3)
+> -#define ZR36057_VFESPFR_RGB555          (3<<3)
+> -#define ZR36057_VFESPFR_ERR_DIF          (1<<2)
+> -#define ZR36057_VFESPFR_PACK24          (1<<1)
+> -#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1<<0)
+> +#define ZR36057_VFESPFR_YUV422          (0 << 3)
+> +#define ZR36057_VFESPFR_RGB888          (1 << 3)
+> +#define ZR36057_VFESPFR_RGB565          (2 << 3)
+> +#define ZR36057_VFESPFR_RGB555          (3 << 3)
+> +#define ZR36057_VFESPFR_ERR_DIF          (1 << 2)
+> +#define ZR36057_VFESPFR_PACK24          (1 << 1)
+> +#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1 << 0)
+>  
+>  #define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
+>  
+> 
+
+I looked at that header and it is very messy.
+
+Can you make two new patches? The first aligns every nicely, e.g. this:
+
+#define ZR36057_VFEHCR          0x000   /* Video Front End, Horizontal Configuration Register */
+#define ZR36057_VFEHCR_HS_POL             BIT(30)
+#define ZR36057_VFEHCR_H_START           10
+#define ZR36057_VFEHCR_H_END            0
+#define ZR36057_VFEHCR_HMASK            0x3ff
+
+should become:
+
+/* Video Front End, Horizontal Configuration Register */
+#define ZR36057_VFEHCR			0x000
+#define ZR36057_VFEHCR_HS_POL		BIT(30)
+#define ZR36057_VFEHCR_H_START		10
+#define ZR36057_VFEHCR_H_END		0
+#define ZR36057_VFEHCR_HMASK		0x3ff
+
+Same for all the other register blocks. Use tabs to do the alignment
+instead of spaces, as is currently the case.
+
+The second patch can replace the (0<<3) etc. to BIT(0).
+
+That would be a nice cleanup of this rather messy header.
+
+Thanks!
+
+	Hans
