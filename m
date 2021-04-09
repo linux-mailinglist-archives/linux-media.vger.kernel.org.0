@@ -2,58 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67076359D44
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 13:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE055359D57
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 13:30:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233974AbhDILZL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 07:25:11 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:52006 "EHLO www.linuxtv.org"
+        id S231621AbhDILaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 07:30:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46012 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233564AbhDILZC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Apr 2021 07:25:02 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lUpFp-0016Dy-42; Fri, 09 Apr 2021 11:24:49 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lUpJp-00069U-QE; Fri, 09 Apr 2021 11:28:57 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.13] Various fixes (#73041)
-Date:   Fri,  9 Apr 2021 11:28:57 +0000
-Message-Id: <20210409112857.23607-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <66b2a895-33d1-539a-92b5-4ffe679a94fc@xs4all.nl>
-References: 
+        id S231402AbhDILaO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Apr 2021 07:30:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C36F6115B;
+        Fri,  9 Apr 2021 11:30:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617967802;
+        bh=o3x72kW4cxC/6grZo9DWN92Lr3bdlNRohDUdTCHUhqA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=BRc6NgNQKOM27Xj2sFAIYOByBxTptqLss1hq6Zf6bCTmX4d/satw/HV4m3Naa3x7E
+         GsGhcRAwldELQUiHYOBZa6yv8jMt0eP1f9W7zEYvbaWdagnFAEtCnje6JorXRLZFM/
+         ZcKn1uiKz2W8s6R1bP9bqD3ibHKML6SMZTjztIuxroCnvQumSXwuLW8a25uYCP60R2
+         gLujdatzw0dVNKQtAcGSwtcstIuuBveEueiaCtbnBrmMfnCXn6FMvSw9LRTvtqRwwI
+         k6jYWVaqjcW7XlZrUd7YdelsFSnXBIicpXhPcNNLW9vq8DZn2jb27mG3jkRTDDTmX0
+         D3f06A/bJMTJw==
+Date:   Fri, 9 Apr 2021 13:29:57 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Lukas Middendorf <kernel@tuxforce.de>
+Cc:     linux-media@vger.kernel.org, Antti Palosaari <crope@iki.fi>,
+        Luis Chamberlain <mcgrof@kernel.org>
+Subject: Re: [PATCH 1/2] media: si2168: request caching of firmware to make
+ it available on resume
+Message-ID: <20210409132957.08d7c7bf@coco.lan>
+In-Reply-To: <cec1f815-1505-869c-88ae-362c2a4bf0b4@tuxforce.de>
+References: <20200813214538.8474-1-kernel@tuxforce.de>
+        <cec1f815-1505-869c-88ae-362c2a4bf0b4@tuxforce.de>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Em Thu, 1 Apr 2021 16:42:26 +0200
+Lukas Middendorf <kernel@tuxforce.de> escreveu:
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/66b2a895-33d1-539a-92b5-4ffe679a94fc@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/97968/
-Build time: 00:06:13
-Link: https://lore.kernel.org/linux-media/66b2a895-33d1-539a-92b5-4ffe679a94fc@xs4all.nl
+> Hi,
+> 
+> I see this (or a similar fix) has not yet been included in 5.12-rc5.
+> Any further problems or comments regarding this patch? It still applies 
+> cleanly to current git master and the problem is still relevant.
 
-gpg: Signature made Fri 09 Apr 2021 11:13:56 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+Well, I fail to see why si2168 is so special that it would require it...
 
-Summary: got 0/8 patches with issues, being 0 at build time, plus one error when buinding PDF document
+on a quick check, it sounds that there's just a single driver using this
+kAPI:
 
-Error/warnings:
+	drivers/net/wireless/mediatek/mt7601u/mcu.c:            return firmware_request_cache(dev->dev, MT7601U_FIRMWARE);
+
+while there are several drivers on media that require firmware.
+
+Btw, IMHO, the better would be to reload the firmware at resume
+time, instead of caching it, just like other media drivers.
 
 
-Error #512 when building PDF docs
 
+> 
+> Best regards
+> Lukas
+> 
+> On 13/08/2020 23:45, Lukas Middendorf wrote:
+> > even though request_firmware() is supposed to be safe to call during
+> > resume, it might fail (or even hang the system) when the firmware
+> > has not been loaded previously. Use firmware_request_cache() to
+> > have it cached so it is available reliably on resume.
+> > 
+> > Signed-off-by: Lukas Middendorf <kernel@tuxforce.de>
+> > ---
+> >   drivers/media/dvb-frontends/si2168.c | 11 +++++++++++
+> >   1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+> > index 14b93a7d3358..ea4b2d91697e 100644
+> > --- a/drivers/media/dvb-frontends/si2168.c
+> > +++ b/drivers/media/dvb-frontends/si2168.c
+> > @@ -757,6 +757,17 @@ static int si2168_probe(struct i2c_client *client,
+> >   		 dev->version >> 24 & 0xff, dev->version >> 16 & 0xff,
+> >   		 dev->version >> 8 & 0xff, dev->version >> 0 & 0xff);
+> >   
+> > +	/* request caching of the firmware so it is available on resume after suspend.
+> > +	 * The actual caching of the firmware file only occurs during suspend
+> > +	 * The return value does not show whether the firmware file exists
+> > +	 */
+> > +	ret = firmware_request_cache(&client->dev, dev->firmware_name);
+> > +	if (ret) {
+> > +		dev_err(&client->dev,
+> > +				"firmware caching for '%s' failed\n",
+> > +				dev->firmware_name);
+> > +	}
+> > +
+> >   	return 0;
+> >   err_kfree:
+> >   	kfree(dev);
+> >   
+
+
+
+Thanks,
+Mauro
