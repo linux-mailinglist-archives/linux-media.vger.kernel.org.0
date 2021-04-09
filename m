@@ -2,78 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB1AF35A2A5
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 18:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7368335A3D0
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 18:45:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233554AbhDIQHh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 12:07:37 -0400
-Received: from mail-ot1-f43.google.com ([209.85.210.43]:41488 "EHLO
-        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbhDIQHh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 12:07:37 -0400
-Received: by mail-ot1-f43.google.com with SMTP id l12-20020a9d6a8c0000b0290238e0f9f0d8so6148224otq.8;
-        Fri, 09 Apr 2021 09:07:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=OCJr7Vk+1FJPSb9Nhdjq3OzP+a2tNeZU1Kg0OHLMxSE=;
-        b=pPpdx7z5BDIZDegh3uJXHHm0MwSDc2qtfgTlZ94DiHNhc05w8qDqdcRygrvS5Gd3Mx
-         /ZQuyz+h3PmkSSsumqNqxwwCcFM1Sb95A+D/hIsqpEuzIQERvUxpDnaYuW7QzPx10TNA
-         YxKwN9UbhhnnevCJaQq9cDwYKyEJlrDCw3FJB1nQ+0X3goylTV0ElO2xABmVLJipsV+j
-         VjU1AWRTrDm7pJZEXBzh7nebPw3innanf/dFce+QEJaIB/z6YddHtffVzH3GhrN2mILB
-         lpPrbLr/CyIAimDgikmed+JavLRGoMLZnWMUpn/WKHc15AryN76wSFjl+eL8n0PuYbee
-         aOyw==
-X-Gm-Message-State: AOAM530pXodyWUV0S7cEWbUENvAz5btFgB47OduCUyusksy0JEQ0rYHa
-        Vb3gWa7upYnnnew1u88hM22usLllFw==
-X-Google-Smtp-Source: ABdhPJwfqJ/8w13GYqG7DeY3Ek9KCysjpMwYFpXqJFVhsBOItZGKZBDlG29F90Y9Brx/5lnXI8k28Q==
-X-Received: by 2002:a9d:550b:: with SMTP id l11mr12532876oth.218.1617984443767;
-        Fri, 09 Apr 2021 09:07:23 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id d21sm554705oic.54.2021.04.09.09.07.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 09:07:22 -0700 (PDT)
-Received: (nullmailer pid 3735531 invoked by uid 1000);
-        Fri, 09 Apr 2021 16:07:22 -0000
-Date:   Fri, 9 Apr 2021 11:07:22 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Eugen Hristev <eugen.hristev@microchip.com>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 28/30] dt-bindings: media: atmel: add microchip-xisc
- binding
-Message-ID: <20210409160722.GA3733611@robh.at.kernel.org>
-References: <20210405155105.162529-1-eugen.hristev@microchip.com>
- <20210405155105.162529-29-eugen.hristev@microchip.com>
+        id S233883AbhDIQpS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 12:45:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58282 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234133AbhDIQpR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 12:45:17 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8364C061760;
+        Fri,  9 Apr 2021 09:45:04 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 395CD1F4677C
+Message-ID: <9c09806cce4c7e5c5f0dc03e8c502cf29716f00f.camel@collabora.com>
+Subject: Re: [Outreachy kernel][PATCH] staging: media: hantro: Rewrite macro
+ function in lower case
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Date:   Fri, 09 Apr 2021 13:44:55 -0300
+In-Reply-To: <20210409135404.GA26172@focaruja>
+References: <20210409135404.GA26172@focaruja>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210405155105.162529-29-eugen.hristev@microchip.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 05, 2021 at 06:51:03PM +0300, Eugen Hristev wrote:
-> Add bindings for the microchip xisc, a driver based on atmel-isc.
-> It shares common code with atmel-isc, but the xisc is the next generation
-> ISC which is present on sama7g5 product.
-> It has an enhanced pipeline, additional modules, formats, and it supports
-> not only parallel sensors, but also serial sensors, by connecting to a demux
-> endpoint present on sama7g5.
-> One of the key points for creating a new binding is the clocking scheme, as
-> atmel-isc requires 3 mandatory clocks, the microchip-xisc requires a single
-> input clock.
+Hi Aline,
+
+On Fri, 2021-04-09 at 10:54 -0300, Aline Santana Cordeiro wrote:
+> Rewrite macros resembling functions #define HANTRO_PP_REG_WRITE
+> and #define HANTRO_PP_RED_WRITE_S in lower case, according with
+> code style.
 > 
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+
+Where is this written in the Coding Style?
+
+Thanks!
+Ezequiel
+
+> Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
 > ---
+>  drivers/staging/media/hantro/hantro_postproc.c | 34 +++++++++++++-------------
+>  1 file changed, 17 insertions(+), 17 deletions(-)
 > 
-> Hello Rob, all,
-> 
-> I did not convert this yet to yaml because I would like first your feedback
-> if the binding is good.
-> If it's fine I will convert both this new binding and the old atmel-isc
-> to yaml.
+> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
+> index 6d2a8f2a..06279c0 100644
+> --- a/drivers/staging/media/hantro/hantro_postproc.c
+> +++ b/drivers/staging/media/hantro/hantro_postproc.c
+> @@ -12,14 +12,14 @@
+>  #include "hantro_hw.h"
+>  #include "hantro_g1_regs.h"
+>  
+> -#define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
+> +#define hantro_pp_reg_write(vpu, reg_name, val) \
+>  { \
+>         hantro_reg_write(vpu, \
+>                          &(vpu)->variant->postproc_regs->reg_name, \
+>                          val); \
+>  }
+>  
+> -#define HANTRO_PP_REG_WRITE_S(vpu, reg_name, val) \
+> +#define hantro_pp_reg_write_s(vpu, reg_name, val) \
+>  { \
+>         hantro_reg_write_s(vpu, \
+>                            &(vpu)->variant->postproc_regs->reg_name, \
+> @@ -61,7 +61,7 @@ void hantro_postproc_enable(struct hantro_ctx *ctx)
+>                 return;
+>  
+>         /* Turn on pipeline mode. Must be done first. */
+> -       HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x1);
+> +       hantro_pp_reg_write_s(vpu, pipeline_en, 0x1);
+>  
+>         src_pp_fmt = VPU_PP_IN_NV12;
+>  
+> @@ -79,19 +79,19 @@ void hantro_postproc_enable(struct hantro_ctx *ctx)
+>         dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+>         dst_dma = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+>  
+> -       HANTRO_PP_REG_WRITE(vpu, clk_gate, 0x1);
+> -       HANTRO_PP_REG_WRITE(vpu, out_endian, 0x1);
+> -       HANTRO_PP_REG_WRITE(vpu, out_swap32, 0x1);
+> -       HANTRO_PP_REG_WRITE(vpu, max_burst, 16);
+> -       HANTRO_PP_REG_WRITE(vpu, out_luma_base, dst_dma);
+> -       HANTRO_PP_REG_WRITE(vpu, input_width, MB_WIDTH(ctx->dst_fmt.width));
+> -       HANTRO_PP_REG_WRITE(vpu, input_height, MB_HEIGHT(ctx->dst_fmt.height));
+> -       HANTRO_PP_REG_WRITE(vpu, input_fmt, src_pp_fmt);
+> -       HANTRO_PP_REG_WRITE(vpu, output_fmt, dst_pp_fmt);
+> -       HANTRO_PP_REG_WRITE(vpu, output_width, ctx->dst_fmt.width);
+> -       HANTRO_PP_REG_WRITE(vpu, output_height, ctx->dst_fmt.height);
+> -       HANTRO_PP_REG_WRITE(vpu, orig_width, MB_WIDTH(ctx->dst_fmt.width));
+> -       HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
+> +       hantro_pp_reg_write(vpu, clk_gate, 0x1);
+> +       hantro_pp_reg_write(vpu, out_endian, 0x1);
+> +       hantro_pp_reg_write(vpu, out_swap32, 0x1);
+> +       hantro_pp_reg_write(vpu, max_burst, 16);
+> +       hantro_pp_reg_write(vpu, out_luma_base, dst_dma);
+> +       hantro_pp_reg_write(vpu, input_width, MB_WIDTH(ctx->dst_fmt.width));
+> +       hantro_pp_reg_write(vpu, input_height, MB_HEIGHT(ctx->dst_fmt.height));
+> +       hantro_pp_reg_write(vpu, input_fmt, src_pp_fmt);
+> +       hantro_pp_reg_write(vpu, output_fmt, dst_pp_fmt);
+> +       hantro_pp_reg_write(vpu, output_width, ctx->dst_fmt.width);
+> +       hantro_pp_reg_write(vpu, output_height, ctx->dst_fmt.height);
+> +       hantro_pp_reg_write(vpu, orig_width, MB_WIDTH(ctx->dst_fmt.width));
+> +       hantro_pp_reg_write(vpu, display_width, ctx->dst_fmt.width);
+>  }
+>  
+>  void hantro_postproc_free(struct hantro_ctx *ctx)
+> @@ -146,5 +146,5 @@ void hantro_postproc_disable(struct hantro_ctx *ctx)
+>         if (!vpu->variant->postproc_regs)
+>                 return;
+>  
+> -       HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x0);
+> +       hantro_pp_reg_write_s(vpu, pipeline_en, 0x0);
+>  }
 
-Looks pretty straight forward.
 
-Rob
