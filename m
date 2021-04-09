@@ -2,96 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C96DE35A888
-	for <lists+linux-media@lfdr.de>; Sat, 10 Apr 2021 00:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D98535A88A
+	for <lists+linux-media@lfdr.de>; Sat, 10 Apr 2021 00:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234602AbhDIWC0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 18:02:26 -0400
-Received: from mail.tuxforce.de ([84.38.66.179]:37464 "EHLO mail.tuxforce.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234079AbhDIWCZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Apr 2021 18:02:25 -0400
-Received: from [IPv6:2001:4dd5:b099:0:19b2:6b8c:f4bb:b22d] (2001-4dd5-b099-0-19b2-6b8c-f4bb-b22d.ipv6dyn.netcologne.de [IPv6:2001:4dd5:b099:0:19b2:6b8c:f4bb:b22d])
-        by mail.tuxforce.de (Postfix) with ESMTPSA id 8158F52008B;
-        Sat, 10 Apr 2021 00:02:10 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.tuxforce.de 8158F52008B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tuxforce.de;
-        s=202009; t=1618005730;
-        bh=e8mgnCm/9H29t4+D5TyoOos3P0dmVplwktxxbmf+DeY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=kj3xdw/vMYkJ1hvKCaTk4zMDqc109LbSa5sSKB8VH3nRbVsqY+8fjlwfMN5Ru9PBZ
-         OdLOGFCvOC5FaszLn44MjVMrZEdYfW6TPEUrGs42NBcN1f49jeTku3FisSWI9SSYK2
-         asBXMlJ6gBf+Xgru/98oFf32NkTJYaaxql7UFLOpU0v21bWgeJCBjUucx6fPESuzSE
-         +PkGBhDGWLCuo+kKt5ZjdXqkpWq7EeW9eTSsQWiaCKqOHutEKDusQZbPb2YvlPQdrK
-         3HZazYxOY+6fbC3ppFwnheV3il8oSrSd0Dd3J9Zya/Uw0L20RrnWGwSq3nZ54SFC5K
-         HKbirN3CskFSw==
-Subject: Re: [PATCH 1/2] media: si2168: request caching of firmware to make it
- available on resume
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, Antti Palosaari <crope@iki.fi>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Lukas Middendorf <kernel@tuxforce.de>
-References: <20200813214538.8474-1-kernel@tuxforce.de>
- <cec1f815-1505-869c-88ae-362c2a4bf0b4@tuxforce.de>
- <20210409132957.08d7c7bf@coco.lan>
-From:   Lukas Middendorf <kernel@tuxforce.de>
-Message-ID: <e6344feb-00ec-0955-67af-02f0331e8719@tuxforce.de>
-Date:   Sat, 10 Apr 2021 00:02:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S234654AbhDIWD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 18:03:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43296 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234079AbhDIWDZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 18:03:25 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B8A2C061762;
+        Fri,  9 Apr 2021 15:03:12 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id m11so5109679pfc.11;
+        Fri, 09 Apr 2021 15:03:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=R+gAfsPgzIf+Vl+2Q04sIKqvI+NoEh91IwRV5HMRlM0=;
+        b=g3RNUqs8G26UV5PlGVkTztahx/7bKGHr+sYgfG4imRFlBMgoDJI9C7pwQ2CTn8wz5r
+         v0XuNcMwKtLD5c1BOZLiqTqt5g2r+Un4sRSoR0NfZVz4Ew7xk2HygOR/UWH7iI3yhSl/
+         maNigIJiklSniZqpDgmMrQZteFPltUPVXVAwKaAreYzW6lpEXo/4EuVOySxoYq8yPRAU
+         JU4CfadOdglrryEyoR9kxPF8vUy2XqUATEIxzjmotR7ZTPTzmJr+3yn3uSPlbk0SqX64
+         lTUQh0wrdC4GEUfIagzehhSwzO2jA+2TTZBpnv2rWu9UWCfPgkUkY+kvnaMM4GXNorC0
+         3YCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=R+gAfsPgzIf+Vl+2Q04sIKqvI+NoEh91IwRV5HMRlM0=;
+        b=G0DuWdDPElXE4CD+Ehy067NFWTpKH1SV7qLShYg283D+pjq62zjQ5S1Ww4MEPob/7u
+         rjtChFZMRwLYDWZuzdIF675u7On1lfilqp9BHiO1BRpsEjnQWsrToVoHcGJ7+/r7v1LP
+         Dx/nqygObJ71cTa87rJfesSnEFReQpNQynFgPvx5UK9WkikZCR7d9TDTgY1WQWho1dxH
+         KapcR1rBbHX0g0MUmIAKxsozyzx07JPWf1mmQ9X8r6DzjBzBd4DrPPYIP3W2Jl5hzZHs
+         mNCi4K+/qo4oINfYYpB6wbw3Kybamz6FOs/VOecq8QE534X6pA37q1kY8TjeuWBSJ/Zq
+         0cXQ==
+X-Gm-Message-State: AOAM532tdKrFo7PSV4Lzj/aIeonQX1KfDBulXraZ/6pm3/OFp4KsuiTS
+        UnTfCP11XvJiYuw1nNldMEJPPLx95V4N+gDE
+X-Google-Smtp-Source: ABdhPJw96bm87v9sMiU6oXKtctDcc+9dIDthQ0Sd1Ac5EwRMOpcMlKkwUf6ufEEl02/Ql7N1Z8XUbQ==
+X-Received: by 2002:aa7:818e:0:b029:215:2466:3994 with SMTP id g14-20020aa7818e0000b029021524663994mr14788264pfi.48.1618005791570;
+        Fri, 09 Apr 2021 15:03:11 -0700 (PDT)
+Received: from kali ([103.141.87.253])
+        by smtp.gmail.com with ESMTPSA id e190sm3147248pfe.3.2021.04.09.15.03.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 15:03:11 -0700 (PDT)
+Date:   Sat, 10 Apr 2021 03:33:05 +0530
+From:   Mitali Borkar <mitaliborkar810@gmail.com>
+To:     Julia Lawall <julia.lawall@inria.fr>
+Cc:     clabbe@baylibre.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [Outreachy kernel] [PATCH v2 1/2] media: zoran: add spaces
+ around '<<'
+Message-ID: <YHDPGVo1mTYtPigo@kali>
+References: <YHCgksbiLv0pFF2F@kali>
+ <alpine.DEB.2.22.394.2104092239170.23056@hadrien>
 MIME-Version: 1.0
-In-Reply-To: <20210409132957.08d7c7bf@coco.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2104092239170.23056@hadrien>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/04/2021 13:29, Mauro Carvalho Chehab wrote:
-> Well, I fail to see why si2168 is so special that it would require it...
-
-The special case here is that si2168 does (try to) load the firmware for 
-the first time during resume. Most other drivers that use firmware do it 
-for the first time at boot (or when connecting the device) and therefore 
-will automatically have their firmware cached for use on resume.
-
-> on a quick check, it sounds that there's just a single driver using this
-> kAPI:
+On Fri, Apr 09, 2021 at 10:40:25PM +0200, Julia Lawall wrote:
 > 
-> 	drivers/net/wireless/mediatek/mt7601u/mcu.c:            return firmware_request_cache(dev->dev, MT7601U_FIRMWARE);
 > 
-> while there are several drivers on media that require firmware.
+> On Sat, 10 Apr 2021, Mitali Borkar wrote:
+> 
+> > No changes required in this patch.
+> > In v1:- Added spaces around '<<' operator to improve readability and meet linux kernel coding
+> > style
+> 
+> The text above would go in the git history.  "No changes required in this
+> patch." doesn't make sense in that context.  If you want to say something
+> that relates to the history of the submitted patches, then that should be
+> under the ---.  The text there will disappear when the patch is applied.
+>
+Ok Ma'am, I will rectify this mistake and send patch v3 with correct
+patch body.
 
-Any other driver that might load the firmware for the first time during 
-resume also has to be fixed. On a quick glance it looks like the si2165 
-for example might have the same problem. I think that at least all dvb 
-frontends which load the firmware in init callback but not during probe 
-are problematic.
-
-The possible patch with the usermode helper lock by Luis causes uncached 
-firmware loading on resume to fail very noisily instead of just stalling 
-the system. That would show up other non-conformant drivers. There 
-likely would be some more bug reports coming in from users which dislike 
-the backtraces coming up in dmesg. You will likely want to fix the 
-drivers before that happens.
-The fact that this bug is only exposed now that btrfs is seeing more 
-wide spread adoption does not make it less of a bug.
-
-> Btw, IMHO, the better would be to reload the firmware at resume
-> time, instead of caching it, just like other media drivers.
-
-Loading the firmware on resume without it being cached is exactly what 
-causes problems (see Luis' explanation). The caching is set up 
-implicitly if the normal request_firmware() is used before suspend. The 
-firmware does not stay in cache permanently. The firmware is just cached 
-by the firmware loader api during suspend and cleaned again at the end 
-of resume when proper file system access is possible again.
-
-A really better solution would be to not load the firmware on resume in 
-case it has not been previously loaded to the device (or not load it at 
-all on resume since playback has to be restarted after suspend anyway). 
-But it seems like the same init callback of the si2168 driver is called 
-both at resume and when the device is being used and therefore does not 
-easily allow for this. Likely the dvb_frontend api would have to be 
-extended to have a separate callback for resume.
+> julia
+> 
+> 
+> >
+> > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > ---
+> >
+> > Changes from v1:- No changes required in this patch. Below is the git
+> > diff of v1.
+> >
+> >  drivers/staging/media/zoran/zr36057.h | 14 +++++++-------
+> >  1 file changed, 7 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
+> > index 71b651add35a..a2a75fd9f535 100644
+> > --- a/drivers/staging/media/zoran/zr36057.h
+> > +++ b/drivers/staging/media/zoran/zr36057.h
+> > @@ -30,13 +30,13 @@
+> >  #define ZR36057_VFESPFR_HOR_DCM          14
+> >  #define ZR36057_VFESPFR_VER_DCM          8
+> >  #define ZR36057_VFESPFR_DISP_MODE        6
+> > -#define ZR36057_VFESPFR_YUV422          (0<<3)
+> > -#define ZR36057_VFESPFR_RGB888          (1<<3)
+> > -#define ZR36057_VFESPFR_RGB565          (2<<3)
+> > -#define ZR36057_VFESPFR_RGB555          (3<<3)
+> > -#define ZR36057_VFESPFR_ERR_DIF          (1<<2)
+> > -#define ZR36057_VFESPFR_PACK24          (1<<1)
+> > -#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1<<0)
+> > +#define ZR36057_VFESPFR_YUV422          (0 << 3)
+> > +#define ZR36057_VFESPFR_RGB888          (1 << 3)
+> > +#define ZR36057_VFESPFR_RGB565          (2 << 3)
+> > +#define ZR36057_VFESPFR_RGB555          (3 << 3)
+> > +#define ZR36057_VFESPFR_ERR_DIF          (1 << 2)
+> > +#define ZR36057_VFESPFR_PACK24          (1 << 1)
+> > +#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1 << 0)
+> >
+> >  #define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
+> >
+> > --
+> > 2.30.2
+> >
+> > --
+> > You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> > To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> > To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/YHCgksbiLv0pFF2F%40kali.
+> >
