@@ -2,138 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 621AE359843
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 10:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B170035981E
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 10:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232354AbhDIIsE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 04:48:04 -0400
-Received: from smtprelay0238.hostedemail.com ([216.40.44.238]:43082 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232387AbhDIIsC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Apr 2021 04:48:02 -0400
-X-Greylist: delayed 419 seconds by postgrey-1.27 at vger.kernel.org; Fri, 09 Apr 2021 04:48:02 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave04.hostedemail.com (Postfix) with ESMTP id 689971815318E
-        for <linux-media@vger.kernel.org>; Fri,  9 Apr 2021 08:40:50 +0000 (UTC)
-Received: from omf17.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 1E804181CB2D4;
-        Fri,  9 Apr 2021 08:40:49 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id E63D027DD11;
-        Fri,  9 Apr 2021 08:40:46 +0000 (UTC)
-Message-ID: <05802da66d3751611b85eb63d566220e09ef4bb7.camel@perches.com>
-Subject: Re: [PATCH] staging: media: meson: vdec: matched alignment with
- parenthesis
-From:   Joe Perches <joe@perches.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mitali Borkar <mitaliborkar810@gmail.com>,
-        narmstrong@baylibre.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, khilman@baylibre.com,
-        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-        mitali_s@me.iitr.ac.in
-Date:   Fri, 09 Apr 2021 01:40:45 -0700
-In-Reply-To: <479be6a4-2e6f-98a6-045f-d7c2132137c4@xs4all.nl>
-References: <YG+Bcqxetfj98l6V@kali>
-         <479be6a4-2e6f-98a6-045f-d7c2132137c4@xs4all.nl>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        id S231474AbhDIIlw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 04:41:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36434 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231280AbhDIIlw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 04:41:52 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FE62C061760
+        for <linux-media@vger.kernel.org>; Fri,  9 Apr 2021 01:41:39 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id w3so7399871ejc.4
+        for <linux-media@vger.kernel.org>; Fri, 09 Apr 2021 01:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=47rSkhialHM2SkOAJW3qv6IE9Jj4qc4uz5x78cVMkkI=;
+        b=UpChw+vWblnIE1lRR76D+GWDGGELmj/FSXOCCx3QtalAp1qiPp9/WSUfWlcde2VhEM
+         BbzMqh8sdrsX/S7MMqA4N88ZNKuqSXt3qRn3Ep3WYbEJJ3ZVtpg9U+f9UxD3ETtgy0tx
+         NRPEx6lR6T/p4Gm1QWgxA6O2FV/bs4eu5FjAA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=47rSkhialHM2SkOAJW3qv6IE9Jj4qc4uz5x78cVMkkI=;
+        b=h5IQPwMRANbk5IkCmre3zOFbOMUcuC/hqG7Xx7Ozlh8D2rpfoE37+qRPNo0R9ytdhS
+         ArRGV4swWyKz/r3dqZn6vNDM5mRExCiadbPLMU1oBFmRGGv1kXB1r/i7qhfyIzLUCoc0
+         46MPdQMfQerXDRd5VBez/HUVB3HNbFrL0nvgrLrF4fBrLKRTX/0rEcWD8SvRjBYlate0
+         AA6miDUHfNuPznbgpjAukmQBc5gTcyea0V0XPTZkZf2pXcuiS8k87tKiwBHReeqfL2ml
+         qSELzQzV2zjiP7g0DD0FA0pDnFmkx2pcF7JEjtqxZMX2ikj2BRxYjNwtwBuMzeB6Oeji
+         yUbA==
+X-Gm-Message-State: AOAM5317Nfws/YDrIvKXidqXdNcVMZiq9RcmpNJwwNbx/V+QlOKTntfo
+        PMekaXJfNpdbnaCXRHZ4I3rRtA==
+X-Google-Smtp-Source: ABdhPJylEnif/EoElZIuUbdw1UtT4BapfgR1YicH6LguGq7heSEtik7LMA6t5yhUJSCidE958p6BHw==
+X-Received: by 2002:a17:906:b296:: with SMTP id q22mr15004950ejz.161.1617957698361;
+        Fri, 09 Apr 2021 01:41:38 -0700 (PDT)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id sd21sm865758ejb.98.2021.04.09.01.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 01:41:38 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org
+Subject: [PATCH] media: staging/intel-ipu3: Fix race condition during set_fmt
+Date:   Fri,  9 Apr 2021 10:41:35 +0200
+Message-Id: <20210409084135.384287-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.60
-X-Stat-Signature: 3wzrfrdy5sxkqd6b68tqw46b31ozb1s4
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: E63D027DD11
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX186Cki4iz9kgGIdAcl84qUVMxED1MeG/h8=
-X-HE-Tag: 1617957646-625853
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2021-04-09 at 09:30 +0200, Hans Verkuil wrote:
-> On 09/04/2021 00:19, Mitali Borkar wrote:
-> > Matched alignment with open parenthesis to meet linux kernel coding
-> > style.
-> > Reported by checkpatch
-> > 
-> > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> > ---
-> >  drivers/staging/media/meson/vdec/codec_mpeg12.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
-> > index 48869cc3d973..21e93a13356c 100644
-> > --- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
-> > +++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
-> > @@ -81,7 +81,7 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
-> >  	}
-> >  
-> > 
-> >  	ret = amvdec_set_canvases(sess, (u32[]){ AV_SCRATCH_0, 0 },
-> > -					(u32[]){ 8, 0 });
-> > +				  (u32[]){ 8, 0 });
-> 
-> The alignment here is because the 2nd and 3rd arguments belong together, so
-> the alignment indicates that. In order to keep that I would add a newline
-> after 'sess,' as well. Same as is done in meson/vdec/codec_h264.c.
+Do not modify imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp, until the
+format has been correctly validated.
 
-Perhaps better as:
+Otherwise, even if we use a backup variable, there is a period of time
+where imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp might have an invalid
+value that can be used by other functions.
 
+Cc: stable@vger.kernel.org
+Fixes: ad91849996f9 ("media: staging/intel-ipu3: Fix set_fmt error handling")
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/staging/media/meson/vdec/codec_mpeg12.c | 5 +++--
- drivers/staging/media/meson/vdec/vdec_helpers.c | 2 +-
- drivers/staging/media/meson/vdec/vdec_helpers.h | 2 +-
- 3 files changed, 5 insertions(+), 4 deletions(-)
+ drivers/staging/media/ipu3/ipu3-v4l2.c | 30 ++++++++++++--------------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
-index 48869cc3d973..933f1cd16ce1 100644
---- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
-+++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
-@@ -65,6 +65,8 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
- 	struct amvdec_core *core = sess->core;
- 	struct codec_mpeg12 *mpeg12;
- 	int ret;
-+	static const u32 canvas1[] = { AV_SCRATCH_0, 0 };
-+	static const u32 canvas2[] = { 8, 0 };
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index 9e8980b34547..6d9c49b39531 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -669,7 +669,6 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
+ 	struct imgu_css_pipe *css_pipe = &imgu->css.pipes[pipe];
+ 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
+ 	struct imgu_v4l2_subdev *imgu_sd = &imgu_pipe->imgu_sd;
+-	struct v4l2_pix_format_mplane fmt_backup;
  
- 	mpeg12 = kzalloc(sizeof(*mpeg12), GFP_KERNEL);
- 	if (!mpeg12)
-@@ -80,8 +82,7 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
- 		goto free_mpeg12;
+ 	dev_dbg(dev, "set fmt node [%u][%u](try = %u)", pipe, node, try);
+ 
+@@ -687,6 +686,7 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
+ 
+ 	dev_dbg(dev, "IPU3 pipe %u pipe_id = %u", pipe, css_pipe->pipe_id);
+ 
++	css_q = imgu_node_to_queue(node);
+ 	for (i = 0; i < IPU3_CSS_QUEUES; i++) {
+ 		unsigned int inode = imgu_map_node(imgu, i);
+ 
+@@ -701,6 +701,11 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
+ 			continue;
+ 		}
+ 
++		if (i == css_q) {
++			fmts[i] = &f->fmt.pix_mp;
++			continue;
++		}
++
+ 		if (try) {
+ 			fmts[i] = kmemdup(&imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp,
+ 					  sizeof(struct v4l2_pix_format_mplane),
+@@ -729,39 +734,32 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
+ 		rects[IPU3_CSS_RECT_GDC]->height = pad_fmt.height;
  	}
  
--	ret = amvdec_set_canvases(sess, (u32[]){ AV_SCRATCH_0, 0 },
--					(u32[]){ 8, 0 });
-+	ret = amvdec_set_canvases(sess, canvas1, canvas2);
- 	if (ret)
- 		goto free_workspace;
+-	/*
+-	 * imgu doesn't set the node to the value given by user
+-	 * before we return success from this function, so set it here.
+-	 */
+-	css_q = imgu_node_to_queue(node);
+ 	if (!fmts[css_q]) {
+ 		ret = -EINVAL;
+ 		goto out;
+ 	}
+-	fmt_backup = *fmts[css_q];
+-	*fmts[css_q] = f->fmt.pix_mp;
  
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-index 7f07a9175815..df5c27266c44 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-@@ -177,7 +177,7 @@ static int set_canvas_nv12m(struct amvdec_session *sess,
- }
+ 	if (try)
+ 		ret = imgu_css_fmt_try(&imgu->css, fmts, rects, pipe);
+ 	else
+ 		ret = imgu_css_fmt_set(&imgu->css, fmts, rects, pipe);
  
- int amvdec_set_canvases(struct amvdec_session *sess,
--			u32 reg_base[], u32 reg_num[])
-+			const u32 reg_base[], const u32 reg_num[])
- {
- 	struct v4l2_m2m_buffer *buf;
- 	u32 pixfmt = sess->pixfmt_cap;
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
-index cfaed52ab526..ace8897c34fe 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.h
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
-@@ -17,7 +17,7 @@
-  * @reg_num: number of contiguous registers after each reg_base (including it)
-  */
- int amvdec_set_canvases(struct amvdec_session *sess,
--			u32 reg_base[], u32 reg_num[]);
-+			const u32 reg_base[], const u32 reg_num[]);
+-	if (try || ret < 0)
+-		*fmts[css_q] = fmt_backup;
+-
+ 	/* ret is the binary number in the firmware blob */
+ 	if (ret < 0)
+ 		goto out;
  
- /* Helpers to read/write to the various IPs (DOS, PARSER) */
- u32 amvdec_read_dos(struct amvdec_core *core, u32 reg);
+-	if (try)
+-		f->fmt.pix_mp = *fmts[css_q];
+-	else
+-		f->fmt = imgu_pipe->nodes[node].vdev_fmt.fmt;
++	/*
++	 * imgu doesn't set the node to the value given by user
++	 * before we return success from this function, so set it here.
++	 */
++	if (!try)
++		imgu_pipe->nodes[node].vdev_fmt.fmt.pix_mp = f->fmt.pix_mp;
+ 
+ out:
+ 	if (try) {
+ 		for (i = 0; i < IPU3_CSS_QUEUES; i++)
+-			kfree(fmts[i]);
++			if (i != css_q)
++				kfree(fmts[i]);
+ 	}
+ 
+ 	return ret;
+-- 
+2.31.1.295.g9ea45b61b8-goog
 
