@@ -2,97 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFBB9359E79
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 14:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8BB6359E8B
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 14:24:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231621AbhDIMTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 08:19:41 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:38402 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbhDIMTk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 08:19:40 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 139CEsUx040445;
-        Fri, 9 Apr 2021 12:19:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=iEtqHGOBgNLdGGb/+vW7OBft/R5Iwfn+BG/Q2Tx53C8=;
- b=uHcCKU6UrtASgozUkQpH23xJpXavuaO0R+eCoACM8ap6fUYjrnRnK2CGEyJ68GdCgIE8
- iHSbAXQsAr3oUCajo1+VRYXVoMJt89SQJo/CVBsX3I04WhOT6s0f4x2OTmak7PHTyPEz
- whEEOZ72hNHh9FXa2urnwtLBkTr6SydQKmNTsY/4uI/wrg/34G+ZHYNowiEQRskakx11
- 692p2PFMAOu5re+t1qTiFSGHTp0RHiNDrIW+U34QRpQgmK+vErj1xzIOt8NxcD/PyUkN
- 3ivcS9F56Fy4b5M3IVajXFUbbWfPNSpWdS3d6a3aGbzjwwqooRc17KWkN5ZV4O71JrRB FQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2120.oracle.com with ESMTP id 37rvas97rt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 09 Apr 2021 12:19:26 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 139CG6a8195809;
-        Fri, 9 Apr 2021 12:19:24 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 37rvbgygdn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 09 Apr 2021 12:19:24 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 139CJNY4029385;
-        Fri, 9 Apr 2021 12:19:23 GMT
-Received: from mwanda (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 09 Apr 2021 05:19:23 -0700
-Date:   Fri, 9 Apr 2021 15:19:17 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     bryan.odonoghue@linaro.org
-Cc:     linux-media@vger.kernel.org
-Subject: [bug report] media: venus: hfi,pm,firmware: Convert to block
- relative addressing
-Message-ID: <YHBGRasttETWBHxW@mwanda>
+        id S233228AbhDIMYk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 08:24:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57360 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231621AbhDIMYj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 08:24:39 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874C3C061760;
+        Fri,  9 Apr 2021 05:24:25 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id i9so5565824qka.2;
+        Fri, 09 Apr 2021 05:24:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jyczLaaY0sNtj0e3TtnM4UT/9174zU+EdBPCktijCsc=;
+        b=j5jCXHvdsR1dteY87/+g0UH9fhghNuLew4SUu5z4F6sFpuzDFvptdCQpIU5c+KJX2Z
+         qz5j9KB1mWjOUdmD94iF0YNnvm27HsS96Xw1zm4ZhEyqBQXBqo1Ia0K2XImX6uwK/tf6
+         THbpTjVdybP32fy6WU7ZhCIR1crEFcsW9oH8iXwSempQK127T6M17XwaUbwbMn/zdHAg
+         Nsdoyus5WHesDPHiZ+ikmIqvJdmnpAih8wluIGB+R9iuR2UlWZ4CTS9rW9XbevQ03DYd
+         GSbWWaLxehaFXPFnr+LMiDB3ziIvaes6doson4vO38jZ13TPCTvGcM57JRonbh4Q9x/V
+         Bikg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jyczLaaY0sNtj0e3TtnM4UT/9174zU+EdBPCktijCsc=;
+        b=scSlbJJufl2wqzbGWJ6NX6DaBvMKB7K0KL7xREL1O1E+CnHFJD615aVa9he1P3NFNk
+         IB++jRdmhGhBxvUMVxTKrK7bl30ifDqD+OAdMuRPwUhs+5XULYP+VRw9/HZvoHKD5Q05
+         SKCmVyzaz9I1LdioyskRjEWvKp58Wpi7U2FIPTG7NLzQHLeERdgYGzhe9dU/lt90NQEE
+         nLFvc2JRwG0/4umxMYDYQ/AxqkSkAMce3csMOzPhyn+he7hmExvd7XOWPib/7rOU6o6/
+         ZWdUr+yVTsZMDISS0jH5RZjAfXEPlJ3s/YaIXgT8Bj3vD6aBOaIUmMtpDhDgqcZbXXrL
+         KOSw==
+X-Gm-Message-State: AOAM533N0GbPLrElBypf33uSrJ/w6uxawltQUexxTatAsP0tjy0G414q
+        wf0PWTa1Xj/whlzi+2lu7aQ=
+X-Google-Smtp-Source: ABdhPJwJ36OigBAETDHN9/NWW7ajp0B5U0PqbIPQ3QUSqAAr9bYSTDaU/cLvvVHs7IakYpm2E5/E3w==
+X-Received: by 2002:a37:a58f:: with SMTP id o137mr13175093qke.482.1617971064712;
+        Fri, 09 Apr 2021 05:24:24 -0700 (PDT)
+Received: from focaruja ([2001:1284:f013:b099:8056:1dc0:5a27:acd7])
+        by smtp.gmail.com with ESMTPSA id x24sm1657962qtm.95.2021.04.09.05.24.23
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Fri, 09 Apr 2021 05:24:24 -0700 (PDT)
+Date:   Fri, 9 Apr 2021 09:24:21 -0300
+From:   Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+        alinesantanacordeiro@gmail.com
+Subject: [Outreachy kernel][PATCH 1/2 v3] staging: media: hantro: Align line
+ break to the open parenthesis in file hantro_hw.h
+Message-ID: <03fb1d7b8066fd6fb6086fff18cf29b9afd9ac17.1617970550.git.alinesantanacordeiro@gmail.com>
+References: <cover.1617970550.git.alinesantanacordeiro@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9948 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
- suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104090092
-X-Proofpoint-GUID: yddGl9pRVp9M8W9uCx_e_LU6U96EPo85
-X-Proofpoint-ORIG-GUID: yddGl9pRVp9M8W9uCx_e_LU6U96EPo85
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9948 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=999 clxscore=1011
- bulkscore=0 mlxscore=0 phishscore=0 spamscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104090092
+In-Reply-To: <cover.1617970550.git.alinesantanacordeiro@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Bryan O'Donoghue,
+Aligns line break with the remaining function arguments
+to the open parenthesis. Issue found by checkpatch.
 
-This is a semi-automatic email about new static checker warnings.
+Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+---
+Changes since v2:
+ - Rename the commit messages properly
 
-The patch ff2a7013b3e6: "media: venus: hfi,pm,firmware: Convert to 
-block relative addressing" from Apr 2, 2021, leads to the following 
-Smatch complaint:
+Changes since v1:
+ - Send patchset without the cover-letter
+ - Rename the commit messages wrongly in the email subject only
+ 
+ drivers/staging/media/hantro/hantro_hw.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    drivers/media/platform/qcom/venus/hfi_venus.c:1100 venus_isr()
-    warn: variable dereferenced before check 'hdev' (see line 1097)
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 34c9e46..a650b9c 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -207,7 +207,7 @@ hantro_h264_mv_size(unsigned int width, unsigned int height)
+ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
+ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx);
+ void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+-	const struct v4l2_ctrl_mpeg2_quantization *ctrl);
++				  const struct v4l2_ctrl_mpeg2_quantization *ctrl);
+ int hantro_mpeg2_dec_init(struct hantro_ctx *ctx);
+ void hantro_mpeg2_dec_exit(struct hantro_ctx *ctx);
+ 
+-- 
+2.7.4
 
-drivers/media/platform/qcom/venus/hfi_venus.c
-  1096		u32 status;
-  1097		void __iomem *cpu_cs_base = hdev->core->cpu_cs_base;
-                                            ^^^^^^^^^^
-  1098		void __iomem *wrapper_base = hdev->core->wrapper_base;
-                                             ^^^^^^^^^^
-The patch adds new unchecked dereferences before ...
-
-  1099	
-  1100		if (!hdev)
-                    ^^^^^
-... this check.
-
-  1101			return IRQ_NONE;
-  1102	
-
-regards,
-dan carpenter
