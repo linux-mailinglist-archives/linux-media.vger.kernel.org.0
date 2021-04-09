@@ -2,73 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29D5D359440
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 07:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52BFA3595BD
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 08:47:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229840AbhDIFDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 01:03:21 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:15992 "EHLO
+        id S233437AbhDIGrN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 02:47:13 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:16495 "EHLO
         szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbhDIFDV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 01:03:21 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FGmDQ16BmzyPBM;
-        Fri,  9 Apr 2021 13:00:54 +0800 (CST)
-Received: from huawei.com (10.175.103.91) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.498.0; Fri, 9 Apr 2021
- 13:03:02 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-CC:     <robert.foss@linaro.org>, <todor.too@gmail.com>,
-        <mchehab@kernel.org>
-Subject: [PATCH -next] media: camss: ispif: Remove redundant dev_err call in msm_ispif_subdev_init()
-Date:   Fri, 9 Apr 2021 13:06:33 +0800
-Message-ID: <20210409050633.671223-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S233421AbhDIGrN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 02:47:13 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FGpWb08XQzPp1b;
+        Fri,  9 Apr 2021 14:44:11 +0800 (CST)
+Received: from ubuntu1604.huawei.com (10.67.174.160) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 9 Apr 2021 14:46:53 +0800
+From:   Xiang Yang <xiangyang3@huawei.com>
+To:     <xiangyang3@huawei.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <kernel-janitors@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH -next] media: sunxi: sun8i-rotate: fix PM reference leak in rotate_start_streaming()
+Date:   Fri, 9 Apr 2021 14:46:58 +0800
+Message-ID: <20210409064658.90493-1-xiangyang3@huawei.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.67.174.160]
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is a error message within devm_ioremap_resource
-already, so remove the dev_err call to avoid redundant
-error message.
+pm_runtime_get_sync will increment pm usage counter even it failed.
+Forgetting to putting operation will result in reference leak here.
+Fix it by replacing it with pm_runtime_resume_and_get to keep usage
+counter balanced.
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Signed-off-by: Xiang Yang <xiangyang3@huawei.com>
 ---
- drivers/media/platform/qcom/camss/camss-ispif.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ .../platform/sunxi/sun8i-rotate/sun8i_rotate.c      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
-index a30e453de162..37611c8861da 100644
---- a/drivers/media/platform/qcom/camss/camss-ispif.c
-+++ b/drivers/media/platform/qcom/camss/camss-ispif.c
-@@ -1145,17 +1145,13 @@ int msm_ispif_subdev_init(struct camss *camss,
+diff --git a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+index 3f81dd17755c..fbcca59a0517 100644
+--- a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
++++ b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+@@ -494,7 +494,7 @@ static int rotate_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 		struct device *dev = ctx->dev->dev;
+ 		int ret;
  
- 	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, res->reg[0]);
- 	ispif->base = devm_ioremap_resource(dev, r);
--	if (IS_ERR(ispif->base)) {
--		dev_err(dev, "could not map memory\n");
-+	if (IS_ERR(ispif->base))
- 		return PTR_ERR(ispif->base);
--	}
+-		ret = pm_runtime_get_sync(dev);
++		ret = pm_runtime_resume_and_get(dev);
+ 		if (ret < 0) {
+ 			dev_err(dev, "Failed to enable module\n");
  
- 	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, res->reg[1]);
- 	ispif->base_clk_mux = devm_ioremap_resource(dev, r);
--	if (IS_ERR(ispif->base_clk_mux)) {
--		dev_err(dev, "could not map memory\n");
-+	if (IS_ERR(ispif->base_clk_mux))
- 		return PTR_ERR(ispif->base_clk_mux);
--	}
- 
- 	/* Interrupt */
- 
--- 
-2.25.1
 
