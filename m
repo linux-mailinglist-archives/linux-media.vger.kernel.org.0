@@ -2,159 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B170035981E
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 10:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1299435984F
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 10:53:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231474AbhDIIlw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 04:41:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36434 "EHLO
+        id S231891AbhDIIxf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 04:53:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231280AbhDIIlw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 04:41:52 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FE62C061760
-        for <linux-media@vger.kernel.org>; Fri,  9 Apr 2021 01:41:39 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id w3so7399871ejc.4
-        for <linux-media@vger.kernel.org>; Fri, 09 Apr 2021 01:41:39 -0700 (PDT)
+        with ESMTP id S231599AbhDIIxf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 04:53:35 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48ED9C061760;
+        Fri,  9 Apr 2021 01:53:21 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id j5so3849685wrn.4;
+        Fri, 09 Apr 2021 01:53:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=47rSkhialHM2SkOAJW3qv6IE9Jj4qc4uz5x78cVMkkI=;
-        b=UpChw+vWblnIE1lRR76D+GWDGGELmj/FSXOCCx3QtalAp1qiPp9/WSUfWlcde2VhEM
-         BbzMqh8sdrsX/S7MMqA4N88ZNKuqSXt3qRn3Ep3WYbEJJ3ZVtpg9U+f9UxD3ETtgy0tx
-         NRPEx6lR6T/p4Gm1QWgxA6O2FV/bs4eu5FjAA=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5A7hip5HNnqqYLaE8cwZV0V2a06xYyPPsPaw4/onnlI=;
+        b=E/8GgFwelU6ZMU3BlvWFt00DzbWUEBm+p5if5yuq3rd8uBeRrXl3L+F9A1CmFfxl61
+         g/kXk3pws6NLEC8xhd+wm+VPLMNPsaFs047yGXm0k9mHdetig8vqDF5O/TfDsc5zm+oL
+         1MWxS5g2Q7LUNt25SvQS/TtB81xp7x7WU2WQ7Di40zAZTElW3dvk4lvh7g4mVdewQ7Au
+         PToOU1uAhPy0wrFSWmiOZkaFG4EaaJk9HJhkjtmJ4CRGR0q+rAorI3bizPQc7bKDdABb
+         wcVfQpT3jQMhzx/4WBlVrU/zKXplS2tp+lk0ctKfNB3l6WBqY75jpjokU95VlI+qe+SM
+         ipuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=47rSkhialHM2SkOAJW3qv6IE9Jj4qc4uz5x78cVMkkI=;
-        b=h5IQPwMRANbk5IkCmre3zOFbOMUcuC/hqG7Xx7Ozlh8D2rpfoE37+qRPNo0R9ytdhS
-         ArRGV4swWyKz/r3dqZn6vNDM5mRExCiadbPLMU1oBFmRGGv1kXB1r/i7qhfyIzLUCoc0
-         46MPdQMfQerXDRd5VBez/HUVB3HNbFrL0nvgrLrF4fBrLKRTX/0rEcWD8SvRjBYlate0
-         AA6miDUHfNuPznbgpjAukmQBc5gTcyea0V0XPTZkZf2pXcuiS8k87tKiwBHReeqfL2ml
-         qSELzQzV2zjiP7g0DD0FA0pDnFmkx2pcF7JEjtqxZMX2ikj2BRxYjNwtwBuMzeB6Oeji
-         yUbA==
-X-Gm-Message-State: AOAM5317Nfws/YDrIvKXidqXdNcVMZiq9RcmpNJwwNbx/V+QlOKTntfo
-        PMekaXJfNpdbnaCXRHZ4I3rRtA==
-X-Google-Smtp-Source: ABdhPJylEnif/EoElZIuUbdw1UtT4BapfgR1YicH6LguGq7heSEtik7LMA6t5yhUJSCidE958p6BHw==
-X-Received: by 2002:a17:906:b296:: with SMTP id q22mr15004950ejz.161.1617957698361;
-        Fri, 09 Apr 2021 01:41:38 -0700 (PDT)
-Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id sd21sm865758ejb.98.2021.04.09.01.41.37
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=5A7hip5HNnqqYLaE8cwZV0V2a06xYyPPsPaw4/onnlI=;
+        b=V4BG3hqSyp7CLvjaPyP5+vox+jL7RnCgADJKjhKvsnkFGnxwAYZWayENMDvCC5Omvj
+         yO3fvyP13rpbbZZX5MvIjGV/9Q+tCOB+iNR6zFbyE/J8/t58kRtZhPzi/EV+VsyPyRG2
+         TfDxpB9FrmyJH9LLlgm4xxON9N9YP2yTr/3rdqjhLE6T7tWD8Bwt3LcR3lIWMNCz0paW
+         s+2UTldilt62kETDmd3fDDlhhXReVxWKcRUkAjFz6PmILT/JUloB3DyrOBAc03MqlsU5
+         MGRbM0xvbKKD2NstgltDfgUzYlO/AuE86AeySIcDxLNJRum57JmSKnGZ1mqWjXpzdqBS
+         /t2A==
+X-Gm-Message-State: AOAM533XTuUhY1a9UEQWAeGEXvG8WFrbWySEkBXumxn55LAXX79deEzZ
+        eRfgFJxVJ0/vLMMQPtmgPiM=
+X-Google-Smtp-Source: ABdhPJy/hMUhoUXl46PoPPOyK3KQawtQgk1CfJKQDeLLRw4/8Cfdeh7A5T2E2ovfJVBF3SouidyLFg==
+X-Received: by 2002:adf:d1cd:: with SMTP id b13mr16303013wrd.47.1617958399990;
+        Fri, 09 Apr 2021 01:53:19 -0700 (PDT)
+Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id m67sm1659146wme.27.2021.04.09.01.53.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 01:41:38 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org
-Subject: [PATCH] media: staging/intel-ipu3: Fix race condition during set_fmt
-Date:   Fri,  9 Apr 2021 10:41:35 +0200
-Message-Id: <20210409084135.384287-1-ribalda@chromium.org>
-X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
+        Fri, 09 Apr 2021 01:53:19 -0700 (PDT)
+Date:   Fri, 9 Apr 2021 09:53:17 +0100
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
+Cc:     kjlu@umn.edu, Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [v2] media: imx: imx7-mipi-csis: Fix runtime PM
+ imbalance in mipi_csis_s_stream
+Message-ID: <20210409085317.ycj273fqwbmowfqb@arch-thunder.localdomain>
+References: <20210409082225.22461-1-dinghao.liu@zju.edu.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210409082225.22461-1-dinghao.liu@zju.edu.cn>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Do not modify imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp, until the
-format has been correctly validated.
+Hi Liu,
+Many thanks for the patch.
 
-Otherwise, even if we use a backup variable, there is a period of time
-where imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp might have an invalid
-value that can be used by other functions.
+On Fri, Apr 09, 2021 at 04:22:25PM +0800, Dinghao Liu wrote:
+> When v4l2_subdev_call() fails, a pairing PM usage counter
+> decrement is needed to keep the counter balanced. It's the
+> same for the following error paths in case 'enable' is on.
+> 
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 
-Cc: stable@vger.kernel.org
-Fixes: ad91849996f9 ("media: staging/intel-ipu3: Fix set_fmt error handling")
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/staging/media/ipu3/ipu3-v4l2.c | 30 ++++++++++++--------------
- 1 file changed, 14 insertions(+), 16 deletions(-)
+LGTM
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index 9e8980b34547..6d9c49b39531 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -669,7 +669,6 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
- 	struct imgu_css_pipe *css_pipe = &imgu->css.pipes[pipe];
- 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
- 	struct imgu_v4l2_subdev *imgu_sd = &imgu_pipe->imgu_sd;
--	struct v4l2_pix_format_mplane fmt_backup;
- 
- 	dev_dbg(dev, "set fmt node [%u][%u](try = %u)", pipe, node, try);
- 
-@@ -687,6 +686,7 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
- 
- 	dev_dbg(dev, "IPU3 pipe %u pipe_id = %u", pipe, css_pipe->pipe_id);
- 
-+	css_q = imgu_node_to_queue(node);
- 	for (i = 0; i < IPU3_CSS_QUEUES; i++) {
- 		unsigned int inode = imgu_map_node(imgu, i);
- 
-@@ -701,6 +701,11 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
- 			continue;
- 		}
- 
-+		if (i == css_q) {
-+			fmts[i] = &f->fmt.pix_mp;
-+			continue;
-+		}
-+
- 		if (try) {
- 			fmts[i] = kmemdup(&imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp,
- 					  sizeof(struct v4l2_pix_format_mplane),
-@@ -729,39 +734,32 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
- 		rects[IPU3_CSS_RECT_GDC]->height = pad_fmt.height;
- 	}
- 
--	/*
--	 * imgu doesn't set the node to the value given by user
--	 * before we return success from this function, so set it here.
--	 */
--	css_q = imgu_node_to_queue(node);
- 	if (!fmts[css_q]) {
- 		ret = -EINVAL;
- 		goto out;
- 	}
--	fmt_backup = *fmts[css_q];
--	*fmts[css_q] = f->fmt.pix_mp;
- 
- 	if (try)
- 		ret = imgu_css_fmt_try(&imgu->css, fmts, rects, pipe);
- 	else
- 		ret = imgu_css_fmt_set(&imgu->css, fmts, rects, pipe);
- 
--	if (try || ret < 0)
--		*fmts[css_q] = fmt_backup;
--
- 	/* ret is the binary number in the firmware blob */
- 	if (ret < 0)
- 		goto out;
- 
--	if (try)
--		f->fmt.pix_mp = *fmts[css_q];
--	else
--		f->fmt = imgu_pipe->nodes[node].vdev_fmt.fmt;
-+	/*
-+	 * imgu doesn't set the node to the value given by user
-+	 * before we return success from this function, so set it here.
-+	 */
-+	if (!try)
-+		imgu_pipe->nodes[node].vdev_fmt.fmt.pix_mp = f->fmt.pix_mp;
- 
- out:
- 	if (try) {
- 		for (i = 0; i < IPU3_CSS_QUEUES; i++)
--			kfree(fmts[i]);
-+			if (i != css_q)
-+				kfree(fmts[i]);
- 	}
- 
- 	return ret;
--- 
-2.31.1.295.g9ea45b61b8-goog
-
+------
+Cheers,
+     Rui
+> ---
+> 
+> Changelog:
+> 
+> v2: - Use pm_runtime_put() to balance the refcount.
+> ---
+>  drivers/staging/media/imx/imx7-mipi-csis.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> index a01a7364b4b9..6f3e8a15e7c4 100644
+> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> @@ -628,7 +628,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+>  		}
+>  		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
+>  		if (ret < 0)
+> -			return ret;
+> +			goto pm_put;
+>  	}
+>  
+>  	mutex_lock(&state->lock);
+> @@ -657,7 +657,8 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+>  
+>  unlock:
+>  	mutex_unlock(&state->lock);
+> -	if (!enable)
+> +pm_put:
+> +	if (!enable || (ret < 0))
+>  		pm_runtime_put(&state->pdev->dev);
+>  
+>  	return ret;
+> -- 
+> 2.17.1
+> 
+> 
