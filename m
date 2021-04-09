@@ -2,126 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1299435984F
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 10:53:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2CEA3598D6
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 11:09:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231891AbhDIIxf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 04:53:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39050 "EHLO
+        id S232835AbhDIJKA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 05:10:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231599AbhDIIxf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 04:53:35 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48ED9C061760;
-        Fri,  9 Apr 2021 01:53:21 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id j5so3849685wrn.4;
-        Fri, 09 Apr 2021 01:53:21 -0700 (PDT)
+        with ESMTP id S232865AbhDIJJ6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 05:09:58 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90612C061761
+        for <linux-media@vger.kernel.org>; Fri,  9 Apr 2021 02:09:45 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id y16so3815673pfc.5
+        for <linux-media@vger.kernel.org>; Fri, 09 Apr 2021 02:09:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5A7hip5HNnqqYLaE8cwZV0V2a06xYyPPsPaw4/onnlI=;
-        b=E/8GgFwelU6ZMU3BlvWFt00DzbWUEBm+p5if5yuq3rd8uBeRrXl3L+F9A1CmFfxl61
-         g/kXk3pws6NLEC8xhd+wm+VPLMNPsaFs047yGXm0k9mHdetig8vqDF5O/TfDsc5zm+oL
-         1MWxS5g2Q7LUNt25SvQS/TtB81xp7x7WU2WQ7Di40zAZTElW3dvk4lvh7g4mVdewQ7Au
-         PToOU1uAhPy0wrFSWmiOZkaFG4EaaJk9HJhkjtmJ4CRGR0q+rAorI3bizPQc7bKDdABb
-         wcVfQpT3jQMhzx/4WBlVrU/zKXplS2tp+lk0ctKfNB3l6WBqY75jpjokU95VlI+qe+SM
-         ipuA==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iusrLEQTcxgLuvY/s0WkjYKt6ZUUkpVNI9Zo6gJ/N30=;
+        b=O68a/KcucQSDWDD8wQ8Bj7qwbYXGgI5K8GIfKDi/vzuxYUsWXolfybaD7vIepwgiL8
+         isBDlJDctz40NQAXetLu9AqpAZDNRd9I1Tzp/9Sngtwbkd9Ed91rAA/aDDhqTZdx6sdL
+         dhz2eLVHMxVH7wexEeN2HD2ibws2yZUvywaOFf9Jv9hRVRVR/WUUJmQuLw4KDmnI7Wu2
+         3spjaG0TCsWaZghBZz4NYwqkvDZCyI8LBK9luQytEEyCjWzC+PawPdF2J3utBQC4ERpV
+         g2rMl0UIHEgUjqBE67Yg2tWoGeeTlqH2Yg1MaPTPw7djDZp2OntPrPSVknFQEt6lWitw
+         vvCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5A7hip5HNnqqYLaE8cwZV0V2a06xYyPPsPaw4/onnlI=;
-        b=V4BG3hqSyp7CLvjaPyP5+vox+jL7RnCgADJKjhKvsnkFGnxwAYZWayENMDvCC5Omvj
-         yO3fvyP13rpbbZZX5MvIjGV/9Q+tCOB+iNR6zFbyE/J8/t58kRtZhPzi/EV+VsyPyRG2
-         TfDxpB9FrmyJH9LLlgm4xxON9N9YP2yTr/3rdqjhLE6T7tWD8Bwt3LcR3lIWMNCz0paW
-         s+2UTldilt62kETDmd3fDDlhhXReVxWKcRUkAjFz6PmILT/JUloB3DyrOBAc03MqlsU5
-         MGRbM0xvbKKD2NstgltDfgUzYlO/AuE86AeySIcDxLNJRum57JmSKnGZ1mqWjXpzdqBS
-         /t2A==
-X-Gm-Message-State: AOAM533XTuUhY1a9UEQWAeGEXvG8WFrbWySEkBXumxn55LAXX79deEzZ
-        eRfgFJxVJ0/vLMMQPtmgPiM=
-X-Google-Smtp-Source: ABdhPJy/hMUhoUXl46PoPPOyK3KQawtQgk1CfJKQDeLLRw4/8Cfdeh7A5T2E2ovfJVBF3SouidyLFg==
-X-Received: by 2002:adf:d1cd:: with SMTP id b13mr16303013wrd.47.1617958399990;
-        Fri, 09 Apr 2021 01:53:19 -0700 (PDT)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id m67sm1659146wme.27.2021.04.09.01.53.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 01:53:19 -0700 (PDT)
-Date:   Fri, 9 Apr 2021 09:53:17 +0100
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc:     kjlu@umn.edu, Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] media: imx: imx7-mipi-csis: Fix runtime PM
- imbalance in mipi_csis_s_stream
-Message-ID: <20210409085317.ycj273fqwbmowfqb@arch-thunder.localdomain>
-References: <20210409082225.22461-1-dinghao.liu@zju.edu.cn>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iusrLEQTcxgLuvY/s0WkjYKt6ZUUkpVNI9Zo6gJ/N30=;
+        b=FhxX4CONrtiouMfpJTu40UpAi4XPu5U2UWPLv3kVTI0v9XSKitOOS38TTGLPxxuDwo
+         TM7mm8Aj5aK6k1/plqY7Tr4M2TgYNeUDHTL4yxxz3RB4c/5+zjBqOMC0qpFhEd5Dlt/u
+         YQHbApjf1M7xmXmuM3qUbsm1MhOx/7YDRKiCnWGr1JbVQ1Uall2wnppXVOln3UCRk64Z
+         UtCZRXyR2Zx2QXA0AayMdgLv8a/CeEHeU3124uCo13hDcgD1XrAt43wGDx56765Q9/yG
+         NcHPW7Vw3k72gd4FjalTFEzJBWjAyMIuBUA73RzYfpFmDJeM7X+TE9T7VAChUs1J/pBR
+         NrtA==
+X-Gm-Message-State: AOAM531ZQrrhsYY/sBIlymE3YsnXEPyaV1bLj4Z/F02trFFiPRY9rEsL
+        BiDzwI11naeNJDQ1iZ4fZNJRROL4fn4VOnFKHmY9IQ==
+X-Google-Smtp-Source: ABdhPJySq0thaQ409aIwg7KoCsn0wQzLlCiRV4ucUUW/t4VGrL8F7fn5WoPqBBSm85sIMioSg2m+itTcl+faCguh75A=
+X-Received: by 2002:aa7:98c9:0:b029:242:18fc:562d with SMTP id
+ e9-20020aa798c90000b029024218fc562dmr11196723pfm.39.1617959385055; Fri, 09
+ Apr 2021 02:09:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210409082225.22461-1-dinghao.liu@zju.edu.cn>
+References: <20210409050633.671223-1-yangyingliang@huawei.com>
+In-Reply-To: <20210409050633.671223-1-yangyingliang@huawei.com>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Fri, 9 Apr 2021 11:09:34 +0200
+Message-ID: <CAG3jFysyD4D+xsLjVEm9QRM_WLPE_7NDzV-89B8oSEwNHZ0pAw@mail.gmail.com>
+Subject: Re: [PATCH -next] media: camss: ispif: Remove redundant dev_err call
+ in msm_ispif_subdev_init()
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Liu,
-Many thanks for the patch.
+Hi Yang,
 
-On Fri, Apr 09, 2021 at 04:22:25PM +0800, Dinghao Liu wrote:
-> When v4l2_subdev_call() fails, a pairing PM usage counter
-> decrement is needed to keep the counter balanced. It's the
-> same for the following error paths in case 'enable' is on.
-> 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Thanks for the patch.
 
-LGTM
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
-
-------
-Cheers,
-     Rui
+On Fri, 9 Apr 2021 at 07:03, Yang Yingliang <yangyingliang@huawei.com> wrote:
+>
+> There is a error message within devm_ioremap_resource
+> already, so remove the dev_err call to avoid redundant
+> error message.
+>
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 > ---
-> 
-> Changelog:
-> 
-> v2: - Use pm_runtime_put() to balance the refcount.
-> ---
->  drivers/staging/media/imx/imx7-mipi-csis.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-> index a01a7364b4b9..6f3e8a15e7c4 100644
-> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
-> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-> @@ -628,7 +628,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
->  		}
->  		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
->  		if (ret < 0)
-> -			return ret;
-> +			goto pm_put;
->  	}
->  
->  	mutex_lock(&state->lock);
-> @@ -657,7 +657,8 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
->  
->  unlock:
->  	mutex_unlock(&state->lock);
-> -	if (!enable)
-> +pm_put:
-> +	if (!enable || (ret < 0))
->  		pm_runtime_put(&state->pdev->dev);
->  
->  	return ret;
-> -- 
-> 2.17.1
-> 
-> 
+>  drivers/media/platform/qcom/camss/camss-ispif.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
+> index a30e453de162..37611c8861da 100644
+> --- a/drivers/media/platform/qcom/camss/camss-ispif.c
+> +++ b/drivers/media/platform/qcom/camss/camss-ispif.c
+> @@ -1145,17 +1145,13 @@ int msm_ispif_subdev_init(struct camss *camss,
+>
+>         r = platform_get_resource_byname(pdev, IORESOURCE_MEM, res->reg[0]);
+>         ispif->base = devm_ioremap_resource(dev, r);
+> -       if (IS_ERR(ispif->base)) {
+> -               dev_err(dev, "could not map memory\n");
+> +       if (IS_ERR(ispif->base))
+>                 return PTR_ERR(ispif->base);
+> -       }
+>
+>         r = platform_get_resource_byname(pdev, IORESOURCE_MEM, res->reg[1]);
+>         ispif->base_clk_mux = devm_ioremap_resource(dev, r);
+> -       if (IS_ERR(ispif->base_clk_mux)) {
+> -               dev_err(dev, "could not map memory\n");
+> +       if (IS_ERR(ispif->base_clk_mux))
+>                 return PTR_ERR(ispif->base_clk_mux);
+> -       }
+>
+>         /* Interrupt */
+>
+
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
