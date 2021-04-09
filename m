@@ -2,77 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EAC935A423
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 18:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19E3635A429
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 18:58:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233657AbhDIQ4h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 12:56:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60782 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234189AbhDIQ4f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 12:56:35 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6252C061761
-        for <linux-media@vger.kernel.org>; Fri,  9 Apr 2021 09:56:21 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id i4so3192864pjk.1
-        for <linux-media@vger.kernel.org>; Fri, 09 Apr 2021 09:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=rewoe3CU6NQhZHn3sKpNWMwFtGUPcxHkscQhvZ9rfgY=;
-        b=FD20Y6/gmNZQlAQWsrniTXwDZhO/AZ3Ye/ZXFigtco4P5Y6Qe4xKgwzSaR9K6XCXPm
-         /Gxerme/sOn8neqs/GhsiUBBfekgS902DMOEXoWrGpKAy+0avJ2KLZnwXhtztzBjP69B
-         wPsd/lV6jNOfrak6CNHplcO/FYi5tPEcKwTyw=
+        id S233577AbhDIQ6S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 12:58:18 -0400
+Received: from mail-pf1-f174.google.com ([209.85.210.174]:43993 "EHLO
+        mail-pf1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233038AbhDIQ6R (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 12:58:17 -0400
+Received: by mail-pf1-f174.google.com with SMTP id q5so4618328pfh.10
+        for <linux-media@vger.kernel.org>; Fri, 09 Apr 2021 09:58:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=rewoe3CU6NQhZHn3sKpNWMwFtGUPcxHkscQhvZ9rfgY=;
-        b=gfvASS4jym2c7GUs/WS7r89oNO56vA25pcAvFCE00CuK6/IQJcLrXagkRVrOZ1nzY/
-         Qw/QTSU4kW76G8Gv29owOqR3ruxLLtFjDZFTzwRUn6DHx3G2Dq4cIxHGC/pW4iaNMd74
-         PlDvJzN9qPIMX/+FFMThseq+9ta+mrBQ29acndoN16lYwxsmHwio5qDN5hsQzCWA4MOL
-         GSrJr1ONOInqIqBJ9hy1UTRseuAaMqwUlJS+0cLF1LzrzX4bVn1CKaEi1zEc/u7XQrLw
-         yyFlGg8Cd6JjTaz1E6bVrianZTG/XniRhxHxHYF0VVJX+xMAe5SdfVPXWgy1a6iKvzHL
-         EB4Q==
-X-Gm-Message-State: AOAM530oRQLhzIeNpZJaRW5FexhEYFaYFKVUp4w4c1gVwz1hhVzX5p57
-        qXeYB46D2eJRL6NRLucW4ihIVw==
-X-Google-Smtp-Source: ABdhPJzUc03geYAbLcQczqCE8qtvhv/bRTUXGG1B2mx1gKHENLWZsorD3aooPgWhugvVASb9R+cYrA==
-X-Received: by 2002:a17:903:2281:b029:e9:f78:751c with SMTP id b1-20020a1709032281b02900e90f78751cmr13787318plh.19.1617987381289;
-        Fri, 09 Apr 2021 09:56:21 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:44c3:3248:e7f5:1bbd])
-        by smtp.gmail.com with ESMTPSA id j19sm2304895pfj.127.2021.04.09.09.56.20
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xxus+lkjOnk6WEuny5oPkaqxPJUAToEDH4J1GoMdhYo=;
+        b=XmWLKLRFAi7tn7YTZp6quMg3SeIx0gpmHTsJdU7NgZlizPITSTVDDloyZx8sumfyso
+         ceMGZ8+4/qG9tx5E1pIb4XHZZ9uX4J+KPBImeYxrliv6OwqwOTvWf1JCPm2hhKj083tJ
+         iipIH4bOG8jNRV32rPbbTsNDjRbhhMjIcIh6QPju5K35nFs1DINR999QTq3QPaJifk53
+         aiE4taror/aWacljBSyvbY/5nqx4fo4eVvJt6gCoQBgzsdBTp3QpqpRIZ8agabbl1uUy
+         MVQpuHYVsA+9XPXH3gNiNbLvnJCuJMOrVUTDJ/2q9PUNL+mmv6V2Mwl6FHf9MDulEKmt
+         vVeQ==
+X-Gm-Message-State: AOAM531xRo8m0mbv5kWo/pa9Mwu8+KcN4LM/Z6EMbNam5kgdYay2zS7H
+        cVjlNfxkX2YWXWk3L6HRxOQ=
+X-Google-Smtp-Source: ABdhPJzWmNhuNYZdaU/Xc1cgRMcd6bYPxKG68nF1nBEfLT6XxHHHfbb1y6WS3sNn4x4uaH77k3P6tg==
+X-Received: by 2002:a62:6546:0:b029:21f:4bea:3918 with SMTP id z67-20020a6265460000b029021f4bea3918mr13333208pfb.47.1617987484244;
+        Fri, 09 Apr 2021 09:58:04 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id b7sm2755387pfi.42.2021.04.09.09.58.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 09:56:20 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Fri, 09 Apr 2021 09:58:03 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 997BA40256; Fri,  9 Apr 2021 16:58:02 +0000 (UTC)
+Date:   Fri, 9 Apr 2021 16:58:02 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Lukas Middendorf <kernel@tuxforce.de>, linux-media@vger.kernel.org,
+        Antti Palosaari <crope@iki.fi>
+Subject: Re: [PATCH 1/2] media: si2168: request caching of firmware to make
+ it available on resume
+Message-ID: <20210409165802.GG4332@42.do-not-panic.com>
+References: <20200813214538.8474-1-kernel@tuxforce.de>
+ <cec1f815-1505-869c-88ae-362c2a4bf0b4@tuxforce.de>
+ <20210409132957.08d7c7bf@coco.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1617968779-28526-1-git-send-email-dikshita@codeaurora.org>
-References: <1617968779-28526-1-git-send-email-dikshita@codeaurora.org>
-Subject: Re: [PATCH v4] media: venus : hfi: add venus image info into smem
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, bjorn.andersson@linaro.org,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-To:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Date:   Fri, 09 Apr 2021 09:56:19 -0700
-Message-ID: <161798737958.3790633.17357856004042185175@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210409132957.08d7c7bf@coco.lan>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Dikshita Agarwal (2021-04-09 04:46:19)
-> Fill fw version info into smem to be printed as part of
-> soc info.
->=20
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> Reported-by: kernel test robot <lkp@intel.com>
->=20
-> change since v3:
->  added dependency on QCOM_SMEM (Stephen)
-> ---
+On Fri, Apr 09, 2021 at 01:29:57PM +0200, Mauro Carvalho Chehab wrote:
+> Em Thu, 1 Apr 2021 16:42:26 +0200
+> Lukas Middendorf <kernel@tuxforce.de> escreveu:
+> 
+> > Hi,
+> > 
+> > I see this (or a similar fix) has not yet been included in 5.12-rc5.
+> > Any further problems or comments regarding this patch? It still applies 
+> > cleanly to current git master and the problem is still relevant.
+> 
+> Well, I fail to see why si2168 is so special that it would require it...
+> 
+> on a quick check, it sounds that there's just a single driver using this
+> kAPI:
+> 
+> 	drivers/net/wireless/mediatek/mt7601u/mcu.c:            return firmware_request_cache(dev->dev, MT7601U_FIRMWARE);
+> 
+> while there are several drivers on media that require firmware.
+> 
+> Btw, IMHO, the better would be to reload the firmware at resume
+> time, instead of caching it, just like other media drivers.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Mauro,
+
+Here is the thing. If we have a race to a filesystem (it calls
+submit_bio()) after resume but before thaw you can end up in
+a situation where async read waits forever as the read never
+hit hardware.
+
+Fixing this is part of the work I had tried long ago by removing
+the kthread freezer from filesystems [0] which allow proper
+filesystem freeze/thaw during suspend / resume. I am picking
+this work up in the meantime.
+
+The firmware cache resolves these races by caching firmware
+in case its needed on resume. However, if a driver never
+actually had called request_firmware() upon bootup, then
+the firmware was never cached and the call to request_firmware()
+on resume will actually trigger a submit_bio().
+
+In my tests the race does trigger a forever wait on XFS and btrfs, but
+not on ext4. But in any case, I can put a stop gap to these issues
+by issuing a try lock on the usermode helper lock prior to a direct
+fs read, however that's just a hack, and preference is to just resolve
+this by getting drivers to properly call request_firmware() before
+thaw. The commit log for the one user you mentioned explains well why
+that driver needed it, commit d723522b0be4 ("mt7601u: use
+firmware_request_cache() to address cache on reboot") was added
+since the device may sometimes retain the firmware on the hardware
+device upon reboot, and in such case not trigger a request_firmware()
+call on reboot on the driver side.
+
+If such cases happen on other drivers, they can use that.
+
+Its not clear to me from looking at the media APIs whether or not
+all drivers are always properly calling the request_firmware() API
+on suspend, prior to resume. If not that needs to be fixed.
+
+  Luis
