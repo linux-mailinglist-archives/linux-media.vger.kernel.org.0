@@ -2,164 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F2D0359D8F
-	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 13:40:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EF2D359DBF
+	for <lists+linux-media@lfdr.de>; Fri,  9 Apr 2021 13:47:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233288AbhDILki (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Apr 2021 07:40:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47710 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232837AbhDILkh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 07:40:37 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8068C061760;
-        Fri,  9 Apr 2021 04:40:24 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id g10so2607817plt.8;
-        Fri, 09 Apr 2021 04:40:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=M4xX2WWfEqm7PGNI70AcSFeFug982FHKb8Dt0b/QqpQ=;
-        b=vSPUmZpmgYYgSkQNzGePiVkKAonQ6CSFAsAIqewjEWD2/5cYOPYSu/TYwYBaiys5N4
-         1O9MgUNs11EfINvx5nlt2nODwsba9ow5TPW0At8E+pmJvg/VqagcB5X6DXFdQe7Fi0/N
-         T3EGOWO3SnShUixUDlgLU65CEwka8aDhSmooz812PueEg9EMd9nUhkzYnAMLhDcwkBV+
-         m4gzV+zTSZzWB1zk8VRvrMnIXFy440Ccbg0XLxSwj3CEq6HFP1Kp0WGVCKVdrQ0BBZj+
-         hcNz4OucUSws3F/aGP3hrPcwShgGhsGgAnxeEaqAFB9Cil1ZIQRLY1uKyQPzoK79A2ph
-         pWJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=M4xX2WWfEqm7PGNI70AcSFeFug982FHKb8Dt0b/QqpQ=;
-        b=WNt+94Gxpfn+a1SlLmuVas4/xsSy8udfHyiSZRGosnd8IK8L/3lvoQzN6ct5Vo69cq
-         uFgdym0uGINIknWoWwL9l8iZzGdkeS7Gc/13OqCDdN0IHsGCKLfyXYg2FJIq9maayaSz
-         Aha7GhKGaOZX7uKtxzob8PA8DG4frRr6TrW6iMgLwP3bLPICGhBT+aFOxqpvETMNjyWy
-         WZANuPapHgby+sahjEi8NqIfmo/S84TT7ldEWwooaInFPk/f/qhNJhKHI7NPg7xr2Hzj
-         ++QW+pCPRDcF8bL6wq4+OfMtoO030GOd8kTrw3wMGlyX8ojWZ3qMMtpnn150XnmbRJm4
-         Wc/Q==
-X-Gm-Message-State: AOAM533Tx/bccBmSdLsJEsaBSPD+2BMlGFc01HOjidoer4EqTwPTiZtf
-        gvJD7T6EKODZPQeVGwMwQfGOBa19oPM4Mw==
-X-Google-Smtp-Source: ABdhPJwAVbX2Y/sOadYxvegw/IWh+DXCxN78WniKOnFyUpKbrR5bSRAfnvOhochMc31hJCXxFerTxQ==
-X-Received: by 2002:a17:902:db05:b029:e9:ab78:51fd with SMTP id m5-20020a170902db05b02900e9ab7851fdmr3319055plx.22.1617968424384;
-        Fri, 09 Apr 2021 04:40:24 -0700 (PDT)
-Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id x22sm2108568pfa.24.2021.04.09.04.40.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 04:40:24 -0700 (PDT)
-Date:   Fri, 9 Apr 2021 17:10:17 +0530
-From:   Mitali Borkar <mitaliborkar810@gmail.com>
-To:     clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-        mitali_s@me.iitr.ac.in
-Subject: [PATCH v3] staging: media: zoran: remove and move statement in next
- line with '*'
-Message-ID: <YHA9IdZVRr4kbVJ0@kali>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+        id S232892AbhDILrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Apr 2021 07:47:11 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:34505 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231599AbhDILrK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Apr 2021 07:47:10 -0400
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 09 Apr 2021 04:46:57 -0700
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 09 Apr 2021 04:46:55 -0700
+X-QCInternal: smtphost
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg02-blr.qualcomm.com with ESMTP; 09 Apr 2021 17:16:33 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id 1DEEE217A8; Fri,  9 Apr 2021 17:16:32 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, swboyd@chromium.org,
+        bjorn.andersson@linaro.org,
+        Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH v4] media: venus : hfi: add venus image info into smem
+Date:   Fri,  9 Apr 2021 17:16:19 +0530
+Message-Id: <1617968779-28526-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Removed and moved statement in line in long(multi-line) comments and
-added '*' before it to meet linux kernel coding style for long (multi-line) comments
+Fill fw version info into smem to be printed as part of
+soc info.
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+Reported-by: kernel test robot <lkp@intel.com>
+
+change since v3:
+ added dependency on QCOM_SMEM (Stephen)
 ---
+ drivers/media/platform/Kconfig               |  2 +-
+ drivers/media/platform/qcom/venus/hfi_msgs.c | 21 +++++++++++++++++++--
+ 2 files changed, 20 insertions(+), 3 deletions(-)
 
-Changes from v2:- made style changes in code according to linux kernel
-coding style for long comments.
-
-drivers/staging/media/zoran/zr36050.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/staging/media/zoran/zr36050.c b/drivers/staging/media/zoran/zr36050.c
-index 703064009c6b..b89afa239b0c 100644
---- a/drivers/staging/media/zoran/zr36050.c
-+++ b/drivers/staging/media/zoran/zr36050.c
-@@ -24,7 +24,8 @@
- /* codec io API */
- #include "videocodec.h"
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index fd1831e..9c75e88 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -543,7 +543,7 @@ config VIDEO_TI_VPE_DEBUG
  
--/* it doesn't make sense to have more than 20 or so,
-+/*
-+ * it doesn't make sense to have more than 20 or so,
-  * just to prevent some unwanted loops
-  */
- #define MAX_CODECS 20
-@@ -311,7 +312,8 @@ static const char zr36050_decimation_v[8] = { 1, 1, 1, 0, 0, 0, 0, 0 };
+ config VIDEO_QCOM_VENUS
+ 	tristate "Qualcomm Venus V4L2 encoder/decoder driver"
+-	depends on VIDEO_DEV && VIDEO_V4L2
++	depends on VIDEO_DEV && VIDEO_V4L2 && QCOM_SMEM
+ 	depends on (ARCH_QCOM && IOMMU_DMA) || COMPILE_TEST
+ 	select QCOM_MDT_LOADER if ARCH_QCOM
+ 	select QCOM_SCM if ARCH_QCOM
+diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+index 06a1908..74cfc4f 100644
+--- a/drivers/media/platform/qcom/venus/hfi_msgs.c
++++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+@@ -6,6 +6,7 @@
+ #include <linux/hash.h>
+ #include <linux/list.h>
+ #include <linux/slab.h>
++#include <linux/soc/qcom/smem.h>
+ #include <media/videobuf2-v4l2.h>
  
- /* ------------------------------------------------------------------------- */
+ #include "core.h"
+@@ -14,6 +15,10 @@
+ #include "hfi_msgs.h"
+ #include "hfi_parser.h"
  
--/* SOF (start of frame) segment depends on width, height and sampling ratio
-+/*
-+ * SOF (start of frame) segment depends on width, height and sampling ratio
-  *			 of each color component
-  */
++#define SMEM_IMG_VER_TBL 469
++#define VER_STR_SZ	128
++#define SMEM_IMG_OFFSET_VENUS (14 * 128)
++
+ static void event_seq_changed(struct venus_core *core, struct venus_inst *inst,
+ 			      struct hfi_msg_event_notify_pkt *pkt)
+ {
+@@ -239,15 +244,27 @@ static void
+ sys_get_prop_image_version(struct device *dev,
+ 			   struct hfi_msg_sys_property_info_pkt *pkt)
+ {
++	u8 *smem_tbl_ptr;
++	u8 *img_ver;
+ 	int req_bytes;
++	size_t smem_blk_sz;
  
-@@ -343,7 +345,8 @@ static int zr36050_set_sof(struct zr36050 *ptr)
+ 	req_bytes = pkt->hdr.size - sizeof(*pkt);
  
- /* ------------------------------------------------------------------------- */
+-	if (req_bytes < 128 || !pkt->data[1] || pkt->num_properties > 1)
++	if (req_bytes < VER_STR_SZ || !pkt->data[1] || pkt->num_properties > 1)
+ 		/* bad packet */
+ 		return;
  
--/* SOS (start of scan) segment depends on the used scan components
-+/*
-+ * SOS (start of scan) segment depends on the used scan components
-  *			of each color component
-  */
+-	dev_dbg(dev, VDBGL "F/W version: %s\n", (u8 *)&pkt->data[1]);
++	img_ver = (u8 *)&pkt->data[1];
++
++	dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
++
++	smem_tbl_ptr = qcom_smem_get(QCOM_SMEM_HOST_ANY,
++		SMEM_IMG_VER_TBL, &smem_blk_sz);
++	if (smem_tbl_ptr &&
++	    smem_blk_sz >= SMEM_IMG_OFFSET_VENUS + VER_STR_SZ)
++		memcpy(smem_tbl_ptr + SMEM_IMG_OFFSET_VENUS,
++		       img_ver, VER_STR_SZ);
+ }
  
-@@ -432,7 +435,8 @@ static void zr36050_init(struct zr36050 *ptr)
- 		sum += zr36050_set_sos(ptr);
- 		sum += zr36050_set_dri(ptr);
- 
--		/* setup the fixed jpeg tables - maybe variable, though -
-+		/*
-+		 * setup the fixed jpeg tables - maybe variable, though -
- 		 * (see table init section above)
- 		 */
- 		dprintk(3, "%s: write DQT, DHT, APP\n", ptr->name);
-@@ -551,8 +555,9 @@ static void zr36050_init(struct zr36050 *ptr)
-  * =========================================================================
-  */
- 
--/* set compression/expansion mode and launches codec -
-- *  this should be the last call from the master before starting processing
-+/*
-+ * set compression/expansion mode and launches codec -
-+ * this should be the last call from the master before starting processing
-  */
- 
- static int zr36050_set_mode(struct videocodec *codec, int mode)
-@@ -581,7 +586,8 @@ static int zr36050_set_video(struct videocodec *codec, const struct tvnorm *norm
- 		ptr->name, norm->h_start, norm->v_start,
- 		cap->x, cap->y, cap->width, cap->height,
- 		cap->decimation, cap->quality);
--	/* if () return -EINVAL;
-+	/*
-+	 * if () return -EINVAL;
- 	 * trust the master driver that it knows what it does - so
- 	 * we allow invalid startx/y and norm for now ...
- 	 */
-@@ -603,7 +609,8 @@ static int zr36050_set_video(struct videocodec *codec, const struct tvnorm *norm
- 
- 	ptr->real_code_vol = size >> 3; /* in bytes */
- 
--	/* Set max_block_vol here (previously in zr36050_init, moved
-+	/*
-+	 * Set max_block_vol here (previously in zr36050_init, moved
- 	 * here for consistency with zr36060 code
- 	 */
- 	zr36050_write(ptr, ZR050_MBCV, ptr->max_block_vol);
-@@ -661,7 +668,8 @@ static int zr36050_control(struct videocodec *codec, int type, int size, void *d
- 		if (size != sizeof(int))
- 			return -EFAULT;
- 		ptr->total_code_vol = *ival;
--		/* (Kieran Morrissey)
-+		/*
-+		 * (Kieran Morrissey)
- 		 * code copied from zr36060.c to ensure proper bitrate
- 		 */
- 		ptr->real_code_vol = (ptr->total_code_vol * 6) >> 3;
+ static void hfi_sys_property_info(struct venus_core *core,
 -- 
-2.30.2
+2.7.4
 
