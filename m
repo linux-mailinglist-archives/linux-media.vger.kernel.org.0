@@ -2,299 +2,297 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAB6735AEDF
-	for <lists+linux-media@lfdr.de>; Sat, 10 Apr 2021 17:34:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B97E35AF66
+	for <lists+linux-media@lfdr.de>; Sat, 10 Apr 2021 19:51:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234894AbhDJPec (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Apr 2021 11:34:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42346 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234668AbhDJPe2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Apr 2021 11:34:28 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6148DC06138A;
-        Sat, 10 Apr 2021 08:34:14 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id y32so6023180pga.11;
-        Sat, 10 Apr 2021 08:34:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qX4w3/R5gyu1nyOBr6nqY6Pq1lONbt6TtVpQMcxrxzo=;
-        b=CvBg96zzi7GeQh3a69+cPHyvHKKYjIwQi4fnjtfIXQGkFVlbFhzYIiNN/1TM3LWvwm
-         MNgZOFyPkI08zGBNtDk9ka1l46lVc5rdt0AlqvDe6jKL2L9EtuKalGqXUvgmRflWzMuK
-         wXOawuftgeW5k7cgAyaJsbwvziviPucD+aQX+St4oNFjHzpdCfn6jOGS2UOKqy3bNt9a
-         2wrsPKIKy6qU8KEKNZksR3rdBbU42wh/yXnvPFCq9d+UQkuv7JtCXsICAIXfANVl5dY6
-         ZwnsA6Y3ZGQPp25CdkTwKmW+9HdSaSLERK1zZVLmSgBn5XBvPQ8G7iI6XkXlIfEKefQf
-         N9kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qX4w3/R5gyu1nyOBr6nqY6Pq1lONbt6TtVpQMcxrxzo=;
-        b=pmpkIuOSH1jLsd392CAKKTzKfVEuk7bTSVqdy1UkLHQl0cDN0HN5StxKhUxleoGYYX
-         +Ky5807PqFdk5169XjE6RrOtc1blN1EXizKGgg8Xx1Xwg2hEBYrw6hRes+nUqEuAZbKK
-         Of0YRxfHtFIzoe8C78kSuBj+fRF12+EXklqPdSAG4CF4FefNsyhx4DZmFpTwE4e+7JRx
-         zv4wQSF0OHaUW6pTH93jlxlFCg41juZ8vUDOku6B5d1lPnarc+PTYR9REc4JKWIwGssq
-         2md9iBmyUcD7GFCm6H9N2TAxLqxKpl3QWCoBcQrvxYcJ3eiA1+CZ3IVlrzao5boOeEtf
-         w+Zg==
-X-Gm-Message-State: AOAM531B+KoUOby8/yxeXQtAita5PEFGTXhibABQcOeITx0QiPgg9OBv
-        1LSlQhnp8jjQasfEKyUpuqA=
-X-Google-Smtp-Source: ABdhPJwBRhcQuHiS0q+KiWQdp1BN2aQekg4Gv30go+bEOQiLRiJ1WRYFlxJ6u0c9fi/0VPOoJtPO4w==
-X-Received: by 2002:a63:d309:: with SMTP id b9mr17755939pgg.96.1618068853892;
-        Sat, 10 Apr 2021 08:34:13 -0700 (PDT)
-Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id gm10sm5353205pjb.4.2021.04.10.08.34.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 08:34:13 -0700 (PDT)
-Date:   Sat, 10 Apr 2021 21:04:05 +0530
-From:   Mitali Borkar <mitaliborkar810@gmail.com>
-To:     clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-        mitali_s@me.iitr.ac.in
-Subject: [PATCH v3 2/2] staging: media: zoran: align code appropriately
-Message-ID: <bf18b0301f10dae2d2151839b02c3202093940b3.1618066787.git.mitaliborkar810@gmail.com>
-References: <cover.1618066787.git.mitaliborkar810@gmail.com>
+        id S234668AbhDJRwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Apr 2021 13:52:01 -0400
+Received: from mga04.intel.com ([192.55.52.120]:47148 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234392AbhDJRwA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 10 Apr 2021 13:52:00 -0400
+IronPort-SDR: piD39X050Ru4N5wXgcgCKE+cB51ldwn16G0qNSoWa4yt5TXV/83+I6ycKFuoh7KjAuIyid2z89
+ eFrpcGFr88FQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9950"; a="191809195"
+X-IronPort-AV: E=Sophos;i="5.82,212,1613462400"; 
+   d="scan'208";a="191809195"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2021 10:51:46 -0700
+IronPort-SDR: JOAUuzfiE4CFLh6hhdxuMI9N7B+VJwyrSbhhjfFrSwF/i6awSvRAnerwSJ1xdVY5Qniq7YifiH
+ WsFes51US0eA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,212,1613462400"; 
+   d="scan'208";a="520650705"
+Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 10 Apr 2021 10:51:44 -0700
+Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lVHlo-000IWq-6u; Sat, 10 Apr 2021 17:51:44 +0000
+Date:   Sun, 11 Apr 2021 01:51:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ 4f4e6644cd876c844cdb3bea2dd7051787d5ae25
+Message-ID: <6071e59e.iEnV4YTEy6Pl5VWD%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1618066787.git.mitaliborkar810@gmail.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Aligned the code properly by using tabs to make code neater and improve
-readability.
+tree/branch: git://git.ragnatech.se/linux media-tree
+branch HEAD: 4f4e6644cd876c844cdb3bea2dd7051787d5ae25  media: gscpa/stv06xx: fix memory leak
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+elapsed time: 1763m
+
+configs tested: 235
+configs skipped: 4
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm64                            allyesconfig
+arm64                               defconfig
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+x86_64                           allyesconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+i386                             allyesconfig
+sh                          polaris_defconfig
+arc                              allyesconfig
+powerpc                     asp8347_defconfig
+m68k                          multi_defconfig
+arm64                            alldefconfig
+powerpc                      bamboo_defconfig
+m68k                       bvme6000_defconfig
+mips                      pistachio_defconfig
+openrisc                 simple_smp_defconfig
+openrisc                  or1klitex_defconfig
+xtensa                    xip_kc705_defconfig
+arm                            hisi_defconfig
+powerpc                      pmac32_defconfig
+arm                          lpd270_defconfig
+sh                           se7750_defconfig
+powerpc                       ebony_defconfig
+mips                           xway_defconfig
+powerpc                     mpc83xx_defconfig
+ia64                      gensparse_defconfig
+arm                          simpad_defconfig
+powerpc                 mpc834x_itx_defconfig
+powerpc                     pq2fads_defconfig
+mips                    maltaup_xpa_defconfig
+mips                          ath79_defconfig
+m68k                                defconfig
+ia64                             allyesconfig
+s390                       zfcpdump_defconfig
+powerpc                      pasemi_defconfig
+powerpc                 linkstation_defconfig
+um                             i386_defconfig
+s390                             allmodconfig
+sh                           se7722_defconfig
+m68k                        m5307c3_defconfig
+powerpc                       ppc64_defconfig
+arm                          gemini_defconfig
+powerpc                     ep8248e_defconfig
+powerpc                  mpc885_ads_defconfig
+powerpc                    socrates_defconfig
+sh                           se7751_defconfig
+arm                         s3c6400_defconfig
+sh                         apsh4a3a_defconfig
+mips                        bcm63xx_defconfig
+powerpc                      tqm8xx_defconfig
+openrisc                         alldefconfig
+arm                            mmp2_defconfig
+powerpc64                           defconfig
+sh                             espt_defconfig
+arm                         vf610m4_defconfig
+mips                          rb532_defconfig
+mips                            gpr_defconfig
+arc                     haps_hs_smp_defconfig
+arm                             mxs_defconfig
+powerpc                      arches_defconfig
+sh                        dreamcast_defconfig
+arm                             rpc_defconfig
+powerpc                   currituck_defconfig
+powerpc                 mpc837x_mds_defconfig
+microblaze                      mmu_defconfig
+sh                                  defconfig
+powerpc                 mpc8313_rdb_defconfig
+arm                            dove_defconfig
+arm                  colibri_pxa270_defconfig
+sh                           se7619_defconfig
+powerpc                      chrp32_defconfig
+arm                         socfpga_defconfig
+arm                            pleb_defconfig
+arm                            xcep_defconfig
+arm                          ep93xx_defconfig
+mips                            e55_defconfig
+mips                        workpad_defconfig
+mips                       bmips_be_defconfig
+sh                            shmin_defconfig
+arm                        multi_v7_defconfig
+riscv                    nommu_k210_defconfig
+arc                            hsdk_defconfig
+riscv             nommu_k210_sdcard_defconfig
+arm                        multi_v5_defconfig
+h8300                               defconfig
+mips                         tb0287_defconfig
+mips                         tb0219_defconfig
+sh                          urquell_defconfig
+arm                        spear6xx_defconfig
+sh                            titan_defconfig
+powerpc                 mpc8315_rdb_defconfig
+arm                         cm_x300_defconfig
+m68k                       m5475evb_defconfig
+mips                         bigsur_defconfig
+powerpc                 mpc836x_rdk_defconfig
+m68k                       m5249evb_defconfig
+ia64                            zx1_defconfig
+arm                          ixp4xx_defconfig
+arm                        shmobile_defconfig
+arm                         s3c2410_defconfig
+m68k                        stmark2_defconfig
+sh                           se7712_defconfig
+mips                        qi_lb60_defconfig
+powerpc                     pseries_defconfig
+mips                             allyesconfig
+powerpc                   bluestone_defconfig
+mips                      loongson3_defconfig
+arc                                 defconfig
+arm                  colibri_pxa300_defconfig
+powerpc                 mpc8540_ads_defconfig
+m68k                         amcore_defconfig
+microblaze                          defconfig
+sh                        sh7785lcr_defconfig
+arc                          axs101_defconfig
+sh                          sdk7780_defconfig
+arm                          badge4_defconfig
+s390                             allyesconfig
+arm                         at91_dt_defconfig
+powerpc                 mpc834x_mds_defconfig
+arm                             pxa_defconfig
+powerpc                      walnut_defconfig
+mips                       lemote2f_defconfig
+sh                      rts7751r2d1_defconfig
+m68k                       m5208evb_defconfig
+openrisc                            defconfig
+ia64                          tiger_defconfig
+sh                   sh7770_generic_defconfig
+powerpc                 canyonlands_defconfig
+arm                     am200epdkit_defconfig
+sh                        sh7757lcr_defconfig
+arm                         nhk8815_defconfig
+arc                      axs103_smp_defconfig
+powerpc                     taishan_defconfig
+sh                   rts7751r2dplus_defconfig
+powerpc                     ppa8548_defconfig
+arm                         shannon_defconfig
+h8300                     edosk2674_defconfig
+powerpc                     ksi8560_defconfig
+powerpc                       eiger_defconfig
+mips                       rbtx49xx_defconfig
+xtensa                  audio_kc705_defconfig
+arm                      jornada720_defconfig
+sh                           se7780_defconfig
+sh                          lboxre2_defconfig
+sh                          r7785rp_defconfig
+powerpc                     sbc8548_defconfig
+powerpc                     tqm8540_defconfig
+powerpc                 mpc837x_rdb_defconfig
+mips                           ip28_defconfig
+powerpc                    adder875_defconfig
+mips                     loongson1b_defconfig
+arm                         mv78xx0_defconfig
+arm                       multi_v4t_defconfig
+xtensa                  cadence_csp_defconfig
+powerpc                      mgcoge_defconfig
+m68k                        m5407c3_defconfig
+arm                        vexpress_defconfig
+csky                                defconfig
+i386                                defconfig
+sh                   secureedge5410_defconfig
+arm                       versatile_defconfig
+arc                        nsimosci_defconfig
+sh                               alldefconfig
+arm                          collie_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                                defconfig
+parisc                           allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+i386                 randconfig-a006-20210409
+i386                 randconfig-a003-20210409
+i386                 randconfig-a001-20210409
+i386                 randconfig-a004-20210409
+i386                 randconfig-a002-20210409
+i386                 randconfig-a005-20210409
+x86_64               randconfig-a014-20210409
+x86_64               randconfig-a015-20210409
+x86_64               randconfig-a012-20210409
+x86_64               randconfig-a011-20210409
+x86_64               randconfig-a013-20210409
+x86_64               randconfig-a016-20210409
+i386                 randconfig-a014-20210409
+i386                 randconfig-a011-20210409
+i386                 randconfig-a016-20210409
+i386                 randconfig-a012-20210409
+i386                 randconfig-a013-20210409
+i386                 randconfig-a015-20210409
+i386                 randconfig-a015-20210410
+i386                 randconfig-a014-20210410
+i386                 randconfig-a012-20210410
+i386                 randconfig-a016-20210410
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a004-20210409
+x86_64               randconfig-a005-20210409
+x86_64               randconfig-a003-20210409
+x86_64               randconfig-a001-20210409
+x86_64               randconfig-a002-20210409
+x86_64               randconfig-a006-20210409
+x86_64               randconfig-a003-20210410
+x86_64               randconfig-a002-20210410
+x86_64               randconfig-a001-20210410
+x86_64               randconfig-a005-20210410
+x86_64               randconfig-a006-20210410
+x86_64               randconfig-a004-20210410
+
 ---
- drivers/staging/media/zoran/zr36057.h | 108 +++++++++++++-------------
- 1 file changed, 54 insertions(+), 54 deletions(-)
-
-diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
-index 198d344a8879..db42f445248f 100644
---- a/drivers/staging/media/zoran/zr36057.h
-+++ b/drivers/staging/media/zoran/zr36057.h
-@@ -13,28 +13,28 @@
- /* Zoran ZR36057 registers */
- 
- /* Video Front End, Horizontal Configuration Register */
--#define ZR36057_VFEHCR			0x000
-+#define ZR36057_VFEHCR				0x000
- #define ZR36057_VFEHCR_HS_POL			BIT(30)
--#define ZR36057_VFEHCR_H_START		10
--#define ZR36057_VFEHCR_H_END		0
--#define ZR36057_VFEHCR_HMASK		0x3ff
-+#define ZR36057_VFEHCR_H_START			10
-+#define ZR36057_VFEHCR_H_END			0
-+#define ZR36057_VFEHCR_HMASK			0x3ff
- 
- /* Video Front End, Vertical Configuration Register */
--#define ZR36057_VFEVCR			0x004
-+#define ZR36057_VFEVCR				0x004
- #define ZR36057_VFEVCR_VS_POL			BIT(30)
--#define ZR36057_VFEVCR_V_START		10
--#define ZR36057_VFEVCR_V_END		0
--#define ZR36057_VFEVCR_VMASK		0x3ff
-+#define ZR36057_VFEVCR_V_START			10
-+#define ZR36057_VFEVCR_V_END			0
-+#define ZR36057_VFEVCR_VMASK			0x3ff
- 
- /* Video Front End, Scaler and Pixel Format Register */
- #define ZR36057_VFESPFR			0x008
- #define ZR36057_VFESPFR_EXT_FL			BIT(26)
- #define ZR36057_VFESPFR_TOP_FIELD		BIT(25)
- #define ZR36057_VFESPFR_VCLK_POL		BIT(24)
--#define ZR36057_VFESPFR_H_FILTER	21
-+#define ZR36057_VFESPFR_H_FILTER		21
- #define ZR36057_VFESPFR_HOR_DCM		14
- #define ZR36057_VFESPFR_VER_DCM		8
--#define ZR36057_VFESPFR_DISP_MODE	6
-+#define ZR36057_VFESPFR_DISP_MODE		6
- #define ZR36057_VFESPFR_YUV422			(0 << 3)
- #define ZR36057_VFESPFR_RGB888			BIT(3)
- #define ZR36057_VFESPFR_RGB565			(2 << 3)
-@@ -44,34 +44,34 @@
- #define ZR36057_VFESPFR_LITTLE_ENDIAN		BIT(0)
- 
- /* Video Display "Top" Register */
--#define ZR36057_VDTR			0x00c
-+#define ZR36057_VDTR				0x00c
- 
- /* Video Display "Bottom" Register */
--#define ZR36057_VDBR			0x010
-+#define ZR36057_VDBR				0x010
- 
- /* Video Stride, Status, and Frame Grab Register */
--#define ZR36057_VSSFGR			0x014
--#define ZR36057_VSSFGR_DISP_STRIDE	16
-+#define ZR36057_VSSFGR				0x014
-+#define ZR36057_VSSFGR_DISP_STRIDE		16
- #define ZR36057_VSSFGR_VID_OVF			BIT(8)
- #define ZR36057_VSSFGR_SNAP_SHOT		BIT(1)
- #define ZR36057_VSSFGR_FRAME_GRAB		BIT(0)
- 
- /* Video Display Configuration Register */
--#define ZR36057_VDCR			0x018
-+#define ZR36057_VDCR				0x018
- #define ZR36057_VDCR_VID_EN			BIT(31)
--#define ZR36057_VDCR_MIN_PIX		24
-+#define ZR36057_VDCR_MIN_PIX			24
- #define ZR36057_VDCR_TRITON			BIT(24)
- #define ZR36057_VDCR_VID_WIN_HT		12
--#define ZR36057_VDCR_VID_WIN_WID	0
-+#define ZR36057_VDCR_VID_WIN_WID		0
- 
- /* Masking Map "Top" Register */
--#define ZR36057_MMTR			0x01c
-+#define ZR36057_MMTR				0x01c
- 
- /* Masking Map "Bottom" Register */
--#define ZR36057_MMBR			0x020
-+#define ZR36057_MMBR				0x020
- 
- /* Overlay Control Register */
--#define ZR36057_OCR			0x024
-+#define ZR36057_OCR				0x024
- #define ZR36057_OCR_OVL_ENABLE			BIT(15)
- #define ZR36057_OCR_MASK_STRIDE		0
- 
-@@ -83,42 +83,42 @@
- #define ZR36057_GPPGCR1			0x02c
- 
- /* MPEG Code Source Address Register */
--#define ZR36057_MCSAR			0x030
-+#define ZR36057_MCSAR				0x030
- 
- /* MPEG Code Transfer Control Register */
--#define ZR36057_MCTCR			0x034
-+#define ZR36057_MCTCR				0x034
- #define ZR36057_MCTCR_COD_TIME			BIT(30)
- #define ZR36057_MCTCR_C_EMPTY			BIT(29)
- #define ZR36057_MCTCR_C_FLUSH			BIT(28)
--#define ZR36057_MCTCR_COD_GUEST_ID	20
--#define ZR36057_MCTCR_COD_GUEST_REG	16
-+#define ZR36057_MCTCR_COD_GUEST_ID		20
-+#define ZR36057_MCTCR_COD_GUEST_REG		16
- 
- /* MPEG Code Memory Pointer Register */
--#define ZR36057_MCMPR			0x038
-+#define ZR36057_MCMPR				0x038
- 
- /* Interrupt Status Register */
--#define ZR36057_ISR			0x03c
-+#define ZR36057_ISR				0x03c
- #define ZR36057_ISR_GIRQ1			BIT(30)
- #define ZR36057_ISR_GIRQ0			BIT(29)
--#define ZR36057_ISR_COD_REP_IRQ			BIT(28)
-+#define ZR36057_ISR_COD_REP_IRQ		BIT(28)
- #define ZR36057_ISR_JPEG_REP_IRQ		BIT(27)
- 
- /* Interrupt Control Register */
--#define ZR36057_ICR			0x040
-+#define ZR36057_ICR				0x040
- #define ZR36057_ICR_GIRQ1			BIT(30)
- #define ZR36057_ICR_GIRQ0			BIT(29)
--#define ZR36057_ICR_COD_REP_IRQ			BIT(28)
-+#define ZR36057_ICR_COD_REP_IRQ		BIT(28)
- #define ZR36057_ICR_JPEG_REP_IRQ		BIT(27)
- #define ZR36057_ICR_INT_PIN_EN			BIT(24)
- 
- /* I2C Bus Register */
--#define ZR36057_I2CBR			0x044
-+#define ZR36057_I2CBR				0x044
- #define ZR36057_I2CBR_SDA			BIT(1)
- #define ZR36057_I2CBR_SCL			BIT(0)
- 
- /* JPEG Mode and Control */
--#define ZR36057_JMC			0x100
--#define ZR36057_JMC_JPG				BIT(31)
-+#define ZR36057_JMC				0x100
-+#define ZR36057_JMC_JPG			BIT(31)
- #define ZR36057_JMC_JPG_EXP_MODE		(0 << 29)
- #define ZR36057_JMC_JPG_CMP_MODE		BIT(29)
- #define ZR36057_JMC_MJPG_EXP_MODE		(2 << 29)
-@@ -132,56 +132,56 @@
- #define ZR36057_JMC_STLL_LIT_ENDIAN		BIT(0)
- 
- /* JPEG Process Control */
--#define ZR36057_JPC			0x104
-+#define ZR36057_JPC				0x104
- #define ZR36057_JPC_P_RESET			BIT(7)
--#define ZR36057_JPC_COD_TRNS_EN			BIT(5)
-+#define ZR36057_JPC_COD_TRNS_EN		BIT(5)
- #define ZR36057_JPC_ACTIVE			BIT(0)
- 
- /* Vertical Sync Parameters */
--#define ZR36057_VSP			0x108
--#define ZR36057_VSP_VSYNC_SIZE		16
--#define ZR36057_VSP_FRM_TOT		0
-+#define ZR36057_VSP				0x108
-+#define ZR36057_VSP_VSYNC_SIZE			16
-+#define ZR36057_VSP_FRM_TOT			0
- 
- /* Horizontal Sync Parameters */
--#define ZR36057_HSP			0x10c
-+#define ZR36057_HSP				0x10c
- #define ZR36057_HSP_HSYNC_START		16
--#define ZR36057_HSP_LINE_TOT		0
-+#define ZR36057_HSP_LINE_TOT			0
- 
- /* Field Horizontal Active Portion */
--#define ZR36057_FHAP			0x110
--#define ZR36057_FHAP_NAX		16
--#define ZR36057_FHAP_PAX		0
-+#define ZR36057_FHAP				0x110
-+#define ZR36057_FHAP_NAX			16
-+#define ZR36057_FHAP_PAX			0
- 
- /* Field Vertical Active Portion */
--#define ZR36057_FVAP			0x114
--#define ZR36057_FVAP_NAY		16
--#define ZR36057_FVAP_PAY		0
-+#define ZR36057_FVAP				0x114
-+#define ZR36057_FVAP_NAY			16
-+#define ZR36057_FVAP_PAY			0
- 
- /* Field Process Parameters */
--#define ZR36057_FPP			0x118
-+#define ZR36057_FPP				0x118
- #define ZR36057_FPP_ODD_EVEN			BIT(0)
- 
- /* JPEG Code Base Address */
--#define ZR36057_JCBA			0x11c
-+#define ZR36057_JCBA				0x11c
- 
- /* JPEG Code FIFO Threshold */
--#define ZR36057_JCFT			0x120
-+#define ZR36057_JCFT				0x120
- 
- /* JPEG Codec Guest ID */
--#define ZR36057_JCGI			0x124
--#define ZR36057_JCGI_JPE_GUEST_ID	4
--#define ZR36057_JCGI_JPE_GUEST_REG	0
-+#define ZR36057_JCGI				0x124
-+#define ZR36057_JCGI_JPE_GUEST_ID		4
-+#define ZR36057_JCGI_JPE_GUEST_REG		0
- 
- /* GuestBus Control Register (2) */
--#define ZR36057_GCR2			0x12c
-+#define ZR36057_GCR2				0x12c
- 
- /* Post Office Register */
--#define ZR36057_POR			0x200
-+#define ZR36057_POR				0x200
- #define ZR36057_POR_PO_PEN			BIT(25)
- #define ZR36057_POR_PO_TIME			BIT(24)
- #define ZR36057_POR_PO_DIR			BIT(23)
- 
- /* "Still" Transfer Register */
--#define ZR36057_STR			0x300
-+#define ZR36057_STR				0x300
- 
- #endif
--- 
-2.30.2
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
