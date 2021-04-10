@@ -2,293 +2,424 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B9CD35AC4D
-	for <lists+linux-media@lfdr.de>; Sat, 10 Apr 2021 11:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4C3C35AD1B
+	for <lists+linux-media@lfdr.de>; Sat, 10 Apr 2021 13:56:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbhDJJP1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 10 Apr 2021 05:15:27 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:38710 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229537AbhDJJP0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Apr 2021 05:15:26 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lV9hs-002PzO-Mm; Sat, 10 Apr 2021 09:15:09 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lV9lu-0000uA-37; Sat, 10 Apr 2021 09:19:18 +0000
-Date:   Sat, 10 Apr 2021 09:19:17 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1341968573.6.1618046358048@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3459
+        id S234653AbhDJL4l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Apr 2021 07:56:41 -0400
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:59815
+        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234565AbhDJL4l (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 10 Apr 2021 07:56:41 -0400
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A3EgqpavArrurC4lMMY7y6bzb7skDl9V00zAX?=
+ =?us-ascii?q?/kB9WHVpW+afkN2jm+le6A/shF8qKRUdsP2JJaXoexjh3LFv5415B92fdSng/F?=
+ =?us-ascii?q?ClNYRzqbblqgeAJwTb1spwkZhtaLJ/DtqYNykese/f7BOjG9gthPmrmZrJuc7k?=
+ =?us-ascii?q?w31gTR5nZshbhm9EIz2WHUFsSA5NCYBRLuv+2uN8uzGidX4LB/7UOlA5WYH4y+?=
+ =?us-ascii?q?HjqIjrelovCRIh9WC1/FGVwY+/Ilyj0hASXygn+9of2GLO+jaX2pme?=
+X-IronPort-AV: E=Sophos;i="5.82,210,1613430000"; 
+   d="scan'208";a="378282687"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Apr 2021 13:56:25 +0200
+Date:   Sat, 10 Apr 2021 13:56:24 +0200 (CEST)
+From:   Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To:     Mitali Borkar <mitaliborkar810@gmail.com>
+cc:     clabbe@baylibre.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [Outreachy kernel] [PATCH v2 2/2] staging: media: zoran: remove
+ and add comments; align code
+In-Reply-To: <YHDR7VxighihfZd5@kali>
+Message-ID: <alpine.DEB.2.22.394.2104101354180.2975@hadrien>
+References: <YHCgnP6Jr6TbjwUy@kali> <alpine.DEB.2.22.394.2104092209200.23056@hadrien> <YHDR7VxighihfZd5@kali>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3459/display/redirect>
-
-Changes:
 
 
-------------------------------------------
-[...truncated 5.15 KB...]
-    50K .......... .......... .......... .......... ..........  1%  324K 33s
-   100K .......... .......... .......... .......... ..........  2% 14.1M 22s
-   150K .......... .......... .......... .......... ..........  2% 1.27M 18s
-   200K .......... .......... .......... .......... ..........  3%  434K 17s
-   250K .......... .......... .......... .......... ..........  4% 16.3M 14s
-   300K .......... .......... .......... .......... ..........  4% 17.4M 12s
-   350K .......... .......... .......... .......... ..........  5% 11.5M 11s
-   400K .......... .......... .......... .......... ..........  6%  349K 11s
-   450K .......... .......... .......... .......... ..........  7% 17.0M 10s
-   500K .......... .......... .......... .......... ..........  7% 18.1M 9s
-   550K .......... .......... .......... .......... ..........  8% 24.0M 8s
-   600K .......... .......... .......... .......... ..........  9% 21.4M 8s
-   650K .......... .......... .......... .......... ..........  9% 20.8M 7s
-   700K .......... .......... .......... .......... .......... 10% 19.7M 7s
-   750K .......... .......... .......... .......... .......... 11% 19.3M 6s
-   800K .......... .......... .......... .......... .......... 11% 2.06M 6s
-   850K .......... .......... .......... .......... .......... 12%  442K 6s
-   900K .......... .......... .......... .......... .......... 13% 25.7M 6s
-   950K .......... .......... .......... .......... .......... 14% 24.7M 6s
-  1000K .......... .......... .......... .......... .......... 14% 22.7M 5s
-  1050K .......... .......... .......... .......... .......... 15% 36.8M 5s
-  1100K .......... .......... .......... .......... .......... 16% 31.7M 5s
-  1150K .......... .......... .......... .......... .......... 16% 31.1M 5s
-  1200K .......... .......... .......... .......... .......... 17% 21.1M 4s
-  1250K .......... .......... .......... .......... .......... 18% 35.4M 4s
-  1300K .......... .......... .......... .......... .......... 18% 34.5M 4s
-  1350K .......... .......... .......... .......... .......... 19% 26.6M 4s
-  1400K .......... .......... .......... .......... .......... 20% 26.2M 4s
-  1450K .......... .......... .......... .......... .......... 21% 29.3M 4s
-  1500K .......... .......... .......... .......... .......... 21% 27.1M 3s
-  1550K .......... .......... .......... .......... .......... 22% 26.2M 3s
-  1600K .......... .......... .......... .......... .......... 23% 24.6M 3s
-  1650K .......... .......... .......... .......... .......... 23% 29.1M 3s
-  1700K .......... .......... .......... .......... .......... 24% 3.55M 3s
-  1750K .......... .......... .......... .......... .......... 25%  447K 3s
-  1800K .......... .......... .......... .......... .......... 26% 35.7M 3s
-  1850K .......... .......... .......... .......... .......... 26% 43.5M 3s
-  1900K .......... .......... .......... .......... .......... 27% 46.1M 3s
-  1950K .......... .......... .......... .......... .......... 28% 46.2M 3s
-  2000K .......... .......... .......... .......... .......... 28% 30.5M 3s
-  2050K .......... .......... .......... .......... .......... 29% 38.0M 3s
-  2100K .......... .......... .......... .......... .......... 30% 44.5M 3s
-  2150K .......... .......... .......... .......... .......... 30% 44.8M 2s
-  2200K .......... .......... .......... .......... .......... 31% 47.6M 2s
-  2250K .......... .......... .......... .......... .......... 32% 43.5M 2s
-  2300K .......... .......... .......... .......... .......... 33% 51.3M 2s
-  2350K .......... .......... .......... .......... .......... 33% 38.4M 2s
-  2400K .......... .......... .......... .......... .......... 34% 38.5M 2s
-  2450K .......... .......... .......... .......... .......... 35% 43.8M 2s
-  2500K .......... .......... .......... .......... .......... 35% 39.9M 2s
-  2550K .......... .......... .......... .......... .......... 36% 56.7M 2s
-  2600K .......... .......... .......... .......... .......... 37% 38.4M 2s
-  2650K .......... .......... .......... .......... .......... 37% 66.8M 2s
-  2700K .......... .......... .......... .......... .......... 38% 34.9M 2s
-  2750K .......... .......... .......... .......... .......... 39% 26.8M 2s
-  2800K .......... .......... .......... .......... .......... 40% 19.7M 2s
-  2850K .......... .......... .......... .......... .......... 40% 60.0M 2s
-  2900K .......... .......... .......... .......... .......... 41% 44.7M 2s
-  2950K .......... .......... .......... .......... .......... 42% 77.9M 2s
-  3000K .......... .......... .......... .......... .......... 42% 55.0M 1s
-  3050K .......... .......... .......... .......... .......... 43% 48.6M 1s
-  3100K .......... .......... .......... .......... .......... 44% 53.3M 1s
-  3150K .......... .......... .......... .......... .......... 45% 59.7M 1s
-  3200K .......... .......... .......... .......... .......... 45% 37.1M 1s
-  3250K .......... .......... .......... .......... .......... 46% 65.7M 1s
-  3300K .......... .......... .......... .......... .......... 47% 39.0M 1s
-  3350K .......... .......... .......... .......... .......... 47% 82.9M 1s
-  3400K .......... .......... .......... .......... .......... 48% 49.2M 1s
-  3450K .......... .......... .......... .......... .......... 49% 8.70M 1s
-  3500K .......... .......... .......... .......... .......... 49% 58.8M 1s
-  3550K .......... .......... .......... .......... .......... 50%  451K 1s
-  3600K .......... .......... .......... .......... .......... 51% 50.4M 1s
-  3650K .......... .......... .......... .......... .......... 52% 62.7M 1s
-  3700K .......... .......... .......... .......... .......... 52% 36.6M 1s
-  3750K .......... .......... .......... .......... .......... 53% 27.1M 1s
-  3800K .......... .......... .......... .......... .......... 54% 26.8M 1s
-  3850K .......... .......... .......... .......... .......... 54% 27.4M 1s
-  3900K .......... .......... .......... .......... .......... 55% 29.8M 1s
-  3950K .......... .......... .......... .......... .......... 56% 28.9M 1s
-  4000K .......... .......... .......... .......... .......... 56% 17.3M 1s
-  4050K .......... .......... .......... .......... .......... 57% 18.6M 1s
-  4100K .......... .......... .......... .......... .......... 58% 17.6M 1s
-  4150K .......... .......... .......... .......... .......... 59% 24.3M 1s
-  4200K .......... .......... .......... .......... .......... 59% 29.1M 1s
-  4250K .......... .......... .......... .......... .......... 60% 27.8M 1s
-  4300K .......... .......... .......... .......... .......... 61% 28.4M 1s
-  4350K .......... .......... .......... .......... .......... 61% 27.0M 1s
-  4400K .......... .......... .......... .......... .......... 62% 22.0M 1s
-  4450K .......... .......... .......... .......... .......... 63% 28.3M 1s
-  4500K .......... .......... .......... .......... .......... 63% 20.3M 1s
-  4550K .......... .......... .......... .......... .......... 64% 20.3M 1s
-  4600K .......... .......... .......... .......... .......... 65% 20.8M 1s
-  4650K .......... .......... .......... .......... .......... 66% 19.9M 1s
-  4700K .......... .......... .......... .......... .......... 66% 19.8M 1s
-  4750K .......... .......... .......... .......... .......... 67% 21.1M 1s
-  4800K .......... .......... .......... .......... .......... 68% 15.7M 1s
-  4850K .......... .......... .......... .......... .......... 68% 23.9M 1s
-  4900K .......... .......... .......... .......... .......... 69% 24.3M 1s
-  4950K .......... .......... .......... .......... .......... 70% 18.1M 1s
-  5000K .......... .......... .......... .......... .......... 71% 26.0M 1s
-  5050K .......... .......... .......... .......... .......... 71% 23.4M 1s
-  5100K .......... .......... .......... .......... .......... 72% 24.4M 0s
-  5150K .......... .......... .......... .......... .......... 73% 23.0M 0s
-  5200K .......... .......... .......... .......... .......... 73% 18.3M 0s
-  5250K .......... .......... .......... .......... .......... 74% 21.6M 0s
-  5300K .......... .......... .......... .......... .......... 75% 24.1M 0s
-  5350K .......... .......... .......... .......... .......... 75% 24.3M 0s
-  5400K .......... .......... .......... .......... .......... 76% 24.1M 0s
-  5450K .......... .......... .......... .......... .......... 77% 22.5M 0s
-  5500K .......... .......... .......... .......... .......... 78% 21.3M 0s
-  5550K .......... .......... .......... .......... .......... 78% 27.5M 0s
-  5600K .......... .......... .......... .......... .......... 79% 19.0M 0s
-  5650K .......... .......... .......... .......... .......... 80% 24.5M 0s
-  5700K .......... .......... .......... .......... .......... 80% 25.9M 0s
-  5750K .......... .......... .......... .......... .......... 81% 25.5M 0s
-  5800K .......... .......... .......... .......... .......... 82% 23.5M 0s
-  5850K .......... .......... .......... .......... .......... 82% 26.7M 0s
-  5900K .......... .......... .......... .......... .......... 83% 28.7M 0s
-  5950K .......... .......... .......... .......... .......... 84% 26.9M 0s
-  6000K .......... .......... .......... .......... .......... 85% 15.6M 0s
-  6050K .......... .......... .......... .......... .......... 85% 34.0M 0s
-  6100K .......... .......... .......... .......... .......... 86% 28.9M 0s
-  6150K .......... .......... .......... .......... .......... 87% 25.8M 0s
-  6200K .......... .......... .......... .......... .......... 87% 24.8M 0s
-  6250K .......... .......... .......... .......... .......... 88% 22.5M 0s
-  6300K .......... .......... .......... .......... .......... 89% 30.8M 0s
-  6350K .......... .......... .......... .......... .......... 90% 26.1M 0s
-  6400K .......... .......... .......... .......... .......... 90% 20.2M 0s
-  6450K .......... .......... .......... .......... .......... 91% 25.5M 0s
-  6500K .......... .......... .......... .......... .......... 92% 26.2M 0s
-  6550K .......... .......... .......... .......... .......... 92% 25.0M 0s
-  6600K .......... .......... .......... .......... .......... 93% 22.4M 0s
-  6650K .......... .......... .......... .......... .......... 94% 1.52M 0s
-  6700K .......... .......... .......... .......... .......... 94% 70.2M 0s
-  6750K .......... .......... .......... .......... .......... 95% 44.8M 0s
-  6800K .......... .......... .......... .......... .......... 96% 28.1M 0s
-  6850K .......... .......... .......... .......... .......... 97% 36.1M 0s
-  6900K .......... .......... .......... .......... .......... 97% 23.8M 0s
-  6950K .......... .......... .......... .......... .......... 98% 21.4M 0s
-  7000K .......... .......... .......... .......... .......... 99% 24.1M 0s
-  7050K .......... .......... .......... .......... .......... 99% 92.6M 0s
-  7100K ..........                                            100%  111M=1.4s
+On Sat, 10 Apr 2021, Mitali Borkar wrote:
 
-2021-04-10 09:15:46 (4.94 MB/s) - ‘linux-media.tar.bz2’ saved [7280931/7280931]
+> On Fri, Apr 09, 2021 at 10:12:12PM +0200, Julia Lawall wrote:
+> >
+> >
+> > On Sat, 10 Apr 2021, Mitali Borkar wrote:
+> >
+> > > Removed comments from the same line and added them to new line above the
+> > > blocks, aligned everything properly by using tabs to make code neater
+> > > and improve readability.
+> > >
+> > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > > ---
+> > >  drivers/staging/media/zoran/zr36057.h | 293 ++++++++++++++------------
+> > >  1 file changed, 162 insertions(+), 131 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
+> > > index 93075459f910..198d344a8879 100644
+> > > --- a/drivers/staging/media/zoran/zr36057.h
+> > > +++ b/drivers/staging/media/zoran/zr36057.h
+> > > @@ -12,145 +12,176 @@
+> > >
+> > >  /* Zoran ZR36057 registers */
+> > >
+> > > -#define ZR36057_VFEHCR          0x000	/* Video Front End, Horizontal Configuration Register */
+> > > -#define ZR36057_VFEHCR_HS_POL             BIT(30)
+> > > -#define ZR36057_VFEHCR_H_START           10
+> > > +/* Video Front End, Horizontal Configuration Register */
+> > > +#define ZR36057_VFEHCR			0x000
+> > > +#define ZR36057_VFEHCR_HS_POL			BIT(30)
+> >
+> > It looks like the alignment didn't work out here?  Check that the use of
+> > tabs is the same as on the nearby lines.
+> >
+> Do I need to align BIT(30), 10, 0x000 and rest in same column or should I
+> align them separately?
 
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-12-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/ccs.patch
-patch -s -f -N -p1 -i ../backports/v5.11_isa.patch
-patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.9_netup_unidvb_devm_revert.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_vb2_kmap.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.4_async.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-1 out of 2 hunks FAILED
-make[2]: *** [Makefile:131: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+If there are a bunch of #defines with no blank line between them and
+similar names (these all start with ZR36057_VFEHCR), then it can be nice
+to line them all up.
+
+>
+> > > +#define ZR36057_VFEHCR_H_START		10
+> > >  #define ZR36057_VFEHCR_H_END		0
+> > >  #define ZR36057_VFEHCR_HMASK		0x3ff
+> > >
+> > > -#define ZR36057_VFEVCR          0x004	/* Video Front End, Vertical Configuration Register */
+> > > -#define ZR36057_VFEVCR_VS_POL             BIT(30)
+> > > -#define ZR36057_VFEVCR_V_START           10
+> > > +/* Video Front End, Vertical Configuration Register */
+> > > +#define ZR36057_VFEVCR			0x004
+> > > +#define ZR36057_VFEVCR_VS_POL			BIT(30)
+> > > +#define ZR36057_VFEVCR_V_START		10
+> > >  #define ZR36057_VFEVCR_V_END		0
+> > >  #define ZR36057_VFEVCR_VMASK		0x3ff
+> > >
+> > > -#define ZR36057_VFESPFR         0x008	/* Video Front End, Scaler and Pixel Format Register */
+> > > -#define ZR36057_VFESPFR_EXT_FL            BIT(26)
+> > > -#define ZR36057_VFESPFR_TOP_FIELD         BIT(25)
+> > > -#define ZR36057_VFESPFR_VCLK_POL          BIT(24)
+> > > -#define ZR36057_VFESPFR_H_FILTER         21
+> > > -#define ZR36057_VFESPFR_HOR_DCM          14
+> > > -#define ZR36057_VFESPFR_VER_DCM          8
+> > > -#define ZR36057_VFESPFR_DISP_MODE        6
+> > > -#define ZR36057_VFESPFR_YUV422          (0 << 3)
+> > > -#define ZR36057_VFESPFR_RGB888          BIT(3)
+> > > -#define ZR36057_VFESPFR_RGB565          (2 << 3)
+> > > -#define ZR36057_VFESPFR_RGB555          (3 << 3)
+> > > -#define ZR36057_VFESPFR_ERR_DIF          BIT(2)
+> > > -#define ZR36057_VFESPFR_PACK24          BIT(1)
+> > > -#define ZR36057_VFESPFR_LITTLE_ENDIAN    BIT(0)
+> > > -
+> > > -#define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
+> > > -
+> > > -#define ZR36057_VDBR            0x010	/* Video Display "Bottom" Register */
+> > > -
+> > > -#define ZR36057_VSSFGR          0x014	/* Video Stride, Status, and Frame Grab Register */
+> > > -#define ZR36057_VSSFGR_DISP_STRIDE       16
+> > > -#define ZR36057_VSSFGR_VID_OVF            BIT(8)
+> > > -#define ZR36057_VSSFGR_SNAP_SHOT          BIT(1)
+> > > -#define ZR36057_VSSFGR_FRAME_GRAB         BIT(0)
+> > > -
+> > > -#define ZR36057_VDCR            0x018	/* Video Display Configuration Register */
+> > > -#define ZR36057_VDCR_VID_EN               BIT(31)
+> > > -#define ZR36057_VDCR_MIN_PIX             24
+> > > -#define ZR36057_VDCR_TRITON              BIT(24)
+> > > -#define ZR36057_VDCR_VID_WIN_HT           12
+> > > -#define ZR36057_VDCR_VID_WIN_WID          0
+> > > -
+> > > -#define ZR36057_MMTR            0x01c	/* Masking Map "Top" Register */
+> > > -
+> > > -#define ZR36057_MMBR            0x020	/* Masking Map "Bottom" Register */
+> > > -
+> > > -#define ZR36057_OCR             0x024	/* Overlay Control Register */
+> > > -#define ZR36057_OCR_OVL_ENABLE            BIT(15)
+> > > -#define ZR36057_OCR_MASK_STRIDE          0
+> > > -
+> > > -#define ZR36057_SPGPPCR         0x028	/* System, PCI, and General Purpose Pins Control Register */
+> > > -#define ZR36057_SPGPPCR_SOFT_RESET	 BIT(24)
+> > > -
+> > > -#define ZR36057_GPPGCR1         0x02c	/* General Purpose Pins and GuestBus Control Register (1) */
+> > > -
+> > > -#define ZR36057_MCSAR           0x030	/* MPEG Code Source Address Register */
+> > > -
+> > > -#define ZR36057_MCTCR           0x034	/* MPEG Code Transfer Control Register */
+> > > -#define ZR36057_MCTCR_COD_TIME            BIT(30)
+> > > -#define ZR36057_MCTCR_C_EMPTY             BIT(29)
+> > > -#define ZR36057_MCTCR_C_FLUSH             BIT(28)
+> > > +/* Video Front End, Scaler and Pixel Format Register */
+> > > +#define ZR36057_VFESPFR			0x008
+> > > +#define ZR36057_VFESPFR_EXT_FL			BIT(26)
+> > > +#define ZR36057_VFESPFR_TOP_FIELD		BIT(25)
+> > > +#define ZR36057_VFESPFR_VCLK_POL		BIT(24)
+> > > +#define ZR36057_VFESPFR_H_FILTER	21
+> > > +#define ZR36057_VFESPFR_HOR_DCM		14
+> > > +#define ZR36057_VFESPFR_VER_DCM		8
+> > > +#define ZR36057_VFESPFR_DISP_MODE	6
+> >
+> > The above four lines also look odd.
+> >
+> > > +#define ZR36057_VFESPFR_YUV422			(0 << 3)
+> > > +#define ZR36057_VFESPFR_RGB888			BIT(3)
+> >
+> > Was there really a BIT in the original code, or is this a patch against
+> > your previous patch?
+> >
+> No, I added BIT(3), originally it was (1<<3).
+
+OK, I don't think it is good to have just one BIT when there is a clear
+pattern for the others that the BIT is hiding.  So you should do the
+alignment patch against the original code, and not the code with this
+change.
+
+julia
+
+> > > +#define ZR36057_VFESPFR_RGB565			(2 << 3)
+> > > +#define ZR36057_VFESPFR_RGB555			(3 << 3)
+> > > +#define ZR36057_VFESPFR_ERR_DIF			BIT(2)
+> > > +#define ZR36057_VFESPFR_PACK24			BIT(1)
+> > > +#define ZR36057_VFESPFR_LITTLE_ENDIAN		BIT(0)
+> > > +
+> > > +/* Video Display "Top" Register */
+> > > +#define ZR36057_VDTR			0x00c
+> > > +
+> > > +/* Video Display "Bottom" Register */
+> > > +#define ZR36057_VDBR			0x010
+> > > +
+> > > +/* Video Stride, Status, and Frame Grab Register */
+> > > +#define ZR36057_VSSFGR			0x014
+> > > +#define ZR36057_VSSFGR_DISP_STRIDE	16
+> > > +#define ZR36057_VSSFGR_VID_OVF			BIT(8)
+> > > +#define ZR36057_VSSFGR_SNAP_SHOT		BIT(1)
+> > > +#define ZR36057_VSSFGR_FRAME_GRAB		BIT(0)
+> > > +
+> > > +/* Video Display Configuration Register */
+> > > +#define ZR36057_VDCR			0x018
+> > > +#define ZR36057_VDCR_VID_EN			BIT(31)
+> > > +#define ZR36057_VDCR_MIN_PIX		24
+> > > +#define ZR36057_VDCR_TRITON			BIT(24)
+> > > +#define ZR36057_VDCR_VID_WIN_HT		12
+> >
+> > These don't look well aligned either.
+> >
+> > Please check on the rest.
+> >
+> Yes Ma'am, I am rechecking this.
+>
+> > julia
+> >
+> >
+> > > +#define ZR36057_VDCR_VID_WIN_WID	0
+> > > +
+> > > +/* Masking Map "Top" Register */
+> > > +#define ZR36057_MMTR			0x01c
+> > > +
+> > > +/* Masking Map "Bottom" Register */
+> > > +#define ZR36057_MMBR			0x020
+> > > +
+> > > +/* Overlay Control Register */
+> > > +#define ZR36057_OCR			0x024
+> > > +#define ZR36057_OCR_OVL_ENABLE			BIT(15)
+> > > +#define ZR36057_OCR_MASK_STRIDE		0
+> > > +
+> > > +/* System, PCI, and General Purpose Pins Control Register */
+> > > +#define ZR36057_SPGPPCR			0x028
+> > > +#define ZR36057_SPGPPCR_SOFT_RESET		BIT(24)
+> > > +
+> > > +/* General Purpose Pins and GuestBus Control Register (1) */
+> > > +#define ZR36057_GPPGCR1			0x02c
+> > > +
+> > > +/* MPEG Code Source Address Register */
+> > > +#define ZR36057_MCSAR			0x030
+> > > +
+> > > +/* MPEG Code Transfer Control Register */
+> > > +#define ZR36057_MCTCR			0x034
+> > > +#define ZR36057_MCTCR_COD_TIME			BIT(30)
+> > > +#define ZR36057_MCTCR_C_EMPTY			BIT(29)
+> > > +#define ZR36057_MCTCR_C_FLUSH			BIT(28)
+> > >  #define ZR36057_MCTCR_COD_GUEST_ID	20
+> > >  #define ZR36057_MCTCR_COD_GUEST_REG	16
+> > >
+> > > -#define ZR36057_MCMPR           0x038	/* MPEG Code Memory Pointer Register */
+> > > -
+> > > -#define ZR36057_ISR             0x03c	/* Interrupt Status Register */
+> > > -#define ZR36057_ISR_GIRQ1                BIT(30)
+> > > -#define ZR36057_ISR_GIRQ0                BIT(29)
+> > > -#define ZR36057_ISR_COD_REP_IRQ            BIT(28)
+> > > -#define ZR36057_ISR_JPEG_REP_IRQ           BIT(27)
+> > > -
+> > > -#define ZR36057_ICR             0x040	/* Interrupt Control Register */
+> > > -#define ZR36057_ICR_GIRQ1                BIT(30)
+> > > -#define ZR36057_ICR_GIRQ0                BIT(29)
+> > > -#define ZR36057_ICR_COD_REP_IRQ            BIT(28)
+> > > -#define ZR36057_ICR_JPEG_REP_IRQ           BIT(27)
+> > > -#define ZR36057_ICR_INT_PIN_EN             BIT(24)
+> > > -
+> > > -#define ZR36057_I2CBR           0x044	/* I2C Bus Register */
+> > > -#define ZR36057_I2CBR_SDA		 BIT(1)
+> > > -#define ZR36057_I2CBR_SCL		 BIT(0)
+> > > -
+> > > -#define ZR36057_JMC             0x100	/* JPEG Mode and Control */
+> > > -#define ZR36057_JMC_JPG                  BIT(31)
+> > > -#define ZR36057_JMC_JPG_EXP_MODE          (0 << 29)
+> > > -#define ZR36057_JMC_JPG_CMP_MODE           BIT(29)
+> > > -#define ZR36057_JMC_MJPG_EXP_MODE         (2 << 29)
+> > > -#define ZR36057_JMC_MJPG_CMP_MODE         (3 << 29)
+> > > -#define ZR36057_JMC_RTBUSY_FB            BIT(6)
+> > > -#define ZR36057_JMC_GO_EN                BIT(5)
+> > > -#define ZR36057_JMC_SYNC_MSTR             BIT(4)
+> > > -#define ZR36057_JMC_FLD_PER_BUFF         BIT(3)
+> > > -#define ZR36057_JMC_VFIFO_FB             BIT(2)
+> > > -#define ZR36057_JMC_CFIFO_FB             BIT(1)
+> > > -#define ZR36057_JMC_STLL_LIT_ENDIAN       BIT(0)
+> > > -
+> > > -#define ZR36057_JPC             0x104	/* JPEG Process Control */
+> > > -#define ZR36057_JPC_P_RESET              BIT(7)
+> > > -#define ZR36057_JPC_COD_TRNS_EN            BIT(5)
+> > > -#define ZR36057_JPC_ACTIVE               BIT(0)
+> > > -
+> > > -#define ZR36057_VSP             0x108	/* Vertical Sync Parameters */
+> > > -#define ZR36057_VSP_VSYNC_SIZE           16
+> > > -#define ZR36057_VSP_FRM_TOT              0
+> > > -
+> > > -#define ZR36057_HSP             0x10c	/* Horizontal Sync Parameters */
+> > > -#define ZR36057_HSP_HSYNC_START          16
+> > > -#define ZR36057_HSP_LINE_TOT             0
+> > > -
+> > > -#define ZR36057_FHAP            0x110	/* Field Horizontal Active Portion */
+> > > -#define ZR36057_FHAP_NAX                16
+> > > -#define ZR36057_FHAP_PAX                0
+> > > -
+> > > -#define ZR36057_FVAP            0x114	/* Field Vertical Active Portion */
+> > > -#define ZR36057_FVAP_NAY                16
+> > > -#define ZR36057_FVAP_PAY                0
+> > > -
+> > > -#define ZR36057_FPP             0x118	/* Field Process Parameters */
+> > > -#define ZR36057_FPP_ODD_EVEN             BIT(0)
+> > > -
+> > > -#define ZR36057_JCBA            0x11c	/* JPEG Code Base Address */
+> > > -
+> > > -#define ZR36057_JCFT            0x120	/* JPEG Code FIFO Threshold */
+> > > -
+> > > -#define ZR36057_JCGI            0x124	/* JPEG Codec Guest ID */
+> > > -#define ZR36057_JCGI_JPE_GUEST_ID         4
+> > > -#define ZR36057_JCGI_JPE_GUEST_REG        0
+> > > -
+> > > -#define ZR36057_GCR2            0x12c	/* GuestBus Control Register (2) */
+> > > -
+> > > -#define ZR36057_POR             0x200	/* Post Office Register */
+> > > -#define ZR36057_POR_PO_PEN                BIT(25)
+> > > -#define ZR36057_POR_PO_TIME               BIT(24)
+> > > -#define ZR36057_POR_PO_DIR                BIT(23)
+> > > -
+> > > -#define ZR36057_STR             0x300	/* "Still" Transfer Register */
+> > > +/* MPEG Code Memory Pointer Register */
+> > > +#define ZR36057_MCMPR			0x038
+> > > +
+> > > +/* Interrupt Status Register */
+> > > +#define ZR36057_ISR			0x03c
+> > > +#define ZR36057_ISR_GIRQ1			BIT(30)
+> > > +#define ZR36057_ISR_GIRQ0			BIT(29)
+> > > +#define ZR36057_ISR_COD_REP_IRQ			BIT(28)
+> > > +#define ZR36057_ISR_JPEG_REP_IRQ		BIT(27)
+> > > +
+> > > +/* Interrupt Control Register */
+> > > +#define ZR36057_ICR			0x040
+> > > +#define ZR36057_ICR_GIRQ1			BIT(30)
+> > > +#define ZR36057_ICR_GIRQ0			BIT(29)
+> > > +#define ZR36057_ICR_COD_REP_IRQ			BIT(28)
+> > > +#define ZR36057_ICR_JPEG_REP_IRQ		BIT(27)
+> > > +#define ZR36057_ICR_INT_PIN_EN			BIT(24)
+> > > +
+> > > +/* I2C Bus Register */
+> > > +#define ZR36057_I2CBR			0x044
+> > > +#define ZR36057_I2CBR_SDA			BIT(1)
+> > > +#define ZR36057_I2CBR_SCL			BIT(0)
+> > > +
+> > > +/* JPEG Mode and Control */
+> > > +#define ZR36057_JMC			0x100
+> > > +#define ZR36057_JMC_JPG				BIT(31)
+> > > +#define ZR36057_JMC_JPG_EXP_MODE		(0 << 29)
+> > > +#define ZR36057_JMC_JPG_CMP_MODE		BIT(29)
+> > > +#define ZR36057_JMC_MJPG_EXP_MODE		(2 << 29)
+> > > +#define ZR36057_JMC_MJPG_CMP_MODE		(3 << 29)
+> > > +#define ZR36057_JMC_RTBUSY_FB			BIT(6)
+> > > +#define ZR36057_JMC_GO_EN			BIT(5)
+> > > +#define ZR36057_JMC_SYNC_MSTR			BIT(4)
+> > > +#define ZR36057_JMC_FLD_PER_BUFF		BIT(3)
+> > > +#define ZR36057_JMC_VFIFO_FB			BIT(2)
+> > > +#define ZR36057_JMC_CFIFO_FB			BIT(1)
+> > > +#define ZR36057_JMC_STLL_LIT_ENDIAN		BIT(0)
+> > > +
+> > > +/* JPEG Process Control */
+> > > +#define ZR36057_JPC			0x104
+> > > +#define ZR36057_JPC_P_RESET			BIT(7)
+> > > +#define ZR36057_JPC_COD_TRNS_EN			BIT(5)
+> > > +#define ZR36057_JPC_ACTIVE			BIT(0)
+> > > +
+> > > +/* Vertical Sync Parameters */
+> > > +#define ZR36057_VSP			0x108
+> > > +#define ZR36057_VSP_VSYNC_SIZE		16
+> > > +#define ZR36057_VSP_FRM_TOT		0
+> > > +
+> > > +/* Horizontal Sync Parameters */
+> > > +#define ZR36057_HSP			0x10c
+> > > +#define ZR36057_HSP_HSYNC_START		16
+> > > +#define ZR36057_HSP_LINE_TOT		0
+> > > +
+> > > +/* Field Horizontal Active Portion */
+> > > +#define ZR36057_FHAP			0x110
+> > > +#define ZR36057_FHAP_NAX		16
+> > > +#define ZR36057_FHAP_PAX		0
+> > > +
+> > > +/* Field Vertical Active Portion */
+> > > +#define ZR36057_FVAP			0x114
+> > > +#define ZR36057_FVAP_NAY		16
+> > > +#define ZR36057_FVAP_PAY		0
+> > > +
+> > > +/* Field Process Parameters */
+> > > +#define ZR36057_FPP			0x118
+> > > +#define ZR36057_FPP_ODD_EVEN			BIT(0)
+> > > +
+> > > +/* JPEG Code Base Address */
+> > > +#define ZR36057_JCBA			0x11c
+> > > +
+> > > +/* JPEG Code FIFO Threshold */
+> > > +#define ZR36057_JCFT			0x120
+> > > +
+> > > +/* JPEG Codec Guest ID */
+> > > +#define ZR36057_JCGI			0x124
+> > > +#define ZR36057_JCGI_JPE_GUEST_ID	4
+> > > +#define ZR36057_JCGI_JPE_GUEST_REG	0
+> > > +
+> > > +/* GuestBus Control Register (2) */
+> > > +#define ZR36057_GCR2			0x12c
+> > > +
+> > > +/* Post Office Register */
+> > > +#define ZR36057_POR			0x200
+> > > +#define ZR36057_POR_PO_PEN			BIT(25)
+> > > +#define ZR36057_POR_PO_TIME			BIT(24)
+> > > +#define ZR36057_POR_PO_DIR			BIT(23)
+> > > +
+> > > +/* "Still" Transfer Register */
+> > > +#define ZR36057_STR			0x300
+> > >
+> > >  #endif
+> > > --
+> > > 2.30.2
+> > >
+> > > --
+> > > You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> > > To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> > > To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/YHCgnP6Jr6TbjwUy%40kali.
+> > >
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/YHDR7VxighihfZd5%40kali.
+>
