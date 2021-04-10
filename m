@@ -2,297 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B97E35AF66
-	for <lists+linux-media@lfdr.de>; Sat, 10 Apr 2021 19:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92DA335B00E
+	for <lists+linux-media@lfdr.de>; Sat, 10 Apr 2021 21:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234668AbhDJRwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Apr 2021 13:52:01 -0400
-Received: from mga04.intel.com ([192.55.52.120]:47148 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234392AbhDJRwA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Apr 2021 13:52:00 -0400
-IronPort-SDR: piD39X050Ru4N5wXgcgCKE+cB51ldwn16G0qNSoWa4yt5TXV/83+I6ycKFuoh7KjAuIyid2z89
- eFrpcGFr88FQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9950"; a="191809195"
-X-IronPort-AV: E=Sophos;i="5.82,212,1613462400"; 
-   d="scan'208";a="191809195"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2021 10:51:46 -0700
-IronPort-SDR: JOAUuzfiE4CFLh6hhdxuMI9N7B+VJwyrSbhhjfFrSwF/i6awSvRAnerwSJ1xdVY5Qniq7YifiH
- WsFes51US0eA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,212,1613462400"; 
-   d="scan'208";a="520650705"
-Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 10 Apr 2021 10:51:44 -0700
-Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lVHlo-000IWq-6u; Sat, 10 Apr 2021 17:51:44 +0000
-Date:   Sun, 11 Apr 2021 01:51:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- 4f4e6644cd876c844cdb3bea2dd7051787d5ae25
-Message-ID: <6071e59e.iEnV4YTEy6Pl5VWD%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S234970AbhDJTRq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Apr 2021 15:17:46 -0400
+Received: from fallback21.m.smailru.net ([94.100.176.131]:51666 "EHLO
+        fallback21.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234439AbhDJTRp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 10 Apr 2021 15:17:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
+        h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From; bh=/n3VjNvACnAJ60ANKxwDucsN/FQ+u+9EHf1Ytd05s50=;
+        b=TXxGhE0DihEU+aZnvCJwFtb7cnClvgGKHbBLwu4O+LnHKf3tQzu3EusVL2DCFeCZl+4nfkckRkxU0UBHNBcS9zC4p6P71cmXL//8NRqqdG+niJw8c8maMDxIZpoLibNvP10CKKXqdG2zBvwFDPf6KKeE83/mWiyl6c0t63scmes=;
+Received: from [10.161.64.44] (port=51466 helo=smtp36.i.mail.ru)
+        by fallback21.m.smailru.net with esmtp (envelope-from <dev.dragon@bk.ru>)
+        id 1lVJ6m-0007Rk-LZ; Sat, 10 Apr 2021 22:17:29 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
+        h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=/n3VjNvACnAJ60ANKxwDucsN/FQ+u+9EHf1Ytd05s50=;
+        b=azG6BCcV9bd2T9NScyz05hjCoLCtKuXZxc1oOYONNueZrUayxxObY/cauzxiM4e+7Ck+xKavW3DIyDN0nCKGUwP10+0hOYxQqsNpv5YIFOEKFLthkYAOWDoeiBE9lYy0s6rbQIwQt3QoRMwWE1/xP8HVBRTT/mEFEkhDOWJnx/4=;
+Received: by smtp36.i.mail.ru with esmtpa (envelope-from <dev.dragon@bk.ru>)
+        id 1lVJ6f-0005ol-2Q; Sat, 10 Apr 2021 22:17:21 +0300
+From:   dev.dragon@bk.ru
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Dmitrii Wolf <dev.dragon@bk.ru>
+Subject: [PATCH] Staging: media: atomisp: pci: fixed a curly bracket coding style issue.
+Date:   Sat, 10 Apr 2021 22:16:56 +0300
+Message-Id: <20210410191655.32719-1-dev.dragon@bk.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD92FFCB8E6708E7480D608FE24BC85426BB1B55F651FED8C70182A05F53808504038C4C691BD028CD67577BC6197054B408E37FA8AA24A30922BB3CF5DFFD08385
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7046EF22710D35B81EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006376F978168E59B07A5EA1F7E6F0F101C67CDEEF6D7F21E0D1D9295C2E9FA3191EE1B59CA4C82EFA658666293059DC4D586984B2E6512477067F6B57BC7E64490618DEB871D839B73339E8FC8737B5C22494854413538E1713FCC7F00164DA146DAFE8445B8C89999729449624AB7ADAF37F6B57BC7E64490611E7FA7ABCAF51C92176DF2183F8FC7C0A3E989B1926288338941B15DA834481F9449624AB7ADAF37BA3038C0950A5D3613377AFFFEAFD2697680F9384605B90368BA0AD3B22A3C517B076A6E789B0E97A8DF7F3B2552694A1E7802607F20496D49FD398EE364050F042285CD7A5C321F3DBBCB839D0549ACB3661434B16C20AC78D18283394535A9E827F84554CEF50127C277FBC8AE2E8BA83251EDC214901ED5E8D9A59859A8B6E9687809A427A9F9089D37D7C0E48F6C5571747095F342E88FB05168BE4CE3AF
+X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A2368A440D3B0F6089093C9A16E5BC824A2A04A2ABAA09D25379311020FFC8D4AD521342F7752FCF28B3A09396CAA66D86
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CE44850EFB5864EA2C70ABAD5AAE7D166EC96BA78500BA6849C2B6934AE262D3EE7EAB7254005DCED556CBE7F905700A49510FB958DCE06DB6ED91DBE5ABE359A7EE5648E065588D469F8FEF10F1C2C2993EDB24507CE13387DFF0A840B692CF8
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D346B222596F62B8FA952447156549F56AD52E08A11414F586FD44D5FF33397B7C0F1E608E91EC90EB21D7E09C32AA3244C49BD678CA6371EB5E7ADEF6E32E096A83FD9C8CA1B0515E083B48618A63566E0
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojqcJA+pXcDukX0g/nTt995Q==
+X-Mailru-Sender: 3A338A78718AEC5AA85B3E7661095C1EDAE73A6F6FD4E0364AF7413C85806CCE80644619C1906B6F3833C6AC539110AEA432B8CD90067B65A6C5C4E98768B51D7AA22088860DD9FF5CDEF9E650933936342CD0BA774DB6A9AE208404248635DF
+X-Mras: Ok
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B4F462559CB183475CD50668BED91BC476606C4EA0DFE9BE89049FFFDB7839CE9E305EC3E96664ADC9FE2B912F38A592AAF3C9F0E42E91D0690D5BA0ED5DAA0555
+X-7FA49CB5: 0D63561A33F958A50A53244B2D6CE31D75804F9F74A9A5269748E964D135AAC98941B15DA834481FA18204E546F3947C4A7E03851CBA2956F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637EAC5C7182FB0D3F7389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F790063710FEC4F8C56CDF14D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636AAAE862A0553A39223F8577A6DFFEA7C275A9BCBA916DA8C43847C11F186F3C59DAA53EE0834AAEE
+X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A2AD77751E876CB595E8F7B195E1C978312279995616FEDEF3AC1B55117025DB7A
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CE44850EFB5864EA2D15068F836A38AD0F6854D551A8A6D359C2B6934AE262D3EE7EAB7254005DCED556CBE7F905700A4DC48ACC2A39D04F89CDFB48F4795C241BDAD6C7F3747799A
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojqcJA+pXcDumTn6SvTVexdg==
+X-Mailru-MI: 1000000000800
+X-Mailru-Sender: A5480F10D64C9005E7955441BDF86265A87AAE43C9B5A74031BD7141B8DFBC0FCCB37A0EC2B93260CD4CDAD98BDCABE8DDBB79867CC2C1EC846E85FF75DBDC4983CE97D6EC8C31C553326A0E03014151EAB4BC95F72C04283CDA0F3B3F5B9367
+X-Mras: Ok
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-tree
-branch HEAD: 4f4e6644cd876c844cdb3bea2dd7051787d5ae25  media: gscpa/stv06xx: fix memory leak
+From: Dmitrii Wolf <dev.dragon@bk.ru>
 
-elapsed time: 1763m
-
-configs tested: 235
-configs skipped: 4
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm64                            allyesconfig
-arm64                               defconfig
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-i386                             allyesconfig
-sh                          polaris_defconfig
-arc                              allyesconfig
-powerpc                     asp8347_defconfig
-m68k                          multi_defconfig
-arm64                            alldefconfig
-powerpc                      bamboo_defconfig
-m68k                       bvme6000_defconfig
-mips                      pistachio_defconfig
-openrisc                 simple_smp_defconfig
-openrisc                  or1klitex_defconfig
-xtensa                    xip_kc705_defconfig
-arm                            hisi_defconfig
-powerpc                      pmac32_defconfig
-arm                          lpd270_defconfig
-sh                           se7750_defconfig
-powerpc                       ebony_defconfig
-mips                           xway_defconfig
-powerpc                     mpc83xx_defconfig
-ia64                      gensparse_defconfig
-arm                          simpad_defconfig
-powerpc                 mpc834x_itx_defconfig
-powerpc                     pq2fads_defconfig
-mips                    maltaup_xpa_defconfig
-mips                          ath79_defconfig
-m68k                                defconfig
-ia64                             allyesconfig
-s390                       zfcpdump_defconfig
-powerpc                      pasemi_defconfig
-powerpc                 linkstation_defconfig
-um                             i386_defconfig
-s390                             allmodconfig
-sh                           se7722_defconfig
-m68k                        m5307c3_defconfig
-powerpc                       ppc64_defconfig
-arm                          gemini_defconfig
-powerpc                     ep8248e_defconfig
-powerpc                  mpc885_ads_defconfig
-powerpc                    socrates_defconfig
-sh                           se7751_defconfig
-arm                         s3c6400_defconfig
-sh                         apsh4a3a_defconfig
-mips                        bcm63xx_defconfig
-powerpc                      tqm8xx_defconfig
-openrisc                         alldefconfig
-arm                            mmp2_defconfig
-powerpc64                           defconfig
-sh                             espt_defconfig
-arm                         vf610m4_defconfig
-mips                          rb532_defconfig
-mips                            gpr_defconfig
-arc                     haps_hs_smp_defconfig
-arm                             mxs_defconfig
-powerpc                      arches_defconfig
-sh                        dreamcast_defconfig
-arm                             rpc_defconfig
-powerpc                   currituck_defconfig
-powerpc                 mpc837x_mds_defconfig
-microblaze                      mmu_defconfig
-sh                                  defconfig
-powerpc                 mpc8313_rdb_defconfig
-arm                            dove_defconfig
-arm                  colibri_pxa270_defconfig
-sh                           se7619_defconfig
-powerpc                      chrp32_defconfig
-arm                         socfpga_defconfig
-arm                            pleb_defconfig
-arm                            xcep_defconfig
-arm                          ep93xx_defconfig
-mips                            e55_defconfig
-mips                        workpad_defconfig
-mips                       bmips_be_defconfig
-sh                            shmin_defconfig
-arm                        multi_v7_defconfig
-riscv                    nommu_k210_defconfig
-arc                            hsdk_defconfig
-riscv             nommu_k210_sdcard_defconfig
-arm                        multi_v5_defconfig
-h8300                               defconfig
-mips                         tb0287_defconfig
-mips                         tb0219_defconfig
-sh                          urquell_defconfig
-arm                        spear6xx_defconfig
-sh                            titan_defconfig
-powerpc                 mpc8315_rdb_defconfig
-arm                         cm_x300_defconfig
-m68k                       m5475evb_defconfig
-mips                         bigsur_defconfig
-powerpc                 mpc836x_rdk_defconfig
-m68k                       m5249evb_defconfig
-ia64                            zx1_defconfig
-arm                          ixp4xx_defconfig
-arm                        shmobile_defconfig
-arm                         s3c2410_defconfig
-m68k                        stmark2_defconfig
-sh                           se7712_defconfig
-mips                        qi_lb60_defconfig
-powerpc                     pseries_defconfig
-mips                             allyesconfig
-powerpc                   bluestone_defconfig
-mips                      loongson3_defconfig
-arc                                 defconfig
-arm                  colibri_pxa300_defconfig
-powerpc                 mpc8540_ads_defconfig
-m68k                         amcore_defconfig
-microblaze                          defconfig
-sh                        sh7785lcr_defconfig
-arc                          axs101_defconfig
-sh                          sdk7780_defconfig
-arm                          badge4_defconfig
-s390                             allyesconfig
-arm                         at91_dt_defconfig
-powerpc                 mpc834x_mds_defconfig
-arm                             pxa_defconfig
-powerpc                      walnut_defconfig
-mips                       lemote2f_defconfig
-sh                      rts7751r2d1_defconfig
-m68k                       m5208evb_defconfig
-openrisc                            defconfig
-ia64                          tiger_defconfig
-sh                   sh7770_generic_defconfig
-powerpc                 canyonlands_defconfig
-arm                     am200epdkit_defconfig
-sh                        sh7757lcr_defconfig
-arm                         nhk8815_defconfig
-arc                      axs103_smp_defconfig
-powerpc                     taishan_defconfig
-sh                   rts7751r2dplus_defconfig
-powerpc                     ppa8548_defconfig
-arm                         shannon_defconfig
-h8300                     edosk2674_defconfig
-powerpc                     ksi8560_defconfig
-powerpc                       eiger_defconfig
-mips                       rbtx49xx_defconfig
-xtensa                  audio_kc705_defconfig
-arm                      jornada720_defconfig
-sh                           se7780_defconfig
-sh                          lboxre2_defconfig
-sh                          r7785rp_defconfig
-powerpc                     sbc8548_defconfig
-powerpc                     tqm8540_defconfig
-powerpc                 mpc837x_rdb_defconfig
-mips                           ip28_defconfig
-powerpc                    adder875_defconfig
-mips                     loongson1b_defconfig
-arm                         mv78xx0_defconfig
-arm                       multi_v4t_defconfig
-xtensa                  cadence_csp_defconfig
-powerpc                      mgcoge_defconfig
-m68k                        m5407c3_defconfig
-arm                        vexpress_defconfig
-csky                                defconfig
-i386                                defconfig
-sh                   secureedge5410_defconfig
-arm                       versatile_defconfig
-arc                        nsimosci_defconfig
-sh                               alldefconfig
-arm                          collie_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                                defconfig
-parisc                           allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-i386                 randconfig-a006-20210409
-i386                 randconfig-a003-20210409
-i386                 randconfig-a001-20210409
-i386                 randconfig-a004-20210409
-i386                 randconfig-a002-20210409
-i386                 randconfig-a005-20210409
-x86_64               randconfig-a014-20210409
-x86_64               randconfig-a015-20210409
-x86_64               randconfig-a012-20210409
-x86_64               randconfig-a011-20210409
-x86_64               randconfig-a013-20210409
-x86_64               randconfig-a016-20210409
-i386                 randconfig-a014-20210409
-i386                 randconfig-a011-20210409
-i386                 randconfig-a016-20210409
-i386                 randconfig-a012-20210409
-i386                 randconfig-a013-20210409
-i386                 randconfig-a015-20210409
-i386                 randconfig-a015-20210410
-i386                 randconfig-a014-20210410
-i386                 randconfig-a012-20210410
-i386                 randconfig-a016-20210410
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a004-20210409
-x86_64               randconfig-a005-20210409
-x86_64               randconfig-a003-20210409
-x86_64               randconfig-a001-20210409
-x86_64               randconfig-a002-20210409
-x86_64               randconfig-a006-20210409
-x86_64               randconfig-a003-20210410
-x86_64               randconfig-a002-20210410
-x86_64               randconfig-a001-20210410
-x86_64               randconfig-a005-20210410
-x86_64               randconfig-a006-20210410
-x86_64               randconfig-a004-20210410
-
+Fixed a coding style issue.
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/staging/media/atomisp/pci/atomisp_csi2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+index 060b8765ae96..200f16994f3a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+@@ -29,7 +29,8 @@ static struct v4l2_mbus_framefmt *__csi2_get_format(struct
+ 	v4l2_subdev_pad_config *cfg,
+ 	enum
+ 	v4l2_subdev_format_whence
+-	which, unsigned int pad) {
++	which, unsigned int pad)
++{
+ 	if (which == V4L2_SUBDEV_FORMAT_TRY)
+ 		return v4l2_subdev_get_try_format(&csi2->subdev, cfg, pad);
+ 	else
+-- 
+2.25.1
+
