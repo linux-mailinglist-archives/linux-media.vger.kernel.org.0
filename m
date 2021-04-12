@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7755235C548
+	by mail.lfdr.de (Postfix) with ESMTP id C28D935C549
 	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 13:35:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240522AbhDLLfh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 07:35:37 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52608 "EHLO
+        id S240527AbhDLLfi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 07:35:38 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52612 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237993AbhDLLfg (ORCPT
+        with ESMTP id S237993AbhDLLfi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 07:35:36 -0400
+        Mon, 12 Apr 2021 07:35:38 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A3915A9;
-        Mon, 12 Apr 2021 13:35:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6ADF6DBC;
+        Mon, 12 Apr 2021 13:35:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618227317;
-        bh=hlDBsQq8z5EeehTuCf0Uyo+3DuEt2iVFZge/5B0v12s=;
+        s=mail; t=1618227319;
+        bh=ueWaY1lplgixWtanXqrjxeqnbkV3LvSiiW9KwPgy4Mw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PoeMldCn5tnIpkYQ5cjQBZZ3fvNil1y+91tMan/4mhyTdFjDYUiGjGcIU7Or0D7Zc
-         EB4SpUaoPhZ3pTPVUWy0SUJ3zJkifnd9umxsGfnRQg8fMHb98xyjB+vnroghj1aGdd
-         npr62ORrJCojkQjLsGHZoFDs1InInzKtpDeJ/5sI=
+        b=pq+jQtYMntorcVdazl7HvjAZMkbBgdEU+ENSN0tBABk4RqLZ3HZbLKqMCar2K1sYH
+         RbcKfg2BmyITsg/1DWc6XIhDrLlBZni8QwMxALdfm9mUPtE4LmI7fRlXmNfOKwC6hA
+         rkIJSy9+IodL0LZMolOxwv/51EF7Y6P2pOGsuBTA=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     Benoit Parrot <bparrot@ti.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 07/28] media: ti-vpe: cal: add cal_ctx_prepare/unprepare
-Date:   Mon, 12 Apr 2021 14:34:36 +0300
-Message-Id: <20210412113457.328012-8-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 08/28] media: ti-vpe: cal: change index and cport to u8
+Date:   Mon, 12 Apr 2021 14:34:37 +0300
+Message-Id: <20210412113457.328012-9-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
 References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
@@ -40,85 +40,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In the following patches we need to do context configuration which might
-fail. Add new functions, cal_ctx_prepare and cal_ctx_unprepare, to
-handle such configuration.
+cal_ctx's index and cport fields are numbers less than 8. In the
+following patches we will get a bunch of new fields, all of which are
+similar small numbers, so lets change the type to u8.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal-video.c |  9 +++++++++
- drivers/media/platform/ti-vpe/cal.c       | 10 ++++++++++
- drivers/media/platform/ti-vpe/cal.h       |  2 ++
- 3 files changed, 21 insertions(+)
+ drivers/media/platform/ti-vpe/cal.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-index cf603cc9114c..8e9bbe6beb23 100644
---- a/drivers/media/platform/ti-vpe/cal-video.c
-+++ b/drivers/media/platform/ti-vpe/cal-video.c
-@@ -708,6 +708,12 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
- 		goto error_pipeline;
- 	}
- 
-+	ret = cal_ctx_prepare(ctx);
-+	if (ret) {
-+		ctx_err(ctx, "Failed to prepare context: %d\n", ret);
-+		goto error_pipeline;
-+	}
-+
- 	spin_lock_irq(&ctx->dma.lock);
- 	buf = list_first_entry(&ctx->dma.queue, struct cal_buffer, list);
- 	ctx->dma.pending = buf;
-@@ -733,6 +739,7 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
- error_stop:
- 	cal_ctx_stop(ctx);
- 	pm_runtime_put_sync(ctx->cal->dev);
-+	cal_ctx_unprepare(ctx);
- 
- error_pipeline:
- 	media_pipeline_stop(&ctx->vdev.entity);
-@@ -752,6 +759,8 @@ static void cal_stop_streaming(struct vb2_queue *vq)
- 
- 	pm_runtime_put_sync(ctx->cal->dev);
- 
-+	cal_ctx_unprepare(ctx);
-+
- 	cal_release_buffers(ctx, VB2_BUF_STATE_ERROR);
- 
- 	media_pipeline_stop(&ctx->vdev.entity);
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index b539a9afb3f5..3d57aedbee0a 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -430,6 +430,16 @@ static bool cal_ctx_wr_dma_stopped(struct cal_ctx *ctx)
- 	return stopped;
- }
- 
-+int cal_ctx_prepare(struct cal_ctx *ctx)
-+{
-+	return 0;
-+}
-+
-+void cal_ctx_unprepare(struct cal_ctx *ctx)
-+{
-+
-+}
-+
- void cal_ctx_start(struct cal_ctx *ctx)
- {
- 	ctx->sequence = 0;
 diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-index af46084580bd..09ad20faa9e1 100644
+index 09ad20faa9e1..251bb0ba7b3b 100644
 --- a/drivers/media/platform/ti-vpe/cal.h
 +++ b/drivers/media/platform/ti-vpe/cal.h
-@@ -296,6 +296,8 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
- 					 unsigned int instance);
- void cal_camerarx_destroy(struct cal_camerarx *phy);
+@@ -217,8 +217,8 @@ struct cal_ctx {
  
-+int cal_ctx_prepare(struct cal_ctx *ctx);
-+void cal_ctx_unprepare(struct cal_ctx *ctx);
- void cal_ctx_set_dma_addr(struct cal_ctx *ctx, dma_addr_t addr);
- void cal_ctx_start(struct cal_ctx *ctx);
- void cal_ctx_stop(struct cal_ctx *ctx);
+ 	unsigned int		sequence;
+ 	struct vb2_queue	vb_vidq;
+-	unsigned int		index;
+-	unsigned int		cport;
++	u8			index;
++	u8			cport;
+ };
+ 
+ extern unsigned int cal_debug;
 -- 
 2.25.1
 
