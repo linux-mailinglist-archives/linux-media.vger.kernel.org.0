@@ -2,283 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7691A35C69E
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 14:46:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7592D35C6B0
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 14:48:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241342AbhDLMqo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 08:46:44 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:33979 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S241323AbhDLMql (ORCPT
+        id S238534AbhDLMsu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 08:48:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60900 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239855AbhDLMst (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 08:46:41 -0400
-X-UUID: 92f33289192e4ba8bc636601ad13ab08-20210412
-X-UUID: 92f33289192e4ba8bc636601ad13ab08-20210412
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 627623207; Mon, 12 Apr 2021 20:46:20 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 12 Apr 2021 20:46:18 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 12 Apr 2021 20:46:17 +0800
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-CC:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Irui Wang <irui.wang@mediatek.com>, <yong.wu@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>, <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v3,6/6] media: mtk-vcodec: Support MT8192 H264 4K encoding
-Date:   Mon, 12 Apr 2021 20:45:55 +0800
-Message-ID: <20210412124555.26897-7-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210412124555.26897-1-irui.wang@mediatek.com>
-References: <20210412124555.26897-1-irui.wang@mediatek.com>
+        Mon, 12 Apr 2021 08:48:49 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90D26C06174A
+        for <linux-media@vger.kernel.org>; Mon, 12 Apr 2021 05:48:28 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id r7so815359wrm.1
+        for <linux-media@vger.kernel.org>; Mon, 12 Apr 2021 05:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Zzn8PLES8svA7U4ivqAg78EhvER0rJvp6i6dRwiQrRU=;
+        b=0vF+qUbUyHuLYS0tOOZ2JC0sSS5+/Pg6RfJqDnCalNLMowGquE9SnNrWV3F9oMZPnx
+         22l7O36faYtp0YsQI9AWg1Flud4AeAPR3J0guqRfUWqNCd6ReTkvp+qOUM+AuA+E2Lde
+         +cWmxL+4hXGMApCJwp4EXBuNMaApciVcycVoG6qoBVB/NgWg6ln0klUfqTUaOHRpub3u
+         Bg2JFXQYQYJ9NQJDce+Pq0OZgzgZoHnPjZLxf22VxnOnipYc99owUVbti+UkDOdEGxbX
+         BdxGAPd2LKgh4T3n9BRQkKdM6/N2vV9F2lKWG4GIbN+D9wTdveLptyHcIv2kLceV3XKO
+         HJZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Zzn8PLES8svA7U4ivqAg78EhvER0rJvp6i6dRwiQrRU=;
+        b=EK23s8OJJT+ApJuD+K4Zy++vCUYkFltRC9A85LRBf70Y4Vg1hmISzwwf7rXTndEBeE
+         JmVNlqtnbuu3bSVydctrH6V7mxKi/r6nnHaMfAfD95NzAfwbBkeDwuUT2p4F745swdRj
+         06tStwEbi+DSpS6AdklALlLwtWTJZ+tULeMl1+Xs6qBM9xnvaAvt5GH01mlby2BKis3B
+         ccxiio/EjPGq1FY5qB0c08nZlrg8ZWYBUEiKpT3RUesFWMN1tXLK9v8sDXeelUsQzwIu
+         brPzy+oZjp782kizwl2431E4oKBYx/cwA+EV9pjtRATjRXJYKCfFgmwWbUP4+fZkx7MM
+         nQ+w==
+X-Gm-Message-State: AOAM533xVUxoZE+niIH4LncRW9lYMVOMs5SWZQVV0bvPMTE7S4Fg6oxr
+        aLmnlTDozB4HKiWyAarj9OE85g==
+X-Google-Smtp-Source: ABdhPJyXby6kkuJjgYWXL1ZMazbjd2Zw/pmMGFu02jqpqnXMu6wbepEENYIPpUq6GqhgcJPIrhsVSw==
+X-Received: by 2002:adf:f504:: with SMTP id q4mr15535673wro.304.1618231707158;
+        Mon, 12 Apr 2021 05:48:27 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:90c:e290:4c21:b00e:ff79:bf20? ([2a01:e0a:90c:e290:4c21:b00e:ff79:bf20])
+        by smtp.gmail.com with ESMTPSA id j30sm17868537wrj.62.2021.04.12.05.48.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Apr 2021 05:48:26 -0700 (PDT)
+Subject: Re: [PATCH v2] staging: media: meson: vdec: declare u32 as const and
+ static const
+To:     Mitali Borkar <mitaliborkar810@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, khilman@baylibre.com,
+        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+        mitali_s@me.iitr.ac.in, linux-amlogic@lists.infradead.org
+References: <YHIDufKhTEeuxyl5@kali>
+ <88d04746-717d-5a7a-7ea7-67cf6c95aba9@xs4all.nl> <YHRA9i+BjveJOUvn@kali>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <6107204d-f1a3-0888-ef3b-88520d786fa1@baylibre.com>
+Date:   Mon, 12 Apr 2021 14:48:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+In-Reply-To: <YHRA9i+BjveJOUvn@kali>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-MT8192 H264 support 4k(3840x2176) and Level 5.1 encoding,
-add related path according to enc_capability.
+On 12/04/2021 14:45, Mitali Borkar wrote:
+> On Mon, Apr 12, 2021 at 11:17:22AM +0200, Hans Verkuil wrote:
+>> On 10/04/2021 21:59, Mitali Borkar wrote:
+>>> Declared 32 bit unsigned int as static constant inside a function and
+>>> replaced u32[] {x,y} as canvas1, canvas2 in codec_mpeg12.c
+>>> This indicates the value of canvas indexes will remain constant throughout execution.
+>>> Replaced u32 reg_base and u32 reg_name with const u32 reg_base and const
+>>> u32 reg_name as it will contain data/registry bases to write static
+>>> const indexes declared above and will keep track of of contiguos
+>>> registers after each reg_base.
+>>> This makes code look better, neater. It improves readability.
+>>>
+>>> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+>>> ---
+>>>  drivers/staging/media/meson/vdec/codec_mpeg12.c | 5 +++--
+>>
+>> Also change drivers/staging/media/meson/vdec/codec_h264.c.
+>>
+>> It's a nice improvement, so let's do this for both callers of amvdec_set_canvases().
+>>
+> I have done chnages in codec_h264.c Now, should I send that as new
+> patch?
 
-Signed-off-by: Irui Wang <irui.wang@mediatek.com>
----
- .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 75 ++++++++++++-------
- .../platform/mtk-vcodec/venc/venc_h264_if.c   |  4 +
- 2 files changed, 54 insertions(+), 25 deletions(-)
+Yes please,
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-index 42ff13867940..7396a5050b45 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-@@ -19,23 +19,32 @@
- 
- #define MTK_VENC_MIN_W	160U
- #define MTK_VENC_MIN_H	128U
--#define MTK_VENC_MAX_W	1920U
--#define MTK_VENC_MAX_H	1088U
-+#define MTK_VENC_HD_MAX_W	1920U
-+#define MTK_VENC_HD_MAX_H	1088U
-+#define MTK_VENC_4K_MAX_W	3840U
-+#define MTK_VENC_4K_MAX_H	2176U
-+
- #define DFT_CFG_WIDTH	MTK_VENC_MIN_W
- #define DFT_CFG_HEIGHT	MTK_VENC_MIN_H
- #define MTK_MAX_CTRLS_HINT	20
- 
- #define MTK_DEFAULT_FRAMERATE_NUM 1001
- #define MTK_DEFAULT_FRAMERATE_DENOM 30000
-+#define MTK_VENC_4K_CAPABILITY_ENABLE BIT(0)
- 
- static void mtk_venc_worker(struct work_struct *work);
- 
--static const struct v4l2_frmsize_stepwise mtk_venc_framesizes = {
--	MTK_VENC_MIN_W, MTK_VENC_MAX_W, 16,
--	MTK_VENC_MIN_H, MTK_VENC_MAX_H, 16,
-+static const struct v4l2_frmsize_stepwise mtk_venc_hd_framesizes = {
-+	MTK_VENC_MIN_W, MTK_VENC_HD_MAX_W, 16,
-+	MTK_VENC_MIN_H, MTK_VENC_HD_MAX_H, 16,
-+};
-+
-+static const struct v4l2_frmsize_stepwise mtk_venc_4k_framesizes = {
-+	MTK_VENC_MIN_W, MTK_VENC_4K_MAX_W, 16,
-+	MTK_VENC_MIN_H, MTK_VENC_4K_MAX_H, 16,
- };
- 
--#define NUM_SUPPORTED_FRAMESIZE ARRAY_SIZE(mtk_venc_framesizes)
-+#define NUM_SUPPORTED_FRAMESIZE ARRAY_SIZE(mtk_venc_hd_framesizes)
- 
- static int vidioc_venc_s_ctrl(struct v4l2_ctrl *ctrl)
- {
-@@ -151,17 +160,20 @@ static int vidioc_enum_framesizes(struct file *file, void *fh,
- 				  struct v4l2_frmsizeenum *fsize)
- {
- 	const struct mtk_video_fmt *fmt;
-+	struct mtk_vcodec_ctx *ctx = fh_to_ctx(fh);
- 
- 	if (fsize->index != 0)
- 		return -EINVAL;
- 
- 	fmt = mtk_venc_find_format(fsize->pixel_format,
--				   fh_to_ctx(fh)->dev->venc_pdata);
-+				   ctx->dev->venc_pdata);
- 	if (!fmt)
- 		return -EINVAL;
- 
- 	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
--	fsize->stepwise = mtk_venc_framesizes;
-+	fsize->stepwise =
-+		(ctx->dev->enc_capability & MTK_VENC_4K_CAPABILITY_ENABLE) ?
-+		mtk_venc_4k_framesizes : mtk_venc_hd_framesizes;
- 
- 	return 0;
- }
-@@ -248,7 +260,7 @@ static struct mtk_q_data *mtk_venc_get_q_data(struct mtk_vcodec_ctx *ctx,
- /* V4L2 specification suggests the driver corrects the format struct if any of
-  * the dimensions is unsupported
-  */
--static int vidioc_try_fmt(struct v4l2_format *f,
-+static int vidioc_try_fmt(struct mtk_vcodec_ctx *ctx, struct v4l2_format *f,
- 			  const struct mtk_video_fmt *fmt)
- {
- 	struct v4l2_pix_format_mplane *pix_fmt_mp = &f->fmt.pix_mp;
-@@ -260,13 +272,22 @@ static int vidioc_try_fmt(struct v4l2_format *f,
- 		pix_fmt_mp->plane_fmt[0].bytesperline = 0;
- 	} else if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
- 		int tmp_w, tmp_h;
-+		unsigned int max_width, max_height;
-+
-+		if (ctx->dev->enc_capability & MTK_VENC_4K_CAPABILITY_ENABLE) {
-+			max_width = MTK_VENC_4K_MAX_W;
-+			max_height = MTK_VENC_4K_MAX_H;
-+		} else {
-+			max_width = MTK_VENC_HD_MAX_W;
-+			max_height = MTK_VENC_HD_MAX_H;
-+		}
- 
- 		pix_fmt_mp->height = clamp(pix_fmt_mp->height,
- 					MTK_VENC_MIN_H,
--					MTK_VENC_MAX_H);
-+					max_height);
- 		pix_fmt_mp->width = clamp(pix_fmt_mp->width,
- 					MTK_VENC_MIN_W,
--					MTK_VENC_MAX_W);
-+					max_width);
- 
- 		/* find next closer width align 16, heign align 32, size align
- 		 * 64 rectangle
-@@ -275,16 +296,16 @@ static int vidioc_try_fmt(struct v4l2_format *f,
- 		tmp_h = pix_fmt_mp->height;
- 		v4l_bound_align_image(&pix_fmt_mp->width,
- 					MTK_VENC_MIN_W,
--					MTK_VENC_MAX_W, 4,
-+					max_width, 4,
- 					&pix_fmt_mp->height,
- 					MTK_VENC_MIN_H,
--					MTK_VENC_MAX_H, 5, 6);
-+					max_height, 5, 6);
- 
- 		if (pix_fmt_mp->width < tmp_w &&
--			(pix_fmt_mp->width + 16) <= MTK_VENC_MAX_W)
-+			(pix_fmt_mp->width + 16) <= max_width)
- 			pix_fmt_mp->width += 16;
- 		if (pix_fmt_mp->height < tmp_h &&
--			(pix_fmt_mp->height + 32) <= MTK_VENC_MAX_H)
-+			(pix_fmt_mp->height + 32) <= max_height)
- 			pix_fmt_mp->height += 32;
- 
- 		mtk_v4l2_debug(0,
-@@ -405,7 +426,7 @@ static int vidioc_venc_s_fmt_cap(struct file *file, void *priv,
- 	}
- 
- 	q_data->fmt = fmt;
--	ret = vidioc_try_fmt(f, q_data->fmt);
-+	ret = vidioc_try_fmt(ctx, f, q_data->fmt);
- 	if (ret)
- 		return ret;
- 
-@@ -467,7 +488,7 @@ static int vidioc_venc_s_fmt_out(struct file *file, void *priv,
- 		f->fmt.pix.pixelformat = fmt->fourcc;
- 	}
- 
--	ret = vidioc_try_fmt(f, fmt);
-+	ret = vidioc_try_fmt(ctx, f, fmt);
- 	if (ret)
- 		return ret;
- 
-@@ -545,7 +566,7 @@ static int vidioc_try_fmt_vid_cap_mplane(struct file *file, void *priv,
- 	f->fmt.pix_mp.quantization = ctx->quantization;
- 	f->fmt.pix_mp.xfer_func = ctx->xfer_func;
- 
--	return vidioc_try_fmt(f, fmt);
-+	return vidioc_try_fmt(ctx, f, fmt);
- }
- 
- static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
-@@ -567,7 +588,7 @@ static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
- 		f->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
- 	}
- 
--	return vidioc_try_fmt(f, fmt);
-+	return vidioc_try_fmt(ctx, f, fmt);
- }
- 
- static int vidioc_venc_g_selection(struct file *file, void *priv,
-@@ -1171,16 +1192,16 @@ void mtk_vcodec_enc_set_default_params(struct mtk_vcodec_ctx *ctx)
- 
- 	v4l_bound_align_image(&q_data->coded_width,
- 				MTK_VENC_MIN_W,
--				MTK_VENC_MAX_W, 4,
-+				MTK_VENC_HD_MAX_W, 4,
- 				&q_data->coded_height,
- 				MTK_VENC_MIN_H,
--				MTK_VENC_MAX_H, 5, 6);
-+				MTK_VENC_HD_MAX_H, 5, 6);
- 
- 	if (q_data->coded_width < DFT_CFG_WIDTH &&
--		(q_data->coded_width + 16) <= MTK_VENC_MAX_W)
-+		(q_data->coded_width + 16) <= MTK_VENC_HD_MAX_W)
- 		q_data->coded_width += 16;
- 	if (q_data->coded_height < DFT_CFG_HEIGHT &&
--		(q_data->coded_height + 32) <= MTK_VENC_MAX_H)
-+		(q_data->coded_height + 32) <= MTK_VENC_HD_MAX_H)
- 		q_data->coded_height += 32;
- 
- 	q_data->sizeimage[0] =
-@@ -1210,6 +1231,9 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
- {
- 	const struct v4l2_ctrl_ops *ops = &mtk_vcodec_enc_ctrl_ops;
- 	struct v4l2_ctrl_handler *handler = &ctx->ctrl_hdl;
-+	const u8 h264_max_level =
-+		(ctx->dev->enc_capability & MTK_VENC_4K_CAPABILITY_ENABLE) ?
-+		V4L2_MPEG_VIDEO_H264_LEVEL_5_1 : V4L2_MPEG_VIDEO_H264_LEVEL_4_2;
- 
- 	v4l2_ctrl_handler_init(handler, MTK_MAX_CTRLS_HINT);
- 
-@@ -1240,8 +1264,9 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
- 			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
- 			0, V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
- 	v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_H264_LEVEL,
--			V4L2_MPEG_VIDEO_H264_LEVEL_4_2,
--			0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
-+			       h264_max_level,
-+			       0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
-+
- 	if (handler->error) {
- 		mtk_v4l2_err("Init control handler fail %d",
- 				handler->error);
-diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-index d0123dfc5f93..b6a4f2074fa5 100644
---- a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-+++ b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-@@ -215,6 +215,10 @@ static unsigned int h264_get_level(struct venc_h264_inst *inst,
- 		return 41;
- 	case V4L2_MPEG_VIDEO_H264_LEVEL_4_2:
- 		return 42;
-+	case V4L2_MPEG_VIDEO_H264_LEVEL_5_0:
-+		return 50;
-+	case V4L2_MPEG_VIDEO_H264_LEVEL_5_1:
-+		return 51;
- 	default:
- 		mtk_vcodec_debug(inst, "unsupported level %d", level);
- 		return 31;
--- 
-2.25.1
+Neil
+
+> 
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>  drivers/staging/media/meson/vdec/vdec_helpers.c | 2 +-
+>>>  drivers/staging/media/meson/vdec/vdec_helpers.h | 2 +-
+>>>  3 files changed, 5 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+>>> index 21e93a13356c..861d8584f22f 100644
+>>> --- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
+>>> +++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+>>> @@ -65,6 +65,8 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
+>>>  	struct amvdec_core *core = sess->core;
+>>>  	struct codec_mpeg12 *mpeg12;
+>>>  	int ret;
+>>> +	static const u32 canvas1[] = { AV_SCRATCH_0, 0 };
+>>> +	static const u32 canvas2[] = { 8, 0 }
+>>>  
+>>>  	mpeg12 = kzalloc(sizeof(*mpeg12), GFP_KERNEL);
+>>>  	if (!mpeg12)
+>>> @@ -80,8 +82,7 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
+>>>  		goto free_mpeg12;
+>>>  	}
+>>>  
+>>> -	ret = amvdec_set_canvases(sess, (u32[]){ AV_SCRATCH_0, 0 },
+>>> -				  (u32[]){ 8, 0 });
+>>> +	ret = amvdec_set_canvases(sess, canvas1, canvas2);
+>>>  	if (ret)
+>>>  		goto free_workspace;
+>>>  
+>>> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+>>> index 7f07a9175815..df5c27266c44 100644
+>>> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
+>>> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+>>> @@ -177,7 +177,7 @@ static int set_canvas_nv12m(struct amvdec_session *sess,
+>>>  }
+>>>  
+>>>  int amvdec_set_canvases(struct amvdec_session *sess,
+>>> -			u32 reg_base[], u32 reg_num[])
+>>> +			const u32 reg_base[], const u32 reg_num[])
+>>>  {
+>>>  	struct v4l2_m2m_buffer *buf;
+>>>  	u32 pixfmt = sess->pixfmt_cap;
+>>> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
+>>> index cfaed52ab526..ace8897c34fe 100644
+>>> --- a/drivers/staging/media/meson/vdec/vdec_helpers.h
+>>> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
+>>> @@ -17,7 +17,7 @@
+>>>   * @reg_num: number of contiguous registers after each reg_base (including it)
+>>>   */
+>>>  int amvdec_set_canvases(struct amvdec_session *sess,
+>>> -			u32 reg_base[], u32 reg_num[]);
+>>> +			const u32 reg_base[], const u32 reg_num[]);
+>>>  
+>>>  /* Helpers to read/write to the various IPs (DOS, PARSER) */
+>>>  u32 amvdec_read_dos(struct amvdec_core *core, u32 reg);
+>>>
+>>
 
