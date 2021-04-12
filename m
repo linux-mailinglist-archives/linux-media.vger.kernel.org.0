@@ -2,38 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AC5835C558
+	by mail.lfdr.de (Postfix) with ESMTP id A664A35C559
 	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 13:35:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240576AbhDLLf5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 07:35:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44728 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240573AbhDLLfz (ORCPT
+        id S240597AbhDLLf6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 07:35:58 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52640 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240540AbhDLLfz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 12 Apr 2021 07:35:55 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9D2C061574
-        for <linux-media@vger.kernel.org>; Mon, 12 Apr 2021 04:35:37 -0700 (PDT)
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7EF18E70;
-        Mon, 12 Apr 2021 13:35:35 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53F745A9;
+        Mon, 12 Apr 2021 13:35:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1618227336;
-        bh=Q7oDMOFT6nR2PpFw2IosgEctgCqWwMScX0Z+RL76UAk=;
+        bh=T8poA3mp0l7wuKp+eMn0jXB2QTD/bU4OkDfsuNCUMj4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=drfGYuzhTqLf3RzkBLl9BO+3bBOPp55dKJCPcC1vqAG/qa2w4mA5dhVy7Xui4WHPy
-         ORiWtEtqYl0Xp84VgPjOTHV2Vdq27j2GHXOF0pBEiIkWuiBv1JSCW/LVSuM1EgiwEh
-         45yO3nBuRDJQMDqqHl29LuxxO8Fn4pS/JD9UXTVQ=
+        b=DZpEz3pDu2IUS8PoHNSshZQi+ruZJGZ+gxeFSU7D4IFvn2UtplOp/Fu7KdJFKsYEf
+         a61VaRCnSAqUU2uW3Cq0tQr/rkBKQ9G2sNSjm/VK7x9LSVpVzceXGpn/yMlWRxo3RB
+         0A9Yu7X2oHYRUSa6EWo04LM9ydtcapopV4ON2wJc=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     Benoit Parrot <bparrot@ti.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 23/28] media: ti-vpe: cal: fix typo in a comment
-Date:   Mon, 12 Apr 2021 14:34:52 +0300
-Message-Id: <20210412113457.328012-24-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 24/28] media: ti-vpe: cal: add mbus_code support to cal_mc_enum_fmt_vid_cap
+Date:   Mon, 12 Apr 2021 14:34:53 +0300
+Message-Id: <20210412113457.328012-25-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
 References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
@@ -43,26 +40,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix a typo in a comment in cal_camerarx_sd_set_fmt().
+Commit e5b6b07a1b45dd9d19bec1fa1d60750b0fcf2fb0 ("media: v4l2: Extend
+VIDIOC_ENUM_FMT to support MC-centric devices") added support to
+enumerate formats based in mbus-code.
+
+Add this feature to cal driver.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal-camerarx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/ti-vpe/cal-video.c | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-index 880261d53a1d..25f4692d210e 100644
---- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-+++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-@@ -695,7 +695,7 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
- 		return cal_camerarx_sd_get_fmt(sd, cfg, format);
+diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
+index ea9b13c16a06..1d9c0fce4b03 100644
+--- a/drivers/media/platform/ti-vpe/cal-video.c
++++ b/drivers/media/platform/ti-vpe/cal-video.c
+@@ -437,13 +437,28 @@ static const struct v4l2_ioctl_ops cal_ioctl_video_ops = {
+ static int cal_mc_enum_fmt_vid_cap(struct file *file, void  *priv,
+ 				   struct v4l2_fmtdesc *f)
+ {
++	unsigned int i;
++	unsigned int idx;
++
+ 	if (f->index >= cal_num_formats)
+ 		return -EINVAL;
  
- 	/*
--	 * Default to the first format is the requested media bus code isn't
-+	 * Default to the first format if the requested media bus code isn't
- 	 * supported.
- 	 */
- 	fmtinfo = cal_format_by_code(format->format.code);
+-	f->pixelformat = cal_formats[f->index].fourcc;
+-	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++	idx = 0;
+ 
+-	return 0;
++	for (i = 0; i < cal_num_formats; ++i) {
++		if (f->mbus_code && cal_formats[i].code != f->mbus_code)
++			continue;
++
++		if (idx == f->index) {
++			f->pixelformat = cal_formats[i].fourcc;
++			f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++			return 0;
++		}
++
++		idx++;
++	}
++
++	return -EINVAL;
+ }
+ 
+ static void cal_mc_try_fmt(struct cal_ctx *ctx, struct v4l2_format *f,
 -- 
 2.25.1
 
