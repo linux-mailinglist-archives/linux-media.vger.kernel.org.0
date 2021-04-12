@@ -2,98 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C0B935C270
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 12:03:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A076D35C26F
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 12:03:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239235AbhDLJoE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 05:44:04 -0400
-Received: from mga04.intel.com ([192.55.52.120]:27906 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244083AbhDLJni (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 05:43:38 -0400
-IronPort-SDR: 3VhcuKfuSGJ8nkhXrDfptN2zuo4cLCgjZk+ztq3LJasMmCjVEbEiPqr8gnpbmwJAmvy5YjdjC6
- ng2MAoy9tkzQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="192021293"
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="192021293"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:43:06 -0700
-IronPort-SDR: c3qofnFRJu4y+V5m3FVtUxb1haaRQdz6XGFkubCHPk2VHDvvzoGGQsabXKRtntCKT63wT/g8lS
- 2J3/coYr/TPA==
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="599915096"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:43:03 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 5DC89205AA;
-        Mon, 12 Apr 2021 12:42:30 +0300 (EEST)
-Date:   Mon, 12 Apr 2021 12:42:30 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mitali Borkar <mitaliborkar810@gmail.com>
-Cc:     bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH 1/6] staging: media: intel-ipu3: replace bit shifts with
- BIT() macro
-Message-ID: <20210412094230.GI3@paasikivi.fi.intel.com>
-References: <cover.1618180659.git.mitaliborkar810@gmail.com>
- <cc7b827a3264f08cedb76adddd16a34df48f935f.1618180659.git.mitaliborkar810@gmail.com>
+        id S239183AbhDLJoC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 05:44:02 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:57461 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243727AbhDLJmz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 12 Apr 2021 05:42:55 -0400
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 2E7F0240011;
+        Mon, 12 Apr 2021 09:42:33 +0000 (UTC)
+Date:   Mon, 12 Apr 2021 11:43:12 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Eugen Hristev <eugen.hristev@microchip.com>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 04/30] media: atmel: atmel-isc: specialize max width
+ and max height
+Message-ID: <20210412094312.tsghnyhglxf3roiy@uno.localdomain>
+References: <20210405155105.162529-1-eugen.hristev@microchip.com>
+ <20210405155105.162529-5-eugen.hristev@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cc7b827a3264f08cedb76adddd16a34df48f935f.1618180659.git.mitaliborkar810@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210405155105.162529-5-eugen.hristev@microchip.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mitali,
+Hi Eugene,
 
-On Mon, Apr 12, 2021 at 04:38:39AM +0530, Mitali Borkar wrote:
-> Added #include <linux/bitops.h> and replaced bit shifts by BIT() macro.
-> This BIT() macro from linux/bitops.h is used to define IPU3_UAPI_GRID_Y_START_EN
-> and IPU3_UAPI_AWB_RGBS_THR_B_* bitmask.
-> Use of macro is better and neater. It maintains consistency.
-> Reported by checkpatch.
-> 
-> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+On Mon, Apr 05, 2021 at 06:50:39PM +0300, Eugen Hristev wrote:
+> Move the max width and max height constants to the product specific driver
+> and have them in the device struct.
+>
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 > ---
->  drivers/staging/media/ipu3/include/intel-ipu3.h | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> index edd8edda0647..589d5ccee3a7 100644
-> --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
-> +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> @@ -5,6 +5,7 @@
->  #define __IPU3_UAPI_H
->  
->  #include <linux/types.h>
-> +#include <linux/bitops.h>
->  
->  /* from /drivers/staging/media/ipu3/include/videodev2.h */
->  
-> @@ -22,11 +23,11 @@
->  #define IPU3_UAPI_MAX_BUBBLE_SIZE			10
->  
->  #define IPU3_UAPI_GRID_START_MASK			((1 << 12) - 1)
-> -#define IPU3_UAPI_GRID_Y_START_EN			(1 << 15)
-> +#define IPU3_UAPI_GRID_Y_START_EN			BIT(15)
+>  drivers/media/platform/atmel/atmel-isc-base.c | 28 +++++++++----------
+>  drivers/media/platform/atmel/atmel-isc.h      |  9 ++++--
+>  .../media/platform/atmel/atmel-sama5d2-isc.c  |  7 +++--
+>  3 files changed, 25 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
+> index 45fc8dbb7943..350076dd029a 100644
+> --- a/drivers/media/platform/atmel/atmel-isc-base.c
+> +++ b/drivers/media/platform/atmel/atmel-isc-base.c
+> @@ -1204,8 +1204,8 @@ static void isc_try_fse(struct isc_device *isc,
+>  	 * just use the maximum ISC can receive.
+>  	 */
+>  	if (ret) {
+> -		pad_cfg->try_crop.width = ISC_MAX_SUPPORT_WIDTH;
+> -		pad_cfg->try_crop.height = ISC_MAX_SUPPORT_HEIGHT;
+> +		pad_cfg->try_crop.width = isc->max_width;
+> +		pad_cfg->try_crop.height = isc->max_height;
+>  	} else {
+>  		pad_cfg->try_crop.width = fse.max_width;
+>  		pad_cfg->try_crop.height = fse.max_height;
+> @@ -1282,10 +1282,10 @@ static int isc_try_fmt(struct isc_device *isc, struct v4l2_format *f,
+>  	isc->try_config.sd_format = sd_fmt;
+>
+>  	/* Limit to Atmel ISC hardware capabilities */
+> -	if (pixfmt->width > ISC_MAX_SUPPORT_WIDTH)
+> -		pixfmt->width = ISC_MAX_SUPPORT_WIDTH;
+> -	if (pixfmt->height > ISC_MAX_SUPPORT_HEIGHT)
+> -		pixfmt->height = ISC_MAX_SUPPORT_HEIGHT;
+> +	if (pixfmt->width > isc->max_width)
+> +		pixfmt->width = isc->max_width;
+> +	if (pixfmt->height > isc->max_height)
+> +		pixfmt->height = isc->max_height;
+>
+>  	/*
+>  	 * The mbus format is the one the subdev outputs.
+> @@ -1327,10 +1327,10 @@ static int isc_try_fmt(struct isc_device *isc, struct v4l2_format *f,
+>  	v4l2_fill_pix_format(pixfmt, &format.format);
+>
+>  	/* Limit to Atmel ISC hardware capabilities */
+> -	if (pixfmt->width > ISC_MAX_SUPPORT_WIDTH)
+> -		pixfmt->width = ISC_MAX_SUPPORT_WIDTH;
+> -	if (pixfmt->height > ISC_MAX_SUPPORT_HEIGHT)
+> -		pixfmt->height = ISC_MAX_SUPPORT_HEIGHT;
+> +	if (pixfmt->width > isc->max_width)
+> +		pixfmt->width = isc->max_width;
+> +	if (pixfmt->height > isc->max_height)
+> +		pixfmt->height = isc->max_height;
 
-This header is used in user space where you don't have the BIT() macro.
+What happens if the sensor sends a frame larger that the ISC max
+supported sizes ?
 
->  
->  /* controls generation of meta_data (like FF enable/disable) */
-> -#define IPU3_UAPI_AWB_RGBS_THR_B_EN			(1 << 14)
-> -#define IPU3_UAPI_AWB_RGBS_THR_B_INCL_SAT		(1 << 15)
-> +#define IPU3_UAPI_AWB_RGBS_THR_B_EN			BIT(14)
-> +#define IPU3_UAPI_AWB_RGBS_THR_B_INCL_SAT		BIT(15)
->  
->  /**
->   * struct ipu3_uapi_grid_config - Grid plane config
-
--- 
-Kind regards,
-
-Sakari Ailus
+>
+>  	pixfmt->field = V4L2_FIELD_NONE;
+>  	pixfmt->bytesperline = (pixfmt->width * isc->try_config.bpp) >> 3;
+> @@ -1368,10 +1368,10 @@ static int isc_set_fmt(struct isc_device *isc, struct v4l2_format *f)
+>  		return ret;
+>
+>  	/* Limit to Atmel ISC hardware capabilities */
+> -	if (pixfmt->width > ISC_MAX_SUPPORT_WIDTH)
+> -		pixfmt->width = ISC_MAX_SUPPORT_WIDTH;
+> -	if (pixfmt->height > ISC_MAX_SUPPORT_HEIGHT)
+> -		pixfmt->height = ISC_MAX_SUPPORT_HEIGHT;
+> +	if (f->fmt.pix.width > isc->max_width)
+> +		f->fmt.pix.width = isc->max_width;
+> +	if (f->fmt.pix.height > isc->max_height)
+> +		f->fmt.pix.height = isc->max_height;
+>
+>  	isc->fmt = *f;
+>
+> diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
+> index 8d81d9967ad2..6becc6c3aaf0 100644
+> --- a/drivers/media/platform/atmel/atmel-isc.h
+> +++ b/drivers/media/platform/atmel/atmel-isc.h
+> @@ -10,9 +10,6 @@
+>   */
+>  #ifndef _ATMEL_ISC_H_
+>
+> -#define ISC_MAX_SUPPORT_WIDTH   2592
+> -#define ISC_MAX_SUPPORT_HEIGHT  1944
+> -
+>  #define ISC_CLK_MAX_DIV		255
+>
+>  enum isc_clk_id {
+> @@ -191,6 +188,9 @@ struct isc_ctrls {
+>   * @gamma_table:	pointer to the table with gamma values, has
+>   *			gamma_max sets of GAMMA_ENTRIES entries each
+>   * @gamma_max:		maximum number of sets of inside the gamma_table
+> + *
+> + * @max_width:		maximum frame width, dependent on the internal RAM
+> + * @max_height:		maximum frame height, dependent on the internal RAM
+>   */
+>  struct isc_device {
+>  	struct regmap		*regmap;
+> @@ -254,6 +254,9 @@ struct isc_device {
+>  	/* pointer to the defined gamma table */
+>  	const u32	(*gamma_table)[GAMMA_ENTRIES];
+>  	u32		gamma_max;
+> +
+> +	u32		max_width;
+> +	u32		max_height;
+>  };
+>
+>  extern struct isc_format formats_list[];
+> diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> index f45d8b96bfb8..f8d1c8ba99b3 100644
+> --- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> +++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> @@ -49,8 +49,8 @@
+>  #include "atmel-isc-regs.h"
+>  #include "atmel-isc.h"
+>
+> -#define ISC_MAX_SUPPORT_WIDTH   2592
+> -#define ISC_MAX_SUPPORT_HEIGHT  1944
+> +#define ISC_SAMA5D2_MAX_SUPPORT_WIDTH   2592
+> +#define ISC_SAMA5D2_MAX_SUPPORT_HEIGHT  1944
+>
+>  #define ISC_CLK_MAX_DIV		255
+>
+> @@ -195,6 +195,9 @@ static int atmel_isc_probe(struct platform_device *pdev)
+>  	isc->gamma_table = isc_sama5d2_gamma_table;
+>  	isc->gamma_max = 2;
+>
+> +	isc->max_width = ISC_SAMA5D2_MAX_SUPPORT_WIDTH;
+> +	isc->max_height = ISC_SAMA5D2_MAX_SUPPORT_HEIGHT;
+> +
+>  	ret = isc_pipeline_init(isc);
+>  	if (ret)
+>  		return ret;
+> --
+> 2.25.1
+>
