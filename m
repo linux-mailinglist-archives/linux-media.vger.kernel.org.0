@@ -2,91 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 548A735C26E
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 12:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C0B935C270
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 12:03:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238974AbhDLJn4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 05:43:56 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:43025 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242209AbhDLJk3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 05:40:29 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 8F3C740007;
-        Mon, 12 Apr 2021 09:40:09 +0000 (UTC)
-Date:   Mon, 12 Apr 2021 11:40:48 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Martiros Shakhzadyan <vrzh@vrzh.net>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: Minor code style changes
-Message-ID: <20210412094048.gxnndzkbqv7tvykc@uno.localdomain>
-References: <20210412023558.360103-1-vrzh@vrzh.net>
- <20210412023558.360103-4-vrzh@vrzh.net>
+        id S239235AbhDLJoE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 05:44:04 -0400
+Received: from mga04.intel.com ([192.55.52.120]:27906 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244083AbhDLJni (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 12 Apr 2021 05:43:38 -0400
+IronPort-SDR: 3VhcuKfuSGJ8nkhXrDfptN2zuo4cLCgjZk+ztq3LJasMmCjVEbEiPqr8gnpbmwJAmvy5YjdjC6
+ ng2MAoy9tkzQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="192021293"
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
+   d="scan'208";a="192021293"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:43:06 -0700
+IronPort-SDR: c3qofnFRJu4y+V5m3FVtUxb1haaRQdz6XGFkubCHPk2VHDvvzoGGQsabXKRtntCKT63wT/g8lS
+ 2J3/coYr/TPA==
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
+   d="scan'208";a="599915096"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:43:03 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 5DC89205AA;
+        Mon, 12 Apr 2021 12:42:30 +0300 (EEST)
+Date:   Mon, 12 Apr 2021 12:42:30 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Mitali Borkar <mitaliborkar810@gmail.com>
+Cc:     bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH 1/6] staging: media: intel-ipu3: replace bit shifts with
+ BIT() macro
+Message-ID: <20210412094230.GI3@paasikivi.fi.intel.com>
+References: <cover.1618180659.git.mitaliborkar810@gmail.com>
+ <cc7b827a3264f08cedb76adddd16a34df48f935f.1618180659.git.mitaliborkar810@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210412023558.360103-4-vrzh@vrzh.net>
+In-Reply-To: <cc7b827a3264f08cedb76adddd16a34df48f935f.1618180659.git.mitaliborkar810@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martiros,
+Hi Mitali,
 
-On Sun, Apr 11, 2021 at 10:35:58PM -0400, Martiros Shakhzadyan wrote:
-> Fixed line continuation and parenthesis alignment issues.
->
-> Signed-off-by: Martiros Shakhzadyan <vrzh@vrzh.net>
->
-> squashme
-
-This line should probably be dropped :)
-
+On Mon, Apr 12, 2021 at 04:38:39AM +0530, Mitali Borkar wrote:
+> Added #include <linux/bitops.h> and replaced bit shifts by BIT() macro.
+> This BIT() macro from linux/bitops.h is used to define IPU3_UAPI_GRID_Y_START_EN
+> and IPU3_UAPI_AWB_RGBS_THR_B_* bitmask.
+> Use of macro is better and neater. It maintains consistency.
+> Reported by checkpatch.
+> 
+> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 > ---
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> index 912eadaffc44..90a985ee25fa 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> @@ -49,8 +49,8 @@ static int ov2722_read_reg(struct i2c_client *client,
->  		return -ENODEV;
->  	}
->
-> -	if (data_length != OV2722_8BIT && data_length != OV2722_16BIT
-> -	    && data_length != OV2722_32BIT) {
-> +	if (data_length != OV2722_8BIT && data_length != OV2722_16BIT &&
-> +	    data_length != OV2722_32BIT) {
+>  drivers/staging/media/ipu3/include/intel-ipu3.h | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> index edd8edda0647..589d5ccee3a7 100644
+> --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
+> +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> @@ -5,6 +5,7 @@
+>  #define __IPU3_UAPI_H
+>  
+>  #include <linux/types.h>
+> +#include <linux/bitops.h>
+>  
+>  /* from /drivers/staging/media/ipu3/include/videodev2.h */
+>  
+> @@ -22,11 +23,11 @@
+>  #define IPU3_UAPI_MAX_BUBBLE_SIZE			10
+>  
+>  #define IPU3_UAPI_GRID_START_MASK			((1 << 12) - 1)
+> -#define IPU3_UAPI_GRID_Y_START_EN			(1 << 15)
+> +#define IPU3_UAPI_GRID_Y_START_EN			BIT(15)
 
-Does checkpatch report this one ?
+This header is used in user space where you don't have the BIT() macro.
 
->  		dev_err(&client->dev, "%s error, invalid data length\n",
->  			__func__);
->  		return -EINVAL;
-> @@ -212,8 +212,8 @@ static int __ov2722_buf_reg_array(struct i2c_client *client,
->  }
->
->  static int __ov2722_write_reg_is_consecutive(struct i2c_client *client,
-> -	struct ov2722_write_ctrl *ctrl,
-> -	const struct ov2722_reg *next)
-> +					     struct ov2722_write_ctrl *ctrl,
-> +					     const struct ov2722_reg *next)
+>  
+>  /* controls generation of meta_data (like FF enable/disable) */
+> -#define IPU3_UAPI_AWB_RGBS_THR_B_EN			(1 << 14)
+> -#define IPU3_UAPI_AWB_RGBS_THR_B_INCL_SAT		(1 << 15)
+> +#define IPU3_UAPI_AWB_RGBS_THR_B_EN			BIT(14)
+> +#define IPU3_UAPI_AWB_RGBS_THR_B_INCL_SAT		BIT(15)
+>  
+>  /**
+>   * struct ipu3_uapi_grid_config - Grid plane config
 
-These are probably 2 separate changes, but give this is just a style
-fix I think it's ok...
+-- 
+Kind regards,
 
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-
-
->  {
->  	if (ctrl->index == 0)
->  		return 1;
-> --
-> 2.31.1
->
+Sakari Ailus
