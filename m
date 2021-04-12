@@ -2,140 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDA4735C49C
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 13:03:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B75FB35C4BF
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 13:11:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239952AbhDLLDQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 07:03:16 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52058 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239755AbhDLLDL (ORCPT
+        id S240114AbhDLLLo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 07:11:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39340 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240110AbhDLLLo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 07:03:11 -0400
-Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 45CD5E0A;
-        Mon, 12 Apr 2021 13:02:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618225371;
-        bh=1AIalJNffl02auVwSikpQsAQk0XZjwdEEeXWXeBSZ8A=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=elfXkP2XDFJ2hWhLuQOz7FjVJnWFm310WHL7l/nU+fB/KnWN7ElYOxkVkFm7Yc1zX
-         C1MVyQoKkzZxds4ABd05dHQWEQI85uQd/vVZQ5gPEEhOX4mrY8i7PyKUwekl6v+KBy
-         Y5NoilpLhWX9f5jSJt7CBEefvh2bBX1w5Q/E+8R0=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2 3/3] media: vivid: use vb2_queue_change_type
-Date:   Mon, 12 Apr 2021 14:02:11 +0300
-Message-Id: <20210412110211.275791-4-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210412110211.275791-1-tomi.valkeinen@ideasonboard.com>
-References: <20210412110211.275791-1-tomi.valkeinen@ideasonboard.com>
+        Mon, 12 Apr 2021 07:11:44 -0400
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38149C061574
+        for <linux-media@vger.kernel.org>; Mon, 12 Apr 2021 04:11:26 -0700 (PDT)
+Received: from lanttu.localdomain (unknown [192.168.2.193])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 05F57634C87;
+        Mon, 12 Apr 2021 14:10:35 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Mitali Borkar <mitaliborkar810@gmail.com>,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in,
+        laurent.pinchart@ideasonboard.com
+Subject: [PATCH 1/1] staging: ipu3-imgu: Move the UAPI header from include under include/uapi
+Date:   Mon, 12 Apr 2021 14:11:20 +0300
+Message-Id: <20210412111120.31625-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the new vb2_queue_change_type() function in .vidioc_reqbufs and
-.vidioc_create_bufs instead of changing the queue type manually in
-vidioc_s_fmt_vbi_cap() and vidioc_s_fmt_sliced_vbi_cap().
+The header defines the user space interface but may be mistaken as
+kernel-only header due to its location. Add "uapi" directory under
+driver's include directory and move the header there.
 
-This allows for a more consistent behavior, as .vidioc_reqbufs and
-.vidioc_create_bufs are when the queue will become "busy".
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Suggested-by: Greg KH <gregkh@linuxfoundation.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/test-drivers/vivid/vivid-core.c | 44 ++++++++++++++++++-
- .../media/test-drivers/vivid/vivid-vbi-cap.c  |  2 -
- 2 files changed, 42 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/media/ipu3.rst      | 35 ++++++++++---------
+ .../media/v4l/pixfmt-meta-intel-ipu3.rst      |  2 +-
+ .../ipu3/include/{ => uapi}/intel-ipu3.h      |  0
+ drivers/staging/media/ipu3/ipu3-abi.h         |  2 +-
+ 4 files changed, 20 insertions(+), 19 deletions(-)
+ rename drivers/staging/media/ipu3/include/{ => uapi}/intel-ipu3.h (100%)
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index 0dc65ef3aa14..70676f1ac268 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -656,6 +656,46 @@ static const struct v4l2_file_operations vivid_radio_fops = {
- 	.unlocked_ioctl = video_ioctl2,
- };
+diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
+index f59697c7b374..d6454f637ff4 100644
+--- a/Documentation/admin-guide/media/ipu3.rst
++++ b/Documentation/admin-guide/media/ipu3.rst
+@@ -234,22 +234,23 @@ The IPU3 ImgU pipelines can be configured using the Media Controller, defined at
+ Running mode and firmware binary selection
+ ------------------------------------------
  
-+static int vidioc_reqbufs(struct file *file, void *priv,
-+				 struct v4l2_requestbuffers *p)
-+{
-+	struct video_device *vdev = video_devdata(file);
-+	int r;
-+
-+	/*
-+	 * Sliced and raw VBI capture share the same queue so we must
-+	 * change the type.
-+	 */
-+	if (p->type == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE ||
-+	    p->type == V4L2_BUF_TYPE_VBI_CAPTURE) {
-+		r = vb2_queue_change_type(vdev->queue, p->type);
-+		if (r)
-+			return r;
-+	}
-+
-+	return vb2_ioctl_reqbufs(file, priv, p);
-+}
-+
-+static int vidioc_create_bufs(struct file *file, void *priv,
-+				     struct v4l2_create_buffers *p)
-+{
-+	struct video_device *vdev = video_devdata(file);
-+	int r;
-+
-+	/*
-+	 * Sliced and raw VBI capture share the same queue so we must
-+	 * change the type.
-+	 */
-+	if (p->format.type == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE ||
-+	    p->format.type == V4L2_BUF_TYPE_VBI_CAPTURE) {
-+		r = vb2_queue_change_type(vdev->queue, p->format.type);
-+		if (r)
-+			return r;
-+	}
-+
-+	return vb2_ioctl_create_bufs(file, priv, p);
-+}
-+
- static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
- 	.vidioc_querycap		= vidioc_querycap,
+-ImgU works based on firmware, currently the ImgU firmware support run 2 pipes in
+-time-sharing with single input frame data. Each pipe can run at certain mode -
+-"VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture, and
+-"STILL" is used for still frame capture. However, you can also select "VIDEO" to
+-capture still frames if you want to capture images with less system load and
+-power. For "STILL" mode, ImgU will try to use smaller BDS factor and output
+-larger bayer frame for further YUV processing than "VIDEO" mode to get high
+-quality images. Besides, "STILL" mode need XNR3 to do noise reduction, hence
+-"STILL" mode will need more power and memory bandwidth than "VIDEO" mode. TNR
+-will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is running at
+-“VIDEO” mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
+-(currently defined in drivers/staging/media/ipu3/include/intel-ipu3.h) to query
+-and set the running mode. For user, there is no difference for buffer queueing
+-between the "VIDEO" and "STILL" mode, mandatory input and main output node
+-should be enabled and buffers need be queued, the statistics and the view-finder
+-queues are optional.
++ImgU works based on firmware, currently the ImgU firmware support run 2 pipes
++in time-sharing with single input frame data. Each pipe can run at certain mode
++- "VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture,
++and "STILL" is used for still frame capture. However, you can also select
++"VIDEO" to capture still frames if you want to capture images with less system
++load and power. For "STILL" mode, ImgU will try to use smaller BDS factor and
++output larger bayer frame for further YUV processing than "VIDEO" mode to get
++high quality images. Besides, "STILL" mode need XNR3 to do noise reduction,
++hence "STILL" mode will need more power and memory bandwidth than "VIDEO" mode.
++TNR will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is
++running at “VIDEO” mode by default, the user can use v4l2 control
++V4L2_CID_INTEL_IPU3_MODE (currently defined in
++drivers/staging/media/ipu3/include/uapi/intel-ipu3.h) to query and set the
++running mode. For user, there is no difference for buffer queueing between the
++"VIDEO" and "STILL" mode, mandatory input and main output node should be
++enabled and buffers need be queued, the statistics and the view-finder queues
++are optional.
  
-@@ -717,8 +757,8 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
- 	.vidioc_g_fbuf			= vidioc_g_fbuf,
- 	.vidioc_s_fbuf			= vidioc_s_fbuf,
+ The firmware binary will be selected according to current running mode, such log
+ "using binary if_to_osys_striped " or "using binary if_to_osys_primary_striped"
+@@ -586,7 +587,7 @@ preserved.
+ References
+ ==========
  
--	.vidioc_reqbufs			= vb2_ioctl_reqbufs,
--	.vidioc_create_bufs		= vb2_ioctl_create_bufs,
-+	.vidioc_reqbufs			= vidioc_reqbufs,
-+	.vidioc_create_bufs		= vidioc_create_bufs,
- 	.vidioc_prepare_buf		= vb2_ioctl_prepare_buf,
- 	.vidioc_querybuf		= vb2_ioctl_querybuf,
- 	.vidioc_qbuf			= vb2_ioctl_qbuf,
-diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-index 387df4ff01b0..b65b02eeeb97 100644
---- a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-@@ -257,7 +257,6 @@ int vidioc_s_fmt_vbi_cap(struct file *file, void *priv,
- 		return ret;
- 	if (f->type != V4L2_BUF_TYPE_VBI_CAPTURE && vb2_is_busy(&dev->vb_vbi_cap_q))
- 		return -EBUSY;
--	dev->vbi_cap_dev.queue->type = V4L2_BUF_TYPE_VBI_CAPTURE;
- 	return 0;
- }
+-.. [#f5] drivers/staging/media/ipu3/include/intel-ipu3.h
++.. [#f5] drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
  
-@@ -324,7 +323,6 @@ int vidioc_s_fmt_sliced_vbi_cap(struct file *file, void *fh, struct v4l2_format
- 	if (fmt->type != V4L2_BUF_TYPE_SLICED_VBI_CAPTURE && vb2_is_busy(&dev->vb_vbi_cap_q))
- 		return -EBUSY;
- 	dev->service_set_cap = vbi->service_set;
--	dev->vbi_cap_dev.queue->type = V4L2_BUF_TYPE_SLICED_VBI_CAPTURE;
- 	return 0;
- }
+ .. [#f1] https://github.com/intel/nvt
+ 
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
+index 5f33d35532ef..84d81dd7a7b5 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
+@@ -78,4 +78,4 @@ hardware and algorithm details.
+ Intel IPU3 ImgU uAPI data types
+ ===============================
+ 
+-.. kernel-doc:: drivers/staging/media/ipu3/include/intel-ipu3.h
++.. kernel-doc:: drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+similarity index 100%
+rename from drivers/staging/media/ipu3/include/intel-ipu3.h
+rename to drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+diff --git a/drivers/staging/media/ipu3/ipu3-abi.h b/drivers/staging/media/ipu3/ipu3-abi.h
+index e1185602c7fd..c76935b436d7 100644
+--- a/drivers/staging/media/ipu3/ipu3-abi.h
++++ b/drivers/staging/media/ipu3/ipu3-abi.h
+@@ -4,7 +4,7 @@
+ #ifndef __IPU3_ABI_H
+ #define __IPU3_ABI_H
+ 
+-#include "include/intel-ipu3.h"
++#include "include/uapi/intel-ipu3.h"
+ 
+ /******************* IMGU Hardware information *******************/
  
 -- 
-2.25.1
+2.29.2
 
