@@ -2,62 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9407135C6DA
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 14:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 932F435C6DC
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 14:57:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239454AbhDLM5l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 08:57:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34668 "EHLO
+        id S241537AbhDLM5o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 08:57:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241506AbhDLM5k (ORCPT
+        with ESMTP id S241506AbhDLM5n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 08:57:40 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57140C06174A;
-        Mon, 12 Apr 2021 05:57:22 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id m16so9139051qtx.9;
-        Mon, 12 Apr 2021 05:57:22 -0700 (PDT)
+        Mon, 12 Apr 2021 08:57:43 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE0CC061574;
+        Mon, 12 Apr 2021 05:57:25 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id d15so146109qkc.9;
+        Mon, 12 Apr 2021 05:57:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=j5UqGVDciIGTz6tpsPLFlcyTVvlYKiYpvtIE967eU5o=;
-        b=HZj3x1XrBIJ7XpFd3Aea1O3t3LilsmXyxBZ85pZfAUJN1Ba/dGPYQL5dPPPbOrtzzB
-         e/tpVHM8Rhfe8v29dKMotESmdcUegvEFNmhVqZYnsBhCsaDvlOyUjTQKGXQhr4rNR9Rt
-         PMDJkHP5Fqd6hU8TGVftW2dcAdQ1sJEaeUV1h1nhfag4VlxvtD/NYneC4N7ZQTRCjfTB
-         NTjn2pZO/heL5PtJCLMstZHdJf79G4zsZzRx4Iv1QTfT7GNvpkzZut8mFVHBnDsIk7g9
-         EdByLZUm3/EPXm+0C+GbcGKtI/2QItqYRq3Ug01ShLqcYk66s3g9EIw6XLytuu/edp8W
-         muRw==
+        bh=/Yq9d2p6Dmjcfhw+4JZIGQuxSwEH4EO4U1BZYPvkJ9c=;
+        b=urmL14Laq0tJ/p2X3M+69nR4OCrVPy9daFTXyz7TxnocV5Qn8QOhPrQNglT5LzFtNV
+         YeiIwDK20XJ1x1C8CyKnld1NFEw7xIQs4fnyE/CbfsUlfCjYZmp2rNBkkV9QEGSm3bsj
+         PI6suYzl8Fw5RBbKh4UYDwk8SYvj6FZhkukw/yEkPBAgKZ0zXMrcOaNr49i2McqwJ4cx
+         Csqv+qyNP8E1t4jKXSQrbSzc8bF6XHGQyKvrIju8eb5Tvxuq4hgf9ZSOHeutev+ye4be
+         Qhs1/VRYOOMIUFJmcLpMvia55UmH5ErENZ7kj32P0DP8Ctbh01+th6T49ohI5LugHCBT
+         GDzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=j5UqGVDciIGTz6tpsPLFlcyTVvlYKiYpvtIE967eU5o=;
-        b=pHGUBMIFMlJOGjSAXfA9YFkXlRhBi6EnzjCFdXyWwSaiJEp/SSlhVv1rSioW5wS9xg
-         wSDp2GhHipG4vft+CF6x5Qoz+UC30l3K40X1mOH3fIOkUlAxtyS6HYODOsgVLhrzuvBL
-         kQgiLddYuFVCz+f0nLzbEWCZJK/jHKgYgkhgmdW7BY9SmhHT9ua/EfRo9lec1WYso8DH
-         6VWnDNel/oKgXHmLsa+DW2Lyg04o0vrlU2FaRg7TlqAeASMmB5FbHThthZYgHR09g9Ic
-         hscQYGHE7Nz++5vlRw4dVM+nFjLl+5vR3lGEc81QroEZwT7nhQ4Np2ik605he6gZ4koK
-         B38w==
-X-Gm-Message-State: AOAM530Po4R8s2RXqT8IMcN+oteEgAYOgpLYMuGpyY3frmv1VGmM4RrG
-        m9hjfIjmvq9yHAVXiBStVcI=
-X-Google-Smtp-Source: ABdhPJyXkdZB9fGQujGYGvdo+eT4teAggJRmDe0U2Hq1Hdml14HGD2HuChgOd9YfCtILpM3nIy1avg==
-X-Received: by 2002:a05:622a:2c4:: with SMTP id a4mr25351604qtx.145.1618232241272;
-        Mon, 12 Apr 2021 05:57:21 -0700 (PDT)
+        bh=/Yq9d2p6Dmjcfhw+4JZIGQuxSwEH4EO4U1BZYPvkJ9c=;
+        b=DeARfBI63sIwM0jY9gD9BmsKOppLRFyZO8SOvW37dkUe/tfMPSTItrIUIFu1lg/KAW
+         xQNfW+i3VDF7I2DCOWqfx1DqNYYL+8dJ4Xb7rAMlB3/cuqtLlLq8V0wqgBZjAE1K/PKH
+         u2y3Fic3KFhGGMMqF65ZFIKjbaZ/8QOy+l4WpdRNXu34pSiNTB5xwTF7Hqkb+QSVSkjD
+         eV6fOV+sIhvOCg8dW2kiV8e/S+Z1Zs44sekmSMm6eM9W2ch0ls12u4tLlAr71Y6BsGPP
+         2n3O45fVIH4DWJ+Ujt2jXNg9uJhmC6BW+EHObiifwi3AbK54/rAJogRKCe3AtU5t/RUO
+         b5UQ==
+X-Gm-Message-State: AOAM5303u+xoVE83iMnPdwhVZvUAQhoWWJh4OSNRMEqVSa+Ze3xvTFT1
+        lH0XOoFZc+icaOw8q2whBFo=
+X-Google-Smtp-Source: ABdhPJyWVx2VXGGwz7hzJEZCw89pwMLXlUMe2dFH8Kbw2eFSK0mXKW3AgmvNbVm9VqD+AWTkAXH4nQ==
+X-Received: by 2002:a37:274f:: with SMTP id n76mr26839351qkn.15.1618232245054;
+        Mon, 12 Apr 2021 05:57:25 -0700 (PDT)
 Received: from focaruja ([2001:1284:f016:a037:476a:dfcd:f18f:9ad5])
-        by smtp.gmail.com with ESMTPSA id 1sm7983909qtu.96.2021.04.12.05.57.20
+        by smtp.gmail.com with ESMTPSA id x4sm1406354qkp.78.2021.04.12.05.57.24
         (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Mon, 12 Apr 2021 05:57:21 -0700 (PDT)
-Date:   Mon, 12 Apr 2021 09:57:18 -0300
+        Mon, 12 Apr 2021 05:57:24 -0700 (PDT)
+Date:   Mon, 12 Apr 2021 09:57:22 -0300
 From:   Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: [Outreachy kernel][PATCH 3/4 v2] staging: media: omap4iss: Replace
- macro function by static inline function in file iss_ipipeif.c
-Message-ID: <2907e1496de66f59236ee6ebc84292b1454926d3.1618231618.git.alinesantanacordeiro@gmail.com>
+Subject: [Outreachy kernel][PATCH 4/4 v2] staging: media: omap4iss: Replace
+ macro function by static inline function in file iss_resizer.c
+Message-ID: <431dab7622963701c1d8ba8033bed5aaca11be70.1618231618.git.alinesantanacordeiro@gmail.com>
 References: <cover.1618231618.git.alinesantanacordeiro@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -76,89 +76,153 @@ Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
 
 Changes since v1:
  - Insert file path in commit message
+ - Remove trailing space left during modification
+ 
+ drivers/staging/media/omap4iss/iss_resizer.c | 126 ++++++++++++++-------------
+ 1 file changed, 65 insertions(+), 61 deletions(-)
 
- drivers/staging/media/omap4iss/iss_ipipeif.c | 62 +++++++++++++++-------------
- 1 file changed, 34 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/staging/media/omap4iss/iss_ipipeif.c b/drivers/staging/media/omap4iss/iss_ipipeif.c
-index c2978d0..3dc98f6 100644
---- a/drivers/staging/media/omap4iss/iss_ipipeif.c
-+++ b/drivers/staging/media/omap4iss/iss_ipipeif.c
-@@ -34,17 +34,23 @@ static const unsigned int ipipeif_fmts[] = {
+diff --git a/drivers/staging/media/omap4iss/iss_resizer.c b/drivers/staging/media/omap4iss/iss_resizer.c
+index 3b6875c..80ca44d 100644
+--- a/drivers/staging/media/omap4iss/iss_resizer.c
++++ b/drivers/staging/media/omap4iss/iss_resizer.c
+@@ -30,13 +30,17 @@ static const unsigned int resizer_fmts[] = {
   *
-  * Also prints other debug information stored in the IPIPEIF module.
+  * Also prints other debug information stored in the RESIZER module.
   */
--#define IPIPEIF_PRINT_REGISTER(iss, name)\
--	dev_dbg(iss->dev, "###IPIPEIF " #name "=0x%08x\n", \
--		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_IPIPEIF, IPIPEIF_##name))
-+static inline ipipeif_print_register(iss, name)
+-#define RSZ_PRINT_REGISTER(iss, name)\
+-	dev_dbg(iss->dev, "###RSZ " #name "=0x%08x\n", \
+-		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_RESIZER, RSZ_##name))
++static inline rsz_print_register(iss, name)
 +{
-+	dev_dbg(iss->dev, "###IPIPEIF " #name "=0x%08x\n",
-+		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_IPIPEIF, IPIPEIF_##name));
++	dev_dbg(iss->dev, "###RSZ " #name "=0x%08x\n",
++		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_RESIZER, RSZ_##name));
 +}
  
--#define ISIF_PRINT_REGISTER(iss, name)\
--	dev_dbg(iss->dev, "###ISIF " #name "=0x%08x\n", \
--		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_ISIF, ISIF_##name))
-+static inline isif_print_register(iss, name)
+-#define RZA_PRINT_REGISTER(iss, name)\
+-	dev_dbg(iss->dev, "###RZA " #name "=0x%08x\n", \
+-		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_RESIZER, RZA_##name))
++static inline rza_print_register(iss, name)
 +{
-+	dev_dbg(iss->dev, "###ISIF " #name "=0x%08x\n",
-+		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_ISIF, ISIF_##name));
++	dev_dbg(iss->dev, "###RZA " #name "=0x%08x\n",
++		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_RESIZER, RZA_##name));
 +}
  
--#define ISP5_PRINT_REGISTER(iss, name)\
--	dev_dbg(iss->dev, "###ISP5 " #name "=0x%08x\n", \
--		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_##name))
-+static inline isp5_print_register(iss, name)
-+{
-+	dev_dbg(iss->dev, "###ISP5 " #name "=0x%08x\n",
-+		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_##name));
-+}
- 
- static void ipipeif_print_status(struct iss_ipipeif_device *ipipeif)
+ static void resizer_print_status(struct iss_resizer_device *resizer)
  {
-@@ -52,25 +58,25 @@ static void ipipeif_print_status(struct iss_ipipeif_device *ipipeif)
+@@ -44,61 +48,61 @@ static void resizer_print_status(struct iss_resizer_device *resizer)
  
- 	dev_dbg(iss->dev, "-------------IPIPEIF Register dump-------------\n");
+ 	dev_dbg(iss->dev, "-------------RESIZER Register dump-------------\n");
  
--	IPIPEIF_PRINT_REGISTER(iss, CFG1);
--	IPIPEIF_PRINT_REGISTER(iss, CFG2);
+-	RSZ_PRINT_REGISTER(iss, SYSCONFIG);
+-	RSZ_PRINT_REGISTER(iss, IN_FIFO_CTRL);
+-	RSZ_PRINT_REGISTER(iss, FRACDIV);
+-	RSZ_PRINT_REGISTER(iss, SRC_EN);
+-	RSZ_PRINT_REGISTER(iss, SRC_MODE);
+-	RSZ_PRINT_REGISTER(iss, SRC_FMT0);
+-	RSZ_PRINT_REGISTER(iss, SRC_FMT1);
+-	RSZ_PRINT_REGISTER(iss, SRC_VPS);
+-	RSZ_PRINT_REGISTER(iss, SRC_VSZ);
+-	RSZ_PRINT_REGISTER(iss, SRC_HPS);
+-	RSZ_PRINT_REGISTER(iss, SRC_HSZ);
+-	RSZ_PRINT_REGISTER(iss, DMA_RZA);
+-	RSZ_PRINT_REGISTER(iss, DMA_RZB);
+-	RSZ_PRINT_REGISTER(iss, DMA_STA);
+-	RSZ_PRINT_REGISTER(iss, GCK_MMR);
+-	RSZ_PRINT_REGISTER(iss, GCK_SDR);
+-	RSZ_PRINT_REGISTER(iss, IRQ_RZA);
+-	RSZ_PRINT_REGISTER(iss, IRQ_RZB);
+-	RSZ_PRINT_REGISTER(iss, YUV_Y_MIN);
+-	RSZ_PRINT_REGISTER(iss, YUV_Y_MAX);
+-	RSZ_PRINT_REGISTER(iss, YUV_C_MIN);
+-	RSZ_PRINT_REGISTER(iss, YUV_C_MAX);
+-	RSZ_PRINT_REGISTER(iss, SEQ);
 -
--	ISIF_PRINT_REGISTER(iss, SYNCEN);
--	ISIF_PRINT_REGISTER(iss, CADU);
--	ISIF_PRINT_REGISTER(iss, CADL);
--	ISIF_PRINT_REGISTER(iss, MODESET);
--	ISIF_PRINT_REGISTER(iss, CCOLP);
--	ISIF_PRINT_REGISTER(iss, SPH);
--	ISIF_PRINT_REGISTER(iss, LNH);
--	ISIF_PRINT_REGISTER(iss, LNV);
--	ISIF_PRINT_REGISTER(iss, VDINT(0));
--	ISIF_PRINT_REGISTER(iss, HSIZE);
--
--	ISP5_PRINT_REGISTER(iss, SYSCONFIG);
--	ISP5_PRINT_REGISTER(iss, CTRL);
--	ISP5_PRINT_REGISTER(iss, IRQSTATUS(0));
--	ISP5_PRINT_REGISTER(iss, IRQENABLE_SET(0));
--	ISP5_PRINT_REGISTER(iss, IRQENABLE_CLR(0));
-+	ipipeif_print_register(iss, CFG1);
-+	ipipeif_print_register(iss, CFG2);
+-	RZA_PRINT_REGISTER(iss, EN);
+-	RZA_PRINT_REGISTER(iss, MODE);
+-	RZA_PRINT_REGISTER(iss, 420);
+-	RZA_PRINT_REGISTER(iss, I_VPS);
+-	RZA_PRINT_REGISTER(iss, I_HPS);
+-	RZA_PRINT_REGISTER(iss, O_VSZ);
+-	RZA_PRINT_REGISTER(iss, O_HSZ);
+-	RZA_PRINT_REGISTER(iss, V_PHS_Y);
+-	RZA_PRINT_REGISTER(iss, V_PHS_C);
+-	RZA_PRINT_REGISTER(iss, V_DIF);
+-	RZA_PRINT_REGISTER(iss, V_TYP);
+-	RZA_PRINT_REGISTER(iss, V_LPF);
+-	RZA_PRINT_REGISTER(iss, H_PHS);
+-	RZA_PRINT_REGISTER(iss, H_DIF);
+-	RZA_PRINT_REGISTER(iss, H_TYP);
+-	RZA_PRINT_REGISTER(iss, H_LPF);
+-	RZA_PRINT_REGISTER(iss, DWN_EN);
+-	RZA_PRINT_REGISTER(iss, SDR_Y_BAD_H);
+-	RZA_PRINT_REGISTER(iss, SDR_Y_BAD_L);
+-	RZA_PRINT_REGISTER(iss, SDR_Y_SAD_H);
+-	RZA_PRINT_REGISTER(iss, SDR_Y_SAD_L);
+-	RZA_PRINT_REGISTER(iss, SDR_Y_OFT);
+-	RZA_PRINT_REGISTER(iss, SDR_Y_PTR_S);
+-	RZA_PRINT_REGISTER(iss, SDR_Y_PTR_E);
+-	RZA_PRINT_REGISTER(iss, SDR_C_BAD_H);
+-	RZA_PRINT_REGISTER(iss, SDR_C_BAD_L);
+-	RZA_PRINT_REGISTER(iss, SDR_C_SAD_H);
+-	RZA_PRINT_REGISTER(iss, SDR_C_SAD_L);
+-	RZA_PRINT_REGISTER(iss, SDR_C_OFT);
+-	RZA_PRINT_REGISTER(iss, SDR_C_PTR_S);
+-	RZA_PRINT_REGISTER(iss, SDR_C_PTR_E);
++	rsz_print_register(iss, SYSCONFIG);
++	rsz_print_register(iss, IN_FIFO_CTRL);
++	rsz_print_register(iss, FRACDIV);
++	rsz_print_register(iss, SRC_EN);
++	rsz_print_register(iss, SRC_MODE);
++	rsz_print_register(iss, SRC_FMT0);
++	rsz_print_register(iss, SRC_FMT1);
++	rsz_print_register(iss, SRC_VPS);
++	rsz_print_register(iss, SRC_VSZ);
++	rsz_print_register(iss, SRC_HPS);
++	rsz_print_register(iss, SRC_HSZ);
++	rsz_print_register(iss, DMA_RZA);
++	rsz_print_register(iss, DMA_RZB);
++	rsz_print_register(iss, DMA_STA);
++	rsz_print_register(iss, GCK_MMR);
++	rsz_print_register(iss, GCK_SDR);
++	rsz_print_register(iss, IRQ_RZA);
++	rsz_print_register(iss, IRQ_RZB);
++	rsz_print_register(iss, YUV_Y_MIN);
++	rsz_print_register(iss, YUV_Y_MAX);
++	rsz_print_register(iss, YUV_C_MIN);
++	rsz_print_register(iss, YUV_C_MAX);
++	rsz_print_register(iss, SEQ);
 +
-+	isif_print_register(iss, SYNCEN);
-+	isif_print_register(iss, CADU);
-+	isif_print_register(iss, CADL);
-+	isif_print_register(iss, MODESET);
-+	isif_print_register(iss, CCOLP);
-+	isif_print_register(iss, SPH);
-+	isif_print_register(iss, LNH);
-+	isif_print_register(iss, LNV);
-+	isif_print_register(iss, VDINT(0));
-+	isif_print_register(iss, HSIZE);
-+
-+	isp5_print_register(iss, SYSCONFIG);
-+	isp5_print_register(iss, CTRL);
-+	isp5_print_register(iss, IRQSTATUS(0));
-+	isp5_print_register(iss, IRQENABLE_SET(0));
-+	isp5_print_register(iss, IRQENABLE_CLR(0));
++	rza_print_register(iss, EN);
++	rza_print_register(iss, MODE);
++	rza_print_register(iss, 420);
++	rza_print_register(iss, I_VPS);
++	rza_print_register(iss, I_HPS);
++	rza_print_register(iss, O_VSZ);
++	rza_print_register(iss, O_HSZ);
++	rza_print_register(iss, V_PHS_Y);
++	rza_print_register(iss, V_PHS_C);
++	rza_print_register(iss, V_DIF);
++	rza_print_register(iss, V_TYP);
++	rza_print_register(iss, V_LPF);
++	rza_print_register(iss, H_PHS);
++	rza_print_register(iss, H_DIF);
++	rza_print_register(iss, H_TYP);
++	rza_print_register(iss, H_LPF);
++	rza_print_register(iss, DWN_EN);
++	rza_print_register(iss, SDR_Y_BAD_H);
++	rza_print_register(iss, SDR_Y_BAD_L);
++	rza_print_register(iss, SDR_Y_SAD_H);
++	rza_print_register(iss, SDR_Y_SAD_L);
++	rza_print_register(iss, SDR_Y_OFT);
++	rza_print_register(iss, SDR_Y_PTR_S);
++	rza_print_register(iss, SDR_Y_PTR_E);
++	rza_print_register(iss, SDR_C_BAD_H);
++	rza_print_register(iss, SDR_C_BAD_L);
++	rza_print_register(iss, SDR_C_SAD_H);
++	rza_print_register(iss, SDR_C_SAD_L);
++	rza_print_register(iss, SDR_C_OFT);
++	rza_print_register(iss, SDR_C_PTR_S);
++	rza_print_register(iss, SDR_C_PTR_E);
  
  	dev_dbg(iss->dev, "-----------------------------------------------\n");
  }
