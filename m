@@ -2,136 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 807B235BC90
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 10:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6987135BD05
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 10:48:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237520AbhDLInp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 04:43:45 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:56097 "EHLO
+        id S237977AbhDLIq6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 04:46:58 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:33257 "EHLO
         lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237516AbhDLInk (ORCPT
+        by vger.kernel.org with ESMTP id S237559AbhDLIqO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 04:43:40 -0400
+        Mon, 12 Apr 2021 04:46:14 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id VsA8l4OfKMxedVsABlcLav; Mon, 12 Apr 2021 10:43:19 +0200
+        id VsCcl4PjwMxedVsCflcMJm; Mon, 12 Apr 2021 10:45:55 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618216999; bh=+BZdwhRFYlnjSDtb0J7xVpHRMjC98xI+H52aP1iqj8U=;
+        t=1618217155; bh=2dvhSYCDP8TbsidKY5VuGGtyP9GrPCRN61UfMxUnZYY=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=n5Mj8+9LTgL8Bm13eU1v/xUhm/+g77/oGofhpEC3xtjr2rzyr8cnp4aA+BHE3+oTD
-         DXFdoXNi6l0+dWWSzm/3+ImWc8cDPufi9GPj4sbqupiYa2wLKE55js/4nUHrh6Crb0
-         uiZZvH6Kfp8QgxDXdrbd3gtzmGqUbqprIfSz0qdqfqRPD0smluKhG4mNeoNLc4Nrl+
-         BXxmowVIzVIGRZeGMVjMLJ/S2DqP7hQOFJppe/sHFas02g4o01V+ePwOS5UtJfNONV
-         Pp6MBJINWSEatuwDBXe+7gghNn4W/u5LPQPBifWnq4tlMH4vJ7mTWkxT/URcaar/hS
-         fLFGkCxX9uOhg==
-Subject: Re: [PATCH] media: videobuf2-v4l2.c: add vb2_queue_change_type()
- helper
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210412081255.104788-1-tomi.valkeinen@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <3a11426a-303c-3d8e-2ff0-842390f3c7fd@xs4all.nl>
-Date:   Mon, 12 Apr 2021 10:43:15 +0200
+        b=X8micyMY1n1COB9oe24mEUDdE50gQ5x5Fw4Ata6wHFdQ5JHXASE6Pn6V6MTsozwb5
+         Fyzeh7ubVBIe/B4t0dzwoekG2678u84sldQ4ry7uHxnUj5DJ+Y+u2CT9xDoissKAFX
+         RBQf1LSbz2hgp0h51Xt0Nr0rSayXYNE3YRhej0cw37bwZn7H/2pP4p0ODyPxQGaDB5
+         lR0xk9QBIf7LPId4dzRfFkyra2Y6PZ/xbE7qrYzNPVoWUfT9cuL+o4ThToplmOFLfM
+         aKV2OQnHQV9t8+Lm3/elxQR59tCVbb8B477Efan2P9nzk8Xc7ARjokkqmv5OPuuIw3
+         b3Ayioh9CxgyA==
+Subject: Re: NULL pointer dereference at v4l2_ctrl_request_complete
+To:     Alexandre Courbot <acourbot@chromium.org>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-media <linux-media@vger.kernel.org>
+References: <CAAEAJfAQkocEX1Z32YwupQT1s+PMGUNQcpgrLhX9+yu+1v9czw@mail.gmail.com>
+ <CAAEAJfCM+PAG2DDwTbNHOogf=Fo7qGh6a9eH6fBquE7uCa-wwA@mail.gmail.com>
+ <9a751a33-1dbe-65cd-ca20-6c485f6448f2@xs4all.nl>
+ <CAPBb6MU-cv-_AsSbO0jK2r1iKmhcU9ZvkffNa9sTr5BE6NzEGw@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <6cf22872-e76e-4a83-87dc-fcde1df2c33c@xs4all.nl>
+Date:   Mon, 12 Apr 2021 10:45:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210412081255.104788-1-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <CAPBb6MU-cv-_AsSbO0jK2r1iKmhcU9ZvkffNa9sTr5BE6NzEGw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfH3DpSxfbGhopwwa0P3pAs8GmD5e8pvU5rIXALAoIYqNqaDdYK6NCJ6RvX/QZT1o15c7AWmlotSL7Kdxh/+8AFhRZAVtPl41z1TNuErT0ayXjmzhp6jJ
- 8cHapA/izuUJMc8tCrbSuznI3ngwcWDFd10ByrCHAjUgp93HaAdObsikUJE1Qlwmq3HVDlcz89JJDaX88VDJblCBV6zu7NtEwSFo+4f7Ail+qDzfpwfy7ST/
- Z1nK3kKafG8BCHc6vMjQ3AQ98uJ8jAiqhVz9xLU7oZZDz0F4e8Qlc+9EHltOqEg9pvpdEimSqOaR8iiI6ZNBSiatTNsqBikIOmjf2b2dJLtWoQJHKWmSV5D9
- 7/uYfELGJ6KAGpu2+hHQdQrN9gykxDKzZ1i8XqJ7iBxHA4iRbLw=
+X-CMAE-Envelope: MS4xfLkX9FlZ7KSi5QfICTYxS2NeE3Kc52ofvUsGMjn77qhS5XBnaOwApYiTvCLUVBpwJNrGRNiJCev+kKGRvkyPI2ASxpVnbNzqEavoTCE9FlR8cDEr5tNz
+ dcPnZmfP9QHGm3pJJcnpY1VxbRA1ROm0lPS+IWqfbYYqSngwJepjD75x4C/dqk1+Ln3p+EItPvgi+h31mh4IgeRSDS4MtNFfT2DwYeBrQLk8Hp5A5Btc7tQp
+ cZX3w/2zKoYGQM9Mu7d8NRbcKuMqZycuHdptMuMmS7IVvXBKw6kMcu+O+PZdAa57
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Hi Alexandre,
 
-On 12/04/2021 10:12, Tomi Valkeinen wrote:
-> On some platforms a video device can capture either video data or
-> metadata. The driver can implement vidioc functions for both video and
-> metadata, and use a single vb2_queue for the buffers. However, vb2_queue
-> requires choosing a single buffer type, which conflicts with the idea of
-> capturing either video or metadata.
+On 12/04/2021 10:28, Alexandre Courbot wrote:
+> Hi Hans,
 > 
-> The buffer type of vb2_queue can be changed, but it's not obvious how
-> this should be done in the drivers. To help this, add a new helper
-> function vb2_queue_change_type() which ensures the correct checks and
-> documents how it can be used.
+> I have been able to reproduce the issue with the stateless part of the
+> mtk-vcodec decoder driver (not merged as of today), which shows the
+> exact same crash.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-v4l2.c | 14 ++++++++++++++
->  include/media/videobuf2-v4l2.h                  | 15 +++++++++++++++
->  2 files changed, 29 insertions(+)
+> With your patch applied I got the following output right before the
+> crash, when decoding H.264 or VP9:
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 7e96f67c60ba..2988bb38ceb1 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -939,6 +939,20 @@ void vb2_queue_release(struct vb2_queue *q)
->  }
->  EXPORT_SYMBOL_GPL(vb2_queue_release);
->  
-> +int vb2_queue_change_type(struct vb2_queue *q, unsigned int type)
-> +{
-> +	if (type == q->type)
-> +		return 0;
-> +
-> +	if (vb2_is_busy(q))
-> +		return -EBUSY;
-> +
-> +	q->type = type;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(vb2_queue_change_type);
-> +
->  __poll_t vb2_poll(struct vb2_queue *q, struct file *file, poll_table *wait)
->  {
->  	struct video_device *vfd = video_devdata(file);
-> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
-> index c203047eb834..3e604c1b5e1b 100644
-> --- a/include/media/videobuf2-v4l2.h
-> +++ b/include/media/videobuf2-v4l2.h
-> @@ -261,6 +261,21 @@ int __must_check vb2_queue_init_name(struct vb2_queue *q, const char *name);
->   */
->  void vb2_queue_release(struct vb2_queue *q);
->  
-> +/**
-> + * vb2_queue_change_type() - change the type of an inactive vb2_queue
-> + * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-> + *
-> + * This function changes the type of the vb2_queue. This is only possible
-> + * if the queue is not busy (i.e. no buffers have been queued).
+> H.264:
+> [  549.264784] v4l2-ctrls: v4l2_ctrl_request_complete 990a6b H264 Profile
+> [  976.630017] v4l2-ctrls: v4l2_ctrl_request_complete 980001 User Controls
+> [  125.152149] v4l2-ctrls: v4l2_ctrl_request_complete 980001 User Controls
+> [  330.049192] v4l2-ctrls: v4l2_ctrl_request_complete 990001 Codec Controls
+> 
+> VP9:
+> [  215.945812] v4l2-ctrls: v4l2_ctrl_request_complete 990a6b H264 Profile
+> [  428.564501] v4l2-ctrls: v4l2_ctrl_request_complete 990a6b H264 Profile
+> [  830.970340] v4l2-ctrls: v4l2_ctrl_request_complete 990b00 VP9 Profile
+> 
+> The other pr_info() in your patch was never seen.
+> 
+> Interestingly these controls are not set by requests, and are not even
+> supposed to be set on a decoder. I am not quite sure where this could
+> come from...
 
-queued -> allocated
+I found the issue and Ezequiel successfully tested a patch I mailed him privately.
 
-> + *
-> + * vb2_queue_change_type() can be used to support multiple buffer types using
-> + * the same queue. The driver can implement v4l2_ioctl_ops.vidioc_reqbufs and
-> + * v4l2_ioctl_ops.vidioc_create_bufs functions and call vb2_queue_change_type()
-> + * before calling vb2_ioctl_reqbufs() or vb2_ioctl_create_bufs(), and thus
-> + * "lock" the buffer type until the buffers have been released.
-> + */
-> +int vb2_queue_change_type(struct vb2_queue *q, unsigned int type);
-> +
->  /**
->   * vb2_poll() - implements poll userspace operation
->   * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-> 
-
-Can you also update vivid to use this function? That would also be a good test.
-Check with v4l2-compliance as well. It is not impossible that some changes
-have to be made to v4l2-compliance, ping me on irc if that's the case.
+The patch needs a bit of cleanup, but I plan to post it today.
 
 Regards,
 
 	Hans
+
+> 
+> Cheers,
+> Alex.
+> 
+> On Thu, Apr 1, 2021 at 6:36 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>
+>> On 01/04/2021 00:34, Ezequiel Garcia wrote:
+>>> Hi Hans,
+>>>
+>>> On Wed, 31 Mar 2021 at 13:14, Ezequiel Garcia
+>>> <ezequiel@vanguardiasur.com.ar> wrote:
+>>>>
+>>>> Hi Hans,
+>>>>
+>>>> We have found this crash in mainline:
+>>>>
+>>>> [  258.174662] Unable to handle kernel NULL pointer dereference at
+>>>> virtual address 0000000000000000
+>>>> [  258.182967] Mem abort info:
+>>>> [  258.187746]   ESR = 0x96000004
+>>>> [  258.192100]   EC = 0x25: DABT (current EL), IL = 32 bits
+>>>> [  258.199108]   SET = 0, FnV = 0
+>>>> [  258.203732]   EA = 0, S1PTW = 0
+>>>> [  258.208389] Data abort info:
+>>>> [  258.212743]   ISV = 0, ISS = 0x00000004
+>>>> [  258.218322]   CM = 0, WnR = 0
+>>>> [  258.222760] user pgtable: 4k pages, 48-bit VAs, pgdp=00000000444b0000
+>>>> [  258.230822] [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
+>>>> [  258.239097] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+>>>> [  258.246162] Modules linked in: hantro_vpu(C) videobuf2_vmalloc
+>>>> v4l2_h264 videobuf2_dma_contig videobuf2_memops v4l2_mem2mem
+>>>> videobuf2_v4l2 videobuf2_common videodev mc etnaviv fsl_imx8_ddr_perf
+>>>> gpu_sched fuse
+>>>> [  258.263431] CPU: 0 PID: 34 Comm: kworker/0:1 Tainted: G         C
+>>>>      5.12.0-rc2+ #106
+>>>> [  258.270312] Hardware name: NXP i.MX8MQ EVK (DT)
+>>>> [  258.273542] Workqueue: events v4l2_m2m_device_run_work [v4l2_mem2mem]
+>>>> [  258.278716] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO BTYPE=--)
+>>>> [  258.283426] pc : __memcpy+0x7c/0x180
+>>>> [  258.285709] lr : v4l2_ctrl_request_complete+0x7c/0x200 [videodev]
+>>>> [  258.290585] sp : ffff8000116fbc60
+>>>> [  258.292598] x29: ffff8000116fbc60 x28: ffff80001142b780
+>>>> [  258.296617] x27: ffff80001127bc80 x26: 00000000e9b00000
+>>>> [  258.300637] x25: 00000000e9a00000 x24: ffff0000067e2500
+>>>> [  258.304653] x23: ffff0000067e2538 x22: ffff00000387d238
+>>>> [  258.308671] x21: ffff0000067e2598 x20: ffff000004644e00
+>>>> [  258.312688] x19: ffff000006812a00 x18: 0000000000000000
+>>>> [  258.316708] x17: 0000000000000000 x16: 0000000000000000
+>>>> [  258.320724] x15: 0000000000000000 x14: 0000000000000000
+>>>> [  258.324744] x13: 0000000000000000 x12: 0000000000000000
+>>>> [  258.328761] x11: 0000000000000000 x10: 0000000000000000
+>>>> [  258.332776] x9 : 0000000000000000 x8 : 0000000000000000
+>>>> [  258.336793] x7 : 0000000000000000 x6 : ffff000006812a40
+>>>> [  258.340811] x5 : 0000000000000006 x4 : 0000000000000000
+>>>> [  258.344826] x3 : 0000000000000010 x2 : 0000000000000010
+>>>> [  258.348845] x1 : 0000000000000000 x0 : ffff000006812a40
+>>>> [  258.352864] Call trace:
+>>>> [  258.354010]  __memcpy+0x7c/0x180
+>>>> [  258.355941]  hantro_end_prepare_run+0x2c/0x60 [hantro_vpu]
+>>>> [  258.360150]  hantro_g1_mpeg2_dec_run+0x3b0/0x7f0 [hantro_vpu]
+>>>> [  258.364615]  device_run+0xa8/0xbc [hantro_vpu]
+>>>> [  258.367777]  v4l2_m2m_try_run+0x84/0x134 [v4l2_mem2mem]
+>>>> [  258.371723]  v4l2_m2m_device_run_work+0x14/0x20 [v4l2_mem2mem]
+>>>> [  258.376279]  process_one_work+0x1c0/0x484
+>>>> [  258.378995]  worker_thread+0x70/0x434
+>>>> [  258.381364]  kthread+0x158/0x160
+>>>> [  258.383296]  ret_from_fork+0x10/0x34
+>>>> [  258.385582] Code: a8c12027 a88120c7 a8c12027 a88120c7 (a8c12027)
+>>>> [  258.390377] ---[ end trace fea6ecb96dad642d ]---
+>>>>
+>>>> This needs several concurrent streams to run at the same time,
+>>>> it doesn't happen with just one; it was reproduced in rkvdec
+>>>> and hantro drivers. The above stacktrace is on MPEG-2,
+>>>> but we have found it on H.264 as well.
+>>>>
+>>>> I've traced this to:
+>>>>
+>>>>                 v4l2_ctrl_lock(ctrl);
+>>>>                 if (ref->req) {
+>>>>                         ptr_to_ptr(ctrl, ref->req->p_req, ref->p_req);
+>>>>
+>>>> And:
+>>>>
+>>>> static void ptr_to_ptr(struct v4l2_ctrl *ctrl,
+>>>>                        union v4l2_ctrl_ptr from, union v4l2_ctrl_ptr to)
+>>>> {
+>>>>         if (ctrl == NULL)
+>>>>                 return;
+>>>>         memcpy(to.p, from.p_const, ctrl->elems * ctrl->elem_size);
+>>>>                                ^^^^^^^^^^^^
+>>>>                                This is NULL
+>>>>
+>>>> I've been staring at this file and trying to understand how this can happen
+>>>> but haven't been able to make any progress so far...
+>>>>
+>>>> Any ideas ?
+>>
+>> Can you test with this patch:
+>>
+>> ---------------------------------------
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> index 757d215c2be4..19c56cb9f86a 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> @@ -2703,8 +2703,11 @@ static int handler_new_ref(struct v4l2_ctrl_handler *hdl,
+>>         if (hdl->error)
+>>                 return hdl->error;
+>>
+>> -       if (allocate_req)
+>> +       if (allocate_req) {
+>>                 size_extra_req = ctrl->elems * ctrl->elem_size;
+>> +               if (!size_extra_req)
+>> +                       pr_info("empty size_extra_req %x %s\n", ctrl->id, ctrl->name);
+>> +       }
+>>         new_ref = kzalloc(sizeof(*new_ref) + size_extra_req, GFP_KERNEL);
+>>         if (!new_ref)
+>>                 return handler_set_err(hdl, -ENOMEM);
+>> @@ -4610,6 +4613,8 @@ void v4l2_ctrl_request_complete(struct media_request *req,
+>>
+>>                 v4l2_ctrl_lock(ctrl);
+>>                 if (ref->req) {
+>> +                       if (!ref->req->p_req.p)
+>> +                               pr_info("v4l2_ctrl_request_complete %x %s\n", ctrl->id, ctrl->name);
+>>                         ptr_to_ptr(ctrl, ref->req->p_req, ref->p_req);
+>>                 } else {
+>>                         ptr_to_ptr(ctrl, ctrl->p_cur, ref->p_req);
+>> ---------------------------------------
+>>
+>> I want to know if there are controls where size_extra_req == 0 (meaning
+>> that p_req.p is also NULL), and which control encounters the NULL p_req.p.
+>>
+>> Regards,
+>>
+>>         Hans
+
