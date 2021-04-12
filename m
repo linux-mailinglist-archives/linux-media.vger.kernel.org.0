@@ -2,35 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A178C35C54E
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 13:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7358335C550
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 13:35:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240550AbhDLLft (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 07:35:49 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52640 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240537AbhDLLfo (ORCPT
+        id S240558AbhDLLfw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 07:35:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240547AbhDLLfs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 07:35:44 -0400
+        Mon, 12 Apr 2021 07:35:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50016C061574
+        for <linux-media@vger.kernel.org>; Mon, 12 Apr 2021 04:35:30 -0700 (PDT)
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D151B3F0;
-        Mon, 12 Apr 2021 13:35:24 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 017F6DBC;
+        Mon, 12 Apr 2021 13:35:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618227325;
-        bh=JYxMxLzGdaZIQQEzHM2Xb+KUwrQf1QqdmXQO6kQ5lAs=;
+        s=mail; t=1618227327;
+        bh=9cydAz3FoaxcDUjKG17iusME24svu/CGVmlzBid2/d0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AYi4w7qBFugaM1D2vjaozDI3z0LAzN39lo7yA2PdT2MQXwvmDTxWioxyTs+C6zHn5
-         Irdk2g5+kVI9vL4HUw/PE0cIJ/Vqh1djRDprMTMXMXiTyQVUcXbk1tCg2zYt5AGGg5
-         /iY7ql3DUnBune5T9oEKcNkmTPMcddEQHzxSNwfY=
+        b=Dtnlh679I0hDYY2BA3WXpFms4vIhkYLrtad2Vif7iN9/dXwcgrVnHIIxftRiwCyjh
+         hdF+JkjcmjIJQUZuyLhJZCrHjQvj4P+exFrEIXHWOrhabdIQYDggtcOfIeZY7azU+G
+         nBGBzT1nEkYnHP9M0BLqb2b4KfnKLKIQx+nLfvsE=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     Benoit Parrot <bparrot@ti.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 13/28] media: ti-vpe: cal: clean up CAL_CSI2_VC_IRQ_* macros
-Date:   Mon, 12 Apr 2021 14:34:42 +0300
-Message-Id: <20210412113457.328012-14-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 14/28] media: ti-vpe: cal: catch VC errors
+Date:   Mon, 12 Apr 2021 14:34:43 +0300
+Message-Id: <20210412113457.328012-15-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
 References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
@@ -40,58 +43,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The macros related to CAL_CSI2_VC_IRQ can be handled better by having
-the VC number as a macro parameter.
-
-Note that the macros are not used anywhere yet, so no other changes are
-needed.
+CAL driver currently ignores VC related errors. To help catch error
+conditions, enable all the VC error interrupts and handle them in the
+interrupt handler by printing an error.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal_regs.h | 30 +++++-------------------
- 1 file changed, 6 insertions(+), 24 deletions(-)
+ drivers/media/platform/ti-vpe/cal-camerarx.c | 23 ++++++++++++++++----
+ drivers/media/platform/ti-vpe/cal.c          |  9 ++++++++
+ 2 files changed, 28 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
-index 93d9bf1f3c00..ed658175a444 100644
---- a/drivers/media/platform/ti-vpe/cal_regs.h
-+++ b/drivers/media/platform/ti-vpe/cal_regs.h
-@@ -406,30 +406,12 @@
- #define CAL_CSI2_TIMING_STOP_STATE_X16_IO1_MASK		BIT(14)
- #define CAL_CSI2_TIMING_FORCE_RX_MODE_IO1_MASK		BIT(15)
+diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
+index 974fcbb19547..0354f311c5d2 100644
+--- a/drivers/media/platform/ti-vpe/cal-camerarx.c
++++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
+@@ -226,24 +226,39 @@ static void cal_camerarx_enable_irqs(struct cal_camerarx *phy)
+ 		CAL_CSI2_COMPLEXIO_IRQ_FIFO_OVR_MASK |
+ 		CAL_CSI2_COMPLEXIO_IRQ_SHORT_PACKET_MASK |
+ 		CAL_CSI2_COMPLEXIO_IRQ_ECC_NO_CORRECTION_MASK;
+-
+-	/* Enable CIO error IRQs. */
++	const u32 vc_err_mask =
++		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(0) |
++		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(1) |
++		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(2) |
++		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(3) |
++		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(0) |
++		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(1) |
++		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(2) |
++		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(3);
++
++	/* Enable CIO & VC error IRQs. */
+ 	cal_write(phy->cal, CAL_HL_IRQENABLE_SET(0),
+-		  CAL_HL_IRQ_CIO_MASK(phy->instance));
++		  CAL_HL_IRQ_CIO_MASK(phy->instance) | CAL_HL_IRQ_VC_MASK(phy->instance));
+ 	cal_write(phy->cal, CAL_CSI2_COMPLEXIO_IRQENABLE(phy->instance),
+ 		  cio_err_mask);
++	cal_write(phy->cal, CAL_CSI2_VC_IRQENABLE(phy->instance),
++		  vc_err_mask);
+ }
  
--#define CAL_CSI2_VC_IRQ_FS_IRQ_0_MASK			BIT(0)
--#define CAL_CSI2_VC_IRQ_FE_IRQ_0_MASK			BIT(1)
--#define CAL_CSI2_VC_IRQ_LS_IRQ_0_MASK			BIT(2)
--#define CAL_CSI2_VC_IRQ_LE_IRQ_0_MASK			BIT(3)
--#define CAL_CSI2_VC_IRQ_CS_IRQ_0_MASK			BIT(4)
--#define CAL_CSI2_VC_IRQ_ECC_CORRECTION0_IRQ_0_MASK	BIT(5)
--#define CAL_CSI2_VC_IRQ_FS_IRQ_1_MASK			BIT(8)
--#define CAL_CSI2_VC_IRQ_FE_IRQ_1_MASK			BIT(9)
--#define CAL_CSI2_VC_IRQ_LS_IRQ_1_MASK			BIT(10)
--#define CAL_CSI2_VC_IRQ_LE_IRQ_1_MASK			BIT(11)
--#define CAL_CSI2_VC_IRQ_CS_IRQ_1_MASK			BIT(12)
--#define CAL_CSI2_VC_IRQ_ECC_CORRECTION0_IRQ_1_MASK	BIT(13)
--#define CAL_CSI2_VC_IRQ_FS_IRQ_2_MASK			BIT(16)
--#define CAL_CSI2_VC_IRQ_FE_IRQ_2_MASK			BIT(17)
--#define CAL_CSI2_VC_IRQ_LS_IRQ_2_MASK			BIT(18)
--#define CAL_CSI2_VC_IRQ_LE_IRQ_2_MASK			BIT(19)
--#define CAL_CSI2_VC_IRQ_CS_IRQ_2_MASK			BIT(20)
--#define CAL_CSI2_VC_IRQ_ECC_CORRECTION0_IRQ_2_MASK	BIT(21)
--#define CAL_CSI2_VC_IRQ_FS_IRQ_3_MASK			BIT(24)
--#define CAL_CSI2_VC_IRQ_FE_IRQ_3_MASK			BIT(25)
--#define CAL_CSI2_VC_IRQ_LS_IRQ_3_MASK			BIT(26)
--#define CAL_CSI2_VC_IRQ_LE_IRQ_3_MASK			BIT(27)
--#define CAL_CSI2_VC_IRQ_CS_IRQ_3_MASK			BIT(28)
--#define CAL_CSI2_VC_IRQ_ECC_CORRECTION0_IRQ_3_MASK	BIT(29)
-+#define CAL_CSI2_VC_IRQ_FS_IRQ_MASK(n)			BIT(0 + (n * 8))
-+#define CAL_CSI2_VC_IRQ_FE_IRQ_MASK(n)			BIT(1 + (n * 8))
-+#define CAL_CSI2_VC_IRQ_LS_IRQ_MASK(n)			BIT(2 + (n * 8))
-+#define CAL_CSI2_VC_IRQ_LE_IRQ_MASK(n)			BIT(3 + (n * 8))
-+#define CAL_CSI2_VC_IRQ_CS_IRQ_MASK(n)			BIT(4 + (n * 8))
-+#define CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(n)	BIT(5 + (n * 8))
+ static void cal_camerarx_disable_irqs(struct cal_camerarx *phy)
+ {
+ 	/* Disable CIO error irqs */
+ 	cal_write(phy->cal, CAL_HL_IRQENABLE_CLR(0),
+-		  CAL_HL_IRQ_CIO_MASK(phy->instance));
++		  CAL_HL_IRQ_CIO_MASK(phy->instance) | CAL_HL_IRQ_VC_MASK(phy->instance));
+ 	cal_write(phy->cal, CAL_CSI2_COMPLEXIO_IRQENABLE(phy->instance), 0);
++	cal_write(phy->cal, CAL_CSI2_VC_IRQENABLE(phy->instance), 0);
+ }
  
- #define CAL_CSI2_CTX_DT_MASK		GENMASK(5, 0)
- #define CAL_CSI2_CTX_VC_MASK		GENMASK(7, 6)
+ static void cal_camerarx_ppi_enable(struct cal_camerarx *phy)
+ {
++	cal_write_field(phy->cal, CAL_CSI2_PPI_CTRL(phy->instance),
++			1, CAL_CSI2_PPI_CTRL_ECC_EN_MASK);
++
+ 	cal_write_field(phy->cal, CAL_CSI2_PPI_CTRL(phy->instance),
+ 			1, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
+ }
+diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+index 0abcc83841c6..092041ddbcfb 100644
+--- a/drivers/media/platform/ti-vpe/cal.c
++++ b/drivers/media/platform/ti-vpe/cal.c
+@@ -577,6 +577,15 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+ 				cal_write(cal, CAL_CSI2_COMPLEXIO_IRQSTATUS(i),
+ 					  cio_stat);
+ 			}
++
++			if (status & CAL_HL_IRQ_VC_MASK(i)) {
++				u32 vc_stat = cal_read(cal, CAL_CSI2_VC_IRQSTATUS(i));
++
++				dev_err_ratelimited(cal->dev,
++						    "CIO%u VC error: %#08x\n", i, vc_stat);
++
++				cal_write(cal, CAL_CSI2_VC_IRQSTATUS(i), vc_stat);
++			}
+ 		}
+ 	}
+ 
 -- 
 2.25.1
 
