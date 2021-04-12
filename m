@@ -2,80 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13DC635D290
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 23:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDE5E35D297
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 23:29:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245367AbhDLVXN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 17:23:13 -0400
-Received: from mga07.intel.com ([134.134.136.100]:37824 "EHLO mga07.intel.com"
+        id S238902AbhDLV3G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 17:29:06 -0400
+Received: from mga12.intel.com ([192.55.52.136]:21127 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245107AbhDLVXM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 17:23:12 -0400
-IronPort-SDR: W+V1SKcO7tOCCMIN/6ssKpKaWoxgcFSYJVYOir8riin7+35mcLpUAvjRoDmyUIk3wLE9dJ6xcA
- ckVsch22Fvcg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9952"; a="258255043"
+        id S231854AbhDLV3F (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 12 Apr 2021 17:29:05 -0400
+IronPort-SDR: SZL7e2556Yq0dnhCqci2icZT0YrHKzdKjz4nnJGFKhlqAuY50L9/lh2U3m7ZudPDAQ+9lne92J
+ Vk1cJIqEuwbw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9952"; a="173774149"
 X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="258255043"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 14:22:53 -0700
-IronPort-SDR: w20xRPbCNHbZFV4m4XNmVa95UmIEMCg5aIdaO7+IhGBpJS5OGhALVd7CkDtoYszRuLy2sWGJpr
- Pclup8EAGWSg==
+   d="scan'208";a="173774149"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 14:28:47 -0700
+IronPort-SDR: rTZO2P2TuD/UHwL02577Aud/0N8nBf+2UoHTqRWlzoMUp1iJ9EYBTSl1u81AMaz914rL8jE1i2
+ PNXL+FBj8Slw==
 X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="521337381"
+   d="scan'208";a="532030511"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 14:22:50 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 14:28:45 -0700
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id B5855200E8;
-        Tue, 13 Apr 2021 00:22:48 +0300 (EEST)
-Date:   Tue, 13 Apr 2021 00:22:48 +0300
+        by paasikivi.fi.intel.com (Postfix) with SMTP id AEF74200E8;
+        Tue, 13 Apr 2021 00:28:43 +0300 (EEST)
+Date:   Tue, 13 Apr 2021 00:28:43 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mitali Borkar <mitaliborkar810@gmail.com>
-Cc:     bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [Outreachy kernel] Re: [PATCH 2/6] staging: media: intel-ipu3:
- preferred __aligned(size) over __attribute__aligned(size)
-Message-ID: <20210412212248.GN3@paasikivi.fi.intel.com>
-References: <cover.1618180659.git.mitaliborkar810@gmail.com>
- <f618f1fe2d13417ebed185da392fb48811593a9f.1618180660.git.mitaliborkar810@gmail.com>
- <20210412094315.GJ3@paasikivi.fi.intel.com>
- <YHRZSYmHfXTh/S39@kali>
+To:     Martiros Shakhzadyan <vrzh@vrzh.net>
+Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, linux-media@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: Removed a function entry log
+Message-ID: <20210412212843.GO3@paasikivi.fi.intel.com>
+References: <20210412155959.6647-1-vrzh@vrzh.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YHRZSYmHfXTh/S39@kali>
+In-Reply-To: <20210412155959.6647-1-vrzh@vrzh.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mitali,
+Hi Martiros,
 
-On Mon, Apr 12, 2021 at 07:59:29PM +0530, Mitali Borkar wrote:
-> On Mon, Apr 12, 2021 at 12:43:15PM +0300, Sakari Ailus wrote:
-> > Hi Mitali,
-> > 
-> > On Mon, Apr 12, 2021 at 04:38:59AM +0530, Mitali Borkar wrote:
-> > > This patch fixes the warning identified by checkpatch.pl by replacing
-> > > __attribute__aligned(size) with __aligned(size)
-> > 
-> > Same comments on this than the 1st patch.
-> > 
-> > It's a staging driver so even if this is a user space header, it's not
-> > under include/uapi/linux.
-> >
-> Sir, I am not able to understandd what you are trying to say in this. As you
-> mentioned in patch 1/6, I removed and added header where BIT() macro under 
-> apprpriate userpace, but what should I modify in this patch?
+Thanks for the patch.
 
-The comment on the 1st patch and above was a weird way of saying "please
-drop patches 1 and 2".
+On Mon, Apr 12, 2021 at 11:59:59AM -0400, Martiros Shakhzadyan wrote:
+> Removed a function entry log in ov2722_remove, as ftrace is a preferred
+> method for function entry/exit tracing.
+> 
+> Signed-off-by: Martiros Shakhzadyan <vrzh@vrzh.net>
 
-BIT(), __aligned() and __packed are macros in kernel headers that generally
-are not available in headers exported for user space consumption.
+For this and your other atomisp patch:
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
-Kind regards,
-
 Sakari Ailus
