@@ -2,155 +2,443 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC60135B8FB
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 05:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E625C35BA77
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 08:59:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236250AbhDLDkg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Apr 2021 23:40:36 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:50371 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235386AbhDLDkT (ORCPT
+        id S236685AbhDLG7Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 02:59:24 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:13519 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229574AbhDLG7W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Apr 2021 23:40:19 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id VnQVlrBrHgIC3VnQXlGUYS; Mon, 12 Apr 2021 05:39:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618198793; bh=2Gp6T3HAG7QuWUEgFLAO8j5tjfDsrGXuBA068AxumIs=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Afjt4D6hb+JG0ojD1bmtcUypWO7vS/THOrZyn05arMsUHJk4oAVvS4GCgG9a/hsYb
-         CygvtBPW/4D3oI+MKPdOZq1Qjik4/OyM/B8pPmhsrqsiBoHRldb5NitCOMDmT8PPdl
-         eCaC0I8oGdpJgeobDCXo4zhL38sKwbF3qE7J+XfPHNKmpjPupUQqK01AbV47LJM8FO
-         0j3k1OAmuhPWwEkYlTWT1JjiZOow05IjeZ1Bq1GvbLbzSSbAeXDwfZUNe514RjrM46
-         ZdtvuBZp4x6BjVirqwL3e84e2ErjWyZJX4IqvFSQTSlKYV7CscWRnwHtFIDUtjzNqI
-         qYAWC2uvlovfw==
-Message-ID: <1d54800691335992f26758ffd3ea60e7@smtp-cloud8.xs4all.net>
-Date:   Mon, 12 Apr 2021 05:39:51 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfNqNeMSEE95PZSrZDzTGm3w0qDcM7uk3ZyqtQp2nfnZKui8X6Xfjz53e84czxhwixau7KQErpmW6U5sNIw7XWzsvcI0ObBo+s9V2SHdq8Q5ykqzSyOsD
- aPwJ/6DentHMTGi+wGF/rbH4AdRLP5D5KkMREL9iujCw5PTiPygjIej7ApYmZmjgxPfqagQQs2v64UHn1GAf02XZoukI8UsclMcxiu+5RGx3oA4shy2PeqM6
- Udd8hMis7VxFxmORtV14Vw==
+        Mon, 12 Apr 2021 02:59:22 -0400
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 11 Apr 2021 23:59:05 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 11 Apr 2021 23:59:02 -0700
+X-QCInternal: smtphost
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 12 Apr 2021 12:28:45 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id E927421913; Mon, 12 Apr 2021 12:28:44 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH] media: venus: Enable low power setting for encoder
+Date:   Mon, 12 Apr 2021 12:28:43 +0530
+Message-Id: <1618210723-2310-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Set the FW to run in low power for encoder
+to accommodate more session without losing much on quality.
 
-Results of the daily build of media_tree:
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+---
+ drivers/media/platform/qcom/venus/core.h           |   6 ++
+ drivers/media/platform/qcom/venus/helpers.c        |   2 +
+ drivers/media/platform/qcom/venus/hfi_helper.h     |  10 +-
+ drivers/media/platform/qcom/venus/hfi_platform.c   |  16 +++
+ drivers/media/platform/qcom/venus/hfi_platform.h   |   4 +
+ .../media/platform/qcom/venus/hfi_platform_v4.c    |  28 ++++--
+ .../media/platform/qcom/venus/hfi_platform_v6.c    |  28 ++++--
+ drivers/media/platform/qcom/venus/pm_helpers.c     | 108 ++++++++++++++++++---
+ 8 files changed, 167 insertions(+), 35 deletions(-)
 
-date:			Mon Apr 12 05:00:10 CEST 2021
-media-tree git hash:	4f4e6644cd876c844cdb3bea2dd7051787d5ae25
-media_build git hash:	1521b23ea5307bef1ee17489c5323f00891dd52b
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7413-g9bb66fa2d
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 9451e54..9b5031f 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -257,6 +257,7 @@ struct clock_data {
+ 	unsigned long freq;
+ 	unsigned long vpp_freq;
+ 	unsigned long vsp_freq;
++	unsigned long low_power_freq;
+ };
+ 
+ #define to_venus_buffer(ptr)	container_of(ptr, struct venus_buffer, vb)
+@@ -280,6 +281,10 @@ struct venus_ts_metadata {
+ 	struct v4l2_timecode tc;
+ };
+ 
++enum venus_inst_modes {
++	VENUS_LOW_POWER = BIT(0),
++};
++
+ /**
+  * struct venus_inst - holds per instance parameters
+  *
+@@ -400,6 +405,7 @@ struct venus_inst {
+ 	unsigned int pic_struct;
+ 	bool next_buf_last;
+ 	bool drain_active;
++	enum venus_inst_modes flags;
+ };
+ 
+ #define IS_V1(core)	((core)->res->hfi_version == HFI_VERSION_1XX)
+diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+index 76ece2f..c6b6a30 100644
+--- a/drivers/media/platform/qcom/venus/helpers.c
++++ b/drivers/media/platform/qcom/venus/helpers.c
+@@ -1566,6 +1566,8 @@ int venus_helper_session_init(struct venus_inst *inst)
+ 								  session_type);
+ 	inst->clk_data.vsp_freq = hfi_platform_get_codec_vsp_freq(version, codec,
+ 								  session_type);
++	inst->clk_data.low_power_freq = hfi_platform_get_codec_lp_freq(version, codec,
++								       session_type);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+index 6b524c7..5621cdb 100644
+--- a/drivers/media/platform/qcom/venus/hfi_helper.h
++++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+@@ -412,9 +412,6 @@
+ #define HFI_BUFFER_MODE_RING			0x1000002
+ #define HFI_BUFFER_MODE_DYNAMIC			0x1000003
+ 
+-#define HFI_VENC_PERFMODE_MAX_QUALITY		0x1
+-#define HFI_VENC_PERFMODE_POWER_SAVE		0x2
+-
+ /*
+  * HFI_PROPERTY_SYS_COMMON_START
+  * HFI_DOMAIN_BASE_COMMON + HFI_ARCH_COMMON_OFFSET + 0x0000
+@@ -815,6 +812,13 @@ struct hfi_framesize {
+ 	u32 height;
+ };
+ 
++#define HFI_VENC_PERFMODE_MAX_QUALITY		0x1
++#define HFI_VENC_PERFMODE_POWER_SAVE		0x2
++
++struct hfi_perf_mode {
++	u32 video_perf_mode;
++};
++
+ #define VIDC_CORE_ID_DEFAULT	0
+ #define VIDC_CORE_ID_1		1
+ #define VIDC_CORE_ID_2		2
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
+index 8f47804..f5b4e1f 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform.c
++++ b/drivers/media/platform/qcom/venus/hfi_platform.c
+@@ -50,6 +50,22 @@ hfi_platform_get_codec_vsp_freq(enum hfi_version version, u32 codec, u32 session
+ 	return freq;
+ }
+ 
++unsigned long
++hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec, u32 session_type)
++{
++	const struct hfi_platform *plat;
++	unsigned long freq = 0;
++
++	plat = hfi_platform_get(version);
++	if (!plat)
++		return 0;
++
++	if (plat->codec_lp_freq)
++		freq = plat->codec_lp_freq(session_type, codec);
++
++	return freq;
++}
++
+ u8 hfi_platform_num_vpp_pipes(enum hfi_version version)
+ {
+ 	const struct hfi_platform *plat;
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform.h b/drivers/media/platform/qcom/venus/hfi_platform.h
+index 3819bb2..2dbe608 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform.h
++++ b/drivers/media/platform/qcom/venus/hfi_platform.h
+@@ -43,11 +43,13 @@ struct hfi_platform_codec_freq_data {
+ 	u32 session_type;
+ 	unsigned long vpp_freq;
+ 	unsigned long vsp_freq;
++	unsigned long low_power_freq;
+ };
+ 
+ struct hfi_platform {
+ 	unsigned long (*codec_vpp_freq)(u32 session_type, u32 codec);
+ 	unsigned long (*codec_vsp_freq)(u32 session_type, u32 codec);
++	unsigned long (*codec_lp_freq)(u32 session_type, u32 codec);
+ 	void (*codecs)(u32 *enc_codecs, u32 *dec_codecs, u32 *count);
+ 	const struct hfi_plat_caps *(*capabilities)(unsigned int *entries);
+ 	u8 (*num_vpp_pipes)(void);
+@@ -63,5 +65,7 @@ unsigned long hfi_platform_get_codec_vpp_freq(enum hfi_version version, u32 code
+ 					      u32 session_type);
+ unsigned long hfi_platform_get_codec_vsp_freq(enum hfi_version version, u32 codec,
+ 					      u32 session_type);
++unsigned long hfi_platform_get_codec_lp_freq(enum hfi_version version, u32 codec,
++					     u32 session_type);
+ u8 hfi_platform_num_vpp_pipes(enum hfi_version version);
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform_v4.c b/drivers/media/platform/qcom/venus/hfi_platform_v4.c
+index 3848bb6..3f7f527 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform_v4.c
++++ b/drivers/media/platform/qcom/venus/hfi_platform_v4.c
+@@ -262,14 +262,14 @@ static void get_codecs(u32 *enc_codecs, u32 *dec_codecs, u32 *count)
+ }
+ 
+ static const struct hfi_platform_codec_freq_data codec_freq_data[] =  {
+-	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 10 },
+-	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 10 },
+-	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 10 },
+-	{ V4L2_PIX_FMT_MPEG2, VIDC_SESSION_TYPE_DEC, 200, 10 },
+-	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 200, 10 },
+-	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 200, 10 },
+-	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_DEC, 200, 10 },
+-	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200, 10 },
++	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 10, 320 },
++	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 10, 320 },
++	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 10, 320 },
++	{ V4L2_PIX_FMT_MPEG2, VIDC_SESSION_TYPE_DEC, 200, 10, 200 },
++	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 200, 10, 200 },
++	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 200, 10, 200 },
++	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_DEC, 200, 10, 200 },
++	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200, 10, 200 },
+ };
+ 
+ static const struct hfi_platform_codec_freq_data *
+@@ -311,9 +311,21 @@ static unsigned long codec_vsp_freq(u32 session_type, u32 codec)
+ 	return 0;
+ }
+ 
++static unsigned long codec_lp_freq(u32 session_type, u32 codec)
++{
++	const struct hfi_platform_codec_freq_data *data;
++
++	data = get_codec_freq_data(session_type, codec);
++	if (data)
++		return data->low_power_freq;
++
++	return 0;
++}
++
+ const struct hfi_platform hfi_plat_v4 = {
+ 	.codec_vpp_freq = codec_vpp_freq,
+ 	.codec_vsp_freq = codec_vsp_freq,
++	.codec_lp_freq = codec_lp_freq,
+ 	.codecs = get_codecs,
+ 	.capabilities = get_capabilities,
+ };
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform_v6.c b/drivers/media/platform/qcom/venus/hfi_platform_v6.c
+index 2278be1..15d0dc8 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform_v6.c
++++ b/drivers/media/platform/qcom/venus/hfi_platform_v6.c
+@@ -262,14 +262,14 @@ static void get_codecs(u32 *enc_codecs, u32 *dec_codecs, u32 *count)
+ }
+ 
+ static const struct hfi_platform_codec_freq_data codec_freq_data[] = {
+-	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 25 },
+-	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 25 },
+-	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 60 },
+-	{ V4L2_PIX_FMT_MPEG2, VIDC_SESSION_TYPE_DEC, 200, 25 },
+-	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 200, 25 },
+-	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 200, 25 },
+-	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_DEC, 200, 60 },
+-	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200, 60 },
++	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 25, 320 },
++	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 25, 320 },
++	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 60, 320 },
++	{ V4L2_PIX_FMT_MPEG2, VIDC_SESSION_TYPE_DEC, 200, 25, 200 },
++	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 200, 25, 200 },
++	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 200, 25, 200 },
++	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_DEC, 200, 60, 200 },
++	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200, 60, 200 },
+ };
+ 
+ static const struct hfi_platform_codec_freq_data *
+@@ -311,6 +311,17 @@ static unsigned long codec_vsp_freq(u32 session_type, u32 codec)
+ 	return 0;
+ }
+ 
++static unsigned long codec_lp_freq(u32 session_type, u32 codec)
++{
++	const struct hfi_platform_codec_freq_data *data;
++
++	data = get_codec_freq_data(session_type, codec);
++	if (data)
++		return data->low_power_freq;
++
++	return 0;
++}
++
+ static u8 num_vpp_pipes(void)
+ {
+ 	return 4;
+@@ -319,6 +330,7 @@ static u8 num_vpp_pipes(void)
+ const struct hfi_platform hfi_plat_v6 = {
+ 	.codec_vpp_freq = codec_vpp_freq,
+ 	.codec_vsp_freq = codec_vsp_freq,
++	.codec_lp_freq = codec_lp_freq,
+ 	.codecs = get_codecs,
+ 	.capabilities = get_capabilities,
+ 	.num_vpp_pipes = num_vpp_pipes,
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index 43c4e3d..a3f3e31 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -492,8 +492,50 @@ static int poweron_coreid(struct venus_core *core, unsigned int coreid_mask)
+ 	return 0;
+ }
+ 
++static inline int power_save_mode_enable(struct venus_inst *inst,
++					 bool enable)
++{
++	struct venc_controls *enc_ctr = &inst->controls.enc;
++	const u32 ptype = HFI_PROPERTY_CONFIG_VENC_PERF_MODE;
++	u32 venc_mode;
++	int ret = 0;
++
++	if (inst->session_type != VIDC_SESSION_TYPE_ENC)
++		return 0;
++
++	if (enc_ctr->bitrate_mode == V4L2_MPEG_VIDEO_BITRATE_MODE_CQ)
++		enable = false;
++
++	venc_mode = enable ? HFI_VENC_PERFMODE_POWER_SAVE :
++		HFI_VENC_PERFMODE_MAX_QUALITY;
++
++	ret = hfi_session_set_property(inst, ptype, &venc_mode);
++	if (ret)
++		return ret;
++
++	inst->flags = enable ? inst->flags | VENUS_LOW_POWER :
++		inst->flags & ~VENUS_LOW_POWER;
++
++	return ret;
++}
++
++static int move_core_to_power_save_mode(struct venus_core *core,
++					u32 core_id)
++{
++	struct venus_inst *inst = NULL;
++
++	mutex_lock(&core->lock);
++	list_for_each_entry(inst, &core->instances, list) {
++		if (inst->clk_data.core_id == core_id &&
++		    inst->session_type == VIDC_SESSION_TYPE_ENC)
++			power_save_mode_enable(inst, true);
++	}
++	mutex_unlock(&core->lock);
++	return 0;
++}
++
+ static void
+-min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load)
++min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load, bool low_power)
+ {
+ 	u32 mbs_per_sec, load, core1_load = 0, core2_load = 0;
+ 	u32 cores_max = core_num_max(inst);
+@@ -511,7 +553,14 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load)
+ 		if (inst_pos->state != INST_START)
+ 			continue;
+ 
+-		vpp_freq = inst_pos->clk_data.vpp_freq;
++		if (inst->session_type == VIDC_SESSION_TYPE_DEC)
++			vpp_freq = inst_pos->clk_data.vpp_freq;
++		else if (inst->session_type == VIDC_SESSION_TYPE_ENC)
++			vpp_freq = low_power ? inst_pos->clk_data.vpp_freq :
++				inst_pos->clk_data.low_power_freq;
++		else
++			continue;
++
+ 		coreid = inst_pos->clk_data.core_id;
+ 
+ 		mbs_per_sec = load_per_instance(inst_pos);
+@@ -543,9 +592,11 @@ static int decide_core(struct venus_inst *inst)
+ {
+ 	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
+ 	struct venus_core *core = inst->core;
+-	u32 min_coreid, min_load, inst_load;
++	u32 min_coreid, min_load, cur_inst_load;
++	u32 min_lp_coreid, min_lp_load, cur_inst_lp_load;
+ 	struct hfi_videocores_usage_type cu;
+ 	unsigned long max_freq;
++	int ret = 0;
+ 
+ 	if (legacy_binding) {
+ 		if (inst->session_type == VIDC_SESSION_TYPE_DEC)
+@@ -559,23 +610,43 @@ static int decide_core(struct venus_inst *inst)
+ 	if (inst->clk_data.core_id != VIDC_CORE_ID_DEFAULT)
+ 		return 0;
+ 
+-	inst_load = load_per_instance(inst);
+-	inst_load *= inst->clk_data.vpp_freq;
+-	max_freq = core->res->freq_tbl[0].freq;
++	cur_inst_load = load_per_instance(inst);
++	cur_inst_load *= inst->clk_data.vpp_freq;
++	/*TODO : divide this inst->load by work_route */
+ 
+-	min_loaded_core(inst, &min_coreid, &min_load);
++	cur_inst_lp_load = load_per_instance(inst);
++	cur_inst_lp_load *= inst->clk_data.low_power_freq;
++	/*TODO : divide this inst->load by work_route */
+ 
+-	if ((inst_load + min_load) > max_freq) {
+-		dev_warn(core->dev, "HW is overloaded, needed: %u max: %lu\n",
+-			 inst_load, max_freq);
++	max_freq = core->res->freq_tbl[0].freq;
++
++	min_loaded_core(inst, &min_coreid, &min_load, false);
++	min_loaded_core(inst, &min_lp_coreid, &min_lp_load, true);
++
++	if (cur_inst_load + min_load <= max_freq) {
++		inst->clk_data.core_id = min_coreid;
++		cu.video_core_enable_mask = min_coreid;
++	} else if (cur_inst_lp_load + min_load <= max_freq) {
++		/* Move current instance to LP and return */
++		inst->clk_data.core_id = min_coreid;
++		cu.video_core_enable_mask = min_coreid;
++		power_save_mode_enable(inst, true);
++	} else if (cur_inst_lp_load + min_lp_load <= max_freq) {
++		/* Move all instances to LP mode and return */
++		inst->clk_data.core_id = min_lp_coreid;
++		cu.video_core_enable_mask = min_lp_coreid;
++		move_core_to_power_save_mode(core, min_lp_coreid);
++	} else {
++		dev_warn(core->dev, "HW can't support this load");
+ 		return -EINVAL;
+ 	}
+ 
+-	inst->clk_data.core_id = min_coreid;
+-	cu.video_core_enable_mask = min_coreid;
+-
+ done:
+-	return hfi_session_set_property(inst, ptype, &cu);
++	ret = hfi_session_set_property(inst, ptype, &cu);
++	if (ret)
++		return ret;
++
++	return ret;
+ }
+ 
+ static int acquire_core(struct venus_inst *inst)
+@@ -936,7 +1007,7 @@ static int core_power_v4(struct device *dev, int on)
+ static unsigned long calculate_inst_freq(struct venus_inst *inst,
+ 					 unsigned long filled_len)
+ {
+-	unsigned long vpp_freq = 0, vsp_freq = 0;
++	unsigned long vpp_freq_per_mb = 0, vpp_freq = 0, vsp_freq = 0;
+ 	u32 fps = (u32)inst->fps;
+ 	u32 mbs_per_sec;
+ 
+@@ -945,7 +1016,12 @@ static unsigned long calculate_inst_freq(struct venus_inst *inst,
+ 	if (inst->state != INST_START)
+ 		return 0;
+ 
+-	vpp_freq = mbs_per_sec * inst->clk_data.vpp_freq;
++	if (inst->session_type == VIDC_SESSION_TYPE_ENC)
++		vpp_freq_per_mb = inst->flags & VENUS_LOW_POWER ?
++			inst->clk_data.low_power_freq :
++			inst->clk_data.vpp_freq;
++
++	vpp_freq = mbs_per_sec * vpp_freq_per_mb;
+ 	/* 21 / 20 is overhead factor */
+ 	vpp_freq += vpp_freq / 20;
+ 	vsp_freq = mbs_per_sec * inst->clk_data.vsp_freq;
+-- 
+2.7.4
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12-rc1-i686: OK
-linux-5.12-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
