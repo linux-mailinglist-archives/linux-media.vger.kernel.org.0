@@ -2,373 +2,260 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD1E635C36F
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 12:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE8E235C376
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 12:13:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238546AbhDLKMF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 06:12:05 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56983 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239210AbhDLKKZ (ORCPT
+        id S239011AbhDLKNc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 06:13:32 -0400
+Received: from esa.microchip.iphmx.com ([68.232.154.123]:15191 "EHLO
+        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238870AbhDLKMn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 06:10:25 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id VtW5l512CMxedVtW8lcmuh; Mon, 12 Apr 2021 12:10:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618222204; bh=Z2YEN/6xPKSuG23+1Fp5AqAxx6/1BhCWsqVFTpr/csc=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=DYjK52faRnkHImCbmR7aNmD15NU3PvQHey/FmkELMRoglzJUT5sGWS2hjAHK88wFA
-         SGZeqUAvQ00bJfQ4QJGTHNKJWauxRgedQoBDEs+oj2W4/o1OLVF48k0zHMW2Vhg3f3
-         iADnC3a4x+Y9SFPpekgb/pCHhTbflH6rQ5CzD+BxfOwezmCpPO1ruXXijARCtRR6Si
-         M1ApZJ4c/gOB8Y68IJH43uE4VLttFPOO41Mzn1yXXtiBpSCxmGh9N9k4+o/g9ewQCf
-         fe7/fM935QXsv95wdmOBp3g3kIHmnsuAKAFmwb8QIJFlDgjgQpLAaAs8rc34uNCpCI
-         KAPYX3fTMtf6g==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
-        <Yunfei.Dong@mediatek.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] v4l2-ctrls: fix reference to freed memory
-Message-ID: <319aa93f-24f9-ddef-0814-a06011d9e73f@xs4all.nl>
-Date:   Mon, 12 Apr 2021 12:10:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        Mon, 12 Apr 2021 06:12:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1618222346; x=1649758346;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=mcfUdaaCrT5rTWGKHOAu4K+X5wHqkaWOK4j03mP8aBg=;
+  b=Ce/aTXTaWd2h64teRADp+X1vHx/SXahOWzMh7D4uDRYRrGEmuWE0/A0E
+   AtG2Zp13CftWE872Z832rrmXgQIWqpGBIT5Ld3wQn80XSC/tw9m9N/Zbb
+   r8q8W7UBBWHzrn8QSfNvifSXG/7WVkS+RC7hEmOnDXWCPaUaBzswXQBtS
+   GUhwesHoR9LfuA388OLbOenjy/cdINHz9AK2R/yYOC33EohiHFICRa40W
+   bxmrpRO2KNl22rTyQ8ArsJkC8Pq9+ZCE9SwKok276tXD0ge+XebSFN4yA
+   KjjvbInlsgkbqDVAFA9RPGWRZXJNqk/t2J1SA9zdOiajEra/onI7BC3+r
+   w==;
+IronPort-SDR: dWnuQE9h3t8ZMsDdvsrGvElUbL/gO5mSzX4Sfv9rBvNXqNT0MODx9CCYg+/exdVD8Fnj/PKMC4
+ XjcrYywmew2wVp4Q07KFFncbeFlR4iHTXGwaogMqHrD1eXbZX6QdmZa6tRoUfesDnsHPeZ+dF2
+ AQ/G654Ac+i7pEMcxsF74rbHIeI59inzzlmJ2nC0mLwAexb7r+EuslissIc8tVPANL5a4zdeiU
+ Fi9HwI1WfDF8N9tUGzvFYce0tOp4w8QwKR8KFvENWXnnmQtwMWCAC8TqOvlOhYpeLlZUURiPXK
+ EPo=
+X-IronPort-AV: E=Sophos;i="5.82,216,1613458800"; 
+   d="scan'208";a="50798565"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 12 Apr 2021 03:12:25 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 12 Apr 2021 03:12:25 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2
+ via Frontend Transport; Mon, 12 Apr 2021 03:12:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QSewAYi+eBcNCAYcKWL2AaU+BPGbOID66z1IHZs9HHySolNFJWnhkHgOMtrWFamrmkYu7vysPAlW2+xXG5EK41sapE9VelJHU77A8LaWNRwJt3N6Hk9AXOuIzFgHaea3Zk3xuEVC0cXyznQv6mSzcSNbD2eZ3TaNTw7+X0bm0ivHCMxseVw5if12j6PmA9v1nUYz1PHnWlDN7isd9C5CoDf8OhmDfzJJODdHZ2H0CFWAfTg+ihYbA7KACGpddwQaJzE/toj8KIz5Gevip5LNivTfzRJdn4ZMZPhuBOeVrJvOKk29P1cuikz8U+XdRBzLIOnEPNUQ2O3ViPp7H+HorQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mcfUdaaCrT5rTWGKHOAu4K+X5wHqkaWOK4j03mP8aBg=;
+ b=ZA/HtHkmLdcWpDjpsI+EXb/mxj3X1dmJzJIlyKk+7NODb2nzaYpP4gaDuf5OKIV5+Su+iQVXaNbfRgYQF2J/WwmP9agTX+8Vtbt6Kkvu4GbgJdnRf8PyuRGwZskepejcJu2VNILwaxc3/PsehO1UQU8DnRvSivFww3EZ1+WuU1TmVcz8EUD3FS6n75jh1xTgZee3JwjMoYjwb13nfvpID/i5eo+CJp4p2V19S0fAJm4avxiOhfNCDZJVp3o4+0qGuyNYjWYC8eIuT+L3BHMkIkVSqy2CAQ9bdXxwFZAe/9xv3M65c1mDtolvN8a9x8MaN98ysmRn7nTJXPiMRyZDvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mcfUdaaCrT5rTWGKHOAu4K+X5wHqkaWOK4j03mP8aBg=;
+ b=X5dWphVPTO+yvvnaxqG/xPoTWmTxyOWaQXAUTu3Yj/sCPe8Plw9oalIzYzOserAahim57u3rMVixGvW5Fq1AqQcISzwf/zvvUD9uopk7QI639ICowbXiNIVDgXhaRsuJ3BmaBoLhVodt+m83j8/kzpvDpaWl2flPmC2o7t78b5o=
+Received: from SJ0PR11MB4896.namprd11.prod.outlook.com (2603:10b6:a03:2dd::20)
+ by BYAPR11MB3029.namprd11.prod.outlook.com (2603:10b6:a03:8e::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.18; Mon, 12 Apr
+ 2021 10:12:22 +0000
+Received: from SJ0PR11MB4896.namprd11.prod.outlook.com
+ ([fe80::743e:9115:21df:d5a]) by SJ0PR11MB4896.namprd11.prod.outlook.com
+ ([fe80::743e:9115:21df:d5a%5]) with mapi id 15.20.4020.022; Mon, 12 Apr 2021
+ 10:12:22 +0000
+From:   <Eugen.Hristev@microchip.com>
+To:     <jacopo@jmondi.org>
+CC:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 28/30] dt-bindings: media: atmel: add microchip-xisc
+ binding
+Thread-Topic: [PATCH v2 28/30] dt-bindings: media: atmel: add microchip-xisc
+ binding
+Thread-Index: AQHXKjSqXVo9iDXeREu/i677rFa/aKqwsAMAgAAEM4A=
+Date:   Mon, 12 Apr 2021 10:12:22 +0000
+Message-ID: <7269db4c-bc76-58e4-4423-7be9f0369d5c@microchip.com>
+References: <20210405155105.162529-1-eugen.hristev@microchip.com>
+ <20210405155105.162529-29-eugen.hristev@microchip.com>
+ <20210412095714.uivebcatgazzq5ae@uno.localdomain>
+In-Reply-To: <20210412095714.uivebcatgazzq5ae@uno.localdomain>
+Accept-Language: en-US, ro-RO
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfBtwIRuhD9RJacQGZ9F1nXLlyHk8ZINE2CAoytMbKwxpS3v3qSWOsmS08Ny6X3h164TwBFnDB5jrGABZMcsjRAkk1ABrX0VF4IgdFQYOrwwm7UKy34z/
- /xiwguKJjLEauA1Ls3WYq2olYzFU99HqVRGjMt0H4R8JjK9YSajmVdOA+A3U5Qm2HhPttqVFIINtBE/YYjuX5wMxhKQzGgxwLi2b8lZwNv1N+v4wgU9Svx84
- AtSERoTI/E7dbh4zNgCMC9Yxdf0ICa8hD+NBAn3r2TQjv1toPcvFkmVC33l6CzOCwL7qRk8bMErbPu8nFGFXmhqA9Ki84nuOslvhh0kVP+4=
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+authentication-results: jmondi.org; dkim=none (message not signed)
+ header.d=none;jmondi.org; dmarc=none action=none header.from=microchip.com;
+x-originating-ip: [86.121.125.229]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 345d1d81-4f1e-45f2-f950-08d8fd9b767e
+x-ms-traffictypediagnostic: BYAPR11MB3029:
+x-microsoft-antispam-prvs: <BYAPR11MB30297556EF4DC2A4DB16D917E8709@BYAPR11MB3029.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3rCzc45FgESQaeTxvSJmOB31o84n46Jbdd8iJEKnoLP6cI50QUQEwdJ1xkuwDqCLbv89bLN/JpQTyEeM7j14sOFHgH7PiLpmkLK+EHldpPCmGQmPFQRVeF1trGGB7iqvQ/TW3P+Bq4clrXaUVsaCjw5+17D9kbpxmz+9ngIh7b5MzzGHSkYoTniFpRXwSzjTOXYUo8MUNVdvrd2xFhLfLPj30CRV/RNe5ORch25wWoe9JQUyIEQ82XqmQDCOca91Y3bUMr62h8BP6HnXXFX+uZuAzWgWXv+N7ZjlGZ/aGoTeY0cm/QoPg9/rqXJ4vasvnnY4aCTavL7u5jdO6GmemJkJrWWIDzBkBxfX7CtfVxin3dU5NEV5qnJHqoTyw2tttEAOYDPPOaFP3nciGmRH5ZqPGH6ShBqALylh8vHLTypImWvT5PmqCfupc384U7MaQjc9IPlNLJFg7y7JYEg1llTlPkK6UdwI4Hba3xpR0Q5W+OXgJidJ9xjK8J6PpmjY0imze/sRpPh4yqquyAZP8Kt0MQWfa7+pUSBKMxP3HCS0oppSCD9fpSK4w3hEQ2OUv0p+3RUrDxCpV6uUoH7i736u/5+aG4bTCTpPrFwpEuW2wePjeBopJpSRd2NfLpXyPQgx5eVzVudtnVbMW2l+I4YVKQtFe3dsirYCScHyXNPplkM5HrZ8C6uFVXY5Czgu
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(39860400002)(346002)(376002)(396003)(136003)(31686004)(186003)(8676002)(6486002)(26005)(54906003)(8936002)(71200400001)(5660300002)(6512007)(38100700002)(478600001)(83380400001)(91956017)(66446008)(64756008)(2616005)(76116006)(36756003)(31696002)(53546011)(6916009)(66476007)(66556008)(66946007)(4326008)(86362001)(6506007)(2906002)(316002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: =?utf-8?B?bXZnaVFnWE1GYjhWR09FT1FCR3pCK1JDNDRPTk9YVGxmU1lhZ0Nud0JkVlF5?=
+ =?utf-8?B?THUrNzJKNHRPY3B3dXVwVDlTU3B0R01tQW00V09ISSt1SVVOWEw1dXNveUVn?=
+ =?utf-8?B?blgvQUt5bnBWckl4U3c1QlpjbzRlaDl5NGgxVzN2MHE2OE9DM0tNK3JObWFl?=
+ =?utf-8?B?VWJQejRKdjlxcUVGNHdmTjROTk5TQXFkTHNueldrVHpJWnNQOGRxNGxLd090?=
+ =?utf-8?B?T2tscTAyNnJZTXl6WWVLYTJWbjdpbU9xdFdJSVdtSjRMUjkzQXhsVERqZEJz?=
+ =?utf-8?B?NXBUUHRMZ2VoN3ZpeTIzOWoya3ZJeW5lWFdqZlR6cTFiWUllRXoyRmF1NWly?=
+ =?utf-8?B?eCtxTG9VK3JucHRTYi8wRjJhZk5aT3JkbzZQbjR0YW5iK0dZSG51ck04VzBH?=
+ =?utf-8?B?OWpBdGM3cWJJbXpZRlhDZ2poSUNodEdGKzJQbU5MU2tJWittWTQ2OTBTcXUw?=
+ =?utf-8?B?Tk82S3ZTbkdySklHZTk0L1VtU3dmSmt6eGwrRHpuc3dlUk00a055VmQ5Y3g3?=
+ =?utf-8?B?MFNpQVhrenJZM3NjRE4va2MzaTIybHBlY2ZKcVJDQmYyVmlBRnlhTGRONDd5?=
+ =?utf-8?B?TXNCK2hocStLMmdaQ0JrdHZGOHRIZmVRcHJYdWhIWWUrTTNsd2Z0UjFCU1JM?=
+ =?utf-8?B?dHVYZnduWlNlSERnYnBKNDcydjBJQ1ErWURoemNIbCtuQkplTkk3MC93cC9o?=
+ =?utf-8?B?THZ1WmhNWWFmeS9ncU84MGl4U2poNFZ0VXBTWkF4RlpJd2diellkRkFCN3FF?=
+ =?utf-8?B?RGVraVl0cEdadHF5WVRkRHEvNHFUbkVHaFJodWpHNTNDQkxrZHpZQVVBL3lD?=
+ =?utf-8?B?Wmc0c2s4UW16eW5va2FYbjI5eWtFbTlqT1o3cm54L2pyZlF5RS9jcFIvSXRs?=
+ =?utf-8?B?dVY4V0w3UnhQK1B0YUoxL0g1T2UxK3FGNm05Nm43V0h0aFBoZERZblR1allD?=
+ =?utf-8?B?SDhuNnJhSkcwUjBSL1hQOWZQMXpqK21Db0tLT0hmZVB2bDU1ODZSY20yMFlH?=
+ =?utf-8?B?VGt1NGhyTnNEZlhRVzY5RG12M0E4N09VSVJubU44TFhUbCtNMXF1OUV0V3Bw?=
+ =?utf-8?B?YlkxNEZIeGNmenJxZ0hXTnpCZ0VjWDBxdkZkMWlCem5aZVg2VkFQOW9WSFQ5?=
+ =?utf-8?B?c3JCeVBLNVRoVzNnVXBMRStON2NETWVYOHJoZjhZRE1jSTl2WSsyMTVjZ0lm?=
+ =?utf-8?B?RUtsbWFqZGxseURpT1hPZkZCV1JvKzBYZVRaMnJKOWl3MzFiRjZlTFhtbGo3?=
+ =?utf-8?B?QXBMNGhoYUxMVGFkMzJYd1FhZDU5dndMZENHR3FrWDR0azJSZE5pMTZrblRr?=
+ =?utf-8?B?ZVQ4ZGlNWmsrOU5qNmpSa0tDVjJuTzQ1c1F2VVVYRVd0Nm9PaS9pdmozSVV3?=
+ =?utf-8?B?UndnbCtFWGdQZVcvN1hmVGlJbUFwMkI5ZDZ6YWhVczhWWDNJeXhZQmZPVEhO?=
+ =?utf-8?B?alVYRytMWkVnQmVhR0xHbzFqcDBia2lwNjNxMzV1VGtoVWNkTm1vZXRNdUpy?=
+ =?utf-8?B?THJiV3BBSDJhN3ZZdXVWS1U4N092a3NZTSszejBCUjEvUkZtTnlWeHJKS2Vp?=
+ =?utf-8?B?d1JvOVBwems1dXNXZVRCNEtIcVdhTFFBYkxUdXArUmdkZFFlN1NUSHl3Sjcw?=
+ =?utf-8?B?eHIxSkpYaHIrOXFaUG9CNFJGczdmMVdwamNQcFZsMTY1aHljSTZSTHgreE1y?=
+ =?utf-8?B?Z051RDIvaTJQQ05rMjdOR3I0c0VqYy9nZjQ4M3A0cHZGazM2UG8wWDg3VHQ4?=
+ =?utf-8?Q?MZxiQAtLNgdlc3q61InX45rOJh8ZU7rMOn8EsfZ?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B45C2AB4B2A0DE46ADF1333338C5CEF7@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4896.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 345d1d81-4f1e-45f2-f950-08d8fd9b767e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Apr 2021 10:12:22.2009
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: IO8imkcncPL4wi/YzEc9WdQBtErVIzUIxtSr7H+atWqIb1EkkDXI+/vvPXSCQcfMyYcJ+cn0UMal50rumJyGwxS2KLArzmeJO/8Xz9tNbA8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3029
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When controls are used together with the Request API, then for
-each request a v4l2_ctrl_handler struct is allocated. This contains
-the controls that can be set in a request. If a control is *not* set in
-the request, then the value used in the most recent previous request
-must be used, or the current value if it is not found in any outstanding
-requests.
-
-The framework tried to find such a previous request and it would set
-the 'req' pointer in struct v4l2_ctrl_ref to the v4l2_ctrl_ref of the
-control in such a previous request. So far, so good. However, when that
-previous request was applied to the hardware, returned to userspace, and
-then userspace would re-init or free that request, any 'ref' pointer in
-still-queued requests would suddenly point to freed memory.
-
-This was not noticed before since the drivers that use this expected
-that each request would always have the controls set, so there was
-never any need to find a control in older requests. This requirement
-was relaxed, and now this bug surfaced.
-
-The use of the 'req' pointer in v4l2_ctrl_ref was very fragile, so
-drop this entirely. Instead add a valid_p_req bool to indicate that
-p_req contains a valid value for this control. And if it is false,
-then call the new find_ctrl_in_prev_request() helper function that
-walks through older outstanding requests to find if one of them set
-the same control, and uses that value as per the API specification.
-
-This simplifies the code as well and is a lot more robust.
-
-Also added some more comments, since it was not always clear what
-was going on.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reported-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reported-by: Yunfei Dong (董云飞) <Yunfei.Dong@mediatek.com>
-Tested-by: Ezequiel Garcia <ezequiel@collabora.com>
-Tested-by: Nicolas Dufresne <nicolas@ndufresne.ca>
-Fixes: 6fa6f831f095 ("media: v4l2-ctrls: add core request support")
-Cc: <stable@vger.kernel.org>      # for v5.9 and up
----
-While the bug was actually introduced when the Request API was merged,
-it was not in active use until the H.264 stateless codec API was made
-part of the uAPI. That's why the CC to stable explicitly says v5.9 and
-up, since this patch won't apply for older kernels, and that's OK since
-it was not in active use AFAIK.
-
-If that assumption is wrong, then let me know and I will have to create
-custom patches for older kernels, but I prefer to avoid doing that.
-
-I'm not planning to get this merged for 5.12 since we are close to a
-release, so I think it is OK to get this in for 5.13 and have it backported
-to 5.12. I also would like to have feedback from Alexandre and Yunfei
-that this patch indeed fixes your issues as well.
-
-I plan on creating better tests in v4l2-compliance using vivid to verify
-correct behavior of controls in requests. Proper tests are definitely
-needed to avoid bugs like this.
-
-Regards,
-
-	Hans
----
- drivers/media/v4l2-core/v4l2-ctrls.c | 124 +++++++++++++--------------
- include/media/v4l2-ctrls.h           |  12 +--
- 2 files changed, 69 insertions(+), 67 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index c7bcc5c25771..0627d16f6334 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -2504,7 +2504,7 @@ static void new_to_req(struct v4l2_ctrl_ref *ref)
- 	if (!ref)
- 		return;
- 	ptr_to_ptr(ref->ctrl, ref->ctrl->p_new, ref->p_req);
--	ref->req = ref;
-+	ref->valid_p_req = true;
- }
-
- /* Copy the request value to the new value */
-@@ -2512,8 +2512,8 @@ static void req_to_new(struct v4l2_ctrl_ref *ref)
- {
- 	if (!ref)
- 		return;
--	if (ref->req)
--		ptr_to_ptr(ref->ctrl, ref->req->p_req, ref->ctrl->p_new);
-+	if (ref->valid_p_req)
-+		ptr_to_ptr(ref->ctrl, ref->p_req, ref->ctrl->p_new);
- 	else
- 		ptr_to_ptr(ref->ctrl, ref->ctrl->p_cur, ref->ctrl->p_new);
- }
-@@ -3694,39 +3694,8 @@ static void v4l2_ctrl_request_queue(struct media_request_object *obj)
- 	struct v4l2_ctrl_handler *hdl =
- 		container_of(obj, struct v4l2_ctrl_handler, req_obj);
- 	struct v4l2_ctrl_handler *main_hdl = obj->priv;
--	struct v4l2_ctrl_handler *prev_hdl = NULL;
--	struct v4l2_ctrl_ref *ref_ctrl, *ref_ctrl_prev = NULL;
-
- 	mutex_lock(main_hdl->lock);
--	if (list_empty(&main_hdl->requests_queued))
--		goto queue;
--
--	prev_hdl = list_last_entry(&main_hdl->requests_queued,
--				   struct v4l2_ctrl_handler, requests_queued);
--	/*
--	 * Note: prev_hdl and hdl must contain the same list of control
--	 * references, so if any differences are detected then that is a
--	 * driver bug and the WARN_ON is triggered.
--	 */
--	mutex_lock(prev_hdl->lock);
--	ref_ctrl_prev = list_first_entry(&prev_hdl->ctrl_refs,
--					 struct v4l2_ctrl_ref, node);
--	list_for_each_entry(ref_ctrl, &hdl->ctrl_refs, node) {
--		if (ref_ctrl->req)
--			continue;
--		while (ref_ctrl_prev->ctrl->id < ref_ctrl->ctrl->id) {
--			/* Should never happen, but just in case... */
--			if (list_is_last(&ref_ctrl_prev->node,
--					 &prev_hdl->ctrl_refs))
--				break;
--			ref_ctrl_prev = list_next_entry(ref_ctrl_prev, node);
--		}
--		if (WARN_ON(ref_ctrl_prev->ctrl->id != ref_ctrl->ctrl->id))
--			break;
--		ref_ctrl->req = ref_ctrl_prev->req;
--	}
--	mutex_unlock(prev_hdl->lock);
--queue:
- 	list_add_tail(&hdl->requests_queued, &main_hdl->requests_queued);
- 	hdl->request_is_queued = true;
- 	mutex_unlock(main_hdl->lock);
-@@ -3783,7 +3752,7 @@ v4l2_ctrl_request_hdl_ctrl_find(struct v4l2_ctrl_handler *hdl, u32 id)
- {
- 	struct v4l2_ctrl_ref *ref = find_ref_lock(hdl, id);
-
--	return (ref && ref->req == ref) ? ref->ctrl : NULL;
-+	return (ref && ref->valid_p_req) ? ref->ctrl : NULL;
- }
- EXPORT_SYMBOL_GPL(v4l2_ctrl_request_hdl_ctrl_find);
-
-@@ -3972,6 +3941,31 @@ static int class_check(struct v4l2_ctrl_handler *hdl, u32 which)
- 	return find_ref_lock(hdl, which | 1) ? 0 : -EINVAL;
- }
-
-+/*
-+ * Find the most recent queued request that contains the given control.
-+ * Return the reference to that control if found, or NULL otherwise.
-+ */
-+static struct v4l2_ctrl_ref *
-+find_ctrl_in_prev_request(struct v4l2_ctrl_handler *hdl,
-+			  struct v4l2_ctrl_ref *ref)
-+{
-+	struct v4l2_ctrl_handler *main_hdl = ref->ctrl->handler;
-+	u32 id = ref->ctrl->id;
-+
-+	/*
-+	 * The main handler must be locked since we're traversing
-+	 * the requests_queued list.
-+	 */
-+	WARN_ON(!mutex_is_locked(main_hdl->lock));
-+	list_for_each_entry_continue_reverse(hdl, &main_hdl->requests_queued,
-+					     requests_queued) {
-+		ref = find_ref_lock(hdl, id);
-+		if (ref && ref->valid_p_req)
-+			return ref;
-+	}
-+	return NULL;
-+}
-+
- /* Get extended controls. Allocates the helpers array if needed. */
- static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
- 				   struct v4l2_ext_controls *cs,
-@@ -3982,8 +3976,10 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
- 	int ret;
- 	int i, j;
- 	bool def_value;
-+	bool is_request;
-
- 	def_value = (cs->which == V4L2_CTRL_WHICH_DEF_VAL);
-+	is_request = (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL);
-
- 	cs->error_idx = cs->count;
- 	cs->which = V4L2_CTRL_ID2WHICH(cs->which);
-@@ -4012,6 +4008,7 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
- 		int (*ctrl_to_user)(struct v4l2_ext_control *c,
- 				    struct v4l2_ctrl *ctrl);
- 		struct v4l2_ctrl *master;
-+		u32 idx = i;
-
- 		ctrl_to_user = def_value ? def_to_user : cur_to_user;
-
-@@ -4032,22 +4029,35 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
- 			ret = call_op(master, g_volatile_ctrl);
- 			ctrl_to_user = new_to_user;
- 		}
-+
-+		if (ret) {
-+			v4l2_ctrl_unlock(master);
-+			break;
-+		}
-+
- 		/* If OK, then copy the current (for non-volatile controls)
- 		   or the new (for volatile controls) control values to the
- 		   caller */
--		if (!ret) {
--			u32 idx = i;
-+		do {
-+			struct v4l2_ctrl_ref *ref = helpers[idx].ref;
-+
-+			/*
-+			 * If this is part of a request, and the request does
-+			 * not contain the value of this control, then try to
-+			 * find it in an older, still queued request. If found,
-+			 * then use the value from that request, otherwise use
-+			 * the current control value.
-+			 */
-+			if (is_request && !ref->valid_p_req)
-+				ref = find_ctrl_in_prev_request(hdl, ref) ? : ref;
-+
-+			if (ref->valid_p_req)
-+				ret = req_to_user(cs->controls + idx, ref);
-+			else
-+				ret = ctrl_to_user(cs->controls + idx, ref->ctrl);
-+			idx = helpers[idx].next;
-+		} while (!ret && idx);
-
--			do {
--				if (helpers[idx].ref->req)
--					ret = req_to_user(cs->controls + idx,
--						helpers[idx].ref->req);
--				else
--					ret = ctrl_to_user(cs->controls + idx,
--						helpers[idx].ref->ctrl);
--				idx = helpers[idx].next;
--			} while (!ret && idx);
--		}
- 		v4l2_ctrl_unlock(master);
- 	}
-
-@@ -4690,8 +4700,6 @@ void v4l2_ctrl_request_complete(struct media_request *req,
- 		unsigned int i;
-
- 		if (ctrl->flags & V4L2_CTRL_FLAG_VOLATILE) {
--			ref->req = ref;
--
- 			v4l2_ctrl_lock(master);
- 			/* g_volatile_ctrl will update the current control values */
- 			for (i = 0; i < master->ncontrols; i++)
-@@ -4701,21 +4709,13 @@ void v4l2_ctrl_request_complete(struct media_request *req,
- 			v4l2_ctrl_unlock(master);
- 			continue;
- 		}
--		if (ref->req == ref)
-+		if (ref->valid_p_req)
- 			continue;
-
-+		/* Copy the current control value into the request */
- 		v4l2_ctrl_lock(ctrl);
--		if (ref->req) {
--			ptr_to_ptr(ctrl, ref->req->p_req, ref->p_req);
--		} else {
--			ptr_to_ptr(ctrl, ctrl->p_cur, ref->p_req);
--			/*
--			 * Set ref->req to ensure that when userspace wants to
--			 * obtain the controls of this request it will take
--			 * this value and not the current value of the control.
--			 */
--			ref->req = ref;
--		}
-+		ptr_to_ptr(ctrl, ctrl->p_cur, ref->p_req);
-+		ref->valid_p_req = true;
- 		v4l2_ctrl_unlock(ctrl);
- 	}
-
-@@ -4779,7 +4779,7 @@ int v4l2_ctrl_request_setup(struct media_request *req,
- 				struct v4l2_ctrl_ref *r =
- 					find_ref(hdl, master->cluster[i]->id);
-
--				if (r->req && r == r->req) {
-+				if (r->valid_p_req) {
- 					have_new_data = true;
- 					break;
- 				}
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index c1d20bd8f25f..a5953b812878 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -304,12 +304,14 @@ struct v4l2_ctrl {
-  *		the control has been applied. This prevents applying controls
-  *		from a cluster with multiple controls twice (when the first
-  *		control of a cluster is applied, they all are).
-- * @req:	If set, this refers to another request that sets this control.
-+ * @valid_p_req: If set, then p_req contains the control value for the request.
-  * @p_req:	If the control handler containing this control reference
-  *		is bound to a media request, then this points to the
-- *		value of the control that should be applied when the request
-+ *		value of the control that must be applied when the request
-  *		is executed, or to the value of the control at the time
-- *		that the request was completed.
-+ *		that the request was completed. If @valid_p_req is false,
-+ *		then this control was never set for this request and the
-+ *		control will not be updated when this request is applied.
-  *
-  * Each control handler has a list of these refs. The list_head is used to
-  * keep a sorted-by-control-ID list of all controls, while the next pointer
-@@ -322,7 +324,7 @@ struct v4l2_ctrl_ref {
- 	struct v4l2_ctrl_helper *helper;
- 	bool from_other_dev;
- 	bool req_done;
--	struct v4l2_ctrl_ref *req;
-+	bool valid_p_req;
- 	union v4l2_ctrl_ptr p_req;
- };
-
-@@ -349,7 +351,7 @@ struct v4l2_ctrl_ref {
-  * @error:	The error code of the first failed control addition.
-  * @request_is_queued: True if the request was queued.
-  * @requests:	List to keep track of open control handler request objects.
-- *		For the parent control handler (@req_obj.req == NULL) this
-+ *		For the parent control handler (@req_obj.ops == NULL) this
-  *		is the list header. When the parent control handler is
-  *		removed, it has to unbind and put all these requests since
-  *		they refer to the parent.
--- 
-2.30.2
-
+T24gNC8xMi8yMSAxMjo1NyBQTSwgSmFjb3BvIE1vbmRpIHdyb3RlOg0KPiBFWFRFUk5BTCBFTUFJ
+TDogRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBrbm93
+IHRoZSBjb250ZW50IGlzIHNhZmUNCj4gDQo+IEhpIEV1Z2VuZSwNCj4gDQo+IE9uIE1vbiwgQXBy
+IDA1LCAyMDIxIGF0IDA2OjUxOjAzUE0gKzAzMDAsIEV1Z2VuIEhyaXN0ZXYgd3JvdGU6DQo+PiBB
+ZGQgYmluZGluZ3MgZm9yIHRoZSBtaWNyb2NoaXAgeGlzYywgYSBkcml2ZXIgYmFzZWQgb24gYXRt
+ZWwtaXNjLg0KPj4gSXQgc2hhcmVzIGNvbW1vbiBjb2RlIHdpdGggYXRtZWwtaXNjLCBidXQgdGhl
+IHhpc2MgaXMgdGhlIG5leHQgZ2VuZXJhdGlvbg0KPj4gSVNDIHdoaWNoIGlzIHByZXNlbnQgb24g
+c2FtYTdnNSBwcm9kdWN0Lg0KPj4gSXQgaGFzIGFuIGVuaGFuY2VkIHBpcGVsaW5lLCBhZGRpdGlv
+bmFsIG1vZHVsZXMsIGZvcm1hdHMsIGFuZCBpdCBzdXBwb3J0cw0KPj4gbm90IG9ubHkgcGFyYWxs
+ZWwgc2Vuc29ycywgYnV0IGFsc28gc2VyaWFsIHNlbnNvcnMsIGJ5IGNvbm5lY3RpbmcgdG8gYSBk
+ZW11eA0KPj4gZW5kcG9pbnQgcHJlc2VudCBvbiBzYW1hN2c1Lg0KPj4gT25lIG9mIHRoZSBrZXkg
+cG9pbnRzIGZvciBjcmVhdGluZyBhIG5ldyBiaW5kaW5nIGlzIHRoZSBjbG9ja2luZyBzY2hlbWUs
+IGFzDQo+PiBhdG1lbC1pc2MgcmVxdWlyZXMgMyBtYW5kYXRvcnkgY2xvY2tzLCB0aGUgbWljcm9j
+aGlwLXhpc2MgcmVxdWlyZXMgYSBzaW5nbGUNCj4+IGlucHV0IGNsb2NrLg0KPj4NCj4+IFNpZ25l
+ZC1vZmYtYnk6IEV1Z2VuIEhyaXN0ZXYgPGV1Z2VuLmhyaXN0ZXZAbWljcm9jaGlwLmNvbT4NCj4+
+IC0tLQ0KPj4NCj4+IEhlbGxvIFJvYiwgYWxsLA0KPj4NCj4+IEkgZGlkIG5vdCBjb252ZXJ0IHRo
+aXMgeWV0IHRvIHlhbWwgYmVjYXVzZSBJIHdvdWxkIGxpa2UgZmlyc3QgeW91ciBmZWVkYmFjaw0K
+Pj4gaWYgdGhlIGJpbmRpbmcgaXMgZ29vZC4NCj4+IElmIGl0J3MgZmluZSBJIHdpbGwgY29udmVy
+dCBib3RoIHRoaXMgbmV3IGJpbmRpbmcgYW5kIHRoZSBvbGQgYXRtZWwtaXNjDQo+PiB0byB5YW1s
+Lg0KPj4NCj4+IFRoYW5rcyBmb3IgeW91ciBmZWVkYmFjaywNCj4+IEV1Z2VuDQo+Pg0KPj4gICAu
+Li4vYmluZGluZ3MvbWVkaWEvbWljcm9jaGlwLXhpc2MudHh0ICAgICAgICAgfCA2NCArKysrKysr
+KysrKysrKysrKysrDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCA2NCBpbnNlcnRpb25zKCspDQo+PiAg
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVk
+aWEvbWljcm9jaGlwLXhpc2MudHh0DQo+Pg0KPj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9taWNyb2NoaXAteGlzYy50eHQgYi9Eb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvbWljcm9jaGlwLXhpc2MudHh0DQo+PiBuZXcg
+ZmlsZSBtb2RlIDEwMDY0NA0KPj4gaW5kZXggMDAwMDAwMDAwMDAwLi4wODBhMzU3ZWQ4NGQNCj4+
+IC0tLSAvZGV2L251bGwNCj4+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9tZWRpYS9taWNyb2NoaXAteGlzYy50eHQNCj4+IEBAIC0wLDAgKzEsNjQgQEANCj4+ICtNaWNy
+b2NoaXAgZVh0ZW5kZWQgSW1hZ2UgU2Vuc29yIENvbnRyb2xsZXIgKFhJU0MpDQo+PiArLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPj4gKw0KPj4gK1JlcXVp
+cmVkIHByb3BlcnRpZXMgZm9yIFhJU0M6DQo+PiArLSBjb21wYXRpYmxlDQo+PiArICAgICBNdXN0
+IGJlICJtaWNyb2NoaXAsc2FtYTdnNS14aXNjIi4NCj4+ICstIHJlZw0KPj4gKyAgICAgUGh5c2lj
+YWwgYmFzZSBhZGRyZXNzIGFuZCBsZW5ndGggb2YgdGhlIHJlZ2lzdGVycyBzZXQgZm9yIHRoZSBk
+ZXZpY2UuDQo+PiArLSBpbnRlcnJ1cHRzDQo+PiArICAgICBTaG91bGQgY29udGFpbiBJUlEgbGlu
+ZSBmb3IgdGhlIFhJU0MuDQo+PiArLSBjbG9ja3MNCj4+ICsgICAgIExpc3Qgb2YgY2xvY2sgc3Bl
+Y2lmaWVycywgY29ycmVzcG9uZGluZyB0byBlbnRyaWVzIGluDQo+PiArICAgICB0aGUgY2xvY2st
+bmFtZXMgcHJvcGVydHk7DQo+PiArICAgICBQbGVhc2UgcmVmZXIgdG8gY2xvY2stYmluZGluZ3Mu
+dHh0Lg0KPj4gKy0gY2xvY2stbmFtZXMNCj4+ICsgICAgIFJlcXVpcmVkIGVsZW1lbnRzOiAiaGNs
+b2NrIi4NCj4+ICsgICAgIFRoaXMgaXMgdGhlIGNsb2NrIHRoYXQgY2xvY2tzIHRoZSBzZW5zb3Ig
+Y29udHJvbGxlciwgYW5kIGlzIHVzdWFsbHkNCj4+ICsgICAgIGZlZCBmcm9tIHRoZSBjbG9jayB0
+cmVlLiBJdCBpcyB1c2VkIGZvciB0aGUgaW50ZXJuYWwgY29udHJvbGxlciBsb2dpYy4NCj4+ICst
+ICNjbG9jay1jZWxscw0KPj4gKyAgICAgU2hvdWxkIGJlIDAuDQo+PiArLSBjbG9jay1vdXRwdXQt
+bmFtZXMNCj4+ICsgICAgIFNob3VsZCBiZSAiaXNjLW1jayIuDQo+PiArLSBwaW5jdHJsLW5hbWVz
+LCBwaW5jdHJsLTANCj4+ICsgICAgIFBsZWFzZSByZWZlciB0byBwaW5jdHJsLWJpbmRpbmdzLnR4
+dC4NCj4+ICsNCj4+ICtPcHRpb25hbCBwcm9wZXJ0aWVzIGZvciBYSVNDOg0KPj4gKy0gbWljcm9j
+aGlwLG1pcGktbW9kZTsNCj4+ICsgICAgIEFzIHRoZSBYSVNDIGlzIHVzdWFsbHkgY29ubmVjdGVk
+IHRvIGEgZGVtdXgvYnJpZGdlLCB0aGUgWElTQyByZWNlaXZlcw0KPj4gKyAgICAgdGhlIHNhbWUg
+dHlwZSBvZiBpbnB1dCwgaG93ZXZlciwgaXQgc2hvdWxkIGJlIGF3YXJlIG9mIHRoZSB0eXBlIG9m
+DQo+PiArICAgICBzaWduYWxzIHJlY2VpdmVkLiBUaGUgbWlwaS1tb2RlIGVuYWJsZXMgZGlmZmVy
+ZW50IGludGVybmFsIGhhbmRsaW5nDQo+PiArICAgICBvZiB0aGUgZGF0YSBhbmQgY2xvY2sgbGlu
+ZXMuDQo+IA0KPiBXaGF0IGRvZXMgJ21pcGktbW9kZScgZG8gdG8gYSBjb21wb25lbnQgdGhhdCBo
+YXMgYW4gcGFyYWxsZWwgcmVjZWl2ZXIgPw0KDQpBY3R1YWxseSwgdGhpcyBpbmRlZWQgaGFzIGEg
+cGFyYWxsZWwgcmVjZWl2ZXIsIGJ1dCBpdCdzIG9ubHkgaW5zaWRlIHRoZSANClNvQy4gVGhlIG90
+aGVyIGVuZCBvZiB0aGUgcGFyYWxsZWwgY29ubmVjdGlvbiBpcyBhIGRlbXV4ZXIvYnJpZGdlLiBU
+aGlzIA0KZGVtdXhlciB3aWxsIHRha2UgdGhlIGlucHV0IGZyb20gZWl0aGVyIGEgcmVhbCBwYXJh
+bGxlbCBzZW5zb3Igb3IgYSBDU0kyIA0Kc3RyZWFtLg0KRXZlbiBpZiB0aGUgcGl4ZWxzIGFyZSB0
+aGVuIGNvbnZlcnRlZCBpbnRvIGEgcGFyYWxsZWwgc3RyZWFtLCBpdCBsb29rcyANCmxpa2UgdGhl
+IHBpeGVsIGRhdGEgaGFzIGEgYml0IG9mIGRpZmZlcmVudCBjb25zdHJhaW5zIGluIHRlcm0gb2Yg
+aG9sZCANCmFuZCBzZXR1cCB0aW1lLCBhbmQgb3RoZXIgZWxlY3RyaWNhbCBjaGFyYWN0ZXJpc3Rp
+Y3MgaW5zaWRlIHRoZSBTb0MuDQpUaGUgWElTQyBoYXJkd2FyZSBkZXNpZ25lciBkZWNpZGVkIHRv
+IGxlYXZlIGEgYml0IGluIHRoZSB1c2VyIGludGVyZmFjZSANCmNhbGxlZCAnbWlwaS1tb2RlJyAs
+IGFuZCBieSBzZXR0aW5nIHRoaXMsIHRoZSBjYXB0dXJlIGludGVyZmFjZSBvZiB0aGUgDQpYSVND
+IGlzIGJldHRlciBhZGFwdGVkIHRvIGEgZGVtdXhlZCBzdHJlYW0gZnJvbSBhIENTSTIsIHJhdGhl
+ciB0aGFuIA0KYWRhcHRlZCB0byBhIHN0cmVhbSBjb21pbmcgZnJvbSBhIHBhcmFsbGVsIHNlbnNv
+ciBkaXJlY3RseS4NCg0KSSBhbSBub3Qgc3VyZSBJIGV4cGxhaW5lZCBpdCByaWdodCwgYnV0IHRo
+aXMgaXMgd2hhdCBJIHVuZGVyc3RhbmQsIHdoZW4gDQpJIGFza2VkIHRoZSBoYXJkd2FyZSBkZXNp
+Z24gYWJvdXQgaXQuDQoNClNvIHdlIGhhdmUgdG8gbWFudWFsbHkgc2V0IHRoaXMgYml0IGlmIHdl
+IGhhdmUgdGhlIGRlbXV4ZXIgZGVzZXJpYWxpemluZyANCnRoZSBDU0kyIHBpeGVscyBvciB0aGV5
+IGFyZSBjb25uZWN0ZWQgdG8gYSBwYXJhbGxlbCBzZW5zb3IuDQpUaGUgWElTQyBoYXMgbm8gd2F5
+IG9mIHRlbGxpbmcgd2hpY2ggaXMgdGhlIGNvcnJlY3Qgc2V0dXAsIGFuZCBmcm9tIHRoZSANCmRl
+bXV4ZXIgcGVyc3BlY3RpdmUsIHRoaW5ncyBhcmUgdGhlIHNhbWUuDQoNClRoZSBlbmRwb2ludCBj
+b25uZWN0aW9uIGJldHdlZW4gdGhlIHhpc2MgYW5kIHRoZSBkZW11eGVyIGxvb2tzIHRvIGJlIHRo
+ZSANCnNhbWUsIGxvb2tpbmcgYXMgaWYgdGhlcmUgaXMgYSBwYXJhbGxlbCBjb25uZWN0aW9uLg0K
+VG8ga25vdyBtb3JlLCB0aGUgWElTQyB3b3VsZCBiZSBuZWVkaW5nIHRvIGxvb2sgZnVydGhlciBk
+b3duIHRoZSANCnBpcGVsaW5lLCBhbmQgdGhpcyBpcyBzb21ldGhpbmcgd2hpY2ggSSBjb3VsZCBu
+b3QgZm9yY2UgaXQgdG8gZG8uDQoNCg0KPiANCj4+ICsNCj4+ICtYSVNDIHN1cHBvcnRzIGEgc2lu
+Z2xlIHBvcnQgbm9kZSB3aXRoIGludGVybmFsIHBhcmFsbGVsIGJ1cy4NCj4+ICtJdCBzaG91bGQg
+Y29udGFpbiBvbmUgJ3BvcnQnIGNoaWxkIG5vZGUgd2l0aCBjaGlsZCAnZW5kcG9pbnQnIG5vZGUu
+DQo+PiArUGxlYXNlIHJlZmVyIHRvIHRoZSBiaW5kaW5ncyBkZWZpbmVkIGluDQo+PiArRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3ZpZGVvLWludGVyZmFjZXMudHh0Lg0K
+Pj4gKw0KPj4gK1RoaXMgZW5kcG9pbnQgaGFzIHRvIGJlIGNvbm5lY3RlZCB0byBhIGJyaWRnZSB0
+aGF0IGFjdHMgYXMgYSBkZW11eCBmcm9tIGVpdGhlcg0KPj4gK2Egc2VyaWFsIGludGVyZmFjZSBv
+ciBhY3RzIGFzIGEgc2ltcGxlIGRpcmVjdCBicmlkZ2UgdG8gYSBwYXJhbGxlbCBzZW5zb3IuDQo+
+PiArDQo+PiArRXhhbXBsZToNCj4+ICt4aXNjOiB4aXNjQGUxNDA4MDAwIHsNCj4+ICsgICAgIGNv
+bXBhdGlibGUgPSAibWljcm9jaGlwLHNhbWE3ZzUtaXNjIjsNCj4+ICsgICAgIHJlZyA9IDwweGUx
+NDA4MDAwIDB4MjAwMD47DQo+PiArICAgICBpbnRlcnJ1cHRzID0gPEdJQ19TUEkgNTYgSVJRX1RZ
+UEVfTEVWRUxfSElHSD47DQo+PiArICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsNCj4+ICsgICAg
+ICNzaXplLWNlbGxzID0gPDA+Ow0KPj4gKyAgICAgY2xvY2tzID0gPCZwbWMgUE1DX1RZUEVfUEVS
+SVBIRVJBTCA1Nj47DQo+PiArICAgICBjbG9jay1uYW1lcyA9ICJoY2xvY2siOw0KPj4gKyAgICAg
+I2Nsb2NrLWNlbGxzID0gPDA+Ow0KPj4gKyAgICAgY2xvY2stb3V0cHV0LW5hbWVzID0gImlzYy1t
+Y2siOw0KPj4gKyAgICAgbWljcm9jaGlwLG1pcGktbW9kZTsNCj4+ICsNCj4+ICsgICAgIHBvcnRA
+MSB7DQo+PiArICAgICAgICAgICAgIHJlZyA9IDwxPjsNCj4+ICsgICAgICAgICAgICAgeGlzY19p
+bjogZW5kcG9pbnQgew0KPj4gKyAgICAgICAgICAgICBidXMtd2lkdGggPSA8MTI+Ow0KPj4gKyAg
+ICAgICAgICAgICBoc3luYy1hY3RpdmUgPSA8MT47DQo+PiArICAgICAgICAgICAgIHZzeW5jLWFj
+dGl2ZSA9IDwxPjsNCj4+ICsgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZjc2kyZGNf
+b3V0PjsNCj4gbml0OiBpbmRlbnRhdGlvbg0KPiANCj4gSGF2ZSB5b3UgY29uc2lkZWQgdXNpbmcg
+YnVzLXR5cGUgcHJvcGVydHkgPyBBcyB0aGF0J3MgYSBuZXcgYmluZGluZyBJDQo+IHdvdWxkIGNv
+bnNpZGVyIG1ha2luZyBpdCBtYW5kYXRvcnksIGFuZCB0byBtb2RpZnkgdGhlIERUIHBhcnNpbmdh
+DQo+IHJvdXRpbmUgYWNjb3JkaW5nbHkgdG8gcmVtb3ZlIGF1dG8tZ3Vlc3NpbmcsIHdoaWNoIGFj
+Y29yZGluZyB0byBteQ0KPiB1bmRlcnN0YW5kaW5nIGlzIGFsbW9zdCAnZGVwcmVjYXRlZCcgPw0K
+DQpIYXZpbmcgYnVzLXR5cGUgd291bGQganVzdCBiZSBhbiB1c2VmdWwgYWRkaXRpb24gZm9yIGZp
+bmRpbmcgb3V0IHRoZSBidXMgDQppbnRlcmZhY2UgPyBvciBpdCBoYXMgc29tZSBvdGhlciBjb25z
+ZXF1ZW5jZXMgYXMgd2VsbCA/DQpDdXJyZW50IFhJU0MgY29kZSBhY3R1YWxseSBleHBlY3RzIGEg
+cGFyYWxsZWwgaW50ZXJmYWNlLCBzbyBpdCdzIGtpbmQgb2YgDQpzZXQgYWxyZWFkeSwgaGF2aW5n
+IGEgYnVzLXR5cGUgd291bGQgbm90IGJyaW5nIGFueSBuZXcgaW5mb3JtYXRpb24gZnJvbSANCmEg
+ZHJpdmVyIHBlcnNwZWN0aXZlDQoNCj4gDQo+PiArICAgICAgICAgICAgIH07DQo+PiArICAgICB9
+Ow0KPj4gK307DQo+PiArDQo+PiAtLQ0KPj4gMi4yNS4xDQo+Pg0KDQo=
