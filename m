@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8739935C26C
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 12:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D072035C26A
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 12:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238759AbhDLJnz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 05:43:55 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:41649 "EHLO
+        id S238121AbhDLJnt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 05:43:49 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:45713 "EHLO
         relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239055AbhDLJgq (ORCPT
+        with ESMTP id S241068AbhDLJgs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 05:36:46 -0400
+        Mon, 12 Apr 2021 05:36:48 -0400
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 20BBF200018;
-        Mon, 12 Apr 2021 09:34:49 +0000 (UTC)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 5796B200014;
+        Mon, 12 Apr 2021 09:34:52 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     kieran.bingham+renesas@ideasonboard.com,
         laurent.pinchart+renesas@ideasonboard.com,
@@ -23,11 +23,11 @@ To:     kieran.bingham+renesas@ideasonboard.com,
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v4 15/17] media: i2c: rdacm20: Re-work ov10635 reset
-Date:   Mon, 12 Apr 2021 11:34:49 +0200
-Message-Id: <20210412093451.14198-16-jacopo+renesas@jmondi.org>
+        linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v4 16/17] media: v4l2-subdev: De-deprecate init() subdev op
+Date:   Mon, 12 Apr 2021 11:34:50 +0200
+Message-Id: <20210412093451.14198-17-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210412093451.14198-1-jacopo+renesas@jmondi.org>
 References: <20210412093451.14198-1-jacopo+renesas@jmondi.org>
@@ -37,74 +37,80 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The OV10635 image sensor embedded in the camera module is currently
-reset after the MAX9271 initialization with two long delays that were
-most probably not correctly characterized.
+The init() subdev core operation is deemed to be deprecated for new
+subdevice drivers. However it could prove useful for complex
+architectures to defer operation that require access to the
+communication bus if said bus is not available (or fully configured)
+at the time when the subdevice probe() function is run.
 
-Re-work the image sensor reset procedure by holding the chip in reset
-during the MAX9271 configuration, removing the long sleep delays and
-only wait after the chip exits from reset for 350-500 microseconds
-interval, which is larger than the minimum (2048 * (1 / XVCLK)) timeout
-characterized in the chip manual.
+As an example, the GMSL architecture requires the GMSL configuration
+link to be configured on the host side after the remote subdevice
+has completed its probe function. After the configuration on the host
+side has been performed, the subdevice registers can be accessed through
+the communication bus.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+In particular:
+
+	HOST			REMOTE
+
+	probe()
+	   |
+	   ---------------------> |
+				  probe() {
+				     bus config()
+				  }
+	   |<--------------------|
+	v4l2 async bound {
+	    bus config()
+	    call subdev init()
+	   |-------------------->|
+				 init() {
+				     access register on the bus()
+				}
+	   |<-------------------
+	}
+
+In the GMSL use case the bus configuration requires the enablement of the
+noise immunity threshold on the remote side which ensures reliability
+of communications in electrically noisy environments. After the subdevice
+has enabled the threshold at the end of its probe() sequence the host
+side shall compensate it with an higher signal amplitude. Once this
+sequence has completed the bus can be accessed with noise protection
+enabled and all the operations that require a considerable number of
+transactions on the bus (such as the image sensor configuration
+sequence) are run in the subdevice init() operation implementation.
+
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- drivers/media/i2c/rdacm20.c | 29 +++++++++++++++++------------
- 1 file changed, 17 insertions(+), 12 deletions(-)
+ include/media/v4l2-subdev.h | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-index e6fed86a3281..cb725c2778c0 100644
---- a/drivers/media/i2c/rdacm20.c
-+++ b/drivers/media/i2c/rdacm20.c
-@@ -473,6 +473,19 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * Hold OV10635 in reset during max9271 configuration. The reset signal
-+	 * has to be asserted for at least 200 microseconds.
-+	 */
-+	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-+	if (ret)
-+		return ret;
-+
-+	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-+	if (ret)
-+		return ret;
-+	usleep_range(200, 500);
-+
- 	ret = max9271_configure_gmsl_link(&dev->serializer);
- 	if (ret)
- 		return ret;
-@@ -487,22 +500,14 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
- 	dev->serializer.client->addr = dev->addrs[0];
- 
- 	/*
--	 * Reset the sensor by cycling the OV10635 reset signal connected to the
--	 * MAX9271 GPIO1 and verify communication with the OV10635.
-+	 * Release ov10635 from reset and initialize it. The image sensor
-+	 * requires at least 2048 XVCLK cycles (85 micro-seconds at 24MHz)
-+	 * before being available. Stay safe and wait up to 500 micro-seconds.
- 	 */
--	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
--	if (ret)
--		return ret;
--
--	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
--	if (ret)
--		return ret;
--	usleep_range(10000, 15000);
--
- 	ret = max9271_set_gpios(&dev->serializer, MAX9271_GPIO1OUT);
- 	if (ret)
- 		return ret;
--	usleep_range(10000, 15000);
-+	usleep_range(100, 500);
- 
- again:
- 	ret = ov10635_read16(dev, OV10635_PID);
--- 
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index d0e9a5bdb08b..3068d9940669 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
+  *	each pin being configured.  This function could be called at times
+  *	other than just subdevice initialization.
+  *
+- * @init: initialize the sensor registers to some sort of reasonable default
+- *	values. Do not use for new drivers and should be removed in existing
+- *	drivers.
++ * @init: initialize the subdevice registers to some sort of reasonable default
++ *	values. Do not use for new drivers (and should be removed in existing
++ *	ones) for regular architectures where the image sensor is connected to
++ *	the host receiver. For more complex architectures where the subdevice
++ *	initialization should be deferred to the completion of the probe
++ *	sequence of some intermediate component, or the communication bus
++ *	requires configurations on the host side that depend on the completion
++ *	of the probe sequence of the remote subdevices, the usage of this
++ *	operation could be considered to allow the devices along the pipeline to
++ *	probe and register in the media graph and to defer any operation that
++ *	require actual access to the communication bus to their init() function
++ *	implementation.
+  *
+  * @load_fw: load firmware.
+  *
+--
 2.31.1
 
