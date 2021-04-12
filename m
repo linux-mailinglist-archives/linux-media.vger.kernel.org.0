@@ -2,84 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE56A35C193
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 11:31:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D04B735C1ED
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 11:58:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239624AbhDLJbe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 05:31:34 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:58697 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242406AbhDLJ2c (ORCPT
+        id S240999AbhDLJgg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 05:36:36 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:39825 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240594AbhDLJej (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 05:28:32 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id VsrZl4iYLMxedVsrclcZyt; Mon, 12 Apr 2021 11:28:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618219693; bh=jIMXCtoK3i1fFvTqs9cxe9PYvmJVWGMSAAt45XYQ4aU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=hFOE3g4kmzXQzO+x7fhSTpmRmmCXF6vsFwlWJqtPDZbiG9ez4wijNCzDrKn0DFdg5
-         1L/a8zgxv8kSXRj8650Gr/Urqv8BZbxSzdveybSMYQNP3pwRKLxcLMaRi76UCn+p4a
-         544xSfuq0cEZkIDlX4onLbmbwYvieMiIfYVS/X9bP6As8aOcJazzSwVdkzyHYMEipc
-         pYx8qsKZhFDeVDD3WlT6j+q4Rxeh5CGQtm94eiUha5NMNzzJ1GWqMWtyvUoIcz3LU9
-         uybNOUKiRVtvbNOLH76tD1sIKGG+UYPTVsmSc1QPumWRA8u6JC5RMalUv2CVP/emH/
-         lKJ06PMEKepOg==
-Subject: Re: [PATCH] staging: media: atomisp: Removed a function entry log
-To:     Martiros Shakhzadyan <vrzh@vrzh.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-References: <20210412023558.360103-1-vrzh@vrzh.net>
- <20210412023558.360103-3-vrzh@vrzh.net>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e523c55b-9e5b-bbd1-73e8-a6c8dcd832f7@xs4all.nl>
-Date:   Mon, 12 Apr 2021 11:28:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        Mon, 12 Apr 2021 05:34:39 -0400
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 38672200005;
+        Mon, 12 Apr 2021 09:34:16 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/17] media: gmsl: Reliability improvements
+Date:   Mon, 12 Apr 2021 11:34:34 +0200
+Message-Id: <20210412093451.14198-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210412023558.360103-3-vrzh@vrzh.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfHD6S4mDk0zHdpqUOGdPIk9IEDfWsA3/MtJdLAypttASFr100ER6wZwasjrAFjwtqqZItq/moNcXYeuLi/DDrgpOqe1xA2TEDdK/PIk/NC58X5LQ5ub3
- 9YI5ozN+mRtPyHflj5INtvUeAgVWylltv9wdqHv2scMuf4po98UEorsRlQVuAo21GbTRnjajLZpH/R9wSP8mYXONBfOZvFnVqCPJa4NDSNY+eq72AhsjdV6N
- PcaRBYk4dRj66B/l0Z2CGApETOGr1KnQ9na6t4z+i7u5QqU+Xo8c/8QqtxcT1YOp
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/04/2021 04:35, Martiros Shakhzadyan wrote:
-> Coding style fix.
+Hello,
+   series following:
+v1: https://patchwork.linuxtv.org/project/linux-media/list/?series=4650
+v2: https://patchwork.linuxtv.org/project/linux-media/list/?series=4861
+v3: https://patchwork.linuxtv.org/project/linux-media/list/?series=4904
 
-What exactly is the coding style issue? Please mention that.
+This series is a minor rework that builds on top of the comments received on v3.
 
-Also, by removing the line you change the behavior (i.e. if debugging is
-enabled, you no longer see this message). That's more than a coding style
-fix...
+I've re-order patches for better consumption:
+[01/17] -> [05/17]: max9286 style fixes
+[06/17] -> [07/17]: max9271 minor fixes
+[08/17] -> [10/17]: rdamc21 fixes: these patches are relevant for RDACM21
+ 		    stability
+[11/17] -> [15/17]: rdacm20 fixes
+[16/17] -> [17/17]: GMSL initialization series rework, also relevant for syste,
+                    stability
 
-Regards,
+The only part where consensus still has to be reached is the last two patches.
+Unfortunately, Sakari's suggestion of moving the remotes initialization to
+s_stream() time did not work, and this version is the only one I've found that
+gurantees a reliable initialization sequence. I've cc-ed Hans and Sakari to
+continue the discussion.
 
-	Hans
+Run quite some tests with Eagle and RDACM21: 1378 boot cycles with 100% boot
+success (thanks Kieran for the board access).
 
-> 
-> Signed-off-by: Martiros Shakhzadyan <vrzh@vrzh.net>
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> index c017e9066b7a..912eadaffc44 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> @@ -1175,8 +1175,6 @@ static int ov2722_remove(struct i2c_client *client)
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  	struct ov2722_device *dev = to_ov2722_sensor(sd);
->  
-> -	dev_dbg(&client->dev, "ov2722_remove...\n");
-> -
->  	dev->platform_data->csi_cfg(sd, 0);
->  	v4l2_ctrl_handler_free(&dev->ctrl_handler);
->  	v4l2_device_unregister_subdev(sd);
-> 
+Thanks
+   j
+
+Jacopo Mondi (17):
+  media: i2c: max9286: Adjust parameters indent
+  media: i2c: max9286: Rename reverse_channel_mv
+  media: i2c: max9286: Cache channel amplitude
+  media: i2c: max9286: Define high channel amplitude
+  media: i2c: max9286: Rework comments in .bound()
+  media: i2c: max9271: Check max9271_write() return
+  media: i2c: max9271: Introduce wake_up() function
+  media: i2c: rdacm21: Add dealy after OV490 reset
+  media: i2c: rdacm21: Fix OV10640 powerup
+  media: i2c: rdacm21: Power up OV10640 before OV490
+  media: i2c: rdacm20: Enable noise immunity
+  media: i2c: rdacm20: Embed 'serializer' field
+  media: i2c: rdacm20: Report camera module name
+  media: i2c: rdacm20: Check return values
+  media: i2c: rdacm20: Re-work ov10635 reset
+  media: v4l2-subdev: De-deprecate init() subdev op
+  media: gmsl: Reimplement initialization sequence
+
+ drivers/media/i2c/max9271.c |  42 +++++++++--
+ drivers/media/i2c/max9271.h |   9 +++
+ drivers/media/i2c/max9286.c |  56 +++++++++------
+ drivers/media/i2c/rdacm20.c | 135 +++++++++++++++++++++---------------
+ drivers/media/i2c/rdacm21.c | 124 +++++++++++++++++++++------------
+ include/media/v4l2-subdev.h |  15 +++-
+ 6 files changed, 253 insertions(+), 128 deletions(-)
+
+--
+2.31.1
 
