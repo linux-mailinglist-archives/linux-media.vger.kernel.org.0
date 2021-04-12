@@ -2,115 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0794A35BBA3
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 10:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC86435BBD9
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 10:13:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237152AbhDLIFy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 04:05:54 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:3401 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237144AbhDLIFw (ORCPT
+        id S237019AbhDLIOA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 04:14:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56526 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236920AbhDLIN7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 04:05:52 -0400
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 12 Apr 2021 01:05:34 -0700
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 12 Apr 2021 01:05:32 -0700
-X-QCInternal: smtphost
-Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 12 Apr 2021 13:35:11 +0530
-Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id 3DC3121936; Mon, 12 Apr 2021 13:35:10 +0530 (IST)
-From:   Dikshita Agarwal <dikshita@codeaurora.org>
-To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, swboyd@chromium.org,
-        bjorn.andersson@linaro.org,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH v5] media: venus : hfi: add venus image info into smem
-Date:   Mon, 12 Apr 2021 13:35:08 +0530
-Message-Id: <1618214708-28711-1-git-send-email-dikshita@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+        Mon, 12 Apr 2021 04:13:59 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C825C061574
+        for <linux-media@vger.kernel.org>; Mon, 12 Apr 2021 01:13:42 -0700 (PDT)
+Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0BFA63F0;
+        Mon, 12 Apr 2021 10:13:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1618215220;
+        bh=Z/JOpahoeklxi1Mw5cBcVgrKxeoBY08zPqyAOFIKClQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IABj2TFNLUd1UD6SRnLApFBSS4pjHs4MmZ0G51+0KPsKmJ+j8uJf4jEOn0Fm/Uf7n
+         r6gWyotGRBWVPGjvYcpcdCKUkvNnszdv7NnhIIhoj33ELjWiRuxA3aR2dnl02OxBKK
+         sO+Vth5dhatFsTXhXQGyClXn09eooejXJ+NTwv1E=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH] media: videobuf2-v4l2.c: add vb2_queue_change_type() helper
+Date:   Mon, 12 Apr 2021 11:12:55 +0300
+Message-Id: <20210412081255.104788-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fill fw version info into smem to be printed as part of
-soc info.
+On some platforms a video device can capture either video data or
+metadata. The driver can implement vidioc functions for both video and
+metadata, and use a single vb2_queue for the buffers. However, vb2_queue
+requires choosing a single buffer type, which conflicts with the idea of
+capturing either video or metadata.
 
-Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+The buffer type of vb2_queue can be changed, but it's not obvious how
+this should be done in the drivers. To help this, add a new helper
+function vb2_queue_change_type() which ensures the correct checks and
+documents how it can be used.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/platform/Kconfig               |  2 +-
- drivers/media/platform/qcom/venus/hfi_msgs.c | 20 ++++++++++++++++++--
- 2 files changed, 19 insertions(+), 3 deletions(-)
+ drivers/media/common/videobuf2/videobuf2-v4l2.c | 14 ++++++++++++++
+ include/media/videobuf2-v4l2.h                  | 15 +++++++++++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index fd1831e..9c75e88 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -543,7 +543,7 @@ config VIDEO_TI_VPE_DEBUG
- 
- config VIDEO_QCOM_VENUS
- 	tristate "Qualcomm Venus V4L2 encoder/decoder driver"
--	depends on VIDEO_DEV && VIDEO_V4L2
-+	depends on VIDEO_DEV && VIDEO_V4L2 && QCOM_SMEM
- 	depends on (ARCH_QCOM && IOMMU_DMA) || COMPILE_TEST
- 	select QCOM_MDT_LOADER if ARCH_QCOM
- 	select QCOM_SCM if ARCH_QCOM
-diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
-index 06a1908..9f856a6 100644
---- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-+++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-@@ -6,6 +6,7 @@
- #include <linux/hash.h>
- #include <linux/list.h>
- #include <linux/slab.h>
-+#include <linux/soc/qcom/smem.h>
- #include <media/videobuf2-v4l2.h>
- 
- #include "core.h"
-@@ -14,6 +15,10 @@
- #include "hfi_msgs.h"
- #include "hfi_parser.h"
- 
-+#define SMEM_IMG_VER_TBL 469
-+#define VER_STR_SZ	128
-+#define SMEM_IMG_OFFSET_VENUS (14 * 128)
-+
- static void event_seq_changed(struct venus_core *core, struct venus_inst *inst,
- 			      struct hfi_msg_event_notify_pkt *pkt)
- {
-@@ -239,15 +244,26 @@ static void
- sys_get_prop_image_version(struct device *dev,
- 			   struct hfi_msg_sys_property_info_pkt *pkt)
- {
-+	u8 *smem_tbl_ptr;
-+	u8 *img_ver;
- 	int req_bytes;
-+	size_t smem_blk_sz;
- 
- 	req_bytes = pkt->hdr.size - sizeof(*pkt);
- 
--	if (req_bytes < 128 || !pkt->data[1] || pkt->num_properties > 1)
-+	if (req_bytes < VER_STR_SZ || !pkt->data[1] || pkt->num_properties > 1)
- 		/* bad packet */
- 		return;
- 
--	dev_dbg(dev, VDBGL "F/W version: %s\n", (u8 *)&pkt->data[1]);
-+	img_ver = (u8 *)&pkt->data[1];
-+
-+	dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
-+
-+	smem_tbl_ptr = qcom_smem_get(QCOM_SMEM_HOST_ANY,
-+		SMEM_IMG_VER_TBL, &smem_blk_sz);
-+	if (smem_tbl_ptr && smem_blk_sz >= SMEM_IMG_OFFSET_VENUS + VER_STR_SZ)
-+		memcpy(smem_tbl_ptr + SMEM_IMG_OFFSET_VENUS,
-+		       img_ver, VER_STR_SZ);
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 7e96f67c60ba..2988bb38ceb1 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -939,6 +939,20 @@ void vb2_queue_release(struct vb2_queue *q)
  }
+ EXPORT_SYMBOL_GPL(vb2_queue_release);
  
- static void hfi_sys_property_info(struct venus_core *core,
++int vb2_queue_change_type(struct vb2_queue *q, unsigned int type)
++{
++	if (type == q->type)
++		return 0;
++
++	if (vb2_is_busy(q))
++		return -EBUSY;
++
++	q->type = type;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(vb2_queue_change_type);
++
+ __poll_t vb2_poll(struct vb2_queue *q, struct file *file, poll_table *wait)
+ {
+ 	struct video_device *vfd = video_devdata(file);
+diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
+index c203047eb834..3e604c1b5e1b 100644
+--- a/include/media/videobuf2-v4l2.h
++++ b/include/media/videobuf2-v4l2.h
+@@ -261,6 +261,21 @@ int __must_check vb2_queue_init_name(struct vb2_queue *q, const char *name);
+  */
+ void vb2_queue_release(struct vb2_queue *q);
+ 
++/**
++ * vb2_queue_change_type() - change the type of an inactive vb2_queue
++ * @q:		pointer to &struct vb2_queue with videobuf2 queue.
++ *
++ * This function changes the type of the vb2_queue. This is only possible
++ * if the queue is not busy (i.e. no buffers have been queued).
++ *
++ * vb2_queue_change_type() can be used to support multiple buffer types using
++ * the same queue. The driver can implement v4l2_ioctl_ops.vidioc_reqbufs and
++ * v4l2_ioctl_ops.vidioc_create_bufs functions and call vb2_queue_change_type()
++ * before calling vb2_ioctl_reqbufs() or vb2_ioctl_create_bufs(), and thus
++ * "lock" the buffer type until the buffers have been released.
++ */
++int vb2_queue_change_type(struct vb2_queue *q, unsigned int type);
++
+ /**
+  * vb2_poll() - implements poll userspace operation
+  * @q:		pointer to &struct vb2_queue with videobuf2 queue.
 -- 
-2.7.4
+2.25.1
 
