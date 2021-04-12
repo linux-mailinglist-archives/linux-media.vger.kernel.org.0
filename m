@@ -2,183 +2,395 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84FB035C55E
-	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 13:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F46035C5A8
+	for <lists+linux-media@lfdr.de>; Mon, 12 Apr 2021 13:51:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240624AbhDLLgC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Apr 2021 07:36:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44754 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240584AbhDLLgB (ORCPT
+        id S240419AbhDLLvr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Apr 2021 07:51:47 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:51037 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238057AbhDLLvq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Apr 2021 07:36:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71CE7C061574
-        for <linux-media@vger.kernel.org>; Mon, 12 Apr 2021 04:35:43 -0700 (PDT)
-Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A4335A9;
-        Mon, 12 Apr 2021 13:35:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618227342;
-        bh=FCVV8zZTrtmBkxW8rgRb1/Yl+82dlfDdoGxT1pAxrz0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hzJz/u1gNJjzFJp18ohd5Hef0F4wk/0/9+EbCygxDBDoK8zWWBvyWDb9YMtBuaU/J
-         7a9AUalEScOuE5BIHN/Wk7TU1poOIAdFWIW7K+W5dVDNtaWKRtkBFpV+g7OUTjsKYU
-         8vwBgNJnn2Q+UCUsSOatVXKUTcTotz+APDXT8m8Q=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     Benoit Parrot <bparrot@ti.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 28/28] media: ti-vpe: cal: support 8 DMA contexts
-Date:   Mon, 12 Apr 2021 14:34:57 +0300
-Message-Id: <20210412113457.328012-29-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
-References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
+        Mon, 12 Apr 2021 07:51:46 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Vv6Bl5juzMxedVv6FldGK7; Mon, 12 Apr 2021 13:51:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1618228287; bh=SQlJQz/AdEsbx60hdSgU982R8rAxkWXU9SYPf3jjHv8=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=cndaR39GUDU8i2UKjc7ngo0KE6CNZ1iQpLPtNh+KNgMSpKKhCQIpRoiLLa4BwI63j
+         R1g0AZOH4/jroJYnzq7gkAPgr4qhHOOYoS64e2nYh9BFFWP6pq7+FrjVcayTNuYyjs
+         VNYM0b0Wn6Kq1mzrEohSEfNldRAGvViAkeN5URqGMFyqwS1Y5FvI2qVRmkibRm8Vlo
+         fcRjGExrkI7bJU+qP03pju0/Gg22vvA6tlbkXZv5wgzxFnb56/T3gYABdTyVXVWzy4
+         lJccdjQtRCfxXJtiCUJhe75qM8dMnylJ4QtTpHsFxTgjX9Qt11IaU7T1fbteQ45t1a
+         AkPJSLPe5FTTA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCHv2] v4l2-ctrls: fix reference to freed memory
+Message-ID: <f756faa7-2853-906d-826f-f680beed8c7d@xs4all.nl>
+Date:   Mon, 12 Apr 2021 13:51:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfGKMV4YHMqZIGhBzRUeMNdkBRjtePa7dW4zIXSDmKZ0YkR3TEEVloEjNt7WKfzIVU/Mxh/yOkGIenGxLPY2y/+ZxKRUd4LXNaPS6061earfqJ3N/O3y3
+ K65e7T+Vp8C2YXq2VEIAXGpysvcRU8wXbrdbhrT5ig3E9i3kyPDfIwRK9frt0FL+rXFmlZRkx9FBzPJXsvGG0GfF8deXja5F32h+Zdi3pu4eXg8UIBywObWp
+ eKlDA9Lbl5HK7n9NWbX+asExRH1Goss0WbJP8yc/bG+WUguolnQUVD3uG+WBiZZ7pmx03hWJfDTYrqXRDKDvnOx5Eb9loxQRuhmZVZ3xL2U=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The current driver only ever needs 2 DMA contexts (one per PHY), but we
-need to use more of the 8 contexts to add support for multiple streams.
+When controls are used together with the Request API, then for
+each request a v4l2_ctrl_handler struct is allocated. This contains
+the controls that can be set in a request. If a control is *not* set in
+the request, then the value used in the most recent previous request
+must be used, or the current value if it is not found in any outstanding
+requests.
 
-Change the code so that we allocate DMA contexts as needed, which at
-this time is 1 per PHY, but could be up to 8.
+The framework tried to find such a previous request and it would set
+the 'req' pointer in struct v4l2_ctrl_ref to the v4l2_ctrl_ref of the
+control in such a previous request. So far, so good. However, when that
+previous request was applied to the hardware, returned to userspace, and
+then userspace would re-init or free that request, any 'ref' pointer in
+still-queued requests would suddenly point to freed memory.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+This was not noticed before since the drivers that use this expected
+that each request would always have the controls set, so there was
+never any need to find a control in older requests. This requirement
+was relaxed, and now this bug surfaced.
+
+The use of the 'req' pointer in v4l2_ctrl_ref was very fragile, so
+drop this entirely. Instead add a valid_p_req bool to indicate that
+p_req contains a valid value for this control. And if it is false,
+then just use the current value of the control.
+
+Note that VIDIOC_G_EXT_CTRLS will always return -EACCES when attempting
+to get a control from a request until the request is completed. And in
+that case, all controls in the request will have the control value set
+(i.e. valid_p_req is true). This means that the whole 'find the most
+recent previous request containing a control' idea is pointless, and
+the code can be simplified considerably.
+
+The v4l2_g_ext_ctrls_common() function was refactored a bit to make
+it more understandable. It also avoids updating volatile controls
+in a completed request since that was already done when the request
+was completed.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: 6fa6f831f095 ("media: v4l2-ctrls: add core request support")
+Cc: <stable@vger.kernel.org>      # for v5.9 and up
 ---
- drivers/media/platform/ti-vpe/cal.c | 38 ++++++++++++-----------------
- drivers/media/platform/ti-vpe/cal.h |  5 ++--
- 2 files changed, 18 insertions(+), 25 deletions(-)
+While the bug was actually introduced when the Request API was merged,
+it was not in active use until the H.264 stateless codec API was made
+part of the uAPI. That's why the CC to stable explicitly says v5.9 and
+up, since this patch won't apply for older kernels, and that's OK since
+it was not in active use AFAIK.
 
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 91d2139adc9b..781fb14f4c7a 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -657,7 +657,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
- 		/* Clear Interrupt status */
- 		cal_write(cal, CAL_HL_IRQSTATUS(1), status);
- 
--		for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
-+		for (i = 0; i < cal->num_contexts; ++i) {
- 			if (status & CAL_HL_IRQ_WDMA_END_MASK(i))
- 				cal_irq_wdma_end(cal->ctx[i]);
- 		}
-@@ -671,7 +671,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
- 		/* Clear Interrupt status */
- 		cal_write(cal, CAL_HL_IRQSTATUS(2), status);
- 
--		for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
-+		for (i = 0; i < cal->num_contexts; ++i) {
- 			if (status & CAL_HL_IRQ_WDMA_START_MASK(i))
- 				cal_irq_wdma_start(cal->ctx[i]);
- 		}
-@@ -741,10 +741,8 @@ static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
- 	unsigned int i;
- 	int ret = 0;
- 
--	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
--		if (cal->ctx[i])
--			cal_ctx_v4l2_register(cal->ctx[i]);
--	}
-+	for (i = 0; i < cal->num_contexts; ++i)
-+		cal_ctx_v4l2_register(cal->ctx[i]);
- 
- 	if (cal_mc_api)
- 		ret = v4l2_device_register_subdev_nodes(&cal->v4l2_dev);
-@@ -846,10 +844,8 @@ static void cal_media_unregister(struct cal_dev *cal)
- 	unsigned int i;
- 
- 	/* Unregister all the V4L2 video devices. */
--	for (i = 0; i < ARRAY_SIZE(cal->ctx); i++) {
--		if (cal->ctx[i])
--			cal_ctx_v4l2_unregister(cal->ctx[i]);
--	}
-+	for (i = 0; i < cal->num_contexts; i++)
-+		cal_ctx_v4l2_unregister(cal->ctx[i]);
- 
- 	cal_async_notifier_unregister(cal);
- 	media_device_unregister(&cal->mdev);
-@@ -896,10 +892,8 @@ static void cal_media_cleanup(struct cal_dev *cal)
+If that assumption is wrong, then let me know and I will have to create
+custom patches for older kernels, but I prefer to avoid doing that.
+
+I'm not planning to get this merged for 5.12 since we are close to a
+release, so I think it is OK to get this in for 5.13 and have it backported
+to 5.12. I also would like to have feedback from Alexandre and Yunfei
+that this patch indeed fixes your issues as well.
+
+I plan on creating better tests in v4l2-compliance using vivid to verify
+correct behavior of controls in requests. Proper tests are definitely
+needed to avoid bugs like this.
+
+Changes since v1:
+- drop find_ctrl_in_prev_request() as it is actually not needed
+- refactor v4l2_g_ext_ctrls_common() a little bit to make it easier
+  to understand
+
+Regards,
+
+	Hans
+---
+ drivers/media/v4l2-core/v4l2-ctrls.c | 137 ++++++++++++---------------
+ include/media/v4l2-ctrls.h           |  12 ++-
+ 2 files changed, 70 insertions(+), 79 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index c7bcc5c25771..0d7fe1bd975a 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -2504,7 +2504,16 @@ static void new_to_req(struct v4l2_ctrl_ref *ref)
+ 	if (!ref)
+ 		return;
+ 	ptr_to_ptr(ref->ctrl, ref->ctrl->p_new, ref->p_req);
+-	ref->req = ref;
++	ref->valid_p_req = true;
++}
++
++/* Copy the current value to the request value */
++static void cur_to_req(struct v4l2_ctrl_ref *ref)
++{
++	if (!ref)
++		return;
++	ptr_to_ptr(ref->ctrl, ref->ctrl->p_cur, ref->p_req);
++	ref->valid_p_req = true;
+ }
+
+ /* Copy the request value to the new value */
+@@ -2512,8 +2521,8 @@ static void req_to_new(struct v4l2_ctrl_ref *ref)
  {
- 	unsigned int i;
- 
--	for (i = 0; i < ARRAY_SIZE(cal->ctx); i++) {
--		if (cal->ctx[i])
--			cal_ctx_v4l2_cleanup(cal->ctx[i]);
+ 	if (!ref)
+ 		return;
+-	if (ref->req)
+-		ptr_to_ptr(ref->ctrl, ref->req->p_req, ref->ctrl->p_new);
++	if (ref->valid_p_req)
++		ptr_to_ptr(ref->ctrl, ref->p_req, ref->ctrl->p_new);
+ 	else
+ 		ptr_to_ptr(ref->ctrl, ref->ctrl->p_cur, ref->ctrl->p_new);
+ }
+@@ -3694,39 +3703,8 @@ static void v4l2_ctrl_request_queue(struct media_request_object *obj)
+ 	struct v4l2_ctrl_handler *hdl =
+ 		container_of(obj, struct v4l2_ctrl_handler, req_obj);
+ 	struct v4l2_ctrl_handler *main_hdl = obj->priv;
+-	struct v4l2_ctrl_handler *prev_hdl = NULL;
+-	struct v4l2_ctrl_ref *ref_ctrl, *ref_ctrl_prev = NULL;
+
+ 	mutex_lock(main_hdl->lock);
+-	if (list_empty(&main_hdl->requests_queued))
+-		goto queue;
+-
+-	prev_hdl = list_last_entry(&main_hdl->requests_queued,
+-				   struct v4l2_ctrl_handler, requests_queued);
+-	/*
+-	 * Note: prev_hdl and hdl must contain the same list of control
+-	 * references, so if any differences are detected then that is a
+-	 * driver bug and the WARN_ON is triggered.
+-	 */
+-	mutex_lock(prev_hdl->lock);
+-	ref_ctrl_prev = list_first_entry(&prev_hdl->ctrl_refs,
+-					 struct v4l2_ctrl_ref, node);
+-	list_for_each_entry(ref_ctrl, &hdl->ctrl_refs, node) {
+-		if (ref_ctrl->req)
+-			continue;
+-		while (ref_ctrl_prev->ctrl->id < ref_ctrl->ctrl->id) {
+-			/* Should never happen, but just in case... */
+-			if (list_is_last(&ref_ctrl_prev->node,
+-					 &prev_hdl->ctrl_refs))
+-				break;
+-			ref_ctrl_prev = list_next_entry(ref_ctrl_prev, node);
+-		}
+-		if (WARN_ON(ref_ctrl_prev->ctrl->id != ref_ctrl->ctrl->id))
+-			break;
+-		ref_ctrl->req = ref_ctrl_prev->req;
 -	}
-+	for (i = 0; i < cal->num_contexts; i++)
-+		cal_ctx_v4l2_cleanup(cal->ctx[i]);
- 
- 	v4l2_device_unregister(&cal->v4l2_dev);
- 	media_device_cleanup(&cal->mdev);
-@@ -1048,7 +1042,6 @@ static int cal_init_camerarx_regmap(struct cal_dev *cal)
- static int cal_probe(struct platform_device *pdev)
+-	mutex_unlock(prev_hdl->lock);
+-queue:
+ 	list_add_tail(&hdl->requests_queued, &main_hdl->requests_queued);
+ 	hdl->request_is_queued = true;
+ 	mutex_unlock(main_hdl->lock);
+@@ -3783,7 +3761,7 @@ v4l2_ctrl_request_hdl_ctrl_find(struct v4l2_ctrl_handler *hdl, u32 id)
  {
- 	struct cal_dev *cal;
--	struct cal_ctx *ctx;
- 	bool connected = false;
- 	unsigned int i;
+ 	struct v4l2_ctrl_ref *ref = find_ref_lock(hdl, id);
+
+-	return (ref && ref->req == ref) ? ref->ctrl : NULL;
++	return (ref && ref->valid_p_req) ? ref->ctrl : NULL;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_ctrl_request_hdl_ctrl_find);
+
+@@ -3972,7 +3950,13 @@ static int class_check(struct v4l2_ctrl_handler *hdl, u32 which)
+ 	return find_ref_lock(hdl, which | 1) ? 0 : -EINVAL;
+ }
+
+-/* Get extended controls. Allocates the helpers array if needed. */
++/*
++ * Get extended controls. Allocates the helpers array if needed.
++ *
++ * Note that v4l2_g_ext_ctrls_common() with 'which' set to
++ * V4L2_CTRL_WHICH_REQUEST_VAL is only called if the request was
++ * completed, and in that case valid_p_req is true for all controls.
++ */
+ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+ 				   struct v4l2_ext_controls *cs,
+ 				   struct video_device *vdev)
+@@ -3981,9 +3965,10 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+ 	struct v4l2_ctrl_helper *helpers = helper;
  	int ret;
-@@ -1132,12 +1125,14 @@ static int cal_probe(struct platform_device *pdev)
- 		if (!cal->phy[i]->source_node)
+ 	int i, j;
+-	bool def_value;
++	bool is_default, is_request;
+
+-	def_value = (cs->which == V4L2_CTRL_WHICH_DEF_VAL);
++	is_default = (cs->which == V4L2_CTRL_WHICH_DEF_VAL);
++	is_request = (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL);
+
+ 	cs->error_idx = cs->count;
+ 	cs->which = V4L2_CTRL_ID2WHICH(cs->which);
+@@ -4009,11 +3994,9 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+ 			ret = -EACCES;
+
+ 	for (i = 0; !ret && i < cs->count; i++) {
+-		int (*ctrl_to_user)(struct v4l2_ext_control *c,
+-				    struct v4l2_ctrl *ctrl);
+ 		struct v4l2_ctrl *master;
+-
+-		ctrl_to_user = def_value ? def_to_user : cur_to_user;
++		bool is_volatile = false;
++		u32 idx = i;
+
+ 		if (helpers[i].mref == NULL)
  			continue;
- 
--		cal->ctx[i] = cal_ctx_create(cal, i);
--		if (!cal->ctx[i]) {
--			cal_err(cal, "Failed to create context %u\n", i);
-+		cal->ctx[cal->num_contexts] = cal_ctx_create(cal, i);
-+		if (!cal->ctx[cal->num_contexts]) {
-+			cal_err(cal, "Failed to create context %u\n", cal->num_contexts);
- 			ret = -ENODEV;
- 			goto error_context;
+@@ -4023,31 +4006,48 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+
+ 		v4l2_ctrl_lock(master);
+
+-		/* g_volatile_ctrl will update the new control values */
+-		if (!def_value &&
++		/*
++		 * g_volatile_ctrl will update the new control values.
++		 * This makes no sense for V4L2_CTRL_WHICH_DEF_VAL and
++		 * V4L2_CTRL_WHICH_REQUEST_VAL. In the case of requests
++		 * it is v4l2_ctrl_request_complete() that copies the
++		 * volatile controls at the time of request completion
++		 * to the request, so you don't want to do that again.
++		 */
++		if (!is_default && !is_request &&
+ 		    ((master->flags & V4L2_CTRL_FLAG_VOLATILE) ||
+ 		    (master->has_volatiles && !is_cur_manual(master)))) {
+ 			for (j = 0; j < master->ncontrols; j++)
+ 				cur_to_new(master->cluster[j]);
+ 			ret = call_op(master, g_volatile_ctrl);
+-			ctrl_to_user = new_to_user;
++			is_volatile = true;
+ 		}
+-		/* If OK, then copy the current (for non-volatile controls)
+-		   or the new (for volatile controls) control values to the
+-		   caller */
+-		if (!ret) {
+-			u32 idx = i;
+
+-			do {
+-				if (helpers[idx].ref->req)
+-					ret = req_to_user(cs->controls + idx,
+-						helpers[idx].ref->req);
+-				else
+-					ret = ctrl_to_user(cs->controls + idx,
+-						helpers[idx].ref->ctrl);
+-				idx = helpers[idx].next;
+-			} while (!ret && idx);
++		if (ret) {
++			v4l2_ctrl_unlock(master);
++			break;
  		}
 +
-+		cal->num_contexts++;
++		/*
++		 * Copy the default value (if is_default is true), the
++		 * request value (if is_request is true and p_req is valid),
++		 * the new volatile value (if is_volatile is true) or the
++		 * current value.
++		 */
++		do {
++			struct v4l2_ctrl_ref *ref = helpers[idx].ref;
++
++			if (is_default)
++				ret = def_to_user(cs->controls + idx, ref->ctrl);
++			else if (is_request && ref->valid_p_req)
++				ret = req_to_user(cs->controls + idx, ref);
++			else if (is_volatile)
++				ret = new_to_user(cs->controls + idx, ref->ctrl);
++			else
++				ret = cur_to_user(cs->controls + idx, ref->ctrl);
++			idx = helpers[idx].next;
++		} while (!ret && idx);
++
+ 		v4l2_ctrl_unlock(master);
  	}
- 
- 	/* Register the media device. */
-@@ -1148,11 +1143,8 @@ static int cal_probe(struct platform_device *pdev)
- 	return 0;
- 
- error_context:
--	for (i = 0; i < ARRAY_SIZE(cal->ctx); i++) {
--		ctx = cal->ctx[i];
--		if (ctx)
--			cal_ctx_v4l2_cleanup(ctx);
--	}
-+	for (i = 0; i < cal->num_contexts; i++)
-+		cal_ctx_v4l2_cleanup(cal->ctx[i]);
- 
- error_camerarx:
- 	for (i = 0; i < cal->data->num_csi2_phy; i++)
-diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-index 7f35ad5ceac2..783876d7cf40 100644
---- a/drivers/media/platform/ti-vpe/cal.h
-+++ b/drivers/media/platform/ti-vpe/cal.h
-@@ -29,7 +29,7 @@
- #include <media/videobuf2-v4l2.h>
- 
- #define CAL_MODULE_NAME			"cal"
--#define CAL_NUM_CONTEXT			2
-+#define CAL_MAX_NUM_CONTEXT		8
- #define CAL_NUM_CSI2_PORTS		2
- 
- /*
-@@ -182,7 +182,8 @@ struct cal_dev {
- 	/* Camera Core Module handle */
- 	struct cal_camerarx	*phy[CAL_NUM_CSI2_PORTS];
- 
--	struct cal_ctx		*ctx[CAL_NUM_CONTEXT];
-+	u32 num_contexts;
-+	struct cal_ctx		*ctx[CAL_MAX_NUM_CONTEXT];
- 
- 	struct media_device	mdev;
- 	struct v4l2_device	v4l2_dev;
+
+@@ -4690,8 +4690,6 @@ void v4l2_ctrl_request_complete(struct media_request *req,
+ 		unsigned int i;
+
+ 		if (ctrl->flags & V4L2_CTRL_FLAG_VOLATILE) {
+-			ref->req = ref;
+-
+ 			v4l2_ctrl_lock(master);
+ 			/* g_volatile_ctrl will update the current control values */
+ 			for (i = 0; i < master->ncontrols; i++)
+@@ -4701,21 +4699,12 @@ void v4l2_ctrl_request_complete(struct media_request *req,
+ 			v4l2_ctrl_unlock(master);
+ 			continue;
+ 		}
+-		if (ref->req == ref)
++		if (ref->valid_p_req)
+ 			continue;
+
++		/* Copy the current control value into the request */
+ 		v4l2_ctrl_lock(ctrl);
+-		if (ref->req) {
+-			ptr_to_ptr(ctrl, ref->req->p_req, ref->p_req);
+-		} else {
+-			ptr_to_ptr(ctrl, ctrl->p_cur, ref->p_req);
+-			/*
+-			 * Set ref->req to ensure that when userspace wants to
+-			 * obtain the controls of this request it will take
+-			 * this value and not the current value of the control.
+-			 */
+-			ref->req = ref;
+-		}
++		cur_to_req(ref);
+ 		v4l2_ctrl_unlock(ctrl);
+ 	}
+
+@@ -4779,7 +4768,7 @@ int v4l2_ctrl_request_setup(struct media_request *req,
+ 				struct v4l2_ctrl_ref *r =
+ 					find_ref(hdl, master->cluster[i]->id);
+
+-				if (r->req && r == r->req) {
++				if (r->valid_p_req) {
+ 					have_new_data = true;
+ 					break;
+ 				}
+diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+index c1d20bd8f25f..a5953b812878 100644
+--- a/include/media/v4l2-ctrls.h
++++ b/include/media/v4l2-ctrls.h
+@@ -304,12 +304,14 @@ struct v4l2_ctrl {
+  *		the control has been applied. This prevents applying controls
+  *		from a cluster with multiple controls twice (when the first
+  *		control of a cluster is applied, they all are).
+- * @req:	If set, this refers to another request that sets this control.
++ * @valid_p_req: If set, then p_req contains the control value for the request.
+  * @p_req:	If the control handler containing this control reference
+  *		is bound to a media request, then this points to the
+- *		value of the control that should be applied when the request
++ *		value of the control that must be applied when the request
+  *		is executed, or to the value of the control at the time
+- *		that the request was completed.
++ *		that the request was completed. If @valid_p_req is false,
++ *		then this control was never set for this request and the
++ *		control will not be updated when this request is applied.
+  *
+  * Each control handler has a list of these refs. The list_head is used to
+  * keep a sorted-by-control-ID list of all controls, while the next pointer
+@@ -322,7 +324,7 @@ struct v4l2_ctrl_ref {
+ 	struct v4l2_ctrl_helper *helper;
+ 	bool from_other_dev;
+ 	bool req_done;
+-	struct v4l2_ctrl_ref *req;
++	bool valid_p_req;
+ 	union v4l2_ctrl_ptr p_req;
+ };
+
+@@ -349,7 +351,7 @@ struct v4l2_ctrl_ref {
+  * @error:	The error code of the first failed control addition.
+  * @request_is_queued: True if the request was queued.
+  * @requests:	List to keep track of open control handler request objects.
+- *		For the parent control handler (@req_obj.req == NULL) this
++ *		For the parent control handler (@req_obj.ops == NULL) this
+  *		is the list header. When the parent control handler is
+  *		removed, it has to unbind and put all these requests since
+  *		they refer to the parent.
 -- 
-2.25.1
+2.30.2
 
