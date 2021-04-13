@@ -2,212 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12C1335E40F
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 18:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AC0935E417
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 18:36:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345733AbhDMQeu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 12:34:50 -0400
-Received: from mail-oi1-f174.google.com ([209.85.167.174]:43568 "EHLO
-        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345270AbhDMQes (ORCPT
+        id S1345847AbhDMQgy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 12:36:54 -0400
+Received: from mail-pf1-f174.google.com ([209.85.210.174]:38758 "EHLO
+        mail-pf1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345812AbhDMQgy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 12:34:48 -0400
-Received: by mail-oi1-f174.google.com with SMTP id a21so4509136oib.10;
-        Tue, 13 Apr 2021 09:34:28 -0700 (PDT)
+        Tue, 13 Apr 2021 12:36:54 -0400
+Received: by mail-pf1-f174.google.com with SMTP id y16so11783804pfc.5;
+        Tue, 13 Apr 2021 09:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=dd20NqXtrojKGrBJQbQ2lRtgUmGNTiUlPe1joyxcopU=;
+        b=IHFs8FlI+E2aYsqYZDA/xjPPjwlgQOduLuWNDf2cgPNWnj3Oy9WLA9fUOhEbATI+PE
+         Z4s5GySRJjI8+3wsFsACFI+AcdnjHoxdHuJGFguBUBNb4S/0cVWD4oEVq2WkxB8bNalr
+         CxQVY/XPBRxFMXyGtcY0lxV0PiKL62F0c/OCpLIsCbrjA+p55wRTDcwGCOMaebnjSuBr
+         tz9qcRrCtQT/Fbau2ZEWyqeyBgfSOSs0B+C3L6Qr3TXfkOhkZ/XGh6CAE7y7k86sj8ah
+         Dk8Bv4iuEtHja1ussXG+SeSQSxdHCI2SQcq3izqWyGjp8CU3bwRdheVeHOWT0dEfsnzm
+         csbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3b8Z/9OKRORHY6YjV3qZPMI7BwgvqRGP23arTb9UMNk=;
-        b=C7MxYDLkauMMgLTVp+d/jsfnJFe7MhPxfel3tC8vTLyX2cdBuPzs6epd43JTty+a/e
-         y1LneozNM6Y3NaLykdxYFVJL+6opOgpUWnq79p8//OHoKkvIfM1swZF3xhh72WCb6mMf
-         pjVnE5MO2XLmjSDbXbk83DjjHz8qnxEspW6xXDifIez1dU5aEmBao1Ni9zvPotxqBXfH
-         vFUy5ty5ENp5FkYBWmvPewfSxG7FFe2BjFf33aewOGoYYzb6uJxEoBZ6y85fhiq4nvvk
-         3oia8foEU1HxKx3xLkgrjfgVYsd7tkU6NcE+6tQLYyKhYlVDBFu0ADcrM9Q5Hh4O2u53
-         eb1A==
-X-Gm-Message-State: AOAM531GEz1lwQGHQZWBReyy7i3BTmy/xnrQxd9/h6VPUvCr/AfxQv32
-        8qmo/pPt5Q8m3+jIKIctaw==
-X-Google-Smtp-Source: ABdhPJzuSEPUm2+DNDhylZ5DaM1ljMcgi8V0tBx1KY3fGWb1MC8/rcJcIssFP/trm7Kk4r8vKva5YQ==
-X-Received: by 2002:aca:3b88:: with SMTP id i130mr607502oia.26.1618331668422;
-        Tue, 13 Apr 2021 09:34:28 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id p22sm3650602otf.25.2021.04.13.09.34.26
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=dd20NqXtrojKGrBJQbQ2lRtgUmGNTiUlPe1joyxcopU=;
+        b=YppbHkDC0KEiF4OJaIeubyqwHq/jG1hjVm7Y33g2cg+7vbzwRXBL869Dx8TZC64TF1
+         Y0VZKiFcZz8vdEVGrwx/ajU3OVSPvHQhP6HRmiK8wK/hc3cBGpVkSLoGg5uicCTqQ1S0
+         tldZGc4zxUGvw4Z4JY/F0cgjW5Ov7H5jQN0fZE7IHwkNC76t/4DkZtaZCDe2yA20hdAU
+         UXPvMbaIZRssJDHuGJ/jxl3eRQW6ccZWLBczs0mRMYThqt1XebrQwK5z6AbOquRFUmLi
+         DoeEO2A1m3pAWXWv3izOlYEkdnTFlhJAWsKuoteu4GPM2guZFeDSjLDy5sKvqBhfYvPN
+         8agA==
+X-Gm-Message-State: AOAM530/GSLnhhtVXJxLOfYvkKEjeQVYB3hgUJDXAb76+sL8tl+5xiJk
+        KiG1l6vDSDlEPGmm5FKL33Y=
+X-Google-Smtp-Source: ABdhPJzQfoOV1tSHdZTGBisqi78C3nrKplsv/ZKnmC8yl6nptENeS276rzZ7sxyorD4DPW2QPa20+g==
+X-Received: by 2002:a62:824c:0:b029:21b:66f5:c813 with SMTP id w73-20020a62824c0000b029021b66f5c813mr29926041pfd.32.1618331734483;
+        Tue, 13 Apr 2021 09:35:34 -0700 (PDT)
+Received: from kali ([103.141.87.254])
+        by smtp.gmail.com with ESMTPSA id v11sm14904582pgg.68.2021.04.13.09.35.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 09:34:27 -0700 (PDT)
-Received: (nullmailer pid 1794363 invoked by uid 1000);
-        Tue, 13 Apr 2021 16:34:26 -0000
-Date:   Tue, 13 Apr 2021 11:34:26 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Eugen Hristev <eugen.hristev@microchip.com>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        jacopo@jmondi.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 30/33] dt-bindings: media: add microchip,xisc device
- bindings
-Message-ID: <20210413163426.GA1791337@robh.at.kernel.org>
-References: <20210413105731.610028-1-eugen.hristev@microchip.com>
- <20210413105731.610028-31-eugen.hristev@microchip.com>
+        Tue, 13 Apr 2021 09:35:34 -0700 (PDT)
+Date:   Tue, 13 Apr 2021 22:05:26 +0530
+From:   Mitali Borkar <mitaliborkar810@gmail.com>
+To:     clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+        mitali_s@me.iitr.ac.in
+Subject: [PATCH v3] staging: media: zoran: reduce length of a line
+Message-ID: <YHXITpUbYOb2lO/u@kali>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210413105731.610028-31-eugen.hristev@microchip.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 13, 2021 at 01:57:28PM +0300, Eugen Hristev wrote:
-> Add bindings for the Microchip eXtended Image Sensor Controller.
-> Based on the atmel,isc.yaml binding.
-> 
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> ---
->  .../bindings/media/microchip,xisc.yaml        | 129 ++++++++++++++++++
->  1 file changed, 129 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/microchip,xisc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/microchip,xisc.yaml b/Documentation/devicetree/bindings/media/microchip,xisc.yaml
-> new file mode 100644
-> index 000000000000..e3825c4e13f8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/microchip,xisc.yaml
-> @@ -0,0 +1,129 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
+Reduced length of a line which exceed the 100 columns limit by splitting
+the line into two statements and commenting it with '*' to meet linux
+kernel coding style for long(multi-line) comments.
+Reported by checkpatch.
 
-Dual license new bindings:
+Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+---
 
-GPL-2.0-only OR BSD-2-Clause
+Changes from v2:- Rebased this patch and made changes against mainline
+code.
+Changes from v1:- Made style changes according to linux kernel coding style
+for long comments.
 
-> +# Copyright (C) 2021 Microchip Technology, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/microchip,xisc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Microchip eXtended Image Sensor Controller (XISC)
-> +
-> +maintainers:
-> +  - Eugen Hristev <eugen.hristev@microchip.com>
-> +
-> +description:
+ drivers/staging/media/zoran/zr36060.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-You need '|' on the end if you want to preserve line breaks.
+diff --git a/drivers/staging/media/zoran/zr36060.c b/drivers/staging/media/zoran/zr36060.c
+index 4f9eb9ff2c42..27eec3446592 100644
+--- a/drivers/staging/media/zoran/zr36060.c
++++ b/drivers/staging/media/zoran/zr36060.c
+@@ -249,7 +249,11 @@ static const char zr36060_ta[8] = { 0, 1, 1, 0, 0, 0, 0, 0 };	//table idx's AC
+ static const char zr36060_decimation_h[8] = { 2, 1, 1, 0, 0, 0, 0, 0 };
+ static const char zr36060_decimation_v[8] = { 1, 1, 1, 0, 0, 0, 0, 0 };
+ 
+-/* SOF (start of frame) segment depends on width, height and sampling ratio of each color component */
++/*
++ * SOF (start of frame) segment depends on width,
++ * height and sampling ratio of each color component
++ */
++
+ static int zr36060_set_sof(struct zr36060 *ptr)
+ {
+ 	char sof_data[34];	// max. size of register set
+-- 
+2.30.2
 
-> +  The eXtended Image Sensor Controller (XISC) device provides the video input capabilities for the
-> +  Microchip AT91 SAM family of devices.
-> +
-> +  The XISC has a single internal parallel input that supports RAW Bayer, RGB or YUV video.
-> +  The source can be either a demuxer from a CSI2 type of bus, or a simple direct bridge to a
-> +  parallel sensor.
-> +
-> +  The XISC provides one clock output that is used to clock the demuxer/bridge.
-> +
-> +properties:
-> +  compatible:
-> +    const: microchip,sama7g5-isc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: hclock
-> +
-> +  '#clock-cells':
-> +    const: 0
-> +
-> +  clock-output-names:
-> +    const: isc-mck
-> +
-> +  microchip,mipi-mode:
-> +    type: boolean
-> +    description:
-> +      As the XISC is usually connected to a demux/bridge, the XISC receives
-> +      the same type of input, however, it should be aware of the type of
-> +      signals received. The mipi-mode enables different internal handling
-> +      of the data and clock lines.
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description:
-> +      Input port node, single endpoint describing the input pad.
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: video-interfaces.yaml#
-> +
-> +        properties:
-> +          bus-type:
-> +            enum: [5, 6]
-> +
-> +          remote-endpoint: true
-> +
-> +          bus-width:
-> +            enum: [8, 9, 10, 11, 12]
-> +            default: 12
-> +
-> +          hsync-active:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +          vsync-active:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +          pclk-sample:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +        required:
-> +          - remote-endpoint
-> +          - bus-type
-> +
-> +        additionalProperties: false
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - '#clock-cells'
-> +  - clock-output-names
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/at91.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    xisc: xisc@e1408000 {
-> +        compatible = "microchip,sama7g5-isc";
-> +        reg = <0xe1408000 0x2000>;
-> +        interrupts = <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&pmc PMC_TYPE_PERIPHERAL 56>;
-> +        clock-names = "hclock";
-> +        #clock-cells = <0>;
-> +        clock-output-names = "isc-mck";
-> +
-> +        port {
-> +                xisc_in: endpoint {
-> +                       bus-type = <5>; /* Parallel */
-> +                       remote-endpoint = <&csi2dc_out>;
-> +                       hsync-active = <1>;
-> +                       vsync-active = <1>;
-> +                       bus-width = <12>;
-> +                };
-> +        };
-> +    };
-> +
-> -- 
-> 2.25.1
-> 
