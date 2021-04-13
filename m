@@ -2,109 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6B8735E625
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 20:18:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8548E35E633
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 20:21:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347601AbhDMSSL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 14:18:11 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:43374 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237951AbhDMSSL (ORCPT
+        id S1345963AbhDMSWA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 14:22:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236781AbhDMSV7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 14:18:11 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DI9xJ8196156;
-        Tue, 13 Apr 2021 18:17:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=F+1v+yIScK3Z0cLFoMNXHBXlxp/8G6ap/elyXl4WIHg=;
- b=Ci7afjVXTtJKTW/ZtERoTqO4RrHFdUKLlRW8gkzAQcNN4JINoN+s5aDEr/T7bTj9AChf
- ZHMBV8rNR/1LUx4M5URKbroB+KeSqnZDOJP5bUOLBU5JJWtgpmaN0duveYQvJLmqSZi6
- 09p4GUnBKIjsSZQ/6JZTlD9T2SoUrfjTjGYSvX2T/Uen2vlx3QZDBdBi86JMC1xaG77w
- VpMCdMxEYh+9E6HM99ms+DNVdoEA1k0ytWWr8jNMRURkID9YTI8iDmDt9aSNs6np6b5m
- NIrHzrWABmpLjM8gWy8xhGIHWqPK9dA5VbjnRgFnKEAeg8gpcGm10HI2nYpuwsoX/qng TQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 37u3erg25t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 13 Apr 2021 18:17:28 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DI9fIS022035;
-        Tue, 13 Apr 2021 18:17:27 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 37unx04wnc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 13 Apr 2021 18:17:27 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13DIHKIP031139;
-        Tue, 13 Apr 2021 18:17:20 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 13 Apr 2021 18:17:20 +0000
-Date:   Tue, 13 Apr 2021 21:17:12 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Mitali Borkar <mitaliborkar810@gmail.com>
-Cc:     sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-        tian.shu.qiu@intel.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH v3 4/4] staging: media: intel-ipu3: remove space before
- tabs
-Message-ID: <20210413181712.GI6021@kadam>
-References: <cover.1618326535.git.mitaliborkar810@gmail.com>
- <01ad7ff353f805dfc48e7bcc26ed974e7bb5ef9f.1618326535.git.mitaliborkar810@gmail.com>
+        Tue, 13 Apr 2021 14:21:59 -0400
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FA6CC061574;
+        Tue, 13 Apr 2021 11:21:39 -0700 (PDT)
+Received: by mail-qv1-xf2a.google.com with SMTP id dp18so3920864qvb.5;
+        Tue, 13 Apr 2021 11:21:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=25gNIOG2c1hWR+uLY9hp/OskIyE7B6zmWTWkW5GFvMo=;
+        b=VC9MmTbS9UfJzu0FekAhcs7mlPCYm98IVB2VcoWDjGP0y2cKlEKa+MezLqxmqgA9uM
+         kCJKFbpfyJVS58HTngHby906J5tjd66qIEKfoC5U05uWqQ1XI1hutChJtXE1TNofrKq3
+         xMZRr/le0avcpFTLPi+qEo2VF19yyllsWVQgGyh8JirL9OlsIntOLU88F/ezSyMr+W08
+         A13bcYNtrNAh13w35qqayzHo1VdIIKCKeT2Qd+/8Fec022BoLn/zE4AkGHFf/hawmuNn
+         d0osnyCz0/9LIcsJobW0TkA8X6IXKxuW1S7EquQnU8Sasj+zPWYDgKUZVk43fCMN0Nv1
+         QaQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=25gNIOG2c1hWR+uLY9hp/OskIyE7B6zmWTWkW5GFvMo=;
+        b=Dc4Gga4wA8zp5U7XaHkULXNHgnY5JyOgeNc7j6iRDekCFogqSXPcxE5g7SMOVzVds2
+         9COByNSz7nQG3FXFZ7suXufrOj+Qtf7Q9nAHavnHUGkEwQG2fhSHED2ZPerZeKnUs1qJ
+         c5l37ru2vW7t1bwe1B7uJiQLqAHd3fnaniZRotr2fsyDW9x9vFQQJql5/XV5cRfoDHLj
+         MwZEieewH0NuU5IxJjk/AdU1LlP9q2wR1CxQdoTqNZVKb5+sl+ttajHmS9p2O5hIC8YX
+         VKmbl6dBY5sImMjlsitmagxPuwDdfOKAgWmg9eaCJ4fmzt/QMq2mXVYioR+4umt0J7LV
+         k+tQ==
+X-Gm-Message-State: AOAM532n+q04fiFmEQBippZiee7QcOy6B4X8oKjus/8ARH+QtWRTzfLV
+        Xx/mckkd2ZcsXVahIt0PKc4=
+X-Google-Smtp-Source: ABdhPJw5qNta9vUPvuv/qS/Km7aFg6OU2gnJgBElSwcOeY0I+B1jwYCWi3NzxrecW0jMmBi6k1TWMQ==
+X-Received: by 2002:a0c:dc04:: with SMTP id s4mr4580782qvk.1.1618338098917;
+        Tue, 13 Apr 2021 11:21:38 -0700 (PDT)
+Received: from ?IPv6:2001:1284:f016:a037:83a0:18ef:c76d:6086? ([2001:1284:f016:a037:83a0:18ef:c76d:6086])
+        by smtp.gmail.com with ESMTPSA id q67sm8596124qkb.89.2021.04.13.11.21.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 11:21:38 -0700 (PDT)
+Message-ID: <4e2f52124b29b3ed6c3f7f645f067c503c7cf4cf.camel@gmail.com>
+Subject: Re: [PATCH] staging: media: omap4iss: Remove unused macro functions
+From:   ascordeiro <alinesantanacordeiro@gmail.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Date:   Tue, 13 Apr 2021 15:21:35 -0300
+In-Reply-To: <03549d0e-04d9-6d37-93e3-c09b29ce53aa@xs4all.nl>
+References: <20210412134253.GA19402@focaruja>
+         <03549d0e-04d9-6d37-93e3-c09b29ce53aa@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (by Flathub.org) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <01ad7ff353f805dfc48e7bcc26ed974e7bb5ef9f.1618326535.git.mitaliborkar810@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- mlxscore=0 malwarescore=0 adultscore=0 bulkscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104130123
-X-Proofpoint-ORIG-GUID: DWT0JG83Ahgw0Uf143jhZJqIDTuuAyuC
-X-Proofpoint-GUID: DWT0JG83Ahgw0Uf143jhZJqIDTuuAyuC
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 clxscore=1011
- adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0
- impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104130123
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 13, 2021 at 08:59:34PM +0530, Mitali Borkar wrote:
-> Removed unnecessary space before tabs to adhere to linux kernel coding
-> style.
-> Reported by checkpatch.
+Em ter, 2021-04-13 às 17:06 +0200, Hans Verkuil escreveu:
+> On 12/04/2021 15:42, Aline Santana Cordeiro wrote:
+> > Remove unused macro functions "to_iss_device()", "to_device()",
+> > and "v4l2_dev_to_iss_device(dev)".
 > 
-> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> ---
->  
-> Changes from v2:- No changes.
-> Changes from v1:- No changes.
+> 'git grep to_iss_device drivers/staging/omap4iss' gives me lots of
+> hits!
+> Same for to_device. Only v4l2_dev_to_iss_device appears to be unused.
 > 
->  drivers/staging/media/ipu3/include/intel-ipu3.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Regards,
 > 
-> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> index 47e98979683c..42edac5ee4e4 100644
-> --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
-> +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> @@ -633,7 +633,7 @@ struct ipu3_uapi_bnr_static_config_wb_gains_thr_config {
->   * @cg:	Gain coefficient for threshold calculation, [0, 31], default 8.
->   * @ci:	Intensity coefficient for threshold calculation. range [0, 0x1f]
->   *	default 6.
-> - * 	format: u3.2 (3 most significant bits represent whole number,
-> + *format: u3.2 (3 most significant bits represent whole number,
->   *	2 least significant bits represent the fractional part
+>         Hans
+> 
+This command is really helpful, I didin't know. 
+Thank you for the tip.
 
-Just remove the spaces, don't remove the tab.  It's looks silly now.
+May I send a v2 removing just v4l2_dev_to_iss_device?
 
-regards,
-dan carpenter
+Thank you in advance,
+Aline
+
+> > 
+> > Signed-off-by: Aline Santana Cordeiro <
+> > alinesantanacordeiro@gmail.com>
+> > ---
+> >  drivers/staging/media/omap4iss/iss.h | 8 --------
+> >  1 file changed, 8 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/omap4iss/iss.h
+> > b/drivers/staging/media/omap4iss/iss.h
+> > index b88f952..a354d5f 100644
+> > --- a/drivers/staging/media/omap4iss/iss.h
+> > +++ b/drivers/staging/media/omap4iss/iss.h
+> > @@ -29,11 +29,6 @@
+> >  
+> >  struct regmap;
+> >  
+> > -#define to_iss_device(ptr_module)                              \
+> > -       container_of(ptr_module, struct iss_device, ptr_module)
+> > -#define
+> > to_device(ptr_module)                                          \
+> > -       (to_iss_device(ptr_module)->dev)
+> > -
+> >  enum iss_mem_resources {
+> >         OMAP4_ISS_MEM_TOP,
+> >         OMAP4_ISS_MEM_CSI2_A_REGS1,
+> > @@ -119,9 +114,6 @@ struct iss_device {
+> >         unsigned int isp_subclk_resources;
+> >  };
+> >  
+> > -#define v4l2_dev_to_iss_device(dev) \
+> > -       container_of(dev, struct iss_device, v4l2_dev)
+> > -
+> >  int omap4iss_get_external_info(struct iss_pipeline *pipe,
+> >                                struct media_link *link);
+> >  
+> > 
+> 
+
 
