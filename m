@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5B7B35DD62
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 13:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A7C735DD66
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 13:06:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345328AbhDMLFE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 07:05:04 -0400
-Received: from esa.microchip.iphmx.com ([68.232.154.123]:24395 "EHLO
+        id S1345351AbhDMLFY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 07:05:24 -0400
+Received: from esa.microchip.iphmx.com ([68.232.153.233]:16582 "EHLO
         esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345320AbhDMLFE (ORCPT
+        with ESMTP id S243138AbhDMLFX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 07:05:04 -0400
+        Tue, 13 Apr 2021 07:05:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1618311884; x=1649847884;
+  t=1618311904; x=1649847904;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bCS53V4u+0qTfAOmQDqOdbeRcjHwF+jqy8fHpoasjOM=;
-  b=RYBX8UKw0x53uA63s9/AIE5afHxydt6IiegqV7azXrWpdqyQp+orbYRg
-   0BxMAG4x8WZG1LNaUGC5luEZHYo2CTz2W6/VKeTvBQFiETezhqItiDAt9
-   o7N6jLg04+BOn0mObg8ToCfSMcs8RTogtEiyI1TS4RegcRkQzp2gAoAId
-   ii1VmBYHt5y9PIpsVDXVBiVANoXZxG27ee4e8iatZhxsWq13uKRh3PgHk
-   S/QDo5fFkJG7E/as5/YYXvelcWX/jJv7pZRiuaBdJdn+Z2q/0O/TlWWpN
-   PnfyFCbJKNEZ5/I/hnbecxbCTLAn4eR8hLyo7WkWEZTErYs9sEXIWjwDW
-   A==;
-IronPort-SDR: f09gNFps8TyMimM6wUm+xhVpSdJPSSrcfW+q6x3tkxTPLtaloVAmUC8yhGcoSgD7W+EE6G1iCf
- Sj/cswpQtxZn7TjN6g5pNFZKVkB2SGrf7PU8bIQD0kmOXWH8T34dMuXEhWV8P359wVl+g3rAJL
- jEK5k0SPUZvFRoDUKgMV20eGMl3tDKpFAYwWGhoOZ8n02vN40G+3RuGD4gd7pR3yc78Hl8BrmY
- /Vw5E2LqSjgWgR2LI6Nz/DqUMNbI3CtEh6bDPGz2nifJM8IpO4lHJYYjz41Bi+iMoo/DmjxVfM
- xFg=
+  bh=ebzaumar8SMo14JkWxHz4mLhmwozonizizKyYoht5ZA=;
+  b=VVGRS1mGxsOvwVvPTTJ+GYbgGzkcP2At2hWZCwyArJ9G9QYTMBUdKmy3
+   VOslaTVjnl4Ip/zeXeRHziKAqAEIfogLRu6O7kjg11qkddJxMnOOKE9+k
+   B6HQMZdoYjr5XLxzwyu8CvIT+P9dDtPLcHuZ4gS8Hv4GJMxnqvKCQ4eAw
+   +3Gz0snFLoSScDkg32OB5LgxgwZH4hIrnbpC99wObjaNLQ+90RT790Pcs
+   bbG2Q5ClT0AaE1rlQgh12KYtzypI1MZm9PCR0jeifdvhsLwbK+7sqeXSr
+   tWIz1BqE8jAs8yghbvQnNweti/MtYwDAmN0DBQ5lnQ4VcxYVRLEZQXtZS
+   g==;
+IronPort-SDR: 2e/AUsNAPQr7mJD+5DSsCm5keX4mMKfwTKyCUPt60W/Kob4p3cOY+jffhMGTQj1YHWGKT9jcra
+ mtcJ84kfN5UTe7pdj4bWzmL0PV6QcgDw0nfZRaxkO4If0U9sOMejk86Q0G6EqcS2vobYbR1bXF
+ urNLIOuhIeWjR0BocgLQm6mLhNdqLz7jTtC587yw5W/YIUUaIZ5gTY7BLtmzqjIdv/WjtBydpF
+ zkFSXU8J3NG1TQh7qXhnU0ya3dFxIHVqUS1WEz8SzWrw4g00xbV+tW4+9fPjnULuHB1b1swfv2
+ DmQ=
 X-IronPort-AV: E=Sophos;i="5.82,219,1613458800"; 
-   d="scan'208";a="110612288"
+   d="scan'208";a="122830504"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Apr 2021 04:04:43 -0700
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Apr 2021 04:05:04 -0700
 Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 13 Apr 2021 04:04:43 -0700
+ 15.1.2176.2; Tue, 13 Apr 2021 04:05:03 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Tue, 13 Apr 2021 04:04:35 -0700
+ 15.1.2176.2 via Frontend Transport; Tue, 13 Apr 2021 04:04:50 -0700
 From:   Eugen Hristev <eugen.hristev@microchip.com>
 To:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
         <jacopo@jmondi.org>, <robh+dt@kernel.org>
 CC:     <linux-arm-kernel@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>,
         Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH v3 29/33] dt-bindings: media: atmel-isc: convert to yaml
-Date:   Tue, 13 Apr 2021 13:57:27 +0300
-Message-ID: <20210413105731.610028-30-eugen.hristev@microchip.com>
+Subject: [PATCH v3 30/33] dt-bindings: media: add microchip,xisc device bindings
+Date:   Tue, 13 Apr 2021 13:57:28 +0300
+Message-ID: <20210413105731.610028-31-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210413105731.610028-1-eugen.hristev@microchip.com>
 References: <20210413105731.610028-1-eugen.hristev@microchip.com>
@@ -60,44 +60,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the Atmel ISC to yaml binding format.
+Add bindings for the Microchip eXtended Image Sensor Controller.
+Based on the atmel,isc.yaml binding.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
- .../devicetree/bindings/media/atmel,isc.yaml  | 115 ++++++++++++++++++
- .../devicetree/bindings/media/atmel-isc.txt   |  65 ----------
- 2 files changed, 115 insertions(+), 65 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/atmel,isc.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/atmel-isc.txt
+ .../bindings/media/microchip,xisc.yaml        | 129 ++++++++++++++++++
+ 1 file changed, 129 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/microchip,xisc.yaml
 
-diff --git a/Documentation/devicetree/bindings/media/atmel,isc.yaml b/Documentation/devicetree/bindings/media/atmel,isc.yaml
+diff --git a/Documentation/devicetree/bindings/media/microchip,xisc.yaml b/Documentation/devicetree/bindings/media/microchip,xisc.yaml
 new file mode 100644
-index 000000000000..6ef8b4102b0d
+index 000000000000..e3825c4e13f8
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/atmel,isc.yaml
-@@ -0,0 +1,115 @@
++++ b/Documentation/devicetree/bindings/media/microchip,xisc.yaml
+@@ -0,0 +1,129 @@
 +# SPDX-License-Identifier: GPL-2.0-only
-+# Copyright (C) 2016-2021 Microchip Technology, Inc.
++# Copyright (C) 2021 Microchip Technology, Inc.
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/media/atmel,isc.yaml#
++$id: http://devicetree.org/schemas/media/microchip,xisc.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Atmel Image Sensor Controller (ISC)
++title: Microchip eXtended Image Sensor Controller (XISC)
 +
 +maintainers:
 +  - Eugen Hristev <eugen.hristev@microchip.com>
 +
 +description:
-+  The Image Sensor Controller (ISC) device provides the video input capabilities for the
-+  Atmel/Microchip AT91 SAMA family of devices.
++  The eXtended Image Sensor Controller (XISC) device provides the video input capabilities for the
++  Microchip AT91 SAM family of devices.
 +
-+  The ISC has a single parallel input that supports RAW Bayer, RGB or YUV video,
-+  with both external synchronization and BT.656 synchronization for the latter.
++  The XISC has a single internal parallel input that supports RAW Bayer, RGB or YUV video.
++  The source can be either a demuxer from a CSI2 type of bus, or a simple direct bridge to a
++  parallel sensor.
++
++  The XISC provides one clock output that is used to clock the demuxer/bridge.
 +
 +properties:
 +  compatible:
-+    const: atmel,sama5d2-isc
++    const: microchip,sama7g5-isc
 +
 +  reg:
 +    maxItems: 1
@@ -106,20 +108,25 @@ index 000000000000..6ef8b4102b0d
 +    maxItems: 1
 +
 +  clocks:
-+    minItems: 3
-+    maxItems: 3
++    maxItems: 1
 +
 +  clock-names:
 +    items:
 +      - const: hclock
-+      - const: iscck
-+      - const: gck
 +
 +  '#clock-cells':
 +    const: 0
 +
 +  clock-output-names:
 +    const: isc-mck
++
++  microchip,mipi-mode:
++    type: boolean
++    description:
++      As the XISC is usually connected to a demux/bridge, the XISC receives
++      the same type of input, however, it should be aware of the type of
++      signals received. The mipi-mode enables different internal handling
++      of the data and clock lines.
 +
 +  port:
 +    $ref: /schemas/graph.yaml#/properties/port
@@ -131,6 +138,9 @@ index 000000000000..6ef8b4102b0d
 +        $ref: video-interfaces.yaml#
 +
 +        properties:
++          bus-type:
++            enum: [5, 6]
++
 +          remote-endpoint: true
 +
 +          bus-width:
@@ -151,6 +161,7 @@ index 000000000000..6ef8b4102b0d
 +
 +        required:
 +          - remote-endpoint
++          - bus-type
 +
 +        additionalProperties: false
 +
@@ -169,99 +180,30 @@ index 000000000000..6ef8b4102b0d
 +
 +examples:
 +  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/at91.h>
 +    #include <dt-bindings/interrupt-controller/irq.h>
 +
-+    isc: isc@f0008000 {
-+        compatible = "atmel,sama5d2-isc";
-+        reg = <0xf0008000 0x4000>;
-+        interrupts = <46 IRQ_TYPE_LEVEL_HIGH 5>;
-+        clocks = <&isc_clk>, <&iscck>, <&isc_gclk>;
-+        clock-names = "hclock", "iscck", "gck";
++    xisc: xisc@e1408000 {
++        compatible = "microchip,sama7g5-isc";
++        reg = <0xe1408000 0x2000>;
++        interrupts = <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&pmc PMC_TYPE_PERIPHERAL 56>;
++        clock-names = "hclock";
 +        #clock-cells = <0>;
 +        clock-output-names = "isc-mck";
 +
 +        port {
-+                isc_0: endpoint {
-+                       remote-endpoint = <&ov7740_0>;
++                xisc_in: endpoint {
++                       bus-type = <5>; /* Parallel */
++                       remote-endpoint = <&csi2dc_out>;
 +                       hsync-active = <1>;
-+                       vsync-active = <0>;
-+                       pclk-sample = <1>;
-+                       bus-width = <8>;
++                       vsync-active = <1>;
++                       bus-width = <12>;
 +                };
 +        };
 +    };
 +
-diff --git a/Documentation/devicetree/bindings/media/atmel-isc.txt b/Documentation/devicetree/bindings/media/atmel-isc.txt
-deleted file mode 100644
-index bbe0e87c6188..000000000000
---- a/Documentation/devicetree/bindings/media/atmel-isc.txt
-+++ /dev/null
-@@ -1,65 +0,0 @@
--Atmel Image Sensor Controller (ISC)
------------------------------------------------
--
--Required properties for ISC:
--- compatible
--	Must be "atmel,sama5d2-isc".
--- reg
--	Physical base address and length of the registers set for the device.
--- interrupts
--	Should contain IRQ line for the ISC.
--- clocks
--	List of clock specifiers, corresponding to entries in
--	the clock-names property;
--	Please refer to clock-bindings.txt.
--- clock-names
--	Required elements: "hclock", "iscck", "gck".
--- #clock-cells
--	Should be 0.
--- clock-output-names
--	Should be "isc-mck".
--- pinctrl-names, pinctrl-0
--	Please refer to pinctrl-bindings.txt.
--
--ISC supports a single port node with parallel bus. It should contain one
--'port' child node with child 'endpoint' node. Please refer to the bindings
--defined in Documentation/devicetree/bindings/media/video-interfaces.txt.
--
--Example:
--isc: isc@f0008000 {
--	compatible = "atmel,sama5d2-isc";
--	reg = <0xf0008000 0x4000>;
--	interrupts = <46 IRQ_TYPE_LEVEL_HIGH 5>;
--	clocks = <&isc_clk>, <&iscck>, <&isc_gclk>;
--	clock-names = "hclock", "iscck", "gck";
--	#clock-cells = <0>;
--	clock-output-names = "isc-mck";
--	pinctrl-names = "default";
--	pinctrl-0 = <&pinctrl_isc_base &pinctrl_isc_data_8bit &pinctrl_isc_data_9_10 &pinctrl_isc_data_11_12>;
--
--	port {
--		isc_0: endpoint {
--			remote-endpoint = <&ov7740_0>;
--			hsync-active = <1>;
--			vsync-active = <0>;
--			pclk-sample = <1>;
--		};
--	};
--};
--
--i2c1: i2c@fc028000 {
--	ov7740: camera@21 {
--		compatible = "ovti,ov7740";
--		reg = <0x21>;
--		clocks = <&isc>;
--		clock-names = "xvclk";
--		assigned-clocks = <&isc>;
--		assigned-clock-rates = <24000000>;
--
--		port {
--			ov7740_0: endpoint {
--				remote-endpoint = <&isc_0>;
--			};
--		};
--	};
--};
 -- 
 2.25.1
 
