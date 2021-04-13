@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E43635DD47
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 13:03:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5235935DD4D
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 13:03:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345062AbhDMLDe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 07:03:34 -0400
-Received: from esa.microchip.iphmx.com ([68.232.154.123]:64818 "EHLO
+        id S1345176AbhDMLDr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 07:03:47 -0400
+Received: from esa.microchip.iphmx.com ([68.232.154.123]:60518 "EHLO
         esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345023AbhDMLDc (ORCPT
+        with ESMTP id S1345164AbhDMLDp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 07:03:32 -0400
+        Tue, 13 Apr 2021 07:03:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1618311793; x=1649847793;
+  t=1618311806; x=1649847806;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=S/0vz3mGicfYvuOuMvfCW2wMt7bft/DcBJ9lakhWmfk=;
-  b=e1/oB+lt4CjQcIybvzxiaMpgMdT+sY93MjO5wE0pQ1E5ceXPD8K3x6sm
-   7SVS2asBTVGW0aqOWR60ThdVtmI92/qc5S9ByBZni33MQGDt1m+3z0ICL
-   Eg/bJMFCeCfA1ZEObDxpHqNth6PfpRv3TN/cVWNV6yS/nqmWzumiwHrtx
-   dkmTwG7L3mE8KDcxqVFJeYyeanvgnjFDsBXzOeicd4Tf9SLg0u68IOUEE
-   jNLiNC0bSpS8kkTEtj/Cw/RwkC/ydSiVPKp1zncRFKhVhF70U+ZhPHGMa
-   enkPVNnftgxOVfnReuz+qEfX8cFLO1C4Fa9b0ckwxvWaLXnmZJTm5g3XZ
+  bh=rK5CJGU8N3XX7TtTTav85fwozd9+e/dQ7fGhe5GPqkE=;
+  b=EasXcN0CTmljycjsFoGhpNua5gbLxFsUezlrb7wgJtq+iBiwVATXVU65
+   9l6izHqHGwrZKHU3sjILKUQIydP8S8T6fkU+qusH5UIKj2EpNgo3cpYoa
+   fxEJhLsbbxuDkjXRkkbP3L+UogYKC5I8UTuETVr6g20tnIpw9WirOjP1Q
+   ZRIMlRPDtyCfwmTTmZKoJyKILfcl+fXlIaD1EAuPDoMqMctPJk0Cby5hP
+   oDaVpqa7eP5tVuYbmz/gYMR14rC/F3jB5bb0ygoBOzVmDkxnC4G2kzXGL
+   4mCurucJdpg0SOEY3UxrkDi18r8SuqN/Byfjz86kHc8WPmnsg4tYqW2FI
    w==;
-IronPort-SDR: tOUsfNrL8nur/PWdsruQbQrV+6fVa0OgXwzhZQKj2zMXXhBY+NG6OYxJVuyglyEkpvs4U5zn8H
- 58LzKTk1XYEYobIIJzu77GD17K4snoSyrhTMqO9otkK02zt5ci/Ftamt/iFbIqFxoKSJluFzs5
- fVWtY2hKwT3GZ7SxvhiSu6oRq6od0ToNVOdsK0mLYWzs5NXw7M841PAm2JXpgfXp4lN6D2G1Na
- 5owpf9khQln08lIkaCxCg+JylEaD35lLthwyzsVb0ZXj+nvNOL8dpm4TyemLEuaioYAllj8Ipd
- R9E=
+IronPort-SDR: YrBMcOYcCni07Kq4IUddKA9aolpAibYQ5Xk91SaYfnjBcm861cwhcMQn0J8MwoyspudVqHiPX0
+ VvwkjHyEYtyxwPLt+wsJem4Zc7CbeujuPxh/XGGxIQ2nATdxEJvE8ZAQ+Yi620IkTKZxdjruEy
+ 60UmcmVHixt/ChoyM/yYXLYdLz7mLheeAHg7QfUy1d98rT+n82WWH8e9OL6fpaYjARV8cjIKFL
+ eg3rOHgZ74BAYWeNN5AVNb5JGulHOiaKOfAPmll8TWFK+fAmKcLVKxKOE+SvI3Pr+4JEk5BaIu
+ 72g=
 X-IronPort-AV: E=Sophos;i="5.82,219,1613458800"; 
-   d="scan'208";a="113386328"
+   d="scan'208";a="113386391"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Apr 2021 04:03:12 -0700
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Apr 2021 04:03:26 -0700
 Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 13 Apr 2021 04:03:11 -0700
+ 15.1.2176.2; Tue, 13 Apr 2021 04:03:25 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Tue, 13 Apr 2021 04:03:06 -0700
+ 15.1.2176.2 via Frontend Transport; Tue, 13 Apr 2021 04:03:13 -0700
 From:   Eugen Hristev <eugen.hristev@microchip.com>
 To:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
         <jacopo@jmondi.org>, <robh+dt@kernel.org>
 CC:     <linux-arm-kernel@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>,
         Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH v3 23/33] media: atmel: atmel-isc: create callback for RLP submodule product specific
-Date:   Tue, 13 Apr 2021 13:57:21 +0300
-Message-ID: <20210413105731.610028-24-eugen.hristev@microchip.com>
+Subject: [PATCH v3 24/33] media: atmel: atmel-isc: move the formats list into product specific code
+Date:   Tue, 13 Apr 2021 13:57:22 +0300
+Message-ID: <20210413105731.610028-25-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210413105731.610028-1-eugen.hristev@microchip.com>
 References: <20210413105731.610028-1-eugen.hristev@microchip.com>
@@ -60,110 +60,445 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The RLP submodule is a part of the atmel-isc pipeline, and stands for
-Rounding,Limiting and Packaging. It used to extract specific data from the
-ISC pipeline. For example if we want to output greyscale 8 bit, we would
-use limiting to 8 bits, and packaging to Luma component only.
-
-Create a product specific callback for initializing the RLP submodule
-of the pipeline
+The list of input and output formats has to be product specific.
+Move this list into the product specific code.
+Have pointers to these arrays inside the device struct.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
-Changes in v3:
-- added module description in commit message
-Changes in v2:
-- addded function prototype to avoid warning with W=1
-
- drivers/media/platform/atmel/atmel-isc-base.c    |  6 ++----
- drivers/media/platform/atmel/atmel-isc.h         |  3 +++
- drivers/media/platform/atmel/atmel-sama5d2-isc.c | 11 +++++++++++
- 3 files changed, 16 insertions(+), 4 deletions(-)
+ drivers/media/platform/atmel/atmel-isc-base.c | 167 ++----------------
+ drivers/media/platform/atmel/atmel-isc.h      |  12 +-
+ .../media/platform/atmel/atmel-sama5d2-isc.c  | 136 ++++++++++++++
+ 3 files changed, 165 insertions(+), 150 deletions(-)
 
 diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
-index bd24e0c99613..8422df41f083 100644
+index 8422df41f083..6746c9060e3f 100644
 --- a/drivers/media/platform/atmel/atmel-isc-base.c
 +++ b/drivers/media/platform/atmel/atmel-isc-base.c
-@@ -711,11 +711,10 @@ static void isc_set_histogram(struct isc_device *isc, bool enable)
- static int isc_configure(struct isc_device *isc)
+@@ -45,137 +45,6 @@ module_param(sensor_preferred, uint, 0644);
+ MODULE_PARM_DESC(sensor_preferred,
+ 		 "Sensor is preferred to output the specified format (1-on 0-off), default 1");
+ 
+-/* This is a list of the formats that the ISC can *output* */
+-const struct isc_format controller_formats[] = {
+-	{
+-		.fourcc		= V4L2_PIX_FMT_ARGB444,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_ARGB555,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_RGB565,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_ABGR32,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_XBGR32,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_YUV420,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_YUYV,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_YUV422P,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_GREY,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_Y10,
+-	},
+-};
+-
+-/* This is a list of formats that the ISC can receive as *input* */
+-struct isc_format formats_list[] = {
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SBGGR8,
+-		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
+-		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
+-		.cfa_baycfg	= ISC_BAY_CFG_BGBG,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SGBRG8,
+-		.mbus_code	= MEDIA_BUS_FMT_SGBRG8_1X8,
+-		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
+-		.cfa_baycfg	= ISC_BAY_CFG_GBGB,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SGRBG8,
+-		.mbus_code	= MEDIA_BUS_FMT_SGRBG8_1X8,
+-		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
+-		.cfa_baycfg	= ISC_BAY_CFG_GRGR,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SRGGB8,
+-		.mbus_code	= MEDIA_BUS_FMT_SRGGB8_1X8,
+-		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
+-		.cfa_baycfg	= ISC_BAY_CFG_RGRG,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SBGGR10,
+-		.mbus_code	= MEDIA_BUS_FMT_SBGGR10_1X10,
+-		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TEN,
+-		.cfa_baycfg	= ISC_BAY_CFG_RGRG,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SGBRG10,
+-		.mbus_code	= MEDIA_BUS_FMT_SGBRG10_1X10,
+-		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TEN,
+-		.cfa_baycfg	= ISC_BAY_CFG_GBGB,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SGRBG10,
+-		.mbus_code	= MEDIA_BUS_FMT_SGRBG10_1X10,
+-		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TEN,
+-		.cfa_baycfg	= ISC_BAY_CFG_GRGR,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SRGGB10,
+-		.mbus_code	= MEDIA_BUS_FMT_SRGGB10_1X10,
+-		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TEN,
+-		.cfa_baycfg	= ISC_BAY_CFG_RGRG,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SBGGR12,
+-		.mbus_code	= MEDIA_BUS_FMT_SBGGR12_1X12,
+-		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TWELVE,
+-		.cfa_baycfg	= ISC_BAY_CFG_BGBG,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SGBRG12,
+-		.mbus_code	= MEDIA_BUS_FMT_SGBRG12_1X12,
+-		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TWELVE,
+-		.cfa_baycfg	= ISC_BAY_CFG_GBGB,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SGRBG12,
+-		.mbus_code	= MEDIA_BUS_FMT_SGRBG12_1X12,
+-		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TWELVE,
+-		.cfa_baycfg	= ISC_BAY_CFG_GRGR,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_SRGGB12,
+-		.mbus_code	= MEDIA_BUS_FMT_SRGGB12_1X12,
+-		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TWELVE,
+-		.cfa_baycfg	= ISC_BAY_CFG_RGRG,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_GREY,
+-		.mbus_code	= MEDIA_BUS_FMT_Y8_1X8,
+-		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_YUYV,
+-		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
+-		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_RGB565,
+-		.mbus_code	= MEDIA_BUS_FMT_RGB565_2X8_LE,
+-		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
+-	},
+-	{
+-		.fourcc		= V4L2_PIX_FMT_Y10,
+-		.mbus_code	= MEDIA_BUS_FMT_Y10_1X10,
+-		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TEN,
+-	},
+-
+-};
+-
+ #define ISC_IS_FORMAT_RAW(mbus_code) \
+ 	(((mbus_code) & 0xf000) == 0x3000)
+ 
+@@ -906,25 +775,26 @@ static int isc_querycap(struct file *file, void *priv,
+ static int isc_enum_fmt_vid_cap(struct file *file, void *priv,
+ 				 struct v4l2_fmtdesc *f)
  {
- 	struct regmap *regmap = isc->regmap;
--	u32 pfe_cfg0, rlp_mode, dcfg, mask, pipeline;
-+	u32 pfe_cfg0, dcfg, mask, pipeline;
- 	struct isc_subdev_entity *subdev = isc->current_subdev;
++	struct isc_device *isc = video_drvdata(file);
+ 	u32 index = f->index;
+ 	u32 i, supported_index;
  
- 	pfe_cfg0 = isc->config.sd_format->pfe_cfg0_bps;
--	rlp_mode = isc->config.rlp_cfg_mode;
- 	pipeline = isc->config.bits_pipeline;
+-	if (index < ARRAY_SIZE(controller_formats)) {
+-		f->pixelformat = controller_formats[index].fourcc;
++	if (index < isc->controller_formats_size) {
++		f->pixelformat = isc->controller_formats[index].fourcc;
+ 		return 0;
+ 	}
  
- 	dcfg = isc->config.dcfg_imode | isc->dcfg;
-@@ -728,8 +727,7 @@ static int isc_configure(struct isc_device *isc)
+-	index -= ARRAY_SIZE(controller_formats);
++	index -= isc->controller_formats_size;
  
- 	regmap_update_bits(regmap, ISC_PFE_CFG0, mask, pfe_cfg0);
+ 	i = 0;
+ 	supported_index = 0;
  
--	regmap_update_bits(regmap, ISC_RLP_CFG + isc->offsets.rlp,
--			   ISC_RLP_CFG_MODE_MASK, rlp_mode);
-+	isc->config_rlp(isc);
+-	for (i = 0; i < ARRAY_SIZE(formats_list); i++) {
+-		if (!ISC_IS_FORMAT_RAW(formats_list[i].mbus_code) ||
+-		    !formats_list[i].sd_support)
++	for (i = 0; i < isc->formats_list_size; i++) {
++		if (!ISC_IS_FORMAT_RAW(isc->formats_list[i].mbus_code) ||
++		    !isc->formats_list[i].sd_support)
+ 			continue;
+ 		if (supported_index == index) {
+-			f->pixelformat = formats_list[i].fourcc;
++			f->pixelformat = isc->formats_list[i].fourcc;
+ 			return 0;
+ 		}
+ 		supported_index++;
+@@ -1465,8 +1335,8 @@ static int isc_enum_framesizes(struct file *file, void *fh,
+ 		if (isc->user_formats[i]->fourcc == fsize->pixel_format)
+ 			ret = 0;
  
- 	regmap_write(regmap, ISC_DCFG + isc->offsets.dma, dcfg);
+-	for (i = 0; i < ARRAY_SIZE(controller_formats); i++)
+-		if (controller_formats[i].fourcc == fsize->pixel_format)
++	for (i = 0; i < isc->controller_formats_size; i++)
++		if (isc->controller_formats[i].fourcc == fsize->pixel_format)
+ 			ret = 0;
  
-diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
-index 1e6988f1876e..abeef7b2ab27 100644
---- a/drivers/media/platform/atmel/atmel-isc.h
-+++ b/drivers/media/platform/atmel/atmel-isc.h
-@@ -231,6 +231,8 @@ struct isc_reg_offsets {
-  *			specific CC module
-  * @config_gam:		pointer to a function that initializes product
-  *			specific GAMMA module
-+ * @config_rlp:		pointer to a function that initializes product
-+ *			specific RLP module
-  * @config_ctrls:	pointer to a functoin that initializes product
-  *			specific v4l2 controls.
-  *
-@@ -309,6 +311,7 @@ struct isc_device {
- 		void (*config_cbc)(struct isc_device *isc);
- 		void (*config_cc)(struct isc_device *isc);
- 		void (*config_gam)(struct isc_device *isc);
-+		void (*config_rlp)(struct isc_device *isc);
+ 	if (ret)
+@@ -1502,8 +1372,8 @@ static int isc_enum_frameintervals(struct file *file, void *fh,
+ 		if (isc->user_formats[i]->fourcc == fival->pixel_format)
+ 			ret = 0;
  
- 		void (*config_ctrls)(struct isc_device *isc,
- 				     const struct v4l2_ctrl_ops *ops);
-diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-index df26941af64b..855027821fba 100644
---- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-+++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-@@ -59,6 +59,7 @@ void isc_sama5d2_config_cbc(struct isc_device *isc);
- void isc_sama5d2_config_cc(struct isc_device *isc);
- void isc_sama5d2_config_dpc(struct isc_device *isc);
- void isc_sama5d2_config_gam(struct isc_device *isc);
-+void isc_sama5d2_config_rlp(struct isc_device *isc);
+-	for (i = 0; i < ARRAY_SIZE(controller_formats); i++)
+-		if (controller_formats[i].fourcc == fival->pixel_format)
++	for (i = 0; i < isc->controller_formats_size; i++)
++		if (isc->controller_formats[i].fourcc == fival->pixel_format)
+ 			ret = 0;
  
- void isc_sama5d2_config_ctrls(struct isc_device *isc,
- 			      const struct v4l2_ctrl_ops *ops);
-@@ -126,6 +127,15 @@ void isc_sama5d2_config_gam(struct isc_device *isc)
- 	/* No specific gamma configuration */
+ 	if (ret)
+@@ -2111,12 +1981,13 @@ static void isc_async_unbind(struct v4l2_async_notifier *notifier,
+ 	v4l2_ctrl_handler_free(&isc->ctrls.handler);
  }
  
-+void isc_sama5d2_config_rlp(struct isc_device *isc)
-+{
-+	struct regmap *regmap = isc->regmap;
-+	u32 rlp_mode = isc->config.rlp_cfg_mode;
-+
-+	regmap_update_bits(regmap, ISC_RLP_CFG + isc->offsets.rlp,
-+			   ISC_RLP_CFG_MODE_MASK, rlp_mode);
-+}
-+
- /* Gamma table with gamma 1/2.2 */
- const u32 isc_sama5d2_gamma_table[][GAMMA_ENTRIES] = {
- 	/* 0 --> gamma 1/1.8 */
-@@ -276,6 +286,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	isc->config_cbc = isc_sama5d2_config_cbc;
- 	isc->config_cc = isc_sama5d2_config_cc;
- 	isc->config_gam = isc_sama5d2_config_gam;
-+	isc->config_rlp = isc_sama5d2_config_rlp;
- 	isc->config_ctrls = isc_sama5d2_config_ctrls;
+-static struct isc_format *find_format_by_code(unsigned int code, int *index)
++static struct isc_format *find_format_by_code(struct isc_device *isc,
++					      unsigned int code, int *index)
+ {
+-	struct isc_format *fmt = &formats_list[0];
++	struct isc_format *fmt = &isc->formats_list[0];
+ 	unsigned int i;
  
- 	isc->offsets.csc = ISC_SAMA5D2_CSC_OFFSET;
+-	for (i = 0; i < ARRAY_SIZE(formats_list); i++) {
++	for (i = 0; i < isc->formats_list_size; i++) {
+ 		if (fmt->mbus_code == code) {
+ 			*index = i;
+ 			return fmt;
+@@ -2133,7 +2004,7 @@ static int isc_formats_init(struct isc_device *isc)
+ 	struct isc_format *fmt;
+ 	struct v4l2_subdev *subdev = isc->current_subdev->sd;
+ 	unsigned int num_fmts, i, j;
+-	u32 list_size = ARRAY_SIZE(formats_list);
++	u32 list_size = isc->formats_list_size;
+ 	struct v4l2_subdev_mbus_code_enum mbus_code = {
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 	};
+@@ -2143,7 +2014,7 @@ static int isc_formats_init(struct isc_device *isc)
+ 	       NULL, &mbus_code)) {
+ 		mbus_code.index++;
+ 
+-		fmt = find_format_by_code(mbus_code.code, &i);
++		fmt = find_format_by_code(isc, mbus_code.code, &i);
+ 		if (!fmt) {
+ 			v4l2_warn(&isc->v4l2_dev, "Mbus code %x not supported\n",
+ 				  mbus_code.code);
+@@ -2164,7 +2035,7 @@ static int isc_formats_init(struct isc_device *isc)
+ 	if (!isc->user_formats)
+ 		return -ENOMEM;
+ 
+-	fmt = &formats_list[0];
++	fmt = &isc->formats_list[0];
+ 	for (i = 0, j = 0; i < list_size; i++) {
+ 		if (fmt->sd_support)
+ 			isc->user_formats[j++] = fmt;
+diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
+index abeef7b2ab27..14e318a7373c 100644
+--- a/drivers/media/platform/atmel/atmel-isc.h
++++ b/drivers/media/platform/atmel/atmel-isc.h
+@@ -237,6 +237,12 @@ struct isc_reg_offsets {
+  *			specific v4l2 controls.
+  *
+  * @offsets:		struct holding the product specific register offsets
++ * @controller_formats:	pointer to the array of possible formats that the
++ *			controller can output
++ * @formats_list:	pointer to the array of possible formats that can
++ *			be used as an input to the controller
++ * @controller_formats_size:	size of controller_formats array
++ * @formats_list_size:	size of formats_list array
+  */
+ struct isc_device {
+ 	struct regmap		*regmap;
+@@ -318,10 +324,12 @@ struct isc_device {
+ 	};
+ 
+ 	struct isc_reg_offsets		offsets;
++	const struct isc_format		*controller_formats;
++	struct isc_format		*formats_list;
++	u32				controller_formats_size;
++	u32				formats_list_size;
+ };
+ 
+-extern struct isc_format formats_list[];
+-extern const struct isc_format controller_formats[];
+ extern const struct regmap_config isc_regmap_config;
+ extern const struct v4l2_async_notifier_operations isc_async_ops;
+ 
+diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+index 855027821fba..a5823a3a6111 100644
+--- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
++++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+@@ -64,6 +64,137 @@ void isc_sama5d2_config_rlp(struct isc_device *isc);
+ void isc_sama5d2_config_ctrls(struct isc_device *isc,
+ 			      const struct v4l2_ctrl_ops *ops);
+ 
++/* This is a list of the formats that the ISC can *output* */
++const struct isc_format sama5d2_controller_formats[] = {
++	{
++		.fourcc		= V4L2_PIX_FMT_ARGB444,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_ARGB555,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_RGB565,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_ABGR32,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_XBGR32,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_YUV420,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_YUYV,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_YUV422P,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_GREY,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_Y10,
++	},
++};
++
++/* This is a list of formats that the ISC can receive as *input* */
++struct isc_format sama5d2_formats_list[] = {
++	{
++		.fourcc		= V4L2_PIX_FMT_SBGGR8,
++		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
++		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
++		.cfa_baycfg	= ISC_BAY_CFG_BGBG,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SGBRG8,
++		.mbus_code	= MEDIA_BUS_FMT_SGBRG8_1X8,
++		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
++		.cfa_baycfg	= ISC_BAY_CFG_GBGB,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SGRBG8,
++		.mbus_code	= MEDIA_BUS_FMT_SGRBG8_1X8,
++		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
++		.cfa_baycfg	= ISC_BAY_CFG_GRGR,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SRGGB8,
++		.mbus_code	= MEDIA_BUS_FMT_SRGGB8_1X8,
++		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
++		.cfa_baycfg	= ISC_BAY_CFG_RGRG,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SBGGR10,
++		.mbus_code	= MEDIA_BUS_FMT_SBGGR10_1X10,
++		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TEN,
++		.cfa_baycfg	= ISC_BAY_CFG_RGRG,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SGBRG10,
++		.mbus_code	= MEDIA_BUS_FMT_SGBRG10_1X10,
++		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TEN,
++		.cfa_baycfg	= ISC_BAY_CFG_GBGB,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SGRBG10,
++		.mbus_code	= MEDIA_BUS_FMT_SGRBG10_1X10,
++		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TEN,
++		.cfa_baycfg	= ISC_BAY_CFG_GRGR,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SRGGB10,
++		.mbus_code	= MEDIA_BUS_FMT_SRGGB10_1X10,
++		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TEN,
++		.cfa_baycfg	= ISC_BAY_CFG_RGRG,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SBGGR12,
++		.mbus_code	= MEDIA_BUS_FMT_SBGGR12_1X12,
++		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TWELVE,
++		.cfa_baycfg	= ISC_BAY_CFG_BGBG,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SGBRG12,
++		.mbus_code	= MEDIA_BUS_FMT_SGBRG12_1X12,
++		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TWELVE,
++		.cfa_baycfg	= ISC_BAY_CFG_GBGB,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SGRBG12,
++		.mbus_code	= MEDIA_BUS_FMT_SGRBG12_1X12,
++		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TWELVE,
++		.cfa_baycfg	= ISC_BAY_CFG_GRGR,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_SRGGB12,
++		.mbus_code	= MEDIA_BUS_FMT_SRGGB12_1X12,
++		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TWELVE,
++		.cfa_baycfg	= ISC_BAY_CFG_RGRG,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_GREY,
++		.mbus_code	= MEDIA_BUS_FMT_Y8_1X8,
++		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_YUYV,
++		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
++		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_RGB565,
++		.mbus_code	= MEDIA_BUS_FMT_RGB565_2X8_LE,
++		.pfe_cfg0_bps	= ISC_PFE_CFG0_BPS_EIGHT,
++	},
++	{
++		.fourcc		= V4L2_PIX_FMT_Y10,
++		.mbus_code	= MEDIA_BUS_FMT_Y10_1X10,
++		.pfe_cfg0_bps	= ISC_PFG_CFG0_BPS_TEN,
++	},
++
++};
++
+ void isc_sama5d2_config_csc(struct isc_device *isc)
+ {
+ 	struct regmap *regmap = isc->regmap;
+@@ -299,6 +430,11 @@ static int atmel_isc_probe(struct platform_device *pdev)
+ 	isc->offsets.version = ISC_SAMA5D2_VERSION_OFFSET;
+ 	isc->offsets.his_entry = ISC_SAMA5D2_HIS_ENTRY_OFFSET;
+ 
++	isc->controller_formats = sama5d2_controller_formats;
++	isc->controller_formats_size = ARRAY_SIZE(sama5d2_controller_formats);
++	isc->formats_list = sama5d2_formats_list;
++	isc->formats_list_size = ARRAY_SIZE(sama5d2_formats_list);
++
+ 	/* sama5d2-isc - 8 bits per beat */
+ 	isc->dcfg = ISC_DCFG_YMBSIZE_BEATS8 | ISC_DCFG_CMBSIZE_BEATS8;
+ 
 -- 
 2.25.1
 
