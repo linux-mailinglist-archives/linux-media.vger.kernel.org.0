@@ -2,86 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E79AA35E746
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 21:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 043DC35E74A
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 21:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348089AbhDMTu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 15:50:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44670 "EHLO
+        id S1348120AbhDMTum (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 15:50:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348070AbhDMTu2 (ORCPT
+        with ESMTP id S1348070AbhDMTul (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 15:50:28 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61895C061574;
-        Tue, 13 Apr 2021 12:50:06 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id nm3-20020a17090b19c3b029014e1bbf6c60so5372938pjb.4;
-        Tue, 13 Apr 2021 12:50:06 -0700 (PDT)
+        Tue, 13 Apr 2021 15:50:41 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3816C061574;
+        Tue, 13 Apr 2021 12:50:21 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id b17so12710592pgh.7;
+        Tue, 13 Apr 2021 12:50:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=d5JQs8Tx+1jZkGxhLa1z0jf/2TQov6WAQJIdCWJLtFk=;
-        b=QO5ZH0XWGCAtSnFQasOblaMQqYmA7DsyCoftBXbx1i3qQ263FErvWqdiQuSnH2EOKP
-         PEe6WigtGLK5Az5GBaaABOIj3PBGmfUoePMX/7fhc4A1B9nEJHRCXe0EpX1X3TMf2zYy
-         dw1idnzkClh6WfP874wu34eSBc/wNP10brzFHT46QNjjG8iiTV2s4e2kyt+bPj8HqxWA
-         RBmxmwQ1yCa232XdNRcsdjjJfCf4Ce45obhz0nu2AboimowAiPseA3sQwS2h7L0OEtg5
-         ydM7A4DZgH6mhkA/72zbW8trxYbj22pxI6GFkWMDiub5jnp0PGMK/63HtvO/NfCuVTqC
-         vWaQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xuSm7lduvaNieNDTtoqbp4d4Yshagez+v52iHy5UOJg=;
+        b=eFmB2glJriyWzg8p5ap5w+1U0RcYO2BC0Ga/uhAsjZJRbnNPvA+vHTkBbKE6c75bgY
+         oglGjlVL5y+n6GUS9sPMp+UWd939RbhrUcqzFyqvbz0vJx4WDi3AlBjSLwe+p+zOfwtB
+         XCgDxmS4Yi9U2ABrBRhKX46x3AwnHUCoMQQthsYml0JLTRWRn4xbVpFqKMUwJdA5ru++
+         zeYutmRaNc9P5d6dCVHwFfOLWgGGX2mei5uBc0tC99t5VEL3XjiPtnbdNaspn1MA6SeA
+         djQF0iXzr+kpVAkFSo7/W7QK5IgrEZ/RShE4ueoHKqXzfNE7O62ZBZSdWuGZXvGosEo+
+         +9Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=d5JQs8Tx+1jZkGxhLa1z0jf/2TQov6WAQJIdCWJLtFk=;
-        b=jEmI62TxOm5Ha+0JTVuMJp2PMP3pn6HtqA729Yeuu7VBrYPAwCOs8MSxXobjh2Yin8
-         1XSEr7V6qCkfBwmqSxykQwKwNrtUhvgBnYj0VrjeCJtT4k5kSVnAXt+ivr0FWA5PE07j
-         sA5Drk2Pq43azzJGN0ucipzwyec50W6E/dz7SWGZiotvVaycJ6lrUbaDT1G4pxJ2Gf+g
-         n2a8qLHzpq3HAnnDtf4z+L6lRJ/m+FyXRGIjWSLug54h7PJ5VEIJiASkwqiKdlWbS2dL
-         wpOYnQd1w4gK10USTkgdnlz8iM6mOYqlRRux7BLcQZ/NcfR3Zr1TLo+dnSkP8SyUrmvp
-         UdDw==
-X-Gm-Message-State: AOAM532VkGEoKLCkCwKAKQk2d4pyvwWCHZTNJx9C+YUZ8qeoFIhUJVdB
-        +IucZb9+MiqQr+F1Jwq8kIg=
-X-Google-Smtp-Source: ABdhPJxuSnZlMUujv5nFXikHkfCpYArxNbEnXKfglBq+r/hSMy4kBhKWI/uRxNZ6Ezk5qMrnYYQyyg==
-X-Received: by 2002:a17:90a:7f8b:: with SMTP id m11mr1631827pjl.221.1618343405874;
-        Tue, 13 Apr 2021 12:50:05 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xuSm7lduvaNieNDTtoqbp4d4Yshagez+v52iHy5UOJg=;
+        b=Ont5L6bOTGR35A8pL14ql3wRRkPpFQ97LRlgZNfmz2T4D7bTkI4XYL77sNhwdofPdv
+         nrdk/cHpOeR7vPpv7wCtZAqnZ9DZnHOyM1E5tgl4Hltxmm3wXlb/7XBrb/hdD6t3V2/n
+         uMSfeRb6Uxnm1tZWB78UhrkKaRPRHqeqRn1GWpe2gWtAhyoJHXGUEFt1pQgVVH+kfx4A
+         Uuptnbw/2u24yknu6jp6Q9oHukkaCLerczFM5+WVF+EkbTG2UjU+3x8WrlJFLgRcZtLz
+         RqhsMQJbcZVMSrugfvz7DvWVIVIsTBSvOJzKPyyDfhCsFcqGhRuRwQaw2zteNTqnFlAR
+         PNvA==
+X-Gm-Message-State: AOAM531jdeB8cnOdv8Zp07EN8Nz6WJIZkY7DypB5i54tmnst1tSpC3gI
+        wUwD4Yb/J1muvQDZW1oy+x4=
+X-Google-Smtp-Source: ABdhPJzF9lSPapn0zS9nxnfdhmu58sA5DNzZCVas/BZDZGyPeyWS6jcTw5Od1DhnRnUzjRdVZYnvEA==
+X-Received: by 2002:a63:1717:: with SMTP id x23mr33416121pgl.89.1618343421478;
+        Tue, 13 Apr 2021 12:50:21 -0700 (PDT)
 Received: from kali ([103.141.87.253])
-        by smtp.gmail.com with ESMTPSA id c1sm13350924pfi.142.2021.04.13.12.50.03
+        by smtp.gmail.com with ESMTPSA id q13sm91536pgp.37.2021.04.13.12.50.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 12:50:05 -0700 (PDT)
-Date:   Wed, 14 Apr 2021 01:20:00 +0530
+        Tue, 13 Apr 2021 12:50:21 -0700 (PDT)
+Date:   Wed, 14 Apr 2021 01:20:16 +0530
 From:   Mitali Borkar <mitaliborkar810@gmail.com>
 To:     clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
         mitali_s@me.iitr.ac.in
-Subject: [PATCH v4 0/2] staging: media: zoran: Cleanup patchset for style
- issues in zr36057.h 
-Message-ID: <cover.1618342050.git.mitaliborkar810@gmail.com>
+Subject: [PATCH v4 1/2] staging: media: zoran: add spaces around '<<' operator
+Message-ID: <b0c00d95962a836d16a9ab2a0ee66d99f548b15d.1618342050.git.mitaliborkar810@gmail.com>
+References: <cover.1618342050.git.mitaliborkar810@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1618342050.git.mitaliborkar810@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Changes from v3:- Rebased these patches and made changes against
-mainline code.
+Added spaces around '<<' operator to improve readability and meet linux
+kernel coding style.
+Reported by checkpatch
 
-Changes from v2:-
-[PATCH 1/2]:- No changes.
-[PATCH 2/2]:- Aligned the code using tabs.
+Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+---
 
-Changes from v1:- 
-[PATCH 1/2]:- No changes.
-[PATCH 2/2]:- Aligned the code using tabs and readjusted the
-comments line.
+Changes from v3:- No changes.
+Changes from v2:- No changes.
+Changes from v1:- No changes.
 
-Mitali Borkar (2):
-  staging: media: zoran: add spaces around '<<' operator
-  staging: media: zoran: add BIT() macro and align code
+ drivers/staging/media/zoran/zr36057.h | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
- drivers/staging/media/zoran/zr36057.h | 312 ++++++++++++++------------
- 1 file changed, 172 insertions(+), 140 deletions(-)
-
+diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
+index 71b651add35a..a2a75fd9f535 100644
+--- a/drivers/staging/media/zoran/zr36057.h
++++ b/drivers/staging/media/zoran/zr36057.h
+@@ -30,13 +30,13 @@
+ #define ZR36057_VFESPFR_HOR_DCM          14
+ #define ZR36057_VFESPFR_VER_DCM          8
+ #define ZR36057_VFESPFR_DISP_MODE        6
+-#define ZR36057_VFESPFR_YUV422          (0<<3)
+-#define ZR36057_VFESPFR_RGB888          (1<<3)
+-#define ZR36057_VFESPFR_RGB565          (2<<3)
+-#define ZR36057_VFESPFR_RGB555          (3<<3)
+-#define ZR36057_VFESPFR_ERR_DIF          (1<<2)
+-#define ZR36057_VFESPFR_PACK24          (1<<1)
+-#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1<<0)
++#define ZR36057_VFESPFR_YUV422          (0 << 3)
++#define ZR36057_VFESPFR_RGB888          (1 << 3)
++#define ZR36057_VFESPFR_RGB565          (2 << 3)
++#define ZR36057_VFESPFR_RGB555          (3 << 3)
++#define ZR36057_VFESPFR_ERR_DIF          (1 << 2)
++#define ZR36057_VFESPFR_PACK24          (1 << 1)
++#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1 << 0)
+ 
+ #define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
+ 
 -- 
 2.30.2
 
