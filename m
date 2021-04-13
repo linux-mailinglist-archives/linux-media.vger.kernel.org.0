@@ -2,88 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7243035E1DD
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 16:51:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45E4235E1EE
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 16:53:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbhDMOvn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 10:51:43 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46097 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229721AbhDMOvm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 10:51:42 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id WKNqlFdXzMxedWKNtlj4YL; Tue, 13 Apr 2021 16:51:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618325482; bh=Aw5lXwZyN6zUOkRQqhMZ7fpzBmLrAbcr5XjdvQMQGZs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=PXb8pCp47b8F+pJo0HiiWJL2cj86zwa+oJYkVKuFmu0jY5t6UYLnk4HfTgB+1EToE
-         79hzG/clvx5yAcWbL1255BSdxciS8U4tC06lNyP6TyMFaLCnax5r82gCiV9ONctopF
-         RedLkeSsT4Mf42oWxh/epGDA9sQF/te9XUwaAtIjGNc7B9Bw6DMmE8u5pDDLoOy8bb
-         ySLoav3TSXtUMABV64RE2M/5Xah051UGdLASmpGbpo7jlycYhCXn5ki3bPvKaOxgPD
-         OeBLnH2+HWah8YxCWGmCECG1p4vmevEaO7zCnw2MHouJdwegGLllP9swRaMKRpkg2T
-         gRcHRu+SiCifQ==
-Subject: Re: [PATCH] staging: media: atomisp: Removed a function entry log
-To:     Martiros Shakhzadyan <vrzh@vrzh.net>, mchehab@kernel.org
-Cc:     sakari.ailus@linux.intel.com, linux-media@vger.kernel.org
-References: <20210412155959.6647-1-vrzh@vrzh.net>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <50b6775f-f6cf-afd2-9a52-c30d02b89832@xs4all.nl>
-Date:   Tue, 13 Apr 2021 16:51:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        id S241478AbhDMOx6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 10:53:58 -0400
+Received: from mga03.intel.com ([134.134.136.65]:35617 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239760AbhDMOxp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Apr 2021 10:53:45 -0400
+IronPort-SDR: 4zbmDKmFO3HhIwpxU7FQ2HAiBAfVf0LEgoEyeWIOpw4Cd8Sew0ylVxFJXwlYr3LC+FGWOP0lgL
+ cgIyseZscN6g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9953"; a="194456666"
+X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
+   d="scan'208";a="194456666"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 07:53:22 -0700
+IronPort-SDR: ThDZnDaLHvuc3kj4p9CLOj8eCMjDN7c9Gh2EuxNxgL6sIYP7mPiWT3hhP/eptiuAKNHHa6pZn0
+ geGfOVXQD4Gg==
+X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
+   d="scan'208";a="521623505"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 07:53:18 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 5D7352082C;
+        Tue, 13 Apr 2021 17:53:15 +0300 (EEST)
+Date:   Tue, 13 Apr 2021 17:53:15 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+        Mitali Borkar <mitaliborkar810@gmail.com>,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH 1/1] staging: ipu3-imgu: Move the UAPI header from
+ include under include/uapi
+Message-ID: <20210413145315.GW3@paasikivi.fi.intel.com>
+References: <20210412111120.31625-1-sakari.ailus@linux.intel.com>
+ <YHWgbZTDAWBX9EpR@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20210412155959.6647-1-vrzh@vrzh.net>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMKvdxsBzI5bs1GvD9v4ZgjyPHHkFcJ+0q2bkK/WPVFLVP4AXlvnmzmX3/zkFoJ4ivinb4izY4edAvlEbdo7rg3vB5xYAmXyAmiTQBomf+5O1/vMRrC8
- /Wc2rgtK/Pxul732ZmtXRkEmvOAR14pgLUFnSjsWYYzqn6mmiK578XySYg8sUHB57oAfg05ZkVxxh8KNU6k/TNZ1CJ0EH1qMMbZr/Z1gc5dSbye9zCDDMo9u
- Ic1zsFzQ2qy07MftHkGWo1HLOhB4rdhKralZ0TzMsvVzE3341n9yuy90gvamQicP
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YHWgbZTDAWBX9EpR@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/04/2021 17:59, Martiros Shakhzadyan wrote:
-> Removed a function entry log in ov2722_remove, as ftrace is a preferred
-> method for function entry/exit tracing.
+Hi Laurent,
 
-It turns out that someone else already made the same fix [1], so marking
-this patch as obsolete.
+On Tue, Apr 13, 2021 at 04:45:17PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Apr 12, 2021 at 02:11:20PM +0300, Sakari Ailus wrote:
+> > The header defines the user space interface but may be mistaken as
+> > kernel-only header due to its location. Add "uapi" directory under
+> > driver's include directory and move the header there.
+> > 
+> > Suggested-by: Greg KH <gregkh@linuxfoundation.org>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  Documentation/admin-guide/media/ipu3.rst      | 35 ++++++++++---------
+> >  .../media/v4l/pixfmt-meta-intel-ipu3.rst      |  2 +-
+> >  .../ipu3/include/{ => uapi}/intel-ipu3.h      |  0
+> >  drivers/staging/media/ipu3/ipu3-abi.h         |  2 +-
+> >  4 files changed, 20 insertions(+), 19 deletions(-)
+> >  rename drivers/staging/media/ipu3/include/{ => uapi}/intel-ipu3.h (100%)
+> > 
+> > diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
+> > index f59697c7b374..d6454f637ff4 100644
+> > --- a/Documentation/admin-guide/media/ipu3.rst
+> > +++ b/Documentation/admin-guide/media/ipu3.rst
+> > @@ -234,22 +234,23 @@ The IPU3 ImgU pipelines can be configured using the Media Controller, defined at
+> >  Running mode and firmware binary selection
+> >  ------------------------------------------
+> >  
+> > -ImgU works based on firmware, currently the ImgU firmware support run 2 pipes in
+> > -time-sharing with single input frame data. Each pipe can run at certain mode -
+> > -"VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture, and
+> > -"STILL" is used for still frame capture. However, you can also select "VIDEO" to
+> > -capture still frames if you want to capture images with less system load and
+> > -power. For "STILL" mode, ImgU will try to use smaller BDS factor and output
+> > -larger bayer frame for further YUV processing than "VIDEO" mode to get high
+> > -quality images. Besides, "STILL" mode need XNR3 to do noise reduction, hence
+> > -"STILL" mode will need more power and memory bandwidth than "VIDEO" mode. TNR
+> > -will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is running at
+> > -“VIDEO” mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
+> > -(currently defined in drivers/staging/media/ipu3/include/intel-ipu3.h) to query
+> > -and set the running mode. For user, there is no difference for buffer queueing
+> > -between the "VIDEO" and "STILL" mode, mandatory input and main output node
+> > -should be enabled and buffers need be queued, the statistics and the view-finder
+> > -queues are optional.
+> > +ImgU works based on firmware, currently the ImgU firmware support run 2 pipes
+> > +in time-sharing with single input frame data. Each pipe can run at certain mode
+> > +- "VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture,
+> > +and "STILL" is used for still frame capture. However, you can also select
+> > +"VIDEO" to capture still frames if you want to capture images with less system
+> > +load and power. For "STILL" mode, ImgU will try to use smaller BDS factor and
+> > +output larger bayer frame for further YUV processing than "VIDEO" mode to get
+> > +high quality images. Besides, "STILL" mode need XNR3 to do noise reduction,
+> > +hence "STILL" mode will need more power and memory bandwidth than "VIDEO" mode.
+> > +TNR will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is
+> > +running at “VIDEO” mode by default, the user can use v4l2 control
+> > +V4L2_CID_INTEL_IPU3_MODE (currently defined in
+> > +drivers/staging/media/ipu3/include/uapi/intel-ipu3.h) to query and set the
+> > +running mode. For user, there is no difference for buffer queueing between the
+> > +"VIDEO" and "STILL" mode, mandatory input and main output node should be
+> > +enabled and buffers need be queued, the statistics and the view-finder queues
+> > +are optional.
+> 
+> The reflow of the whole paragraph is a bit painful to review.
 
-There are quite a few atomisp patches pending for 5.13, so it might be
-a good idea to checkout the media subsystem master tree since that is
-more recent than mainline.
-
-https://git.linuxtv.org/media_tree.git/
-
-Regards,
-
-	Hans
-
-[1]:
-https://patchwork.linuxtv.org/project/linux-media/patch/20210106181158.2270-1-fil.kolev@gmail.com/
+Yes. The only difference there is still the addition of "/uapi". :-)
 
 > 
-> Signed-off-by: Martiros Shakhzadyan <vrzh@vrzh.net>
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> index c017e9066b7a..912eadaffc44 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> @@ -1175,8 +1175,6 @@ static int ov2722_remove(struct i2c_client *client)
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  	struct ov2722_device *dev = to_ov2722_sensor(sd);
->  
-> -	dev_dbg(&client->dev, "ov2722_remove...\n");
-> -
->  	dev->platform_data->csi_cfg(sd, 0);
->  	v4l2_ctrl_handler_free(&dev->ctrl_handler);
->  	v4l2_device_unregister_subdev(sd);
-> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+Thank you!
+
+-- 
+Sakari Ailus
