@@ -2,77 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC58435E55C
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 19:50:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B708E35E5A3
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 19:53:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347367AbhDMRug (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 13:50:36 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:40209 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347355AbhDMRuf (ORCPT
+        id S1345556AbhDMRxE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 13:53:04 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:58127 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345527AbhDMRxC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 13:50:35 -0400
+        Tue, 13 Apr 2021 13:53:02 -0400
 X-Originating-IP: 24.194.32.49
 Received: from coplandos.local (cpe-24-194-32-49.nycap.res.rr.com [24.194.32.49])
         (Authenticated sender: vrzh@vrzh.net)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id EDD966000E;
-        Tue, 13 Apr 2021 17:50:12 +0000 (UTC)
-Date:   Tue, 13 Apr 2021 13:53:16 -0400
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 4EDACE000C;
+        Tue, 13 Apr 2021 17:52:38 +0000 (UTC)
+Date:   Tue, 13 Apr 2021 13:55:43 -0400
 From:   Martiros Shakhzadyan <vrzh@vrzh.net>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     sakari.ailus@linux.intel.com, linux-media@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: Removed a function entry log
-Message-ID: <YHXajIGK50uT3M5Y@coplandos.local>
-References: <20210412155959.6647-1-vrzh@vrzh.net>
- <50b6775f-f6cf-afd2-9a52-c30d02b89832@xs4all.nl>
+Subject: Re: [PATCH] staging: media: atomisp: Minor code style changes
+Message-ID: <YHXbH+EqAm2bE8oE@coplandos.local>
+References: <20210412160203.6925-1-vrzh@vrzh.net>
+ <eda1c459-f654-e9f4-5738-5d611f267a9e@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <50b6775f-f6cf-afd2-9a52-c30d02b89832@xs4all.nl>
+In-Reply-To: <eda1c459-f654-e9f4-5738-5d611f267a9e@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 13, 2021 at 04:51:18PM +0200, Hans Verkuil wrote:
-> On 12/04/2021 17:59, Martiros Shakhzadyan wrote:
-> > Removed a function entry log in ov2722_remove, as ftrace is a preferred
-> > method for function entry/exit tracing.
+On Tue, Apr 13, 2021 at 04:41:02PM +0200, Hans Verkuil wrote:
+> Please repost with a '[PATCHv3]' in the subject.
 > 
-> It turns out that someone else already made the same fix [1], so marking
-> this patch as obsolete.
+> This version should have been '[PATCHv2]', but you forgot the v2 part :-)
 > 
-> There are quite a few atomisp patches pending for 5.13, so it might be
-> a good idea to checkout the media subsystem master tree since that is
-> more recent than mainline.
-> 
-> https://git.linuxtv.org/media_tree.git/
+> It's important, since now I had no indication that the previous patch was superseded
+> and I tried to apply both, thus discovering that the older one should have been skipped.
 > 
 > Regards,
 > 
 > 	Hans
 > 
-> [1]:
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210106181158.2270-1-fil.kolev@gmail.com/
-> 
-Noted. I will continue to work off of that repo - Thanks!
+Got it! Will do that now - thanks for your patience :)
+> On 12/04/2021 18:02, Martiros Shakhzadyan wrote:
+> > Fixed line continuation and parenthesis alignment issues.
 > > 
 > > Signed-off-by: Martiros Shakhzadyan <vrzh@vrzh.net>
 > > ---
-> >  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 2 --
-> >  1 file changed, 2 deletions(-)
+> >  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
 > > 
 > > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > index c017e9066b7a..912eadaffc44 100644
+> > index 912eadaffc44..90a985ee25fa 100644
 > > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
 > > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > @@ -1175,8 +1175,6 @@ static int ov2722_remove(struct i2c_client *client)
-> >  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >  	struct ov2722_device *dev = to_ov2722_sensor(sd);
+> > @@ -49,8 +49,8 @@ static int ov2722_read_reg(struct i2c_client *client,
+> >  		return -ENODEV;
+> >  	}
 > >  
-> > -	dev_dbg(&client->dev, "ov2722_remove...\n");
-> > -
-> >  	dev->platform_data->csi_cfg(sd, 0);
-> >  	v4l2_ctrl_handler_free(&dev->ctrl_handler);
-> >  	v4l2_device_unregister_subdev(sd);
+> > -	if (data_length != OV2722_8BIT && data_length != OV2722_16BIT
+> > -	    && data_length != OV2722_32BIT) {
+> > +	if (data_length != OV2722_8BIT && data_length != OV2722_16BIT &&
+> > +	    data_length != OV2722_32BIT) {
+> >  		dev_err(&client->dev, "%s error, invalid data length\n",
+> >  			__func__);
+> >  		return -EINVAL;
+> > @@ -212,8 +212,8 @@ static int __ov2722_buf_reg_array(struct i2c_client *client,
+> >  }
+> >  
+> >  static int __ov2722_write_reg_is_consecutive(struct i2c_client *client,
+> > -	struct ov2722_write_ctrl *ctrl,
+> > -	const struct ov2722_reg *next)
+> > +					     struct ov2722_write_ctrl *ctrl,
+> > +					     const struct ov2722_reg *next)
+> >  {
+> >  	if (ctrl->index == 0)
+> >  		return 1;
 > > 
 > 
