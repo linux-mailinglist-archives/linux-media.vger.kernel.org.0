@@ -2,336 +2,421 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B898835E4F4
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 19:24:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69A2535E502
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 19:27:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232521AbhDMRYB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 13:24:01 -0400
-Received: from bin-mail-out-05.binero.net ([195.74.38.228]:43141 "EHLO
-        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1347177AbhDMRYA (ORCPT
+        id S232661AbhDMR15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 13:27:57 -0400
+Received: from mail-pg1-f181.google.com ([209.85.215.181]:45737 "EHLO
+        mail-pg1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230035AbhDMR14 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 13:24:00 -0400
-X-Halon-ID: f7b186d2-9c7c-11eb-a9ab-0050569116f7
-Authorized-sender: niklas.soderlund@fsdn.se
-Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de [84.172.85.33])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id f7b186d2-9c7c-11eb-a9ab-0050569116f7;
-        Tue, 13 Apr 2021 19:23:38 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] rcar-csi2: Add r8a779a0 support
-Date:   Tue, 13 Apr 2021 19:23:14 +0200
-Message-Id: <20210413172314.2516631-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.31.1
+        Tue, 13 Apr 2021 13:27:56 -0400
+Received: by mail-pg1-f181.google.com with SMTP id d10so12422166pgf.12;
+        Tue, 13 Apr 2021 10:27:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=P/nF+Bi9t9pQ6aC5jnW/oRn1P0rw0LcucwwKdVoOO7Q=;
+        b=AJ2+lRh++FAHgdAnQ+Nnkb5tqd304aC8IFqvS/AZJwhMOFKNZGBIZ1xp5qLno3pvvb
+         yWNI4+p/oB57IFT0Phcpoqf68LZyhNGuAODWXXThLqO0AcIUN6T989AlxuycqRGvAFMA
+         8vp9sJakGV4e1Z/e7oC9YjzMfKmn67FTnYjj6eSAkEytitLV6mmGgxel2LYmKh+5eSIb
+         MtZdIXpG2A/D8XrSvSKWhW8wjEj9Ezhm3pmaYv0updCZH/qVYueLPEZ7kLqZzoVDP+Ds
+         aD88/uzFpVzFRcc200B5wJ3043Pp9btDQzmIfMVq+1WDJ9HSlXfQ2v9M32RxgkGET6yW
+         bdFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=P/nF+Bi9t9pQ6aC5jnW/oRn1P0rw0LcucwwKdVoOO7Q=;
+        b=IsKbfm+e/dSAtT+q7He+XI9r8oI0rxmmA7rOaXRDVQkYO7hokF1s174bCrQCkqffd+
+         rPmzhz6uGY2qJCfHEVKeZXQ0ey8xRttPs0ApFZwsRW+R78a9+7w6vQVSdiHz5IwX1HmO
+         qnNaMoScAJvVmbSLsDfrZjDwTOIrGeq0lbYjh9Ooj30cz3WGrKe1oL2NETdTOlQsX5Zj
+         wtenVezTKmbfBayge8b7UkGjYSnvbVc/ZvDiba8vZK+J992vKNBIxBSh5BQopBiFG1BV
+         2HdJdGj4nURqNr5oojWp1Eb4KukwF1LfOGBfZ7THW4zJDj4LKuU08w9nR6pHi8eULOxW
+         pacg==
+X-Gm-Message-State: AOAM533t7sBQSdKyNK8dpsgKhbmOkI5SJa3TF/hruaaokcFgIdVLVWA+
+        1k9J/vm97aU4MGz18jPQSX0=
+X-Google-Smtp-Source: ABdhPJxdBLpF9F31J5skzz8GkLMLR9rnSXMHdjss7U8h16dDV1wHhfU210soWqKhBUxBINVPy8E4EA==
+X-Received: by 2002:a65:5c4d:: with SMTP id v13mr16355555pgr.161.1618334796257;
+        Tue, 13 Apr 2021 10:26:36 -0700 (PDT)
+Received: from kali ([103.141.87.254])
+        by smtp.gmail.com with ESMTPSA id k15sm13243834pfi.0.2021.04.13.10.26.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 10:26:35 -0700 (PDT)
+Date:   Tue, 13 Apr 2021 22:56:25 +0530
+From:   Mitali Borkar <mitaliborkar810@gmail.com>
+To:     clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+        mitali_s@me.iitr.ac.in
+Subject: Subject: [PATCH v4]  staging: media: zoran: add '*' in
+ long(multi-line) comments
+Message-ID: <YHXUQc+IgZ1y9TQu@kali>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for the R-Car V3U (r8a779a0) to the driver. The V3U have the
-CSI-2 modules connected to ISPs instead of directly to the R-Car VIN DMA
-engines.
+Added '*' before every line inside long(multi-line) comments. Removed
+'*/' from end of the comment line and added to next line as per linux
+kernel coding style. Aligned '*' accordingly to make code neater.
 
-The ISP performs channel selection based on CSI-2 VC/DT pairs and routes
-the video data. This requires the R-Car CSI-2 media entity to modeled
-differently then on other SoCs as it on the V3U only have a single
-source pad connected to the ISP.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 ---
- drivers/media/platform/rcar-vin/rcar-csi2.c | 191 +++++++++++++++++++-
- 1 file changed, 185 insertions(+), 6 deletions(-)
+Changes from v3:- Rebased this patch and made changes against mainline
+code. 
+Changes from v2:- made style changes in code according to linux kernel
+coding style for long comments.
+Changes from v1:- Changes made in code according to linux kernel coding
+style for long(multi-line) comments.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index e06cd512aba207a4..47f73f0ab54394ec 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -126,6 +126,12 @@ struct rcar_csi2;
- #define PHTW_CWEN			BIT(8)
- #define PHTW_TESTDIN_CODE(n)		((n & 0xff))
+ drivers/staging/media/zoran/zr36050.c | 192 +++++++++++++++-----------
+ 1 file changed, 112 insertions(+), 80 deletions(-)
+
+diff --git a/drivers/staging/media/zoran/zr36050.c b/drivers/staging/media/zoran/zr36050.c
+index 2826f4e5d37b..a1084aa142e7 100644
+--- a/drivers/staging/media/zoran/zr36050.c
++++ b/drivers/staging/media/zoran/zr36050.c
+@@ -24,8 +24,11 @@
+ /* codec io API */
+ #include "videocodec.h"
  
-+#define PHYFRX_REG			0x64
-+#define PHYFRX_FORCERX_MODE_3		BIT(3)
-+#define PHYFRX_FORCERX_MODE_2		BIT(2)
-+#define PHYFRX_FORCERX_MODE_1		BIT(1)
-+#define PHYFRX_FORCERX_MODE_0		BIT(0)
+-/* it doesn't make sense to have more than 20 or so,
+-  just to prevent some unwanted loops */
++/*
++ * it doesn't make sense to have more than 20 or so,
++ * just to prevent some unwanted loops
++ */
 +
- struct phtw_value {
- 	u16 data;
- 	u16 code;
-@@ -136,6 +142,31 @@ struct rcsi2_mbps_reg {
- 	u16 reg;
- };
+ #define MAX_CODECS 20
  
-+static const struct rcsi2_mbps_reg phtw_mbps_v3u[] = {
-+	{ .mbps = 1500, .reg = 0xcc },
-+	{ .mbps = 1550, .reg = 0x1d },
-+	{ .mbps = 1600, .reg = 0x27 },
-+	{ .mbps = 1650, .reg = 0x30 },
-+	{ .mbps = 1700, .reg = 0x39 },
-+	{ .mbps = 1750, .reg = 0x42 },
-+	{ .mbps = 1800, .reg = 0x4b },
-+	{ .mbps = 1850, .reg = 0x55 },
-+	{ .mbps = 1900, .reg = 0x5e },
-+	{ .mbps = 1950, .reg = 0x67 },
-+	{ .mbps = 2000, .reg = 0x71 },
-+	{ .mbps = 2050, .reg = 0x79 },
-+	{ .mbps = 2100, .reg = 0x83 },
-+	{ .mbps = 2150, .reg = 0x8c },
-+	{ .mbps = 2200, .reg = 0x95 },
-+	{ .mbps = 2250, .reg = 0x9e },
-+	{ .mbps = 2300, .reg = 0xa7 },
-+	{ .mbps = 2350, .reg = 0xb0 },
-+	{ .mbps = 2400, .reg = 0xba },
-+	{ .mbps = 2450, .reg = 0xc3 },
-+	{ .mbps = 2500, .reg = 0xcc },
-+	{ /* sentinel */ },
-+};
-+
- static const struct rcsi2_mbps_reg phtw_mbps_h3_v3h_m3n[] = {
- 	{ .mbps =   80, .reg = 0x86 },
- 	{ .mbps =   90, .reg = 0x86 },
-@@ -200,6 +231,72 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
- #define PHYPLL_REG			0x68
- #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
+ /* amount of chips attached via this driver */
+@@ -43,10 +46,11 @@ MODULE_PARM_DESC(debug, "Debug level (0-4)");
+ 	} while (0)
  
-+static const struct rcsi2_mbps_reg hsfreqrange_v3u[] = {
-+	{ .mbps =   80, .reg = 0x00 },
-+	{ .mbps =   90, .reg = 0x10 },
-+	{ .mbps =  100, .reg = 0x20 },
-+	{ .mbps =  110, .reg = 0x30 },
-+	{ .mbps =  120, .reg = 0x01 },
-+	{ .mbps =  130, .reg = 0x11 },
-+	{ .mbps =  140, .reg = 0x21 },
-+	{ .mbps =  150, .reg = 0x31 },
-+	{ .mbps =  160, .reg = 0x02 },
-+	{ .mbps =  170, .reg = 0x12 },
-+	{ .mbps =  180, .reg = 0x22 },
-+	{ .mbps =  190, .reg = 0x32 },
-+	{ .mbps =  205, .reg = 0x03 },
-+	{ .mbps =  220, .reg = 0x13 },
-+	{ .mbps =  235, .reg = 0x23 },
-+	{ .mbps =  250, .reg = 0x33 },
-+	{ .mbps =  275, .reg = 0x04 },
-+	{ .mbps =  300, .reg = 0x14 },
-+	{ .mbps =  325, .reg = 0x25 },
-+	{ .mbps =  350, .reg = 0x35 },
-+	{ .mbps =  400, .reg = 0x05 },
-+	{ .mbps =  450, .reg = 0x16 },
-+	{ .mbps =  500, .reg = 0x26 },
-+	{ .mbps =  550, .reg = 0x37 },
-+	{ .mbps =  600, .reg = 0x07 },
-+	{ .mbps =  650, .reg = 0x18 },
-+	{ .mbps =  700, .reg = 0x28 },
-+	{ .mbps =  750, .reg = 0x39 },
-+	{ .mbps =  800, .reg = 0x09 },
-+	{ .mbps =  850, .reg = 0x19 },
-+	{ .mbps =  900, .reg = 0x29 },
-+	{ .mbps =  950, .reg = 0x3a },
-+	{ .mbps = 1000, .reg = 0x0a },
-+	{ .mbps = 1050, .reg = 0x1a },
-+	{ .mbps = 1100, .reg = 0x2a },
-+	{ .mbps = 1150, .reg = 0x3b },
-+	{ .mbps = 1200, .reg = 0x0b },
-+	{ .mbps = 1250, .reg = 0x1b },
-+	{ .mbps = 1300, .reg = 0x2b },
-+	{ .mbps = 1350, .reg = 0x3c },
-+	{ .mbps = 1400, .reg = 0x0c },
-+	{ .mbps = 1450, .reg = 0x1c },
-+	{ .mbps = 1500, .reg = 0x2c },
-+	{ .mbps = 1550, .reg = 0x3d },
-+	{ .mbps = 1600, .reg = 0x0d },
-+	{ .mbps = 1650, .reg = 0x1d },
-+	{ .mbps = 1700, .reg = 0x2e },
-+	{ .mbps = 1750, .reg = 0x3e },
-+	{ .mbps = 1800, .reg = 0x0e },
-+	{ .mbps = 1850, .reg = 0x1e },
-+	{ .mbps = 1900, .reg = 0x2f },
-+	{ .mbps = 1950, .reg = 0x3f },
-+	{ .mbps = 2000, .reg = 0x0f },
-+	{ .mbps = 2050, .reg = 0x40 },
-+	{ .mbps = 2100, .reg = 0x41 },
-+	{ .mbps = 2150, .reg = 0x42 },
-+	{ .mbps = 2200, .reg = 0x43 },
-+	{ .mbps = 2300, .reg = 0x45 },
-+	{ .mbps = 2350, .reg = 0x46 },
-+	{ .mbps = 2400, .reg = 0x47 },
-+	{ .mbps = 2450, .reg = 0x48 },
-+	{ .mbps = 2500, .reg = 0x49 },
-+	{ /* sentinel */ },
-+};
-+
- static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
- 	{ .mbps =   80, .reg = 0x00 },
- 	{ .mbps =   90, .reg = 0x10 },
-@@ -353,6 +450,7 @@ struct rcar_csi2_info {
- 	unsigned int csi0clkfreqrange;
- 	unsigned int num_channels;
- 	bool clear_ulps;
-+	bool use_isp;
- };
+ /* =========================================================================
+-   Local hardware I/O functions:
+-
+-   read/write via codec layer (registers are located in the master device)
+-   ========================================================================= */
++ * Local hardware I/O functions:
++ *
++ * read/write via codec layer (registers are located in the master device)
++ * =========================================================================
++ */
  
- struct rcar_csi2 {
-@@ -600,9 +698,12 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 	rcsi2_write(priv, PHTC_REG, 0);
- 
- 	/* Configure */
--	rcsi2_write(priv, VCDT_REG, vcdt);
--	if (vcdt2)
--		rcsi2_write(priv, VCDT2_REG, vcdt2);
-+	if (!priv->info->use_isp) {
-+		rcsi2_write(priv, VCDT_REG, vcdt);
-+		if (vcdt2)
-+			rcsi2_write(priv, VCDT2_REG, vcdt2);
-+	}
-+
- 	/* Lanes are zero indexed. */
- 	rcsi2_write(priv, LSWAP_REG,
- 		    LSWAP_L0SEL(priv->lane_swap[0] - 1) |
-@@ -627,6 +728,11 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 		rcsi2_write(priv, CSI0CLKFCPR_REG,
- 			    CSI0CLKFREQRANGE(priv->info->csi0clkfreqrange));
- 
-+	if (priv->info->use_isp)
-+		rcsi2_write(priv, PHYFRX_REG,
-+			    PHYFRX_FORCERX_MODE_3 | PHYFRX_FORCERX_MODE_2 |
-+			    PHYFRX_FORCERX_MODE_1 | PHYFRX_FORCERX_MODE_0);
-+
- 	rcsi2_write(priv, PHYCNT_REG, phycnt);
- 	rcsi2_write(priv, LINKCNT_REG, LINKCNT_MONITOR_EN |
- 		    LINKCNT_REG_MONI_PACT_EN | LINKCNT_ICLK_NONSTOP);
-@@ -638,6 +744,9 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 	if (ret)
- 		return ret;
- 
-+	if (priv->info->use_isp)
-+		rcsi2_write(priv, PHYFRX_REG, 0);
-+
- 	/* Run post PHY start initialization, if needed. */
- 	if (priv->info->phy_post_init) {
- 		ret = priv->info->phy_post_init(priv);
-@@ -1052,6 +1161,62 @@ static int rcsi2_phy_post_init_v3m_e3(struct rcar_csi2 *priv)
- 	return rcsi2_phtw_write_array(priv, step1);
+ /* read and write functions */
+ static u8 zr36050_read(struct zr36050 *ptr, u16 reg)
+@@ -80,10 +84,11 @@ static void zr36050_write(struct zr36050 *ptr, u16 reg, u8 value)
  }
  
-+static int rcsi2_init_phtw_v3u(struct rcar_csi2 *priv,
-+			       unsigned int mbps)
-+{
-+	/* In case of 1500Mbps or less */
-+	static const struct phtw_value step1[] = {
-+		{ .data = 0xcc, .code = 0xe2 },
-+		{ /* sentinel */ },
-+	};
-+
-+	static const struct phtw_value step2[] = {
-+		{ .data = 0x01, .code = 0xe3 },
-+		{ .data = 0x11, .code = 0xe4 },
-+		{ .data = 0x01, .code = 0xe5 },
-+		{ /* sentinel */ },
-+	};
-+
-+	/* In case of 1500Mbps or less */
-+	static const struct phtw_value step3[] = {
-+		{ .data = 0x38, .code = 0x08 },
-+		{ /* sentinel */ },
-+	};
-+
-+	static const struct phtw_value step4[] = {
-+		{ .data = 0x01, .code = 0x00 },
-+		{ .data = 0x4b, .code = 0xac },
-+		{ .data = 0x03, .code = 0x00 },
-+		{ .data = 0x80, .code = 0x07 },
-+		{ /* sentinel */ },
-+	};
-+
-+	int ret;
-+
-+	if (mbps != 0 && mbps <= 1500)
-+		ret = rcsi2_phtw_write_array(priv, step1);
-+	else
-+		ret = rcsi2_phtw_write_mbps(priv, mbps, phtw_mbps_v3u, 0xe2);
-+	if (ret)
-+		return ret;
-+
-+	ret = rcsi2_phtw_write_array(priv, step2);
-+	if (ret)
-+		return ret;
-+
-+	if (mbps != 0 && mbps <= 1500) {
-+		ret = rcsi2_phtw_write_array(priv, step3);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = rcsi2_phtw_write_array(priv, step4);
-+	if (ret)
-+		return ret;
-+
-+	return ret;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Platform Device Driver.
-  */
-@@ -1139,6 +1304,14 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77990 = {
- 	.num_channels = 2,
- };
+ /* =========================================================================
+-   Local helper function:
+-
+-   status read
+-   ========================================================================= */
++ * Local helper function:
++ *
++ * status read
++ * =========================================================================
++ */
  
-+static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
-+	.init_phtw = rcsi2_init_phtw_v3u,
-+	.hsfreqrange = hsfreqrange_v3u,
-+	.csi0clkfreqrange = 0x20,
-+	.clear_ulps = true,
-+	.use_isp = true,
-+};
-+
- static const struct of_device_id rcar_csi2_of_table[] = {
- 	{
- 		.compatible = "renesas,r8a774a1-csi2",
-@@ -1180,6 +1353,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
- 		.compatible = "renesas,r8a77990-csi2",
- 		.data = &rcar_csi2_info_r8a77990,
- 	},
-+	{
-+		.compatible = "renesas,r8a779a0-csi2",
-+		.data = &rcar_csi2_info_r8a779a0,
-+	},
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, rcar_csi2_of_table);
-@@ -1200,7 +1377,7 @@ static int rcsi2_probe(struct platform_device *pdev)
+ /* status is kept in datastructure */
+ static u8 zr36050_read_status1(struct zr36050 *ptr)
+@@ -95,10 +100,11 @@ static u8 zr36050_read_status1(struct zr36050 *ptr)
+ }
+ 
+ /* =========================================================================
+-   Local helper function:
+-
+-   scale factor read
+-   ========================================================================= */
++ * Local helper function:
++ *
++ * scale factor read
++ * =========================================================================
++ */
+ 
+ /* scale factor is kept in datastructure */
+ static u16 zr36050_read_scalefactor(struct zr36050 *ptr)
+@@ -112,10 +118,11 @@ static u16 zr36050_read_scalefactor(struct zr36050 *ptr)
+ }
+ 
+ /* =========================================================================
+-   Local helper function:
+-
+-   wait if codec is ready to proceed (end of processing) or time is over
+-   ========================================================================= */
++ * Local helper function:
++ *
++ * wait if codec is ready to proceed (end of processing) or time is over
++ * =========================================================================
++ */
+ 
+ static void zr36050_wait_end(struct zr36050 *ptr)
  {
- 	const struct soc_device_attribute *attr;
- 	struct rcar_csi2 *priv;
--	unsigned int i;
-+	unsigned int i, num_pads;
- 	int ret;
+@@ -133,10 +140,11 @@ static void zr36050_wait_end(struct zr36050 *ptr)
+ }
  
- 	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-@@ -1245,11 +1422,13 @@ static int rcsi2_probe(struct platform_device *pdev)
- 	priv->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
- 	priv->subdev.entity.ops = &rcar_csi2_entity_ops;
+ /* =========================================================================
+-   Local helper function:
+-
+-   basic test of "connectivity", writes/reads to/from memory the SOF marker
+-   ========================================================================= */
++ * Local helper function:
++ *
++ * basic test of "connectivity", writes/reads to/from memory the SOF marker
++ * =========================================================================
++ */
  
-+	num_pads = priv->info->use_isp ? 2 : NR_OF_RCAR_CSI2_PAD;
-+
- 	priv->pads[RCAR_CSI2_SINK].flags = MEDIA_PAD_FL_SINK;
--	for (i = RCAR_CSI2_SOURCE_VC0; i < NR_OF_RCAR_CSI2_PAD; i++)
-+	for (i = RCAR_CSI2_SOURCE_VC0; i < num_pads; i++)
- 		priv->pads[i].flags = MEDIA_PAD_FL_SOURCE;
+ static int zr36050_basic_test(struct zr36050 *ptr)
+ {
+@@ -174,10 +182,11 @@ static int zr36050_basic_test(struct zr36050 *ptr)
+ }
  
--	ret = media_entity_pads_init(&priv->subdev.entity, NR_OF_RCAR_CSI2_PAD,
-+	ret = media_entity_pads_init(&priv->subdev.entity, num_pads,
- 				     priv->pads);
- 	if (ret)
- 		goto error;
+ /* =========================================================================
+-   Local helper function:
+-
+-   simple loop for pushing the init datasets
+-   ========================================================================= */
++ * Local helper function:
++ *
++ * simple loop for pushing the init datasets
++ * =========================================================================
++ */
+ 
+ static int zr36050_pushit(struct zr36050 *ptr, u16 startreg, u16 len, const char *data)
+ {
+@@ -192,15 +201,16 @@ static int zr36050_pushit(struct zr36050 *ptr, u16 startreg, u16 len, const char
+ }
+ 
+ /* =========================================================================
+-   Basic datasets:
+-
+-   jpeg baseline setup data (you find it on lots places in internet, or just
+-   extract it from any regular .jpg image...)
+-
+-   Could be variable, but until it's not needed it they are just fixed to save
+-   memory. Otherwise expand zr36050 structure with arrays, push the values to
+-   it and initialize from there, as e.g. the linux zr36057/60 driver does it.
+-   ========================================================================= */
++ * Basic datasets:
++ *
++ * jpeg baseline setup data (you find it on lots places in internet, or just
++ * extract it from any regular .jpg image...)
++ *
++ * Could be variable, but until it's not needed it they are just fixed to save
++ * memory. Otherwise expand zr36050 structure with arrays, push the values to
++ * it and initialize from there, as e.g. the linux zr36057/60 driver does it.
++ * =========================================================================
++ */
+ 
+ static const char zr36050_dqt[0x86] = {
+ 	0xff, 0xdb,		//Marker: DQT
+@@ -294,16 +304,19 @@ static const char zr36050_decimation_h[8] = { 2, 1, 1, 0, 0, 0, 0, 0 };
+ static const char zr36050_decimation_v[8] = { 1, 1, 1, 0, 0, 0, 0, 0 };
+ 
+ /* =========================================================================
+-   Local helper functions:
+-
+-   calculation and setup of parameter-dependent JPEG baseline segments
+-   (needed for compression only)
+-   ========================================================================= */
++ * Local helper functions:
++ *
++ * calculation and setup of parameter-dependent JPEG baseline segments
++ * (needed for compression only)
++ * =========================================================================
++ */
+ 
+ /* ------------------------------------------------------------------------- */
+ 
+-/* SOF (start of frame) segment depends on width, height and sampling ratio
+-			 of each color component */
++/*
++ * SOF (start of frame) segment depends on width, height and sampling ratio
++ * of each color component
++ */
+ 
+ static int zr36050_set_sof(struct zr36050 *ptr)
+ {
+@@ -333,8 +346,10 @@ static int zr36050_set_sof(struct zr36050 *ptr)
+ 
+ /* ------------------------------------------------------------------------- */
+ 
+-/* SOS (start of scan) segment depends on the used scan components
+-			of each color component */
++/*
++ * SOS (start of scan) segment depends on the used scan components
++ * of each color component
++ */
+ 
+ static int zr36050_set_sos(struct zr36050 *ptr)
+ {
+@@ -378,13 +393,14 @@ static int zr36050_set_dri(struct zr36050 *ptr)
+ }
+ 
+ /* =========================================================================
+-   Setup function:
+-
+-   Setup compression/decompression of Zoran's JPEG processor
+-   ( see also zoran 36050 manual )
+-
+-   ... sorry for the spaghetti code ...
+-   ========================================================================= */
++ * Setup function:
++ *
++ * Setup compression/decompression of Zoran's JPEG processor
++ * ( see also zoran 36050 manual )
++ *
++ * ... sorry for the spaghetti code ...
++ * =========================================================================
++ */
+ static void zr36050_init(struct zr36050 *ptr)
+ {
+ 	int sum = 0;
+@@ -419,8 +435,10 @@ static void zr36050_init(struct zr36050 *ptr)
+ 		sum += zr36050_set_sos(ptr);
+ 		sum += zr36050_set_dri(ptr);
+ 
+-		/* setup the fixed jpeg tables - maybe variable, though -
+-		 * (see table init section above) */
++		/*
++		 * setup the fixed jpeg tables - maybe variable, though -
++		 * (see table init section above)
++		 */
+ 		dprintk(3, "%s: write DQT, DHT, APP\n", ptr->name);
+ 		sum += zr36050_pushit(ptr, ZR050_DQT_IDX,
+ 				      sizeof(zr36050_dqt), zr36050_dqt);
+@@ -531,13 +549,16 @@ static void zr36050_init(struct zr36050 *ptr)
+ }
+ 
+ /* =========================================================================
+-   CODEC API FUNCTIONS
+-
+-   this functions are accessed by the master via the API structure
+-   ========================================================================= */
++ * CODEC API FUNCTIONS
++ *
++ * this functions are accessed by the master via the API structure
++ * =========================================================================
++ */
+ 
+-/* set compression/expansion mode and launches codec -
+-   this should be the last call from the master before starting processing */
++/*
++ * set compression/expansion mode and launches codec -
++ * this should be the last call from the master before starting processing
++ */
+ static int zr36050_set_mode(struct videocodec *codec, int mode)
+ {
+ 	struct zr36050 *ptr = (struct zr36050 *)codec->data;
+@@ -564,9 +585,11 @@ static int zr36050_set_video(struct videocodec *codec, const struct tvnorm *norm
+ 		ptr->name, norm->h_start, norm->v_start,
+ 		cap->x, cap->y, cap->width, cap->height,
+ 		cap->decimation, cap->quality);
+-	/* if () return -EINVAL;
++	/*
++	 * if () return -EINVAL;
+ 	 * trust the master driver that it knows what it does - so
+-	 * we allow invalid startx/y and norm for now ... */
++	 * we allow invalid startx/y and norm for now ...
++	 */
+ 	ptr->width = cap->width / (cap->decimation & 0xff);
+ 	ptr->height = cap->height / ((cap->decimation >> 8) & 0xff);
+ 
+@@ -585,8 +608,10 @@ static int zr36050_set_video(struct videocodec *codec, const struct tvnorm *norm
+ 
+ 	ptr->real_code_vol = size >> 3; /* in bytes */
+ 
+-	/* Set max_block_vol here (previously in zr36050_init, moved
+- * here for consistency with zr36060 code */
++	/*
++	 * Set max_block_vol here (previously in zr36050_init, moved
++	 * here for consistency with zr36060 code
++	 */
+ 	zr36050_write(ptr, ZR050_MBCV, ptr->max_block_vol);
+ 
+ 	return 0;
+@@ -642,8 +667,10 @@ static int zr36050_control(struct videocodec *codec, int type, int size, void *d
+ 		if (size != sizeof(int))
+ 			return -EFAULT;
+ 		ptr->total_code_vol = *ival;
+-		/* (Kieran Morrissey)
+-		 * code copied from zr36060.c to ensure proper bitrate */
++		/*
++		 * (Kieran Morrissey)
++		 * code copied from zr36060.c to ensure proper bitrate
++		 */
+ 		ptr->real_code_vol = (ptr->total_code_vol * 6) >> 3;
+ 		break;
+ 
+@@ -707,10 +734,11 @@ static int zr36050_control(struct videocodec *codec, int type, int size, void *d
+ }
+ 
+ /* =========================================================================
+-   Exit and unregister function:
+-
+-   Deinitializes Zoran's JPEG processor
+-   ========================================================================= */
++ * Exit and unregister function:
++ *
++ * Deinitializes Zoran's JPEG processor
++ * =========================================================================
++ */
+ 
+ static int zr36050_unset(struct videocodec *codec)
+ {
+@@ -732,13 +760,14 @@ static int zr36050_unset(struct videocodec *codec)
+ }
+ 
+ /* =========================================================================
+-   Setup and registry function:
+-
+-   Initializes Zoran's JPEG processor
+-
+-   Also sets pixel size, average code size, mode (compr./decompr.)
+-   (the given size is determined by the processor with the video interface)
+-   ========================================================================= */
++ * Setup and registry function:
++ *
++ * Initializes Zoran's JPEG processor
++ *
++ * Also sets pixel size, average code size, mode (compr./decompr.)
++ * (the given size is determined by the processor with the video interface)
++ * =========================================================================
++ */
+ 
+ static int zr36050_setup(struct videocodec *codec)
+ {
+@@ -773,8 +802,10 @@ static int zr36050_setup(struct videocodec *codec)
+ 	memcpy(ptr->h_samp_ratio, zr36050_decimation_h, 8);
+ 	memcpy(ptr->v_samp_ratio, zr36050_decimation_v, 8);
+ 
+-	ptr->bitrate_ctrl = 0;	/* 0 or 1 - fixed file size flag
+-				 * (what is the difference?) */
++	ptr->bitrate_ctrl = 0;	/*
++				 * 0 or 1 - fixed file size flag
++				 * (what is the difference?)
++				 */
+ 	ptr->mode = CODEC_DO_COMPRESSION;
+ 	ptr->width = 384;
+ 	ptr->height = 288;
+@@ -813,8 +844,9 @@ static const struct videocodec zr36050_codec = {
+ };
+ 
+ /* =========================================================================
+-   HOOK IN DRIVER AS KERNEL MODULE
+-   ========================================================================= */
++ * HOOK IN DRIVER AS KERNEL MODULE
++ * =========================================================================
++ */
+ 
+ static int __init zr36050_init_module(void)
+ {
 -- 
-2.31.1
+2.30.2
 
