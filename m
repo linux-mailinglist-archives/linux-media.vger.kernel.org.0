@@ -2,110 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8328F35DD7F
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 13:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C6135DDD7
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 13:37:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245103AbhDMLMK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 07:12:10 -0400
-Received: from mga14.intel.com ([192.55.52.115]:56349 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244449AbhDMLMJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 07:12:09 -0400
-IronPort-SDR: UaKPU4vLPxoCYsBaFuab69+JWKtu0RtLMxgeBoxgLVkpppfIAd1ICjK9Be8shNIKryfpZscTYY
- oR9RA3OKuTuw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9952"; a="193951071"
-X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
-   d="scan'208";a="193951071"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 04:11:45 -0700
-IronPort-SDR: 1IkuPvPYrc3t8CU6+XciUlWKhD+O/HFxILxn3xoyhU2kBYk6kSu2Zbgd2JTqL0CkYOx9I7RYw8
- 1z1vNPio0Oxg==
-X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
-   d="scan'208";a="532247488"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 04:11:42 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id D8E38200E8;
-        Tue, 13 Apr 2021 14:11:40 +0300 (EEST)
-Date:   Tue, 13 Apr 2021 14:11:40 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mitali Borkar <mitaliborkar810@gmail.com>
-Cc:     bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH v2 3/4] staging: media: intel-ipu3: reduce length of line
-Message-ID: <20210413111140.GV3@paasikivi.fi.intel.com>
-References: <cover.1618289130.git.mitaliborkar810@gmail.com>
- <f18b704654797e29f3bbbe49689eaa2c0ad28d59.1618289130.git.mitaliborkar810@gmail.com>
- <20210413100134.GR3@paasikivi.fi.intel.com>
- <YHV1uOq9pXmGUD+x@kali>
- <20210413104432.GU3@paasikivi.fi.intel.com>
- <YHV45I6ZDsXNwdiG@kali>
+        id S240493AbhDMLhU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 07:37:20 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:40349 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238804AbhDMLhU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Apr 2021 07:37:20 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id WHLZl2arGgIC3WHLdlK9yi; Tue, 13 Apr 2021 13:36:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1618313819; bh=jEUsARIo0JqIZNXOI5Z7E9R8FXqpJXDcunTU6TakZCI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=FJjeQgCcrWefEKdYcTCPe0sXNHegTK5THWBZmsWQag211egilwQ1JWKk/5wbq54rJ
+         2vBT/bL+WCyJuYI6pthfbMWFg0PrkjwVnpOdOhPrFMhFPNYNv0mWDfgEfhdBJCScWC
+         z9U4ExtvcOdnZSc2WBbHbyEaVyTV/5NXL69lTArDwB8aesSRIx7weJsmaZ+k03XSKB
+         0l8Q/gJVKnTqFjptYp3yX9goLXZX8nG+UzARnmuwaOJTHd1RPLV8dnp8zfDgyRuW5u
+         7nCpAIftktP4Jf7KIWIAnNA+wMFGOVjyvKVtbd75jFR6nbhu1Pz/mwGFZORTbHtShp
+         8wYUYyi6k7PLA==
+Subject: Re: Subject: [PATCH v2] staging: media: meson: vdec: declare u32 as
+ static const appropriately
+To:     Mitali Borkar <mitaliborkar810@gmail.com>,
+        martin.blumenstingl@googlemail.com, narmstrong@baylibre.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        khilman@baylibre.com
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+        linux-amlogic@lists.infradead.org, mitali_s@me.iitr.ac.in
+References: <YHU56OM+C2zY34VP@kali>
+ <00c8a239-49d3-fedb-ec67-076e8b823efa@xs4all.nl> <YHV734NB4flpFjbF@kali>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <69ffded9-548f-7595-8333-aebedae38de3@xs4all.nl>
+Date:   Tue, 13 Apr 2021 13:36:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YHV45I6ZDsXNwdiG@kali>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YHV734NB4flpFjbF@kali>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfBrAWRFULFyzrMwuXAr8Edg0IHLgsOAWxz9vm67BceqYT5KtpoJkstULGPzKJz439fksL/vvNLimI/2gGi8RO0WV+4keMKsPyVvdd63EHY0MeGKgutgC
+ pgjT3Z96R6s4I8htah7RLuo9P3apfswKmmLJxVu1nLWVfPcLvdU3lP9dD0kCwWpwjm4jp2aDY7KAZ6rf9joucnExbJFQ5gjUVz5rxpDiv9FASOqAWJaY0WpA
+ txDRMJeLKUFWhV9U/8pRAcuLpu7M5bvHyad7DgMVbDL3EiYk11z9bVU7EYvAfKUBE8LtNKK3PuIS+ntiXGUmrvhj4Y+BsIB2ONFTBM0y1GZu5UlKWAIqBVcv
+ roUWo/UKEvKCtpx4cDUkIjacc/q/uF2t2V8C9rvm3sCLxtWtV75JvJLPQPpJ5Ewa+3p7cX/P955+7zN12JPYXMDLH9I3mohrhdLNxtfAB1YWWdJ/R+H5Nih3
+ LE47ZSj9PTmuujS/kb8zbFvUtzXENpQ5T6nOwnI5lGhjwrnzAmg/bLuJPC0UpWlBhs2B6bQIajt8q06bS6LibM932mCYhzOyn2oFigUtik9bJM7n7OOdN2++
+ aj6QIEXKySeT2+66c6WSW1+pif3EBvOPcxWwpSVT71uwYfPLZIo9MPnEGDfXJljcSko=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 13, 2021 at 04:26:36PM +0530, Mitali Borkar wrote:
-> On Tue, Apr 13, 2021 at 01:44:32PM +0300, Sakari Ailus wrote:
-> > On Tue, Apr 13, 2021 at 04:13:04PM +0530, Mitali Borkar wrote:
-> > > On Tue, Apr 13, 2021 at 01:01:34PM +0300, Sakari Ailus wrote:
-> > > > Hi Mitali,
-> > > > 
-> > > > Thanks for the update.
-> > > > 
-> > > > On Tue, Apr 13, 2021 at 10:46:06AM +0530, Mitali Borkar wrote:
-> > > > > Reduced length of the line under 80 characters to meet linux-kernel
-> > > > > coding style.
-> > > > > 
-> > > > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> > > > > ---
-> > > > > 
-> > > > > Changes from v1:- Reduced length of the line under 80 characters
-> > > > > 
-> > > > >  drivers/staging/media/ipu3/include/intel-ipu3.h | 3 ++-
-> > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> > > > > index 6a72c81d2b67..52dcc6cdcffc 100644
-> > > > > --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
-> > > > > +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> > > > > @@ -247,7 +247,8 @@ struct ipu3_uapi_ae_ccm {
-> > > > >   */
-> > > > >  struct ipu3_uapi_ae_config {
-> > > > >  	struct ipu3_uapi_ae_grid_config grid_cfg __aligned(32);
-> > > > > -	struct ipu3_uapi_ae_weight_elem weights[IPU3_UAPI_AE_WEIGHTS] __aligned(32);
-> > > > > +	struct ipu3_uapi_ae_weight_elem weights[IPU3_UAPI_AE_WEIGHTS]
-> > > > > +							__aligned(32);
-> > > > 
-> > > > Do you still have the other two patches in your tree? This doesn't apply
-> > > > here due to the different attribute syntax.
-> > > >
-> > > I have patch 1/6 and 2/6 in my tree which you asked me to drop.
-> > 
-> > Could you drop them and then submit v3?
-> >
-> I am extremely sorry Sir, but I am still learning to use git, drop them
-> means to delete those commits? Even if I delete those, this patch was
-> made after those, so the changes I made then will remain as it is, so
-> what to do now? 
+On 13/04/2021 13:09, Mitali Borkar wrote:
+> On Tue, Apr 13, 2021 at 09:26:01AM +0200, Hans Verkuil wrote:
+>> On 13/04/2021 08:27, Mitali Borkar wrote:
+>>> Declared 32 bit unsigned int as static constant inside a function
+>>> appropriately.
+>>>
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+>>> ---
+>>>
+>>> Changes from v1:- Rectified the mistake by declaring u32 as static const
+>>> properly.
+>>>
+>>>  drivers/staging/media/meson/vdec/codec_h264.c | 4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/meson/vdec/codec_h264.c b/drivers/staging/media/meson/vdec/codec_h264.c
+>>> index ea86e9e1c447..80141b89a9f6 100644
+>>> --- a/drivers/staging/media/meson/vdec/codec_h264.c
+>>> +++ b/drivers/staging/media/meson/vdec/codec_h264.c
+>>> @@ -287,8 +287,8 @@ static void codec_h264_resume(struct amvdec_session *sess)
+>>>  	struct amvdec_core *core = sess->core;
+>>>  	struct codec_h264 *h264 = sess->priv;
+>>>  	u32 mb_width, mb_height, mb_total;
+>>> -	static const u32[] canvas3 = { ANCO_CANVAS_ADDR, 0 };
+>>> -	static const u32[] canvas4 = { 24, 0 };
+>>> +	static const u32 canvas3[] = { ANCO_CANVAS_ADDR, 0 };
+>>> +	static const u32 canvas4[] = { 24, 0 };
+>>
+>> This is a patch on top of your previous (v1) patch. That won't work
+>> since the v1 is not merged, you need to make a patch against the current
+>> mainline code.
+>>
+> But Sir, since I have made changes in the code, and committed them, now,
+> if I open that file, it will contain those changes. Then should I
+> rewrite the patch body more accurately? 
 
-No worries.
+You only committed the v1 change in your own repository, it's not in the
+upstream repository. And the patches you post must be against the upstream
+repository, not your own.
 
-Yes, please remove the two commits, as you need to use the same (or at
-least non-conflicting) baseline for the patches compared to the tree where
-the patches will be applied.
+'git rebase -i' can be your friend here, it makes it easy to fold the
+second patch into the first, and then you only have to post the final
+version.
 
-So in practice what you need to do is to rebase these four patches on
-linux-media tree's master branch and resolve the resulting conflict in this
-patch (as the preceding patches no longer have the attribute changes).
+Regards,
 
-The -i option for git rebase in particular is useful.
+	Hans
 
--- 
-Sakari Ailus
+> 
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>  
+>>>  	amvdec_set_canvases(sess, canvas3, canvas4);
+>>>  
+>>>
+>>
+
