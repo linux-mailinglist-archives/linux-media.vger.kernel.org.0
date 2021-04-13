@@ -2,63 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16E1335DAD1
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 11:13:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EF6A35DB7C
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 11:42:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231511AbhDMJOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 05:14:05 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:44742 "EHLO www.linuxtv.org"
+        id S230475AbhDMJmq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 05:42:46 -0400
+Received: from gofer.mess.org ([88.97.38.141]:43041 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245326AbhDMJN5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 05:13:57 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lWF70-006hLZ-Bb; Tue, 13 Apr 2021 09:13:34 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lWFB2-00035m-Cj; Tue, 13 Apr 2021 09:17:44 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.13] Venus updates - part4 (#73185)
-Date:   Tue, 13 Apr 2021 09:17:43 +0000
-Message-Id: <20210413091743.11845-1-jenkins@linuxtv.org>
+        id S230526AbhDMJmp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Apr 2021 05:42:45 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 893A0C6350; Tue, 13 Apr 2021 10:42:25 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1618306945; bh=8z9z4oG4jvEW3yQqi8L0K90oRkjJfTDZRA8zamwEzbM=;
+        h=From:To:Subject:Date:From;
+        b=gScu5C3GF3Bz4GAYTJsg+u7rG5LDzqXZ6gf91x9lFGJAH/OxIbfwU/mjzSnllyG7h
+         pm4KaSxpQQOWNZzL2xrRxubjpEHP8eMtjnulsxROEvBYgeSrVaK0su+uZ6sQEH70VF
+         UrYxCvBpKXPRikSbd5n/YdquPNs8v++r8qHUiFuvDf3PNcriyHyHr3B2Qu6XhBMYJV
+         U7ZGpyhMzAaeSam8YbBFrLhXx3qQd3Lr6gENP6HFLPso8CBxm+Eir/MZ/uOtpveUVh
+         01xYif/WzNPHPkInAxx3q0Ecv0L1IxcFvliRh7tOU6tBU1ljLpj+gCWmnK7xWawE9d
+         GL8MDUArOTCHw==
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH] media: lirc: remove out of date comment
+Date:   Tue, 13 Apr 2021 10:42:25 +0100
+Message-Id: <20210413094225.5265-1-sean@mess.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210413090005.1112579-1-stanimir.varbanov@linaro.org>
-References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+This file has been updated many times since 2010.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210413090005.1112579-1-stanimir.varbanov@linaro.org/
-Build log: https://builder.linuxtv.org/job/patchwork/98531/
-Build time: 00:05:26
-Link: https://lore.kernel.org/linux-media/20210413090005.1112579-1-stanimir.varbanov@linaro.org
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ include/uapi/linux/lirc.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-gpg: Signature made Tue 13 Apr 2021 08:47:14 AM UTC
-gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
-gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
-gpg: Note: This key has expired!
-Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
-     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
-
-Summary: got 1/7 patches with issues, being 0 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0007-venus-hfi-add-venus-image-info-into-smem.patch:
-
-   checkpatch.pl:
-	$ cat patches/0007-venus-hfi-add-venus-image-info-into-smem.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:75: CHECK: Alignment should match open parenthesis
-
-
-Error #512 when building PDF docs
+diff --git a/include/uapi/linux/lirc.h b/include/uapi/linux/lirc.h
+index c45a4eaea667..9919f2062b14 100644
+--- a/include/uapi/linux/lirc.h
++++ b/include/uapi/linux/lirc.h
+@@ -1,7 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+ /*
+  * lirc.h - linux infrared remote control header file
+- * last modified 2010/07/13 by Jarod Wilson
+  */
+ 
+ #ifndef _LINUX_LIRC_H
+-- 
+2.30.2
 
