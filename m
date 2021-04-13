@@ -2,120 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDF5C35DA91
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 11:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16E1335DAD1
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 11:13:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243443AbhDMJAi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 05:00:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42926 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbhDMJAg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 05:00:36 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF73C061574
-        for <linux-media@vger.kernel.org>; Tue, 13 Apr 2021 02:00:17 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id w18so18542615edc.0
-        for <linux-media@vger.kernel.org>; Tue, 13 Apr 2021 02:00:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oQl29HipZj4pLZm/cS+1hsQHo2L4v6ZlnErba1X/H+c=;
-        b=qN9JOSweUFIe9J1FdmM3gC3UdHpJclzUwMTRe4LTJSUl+GTaXEGYENt4/l/YQjRBCT
-         Gljz5QVM/bKYMY/mlCwpqHp4LEqN3ygJK4ZW51p5+7qQlb0Xyh+bTJiumLnLhCK+dFjY
-         vyDDNl7Rqqihs9D4zuc9IPwZsX0uH1AdsnQ2/kox9sCO7rfGIZN4TD2Qi5c9dCHJiQGg
-         g7ZNkqoXKsGvQyKAVQXO5eRFkSMzPPqLdRJ0pWKSS+CkivzC0K4c2TEhB+a+Np7075Qb
-         2ElZ6b8qqhAlNVKuMAsk+X04TDWgLE0t19DKW+Tk169PptsYuAXpOVpc3jH8aOWBarzX
-         GtfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oQl29HipZj4pLZm/cS+1hsQHo2L4v6ZlnErba1X/H+c=;
-        b=WE2z19Wc/b/EFsM6qKEBa3/Z8Nlpduq/MuvGUZcmcKRdU7Eil8c+80EjWUs0RBND4q
-         d0G7Vd20C5iU4+FBxhiS9QLtEiPP4/gs2srIvxmHy3wgIS1tqT4gst7IW+w5M2bVGELg
-         RfAN7PxZxVvvlH8ay4ca1qiUZh5wItNfaqZ1Bm4vokK49Hj+PEg97pqgTaLe7NJEFGTQ
-         wTMl41IPNeCWSdyHRfu/h/gyXJ9bQLCdca+U/piKkkfPkOiKagyLMV2sbG5zoGnWslJH
-         CkZoyU1rGM7PrwxibQFh+7TE+zgLX3gxGvKXlCQrCGUiHPcLD3nmwDsJKv4TIgD1+Rwm
-         G9oQ==
-X-Gm-Message-State: AOAM533bik/n8kfusQcLW18bHyLoCLDRzBdf9Q7tIsSPi1SaP0NAxKzg
-        Fn993ISaI3m1dteNWUo45ipYT/eSC+S/cA==
-X-Google-Smtp-Source: ABdhPJyqDn6emPO7JY/T08Q5i5nJpn3G9vRNsWHf5yDSni/fkviPh7XxNiq7Bbk9crXrpaxnFD1IOg==
-X-Received: by 2002:a50:f29a:: with SMTP id f26mr33624479edm.13.1618304416087;
-        Tue, 13 Apr 2021 02:00:16 -0700 (PDT)
-Received: from localhost.localdomain ([195.24.90.54])
-        by smtp.gmail.com with ESMTPSA id x4sm8607082edd.58.2021.04.13.02.00.14
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 02:00:15 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.13] Venus updates - part4
-Date:   Tue, 13 Apr 2021 12:00:05 +0300
-Message-Id: <20210413090005.1112579-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        id S231511AbhDMJOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 05:14:05 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:44742 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245326AbhDMJN5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Apr 2021 05:13:57 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lWF70-006hLZ-Bb; Tue, 13 Apr 2021 09:13:34 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lWFB2-00035m-Cj; Tue, 13 Apr 2021 09:17:44 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.13] Venus updates - part4 (#73185)
+Date:   Tue, 13 Apr 2021 09:17:43 +0000
+Message-Id: <20210413091743.11845-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210413090005.1112579-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-Here are few more Venus new features and fixes:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210413090005.1112579-1-stanimir.varbanov@linaro.org/
+Build log: https://builder.linuxtv.org/job/patchwork/98531/
+Build time: 00:05:26
+Link: https://lore.kernel.org/linux-media/20210413090005.1112579-1-stanimir.varbanov@linaro.org
 
-  * Fix kerneldoc warns/errors
-  * Fix for v6 buffer size calculations
-  * Fix for maximum bandwidth
-  * Fix for potential infinite loop
-  * Add Venus image version to qcom socinfo
-  * Fix dev_warn for hardware overload
+gpg: Signature made Tue 13 Apr 2021 08:47:14 AM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
-Please pull.
+Summary: got 1/7 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-regards,
-Stan
+Error/warnings:
 
-The following changes since commit 4f4e6644cd876c844cdb3bea2dd7051787d5ae25:
+patches/0007-venus-hfi-add-venus-image-info-into-smem.patch:
 
-  media: gscpa/stv06xx: fix memory leak (2021-04-09 13:19:38 +0200)
+   checkpatch.pl:
+	$ cat patches/0007-venus-hfi-add-venus-image-info-into-smem.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:75: CHECK: Alignment should match open parenthesis
 
-are available in the Git repository at:
 
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.13-part4
+Error #512 when building PDF docs
 
-for you to fetch changes up to 6c8951b87829a1ef8211317ca123b9786c6f1e26:
-
-  venus : hfi: add venus image info into smem (2021-04-13 11:46:11 +0300)
-
-----------------------------------------------------------------
-Venus updates for v5.13-part4
-
-----------------------------------------------------------------
-Colin Ian King (1):
-      venus: core,pm: fix potential infinite loop
-
-Dikshita Agarwal (2):
-      venus: Fix internal buffer size calculations for v6.
-      venus : hfi: add venus image info into smem
-
-Dmitry Baryshkov (1):
-      venus: core: correct firmware name for sm8250
-
-Mansur Alisha Shaik (1):
-      venus: fix hw overload error log condition
-
-Stanimir Varbanov (1):
-      venus: core: Fix kerneldoc warnings
-
-Vikash Garodia (1):
-      venus: helpers: keep max bandwidth when mbps exceeds the supported range
-
- drivers/media/platform/Kconfig                     |  2 +-
- drivers/media/platform/qcom/venus/core.c           |  2 +-
- drivers/media/platform/qcom/venus/core.h           | 40 +++++++++++++++++-----
- drivers/media/platform/qcom/venus/hfi_msgs.c       | 20 +++++++++--
- .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   | 26 +++++++++-----
- drivers/media/platform/qcom/venus/pm_helpers.c     |  8 ++---
- 6 files changed, 73 insertions(+), 25 deletions(-)
