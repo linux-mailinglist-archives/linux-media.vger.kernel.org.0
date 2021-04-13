@@ -2,119 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29A6135E61E
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 20:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6B8735E625
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 20:18:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347555AbhDMSRR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 14:17:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52492 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238322AbhDMSRP (ORCPT
+        id S1347601AbhDMSSL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 14:18:11 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:43374 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237951AbhDMSSL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 14:17:15 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039AAC061574;
-        Tue, 13 Apr 2021 11:16:55 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id u8so13417586qtq.12;
-        Tue, 13 Apr 2021 11:16:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=SzVy8JflJE6VXT5JeDWyenyHzsFPZ9nxiTnDoe1PycE=;
-        b=LqgS+qC27bKzUmYEgRQ5yMm3F3XmxxNCDijrZCPNYEoEGyZXG+vzDb/Cp/Sbx3z+Lh
-         n3u1Obm/P/L0hfs8hxUUfWPM7t//qb1yjFZ4iUmtg8rW5lITwm8qfATgPIQFk5d3NoG0
-         3mak+heq+gIhbWDGuvFlNRr8/qB+EjkxiWXYF+zeyCyi7wkQeICw/5yo8btW6no9HcDq
-         HJ/SG5i7/iZZ8UTncNkM9wK/dLhvmbD6vSwC2rnC594lWUZEGPTYy4/BNiVW1ffN4OlJ
-         nwlpqF5Tw6Jc6ztvkIDTwjbB48XPFEBJ86hr5huFxdoHXjhpqE0JTOXqsvn5oKEqjGzi
-         utvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=SzVy8JflJE6VXT5JeDWyenyHzsFPZ9nxiTnDoe1PycE=;
-        b=g7h9WYle05o+dOgN39D2L0laRhcn+60SZV//ia6SC0MklTZGipx1ubIDHcZdVkSvh4
-         oF19WJhsYhliiGv+kwg4oZn9vf9nNDlkMs9XtXM0ODDzzT2VV3SngyrPbThxCl8z5hIb
-         +Znr3KnF5jpY4gIO34Y4/W+8SWFO7KnDKSdWuoegFlxbQEFwNHF9786gSmn+j7gUsfB3
-         7drTeyh+jpZ/U8SutNcWCAD5CX36ffocqZhLuedbkIVnzp/c1sCpc7a65xfrIQ7YNRSh
-         weKS5BWpTGKqZZVjTaFAaMghkZzfttvLt0P9PIulTWEqlYF7lZVS2xPUIpAYdjyo/FxY
-         QYkQ==
-X-Gm-Message-State: AOAM530v7PDU7BZPjT8seS9z3BlyqWHVbIEX7l7yrtR8foaY4nAvdJFe
-        Cf04rPp84V0SDG9Xtif9nzg=
-X-Google-Smtp-Source: ABdhPJx2wnxqvzZi0DBl9jtQWB/nhV4e+Vx0EYaVs6BOtoKl1Bp1v4tBAvw0qWSdjHXw3Wwx1wA/jw==
-X-Received: by 2002:ac8:1e0f:: with SMTP id n15mr17632906qtl.9.1618337814282;
-        Tue, 13 Apr 2021 11:16:54 -0700 (PDT)
-Received: from ?IPv6:2001:1284:f016:a037:83a0:18ef:c76d:6086? ([2001:1284:f016:a037:83a0:18ef:c76d:6086])
-        by smtp.gmail.com with ESMTPSA id k18sm10697750qkg.53.2021.04.13.11.16.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 11:16:53 -0700 (PDT)
-Message-ID: <68c7a01df0d71708d63f66c7d40b64f7041faeee.camel@gmail.com>
-Subject: Re: [Outreachy kernel][PATCH 1/2] staging: media: omap4iss: Align
- line break to the open parenthesis in file iss.c
-From:   ascordeiro <alinesantanacordeiro@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Date:   Tue, 13 Apr 2021 15:16:50 -0300
-In-Reply-To: <6823f86b-843f-1abf-e8b7-7be1044b7150@xs4all.nl>
-References: <cover.1617994571.git.alinesantanacordeiro@gmail.com>
-         <aed4449f7f054eee329a808527c2a08d79076c78.1617994571.git.alinesantanacordeiro@gmail.com>
-         <6823f86b-843f-1abf-e8b7-7be1044b7150@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (by Flathub.org) 
+        Tue, 13 Apr 2021 14:18:11 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DI9xJ8196156;
+        Tue, 13 Apr 2021 18:17:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=F+1v+yIScK3Z0cLFoMNXHBXlxp/8G6ap/elyXl4WIHg=;
+ b=Ci7afjVXTtJKTW/ZtERoTqO4RrHFdUKLlRW8gkzAQcNN4JINoN+s5aDEr/T7bTj9AChf
+ ZHMBV8rNR/1LUx4M5URKbroB+KeSqnZDOJP5bUOLBU5JJWtgpmaN0duveYQvJLmqSZi6
+ 09p4GUnBKIjsSZQ/6JZTlD9T2SoUrfjTjGYSvX2T/Uen2vlx3QZDBdBi86JMC1xaG77w
+ VpMCdMxEYh+9E6HM99ms+DNVdoEA1k0ytWWr8jNMRURkID9YTI8iDmDt9aSNs6np6b5m
+ NIrHzrWABmpLjM8gWy8xhGIHWqPK9dA5VbjnRgFnKEAeg8gpcGm10HI2nYpuwsoX/qng TQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 37u3erg25t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Apr 2021 18:17:28 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DI9fIS022035;
+        Tue, 13 Apr 2021 18:17:27 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3020.oracle.com with ESMTP id 37unx04wnc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Apr 2021 18:17:27 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13DIHKIP031139;
+        Tue, 13 Apr 2021 18:17:20 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 13 Apr 2021 18:17:20 +0000
+Date:   Tue, 13 Apr 2021 21:17:12 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Mitali Borkar <mitaliborkar810@gmail.com>
+Cc:     sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH v3 4/4] staging: media: intel-ipu3: remove space before
+ tabs
+Message-ID: <20210413181712.GI6021@kadam>
+References: <cover.1618326535.git.mitaliborkar810@gmail.com>
+ <01ad7ff353f805dfc48e7bcc26ed974e7bb5ef9f.1618326535.git.mitaliborkar810@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <01ad7ff353f805dfc48e7bcc26ed974e7bb5ef9f.1618326535.git.mitaliborkar810@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
+ mlxscore=0 malwarescore=0 adultscore=0 bulkscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104130123
+X-Proofpoint-ORIG-GUID: DWT0JG83Ahgw0Uf143jhZJqIDTuuAyuC
+X-Proofpoint-GUID: DWT0JG83Ahgw0Uf143jhZJqIDTuuAyuC
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 clxscore=1011
+ adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104130123
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em ter, 2021-04-13 às 16:32 +0200, Hans Verkuil escreveu:
-> On 09/04/2021 21:01, Aline Santana Cordeiro wrote:
-> > Aligns line break with the remaining function arguments
-> > to the open parenthesis. Issue found by checkpatch.
-> > 
-> > Signed-off-by: Aline Santana Cordeiro <  
-> > alinesantanacordeiro@gmail.com>
+On Tue, Apr 13, 2021 at 08:59:34PM +0530, Mitali Borkar wrote:
+> Removed unnecessary space before tabs to adhere to linux kernel coding
+> style.
+> Reported by checkpatch.
 > 
-> Obsolete, a similar patch from Beatriz Martins de Carvalho <  
-> martinsdecarvalhobeatriz@gmail.com>
-> has already been applied in the media subsystem tree.
+> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> ---
+>  
+> Changes from v2:- No changes.
+> Changes from v1:- No changes.
 > 
-> Regards,
+>  drivers/staging/media/ipu3/include/intel-ipu3.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->         Hans
-> 
+> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> index 47e98979683c..42edac5ee4e4 100644
+> --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
+> +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> @@ -633,7 +633,7 @@ struct ipu3_uapi_bnr_static_config_wb_gains_thr_config {
+>   * @cg:	Gain coefficient for threshold calculation, [0, 31], default 8.
+>   * @ci:	Intensity coefficient for threshold calculation. range [0, 0x1f]
+>   *	default 6.
+> - * 	format: u3.2 (3 most significant bits represent whole number,
+> + *format: u3.2 (3 most significant bits represent whole number,
+>   *	2 least significant bits represent the fractional part
 
-Okay, thank you for letting me know.
+Just remove the spaces, don't remove the tab.  It's looks silly now.
 
-Aline
-
-> > ---
-> >  drivers/staging/media/omap4iss/iss.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/omap4iss/iss.c
-> > b/drivers/staging/media/omap4iss/iss.c
-> > index dae9073..c89f268a 100644
-> > --- a/drivers/staging/media/omap4iss/iss.c
-> > +++ b/drivers/staging/media/omap4iss/iss.c
-> > @@ -960,7 +960,7 @@ iss_register_subdev_group(struct iss_device
-> > *iss,
-> >                 }
-> >  
-> >                 subdev = v4l2_i2c_new_subdev_board(&iss->v4l2_dev,
-> > adapter,
-> > -                               board_info->board_info, NULL);
-> > +                                                  board_info-
-> > >board_info, NULL);
-> >                 if (!subdev) {
-> >                         dev_err(iss->dev, "Unable to register
-> > subdev %s\n",
-> >                                 board_info->board_info->type);
-> > 
-> 
-
+regards,
+dan carpenter
 
