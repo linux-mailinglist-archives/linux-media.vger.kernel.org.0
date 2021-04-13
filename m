@@ -2,93 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19B3835E345
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 17:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1925F35E357
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 18:00:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237646AbhDMP5b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 11:57:31 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:45787 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232257AbhDMP5a (ORCPT
+        id S238707AbhDMQAt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 12:00:49 -0400
+Received: from mail-oi1-f175.google.com ([209.85.167.175]:36527 "EHLO
+        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229492AbhDMQAr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 11:57:30 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id WLPVlG2piMxedWLPZljL3m; Tue, 13 Apr 2021 17:57:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618329429; bh=tMjh7Fx8g0mfEqYYJTUBaPBBWs0QJabhYBJ91ZY1qsk=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=GFjXltaZ6w0cMoF1yVUAXBtgKhhP6HE9ieFrKVRTVQvXk2eigY9A9D+NwrqiXFDhC
-         cUJvkrHH7vIEKWB4n1hgQsg0ta0jqF75rP+nXjY//edJgfI5fiVk27bDBN3pbex8Wi
-         AsIKAeIoJuWb7q+Eew2D+ObRlR5AFZEZQjcJ7yThzhc/eqfhnfHvNs2rIYHLI9fxa9
-         yrgfvD7057IfhVlR66AudFBs4I/iZ7lRsoY3fV3dhybOqZfBF7FL0ffXDzjFpy8YV2
-         wPUlikJoIc4rxsq//TXDmLps4udmJAJoQskBjEJcH16pP/iSLmxDvDFfx1zM9Tmrtp
-         7m0hu4L1hk+OQ==
-Subject: Re: [PATCH v3 0/2] Intra-refresh period control
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        nicolas.dufresne@collabora.com
-References: <20210302095340.3584204-1-stanimir.varbanov@linaro.org>
- <3480b6ee-f442-57be-473f-c90966584d40@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <29fc026d-6ba3-dfc3-d57b-1dabce765dca@xs4all.nl>
-Date:   Tue, 13 Apr 2021 17:57:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        Tue, 13 Apr 2021 12:00:47 -0400
+Received: by mail-oi1-f175.google.com with SMTP id c16so17495453oib.3;
+        Tue, 13 Apr 2021 09:00:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Hf71HnfjaYarecOimAnAmtORkCXf+7TlGhiC07dVSSk=;
+        b=RZENcQdYxQfRmvk0w9IXjVNRecnZsyLbcwXkDcHP4D44yvaixLIQwOxsC/zDtnGzWd
+         5UopLDBpxpixhKA9KMwM7RTCve1eUOPfMFeSgFTULOUUGsvpnRMZyh1VdSCVj23E7Znp
+         7RldkLuFzpZYOFed+54P3yuKu9UFoRKjGNJtwTREhK31gssA2uwWAXfCftwWWrpn3SMC
+         vjrNOSxBfWXRBuR4gtm6RwXFL8a72Y6DCn4EGCNR1KQqH8C8VCkH5tQ2+EN4PL2rbWJc
+         0SI1jrWSttRDx6sFdMrx5B91IQMgI0MqRx2UiQzjHx3zHcj0LFdRk7C8AgSz1exC4zEg
+         IDFg==
+X-Gm-Message-State: AOAM533Re44cNo8olWkrRe/j5tYn+mVPDFYBpltflzUDdToJaCEOj4qR
+        D+wZzjta6gLkINQdGh9f1QIWr4AZqQ==
+X-Google-Smtp-Source: ABdhPJymbM/isAJMJCc1wHnk+yvEtGmuDobqXx8udlWq6Wc6/HZpIfyPbj1/Zan303sALN4yTfl6Og==
+X-Received: by 2002:aca:3bc4:: with SMTP id i187mr508711oia.174.1618329627570;
+        Tue, 13 Apr 2021 09:00:27 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id h28sm850702oof.47.2021.04.13.09.00.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 09:00:25 -0700 (PDT)
+Received: (nullmailer pid 1749085 invoked by uid 1000);
+        Tue, 13 Apr 2021 16:00:23 -0000
+Date:   Tue, 13 Apr 2021 11:00:23 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-imx@nxp.com, kernel@pengutronix.de,
+        Fabio Estevam <festevam@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Marek Vasut <marex@denx.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH 22/23] dt-bindings: media: nxp,imx7-mipi-csi2: Add
+ i.MX8MM support
+Message-ID: <20210413160023.GA1749037@robh.at.kernel.org>
+References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
+ <20210413023014.28797-23-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <3480b6ee-f442-57be-473f-c90966584d40@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOGwePcNIn1fhjFclzjFpxNeors/OL9DTg1rh8hEueWxzhHoFCFp1LrQwZvNP/dUfNT0zxxLB2G2BIlAgPmCsqD7CQ7M9o9VhaddugI9qbD5SM1s5UZG
- PM1fmOr28RU1gQeKfoFaQodI96eOvhh/oAx6shy75jgFyYZVDfRfwaI1tyk98JpyezyWOihJ/nYQonlALMCPGfmHA9mpi30j5v4zk6st2c8Tjr65xnIkRypK
- BqfR54AnM4OLAXAktZriVOdwEqT4dIfD1D4ivCv71xOc0vDoDHYnX2M3Ei6GmkYBD7q487y6cfPg3c+1WLswV7RAgHr+wDg/Z06+9U6NKNSyuUQ1s50P946Y
- 2gtwPsYU9ikzmOAJ1pyEIn3/zmgYNlFy1Q6x8B3/Bi7lOY9dgx6463ItgZ2uQEMmptNhkEwj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210413023014.28797-23-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 13/04/2021 17:49, Stanimir Varbanov wrote:
-> Hi Hans,
+On Tue, 13 Apr 2021 05:30:13 +0300, Laurent Pinchart wrote:
+> The i.MX8MM integrates a newer version of the CSIS CSI-2 receiver as the
+> i.MX7 family. Differences in integration are are:
 > 
-> Any comments?
-
-Thanks for the reminder, I replied to the patch.
-
-Regards,
-
-	Hans
-
+> - An additional clock is required
+> - Up to 4 data lanes are supported
+> - No reset or PHY supply is present
 > 
-> On 3/2/21 11:53 AM, Stanimir Varbanov wrote:
->> Hi,
->>
->> This series add a new intra-refresh period control for encoders. The
->> series is a continuation of [1]. Comments addressed:
->>  * A typo in .rst (Hans)
->>  * Clarified the relationship with CYCLIC_INTRA_REFRESH_MB (Hans)
->>
->> Comments are welcome!
->>
->> regards,
->> Stan
->>
->> [1] https://www.spinics.net/lists/linux-media/msg183019.html
->>
->> Stanimir Varbanov (2):
->>   media: v4l2-ctrls: Add intra-refresh period control
->>   venus: venc: Add support for intra-refresh period
->>
->>  .../media/v4l/ext-ctrls-codec.rst             | 12 ++++++++
->>  drivers/media/platform/qcom/venus/core.h      |  1 +
->>  drivers/media/platform/qcom/venus/venc.c      | 28 +++++++++++++++++++
->>  .../media/platform/qcom/venus/venc_ctrls.c    | 13 ++++-----
->>  drivers/media/v4l2-core/v4l2-ctrls.c          |  2 ++
->>  include/uapi/linux/v4l2-controls.h            |  1 +
->>  6 files changed, 50 insertions(+), 7 deletions(-)
->>
+> Support it in the DT binding.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 108 +++++++++++++++---
+>  1 file changed, 94 insertions(+), 14 deletions(-)
 > 
 
+Reviewed-by: Rob Herring <robh@kernel.org>
