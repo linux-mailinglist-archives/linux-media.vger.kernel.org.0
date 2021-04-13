@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 142FE35DD59
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 13:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E7F835DD5C
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 13:06:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345242AbhDMLE0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 07:04:26 -0400
-Received: from esa.microchip.iphmx.com ([68.232.154.123]:41342 "EHLO
+        id S1345301AbhDMLEr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 07:04:47 -0400
+Received: from esa.microchip.iphmx.com ([68.232.153.233]:16529 "EHLO
         esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345214AbhDMLEX (ORCPT
+        with ESMTP id S1345291AbhDMLEp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 07:04:23 -0400
+        Tue, 13 Apr 2021 07:04:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1618311844; x=1649847844;
+  t=1618311866; x=1649847866;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=JB3dr1U/DWt6qBqOVHSGXJCImGHTndPyXb9YXu64Mas=;
-  b=oCrY6O5KJBcTk0FDJS2QeAGTDgDH0VKHdgVCp8DXmrPmUljxAEuSUkLC
-   0OMiyi/THlBjqGWLyrRsmhLh5Q9Ys32lyIo0p0fw1OmwvdAtl5apBpZTC
-   nCUmudwwgDDZzFYow4skUZbaxLjGL1LKsETT30+Ma5M73kMR7sofXGDdv
-   /HeLg3LzhChFCZwCA5+yzsxIWgtneW700z1bKfxyN44bLI/b93yn0C7Fw
-   WjXLNys3C4FtXQbCG6Z3Ay+vkzK/IruWQjMSCErj8BnaokJ3alVInBgb1
-   IniHzHvijk1eL5ZIqGHmi2Dl4GKxwis/5PZjsNz9pkE65wjcXvyIiJ76k
-   w==;
-IronPort-SDR: l+2hnROyZWlN/Dpn77O7Lo0ARX/4QjzIlfRSjmtttKfMu6l5hIxLm4SXIIHeYouE20rWNjCzWG
- 4Sg4do1R8zrfP6q3xNWQ2HoVQbO8jCtEhktt31rS3r6+jTfSTbVVyns7j024Ki88Haz0BS3yza
- byB6mChIQ+N76DxYjIVkTVokXinVhpyt8rFpIh4K4hv9yHdPtBHb+/dHFyi92yVHkbyV45/Q8I
- BrjLIbXLsBuV+avJrDUfOKh1ei2yscbAQrsr5aciVzw79dRjrC8Kz/Jou4RiZvhLWjvql2ZZps
- IGE=
+  bh=L0ubezju1a2v2fOHoFbJx+Tkrd4cQqmjDLOQsJU/n+8=;
+  b=KPwVad0G4yRAaDSMBJs+YT5cR74hLd5OmIlVAbk0U/nwAWms2hm3C/aI
+   f54ZgDClOl99EbzgoU4sEl8XRQqSRD6cxZdCAfOJABHqLYIjFmhCyemCF
+   csalGQF5YCXhUJ/k6E+3w//2Poqd1k5ue3BxrG8B+84rwESsCLLF1ZPYj
+   TKZA5jZXTTza1YarM+kO98X2b7JyaaHpP+lY2C2KFgtLbMnvnQIqF/tW1
+   kAUaFtImTbDXh2HeAoLf8Y41xCjErN14Uo5rf18FfzpKIzfPBRSUDseST
+   E09JPKYaiiy+u92sBw8Km7kpDccrdwC8vtsMdTjRebl4a+ZvyM84KZx6X
+   A==;
+IronPort-SDR: XS/2MB6RSEhfaWJMK+pDVUo+Oaih1K6dpdNtVJJUaJRUj8zENmf2UxUaE5vVRCunXx8Ns5WPSW
+ I0hLMVhL+hWAXocG06Z6CVgQgNxPBaATgVwl9eh0nBwJTDgmgqkDBFWYD8KyfDcToA1/E5iN6G
+ M1DVAfxn/EhqrXWFIVqpHzLVy6RuvsVN+bg1W1p4eDXGzVNfw7EM/k4UB6CkzAaG8goNRSLVN4
+ 2oHcGMGo0Q9ucDNwUOso+C5GYfOfJEGlFoFcnfbokuMzFhsjuP0e8iASmTzFWyp/d5zr1F5eUX
+ 7qA=
 X-IronPort-AV: E=Sophos;i="5.82,219,1613458800"; 
-   d="scan'208";a="50928612"
+   d="scan'208";a="122830422"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Apr 2021 04:04:03 -0700
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Apr 2021 04:04:26 -0700
 Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 13 Apr 2021 04:04:03 -0700
+ 15.1.2176.2; Tue, 13 Apr 2021 04:04:23 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Tue, 13 Apr 2021 04:03:45 -0700
+ 15.1.2176.2 via Frontend Transport; Tue, 13 Apr 2021 04:04:03 -0700
 From:   Eugen Hristev <eugen.hristev@microchip.com>
 To:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
         <jacopo@jmondi.org>, <robh+dt@kernel.org>
 CC:     <linux-arm-kernel@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>,
         Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH v3 26/33] media: atmel: atmel-isc-regs: add additional fields for sama7g5 type pipeline
-Date:   Tue, 13 Apr 2021 13:57:24 +0300
-Message-ID: <20210413105731.610028-27-eugen.hristev@microchip.com>
+Subject: [PATCH v3 27/33] media: atmel: atmel-isc-base: add support for more formats and additional pipeline modules
+Date:   Tue, 13 Apr 2021 13:57:25 +0300
+Message-ID: <20210413105731.610028-28-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210413105731.610028-1-eugen.hristev@microchip.com>
 References: <20210413105731.610028-1-eugen.hristev@microchip.com>
@@ -60,55 +60,145 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add additional fields for registers present in sama7g5 type pipeline.
-Extend register masks for additional bits in sama7g5 type pipeline registers.
+Add support for additional formats supported by newer pipelines, and for
+additional pipeline modules.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
- drivers/media/platform/atmel/atmel-isc-regs.h | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ drivers/media/platform/atmel/atmel-isc-base.c | 48 +++++++++++++++----
+ 1 file changed, 38 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/platform/atmel/atmel-isc-regs.h b/drivers/media/platform/atmel/atmel-isc-regs.h
-index 457eed74cda9..5f99bf7717c1 100644
---- a/drivers/media/platform/atmel/atmel-isc-regs.h
-+++ b/drivers/media/platform/atmel/atmel-isc-regs.h
-@@ -289,8 +289,18 @@
- #define ISC_RLP_CFG_MODE_ARGB32         0xa
- #define ISC_RLP_CFG_MODE_YYCC           0xb
- #define ISC_RLP_CFG_MODE_YYCC_LIMITED   0xc
-+#define ISC_RLP_CFG_MODE_YCYC           0xd
- #define ISC_RLP_CFG_MODE_MASK           GENMASK(3, 0)
- 
-+#define ISC_RLP_CFG_LSH			BIT(5)
+diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
+index a3c299068bd5..f30493a1dccd 100644
+--- a/drivers/media/platform/atmel/atmel-isc-base.c
++++ b/drivers/media/platform/atmel/atmel-isc-base.c
+@@ -843,6 +843,8 @@ static int isc_try_validate_formats(struct isc_device *isc)
+ 	case V4L2_PIX_FMT_YUV420:
+ 	case V4L2_PIX_FMT_YUV422P:
+ 	case V4L2_PIX_FMT_YUYV:
++	case V4L2_PIX_FMT_UYVY:
++	case V4L2_PIX_FMT_VYUY:
+ 		ret = 0;
+ 		yuv = true;
+ 		break;
+@@ -857,6 +859,7 @@ static int isc_try_validate_formats(struct isc_device *isc)
+ 		break;
+ 	case V4L2_PIX_FMT_GREY:
+ 	case V4L2_PIX_FMT_Y10:
++	case V4L2_PIX_FMT_Y16:
+ 		ret = 0;
+ 		grey = true;
+ 		break;
+@@ -887,6 +890,8 @@ static int isc_try_validate_formats(struct isc_device *isc)
+  */
+ static int isc_try_configure_rlp_dma(struct isc_device *isc, bool direct_dump)
+ {
++	isc->try_config.rlp_cfg_mode = 0;
 +
-+#define ISC_RLP_CFG_YMODE_YUYV		(3 << 6)
-+#define ISC_RLP_CFG_YMODE_YVYU		(2 << 6)
-+#define ISC_RLP_CFG_YMODE_VYUY		(0 << 6)
-+#define ISC_RLP_CFG_YMODE_UYVY		(1 << 6)
-+
-+#define ISC_RLP_CFG_YMODE_MASK		GENMASK(7, 6)
-+
- /* Offset for HIS register specific to sama5d2 product */
- #define ISC_SAMA5D2_HIS_OFFSET	0
- /* Histogram Control Register */
-@@ -332,13 +342,15 @@
- #define ISC_DCFG_YMBSIZE_BEATS4         (0x1 << 4)
- #define ISC_DCFG_YMBSIZE_BEATS8         (0x2 << 4)
- #define ISC_DCFG_YMBSIZE_BEATS16        (0x3 << 4)
--#define ISC_DCFG_YMBSIZE_MASK           GENMASK(5, 4)
-+#define ISC_DCFG_YMBSIZE_BEATS32        (0x4 << 4)
-+#define ISC_DCFG_YMBSIZE_MASK           GENMASK(6, 4)
+ 	switch (isc->try_config.fourcc) {
+ 	case V4L2_PIX_FMT_SBGGR8:
+ 	case V4L2_PIX_FMT_SGBRG8:
+@@ -953,7 +958,19 @@ static int isc_try_configure_rlp_dma(struct isc_device *isc, bool direct_dump)
+ 		isc->try_config.bpp = 16;
+ 		break;
+ 	case V4L2_PIX_FMT_YUYV:
+-		isc->try_config.rlp_cfg_mode = ISC_RLP_CFG_MODE_YYCC;
++		isc->try_config.rlp_cfg_mode = ISC_RLP_CFG_MODE_YCYC | ISC_RLP_CFG_YMODE_YUYV;
++		isc->try_config.dcfg_imode = ISC_DCFG_IMODE_PACKED32;
++		isc->try_config.dctrl_dview = ISC_DCTRL_DVIEW_PACKED;
++		isc->try_config.bpp = 16;
++		break;
++	case V4L2_PIX_FMT_UYVY:
++		isc->try_config.rlp_cfg_mode = ISC_RLP_CFG_MODE_YCYC | ISC_RLP_CFG_YMODE_UYVY;
++		isc->try_config.dcfg_imode = ISC_DCFG_IMODE_PACKED32;
++		isc->try_config.dctrl_dview = ISC_DCTRL_DVIEW_PACKED;
++		isc->try_config.bpp = 16;
++		break;
++	case V4L2_PIX_FMT_VYUY:
++		isc->try_config.rlp_cfg_mode = ISC_RLP_CFG_MODE_YCYC | ISC_RLP_CFG_YMODE_VYUY;
+ 		isc->try_config.dcfg_imode = ISC_DCFG_IMODE_PACKED32;
+ 		isc->try_config.dctrl_dview = ISC_DCTRL_DVIEW_PACKED;
+ 		isc->try_config.bpp = 16;
+@@ -964,8 +981,11 @@ static int isc_try_configure_rlp_dma(struct isc_device *isc, bool direct_dump)
+ 		isc->try_config.dctrl_dview = ISC_DCTRL_DVIEW_PACKED;
+ 		isc->try_config.bpp = 8;
+ 		break;
++	case V4L2_PIX_FMT_Y16:
++		isc->try_config.rlp_cfg_mode = ISC_RLP_CFG_MODE_DATY10 | ISC_RLP_CFG_LSH;
++		fallthrough;
+ 	case V4L2_PIX_FMT_Y10:
+-		isc->try_config.rlp_cfg_mode = ISC_RLP_CFG_MODE_DATY10;
++		isc->try_config.rlp_cfg_mode |= ISC_RLP_CFG_MODE_DATY10;
+ 		isc->try_config.dcfg_imode = ISC_DCFG_IMODE_PACKED16;
+ 		isc->try_config.dctrl_dview = ISC_DCTRL_DVIEW_PACKED;
+ 		isc->try_config.bpp = 16;
+@@ -999,7 +1019,8 @@ static int isc_try_configure_pipeline(struct isc_device *isc)
+ 		/* if sensor format is RAW, we convert inside ISC */
+ 		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
+ 			isc->try_config.bits_pipeline = CFA_ENABLE |
+-				WB_ENABLE | GAM_ENABLES;
++				WB_ENABLE | GAM_ENABLES | DPC_BLCENABLE |
++				CC_ENABLE;
+ 		} else {
+ 			isc->try_config.bits_pipeline = 0x0;
+ 		}
+@@ -1008,8 +1029,9 @@ static int isc_try_configure_pipeline(struct isc_device *isc)
+ 		/* if sensor format is RAW, we convert inside ISC */
+ 		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
+ 			isc->try_config.bits_pipeline = CFA_ENABLE |
+-				CSC_ENABLE | WB_ENABLE | GAM_ENABLES |
+-				SUB420_ENABLE | SUB422_ENABLE | CBC_ENABLE;
++				CSC_ENABLE | GAM_ENABLES | WB_ENABLE |
++				SUB420_ENABLE | SUB422_ENABLE | CBC_ENABLE |
++				DPC_BLCENABLE;
+ 		} else {
+ 			isc->try_config.bits_pipeline = 0x0;
+ 		}
+@@ -1019,33 +1041,39 @@ static int isc_try_configure_pipeline(struct isc_device *isc)
+ 		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
+ 			isc->try_config.bits_pipeline = CFA_ENABLE |
+ 				CSC_ENABLE | WB_ENABLE | GAM_ENABLES |
+-				SUB422_ENABLE | CBC_ENABLE;
++				SUB422_ENABLE | CBC_ENABLE | DPC_BLCENABLE;
+ 		} else {
+ 			isc->try_config.bits_pipeline = 0x0;
+ 		}
+ 		break;
+ 	case V4L2_PIX_FMT_YUYV:
++	case V4L2_PIX_FMT_UYVY:
++	case V4L2_PIX_FMT_VYUY:
+ 		/* if sensor format is RAW, we convert inside ISC */
+ 		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
+ 			isc->try_config.bits_pipeline = CFA_ENABLE |
+ 				CSC_ENABLE | WB_ENABLE | GAM_ENABLES |
+-				SUB422_ENABLE | CBC_ENABLE;
++				SUB422_ENABLE | CBC_ENABLE | DPC_BLCENABLE;
+ 		} else {
+ 			isc->try_config.bits_pipeline = 0x0;
+ 		}
+ 		break;
+ 	case V4L2_PIX_FMT_GREY:
+-		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
++	case V4L2_PIX_FMT_Y16:
+ 		/* if sensor format is RAW, we convert inside ISC */
++		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
+ 			isc->try_config.bits_pipeline = CFA_ENABLE |
+ 				CSC_ENABLE | WB_ENABLE | GAM_ENABLES |
+-				CBC_ENABLE;
++				CBC_ENABLE | DPC_BLCENABLE;
+ 		} else {
+ 			isc->try_config.bits_pipeline = 0x0;
+ 		}
+ 		break;
+ 	default:
+-		isc->try_config.bits_pipeline = 0x0;
++		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code))
++			isc->try_config.bits_pipeline = WB_ENABLE | DPC_BLCENABLE;
++		else
++			isc->try_config.bits_pipeline = 0x0;
+ 	}
  
- #define ISC_DCFG_CMBSIZE_SINGLE         (0x0 << 8)
- #define ISC_DCFG_CMBSIZE_BEATS4         (0x1 << 8)
- #define ISC_DCFG_CMBSIZE_BEATS8         (0x2 << 8)
- #define ISC_DCFG_CMBSIZE_BEATS16        (0x3 << 8)
--#define ISC_DCFG_CMBSIZE_MASK           GENMASK(9, 8)
-+#define ISC_DCFG_CMBSIZE_BEATS32        (0x4 << 8)
-+#define ISC_DCFG_CMBSIZE_MASK           GENMASK(10, 8)
- 
- /* DMA Control Register */
- #define ISC_DCTRL       0x000003e4
+ 	/* Tune the pipeline to product specific */
 -- 
 2.25.1
 
