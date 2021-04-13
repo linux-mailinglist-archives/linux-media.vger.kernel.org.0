@@ -2,218 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D41135E308
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 17:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0E9735E312
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 17:43:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231652AbhDMPir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 11:38:47 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:53147 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237575AbhDMPir (ORCPT
+        id S232006AbhDMPni (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Apr 2021 11:43:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47564 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231652AbhDMPnh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 11:38:47 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id WL7NlFw9oMxedWL7QljGrc; Tue, 13 Apr 2021 17:38:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618328305; bh=I2Pi+AA8vr5LU0zvSSCJ5cMqw3IuOTFXbdjCIrYFyZ8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=vc913lXNhjf1Vxi/wnDqAgKGhxPX5EZ/N0bva41qeboByyCSXYbNvhCLtZC6f7kWC
-         bY0az1cdj8qyjzgxlXfH47uOIM6mP1jmK3snP4ccLQxUFrkLtjKp5ZNAPZmyhvwpHZ
-         LJ1n6pQK4A22VHYM+QIxC59L6NRQWOO1xrmmuIoR3BVnp+PB8o/owVVPGeTs2Udsqm
-         7uGHxjnlBhXFlzrgYH43yhEdEO61XaqzKCQSPZBR9mrCMxnHMvWKgEFY2xSo+tEZTu
-         /hsXIyVaOKSdg1m4822/fNN1dUsr7mVfKoSEbZQbCZvzngDlw6CC6zybfUQZp6Prf7
-         gMvIdthihPHXQ==
-Subject: Re: [PATCH] staging: media: tegra-vde: Align line break to match with
- the open parenthesis in file trace.h
-To:     Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
+        Tue, 13 Apr 2021 11:43:37 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C60B9C061574;
+        Tue, 13 Apr 2021 08:43:17 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id k23-20020a17090a5917b02901043e35ad4aso10881037pji.3;
+        Tue, 13 Apr 2021 08:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=8Muu/9WdfBgf9XGzBb/oUnmSPxJfSkGD9Nopu5TItCA=;
+        b=t3Ri2SNL5+EIJHCO7rV0ZBDAuEnogEiAwxV5x0DtpbyJocT6i2WoGDYeINTw4XNjNY
+         CoGAhswVk2+FCbxNGJLJAbLbWVNO+z9TFj9Szwr5W8fb4oJ5vrFn4Alm/cIijGbfJ6dN
+         Lo0kgHFnheU8pDkOg5hHZc1WPmMq/6uU9ypeCur2JSeaZoiV3JBIADdYzJ48u46YSuJz
+         QERBXv537o/d9RPTE4svky7HLqPMY8tev5/ngiOtvWIrzk/rLyTrWJ8Wrp3pOIpPY7YG
+         Tz9cAPfWi4OzuuAQCTSe9magjw5EwyOP5Mh858MfiqYke60Sm1YFx+cLQ5jf73BWpHMP
+         1/aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=8Muu/9WdfBgf9XGzBb/oUnmSPxJfSkGD9Nopu5TItCA=;
+        b=aNnTEnu1h4YSK3g8CPK8W5UokcFILo04t97S9qGvlTSaaQlWRLxSgsLaO49HDHIFBL
+         73THN0CGUAAU9prQ1N0fIpLNVa/0kLHXJluXfGsXB6IMOgKSd35c/jctg5tE/SmDIRre
+         9wB5avjXok3v/P6jZaP5PnwOdRhg9HwEmQS0HHoCyVkhGuwsMHTXHeeAvHZwQlRVSRJk
+         VhmC7jHtD8rAzoFwzsJTUuY5hjOfhVTWi0SrfzqXo+A8kv/RlrXiPY2PlOXhJ6Fd3xrE
+         SwF8wgOkf74u/cQy47qSyjibSPWCpQadjUr1LnakfniZofEbOS5tIc0UQdyJfPAlg0Z6
+         XnrQ==
+X-Gm-Message-State: AOAM5335ywXSIyi6xcgENa33kzFqocu93QC+fDkrCUxK7PIjpnlAGfVB
+        mmJfoQF0L6wmi5wHOXZrAu0=
+X-Google-Smtp-Source: ABdhPJz/c8JF8Y0C2ZrFun4nbKLfAk7fOQL/bMOCYWVt3pDXLg0kd7q1MYv+v6audMkS+3vUsB62nQ==
+X-Received: by 2002:a17:90b:e0d:: with SMTP id ge13mr614712pjb.189.1618328597240;
+        Tue, 13 Apr 2021 08:43:17 -0700 (PDT)
+Received: from kali ([103.141.87.253])
+        by smtp.gmail.com with ESMTPSA id k3sm14555276pgq.57.2021.04.13.08.43.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 08:43:16 -0700 (PDT)
+Date:   Tue, 13 Apr 2021 21:13:09 +0530
+From:   Mitali Borkar <mitaliborkar810@gmail.com>
+To:     narmstrong@baylibre.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, khilman@baylibre.com,
+        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-References: <20210412222040.GA13659@focaruja>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <4e67a6e9-b400-7447-2cd7-6b60230882d0@xs4all.nl>
-Date:   Tue, 13 Apr 2021 17:38:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+        linux-amlogic@lists.infradead.org, mitali_s@me.iitr.ac.in
+Subject: [PATCH v4] staging: media: meson: vdec: declare u32 as static const
+Message-ID: <YHW8DWNUAmp4mXm3@kali>
 MIME-Version: 1.0
-In-Reply-To: <20210412222040.GA13659@focaruja>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPePyejaC0zuWH2WdNjSwxAhc5jU+KYRXJXBP1VRduUpBlWf03NtwQLHP2aG14kiKz2kJvxRRj2OzHPFc8TsUqKEwr2EyaFGtE98d8M64Pi6K9SAvj99
- 304YLZBhJ+jlMefm9EN6hK51oW1kxrjMqjYKcaIO6tl19WwvWQxkpPEeq6kyhmUYJ/gO4VZ96Hw7nSOCw1kZczk0RJ4kwd3Buxplr8+KRxXHszzo53Jzykil
- oKCOWbn+4XzPGrsRaVVYvzR/AYX5ITWw8UcQvcgZDMj+00b/AkEMes/Osa+gWsLn9wwN8hyQpCsz4XgeSWuk7m/Hb8dbQaEUEtxyH8XY9IaCxkkjG0R8S1xZ
- IB7s7fqmfFaev73B1OtquEIAzNuo9bze2cLqVkfheOmyt1qR05AqDfrpLQQXAR9WdLGHeRXfEJ1EuMYM0GPh9AeQdrFiUZpzMvZBpYYZRWP8XgM/TgMNmMHF
- JcuRNKBiN50KUytFb0fUCehGz2Ysrnzugstz4WayNX4v/wRaojiV2ChCHbT21Zv6XRkz4dLegO/QOtB1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Aline,
+Declared 32 bit unsigned int as static constant inside a function and
+replaced u32[] {x,y} as canvas3, canvas4 in codec_h264.c
+This indicates the value of canvas indexes will remain constant
+throughout execution.
 
-On 13/04/2021 00:20, Aline Santana Cordeiro wrote:
-> Align line break to match with the open parenthesis.
-> Issue detected by checkpatch.pl.
-> It consequently solved a few end lines with a '(',
-> issue also detected by checkpatch.pl
+Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+---
+Changes from v3:- Made commit message under 75 characters per line.
+Changes from v2:- Rebased this patch and made changes against mainline code
+Changes from v1:- Rectified mistake by declaring u32 as static const
+properly as static const u32 canvas'x'[]
 
-These trace headers are almost a language by themselves, and the
-usual alignment rules do not apply. Look at other existing trace.h files
-in the kernel and you'll see that they have their own coding style.
+ drivers/staging/media/meson/vdec/codec_h264.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-So I prefer not to apply this patch.
-
-You couldn't have known that, so it's not your fault.
-
-Regards,
-
-	Hans
-
-> 
-> Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-> ---
->  drivers/staging/media/tegra-vde/trace.h | 111 ++++++++++++++------------------
->  1 file changed, 50 insertions(+), 61 deletions(-)
-> 
-> diff --git a/drivers/staging/media/tegra-vde/trace.h b/drivers/staging/media/tegra-vde/trace.h
-> index e571410..1fcc573 100644
-> --- a/drivers/staging/media/tegra-vde/trace.h
-> +++ b/drivers/staging/media/tegra-vde/trace.h
-> @@ -11,79 +11,68 @@
->  #include "vde.h"
->  
->  DECLARE_EVENT_CLASS(register_access,
-> -	TP_PROTO(struct tegra_vde *vde, void __iomem *base,
-> -		 u32 offset, u32 value),
-> -	TP_ARGS(vde, base, offset, value),
-> -	TP_STRUCT__entry(
-> -		__string(hw_name, tegra_vde_reg_base_name(vde, base))
-> -		__field(u32, offset)
-> -		__field(u32, value)
-> -	),
-> -	TP_fast_assign(
-> -		__assign_str(hw_name, tegra_vde_reg_base_name(vde, base));
-> -		__entry->offset = offset;
-> -		__entry->value = value;
-> -	),
-> -	TP_printk("%s:0x%03x 0x%08x", __get_str(hw_name), __entry->offset,
-> -		  __entry->value)
-> +		    TP_PROTO(struct tegra_vde *vde, void __iomem *base,
-> +			     u32 offset, u32 value),
-> +		    TP_ARGS(vde, base, offset, value),
-> +			    TP_STRUCT__entry(__string(hw_name, tegra_vde_reg_base_name(vde, base))
-> +					     __field(u32, offset)
-> +					     __field(u32, value)
-> +			    ),
-> +			    TP_fast_assign(__assign_str(hw_name,
-> +							tegra_vde_reg_base_name(vde, base));
-> +					   __entry->offset = offset;
-> +					   __entry->value = value;
-> +			    ),
-> +			    TP_printk("%s:0x%03x 0x%08x", __get_str(hw_name), __entry->offset,
-> +				      __entry->value)
->  );
->  
->  DEFINE_EVENT(register_access, vde_writel,
-> -	TP_PROTO(struct tegra_vde *vde, void __iomem *base,
-> -		 u32 offset, u32 value),
-> -	TP_ARGS(vde, base, offset, value));
-> +	     TP_PROTO(struct tegra_vde *vde, void __iomem *base,
-> +		      u32 offset, u32 value),
-> +	     TP_ARGS(vde, base, offset, value));
->  DEFINE_EVENT(register_access, vde_readl,
-> -	TP_PROTO(struct tegra_vde *vde, void __iomem *base,
-> -		 u32 offset, u32 value),
-> -	TP_ARGS(vde, base, offset, value));
-> +	     TP_PROTO(struct tegra_vde *vde, void __iomem *base,
-> +		      u32 offset, u32 value),
-> +	     TP_ARGS(vde, base, offset, value));
->  
->  TRACE_EVENT(vde_setup_iram_entry,
-> -	TP_PROTO(unsigned int table, unsigned int row, u32 value, u32 aux_addr),
-> -	TP_ARGS(table, row, value, aux_addr),
-> -	TP_STRUCT__entry(
-> -		__field(unsigned int, table)
-> -		__field(unsigned int, row)
-> -		__field(u32, value)
-> -		__field(u32, aux_addr)
-> -	),
-> -	TP_fast_assign(
-> -		__entry->table = table;
-> -		__entry->row = row;
-> -		__entry->value = value;
-> -		__entry->aux_addr = aux_addr;
-> -	),
-> -	TP_printk("[%u][%u] = { 0x%08x (flags = \"%s\", frame_num = %u); 0x%08x }",
-> -		  __entry->table, __entry->row, __entry->value,
-> -		  __print_flags(__entry->value, " ", { (1 << 25), "B" }),
-> -		  __entry->value & 0x7FFFFF, __entry->aux_addr)
-> +	    TP_PROTO(unsigned int table, unsigned int row, u32 value, u32 aux_addr),
-> +	    TP_ARGS(table, row, value, aux_addr),
-> +		    TP_STRUCT__entry(__field(unsigned int, table)
-> +				     __field(unsigned int, row)
-> +				     __field(u32, value)
-> +				     __field(u32, aux_addr)
-> +		    ),
-> +		    TP_fast_assign(__entry->table = table;
-> +				   __entry->row = row;
-> +				   __entry->value = value;
-> +				   __entry->aux_addr = aux_addr;
-> +		    ),
-> +		    TP_printk("[%u][%u] = { 0x%08x (flags = \"%s\", frame_num = %u); 0x%08x }",
-> +			      __entry->table, __entry->row, __entry->value,
-> +			      __print_flags(__entry->value, " ", { (1 << 25), "B" }),
-> +			      __entry->value & 0x7FFFFF, __entry->aux_addr)
->  );
->  
->  TRACE_EVENT(vde_ref_l0,
-> -	TP_PROTO(unsigned int frame_num),
-> -	TP_ARGS(frame_num),
-> -	TP_STRUCT__entry(
-> -		__field(unsigned int, frame_num)
-> -	),
-> -	TP_fast_assign(
-> -		__entry->frame_num = frame_num;
-> -	),
-> -	TP_printk("REF L0: DPB: Frame 0: frame_num = %u", __entry->frame_num)
-> +	    TP_PROTO(unsigned int frame_num),
-> +	    TP_ARGS(frame_num),
-> +	    TP_STRUCT__entry(__field(unsigned int, frame_num)),
-> +	    TP_fast_assign(__entry->frame_num = frame_num;),
-> +	    TP_printk("REF L0: DPB: Frame 0: frame_num = %u", __entry->frame_num)
->  );
->  
->  TRACE_EVENT(vde_ref_l1,
-> -	TP_PROTO(unsigned int with_later_poc_nb,
-> -		 unsigned int with_earlier_poc_nb),
-> -	TP_ARGS(with_later_poc_nb, with_earlier_poc_nb),
-> -	TP_STRUCT__entry(
-> -		__field(unsigned int, with_later_poc_nb)
-> -		__field(unsigned int, with_earlier_poc_nb)
-> -	),
-> -	TP_fast_assign(
-> -		__entry->with_later_poc_nb = with_later_poc_nb;
-> -		__entry->with_earlier_poc_nb = with_earlier_poc_nb;
-> -	),
-> -	TP_printk("REF L1: with_later_poc_nb %u, with_earlier_poc_nb %u",
-> -		  __entry->with_later_poc_nb, __entry->with_earlier_poc_nb)
-> +	    TP_PROTO(unsigned int with_later_poc_nb,
-> +		     unsigned int with_earlier_poc_nb),
-> +	    TP_ARGS(with_later_poc_nb, with_earlier_poc_nb),
-> +		    TP_STRUCT__entry(__field(unsigned int, with_later_poc_nb)
-> +				     __field(unsigned int, with_earlier_poc_nb)),
-> +		    TP_fast_assign(__entry->with_later_poc_nb = with_later_poc_nb;
-> +				   __entry->with_earlier_poc_nb = with_earlier_poc_nb;),
-> +		    TP_printk("REF L1: with_later_poc_nb %u, with_earlier_poc_nb %u",
-> +			      __entry->with_later_poc_nb, __entry->with_earlier_poc_nb)
->  );
->  
->  #endif /* TEGRA_VDE_TRACE_H */
-> 
+diff --git a/drivers/staging/media/meson/vdec/codec_h264.c b/drivers/staging/media/meson/vdec/codec_h264.c
+index c61128fc4bb9..80141b89a9f6 100644
+--- a/drivers/staging/media/meson/vdec/codec_h264.c
++++ b/drivers/staging/media/meson/vdec/codec_h264.c
+@@ -287,10 +287,10 @@ static void codec_h264_resume(struct amvdec_session *sess)
+ 	struct amvdec_core *core = sess->core;
+ 	struct codec_h264 *h264 = sess->priv;
+ 	u32 mb_width, mb_height, mb_total;
++	static const u32 canvas3[] = { ANCO_CANVAS_ADDR, 0 };
++	static const u32 canvas4[] = { 24, 0 };
+ 
+-	amvdec_set_canvases(sess,
+-			    (u32[]){ ANC0_CANVAS_ADDR, 0 },
+-			    (u32[]){ 24, 0 });
++	amvdec_set_canvases(sess, canvas3, canvas4);
+ 
+ 	dev_dbg(core->dev, "max_refs = %u; actual_dpb_size = %u\n",
+ 		h264->max_refs, sess->num_dst_bufs);
+-- 
+2.30.2
 
