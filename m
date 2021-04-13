@@ -2,96 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02FDF35D8C9
-	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 09:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1AEE35D91D
+	for <lists+linux-media@lfdr.de>; Tue, 13 Apr 2021 09:40:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbhDMH0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Apr 2021 03:26:36 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50497 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230220AbhDMH0f (ORCPT
+        id S238673AbhDMHkl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 13 Apr 2021 03:40:41 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:53776 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229937AbhDMHki (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Apr 2021 03:26:35 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id WDQvlhJsG43ycWDQylbKsA; Tue, 13 Apr 2021 09:26:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618298774; bh=iuscKYlZrmNNcYDAdFgfUygRIDVn2zQTJzj0tnhaTjE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=TBgDYf6oNueT4ZNtCBRGqTHa+AeLyqCD19lzLlYmmSfw5j4763vmDLB23cr9Zrhmk
-         qSs9/RkWZ8hTzNsee6VK9miMwcxgjiain/ljENcNblcUo8Xrla4KiaeG8upGJqCM6a
-         +Hv4O2AKrn3KeaaKXJhtwM3Td87Si5rl6/JxliRAmSjM8WIH1FP2DJzfyg6H4YE4aT
-         E5nqdz4y9bZ1XTLVLdRQhsP/D85FbTmaRUEZZ1tFXhu9LwtIUcG6B+T/vy9AwvNkGP
-         Nx+oCIVSTHjYc34ZklGDBoU7kQPCd5ZrrS/mAT/xk4uDtc8fvjkx2PShCxDrHCYM5s
-         DMV2Qz0XW/xtg==
-Subject: Re: Subject: [PATCH v2] staging: media: meson: vdec: declare u32 as
- static const appropriately
-To:     Mitali Borkar <mitaliborkar810@gmail.com>, narmstrong@baylibre.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        khilman@baylibre.com, jbrunet@baylibre.com,
-        martin.blumenstingl@googlemail.com
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-        linux-amlogic@lists.infradead.org, mitali_s@me.iitr.ac.in
-References: <YHU56OM+C2zY34VP@kali>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <00c8a239-49d3-fedb-ec67-076e8b823efa@xs4all.nl>
-Date:   Tue, 13 Apr 2021 09:26:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        Tue, 13 Apr 2021 03:40:38 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-221-ecZ__soQOzqGJyvfJqYHXQ-1; Tue, 13 Apr 2021 08:40:13 +0100
+X-MC-Unique: ecZ__soQOzqGJyvfJqYHXQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Tue, 13 Apr 2021 08:40:12 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.012; Tue, 13 Apr 2021 08:40:12 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Mitali Borkar' <mitaliborkar810@gmail.com>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "bingbu.cao@intel.com" <bingbu.cao@intel.com>,
+        "tian.shu.qiu@intel.com" <tian.shu.qiu@intel.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "outreachy-kernel@googlegroups.com" 
+        <outreachy-kernel@googlegroups.com>,
+        "mitali_s@me.iitr.ac.in" <mitali_s@me.iitr.ac.in>
+Subject: RE: [PATCH 2/6] staging: media: intel-ipu3: preferred __aligned(size)
+ over __attribute__aligned(size)
+Thread-Topic: [PATCH 2/6] staging: media: intel-ipu3: preferred
+ __aligned(size) over __attribute__aligned(size)
+Thread-Index: AQHXLyewN18t7A08NkSuo10kWluH2aqyET/A
+Date:   Tue, 13 Apr 2021 07:40:12 +0000
+Message-ID: <277be5f4da82449aaf0a635b60ad0728@AcuMS.aculab.com>
+References: <cover.1618180659.git.mitaliborkar810@gmail.com>
+ <f618f1fe2d13417ebed185da392fb48811593a9f.1618180660.git.mitaliborkar810@gmail.com>
+In-Reply-To: <f618f1fe2d13417ebed185da392fb48811593a9f.1618180660.git.mitaliborkar810@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-In-Reply-To: <YHU56OM+C2zY34VP@kali>
-Content-Type: text/plain; charset=utf-8
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMACiB/U3iBmeIo8g2sQHaGJfQjsL6GJ7v+M9ptXTdZx5bTSXHAIxK6HgPN5d14hv9IMqKdD7UkDJDWsTPefBdDD+Pk4FTegeqoWcKUT0squpR8jLHt5
- kf8a7+2gQd8//OJJqeur7Rzfkj7GjP8p3rPeDAIq3TsvlNSGDvzd71Ia1SSDNBczzHanGs6Cm3cUXkZ2gpmWuD3g3s8c5ykxphhxahqSCKry+t+N5KyCaquP
- AFzAtQr90Vk7DRNrDj7tRybqimpkkOOismwFRbZZwHOCbTXRal0OtwRdehHUxYCXJtiYuowDAwXFU/QGlJbW0Rgz69B2BQl+pxIv027K7OoJ7Kx58/2FHIRu
- aFVG9byy7VQr3ssoeLqhG23oOrix7EhRvOUuko6z2NZwVkG04XUJB5ih6Oy47e3CIk2hLSej1zCFW1LB5iqE+o1qi587irxJRerd3SXjYtd/mfTgy9xIEiru
- 3TIGJTn2Lj08Y0iTOJJouMb+ZTy/O9nNeZTOsQr3+vIjcDIZco8Y/ZJqVhKeyNRSIwOw/8reeoex51YYxujMkj6ZEbWENSzysjMG+Bm9nUJTBnW87Ca78wgr
- emZ9uuHwXJ5TgUTCDclURjY8dtB20VuPnUcduBexg0gYE5eVrFJKqSYQd50H7EX6KE3RyHIeK6ifEX9Z5THD0sI8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 13/04/2021 08:27, Mitali Borkar wrote:
-> Declared 32 bit unsigned int as static constant inside a function
-> appropriately.
+From: Mitali Borkar
+> Sent: 12 April 2021 00:09
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
+> This patch fixes the warning identified by checkpatch.pl by replacing
+> __attribute__aligned(size) with __aligned(size)
+> 
 > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 > ---
+>  .../staging/media/ipu3/include/intel-ipu3.h   | 74 +++++++++----------
+>  1 file changed, 37 insertions(+), 37 deletions(-)
 > 
-> Changes from v1:- Rectified the mistake by declaring u32 as static const
-> properly.
-> 
->  drivers/staging/media/meson/vdec/codec_h264.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/meson/vdec/codec_h264.c b/drivers/staging/media/meson/vdec/codec_h264.c
-> index ea86e9e1c447..80141b89a9f6 100644
-> --- a/drivers/staging/media/meson/vdec/codec_h264.c
-> +++ b/drivers/staging/media/meson/vdec/codec_h264.c
-> @@ -287,8 +287,8 @@ static void codec_h264_resume(struct amvdec_session *sess)
->  	struct amvdec_core *core = sess->core;
->  	struct codec_h264 *h264 = sess->priv;
->  	u32 mb_width, mb_height, mb_total;
-> -	static const u32[] canvas3 = { ANCO_CANVAS_ADDR, 0 };
-> -	static const u32[] canvas4 = { 24, 0 };
-> +	static const u32 canvas3[] = { ANCO_CANVAS_ADDR, 0 };
-> +	static const u32 canvas4[] = { 24, 0 };
+> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h
+> b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> index 589d5ccee3a7..d95ca9ebfafb 100644
+> --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
+> +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> @@ -84,7 +84,7 @@ struct ipu3_uapi_grid_config {
+>   */
+>  struct ipu3_uapi_awb_raw_buffer {
+>  	__u8 meta_data[IPU3_UAPI_AWB_MAX_BUFFER_SIZE]
+> -		__attribute__((aligned(32)));
+> +		__aligned(32);
+>  } __packed;
 
-This is a patch on top of your previous (v1) patch. That won't work
-since the v1 is not merged, you need to make a patch against the current
-mainline code.
+WTF?
 
-Regards,
+It either has 1-byte alignment because it is just __u8,
+32-byte because of the aligned(32),
+or 1 byte because of the outer packed.
 
-	Hans
+What alignment does this (and all the other) structures
+actually need?
 
->  
->  	amvdec_set_canvases(sess, canvas3, canvas4);
->  
-> 
+Specifying 'packed' isn't free.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
