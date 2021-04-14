@@ -2,64 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2656E35F48C
-	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 15:13:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FA9535F4D9
+	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 15:31:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351182AbhDNNKK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Apr 2021 09:10:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44856 "EHLO
+        id S1351349AbhDNN0E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Apr 2021 09:26:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351167AbhDNNKF (ORCPT
+        with ESMTP id S1351336AbhDNN0C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Apr 2021 09:10:05 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E556EC06138C;
-        Wed, 14 Apr 2021 06:09:42 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id f12so15361795qtf.2;
-        Wed, 14 Apr 2021 06:09:42 -0700 (PDT)
+        Wed, 14 Apr 2021 09:26:02 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6140EC061756;
+        Wed, 14 Apr 2021 06:25:41 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id t11so6810790qtr.8;
+        Wed, 14 Apr 2021 06:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=elncytFW+zb3qUFxfSlLsAeQiq/hOBit9WYqXcP+TbM=;
-        b=qQkv9kwMDgVjNDgE8+1XHzGKiVU3D7+1BMbay98l8IO5vpr6gzVdPUqBxyUoufZwpR
-         64BnoOrEnoaJOZLB4/0K3A76+ytyVltzkGa5UPoz+DVmqCtVO4UnmEVeP0yXTTAeDvYk
-         oouF7MpHMsDTJOgsjmKne0JciOMZmKPsfTj9PSg3E4Awjj3UeMP0+nSmAcm8c0Y/Nbeg
-         kPL9C2NyFEmy1ZFHaaol+R8vZg1PRgdtdyedrWz4nvoZxGmirTsltCKRGQWQ9N9e35aa
-         waPCIyNOBn3zZ5vFwQzzxehxjmG1PQYpSml3ygnIh4AHDRHayPc/Cg2xdlauZUT7iJnH
-         x8tw==
+        bh=NS2Bw26/lYixh5RZoHKAJ8ElpXYjSbxdF61bTnSB1is=;
+        b=toAJnJVRjMrkpQx4FcSUcX6JbpfReRDzI23V/MWQVYtHJ5SdUfaIkhX+9spmMNyD+y
+         UnPE0LJ8X2tQ3x7HG1jy146jJLpcGOEAYvLQSoaz01Oqrj6gGtX9gZbKc1aoeGAR1VOY
+         DWDXcLrXDZDPn4NODgl8ioTl9jsRIh1gqfryH2XLTg75uqAbtzPnYHsqfRmBHWTZmHN+
+         /9TAr2UDC8pFqlv2E9sJwxiqyzcWxkF5QOfwE4BSPETQpeIGtJymBytcBxHElDjEmo/m
+         ZbwixI6k3kMkrcf2QmOh3F1oFVDo56xp1mvAQjNZVeI1ASJlbnLpuWbTAxQP36tpBZI7
+         zAkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=elncytFW+zb3qUFxfSlLsAeQiq/hOBit9WYqXcP+TbM=;
-        b=H950bvifRzQXl/DhpyS8/bs5hjkS4E7FY2ffpFNx5BRSY8b0GLTEw+Or43iY60/5qa
-         YnM3obdfQ5IHPlsEw6PIXdZTXn5ISWUZF7Ol9VfxYvI8RlpjyWy7wYtxmeXqMS/e/8DI
-         0kj/cv9DyZLf6xxFZxDJ2VffF3KkpOYQMQ6X6UBkdEYQrF5NNLUzOMAFLytomJbPpohz
-         IVBfJpJ3+dvpd46qQXtPXF7xD6IQOLamD+09bOH4lDjOYKLshEvNq07PbKcYI+RXqw7P
-         cb565rQVGeV7DQXg7jX2RHKILK3287joGeCGJJrOA70VTxQImRAt+geOibTJc7KT8Pyd
-         48/Q==
-X-Gm-Message-State: AOAM530cMaSN400fSUh9XgLVZ6AUXkS4ORKHG9F1RoS3jn7rvP8YaEFV
-        wLmD6a2XjYvdtgNwoZebkVo=
-X-Google-Smtp-Source: ABdhPJzFIH2icLx/tD0Vzvjk7b2K2kFlcws0XDy0/f2uGTsedCe1BJf79qi72vxRofLpC3ks19U0YA==
-X-Received: by 2002:ac8:5c0b:: with SMTP id i11mr18904800qti.368.1618405782136;
-        Wed, 14 Apr 2021 06:09:42 -0700 (PDT)
+        bh=NS2Bw26/lYixh5RZoHKAJ8ElpXYjSbxdF61bTnSB1is=;
+        b=q9ql4ThXP2ctsFXUsNAwBxdng0ASVNmy2qgNEDrWcdsD5nxpBbv3Kd916o/rhVuVQW
+         Ov90fSU3dVaeAqDPDQXxaKpCzAOhETtddCT4mSiaa9vJAzVyF3SnEffq98hhFbKvREQq
+         chADwv3LSIhrBSJAWzLmJnq9rcSNVShbGhwkNSyer+YjklgqeR5VNsSLpMNVDbMmTs6n
+         uF4ohy1GMaagBAuoXyWRbCWwp7I752ZwkZijYs8vF7kgEegGVTrmIrwjZzm4ez4aXfRn
+         cTT2nE0IW52hnTnNn7caJ/qSMUiRpYsk78Z6LZhC3wrrRxmDG1QML0ZCAguEok8PGF+y
+         DruA==
+X-Gm-Message-State: AOAM5335bCakKXG8JbJQsDqWH09Pf8lJe+ZdHN7v7C+XDIb4XfcwEBiM
+        wcTFy9e+kXL86XYReAyxejk=
+X-Google-Smtp-Source: ABdhPJzwU+M0Oykcfm27jfLSv0IOoPnBW+9uyyzf6trdexap9regc+qGxDIxZMTPntU8lOO3RX4cHw==
+X-Received: by 2002:a05:622a:650:: with SMTP id a16mr1628999qtb.316.1618406740656;
+        Wed, 14 Apr 2021 06:25:40 -0700 (PDT)
 Received: from focaruja ([2001:1284:f016:a037:7038:c088:ae60:452d])
-        by smtp.gmail.com with ESMTPSA id b83sm6523257qkc.97.2021.04.14.06.09.41
+        by smtp.gmail.com with ESMTPSA id f14sm7986252qka.54.2021.04.14.06.25.39
         (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Wed, 14 Apr 2021 06:09:41 -0700 (PDT)
-Date:   Wed, 14 Apr 2021 10:09:39 -0300
+        Wed, 14 Apr 2021 06:25:40 -0700 (PDT)
+Date:   Wed, 14 Apr 2021 10:25:37 -0300
 From:   Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: [PATCH] staging: media: tegra-video: Align line break to match with
- the open parenthesis in file vi.c
-Message-ID: <20210414130939.GA15290@focaruja>
+Subject: [PATCH v3] staging: media: omap4iss: Remove unused macro function
+Message-ID: <20210414132537.GA15742@focaruja>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -68,28 +65,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Align line break to match with the open parenthesis.
-Issue detected by checkpatch.pl.
+Remove unused macro function "v4l2_dev_to_iss_device(dev)".
 
 Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
 ---
- drivers/staging/media/tegra-video/vi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 7a09061c..9878d1e 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1813,7 +1813,8 @@ static int tegra_vi_graph_parse_one(struct tegra_vi_channel *chan,
- 		}
+Changes since v2:
+ - No changes in code, just forgot to list the changes made
+
+Changes since v1:
+ - Remove only unused macro function v4l2_dev_to_iss_device(dev)
+ - Left macro functions "to_iss_device()" and "to_device()"
+
+ drivers/staging/media/omap4iss/iss.h | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/staging/media/omap4iss/iss.h b/drivers/staging/media/omap4iss/iss.h
+index b88f952..3f587e0 100644
+--- a/drivers/staging/media/omap4iss/iss.h
++++ b/drivers/staging/media/omap4iss/iss.h
+@@ -119,9 +119,6 @@ struct iss_device {
+ 	unsigned int isp_subclk_resources;
+ };
  
- 		tvge = v4l2_async_notifier_add_fwnode_subdev(&chan->notifier,
--				remote, struct tegra_vi_graph_entity);
-+							     remote,
-+							     struct tegra_vi_graph_entity);
- 		if (IS_ERR(tvge)) {
- 			ret = PTR_ERR(tvge);
- 			dev_err(vi->dev,
+-#define v4l2_dev_to_iss_device(dev) \
+-	container_of(dev, struct iss_device, v4l2_dev)
+-
+ int omap4iss_get_external_info(struct iss_pipeline *pipe,
+ 			       struct media_link *link);
+ 
 -- 
 2.7.4
 
