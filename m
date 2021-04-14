@@ -2,53 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93AD535ED05
-	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 08:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F69635ED30
+	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 08:23:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349108AbhDNGOo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Apr 2021 02:14:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37922 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349113AbhDNGOa (ORCPT
+        id S1347810AbhDNGXG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Apr 2021 02:23:06 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:52768 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347685AbhDNGW7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Apr 2021 02:14:30 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81A29C06138D;
-        Tue, 13 Apr 2021 23:14:07 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id d10so13654082pgf.12;
-        Tue, 13 Apr 2021 23:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=LqBjgru/kZiv2kgZDvT4GDl1IMrvGcwQ/GofAyAsCoI=;
-        b=ILVyUIH8LNRoWIsR8w+ffysuuD7sGt7bSRwJ5vSEBW1HE/UDmLzroSVgfI3YaQqbDG
-         rfzopRxQEczTvaUNt5pl6+bQLK1wo0B82wV+SWiwJryyP85zX9BhNRmLo/fJcM87KGa2
-         2xW5mR6ut6SHPbls0SEsmGzp0fjcm9lefFszcXAnIXYnJyGlSbv2ZBK1kRsqDoN0DJrW
-         TMIgz5GSKQfjWz/08rwLLzPHbpdS45WLN+HeWBvPWXVQjEAUr2e+aA7H0JvhdWLGLixT
-         THqqH5JF7Xq4b7f6gL6OARny5WCOORGXr1MaTcAS9Zywg1sm+3NYRQJKy8tzWwF3g+Iu
-         IPxA==
+        Wed, 14 Apr 2021 02:22:59 -0400
+Received: from mail-ed1-f71.google.com ([209.85.208.71])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <krzysztof.kozlowski@canonical.com>)
+        id 1lWYv7-0007Ep-3Q
+        for linux-media@vger.kernel.org; Wed, 14 Apr 2021 06:22:37 +0000
+Received: by mail-ed1-f71.google.com with SMTP id m2-20020aa7c4820000b0290382b0bad9e7so2726823edq.9
+        for <linux-media@vger.kernel.org>; Tue, 13 Apr 2021 23:22:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=LqBjgru/kZiv2kgZDvT4GDl1IMrvGcwQ/GofAyAsCoI=;
-        b=ZuZdVJGJ5EGNdXC/tYxyxme5C2kgmCny8JAXTt/LEY/Rp739X9zGeexGHjS0VoOOoQ
-         D6BXFmPWR6Wu0VLrp8Te/muxUMrDPCvl7K3Xepm4kyCyhQu5HLsBEtEJKNCafwPEZ+ex
-         pcRBOB1WNIaEIvRIuZ8ztto1BRVDFJGZJV33Fp42EUdq/4RJrUTzPh2XWl+E+lP64ILU
-         zQ4iUJ5/32FQ1tINjPnwjQvffP1G5fV+8F2LEXkfi88xepAlaSnnqGaAxpt5P7Sv2rMS
-         BqGau6QzrNHXMjjvtRS29SO3+qBcR0Wi5LSMthIxuDS9bjA3FwT6495gU8h8VEyKHGLS
-         zVKg==
-X-Gm-Message-State: AOAM532EPpRxPsDV/owPSdb2GBoVeECwBOAaeX+t1nuv0auLrOfQClRu
-        Pt2aUc/ucR/xmXQkaK9GBDI=
-X-Google-Smtp-Source: ABdhPJxZJd6FW5aeYTCVQO81obZYLNmzCqikb4NF3fjOEO6+8Uuo6fjuWAE7hyZL6xN5nqFskaLxrw==
-X-Received: by 2002:a65:62d7:: with SMTP id m23mr36562496pgv.244.1618380847472;
-        Tue, 13 Apr 2021 23:14:07 -0700 (PDT)
-Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
-        by smtp.gmail.com with ESMTPSA id d17sm13629071pfn.60.2021.04.13.23.14.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Apr 2021 23:14:07 -0700 (PDT)
-From:   dillon.minfei@gmail.com
-To:     robh+dt@kernel.org, shawnguo@kernel.org, krzk@kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JSGpiJ39NLZU1nC6HICC+dG4seEp2QpeNa5YM4lkqF4=;
+        b=kfNXppV+NCaj1rEDNqFkICgmuECkTOouHJ2J1eN3r+PHE8jqftcmFQGlJjN/0rZRuP
+         acnMVwnyHTiHilDiK+mwC1U0cjnl4c8h18vUP0/rxxgvPvvn9gDWj/M5QKemV0D8RK4Y
+         gV975Ca7X3oJqtBYA6knXlajHxMlum6K4bVU8xNA9m6f5cHzMSWAJu2L3Aq3UPCRvFHf
+         ppStZwSfu0G4JBGJy0P2MM+y5SYZhgRHWHtWZRnmko29fn0hwX4TnCGfYUY5sGJMfd/d
+         jeOJI1f2YEkaR88inHbO1aoAF+9n8JJVd/XoazdhcoQcgQmf+fCcD66fXV8oppVm59KR
+         HGWA==
+X-Gm-Message-State: AOAM532UtR+O4QLrXKxDVyxA/8useVq4TShe1UdLQlb98UMBm26nKPJP
+        eH9m+2pDj7jxSVqH24Q4CVIwYr8XBKEJ3mvtyZNl9i8ZOY1kdKZQjAaeDbrmazGx8B75vFvLjlx
+        Duqc1lrbRZD9BBkyLFevC0Zz77ryvb5hb/FDC93Ns
+X-Received: by 2002:a17:907:7283:: with SMTP id dt3mr13059960ejc.47.1618381356420;
+        Tue, 13 Apr 2021 23:22:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyc+W2YNC6BqcZus895U2ci0Cv8Sg59KQnn2K2ha4/WQYNKRsatv0G/4PTC+oGTu4cp/AK51Q==
+X-Received: by 2002:a17:907:7283:: with SMTP id dt3mr13059942ejc.47.1618381356301;
+        Tue, 13 Apr 2021 23:22:36 -0700 (PDT)
+Received: from [192.168.1.115] (xdsl-188-155-192-147.adslplus.ch. [188.155.192.147])
+        by smtp.gmail.com with ESMTPSA id dh27sm10829592edb.28.2021.04.13.23.22.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Apr 2021 23:22:35 -0700 (PDT)
+Subject: Re: [PATCH v1 1/3] dt-bindings: arm: imx: Add i.mx6q DaSheng COM-9XX
+ SBC board dts support
+To:     dillon.minfei@gmail.com, robh+dt@kernel.org, shawnguo@kernel.org,
         linux@rempel-privat.de, s.riedmueller@phytec.de,
         matthias.schiffer@ew.tq-group.com, leoyang.li@nxp.com,
         arnd@arndb.de, olof@lixom.net, s.hauer@pengutronix.de,
@@ -56,107 +54,61 @@ To:     robh+dt@kernel.org, shawnguo@kernel.org, krzk@kernel.org,
         prabhakar.csengg@gmail.com, mchehab@kernel.org
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, dillon min <dillon.minfei@gmail.com>
-Subject: [PATCH v1 3/3] media: i2c: ov2659: Add clk_prepare_enable(), clk_disable_unprepare() to handle xvclk
-Date:   Wed, 14 Apr 2021 14:13:47 +0800
-Message-Id: <1618380827-16056-4-git-send-email-dillon.minfei@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1618380827-16056-1-git-send-email-dillon.minfei@gmail.com>
+        linux-media@vger.kernel.org
 References: <1618380827-16056-1-git-send-email-dillon.minfei@gmail.com>
+ <1618380827-16056-2-git-send-email-dillon.minfei@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Message-ID: <2a993aa9-6933-4af8-da26-f53096dc6ab7@canonical.com>
+Date:   Wed, 14 Apr 2021 08:22:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <1618380827-16056-2-git-send-email-dillon.minfei@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: dillon min <dillon.minfei@gmail.com>
+On 14/04/2021 08:13, dillon.minfei@gmail.com wrote:
+> From: dillon min <dillon.minfei@gmail.com>
+> 
+> The DaSheng Com-9xx is and ARM based signle board computer (SBC)
+> featuring:
+> - i.MX6Q
+> - 2GiB LPDDR3 DRAM
+> - 8GiB eMMC 5.0 FLASH
+> - 4MiB SPI Flash
+> - USB 2.0 Host/Device
+> - Multiple multi-protocol RS232/RS485 Serial ports
+> - microSD socket
+> - 5V DC power input
+> - HDMI1.4a,1080p@60
+> - RGMIIx1 Gigabit Ethernet
+> - CSI0x1, connect with ov2659
+> 
+> Signed-off-by: dillon min <dillon.minfei@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/arm/fsl.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
+> index 297c87f45db8..24bdfbd4853f 100644
+> --- a/Documentation/devicetree/bindings/arm/fsl.yaml
+> +++ b/Documentation/devicetree/bindings/arm/fsl.yaml
+> @@ -206,6 +206,7 @@ properties:
+>                - fsl,imx6q-sabreauto
+>                - fsl,imx6q-sabrelite
+>                - fsl,imx6q-sabresd
+> +              - ds,imx6q-sbc              # Da Sheng COM-9XX Modules
+>                - karo,imx6q-tx6q           # Ka-Ro electronics TX6Q Modules
+>                - kiebackpeter,imx6q-tpc    # K+P i.MX6 Quad TPC Board
+>                - kontron,imx6q-samx6i      # Kontron i.MX6 Dual/Quad SMARC Module
+> 
 
-For power save purpose, xvclk might not be always on.
-need add clk_prepare_enable(), clk_disable_unprepare() at driver
-side to set xvclk on/off at proper stage.
-
-Add following changes:
-- add 'struct clk *clk' in 'struct ov2659'
-- enable xvclk in ov2659_power_on()
-- disable xvclk in ov2659_power_off()
-
-Signed-off-by: dillon min <dillon.minfei@gmail.com>
----
- drivers/media/i2c/ov2659.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-index 42f64175a6df..fb78a1cedc03 100644
---- a/drivers/media/i2c/ov2659.c
-+++ b/drivers/media/i2c/ov2659.c
-@@ -204,6 +204,7 @@ struct ov2659 {
- 	struct i2c_client *client;
- 	struct v4l2_ctrl_handler ctrls;
- 	struct v4l2_ctrl *link_frequency;
-+	struct clk *clk;
- 	const struct ov2659_framesize *frame_size;
- 	struct sensor_register *format_ctrl_regs;
- 	struct ov2659_pll_ctrl pll;
-@@ -1270,6 +1271,8 @@ static int ov2659_power_off(struct device *dev)
- 
- 	gpiod_set_value(ov2659->pwdn_gpio, 1);
- 
-+	clk_disable_unprepare(ov2659->clk);
-+
- 	return 0;
- }
- 
-@@ -1278,9 +1281,17 @@ static int ov2659_power_on(struct device *dev)
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct ov2659 *ov2659 = to_ov2659(sd);
-+	int ret;
- 
- 	dev_dbg(&client->dev, "%s:\n", __func__);
- 
-+	ret = clk_prepare_enable(ov2659->clk);
-+	if (ret) {
-+		dev_err(&client->dev, "%s: failed to enable clock\n",
-+			__func__);
-+		return ret;
-+	}
-+
- 	gpiod_set_value(ov2659->pwdn_gpio, 0);
- 
- 	if (ov2659->resetb_gpio) {
-@@ -1425,7 +1436,6 @@ static int ov2659_probe(struct i2c_client *client)
- 	const struct ov2659_platform_data *pdata = ov2659_get_pdata(client);
- 	struct v4l2_subdev *sd;
- 	struct ov2659 *ov2659;
--	struct clk *clk;
- 	int ret;
- 
- 	if (!pdata) {
-@@ -1440,11 +1450,11 @@ static int ov2659_probe(struct i2c_client *client)
- 	ov2659->pdata = pdata;
- 	ov2659->client = client;
- 
--	clk = devm_clk_get(&client->dev, "xvclk");
--	if (IS_ERR(clk))
--		return PTR_ERR(clk);
-+	ov2659->clk = devm_clk_get(&client->dev, "xvclk");
-+	if (IS_ERR(ov2659->clk))
-+		return PTR_ERR(ov2659->clk);
- 
--	ov2659->xvclk_frequency = clk_get_rate(clk);
-+	ov2659->xvclk_frequency = clk_get_rate(ov2659->clk);
- 	if (ov2659->xvclk_frequency < 6000000 ||
- 	    ov2659->xvclk_frequency > 27000000)
- 		return -EINVAL;
-@@ -1506,7 +1516,9 @@ static int ov2659_probe(struct i2c_client *client)
- 	ov2659->frame_size = &ov2659_framesizes[2];
- 	ov2659->format_ctrl_regs = ov2659_formats[0].format_ctrl_regs;
- 
--	ov2659_power_on(&client->dev);
-+	ret = ov2659_power_on(&client->dev);
-+	if (ret < 0)
-+		goto error;
- 
- 	ret = ov2659_detect(sd);
- 	if (ret < 0)
--- 
-2.7.4
-
+You miss change in vendor prefixes. Didn't checkpatch complain about it?
+Did you run checkpatch?
+Best regards,
+Best regards,
+Krzysztof
