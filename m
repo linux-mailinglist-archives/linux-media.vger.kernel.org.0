@@ -2,124 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89FEA35EF01
-	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 10:07:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2503F35EF9C
+	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 10:46:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349867AbhDNICt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Apr 2021 04:02:49 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:56155 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1349857AbhDNICo (ORCPT
+        id S1348330AbhDNI25 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Apr 2021 04:28:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39182 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239774AbhDNI2e (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Apr 2021 04:02:44 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id WaTYlzhQ4nzKoWaTblZqxd; Wed, 14 Apr 2021 10:02:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618387340; bh=eLYWvFJsLRWSZnDgFC4HWwA6Ar/qN3NYs7CsRsakJ4A=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=JneEJWiXKH+P9ZzWyyxbtrHQc7c7FRECZhXacg2tiJ8c37MC+o3y7NmDVvxN1vmfv
-         kZNuLUZq7smq4FxM5yCjgUXlJiX/4vBCIukm6+G7zLcJFoF8r7A3tEEyiNXFe0QaJB
-         8QT4ngpkQk+1OT45vYbbYqkYLV3Zb5/wFBfnZBIe+ZiaOPir4t4Hkip7kBnLG+uo2D
-         pD9Bb6P5vtAPFD4tRRXOA369m8OSODK6XeSTLM4CcnXCB7nuqdlI27C2uGOMgSxIVy
-         TfrMR9mBI7Eh6nk9eICYMVkAjdNxtoCC8YaXOXIsDzg/u/MeK6UfNhuRoWYSmNRM/6
-         Lj+2G2PaaCKDg==
-Subject: Re: [PATCH] staging: media: omap4iss: Remove unused macro functions
-To:     ascordeiro <alinesantanacordeiro@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-References: <20210412134253.GA19402@focaruja>
- <03549d0e-04d9-6d37-93e3-c09b29ce53aa@xs4all.nl>
- <4e2f52124b29b3ed6c3f7f645f067c503c7cf4cf.camel@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <ba6a1424-a624-f808-bc9e-477e75348844@xs4all.nl>
-Date:   Wed, 14 Apr 2021 10:02:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        Wed, 14 Apr 2021 04:28:34 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DACC061574;
+        Wed, 14 Apr 2021 01:28:09 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id n138so31876513lfa.3;
+        Wed, 14 Apr 2021 01:28:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2jYkASAoW5sIyhWoTgPddOYjjE+zdkKqEacR93B79V0=;
+        b=fNY1MWj+x//TkUYB7eRIvbHfrPxMD6grgtPDZbKFBJpGw4iHDym0A2Awf3F0PddtTB
+         ql3HYXP/oZlewRNIFNkKG08B3t7aMkY7TqpxIJLjf3jPZcSf4NBKx/4JLbTdKM6YamAd
+         QVoaVyGUN+66VRXuWfUN0rR9jszuZLJMcxP6HSnPOwSOQl9oU6bC0JbYtOOiGB2vNM/w
+         21cOdAYKKb/+S8f4CQqDXsbVjLafuovGkN0QsCkYANVmoE66A1FaEc4dIAHCl/en/Ehy
+         ndISh4l1cPRviOAAE45HBDUOgh2cAtT9UjIM5A7id7wPdL84GB/zNa/FrcMq20AON69G
+         hTNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=2jYkASAoW5sIyhWoTgPddOYjjE+zdkKqEacR93B79V0=;
+        b=RUSEvC9AGCpKbiWPMABcE8CblLvwOdrOztyH8KTP13raY5u4D6/QHyXe84b4eP1osL
+         JIzsvXQ3hwSq6s1i+guPI0qTRoWKsMrkt+o1fhLmkQ6X5eOluWYH4ObZVLqsv0zJQiqE
+         rlwnLf6hbhCSWTdJj7MkPHBtKtQ/Ybk8CXccva1bzqNDqYlXsoD+8P0Q0EkBhGo2F1JO
+         16Z800IEFdAH+JyEoVcxV262yuzIuXLgtRaEdiIch++HaezJGROlN4kZV6xfkg2t2HHq
+         PPPm/6OBh/zgn9sKG0jwGDdrv83hcjUgiVtFCDiVQkybWfzAvX/SL9VBPaEh7pG5P4CC
+         gCXw==
+X-Gm-Message-State: AOAM533W4fAwy9mDa6PcOIYw0/NhszNeE9n4pGjonQ32P9iF/dm7gidZ
+        Eo85LLtMKIcI+H3Ff8mc4sHKWQiZ1HY=
+X-Google-Smtp-Source: ABdhPJwe3b6ast9wwGRLwdrWSll9+SEkiHf8L9AUM9QJK7X0nnT5fpOAg5wkYtY14zv5z2PxZJuD5A==
+X-Received: by 2002:a05:6512:3d18:: with SMTP id d24mr24458461lfv.204.1618388888124;
+        Wed, 14 Apr 2021 01:28:08 -0700 (PDT)
+Received: from [192.168.1.100] ([31.173.85.95])
+        by smtp.gmail.com with ESMTPSA id v3sm3675584ljg.77.2021.04.14.01.28.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Apr 2021 01:28:07 -0700 (PDT)
+Subject: Re: [PATCH] media: dt-bindings: media: renesas,vin: Add r8a779a0
+ support
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20210413173810.2561909-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <62b0a5ab-1b6c-3532-72af-bba23f82ff41@gmail.com>
+Date:   Wed, 14 Apr 2021 11:28:00 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-In-Reply-To: <4e2f52124b29b3ed6c3f7f645f067c503c7cf4cf.camel@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210413173810.2561909-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfPEoSb3gkMUCu+Uq81wGwtZ/9iDWgot0m+ucFtrCGFCLCRdXzORvsQtiqQu/qnGppW25ZArUKwbFCd+uHaj+RObUzQPh93z75uMYjXNJ2CjPLZXOE6my
- zcGb0PG0MwEw6iH60BNGNQSwG5aLTkv1chA199lHguSNM2ew46xyoZWg9mG0TSmHryy64x/vAYMZaR6fL/JTqqu23ZcW3bm4eYGe1kvLdoD4XVtuf3nxgyyK
- sbOXs8al7ebDZ94BO1ihAn5ZGlBjl01LK8vopdSRBBRUN0hYZ6wmsK5n50PNzMPWZQMIzYF+9SD0dmKTn+bbTkPNOYhxibDiPXeTF8CxNp2ktjoiD+3LM6a/
- Oa0WaK6Mx3g4TnvjqzzAQlNBp6+bE7QDtZHZDHJDmuGOcKaosWIo6iNaOxyKz9nijE+GOGu8AtaWvDCIE2hM/kyIrj4eD6/UcDR0/xXrgpU0JF3fXoMxt6eT
- n323txK4PzWYQqYsAShUq7M5CEky9FnLiR26xA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 13/04/2021 20:21, ascordeiro wrote:
-> Em ter, 2021-04-13 às 17:06 +0200, Hans Verkuil escreveu:
->> On 12/04/2021 15:42, Aline Santana Cordeiro wrote:
->>> Remove unused macro functions "to_iss_device()", "to_device()",
->>> and "v4l2_dev_to_iss_device(dev)".
->>
->> 'git grep to_iss_device drivers/staging/omap4iss' gives me lots of
->> hits!
->> Same for to_device. Only v4l2_dev_to_iss_device appears to be unused.
->>
->> Regards,
->>
->>         Hans
->>
-> This command is really helpful, I didin't know. 
-> Thank you for the tip.
-> 
-> May I send a v2 removing just v4l2_dev_to_iss_device?
+On 13.04.2021 20:38, Niklas Söderlund wrote:
 
-Sure, that's fine.
+> Document support for the VIN module in the Renesas V3U (r8a779a0) SoC.
+> The V3U is different from other SoCs as it have 32 instead of 16 VIN
 
-Regards,
+    Only V3H has 16 VINs, no?
 
-	Hans
+> instances. The VIN instances are also connected to a new IP the R-Car
+> ISP Channel Selector.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-> 
-> Thank you in advance,
-> Aline
-> 
->>>
->>> Signed-off-by: Aline Santana Cordeiro <
->>> alinesantanacordeiro@gmail.com>
->>> ---
->>>  drivers/staging/media/omap4iss/iss.h | 8 --------
->>>  1 file changed, 8 deletions(-)
->>>
->>> diff --git a/drivers/staging/media/omap4iss/iss.h
->>> b/drivers/staging/media/omap4iss/iss.h
->>> index b88f952..a354d5f 100644
->>> --- a/drivers/staging/media/omap4iss/iss.h
->>> +++ b/drivers/staging/media/omap4iss/iss.h
->>> @@ -29,11 +29,6 @@
->>>  
->>>  struct regmap;
->>>  
->>> -#define to_iss_device(ptr_module)                              \
->>> -       container_of(ptr_module, struct iss_device, ptr_module)
->>> -#define
->>> to_device(ptr_module)                                          \
->>> -       (to_iss_device(ptr_module)->dev)
->>> -
->>>  enum iss_mem_resources {
->>>         OMAP4_ISS_MEM_TOP,
->>>         OMAP4_ISS_MEM_CSI2_A_REGS1,
->>> @@ -119,9 +114,6 @@ struct iss_device {
->>>         unsigned int isp_subclk_resources;
->>>  };
->>>  
->>> -#define v4l2_dev_to_iss_device(dev) \
->>> -       container_of(dev, struct iss_device, v4l2_dev)
->>> -
->>>  int omap4iss_get_external_info(struct iss_pipeline *pipe,
->>>                                struct media_link *link);
->>>  
->>>
->>
-> 
-> 
+[...]
 
+MBR, Sergei
