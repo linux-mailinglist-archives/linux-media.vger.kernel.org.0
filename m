@@ -2,395 +2,313 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69F7235FD0A
-	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 23:16:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7F035FD45
+	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 23:26:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231153AbhDNVRR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Apr 2021 17:17:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38860 "EHLO
+        id S232559AbhDNV0u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Apr 2021 17:26:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230465AbhDNVRP (ORCPT
+        with ESMTP id S231167AbhDNV0r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Apr 2021 17:17:15 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30923C061756;
-        Wed, 14 Apr 2021 14:16:53 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id o2so3181886qtr.4;
-        Wed, 14 Apr 2021 14:16:53 -0700 (PDT)
+        Wed, 14 Apr 2021 17:26:47 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09C17C061756
+        for <linux-media@vger.kernel.org>; Wed, 14 Apr 2021 14:26:25 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id u20so24792049lja.13
+        for <linux-media@vger.kernel.org>; Wed, 14 Apr 2021 14:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ZtrTataqHYBm+bTknBrur/jT+tOHHcHrIEijoddlqo4=;
-        b=Bnaq2q4q4O0DV6iyvLyc590075VX6l6O4UROWwqBp9O+r8r58QtWI+brt59ak6aMzM
-         KO1VNSHVEtP5w396beOzifCEjsmhfETLAzyShbl6YQmBDphbIRQm7smhlrqYqADCkxH9
-         +fPWoO9qLuGMifPnBY3zsunlT5EupNMv6JmGQEVqmWle1PcdwAgQTWnGEYjxwRn2q8/r
-         mjx8DRvVLh8t98bTMdgrZMugn8fwQN1K+ahgdLf6E0ECiv48+TaXKU5wJ75l2zATyA9l
-         va3Qm2jFyoAo4dRbVQc+yxcrX4uLl+sdXn83GdOVBvbczqg7EFNki2NzwZJ3sZ2eab54
-         EiLA==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=P1hOBamynUxE5Ahteh8eMyUde+7o+FPvnuntgy3ekNM=;
+        b=mQ4lQf7+qErMrMUZh5zi+d044YnIkDFBPmKL8K1YRBWdc9Xl4I1WcOnfarc4a+7ICD
+         y4n0muxmGHQTAKnuHfJQDxblye38zu9stm6OR395cvs3QF6IgBK3LxonkxuxFVt09Wq/
+         Ioc79hrOGlrkLd0hIA1gyU72A+zEYAYO23IgaCuQn8tZCKKIhzeRL01D5sebIRHN+qNh
+         NpQMN+BKKPwXxFNXyzydTNDp2YNmEMOWjrjB7nF4GddaORmgxGRs9FF/dD/ndBRb18L9
+         sFFBLXNTXq5259Gn/fq9MM3IwcW1+5FuygQTKls4CpI4s6pRPqfKJA5u/3vYw9+BLPJZ
+         dCzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZtrTataqHYBm+bTknBrur/jT+tOHHcHrIEijoddlqo4=;
-        b=ceEUDpflXrA1vCN8ahwFtiAuOovjqX/ZQhIiHRnNzk7L40+BxRTxZSeR3HYfeyGZ3r
-         FV3ap7cKv0xB5RBjT89fLAu6+FdWPoc+SM/UK1EmqJaNEPbkz54BIVP6FgDFfhLdzPFl
-         PGv3GDqxT+Frli7mbZpbknjA+vnlpsOnspG7dHa3OSSbE08o1BWK+4UcKZ/fuk7nQo8Z
-         xXfCZzk8FyayMWiYq26j4aG2Xk2G533TVJ0WT5FV4EHIH3vr2ofH6F25d/jh3mQqkTbC
-         03NbC95V2COmIxxsUoGjT2waqXcv7Wpk3Cva2dAUAYgkG2mxuGR8KV+ZToA78zpg0WKi
-         w1cQ==
-X-Gm-Message-State: AOAM531x83Qmv+N/xoJZ/YqEjTNQvoLufvkJr24VmV7emEPYvv90q1GL
-        7WiT5sKaUKHClmuocGb9Rjg=
-X-Google-Smtp-Source: ABdhPJzGFMMIlykMoGpHI6QQkXUKLMRCKAsR79NnqllbHtUBWTqkqZZmO+QZetyhqnt3WtZaXja6Tw==
-X-Received: by 2002:ac8:5cd2:: with SMTP id s18mr133998qta.202.1618435011573;
-        Wed, 14 Apr 2021 14:16:51 -0700 (PDT)
-Received: from focaruja ([138.204.24.234])
-        by smtp.gmail.com with ESMTPSA id q205sm533705qka.99.2021.04.14.14.16.50
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Wed, 14 Apr 2021 14:16:51 -0700 (PDT)
-Date:   Wed, 14 Apr 2021 18:16:48 -0300
-From:   Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: [PATCH 2/2] staging: media: atomisp: pci: Format comments according
- to coding-style in file atomisp_cmd.h
-Message-ID: <1a8f8f0686ca2b8817cd07f9c99be8904f9be6b4.1618434875.git.alinesantanacordeiro@gmail.com>
-References: <cover.1618434875.git.alinesantanacordeiro@gmail.com>
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=P1hOBamynUxE5Ahteh8eMyUde+7o+FPvnuntgy3ekNM=;
+        b=qMMKLzZrdGEx2nQlFhvBikWHjW8tR4B/bXY9pZavETgpM8+DKxYCwW6FKTddDYxRRz
+         s0Ikg7wPTsSVTtW14r4y7AHWKo5rXx9ltf/hQaXep/u5lfLr1sJ3zByRUVP5jObwbbaO
+         oPQCl1uCt/Eelm1QnrF8btoOy/9dDCf7fsq04iiFKh0hfr+ixBWkl+POKB1EMsgnNPnW
+         /WDbhH7rCcdeOTUDg1wNrv8ZTsPiOdgi/eMzq2kMd0Jg9qLuxHypzXTQWq4FvWSSSAdh
+         raVV1QLZPYjzzNBwAWM2iuSs0nSG7WKDQ4GDWjM6dHNAlzNk39USLPWC+DTq9F3hfu29
+         suGw==
+X-Gm-Message-State: AOAM530E0nv9KdaJCon9t6VyL5ezQDNRlf6ZFf6JuurCR7Il6jGj47NB
+        Ep1y7rfpMGolhJeI/zwgfRx7yQ==
+X-Google-Smtp-Source: ABdhPJwj2X9hN9ckj+zm7A+aR7ukKi1EvY8Ds6CvIWfMzqfnvPLJu1Q7wAtps9mMpVJvKFpg4JqcHA==
+X-Received: by 2002:a2e:5808:: with SMTP id m8mr16321ljb.354.1618435583361;
+        Wed, 14 Apr 2021 14:26:23 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id x25sm241457lfn.307.2021.04.14.14.26.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Apr 2021 14:26:22 -0700 (PDT)
+Date:   Wed, 14 Apr 2021 23:26:21 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: media: renesas,isp: Add bindings for
+ ISP Channel Selector
+Message-ID: <YHdd/XZQ3fypBZ9m@oden.dyn.berto.se>
+References: <20210413172708.2519173-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <cover.1618434875.git.alinesantanacordeiro@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210413172708.2519173-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Format all comments according to the coding-style.
-Issue detected by checkpatch.pl.
+Hello Niklas,
 
-Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.h | 161 +++++++-----------------
- 1 file changed, 43 insertions(+), 118 deletions(-)
+On 2021-04-13 19:27:08 +0200, Niklas Söderlund wrote:
+> Add bindings for Renesas R-Car ISP Channel Selector IP. The ISP is
+> responsible for filtering the MIPI CSI-2 bus and directing the different
+> CSI-2 virtual channels to different R-Car VIN instances (DMA engines)
+> for capture.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  .../bindings/media/renesas,isp.yaml           | 197 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 198 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,isp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> new file mode 100644
+> index 0000000000000000..99a1556d21d00106
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+> @@ -0,0 +1,197 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +# Copyright (C) 2021 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/renesas,isp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas R-Car ISP Channel Selector
+> +
+> +maintainers:
+> +  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> +
+> +description:
+> +  The R-Car ISP Channel Selector provides MIPI CSI-2 VC and DT filtering
+> +  capabilities for the Renesas R-Car family of devices. It is used in
+> +  conjunction with the R-Car VIN and CSI-2 modules, which provides the video
+> +  capture capabilities.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,isp-r8a779a0 # V3U
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index 8c4fc2b..76117ae 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -49,9 +49,7 @@ struct ia_css_frame;
- /* FIXME: check if can go */
- extern int atomisp_punit_hpll_freq;
- 
--/*
-- * Helper function
-- */
-+/* Helper function */
- void dump_sp_dmem(struct atomisp_device *isp, unsigned int addr,
- 		  unsigned int size);
- struct camera_mipi_info *atomisp_to_sensor_mipi_info(struct v4l2_subdev *sd);
-@@ -65,9 +63,7 @@ bool atomisp_buffers_queued(struct atomisp_sub_device *asd);
- /* ISP2401 */
- bool atomisp_buffers_queued_pipe(struct atomisp_video_pipe *pipe);
- 
--/*
-- * Interrupt functions
-- */
-+/* Interrupt functions */
- void atomisp_msi_irq_init(struct atomisp_device *isp);
- void atomisp_msi_irq_uninit(struct atomisp_device *isp);
- void atomisp_wdt_work(struct work_struct *work);
-@@ -82,15 +78,10 @@ int atomisp_get_frame_pgnr(struct atomisp_device *isp,
- 			   const struct ia_css_frame *frame, u32 *p_pgnr);
- void atomisp_delayed_init_work(struct work_struct *work);
- 
--/*
-- * Get internal fmt according to V4L2 fmt
-- */
--
-+/* Get internal fmt according to V4L2 fmt */
- bool atomisp_is_viewfinder_support(struct atomisp_device *isp);
- 
--/*
-- * ISP features control function
-- */
-+/* ISP features control function */
- 
- /*
-  * Function to set sensor runmode by user when
-@@ -105,9 +96,7 @@ int atomisp_set_sensor_runmode(struct atomisp_sub_device *asd,
- int atomisp_gdc_cac(struct atomisp_sub_device *asd, int flag,
- 		    __s32 *value);
- 
--/*
-- * Function to enable/disable low light mode (including ANR)
-- */
-+/* Function to enable/disable low light mode (including ANR) */
- int atomisp_low_light(struct atomisp_sub_device *asd, int flag,
- 		      __s32 *value);
- 
-@@ -120,91 +109,63 @@ int atomisp_xnr(struct atomisp_sub_device *asd, int flag, int *arg);
- int atomisp_formats(struct atomisp_sub_device *asd, int flag,
- 		    struct atomisp_formats_config *config);
- 
--/*
-- * Function to configure noise reduction
-- */
-+/* Function to configure noise reduction */
- int atomisp_nr(struct atomisp_sub_device *asd, int flag,
- 	       struct atomisp_nr_config *config);
- 
--/*
-- * Function to configure temporal noise reduction (TNR)
-- */
-+/* Function to configure temporal noise reduction (TNR) */
- int atomisp_tnr(struct atomisp_sub_device *asd, int flag,
- 		struct atomisp_tnr_config *config);
- 
--/*
-- * Function to configure black level compensation
-- */
-+/* Function to configure black level compensation */
- int atomisp_black_level(struct atomisp_sub_device *asd, int flag,
- 			struct atomisp_ob_config *config);
- 
--/*
-- * Function to configure edge enhancement
-- */
-+/* Function to configure edge enhancement */
- int atomisp_ee(struct atomisp_sub_device *asd, int flag,
- 	       struct atomisp_ee_config *config);
- 
--/*
-- * Function to update Gamma table for gamma, brightness and contrast config
-- */
-+/* Function to update Gamma table for gamma, brightness and contrast config */
- int atomisp_gamma(struct atomisp_sub_device *asd, int flag,
- 		  struct atomisp_gamma_table *config);
--/*
-- * Function to update Ctc table for Chroma Enhancement
-- */
-+
-+/* Function to update Ctc table for Chroma Enhancement */
- int atomisp_ctc(struct atomisp_sub_device *asd, int flag,
- 		struct atomisp_ctc_table *config);
- 
--/*
-- * Function to update gamma correction parameters
-- */
-+/* Function to update gamma correction parameters */
- int atomisp_gamma_correction(struct atomisp_sub_device *asd, int flag,
- 			     struct atomisp_gc_config *config);
- 
--/*
-- * Function to update Gdc table for gdc
-- */
-+/* Function to update Gdc table for gdc */
- int atomisp_gdc_cac_table(struct atomisp_sub_device *asd, int flag,
- 			  struct atomisp_morph_table *config);
- 
--/*
-- * Function to update table for macc
-- */
-+/* Function to update table for macc */
- int atomisp_macc_table(struct atomisp_sub_device *asd, int flag,
- 		       struct atomisp_macc_config *config);
--/*
-- * Function to get DIS statistics.
-- */
-+
-+/* Function to get DIS statistics. */
- int atomisp_get_dis_stat(struct atomisp_sub_device *asd,
- 			 struct atomisp_dis_statistics *stats);
- 
--/*
-- * Function to get DVS2 BQ resolution settings
-- */
-+/* Function to get DVS2 BQ resolution settings */
- int atomisp_get_dvs2_bq_resolutions(struct atomisp_sub_device *asd,
- 				    struct atomisp_dvs2_bq_resolutions *bq_res);
- 
--/*
-- * Function to set the DIS coefficients.
-- */
-+/* Function to set the DIS coefficients. */
- int atomisp_set_dis_coefs(struct atomisp_sub_device *asd,
- 			  struct atomisp_dis_coefficients *coefs);
- 
--/*
-- * Function to set the DIS motion vector.
-- */
-+/* Function to set the DIS motion vector. */
- int atomisp_set_dis_vector(struct atomisp_sub_device *asd,
- 			   struct atomisp_dis_vector *vector);
- 
--/*
-- * Function to set/get 3A stat from isp
-- */
-+/* Function to set/get 3A stat from isp */
- int atomisp_3a_stat(struct atomisp_sub_device *asd, int flag,
- 		    struct atomisp_3a_statistics *config);
- 
--/*
-- * Function to get metadata from isp
-- */
-+/* Function to get metadata from isp */
- int atomisp_get_metadata(struct atomisp_sub_device *asd, int flag,
- 			 struct atomisp_metadata *config);
- 
-@@ -213,84 +174,59 @@ int atomisp_get_metadata_by_type(struct atomisp_sub_device *asd, int flag,
- 
- int atomisp_set_parameters(struct video_device *vdev,
- 			   struct atomisp_parameters *arg);
--/*
-- * Function to set/get isp parameters to isp
-- */
-+
-+/* Function to set/get isp parameters to isp */
- int atomisp_param(struct atomisp_sub_device *asd, int flag,
- 		  struct atomisp_parm *config);
- 
--/*
-- * Function to configure color effect of the image
-- */
-+/* Function to configure color effect of the image */
- int atomisp_color_effect(struct atomisp_sub_device *asd, int flag,
- 			 __s32 *effect);
- 
--/*
-- * Function to configure bad pixel correction
-- */
-+/* Function to configure bad pixel correction */
- int atomisp_bad_pixel(struct atomisp_sub_device *asd, int flag,
- 		      __s32 *value);
- 
--/*
-- * Function to configure bad pixel correction params
-- */
-+/* Function to configure bad pixel correction params */
- int atomisp_bad_pixel_param(struct atomisp_sub_device *asd, int flag,
- 			    struct atomisp_dp_config *config);
- 
--/*
-- * Function to enable/disable video image stablization
-- */
-+/* Function to enable/disable video image stablization */
- int atomisp_video_stable(struct atomisp_sub_device *asd, int flag,
- 			 __s32 *value);
- 
--/*
-- * Function to configure fixed pattern noise
-- */
-+/* Function to configure fixed pattern noise */
- int atomisp_fixed_pattern(struct atomisp_sub_device *asd, int flag,
- 			  __s32 *value);
- 
--/*
-- * Function to configure fixed pattern noise table
-- */
-+/* Function to configure fixed pattern noise table */
- int atomisp_fixed_pattern_table(struct atomisp_sub_device *asd,
- 				struct v4l2_framebuffer *config);
- 
--/*
-- * Function to configure false color correction
-- */
-+/* Function to configure false color correction */
- int atomisp_false_color(struct atomisp_sub_device *asd, int flag,
- 			__s32 *value);
- 
--/*
-- * Function to configure false color correction params
-- */
-+/* Function to configure false color correction params */
- int atomisp_false_color_param(struct atomisp_sub_device *asd, int flag,
- 			      struct atomisp_de_config *config);
- 
--/*
-- * Function to configure white balance params
-- */
-+/* Function to configure white balance params */
- int atomisp_white_balance_param(struct atomisp_sub_device *asd, int flag,
- 				struct atomisp_wb_config *config);
- 
- int atomisp_3a_config_param(struct atomisp_sub_device *asd, int flag,
- 			    struct atomisp_3a_config *config);
- 
--/*
-- * Function to setup digital zoom
-- */
-+/* Function to setup digital zoom */
- int atomisp_digital_zoom(struct atomisp_sub_device *asd, int flag,
- 			 __s32 *value);
- 
--/*
-- * Function  set camera_prefiles.xml current sensor pixel array size
-- */
-+/* Function  set camera_prefiles.xml current sensor pixel array size */
- int atomisp_set_array_res(struct atomisp_sub_device *asd,
- 			  struct atomisp_resolution  *config);
- 
--/*
-- * Function to calculate real zoom region for every pipe
-- */
-+/* Function to calculate real zoom region for every pipe */
- int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 				       struct ia_css_dz_config   *dz_config,
- 				       enum ia_css_pipe_id css_pipe_id);
-@@ -371,9 +307,7 @@ void atomisp_css_flush(struct atomisp_device *isp);
- int atomisp_source_pad_to_stream_id(struct atomisp_sub_device *asd,
- 				    uint16_t source_pad);
- 
--/*
-- * Events. Only one event has to be exported for now.
-- */
-+/* Events. Only one event has to be exported for now. */
- void atomisp_eof_event(struct atomisp_sub_device *asd, uint8_t exp_id);
- 
- enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
-@@ -389,34 +323,25 @@ void atomisp_free_css_parameters(struct atomisp_css_params *css_param);
- void atomisp_handle_parameter_and_buffer(struct atomisp_video_pipe *pipe);
- 
- void atomisp_flush_params_queue(struct atomisp_video_pipe *asd);
--/*
-- * Function to do Raw Buffer related operation, after enable Lock Unlock Raw Buffer
-- */
-+
-+/* Function to do Raw Buffer related operation, after enable Lock Unlock Raw Buffer */
- int atomisp_exp_id_unlock(struct atomisp_sub_device *asd, int *exp_id);
- int atomisp_exp_id_capture(struct atomisp_sub_device *asd, int *exp_id);
- 
--/*
-- * Function to update Raw Buffer bitmap
-- */
-+/* Function to update Raw Buffer bitmap */
- int atomisp_set_raw_buffer_bitmap(struct atomisp_sub_device *asd, int exp_id);
- void atomisp_init_raw_buffer_bitmap(struct atomisp_sub_device *asd);
- 
--/*
-- * Function to enable/disable zoom for capture pipe
-- */
-+/* Function to enable/disable zoom for capture pipe */
- int atomisp_enable_dz_capt_pipe(struct atomisp_sub_device *asd,
- 				unsigned int *enable);
- 
--/*
-- * Function to get metadata type bu pipe id
-- */
-+/* Function to get metadata type bu pipe id */
- enum atomisp_metadata_type
- atomisp_get_metadata_type(struct atomisp_sub_device *asd,
- 			  enum ia_css_pipe_id pipe_id);
- 
--/*
-- * Function for HAL to inject a fake event to wake up poll thread
-- */
-+/* Function for HAL to inject a fake event to wake up poll thread */
- int atomisp_inject_a_fake_event(struct atomisp_sub_device *asd, int *event);
- 
- /*
+This should of course be renesas,r8a779a0-isp.
+
+(un)lucky for me I managed to get it wrong in all three of bindings, 
+driver and DT files on the first try. I will fix this in a v2. Thanks 
+Geert for spotting this.
+
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description:
+> +          Input port node, multiple endpoints describing the connected R-Car
+> +          CSI-2 receivers.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Single endpoint describing the R-Car VIN connected to output port 0.
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Single endpoint describing the R-Car VIN connected to output port 1.
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Single endpoint describing the R-Car VIN connected to output port 2.
+> +
+> +      port@4:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Single endpoint describing the R-Car VIN connected to output port 3.
+> +
+> +      port@5:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Single endpoint describing the R-Car VIN connected to output port 4.
+> +
+> +      port@6:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Single endpoint describing the R-Car VIN connected to output port 5.
+> +
+> +      port@7:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Single endpoint describing the R-Car VIN connected to output port 6.
+> +
+> +      port@8:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Single endpoint describing the R-Car VIN connected to output port 7.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +      - port@2
+> +      - port@3
+> +      - port@4
+> +      - port@5
+> +      - port@6
+> +      - port@7
+> +      - port@8
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - power-domains
+> +  - resets
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/r8a779a0-sysc.h>
+> +
+> +    isp1: isp@fed20000 {
+> +            compatible = "renesas,isp-r8a779a0";
+> +            reg = <0xfed20000 0x10000>;
+> +            interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD 613>;
+> +            power-domains = <&sysc R8A779A0_PD_A3ISP01>;
+> +            resets = <&cpg 613>;
+> +            status = "disabled";
+> +
+> +            ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    port@0 {
+> +                            #address-cells = <1>;
+> +                            #size-cells = <0>;
+> +
+> +                            reg = <0>;
+> +                            isp1csi41: endpoint@1 {
+> +                                    reg = <1>;
+> +                                    remote-endpoint = <&csi41isp1>;
+> +                            };
+> +                    };
+> +
+> +                    port@1 {
+> +                            reg = <1>;
+> +                            isp1vin08: endpoint {
+> +                                    remote-endpoint = <&vin08isp1>;
+> +                            };
+> +                    };
+> +
+> +                    port@2 {
+> +                            reg = <2>;
+> +                            isp1vin09: endpoint {
+> +                                    remote-endpoint = <&vin09isp1>;
+> +                            };
+> +                    };
+> +
+> +                    port@3 {
+> +                            reg = <3>;
+> +                            isp1vin10: endpoint {
+> +                                    remote-endpoint = <&vin10isp1>;
+> +                            };
+> +                    };
+> +
+> +                    port@4 {
+> +                            reg = <4>;
+> +                            isp1vin11: endpoint {
+> +                                    remote-endpoint = <&vin11isp1>;
+> +                            };
+> +                    };
+> +
+> +                    port@5 {
+> +                            reg = <5>;
+> +                            isp1vin12: endpoint {
+> +                                    remote-endpoint = <&vin12isp1>;
+> +                            };
+> +                    };
+> +
+> +                    port@6 {
+> +                            reg = <6>;
+> +                            isp1vin13: endpoint {
+> +                                    remote-endpoint = <&vin13isp1>;
+> +                            };
+> +                    };
+> +
+> +                    port@7 {
+> +                            reg = <7>;
+> +                            isp1vin14: endpoint {
+> +                                    remote-endpoint = <&vin14isp1>;
+> +                            };
+> +                    };
+> +
+> +                    port@8 {
+> +                            reg = <8>;
+> +                            isp1vin15: endpoint {
+> +                                    remote-endpoint = <&vin15isp1>;
+> +                            };
+> +                    };
+> +            };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b265a7ba60e709f3..e125d0eed7b021a0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11144,6 +11144,7 @@ L:	linux-renesas-soc@vger.kernel.org
+>  S:	Supported
+>  T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> +F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
+>  F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
+>  F:	drivers/media/platform/rcar-vin/
+>  
+> -- 
+> 2.31.1
+> 
+
 -- 
-2.7.4
-
+Regards,
+Niklas Söderlund
