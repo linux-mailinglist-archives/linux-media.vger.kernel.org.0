@@ -2,162 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E8D35F8F1
-	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 18:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A84C535F941
+	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 18:52:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352710AbhDNQZk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Apr 2021 12:25:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59878 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352696AbhDNQZh (ORCPT
+        id S1348366AbhDNQuE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Apr 2021 12:50:04 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35408 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232143AbhDNQuD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Apr 2021 12:25:37 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30686C061574
-        for <linux-media@vger.kernel.org>; Wed, 14 Apr 2021 09:25:15 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id 12so34040276lfq.13
-        for <linux-media@vger.kernel.org>; Wed, 14 Apr 2021 09:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=MxgwAPbYR8PIjuZts7OlGG+ztHJjMx4yCer4vLX60Ck=;
-        b=aS6XEO+5Wy9sxNa5eEXX4l5OulkaIUolncB2B2dESAgCpyg+/E0rlcxjiu339J1Klp
-         yTlTdGG8S/zJ3s73j/pBZW1YiQxsJc867j0NjWRuoQa0VVgQJpI4V3RNnN0O0sQbm90E
-         wvHE0S0z22+qsFitcKE5SxMj3u8pQuuPJy8RfHSA74oAWP9luPDWYK7bSRj+GlqVYrZ2
-         78mSr/y47/eb80BhHRbyjZWwqYphPXBnoICoin6ZBn4HMsoEk9/24cjDdh/GpcRRDjd+
-         FpcYRFtU215q4RQmxLjRz0L4hntxMu6FiCbObgnsOB/96d8TjUIKYKFASbpo6iocqWNJ
-         Z1Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=MxgwAPbYR8PIjuZts7OlGG+ztHJjMx4yCer4vLX60Ck=;
-        b=K7URsZgKZ2f95A5fxsW6bTXqOBNF0eukFZ5KqwdpCxmJ2d3tmGq+sVvNDc5spCGsfE
-         v/dN3iOIpr2X9ycf1SEintGy3XOPsZX0sMH2JaK5BtGmIuidNFtDZEdjKmODgThszQSc
-         Ki0eyrpNDVNoI2aePY74WYcfTpvG/7+nVONds50e2FW3ZSvbgb+CZ4zeswtD2cO8/tTC
-         G467yZav+r3USgKzYCiXsHUlYIg48Ebh4v1Gyhfizvb7koGCwuJJr7/iWEQmnqKLw2zB
-         dBfpeOIHBiDuq2q6LjFQ1xRRx1NzUAi+04i0AJ18NRyyT/l9dsM2mAUN+dVgNx2oiJ8F
-         NUyA==
-X-Gm-Message-State: AOAM5320r9sl7LDrcX4FcVB0qXg0tKtUBBznH7SrK4AdC5xEce/xFg/6
-        hIpdJ3nD98qstEmnaWlGlvaojtU00GkEEg==
-X-Google-Smtp-Source: ABdhPJxWAEiRK9wmeHtOrmIOaGpiYkvfaQ7WvvxBWWJ4aHMbd7XuRCzPhHE3S08zza2MX0Nh6bVjAg==
-X-Received: by 2002:a05:6512:104e:: with SMTP id c14mr27389598lfb.559.1618417513745;
-        Wed, 14 Apr 2021 09:25:13 -0700 (PDT)
-Received: from localhost.localdomain (cm-84.211.29.145.getinternet.no. [84.211.29.145])
-        by smtp.gmail.com with ESMTPSA id e29sm4638552ljp.94.2021.04.14.09.25.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 09:25:13 -0700 (PDT)
-From:   Bernhard Wimmer <be.wimm@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     Bernhard Wimmer <be.wimm@gmail.com>
-Subject: [PATCH v2] media: ccs: Fix the op_pll_multiplier address
-Date:   Wed, 14 Apr 2021 18:24:53 +0200
-Message-Id: <20210414162453.22868-1-be.wimm@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 14 Apr 2021 12:50:03 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0934F88C;
+        Wed, 14 Apr 2021 18:49:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1618418980;
+        bh=dmJqvtAu20k6uHA9vLOp5QC4mYsESyJYOScJUJjXNZs=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=B3ccg4yVp40KQopQ1JJo6fScBbqzdrk9REOT6GcwouBqZEK9BVxcW2WdAVXux/X1Q
+         vEqLxQzSiK+qhnnXOTaL5lyme080z2uzXihfTo4ebGO/OpM7FaBxItVJQr4NfT/iwM
+         L2TAd4EFx65K+U65JF19rOTOtZIjhybqPLH5h1e0=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v4 08/17] media: i2c: rdacm21: Add dealy after OV490 reset
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210412093451.14198-1-jacopo+renesas@jmondi.org>
+ <20210412093451.14198-9-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <e47bbf9b-5ba0-d4a4-ee64-0724d6d55957@ideasonboard.com>
+Date:   Wed, 14 Apr 2021 17:49:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210412093451.14198-9-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to the CCS spec the op_pll_multiplier address is 0x030e,
-not 0x031e.
+Hi Jacopo,
 
-Signed-off-by: Bernhard Wimmer <be.wimm@gmail.com>
----
-Changes in v2:
-  - reflow 'generated by ...' line
-  - adjust commit message line break
+There's still a s/dealy/delay/ in $SUBJECT
 
- Documentation/driver-api/media/drivers/ccs/ccs-regs.asc | 2 +-
- Documentation/driver-api/media/drivers/ccs/mk-ccs-regs  | 5 +++--
- drivers/media/i2c/ccs/ccs-limits.c                      | 4 ++++
- drivers/media/i2c/ccs/ccs-limits.h                      | 4 ++++
- drivers/media/i2c/ccs/ccs-regs.h                        | 6 +++++-
- 5 files changed, 17 insertions(+), 4 deletions(-)
+On 12/04/2021 10:34, Jacopo Mondi wrote:
+> Add a delay after the OV490 chip is put in reset state. The reset
+> signal shall be held for at least 250 useconds.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-diff --git a/Documentation/driver-api/media/drivers/ccs/ccs-regs.asc b/Documentation/driver-api/media/drivers/ccs/ccs-regs.asc
-index f2042acc8a45..bbf9213c3388 100644
---- a/Documentation/driver-api/media/drivers/ccs/ccs-regs.asc
-+++ b/Documentation/driver-api/media/drivers/ccs/ccs-regs.asc
-@@ -210,7 +210,7 @@ pll_multiplier				0x0306	16
- op_pix_clk_div				0x0308	16
- op_sys_clk_div				0x030a	16
- op_pre_pll_clk_div			0x030c	16
--op_pll_multiplier			0x031e	16
-+op_pll_multiplier			0x030e	16
- pll_mode				0x0310	8
- - f					0	0
- - e	single				0
-diff --git a/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs b/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs
-index 6668deaf2f19..2a4edc7e051a 100755
---- a/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs
-+++ b/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs
-@@ -72,13 +72,14 @@ $uc_header =~ s/[^A-Z0-9]/_/g;
- 
- my $copyright = "/* Copyright (C) 2019--2020 Intel Corporation */\n";
- my $license = "SPDX-License-Identifier: GPL-2.0-only OR BSD-3-Clause";
-+my $note = "/*\n * Generated by $0;\n * do not modify.\n */\n";
- 
- for my $fh ($A, $LC) {
--	print $fh "// $license\n$copyright\n" if defined $fh;
-+	print $fh "// $license\n$copyright$note\n" if defined $fh;
- }
- 
- for my $fh ($H, $LH) {
--	print $fh "/* $license */\n$copyright\n";
-+	print $fh "/* $license */\n$copyright$note\n";
- }
- 
- sub bit_def($) {
-diff --git a/drivers/media/i2c/ccs/ccs-limits.c b/drivers/media/i2c/ccs/ccs-limits.c
-index f5511789ac83..4969fa425317 100644
---- a/drivers/media/i2c/ccs/ccs-limits.c
-+++ b/drivers/media/i2c/ccs/ccs-limits.c
-@@ -1,5 +1,9 @@
- // SPDX-License-Identifier: GPL-2.0-only OR BSD-3-Clause
- /* Copyright (C) 2019--2020 Intel Corporation */
-+/*
-+ * Generated by Documentation/driver-api/media/drivers/ccs/mk-ccs-regs;
-+ * do not modify.
-+ */
- 
- #include "ccs-limits.h"
- #include "ccs-regs.h"
-diff --git a/drivers/media/i2c/ccs/ccs-limits.h b/drivers/media/i2c/ccs/ccs-limits.h
-index 1efa43c23a2e..551d3ee9d04e 100644
---- a/drivers/media/i2c/ccs/ccs-limits.h
-+++ b/drivers/media/i2c/ccs/ccs-limits.h
-@@ -1,5 +1,9 @@
- /* SPDX-License-Identifier: GPL-2.0-only OR BSD-3-Clause */
- /* Copyright (C) 2019--2020 Intel Corporation */
-+/*
-+ * Generated by Documentation/driver-api/media/drivers/ccs/mk-ccs-regs;
-+ * do not modify.
-+ */
- 
- #ifndef __CCS_LIMITS_H__
- #define __CCS_LIMITS_H__
-diff --git a/drivers/media/i2c/ccs/ccs-regs.h b/drivers/media/i2c/ccs/ccs-regs.h
-index 4b3e5df2121f..6ce84c5ecf20 100644
---- a/drivers/media/i2c/ccs/ccs-regs.h
-+++ b/drivers/media/i2c/ccs/ccs-regs.h
-@@ -1,5 +1,9 @@
- /* SPDX-License-Identifier: GPL-2.0-only OR BSD-3-Clause */
- /* Copyright (C) 2019--2020 Intel Corporation */
-+/*
-+ * Generated by Documentation/driver-api/media/drivers/ccs/mk-ccs-regs;
-+ * do not modify.
-+ */
- 
- #ifndef __CCS_REGS_H__
- #define __CCS_REGS_H__
-@@ -202,7 +206,7 @@
- #define CCS_R_OP_PIX_CLK_DIV					(0x0308 | CCS_FL_16BIT)
- #define CCS_R_OP_SYS_CLK_DIV					(0x030a | CCS_FL_16BIT)
- #define CCS_R_OP_PRE_PLL_CLK_DIV				(0x030c | CCS_FL_16BIT)
--#define CCS_R_OP_PLL_MULTIPLIER					(0x031e | CCS_FL_16BIT)
-+#define CCS_R_OP_PLL_MULTIPLIER					(0x030e | CCS_FL_16BIT)
- #define CCS_R_PLL_MODE						0x0310
- #define CCS_PLL_MODE_SHIFT					0U
- #define CCS_PLL_MODE_MASK					0x1
--- 
-2.17.1
+I added this on v3...
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/rdacm21.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> index 553e3f03752b..6be8ce130e78 100644
+> --- a/drivers/media/i2c/rdacm21.c
+> +++ b/drivers/media/i2c/rdacm21.c
+> @@ -469,7 +469,10 @@ static int rdacm21_initialize(struct rdacm21_device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* Enable GPIO1 and hold OV490 in reset during max9271 configuration. */
+> +	/*
+> +	 * Enable GPIO1 and hold OV490 in reset during max9271 configuration.
+> +	 * The reset signal has to be asserted for at least 250 useconds.
+
+
+Is it worth mentioning here that it is asserted to active low? Just to
+make it clear that holding it low for 250 uS is the desired effect?
+
+It might not be worth it - but perhaps that was the reason for some
+confusion here.
+
+Eitherway RB tag still stands I think.
+
+--
+Kieran
+
+> +	 */
+>  	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>  	if (ret)
+>  		return ret;
+> @@ -477,6 +480,7 @@ static int rdacm21_initialize(struct rdacm21_device *dev)
+>  	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
+>  	if (ret)
+>  		return ret;
+> +	usleep_range(250, 500);
+>  
+>  	ret = max9271_configure_gmsl_link(&dev->serializer);
+>  	if (ret)
+> 
 
