@@ -2,134 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C1FF35EBF9
-	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 06:40:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E33DC35ED06
+	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 08:14:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbhDNEkn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Apr 2021 00:40:43 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:36764 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbhDNEkm (ORCPT
+        id S1349157AbhDNGOp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Apr 2021 02:14:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37866 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349110AbhDNGO3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Apr 2021 00:40:42 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E4U1FE039741;
-        Wed, 14 Apr 2021 04:38:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=Bd4/hg1yN1is4IRJn7hT6CyZTbFjK4SqbaFRqE8RBN8=;
- b=GDhlovi8GebAxK8lBABqyOkduyXZ8ROVjsZYsvvAarJBH9EElr42BK9NSjnbWDUkue9x
- ke0VO8SRzVPbjAXmqylIvdhhCAfJQvQXCscPoq9R7P+bSbDThL19ya2fTEWxudgzX5YN
- 2MpT5FhVoZvxYjhTo2e6X7QDgu4rohNhW5a7IMQiTTCaARtprCiTSno9B1iojLaWN2tB
- QMt5cMNb8YnLLVanQxMTvu/fmkgR7bEbvZ/LvLqL4qDYlkcZq0OZ0gytoU07NsuWqJvv
- iJkyhSk34fw9oRHWn6u1FpVhLMI2RLWQk8uzFIrs7UPv12RQWut4ljw91gOFzb1WQhGy AQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 37u1hbh5ep-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 14 Apr 2021 04:38:32 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E4ZVxl007477;
-        Wed, 14 Apr 2021 04:38:31 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3020.oracle.com with ESMTP id 37unstc5ny-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 14 Apr 2021 04:38:30 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13E4cH43023157;
-        Wed, 14 Apr 2021 04:38:21 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 14 Apr 2021 04:38:17 +0000
-Date:   Wed, 14 Apr 2021 07:37:59 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        syzbot <syzbot+015dd7cdbbbc2c180c65@syzkaller.appspotmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        daniel.vetter@intel.com, "H. Peter Anvin" <hpa@zytor.com>,
-        Jim Mattson <jmattson@google.com>,
-        James Morris <jmorris@namei.org>,
-        Joerg Roedel <joro@8bytes.org>, KVM list <kvm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        m.szyprowski@samsung.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        the arch/x86 maintainers <x86@kernel.org>
-Subject: Re: [syzbot] WARNING in unsafe_follow_pfn
-Message-ID: <20210414043759.GM6021@kadam>
-References: <000000000000ca9a6005bec29ebe@google.com>
- <2db3c803-6a94-9345-261a-a2bb74370c02@redhat.com>
- <20210331042922.GE2065@kadam>
- <20210401121933.GA2710221@ziepe.ca>
- <CACT4Y+ZG9Dhv1UTvotsTimVrzaojPN91Lu1CsPqm4kd1j5yNkQ@mail.gmail.com>
- <20210413181145.GK227011@ziepe.ca>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210413181145.GK227011@ziepe.ca>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104140030
-X-Proofpoint-GUID: 5W5g74JUOBhBXqiypFmTmoVnXKL81tdF
-X-Proofpoint-ORIG-GUID: 5W5g74JUOBhBXqiypFmTmoVnXKL81tdF
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
- clxscore=1015 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104140029
+        Wed, 14 Apr 2021 02:14:29 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F9E8C061756;
+        Tue, 13 Apr 2021 23:13:54 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id e8-20020a17090a7288b029014e51f5a6baso4921466pjg.2;
+        Tue, 13 Apr 2021 23:13:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=UXAwnWVl9FGK5e7NxTb7oKp8bz3pEFOyiNZQXN930zA=;
+        b=V4QkjOheC7dts5+4UpWNzDlKBdjSFRD4zma0L5y3hgfERKigAEm4wO/Z+H0FK/4S/m
+         A0SMN052Kedg+Ciqnp/ymjwwPF1Udl4kNyh2bwZpzB6RCm6Fg14h2+cwjOTfug68eTM/
+         VTx2u5XALzMcQMOKwYTdFtDX0BCz9Drp/dmfroXiN0iOl7HbMdMB9Ur0T38YOunj5tCH
+         OWXGjE2SpQzm6fY/j5m1pXcZj4vtcN8D8Jgur6hB81Yp/dFHPYalT6txnbYbv46Gsqun
+         QMs7WiOAMNP0OaKOPGhmKTI19iE2Mdu3QE+nZEgBCmwE58boaoxFpZShk916061YghsK
+         XVJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=UXAwnWVl9FGK5e7NxTb7oKp8bz3pEFOyiNZQXN930zA=;
+        b=XIJ1OCPoPHHb/8Qc/hRvlcZefHJQD4zaVZAMVcatR2qnfyiRETvzilBrZx0fQ/IkUo
+         3gaWpGhdsBSqnZxrX4zz19A6mLgA7Iq2mpC/vC2sncJx4UlGV1WwYXOMhyD7Gjr13y+n
+         EnKKpj7LxMI7Lhf8BkGbJwY8ddthfsCoR8XUG8db8xOFeyvAztlUmQT/W2R7O5jm++Cm
+         11EWakF4jfVb0UKgC2oB6eyw8cU7uXq+CEm/OHL9Spo3R3xUTQHV/sDMxprU0jb7Eq3/
+         7bKFZVz0X7xSOKAdEETZQ5RqU8bLz5RTRDZHME7QLm10YHsXubRg1uwGPTKWf03jCysK
+         JS7A==
+X-Gm-Message-State: AOAM531flR+JgbHkwORtXkEpiFP/uPqM3g+wP4PwKqsCeC3ictTu+aBd
+        u6B0efM3o4esPmW60c+ZEjw=
+X-Google-Smtp-Source: ABdhPJy/iTG5Q/Z0DWceNV1USVKc4qBVBjAGqSRzh6Jf+PUYXqgXQflOfQTuArQzGT0UNS30SYt3QQ==
+X-Received: by 2002:a17:90a:17ea:: with SMTP id q97mr1836880pja.71.1618380833855;
+        Tue, 13 Apr 2021 23:13:53 -0700 (PDT)
+Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
+        by smtp.gmail.com with ESMTPSA id d17sm13629071pfn.60.2021.04.13.23.13.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Apr 2021 23:13:53 -0700 (PDT)
+From:   dillon.minfei@gmail.com
+To:     robh+dt@kernel.org, shawnguo@kernel.org, krzk@kernel.org,
+        linux@rempel-privat.de, s.riedmueller@phytec.de,
+        matthias.schiffer@ew.tq-group.com, leoyang.li@nxp.com,
+        arnd@arndb.de, olof@lixom.net, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com,
+        prabhakar.csengg@gmail.com, mchehab@kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, dillon min <dillon.minfei@gmail.com>
+Subject: [PATCH v1 0/3] arm: imx: Add i.mx6q DaSheng COM-9XX SBC board support
+Date:   Wed, 14 Apr 2021 14:13:44 +0800
+Message-Id: <1618380827-16056-1-git-send-email-dillon.minfei@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 13, 2021 at 03:11:45PM -0300, Jason Gunthorpe wrote:
-> On Tue, Apr 13, 2021 at 07:20:12PM +0200, Dmitry Vyukov wrote:
-> > > > Plus users are going to be seeing this as well.  According to the commit
-> > > > message for 69bacee7f9ad ("mm: Add unsafe_follow_pfn") "Unfortunately
-> > > > there's some users where this is not fixable (like v4l userptr of iomem
-> > > > mappings)".  It sort of seems crazy to dump this giant splat and then
-> > > > tell users to ignore it forever because it can't be fixed...  0_0
-> > >
-> > > I think the discussion conclusion was that this interface should not
-> > > be used by userspace anymore, it is obsolete by some new interface?
-> > >
-> > > It should be protected by some kconfig and the kconfig should be
-> > > turned off for syzkaller runs.
-> > 
-> > If this is not a kernel bug, then it must not use WARN_ON[_ONCE]. It
-> > makes the kernel untestable for both automated systems and humans:
-> 
-> It is a kernel security bug triggerable by userspace.
-> 
-> > And if it's a kernel bug reachable from user-space, then I think this
-> > code should be removed entirely, not just on all testing systems. Or
-> > otherwise if we are not removing it for some reason, then it needs to
-> > be fixed.
-> 
-> Legacy embedded systems apparently require it.
+From: dillon min <dillon.minfei@gmail.com>
 
-Are legacy embedded systems ever going to update their kernel?  It might
-be better to just remove it.  (I don't really have any details outside
-of your email so I don't know).
+This patchset aims to add kernel support on DaSheng COM-8XX SBC board
+optimize ov2659 driver to handle xvclk on/off at proper stage to save power
 
-regards,
-dan carpenter
+changes based on master branch, since commit id:
+89698becf06d341a700913c3d89ce2a914af69a2
+
+The DaSheng Com-9xx is and ARM based signle board computer (SBC)
+featuring:
+- i.MX6Q
+- 2GiB LPDDR3 DRAM
+- 8GiB eMMC 5.0 FLASH
+- 4MiB SPI Flash
+- USB 2.0 Host/Device
+- Multiple multi-protocol RS232/RS485 Serial ports
+- microSD socket
+- 5V DC power input
+- HDMI1.4a,1080p@60
+- RGMIIx1 Gigabit Ethernet
+- CSI0x1, connect with ov2659
+
+dillon min (3):
+  dt-bindings: arm: imx: Add i.mx6q DaSheng COM-9XX SBC board dts
+    support
+  arm: dts: imx: Add i.mx6q DaSheng COM-9XX SBC board support
+  media: i2c: ov2659: Add clk_prepare_enable(), clk_disable_unprepare()
+    to handle xvclk
+
+ Documentation/devicetree/bindings/arm/fsl.yaml |   1 +
+ arch/arm/boot/dts/Makefile                     |   1 +
+ arch/arm/boot/dts/imx6q-ds.dts                 |  18 +
+ arch/arm/boot/dts/imx6qdl-ds.dtsi              | 465 +++++++++++++++++++++++++
+ drivers/media/i2c/ov2659.c                     |  24 +-
+ 5 files changed, 503 insertions(+), 6 deletions(-)
+ create mode 100644 arch/arm/boot/dts/imx6q-ds.dts
+ create mode 100644 arch/arm/boot/dts/imx6qdl-ds.dtsi
+
+-- 
+2.7.4
 
