@@ -2,50 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2438F35F46C
-	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 15:02:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F22EE35F471
+	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 15:02:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351077AbhDNNAj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Apr 2021 09:00:39 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:36356 "EHLO
+        id S1346952AbhDNNCE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Apr 2021 09:02:04 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:36411 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232907AbhDNNA2 (ORCPT
+        with ESMTP id S1351084AbhDNNCA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Apr 2021 09:00:28 -0400
+        Wed, 14 Apr 2021 09:02:00 -0400
 Received: from mail-ed1-f72.google.com ([209.85.208.72])
         by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <krzysztof.kozlowski@canonical.com>)
-        id 1lWf7l-00018P-7i
-        for linux-media@vger.kernel.org; Wed, 14 Apr 2021 13:00:05 +0000
-Received: by mail-ed1-f72.google.com with SMTP id t11-20020aa7d4cb0000b0290382e868be07so3291427edr.20
-        for <linux-media@vger.kernel.org>; Wed, 14 Apr 2021 06:00:05 -0700 (PDT)
+        id 1lWf9F-0001Fy-RY
+        for linux-media@vger.kernel.org; Wed, 14 Apr 2021 13:01:38 +0000
+Received: by mail-ed1-f72.google.com with SMTP id bm19-20020a0564020b13b02903789d6e74b5so3280414edb.21
+        for <linux-media@vger.kernel.org>; Wed, 14 Apr 2021 06:01:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=irHnM0N6YXz5tYQ++DF6/Rjy5fbDV4uUdW4SKyf56fY=;
-        b=m5lMtKO6Aa8GxPrffunZLGJSR8pykazME8aJNpkhNHWUelrt4NBLTJAHF78cpw++cz
-         o6Ycsi5IteqEwihwqEtpjqTrpLG0LJnwncrnnIwymrStRKfLRM4bHWK3YmU6tA3PODyW
-         MIOrF0/n+hdDZn+f2Oyjiqu+eZIXkLF0Z4iGpJCb/gISK8cNSK4PToCZFcH8UZfd5c7A
-         zVqHwELgBC+vNBJesENFQ9hI0pBOY/VLYiHENeVrQB1clF9j9TiOYideGjUL7nzAoSyl
-         3Q0t9YuqJBV37xVRnLOmv+EqVJDOAsMdxzxbSO9pJIzQszR78waQ6EH9ZRGi8bGlI7vK
-         7LOg==
-X-Gm-Message-State: AOAM530Wpe40LLPH9b69XDj7tKgTppqBWzeHm8wdEx7PWvCdWc76C18M
-        P8gxzZPCVT0ErJMQ2uIVfMQ14dCW07dkcA1kThHxUnVFBRIucW1wjLg1+DvxIgX1ohsvVCh8b3n
-        nbh3b1D2XOx1+JaGjl87O2FuoFcpmg8rC26N5Iq7B
-X-Received: by 2002:a17:906:af84:: with SMTP id mj4mr18235696ejb.195.1618405204444;
-        Wed, 14 Apr 2021 06:00:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTkebU3A/QNq+HZhYySOXaAmDUrYhKt4+4jSXk3XZFDrf7d4xCgORuv00qre/OyoVQMCTqzA==
-X-Received: by 2002:a17:906:af84:: with SMTP id mj4mr18235656ejb.195.1618405204218;
-        Wed, 14 Apr 2021 06:00:04 -0700 (PDT)
+        bh=q4rX3IUnG7PDVdoG/GXhqgIqrINra94M/50DgG0u7YQ=;
+        b=JiDFWoDd7+0AlhLyotKHnLg1njZP4+8iyd0r/TTUTAXwvmmRYC/w4K9TL1EwNvlZva
+         mZCeki4UvegLpi8dfhsmdP6ohzsiYJn/ptYn/GNk1UZJdrA+oYKc9yWYspsKkjrt3G0B
+         H9jTu0P3HqzmEbfhj/v4kq9fWFsiCa6I5F34BnWDqgkjyYsW8cWUcrWyqTURxoNmEqme
+         9T9G2ijHDTqzyJKdcwQlHV80Z3LWsYbIIKol4fMMSqi6pl4UH8II3isp9jkPOfDrf0Dw
+         xncPfMb8Z/NkMKV1wVmM1hvWd3T/YdazyMZAxjYzR4vFNpERo9xtNMrnshxL2hEmXNwS
+         fb6w==
+X-Gm-Message-State: AOAM533NxXazlXmFT2AcEWDyGvuse+ttOMD/fpOTdkn+citDovCxP6JQ
+        rnvhM3Bv045d1ln74RF2mTn0+7nnU2+VRekfELixFfAskEcAa6lzdpcelImmOQ+Sxi/m1N4o+Da
+        nSjewQoXChibTIzxkwh5LnNxY9ic9GqWqqs4EurDB
+X-Received: by 2002:a50:fe01:: with SMTP id f1mr5610409edt.272.1618405297241;
+        Wed, 14 Apr 2021 06:01:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxc0DBAbMPqZcpnFL7rzAUquSu6gHeyD4yLbpaF9ZYIdFiPctrgkIFDO++3hadTl04rEq6ylg==
+X-Received: by 2002:a50:fe01:: with SMTP id f1mr5610367edt.272.1618405297033;
+        Wed, 14 Apr 2021 06:01:37 -0700 (PDT)
 Received: from [192.168.1.115] (xdsl-188-155-192-147.adslplus.ch. [188.155.192.147])
-        by smtp.gmail.com with ESMTPSA id gb22sm9891595ejc.78.2021.04.14.06.00.01
+        by smtp.gmail.com with ESMTPSA id gs20sm1106742ejc.83.2021.04.14.06.01.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Apr 2021 06:00:03 -0700 (PDT)
-Subject: Re: [PATCH v2 1/4] dt-bindings: arm: imx: Add i.mx6q DaSheng COM-9XX
- SBC board dts support
+        Wed, 14 Apr 2021 06:01:36 -0700 (PDT)
+Subject: Re: [PATCH v2 4/4] dt-bindings: add dasheng vendor prefix
 To:     dillon.minfei@gmail.com, robh+dt@kernel.org, shawnguo@kernel.org,
         krzk@kernel.org, linux@rempel-privat.de, s.riedmueller@phytec.de,
         matthias.schiffer@ew.tq-group.com, leoyang.li@nxp.com,
@@ -56,14 +55,14 @@ Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
         linux-media@vger.kernel.org
 References: <1618383117-17179-1-git-send-email-dillon.minfei@gmail.com>
- <1618383117-17179-2-git-send-email-dillon.minfei@gmail.com>
+ <1618383117-17179-5-git-send-email-dillon.minfei@gmail.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <6d8a5d4c-b741-dc7a-7cfb-eb66a642cb6f@canonical.com>
-Date:   Wed, 14 Apr 2021 15:00:00 +0200
+Message-ID: <9f8f3d55-b3f3-54d6-9143-5d676a21c901@canonical.com>
+Date:   Wed, 14 Apr 2021 15:01:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <1618383117-17179-2-git-send-email-dillon.minfei@gmail.com>
+In-Reply-To: <1618383117-17179-5-git-send-email-dillon.minfei@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -74,39 +73,18 @@ X-Mailing-List: linux-media@vger.kernel.org
 On 14/04/2021 08:51, dillon.minfei@gmail.com wrote:
 > From: dillon min <dillon.minfei@gmail.com>
 > 
-> The DaSheng Com-9xx is and ARM based signle board computer (SBC)
-> featuring:
-> - i.MX6Q
-> - 2GiB LPDDR3 DRAM
-> - 8GiB eMMC 5.0 FLASH
-> - 4MiB SPI Flash
-> - USB 2.0 Host/Device
-> - Multiple multi-protocol RS232/RS485 Serial ports
-> - microSD socket
-> - 5V DC power input
-> - HDMI1.4a,1080p@60
-> - RGMIIx1 Gigabit Ethernet
-> - CSI0x1, connect with ov2659
+> Add vendor prefix for DaSheng, Inc.
 > 
 > Signed-off-by: dillon min <dillon.minfei@gmail.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 > ---
-> v2: no changes
+> v2: new add
 > 
->  Documentation/devicetree/bindings/arm/fsl.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
-> index 297c87f45db8..24bdfbd4853f 100644
-> --- a/Documentation/devicetree/bindings/arm/fsl.yaml
-> +++ b/Documentation/devicetree/bindings/arm/fsl.yaml
-> @@ -206,6 +206,7 @@ properties:
->                - fsl,imx6q-sabreauto
->                - fsl,imx6q-sabrelite
->                - fsl,imx6q-sabresd
-> +              - ds,imx6q-sbc              # Da Sheng COM-9XX Modules
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
-You break here the alphabetical order. Should be after dmo,imx6q-edmqmx6.
+This should be the first patch in the series.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
 
 Best regards,
