@@ -2,56 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B412435F0F3
-	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 11:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7385835F187
+	for <lists+linux-media@lfdr.de>; Wed, 14 Apr 2021 12:32:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232026AbhDNJlH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Apr 2021 05:41:07 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:33722 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231782AbhDNJlE (ORCPT
+        id S233756AbhDNKdS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Apr 2021 06:33:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38844 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232235AbhDNKdO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Apr 2021 05:41:04 -0400
-X-UUID: a398c42e233e4202baf3660b517f74ad-20210414
-X-UUID: a398c42e233e4202baf3660b517f74ad-20210414
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-        (envelope-from <yp.wu@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1186024364; Wed, 14 Apr 2021 17:40:38 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 14 Apr 2021 17:40:37 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 14 Apr 2021 17:40:36 +0800
-From:   YP WU <yp.wu@mediatek.com>
-To:     <yp.wu@mediatek.com>, <leo.hsiao@mediatek.com>,
-        <mchehab@kernel.org>, <gustavoars@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <Jason-BF.Huang@mediatek.com>, <francis.lee@mediatek.com>
-Subject: How to use "DTV_FE_CAPABILITY" command for Frontend.h of Linux DVB 
-Date:   Wed, 14 Apr 2021 17:40:37 +0800
-Message-ID: <20210414094037.1489-1-yp.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        Wed, 14 Apr 2021 06:33:14 -0400
+Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com [IPv6:2607:f8b0:4864:20::929])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED9ECC061574;
+        Wed, 14 Apr 2021 03:32:52 -0700 (PDT)
+Received: by mail-ua1-x929.google.com with SMTP id m20so1361169uah.0;
+        Wed, 14 Apr 2021 03:32:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=0kbTefn3hO3w0LCZUig7YuSy0EObSZ4OryEHcILQ9A8=;
+        b=EON5qCJGlGgySMAwpVSNiZi5vJDi4vSPmQiTNkcs9RvjyjQ0RQtADbiSxQspUQVtsY
+         NWSl7/mfZEWApqL6rGVwEF2dur93j/aUBMj26ItEEkd/QvngeWq1xla6aoMCECxlTZP1
+         yMrlxbjA5FRt7MEmTDkik1cvbQQSeVZoGit+BTeGLL//ax8xUzyObE6ZcpV7E/b8KP8q
+         NxyO0a8VFJ6wAnh6UUQPAiIenP2XZnUls2/WwJeSjPlcewMm/NcQvxzFi2IN8fmm8rIN
+         /CPAznljsGs+4VpETAzDvhzxIHFCDNvB1QLuPByFkNXv9yyXHnFQ09+UlTEMRiIAZ+c5
+         lAqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=0kbTefn3hO3w0LCZUig7YuSy0EObSZ4OryEHcILQ9A8=;
+        b=oKZAp4+VuMJNzEhnOhJZ+nBjk6MLJS9sEaxCOfvwJ3Z2Kp6lhFCwI3Y3j7aYvBemu5
+         kQE1pfDw3JhyeKJUEpHFwJov2skqJBWufgjqLhcQOSE6H9rSee58gUPNzUrN+qSVcxik
+         QKSxoY2NFFiOrqtw6yrYEgwJmR3H9/sDPScI0v+5bW1l7RjZ2BooUYtgxFM5Ip71s+z1
+         EIV78k02l4887/WgbommmCxKuH5vIO+MwXRRNouN0PrfM9AGgnV15Dhwdf2Mnav4a2cv
+         qTRwENmMFK/4a0JfNGSzd28Jh5cXvh6jJziSOWOvUctJK8l/BSzBIenOVmkWmWqAgAaA
+         CVyg==
+X-Gm-Message-State: AOAM530bhZCF/GszR+Pj+OeL1NZUtP7kjcdWpIwT7dMpE9xG/lvJX4Ay
+        hj8xYf3F6IO2vY4t/ZRPvBxk9gdWYamQs3NQbf7hvCrrUtk=
+X-Google-Smtp-Source: ABdhPJwbOAKS5xtJYVCp0sD7mYUPaXP9YlaLojzNA8G+T1ApLsLJJ3kv5djhhQm74aq4lubGECB+FJqRFWWi+R58naA=
+X-Received: by 2002:ab0:12a:: with SMTP id 39mr25549591uak.19.1618396372022;
+ Wed, 14 Apr 2021 03:32:52 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210401144336.2495479-1-emil.l.velikov@gmail.com>
+In-Reply-To: <20210401144336.2495479-1-emil.l.velikov@gmail.com>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Wed, 14 Apr 2021 11:32:41 +0100
+Message-ID: <CACvgo50-fKJk_EpY-G_SGes6-FUs=nAouzBmSN-CYgMTpoeN_w@mail.gmail.com>
+Subject: Re: [PATCH v4 0/9] Microchip SAMA5D4 VPU support et al
+To:     kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-media@vger.kernel.org,
+        linux-rockchip <linux-rockchip@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello STI maintainer,
-	I work at mediatek company. Currently I develop TV with Linux DVB system.    
-	I would like to ask the following questions about "DTV_FE_CAPABILITY" in Frontend.h:
-1. The use case for DTV_FE_CAPABILITY in DVB property command.
-2. Does it have any restriction for using this command?
-3. What’s your suggestion for using this command?
+Hi everyone,
 
-File path: include/uapi/linux/dvb/Frontend.h
-#define DTV_FE_CAPABILITY	16
+On Thu, 1 Apr 2021 at 15:43, Emil Velikov <emil.l.velikov@gmail.com> wrote:
+>
+> Hi all,
+>
+> This is here is another small revision of the series adding support for
+> the Microchip SAMA5D4 VPU, which it based on the Hantro G1.
+>
+> For more details, please see the v2 cover letter.
+> https://lore.kernel.org/linux-media/20210311154055.3496076-1-emil.l.velikov@gmail.com
+>
+> Changes since v2:
+>  - Added RB (thanks Eze)
+>  - Added AB (thanks Nicolas)
+>  - Reworked Hantro driver to support modules lacking irq/clk name
+>    (thanks RobH and Eze)
+>  - Dropped defconfig patches - merged separatelly (thanks Nicolas)
+>
+> Changes since v3:
+>  - Include the fixed dt-binding patch
+>  - Reinstante clk/irq names within the SAMA driver (Eze)
+>  - Use num_{clk,irq} in Hantro, instead of WARN_ON/NULL checks (Eze)
+>  - Drop Nicolas ack from a patch he never gave it to. (Eze)
+>
+> Note: patches 6/9, 7/9 and 9/9 need reviews. Everything else has been
+> covered already.
+>
+Rob H reviewed patches 7/9 and 9/9 last week (thanks Rob), which only
+leaves 6/9.
 
-Thanks for your help.
-BRs,
-YP
+Is there anything I can do to move the series forward?
+
+Thanks
+Emil
