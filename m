@@ -2,89 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4AD5360B36
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 15:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8841E360B64
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 16:04:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233272AbhDON7x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 09:59:53 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:56687 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233216AbhDON7w (ORCPT
+        id S233431AbhDOOFJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 10:05:09 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:46207 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233428AbhDOOFI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 09:59:52 -0400
+        Thu, 15 Apr 2021 10:05:08 -0400
 Received: from [192.168.2.10] ([84.202.3.209])
         by smtp.xs4all.nl with ESMTPA
-        id X2Wjl3l2GsMyaX2WmlUOuP; Thu, 15 Apr 2021 15:59:28 +0200
+        id X2bnl3mgIsMyaX2bqlUPit; Thu, 15 Apr 2021 16:04:43 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618495168; bh=M42Y1PXgR0/+1DrhsT1SyUGJ76Mk111ck02wraS/lQs=;
+        t=1618495483; bh=KzRZVFNb/tVjZ4zVD8dN9LPR+RtfZo+UyOgJpDh0Z4s=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=pu50NkuyaF39N+4M+A1T7gcnJV0vPWR/apP8zYN2Pt62bJCqIe9VKkJv7qaroKrTk
-         nv1olxteUbPVlhKw2cHOs5Rj/Cscaslk7cfco4d+EFtJvnl37SwuthCcNJnSJtAgR8
-         keah2uJ9HG4U7EPfSBmcHq2JniyOGqMlXPH4CeH7LXgoegL/kVtD97NI1qlJAX4NPF
-         LOgltVUdPSqGc3n4w0NM5192lX9OydT+TR9uJWOFnhYrBpxHyIZgrtp4FwPzPx0Njy
-         5u1W7weQfdAt8pXK0nrhkb1T31dvL5gm1ZLLQP0wELVOUDZ3jo7ICI51bnHYY1kmtO
-         bAmhpVNRRN8MA==
-Subject: Re: [PATCH] staging: media: atomisp: cleaning up sh_css.c
-To:     Martiros Shakhzadyan <vrzh@vrzh.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-References: <20210415005106.530914-1-vrzh@vrzh.net>
+        b=TDecdCDCnvBoJTXlUHSwQF8Md5dtl6+yBQGGnhr5XIoX9KijaCJnxt9TrGkZiekpj
+         eBiEXJMoTZPsS6be4+fI+xZPF6lBXLtU0bMDYJA5wTwvHvHCfnsy7PXwZxBOjGiPiu
+         juPf0rMUJ7fWyjS8d/g1OwEBR8sngKtx4a55bvEi5/M7zu8dZR7PNq0Tn5XnE95XBZ
+         uPGqNXzgdPK0YNG+LhEio2CQqDBca40WoJQ2IjCLD1Ps/RQ1QyEz69gM7QctVuxM1u
+         wHFT6vURMtdVZo9edRhdNV6FGRGtdUDIX+s4ZU729IzPnBQvw+GrNgm6Km2CXfEepi
+         818TJWQtd2zoA==
+Subject: Re: [PATCH] staging: media: tegra-video: Align line break to match
+ with the open parenthesis in file vi.c
+To:     Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+References: <20210414130939.GA15290@focaruja>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e7d21188-3f7e-1b8f-59b0-144713bd918d@xs4all.nl>
-Date:   Thu, 15 Apr 2021 15:59:25 +0200
+Message-ID: <72418471-9cd9-e271-e125-3196ff589891@xs4all.nl>
+Date:   Thu, 15 Apr 2021 16:04:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210415005106.530914-1-vrzh@vrzh.net>
+In-Reply-To: <20210414130939.GA15290@focaruja>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKF3L6km6Rpso+QqXNIyPZn47YRvYpHIsht9mtm5pV4+VWkwgjjRIGQePQkBuB5vVOWJz0KiWa+pxvZ+TaJRTIi8MQLGbDtW5TxWevt5PJYzgtVX7vf2
- nTkv26QttBJY8K7YkKTho67WIm5isYFlEySlyWN5Ly/GJc4RfeGjPT1NlXki51igObfXw6iKmz1d5P/aZ2LSvItLSSz9bEnT6DPAvb6xbCqEWkNycCVEB35y
- Melq8NGN7j6gyG1JZqXDJEgvhro34dj/gZ1n6sRQOoJsG1JYaGhRm3yUZ5hp+W5A
+X-CMAE-Envelope: MS4xfO+qT6QUSM93GsLUJm9b5upqI50NiYAuIw6wYQFkThBjMjREGCEovLzuZoCyvenBZwSjvIvFDDYW7nBu5t947gzu89ScMktX/5dgZWcF0re6VWYHh1II
+ YG5YEXGqHOpcRvg0RrlLgO2xaZIYnCPkcazYplsdBCrE0F4NPBeBTWLt/K2zqDOkVWPrNyNVIPKQnvr3llObyKUm6umX5vS15SoYT65olJSAmcOzBfgH3Bqa
+ dZILwEJIKuOLLQZ1/zGfjCLldcAAHsIBR6kCA5b78Y0Y0kIv0WH0EH8zTrep+MucdNV2Nop8HJpK597kIbAznJabRoy14KyqbjQTGew4GxzlLIyrsVnXMZXL
+ Jbio8qF1plTUK6RWIkYR47DuvXLmV65cBOVyI6Phla5+Ac3Y4zF/a1FIFy2grdZ8erBCgQeez9AJLIUPGfSiNCHqsFzkcHXgmemkhZUvAykuvmaSz7ecQF9/
+ gZKe2cRlzY84a0zY5miuS6N2WTtXimapfues0oURDOZ7C5eeZvBwW0vJQOXjZDIQD6EUdr8yy8BkhxcJ
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martiros,
-
-If you look at other patch series, you'll see that they follow this pattern:
-
-[PATCH x/y]
-
-and for the cover letter: [PATCH 0/y]
-
-It's recommended to follow that rule.
-
-On 15/04/2021 02:50, Martiros Shakhzadyan wrote:
-> The following set of patches for sh_css.c aims to resolve coding style issues
-> and remove redundancies.
+On 14/04/2021 15:09, Aline Santana Cordeiro wrote:
+> Align line break to match with the open parenthesis.
+> Issue detected by checkpatch.pl.
 > 
-> Martiros Shakhzadyan (9):
->   staging: media: atomisp: [1/6] Fix sh_css.c brace coding style issues
->   staging: media: atomisp: [2/6] Fix sh_css.c brace coding style issues
->   staging: media: atomisp: [3/6] Fix sh_css.c brace coding style issues
->   staging: media: atomisp: [4/6] Fix sh_css.c brace coding style issues
->   staging: media: atomisp: [5/6] Fix sh_css.c brace coding style issues
->   staging: media: atomisp: [6/6] Fix sh_css.c brace coding style issues\
+> Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+> ---
+>  drivers/staging/media/tegra-video/vi.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index 7a09061c..9878d1e 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -1813,7 +1813,8 @@ static int tegra_vi_graph_parse_one(struct tegra_vi_channel *chan,
+>  		}
+>  
+>  		tvge = v4l2_async_notifier_add_fwnode_subdev(&chan->notifier,
+> -				remote, struct tegra_vi_graph_entity);
+> +							     remote,
 
-Why split this up in 6 patches? Just combine it in one. It's all the same thing
-for the same source.
-
->   staging: media: atomisp: Use goto instead of return in ia_css_init()
->   staging: media: atomisp: [1/2] Remove redundant assertions in sh_css.c
->   staging: media: atomisp: [2/2] Remove redundant assertions in sh_css.c
-
-Ditto for these two.
+Add this line to the previous line. That looks a bit better and is one line
+shorter.
 
 Regards,
 
 	Hans
 
-> 
->  drivers/staging/media/atomisp/pci/sh_css.c | 266 ++++++++-------------
->  1 file changed, 105 insertions(+), 161 deletions(-)
+> +							     struct tegra_vi_graph_entity);
+>  		if (IS_ERR(tvge)) {
+>  			ret = PTR_ERR(tvge);
+>  			dev_err(vi->dev,
 > 
 
