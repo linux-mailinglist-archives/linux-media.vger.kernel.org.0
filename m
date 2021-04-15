@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BECF3609FF
+	by mail.lfdr.de (Postfix) with ESMTP id ED220360A00
 	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 15:05:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233069AbhDONFn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 09:05:43 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46132 "EHLO
+        id S233072AbhDONFo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 09:05:44 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46134 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232844AbhDONFl (ORCPT
+        with ESMTP id S233058AbhDONFl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 15 Apr 2021 09:05:41 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB1638DF;
-        Thu, 15 Apr 2021 15:05:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2604BA7;
+        Thu, 15 Apr 2021 15:05:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618491917;
-        bh=3Ig6m+iot6xp4e06LuSygbsiLiWGmcvYUeHxIH3mNGw=;
+        s=mail; t=1618491918;
+        bh=+a9z1l9zEbsj1aoDTBaqVlw+QUszzA4Zro7a3qJAyTU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QTre8x4iEWBJ9pr3oN1FdNthDbapNjZ5UnQU8y037JD5f9ovnFMDwBEGXewHrGGFS
-         ye8OsTzu7tsXR9irRYs95YJP2xOZj+xAarJUen++9w1SaYucIOHp09GEb5D2E0+Tpd
-         /YakgSipoHyVjFu/YcnDL6waps8/wO0dwYd+NlxE=
+        b=ku0yhKPLYtCar6aHn5YPx4qpdXdWEhZa3hlnLCvIsH4B25dGot9wvD/Q6WPXjcVRV
+         I66uoa5I2VeQO3Cp9tUMgPLgy+TXCnOgrO9eaeLXy9Orr+CD0948TtJjB28w4ErKtK
+         ApeoScLqzJLWaeBpdosqmSsL3zqFlwGKxalwQOKs=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         niklas.soderlund+renesas@ragnatech.se
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Michal Simek <michal.simek@xilinx.com>
-Subject: [PATCH v5 10/24] media: entity: Use routing information during graph traversal
-Date:   Thu, 15 Apr 2021 16:04:36 +0300
-Message-Id: <20210415130450.421168-11-tomi.valkeinen@ideasonboard.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v5 11/24] media: entity: Skip link validation for pads to which there is no route to
+Date:   Thu, 15 Apr 2021 16:04:37 +0300
+Message-Id: <20210415130450.421168-12-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
 References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
@@ -43,100 +42,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Take internal routing information as reported by the entity has_route
-operation into account during graph traversal to avoid following
-unrelated links.
+Links are validated along the pipeline which is about to start streaming.
+Not all the pads in entities that are traversed along that pipeline are
+part of the pipeline, however. Skip the link validation for such pads,
+and while at there rename "other_pad" to "local_pad" to convey the fact
+the route to be checked is internal to the entity.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Michal Simek <michal.simek@xilinx.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- drivers/media/mc/mc-entity.c | 44 ++++++++++++++++++++++--------------
- 1 file changed, 27 insertions(+), 17 deletions(-)
+ drivers/media/mc/mc-entity.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 9a3587f25894..28d7fd254c77 100644
+index 28d7fd254c77..fe6cb743c85c 100644
 --- a/drivers/media/mc/mc-entity.c
 +++ b/drivers/media/mc/mc-entity.c
-@@ -248,15 +248,6 @@ bool media_entity_has_route(struct media_entity *entity, unsigned int pad0,
- }
- EXPORT_SYMBOL_GPL(media_entity_has_route);
+@@ -482,12 +482,17 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 		bitmap_fill(has_no_links, entity->num_pads);
  
--static struct media_pad *
--media_pad_other(struct media_pad *pad, struct media_link *link)
--{
--	if (link->source == pad)
--		return link->sink;
--	else
--		return link->source;
--}
--
- /* push an entity to traversal stack */
- static void stack_push(struct media_graph *graph, struct media_pad *pad)
- {
-@@ -327,7 +318,8 @@ static void media_graph_walk_iter(struct media_graph *graph)
- {
- 	struct media_pad *pad = stack_top(graph);
- 	struct media_link *link;
--	struct media_pad *next;
-+	struct media_pad *remote;
-+	struct media_pad *local;
+ 		list_for_each_entry(link, &entity->links, list) {
+-			struct media_pad *other_pad =
++			struct media_pad *local_pad =
+ 				link->sink->entity == entity ?
+ 				link->sink : link->source;
  
- 	link = list_entry(link_top(graph), typeof(*link), list);
- 
-@@ -341,23 +333,41 @@ static void media_graph_walk_iter(struct media_graph *graph)
- 		return;
- 	}
- 
--	/* Get the entity in the other end of the link . */
--	next = media_pad_other(pad, link);
-+	/*
-+	 * Get the local pad, the remote pad and the entity at the other
-+	 * end of the link.
-+	 */
-+	if (link->source->entity == pad->entity) {
-+		remote = link->sink;
-+		local = link->source;
-+	} else {
-+		remote = link->source;
-+		local = link->sink;
-+	}
++			/* Ignore pads to which there is no route. */
++			if (!media_entity_has_route(entity, pad->index,
++						    local_pad->index))
++				continue;
 +
-+	/*
-+	 * Are the local pad and the pad we came from connected
-+	 * internally in the entity ?
-+	 */
-+	if (!media_entity_has_route(pad->entity, pad->index, local->index)) {
-+		link_top(graph) = link_top(graph)->next;
-+		return;
-+	}
+ 			/* Mark that a pad is connected by a link. */
+-			bitmap_clear(has_no_links, other_pad->index, 1);
++			bitmap_clear(has_no_links, local_pad->index, 1);
  
- 	/* Has the entity already been visited? */
--	if (media_entity_enum_test_and_set(&graph->ent_enum, next->entity)) {
-+	if (media_entity_enum_test_and_set(&graph->ent_enum, remote->entity)) {
- 		link_top(graph) = link_top(graph)->next;
- 		dev_dbg(pad->graph_obj.mdev->dev,
- 			"walk: skipping entity '%s' (already seen)\n",
--			next->entity->name);
-+			remote->entity->name);
- 		return;
- 	}
+ 			/*
+ 			 * Pads that either do not need to connect or
+@@ -496,13 +501,13 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 			 */
+ 			if (!(pad->flags & MEDIA_PAD_FL_MUST_CONNECT) ||
+ 			    link->flags & MEDIA_LNK_FL_ENABLED)
+-				bitmap_set(active, other_pad->index, 1);
++				bitmap_set(active, local_pad->index, 1);
  
- 	/* Push the new entity to stack and start over. */
- 	link_top(graph) = link_top(graph)->next;
--	stack_push(graph, next);
--	dev_dbg(next->graph_obj.mdev->dev, "walk: pushing '%s':%u on stack\n",
--		next->entity->name, next->index);
-+	stack_push(graph, remote);
-+	dev_dbg(remote->graph_obj.mdev->dev, "walk: pushing '%s':%u on stack\n",
-+		remote->entity->name, remote->index);
- }
+ 			/*
+ 			 * Link validation will only take place for
+ 			 * sink ends of the link that are enabled.
+ 			 */
+-			if (link->sink != other_pad ||
++			if (link->sink != local_pad ||
+ 			    !(link->flags & MEDIA_LNK_FL_ENABLED))
+ 				continue;
  
- struct media_pad *media_graph_walk_next(struct media_graph *graph)
 -- 
 2.25.1
 
