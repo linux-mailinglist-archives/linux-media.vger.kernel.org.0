@@ -2,180 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1496B3601E7
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 07:49:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7390360266
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 08:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230296AbhDOFte (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 01:49:34 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:57186 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbhDOFtd (ORCPT
+        id S230094AbhDOGa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 02:30:29 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:34409 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229503AbhDOGa2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 01:49:33 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5k0V1088198;
-        Thu, 15 Apr 2021 05:49:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=UKh2oMINkAlsBGjPrGn33bQfhhfZDzZzi4ZAtWpYPc0=;
- b=fjw1FNNr1MfNeFsutgK/MLCa5vv+we9TUYibZa32Xst2f8Mtee+uh9NARwlXwPdD7x+N
- W4VpR72o7+sFgK0uo/rFAyFbNsVp+Ff0ErsSyfnsRAFEhxuND2/iyapBYW8qWvWYd19W
- hQgFf3qQ7yzAoed1rTMGQsrGftKfNmA/vdgILaQh22RWrESZ/ShSPdldGoFQ1+49ejvk
- ssrtFOsl3y5Vw8TQeEz3xloYx+lSa+rMLcgHQ67mtkyfSnOLg1RRD91hcuR+T4e9Hway
- snRJkTlvjrrvVKwO/U6jhfQhT8pzrQdZ8+Mber9hJR/0ElDW2s+xwzETjV8go73025bU BQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 37u1hbmpgd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 15 Apr 2021 05:49:02 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5dY6M029293;
-        Thu, 15 Apr 2021 05:49:00 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3020.oracle.com with ESMTP id 37unsv20mr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 15 Apr 2021 05:49:00 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13F5mwQx020490;
-        Thu, 15 Apr 2021 05:48:59 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 14 Apr 2021 22:48:58 -0700
-Date:   Thu, 15 Apr 2021 08:48:51 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: Re: [PATCH v2] staging: media: atomisp: pci: Format comments
- according to coding-style in file atomisp_cmd.c
-Message-ID: <20210415054851.GA6021@kadam>
-References: <20210414204244.GA8287@focaruja>
+        Thu, 15 Apr 2021 02:30:28 -0400
+Received: from mail-ed1-f72.google.com ([209.85.208.72])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <krzysztof.kozlowski@canonical.com>)
+        id 1lWvVL-0008Gi-Is
+        for linux-media@vger.kernel.org; Thu, 15 Apr 2021 06:29:31 +0000
+Received: by mail-ed1-f72.google.com with SMTP id t11-20020aa7d4cb0000b0290382e868be07so4622293edr.20
+        for <linux-media@vger.kernel.org>; Wed, 14 Apr 2021 23:29:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=NRLg7NrxywR7fBvgL6LMWlW/vNtrkaaP/eQxawyhh7I=;
+        b=mgnN/Ntr2eAorXT8n171TBnbOx0Wm3q67MhK9V2rGCrWNcYvKYvZrw2B8R45pJw/yc
+         FToU2bT/7j6hGN9Nnz4ItXGk8pqB8KFHiaIVsSOt+b1wS53T+rsaJBf4ARqxrRh8EFHt
+         3gSGPu5uMJQUDDHgnHNk4ngeFNFpHrEMfmMsBQ4KdTR27atJLgzeVxGLhIFW8gE4HRpl
+         DHIw/+MJ9p9I2aABKAUEtkMRaHuDUZHQhBjF+blQJJIwxOmYXvsvHVcWBfdYR34DLZPK
+         +nuWL5HcFrv5NdJKovBhPfHzWgi7DhHPitzrSb+ZogZf9m9OTpirihoTtA0a7rapDbyG
+         pj7Q==
+X-Gm-Message-State: AOAM531rp3taRnatZYRnAH2XnUTQemPqVf0tgUJnJ4qyqsYtcJyGEYrQ
+        FkAI+oY+uL8sW3md9Cu4qz5rzVYs5+Adla2evWqjTWVL6HY03g907RjdJSNl3VJO8BSsT7NHsTA
+        d5OB9PUefMbhOV/0oAJtg6JcPTbrZ9Z1FfjNOOwJf
+X-Received: by 2002:aa7:c1c9:: with SMTP id d9mr2170920edp.155.1618468171024;
+        Wed, 14 Apr 2021 23:29:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwBeiqLAbwOsnwGyW73gGOeryK5nX+9isdb0+CrOw9a347lzFKbg16hzMOnuydzGrUh1LIJpA==
+X-Received: by 2002:aa7:c1c9:: with SMTP id d9mr2170905edp.155.1618468170922;
+        Wed, 14 Apr 2021 23:29:30 -0700 (PDT)
+Received: from [192.168.1.115] (xdsl-188-155-192-147.adslplus.ch. [188.155.192.147])
+        by smtp.gmail.com with ESMTPSA id w2sm1259894edd.71.2021.04.14.23.29.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Apr 2021 23:29:30 -0700 (PDT)
+Subject: Re: [PATCH v3 2/4] dt-bindings: arm: imx: Add i.mx6q DaSheng COM-9XX
+ SBC
+To:     dillon.minfei@gmail.com, robh+dt@kernel.org, shawnguo@kernel.org,
+        krzk@kernel.org, linux@rempel-privat.de, s.riedmueller@phytec.de,
+        matthias.schiffer@ew.tq-group.com, leoyang.li@nxp.com,
+        arnd@arndb.de, olof@lixom.net, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com,
+        prabhakar.csengg@gmail.com, mchehab@kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-media@vger.kernel.org
+References: <1618459535-8141-1-git-send-email-dillon.minfei@gmail.com>
+ <1618459535-8141-3-git-send-email-dillon.minfei@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Message-ID: <eb850981-e8bc-0cee-734e-475f79ea64e4@canonical.com>
+Date:   Thu, 15 Apr 2021 08:29:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210414204244.GA8287@focaruja>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104150040
-X-Proofpoint-GUID: dKV2ZxJwBAw6Zd8HVB_vpCGW5vrpRtn_
-X-Proofpoint-ORIG-GUID: dKV2ZxJwBAw6Zd8HVB_vpCGW5vrpRtn_
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
- clxscore=1015 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104150040
+In-Reply-To: <1618459535-8141-3-git-send-email-dillon.minfei@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 05:42:44PM -0300, Aline Santana Cordeiro wrote:
-> @@ -90,18 +92,14 @@ struct camera_mipi_info *atomisp_to_sensor_mipi_info(struct v4l2_subdev *sd)
->  	return (struct camera_mipi_info *)v4l2_get_subdev_hostdata(sd);
->  }
->  
-> -/*
-> - * get struct atomisp_video_pipe from v4l2 video_device
-> - */
-> +/* get struct atomisp_video_pipe from v4l2 video_device */
+On 15/04/2021 06:05, dillon.minfei@gmail.com wrote:
+> From: dillon min <dillon.minfei@gmail.com>
+> 
+> The DaSheng Com-9xx is and ARM based signle board computer (SBC)
+> featuring:
+> - i.MX6Q
+> - 2GiB LPDDR3 DRAM
+> - 8GiB eMMC 5.0 FLASH
+> - 4MiB SPI Flash
+> - USB 2.0 Host/Device
+> - Multiple multi-protocol RS232/RS485 Serial ports
+> - microSD socket
+> - 5V DC power input
+> - HDMI1.4a,1080p@60
+> - RGMIIx1 Gigabit Ethernet
+> - CSI0x1, connect with ov2659
+> 
+> Signed-off-by: dillon min <dillon.minfei@gmail.com>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+> v3: move 'ds,imx6q-sbc' after 'dmo,imx6q-edmqmx6' to follow the alphabetical
+> order.
+> 
+>  Documentation/devicetree/bindings/arm/fsl.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-This code is obvious and the comment doesn't add anything except noise.
-Just delete it.  Same for a lot of the other one line comments
-describing functions in this patch.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
 
->  struct atomisp_video_pipe *atomisp_to_video_pipe(struct video_device *dev)
->  {
->  	return (struct atomisp_video_pipe *)
->  	       container_of(dev, struct atomisp_video_pipe, vdev);
->  }
->  
-> -/*
-> - * get struct atomisp_acc_pipe from v4l2 video_device
-> - */
-> +/* get struct atomisp_acc_pipe from v4l2 video_device */
->  struct atomisp_acc_pipe *atomisp_to_acc_pipe(struct video_device *dev)
->  {
->  	return (struct atomisp_acc_pipe *)
-> @@ -269,7 +267,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
->  			    ATOMISP_RUN_MODE_CONTINUOUS_CAPTURE;
->  	}
->  
-> -	/* search for the target frequency by looping freq rules*/
-> +	/* search for the target frequency by looping freq rules */
->  	for (i = 0; i < dfs->dfs_table_size; i++) {
->  		if (curr_rules.width != dfs->dfs_table[i].width &&
->  		    dfs->dfs_table[i].width != ISP_FREQ_RULE_ANY)
-> @@ -307,9 +305,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
->  	return ret;
->  }
->  
-> -/*
-> - * reset and restore ISP
-> - */
-> +/* reset and restore ISP */
-
-Obvious
-
->  int atomisp_reset(struct atomisp_device *isp)
->  {
->  	/* Reset ISP by power-cycling it */
-> @@ -338,9 +334,7 @@ int atomisp_reset(struct atomisp_device *isp)
->  	return ret;
->  }
->  
-> -/*
-> - * interrupt disable functions
-> - */
-> +/* interrupt disable functions */
-
-Obvious
-
->  static void disable_isp_irq(enum hrt_isp_css_irq irq)
->  {
->  	irq_disable_channel(IRQ0_ID, irq);
-> @@ -351,9 +345,7 @@ static void disable_isp_irq(enum hrt_isp_css_irq irq)
->  	cnd_sp_irq_enable(SP0_ID, false);
->  }
->  
-> -/*
-> - * interrupt clean function
-> - */
-> +/* interrupt clean function */
-
-Obvious
-
->  static void clear_isp_irq(enum hrt_isp_css_irq irq)
->  {
->  	irq_clear_all(IRQ0_ID);
-
-[ snip ]
-
-> @@ -1918,10 +1914,7 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
->  	return IRQ_HANDLED;
->  }
->  
-> -/*
-> - * utils for buffer allocation/free
-> - */
-> -
-> +/* utils for buffer allocation/free */
-
-What?  This one seems actively wrong.
-
->  int atomisp_get_frame_pgnr(struct atomisp_device *isp,
->  			   const struct ia_css_frame *frame, u32 *p_pgnr)
->  {
-
-etc.
-
-regards,
-dan carpenter
-
+Best regards,
+Krzysztof
