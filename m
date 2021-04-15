@@ -2,99 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10705361085
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 18:55:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68AF73610C3
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 19:08:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234344AbhDOQzJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 12:55:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42448 "EHLO
+        id S234313AbhDORIs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 13:08:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234230AbhDOQzH (ORCPT
+        with ESMTP id S234316AbhDORIr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 12:55:07 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22752C061574;
-        Thu, 15 Apr 2021 09:54:42 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id 130so11681409qkm.4;
-        Thu, 15 Apr 2021 09:54:42 -0700 (PDT)
+        Thu, 15 Apr 2021 13:08:47 -0400
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96494C061574;
+        Thu, 15 Apr 2021 10:08:24 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id m16so18078608qtx.9;
+        Thu, 15 Apr 2021 10:08:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fR/xSrCM/HXuA5hfHE8+/OAjFdohjbHZ5jP2nSMBAdE=;
-        b=ly1ZFEkH3Idb9G5huOwqD5wG1MLCgXGaiyWPzbx89bALJKcD2bIr11Jt4E5v9VNWOP
-         ++CD5FyssgkVeBJNAP16TCyRuxW82Cd8JMZ3VOrlkWv2EpNDmiHy8wmCio0YdcFonbCh
-         04ydqyC0bqjWECpcHPj3pbIr/jiKbA9W8XOF37nBwPwYSrjMQQB7QYyNnkShkmOkafsC
-         1XgVBFPdBzmotToKrYgjxBLfnNZO4bc7bCSuQ1uas3BavxfzksPXlLkVV1oMSNGwMwv0
-         CAcgqrB/u+Mln819pqzIORJ4t/eHcn7URY4TruBTVz0QvKNgPoQO9+6M9I0XOCfwK1ml
-         oTIg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=uf0ZGB2uqUBLy2FnRQ3C5Lz7GzWpWAMQjMxZozUcp5k=;
+        b=bCFCUHYUlz/cSCkhPoAYlnGHW0yxm8SgH5bZ5/zjQtgK7Kxi38yQcZrE45PiIq9++i
+         xLpAMGedcKXZ/+0ypaMlt++xi274dslp6FLpKeAWMyg87OSpAm4DK3YCa9xLgXkDNj5q
+         p+DzbHChR/QXglUAbTI5KDmu+Njim/jkpMOGYGkNuN/A03NemlZHcW0+jerzkCkBfwJC
+         ymtkwf/UazsBelMfqPl49R2CBpvooC9426pVHPnN8qnvWkpew0xt7mQY4dSeYGy1R+w9
+         EDFLtq73zm/SdAdNPmrN7vZTv7a9RCSENBJ0KgKAOwesML6nk6fFTzfY7+fzTj1l1QSY
+         exFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fR/xSrCM/HXuA5hfHE8+/OAjFdohjbHZ5jP2nSMBAdE=;
-        b=lyWjSegMoUmLRyujQyePduZUhbNnQ7Np1BJogJuUDOmeswNRpzPNQ00ZhZ52AIlU9x
-         U6Dzs3E+pzXQwevrwBwFPCLc9v4zNucU4zkpGIwsMonqKaJHWuEnpvqF5wHCeGMayMsQ
-         gZC4fx6BsigbyGmtM33uwK2IqhT+MLWsa2bz/Sr2KejXnuR+9kN9DoIrvF7DbBIyHmju
-         hFeYOafOHcGwVSkXZytog3zMBjPlPnVS7cAr0PsIPnjky3sSlM4upqzlRnS8p/Wp0GbG
-         VxUYjh0bNVqhBl9bMQ+/A5q1GdwTf9qrsFlWvD1rc1wzeiO2jGlQmsQTYR69N1g/imuT
-         5DuA==
-X-Gm-Message-State: AOAM5314qc5yFXGwB+KuJbLPctoMRafuFhpBpXuKC91sJ6yifeUExr6b
-        sevX9Cq0Re+BbtgOZzsszvs=
-X-Google-Smtp-Source: ABdhPJxoGHGCZF9G3ACrj3LltTdnSSdSH/QCFgzR8uInxqk8l6KD2rtHRrVhZjmx+/sbNCNFpn4bZA==
-X-Received: by 2002:a37:8743:: with SMTP id j64mr4210752qkd.299.1618505681316;
-        Thu, 15 Apr 2021 09:54:41 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=uf0ZGB2uqUBLy2FnRQ3C5Lz7GzWpWAMQjMxZozUcp5k=;
+        b=n/h0Rx/dLXArpRsGEu9MAvUQ3jIE/OdwoF1N8bg5/Rxb9caxcSr0bIQZ6Ak/1UGIHz
+         UGC1Zb82vIQmj6+ME3TzEEkkOi0TAjZ0S7noPsScm26H7ZaCd9Cw2N+oc2RvFPNJNeAk
+         QlAFT6W8uWCto++oc3YsTMBj56D2dOSeECji1rY6R7yAui2rab0adpeXc+TaT6OR7C6T
+         30IiOOoInATE2reVxhFOmHo2oRXjjK+Qb6iY5jgzGzIZCTPHmQ/W6Cd/xNCZmhEMfyOa
+         nIhcMRZctI/B6V/hF/k8r3mW55ugMkwClj+Me2n/GcHIMBFAI1gAUFZ9Akvth0H73scg
+         c/EQ==
+X-Gm-Message-State: AOAM530OB/Hb4mK0zVQV4wMTHqkev2wl2ECjph/Dqn+dq8/zScmwVvn4
+        Zxz8YvTJJaA+tBFxeeWTV5cj/XrbU4zo0Qy3
+X-Google-Smtp-Source: ABdhPJzOeRFjoO9OHsiSE+7RSGeSUAWJh1ZYOuV+qhCuDn5eN6OwJWeKdgkT+p9hZWQfsORQj2wICg==
+X-Received: by 2002:ac8:7dc5:: with SMTP id c5mr3948348qte.270.1618506502022;
+        Thu, 15 Apr 2021 10:08:22 -0700 (PDT)
 Received: from focaruja ([138.204.24.234])
-        by smtp.gmail.com with ESMTPSA id 8sm2358598qkb.32.2021.04.15.09.54.40
+        by smtp.gmail.com with ESMTPSA id d10sm2022151qtn.34.2021.04.15.10.08.21
         (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Thu, 15 Apr 2021 09:54:41 -0700 (PDT)
-Date:   Thu, 15 Apr 2021 13:54:38 -0300
+        Thu, 15 Apr 2021 10:08:21 -0700 (PDT)
+Date:   Thu, 15 Apr 2021 14:08:19 -0300
 From:   Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: [PATCH 4/4] staging: media: atomisp: pci: Balance braces around
- conditional statements in file atomisp_v4l2.c
-Message-ID: <ed214ffbf6c8866bfa55d4aab1655ec711174c67.1618505476.git.alinesantanacordeiro@gmail.com>
-References: <cover.1618505476.git.alinesantanacordeiro@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: pci: Change line break to avoid
+ an open parenthesis at the end of the line
+Message-ID: <20210415170819.GA17534@focaruja>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1618505476.git.alinesantanacordeiro@gmail.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Balance braces around conditional statements.
-Issue detected by checkpatch.pl.
-It happens in if-else statements where one of the commands
-uses braces around a block of code and the other command
-does not since it has just a single line of code.
+Change line break to avoid an open parenthesis at the end of the line.
+It consequently removed spaces at the start of the subsequent line.
+Both issues detected by checkpatch.pl.
 
 Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 6d853f4..948769c 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1500,9 +1500,9 @@ static int init_atomisp_wdts(struct atomisp_device *isp)
- 	for (i = 0; i < isp->num_of_streams; i++) {
- 		struct atomisp_sub_device *asd = &isp->asd[i];
+Changes since v1:
+ - Keep the * with the function return type 
+   instead of left it with the function name
+
+ drivers/staging/media/atomisp/pci/atomisp_cmd.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+index 1c0d464..e2b36fa 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+@@ -75,8 +75,8 @@ void atomisp_wdt(struct timer_list *t);
+ void atomisp_setup_flash(struct atomisp_sub_device *asd);
+ irqreturn_t atomisp_isr(int irq, void *dev);
+ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr);
+-const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
+-    u32 mbus_code);
++const struct atomisp_format_bridge*
++get_atomisp_format_bridge_from_mbus(u32 mbus_code);
+ bool atomisp_is_mbuscode_raw(uint32_t code);
+ int atomisp_get_frame_pgnr(struct atomisp_device *isp,
+ 			   const struct ia_css_frame *frame, u32 *p_pgnr);
+@@ -381,9 +381,9 @@ enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
  
--		if (!IS_ISP2401)
-+		if (!IS_ISP2401) {
- 			timer_setup(&asd->wdt, atomisp_wdt, 0);
--		else {
-+		} else {
- 			timer_setup(&asd->video_out_capture.wdt,
- 				    atomisp_wdt, 0);
- 			timer_setup(&asd->video_out_preview.wdt,
+ bool atomisp_is_vf_pipe(struct atomisp_video_pipe *pipe);
+ 
+-void atomisp_apply_css_parameters(
+-    struct atomisp_sub_device *asd,
+-    struct atomisp_css_params *css_param);
++void atomisp_apply_css_parameters(struct atomisp_sub_device *asd,
++				  struct atomisp_css_params *css_param);
++
+ void atomisp_free_css_parameters(struct atomisp_css_params *css_param);
+ 
+ void atomisp_handle_parameter_and_buffer(struct atomisp_video_pipe *pipe);
 -- 
 2.7.4
 
