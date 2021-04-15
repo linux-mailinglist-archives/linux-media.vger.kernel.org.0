@@ -2,69 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B45F0361340
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 22:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27835361396
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 22:37:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235111AbhDOUA2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 16:00:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234654AbhDOUA1 (ORCPT
+        id S235504AbhDOUhq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 16:37:46 -0400
+Received: from mail-oi1-f177.google.com ([209.85.167.177]:42903 "EHLO
+        mail-oi1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235251AbhDOUhq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 16:00:27 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74214C061574;
-        Thu, 15 Apr 2021 13:00:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Jidstt2/GQtBM10h7qL1vxyo4ZsH+nyyJX9lVogApq4=; b=GXqEg47IGUl3iUkF0KKQI28r5i
-        dXx0qi4Ae6gDsIoXFQVAAC2MYV3sv4hydRUaejqig0bIuTdEbTa42bMVyWl2MjtkrJy/n115VvYWe
-        AhMwH1m3yGKaa2KzY9fD65upkcgJwjyBdXpGxrkeOuUfulBaEqEom1khvrU0dhtXhi2ho7aYmCv4k
-        Y5TA/PCz/aBcZNTXvPHp354+UrRhf1bXzp5uBCI5OxTIE4pA4x3zVKYWTJaDC/SR+ElSEke5nWeb8
-        fjtpJh02CDA3xdPUdHKQD22nF2nG2kfSdC2bKHPdS4OR+BHsUsic7RIkbuyAARmJQRNr2BbsI1oyV
-        qxcO1aIw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lX89N-0091Za-NN; Thu, 15 Apr 2021 19:59:44 +0000
-Date:   Thu, 15 Apr 2021 20:59:41 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: Re: [Outreachy kernel] [PATCH v2] staging: media: atomisp: pci:
- Change line break to avoid an open parenthesis at the end of the line
-Message-ID: <20210415195941.GF2531743@casper.infradead.org>
-References: <20210415170819.GA17534@focaruja>
- <20210415171409.GC2531743@casper.infradead.org>
- <20210415194955.GI3@paasikivi.fi.intel.com>
- <20210415195704.GE2531743@casper.infradead.org>
+        Thu, 15 Apr 2021 16:37:46 -0400
+Received: by mail-oi1-f177.google.com with SMTP id n140so25591982oig.9;
+        Thu, 15 Apr 2021 13:37:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ohiEbSgaFrM/ICsd6CedVVm17ut2y+hUZeHNOcTvM1I=;
+        b=phBBMSyP6trg3M2gWf4qxgwkDxvRxaYOhnCscinYoWc7J1dLxpE8C6AsmqYtOBS9W9
+         /Hvfd4fsvlPRcf4TQg0BWx0S1g5clNYEqYtuSAI7EKarLv3K48jkcm2c2hPiMfHr7esg
+         0Hrct/lEwQgk68vqCWdW/nc1N+mOiy4cn/qnYE46O+vGYaroryKVdYchyPCX+NFnod40
+         3W133+ohxzCJvhWEarNg3TaNhd/3NxdsdFTCJUFMpHL9hGt+GOeGq7kic1CRx1KnGbYV
+         vWiPuM4ZAQAUmg9vYpg/DM2iRCF58ZECDACOUOvFKqK9oVWJvlXGgPnlONZ9/LUyywJV
+         nyGg==
+X-Gm-Message-State: AOAM530mWTRIzYTcsavu3cGVvkQhJIgi3McLp6gaO2e4rLjEOaeIGKcA
+        LSVgi8vWeSE5dmse/p3o3A==
+X-Google-Smtp-Source: ABdhPJzFHiPKVOh2fbJf8yK1iNazrCGGStLTahbzD+gt4N9J8esCtmWsD4vjGwt4xiQGfHNgLchRCg==
+X-Received: by 2002:aca:ab44:: with SMTP id u65mr3811548oie.173.1618519042754;
+        Thu, 15 Apr 2021 13:37:22 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id o10sm887962ote.5.2021.04.15.13.37.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 13:37:21 -0700 (PDT)
+Received: (nullmailer pid 1841581 invoked by uid 1000);
+        Thu, 15 Apr 2021 20:37:20 -0000
+Date:   Thu, 15 Apr 2021 15:37:20 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     dillon.minfei@gmail.com
+Cc:     krzk@kernel.org, linux-kernel@vger.kernel.org, mchehab@kernel.org,
+        linux@rempel-privat.de, festevam@gmail.com, shawnguo@kernel.org,
+        arnd@arndb.de, matthias.schiffer@ew.tq-group.com,
+        robh+dt@kernel.org, devicetree@vger.kernel.org, leoyang.li@nxp.com,
+        s.hauer@pengutronix.de, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
+        olof@lixom.net, prabhakar.csengg@gmail.com, linux-imx@nxp.com,
+        s.riedmueller@phytec.de, krzysztof.kozlowski@canonical.com
+Subject: Re: [PATCH v3 1/4] dt-bindings: add dasheng vendor prefix
+Message-ID: <20210415203720.GA1841552@robh.at.kernel.org>
+References: <1618459535-8141-1-git-send-email-dillon.minfei@gmail.com>
+ <1618459535-8141-2-git-send-email-dillon.minfei@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210415195704.GE2531743@casper.infradead.org>
+In-Reply-To: <1618459535-8141-2-git-send-email-dillon.minfei@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 08:57:04PM +0100, Matthew Wilcox wrote:
-> On Thu, Apr 15, 2021 at 10:49:55PM +0300, Sakari Ailus wrote:
-> > On Thu, Apr 15, 2021 at 06:14:09PM +0100, Matthew Wilcox wrote:
-> > > On Thu, Apr 15, 2021 at 02:08:19PM -0300, Aline Santana Cordeiro wrote:
-> > > > -const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
-> > > > -    u32 mbus_code);
-> > > > +const struct atomisp_format_bridge*
-> > > > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
-> > > 
-> > > No, this does not match coding style.  Probably best to break the
-> > > 80-column guideline in this instance.  Best would be to have a function
-> > 
-> > Having the return type on the previous line is perfectly fine. There should
-> > be a space before the asterisk though.
+On Thu, 15 Apr 2021 12:05:32 +0800, dillon.minfei@gmail.com wrote:
+> From: dillon min <dillon.minfei@gmail.com>
 > 
-> No, it's not.  Linus has ranted about that before.
+> Add vendor prefix for DaSheng, Inc.
+> 
+> Signed-off-by: dillon min <dillon.minfei@gmail.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+> v3:
+> - move v2 patch 4 to v3 patch 1
+> - add 'Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>'
+> 
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Found it.  https://lore.kernel.org/lkml/1054519757.161606@palladium.transmeta.com/
+Acked-by: Rob Herring <robh@kernel.org>
