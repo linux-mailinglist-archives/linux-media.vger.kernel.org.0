@@ -2,90 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F7C336139D
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 22:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D5B936140E
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 23:22:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235594AbhDOUiK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 16:38:10 -0400
-Received: from mail-ot1-f48.google.com ([209.85.210.48]:33392 "EHLO
-        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235573AbhDOUiJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 16:38:09 -0400
-Received: by mail-ot1-f48.google.com with SMTP id 92-20020a9d02e50000b029028fcc3d2c9eso1318489otl.0;
-        Thu, 15 Apr 2021 13:37:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=SV6uLdiUIbNtCGDaL9g5OEfzZbfEmr4PSTr5jNTx670=;
-        b=ShCNOqVuoEnziWaIVQ1c+tl9sX7uf2aoSCq8/oi8kXbGekuUkm6LlAAjjx1urCVbyF
-         4eyFk0AkZQhNB3SUSnDtlYLpNFRZG5VRxxmb0qviQMusHGmTnO1sqohcozshRRw8uUTe
-         rk5CsFwCUdKpbY+pPCp0yib7T5MPTH63ovw/GTk+guElvUiPeETMgCg9+BJ9HijiH6SF
-         VU85GJCGhFasrVFNDnBXDMyqzd7ZXkbxuZLmB/8dxjudkoLgZO2jOhdhFF+xQalvvE81
-         2yg3EALAHwHwDBYZKIt3/TTx1Z+hepjxc5lil6qFrUYKH6uTWQcoSzK3760nyJYkQoaa
-         atsg==
-X-Gm-Message-State: AOAM533+XRWZ4JJUvQhA+BfV7wKpjx1msX+zR00Eyev5H3f3fkPC5/xJ
-        TNM52J02mc6Vxfge0/v/Jw==
-X-Google-Smtp-Source: ABdhPJyNGtj7dGg5GwtUMbHWt8Ht+g49ssWkYBZp2WW5+yqeI81C8urNbu4W7m7D/jx0Em+fsnnwFQ==
-X-Received: by 2002:a05:6830:1515:: with SMTP id k21mr814922otp.269.1618519064589;
-        Thu, 15 Apr 2021 13:37:44 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id d7sm774314oop.9.2021.04.15.13.37.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 13:37:43 -0700 (PDT)
-Received: (nullmailer pid 1842170 invoked by uid 1000);
-        Thu, 15 Apr 2021 20:37:41 -0000
-Date:   Thu, 15 Apr 2021 15:37:41 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     dillon.minfei@gmail.com
-Cc:     olof@lixom.net, arnd@arndb.de, matthias.schiffer@ew.tq-group.com,
-        mchehab@kernel.org, krzk@kernel.org,
-        krzysztof.kozlowski@canonical.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux@rempel-privat.de,
-        festevam@gmail.com, leoyang.li@nxp.com, linux-imx@nxp.com,
-        prabhakar.csengg@gmail.com, s.riedmueller@phytec.de,
-        s.hauer@pengutronix.de, linux-arm-kernel@lists.infradead.org,
-        robh+dt@kernel.org, kernel@pengutronix.de,
-        devicetree@vger.kernel.org, shawnguo@kernel.org
-Subject: Re: [PATCH v3 2/4] dt-bindings: arm: imx: Add i.mx6q DaSheng COM-9XX
- SBC
-Message-ID: <20210415203741.GA1842113@robh.at.kernel.org>
-References: <1618459535-8141-1-git-send-email-dillon.minfei@gmail.com>
- <1618459535-8141-3-git-send-email-dillon.minfei@gmail.com>
+        id S235682AbhDOVW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 17:22:27 -0400
+Received: from mga07.intel.com ([134.134.136.100]:54160 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234959AbhDOVW0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Apr 2021 17:22:26 -0400
+IronPort-SDR: e1Q9Ow3/33ziRqlO4KagyEEyUaqhfvf6WTDlveiA5ok2mvXHlMQFFOCrQPRkLCZ0jC/M93gmat
+ aGh+Mtwv2yow==
+X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="258904597"
+X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; 
+   d="scan'208";a="258904597"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 14:22:02 -0700
+IronPort-SDR: edfhmDWBq4D32ytRDaSJdaCo3lFDKzjLHcP4EAWXKQUPkEKrVTbYXKXBIceoIwGr8lx19WZnMn
+ YI+F1VdRQubg==
+X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; 
+   d="scan'208";a="451258859"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 14:22:00 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 608852051E;
+        Fri, 16 Apr 2021 00:21:58 +0300 (EEST)
+Date:   Fri, 16 Apr 2021 00:21:58 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [Outreachy kernel] [PATCH v2] staging: media: atomisp: pci:
+ Change line break to avoid an open parenthesis at the end of the line
+Message-ID: <20210415212158.GK3@paasikivi.fi.intel.com>
+References: <20210415170819.GA17534@focaruja>
+ <20210415171409.GC2531743@casper.infradead.org>
+ <20210415194955.GI3@paasikivi.fi.intel.com>
+ <20210415195704.GE2531743@casper.infradead.org>
+ <20210415195941.GF2531743@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1618459535-8141-3-git-send-email-dillon.minfei@gmail.com>
+In-Reply-To: <20210415195941.GF2531743@casper.infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 15 Apr 2021 12:05:33 +0800, dillon.minfei@gmail.com wrote:
-> From: dillon min <dillon.minfei@gmail.com>
+On Thu, Apr 15, 2021 at 08:59:41PM +0100, Matthew Wilcox wrote:
+> On Thu, Apr 15, 2021 at 08:57:04PM +0100, Matthew Wilcox wrote:
+> > On Thu, Apr 15, 2021 at 10:49:55PM +0300, Sakari Ailus wrote:
+> > > On Thu, Apr 15, 2021 at 06:14:09PM +0100, Matthew Wilcox wrote:
+> > > > On Thu, Apr 15, 2021 at 02:08:19PM -0300, Aline Santana Cordeiro wrote:
+> > > > > -const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
+> > > > > -    u32 mbus_code);
+> > > > > +const struct atomisp_format_bridge*
+> > > > > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
+> > > > 
+> > > > No, this does not match coding style.  Probably best to break the
+> > > > 80-column guideline in this instance.  Best would be to have a function
+> > > 
+> > > Having the return type on the previous line is perfectly fine. There should
+> > > be a space before the asterisk though.
+> > 
+> > No, it's not.  Linus has ranted about that before.
 > 
-> The DaSheng Com-9xx is and ARM based signle board computer (SBC)
-> featuring:
-> - i.MX6Q
-> - 2GiB LPDDR3 DRAM
-> - 8GiB eMMC 5.0 FLASH
-> - 4MiB SPI Flash
-> - USB 2.0 Host/Device
-> - Multiple multi-protocol RS232/RS485 Serial ports
-> - microSD socket
-> - 5V DC power input
-> - HDMI1.4a,1080p@60
-> - RGMIIx1 Gigabit Ethernet
-> - CSI0x1, connect with ov2659
-> 
-> Signed-off-by: dillon min <dillon.minfei@gmail.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> ---
-> v3: move 'ds,imx6q-sbc' after 'dmo,imx6q-edmqmx6' to follow the alphabetical
-> order.
-> 
->  Documentation/devicetree/bindings/arm/fsl.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+> Found it.  https://lore.kernel.org/lkml/1054519757.161606@palladium.transmeta.com/
 
-Acked-by: Rob Herring <robh@kernel.org>
+Two decades ago, really?
+
+This is simply one of the practical means how you split long function
+declarations and avoid overly long lines. Not my favourite though, but
+still better than those long lines.
+
+My personal preference would be to wrap at the opening parenthesis and
+indent by just a tab, but I know many people who disagree with that...
+
+-- 
+Sakari Ailus
