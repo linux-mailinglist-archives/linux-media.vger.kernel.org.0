@@ -2,103 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B4A0360BC8
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 16:27:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6832360C74
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 16:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233079AbhDOO2S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 10:28:18 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:58913 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230056AbhDOO2S (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 10:28:18 -0400
-Received: from [192.168.2.10] ([84.202.3.209])
-        by smtp.xs4all.nl with ESMTPA
-        id X2yFl3tmbsMyaX2yIlUTB1; Thu, 15 Apr 2021 16:27:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618496874; bh=QKGF7N3usnqfIY++/Oh/9sP7mXR174oZ7b2SnCcn//Y=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=XyN9FGtyboTLDhQtPiyT5F2JjydFLTYtFpLfyYXrlCMUJI0yldN8iD4mqsY2psIb7
-         lQwaDuxILlBHNUXsqB/fIaDfPH4IYxK8pwWssfElA00wo3vbJl5ovpDfb3N7XORpUx
-         oJc54JSIcED79aG3nzTEBvCaIc/oGTxGd+zqGWfXGDEuc9zShk0FoW5LV/lMenUkAp
-         uK2b09XwjConCqa14CK+rTmIm9Sm41y2YfthUuGneuPju2DslBoegB7acOd3qRCnoc
-         X+OWIT7DvMH2m5nAHYuhjkVcZ57Hs8K7YgRMzuEHz9gaP8Pfq9iWI88d1snksG9A6W
-         2d9Yd1RDGgboQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Beatriz Martins de Carvalho 
-        <martinsdecarvalhobeatriz@gmail.com>,
-        Martiros Shakhzadyan <vrzh@vrzh.net>,
-        Mitali Borkar <mitaliborkar810@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.14] Various staging cleanups from the Outreachy
- project
-Message-ID: <0db4d232-b345-6c06-5e3d-11504196af3b@xs4all.nl>
-Date:   Thu, 15 Apr 2021 16:27:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        id S233712AbhDOOvC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 10:51:02 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:58440 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233864AbhDOOu2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Apr 2021 10:50:28 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lX3Jj-009p4N-Hy; Thu, 15 Apr 2021 14:50:03 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lX3Nm-0001sb-1a; Thu, 15 Apr 2021 14:54:14 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] Various staging cleanups from the Outreachy (#73324)
+Date:   Thu, 15 Apr 2021 14:54:13 +0000
+Message-Id: <20210415145413.7184-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <0db4d232-b345-6c06-5e3d-11504196af3b@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNV+72Ou/3jIrVH2s6nFX4AfddklpEGGPYAqnM9z7+DPalo/4fmSKVktNb22BgqvIj4Clum/0m6QOjvtn8LYUKRCWv9jGZ42Z2SPzIi5y0IOZxshg6m1
- zS3foGnddTa4pAfQmnF2aMZIe4qn+jTxP3D7q+ETMMsqcRzp7IjNx4dTmHLJMZnqKdogsd78zMREJCKrIvnm3JJLVpJyU/vOVzaK7zmuFG80rNxlXznl7nUl
- X8N50dWCJ0bmqYZnnnzEBr9DA1Iwyn6kf9nWAYk+1fHuGtogKZT1EUFwYnQRTzLDDyxJeIYiZzXGCGJq9LD9aGpE0if2JN3CHWS8hv8feRL+gY1UWVdDRH4p
- Yj5+/J6Z
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 0b276e470a4d43e1365d3eb53c608a3d208cabd4:
+From: builder@linuxtv.org
 
-  media: coda: fix macroblocks count control usage (2021-04-15 13:23:26 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/0db4d232-b345-6c06-5e3d-11504196af3b@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/98851/
+Build time: 00:08:40
+Link: https://lore.kernel.org/linux-media/0db4d232-b345-6c06-5e3d-11504196af3b@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Thu 15 Apr 2021 02:25:44 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.13-out2
+Summary: got 2/16 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to bef8455e2730cdcc0f390d87d8a35737ecaeebd0:
+Error/warnings:
 
-  staging: media: atomisp: pci: Format comments according to coding-style in file atomisp_cmd.h (2021-04-15 16:25:38 +0200)
+patches/0009-staging-media-intel-ipu3-line-should-not-end-with.patch:
 
-----------------------------------------------------------------
-Tag branch
+   checkpatch.pl:
+	$ cat patches/0009-staging-media-intel-ipu3-line-should-not-end-with.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:29: WARNING: Prefer __aligned(32) over __attribute__((aligned(32)))
 
-----------------------------------------------------------------
-Aline Santana Cordeiro (8):
-      staging: media: hantro: Align line break to the open parenthesis in file hantro_hw.h
-      staging: media: hantro: Align line break to the open parenthesis in file hantro_mpeg2.c
-      staging: media: omap4iss: Align line break to the open parenthesis in file iss_video.c
-      staging: media: omap4iss: Remove unused macro function
-      staging: media: atomisp: pci: Correct identation in block of conditional statements in file atomisp_v4l2.c
-      staging: media: atomisp: pci: Correct identation in block of conditional statements in file atomisp_acc.c
-      staging: media: atomisp: pci: Format comments according to coding-style in file atomisp_acc.c
-      staging: media: atomisp: pci: Format comments according to coding-style in file atomisp_cmd.h
+patches/0010-staging-media-zoran-add-spaces-around-operator.patch:
 
-Beatriz Martins de Carvalho (1):
-      staging: media: atomisp: i2c: align line break to match with open parenthesis
+   checkpatch.pl:
+	$ cat patches/0010-staging-media-zoran-add-spaces-around-operator.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:32: CHECK: Prefer using the BIT macro
+	-:35: CHECK: Prefer using the BIT macro
+	-:36: CHECK: Prefer using the BIT macro
+	-:37: CHECK: Prefer using the BIT macro
 
-Martiros Shakhzadyan (2):
-      staging: media: atomisp: Removed a superfluous else clause
-      staging: media: atomisp: Minor code style changes
 
-Mitali Borkar (5):
-      staging: media: intel-ipu3: remove unnecessary blank line
-      staging: media: intel-ipu3: reduce length of line
-      staging: media: intel-ipu3: remove space before tabs
-      staging: media: intel-ipu3: line should not end with '['
-      staging: media: zoran: add spaces around '<<' operator
+Error #512 when building PDF docs
 
- drivers/staging/media/atomisp/i2c/atomisp-gc2235.c |   4 +-
- drivers/staging/media/atomisp/i2c/atomisp-ov2722.c |  18 +++---
- drivers/staging/media/atomisp/pci/atomisp_acc.c    |  12 ++--
- drivers/staging/media/atomisp/pci/atomisp_cmd.h    | 161 +++++++++++++------------------------------------
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |   2 +-
- drivers/staging/media/hantro/hantro_hw.h           |   2 +-
- drivers/staging/media/hantro/hantro_mpeg2.c        |   2 +-
- drivers/staging/media/ipu3/include/intel-ipu3.h    |  13 ++--
- drivers/staging/media/omap4iss/iss.h               |   3 -
- drivers/staging/media/omap4iss/iss_video.c         |   4 +-
- drivers/staging/media/zoran/zr36057.h              |  14 ++---
- 11 files changed, 80 insertions(+), 155 deletions(-)
