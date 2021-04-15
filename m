@@ -2,177 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09B44360B22
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 15:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4AD5360B36
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 15:59:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232976AbhDON5D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 09:57:03 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:54383 "EHLO
+        id S233272AbhDON7x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 09:59:53 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:56687 "EHLO
         lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232954AbhDON5C (ORCPT
+        by vger.kernel.org with ESMTP id S233216AbhDON7w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 09:57:02 -0400
+        Thu, 15 Apr 2021 09:59:52 -0400
 Received: from [192.168.2.10] ([84.202.3.209])
         by smtp.xs4all.nl with ESMTPA
-        id X2Tzl3kBQsMyaX2U2lUORG; Thu, 15 Apr 2021 15:56:38 +0200
+        id X2Wjl3l2GsMyaX2WmlUOuP; Thu, 15 Apr 2021 15:59:28 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618494998; bh=zENGeJKD7wt8oNufBS9C6pkegHFrpcYxaCUgVyvpd20=;
+        t=1618495168; bh=M42Y1PXgR0/+1DrhsT1SyUGJ76Mk111ck02wraS/lQs=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=n9XYEAPVxtbGtM1hCpM9qoapmttOLwMVWXDoFAFrgfaio0qYRd+9SbQBM72ZIZ1WS
-         yTRCItNoA5oobSMRz+fPcohpy/nvJQaRAcgfi0LKnOjRhNhG+3waolEqv6s8zcXWVV
-         KCwVt6kEPd/pmYFsGXNDKUN1ukDIuylQYIesgxJcifJkv/+rkqipOHb0kmLaBI+ryx
-         xy4C0pRr9v+vy+O0t7+vJa9HxSceh72pGSa/Rsf3WyObQBxyIUWKig52STRaZVnFv0
-         5lw96272Dotdc7aew0RBvAHIqyQNC/yI2cNPj6pIzPD5f5JAeQvqENSil8pu0Lj4vi
-         xe9iaXe0oXaSA==
-Subject: Re: [PATCH] staging: media: atomisp: Use goto instead of return in
- ia_css_init()
+        b=pu50NkuyaF39N+4M+A1T7gcnJV0vPWR/apP8zYN2Pt62bJCqIe9VKkJv7qaroKrTk
+         nv1olxteUbPVlhKw2cHOs5Rj/Cscaslk7cfco4d+EFtJvnl37SwuthCcNJnSJtAgR8
+         keah2uJ9HG4U7EPfSBmcHq2JniyOGqMlXPH4CeH7LXgoegL/kVtD97NI1qlJAX4NPF
+         LOgltVUdPSqGc3n4w0NM5192lX9OydT+TR9uJWOFnhYrBpxHyIZgrtp4FwPzPx0Njy
+         5u1W7weQfdAt8pXK0nrhkb1T31dvL5gm1ZLLQP0wELVOUDZ3jo7ICI51bnHYY1kmtO
+         bAmhpVNRRN8MA==
+Subject: Re: [PATCH] staging: media: atomisp: cleaning up sh_css.c
 To:     Martiros Shakhzadyan <vrzh@vrzh.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org
 References: <20210415005106.530914-1-vrzh@vrzh.net>
- <20210415005106.530914-8-vrzh@vrzh.net>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <7943beba-cbb5-4c85-4381-f81fb49d189f@xs4all.nl>
-Date:   Thu, 15 Apr 2021 15:56:35 +0200
+Message-ID: <e7d21188-3f7e-1b8f-59b0-144713bd918d@xs4all.nl>
+Date:   Thu, 15 Apr 2021 15:59:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210415005106.530914-8-vrzh@vrzh.net>
+In-Reply-To: <20210415005106.530914-1-vrzh@vrzh.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPI7+owHEzu/obWgUW0ucR8RnVYKfpyU7VEyv8GHV3jinIsHQc171v2OgQa7MjPBq34T5pCPQYiPXZEVO0a5TTQx1RM3+eZGMssn9WV/QTm17kFZJNlj
- ZkBPqTtRJYlTd8HS6r0dEOnLWCE94hPfljciQ9fOoVKP9TRC/MQj9imtcJAa9fxbxghQy9gv+yX3DCXAesAYmvRk9UBh355xSeUc8YI1q2NvlA5N/YOK+hhv
- jLRHHXdYDDEXAT0vGfaLKdXkb4LLi2C8KhXqnw91S0TKIdr/wTU+nl4QpSMXuDbd
+X-CMAE-Envelope: MS4xfKF3L6km6Rpso+QqXNIyPZn47YRvYpHIsht9mtm5pV4+VWkwgjjRIGQePQkBuB5vVOWJz0KiWa+pxvZ+TaJRTIi8MQLGbDtW5TxWevt5PJYzgtVX7vf2
+ nTkv26QttBJY8K7YkKTho67WIm5isYFlEySlyWN5Ly/GJc4RfeGjPT1NlXki51igObfXw6iKmz1d5P/aZ2LSvItLSSz9bEnT6DPAvb6xbCqEWkNycCVEB35y
+ Melq8NGN7j6gyG1JZqXDJEgvhro34dj/gZ1n6sRQOoJsG1JYaGhRm3yUZ5hp+W5A
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Martiros,
 
-On 15/04/2021 02:51, Martiros Shakhzadyan wrote:
-> Replace multiple return statements with goto in ia_css_init(), matching
-> other functions.
+If you look at other patch series, you'll see that they follow this pattern:
+
+[PATCH x/y]
+
+and for the cover letter: [PATCH 0/y]
+
+It's recommended to follow that rule.
+
+On 15/04/2021 02:50, Martiros Shakhzadyan wrote:
+> The following set of patches for sh_css.c aims to resolve coding style issues
+> and remove redundancies.
 > 
-> Signed-off-by: Martiros Shakhzadyan <vrzh@vrzh.net>
-> ---
->  drivers/staging/media/atomisp/pci/sh_css.c | 45 +++++++++-------------
->  1 file changed, 19 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-> index bb752d47457c..4e3ef68014ec 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-> @@ -1695,10 +1695,8 @@ ia_css_init(struct device *dev, const struct ia_css_env *env,
->  	my_css.flush     = flush_func;
->  
->  	err = ia_css_rmgr_init();
-> -	if (err) {
-> -		IA_CSS_LEAVE_ERR(err);
-> -		return err;
-> -	}
-> +	if (err)
-> +		goto ERR;
+> Martiros Shakhzadyan (9):
+>   staging: media: atomisp: [1/6] Fix sh_css.c brace coding style issues
+>   staging: media: atomisp: [2/6] Fix sh_css.c brace coding style issues
+>   staging: media: atomisp: [3/6] Fix sh_css.c brace coding style issues
+>   staging: media: atomisp: [4/6] Fix sh_css.c brace coding style issues
+>   staging: media: atomisp: [5/6] Fix sh_css.c brace coding style issues
+>   staging: media: atomisp: [6/6] Fix sh_css.c brace coding style issues\
 
-Sorry, this doesn't work.
+Why split this up in 6 patches? Just combine it in one. It's all the same thing
+for the same source.
 
-First a style issue: goto label are typically lowercase, not uppercase.
-I do see that elsewhere in this source they use ERR as well, but that should
-really all be changed to lowercase.
+>   staging: media: atomisp: Use goto instead of return in ia_css_init()
+>   staging: media: atomisp: [1/2] Remove redundant assertions in sh_css.c
+>   staging: media: atomisp: [2/2] Remove redundant assertions in sh_css.c
 
-But more importantly, if you look up the definition of IA_CSS_LEAVE_ERR
-you see:
-
-#define IA_CSS_LEAVE_ERR(__err) \
-        ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, \
-                "%s() %d: leave: return_err=%d\n", __func__, __LINE__, __err)
-
-I.e., it is used to debug the code and print where the error is returned
-(__func__ and __LINE__). By moving this to the end, the __LINE__ is always
-the same for all 'error' cases, thus defeating the purpose of this debug line.
-
-So I won't take this patch.
+Ditto for these two.
 
 Regards,
 
 	Hans
 
->  
->  	IA_CSS_LOG("init: %d", my_css_save_initialized);
->  
-> @@ -1730,27 +1728,23 @@ ia_css_init(struct device *dev, const struct ia_css_env *env,
->  	gpio_reg_store(GPIO0_ID, _gpio_block_reg_do_0, 0);
->  
->  	err = ia_css_refcount_init(REFCOUNT_SIZE);
-> -	if (err) {
-> -		IA_CSS_LEAVE_ERR(err);
-> -		return err;
-> -	}
-> +	if (err)
-> +		goto ERR;
-> +
->  	err = sh_css_params_init();
-> -	if (err) {
-> -		IA_CSS_LEAVE_ERR(err);
-> -		return err;
-> -	}
-> +	if (err)
-> +		goto ERR;
-> +
->  	if (fw) {
->  		ia_css_unload_firmware(); /* in case we already had firmware loaded */
->  		err = sh_css_load_firmware(dev, fw->data, fw->bytes);
-> -		if (err) {
-> -			IA_CSS_LEAVE_ERR(err);
-> -			return err;
-> -		}
-> +		if (err)
-> +			goto ERR;
-> +
->  		err = ia_css_binary_init_infos();
-> -		if (err) {
-> -			IA_CSS_LEAVE_ERR(err);
-> -			return err;
-> -		}
-> +		if (err)
-> +			goto ERR;
-> +
->  		fw_explicitly_loaded = false;
->  #ifndef ISP2401
->  		my_css_save.loaded_fw = (struct ia_css_fw *)fw;
-> @@ -1760,10 +1754,8 @@ ia_css_init(struct device *dev, const struct ia_css_env *env,
->  		return -EINVAL;
->  
->  	err = ia_css_spctrl_load_fw(SP0_ID, &spctrl_cfg);
-> -	if (err) {
-> -		IA_CSS_LEAVE_ERR(err);
-> -		return err;
-> -	}
-> +	if (err)
-> +		goto ERR;
->  
->  #if WITH_PC_MONITORING
->  	if (!thread_alive) {
-> @@ -1774,8 +1766,8 @@ ia_css_init(struct device *dev, const struct ia_css_env *env,
->  	}
->  #endif
->  	if (!sh_css_hrt_system_is_idle()) {
-> -		IA_CSS_LEAVE_ERR(-EBUSY);
-> -		return -EBUSY;
-> +		err = -EBUSY;
-> +		goto ERR;
->  	}
->  	/* can be called here, queuing works, but:
->  	   - when sp is started later, it will wipe queued items
-> @@ -1801,6 +1793,7 @@ ia_css_init(struct device *dev, const struct ia_css_env *env,
->  
->  	sh_css_params_map_and_store_default_gdc_lut();
->  
-> +ERR:
->  	IA_CSS_LEAVE_ERR(err);
->  	return err;
->  }
+> 
+>  drivers/staging/media/atomisp/pci/sh_css.c | 266 ++++++++-------------
+>  1 file changed, 105 insertions(+), 161 deletions(-)
 > 
 
