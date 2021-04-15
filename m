@@ -2,111 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E4C8361111
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 19:25:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8E073611BF
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 20:10:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233609AbhDORZy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 13:25:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49170 "EHLO
+        id S234407AbhDOSK0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 14:10:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233407AbhDORZx (ORCPT
+        with ESMTP id S233595AbhDOSKY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 13:25:53 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B471CC061756
-        for <linux-media@vger.kernel.org>; Thu, 15 Apr 2021 10:25:26 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id h141so16617594iof.2
-        for <linux-media@vger.kernel.org>; Thu, 15 Apr 2021 10:25:26 -0700 (PDT)
+        Thu, 15 Apr 2021 14:10:24 -0400
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77EB9C061574;
+        Thu, 15 Apr 2021 11:09:59 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id 1so18902366qtb.0;
+        Thu, 15 Apr 2021 11:09:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GsOuPPXVW4w5SaKrHkuMOlALa3wJPeUiMP2AEL1u7RQ=;
-        b=eR+MqiJAciFex4xEzDJOxPmcm+q5i26BkgezRf1x0fEQl3NHSgBLa5TP9pR1npDIV5
-         Yf7CxrFd9udDLyWpBXidSszqjF4yCcJ8OgP2xzlTsWBmBqCdjoKaYCu9QurjwYwXGUbN
-         ANMBU5zoI2Uha5/2D9YnRWL4btVeSg+eINYkM=
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Z8o2eF8WW0GN2VLTkAq3OumygwjQqYyVi3fNlIvWwiI=;
+        b=Duv85+DYznnAFwi/q+Zxi2c5YnmcJKrf+XUB68Byd2A15FYncD2i+j5jJxy6U6EdSF
+         lfwKRbEJ0dZC67j0WWswopaUjbvqC7Z7C1Fx6a5BoertXUsnykzmeClaU+kyhp9CBYs8
+         1I5ftmCsHx35smzynbGEP5c2TBhIrNzYR8VFsta3vGLDyTeVTay4e1QXgUHFAScGzOM8
+         XHJtBYHevxCfyAhrHF4ianLU1OyetPIO50/IUupmE6i9MH6vK8d0h1GqnsCdF8l9oF4W
+         ql1kY2WbAm2G6eJGeQGt39vHbfzivZIe6HY8tbe9jywU/r7ykmzmzQYh8jEIjdQGEI8V
+         N14g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GsOuPPXVW4w5SaKrHkuMOlALa3wJPeUiMP2AEL1u7RQ=;
-        b=RgULqlhLNS9lZcS5z0zImFG9Gx5i9+kJo5RFrKQ46QYIPLAdNO0dyIuYm/yDdftn5s
-         pJfOnUzHIb1+tixCPfv/r0++W5ydtmOL2qafrffXIploUqCMAiWCNhwJcv3Jequm52Qr
-         bUVajlmSbgufUB0wsJm13GqFAFrv4wJZpeRPb1XMfCDHCAk5KtcuKymLxwra5txi/aa+
-         8hCdrNwXfdeJT0s52dMT3HZA3Thkx7yceY+jb8+PjKlyWb+xnAK86IsWydJup/npHc+D
-         udhA2Kg9IHQml7apn1veX8bJ+7frvbHjlhK7u8IoUxvC0dMqmaAmByIha5XuOpl2QEei
-         xQnA==
-X-Gm-Message-State: AOAM530rldP5DQitVElKUsLObUpOnS9ExlD98WaaURX1iJmbWJmbb2Tm
-        /2ONRL0nTGYC41vFQb/AS4ke5Q==
-X-Google-Smtp-Source: ABdhPJzgOh/139WOD+rz5V+xMN7wmmK6v8ZYRYPnJaypimqhkKwPfTv427lLvsMaBebjSO5kLG45pA==
-X-Received: by 2002:a5d:9659:: with SMTP id d25mr280546ios.146.1618507526027;
-        Thu, 15 Apr 2021 10:25:26 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id h18sm1346069ioh.42.2021.04.15.10.25.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Apr 2021 10:25:25 -0700 (PDT)
-Subject: Re: [PATCH RFC v3] media: em28xx: Fix race condition between open and
- init function
-To:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        kernel test robot <lkp@intel.com>,
-        syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20210415140724.15398-1-igormtorrente@gmail.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <d254bf85-5185-6b21-afc6-fb00a9278186@linuxfoundation.org>
-Date:   Thu, 15 Apr 2021 11:25:24 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Z8o2eF8WW0GN2VLTkAq3OumygwjQqYyVi3fNlIvWwiI=;
+        b=pusCuvY6L6nmF9ZRU+esJCa4z7ginjmh/YKUpnMZF+PsHvV1W9wv77BZPHHPFgE7Fq
+         gDn83cM+eKBf9mEq8DEvQ9nVF5Voui3QRn6Tkmd9K6JWUb8pQBGFbW60cbtblfAKP5mJ
+         xUu/1+qaIcl5urAcXIUlin1TrxddIrM3NevM3mUxo6zmKX7ho9FA3qrfikRHHOVLgBSo
+         H2Oc42PGS5wzl/9+SdVQ5SbTXE4dOSgEY4XdTuGrwr/LjTDfV954ap9woOfoGueYSin7
+         Z41/QGOseQSFhARpl2cYBjov/crv3x3q87A5taRAAVO9O7eXNDQUJygJft5PGZ+dyQx8
+         ftqw==
+X-Gm-Message-State: AOAM53293NDW7yhZSOWRkF+VYPP8J8wnAxlS0xCnym0UsK0B7p06fk1n
+        Y6MY1aQSXxWwcYoJtuBiFvE=
+X-Google-Smtp-Source: ABdhPJy+SV3+lHg4xIpApam1jIImVhMJPVyBAuCeN8GIR+uE6lNYBWEYSLKqqbWVwZthy43uopci0g==
+X-Received: by 2002:ac8:7d03:: with SMTP id g3mr4391644qtb.330.1618510198723;
+        Thu, 15 Apr 2021 11:09:58 -0700 (PDT)
+Received: from [192.168.100.7] ([138.204.24.234])
+        by smtp.gmail.com with ESMTPSA id p21sm405918qkp.95.2021.04.15.11.09.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 11:09:58 -0700 (PDT)
+Message-ID: <74c59fd225b7b107662ce045086cdd8560e3e08f.camel@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH v2] staging: media: atomisp: pci:
+ Change line break to avoid an open parenthesis at the end of the line
+From:   ascordeiro <alinesantanacordeiro@gmail.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Date:   Thu, 15 Apr 2021 15:09:54 -0300
+In-Reply-To: <20210415171409.GC2531743@casper.infradead.org>
+References: <20210415170819.GA17534@focaruja>
+         <20210415171409.GC2531743@casper.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (by Flathub.org) 
 MIME-Version: 1.0
-In-Reply-To: <20210415140724.15398-1-igormtorrente@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/15/21 8:07 AM, Igor Matheus Andrade Torrente wrote:
-> Fixes a race condition - for lack of a more precise term - between
-> em28xx_v4l2_open and em28xx_v4l2_init, by detaching the v4l2_dev,
-> media_pad and vdev structs from the em28xx_v4l2, and managing the
-> lifetime of those objects more dynamicaly.
+Em qui, 2021-04-15 às 18:14 +0100, Matthew Wilcox escreveu:
+> On Thu, Apr 15, 2021 at 02:08:19PM -0300, Aline Santana Cordeiro
+> wrote:
+> > -const struct atomisp_format_bridge
+> > *get_atomisp_format_bridge_from_mbus(
+> > -    u32 mbus_code);
+> > +const struct atomisp_format_bridge*
+> > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
 > 
-> The race happens when a thread[1] - containing the em28xx_v4l2_init()
-> code - calls the v4l2_mc_create_media_graph(), and it return a error,
-> if a thread[2] - running v4l2_open() - pass the verification point
-> and reaches the em28xx_v4l2_open() before the thread[1] finishes
-> the deregistration of v4l2 subsystem, the thread[1] will free all
-> resources before the em28xx_v4l2_open() can process their things,
-> because the em28xx_v4l2_init() has the dev->lock. And all this lead
-> the thread[2] to cause a user-after-free.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-and-tested-by: syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com
-> Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-> ---
-> 
-> V2: Add v4l2_i2c_new_subdev null check
->      Deal with v4l2 subdevs dependencies
-> 
-> V3: Fix link error when compiled as a module
-> 
-> ---
->   drivers/media/usb/em28xx/em28xx-camera.c |   4 +-
->   drivers/media/usb/em28xx/em28xx-video.c  | 300 +++++++++++++++--------
->   drivers/media/usb/em28xx/em28xx.h        |   6 +-
->   3 files changed, 209 insertions(+), 101 deletions(-)
+> No, this does not match coding style.  Probably best to break the
+> 80-column guideline in this instance.  Best would be to have a
+> function
+> and/or struct name that isn't so ridiculously long, but that would
+> require some in-depth thinking.
 > 
 
-The changes looks good to me. Have you tried building as a modules and
-running modprobes and rmmods? You can do that without a device.
+I left the type of function and its name with the parameters in
+different lines, following up some examples of other files, such as
+atomisp_acc.c.
 
-thanks,
--- Shuah
+But I didn't pay attention and left the pointer with the function name
+instead of left it with the type of the function in v1, so Hans
+suggested it to a v2, as I did.
+
+What should I do in this case?
+
+Thank you in advance,
+Aline
+
+> > -void atomisp_apply_css_parameters(
+> > -    struct atomisp_sub_device *asd,
+> > -    struct atomisp_css_params *css_param);
+> > +void atomisp_apply_css_parameters(struct atomisp_sub_device *asd,
+> > +                                 struct atomisp_css_params
+> > *css_param);
+> > +
+> 
+> Good.
+> 
 
 
