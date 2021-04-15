@@ -2,221 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFB9636051F
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 11:00:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD2133605A4
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 11:28:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231791AbhDOJBN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 05:01:13 -0400
-Received: from mail-db8eur05on2091.outbound.protection.outlook.com ([40.107.20.91]:45219
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231732AbhDOJBM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 05:01:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HFByHnZ+6WuvTZ37kU6EGrhXvmkDOzjrH2njJ4KoYYKNNsJ7gjqZChoVXzV6sx53OYCw8I96GdqwbVUcAFwlicyodx5zkF4CmMgZH0Urj2RRn8DfLBFz1TzFmojsgIuG6tiXRiTSxMNj/8K/w/Hez6nShKBUWsxmNy/Hi9hZa9IQbtfzK3/io95RmfttC6JOoD8k0acCn6mhNG+j+ylJNyA9Y7SugRKxpDHZfV0PGny56ILXAyXbEQu9FnUYSvStg8gwWDdw7aGu7Vvv4TtNylep3Qs8USjLydhz8bKkYaOYQd70OJK5aLmHE+1VycTNhsHgANxpsYB938fvo/GzMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ot3bPCtYS4VCSpIZPNaqqOvabrI4KYsxlIxV4SKrjQQ=;
- b=fnKaz53R8XRPkkeDzqH8RKEFLW9e19aSY5HceCLZpGk5rvdCN7QMTCodGYahOGD+1Fmr2yIpGDk8RhTc+bqz6DYVhW5PknRYj0CJQSLn75NuHt8jOTbVOJFpRbCBJxlmd2VVwQs8FhyAGH+ktSDebZnpJ1VJboNUHMbae24VB7WhcYqBwIt9TgWERnFm65ZQAQ1SQKWWuw1JG3YAbY98kGJ0aeHol/rcBp4G0umdjcYJrFJ1DZDrQEK6qwYxnbS1t1YLuoxvKEJUU1ymi1SsWbDIgiug+uNdw9RepY1SE/k3aGSRvv/64B1aVF8kVsHA2kdRpOxihBGMT1AtlE8X5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
- s=selector2-mysnt-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ot3bPCtYS4VCSpIZPNaqqOvabrI4KYsxlIxV4SKrjQQ=;
- b=lR15cBz4wnWYkvUpb/OZJ0F7FkzuWXEY+zt/s1YPvowlhOZhcL8vmY79KtiGoYpfcq5CQSYBJ/4x8Uqw3xWFxGsJb0eQPI5tIMp92MRffZ/aEvvqybqdqUXtgwqLdZPIiB+leT7TraFbO6QguOsNDRmZxJmfuNYXJ1jFAOxWzpY=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=kontron.de;
-Received: from AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:157::14)
- by AM9PR10MB4322.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:26b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17; Thu, 15 Apr
- 2021 09:00:48 +0000
-Received: from AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::3d8a:f56b:3a0c:8a87]) by AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::3d8a:f56b:3a0c:8a87%7]) with mapi id 15.20.4020.023; Thu, 15 Apr 2021
- 09:00:47 +0000
-Subject: Re: [PATCH v2 00/77] media: imx: Miscellaneous fixes and cleanups for
- i.MX7
+        id S231415AbhDOJ2W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 05:28:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56574 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230056AbhDOJ2V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Apr 2021 05:28:21 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A25B6C061574;
+        Thu, 15 Apr 2021 02:27:58 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id m9so9862391wrx.3;
+        Thu, 15 Apr 2021 02:27:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=OzaAb1xzbKHG+f2zGIgAHnGkdZkzSpeH4/Qmqh90Svk=;
+        b=bImQPXhqOcQzb8Sa2H7+bP8UxFXPnDJhIEFZt0Y/sLCBtDnytaUzo8BAjMorvDLjkx
+         iMeuhivVnV6GOM3W2W06LsPnkKpUizOMtM4nFMZKvW/VUQkapX96PUGF/1dPOzFV3H0m
+         wp08uSoNqblXHKHfThDKvUe4i24bkX+gjfILuZT1Gmc5j8qZtoxM56I4JdRXUc65gwVE
+         b96ZjTPR0ECvo5Q9K9FJsI4knm+65uonSD9e/E0g0aaLfWCkN9k1PJ1isYizGKPPjYTn
+         EFMS2hqF3i9p1Yvtkew2MTf5TXOYSMoPFbi+w4kHVN9uqzis4qNMJUOxf04NhryJBLOp
+         DWJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OzaAb1xzbKHG+f2zGIgAHnGkdZkzSpeH4/Qmqh90Svk=;
+        b=pRKWLdZwdF60Dw27hsHtC+VjEvb4WTkI+kjEy7jaPBAFXLKEikB5VabRRP9Qhe+k+T
+         gZH4dMkcADAAKzFy4w1R9og3hjs+/dZsop2/gmVS+cbAzsCwLlvsd9dzFN0PwMfVDmZU
+         llZS/kvZipDxl9vDjFlaaNFQqObdjX4IuVQpXDio2IX4vGyChTkcpEhiVf9pzf4TneNk
+         3SbpxdQ2aptp394NUgejddXr+NcZ9FkyZYS20L/4ZMwm+R3diFE0rcqPhSSseyEXue72
+         sk118uQBqQNrLe58rqn0WuINMjC1Z5Xss1nMUkV7LrtocgnSv37c+EbI+X1oGInbPoKB
+         h1Wg==
+X-Gm-Message-State: AOAM532mEZkHQ3eq7y3mYBV9PlbhLjZblBCd2FQii1u/bOpPvGTyhViW
+        Ytq+Ve+yZJ1+b5pQ2cbWGD/bp2MdU5xJjg==
+X-Google-Smtp-Source: ABdhPJwA6mqe9tqZgKSMrNyXI501zD/PxzmtBZCceYm1IfTMWIzqfowsMAjPwU9sT7Hd4QEBICC+mw==
+X-Received: by 2002:adf:e650:: with SMTP id b16mr2355713wrn.273.1618478877442;
+        Thu, 15 Apr 2021 02:27:57 -0700 (PDT)
+Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id l7sm2209804wrb.35.2021.04.15.02.27.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 02:27:57 -0700 (PDT)
+Date:   Thu, 15 Apr 2021 10:27:55 +0100
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de,
+        Fabio Estevam <festevam@gmail.com>, linux-imx@nxp.com,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>
-References: <20210215042741.28850-1-laurent.pinchart@ideasonboard.com>
- <268621a5-03ab-4cd9-d95a-bf5b6a4b4f7b@kontron.de>
- <YFP+GH+3sS0cdd2R@pendragon.ideasonboard.com>
-From:   Frieder Schrempf <frieder.schrempf@kontron.de>
-Message-ID: <ed2480a0-7950-64d2-6490-d2d7dab1bbfe@kontron.de>
-Date:   Thu, 15 Apr 2021 11:00:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <YFP+GH+3sS0cdd2R@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [46.142.74.26]
-X-ClientProxiedBy: AM0PR04CA0140.eurprd04.prod.outlook.com
- (2603:10a6:208:55::45) To AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:157::14)
+        Marek Vasut <marex@denx.de>, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 00/23] media: imx: imx7-mipi-csis: Add i.MX8MM support
+Message-ID: <20210415092755.oev3s3kzetgap452@arch-thunder.localdomain>
+References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.10.17] (46.142.74.26) by AM0PR04CA0140.eurprd04.prod.outlook.com (2603:10a6:208:55::45) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend Transport; Thu, 15 Apr 2021 09:00:47 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 16b925c3-3ac5-4c66-55fa-08d8ffecf5d9
-X-MS-TrafficTypeDiagnostic: AM9PR10MB4322:
-X-Microsoft-Antispam-PRVS: <AM9PR10MB432276864ED7CFDDA9C7E43EE94D9@AM9PR10MB4322.EURPRD10.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BPxiz2CjeKBhPEgrW4oY6ajyr/2kGWHhGsQD+XVPdGHD9mUvqCDcq2orSZ6EDq4qCGBzc0DeVo67UPLZYBSG6ZFwz3Ve4IzrHJYQUMETysLFdE2uvvuakS7zAj83FvFU9gvFtruoYqTDFm0gbPwdsJmGNYsFXVQo9Rz3Ie3siw6vJT2fCtinHnj+P9DoUVS3Qa3MgesrAZ7hp8fM2IPnzYilcpwalM7wHGBspPw0LgzOMUDNRLdO4hqp09V+ZYeFbXZbFc41DBTrA711jF0qUNfrdfBoyRO4XjgZGrk2RD0A9VfVF9DdnBjhgOyLJZWMJpIWFJkmZfmBaWPj3DkhTQA2njLjOBFOXBVKfRMFPnqrPIpQYuB42FIl7mExO2wpn5OEzgeWSv+SagVbqdLWfO57RZ9wW8Hi4yZSQKQbbV3U3YJAFkFxp2UomzojwsQzxF2CMSQf6B/Xq4yBhyZW1cfVt/SZzg4sAGc2Mj+G9EimaBvXBDEmUg/SdfKsde2tmDvvFb69tyivSvOlsrMnC/L0NBdVdCbk2TMvNZSJeHu0s1qUKYjmD4v8dSu2U5mFvS35rGwdPxWuMhT90NkeEgjQlvP6p2mx75SjeCTnuQ2+dCb1ww0WRXsWik3nIGRQTL2JzF8riN5iPYdQ7CFmcjA4xORgOD6c0BxhONN6KZbJqu1ZvCQb2/8g/FiKe+A1nzbngQF/MOtvFzZERMLAwVRQBXy4nrKtQiX6hszy4C5TwlmbT4aRCC63dr4cBOl2RLGaEwxBjzcs/I7uM7xFIn2KM4HsR7t/rx37UIhBdWs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(39860400002)(376002)(346002)(396003)(136003)(38100700002)(52116002)(5660300002)(66556008)(66946007)(53546011)(8676002)(4326008)(66476007)(478600001)(966005)(38350700002)(2616005)(54906003)(6486002)(316002)(31696002)(8936002)(86362001)(83380400001)(26005)(16526019)(2906002)(6916009)(956004)(186003)(44832011)(16576012)(31686004)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?djJiVjNiczU0MHhCaEQ0d21CR0xTUnpNekkxY1BxNXAwck1SMDdYOTgzOWVF?=
- =?utf-8?B?QWhCbUVhOHNlTGxmWnV3cTZFR1QrMkxidnFVU0J2OUhlVWFjdnFtR3YySWpq?=
- =?utf-8?B?dUtHdUZIMTUrUTJQbEJMcDQwWHhLOHJXenNTcXBSRGo2QlhZQTUyUnkrQld2?=
- =?utf-8?B?cmozZWdtUTRvdncySDRUU09jZk14VDg2RzI2bjJIaVZwcmRqb1ZDeUlGRnlm?=
- =?utf-8?B?YkJMSTBFZHJDRk1aZ3BSWDlTU3VZZDh6dzBMS2FOMFpBZE1QRUR3Y1EzcG5l?=
- =?utf-8?B?KzBZVWlnYUt4N0JWZVI5VFd0SEJCbnYzZ0pERU9vRWhMQ2EwczZwcVEzeXdS?=
- =?utf-8?B?YWFvc1JURUtxck5HNDZhYjZSQk1hUWNWbnNsVnhtUnhIWjhmYnA4Sk84S2FO?=
- =?utf-8?B?ZDJVdDNmNzlaUlJoYUhtSWhRRDdtK09nais5QVRSQ0VFbHFjSGFCdTJWdmYx?=
- =?utf-8?B?NzZTenRTcW51REdKQkczc3lRaktJNUhKWnI4V3hZTGJZQWUybDJtZFc4eW5Y?=
- =?utf-8?B?OXRrbWtUa1MxZnBlcEpSZmh2THpmb0dQRlRxUFJvWW1UL1BFcnhRcEJNcHBm?=
- =?utf-8?B?UnRqUmJFVE55elQ5bVg5NStPazR6ajNVb2o0RnhZN2lLUkpoNkkwMnNPT0hE?=
- =?utf-8?B?M1p2bXJpVHNyMGEzUzJXTzlRazE1eXFuSzhSMTJpRjZydGJtcndja29JaTBG?=
- =?utf-8?B?c0tEaTNGWklrOHFnTXYvTll5ME0yOHdPUlAvUTdjL0UveHJ3VlREQ09WMXVt?=
- =?utf-8?B?WGh0ZzkyZVB1Nmp4MzMxRDRrWEg2eUY2OHlIR1g1MWtOeXBURTRGR1R4LzVO?=
- =?utf-8?B?RTZ6NFFZeW91MEFabEFIYWdPUXYxMEYxWlQydTIyQktCV1BKNERzUk9Zc0hS?=
- =?utf-8?B?TXlhK2xDWVpFei9wdUVVc3gzUS9relNrUE91NHRpYUh0RkZRMTRGalVVSGZ1?=
- =?utf-8?B?MCs3a2RyeWNpL0lybXpHSndVSy9UaUlHNlVNYzJQRnpSTnRaYU9qcFRlQmE5?=
- =?utf-8?B?dklFQmI5QUMrcWNMWHdXWTJNL2ppT3FkZTh1MGpxK25DVkthR3d3U1dmRm13?=
- =?utf-8?B?d3pkdVpIYkVzNmNJRnRuMHY5a1lheXJabTJFdGN0RHRadE1wMGR1cktJbEt1?=
- =?utf-8?B?aUJZbjB4SWFmMW1sYWZGRlpqWnRERFVQb3NGOGRDWld4SkN2eFJYY3MvNGVm?=
- =?utf-8?B?Y2k5U1FlTHR5YW9aeVF2d0VSamwxbkhVck9xQTBXM0pVNXpNcWlnSWZTUUln?=
- =?utf-8?B?c0wyTnVSUWlCcW5MYXZZY2JmZ0VILzJIU2thVWorU0w1RXFxanAxa0pTQVMr?=
- =?utf-8?B?aE0yRGtqMFhscUIyWDFWR254ckJRenpvbEJ0a2c3dUpabjh1aHVzU1gyWExx?=
- =?utf-8?B?ZnVFYkdzcytrUDdrbklDcTZtYkc1N2FZZHk1Si9OZTc1anl2cmQrc011WEhn?=
- =?utf-8?B?Rk9VWnFJMWRLc0VoUURiUXhFYjU1MEJFbExkdmowRFhya1N0QWttR0MvaXlQ?=
- =?utf-8?B?NEVPVkVoc0hXRnJxQ2E1dHVoL3gyVjZGVklOSlJQcTZFU2lWM1p3Tk5aeThS?=
- =?utf-8?B?T1hhZnFUc0JGblpZWC9Ma3Y3Mm01bDJ2OHJHWG9WeDB0V3NNUXFJS2hnOTRL?=
- =?utf-8?B?ZUt3NkFTaFlMbEgrTDBTbWZmTElIZURCNFFBbUJobEttQjBzZXFOR2NFNENi?=
- =?utf-8?B?NnpnaFh6WkVEck9TNWZ3bHJwYTBQYys5ZjZUSHNrQ1Jna1A1RUorT0pRUDFC?=
- =?utf-8?Q?NzTTe559I5dAeMtewB96z5CvbN0Nh1Aw+DysUSG?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16b925c3-3ac5-4c66-55fa-08d8ffecf5d9
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2021 09:00:47.7079
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: is/RwJEh9lqPqVCXaeZGsfBpeYgwxhkOP5rKIdfYG8kMzUA8gngqEz1I8+GVhvLCkb1yOY2vxvoge+qj1i8UvyC66Sb4foxMJnlRRtxEkcw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR10MB4322
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On 19.03.21 02:27, Laurent Pinchart wrote:
-> Hi Frieder,
+Hey Laurent,
+On Tue, Apr 13, 2021 at 05:29:51AM +0300, Laurent Pinchart wrote:
+> Hello,
 > 
-> On Wed, Mar 17, 2021 at 07:04:19PM +0100, Frieder Schrempf wrote:
->> On 15.02.21 05:26, Laurent Pinchart wrote:
->>> Hello,
->>>
->>> This large patch series is a collection of miscellaneous fixes, cleanups
->>> and enhancements for the i.MX7 camera support. Most notably, it
->>> implements support for the Media Controller API in the driver.
->>>
->>> Compared to v1, review comments have been taken into account, and the
->>> patches have been rebased on top of the DT bindings and latest imx
->>> changes as present in the linux-media tree. Patches 38/77, 39/77, 60/77
->>> and 61/77 are new. For additional information, please see individual
->>> patches.
->>>
->>> I have successfully tested the code on an i.MX6ULL board (with an
->>> MT9M114 sensor), an I.MX7D board (with an IMX296 sensor), and an i.MX8MM
->>> board (with an OV5640 sensor, and additional patches for i.MX8MM
->>> support).
->>
->> First of all, thanks for the great work!
+> This patch series adds support for the CSIS found in the NXP i.MX8MM SoC
+> to the imx7-mipi-csis driver.
 > 
-> You're welcome.
+> The CSIS is an IP core from Samsung, integrated in different NXP SoCs.
+> The driver currently supports v3.3 of the CSIS, found in SoCs from the
+> i.MX6 and i.MX7 families. This series extends the driver to support
+> v3.6.3 of the IP, found in i.MX8MM and other members of the i.MX8
+> family.
 > 
->> I'm currently trying to get a setup with CSI + MIPI + ADV7280 working on
->> an i.MX8MM system. Would you mind sharing the additional patches I need
->> for this?
->>
->> I guess you are referring to patches for the MIPI CSIS PHY and the
->> devicetree. Anything else, that I'm missing?
+> The first 21 patches are miscellaneous cleanups and improvements. Please
+> see individual patches for details.
 > 
-> I've pushed my work in progress patches to
+> Patch 22/23 extends the imx7-mipi-csis DT bindings with i.MX8MM support.
+> Support for other members of the i.MX8 family will come later, and for
+> SoCs including an ISI IP core (such as the i.MX8MP) this will require
+> more work to handle additional glue logic.
 > 
-> 	git://linuxtv.org/pinchartl/media.git imx/next
+> Patch 23/23 finaly extends the imx7-mipi-csis driver accordingly.
 > 
-> I haven't tested this on mainline though, as the i.MX8MM board I'm using
-> currently requires an NXP BSP.
+> The changes in the integration of the CSIS between i.MX7 and i.MX8, as
+> described in the DT bindings, have been found through reading of
+> reference manuals and BSP source code, with different sources of
+> information contradicting each other. A confirmation from NXP would be
+> nice (in particular regarding the clocks).
+
+Thanks a lot for this series, looks all very good to me.
+
+Will only ask you, as we already talked, to add your name in
+the bindings file as maintainer and extend also the MAINTAINERS file
+entry with your details.
+
+You have a lot more hw/code working with this driver and also
+time/expertise.
+
+It can be in a follow patch no need to spin a new series for this.
+
+For all patches in this series:
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+
+Thanks,
+------
+Cheers,
+     Rui
+
 > 
-> For the DT integration, here's what I have in imx8mm.dtsi:
+> Laurent Pinchart (23):
+>   media: imx: imx7_mipi_csis: Fix logging of only error event counters
+>   media: imx: imx7_mipi_csis: Count the CSI-2 debug interrupts
+>   media: imx: imx7_mipi_csis: Update ISP_CONFIG macros for quad pixel
+>     mode
+>   media: imx: imx7_mipi_csis: Move static data to top of
+>     mipi_csis_dump_regs()
+>   media: imx: imx7_mipi_csis: Minimize locking in get/set format
+>   media: imx: imx7_mipi_csis: Don't set subdev data
+>   media: imx: imx7-mipi-csis: Reorganize code in sections
+>   media: imx: imx7_mipi_csis: Set the CLKSETTLE register field
+>   media: imx: imx7_mipi_csis: Drop unused csis_hw_reset structure
+>   media: imx: imx7_mipi_csis: Store CSI-2 data type in format structure
+>   media: imx: imx7_mipi_csis: Drop csi_state phy field
+>   media: imx: imx7_mipi_csis: Rename mipi_sd to sd
+>   media: imx: imx7_mipi_csis: Rename csi_state flag field to state
+>   media: imx: imx7_mipi_csis: Turn csi_state irq field into local
+>     variable
+>   media: imx: imx7_mipi_csis: Don't pass pdev to mipi_csis_parse_dt()
+>   media: imx: imx7_mipi_csis: Pass csi_state to mipi_csis_subdev_init()
+>   media: imx: imx7_mipi_csis: Drop csi_state pdev field
+>   media: imx: imx7_mipi_csis: Make csi_state num_clocks field unsigned
+>   media: imx: imx7_mipi_csis: Reorganize csi_state structure
+>   media: imx: imx7_mipi_csis: Reorganize mipi_csis_probe()
+>   media: imx: imx7_mipi_csis: Reject invalid data-lanes settings
+>   dt-bindings: media: nxp,imx7-mipi-csi2: Add i.MX8MM support
+>   media: imx: imx7_mipi_csis: Add i.MX8MM support
 > 
-[...]
+>  .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 108 +-
+>  drivers/staging/media/imx/imx7-mipi-csis.c    | 943 ++++++++++--------
+>  2 files changed, 622 insertions(+), 429 deletions(-)
 > 
-> Mainline seems to be missing the power domains, so you'll likely have to
-> sort this out.
+> -- 
+> Regards,
 > 
-
-Thanks a lot for the patches. I finally found some time to test this 
-with our hardware. I'm working on v5.10 mainline and applied pending 
-support for the power-domains from Lucas [1].
-
-It doesn't look bad and I can bring up the media devices, etc. but up to 
-now I couldn't get any image from the ADV7280A-M.
-
-This is the first time I'm working with the media/v4l subsystem, so I 
-might be missing some trivial things. Also I'm not quite sure if the 
-adv7180 driver is currently fully compatible.
-
-Anyway here are some things I noticed. Maybe you could have a quick look 
-and see if you can gather something from that, which helps me to get 
-this running?
-
-After enabling the link to the adv7180 with:
-
-media-ctl -l "'adv7180 1-0021':0 -> 'imx7-mipi-csis.0':0[1]"
-
-all the links look ok, but not all the parameters seem to be propagated 
-up to the subdevs (see [2]). But I don't even know if this should happen 
-automatically.
-
-After setting up the format like this, the subdev setup looks ok as far 
-as I can judge (see [3]):
-
-media-ctl -V "'adv7180 1-0021':0 [fmt:UYVY2X8/720x240 field:alternate]"
-media-ctl -V "'imx7-mipi-csis.0':1 [fmt:UYVY2X8/720x240 field:alternate]"
-
-Also there is one small issue with the adv7180 not implementing neither 
-V4L2_CID_LINK_FREQ nor V4L2_CID_PIXEL_RATE. So v4l2_get_link_rate() 
-fails, but as this seems to be only used to calculate hs_settle, I just 
-hardcoded the hs_settle value for now.
-
-Finally I don't get any image from the analog converter. The stream 
-seems to be setup correctly, but I don't receive any frames. Though I 
-can see that there is data on the MIPI CSI lanes.
-
-I'm also not quite sure which value to use for the CSI clock-frequency. 
-On the clock lane of the CSI interface I can measure something around 
-106 MHz coming from the ADV7280.
-
-Maybe you got some pointers for me to look at?
-
-Thanks
-Frieder
-
-[1] 
-https://patchwork.kernel.org/project/linux-arm-kernel/cover/20201105174434.1817539-1-l.stach@pengutronix.de/
-[2] https://paste.ee/p/HuIfu
-[3] https://paste.ee/p/os6dU
+> Laurent Pinchart
+> 
