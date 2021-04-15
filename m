@@ -2,207 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 322E436104C
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 18:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38E9136107D
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 18:54:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233992AbhDOQkh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 12:40:37 -0400
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:42499 "EHLO
-        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233916AbhDOQkg (ORCPT
+        id S233829AbhDOQyu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 12:54:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231549AbhDOQyu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 12:40:36 -0400
-Received: by mail-oi1-f176.google.com with SMTP id n140so24868142oig.9;
-        Thu, 15 Apr 2021 09:40:13 -0700 (PDT)
+        Thu, 15 Apr 2021 12:54:50 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA39C061574;
+        Thu, 15 Apr 2021 09:54:27 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id 18so9028675qkl.3;
+        Thu, 15 Apr 2021 09:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=dx1/r/N68A6cT3i6PlmlaAahaUCvbfGXrjCcPAhDBzw=;
+        b=YgHNKnOsdv0YMHXZW8RrF1EPzF/UsNnC5njhIrZcZTbUN0jevFraJl6ifAxPsgKZjH
+         ZCAV0uJCXeFnk5xyFdC7DYU164c7z/sU8pqN6lMflO6OQihEMJsIuR+oJ8ffhKvgBXDj
+         FvjbVgdBAV8rotE0N6UyQVy6/K0m4U5J3ktzAi9lY2f6L/9p4xjkOp9eeu1ME50WeefW
+         r6IqTFdMyDsrithLZWyTKicveeH24ji1HFeofN5lPWL7oOkK6W5VvB+tXwfiWC2LlZ2w
+         gyGxmw7LgYqXHpGiK44NpJ0VJ7NixccMrA0nAc9oUZQumH6BZZf/QKYz9XGGoTuh9En0
+         mulA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=sNbinBAo/5NA8QLcwtnCqydROuE/q5gCZdDvbMIWpto=;
-        b=VhiklPryflj2cXtXa73Ur5KQ70Fg9mQ0QhX+xNCr9R+wVgdabIi9JTzoI4Z7e7udlm
-         kxbdWAPNxpghig5FgWc/X59JsWd/hAP5Y0EiFIhpS51Xq7eLj51ggYgvkriSzerQtSTf
-         itFXLPhtE0Pa9JFwT/Bk3v1WEm9XoHeM2z6BqPjRsqT6BjZRbrFrTYWqHJNsA3CFvsG9
-         KX9B9kemhYLNPFvPpb2gJ5UAwZX1XqGc55cE1y9SPI5aVwDVswj9WNYbFg5xib1pKSei
-         aV84OSvwAfoww3+C+QMUYCWO+aR9vsGP2KTlxncwev/OgsPiaa5D9OB9+VLgD/Fmd39v
-         qxtw==
-X-Gm-Message-State: AOAM531KjUg2U2o2wkpwIB2raawoN/6KjBc+Eh/1NZXqpzmtqwzu4yhT
-        lUcfyi78cB7VDObeU7+QMDFoTyqKyA==
-X-Google-Smtp-Source: ABdhPJw1wNTGv09rmaL86iTOfnFYVM9FwmSM3O9bB1v/h1nqYWkWzRcd5kCg12eFtbNWJT1zalbV3Q==
-X-Received: by 2002:aca:ad87:: with SMTP id w129mr3180608oie.35.1618504813073;
-        Thu, 15 Apr 2021 09:40:13 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id e44sm747794ote.21.2021.04.15.09.40.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 09:40:12 -0700 (PDT)
-Received: (nullmailer pid 1534646 invoked by uid 1000);
-        Thu, 15 Apr 2021 16:40:11 -0000
-Date:   Thu, 15 Apr 2021 11:40:11 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Eugen Hristev <eugen.hristev@microchip.com>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        jacopo@jmondi.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 30/33] dt-bindings: media: add microchip,xisc device
- bindings
-Message-ID: <20210415164011.GA1533489@robh.at.kernel.org>
-References: <20210413105731.610028-31-eugen.hristev@microchip.com>
- <20210415085846.824796-1-eugen.hristev@microchip.com>
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=dx1/r/N68A6cT3i6PlmlaAahaUCvbfGXrjCcPAhDBzw=;
+        b=gOODYehXCU25N+X52QI7rVIo8anjfrQTzoFHigYO12kgfJH4cJCbeQA77/8c7E4Ytz
+         xIJW5SX0mH3Ow6ykQAZXinJKR3Te/BNIxqFlZIvxEgygNOKj45bAAhtbMJFx2NvmyUYH
+         sQ8IPvgaOdtPyMt5hRYuFZihKKbh7IrnrucvXuTNQgwBAAtxM1e9Sj2NFvrmqr+UnkkF
+         WH1cXiPB2qeSu6YCElB6hbat9zxLAuCkTRwMznD8uyhn1T/MjPKOyaTVM8RVqPcuCrcS
+         ecBdcJwtZqs9zF2nkD8tSbUkj9/lzlHwjAPVVN18iheTNDll1aeIHHChOuS5kSc+wB1l
+         bVYg==
+X-Gm-Message-State: AOAM532pPQqfPjFaW5x7uaBcm7eARZncW2MgJ1o8EiV/0m6ECsEf0tna
+        0kEVXfLyRurpAnX0kfMoMft4zpB/XQMLYZO1
+X-Google-Smtp-Source: ABdhPJzESx6Ae1ersyawFYdb9u/Qx2IzcBGRiCY8/MVLLoXmx+Fnv11A4g1FnfXWZsXN3Sl8+cPq+g==
+X-Received: by 2002:a05:620a:1432:: with SMTP id k18mr4316365qkj.151.1618505666414;
+        Thu, 15 Apr 2021 09:54:26 -0700 (PDT)
+Received: from focaruja ([138.204.24.234])
+        by smtp.gmail.com with ESMTPSA id 7sm2416170qkl.107.2021.04.15.09.54.25
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Thu, 15 Apr 2021 09:54:26 -0700 (PDT)
+Date:   Thu, 15 Apr 2021 13:54:23 -0300
+From:   Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: [PATCH 1/4] staging: media: atomisp: pci: Balance braces around
+ conditional statements in file atomisp_cmd.c
+Message-ID: <2e1b53962aab474ab092b1cf09afeb05de7eeabc.1618505476.git.alinesantanacordeiro@gmail.com>
+References: <cover.1618505476.git.alinesantanacordeiro@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210415085846.824796-1-eugen.hristev@microchip.com>
+In-Reply-To: <cover.1618505476.git.alinesantanacordeiro@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 11:58:46AM +0300, Eugen Hristev wrote:
-> Add bindings for the Microchip eXtended Image Sensor Controller.
-> Based on the atmel,isc.yaml binding.
-> 
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> ---
->  .../bindings/media/microchip,xisc.yaml        | 129 ++++++++++++++++++
->  1 file changed, 129 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/microchip,xisc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/microchip,xisc.yaml b/Documentation/devicetree/bindings/media/microchip,xisc.yaml
-> new file mode 100644
-> index 000000000000..c829fa3d2e0e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/microchip,xisc.yaml
-> @@ -0,0 +1,129 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
+Balance braces around conditional statements.
+Issue detected by checkpatch.pl.
+It happens in if-else statements where one of the commands
+uses braces around a block of code and the other command
+does not since it has just a single line of code.
 
-Dual license still missing.
+Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-> +# Copyright (C) 2021 Microchip Technology, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/microchip,xisc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Microchip eXtended Image Sensor Controller (XISC)
-> +
-> +maintainers:
-> +  - Eugen Hristev <eugen.hristev@microchip.com>
-> +
-> +description: |
-> +  The eXtended Image Sensor Controller (XISC) device provides the video input capabilities for the
-> +  Microchip AT91 SAM family of devices.
-> +
-> +  The XISC has a single internal parallel input that supports RAW Bayer, RGB or YUV video.
-> +  The source can be either a demuxer from a CSI2 type of bus, or a simple direct bridge to a
-> +  parallel sensor.
-> +
-> +  The XISC provides one clock output that is used to clock the demuxer/bridge.
-> +
-> +properties:
-> +  compatible:
-> +    const: microchip,sama7g5-isc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: hclock
-> +
-> +  '#clock-cells':
-> +    const: 0
-> +
-> +  clock-output-names:
-> +    const: isc-mck
-> +
-> +  microchip,mipi-mode:
-> +    type: boolean
-> +    description:
-> +      As the XISC is usually connected to a demux/bridge, the XISC receives
-> +      the same type of input, however, it should be aware of the type of
-> +      signals received. The mipi-mode enables different internal handling
-> +      of the data and clock lines.
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description:
-> +      Input port node, single endpoint describing the input pad.
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: video-interfaces.yaml#
-> +
-> +        properties:
-> +          bus-type:
-> +            enum: [5, 6]
-> +
-> +          remote-endpoint: true
-> +
-> +          bus-width:
-> +            enum: [8, 9, 10, 11, 12]
-> +            default: 12
-> +
-> +          hsync-active:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +          vsync-active:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +          pclk-sample:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +        required:
-> +          - remote-endpoint
-> +          - bus-type
-> +
-> +        additionalProperties: false
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - '#clock-cells'
-> +  - clock-output-names
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/at91.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    xisc: xisc@e1408000 {
-> +        compatible = "microchip,sama7g5-isc";
-> +        reg = <0xe1408000 0x2000>;
-> +        interrupts = <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&pmc PMC_TYPE_PERIPHERAL 56>;
-> +        clock-names = "hclock";
-> +        #clock-cells = <0>;
-> +        clock-output-names = "isc-mck";
-> +
-> +        port {
-> +                xisc_in: endpoint {
-> +                       bus-type = <5>; /* Parallel */
-> +                       remote-endpoint = <&csi2dc_out>;
-> +                       hsync-active = <1>;
-> +                       vsync-active = <1>;
-> +                       bus-width = <12>;
-> +                };
-> +        };
-> +    };
-> +
-> -- 
-> 2.25.1
-> 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index abc17ec..8a5796e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1132,9 +1132,10 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 					asd->frame_status[vb->i] =
+ 					    ATOMISP_FRAME_STATUS_OK;
+ 				}
+-			} else
++			} else {
+ 				asd->frame_status[vb->i] =
+ 				    ATOMISP_FRAME_STATUS_OK;
++			}
+ 		} else {
+ 			asd->frame_status[vb->i] = ATOMISP_FRAME_STATUS_OK;
+ 		}
+@@ -4898,9 +4899,9 @@ atomisp_try_fmt_file(struct atomisp_device *isp, struct v4l2_format *f)
+ 
+ 	depth = get_pixel_depth(pixelformat);
+ 
+-	if (field == V4L2_FIELD_ANY)
++	if (field == V4L2_FIELD_ANY) {
+ 		field = V4L2_FIELD_NONE;
+-	else if (field != V4L2_FIELD_NONE) {
++	} else if (field != V4L2_FIELD_NONE) {
+ 		dev_err(isp->dev, "Wrong output field\n");
+ 		return -EINVAL;
+ 	}
+@@ -6548,17 +6549,17 @@ static int atomisp_get_pipe_id(struct atomisp_video_pipe *pipe)
+ {
+ 	struct atomisp_sub_device *asd = pipe->asd;
+ 
+-	if (ATOMISP_USE_YUVPP(asd))
++	if (ATOMISP_USE_YUVPP(asd)) {
+ 		return IA_CSS_PIPE_ID_YUVPP;
+-	else if (asd->vfpp->val == ATOMISP_VFPP_DISABLE_SCALER)
++	} else if (asd->vfpp->val == ATOMISP_VFPP_DISABLE_SCALER) {
+ 		return IA_CSS_PIPE_ID_VIDEO;
+-	else if (asd->vfpp->val == ATOMISP_VFPP_DISABLE_LOWLAT)
++	} else if (asd->vfpp->val == ATOMISP_VFPP_DISABLE_LOWLAT) {
+ 		return IA_CSS_PIPE_ID_CAPTURE;
+-	else if (pipe == &asd->video_out_video_capture)
++	} else if (pipe == &asd->video_out_video_capture) {
+ 		return IA_CSS_PIPE_ID_VIDEO;
+-	else if (pipe == &asd->video_out_vf)
++	} else if (pipe == &asd->video_out_vf) {
+ 		return IA_CSS_PIPE_ID_CAPTURE;
+-	else if (pipe == &asd->video_out_preview) {
++	} else if (pipe == &asd->video_out_preview) {
+ 		if (asd->run_mode->val == ATOMISP_RUN_MODE_VIDEO)
+ 			return IA_CSS_PIPE_ID_VIDEO;
+ 		else
+-- 
+2.7.4
+
