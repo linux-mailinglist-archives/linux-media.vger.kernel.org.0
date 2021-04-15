@@ -2,164 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8F583600CD
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 06:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1496B3601E7
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 07:49:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229926AbhDOEG1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 00:06:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42710 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229895AbhDOEG0 (ORCPT
+        id S230296AbhDOFte (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 01:49:34 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:57186 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230005AbhDOFtd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 00:06:26 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B731C061574;
-        Wed, 14 Apr 2021 21:06:03 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 31so534522pgn.13;
-        Wed, 14 Apr 2021 21:06:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=5okE2pNjTTIl5cI5vBAhcxTA0JhIWxKGfIW1DlM/nVc=;
-        b=Ca2AWSv3XA6rjNJHwwHmVS5D1+lP5vAjQWRjq6oZzvFHILkiPrU8YSj4mRabHQpI/N
-         XiGXoaEhvSfgWaT4UDcr8w8x9XxqHhmb5NqIqvuzGcgnQ1wOVKWvkAuSLR7Gc0MG7Raj
-         z/qj6SiFCuH5gxzVOaaawsgaWKcMi7Qto2A8cfwIQyQJcKtn+w2VNkgtiKMWJSpy9rHQ
-         jLX9JHqt4wMn+3c1Ek0kAKnEFr3gRCrhurEiD5mCZrlzOdz0Phv3pQoNQLBH3GezF7nn
-         2T3sFDP5Aas4pHpYO+pswg8Z5aIPWe7DqK5sWoyETpcFzbYXMhDKPX/MJl6B4i6s5R7B
-         /Cgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=5okE2pNjTTIl5cI5vBAhcxTA0JhIWxKGfIW1DlM/nVc=;
-        b=pCRMwaDyqbheeG+yImBF/QAfd3F68FMqsV2bZgsMGj6LedESvBKJNE1BTbmRaZUeTZ
-         emt/Uya1/uR8ePhtSHAYc1VlLwmtuyyrG9OampO0Hg0uYo4qVt+M09s6UUm1uwnkFVpb
-         jp49VwZe1L61nkxfvBaurkrt2MUA5sta/l9NCWM9tEWPSLy8ye7RJaxuAq8YdXcoJC9F
-         ch5kXJdf/MI6ONtwOMpJrb7OrECHkTVUzbCgoK3NRF1+PMGlKNwbkBC2IEBbUaF6I+xk
-         HqRRTjLBmcJvYlImicijJasfd7Ml2xBQjlthbW77wIO9BOvX+k9FNstBZWyNNIZlUt5T
-         aK9w==
-X-Gm-Message-State: AOAM533MlpfsHktuOWfSHW2XT/v0g8PCzBDHrztfNFfFt2dA4iyAg/qM
-        aVtisM192HvcRpmigeimt7I=
-X-Google-Smtp-Source: ABdhPJxXCM2VgJlCZBXJcwUQZVsSP4mmZOJBR0UN91zBxyHrFvAkHST7fZ5yMMgvM3F0TU5FvAmunQ==
-X-Received: by 2002:a63:b509:: with SMTP id y9mr1663679pge.148.1618459563081;
-        Wed, 14 Apr 2021 21:06:03 -0700 (PDT)
-Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
-        by smtp.gmail.com with ESMTPSA id i17sm714406pfd.84.2021.04.14.21.05.58
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Apr 2021 21:06:02 -0700 (PDT)
-From:   dillon.minfei@gmail.com
-To:     krzysztof.kozlowski@canonical.com, robh+dt@kernel.org,
-        shawnguo@kernel.org, krzk@kernel.org, linux@rempel-privat.de,
-        s.riedmueller@phytec.de, matthias.schiffer@ew.tq-group.com,
-        leoyang.li@nxp.com, arnd@arndb.de, olof@lixom.net,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        prabhakar.csengg@gmail.com, mchehab@kernel.org
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, dillon min <dillon.minfei@gmail.com>
-Subject: [PATCH v3 4/4] media: i2c: ov2659: Use clk_{prepare_enable,disable_unprepare}() to set xvclk on/off
-Date:   Thu, 15 Apr 2021 12:05:35 +0800
-Message-Id: <1618459535-8141-5-git-send-email-dillon.minfei@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1618459535-8141-1-git-send-email-dillon.minfei@gmail.com>
-References: <1618459535-8141-1-git-send-email-dillon.minfei@gmail.com>
+        Thu, 15 Apr 2021 01:49:33 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5k0V1088198;
+        Thu, 15 Apr 2021 05:49:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=UKh2oMINkAlsBGjPrGn33bQfhhfZDzZzi4ZAtWpYPc0=;
+ b=fjw1FNNr1MfNeFsutgK/MLCa5vv+we9TUYibZa32Xst2f8Mtee+uh9NARwlXwPdD7x+N
+ W4VpR72o7+sFgK0uo/rFAyFbNsVp+Ff0ErsSyfnsRAFEhxuND2/iyapBYW8qWvWYd19W
+ hQgFf3qQ7yzAoed1rTMGQsrGftKfNmA/vdgILaQh22RWrESZ/ShSPdldGoFQ1+49ejvk
+ ssrtFOsl3y5Vw8TQeEz3xloYx+lSa+rMLcgHQ67mtkyfSnOLg1RRD91hcuR+T4e9Hway
+ snRJkTlvjrrvVKwO/U6jhfQhT8pzrQdZ8+Mber9hJR/0ElDW2s+xwzETjV8go73025bU BQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2130.oracle.com with ESMTP id 37u1hbmpgd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 15 Apr 2021 05:49:02 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5dY6M029293;
+        Thu, 15 Apr 2021 05:49:00 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 37unsv20mr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 15 Apr 2021 05:49:00 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13F5mwQx020490;
+        Thu, 15 Apr 2021 05:48:59 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 14 Apr 2021 22:48:58 -0700
+Date:   Thu, 15 Apr 2021 08:48:51 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [PATCH v2] staging: media: atomisp: pci: Format comments
+ according to coding-style in file atomisp_cmd.c
+Message-ID: <20210415054851.GA6021@kadam>
+References: <20210414204244.GA8287@focaruja>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210414204244.GA8287@focaruja>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104150040
+X-Proofpoint-GUID: dKV2ZxJwBAw6Zd8HVB_vpCGW5vrpRtn_
+X-Proofpoint-ORIG-GUID: dKV2ZxJwBAw6Zd8HVB_vpCGW5vrpRtn_
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
+ clxscore=1015 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104150040
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: dillon min <dillon.minfei@gmail.com>
+On Wed, Apr 14, 2021 at 05:42:44PM -0300, Aline Santana Cordeiro wrote:
+> @@ -90,18 +92,14 @@ struct camera_mipi_info *atomisp_to_sensor_mipi_info(struct v4l2_subdev *sd)
+>  	return (struct camera_mipi_info *)v4l2_get_subdev_hostdata(sd);
+>  }
+>  
+> -/*
+> - * get struct atomisp_video_pipe from v4l2 video_device
+> - */
+> +/* get struct atomisp_video_pipe from v4l2 video_device */
 
-On some platform(imx6q), xvclk might not switch on in advance,
-also for power save purpose, xvclk should not be always on.
-so, add clk_prepare_enable(), clk_disable_unprepare() in driver
-side to set xvclk on/off at proper stage.
+This code is obvious and the comment doesn't add anything except noise.
+Just delete it.  Same for a lot of the other one line comments
+describing functions in this patch.
 
-Add following changes:
-- add 'struct clk *clk;' in 'struct ov2659 {}'
-- enable xvclk in ov2659_power_on()
-- disable xvclk in ov2659_power_off()
 
-Signed-off-by: dillon min <dillon.minfei@gmail.com>
----
-v3: optimize commit message
+>  struct atomisp_video_pipe *atomisp_to_video_pipe(struct video_device *dev)
+>  {
+>  	return (struct atomisp_video_pipe *)
+>  	       container_of(dev, struct atomisp_video_pipe, vdev);
+>  }
+>  
+> -/*
+> - * get struct atomisp_acc_pipe from v4l2 video_device
+> - */
+> +/* get struct atomisp_acc_pipe from v4l2 video_device */
+>  struct atomisp_acc_pipe *atomisp_to_acc_pipe(struct video_device *dev)
+>  {
+>  	return (struct atomisp_acc_pipe *)
+> @@ -269,7 +267,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
+>  			    ATOMISP_RUN_MODE_CONTINUOUS_CAPTURE;
+>  	}
+>  
+> -	/* search for the target frequency by looping freq rules*/
+> +	/* search for the target frequency by looping freq rules */
+>  	for (i = 0; i < dfs->dfs_table_size; i++) {
+>  		if (curr_rules.width != dfs->dfs_table[i].width &&
+>  		    dfs->dfs_table[i].width != ISP_FREQ_RULE_ANY)
+> @@ -307,9 +305,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
+>  	return ret;
+>  }
+>  
+> -/*
+> - * reset and restore ISP
+> - */
+> +/* reset and restore ISP */
 
- drivers/media/i2c/ov2659.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+Obvious
 
-diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-index 42f64175a6df..fb78a1cedc03 100644
---- a/drivers/media/i2c/ov2659.c
-+++ b/drivers/media/i2c/ov2659.c
-@@ -204,6 +204,7 @@ struct ov2659 {
- 	struct i2c_client *client;
- 	struct v4l2_ctrl_handler ctrls;
- 	struct v4l2_ctrl *link_frequency;
-+	struct clk *clk;
- 	const struct ov2659_framesize *frame_size;
- 	struct sensor_register *format_ctrl_regs;
- 	struct ov2659_pll_ctrl pll;
-@@ -1270,6 +1271,8 @@ static int ov2659_power_off(struct device *dev)
- 
- 	gpiod_set_value(ov2659->pwdn_gpio, 1);
- 
-+	clk_disable_unprepare(ov2659->clk);
-+
- 	return 0;
- }
- 
-@@ -1278,9 +1281,17 @@ static int ov2659_power_on(struct device *dev)
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct ov2659 *ov2659 = to_ov2659(sd);
-+	int ret;
- 
- 	dev_dbg(&client->dev, "%s:\n", __func__);
- 
-+	ret = clk_prepare_enable(ov2659->clk);
-+	if (ret) {
-+		dev_err(&client->dev, "%s: failed to enable clock\n",
-+			__func__);
-+		return ret;
-+	}
-+
- 	gpiod_set_value(ov2659->pwdn_gpio, 0);
- 
- 	if (ov2659->resetb_gpio) {
-@@ -1425,7 +1436,6 @@ static int ov2659_probe(struct i2c_client *client)
- 	const struct ov2659_platform_data *pdata = ov2659_get_pdata(client);
- 	struct v4l2_subdev *sd;
- 	struct ov2659 *ov2659;
--	struct clk *clk;
- 	int ret;
- 
- 	if (!pdata) {
-@@ -1440,11 +1450,11 @@ static int ov2659_probe(struct i2c_client *client)
- 	ov2659->pdata = pdata;
- 	ov2659->client = client;
- 
--	clk = devm_clk_get(&client->dev, "xvclk");
--	if (IS_ERR(clk))
--		return PTR_ERR(clk);
-+	ov2659->clk = devm_clk_get(&client->dev, "xvclk");
-+	if (IS_ERR(ov2659->clk))
-+		return PTR_ERR(ov2659->clk);
- 
--	ov2659->xvclk_frequency = clk_get_rate(clk);
-+	ov2659->xvclk_frequency = clk_get_rate(ov2659->clk);
- 	if (ov2659->xvclk_frequency < 6000000 ||
- 	    ov2659->xvclk_frequency > 27000000)
- 		return -EINVAL;
-@@ -1506,7 +1516,9 @@ static int ov2659_probe(struct i2c_client *client)
- 	ov2659->frame_size = &ov2659_framesizes[2];
- 	ov2659->format_ctrl_regs = ov2659_formats[0].format_ctrl_regs;
- 
--	ov2659_power_on(&client->dev);
-+	ret = ov2659_power_on(&client->dev);
-+	if (ret < 0)
-+		goto error;
- 
- 	ret = ov2659_detect(sd);
- 	if (ret < 0)
--- 
-2.7.4
+>  int atomisp_reset(struct atomisp_device *isp)
+>  {
+>  	/* Reset ISP by power-cycling it */
+> @@ -338,9 +334,7 @@ int atomisp_reset(struct atomisp_device *isp)
+>  	return ret;
+>  }
+>  
+> -/*
+> - * interrupt disable functions
+> - */
+> +/* interrupt disable functions */
+
+Obvious
+
+>  static void disable_isp_irq(enum hrt_isp_css_irq irq)
+>  {
+>  	irq_disable_channel(IRQ0_ID, irq);
+> @@ -351,9 +345,7 @@ static void disable_isp_irq(enum hrt_isp_css_irq irq)
+>  	cnd_sp_irq_enable(SP0_ID, false);
+>  }
+>  
+> -/*
+> - * interrupt clean function
+> - */
+> +/* interrupt clean function */
+
+Obvious
+
+>  static void clear_isp_irq(enum hrt_isp_css_irq irq)
+>  {
+>  	irq_clear_all(IRQ0_ID);
+
+[ snip ]
+
+> @@ -1918,10 +1914,7 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> -/*
+> - * utils for buffer allocation/free
+> - */
+> -
+> +/* utils for buffer allocation/free */
+
+What?  This one seems actively wrong.
+
+>  int atomisp_get_frame_pgnr(struct atomisp_device *isp,
+>  			   const struct ia_css_frame *frame, u32 *p_pgnr)
+>  {
+
+etc.
+
+regards,
+dan carpenter
 
