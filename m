@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76755360A01
+	by mail.lfdr.de (Postfix) with ESMTP id E8076360A02
 	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 15:05:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233076AbhDONFo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 09:05:44 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46132 "EHLO
+        id S233062AbhDONFq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 09:05:46 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46134 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233062AbhDONFn (ORCPT
+        with ESMTP id S233067AbhDONFn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 15 Apr 2021 09:05:43 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 718331864;
-        Thu, 15 Apr 2021 15:05:18 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B96B8AB;
+        Thu, 15 Apr 2021 15:05:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1618491919;
-        bh=dh8RmCXlStCWlEEewZrKk8BUf0qb1/ON/fMrY3/iTZ8=;
+        bh=WSXKm7DK8WK6P3RKh+i0GLKxen8kXmMCIvrgItkqA9Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZaFKWR8eYxrparMNGqmKvyKj+74Rw+BtgkrEZSfcOBKjFkZVbQ221+kmvn/HonzIW
-         5ziNquCR5FR/fAzmUIU1aTbj+zZYarSKIpF/y8b6VQlxG6sx+WctRw2gF80gGkV2mp
-         LqXKw/xr8IT/ZfixlZIsLnaIfecqQ1KBuD1kXBgI=
+        b=iV2hgX9c6KfyDpmDbP5foX3W6sRYHVsEuS2+wMnh9L+gdjYwsqe/XlXtIV6Zi7SR0
+         K0wDE233+8ylHiGgFctjlAYmB6eLDB2PbVoopTHmGlvgf2TuBzvpWASa0Oy4jLCfqv
+         1U3HUvmTDviDk2Z/r05ux2arhHCx1SVJfoEjGzbs=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -29,9 +29,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         niklas.soderlund+renesas@ragnatech.se
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v5 12/24] media: entity: Add an iterator helper for connected pads
-Date:   Thu, 15 Apr 2021 16:04:38 +0300
-Message-Id: <20210415130450.421168-13-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v5 13/24] media: entity: Add only connected pads to the pipeline
+Date:   Thu, 15 Apr 2021 16:04:39 +0300
+Message-Id: <20210415130450.421168-14-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
 References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
@@ -44,59 +44,54 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Add a helper macro for iterating over pads that are connected through
-enabled routes. This can be used to find all the connected pads within an
-entity, for instance starting from the pad which has been obtained during
-the graph walk.
+A single entity may contain multiple pipelines. Only add pads that were
+connected to the pad through which the entity was reached to the pipeline.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-- Make __media_entity_next_routed_pad() return NULL and adjust the
-  iterator to handle that
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- include/media/media-entity.h | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/media/mc/mc-entity.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index 73de1c335e4e..edd6f60ed6b4 100644
---- a/include/media/media-entity.h
-+++ b/include/media/media-entity.h
-@@ -916,6 +916,33 @@ __must_check int media_graph_walk_init(
- bool media_entity_has_route(struct media_entity *entity, unsigned int pad0,
- 			    unsigned int pad1);
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index fe6cb743c85c..40e5544552c0 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -457,7 +457,7 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
+ 		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
  
-+static inline struct media_pad *__media_entity_next_routed_pad(
-+	struct media_pad *start, struct media_pad *iter)
-+{
-+	struct media_entity *entity = start->entity;
-+
-+	for (; iter < &entity->pads[entity->num_pads]; iter++)
-+		if (media_entity_has_route(entity, start->index, iter->index))
-+			return iter;
-+
-+	return NULL;
-+}
-+
-+/**
-+ * media_entity_for_each_routed_pad - Iterate over entity pads connected by routes
-+ *
-+ * @start: The stating pad
-+ * @iter: The iterator pad
-+ *
-+ * Iterate over all pads connected through routes from a given pad
-+ * within an entity. The iteration will include the starting pad itself.
-+ */
-+#define media_entity_for_each_routed_pad(start, iter)			\
-+	for (iter = __media_entity_next_routed_pad(			\
-+		     start, (start)->entity->pads);			\
-+	     iter != NULL;						\
-+	     iter = __media_entity_next_routed_pad(start, iter + 1))
-+
- /**
-  * media_graph_walk_cleanup - Release resources used by graph walk.
-  *
+-		media_entity_for_each_pad(entity, iter) {
++		media_entity_for_each_routed_pad(pad, iter) {
+ 			if (iter->pipe && iter->pipe != pipe) {
+ 				pr_err("Pipe active for %s. Can't start for %s\n",
+ 				       entity->name, iter->entity->name);
+@@ -546,10 +546,9 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
+ 	media_graph_walk_start(graph, pad_err);
+ 
+ 	while ((pad_err = media_graph_walk_next(graph))) {
+-		struct media_entity *entity = pad_err->entity;
+ 		struct media_pad *iter;
+ 
+-		media_entity_for_each_pad(entity, iter) {
++		media_entity_for_each_routed_pad(pad_err, iter) {
+ 			/* Sanity check for negative stream_count */
+ 			if (!WARN_ON_ONCE(iter->stream_count <= 0)) {
+ 				--iter->stream_count;
+@@ -602,10 +601,9 @@ void __media_pipeline_stop(struct media_pad *pad)
+ 	media_graph_walk_start(graph, pad);
+ 
+ 	while ((pad = media_graph_walk_next(graph))) {
+-		struct media_entity *entity = pad->entity;
+ 		struct media_pad *iter;
+ 
+-		media_entity_for_each_pad(entity, iter) {
++		media_entity_for_each_routed_pad(pad, iter) {
+ 			/* Sanity check for negative stream_count */
+ 			if (!WARN_ON_ONCE(iter->stream_count <= 0)) {
+ 				iter->stream_count--;
 -- 
 2.25.1
 
