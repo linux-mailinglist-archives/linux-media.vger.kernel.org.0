@@ -2,112 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8E073611BF
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 20:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21613361246
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 20:45:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234407AbhDOSK0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 14:10:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233595AbhDOSKY (ORCPT
+        id S234481AbhDOSpy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 14:45:54 -0400
+Received: from esa.microchip.iphmx.com ([68.232.153.233]:18374 "EHLO
+        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233948AbhDOSpy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 14:10:24 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77EB9C061574;
-        Thu, 15 Apr 2021 11:09:59 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id 1so18902366qtb.0;
-        Thu, 15 Apr 2021 11:09:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Z8o2eF8WW0GN2VLTkAq3OumygwjQqYyVi3fNlIvWwiI=;
-        b=Duv85+DYznnAFwi/q+Zxi2c5YnmcJKrf+XUB68Byd2A15FYncD2i+j5jJxy6U6EdSF
-         lfwKRbEJ0dZC67j0WWswopaUjbvqC7Z7C1Fx6a5BoertXUsnykzmeClaU+kyhp9CBYs8
-         1I5ftmCsHx35smzynbGEP5c2TBhIrNzYR8VFsta3vGLDyTeVTay4e1QXgUHFAScGzOM8
-         XHJtBYHevxCfyAhrHF4ianLU1OyetPIO50/IUupmE6i9MH6vK8d0h1GqnsCdF8l9oF4W
-         ql1kY2WbAm2G6eJGeQGt39vHbfzivZIe6HY8tbe9jywU/r7ykmzmzQYh8jEIjdQGEI8V
-         N14g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Z8o2eF8WW0GN2VLTkAq3OumygwjQqYyVi3fNlIvWwiI=;
-        b=pusCuvY6L6nmF9ZRU+esJCa4z7ginjmh/YKUpnMZF+PsHvV1W9wv77BZPHHPFgE7Fq
-         gDn83cM+eKBf9mEq8DEvQ9nVF5Voui3QRn6Tkmd9K6JWUb8pQBGFbW60cbtblfAKP5mJ
-         xUu/1+qaIcl5urAcXIUlin1TrxddIrM3NevM3mUxo6zmKX7ho9FA3qrfikRHHOVLgBSo
-         H2Oc42PGS5wzl/9+SdVQ5SbTXE4dOSgEY4XdTuGrwr/LjTDfV954ap9woOfoGueYSin7
-         Z41/QGOseQSFhARpl2cYBjov/crv3x3q87A5taRAAVO9O7eXNDQUJygJft5PGZ+dyQx8
-         ftqw==
-X-Gm-Message-State: AOAM53293NDW7yhZSOWRkF+VYPP8J8wnAxlS0xCnym0UsK0B7p06fk1n
-        Y6MY1aQSXxWwcYoJtuBiFvE=
-X-Google-Smtp-Source: ABdhPJy+SV3+lHg4xIpApam1jIImVhMJPVyBAuCeN8GIR+uE6lNYBWEYSLKqqbWVwZthy43uopci0g==
-X-Received: by 2002:ac8:7d03:: with SMTP id g3mr4391644qtb.330.1618510198723;
-        Thu, 15 Apr 2021 11:09:58 -0700 (PDT)
-Received: from [192.168.100.7] ([138.204.24.234])
-        by smtp.gmail.com with ESMTPSA id p21sm405918qkp.95.2021.04.15.11.09.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 11:09:58 -0700 (PDT)
-Message-ID: <74c59fd225b7b107662ce045086cdd8560e3e08f.camel@gmail.com>
-Subject: Re: [Outreachy kernel] [PATCH v2] staging: media: atomisp: pci:
- Change line break to avoid an open parenthesis at the end of the line
-From:   ascordeiro <alinesantanacordeiro@gmail.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Date:   Thu, 15 Apr 2021 15:09:54 -0300
-In-Reply-To: <20210415171409.GC2531743@casper.infradead.org>
-References: <20210415170819.GA17534@focaruja>
-         <20210415171409.GC2531743@casper.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (by Flathub.org) 
+        Thu, 15 Apr 2021 14:45:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1618512332; x=1650048332;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=EfPKf6G7i8no32iDnXtauNdJhYQxJHVpG/8fquspKso=;
+  b=IL0TXdBhqJH+AH409K3G01GYScbgaOWkgFypg5JthIAAfYNX4vlF7LFp
+   vWUD0/EKxd0ji6swsZOAbQy9SuE6/uJps4YMnsX+gTPdxMs2yOqmtEyO+
+   gAUPq9CBE51T2ajM/zocaQtzjBoaoweC/CAi9h7DDA1cww3ildPi5l/D2
+   22/6fE1sYChEaKUv4pKL9NXrY4BbXEcw38gIdqPINcPDs/TdKMdQHkJ3o
+   +BMjQBqX5JlDB5zmVfJNoS2E69I5DISiQumrLLBNVnFWdEuic1m+bOp6l
+   2Q4AzwPoYrySOwdJBeQA5h7gSlHhFBE7R6+vf13Tmh3YD/JG92FG9FSzT
+   Q==;
+IronPort-SDR: TvVWtnNuCMr31Qr1s17juV9ul7As2ZenL7lCskz9YT/eY/kwv5lLWjFzC+kCuWd0CtBENu8Kpw
+ wzMFNnD01ZoXewRviFDGrwSCq+0kBilhfpoPn3Id8HdrH5PJzX4x5Uu5QxozTI77fGF7AXEE6y
+ ZkgCH6kbXCAF1DEyjWRPgcItwvGKSpxwlGoSzMYWNY8TrT0eKMoGBZFWCsEAc8yPGHg2luaItp
+ D1YSsuURq8Zo7W9k9cYa5zOZsUpDHwBKHwCLDp7rbN3zocEBi3MY4SpM9Ar+r4DaAF522b79l1
+ 2G4=
+X-IronPort-AV: E=Sophos;i="5.82,225,1613458800"; 
+   d="scan'208";a="116611454"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 15 Apr 2021 11:45:31 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 15 Apr 2021 11:45:30 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2176.2 via Frontend Transport; Thu, 15 Apr 2021 11:45:14 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <jacopo@jmondi.org>, <robh+dt@kernel.org>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH v5 30/33] dt-bindings: media: add microchip,xisc device bindings
+Date:   Thu, 15 Apr 2021 21:45:00 +0300
+Message-ID: <20210415184500.868264-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210415085846.824796-1-eugen.hristev@microchip.com>
+References: <20210415085846.824796-1-eugen.hristev@microchip.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em qui, 2021-04-15 às 18:14 +0100, Matthew Wilcox escreveu:
-> On Thu, Apr 15, 2021 at 02:08:19PM -0300, Aline Santana Cordeiro
-> wrote:
-> > -const struct atomisp_format_bridge
-> > *get_atomisp_format_bridge_from_mbus(
-> > -    u32 mbus_code);
-> > +const struct atomisp_format_bridge*
-> > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
-> 
-> No, this does not match coding style.  Probably best to break the
-> 80-column guideline in this instance.  Best would be to have a
-> function
-> and/or struct name that isn't so ridiculously long, but that would
-> require some in-depth thinking.
-> 
+Add bindings for the Microchip eXtended Image Sensor Controller.
+Based on the atmel,isc.yaml binding.
 
-I left the type of function and its name with the parameters in
-different lines, following up some examples of other files, such as
-atomisp_acc.c.
+Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+---
+Changes in v5:
+- fixed license clause to add BSD-2
+Changes in v4:
+- added '|' at description to preserve line breaks
 
-But I didn't pay attention and left the pointer with the function name
-instead of left it with the type of the function in v1, so Hans
-suggested it to a v2, as I did.
+ .../bindings/media/microchip,xisc.yaml        | 129 ++++++++++++++++++
+ 1 file changed, 129 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/microchip,xisc.yaml
 
-What should I do in this case?
-
-Thank you in advance,
-Aline
-
-> > -void atomisp_apply_css_parameters(
-> > -    struct atomisp_sub_device *asd,
-> > -    struct atomisp_css_params *css_param);
-> > +void atomisp_apply_css_parameters(struct atomisp_sub_device *asd,
-> > +                                 struct atomisp_css_params
-> > *css_param);
-> > +
-> 
-> Good.
-> 
-
+diff --git a/Documentation/devicetree/bindings/media/microchip,xisc.yaml b/Documentation/devicetree/bindings/media/microchip,xisc.yaml
+new file mode 100644
+index 000000000000..41afe2e5f133
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/microchip,xisc.yaml
+@@ -0,0 +1,129 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2021 Microchip Technology, Inc.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/microchip,xisc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip eXtended Image Sensor Controller (XISC)
++
++maintainers:
++  - Eugen Hristev <eugen.hristev@microchip.com>
++
++description: |
++  The eXtended Image Sensor Controller (XISC) device provides the video input capabilities for the
++  Microchip AT91 SAM family of devices.
++
++  The XISC has a single internal parallel input that supports RAW Bayer, RGB or YUV video.
++  The source can be either a demuxer from a CSI2 type of bus, or a simple direct bridge to a
++  parallel sensor.
++
++  The XISC provides one clock output that is used to clock the demuxer/bridge.
++
++properties:
++  compatible:
++    const: microchip,sama7g5-isc
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    items:
++      - const: hclock
++
++  '#clock-cells':
++    const: 0
++
++  clock-output-names:
++    const: isc-mck
++
++  microchip,mipi-mode:
++    type: boolean
++    description:
++      As the XISC is usually connected to a demux/bridge, the XISC receives
++      the same type of input, however, it should be aware of the type of
++      signals received. The mipi-mode enables different internal handling
++      of the data and clock lines.
++
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++    description:
++      Input port node, single endpoint describing the input pad.
++
++    properties:
++      endpoint:
++        $ref: video-interfaces.yaml#
++
++        properties:
++          bus-type:
++            enum: [5, 6]
++
++          remote-endpoint: true
++
++          bus-width:
++            enum: [8, 9, 10, 11, 12]
++            default: 12
++
++          hsync-active:
++            enum: [0, 1]
++            default: 1
++
++          vsync-active:
++            enum: [0, 1]
++            default: 1
++
++          pclk-sample:
++            enum: [0, 1]
++            default: 1
++
++        required:
++          - remote-endpoint
++          - bus-type
++
++        additionalProperties: false
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - '#clock-cells'
++  - clock-output-names
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/at91.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    xisc: xisc@e1408000 {
++        compatible = "microchip,sama7g5-isc";
++        reg = <0xe1408000 0x2000>;
++        interrupts = <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&pmc PMC_TYPE_PERIPHERAL 56>;
++        clock-names = "hclock";
++        #clock-cells = <0>;
++        clock-output-names = "isc-mck";
++
++        port {
++                xisc_in: endpoint {
++                       bus-type = <5>; /* Parallel */
++                       remote-endpoint = <&csi2dc_out>;
++                       hsync-active = <1>;
++                       vsync-active = <1>;
++                       bus-width = <12>;
++                };
++        };
++    };
++
+-- 
+2.25.1
 
