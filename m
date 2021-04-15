@@ -2,436 +2,434 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D985F360A42
-	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 15:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D61B9360A91
+	for <lists+linux-media@lfdr.de>; Thu, 15 Apr 2021 15:35:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232004AbhDONNY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Apr 2021 09:13:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50008 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230487AbhDONNX (ORCPT
+        id S233149AbhDONfY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Apr 2021 09:35:24 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:34999 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232976AbhDONfX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Apr 2021 09:13:23 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACDE0C061574;
-        Thu, 15 Apr 2021 06:13:00 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id u11so8419632pjr.0;
-        Thu, 15 Apr 2021 06:13:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=E2vdZebEPplsapFwBCZQMPiDIXe/1nXT0QRZhoaWTy0=;
-        b=Fs58WLNonR9G0URTi1tx/p3uSQ3gScyo7xbsByGIdYJMAnHdcvrKEo6VI9URkQvDSd
-         fdoGSRv2oswAncqbn7bCjUMLPlgfFGK5RX5VsIFwfvHIm4ETW0a3VtJR+fnUxvOcSn2x
-         HOofSDWaNWXaxlRdoB9FsAP5EhWRAS0vFYTYwYGEYgKYhLZefWh47l9LiPvbMrknBXrm
-         +Ej/o2NO94DQYez7xP/TUJ5XIbV4tXKaepMSIupBL+keFMwQBeyXfYD9MaSwLpFfaoV2
-         VN/42633+qwenFRk10yMJxyCsVoB52eCICUNZ5+VTVT8zH4guTl/+sSApeAF20QxaYjX
-         JEmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=E2vdZebEPplsapFwBCZQMPiDIXe/1nXT0QRZhoaWTy0=;
-        b=Bocg9pepZQsUFQAjPM5Y5UuGEkEOtuvKf0nekKO6znjZWqK67xAPlkt9E+shX7o4qv
-         7ZJnI7MT8M1ixvrOYR3ofeioMYvRqMsAtbQ3M2zx/fX5ps41AIjnuv1MHm4mXImBDURf
-         XEcUmNsBzc7tneXuvxu5YL0cSsBlIy/bNEdv307pxEbCoGW3OgGjrv40d7LEnovt610k
-         FS50+78MpMTjKedzp9oNUrqD/q2QxierkL7jeP6j9ocALsQ4ihwLDCMvVtC0wADOCm0c
-         CP0W96q106wlkyEWePRMQjULiTShuVPzZsUJHTlABySP90I2E4dwL4PG2WB+eFOmkzHf
-         FxnA==
-X-Gm-Message-State: AOAM533RTgP0QznXRZex+IrE1D7fXyN14d0z/R60awZoWWlDg39EHnh3
-        f+qeNMqmWZAlIGT25nknDQ0=
-X-Google-Smtp-Source: ABdhPJzd4OV2YdZxDTCU3WKe9169wajORikbCxxdtSMoiHI/rQpBEYHym0p1NDSYliYlnhgPWu0rcw==
-X-Received: by 2002:a17:90a:fa84:: with SMTP id cu4mr3883950pjb.178.1618492379991;
-        Thu, 15 Apr 2021 06:12:59 -0700 (PDT)
-Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id c2sm2238355pfo.53.2021.04.15.06.12.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 06:12:59 -0700 (PDT)
-Date:   Thu, 15 Apr 2021 18:42:50 +0530
-From:   Mitali Borkar <mitaliborkar810@gmail.com>
-To:     zzam@gentoo.org, clabbe@baylibre.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org
+        Thu, 15 Apr 2021 09:35:23 -0400
+Received: from [192.168.2.10] ([84.202.3.209])
+        by smtp.xs4all.nl with ESMTPA
+        id X28vl3dYIsMyaX28zlUKlG; Thu, 15 Apr 2021 15:34:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1618493698; bh=FXifV65pE61uKnPlNuS9Op0IO7BsQpC2YhQnV9MPNgM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=c7KXrLnFCG02LlEYZlmqO5EXxnTjBGniCMLQlQXyOvdZD5Hi3ymU5L9YpEcG1kYXQ
+         1vRmgqKi/M3aT2zW04jqJNJW7JKPAEx7RUllwQnage+WN6TMQpU6YR9+iupgBNT6Ij
+         kZWPe/MSE5DPLbY9RgjhqeIqQpzfi7BKR65CvspG5unFZAEkjNBTvP+f+opegwB1FL
+         +pTIWjrSBIi65mTd+ehzHJ5feujk/vruN6M/1VfdJkatnreAyayliz2O79ebHTPmSp
+         qJ2Y519HPxIU4ILDaMsmFDtCukdOv+46crcF80pddugOiUSTqW/tutM6xNK1mR/ver
+         ke5wPywtwoJ4Q==
+Subject: Re: Subject: [PATCH v4] staging: media: zoran: add '*' in
+ long(multi-line) comments
+To:     Mitali Borkar <mitaliborkar810@gmail.com>, clabbe@baylibre.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
         mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH v4 2/2] staging: media: zoran: add BIT() macro and align
- code
-Message-ID: <YHg70mRLN5S8mywn@kali>
-References: <cover.1618342050.git.mitaliborkar810@gmail.com>
- <fb60b20f7cdf3650d678fac4c0f1f364ac6984bf.1618342050.git.mitaliborkar810@gmail.com>
- <c6a301f6-99f3-69e0-a394-00948aef6c1c@gentoo.org>
+References: <YHXUQc+IgZ1y9TQu@kali>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <9b208f9f-dd12-50a7-514a-85344d533183@xs4all.nl>
+Date:   Thu, 15 Apr 2021 15:34:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c6a301f6-99f3-69e0-a394-00948aef6c1c@gentoo.org>
+In-Reply-To: <YHXUQc+IgZ1y9TQu@kali>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKIJ5q7BfbvT8Ko1ksDnPvvdg7HGzjuxCJJNEPYvkbc1R6HgIed3i1W8HGfkye0DB+eoLVHlNbTr5S6QjtQMTbvn67lc4mUms3C2uJXUL1l8XDs/Q/Wc
+ fAVqHvbquWd585fkIYqmTkjQrtcjiOlcDc302KechXOco+gok4B462fGzfkevv1IUHNZqPX9BTG5tgSMrgcwPwkVVHjliqcKDO/f8+SaoM3B2gwxnVY0Z93E
+ yEVC5AcS+lDNlFLLbKfxOzoG+2p4a3d/ZFKEMmt3U2j5n0I8YpEzY52c/tUyIM0Z4ADSrk5zxCrcN09K9cpO770nCo43t6gkscl7GSc3tD6ccCGKHu5k7qx/
+ YIdUyMzqWlm69t7g1HT47AXaEnFDuZigpagAlSFAxm9Zk8NMmipOQsqIBMbbLwBZNFBf6AxvfWtPvsRo0E4x/knFFxsZC3WokM6Asgcihm48MRvSUoI2tyKx
+ 3Wmt4DeB0gj4EQGYQs0MlBNXtkodT0MOkYtC4w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 12:38:41PM +0200, zzam@gentoo.org wrote:
-> Am 13.04.21 um 21:50 schrieb Mitali Borkar:
-> > Added #include <linux/bitops.h> and replaced bit shifts by BIT() macro.
-> > This BIT() macro from linux/bitops.h is used to define ZR36057_VFESPFR_* bitmasks.
-> > Use of macro is better and neater. It maintains consistency.
-> > Removed comments from the same line and added them to new line above the
-> > blocks, aligned everything properly by using tabs to make code neater
-> > and improve readability.
-> > Reported by checkpatch.
-> > 
-> > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> > ---
-> > 
-> > Changes from v3:- No changes.
-> > Changes from v2:- Aligned the code using tabs.
-> > Changes from v1:- Aligned the code using tabs and readjusted the
-> > comments line.
-> > 
-> >   drivers/staging/media/zoran/zr36057.h | 312 ++++++++++++++------------
-> >   1 file changed, 172 insertions(+), 140 deletions(-)
-> > 
-> 
-> General comment:
-> The patch is hard to read without applying it and viewing it with ignore
-> whitespace.
-> 
-> > diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
-> > index a2a75fd9f535..f51e9ea2c3d3 100644
-> > --- a/drivers/staging/media/zoran/zr36057.h
-> > +++ b/drivers/staging/media/zoran/zr36057.h
-> > @@ -7,148 +7,180 @@
-> >   #ifndef _ZR36057_H_
-> >   #define _ZR36057_H_
-> > +#include <linux/bitops.h>
-> >   /* Zoran ZR36057 registers */
-> > -#define ZR36057_VFEHCR          0x000	/* Video Front End, Horizontal Configuration Register */
-> > -#define ZR36057_VFEHCR_HS_POL             BIT(30)
-> > -#define ZR36057_VFEHCR_H_START           10
-> > -#define ZR36057_VFEHCR_H_END		0
-> > -#define ZR36057_VFEHCR_HMASK		0x3ff
-> > -
-> > -#define ZR36057_VFEVCR          0x004	/* Video Front End, Vertical Configuration Register */
-> > -#define ZR36057_VFEVCR_VS_POL             BIT(30)
-> > -#define ZR36057_VFEVCR_V_START           10
-> > -#define ZR36057_VFEVCR_V_END		0
-> > -#define ZR36057_VFEVCR_VMASK		0x3ff
-> > -
-> > -#define ZR36057_VFESPFR         0x008	/* Video Front End, Scaler and Pixel Format Register */
-> > -#define ZR36057_VFESPFR_EXT_FL            BIT(26)
-> > -#define ZR36057_VFESPFR_TOP_FIELD         BIT(25)
-> > -#define ZR36057_VFESPFR_VCLK_POL          BIT(24)
-> > -#define ZR36057_VFESPFR_H_FILTER         21
-> > -#define ZR36057_VFESPFR_HOR_DCM          14
-> > -#define ZR36057_VFESPFR_VER_DCM          8
-> > -#define ZR36057_VFESPFR_DISP_MODE        6
-> > -#define ZR36057_VFESPFR_YUV422          (0 << 3)
-> > -#define ZR36057_VFESPFR_RGB888          (1 << 3)
-> > -#define ZR36057_VFESPFR_RGB565          (2 << 3)
-> > -#define ZR36057_VFESPFR_RGB555          (3 << 3)
-> > -#define ZR36057_VFESPFR_ERR_DIF          (1 << 2)
-> > -#define ZR36057_VFESPFR_PACK24          (1 << 1)
-> > -#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1 << 0)
-> > -
-> > -#define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
-> > -
-> > -#define ZR36057_VDBR            0x010	/* Video Display "Bottom" Register */
-> > -
-> > -#define ZR36057_VSSFGR          0x014	/* Video Stride, Status, and Frame Grab Register */
-> > -#define ZR36057_VSSFGR_DISP_STRIDE       16
-> > -#define ZR36057_VSSFGR_VID_OVF            BIT(8)
-> > -#define ZR36057_VSSFGR_SNAP_SHOT          BIT(1)
-> > -#define ZR36057_VSSFGR_FRAME_GRAB         BIT(0)
-> > -
-> > -#define ZR36057_VDCR            0x018	/* Video Display Configuration Register */
-> > -#define ZR36057_VDCR_VID_EN               BIT(31)
-> > -#define ZR36057_VDCR_MIN_PIX             24
-> > -#define ZR36057_VDCR_TRITON              BIT(24)
-> > -#define ZR36057_VDCR_VID_WIN_HT           12
-> > -#define ZR36057_VDCR_VID_WIN_WID          0
-> > -
-> > -#define ZR36057_MMTR            0x01c	/* Masking Map "Top" Register */
-> > -
-> > -#define ZR36057_MMBR            0x020	/* Masking Map "Bottom" Register */
-> > -
-> > -#define ZR36057_OCR             0x024	/* Overlay Control Register */
-> > -#define ZR36057_OCR_OVL_ENABLE            BIT(15)
-> > -#define ZR36057_OCR_MASK_STRIDE          0
-> > -
-> > -#define ZR36057_SPGPPCR         0x028	/* System, PCI, and General Purpose Pins Control Register */
-> > -#define ZR36057_SPGPPCR_SOFT_RESET	 BIT(24)
-> > -
-> > -#define ZR36057_GPPGCR1         0x02c	/* General Purpose Pins and GuestBus Control Register (1) */
-> > -
-> > -#define ZR36057_MCSAR           0x030	/* MPEG Code Source Address Register */
-> > -
-> > -#define ZR36057_MCTCR           0x034	/* MPEG Code Transfer Control Register */
-> > -#define ZR36057_MCTCR_COD_TIME            BIT(30)
-> > -#define ZR36057_MCTCR_C_EMPTY             BIT(29)
-> > -#define ZR36057_MCTCR_C_FLUSH             BIT(28)
-> > -#define ZR36057_MCTCR_COD_GUEST_ID	20
-> > -#define ZR36057_MCTCR_COD_GUEST_REG	16
-> > -
-> > -#define ZR36057_MCMPR           0x038	/* MPEG Code Memory Pointer Register */
-> > -
-> > -#define ZR36057_ISR             0x03c	/* Interrupt Status Register */
-> > -#define ZR36057_ISR_GIRQ1                BIT(30)
-> > -#define ZR36057_ISR_GIRQ0                BIT(29)
-> > -#define ZR36057_ISR_COD_REP_IRQ            BIT(28)
-> > -#define ZR36057_ISR_JPEG_REP_IRQ           BIT(27)
-> > -
-> > -#define ZR36057_ICR             0x040	/* Interrupt Control Register */
-> > -#define ZR36057_ICR_GIRQ1                BIT(30)
-> > -#define ZR36057_ICR_GIRQ0                BIT(29)
-> > -#define ZR36057_ICR_COD_REP_IRQ            BIT(28)
-> > -#define ZR36057_ICR_JPEG_REP_IRQ           BIT(27)
-> > -#define ZR36057_ICR_INT_PIN_EN             BIT(24)
-> > -
-> > -#define ZR36057_I2CBR           0x044	/* I2C Bus Register */
-> > -#define ZR36057_I2CBR_SDA		 BIT(1)
-> > -#define ZR36057_I2CBR_SCL		 BIT(0)
-> > -
-> > -#define ZR36057_JMC             0x100	/* JPEG Mode and Control */
-> > -#define ZR36057_JMC_JPG                  BIT(31)
-> > -#define ZR36057_JMC_JPG_EXP_MODE          (0 << 29)
-> > -#define ZR36057_JMC_JPG_CMP_MODE           BIT(29)
-> > -#define ZR36057_JMC_MJPG_EXP_MODE         (2 << 29)
-> > -#define ZR36057_JMC_MJPG_CMP_MODE         (3 << 29)
-> > -#define ZR36057_JMC_RTBUSY_FB            BIT(6)
-> > -#define ZR36057_JMC_GO_EN                BIT(5)
-> > -#define ZR36057_JMC_SYNC_MSTR             BIT(4)
-> > -#define ZR36057_JMC_FLD_PER_BUFF         BIT(3)
-> > -#define ZR36057_JMC_VFIFO_FB             BIT(2)
-> > -#define ZR36057_JMC_CFIFO_FB             BIT(1)
-> > -#define ZR36057_JMC_STLL_LIT_ENDIAN       BIT(0)
-> > -
-> > -#define ZR36057_JPC             0x104	/* JPEG Process Control */
-> > -#define ZR36057_JPC_P_RESET              BIT(7)
-> > -#define ZR36057_JPC_COD_TRNS_EN            BIT(5)
-> > -#define ZR36057_JPC_ACTIVE               BIT(0)
-> > -
-> > -#define ZR36057_VSP             0x108	/* Vertical Sync Parameters */
-> > -#define ZR36057_VSP_VSYNC_SIZE           16
-> > -#define ZR36057_VSP_FRM_TOT              0
-> > -
-> > -#define ZR36057_HSP             0x10c	/* Horizontal Sync Parameters */
-> > -#define ZR36057_HSP_HSYNC_START          16
-> > -#define ZR36057_HSP_LINE_TOT             0
-> > -
-> > -#define ZR36057_FHAP            0x110	/* Field Horizontal Active Portion */
-> > -#define ZR36057_FHAP_NAX                16
-> > -#define ZR36057_FHAP_PAX                0
-> > -
-> > -#define ZR36057_FVAP            0x114	/* Field Vertical Active Portion */
-> > -#define ZR36057_FVAP_NAY                16
-> > -#define ZR36057_FVAP_PAY                0
-> > -
-> > -#define ZR36057_FPP             0x118	/* Field Process Parameters */
-> > -#define ZR36057_FPP_ODD_EVEN             BIT(0)
-> > -
-> > -#define ZR36057_JCBA            0x11c	/* JPEG Code Base Address */
-> > -
-> > -#define ZR36057_JCFT            0x120	/* JPEG Code FIFO Threshold */
-> > -
-> > -#define ZR36057_JCGI            0x124	/* JPEG Codec Guest ID */
-> > -#define ZR36057_JCGI_JPE_GUEST_ID         4
-> > -#define ZR36057_JCGI_JPE_GUEST_REG        0
-> > -
-> > -#define ZR36057_GCR2            0x12c	/* GuestBus Control Register (2) */
-> > -
-> > -#define ZR36057_POR             0x200	/* Post Office Register */
-> > -#define ZR36057_POR_PO_PEN                BIT(25)
-> > -#define ZR36057_POR_PO_TIME               BIT(24)
-> > -#define ZR36057_POR_PO_DIR                BIT(23)
-> > -
-> > -#define ZR36057_STR             0x300	/* "Still" Transfer Register */
-> > +/* Video Front End, Horizontal Configuration Register */
-> > +#define ZR36057_VFEHCR				0x000
-> > +#define ZR36057_VFEHCR_HS_POL			BIT(30)
-> > +#define ZR36057_VFEHCR_H_START			10
-> > +#define ZR36057_VFEHCR_H_END			0
-> > +#define ZR36057_VFEHCR_HMASK			0x3ff
-> > +
-> > +/* Video Front End, Vertical Configuration Register */
-> > +#define ZR36057_VFEVCR				0x004
-> > +#define ZR36057_VFEVCR_VS_POL			BIT(30)
-> > +#define ZR36057_VFEVCR_V_START			10
-> > +#define ZR36057_VFEVCR_V_END			0
-> > +#define ZR36057_VFEVCR_VMASK			0x3ff
-> > +
-> > +/* Video Front End, Scaler and Pixel Format Register */
-> > +#define ZR36057_VFESPFR			0x008
-> > +#define ZR36057_VFESPFR_EXT_FL			BIT(26)
-> > +#define ZR36057_VFESPFR_TOP_FIELD		BIT(25)
-> > +#define ZR36057_VFESPFR_VCLK_POL		BIT(24)
-> > +#define ZR36057_VFESPFR_H_FILTER		21
-> > +#define ZR36057_VFESPFR_HOR_DCM		14
-> > +#define ZR36057_VFESPFR_VER_DCM		8
-> > +#define ZR36057_VFESPFR_DISP_MODE		6
-> 
-> > +#define ZR36057_VFESPFR_YUV422			(0 << 3)
-> > +#define ZR36057_VFESPFR_RGB888			BIT(3)
-> > +#define ZR36057_VFESPFR_RGB565			(2 << 3)
-> > +#define ZR36057_VFESPFR_RGB555			(3 << 3)
-> The single BIT occurrence in this list is confusing at best. Please keep
-> ZR36057_VFESPFR_RGB888 to be (1 << 3). It is not a single bit, but defining
-> a 2-bit field in the middle with 4 different values. It should be
-> consistent.
->
-Okay Sir.
+Hi Mitali,
 
-> > +#define ZR36057_VFESPFR_ERR_DIF		BIT(2)
-> > +#define ZR36057_VFESPFR_PACK24			BIT(1)
-> > +#define ZR36057_VFESPFR_LITTLE_ENDIAN		BIT(0)
-> > +
-> > +/* Video Display "Top" Register */
-> > +#define ZR36057_VDTR				0x00c
-> > +
-> > +/* Video Display "Bottom" Register */
-> > +#define ZR36057_VDBR				0x010
-> > +
-> > +/* Video Stride, Status, and Frame Grab Register */
-> > +#define ZR36057_VSSFGR				0x014
-> > +#define ZR36057_VSSFGR_DISP_STRIDE		16
-> > +#define ZR36057_VSSFGR_VID_OVF			BIT(8)
-> > +#define ZR36057_VSSFGR_SNAP_SHOT		BIT(1)
-> > +#define ZR36057_VSSFGR_FRAME_GRAB		BIT(0)
-> > +
-> > +/* Video Display Configuration Register */
-> > +#define ZR36057_VDCR				0x018
-> > +#define ZR36057_VDCR_VID_EN			BIT(31)
-> > +#define ZR36057_VDCR_MIN_PIX			24
-> > +#define ZR36057_VDCR_TRITON			BIT(24)
-> > +#define ZR36057_VDCR_VID_WIN_HT		12
-> > +#define ZR36057_VDCR_VID_WIN_WID		0
-> > +
-> > +/* Masking Map "Top" Register */
-> > +#define ZR36057_MMTR				0x01c
-> > +
-> > +/* Masking Map "Bottom" Register */
-> > +#define ZR36057_MMBR				0x020
-> > +
-> > +/* Overlay Control Register */
-> > +#define ZR36057_OCR				0x024
-> > +#define ZR36057_OCR_OVL_ENABLE			BIT(15)
-> > +#define ZR36057_OCR_MASK_STRIDE		0
-> > +
-> > +/* System, PCI, and General Purpose Pins Control Register */
-> > +#define ZR36057_SPGPPCR			0x028
-> > +#define ZR36057_SPGPPCR_SOFT_RESET		BIT(24)
-> > +
-> > +/* General Purpose Pins and GuestBus Control Register (1) */
-> > +#define ZR36057_GPPGCR1			0x02c
-> > +
-> > +/* MPEG Code Source Address Register */
-> > +#define ZR36057_MCSAR				0x030
-> > +
-> > +/* MPEG Code Transfer Control Register */
-> > +#define ZR36057_MCTCR				0x034
-> > +#define ZR36057_MCTCR_COD_TIME			BIT(30)
-> > +#define ZR36057_MCTCR_C_EMPTY			BIT(29)
-> > +#define ZR36057_MCTCR_C_FLUSH			BIT(28)
-> > +#define ZR36057_MCTCR_COD_GUEST_ID		20
-> > +#define ZR36057_MCTCR_COD_GUEST_REG		16
-> > +
-> > +/* MPEG Code Memory Pointer Register */
-> > +#define ZR36057_MCMPR				0x038
-> > +
-> > +/* Interrupt Status Register */
-> > +#define ZR36057_ISR				0x03c
-> > +#define ZR36057_ISR_GIRQ1			BIT(30)
-> > +#define ZR36057_ISR_GIRQ0			BIT(29)
-> > +#define ZR36057_ISR_COD_REP_IRQ		BIT(28)
-> > +#define ZR36057_ISR_JPEG_REP_IRQ		BIT(27)
-> > +
-> > +/* Interrupt Control Register */
-> > +#define ZR36057_ICR				0x040
-> > +#define ZR36057_ICR_GIRQ1			BIT(30)
-> > +#define ZR36057_ICR_GIRQ0			BIT(29)
-> > +#define ZR36057_ICR_COD_REP_IRQ		BIT(28)
-> > +#define ZR36057_ICR_JPEG_REP_IRQ		BIT(27)
-> > +#define ZR36057_ICR_INT_PIN_EN			BIT(24)
-> > +
-> > +/* I2C Bus Register */
-> > +#define ZR36057_I2CBR				0x044
-> > +#define ZR36057_I2CBR_SDA			BIT(1)
-> > +#define ZR36057_I2CBR_SCL			BIT(0)
-> > +
-> > +/* JPEG Mode and Control */
-> > +#define ZR36057_JMC				0x100
-> > +#define ZR36057_JMC_JPG			BIT(31)
-> 
-> > +#define ZR36057_JMC_JPG_EXP_MODE		(0 << 29)
-> > +#define ZR36057_JMC_JPG_CMP_MODE		BIT(29)
-> > +#define ZR36057_JMC_MJPG_EXP_MODE		(2 << 29)
-> > +#define ZR36057_JMC_MJPG_CMP_MODE		(3 << 29)
-> Same as above. Please change back ZR36057_JMC_JPG_CMP_MODE to be (1 << 29).
-> Then this 2 bit field is consistent.
-> 
-Sir, I guess this BIT(29) was already present. I didn't changed this. 
-I will change this as you said.
+You have 'Subject' in the Subject line. That looks weird...
 
-> > +#define ZR36057_JMC_RTBUSY_FB			BIT(6)
-> > +#define ZR36057_JMC_GO_EN			BIT(5)
-> > +#define ZR36057_JMC_SYNC_MSTR			BIT(4)
-> > +#define ZR36057_JMC_FLD_PER_BUFF		BIT(3)
-> > +#define ZR36057_JMC_VFIFO_FB			BIT(2)
-> > +#define ZR36057_JMC_CFIFO_FB			BIT(1)
-> > +#define ZR36057_JMC_STLL_LIT_ENDIAN		BIT(0)
-> > +
-> > +/* JPEG Process Control */
-> > +#define ZR36057_JPC				0x104
-> > +#define ZR36057_JPC_P_RESET			BIT(7)
-> > +#define ZR36057_JPC_COD_TRNS_EN		BIT(5)
-> > +#define ZR36057_JPC_ACTIVE			BIT(0)
-> > +
-> > +/* Vertical Sync Parameters */
-> > +#define ZR36057_VSP				0x108
-> > +#define ZR36057_VSP_VSYNC_SIZE			16
-> > +#define ZR36057_VSP_FRM_TOT			0
-> > +
-> > +/* Horizontal Sync Parameters */
-> > +#define ZR36057_HSP				0x10c
-> > +#define ZR36057_HSP_HSYNC_START		16
-> > +#define ZR36057_HSP_LINE_TOT			0
-> > +
-> > +/* Field Horizontal Active Portion */
-> > +#define ZR36057_FHAP				0x110
-> > +#define ZR36057_FHAP_NAX			16
-> > +#define ZR36057_FHAP_PAX			0
-> > +
-> > +/* Field Vertical Active Portion */
-> > +#define ZR36057_FVAP				0x114
-> > +#define ZR36057_FVAP_NAY			16
-> > +#define ZR36057_FVAP_PAY			0
-> > +
-> > +/* Field Process Parameters */
-> > +#define ZR36057_FPP				0x118
-> > +#define ZR36057_FPP_ODD_EVEN			BIT(0)
-> > +
-> > +/* JPEG Code Base Address */
-> > +#define ZR36057_JCBA				0x11c
-> > +
-> > +/* JPEG Code FIFO Threshold */
-> > +#define ZR36057_JCFT				0x120
-> > +
-> > +/* JPEG Codec Guest ID */
-> > +#define ZR36057_JCGI				0x124
-> > +#define ZR36057_JCGI_JPE_GUEST_ID		4
-> > +#define ZR36057_JCGI_JPE_GUEST_REG		0
-> > +
-> > +/* GuestBus Control Register (2) */
-> > +#define ZR36057_GCR2				0x12c
-> > +
-> > +/* Post Office Register */
-> > +#define ZR36057_POR				0x200
-> > +#define ZR36057_POR_PO_PEN			BIT(25)
-> > +#define ZR36057_POR_PO_TIME			BIT(24)
-> > +#define ZR36057_POR_PO_DIR			BIT(23)
-> > +
-> > +/* "Still" Transfer Register */
-> > +#define ZR36057_STR				0x300
-> >   #endif
-> > 
+On 13/04/2021 19:26, Mitali Borkar wrote:
+> Added '*' before every line inside long(multi-line) comments. Removed
+> '*/' from end of the comment line and added to next line as per linux
+> kernel coding style. Aligned '*' accordingly to make code neater.
 > 
-> Regards
-> Matthias
+> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> ---
+> Changes from v3:- Rebased this patch and made changes against mainline
+> code. 
+> Changes from v2:- made style changes in code according to linux kernel
+> coding style for long comments.
+> Changes from v1:- Changes made in code according to linux kernel coding
+> style for long(multi-line) comments.
+> 
+>  drivers/staging/media/zoran/zr36050.c | 192 +++++++++++++++-----------
+>  1 file changed, 112 insertions(+), 80 deletions(-)
+> 
+> diff --git a/drivers/staging/media/zoran/zr36050.c b/drivers/staging/media/zoran/zr36050.c
+> index 2826f4e5d37b..a1084aa142e7 100644
+> --- a/drivers/staging/media/zoran/zr36050.c
+> +++ b/drivers/staging/media/zoran/zr36050.c
+> @@ -24,8 +24,11 @@
+>  /* codec io API */
+>  #include "videocodec.h"
+>  
+> -/* it doesn't make sense to have more than 20 or so,
+> -  just to prevent some unwanted loops */
+> +/*
+> + * it doesn't make sense to have more than 20 or so,
+> + * just to prevent some unwanted loops
+> + */
+> +
+
+Why add an empty line here? Since the comment describes the define, you expect
+that the define follows directly after the comment.
+
+>  #define MAX_CODECS 20
+>  
+>  /* amount of chips attached via this driver */
+> @@ -43,10 +46,11 @@ MODULE_PARM_DESC(debug, "Debug level (0-4)");
+>  	} while (0)
+>  
+>  /* =========================================================================
+
+/* should be on a line by itself:
+
+/*
+ * =========================================================================
+
+That said, I would just delete those '===============' lines: they don't really
+add anything.
+
+Regards,
+
+	Hans
+
+> -   Local hardware I/O functions:
+> -
+> -   read/write via codec layer (registers are located in the master device)
+> -   ========================================================================= */
+> + * Local hardware I/O functions:
+> + *
+> + * read/write via codec layer (registers are located in the master device)
+> + * =========================================================================
+> + */
+>  
+>  /* read and write functions */
+>  static u8 zr36050_read(struct zr36050 *ptr, u16 reg)
+> @@ -80,10 +84,11 @@ static void zr36050_write(struct zr36050 *ptr, u16 reg, u8 value)
+>  }
+>  
+>  /* =========================================================================
+> -   Local helper function:
+> -
+> -   status read
+> -   ========================================================================= */
+> + * Local helper function:
+> + *
+> + * status read
+> + * =========================================================================
+> + */
+>  
+>  /* status is kept in datastructure */
+>  static u8 zr36050_read_status1(struct zr36050 *ptr)
+> @@ -95,10 +100,11 @@ static u8 zr36050_read_status1(struct zr36050 *ptr)
+>  }
+>  
+>  /* =========================================================================
+> -   Local helper function:
+> -
+> -   scale factor read
+> -   ========================================================================= */
+> + * Local helper function:
+> + *
+> + * scale factor read
+> + * =========================================================================
+> + */
+>  
+>  /* scale factor is kept in datastructure */
+>  static u16 zr36050_read_scalefactor(struct zr36050 *ptr)
+> @@ -112,10 +118,11 @@ static u16 zr36050_read_scalefactor(struct zr36050 *ptr)
+>  }
+>  
+>  /* =========================================================================
+> -   Local helper function:
+> -
+> -   wait if codec is ready to proceed (end of processing) or time is over
+> -   ========================================================================= */
+> + * Local helper function:
+> + *
+> + * wait if codec is ready to proceed (end of processing) or time is over
+> + * =========================================================================
+> + */
+>  
+>  static void zr36050_wait_end(struct zr36050 *ptr)
+>  {
+> @@ -133,10 +140,11 @@ static void zr36050_wait_end(struct zr36050 *ptr)
+>  }
+>  
+>  /* =========================================================================
+> -   Local helper function:
+> -
+> -   basic test of "connectivity", writes/reads to/from memory the SOF marker
+> -   ========================================================================= */
+> + * Local helper function:
+> + *
+> + * basic test of "connectivity", writes/reads to/from memory the SOF marker
+> + * =========================================================================
+> + */
+>  
+>  static int zr36050_basic_test(struct zr36050 *ptr)
+>  {
+> @@ -174,10 +182,11 @@ static int zr36050_basic_test(struct zr36050 *ptr)
+>  }
+>  
+>  /* =========================================================================
+> -   Local helper function:
+> -
+> -   simple loop for pushing the init datasets
+> -   ========================================================================= */
+> + * Local helper function:
+> + *
+> + * simple loop for pushing the init datasets
+> + * =========================================================================
+> + */
+>  
+>  static int zr36050_pushit(struct zr36050 *ptr, u16 startreg, u16 len, const char *data)
+>  {
+> @@ -192,15 +201,16 @@ static int zr36050_pushit(struct zr36050 *ptr, u16 startreg, u16 len, const char
+>  }
+>  
+>  /* =========================================================================
+> -   Basic datasets:
+> -
+> -   jpeg baseline setup data (you find it on lots places in internet, or just
+> -   extract it from any regular .jpg image...)
+> -
+> -   Could be variable, but until it's not needed it they are just fixed to save
+> -   memory. Otherwise expand zr36050 structure with arrays, push the values to
+> -   it and initialize from there, as e.g. the linux zr36057/60 driver does it.
+> -   ========================================================================= */
+> + * Basic datasets:
+> + *
+> + * jpeg baseline setup data (you find it on lots places in internet, or just
+> + * extract it from any regular .jpg image...)
+> + *
+> + * Could be variable, but until it's not needed it they are just fixed to save
+> + * memory. Otherwise expand zr36050 structure with arrays, push the values to
+> + * it and initialize from there, as e.g. the linux zr36057/60 driver does it.
+> + * =========================================================================
+> + */
+>  
+>  static const char zr36050_dqt[0x86] = {
+>  	0xff, 0xdb,		//Marker: DQT
+> @@ -294,16 +304,19 @@ static const char zr36050_decimation_h[8] = { 2, 1, 1, 0, 0, 0, 0, 0 };
+>  static const char zr36050_decimation_v[8] = { 1, 1, 1, 0, 0, 0, 0, 0 };
+>  
+>  /* =========================================================================
+> -   Local helper functions:
+> -
+> -   calculation and setup of parameter-dependent JPEG baseline segments
+> -   (needed for compression only)
+> -   ========================================================================= */
+> + * Local helper functions:
+> + *
+> + * calculation and setup of parameter-dependent JPEG baseline segments
+> + * (needed for compression only)
+> + * =========================================================================
+> + */
+>  
+>  /* ------------------------------------------------------------------------- */
+>  
+> -/* SOF (start of frame) segment depends on width, height and sampling ratio
+> -			 of each color component */
+> +/*
+> + * SOF (start of frame) segment depends on width, height and sampling ratio
+> + * of each color component
+> + */
+>  
+>  static int zr36050_set_sof(struct zr36050 *ptr)
+>  {
+> @@ -333,8 +346,10 @@ static int zr36050_set_sof(struct zr36050 *ptr)
+>  
+>  /* ------------------------------------------------------------------------- */
+>  
+> -/* SOS (start of scan) segment depends on the used scan components
+> -			of each color component */
+> +/*
+> + * SOS (start of scan) segment depends on the used scan components
+> + * of each color component
+> + */
+>  
+>  static int zr36050_set_sos(struct zr36050 *ptr)
+>  {
+> @@ -378,13 +393,14 @@ static int zr36050_set_dri(struct zr36050 *ptr)
+>  }
+>  
+>  /* =========================================================================
+> -   Setup function:
+> -
+> -   Setup compression/decompression of Zoran's JPEG processor
+> -   ( see also zoran 36050 manual )
+> -
+> -   ... sorry for the spaghetti code ...
+> -   ========================================================================= */
+> + * Setup function:
+> + *
+> + * Setup compression/decompression of Zoran's JPEG processor
+> + * ( see also zoran 36050 manual )
+> + *
+> + * ... sorry for the spaghetti code ...
+> + * =========================================================================
+> + */
+>  static void zr36050_init(struct zr36050 *ptr)
+>  {
+>  	int sum = 0;
+> @@ -419,8 +435,10 @@ static void zr36050_init(struct zr36050 *ptr)
+>  		sum += zr36050_set_sos(ptr);
+>  		sum += zr36050_set_dri(ptr);
+>  
+> -		/* setup the fixed jpeg tables - maybe variable, though -
+> -		 * (see table init section above) */
+> +		/*
+> +		 * setup the fixed jpeg tables - maybe variable, though -
+> +		 * (see table init section above)
+> +		 */
+>  		dprintk(3, "%s: write DQT, DHT, APP\n", ptr->name);
+>  		sum += zr36050_pushit(ptr, ZR050_DQT_IDX,
+>  				      sizeof(zr36050_dqt), zr36050_dqt);
+> @@ -531,13 +549,16 @@ static void zr36050_init(struct zr36050 *ptr)
+>  }
+>  
+>  /* =========================================================================
+> -   CODEC API FUNCTIONS
+> -
+> -   this functions are accessed by the master via the API structure
+> -   ========================================================================= */
+> + * CODEC API FUNCTIONS
+> + *
+> + * this functions are accessed by the master via the API structure
+> + * =========================================================================
+> + */
+>  
+> -/* set compression/expansion mode and launches codec -
+> -   this should be the last call from the master before starting processing */
+> +/*
+> + * set compression/expansion mode and launches codec -
+> + * this should be the last call from the master before starting processing
+> + */
+>  static int zr36050_set_mode(struct videocodec *codec, int mode)
+>  {
+>  	struct zr36050 *ptr = (struct zr36050 *)codec->data;
+> @@ -564,9 +585,11 @@ static int zr36050_set_video(struct videocodec *codec, const struct tvnorm *norm
+>  		ptr->name, norm->h_start, norm->v_start,
+>  		cap->x, cap->y, cap->width, cap->height,
+>  		cap->decimation, cap->quality);
+> -	/* if () return -EINVAL;
+> +	/*
+> +	 * if () return -EINVAL;
+>  	 * trust the master driver that it knows what it does - so
+> -	 * we allow invalid startx/y and norm for now ... */
+> +	 * we allow invalid startx/y and norm for now ...
+> +	 */
+>  	ptr->width = cap->width / (cap->decimation & 0xff);
+>  	ptr->height = cap->height / ((cap->decimation >> 8) & 0xff);
+>  
+> @@ -585,8 +608,10 @@ static int zr36050_set_video(struct videocodec *codec, const struct tvnorm *norm
+>  
+>  	ptr->real_code_vol = size >> 3; /* in bytes */
+>  
+> -	/* Set max_block_vol here (previously in zr36050_init, moved
+> - * here for consistency with zr36060 code */
+> +	/*
+> +	 * Set max_block_vol here (previously in zr36050_init, moved
+> +	 * here for consistency with zr36060 code
+> +	 */
+>  	zr36050_write(ptr, ZR050_MBCV, ptr->max_block_vol);
+>  
+>  	return 0;
+> @@ -642,8 +667,10 @@ static int zr36050_control(struct videocodec *codec, int type, int size, void *d
+>  		if (size != sizeof(int))
+>  			return -EFAULT;
+>  		ptr->total_code_vol = *ival;
+> -		/* (Kieran Morrissey)
+> -		 * code copied from zr36060.c to ensure proper bitrate */
+> +		/*
+> +		 * (Kieran Morrissey)
+> +		 * code copied from zr36060.c to ensure proper bitrate
+> +		 */
+>  		ptr->real_code_vol = (ptr->total_code_vol * 6) >> 3;
+>  		break;
+>  
+> @@ -707,10 +734,11 @@ static int zr36050_control(struct videocodec *codec, int type, int size, void *d
+>  }
+>  
+>  /* =========================================================================
+> -   Exit and unregister function:
+> -
+> -   Deinitializes Zoran's JPEG processor
+> -   ========================================================================= */
+> + * Exit and unregister function:
+> + *
+> + * Deinitializes Zoran's JPEG processor
+> + * =========================================================================
+> + */
+>  
+>  static int zr36050_unset(struct videocodec *codec)
+>  {
+> @@ -732,13 +760,14 @@ static int zr36050_unset(struct videocodec *codec)
+>  }
+>  
+>  /* =========================================================================
+> -   Setup and registry function:
+> -
+> -   Initializes Zoran's JPEG processor
+> -
+> -   Also sets pixel size, average code size, mode (compr./decompr.)
+> -   (the given size is determined by the processor with the video interface)
+> -   ========================================================================= */
+> + * Setup and registry function:
+> + *
+> + * Initializes Zoran's JPEG processor
+> + *
+> + * Also sets pixel size, average code size, mode (compr./decompr.)
+> + * (the given size is determined by the processor with the video interface)
+> + * =========================================================================
+> + */
+>  
+>  static int zr36050_setup(struct videocodec *codec)
+>  {
+> @@ -773,8 +802,10 @@ static int zr36050_setup(struct videocodec *codec)
+>  	memcpy(ptr->h_samp_ratio, zr36050_decimation_h, 8);
+>  	memcpy(ptr->v_samp_ratio, zr36050_decimation_v, 8);
+>  
+> -	ptr->bitrate_ctrl = 0;	/* 0 or 1 - fixed file size flag
+> -				 * (what is the difference?) */
+> +	ptr->bitrate_ctrl = 0;	/*
+> +				 * 0 or 1 - fixed file size flag
+> +				 * (what is the difference?)
+> +				 */
+>  	ptr->mode = CODEC_DO_COMPRESSION;
+>  	ptr->width = 384;
+>  	ptr->height = 288;
+> @@ -813,8 +844,9 @@ static const struct videocodec zr36050_codec = {
+>  };
+>  
+>  /* =========================================================================
+> -   HOOK IN DRIVER AS KERNEL MODULE
+> -   ========================================================================= */
+> + * HOOK IN DRIVER AS KERNEL MODULE
+> + * =========================================================================
+> + */
+>  
+>  static int __init zr36050_init_module(void)
+>  {
+> 
+
