@@ -2,129 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ACEE361B16
-	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 10:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 530D3361BDB
+	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 11:00:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239986AbhDPIGO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Apr 2021 04:06:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42562 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239068AbhDPIGO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Apr 2021 04:06:14 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBC8AC061574
-        for <linux-media@vger.kernel.org>; Fri, 16 Apr 2021 01:05:49 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id x19so13015343lfa.2
-        for <linux-media@vger.kernel.org>; Fri, 16 Apr 2021 01:05:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=T/GkAnca9gBf511+UOP69s2zUlqQA3ka9GPh9sfgQbc=;
-        b=Td0hNryxzo4/5Jjil+l1dVCEn0uaPVRuHVqlNzciYKmWWT1rNLYq4ak104sOE9WRc4
-         mhFCBnLttOOlqSSKdogpXcJfMpSaKvGWT9/z7+kWpJT+UAmf39LVqETI9YUwbX5fEgEn
-         UKJTLpFk2OyiRyFTStGN/nJVp1jY+6W3uLyUqGK2vI5lqvk7IUqlnLEKP8780ju3Kh9Z
-         NnrrY9aEWc94jGkrN3ULAk+DeOvYINJJk3poGhVJGuBrtRGkL4/bzksUNZbnraXdu/+x
-         2ALROintHs/GC9/dvlH0TyiBWiKhM9QqRrHxNFBRRX+6O1PgYiknhYaykgfvWtM4MTaJ
-         Fy0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=T/GkAnca9gBf511+UOP69s2zUlqQA3ka9GPh9sfgQbc=;
-        b=kij/9Bg+GXxavoA0pBBshimSawtRTDmCmU3vO5S4tbrbVWeZ524PaXi5yS1NlSVJZv
-         RU5G7EYKldSD1D8KnmJpz61q0I15Gar7pyVerceizrr6efLuehWql5Epw/UOsLkFh+RE
-         6ZvUyVFu0JaNkHGGVvimmJCAvnLeHbZtih+h/sStpY8TKFAnK3eTijbswmk7ORbl209e
-         MS9k5blWCFSPMZ7Ci1YWuPBuRDo1MSiN1Mr39HhELSF8WsltSn3yWDiu+iZVJYPZt1ag
-         vBP/BuC00tcikHTVKiF8jsUhuGovprNm4CDAqxCTxiCMexqqWDv7IB40sJR+4/zdduO3
-         3e3A==
-X-Gm-Message-State: AOAM531aO7tlCSsBQTL0HvDi+xdCrDK8tRIV6Foyv13ZaXnj3UresDhA
-        QhKnfX900X1RZ4xnie5CtvSzJ4WdKZVUFw==
-X-Google-Smtp-Source: ABdhPJxo5PcSFtDcjWkfeg3gfNEGkt4GXmGFhUuXDxFdZR1rssvChhMsKWdPLsfmhE+8PdTKTsgxgg==
-X-Received: by 2002:a19:f807:: with SMTP id a7mr2092989lff.437.1618560348314;
-        Fri, 16 Apr 2021 01:05:48 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id z22sm929311lfu.112.2021.04.16.01.05.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Apr 2021 01:05:47 -0700 (PDT)
-Date:   Fri, 16 Apr 2021 10:05:46 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,csi2: Node port@0 is
- not mandatory
-Message-ID: <YHlFWvVBps2vYnPM@oden.dyn.berto.se>
-References: <20210413155346.2471776-1-niklas.soderlund+renesas@ragnatech.se>
- <YHiPWPTjWeEQ522E@pendragon.ideasonboard.com>
+        id S239216AbhDPIh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Apr 2021 04:37:59 -0400
+Received: from mga06.intel.com ([134.134.136.31]:17966 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232442AbhDPIh6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Apr 2021 04:37:58 -0400
+IronPort-SDR: ER3UxIOeOWsJ8Kbca4e3yVhkAgXKvsvGZDMmg/UjsEkgiRkuBa2MYsuidRbaQWV2VY0uJfeWXY
+ t8uYkt6DwbAA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="256324544"
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
+   d="scan'208";a="256324544"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 01:37:33 -0700
+IronPort-SDR: 0u3B25yUP3DkaMmFYZ3eX/OFY8cwgwhw61cjwZHiTxcc4h/6teNjzrjGE26MhQQ68prrJJNtyk
+ 7LkFIY8wKxuQ==
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
+   d="scan'208";a="522648878"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 01:37:30 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 74E3C20188;
+        Fri, 16 Apr 2021 11:37:28 +0300 (EEST)
+Date:   Fri, 16 Apr 2021 11:37:28 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [Outreachy kernel] [PATCH v2] staging: media: atomisp: pci:
+ Change line break to avoid an open parenthesis at the end of the line
+Message-ID: <20210416083728.GL3@paasikivi.fi.intel.com>
+References: <20210415170819.GA17534@focaruja>
+ <20210415171409.GC2531743@casper.infradead.org>
+ <20210415194955.GI3@paasikivi.fi.intel.com>
+ <20210415195704.GE2531743@casper.infradead.org>
+ <20210415195941.GF2531743@casper.infradead.org>
+ <20210415212158.GK3@paasikivi.fi.intel.com>
+ <20210416054941.GF6021@kadam>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YHiPWPTjWeEQ522E@pendragon.ideasonboard.com>
+In-Reply-To: <20210416054941.GF6021@kadam>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Dan,
 
-Thanks for your comments.
-
-On 2021-04-15 22:09:12 +0300, Laurent Pinchart wrote:
-> Hi Niklas,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Apr 13, 2021 at 05:53:46PM +0200, Niklas Söderlund wrote:
-> > When converting the binding to use the video-interfaces schemas the node
-> > port@0 was incorrectly made a mandatory property.
+On Fri, Apr 16, 2021 at 08:49:41AM +0300, Dan Carpenter wrote:
+> On Fri, Apr 16, 2021 at 12:21:58AM +0300, Sakari Ailus wrote:
+> > On Thu, Apr 15, 2021 at 08:59:41PM +0100, Matthew Wilcox wrote:
+> > > On Thu, Apr 15, 2021 at 08:57:04PM +0100, Matthew Wilcox wrote:
+> > > > On Thu, Apr 15, 2021 at 10:49:55PM +0300, Sakari Ailus wrote:
+> > > > > On Thu, Apr 15, 2021 at 06:14:09PM +0100, Matthew Wilcox wrote:
+> > > > > > On Thu, Apr 15, 2021 at 02:08:19PM -0300, Aline Santana Cordeiro wrote:
+> > > > > > > -const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
+> > > > > > > -    u32 mbus_code);
+> > > > > > > +const struct atomisp_format_bridge*
+> > > > > > > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
+> > > > > > 
+> > > > > > No, this does not match coding style.  Probably best to break the
+> > > > > > 80-column guideline in this instance.  Best would be to have a function
+> > > > > 
+> > > > > Having the return type on the previous line is perfectly fine. There should
+> > > > > be a space before the asterisk though.
+> > > > 
+> > > > No, it's not.  Linus has ranted about that before.
+> > > 
+> > > Found it.  https://lore.kernel.org/lkml/1054519757.161606@palladium.transmeta.com/
 > > 
-> > The port@0 node describes which CSI-2 transmitter the R-Car CSI-2
-> > receiver is connected too. Not all boards connects all CSI-2 receivers
-> > to an CSI-2 transmitter.
-> 
-> Ports are properties of the device, they should always be there,
-> regardless of connections. It's the endpoints that describe connections.
-
-I understand what you are saying and if that is the way things are done 
-I'm fine with it. As this was brought to light by a recent change in the 
-bindings I wish to understand if this was always the case the bindings 
-have been wrong all along or not.
-
-I only ask as because if we keep the port@0 mandatory there will be 
-board files that needs to add empty port@0 nodes as we know they are not 
-used. And as the media bindings are already quiet large for some Renesas 
-boards I want to understand this before spewing out a lot of patches 
-adding empty nodes ;-)
-
-> 
-> > Fixes: 066a94e28a23e04c ("media: dt-bindings: media: Use graph and video-interfaces schemas")
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  Documentation/devicetree/bindings/media/renesas,csi2.yaml | 1 -
-> >  1 file changed, 1 deletion(-)
+> > Two decades ago, really?
 > > 
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > index 20396f1be9993461..395484807dd5ed47 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > @@ -78,7 +78,6 @@ properties:
-> >            modules connected the CSI-2 receiver.
-> >  
-> >      required:
-> > -      - port@0
-> >        - port@1
-> >  
-> >  required:
+> > This is simply one of the practical means how you split long function
+> > declarations and avoid overly long lines. Not my favourite though, but
+> > still better than those long lines.
 > 
-> -- 
-> Regards,
+> I've always thought we allow either style, but it has to be done
+> consistently within the file.  I was pretty sure that was policy but
+> it's another thing that goes back decades so I don't have a reference.
+> It shouldn't be about breaking up long lines.
 > 
-> Laurent Pinchart
+> > 
+> > My personal preference would be to wrap at the opening parenthesis and
+> > indent by just a tab, but I know many people who disagree with that...
+> 
+> If you're running into the 80 character limit, then it's fine to use
+> two tabs.  I think we have been rejecting patches that push align the
+> parameters but push past the 80 character limit.  Using one tab is
+> confusing because it makes the decalarations line up with the code.
+
+Interesting. Do you have an example of this? I've thought checkpatch.pl
+gave a warning if the line ended with an opening parenthesis no matter
+what.
 
 -- 
-Regards,
-Niklas Söderlund
+Kind regards,
+
+Sakari Ailus
