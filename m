@@ -2,128 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 320EF3622D6
-	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 16:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DFE83623A6
+	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 17:20:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244616AbhDPOi5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Apr 2021 10:38:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244702AbhDPOih (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Apr 2021 10:38:37 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CEFAC061348
-        for <linux-media@vger.kernel.org>; Fri, 16 Apr 2021 07:38:08 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id u21so42487354ejo.13
-        for <linux-media@vger.kernel.org>; Fri, 16 Apr 2021 07:38:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=N0J5Bxl7vhdML2GM3ovQErwfTec12UCEbn+lGIO9lAc=;
-        b=Y9TWecd7BKcNNCyqA8M5xkHBbkrb0RLig/181L5KKhITa6WQrpLWHcWzAOUIpBbztH
-         mfRFZYAaWiwyACw5lHpXyoD70Ly9TRr4SOMk5VawhA49+MUL7RyTRAajxJcDKndra2eH
-         V4RfFTTeH2LlPtlHCKTk2r9xYprOHtVxqcZAqTx3FazjAI/9jOiGACuJN1F1+rFv/U1u
-         E8PDt+mxyQaPN12boKUE0/+Sz3/u7luoqbIKEhu5RM1PsrE3aj8Zc7W4n1wcjHpJ5+xZ
-         2s7FZNTpszGtEwl1ty0W7VtlLhxWznOCaALkgQwHeA7SDpHoiMfZyMB0Cyhuer6c5ThR
-         h2CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=N0J5Bxl7vhdML2GM3ovQErwfTec12UCEbn+lGIO9lAc=;
-        b=s1827KGEK07qw7s5S5igCtM4A9wiwfbZ1rMq1+uZdkLuru3Mzd+/2cxTAiBwolYh+K
-         S5Ls1tepFjDO8qXhVJ8V/wMzoeIYCKJ0wjTa/IVDmCwZ6NEb+vtNUh2Hfcqzl9K7p78O
-         uzASk6mH0QbSj5U8IyyJXHSShVjwBfbSEE1vaa8oR/zvslLXFZqoL0FoghasygskRST8
-         DLTAYuUApdXE8VTLMZm1owFE4CIHLTcMIihURlxh4VVS8flws025EmTUOABm9uYGawZU
-         yJT+QWq6T8y09A/LzgMNmZJn19N4lMTEVHj/sBierBMDa8pz4IOot1zXeXHI9DXLgt9w
-         xt9Q==
-X-Gm-Message-State: AOAM533nkEe0k4lkj1S1HgXpT8DS3Zi9X/cs/qmYBVP5F9EMaSlQaqvo
-        Tx7TbFMxWIvs5zyys/dQmLh0qg==
-X-Google-Smtp-Source: ABdhPJwQfIUje2tlYBZv8vPpUeMPQ8VZakZYwR5uwBK9VUsCi0n8gtjtebQD5JAd2uGQhYmRaUFAPA==
-X-Received: by 2002:a17:906:4119:: with SMTP id j25mr8642477ejk.459.1618583887046;
-        Fri, 16 Apr 2021 07:38:07 -0700 (PDT)
-Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id j10sm1326523ejk.93.2021.04.16.07.38.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Apr 2021 07:38:06 -0700 (PDT)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jerome Glisse <glisse@freedesktop.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 35/40] drm/amd/amdgpu/amdgpu_cs: Repair some function naming disparity
-Date:   Fri, 16 Apr 2021 15:37:20 +0100
-Message-Id: <20210416143725.2769053-36-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210416143725.2769053-1-lee.jones@linaro.org>
-References: <20210416143725.2769053-1-lee.jones@linaro.org>
+        id S1343598AbhDPPQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Apr 2021 11:16:48 -0400
+Received: from mga03.intel.com ([134.134.136.65]:25932 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245588AbhDPPPd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Apr 2021 11:15:33 -0400
+IronPort-SDR: Gdjz/MscIT6jkS96Z7DwYqEbOa4Jl1XNsar9ONqi3BEZbbIOWRoquK2+hbTRu1CmSJrYdZRpAu
+ vsPtxVIReNEA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9956"; a="195078324"
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
+   d="scan'208";a="195078324"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 08:11:40 -0700
+IronPort-SDR: gD+HARgaP/8+IxiIiDqhNNRH0dN5pEIEIH66ioabjBzs45wXUyIU7IiX9bng99/HTUgyGV+Zjf
+ rmckrYyEuLag==
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
+   d="scan'208";a="601492104"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 08:11:39 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 9CBED2057C;
+        Fri, 16 Apr 2021 18:11:37 +0300 (EEST)
+Date:   Fri, 16 Apr 2021 18:11:37 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Martiros Shakhzadyan <vrzh@vrzh.net>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCHv2 0/2] staging: media: atomisp: cleaning up sh_css.c
+Message-ID: <20210416151137.GP3@paasikivi.fi.intel.com>
+References: <20210415214142.38974-1-vrzh@vrzh.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210415214142.38974-1-vrzh@vrzh.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+On Thu, Apr 15, 2021 at 05:41:40PM -0400, Martiros Shakhzadyan wrote:
+> The following set of patches for sh_css.c aims to resolve coding style
+> issues and remove redundancies.
+> 
+> Martiros Shakhzadyan (2):
+>   staging: media: atomisp: Fix sh_css.c brace coding style issues
+>   staging: media: atomisp: Remove redundant assertions in sh_css.c
+> 
+>  drivers/staging/media/atomisp/pci/sh_css.c | 232 ++++++++-------------
+>  1 file changed, 90 insertions(+), 142 deletions(-)
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:685: warning: expecting prototype for cs_parser_fini(). Prototype was for amdgpu_cs_parser_fini() instead
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1502: warning: expecting prototype for amdgpu_cs_wait_all_fence(). Prototype was for amdgpu_cs_wait_all_fences() instead
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1656: warning: expecting prototype for amdgpu_cs_find_bo_va(). Prototype was for amdgpu_cs_find_mapping() instead
+Thanks!
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Jerome Glisse <glisse@freedesktop.org>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+For the set:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index b5c7669980458..90136f9dedd65 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -672,7 +672,7 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_parser *p)
- }
- 
- /**
-- * cs_parser_fini() - clean parser states
-+ * amdgpu_cs_parser_fini() - clean parser states
-  * @parser:	parser structure holding parsing context.
-  * @error:	error number
-  * @backoff:	indicator to backoff the reservation
-@@ -1488,7 +1488,7 @@ int amdgpu_cs_fence_to_handle_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * amdgpu_cs_wait_all_fence - wait on all fences to signal
-+ * amdgpu_cs_wait_all_fences - wait on all fences to signal
-  *
-  * @adev: amdgpu device
-  * @filp: file private
-@@ -1639,7 +1639,7 @@ int amdgpu_cs_wait_fences_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * amdgpu_cs_find_bo_va - find bo_va for VM address
-+ * amdgpu_cs_find_mapping - find bo_va for VM address
-  *
-  * @parser: command submission parser context
-  * @addr: VM address
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
 -- 
-2.27.0
-
+Sakari Ailus
