@@ -2,219 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1466361E80
-	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 13:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 348E7361E84
+	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 13:20:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235514AbhDPLVC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Apr 2021 07:21:02 -0400
-Received: from mail-bn7nam10on2089.outbound.protection.outlook.com ([40.107.92.89]:26464
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235011AbhDPLU7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Apr 2021 07:20:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AuB05X1p8GnmUN3AKixbetRjCfMjTXpyF2nK4Zny2PW9Cdqwvml39FkXNhqQ1Z6OvjMFDe+/pJYrBb22k9USKkhkFkHZ0OChDPhZ1IoDfyfWI6tkOIcIL6PQhKGjReWZEPa+fAbtpg3RH5G3jk4UD7wQQ2zEB96CKeUyzOVlzKM/gwzWFkWRy6Ziqdzzx7fu7XTo22P4wOdhVTESodLpRfXKMe5/QLnkWzbIPVVXBbSe+iLd7SibTKqIJTws1pZz3NGDXbB36X7USxVySWljCVias9K8AM6i+RlMGiI4xGmmHhYOEalb3yWl66LgKkX0XWUV1D+145oNtfh69ZzdWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6mzaq5SeSQBT5kv4GH+0TEnHBYy73Gx2xYZhGu5Kixk=;
- b=M/ww9RywIo61AkU9ns51AkXr3VN1/U51sPynDknyn/An1ttDzHHosf6KXIrBz3oskjoUSfQ5c5Mm26QibfyjTkGGguto6TMx4Gjt4h3UE+pa5NZGtXYq3CsV93As/c59GcXS1esAjWplcEHV7JV+ksxFaZnxIpJATEGCgn5svrpVspjb0/+i3Jwztcx8YCS+KTaL72sJN8AkN4A5c355xk8+Bcg8KMkk79t6aD6zWYGQ9Y7QKMglJv79CwjaxWZld0fNj6ZXkihi7L7sb7jh6IRUv2vKCmr+KYAGz+Zx0cQIrGT37mn08NjmG46wb8t5r//M3f2MLDXZGbD89aO9Nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6mzaq5SeSQBT5kv4GH+0TEnHBYy73Gx2xYZhGu5Kixk=;
- b=EmpHoaYATTMOKyKTPgS5P3haHuNBtk1w0G7Sys8CZXvBg7NqDQGZxSkyernOBouVr79f0PGRmHr/zIzRutrCImu8EPHYckq9QTQEfrb1OSv9kMuDQdfizUdnwl47oFj8E4ZwyHOd+HQ3Atewp6ytni+vh9gBrelHJZfggMOdOyg=
-Authentication-Results: lists.linaro.org; dkim=none (message not signed)
- header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4061.namprd12.prod.outlook.com (2603:10b6:208:19a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.18; Fri, 16 Apr
- 2021 11:20:33 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4020.025; Fri, 16 Apr 2021
- 11:20:33 +0000
-Subject: Re: [PATCH] dma-buf: Add DmaBufTotal counter in meminfo
-To:     Peter Enderborg <peter.enderborg@sony.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Michal Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Mike Rapoport <rppt@kernel.org>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20210416093719.6197-1-peter.enderborg@sony.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <8287166c-6899-e723-ac2c-fa49f5a69a5a@amd.com>
-Date:   Fri, 16 Apr 2021 13:20:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <20210416093719.6197-1-peter.enderborg@sony.com>
+        id S240337AbhDPLVL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Apr 2021 07:21:11 -0400
+Received: from mga12.intel.com ([192.55.52.136]:63711 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235011AbhDPLVJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Apr 2021 07:21:09 -0400
+IronPort-SDR: V2L8wZ/qIxcSR8k6IDKfOh/L+1dGBRAhTDZRjUXelZ5eHbPhsq3Obuf+qsY74z2XiRXW9E062j
+ IbHBU+0LeePQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="174520052"
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
+   d="scan'208";a="174520052"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 04:20:44 -0700
+IronPort-SDR: KNUTpDmsWv3TqC084HypCIwIlD/plK0sn/ftJdo6Ss8lxaAf64SUvkXt+qT6ueC3oSnNzxUVe5
+ CAn917c/wDPA==
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
+   d="scan'208";a="425560591"
+Received: from grosikox-mobl.ger.corp.intel.com (HELO [10.104.80.12]) ([10.104.80.12])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 04:20:42 -0700
+Subject: Re: [PATCH 00/10] Keem Bay Camera Subsystem
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Martina Krasteva <martinax.krasteva@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        robh+dt@kernel.org, devicetree@vger.kernel.org,
+        sakari.ailus@linux.intel.com,
+        daniele.alessandrelli@linux.intel.com,
+        paul.j.murphy@linux.intel.com
+References: <20210319180632.585-1-martinax.krasteva@linux.intel.com>
+ <YHlazqJeQp4cFYMl@pendragon.ideasonboard.com>
+From:   "Rosikopulos, GjorgjiX" <gjorgjix.rosikopulos@linux.intel.com>
+Message-ID: <4084cf8d-61f4-2ae4-b6d4-47668996a446@linux.intel.com>
+Date:   Fri, 16 Apr 2021 11:20:40 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
+MIME-Version: 1.0
+In-Reply-To: <YHlazqJeQp4cFYMl@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:7856:2ddb:903a:d51a]
-X-ClientProxiedBy: FR3P281CA0041.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::17) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:7856:2ddb:903a:d51a] (2a02:908:1252:fb60:7856:2ddb:903a:d51a) by FR3P281CA0041.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4a::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.6 via Frontend Transport; Fri, 16 Apr 2021 11:20:30 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f8ae867c-150d-47cf-ceeb-08d900c9a668
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4061:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4061970851174207E4BB0BCB834C9@MN2PR12MB4061.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: G5khstJqHPlAvdbbkdLR9XBzvi4CGwwqsDHJ5lbDnxLQJZFsc0KLgCK7mS/H4TK4eSyh76olwWf8FKU4NzhBXQer6jimsy3MRT9oqXPPtPsyPy+OFtFVmmnUE6iPLwL2DkacSmKWmblKZ5QkJZiIE4IAFv6KY8KZ0kdCnFiS7ngvtHhCh3tFZ7sIREwbbb/hfX3M80Y4EaliuCOe3hYwY2cW4KS4lmdz7XXezSDysS/sJXW8tgTNNOiOgu1VjSPIKmOYcLF9caLY6JCDusIFzRCWoJ+BB8TcWb0PxOMx0/50F89d1bYJne+CJ76HEqMkiOy7Zs6HDqPl6hA7e4oLMRmJuLmgK3RREy76G16mRsiAv6rDWpZyMtSe2G/lMb9+TXOinBZJYzapxOLYQrnII3gj72aHmoIGmBJO2C+Iv1ODx5WKSnp54jUz2hw6cV7vbeLug1eiLjswLGC/I69ud7Fzaj+FJvSyFiUQiFgPhEFZOeO6Nk4YoajvnSwCVwvfC9iyoGjBFV3xX5mrxUOQ2IdUj2qpvazraYij7o5w1DmE0BnLM19+I3x+/Rby2qTRvg0/RHdLssn5I9tGQOJnH753vFFFM4WvxhPxZHqyArxIGTlNG0nN4issiXKw9ETMgslgDoVDl1uVh6nULTKko4ISiEnUp4q35GYVw12SzEnJwy5SL02MAhdfppqZEKZ4T1+hlTucY3d5htV4NwvYKw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(366004)(39860400002)(136003)(6486002)(2616005)(8936002)(66556008)(16526019)(31686004)(2906002)(110136005)(478600001)(66946007)(8676002)(66476007)(6666004)(83380400001)(31696002)(5660300002)(36756003)(7416002)(52116002)(38100700002)(86362001)(921005)(186003)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SWFjL0tIZnZibk1GNXNnOEQ5R3Y0bkY0KzJkeFdIbDdkamdDZFpidyt2L0lr?=
- =?utf-8?B?eitzVlhlaEdSakp6SWdsN1NzYUhocW8vN2JDU1RLK0JaTU1wbENxaTJYQkQy?=
- =?utf-8?B?dkNoaGwxMmpCRzIwL0RoVVZ4dHZDbGQ1c09iajFGc1JtVHd4MXFSaDllZHAz?=
- =?utf-8?B?cFpxZjc2d3ZOVjN0VW9mYUt5SFZNUVZxSXVsUU8wU0FaRGhTbkIvN2ptL1c1?=
- =?utf-8?B?Mmo4cjJVcVVOQmx5RklSblBFUDRtVDY5RXRrOTYyejQ0RU8zdXpoSnpjeWRK?=
- =?utf-8?B?cGNFSFJZS21uV2hTZFhzYUN0ZHFWRE9sTzBOcCtPYWFYUDhqdlFuUG5VQ3NT?=
- =?utf-8?B?MUdmSHpubEcrK014WTYrS2RUcmlLdUR5MUVkRW5Fc2RlT3d2djBYZ1dmTTRw?=
- =?utf-8?B?czFoQU90ckpEQjF6YkRJOUpjbDcxYjE1TTV3UFZzWXpiRVBFU29QNTlTMDBQ?=
- =?utf-8?B?QVFFazlvbzZQNjFmcU1JUGNWZ0I4WldkcDcyZDBzcGdLVlY4dXZmd2YzRXIx?=
- =?utf-8?B?cXlEbTJyeDJjOVlnK3Rva2xhYUFWSkhYOFREd1lWVFBJZjRvNVVQZllTZ0JL?=
- =?utf-8?B?NWZiUGZyMHNhQU9JRG9YNEt6L2REbzIxTlFINDdVQWdYZUhIOVdTNWhWRTI1?=
- =?utf-8?B?NzJZaXJxV2VGOXExcnQ0a2ZhbnhlTGtjTE81bElvVUtVMDM2QTZIMHBRNmZU?=
- =?utf-8?B?eFZJS1ZlTURyUG13RlFQMjVIMkdlQmZOWGlHem11TE1HbEczakRuOHB3QzBF?=
- =?utf-8?B?MHA3TVNXci9CTjdLQmoxWStaeFRjYWRXTUphTlg4OThWZmtkRUVCSlpTYzZP?=
- =?utf-8?B?a0N0anlDRGpDQXdCRFJuOXhqelpyZVhuOE5sWlZCQ2t3eU5IVWFXL0xTclBm?=
- =?utf-8?B?c21OQ0JjaTJvYnd3UmRKKzVuZmdoSEtwazAzQTE0d05EWjE3MEpoQThEN2lL?=
- =?utf-8?B?d0JVTjRBZHNOOVZ3TkJla083cytIb1ZQUHB6bXRTRkd5dmd0c3Q0aEhCSUNR?=
- =?utf-8?B?bEZIMUZhM0lvTWdzV0FkWnJLN2VKbjRFWEt1UlBnbVFRYWViTWdKVk9PU1hu?=
- =?utf-8?B?S2hmbkk1Y2dmeW1Uclo5VTRVc0k1ZkRlU1ZXSFdza2V2WExTTkFXNWZHQ3F6?=
- =?utf-8?B?TWhGMlQ3bkdOYlNRYlB6ZC83UXpiZ3JlcDRTTHMyc2d6MkRYUXBTK0UyeG1v?=
- =?utf-8?B?S1U1a0hkdjVVYUhvQytmSDhmUjBLTDJNQ0JKYkRXR0ptQ3VhbWlrbGs5UWZW?=
- =?utf-8?B?RDQzNUZNSDB5VXB3U0dCWWFVUnd2TGQ4UGlPT3YyNXl6T1lmVFNSQ3pQaHFB?=
- =?utf-8?B?dzFzNDdiVHpSK09uVDF6QWQ4M0hpcFB2ZmlQRFFWOVpuRzVWYlRVU2tId3VL?=
- =?utf-8?B?WG4xSkRrYlArRzVvUWwyTS9IYVJWYmlIWllEZEszZy9XRStHOXErdjBGT0xQ?=
- =?utf-8?B?UzUwN3diQVJQRmJtK2xZaTFNZ0NjUTFJQ3ltM2RQdEUzMGlmMk9PM29oOWc3?=
- =?utf-8?B?UHdta0xjM0ZHT2VidkEyN3I5UkZ1VWpPNXlBeTNnRW5wakttUzY1ekZGVWxQ?=
- =?utf-8?B?T3B5a0ptK0VjRk1jc1RTZEZlUXdUVWFjQTB0VXIwMXlvbTBuY3VzV3I4eWpB?=
- =?utf-8?B?bHByUkhkRCs3aGJBUGZRWTVMRHBwbytTTDFpb2RCelZmZHVrSllVaGdNNUFk?=
- =?utf-8?B?amNMVkF6ZUR5cnhuS0FYNjNDcGpkcHFFSUtLUFY0ZWtVZmIxeWhYbkNiNXNO?=
- =?utf-8?B?TzAvUTVEMVRETkhuQWJUZU1sQkxhaUdCNjZFSU04MCt4YytNNG9QY0ZSQm5F?=
- =?utf-8?B?YWQxcTBmUHVsSXVrWllMNzY5N1ZuWC81ekNXL0hxZFExRXg4UUNNZGRkWWxj?=
- =?utf-8?Q?2cZAxZZCl+uFp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8ae867c-150d-47cf-ceeb-08d900c9a668
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2021 11:20:33.1547
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 51kcxp732LwamsuH57SFigPXxKyYiAm2fAalxVgXuj0FFVlyp7zyiJMDBG/K2oAX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4061
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 16.04.21 um 11:37 schrieb Peter Enderborg:
-> This adds a total used dma-buf memory. Details
-> can be found in debugfs, however it is not for everyone
-> and not always available.
+Hi Laurent,
 
-Well you are kind of missing the intention here.
+On 16/04/2021 09:37, Laurent Pinchart wrote:
+> Hi Martina and Gjorgji,
+>
+> Nice to see a new ISP driver :-)
+Pleasure for us submit new ISP driver :-).
+>
+> Before reviewing patches in details, I have a few high-level questions:
+>
+> - The driver seems to proxy access to the ISP through the VPU firmware.
+>    I assume the VPU is a separate CPU core that controls the hardware
+>    directly. Is that correct ?
 
-I mean knowing this is certainly useful in some case, but you need to 
-describe which cases that are.
-
-Christian.
+Yes that is correct.
 
 >
-> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
-> ---
->   drivers/dma-buf/dma-buf.c | 12 ++++++++++++
->   fs/proc/meminfo.c         |  2 ++
->   include/linux/dma-buf.h   |  1 +
->   3 files changed, 15 insertions(+)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index f264b70c383e..9f88171b394c 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -37,6 +37,7 @@ struct dma_buf_list {
->   };
->   
->   static struct dma_buf_list db_list;
-> +static atomic_long_t dma_buf_size;
->   
->   static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
->   {
-> @@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
->   	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
->   		dma_resv_fini(dmabuf->resv);
->   
-> +	atomic_long_sub(dmabuf->size, &dma_buf_size);
->   	module_put(dmabuf->owner);
->   	kfree(dmabuf->name);
->   	kfree(dmabuf);
-> @@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->   	mutex_lock(&db_list.lock);
->   	list_add(&dmabuf->list_node, &db_list.head);
->   	mutex_unlock(&db_list.lock);
-> +	atomic_long_add(dmabuf->size, &dma_buf_size);
->   
->   	return dmabuf;
->   
-> @@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
->   }
->   EXPORT_SYMBOL_GPL(dma_buf_vunmap);
->   
-> +/**
-> + * dma_buf_get_size - Return the used nr pages by dma-buf
-> + */
-> +long dma_buf_get_size(void)
-> +{
-> +	return atomic_long_read(&dma_buf_size) >> PAGE_SHIFT;
-> +}
-> +EXPORT_SYMBOL_GPL(dma_buf_get_size);
-> +
->   #ifdef CONFIG_DEBUG_FS
->   static int dma_buf_debug_show(struct seq_file *s, void *unused)
->   {
-> diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-> index 6fa761c9cc78..3c1a82b51a6f 100644
-> --- a/fs/proc/meminfo.c
-> +++ b/fs/proc/meminfo.c
-> @@ -16,6 +16,7 @@
->   #ifdef CONFIG_CMA
->   #include <linux/cma.h>
->   #endif
-> +#include <linux/dma-buf.h>
->   #include <asm/page.h>
->   #include "internal.h"
->   
-> @@ -145,6 +146,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
->   	show_val_kb(m, "CmaFree:        ",
->   		    global_zone_page_state(NR_FREE_CMA_PAGES));
->   #endif
-> +	show_val_kb(m, "DmaBufTotal:    ", dma_buf_get_size());
->   
->   	hugetlb_report_meminfo(m);
->   
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index efdc56b9d95f..f6481315a377 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
->   		 unsigned long);
->   int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
->   void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> +long dma_buf_get_size(void);
->   #endif /* __DMA_BUF_H__ */
+> - Does this driver support all the features of the ISP, or only the
+>    subset that a particular VPU firmware exposes ? In particular, the ISP
+>    is exposed as an inline block, which no memory buffer between the
+>    CSI-2 receiver and the ISP, and no ability to capture raw frames. How
+>    is one supposed to tune cameras ?
 
+The driver exposes all the features supported by ISP the firmware as 
+high level API.
+
+However this patch-set is not exposing all the features of the VPU API 
+in userspace. Some of them will came in next patch-set some of them
+
+are part of the separate patch-set (HDR 2DOL and 3DOL support).
+
+The changes which will be posted in next patch-set are:
+
+1. Raw capture support (link can be activated per need).
+
+2. Support for 2 additional scaled outputs which again their links can 
+be activated per need.
+
+3. The full size output which is included in this patch-set will remain 
+immutable active.
+
+
+The additional features which will be added as separate patch-set and 
+RFC are:
+
+4. 2DOL and 3DOL support. We dont have yet interface for multiple 
+streams over one link. We will use current RFC for that. (That why this 
+is not included in first patch-set).
+
+Also we need to discuss how to enable raw capture for 2DOL and 3DOL 
+usecases....
+
+
+Regarding the VPU operation. The VPU captures frames from CSI2 in to 
+memory and then uses ISP mem2mem processing, there is internal memory 
+pool used by the firmware.
+
+When raw capture is enabled the raw buffer pool is allocated in the 
+linux driver side and used by VPU for storing the frames to memory, then 
+they are processed
+
+by ISP and returned to linux driver side.
+
+>
+> - More documentation is needed for both the device architecture (in
+>    particular a block diagram of the processing pipeline), and the
+>    configuration parameters. Is there ongoing work in this area ?
+Yes this is painful part. We are working to get approval for providing 
+the needed documentation...
+>
+> - Last but not least, we need a reference userspace implementation to
+>    test this driver. I recommend implementing support in libcamera :-)
+
+So i am not sure if this is a planned effort. Currently we are using 
+yavta for doing tests same as IPU3 example,
+
+with prepared configurations and read them from file. I agree that it 
+will be great to have libcamera support but
+
+for now is not part of our up-streaming effort :/
+
+Regards,
+
+~Gjorgji
+
+>
+> On Fri, Mar 19, 2021 at 06:06:22PM +0000, Martina Krasteva wrote:
+>> From: Martina Krasteva <martinax.krasteva@intel.com>
+>>
+>> Patch series contains Keem Bay Camera Subsystem driver implementation,
+>> documentation and devicetree binding document.
+>>
+>> Gjorgji Rosikopulos (7):
+>>    media: Keem Bay Camera: Keem Bay camera driver
+>>    media: Keem Bay Camera: Add VPU camera interface
+>>    uapi: Keem Bay ISP Parameters data types
+>>    media: v4l: Add Keem Bay Camera meta buffer formats
+>>    media: Keem Bay Camera: Add ISP sub-device
+>>    media: Keem Bay Camera: Add metadata video node
+>>    media: admin-guide: Add documentation for Keem Bay Camera
+>>
+>> Martina Krasteva (3):
+>>    dt-bindings: media: Add bindings for Keem Bay Camera
+>>    media: Keem Bay Camera: Add pipeline support
+>>    media: Keem Bay Camera: Add capture video node
+>>
+>>   Documentation/admin-guide/media/keembay-camera.dot |   12 +
+>>   Documentation/admin-guide/media/keembay-camera.rst |  174 ++
+>>   Documentation/admin-guide/media/v4l-drivers.rst    |    1 +
+>>   .../bindings/media/intel,keembay-camera.yaml       |   98 ++
+>>   .../userspace-api/media/v4l/meta-formats.rst       |    1 +
+>>   .../media/v4l/pixfmt-meta-intel-kmb.rst            |   98 ++
+>>   MAINTAINERS                                        |   14 +
+>>   drivers/media/platform/Kconfig                     |    1 +
+>>   drivers/media/platform/Makefile                    |    2 +
+>>   drivers/media/platform/keembay-camera/Kconfig      |   11 +
+>>   drivers/media/platform/keembay-camera/Makefile     |    5 +
+>>   .../platform/keembay-camera/keembay-cam-xlink.c    |  327 ++++
+>>   .../platform/keembay-camera/keembay-cam-xlink.h    |   49 +
+>>   .../media/platform/keembay-camera/keembay-camera.c |  287 +++
+>>   .../media/platform/keembay-camera/keembay-camera.h |   43 +
+>>   .../media/platform/keembay-camera/keembay-isp.c    | 1397 +++++++++++++++
+>>   .../media/platform/keembay-camera/keembay-isp.h    |  136 ++
+>>   .../platform/keembay-camera/keembay-metadata.c     | 1860 ++++++++++++++++++++
+>>   .../platform/keembay-camera/keembay-metadata.h     |  154 ++
+>>   .../keembay-camera/keembay-params-defaults.c       |  326 ++++
+>>   .../keembay-camera/keembay-params-defaults.h       |   38 +
+>>   .../platform/keembay-camera/keembay-pipeline.c     |  401 +++++
+>>   .../platform/keembay-camera/keembay-pipeline.h     |   75 +
+>>   .../media/platform/keembay-camera/keembay-video.c  |  922 ++++++++++
+>>   .../media/platform/keembay-camera/keembay-video.h  |   74 +
+>>   .../platform/keembay-camera/keembay-vpu-cmd.h      |  110 ++
+>>   .../platform/keembay-camera/keembay-vpu-frame.h    |  102 ++
+>>   .../platform/keembay-camera/keembay-vpu-isp.h      |  724 ++++++++
+>>   .../platform/keembay-camera/keembay-vpu-pipe.h     |  110 ++
+>>   .../platform/keembay-camera/keembay-vpu-src.h      |  193 ++
+>>   include/uapi/linux/keembay-isp-ctl.h               |  796 +++++++++
+>>   include/uapi/linux/videodev2.h                     |    4 +
+>>   32 files changed, 8545 insertions(+)
+>>   create mode 100644 Documentation/admin-guide/media/keembay-camera.dot
+>>   create mode 100644 Documentation/admin-guide/media/keembay-camera.rst
+>>   create mode 100644 Documentation/devicetree/bindings/media/intel,keembay-camera.yaml
+>>   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-intel-kmb.rst
+>>   create mode 100644 drivers/media/platform/keembay-camera/Kconfig
+>>   create mode 100644 drivers/media/platform/keembay-camera/Makefile
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-cam-xlink.c
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-cam-xlink.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-camera.c
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-camera.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-isp.c
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-isp.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-metadata.c
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-metadata.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-params-defaults.c
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-params-defaults.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-pipeline.c
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-pipeline.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-video.c
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-video.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-vpu-cmd.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-vpu-frame.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-vpu-isp.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-vpu-pipe.h
+>>   create mode 100644 drivers/media/platform/keembay-camera/keembay-vpu-src.h
+>>   create mode 100644 include/uapi/linux/keembay-isp-ctl.h
+>>
+>>
+>> base-commit: f00397ee41c79b6155b9b44abd0055b2c0621349
