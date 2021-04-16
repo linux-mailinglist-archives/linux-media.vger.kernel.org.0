@@ -2,132 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8182362BDF
-	for <lists+linux-media@lfdr.de>; Sat, 17 Apr 2021 01:19:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 723A4362C12
+	for <lists+linux-media@lfdr.de>; Sat, 17 Apr 2021 01:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234973AbhDPXS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Apr 2021 19:18:27 -0400
-Received: from mail-pf1-f180.google.com ([209.85.210.180]:41547 "EHLO
-        mail-pf1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234761AbhDPXS0 (ORCPT
+        id S234965AbhDPX4P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Apr 2021 19:56:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229719AbhDPX4O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Apr 2021 19:18:26 -0400
-Received: by mail-pf1-f180.google.com with SMTP id w6so4778860pfc.8;
-        Fri, 16 Apr 2021 16:17:59 -0700 (PDT)
+        Fri, 16 Apr 2021 19:56:14 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93AE9C061574;
+        Fri, 16 Apr 2021 16:55:47 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id p6so21463692wrn.9;
+        Fri, 16 Apr 2021 16:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4wthoTfG2N095M+QSjMZEKkLwrzkypphGz/WswOOAXA=;
+        b=KPfIJgqsbMvWcyeDZgvaohrbarQWY4tQSocA53ct384vzydBOxJohaRVl4SiGaMgoZ
+         1zn7QaflcT4O+x1TsLrPBgjDpPeaTdi4qi3Yuf7CqYf4fl2z26SnYsY4kpAjsmpkYLjQ
+         Yc40uPVmGBx9Ly0KZtDRgAwS25s6CcNPdfChDaZET/QaIajBQQJjA9s4fK0ye7nfjz43
+         z6AJ7t/lnM4NzhmOYZ3E9Eo2rGSk0+ldz7NXZe6lrVa2idBTyhPgcu2sTVHsWzfLXk4R
+         SnjMhdNP2lPrkCSD/VFGnmtZCFBAkdrcA3Q78KN2OfK2NHo/nu3OCpsUG19P6vNUslSo
+         yq2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mH1Ma8Sm5bk3lpTGX4oY/8pZj+YJEpOBjR0h/3eGX9w=;
-        b=VFB2VakOyNXr9kI39JttRYoiS4JIZ10nsmIA5SS/c5q5wQ7Dc6AXcb3X460u0fB+7i
-         5+miRTf9iqvSebdTOWZZsIL2S6R+qtk0RGX22kKDnVYagrwfG7/zOSIKPPZ160xWnziy
-         EAvn6B0XiB4QcR9OB6TaPMN7hln3omGnkFThnQzeavi6Am6dqLjhbAAJaYXeJ98F4td0
-         LVH0fUuOFm7Hpzwogh7TuS68P9oTgkA1sDIt9KViJk7xBDkb3RR2JK5X0XyroprntxZe
-         t8TiQ3Ztd9AGiqk0Xq/e8nmVE0x+tYARrMrD/25Oys8DUJ+lQ8994NvP60u6apWkN+8F
-         fWDQ==
-X-Gm-Message-State: AOAM5303E1o1GhVJ8tghWeTMRaJwD74fpZLinjUo3PYS52nhXu8WI3d8
-        5l3sqB/Z2Pm3NnDYViPFlYw=
-X-Google-Smtp-Source: ABdhPJwkPggk5/Bm3RxS9LdQsuDpVF109Y+PN1zXktQiJBZd3SsaxelMdBr3lpy46Iz77jo/h7RE9Q==
-X-Received: by 2002:a63:d714:: with SMTP id d20mr1173746pgg.285.1618615078799;
-        Fri, 16 Apr 2021 16:17:58 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id f2sm5814240pfe.177.2021.04.16.16.17.57
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4wthoTfG2N095M+QSjMZEKkLwrzkypphGz/WswOOAXA=;
+        b=aT3LOtfUTq9+rXQvyNgHXRVyrMx3KVUFCwt7BKEg9q0A0NaP7Pmc3wKbTJs5ddFaHX
+         WXejBo5FuAmn0s+UdYbK5KfAKcWlqOlAzJrh4LjS/t87RJSQij7Y25ZdqGzbwDj1EYFm
+         /chp8xqGR6r3yk+DFqlRdY4Lfz6cEd+aUFCgBb+RE3udRyglF21zd53eZpoVNJ4G1FaK
+         wKRC+Kj539B/1EkKwPoM1rspLsLw7ooU+uu+JPUD19j0qvWjzXEEye9dO0b79k2R2qlP
+         f052a6wv/nBY2wf7A41/fOLrEyoDFlzVhDSmet3SpRPtN3QpZdbBUL+IZ77RH9k9lfnv
+         S4Rw==
+X-Gm-Message-State: AOAM53275WbMl47DHkXLzYwnYeTWBGhfibMmYN787PWFvqvkr4506t0L
+        IL6YADG1dEnKCmhGvDxS36Q=
+X-Google-Smtp-Source: ABdhPJzokJ3S7/Nvto/qASej34awec78j2EKo6ESTo8Rl9SrWHtb5yFKoYy3nyvWSXx0u5QLfhP9zQ==
+X-Received: by 2002:a5d:47ad:: with SMTP id 13mr1601861wrb.56.1618617346324;
+        Fri, 16 Apr 2021 16:55:46 -0700 (PDT)
+Received: from localhost.localdomain (host-84-13-30-150.opaltelecom.net. [84.13.30.150])
+        by smtp.gmail.com with ESMTPSA id u8sm12404539wrr.42.2021.04.16.16.55.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Apr 2021 16:17:57 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 037F2403A2; Fri, 16 Apr 2021 23:17:56 +0000 (UTC)
-Date:   Fri, 16 Apr 2021 23:17:56 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Lukas Middendorf <kernel@tuxforce.de>,
-        Greg KH <gregkh@linuxfoundation.org>, dsterba@suse.cz,
-        Jan Kara <jack@suse.cz>, Bart Van Assche <bvanassche@acm.org>,
-        fsdevel@vger.kernel.org
-Cc:     linux-btrfs@vger.kernel.org, Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: Is request_firmware() really safe to call in resume callback
- when /usr/lib/firmware is on btrfs?
-Message-ID: <20210416231756.GW13911@42.do-not-panic.com>
-References: <20200817152056.GD4332@42.do-not-panic.com>
- <9e5c716e-1736-9890-54be-75739ea5462f@tuxforce.de>
- <20200818143715.GF4332@42.do-not-panic.com>
- <6b61e549-42b8-8e71-ff57-43b7c5b4291f@tuxforce.de>
- <20210402180253.GS4332@42.do-not-panic.com>
- <CAB=NE6WVnR197DnH+EgHDoyy98x15D0fVdoGjZcHW9W5P7Jipg@mail.gmail.com>
- <CAB=NE6X8bXUoTuTxhy-DDqO8ByaFiJqbjzCSmmGwTbbLY95FhA@mail.gmail.com>
- <679f1f74-1304-9e79-1d83-0810361b4503@tuxforce.de>
- <20210403202538.GW4332@42.do-not-panic.com>
- <20210408180224.GV13911@42.do-not-panic.com>
+        Fri, 16 Apr 2021 16:55:45 -0700 (PDT)
+From:   Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Subject: [PATCH] media: sp887x: drop unneeded assignment
+Date:   Sat, 17 Apr 2021 00:53:36 +0100
+Message-Id: <20210416235336.1552102-1-sudipm.mukherjee@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210408180224.GV13911@42.do-not-panic.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 08, 2021 at 06:02:24PM +0000, Luis Chamberlain wrote:
-> On Sat, Apr 03, 2021 at 08:25:38PM +0000, Luis Chamberlain wrote:
-> > So creating say 1000 random files in /lib/firmware on a freshly created
-> > btrfs partition helps reproduce:
-> > 
-> > mkfs.btrfs /dev/whatever
-> > mount /dev/wahtever /lib/firmware
-> > # Put it on /etc/fstab too
-> > 
-> > Generate 1000 random files on it:
-> > 
-> > ```
-> > for n in {1..1000}; do                                                          
-> >     dd if=/dev/urandom of=/lib/firmware/file$( printf %03d "$n" ).bin bs=1 count=$((RANDOM + 1024 ))
-> > done  
-> > ```
-> > 
-> > Then reboot, upon reboot do:
-> > 
-> > modprobe test_firmware
-> > echo 1 > /sys/devices/virtual/misc/test_firmware/config_enable_resume_test
-> > systemctl suspend
-> > 
-> > If its a guest wake it up:
-> > 
-> > virsh dompmwakeup domidofguest
-> 
-> This happens because:
-> 
-> btrfs_lookup() --> ... -->                                                      
-> btrfs_search_slot() --> read_block_for_search() -->                             
-> 	--> read_tree_block() --> btree_read_extent_buffer_pages() -->                
-> 	--> submit_one_bio() --> btrfs_submit_metadata_bio() -->                      
-> 	--> btrfsic_submit_bio() --> submit_bio()
-> 		--> this completes and then
-> 	--> wait_on_page_locked() on the first page
-> 	--> never returns                                                             
-> 
-> I also managed to reproduce this easily with XFS as well, so this is not
-> a btrfs thing as I suspected. It does not happen with ext4 though.
-> However I think that's just by chance, it should still be prone to the
-> same issue.
-> 
-> Either way, I'm dusting off my patches for fs freeze as I believe that
-> should fix this problem. I am not sure if we want a stop gap hack like
-> the one I posted in the meantime... I don't think so. I rather fix this
-> well with the series I'll post for fs freeze. Give me a bit of time and
-> I'll CC you on the patches.
+The pointer 'mem' was initialized to 'fw->data' but immediately after
+that it was assigned 'fw->data + 10'. Lets remove the extra assignement
+and initialize the pointer to the address its going to use.
 
-Low and behold, as I suspectd, my old VFS fsfreeze / thaw patch series
-this. However I should note that I needed to add remove also the
-WQ_FREEZABLE from fs as well, which was missing in my patch series, and
-which Jan Kara had pointed out.
+Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+---
+ drivers/media/dvb-frontends/sp887x.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-However, the VFS freeze work is quite a bit of work which we are still
-discussing, so in the meantime, I think we have no other option but
-to put the stop-gap patch I suggested with the usermode helper lock.
-I will just modify it a bit more.
+diff --git a/drivers/media/dvb-frontends/sp887x.c b/drivers/media/dvb-frontends/sp887x.c
+index c89a91a3daf4..146e7f2dd3c5 100644
+--- a/drivers/media/dvb-frontends/sp887x.c
++++ b/drivers/media/dvb-frontends/sp887x.c
+@@ -140,7 +140,7 @@ static int sp887x_initial_setup (struct dvb_frontend* fe, const struct firmware
+ 	u8 buf [BLOCKSIZE + 2];
+ 	int i;
+ 	int fw_size = fw->size;
+-	const unsigned char *mem = fw->data;
++	const unsigned char *mem = fw->data + 10;
+ 
+ 	dprintk("%s\n", __func__);
+ 
+@@ -148,8 +148,6 @@ static int sp887x_initial_setup (struct dvb_frontend* fe, const struct firmware
+ 	if (fw_size < FW_SIZE + 10)
+ 		return -ENODEV;
+ 
+-	mem = fw->data + 10;
+-
+ 	/* soft reset */
+ 	sp887x_writereg(state, 0xf1a, 0x000);
+ 
+-- 
+2.30.2
 
-I'll also post my fs freeze work now again, but I'll note that it
-still requires some more work to address everything which we have
-discussed in the community. I'll post the patches as I think others
-may be interested in the progress of that.
-
-  Luis
