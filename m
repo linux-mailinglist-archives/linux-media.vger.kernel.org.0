@@ -2,204 +2,289 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E82D6361D8E
-	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 12:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ACDE361E4C
+	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 12:54:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240189AbhDPJ6u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Apr 2021 05:58:50 -0400
-Received: from mga11.intel.com ([192.55.52.93]:6783 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233612AbhDPJ6o (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Apr 2021 05:58:44 -0400
-IronPort-SDR: d+oxOVplzpGHJek0InDd8AWdIYoEbmcUGD0LuZotDRU5dUPnCu4/B/VcdrPPMhVchI0dfCsdLC
- buTGYTnIAUTQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="191828527"
-X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
-   d="scan'208";a="191828527"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 02:58:20 -0700
-IronPort-SDR: neDDAdjcwtKGI9tWbiff+EgtPCdJY9yzMrwfaNpStX9UbT4iQl4Voz5ubRERltOCuXWQpYKTW9
- fH/owBvEe72w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
-   d="scan'208";a="444454533"
-Received: from server-intel-chrome-camera.itwn.intel.com ([10.5.215.143])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Apr 2021 02:58:18 -0700
-From:   Shawnx Tu <shawnx.tu@intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, andy.yeh@intel.com,
-        shawnx.tu@intel.com, jim.lai@intel.com, bingbu.cao@intel.com,
-        senozhatsky@google.com, tfiga@google.com
-Subject: [PATCH v4 2/2] ov8856: add vflip/hflip control support
-Date:   Fri, 16 Apr 2021 17:58:59 +0800
-Message-Id: <20210416095859.9562-2-shawnx.tu@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210416095859.9562-1-shawnx.tu@intel.com>
-References: <20210416095859.9562-1-shawnx.tu@intel.com>
+        id S242532AbhDPKzJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Apr 2021 06:55:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242497AbhDPKzJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Apr 2021 06:55:09 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B76AFC061756
+        for <linux-media@vger.kernel.org>; Fri, 16 Apr 2021 03:54:44 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1lXM7C-0004vQ-27; Fri, 16 Apr 2021 12:54:22 +0200
+Message-ID: <7bcbb787d82f21d42563d8fb7e3c2e7d40123932.camel@pengutronix.de>
+Subject: Re: [PATCH v9 03/13] media: hantro: Use syscon instead of 'ctrl'
+ register
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        festevam@gmail.com, lee.jones@linaro.org,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
+        emil.l.velikov@gmail.com, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+        Jacky Bai <ping.bai@nxp.com>
+Cc:     devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-imx@nxp.com, kernel@pengutronix.de, kernel@collabora.com,
+        cphealy@gmail.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org
+Date:   Fri, 16 Apr 2021 12:54:16 +0200
+In-Reply-To: <20210407073534.376722-4-benjamin.gaignard@collabora.com>
+References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
+         <20210407073534.376722-4-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shawn Tu <shawnx.tu@intel.com>
+Am Mittwoch, dem 07.04.2021 um 09:35 +0200 schrieb Benjamin Gaignard:
+> In order to be able to share the control hardware block between
+> VPUs use a syscon instead a ioremap it in the driver.
+> To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
+> phandle is not found look at 'ctrl' reg-name.
+> With the method it becomes useless to provide a list of register
+> names so remove it.
 
-Add V4L2 controls: horizontal/vertical flip,
-keep SGRBG10 Bayer order output (via change v/hflip)
+Sorry for putting a spoke in the wheel after many iterations of the
+series.
 
-Signed-off-by: Shawn Tu <shawnx.tu@intel.com>
----
- drivers/media/i2c/ov8856.c | 118 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 118 insertions(+)
+We just discussed a way forward on how to handle the clocks and resets
+provided by the blkctl block on i.MX8MM and later and it seems there is
+a consensus on trying to provide virtual power domains from a blkctl
+driver, controlling clocks and resets for the devices in the power
+domain. I would like to avoid introducing yet another way of handling
+the blkctl and thus would like to align the i.MX8MQ VPU blkctl with
+what we are planning to do on the later chip generations.
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index ef5477cf899c..dfb80cbaf755 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -80,6 +80,25 @@
- #define NUM_MODE_REGS				187
- #define NUM_MODE_REGS_2				200
- 
-+/* Flip Mirror Controls from sensor */
-+#define OV8856_REG_FORMAT1			0x3820
-+#define OV8856_REG_FORMAT2			0x3821
-+#define OV8856_REG_FORMAT1_OP_1			BIT(1)
-+#define OV8856_REG_FORMAT1_OP_2			BIT(2)
-+#define OV8856_REG_FORMAT1_OP_3			BIT(6)
-+#define OV8856_REG_FORMAT2_OP_1			BIT(1)
-+#define OV8856_REG_FORMAT2_OP_2			BIT(2)
-+#define OV8856_REG_FORMAT2_OP_3			BIT(6)
-+#define OV8856_REG_FLIP_OPT_1			0x376b
-+#define OV8856_REG_FLIP_OPT_2			0x5001
-+#define OV8856_REG_FLIP_OPT_3			0x502e
-+#define OV8856_REG_MIRROR_OPT_1			0x5004
-+#define OV8856_REG_FLIP_OP_0			BIT(0)
-+#define OV8856_REG_FLIP_OP_1			BIT(1)
-+#define OV8856_REG_FLIP_OP_2			BIT(2)
-+#define OV8856_REG_MIRROR_OP_1			BIT(1)
-+#define OV8856_REG_MIRROR_OP_2			BIT(2)
-+
- #define to_ov8856(_sd)			container_of(_sd, struct ov8856, sd)
- 
- static const char * const ov8856_supply_names[] = {
-@@ -1653,6 +1672,93 @@ static int ov8856_test_pattern(struct ov8856 *ov8856, u32 pattern)
- 				OV8856_REG_VALUE_08BIT, pattern);
- }
- 
-+static int ov8856_set_ctrl_hflip(struct ov8856 *ov8856, u32 ctrl_val)
-+{
-+	int ret;
-+	u32 val;
-+
-+	ret = ov8856_read_reg(ov8856, OV8856_REG_MIRROR_OPT_1,
-+			      OV8856_REG_VALUE_08BIT, &val);
-+	if (ret)
-+		return ret;
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_MIRROR_OPT_1,
-+			       OV8856_REG_VALUE_08BIT,
-+			       ctrl_val ? val & ~OV8856_REG_MIRROR_OP_2 :
-+			       val | OV8856_REG_MIRROR_OP_2);
-+
-+	if (ret)
-+		return ret;
-+
-+	ret = ov8856_read_reg(ov8856, OV8856_REG_FORMAT2,
-+			      OV8856_REG_VALUE_08BIT, &val);
-+	if (ret)
-+		return ret;
-+
-+	return ov8856_write_reg(ov8856, OV8856_REG_FORMAT2,
-+				OV8856_REG_VALUE_08BIT,
-+				ctrl_val ? val & ~OV8856_REG_FORMAT2_OP_1 &
-+				~OV8856_REG_FORMAT2_OP_2 &
-+				~OV8856_REG_FORMAT2_OP_3 :
-+				val | OV8856_REG_FORMAT2_OP_1 |
-+				OV8856_REG_FORMAT2_OP_2 |
-+				OV8856_REG_FORMAT2_OP_3);
-+}
-+
-+static int ov8856_set_ctrl_vflip(struct ov8856 *ov8856, u8 ctrl_val)
-+{
-+	int ret;
-+	u32 val;
-+
-+	ret = ov8856_read_reg(ov8856, OV8856_REG_FLIP_OPT_1,
-+			      OV8856_REG_VALUE_08BIT, &val);
-+	if (ret)
-+		return ret;
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_FLIP_OPT_1,
-+			       OV8856_REG_VALUE_08BIT,
-+			       ctrl_val ? val | OV8856_REG_FLIP_OP_1 |
-+			       OV8856_REG_FLIP_OP_2 :
-+			       val & ~OV8856_REG_FLIP_OP_1 &
-+			       ~OV8856_REG_FLIP_OP_2);
-+
-+	ret = ov8856_read_reg(ov8856, OV8856_REG_FLIP_OPT_2,
-+			      OV8856_REG_VALUE_08BIT, &val);
-+	if (ret)
-+		return ret;
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_FLIP_OPT_2,
-+			       OV8856_REG_VALUE_08BIT,
-+			       ctrl_val ? val | OV8856_REG_FLIP_OP_2 :
-+			       val & ~OV8856_REG_FLIP_OP_2);
-+
-+	ret = ov8856_read_reg(ov8856, OV8856_REG_FLIP_OPT_3,
-+			      OV8856_REG_VALUE_08BIT, &val);
-+	if (ret)
-+		return ret;
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_FLIP_OPT_3,
-+			       OV8856_REG_VALUE_08BIT,
-+			       ctrl_val ? val & ~OV8856_REG_FLIP_OP_0 &
-+			       ~OV8856_REG_FLIP_OP_1 :
-+			       val | OV8856_REG_FLIP_OP_0 |
-+			       OV8856_REG_FLIP_OP_1);
-+
-+	ret = ov8856_read_reg(ov8856, OV8856_REG_FORMAT1,
-+			      OV8856_REG_VALUE_08BIT, &val);
-+	if (ret)
-+		return ret;
-+
-+	return ov8856_write_reg(ov8856, OV8856_REG_FORMAT1,
-+			       OV8856_REG_VALUE_08BIT,
-+			       ctrl_val ? val | OV8856_REG_FORMAT1_OP_1 |
-+			       OV8856_REG_FORMAT1_OP_3 |
-+			       OV8856_REG_FORMAT1_OP_2 :
-+			       val & ~OV8856_REG_FORMAT1_OP_1 &
-+			       ~OV8856_REG_FORMAT1_OP_3 &
-+			       ~OV8856_REG_FORMAT1_OP_2);
-+}
-+
- static int ov8856_set_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct ov8856 *ov8856 = container_of(ctrl->handler,
-@@ -1702,6 +1808,14 @@ static int ov8856_set_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = ov8856_test_pattern(ov8856, ctrl->val);
- 		break;
- 
-+	case V4L2_CID_HFLIP:
-+		ret = ov8856_set_ctrl_hflip(ov8856, ctrl->val);
-+		break;
-+
-+	case V4L2_CID_VFLIP:
-+		ret = ov8856_set_ctrl_vflip(ov8856, ctrl->val);
-+		break;
-+
- 	default:
- 		ret = -EINVAL;
- 		break;
-@@ -1778,6 +1892,10 @@ static int ov8856_init_controls(struct ov8856 *ov8856)
- 				     V4L2_CID_TEST_PATTERN,
- 				     ARRAY_SIZE(ov8856_test_pattern_menu) - 1,
- 				     0, 0, ov8856_test_pattern_menu);
-+	v4l2_ctrl_new_std(ctrl_hdlr, &ov8856_ctrl_ops,
-+			  V4L2_CID_HFLIP, 0, 1, 1, 0);
-+	v4l2_ctrl_new_std(ctrl_hdlr, &ov8856_ctrl_ops,
-+			  V4L2_CID_VFLIP, 0, 1, 1, 0);
- 	if (ctrl_hdlr->error)
- 		return ctrl_hdlr->error;
- 
--- 
-2.17.1
+CC'ing Jacky Bai and Peng Fan from NXP, as they were going to give this
+virtual power domain thing a shot.
+
+Regards,
+Lucas
+
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> ---
+> version 9:
+>  - Corrections in commit message
+> 
+> version 7:
+>  - Add Philipp reviewed-by tag.
+>  - Change syscon phandle name.
+>  
+> 
+> 
+> 
+> version 5:
+>  - use syscon instead of VPU reset driver.
+>  - if DT doesn't provide syscon keep backward compatibilty by using
+>    'ctrl' reg-name.
+> 
+>  drivers/staging/media/hantro/hantro.h       |  5 +-
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c | 52 ++++++++++++---------
+>  2 files changed, 34 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> index 6c1b888abe75..37b9ce04bd4e 100644
+> --- a/drivers/staging/media/hantro/hantro.h
+> +++ b/drivers/staging/media/hantro/hantro.h
+> @@ -13,6 +13,7 @@
+>  #define HANTRO_H_
+>  
+> 
+> 
+> 
+>  #include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+>  #include <linux/videodev2.h>
+>  #include <linux/wait.h>
+>  #include <linux/clk.h>
+> @@ -167,7 +168,7 @@ hantro_vdev_to_func(struct video_device *vdev)
+>   * @reg_bases:		Mapped addresses of VPU registers.
+>   * @enc_base:		Mapped address of VPU encoder register for convenience.
+>   * @dec_base:		Mapped address of VPU decoder register for convenience.
+> - * @ctrl_base:		Mapped address of VPU control block.
+> + * @ctrl_base:		Regmap of VPU control block.
+>   * @vpu_mutex:		Mutex to synchronize V4L2 calls.
+>   * @irqlock:		Spinlock to synchronize access to data structures
+>   *			shared with interrupt handlers.
+> @@ -186,7 +187,7 @@ struct hantro_dev {
+>  	void __iomem **reg_bases;
+>  	void __iomem *enc_base;
+>  	void __iomem *dec_base;
+> -	void __iomem *ctrl_base;
+> +	struct regmap *ctrl_base;
+>  
+> 
+> 
+> 
+>  	struct mutex vpu_mutex;	/* video_device lock */
+>  	spinlock_t irqlock;
+> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> index c222de075ef4..8d0c3425234b 100644
+> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> @@ -7,6 +7,7 @@
+>  
+> 
+> 
+> 
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+> +#include <linux/mfd/syscon.h>
+>  
+> 
+> 
+> 
+>  #include "hantro.h"
+>  #include "hantro_jpeg.h"
+> @@ -24,30 +25,28 @@
+>  #define CTRL_G1_PP_FUSE		0x0c
+>  #define CTRL_G2_DEC_FUSE	0x10
+>  
+> 
+> 
+> 
+> +static const struct regmap_config ctrl_regmap_ctrl = {
+> +	.reg_bits = 32,
+> +	.val_bits = 32,
+> +	.reg_stride = 0x14,
+> +};
+> +
+>  static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
+>  {
+> -	u32 val;
+> -
+>  	/* Assert */
+> -	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
+> -	val &= ~reset_bits;
+> -	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
+> +	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET, reset_bits, 0);
+>  
+> 
+> 
+> 
+>  	udelay(2);
+>  
+> 
+> 
+> 
+>  	/* Release */
+> -	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
+> -	val |= reset_bits;
+> -	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
+> +	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET,
+> +			   reset_bits, reset_bits);
+>  }
+>  
+> 
+> 
+> 
+>  static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
+>  {
+> -	u32 val;
+> -
+> -	val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
+> -	val |= clock_bits;
+> -	writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
+> +	regmap_update_bits(vpu->ctrl_base, CTRL_CLOCK_ENABLE,
+> +			   clock_bits, clock_bits);
+>  }
+>  
+> 
+> 
+> 
+>  static int imx8mq_runtime_resume(struct hantro_dev *vpu)
+> @@ -64,9 +63,9 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
+>  	imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2);
+>  
+> 
+> 
+> 
+>  	/* Set values of the fuse registers */
+> -	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
+> -	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
+> -	writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
+> +	regmap_write(vpu->ctrl_base, CTRL_G1_DEC_FUSE, 0xffffffff);
+> +	regmap_write(vpu->ctrl_base, CTRL_G1_PP_FUSE, 0xffffffff);
+> +	regmap_write(vpu->ctrl_base, CTRL_G2_DEC_FUSE, 0xffffffff);
+>  
+> 
+> 
+> 
+>  	clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
+>  
+> 
+> 
+> 
+> @@ -150,8 +149,22 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
+>  
+> 
+> 
+> 
+>  static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
+>  {
+> -	vpu->dec_base = vpu->reg_bases[0];
+> -	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
+> +	struct device_node *np = vpu->dev->of_node;
+> +
+> +	vpu->ctrl_base = syscon_regmap_lookup_by_phandle(np, "nxp,imx8m-vpu-ctrl");
+> +	if (IS_ERR(vpu->ctrl_base)) {
+> +		struct resource *res;
+> +		void __iomem *ctrl;
+> +
+> +		res = platform_get_resource_byname(vpu->pdev, IORESOURCE_MEM, "ctrl");
+> +		ctrl = devm_ioremap_resource(vpu->dev, res);
+> +		if (IS_ERR(ctrl))
+> +			return PTR_ERR(ctrl);
+> +
+> +		vpu->ctrl_base = devm_regmap_init_mmio(vpu->dev, ctrl, &ctrl_regmap_ctrl);
+> +		if (IS_ERR(vpu->ctrl_base))
+> +			return PTR_ERR(vpu->ctrl_base);
+> +	}
+>  
+> 
+> 
+> 
+>  	return 0;
+>  }
+> @@ -198,7 +211,6 @@ static const struct hantro_irq imx8mq_irqs[] = {
+>  };
+>  
+> 
+> 
+> 
+>  static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
+> -static const char * const imx8mq_reg_names[] = { "g1", "g2", "ctrl" };
+>  
+> 
+> 
+> 
+>  const struct hantro_variant imx8mq_vpu_variant = {
+>  	.dec_fmts = imx8m_vpu_dec_fmts,
+> @@ -215,6 +227,4 @@ const struct hantro_variant imx8mq_vpu_variant = {
+>  	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
+>  	.clk_names = imx8mq_clk_names,
+>  	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
+> -	.reg_names = imx8mq_reg_names,
+> -	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
+>  };
+
 
