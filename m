@@ -2,134 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66E5136252E
-	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 18:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4182A362845
+	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 21:07:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238672AbhDPQIb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Apr 2021 12:08:31 -0400
-Received: from jptosegrel01.sonyericsson.com ([124.215.201.71]:6006 "EHLO
-        JPTOSEGREL01.sonyericsson.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238368AbhDPQI2 (ORCPT
+        id S240882AbhDPTH3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Apr 2021 15:07:29 -0400
+Received: from mail-oi1-f171.google.com ([209.85.167.171]:40914 "EHLO
+        mail-oi1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240736AbhDPTH1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Apr 2021 12:08:28 -0400
-From:   Peter Enderborg <peter.enderborg@sony.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Michal Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Mike Rapoport <rppt@kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>,
-        Matthew Wilcox <willy@infradead.org>
-CC:     Peter Enderborg <peter.enderborg@sony.com>
-Subject: [PATCH v3] dma-buf: Add DmaBufTotal counter in meminfo
-Date:   Fri, 16 Apr 2021 18:07:54 +0200
-Message-ID: <20210416160754.2944-1-peter.enderborg@sony.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 16 Apr 2021 15:07:27 -0400
+Received: by mail-oi1-f171.google.com with SMTP id u16so11567376oiu.7;
+        Fri, 16 Apr 2021 12:07:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BBFkQ629h7xIRwlWLoPS+dy/4UkzfVezsxJAVFwUYdI=;
+        b=VdjJjP5/tZFJKd+Z3zdbpwGfZ7Ls8CydcbLTMZ2QOU3x+dz1TMrfwuMEShuJWuwIhr
+         v7uC+2hDZyLKSv5PFb1S3Cp72rRDk8b5wbQEBciUNKu/mIXMMKfKcv15gaaEeSgsrSK+
+         aIvAd0pc4ZPyXuj5CJrEmISWG4pDD0+eqs9p5ycmilWshOL8IY5P/Py0249LeoXrpyTR
+         6/ixJAhIicBspA/cXI/lJ1NoH9edZa7w+fhl1NaKVafmin7i8Tj3iuY9+bYuendrC9a8
+         iuuUMUXtsOZu8xz0+XbMG9exl399SYwmpIdnML0MGkZCuV0GqbL66MUUGxMYXdSgfe76
+         S2bA==
+X-Gm-Message-State: AOAM531KRCH03hVgWdHABFOPI+j76mHSjgcNKIE2B/dN5nKapgyflAdx
+        m7zTCb5wLvWK8e3ESwIDig==
+X-Google-Smtp-Source: ABdhPJwcC+/tEYWEise6b91vXy+K0SIcPnT36dzY2+c3c3pAvO4kUmMPm51Fxo6xRWTja+VJ/8snnQ==
+X-Received: by 2002:aca:4bd6:: with SMTP id y205mr7674118oia.77.1618600021043;
+        Fri, 16 Apr 2021 12:07:01 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id z30sm1532566ota.77.2021.04.16.12.06.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Apr 2021 12:06:59 -0700 (PDT)
+Received: (nullmailer pid 3769906 invoked by uid 1000);
+        Fri, 16 Apr 2021 19:06:58 -0000
+Date:   Fri, 16 Apr 2021 14:06:58 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Eugen Hristev <eugen.hristev@microchip.com>
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+        jacopo@jmondi.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 30/33] dt-bindings: media: add microchip, xisc device
+ bindings
+Message-ID: <20210416190658.GA3769824@robh.at.kernel.org>
+References: <20210415085846.824796-1-eugen.hristev@microchip.com>
+ <20210415184500.868264-1-eugen.hristev@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-SEG-SpamProfiler-Analysis: v=2.3 cv=crzlbGwi c=1 sm=1 tr=0 a=fZcToFWbXLKijqHhjJ02CA==:117 a=3YhXtTcJ-WEA:10 a=z6gsHLkEAAAA:8 a=tkJolnyHCId0vxgkOZ0A:9 a=d-OLMTCWyvARjPbQ-enb:22 a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
-X-SEG-SpamProfiler-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210415184500.868264-1-eugen.hristev@microchip.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds a total used dma-buf memory. Details
-can be found in debugfs, however it is not for everyone
-and not always available. dma-buf are indirect allocated by
-userspace. So with this value we can monitor and detect
-userspace applications that have problems.
+On Thu, 15 Apr 2021 21:45:00 +0300, Eugen Hristev wrote:
+> Add bindings for the Microchip eXtended Image Sensor Controller.
+> Based on the atmel,isc.yaml binding.
+> 
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+> ---
+> Changes in v5:
+> - fixed license clause to add BSD-2
+> Changes in v4:
+> - added '|' at description to preserve line breaks
+> 
+>  .../bindings/media/microchip,xisc.yaml        | 129 ++++++++++++++++++
+>  1 file changed, 129 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/microchip,xisc.yaml
+> 
 
-Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
----
- drivers/dma-buf/dma-buf.c | 12 ++++++++++++
- fs/proc/meminfo.c         |  5 ++++-
- include/linux/dma-buf.h   |  1 +
- 3 files changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index f264b70c383e..d40fff2ae1fa 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -37,6 +37,7 @@ struct dma_buf_list {
- };
- 
- static struct dma_buf_list db_list;
-+static atomic_long_t dma_buf_global_allocated;
- 
- static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- {
-@@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
- 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
- 		dma_resv_fini(dmabuf->resv);
- 
-+	atomic_long_sub(dmabuf->size, &dma_buf_global_allocated);
- 	module_put(dmabuf->owner);
- 	kfree(dmabuf->name);
- 	kfree(dmabuf);
-@@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	mutex_lock(&db_list.lock);
- 	list_add(&dmabuf->list_node, &db_list.head);
- 	mutex_unlock(&db_list.lock);
-+	atomic_long_add(dmabuf->size, &dma_buf_global_allocated);
- 
- 	return dmabuf;
- 
-@@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
- }
- EXPORT_SYMBOL_GPL(dma_buf_vunmap);
- 
-+/**
-+ * dma_buf_get_size - Return the used nr pages by dma-buf
-+ */
-+long dma_buf_allocated_pages(void)
-+{
-+	return atomic_long_read(&dma_buf_global_allocated) >> PAGE_SHIFT;
-+}
-+EXPORT_SYMBOL_GPL(dma_buf_allocated_pages);
-+
- #ifdef CONFIG_DEBUG_FS
- static int dma_buf_debug_show(struct seq_file *s, void *unused)
- {
-diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-index 6fa761c9cc78..ccc7c40c8db7 100644
---- a/fs/proc/meminfo.c
-+++ b/fs/proc/meminfo.c
-@@ -16,6 +16,7 @@
- #ifdef CONFIG_CMA
- #include <linux/cma.h>
- #endif
-+#include <linux/dma-buf.h>
- #include <asm/page.h>
- #include "internal.h"
- 
-@@ -145,7 +146,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 	show_val_kb(m, "CmaFree:        ",
- 		    global_zone_page_state(NR_FREE_CMA_PAGES));
- #endif
--
-+#ifdef CONFIG_DMA_SHARED_BUFFER
-+	show_val_kb(m, "DmaBufTotal:    ", dma_buf_allocated_pages());
-+#endif
- 	hugetlb_report_meminfo(m);
- 
- 	arch_report_meminfo(m);
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index efdc56b9d95f..5b05816bd2cd 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
- 		 unsigned long);
- int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
- void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
-+long dma_buf_allocated_pages(void);
- #endif /* __DMA_BUF_H__ */
--- 
-2.17.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
