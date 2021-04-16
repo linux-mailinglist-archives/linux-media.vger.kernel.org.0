@@ -2,360 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5E213623AB
-	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 17:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 318CC3623FB
+	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 17:32:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343614AbhDPPRL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Apr 2021 11:17:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54062 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245624AbhDPPPe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Apr 2021 11:15:34 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186C9C061763
-        for <linux-media@vger.kernel.org>; Fri, 16 Apr 2021 08:14:41 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1lXQAo-0001kj-On; Fri, 16 Apr 2021 17:14:22 +0200
-Message-ID: <529b61b1b1e6030c92a7944c4864246521b2ccdd.camel@pengutronix.de>
-Subject: Re: [PATCH v9 03/13] media: hantro: Use syscon instead of 'ctrl'
- register
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, lee.jones@linaro.org,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
-        emil.l.velikov@gmail.com, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-        Jacky Bai <ping.bai@nxp.com>
-Cc:     devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-imx@nxp.com,
-        kernel@pengutronix.de, kernel@collabora.com, cphealy@gmail.com,
-        linux-arm-kernel@lists.infradead.org
-Date:   Fri, 16 Apr 2021 17:14:18 +0200
-In-Reply-To: <ffe9b3f5-94f5-453e-73f0-4b42d0454b63@collabora.com>
-References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
-         <20210407073534.376722-4-benjamin.gaignard@collabora.com>
-         <7bcbb787d82f21d42563d8fb7e3c2e7d40123932.camel@pengutronix.de>
-         <ffe9b3f5-94f5-453e-73f0-4b42d0454b63@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
-MIME-Version: 1.0
+        id S1343730AbhDPPca (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Apr 2021 11:32:30 -0400
+Received: from mail-dm6nam11on2077.outbound.protection.outlook.com ([40.107.223.77]:34145
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235563AbhDPPc3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Apr 2021 11:32:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=flxsHG1PhYiW6lSyYItVQrxFtuNj7iRDAjbhtPazBepFX3Z4rRgzuJtrk0yuKWwox0zzNHKuw1DCQe1Z/JGdMwkCN167wWcJkj9dD1oPRDcRbQ43jttmOGe7BlobZxGyA63h6hGmMunQqAs9cUjuBCC5InUOuwtSYjvzPIpvq9vGwh/usvm0ltb/nJ8AUiLYDlhietk8EV4ZMTupC08m/0eMGGHRCnZNi/bhmi4NV93cGHkwhqhzfmxpfjB+Y1n9wIK4D6+4Lf5VOjLczXkKOks/o161kdyFgfu8BOA+j4IiePzdjRsCmQbFrl7jxkbO0g4t/WxI3QtXm9D02qtyoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6mqWZL5jC8CIuJxQeXjaoreWgn8GfchdINwWOWFLs6w=;
+ b=EfBDkOCHdtSm4lFpvR5va1jpCrWzgs2ApWnB08zeNpy8PZvr0wMq7NElaXvOE9in0/7dojHYQISIhi3XvvnfYctzJqy/k2jOaokmvOaBOq5yjIxJ9LEZlGNvN+V8fCuNkNZzAZuiUS+Ne8bXrM2oBnePazCg6eSImNgBnG5jjfDfqaiQqUCxHHtcZzsv+3367In5KuUOWHyv5WGCMyK42xOd0OTKVn1dBvXv3+kAjqwRJFSIxFmZU83ZEwFP66w/HnBQ24uUFjuKmpUiysaO3gzgAT4Z1d+n5P4aeyTUjE3ltQzX6GPVXR0ctwX6fVAQUxDJDlR755P/Y0l1oSYfuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6mqWZL5jC8CIuJxQeXjaoreWgn8GfchdINwWOWFLs6w=;
+ b=1783WjZw7rnG87yta4YWh+yiA8PO6/2voE0jFI6bYOISmemvH4ofLpIEd1WXy1Y5W2piTT/1SvEwbhCiCFOMGtk+5K/LokJN9DmETc/SFIykqx2v1Apt8Iu70YP/Pyv0xOGvvPTMzuLkO1i1KYUJttNR/VxTzEfyLjapc4/axdQ=
+Authentication-Results: lists.linaro.org; dkim=none (message not signed)
+ header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4222.namprd12.prod.outlook.com (2603:10b6:208:19a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Fri, 16 Apr
+ 2021 15:32:03 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4020.025; Fri, 16 Apr 2021
+ 15:32:02 +0000
+Subject: Re: [PATCH 23/40] drm/ttm/ttm_bo: Fix incorrectly documented function
+ 'ttm_bo_cleanup_refs'
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, Huang Rui <ray.huang@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20210416143725.2769053-1-lee.jones@linaro.org>
+ <20210416143725.2769053-24-lee.jones@linaro.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <5035dd00-45a9-80c0-7bcc-8035167a8e0d@amd.com>
+Date:   Fri, 16 Apr 2021 17:31:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <20210416143725.2769053-24-lee.jones@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:5d8d:1198:63ca:8fe4]
+X-ClientProxiedBy: FR3P281CA0069.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4b::16) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:5d8d:1198:63ca:8fe4] (2a02:908:1252:fb60:5d8d:1198:63ca:8fe4) by FR3P281CA0069.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4b::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.7 via Frontend Transport; Fri, 16 Apr 2021 15:32:01 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 42b1fd54-7807-4e94-a42c-08d900ecc887
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4222:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4222528C4E1DA443FB2B810F834C9@MN2PR12MB4222.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cilYuwvUDirLesQ8Z1/45UkYTW66EIZxqUolKO33EiICZKSfPmBaJNr85+KGoCq6GQdf5hBWMuGcw4kOaN8B1h0RhWVGuSqt6QwiTFUksGTJ5UXxMp/9NdQseVk1q1gdkOFs53ZomK6QDBMG80oESVsGYLxyb6cBAlnQtMgaMvE2R5wD3O+Cce9fPPHfIlJA1vbyrlcsr12iEEy7FUNvItI2VMI29gxohWaZkU+jNWO8ximijK059LCB4+k6/cfgc7gDEoTzmxBSo6TmAskMfEH4uTcbhCqJ3PtFxLJrMUFRYB34hh0BFkDf2epOk4tKvKOGqypEoJcSI2TggDuCK4hQGrz8aN5qht+71TWo6yuNmSsQGN0FsvwIwA4EgjsrbZ1Y5u6rECD64tnCNjcdeYZaf7KKxbHUzLzyz6G+AXkV/b2PIPaSuyEcqeuGF0rUepGbkpmaHOhvywzWVjPNIgYFJ+1IQ9is4bGyN110ApDz9bg+pHD0sWYr5qIShqlLurMhjbQpHMeuVWcaEK6ORSG0Rj7mzdcGK+BNWoyWHHGts+vZYcYGP+RpJdzD0ro27B4eoeXa5+9w6mXwWTWpLIsPZa4GVYX3ph2RbKLCeLz6EkT0ayjTi3ZW98I273TsjDFwHoXvirj/+oRs0WtoIC/XqH7nP1nbwUUTmVj8UxiE9Ef3JEngTS0mMAhOYe16
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(376002)(346002)(136003)(366004)(38100700002)(52116002)(2906002)(86362001)(31696002)(2616005)(6666004)(8936002)(4326008)(31686004)(54906003)(5660300002)(66556008)(83380400001)(36756003)(66476007)(8676002)(16526019)(66946007)(186003)(66574015)(316002)(6916009)(478600001)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?L1dtbk1Bd1crZDNPV1pzM1pxZ1BrbE5BWlJJaEQ3cXl3SGRWY0wzTkt2Z0c3?=
+ =?utf-8?B?YWVEelluZVc1aUs2ZHVCTTltaDRUc09MVHMwQ0o0Y256V244RHlOclpLTm5o?=
+ =?utf-8?B?eC9JS1hyQ3l5cHhCMnhCMkpUV29NSmhZa3RSV085WkpkUW9sVXA1YVJ0L0Ns?=
+ =?utf-8?B?K0ZsTkErdjk5cE4yRWRUQ0xSdWhqenFJRHl3T2dLc3RPWlJIQy9WN3Y3YVJW?=
+ =?utf-8?B?TFR1M1I2M05iamhxS0wzZFRneG1aM0hpUHJYL2kvUHBkbVgvMzRlRldXN0xJ?=
+ =?utf-8?B?MmNZbVBwRW5UaDBOdHJtN0RhYlMwSjdUMFJaeEhZNFBIL0tHTGRiTkhBL1Vj?=
+ =?utf-8?B?SnQ5b3FVbmh3TEducVlqVmk4M1VSaVJkaXpQM2pOc1kzRlZYUnBpR0VmdC9G?=
+ =?utf-8?B?b0JTdnFmTXVMK2NLRDhIMXkvMHdYVmFIRGREbVE3WmFIb2puNnhzZk10a2Z5?=
+ =?utf-8?B?bHVWL1kwREIwQUMyeE1qQmtiL1dyaWpxcGcyZUJURjhqdm5PRHZ3WTdPRDJp?=
+ =?utf-8?B?NGt3MWd6dE9xcUI5NUcxaW9Md2p3c3QvQmlxamN1czkzRzJ2dkl4TUpCdk9w?=
+ =?utf-8?B?RE8wUzg2eTM1aDRYelZmUmtxaFExREtseGJUOC92RDJaOUJRYS85RWdWUzJz?=
+ =?utf-8?B?RjhNS0NNL2FSbExiSkNsYjVYanJiU3Q0SWhiYUl6c3VnY2dQVGRES0ZZblJw?=
+ =?utf-8?B?bXZKVFZMMUhSN0JWalNUSVp4R0g0M2dUdmkyUmQ0OGxrOWN5VHY4YW52alRD?=
+ =?utf-8?B?VUxGdytvei9Lc3F2U25QODUrcDVacWFxWkczQjZidkNJd1FOdTNwYUtEZ1BF?=
+ =?utf-8?B?V1Z1cS9YUHBueGx6RzE5T1VBa003TnhSOTA3a1gyL1JPZzFMQUo1RjAvMFlR?=
+ =?utf-8?B?S3RPZGJjd0dmV1k3ZmIwbTFLb1RKV29rb1pGK2JVVlhOU0ZKVjJqV05vUnJL?=
+ =?utf-8?B?ejRQT2xPaHJEWit0N3hQN1pRNG5PZld1NjdOZVZhZ29HTHhISFhWOTlxeFBo?=
+ =?utf-8?B?SkMvMFJJNElKZ29FeXIrbi9uU0UrYS9YNmNwalExUnNaYWtwYnBHUFVxRHlo?=
+ =?utf-8?B?TjJ3aVEzb2RCSkRuclhKSm54dWhiMDNGbFhBdU1JbXY3VXR5UGRLZEphSUcw?=
+ =?utf-8?B?eW5pVmtESVlGK1FneFZmbWNMOHpFU3BVa2M3MVhXQk5SeDZCRXRpa3BLU0tY?=
+ =?utf-8?B?L3N1bGJUUnRNb1QvajRlS1Fjak9MK09PZVBlYU5uamhiK2N4M1dLK2d1L3RN?=
+ =?utf-8?B?eVR6YjlTUTEzTFRKbWtlb09hdVI2YXJUeVB6KytCNmVPbk05OGZsK3M3K3Yr?=
+ =?utf-8?B?OEdZdzdPSWRBSHNhQkl2RWw5V1FQQkNNQnpnRXZ5bVZaOGJnUlE4VjVnd0NS?=
+ =?utf-8?B?TDRZK3dHZGVjVTNVZk93Wm9qaEFHaXBnS2x4T25aVjZqVTRHU2w5Qm0xSzNW?=
+ =?utf-8?B?UUhTZ2tXV05xcW5PVUNRa0VmSVdMazU0TG9YNFY4QVJ4Z3p5c05pQUpSY2cv?=
+ =?utf-8?B?dFVuSWJzOXc5RDliM2F6MHhaRkQrZkdNa1lKQ3hUQlFkUHprbHRVNUNhUDlG?=
+ =?utf-8?B?M3pDT3M5bWdlcGxZQzR4NVNkNEU1RVpiQ0RMVVZoQXpRWnBVNndub1MwaVo2?=
+ =?utf-8?B?WjU3cDFNNUhoOEg3QTkzcHhTSEtuaXNhd3QzVTZNNmZKRzVjdEtvZEkraXMx?=
+ =?utf-8?B?Sm11eFVBWTRUaWhlWDg5amJ6T2xGcGpvdEhGaWxCdVRGb09rMmJORVJEMjlh?=
+ =?utf-8?B?VVJIUjNGMlY4MUdsUjdHUHdyT2FnM1pXcEVXQ2NzU25kZ3laWlQ4ZnloZUh5?=
+ =?utf-8?B?alRnM2xyYjludGNUMTVpWXBxRDlHNmhvcnR1MzRwRW5hVWdaYmVSTldMd1Y1?=
+ =?utf-8?Q?a4T45QyKZx0BT?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42b1fd54-7807-4e94-a42c-08d900ecc887
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2021 15:32:02.8199
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7/9rY83na1EolVrkuEySaNcT4wVj7ZQHLDfu8UOKHm9jGqmAU+3sVC8YFNCwPH/M
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4222
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, dem 16.04.2021 um 15:08 +0200 schrieb Benjamin Gaignard:
-> Le 16/04/2021 à 12:54, Lucas Stach a écrit :
-> > Am Mittwoch, dem 07.04.2021 um 09:35 +0200 schrieb Benjamin Gaignard:
-> > > In order to be able to share the control hardware block between
-> > > VPUs use a syscon instead a ioremap it in the driver.
-> > > To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
-> > > phandle is not found look at 'ctrl' reg-name.
-> > > With the method it becomes useless to provide a list of register
-> > > names so remove it.
-> > Sorry for putting a spoke in the wheel after many iterations of the
-> > series.
-> > 
-> > We just discussed a way forward on how to handle the clocks and resets
-> > provided by the blkctl block on i.MX8MM and later and it seems there is
-> > a consensus on trying to provide virtual power domains from a blkctl
-> > driver, controlling clocks and resets for the devices in the power
-> > domain. I would like to avoid introducing yet another way of handling
-> > the blkctl and thus would like to align the i.MX8MQ VPU blkctl with
-> > what we are planning to do on the later chip generations.
-> > 
-> > CC'ing Jacky Bai and Peng Fan from NXP, as they were going to give this
-> > virtual power domain thing a shot.
-> 
-> That could replace the 3 first patches and Dt patche of this series
-> but that will not impact the hevc part, so I wonder if pure hevc patches
-> could be merged anyway ?
-> They are reviewed and don't depend of how the ctrl block is managed.
+Am 16.04.21 um 16:37 schrieb Lee Jones:
+> Fixes the following W=1 kernel build warning(s):
+>
+>   drivers/gpu/drm/ttm/ttm_bo.c:293: warning: expecting prototype for function ttm_bo_cleanup_refs(). Prototype was for ttm_bo_cleanup_refs() instead
+>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Huang Rui <ray.huang@amd.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-I'm not really in a position to give any informed opinion about that
-hvec patches, as I only skimmed them, but I don't see any reason to
-delay patches 04-11 from this series until the i.MX8M platform issues
-are sorted. AFAICS those things are totally orthogonal.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Regards,
-Lucas
-
-> > 
-> > Regards,
-> > Lucas
-> > 
-> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > ---
-> > > version 9:
-> > >   - Corrections in commit message
-> > > 
-> > > version 7:
-> > >   - Add Philipp reviewed-by tag.
-> > >   - Change syscon phandle name.
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > version 5:
-> > >   - use syscon instead of VPU reset driver.
-> > >   - if DT doesn't provide syscon keep backward compatibilty by using
-> > >     'ctrl' reg-name.
-> > > 
-> > >   drivers/staging/media/hantro/hantro.h       |  5 +-
-> > >   drivers/staging/media/hantro/imx8m_vpu_hw.c | 52 ++++++++++++---------
-> > >   2 files changed, 34 insertions(+), 23 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> > > index 6c1b888abe75..37b9ce04bd4e 100644
-> > > --- a/drivers/staging/media/hantro/hantro.h
-> > > +++ b/drivers/staging/media/hantro/hantro.h
-> > > @@ -13,6 +13,7 @@
-> > >   #define HANTRO_H_
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   #include <linux/platform_device.h>
-> > > +#include <linux/regmap.h>
-> > >   #include <linux/videodev2.h>
-> > >   #include <linux/wait.h>
-> > >   #include <linux/clk.h>
-> > > @@ -167,7 +168,7 @@ hantro_vdev_to_func(struct video_device *vdev)
-> > >    * @reg_bases:		Mapped addresses of VPU registers.
-> > >    * @enc_base:		Mapped address of VPU encoder register for convenience.
-> > >    * @dec_base:		Mapped address of VPU decoder register for convenience.
-> > > - * @ctrl_base:		Mapped address of VPU control block.
-> > > + * @ctrl_base:		Regmap of VPU control block.
-> > >    * @vpu_mutex:		Mutex to synchronize V4L2 calls.
-> > >    * @irqlock:		Spinlock to synchronize access to data structures
-> > >    *			shared with interrupt handlers.
-> > > @@ -186,7 +187,7 @@ struct hantro_dev {
-> > >   	void __iomem **reg_bases;
-> > >   	void __iomem *enc_base;
-> > >   	void __iomem *dec_base;
-> > > -	void __iomem *ctrl_base;
-> > > +	struct regmap *ctrl_base;
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   	struct mutex vpu_mutex;	/* video_device lock */
-> > >   	spinlock_t irqlock;
-> > > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > index c222de075ef4..8d0c3425234b 100644
-> > > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > @@ -7,6 +7,7 @@
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   #include <linux/clk.h>
-> > >   #include <linux/delay.h>
-> > > +#include <linux/mfd/syscon.h>
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   #include "hantro.h"
-> > >   #include "hantro_jpeg.h"
-> > > @@ -24,30 +25,28 @@
-> > >   #define CTRL_G1_PP_FUSE		0x0c
-> > >   #define CTRL_G2_DEC_FUSE	0x10
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > +static const struct regmap_config ctrl_regmap_ctrl = {
-> > > +	.reg_bits = 32,
-> > > +	.val_bits = 32,
-> > > +	.reg_stride = 0x14,
-> > > +};
-> > > +
-> > >   static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
-> > >   {
-> > > -	u32 val;
-> > > -
-> > >   	/* Assert */
-> > > -	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
-> > > -	val &= ~reset_bits;
-> > > -	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
-> > > +	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET, reset_bits, 0);
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   	udelay(2);
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   	/* Release */
-> > > -	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
-> > > -	val |= reset_bits;
-> > > -	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
-> > > +	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET,
-> > > +			   reset_bits, reset_bits);
-> > >   }
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
-> > >   {
-> > > -	u32 val;
-> > > -
-> > > -	val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
-> > > -	val |= clock_bits;
-> > > -	writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
-> > > +	regmap_update_bits(vpu->ctrl_base, CTRL_CLOCK_ENABLE,
-> > > +			   clock_bits, clock_bits);
-> > >   }
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   static int imx8mq_runtime_resume(struct hantro_dev *vpu)
-> > > @@ -64,9 +63,9 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
-> > >   	imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2);
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   	/* Set values of the fuse registers */
-> > > -	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
-> > > -	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
-> > > -	writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
-> > > +	regmap_write(vpu->ctrl_base, CTRL_G1_DEC_FUSE, 0xffffffff);
-> > > +	regmap_write(vpu->ctrl_base, CTRL_G1_PP_FUSE, 0xffffffff);
-> > > +	regmap_write(vpu->ctrl_base, CTRL_G2_DEC_FUSE, 0xffffffff);
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   	clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > @@ -150,8 +149,22 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
-> > >   {
-> > > -	vpu->dec_base = vpu->reg_bases[0];
-> > > -	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
-> > > +	struct device_node *np = vpu->dev->of_node;
-> > > +
-> > > +	vpu->ctrl_base = syscon_regmap_lookup_by_phandle(np, "nxp,imx8m-vpu-ctrl");
-> > > +	if (IS_ERR(vpu->ctrl_base)) {
-> > > +		struct resource *res;
-> > > +		void __iomem *ctrl;
-> > > +
-> > > +		res = platform_get_resource_byname(vpu->pdev, IORESOURCE_MEM, "ctrl");
-> > > +		ctrl = devm_ioremap_resource(vpu->dev, res);
-> > > +		if (IS_ERR(ctrl))
-> > > +			return PTR_ERR(ctrl);
-> > > +
-> > > +		vpu->ctrl_base = devm_regmap_init_mmio(vpu->dev, ctrl, &ctrl_regmap_ctrl);
-> > > +		if (IS_ERR(vpu->ctrl_base))
-> > > +			return PTR_ERR(vpu->ctrl_base);
-> > > +	}
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   	return 0;
-> > >   }
-> > > @@ -198,7 +211,6 @@ static const struct hantro_irq imx8mq_irqs[] = {
-> > >   };
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
-> > > -static const char * const imx8mq_reg_names[] = { "g1", "g2", "ctrl" };
-> > >   
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > >   const struct hantro_variant imx8mq_vpu_variant = {
-> > >   	.dec_fmts = imx8m_vpu_dec_fmts,
-> > > @@ -215,6 +227,4 @@ const struct hantro_variant imx8mq_vpu_variant = {
-> > >   	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
-> > >   	.clk_names = imx8mq_clk_names,
-> > >   	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
-> > > -	.reg_names = imx8mq_reg_names,
-> > > -	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
-> > >   };
-> > 
-> > 
-> 
-
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index cfd0b92923973..defec9487e1de 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -274,7 +274,7 @@ static void ttm_bo_flush_all_fences(struct ttm_buffer_object *bo)
+>   }
+>   
+>   /**
+> - * function ttm_bo_cleanup_refs
+> + * ttm_bo_cleanup_refs
+>    * If bo idle, remove from lru lists, and unref.
+>    * If not idle, block if possible.
+>    *
 
