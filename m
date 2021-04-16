@@ -2,152 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0D8C361D98
-	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 12:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EA86361D92
+	for <lists+linux-media@lfdr.de>; Fri, 16 Apr 2021 12:09:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241258AbhDPJhq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Apr 2021 05:37:46 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58912 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235027AbhDPJhp (ORCPT
+        id S240290AbhDPJ67 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Apr 2021 05:58:59 -0400
+Received: from jptosegrel01.sonyericsson.com ([124.215.201.71]:15254 "EHLO
+        JPTOSEGREL01.sonyericsson.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233612AbhDPJ66 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Apr 2021 05:37:45 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5ADEA5A5;
-        Fri, 16 Apr 2021 11:37:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618565840;
-        bh=TtTzqJqMSUNSNp3JKe1VnusjeBxQ4GqD4+KAOtjZIQQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dyDGV4rBVQfgZPW1AlVlvdEIJHPKc0isIPpcJ5BXyifE0rbnICulrcgZTtODZxEBN
-         UgJxv6ZIgEdxD+5N/XJhMm9KPjWpbsHUjmrcNg4ud9VdsClWq2QlQb1+x93VH2ijea
-         vSsDroWSY/FfZ9qfp5mMJsdywXbB0M/58eYZ563o=
-Date:   Fri, 16 Apr 2021 12:37:18 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martina Krasteva <martinax.krasteva@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, devicetree@vger.kernel.org,
-        sakari.ailus@linux.intel.com,
-        daniele.alessandrelli@linux.intel.com,
-        paul.j.murphy@linux.intel.com, gjorgjix.rosikopulos@linux.intel.com
-Subject: Re: [PATCH 00/10] Keem Bay Camera Subsystem
-Message-ID: <YHlazqJeQp4cFYMl@pendragon.ideasonboard.com>
-References: <20210319180632.585-1-martinax.krasteva@linux.intel.com>
+        Fri, 16 Apr 2021 05:58:58 -0400
+X-Greylist: delayed 1211 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Apr 2021 05:58:57 EDT
+From:   Peter Enderborg <peter.enderborg@sony.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Michal Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Mike Rapoport <rppt@kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
+CC:     Peter Enderborg <peter.enderborg@sony.com>
+Subject: [PATCH] dma-buf: Add DmaBufTotal counter in meminfo
+Date:   Fri, 16 Apr 2021 11:37:19 +0200
+Message-ID: <20210416093719.6197-1-peter.enderborg@sony.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210319180632.585-1-martinax.krasteva@linux.intel.com>
+Content-Type: text/plain
+X-SEG-SpamProfiler-Analysis: v=2.3 cv=crzlbGwi c=1 sm=1 tr=0 a=9drRLWArJOlETflmpfiyCA==:117 a=3YhXtTcJ-WEA:10 a=z6gsHLkEAAAA:8 a=USQXLDy_ZNVIum19Oj8A:9 a=d-OLMTCWyvARjPbQ-enb:22 a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
+X-SEG-SpamProfiler-Score: 0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martina and Gjorgji,
+This adds a total used dma-buf memory. Details
+can be found in debugfs, however it is not for everyone
+and not always available.
 
-Nice to see a new ISP driver :-)
+Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
+---
+ drivers/dma-buf/dma-buf.c | 12 ++++++++++++
+ fs/proc/meminfo.c         |  2 ++
+ include/linux/dma-buf.h   |  1 +
+ 3 files changed, 15 insertions(+)
 
-Before reviewing patches in details, I have a few high-level questions:
-
-- The driver seems to proxy access to the ISP through the VPU firmware.
-  I assume the VPU is a separate CPU core that controls the hardware
-  directly. Is that correct ?
-
-- Does this driver support all the features of the ISP, or only the
-  subset that a particular VPU firmware exposes ? In particular, the ISP
-  is exposed as an inline block, which no memory buffer between the
-  CSI-2 receiver and the ISP, and no ability to capture raw frames. How
-  is one supposed to tune cameras ?
-
-- More documentation is needed for both the device architecture (in
-  particular a block diagram of the processing pipeline), and the
-  configuration parameters. Is there ongoing work in this area ?
-
-- Last but not least, we need a reference userspace implementation to
-  test this driver. I recommend implementing support in libcamera :-)
-
-On Fri, Mar 19, 2021 at 06:06:22PM +0000, Martina Krasteva wrote:
-> From: Martina Krasteva <martinax.krasteva@intel.com>
-> 
-> Patch series contains Keem Bay Camera Subsystem driver implementation,
-> documentation and devicetree binding document.
-> 
-> Gjorgji Rosikopulos (7):
->   media: Keem Bay Camera: Keem Bay camera driver
->   media: Keem Bay Camera: Add VPU camera interface
->   uapi: Keem Bay ISP Parameters data types
->   media: v4l: Add Keem Bay Camera meta buffer formats
->   media: Keem Bay Camera: Add ISP sub-device
->   media: Keem Bay Camera: Add metadata video node
->   media: admin-guide: Add documentation for Keem Bay Camera
-> 
-> Martina Krasteva (3):
->   dt-bindings: media: Add bindings for Keem Bay Camera
->   media: Keem Bay Camera: Add pipeline support
->   media: Keem Bay Camera: Add capture video node
-> 
->  Documentation/admin-guide/media/keembay-camera.dot |   12 +
->  Documentation/admin-guide/media/keembay-camera.rst |  174 ++
->  Documentation/admin-guide/media/v4l-drivers.rst    |    1 +
->  .../bindings/media/intel,keembay-camera.yaml       |   98 ++
->  .../userspace-api/media/v4l/meta-formats.rst       |    1 +
->  .../media/v4l/pixfmt-meta-intel-kmb.rst            |   98 ++
->  MAINTAINERS                                        |   14 +
->  drivers/media/platform/Kconfig                     |    1 +
->  drivers/media/platform/Makefile                    |    2 +
->  drivers/media/platform/keembay-camera/Kconfig      |   11 +
->  drivers/media/platform/keembay-camera/Makefile     |    5 +
->  .../platform/keembay-camera/keembay-cam-xlink.c    |  327 ++++
->  .../platform/keembay-camera/keembay-cam-xlink.h    |   49 +
->  .../media/platform/keembay-camera/keembay-camera.c |  287 +++
->  .../media/platform/keembay-camera/keembay-camera.h |   43 +
->  .../media/platform/keembay-camera/keembay-isp.c    | 1397 +++++++++++++++
->  .../media/platform/keembay-camera/keembay-isp.h    |  136 ++
->  .../platform/keembay-camera/keembay-metadata.c     | 1860 ++++++++++++++++++++
->  .../platform/keembay-camera/keembay-metadata.h     |  154 ++
->  .../keembay-camera/keembay-params-defaults.c       |  326 ++++
->  .../keembay-camera/keembay-params-defaults.h       |   38 +
->  .../platform/keembay-camera/keembay-pipeline.c     |  401 +++++
->  .../platform/keembay-camera/keembay-pipeline.h     |   75 +
->  .../media/platform/keembay-camera/keembay-video.c  |  922 ++++++++++
->  .../media/platform/keembay-camera/keembay-video.h  |   74 +
->  .../platform/keembay-camera/keembay-vpu-cmd.h      |  110 ++
->  .../platform/keembay-camera/keembay-vpu-frame.h    |  102 ++
->  .../platform/keembay-camera/keembay-vpu-isp.h      |  724 ++++++++
->  .../platform/keembay-camera/keembay-vpu-pipe.h     |  110 ++
->  .../platform/keembay-camera/keembay-vpu-src.h      |  193 ++
->  include/uapi/linux/keembay-isp-ctl.h               |  796 +++++++++
->  include/uapi/linux/videodev2.h                     |    4 +
->  32 files changed, 8545 insertions(+)
->  create mode 100644 Documentation/admin-guide/media/keembay-camera.dot
->  create mode 100644 Documentation/admin-guide/media/keembay-camera.rst
->  create mode 100644 Documentation/devicetree/bindings/media/intel,keembay-camera.yaml
->  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-intel-kmb.rst
->  create mode 100644 drivers/media/platform/keembay-camera/Kconfig
->  create mode 100644 drivers/media/platform/keembay-camera/Makefile
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-cam-xlink.c
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-cam-xlink.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-camera.c
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-camera.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-isp.c
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-isp.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-metadata.c
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-metadata.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-params-defaults.c
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-params-defaults.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-pipeline.c
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-pipeline.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-video.c
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-video.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-vpu-cmd.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-vpu-frame.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-vpu-isp.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-vpu-pipe.h
->  create mode 100644 drivers/media/platform/keembay-camera/keembay-vpu-src.h
->  create mode 100644 include/uapi/linux/keembay-isp-ctl.h
-> 
-> 
-> base-commit: f00397ee41c79b6155b9b44abd0055b2c0621349
-
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index f264b70c383e..9f88171b394c 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -37,6 +37,7 @@ struct dma_buf_list {
+ };
+ 
+ static struct dma_buf_list db_list;
++static atomic_long_t dma_buf_size;
+ 
+ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+ {
+@@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
+ 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+ 		dma_resv_fini(dmabuf->resv);
+ 
++	atomic_long_sub(dmabuf->size, &dma_buf_size);
+ 	module_put(dmabuf->owner);
+ 	kfree(dmabuf->name);
+ 	kfree(dmabuf);
+@@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	mutex_lock(&db_list.lock);
+ 	list_add(&dmabuf->list_node, &db_list.head);
+ 	mutex_unlock(&db_list.lock);
++	atomic_long_add(dmabuf->size, &dma_buf_size);
+ 
+ 	return dmabuf;
+ 
+@@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+ 
++/**
++ * dma_buf_get_size - Return the used nr pages by dma-buf
++ */
++long dma_buf_get_size(void)
++{
++	return atomic_long_read(&dma_buf_size) >> PAGE_SHIFT;
++}
++EXPORT_SYMBOL_GPL(dma_buf_get_size);
++
+ #ifdef CONFIG_DEBUG_FS
+ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ {
+diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+index 6fa761c9cc78..3c1a82b51a6f 100644
+--- a/fs/proc/meminfo.c
++++ b/fs/proc/meminfo.c
+@@ -16,6 +16,7 @@
+ #ifdef CONFIG_CMA
+ #include <linux/cma.h>
+ #endif
++#include <linux/dma-buf.h>
+ #include <asm/page.h>
+ #include "internal.h"
+ 
+@@ -145,6 +146,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+ 	show_val_kb(m, "CmaFree:        ",
+ 		    global_zone_page_state(NR_FREE_CMA_PAGES));
+ #endif
++	show_val_kb(m, "DmaBufTotal:    ", dma_buf_get_size());
+ 
+ 	hugetlb_report_meminfo(m);
+ 
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index efdc56b9d95f..f6481315a377 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
+ 		 unsigned long);
+ int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
++long dma_buf_get_size(void);
+ #endif /* __DMA_BUF_H__ */
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
