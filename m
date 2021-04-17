@@ -2,113 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C24E5363282
-	for <lists+linux-media@lfdr.de>; Sat, 17 Apr 2021 23:31:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DDB3363299
+	for <lists+linux-media@lfdr.de>; Sun, 18 Apr 2021 01:01:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237142AbhDQVcD convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 17 Apr 2021 17:32:03 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:57098 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237090AbhDQVcC (ORCPT
+        id S237101AbhDQXBg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Apr 2021 19:01:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44204 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237088AbhDQXBf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Apr 2021 17:32:02 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-220-berY7wNPPR-CGAsjwcAdkw-1; Sat, 17 Apr 2021 22:31:33 +0100
-X-MC-Unique: berY7wNPPR-CGAsjwcAdkw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.2; Sat, 17 Apr 2021 22:31:32 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.015; Sat, 17 Apr 2021 22:31:32 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Mauro Carvalho Chehab' <mchehab@kernel.org>,
-        Ashish Kalra <eashishkalra@gmail.com>
-CC:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] media: atomisp: silence "dubious: !x | !y" warning
-Thread-Topic: [PATCH] media: atomisp: silence "dubious: !x | !y" warning
-Thread-Index: AQHXM7teiyJWcTifxUyFg0sAh0Hgi6q5OhAg
-Date:   Sat, 17 Apr 2021 21:31:32 +0000
-Message-ID: <509f019decae433cab6cb367cdfa6fa9@AcuMS.aculab.com>
-References: <20210417153627.GA50228@ashish-NUC8i5BEH>
- <20210417205613.5c1aac74@coco.lan>
-In-Reply-To: <20210417205613.5c1aac74@coco.lan>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Sat, 17 Apr 2021 19:01:35 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7424C06174A
+        for <linux-media@vger.kernel.org>; Sat, 17 Apr 2021 16:01:08 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 78352B9C;
+        Sun, 18 Apr 2021 01:01:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1618700464;
+        bh=p4TxTvsF49EuO2cUXaly1m7YLeJDo+Zk+ZRU6OEd+KI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Cu9xjd1LLDNbixq1qRKMMY37FrRooS2JgJjzbSiU/1L67tvU4oXbk7eaGuC2hYQ2W
+         UPavbs78ZALFrwVEDBDn2HfVx1wck6PgpkcPJxwzrmpjNXCgIMW2GRBGM04NW2x/a5
+         1z+J+G4HaL4MuAlS5OCa7VZXFDqJA6ZdLHTWCNlE=
+Date:   Sun, 18 Apr 2021 02:01:02 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 01/28] media: ti-vpe: cal: add g/s_parm for legacy API
+Message-ID: <YHtorlx+tVApLPtL@pendragon.ideasonboard.com>
+References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
+ <20210412113457.328012-2-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210412113457.328012-2-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Mauro Carvalho Chehab
-> Sent: 17 April 2021 19:56
-> 
-> Em Sat, 17 Apr 2021 21:06:27 +0530
-> Ashish Kalra <eashishkalra@gmail.com> escreveu:
-> 
-> > Upon running sparse, "warning: dubious: !x | !y" is brought to notice
-> > for this file.  Logical and bitwise OR are basically the same in this
-> > context so it doesn't cause a runtime bug.  But let's change it to
-> > logical OR to make it cleaner and silence the Sparse warning.
+Hi Tomi,
 
-The old code is very likely to by slightly more efficient.
+Thank you for the patch.
 
-It may not matter here, but it might in a really hot path.
+On Mon, Apr 12, 2021 at 02:34:30PM +0300, Tomi Valkeinen wrote:
+> v4l2-compliance complains about g/s_parm when using the non-MC API. Fix
+> it by adding the functions and just call v4l2_s/g_parm_cap for the
+> phy subdev.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Since !x | !y and !x || !y always have the same value
-why is sparse complaining at all.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-	David
+> ---
+>  drivers/media/platform/ti-vpe/cal-video.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
+> index 7b7436a355ee..86d7cdd27224 100644
+> --- a/drivers/media/platform/ti-vpe/cal-video.c
+> +++ b/drivers/media/platform/ti-vpe/cal-video.c
+> @@ -388,6 +388,20 @@ static int cal_enum_frameintervals(struct file *file, void *priv,
+>  	return 0;
+>  }
+>  
+> +static int cal_g_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+> +{
+> +	struct cal_ctx *ctx = video_drvdata(file);
+> +
+> +	return v4l2_g_parm_cap(video_devdata(file), ctx->phy->sensor, a);
+> +}
+> +
+> +static int cal_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+> +{
+> +	struct cal_ctx *ctx = video_drvdata(file);
+> +
+> +	return v4l2_s_parm_cap(video_devdata(file), ctx->phy->sensor, a);
+> +}
+> +
+>  static const struct v4l2_ioctl_ops cal_ioctl_video_ops = {
+>  	.vidioc_querycap      = cal_querycap,
+>  	.vidioc_enum_fmt_vid_cap  = cal_enum_fmt_vid_cap,
+> @@ -411,6 +425,8 @@ static const struct v4l2_ioctl_ops cal_ioctl_video_ops = {
+>  	.vidioc_log_status    = v4l2_ctrl_log_status,
+>  	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+>  	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+> +	.vidioc_g_parm		= cal_g_parm,
+> +	.vidioc_s_parm		= cal_s_parm,
+>  };
+>  
+>  /* ------------------------------------------------------------------
 
-> >
-> > Signed-off-by: Ashish Kalra <eashishkalra@gmail.com>
-> > ---
-> >  .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-> b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-> > index 358cb7d2cd4c..3b850bb2d39d 100644
-> > --- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-> > +++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-> > @@ -58,7 +58,7 @@ sh_css_vf_downscale_log2(
-> >  	unsigned int ds_log2 = 0;
-> >  	unsigned int out_width;
-> >
-> > -	if ((!out_info) | (!vf_info))
-> > +	if ((!out_info) || (!vf_info))
-> 
-> 
-> While here, please get rid of the unneeded parenthesis:
-> 
-> 	if (!out_info || !vf_info)
-> 
-> 
-> >  		return -EINVAL;
-> >
-> >  	out_width = out_info->res.width;
-> 
-> 
-> 
-> Thanks,
-> Mauro
+-- 
+Regards,
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+Laurent Pinchart
