@@ -2,97 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 723A4362C12
-	for <lists+linux-media@lfdr.de>; Sat, 17 Apr 2021 01:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 924BC362D0D
+	for <lists+linux-media@lfdr.de>; Sat, 17 Apr 2021 05:06:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234965AbhDPX4P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Apr 2021 19:56:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56124 "EHLO
+        id S235302AbhDQDGJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Apr 2021 23:06:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229719AbhDPX4O (ORCPT
+        with ESMTP id S233892AbhDQDGI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Apr 2021 19:56:14 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93AE9C061574;
-        Fri, 16 Apr 2021 16:55:47 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id p6so21463692wrn.9;
-        Fri, 16 Apr 2021 16:55:47 -0700 (PDT)
+        Fri, 16 Apr 2021 23:06:08 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C325C061756
+        for <linux-media@vger.kernel.org>; Fri, 16 Apr 2021 20:05:43 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id y32so20411977pga.11
+        for <linux-media@vger.kernel.org>; Fri, 16 Apr 2021 20:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4wthoTfG2N095M+QSjMZEKkLwrzkypphGz/WswOOAXA=;
-        b=KPfIJgqsbMvWcyeDZgvaohrbarQWY4tQSocA53ct384vzydBOxJohaRVl4SiGaMgoZ
-         1zn7QaflcT4O+x1TsLrPBgjDpPeaTdi4qi3Yuf7CqYf4fl2z26SnYsY4kpAjsmpkYLjQ
-         Yc40uPVmGBx9Ly0KZtDRgAwS25s6CcNPdfChDaZET/QaIajBQQJjA9s4fK0ye7nfjz43
-         z6AJ7t/lnM4NzhmOYZ3E9Eo2rGSk0+ldz7NXZe6lrVa2idBTyhPgcu2sTVHsWzfLXk4R
-         SnjMhdNP2lPrkCSD/VFGnmtZCFBAkdrcA3Q78KN2OfK2NHo/nu3OCpsUG19P6vNUslSo
-         yq2Q==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bHCf5UQTYn2bzHAIxxFwJe4NilZMkFnnQjfN/tw6leQ=;
+        b=n61e/1KAdf1RUa9/A0vGa+G1R5yn3UvamgGM5vioyOhvsC7h+wCTixVZg86TS541WU
+         R8TU5pXU9MUbvdyWRtl6C0GfJENOWgnBmUU2hmOHFrJ9h2szYfycj7o+MnjynclzZ44P
+         06lQZSZ3mYaaJ4nkMRlaCm26Sf0szLIkBUKc1J5cy5PMUyz1Z9kwM6jRJoYXa5U5RobQ
+         zblfP1FbMCdsUMHqjPwP3GWYp/dgh0UATncRfnzYtHaZTtSkX1rBJdSZlKfs0edGZ5qz
+         vvtkA1Jqv0BKExSE4L/W/o00frQk83IxteUEyIN0IHmvryYeMNP4yxxYZsLUfrTpNeNi
+         5cRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4wthoTfG2N095M+QSjMZEKkLwrzkypphGz/WswOOAXA=;
-        b=aT3LOtfUTq9+rXQvyNgHXRVyrMx3KVUFCwt7BKEg9q0A0NaP7Pmc3wKbTJs5ddFaHX
-         WXejBo5FuAmn0s+UdYbK5KfAKcWlqOlAzJrh4LjS/t87RJSQij7Y25ZdqGzbwDj1EYFm
-         /chp8xqGR6r3yk+DFqlRdY4Lfz6cEd+aUFCgBb+RE3udRyglF21zd53eZpoVNJ4G1FaK
-         wKRC+Kj539B/1EkKwPoM1rspLsLw7ooU+uu+JPUD19j0qvWjzXEEye9dO0b79k2R2qlP
-         f052a6wv/nBY2wf7A41/fOLrEyoDFlzVhDSmet3SpRPtN3QpZdbBUL+IZ77RH9k9lfnv
-         S4Rw==
-X-Gm-Message-State: AOAM53275WbMl47DHkXLzYwnYeTWBGhfibMmYN787PWFvqvkr4506t0L
-        IL6YADG1dEnKCmhGvDxS36Q=
-X-Google-Smtp-Source: ABdhPJzokJ3S7/Nvto/qASej34awec78j2EKo6ESTo8Rl9SrWHtb5yFKoYy3nyvWSXx0u5QLfhP9zQ==
-X-Received: by 2002:a5d:47ad:: with SMTP id 13mr1601861wrb.56.1618617346324;
-        Fri, 16 Apr 2021 16:55:46 -0700 (PDT)
-Received: from localhost.localdomain (host-84-13-30-150.opaltelecom.net. [84.13.30.150])
-        by smtp.gmail.com with ESMTPSA id u8sm12404539wrr.42.2021.04.16.16.55.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Apr 2021 16:55:45 -0700 (PDT)
-From:   Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Subject: [PATCH] media: sp887x: drop unneeded assignment
-Date:   Sat, 17 Apr 2021 00:53:36 +0100
-Message-Id: <20210416235336.1552102-1-sudipm.mukherjee@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bHCf5UQTYn2bzHAIxxFwJe4NilZMkFnnQjfN/tw6leQ=;
+        b=quVqseP5g+UztluBht75B1iu3CbaXYKm88bnCxNUB4a2wzOYyxt1rLToE14dVO4tx0
+         3oPGHb2LuP0In/BfuP01QYtR980HLtXophwk3dBfPvvm/k1I7jucY0IL5riA+IUhKTZW
+         aG4B3ilLQ+3BzeGE2aQsqjW2zXF0zyXfMP6YpMZCRjyW1GvWNKJ2J4UyYWZVXSl+M4vM
+         qvBi8iIVJwMmLJC8dbSBFafKDQCrMVfm6dpGh4Af0P8mBFcf19h0oYvkdn4lsiq3rP+z
+         clMf82i5FxkC+APVCaIjFFmh4Qf4EUfdHQcfRohCKUhXLa05wBnAJdqJ+j6EyvwL82gD
+         7K5w==
+X-Gm-Message-State: AOAM531LjIuBZlgqmjEYYk3Fy0K1jY6mJ3IThKGpzX4+3kRccAlJjz68
+        KSWS0DWLIZFrXLgTdhvte0YSb8hBWP4REXMpBO8RJQ==
+X-Google-Smtp-Source: ABdhPJyK4BBGaD9t3gPFxc+8SqQhlSLgQglphmgvYni9MGpWj4MATlSNlLHKChZw1xf3C/bEh5cLKwFgEjMc0mQw4kc=
+X-Received: by 2002:a63:1665:: with SMTP id 37mr1844976pgw.31.1618628742644;
+ Fri, 16 Apr 2021 20:05:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210416160754.2944-1-peter.enderborg@sony.com>
+In-Reply-To: <20210416160754.2944-1-peter.enderborg@sony.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Sat, 17 Apr 2021 11:05:06 +0800
+Message-ID: <CAMZfGtWtUkP69v3NDy8=k1Ze1OriJ3TWeY9868TTdzbQ4LJ5AA@mail.gmail.com>
+Subject: Re: [External] [PATCH v3] dma-buf: Add DmaBufTotal counter in meminfo
+To:     Peter Enderborg <peter.enderborg@sony.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Michal Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Mike Rapoport <rppt@kernel.org>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pointer 'mem' was initialized to 'fw->data' but immediately after
-that it was assigned 'fw->data + 10'. Lets remove the extra assignement
-and initialize the pointer to the address its going to use.
+On Sat, Apr 17, 2021 at 12:08 AM Peter Enderborg
+<peter.enderborg@sony.com> wrote:
+>
+> This adds a total used dma-buf memory. Details
+> can be found in debugfs, however it is not for everyone
+> and not always available. dma-buf are indirect allocated by
+> userspace. So with this value we can monitor and detect
+> userspace applications that have problems.
 
-Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
----
- drivers/media/dvb-frontends/sp887x.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+I want to know more details about the problems.
+Can you share what problems you have encountered?
 
-diff --git a/drivers/media/dvb-frontends/sp887x.c b/drivers/media/dvb-frontends/sp887x.c
-index c89a91a3daf4..146e7f2dd3c5 100644
---- a/drivers/media/dvb-frontends/sp887x.c
-+++ b/drivers/media/dvb-frontends/sp887x.c
-@@ -140,7 +140,7 @@ static int sp887x_initial_setup (struct dvb_frontend* fe, const struct firmware
- 	u8 buf [BLOCKSIZE + 2];
- 	int i;
- 	int fw_size = fw->size;
--	const unsigned char *mem = fw->data;
-+	const unsigned char *mem = fw->data + 10;
- 
- 	dprintk("%s\n", __func__);
- 
-@@ -148,8 +148,6 @@ static int sp887x_initial_setup (struct dvb_frontend* fe, const struct firmware
- 	if (fw_size < FW_SIZE + 10)
- 		return -ENODEV;
- 
--	mem = fw->data + 10;
--
- 	/* soft reset */
- 	sp887x_writereg(state, 0xf1a, 0x000);
- 
--- 
-2.30.2
+Thanks.
 
+>
+> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
+> ---
+>  drivers/dma-buf/dma-buf.c | 12 ++++++++++++
+>  fs/proc/meminfo.c         |  5 ++++-
+>  include/linux/dma-buf.h   |  1 +
+>  3 files changed, 17 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index f264b70c383e..d40fff2ae1fa 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -37,6 +37,7 @@ struct dma_buf_list {
+>  };
+>
+>  static struct dma_buf_list db_list;
+> +static atomic_long_t dma_buf_global_allocated;
+>
+>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+>  {
+> @@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
+>         if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+>                 dma_resv_fini(dmabuf->resv);
+>
+> +       atomic_long_sub(dmabuf->size, &dma_buf_global_allocated);
+>         module_put(dmabuf->owner);
+>         kfree(dmabuf->name);
+>         kfree(dmabuf);
+> @@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>         mutex_lock(&db_list.lock);
+>         list_add(&dmabuf->list_node, &db_list.head);
+>         mutex_unlock(&db_list.lock);
+> +       atomic_long_add(dmabuf->size, &dma_buf_global_allocated);
+>
+>         return dmabuf;
+>
+> @@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+>  }
+>  EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+>
+> +/**
+> + * dma_buf_get_size - Return the used nr pages by dma-buf
+> + */
+> +long dma_buf_allocated_pages(void)
+> +{
+> +       return atomic_long_read(&dma_buf_global_allocated) >> PAGE_SHIFT;
+> +}
+> +EXPORT_SYMBOL_GPL(dma_buf_allocated_pages);
+
+Why need "EXPORT_SYMBOL_GPL"?
+
+> +
+>  #ifdef CONFIG_DEBUG_FS
+>  static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  {
+> diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+> index 6fa761c9cc78..ccc7c40c8db7 100644
+> --- a/fs/proc/meminfo.c
+> +++ b/fs/proc/meminfo.c
+> @@ -16,6 +16,7 @@
+>  #ifdef CONFIG_CMA
+>  #include <linux/cma.h>
+>  #endif
+> +#include <linux/dma-buf.h>
+>  #include <asm/page.h>
+>  #include "internal.h"
+>
+> @@ -145,7 +146,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+>         show_val_kb(m, "CmaFree:        ",
+>                     global_zone_page_state(NR_FREE_CMA_PAGES));
+>  #endif
+> -
+> +#ifdef CONFIG_DMA_SHARED_BUFFER
+> +       show_val_kb(m, "DmaBufTotal:    ", dma_buf_allocated_pages());
+> +#endif
+>         hugetlb_report_meminfo(m);
+>
+>         arch_report_meminfo(m);
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index efdc56b9d95f..5b05816bd2cd 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
+>                  unsigned long);
+>  int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+>  void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> +long dma_buf_allocated_pages(void);
+>  #endif /* __DMA_BUF_H__ */
+> --
+> 2.17.1
+>
