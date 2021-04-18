@@ -2,64 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42872363777
-	for <lists+linux-media@lfdr.de>; Sun, 18 Apr 2021 22:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22C96363779
+	for <lists+linux-media@lfdr.de>; Sun, 18 Apr 2021 22:16:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232437AbhDRUOs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Apr 2021 16:14:48 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34744 "EHLO
+        id S232466AbhDRUQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Apr 2021 16:16:34 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34766 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbhDRUOs (ORCPT
+        with ESMTP id S229488AbhDRUQd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Apr 2021 16:14:48 -0400
+        Sun, 18 Apr 2021 16:16:33 -0400
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA8B84AB;
-        Sun, 18 Apr 2021 22:14:13 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F06684AB;
+        Sun, 18 Apr 2021 22:16:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618776854;
-        bh=VIMjVGJhamyFxPoGSvoXa+NX6l5sD+DSpYYxK8gvEjQ=;
+        s=mail; t=1618776963;
+        bh=5IlfL2VV6J9kua/nrUMUPGAxT0a3Gv6M9IGMJUMKvfI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gyXoBEwG2fTNnmYce0cXK0d3JNiafcu5cS29sQlADkhyMAyBtSkiplL6Qe/H3euBJ
-         g69TRrN0gtfH721Sk/JKNxOFQAA3k9THfEz1fonkXzpuLxiLU7vePPGoMB4TfomOT/
-         wV9EWcLnFQKWktxuqbij8KNVk6GByvUA3lsEXPjk=
+        b=P8OwsAY/6i1sj4rsOd3kqR762Lg55lda3cEAD06dmDYA/jwSJBRmWItH0jiXkmdTk
+         UsBV78Dv4Kf0AdP8W2TQiwG3uAPZmHJMpi5yK9yLTpA5NKofcvjVALZDKJBpl8AETO
+         q+69g7c+9GasVZhmq3dy4NuoaN6gC2DGIudmiI7k=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
         Fabio Estevam <festevam@gmail.com>, linux-imx@nxp.com,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH 24/23] media: imx: imx7_mipi_csis: Update MAINTAINERS
-Date:   Sun, 18 Apr 2021 23:14:06 +0300
-Message-Id: <20210418201406.11631-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1.1 22/23] dt-bindings: media: nxp,imx7-mipi-csi2: Add i.MX8MM support
+Date:   Sun, 18 Apr 2021 23:15:56 +0300
+Message-Id: <20210418201556.11814-1-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.28.1
-In-Reply-To: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
-References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20210413023014.28797-23-laurent.pinchart@ideasonboard.com>
+References: <20210413023014.28797-23-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Given my recent contributions to the imx7-mipi-csis driver, I can as
-well be listed as a maintainer.
+The i.MX8MM integrates a newer version of the CSIS CSI-2 receiver as the
+i.MX7 family. Differences in integration are are:
+
+- An additional clock is required
+- Up to 4 data lanes are supported
+- No reset or PHY supply is present
+
+Support it in the DT binding.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 109 +++++++++++++++---
+ 1 file changed, 95 insertions(+), 14 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cb727179826b..2f498269c2ec 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11029,6 +11029,7 @@ F:	include/media/imx.h
+Changes since v1:
+
+- Add myself as a maintainer (a mistake I will for sure regret :-))
+
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+index d8ed480482b9..7c09eec78ce5 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
++++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+@@ -4,15 +4,17 @@
+ $id: http://devicetree.org/schemas/media/nxp,imx7-mipi-csi2.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
  
- MEDIA DRIVERS FOR FREESCALE IMX7
- M:	Rui Miguel Silva <rmfrfs@gmail.com>
-+M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
+-title: NXP i.MX7 MIPI CSI-2 receiver
++title: NXP i.MX7 and i.MX8 MIPI CSI-2 receiver
+ 
+ maintainers:
+   - Rui Miguel Silva <rmfrfs@gmail.com>
++  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ 
+ description: |-
+-  The NXP i.MX7 SoC family includes a MIPI CSI-2 receiver IP core, documented
+-  as "CSIS V3.3". The IP core seems to originate from Samsung, and may be
+-  compatible with some of the Exynos4 ad S5P SoCs.
++  The NXP i.MX7 and i.MX8 families contain SoCs that include a MIPI CSI-2
++  receiver IP core named CSIS. The IP core originates from Samsung, and may be
++  compatible with some of the Exynos4 and S5P SoCs. i.MX7 SoCs use CSIS version
++  3.3, and i.MX8 SoCs use CSIS version 3.6.3.
+ 
+   While the CSI-2 receiver is separate from the MIPI D-PHY IP core, the PHY is
+   completely wrapped by the CSIS and doesn't expose a control interface of its
+@@ -20,7 +22,9 @@ description: |-
+ 
+ properties:
+   compatible:
+-    const: fsl,imx7-mipi-csi2
++    enum:
++      - fsl,imx7-mipi-csi2
++      - fsl,imx8mm-mipi-csi2
+ 
+   reg:
+     maxItems: 1
+@@ -29,16 +33,20 @@ properties:
+     maxItems: 1
+ 
+   clocks:
++    minItems: 3
+     items:
+       - description: The peripheral clock (a.k.a. APB clock)
+       - description: The external clock (optionally used as the pixel clock)
+       - description: The MIPI D-PHY clock
++      - description: The AXI clock
+ 
+   clock-names:
++    minItems: 3
+     items:
+       - const: pclk
+       - const: wrap
+       - const: phy
++      - const: axi
+ 
+   power-domains:
+     maxItems: 1
+@@ -71,16 +79,30 @@ properties:
+ 
+             properties:
+               data-lanes:
+-                oneOf:
+-                  - items:
+-                      - const: 1
+-                  - items:
+-                      - const: 1
+-                      - const: 2
++                items:
++                  minItems: 1
++                  maxItems: 4
++                  items:
++                    - const: 1
++                    - const: 2
++                    - const: 3
++                    - const: 4
+ 
+             required:
+               - data-lanes
+ 
++            allOf:
++              - if:
++                  properties:
++                    compatible:
++                      contains:
++                        const: fsl,imx7-mipi-csi2
++                then:
++                  properties:
++                    data-lanes:
++                      items:
++                        maxItems: 2
++
+       port@1:
+         $ref: /schemas/graph.yaml#/properties/port
+         description:
+@@ -93,12 +115,29 @@ required:
+   - clocks
+   - clock-names
+   - power-domains
+-  - phy-supply
+-  - resets
+   - ports
+ 
+ additionalProperties: false
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: fsl,imx7-mipi-csi2
++    then:
++      required:
++        - phy-supply
++        - resets
++    else:
++      properties:
++        clocks:
++          minItems: 4
++        clock-names:
++          minItems: 4
++        phy-supply: false
++        resets: false
++
+ examples:
+   - |
+     #include <dt-bindings/clock/imx7d-clock.h>
+@@ -106,7 +145,7 @@ examples:
+     #include <dt-bindings/interrupt-controller/irq.h>
+     #include <dt-bindings/reset/imx7-reset.h>
+ 
+-    mipi_csi: mipi-csi@30750000 {
++    mipi-csi@30750000 {
+         compatible = "fsl,imx7-mipi-csi2";
+         reg = <0x30750000 0x10000>;
+         interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+@@ -144,4 +183,46 @@ examples:
+         };
+     };
+ 
++  - |
++    #include <dt-bindings/clock/imx8mm-clock.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    mipi-csi@32e30000 {
++        compatible = "fsl,imx8mm-mipi-csi2";
++        reg = <0x32e30000 0x1000>;
++        interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
++        clock-frequency = <333000000>;
++        clocks = <&clk IMX8MM_CLK_DISP_APB_ROOT>,
++                 <&clk IMX8MM_CLK_CSI1_ROOT>,
++                 <&clk IMX8MM_CLK_CSI1_PHY_REF>,
++                 <&clk IMX8MM_CLK_DISP_AXI_ROOT>;
++        clock-names = "pclk", "wrap", "phy", "axi";
++        power-domains = <&mipi_pd>;
++
++        status = "disabled";
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++
++                imx8mm_mipi_csi_in: endpoint {
++                    remote-endpoint = <&imx477_out>;
++                    data-lanes = <1 2 3 4>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++
++                imx8mm_mipi_csi_out: endpoint {
++                    remote-endpoint = <&csi_in>;
++                };
++            };
++        };
++    };
++
+ ...
 -- 
 Regards,
 
