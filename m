@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8B8836371B
-	for <lists+linux-media@lfdr.de>; Sun, 18 Apr 2021 20:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50A58363720
+	for <lists+linux-media@lfdr.de>; Sun, 18 Apr 2021 20:20:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232082AbhDRSGu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Apr 2021 14:06:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34556 "EHLO
+        id S230038AbhDRSUh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Apr 2021 14:20:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbhDRSGs (ORCPT
+        with ESMTP id S229783AbhDRSUh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Apr 2021 14:06:48 -0400
+        Sun, 18 Apr 2021 14:20:37 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB7A1C06174A
-        for <linux-media@vger.kernel.org>; Sun, 18 Apr 2021 11:06:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93420C06174A
+        for <linux-media@vger.kernel.org>; Sun, 18 Apr 2021 11:20:08 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F05A54AB;
-        Sun, 18 Apr 2021 20:06:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9EFAF4AB;
+        Sun, 18 Apr 2021 20:20:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618769177;
-        bh=sSv+2tKGSVuMvhFQtaMTzi0au5dPrwolgF+OCPphW8c=;
+        s=mail; t=1618770006;
+        bh=FY6Gfwz2M1nF9SibDkAR/vmp7RPX3lF0uV2gVJ33Sk8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TrzAQGpv4IKclzvkIgUdx4G3CxpSJZ2p4sar8pIYc1kacH/fl9e6JjWGs/DMGOP92
-         KNycXKeP9kR5MVKc7WwzoKZR9h0ParG0Te4zvem+GC3UJysSe37hmHzBMYCcD0VAR6
-         WmIqIRTgloDbve6Xh1vEhmFNhqhKvJWIGlOyVD7s=
-Date:   Sun, 18 Apr 2021 21:06:11 +0300
+        b=wDLqerXJno0NcF4Wh5nBi1GBPAFNqENwx/MZoptoExPsyabiTWzcMpPIXLRXht6TC
+         X+G33fh+PT5jZjvz3SgerL5nkEnyfF3fD+VaeS0QAfXuShXqBXwxJiV8En39SnMFjE
+         xYPeZKclx6c5GKejPtVKMxKOSfUL6UCKauZJuGdU=
+Date:   Sun, 18 Apr 2021 21:20:03 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
@@ -33,16 +33,16 @@ Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v5 11/24] media: entity: Skip link validation for pads to
- which there is no route to
-Message-ID: <YHx1E3AWm2mzD4Gs@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v5 12/24] media: entity: Add an iterator helper for
+ connected pads
+Message-ID: <YHx4U8F/g8dTusc+@pendragon.ideasonboard.com>
 References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
- <20210415130450.421168-12-tomi.valkeinen@ideasonboard.com>
+ <20210415130450.421168-13-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210415130450.421168-12-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20210415130450.421168-13-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -51,69 +51,93 @@ Hi Tomi and Sakari,
 
 Thank you for the patch.
 
-There's an extra "to" in the subject line.
-
-On Thu, Apr 15, 2021 at 04:04:37PM +0300, Tomi Valkeinen wrote:
+On Thu, Apr 15, 2021 at 04:04:38PM +0300, Tomi Valkeinen wrote:
 > From: Sakari Ailus <sakari.ailus@linux.intel.com>
 > 
-> Links are validated along the pipeline which is about to start streaming.
-> Not all the pads in entities that are traversed along that pipeline are
-> part of the pipeline, however. Skip the link validation for such pads,
-> and while at there rename "other_pad" to "local_pad" to convey the fact
-> the route to be checked is internal to the entity.
+> Add a helper macro for iterating over pads that are connected through
+> enabled routes. This can be used to find all the connected pads within an
+> entity, for instance starting from the pad which has been obtained during
+> the graph walk.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> - Make __media_entity_next_routed_pad() return NULL and adjust the
+>   iterator to handle that
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  include/media/media-entity.h | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index 73de1c335e4e..edd6f60ed6b4 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -916,6 +916,33 @@ __must_check int media_graph_walk_init(
+>  bool media_entity_has_route(struct media_entity *entity, unsigned int pad0,
+>  			    unsigned int pad1);
+>  
+> +static inline struct media_pad *__media_entity_next_routed_pad(
+> +	struct media_pad *start, struct media_pad *iter)
+> +{
+> +	struct media_entity *entity = start->entity;
+> +
+> +	for (; iter < &entity->pads[entity->num_pads]; iter++)
+> +		if (media_entity_has_route(entity, start->index, iter->index))
+> +			return iter;
 
-Both "pad" and "local_pad" are local. I would have kept the "other_pad"
-variable name.
+I'd use curly braces.
+
+> +
+> +	return NULL;
+> +}
+
+Does this need to be inlined ?
+
+> +
+> +/**
+> + * media_entity_for_each_routed_pad - Iterate over entity pads connected by routes
+
+"routed" sounds a bit weird. Would media_entity_for_each_connected_pad()
+be a better name ?
+
+> + *
+> + * @start: The stating pad
+
+s/stating/starting/
+
+> + * @iter: The iterator pad
+> + *
+> + * Iterate over all pads connected through routes from a given pad
+
+"from the @start pad"
+
+> + * within an entity. The iteration will include the starting pad itself.
+
+s/starting/@start/
+
+I wonder if it wouldn't be more logical to not include the start pad.
+That wouldn't match the current usage patterns, which would need to be
+adapted accordingly, but I'm worried that including the start pad will
+lead to annoying bugs in the future. Maybe I worry too much.
+
+And now that I reread the patch, I also wonder if "start" is a good
+name, as it implies we start the enumeration from a given pad, while we
+enumerate all pads connected to a given pad. I'm not sure what a better
+name would be though, maybe just pad ?
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/mc/mc-entity.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 28d7fd254c77..fe6cb743c85c 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -482,12 +482,17 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
->  		bitmap_fill(has_no_links, entity->num_pads);
->  
->  		list_for_each_entry(link, &entity->links, list) {
-> -			struct media_pad *other_pad =
-> +			struct media_pad *local_pad =
->  				link->sink->entity == entity ?
->  				link->sink : link->source;
->  
-> +			/* Ignore pads to which there is no route. */
-> +			if (!media_entity_has_route(entity, pad->index,
-> +						    local_pad->index))
-> +				continue;
+> + */
+> +#define media_entity_for_each_routed_pad(start, iter)			\
+> +	for (iter = __media_entity_next_routed_pad(			\
+> +		     start, (start)->entity->pads);			\
+> +	     iter != NULL;						\
+> +	     iter = __media_entity_next_routed_pad(start, iter + 1))
 > +
->  			/* Mark that a pad is connected by a link. */
-> -			bitmap_clear(has_no_links, other_pad->index, 1);
-> +			bitmap_clear(has_no_links, local_pad->index, 1);
->  
->  			/*
->  			 * Pads that either do not need to connect or
-> @@ -496,13 +501,13 @@ __must_check int __media_pipeline_start(struct media_pad *pad,
->  			 */
->  			if (!(pad->flags & MEDIA_PAD_FL_MUST_CONNECT) ||
->  			    link->flags & MEDIA_LNK_FL_ENABLED)
-> -				bitmap_set(active, other_pad->index, 1);
-> +				bitmap_set(active, local_pad->index, 1);
->  
->  			/*
->  			 * Link validation will only take place for
->  			 * sink ends of the link that are enabled.
->  			 */
-> -			if (link->sink != other_pad ||
-> +			if (link->sink != local_pad ||
->  			    !(link->flags & MEDIA_LNK_FL_ENABLED))
->  				continue;
->  
+>  /**
+>   * media_graph_walk_cleanup - Release resources used by graph walk.
+>   *
 
 -- 
 Regards,
