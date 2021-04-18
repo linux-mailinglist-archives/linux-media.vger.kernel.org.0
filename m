@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF73D3632C9
-	for <lists+linux-media@lfdr.de>; Sun, 18 Apr 2021 02:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BCB33632CA
+	for <lists+linux-media@lfdr.de>; Sun, 18 Apr 2021 02:13:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236407AbhDRANR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Apr 2021 20:13:17 -0400
-Received: from mail.tuxforce.de ([84.38.66.179]:47282 "EHLO mail.tuxforce.de"
+        id S236454AbhDRANX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Apr 2021 20:13:23 -0400
+Received: from mail.tuxforce.de ([84.38.66.179]:47288 "EHLO mail.tuxforce.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230339AbhDRANQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Apr 2021 20:13:16 -0400
+        id S230339AbhDRANX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 17 Apr 2021 20:13:23 -0400
 Received: from fedora.fritz.box (2001-4dd5-b099-0-19b2-6b8c-f4bb-b22d.ipv6dyn.netcologne.de [IPv6:2001:4dd5:b099:0:19b2:6b8c:f4bb:b22d])
-        by mail.tuxforce.de (Postfix) with ESMTPSA id 9BDA5520082;
-        Sun, 18 Apr 2021 02:12:48 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.tuxforce.de 9BDA5520082
+        by mail.tuxforce.de (Postfix) with ESMTPSA id 0EC4D52008B;
+        Sun, 18 Apr 2021 02:12:55 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.tuxforce.de 0EC4D52008B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tuxforce.de;
-        s=202009; t=1618704768;
-        bh=9eMZRpffFD04UwOuBm/MW1cYy1qYusQkfQLfDzI83rw=;
+        s=202009; t=1618704775;
+        bh=DXh4KK4ge0Vay3/2TB/+yedp+6YGMzZmF/9sra00tj0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KA6RNGeJKOqZWQvuVlgs3XYOASvotpjdCLLrnN0m4KybHHi49Vc8C438u6e63eDAb
-         DtirQMfcecwjzvOt6oJh/8JW9Cr+zOmcb/SSv2WV6nUHOxm8KhO/NkzOfZTXR4XsRn
-         6l0n+TWHWAzMOk19hbtc8qa7JRab9w4571jI9wthVhbFkKiY5jM2qbZDWyOpGHWdZy
-         GJ8dYP91xrVBbx/MCkbaCLHu4ayyvHqaBTLvaQZwG79zhQXyad8GUYS3S3Eekavifv
-         oEDjI6R989DwojFwagw3KTDWXqKrx4AsgmIGY2gqhM/XQ1wLsz1ktnBSFH+ZSicOQH
-         vzP2T6ai24FAA==
+        b=chjmCmLTliyoQ9pJA3fox4Muwg4TQ+NvDHJ//nwmfh/8pLxsZ+MyS7aLoc575c3UP
+         BpOH1p9egHdfrZ61ssC3YTNYveMCcimpZ8UVDgnUXwAeIeSQI6EBG7V2o3UQOlHjul
+         mLL1u98e57uGuxDr2tjK5oDCVQKx+u+bflpixMg9QYsgcz0Z9Y3lW2R51ZZ09X5zC4
+         6L0cvpC0J/va1rAdU82OJlADVqKN+mjonbiIJsz08zNekGiFhutU/oxRfMBkCmaYBF
+         6RiGoTI6dhemHMK6iLCZFKuRa2WqgHIy3gNfiUrQVz9uS2pJ5whdaxCvjMmJMG2rDV
+         hYprfkyFJiWfQ==
 From:   Lukas Middendorf <kernel@tuxforce.de>
 To:     linux-media@vger.kernel.org
 Cc:     Lukas Middendorf <kernel@tuxforce.de>,
         Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 1/2] media dvb_frontend: add suspend and resume callbacks to dvb_frontend_ops
-Date:   Sun, 18 Apr 2021 02:12:03 +0200
-Message-Id: <20210418001204.7453-2-kernel@tuxforce.de>
+Subject: [PATCH 2/2] media si2168: fully initialize si2168 on resume only when necessary
+Date:   Sun, 18 Apr 2021 02:12:04 +0200
+Message-Id: <20210418001204.7453-3-kernel@tuxforce.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210418001204.7453-1-kernel@tuxforce.de>
 References: <20210418001204.7453-1-kernel@tuxforce.de>
@@ -43,92 +43,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While dvb_tuner_ops already has dedicated suspend and resume callbacks,
-dvb_frontend_ops currently does not have them. Add those callbacks and
-use them for suspend and resume. If they are not set, the old behavior
-of calling sleep or init is used.
+At connection time (or boot) in si2168_probe(), the firmware is not
+loaded to the device and the device is not fully activated. It is
+not useful or sensible to do this full initialization on resume in
+case it has not been previously initialized and is expected to be
+in this initialized state.
+Calling si2168_init() and therefore reading the firmware file for
+the first time during resume leads to problems and should be avoided.
+It is however safe to read the firmware file once it has already been
+read outside of a suspend/resume situation.
 
-This allows dvb_frontend drivers to handle resume differently from init,
-and suspend differently from sleep. No change is required for drivers
-not needing this functionality.
+Add a staus flag 'initialized' to store whether si2168_init() has
+successfully been called. If initialization fails (e.g. due to missing
+firmware file), the flag is not set.
+Register a separate si2168_resume callback which only calls
+si2168_init() once the 'initialized' flag has been set and it is safe
+to load the firmware at resume.
+The first call to si2168_init() will now always happen when the device
+is actually used for the first time and never during resume.
+This avoids the unsafe firmware file reading and should also speed up
+resume by skipping unnecessary device initialization.
 
 Signed-off-by: Lukas Middendorf <kernel@tuxforce.de>
 ---
- drivers/media/dvb-core/dvb_frontend.c |  8 ++++++--
- include/media/dvb_frontend.h          | 13 +++++++++++--
- 2 files changed, 17 insertions(+), 4 deletions(-)
+ drivers/media/dvb-frontends/si2168.c      | 24 +++++++++++++++++++++++
+ drivers/media/dvb-frontends/si2168_priv.h |  1 +
+ 2 files changed, 25 insertions(+)
 
-diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-index fb35697dd93c..9e78191db5c6 100644
---- a/drivers/media/dvb-core/dvb_frontend.c
-+++ b/drivers/media/dvb-core/dvb_frontend.c
-@@ -2912,7 +2912,9 @@ int dvb_frontend_suspend(struct dvb_frontend *fe)
- 	else if (fe->ops.tuner_ops.sleep)
- 		ret = fe->ops.tuner_ops.sleep(fe);
+diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+index 14b93a7d3358..f4ea7a896cdf 100644
+--- a/drivers/media/dvb-frontends/si2168.c
++++ b/drivers/media/dvb-frontends/si2168.c
+@@ -527,6 +527,7 @@ static int si2168_init(struct dvb_frontend *fe)
+ 		goto err;
  
--	if (fe->ops.sleep)
-+	if (fe->ops.suspend)
-+		ret = fe->ops.suspend(fe);
-+	else if (fe->ops.sleep)
- 		ret = fe->ops.sleep(fe);
- 
+ 	dev->warm = true;
++	dev->initialized=true;
+ warm:
+ 	/* Init stats here to indicate which stats are supported */
+ 	c->cnr.len = 1;
+@@ -548,6 +549,28 @@ static int si2168_init(struct dvb_frontend *fe)
  	return ret;
-@@ -2928,7 +2930,9 @@ int dvb_frontend_resume(struct dvb_frontend *fe)
- 		fe->id);
+ }
  
- 	fe->exit = DVB_FE_DEVICE_RESUME;
--	if (fe->ops.init)
-+	if (fe->ops.resume)
-+		ret = fe->ops.resume(fe);
-+	else if (fe->ops.init)
- 		ret = fe->ops.init(fe);
++static int si2168_resume(struct dvb_frontend *fe)
++{
++	struct i2c_client *client = fe->demodulator_priv;
++	struct si2168_dev *dev = i2c_get_clientdata(client);
++	
++	/* check whether si2168_init() has been called successfully
++	 * outside of a resume cycle. Ony call it (and load firmware)
++	 * in this case. si2168_init() is only called during resume
++	 * once the device has actually been used. Otherwise, leave the
++	 * device untouched.
++	 */
++	if(dev->initialized) {
++		dev_dbg(&client->dev, "previsously initialized, call si2168_init()\n");
++		return si2168_init(fe);
++	}
++	else {
++		dev_dbg(&client->dev, "not initialized yet, skipping init on resume\n");
++		return 0;
++	}
++}
++
++
+ static int si2168_sleep(struct dvb_frontend *fe)
+ {
+ 	struct i2c_client *client = fe->demodulator_priv;
+@@ -657,6 +680,7 @@ static const struct dvb_frontend_ops si2168_ops = {
  
- 	if (fe->ops.tuner_ops.resume)
-diff --git a/include/media/dvb_frontend.h b/include/media/dvb_frontend.h
-index 0d76fa4551b3..e7c44870f20d 100644
---- a/include/media/dvb_frontend.h
-+++ b/include/media/dvb_frontend.h
-@@ -364,6 +364,10 @@ struct dvb_frontend_internal_info {
-  *			allocated by the driver.
-  * @init:		callback function used to initialize the tuner device.
-  * @sleep:		callback function used to put the tuner to sleep.
-+ * @suspend:		callback function used to inform that the Kernel will
-+ *			suspend.
-+ * @resume:		callback function used to inform that the Kernel is
-+ *			resuming from suspend.
-  * @write:		callback function used by some demod legacy drivers to
-  *			allow other drivers to write data into their registers.
-  *			Should not be used on new drivers.
-@@ -443,6 +447,8 @@ struct dvb_frontend_ops {
+ 	.init = si2168_init,
+ 	.sleep = si2168_sleep,
++	.resume = si2168_resume,
  
- 	int (*init)(struct dvb_frontend* fe);
- 	int (*sleep)(struct dvb_frontend* fe);
-+	int (*suspend)(struct dvb_frontend *fe);
-+	int (*resume)(struct dvb_frontend *fe);
+ 	.set_frontend = si2168_set_frontend,
  
- 	int (*write)(struct dvb_frontend* fe, const u8 buf[], int len);
- 
-@@ -755,7 +761,8 @@ void dvb_frontend_detach(struct dvb_frontend *fe);
-  * &dvb_frontend_ops.tuner_ops.suspend\(\) is available, it calls it. Otherwise,
-  * it will call &dvb_frontend_ops.tuner_ops.sleep\(\), if available.
-  *
-- * It will also call &dvb_frontend_ops.sleep\(\) to put the demod to suspend.
-+ * It will also call &dvb_frontend_ops.suspend\(\) to put the demod to suspend,
-+ * if available. Otherwise it will call &dvb_frontend_ops.sleep\(\).
-  *
-  * The drivers should also call dvb_frontend_suspend\(\) as part of their
-  * handler for the &device_driver.suspend\(\).
-@@ -769,7 +776,9 @@ int dvb_frontend_suspend(struct dvb_frontend *fe);
-  *
-  * This function resumes the usual operation of the tuner after resume.
-  *
-- * In order to resume the frontend, it calls the demod &dvb_frontend_ops.init\(\).
-+ * In order to resume the frontend, it calls the demod
-+ * &dvb_frontend_ops.resume\(\) if available. Otherwise it calls demod
-+ * &dvb_frontend_ops.init\(\).
-  *
-  * If &dvb_frontend_ops.tuner_ops.resume\(\) is available, It, it calls it.
-  * Otherwise,t will call &dvb_frontend_ops.tuner_ops.init\(\), if available.
+diff --git a/drivers/media/dvb-frontends/si2168_priv.h b/drivers/media/dvb-frontends/si2168_priv.h
+index 18bea5222082..007a02c7fee8 100644
+--- a/drivers/media/dvb-frontends/si2168_priv.h
++++ b/drivers/media/dvb-frontends/si2168_priv.h
+@@ -37,6 +37,7 @@ struct si2168_dev {
+ 	u8 ts_mode;
+ 	unsigned int active:1;
+ 	unsigned int warm:1;
++	unsigned int initialized:1;
+ 	unsigned int ts_clock_inv:1;
+ 	unsigned int ts_clock_gapped:1;
+ 	unsigned int spectral_inversion:1;
 -- 
 2.31.1
 
