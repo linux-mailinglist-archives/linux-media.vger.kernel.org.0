@@ -2,104 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3398A363835
-	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 00:22:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3E193639C6
+	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 05:40:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232530AbhDRWWy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Apr 2021 18:22:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32910 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232090AbhDRWWy (ORCPT
+        id S232729AbhDSDkw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Apr 2021 23:40:52 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:59933 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232317AbhDSDkv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Apr 2021 18:22:54 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 476D0C06174A
-        for <linux-media@vger.kernel.org>; Sun, 18 Apr 2021 15:22:24 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id e7so23037426wrs.11
-        for <linux-media@vger.kernel.org>; Sun, 18 Apr 2021 15:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/vQcmhmqMiUAJbyHeuRKghSLw7oX6RI6OxK8J2dPgQY=;
-        b=T2R7Tn6+PvMnlVfWMYsBZjQdJSpAa2pkY5MaBXeC0eGfTBvboGeF61bqIsjs4KWu8o
-         azP2VtZr3dYuzL9qdliNobBRkuD5k4gB1ZRVX4+VamgFegI0Gae4/nLQV/9o6pRzWyfA
-         RKR3kWnAMgFTh/f9xQxIiG34COEhPKnZ+RkKDDWX0wCrRgrU8LcKXXjknIN9T8pEzN3V
-         8yQufNzTWB10W8p+wWZKzE/OGBCATRwQJ4WEwlLtivuQDGxk6/79atS6DIWDi/HLGt9j
-         LCbyTSzklG23Nby98KNrGPVXcRQnACu+wSbuXI1cIkDLBhbNcomvEtAW4Rrb7hUVgXIh
-         xOkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/vQcmhmqMiUAJbyHeuRKghSLw7oX6RI6OxK8J2dPgQY=;
-        b=YdHdUtzWcFEsvsvK2aWzAKHJYiai06YS1POWEiddrHGg2cfX6oCe/atYt3uk0HReM0
-         gtnAsiX/ER3dbchKSj09w0GOm518O5xPIJPqNSXIlMWavQ7Yug3eRGvTmH5YlxmFPEoS
-         F/Bv7vsLsju1d8t5rQuU5KUN6VGT6HPuwSfcIg8fkwOI7o8a0Da7iWuJR2R5DkuxSEHr
-         F142p84c55I0ZL6SphIjauMunwTgLZvlVIT0Q2GFekgvnR0wIAA/x0TypCugxQ0C/5FZ
-         8f8aMT0s11LU8lLjI0gGsnwFDLtRD3u/SXkM4PBKDHEwrTiRQEjPAs44rmbYuBbZ50Zf
-         Yvfw==
-X-Gm-Message-State: AOAM531VBeFKBwBHR8hkuKiPSYHKLzzslIV0NzTBZyGc2d0+qjFlbEiG
-        +iNak+VjW8ul2XmK3JQpwX6A2EzOigU=
-X-Google-Smtp-Source: ABdhPJwJ6ZMA6UzVcnTiuCNSa7EcrGYJ+KZsKt7lFemo8RV3ivav1Szo096S1QZr42cQ8adEbtdqnw==
-X-Received: by 2002:a5d:4043:: with SMTP id w3mr10876434wrp.320.1618784542972;
-        Sun, 18 Apr 2021 15:22:22 -0700 (PDT)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id c1sm19527341wrx.89.2021.04.18.15.22.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Apr 2021 15:22:22 -0700 (PDT)
-Date:   Sun, 18 Apr 2021 23:22:20 +0100
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de,
-        Fabio Estevam <festevam@gmail.com>, linux-imx@nxp.com,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH 24/23] media: imx: imx7_mipi_csis: Update MAINTAINERS
-Message-ID: <20210418222220.dzabxju42yiojn4d@arch-thunder.localdomain>
-References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
- <20210418201406.11631-1-laurent.pinchart@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210418201406.11631-1-laurent.pinchart@ideasonboard.com>
+        Sun, 18 Apr 2021 23:40:51 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:8eb:5b23:4a0c:2c5])
+        by smtp.xs4all.nl with ESMTPA
+        id YKlnlLYuuw8UmYKlplwsqM; Mon, 19 Apr 2021 05:40:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1618803621; bh=LS4ZiuN4nWVUthW4uXvxg1IX27RzFpZ/Z33ROu/Lq4Q=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=ai0+qqQ0+OSeQ3yXNTnUiDqss141N8yzXeBAzHkvWba+qcBdEyRNJLU3dTFwSznT1
+         6/YT8L+3F+O6XQqRyxQEvLgQComuLMD8mfnfnfoKtYj0UiJ0WD6IJUfE8KHUxGVdA7
+         YfiIEGhPXbjz4zFBwFPw+q4GPh3QPzHd5pvQjJJRW0OHnpNswt7oy+sFSE3P7wo2SI
+         MQiQjBIMXucBMAOWVGYNl3mIw1w01w00pYVRW6LFVai+zGBHhTraP6mP3jeQ56u8gS
+         4ZGZ/ZeCUZUnvgLT8FF8umiMZH/mJ/KX6IF0Tzpts0OEkgekH7csMXgIrcLP+UF96I
+         /5pKKPj7bmahA==
+Message-ID: <a906da63e02e1bfd8d054e33812b51c3@smtp-cloud7.xs4all.net>
+Date:   Mon, 19 Apr 2021 05:40:19 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfBBSplmUfNAhfDOH3SJOBlL1XGVT8JpC98VFE+aNCFA/ws/amnReVmJUp0Zodgt5TxJY4F/5XYkBbBYZyFre/GrqY811YTp1Enj+W2WT1CfyAFog5YiA
+ fmgbukbQ29KOov4ckJCSnvNTwSsvwBrKLI4a0FyR78HRNGLmUIaXKvV4y4lIKq0bZt4I1Wkdwsorr13NqkO+OzweQRom3W/2UnJZySObhxA1oklw5uHFdES9
+ nr0OAF3MvGP5KvZ+Wj2AXg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-On Sun, Apr 18, 2021 at 11:14:06PM +0300, Laurent Pinchart wrote:
-> Given my recent contributions to the imx7-mipi-csis driver, I can as
-> well be listed as a maintainer.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cb727179826b..2f498269c2ec 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11029,6 +11029,7 @@ F:	include/media/imx.h
->  
->  MEDIA DRIVERS FOR FREESCALE IMX7
->  M:	Rui Miguel Silva <rmfrfs@gmail.com>
-> +M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thanks for this, really appreciated.
+Results of the daily build of media_tree:
 
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+date:			Mon Apr 19 05:00:11 CEST 2021
+media-tree git hash:	0b276e470a4d43e1365d3eb53c608a3d208cabd4
+media_build git hash:	1521b23ea5307bef1ee17489c5323f00891dd52b
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7413-g9bb66fa2d
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-------
-Cheers,
-     Rui
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12-rc1-i686: OK
+linux-5.12-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 1
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
