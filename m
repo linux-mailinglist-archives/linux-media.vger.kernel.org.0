@@ -2,162 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3501364D3C
-	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 23:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F173364ECF
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 01:43:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240362AbhDSVmq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Apr 2021 17:42:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229730AbhDSVmp (ORCPT
+        id S232772AbhDSXnq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Apr 2021 19:43:46 -0400
+Received: from gw.atmark-techno.com ([13.115.124.170]:42714 "EHLO
+        gw.atmark-techno.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232484AbhDSXnm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Apr 2021 17:42:45 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 420A7C06174A
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 14:42:15 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id h11so6464318pfn.0
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 14:42:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=z7kIVSYEdrRLbG/oTtoQrKQxmDG3dmpZPUyg3EMa1CI=;
-        b=Sc9mIgdJ5IJ09G9kAqZ9VsN1nsYl+yz3IGYKiVoJZ31Jk4GPBt030CiHSA3T7NfRVD
-         V0fzJmr7jDWGooYekukrrrg4QXb9oTMYULfmrYj9uREqw4NITDNEeYQkMdFvW2ENTTju
-         I09A75uB7/7mdrhUmFll44K2Bs3tXGMjLNa6k=
+        Mon, 19 Apr 2021 19:43:42 -0400
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+        by gw.atmark-techno.com (Postfix) with ESMTPS id C049680493
+        for <linux-media@vger.kernel.org>; Tue, 20 Apr 2021 08:43:08 +0900 (JST)
+Received: by mail-ot1-f72.google.com with SMTP id f89-20020a9d2c620000b0290280d753a255so10711412otb.2
+        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 16:43:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=z7kIVSYEdrRLbG/oTtoQrKQxmDG3dmpZPUyg3EMa1CI=;
-        b=OHsxdtnrsILfrHb9QTEQ22sDnCbAiVHce36cBNJZRJKRjwEV9AAnBMkF4oc+DufKYk
-         By8lq9ZIxKEpSeJthvEMrqXHed9ckktuup0tDdeFt5WxLAUYO4lpHOXAsHK+nPMxMPXL
-         u9DKih8ZuX+JtNYD28rDE53V50Hdmm/oPo+Ej2fykoDU+NaKLRAHDU7gyUCOP0775xrM
-         twYC+tKJe9czB/qeH27DoCAO+E//G/GIV2xfVysAYEFln0iaqb0jA0oQWGwTvLCEiNe5
-         6wRKs72tQahGf/Os9rmaY50ckmvrIPGhWRU1svQcPD5iANjebWRG8f9oyY7/EXIkr3vV
-         0bEA==
-X-Gm-Message-State: AOAM533ETE2wUZQ4FDY9QbwRoccjZqd3SikDNf9fflrUH8JuabyzvlNN
-        g/duY+iVihK3sM2PzPvBYOTe+Q==
-X-Google-Smtp-Source: ABdhPJw5yzdDzieag+gqmOa5kavOqzVuM6LBmdKRuUmV+3JzQTh1pmD4bxzemJrOuM5oef2m82t6hQ==
-X-Received: by 2002:a65:5581:: with SMTP id j1mr2421475pgs.420.1618868534877;
-        Mon, 19 Apr 2021 14:42:14 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r14sm345587pjz.43.2021.04.19.14.42.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 14:42:14 -0700 (PDT)
-Date:   Mon, 19 Apr 2021 14:42:13 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Luo Likang <luolikang@nsfocus.com>, security@kernel.org,
-        linux-distros@vs.openwall.org,
+        bh=YfTDNxUjME1kzwn4ONpBlmaWp5uEs0PGjlewRbiJ8O0=;
+        b=pEfHOuczCJZAQYJ4+gpFg3PrVtnstIP3GhwnuTkQqj8hqiOxT3S6MQU2oMmD3r59Y0
+         PdL8zvJP2F0z0XjKd1/y5rsrurRyAQ2SYJMBrjsCn9lQPj+Vpxg0fGQD86IIZYvuQlWU
+         DAlQE7BTuvQlLXxmiyaE7nNKRTMsxflIDxliKs4INIduJUbrSs/nXS04NQsaEVlz5Ta/
+         EAykWNt+w0nIrGpl5JxgTtV8q/oE265ABaYt5oZvKWWDE61xK/Z64/lwUkJq0Pc8i3qk
+         3qdEdbFcWLtlLe5B/6hv2jSmUiO3NkUxuomD5kYYUSLI/Y4BgnOVJEDYn8QFqLB1oSDZ
+         liYg==
+X-Gm-Message-State: AOAM531Hi6be0JKBbaqE2XOOvJfRZFVpP1hFR5mLGQ5fLaETWO0F/BdS
+        wbE6Sqkgjgyo9Jfer1CpcLtNGaHxiiqIJPedOhdWCPJALMt/9B+nBAOuXjVuYRpfYPBhkkZO1sL
+        bJi7PgxCnsgqJ4o5ftX0u3n42K7Q=
+X-Received: by 2002:a17:90a:1c1:: with SMTP id 1mr1708177pjd.190.1618875776930;
+        Mon, 19 Apr 2021 16:42:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRGNIqy2AO5m9iOwuC4N09BxordE8LmUXYTIIeyniOtbCQKfA0MKaQl391n1ZLV3YIJOra8w==
+X-Received: by 2002:a17:90a:1c1:: with SMTP id 1mr1708139pjd.190.1618875776711;
+        Mon, 19 Apr 2021 16:42:56 -0700 (PDT)
+Received: from pc-0115 (76.125.194.35.bc.googleusercontent.com. [35.194.125.76])
+        by smtp.gmail.com with ESMTPSA id r3sm8384971pgn.82.2021.04.19.16.42.55
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Apr 2021 16:42:55 -0700 (PDT)
+Received: from martinet by pc-0115 with local (Exim 4.94)
+        (envelope-from <martinet@pc-0115>)
+        id 1lYdXa-002mPj-58; Tue, 20 Apr 2021 08:42:54 +0900
+Date:   Tue, 20 Apr 2021 08:42:44 +0900
+From:   Dominique MARTINET <dominique.martinet@atmark-techno.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Alice Guo (OSS)" <alice.guo@oss.nxp.com>,
+        gregkh <gregkh@linuxfoundation.org>,
+        Rafael Wysocki <rafael@kernel.org>,
+        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+        aymen.sghaier@nxp.com, Herbert Xu <herbert@gondor.apana.org.au>,
+        David Miller <davem@davemloft.net>,
+        Tony Lindgren <tony@atomide.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        peter.ujfalusi@gmail.com, Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kevin Hilman <khilman@baylibre.com>, tomba@kernel.org,
+        jyri.sarha@iki.fi, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux1394-devel@lists.sourceforge.net
-Subject: Re: [PATCH] media: firewire: firedtv-avc: fix a buffer overflow in
- avc_ca_pmt()
-Message-ID: <202104191438.D54A181@keescook>
-References: <000001d73031$d5304480$7f90cd80$@nsfocus.com>
- <YHaulytonFcW+lyZ@mwanda>
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Kishon <kishon@ti.com>, Jakub Kicinski <kuba@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Roy Pledge <Roy.Pledge@nxp.com>, Leo Li <leoyang.li@nxp.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>, Felipe Balbi <balbi@kernel.org>,
+        Tony Prisk <linux@prisktech.co.nz>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>, dmaengine@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:ARM/Amlogic Meson SoC support" 
+        <linux-amlogic@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        linux-phy@lists.infradead.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-staging@lists.linux.dev,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>
+Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use
+ soc_device_match
+Message-ID: <YH4VdPNO9cdzc5MD@atmark-techno.com>
+References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
+ <20210419042722.27554-4-alice.guo@oss.nxp.com>
+ <YH0O907dfGY9jQRZ@atmark-techno.com>
+ <CAMuHMdVY1SLZ0K30T2pimyrR6Mm=VoSTO=L-xxCy2Bj7_kostw@mail.gmail.com>
+ <YH1OeFy+SepIYYG0@atmark-techno.com>
+ <CAK8P3a1Mu2F0irDDCL-50HiHth29iYFL5b7WHZ=UX6W7zzoxAg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YHaulytonFcW+lyZ@mwanda>
+In-Reply-To: <CAK8P3a1Mu2F0irDDCL-50HiHth29iYFL5b7WHZ=UX6W7zzoxAg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 11:57:59AM +0300, Dan Carpenter wrote:
-> The bounds checking in avc_ca_pmt() is not strict enough.  It should
-> be checking "read_pos + 4" because it's reading 5 bytes.  If the
-> "es_info_length" is non-zero then it reads a 6th byte so there needs to
-> be an additional check for that.
-> 
-> I also added checks for the "write_pos".  I don't think these are
-> required because "read_pos" and "write_pos" are tied together so
-> checking one ought to be enough.  But they make the code easier to
-> understand for me.
-> 
-> The other problem is that "length" can be invalid.  It comes from
-> "data_length" in fdtv_ca_pmt().
-> 
-> Cc: stable@vger.kernel.org
-> Reported-by: Luo Likang <luolikang@nsfocus.com>
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Arnd Bergmann wrote on Mon, Apr 19, 2021 at 02:16:36PM +0200:
+> In some cases, you can use the device_link infrastructure to deal
+> with dependencies between devices. Not sure if this would help
+> in your case, but have a look at device_link_add() etc in drivers/base/core.c
 
-Thanks for the report and the fix!
+I'll need to actually try to convince myself but if creating the link
+forces driver registration then it should be workable.
 
-As a quick note on alternative mitigations, it seems that
-CONFIG_UBSAN_BOUNDS would have caught this at runtime too. (i.e.
-c->operand[]'s size is known at build time, so out of bounds
-indexing should be detected.)
+> > In this particular case the problem is that since 7d981405d0fd ("soc:
+> > imx8m: change to use platform driver") the soc probe tries to use the
+> > nvmem driver for ocotp fuses for imx8m devices, which isn't ready yet.
+> > So soc loading gets pushed back to the end of the list because it gets
+> > defered and other drivers relying on soc_device_match get confused
+> > because they wrongly think a device doesn't match a quirk when it
+> > actually does.
+> >
+> > If there is a way to ensure the nvmem driver gets loaded before the soc,
+> > that would also solve the problem nicely, and avoid the need to mess
+> > with all the ~50 drivers which use it.
+> >
+> > Is there a way to control in what order drivers get loaded? Something in
+> > the dtb perhaps?
+> 
+> For built-in drivers, load order depends on the initcall level and
+> link order (how things are lined listed in the Makefile hierarchy).
+> 
+> For loadable modules, this is up to user space in the end.
+> 
+> Which of the drivers in this scenario are loadable modules?
 
--Kees
+All the drivers involved in my case are built-in (nvmem, soc and final
+soc_device_match consumer e.g. caam_jr that crashes the kernel if soc is
+not identified properly).
 
-> ---
-> This hardware isn't super common so there is no embargo.  Resending
-> through normal lists.
-> 
-> Oh, another thing is the data_length calculation in fdtv_ca_pmt() seems
-> very suspicous.  Reading more than 4 bytes in the loop will lead to
-> shift wrapping.
-> 
->  drivers/media/firewire/firedtv-avc.c | 14 +++++++++++---
->  drivers/media/firewire/firedtv-ci.c  |  2 ++
->  2 files changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/firewire/firedtv-avc.c b/drivers/media/firewire/firedtv-avc.c
-> index 2bf9467b917d..71991f8638e6 100644
-> --- a/drivers/media/firewire/firedtv-avc.c
-> +++ b/drivers/media/firewire/firedtv-avc.c
-> @@ -1165,7 +1165,11 @@ int avc_ca_pmt(struct firedtv *fdtv, char *msg, int length)
->  		read_pos += program_info_length;
->  		write_pos += program_info_length;
->  	}
-> -	while (read_pos < length) {
-> +	while (read_pos + 4 < length) {
-> +		if (write_pos + 4 >= sizeof(c->operand) - 4) {
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
->  		c->operand[write_pos++] = msg[read_pos++];
->  		c->operand[write_pos++] = msg[read_pos++];
->  		c->operand[write_pos++] = msg[read_pos++];
-> @@ -1177,13 +1181,17 @@ int avc_ca_pmt(struct firedtv *fdtv, char *msg, int length)
->  		c->operand[write_pos++] = es_info_length >> 8;
->  		c->operand[write_pos++] = es_info_length & 0xff;
->  		if (es_info_length > 0) {
-> +			if (read_pos >= length) {
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
->  			pmt_cmd_id = msg[read_pos++];
->  			if (pmt_cmd_id != 1 && pmt_cmd_id != 4)
->  				dev_err(fdtv->device, "invalid pmt_cmd_id %d at stream level\n",
->  					pmt_cmd_id);
->  
-> -			if (es_info_length > sizeof(c->operand) - 4 -
-> -					     write_pos) {
-> +			if (es_info_length > sizeof(c->operand) - 4 - write_pos ||
-> +			    es_info_length > length - read_pos) {
->  				ret = -EINVAL;
->  				goto out;
->  			}
-> diff --git a/drivers/media/firewire/firedtv-ci.c b/drivers/media/firewire/firedtv-ci.c
-> index 9363d005e2b6..2d6992ac5dd6 100644
-> --- a/drivers/media/firewire/firedtv-ci.c
-> +++ b/drivers/media/firewire/firedtv-ci.c
-> @@ -134,6 +134,8 @@ static int fdtv_ca_pmt(struct firedtv *fdtv, void *arg)
->  	} else {
->  		data_length = msg->msg[3];
->  	}
-> +	if (data_length > sizeof(msg->msg) - 4)
-> +		return -EINVAL;
->  
->  	return avc_ca_pmt(fdtv, &msg->msg[data_pos], data_length);
->  }
-> -- 
-> 2.30.2
-> 
+I frankly don't like the idea of moving nvmem/ above soc/ in
+drivers/Makefile as a "solution" to this (especially as there is one
+that seems to care about what soc they run on...), so I'll have a look
+at links first, hopefully that will work out.
 
+
+Thanks,
 -- 
-Kees Cook
+Dominique
