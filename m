@@ -2,114 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21145363E36
-	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 11:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 371FF363E62
+	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 11:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237839AbhDSJGw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 19 Apr 2021 05:06:52 -0400
-Received: from mail-ua1-f52.google.com ([209.85.222.52]:45601 "EHLO
-        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237684AbhDSJGw (ORCPT
+        id S232583AbhDSJSU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Apr 2021 05:18:20 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45062 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231637AbhDSJST (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Apr 2021 05:06:52 -0400
-Received: by mail-ua1-f52.google.com with SMTP id r8so3113509uaw.12;
-        Mon, 19 Apr 2021 02:06:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=pYAQv9R/phgpUveLuxldTF7qrZoEHYn+bAjQ1tW/S3Q=;
-        b=eW3teduGgqU0RwCwMWvI5gXdaoFBBr8NHNERMa5UAGbA2/SBPF+8P6KU89FpqxlaTf
-         7fJX12AokFQvcETxU738cSAJqhDQafLjwXO67RZWx37ki46jutKBG0l82RVYLMRjQE/g
-         fpTPZZIlPz4q1kyOdelIB7kL0qAqnFUfXcPhMnJ8zLQMd1x4xWDlc/BKU3D7C3TZFV+s
-         quNtpqfrC+a43mzvuU/9wNeRVS3p+VcVLl/hXrYhZc9G8JS77KoH/o3sA41/fb1uHQpG
-         ABs6t9vkOz2RSdB9FBMetSRIGfKxlHfWRtFkTc6roeURGMCDXmP7/LSds4INfVGksYSi
-         4W8Q==
-X-Gm-Message-State: AOAM532jLi3MDWsHsqbKMTgrXvA5U73YrA5i6LcFlbVBUAi6fP8nyvHI
-        V8ZqTLVP2pm6/+gB/C/jPkFv4tlo7vPc3AwRmiA=
-X-Google-Smtp-Source: ABdhPJyexCu/xnvGaiaD/QseCFh9zkVcxhdvmq8Tpl2mhV2BuT95UGXWPWeOYnwMEonl8EvtG9pULqS3o9/i2tmUPhI=
-X-Received: by 2002:ab0:6306:: with SMTP id a6mr6069337uap.2.1618823182429;
- Mon, 19 Apr 2021 02:06:22 -0700 (PDT)
+        Mon, 19 Apr 2021 05:18:19 -0400
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3CACD4A;
+        Mon, 19 Apr 2021 11:17:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1618823869;
+        bh=Uj9btoxzc/tit0BrMS8GFG/9S1oT8ApK2fJ2BsM2nKI=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=Hs15VqqxM02zAqN+SIOPteA1oScDOcuJSb/Uh8mfJuuotQvDlVZHOir4Pg+KZWuf6
+         2XBRf1UKD2vjbvmZKGTB3tzyNN35z1DC5vgNWloQ/C2RvkAI59THP2ffNrcxqr1bf7
+         8wD90X6Eyu1gUigd2nSd7/qa92BoFCdxCGE2moD8=
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
+References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
+ <20210412113457.328012-11-tomi.valkeinen@ideasonboard.com>
+ <YHwkCwIEWiWrq3ca@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 10/28] media: ti-vpe: cal: Add pixel processing context
+Message-ID: <652917ce-2311-0cd1-bb07-adbc656c76df@ideasonboard.com>
+Date:   Mon, 19 Apr 2021 12:17:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210413155346.2471776-1-niklas.soderlund+renesas@ragnatech.se>
- <YHiPWPTjWeEQ522E@pendragon.ideasonboard.com> <YHlFWvVBps2vYnPM@oden.dyn.berto.se>
-In-Reply-To: <YHlFWvVBps2vYnPM@oden.dyn.berto.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 19 Apr 2021 11:06:11 +0200
-Message-ID: <CAMuHMdUzX0JgcBixX0X9JoZQkZ_aVQ1YCuUz-QKyTr4OLfsjWA@mail.gmail.com>
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,csi2: Node port@0 is
- not mandatory
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <YHwkCwIEWiWrq3ca@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+On 18/04/2021 15:20, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Apr 12, 2021 at 02:34:39PM +0300, Tomi Valkeinen wrote:
+>> CAL has 4 pixel processing contexts (PIX PROC) of which the driver
+>> currently uses pix proc 0 for PHY0, and pix proc 1 for PHY1 (as the
+>> driver supports only a single source per PHY).
+>>
+>> Add a pix_proc field to cal_ctx to allow us to use different pix proc
+>> contexts in the future
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/platform/ti-vpe/cal.c | 9 +++++----
+>>   drivers/media/platform/ti-vpe/cal.h | 1 +
+>>   2 files changed, 6 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+>> index c550eeb27e79..3dc83c66fd96 100644
+>> --- a/drivers/media/platform/ti-vpe/cal.c
+>> +++ b/drivers/media/platform/ti-vpe/cal.c
+>> @@ -355,16 +355,16 @@ static void cal_ctx_pix_proc_config(struct cal_ctx *ctx)
+>>   		break;
+>>   	}
+>>   
+>> -	val = cal_read(ctx->cal, CAL_PIX_PROC(ctx->index));
+>> +	val = cal_read(ctx->cal, CAL_PIX_PROC(ctx->pix_proc));
+>>   	cal_set_field(&val, extract, CAL_PIX_PROC_EXTRACT_MASK);
+>>   	cal_set_field(&val, CAL_PIX_PROC_DPCMD_BYPASS, CAL_PIX_PROC_DPCMD_MASK);
+>>   	cal_set_field(&val, CAL_PIX_PROC_DPCME_BYPASS, CAL_PIX_PROC_DPCME_MASK);
+>>   	cal_set_field(&val, pack, CAL_PIX_PROC_PACK_MASK);
+>>   	cal_set_field(&val, ctx->cport, CAL_PIX_PROC_CPORT_MASK);
+>>   	cal_set_field(&val, 1, CAL_PIX_PROC_EN_MASK);
+>> -	cal_write(ctx->cal, CAL_PIX_PROC(ctx->index), val);
+>> -	ctx_dbg(3, ctx, "CAL_PIX_PROC(%d) = 0x%08x\n", ctx->index,
+>> -		cal_read(ctx->cal, CAL_PIX_PROC(ctx->index)));
+>> +	cal_write(ctx->cal, CAL_PIX_PROC(ctx->pix_proc), val);
+>> +	ctx_dbg(3, ctx, "CAL_PIX_PROC(%d) = 0x%08x\n", ctx->pix_proc,
+> 
+> While at it, you could s/%d/%u/
+> 
+>> +		cal_read(ctx->cal, CAL_PIX_PROC(ctx->pix_proc)));
+> 
+> And should we use val here instead of reading the value back ?
 
-On Fri, Apr 16, 2021 at 10:08 AM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2021-04-15 22:09:12 +0300, Laurent Pinchart wrote:
-> > On Tue, Apr 13, 2021 at 05:53:46PM +0200, Niklas Söderlund wrote:
-> > > When converting the binding to use the video-interfaces schemas the node
-> > > port@0 was incorrectly made a mandatory property.
-> > >
-> > > The port@0 node describes which CSI-2 transmitter the R-Car CSI-2
-> > > receiver is connected too. Not all boards connects all CSI-2 receivers
-> > > to an CSI-2 transmitter.
-> >
-> > Ports are properties of the device, they should always be there,
-> > regardless of connections. It's the endpoints that describe connections.
->
-> I understand what you are saying and if that is the way things are done
-> I'm fine with it. As this was brought to light by a recent change in the
-> bindings I wish to understand if this was always the case the bindings
-> have been wrong all along or not.
->
-> I only ask as because if we keep the port@0 mandatory there will be
-> board files that needs to add empty port@0 nodes as we know they are not
+I think it's usually good to read the value from the register. It'll 
+show what the register value really is, not what we thought we wrote. 
+Usually those two should be the same, but in some cases there are 
+read-only fields or non-writeable areas.
 
-s/board/SoC .dtsi/
+That said, I'm not sure if any of the registers printed in cal.c have 
+any of those fields, so... I don't feel strongly either way, but I also 
+don't see benefit in doing the change (verifying there are no read-only 
+fields, and fixing the conflicts).
 
-> used. And as the media bindings are already quiet large for some Renesas
-> boards I want to understand this before spewing out a lot of patches
-> adding empty nodes ;-)
->
-> >
-> > > Fixes: 066a94e28a23e04c ("media: dt-bindings: media: Use graph and video-interfaces schemas")
-> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > ---
-> > >  Documentation/devicetree/bindings/media/renesas,csi2.yaml | 1 -
-> > >  1 file changed, 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > > index 20396f1be9993461..395484807dd5ed47 100644
-> > > --- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > > @@ -78,7 +78,6 @@ properties:
-> > >            modules connected the CSI-2 receiver.
-> > >
-> > >      required:
-> > > -      - port@0
-> > >        - port@1
-> > >
-> > >  required:
+I can change this and the other similar cases if you have a reason why 
+it's better =).
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+  Tomi
