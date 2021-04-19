@@ -2,147 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B57BA3640B5
-	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 13:44:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 912E03640BE
+	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 13:46:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238754AbhDSLo7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Apr 2021 07:44:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35097 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238690AbhDSLo6 (ORCPT
+        id S238781AbhDSLq0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Apr 2021 07:46:26 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46612 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238774AbhDSLq0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Apr 2021 07:44:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618832668;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=y644e2+cDS7jfFg2KG/GSDehn2zis7rBbTsBszQ7ZZc=;
-        b=X4dUySfFg7+YADTeFr7pfxkCN0H0vviMDYuUSxPyrGMFWpK89rYK8d0cq6c37l0LluP9cX
-        Q4kalnvwiRswpATNydtIuEsn0kzi+zCnA37wRuMXjanRpopn2NKq6/Xz44z/pTTjpUTNyW
-        cd8QiCPvFP4acW+CUDhlp5Pa3KnLtP4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-QfR-_nLoOlSx8ND2M_4pAQ-1; Mon, 19 Apr 2021 07:44:27 -0400
-X-MC-Unique: QfR-_nLoOlSx8ND2M_4pAQ-1
-Received: by mail-wr1-f70.google.com with SMTP id j4-20020adfe5040000b0290102bb319b87so8922951wrm.23
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 04:44:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=y644e2+cDS7jfFg2KG/GSDehn2zis7rBbTsBszQ7ZZc=;
-        b=oxttb4vwJFvBfIT/3SQ5tTY7CaLnhIsfmbzIWuUR3+R8pnJRzhkH575FTT8n8GIywI
-         HGI471BH384CmU4tGLdfSgMcs1xTxKzpPuSybcBa42FFzMu77MLHWEVrKkepK2cA2Z6D
-         pnawT0uCHRDEqODByXX689I9UbraBzaAWw95pdOPxfTNz4ps0IGnVLlEeyxFOglBJGrp
-         rpHYWrMwycSp0GVHedrqsBE55/mKPbWSxXgkFuj7mmW/CY04uxCtiYYYHrDDSHOGwE18
-         6x1EPsLirKac2fD1Z+gex1esNJzL86Jz4tv4h2vlcrr1n/QRtD1Kl4vPB7kk9KqwVHT0
-         J0Lw==
-X-Gm-Message-State: AOAM530hYbWSfZ4AEfyrWXDjpIy3AGckSMaj0ZA9PtqpWQw1IefxUZVH
-        RZJyIgqQRGKj9pDiK9BBOfYgnihiy9BBtPcch+pTWgAu+O/RP7DQwQA6kxcGwGlftdPjB0omFsh
-        rVWq6+Atq2R4ypYHHBS09aJhU1GYjQBa/uOBRKRU=
-X-Received: by 2002:a5d:58fa:: with SMTP id f26mr13544848wrd.177.1618832666331;
-        Mon, 19 Apr 2021 04:44:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwjlugWDWLZH+5rQly0tRCQFzwosoMjd14Y9bJuAnMN5V/27+yHQMkQQGZjse8w/vAsAyaiT8Vc7UJvMHq5TOE=
-X-Received: by 2002:a5d:58fa:: with SMTP id f26mr13544835wrd.177.1618832666229;
- Mon, 19 Apr 2021 04:44:26 -0700 (PDT)
+        Mon, 19 Apr 2021 07:46:26 -0400
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21927D4A;
+        Mon, 19 Apr 2021 13:45:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1618832754;
+        bh=Dam3k33WJG2Z/zemgekG2nmABo03nrv1peQwp6PX+e8=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=BpkaFtUS8cOvrW20BGOevvzRTOCF2hphQaNBNO5I7rGwqg+wzL7UXowsContkpmvz
+         hk5J2TPdjCarol9TqjjhetRyTXR7TmlACqWmAS+SqAOygkS+0DDa6LWDJ0EPclQuhc
+         0ymACZuuf4U4MG+nFBCQrI2gZ5oQZUELdZEgY5VY=
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
+References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
+ <20210412113457.328012-18-tomi.valkeinen@ideasonboard.com>
+ <YHwtI+WIlHWCBEH5@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 17/28] media: ti-vpe: cal: allocate pix proc dynamically
+Message-ID: <5e91c272-67a5-ed76-63c3-6c0972d42cf7@ideasonboard.com>
+Date:   Mon, 19 Apr 2021 14:45:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210416143725.2769053-1-lee.jones@linaro.org> <20210416143725.2769053-8-lee.jones@linaro.org>
-In-Reply-To: <20210416143725.2769053-8-lee.jones@linaro.org>
-From:   Karol Herbst <kherbst@redhat.com>
-Date:   Mon, 19 Apr 2021 13:44:15 +0200
-Message-ID: <CACO55tvQ=dvDbwzWmwn7ZOwqyStEXn3=8zab6rQSiau3OkKktQ@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH 07/40] drm/nouveau/nouveau_bo: Remove unused
- variables 'dev'
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Jeremy Kolb <jkolb@brandeis.edu>, David Airlie <airlied@linux.ie>,
-        nouveau <nouveau@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linaro-mm-sig@lists.linaro.org, Ben Skeggs <bskeggs@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YHwtI+WIlHWCBEH5@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+On 18/04/2021 15:59, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Apr 12, 2021 at 02:34:46PM +0300, Tomi Valkeinen wrote:
+>> CAL has 4 pixel processing units but the units are not needed e.g. for
+>> metadata. As we could be capturing 4 pixel streams and 4 metadata
+>> streams, i.e. using 8 DMA contexts, we cannot assign a pixel processing
+>> unit to every DMA context. Instead we need to reserve a pixel processing
+>> unit only when needed.
+>>
+>> Add functions to reserve and release a pix proc unit, and use them in
+>> cal_ctx_prepare/unprepare. Note that for the time being we still always
+>> reserve a pix proc unit.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/platform/ti-vpe/cal.c | 44 +++++++++++++++++++++++++++--
+>>   drivers/media/platform/ti-vpe/cal.h |  2 ++
+>>   2 files changed, 44 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+>> index a6ca341c98bd..e397f59d3bbc 100644
+>> --- a/drivers/media/platform/ti-vpe/cal.c
+>> +++ b/drivers/media/platform/ti-vpe/cal.c
+>> @@ -290,6 +290,37 @@ void cal_quickdump_regs(struct cal_dev *cal)
+>>    * ------------------------------------------------------------------
+>>    */
+>>   
+>> +#define CAL_MAX_PIX_PROC 4
+>> +
+>> +static int cal_reserve_pix_proc(struct cal_dev *cal)
+>> +{
+>> +	unsigned long ret;
+>> +
+>> +	spin_lock(&cal->v4l2_dev.lock);
+>> +
+>> +	ret = find_first_zero_bit(&cal->reserve_pix_proc_mask, CAL_MAX_PIX_PROC);
+>> +
+>> +	if (ret == CAL_MAX_PIX_PROC) {
+>> +		spin_unlock(&cal->v4l2_dev.lock);
+>> +		return -ENOSPC;
+>> +	}
+>> +
+>> +	cal->reserve_pix_proc_mask |= BIT(ret);
+>> +
+>> +	spin_unlock(&cal->v4l2_dev.lock);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static void cal_release_pix_proc(struct cal_dev *cal, unsigned int pix_proc_num)
+>> +{
+>> +	spin_lock(&cal->v4l2_dev.lock);
+>> +
+>> +	cal->reserve_pix_proc_mask &= ~BIT(pix_proc_num);
+>> +
+>> +	spin_unlock(&cal->v4l2_dev.lock);
+>> +}
+>> +
+>>   static void cal_ctx_csi2_config(struct cal_ctx *ctx)
+>>   {
+>>   	u32 val;
+>> @@ -433,12 +464,22 @@ static bool cal_ctx_wr_dma_stopped(struct cal_ctx *ctx)
+>>   
+>>   int cal_ctx_prepare(struct cal_ctx *ctx)
+>>   {
+>> +	int ret;
+>> +
+>> +	ret = cal_reserve_pix_proc(ctx->cal);
+>> +	if (ret < 0) {
+>> +		ctx_err(ctx, "Failed to reserve pix proc: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	ctx->pix_proc = ret;
+> 
+> I wonder if this is the right place to allocate a context, it may be
+> better to reject invalid pipeline configurations earlier on. It's fine
+> for now, we can revisit this in subsequent patches, with the full
+> multiplexed streams implementation.
 
-On Fri, Apr 16, 2021 at 4:37 PM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/nouveau/nouveau_bo.c: In function =E2=80=98nouveau_ttm_t=
-t_populate=E2=80=99:
->  drivers/gpu/drm/nouveau/nouveau_bo.c:1228:17: warning: variable =E2=80=
-=98dev=E2=80=99 set but not used [-Wunused-but-set-variable]
->  drivers/gpu/drm/nouveau/nouveau_bo.c: In function =E2=80=98nouveau_ttm_t=
-t_unpopulate=E2=80=99:
->  drivers/gpu/drm/nouveau/nouveau_bo.c:1252:17: warning: variable =E2=80=
-=98dev=E2=80=99 set but not used [-Wunused-but-set-variable]
->
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: Jeremy Kolb <jkolb@brandeis.edu>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ----
->  1 file changed, 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouve=
-au/nouveau_bo.c
-> index 3e09df0472ce4..37b3d2c10f5c5 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -1255,7 +1255,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
->  {
->         struct ttm_tt *ttm_dma =3D (void *)ttm;
->         struct nouveau_drm *drm;
-> -       struct device *dev;
->         bool slave =3D !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
->
->         if (ttm_tt_is_populated(ttm))
-> @@ -1268,7 +1267,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
->         }
->
->         drm =3D nouveau_bdev(bdev);
-> -       dev =3D drm->dev->dev;
->
->         return ttm_pool_alloc(&drm->ttm.bdev.pool, ttm, ctx);
->  }
-> @@ -1278,14 +1276,12 @@ nouveau_ttm_tt_unpopulate(struct ttm_device *bdev=
-,
->                           struct ttm_tt *ttm)
->  {
->         struct nouveau_drm *drm;
-> -       struct device *dev;
->         bool slave =3D !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
->
->         if (slave)
->                 return;
->
->         drm =3D nouveau_bdev(bdev);
-> -       dev =3D drm->dev->dev;
->
->         return ttm_pool_free(&drm->ttm.bdev.pool, ttm);
->  }
-> --
-> 2.27.0
->
-> _______________________________________________
-> Nouveau mailing list
-> Nouveau@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/nouveau
+Earlier than what? Even before cal_start_streaming()? I guess we could 
+do this in cal_vb2_ioctl_reqbufs and cal_vb2_ioctl_create_bufs, but then 
+I'm not sure where to free the pix proc.
 
+> Another option would be to allocate the context in cal_ctx_create() for
+> now, with a call to cal_reserve_pix_proc(), and move it later in the
+> context of the patch series that implements support for multiplexed
+> streams.
+
+For now cal_reserve_pix_proc() will always succeed, as we have 4 pix 
+procs but only ever allocate 2 at the same time. If there is a better 
+place to do this for multiplexed streams, which is not available yet at 
+this patch, then I agree, we could just do this in cal_ctx_create until 
+we have that better place available.
+
+>> +
+>>   	return 0;
+>>   }
+>>   
+>>   void cal_ctx_unprepare(struct cal_ctx *ctx)
+>>   {
+>> -
+>> +	cal_release_pix_proc(ctx->cal, ctx->pix_proc);
+>>   }
+>>   
+>>   void cal_ctx_start(struct cal_ctx *ctx)
+>> @@ -872,7 +913,6 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
+>>   	ctx->dma_ctx = inst;
+>>   	ctx->ppi_ctx = inst;
+>>   	ctx->cport = inst;
+>> -	ctx->pix_proc = inst;
+>>   
+>>   	ret = cal_ctx_v4l2_init(ctx);
+>>   	if (ret)
+>> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+>> index c34b843d2019..01e05e46e48d 100644
+>> --- a/drivers/media/platform/ti-vpe/cal.h
+>> +++ b/drivers/media/platform/ti-vpe/cal.h
+>> @@ -188,6 +188,8 @@ struct cal_dev {
+>>   	struct media_device	mdev;
+>>   	struct v4l2_device	v4l2_dev;
+>>   	struct v4l2_async_notifier notifier;
+>> +
+>> +	unsigned long reserve_pix_proc_mask;
+> 
+> I would have named this used_pix_proc_mask.
+
+The name has a typo, and should actually be 'reserved_pix_proc_mask'. 
+Doesn't 'used' mean that something was used, but may not be used 
+anymore? So... in_use_pix_proc_mask? 'active'? I don't know, I like 
+'reserved' best here.
+
+  Tomi
