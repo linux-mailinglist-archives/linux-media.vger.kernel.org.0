@@ -2,203 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 684EE363F1E
-	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 11:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59F62363F98
+	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 12:29:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233360AbhDSJrZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Apr 2021 05:47:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39810 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229635AbhDSJrY (ORCPT
+        id S232344AbhDSKaM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Apr 2021 06:30:12 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45818 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238547AbhDSK3z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Apr 2021 05:47:24 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B9AC06174A
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 02:46:55 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1lYQTz-0008Uf-0A; Mon, 19 Apr 2021 11:46:19 +0200
-Message-ID: <97262466d537402ad4032098ef277d6d47734f1f.camel@pengutronix.de>
-Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in
- probe
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Robin Gong <yibin.gong@nxp.com>,
-        Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Timur Tabi <timur@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "S.j. Wang" <shengjiu.wang@nxp.com>, Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "perex@perex.cz" <perex@perex.cz>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Date:   Mon, 19 Apr 2021 11:46:15 +0200
-In-Reply-To: <VE1PR04MB6638EE85485768351755557B89499@VE1PR04MB6638.eurprd04.prod.outlook.com>
-References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
-         <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
-         <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
-         <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
-         <VE1PR04MB66387217EDE5133FD2D8F793894E9@VE1PR04MB6638.eurprd04.prod.outlook.com>
-         <50ef17a2d57b022c48bbca71fd4e074cc3ca9be5.camel@pengutronix.de>
-         <VE1PR04MB6638EE85485768351755557B89499@VE1PR04MB6638.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        Mon, 19 Apr 2021 06:29:55 -0400
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 293A1D4A;
+        Mon, 19 Apr 2021 12:29:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1618828148;
+        bh=/OhZpU17kIakn3YueJOutzYTg+OENoG/I4sAUMO5I00=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ZBByn+akRVe+jpJXvotzqVNfx4tEp3bTbBOVSmfwQgFn4k8Ky0ZK0lWxG6jvACMXM
+         xojxAdjHvZwd6oKwPyavm3djQMyQP/8p1+luVrfMO8Uo4yiWoO+b5bej/qg+JO85rW
+         ICoPMcBT5BmJY4UqScVufE3qx9P6HYpgOlvK87bs=
+Subject: Re: [PATCH 13/28] media: ti-vpe: cal: clean up CAL_CSI2_VC_IRQ_*
+ macros
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
+References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
+ <20210412113457.328012-14-tomi.valkeinen@ideasonboard.com>
+ <YHwm9W5/tv0J7sU9@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <92c7d132-bedf-1882-8203-bec7e8a93a73@ideasonboard.com>
+Date:   Mon, 19 Apr 2021 13:29:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <YHwm9W5/tv0J7sU9@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Montag, dem 19.04.2021 um 07:17 +0000 schrieb Robin Gong:
-> Hi Lucas,
+On 18/04/2021 15:32, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> On 2021/04/14 Lucas Stach <l.stach@pengutronix.de> wrote:
-> > Hi Robin,
-> > 
-> > Am Mittwoch, dem 14.04.2021 um 14:33 +0000 schrieb Robin Gong:
-> > > On 2020/05/20 17:43 Lucas Stach <l.stach@pengutronix.de> wrote:
-> > > > Am Mittwoch, den 20.05.2020, 16:20 +0800 schrieb Shengjiu Wang:
-> > > > > Hi
-> > > > > 
-> > > > > On Tue, May 19, 2020 at 6:04 PM Lucas Stach
-> > > > > <l.stach@pengutronix.de>
-> > > > wrote:
-> > > > > > Am Dienstag, den 19.05.2020, 17:41 +0800 schrieb Shengjiu Wang:
-> > > > > > > There are two requirements that we need to move the request of
-> > > > > > > dma channel from probe to open.
-> > > > > > 
-> > > > > > How do you handle -EPROBE_DEFER return code from the channel
-> > > > > > request if you don't do it in probe?
-> > > > > 
-> > > > > I use the dma_request_slave_channel or dma_request_channel instead
-> > > > > of dmaengine_pcm_request_chan_of. so there should be not
-> > > > > -EPROBE_DEFER return code.
-> > > > 
-> > > > This is a pretty weak argument. The dmaengine device might probe
-> > > > after you try to get the channel. Using a function to request the
-> > > > channel that doesn't allow you to handle probe deferral is IMHO a
-> > > > bug and should be fixed, instead of building even more assumptions on top
-> > of it.
-> > > > 
-> > > > > > > - When dma device binds with power-domains, the power will be
-> > > > > > > enabled when we request dma channel. If the request of dma
-> > > > > > > channel happen on probe, then the power-domains will be always
-> > > > > > > enabled after kernel boot up,  which is not good for power
-> > > > > > > saving,  so we need to move the request of dma channel to
-> > > > > > > .open();
-> > > > > > 
-> > > > > > This is certainly something which could be fixed in the
-> > > > > > dmaengine driver.
-> > > > > 
-> > > > > Dma driver always call the pm_runtime_get_sync in
-> > > > > device_alloc_chan_resources, the device_alloc_chan_resources is
-> > > > > called when channel is requested. so power is enabled on channel
-> > request.
-> > > > 
-> > > > So why can't you fix the dmaengine driver to do that RPM call at a
-> > > > later time when the channel is actually going to be used? This will
-> > > > allow further power savings with other slave devices than the audio PCM.
-> > > Hi Lucas,
-> > >   Thanks for your suggestion. I have tried to implement runtime
-> > > autosuspend in fsl-edma driver on i.mx8qm/qxp with delay time (2 sec)
-> > > for this feature as below (or you can refer to
-> > > drivers/dma/qcom/hidma.c), and pm_runtime_get_sync/
-> > > pm_runtime_put_autosuspend in all dmaengine driver interface like
-> > > device_alloc_chan_resources/device_prep_slave_sg/device_prep_dma_cycli
-> > > c/
-> > > device_tx_status...
-> > > 
-> > > 
-> > >                 pm_runtime_use_autosuspend(fsl_chan->dev);
-> > >                 pm_runtime_set_autosuspend_delay(fsl_chan->dev,
-> > 2000);
-> > > 
-> > > That could resolve this audio case since the autosuspend could suspend
-> > > runtime after
-> > > 2 seconds if there is no further dma transfer but only channel
-> > request(device_alloc_chan_resources).
-> > > But unfortunately, it cause another issue. As you know, on our
-> > > i.mx8qm/qxp, power domain done by scfw (drivers/firmware/imx/scu-pd.c)
-> > over mailbox:
-> > >  imx_sc_pd_power()->imx_scu_call_rpc()->
-> > > imx_scu_ipc_write()->mbox_send_message()
-> > > which means have to 'waits for completion', meanwhile, some driver
-> > > like tty will call dmaengine interfaces in non-atomic case as below,
-> > > 
-> > > static int uart_write(struct tty_struct *tty, const unsigned char
-> > > *buf, int count) {
-> > >    .......
-> > > 	    port = uart_port_lock(state, flags);
-> > >    ......
-> > >         __uart_start(tty);  //call start_tx()->dmaengine_prep_slave_sg...
-> > >         uart_port_unlock(port, flags);
-> > >         return ret;
-> > > }
-> > > 
-> > > Thus dma runtime resume may happen in that timing window and cause
-> > kernel alarm.
-> > > I'm not sure whether there are similar limitations on other driver
-> > > subsystem. But for me, It looks like the only way to resolve the
-> > > contradiction between tty and scu-pd (hardware limitation on
-> > > i.mx8qm/qxp) is to give up autosuspend and keep pm_runtime_get_sync
-> > only in device_alloc_chan_resources because request channel is a safe
-> > non-atomic phase.
-> > > Do you have any idea? Thanks in advance.
-> > 
-> > If you look closely at the driver you used as an example (hidma.c) it looks like
-> > there is already something in there, which looks very much like what you need
-> > here:
-> > 
-> > In hidma_issue_pending() the driver tries to get the device to runtime resume.
-> > If this doesn't work, maybe due to the power domain code not being able to
-> > be called in atomic context, the actual work of waking up the dma hardware
-> > and issuing the descriptor is shunted to a tasklet.
-> > 
-> > If I'm reading this right, this is exactly what you need here to be able to call the
-> > dmaengine code from atomic context: try the rpm get and issue immediately
-> > when possible, otherwise shunt the work to a non- atomic context where you
-> > can deal with the requirements of scu-pd.
-> Yes, I can schedule_work to worker to runtime resume edma channel by calling scu-pd.
-> But that means all dmaengine interfaces should be taken care, not only issue_pending()
-> but also dmaengine_terminate_all()/dmaengine_pause()/dmaengine_resume()/
-> dmaengine_tx_status(). Not sure why hidma only take care issue_pending. Maybe
-> their user case is just for memcpy/memset so that no further complicate case as ALSA
-> or TTY.
-> Besides, for autosuspend in cyclic, we have to add pm_runtime_get_sync into interrupt
-> handler as qcom/bam_dma.c. but how could resolve the scu-pd's non-atmoic limitation
-> in interrupt handler?  
+> Thank you for the patch.
+> 
+> On Mon, Apr 12, 2021 at 02:34:42PM +0300, Tomi Valkeinen wrote:
+>> The macros related to CAL_CSI2_VC_IRQ can be handled better by having
+>> the VC number as a macro parameter.
+>>
+>> Note that the macros are not used anywhere yet, so no other changes are
+>> needed.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/platform/ti-vpe/cal_regs.h | 30 +++++-------------------
+>>   1 file changed, 6 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
+>> index 93d9bf1f3c00..ed658175a444 100644
+>> --- a/drivers/media/platform/ti-vpe/cal_regs.h
+>> +++ b/drivers/media/platform/ti-vpe/cal_regs.h
+>> @@ -406,30 +406,12 @@
+>>   #define CAL_CSI2_TIMING_STOP_STATE_X16_IO1_MASK		BIT(14)
+>>   #define CAL_CSI2_TIMING_FORCE_RX_MODE_IO1_MASK		BIT(15)
+>>   
+>> -#define CAL_CSI2_VC_IRQ_FS_IRQ_0_MASK			BIT(0)
+>> -#define CAL_CSI2_VC_IRQ_FE_IRQ_0_MASK			BIT(1)
+>> -#define CAL_CSI2_VC_IRQ_LS_IRQ_0_MASK			BIT(2)
+>> -#define CAL_CSI2_VC_IRQ_LE_IRQ_0_MASK			BIT(3)
+>> -#define CAL_CSI2_VC_IRQ_CS_IRQ_0_MASK			BIT(4)
+>> -#define CAL_CSI2_VC_IRQ_ECC_CORRECTION0_IRQ_0_MASK	BIT(5)
+>> -#define CAL_CSI2_VC_IRQ_FS_IRQ_1_MASK			BIT(8)
+>> -#define CAL_CSI2_VC_IRQ_FE_IRQ_1_MASK			BIT(9)
+>> -#define CAL_CSI2_VC_IRQ_LS_IRQ_1_MASK			BIT(10)
+>> -#define CAL_CSI2_VC_IRQ_LE_IRQ_1_MASK			BIT(11)
+>> -#define CAL_CSI2_VC_IRQ_CS_IRQ_1_MASK			BIT(12)
+>> -#define CAL_CSI2_VC_IRQ_ECC_CORRECTION0_IRQ_1_MASK	BIT(13)
+>> -#define CAL_CSI2_VC_IRQ_FS_IRQ_2_MASK			BIT(16)
+>> -#define CAL_CSI2_VC_IRQ_FE_IRQ_2_MASK			BIT(17)
+>> -#define CAL_CSI2_VC_IRQ_LS_IRQ_2_MASK			BIT(18)
+>> -#define CAL_CSI2_VC_IRQ_LE_IRQ_2_MASK			BIT(19)
+>> -#define CAL_CSI2_VC_IRQ_CS_IRQ_2_MASK			BIT(20)
+>> -#define CAL_CSI2_VC_IRQ_ECC_CORRECTION0_IRQ_2_MASK	BIT(21)
+>> -#define CAL_CSI2_VC_IRQ_FS_IRQ_3_MASK			BIT(24)
+>> -#define CAL_CSI2_VC_IRQ_FE_IRQ_3_MASK			BIT(25)
+>> -#define CAL_CSI2_VC_IRQ_LS_IRQ_3_MASK			BIT(26)
+>> -#define CAL_CSI2_VC_IRQ_LE_IRQ_3_MASK			BIT(27)
+>> -#define CAL_CSI2_VC_IRQ_CS_IRQ_3_MASK			BIT(28)
+>> -#define CAL_CSI2_VC_IRQ_ECC_CORRECTION0_IRQ_3_MASK	BIT(29)
+>> +#define CAL_CSI2_VC_IRQ_FS_IRQ_MASK(n)			BIT(0 + (n * 8))
+> 
+> This should be BIT(0 + (n) * 8). Same below.
+> 
+> As they're single bits, I would have dropped the _MASK suffix.
 
-Sure, this all needs some careful analysis on how those functions are
-called and what to do about atomic callers, but it should be doable. I
-don't see any fundamental issues here.
+All the BIT(x) macros use _MASK suffix in the driver.
 
-I don't see why you would ever need to wake the hardware in an
-interrupt handler. Surely the hardware is already awake, as it wouldn't
-signal an interrupt otherwise. And for the issue with scu-pd you only
-care about the state transition of suspended->running. If the hardware
-is already running/awake, the runtime pm state handling is nothing more
-than bumping a refcount, which is atomic safe. Putting the HW in
-suspend is already handled asynchronously in a worker, so this is also
-atomic safe.
-
-Regards,
-Lucas
-
+  Tomi
