@@ -2,107 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA3003649A6
-	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 20:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 502DA3649BA
+	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 20:21:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240736AbhDSSMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Apr 2021 14:12:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39342 "EHLO
+        id S240865AbhDSSW2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Apr 2021 14:22:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240661AbhDSSMQ (ORCPT
+        with ESMTP id S240096AbhDSSWY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Apr 2021 14:12:16 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D61B6C06174A
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 11:11:44 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id v6so53063149ejo.6
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 11:11:44 -0700 (PDT)
+        Mon, 19 Apr 2021 14:22:24 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A98CFC061761
+        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 11:21:54 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id s20so2369224plr.13
+        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 11:21:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gTaeu8T5/93R/wZbECMlHzMu3e7CcUa8/RLbinoCvVs=;
-        b=jZ5sSym/snSpxhPaAScyhUfcoOmWsXnuRKKM8xSit8v0R17JYCBTdOhjCfq2++IzKO
-         oEat0VbR27MuwuMsQ4JtSgTQuhhIY58N0Wl2mzrCgumvKAz8PmsqE+xtRDJ6pHTfTBsP
-         LhYHAXfBmdzi7QYXXEuydQ6BRAgh9Pb7wKBOgdXe3/mRY2qGy/J5Y+D8TzPNuOb0z2yY
-         J2O5+vuiHvs1RBosEhrHnW70zGsDivv/IbuGIK+Xs4kMcJEzk7f8EID/GpsAINlwL873
-         lQJHJCSCiXtKerXUrMS9MDlI6BFvQz3emP6Qk2/YnWHTAIbWNTeKygZBjmJTSVX+L+0G
-         i5uA==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=DKBt0bp0TTUgQvWPxoeal8fGy3PXdZiGA8cPBtHBn2U=;
+        b=IDPh+v7Nlj5LhsRlTw3r13uDJHgp7ZoeNXF689zP+Jx/mhY0EMgT6B4RFBPpENQBs1
+         pvFpZ3FT4+m74+Zna3vdjvvi44xLqs9JqR6Ob3blEJOlFXF5luVSq1IwRmGVayZG9hoP
+         H8Wc+TCBmdTru7S/n9qTN0hR2XRUjzvw2zKsyq4jLySVNQXDZDQUXiNdBhw7e8iUKsr0
+         Kx3a9CEqgL68OnwzDa1D6gNK0YEnSW2OK0P7ALk9yxRDITzaB80REEMOfHrgfJa2bNP8
+         gdwKuxEtlxj4xnNYrpIsJvkdFAyYMN/9zBbqQEsFN7pUvIwShRRs3SE/WohQ5GdSNeU6
+         xBew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gTaeu8T5/93R/wZbECMlHzMu3e7CcUa8/RLbinoCvVs=;
-        b=db+nl1gusecHQBaBYF4HUNgik/OKMtEZi8wxninLUYEszLgoLOU7XcZpablx1Wi+HV
-         pabaB18CjwFTkdtJK5Rf+mfssLQY+NuqRo5gSQIZjqn+i6TitjI54h7V9B/oN7UTv33A
-         9Z5nS1O8tsl9vR3YcxUqeJl0z72MvPVNC51MJyTh0c6CA9Ar3l9KWZqnt8izWeg3u0lr
-         Ikh0jwAHhQCH2RCBigr44zyLlLLlpp4h+PBe/f8bqAcFezFkZBs56wf0A06vs/Zeh3xO
-         TA18Xkk8SuxXPxm9o4qUDe3eh9D8wiA60Q/FzYdK9OvHHXz0/lQTIC3pCjm+6J7EYDMd
-         +PiQ==
-X-Gm-Message-State: AOAM530NUySfg86ll2Tdqe6MSxLtr+yQM++8Yj3om1i6rTdD+7OlNfw2
-        Id7Me3nVeKwe7rm7n8faZFXhbw==
-X-Google-Smtp-Source: ABdhPJxQleLF5lv6WUtsubFSg4zEoovtcn6G3H2AKMNATKDV3rgsVFaJpoWWqXTgHRjo/HbU8ReZAg==
-X-Received: by 2002:a17:906:b1d9:: with SMTP id bv25mr22642338ejb.230.1618855903569;
-        Mon, 19 Apr 2021 11:11:43 -0700 (PDT)
-Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de. [84.172.85.33])
-        by smtp.googlemail.com with ESMTPSA id c19sm13363087edu.20.2021.04.19.11.11.42
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=DKBt0bp0TTUgQvWPxoeal8fGy3PXdZiGA8cPBtHBn2U=;
+        b=LQYLBJkYxtvNSvlcRsKw1/em0QDjb6rOxXsRGqVKCWcGSw1dM27CLBeow4D9mlK94L
+         ZZbDRRhk1vCZe32vU6wiVb1vcwewQ9w2HyULNprrsSzBqMDUpV5+h00fyEZJYbUgQ/7J
+         vHUbzU06fBqUiid+0w9/qVu7+CXBiTPaJOCgQ+P0qD3SsAKnWkL6zx4kXXG37pucdaVQ
+         eticnl1z0XWX7nHG+g6KCA8g3jRL6oKQUVFIsbIdpp0O3OosYF3qi+3oma/hyhEy5RPb
+         KdMKceM1LdnD3YaKF85r5NGBwS7BMjRdviKcO0K+2lqtbNDlmnmhXBLA09J+T6uKAYGo
+         UWZQ==
+X-Gm-Message-State: AOAM532rtlDpjpxQKTuMP4Otb/rJu8XwAkbVj4c0BizeF+u6ERu/3mPU
+        qHrzkA7rJt0N8JPFAsGmMgz11Q==
+X-Google-Smtp-Source: ABdhPJySTiB62+fr1hP716taw9mSevM+JdM2Cz6AlKimXZ/yP3GxW7LcSVLAYU9+u/SZ9eGusKkFTg==
+X-Received: by 2002:a17:90a:bb94:: with SMTP id v20mr419834pjr.144.1618856514155;
+        Mon, 19 Apr 2021 11:21:54 -0700 (PDT)
+Received: from localhost (c-71-197-186-152.hsd1.wa.comcast.net. [71.197.186.152])
+        by smtp.gmail.com with ESMTPSA id b7sm12900585pfi.42.2021.04.19.11.21.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 11:11:42 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: [PATCH] configure.ac: Fix building without libudev
-Date:   Mon, 19 Apr 2021 20:11:07 +0200
-Message-Id: <20210419181107.566469-1-niklas.soderlund@ragnatech.se>
-X-Mailer: git-send-email 2.31.1
+        Mon, 19 Apr 2021 11:21:53 -0700 (PDT)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Neil Armstrong <narmstrong@baylibre.com>, hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH] media: meson-ge2d: fix rotation parameters
+In-Reply-To: <20210412134833.3467694-1-narmstrong@baylibre.com>
+References: <20210412134833.3467694-1-narmstrong@baylibre.com>
+Date:   Mon, 19 Apr 2021 11:21:53 -0700
+Message-ID: <7hh7k2xhha.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since the addition of the --without-libudev option automatic detection
-of missing libudev have been broken and fails with,
+Neil Armstrong <narmstrong@baylibre.com> writes:
 
-    configure: error: Package requirements (libudev) were not met:
+> With these settings, 90deg and 270deg rotation leads to inverted
+> vertical, fix them to have correct rotation.
+>
+> Fixes: 59a635327ca7 ("media: meson: Add M2M driver for the Amlogic GE2D Accelerator Unit")
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 
-    Package 'libudev', required by 'virtual:world', not found
+Reviewed-by: Kevin Hilman <khilman@baylibre.com>
 
-This is because autotools macro PKG_CHECK_MODULES action-if-not-found
-behaves differently from most other macros,
-
-    As most of the original autoconf macros, there are boolean values
-    provided, for the cases when the check succeeded or failed. In
-    contrast with almost all of the original macros, though, the default
-    action-if-not-found will end the execution with an error for not
-    having found the dependency.
-
-As the AS_IF check following the PKG_CHECK_MODULES prints a warning if
-libudev is not found the intention can't have been to fail configure if
-libudev not found. Fix this by setting have_libudev=no instead of
-failing due to the default action.
-
-Fixes: 49316dc21f806d0c ("configure.ac: Add --without-libudev option to avoid automagic dep")
-Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
----
- configure.ac | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/configure.ac b/configure.ac
-index 8470116df4b13311..f144a50d034fbda0 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -299,7 +299,7 @@ AC_ARG_WITH([libudev],
- have_libudev=no
- 
- AS_IF([test "x$with_libudev" != xno -o "x$enable_libdvbv5" != xno],
--      [PKG_CHECK_MODULES(libudev, libudev, have_libudev=yes, [])
-+      [PKG_CHECK_MODULES(libudev, libudev, have_libudev=yes, have_libudev=no)
-        AS_IF([test "x$have_libudev" = xyes],
-              [AC_DEFINE([HAVE_LIBUDEV], [], [Use libudev])
-               LIBUDEV_CFLAGS="$libudev_CFLAGS"
--- 
-2.31.1
-
+> ---
+>  drivers/media/platform/meson/ge2d/ge2d.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/platform/meson/ge2d/ge2d.c b/drivers/media/platform/meson/ge2d/ge2d.c
+> index 153612ca96fc..a1393fefa8ae 100644
+> --- a/drivers/media/platform/meson/ge2d/ge2d.c
+> +++ b/drivers/media/platform/meson/ge2d/ge2d.c
+> @@ -757,7 +757,7 @@ static int ge2d_s_ctrl(struct v4l2_ctrl *ctrl)
+>  
+>  		if (ctrl->val == 90) {
+>  			ctx->hflip = 0;
+> -			ctx->vflip = 0;
+> +			ctx->vflip = 1;
+>  			ctx->xy_swap = 1;
+>  		} else if (ctrl->val == 180) {
+>  			ctx->hflip = 1;
+> @@ -765,7 +765,7 @@ static int ge2d_s_ctrl(struct v4l2_ctrl *ctrl)
+>  			ctx->xy_swap = 0;
+>  		} else if (ctrl->val == 270) {
+>  			ctx->hflip = 1;
+> -			ctx->vflip = 1;
+> +			ctx->vflip = 0;
+>  			ctx->xy_swap = 1;
+>  		} else {
+>  			ctx->hflip = 0;
+> -- 
+> 2.25.1
