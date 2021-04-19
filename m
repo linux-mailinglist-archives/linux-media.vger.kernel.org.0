@@ -2,103 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DE9636408F
-	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 13:29:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B57BA3640B5
+	for <lists+linux-media@lfdr.de>; Mon, 19 Apr 2021 13:44:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237751AbhDSL34 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Apr 2021 07:29:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230272AbhDSL3z (ORCPT
+        id S238754AbhDSLo7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Apr 2021 07:44:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35097 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238690AbhDSLo6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Apr 2021 07:29:55 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B585EC06174A
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 04:29:25 -0700 (PDT)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43307D4A;
-        Mon, 19 Apr 2021 13:29:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618831761;
-        bh=oM0gW+V6uQXyJGm+lSsom52vX0HJuD7wnAAjs2cvswg=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=DYloTK5qRaNMpdQE75f/Ca+9u8t5JBPoQZv56r46sAIPiJtla2sw8idYI9oUJ/H6m
-         KDCThzqJF8aeNnhUKAzy1xI67dgRpOzXhvl0PlpyO1fGUSvUEbEGFNTOGLY8GZM2qw
-         bfPSQzrjTCijhK7RINaF8jr9tHlhghjXx7Gdk2xk=
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
-References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
- <20210412113457.328012-16-tomi.valkeinen@ideasonboard.com>
- <YHwqLSgwYmt9ZAOU@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 15/28] media: ti-vpe: cal: remove wait when stopping
- camerarx
-Message-ID: <9d6b96f4-cdb0-5820-965d-7135a926829f@ideasonboard.com>
-Date:   Mon, 19 Apr 2021 14:29:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Mon, 19 Apr 2021 07:44:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618832668;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=y644e2+cDS7jfFg2KG/GSDehn2zis7rBbTsBszQ7ZZc=;
+        b=X4dUySfFg7+YADTeFr7pfxkCN0H0vviMDYuUSxPyrGMFWpK89rYK8d0cq6c37l0LluP9cX
+        Q4kalnvwiRswpATNydtIuEsn0kzi+zCnA37wRuMXjanRpopn2NKq6/Xz44z/pTTjpUTNyW
+        cd8QiCPvFP4acW+CUDhlp5Pa3KnLtP4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-81-QfR-_nLoOlSx8ND2M_4pAQ-1; Mon, 19 Apr 2021 07:44:27 -0400
+X-MC-Unique: QfR-_nLoOlSx8ND2M_4pAQ-1
+Received: by mail-wr1-f70.google.com with SMTP id j4-20020adfe5040000b0290102bb319b87so8922951wrm.23
+        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 04:44:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=y644e2+cDS7jfFg2KG/GSDehn2zis7rBbTsBszQ7ZZc=;
+        b=oxttb4vwJFvBfIT/3SQ5tTY7CaLnhIsfmbzIWuUR3+R8pnJRzhkH575FTT8n8GIywI
+         HGI471BH384CmU4tGLdfSgMcs1xTxKzpPuSybcBa42FFzMu77MLHWEVrKkepK2cA2Z6D
+         pnawT0uCHRDEqODByXX689I9UbraBzaAWw95pdOPxfTNz4ps0IGnVLlEeyxFOglBJGrp
+         rpHYWrMwycSp0GVHedrqsBE55/mKPbWSxXgkFuj7mmW/CY04uxCtiYYYHrDDSHOGwE18
+         6x1EPsLirKac2fD1Z+gex1esNJzL86Jz4tv4h2vlcrr1n/QRtD1Kl4vPB7kk9KqwVHT0
+         J0Lw==
+X-Gm-Message-State: AOAM530hYbWSfZ4AEfyrWXDjpIy3AGckSMaj0ZA9PtqpWQw1IefxUZVH
+        RZJyIgqQRGKj9pDiK9BBOfYgnihiy9BBtPcch+pTWgAu+O/RP7DQwQA6kxcGwGlftdPjB0omFsh
+        rVWq6+Atq2R4ypYHHBS09aJhU1GYjQBa/uOBRKRU=
+X-Received: by 2002:a5d:58fa:: with SMTP id f26mr13544848wrd.177.1618832666331;
+        Mon, 19 Apr 2021 04:44:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjlugWDWLZH+5rQly0tRCQFzwosoMjd14Y9bJuAnMN5V/27+yHQMkQQGZjse8w/vAsAyaiT8Vc7UJvMHq5TOE=
+X-Received: by 2002:a5d:58fa:: with SMTP id f26mr13544835wrd.177.1618832666229;
+ Mon, 19 Apr 2021 04:44:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YHwqLSgwYmt9ZAOU@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210416143725.2769053-1-lee.jones@linaro.org> <20210416143725.2769053-8-lee.jones@linaro.org>
+In-Reply-To: <20210416143725.2769053-8-lee.jones@linaro.org>
+From:   Karol Herbst <kherbst@redhat.com>
+Date:   Mon, 19 Apr 2021 13:44:15 +0200
+Message-ID: <CACO55tvQ=dvDbwzWmwn7ZOwqyStEXn3=8zab6rQSiau3OkKktQ@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH 07/40] drm/nouveau/nouveau_bo: Remove unused
+ variables 'dev'
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Jeremy Kolb <jkolb@brandeis.edu>, David Airlie <airlied@linux.ie>,
+        nouveau <nouveau@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linaro-mm-sig@lists.linaro.org, Ben Skeggs <bskeggs@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/04/2021 15:46, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Apr 12, 2021 at 02:34:44PM +0300, Tomi Valkeinen wrote:
->> Asserting ComplexIO reset seems to affect the HW (ie. asserting reset
->> will break an active capture), but the RESET_DONE bit never changes to
->> "reset is ongoing" state. Thus we always get a timeout.
->>
->> Drop the wait, as it seems to achieve nothing.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/platform/ti-vpe/cal-camerarx.c | 15 ++-------------
->>   1 file changed, 2 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
->> index 0354f311c5d2..245c601b992c 100644
->> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
->> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
->> @@ -405,7 +405,6 @@ static int cal_camerarx_start(struct cal_camerarx *phy)
->>   
->>   static void cal_camerarx_stop(struct cal_camerarx *phy)
->>   {
->> -	unsigned int i;
->>   	int ret;
->>   
->>   	cal_camerarx_ppi_disable(phy);
->> @@ -419,19 +418,9 @@ static void cal_camerarx_stop(struct cal_camerarx *phy)
->>   			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL,
->>   			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK);
->>   
->> -	/* Wait for power down completion */
->> -	for (i = 0; i < 10; i++) {
->> -		if (cal_read_field(phy->cal,
->> -				   CAL_CSI2_COMPLEXIO_CFG(phy->instance),
->> -				   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_MASK) ==
->> -		    CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING)
-> 
-> Isn't this the wrong condition ? I would have expected
-> CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETCOMPLETED, not
-> CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING. That could explain why
-> you always get a timeout.
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
 
-No, I don't think so. The complexio reset is set active just before the 
-wait. So the reset status should show reset ongoing, until at some point 
-we release the reset (we do that when starting the PHY again).
+On Fri, Apr 16, 2021 at 4:37 PM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> Fixes the following W=3D1 kernel build warning(s):
+>
+>  drivers/gpu/drm/nouveau/nouveau_bo.c: In function =E2=80=98nouveau_ttm_t=
+t_populate=E2=80=99:
+>  drivers/gpu/drm/nouveau/nouveau_bo.c:1228:17: warning: variable =E2=80=
+=98dev=E2=80=99 set but not used [-Wunused-but-set-variable]
+>  drivers/gpu/drm/nouveau/nouveau_bo.c: In function =E2=80=98nouveau_ttm_t=
+t_unpopulate=E2=80=99:
+>  drivers/gpu/drm/nouveau/nouveau_bo.c:1252:17: warning: variable =E2=80=
+=98dev=E2=80=99 set but not used [-Wunused-but-set-variable]
+>
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: Jeremy Kolb <jkolb@brandeis.edu>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouve=
+au/nouveau_bo.c
+> index 3e09df0472ce4..37b3d2c10f5c5 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> @@ -1255,7 +1255,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
+>  {
+>         struct ttm_tt *ttm_dma =3D (void *)ttm;
+>         struct nouveau_drm *drm;
+> -       struct device *dev;
+>         bool slave =3D !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+>
+>         if (ttm_tt_is_populated(ttm))
+> @@ -1268,7 +1267,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
+>         }
+>
+>         drm =3D nouveau_bdev(bdev);
+> -       dev =3D drm->dev->dev;
+>
+>         return ttm_pool_alloc(&drm->ttm.bdev.pool, ttm, ctx);
+>  }
+> @@ -1278,14 +1276,12 @@ nouveau_ttm_tt_unpopulate(struct ttm_device *bdev=
+,
+>                           struct ttm_tt *ttm)
+>  {
+>         struct nouveau_drm *drm;
+> -       struct device *dev;
+>         bool slave =3D !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+>
+>         if (slave)
+>                 return;
+>
+>         drm =3D nouveau_bdev(bdev);
+> -       dev =3D drm->dev->dev;
+>
+>         return ttm_pool_free(&drm->ttm.bdev.pool, ttm);
+>  }
+> --
+> 2.27.0
+>
+> _______________________________________________
+> Nouveau mailing list
+> Nouveau@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/nouveau
 
-The TRM doesn't talk about this, though. So, I guess the status might go 
-to RESETONGOING for a very short time and back to RESETCOMPLETED before 
-the code can see the RESETONGOING. But I suspect the status just stays 
-at RESETCOMPLETED.
-
-  Tomi
