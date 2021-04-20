@@ -2,370 +2,682 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F8663651A8
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 06:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DF9F36527C
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 08:43:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229594AbhDTEzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 00:55:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37840 "EHLO
+        id S230082AbhDTGoS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 02:44:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229821AbhDTEzH (ORCPT
+        with ESMTP id S229577AbhDTGoQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 00:55:07 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 064C5C061763
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 21:54:35 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id w18so43469891edc.0
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 21:54:35 -0700 (PDT)
+        Tue, 20 Apr 2021 02:44:16 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE21BC06174A;
+        Mon, 19 Apr 2021 23:43:45 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id s16so32148855iog.9;
+        Mon, 19 Apr 2021 23:43:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xFIkJ2fkl9LC0QMBhUlEdtBeZKjOJi1lQiDp3v4zRCQ=;
-        b=nmK2lL6z+fNNFNFweN/mY7XmHviUetgxARCEO+u7HbHS0leKwOlxrL5OnCJqLEFzQb
-         y7Oia113JfJT/2uMjTKYOh7zDdSumpZJWDpWpflxfj0/MsdM82MZilrb6QL7EDZ9Mdep
-         toSkRTawvyAo0Vv0K934c0AogTfXCoEfneAkA=
+         :cc:content-transfer-encoding;
+        bh=+G8HYiVkt68pL8aTPL9DdLcgGB2ZBBVXHvtf8BnFkd0=;
+        b=s76xe10EVdPV2U7oTmfWWoWbej5dLJ3FRmqO1Xeo6vdZbn8QSLRWAwBmjlrLSXqdA2
+         qym0CxoB4mgPC5LhXS5Fs+aRPL7s5DmP0Gt30hDI5knb16IPglJuEIaa1sqy+tnmqbZw
+         ohwvKXrTCNEJCtavKgjhIGb8HEEsRzo3iUYWONGRjz9gsOzWqrLsEU5SM9gMK6QPOiTt
+         6iIolaz2aWMSkH8WWwqH70nfkH78U6n24iUB15DWddoJpxIIMET1TKLoUBK0oJ7kGCo6
+         nLJz2kpDW9XI+yuQsIcAyxrJezB89ua/BQxrdEY0is19FpybtA3JlODLFSaYOuGYSQbt
+         qa0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xFIkJ2fkl9LC0QMBhUlEdtBeZKjOJi1lQiDp3v4zRCQ=;
-        b=R3qL0ENLxeXM5enIreFnzPzvbYFQgHSma+bTdNTem7ya7daRpwHIryIvHdro53SwVP
-         SDeHT4phiCshb8yubzteaU8R0ViPA5gaJkBm9S4sIaVEXb64zuCA3Ast/FmcPwG/Mr/C
-         FJ4f22X6kYrT7mVnMpoDrwwa44gfjpsvVfb0GfB6lZB6ZbNz/4EFOVsGr8HEPPntGUF9
-         Wa3DTk5z1En/97oIW40pot3xNlw1zWzm2wuAzeUbA2vqw7NEq+0RxqSa3RxnHgeM7Qe2
-         75o9j4/tkU0XAWB9UB1lndvBaDmykyNM9XtXS6tXRQxxXnH1GXJ/mjNZWb2myAFyYFel
-         75oQ==
-X-Gm-Message-State: AOAM533+veFqhLNd/WcZ3KzGhyZseimdn8zBvlHjsbeMhpXh3aMMD/8d
-        fM5/PJqhunfiYdB8HvVNYsELpFCOS/AePw==
-X-Google-Smtp-Source: ABdhPJwHJGz9F0HitzjaR2G72hDafgsef5A8UlwRwcBqhGlv7yW5rodP6M7Sptb+DGdsu7YSBXjw6Q==
-X-Received: by 2002:aa7:dcd3:: with SMTP id w19mr5445992edu.157.1618894474255;
-        Mon, 19 Apr 2021 21:54:34 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
-        by smtp.gmail.com with ESMTPSA id m14sm5080770edr.45.2021.04.19.21.54.33
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Apr 2021 21:54:33 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id x7so36129178wrw.10
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 21:54:33 -0700 (PDT)
-X-Received: by 2002:adf:d1ce:: with SMTP id b14mr18718192wrd.159.1618894472584;
- Mon, 19 Apr 2021 21:54:32 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=+G8HYiVkt68pL8aTPL9DdLcgGB2ZBBVXHvtf8BnFkd0=;
+        b=QZtqwRpitIQVh/7snETz8Zw/aW2ePyzo7HQ1iiG19POZxnvqIEm4zhJnxeygw5Zlho
+         KGgbeZpWbenCajZzq9muyTp8YaydzNHeJzw4Vk+iSAkQRHYQNaaPz+pTnf8+uGOoPP0I
+         vohw3eW2bf+za/yKolsj1mXzWrDEBM6yIypl4Gvo3d8DgTEa9nk3QefqaGphh3lfRsZC
+         wWO4XN11TFYZST3RrUfwM1jkxs6GTIiTaoZY7ULEa2lOCHnZfsiuQBQ873Tmx2Gf0ZtD
+         6cZ/oWzQt2bl4yb89rHp31dAqtZAlARSyuY4dojRfc1yi5DH9DQwxJWxQSGVRJ3v9++9
+         WXhQ==
+X-Gm-Message-State: AOAM530YXPJowIiYRyXM5MMG/1dtwbrvIUQJ5Cu88Iy7jvhLKEbXzOcy
+        EvWS5+BYYcCAZt1Nz/DTtKL0tjVZ7rf/7xa6kcU=
+X-Google-Smtp-Source: ABdhPJy+/J8a9VDyjHLzKzz0NxnyhLpcVPezfV09q0s3imtHxt1ikC/Oh9oh06TLqfre1ua3t0svGwmV7B+nVM9JCC8=
+X-Received: by 2002:a5e:c114:: with SMTP id v20mr4089864iol.110.1618901024936;
+ Mon, 19 Apr 2021 23:43:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201221164819.792019-1-ribalda@chromium.org> <20201221164819.792019-10-ribalda@chromium.org>
- <X+HKpxzbVC29lNlk@pendragon.ideasonboard.com> <CANiDSCv_+Usx4QkG4ypGWbCKvusiugYGgeNRYP8GZJ_pvuhjEQ@mail.gmail.com>
- <X+L6KSlpKERPAxsm@pendragon.ideasonboard.com> <CANiDSCsvOdB7oAGBwupb_UrV=SND96Pc2AuWu=dPAbTA-boXhQ@mail.gmail.com>
- <CANiDSCvMWtWUJT76T_4ksoc9bA0ev14kGs1S8Ashw+06iPw6tA@mail.gmail.com>
-In-Reply-To: <CANiDSCvMWtWUJT76T_4ksoc9bA0ev14kGs1S8Ashw+06iPw6tA@mail.gmail.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 20 Apr 2021 13:54:21 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5By3GVrzww4AvnhCOdBxdC6udu5=kBCVk_yr6aZ7M1wQg@mail.gmail.com>
-Message-ID: <CAAFQd5By3GVrzww4AvnhCOdBxdC6udu5=kBCVk_yr6aZ7M1wQg@mail.gmail.com>
-Subject: Re: [PATCH v5 09/12] media: uvcvideo: Implement UVC_QUIRK_PRIVACY_DURING_STREAM
-To:     Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <1618459535-8141-1-git-send-email-dillon.minfei@gmail.com> <1618459535-8141-4-git-send-email-dillon.minfei@gmail.com>
+In-Reply-To: <1618459535-8141-4-git-send-email-dillon.minfei@gmail.com>
+From:   dillon min <dillon.minfei@gmail.com>
+Date:   Tue, 20 Apr 2021 14:43:08 +0800
+Message-ID: <CAL9mu0LJCa3OXYdTj2e3pMcC=-S=EQN4UqkgnWOFsRsBGxQhLw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] arm: dts: imx: Add i.mx6q DaSheng COM-9XX SBC
+ board support
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>, krzk@kernel.org,
+        linux@rempel-privat.de, s.riedmueller@phytec.de,
+        matthias.schiffer@ew.tq-group.com, leoyang.li@nxp.com,
+        arnd@arndb.de, olof@lixom.net,
+        Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de,
+        festevam@gmail.com, prabhakar.csengg@gmail.com, mchehab@kernel.org
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-imx@nxp.com, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 23, 2020 at 9:56 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> Hi again
->
-> On Wed, Dec 23, 2020 at 9:31 AM Ricardo Ribalda <ribalda@chromium.org> wrote:
-> >
-> > Hi Laurent
-> >
-> > On Wed, Dec 23, 2020 at 9:05 AM Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> > > Hi Ricardo,
-> > >
-> > > On Tue, Dec 22, 2020 at 09:04:19PM +0100, Ricardo Ribalda wrote:
-> > > > On Tue, Dec 22, 2020 at 11:30 AM Laurent Pinchart wrote:
-> > > > > On Mon, Dec 21, 2020 at 05:48:16PM +0100, Ricardo Ribalda wrote:
-> > > > > > Some devices, can only read the privacy_pin if the device is
-> > > > >
-> > > > > s/devices,/devices/
-> > > > >
-> > > > > > streaming.
-> > > > > >
-> > > > > > This patch implement a quirk for such devices, in order to avoid invalid
-> > > > > > reads and/or spurious events.
-> > > > > >
-> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > ---
-> > > > > >  drivers/media/usb/uvc/uvc_driver.c | 57 ++++++++++++++++++++++++++++--
-> > > > > >  drivers/media/usb/uvc/uvc_queue.c  |  3 ++
-> > > > > >  drivers/media/usb/uvc/uvcvideo.h   |  4 +++
-> > > > > >  3 files changed, 61 insertions(+), 3 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > index 72516101fdd0..7af37d4bd60a 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > @@ -7,6 +7,7 @@
-> > > > > >   */
-> > > > > >
-> > > > > >  #include <linux/atomic.h>
-> > > > > > +#include <linux/dmi.h>
-> > > > > >  #include <linux/gpio/consumer.h>
-> > > > > >  #include <linux/kernel.h>
-> > > > > >  #include <linux/list.h>
-> > > > > > @@ -1472,6 +1473,17 @@ static int uvc_parse_control(struct uvc_device *dev)
-> > > > > >  /* -----------------------------------------------------------------------------
-> > > > > >   * Privacy GPIO
-> > > > > >   */
-> > > > >
-> > > > > There should be a blank line here.
-> > > > >
-> > > > > > +static bool uvc_gpio_is_streaming(struct uvc_device *dev)
-> > > > > > +{
-> > > > > > +     struct uvc_streaming *streaming;
-> > > > > > +
-> > > > > > +     list_for_each_entry(streaming, &dev->streams, list) {
-> > > > > > +             if (uvc_queue_streaming(&streaming->queue))
-> > > > > > +                     return true;
-> > > > > > +     }
-> > > > > > +
-> > > > > > +     return false;
-> > > > > > +}
-> > > > > >
-> > > > > >
-> > > > >
-> > > > > But not too blank lines here.
-> > > > >
-> > > > > >  static u8 uvc_gpio_update_value(struct uvc_device *dev,
-> > > > > > @@ -1499,7 +1511,12 @@ static int uvc_gpio_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > > >       if (cs != UVC_CT_PRIVACY_CONTROL || size < 1)
-> > > > > >               return -EINVAL;
-> > > > > >
-> > > > > > +     if ((dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM) &&
-> > > > > > +         !uvc_gpio_is_streaming(dev))
-> > > > > > +             return -EBUSY;
-> > > > > > +
-> > > > > >       *(uint8_t *)data = uvc_gpio_update_value(dev, entity);
-> > > > > > +
-> > > > > >       return 0;
-> > > > > >  }
-> > > > > >
-> > > > > > @@ -1528,19 +1545,50 @@ static struct uvc_entity *uvc_gpio_find_entity(struct uvc_device *dev)
-> > > > > >       return NULL;
-> > > > > >  }
-> > > > > >
-> > > > > > -static irqreturn_t uvc_gpio_irq(int irq, void *data)
-> > > > > > +void uvc_privacy_gpio_event(struct uvc_device *dev)
-> > > > > >  {
-> > > > > > -     struct uvc_device *dev = data;
-> > > > > >       struct uvc_entity *unit;
-> > > > > >
-> > > > > > +
-> > > > > >       unit = uvc_gpio_find_entity(dev);
-> > > > > >       if (!unit)
-> > > > > > -             return IRQ_HANDLED;
-> > > > > > +             return;
-> > > > > >
-> > > > > >       uvc_gpio_update_value(dev, unit);
-> > > > > > +}
-> > > > > > +
-> > > > > > +static irqreturn_t uvc_gpio_irq(int irq, void *data)
-> > > > > > +{
-> > > > > > +     struct uvc_device *dev = data;
-> > > > > > +
-> > > > > > +     /* Ignore privacy events during streamoff */
-> > > > > > +     if (dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM)
-> > > > > > +             if (!uvc_gpio_is_streaming(dev))
-> > > > > > +                     return IRQ_HANDLED;
-> > > > >
-> > > > > I'm still a bit concerned of race conditions. When stopping the stream,
-> > > > > vb2_queue.streaming is set to 0 after calling the driver's .stop_stream()
-> > > > > handler. This means that the device will cut power before
-> > > > > uvc_gpio_is_streaming() can detect that streaming has stopped, and the
-> > > > > GPIO could thus trigger an IRQ.
-> > > >
-> > > > On the affected devices I have not seen this. I guess it takes some
-> > > > time to discharge. Anyway I am implementing a workaround. Tell me if
-> > > > it is too ugly.
-> > > >
-> > > > > You mentioned that devices have a pull-up or pull-down on the GPIO line.
-> > > > > As there are only two devices affected, do you know if it's a pull-up or
-> > > > > pull-down ? Would it be worse to expose that state to userspace than to
-> > > > > return -EBUSY when reading the control ?
-> > > >
-> > > > The module has a 100K pull up. This is, it will return "Privacy = 0".
-> > > >
-> > > > We cannot return the default value, as it would make the user believe
-> > > > that the privacy is in a different state that currently is.
-> > > > In other words, userspace needs to know at all times if the privacy is
-> > > > in : unknow_state, on, off.
-> > >
-> > > This seems to be the core of the issue: we're trying to shove 3 states
-> > > into a boolean. Would this call for turning the V4L2_CID_PRIVACY control
-> > > into a menu ? Or maybe setting V4L2_CTRL_FLAG_INACTIVE ? Returning
-> > > -EBUSY when the control is read while not streaming, and not generating
-> > > an event that tells the control value becomes unknown, seems like a hack
-> > > designed to work with a single userspace implementation.
-> > >
-> >
-> > I think that the V4L2_CTRL_FLAG_INACTIVE seems more correct. I will
-> > see how can I wire that up.
->
-> Let me correct myself here. FLAG_INACTIVE is also not a good idea.
->
-> you need two ioctls to read the value:
-> -queryctrl()
-> -g_ctrl()
-> and you cannot send both at the same time.
->
-> I guess we need to keep the -EBUSY or move to a menu. Since we will
-> probably delay this patch for  a while. I will resend based on -EBUSY
-> at the end of my patchset, so it can be easily ignored if we find a
-> better solution.
+Hi=EF=BC=8C
 
-Hi Laurent, Kieran,
+Just a gentle ping, hope some expert could take a look, thanks.
 
-Would it be okay to keep the behavior as suggested by Ricardo?
+Best regards.
+Dillon
 
-Best regards,
-Tomasz
-
+On Thu, Apr 15, 2021 at 12:05 PM <dillon.minfei@gmail.com> wrote:
 >
-> Thanks!
+> From: dillon min <dillon.minfei@gmail.com>
 >
-> >
-> >
-> > > As the rest of the series is getting ready, I'd propose merging it
-> > > without this patch until we figure out what should be done to support
-> > > these lovely devices. Would that work for you ?
-> >
-> > Yes that sounds good to me. Thanks!
-> >
-> >
-> > >
-> > > > > > +
-> > > > > > +     uvc_privacy_gpio_event(dev);
-> > > > > > +
-> > > > > >       return IRQ_HANDLED;
-> > > > > >  }
-> > > > > >
-> > > > > > +static const struct dmi_system_id privacy_valid_during_streamon[] = {
-> > > > > > +     {
-> > > > > > +             .ident = "HP Elite c1030 Chromebook",
-> > > > > > +             .matches = {
-> > > > > > +                     DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-> > > > > > +                     DMI_MATCH(DMI_PRODUCT_NAME, "Jinlon"),
-> > > > > > +             },
-> > > > > > +     },
-> > > > > > +     {
-> > > > > > +             .ident = "HP Pro c640 Chromebook",
-> > > > > > +             .matches = {
-> > > > > > +                     DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-> > > > > > +                     DMI_MATCH(DMI_PRODUCT_NAME, "Dratini"),
-> > > > > > +             },
-> > > > > > +     },
-> > > > > > +     { } /* terminate list */
-> > > > > > +};
-> > > > > > +
-> > > > > >  static int uvc_gpio_parse(struct uvc_device *dev)
-> > > > > >  {
-> > > > > >       struct uvc_entity *unit;
-> > > > > > @@ -1577,6 +1625,9 @@ static int uvc_gpio_parse(struct uvc_device *dev)
-> > > > > >
-> > > > > >       list_add_tail(&unit->list, &dev->entities);
-> > > > > >
-> > > > > > +     if (dmi_check_system(privacy_valid_during_streamon))
-> > > > > > +             dev->quirks |= UVC_QUIRK_PRIVACY_DURING_STREAM;
-> > > > >
-> > > > > This will also match any external UVC camera plugged to one of the
-> > > > > affected systems, right ? It shouldn't matter in practice as those
-> > > > > devices won't have a GPIO entity.
-> > > >
-> > > > I did think about that but did not make it explicit in the code.
-> > > > Adding a comment.
-> > > >
-> > > > > I suppose we can't match on VID:PID instead because the same VID:PID is
-> > > > > used in both devices affected by this issue, and devices immune to it ?
-> > > >
-> > > > The problem with VID:PID, is that the manufacturer can decide to
-> > > > change the camera module and then the quirk will not work.
-> > > >
-> > > > We cannot rely ONLY in VID:PID as these modules are also used in other
-> > > > models not affected by the quirk.
-> > > >
-> > > > I believe that it is also correct to rely on the dmi, as the quirk is
-> > > > caused for the way the camera module is wired, which is on the
-> > > > motherboard.
-> > >
-> > > I can't comment on the hardware side as I lack details. Using the
-> > > VID:PID only seems a problem indeed. We could combine DMI and VID:PID,
-> > > but that wouldn't make a difference in practice, so I suppose this is
-> > > good enough.
-> > >
-> > > > > > +
-> > > > > >       return 0;
-> > > > > >  }
-> > > > > >
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> > > > > > index cd60c6c1749e..e800d491303f 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_queue.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_queue.c
-> > > > > > @@ -337,9 +337,12 @@ int uvc_dequeue_buffer(struct uvc_video_queue *queue, struct v4l2_buffer *buf,
-> > > > > >  int uvc_queue_streamon(struct uvc_video_queue *queue, enum v4l2_buf_type type)
-> > > > > >  {
-> > > > > >       int ret;
-> > > > > > +     struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-> > > > >
-> > > > > Please swap the two lines.
-> > > > >
-> > > > > >
-> > > > > >       mutex_lock(&queue->mutex);
-> > > > > >       ret = vb2_streamon(&queue->queue, type);
-> > > > > > +     if (stream->dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM)
-> > > > > > +             uvc_privacy_gpio_event(stream->dev);
-> > > > >
-> > > > > Even when vb2_streamon() failed ?
-> > > > >
-> > > > > >       mutex_unlock(&queue->mutex);
-> > > > > >
-> > > > > >       return ret;
-> > > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > index 079a407ebba5..32c1ba246d97 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > @@ -209,6 +209,7 @@
-> > > > > >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
-> > > > > >  #define UVC_QUIRK_FORCE_Y8           0x00000800
-> > > > > >  #define UVC_QUIRK_FORCE_BPP          0x00001000
-> > > > > > +#define UVC_QUIRK_PRIVACY_DURING_STREAM      0x00002000
-> > > > > >
-> > > > > >  /* Format flags */
-> > > > > >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
-> > > > > > @@ -826,6 +827,9 @@ extern const struct v4l2_file_operations uvc_fops;
-> > > > > >  int uvc_mc_register_entities(struct uvc_video_chain *chain);
-> > > > > >  void uvc_mc_cleanup_entity(struct uvc_entity *entity);
-> > > > > >
-> > > > > > +/* Privacy gpio */
-> > > > > > +void uvc_privacy_gpio_event(struct uvc_device *dev);
-> > > > > > +
-> > > > > >  /* Video */
-> > > > > >  int uvc_video_init(struct uvc_streaming *stream);
-> > > > > >  int uvc_video_suspend(struct uvc_streaming *stream);
-> > >
-> > > --
-> > > Regards,
-> > >
-> > > Laurent Pinchart
-> >
-> >
-> >
-> > --
-> > Ricardo Ribalda
+> The DaSheng Com-9xx is and ARM based signle board computer (SBC)
+> featuring:
+> - i.MX6Q
+> - 2GiB LPDDR3 DRAM
+> - 8GiB eMMC 5.0 FLASH
+> - 4MiB SPI Flash
+> - USB 2.0 Host/Device
+> - Multiple multi-protocol RS232/RS485 Serial ports
+> - microSD socket
+> - 5V DC power input
+> - HDMI1.4a,1080p@60
+> - RGMIIx1 Gigabit Ethernet
+> - CSI0x1, connect with ov2659
 >
+> Signed-off-by: dillon min <dillon.minfei@gmail.com>
+> ---
+> v3: move imx6q-ds.dtb after imx6q-dms-ba16.dtb to follow the alphabetical=
+ order
 >
+>  arch/arm/boot/dts/Makefile        |   1 +
+>  arch/arm/boot/dts/imx6q-ds.dts    |  17 ++
+>  arch/arm/boot/dts/imx6qdl-ds.dtsi | 465 ++++++++++++++++++++++++++++++++=
+++++++
+>  3 files changed, 483 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/imx6q-ds.dts
+>  create mode 100644 arch/arm/boot/dts/imx6qdl-ds.dtsi
 >
+> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> index a19c5ab9df84..425fe17ef7c1 100644
+> --- a/arch/arm/boot/dts/Makefile
+> +++ b/arch/arm/boot/dts/Makefile
+> @@ -510,6 +510,7 @@ dtb-$(CONFIG_SOC_IMX6Q) +=3D \
+>         imx6q-display5-tianma-tm070-1280x768.dtb \
+>         imx6q-dmo-edmqmx6.dtb \
+>         imx6q-dms-ba16.dtb \
+> +       imx6q-ds.dtb \
+>         imx6q-emcon-avari.dtb \
+>         imx6q-evi.dtb \
+>         imx6q-gk802.dtb \
+> diff --git a/arch/arm/boot/dts/imx6q-ds.dts b/arch/arm/boot/dts/imx6q-ds.=
+dts
+> new file mode 100644
+> index 000000000000..b0a63a133977
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/imx6q-ds.dts
+> @@ -0,0 +1,17 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +//
+> +// Copyright 2021 Dillon Min <dillon.minfei@gmail.com>
+> +//
+> +// Based on imx6qdl-sabresd.dtsi which is:
+> +// Copyright 2012 Freescale Semiconductor, Inc.
+> +// Copyright 2011 Linaro Ltd.
+> +
+> +/dts-v1/;
+> +
+> +#include "imx6q.dtsi"
+> +#include "imx6qdl-ds.dtsi"
+> +
+> +/ {
+> +       model =3D "DaSheng i.MX6 Quad Com-9xx Board";
+> +       compatible =3D "ds,imx6q-sbc", "fsl,imx6q";
+> +};
+> diff --git a/arch/arm/boot/dts/imx6qdl-ds.dtsi b/arch/arm/boot/dts/imx6qd=
+l-ds.dtsi
+> new file mode 100644
+> index 000000000000..d28e065349cd
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/imx6qdl-ds.dtsi
+> @@ -0,0 +1,465 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +//
+> +// Copyright 2021 Dillon Min <dillon.minfei@gmail.com>
+> +//
+> +// Based on imx6qdl-sabresd.dtsi which is:
+> +// Copyright 2012 Freescale Semiconductor, Inc.
+> +// Copyright 2011 Linaro Ltd.
+> +
+> +#include <dt-bindings/clock/imx6qdl-clock.h>
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/input/input.h>
+> +
+> +/ {
+> +       chosen {
+> +               stdout-path =3D &uart1;
+> +       };
+> +
+> +       memory@10000000 {
+> +               device_type =3D "memory";
+> +               reg =3D <0x10000000 0x80000000>;
+> +       };
+> +
+> +       reg_usb_otg_vbus: regulator-usb-otg-vbus {
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "usb_otg_vbus";
+> +               regulator-min-microvolt =3D <5000000>;
+> +               regulator-max-microvolt =3D <5000000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       reg_usb_h1_vbus: regulator-usb-h1-vbus {
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "usb_h1_vbus";
+> +               regulator-min-microvolt =3D <5000000>;
+> +               regulator-max-microvolt =3D <5000000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       leds {
+> +               compatible =3D "gpio-leds";
+> +               pinctrl-names =3D "default";
+> +               pinctrl-0 =3D <&pinctrl_gpio_leds>;
+> +
+> +               green {
+> +                       gpios =3D <&gpio4 8 0>;
+> +                       default-state =3D "on";
+> +                       linux,default-trigger =3D "heartbeat";
+> +               };
+> +       };
+> +};
+> +
+> +&ipu1_csi0_from_ipu1_csi0_mux {
+> +       bus-width =3D <8>;
+> +       data-shift =3D <12>; /* Lines 19:12 used */
+> +       hsync-active =3D <1>;
+> +       vsync-active =3D <1>;
+> +};
+> +
+> +&ipu1_csi0_mux_from_parallel_sensor {
+> +       remote-endpoint =3D <&ov2659_to_ipu1_csi0_mux>;
+> +};
+> +
+> +&ipu1_csi0 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_ipu1_csi0>;
+> +       status =3D "okay";
+> +};
+> +
+> +&clks {
+> +       assigned-clocks =3D <&clks IMX6QDL_CLK_LDB_DI0_SEL>,
+> +                         <&clks IMX6QDL_CLK_LDB_DI1_SEL>;
+> +       assigned-clock-parents =3D <&clks IMX6QDL_CLK_PLL3_USB_OTG>,
+> +                                <&clks IMX6QDL_CLK_PLL3_USB_OTG>;
+> +};
+> +
+> +&ecspi1 {
+> +       cs-gpios =3D <&gpio4 9 GPIO_ACTIVE_LOW>;
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_ecspi1>;
+> +       status =3D "okay";
+> +
+> +       flash: m25p80@0 {
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <1>;
+> +               compatible =3D "st,m25p80", "jedec,spi-nor";
+> +               spi-max-frequency =3D <20000000>;
+> +               reg =3D <0>;
+> +       };
+> +};
+> +
+> +&fec {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_enet>;
+> +       phy-mode =3D "rgmii-id";
+> +       phy-handle =3D <&phy>;
+> +       fsl,magic-packet;
+> +       status =3D "okay";
+> +
+> +       mdio {
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <0>;
+> +
+> +               phy: ethernet-phy@1 {
+> +                       reg =3D <1>;
+> +                       qca,clk-out-frequency =3D <125000000>;
+> +                       reset-gpios =3D <&gpio4 10 GPIO_ACTIVE_LOW>;
+> +                       reset-assert-us =3D <10000>;
+> +               };
+> +       };
+> +};
+> +
+> +&hdmi {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_hdmi_cec>;
+> +       ddc-i2c-bus =3D <&i2c3>;
+> +       status =3D "okay";
+> +};
+> +
+> +&i2c2 {
+> +       clock-frequency =3D <100000>;
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_i2c2>;
+> +       status =3D "okay";
+> +
+> +       pmic: pfuze100@8 {
+> +               compatible =3D "fsl,pfuze100";
+> +               reg =3D <0x08>;
+> +
+> +               regulators {
+> +                       sw1a_reg: sw1ab {
+> +                               regulator-min-microvolt =3D <300000>;
+> +                               regulator-max-microvolt =3D <1875000>;
+> +                               regulator-boot-on;
+> +                               regulator-always-on;
+> +                               regulator-ramp-delay =3D <6250>;
+> +                       };
+> +
+> +                       sw1c_reg: sw1c {
+> +                               regulator-min-microvolt =3D <300000>;
+> +                               regulator-max-microvolt =3D <1875000>;
+> +                               regulator-boot-on;
+> +                               regulator-always-on;
+> +                               regulator-ramp-delay =3D <6250>;
+> +                       };
+> +
+> +                       sw2_reg: sw2 {
+> +                               regulator-min-microvolt =3D <800000>;
+> +                               regulator-max-microvolt =3D <3300000>;
+> +                               regulator-boot-on;
+> +                               regulator-always-on;
+> +                               regulator-ramp-delay =3D <6250>;
+> +                       };
+> +
+> +                       sw3a_reg: sw3a {
+> +                               regulator-min-microvolt =3D <400000>;
+> +                               regulator-max-microvolt =3D <1975000>;
+> +                               regulator-boot-on;
+> +                               regulator-always-on;
+> +                       };
+> +
+> +                       sw3b_reg: sw3b {
+> +                               regulator-min-microvolt =3D <400000>;
+> +                               regulator-max-microvolt =3D <1975000>;
+> +                               regulator-boot-on;
+> +                               regulator-always-on;
+> +                       };
+> +
+> +                       sw4_reg: sw4 {
+> +                               regulator-min-microvolt =3D <800000>;
+> +                               regulator-max-microvolt =3D <3300000>;
+> +                               regulator-always-on;
+> +                       };
+> +
+> +                       swbst_reg: swbst {
+> +                               regulator-min-microvolt =3D <5000000>;
+> +                               regulator-max-microvolt =3D <5150000>;
+> +                       };
+> +
+> +                       snvs_reg: vsnvs {
+> +                               regulator-min-microvolt =3D <1000000>;
+> +                               regulator-max-microvolt =3D <3000000>;
+> +                               regulator-boot-on;
+> +                               regulator-always-on;
+> +                       };
+> +
+> +                       vref_reg: vrefddr {
+> +                               regulator-boot-on;
+> +                               regulator-always-on;
+> +                       };
+> +
+> +                       vgen1_reg: vgen1 {
+> +                               regulator-min-microvolt =3D <800000>;
+> +                               regulator-max-microvolt =3D <1550000>;
+> +                       };
+> +
+> +                       vgen2_reg: vgen2 {
+> +                               regulator-min-microvolt =3D <800000>;
+> +                               regulator-max-microvolt =3D <1550000>;
+> +                       };
+> +
+> +                       vgen3_reg: vgen3 {
+> +                               regulator-min-microvolt =3D <1800000>;
+> +                               regulator-max-microvolt =3D <3300000>;
+> +                       };
+> +
+> +                       vgen4_reg: vgen4 {
+> +                               regulator-min-microvolt =3D <1800000>;
+> +                               regulator-max-microvolt =3D <3300000>;
+> +                               regulator-always-on;
+> +                       };
+> +
+> +                       vgen5_reg: vgen5 {
+> +                               regulator-min-microvolt =3D <1800000>;
+> +                               regulator-max-microvolt =3D <3300000>;
+> +                               regulator-always-on;
+> +                       };
+> +
+> +                       vgen6_reg: vgen6 {
+> +                               regulator-min-microvolt =3D <1800000>;
+> +                               regulator-max-microvolt =3D <3300000>;
+> +                               regulator-always-on;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&i2c3 {
+> +       clock-frequency =3D <100000>;
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_i2c3>;
+> +       status =3D "okay";
+> +
+> +       ov2659: camera@30 {
+> +               compatible =3D "ovti,ov2659";
+> +               pinctrl-names =3D "default";
+> +               pinctrl-0 =3D <&pinctrl_ov2659>;
+> +               clocks =3D <&clks IMX6QDL_CLK_CKO>;
+> +               clock-names =3D "xvclk";
+> +               reg =3D <0x30>;
+> +               powerdown-gpios =3D <&gpio7 11 GPIO_ACTIVE_HIGH>;
+> +               reset-gpios =3D <&gpio1 7 GPIO_ACTIVE_LOW>;
+> +               status =3D "okay";
+> +
+> +               port {
+> +                       ov2659_to_ipu1_csi0_mux: endpoint {
+> +                               remote-endpoint =3D <&ipu1_csi0_mux_from_=
+parallel_sensor>;
+> +                               link-frequencies =3D /bits/ 64 <70000000>=
+;
+> +                               bus-width =3D <8>;
+> +                               hsync-active =3D <1>;
+> +                               vsync-active =3D <1>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&iomuxc {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_hog>;
+> +
+> +       imx6qdl-ds {
+> +               pinctrl_hog: hoggrp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_NANDF_D0__GPIO2_IO00 0x1b0b0
+> +                               MX6QDL_PAD_NANDF_D1__GPIO2_IO01 0x1b0b0
+> +                               MX6QDL_PAD_GPIO_0__CCM_CLKO1    0x130b0
+> +                               MX6QDL_PAD_ENET_CRS_DV__GPIO1_IO25 0x1b0b=
+0
+> +                               MX6QDL_PAD_KEY_COL2__GPIO4_IO10 0x1b0b0
+> +                       >;
+> +               };
+> +
+> +               pinctrl_ecspi1: ecspi1grp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_KEY_ROW1__GPIO4_IO09 0x1b0b0
+> +                               MX6QDL_PAD_ENET_RXD0__GPIO1_IO27 0x1b0b0
+> +                               MX6QDL_PAD_EIM_D16__ECSPI1_SCLK 0x100b1
+> +                               MX6QDL_PAD_EIM_D18__ECSPI1_MOSI 0x100b1
+> +                               MX6QDL_PAD_EIM_D17__ECSPI1_MISO 0x100b1
+> +                       >;
+> +               };
+> +
+> +               pinctrl_enet: enetgrp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_ENET_MDIO__ENET_MDIO         0=
+x1b0b0
+> +                               MX6QDL_PAD_ENET_MDC__ENET_MDC           0=
+x1b0b0
+> +                               MX6QDL_PAD_RGMII_TXC__RGMII_TXC         0=
+x1b030
+> +                               MX6QDL_PAD_RGMII_TD0__RGMII_TD0         0=
+x1b030
+> +                               MX6QDL_PAD_RGMII_TD1__RGMII_TD1         0=
+x1b030
+> +                               MX6QDL_PAD_RGMII_TD2__RGMII_TD2         0=
+x1b030
+> +                               MX6QDL_PAD_RGMII_TD3__RGMII_TD3         0=
+x1b030
+> +                               MX6QDL_PAD_RGMII_TX_CTL__RGMII_TX_CTL   0=
+x1b030
+> +                               MX6QDL_PAD_ENET_REF_CLK__ENET_TX_CLK    0=
+x1b0b0
+> +                               MX6QDL_PAD_RGMII_RXC__RGMII_RXC         0=
+x1b030
+> +                               MX6QDL_PAD_RGMII_RD0__RGMII_RD0         0=
+x1b030
+> +                               MX6QDL_PAD_RGMII_RD1__RGMII_RD1         0=
+x1b030
+> +                               MX6QDL_PAD_RGMII_RD2__RGMII_RD2         0=
+x1b030
+> +                               MX6QDL_PAD_RGMII_RD3__RGMII_RD3         0=
+x1b030
+> +                               MX6QDL_PAD_RGMII_RX_CTL__RGMII_RX_CTL   0=
+x1b030
+> +                       >;
+> +               };
+> +
+> +               pinctrl_hdmi_cec: hdmicecgrp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_EIM_A25__HDMI_TX_CEC_LINE    0=
+x1f8b0
+> +                       >;
+> +               };
+> +
+> +               pinctrl_i2c2: i2c2grp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_EIM_EB2__I2C2_SCL            0=
+x4001b8b1
+> +                               MX6QDL_PAD_KEY_ROW3__I2C2_SDA           0=
+x4001b8b1
+> +                       >;
+> +               };
+> +
+> +               pinctrl_i2c3: i2c3grp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_GPIO_5__I2C3_SCL             0=
+x4001b8b1
+> +                               MX6QDL_PAD_GPIO_6__I2C3_SDA             0=
+x4001b8b1
+> +                       >;
+> +               };
+> +
+> +               pinctrl_ipu1_csi0: ipu1csi0grp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_CSI0_DAT12__IPU1_CSI0_DATA12  =
+  0x1b0b0
+> +                               MX6QDL_PAD_CSI0_DAT13__IPU1_CSI0_DATA13  =
+  0x1b0b0
+> +                               MX6QDL_PAD_CSI0_DAT14__IPU1_CSI0_DATA14  =
+  0x1b0b0
+> +                               MX6QDL_PAD_CSI0_DAT15__IPU1_CSI0_DATA15  =
+  0x1b0b0
+> +                               MX6QDL_PAD_CSI0_DAT16__IPU1_CSI0_DATA16  =
+  0x1b0b0
+> +                               MX6QDL_PAD_CSI0_DAT17__IPU1_CSI0_DATA17  =
+  0x1b0b0
+> +                               MX6QDL_PAD_CSI0_DAT18__IPU1_CSI0_DATA18  =
+  0x1b0b0
+> +                               MX6QDL_PAD_CSI0_DAT19__IPU1_CSI0_DATA19  =
+  0x1b0b0
+> +                               MX6QDL_PAD_CSI0_PIXCLK__IPU1_CSI0_PIXCLK =
+  0x1b0b0
+> +                               MX6QDL_PAD_CSI0_MCLK__IPU1_CSI0_HSYNC    =
+  0x1b0b0
+> +                               MX6QDL_PAD_CSI0_VSYNC__IPU1_CSI0_VSYNC   =
+  0x1b0b0
+> +                       >;
+> +               };
+> +
+> +               pinctrl_ov2659: ov2659grp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_GPIO_16__GPIO7_IO11 0x1b0b0
+> +                               MX6QDL_PAD_GPIO_7__GPIO1_IO07 0x1b0b0
+> +                       >;
+> +               };
+> +
+> +               pinctrl_uart4: uart4grp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_KEY_COL0__UART4_TX_DATA      0=
+x1b0b1
+> +                               MX6QDL_PAD_KEY_ROW0__UART4_RX_DATA      0=
+x1b0b1
+> +                       >;
+> +               };
+> +
+> +               pinctrl_usbotg: usbotggrp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_ENET_RX_ER__USB_OTG_ID       0=
+x17059
+> +                       >;
+> +               };
+> +
+> +               pinctrl_usdhc1: usdhc1grp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_SD1_CMD__SD1_CMD             0=
+x17059
+> +                               MX6QDL_PAD_SD1_CLK__SD1_CLK             0=
+x10059
+> +                               MX6QDL_PAD_SD1_DAT0__SD1_DATA0          0=
+x17059
+> +                               MX6QDL_PAD_SD1_DAT1__SD1_DATA1          0=
+x17059
+> +                               MX6QDL_PAD_SD1_DAT2__SD1_DATA2          0=
+x17059
+> +                               MX6QDL_PAD_SD1_DAT3__SD1_DATA3          0=
+x17059
+> +                               MX6QDL_PAD_ENET_TX_EN__GPIO1_IO28       0=
+x1b0b0
+> +                       >;
+> +               };
+> +
+> +               pinctrl_usdhc2: usdhc2grp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_SD2_CMD__SD2_CMD             0=
+x17059
+> +                               MX6QDL_PAD_SD2_CLK__SD2_CLK             0=
+x10059
+> +                               MX6QDL_PAD_SD2_DAT0__SD2_DATA0          0=
+x17059
+> +                               MX6QDL_PAD_SD2_DAT1__SD2_DATA1          0=
+x17059
+> +                               MX6QDL_PAD_SD2_DAT2__SD2_DATA2          0=
+x17059
+> +                               MX6QDL_PAD_SD2_DAT3__SD2_DATA3          0=
+x17059
+> +                       >;
+> +               };
+> +
+> +               pinctrl_usdhc3: usdhc3grp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_SD3_CMD__SD3_CMD             0=
+x17059
+> +                               MX6QDL_PAD_SD3_CLK__SD3_CLK             0=
+x10059
+> +                               MX6QDL_PAD_SD3_DAT0__SD3_DATA0          0=
+x17059
+> +                               MX6QDL_PAD_SD3_DAT1__SD3_DATA1          0=
+x17059
+> +                               MX6QDL_PAD_SD3_DAT2__SD3_DATA2          0=
+x17059
+> +                               MX6QDL_PAD_SD3_DAT3__SD3_DATA3          0=
+x17059
+> +                               MX6QDL_PAD_SD3_DAT4__SD3_DATA4          0=
+x17059
+> +                               MX6QDL_PAD_SD3_DAT5__SD3_DATA5          0=
+x17059
+> +                               MX6QDL_PAD_SD3_DAT6__SD3_DATA6          0=
+x17059
+> +                               MX6QDL_PAD_SD3_DAT7__SD3_DATA7          0=
+x17059
+> +                       >;
+> +               };
+> +
+> +               pinctrl_wdog: wdoggrp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_GPIO_1__WDOG2_B              0=
+x1b0b0
+> +                       >;
+> +               };
+> +       };
+> +
+> +       gpio_leds {
+> +               pinctrl_gpio_leds: gpioledsgrp {
+> +                       fsl,pins =3D <
+> +                               MX6QDL_PAD_KEY_COL1__GPIO4_IO08 0x1b0b0
+> +                       >;
+> +               };
+> +       };
+> +};
+> +
+> +&uart4 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_uart4>;
+> +       status =3D "okay";
+> +};
+> +
+> +&usbh1 {
+> +       vbus-supply =3D <&reg_usb_h1_vbus>;
+> +       status =3D "okay";
+> +};
+> +
+> +&usbotg {
+> +       vbus-supply =3D <&reg_usb_otg_vbus>;
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_usbotg>;
+> +       disable-over-current;
+> +       status =3D "okay";
+> +};
+> +
+> +&usdhc1 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_usdhc1>;
+> +       bus-width =3D <4>;
+> +       cd-gpios =3D <&gpio1 28 GPIO_ACTIVE_LOW>;
+> +       status =3D "okay";
+> +};
+> +
+> +&usdhc2 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_usdhc2>;
+> +       bus-width =3D <4>;
+> +       cd-gpios =3D <&gpio2 0 GPIO_ACTIVE_LOW>;
+> +       wp-gpios =3D <&gpio2 1 GPIO_ACTIVE_HIGH>;
+> +       status =3D "disabled";
+> +};
+> +
+> +&usdhc3 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_usdhc3>;
+> +       bus-width =3D <8>;
+> +       non-removable;
+> +       no-1-8-v;
+> +       status =3D "okay";
+> +};
+> +
+> +&wdog1 {
+> +       status =3D "okay";
+> +};
+> +
+> +&wdog2 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_wdog>;
+> +       fsl,ext-reset-output;
+> +       status =3D "disabled";
+> +};
 > --
-> Ricardo Ribalda
+> 2.7.4
+>
