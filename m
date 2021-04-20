@@ -2,93 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59798365C50
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 17:38:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D907365D63
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 18:33:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232859AbhDTPjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 11:39:03 -0400
-Received: from mga07.intel.com ([134.134.136.100]:61452 "EHLO mga07.intel.com"
+        id S232767AbhDTQde (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 12:33:34 -0400
+Received: from mga11.intel.com ([192.55.52.93]:5792 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232174AbhDTPjD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 11:39:03 -0400
-IronPort-SDR: pCfw96DKKgv9YPTRRaIW8rURPJcgHEokVv71ojWKhmBhtre/6tMPp1hiCBE0lPPuX+A0eF2RrK
- sq3g/ZFDE+wg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="259484622"
+        id S232473AbhDTQda (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Apr 2021 12:33:30 -0400
+IronPort-SDR: 9Hr8hvmqPl9EIDqAWkiTD4oZh7/PRA7jv/FDl86gxVHigzI21f8sY3wsHdwlENHiFMYa1gEpHP
+ 8pUdWvF+OiGA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="192352448"
 X-IronPort-AV: E=Sophos;i="5.82,237,1613462400"; 
-   d="scan'208";a="259484622"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 08:38:31 -0700
-IronPort-SDR: Cb1A1ZLXNX04Rza/MFS0E7YTOdlWtn5Xdrl7RGeVZFdCUpsyKGWVnnPfTGRiCTPEioQ2TBXAVn
- rBa3xWNe+muQ==
+   d="scan'208";a="192352448"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 09:32:59 -0700
+IronPort-SDR: MDh+EdRzx5Bki9aimmx70ySp7XidH0JXW1aKlSC9TxGjhE5A7mT9Ms78tdX0PjmfOX+guSx28Z
+ 6GasMEyZNOKw==
 X-IronPort-AV: E=Sophos;i="5.82,237,1613462400"; 
-   d="scan'208";a="423071028"
+   d="scan'208";a="523873563"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 08:38:30 -0700
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 09:32:56 -0700
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id EA9242051E;
-        Tue, 20 Apr 2021 18:38:27 +0300 (EEST)
-Date:   Tue, 20 Apr 2021 18:38:27 +0300
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 484CB2051E;
+        Tue, 20 Apr 2021 19:32:53 +0300 (EEST)
+Date:   Tue, 20 Apr 2021 19:32:53 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] RFC: media: v4l2-subdev: add subdev-wide config struct
-Message-ID: <20210420153827.GS3@paasikivi.fi.intel.com>
-References: <20210409133659.389544-1-tomi.valkeinen@ideasonboard.com>
- <20210420153510.GR3@paasikivi.fi.intel.com>
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v5 16/24] v4l: Add CSI-2 bus configuration to frame
+ descriptors
+Message-ID: <20210420163253.GT3@paasikivi.fi.intel.com>
+References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
+ <20210415130450.421168-17-tomi.valkeinen@ideasonboard.com>
+ <YHyHhqk+SoZLlA3S@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210420153510.GR3@paasikivi.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YHyHhqk+SoZLlA3S@pendragon.ideasonboard.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A few more more mundane comments...
+Hi Laurent,
 
-On Tue, Apr 20, 2021 at 06:35:10PM +0300, Sakari Ailus wrote:
-
-...
-
-> > +int v4l2_subdev_init_config(struct v4l2_subdev *sd, struct v4l2_subdev_config *cfg)
-> >  {
-> > -	struct v4l2_subdev_pad_config *cfg;
-> >  	int ret;
+On Sun, Apr 18, 2021 at 10:24:54PM +0300, Laurent Pinchart wrote:
+> Hi Tomi and Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Apr 15, 2021 at 04:04:42PM +0300, Tomi Valkeinen wrote:
+> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > 
+> > Add CSI-2 bus specific configuration to the frame descriptors. This allows
+> > obtaining the virtual channel and data type information for each stream
+> > the transmitter is sending.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  include/media/v4l2-subdev.h | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> > 
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index 85977abbea46..30ec011d31e3 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -308,6 +308,17 @@ struct v4l2_subdev_audio_ops {
+> >  	int (*s_stream)(struct v4l2_subdev *sd, int enable);
+> >  };
 > >  
-> > -	if (!sd->entity.num_pads)
-> > -		return NULL;
-> > -
-> > -	cfg = kvmalloc_array(sd->entity.num_pads, sizeof(*cfg),
-> > -			     GFP_KERNEL | __GFP_ZERO);
-> > -	if (!cfg)
-> > -		return NULL;
-> > +	if (sd->entity.num_pads) {
-> > +		cfg->pad_configs = kvmalloc_array(sd->entity.num_pads, sizeof(*cfg->pad_configs),
-> > +				     GFP_KERNEL | __GFP_ZERO);
+> > +/**
+> > + * struct v4l2_mbus_frame_desc_entry_csi2
+> > + *
+> > + * @channel: CSI-2 virtual channel
+> 
+> Maybe s/channel/virtual_channel/ ? Or vc and dt ?
 
-Please also pay attention to line length and aligning arguments.
+Either seems good.
 
-...
+It's inherently about CSI-2 so maybe vc and dt below?
 
-> > @@ -1093,20 +1097,17 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
-> >  int v4l2_subdev_link_validate(struct media_link *link);
-> >  
+> 
+> > + * @data_type: CSI-2 data type ID
+> > + */
+> > +struct v4l2_mbus_frame_desc_entry_csi2 {
+> > +	u8 channel;
+> > +	u8 data_type;
+> > +};
+> > +
 > >  /**
-> > - * v4l2_subdev_alloc_pad_config - Allocates memory for pad config
-> > + * v4l2_subdev_init_config - initialize v4l2_subdev_config
+> >   * enum v4l2_mbus_frame_desc_flags - media bus frame description flags
 > >   *
-> > - * @sd: pointer to struct v4l2_subdev
-> > + * Must call v4l2_subdev_uninit_config() when config is no longer needed.
-> >   */
-> > -struct
-> > -v4l2_subdev_pad_config *v4l2_subdev_alloc_pad_config(struct v4l2_subdev *sd);
-> > +int v4l2_subdev_init_config(struct v4l2_subdev *sd, struct v4l2_subdev_config *cfg);
+> > @@ -331,11 +342,16 @@ enum v4l2_mbus_frame_desc_flags {
+> >   *		%FRAME_DESC_FL_BLOB is not set.
+> >   * @length:	number of octets per frame, valid if @flags
+> >   *		%V4L2_MBUS_FRAME_DESC_FL_LEN_MAX is set.
+> > + * @bus:	Bus specific frame descriptor parameters
+> 
+> s/Bus specific/Bus-specific/
+> 
+> > + * @bus.csi2:	CSI-2 specific bus configuration
+> 
+> Ditto.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-This should be wrapped, too... there are some others as well in this patch
-I think.
+Thanks!
 
 -- 
 Sakari Ailus
