@@ -2,288 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 613F936574F
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 13:14:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E20A736574A
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 13:14:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231526AbhDTLPT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 07:15:19 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:51381 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230290AbhDTLPS (ORCPT
+        id S231422AbhDTLOy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 07:14:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230491AbhDTLOw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 07:15:18 -0400
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 20 Apr 2021 04:14:47 -0700
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 20 Apr 2021 04:14:44 -0700
-X-QCInternal: smtphost
-Received: from c-rojay-linux.qualcomm.com ([10.206.21.80])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 20 Apr 2021 16:43:59 +0530
-Received: by c-rojay-linux.qualcomm.com (Postfix, from userid 88981)
-        id 18D5ABE0; Tue, 20 Apr 2021 16:43:57 +0530 (IST)
-From:   Roja Rani Yarubandi <rojay@codeaurora.org>
-To:     wsa@kernel.org
-Cc:     swboyd@chromium.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, skananth@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        Roja Rani Yarubandi <rojay@codeaurora.org>
-Subject: [PATCH V9] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-Date:   Tue, 20 Apr 2021 16:43:55 +0530
-Message-Id: <20210420111355.18462-1-rojay@codeaurora.org>
-X-Mailer: git-send-email 2.29.0
+        Tue, 20 Apr 2021 07:14:52 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E650C06138A
+        for <linux-media@vger.kernel.org>; Tue, 20 Apr 2021 04:14:20 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id n2so57650082ejy.7
+        for <linux-media@vger.kernel.org>; Tue, 20 Apr 2021 04:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Typh3MhSkbyPMTThE0U2Q1ZO/12rDfMhvhLaVI/d1e8=;
+        b=KQVXC/pMQkblNXMVtLAj7SnpDWgtKhyIP7FvLpcFc3jKrVAILUkLPJk5INg+VNl2RO
+         wII2H98OwSqJVSwyaGuiBtgO0UCGsX6cUXbfvzUlK2megqFX5dMhq0eUPJyut/23j34l
+         2FpLrHrROB3lrJqNBrYTmdaqRxVXzqB0FdTWY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=Typh3MhSkbyPMTThE0U2Q1ZO/12rDfMhvhLaVI/d1e8=;
+        b=oeWIe17bLXZ7JkxuDxUqsiNj4FEf23UpjDejLgUGxGJJREsgj9oWKi05S/8cuVSTA8
+         rThO46S+juPm/ASOQj6OJHK0lEyGPSUzv3JJwwheYQfPKos6vCJGqOdwoUQ7TIUKUQwK
+         8SN+Dmqbxp3dI3GwIi7m0DRFiXy0qjO828ZXWdY0OaW+E7A9vK0DHf7Ng0qa5tpyhSYV
+         Hal1fvQ1TrPU2TfoPx0y9HI6jBAnPxiS8vlIKTUPw6Xq5tCiS8WbxpZsrIwTg75qkXYP
+         89Q6aYWHQNVBOlJY9C/Bvr3DPlXsJI0eAhNSyI8tAuAQDWCTIa5gs/I81ic9Qszvga7I
+         CUNg==
+X-Gm-Message-State: AOAM533pWqtI8kOLgRS+2h3Fy8hY87BW7wuj2XtzAOyxXUCFBWuDSLfR
+        Ydom4fEngdWdgE1OLzMhiiC5DA==
+X-Google-Smtp-Source: ABdhPJy8I04sLJ6rISKUbY8p7EIy7J+0ccdspYtYAIEZfvYtprT2Z23ngxTun+fd5qbntXzHzXLbDA==
+X-Received: by 2002:a17:906:7fd3:: with SMTP id r19mr27643200ejs.286.1618917259038;
+        Tue, 20 Apr 2021 04:14:19 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id f1sm10639067edz.60.2021.04.20.04.14.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Apr 2021 04:14:18 -0700 (PDT)
+Date:   Tue, 20 Apr 2021 13:14:16 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Peter.Enderborg@sony.com
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        adobriyan@gmail.com, akpm@linux-foundation.org,
+        songmuchun@bytedance.com, guro@fb.com, shakeelb@google.com,
+        mhocko@suse.com, neilb@suse.de, samitolvanen@google.com,
+        rppt@kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        willy@infradead.org
+Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
+Message-ID: <YH63iPzbGWzb676T@phenom.ffwll.local>
+Mail-Followup-To: Peter.Enderborg@sony.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, adobriyan@gmail.com,
+        akpm@linux-foundation.org, songmuchun@bytedance.com, guro@fb.com,
+        shakeelb@google.com, mhocko@suse.com, neilb@suse.de,
+        samitolvanen@google.com, rppt@kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, willy@infradead.org
+References: <20210417163835.25064-1-peter.enderborg@sony.com>
+ <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
+ <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the hardware is still accessing memory after SMMU translation
-is disabled (as part of smmu shutdown callback), then the
-IOVAs (I/O virtual address) which it was using will go on the bus
-as the physical addresses which will result in unknown crashes
-like NoC/interconnect errors.
+On Tue, Apr 20, 2021 at 09:26:00AM +0000, Peter.Enderborg@sony.com wrote:
+> On 4/20/21 10:58 AM, Daniel Vetter wrote:
+> > On Sat, Apr 17, 2021 at 06:38:35PM +0200, Peter Enderborg wrote:
+> >> This adds a total used dma-buf memory. Details
+> >> can be found in debugfs, however it is not for everyone
+> >> and not always available. dma-buf are indirect allocated by
+> >> userspace. So with this value we can monitor and detect
+> >> userspace applications that have problems.
+> >>
+> >> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
+> > So there have been tons of discussions around how to track dma-buf and
+> > why, and I really need to understand the use-cass here first I think. proc
+> > uapi is as much forever as anything else, and depending what you're doing
+> > this doesn't make any sense at all:
+> >
+> > - on most linux systems dma-buf are only instantiated for shared buffer.
+> >   So there this gives you a fairly meaningless number and not anything
+> >   reflecting gpu memory usage at all.
+> >
+> > - on Android all buffers are allocated through dma-buf afaik. But there
+> >   we've recently had some discussions about how exactly we should track
+> >   all this, and the conclusion was that most of this should be solved by
+> >   cgroups long term. So if this is for Android, then I don't think adding
+> >   random quick stop-gaps to upstream is a good idea (because it's a pretty
+> >   long list of patches that have come up on this).
+> >
+> > So what is this for?
+> 
+> For the overview. dma-buf today only have debugfs for info. Debugfs
+> is not allowed by google to use in andoid. So this aggregate the information
+> so we can get information on what going on on the system. 
+> 
+> And the LKML standard respond to that is "SHOW ME THE CODE".
 
-So, implement shutdown callback to i2c driver to stop on-going transfer
-and unmap DMA mappings during system "reboot" or "shutdown".
+Yes. Except this extends to how exactly this is supposed to be used in
+userspace and acted upon.
 
-Fixes: 37692de5d523 ("i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C controller")
-Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
----
-Changes in V2:
- - As per Stephen's comments added seperate function for stop transfer,
-   fixed minor nitpicks.
- - As per Stephen's comments, changed commit text.
+> When the top memgc has a aggregated information on dma-buf it is maybe
+> a better source to meminfo. But then it also imply that dma-buf requires memcg.
+> 
+> And I dont see any problem to replace this with something better with it is ready.
 
-Changes in V3:
- - As per Stephen's comments, squashed patch 1 into patch 2, added Fixes tag.
- - As per Akash's comments, included FIFO case in stop_xfer, fixed minor nitpicks.
+The thing is, this is uapi. Once it's merged we cannot, ever, replace it.
+It must be kept around forever, or a very close approximation thereof. So
+merging this with the justification that we can fix it later on or replace
+isn't going to happen.
+-Daniel
 
-Changes in V4:
- - As per Stephen's comments cleaned up geni_i2c_stop_xfer function,
-   added dma_buf in geni_i2c_dev struct to call i2c_put_dma_safe_msg_buf()
-   from other functions, removed "iova" check in geni_se_rx_dma_unprep()
-   and geni_se_tx_dma_unprep() functions.
- - Added two helper functions geni_i2c_rx_one_msg_done() and
-   geni_i2c_tx_one_msg_done() to unwrap the things after rx/tx FIFO/DMA
-   transfers, so that the same can be used in geni_i2c_stop_xfer() function
-   during shutdown callback. Updated commit text accordingly.
- - Checking whether it is tx/rx transfer using I2C_M_RD which is valid for both
-   FIFO and DMA cases, so dropped DMA_RX_ACTIVE and DMA_TX_ACTIVE bit checking
+> 
+> > -Daniel
+> >
+> >> ---
+> >>  drivers/dma-buf/dma-buf.c | 12 ++++++++++++
+> >>  fs/proc/meminfo.c         |  5 ++++-
+> >>  include/linux/dma-buf.h   |  1 +
+> >>  3 files changed, 17 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> >> index f264b70c383e..4dc37cd4293b 100644
+> >> --- a/drivers/dma-buf/dma-buf.c
+> >> +++ b/drivers/dma-buf/dma-buf.c
+> >> @@ -37,6 +37,7 @@ struct dma_buf_list {
+> >>  };
+> >>  
+> >>  static struct dma_buf_list db_list;
+> >> +static atomic_long_t dma_buf_global_allocated;
+> >>  
+> >>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+> >>  {
+> >> @@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
+> >>  	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+> >>  		dma_resv_fini(dmabuf->resv);
+> >>  
+> >> +	atomic_long_sub(dmabuf->size, &dma_buf_global_allocated);
+> >>  	module_put(dmabuf->owner);
+> >>  	kfree(dmabuf->name);
+> >>  	kfree(dmabuf);
+> >> @@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+> >>  	mutex_lock(&db_list.lock);
+> >>  	list_add(&dmabuf->list_node, &db_list.head);
+> >>  	mutex_unlock(&db_list.lock);
+> >> +	atomic_long_add(dmabuf->size, &dma_buf_global_allocated);
+> >>  
+> >>  	return dmabuf;
+> >>  
+> >> @@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+> >>  }
+> >>  EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+> >>  
+> >> +/**
+> >> + * dma_buf_allocated_pages - Return the used nr of pages
+> >> + * allocated for dma-buf
+> >> + */
+> >> +long dma_buf_allocated_pages(void)
+> >> +{
+> >> +	return atomic_long_read(&dma_buf_global_allocated) >> PAGE_SHIFT;
+> >> +}
+> >> +
+> >>  #ifdef CONFIG_DEBUG_FS
+> >>  static int dma_buf_debug_show(struct seq_file *s, void *unused)
+> >>  {
+> >> diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+> >> index 6fa761c9cc78..ccc7c40c8db7 100644
+> >> --- a/fs/proc/meminfo.c
+> >> +++ b/fs/proc/meminfo.c
+> >> @@ -16,6 +16,7 @@
+> >>  #ifdef CONFIG_CMA
+> >>  #include <linux/cma.h>
+> >>  #endif
+> >> +#include <linux/dma-buf.h>
+> >>  #include <asm/page.h>
+> >>  #include "internal.h"
+> >>  
+> >> @@ -145,7 +146,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+> >>  	show_val_kb(m, "CmaFree:        ",
+> >>  		    global_zone_page_state(NR_FREE_CMA_PAGES));
+> >>  #endif
+> >> -
+> >> +#ifdef CONFIG_DMA_SHARED_BUFFER
+> >> +	show_val_kb(m, "DmaBufTotal:    ", dma_buf_allocated_pages());
+> >> +#endif
+> >>  	hugetlb_report_meminfo(m);
+> >>  
+> >>  	arch_report_meminfo(m);
+> >> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> >> index efdc56b9d95f..5b05816bd2cd 100644
+> >> --- a/include/linux/dma-buf.h
+> >> +++ b/include/linux/dma-buf.h
+> >> @@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
+> >>  		 unsigned long);
+> >>  int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> >>  void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> >> +long dma_buf_allocated_pages(void);
+> >>  #endif /* __DMA_BUF_H__ */
+> >> -- 
+> >> 2.17.1
+> >>
+> >> _______________________________________________
+> >> dri-devel mailing list
+> >> dri-devel@lists.freedesktop.org
+> >> https://urldefense.com/v3/__https://lists.freedesktop.org/mailman/listinfo/dri-devel__;!!JmoZiZGBv3RvKRSx!qW8kUOZyY4Dkew6OvqgfoM-5unQNVeF_M1biaIAyQQBR0KB7ksRzZjoh382ZdGGQR9k$ 
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-Changes in V5:
- - As per Stephen's comments, added spin_lock_irqsave & spin_unlock_irqsave in
-   geni_i2c_stop_xfer() function.
-
-Changes in V6:
- - As per Stephen's comments, taken care of unsafe lock order in
-   geni_i2c_stop_xfer().
- - Moved spin_lock/unlock to geni_i2c_rx_msg_cleanup() and
-   geni_i2c_tx_msg_cleanup() functions.
-
-Changes in V7:
- - No changes
-
-Changes in V8:
- - As per Wolfram Sang comment, removed goto and modified geni_i2c_stop_xfer()
-   accordingly.
-
-Changes in V9:
- - Fixed possbile race by protecting gi2c->cur and calling geni_i2c_abort_xfer()
-   with adding another parameter to differentiate from which sequence is the
-   geni_i2c_abort_xfer() called and handle the spin_lock/spin_unlock accordingly
-   inside geni_i2c_abort_xfer(). For this added two macros ABORT_XFER and
-   STOP_AND_ABORT_XFER.
- - Added a bool variable "stop_xfer" in geni_i2c_dev struct, used to put stop
-   to upcoming geni_i2c_rx_one_msg() and geni_i2c_tx_one_msg() calls once we
-   recieve the shutdown call.
- - Added gi2c->cur == NULL check in geni_i2c_irq() to not to process the irq
-   even if any transfer is queued and shutdown to HW received.
-
- drivers/i2c/busses/i2c-qcom-geni.c | 71 +++++++++++++++++++++++++++---
- 1 file changed, 64 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index 214b4c913a13..8ae17ccad99e 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -71,6 +71,8 @@ enum geni_i2c_err_code {
- #define ABORT_TIMEOUT		HZ
- #define XFER_TIMEOUT		HZ
- #define RST_TIMEOUT		HZ
-+#define ABORT_XFER		0
-+#define STOP_AND_ABORT_XFER	1
- 
- struct geni_i2c_dev {
- 	struct geni_se se;
-@@ -89,6 +91,7 @@ struct geni_i2c_dev {
- 	void *dma_buf;
- 	size_t xfer_len;
- 	dma_addr_t dma_addr;
-+	bool stop_xfer;
- };
- 
- struct geni_i2c_err_log {
-@@ -215,6 +218,11 @@ static irqreturn_t geni_i2c_irq(int irq, void *dev)
- 	struct i2c_msg *cur;
- 
- 	spin_lock(&gi2c->lock);
-+	if (!gi2c->cur) {
-+		dev_err(gi2c->se.dev, "Can't process irq, gi2c->cur is NULL\n");
-+		spin_unlock(&gi2c->lock);
-+		return IRQ_HANDLED;
-+	}
- 	m_stat = readl_relaxed(base + SE_GENI_M_IRQ_STATUS);
- 	rx_st = readl_relaxed(base + SE_GENI_RX_FIFO_STATUS);
- 	dm_tx_st = readl_relaxed(base + SE_DMA_TX_IRQ_STAT);
-@@ -222,8 +230,7 @@ static irqreturn_t geni_i2c_irq(int irq, void *dev)
- 	dma = readl_relaxed(base + SE_GENI_DMA_MODE_EN);
- 	cur = gi2c->cur;
- 
--	if (!cur ||
--	    m_stat & (M_CMD_FAILURE_EN | M_CMD_ABORT_EN) ||
-+	if (m_stat & (M_CMD_FAILURE_EN | M_CMD_ABORT_EN) ||
- 	    dm_rx_st & (DM_I2C_CB_ERR)) {
- 		if (m_stat & M_GP_IRQ_1_EN)
- 			geni_i2c_err(gi2c, NACK);
-@@ -301,17 +308,19 @@ static irqreturn_t geni_i2c_irq(int irq, void *dev)
- 	return IRQ_HANDLED;
- }
- 
--static void geni_i2c_abort_xfer(struct geni_i2c_dev *gi2c)
-+static void geni_i2c_abort_xfer(struct geni_i2c_dev *gi2c, bool is_stop_xfer)
- {
- 	u32 val;
- 	unsigned long time_left = ABORT_TIMEOUT;
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&gi2c->lock, flags);
-+	if (!is_stop_xfer)
-+		spin_lock_irqsave(&gi2c->lock, flags);
- 	geni_i2c_err(gi2c, GENI_TIMEOUT);
- 	gi2c->cur = NULL;
- 	geni_se_abort_m_cmd(&gi2c->se);
--	spin_unlock_irqrestore(&gi2c->lock, flags);
-+	if (!is_stop_xfer)
-+		spin_unlock_irqrestore(&gi2c->lock, flags);
- 	do {
- 		time_left = wait_for_completion_timeout(&gi2c->done, time_left);
- 		val = readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATUS);
-@@ -375,6 +384,38 @@ static void geni_i2c_tx_msg_cleanup(struct geni_i2c_dev *gi2c,
- 	}
- }
- 
-+static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
-+{
-+	int ret;
-+	u32 geni_status;
-+	struct i2c_msg *cur;
-+	unsigned long flags;
-+
-+	/* Resume device, as runtime suspend can happen anytime during transfer */
-+	ret = pm_runtime_get_sync(gi2c->se.dev);
-+	if (ret < 0) {
-+		dev_err(gi2c->se.dev, "Failed to resume device: %d\n", ret);
-+		return;
-+	}
-+
-+	spin_lock_irqsave(&gi2c->lock, flags);
-+	gi2c->stop_xfer = 1;
-+	geni_status = readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
-+	if (geni_status & M_GENI_CMD_ACTIVE) {
-+		cur = gi2c->cur;
-+		geni_i2c_abort_xfer(gi2c, STOP_AND_ABORT_XFER);
-+		spin_unlock_irqrestore(&gi2c->lock, flags);
-+		if (cur->flags & I2C_M_RD)
-+			geni_i2c_rx_msg_cleanup(gi2c, cur);
-+		else
-+			geni_i2c_tx_msg_cleanup(gi2c, cur);
-+	} else {
-+		spin_unlock_irqrestore(&gi2c->lock, flags);
-+	}
-+
-+	pm_runtime_put_sync_suspend(gi2c->se.dev);
-+}
-+
- static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 				u32 m_param)
- {
-@@ -407,7 +448,7 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	cur = gi2c->cur;
- 	time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
- 	if (!time_left)
--		geni_i2c_abort_xfer(gi2c);
-+		geni_i2c_abort_xfer(gi2c, ABORT_XFER);
- 
- 	geni_i2c_rx_msg_cleanup(gi2c, cur);
- 
-@@ -449,7 +490,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	cur = gi2c->cur;
- 	time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
- 	if (!time_left)
--		geni_i2c_abort_xfer(gi2c);
-+		geni_i2c_abort_xfer(gi2c, ABORT_XFER);
- 
- 	geni_i2c_tx_msg_cleanup(gi2c, cur);
- 
-@@ -462,6 +503,7 @@ static int geni_i2c_xfer(struct i2c_adapter *adap,
- {
- 	struct geni_i2c_dev *gi2c = i2c_get_adapdata(adap);
- 	int i, ret;
-+	unsigned long flags;
- 
- 	gi2c->err = 0;
- 	reinit_completion(&gi2c->done);
-@@ -480,7 +522,13 @@ static int geni_i2c_xfer(struct i2c_adapter *adap,
- 
- 		m_param |= ((msgs[i].addr << SLV_ADDR_SHFT) & SLV_ADDR_MSK);
- 
-+		spin_lock_irqsave(&gi2c->lock, flags);
-+		if (gi2c->stop_xfer) {
-+			spin_unlock_irqrestore(&gi2c->lock, flags);
-+			break;
-+		}
- 		gi2c->cur = &msgs[i];
-+		spin_unlock_irqrestore(&gi2c->lock, flags);
- 		if (msgs[i].flags & I2C_M_RD)
- 			ret = geni_i2c_rx_one_msg(gi2c, &msgs[i], m_param);
- 		else
-@@ -624,6 +672,7 @@ static int geni_i2c_probe(struct platform_device *pdev)
- 	dev_dbg(dev, "i2c fifo/se-dma mode. fifo depth:%d\n", tx_depth);
- 
- 	gi2c->suspended = 1;
-+	gi2c->stop_xfer = 0;
- 	pm_runtime_set_suspended(gi2c->se.dev);
- 	pm_runtime_set_autosuspend_delay(gi2c->se.dev, I2C_AUTO_SUSPEND_DELAY);
- 	pm_runtime_use_autosuspend(gi2c->se.dev);
-@@ -650,6 +699,13 @@ static int geni_i2c_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static void  geni_i2c_shutdown(struct platform_device *pdev)
-+{
-+	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
-+
-+	geni_i2c_stop_xfer(gi2c);
-+}
-+
- static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
- {
- 	int ret;
-@@ -714,6 +770,7 @@ MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
- static struct platform_driver geni_i2c_driver = {
- 	.probe  = geni_i2c_probe,
- 	.remove = geni_i2c_remove,
-+	.shutdown = geni_i2c_shutdown,
- 	.driver = {
- 		.name = "geni_i2c",
- 		.pm = &geni_i2c_pm_ops,
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
-of Code Aurora Forum, hosted by The Linux Foundation
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
