@@ -2,89 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0F7A36537C
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 09:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 793A936538F
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 09:52:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229736AbhDTHsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 03:48:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36608 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229507AbhDTHsQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 03:48:16 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1618904864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jsJz6T5xzjiEAYgDgi3ekTQU/jrutFlTvtKmt7SZ3tY=;
-        b=g/KlVMsFWzGBU2P5DBhoIdinsrP/K9S9LSGnXu7OBhG91Hnl3TFlZYNIUB9mGJMlyr8Iqs
-        PMYKPPniJOQUj9NplFqLgsz6o4iQoOqbF35nGCmbYY1DYQZc0j+HQD2/Ie5Al8UQG1K7yp
-        PybXVfV5m9ApHQlT+lB4JmFxkJGA3LU=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 69CC6B23F;
-        Tue, 20 Apr 2021 07:47:44 +0000 (UTC)
-Date:   Tue, 20 Apr 2021 09:47:43 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Peter.Enderborg@sony.com, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, sumit.semwal@linaro.org,
-        adobriyan@gmail.com, akpm@linux-foundation.org,
-        songmuchun@bytedance.com, guro@fb.com, shakeelb@google.com,
-        neilb@suse.de, samitolvanen@google.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, willy@infradead.org
-Subject: Re: [PATCH v4] dma-buf: Add DmaBufTotal counter in meminfo
-Message-ID: <YH6HHwyEEGFKc+qK@dhcp22.suse.cz>
-References: <20210417104032.5521-1-peter.enderborg@sony.com>
- <YH10s/7MjxBBsjVL@dhcp22.suse.cz>
- <c3f0da9c-d127-5edf-dd21-50fd5298acef@sony.com>
- <YH2a9YfRBlfNnF+u@dhcp22.suse.cz>
- <23aa041b-0e7c-6f82-5655-836899973d66@sony.com>
- <d70efba0-c63d-b55a-c234-eb6d82ae813f@amd.com>
- <YH2ru642wYfqK5ne@dhcp22.suse.cz>
- <07ed1421-89f8-8845-b254-21730207c185@amd.com>
- <YH59E15ztpTTUKqS@dhcp22.suse.cz>
- <YH6Ayy1fWGGWMU+q@kernel.org>
+        id S229593AbhDTHwt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 03:52:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48112 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229475AbhDTHwp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Apr 2021 03:52:45 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21C0C06174A
+        for <linux-media@vger.kernel.org>; Tue, 20 Apr 2021 00:52:12 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id r9so56825356ejj.3
+        for <linux-media@vger.kernel.org>; Tue, 20 Apr 2021 00:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EUHYtqVAAFSxrHPv0XZjl0Nrq6XPonfIdz/I+Iq0zxQ=;
+        b=Lco6PQ6VYBsMakn8d39C4ByoHvDf+toUxvxfQ3QrymkEcYlw5daW0gdiTl+XESxyf7
+         +bxxQMlDrbG4Vly6ZB/Xxx9gG/MtYg16sg70H4MvvBelgSXM0fFWNTcnPvnGNF2ZBEdz
+         b7HEpwLqKfQE9SUVXwteft9pXMrUvsOksXYKA9Qj2UHfoFWsZ5u6nNLQC57UXsJCoO1F
+         Ge3QKYMOWoKIfoMTbUTkEqLwsrI1ZU3rOwml2GCUvCfPXY4wKC/HI9Rkn+BveBUI7X/a
+         HbMP8SYqQlkmoqNXfhCSIRG1M4drFTZbwke26YeE+Fa+Ur403UMcoy9/753k5L/8NNTf
+         0QfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EUHYtqVAAFSxrHPv0XZjl0Nrq6XPonfIdz/I+Iq0zxQ=;
+        b=BPU5Lb5BHNMWQHTtqpHQVJ6KC9ZS7rYupaziM0igo7LvIV3hoRAiAgvN2gdiLk2UCv
+         85mcQ8EEBBCW9e3aFgMXh96EBBz7j8V+0OfDI3mmiLeO4gvc7RfKTF56dvr9vElHLrui
+         9IrHNljbDfpo2Er72eJDAlStDG2E5wB61ZncWId51/34Xue74d7WHBeOYiaqXhD82oTP
+         eydjnmR/dnZT/PvYfeG6lI85D2K8fRIuJ7gqh7XprOfLLphN/zFbIccIh9L/OMk78M8T
+         2ueWxnBJLvTtGwKilvvs4OX/5B4qp7Yo64KMEX8X5gKkVpwl+vrn6jbEbkOjnRrvIIBQ
+         oeSw==
+X-Gm-Message-State: AOAM530qNjnNx01joDCV6euB2FvNKPBtDwNkZmuTgO3R+luYI9kqNZAy
+        e+KqaJQdhRginwZhmrdpxA8jyQ==
+X-Google-Smtp-Source: ABdhPJwq9hDmR7yzvknWESFHRnQ2egamWft9ttfK7kATozjO8WBdsXxJhBTWTUjYhzv7NmpHtjKcSg==
+X-Received: by 2002:a17:907:6e1:: with SMTP id yh1mr26334142ejb.486.1618905131511;
+        Tue, 20 Apr 2021 00:52:11 -0700 (PDT)
+Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de. [84.172.85.33])
+        by smtp.googlemail.com with ESMTPSA id w1sm15267481edt.89.2021.04.20.00.52.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Apr 2021 00:52:11 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Subject: [PATCH v2] configure.ac: Resolve GIT_* even if repository is a submodule
+Date:   Tue, 20 Apr 2021 09:52:05 +0200
+Message-Id: <20210420075205.1072315-1-niklas.soderlund@ragnatech.se>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YH6Ayy1fWGGWMU+q@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue 20-04-21 10:20:43, Mike Rapoport wrote:
-> On Tue, Apr 20, 2021 at 09:04:51AM +0200, Michal Hocko wrote:
-> > On Mon 19-04-21 18:37:13, Christian König wrote:
-> > > Am 19.04.21 um 18:11 schrieb Michal Hocko:
-> > [...]
-> > > > The question is not whether it is NUMA aware but whether it is useful to
-> > > > know per-numa data for the purpose the counter is supposed to serve.
-> > > 
-> > > No, not at all. The pages of a single DMA-buf could even be from different
-> > > NUMA nodes if the exporting driver decides that this is somehow useful.
-> > 
-> > As the use of the counter hasn't been explained yet I can only
-> > speculate. One thing that I can imagine to be useful is to fill gaps in
-> > our accounting. It is quite often that the memroy accounted in
-> > /proc/meminfo (or oom report) doesn't add up to the overall memory
-> > usage. In some workloads the workload can be huge! In many cases there
-> > are other means to find out additional memory by a subsystem specific
-> > interfaces (e.g. networking buffers). I do assume that dma-buf is just
-> > one of those and the counter can fill the said gap at least partially
-> > for some workloads. That is definitely useful.
-> 
-> A bit off-topic.
-> 
-> Michal, I think it would have been nice to have an explanation like above
-> in Documentation/proc/meminfo, what do you say?
+If the v4l-utils repository is a git submodule the $(top_srcdir)/.git is
+a file and not a directory. Update the shell checks to allow the test to
+pass in both cases.
 
-Not sure which specific parts (likely the unaccounted memory?) but sure
-why not. Our /proc/meminfo is rather underdocumented. More information
-cannot hurt.
+Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund@ragnatech.se>
+---
+* Changes since v1
+- Add fix for GIT_COMMIT_CNT and GIT_COMMIT_DATE.
+---
+ configure.ac | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index f144a50d034fbda0..8710ab4531162d03 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -588,13 +588,13 @@ fi
+ CPPFLAGS="-I\$(top_srcdir)/lib/include -Wall -Wpointer-arith -D_GNU_SOURCE $CPPFLAGS"
+ 
+ # Obtain git SHA of HEAD
+-AC_SUBST(GIT_SHA, ["-DGIT_SHA=\$(shell if test -d \$(top_srcdir)/.git ; then git -C \$(top_srcdir) rev-parse --short=12 HEAD ; fi)"])
++AC_SUBST(GIT_SHA, ["-DGIT_SHA=\$(shell if test -e \$(top_srcdir)/.git ; then git -C \$(top_srcdir) rev-parse --short=12 HEAD ; fi)"])
+ 
+ # Obtain git commit count of HEAD
+-AC_SUBST(GIT_COMMIT_CNT, ["-DGIT_COMMIT_CNT=\$(shell if test -d \$(top_srcdir)/.git ; then printf '-'; git -C \$(top_srcdir) rev-list --count HEAD ; fi)"])
++AC_SUBST(GIT_COMMIT_CNT, ["-DGIT_COMMIT_CNT=\$(shell if test -e \$(top_srcdir)/.git ; then printf '-'; git -C \$(top_srcdir) rev-list --count HEAD ; fi)"])
+ 
+ # Obtain git commit date of HEAD
+-AC_SUBST(GIT_COMMIT_DATE, ["-DGIT_COMMIT_DATE=\$(shell if test -d \$(top_srcdir)/.git ; then printf '\"'; TZ=UTC git -C \$(top_srcdir) show --quiet --date='format-local:%F %T\"' --format=\"%cd\"; fi)"])
++AC_SUBST(GIT_COMMIT_DATE, ["-DGIT_COMMIT_DATE=\$(shell if test -e \$(top_srcdir)/.git ; then printf '\"'; TZ=UTC git -C \$(top_srcdir) show --quiet --date='format-local:%F %T\"' --format=\"%cd\"; fi)"])
+ 
+ AM_COND_IF([WITH_LIBDVBV5], [USE_LIBDVBV5="yes"], [USE_LIBDVBV5="no"])
+ AM_COND_IF([WITH_DVBV5_REMOTE], [USE_DVBV5_REMOTE="yes"
 -- 
-Michal Hocko
-SUSE Labs
+2.31.1
+
