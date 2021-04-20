@@ -2,359 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1E683654E6
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 11:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 469FA3654F7
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 11:11:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231330AbhDTJKo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 05:10:44 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42278 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231322AbhDTJKn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 05:10:43 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 34F941F4270E
-Subject: Re: [PATCH v9 03/13] media: hantro: Use syscon instead of 'ctrl'
- register
-To:     Lucas Stach <l.stach@pengutronix.de>, ezequiel@collabora.com,
-        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        lee.jones@linaro.org, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
-        emil.l.velikov@gmail.com, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-        Jacky Bai <ping.bai@nxp.com>
-Cc:     devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-imx@nxp.com,
-        kernel@pengutronix.de, kernel@collabora.com, cphealy@gmail.com,
-        linux-arm-kernel@lists.infradead.org
-References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
- <20210407073534.376722-4-benjamin.gaignard@collabora.com>
- <7bcbb787d82f21d42563d8fb7e3c2e7d40123932.camel@pengutronix.de>
- <ffe9b3f5-94f5-453e-73f0-4b42d0454b63@collabora.com>
- <529b61b1b1e6030c92a7944c4864246521b2ccdd.camel@pengutronix.de>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <36008691-d075-203d-0cac-2a012773ea34@collabora.com>
-Date:   Tue, 20 Apr 2021 11:10:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S231372AbhDTJLn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 05:11:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54352 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230168AbhDTJLk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Apr 2021 05:11:40 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C2578611F2;
+        Tue, 20 Apr 2021 09:11:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618909868;
+        bh=DeGQ9vUDRCVhA8t5Ph+0N53DtPOXi7alQM8lRrwQwKo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=EXaUejfPaaye7JWUCmF8GSi/RlYZhQsdmX+kLcrBeX0F1eFgr44krM1ixkRCmXqkg
+         FBkMtZZGYAFq9xBKq5dcb2BOQt+ZCJKFph809k2UHYXQ05bfNbCW2UMcbcmTQ+BSp+
+         d4wYwcs4Xh3CFODUAnQ6T/3q0QUsxZsoXx5nhwd/fpBWvKp8/59bRQmO/3zgbXcwmK
+         5ZxGXiVuroDwkEdd0DsqBUmQGVuvW3ND1+dRkLPV1j+YSFx6n/pEQ0ehheOXLBySbA
+         UArXFDspN2qbdaPSjruyfPlBf3HVvFuXT3t/kqjY8MxeeKRO9TZhjCji8FQIgiY4FO
+         xIB/CJ63eyrXQ==
+Received: by mail-lj1-f178.google.com with SMTP id z8so42658767ljm.12;
+        Tue, 20 Apr 2021 02:11:08 -0700 (PDT)
+X-Gm-Message-State: AOAM533SDLFv+8U2cQAkLeNYA2TzKm+lQzaAn+kjLb27vIbPMbniOYla
+        gWp78iF/GVMwBz/LYp5LtDI82tXsLCuw6Bud0xA=
+X-Google-Smtp-Source: ABdhPJyHjUN6C0/sUkUlP+4nedtBBPWCDMG4VnGKqPhVa1uJB5nLQGViYOHp7TNdMb76BpIs8GkQPbFl+yNnVewK4NU=
+X-Received: by 2002:a5d:6dc4:: with SMTP id d4mr20219548wrz.105.1618909856639;
+ Tue, 20 Apr 2021 02:10:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <529b61b1b1e6030c92a7944c4864246521b2ccdd.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20210419042722.27554-1-alice.guo@oss.nxp.com> <20210419042722.27554-4-alice.guo@oss.nxp.com>
+ <YH0O907dfGY9jQRZ@atmark-techno.com> <CAMuHMdVY1SLZ0K30T2pimyrR6Mm=VoSTO=L-xxCy2Bj7_kostw@mail.gmail.com>
+ <YH1OeFy+SepIYYG0@atmark-techno.com> <CAK8P3a1Mu2F0irDDCL-50HiHth29iYFL5b7WHZ=UX6W7zzoxAg@mail.gmail.com>
+ <YH4VdPNO9cdzc5MD@atmark-techno.com>
+In-Reply-To: <YH4VdPNO9cdzc5MD@atmark-techno.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Tue, 20 Apr 2021 11:10:40 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1tPQm1Qj2KZu2jOM=TUP0dJgP4G9eKkWfv-PZEAWEhyA@mail.gmail.com>
+Message-ID: <CAK8P3a1tPQm1Qj2KZu2jOM=TUP0dJgP4G9eKkWfv-PZEAWEhyA@mail.gmail.com>
+Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use soc_device_match
+To:     Dominique MARTINET <dominique.martinet@atmark-techno.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Alice Guo (OSS)" <alice.guo@oss.nxp.com>,
+        gregkh <gregkh@linuxfoundation.org>,
+        Rafael Wysocki <rafael@kernel.org>,
+        =?UTF-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>,
+        aymen.sghaier@nxp.com, Herbert Xu <herbert@gondor.apana.org.au>,
+        David Miller <davem@davemloft.net>,
+        Tony Lindgren <tony@atomide.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        peter.ujfalusi@gmail.com, Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kevin Hilman <khilman@baylibre.com>, tomba@kernel.org,
+        jyri.sarha@iki.fi, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Kishon <kishon@ti.com>, Jakub Kicinski <kuba@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Roy Pledge <Roy.Pledge@nxp.com>, Leo Li <leoyang.li@nxp.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>, Felipe Balbi <balbi@kernel.org>,
+        Tony Prisk <linux@prisktech.co.nz>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>, dmaengine@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:ARM/Amlogic Meson SoC support" 
+        <linux-amlogic@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        linux-phy@lists.infradead.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-staging@lists.linux.dev,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-Le 16/04/2021 à 17:14, Lucas Stach a écrit :
-> Am Freitag, dem 16.04.2021 um 15:08 +0200 schrieb Benjamin Gaignard:
->> Le 16/04/2021 à 12:54, Lucas Stach a écrit :
->>> Am Mittwoch, dem 07.04.2021 um 09:35 +0200 schrieb Benjamin Gaignard:
->>>> In order to be able to share the control hardware block between
->>>> VPUs use a syscon instead a ioremap it in the driver.
->>>> To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
->>>> phandle is not found look at 'ctrl' reg-name.
->>>> With the method it becomes useless to provide a list of register
->>>> names so remove it.
->>> Sorry for putting a spoke in the wheel after many iterations of the
->>> series.
->>>
->>> We just discussed a way forward on how to handle the clocks and resets
->>> provided by the blkctl block on i.MX8MM and later and it seems there is
->>> a consensus on trying to provide virtual power domains from a blkctl
->>> driver, controlling clocks and resets for the devices in the power
->>> domain. I would like to avoid introducing yet another way of handling
->>> the blkctl and thus would like to align the i.MX8MQ VPU blkctl with
->>> what we are planning to do on the later chip generations.
->>>
->>> CC'ing Jacky Bai and Peng Fan from NXP, as they were going to give this
->>> virtual power domain thing a shot.
->> That could replace the 3 first patches and Dt patche of this series
->> but that will not impact the hevc part, so I wonder if pure hevc patches
->> could be merged anyway ?
->> They are reviewed and don't depend of how the ctrl block is managed.
-> I'm not really in a position to give any informed opinion about that
-> hvec patches, as I only skimmed them, but I don't see any reason to
-> delay patches 04-11 from this series until the i.MX8M platform issues
-> are sorted. AFAICS those things are totally orthogonal.
-
-Hi Hans,
-What do you think about this proposal to split this series ?
-Get hevc part merged could allow me to continue to add features
-like scaling lists, compressed reference buffers and 10-bit supports.
-
-Regards,
-Benjamin
-
+On Tue, Apr 20, 2021 at 1:44 AM Dominique MARTINET
+<dominique.martinet@atmark-techno.com> wrote:
+> Arnd Bergmann wrote on Mon, Apr 19, 2021 at 02:16:36PM +0200:
+> > For built-in drivers, load order depends on the initcall level and
+> > link order (how things are lined listed in the Makefile hierarchy).
+> >
+> > For loadable modules, this is up to user space in the end.
+> >
+> > Which of the drivers in this scenario are loadable modules?
 >
-> Regards,
-> Lucas
->
->>> Regards,
->>> Lucas
->>>
->>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
->>>> ---
->>>> version 9:
->>>>    - Corrections in commit message
->>>>
->>>> version 7:
->>>>    - Add Philipp reviewed-by tag.
->>>>    - Change syscon phandle name.
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>> version 5:
->>>>    - use syscon instead of VPU reset driver.
->>>>    - if DT doesn't provide syscon keep backward compatibilty by using
->>>>      'ctrl' reg-name.
->>>>
->>>>    drivers/staging/media/hantro/hantro.h       |  5 +-
->>>>    drivers/staging/media/hantro/imx8m_vpu_hw.c | 52 ++++++++++++---------
->>>>    2 files changed, 34 insertions(+), 23 deletions(-)
->>>>
->>>> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
->>>> index 6c1b888abe75..37b9ce04bd4e 100644
->>>> --- a/drivers/staging/media/hantro/hantro.h
->>>> +++ b/drivers/staging/media/hantro/hantro.h
->>>> @@ -13,6 +13,7 @@
->>>>    #define HANTRO_H_
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    #include <linux/platform_device.h>
->>>> +#include <linux/regmap.h>
->>>>    #include <linux/videodev2.h>
->>>>    #include <linux/wait.h>
->>>>    #include <linux/clk.h>
->>>> @@ -167,7 +168,7 @@ hantro_vdev_to_func(struct video_device *vdev)
->>>>     * @reg_bases:		Mapped addresses of VPU registers.
->>>>     * @enc_base:		Mapped address of VPU encoder register for convenience.
->>>>     * @dec_base:		Mapped address of VPU decoder register for convenience.
->>>> - * @ctrl_base:		Mapped address of VPU control block.
->>>> + * @ctrl_base:		Regmap of VPU control block.
->>>>     * @vpu_mutex:		Mutex to synchronize V4L2 calls.
->>>>     * @irqlock:		Spinlock to synchronize access to data structures
->>>>     *			shared with interrupt handlers.
->>>> @@ -186,7 +187,7 @@ struct hantro_dev {
->>>>    	void __iomem **reg_bases;
->>>>    	void __iomem *enc_base;
->>>>    	void __iomem *dec_base;
->>>> -	void __iomem *ctrl_base;
->>>> +	struct regmap *ctrl_base;
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    	struct mutex vpu_mutex;	/* video_device lock */
->>>>    	spinlock_t irqlock;
->>>> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
->>>> index c222de075ef4..8d0c3425234b 100644
->>>> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
->>>> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
->>>> @@ -7,6 +7,7 @@
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    #include <linux/clk.h>
->>>>    #include <linux/delay.h>
->>>> +#include <linux/mfd/syscon.h>
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    #include "hantro.h"
->>>>    #include "hantro_jpeg.h"
->>>> @@ -24,30 +25,28 @@
->>>>    #define CTRL_G1_PP_FUSE		0x0c
->>>>    #define CTRL_G2_DEC_FUSE	0x10
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>> +static const struct regmap_config ctrl_regmap_ctrl = {
->>>> +	.reg_bits = 32,
->>>> +	.val_bits = 32,
->>>> +	.reg_stride = 0x14,
->>>> +};
->>>> +
->>>>    static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
->>>>    {
->>>> -	u32 val;
->>>> -
->>>>    	/* Assert */
->>>> -	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
->>>> -	val &= ~reset_bits;
->>>> -	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
->>>> +	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET, reset_bits, 0);
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    	udelay(2);
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    	/* Release */
->>>> -	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
->>>> -	val |= reset_bits;
->>>> -	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
->>>> +	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET,
->>>> +			   reset_bits, reset_bits);
->>>>    }
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
->>>>    {
->>>> -	u32 val;
->>>> -
->>>> -	val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
->>>> -	val |= clock_bits;
->>>> -	writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
->>>> +	regmap_update_bits(vpu->ctrl_base, CTRL_CLOCK_ENABLE,
->>>> +			   clock_bits, clock_bits);
->>>>    }
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    static int imx8mq_runtime_resume(struct hantro_dev *vpu)
->>>> @@ -64,9 +63,9 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
->>>>    	imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2);
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    	/* Set values of the fuse registers */
->>>> -	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
->>>> -	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
->>>> -	writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
->>>> +	regmap_write(vpu->ctrl_base, CTRL_G1_DEC_FUSE, 0xffffffff);
->>>> +	regmap_write(vpu->ctrl_base, CTRL_G1_PP_FUSE, 0xffffffff);
->>>> +	regmap_write(vpu->ctrl_base, CTRL_G2_DEC_FUSE, 0xffffffff);
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    	clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>> @@ -150,8 +149,22 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
->>>>    {
->>>> -	vpu->dec_base = vpu->reg_bases[0];
->>>> -	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
->>>> +	struct device_node *np = vpu->dev->of_node;
->>>> +
->>>> +	vpu->ctrl_base = syscon_regmap_lookup_by_phandle(np, "nxp,imx8m-vpu-ctrl");
->>>> +	if (IS_ERR(vpu->ctrl_base)) {
->>>> +		struct resource *res;
->>>> +		void __iomem *ctrl;
->>>> +
->>>> +		res = platform_get_resource_byname(vpu->pdev, IORESOURCE_MEM, "ctrl");
->>>> +		ctrl = devm_ioremap_resource(vpu->dev, res);
->>>> +		if (IS_ERR(ctrl))
->>>> +			return PTR_ERR(ctrl);
->>>> +
->>>> +		vpu->ctrl_base = devm_regmap_init_mmio(vpu->dev, ctrl, &ctrl_regmap_ctrl);
->>>> +		if (IS_ERR(vpu->ctrl_base))
->>>> +			return PTR_ERR(vpu->ctrl_base);
->>>> +	}
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    	return 0;
->>>>    }
->>>> @@ -198,7 +211,6 @@ static const struct hantro_irq imx8mq_irqs[] = {
->>>>    };
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
->>>> -static const char * const imx8mq_reg_names[] = { "g1", "g2", "ctrl" };
->>>>    
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>    const struct hantro_variant imx8mq_vpu_variant = {
->>>>    	.dec_fmts = imx8m_vpu_dec_fmts,
->>>> @@ -215,6 +227,4 @@ const struct hantro_variant imx8mq_vpu_variant = {
->>>>    	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
->>>>    	.clk_names = imx8mq_clk_names,
->>>>    	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
->>>> -	.reg_names = imx8mq_reg_names,
->>>> -	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
->>>>    };
->>>
->
->
+> All the drivers involved in my case are built-in (nvmem, soc and final
+> soc_device_match consumer e.g. caam_jr that crashes the kernel if soc is
+> not identified properly).
+
+Ok, in that case you may have a chance to just adapt the initcall
+levels. This is somewhat fragile if someone else already relies
+on a particular order, but it's an easy one-line change to change
+a driver e.g. from module_init() or device_initcall() to arch_initcall().
+
+> I frankly don't like the idea of moving nvmem/ above soc/ in
+> drivers/Makefile as a "solution" to this (especially as there is one
+> that seems to care about what soc they run on...), so I'll have a look
+> at links first, hopefully that will work out.
+
+Right, that would be way more fragile.
+
+I think the main problem in this case is the caam driver that really
+should not look into the particular SoC type or even machine
+compatible string. This is something we can do as a last resort
+for compatibility with busted devicetree files, but it appears that
+this driver does it as the primary method for identifying different
+hardware revisions. I would suggest fixing the binding so that
+each SoC that includes one of these devices has a soc specific
+compatible string associated with the device that the driver can
+use as the primary way of identifying the device.
+
+We probably need to keep the old logic around for old dtb files,
+but there can at least be a comment next to that table that
+discourages people from adding more entries there.
+
+      Arnd
