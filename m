@@ -2,789 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6EA536581F
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 13:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 241E436584F
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 14:03:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231877AbhDTLxc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 07:53:32 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:50717 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230118AbhDTLxc (ORCPT
+        id S232019AbhDTMEV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 08:04:21 -0400
+Received: from mx07-001d1705.pphosted.com ([185.132.183.11]:58822 "EHLO
+        mx07-001d1705.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231840AbhDTMET (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 07:53:32 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Yow3lXYOD8K3KYow7lzT3z; Tue, 20 Apr 2021 13:52:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618919579; bh=AOWHkW5w5EtmhMjOxvAX9yWlnQ/7knEN84lc8Axxdd8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=sDOOdULKtdtn1LEoH0NwG1AwxR/TgWU+NP1Y1Rg0775P0DJD+311XxBGyOcGHqZYs
-         ufvxMa0o0+w8ITj//HHv9oQzIxYyRiu1h1zoVEgDjKBR/rSw1e8QF+oOVfXcKBT24M
-         OIUXKsxxnyGQNA3AmpsgntMHx0dGikf6NkIMqNQW7HSOntxDxR0eaSfVaPG5LkJ3SF
-         S+VuuK8Zy5nZradkgZ5d/Md2PjZ2rQ3UJyA7WgIx3HBCYJ/oeAhUL2cx/nyoAur4JN
-         9Xu5bqIumn/Yfk/3LwSj+65pNTsk3gTpYmhuS0PmFPnLnRN4aDE3cjrwiWctEevklE
-         vlDmj7uioWDnw==
-Subject: Re: [PATCH] RFC: media: v4l2-subdev: add subdev-wide config struct
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20210409133659.389544-1-tomi.valkeinen@ideasonboard.com>
- <YHxZKCtHavLEDuia@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <7e4ab45a-4373-cddd-8ae1-2fa0717f00af@xs4all.nl>
-Date:   Tue, 20 Apr 2021 13:52:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
-MIME-Version: 1.0
-In-Reply-To: <YHxZKCtHavLEDuia@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
+        Tue, 20 Apr 2021 08:04:19 -0400
+Received: from pps.filterd (m0209328.ppops.net [127.0.0.1])
+        by mx08-001d1705.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13KC08OP013828;
+        Tue, 20 Apr 2021 12:03:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=S1;
+ bh=C1SYnUpFun4yx1g2FKyMssv8lZ628Jyx2UbKcD9MdGI=;
+ b=gluS5fJosCRL60kezAvLbCfu7qd6Vwn+VwjFXfmthVjLPRAUbpHhjGchKpPUv8T2YmqE
+ kCHDjw+fgog/TMTg5kq403mV4RIqbDHXT2l923QiSopkjD3+pCHtBEQv3izHpatFBOpe
+ sFyMPxXkrFMguy9aOIfgOQQx+WA/qha2HeUJ6qTN9kgou9kWfrZ5wDZZyKN5vg5tnavU
+ DUUsPPvi/Hf1IdBmk0hrGozCRiYHadV89SnD4SPemJLpBoK1KtROOcREnoFVoYMwgzTh
+ TYgefhepmIwypiXtHPZ1KKcjLnck0+lTdoUuIMRCfWl5gTktxUiLMu9UvJMu2EyCewqr LQ== 
+Received: from eur04-he1-obe.outbound.protection.outlook.com (mail-he1eur04lp2052.outbound.protection.outlook.com [104.47.13.52])
+        by mx08-001d1705.pphosted.com with ESMTP id 3803w49t0c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 20 Apr 2021 12:03:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CvAxHaoD0pw8OzL+XsKs8LeSdtfpCS+wHqci/iJ8ImiQrCo4JxFKof/I7o/952++MZU7G4fz/8OrmNG3ZdsqVFv+FUvh1vCS699Daj3bV0uVNqBhoKx/Sv9OCH63aUmRx8XyYBuahUV0ZgU0fYR9vLeVlP9wN0viJxoOqB2D5jEmvTRgvdR8FxicJwWVmF/s4vN8zHXlf1MhrgRCPQfKkkoBn3mEKdHgmGe7iIqYFNgr/dU9cXMh80s090gR6bDrjaxklk24cRY0NWP1hFICh7O7dAdIut04JXT9rHk3t3iACQLuHDLmmOd2tfkJSMrT4SYz0gwcfRR6fTUD42kjzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C1SYnUpFun4yx1g2FKyMssv8lZ628Jyx2UbKcD9MdGI=;
+ b=XoEJUFqp65ZfEw6tE7LSNX1feRfw10UtYwY646Nsf/yBsUPbacbtcqBsJ/w8u/iL1I9bxB2qjEcUkT5bTZQk9Jg9aK+CveHeqkClvW91bH4jiz78UfHLbqO/Je5SsLEQxIxi0kASmkdYuYE0pCs6oBLft6P2MNnJYtVvyzIejKBTcw5nNaNyTXCtRY7XpTVtp2vfGcZda5UqVpWHm9eaNPzo9Z27ro9kRq4pssZeRcYdL9ih9X1gjlaKtHHl/cUBZ0+0oFvq+w166NlRZnhn2SyZsayl8/xbgqGQ1KKkgJ47PJimkgY+pKfD2piPsVYahANjM9KKXYeZGm+51MaBCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
+ dkim=pass header.d=sony.com; arc=none
+Received: from AM9P193MB1491.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:306::20)
+ by AM8P193MB1028.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1eb::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Tue, 20 Apr
+ 2021 12:03:05 +0000
+Received: from AM9P193MB1491.EURP193.PROD.OUTLOOK.COM
+ ([fe80::35b3:3e5e:6533:84e0]) by AM9P193MB1491.EURP193.PROD.OUTLOOK.COM
+ ([fe80::35b3:3e5e:6533:84e0%5]) with mapi id 15.20.4065.020; Tue, 20 Apr 2021
+ 12:03:05 +0000
+From:   <Peter.Enderborg@sony.com>
+To:     <rppt@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
+        <adobriyan@gmail.com>, <akpm@linux-foundation.org>,
+        <songmuchun@bytedance.com>, <guro@fb.com>, <shakeelb@google.com>,
+        <mhocko@suse.com>, <neilb@suse.de>, <samitolvanen@google.com>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <willy@infradead.org>
+Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
+Thread-Topic: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
+Thread-Index: AQHXM6gnmsuLu+Ufhk6GusLEaztxYKq9H2WAgAAHpACAAARkgIAAEccAgAASvwCAAAL2AA==
+Date:   Tue, 20 Apr 2021 12:03:04 +0000
+Message-ID: <5603a2cd-c1f3-870e-8c22-d50c0d2a7053@sony.com>
+References: <20210417163835.25064-1-peter.enderborg@sony.com>
+ <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
+ <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com> <YH6h16hviixphaHV@kernel.org>
+ <b57a33a3-a5ed-c122-e5b9-c7e7c4dae35f@sony.com> <YH7AeqqNyNnY0Zi3@kernel.org>
+In-Reply-To: <YH7AeqqNyNnY0Zi3@kernel.org>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPqHzi9s9V/OVYPO9kNd2gD4CRCbii3jh7ODc9HfIikB6Cf38yzy8DR8+uJ96pyRLmHHY49CmA6q/2yIwFI1Cx7Wubg0vcqVzbunMKaTLH6LBb8pyYIQ
- cBXD35VH6HmpNWgBLchE+qY1tU4h9MZtCv3u+LMEl6vG4h94sM2KGf6Wu8b2sBJGhULzl6fn6AGwQ9WfOjMSgPrsNw1gKCD5XMJBU+VPQKl0uxjhaNBOwRZr
- KvdHhdS7fjzMqVvrLHGT7yDVi5omj47MUlm2Jfzxb91kZj3EuNtPaW2I2LcKkYWkoXt29HW5KZduq08V/CVUSU7sfa8PnsoNWN6l5RjZnXqrUvG3QtXF1pzX
- h/K3wyp1zvAiAVdfu2/nci4OTASOcf8QbHSteUm1BsSDtsX+MbU=
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=sony.com;
+x-originating-ip: [37.139.156.40]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4d967c5c-b718-4926-a549-08d903f44130
+x-ms-traffictypediagnostic: AM8P193MB1028:
+x-microsoft-antispam-prvs: <AM8P193MB1028AC02368D2C74614686A886489@AM8P193MB1028.EURP193.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ixvCISAV9C3Xy67kK346SE9/bwsNDxkkvwqdvvmqTM/338D51pTwYvEDxA4RXs7NbJdQujBegfAiiWAfPn2t5BQXHEaayd9XWZEMdtt0BoBPYvp6o5SQm6DJ6L4Tl3HvkyX6AGMCTg3DIxwZ91BMu1frkWYO03gvGo3+2/bc0H6rq3YeP4ZSeh8Mx4HTfM8RSTmIzoMncnp2f6sA3/yfO/LbFB5RGMsEyuomW9m1Maytg5fGhO1GZKHBy7JldGfZYYnBKFc/KfLe7e8KDq86XsbblU9TFXOjo52Uz+Fx86BMCU2JwO/yxE0uwoq3J6OY3PGrypL0DaQDqQTU1dsLCI12p8Cwpg+1NSzd+UBpsl6hLauCjLlBw7i5RZhM8ZUwrQonCLnVSDtMwU0E9C1aVsVrWVw67CE/q+yTUVv9LC5wXMWR2M6mBhxcoL8E8gxRggibQ6Mu1LMj0hBZ1f5blx6+4vLw7GUd/8+gsQS0seZX9Bsp0JvRbxAiOmLUw6vQWPbRaNkZmpvcixcTdaFAXkg2wpURZHC1czhq87xKKQA+tguYZNsWOOi59wKIPgwqwuQj2YS5yGZ3gtbVPjdxZhIk73t4/jDniKa5bssNsq3SI7WkjeUhP36iDG+o37MTXPoVMG7N1CHkVdDzNDYuKcuHBCNJtUqRFebJRy1QHa9nc1tkCOZeyaqp9jJsGhdW
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P193MB1491.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(396003)(366004)(376002)(39850400004)(2906002)(86362001)(66446008)(38100700002)(31686004)(8676002)(31696002)(53546011)(66946007)(6486002)(76116006)(6506007)(5660300002)(8936002)(2616005)(316002)(7416002)(91956017)(122000001)(54906003)(478600001)(6512007)(186003)(36756003)(66556008)(26005)(66476007)(71200400001)(6916009)(64756008)(4326008)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?utf-8?B?eFFpdjkzWmVqRCtUR0o3WWUwRWVSazRtYnlJK1ZWVy9BSWVjbFFvdWpKY0li?=
+ =?utf-8?B?WVpCUE5CYzlZNjQ5M0ZoT0NOWm9hQWZKdmlWMkxtcUkyRUtJblVkVlcvSmxH?=
+ =?utf-8?B?d2kyRnJ1bzNXQytiZmUvZmJJN29FSHZHNlVYZDNCaWQ3VVpLUXlTajJXMlk4?=
+ =?utf-8?B?NlJnTUdMT1RxWTgycVBjRGVEZ0pUalBVQm0yaERVYVRTSGxWYWdOSUZaRERD?=
+ =?utf-8?B?WUlOQTRlWUpIT0l0WEZTMmVjVVZCcW5LdVFnYUUrSDQ0VDE0NVRLZ1BqeU1U?=
+ =?utf-8?B?SHZQemJtdHd4MGozRW9EdEVzMWpDNFZhWVVGbzJOdnpMNXpzVmtTOTB4NDY0?=
+ =?utf-8?B?a2xscElLaUlMOHVDOHhjRGUrVXBZcklWTWFUNmMwTnNEY2MyYjJKNGY0ZDRt?=
+ =?utf-8?B?a2hTQUNOYlF3cDlvbmp0cEl2Q0ZXOVp3K1ZMd2NuWDVuYjJUWmRoalVsYkxh?=
+ =?utf-8?B?YTBvOCtSNng5Tm8xMG9OTHZQUUcyK1pnOHd5VG82eU1NQWFEV05PLzYraEJi?=
+ =?utf-8?B?QU9KVTFieHNJNk5ERFdMTjdOV0JDTUlsMUpuMFg4ZkZTV3BZWFRaSXdoRU1x?=
+ =?utf-8?B?OEFwdjJYenBUR3BQYlZjeVVTbmhPVDFtbnlaT0ZNYVpxQjVwRm9XRU90YTV1?=
+ =?utf-8?B?THRYb2N5cmo5UEN5alVUZExoRnc2Y1JFZjYyUW9hUVJTaEVmZjE4cGxRNmVL?=
+ =?utf-8?B?UlgzZDVtck9sREtuQW5CejArSVQxRlpSOUhWZ1JCZlZJaTM0K1kvclNkcXV6?=
+ =?utf-8?B?WUwySzlkRTg2enZLY1ZNcXhKSTRJdk1kYlJrOXhGTXpmQXZTVi81ODA1bzhp?=
+ =?utf-8?B?T3c3WWVFL3FoQTkxUmxHN3hia1ExSkowS0tlaExjM3EwajkwQ2d4a3FDNlFB?=
+ =?utf-8?B?SjVYb1kwVUVsbm5rUVJsaGo2YmZOdzh4bEM1d1BBRCt4a3U4UXVTZzNsNEE5?=
+ =?utf-8?B?aGcvNHpUYmNJam9ia1JxZDR2RGFIR1ZmRmI5MTdBYW00Q3Y0RmJyOXBYSkV6?=
+ =?utf-8?B?dmVjakZKelRnUzlVN0RPWGdubVZhT01VOVYrdFF6VDJIdkdSZDBsM0ZEc1ov?=
+ =?utf-8?B?OWJEb0Fuc0oxTkhWNm83bXVpdHJudEVnTm5uY1RsVXFGTENFTWxTZGxrbDlC?=
+ =?utf-8?B?bVc5R2l3Z1l6UEhBQzhyck85dERZSk5PaW52blE3YlpUSndhQ00xL2hpSStU?=
+ =?utf-8?B?WHcvY0hDZkxvckg0bW10aHdpMk14VFZBSTUvM05aUEVuVE4xaDI4aDNmcG1M?=
+ =?utf-8?B?dlpQdUJqZWlEMDZLSjNxYWdVRWNNYnpnbVlCTTJSQ0Q1dUREQzN3VllCZThz?=
+ =?utf-8?B?ZkVBempxeEdJZHVUZnpWb0Y1bkU4UmRtUC9kWGFIVUlmQWVXT2FrNXBoVmZD?=
+ =?utf-8?B?MWFRcldIMEFVdHluM09zbVBKWjdFMndZU21sM1JhaWd5OWgxRmJsaFQ1dkor?=
+ =?utf-8?B?VDVKVmQreHNPY0xVUHpISWFVaEtqcUZWd1Y5dEM4d0J0N3ZsVlpKKytWc3Bw?=
+ =?utf-8?B?Yy84MUhvbFZ4cEZBQUMzVG9uSEJiNXdNUFY1bnNCeHordDN4dmVGZW1IaUx5?=
+ =?utf-8?B?Wmt1YThDNW80bUNqVVJsaEJKRzFkWmxNdVF0T3BDYXZYdyt0MVVOUXJadk9r?=
+ =?utf-8?B?eTZweVkrWjdtcXlMR2xFUldLLzRIOFhIVVlzUnEydWZLVnQ1YXpMTEU4MVpw?=
+ =?utf-8?B?SXMycHhPYjlLZU1vanBtVkZwZSs4S1IwR0xmV3FOOEVXeEdCU3IvZittb3F3?=
+ =?utf-8?Q?dxcOOVL0QxJMQFBkByR7jEcFgO7Lk/ajReFaEXp?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <793AA08F35B9824AB134B5D21B2BD138@EURP193.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: sony.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9P193MB1491.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d967c5c-b718-4926-a549-08d903f44130
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2021 12:03:04.8862
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: f9fVitRQu6OjVVrDjjs1bBV5JcB4ON6jay3szuCVApcHacWO9Q0DebvgxWLVyuFr09cle8/g4Va2ULAxtkvKWQlJlR4X4RzZqC085ngc5Ak=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8P193MB1028
+X-Proofpoint-GUID: j2X3GopqUAEdr_TXlsA5deUz3RHp1iDW
+X-Proofpoint-ORIG-GUID: j2X3GopqUAEdr_TXlsA5deUz3RHp1iDW
+X-Sony-Outbound-GUID: j2X3GopqUAEdr_TXlsA5deUz3RHp1iDW
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-04-20_06:2021-04-19,2021-04-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 mlxscore=0 malwarescore=0 bulkscore=0
+ mlxlogscore=999 suspectscore=0 lowpriorityscore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104200093
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/04/2021 18:07, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> Hans, Sakari, could you share your opinion on this ? I see lots of
-> potential in this proposal (both for bikeshedding, and for actual
-> value). We need an ack on the concept, and likely naming scheme too,
-> before developing a final patch, as it's lots of churn in lots of
-> drivers.
-> 
-> On Fri, Apr 09, 2021 at 04:36:59PM +0300, Tomi Valkeinen wrote:
->> We have 'struct v4l2_subdev_pad_config' which contains configuration for
->> a single pad used for the TRY functionality, and an array of those
->> structs is passed to various v4l2_subdev_pad_ops.
->>
->> I was working on subdev internal routing between pads, and realized that
->> there's no way to add TRY functionality for routes, which is not pad
->> specific configuration. Adding a separate struct for try-route config
->> wouldn't work either, as e.g. set-fmt needs to know the try-route
->> configuration to propagate the settings.
->>
->> This patch adds a new struct, 'struct v4l2_subdev_config' (which at the
->> moment only contains the v4l2_subdev_pad_config array) and the new
->> struct is used in most of the places where v4l2_subdev_pad_config was
->> used. All v4l2_subdev_pad_ops functions taking v4l2_subdev_pad_config
->> are changed to instead take v4l2_subdev_config.
->>
->> Two drivers are changed to work with the above changes (drivers for HW
->> which I have) as an example.
->>
->> I worked on a semantic patch (included below, my first spatch...) to do
->> this change to all drivers, but hit lots of problems with non-trivial
->> uses of v4l2_subdev_pad_config.
->>
->> As it looks like substantial amount of manual work is needed, I'm
->> posting this RFC to get an ack on the changes before continuing that
->> work.
->>
->> @ v4l2_subdev_pad_ops @
->> identifier pad_ops;
->> identifier func;
->> @@
->>
->> (
->> static const struct v4l2_subdev_pad_ops pad_ops = {
->>         ...,
->>         .enum_mbus_code = func,
->>         ...,
->> };
->> |
->> static const struct v4l2_subdev_pad_ops pad_ops = {
->>         ...,
->>         .enum_frame_size = func,
->>         ...,
->> };
->> |
->> static const struct v4l2_subdev_pad_ops pad_ops = {
->>         ...,
->>         .enum_frame_interval = func,
->>         ...,
->> };
->> |
->> static const struct v4l2_subdev_pad_ops pad_ops = {
->>         ...,
->>         .get_fmt = func,
->>         ...,
->> };
->> |
->> static const struct v4l2_subdev_pad_ops pad_ops = {
->>         ...,
->>         .set_fmt = func,
->>         ...,
->> };
->> |
->> static const struct v4l2_subdev_pad_ops pad_ops = {
->>         ...,
->>         .get_selection = func,
->>         ...,
->> };
->> |
->> static const struct v4l2_subdev_pad_ops pad_ops = {
->>         ...,
->>         .set_selection = func,
->>         ...,
->> };
->> |
->> static const struct v4l2_subdev_pad_ops pad_ops = {
->>         ...,
->>         .init_cfg = func,
->>         ...,
->> };
->> )
->>
->> @@
->> identifier v4l2_subdev_pad_ops.func;
->> identifier sd;
->> identifier cfg;
->> @@
->>
->>  func(struct v4l2_subdev *sd,
->> -	struct v4l2_subdev_pad_config *cfg,
->> +	struct v4l2_subdev_config *cfg,
->> 	...
->>       )
->>  {
->>     ...
->>  }
->>
->> @@
->> identifier v4l2_subdev_pad_ops.func;
->> identifier sd;
->> identifier cfg;
->> @@
->>
->>  func(struct v4l2_subdev *sd,
->> -   struct v4l2_subdev_pad_config *cfg
->> +   struct v4l2_subdev_config *cfg
->>       )
->>  {
->>     ...
->>  }
->>
->> @@
->> struct v4l2_subdev_fh *fh;
->> @@
->> -    fh->pad
->> +    &fh->cfg
->>
->> @@
->> identifier func;
->> identifier cfg;
->> @@
->>
->> func(...,
->> - struct v4l2_subdev_pad_config *cfg,
->> + struct v4l2_subdev_config *cfg,
->>  ...)
->> {
->>     ...
->> }
->>
->> @@
->> struct v4l2_subdev_config *cfg;
->> @@
->>  {
->>     <...
->> (
->> -   cfg->try_fmt
->> +   cfg->pad_configs->try_fmt
->> |
->> -   cfg->try_crop
->> +   cfg->pad_configs->try_crop
->> |
->> -   cfg->try_compose
->> +   cfg->pad_configs->try_compose
->> )
->>     ...>
->>  }
->>
->> @@
->> identifier pad_cfg;
->> @@
->> {
->>     ...
->>     struct v4l2_subdev_pad_config pad_cfg;
->> +   struct v4l2_subdev_config cfg = { .pad_configs = &pad_cfg };
->>     <...
->> -   &pad_cfg
->> +   &cfg
->>     ...>
->> }
->>
-> 
-> This doesn't look too bad (although the last change seems a bit weird),
-> but I suppose it's not the whole story, as you've mentioned above.
-> 
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>  drivers/media/i2c/ov5640.c                   | 10 +--
->>  drivers/media/platform/ti-vpe/cal-camerarx.c | 12 +--
->>  drivers/media/v4l2-core/v4l2-subdev.c        | 85 ++++++++++----------
->>  include/media/v4l2-subdev.h                  | 49 +++++------
->>  4 files changed, 78 insertions(+), 78 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
->> index 14f3afa7721a..7c76c0754426 100644
->> --- a/drivers/media/i2c/ov5640.c
->> +++ b/drivers/media/i2c/ov5640.c
->> @@ -2227,7 +2227,7 @@ static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
->>  }
->>  
->>  static int ov5640_get_fmt(struct v4l2_subdev *sd,
->> -			  struct v4l2_subdev_pad_config *cfg,
->> +			  struct v4l2_subdev_config *cfg,
->>  			  struct v4l2_subdev_format *format)
->>  {
->>  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
->> @@ -2285,7 +2285,7 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int ov5640_set_fmt(struct v4l2_subdev *sd,
->> -			  struct v4l2_subdev_pad_config *cfg,
->> +			  struct v4l2_subdev_config *cfg,
->>  			  struct v4l2_subdev_format *format)
->>  {
->>  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
->> @@ -2818,7 +2818,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
->>  }
->>  
->>  static int ov5640_enum_frame_size(struct v4l2_subdev *sd,
->> -				  struct v4l2_subdev_pad_config *cfg,
->> +				  struct v4l2_subdev_config *cfg,
->>  				  struct v4l2_subdev_frame_size_enum *fse)
->>  {
->>  	if (fse->pad != 0)
->> @@ -2838,7 +2838,7 @@ static int ov5640_enum_frame_size(struct v4l2_subdev *sd,
->>  
->>  static int ov5640_enum_frame_interval(
->>  	struct v4l2_subdev *sd,
->> -	struct v4l2_subdev_pad_config *cfg,
->> +	struct v4l2_subdev_config *cfg,
->>  	struct v4l2_subdev_frame_interval_enum *fie)
->>  {
->>  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
->> @@ -2924,7 +2924,7 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int ov5640_enum_mbus_code(struct v4l2_subdev *sd,
->> -				 struct v4l2_subdev_pad_config *cfg,
->> +				 struct v4l2_subdev_config *cfg,
->>  				 struct v4l2_subdev_mbus_code_enum *code)
->>  {
->>  	if (code->pad != 0)
->> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
->> index cbe6114908de..c708c61f2188 100644
->> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
->> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
->> @@ -586,7 +586,7 @@ static inline struct cal_camerarx *to_cal_camerarx(struct v4l2_subdev *sd)
->>  
->>  static struct v4l2_mbus_framefmt *
->>  cal_camerarx_get_pad_format(struct cal_camerarx *phy,
->> -			    struct v4l2_subdev_pad_config *cfg,
->> +			    struct v4l2_subdev_config *cfg,
->>  			    unsigned int pad, u32 which)
->>  {
->>  	switch (which) {
->> @@ -611,7 +611,7 @@ static int cal_camerarx_sd_s_stream(struct v4l2_subdev *sd, int enable)
->>  }
->>  
->>  static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
->> -					  struct v4l2_subdev_pad_config *cfg,
->> +					  struct v4l2_subdev_config *cfg,
->>  					  struct v4l2_subdev_mbus_code_enum *code)
->>  {
->>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
->> @@ -639,7 +639,7 @@ static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
->> -					   struct v4l2_subdev_pad_config *cfg,
->> +					   struct v4l2_subdev_config *cfg,
->>  					   struct v4l2_subdev_frame_size_enum *fse)
->>  {
->>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
->> @@ -679,7 +679,7 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int cal_camerarx_sd_get_fmt(struct v4l2_subdev *sd,
->> -				   struct v4l2_subdev_pad_config *cfg,
->> +				   struct v4l2_subdev_config *cfg,
->>  				   struct v4l2_subdev_format *format)
->>  {
->>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
->> @@ -692,7 +692,7 @@ static int cal_camerarx_sd_get_fmt(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
->> -				   struct v4l2_subdev_pad_config *cfg,
->> +				   struct v4l2_subdev_config *cfg,
->>  				   struct v4l2_subdev_format *format)
->>  {
->>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
->> @@ -742,7 +742,7 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int cal_camerarx_sd_init_cfg(struct v4l2_subdev *sd,
->> -				    struct v4l2_subdev_pad_config *cfg)
->> +				    struct v4l2_subdev_config *cfg)
->>  {
->>  	struct v4l2_subdev_format format = {
->>  		.which = cfg ? V4L2_SUBDEV_FORMAT_TRY
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index 956dafab43d4..248fa4ee9356 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -26,19 +26,18 @@
->>  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->>  static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
->>  {
->> -	if (sd->entity.num_pads) {
->> -		fh->pad = v4l2_subdev_alloc_pad_config(sd);
->> -		if (fh->pad == NULL)
->> -			return -ENOMEM;
->> -	}
->> +	int ret;
->> +
->> +	ret = v4l2_subdev_init_config(sd, &fh->cfg);
->> +	if (ret)
->> +		return ret;
->>  
->>  	return 0;
->>  }
->>  
->>  static void subdev_fh_free(struct v4l2_subdev_fh *fh)
->>  {
->> -	v4l2_subdev_free_pad_config(fh->pad);
->> -	fh->pad = NULL;
->> +	v4l2_subdev_uninit_config(&fh->cfg);
->>  }
->>  
->>  static int subdev_open(struct file *file)
->> @@ -146,7 +145,7 @@ static inline int check_pad(struct v4l2_subdev *sd, u32 pad)
->>  	return 0;
->>  }
->>  
->> -static int check_cfg(u32 which, struct v4l2_subdev_pad_config *cfg)
->> +static int check_cfg(u32 which, struct v4l2_subdev_config *cfg)
->>  {
->>  	if (which == V4L2_SUBDEV_FORMAT_TRY && !cfg)
->>  		return -EINVAL;
->> @@ -155,7 +154,7 @@ static int check_cfg(u32 which, struct v4l2_subdev_pad_config *cfg)
->>  }
->>  
->>  static inline int check_format(struct v4l2_subdev *sd,
->> -			       struct v4l2_subdev_pad_config *cfg,
->> +			       struct v4l2_subdev_config *cfg,
->>  			       struct v4l2_subdev_format *format)
->>  {
->>  	if (!format)
->> @@ -166,7 +165,7 @@ static inline int check_format(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int call_get_fmt(struct v4l2_subdev *sd,
->> -			struct v4l2_subdev_pad_config *cfg,
->> +			struct v4l2_subdev_config *cfg,
->>  			struct v4l2_subdev_format *format)
->>  {
->>  	return check_format(sd, cfg, format) ? :
->> @@ -174,7 +173,7 @@ static int call_get_fmt(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int call_set_fmt(struct v4l2_subdev *sd,
->> -			struct v4l2_subdev_pad_config *cfg,
->> +			struct v4l2_subdev_config *cfg,
->>  			struct v4l2_subdev_format *format)
->>  {
->>  	return check_format(sd, cfg, format) ? :
->> @@ -182,7 +181,7 @@ static int call_set_fmt(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int call_enum_mbus_code(struct v4l2_subdev *sd,
->> -			       struct v4l2_subdev_pad_config *cfg,
->> +			       struct v4l2_subdev_config *cfg,
->>  			       struct v4l2_subdev_mbus_code_enum *code)
->>  {
->>  	if (!code)
->> @@ -194,7 +193,7 @@ static int call_enum_mbus_code(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int call_enum_frame_size(struct v4l2_subdev *sd,
->> -				struct v4l2_subdev_pad_config *cfg,
->> +				struct v4l2_subdev_config *cfg,
->>  				struct v4l2_subdev_frame_size_enum *fse)
->>  {
->>  	if (!fse)
->> @@ -229,7 +228,7 @@ static int call_s_frame_interval(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int call_enum_frame_interval(struct v4l2_subdev *sd,
->> -				    struct v4l2_subdev_pad_config *cfg,
->> +				    struct v4l2_subdev_config *cfg,
->>  				    struct v4l2_subdev_frame_interval_enum *fie)
->>  {
->>  	if (!fie)
->> @@ -241,7 +240,7 @@ static int call_enum_frame_interval(struct v4l2_subdev *sd,
->>  }
->>  
->>  static inline int check_selection(struct v4l2_subdev *sd,
->> -				  struct v4l2_subdev_pad_config *cfg,
->> +				  struct v4l2_subdev_config *cfg,
->>  				  struct v4l2_subdev_selection *sel)
->>  {
->>  	if (!sel)
->> @@ -252,7 +251,7 @@ static inline int check_selection(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int call_get_selection(struct v4l2_subdev *sd,
->> -			      struct v4l2_subdev_pad_config *cfg,
->> +			      struct v4l2_subdev_config *cfg,
->>  			      struct v4l2_subdev_selection *sel)
->>  {
->>  	return check_selection(sd, cfg, sel) ? :
->> @@ -260,7 +259,7 @@ static int call_get_selection(struct v4l2_subdev *sd,
->>  }
->>  
->>  static int call_set_selection(struct v4l2_subdev *sd,
->> -			      struct v4l2_subdev_pad_config *cfg,
->> +			      struct v4l2_subdev_config *cfg,
->>  			      struct v4l2_subdev_selection *sel)
->>  {
->>  	return check_selection(sd, cfg, sel) ? :
->> @@ -506,7 +505,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>  
->>  		memset(format->reserved, 0, sizeof(format->reserved));
->>  		memset(format->format.reserved, 0, sizeof(format->format.reserved));
->> -		return v4l2_subdev_call(sd, pad, get_fmt, subdev_fh->pad, format);
->> +		return v4l2_subdev_call(sd, pad, get_fmt, &subdev_fh->cfg, format);
->>  	}
->>  
->>  	case VIDIOC_SUBDEV_S_FMT: {
->> @@ -517,7 +516,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>  
->>  		memset(format->reserved, 0, sizeof(format->reserved));
->>  		memset(format->format.reserved, 0, sizeof(format->format.reserved));
->> -		return v4l2_subdev_call(sd, pad, set_fmt, subdev_fh->pad, format);
->> +		return v4l2_subdev_call(sd, pad, set_fmt, &subdev_fh->cfg, format);
->>  	}
->>  
->>  	case VIDIOC_SUBDEV_G_CROP: {
->> @@ -531,7 +530,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>  		sel.target = V4L2_SEL_TGT_CROP;
->>  
->>  		rval = v4l2_subdev_call(
->> -			sd, pad, get_selection, subdev_fh->pad, &sel);
->> +			sd, pad, get_selection, &subdev_fh->cfg, &sel);
->>  
->>  		crop->rect = sel.r;
->>  
->> @@ -553,7 +552,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>  		sel.r = crop->rect;
->>  
->>  		rval = v4l2_subdev_call(
->> -			sd, pad, set_selection, subdev_fh->pad, &sel);
->> +			sd, pad, set_selection, &subdev_fh->cfg, &sel);
->>  
->>  		crop->rect = sel.r;
->>  
->> @@ -564,7 +563,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>  		struct v4l2_subdev_mbus_code_enum *code = arg;
->>  
->>  		memset(code->reserved, 0, sizeof(code->reserved));
->> -		return v4l2_subdev_call(sd, pad, enum_mbus_code, subdev_fh->pad,
->> +		return v4l2_subdev_call(sd, pad, enum_mbus_code, &subdev_fh->cfg,
->>  					code);
->>  	}
->>  
->> @@ -572,7 +571,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>  		struct v4l2_subdev_frame_size_enum *fse = arg;
->>  
->>  		memset(fse->reserved, 0, sizeof(fse->reserved));
->> -		return v4l2_subdev_call(sd, pad, enum_frame_size, subdev_fh->pad,
->> +		return v4l2_subdev_call(sd, pad, enum_frame_size, &subdev_fh->cfg,
->>  					fse);
->>  	}
->>  
->> @@ -597,7 +596,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>  		struct v4l2_subdev_frame_interval_enum *fie = arg;
->>  
->>  		memset(fie->reserved, 0, sizeof(fie->reserved));
->> -		return v4l2_subdev_call(sd, pad, enum_frame_interval, subdev_fh->pad,
->> +		return v4l2_subdev_call(sd, pad, enum_frame_interval, &subdev_fh->cfg,
->>  					fie);
->>  	}
->>  
->> @@ -606,7 +605,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>  
->>  		memset(sel->reserved, 0, sizeof(sel->reserved));
->>  		return v4l2_subdev_call(
->> -			sd, pad, get_selection, subdev_fh->pad, sel);
->> +			sd, pad, get_selection, &subdev_fh->cfg, sel);
->>  	}
->>  
->>  	case VIDIOC_SUBDEV_S_SELECTION: {
->> @@ -617,7 +616,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>  
->>  		memset(sel->reserved, 0, sizeof(sel->reserved));
->>  		return v4l2_subdev_call(
->> -			sd, pad, set_selection, subdev_fh->pad, sel);
->> +			sd, pad, set_selection, &subdev_fh->cfg, sel);
->>  	}
->>  
->>  	case VIDIOC_G_EDID: {
-> 
-> So far, it's a pretty simple change :-)
-> 
-> I'd actually take it one step further (on top of course), and store an
-> instance of v4l2_subdev_config in v4l2_subdev for the active
-> configuration. This can massively simplify subdev drivers.
-
-Hmm, struct v4l2_subdev_pad_config talks about try_fmt/crop/compose, that
-would be weird for the active configuration.
-
-I guess you would have to experiment a bit with this.
-
-> 
->> @@ -892,35 +891,35 @@ int v4l2_subdev_link_validate(struct media_link *link)
->>  }
->>  EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
->>  
->> -struct v4l2_subdev_pad_config *
->> -v4l2_subdev_alloc_pad_config(struct v4l2_subdev *sd)
->> +int v4l2_subdev_init_config(struct v4l2_subdev *sd, struct v4l2_subdev_config *cfg)
-> 
-> Line wrap (and below too).
-> 
->>  {
->> -	struct v4l2_subdev_pad_config *cfg;
->>  	int ret;
->>  
->> -	if (!sd->entity.num_pads)
->> -		return NULL;
->> -
->> -	cfg = kvmalloc_array(sd->entity.num_pads, sizeof(*cfg),
->> -			     GFP_KERNEL | __GFP_ZERO);
->> -	if (!cfg)
->> -		return NULL;
->> +	if (sd->entity.num_pads) {
->> +		cfg->pad_configs = kvmalloc_array(sd->entity.num_pads, sizeof(*cfg->pad_configs),
->> +				     GFP_KERNEL | __GFP_ZERO);
->> +		if (!cfg->pad_configs)
->> +			return -ENOMEM;
->> +	} else {
->> +		cfg->pad_configs = NULL;
->> +	}
-> 
-> How about memsetting the whole structure to 0 first ?
-> 
->>  
->>  	ret = v4l2_subdev_call(sd, pad, init_cfg, cfg);
->>  	if (ret < 0 && ret != -ENOIOCTLCMD) {
->> -		kvfree(cfg);
->> -		return NULL;
->> +		kvfree(cfg->pad_configs);
->> +		return ret;
->>  	}
->>  
->> -	return cfg;
->> +	return 0;
->>  }
->> -EXPORT_SYMBOL_GPL(v4l2_subdev_alloc_pad_config);
->> +EXPORT_SYMBOL_GPL(v4l2_subdev_init_config);
->>  
->> -void v4l2_subdev_free_pad_config(struct v4l2_subdev_pad_config *cfg)
->> +void v4l2_subdev_uninit_config(struct v4l2_subdev_config *cfg)
->>  {
->> -	kvfree(cfg);
->> +	kvfree(cfg->pad_configs);
->>  }
->> -EXPORT_SYMBOL_GPL(v4l2_subdev_free_pad_config);
->> +EXPORT_SYMBOL_GPL(v4l2_subdev_uninit_config);
->> +
->>  #endif /* CONFIG_MEDIA_CONTROLLER */
->>  
->>  void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
->> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->> index d0e9a5bdb08b..1873e527987a 100644
->> --- a/include/media/v4l2-subdev.h
->> +++ b/include/media/v4l2-subdev.h
->> @@ -623,6 +623,10 @@ struct v4l2_subdev_pad_config {
->>  	struct v4l2_rect try_compose;
->>  };
->>  
->> +struct v4l2_subdev_config {
->> +	struct v4l2_subdev_pad_config *pad_configs;
-> 
-> s/pad_configs/pads/ ?
-
-I agree.
-
-> 
-> I'm tempted to also store the number of pads here. It would be redundant
-> as the value is available from the v4l2_subdev structure, but it would
-> allow operating on v4l2_subdev_config without a subdev pointer. Or,
-> possibly better, we could store a pointer to the subdev.
-> 
-> I'm also tempted to name the structure v4l2_subdev_state, as that's what
-> it stores. I may be biased by DRM/KMS, but I don't see a downside in
-> using identical names for identical concepts.
-
-I like v4l2_subdev_state better than v4l2_subdev_config, so I would be OK
-with such a change.
-
-> 
->> +};
->> +
->>  /**
->>   * struct v4l2_subdev_pad_ops - v4l2-subdev pad level operations
->>   *
->> @@ -687,27 +691,27 @@ struct v4l2_subdev_pad_config {
->>   */
->>  struct v4l2_subdev_pad_ops {
->>  	int (*init_cfg)(struct v4l2_subdev *sd,
-
-If we do change the name, then this probably should be renamed to init_state as well.
-
->> -			struct v4l2_subdev_pad_config *cfg);
->> +			struct v4l2_subdev_config *cfg);
->>  	int (*enum_mbus_code)(struct v4l2_subdev *sd,
->> -			      struct v4l2_subdev_pad_config *cfg,
->> +			      struct v4l2_subdev_config *cfg,
->>  			      struct v4l2_subdev_mbus_code_enum *code);
->>  	int (*enum_frame_size)(struct v4l2_subdev *sd,
->> -			       struct v4l2_subdev_pad_config *cfg,
->> +			       struct v4l2_subdev_config *cfg,
->>  			       struct v4l2_subdev_frame_size_enum *fse);
->>  	int (*enum_frame_interval)(struct v4l2_subdev *sd,
->> -				   struct v4l2_subdev_pad_config *cfg,
->> +				   struct v4l2_subdev_config *cfg,
->>  				   struct v4l2_subdev_frame_interval_enum *fie);
->>  	int (*get_fmt)(struct v4l2_subdev *sd,
->> -		       struct v4l2_subdev_pad_config *cfg,
->> +		       struct v4l2_subdev_config *cfg,
->>  		       struct v4l2_subdev_format *format);
->>  	int (*set_fmt)(struct v4l2_subdev *sd,
->> -		       struct v4l2_subdev_pad_config *cfg,
->> +		       struct v4l2_subdev_config *cfg,
->>  		       struct v4l2_subdev_format *format);
->>  	int (*get_selection)(struct v4l2_subdev *sd,
->> -			     struct v4l2_subdev_pad_config *cfg,
->> +			     struct v4l2_subdev_config *cfg,
->>  			     struct v4l2_subdev_selection *sel);
->>  	int (*set_selection)(struct v4l2_subdev *sd,
->> -			     struct v4l2_subdev_pad_config *cfg,
->> +			     struct v4l2_subdev_config *cfg,
->>  			     struct v4l2_subdev_selection *sel);
->>  	int (*get_edid)(struct v4l2_subdev *sd, struct v4l2_edid *edid);
->>  	int (*set_edid)(struct v4l2_subdev *sd, struct v4l2_edid *edid);
->> @@ -925,7 +929,7 @@ struct v4l2_subdev_fh {
->>  	struct v4l2_fh vfh;
->>  	struct module *owner;
->>  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->> -	struct v4l2_subdev_pad_config *pad;
->> +	struct v4l2_subdev_config cfg;
-
-And of course cfg becomes 'state' too.
-
->>  #endif
->>  };
->>  
->> @@ -950,12 +954,12 @@ struct v4l2_subdev_fh {
->>   */
->>  static inline struct v4l2_mbus_framefmt *
->>  v4l2_subdev_get_try_format(struct v4l2_subdev *sd,
->> -			   struct v4l2_subdev_pad_config *cfg,
->> +			   struct v4l2_subdev_config *cfg,
->>  			   unsigned int pad)
->>  {
->>  	if (WARN_ON(pad >= sd->entity.num_pads))
->>  		pad = 0;
->> -	return &cfg[pad].try_fmt;
->> +	return &cfg->pad_configs[pad].try_fmt;
->>  }
->>  
->>  /**
->> @@ -968,12 +972,12 @@ v4l2_subdev_get_try_format(struct v4l2_subdev *sd,
->>   */
->>  static inline struct v4l2_rect *
->>  v4l2_subdev_get_try_crop(struct v4l2_subdev *sd,
->> -			 struct v4l2_subdev_pad_config *cfg,
->> +			 struct v4l2_subdev_config *cfg,
->>  			 unsigned int pad)
->>  {
->>  	if (WARN_ON(pad >= sd->entity.num_pads))
->>  		pad = 0;
->> -	return &cfg[pad].try_crop;
->> +	return &cfg->pad_configs[pad].try_crop;
->>  }
->>  
->>  /**
->> @@ -986,12 +990,12 @@ v4l2_subdev_get_try_crop(struct v4l2_subdev *sd,
->>   */
->>  static inline struct v4l2_rect *
->>  v4l2_subdev_get_try_compose(struct v4l2_subdev *sd,
->> -			    struct v4l2_subdev_pad_config *cfg,
->> +			    struct v4l2_subdev_config *cfg,
->>  			    unsigned int pad)
->>  {
->>  	if (WARN_ON(pad >= sd->entity.num_pads))
->>  		pad = 0;
->> -	return &cfg[pad].try_compose;
->> +	return &cfg->pad_configs[pad].try_compose;
->>  }
->>  
->>  #endif
->> @@ -1093,20 +1097,17 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
->>  int v4l2_subdev_link_validate(struct media_link *link);
->>  
->>  /**
->> - * v4l2_subdev_alloc_pad_config - Allocates memory for pad config
->> + * v4l2_subdev_init_config - initialize v4l2_subdev_config
->>   *
->> - * @sd: pointer to struct v4l2_subdev
->> + * Must call v4l2_subdev_uninit_config() when config is no longer needed.
->>   */
->> -struct
->> -v4l2_subdev_pad_config *v4l2_subdev_alloc_pad_config(struct v4l2_subdev *sd);
->> +int v4l2_subdev_init_config(struct v4l2_subdev *sd, struct v4l2_subdev_config *cfg);
->>  
->>  /**
->> - * v4l2_subdev_free_pad_config - Frees memory allocated by
->> - *	v4l2_subdev_alloc_pad_config().
->> - *
->> - * @cfg: pointer to &struct v4l2_subdev_pad_config
->> + * v4l2_subdev_uninit_config - uninitialize v4l2_subdev_config
->>   */
->> -void v4l2_subdev_free_pad_config(struct v4l2_subdev_pad_config *cfg);
->> +void v4l2_subdev_uninit_config(struct v4l2_subdev_config *cfg);
-> 
-> Finally, still on the naming topic, if you agree with v4l2_subdev_state,
-> I'd name the function v4l2_subdev_state_init() and
-> v4l2_subdev_state_cleanup(). I have a feeling we may be better off
-> allocating states dynamically (storing a pointer in v4l2_subdev_fh
-> instead of embedding an instance), in which case
-> v4l2_subdev_state_alloc() and v4l2_subdev_state_free() would be better,
-> but that's just a feeling at this point.
-> 
->> +
->>  #endif /* CONFIG_MEDIA_CONTROLLER */
->>  
->>  /**
-> 
-
-Regards,
-
-	Hans
+T24gNC8yMC8yMSAxOjUyIFBNLCBNaWtlIFJhcG9wb3J0IHdyb3RlOg0KPiBPbiBUdWUsIEFwciAy
+MCwgMjAyMSBhdCAxMDo0NToyMUFNICswMDAwLCBQZXRlci5FbmRlcmJvcmdAc29ueS5jb20gd3Jv
+dGU6DQo+PiBPbiA0LzIwLzIxIDExOjQxIEFNLCBNaWtlIFJhcG9wb3J0IHdyb3RlOg0KPj4+IEhl
+bGxvIFBldGVyLA0KPj4+DQo+Pj4gT24gVHVlLCBBcHIgMjAsIDIwMjEgYXQgMDk6MjY6MDBBTSAr
+MDAwMCwgUGV0ZXIuRW5kZXJib3JnQHNvbnkuY29tIHdyb3RlOg0KPj4+PiBPbiA0LzIwLzIxIDEw
+OjU4IEFNLCBEYW5pZWwgVmV0dGVyIHdyb3RlOg0KPj4+Pj4gT24gU2F0LCBBcHIgMTcsIDIwMjEg
+YXQgMDY6Mzg6MzVQTSArMDIwMCwgUGV0ZXIgRW5kZXJib3JnIHdyb3RlOg0KPj4+Pj4+IFRoaXMg
+YWRkcyBhIHRvdGFsIHVzZWQgZG1hLWJ1ZiBtZW1vcnkuIERldGFpbHMNCj4+Pj4+PiBjYW4gYmUg
+Zm91bmQgaW4gZGVidWdmcywgaG93ZXZlciBpdCBpcyBub3QgZm9yIGV2ZXJ5b25lDQo+Pj4+Pj4g
+YW5kIG5vdCBhbHdheXMgYXZhaWxhYmxlLiBkbWEtYnVmIGFyZSBpbmRpcmVjdCBhbGxvY2F0ZWQg
+YnkNCj4+Pj4+PiB1c2Vyc3BhY2UuIFNvIHdpdGggdGhpcyB2YWx1ZSB3ZSBjYW4gbW9uaXRvciBh
+bmQgZGV0ZWN0DQo+Pj4+Pj4gdXNlcnNwYWNlIGFwcGxpY2F0aW9ucyB0aGF0IGhhdmUgcHJvYmxl
+bXMuDQo+Pj4+Pj4NCj4+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBQZXRlciBFbmRlcmJvcmcgPHBldGVy
+LmVuZGVyYm9yZ0Bzb255LmNvbT4NCj4+Pj4+IFNvIHRoZXJlIGhhdmUgYmVlbiB0b25zIG9mIGRp
+c2N1c3Npb25zIGFyb3VuZCBob3cgdG8gdHJhY2sgZG1hLWJ1ZiBhbmQNCj4+Pj4+IHdoeSwgYW5k
+IEkgcmVhbGx5IG5lZWQgdG8gdW5kZXJzdGFuZCB0aGUgdXNlLWNhc3MgaGVyZSBmaXJzdCBJIHRo
+aW5rLiBwcm9jDQo+Pj4+PiB1YXBpIGlzIGFzIG11Y2ggZm9yZXZlciBhcyBhbnl0aGluZyBlbHNl
+LCBhbmQgZGVwZW5kaW5nIHdoYXQgeW91J3JlIGRvaW5nDQo+Pj4+PiB0aGlzIGRvZXNuJ3QgbWFr
+ZSBhbnkgc2Vuc2UgYXQgYWxsOg0KPj4+Pj4NCj4+Pj4+IC0gb24gbW9zdCBsaW51eCBzeXN0ZW1z
+IGRtYS1idWYgYXJlIG9ubHkgaW5zdGFudGlhdGVkIGZvciBzaGFyZWQgYnVmZmVyLg0KPj4+Pj4g
+ICBTbyB0aGVyZSB0aGlzIGdpdmVzIHlvdSBhIGZhaXJseSBtZWFuaW5nbGVzcyBudW1iZXIgYW5k
+IG5vdCBhbnl0aGluZw0KPj4+Pj4gICByZWZsZWN0aW5nIGdwdSBtZW1vcnkgdXNhZ2UgYXQgYWxs
+Lg0KPj4+Pj4NCj4+Pj4+IC0gb24gQW5kcm9pZCBhbGwgYnVmZmVycyBhcmUgYWxsb2NhdGVkIHRo
+cm91Z2ggZG1hLWJ1ZiBhZmFpay4gQnV0IHRoZXJlDQo+Pj4+PiAgIHdlJ3ZlIHJlY2VudGx5IGhh
+ZCBzb21lIGRpc2N1c3Npb25zIGFib3V0IGhvdyBleGFjdGx5IHdlIHNob3VsZCB0cmFjaw0KPj4+
+Pj4gICBhbGwgdGhpcywgYW5kIHRoZSBjb25jbHVzaW9uIHdhcyB0aGF0IG1vc3Qgb2YgdGhpcyBz
+aG91bGQgYmUgc29sdmVkIGJ5DQo+Pj4+PiAgIGNncm91cHMgbG9uZyB0ZXJtLiBTbyBpZiB0aGlz
+IGlzIGZvciBBbmRyb2lkLCB0aGVuIEkgZG9uJ3QgdGhpbmsgYWRkaW5nDQo+Pj4+PiAgIHJhbmRv
+bSBxdWljayBzdG9wLWdhcHMgdG8gdXBzdHJlYW0gaXMgYSBnb29kIGlkZWEgKGJlY2F1c2UgaXQn
+cyBhIHByZXR0eQ0KPj4+Pj4gICBsb25nIGxpc3Qgb2YgcGF0Y2hlcyB0aGF0IGhhdmUgY29tZSB1
+cCBvbiB0aGlzKS4NCj4+Pj4+DQo+Pj4+PiBTbyB3aGF0IGlzIHRoaXMgZm9yPw0KPj4+PiBGb3Ig
+dGhlIG92ZXJ2aWV3LiBkbWEtYnVmIHRvZGF5IG9ubHkgaGF2ZSBkZWJ1Z2ZzIGZvciBpbmZvLiBE
+ZWJ1Z2ZzDQo+Pj4+IGlzIG5vdCBhbGxvd2VkIGJ5IGdvb2dsZSB0byB1c2UgaW4gYW5kb2lkLiBT
+byB0aGlzIGFnZ3JlZ2F0ZSB0aGUgaW5mb3JtYXRpb24NCj4+Pj4gc28gd2UgY2FuIGdldCBpbmZv
+cm1hdGlvbiBvbiB3aGF0IGdvaW5nIG9uIG9uIHRoZSBzeXN0ZW0uwqANCj4+PiAgDQo+Pj4gQ2Fu
+IHlvdSBzZW5kIGFuIGV4YW1wbGUgZGVidWdmcyBvdXRwdXQgdG8gc2VlIHdoYXQgZGF0YSBhcmUg
+d2UgdGFsa2luZw0KPj4+IGFib3V0Pw0KPj4gU3VyZS4gVGhpcyBpcyBvbiBhIGlkbGUgc3lzdGVt
+LiBJbSBub3Qgc3VyZSB3aHkgeW91IG5lZWQgaXQuVGhlIHByb2JsZW0gaXMgcGFydGx5IHRoYXQg
+ZGVidWdmcyBpcw0KPj4gbm90IGFjY2Vzc2FibGUgb24gYSBjb21tZXJjaWFsIGRldmljZS4NCj4g
+SSB3YW50ZWQgdG8gc2VlIHdoYXQga2luZCBvZiBpbmZvcm1hdGlvbiBpcyB0aGVyZSwgYnV0IEkg
+ZGlkbid0IHRoaW5rIGl0J3MNCj4gdGhhdCBsb25nIDopDQpTb3JyeSwgYnV0IGl0IHdhcyBtYWtp
+bmcgYSBwb2ludC4NCj4gIA0KPj4gRG1hLWJ1ZiBPYmplY3RzOg0KPj4gc2l6ZcKgwqDCoCDCoMKg
+wqAgZmxhZ3PCoMKgIMKgwqDCoCBtb2RlwqDCoMKgIMKgwqDCoCBjb3VudMKgwqAgwqDCoMKgIGV4
+cF9uYW1lwqDCoMKgIMKgwqDCoCBidWYgbmFtZcKgwqDCoCBpbm/CoMKgwqDCoA0KPj4gMDAwMzI3
+NjjCoMKgwqAgMDAwMDAwMDLCoMKgwqAgMDAwODAwMDfCoMKgwqAgMDAwMDAwMDLCoMKgwqAgaW9u
+LXN5c3RlbS0xMDA2LWFsbG9jYXRvci1zZXJ2acKgwqDCoCBkbWFidWYxNzcyOMKgwqDCoCAwNzQw
+MDgyNcKgwqDCoCBkbWFidWYxNzcyOA0KPj4gwqDCoMKgIEF0dGFjaGVkIERldmljZXM6DQo+PiBU
+b3RhbCAwIGRldmljZXMgYXR0YWNoZWQNCj4+DQo+PiAxMTA4Mzc3NsKgwqDCoCAwMDAwMDAwMsKg
+wqDCoCAwMDA4MDAwN8KgwqDCoCAwMDAwMDAwM8KgwqDCoCBpb24tc3lzdGVtLTEwMDYtYWxsb2Nh
+dG9yLXNlcnZpwqDCoMKgIGRtYWJ1ZjE3NzI3wqDCoMKgIDA3NDAwODI0wqDCoMKgIGRtYWJ1ZjE3
+NzI3DQo+PiDCoMKgwqAgQXR0YWNoZWQgRGV2aWNlczoNCj4+IMKgwqDCoCBhZTAwMDAwLnFjb20s
+bWRzc19tZHA6cWNvbSxzbW11X3NkZV91bnNlY19jYg0KPj4gVG90YWwgMSBkZXZpY2VzIGF0dGFj
+aGVkDQo+Pg0KPj4gMDAwMzI3NjjCoMKgwqAgMDAwMDAwMDLCoMKgwqAgMDAwODAwMDfCoMKgwqAg
+MDAwMDAwMDLCoMKgwqAgaW9uLXN5c3RlbS0xMDA2LWFsbG9jYXRvci1zZXJ2acKgwqDCoCBkbWFi
+dWYxNzcyNsKgwqDCoCAwNzQwMDgyM8KgwqDCoCBkbWFidWYxNzcyNg0KPj4gwqDCoMKgIEF0dGFj
+aGVkIERldmljZXM6DQo+PiBUb3RhbCAwIGRldmljZXMgYXR0YWNoZWQNCj4+DQo+PiAxMTA4Mzc3
+NsKgwqDCoCAwMDAwMDAwMsKgwqDCoCAwMDA4MDAwN8KgwqDCoCAwMDAwMDAwMsKgwqDCoCBpb24t
+c3lzdGVtLTEwMDYtYWxsb2NhdG9yLXNlcnZpwqDCoMKgIGRtYWJ1ZjE3NzI1wqDCoMKgIDA3NDAw
+ODIywqDCoMKgIGRtYWJ1ZjE3NzI1DQo+PiDCoMKgwqAgQXR0YWNoZWQgRGV2aWNlczoNCj4+IMKg
+wqDCoCBhZTAwMDAwLnFjb20sbWRzc19tZHA6cWNvbSxzbW11X3NkZV91bnNlY19jYg0KPj4gVG90
+YWwgMSBkZXZpY2VzIGF0dGFjaGVkDQo+IC4uLg0KPg0KPj4gVG90YWwgNjU0IG9iamVjdHMsIDc0
+NDE0NDg5NiBieXRlcw0KPiAgDQo+IElzbid0IHRoZSBzaXplIGZyb20gdGhlIGZpcnN0IGNvbHVt
+biBhbHNvIGF2YWlsYWJsZSBpbiBmZGluZm8/DQo+DQo+IElzIHRoZXJlIGFueXRoaW5nIHRoYXQg
+cHJldmVudHMgbW9uaXRvcmluZyB0aG9zZT8NCj4NClllcywgc2VsaW51eC4NCg==
