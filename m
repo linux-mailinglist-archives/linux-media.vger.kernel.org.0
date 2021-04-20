@@ -2,115 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9910365869
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 14:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0754365852
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 14:04:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230118AbhDTMFy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 08:05:54 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57972 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232066AbhDTMFv (ORCPT
+        id S231877AbhDTMEr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 08:04:47 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35421 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230118AbhDTMEq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 08:05:51 -0400
-Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F9B51273;
-        Tue, 20 Apr 2021 14:05:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618920319;
-        bh=Qm76wVEBLO7kdQYpB4LrmwHyCiHdkEF9gUXO0x1AUIM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dKSzoVBcGxNgzXN5AITGp4og5bo4rSr0iyjAAOY3KXAHaXO8uJzPP0OwRu32gx0GC
-         BVxFLxerxqO6Sictp4UFNuB0VfsKZ0iPzRhvDmeVzwu1kqI8DcTjFfOtlOfjEJ7bjJ
-         2YMrbWSgi5nHa+XUTJ9ubVw3qDsDw9Tto2xkvvDY=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     Benoit Parrot <bparrot@ti.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2 12/35] media: ti-vpe: cal: rename CAL_HL_IRQ_MASK
-Date:   Tue, 20 Apr 2021 15:04:10 +0300
-Message-Id: <20210420120433.902394-13-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210420120433.902394-1-tomi.valkeinen@ideasonboard.com>
-References: <20210420120433.902394-1-tomi.valkeinen@ideasonboard.com>
+        Tue, 20 Apr 2021 08:04:46 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Yp6wlXcgL8K3KYp6zlzVd5; Tue, 20 Apr 2021 14:04:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1618920253; bh=hOjRdcVj/vhC8QEJJK2RYHYHr0CLQHqjNWi1pVmSYoA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=fAPcB6T9UvBNirxHTMGn2rs0Rehy/FF3+NYIYI8wmk2pkMSpWBKuOicdnnYA922S7
+         RTfZ4cH+c0uNOHIZC/54UEX6jTJjiY0xVB6lXWCLXIYJSmGF0Fyu97UGTvvE1sHjrr
+         XZDf5XPFyl2ZN0H+Tpi0+RqN72kHLve/BcxBSEefg/N+urHtM3C3SQCoua1lKD0AgX
+         bI+JeayI4U/Wtv0ebtQfP7VLt2YavfSMJOBRUn7fSXpbQuUwsHfDVSSTpzJ6ZAKfzR
+         tE/8y76g+cOWGx4V639I9TVLBnbpk8mLXw+zznxkSNv3YB0mxhJAfAd1ddvnxfyW4/
+         ZvHaGKr9vv8cQ==
+Subject: Re: [PATCH] media: atomisp: silence "dubious: !x | !y" warning
+To:     Ashish Kalra <eashishkalra@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+References: <20210417153627.GA50228@ashish-NUC8i5BEH>
+ <20210417205613.5c1aac74@coco.lan> <20210418012648.GA4821@ashish-NUC8i5BEH>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5abf96ba-b73f-005f-f489-81c6e3a57648@xs4all.nl>
+Date:   Tue, 20 Apr 2021 14:04:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210418012648.GA4821@ashish-NUC8i5BEH>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfCeDK+lIdYygSjSbwF3EraPHGthWBShAeXh/SHt0WbKm2m9F0LVGg2KktfY9PnncxcIPo5bQ/KhijIl50OKsO6rMgwQHUf/kbpoHmMNuRWeuPPiSHvY9
+ ZRK48KJNCB+vSkr6Yo1TMgUjL5dhyxNCsAYsth61/Yf1HqKSj57PcdcQc4GD1Vr2q+Ig8CL6iwpFdFSpsz0u5g9Ua+lo30bxOV4gdxs1COPsRhYQVPH1hbRe
+ 0FR7lq4R+SUDfes9sVxblffz45fKlHE711XuBukD9LIEjfPO691IguUK7JMMGNqyT+s/ApoN8vkeo724vgI/xiAmmpy3ic6WEJ9n6HNHqbEn4c/t0lOie/XY
+ NxbAQwM7ie2+BPRhnLgQ3LFsry8ng6SCNAx3taeOsZyWP9A2x7S5VX98q9hBcuN5dAzh7fDK
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-CAL_HL_IRQ_MASK macro is used for both WDMA start and end status bits.
-For clarity, rename CAL_HL_IRQ_MASK macro to CAL_HL_IRQ_WDMA_END_MASK
-and CAL_HL_IRQ_WDMA_START_MASK.
+Hi Ashish,
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/platform/ti-vpe/cal.c      | 12 ++++++------
- drivers/media/platform/ti-vpe/cal_regs.h |  3 ++-
- 2 files changed, 8 insertions(+), 7 deletions(-)
+On 18/04/2021 03:26, Ashish Kalra wrote:
+> On Sat, Apr 17, 2021 at 08:56:13PM +0200, Mauro Carvalho Chehab wrote:
+>> Em Sat, 17 Apr 2021 21:06:27 +0530
+>> Ashish Kalra <eashishkalra@gmail.com> escreveu:
+>>
+>>> Upon running sparse, "warning: dubious: !x | !y" is brought to notice
+>>> for this file.  Logical and bitwise OR are basically the same in this
+>>> context so it doesn't cause a runtime bug.  But let's change it to
+>>> logical OR to make it cleaner and silence the Sparse warning.
+>>>
+>>> Signed-off-by: Ashish Kalra <eashishkalra@gmail.com>
+>>> ---
+>>>  .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+>>> index 358cb7d2cd4c..3b850bb2d39d 100644
+>>> --- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+>>> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+>>> @@ -58,7 +58,7 @@ sh_css_vf_downscale_log2(
+>>>  	unsigned int ds_log2 = 0;
+>>>  	unsigned int out_width;
+>>>  
+>>> -	if ((!out_info) | (!vf_info))
+>>> +	if ((!out_info) || (!vf_info))
+>>
+>>
+>> While here, please get rid of the unneeded parenthesis:
+>>
+>> 	if (!out_info || !vf_info)
+>>
+>>
+>>>  		return -EINVAL;
+>>>  
+>>>  	out_width = out_info->res.width;
+>>
+>>
+>>
+>> Thanks,
+>> Mauro
+> Updated Patch as per your feedback
 
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index b9b533a4497f..01363294b882 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -453,9 +453,9 @@ void cal_ctx_start(struct cal_ctx *ctx)
- 
- 	/* Enable IRQ_WDMA_END and IRQ_WDMA_START. */
- 	cal_write(ctx->cal, CAL_HL_IRQENABLE_SET(1),
--		  CAL_HL_IRQ_MASK(ctx->dma_ctx));
-+		  CAL_HL_IRQ_WDMA_END_MASK(ctx->dma_ctx));
- 	cal_write(ctx->cal, CAL_HL_IRQENABLE_SET(2),
--		  CAL_HL_IRQ_MASK(ctx->dma_ctx));
-+		  CAL_HL_IRQ_WDMA_START_MASK(ctx->dma_ctx));
- }
- 
- void cal_ctx_stop(struct cal_ctx *ctx)
-@@ -479,9 +479,9 @@ void cal_ctx_stop(struct cal_ctx *ctx)
- 
- 	/* Disable IRQ_WDMA_END and IRQ_WDMA_START. */
- 	cal_write(ctx->cal, CAL_HL_IRQENABLE_CLR(1),
--		  CAL_HL_IRQ_MASK(ctx->dma_ctx));
-+		  CAL_HL_IRQ_WDMA_END_MASK(ctx->dma_ctx));
- 	cal_write(ctx->cal, CAL_HL_IRQENABLE_CLR(2),
--		  CAL_HL_IRQ_MASK(ctx->dma_ctx));
-+		  CAL_HL_IRQ_WDMA_START_MASK(ctx->dma_ctx));
- 
- 	ctx->dma.state = CAL_DMA_STOPPED;
- }
-@@ -589,7 +589,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
- 		cal_write(cal, CAL_HL_IRQSTATUS(1), status);
- 
- 		for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
--			if (status & CAL_HL_IRQ_MASK(i))
-+			if (status & CAL_HL_IRQ_WDMA_END_MASK(i))
- 				cal_irq_wdma_end(cal->ctx[i]);
- 		}
- 	}
-@@ -603,7 +603,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
- 		cal_write(cal, CAL_HL_IRQSTATUS(2), status);
- 
- 		for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
--			if (status & CAL_HL_IRQ_MASK(i))
-+			if (status & CAL_HL_IRQ_WDMA_START_MASK(i))
- 				cal_irq_wdma_start(cal->ctx[i]);
- 		}
- 	}
-diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
-index bf937919a1e9..94cb4f329cf3 100644
---- a/drivers/media/platform/ti-vpe/cal_regs.h
-+++ b/drivers/media/platform/ti-vpe/cal_regs.h
-@@ -125,7 +125,8 @@
- #define CAL_HL_IRQ_EOI_LINE_NUMBER_READ0		0
- #define CAL_HL_IRQ_EOI_LINE_NUMBER_EOI0			0
- 
--#define CAL_HL_IRQ_MASK(m)			BIT(m)
-+#define CAL_HL_IRQ_WDMA_END_MASK(m)		BIT(m)
-+#define CAL_HL_IRQ_WDMA_START_MASK(m)		BIT(m)
- 
- #define CAL_HL_IRQ_OCPO_ERR_MASK		BIT(6)
- 
--- 
-2.25.1
+Please don't post patches as an attachment. Just post it inline as you did the
+first time, but with Subject prefix [PATCHv2].
 
+Thanks!
+
+	Hans
