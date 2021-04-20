@@ -2,88 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECC63365711
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 13:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60C5536572B
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 13:09:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231651AbhDTLEi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 07:04:38 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51272 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231388AbhDTLEh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 07:04:37 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1618916645; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7c1umvuq5ELjSt4WwfRDq7eVQxePycuZSiMlUA0otrY=;
-        b=SsOPZ6h6g5IFGiSCAaRK5XTcbrpymneUn8n9gbjllBnAjMXd92IA+lg34lz88O+McxFKpK
-        1vsfWvClNffMWO2zU72LcnF+5csxyLIdbsqU4Z1MHoElWJXMqyPWY0p7RUTCOSMSH+HSgG
-        kFqffDHVPLarUvYpV16Xg5c1QEVdU1I=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 196FAAF27;
-        Tue, 20 Apr 2021 11:04:05 +0000 (UTC)
-Date:   Tue, 20 Apr 2021 13:04:04 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Peter.Enderborg@sony.com
-Cc:     christian.koenig@amd.com, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, sumit.semwal@linaro.org,
-        adobriyan@gmail.com, akpm@linux-foundation.org,
-        songmuchun@bytedance.com, guro@fb.com, shakeelb@google.com,
-        neilb@suse.de, samitolvanen@google.com, rppt@kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, willy@infradead.org
-Subject: Re: [PATCH v4] dma-buf: Add DmaBufTotal counter in meminfo
-Message-ID: <YH61JJOlLwBwHqVL@dhcp22.suse.cz>
-References: <23aa041b-0e7c-6f82-5655-836899973d66@sony.com>
- <d70efba0-c63d-b55a-c234-eb6d82ae813f@amd.com>
- <YH2ru642wYfqK5ne@dhcp22.suse.cz>
- <07ed1421-89f8-8845-b254-21730207c185@amd.com>
- <YH59E15ztpTTUKqS@dhcp22.suse.cz>
- <b89c84da-65d2-35df-7249-ea8edc0bee9b@amd.com>
- <YH6GyThr2mPrM6h5@dhcp22.suse.cz>
- <5efa2b11-850b-ad89-b518-b776247748a4@sony.com>
- <YH6bASnaRIV4DGpI@dhcp22.suse.cz>
- <532d6d7e-372c-1524-d015-e15d79fcf11c@sony.com>
+        id S231810AbhDTLJa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 07:09:30 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:35547 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231415AbhDTLJ3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Apr 2021 07:09:29 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id YoFQlXI0l8K3KYoFUlzJfz; Tue, 20 Apr 2021 13:08:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1618916937; bh=CeUDTKC6/4x+SawU5mgBsQLgrLEY0E60ReLGH33UB+A=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=plG+mQP0CfXo2HsyY6JVE6sYFFTEDjkq66ceT3kGwjQXAycAP3USg+LCmdHghciPv
+         tm+m55jNtYyijZwWoTy4uREA/GWeS2wgvJCXBTAwm+p5bH6f32VwY1Ml7tOFHMeITD
+         5MRB76f2LrI3Bn1jyslRrjBQMiHzXvHqiXIu2b1By1x8B4w/zC5DeCdSBYZOPApBee
+         UhoXGXKhh8Z3ObyC1LMg8MwK8UeydnCKsS7BSEYTcjbXgLfkYvJ05iHWIHg+jED8Ae
+         z0nF4GqTTQB0aKVoQAHRL8H+jIWb15zO9dl8bdnUV6X3Gs3po1xPbnJp4Ri12B/95u
+         dBS4thtlgpIDg==
+Subject: Re: [PATCH] v4l-utils: switch remote_subtest arrays to vector
+To:     Rosen Penev <rosenp@gmail.com>
+Cc:     linux-media@vger.kernel.org
+References: <20210420042714.3720981-1-rosenp@gmail.com>
+ <c206618a-01f4-0cf4-7cdf-4f08a75c1559@xs4all.nl>
+ <7A4EAA2C-9A31-4A3F-8ABA-8FE4F9D38980@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <79e73829-332f-7e04-e419-3bb92f178d60@xs4all.nl>
+Date:   Tue, 20 Apr 2021 13:08:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <532d6d7e-372c-1524-d015-e15d79fcf11c@sony.com>
+In-Reply-To: <7A4EAA2C-9A31-4A3F-8ABA-8FE4F9D38980@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfCcmrp+qFHnJNNq1gHBQ+MS7ayduLFRRsDowMBdAT+nm/QzIZziWH5nmpB3eOjJAYqe2SRN2oEht/4YGVusIW2UI7bC6zkVzSvoo96tYUZGN8BP4Fk/r
+ bopx4ZPpkwE19P1idalZHJZM9+sOL36SVH7xlOXkmkHd8I6b66znNchtkUmUMLCjCcp+Zu953DSEbTM/pOhrxMc7dq3+ION8oU4GOMpdiGgU8r3JjrSzV9de
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue 20-04-21 09:25:51, Peter.Enderborg@sony.com wrote:
-> On 4/20/21 11:12 AM, Michal Hocko wrote:
-> > On Tue 20-04-21 09:02:57, Peter.Enderborg@sony.com wrote:
-> >>>> But that isn't really system memory at all, it's just allocated device
-> >>>> memory.
-> >>> OK, that was not really clear to me. So this is not really accounted to
-> >>> MemTotal? If that is really the case then reporting it into the oom
-> >>> report is completely pointless and I am not even sure /proc/meminfo is
-> >>> the right interface either. It would just add more confusion I am
-> >>> afraid.
-> >>>  
-> >> Why is it confusing? Documentation is quite clear:
-> > Because a single counter without a wider context cannot be put into any
-> > reasonable context. There is no notion of the total amount of device
-> > memory usable for dma-buf. As Christian explained some of it can be RAM
-> > based. So a single number is rather pointless on its own in many cases.
-> >
-> > Or let me just ask. What can you tell from dma-bud: $FOO kB in its
-> > current form?
+On 20/04/2021 12:13, Rosen Penev wrote:
 > 
-> It is better to be blind?
+>> On Apr 20, 2021, at 02:54, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>
+>> Hi Rosen,
+>>
+>>> On 20/04/2021 06:27, Rosen Penev wrote:
+>>> Easier to read and allows removing some boilerplate code. Only a
+>>> moderate size increase.
+>>>
+>>> Ran through git clang-format
+>>
+>> Just to clarify: this is a clean up patch, right? There are no clang fixes
+>> here as in your past patches.
+> Not directly no. I initially wanted to use std::array and constexpr but could not because of the size parameter. vector is good enough I think.
+>>
+>>>
 
-No it is better to have a sensible counter that can be reasoned about.
-So far you are only claiming that having something is better than
-nothing and I would agree with you if that was a debugging one off
-interface. But /proc/meminfo and other proc files have to be maintained
-with future portability in mind. This is not a dumping ground for _some_
-counters that might be interesting at the _current_ moment. E.g. what
-happens if somebody wants to have a per device resp. memory based
-dma-buf data? Are you going to change the semantic or add another
-2 counters?
--- 
-Michal Hocko
-SUSE Labs
+<snip>
+
+>>> @@ -1553,32 +1486,31 @@ void testRemote(struct node *node, unsigned me, unsigned la, unsigned test_tags,
+>>>
+>>>   int ret = 0;
+>>>
+>>> -    for (const auto &test : tests) {
+>>> +    for (auto &&test : tests) {
+>>
+>> Why use 'auto &&test' instead of 'const auto &test'? Is there a good reason
+>> for that? The original is much more readable and from what I understand just
+>> as efficient (not that efficiency is an issue here).
+>>
+>> The same for other occurences of this idiom.
+> In a different project, I replaced all range loops to use auto&& and got a size decrease. I don’t have a good explanation for it. Maybe it helps with copy elision which const can sometimes prevent. Not sure.
+> 
+> My understanding of auto&& is that it evaluates to const ref, then ref, then value in that order.
+
+Please keep the original. It is easier to understand, and that is more important
+than saving a few bytes.
+
+I read elsewhere after googling this construct that it is not recommended, unless
+there is a really good reason for it.
+
+Regards,
+
+	Hans
