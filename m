@@ -2,72 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 611923656E1
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 12:52:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC63365711
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 13:04:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231655AbhDTKvi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 06:51:38 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48632 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231784AbhDTKvC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 06:51:02 -0400
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E9AB5470;
-        Tue, 20 Apr 2021 12:50:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1618915829;
-        bh=6bdJ4DAkZ4X0Wr1m3FVHsd/9z2mAHvApsyLbmE0rmzg=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=T0zmpmWPOqingkK3C6M5BlVXEBTTKq4ANvaI2Lof8gJbuxwAThSi5+uJBOnDXaPjJ
-         fRO0WRkNchpzJFlIhojtaT7nDEW2W7YM0R4jKiX2+n6+D318gp+yqgLyZX5T0WKo6C
-         qk20U43oJYS04Qt5k31w/jqH7eJZpPMeTScv5WG8=
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
-References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
- <20210412113457.328012-22-tomi.valkeinen@ideasonboard.com>
- <YHwvfL885Qm0iD0/@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 21/28] media: ti-vpe: cal: fix cal_ctx_v4l2_register error
- handling
-Message-ID: <8fb0ee37-236e-3eaa-9e82-0d9bb8c94c39@ideasonboard.com>
-Date:   Tue, 20 Apr 2021 13:50:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S231651AbhDTLEi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 07:04:38 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51272 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231388AbhDTLEh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Apr 2021 07:04:37 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1618916645; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7c1umvuq5ELjSt4WwfRDq7eVQxePycuZSiMlUA0otrY=;
+        b=SsOPZ6h6g5IFGiSCAaRK5XTcbrpymneUn8n9gbjllBnAjMXd92IA+lg34lz88O+McxFKpK
+        1vsfWvClNffMWO2zU72LcnF+5csxyLIdbsqU4Z1MHoElWJXMqyPWY0p7RUTCOSMSH+HSgG
+        kFqffDHVPLarUvYpV16Xg5c1QEVdU1I=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 196FAAF27;
+        Tue, 20 Apr 2021 11:04:05 +0000 (UTC)
+Date:   Tue, 20 Apr 2021 13:04:04 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Peter.Enderborg@sony.com
+Cc:     christian.koenig@amd.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, sumit.semwal@linaro.org,
+        adobriyan@gmail.com, akpm@linux-foundation.org,
+        songmuchun@bytedance.com, guro@fb.com, shakeelb@google.com,
+        neilb@suse.de, samitolvanen@google.com, rppt@kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, willy@infradead.org
+Subject: Re: [PATCH v4] dma-buf: Add DmaBufTotal counter in meminfo
+Message-ID: <YH61JJOlLwBwHqVL@dhcp22.suse.cz>
+References: <23aa041b-0e7c-6f82-5655-836899973d66@sony.com>
+ <d70efba0-c63d-b55a-c234-eb6d82ae813f@amd.com>
+ <YH2ru642wYfqK5ne@dhcp22.suse.cz>
+ <07ed1421-89f8-8845-b254-21730207c185@amd.com>
+ <YH59E15ztpTTUKqS@dhcp22.suse.cz>
+ <b89c84da-65d2-35df-7249-ea8edc0bee9b@amd.com>
+ <YH6GyThr2mPrM6h5@dhcp22.suse.cz>
+ <5efa2b11-850b-ad89-b518-b776247748a4@sony.com>
+ <YH6bASnaRIV4DGpI@dhcp22.suse.cz>
+ <532d6d7e-372c-1524-d015-e15d79fcf11c@sony.com>
 MIME-Version: 1.0
-In-Reply-To: <YHwvfL885Qm0iD0/@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <532d6d7e-372c-1524-d015-e15d79fcf11c@sony.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/04/2021 16:09, Laurent Pinchart wrote:
-> Hi Tomi,
+On Tue 20-04-21 09:25:51, Peter.Enderborg@sony.com wrote:
+> On 4/20/21 11:12 AM, Michal Hocko wrote:
+> > On Tue 20-04-21 09:02:57, Peter.Enderborg@sony.com wrote:
+> >>>> But that isn't really system memory at all, it's just allocated device
+> >>>> memory.
+> >>> OK, that was not really clear to me. So this is not really accounted to
+> >>> MemTotal? If that is really the case then reporting it into the oom
+> >>> report is completely pointless and I am not even sure /proc/meminfo is
+> >>> the right interface either. It would just add more confusion I am
+> >>> afraid.
+> >>>  
+> >> Why is it confusing? Documentation is quite clear:
+> > Because a single counter without a wider context cannot be put into any
+> > reasonable context. There is no notion of the total amount of device
+> > memory usable for dma-buf. As Christian explained some of it can be RAM
+> > based. So a single number is rather pointless on its own in many cases.
+> >
+> > Or let me just ask. What can you tell from dma-bud: $FOO kB in its
+> > current form?
 > 
-> Thank you for the patch.
-> 
-> On Mon, Apr 12, 2021 at 02:34:50PM +0300, Tomi Valkeinen wrote:
->> cal_ctx_v4l2_register() returns an error code, but the returned error
->> code is not handled anywhere. However, we can't really even handle the
->> error in any proper way, so lets just drop the return value and make
->> sure all error paths have an error print.
-> 
-> Ouch. Doesn't this call for registering the video node earlier, at probe
-> time, instead of in the async notifier complete callback ?
+> It is better to be blind?
 
-Shouldn't we only register uAPI access points after the kernel has 
-probed (succesfully) the hardware? If we register the video nodes at 
-probe time I presume we would have to add checks to all the cal ioctl 
-handlers to check if we have actually probed.
-
-v4l2_async_notifier_operations.complete can return an error, but it's 
-not quite clear to me what happens in that case and how the driver 
-should handle it.
-
-I'll look at this a bit, maybe it's still better to handle the error in 
-complete callback and return the error from there, than ignoring the error.
-
-  Tomi
+No it is better to have a sensible counter that can be reasoned about.
+So far you are only claiming that having something is better than
+nothing and I would agree with you if that was a debugging one off
+interface. But /proc/meminfo and other proc files have to be maintained
+with future portability in mind. This is not a dumping ground for _some_
+counters that might be interesting at the _current_ moment. E.g. what
+happens if somebody wants to have a per device resp. memory based
+dma-buf data? Are you going to change the semantic or add another
+2 counters?
+-- 
+Michal Hocko
+SUSE Labs
