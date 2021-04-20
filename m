@@ -2,159 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD5CF365830
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 13:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2FC03657A1
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 13:36:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231965AbhDTL5i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 07:57:38 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:58890 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231709AbhDTL5h (ORCPT
+        id S231313AbhDTLg2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 07:36:28 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:37037 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230290AbhDTLg1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 07:57:37 -0400
-X-Greylist: delayed 1986 seconds by postgrey-1.27 at vger.kernel.org; Tue, 20 Apr 2021 07:57:36 EDT
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13KBMmuM012376;
-        Tue, 20 Apr 2021 11:22:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=R7JGUmF3J71wLA6dPwUce8FwqmxU6JTnhs1XaoTWtpc=;
- b=mzrAyP3z3vTbOYF05fKTtm1FSfsRhaXIMtNI32junvaq2xixqdu4DFtiOEnKHMCjmDAu
- pzOmg6bFqIFulJfFAK3gAc4G1ubri2zL7y+ukl2ZTNZd4enmkHEeJ6kOxa09vXbI9Cau
- pxckDe5aQNXRp1SihBx1WvxHHU5bOAl0qwzbdRlKb6bAcGZRRvbBEvMsbe3h/AM/l6mO
- 6K0B0emzos5cXJDAWeD+zogdWeN4yukpTfk465biG7Agf/JhaT7Tq2FLJjNIss62qUS9
- j74qQsLbz2k9Dn5eRznUZ+6NPhFOVGc2XKyCruqh+CG4TG6qi4y3ofFXm87t+4F6DYgG CQ== 
-Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 381bjn86tg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 20 Apr 2021 11:22:48 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 13KBKXsp006877;
-        Tue, 20 Apr 2021 11:22:47 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by aserp3020.oracle.com with ESMTP id 3809k06m19-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 20 Apr 2021 11:22:47 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13KBKAbB005467;
-        Tue, 20 Apr 2021 11:22:46 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 3809k06m07-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 20 Apr 2021 11:22:46 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13KBMEHV030572;
-        Tue, 20 Apr 2021 11:22:18 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 20 Apr 2021 04:22:13 -0700
-Date:   Tue, 20 Apr 2021 14:21:52 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "Alice Guo (OSS)" <alice.guo@oss.nxp.com>,
-        gregkh@linuxfoundation.org, rafael@kernel.org,
-        horia.geanta@nxp.com, aymen.sghaier@nxp.com,
-        herbert@gondor.apana.org.au, davem@davemloft.net, tony@atomide.com,
-        geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
-        vkoul@kernel.org, peter.ujfalusi@gmail.com, a.hajda@samsung.com,
-        narmstrong@baylibre.com, robert.foss@linaro.org, airlied@linux.ie,
-        daniel@ffwll.ch, khilman@baylibre.com, tomba@kernel.org,
-        jyri.sarha@iki.fi, joro@8bytes.org, will@kernel.org,
-        mchehab@kernel.org, ulf.hansson@linaro.org,
-        adrian.hunter@intel.com, kishon@ti.com, kuba@kernel.org,
-        linus.walleij@linaro.org, Roy.Pledge@nxp.com, leoyang.li@nxp.com,
-        ssantosh@kernel.org, matthias.bgg@gmail.com, edubezval@gmail.com,
-        j-keerthy@ti.com, balbi@kernel.org, linux@prisktech.co.nz,
-        stern@rowland.harvard.edu, wim@linux-watchdog.org,
-        linux@roeck-us.net, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-staging@lists.linux.dev,
-        linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [RFC v1 PATCH 1/3] drivers: soc: add support for
- soc_device_match returning -EPROBE_DEFER
-Message-ID: <20210420112151.GE1981@kadam>
-References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
- <20210419042722.27554-2-alice.guo@oss.nxp.com>
- <CAMuHMdUbrPxtJ9DCP0_nFrReuuO4vFY2J79LrKY82D7bCOfzRw@mail.gmail.com>
+        Tue, 20 Apr 2021 07:36:27 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id YofWlXS4Q8K3KYofZlzPTx; Tue, 20 Apr 2021 13:35:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1618918554; bh=doq2K2ciyiMrj6S2cEcZtlgv25cz/m88RRkxLWtesi0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=MeQVxCP+HH56vApGqKbqC5wUCSSWQGP9mNawk6Mk02oGP56yK+tCBQnJtmVAI9mCH
+         TKeZA9gsE7s7v/jZJjdBi/p8sDDdMfgFUXldy7hOJVdugYNdylHPLXIhlc7GNgUOG0
+         LlS+Q4T9uZLsVGfm/kujA39HiHl9Ndtv+X0Zu4lBz2FwhP3YYVJKNnZNj9vV0983Fo
+         iT81rSskXhJWj0a62618wQduoFbNW8reougESlXqrPCo/JAXCxp/Vn6Mjz7IfRzcxc
+         X3GaRMKVXT9ENB6INQAxZ0CUdLjA/wL/cQGhnq4b00oGj3HrHAQHxEJWdIJ1vWKjEl
+         r3DdOOXYnszDw==
+Subject: Re: [PATCH v9 03/13] media: hantro: Use syscon instead of 'ctrl'
+ register
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Lucas Stach <l.stach@pengutronix.de>, ezequiel@collabora.com,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        lee.jones@linaro.org, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
+        "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+        Jacky Bai <ping.bai@nxp.com>
+Cc:     devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-imx@nxp.com,
+        kernel@pengutronix.de, kernel@collabora.com, cphealy@gmail.com,
+        linux-arm-kernel@lists.infradead.org
+References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
+ <20210407073534.376722-4-benjamin.gaignard@collabora.com>
+ <7bcbb787d82f21d42563d8fb7e3c2e7d40123932.camel@pengutronix.de>
+ <ffe9b3f5-94f5-453e-73f0-4b42d0454b63@collabora.com>
+ <529b61b1b1e6030c92a7944c4864246521b2ccdd.camel@pengutronix.de>
+ <36008691-d075-203d-0cac-2a012773ea34@collabora.com>
+ <43a767f8-77f5-7937-c484-753a3123f6a2@xs4all.nl>
+ <e7064bb1-69e6-4214-380d-c464b7832da5@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <0f23d42e-b858-c57d-3bf7-32b511e919d1@xs4all.nl>
+Date:   Tue, 20 Apr 2021 13:35:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUbrPxtJ9DCP0_nFrReuuO4vFY2J79LrKY82D7bCOfzRw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: e0r_GcH24oUhB4PQiI_vI2-dauff_ZRM
-X-Proofpoint-ORIG-GUID: e0r_GcH24oUhB4PQiI_vI2-dauff_ZRM
+In-Reply-To: <e7064bb1-69e6-4214-380d-c464b7832da5@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfGZ13gHMa8gkiXjz8wgDyFzaYYCt9UUsYTPpCio4nZAkdDDxuKCKceeVqGxUSF/TqIr7N6FcI4GNAGxjmkU652ja4jvW2ByzAdmzDG7vM0WvbOQLToVt
+ +mr75r84cLP2CO6ycEvczdsIhyMbPGyivQMF81Dk1z1w/MCH2xL3B2Pj9yGE+uFHVqCVUwwL8EdHJyq6n//fRi3m0eHmoDIVrcSHRSTVk1wFs3Fab5YV2D97
+ 3YIkQKISbzqaJeYyogGdeE8knqEpiFk/fYwiuSc/aSTT0qfrh9qmLrAyryJvItbse7nIlANMWfkNVeIsK6b1Uoc1+9+Fm+o0CYFLIPzLAggTUFyerXuWgwqk
+ qqclmRbc7mo6E90K1AucAxaa9/s/LT8F/2to5S6UTEO63+spg6fMmDAI1YnCm/A2pW6lgtvsugovF2QKHfElcJuSLrY0X9whEo9a85W0qOD1bwFfpGwwf+H3
+ pK/KHHQPZo42GVN9sY2vNauHBtESUNXdSNA+lorJBkj7VlDwUJL+8jq1WPuGlLwV7YWemR0ZZSEOQ/1mj3TaSDVLmellT2q1F3PYn1qnpxIKtc+K2XWJnWWH
+ RAv9NS56n6kDsbfRKnYxZoeIpOh0psmezsRNAIvzUteOUMeJc9cFYX/6HzU3hbbYe3XdKTuqHXkAulupEOeRQ4xJnlXp0wPAQbSzWgJKz8pFvQEsPbXZO5gB
+ D1hA43gaNvPivGfQBPep8U3dmOFT8+cCk6xQr+YuoSPlabY0HB4B5OYO5uFUUPqb1rxxRjwGnmRGRBAzPlCAjRL9snvPaRXdMopeT+G4EQG9aAtMyHRAk833
+ MUi6eTmQAp4egsQoQk4yT50p3lAjq9eob2h/5HQtOxOs9GkQZer8sRzTfFp2dcRsqF25fIqkINBovF9M+QVjsZgAlULp9iRGXZxf00NjTsHW0ydseWWQQFxR
+ 3XqD/DPlAZmD4M3kUOuVTsa9LtHz1hsE5LKFNE89ZFuRfxMZ/IvuEsVNKFHv5GUrw18ATY4Eqrv9Q+gBgR+FlsbXPsI9xcBU3awWbqBxNp6YPjl1GBdnrSsQ
+ UY/sfRYqzyGfdLHP/JnPNstLKjv5MlYB0d5ZyRqzbAOatkYa6rOB/9psCaL+n/9XBfClrWaF/gH1jooXhq4zn+gol4qMoXEF1nM=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 10:20:13AM +0200, Geert Uytterhoeven wrote:
-> Hi Alice,
+On 20/04/2021 11:31, Benjamin Gaignard wrote:
 > 
-> CC Arnd (soc_device_match() author)
+> Le 20/04/2021 à 11:16, Hans Verkuil a écrit :
+>> On 20/04/2021 11:10, Benjamin Gaignard wrote:
+>>> Le 16/04/2021 à 17:14, Lucas Stach a écrit :
+>>>> Am Freitag, dem 16.04.2021 um 15:08 +0200 schrieb Benjamin Gaignard:
+>>>>> Le 16/04/2021 à 12:54, Lucas Stach a écrit :
+>>>>>> Am Mittwoch, dem 07.04.2021 um 09:35 +0200 schrieb Benjamin Gaignard:
+>>>>>>> In order to be able to share the control hardware block between
+>>>>>>> VPUs use a syscon instead a ioremap it in the driver.
+>>>>>>> To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
+>>>>>>> phandle is not found look at 'ctrl' reg-name.
+>>>>>>> With the method it becomes useless to provide a list of register
+>>>>>>> names so remove it.
+>>>>>> Sorry for putting a spoke in the wheel after many iterations of the
+>>>>>> series.
+>>>>>>
+>>>>>> We just discussed a way forward on how to handle the clocks and resets
+>>>>>> provided by the blkctl block on i.MX8MM and later and it seems there is
+>>>>>> a consensus on trying to provide virtual power domains from a blkctl
+>>>>>> driver, controlling clocks and resets for the devices in the power
+>>>>>> domain. I would like to avoid introducing yet another way of handling
+>>>>>> the blkctl and thus would like to align the i.MX8MQ VPU blkctl with
+>>>>>> what we are planning to do on the later chip generations.
+>>>>>>
+>>>>>> CC'ing Jacky Bai and Peng Fan from NXP, as they were going to give this
+>>>>>> virtual power domain thing a shot.
+>>>>> That could replace the 3 first patches and Dt patche of this series
+>>>>> but that will not impact the hevc part, so I wonder if pure hevc patches
+>>>>> could be merged anyway ?
+>>>>> They are reviewed and don't depend of how the ctrl block is managed.
+>>>> I'm not really in a position to give any informed opinion about that
+>>>> hvec patches, as I only skimmed them, but I don't see any reason to
+>>>> delay patches 04-11 from this series until the i.MX8M platform issues
+>>>> are sorted. AFAICS those things are totally orthogonal.
+>>> Hi Hans,
+>>> What do you think about this proposal to split this series ?
+>>> Get hevc part merged could allow me to continue to add features
+>>> like scaling lists, compressed reference buffers and 10-bit supports.
+>> Makes sense to me!
 > 
-> On Mon, Apr 19, 2021 at 6:28 AM Alice Guo (OSS) <alice.guo@oss.nxp.com> wrote:
-> > From: Alice Guo <alice.guo@nxp.com>
-> >
-> > In i.MX8M boards, the registration of SoC device is later than caam
-> > driver which needs it. Caam driver needs soc_device_match to provide
-> > -EPROBE_DEFER when no SoC device is registered and no
-> > early_soc_dev_attr.
-> 
-> I'm wondering if this is really a good idea: soc_device_match() is a
-> last-resort low-level check, and IMHO should be made available early on,
-> so there is no need for -EPROBE_DEFER.
-> 
-> >
-> > Signed-off-by: Alice Guo <alice.guo@nxp.com>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/base/soc.c
-> > +++ b/drivers/base/soc.c
-> > @@ -110,6 +110,7 @@ static void soc_release(struct device *dev)
-> >  }
-> >
-> >  static struct soc_device_attribute *early_soc_dev_attr;
-> > +static bool soc_dev_attr_init_done = false;
-> 
-> Do you need this variable?
-> 
-> >
-> >  struct soc_device *soc_device_register(struct soc_device_attribute *soc_dev_attr)
-> >  {
-> > @@ -157,6 +158,7 @@ struct soc_device *soc_device_register(struct soc_device_attribute *soc_dev_attr
-> >                 return ERR_PTR(ret);
-> >         }
-> >
-> > +       soc_dev_attr_init_done = true;
-> >         return soc_dev;
-> >
-> >  out3:
-> > @@ -246,6 +248,9 @@ const struct soc_device_attribute *soc_device_match(
-> >         if (!matches)
-> >                 return NULL;
-> >
-> > +       if (!soc_dev_attr_init_done && !early_soc_dev_attr)
-> 
-> if (!soc_bus_type.p && !early_soc_dev_attr)
+> Great !
+> If the latest version match your expectations how would you like to processed ?
+> Can you merged patches 4 to 12 ? or should I resend them in a new shorted series ?
 
-There is one place checking this already.  We could wrap it in a helper
-function:
+A separate patch series would be easier for me.
 
-static bool device_init_done(void)
-{
-	return soc_bus_type.p ? true : false;
-}
+Regards,
 
-regards,
-dan carpenter
+	Hans
+
+> 
+> Regards,
+> Benjamin
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+
