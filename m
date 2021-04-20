@@ -2,186 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83C0536558E
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 11:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C35D36559E
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 11:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231326AbhDTJjg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 05:39:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43508 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229878AbhDTJjf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 05:39:35 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B974BC06174A;
-        Tue, 20 Apr 2021 02:39:03 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id a5so5785428ljk.0;
-        Tue, 20 Apr 2021 02:39:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:references:from:subject:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0cgFeiaCJmuEwdxXqsfxCg9P2r8ydkzAaV1kqEK2h0w=;
-        b=gvB2Kjtuq3c6hDrfV3q09iYFnvk6b3RYxllwzrHlnk+X8nahI/9ZgjrPXry5x6L08J
-         ZqUJbyfgrU/17jihKD9RUFrWkKnPLnaOIz5SfrAgdH3V6GQqhJBsJvkRB5ags8nff6/g
-         3cv4VDvDqV2sSqUfb8205g5G7kjLsdASVbSOa0/k/nLxNeajkm1KtVIIys66vWeGWX+c
-         R9IfZtnbhr3czfjp/hluYCcP4dflvCu/ccDgljZf5znlxpNeSE4/7JXLhxawyn0f1SMK
-         6r42KR2eqy29tw7Neimeshqmq4hBcMWCqRWk5EiKSmXItxwa+o1xYehRrMSSHpcpkKnQ
-         slWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0cgFeiaCJmuEwdxXqsfxCg9P2r8ydkzAaV1kqEK2h0w=;
-        b=ZDyLVsvmS97vdLdIHk4HltbWTD7b7zNTv5Zv0eN2YlpxyPpgmErFv5kZu8skEq6pfh
-         vxq+1aU7NReOTmNoutWjs4XfTqwvTH3xkbbVBRfJIZJmdDIO8eAy4OzzydSGRHx2EKmi
-         YCxZohN5vmAuAHhdwG3sQihnF9/FpLz5SAmy9PRVEhD360VKL/zfOUzhAx5QDLXNc87a
-         9ybsBVfOZbIl03G6Eq328W7XZ7KS5ODOvs8lwti3F26LVWd9FmHCpM3iy0PDsS2Bg6xH
-         EV9ZaKPAs6WxNStDYBX/CPFnurowIFpHvg+lf5O6j35v8H7kOGR8KN4r+woc3lrLJAa9
-         MaUw==
-X-Gm-Message-State: AOAM533MPVJGV9S8bJbfOTifeiRiknGlJ/Pqt+FLZodPoLAIaJLX6Q5b
-        pyUfyQt8fzdBkHSm6ylFSFaH1cah+qHUdqvm
-X-Google-Smtp-Source: ABdhPJxU9OnhgUvmhfsaX0XQNxKFEPf1HsBVx73r0wgo9gbzwsyEGSVJJz6LhIbQa4C3GIRFxd4WnA==
-X-Received: by 2002:a2e:9f49:: with SMTP id v9mr14102607ljk.44.1618911541931;
-        Tue, 20 Apr 2021 02:39:01 -0700 (PDT)
-Received: from [10.0.0.42] (91-155-111-71.elisa-laajakaista.fi. [91.155.111.71])
-        by smtp.gmail.com with ESMTPSA id n22sm723197lfu.144.2021.04.20.02.38.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Apr 2021 02:39:01 -0700 (PDT)
-To:     "Alice Guo (OSS)" <alice.guo@oss.nxp.com>,
-        gregkh@linuxfoundation.org, rafael@kernel.org,
-        horia.geanta@nxp.com, aymen.sghaier@nxp.com,
-        herbert@gondor.apana.org.au, davem@davemloft.net, tony@atomide.com,
-        geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
-        vkoul@kernel.org, a.hajda@samsung.com, narmstrong@baylibre.com,
-        robert.foss@linaro.org, airlied@linux.ie, daniel@ffwll.ch,
-        khilman@baylibre.com, tomba@kernel.org, jyri.sarha@iki.fi,
-        joro@8bytes.org, will@kernel.org, mchehab@kernel.org,
-        ulf.hansson@linaro.org, adrian.hunter@intel.com, kishon@ti.com,
-        kuba@kernel.org, linus.walleij@linaro.org, Roy.Pledge@nxp.com,
-        leoyang.li@nxp.com, ssantosh@kernel.org, matthias.bgg@gmail.com,
-        edubezval@gmail.com, j-keerthy@ti.com, balbi@kernel.org,
-        linux@prisktech.co.nz, stern@rowland.harvard.edu,
-        wim@linux-watchdog.org, linux@roeck-us.net
-Cc:     linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-staging@lists.linux.dev,
-        linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
-References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
- <20210419042722.27554-4-alice.guo@oss.nxp.com>
-From:   =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use
- soc_device_match
-Message-ID: <2924b8af-d176-01b1-a221-5219c1128494@gmail.com>
-Date:   Tue, 20 Apr 2021 12:40:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+        id S231231AbhDTJmZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 05:42:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36362 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229937AbhDTJmY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Apr 2021 05:42:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BECBB610A1;
+        Tue, 20 Apr 2021 09:41:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618911713;
+        bh=Un7yeElEVIiqeGbXSh4qF0s7poSaThN9A0qIRjII9EM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ccb3aIcShAtpQ1+dsYpH8kdgCeXxaAxKBoeXCpxSwnZwfSpb9sySHQCBFd98lmhm5
+         3jlS2a4hksP9dXywhk1Uaf1FQyWT/6hPyFqgFOrjpj4M3MB3kfmiFwBMXZZsrDPJNJ
+         IWDmncrJ2X4DvFBvoMkBhhHWwDWCRNlwkZHkVYWBUYXfVJjfgoavuUuJ2/g66OhySt
+         dunjEpf8/TZPONQcGJRsU3Z+Gmajnml3UZd9ywTZGwce6Tx2ML96hMHTdEkwYKV/fe
+         zq+RLOYdQ18onjmVODdXYGLMB8F04PTkBumblC5NNN3Qfx6hLB7xBsUMHCX8wCxfPo
+         QGplo/Mad3MOw==
+Date:   Tue, 20 Apr 2021 12:41:43 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Peter.Enderborg@sony.com
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        adobriyan@gmail.com, akpm@linux-foundation.org,
+        songmuchun@bytedance.com, guro@fb.com, shakeelb@google.com,
+        mhocko@suse.com, neilb@suse.de, samitolvanen@google.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, willy@infradead.org
+Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
+Message-ID: <YH6h16hviixphaHV@kernel.org>
+References: <20210417163835.25064-1-peter.enderborg@sony.com>
+ <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
+ <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
 MIME-Version: 1.0
-In-Reply-To: <20210419042722.27554-4-alice.guo@oss.nxp.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alice,
+Hello Peter,
 
-On 4/19/21 7:27 AM, Alice Guo (OSS) wrote:
-> From: Alice Guo <alice.guo@nxp.com>
+On Tue, Apr 20, 2021 at 09:26:00AM +0000, Peter.Enderborg@sony.com wrote:
+> On 4/20/21 10:58 AM, Daniel Vetter wrote:
+> > On Sat, Apr 17, 2021 at 06:38:35PM +0200, Peter Enderborg wrote:
+> >> This adds a total used dma-buf memory. Details
+> >> can be found in debugfs, however it is not for everyone
+> >> and not always available. dma-buf are indirect allocated by
+> >> userspace. So with this value we can monitor and detect
+> >> userspace applications that have problems.
+> >>
+> >> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
+> > So there have been tons of discussions around how to track dma-buf and
+> > why, and I really need to understand the use-cass here first I think. proc
+> > uapi is as much forever as anything else, and depending what you're doing
+> > this doesn't make any sense at all:
+> >
+> > - on most linux systems dma-buf are only instantiated for shared buffer.
+> >   So there this gives you a fairly meaningless number and not anything
+> >   reflecting gpu memory usage at all.
+> >
+> > - on Android all buffers are allocated through dma-buf afaik. But there
+> >   we've recently had some discussions about how exactly we should track
+> >   all this, and the conclusion was that most of this should be solved by
+> >   cgroups long term. So if this is for Android, then I don't think adding
+> >   random quick stop-gaps to upstream is a good idea (because it's a pretty
+> >   long list of patches that have come up on this).
+> >
+> > So what is this for?
 > 
-> Update all the code that use soc_device_match because add support for
-> soc_device_match returning -EPROBE_DEFER.
+> For the overview. dma-buf today only have debugfs for info. Debugfs
+> is not allowed by google to use in andoid. So this aggregate the information
+> so we can get information on what going on on the system. 
+ 
+Can you send an example debugfs output to see what data are we talking
+about?
+
+> And the LKML standard respond to that is "SHOW ME THE CODE".
 > 
-> Signed-off-by: Alice Guo <alice.guo@nxp.com>
-> ---
->  drivers/bus/ti-sysc.c                         |  2 +-
->  drivers/clk/renesas/r8a7795-cpg-mssr.c        |  4 +++-
->  drivers/clk/renesas/rcar-gen2-cpg.c           |  2 +-
->  drivers/clk/renesas/rcar-gen3-cpg.c           |  2 +-
->  drivers/dma/fsl-dpaa2-qdma/dpaa2-qdma.c       |  7 ++++++-
->  drivers/dma/ti/k3-psil.c                      |  3 +++
->  drivers/dma/ti/k3-udma.c                      |  2 +-
->  drivers/gpu/drm/bridge/nwl-dsi.c              |  2 +-
->  drivers/gpu/drm/meson/meson_drv.c             |  4 +++-
->  drivers/gpu/drm/omapdrm/dss/dispc.c           |  2 +-
->  drivers/gpu/drm/omapdrm/dss/dpi.c             |  4 +++-
->  drivers/gpu/drm/omapdrm/dss/dsi.c             |  3 +++
->  drivers/gpu/drm/omapdrm/dss/dss.c             |  3 +++
->  drivers/gpu/drm/omapdrm/dss/hdmi4_core.c      |  3 +++
->  drivers/gpu/drm/omapdrm/dss/venc.c            |  4 +++-
->  drivers/gpu/drm/omapdrm/omap_drv.c            |  3 +++
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  4 +++-
->  drivers/gpu/drm/rcar-du/rcar_lvds.c           |  2 +-
->  drivers/gpu/drm/tidss/tidss_dispc.c           |  4 +++-
->  drivers/iommu/ipmmu-vmsa.c                    |  7 +++++--
->  drivers/media/platform/rcar-vin/rcar-core.c   |  2 +-
->  drivers/media/platform/rcar-vin/rcar-csi2.c   |  2 +-
->  drivers/media/platform/vsp1/vsp1_uif.c        |  4 +++-
->  drivers/mmc/host/renesas_sdhi_core.c          |  2 +-
->  drivers/mmc/host/renesas_sdhi_internal_dmac.c |  2 +-
->  drivers/mmc/host/sdhci-of-esdhc.c             | 21 ++++++++++++++-----
->  drivers/mmc/host/sdhci-omap.c                 |  2 +-
->  drivers/mmc/host/sdhci_am654.c                |  2 +-
->  drivers/net/ethernet/renesas/ravb_main.c      |  4 +++-
->  drivers/net/ethernet/ti/am65-cpsw-nuss.c      |  2 +-
->  drivers/net/ethernet/ti/cpsw.c                |  2 +-
->  drivers/net/ethernet/ti/cpsw_new.c            |  2 +-
->  drivers/phy/ti/phy-omap-usb2.c                |  4 +++-
->  drivers/pinctrl/renesas/core.c                |  2 +-
->  drivers/pinctrl/renesas/pfc-r8a7790.c         |  5 ++++-
->  drivers/pinctrl/renesas/pfc-r8a7794.c         |  5 ++++-
->  drivers/soc/fsl/dpio/dpio-driver.c            | 13 ++++++++----
->  drivers/soc/renesas/r8a774c0-sysc.c           |  5 ++++-
->  drivers/soc/renesas/r8a7795-sysc.c            |  2 +-
->  drivers/soc/renesas/r8a77990-sysc.c           |  5 ++++-
->  drivers/soc/ti/k3-ringacc.c                   |  2 +-
->  drivers/staging/mt7621-pci/pci-mt7621.c       |  2 +-
->  drivers/thermal/rcar_gen3_thermal.c           |  4 +++-
->  drivers/thermal/ti-soc-thermal/ti-bandgap.c   | 10 +++++++--
->  drivers/usb/gadget/udc/renesas_usb3.c         |  2 +-
->  drivers/usb/host/ehci-platform.c              |  4 +++-
->  drivers/usb/host/xhci-rcar.c                  |  2 +-
->  drivers/watchdog/renesas_wdt.c                |  2 +-
->  48 files changed, 131 insertions(+), 52 deletions(-)
+> When the top memgc has a aggregated information on dma-buf it is maybe
+> a better source to meminfo. But then it also imply that dma-buf requires memcg.
 > 
+> And I dont see any problem to replace this with something better with it is ready.
 
-...
+Well, the problem with replacing the counter in /proc/meminfo is that it
+requires all users of /proc/meminfo to adapt to the changes.
 
-> diff --git a/drivers/dma/ti/k3-udma.c b/drivers/dma/ti/k3-udma.c
-> index 96ad21869ba7..50a4c8f0993d 100644
-> --- a/drivers/dma/ti/k3-udma.c
-> +++ b/drivers/dma/ti/k3-udma.c
-> @@ -5188,7 +5188,7 @@ static int udma_probe(struct platform_device *pdev)
->  	ud->match_data = match->data;
->  
->  	soc = soc_device_match(k3_soc_devices);
-> -	if (!soc) {
-> +	if (!IS_ERR(soc) && !soc) {
+That's why it's way less painful to go an extra mile and define (hopefully)
+stable user ABI up front.
 
-this does not sound right...
+Why can't you use fdinfo to show how much memory consumed by a dma-buf?
 
-if (!soc || IS_ERR(soc))
-or
-if (IS_ERR_OR_NULL(soc))
-is even better.
-
->  		dev_err(dev, "No compatible SoC found\n");
->  		return -ENODEV;
-
-There might be a clever macro for it, but:
-
-return soc ? PTR_ERR(soc) : -ENODEV;
-
->  	}
+> > -Daniel
+> >
+> >> ---
+> >>  drivers/dma-buf/dma-buf.c | 12 ++++++++++++
+> >>  fs/proc/meminfo.c         |  5 ++++-
+> >>  include/linux/dma-buf.h   |  1 +
+> >>  3 files changed, 17 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> >> index f264b70c383e..4dc37cd4293b 100644
+> >> --- a/drivers/dma-buf/dma-buf.c
+> >> +++ b/drivers/dma-buf/dma-buf.c
+> >> @@ -37,6 +37,7 @@ struct dma_buf_list {
+> >>  };
+> >>  
+> >>  static struct dma_buf_list db_list;
+> >> +static atomic_long_t dma_buf_global_allocated;
+> >>  
+> >>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+> >>  {
+> >> @@ -79,6 +80,7 @@ static void dma_buf_release(struct dentry *dentry)
+> >>  	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+> >>  		dma_resv_fini(dmabuf->resv);
+> >>  
+> >> +	atomic_long_sub(dmabuf->size, &dma_buf_global_allocated);
+> >>  	module_put(dmabuf->owner);
+> >>  	kfree(dmabuf->name);
+> >>  	kfree(dmabuf);
+> >> @@ -586,6 +588,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+> >>  	mutex_lock(&db_list.lock);
+> >>  	list_add(&dmabuf->list_node, &db_list.head);
+> >>  	mutex_unlock(&db_list.lock);
+> >> +	atomic_long_add(dmabuf->size, &dma_buf_global_allocated);
+> >>  
+> >>  	return dmabuf;
+> >>  
+> >> @@ -1346,6 +1349,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+> >>  }
+> >>  EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+> >>  
+> >> +/**
+> >> + * dma_buf_allocated_pages - Return the used nr of pages
+> >> + * allocated for dma-buf
+> >> + */
+> >> +long dma_buf_allocated_pages(void)
+> >> +{
+> >> +	return atomic_long_read(&dma_buf_global_allocated) >> PAGE_SHIFT;
+> >> +}
+> >> +
+> >>  #ifdef CONFIG_DEBUG_FS
+> >>  static int dma_buf_debug_show(struct seq_file *s, void *unused)
+> >>  {
+> >> diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+> >> index 6fa761c9cc78..ccc7c40c8db7 100644
+> >> --- a/fs/proc/meminfo.c
+> >> +++ b/fs/proc/meminfo.c
+> >> @@ -16,6 +16,7 @@
+> >>  #ifdef CONFIG_CMA
+> >>  #include <linux/cma.h>
+> >>  #endif
+> >> +#include <linux/dma-buf.h>
+> >>  #include <asm/page.h>
+> >>  #include "internal.h"
+> >>  
+> >> @@ -145,7 +146,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+> >>  	show_val_kb(m, "CmaFree:        ",
+> >>  		    global_zone_page_state(NR_FREE_CMA_PAGES));
+> >>  #endif
+> >> -
+> >> +#ifdef CONFIG_DMA_SHARED_BUFFER
+> >> +	show_val_kb(m, "DmaBufTotal:    ", dma_buf_allocated_pages());
+> >> +#endif
+> >>  	hugetlb_report_meminfo(m);
+> >>  
+> >>  	arch_report_meminfo(m);
+> >> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> >> index efdc56b9d95f..5b05816bd2cd 100644
+> >> --- a/include/linux/dma-buf.h
+> >> +++ b/include/linux/dma-buf.h
+> >> @@ -507,4 +507,5 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
+> >>  		 unsigned long);
+> >>  int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> >>  void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> >> +long dma_buf_allocated_pages(void);
+> >>  #endif /* __DMA_BUF_H__ */
+> >> -- 
+> >> 2.17.1
+> >>
+> >> _______________________________________________
+> >> dri-devel mailing list
+> >> dri-devel@lists.freedesktop.org
+> >> https://urldefense.com/v3/__https://lists.freedesktop.org/mailman/listinfo/dri-devel__;!!JmoZiZGBv3RvKRSx!qW8kUOZyY4Dkew6OvqgfoM-5unQNVeF_M1biaIAyQQBR0KB7ksRzZjoh382ZdGGQR9k$ 
+> 
 
 -- 
-PÃ©ter
+Sincerely yours,
+Mike.
