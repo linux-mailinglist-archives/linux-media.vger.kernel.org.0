@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50CC4366161
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 23:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0631366166
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 23:11:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234097AbhDTVGw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 17:06:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55072 "EHLO
+        id S233964AbhDTVLf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 17:11:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233750AbhDTVGv (ORCPT
+        with ESMTP id S233682AbhDTVLf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 17:06:51 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1DCBC06174A
-        for <linux-media@vger.kernel.org>; Tue, 20 Apr 2021 14:06:17 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id q2so2203463pfk.9
-        for <linux-media@vger.kernel.org>; Tue, 20 Apr 2021 14:06:17 -0700 (PDT)
+        Tue, 20 Apr 2021 17:11:35 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 762FFC06174A
+        for <linux-media@vger.kernel.org>; Tue, 20 Apr 2021 14:11:00 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id e2so16073758plh.8
+        for <linux-media@vger.kernel.org>; Tue, 20 Apr 2021 14:11:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6PJiHymb6fdLXuFM6coaESQa/kSW26Vr2w/SBE/3dtU=;
-        b=U+NSNqPt6w3eNL1NK/AKalvlqLdvmJsCIvXVYANDHvjpd6HH9vh1bkil8RF1vLBQku
-         LhnK39FhyGDzpEMhlKt60UNyGLxq3RcL1xixMfVllev7nvBU1wYufO9Fc8Js/JmTUFyK
-         jLYOgDCy6eThbRLEC2y7+ykPnPBO1o4+/ma+L5zZmZvb8I5b8m21crUMQRioD/VHK+/c
-         brenJC+jJ8aigmHYKBO2tivoCfBqjU2cKCbX72ZAXJJxScR7sCk868245gLcXcR/Wtoc
-         DiUjdVOfkCJeRUK9rKQ1TiVlCikOKX/puiE8WYSFpfAB9U8KiO20Ge4z0X9grP5nHs3s
-         wBUQ==
+        bh=ur5bIdKfVnF3C5hyJI2hNqtvCrepD4uapES7JhKjRFc=;
+        b=cFZvnLtlaci6wqTlyiBzvrtCcaT8pKk9KhZFqFyirWLKS/fFiCbAt5+JVxUXrfVypZ
+         3ggKA2tB8BD8pPG8c1ifi9TY0MjQrUvJYY2Rppbv5OYMGEykmWIwm015CWndn2amcLES
+         Xwfbtr7Zl3yAcS7P9g1B+36/E9bg5hPeU5z1xeXTSe4Q0YC6RZ4fLeWrAjZn0YjfWJ0e
+         e77zt+G42bHKzPTQr9s6s7jo42/g7t0hoeu0DPBV/g+MwEajRdW5tt1ExN2RpjygxwST
+         eN63Xwb8IUMpXEWeSVv4pdPjRy4AiPHoBRIdlbeELoo5xSsdPlWpaaWF82gPAjEBPOy4
+         79jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6PJiHymb6fdLXuFM6coaESQa/kSW26Vr2w/SBE/3dtU=;
-        b=Co3/YHv+PGY3lf5AP04Ny2y/hHwZ8XrhID4l0/hCDvd7vlmRwD9APYRf+QAisOgM3i
-         nN3VQNXttCKDiw1plyJGvbbWuZxbipTmo0L2MT/GujuxCOEh0ucp4Q+xxTM3VFjlEgrU
-         B5PJ3jQhxu2SdG1Ob8856a+xpk/1gzdfvFDdY8RG0r4dF1vYDbk+Vt0278n5bm35xYlb
-         vJ5iKNmEUt+LEKzOdhDCaeCBFUFAtZy18sDti9h2otGrZzyyfoTWL2gcIBk31td3wvGh
-         8Eu9Bykew1rdTD/sC4ovs1wpEYsWIVlSwXMZ9HLMnQIRZAC0H6E0926ExzLie9A66Hy6
-         uc+Q==
-X-Gm-Message-State: AOAM532KyciKcw1fJHQc64gKoSiMbowiQZyuM1CjXReNKmuUSLrnKoy2
-        1s1fm0bdkRQtvYVCVtWyvz++iFdoqG/oag==
-X-Google-Smtp-Source: ABdhPJwa4IkNE4er6/15+GWsJkuBnMXUazCqqAhAbZK8pb386BAFIll3I6BgkEkjN3gIazzVWaUahg==
-X-Received: by 2002:a17:90a:d812:: with SMTP id a18mr7156749pjv.192.1618952776565;
-        Tue, 20 Apr 2021 14:06:16 -0700 (PDT)
+        bh=ur5bIdKfVnF3C5hyJI2hNqtvCrepD4uapES7JhKjRFc=;
+        b=Y/BMv1ZobPmNFb78ctwDeQ4uYb+XkPe0+gu6o549Y/9Wq6bt9b8/cYPVbld/i6R1Ga
+         lGcN40ZYHNs72ZevG4g3Uk4gHh1FvaOC93VYcpLktbUhUd3cTgWI+3InpgISVifqRICa
+         kcifmO9xivAbGX4q2QRIenZY/UWz2L2Cm1KIUg4Xe09128ODQmcRpT1EW/rAN9M21EaB
+         K0fbc1kb9/vXqczqcm3+HZM4JJSma8Bih/PEb5p8EsB2n9nswj20207F6uCN6KunRk4P
+         rINCYbBk9jYX76COtlS6tdglXEQ3j1k02Cmmt1awoojonXtjWOGwKHJkuvMjBKeKutH1
+         40OA==
+X-Gm-Message-State: AOAM5338DTpQNiHIsVi8o+ezB3Mfj1gIuLDfEh8Yp1MRtFXKXcfcYA6h
+        kuOgYCBzb47eHdAcMtVVgavmnKmDGUOzkw==
+X-Google-Smtp-Source: ABdhPJy9rofx3H5SXpbqSGv7LdFnd8JUK25vZyIX+1uF4WSHtkNb8C0HtZYe8yO2heQ6Eg6u3F3zDw==
+X-Received: by 2002:a17:902:6b81:b029:ea:dcc5:b841 with SMTP id p1-20020a1709026b81b02900eadcc5b841mr30458287plk.29.1618953059680;
+        Tue, 20 Apr 2021 14:10:59 -0700 (PDT)
 Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
-        by smtp.gmail.com with ESMTPSA id u4sm12515441pfk.56.2021.04.20.14.06.15
+        by smtp.gmail.com with ESMTPSA id mv13sm37219pjb.29.2021.04.20.14.10.58
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Apr 2021 14:06:16 -0700 (PDT)
+        Tue, 20 Apr 2021 14:10:59 -0700 (PDT)
 From:   Rosen Penev <rosenp@gmail.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH] v4l-utils: convert board_list to vector
-Date:   Tue, 20 Apr 2021 14:06:15 -0700
-Message-Id: <20210420210615.6506-1-rosenp@gmail.com>
+Subject: [PATCH] clang-tidy: use using instead of typedef
+Date:   Tue, 20 Apr 2021 14:10:58 -0700
+Message-Id: <20210420211058.7221-1-rosenp@gmail.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,986 +61,176 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Removes boilerplate code with a slight reduction in size.
-
-Ran through git clang-format
+Found with modernize-use-using
 
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- utils/v4l2-dbg/v4l2-dbg-ac97.h    |  78 +++++-----
- utils/v4l2-dbg/v4l2-dbg-bttv.h    | 132 ++++++++---------
- utils/v4l2-dbg/v4l2-dbg-em28xx.h  | 105 ++++++--------
- utils/v4l2-dbg/v4l2-dbg-micron.h  |  34 ++---
- utils/v4l2-dbg/v4l2-dbg-saa7134.h | 230 +++++++++++++++---------------
- utils/v4l2-dbg/v4l2-dbg-tvp5150.h | 146 +++++++++----------
- utils/v4l2-dbg/v4l2-dbg.cpp       |  94 ++++++------
- 7 files changed, 390 insertions(+), 429 deletions(-)
+ utils/cec-ctl/cec-ctl.cpp                   | 2 +-
+ utils/common/media-info.cpp                 | 4 ++--
+ utils/common/v4l2-info.cpp                  | 4 ++--
+ utils/qv4l2/qv4l2.h                         | 8 ++++----
+ utils/rds-ctl/rds-ctl.cpp                   | 2 +-
+ utils/v4l2-compliance/v4l2-compliance.h     | 8 ++++----
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 2 +-
+ utils/v4l2-compliance/v4l2-test-media.cpp   | 2 +-
+ utils/v4l2-ctl/v4l2-ctl-common.cpp          | 2 +-
+ utils/v4l2-ctl/v4l2-ctl.h                   | 4 ++--
+ 10 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/utils/v4l2-dbg/v4l2-dbg-ac97.h b/utils/v4l2-dbg/v4l2-dbg-ac97.h
-index a37c87842..263f34551 100644
---- a/utils/v4l2-dbg/v4l2-dbg-ac97.h
-+++ b/utils/v4l2-dbg/v4l2-dbg-ac97.h
-@@ -22,46 +22,46 @@
- #define AC97_PREFIX "AC97_"
- #define EM202_PREFIX "EM202_"
+diff --git a/utils/cec-ctl/cec-ctl.cpp b/utils/cec-ctl/cec-ctl.cpp
+index a9d4d5c02..c17265a5c 100644
+--- a/utils/cec-ctl/cec-ctl.cpp
++++ b/utils/cec-ctl/cec-ctl.cpp
+@@ -148,7 +148,7 @@ struct node {
  
--static struct board_regs ac97_regs[] = {
-+static const std::vector<board_regs> ac97_regs{
- 	/* general ac97 registers */
--	{0x00, AC97_PREFIX "RESET", 2},
--	{0x02, AC97_PREFIX "MASTER_VOL", 2},
--	{0x04, AC97_PREFIX "LINE_LEVEL_VOL", 2},
--	{0x06, AC97_PREFIX "MASTER_MONO_VOL", 2},
--	{0x0a, AC97_PREFIX "PC_BEEP_VOL", 2},
--	{0x0c, AC97_PREFIX "PHONE_VOL", 2},
--	{0x0e, AC97_PREFIX "MIC_VOL", 2},
--	{0x10, AC97_PREFIX "LINEIN_VOL", 2},
--	{0x12, AC97_PREFIX "CD_VOL", 2},
--	{0x14, AC97_PREFIX "VIDEO_VOL", 2},
--	{0x16, AC97_PREFIX "AUX_VOL", 2},
--	{0x18, AC97_PREFIX "PCM_OUT_VOL", 2},
--	{0x1a, AC97_PREFIX "RECORD_SELECT", 2},
--	{0x1c, AC97_PREFIX "RECORD_GAIN", 2},
--	{0x20, AC97_PREFIX "GENERAL_PURPOSE", 2},
--	{0x22, AC97_PREFIX "3D_CTRL", 2},
--	{0x24, AC97_PREFIX "AUD_INT_AND_PAG", 2},
--	{0x26, AC97_PREFIX "POWER_DOWN_CTRL", 2},
--	{0x28, AC97_PREFIX "EXT_AUD_ID", 2},
--	{0x2a, AC97_PREFIX "EXT_AUD_CTRL", 2},
--	{0x2c, AC97_PREFIX "PCM_OUT_FRONT_SRATE", 2},
--	{0x2e, AC97_PREFIX "PCM_OUT_SURR_SRATE", 2},
--	{0x30, AC97_PREFIX "PCM_OUT_LFE_SRATE", 2},
--	{0x32, AC97_PREFIX "PCM_IN_SRATE", 2},
--	{0x36, AC97_PREFIX "LFE_MASTER_VOL", 2},
--	{0x38, AC97_PREFIX "SURR_MASTER_VOL", 2},
--	{0x3a, AC97_PREFIX "SPDIF_OUT_CTRL", 2},
--	{0x7c, AC97_PREFIX "VENDOR_ID1", 2},
--	{0x7e, AC97_PREFIX "VENDOR_ID2", 2},
-+	{ 0x00, AC97_PREFIX "RESET", 2 },
-+	{ 0x02, AC97_PREFIX "MASTER_VOL", 2 },
-+	{ 0x04, AC97_PREFIX "LINE_LEVEL_VOL", 2 },
-+	{ 0x06, AC97_PREFIX "MASTER_MONO_VOL", 2 },
-+	{ 0x0a, AC97_PREFIX "PC_BEEP_VOL", 2 },
-+	{ 0x0c, AC97_PREFIX "PHONE_VOL", 2 },
-+	{ 0x0e, AC97_PREFIX "MIC_VOL", 2 },
-+	{ 0x10, AC97_PREFIX "LINEIN_VOL", 2 },
-+	{ 0x12, AC97_PREFIX "CD_VOL", 2 },
-+	{ 0x14, AC97_PREFIX "VIDEO_VOL", 2 },
-+	{ 0x16, AC97_PREFIX "AUX_VOL", 2 },
-+	{ 0x18, AC97_PREFIX "PCM_OUT_VOL", 2 },
-+	{ 0x1a, AC97_PREFIX "RECORD_SELECT", 2 },
-+	{ 0x1c, AC97_PREFIX "RECORD_GAIN", 2 },
-+	{ 0x20, AC97_PREFIX "GENERAL_PURPOSE", 2 },
-+	{ 0x22, AC97_PREFIX "3D_CTRL", 2 },
-+	{ 0x24, AC97_PREFIX "AUD_INT_AND_PAG", 2 },
-+	{ 0x26, AC97_PREFIX "POWER_DOWN_CTRL", 2 },
-+	{ 0x28, AC97_PREFIX "EXT_AUD_ID", 2 },
-+	{ 0x2a, AC97_PREFIX "EXT_AUD_CTRL", 2 },
-+	{ 0x2c, AC97_PREFIX "PCM_OUT_FRONT_SRATE", 2 },
-+	{ 0x2e, AC97_PREFIX "PCM_OUT_SURR_SRATE", 2 },
-+	{ 0x30, AC97_PREFIX "PCM_OUT_LFE_SRATE", 2 },
-+	{ 0x32, AC97_PREFIX "PCM_IN_SRATE", 2 },
-+	{ 0x36, AC97_PREFIX "LFE_MASTER_VOL", 2 },
-+	{ 0x38, AC97_PREFIX "SURR_MASTER_VOL", 2 },
-+	{ 0x3a, AC97_PREFIX "SPDIF_OUT_CTRL", 2 },
-+	{ 0x7c, AC97_PREFIX "VENDOR_ID1", 2 },
-+	{ 0x7e, AC97_PREFIX "VENDOR_ID2", 2 },
+ bool verbose;
  
- 	/* em202 vendor specific registers */
--	{0x3e, EM202_PREFIX "EXT_MODEM_CTRL", 2},
--	{0x4c, EM202_PREFIX "GPIO_CONF", 2},
--	{0x4e, EM202_PREFIX "GPIO_POLARITY", 2},
--	{0x50, EM202_PREFIX "GPIO_STICKY", 2},
--	{0x52, EM202_PREFIX "GPIO_MASK", 2},
--	{0x54, EM202_PREFIX "GPIO_STATUS", 2},
--	{0x6a, EM202_PREFIX "SPDIF_OUT_SEL", 2},
--	{0x72, EM202_PREFIX "ANTIPOP", 2},
--	{0x74, EM202_PREFIX "EAPD_GPIO_ACCESS", 2},
-+	{ 0x3e, EM202_PREFIX "EXT_MODEM_CTRL", 2 },
-+	{ 0x4c, EM202_PREFIX "GPIO_CONF", 2 },
-+	{ 0x4e, EM202_PREFIX "GPIO_POLARITY", 2 },
-+	{ 0x50, EM202_PREFIX "GPIO_STICKY", 2 },
-+	{ 0x52, EM202_PREFIX "GPIO_MASK", 2 },
-+	{ 0x54, EM202_PREFIX "GPIO_STATUS", 2 },
-+	{ 0x6a, EM202_PREFIX "SPDIF_OUT_SEL", 2 },
-+	{ 0x72, EM202_PREFIX "ANTIPOP", 2 },
-+	{ 0x74, EM202_PREFIX "EAPD_GPIO_ACCESS", 2 },
- };
-diff --git a/utils/v4l2-dbg/v4l2-dbg-bttv.h b/utils/v4l2-dbg/v4l2-dbg-bttv.h
-index f71cc0c1e..38f1aeeb5 100644
---- a/utils/v4l2-dbg/v4l2-dbg-bttv.h
-+++ b/utils/v4l2-dbg/v4l2-dbg-bttv.h
-@@ -21,77 +21,77 @@
- /* Register name prefix */
- #define BTTV_PREFIX "BT848_"
+-typedef std::vector<cec_msg> msg_vec;
++using msg_vec = std::vector<cec_msg>;
  
--static struct board_regs bt8xx_regs_other[] = {
--	{0x000, BTTV_PREFIX "DSTATUS", 1},
--	{0x054, BTTV_PREFIX "TEST", 1},
--	{0x060, BTTV_PREFIX "ADELAY", 1},
--	{0x064, BTTV_PREFIX "BDELAY", 1},
--	{0x07C, BTTV_PREFIX "SRESET", 1},
--	{0x100, BTTV_PREFIX "INT_STAT", 1},
--	{0x110, BTTV_PREFIX "I2C", 1},
--	{0x11C, BTTV_PREFIX "GPIO_REG_INP", 1},
--	{0x120, BTTV_PREFIX "RISC_COUNT", 1},
-+static const std::vector<board_regs> bt8xx_regs_other{
-+	{ 0x000, BTTV_PREFIX "DSTATUS", 1 },
-+	{ 0x054, BTTV_PREFIX "TEST", 1 },
-+	{ 0x060, BTTV_PREFIX "ADELAY", 1 },
-+	{ 0x064, BTTV_PREFIX "BDELAY", 1 },
-+	{ 0x07C, BTTV_PREFIX "SRESET", 1 },
-+	{ 0x100, BTTV_PREFIX "INT_STAT", 1 },
-+	{ 0x110, BTTV_PREFIX "I2C", 1 },
-+	{ 0x11C, BTTV_PREFIX "GPIO_REG_INP", 1 },
-+	{ 0x120, BTTV_PREFIX "RISC_COUNT", 1 },
+ static struct option long_options[] = {
+ 	{ "device", required_argument, nullptr, OptSetDevice },
+diff --git a/utils/common/media-info.cpp b/utils/common/media-info.cpp
+index 29a43fb35..9c74b1477 100644
+--- a/utils/common/media-info.cpp
++++ b/utils/common/media-info.cpp
+@@ -118,10 +118,10 @@ std::string mi_media_get_device(__u32 major, __u32 minor)
+ 	return "";
+ }
  
- 	/* This is also defined at bt8xx_regs with other name */
--	{0x0fc, BTTV_PREFIX "VBI_PACK_DEL_VBI_HDELAY", 1},
-+	{ 0x0fc, BTTV_PREFIX "VBI_PACK_DEL_VBI_HDELAY", 1 },
- };
+-typedef struct {
++struct flag_def {
+ 	unsigned flag;
+ 	const char *str;
+-} flag_def;
++};
  
--static struct board_regs bt8xx_regs[] = {
--	{0x004, BTTV_PREFIX "IFORM", 1},
--	{0x008, BTTV_PREFIX "TDEC", 1},
--	{0x00C, BTTV_PREFIX "E_CROP", 1},
--	{0x08C, BTTV_PREFIX "O_CROP", 1},
--	{0x010, BTTV_PREFIX "E_VDELAY_LO", 1},
--	{0x090, BTTV_PREFIX "O_VDELAY_LO", 1},
--	{0x014, BTTV_PREFIX "E_VACTIVE_LO", 1},
--	{0x094, BTTV_PREFIX "O_VACTIVE_LO", 1},
--	{0x018, BTTV_PREFIX "E_HDELAY_LO", 1},
--	{0x098, BTTV_PREFIX "O_HDELAY_LO", 1},
--	{0x01C, BTTV_PREFIX "E_HACTIVE_LO", 1},
--	{0x09C, BTTV_PREFIX "O_HACTIVE_LO", 1},
--	{0x020, BTTV_PREFIX "E_HSCALE_HI", 1},
--	{0x0A0, BTTV_PREFIX "O_HSCALE_HI", 1},
--	{0x024, BTTV_PREFIX "E_HSCALE_LO", 1},
--	{0x0A4, BTTV_PREFIX "O_HSCALE_LO", 1},
--	{0x028, BTTV_PREFIX "BRIGHT", 1},
--	{0x02C, BTTV_PREFIX "E_CONTROL", 1},
--	{0x0AC, BTTV_PREFIX "O_CONTROL", 1},
--	{0x030, BTTV_PREFIX "CONTRAST_LO", 1},
--	{0x034, BTTV_PREFIX "SAT_U_LO", 1},
--	{0x038, BTTV_PREFIX "SAT_V_LO", 1},
--	{0x03C, BTTV_PREFIX "HUE", 1},
--	{0x040, BTTV_PREFIX "E_SCLOOP", 1},
--	{0x0C0, BTTV_PREFIX "O_SCLOOP", 1},
--	{0x048, BTTV_PREFIX "OFORM", 1},
--	{0x04C, BTTV_PREFIX "E_VSCALE_HI", 1},
--	{0x0CC, BTTV_PREFIX "O_VSCALE_HI", 1},
--	{0x050, BTTV_PREFIX "E_VSCALE_LO", 1},
--	{0x0D0, BTTV_PREFIX "O_VSCALE_LO", 1},
--	{0x068, BTTV_PREFIX "ADC", 1},
--	{0x044, BTTV_PREFIX "WC_UP", 1},
--	{0x078, BTTV_PREFIX "WC_DOWN", 1},
--	{0x06C, BTTV_PREFIX "E_VTC", 1},
--	{0x080, BTTV_PREFIX "TGCTRL", 1},
--	{0x0EC, BTTV_PREFIX "O_VTC", 1},
--	{0x0D4, BTTV_PREFIX "COLOR_FMT", 1},
--	{0x0B0, BTTV_PREFIX "VTOTAL_LO", 1},
--	{0x0B4, BTTV_PREFIX "VTOTAL_HI", 1},
--	{0x0D8, BTTV_PREFIX "COLOR_CTL", 1},
--	{0x0DC, BTTV_PREFIX "CAP_CTL", 1},
--	{0x0E0, BTTV_PREFIX "VBI_PACK_SIZE", 1},
--	{0x0E4, BTTV_PREFIX "VBI_PACK_DEL", 1},
--	{0x0E8,	BTTV_PREFIX "FCNTR", 1},
-+static const std::vector<board_regs> bt8xx_regs{
-+	{ 0x004, BTTV_PREFIX "IFORM", 1 },
-+	{ 0x008, BTTV_PREFIX "TDEC", 1 },
-+	{ 0x00C, BTTV_PREFIX "E_CROP", 1 },
-+	{ 0x08C, BTTV_PREFIX "O_CROP", 1 },
-+	{ 0x010, BTTV_PREFIX "E_VDELAY_LO", 1 },
-+	{ 0x090, BTTV_PREFIX "O_VDELAY_LO", 1 },
-+	{ 0x014, BTTV_PREFIX "E_VACTIVE_LO", 1 },
-+	{ 0x094, BTTV_PREFIX "O_VACTIVE_LO", 1 },
-+	{ 0x018, BTTV_PREFIX "E_HDELAY_LO", 1 },
-+	{ 0x098, BTTV_PREFIX "O_HDELAY_LO", 1 },
-+	{ 0x01C, BTTV_PREFIX "E_HACTIVE_LO", 1 },
-+	{ 0x09C, BTTV_PREFIX "O_HACTIVE_LO", 1 },
-+	{ 0x020, BTTV_PREFIX "E_HSCALE_HI", 1 },
-+	{ 0x0A0, BTTV_PREFIX "O_HSCALE_HI", 1 },
-+	{ 0x024, BTTV_PREFIX "E_HSCALE_LO", 1 },
-+	{ 0x0A4, BTTV_PREFIX "O_HSCALE_LO", 1 },
-+	{ 0x028, BTTV_PREFIX "BRIGHT", 1 },
-+	{ 0x02C, BTTV_PREFIX "E_CONTROL", 1 },
-+	{ 0x0AC, BTTV_PREFIX "O_CONTROL", 1 },
-+	{ 0x030, BTTV_PREFIX "CONTRAST_LO", 1 },
-+	{ 0x034, BTTV_PREFIX "SAT_U_LO", 1 },
-+	{ 0x038, BTTV_PREFIX "SAT_V_LO", 1 },
-+	{ 0x03C, BTTV_PREFIX "HUE", 1 },
-+	{ 0x040, BTTV_PREFIX "E_SCLOOP", 1 },
-+	{ 0x0C0, BTTV_PREFIX "O_SCLOOP", 1 },
-+	{ 0x048, BTTV_PREFIX "OFORM", 1 },
-+	{ 0x04C, BTTV_PREFIX "E_VSCALE_HI", 1 },
-+	{ 0x0CC, BTTV_PREFIX "O_VSCALE_HI", 1 },
-+	{ 0x050, BTTV_PREFIX "E_VSCALE_LO", 1 },
-+	{ 0x0D0, BTTV_PREFIX "O_VSCALE_LO", 1 },
-+	{ 0x068, BTTV_PREFIX "ADC", 1 },
-+	{ 0x044, BTTV_PREFIX "WC_UP", 1 },
-+	{ 0x078, BTTV_PREFIX "WC_DOWN", 1 },
-+	{ 0x06C, BTTV_PREFIX "E_VTC", 1 },
-+	{ 0x080, BTTV_PREFIX "TGCTRL", 1 },
-+	{ 0x0EC, BTTV_PREFIX "O_VTC", 1 },
-+	{ 0x0D4, BTTV_PREFIX "COLOR_FMT", 1 },
-+	{ 0x0B0, BTTV_PREFIX "VTOTAL_LO", 1 },
-+	{ 0x0B4, BTTV_PREFIX "VTOTAL_HI", 1 },
-+	{ 0x0D8, BTTV_PREFIX "COLOR_CTL", 1 },
-+	{ 0x0DC, BTTV_PREFIX "CAP_CTL", 1 },
-+	{ 0x0E0, BTTV_PREFIX "VBI_PACK_SIZE", 1 },
-+	{ 0x0E4, BTTV_PREFIX "VBI_PACK_DEL", 1 },
-+	{ 0x0E8, BTTV_PREFIX "FCNTR", 1 },
- 
--	{0x0F0, BTTV_PREFIX "PLL_F_LO", 1},
--	{0x0F4, BTTV_PREFIX "PLL_F_HI", 1},
--	{0x0F8, BTTV_PREFIX "PLL_XCI", 1},
-+	{ 0x0F0, BTTV_PREFIX "PLL_F_LO", 1 },
-+	{ 0x0F4, BTTV_PREFIX "PLL_F_HI", 1 },
-+	{ 0x0F8, BTTV_PREFIX "PLL_XCI", 1 },
- 
--	{0x0FC, BTTV_PREFIX "DVSIF", 1},
-+	{ 0x0FC, BTTV_PREFIX "DVSIF", 1 },
- 
--	{0x104, BTTV_PREFIX "INT_MASK", 4},
--	{0x10C, BTTV_PREFIX "GPIO_DMA_CTL", 2},
--	{0x114, BTTV_PREFIX "RISC_STRT_ADD", 4},
--	{0x118, BTTV_PREFIX "GPIO_OUT_EN", 4},
--	{0x11a, BTTV_PREFIX "GPIO_OUT_EN_HIBYTE", 4},
--	{0x200, BTTV_PREFIX "GPIO_DATA", 4},
-+	{ 0x104, BTTV_PREFIX "INT_MASK", 4 },
-+	{ 0x10C, BTTV_PREFIX "GPIO_DMA_CTL", 2 },
-+	{ 0x114, BTTV_PREFIX "RISC_STRT_ADD", 4 },
-+	{ 0x118, BTTV_PREFIX "GPIO_OUT_EN", 4 },
-+	{ 0x11a, BTTV_PREFIX "GPIO_OUT_EN_HIBYTE", 4 },
-+	{ 0x200, BTTV_PREFIX "GPIO_DATA", 4 },
- };
-diff --git a/utils/v4l2-dbg/v4l2-dbg-em28xx.h b/utils/v4l2-dbg/v4l2-dbg-em28xx.h
-index 1cb32534d..a50451e80 100644
---- a/utils/v4l2-dbg/v4l2-dbg-em28xx.h
-+++ b/utils/v4l2-dbg/v4l2-dbg-em28xx.h
-@@ -24,69 +24,48 @@
- #define EM2880_PREFIX "EM2880_"
- #define EM28XX_PREFIX "EM28XX_"
- 
--static struct board_regs em28xx_regs[] = {
--	{0x00, EM28XX_PREFIX "CHIPCFG", 1},
--	{0x04, EM2880_PREFIX "GPO", 1},
--	{0x08, EM28XX_PREFIX "GPIO", 1},
--
--	{0x06, EM28XX_PREFIX "I2C_CLK", 1},
--	{0x0a, EM28XX_PREFIX "CHIPID", 1},
--	{0x0c, EM28XX_PREFIX "USBSUSP", 1},
--
--	{0x0e, EM28XX_PREFIX "AUDIOSRC", 1},
--	{0x0f, EM28XX_PREFIX "XCLK", 1},
--
--	{0x10, EM28XX_PREFIX "VINMODE", 1},
--	{0x11, EM28XX_PREFIX "VINCTRL", 1},
--	{0x12, EM28XX_PREFIX "VINENABLE", 1},
--
--	{0x14, EM28XX_PREFIX "GAMMA", 1},
--	{0x15, EM28XX_PREFIX "RGAIN", 1},
--	{0x16, EM28XX_PREFIX "GGAIN", 1},
--	{0x17, EM28XX_PREFIX "BGAIN", 1},
--	{0x18, EM28XX_PREFIX "ROFFSET", 1},
--	{0x19, EM28XX_PREFIX "GOFFSET", 1},
--	{0x1a, EM28XX_PREFIX "BOFFSET", 1},
--
--	{0x1b, EM28XX_PREFIX "OFLOW", 1},
--	{0x1c, EM28XX_PREFIX "HSTART", 1},
--	{0x1d, EM28XX_PREFIX "VSTART", 1},
--	{0x1e, EM28XX_PREFIX "CWIDTH", 1},
--	{0x1f, EM28XX_PREFIX "CHEIGHT", 1},
--
--	{0x20, EM28XX_PREFIX "YGAIN", 1},
--	{0x21, EM28XX_PREFIX "YOFFSET", 1},
--	{0x22, EM28XX_PREFIX "UVGAIN", 1},
--	{0x23, EM28XX_PREFIX "UOFFSET", 1},
--	{0x24, EM28XX_PREFIX "VOFFSET", 1},
--	{0x25, EM28XX_PREFIX "SHARPNESS", 1},
--
--	{0x26, EM28XX_PREFIX "COMPR", 1},
--	{0x27, EM28XX_PREFIX "OUTFMT", 1},
--
--	{0x28, EM28XX_PREFIX "XMIN", 1},
--	{0x29, EM28XX_PREFIX "XMAX", 1},
--	{0x2a, EM28XX_PREFIX "YMIN", 1},
--	{0x2b, EM28XX_PREFIX "YMAX", 1},
--
--	{0x30, EM28XX_PREFIX "HSCALELOW", 1},
--	{0x31, EM28XX_PREFIX "HSCALEHIGH", 1},
--	{0x32, EM28XX_PREFIX "VSCALELOW", 1},
--	{0x33, EM28XX_PREFIX "VSCALEHIGH", 1},
--
--	{0x40, EM28XX_PREFIX "AC97LSB", 1},
--	{0x41, EM28XX_PREFIX "AC97MSB", 1},
--	{0x42, EM28XX_PREFIX "AC97ADDR", 1},
--	{0x43, EM28XX_PREFIX "AC97BUSY", 1},
--
--	{0x45, EM28XX_PREFIX "IR", 1},
--
--	{0x50, EM2874_PREFIX "IR_CONFIG", 1},
--	{0x51, EM2874_PREFIX "IR", 1},
--	{0x5f, EM2874_PREFIX "TS_ENABLE", 1},
--	{0x80, EM2874_PREFIX "GPIO", 1},
-+static const std::vector<board_regs> em28xx_regs{
-+	{ 0x00, EM28XX_PREFIX "CHIPCFG", 1 },	{ 0x04, EM2880_PREFIX "GPO", 1 },
-+	{ 0x08, EM28XX_PREFIX "GPIO", 1 },
-+
-+	{ 0x06, EM28XX_PREFIX "I2C_CLK", 1 },	{ 0x0a, EM28XX_PREFIX "CHIPID", 1 },
-+	{ 0x0c, EM28XX_PREFIX "USBSUSP", 1 },
-+
-+	{ 0x0e, EM28XX_PREFIX "AUDIOSRC", 1 },	{ 0x0f, EM28XX_PREFIX "XCLK", 1 },
-+
-+	{ 0x10, EM28XX_PREFIX "VINMODE", 1 },	{ 0x11, EM28XX_PREFIX "VINCTRL", 1 },
-+	{ 0x12, EM28XX_PREFIX "VINENABLE", 1 },
-+
-+	{ 0x14, EM28XX_PREFIX "GAMMA", 1 },	{ 0x15, EM28XX_PREFIX "RGAIN", 1 },
-+	{ 0x16, EM28XX_PREFIX "GGAIN", 1 },	{ 0x17, EM28XX_PREFIX "BGAIN", 1 },
-+	{ 0x18, EM28XX_PREFIX "ROFFSET", 1 },	{ 0x19, EM28XX_PREFIX "GOFFSET", 1 },
-+	{ 0x1a, EM28XX_PREFIX "BOFFSET", 1 },
-+
-+	{ 0x1b, EM28XX_PREFIX "OFLOW", 1 },	{ 0x1c, EM28XX_PREFIX "HSTART", 1 },
-+	{ 0x1d, EM28XX_PREFIX "VSTART", 1 },	{ 0x1e, EM28XX_PREFIX "CWIDTH", 1 },
-+	{ 0x1f, EM28XX_PREFIX "CHEIGHT", 1 },
-+
-+	{ 0x20, EM28XX_PREFIX "YGAIN", 1 },	{ 0x21, EM28XX_PREFIX "YOFFSET", 1 },
-+	{ 0x22, EM28XX_PREFIX "UVGAIN", 1 },	{ 0x23, EM28XX_PREFIX "UOFFSET", 1 },
-+	{ 0x24, EM28XX_PREFIX "VOFFSET", 1 },	{ 0x25, EM28XX_PREFIX "SHARPNESS", 1 },
-+
-+	{ 0x26, EM28XX_PREFIX "COMPR", 1 },	{ 0x27, EM28XX_PREFIX "OUTFMT", 1 },
-+
-+	{ 0x28, EM28XX_PREFIX "XMIN", 1 },	{ 0x29, EM28XX_PREFIX "XMAX", 1 },
-+	{ 0x2a, EM28XX_PREFIX "YMIN", 1 },	{ 0x2b, EM28XX_PREFIX "YMAX", 1 },
-+
-+	{ 0x30, EM28XX_PREFIX "HSCALELOW", 1 }, { 0x31, EM28XX_PREFIX "HSCALEHIGH", 1 },
-+	{ 0x32, EM28XX_PREFIX "VSCALELOW", 1 }, { 0x33, EM28XX_PREFIX "VSCALEHIGH", 1 },
-+
-+	{ 0x40, EM28XX_PREFIX "AC97LSB", 1 },	{ 0x41, EM28XX_PREFIX "AC97MSB", 1 },
-+	{ 0x42, EM28XX_PREFIX "AC97ADDR", 1 },	{ 0x43, EM28XX_PREFIX "AC97BUSY", 1 },
-+
-+	{ 0x45, EM28XX_PREFIX "IR", 1 },
-+
-+	{ 0x50, EM2874_PREFIX "IR_CONFIG", 1 }, { 0x51, EM2874_PREFIX "IR", 1 },
-+	{ 0x5f, EM2874_PREFIX "TS_ENABLE", 1 }, { 0x80, EM2874_PREFIX "GPIO", 1 },
- };
- 
--static struct board_regs em28xx_alt_regs[] = {
--	{0x08, EM2800_PREFIX "AUDIOSRC", 1},
-+static const std::vector<board_regs> em28xx_alt_regs{
-+	{ 0x08, EM2800_PREFIX "AUDIOSRC", 1 },
- };
-diff --git a/utils/v4l2-dbg/v4l2-dbg-micron.h b/utils/v4l2-dbg/v4l2-dbg-micron.h
-index 694e05de5..52aee9aa5 100644
---- a/utils/v4l2-dbg/v4l2-dbg-micron.h
-+++ b/utils/v4l2-dbg/v4l2-dbg-micron.h
-@@ -21,26 +21,16 @@
- /* Register name prefix */
- #define MT9V011_PREFIX "MT9V011_"
- 
--static struct board_regs mt9v011_regs[] = {
--	{0x00, MT9V011_PREFIX "CHIP_VERSION", 0},
--	{0x01, MT9V011_PREFIX "ROWSTART", 0},
--	{0x02, MT9V011_PREFIX "COLSTART", 0},
--	{0x03, MT9V011_PREFIX "HEIGHT", 0},
--	{0x04, MT9V011_PREFIX "WIDTH", 0},
--	{0x05, MT9V011_PREFIX "HBLANK", 0},
--	{0x06, MT9V011_PREFIX "VBLANK", 0},
--	{0x07, MT9V011_PREFIX "OUT_CTRL", 0},
--	{0x09, MT9V011_PREFIX "SHUTTER_WIDTH", 0},
--	{0x0a, MT9V011_PREFIX "CLK_SPEED", 0},
--	{0x0b, MT9V011_PREFIX "RESTART", 0},
--	{0x0c, MT9V011_PREFIX "SHUTTER_DELAY", 0},
--	{0x0d, MT9V011_PREFIX "RESET", 0},
--	{0x1e, MT9V011_PREFIX "DIGITAL_ZOOM", 0},
--	{0x20, MT9V011_PREFIX "READ_MODE", 0},
--	{0x2b, MT9V011_PREFIX "GREEN_1_GAIN", 0},
--	{0x2c, MT9V011_PREFIX "BLUE_GAIN", 0},
--	{0x2d, MT9V011_PREFIX "RED_GAIN", 0},
--	{0x2e, MT9V011_PREFIX "GREEN_2_GAIN", 0},
--	{0x35, MT9V011_PREFIX "GLOBAL_GAIN", 0},
--	{0xf1, MT9V011_PREFIX "CHIP_ENABLE", 0},
-+static const std::vector<board_regs> mt9v011_regs{
-+	{ 0x00, MT9V011_PREFIX "CHIP_VERSION", 0 },  { 0x01, MT9V011_PREFIX "ROWSTART", 0 },
-+	{ 0x02, MT9V011_PREFIX "COLSTART", 0 },	     { 0x03, MT9V011_PREFIX "HEIGHT", 0 },
-+	{ 0x04, MT9V011_PREFIX "WIDTH", 0 },	     { 0x05, MT9V011_PREFIX "HBLANK", 0 },
-+	{ 0x06, MT9V011_PREFIX "VBLANK", 0 },	     { 0x07, MT9V011_PREFIX "OUT_CTRL", 0 },
-+	{ 0x09, MT9V011_PREFIX "SHUTTER_WIDTH", 0 }, { 0x0a, MT9V011_PREFIX "CLK_SPEED", 0 },
-+	{ 0x0b, MT9V011_PREFIX "RESTART", 0 },	     { 0x0c, MT9V011_PREFIX "SHUTTER_DELAY", 0 },
-+	{ 0x0d, MT9V011_PREFIX "RESET", 0 },	     { 0x1e, MT9V011_PREFIX "DIGITAL_ZOOM", 0 },
-+	{ 0x20, MT9V011_PREFIX "READ_MODE", 0 },     { 0x2b, MT9V011_PREFIX "GREEN_1_GAIN", 0 },
-+	{ 0x2c, MT9V011_PREFIX "BLUE_GAIN", 0 },     { 0x2d, MT9V011_PREFIX "RED_GAIN", 0 },
-+	{ 0x2e, MT9V011_PREFIX "GREEN_2_GAIN", 0 },  { 0x35, MT9V011_PREFIX "GLOBAL_GAIN", 0 },
-+	{ 0xf1, MT9V011_PREFIX "CHIP_ENABLE", 0 },
- };
-diff --git a/utils/v4l2-dbg/v4l2-dbg-saa7134.h b/utils/v4l2-dbg/v4l2-dbg-saa7134.h
-index a8c9a3ef2..5823244f6 100644
---- a/utils/v4l2-dbg/v4l2-dbg-saa7134.h
-+++ b/utils/v4l2-dbg/v4l2-dbg-saa7134.h
-@@ -23,119 +23,119 @@
- #define SAA7135_PREFIX "SAA7135_"
- #define SAA7133_PREFIX "SAA7133_"
- 
--static struct board_regs saa7134_regs[] = {
--	{0x101, SAA7134_PREFIX "INCR_DELAY", 1},
--	{0x102, SAA7134_PREFIX "ANALOG_IN_CTRL1", 1},
--	{0x103, SAA7134_PREFIX "ANALOG_IN_CTRL2", 1},
--	{0x104, SAA7134_PREFIX "ANALOG_IN_CTRL3", 1},
--	{0x105, SAA7134_PREFIX "ANALOG_IN_CTRL4", 1},
--	{0x106, SAA7134_PREFIX "HSYNC_START", 1},
--	{0x107, SAA7134_PREFIX "HSYNC_STOP", 1},
--	{0x108, SAA7134_PREFIX "SYNC_CTRL", 1},
--	{0x109, SAA7134_PREFIX "LUMA_CTRL", 1},
--	{0x10a, SAA7134_PREFIX "DEC_LUMA_BRIGHT", 1},
--	{0x10b, SAA7134_PREFIX "DEC_LUMA_CONTRAST", 1},
--	{0x10c, SAA7134_PREFIX "DEC_CHROMA_SATURATION", 1},
--	{0x10d, SAA7134_PREFIX "DEC_CHROMA_HUE", 1},
--	{0x10e, SAA7134_PREFIX "CHROMA_CTRL1", 1},
--	{0x10f, SAA7134_PREFIX "CHROMA_GAIN", 1},
--	{0x110, SAA7134_PREFIX "CHROMA_CTRL2", 1},
--	{0x111, SAA7134_PREFIX "MODE_DELAY_CTRL", 1},
--	{0x114, SAA7134_PREFIX "ANALOG_ADC", 1},
--	{0x115, SAA7134_PREFIX "VGATE_START", 1},
--	{0x116, SAA7134_PREFIX "VGATE_STOP", 1},
--	{0x117, SAA7134_PREFIX "MISC_VGATE_MSB", 1},
--	{0x118, SAA7134_PREFIX "RAW_DATA_GAIN", 1},
--	{0x119, SAA7134_PREFIX "RAW_DATA_OFFSET", 1},
--	{0x11e, SAA7134_PREFIX "STATUS_VIDEO1", 1},
--	{0x11f, SAA7134_PREFIX "STATUS_VIDEO2", 1},
--	{0x300, SAA7134_PREFIX "OFMT_VIDEO_A", 1},
--	{0x301, SAA7134_PREFIX "OFMT_DATA_A", 1},
--	{0x302, SAA7134_PREFIX "OFMT_VIDEO_B", 1},
--	{0x303, SAA7134_PREFIX "OFMT_DATA_B", 1},
--	{0x304, SAA7134_PREFIX "ALPHA_NOCLIP", 1},
--	{0x305, SAA7134_PREFIX "ALPHA_CLIP", 1},
--	{0x308, SAA7134_PREFIX "UV_PIXEL", 1},
--	{0x309, SAA7134_PREFIX "CLIP_RED", 1},
--	{0x30a, SAA7134_PREFIX "CLIP_GREEN", 1},
--	{0x30b, SAA7134_PREFIX "CLIP_BLUE", 1},
--	{0x180, SAA7134_PREFIX "I2C_ATTR_STATUS", 1},
--	{0x181, SAA7134_PREFIX "I2C_DATA", 1},
--	{0x182, SAA7134_PREFIX "I2C_CLOCK_SELECT", 1},
--	{0x183, SAA7134_PREFIX "I2C_TIMER", 1},
--	{0x140, SAA7134_PREFIX "NICAM_ADD_DATA1", 1},
--	{0x141, SAA7134_PREFIX "NICAM_ADD_DATA2", 1},
--	{0x142, SAA7134_PREFIX "NICAM_STATUS", 1},
--	{0x143, SAA7134_PREFIX "AUDIO_STATUS", 1},
--	{0x144, SAA7134_PREFIX "NICAM_ERROR_COUNT", 1},
--	{0x145, SAA7134_PREFIX "IDENT_SIF", 1},
--	{0x146, SAA7134_PREFIX "LEVEL_READOUT1", 1},
--	{0x147, SAA7134_PREFIX "LEVEL_READOUT2", 1},
--	{0x148, SAA7134_PREFIX "NICAM_ERROR_LOW", 1},
--	{0x149, SAA7134_PREFIX "NICAM_ERROR_HIGH", 1},
--	{0x14a, SAA7134_PREFIX "DCXO_IDENT_CTRL", 1},
--	{0x14b, SAA7134_PREFIX "DEMODULATOR", 1},
--	{0x14c, SAA7134_PREFIX "AGC_GAIN_SELECT", 1},
--	{0x150, SAA7134_PREFIX "CARRIER1_FREQ0", 1},
--	{0x151, SAA7134_PREFIX "CARRIER1_FREQ1", 1},
--	{0x152, SAA7134_PREFIX "CARRIER1_FREQ2", 1},
--	{0x154, SAA7134_PREFIX "CARRIER2_FREQ0", 1},
--	{0x155, SAA7134_PREFIX "CARRIER2_FREQ1", 1},
--	{0x156, SAA7134_PREFIX "CARRIER2_FREQ2", 1},
--	{0x158, SAA7134_PREFIX "NUM_SAMPLES0", 1},
--	{0x159, SAA7134_PREFIX "NUM_SAMPLES1", 1},
--	{0x15a, SAA7134_PREFIX "NUM_SAMPLES2", 1},
--	{0x15b, SAA7134_PREFIX "AUDIO_FORMAT_CTRL", 1},
--	{0x160, SAA7134_PREFIX "MONITOR_SELECT", 1},
--	{0x161, SAA7134_PREFIX "FM_DEEMPHASIS", 1},
--	{0x162, SAA7134_PREFIX "FM_DEMATRIX", 1},
--	{0x163, SAA7134_PREFIX "CHANNEL1_LEVEL", 1},
--	{0x164, SAA7134_PREFIX "CHANNEL2_LEVEL", 1},
--	{0x165, SAA7134_PREFIX "NICAM_CONFIG", 1},
--	{0x166, SAA7134_PREFIX "NICAM_LEVEL_ADJUST", 1},
--	{0x167, SAA7134_PREFIX "STEREO_DAC_OUTPUT_SELECT", 1},
--	{0x168, SAA7134_PREFIX "I2S_OUTPUT_FORMAT", 1},
--	{0x169, SAA7134_PREFIX "I2S_OUTPUT_SELECT", 1},
--	{0x16a, SAA7134_PREFIX "I2S_OUTPUT_LEVEL", 1},
--	{0x16b, SAA7134_PREFIX "DSP_OUTPUT_SELECT", 1},
--	{0x16c, SAA7134_PREFIX "AUDIO_MUTE_CTRL", 1},
--	{0x16d, SAA7134_PREFIX "SIF_SAMPLE_FREQ", 1},
--	{0x16e, SAA7134_PREFIX "ANALOG_IO_SELECT", 1},
--	{0x170, SAA7134_PREFIX "AUDIO_CLOCK0", 1},
--	{0x171, SAA7134_PREFIX "AUDIO_CLOCK1", 1},
--	{0x172, SAA7134_PREFIX "AUDIO_CLOCK2", 1},
--	{0x173, SAA7134_PREFIX "AUDIO_PLL_CTRL", 1},
--	{0x174, SAA7134_PREFIX "AUDIO_CLOCKS_PER_FIELD0", 1},
--	{0x175, SAA7134_PREFIX "AUDIO_CLOCKS_PER_FIELD1", 1},
--	{0x176, SAA7134_PREFIX "AUDIO_CLOCKS_PER_FIELD2", 1},
--	{0x190, SAA7134_PREFIX "VIDEO_PORT_CTRL0", 1},
--	{0x191, SAA7134_PREFIX "VIDEO_PORT_CTRL1", 1},
--	{0x192, SAA7134_PREFIX "VIDEO_PORT_CTRL2", 1},
--	{0x193, SAA7134_PREFIX "VIDEO_PORT_CTRL3", 1},
--	{0x194, SAA7134_PREFIX "VIDEO_PORT_CTRL4", 1},
--	{0x195, SAA7134_PREFIX "VIDEO_PORT_CTRL5", 1},
--	{0x196, SAA7134_PREFIX "VIDEO_PORT_CTRL6", 1},
--	{0x197, SAA7134_PREFIX "VIDEO_PORT_CTRL7", 1},
--	{0x198, SAA7134_PREFIX "VIDEO_PORT_CTRL8", 1},
--	{0x1a0, SAA7134_PREFIX "TS_PARALLEL", 1},
--	{0x1a1, SAA7134_PREFIX "TS_PARALLEL_SERIAL", 1},
--	{0x1a2, SAA7134_PREFIX "TS_SERIAL0", 1},
--	{0x1a3, SAA7134_PREFIX "TS_SERIAL1", 1},
--	{0x1a4, SAA7134_PREFIX "TS_DMA0", 1},
--	{0x1a5, SAA7134_PREFIX "TS_DMA1", 1},
--	{0x1a6, SAA7134_PREFIX "TS_DMA2", 1},
--	{0x1B0, SAA7134_PREFIX "GPIO_GPMODE0", 1},
--	{0x1B1, SAA7134_PREFIX "GPIO_GPMODE1", 1},
--	{0x1B2, SAA7134_PREFIX "GPIO_GPMODE2", 1},
--	{0x1B3, SAA7134_PREFIX "GPIO_GPMODE3", 1},
--	{0x1B4, SAA7134_PREFIX "GPIO_GPSTATUS0", 1},
--	{0x1B5, SAA7134_PREFIX "GPIO_GPSTATUS1", 1},
--	{0x1B6, SAA7134_PREFIX "GPIO_GPSTATUS2", 1},
--	{0x1B7, SAA7134_PREFIX "GPIO_GPSTATUS3", 1},
--	{0x1c0, SAA7134_PREFIX "I2S_AUDIO_OUTPUT", 1},
--	{0x1d0, SAA7134_PREFIX "SPECIAL_MODE", 1},
--	{0x1d1, SAA7134_PREFIX "PRODUCTION_TEST_MODE", 1},
--	{0x580, SAA7135_PREFIX "DSP_RWSTATE", 1},
--	{0x586, SAA7135_PREFIX "DSP_RWCLEAR", 1},
--	{0x591, SAA7133_PREFIX "I2S_AUDIO_CONTROL", 1},
-+static const std::vector<board_regs> saa7134_regs{
-+	{ 0x101, SAA7134_PREFIX "INCR_DELAY", 1 },
-+	{ 0x102, SAA7134_PREFIX "ANALOG_IN_CTRL1", 1 },
-+	{ 0x103, SAA7134_PREFIX "ANALOG_IN_CTRL2", 1 },
-+	{ 0x104, SAA7134_PREFIX "ANALOG_IN_CTRL3", 1 },
-+	{ 0x105, SAA7134_PREFIX "ANALOG_IN_CTRL4", 1 },
-+	{ 0x106, SAA7134_PREFIX "HSYNC_START", 1 },
-+	{ 0x107, SAA7134_PREFIX "HSYNC_STOP", 1 },
-+	{ 0x108, SAA7134_PREFIX "SYNC_CTRL", 1 },
-+	{ 0x109, SAA7134_PREFIX "LUMA_CTRL", 1 },
-+	{ 0x10a, SAA7134_PREFIX "DEC_LUMA_BRIGHT", 1 },
-+	{ 0x10b, SAA7134_PREFIX "DEC_LUMA_CONTRAST", 1 },
-+	{ 0x10c, SAA7134_PREFIX "DEC_CHROMA_SATURATION", 1 },
-+	{ 0x10d, SAA7134_PREFIX "DEC_CHROMA_HUE", 1 },
-+	{ 0x10e, SAA7134_PREFIX "CHROMA_CTRL1", 1 },
-+	{ 0x10f, SAA7134_PREFIX "CHROMA_GAIN", 1 },
-+	{ 0x110, SAA7134_PREFIX "CHROMA_CTRL2", 1 },
-+	{ 0x111, SAA7134_PREFIX "MODE_DELAY_CTRL", 1 },
-+	{ 0x114, SAA7134_PREFIX "ANALOG_ADC", 1 },
-+	{ 0x115, SAA7134_PREFIX "VGATE_START", 1 },
-+	{ 0x116, SAA7134_PREFIX "VGATE_STOP", 1 },
-+	{ 0x117, SAA7134_PREFIX "MISC_VGATE_MSB", 1 },
-+	{ 0x118, SAA7134_PREFIX "RAW_DATA_GAIN", 1 },
-+	{ 0x119, SAA7134_PREFIX "RAW_DATA_OFFSET", 1 },
-+	{ 0x11e, SAA7134_PREFIX "STATUS_VIDEO1", 1 },
-+	{ 0x11f, SAA7134_PREFIX "STATUS_VIDEO2", 1 },
-+	{ 0x300, SAA7134_PREFIX "OFMT_VIDEO_A", 1 },
-+	{ 0x301, SAA7134_PREFIX "OFMT_DATA_A", 1 },
-+	{ 0x302, SAA7134_PREFIX "OFMT_VIDEO_B", 1 },
-+	{ 0x303, SAA7134_PREFIX "OFMT_DATA_B", 1 },
-+	{ 0x304, SAA7134_PREFIX "ALPHA_NOCLIP", 1 },
-+	{ 0x305, SAA7134_PREFIX "ALPHA_CLIP", 1 },
-+	{ 0x308, SAA7134_PREFIX "UV_PIXEL", 1 },
-+	{ 0x309, SAA7134_PREFIX "CLIP_RED", 1 },
-+	{ 0x30a, SAA7134_PREFIX "CLIP_GREEN", 1 },
-+	{ 0x30b, SAA7134_PREFIX "CLIP_BLUE", 1 },
-+	{ 0x180, SAA7134_PREFIX "I2C_ATTR_STATUS", 1 },
-+	{ 0x181, SAA7134_PREFIX "I2C_DATA", 1 },
-+	{ 0x182, SAA7134_PREFIX "I2C_CLOCK_SELECT", 1 },
-+	{ 0x183, SAA7134_PREFIX "I2C_TIMER", 1 },
-+	{ 0x140, SAA7134_PREFIX "NICAM_ADD_DATA1", 1 },
-+	{ 0x141, SAA7134_PREFIX "NICAM_ADD_DATA2", 1 },
-+	{ 0x142, SAA7134_PREFIX "NICAM_STATUS", 1 },
-+	{ 0x143, SAA7134_PREFIX "AUDIO_STATUS", 1 },
-+	{ 0x144, SAA7134_PREFIX "NICAM_ERROR_COUNT", 1 },
-+	{ 0x145, SAA7134_PREFIX "IDENT_SIF", 1 },
-+	{ 0x146, SAA7134_PREFIX "LEVEL_READOUT1", 1 },
-+	{ 0x147, SAA7134_PREFIX "LEVEL_READOUT2", 1 },
-+	{ 0x148, SAA7134_PREFIX "NICAM_ERROR_LOW", 1 },
-+	{ 0x149, SAA7134_PREFIX "NICAM_ERROR_HIGH", 1 },
-+	{ 0x14a, SAA7134_PREFIX "DCXO_IDENT_CTRL", 1 },
-+	{ 0x14b, SAA7134_PREFIX "DEMODULATOR", 1 },
-+	{ 0x14c, SAA7134_PREFIX "AGC_GAIN_SELECT", 1 },
-+	{ 0x150, SAA7134_PREFIX "CARRIER1_FREQ0", 1 },
-+	{ 0x151, SAA7134_PREFIX "CARRIER1_FREQ1", 1 },
-+	{ 0x152, SAA7134_PREFIX "CARRIER1_FREQ2", 1 },
-+	{ 0x154, SAA7134_PREFIX "CARRIER2_FREQ0", 1 },
-+	{ 0x155, SAA7134_PREFIX "CARRIER2_FREQ1", 1 },
-+	{ 0x156, SAA7134_PREFIX "CARRIER2_FREQ2", 1 },
-+	{ 0x158, SAA7134_PREFIX "NUM_SAMPLES0", 1 },
-+	{ 0x159, SAA7134_PREFIX "NUM_SAMPLES1", 1 },
-+	{ 0x15a, SAA7134_PREFIX "NUM_SAMPLES2", 1 },
-+	{ 0x15b, SAA7134_PREFIX "AUDIO_FORMAT_CTRL", 1 },
-+	{ 0x160, SAA7134_PREFIX "MONITOR_SELECT", 1 },
-+	{ 0x161, SAA7134_PREFIX "FM_DEEMPHASIS", 1 },
-+	{ 0x162, SAA7134_PREFIX "FM_DEMATRIX", 1 },
-+	{ 0x163, SAA7134_PREFIX "CHANNEL1_LEVEL", 1 },
-+	{ 0x164, SAA7134_PREFIX "CHANNEL2_LEVEL", 1 },
-+	{ 0x165, SAA7134_PREFIX "NICAM_CONFIG", 1 },
-+	{ 0x166, SAA7134_PREFIX "NICAM_LEVEL_ADJUST", 1 },
-+	{ 0x167, SAA7134_PREFIX "STEREO_DAC_OUTPUT_SELECT", 1 },
-+	{ 0x168, SAA7134_PREFIX "I2S_OUTPUT_FORMAT", 1 },
-+	{ 0x169, SAA7134_PREFIX "I2S_OUTPUT_SELECT", 1 },
-+	{ 0x16a, SAA7134_PREFIX "I2S_OUTPUT_LEVEL", 1 },
-+	{ 0x16b, SAA7134_PREFIX "DSP_OUTPUT_SELECT", 1 },
-+	{ 0x16c, SAA7134_PREFIX "AUDIO_MUTE_CTRL", 1 },
-+	{ 0x16d, SAA7134_PREFIX "SIF_SAMPLE_FREQ", 1 },
-+	{ 0x16e, SAA7134_PREFIX "ANALOG_IO_SELECT", 1 },
-+	{ 0x170, SAA7134_PREFIX "AUDIO_CLOCK0", 1 },
-+	{ 0x171, SAA7134_PREFIX "AUDIO_CLOCK1", 1 },
-+	{ 0x172, SAA7134_PREFIX "AUDIO_CLOCK2", 1 },
-+	{ 0x173, SAA7134_PREFIX "AUDIO_PLL_CTRL", 1 },
-+	{ 0x174, SAA7134_PREFIX "AUDIO_CLOCKS_PER_FIELD0", 1 },
-+	{ 0x175, SAA7134_PREFIX "AUDIO_CLOCKS_PER_FIELD1", 1 },
-+	{ 0x176, SAA7134_PREFIX "AUDIO_CLOCKS_PER_FIELD2", 1 },
-+	{ 0x190, SAA7134_PREFIX "VIDEO_PORT_CTRL0", 1 },
-+	{ 0x191, SAA7134_PREFIX "VIDEO_PORT_CTRL1", 1 },
-+	{ 0x192, SAA7134_PREFIX "VIDEO_PORT_CTRL2", 1 },
-+	{ 0x193, SAA7134_PREFIX "VIDEO_PORT_CTRL3", 1 },
-+	{ 0x194, SAA7134_PREFIX "VIDEO_PORT_CTRL4", 1 },
-+	{ 0x195, SAA7134_PREFIX "VIDEO_PORT_CTRL5", 1 },
-+	{ 0x196, SAA7134_PREFIX "VIDEO_PORT_CTRL6", 1 },
-+	{ 0x197, SAA7134_PREFIX "VIDEO_PORT_CTRL7", 1 },
-+	{ 0x198, SAA7134_PREFIX "VIDEO_PORT_CTRL8", 1 },
-+	{ 0x1a0, SAA7134_PREFIX "TS_PARALLEL", 1 },
-+	{ 0x1a1, SAA7134_PREFIX "TS_PARALLEL_SERIAL", 1 },
-+	{ 0x1a2, SAA7134_PREFIX "TS_SERIAL0", 1 },
-+	{ 0x1a3, SAA7134_PREFIX "TS_SERIAL1", 1 },
-+	{ 0x1a4, SAA7134_PREFIX "TS_DMA0", 1 },
-+	{ 0x1a5, SAA7134_PREFIX "TS_DMA1", 1 },
-+	{ 0x1a6, SAA7134_PREFIX "TS_DMA2", 1 },
-+	{ 0x1B0, SAA7134_PREFIX "GPIO_GPMODE0", 1 },
-+	{ 0x1B1, SAA7134_PREFIX "GPIO_GPMODE1", 1 },
-+	{ 0x1B2, SAA7134_PREFIX "GPIO_GPMODE2", 1 },
-+	{ 0x1B3, SAA7134_PREFIX "GPIO_GPMODE3", 1 },
-+	{ 0x1B4, SAA7134_PREFIX "GPIO_GPSTATUS0", 1 },
-+	{ 0x1B5, SAA7134_PREFIX "GPIO_GPSTATUS1", 1 },
-+	{ 0x1B6, SAA7134_PREFIX "GPIO_GPSTATUS2", 1 },
-+	{ 0x1B7, SAA7134_PREFIX "GPIO_GPSTATUS3", 1 },
-+	{ 0x1c0, SAA7134_PREFIX "I2S_AUDIO_OUTPUT", 1 },
-+	{ 0x1d0, SAA7134_PREFIX "SPECIAL_MODE", 1 },
-+	{ 0x1d1, SAA7134_PREFIX "PRODUCTION_TEST_MODE", 1 },
-+	{ 0x580, SAA7135_PREFIX "DSP_RWSTATE", 1 },
-+	{ 0x586, SAA7135_PREFIX "DSP_RWCLEAR", 1 },
-+	{ 0x591, SAA7133_PREFIX "I2S_AUDIO_CONTROL", 1 },
- };
-diff --git a/utils/v4l2-dbg/v4l2-dbg-tvp5150.h b/utils/v4l2-dbg/v4l2-dbg-tvp5150.h
-index 048ee421f..d8451209d 100644
---- a/utils/v4l2-dbg/v4l2-dbg-tvp5150.h
-+++ b/utils/v4l2-dbg/v4l2-dbg-tvp5150.h
-@@ -21,77 +21,77 @@
- /* Register name prefix */
- #define TVP5150_PREFIX "TVP5150_"
- 
--static struct board_regs tvp5150_regs[] = {
--	{0x00, TVP5150_PREFIX "VD_IN_SRC_SEL_1", 1},
--	{0x01, TVP5150_PREFIX "ANAL_CHL_CTL", 1},
--	{0x02, TVP5150_PREFIX "OP_MODE_CTL", 1},
--	{0x03, TVP5150_PREFIX "MISC_CTL", 1},
--	{0x04, TVP5150_PREFIX "AUTOSW_MSK", 1},
--	{0x06, TVP5150_PREFIX "COLOR_KIL_THSH_CTL", 1},
--	{0x07, TVP5150_PREFIX "LUMA_PROC_CTL_1", 1},
--	{0x08, TVP5150_PREFIX "LUMA_PROC_CTL_2", 1},
--	{0x09, TVP5150_PREFIX "BRIGHT_CTL", 1},
--	{0x0a, TVP5150_PREFIX "SATURATION_CTL", 1},
--	{0x0b, TVP5150_PREFIX "HUE_CTL", 1},
--	{0x0c, TVP5150_PREFIX "CONTRAST_CTL", 1},
--	{0x0d, TVP5150_PREFIX "DATA_RATE_SEL", 1},
--	{0x0e, TVP5150_PREFIX "LUMA_PROC_CTL_3", 1},
--	{0x0f, TVP5150_PREFIX "CONF_SHARED_PIN", 1},
--	{0x11, TVP5150_PREFIX "ACT_VD_CROP_ST_MSB", 1},
--	{0x12, TVP5150_PREFIX "ACT_VD_CROP_ST_LSB", 1},
--	{0x13, TVP5150_PREFIX "ACT_VD_CROP_STP_MSB", 1},
--	{0x14, TVP5150_PREFIX "ACT_VD_CROP_STP_LSB", 1},
--	{0x15, TVP5150_PREFIX "GENLOCK", 1},
--	{0x16, TVP5150_PREFIX "HORIZ_SYNC_START", 1},
--	{0x18, TVP5150_PREFIX "VERT_BLANKING_START", 1},
--	{0x19, TVP5150_PREFIX "VERT_BLANKING_STOP", 1},
--	{0x1a, TVP5150_PREFIX "CHROMA_PROC_CTL_1", 1},
--	{0x1b, TVP5150_PREFIX "CHROMA_PROC_CTL_2", 1},
--	{0x1c, TVP5150_PREFIX "INT_RESET_REG_B", 1},
--	{0x1d, TVP5150_PREFIX "INT_ENABLE_REG_B", 1},
--	{0x1e, TVP5150_PREFIX "INTT_CONFIG_REG_B", 1},
--	{0x28, TVP5150_PREFIX "VIDEO_STD", 1},
--	{0x2c, TVP5150_PREFIX "CB_GAIN_FACT", 1},
--	{0x2d, TVP5150_PREFIX "CR_GAIN_FACTOR", 1},
--	{0x2e, TVP5150_PREFIX "MACROVISION_ON_CTR", 1},
--	{0x2f, TVP5150_PREFIX "MACROVISION_OFF_CTR", 1},
--	{0x30, TVP5150_PREFIX "REV_SELECT", 1},
--	{0x80, TVP5150_PREFIX "MSB_DEV_ID", 1},
--	{0x81, TVP5150_PREFIX "LSB_DEV_ID", 1},
--	{0x82, TVP5150_PREFIX "ROM_MAJOR_VER", 1},
--	{0x83, TVP5150_PREFIX "ROM_MINOR_VER", 1},
--	{0x84, TVP5150_PREFIX "VERT_LN_COUNT_MSB", 1},
--	{0x85, TVP5150_PREFIX "VERT_LN_COUNT_LSB", 1},
--	{0x86, TVP5150_PREFIX "INT_STATUS_REG_B", 1},
--	{0x87, TVP5150_PREFIX "INT_ACTIVE_REG_B", 1},
--	{0x88, TVP5150_PREFIX "STATUS_REG_1", 1},
--	{0x89, TVP5150_PREFIX "STATUS_REG_2", 1},
--	{0x8a, TVP5150_PREFIX "STATUS_REG_3", 1},
--	{0x8b, TVP5150_PREFIX "STATUS_REG_4", 1},
--	{0x8c, TVP5150_PREFIX "STATUS_REG_5", 1},
--	{0x90, TVP5150_PREFIX "CC_DATA", 4},
--	{0x94, TVP5150_PREFIX "WSS_DATA", 6},
--	{0x9a, TVP5150_PREFIX "VPS_DATA", 13},
--	{0xa7, TVP5150_PREFIX "VITC_DATA", 9},
--	{0xb0, TVP5150_PREFIX "VBI_FIFO_READ_DATA", 1},
--	{0xb1, TVP5150_PREFIX "TELETEXT_FIL1", 5},
--	{0xb6, TVP5150_PREFIX "TELETEXT_FIL2", 5},
--	{0xbb, TVP5150_PREFIX "TELETEXT_FIL_ENA", 1},
--	{0xc0, TVP5150_PREFIX "INT_STATUS_REG_A", 1},
--	{0xc1, TVP5150_PREFIX "INT_ENABLE_REG_A", 1},
--	{0xc2, TVP5150_PREFIX "INT_CONF", 1},
--	{0xc3, TVP5150_PREFIX "VDP_CONF_RAM_DATA", 1},
--	{0xc4, TVP5150_PREFIX "CONF_RAM_ADDR_LOW", 1},
--	{0xc5, TVP5150_PREFIX "CONF_RAM_ADDR_HIGH", 1},
--	{0xc6, TVP5150_PREFIX "VDP_STATUS_REG", 1},
--	{0xc7, TVP5150_PREFIX "FIFO_WORD_COUNT", 1},
--	{0xc8, TVP5150_PREFIX "FIFO_INT_THRESHOLD", 1},
--	{0xc9, TVP5150_PREFIX "FIFO_RESET", 1},
--	{0xca, TVP5150_PREFIX "LINE_NUMBER_INT", 1},
--	{0xcb, TVP5150_PREFIX "PIX_ALIGN_REG_LOW", 1},
--	{0xcc, TVP5150_PREFIX "PIX_ALIGN_REG_HIGH", 1},
--	{0xcd, TVP5150_PREFIX "FIFO_OUT_CTRL", 1},
--	{0xcf, TVP5150_PREFIX "FULL_FIELD_ENA", 1},
--	{0xd0, TVP5150_PREFIX "LINE_MODE", 43},
--	{0xfc, TVP5150_PREFIX "FULL_FIELD_MODE_REG", 1},
-+static const std::vector<board_regs> tvp5150_regs{
-+	{ 0x00, TVP5150_PREFIX "VD_IN_SRC_SEL_1", 1 },
-+	{ 0x01, TVP5150_PREFIX "ANAL_CHL_CTL", 1 },
-+	{ 0x02, TVP5150_PREFIX "OP_MODE_CTL", 1 },
-+	{ 0x03, TVP5150_PREFIX "MISC_CTL", 1 },
-+	{ 0x04, TVP5150_PREFIX "AUTOSW_MSK", 1 },
-+	{ 0x06, TVP5150_PREFIX "COLOR_KIL_THSH_CTL", 1 },
-+	{ 0x07, TVP5150_PREFIX "LUMA_PROC_CTL_1", 1 },
-+	{ 0x08, TVP5150_PREFIX "LUMA_PROC_CTL_2", 1 },
-+	{ 0x09, TVP5150_PREFIX "BRIGHT_CTL", 1 },
-+	{ 0x0a, TVP5150_PREFIX "SATURATION_CTL", 1 },
-+	{ 0x0b, TVP5150_PREFIX "HUE_CTL", 1 },
-+	{ 0x0c, TVP5150_PREFIX "CONTRAST_CTL", 1 },
-+	{ 0x0d, TVP5150_PREFIX "DATA_RATE_SEL", 1 },
-+	{ 0x0e, TVP5150_PREFIX "LUMA_PROC_CTL_3", 1 },
-+	{ 0x0f, TVP5150_PREFIX "CONF_SHARED_PIN", 1 },
-+	{ 0x11, TVP5150_PREFIX "ACT_VD_CROP_ST_MSB", 1 },
-+	{ 0x12, TVP5150_PREFIX "ACT_VD_CROP_ST_LSB", 1 },
-+	{ 0x13, TVP5150_PREFIX "ACT_VD_CROP_STP_MSB", 1 },
-+	{ 0x14, TVP5150_PREFIX "ACT_VD_CROP_STP_LSB", 1 },
-+	{ 0x15, TVP5150_PREFIX "GENLOCK", 1 },
-+	{ 0x16, TVP5150_PREFIX "HORIZ_SYNC_START", 1 },
-+	{ 0x18, TVP5150_PREFIX "VERT_BLANKING_START", 1 },
-+	{ 0x19, TVP5150_PREFIX "VERT_BLANKING_STOP", 1 },
-+	{ 0x1a, TVP5150_PREFIX "CHROMA_PROC_CTL_1", 1 },
-+	{ 0x1b, TVP5150_PREFIX "CHROMA_PROC_CTL_2", 1 },
-+	{ 0x1c, TVP5150_PREFIX "INT_RESET_REG_B", 1 },
-+	{ 0x1d, TVP5150_PREFIX "INT_ENABLE_REG_B", 1 },
-+	{ 0x1e, TVP5150_PREFIX "INTT_CONFIG_REG_B", 1 },
-+	{ 0x28, TVP5150_PREFIX "VIDEO_STD", 1 },
-+	{ 0x2c, TVP5150_PREFIX "CB_GAIN_FACT", 1 },
-+	{ 0x2d, TVP5150_PREFIX "CR_GAIN_FACTOR", 1 },
-+	{ 0x2e, TVP5150_PREFIX "MACROVISION_ON_CTR", 1 },
-+	{ 0x2f, TVP5150_PREFIX "MACROVISION_OFF_CTR", 1 },
-+	{ 0x30, TVP5150_PREFIX "REV_SELECT", 1 },
-+	{ 0x80, TVP5150_PREFIX "MSB_DEV_ID", 1 },
-+	{ 0x81, TVP5150_PREFIX "LSB_DEV_ID", 1 },
-+	{ 0x82, TVP5150_PREFIX "ROM_MAJOR_VER", 1 },
-+	{ 0x83, TVP5150_PREFIX "ROM_MINOR_VER", 1 },
-+	{ 0x84, TVP5150_PREFIX "VERT_LN_COUNT_MSB", 1 },
-+	{ 0x85, TVP5150_PREFIX "VERT_LN_COUNT_LSB", 1 },
-+	{ 0x86, TVP5150_PREFIX "INT_STATUS_REG_B", 1 },
-+	{ 0x87, TVP5150_PREFIX "INT_ACTIVE_REG_B", 1 },
-+	{ 0x88, TVP5150_PREFIX "STATUS_REG_1", 1 },
-+	{ 0x89, TVP5150_PREFIX "STATUS_REG_2", 1 },
-+	{ 0x8a, TVP5150_PREFIX "STATUS_REG_3", 1 },
-+	{ 0x8b, TVP5150_PREFIX "STATUS_REG_4", 1 },
-+	{ 0x8c, TVP5150_PREFIX "STATUS_REG_5", 1 },
-+	{ 0x90, TVP5150_PREFIX "CC_DATA", 4 },
-+	{ 0x94, TVP5150_PREFIX "WSS_DATA", 6 },
-+	{ 0x9a, TVP5150_PREFIX "VPS_DATA", 13 },
-+	{ 0xa7, TVP5150_PREFIX "VITC_DATA", 9 },
-+	{ 0xb0, TVP5150_PREFIX "VBI_FIFO_READ_DATA", 1 },
-+	{ 0xb1, TVP5150_PREFIX "TELETEXT_FIL1", 5 },
-+	{ 0xb6, TVP5150_PREFIX "TELETEXT_FIL2", 5 },
-+	{ 0xbb, TVP5150_PREFIX "TELETEXT_FIL_ENA", 1 },
-+	{ 0xc0, TVP5150_PREFIX "INT_STATUS_REG_A", 1 },
-+	{ 0xc1, TVP5150_PREFIX "INT_ENABLE_REG_A", 1 },
-+	{ 0xc2, TVP5150_PREFIX "INT_CONF", 1 },
-+	{ 0xc3, TVP5150_PREFIX "VDP_CONF_RAM_DATA", 1 },
-+	{ 0xc4, TVP5150_PREFIX "CONF_RAM_ADDR_LOW", 1 },
-+	{ 0xc5, TVP5150_PREFIX "CONF_RAM_ADDR_HIGH", 1 },
-+	{ 0xc6, TVP5150_PREFIX "VDP_STATUS_REG", 1 },
-+	{ 0xc7, TVP5150_PREFIX "FIFO_WORD_COUNT", 1 },
-+	{ 0xc8, TVP5150_PREFIX "FIFO_INT_THRESHOLD", 1 },
-+	{ 0xc9, TVP5150_PREFIX "FIFO_RESET", 1 },
-+	{ 0xca, TVP5150_PREFIX "LINE_NUMBER_INT", 1 },
-+	{ 0xcb, TVP5150_PREFIX "PIX_ALIGN_REG_LOW", 1 },
-+	{ 0xcc, TVP5150_PREFIX "PIX_ALIGN_REG_HIGH", 1 },
-+	{ 0xcd, TVP5150_PREFIX "FIFO_OUT_CTRL", 1 },
-+	{ 0xcf, TVP5150_PREFIX "FULL_FIELD_ENA", 1 },
-+	{ 0xd0, TVP5150_PREFIX "LINE_MODE", 43 },
-+	{ 0xfc, TVP5150_PREFIX "FULL_FIELD_MODE_REG", 1 },
- };
-diff --git a/utils/v4l2-dbg/v4l2-dbg.cpp b/utils/v4l2-dbg/v4l2-dbg.cpp
-index dd2904356..0873c2686 100644
---- a/utils/v4l2-dbg/v4l2-dbg.cpp
-+++ b/utils/v4l2-dbg/v4l2-dbg.cpp
-@@ -46,66 +46,58 @@
- #include "v4l2-dbg-tvp5150.h"
- #include "v4l2-dbg-micron.h"
- 
--#define ARRAY_SIZE(arr) ((int)(sizeof(arr) / sizeof((arr)[0])))
--
- struct board_list {
- 	const char *name;
- 	int prefix; 		/* Register prefix size */
--	const struct board_regs *regs;
--	int regs_size;
--	const struct board_regs *alt_regs;
--	int alt_regs_size;
-+	const std::vector<board_regs> &regs;
-+	const std::vector<board_regs> &alt_regs;
- };
- 
--static const struct board_list boards[] = {
-+static const std::vector<board_regs> empty{};
-+
-+static const std::vector<board_list> boards{
- #define AC97_BOARD 0
--	{				/* From v4l2-dbg-ac97.h */
-+	{
-+		/* From v4l2-dbg-ac97.h */
- 		AC97_IDENT,
- 		sizeof(AC97_PREFIX) - 1,
- 		ac97_regs,
--		ARRAY_SIZE(ac97_regs),
--		nullptr,
--		0,
-+		empty,
- 	},
--	{				/* From v4l2-dbg-bttv.h */
-+	{
-+		/* From v4l2-dbg-bttv.h */
- 		BTTV_IDENT,
- 		sizeof(BTTV_PREFIX) - 1,
- 		bt8xx_regs,
--		ARRAY_SIZE(bt8xx_regs),
- 		bt8xx_regs_other,
--		ARRAY_SIZE(bt8xx_regs_other),
- 	},
--	{				/* From v4l2-dbg-saa7134.h */
-+	{
-+		/* From v4l2-dbg-saa7134.h */
- 		SAA7134_IDENT,
- 		sizeof(SAA7134_PREFIX) - 1,
- 		saa7134_regs,
--		ARRAY_SIZE(saa7134_regs),
--		nullptr,
--		0,
-+		empty,
- 	},
--	{				/* From v4l2-dbg-em28xx.h */
-+	{
-+		/* From v4l2-dbg-em28xx.h */
- 		EM28XX_IDENT,
- 		sizeof(EM28XX_PREFIX) - 1,
- 		em28xx_regs,
--		ARRAY_SIZE(em28xx_regs),
- 		em28xx_alt_regs,
--		ARRAY_SIZE(em28xx_alt_regs),
- 	},
--	{				/* From v4l2-dbg-tvp5150.h */
-+	{
-+		/* From v4l2-dbg-tvp5150.h */
- 		TVP5150_IDENT,
- 		sizeof(TVP5150_PREFIX) - 1,
- 		tvp5150_regs,
--		ARRAY_SIZE(tvp5150_regs),
--		nullptr,
--		0,
-+		empty,
- 	},
--	{				/* From v4l2-dbg-micron.h */
-+	{
-+		/* From v4l2-dbg-micron.h */
- 		MT9V011_IDENT,
- 		sizeof(MT9V011_PREFIX) - 1,
- 		mt9v011_regs,
--		ARRAY_SIZE(mt9v011_regs),
--		nullptr,
--		0,
-+		empty,
- 	},
- };
- 
-@@ -294,16 +286,16 @@ static void print_name(struct v4l2_dbg_chip_info *chip)
- static unsigned long long parse_reg(const struct board_list *curr_bd, const std::string &reg)
+ static std::string flags2s(unsigned val, const flag_def *def)
  {
- 	if (curr_bd) {
--		for (int i = 0; i < curr_bd->regs_size; i++) {
--			if (!strcasecmp(reg.c_str(), curr_bd->regs[i].name) ||
--			    !strcasecmp(reg.c_str(), curr_bd->regs[i].name + curr_bd->prefix)) {
--				return curr_bd->regs[i].reg;
-+		for (const auto &curr : curr_bd->regs) {
-+			if (!strcasecmp(reg.c_str(), curr.name) ||
-+			    !strcasecmp(reg.c_str(), curr.name + curr_bd->prefix)) {
-+				return curr.reg;
- 			}
- 		}
--		for (int i = 0; i < curr_bd->alt_regs_size; i++) {
--			if (!strcasecmp(reg.c_str(), curr_bd->alt_regs[i].name) ||
--			    !strcasecmp(reg.c_str(), curr_bd->alt_regs[i].name + curr_bd->prefix)) {
--				return curr_bd->alt_regs[i].reg;
-+		for (const auto &curr : curr_bd->alt_regs) {
-+			if (!strcasecmp(reg.c_str(), curr.name) ||
-+			    !strcasecmp(reg.c_str(), curr.name + curr_bd->prefix)) {
-+				return curr.reg;
- 			}
- 		}
- 	}
-@@ -313,13 +305,13 @@ static unsigned long long parse_reg(const struct board_list *curr_bd, const std:
- static const char *reg_name(const struct board_list *curr_bd, unsigned long long reg)
+diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
+index fe4defd9c..cb3cb91f7 100644
+--- a/utils/common/v4l2-info.cpp
++++ b/utils/common/v4l2-info.cpp
+@@ -16,10 +16,10 @@ static std::string num2s(unsigned num, bool is_hex = true)
+ 	return buf;
+ }
+ 
+-typedef struct {
++struct flag_def {
+ 	unsigned flag;
+ 	const char *str;
+-} flag_def;
++};
+ 
+ static std::string flags2s(unsigned val, const flag_def *def)
  {
- 	if (curr_bd) {
--		for (int i = 0; i < curr_bd->regs_size; i++) {
--			if (reg == curr_bd->regs[i].reg)
--				return curr_bd->regs[i].name;
-+		for (const auto &curr : curr_bd->regs) {
-+			if (reg == curr.reg)
-+				return curr.name;
- 		}
--		for (int i = 0; i < curr_bd->alt_regs_size; i++) {
--			if (reg == curr_bd->regs[i].reg)
--				return curr_bd->regs[i].name;
-+		for (const auto &curr : curr_bd->regs) {
-+			if (reg == curr.reg)
-+				return curr.name;
- 		}
- 	}
- 	return nullptr;
-@@ -572,7 +564,7 @@ int main(int argc, char **argv)
- 		if (!strncasecmp(match.name, "ac97", 4)) {
- 			curr_bd = &boards[AC97_BOARD];
- 		} else {
--			for (int board = ARRAY_SIZE(boards) - 1; board >= 0; board--) {
-+			for (size_t board = boards.size() - 1; board >= 0; board--) {
- 				if (!strcasecmp(chip_info.name, boards[board].name)) {
- 					curr_bd = &boards[board];
- 					break;
-@@ -685,9 +677,9 @@ int main(int argc, char **argv)
- 			else
- 				reg_max = parse_reg(curr_bd, reg_max_arg);
+diff --git a/utils/qv4l2/qv4l2.h b/utils/qv4l2/qv4l2.h
+index a585ac35c..aaba74d0e 100644
+--- a/utils/qv4l2/qv4l2.h
++++ b/utils/qv4l2/qv4l2.h
+@@ -51,10 +51,10 @@ class VbiTab;
+ class QCloseEvent;
+ class CaptureWin;
  
--			for (int i = 0; i < curr_bd->regs_size; i++) {
--				if (reg_min_arg.empty() || ((curr_bd->regs[i].reg >= reg_min) && curr_bd->regs[i].reg <= reg_max)) {
--					get_reg.reg = curr_bd->regs[i].reg;
-+			for (const auto &curr : curr_bd->regs) {
-+				if (reg_min_arg.empty() || ((curr.reg >= reg_min) && curr.reg <= reg_max)) {
-+					get_reg.reg = curr.reg;
+-typedef std::vector<unsigned> ClassIDVec;
+-typedef std::map<unsigned, ClassIDVec> ClassMap;
+-typedef std::map<unsigned, struct v4l2_query_ext_ctrl> CtrlMap;
+-typedef std::map<unsigned, QWidget *> WidgetMap;
++using ClassIDVec = std::vector<unsigned>;
++using ClassMap = std::map<unsigned, ClassIDVec>;
++using CtrlMap = std::map<unsigned, v4l2_query_ext_ctrl>;
++using WidgetMap = std::map<unsigned, QWidget *>;
  
- 					if (ioctl(fd, VIDIOC_DBG_G_REGISTER, &get_reg) < 0)
- 						fprintf(stderr, "ioctl: VIDIOC_DBG_G_REGISTER "
-@@ -796,10 +788,10 @@ list_done:
- 		}
- 		else {
- 			printf("Symbols for driver %s:\n", curr_bd->name);
--			for (int i = 0; i < curr_bd->regs_size; i++)
--				printf("0x%08x: %s\n", curr_bd->regs[i].reg, curr_bd->regs[i].name);
--			for (int i = 0; i < curr_bd->alt_regs_size; i++)
--				printf("0x%08x: %s\n", curr_bd->alt_regs[i].reg, curr_bd->alt_regs[i].name);
-+			for (const auto &curr : curr_bd->regs)
-+				printf("0x%08x: %s\n", curr.reg, curr.name);
-+			for (const auto &curr : curr_bd->alt_regs)
-+				printf("0x%08x: %s\n", curr.reg, curr.name);
- 		}
- 	}
+ enum {
+ 	CTRL_UPDATE_ON_CHANGE = 0x10,
+diff --git a/utils/rds-ctl/rds-ctl.cpp b/utils/rds-ctl/rds-ctl.cpp
+index 994fc9c4d..e27182821 100644
+--- a/utils/rds-ctl/rds-ctl.cpp
++++ b/utils/rds-ctl/rds-ctl.cpp
+@@ -29,7 +29,7 @@
  
+ #define ARRAY_SIZE(arr) ((int)(sizeof(arr) / sizeof((arr)[0])))
+ 
+-typedef std::vector<std::string> dev_vec;
++using dev_vec = std::vector<std::string>;
+ using dev_map = std::map<std::string, std::string>;
+ 
+ /* Short option list
+diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+index 4d5c3a5c0..d13dd2e2d 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.h
++++ b/utils/v4l2-compliance/v4l2-compliance.h
+@@ -78,10 +78,10 @@ struct test_query_ext_ctrl: v4l2_query_ext_ctrl {
+ 	__u64 menu_mask;
+ };
+ 
+-typedef std::map<__u32, struct test_query_ext_ctrl> qctrl_map;
+-typedef std::map<__u32, __u32> pixfmt_map;
+-typedef std::set<__u64> frmsizes_set;
+-typedef std::map<__u32, unsigned> frmsizes_count_map;
++using qctrl_map = std::map<__u32, test_query_ext_ctrl>;
++using pixfmt_map = std::map<__u32, __u32>;
++using frmsizes_set = std::set<__u64>;
++using frmsizes_count_map = std::map<__u32, unsigned>;
+ 
+ struct base_node;
+ 
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index 131fedc67..bc5958c2c 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -93,7 +93,7 @@ enum QueryBufMode {
+ 	Dequeued
+ };
+ 
+-typedef std::map<struct timeval, struct v4l2_buffer> buf_info_map;
++using buf_info_map = std::map<struct timeval, struct v4l2_buffer>;
+ static buf_info_map buffer_info;
+ 
+ #define FILE_HDR_ID			v4l2_fourcc('V', 'h', 'd', 'r')
+diff --git a/utils/v4l2-compliance/v4l2-test-media.cpp b/utils/v4l2-compliance/v4l2-test-media.cpp
+index d7a83b0cd..ef2982c04 100644
+--- a/utils/v4l2-compliance/v4l2-test-media.cpp
++++ b/utils/v4l2-compliance/v4l2-test-media.cpp
+@@ -73,7 +73,7 @@ static int checkDevice(__u32 major, __u32 minor, bool iface, __u32 id)
+ 	return 0;
+ }
+ 
+-typedef std::set<__u32> id_set;
++using id_set = std::set<__u32>;
+ 
+ static media_v2_topology topology;
+ static media_v2_entity *v2_ents;
+diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+index 15b68b5ee..17ad488dd 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+@@ -22,7 +22,7 @@ struct ctrl_subset {
+ 	unsigned size[V4L2_CTRL_MAX_DIMS];
+ };
+ 
+-typedef std::map<unsigned, std::vector<struct v4l2_ext_control> > class2ctrls_map;
++using class2ctrls_map = std::map<unsigned int, std::vector<struct v4l2_ext_control> >;
+ 
+ using ctrl_qmap = std::map<std::string, struct v4l2_query_ext_ctrl>;
+ static ctrl_qmap ctrl_str2q;
+diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+index f9bad45cc..7518ac6f5 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.h
++++ b/utils/v4l2-ctl/v4l2-ctl.h
+@@ -277,10 +277,10 @@ extern __u32 vidcap_buftype;
+ extern __u32 vidout_buftype;
+ extern int verbose;
+ 
+-typedef struct {
++struct flag_def {
+ 	unsigned flag;
+ 	const char *str;
+-} flag_def;
++};
+ 
+ /* fmts specified */
+ #define FmtWidth		(1L<<0)
 -- 
 2.30.2
 
