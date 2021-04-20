@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4B41365875
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 14:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BFC5365876
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 14:06:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232228AbhDTMGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S232233AbhDTMGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 20 Apr 2021 08:06:03 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57980 "EHLO
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57972 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232209AbhDTMGB (ORCPT
+        with ESMTP id S232225AbhDTMGC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 08:06:01 -0400
+        Tue, 20 Apr 2021 08:06:02 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86D4A14CA;
-        Tue, 20 Apr 2021 14:05:27 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 311111570;
+        Tue, 20 Apr 2021 14:05:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1618920328;
-        bh=nVC9w3rAvr7p1Ue0dr+IK2NK3BtumqjLcTkMVh8gtL0=;
+        bh=+7q9tuiB7av6l4Cw4FuyTUhTgISLecT4mhdl2RpDWW0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hWsvpN256C8UnNWGTvKEZg0oJNNJh6hwf7mo2YUa7p96vhtgITvmT+z9Mt1j3n1dV
-         Io7yUx9gt6POCO4+bcxqwpuT4eE1D2Jxh6S+PrN+w32w+mq0yAGPByZ/hzfXFTlqKS
-         MbS2mZEDM9fnHDoklgeIZXD0nIfyOYEpsL17qPMI=
+        b=h7KoIl40nRR+/CugWQNqx2KzQGrj0So6btI828K4OttmWd6DnkmR/vjnAiRmUjN7O
+         fNT1IFdlmEvoM/XR4oYgSc9JgHNjLrUUNAmdArW8UOj50G+2KqlFr4cY2vgloz7Xgr
+         5j11lED1EN5tmuudfUk7VSod/6gpsUYSZj0hAQU0=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     Benoit Parrot <bparrot@ti.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2 24/35] media: ti-vpe: cal: add mbus_code support to cal_mc_enum_fmt_vid_cap
-Date:   Tue, 20 Apr 2021 15:04:22 +0300
-Message-Id: <20210420120433.902394-25-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v2 25/35] media: ti-vpe: cal: rename non-MC funcs to cal_legacy_*
+Date:   Tue, 20 Apr 2021 15:04:23 +0300
+Message-Id: <20210420120433.902394-26-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210420120433.902394-1-tomi.valkeinen@ideasonboard.com>
 References: <20210420120433.902394-1-tomi.valkeinen@ideasonboard.com>
@@ -40,54 +40,177 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit e5b6b07a1b45 ("media: v4l2: Extend VIDIOC_ENUM_FMT to support
-MC-centric devices") added support to enumerate formats based on
-mbus-code.
-
-Add this feature to cal driver.
+To make it more obvious if the function in question is dealing with
+media-controller API or the legacy API, rename legacy API functions to
+cal_legacy_*.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal-video.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ drivers/media/platform/ti-vpe/cal-video.c | 58 +++++++++++------------
+ 1 file changed, 29 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-index 064efdc31b28..40fb09d82418 100644
+index 40fb09d82418..6f1e8d257b5c 100644
 --- a/drivers/media/platform/ti-vpe/cal-video.c
 +++ b/drivers/media/platform/ti-vpe/cal-video.c
-@@ -437,13 +437,28 @@ static const struct v4l2_ioctl_ops cal_ioctl_video_ops = {
- static int cal_mc_enum_fmt_vid_cap(struct file *file, void  *priv,
- 				   struct v4l2_fmtdesc *f)
- {
-+	unsigned int i;
-+	unsigned int idx;
-+
- 	if (f->index >= cal_num_formats)
- 		return -EINVAL;
- 
--	f->pixelformat = cal_formats[f->index].fourcc;
--	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-+	idx = 0;
- 
--	return 0;
-+	for (i = 0; i < cal_num_formats; ++i) {
-+		if (f->mbus_code && cal_formats[i].code != f->mbus_code)
-+			continue;
-+
-+		if (idx == f->index) {
-+			f->pixelformat = cal_formats[i].fourcc;
-+			f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-+			return 0;
-+		}
-+
-+		idx++;
-+	}
-+
-+	return -EINVAL;
+@@ -102,8 +102,8 @@ static const struct cal_format_info *find_format_by_code(struct cal_ctx *ctx,
+ 	return NULL;
  }
  
- static void cal_mc_try_fmt(struct cal_ctx *ctx, struct v4l2_format *f,
+-static int cal_enum_fmt_vid_cap(struct file *file, void  *priv,
+-				struct v4l2_fmtdesc *f)
++static int cal_legacy_enum_fmt_vid_cap(struct file *file, void *priv,
++				       struct v4l2_fmtdesc *f)
+ {
+ 	struct cal_ctx *ctx = video_drvdata(file);
+ 	const struct cal_format_info *fmtinfo;
+@@ -189,8 +189,8 @@ static void cal_calc_format_size(struct cal_ctx *ctx,
+ 		f->fmt.pix.bytesperline, f->fmt.pix.sizeimage);
+ }
+ 
+-static int cal_try_fmt_vid_cap(struct file *file, void *priv,
+-			       struct v4l2_format *f)
++static int cal_legacy_try_fmt_vid_cap(struct file *file, void *priv,
++				      struct v4l2_format *f)
+ {
+ 	struct cal_ctx *ctx = video_drvdata(file);
+ 	const struct cal_format_info *fmtinfo;
+@@ -249,8 +249,8 @@ static int cal_try_fmt_vid_cap(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
+-static int cal_s_fmt_vid_cap(struct file *file, void *priv,
+-			     struct v4l2_format *f)
++static int cal_legacy_s_fmt_vid_cap(struct file *file, void *priv,
++				    struct v4l2_format *f)
+ {
+ 	struct cal_ctx *ctx = video_drvdata(file);
+ 	struct vb2_queue *q = &ctx->vb_vidq;
+@@ -266,7 +266,7 @@ static int cal_s_fmt_vid_cap(struct file *file, void *priv,
+ 		return -EBUSY;
+ 	}
+ 
+-	ret = cal_try_fmt_vid_cap(file, priv, f);
++	ret = cal_legacy_try_fmt_vid_cap(file, priv, f);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -300,8 +300,8 @@ static int cal_s_fmt_vid_cap(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
+-static int cal_enum_framesizes(struct file *file, void *fh,
+-			       struct v4l2_frmsizeenum *fsize)
++static int cal_legacy_enum_framesizes(struct file *file, void *fh,
++				      struct v4l2_frmsizeenum *fsize)
+ {
+ 	struct cal_ctx *ctx = video_drvdata(file);
+ 	const struct cal_format_info *fmtinfo;
+@@ -337,8 +337,8 @@ static int cal_enum_framesizes(struct file *file, void *fh,
+ 	return 0;
+ }
+ 
+-static int cal_enum_input(struct file *file, void *priv,
+-			  struct v4l2_input *inp)
++static int cal_legacy_enum_input(struct file *file, void *priv,
++				 struct v4l2_input *inp)
+ {
+ 	if (inp->index > 0)
+ 		return -EINVAL;
+@@ -348,20 +348,20 @@ static int cal_enum_input(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
+-static int cal_g_input(struct file *file, void *priv, unsigned int *i)
++static int cal_legacy_g_input(struct file *file, void *priv, unsigned int *i)
+ {
+ 	*i = 0;
+ 	return 0;
+ }
+ 
+-static int cal_s_input(struct file *file, void *priv, unsigned int i)
++static int cal_legacy_s_input(struct file *file, void *priv, unsigned int i)
+ {
+ 	return i > 0 ? -EINVAL : 0;
+ }
+ 
+ /* timeperframe is arbitrary and continuous */
+-static int cal_enum_frameintervals(struct file *file, void *priv,
+-				   struct v4l2_frmivalenum *fival)
++static int cal_legacy_enum_frameintervals(struct file *file, void *priv,
++					  struct v4l2_frmivalenum *fival)
+ {
+ 	struct cal_ctx *ctx = video_drvdata(file);
+ 	const struct cal_format_info *fmtinfo;
+@@ -388,27 +388,27 @@ static int cal_enum_frameintervals(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
+-static int cal_g_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
++static int cal_legacy_g_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+ {
+ 	struct cal_ctx *ctx = video_drvdata(file);
+ 
+ 	return v4l2_g_parm_cap(video_devdata(file), ctx->phy->source, a);
+ }
+ 
+-static int cal_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
++static int cal_legacy_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+ {
+ 	struct cal_ctx *ctx = video_drvdata(file);
+ 
+ 	return v4l2_s_parm_cap(video_devdata(file), ctx->phy->source, a);
+ }
+ 
+-static const struct v4l2_ioctl_ops cal_ioctl_video_ops = {
++static const struct v4l2_ioctl_ops cal_ioctl_legacy_ops = {
+ 	.vidioc_querycap      = cal_querycap,
+-	.vidioc_enum_fmt_vid_cap  = cal_enum_fmt_vid_cap,
++	.vidioc_enum_fmt_vid_cap  = cal_legacy_enum_fmt_vid_cap,
+ 	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
+-	.vidioc_try_fmt_vid_cap   = cal_try_fmt_vid_cap,
+-	.vidioc_s_fmt_vid_cap     = cal_s_fmt_vid_cap,
+-	.vidioc_enum_framesizes   = cal_enum_framesizes,
++	.vidioc_try_fmt_vid_cap   = cal_legacy_try_fmt_vid_cap,
++	.vidioc_s_fmt_vid_cap     = cal_legacy_s_fmt_vid_cap,
++	.vidioc_enum_framesizes   = cal_legacy_enum_framesizes,
+ 	.vidioc_reqbufs       = vb2_ioctl_reqbufs,
+ 	.vidioc_create_bufs   = vb2_ioctl_create_bufs,
+ 	.vidioc_prepare_buf   = vb2_ioctl_prepare_buf,
+@@ -416,17 +416,17 @@ static const struct v4l2_ioctl_ops cal_ioctl_video_ops = {
+ 	.vidioc_qbuf          = vb2_ioctl_qbuf,
+ 	.vidioc_dqbuf         = vb2_ioctl_dqbuf,
+ 	.vidioc_expbuf        = vb2_ioctl_expbuf,
+-	.vidioc_enum_input    = cal_enum_input,
+-	.vidioc_g_input       = cal_g_input,
+-	.vidioc_s_input       = cal_s_input,
+-	.vidioc_enum_frameintervals = cal_enum_frameintervals,
++	.vidioc_enum_input    = cal_legacy_enum_input,
++	.vidioc_g_input       = cal_legacy_g_input,
++	.vidioc_s_input       = cal_legacy_s_input,
++	.vidioc_enum_frameintervals = cal_legacy_enum_frameintervals,
+ 	.vidioc_streamon      = vb2_ioctl_streamon,
+ 	.vidioc_streamoff     = vb2_ioctl_streamoff,
+ 	.vidioc_log_status    = v4l2_ctrl_log_status,
+ 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+ 	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+-	.vidioc_g_parm		= cal_g_parm,
+-	.vidioc_s_parm		= cal_s_parm,
++	.vidioc_g_parm		= cal_legacy_g_parm,
++	.vidioc_s_parm		= cal_legacy_s_parm,
+ };
+ 
+ /* ------------------------------------------------------------------
+@@ -966,7 +966,7 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
+ 	vfd->queue = q;
+ 	snprintf(vfd->name, sizeof(vfd->name), "CAL output %u", ctx->dma_ctx);
+ 	vfd->release = video_device_release_empty;
+-	vfd->ioctl_ops = cal_mc_api ? &cal_ioctl_mc_ops : &cal_ioctl_video_ops;
++	vfd->ioctl_ops = cal_mc_api ? &cal_ioctl_mc_ops : &cal_ioctl_legacy_ops;
+ 	vfd->lock = &ctx->mutex;
+ 	video_set_drvdata(vfd, ctx);
+ 
 -- 
 2.25.1
 
