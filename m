@@ -2,177 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF58B36598C
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 15:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 886F33659F0
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 15:25:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232138AbhDTNMJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 09:12:09 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:40237 "EHLO
+        id S232413AbhDTNZJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 09:25:09 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46765 "EHLO
         lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231313AbhDTNMJ (ORCPT
+        by vger.kernel.org with ESMTP id S230479AbhDTNZI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 09:12:09 -0400
+        Tue, 20 Apr 2021 09:25:08 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id YqA9lY1Iw8K3KYqADlzk8E; Tue, 20 Apr 2021 15:11:37 +0200
+        id YqMilY68X8K3KYqMllzmro; Tue, 20 Apr 2021 15:24:35 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618924297; bh=yqLYcsBLFI2JYHfgnG3Wr9I81QDXNW8sWl9OnOVNAj4=;
+        t=1618925075; bh=H6wnEcKeZ+8/tOf0g5ZRihQj8kY6LqmYDHCwodi5Or4=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=ME2mC1QTOmo9Kiy48D0qoB2juhND4KbEYvjv9Xg/WbVQra9QT/igu3/1RTfrKBPFu
-         6ou/nbFLli57aFHE6PFURiwR4nTpSf45OBUYEcVvQW/hztSVW2xVPbN2cVux8KAHJP
-         7Iz46YC3j7GZ1OAjv6OUsvmMvqpAp7psV16pMciY0PBD8MHi9050T4vv9z5E7w2k6y
-         1raxGdxpFjXfpkWtupeKJZS2nfVfWZqG0K6adJDJAQX8MMayW+EhP+awrir7GWvIQN
-         8D9yv7D1gbSkmsb5eYLxbhdbOrAppQCu8xEcHm6Sn1zCJM/TDXBJBiz1eVAPNbHw1t
-         N8m4FkCfU+mwA==
-Subject: Re: [PATCH 5/8] staging: media: atomisp: Refactor
- ia_css_stream_load()
-To:     Martiros Shakhzadyan <vrzh@vrzh.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-References: <20210419192602.498815-1-vrzh@vrzh.net>
- <20210419192602.498815-6-vrzh@vrzh.net>
+        b=BxWGcQI11dCDZIo6rEYJd75xkcjX83WxkBh1pir48ranKpteycux14t2tz26RwXff
+         R3vW6DnKBvSnu9joVEhJCmRxzDp9icVTYhrHl/qMpSWPuHGHiH2tN04sQpJ/DgdGNc
+         ApdDKO8KjK4y70QN9STeiv0kwtv3Tdym5qFPVpW3LroJJ5Y9HymzJk1A6TKIfDTLDL
+         xaksgg+48es3wvvnZm/poxPiToiY+FmBuDHVOsrIQf7AkPy2kF1Eoo7W5fL0xuFZMb
+         zIWdkheF2vOicU/mYVgusCm7GgAjIR+8VLEZZLd4B+3RcXkjcbn9t9Myze1dl5lT1L
+         9CDCJA6R486Jw==
+Subject: Re: [PATCH 1/6] staging: media: atomisp: improve function argument
+ alignment
+To:     Deepak R Varma <mh12gx2825@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <cover.1618859059.git.drv@mailo.com>
+ <9b517e04d1a9b56dc14494a246d70915d51b1839.1618859059.git.drv@mailo.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <cab37171-bbe4-c1c4-239d-80f49b47fc88@xs4all.nl>
-Date:   Tue, 20 Apr 2021 15:11:33 +0200
+Message-ID: <401d7d5a-70b7-3443-8612-eb4812e22af1@xs4all.nl>
+Date:   Tue, 20 Apr 2021 15:24:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210419192602.498815-6-vrzh@vrzh.net>
+In-Reply-To: <9b517e04d1a9b56dc14494a246d70915d51b1839.1618859059.git.drv@mailo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKTQDD105nHKeClCiHckPkR2085+ApsCvWHtBT5txUBFzL0lXgWl135CUsyID9/wDYsLX8i/sZ/H/+FTm7iJtFGgxR+Oo+M76uaFKsMcb9dC2QTGiU3M
- z3vRDTqQFh34ymvY5APhOKY1foEp8RzrlFPei8KKlPy7zMbtBy+XB2Q5v4NozKt8JRiCZP3//zpWvVihfuk/JXDBoG40+qTho/F/MyzMvlc2M9xKPlYARo7K
- eav+s36WPz5j06ceXYAPl1VufU8t/3lz/boWhhpdkCQHxBMovC2ikDhCMfXf+pGq
+X-CMAE-Envelope: MS4xfJIFED2aVn04IwaztxkGJ1BQIM74DfjRPx0fZbZVAxOSm3NS6cl9drhoJaytTzJobL7jeP9OjjQjpAN4nd5iskNpGcNPHWRtWWEFNNsr8gJTlCelelnX
+ kzBQHEkf1K/7WxC6gh1I+aoG/odu0JVOmtPro8XlN49Cd1beXO3ADh+HQHVMbV6hOsZGAah7wSPKOvWoMkXE+Nlxs7vZs0vTzKuMlJcZmKZJEnWb24GnU+uK
+ Et6EMYnNs9sdw5Puvdlyz/bL7kl3tM8YgNkBM3FhDYf+zSsquZxOystKo0hEt89brvhhKCudiUC3wjb/z0Mbp7Vffdsrv27GIcepdCAR9nMQCOSv2W+V9g/f
+ IEyBwyHLvpBzbo73q/rfcFw/4sB3gOfbVWREYhXsa8R7ibXDdoIU/GLlFCXTns76EozAXzHT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/04/2021 21:25, Martiros Shakhzadyan wrote:
-> Move the support check to the beginning of the function.
-> Replace ENOTSUPP with a standard EOPNOTSUPP exit code.
-> Use goto instead of nesting blocks in the stream search loop.
-> Move variable assignment outside of the if statement.
-> Remove an unnecessary check.
+On 19/04/2021 21:12, Deepak R Varma wrote:
+> Improve multi-line function argument alignment according to the code style
+> guidelines. Resolves checkpatch feedback: "Alignment should match
+> open parenthesis".
 > 
-> Signed-off-by: Martiros Shakhzadyan <vrzh@vrzh.net>
-> ---
->  drivers/staging/media/atomisp/pci/sh_css.c | 72 +++++++++++-----------
->  1 file changed, 35 insertions(+), 37 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-> index 87438b5948ba..71e8133abf04 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-> @@ -9616,48 +9616,46 @@ ia_css_stream_get_info(const struct ia_css_stream *stream,
->  int
->  ia_css_stream_load(struct ia_css_stream *stream)
->  {
-> -	if (!IS_ISP2401) {
-> -		int i;
-> -		int err;
-> +	int i, j, err;
->  
-> -		assert(stream);
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_load() enter,\n");
-> -		for (i = 0; i < MAX_ACTIVE_STREAMS; i++) {
-> -			if (my_css_save.stream_seeds[i].stream == stream) {
-> -				int j;
-> +	if (IS_ISP2401) {
-> +		/* TODO remove function - DEPRECATED */
-> +		(void)stream;
-> +		return -EOPNOTSUPP;
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
 
-Keep ENOTSUPP: ENOPNOTSUPP is for unsupported operands, ENOTSUPP is for
-unsupported functionality, like this.
+WARNING: From:/Signed-off-by: email address mismatch: 'From: Deepak R Varma <mh12gx2825@gmail.com>' != 'Signed-off-by: Deepak R Varma
+<drv@mailo.com>'
 
-> +	}
->  
-> -				for (j = 0; j < my_css_save.stream_seeds[i].num_pipes; j++) {
-> -					if ((err = ia_css_pipe_create(&my_css_save.stream_seeds[i].pipe_config[j],
-> -								    &my_css_save.stream_seeds[i].pipes[j])) != 0) {
-> -						if (j) {
-> -							int k;
-> +	assert(stream);
-> +	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_load() enter,\n");
-> +	for (i = 0; i < MAX_ACTIVE_STREAMS; i++)
-> +		if (my_css_save.stream_seeds[i].stream == stream)
-> +			goto found;
-> +	goto done;
-
-Yuck.
-
-The way to do this is as follows:
-
-	for (i = 0; i < MAX_ACTIVE_STREAMS; i++) {
-		if (my_css_save.stream_seeds[i].stream != stream)
-			continue;
-
-		...
-
-> +
-> +found:
-> +	for (j = 0; j < my_css_save.stream_seeds[i].num_pipes; j++) {
-> +		err = ia_css_pipe_create(&my_css_save.stream_seeds[i].pipe_config[j],
-> +					 &my_css_save.stream_seeds[i].pipes[j]);
-> +		if (err) {
-
-Similar construct:
-
-		if (!err)
-			continue;
-
-> +			int k;
->  
-> -							for (k = 0; k < j; k++)
-> -								ia_css_pipe_destroy(my_css_save.stream_seeds[i].pipes[k]);
-> -						}
-> -						return err;
-> -					}
-> -				}
-> -				err = ia_css_stream_create(&my_css_save.stream_seeds[i].stream_config,
-> -							my_css_save.stream_seeds[i].num_pipes,
-> -							my_css_save.stream_seeds[i].pipes,
-> -							&my_css_save.stream_seeds[i].stream);
-> -				if (err) {
-> -					ia_css_stream_destroy(stream);
-> -					for (j = 0; j < my_css_save.stream_seeds[i].num_pipes; j++)
-> -						ia_css_pipe_destroy(my_css_save.stream_seeds[i].pipes[j]);
-> -					return err;
-> -				}
-> -				break;
-> -			}
-> +			for (k = 0; k < j; k++)
-> +				ia_css_pipe_destroy(my_css_save.stream_seeds[i].pipes[k]);
-> +			return err;
->  		}
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_load() exit,\n");
-> -		return 0;
-> -	} else {
-> -		/* TODO remove function - DEPRECATED */
-> -		(void)stream;
-> -		return -ENOTSUPP;
->  	}
-> +	err = ia_css_stream_create(&my_css_save.stream_seeds[i].stream_config,
-> +				   my_css_save.stream_seeds[i].num_pipes,
-> +				   my_css_save.stream_seeds[i].pipes,
-> +				   &my_css_save.stream_seeds[i].stream);
-> +	if (err) {
-> +		ia_css_stream_destroy(stream);
-> +		for (j = 0; j < my_css_save.stream_seeds[i].num_pipes; j++)
-> +			ia_css_pipe_destroy(my_css_save.stream_seeds[i].pipes[j]);
-> +		return err;
-> +	}
-> +done:
-> +	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_load() exit,\n");
-> +	return 0;
->  }
->  
->  int
-> 
+Which email should I use? Ideally you should post from the same email
+as the Signed-off-by.
 
 Regards,
 
 	Hans
+
+> ---
+>  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
+>  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 4 ++--
+>  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 4 ++--
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> index 2b71de722ec3..6be3ee1d93a5 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> @@ -192,8 +192,8 @@ static int __gc0310_buf_reg_array(struct i2c_client *client,
+>  }
+>  
+>  static int __gc0310_write_reg_is_consecutive(struct i2c_client *client,
+> -	struct gc0310_write_ctrl *ctrl,
+> -	const struct gc0310_reg *next)
+> +					     struct gc0310_write_ctrl *ctrl,
+> +					     const struct gc0310_reg *next)
+>  {
+>  	if (ctrl->index == 0)
+>  		return 1;
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> index 78147ffb6099..6ba4a8adff7c 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> @@ -171,8 +171,8 @@ static int __gc2235_buf_reg_array(struct i2c_client *client,
+>  }
+>  
+>  static int __gc2235_write_reg_is_consecutive(struct i2c_client *client,
+> -	struct gc2235_write_ctrl *ctrl,
+> -	const struct gc2235_reg *next)
+> +					     struct gc2235_write_ctrl *ctrl,
+> +					     const struct gc2235_reg *next)
+>  {
+>  	if (ctrl->index == 0)
+>  		return 1;
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> index eecefcd734d0..aec7392fd1de 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> @@ -212,8 +212,8 @@ static int __ov2722_buf_reg_array(struct i2c_client *client,
+>  }
+>  
+>  static int __ov2722_write_reg_is_consecutive(struct i2c_client *client,
+> -	struct ov2722_write_ctrl *ctrl,
+> -	const struct ov2722_reg *next)
+> +					     struct ov2722_write_ctrl *ctrl,
+> +					     const struct ov2722_reg *next)
+>  {
+>  	if (ctrl->index == 0)
+>  		return 1;
+> 
+
