@@ -2,106 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07105365927
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 14:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9A9B36595D
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 14:58:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231996AbhDTMmE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 08:42:04 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:43741 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231590AbhDTMmB (ORCPT
+        id S232183AbhDTM6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 08:58:21 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:51897 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232174AbhDTM6U (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 08:42:01 -0400
+        Tue, 20 Apr 2021 08:58:20 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id YpgzlXqG48K3KYph2lzdcz; Tue, 20 Apr 2021 14:41:28 +0200
+        id YpwllXwAa8K3KYpwolzgxn; Tue, 20 Apr 2021 14:57:47 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618922488; bh=LmpPnPkn3X5VabNM+R3RACjye7cXzYGW2T06bu5PJOk=;
+        t=1618923467; bh=5FPDARZPuzLS+K1xyf0rDFW7Kaw2QCPywrO+DTcE+mw=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=n1KlLas/k8Ebog/po1csc3m+nORAZ3CBYWh7BZIl+OR0aJrCDMcFEwDFYftt+7cg/
-         2Y2nw7fQmj7+VXokr5Fi7sOwcQNbHN2vNj6ulwP0pLgvluMpRPiT1/mqL29tUkhSpB
-         FRwlnPJUQZiDpRccP/YTdJ76WWXUv46Ut758oLZKlJtNcg8LoCx57jCkpBB2x3wck8
-         6MtrV3+xjuf4GvDBN032IH9Tkdt4xbj7z9tD/+H8LcOu4VEZ5g3+1yBUMNsyoqxhkU
-         y6S5NY3Ul5whKry7TBs2fb7lnaEx21uVw8a4E1RiCxxwRAJWY/SUZmfW52aCcbckT/
-         VpYQhFcB8oe0Q==
-Subject: Re: [PATCH v2] staging: media: atomisp: pci: Change line break to
- avoid an open parenthesis at the end of the line
-To:     Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-References: <20210415170819.GA17534@focaruja>
+        b=KoY3WLj2ZlVYkWbYdj5jhXuYliSIJbwl4o4uXZmgUIb4JFXhVBHYLz6nDXa7Vj41v
+         FV6tUg+EO6P9hNBF/8wfhsCp9Ii3TKzMIGc8+vMbuQRX41h34LNMyoxtW2pUsvkMTL
+         gF2IGPRd0NfDaLXCdH7Av0dqDkB01pj/fFFUvXxzm3cUPlNLczCnzgwBUNrbjO69bM
+         SSRkeODdMdmkJ6fQZ3heTatrRvubnRWpgUiRPTExJ+c/tR6UVJrRKGJE78J83FpOtP
+         Yckwu8XExyDjDhaCaYXQH21Y34SznCDAeMs4YP9DzZylKdmhfx2F52Zui5CgWPinsP
+         7fmyJgJHdCTVg==
+Subject: Re: [PATCH 4/8] staging: media: atomisp: Replace goto with immediate
+ return in sh_css_pipe_get_grid_info()
+To:     Martiros Shakhzadyan <vrzh@vrzh.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+References: <20210419192602.498815-1-vrzh@vrzh.net>
+ <20210419192602.498815-5-vrzh@vrzh.net>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <fd8eb0f1-aab4-17d8-f590-3e574799c9f5@xs4all.nl>
-Date:   Tue, 20 Apr 2021 14:41:24 +0200
+Message-ID: <1b0dc225-a62d-bbc9-6374-1c64bfc571fc@xs4all.nl>
+Date:   Tue, 20 Apr 2021 14:57:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210415170819.GA17534@focaruja>
+In-Reply-To: <20210419192602.498815-5-vrzh@vrzh.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJ+6TMWQZxkOW4WJICtb/CBRSGKDps49iYq/fH2/dS8SOcQjxwOncdgX0YfG0KSRgNNjBbbmYoz/Lzfs8wf8R3Dndf+foDpsLNdL+yHb6CYw5uixsER7
- XvKZUNSw/hRLlCHq1axRttZzRL/NJ9ArAu082BsIDoCwTj6XHwj8wzZHCVU1a+zb+8X3Ti9e/yJB/gPPg1BlfGRjWt5MhWAGEyR45eV8Lirk1QIDQdCoz5H5
- SqPUbAoSniEjRTcxu70VAfBpWkARgkHtTjDDduuoUQjR+6m/FwgNdvJppHQhVxwScCQazYlW/cwLg7vcORUAupf1zsW3/LvpeDBAq0bQvJgkzj84FnuhdDnh
- cvRowUQmylFXQ0zkmDyq1h5DaYzcMKNlNnnKiHxX5FqI2njH6noqmI6wASmVrHYQuuxySMWV+olkTe3OZezwTpdk40h8X+0nIOD9N/HxZ+qJjXgQenbMXYAI
- 6gfacz9j85iKKlUQ
+X-CMAE-Envelope: MS4xfNgjplYAmpNK0s2QevqHXJJRh4N80au9KzRuKJwcwM1bg5M6+2j870FkR9pItd4vt05HHkiedszgt2O0ChGnJK2MnmvwvAB92pQlSY1KQzeFVwPCkBd/
+ TMZHZIq+9HXhPPfvitFgOE0xV1voMk986+/3iWyF4DXPFzsjC79nOl/Kd+q2PtJc3pG63SGupGHcyJoUXUBvrhOI/iXluIsAlrE4b2EDSdG7MYB9isZCBqHZ
+ ohQWWtUFDx8JFmWRc9FrNK5+xSe7hbrvQ0vY2/8amFWFe+oMz9QuPAo89OI5ax8c
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/04/2021 19:08, Aline Santana Cordeiro wrote:
-> Change line break to avoid an open parenthesis at the end of the line.
-> It consequently removed spaces at the start of the subsequent line.
-> Both issues detected by checkpatch.pl.
+On 19/04/2021 21:25, Martiros Shakhzadyan wrote:
+> Replace centralized exit goto with an immediate exit log and return, in
+> order for the log macro to properly display the file line.
 > 
-> Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+> Signed-off-by: Martiros Shakhzadyan <vrzh@vrzh.net>
 > ---
+>  drivers/staging/media/atomisp/pci/sh_css.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> Changes since v1:
->  - Keep the * with the function return type 
->    instead of left it with the function name
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+> index 4d4f030e0fe0..87438b5948ba 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
+> @@ -5181,8 +5181,10 @@ sh_css_pipe_get_grid_info(struct ia_css_pipe *pipe,
+>  
+>  	if (binary) {
+>  		err = ia_css_binary_3a_grid_info(binary, info, pipe);
+> -		if (err)
+> -			goto ERR;
+> +		if (err) {
+> +			IA_CSS_LEAVE_ERR_PRIVATE(err);
+> +			return err;
+> +		}
+>  	} else {
+>  		memset(&info->s3a_grid, 0, sizeof(info->s3a_grid));
+>  	}
+> @@ -5207,7 +5209,6 @@ sh_css_pipe_get_grid_info(struct ia_css_pipe *pipe,
+>  
+>  	info->vamem_type = IA_CSS_VAMEM_TYPE_2;
+>  
+> -ERR :
+>  	IA_CSS_LEAVE_ERR_PRIVATE(err);
+>  	return err;
+>  }
 > 
->  drivers/staging/media/atomisp/pci/atomisp_cmd.h | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> index 1c0d464..e2b36fa 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> @@ -75,8 +75,8 @@ void atomisp_wdt(struct timer_list *t);
->  void atomisp_setup_flash(struct atomisp_sub_device *asd);
->  irqreturn_t atomisp_isr(int irq, void *dev);
->  irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr);
-> -const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
-> -    u32 mbus_code);
-> +const struct atomisp_format_bridge*
 
-Keep the space before the *!
+Hmm, I'm skipping this patch. It doesn't really change anything since
+there is only one place where an error can occur, so there is no confusion
+about what caused the error.
+
+The patch is not wrong as such, but there is not a good enough reason to
+apply it.
+
+When in doubt, do nothing :-)
 
 Regards,
 
 	Hans
-
-> +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
->  bool atomisp_is_mbuscode_raw(uint32_t code);
->  int atomisp_get_frame_pgnr(struct atomisp_device *isp,
->  			   const struct ia_css_frame *frame, u32 *p_pgnr);
-> @@ -381,9 +381,9 @@ enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
->  
->  bool atomisp_is_vf_pipe(struct atomisp_video_pipe *pipe);
->  
-> -void atomisp_apply_css_parameters(
-> -    struct atomisp_sub_device *asd,
-> -    struct atomisp_css_params *css_param);
-> +void atomisp_apply_css_parameters(struct atomisp_sub_device *asd,
-> +				  struct atomisp_css_params *css_param);
-> +
->  void atomisp_free_css_parameters(struct atomisp_css_params *css_param);
->  
->  void atomisp_handle_parameter_and_buffer(struct atomisp_video_pipe *pipe);
-> 
-
