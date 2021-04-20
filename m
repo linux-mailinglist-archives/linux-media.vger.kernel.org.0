@@ -2,108 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AA82365569
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 11:31:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83C0536558E
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 11:39:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231183AbhDTJbx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 05:31:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41824 "EHLO
+        id S231326AbhDTJjg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 05:39:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229729AbhDTJbx (ORCPT
+        with ESMTP id S229878AbhDTJjf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 05:31:53 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30860C06174A;
-        Tue, 20 Apr 2021 02:31:22 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 906181F4277A
-Subject: Re: [PATCH v9 03/13] media: hantro: Use syscon instead of 'ctrl'
- register
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Lucas Stach <l.stach@pengutronix.de>, ezequiel@collabora.com,
-        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        lee.jones@linaro.org, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-        Jacky Bai <ping.bai@nxp.com>
-Cc:     devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-imx@nxp.com,
-        kernel@pengutronix.de, kernel@collabora.com, cphealy@gmail.com,
-        linux-arm-kernel@lists.infradead.org
-References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
- <20210407073534.376722-4-benjamin.gaignard@collabora.com>
- <7bcbb787d82f21d42563d8fb7e3c2e7d40123932.camel@pengutronix.de>
- <ffe9b3f5-94f5-453e-73f0-4b42d0454b63@collabora.com>
- <529b61b1b1e6030c92a7944c4864246521b2ccdd.camel@pengutronix.de>
- <36008691-d075-203d-0cac-2a012773ea34@collabora.com>
- <43a767f8-77f5-7937-c484-753a3123f6a2@xs4all.nl>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <e7064bb1-69e6-4214-380d-c464b7832da5@collabora.com>
-Date:   Tue, 20 Apr 2021 11:31:16 +0200
+        Tue, 20 Apr 2021 05:39:35 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B974BC06174A;
+        Tue, 20 Apr 2021 02:39:03 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id a5so5785428ljk.0;
+        Tue, 20 Apr 2021 02:39:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:references:from:subject:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=0cgFeiaCJmuEwdxXqsfxCg9P2r8ydkzAaV1kqEK2h0w=;
+        b=gvB2Kjtuq3c6hDrfV3q09iYFnvk6b3RYxllwzrHlnk+X8nahI/9ZgjrPXry5x6L08J
+         ZqUJbyfgrU/17jihKD9RUFrWkKnPLnaOIz5SfrAgdH3V6GQqhJBsJvkRB5ags8nff6/g
+         3cv4VDvDqV2sSqUfb8205g5G7kjLsdASVbSOa0/k/nLxNeajkm1KtVIIys66vWeGWX+c
+         R9IfZtnbhr3czfjp/hluYCcP4dflvCu/ccDgljZf5znlxpNeSE4/7JXLhxawyn0f1SMK
+         6r42KR2eqy29tw7Neimeshqmq4hBcMWCqRWk5EiKSmXItxwa+o1xYehRrMSSHpcpkKnQ
+         slWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0cgFeiaCJmuEwdxXqsfxCg9P2r8ydkzAaV1kqEK2h0w=;
+        b=ZDyLVsvmS97vdLdIHk4HltbWTD7b7zNTv5Zv0eN2YlpxyPpgmErFv5kZu8skEq6pfh
+         vxq+1aU7NReOTmNoutWjs4XfTqwvTH3xkbbVBRfJIZJmdDIO8eAy4OzzydSGRHx2EKmi
+         YCxZohN5vmAuAHhdwG3sQihnF9/FpLz5SAmy9PRVEhD360VKL/zfOUzhAx5QDLXNc87a
+         9ybsBVfOZbIl03G6Eq328W7XZ7KS5ODOvs8lwti3F26LVWd9FmHCpM3iy0PDsS2Bg6xH
+         EV9ZaKPAs6WxNStDYBX/CPFnurowIFpHvg+lf5O6j35v8H7kOGR8KN4r+woc3lrLJAa9
+         MaUw==
+X-Gm-Message-State: AOAM533MPVJGV9S8bJbfOTifeiRiknGlJ/Pqt+FLZodPoLAIaJLX6Q5b
+        pyUfyQt8fzdBkHSm6ylFSFaH1cah+qHUdqvm
+X-Google-Smtp-Source: ABdhPJxU9OnhgUvmhfsaX0XQNxKFEPf1HsBVx73r0wgo9gbzwsyEGSVJJz6LhIbQa4C3GIRFxd4WnA==
+X-Received: by 2002:a2e:9f49:: with SMTP id v9mr14102607ljk.44.1618911541931;
+        Tue, 20 Apr 2021 02:39:01 -0700 (PDT)
+Received: from [10.0.0.42] (91-155-111-71.elisa-laajakaista.fi. [91.155.111.71])
+        by smtp.gmail.com with ESMTPSA id n22sm723197lfu.144.2021.04.20.02.38.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Apr 2021 02:39:01 -0700 (PDT)
+To:     "Alice Guo (OSS)" <alice.guo@oss.nxp.com>,
+        gregkh@linuxfoundation.org, rafael@kernel.org,
+        horia.geanta@nxp.com, aymen.sghaier@nxp.com,
+        herbert@gondor.apana.org.au, davem@davemloft.net, tony@atomide.com,
+        geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+        vkoul@kernel.org, a.hajda@samsung.com, narmstrong@baylibre.com,
+        robert.foss@linaro.org, airlied@linux.ie, daniel@ffwll.ch,
+        khilman@baylibre.com, tomba@kernel.org, jyri.sarha@iki.fi,
+        joro@8bytes.org, will@kernel.org, mchehab@kernel.org,
+        ulf.hansson@linaro.org, adrian.hunter@intel.com, kishon@ti.com,
+        kuba@kernel.org, linus.walleij@linaro.org, Roy.Pledge@nxp.com,
+        leoyang.li@nxp.com, ssantosh@kernel.org, matthias.bgg@gmail.com,
+        edubezval@gmail.com, j-keerthy@ti.com, balbi@kernel.org,
+        linux@prisktech.co.nz, stern@rowland.harvard.edu,
+        wim@linux-watchdog.org, linux@roeck-us.net
+Cc:     linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-staging@lists.linux.dev,
+        linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
+References: <20210419042722.27554-1-alice.guo@oss.nxp.com>
+ <20210419042722.27554-4-alice.guo@oss.nxp.com>
+From:   =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
+Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use
+ soc_device_match
+Message-ID: <2924b8af-d176-01b1-a221-5219c1128494@gmail.com>
+Date:   Tue, 20 Apr 2021 12:40:13 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-In-Reply-To: <43a767f8-77f5-7937-c484-753a3123f6a2@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210419042722.27554-4-alice.guo@oss.nxp.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Alice,
 
-Le 20/04/2021 à 11:16, Hans Verkuil a écrit :
-> On 20/04/2021 11:10, Benjamin Gaignard wrote:
->> Le 16/04/2021 à 17:14, Lucas Stach a écrit :
->>> Am Freitag, dem 16.04.2021 um 15:08 +0200 schrieb Benjamin Gaignard:
->>>> Le 16/04/2021 à 12:54, Lucas Stach a écrit :
->>>>> Am Mittwoch, dem 07.04.2021 um 09:35 +0200 schrieb Benjamin Gaignard:
->>>>>> In order to be able to share the control hardware block between
->>>>>> VPUs use a syscon instead a ioremap it in the driver.
->>>>>> To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
->>>>>> phandle is not found look at 'ctrl' reg-name.
->>>>>> With the method it becomes useless to provide a list of register
->>>>>> names so remove it.
->>>>> Sorry for putting a spoke in the wheel after many iterations of the
->>>>> series.
->>>>>
->>>>> We just discussed a way forward on how to handle the clocks and resets
->>>>> provided by the blkctl block on i.MX8MM and later and it seems there is
->>>>> a consensus on trying to provide virtual power domains from a blkctl
->>>>> driver, controlling clocks and resets for the devices in the power
->>>>> domain. I would like to avoid introducing yet another way of handling
->>>>> the blkctl and thus would like to align the i.MX8MQ VPU blkctl with
->>>>> what we are planning to do on the later chip generations.
->>>>>
->>>>> CC'ing Jacky Bai and Peng Fan from NXP, as they were going to give this
->>>>> virtual power domain thing a shot.
->>>> That could replace the 3 first patches and Dt patche of this series
->>>> but that will not impact the hevc part, so I wonder if pure hevc patches
->>>> could be merged anyway ?
->>>> They are reviewed and don't depend of how the ctrl block is managed.
->>> I'm not really in a position to give any informed opinion about that
->>> hvec patches, as I only skimmed them, but I don't see any reason to
->>> delay patches 04-11 from this series until the i.MX8M platform issues
->>> are sorted. AFAICS those things are totally orthogonal.
->> Hi Hans,
->> What do you think about this proposal to split this series ?
->> Get hevc part merged could allow me to continue to add features
->> like scaling lists, compressed reference buffers and 10-bit supports.
-> Makes sense to me!
+On 4/19/21 7:27 AM, Alice Guo (OSS) wrote:
+> From: Alice Guo <alice.guo@nxp.com>
+> 
+> Update all the code that use soc_device_match because add support for
+> soc_device_match returning -EPROBE_DEFER.
+> 
+> Signed-off-by: Alice Guo <alice.guo@nxp.com>
+> ---
+>  drivers/bus/ti-sysc.c                         |  2 +-
+>  drivers/clk/renesas/r8a7795-cpg-mssr.c        |  4 +++-
+>  drivers/clk/renesas/rcar-gen2-cpg.c           |  2 +-
+>  drivers/clk/renesas/rcar-gen3-cpg.c           |  2 +-
+>  drivers/dma/fsl-dpaa2-qdma/dpaa2-qdma.c       |  7 ++++++-
+>  drivers/dma/ti/k3-psil.c                      |  3 +++
+>  drivers/dma/ti/k3-udma.c                      |  2 +-
+>  drivers/gpu/drm/bridge/nwl-dsi.c              |  2 +-
+>  drivers/gpu/drm/meson/meson_drv.c             |  4 +++-
+>  drivers/gpu/drm/omapdrm/dss/dispc.c           |  2 +-
+>  drivers/gpu/drm/omapdrm/dss/dpi.c             |  4 +++-
+>  drivers/gpu/drm/omapdrm/dss/dsi.c             |  3 +++
+>  drivers/gpu/drm/omapdrm/dss/dss.c             |  3 +++
+>  drivers/gpu/drm/omapdrm/dss/hdmi4_core.c      |  3 +++
+>  drivers/gpu/drm/omapdrm/dss/venc.c            |  4 +++-
+>  drivers/gpu/drm/omapdrm/omap_drv.c            |  3 +++
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  4 +++-
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c           |  2 +-
+>  drivers/gpu/drm/tidss/tidss_dispc.c           |  4 +++-
+>  drivers/iommu/ipmmu-vmsa.c                    |  7 +++++--
+>  drivers/media/platform/rcar-vin/rcar-core.c   |  2 +-
+>  drivers/media/platform/rcar-vin/rcar-csi2.c   |  2 +-
+>  drivers/media/platform/vsp1/vsp1_uif.c        |  4 +++-
+>  drivers/mmc/host/renesas_sdhi_core.c          |  2 +-
+>  drivers/mmc/host/renesas_sdhi_internal_dmac.c |  2 +-
+>  drivers/mmc/host/sdhci-of-esdhc.c             | 21 ++++++++++++++-----
+>  drivers/mmc/host/sdhci-omap.c                 |  2 +-
+>  drivers/mmc/host/sdhci_am654.c                |  2 +-
+>  drivers/net/ethernet/renesas/ravb_main.c      |  4 +++-
+>  drivers/net/ethernet/ti/am65-cpsw-nuss.c      |  2 +-
+>  drivers/net/ethernet/ti/cpsw.c                |  2 +-
+>  drivers/net/ethernet/ti/cpsw_new.c            |  2 +-
+>  drivers/phy/ti/phy-omap-usb2.c                |  4 +++-
+>  drivers/pinctrl/renesas/core.c                |  2 +-
+>  drivers/pinctrl/renesas/pfc-r8a7790.c         |  5 ++++-
+>  drivers/pinctrl/renesas/pfc-r8a7794.c         |  5 ++++-
+>  drivers/soc/fsl/dpio/dpio-driver.c            | 13 ++++++++----
+>  drivers/soc/renesas/r8a774c0-sysc.c           |  5 ++++-
+>  drivers/soc/renesas/r8a7795-sysc.c            |  2 +-
+>  drivers/soc/renesas/r8a77990-sysc.c           |  5 ++++-
+>  drivers/soc/ti/k3-ringacc.c                   |  2 +-
+>  drivers/staging/mt7621-pci/pci-mt7621.c       |  2 +-
+>  drivers/thermal/rcar_gen3_thermal.c           |  4 +++-
+>  drivers/thermal/ti-soc-thermal/ti-bandgap.c   | 10 +++++++--
+>  drivers/usb/gadget/udc/renesas_usb3.c         |  2 +-
+>  drivers/usb/host/ehci-platform.c              |  4 +++-
+>  drivers/usb/host/xhci-rcar.c                  |  2 +-
+>  drivers/watchdog/renesas_wdt.c                |  2 +-
+>  48 files changed, 131 insertions(+), 52 deletions(-)
+> 
 
-Great !
-If the latest version match your expectations how would you like to processed ?
-Can you merged patches 4 to 12 ? or should I resend them in a new shorted series ?
+...
 
-Regards,
-Benjamin
+> diff --git a/drivers/dma/ti/k3-udma.c b/drivers/dma/ti/k3-udma.c
+> index 96ad21869ba7..50a4c8f0993d 100644
+> --- a/drivers/dma/ti/k3-udma.c
+> +++ b/drivers/dma/ti/k3-udma.c
+> @@ -5188,7 +5188,7 @@ static int udma_probe(struct platform_device *pdev)
+>  	ud->match_data = match->data;
+>  
+>  	soc = soc_device_match(k3_soc_devices);
+> -	if (!soc) {
+> +	if (!IS_ERR(soc) && !soc) {
 
->
-> Regards,
->
-> 	Hans
->
+this does not sound right...
+
+if (!soc || IS_ERR(soc))
+or
+if (IS_ERR_OR_NULL(soc))
+is even better.
+
+>  		dev_err(dev, "No compatible SoC found\n");
+>  		return -ENODEV;
+
+There might be a clever macro for it, but:
+
+return soc ? PTR_ERR(soc) : -ENODEV;
+
+>  	}
+
+-- 
+Péter
