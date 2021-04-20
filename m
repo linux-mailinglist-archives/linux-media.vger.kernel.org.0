@@ -2,818 +2,370 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC26F365179
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 06:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F8663651A8
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 06:54:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229543AbhDTE1t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 00:27:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60208 "EHLO
+        id S229594AbhDTEzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 00:55:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbhDTE1s (ORCPT
+        with ESMTP id S229821AbhDTEzH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 00:27:48 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A281C06174A
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 21:27:16 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id o16so5356701plg.5
-        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 21:27:16 -0700 (PDT)
+        Tue, 20 Apr 2021 00:55:07 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 064C5C061763
+        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 21:54:35 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id w18so43469891edc.0
+        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 21:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fjPHpIDSxs70x09pHisrF9H5U02TvJIgxANev7c7AA4=;
-        b=R0gE5p6o1E020GCWSTAAh+9cx5uN+VP+NjZRBnAx1ApX3nJjymOpVGXyFNo7mMY1cZ
-         8JC03v6/lUhqnFPp/cxc1OCUlTrCf9sSuXaYPlh3YnVPHFcSCDfM4d6YGgPgXtRuzOpq
-         t66KPdU6itjHDtsTOVFeFUqv9LdEhVekf9XZt0bDf5/6x6OSS+ui5cjiCIf+1tMqX8du
-         2vw8lJAYwVqRqk3zu+8fbHU86Nc7MeaeBJlOHn1xZkprNPQD8G9PjD9/FW3ufGJZ17un
-         jfts4gDQwXI5/DpPCe5oPWySf69A/linHjpvM5K490OphISlnmz8NWGJm9nTojqt2JUU
-         dIZA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xFIkJ2fkl9LC0QMBhUlEdtBeZKjOJi1lQiDp3v4zRCQ=;
+        b=nmK2lL6z+fNNFNFweN/mY7XmHviUetgxARCEO+u7HbHS0leKwOlxrL5OnCJqLEFzQb
+         y7Oia113JfJT/2uMjTKYOh7zDdSumpZJWDpWpflxfj0/MsdM82MZilrb6QL7EDZ9Mdep
+         toSkRTawvyAo0Vv0K934c0AogTfXCoEfneAkA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fjPHpIDSxs70x09pHisrF9H5U02TvJIgxANev7c7AA4=;
-        b=Vq5KKZ16ogcWalVeCw3d8A9oqKrRctbFznrcoZKdlVnGcE9718bCEBluWP+l7sf434
-         +IG9dCMUWpBNx/KFIO6r+XT8HQVq7tbIbDTq7B0HeVcHsImYy7Qg++TZy8jFULcqVxIg
-         LH3NchNVlHiubxI396Mhpxf6SrCLUPHk3bugw+94KcwyljDtzCClEWX5kw16Wv2zdV3j
-         0y/dnv5lm1opIhnczOzQDYNQ6LUpEEgJcid6Luq2OKoHtv/yludqrsneGtzg2lLur4uf
-         K4j4aK+A7kMS3ZOJwia8/FI4pPAIf90O7ueyykhNCK5OzIB21nAnl6rxA93cHu5RllFf
-         XT9Q==
-X-Gm-Message-State: AOAM530pbEL6p6Duhy+J5QWW8MM64fMM/+H7jatAxN+vgHtNxJLP0b0S
-        7KZBhwely01TKWVppWPgKlfJ/CFmu+bawQ==
-X-Google-Smtp-Source: ABdhPJxfu04y0lt1RbqN7DDhf3f2EqU/d4f4F335t6eIaiH1ZZfTOx8vWQAvvhI0n7nzDBhqu8V9wQ==
-X-Received: by 2002:a17:90a:854b:: with SMTP id a11mr2796392pjw.17.1618892835664;
-        Mon, 19 Apr 2021 21:27:15 -0700 (PDT)
-Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
-        by smtp.gmail.com with ESMTPSA id z188sm3337058pgb.89.2021.04.19.21.27.15
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xFIkJ2fkl9LC0QMBhUlEdtBeZKjOJi1lQiDp3v4zRCQ=;
+        b=R3qL0ENLxeXM5enIreFnzPzvbYFQgHSma+bTdNTem7ya7daRpwHIryIvHdro53SwVP
+         SDeHT4phiCshb8yubzteaU8R0ViPA5gaJkBm9S4sIaVEXb64zuCA3Ast/FmcPwG/Mr/C
+         FJ4f22X6kYrT7mVnMpoDrwwa44gfjpsvVfb0GfB6lZB6ZbNz/4EFOVsGr8HEPPntGUF9
+         Wa3DTk5z1En/97oIW40pot3xNlw1zWzm2wuAzeUbA2vqw7NEq+0RxqSa3RxnHgeM7Qe2
+         75o9j4/tkU0XAWB9UB1lndvBaDmykyNM9XtXS6tXRQxxXnH1GXJ/mjNZWb2myAFyYFel
+         75oQ==
+X-Gm-Message-State: AOAM533+veFqhLNd/WcZ3KzGhyZseimdn8zBvlHjsbeMhpXh3aMMD/8d
+        fM5/PJqhunfiYdB8HvVNYsELpFCOS/AePw==
+X-Google-Smtp-Source: ABdhPJwHJGz9F0HitzjaR2G72hDafgsef5A8UlwRwcBqhGlv7yW5rodP6M7Sptb+DGdsu7YSBXjw6Q==
+X-Received: by 2002:aa7:dcd3:: with SMTP id w19mr5445992edu.157.1618894474255;
+        Mon, 19 Apr 2021 21:54:34 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
+        by smtp.gmail.com with ESMTPSA id m14sm5080770edr.45.2021.04.19.21.54.33
         for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 21:27:15 -0700 (PDT)
-From:   Rosen Penev <rosenp@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH] v4l-utils: switch remote_subtest arrays to vector
-Date:   Mon, 19 Apr 2021 21:27:14 -0700
-Message-Id: <20210420042714.3720981-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Apr 2021 21:54:33 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id x7so36129178wrw.10
+        for <linux-media@vger.kernel.org>; Mon, 19 Apr 2021 21:54:33 -0700 (PDT)
+X-Received: by 2002:adf:d1ce:: with SMTP id b14mr18718192wrd.159.1618894472584;
+ Mon, 19 Apr 2021 21:54:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201221164819.792019-1-ribalda@chromium.org> <20201221164819.792019-10-ribalda@chromium.org>
+ <X+HKpxzbVC29lNlk@pendragon.ideasonboard.com> <CANiDSCv_+Usx4QkG4ypGWbCKvusiugYGgeNRYP8GZJ_pvuhjEQ@mail.gmail.com>
+ <X+L6KSlpKERPAxsm@pendragon.ideasonboard.com> <CANiDSCsvOdB7oAGBwupb_UrV=SND96Pc2AuWu=dPAbTA-boXhQ@mail.gmail.com>
+ <CANiDSCvMWtWUJT76T_4ksoc9bA0ev14kGs1S8Ashw+06iPw6tA@mail.gmail.com>
+In-Reply-To: <CANiDSCvMWtWUJT76T_4ksoc9bA0ev14kGs1S8Ashw+06iPw6tA@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 20 Apr 2021 13:54:21 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5By3GVrzww4AvnhCOdBxdC6udu5=kBCVk_yr6aZ7M1wQg@mail.gmail.com>
+Message-ID: <CAAFQd5By3GVrzww4AvnhCOdBxdC6udu5=kBCVk_yr6aZ7M1wQg@mail.gmail.com>
+Subject: Re: [PATCH v5 09/12] media: uvcvideo: Implement UVC_QUIRK_PRIVACY_DURING_STREAM
+To:     Ricardo Ribalda <ribalda@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Easier to read and allows removing some boilerplate code. Only a
-moderate size increase.
+On Wed, Dec 23, 2020 at 9:56 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> Hi again
+>
+> On Wed, Dec 23, 2020 at 9:31 AM Ricardo Ribalda <ribalda@chromium.org> wrote:
+> >
+> > Hi Laurent
+> >
+> > On Wed, Dec 23, 2020 at 9:05 AM Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> > >
+> > > Hi Ricardo,
+> > >
+> > > On Tue, Dec 22, 2020 at 09:04:19PM +0100, Ricardo Ribalda wrote:
+> > > > On Tue, Dec 22, 2020 at 11:30 AM Laurent Pinchart wrote:
+> > > > > On Mon, Dec 21, 2020 at 05:48:16PM +0100, Ricardo Ribalda wrote:
+> > > > > > Some devices, can only read the privacy_pin if the device is
+> > > > >
+> > > > > s/devices,/devices/
+> > > > >
+> > > > > > streaming.
+> > > > > >
+> > > > > > This patch implement a quirk for such devices, in order to avoid invalid
+> > > > > > reads and/or spurious events.
+> > > > > >
+> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > > ---
+> > > > > >  drivers/media/usb/uvc/uvc_driver.c | 57 ++++++++++++++++++++++++++++--
+> > > > > >  drivers/media/usb/uvc/uvc_queue.c  |  3 ++
+> > > > > >  drivers/media/usb/uvc/uvcvideo.h   |  4 +++
+> > > > > >  3 files changed, 61 insertions(+), 3 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > > > > index 72516101fdd0..7af37d4bd60a 100644
+> > > > > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > > > > @@ -7,6 +7,7 @@
+> > > > > >   */
+> > > > > >
+> > > > > >  #include <linux/atomic.h>
+> > > > > > +#include <linux/dmi.h>
+> > > > > >  #include <linux/gpio/consumer.h>
+> > > > > >  #include <linux/kernel.h>
+> > > > > >  #include <linux/list.h>
+> > > > > > @@ -1472,6 +1473,17 @@ static int uvc_parse_control(struct uvc_device *dev)
+> > > > > >  /* -----------------------------------------------------------------------------
+> > > > > >   * Privacy GPIO
+> > > > > >   */
+> > > > >
+> > > > > There should be a blank line here.
+> > > > >
+> > > > > > +static bool uvc_gpio_is_streaming(struct uvc_device *dev)
+> > > > > > +{
+> > > > > > +     struct uvc_streaming *streaming;
+> > > > > > +
+> > > > > > +     list_for_each_entry(streaming, &dev->streams, list) {
+> > > > > > +             if (uvc_queue_streaming(&streaming->queue))
+> > > > > > +                     return true;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     return false;
+> > > > > > +}
+> > > > > >
+> > > > > >
+> > > > >
+> > > > > But not too blank lines here.
+> > > > >
+> > > > > >  static u8 uvc_gpio_update_value(struct uvc_device *dev,
+> > > > > > @@ -1499,7 +1511,12 @@ static int uvc_gpio_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
+> > > > > >       if (cs != UVC_CT_PRIVACY_CONTROL || size < 1)
+> > > > > >               return -EINVAL;
+> > > > > >
+> > > > > > +     if ((dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM) &&
+> > > > > > +         !uvc_gpio_is_streaming(dev))
+> > > > > > +             return -EBUSY;
+> > > > > > +
+> > > > > >       *(uint8_t *)data = uvc_gpio_update_value(dev, entity);
+> > > > > > +
+> > > > > >       return 0;
+> > > > > >  }
+> > > > > >
+> > > > > > @@ -1528,19 +1545,50 @@ static struct uvc_entity *uvc_gpio_find_entity(struct uvc_device *dev)
+> > > > > >       return NULL;
+> > > > > >  }
+> > > > > >
+> > > > > > -static irqreturn_t uvc_gpio_irq(int irq, void *data)
+> > > > > > +void uvc_privacy_gpio_event(struct uvc_device *dev)
+> > > > > >  {
+> > > > > > -     struct uvc_device *dev = data;
+> > > > > >       struct uvc_entity *unit;
+> > > > > >
+> > > > > > +
+> > > > > >       unit = uvc_gpio_find_entity(dev);
+> > > > > >       if (!unit)
+> > > > > > -             return IRQ_HANDLED;
+> > > > > > +             return;
+> > > > > >
+> > > > > >       uvc_gpio_update_value(dev, unit);
+> > > > > > +}
+> > > > > > +
+> > > > > > +static irqreturn_t uvc_gpio_irq(int irq, void *data)
+> > > > > > +{
+> > > > > > +     struct uvc_device *dev = data;
+> > > > > > +
+> > > > > > +     /* Ignore privacy events during streamoff */
+> > > > > > +     if (dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM)
+> > > > > > +             if (!uvc_gpio_is_streaming(dev))
+> > > > > > +                     return IRQ_HANDLED;
+> > > > >
+> > > > > I'm still a bit concerned of race conditions. When stopping the stream,
+> > > > > vb2_queue.streaming is set to 0 after calling the driver's .stop_stream()
+> > > > > handler. This means that the device will cut power before
+> > > > > uvc_gpio_is_streaming() can detect that streaming has stopped, and the
+> > > > > GPIO could thus trigger an IRQ.
+> > > >
+> > > > On the affected devices I have not seen this. I guess it takes some
+> > > > time to discharge. Anyway I am implementing a workaround. Tell me if
+> > > > it is too ugly.
+> > > >
+> > > > > You mentioned that devices have a pull-up or pull-down on the GPIO line.
+> > > > > As there are only two devices affected, do you know if it's a pull-up or
+> > > > > pull-down ? Would it be worse to expose that state to userspace than to
+> > > > > return -EBUSY when reading the control ?
+> > > >
+> > > > The module has a 100K pull up. This is, it will return "Privacy = 0".
+> > > >
+> > > > We cannot return the default value, as it would make the user believe
+> > > > that the privacy is in a different state that currently is.
+> > > > In other words, userspace needs to know at all times if the privacy is
+> > > > in : unknow_state, on, off.
+> > >
+> > > This seems to be the core of the issue: we're trying to shove 3 states
+> > > into a boolean. Would this call for turning the V4L2_CID_PRIVACY control
+> > > into a menu ? Or maybe setting V4L2_CTRL_FLAG_INACTIVE ? Returning
+> > > -EBUSY when the control is read while not streaming, and not generating
+> > > an event that tells the control value becomes unknown, seems like a hack
+> > > designed to work with a single userspace implementation.
+> > >
+> >
+> > I think that the V4L2_CTRL_FLAG_INACTIVE seems more correct. I will
+> > see how can I wire that up.
+>
+> Let me correct myself here. FLAG_INACTIVE is also not a good idea.
+>
+> you need two ioctls to read the value:
+> -queryctrl()
+> -g_ctrl()
+> and you cannot send both at the same time.
+>
+> I guess we need to keep the -EBUSY or move to a menu. Since we will
+> probably delay this patch for  a while. I will resend based on -EBUSY
+> at the end of my patchset, so it can be easily ignored if we find a
+> better solution.
 
-Ran through git clang-format
+Hi Laurent, Kieran,
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- utils/cec-compliance/cec-compliance.h   |  26 ++--
- utils/cec-compliance/cec-test-audio.cpp | 171 ++++++++++++---------
- utils/cec-compliance/cec-test-power.cpp |  17 +--
- utils/cec-compliance/cec-test.cpp       | 194 ++++++++----------------
- 4 files changed, 177 insertions(+), 231 deletions(-)
+Would it be okay to keep the behavior as suggested by Ricardo?
 
-diff --git a/utils/cec-compliance/cec-compliance.h b/utils/cec-compliance/cec-compliance.h
-index d87e4f1b7..c948dfb34 100644
---- a/utils/cec-compliance/cec-compliance.h
-+++ b/utils/cec-compliance/cec-compliance.h
-@@ -19,6 +19,8 @@
- 
- #include <cec-info.h>
- 
-+#include <vector>
-+
- #define TAG_AUDIO_RATE_CONTROL		1
- #define TAG_ARC_CONTROL 		(1 << 1)
- #define TAG_CAP_DISCOVERY_CONTROL 	(1 << 2)
-@@ -456,25 +458,17 @@ void testRemote(struct node *node, unsigned me, unsigned la, unsigned test_tags,
- 			     bool interactive);
- 
- // cec-test-audio.cpp
--extern struct remote_subtest sac_subtests[];
--extern const unsigned sac_subtests_size;
--extern struct remote_subtest dal_subtests[];
--extern const unsigned dal_subtests_size;
--extern struct remote_subtest arc_subtests[];
--extern const unsigned arc_subtests_size;
--extern struct remote_subtest audio_rate_ctl_subtests[];
--extern const unsigned audio_rate_ctl_subtests_size;
-+extern const std::vector<remote_subtest> sac_subtests;
-+extern const std::vector<remote_subtest> dal_subtests;
-+extern const std::vector<remote_subtest> arc_subtests;
-+extern const std::vector<remote_subtest> audio_rate_ctl_subtests;
- 
- // cec-test-power.cpp
- bool util_interactive_ensure_power_state(struct node *node, unsigned me, unsigned la, bool interactive,
- 					 __u8 target_pwr);
--extern struct remote_subtest standby_subtests[];
--extern const unsigned standby_subtests_size;
--extern struct remote_subtest one_touch_play_subtests[];
--extern const unsigned one_touch_play_subtests_size;
--extern struct remote_subtest power_status_subtests[];
--extern const unsigned power_status_subtests_size;
--extern struct remote_subtest standby_resume_subtests[];
--extern const unsigned standby_resume_subtests_size;
-+extern const std::vector<remote_subtest> standby_subtests;
-+extern const std::vector<remote_subtest> one_touch_play_subtests;
-+extern const std::vector<remote_subtest> power_status_subtests;
-+extern const std::vector<remote_subtest> standby_resume_subtests;
- 
- #endif
-diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
-index 30b702e74..733549b19 100644
---- a/utils/cec-compliance/cec-test-audio.cpp
-+++ b/utils/cec-compliance/cec-test-audio.cpp
-@@ -82,14 +82,11 @@ static int dal_req_current_latency_invalid(struct node *node, unsigned me, unsig
- 	return 0;
- }
- 
--struct remote_subtest dal_subtests[] = {
-+const std::vector<remote_subtest> dal_subtests{
- 	{ "Request Current Latency", CEC_LOG_ADDR_MASK_ALL, dal_request_current_latency },
- 	{ "Request Current Latency with invalid PA", CEC_LOG_ADDR_MASK_ALL, dal_req_current_latency_invalid },
- };
- 
--const unsigned dal_subtests_size = ARRAY_SIZE(dal_subtests);
--
--
- /* Audio Return Channel Control */
- 
- static __u16 pa_common_mask(__u16 pa1, __u16 pa2)
-@@ -274,16 +271,13 @@ static int arc_terminate_rx(struct node *node, unsigned me, unsigned la, bool in
- 	return 0;
- }
- 
--struct remote_subtest arc_subtests[] = {
-+const std::vector<remote_subtest> arc_subtests{
- 	{ "Initiate ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_initiate_rx },
- 	{ "Terminate ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_terminate_rx },
- 	{ "Initiate ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_initiate_tx },
- 	{ "Terminate ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_terminate_tx },
- };
- 
--const unsigned arc_subtests_size = ARRAY_SIZE(arc_subtests);
--
--
- /* System Audio Control */
- 
- /*
-@@ -762,66 +756,99 @@ static int sac_system_audio_mode_req_off(struct node *node, unsigned me, unsigne
- 	return 0;
- }
- 
--struct remote_subtest sac_subtests[] = {
--	{ "Request Short Audio Descriptor",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
--	  sac_request_sad_probe },
--	{ "Request Short Audio Descriptor, invalid",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
--	  sac_request_sad_invalid },
--	{ "Report Short Audio Descriptor consistency",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
--	  sac_sad_format_check },
--	{ "Report Short Audio Descriptor, multiple requests in one",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
--	  sac_sad_req_multiple },
--	{ "Set System Audio Mode (directly addressed)",
--	  CEC_LOG_ADDR_MASK_TV,
--	  sac_set_system_audio_mode_direct },
--	{ "Set System Audio Mode (broadcast on)",
--	  CEC_LOG_ADDR_MASK_TV,
--	  sac_set_system_audio_mode_broadcast_on },
--	{ "System Audio Mode Status",
--	  CEC_LOG_ADDR_MASK_TV,
--	  sac_system_audio_mode_status },
--	{ "System Audio Mode Request (on)",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
--	  sac_system_audio_mode_req_on },
--	{ "Give System Audio Mode Status",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
--	  sac_give_system_audio_mode_status },
--	{ "Give Audio Status",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
--	  sac_give_audio_status },
--	{ "User Control Pressed (Volume Up)",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
--	  sac_user_control_press_vol_up },
--	{ "User Control Pressed (Volume Down)",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
--	  sac_user_control_press_vol_down },
--	{ "User Control Pressed (Mute)",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
--	  sac_user_control_press_mute },
--	{ "User Control Pressed (Restore Volume Function)",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
--	  sac_user_control_press_restore_volume_function },
--	{ "User Control Pressed (Mute Function)",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
--	  sac_user_control_press_mute_function },
--	{ "User Control Released (Audio)",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
--	  sac_user_control_release },
--	{ "Set System Audio Mode (broadcast off)",
--	  CEC_LOG_ADDR_MASK_TV,
--	  sac_set_system_audio_mode_broadcast_off },
--	{ "System Audio Mode Request (off)",
--	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
--	  sac_system_audio_mode_req_off },
-+const std::vector<remote_subtest> sac_subtests{
-+	{
-+		"Request Short Audio Descriptor",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
-+		sac_request_sad_probe,
-+	},
-+	{
-+		"Request Short Audio Descriptor, invalid",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
-+		sac_request_sad_invalid,
-+	},
-+	{
-+		"Report Short Audio Descriptor consistency",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
-+		sac_sad_format_check,
-+	},
-+	{
-+		"Report Short Audio Descriptor, multiple requests in one",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
-+		sac_sad_req_multiple,
-+	},
-+	{
-+		"Set System Audio Mode (directly addressed)",
-+		CEC_LOG_ADDR_MASK_TV,
-+		sac_set_system_audio_mode_direct,
-+	},
-+	{
-+		"Set System Audio Mode (broadcast on)",
-+		CEC_LOG_ADDR_MASK_TV,
-+		sac_set_system_audio_mode_broadcast_on,
-+	},
-+	{
-+		"System Audio Mode Status",
-+		CEC_LOG_ADDR_MASK_TV,
-+		sac_system_audio_mode_status,
-+	},
-+	{
-+		"System Audio Mode Request (on)",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
-+		sac_system_audio_mode_req_on,
-+	},
-+	{
-+		"Give System Audio Mode Status",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
-+		sac_give_system_audio_mode_status,
-+	},
-+	{
-+		"Give Audio Status",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
-+		sac_give_audio_status,
-+	},
-+	{
-+		"User Control Pressed (Volume Up)",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+		sac_user_control_press_vol_up,
-+	},
-+	{
-+		"User Control Pressed (Volume Down)",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+		sac_user_control_press_vol_down,
-+	},
-+	{
-+		"User Control Pressed (Mute)",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+		sac_user_control_press_mute,
-+	},
-+	{
-+		"User Control Pressed (Restore Volume Function)",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+		sac_user_control_press_restore_volume_function,
-+	},
-+	{
-+		"User Control Pressed (Mute Function)",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+		sac_user_control_press_mute_function,
-+	},
-+	{
-+		"User Control Released (Audio)",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+		sac_user_control_release,
-+	},
-+	{
-+		"Set System Audio Mode (broadcast off)",
-+		CEC_LOG_ADDR_MASK_TV,
-+		sac_set_system_audio_mode_broadcast_off,
-+	},
-+	{
-+		"System Audio Mode Request (off)",
-+		CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
-+		sac_system_audio_mode_req_off,
-+	},
- };
- 
--const unsigned sac_subtests_size = ARRAY_SIZE(sac_subtests);
--
--
- /* Audio Rate Control */
- 
- /*
-@@ -848,10 +875,10 @@ static int audio_rate_ctl_set_audio_rate(struct node *node, unsigned me, unsigne
- 	return OK_PRESUMED;
- }
- 
--struct remote_subtest audio_rate_ctl_subtests[] = {
--	{ "Set Audio Rate",
--	  CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_TUNER,
--	  audio_rate_ctl_set_audio_rate },
-+const std::vector<remote_subtest> audio_rate_ctl_subtests{
-+	{
-+		"Set Audio Rate",
-+		CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_TUNER,
-+		audio_rate_ctl_set_audio_rate,
-+	},
- };
--
--const unsigned audio_rate_ctl_subtests_size = ARRAY_SIZE(audio_rate_ctl_subtests);
-diff --git a/utils/cec-compliance/cec-test-power.cpp b/utils/cec-compliance/cec-test-power.cpp
-index 42f4d2980..ff17b015e 100644
---- a/utils/cec-compliance/cec-test-power.cpp
-+++ b/utils/cec-compliance/cec-test-power.cpp
-@@ -6,6 +6,7 @@
- #include <cerrno>
- #include <ctime>
- #include <string>
-+#include <vector>
- 
- #include <sys/ioctl.h>
- #include <unistd.h>
-@@ -95,14 +96,11 @@ static int power_status_report(struct node *node, unsigned me, unsigned la, bool
- 	return OK_PRESUMED;
- }
- 
--struct remote_subtest power_status_subtests[] = {
-+const std::vector<remote_subtest> power_status_subtests{
- 	{ "Give Device Power Status", CEC_LOG_ADDR_MASK_ALL, power_status_give },
- 	{ "Report Device Power Status", CEC_LOG_ADDR_MASK_ALL, power_status_report },
- };
- 
--const unsigned power_status_subtests_size = ARRAY_SIZE(power_status_subtests);
--
--
- /* One Touch Play */
- 
- static int one_touch_play_view_on(struct node *node, unsigned me, unsigned la, bool interactive,
-@@ -233,7 +231,7 @@ static int one_touch_play_req_active_source(struct node *node, unsigned me, unsi
- 	return 0;
- }
- 
--struct remote_subtest one_touch_play_subtests[] = {
-+const std::vector<remote_subtest> one_touch_play_subtests{
- 	{ "Image View On", CEC_LOG_ADDR_MASK_TV, one_touch_play_image_view_on },
- 	{ "Text View On", CEC_LOG_ADDR_MASK_TV, one_touch_play_text_view_on },
- 	{ "Wakeup on Image View On", CEC_LOG_ADDR_MASK_TV, one_touch_play_image_view_on_wakeup },
-@@ -243,9 +241,6 @@ struct remote_subtest one_touch_play_subtests[] = {
- 	{ "Active Source and Request Active Source", CEC_LOG_ADDR_MASK_ALL, one_touch_play_req_active_source },
- };
- 
--const unsigned one_touch_play_subtests_size = ARRAY_SIZE(one_touch_play_subtests);
--
--
- /* Standby / Resume */
- 
- /* The default sleep time between power status requests. */
-@@ -638,7 +633,7 @@ static int power_state_transitions(struct node *node, unsigned me, unsigned la,
- 	return 0;
- }
- 
--struct remote_subtest standby_resume_subtests[] = {
-+const std::vector<remote_subtest> standby_resume_subtests{
- 	{ "Standby", CEC_LOG_ADDR_MASK_ALL, standby_resume_standby },
- 	{ "Repeated Standby message does not wake up", CEC_LOG_ADDR_MASK_ALL, standby_resume_standby_toggle },
- 	{ "Standby: Feature aborts unknown messages", CEC_LOG_ADDR_MASK_ALL, core_unknown, true },
-@@ -652,10 +647,8 @@ struct remote_subtest standby_resume_subtests[] = {
- 	{ "Standby: Get Menu Language", CEC_LOG_ADDR_MASK_ALL, system_info_get_menu_lang, true },
- 	{ "Standby: Give Device Features", CEC_LOG_ADDR_MASK_ALL, system_info_give_features, true },
- 	{ "No wakeup on Active Source", CEC_LOG_ADDR_MASK_ALL, standby_resume_active_source_nowake },
--	{ "Wake up", CEC_LOG_ADDR_MASK_ALL, standby_resume_wakeup},
-+	{ "Wake up", CEC_LOG_ADDR_MASK_ALL, standby_resume_wakeup },
- 	{ "Wake up TV on Image View On", CEC_LOG_ADDR_MASK_TV, standby_resume_wakeup_image_view_on },
- 	{ "Wake up TV on Text View On", CEC_LOG_ADDR_MASK_TV, standby_resume_wakeup_text_view_on },
- 	{ "Power State Transitions", CEC_LOG_ADDR_MASK_TV, power_state_transitions, false, true },
- };
--
--const unsigned standby_resume_subtests_size = ARRAY_SIZE(standby_resume_subtests);
-diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
-index 8a9ea2afe..ede52ee1b 100644
---- a/utils/cec-compliance/cec-test.cpp
-+++ b/utils/cec-compliance/cec-test.cpp
-@@ -13,14 +13,15 @@
- 
- #include "cec-compliance.h"
- 
--#define test_case(name, tags, subtests) {name, tags, subtests, ARRAY_SIZE(subtests)}
--#define test_case_ext(name, tags, subtests) {name, tags, subtests, subtests##_size}
-+#define test_case(name, tags, subtests) \
-+	{                               \
-+		name, tags, subtests,   \
-+	}
- 
- struct remote_test {
- 	const char *name;
- 	const unsigned tags;
--	struct remote_subtest *subtests;
--	unsigned num_subtests;
-+	const std::vector<remote_subtest> &subtests;
- };
- 
- 
-@@ -178,7 +179,7 @@ int system_info_give_features(struct node *node, unsigned me, unsigned la, bool
- 	return 0;
- }
- 
--static struct remote_subtest system_info_subtests[] = {
-+static const std::vector<remote_subtest> system_info_subtests{
- 	{ "Polling Message", CEC_LOG_ADDR_MASK_ALL, system_info_polling },
- 	{ "Give Physical Address", CEC_LOG_ADDR_MASK_ALL, system_info_phys_addr },
- 	{ "Give CEC Version", CEC_LOG_ADDR_MASK_ALL, system_info_version },
-@@ -187,7 +188,6 @@ static struct remote_subtest system_info_subtests[] = {
- 	{ "Give Device Features", CEC_LOG_ADDR_MASK_ALL, system_info_give_features },
- };
- 
--
- /* Core behavior */
- 
- int core_unknown(struct node *node, unsigned me, unsigned la, bool interactive)
-@@ -237,12 +237,11 @@ int core_abort(struct node *node, unsigned me, unsigned la, bool interactive)
- 	return 0;
- }
- 
--static struct remote_subtest core_subtests[] = {
-+static const std::vector<remote_subtest> core_subtests{
- 	{ "Feature aborts unknown messages", CEC_LOG_ADDR_MASK_ALL, core_unknown },
- 	{ "Feature aborts Abort message", CEC_LOG_ADDR_MASK_ALL, core_abort },
- };
- 
--
- /* Vendor Specific Commands */
- 
- int vendor_specific_commands_id(struct node *node, unsigned me, unsigned la, bool interactive)
-@@ -265,11 +264,10 @@ int vendor_specific_commands_id(struct node *node, unsigned me, unsigned la, boo
- 	return 0;
- }
- 
--static struct remote_subtest vendor_specific_subtests[] = {
-+static const std::vector<remote_subtest> vendor_specific_subtests{
- 	{ "Give Device Vendor ID", CEC_LOG_ADDR_MASK_ALL, vendor_specific_commands_id },
- };
- 
--
- /* Device OSD Transfer */
- 
- static int device_osd_transfer_set(struct node *node, unsigned me, unsigned la, bool interactive)
-@@ -317,12 +315,11 @@ int device_osd_transfer_give(struct node *node, unsigned me, unsigned la, bool i
- 	return 0;
- }
- 
--static struct remote_subtest device_osd_transfer_subtests[] = {
-+static const std::vector<remote_subtest> device_osd_transfer_subtests{
- 	{ "Set OSD Name", CEC_LOG_ADDR_MASK_ALL, device_osd_transfer_set },
- 	{ "Give OSD Name", CEC_LOG_ADDR_MASK_ALL, device_osd_transfer_give },
- };
- 
--
- /* OSD Display */
- 
- static int osd_string_set_default(struct node *node, unsigned me, unsigned la, bool interactive)
-@@ -418,13 +415,12 @@ static int osd_string_invalid(struct node *node, unsigned me, unsigned la, bool
- 	return 0;
- }
- 
--static struct remote_subtest osd_string_subtests[] = {
-+static const std::vector<remote_subtest> osd_string_subtests{
- 	{ "Set OSD String with default timeout", CEC_LOG_ADDR_MASK_TV, osd_string_set_default },
- 	{ "Set OSD String with no timeout", CEC_LOG_ADDR_MASK_TV, osd_string_set_until_clear },
- 	{ "Set OSD String with invalid operand", CEC_LOG_ADDR_MASK_TV, osd_string_invalid },
- };
- 
--
- /* Routing Control */
- 
- static int routing_control_inactive_source(struct node *node, unsigned me, unsigned la, bool interactive)
-@@ -525,14 +521,13 @@ static int routing_control_set_stream_path(struct node *node, unsigned me, unsig
- 	return OK_PRESUMED;
- }
- 
--static struct remote_subtest routing_control_subtests[] = {
-+static const std::vector<remote_subtest> routing_control_subtests{
- 	{ "Active Source", CEC_LOG_ADDR_MASK_TV, routing_control_active_source },
- 	{ "Request Active Source", CEC_LOG_ADDR_MASK_ALL, routing_control_req_active_source },
- 	{ "Inactive Source", CEC_LOG_ADDR_MASK_TV, routing_control_inactive_source },
- 	{ "Set Stream Path", CEC_LOG_ADDR_MASK_ALL, routing_control_set_stream_path },
- };
- 
--
- /* Remote Control Passthrough */
- 
- static int rc_passthrough_user_ctrl_pressed(struct node *node, unsigned me, unsigned la, bool interactive)
-@@ -573,12 +568,11 @@ static int rc_passthrough_user_ctrl_released(struct node *node, unsigned me, uns
- 	return OK_PRESUMED;
- }
- 
--static struct remote_subtest rc_passthrough_subtests[] = {
-+static const std::vector<remote_subtest> rc_passthrough_subtests{
- 	{ "User Control Pressed", CEC_LOG_ADDR_MASK_ALL, rc_passthrough_user_ctrl_pressed },
- 	{ "User Control Released", CEC_LOG_ADDR_MASK_ALL, rc_passthrough_user_ctrl_released },
- };
- 
--
- /* Device Menu Control */
- 
- /*
-@@ -604,13 +598,12 @@ static int dev_menu_ctl_request(struct node *node, unsigned me, unsigned la, boo
- 	return 0;
- }
- 
--static struct remote_subtest dev_menu_ctl_subtests[] = {
-+static const std::vector<remote_subtest> dev_menu_ctl_subtests{
- 	{ "Menu Request", static_cast<__u16>(~CEC_LOG_ADDR_MASK_TV), dev_menu_ctl_request },
- 	{ "User Control Pressed", CEC_LOG_ADDR_MASK_ALL, rc_passthrough_user_ctrl_pressed },
- 	{ "User Control Released", CEC_LOG_ADDR_MASK_ALL, rc_passthrough_user_ctrl_released },
- };
- 
--
- /* Deck Control */
- 
- /*
-@@ -704,22 +697,13 @@ static int deck_ctl_play(struct node *node, unsigned me, unsigned la, bool inter
- 	return OK_PRESUMED;
- }
- 
--static struct remote_subtest deck_ctl_subtests[] = {
--	{ "Give Deck Status",
--	  CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
--	  deck_ctl_give_status },
--	{ "Deck Status",
--	  CEC_LOG_ADDR_MASK_ALL,
--	  deck_ctl_deck_status },
--	{ "Deck Control",
--	  CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
--	  deck_ctl_deck_ctl },
--	{ "Play",
--	  CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
--	  deck_ctl_play },
-+static const std::vector<remote_subtest> deck_ctl_subtests{
-+	{ "Give Deck Status", CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD, deck_ctl_give_status },
-+	{ "Deck Status", CEC_LOG_ADDR_MASK_ALL, deck_ctl_deck_status },
-+	{ "Deck Control", CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD, deck_ctl_deck_ctl },
-+	{ "Play", CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD, deck_ctl_play },
- };
- 
--
- /* Tuner Control */
- 
- static const char *bcast_type2s(__u8 bcast_type)
-@@ -912,7 +896,7 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
- 	printf("\t    Finished Channel Scan\n");
- 
- 	printf("\t    Start Channel Test\n");
--	for (const auto &iter : info_vec) {
-+	for (auto &&iter : info_vec) {
- 		cec_msg_init(&msg, me, la);
- 		log_tuner_service(iter, "Select ");
- 		if (iter.is_analog)
-@@ -957,11 +941,10 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
- 	return 0;
- }
- 
--static struct remote_subtest tuner_ctl_subtests[] = {
-+static const std::vector<remote_subtest> tuner_ctl_subtests{
- 	{ "Tuner Control", CEC_LOG_ADDR_MASK_TUNER | CEC_LOG_ADDR_MASK_TV, tuner_ctl_test },
- };
- 
--
- /* One Touch Record */
- 
- /*
-@@ -1061,14 +1044,13 @@ static int one_touch_rec_status(struct node *node, unsigned me, unsigned la, boo
- 	return 0;
- }
- 
--static struct remote_subtest one_touch_rec_subtests[] = {
-+static const std::vector<remote_subtest> one_touch_rec_subtests{
- 	{ "Record TV Screen", CEC_LOG_ADDR_MASK_TV, one_touch_rec_tv_screen },
- 	{ "Record On", CEC_LOG_ADDR_MASK_RECORD, one_touch_rec_on },
- 	{ "Record Off", CEC_LOG_ADDR_MASK_RECORD, one_touch_rec_off },
- 	{ "Record Status", CEC_LOG_ADDR_MASK_ALL, one_touch_rec_status },
- };
- 
--
- /* Timer Programming */
- 
- /*
-@@ -1281,7 +1263,7 @@ static int timer_prog_timer_clear_status(struct node *node, unsigned me, unsigne
- 	return OK_PRESUMED;
- }
- 
--static struct remote_subtest timer_prog_subtests[] = {
-+static const std::vector<remote_subtest> timer_prog_subtests{
- 	{ "Set Analogue Timer", CEC_LOG_ADDR_MASK_RECORD, timer_prog_set_analog_timer },
- 	{ "Set Digital Timer", CEC_LOG_ADDR_MASK_RECORD, timer_prog_set_digital_timer },
- 	{ "Set Timer Program Title", CEC_LOG_ADDR_MASK_RECORD, timer_prog_set_prog_title },
-@@ -1384,11 +1366,10 @@ static int cdc_hec_discover(struct node *node, unsigned me, unsigned la, bool pr
- 	return OK_NOT_SUPPORTED;
- }
- 
--static struct remote_subtest cdc_subtests[] = {
-+static const std::vector<remote_subtest> cdc_subtests{
- 	{ "CDC_HEC_Discover", CEC_LOG_ADDR_MASK_ALL, cdc_hec_discover },
- };
- 
--
- /* Post-test checks */
- 
- static int post_test_check_recognized(struct node *node, unsigned me, unsigned la, bool interactive)
-@@ -1409,79 +1390,34 @@ static int post_test_check_recognized(struct node *node, unsigned me, unsigned l
- 	return 0;
- }
- 
--static struct remote_subtest post_test_subtests[] = {
-+static const std::vector<remote_subtest> post_test_subtests{
- 	{ "Recognized/unrecognized message consistency", CEC_LOG_ADDR_MASK_ALL, post_test_check_recognized },
- };
- 
--
--static const struct remote_test tests[] = {
--	test_case("Core",
--		  TAG_CORE,
--		  core_subtests),
--	test_case_ext("Give Device Power Status feature",
--		      TAG_POWER_STATUS,
--		      power_status_subtests),
--	test_case("System Information feature",
--		  TAG_SYSTEM_INFORMATION,
--		  system_info_subtests),
--	test_case("Vendor Specific Commands feature",
--		  TAG_VENDOR_SPECIFIC_COMMANDS,
--		  vendor_specific_subtests),
--	test_case("Device OSD Transfer feature",
--		  TAG_DEVICE_OSD_TRANSFER,
--		  device_osd_transfer_subtests),
--	test_case("OSD String feature",
--		  TAG_OSD_DISPLAY,
--		  osd_string_subtests),
--	test_case("Remote Control Passthrough feature",
--		  TAG_REMOTE_CONTROL_PASSTHROUGH,
--		  rc_passthrough_subtests),
--	test_case("Device Menu Control feature",
--		  TAG_DEVICE_MENU_CONTROL,
--		  dev_menu_ctl_subtests),
--	test_case("Deck Control feature",
--		  TAG_DECK_CONTROL,
--		  deck_ctl_subtests),
--	test_case("Tuner Control feature",
--		  TAG_TUNER_CONTROL,
--		  tuner_ctl_subtests),
--	test_case("One Touch Record feature",
--		  TAG_ONE_TOUCH_RECORD,
--		  one_touch_rec_subtests),
--	test_case("Timer Programming feature",
--		  TAG_TIMER_PROGRAMMING,
--		  timer_prog_subtests),
--	test_case("Capability Discovery and Control feature",
--		  TAG_CAP_DISCOVERY_CONTROL,
--		  cdc_subtests),
--	test_case_ext("Dynamic Auto Lipsync feature",
--		      TAG_DYNAMIC_AUTO_LIPSYNC,
--		      dal_subtests),
--	test_case_ext("Audio Return Channel feature",
--		      TAG_ARC_CONTROL,
--		      arc_subtests),
--	test_case_ext("System Audio Control feature",
--		      TAG_SYSTEM_AUDIO_CONTROL,
--		      sac_subtests),
--	test_case_ext("Audio Rate Control feature",
--		      TAG_AUDIO_RATE_CONTROL,
--		      audio_rate_ctl_subtests),
--	test_case_ext("One Touch Play feature",
--		      TAG_ONE_TOUCH_PLAY,
--		      one_touch_play_subtests),
--	test_case("Routing Control feature",
--		  TAG_ROUTING_CONTROL,
--		  routing_control_subtests),
--	test_case_ext("Standby/Resume and Power Status",
--		      TAG_POWER_STATUS | TAG_STANDBY_RESUME,
--		      standby_resume_subtests),
--	test_case("Post-test checks",
--		  TAG_CORE,
--		  post_test_subtests),
-+static const remote_test tests[] = {
-+	test_case("Core", TAG_CORE, core_subtests),
-+	test_case("Give Device Power Status feature", TAG_POWER_STATUS, power_status_subtests),
-+	test_case("System Information feature", TAG_SYSTEM_INFORMATION, system_info_subtests),
-+	test_case("Vendor Specific Commands feature", TAG_VENDOR_SPECIFIC_COMMANDS, vendor_specific_subtests),
-+	test_case("Device OSD Transfer feature", TAG_DEVICE_OSD_TRANSFER, device_osd_transfer_subtests),
-+	test_case("OSD String feature", TAG_OSD_DISPLAY, osd_string_subtests),
-+	test_case("Remote Control Passthrough feature", TAG_REMOTE_CONTROL_PASSTHROUGH, rc_passthrough_subtests),
-+	test_case("Device Menu Control feature", TAG_DEVICE_MENU_CONTROL, dev_menu_ctl_subtests),
-+	test_case("Deck Control feature", TAG_DECK_CONTROL, deck_ctl_subtests),
-+	test_case("Tuner Control feature", TAG_TUNER_CONTROL, tuner_ctl_subtests),
-+	test_case("One Touch Record feature", TAG_ONE_TOUCH_RECORD, one_touch_rec_subtests),
-+	test_case("Timer Programming feature", TAG_TIMER_PROGRAMMING, timer_prog_subtests),
-+	test_case("Capability Discovery and Control feature", TAG_CAP_DISCOVERY_CONTROL, cdc_subtests),
-+	test_case("Dynamic Auto Lipsync feature", TAG_DYNAMIC_AUTO_LIPSYNC, dal_subtests),
-+	test_case("Audio Return Channel feature", TAG_ARC_CONTROL, arc_subtests),
-+	test_case("System Audio Control feature", TAG_SYSTEM_AUDIO_CONTROL, sac_subtests),
-+	test_case("Audio Rate Control feature", TAG_AUDIO_RATE_CONTROL, audio_rate_ctl_subtests),
-+	test_case("One Touch Play feature", TAG_ONE_TOUCH_PLAY, one_touch_play_subtests),
-+	test_case("Routing Control feature", TAG_ROUTING_CONTROL, routing_control_subtests),
-+	test_case("Standby/Resume and Power Status", TAG_POWER_STATUS | TAG_STANDBY_RESUME, standby_resume_subtests),
-+	test_case("Post-test checks", TAG_CORE, post_test_subtests),
- };
- 
--static const unsigned num_tests = sizeof(tests) / sizeof(struct remote_test);
--
- static std::map<std::string, int> mapTests;
- static std::map<std::string, bool> mapTestsNoWarnings;
- 
-@@ -1489,15 +1425,14 @@ void collectTests()
- {
- 	std::map<std::string, __u64> mapTestFuncs;
- 
--	for (const auto &test : tests) {
--		for (unsigned j = 0; j < test.num_subtests; j++) {
--			std::string name = safename(test.subtests[j].name);
--			auto func = (__u64)test.subtests[j].test_fn;
-+	for (auto &&test : tests) {
-+		for (auto &&subtest : test.subtests) {
-+			std::string name = safename(subtest.name);
-+			auto func = (__u64)subtest.test_fn;
- 
- 			if (mapTestFuncs.find(name) != mapTestFuncs.end() &&
- 			    mapTestFuncs[name] != func) {
--				fprintf(stderr, "Duplicate subtest name, but different tests: %s\n",
--					test.subtests[j].name);
-+				fprintf(stderr, "Duplicate subtest name, but different tests: %s\n", subtest.name);
- 				std::exit(EXIT_FAILURE);
- 			}
- 			mapTestFuncs[name] = func;
-@@ -1509,12 +1444,10 @@ void collectTests()
- 
- void listTests()
- {
--	for (const auto &test : tests) {
-+	for (auto &&test : tests) {
- 		printf("%s:\n", test.name);
--		for (unsigned j = 0; j < test.num_subtests; j++) {
--			std::string name = safename(test.subtests[j].name);
--
--			printf("\t%s\n", name.c_str());
-+		for (auto &&subtest : test.subtests) {
-+			printf("\t%s\n", safename(subtest.name).c_str());
- 		}
- 	}
- }
-@@ -1553,32 +1486,31 @@ void testRemote(struct node *node, unsigned me, unsigned la, unsigned test_tags,
- 
- 	int ret = 0;
- 
--	for (const auto &test : tests) {
-+	for (auto &&test : tests) {
- 		if ((test.tags & test_tags) != test.tags)
- 			continue;
- 
- 		printf("\t%s:\n", test.name);
--		for (unsigned j = 0; j < test.num_subtests; j++) {
--			const char *name = test.subtests[j].name;
-+		for (auto &&subtest : test.subtests) {
-+			const char *name = subtest.name;
- 
--			if (test.subtests[j].for_cec20 &&
--			    (node->remote[la].cec_version < CEC_OP_CEC_VERSION_2_0 ||
--			     !node->has_cec20))
-+			if (subtest.for_cec20 &&
-+			    (node->remote[la].cec_version < CEC_OP_CEC_VERSION_2_0 || !node->has_cec20))
- 				continue;
- 
--			if (test.subtests[j].in_standby) {
-+			if (subtest.in_standby) {
- 				struct cec_log_addrs laddrs = { };
- 				doioctl(node, CEC_ADAP_G_LOG_ADDRS, &laddrs);
- 
- 				if (!laddrs.log_addr_mask)
- 					continue;
- 			}
--			node->in_standby = test.subtests[j].in_standby;
-+			node->in_standby = subtest.in_standby;
- 			mode_set_initiator(node);
- 			unsigned old_warnings = warnings;
--			ret = test.subtests[j].test_fn(node, me, la, interactive);
-+			ret = subtest.test_fn(node, me, la, interactive);
- 			bool has_warnings = old_warnings < warnings;
--			if (!(test.subtests[j].la_mask & (1 << la)) && !ret)
-+			if (!(subtest.la_mask & (1 << la)) && !ret)
- 				ret = OK_UNEXPECTED;
- 
- 			if (mapTests[safename(name)] != DONT_CARE) {
--- 
-2.30.2
+Best regards,
+Tomasz
 
+>
+> Thanks!
+>
+> >
+> >
+> > > As the rest of the series is getting ready, I'd propose merging it
+> > > without this patch until we figure out what should be done to support
+> > > these lovely devices. Would that work for you ?
+> >
+> > Yes that sounds good to me. Thanks!
+> >
+> >
+> > >
+> > > > > > +
+> > > > > > +     uvc_privacy_gpio_event(dev);
+> > > > > > +
+> > > > > >       return IRQ_HANDLED;
+> > > > > >  }
+> > > > > >
+> > > > > > +static const struct dmi_system_id privacy_valid_during_streamon[] = {
+> > > > > > +     {
+> > > > > > +             .ident = "HP Elite c1030 Chromebook",
+> > > > > > +             .matches = {
+> > > > > > +                     DMI_MATCH(DMI_SYS_VENDOR, "HP"),
+> > > > > > +                     DMI_MATCH(DMI_PRODUCT_NAME, "Jinlon"),
+> > > > > > +             },
+> > > > > > +     },
+> > > > > > +     {
+> > > > > > +             .ident = "HP Pro c640 Chromebook",
+> > > > > > +             .matches = {
+> > > > > > +                     DMI_MATCH(DMI_SYS_VENDOR, "HP"),
+> > > > > > +                     DMI_MATCH(DMI_PRODUCT_NAME, "Dratini"),
+> > > > > > +             },
+> > > > > > +     },
+> > > > > > +     { } /* terminate list */
+> > > > > > +};
+> > > > > > +
+> > > > > >  static int uvc_gpio_parse(struct uvc_device *dev)
+> > > > > >  {
+> > > > > >       struct uvc_entity *unit;
+> > > > > > @@ -1577,6 +1625,9 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+> > > > > >
+> > > > > >       list_add_tail(&unit->list, &dev->entities);
+> > > > > >
+> > > > > > +     if (dmi_check_system(privacy_valid_during_streamon))
+> > > > > > +             dev->quirks |= UVC_QUIRK_PRIVACY_DURING_STREAM;
+> > > > >
+> > > > > This will also match any external UVC camera plugged to one of the
+> > > > > affected systems, right ? It shouldn't matter in practice as those
+> > > > > devices won't have a GPIO entity.
+> > > >
+> > > > I did think about that but did not make it explicit in the code.
+> > > > Adding a comment.
+> > > >
+> > > > > I suppose we can't match on VID:PID instead because the same VID:PID is
+> > > > > used in both devices affected by this issue, and devices immune to it ?
+> > > >
+> > > > The problem with VID:PID, is that the manufacturer can decide to
+> > > > change the camera module and then the quirk will not work.
+> > > >
+> > > > We cannot rely ONLY in VID:PID as these modules are also used in other
+> > > > models not affected by the quirk.
+> > > >
+> > > > I believe that it is also correct to rely on the dmi, as the quirk is
+> > > > caused for the way the camera module is wired, which is on the
+> > > > motherboard.
+> > >
+> > > I can't comment on the hardware side as I lack details. Using the
+> > > VID:PID only seems a problem indeed. We could combine DMI and VID:PID,
+> > > but that wouldn't make a difference in practice, so I suppose this is
+> > > good enough.
+> > >
+> > > > > > +
+> > > > > >       return 0;
+> > > > > >  }
+> > > > > >
+> > > > > > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> > > > > > index cd60c6c1749e..e800d491303f 100644
+> > > > > > --- a/drivers/media/usb/uvc/uvc_queue.c
+> > > > > > +++ b/drivers/media/usb/uvc/uvc_queue.c
+> > > > > > @@ -337,9 +337,12 @@ int uvc_dequeue_buffer(struct uvc_video_queue *queue, struct v4l2_buffer *buf,
+> > > > > >  int uvc_queue_streamon(struct uvc_video_queue *queue, enum v4l2_buf_type type)
+> > > > > >  {
+> > > > > >       int ret;
+> > > > > > +     struct uvc_streaming *stream = uvc_queue_to_stream(queue);
+> > > > >
+> > > > > Please swap the two lines.
+> > > > >
+> > > > > >
+> > > > > >       mutex_lock(&queue->mutex);
+> > > > > >       ret = vb2_streamon(&queue->queue, type);
+> > > > > > +     if (stream->dev->quirks & UVC_QUIRK_PRIVACY_DURING_STREAM)
+> > > > > > +             uvc_privacy_gpio_event(stream->dev);
+> > > > >
+> > > > > Even when vb2_streamon() failed ?
+> > > > >
+> > > > > >       mutex_unlock(&queue->mutex);
+> > > > > >
+> > > > > >       return ret;
+> > > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > > > > index 079a407ebba5..32c1ba246d97 100644
+> > > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > > > > @@ -209,6 +209,7 @@
+> > > > > >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
+> > > > > >  #define UVC_QUIRK_FORCE_Y8           0x00000800
+> > > > > >  #define UVC_QUIRK_FORCE_BPP          0x00001000
+> > > > > > +#define UVC_QUIRK_PRIVACY_DURING_STREAM      0x00002000
+> > > > > >
+> > > > > >  /* Format flags */
+> > > > > >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
+> > > > > > @@ -826,6 +827,9 @@ extern const struct v4l2_file_operations uvc_fops;
+> > > > > >  int uvc_mc_register_entities(struct uvc_video_chain *chain);
+> > > > > >  void uvc_mc_cleanup_entity(struct uvc_entity *entity);
+> > > > > >
+> > > > > > +/* Privacy gpio */
+> > > > > > +void uvc_privacy_gpio_event(struct uvc_device *dev);
+> > > > > > +
+> > > > > >  /* Video */
+> > > > > >  int uvc_video_init(struct uvc_streaming *stream);
+> > > > > >  int uvc_video_suspend(struct uvc_streaming *stream);
+> > >
+> > > --
+> > > Regards,
+> > >
+> > > Laurent Pinchart
+> >
+> >
+> >
+> > --
+> > Ricardo Ribalda
+>
+>
+>
+> --
+> Ricardo Ribalda
