@@ -2,240 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88A87365AAD
-	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 16:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 072D1365B1C
+	for <lists+linux-media@lfdr.de>; Tue, 20 Apr 2021 16:27:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231682AbhDTOCY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 10:02:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45428 "EHLO
+        id S232473AbhDTO1v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 10:27:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232516AbhDTOCV (ORCPT
+        with ESMTP id S231758AbhDTO1u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 10:02:21 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AF19C06174A
-        for <linux-media@vger.kernel.org>; Tue, 20 Apr 2021 07:01:50 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1lYqvz-000648-8u; Tue, 20 Apr 2021 16:00:59 +0200
-Message-ID: <d8d084aa7ff183e2f78128a46a0ce5241f357c9a.camel@pengutronix.de>
-Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in
- probe
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Robin Gong <yibin.gong@nxp.com>,
-        Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc:     Nicolin Chen <nicoleotsuka@gmail.com>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        Timur Tabi <timur@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "S.j. Wang" <shengjiu.wang@nxp.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        "perex@perex.cz" <perex@perex.cz>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Date:   Tue, 20 Apr 2021 16:00:56 +0200
-In-Reply-To: <VE1PR04MB6638659EC8557D01861042B189489@VE1PR04MB6638.eurprd04.prod.outlook.com>
-References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
-         <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
-         <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
-         <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
-         <VE1PR04MB66387217EDE5133FD2D8F793894E9@VE1PR04MB6638.eurprd04.prod.outlook.com>
-         <50ef17a2d57b022c48bbca71fd4e074cc3ca9be5.camel@pengutronix.de>
-         <VE1PR04MB6638EE85485768351755557B89499@VE1PR04MB6638.eurprd04.prod.outlook.com>
-         <97262466d537402ad4032098ef277d6d47734f1f.camel@pengutronix.de>
-         <VE1PR04MB6638659EC8557D01861042B189489@VE1PR04MB6638.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        Tue, 20 Apr 2021 10:27:50 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9330BC06174A;
+        Tue, 20 Apr 2021 07:27:18 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id r128so34787584lff.4;
+        Tue, 20 Apr 2021 07:27:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2OP51eQPmA2v/Axf9XtUd+B6i5qCHxFde65D8J1wyZg=;
+        b=Z46uel55L3Pi98OUkDhOokQ4LpvljzcjAA6huSHhwTg9l42PnLzkXLfUURi77NZlKx
+         647qV39IcmyIbGXt5yylVavoCXlBggb2FOZf9P9Lzs10FuorQuM5hEx1SHq8MZgu437L
+         /9vRSfs/Eg1pW/TqVq1SFQGWDCLqtXf16Uz21FJXpfcg+7LPINNmA9h2QkpuL6/f2Fq+
+         8Nxrobaj75iR5oVapq2zzrPxD3PmzWIIhNPm6pgAn5jJpqmxy8QD9OmXPLDH4+8meZQl
+         RuxLhp0qCgJ6UgFUG7eNKq2EwJ7dgvoof1TV4R4czSf1Q/id1Pm8EG+T+aazm4anGlEw
+         DsCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2OP51eQPmA2v/Axf9XtUd+B6i5qCHxFde65D8J1wyZg=;
+        b=XtGj4G+Uj4oILMH5LSbekydI3FvIzSIKBVk+qVLCzu07Xzhtc2vHQ23O8RsMMyRChE
+         ae24zB3Ny3tjR9/fgK257/mGPSDaAlQ6CcP+cGp+0azMqbt48GmJN9LwXp57ovLhDKGz
+         2VwMN7JJuTIofhluP7W9fpygoqTwlTMlSl3SL6z15K/TRD2bXZAIuITX49OfTBsdLb/Q
+         7MbreeS2zO8Vvq2W8VqmNQJjc5AaEiWMK25biv8RNTBis2l6IOwhEHlO4sOFzUSAcP5A
+         p0F/nHGgY0bKr6t8rpH2X6y40GDRLw5dK6BBaTdUkxlupjss+AeZMDJbMs9Wr+kwo2iS
+         QT/A==
+X-Gm-Message-State: AOAM530DAYJ23iNER75Km1zGTmozD46Te91ODeV/yKg9EP2VEW7fj5q+
+        n4MQlFPoUBX5VNjAirP9vq9niDpHMu5TMO53qB4=
+X-Google-Smtp-Source: ABdhPJyDacLoI/mDyJgh1BiFhZW3NCtORmww/paWiBZ3vsgsugc+4BppgoVI02f+QG+gkPk0dh4JjS5HH0leABbKfxs=
+X-Received: by 2002:a05:6512:1105:: with SMTP id l5mr15305227lfg.223.1618928837100;
+ Tue, 20 Apr 2021 07:27:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <1618459535-8141-1-git-send-email-dillon.minfei@gmail.com> <1618459535-8141-4-git-send-email-dillon.minfei@gmail.com>
+In-Reply-To: <1618459535-8141-4-git-send-email-dillon.minfei@gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Tue, 20 Apr 2021 11:27:05 -0300
+Message-ID: <CAOMZO5CcoKDZhj5rQ0_0wkHgk5Mf2RtAHy94EAzjwVgXvvmNeg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] arm: dts: imx: Add i.mx6q DaSheng COM-9XX SBC
+ board support
+To:     dillon.minfei@gmail.com
+Cc:     krzysztof.kozlowski@canonical.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Stefan Riedmueller <s.riedmueller@phytec.de>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        leoyang.li@nxp.com, arnd@arndb.de, olof@lixom.net,
+        s.hauer@pengutronix.de, kernel@pengutronix.de,
+        prabhakar.csengg@gmail.com, mchehab@kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, dem 20.04.2021 um 13:47 +0000 schrieb Robin Gong:
-> On 2021/04/19 17:46 Lucas Stach <l.stach@pengutronix.de> wrote:
-> > Am Montag, dem 19.04.2021 um 07:17 +0000 schrieb Robin Gong:
-> > > Hi Lucas,
-> > > 
-> > > On 2021/04/14 Lucas Stach <l.stach@pengutronix.de> wrote:
-> > > > Hi Robin,
-> > > > 
-> > > > Am Mittwoch, dem 14.04.2021 um 14:33 +0000 schrieb Robin Gong:
-> > > > > On 2020/05/20 17:43 Lucas Stach <l.stach@pengutronix.de> wrote:
-> > > > > > Am Mittwoch, den 20.05.2020, 16:20 +0800 schrieb Shengjiu Wang:
-> > > > > > > Hi
-> > > > > > > 
-> > > > > > > On Tue, May 19, 2020 at 6:04 PM Lucas Stach
-> > > > > > > <l.stach@pengutronix.de>
-> > > > > > wrote:
-> > > > > > > > Am Dienstag, den 19.05.2020, 17:41 +0800 schrieb Shengjiu Wang:
-> > > > > > > > > There are two requirements that we need to move the
-> > > > > > > > > request of dma channel from probe to open.
-> > > > > > > > 
-> > > > > > > > How do you handle -EPROBE_DEFER return code from the channel
-> > > > > > > > request if you don't do it in probe?
-> > > > > > > 
-> > > > > > > I use the dma_request_slave_channel or dma_request_channel
-> > > > > > > instead of dmaengine_pcm_request_chan_of. so there should be
-> > > > > > > not -EPROBE_DEFER return code.
-> > > > > > 
-> > > > > > This is a pretty weak argument. The dmaengine device might probe
-> > > > > > after you try to get the channel. Using a function to request
-> > > > > > the channel that doesn't allow you to handle probe deferral is
-> > > > > > IMHO a bug and should be fixed, instead of building even more
-> > > > > > assumptions on top
-> > > > of it.
-> > > > > > 
-> > > > > > > > > - When dma device binds with power-domains, the power will
-> > > > > > > > > be enabled when we request dma channel. If the request of
-> > > > > > > > > dma channel happen on probe, then the power-domains will
-> > > > > > > > > be always enabled after kernel boot up,  which is not good
-> > > > > > > > > for power saving,  so we need to move the request of dma
-> > > > > > > > > channel to .open();
-> > > > > > > > 
-> > > > > > > > This is certainly something which could be fixed in the
-> > > > > > > > dmaengine driver.
-> > > > > > > 
-> > > > > > > Dma driver always call the pm_runtime_get_sync in
-> > > > > > > device_alloc_chan_resources, the device_alloc_chan_resources
-> > > > > > > is called when channel is requested. so power is enabled on
-> > > > > > > channel
-> > > > request.
-> > > > > > 
-> > > > > > So why can't you fix the dmaengine driver to do that RPM call at
-> > > > > > a later time when the channel is actually going to be used? This
-> > > > > > will allow further power savings with other slave devices than the audio
-> > PCM.
-> > > > > Hi Lucas,
-> > > > >   Thanks for your suggestion. I have tried to implement runtime
-> > > > > autosuspend in fsl-edma driver on i.mx8qm/qxp with delay time (2
-> > > > > sec) for this feature as below (or you can refer to
-> > > > > drivers/dma/qcom/hidma.c), and pm_runtime_get_sync/
-> > > > > pm_runtime_put_autosuspend in all dmaengine driver interface like
-> > > > > device_alloc_chan_resources/device_prep_slave_sg/device_prep_dma_c
-> > > > > ycli
-> > > > > c/
-> > > > > device_tx_status...
-> > > > > 
-> > > > > 
-> > > > >                 pm_runtime_use_autosuspend(fsl_chan->dev);
-> > > > >                 pm_runtime_set_autosuspend_delay(fsl_chan->
-> > dev,
-> > > > 2000);
-> > > > > 
-> > > > > That could resolve this audio case since the autosuspend could
-> > > > > suspend runtime after
-> > > > > 2 seconds if there is no further dma transfer but only channel
-> > > > request(device_alloc_chan_resources).
-> > > > > But unfortunately, it cause another issue. As you know, on our
-> > > > > i.mx8qm/qxp, power domain done by scfw
-> > > > > (drivers/firmware/imx/scu-pd.c)
-> > > > over mailbox:
-> > > > >  imx_sc_pd_power()->imx_scu_call_rpc()->
-> > > > > imx_scu_ipc_write()->mbox_send_message()
-> > > > > which means have to 'waits for completion', meanwhile, some driver
-> > > > > like tty will call dmaengine interfaces in non-atomic case as
-> > > > > below,
-> > > > > 
-> > > > > static int uart_write(struct tty_struct *tty, const unsigned char
-> > > > > *buf, int count) {
-> > > > >    .......
-> > > > > 	    port = uart_port_lock(state, flags);
-> > > > >    ......
-> > > > >         __uart_start(tty);  //call
-> > start_tx()->dmaengine_prep_slave_sg...
-> > > > >         uart_port_unlock(port, flags);
-> > > > >         return ret;
-> > > > > }
-> > > > > 
-> > > > > Thus dma runtime resume may happen in that timing window and cause
-> > > > kernel alarm.
-> > > > > I'm not sure whether there are similar limitations on other driver
-> > > > > subsystem. But for me, It looks like the only way to resolve the
-> > > > > contradiction between tty and scu-pd (hardware limitation on
-> > > > > i.mx8qm/qxp) is to give up autosuspend and keep
-> > > > > pm_runtime_get_sync
-> > > > only in device_alloc_chan_resources because request channel is a
-> > > > safe non-atomic phase.
-> > > > > Do you have any idea? Thanks in advance.
-> > > > 
-> > > > If you look closely at the driver you used as an example (hidma.c)
-> > > > it looks like there is already something in there, which looks very
-> > > > much like what you need
-> > > > here:
-> > > > 
-> > > > In hidma_issue_pending() the driver tries to get the device to runtime
-> > resume.
-> > > > If this doesn't work, maybe due to the power domain code not being
-> > > > able to be called in atomic context, the actual work of waking up
-> > > > the dma hardware and issuing the descriptor is shunted to a tasklet.
-> > > > 
-> > > > If I'm reading this right, this is exactly what you need here to be
-> > > > able to call the dmaengine code from atomic context: try the rpm get
-> > > > and issue immediately when possible, otherwise shunt the work to a
-> > > > non- atomic context where you can deal with the requirements of scu-pd.
-> > > Yes, I can schedule_work to worker to runtime resume edma channel by
-> > calling scu-pd.
-> > > But that means all dmaengine interfaces should be taken care, not only
-> > > issue_pending() but also
-> > > dmaengine_terminate_all()/dmaengine_pause()/dmaengine_resume()/
-> > > dmaengine_tx_status(). Not sure why hidma only take care
-> > > issue_pending. Maybe their user case is just for memcpy/memset so that
-> > > no further complicate case as ALSA or TTY.
-> > > Besides, for autosuspend in cyclic, we have to add pm_runtime_get_sync
-> > > into interrupt handler as qcom/bam_dma.c. but how could resolve the
-> > > scu-pd's non-atmoic limitation in interrupt handler?
-> > 
-> > Sure, this all needs some careful analysis on how those functions are called
-> > and what to do about atomic callers, but it should be doable. I don't see any
-> > fundamental issues here.
-> > 
-> > I don't see why you would ever need to wake the hardware in an interrupt
-> > handler. Surely the hardware is already awake, as it wouldn't signal an
-> > interrupt otherwise. And for the issue with scu-pd you only care about the
-> > state transition of suspended->running. If the hardware is already
-> > running/awake, the runtime pm state handling is nothing more than bumping
-> > a refcount, which is atomic safe. Putting the HW in suspend is already handled
-> > asynchronously in a worker, so this is also atomic safe.
-> But with autosuspend used, in corner case, may runtime suspended before falling 
-> Into edma interrupt handler if timeout happen with the delay value of
-> pm_runtime_set_autosuspend_delay(). Thus, can't touch any edma interrupt
-> status register unless runtime resume edma in interrupt handler while runtime
-> resume function based on scu-pd's power domain may block or sleep.
-> I have a simple workaround that disable runtime suspend in issue_pending worker
-> by calling pm_runtime_forbid() and then enable runtime auto suspend in 
-> dmaengine_terminate_all so that we could easily regard that edma channel is always
-> in runtime resume between issue_pending and channel terminated and ignore the above
-> interrupt handler/scu-pd limitation.
+Hi Dillon,
 
-The IRQ handler is the point where you are informed by the hardware
-that a specific operation is complete. I don't see any use-case where
-it would be valid to drop the rpm refcount to 0 before the IRQ is
-handled. Surely the hardware needs to stay awake until the currently
-queued operations are complete and if the IRQ handler is the completion
-point the IRQ handler is the first point in time where your autosuspend
-timer should start to run. There should never be a situation where the
-timer expiry can get between IRQ signaling and the handler code
-running.
+On Thu, Apr 15, 2021 at 1:05 AM <dillon.minfei@gmail.com> wrote:
 
-Regards,
-Lucas
+> +               green {
+> +                       gpios = <&gpio4 8 0>;
 
+Please use GPIO_ACTIVE_HIGH label instead:
+gpios = <&gpio4 8 GPIO_ACTIVE_HIGH>;
+
+> +&clks {
+> +       assigned-clocks = <&clks IMX6QDL_CLK_LDB_DI0_SEL>,
+> +                         <&clks IMX6QDL_CLK_LDB_DI1_SEL>;
+> +       assigned-clock-parents = <&clks IMX6QDL_CLK_PLL3_USB_OTG>,
+> +                                <&clks IMX6QDL_CLK_PLL3_USB_OTG>;
+> +};
+
+You are setting the LDB clock parent, but you don't use LDB in this
+devicetree. You could simply remove this.
+
+> +&ecspi1 {
+> +       cs-gpios = <&gpio4 9 GPIO_ACTIVE_LOW>;
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_ecspi1>;
+> +       status = "okay";
+> +
+> +       flash: m25p80@0 {
+
+Node names should be generic:
+
+m25p80: flash@0
+
+> +&iomuxc {
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_hog>;
+> +
+> +       imx6qdl-ds {
+> +               pinctrl_hog: hoggrp {
+> +                       fsl,pins = <
+> +                               MX6QDL_PAD_NANDF_D0__GPIO2_IO00 0x1b0b0
+> +                               MX6QDL_PAD_NANDF_D1__GPIO2_IO01 0x1b0b0
+> +                               MX6QDL_PAD_GPIO_0__CCM_CLKO1    0x130b0
+
+This could be part of the pinctrl_ov2659 group as it provides the
+clock for the camera.
+
+Please try to keep in the hoggrp only the pins that cannot be
+controlled by any other node.
+
+> +&wdog1 {
+> +       status = "okay";
+> +};
+> +
+> +&wdog2 {
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_wdog>;
+> +       fsl,ext-reset-output;
+> +       status = "disabled";
+
+Wouldn't it be better to enable wdog2 and disable wdog1 instead? wdog2
+provides a POR, which is preferred.
