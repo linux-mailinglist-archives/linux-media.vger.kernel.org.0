@@ -2,144 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 670D43666F0
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 10:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9280B3666F8
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 10:27:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234728AbhDUIYA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 04:24:00 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:45029 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234532AbhDUIYA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 04:24:00 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Z88nl8wezXsivZ88qltwhB; Wed, 21 Apr 2021 10:23:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1618993405; bh=C7f2NqM5nlAdAVJPTJolCpe4eikOxrw5pvyQZasrOpY=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=fBr0+hniLPjQETVXB6aF3m2cStO6pZpeZujpQwRvMcuJPY6dO2REtjru8sqs1tJam
-         58zZwk9nbGI8oeMx4TcgOaa5CLjVVoiXdm4Q8whH8suNr+90X3X/oFchHNOCPfSfCk
-         41sBRE/uQBhjb8T3MH8hm9uE6orGbBjddUmVLE5PCTCPoxOV6azIYnYPzPxzgeKZXg
-         WXOt8jxNMeieqsnAmUd9cV/7p4G+MNqPHAC5ksHmJEHl9xWw1KKot9ut0ZuIGVhD+t
-         WbhNLUW0xQM2REZnxYdwzCUe8WdRPO6lDZ3EaBYXKqUPaW8pVcQZ4o9vrBoB3gKIlU
-         5oepHvbUzDalQ==
-Subject: Re: [PATCH 5/8] v4l2-info: remove a strange sizeof usage
-To:     Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
-References: <20210421072035.4188497-1-rosenp@gmail.com>
- <20210421072035.4188497-5-rosenp@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <525235dc-e205-0154-ebde-1df11daf48ca@xs4all.nl>
-Date:   Wed, 21 Apr 2021 10:23:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        id S234991AbhDUI1l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 04:27:41 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:42058 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234938AbhDUI1i (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Apr 2021 04:27:38 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lZ8CO-000fOI-RR; Wed, 21 Apr 2021 08:27:04 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lZ8GT-0005Jr-L8; Wed, 21 Apr 2021 08:31:17 +0000
+Date:   Wed, 21 Apr 2021 08:31:17 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Message-ID: <997952602.3.1618993877647@builder.linuxtv.org>
+In-Reply-To: <941519430.2.1618993336887@builder.linuxtv.org>
+References: <941519430.2.1618993336887@builder.linuxtv.org>
+Subject: Jenkins build is back to normal : libcamera #525
 MIME-Version: 1.0
-In-Reply-To: <20210421072035.4188497-5-rosenp@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfAhepFrH9wmOSHj0IKVM3sHI59Sf2lKXtYWrjDblJZ3f7MrVjhqdnBWx75XCyMVoBMZgh2GBcnC0EFZ44put/dmBOm3kn9o6pbJP3n98Ps4OWl2GrP3k
- ZotlTC9XBbZ06l12zqnBTv0qtEzCLjg+AoWuvGYXbxesmNrA9aQGWDAl+WIzbxrZcDQ9mXJ3y+4QVm7Z5PJuNTUGEs9k+6IvJtqx3jSe4ZyEwQkPVkXn3QfU
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: SUCCESS
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/04/2021 09:20, Rosen Penev wrote:
-> The array has a nullptr and 0 member for some reason. Remove and convert
-> loop to a for range one.
-> 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> ---
->  utils/common/v4l2-info.cpp | 33 +++++++++++++++------------------
->  1 file changed, 15 insertions(+), 18 deletions(-)
-> 
-> diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
-> index cb3cb91f7..0359cf137 100644
-> --- a/utils/common/v4l2-info.cpp
-> +++ b/utils/common/v4l2-info.cpp
-> @@ -3,6 +3,8 @@
->   * Copyright 2018 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->   */
->  
-> +#include <array>
-> +
->  #include <v4l2-info.h>
->  
->  static std::string num2s(unsigned num, bool is_hex = true)
-> @@ -411,21 +413,20 @@ std::string mbus2s(unsigned flags, bool is_hsv)
->  	return flags2s(flags, mbus_ycbcr_def);
->  }
->  
-> -static const flag_def selection_targets_def[] = {
-> -	{ V4L2_SEL_TGT_CROP_ACTIVE, "crop" },
-> -	{ V4L2_SEL_TGT_CROP_DEFAULT, "crop_default" },
-> -	{ V4L2_SEL_TGT_CROP_BOUNDS, "crop_bounds" },
-> -	{ V4L2_SEL_TGT_COMPOSE_ACTIVE, "compose" },
-> -	{ V4L2_SEL_TGT_COMPOSE_DEFAULT, "compose_default" },
-> -	{ V4L2_SEL_TGT_COMPOSE_BOUNDS, "compose_bounds" },
-> -	{ V4L2_SEL_TGT_COMPOSE_PADDED, "compose_padded" },
-> -	{ V4L2_SEL_TGT_NATIVE_SIZE, "native_size" },
-> -	{ 0, nullptr }
-
-The idea of having this sentinel is that this makes it easy to add new
-entries without having to update the array size.
-
-> +static constexpr std::array<flag_def, 8> selection_targets_def{
-
-Something you need to do here, adding a new flag means updating the size.
-
-New flags are added regularly, so keeping that robust is a good idea IMHO.
-
-If it were possible to write:
-
-static constexpr std::array<flag_def> selection_targets_def{
-
-i.e. without an explicit size, then this would make sense, but C++
-doesn't allow this. And std::vector allocates the data on the heap,
-which is less efficient as well.
-
-Let's just keep using normal arrays in this case, they do the job
-just fine. Just because you have a hammer, it doesn't mean everything
-is now a nail :-)
-
-Regards,
-
-	Hans
-
-> +	flag_def{ V4L2_SEL_TGT_CROP_ACTIVE, "crop" },
-> +	flag_def{ V4L2_SEL_TGT_CROP_DEFAULT, "crop_default" },
-> +	flag_def{ V4L2_SEL_TGT_CROP_BOUNDS, "crop_bounds" },
-> +	flag_def{ V4L2_SEL_TGT_COMPOSE_ACTIVE, "compose" },
-> +	flag_def{ V4L2_SEL_TGT_COMPOSE_DEFAULT, "compose_default" },
-> +	flag_def{ V4L2_SEL_TGT_COMPOSE_BOUNDS, "compose_bounds" },
-> +	flag_def{ V4L2_SEL_TGT_COMPOSE_PADDED, "compose_padded" },
-> +	flag_def{ V4L2_SEL_TGT_NATIVE_SIZE, "native_size" },
->  };
->  
->  bool valid_seltarget_at_idx(unsigned i)
->  {
-> -	return i < sizeof(selection_targets_def) / sizeof(selection_targets_def[0]) - 1;
-> +	return i < selection_targets_def.size();
->  }
->  
->  unsigned seltarget_at_idx(unsigned i)
-> @@ -437,13 +438,9 @@ unsigned seltarget_at_idx(unsigned i)
->  
->  std::string seltarget2s(__u32 target)
->  {
-> -	int i = 0;
-> -
-> -	while (selection_targets_def[i].str != nullptr) {
-> -		if (selection_targets_def[i].flag == target)
-> -			return selection_targets_def[i].str;
-> -		i++;
-> -	}
-> +	for (const auto &def : selection_targets_def)
-> +		if (def.flag == target)
-> +			return def.str;
->  	return std::string("Unknown (") + num2s(target) + ")";
->  }
->  
-> 
+See <https://builder.linuxtv.org/job/libcamera/525/display/redirect>
 
