@@ -2,91 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37928366985
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 12:57:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B11BD366A75
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 14:09:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236366AbhDUK6F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 06:58:05 -0400
-Received: from mx2.suse.de ([195.135.220.15]:35492 "EHLO mx2.suse.de"
+        id S238024AbhDUMJb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 08:09:31 -0400
+Received: from mga09.intel.com ([134.134.136.24]:5295 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229536AbhDUK6E (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 06:58:04 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1619002649; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rgVvXl99TxnibcW76eYvhg6wpPaOgg+p9bccUoVFxxs=;
-        b=b6CyN9SxhFfZjTTdYIQvTKNt4IfcXFXUGqZZgtYgycjhCjHVTyJO+Nm64qI+MUFZEN89qx
-        0/5HRjjPSgc/foprJoUiqhzBdLZ804nlBYre2Cj4o12VvXdtlo84o7vj4YaqOK/NMkvwKH
-        sDC5MoXlQI3KrSGua6OjVjS8aBB6TAg=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 4A8F7AEE7;
-        Wed, 21 Apr 2021 10:57:29 +0000 (UTC)
-Date:   Wed, 21 Apr 2021 12:57:28 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Peter.Enderborg@sony.com
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        adobriyan@gmail.com, akpm@linux-foundation.org,
-        songmuchun@bytedance.com, guro@fb.com, shakeelb@google.com,
-        neilb@suse.de, samitolvanen@google.com, rppt@kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, willy@infradead.org
-Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
-Message-ID: <YIAFGF4QFX92WG/I@dhcp22.suse.cz>
-References: <20210417163835.25064-1-peter.enderborg@sony.com>
- <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
- <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
- <YH63iPzbGWzb676T@phenom.ffwll.local>
- <a60d1eaf-f9f8-e0f3-d214-15ce2c0635c2@sony.com>
- <YH/tHFBtIawBfGBl@phenom.ffwll.local>
- <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
+        id S234099AbhDUMJa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Apr 2021 08:09:30 -0400
+IronPort-SDR: Oj5NOCIHA7N2FeWQSh4btIBCrKnJNxf70iZj3QaYwOBXciYs7VaHHNnAmt5cHAJH9WRdtBfYa5
+ YVmjHkXTUafQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="195799981"
+X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; 
+   d="scan'208";a="195799981"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 05:08:57 -0700
+IronPort-SDR: uxWdUOa0RV10CsBmPi9G5BcBZAvOUImIe7CBIJkK1+U+hR/ocnnPL1/y+gNRaAQVQCRx/SWSpv
+ aklvLv3mZPsA==
+X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; 
+   d="scan'208";a="391460305"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 05:08:55 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 297AC203BC;
+        Wed, 21 Apr 2021 15:08:51 +0300 (EEST)
+Date:   Wed, 21 Apr 2021 15:08:51 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: omap3isp: drop graph mutex on error path
+Message-ID: <20210421120851.GC3@paasikivi.fi.intel.com>
+References: <YHV0WJWNQv5I6yqO@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
+In-Reply-To: <YHV0WJWNQv5I6yqO@mwanda>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed 21-04-21 10:37:11, Peter.Enderborg@sony.com wrote:
-> On 4/21/21 11:15 AM, Daniel Vetter wrote:
-[...]
-> > We need to understand what the "correct" value is. Not in terms of kernel
-> > code, but in terms of semantics. Like if userspace allocates a GL texture,
-> > is this supposed to show up in your metric or not. Stuff like that.
-> That it like that would like to only one pointer type. You need to know what
-> 
-> you pointing at to know what it is. it might be a hardware or a other pointer.
-> 
-> If there is a limitation on your pointers it is a good metric to count them
-> even if you don't  know what they are. Same goes for dma-buf, they
-> are generic, but they consume some resources that are counted in pages.
-> 
-> It would be very good if there a sub division where you could measure
-> all possible types separately.  We have the detailed in debugfs, but nothing
-> for the user. A summary in meminfo seems to be the best place for such
-> metric.
+Hi Dan,
 
-I strongly suspect that the main problem of this patch (and its previous
-versions) is that you are failing to explain the purpose of the counter
-to others. From what you have said so far it sounds like this is a
-number which is nice to have because gives us more than nothing. And
-while this is not really hard to agree with it doesn't really meet the
-justification for exporting yet another counter to the userspace with
-all the headache of the future maintenance. I think it would hugely help
-to describe a typical scenario when the counter would be useful and the
-conclusion you can draw from the exported value or a set of values over
-time.
+On Tue, Apr 13, 2021 at 01:37:12PM +0300, Dan Carpenter wrote:
+> Drop the "&isp->media_dev.graph_mutex" if media_entity_enum_init() fails.
+> 
+> Fixes: ba689d933361 ("media: omap3isp: Acquire graph mutex for graph traversal")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-And please note that a mixed bag of different memory resources in a
-single counter doesn't make this any easier because then it essentially
-makes it impossible to know whether an excessive usage contribues to RAM
-or device memory depletion - hence this is completely bogus for the OOM
-report.
+Thanks for the fix.
+
+I got another patch here earlier to fix the same bug so I've taken that
+instead:
+
+<URL:https://patchwork.linuxtv.org/project/linux-media/patch/20210407143733.1608806-1-weiyongjun1@huawei.com/>
+
 -- 
-Michal Hocko
-SUSE Labs
+Kind regards,
+
+Sakari Ailus
