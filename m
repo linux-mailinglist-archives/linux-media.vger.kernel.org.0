@@ -2,148 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D386A36641C
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 05:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8254B366427
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 05:49:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234769AbhDUDlh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 23:41:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55804 "EHLO
+        id S234854AbhDUDtr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 23:49:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233874AbhDUDlh (ORCPT
+        with ESMTP id S233874AbhDUDtq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 23:41:37 -0400
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82112C06174A;
-        Tue, 20 Apr 2021 20:41:03 -0700 (PDT)
-Received: by mail-io1-xd31.google.com with SMTP id b10so40694246iot.4;
-        Tue, 20 Apr 2021 20:41:03 -0700 (PDT)
+        Tue, 20 Apr 2021 23:49:46 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C444CC06174A;
+        Tue, 20 Apr 2021 20:49:12 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id q10so28468478pgj.2;
+        Tue, 20 Apr 2021 20:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HUL5iOZc28qAX3PsDJ0khNs1c1kb23x81GpeZXPZHr0=;
-        b=WQl3BZB24dee0+iczS32i6ta8dIDUsrzhFvhRoKrmzXendrjWQ6+ymVePQXQ8eK+7J
-         XuICOmjrS/ieQeiC7EDSYpkXk644BJZ7cWliU1vFMgqgxs5mjb5f/ElzehsFDgC/y4pV
-         Qg9q/mFXhRQDOdZaJW+PSsQACanIHQ1OajWj2SP3/Z5Ov8t5F3PHq3rfk0rlBUgk13If
-         OIPD96AJuZDFgx/SSYOF+pU09mna2FvEXliI0AosI8ZcRVnQHr8/ce7mxX/WzTJceFeB
-         8Vv8oDU2X7YKHI3K5D8PJv1eVloXMJxjzDEbjZyor553CzD9YXs4qsYkF8RJd8bckK+M
-         H2eQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=BHpUFAqHZX4mO5ukpyVl9eTql2LntThdLp21IqHADRI=;
+        b=udWcJJ9RhNpgAHpGjwBpvjs5D6Emcld4QGLZieFmYfz5VyKrIrwT4g+8awx1iwg3aD
+         CPYJ6Zk35bmX5EWxVa13i5lb8fCpM/Qf3/Y75kiNM9W0WcGBOoqrE/mlvOzzLJeh0KVH
+         ISF+wGtz2xB0BBeTCxHOh1pCX0wVVEp6eKnNQAlOEho0ZZq5zr4F4aNdf4jCGo50qKr5
+         peEf7m7hUy69GSO7EqODIA2PxCfFy1LW6asiBYCAyc+E2+pqHckEIjor44fQ/Frv134D
+         AJQ9TIF2oFI9p5ItkDbCwbedjnzFg+lIPOr3QKym0WzZk4/cTm1U3pJQsHEY1/8bsJXp
+         etWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HUL5iOZc28qAX3PsDJ0khNs1c1kb23x81GpeZXPZHr0=;
-        b=NwiLjE5gvn0vg1kXxj0lw7+EyIKiq5hYOiXmuN62pVgumf1p+zyClgSrtouJq9/+wO
-         zVgQiIu9PLNf7RDrKIywrIOWoVqo/+3/J8y5UEYAAq+LobbhLXLAMT/Gmk2TJCNCUmLS
-         S/GCczK/msr4VfV6s+nzez8fJNrBVFHpbrn483wxHbW6aynZjifFZSFaZsbILpwcZ8BS
-         XYXDLN7qJNDQw8VEt+SsGxOFWYUIxoISA2Zl4FDvIju53E2Np0W1liYAz67foXT+S4B4
-         qE3aQ/+Ns0xwZM889beyuuMcK7TtbZLX1/K2KWJMj1NMOzUFiqStSuHIWjzZIZU5F1eX
-         mq9Q==
-X-Gm-Message-State: AOAM531Pgh2MjyHt/dcoaT/u2cZHIREYNlnpPEku7YzhHR32B4HfvgZX
-        2WdYt7WeEFYlDw5wW338SmbvWwFoXttl3iU2Hi8=
-X-Google-Smtp-Source: ABdhPJzNC46+JNBKZghlVn6QayNw6kik/i4m+Dj7Rwp0R3QmmJrMXqgLvPgwT6+epZB2PlQbrhVzal7ScxXq3V5NSNs=
-X-Received: by 2002:a05:6638:34a0:: with SMTP id t32mr24067421jal.10.1618976462773;
- Tue, 20 Apr 2021 20:41:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <1618459535-8141-1-git-send-email-dillon.minfei@gmail.com>
- <1618459535-8141-4-git-send-email-dillon.minfei@gmail.com> <CAOMZO5CcoKDZhj5rQ0_0wkHgk5Mf2RtAHy94EAzjwVgXvvmNeg@mail.gmail.com>
-In-Reply-To: <CAOMZO5CcoKDZhj5rQ0_0wkHgk5Mf2RtAHy94EAzjwVgXvvmNeg@mail.gmail.com>
-From:   dillon min <dillon.minfei@gmail.com>
-Date:   Wed, 21 Apr 2021 11:40:26 +0800
-Message-ID: <CAL9mu0+nvkywRffOaXTNJwY7S0wxqNNz2h6pnmV3PhRZG0+_hA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] arm: dts: imx: Add i.mx6q DaSheng COM-9XX SBC
- board support
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Stefan Riedmueller <s.riedmueller@phytec.de>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        leoyang.li@nxp.com, arnd@arndb.de, olof@lixom.net,
-        Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de,
-        prabhakar.csengg@gmail.com, mchehab@kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-imx@nxp.com, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=BHpUFAqHZX4mO5ukpyVl9eTql2LntThdLp21IqHADRI=;
+        b=ZnTGA8AVdT7QpZaEPc3iinQ8jaIeejLeBZcmDYW6s0ndzTEfpj4uG09A2ZTuDrLYKm
+         KxdY7LrJz6BpV+xzlZIi6DEpbogRp/vPkTD5U5pOoHmth+6MS5OnmA35pgkBm+/c11gB
+         sAnordsM+1eFshNBqhQa2uvoWpQ6fITG+aM76EpTkWZSDlt11b8gPo110IRojqqrb7P5
+         DIKpyz7bS0lGtzkhwuxJexCvjAkyk9Tke4HYUxujOymMoGO/+07oOmDiv8TBzmYYaxVv
+         r4jvB5VoE98OaRGIJoOU0QwGxmGSRGzzdfI/5RpjPglTsigT0V1sLqMvsudR+n3cWRf4
+         5Lcw==
+X-Gm-Message-State: AOAM532npU/8Pde7uVdTQBDEPWvvNDIlyw0FBE1JoK6nEqtF2c0mOjG6
+        xEnH57OBUcf/T8aIZ9905NYFhXY86F2vIA==
+X-Google-Smtp-Source: ABdhPJziyR0I+2KWNVyuQ1HMXAlR5bR6NXwdRoqXKxpprpEFnydd6ls7EHd+kuqKVnygB0Bqq3RCmA==
+X-Received: by 2002:a17:90a:ca8e:: with SMTP id y14mr8614864pjt.6.1618976952233;
+        Tue, 20 Apr 2021 20:49:12 -0700 (PDT)
+Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
+        by smtp.gmail.com with ESMTPSA id s43sm382555pfw.164.2021.04.20.20.49.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 20 Apr 2021 20:49:11 -0700 (PDT)
+From:   dillon.minfei@gmail.com
+To:     festevam@gmail.com, shawnguo@kernel.org, s.riedmueller@phytec.de,
+        matthias.schiffer@ew.tq-group.com, leoyang.li@nxp.com,
+        arnd@arndb.de, olof@lixom.net, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, prabhakar.csengg@gmail.com,
+        mchehab@kernel.org
+Cc:     krzysztof.kozlowski@canonical.com, krzk@kernel.org,
+        robh+dt@kernel.org, linux@rempel-privat.de,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, dillon min <dillon.minfei@gmail.com>
+Subject: [PATCH v4 0/4] arm: imx: Add i.mx6q DaSheng COM-9XX SBC board support
+Date:   Wed, 21 Apr 2021 11:48:54 +0800
+Message-Id: <1618976938-20834-1-git-send-email-dillon.minfei@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabio,
+From: dillon min <dillon.minfei@gmail.com>
 
-Thanks for quick reply.
+This patchset aims to add kernel support on DaSheng COM-8XX SBC board
+optimize ov2659 driver to handle xvclk on/off at proper stage to save power
 
-On Tue, Apr 20, 2021 at 10:27 PM Fabio Estevam <festevam@gmail.com> wrote:
->
-> Hi Dillon,
->
-> On Thu, Apr 15, 2021 at 1:05 AM <dillon.minfei@gmail.com> wrote:
->
-> > +               green {
-> > +                       gpios = <&gpio4 8 0>;
->
-> Please use GPIO_ACTIVE_HIGH label instead:
-> gpios = <&gpio4 8 GPIO_ACTIVE_HIGH>;
->
-> > +&clks {
-> > +       assigned-clocks = <&clks IMX6QDL_CLK_LDB_DI0_SEL>,
-> > +                         <&clks IMX6QDL_CLK_LDB_DI1_SEL>;
-> > +       assigned-clock-parents = <&clks IMX6QDL_CLK_PLL3_USB_OTG>,
-> > +                                <&clks IMX6QDL_CLK_PLL3_USB_OTG>;
-> > +};
->
-> You are setting the LDB clock parent, but you don't use LDB in this
-> devicetree. You could simply remove this.
-Agree, thanks.
->
-> > +&ecspi1 {
-> > +       cs-gpios = <&gpio4 9 GPIO_ACTIVE_LOW>;
-> > +       pinctrl-names = "default";
-> > +       pinctrl-0 = <&pinctrl_ecspi1>;
-> > +       status = "okay";
-> > +
-> > +       flash: m25p80@0 {
->
-> Node names should be generic:
->
-> m25p80: flash@0
-Agree, thanks.
->
-> > +&iomuxc {
-> > +       pinctrl-names = "default";
-> > +       pinctrl-0 = <&pinctrl_hog>;
-> > +
-> > +       imx6qdl-ds {
-> > +               pinctrl_hog: hoggrp {
-> > +                       fsl,pins = <
-> > +                               MX6QDL_PAD_NANDF_D0__GPIO2_IO00 0x1b0b0
-> > +                               MX6QDL_PAD_NANDF_D1__GPIO2_IO01 0x1b0b0
-> > +                               MX6QDL_PAD_GPIO_0__CCM_CLKO1    0x130b0
->
-> This could be part of the pinctrl_ov2659 group as it provides the
-> clock for the camera.
->
-> Please try to keep in the hoggrp only the pins that cannot be
-> controlled by any other node.
-Agree, after moving these pinctrl to corresponding component's group,
-the hoggrp is useless.
-so, I removed it in v4.
->
-> > +&wdog1 {
-> > +       status = "okay";
-> > +};
-> > +
-> > +&wdog2 {
-> > +       pinctrl-names = "default";
-> > +       pinctrl-0 = <&pinctrl_wdog>;
-> > +       fsl,ext-reset-output;
-> > +       status = "disabled";
->
-> Wouldn't it be better to enable wdog2 and disable wdog1 instead? wdog2
-> provides a POR, which is preferred.
-Agree, thanks.
+changes based on linux master branch, since commit id:
+89698becf06d341a700913c3d89ce2a914af69a2
+
+The DaSheng Com-9xx is and ARM based signle board computer (SBC)
+featuring:
+- i.MX6Q
+- 2GiB LPDDR3 DRAM
+- 8GiB eMMC 5.0 FLASH
+- 4MiB SPI Flash
+- USB 2.0 Host/Device
+- Multiple multi-protocol RS232/RS485 Serial ports
+- microSD socket
+- 5V DC power input
+- HDMI1.4a,1080p@60
+- RGMIIx1 Gigabit Ethernet
+- CSI0x1, connect with ov2659
+
+---
+v4:
+all changes are on '[PATCH v3 3/4] arm: dts: imx: Add i.mx6q DaSheng COM-9XX
+SBC board support'
+- change 'green' to 'led-0', fix dtbs_check warrning
+- change 'pmic: pfuze100@8' to 'pfuze100: pmic@8', fix dtbs_check warrning
+- use GPIO_ACTIVE_HIGH instead of 0, from Fabio's suggestion, thanks
+- change 'flash: m25p80@0' to 'm25p80: flash@0'
+- move 'MX6QDL_PAD_GPIO_0__CCM_CLKO1' to pinctrl_ov2659{}
+- move 'MX6QDL_PAD_NANDF_D0__GPIO2_IO00, MX6QDL_PAD_NANDF_D1__GPIO2_IO01'
+  to pinctrl_usdhc2_gpioio{}
+- remove unused hoggrp
+- use wdog2, instead of wdog1 for external reset
+- v3 link:
+https://lore.kernel.org/lkml/1618459535-8141-1-git-send-email-dillon.minfei@gmail.com/
+
+v3:
+- optimize commit message for patch v3 ov2659 part
+- move 'imx6q-ds.dtb' after 'imx6q-dms-ba16.dtb' to follow the alphabetical
+  order(arch/arm/boot/dts/Makefile)
+- move 'ds,imx6q-sbc' after 'dmo,imx6q-edmqmx6' to follow the alphabetical
+  order. (Documentation/devicetree/bindings/arm/fsl.yaml)
+- move v2 patch 4 to v3 patch 1
+- add 'Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>'
+  for [PATCH v3 1/4]
+
+- v2 link:
+https://lore.kernel.org/lkml/1618383117-17179-1-git-send-email-dillon.minfei@gmail.com/
+
+v2:
+- add "[PATCH v2 4/4] dt-bindings: add dasheng vendor prefix" to fix
+  checkpatch.pl warning.
+
+dillon min (4):
+  dt-bindings: add dasheng vendor prefix
+  dt-bindings: arm: imx: Add i.mx6q DaSheng COM-9XX SBC
+  arm: dts: imx: Add i.mx6q DaSheng COM-9XX SBC board support
+  media: i2c: ov2659: Use clk_{prepare_enable,disable_unprepare}() to
+    set xvclk on/off
+
+ Documentation/devicetree/bindings/arm/fsl.yaml     |   1 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ arch/arm/boot/dts/Makefile                         |   1 +
+ arch/arm/boot/dts/imx6q-ds.dts                     |  17 +
+ arch/arm/boot/dts/imx6qdl-ds.dtsi                  | 460 +++++++++++++++++++++
+ drivers/media/i2c/ov2659.c                         |  24 +-
+ 6 files changed, 499 insertions(+), 6 deletions(-)
+ create mode 100644 arch/arm/boot/dts/imx6q-ds.dts
+ create mode 100644 arch/arm/boot/dts/imx6qdl-ds.dtsi
+
+-- 
+2.7.4
+
