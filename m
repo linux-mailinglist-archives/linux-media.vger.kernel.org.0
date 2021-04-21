@@ -2,175 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A65E367260
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 20:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC413367265
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 20:19:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245162AbhDUSTe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 14:19:34 -0400
-Received: from msg-2.mailo.com ([213.182.54.12]:38076 "EHLO msg-2.mailo.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242578AbhDUSTd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 14:19:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-        t=1619029128; bh=QGDE19tRdfFTcPd5Ti2R00qSl1NvpwM0KLH6Vw3T74w=;
-        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-         MIME-Version:Content-Type:In-Reply-To;
-        b=DKTy7VMFSKhh2WaYVO1SbvQ4/dJROva9mPY79Ye8t3plpEq6qvp4Gn9RLs9du8WNS
-         trgQxADYGoJXN1dak7dChyBB4i8074JmAIXLCI1yaGsgWF3uq+V+Ij0VBZXa/g2CwY
-         49NOe17wq9YwXwIEhe4upUmu38A5xB+M4+wDB5oU=
-Received: by 192.168.90.11 [192.168.90.11] with ESMTP
-        via ip-206.mailobj.net [213.182.55.206]
-        Wed, 21 Apr 2021 20:18:47 +0200 (CEST)
-X-EA-Auth: XGminHRn1fItr97eJlI2mhMG66Axebd+FL8F7jC5FrZB7Ne524iKzDHNJL42EJSfWhBm+gSjwqSbhA/p9/sIrvv//Mwd9qdg
-Date:   Wed, 21 Apr 2021 23:48:41 +0530
-From:   Deepak R Varma <drv@mailo.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, mh12gx2825@gmail.com, drv@mailo.com
-Subject: [PATCH v3 5/6] staging: media: atomisp: fix CamelCase variable naming
-Message-ID: <adf2e8a7f22a22e3b17f59fb79af4414935189fc.1619022192.git.drv@mailo.com>
-References: <cover.1619022192.git.drv@mailo.com>
+        id S245196AbhDUSU3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 14:20:29 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:34833 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S245166AbhDUSU2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Apr 2021 14:20:28 -0400
+Received: (qmail 217821 invoked by uid 1000); 21 Apr 2021 14:19:54 -0400
+Date:   Wed, 21 Apr 2021 14:19:54 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        syzbot <syzbot+d1e69c888f0d3866ead4@syzkaller.appspotmail.com>
+Cc:     gregkh@linuxfoundation.org, johan@kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, mathias.nyman@linux.intel.com,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] memory leak in usb_set_configuration (2)
+Message-ID: <20210421181954.GB216484@rowland.harvard.edu>
+References: <0000000000001ad5d605c07cfd2e@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1619022192.git.drv@mailo.com>
+In-Reply-To: <0000000000001ad5d605c07cfd2e@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Mixed case variable names are discouraged and they result in checkpatch
-script "Avoid CamelCase" warnings. Replace such CamelCase variable names
-by lower case strings according to the coding style guidelines.
+On Wed, Apr 21, 2021 at 08:12:18AM -0700, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    9cdbf646 Merge tag 'io_uring-5.12-2021-04-16' of git://git..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=136ce5a6d00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=fd35e661e44323ea
+> dashboard link: https://syzkaller.appspot.com/bug?extid=d1e69c888f0d3866ead4
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16ecba29d00000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=143cf955d00000
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+d1e69c888f0d3866ead4@syzkaller.appspotmail.com
+> 
+> BUG: memory leak
+> unreferenced object 0xffff8881120e1400 (size 1024):
+>   comm "kworker/0:2", pid 3660, jiffies 4294952380 (age 24.950s)
+>   hex dump (first 32 bytes):
+>     c8 78 3c 12 81 88 ff ff c8 78 3c 12 81 88 ff ff  .x<......x<.....
+>     01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>   backtrace:
+>     [<ffffffff82ba5d37>] kmalloc include/linux/slab.h:554 [inline]
+>     [<ffffffff82ba5d37>] kzalloc include/linux/slab.h:684 [inline]
+>     [<ffffffff82ba5d37>] usb_set_configuration+0x187/0xb90 drivers/usb/core/message.c:1992
+>     [<ffffffff82bb69ec>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
+>     [<ffffffff82ba874c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+>     [<ffffffff825f67f9>] really_probe+0x159/0x4a0 drivers/base/dd.c:559
+>     [<ffffffff825f6bc4>] driver_probe_device+0x84/0x100 drivers/base/dd.c:745
+>     [<ffffffff825f72de>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:851
+>     [<ffffffff825f3747>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
+>     [<ffffffff825f6e72>] __device_attach+0x122/0x250 drivers/base/dd.c:919
+>     [<ffffffff825f53e6>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
+>     [<ffffffff825f1935>] device_add+0x5d5/0xc40 drivers/base/core.c:3242
+>     [<ffffffff841df2d9>] usb_new_device.cold+0x16a/0x582 drivers/usb/core/hub.c:2555
+>     [<ffffffff82b9b24e>] hub_port_connect drivers/usb/core/hub.c:5223 [inline]
+>     [<ffffffff82b9b24e>] hub_port_connect_change drivers/usb/core/hub.c:5363 [inline]
+>     [<ffffffff82b9b24e>] port_event drivers/usb/core/hub.c:5509 [inline]
+>     [<ffffffff82b9b24e>] hub_event+0x142e/0x20c0 drivers/usb/core/hub.c:5591
+>     [<ffffffff81259619>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
+>     [<ffffffff81259f09>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2421
+>     [<ffffffff81261638>] kthread+0x178/0x1b0 kernel/kthread.c:292
+>     [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+> 
+> BUG: memory leak
+> unreferenced object 0xffff888110a217a0 (size 32):
+>   comm "kworker/0:2", pid 3660, jiffies 4294952380 (age 24.950s)
+>   hex dump (first 32 bytes):
+>     31 2d 31 3a 30 2e 32 34 31 00 00 00 00 00 00 00  1-1:0.241.......
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>   backtrace:
+>     [<ffffffff8223411c>] kvasprintf+0x6c/0xf0 lib/kasprintf.c:25
+>     [<ffffffff822341f8>] kvasprintf_const+0x58/0x110 lib/kasprintf.c:49
+>     [<ffffffff822f402b>] kobject_set_name_vargs+0x3b/0xe0 lib/kobject.c:289
+>     [<ffffffff825ec413>] dev_set_name+0x63/0x90 drivers/base/core.c:3028
+>     [<ffffffff82ba6269>] usb_set_configuration+0x6b9/0xb90 drivers/usb/core/message.c:2099
+>     [<ffffffff82bb69ec>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
+>     [<ffffffff82ba874c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+>     [<ffffffff825f67f9>] really_probe+0x159/0x4a0 drivers/base/dd.c:559
+>     [<ffffffff825f6bc4>] driver_probe_device+0x84/0x100 drivers/base/dd.c:745
+>     [<ffffffff825f72de>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:851
+>     [<ffffffff825f3747>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
+>     [<ffffffff825f6e72>] __device_attach+0x122/0x250 drivers/base/dd.c:919
+>     [<ffffffff825f53e6>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
+>     [<ffffffff825f1935>] device_add+0x5d5/0xc40 drivers/base/core.c:3242
+>     [<ffffffff841df2d9>] usb_new_device.cold+0x16a/0x582 drivers/usb/core/hub.c:2555
+>     [<ffffffff82b9b24e>] hub_port_connect drivers/usb/core/hub.c:5223 [inline]
+>     [<ffffffff82b9b24e>] hub_port_connect_change drivers/usb/core/hub.c:5363 [inline]
+>     [<ffffffff82b9b24e>] port_event drivers/usb/core/hub.c:5509 [inline]
+>     [<ffffffff82b9b24e>] hub_event+0x142e/0x20c0 drivers/usb/core/hub.c:5591
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
+This looks like a job for the linux-media people.
 
-Changes since v2:
-   - None.
+The CPiA2 driver in drivers/media/usb/cpia2 calls v4l2_device_register() 
+from within cpia2_init_camera_struct() in the probe routine, but doesn't 
+call v4l2_device_unregister() on any of the probe failure paths.
 
-Changes since v1:
-   - None.
-
- .../media/atomisp/i2c/atomisp-mt9m114.c       | 60 +++++++++----------
- 1 file changed, 30 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-index f314e5fed9cb..6de2cee4363e 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-@@ -1000,10 +1000,10 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
- 	struct mt9m114_device *dev = to_mt9m114_sensor(sd);
- 	int ret = 0;
- 	unsigned int coarse_integration = 0;
--	unsigned int FLines = 0;
--	unsigned int FrameLengthLines = 0; /* ExposureTime.FrameLengthLines; */
--	unsigned int AnalogGain, DigitalGain;
--	u32 AnalogGainToWrite = 0;
-+	unsigned int f_lines = 0;
-+	unsigned int frame_len_lines = 0; /* ExposureTime.FrameLengthLines; */
-+	unsigned int analog_gain, digital_gain;
-+	u32 analog_gain_to_write = 0;
- 
- 	dev_dbg(&client->dev, "%s(0x%X 0x%X 0x%X)\n", __func__,
- 		exposure->integration_time[0], exposure->gain[0],
-@@ -1011,27 +1011,27 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
- 
- 	coarse_integration = exposure->integration_time[0];
- 	/* fine_integration = ExposureTime.FineIntegrationTime; */
--	/* FrameLengthLines = ExposureTime.FrameLengthLines; */
--	FLines = mt9m114_res[dev->res].lines_per_frame;
--	AnalogGain = exposure->gain[0];
--	DigitalGain = exposure->gain[1];
-+	/* frame_len_lines = ExposureTime.FrameLengthLines; */
-+	f_lines = mt9m114_res[dev->res].lines_per_frame;
-+	analog_gain = exposure->gain[0];
-+	digital_gain = exposure->gain[1];
- 	if (!dev->streamon) {
- 		/* Save the first exposure values while stream is off */
- 		dev->first_exp = coarse_integration;
--		dev->first_gain = AnalogGain;
--		dev->first_diggain = DigitalGain;
-+		dev->first_gain = analog_gain;
-+		dev->first_diggain = digital_gain;
- 	}
--	/* DigitalGain = 0x400 * (((u16) DigitalGain) >> 8) +		*/
--	/* ((unsigned int)(0x400 * (((u16) DigitalGain) & 0xFF)) >>8);	*/
-+	/* digital_gain = 0x400 * (((u16) digital_gain) >> 8) +		*/
-+	/* ((unsigned int)(0x400 * (((u16) digital_gain) & 0xFF)) >>8);	*/
- 
- 	/* set frame length */
--	if (FLines < coarse_integration + 6)
--		FLines = coarse_integration + 6;
--	if (FLines < FrameLengthLines)
--		FLines = FrameLengthLines;
--	ret = mt9m114_write_reg(client, MISENSOR_16BIT, 0x300A, FLines);
-+	if (f_lines < coarse_integration + 6)
-+		f_lines = coarse_integration + 6;
-+	if (f_lines < frame_len_lines)
-+		f_lines = frame_len_lines;
-+	ret = mt9m114_write_reg(client, MISENSOR_16BIT, 0x300A, f_lines);
- 	if (ret) {
--		v4l2_err(client, "%s: fail to set FLines\n", __func__);
-+		v4l2_err(client, "%s: fail to set f_lines\n", __func__);
- 		return -EINVAL;
- 	}
- 
-@@ -1049,39 +1049,39 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
- 
- 	/*
- 	 * set analog/digital gain
--	switch(AnalogGain)
-+	switch(analog_gain)
- 	{
- 	case 0:
--	  AnalogGainToWrite = 0x0;
-+	  analog_gain_to_write = 0x0;
- 	  break;
- 	case 1:
--	  AnalogGainToWrite = 0x20;
-+	  analog_gain_to_write = 0x20;
- 	  break;
- 	case 2:
--	  AnalogGainToWrite = 0x60;
-+	  analog_gain_to_write = 0x60;
- 	  break;
- 	case 4:
--	  AnalogGainToWrite = 0xA0;
-+	  analog_gain_to_write = 0xA0;
- 	  break;
- 	case 8:
--	  AnalogGainToWrite = 0xE0;
-+	  analog_gain_to_write = 0xE0;
- 	  break;
- 	default:
--	  AnalogGainToWrite = 0x20;
-+	  analog_gain_to_write = 0x20;
- 	  break;
- 	}
- 	*/
--	if (DigitalGain >= 16 || DigitalGain <= 1)
--		DigitalGain = 1;
-+	if (digital_gain >= 16 || digital_gain <= 1)
-+		digital_gain = 1;
- 
- 	/*
- 	 * AnalogGainToWrite = (u16)((DigitalGain << 12) | AnalogGainToWrite);
- 	 */
--	AnalogGainToWrite = (u16)((DigitalGain << 12) | (u16)AnalogGain);
-+	analog_gain_to_write = (u16)((digital_gain << 12) | (u16)analog_gain);
- 	ret = mt9m114_write_reg(client, MISENSOR_16BIT,
--				REG_GAIN, AnalogGainToWrite);
-+				REG_GAIN, analog_gain_to_write);
- 	if (ret) {
--		v4l2_err(client, "%s: fail to set AnalogGainToWrite\n",
-+		v4l2_err(client, "%s: fail to set analog_gain_to_write\n",
- 			 __func__);
- 		return -EINVAL;
- 	}
--- 
-2.25.1
-
-
-
+Alan Stern
