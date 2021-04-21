@@ -2,41 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2967C366700
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 10:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 419553667A8
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 11:10:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235070AbhDUIap (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 04:30:45 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:42368 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234632AbhDUIak (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 04:30:40 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lZ8FK-000fUx-QA; Wed, 21 Apr 2021 08:30:06 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lZ8JQ-0002BD-Nf; Wed, 21 Apr 2021 08:34:20 +0000
-Date:   Wed, 21 Apr 2021 08:34:20 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <823033176.5.1618994060725@builder.linuxtv.org>
-In-Reply-To: <1617802693.1.1618992331987@builder.linuxtv.org>
-References: <1617802693.1.1618992331987@builder.linuxtv.org>
-Subject: Jenkins build is back to normal : media-build #3472
+        id S237784AbhDUJJo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 05:09:44 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58876 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237589AbhDUJJj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Apr 2021 05:09:39 -0400
+Received: from [IPv6:2a02:810a:880:f54:c90f:3911:b88f:e044] (unknown [IPv6:2a02:810a:880:f54:c90f:3911:b88f:e044])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 7FDFC1F42A1A;
+        Wed, 21 Apr 2021 10:09:04 +0100 (BST)
+Subject: Re: [PATCH v2] media: rkisp1: rkisp1-params.c: Fix typos
+To:     Sebastian Fricke <sebastian.fricke@posteo.net>,
+        linux-media@vger.kernel.org
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20210420174522.9618-1-sebastian.fricke@posteo.net>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <a0c52c66-6930-7ace-e1ac-9608a7e72bfa@collabora.com>
+Date:   Wed, 21 Apr 2021 11:09:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210420174522.9618-1-sebastian.fricke@posteo.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: SUCCESS
-Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3472/display/redirect>
+Hi,
+Thanks for the fix,
 
+On 20.04.21 19:45, Sebastian Fricke wrote:
+> s/when the camera active/when the camera is active/
+> s/thus not isr protection/therefore there is no need to acquire a lock/
+> 
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@posteo.net>
+
+Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+
+> ---
+>   drivers/media/platform/rockchip/rkisp1/rkisp1-params.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> index b6beddd988d0..529c6e21815f 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> @@ -1258,7 +1258,10 @@ void rkisp1_params_configure(struct rkisp1_params *params,
+>   	rkisp1_params_config_parameter(params);
+>   }
+>   
+> -/* Not called when the camera active, thus not isr protection. */
+> +/*
+> + * Not called when the camera is active, therefore there is no need to acquire
+> + * a lock.
+> + */
+>   void rkisp1_params_disable(struct rkisp1_params *params)
+>   {
+>   	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_DPCC_MODE,
+> 
