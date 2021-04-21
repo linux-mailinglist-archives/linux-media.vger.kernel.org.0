@@ -2,154 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39500366F21
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 17:27:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93B16366F36
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 17:32:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244005AbhDUP2C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 11:28:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42506 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243996AbhDUP2B (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 11:28:01 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38750C06174A
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 08:27:28 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id t22so30223855pgu.0
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 08:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mFb+ckbAGYD+H2juq/+J+FbQx9rWZFkMXDw0jxLuV1I=;
-        b=zFO8YgqNBI8miB1U/nr0bfbagGSyMnqO7k1r+sVvpCZAhSXLcCu5zdhxL+84BmLp6E
-         3kO0BaJgkY0n4umuOml0/maXhuLxqCUgNp7V6KTVeCD4woJrzuJBodzmlXHCQCnHDzFS
-         6NkxajgOflI+YgbNmKCUeh+2cH6rYTILDtUQwR/mmiF64kCmlS19Rj1N+3Q6+JzkO9jn
-         rTw3hzHg95oP9bjSXgLS9I84dzNu0ptot2NZXYQEmfsP7uj5ft+fDOY8AG02fbsvqDxM
-         o4mkG2cVQmzuROeqd8CZmjQh2ELxsh2WEPQo8Ap4xP8PTn1bPS4P1tkAiuDNHA36ln+i
-         0MwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mFb+ckbAGYD+H2juq/+J+FbQx9rWZFkMXDw0jxLuV1I=;
-        b=XXlqa+7XEvGLl5mIeveV8FwMbG6bLk5Te9T4juAeGtBymKXw2QdOanXYdVedxtt/QM
-         VN7bNli8gQB4TWrtpHb95cjHxvQje+1GsZRuKQY7cjILeHZGbUKNrTDvytoWEF6+X5El
-         ewnJ44DxCIxxIvRa46chXCsh7RPBlOaWs7sNh2EXvkTxv+N5HtrhXg6rMTwhH6DCUJHT
-         9win8G97OuRXwvXB3lp65hpybc+g7a+inx82za/Ulqob9mCYJBETougJODldkTJKAgeJ
-         wjj7vKiJaRH74ibDqBX2+4Wsi9/EbTi+H+/BJwhTemFP9vb530as/Wvm22nCwKfoDRqq
-         KE0A==
-X-Gm-Message-State: AOAM532Q8AdU61RskRiHW3fCjsVDlI8f6K3hcQQlW3cqEOxBAPvMEZbB
-        2XXADgkjsEEG7C6NQl0ToS8e2L2wy2Nr1XBYxy6HS8WkA4Vo5/J2
-X-Google-Smtp-Source: ABdhPJwmmGQxWjj9eomSe6AfAEC4wDbf7Pfmu9GRlZZn8+saMdBdYQvxpEaU7L058l81v89reEK9S911TaNhfBRWfJQ=
-X-Received: by 2002:a62:33c6:0:b029:225:5266:28df with SMTP id
- z189-20020a6233c60000b0290225526628dfmr29996329pfz.7.1619018847549; Wed, 21
- Apr 2021 08:27:27 -0700 (PDT)
+        id S244028AbhDUPco (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 11:32:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55306 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244024AbhDUPcm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Apr 2021 11:32:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F277861445;
+        Wed, 21 Apr 2021 15:32:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619019129;
+        bh=RC899umZ0BwpHoFBaQEd03wqXFYBjtGaL5NqM7dfCT8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CpNQszCLq4n8vEbp+4q9qxxt6foYHXA6LMbxM0pUASXfc28rRQcnHijjCXk/bU4TR
+         TdDYeNqRAnnuj8/VLcS5qJ+U07HSMDxPsyQDrG7EJzs2PCv4MxVSBtSYtwYW+PNk62
+         KPitZe+vN9l/HeCKZkA695LuhNegPcRtu6FLyojANSpA0XhVRnYVDfv4MxiPKnPyaa
+         s33u6+4RK9KDcho9/4XcQ0uBmY7Nh+0+l0fdoIHE8WzrDzLSrBN5K5PIpOTmbJh780
+         NBpCEJ2w2VdcFapAACBUQ6BQdb5B+z9QC/dLgLEdzQHHEZlz953zvRL+EwG6ghuB8k
+         P/eYtCOFPaOGg==
+Date:   Wed, 21 Apr 2021 18:31:58 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Peter.Enderborg@sony.com
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        adobriyan@gmail.com, akpm@linux-foundation.org,
+        songmuchun@bytedance.com, guro@fb.com, shakeelb@google.com,
+        mhocko@suse.com, neilb@suse.de, samitolvanen@google.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, willy@infradead.org
+Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
+Message-ID: <YIBFbh4Dd1XaDbto@kernel.org>
+References: <20210417163835.25064-1-peter.enderborg@sony.com>
+ <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
+ <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
+ <YH63iPzbGWzb676T@phenom.ffwll.local>
+ <a60d1eaf-f9f8-e0f3-d214-15ce2c0635c2@sony.com>
+ <YH/tHFBtIawBfGBl@phenom.ffwll.local>
+ <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
 MIME-Version: 1.0
-References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
-From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Wed, 21 Apr 2021 08:27:15 -0700
-Message-ID: <CAJ+vNU1bnR+L-QkHAN_Yar0MUTjF+QoxgTHV9ZxQW+VWpM6cpg@mail.gmail.com>
-Subject: Re: [PATCH 00/23] media: imx: imx7-mipi-csis: Add i.MX8MM support
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Marek Vasut <marex@denx.de>, Rob Herring <robh+dt@kernel.org>,
-        Device Tree Mailing List <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 12, 2021 at 7:31 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hello,
->
-> This patch series adds support for the CSIS found in the NXP i.MX8MM SoC
-> to the imx7-mipi-csis driver.
->
-> The CSIS is an IP core from Samsung, integrated in different NXP SoCs.
-> The driver currently supports v3.3 of the CSIS, found in SoCs from the
-> i.MX6 and i.MX7 families. This series extends the driver to support
-> v3.6.3 of the IP, found in i.MX8MM and other members of the i.MX8
-> family.
->
-> The first 21 patches are miscellaneous cleanups and improvements. Please
-> see individual patches for details.
->
-> Patch 22/23 extends the imx7-mipi-csis DT bindings with i.MX8MM support.
-> Support for other members of the i.MX8 family will come later, and for
-> SoCs including an ISI IP core (such as the i.MX8MP) this will require
-> more work to handle additional glue logic.
->
-> Patch 23/23 finaly extends the imx7-mipi-csis driver accordingly.
->
-> The changes in the integration of the CSIS between i.MX7 and i.MX8, as
-> described in the DT bindings, have been found through reading of
-> reference manuals and BSP source code, with different sources of
-> information contradicting each other. A confirmation from NXP would be
-> nice (in particular regarding the clocks).
->
-> Laurent Pinchart (23):
->   media: imx: imx7_mipi_csis: Fix logging of only error event counters
->   media: imx: imx7_mipi_csis: Count the CSI-2 debug interrupts
->   media: imx: imx7_mipi_csis: Update ISP_CONFIG macros for quad pixel
->     mode
->   media: imx: imx7_mipi_csis: Move static data to top of
->     mipi_csis_dump_regs()
->   media: imx: imx7_mipi_csis: Minimize locking in get/set format
->   media: imx: imx7_mipi_csis: Don't set subdev data
->   media: imx: imx7-mipi-csis: Reorganize code in sections
->   media: imx: imx7_mipi_csis: Set the CLKSETTLE register field
->   media: imx: imx7_mipi_csis: Drop unused csis_hw_reset structure
->   media: imx: imx7_mipi_csis: Store CSI-2 data type in format structure
->   media: imx: imx7_mipi_csis: Drop csi_state phy field
->   media: imx: imx7_mipi_csis: Rename mipi_sd to sd
->   media: imx: imx7_mipi_csis: Rename csi_state flag field to state
->   media: imx: imx7_mipi_csis: Turn csi_state irq field into local
->     variable
->   media: imx: imx7_mipi_csis: Don't pass pdev to mipi_csis_parse_dt()
->   media: imx: imx7_mipi_csis: Pass csi_state to mipi_csis_subdev_init()
->   media: imx: imx7_mipi_csis: Drop csi_state pdev field
->   media: imx: imx7_mipi_csis: Make csi_state num_clocks field unsigned
->   media: imx: imx7_mipi_csis: Reorganize csi_state structure
->   media: imx: imx7_mipi_csis: Reorganize mipi_csis_probe()
->   media: imx: imx7_mipi_csis: Reject invalid data-lanes settings
->   dt-bindings: media: nxp,imx7-mipi-csi2: Add i.MX8MM support
->   media: imx: imx7_mipi_csis: Add i.MX8MM support
->
->  .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 108 +-
->  drivers/staging/media/imx/imx7-mipi-csis.c    | 943 ++++++++++--------
->  2 files changed, 622 insertions(+), 429 deletions(-)
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
+On Wed, Apr 21, 2021 at 10:37:11AM +0000, Peter.Enderborg@sony.com wrote:
+> On 4/21/21 11:15 AM, Daniel Vetter wrote:
+> >
+> > We need to understand what the "correct" value is. Not in terms of kernel
+> > code, but in terms of semantics. Like if userspace allocates a GL texture,
+> > is this supposed to show up in your metric or not. Stuff like that.
+> That it like that would like to only one pointer type. You need to know what
+> 
+> you pointing at to know what it is. it might be a hardware or a other pointer.
+> 
+> If there is a limitation on your pointers it is a good metric to count them
+> even if you don't  know what they are. Same goes for dma-buf, they
+> are generic, but they consume some resources that are counted in pages.
+> 
+> It would be very good if there a sub division where you could measure
+> all possible types separately.  We have the detailed in debugfs, but nothing
+> for the user. A summary in meminfo seems to be the best place for such
+> metric.
+ 
+Let me try to summarize my understanding of the problem, maybe it'll help
+others as well.
 
-Laurent,
+A device driver allocates memory and exports this memory via dma-buf so
+that this memory will be accessible for userspace via a file descriptor.
 
-Thank you for your work on this!
+The allocated memory can be either allocated with alloc_page() from system
+RAM or by other means from dedicated VRAM (that is not managed by Linux mm)
+or even from on-device memory.
 
-I have an IMX8MM board supporting CSI and a couple of devices to test with:
-- Sony IMX477 12.3MP sensor (do not see any mainline support but there
-are some hits on the net as this is a RPi camera)
-- Sony IMX219 8MP sensor (should be supported by drivers/media/i2c/imx219.c)
-- Auvidea B10x HDMI to CSI-2 bridge (Toshiba TC358743XBG HDMI to CSI-2
-(MIPI)- 2D+C) (should be supported by drivers/media/i2c/tc358743.c)
+The dma-buf driver tracks the amount of the memory it was requested to
+export and the size it sees is available at debugfs and fdinfo.
 
-Can you summarize the state of IMX8MM CSI capture in mainline? I
-suppose the MIPI power domain is still an issue? Anything else that
-would keep me from testing the above devices?
+The debugfs is not available to user and maybe entirely disabled in
+production systems.
 
-Best regards,
+There could be quite a few open dma-bufs so there is no overall summary,
+plus fdinfo in production systems your refer to is also unavailable to the
+user because of selinux policy.
 
-Tim
+And there are a few details that are not clear to me:
+
+* Since DRM device drivers seem to be the major user of dma-buf exports,
+  why cannot we add information about their memory consumption to, say,
+  /sys/class/graphics/drm/cardX/memory-usage?
+
+* How exactly user generates reports that would include the new counters?
+  From my (mostly outdated) experience Android users won't open a terminal
+  and type 'cat /proc/meminfo' there. I'd presume there is a vendor agent
+  that collects the data and sends it for analysis. In this case what is
+  the reason the vendor is unable to adjust selinix policy so that the
+  agent will be able to access fdinfo?
+
+* And, as others already mentioned, it is not clear what are the problems
+  that can be detected by examining DmaBufTotal except saying "oh, there is
+  too much/too little memory exported via dma-buf". What would be user
+  visible effects of these problems? What are the next steps to investigate
+  them? What other data will be probably required to identify root cause?
+
+-- 
+Sincerely yours,
+Mike.
