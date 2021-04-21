@@ -2,298 +2,293 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2064636669A
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 10:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE03336669C
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 10:01:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237540AbhDUIBZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 04:01:25 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:39348 "EHLO www.linuxtv.org"
+        id S234107AbhDUIBx convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 21 Apr 2021 04:01:53 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:39410 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235510AbhDUIBZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 04:01:25 -0400
+        id S234101AbhDUIBw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Apr 2021 04:01:52 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1lZ7n0-000d8U-Tg; Wed, 21 Apr 2021 08:00:51 +0000
+        id 1lZ7nS-000dLS-R3; Wed, 21 Apr 2021 08:01:19 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1lZ7r5-0005cN-NL; Wed, 21 Apr 2021 08:05:04 +0000
-Date:   Wed, 21 Apr 2021 08:05:03 +0000 (UTC)
+        id 1lZ7rX-0006Ex-W6; Wed, 21 Apr 2021 08:05:32 +0000
+Date:   Wed, 21 Apr 2021 08:05:31 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org
-Message-ID: <1649510653.0.1618992303662@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #522
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1617802693.1.1618992331987@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3471
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: libcamera
+X-Jenkins-Job: media-build
 X-Jenkins-Result: FAILURE
 Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/libcamera/522/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/media-build/3471/display/redirect>
 
 Changes:
 
-[jacopo] libcamera: Drop argument from LIBCAMERA_DECLARE_PRIVATE
-
-[jacopo] libcamera: class: Drop 'klass' argument from documentation
-
 
 ------------------------------------------
-[...truncated 24.99 KB...]
-[191/471] Compiling C++ object src/libcamera/libcamera.so.p/log.cpp.o
-[192/471] Compiling C++ object src/libcamera/libcamera.so.p/media_device.cpp.o
-[193/471] Compiling C++ object src/libcamera/libcamera.so.p/utils.cpp.o
-[194/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_handler.cpp.o
-[195/471] Compiling C++ object src/libcamera/libcamera.so.p/stream.cpp.o
-[196/471] Compiling C++ object src/libcamera/libcamera.so.p/process.cpp.o
-[197/471] Compiling C++ object src/libcamera/libcamera.so.p/v4l2_pixelformat.cpp.o
-[198/471] Compiling C++ object src/libcamera/libcamera.so.p/v4l2_controls.cpp.o
-[199/471] Compiling C++ object test/ipc/unixsocket_ipc.p/unixsocket_ipc.cpp.o
-[200/471] Compiling C++ object src/libcamera/libcamera.so.p/v4l2_device.cpp.o
-[201/471] Compiling C++ object src/libcamera/libcamera.so.p/thread.cpp.o
-[202/471] Compiling C++ object src/libcamera/libcamera.so.p/v4l2_subdevice.cpp.o
-[203/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_ipu3_frames.cpp.o
-[204/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_raspberrypi_dma_heaps.cpp.o
-[205/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_ipu3_imgu.cpp.o
-[206/471] Compiling C++ object src/libcamera/libcamera.so.p/v4l2_videodevice.cpp.o
-[207/471] Compiling C++ object test/ipa/ipa_interface_test.p/ipa_interface_test.cpp.o
-[208/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_ipu3_cio2.cpp.o
-[209/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_rkisp1_rkisp1_path.cpp.o
-[210/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_raspberrypi_rpi_stream.cpp.o
-[211/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_simple_converter.cpp.o
-[212/471] Compiling C++ object src/libcamera/libcamera.so.p/tracepoints.cpp.o
-[213/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_ipu3_ipu3.cpp.o
-[214/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_uvcvideo_uvcvideo.cpp.o
-[215/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_camera3_hal.cpp.o
-[216/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_vimc_vimc.cpp.o
-[217/471] Compiling C++ object src/libcamera/libcamera.so.p/device_enumerator_udev.cpp.o
-[218/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_camera_metadata.cpp.o
-[219/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_rkisp1_rkisp1.cpp.o
-[220/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_raspberrypi_raspberrypi.cpp.o
-[221/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_camera_hal_manager.cpp.o
-[222/471] Compiling C++ object src/libcamera/libcamera.so.p/pipeline_simple_simple.cpp.o
-[223/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_camera_ops.cpp.o
-[224/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_yuv_post_processor_yuv.cpp.o
-[225/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_jpeg_thumbnailer.cpp.o
-[226/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_mm_generic_camera_buffer.cpp.o
-[227/471] Generating ipu3_proxy_worker with a custom command
-[228/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_camera_worker.cpp.o
-[229/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_camera_stream.cpp.o
-[230/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_jpeg_exif.cpp.o
-[231/471] Generating raspberrypi_proxy_worker with a custom command
-[232/471] Linking static target src/ipa/libipa/libipa.a
-[233/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_jpeg_encoder_libjpeg.cpp.o
-[234/471] Generating rkisp1_proxy_worker with a custom command
-[235/471] Generating vimc_proxy_worker with a custom command
-[236/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_jpeg_post_processor_jpeg.cpp.o
-[237/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/md_parser.cpp.o
-[238/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper_imx290.cpp.o
-[239/471] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/ipu3.cpp.o
-[240/471] Compiling C++ object src/libcamera/libcamera.so.p/.._android_camera_device.cpp.o
-[241/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper.cpp.o
-[242/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_histogram.cpp.o
-[243/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper_ov5647.cpp.o
-[244/471] Compiling C++ object src/libcamera/proxy/worker/vimc_ipa_proxy.p/meson-generated_.._vimc_ipa_proxy_worker.cpp.o
-[245/471] Compiling C++ object src/libcamera/proxy/worker/ipu3_ipa_proxy.p/meson-generated_.._ipu3_ipa_proxy_worker.cpp.o
-[246/471] Compiling C++ object src/libcamera/proxy/worker/rkisp1_ipa_proxy.p/meson-generated_.._rkisp1_ipa_proxy_worker.cpp.o
-[247/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/cam_helper_imx219.cpp.o
-[248/471] Compiling C++ object src/libcamera/proxy/worker/raspberrypi_ipa_proxy.p/meson-generated_.._raspberrypi_ipa_proxy_worker.cpp.o
-[249/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_algorithm.cpp.o
-[250/471] Linking target src/libcamera/libcamera.so
-[251/471] Generating symbol file src/libcamera/libcamera.so.p/libcamera.so.symbols
-[252/471] Linking target src/libcamera/proxy/worker/ipu3_ipa_proxy
-[253/471] Linking target src/libcamera/proxy/worker/raspberrypi_ipa_proxy
-[254/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_focus.cpp.o
-[255/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_sharpen.cpp.o
-[256/471] Linking target src/libcamera/proxy/worker/vimc_ipa_proxy
-[257/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_black_level.cpp.o
-[258/471] Linking target src/libcamera/proxy/worker/rkisp1_ipa_proxy
-[259/471] Linking target src/ipa/ipu3/ipa_ipu3.so
-[260/471] Generating ipa_ipu3.so.sign with a custom command
-[261/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_geq.cpp.o
-[262/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_alsc.cpp.o
-[263/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/raspberrypi.cpp.o
-[264/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_noise.cpp.o
-[265/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_awb.cpp.o
-[266/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_pwl.cpp.o
-[267/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_controller.cpp.o
-[268/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_contrast.cpp.o
-[269/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_lux.cpp.o
-[270/471] Compiling C++ object src/lc-compliance/lc-compliance.p/.._cam_event_loop.cpp.o
-[271/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_dpc.cpp.o
-[272/471] Compiling C++ object src/ipa/vimc/ipa_vimc.so.p/vimc.cpp.o
-[273/471] Compiling C++ object src/lc-compliance/lc-compliance.p/results.cpp.o
-[274/471] Compiling C++ object src/cam/cam.p/capture.cpp.o
-[275/471] Linking target src/ipa/vimc/ipa_vimc.so
-[276/471] Generating ipa_vimc.so.sign with a custom command
-[277/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_sdn.cpp.o
-[278/471] Compiling C++ object src/ipa/rkisp1/ipa_rkisp1.so.p/rkisp1.cpp.o
-[279/471] Compiling C++ object src/cam/cam.p/event_loop.cpp.o
-[280/471] Linking target src/ipa/rkisp1/ipa_rkisp1.so
-[281/471] Generating ipa_rkisp1.so.sign with a custom command
-[282/471] Compiling C++ object src/cam/cam.p/options.cpp.o
-[283/471] Generating qt5-feathericons_qrc with a custom command
-[284/471] Generating qt5-shaders_qrc with a custom command
-[285/471] Compiling C++ object src/lc-compliance/lc-compliance.p/.._cam_options.cpp.o
-[286/471] Generating 'src/qcam/qcam.p/moc_viewfinder_qt.cpp'.
-[287/471] Compiling C++ object src/lc-compliance/lc-compliance.p/main.cpp.o
-[288/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_agc.cpp.o
-[289/471] Compiling C++ object src/ipa/raspberrypi/ipa_rpi.so.p/controller_rpi_ccm.cpp.o
-[290/471] Generating 'src/qcam/qcam.p/moc_main_window.cpp'.
-[291/471] Compiling C++ object src/cam/cam.p/buffer_writer.cpp.o
-[292/471] Generating 'src/qcam/qcam.p/moc_viewfinder_gl.cpp'.
-[293/471] Compiling C++ object src/lc-compliance/lc-compliance.p/single_stream.cpp.o
-[294/471] Compiling C++ object src/qcam/qcam.p/meson-generated_.._qt5-shaders_qrc.cpp.o
-[295/471] Compiling C++ object src/lc-compliance/lc-compliance.p/simple_capture.cpp.o
-[296/471] Compiling C++ object src/qcam/qcam.p/meson-generated_.._qt5-feathericons_qrc.cpp.o
-[297/471] Compiling C++ object src/qcam/qcam.p/.._cam_options.cpp.o
-[298/471] Compiling C++ object src/qcam/qcam.p/format_converter.cpp.o
-[299/471] Linking target src/ipa/raspberrypi/ipa_rpi.so
-[300/471] Linking target src/lc-compliance/lc-compliance
-[301/471] Generating ipa_rpi.so.sign with a custom command
-[302/471] Compiling C++ object src/cam/cam.p/main.cpp.o
-[303/471] Compiling C++ object src/qcam/qcam.p/message_handler.cpp.o
-[304/471] Compiling C++ object src/cam/cam.p/stream_options.cpp.o
-[305/471] Linking target src/cam/cam
-[306/471] Compiling C++ object src/qcam/qcam.p/.._cam_stream_options.cpp.o
-[307/471] Compiling C++ object src/qcam/qcam.p/meson-generated_moc_viewfinder_qt.cpp.o
-[308/471] Compiling C++ object src/qcam/qcam.p/meson-generated_moc_main_window.cpp.o
-[309/471] Compiling C++ object src/qcam/qcam.p/meson-generated_moc_viewfinder_gl.cpp.o
-[310/471] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamera.cpp.o
-[311/471] Compiling C++ object src/qcam/qcam.p/dng_writer.cpp.o
-[312/471] Compiling C++ object src/qcam/qcam.p/main.cpp.o
-[313/471] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamera-utils.cpp.o
-[314/471] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerapool.cpp.o
-[315/471] Compiling C++ object src/qcam/qcam.p/viewfinder_qt.cpp.o
-[316/471] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcameraprovider.cpp.o
-[317/471] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcameraallocator.cpp.o
-[318/471] Compiling C++ object src/qcam/qcam.p/viewfinder_gl.cpp.o
-[319/471] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerapad.cpp.o
-[320/471] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerasrc.cpp.o
-[321/471] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera_file.cpp.o
-[322/471] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera.cpp.o
-[323/471] Compiling C++ object test/controls/control_list.p/control_list.cpp.o
-[324/471] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_compat.cpp.o
-[325/471] Linking target src/gstreamer/libgstlibcamera.so
-[326/471] Compiling C++ object test/controls/control_value.p/control_value.cpp.o
-[327/471] Compiling C++ object test/ipa/ipa_module_test.p/ipa_module_test.cpp.o
-[328/471] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_compat_manager.cpp.o
-[329/471] Compiling C++ object test/controls/control_info.p/control_info.cpp.o
-[330/471] Compiling C++ object src/qcam/qcam.p/main_window.cpp.o
-[331/471] Compiling C++ object test/libtest/liblibtest.a.p/test.cpp.o
-[332/471] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera_proxy.cpp.o
-[333/471] Compiling C++ object test/controls/control_info_map.p/control_info_map.cpp.o
-[334/471] Linking target src/v4l2/v4l2-compat.so
-[335/471] Compiling C++ object test/libtest/liblibtest.a.p/camera_test.cpp.o
-[336/471] Linking target src/qcam/qcam
-[337/471] Compiling C++ object test/camera/configuration_default.p/configuration_default.cpp.o
-[338/471] Compiling C++ object test/camera/configuration_set.p/configuration_set.cpp.o
-[339/471] Compiling C++ object test/libtest/liblibtest.a.p/buffer_source.cpp.o
-[340/471] Linking static target test/libtest/liblibtest.a
-[341/471] Linking target test/ipa/ipa_module_test
-[342/471] Linking target test/ipa/ipa_interface_test
-[343/471] Compiling C++ object test/camera/buffer_import.p/buffer_import.cpp.o
-[344/471] Compiling C++ object test/camera/statemachine.p/statemachine.cpp.o
-[345/471] Compiling C++ object test/log/log_api.p/log_api.cpp.o
-[346/471] Linking target test/ipc/unixsocket_ipc
-[347/471] Linking target test/controls/control_list
-[348/471] Linking target test/controls/control_value
-[349/471] Linking target test/controls/control_info
-[350/471] Compiling C++ object test/media_device/liblib_mdev_test.a.p/media_device_test.cpp.o
-[351/471] Compiling C++ object test/ipc/unixsocket.p/unixsocket.cpp.o
-[352/471] Linking target test/controls/control_info_map
-[353/471] Linking target test/camera/configuration_default
-[354/471] Linking static target test/media_device/liblib_mdev_test.a
-[355/471] Linking target test/camera/configuration_set
-[356/471] Linking target test/camera/statemachine
-[357/471] Linking target test/camera/buffer_import
-[358/471] Linking target test/ipc/unixsocket
-[359/471] Linking target test/log/log_api
-[360/471] Compiling C++ object test/camera/capture.p/capture.cpp.o
-[361/471] Compiling C++ object test/log/log_process.p/log_process.cpp.o
-[362/471] Linking target test/camera/capture
-[363/471] Generating test_mojom_module with a custom command
-[364/471] Linking target test/log/log_process
-[365/471] Generating test_ipa_serializer_h with a custom command
-[366/471] Generating test_ipa_interface_h with a custom command
-[367/471] Compiling C++ object test/media_device/media_device_link_test.p/media_device_link_test.cpp.o
-[368/471] Compiling C++ object test/media_device/media_device_print_test.p/media_device_print_test.cpp.o
-[369/471] Compiling C++ object test/process/process_test.p/process_test.cpp.o
-[370/471] Compiling C++ object test/pipeline/rkisp1/rkisp1_pipeline_test.p/rkisp1_pipeline_test.cpp.o
-[371/471] Linking target test/media_device/media_device_link_test
-[372/471] Linking target test/media_device/media_device_print_test
-[373/471] Linking target test/process/process_test
-[374/471] Linking target test/pipeline/rkisp1/rkisp1_pipeline_test
-[375/471] Compiling C++ object test/pipeline/ipu3/ipu3_pipeline_test.p/ipu3_pipeline_test.cpp.o
-[376/471] Compiling C++ object test/media_device/media_device_acquire.p/media_device_acquire.cpp.o
-[377/471] Linking target test/pipeline/ipu3/ipu3_pipeline_test
-[378/471] Compiling C++ object test/serialization/control_serialization.p/control_serialization.cpp.o
-[379/471] Linking target test/media_device/media_device_acquire
-[380/471] Compiling C++ object test/stream/stream_formats.p/stream_formats.cpp.o
-[381/471] Compiling C++ object test/serialization/control_serialization.p/serialization_test.cpp.o
-[382/471] Compiling C++ object test/serialization/generated_serializer/generated_serializer_test.p/generated_serializer_test.cpp.o
-[383/471] Linking target test/stream/stream_formats
-[384/471] Compiling C++ object test/serialization/ipa_data_serializer_test.p/serialization_test.cpp.o
-[385/471] Linking target test/serialization/control_serialization
-[386/471] Linking target test/serialization/generated_serializer/generated_serializer_test
-[387/471] Compiling C++ object test/v4l2_subdevice/list_formats.p/list_formats.cpp.o
-[388/471] Compiling C++ object test/v4l2_subdevice/list_formats.p/v4l2_subdevice_test.cpp.o
-[389/471] Compiling C++ object test/v4l2_subdevice/test_formats.p/test_formats.cpp.o
-[390/471] Linking target test/v4l2_subdevice/list_formats
-[391/471] Compiling C++ object test/v4l2_videodevice/double_open.p/double_open.cpp.o
-[392/471] Compiling C++ object test/v4l2_subdevice/test_formats.p/v4l2_subdevice_test.cpp.o
-[393/471] Linking target test/v4l2_subdevice/test_formats
-[394/471] Compiling C++ object test/v4l2_videodevice/controls.p/v4l2_videodevice_test.cpp.o
-[395/471] Compiling C++ object test/v4l2_videodevice/controls.p/controls.cpp.o
-[396/471] Compiling C++ object test/v4l2_videodevice/double_open.p/v4l2_videodevice_test.cpp.o
-[397/471] Compiling C++ object test/v4l2_videodevice/formats.p/v4l2_videodevice_test.cpp.o
-[398/471] Compiling C++ object test/v4l2_videodevice/formats.p/formats.cpp.o
-[399/471] Linking target test/v4l2_videodevice/double_open
-[400/471] Linking target test/v4l2_videodevice/controls
-[401/471] Linking target test/v4l2_videodevice/formats
-[402/471] Compiling C++ object test/v4l2_videodevice/request_buffers.p/request_buffers.cpp.o
-[403/471] Compiling C++ object test/v4l2_videodevice/request_buffers.p/v4l2_videodevice_test.cpp.o
-[404/471] Compiling C++ object test/serialization/ipa_data_serializer_test.p/ipa_data_serializer_test.cpp.o
-[405/471] Generating doxygen with a custom command
-warning: ignoring unsupported tag `HTML_DYNAMIC_MENUS     =' at line 1210, file Documentation/Doxyfile
-[406/471] Linking target test/v4l2_videodevice/request_buffers
-[407/471] Compiling C++ object test/v4l2_videodevice/buffer_cache.p/buffer_cache.cpp.o
-[408/471] Compiling C++ object test/v4l2_videodevice/stream_on_off.p/stream_on_off.cpp.o
-[409/471] Linking target test/serialization/ipa_data_serializer_test
-[410/471] Compiling C++ object test/v4l2_videodevice/stream_on_off.p/v4l2_videodevice_test.cpp.o
-[411/471] Compiling C++ object test/v4l2_videodevice/buffer_cache.p/v4l2_videodevice_test.cpp.o
-[412/471] Compiling C++ object test/geometry.p/geometry.cpp.o
-[413/471] Compiling C++ object test/v4l2_videodevice/capture_async.p/v4l2_videodevice_test.cpp.o
-[414/471] Linking target test/v4l2_videodevice/stream_on_off
-[415/471] Linking target test/v4l2_videodevice/buffer_cache
-[416/471] Linking target test/geometry
-[417/471] Compiling C++ object test/v4l2_videodevice/capture_async.p/capture_async.cpp.o
-[418/471] Compiling C++ object test/v4l2_videodevice/buffer_sharing.p/v4l2_videodevice_test.cpp.o
-[419/471] Compiling C++ object test/bayer-format.p/bayer-format.cpp.o
-[420/471] Compiling C++ object test/v4l2_videodevice/buffer_sharing.p/buffer_sharing.cpp.o
-[421/471] Linking target test/v4l2_videodevice/capture_async
-[422/471] Generating documentation with a custom command
-FAILED: Documentation/html 
-/var/lib/jenkins/.local/bin/sphinx-build -D release=v0.0.0+2511-e58b5fa3 -q -W -b html <https://builder.linuxtv.org/job/libcamera/ws/Documentation> Documentation/html
+[...truncated 9.34 KB...]
+  2700K .......... .......... .......... .......... .......... 38% 18.4M 6s
+  2750K .......... .......... .......... .......... .......... 39% 14.8M 6s
+  2800K .......... .......... .......... .......... .......... 40% 1.16M 6s
+  2850K .......... .......... .......... .......... .......... 40%  469K 6s
+  2900K .......... .......... .......... .......... .......... 41% 16.3M 6s
+  2950K .......... .......... .......... .......... .......... 42% 16.2M 6s
+  3000K .......... .......... .......... .......... .......... 42% 1.22M 6s
+  3050K .......... .......... .......... .......... .......... 43%  470K 6s
+  3100K .......... .......... .......... .......... .......... 44% 15.2M 5s
+  3150K .......... .......... .......... .......... .......... 44% 15.0M 5s
+  3200K .......... .......... .......... .......... .......... 45% 1.21M 5s
+  3250K .......... .......... .......... .......... .......... 46%  467K 5s
+  3300K .......... .......... .......... .......... .......... 47% 4.43M 5s
+  3350K .......... .......... .......... .......... .......... 47% 53.5M 5s
+  3400K .......... .......... .......... .......... .......... 48%  159M 5s
+  3450K .......... .......... .......... .......... .......... 49%  361K 5s
+  3500K .......... .......... .......... .......... .......... 49% 11.6M 5s
+  3550K .......... .......... .......... .......... .......... 50% 3.71M 5s
+  3600K .......... .......... .......... .......... .......... 51% 4.66M 4s
+  3650K .......... .......... .......... .......... .......... 52% 2.31M 4s
+  3700K .......... .......... .......... .......... .......... 52%  464K 4s
+  3750K .......... .......... .......... .......... .......... 53% 3.79M 4s
+  3800K .......... .......... .......... .......... .......... 54% 3.92M 4s
+  3850K .......... .......... .......... .......... .......... 54% 16.5M 4s
+  3900K .......... .......... .......... .......... .......... 55% 2.79M 4s
+  3950K .......... .......... .......... .......... .......... 56%  467K 4s
+  4000K .......... .......... .......... .......... .......... 56% 3.51M 4s
+  4050K .......... .......... .......... .......... .......... 57% 3.98M 4s
+  4100K .......... .......... .......... .......... .......... 58% 15.9M 4s
+  4150K .......... .......... .......... .......... .......... 59%  785K 3s
+  4200K .......... .......... .......... .......... .......... 59%  827K 3s
+  4250K .......... .......... .......... .......... .......... 60% 4.25M 3s
+  4300K .......... .......... .......... .......... .......... 61% 2.49M 3s
+  4350K .......... .......... .......... .......... .......... 61%  124M 3s
+  4400K .......... .......... .......... .......... .......... 62% 2.41M 3s
+  4450K .......... .......... .......... .......... .......... 63%  499K 3s
+  4500K .......... .......... .......... .......... .......... 63% 4.03M 3s
+  4550K .......... .......... .......... .......... .......... 64% 3.75M 3s
+  4600K .......... .......... .......... .......... .......... 65% 5.25M 3s
+  4650K .......... .......... .......... .......... .......... 66% 15.4M 3s
+  4700K .......... .......... .......... .......... .......... 66%  442K 3s
+  4750K .......... .......... .......... .......... .......... 67% 15.0M 3s
+  4800K .......... .......... .......... .......... .......... 68% 3.64M 3s
+  4850K .......... .......... .......... .......... .......... 68% 2.62M 2s
+  4900K .......... .......... .......... .......... .......... 69% 16.8M 2s
+  4950K .......... .......... .......... .......... .......... 70% 15.9M 2s
+  5000K .......... .......... .......... .......... .......... 71%  444K 2s
+  5050K .......... .......... .......... .......... .......... 71% 14.6M 2s
+  5100K .......... .......... .......... .......... .......... 72% 3.99M 2s
+  5150K .......... .......... .......... .......... .......... 73% 4.10M 2s
+  5200K .......... .......... .......... .......... .......... 73% 4.38M 2s
+  5250K .......... .......... .......... .......... .......... 74% 5.51M 2s
+  5300K .......... .......... .......... .......... .......... 75%  472K 2s
+  5350K .......... .......... .......... .......... .......... 75% 12.9M 2s
+  5400K .......... .......... .......... .......... .......... 76% 4.62M 2s
+  5450K .......... .......... .......... .......... .......... 77% 3.86M 2s
+  5500K .......... .......... .......... .......... .......... 78% 5.00M 2s
+  5550K .......... .......... .......... .......... .......... 78% 17.1M 2s
+  5600K .......... .......... .......... .......... .......... 79%  444K 2s
+  5650K .......... .......... .......... .......... .......... 80% 13.2M 1s
+  5700K .......... .......... .......... .......... .......... 80% 4.61M 1s
+  5750K .......... .......... .......... .......... .......... 81% 13.1M 1s
+  5800K .......... .......... .......... .......... .......... 82% 2.61M 1s
+  5850K .......... .......... .......... .......... .......... 82% 13.0M 1s
+  5900K .......... .......... .......... .......... .......... 83% 17.8M 1s
+  5950K .......... .......... .......... .......... .......... 84%  155K 1s
+  6000K .......... .......... .......... .......... .......... 85% 19.2M 1s
+  6050K .......... .......... .......... .......... .......... 85% 29.5M 1s
+  6100K .......... .......... .......... .......... .......... 86% 60.8M 1s
+  6150K .......... .......... .......... .......... .......... 87% 54.0M 1s
+  6200K .......... .......... .......... .......... .......... 87% 56.1M 1s
+  6250K .......... .......... .......... .......... .......... 88% 62.5M 1s
+  6300K .......... .......... .......... .......... .......... 89% 60.9M 1s
+  6350K .......... .......... .......... .......... .......... 89% 61.5M 1s
+  6400K .......... .......... .......... .......... .......... 90% 51.9M 1s
+  6450K .......... .......... .......... .......... .......... 91% 58.5M 1s
+  6500K .......... .......... .......... .......... .......... 92% 5.88M 1s
+  6550K .......... .......... .......... .......... .......... 92% 15.2M 0s
+  6600K .......... .......... .......... .......... .......... 93% 15.0M 0s
+  6650K .......... .......... .......... .......... .......... 94% 16.3M 0s
+  6700K .......... .......... .......... .......... .......... 94%  481K 0s
+  6750K .......... .......... .......... .......... .......... 95% 3.15M 0s
+  6800K .......... .......... .......... .......... .......... 96% 6.81M 0s
+  6850K .......... .......... .......... .......... .......... 97% 15.8M 0s
+  6900K .......... .......... .......... .......... .......... 97% 3.18M 0s
+  6950K .......... .......... .......... .......... .......... 98% 15.9M 0s
+  7000K .......... .......... .......... .......... .......... 99% 15.0M 0s
+  7050K .......... .......... .......... .......... .......... 99%  731K 0s
+  7100K .......... .                                          100%  318K=6.5s
 
-Extension error:
-Could not import extension sphinx.builders.epub3 (exception: No module named 'imagesize')
-[423/471] Linking target test/bayer-format
-[424/471] Linking target test/v4l2_videodevice/buffer_sharing
-[425/471] Compiling C++ object test/v4l2_videodevice/v4l2_m2mdevice.p/v4l2_m2mdevice.cpp.o
-[426/471] Compiling C++ object test/v4l2_videodevice/v4l2_m2mdevice.p/v4l2_videodevice_test.cpp.o
-[427/471] Compiling C++ object test/span.p/span.cpp.o
-[428/471] Compiling C++ object test/byte-stream-buffer.p/byte-stream-buffer.cpp.o
-[429/471] Compiling C++ object test/signal.p/signal.cpp.o
-[430/471] Compiling C++ object test/camera-sensor.p/camera-sensor.cpp.o
-[431/471] Compiling C++ object test/delayed_controls.p/delayed_controls.cpp.o
-ninja: build stopped: subcommand failed.
+2021-04-21 08:05:25 (1.07 MB/s) - ‘linux-media.tar.bz2’ saved [7281901/7281901]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+--2021-04-21 08:05:26--  http://www.linuxtv.org/downloads/firmware//dvb-firmwares.tar.bz2
+Resolving www.linuxtv.org (www.linuxtv.org)... 130.149.80.248
+Connecting to www.linuxtv.org (www.linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://www.linuxtv.org/downloads/firmware/dvb-firmwares.tar.bz2 [following]
+--2021-04-21 08:05:26--  https://www.linuxtv.org/downloads/firmware/dvb-firmwares.tar.bz2
+Connecting to www.linuxtv.org (www.linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1519951 (1.4M) [application/x-bzip2]
+Saving to: ‘dvb-firmwares.tar.bz2’
+
+     0K .......... .......... .......... .......... ..........  3%  161K 9s
+    50K .......... .......... .......... .......... ..........  6%  322K 6s
+   100K .......... .......... .......... .......... .......... 10%  327K 5s
+   150K .......... .......... .......... .......... .......... 13% 3.67M 4s
+   200K .......... .......... .......... .......... .......... 16%  345K 4s
+   250K .......... .......... .......... .......... .......... 20%  330K 4s
+   300K .......... .......... .......... .......... .......... 23% 3.73M 3s
+   350K .......... .......... .......... .......... .......... 26%  346K 3s
+   400K .......... .......... .......... .......... .......... 30%  326K 3s
+   450K .......... .......... .......... .......... .......... 33% 4.29M 2s
+   500K .......... .......... .......... .......... .......... 37%  347K 2s
+   550K .......... .......... .......... .......... .......... 40% 4.36M 2s
+   600K .......... .......... .......... .......... .......... 43%  336K 2s
+   650K .......... .......... .......... .......... .......... 47% 1.02M 2s
+   700K .......... .......... .......... .......... .......... 50%  467K 2s
+   750K .......... .......... .......... .......... .......... 53% 1.02M 2s
+   800K .......... .......... .......... .......... .......... 57%  449K 1s
+   850K .......... .......... .......... .......... .......... 60%  349K 1s
+   900K .......... .......... .......... .......... .......... 64% 4.45M 1s
+   950K .......... .......... .......... .......... .......... 67%  352K 1s
+  1000K .......... .......... .......... .......... .......... 70% 5.73M 1s
+  1050K .......... .......... .......... .......... .......... 74% 1.02M 1s
+  1100K .......... .......... .......... .......... .......... 77%  494K 1s
+  1150K .......... .......... .......... .......... .......... 80% 4.55M 1s
+  1200K .......... .......... .......... .......... .......... 84%  347K 0s
+  1250K .......... .......... .......... .......... .......... 87% 4.72M 0s
+  1300K .......... .......... .......... .......... .......... 90%  351K 0s
+  1350K .......... .......... .......... .......... .......... 94% 4.47M 0s
+  1400K .......... .......... .......... .......... .......... 97% 16.1M 0s
+  1450K .......... .......... .......... ....                 100%  244K=2.8s
+
+2021-04-21 08:05:30 (533 KB/s) - ‘dvb-firmwares.tar.bz2’ saved [1519951/1519951]
+
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 4.19.0-12-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-12-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/ccs.patch
+patch -s -f -N -p1 -i ../backports/v5.11_isa.patch
+patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
+patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
+patch -s -f -N -p1 -i ../backports/v5.9_netup_unidvb_devm_revert.patch
+patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
+patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
+patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
+patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
+patch -s -f -N -p1 -i ../backports/v5.5_vb2_kmap.patch
+patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
+patch -s -f -N -p1 -i ../backports/v5.4_async.patch
+patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
+patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
+patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
+patch -s -f -N -p1 -i ../backports/v5.0_gpio.patch
+patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
+Patched drivers/media/dvb-core/dvbdev.c
+Patched drivers/media/v4l2-core/v4l2-dev.c
+Patched drivers/media/rc/rc-main.c
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
+File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
+Preparing to compile for kernel version 4.19.0
+make[1]: *** [Makefile:367: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
 Build step 'Execute shell' marked build as failure
