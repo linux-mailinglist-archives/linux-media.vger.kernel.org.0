@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1F5E36662A
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 09:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4967536662B
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 09:20:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235529AbhDUHVM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 03:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47094 "EHLO
+        id S235546AbhDUHVN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 03:21:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235421AbhDUHVL (ORCPT
+        with ESMTP id S235421AbhDUHVM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 03:21:11 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A848C06174A
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 00:20:39 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id w10so28939567pgh.5
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 00:20:39 -0700 (PDT)
+        Wed, 21 Apr 2021 03:21:12 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C637C06174A
+        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 00:20:40 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id e9so4143358plj.2
+        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 00:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=lsJQGiylJ8Q0fC63RMBRAV5F1QZambfdv6JDw+W5Fz4=;
-        b=JBrlyViKYWS32H4lIdRNpWGj9x2qcatsTYVFyryLNEqriZn4U/lrcGuCAIbHOoiPIG
-         zNGfjFqRoZOqtoghWdWUHQrGWLc1p5oZt4T1/p8o2443YCoSYiJZ611d6VmFJX5vjmq2
-         2HXtTnk9waZvb/5dz0fbLarnSeeTi/R/jAm/3mdIXimkbAZ3o74hKc0/IfRYVY6eW9JD
-         vdpkaezR0Q9XYs7Yng8UIgskNDrlddyTwXOeSQrFMkH+mae0gpyChOsgWwZ0Ke5qENnK
-         xIhLFt5+z88/APLX/m2pRiqiVUCUE3MJFbPaFIvwlQxIVZGCDQAkRlMR4Lum09aJJEQA
-         j1pQ==
+        bh=c/2RibfG4nS5rPwvMYLatU1oFvhbBRYrWgP4lB+fXPU=;
+        b=oS6uWu1f0eqSrNfzlqzfDd2MZ0152E3nXkoebJUU0sp/a2AcW5vwfmNbTmYVQAwKMF
+         c2h3Z1tbNoIyTEooYNQQjvcOcwCfANhzdG4YfOYTfLzmfN7rVLiNAjWow/AaBvH+oKAt
+         FgRCnzbfYwqaoNxD8OKh76f1flB3qiRN7HdrlQeSQm9diGeejbhtHhZzO6Jb60UDlvAO
+         Su78ORH8TetcpY6hXn9RWRFs4z6Y/XDjNIgm3XuAc/v5wM94FAGuWCSesLVfONFV5I1F
+         Z8LS4Yuohw0/9rHmyKQSTs/BWizVWOXzrWJKm+/KQxDIdPYu3Lud0b9+669O5CqbAmF8
+         ZqCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lsJQGiylJ8Q0fC63RMBRAV5F1QZambfdv6JDw+W5Fz4=;
-        b=HEscAK9z/H+LdOnOzZCIt34CbP6Uni2avSbAiLM3i4H2JERxE3oBwMS4l1cQtKBGjN
-         l4PBu6KqAVJyqJrEIebGXfflen2+jWzMVlgRBe4ySzZWLpDBM9Y5cxZU0/0gDE97S8Yb
-         Em4HHddGCWgvNIybaPuLFdzKCW2C4fKXSdkTnENLXskgMCmqMtQBZMkPvfG+AgQtK/FZ
-         vbS0F6h1lkdpq+WvunAEnixnoA2e8D80Y8Ld7fdajmoflNLlVKkTCElImBNC+mAIDpY1
-         xP/QH6eKkwZaafJQOsAiKGPmCcMqe+2eKRp1nZDCFtSGEZoNyvi09v12ZIYH63WGxGIw
-         pKbw==
-X-Gm-Message-State: AOAM532Htd/7oh9aOQCVSLCxtwO75J64CMOd6azzNufHftZ02Nrr/AOz
-        /DocJJi28p2dQS80pI7TMcuNKrvxcMwW+g==
-X-Google-Smtp-Source: ABdhPJwJ/flYRx8nBn37/BzUmcDRW3MQcdEd0YKUW/7knMOQWY2/gmSYYm80sM+9Mn+h+JxyJScyJA==
-X-Received: by 2002:a63:5112:: with SMTP id f18mr13182556pgb.379.1618989638844;
-        Wed, 21 Apr 2021 00:20:38 -0700 (PDT)
+        bh=c/2RibfG4nS5rPwvMYLatU1oFvhbBRYrWgP4lB+fXPU=;
+        b=cU8ITNSbmNWCxQIuKjC2JxhCOlgmhCCg+OWumUXY4ZEySYee5OuHDdIRAijAb2pdUb
+         TTKhqdYgbyBMAvDBUAXI3vK6uSO8KLWamwYsD3HOTMq6AxzXHx1jMK2fFAWFyng3IFMG
+         ulUyFxGtpzcJWCjvCeN9tw7UOnvQ7hpcdjmL50L5IyNts4QNc7RzVR2V1C6HXvNJYTAY
+         BrEsID3gvtZ/AHYxDBczjr/sbReiJH2idBcXZWRlYYBRGpCx/7EqX+f+V3hswD4lSBWp
+         wSXFMCJrfTpSM52cH/VCvCZcxLPFkLKUhQSsmq9MNXR56DGDX5t1x5rq65eqZLFp8NEK
+         RGHw==
+X-Gm-Message-State: AOAM533hZ1iT/92tL9/+zLR5K+2mAegDnVHPncUd64Qxod/z9NrOEsUx
+        zY+K2LR9EScOIKvjWFyeuP85sCmUNb8/KA==
+X-Google-Smtp-Source: ABdhPJy+xxkFxrZGJb+FJWMJzZ50w5u5oeUWjVExbdvgLeMAZAkusIXiVPiLfj0gFwulmwW4KQR99A==
+X-Received: by 2002:a17:902:4c:b029:ec:a39a:41ad with SMTP id 70-20020a170902004cb02900eca39a41admr15147981pla.52.1618989639641;
+        Wed, 21 Apr 2021 00:20:39 -0700 (PDT)
 Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
         by smtp.gmail.com with ESMTPSA id p10sm907815pfo.210.2021.04.21.00.20.38
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 00:20:38 -0700 (PDT)
+        Wed, 21 Apr 2021 00:20:39 -0700 (PDT)
 From:   Rosen Penev <rosenp@gmail.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 3/8] remove unused ARRAY_SIZE
-Date:   Wed, 21 Apr 2021 00:20:30 -0700
-Message-Id: <20210421072035.4188497-3-rosenp@gmail.com>
+Subject: [PATCH 4/8] cec-tuner: std::array conversions
+Date:   Wed, 21 Apr 2021 00:20:31 -0700
+Message-Id: <20210421072035.4188497-4-rosenp@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210421072035.4188497-1-rosenp@gmail.com>
 References: <20210421072035.4188497-1-rosenp@gmail.com>
@@ -63,85 +63,246 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a C construct that is not really needed in C++.
+Allows getting rid of sizeof macros.
 
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- utils/cec-compliance/cec-compliance.h | 3 ---
- utils/cec-ctl/cec-pin.cpp             | 2 --
- utils/cec-follower/cec-follower.h     | 3 ---
- utils/cec-follower/cec-processing.cpp | 3 ---
- utils/rds-ctl/rds-ctl.cpp             | 2 --
- 5 files changed, 13 deletions(-)
+ utils/cec-follower/cec-tuner.cpp | 140 +++++++++++++++----------------
+ 1 file changed, 70 insertions(+), 70 deletions(-)
 
-diff --git a/utils/cec-compliance/cec-compliance.h b/utils/cec-compliance/cec-compliance.h
-index 26c70c216..c558f043b 100644
---- a/utils/cec-compliance/cec-compliance.h
-+++ b/utils/cec-compliance/cec-compliance.h
-@@ -191,9 +191,6 @@ using vec_remote_subtests = std::vector<remote_subtest>;
+diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
+index ac5c49950..b9c21684b 100644
+--- a/utils/cec-follower/cec-tuner.cpp
++++ b/utils/cec-follower/cec-tuner.cpp
+@@ -3,6 +3,7 @@
+  * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+  */
  
- #define CEC_LOG_ADDR_MASK_ALL 0xffff
++#include <array>
+ #include <ctime>
+ #include <string>
  
--#define ARRAY_SIZE(a) \
--	(sizeof(a) / sizeof(*a))
--
- #define COLOR_GREEN(s) "\033[32m" s "\033[0m"
- #define COLOR_RED(s) "\033[1;31m" s "\033[0m"
- #define COLOR_BOLD(s) "\033[1m" s "\033[0m"
-diff --git a/utils/cec-ctl/cec-pin.cpp b/utils/cec-ctl/cec-pin.cpp
-index f9ecac7fb..30e5accf5 100644
---- a/utils/cec-ctl/cec-pin.cpp
-+++ b/utils/cec-ctl/cec-pin.cpp
-@@ -17,8 +17,6 @@
- #include "cec-ctl.h"
- #include "cec-log.h"
+@@ -13,10 +14,8 @@
  
--#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
--
- static std::string find_opcode_name(__u8 opcode)
- {
- 	const char *name = cec_opcode2s(opcode);
-diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
-index 5b67a260f..7806a4b64 100644
---- a/utils/cec-follower/cec-follower.h
-+++ b/utils/cec-follower/cec-follower.h
-@@ -20,9 +20,6 @@
- #include <cec-info.h>
- #include <cec-log.h>
+ #define NUM_ANALOG_FREQS 3
+ #define NUM_DIGITAL_CHANS 3
+-#define TOT_ANALOG_FREQS (sizeof(analog_freqs_khz) / sizeof(analog_freqs_khz[0][0][0]))
+-#define TOT_DIGITAL_CHANS ((sizeof(digital_arib_data) / sizeof(digital_arib_data[0][0])) + \
+-			   (sizeof(digital_atsc_data) / sizeof(digital_atsc_data[0][0])) + \
+-			   (sizeof(digital_dvb_data) / sizeof(digital_dvb_data[0][0])))
++#define TOT_ANALOG_FREQS analog_freqs_khz[0][0].size()
++#define TOT_DIGITAL_CHANS digital_arib_data[0].size() + digital_atsc_data[0].size() + digital_dvb_data[0].size()
  
--#define ARRAY_SIZE(a) \
--	(sizeof(a) / sizeof(*a))
--
- extern bool show_info;
- extern bool show_msgs;
- extern bool show_state;
-diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-index 83ffcc30b..024407471 100644
---- a/utils/cec-follower/cec-processing.cpp
-+++ b/utils/cec-follower/cec-processing.cpp
-@@ -29,9 +29,6 @@
- /* Time between each polling message sent to a device */
- #define POLL_PERIOD 15000
+ struct service_info {
+ 	unsigned tsid;
+@@ -45,22 +44,22 @@ struct service_info {
+  *
+  * https://sichbopvr.com/frequency-tables/Brazil/Rio%20de%20Janeiro/Rio%20De%20Janeiro
+  */
+-static const struct service_info digital_arib_data[2][NUM_DIGITAL_CHANS] =
+-{
++using arib = std::array<service_info, NUM_DIGITAL_CHANS>;
++static constexpr std::array<arib, 2> digital_arib_data{
+ 	// satellite, arib-bs
+-	{
++	arib{
+ 		// tsid, onid, sid, fmt, major, minor
+-		{ 1032, 1, 30203, 1, 0, 30203 },
+-		{ 1046, 1, 30505, 1, 0, 30505 },
+-		{ 1060, 1, 30609, 1, 0, 30609 }
++		service_info{ 1032, 1, 30203, 1, 0, 30203 },
++		service_info{ 1046, 1, 30505, 1, 0, 30505 },
++		service_info{ 1060, 1, 30609, 1, 0, 30609 },
+ 	},
+ 	// terrestrial, arib-t
+-	{
++	arib{
+ 		// tsid, onid, sid, fmt, major, minor
+-		{ 1519, 1519, 48608, 1, 0, 48608 },
+-		{ 1624, 1624, 51992, 1, 0, 51992 },
+-		{ 1905, 1905, 60960, 1, 0, 60960 }
+-	}
++		service_info{ 1519, 1519, 48608, 1, 0, 48608 },
++		service_info{ 1624, 1624, 51992, 1, 0, 51992 },
++		service_info{ 1905, 1905, 60960, 1, 0, 60960 },
++	},
+ };
  
--#define ARRAY_SIZE(a) \
--	(sizeof(a) / sizeof(*a))
--
- struct cec_enum_values {
- 	const char *type_name;
- 	__u8 value;
-diff --git a/utils/rds-ctl/rds-ctl.cpp b/utils/rds-ctl/rds-ctl.cpp
-index e27182821..8161aa453 100644
---- a/utils/rds-ctl/rds-ctl.cpp
-+++ b/utils/rds-ctl/rds-ctl.cpp
-@@ -27,8 +27,6 @@
- #include <linux/videodev2.h>
- #include <libv4l2rds.h>
+ /*
+@@ -84,22 +83,22 @@ static const struct service_info digital_arib_data[2][NUM_DIGITAL_CHANS] =
+  * ATSC does not use ONIDs and SID will be used as the program number.  All ATSC
+  * channel number formats are 2 part.
+  */
+-static const struct service_info digital_atsc_data[2][NUM_DIGITAL_CHANS] =
+-{
++using atsc = std::array<service_info, NUM_DIGITAL_CHANS>;
++static constexpr std::array<atsc, 2> digital_atsc_data{
+ 	// satellite, atsc-sat
+-	{
++	atsc{
+ 		// tsid, onid, sid, fmt, major, minor
+-		{ 2065, 0, 50316, 2, 3, 50316 },
+-		{ 2090, 0, 50882, 2, 3, 50882 },
+-		{ 2122, 0, 55295, 2, 3, 55295 }
++		service_info{ 2065, 0, 50316, 2, 3, 50316 },
++		service_info{ 2090, 0, 50882, 2, 3, 50882 },
++		service_info{ 2122, 0, 55295, 2, 3, 55295 },
+ 	},
+ 	// terrestrial, atsc-t
+-	{
++	atsc{
+ 		// tsid, onid, sid, fmt, major, minor
+-		{ 1675, 0, 1, 2, 4, 1 },
+-		{ 1675, 0, 2, 2, 4, 2 },
+-		{ 1675, 0, 3, 2, 4, 3 }
+-	}
++		service_info{ 1675, 0, 1, 2, 4, 1 },
++		service_info{ 1675, 0, 2, 2, 4, 2 },
++		service_info{ 1675, 0, 3, 2, 4, 3 },
++	},
+ };
  
--#define ARRAY_SIZE(arr) ((int)(sizeof(arr) / sizeof((arr)[0])))
--
- using dev_vec = std::vector<std::string>;
- using dev_map = std::map<std::string, std::string>;
+ /*
+@@ -119,22 +118,22 @@ static const struct service_info digital_atsc_data[2][NUM_DIGITAL_CHANS] =
+  * https://sichbopvr.com/frequency-tables/Sweden/Skane%20Lan/Malm%c3%b6
+  *
+  */
+-static const struct service_info digital_dvb_data[2][NUM_DIGITAL_CHANS] =
+-{
++using dvb = std::array<service_info, NUM_DIGITAL_CHANS>;
++static constexpr std::array<dvb, 2> digital_dvb_data{
+ 	// satellite, dvb-s2
+-	{
++	dvb{
+ 		// tsid, onid, sid, fmt, major, minor
+-		{ 61, 70, 7193, 1, 0, 24 },
+-		{ 65, 70, 7040, 1, 0, 72 },
+-		{ 28, 70, 7012, 1, 0, 101 }
++		service_info{ 61, 70, 7193, 1, 0, 24 },
++		service_info{ 65, 70, 7040, 1, 0, 72 },
++		service_info{ 28, 70, 7012, 1, 0, 101 },
+ 	},
+ 	// terrestrial, dvb-t
+-	{
++	dvb{
+ 		// tsid, onid, sid, fmt, major, minor
+-		{ 1002, 8400, 2025, 1, 0, 21 },
+-		{ 1004, 8400, 84, 1, 0, 31 },
+-		{ 1004, 8945, 1040, 1, 0, 1040 }
+-	}
++		service_info{ 1002, 8400, 2025, 1, 0, 21 },
++		service_info{ 1004, 8400, 84, 1, 0, 31 },
++		service_info{ 1004, 8945, 1040, 1, 0, 1040 },
++	},
+ };
  
+ /*
+@@ -150,71 +149,72 @@ static const struct service_info digital_dvb_data[2][NUM_DIGITAL_CHANS] =
+  *
+  * https://en.wikipedia.org/wiki/Television_channel_frequencies
+  */
+-static unsigned int analog_freqs_khz[3][9][NUM_ANALOG_FREQS] =
+-{
++using khz = std::array<unsigned int, NUM_ANALOG_FREQS>;
++using freqs = std::array<khz, 9>;
++static constexpr std::array<freqs, 3> analog_freqs_khz{
+ 	// cable
+-	{
++	freqs{
+ 		// pal-bg
+-		{ 471250, 479250, 487250 },
++		khz{ 471250, 479250, 487250 },
+ 		// secam-lq
+-		{ 615250, 623250, 631250 },
++		khz{ 615250, 623250, 631250 },
+ 		// pal-m
+-		{ 501250, 507250, 513250 },
++		khz{ 501250, 507250, 513250 },
+ 		// ntsc-m
+-		{ 519250, 525250, 531250 },
++		khz{ 519250, 525250, 531250 },
+ 		// pal-i
+-		{ 45750, 53750, 61750 },
++		khz{ 45750, 53750, 61750 },
+ 		// secam-dk
+-		{ 759250, 767250, 775250 },
++		khz{ 759250, 767250, 775250 },
+ 		// secam-bg
+-		{ 495250, 503250, 511250 },
++		khz{ 495250, 503250, 511250 },
+ 		// secam-l
+-		{ 639250, 647250, 655250 },
++		khz{ 639250, 647250, 655250 },
+ 		// pal-dk
+-		{ 783250, 791250, 799250 }
++		khz{ 783250, 791250, 799250 },
+ 	},
+ 	// satellite
+-	{
++	freqs{
+ 		// pal-bg
+-		{ 519250, 527250, 535250 },
++		khz{ 519250, 527250, 535250 },
+ 		// secam-lq
+-		{ 663250, 671250, 679250 },
++		khz{ 663250, 671250, 679250 },
+ 		// pal-m
+-		{ 537250, 543250, 549250 },
++		khz{ 537250, 543250, 549250 },
+ 		// ntsc-m
+-		{ 555250, 561250, 567250 },
++		khz{ 555250, 561250, 567250 },
+ 		// pal-i
+-		{ 175250, 183250, 191250 },
++		khz{ 175250, 183250, 191250 },
+ 		// secam-dk
+-		{ 807250, 815250, 823250 },
++		khz{ 807250, 815250, 823250 },
+ 		// secam-bg
+-		{ 543250, 551250, 559250 },
++		khz{ 543250, 551250, 559250 },
+ 		// secam-l
+-		{ 687250, 695250, 703250 },
++		khz{ 687250, 695250, 703250 },
+ 		// pal-dk
+-		{ 831250, 839250, 847250 }
++		khz{ 831250, 839250, 847250 },
+ 	},
+ 	// terrestrial
+-	{
++	freqs{
+ 		// pal-bg
+-		{ 567250, 575250, 583250 },
++		khz{ 567250, 575250, 583250 },
+ 		// secam-lq
+-		{ 711250, 719250, 727250 },
++		khz{ 711250, 719250, 727250 },
+ 		// pal-m
+-		{ 573250, 579250, 585250 },
++		khz{ 573250, 579250, 585250 },
+ 		// ntsc-m
+-		{ 591250, 597250, 603250 },
++		khz{ 591250, 597250, 603250 },
+ 		// pal-i
+-		{ 199250, 207250, 215250 },
++		khz{ 199250, 207250, 215250 },
+ 		// secam-dk
+-		{ 145250, 153250, 161250 },
++		khz{ 145250, 153250, 161250 },
+ 		// secam-bg
+-		{ 591250, 599250, 607250 },
++		khz{ 591250, 599250, 607250 },
+ 		// secam-l
+-		{ 735250, 743250, 751250 },
++		khz{ 735250, 743250, 751250 },
+ 		// pal-dk
+-		{ 169250, 177250, 185250 }
+-	}
++		khz{ 169250, 177250, 185250 },
++	},
+ };
+ 
+ void tuner_dev_info_init(struct state *state)
 -- 
 2.30.2
 
