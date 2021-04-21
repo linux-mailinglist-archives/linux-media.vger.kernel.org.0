@@ -2,156 +2,288 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A2E6367186
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 19:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4F873671A3
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 19:44:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242267AbhDURlF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 13:41:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44004 "EHLO
+        id S243182AbhDURol (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 13:44:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242202AbhDURlA (ORCPT
+        with ESMTP id S243195AbhDURoj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 13:41:00 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17785C06138B
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 10:40:27 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id y62so5730369pfg.4
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 10:40:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=h/beBkqWPWtq3+yl17G4GLEbQfDSlnnJp5RXRR66KYE=;
-        b=cE0ORofprgoov158xmxjlX5mEid/m5laCX19wY+7OZffLWMAyu4RXrrYeIEa7iS9mW
-         zSNDddWAs9KTix7ZcMvjMulSqHoNTB3r6cgSok/jUsVlVoYId3I8bcU4kfTnDPzWnXIU
-         QbgdAPoqeRzIEGzsjsCiO8HMSyRXKLHi4ZBag=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=h/beBkqWPWtq3+yl17G4GLEbQfDSlnnJp5RXRR66KYE=;
-        b=DiKqztKNZpA+TZE42g7wSssA+afcAn+uvBaFaT62HnDLqCE5DsMqIqehOCQQyy7yav
-         LtDLk4HAtCArgF9hEqqVf9+Mw1EM5FwoOOQ983HYuotHEiaFL2aixy9wHprp8BRsH3Ob
-         DBJqN9gg4xWcOF4WRWRtnxV9sUdt4l8/VL6qw/PF7xsGBirtLKEAo7SaxpqStpKmYGqv
-         OM3Vns4W0HakTyiSK2/LMMCcNJ4xCr1EXoTjga1gdCz5KDn9lNqQ4r+RXOvZf0xZsKBo
-         aQKTU9nMdn8CH/C9IZ6yOQZbz7y0VW1LeqvJuvOO3hul//zUF8zfImKwgqalwR/Wa2QX
-         SUUQ==
-X-Gm-Message-State: AOAM532xu7lsmaHaHyVnCbFfU3B1obApp3NDW3xGqJ0QyfM3hMMNhnYM
-        SCvDFR88Fvu94uhUBLBBxusIYg==
-X-Google-Smtp-Source: ABdhPJw2VsFXVVPmA45ixsygoh7TW76jWkUpmaK+0w/xbWIpwp9qQGUbnQTlZg9rcsnkVLbLcnJhXQ==
-X-Received: by 2002:a63:5b5c:: with SMTP id l28mr22480973pgm.363.1619026826588;
-        Wed, 21 Apr 2021 10:40:26 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id m9sm58735pgt.65.2021.04.21.10.40.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 10:40:25 -0700 (PDT)
-Date:   Wed, 21 Apr 2021 10:40:24 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ralph Metzler <rjkm@metzlerbros.de>,
-        Matthias Benesch <twoof7@freenet.de>,
-        Oliver Endriss <o.endriss@gmx.de>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] media: ngene: Fix out-of-bounds bug in
- ngene_command_config_free_buf()
-Message-ID: <202104211039.31E9785@keescook>
-References: <20210420001631.GA45456@embeddedor>
+        Wed, 21 Apr 2021 13:44:39 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC13DC06174A
+        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 10:44:05 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1lZGsj-0003PI-NV; Wed, 21 Apr 2021 19:43:21 +0200
+Message-ID: <18fbdc4bf0574a722134400ad9e4510d3cbcb767.camel@pengutronix.de>
+Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in
+ probe
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Robin Gong <yibin.gong@nxp.com>,
+        Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc:     Nicolin Chen <nicoleotsuka@gmail.com>,
+        Linux-ALSA <alsa-devel@alsa-project.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        Timur Tabi <timur@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "S.j. Wang" <shengjiu.wang@nxp.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        Takashi Iwai <tiwai@suse.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        "perex@perex.cz" <perex@perex.cz>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Date:   Wed, 21 Apr 2021 19:43:18 +0200
+In-Reply-To: <VE1PR04MB66887C731E32BDBB340B044C89479@VE1PR04MB6688.eurprd04.prod.outlook.com>
+References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
+         <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
+         <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
+         <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
+         <VE1PR04MB66387217EDE5133FD2D8F793894E9@VE1PR04MB6638.eurprd04.prod.outlook.com>
+         <50ef17a2d57b022c48bbca71fd4e074cc3ca9be5.camel@pengutronix.de>
+         <VE1PR04MB6638EE85485768351755557B89499@VE1PR04MB6638.eurprd04.prod.outlook.com>
+         <97262466d537402ad4032098ef277d6d47734f1f.camel@pengutronix.de>
+         <VE1PR04MB6638659EC8557D01861042B189489@VE1PR04MB6638.eurprd04.prod.outlook.com>
+         <d8d084aa7ff183e2f78128a46a0ce5241f357c9a.camel@pengutronix.de>
+         <VE1PR04MB66887C731E32BDBB340B044C89479@VE1PR04MB6688.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210420001631.GA45456@embeddedor>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 07:16:31PM -0500, Gustavo A. R. Silva wrote:
-> Fix an 11-year old bug in ngene_command_config_free_buf() while
-> addressing the following warnings caught with -Warray-bounds:
+Am Mittwoch, dem 21.04.2021 um 14:54 +0000 schrieb Robin Gong:
+> On 20201/04/20 22:01 Lucas Stach <l.stach@pengutronix.de> wrote:
+> > Am Dienstag, dem 20.04.2021 um 13:47 +0000 schrieb Robin Gong:
+> > > On 2021/04/19 17:46 Lucas Stach <l.stach@pengutronix.de> wrote:
+> > > > Am Montag, dem 19.04.2021 um 07:17 +0000 schrieb Robin Gong:
+> > > > > Hi Lucas,
+> > > > > 
+> > > > > On 2021/04/14 Lucas Stach <l.stach@pengutronix.de> wrote:
+> > > > > > Hi Robin,
+> > > > > > 
+> > > > > > Am Mittwoch, dem 14.04.2021 um 14:33 +0000 schrieb Robin Gong:
+> > > > > > > On 2020/05/20 17:43 Lucas Stach <l.stach@pengutronix.de> wrote:
+> > > > > > > > Am Mittwoch, den 20.05.2020, 16:20 +0800 schrieb Shengjiu
+> > Wang:
+> > > > > > > > > Hi
+> > > > > > > > > 
+> > > > > > > > > On Tue, May 19, 2020 at 6:04 PM Lucas Stach
+> > > > > > > > > <l.stach@pengutronix.de>
+> > > > > > > > wrote:
+> > > > > > > > > > Am Dienstag, den 19.05.2020, 17:41 +0800 schrieb Shengjiu
+> > Wang:
+> > > > > > > > > > > There are two requirements that we need to move the
+> > > > > > > > > > > request of dma channel from probe to open.
+> > > > > > > > > > 
+> > > > > > > > > > How do you handle -EPROBE_DEFER return code from the
+> > > > > > > > > > channel request if you don't do it in probe?
+> > > > > > > > > 
+> > > > > > > > > I use the dma_request_slave_channel or dma_request_channel
+> > > > > > > > > instead of dmaengine_pcm_request_chan_of. so there should
+> > > > > > > > > be not -EPROBE_DEFER return code.
+> > > > > > > > 
+> > > > > > > > This is a pretty weak argument. The dmaengine device might
+> > > > > > > > probe after you try to get the channel. Using a function to
+> > > > > > > > request the channel that doesn't allow you to handle probe
+> > > > > > > > deferral is IMHO a bug and should be fixed, instead of
+> > > > > > > > building even more assumptions on top
+> > > > > > of it.
+> > > > > > > > 
+> > > > > > > > > > > - When dma device binds with power-domains, the power
+> > > > > > > > > > > will be enabled when we request dma channel. If the
+> > > > > > > > > > > request of dma channel happen on probe, then the
+> > > > > > > > > > > power-domains will be always enabled after kernel boot
+> > > > > > > > > > > up,  which is not good for power saving,  so we need
+> > > > > > > > > > > to move the request of dma channel to .open();
+> > > > > > > > > > 
+> > > > > > > > > > This is certainly something which could be fixed in the
+> > > > > > > > > > dmaengine driver.
+> > > > > > > > > 
+> > > > > > > > > Dma driver always call the pm_runtime_get_sync in
+> > > > > > > > > device_alloc_chan_resources, the
+> > > > > > > > > device_alloc_chan_resources is called when channel is
+> > > > > > > > > requested. so power is enabled on channel
+> > > > > > request.
+> > > > > > > > 
+> > > > > > > > So why can't you fix the dmaengine driver to do that RPM
+> > > > > > > > call at a later time when the channel is actually going to
+> > > > > > > > be used? This will allow further power savings with other
+> > > > > > > > slave devices than the audio
+> > > > PCM.
+> > > > > > > Hi Lucas,
+> > > > > > >   Thanks for your suggestion. I have tried to implement
+> > > > > > > runtime autosuspend in fsl-edma driver on i.mx8qm/qxp with
+> > > > > > > delay time (2
+> > > > > > > sec) for this feature as below (or you can refer to
+> > > > > > > drivers/dma/qcom/hidma.c), and pm_runtime_get_sync/
+> > > > > > > pm_runtime_put_autosuspend in all dmaengine driver interface
+> > > > > > > like
+> > > > > > > device_alloc_chan_resources/device_prep_slave_sg/device_prep_d
+> > > > > > > ma_c
+> > > > > > > ycli
+> > > > > > > c/
+> > > > > > > device_tx_status...
+> > > > > > > 
+> > > > > > > 
+> > > > > > >                 pm_runtime_use_autosuspend(fsl_chan->de
+> > v);
+> > > > > > >                 pm_runtime_set_autosuspend_delay(fsl_cha
+> > n->
+> > > > dev,
+> > > > > > 2000);
+> > > > > > > 
+> > > > > > > That could resolve this audio case since the autosuspend could
+> > > > > > > suspend runtime after
+> > > > > > > 2 seconds if there is no further dma transfer but only channel
+> > > > > > request(device_alloc_chan_resources).
+> > > > > > > But unfortunately, it cause another issue. As you know, on our
+> > > > > > > i.mx8qm/qxp, power domain done by scfw
+> > > > > > > (drivers/firmware/imx/scu-pd.c)
+> > > > > > over mailbox:
+> > > > > > >  imx_sc_pd_power()->imx_scu_call_rpc()->
+> > > > > > > imx_scu_ipc_write()->mbox_send_message()
+> > > > > > > which means have to 'waits for completion', meanwhile, some
+> > > > > > > driver like tty will call dmaengine interfaces in non-atomic
+> > > > > > > case as below,
+> > > > > > > 
+> > > > > > > static int uart_write(struct tty_struct *tty, const unsigned
+> > > > > > > char *buf, int count) {
+> > > > > > >    .......
+> > > > > > > 	    port = uart_port_lock(state, flags);
+> > > > > > >    ......
+> > > > > > >         __uart_start(tty);  //call
+> > > > start_tx()->dmaengine_prep_slave_sg...
+> > > > > > >         uart_port_unlock(port, flags);
+> > > > > > >         return ret;
+> > > > > > > }
+> > > > > > > 
+> > > > > > > Thus dma runtime resume may happen in that timing window and
+> > > > > > > cause
+> > > > > > kernel alarm.
+> > > > > > > I'm not sure whether there are similar limitations on other
+> > > > > > > driver subsystem. But for me, It looks like the only way to
+> > > > > > > resolve the contradiction between tty and scu-pd (hardware
+> > > > > > > limitation on
+> > > > > > > i.mx8qm/qxp) is to give up autosuspend and keep
+> > > > > > > pm_runtime_get_sync
+> > > > > > only in device_alloc_chan_resources because request channel is a
+> > > > > > safe non-atomic phase.
+> > > > > > > Do you have any idea? Thanks in advance.
+> > > > > > 
+> > > > > > If you look closely at the driver you used as an example
+> > > > > > (hidma.c) it looks like there is already something in there,
+> > > > > > which looks very much like what you need
+> > > > > > here:
+> > > > > > 
+> > > > > > In hidma_issue_pending() the driver tries to get the device to
+> > > > > > runtime
+> > > > resume.
+> > > > > > If this doesn't work, maybe due to the power domain code not
+> > > > > > being able to be called in atomic context, the actual work of
+> > > > > > waking up the dma hardware and issuing the descriptor is shunted to a
+> > tasklet.
+> > > > > > 
+> > > > > > If I'm reading this right, this is exactly what you need here to
+> > > > > > be able to call the dmaengine code from atomic context: try the
+> > > > > > rpm get and issue immediately when possible, otherwise shunt the
+> > > > > > work to a
+> > > > > > non- atomic context where you can deal with the requirements of
+> > scu-pd.
+> > > > > Yes, I can schedule_work to worker to runtime resume edma channel
+> > > > > by
+> > > > calling scu-pd.
+> > > > > But that means all dmaengine interfaces should be taken care, not
+> > > > > only
+> > > > > issue_pending() but also
+> > > > > dmaengine_terminate_all()/dmaengine_pause()/dmaengine_resume()/
+> > > > > dmaengine_tx_status(). Not sure why hidma only take care
+> > > > > issue_pending. Maybe their user case is just for memcpy/memset so
+> > > > > that no further complicate case as ALSA or TTY.
+> > > > > Besides, for autosuspend in cyclic, we have to add
+> > > > > pm_runtime_get_sync into interrupt handler as qcom/bam_dma.c. but
+> > > > > how could resolve the scu-pd's non-atmoic limitation in interrupt
+> > handler?
+> > > > 
+> > > > Sure, this all needs some careful analysis on how those functions
+> > > > are called and what to do about atomic callers, but it should be
+> > > > doable. I don't see any fundamental issues here.
+> > > > 
+> > > > I don't see why you would ever need to wake the hardware in an
+> > > > interrupt handler. Surely the hardware is already awake, as it
+> > > > wouldn't signal an interrupt otherwise. And for the issue with
+> > > > scu-pd you only care about the state transition of
+> > > > suspended->running. If the hardware is already running/awake, the
+> > > > runtime pm state handling is nothing more than bumping a refcount,
+> > > > which is atomic safe. Putting the HW in suspend is already handled
+> > asynchronously in a worker, so this is also atomic safe.
+> > > But with autosuspend used, in corner case, may runtime suspended
+> > > before falling Into edma interrupt handler if timeout happen with the
+> > > delay value of pm_runtime_set_autosuspend_delay(). Thus, can't touch
+> > > any edma interrupt status register unless runtime resume edma in
+> > > interrupt handler while runtime resume function based on scu-pd's power
+> > domain may block or sleep.
+> > > I have a simple workaround that disable runtime suspend in
+> > > issue_pending worker by calling pm_runtime_forbid() and then enable
+> > > runtime auto suspend in dmaengine_terminate_all so that we could
+> > > easily regard that edma channel is always in runtime resume between
+> > > issue_pending and channel terminated and ignore the above interrupt
+> > handler/scu-pd limitation.
+> > 
+> > The IRQ handler is the point where you are informed by the hardware that a
+> > specific operation is complete. I don't see any use-case where it would be valid
+> > to drop the rpm refcount to 0 before the IRQ is handled. Surely the hardware
+> > needs to stay awake until the currently queued operations are complete and if
+> > the IRQ handler is the completion point the IRQ handler is the first point in
+> > time where your autosuspend timer should start to run. There should never be
+> > a situation where the timer expiry can get between IRQ signaling and the
+> > handler code running.
+> But the timer of runtime_auto_suspend decide when enter runtime suspend rather
+> than hardware, while transfer data size and transfer rate on IP bus decide when the
+> dma interrupt happen. 
 > 
-> arch/alpha/include/asm/string.h:22:16: warning: '__builtin_memcpy' offset [12, 16] from the object at 'com' is out of the bounds of referenced subobject 'config' with type 'unsigned char' at offset 10 [-Warray-bounds]
-> arch/x86/include/asm/string_32.h:182:25: warning: '__builtin_memcpy' offset [12, 16] from the object at 'com' is out of the bounds of referenced subobject 'config' with type 'unsigned char' at offset 10 [-Warray-bounds]
-> 
-> The problem is that the original code is trying to copy 6 bytes of
-> data into a one-byte size member _config_ of the wrong structue
-> FW_CONFIGURE_BUFFERS, in a single call to memcpy(). This causes a
-> legitimate compiler warning because memcpy() overruns the length
-> of &com.cmd.ConfigureBuffers.config. It seems that the right
-> structure is FW_CONFIGURE_FREE_BUFFERS, instead, because it contains
-> 6 more members apart from the header _hdr_. Also, the name of
-> the function ngene_command_config_free_buf() suggests that the actual
-> intention is to ConfigureFreeBuffers, instead of ConfigureBuffers
-> (which configuration takes place in the function ngene_command_config_buf(),
-> above).
-> 
-> Fix this by enclosing those 6 members of struct FW_CONFIGURE_FREE_BUFFERS
-> into new struct config, and use &com.cmd.ConfigureFreeBuffers.config as
-> the destination address, instead of &com.cmd.ConfigureBuffers.config,
-> when calling memcpy().
-> 
-> This also helps with the ongoing efforts to globally enable
-> -Warray-bounds and get us closer to being able to tighten the
-> FORTIFY_SOURCE routines on memcpy().
-> 
-> Link: https://github.com/KSPP/linux/issues/109
-> Fixes: dae52d009fc9 ("V4L/DVB: ngene: Initial check-in")
-> Cc: stable@vger.kernel.org
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+But it isn't the hardware that decides to drop the rpm refcount to 0
+and starting the autosuspend timer, it's the driver.
 
-Nice find! Yeah, this looks like a copy/paste bug but it went unnoticed
-because it's occupying the same memory via the union. Heh.
+>  Generally, we can call pm_runtime_get_sync(fsl_chan->dev)/
+> pm_runtime_mark_last_busy in interrupt handler to hope the runtime_auto_suspend
+> timer expiry later than interrupt coming, but if the transfer data size is larger in cyclic
+> and transfer rate is very slow like 115200 or lower on uart, the fix autosuspend timer
+> 100ms/200ms maybe not enough, hence, runtime suspend may execute meanwhile
+> the dma interrupt maybe triggered and caught by GIC(but interrupt handler prevent
+> by spin_lock_irqsave in pm_suspend_timer_fn() ), and then interrupt handler start
+> to run after runtime suspend. 
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+If your driver code drops the rpm refcount to 0 and starts the
+autosuspend timer while a cyclic transfer is still in flight this is
+clearly a bug. Autosuspend is not there to paper over driver bugs, but
+to amortize cost of actually suspending and resuming the hardware. Your
+driver code must still work even if the timeout is 0, i.e. the hardware
+is immediately suspended after you drop the rpm refcount to 0.
 
--Kees
+If you still have transfers queued/in-flight the driver code must keep
+a rpm reference.
 
-> ---
->  drivers/media/pci/ngene/ngene-core.c |  2 +-
->  drivers/media/pci/ngene/ngene.h      | 14 ++++++++------
->  2 files changed, 9 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/pci/ngene/ngene-core.c b/drivers/media/pci/ngene/ngene-core.c
-> index 07f342db6701..7481f553f959 100644
-> --- a/drivers/media/pci/ngene/ngene-core.c
-> +++ b/drivers/media/pci/ngene/ngene-core.c
-> @@ -385,7 +385,7 @@ static int ngene_command_config_free_buf(struct ngene *dev, u8 *config)
->  
->  	com.cmd.hdr.Opcode = CMD_CONFIGURE_FREE_BUFFER;
->  	com.cmd.hdr.Length = 6;
-> -	memcpy(&com.cmd.ConfigureBuffers.config, config, 6);
-> +	memcpy(&com.cmd.ConfigureFreeBuffers.config, config, 6);
->  	com.in_len = 6;
->  	com.out_len = 0;
->  
-> diff --git a/drivers/media/pci/ngene/ngene.h b/drivers/media/pci/ngene/ngene.h
-> index 84f04e0e0cb9..3d296f1998a1 100644
-> --- a/drivers/media/pci/ngene/ngene.h
-> +++ b/drivers/media/pci/ngene/ngene.h
-> @@ -407,12 +407,14 @@ enum _BUFFER_CONFIGS {
->  
->  struct FW_CONFIGURE_FREE_BUFFERS {
->  	struct FW_HEADER hdr;
-> -	u8   UVI1_BufferLength;
-> -	u8   UVI2_BufferLength;
-> -	u8   TVO_BufferLength;
-> -	u8   AUD1_BufferLength;
-> -	u8   AUD2_BufferLength;
-> -	u8   TVA_BufferLength;
-> +	struct {
-> +		u8   UVI1_BufferLength;
-> +		u8   UVI2_BufferLength;
-> +		u8   TVO_BufferLength;
-> +		u8   AUD1_BufferLength;
-> +		u8   AUD2_BufferLength;
-> +		u8   TVA_BufferLength;
-> +	} __packed config;
->  } __attribute__ ((__packed__));
->  
->  struct FW_CONFIGURE_UART {
-> -- 
-> 2.27.0
-> 
+Regards,
+Lucas
 
--- 
-Kees Cook
