@@ -2,1228 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75B9F3668C6
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 12:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BFA23668EF
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 12:12:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236018AbhDUKDx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 06:03:53 -0400
-Received: from mga04.intel.com ([192.55.52.120]:27941 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232442AbhDUKDv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 06:03:51 -0400
-IronPort-SDR: iGgjIt1qCYhkvGdPIVPsDOsZs8IrLPI5p8VDLH4vAB4Bfmn0WkFZvmC29jrNPXAgdMtRsizcln
- /5CTNoYjuuGQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="193550791"
-X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; 
-   d="scan'208";a="193550791"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 03:03:16 -0700
-IronPort-SDR: ExbvqnqQj7WRncO2YKd4Mjec+ahtYzc4Mxzl9j6c2FhXy/OmX+h6MSJxkqBy3kQLYpk/TjF6S8
- sCxuBmg8PTQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; 
-   d="scan'208";a="445893553"
-Received: from server-intel-chrome-camera.itwn.intel.com ([10.5.215.143])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2021 03:03:13 -0700
-From:   Shawnx Tu <shawnx.tu@intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, andy.yeh@intel.com,
-        shawnx.tu@intel.com, jim.lai@intel.com, ping-chung.chen@intel.com,
-        tfiga@chromium.org, grundler@chromium.org, Yeh@vger.kernel.org
-Subject: [PATCH v6] media: imx208: Add imx208 camera sensor driver
-Date:   Wed, 21 Apr 2021 18:04:13 +0800
-Message-Id: <20210421100413.8121-1-shawnx.tu@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S239069AbhDUKND (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 06:13:03 -0400
+Received: from mail-eopbgr80071.outbound.protection.outlook.com ([40.107.8.71]:43531
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S238321AbhDUKM4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Apr 2021 06:12:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C+RwJQwzkZijazCVZHsvurRL14EB8kEsNOl6tpRw1kgShgzVtO28GAYRvt2iP/cYlh11EDpJnyFYWWu0RtjT5lZ9lKhKaEsjIjP88dVWSQy7JxfwV+Y0PNMIGTQJi+sJ1aVzGb+8b2gG2KoxczHN2PXnZZunZLyBeL3Co8YWCD9MAapM4UI9lT7yhV6pVq6UTPHjTwlh5KvR4/e1lgAW02FlOW0wxonwFg4AwuIsbTAY8SlWLmb6eNDqAWFmYt3RaPcSk+UjLAHA1TiaGgHt2MXzVlZg5vesx5wE30Y0HIrUO6yWQf93Top1cImvBEaOGsNq3Shkn3gNtvRAtWgJ4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bLPjVFR5vbLJargMqhfLbBmXS8iCs2b87qMKEQ5IsA0=;
+ b=hlU5k+QYzF82UgsgW4W7VB5KMWCy32UIxObF5lc1s9OGgycs46kvKdl2cB3IxRdR5Nw1RSNasduhGAfbMIHfO1Exw+IUDWXLdN/UgVXhKRYaX8k6alXM5vpAXAV1j+ruvThlDbQiRvdAB6c04aeZVVb78p9RDp6dQB5V+WDreqh68Nr+76GwiIa4oZLA2pWfXSfbaLp2unl0Y/WQKeT40c5bm3iNYEA/UGzPru10POdrSscGv6Gth8INDPRQdKUYIdLANfYrV6opQqqbNCV/tb9Ddd9KRmWj4fNwZpWI2X74zQPfhit7W2iRs4e6rxi7CW9nlW8GkWYhFvYADgbAWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bLPjVFR5vbLJargMqhfLbBmXS8iCs2b87qMKEQ5IsA0=;
+ b=J2Xq0e4QksRLQsxn74deSdM6HvNf0qIRJHVCXe4aa6iS/JoAKPPYnylhVdw7W1RoSwqo7o+e2bHPjz8ispSsTMSD4AiUdP9doMq7E5HRSq9jUcQ6U2HEVv23/mJfWLSkPMCBEP8ypRlvo9zi68f6+qAml8OCiSwd/lwg1jts1xI=
+Received: from AM6PR04MB4966.eurprd04.prod.outlook.com (2603:10a6:20b:2::14)
+ by AM7PR04MB6872.eurprd04.prod.outlook.com (2603:10a6:20b:106::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Wed, 21 Apr
+ 2021 10:12:20 +0000
+Received: from AM6PR04MB4966.eurprd04.prod.outlook.com
+ ([fe80::b10a:ad0:a6f5:db9b]) by AM6PR04MB4966.eurprd04.prod.outlook.com
+ ([fe80::b10a:ad0:a6f5:db9b%2]) with mapi id 15.20.4042.024; Wed, 21 Apr 2021
+ 10:12:20 +0000
+From:   Aisheng Dong <aisheng.dong@nxp.com>
+To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "G.n. Zhou" <guoniu.zhou@nxp.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     Peng Fan <peng.fan@nxp.com>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        Robert Chiras <robert.chiras@nxp.com>,
+        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "ezequiel@collabora.com" <ezequiel@collabora.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>
+Subject: RE: [PATCH v10] arm64: dts: imx8qxp: Add jpeg encoder/decoder nodes
+Thread-Topic: [PATCH v10] arm64: dts: imx8qxp: Add jpeg encoder/decoder nodes
+Thread-Index: AQHXKwo00+hhoUqk50aSBsajPrI5tKq+0rMg
+Date:   Wed, 21 Apr 2021 10:12:20 +0000
+Message-ID: <AM6PR04MB496668C16DBDC3D46A2A018080479@AM6PR04MB4966.eurprd04.prod.outlook.com>
+References: <20210406172740.13904-1-mirela.rabulea@oss.nxp.com>
+In-Reply-To: <20210406172740.13904-1-mirela.rabulea@oss.nxp.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: oss.nxp.com; dkim=none (message not signed)
+ header.d=none;oss.nxp.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.67]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 70871847-fcf2-4996-dc68-08d904adf320
+x-ms-traffictypediagnostic: AM7PR04MB6872:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM7PR04MB6872CE74257D7D9AB70042C780479@AM7PR04MB6872.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:843;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: uDQ27WZtICXq6uDUalVIKNhg1om4FEFQt+EAFnbQq2rCpS8eOA9+sjqoNGCnJO8i9+9fCl69JnkaSjxEBh1TuAjI+SoPxhr1LsjY0GAQHHkbbtZHNenN3+T6oozx2BoLgiJiHxokxuAod+lKxQWu/2NgltnixM9iEn6NgR/zjk0ShxRHcZHDCAk31HC/jW3Mlo7O2KVKnhbjV0t94RfzasvlKaAfG6aQ5LTvSgg+ugLfDpY6BYqWs4qQlmUZmCzQRbItsEU/MAXsIw19GICpmmu4Y1K/0y9wgBgrJb+girsiKQmOUsfYcO+fc0d6GGd3lzSKrx7ioQUcCIec4RXT+RVdv6bD/2nphvpWj5zoTr2JG2AHrqMvd9TRSEpZEcdQkDAvbu4dC1ZboMkzLy8jkvEgmRaehCnfIIiOFLdO5/iVjyMG4WZFhzOZ9MpL0b+qT6Ztdqsu3me/OCslqmS315ey/o8roV8nk5AOgoJ94HyiU4GGLDituIqAi9m06boNuMJ4aChePMmJhOUu9t5+hO9pO2lVwGdxVm9W1zH7weguPd8rjLKgJQPh+ta561PqGuMhkx7Msc9/7d4n55OaN9XvZSVTEYgXWL3c5WHVFV4HLpXSORBDqFjzcb8x5RJDRCtlaLUS7tDmMe2hJjwEfA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB4966.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(366004)(136003)(39860400002)(396003)(2906002)(478600001)(33656002)(44832011)(110136005)(38100700002)(316002)(86362001)(8936002)(71200400001)(83380400001)(5660300002)(54906003)(66476007)(52536014)(66946007)(66446008)(64756008)(66556008)(76116006)(7416002)(4326008)(7696005)(26005)(9686003)(6506007)(8676002)(55016002)(122000001)(186003)(32563001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: =?utf-8?B?ZDVMTVR3MXJCNmlXb1BzRXRBbWdPcTZBWTRBeEptcXB4UjVoZ1lRSE5pM1J4?=
+ =?utf-8?B?a2VJYWdGRHRqblF5VVlXcEgxaTJBc1JxNjRCYjNZVUxkdE1sMmxwZEkzWGFS?=
+ =?utf-8?B?NG5OcHp3MkRHcXFZakovYStudVdIOW1uaHNHK0RObnpTRDBaYzRtSkpDaVRu?=
+ =?utf-8?B?MnNVNDNzTENoMFlOZzlVK2xIU3BnWFBlbHk5NUZZVEdCNDhmemxPck5uOFUz?=
+ =?utf-8?B?VGlkRi9kR1BYWWFTdWh6QXJwY1BIMEtBZjBydmtLa1R0NExXd1c0YVBreFFW?=
+ =?utf-8?B?cUZwM29VS1Q0M0ZuRnBJdllHOWdjN29JTFg3RVE5Q3krVmZjZHJPeUtIMkIx?=
+ =?utf-8?B?NmNNbWROdXRFR01xc0llUzJ2TUs4WTJjczZmNGFjRHlydW1idXVjUWhacVk0?=
+ =?utf-8?B?MGF2WWcvUXBoNGNsd0haSDJtcklHVFZVTFpLZnlDN2VQb3FCUGsyYXFxcHFk?=
+ =?utf-8?B?UVNjWVRybTNLN2xJNzRHRUZUSXRGUzl5M3Fib2FYZVJuNTFWUldtZHpJT1Bm?=
+ =?utf-8?B?Smt1dTl1T0hLWDBGY1VHY0tMZDJxazdyeDQ0Q3lGWGd3QkJTemtXRURQYmE1?=
+ =?utf-8?B?aWczMllZNUlNaG5wVHBVVVhkTUNPU0YyWU5zZ1I0NHY2R3pTTitlRXhwU3N5?=
+ =?utf-8?B?SnJwVHY0ZEE5UnVDZmt6U1RGOUJyOThVa1VxcStuOSttUEszNFIwZVlORDh2?=
+ =?utf-8?B?TGE3ZzJOUkRWZ2dvNnNIb1dLREJVZGVMOEowRnNEeUdFNXh5WEswbkcwdm9w?=
+ =?utf-8?B?OSt6MTl0c1M1aVF5VUU1M2RXTklESmQ4S0hIMW9IMXZtMHVzMUpDR3lyUUNY?=
+ =?utf-8?B?YTFsMmUxVm9KaXozUGIyRHpRQkhocXluVHltWWZEeWlQNGlVOEdtbXU0TTcz?=
+ =?utf-8?B?VnZwSzNmS2IwSjd1MTI5VHBjVlNaUlY4eFZHL2R3NlZXUGY1Z1lKL1hoUnVv?=
+ =?utf-8?B?NVdzdXY5OEVUZEo4TnVPSm5RRnE2UDJXYWsrWllrRGh5YjBjcnByRmtBc0kv?=
+ =?utf-8?B?WnV4L0dHYzlEMjlJTkRheGNQVTc0d3NJTURrc0Z6R0pscHREU2ZmZGxvR3lQ?=
+ =?utf-8?B?RjI5QkZxN0dKZ2pxeTloWW9VZ3c4SmtsUmJ2dFJnTXV2MnBTeW1xSWtuZFJU?=
+ =?utf-8?B?dVpyUnJkY1JLZk55bWRMMnJ4dmVTbEVIWUtHOEl5Nk1DcXo0NnN3ZlZjNklJ?=
+ =?utf-8?B?b2ZtWTBIR3dKY1ZOcXd2ZFRiVTZBemVuZXcxOUNZZ0JsMDRrL3FoZk9GNDhB?=
+ =?utf-8?B?Y1FQSVpQMEJuTmhBaE9oK3VtUFRjOEZya2JTdm05YWEvajM2c2VURC9Wcktq?=
+ =?utf-8?B?VGNCOWtiRlI2cE10dk5lRmxQM0JCY25GV3hxaDU2UFRIUitFZ0QxekJkOEJt?=
+ =?utf-8?B?aFJibGZyNHZ0aW5rYmNJeEwza2EyWWtXYS85TytNZ2NCVmR0b25sQjBDSGZ6?=
+ =?utf-8?B?Nk5Tb1NEMnN0Wllvdm5tMnVMaTFiUWJPOWxic1hsOXFZSnQ2SERUdDY4R2xx?=
+ =?utf-8?B?SDB1RUJ0MzErbnZiSDFZSW83Q3YxOHc0RVpoVm5IejVhRzBhQ1UwMVIzMkdJ?=
+ =?utf-8?B?bnRNeDVqaGtrUGZlTDBTMVJDTzYxN21mWlRob0xNcyt1My9wK3hwSXZtL2F4?=
+ =?utf-8?B?dE9oZXU1OW42bVpYTE1zNzBQenVDSE5LVXhFUHI0OCtjbXdxSG9Namt6TFBY?=
+ =?utf-8?B?dDAxdmhpQmYxcUZMYWp5SjBPRjB4Riswa1UySy9EY3dKNlRmTy9xUG1scjdp?=
+ =?utf-8?Q?loCvvOTGjsyhp/gQGigq8YeS4AT7YE3/Qkx8z3K?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB4966.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70871847-fcf2-4996-dc68-08d904adf320
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Apr 2021 10:12:20.2747
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KWoRioKbUwO41Ix4MU0YcrxhEkylaJF1woWnqL+12x3v3faZ+yoqViDVeGlNYmHDiBXxv+oeFXgdxMiiSRZazQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6872
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shawn Tu <shawnx.tu@intel.com>
-
-Add a V4L2 sub-device driver for the Sony IMX208 image sensor.
-This is a camera sensor using the I2C bus for control and the
-CSI-2 bus for data.
-
-since v1:
--- Update the function media_entity_pads_init for upstreaming.
--- Change the structure name mutex as imx208_mx.
--- Refine the control flow of test pattern function.
--- vflip/hflip control support (will impact the output bayer order)
--- support 4 bayer orders output (via change v/hflip)
-    - SRGGB10(default), SGRBG10, SGBRG10, SBGGR10
--- Simplify error handling in the set_stream function.
-since v2:
--- Refine coding style.
--- Fix the if statement to use pm_runtime_get_if_in_use().
--- Print more error log during error handling.
--- Remove mutex_destroy() from imx208_free_controls().
--- Add more comments.
-since v3:
--- Set explicit indices to link frequencies.
-since v4:
--- Fix the wrong index in link_freq_menu_items.
-since v5:
--- Expose OTP data through a sysfs attribute
--- Enable the DG v4l2 control with integer menu type
-
-Signed-off-by: Ping-Chung Chen <ping-chung.chen@intel.com>
-Signed-off-by: Yeh, Andy <andy.yeh@intel.com>
-Signed-off-by: Shawn Tu <shawnx.tu@intel.com>
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
----
- MAINTAINERS                |    7 +
- drivers/media/i2c/Kconfig  |   11 +
- drivers/media/i2c/Makefile |    1 +
- drivers/media/i2c/imx208.c | 1088 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 1107 insertions(+)
- create mode 100644 drivers/media/i2c/imx208.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cb727179826b..8fab29520b14 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16646,6 +16646,13 @@ S:	Maintained
- F:	drivers/ssb/
- F:	include/linux/ssb/
- 
-+SONY IMX208 SENSOR DRIVER
-+M:	Sakari Ailus <sakari.ailus@linux.intel.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	drivers/media/i2c/imx208.c
-+
- SONY IMX214 SENSOR DRIVER
- M:	Ricardo Ribalda <ribalda@kernel.org>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 462c0e059754..5bf8de60ca0e 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -738,6 +738,17 @@ config VIDEO_HI556
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called hi556.
- 
-+config VIDEO_IMX208
-+	tristate "Sony IMX208 sensor support"
-+	depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-+	depends on MEDIA_CAMERA_SUPPORT
-+	help
-+	  This is a Video4Linux2 sensor driver for the Sony
-+	  IMX208 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called imx208.
-+
- config VIDEO_IMX214
- 	tristate "Sony IMX214 sensor support"
- 	depends on GPIOLIB && I2C && VIDEO_V4L2
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 0c067beca066..1168fa6b84ed 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -116,6 +116,7 @@ obj-$(CONFIG_VIDEO_ML86V7667)	+= ml86v7667.o
- obj-$(CONFIG_VIDEO_OV2659)	+= ov2659.o
- obj-$(CONFIG_VIDEO_TC358743)	+= tc358743.o
- obj-$(CONFIG_VIDEO_HI556)	+= hi556.o
-+obj-$(CONFIG_VIDEO_IMX208)	+= imx208.o
- obj-$(CONFIG_VIDEO_IMX214)	+= imx214.o
- obj-$(CONFIG_VIDEO_IMX219)	+= imx219.o
- obj-$(CONFIG_VIDEO_IMX258)	+= imx258.o
-diff --git a/drivers/media/i2c/imx208.c b/drivers/media/i2c/imx208.c
-new file mode 100644
-index 000000000000..36d267351d46
---- /dev/null
-+++ b/drivers/media/i2c/imx208.c
-@@ -0,0 +1,1088 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (C) 2021 Intel Corporation
-+
-+#include <linux/acpi.h>
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <asm/unaligned.h>
-+
-+#define IMX208_REG_MODE_SELECT		0x0100
-+#define IMX208_MODE_STANDBY		0x00
-+#define IMX208_MODE_STREAMING		0x01
-+
-+/* Chip ID */
-+#define IMX208_REG_CHIP_ID		0x0000
-+#define IMX208_CHIP_ID			0x0208
-+
-+/* V_TIMING internal */
-+#define IMX208_REG_VTS			0x0340
-+#define IMX208_VTS_60FPS		0x0472
-+#define IMX208_VTS_BINNING		0x0239
-+#define IMX208_VTS_60FPS_MIN		0x0458
-+#define IMX208_VTS_BINNING_MIN		0x0230
-+#define IMX208_VTS_MAX			0xffff
-+
-+/* HBLANK control - read only */
-+#define IMX208_PPL_384MHZ		2248
-+#define IMX208_PPL_96MHZ		2248
-+
-+/* Exposure control */
-+#define IMX208_REG_EXPOSURE		0x0202
-+#define IMX208_EXPOSURE_MIN		4
-+#define IMX208_EXPOSURE_STEP		1
-+#define IMX208_EXPOSURE_DEFAULT		0x190
-+#define IMX208_EXPOSURE_MAX		65535
-+
-+/* Analog gain control */
-+#define IMX208_REG_ANALOG_GAIN		0x0204
-+#define IMX208_ANA_GAIN_MIN		0
-+#define IMX208_ANA_GAIN_MAX		0x00e0
-+#define IMX208_ANA_GAIN_STEP		1
-+#define IMX208_ANA_GAIN_DEFAULT		0x0
-+
-+/* Digital gain control */
-+#define IMX208_REG_GR_DIGITAL_GAIN	0x020e
-+#define IMX208_REG_R_DIGITAL_GAIN	0x0210
-+#define IMX208_REG_B_DIGITAL_GAIN	0x0212
-+#define IMX208_REG_GB_DIGITAL_GAIN	0x0214
-+#define IMX208_DIGITAL_GAIN_SHIFT	8
-+
-+/* Orientation */
-+#define IMX208_REG_ORIENTATION_CONTROL	0x0101
-+
-+/* Test Pattern Control */
-+#define IMX208_REG_TEST_PATTERN_MODE	0x0600
-+#define IMX208_TEST_PATTERN_DISABLE	0x0
-+#define IMX208_TEST_PATTERN_SOLID_COLOR	0x1
-+#define IMX208_TEST_PATTERN_COLOR_BARS	0x2
-+#define IMX208_TEST_PATTERN_GREY_COLOR	0x3
-+#define IMX208_TEST_PATTERN_PN9		0x4
-+#define IMX208_TEST_PATTERN_FIX_1	0x100
-+#define IMX208_TEST_PATTERN_FIX_2	0x101
-+#define IMX208_TEST_PATTERN_FIX_3	0x102
-+#define IMX208_TEST_PATTERN_FIX_4	0x103
-+#define IMX208_TEST_PATTERN_FIX_5	0x104
-+#define IMX208_TEST_PATTERN_FIX_6	0x105
-+
-+/* OTP Access */
-+#define IMX208_OTP_BASE			0x3500
-+#define IMX208_OTP_SIZE			40
-+
-+struct imx208_reg {
-+	u16 address;
-+	u8 val;
-+};
-+
-+struct imx208_reg_list {
-+	u32 num_of_regs;
-+	const struct imx208_reg *regs;
-+};
-+
-+/* Link frequency config */
-+struct imx208_link_freq_config {
-+	u32 pixels_per_line;
-+
-+	/* PLL registers for this link frequency */
-+	struct imx208_reg_list reg_list;
-+};
-+
-+/* Mode : resolution and related config&values */
-+struct imx208_mode {
-+	/* Frame width */
-+	u32 width;
-+	/* Frame height */
-+	u32 height;
-+
-+	/* V-timing */
-+	u32 vts_def;
-+	u32 vts_min;
-+
-+	/* Index of Link frequency config to be used */
-+	u32 link_freq_index;
-+	/* Default register values */
-+	struct imx208_reg_list reg_list;
-+};
-+
-+static const struct imx208_reg pll_ctrl_reg[] = {
-+	{0x0305, 0x02},
-+	{0x0307, 0x50},
-+	{0x303C, 0x3C},
-+};
-+
-+static const struct imx208_reg mode_1936x1096_60fps_regs[] = {
-+	{0x0340, 0x04},
-+	{0x0341, 0x72},
-+	{0x0342, 0x04},
-+	{0x0343, 0x64},
-+	{0x034C, 0x07},
-+	{0x034D, 0x90},
-+	{0x034E, 0x04},
-+	{0x034F, 0x48},
-+	{0x0381, 0x01},
-+	{0x0383, 0x01},
-+	{0x0385, 0x01},
-+	{0x0387, 0x01},
-+	{0x3048, 0x00},
-+	{0x3050, 0x01},
-+	{0x30D5, 0x00},
-+	{0x3301, 0x00},
-+	{0x3318, 0x62},
-+	{0x0202, 0x01},
-+	{0x0203, 0x90},
-+	{0x0205, 0x00},
-+};
-+
-+static const struct imx208_reg mode_968_548_60fps_regs[] = {
-+	{0x0340, 0x02},
-+	{0x0341, 0x39},
-+	{0x0342, 0x08},
-+	{0x0343, 0xC8},
-+	{0x034C, 0x03},
-+	{0x034D, 0xC8},
-+	{0x034E, 0x02},
-+	{0x034F, 0x24},
-+	{0x0381, 0x01},
-+	{0x0383, 0x03},
-+	{0x0385, 0x01},
-+	{0x0387, 0x03},
-+	{0x3048, 0x01},
-+	{0x3050, 0x02},
-+	{0x30D5, 0x03},
-+	{0x3301, 0x10},
-+	{0x3318, 0x75},
-+	{0x0202, 0x01},
-+	{0x0203, 0x90},
-+	{0x0205, 0x00},
-+};
-+
-+static const s64 imx208_discrete_digital_gain[] = {
-+	1, 2, 4, 8, 16,
-+};
-+
-+static const char * const imx208_test_pattern_menu[] = {
-+	"Disabled",
-+	"Solid Color",
-+	"100% Color Bar",
-+	"Fade to Grey Color Bar",
-+	"PN9",
-+	"Fixed Pattern1",
-+	"Fixed Pattern2",
-+	"Fixed Pattern3",
-+	"Fixed Pattern4",
-+	"Fixed Pattern5",
-+	"Fixed Pattern6"
-+};
-+
-+static const int imx208_test_pattern_val[] = {
-+	IMX208_TEST_PATTERN_DISABLE,
-+	IMX208_TEST_PATTERN_SOLID_COLOR,
-+	IMX208_TEST_PATTERN_COLOR_BARS,
-+	IMX208_TEST_PATTERN_GREY_COLOR,
-+	IMX208_TEST_PATTERN_PN9,
-+	IMX208_TEST_PATTERN_FIX_1,
-+	IMX208_TEST_PATTERN_FIX_2,
-+	IMX208_TEST_PATTERN_FIX_3,
-+	IMX208_TEST_PATTERN_FIX_4,
-+	IMX208_TEST_PATTERN_FIX_5,
-+	IMX208_TEST_PATTERN_FIX_6,
-+};
-+
-+/* Configurations for supported link frequencies */
-+#define IMX208_MHZ			(1000*1000ULL)
-+#define IMX208_LINK_FREQ_384MHZ		(384ULL * IMX208_MHZ)
-+#define IMX208_LINK_FREQ_96MHZ		(96ULL * IMX208_MHZ)
-+
-+#define IMX208_DATA_RATE_DOUBLE		2
-+#define IMX208_NUM_OF_LANES		2
-+#define IMX208_PIXEL_BITS		10
-+
-+enum {
-+	IMX208_LINK_FREQ_384MHZ_INDEX,
-+	IMX208_LINK_FREQ_96MHZ_INDEX,
-+};
-+
-+/*
-+ * pixel_rate = link_freq * data-rate * nr_of_lanes / bits_per_sample
-+ * data rate => double data rate; number of lanes => 2; bits per pixel => 10
-+ */
-+static u64 link_freq_to_pixel_rate(u64 f)
-+{
-+	f *= IMX208_DATA_RATE_DOUBLE * IMX208_NUM_OF_LANES;
-+	do_div(f, IMX208_PIXEL_BITS);
-+
-+	return f;
-+}
-+
-+/* Menu items for LINK_FREQ V4L2 control */
-+static const s64 link_freq_menu_items[] = {
-+	[IMX208_LINK_FREQ_384MHZ_INDEX] = IMX208_LINK_FREQ_384MHZ,
-+	[IMX208_LINK_FREQ_96MHZ_INDEX] = IMX208_LINK_FREQ_96MHZ,
-+};
-+
-+/* Link frequency configs */
-+static const struct imx208_link_freq_config link_freq_configs[] = {
-+	[IMX208_LINK_FREQ_384MHZ_INDEX] = {
-+		.pixels_per_line = IMX208_PPL_384MHZ,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(pll_ctrl_reg),
-+			.regs = pll_ctrl_reg,
-+		}
-+	},
-+	[IMX208_LINK_FREQ_96MHZ_INDEX] = {
-+		.pixels_per_line = IMX208_PPL_96MHZ,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(pll_ctrl_reg),
-+			.regs = pll_ctrl_reg,
-+		}
-+	},
-+};
-+
-+/* Mode configs */
-+static const struct imx208_mode supported_modes[] = {
-+	{
-+		.width = 1936,
-+		.height = 1096,
-+		.vts_def = IMX208_VTS_60FPS,
-+		.vts_min = IMX208_VTS_60FPS_MIN,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_1936x1096_60fps_regs),
-+			.regs = mode_1936x1096_60fps_regs,
-+		},
-+		.link_freq_index = IMX208_LINK_FREQ_384MHZ_INDEX,
-+	},
-+	{
-+		.width = 968,
-+		.height = 548,
-+		.vts_def = IMX208_VTS_BINNING,
-+		.vts_min = IMX208_VTS_BINNING_MIN,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_968_548_60fps_regs),
-+			.regs = mode_968_548_60fps_regs,
-+		},
-+		.link_freq_index = IMX208_LINK_FREQ_96MHZ_INDEX,
-+	},
-+};
-+
-+struct imx208 {
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+
-+	struct v4l2_ctrl_handler ctrl_handler;
-+	/* V4L2 Controls */
-+	struct v4l2_ctrl *link_freq;
-+	struct v4l2_ctrl *pixel_rate;
-+	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *vflip;
-+	struct v4l2_ctrl *hflip;
-+
-+	/* Current mode */
-+	const struct imx208_mode *cur_mode;
-+
-+	/*
-+	 * Mutex for serialized access:
-+	 * Protect sensor set pad format and start/stop streaming safely.
-+	 * Protect access to sensor v4l2 controls.
-+	 */
-+	struct mutex imx208_mx;
-+
-+	/* Streaming on/off */
-+	bool streaming;
-+
-+	/* OTP data */
-+	bool otp_read;
-+	char otp_data[IMX208_OTP_SIZE];
-+};
-+
-+static inline struct imx208 *to_imx208(struct v4l2_subdev *_sd)
-+{
-+	return container_of(_sd, struct imx208, sd);
-+}
-+
-+/* Get bayer order based on flip setting. */
-+static u32 imx208_get_format_code(struct imx208 *imx208)
-+{
-+	/*
-+	 * Only one bayer order is supported.
-+	 * It depends on the flip settings.
-+	 */
-+	static const u32 codes[2][2] = {
-+		{ MEDIA_BUS_FMT_SRGGB10_1X10, MEDIA_BUS_FMT_SGRBG10_1X10, },
-+		{ MEDIA_BUS_FMT_SGBRG10_1X10, MEDIA_BUS_FMT_SBGGR10_1X10, },
-+	};
-+
-+	return codes[imx208->vflip->val][imx208->hflip->val];
-+}
-+
-+/* Read registers up to 4 at a time */
-+static int imx208_read_reg(struct imx208 *imx208, u16 reg, u32 len, u32 *val)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-+	struct i2c_msg msgs[2];
-+	u8 addr_buf[2] = { reg >> 8, reg & 0xff };
-+	u8 data_buf[4] = { 0, };
-+	int ret;
-+
-+	if (len > 4)
-+		return -EINVAL;
-+
-+	/* Write register address */
-+	msgs[0].addr = client->addr;
-+	msgs[0].flags = 0;
-+	msgs[0].len = ARRAY_SIZE(addr_buf);
-+	msgs[0].buf = addr_buf;
-+
-+	/* Read data from register */
-+	msgs[1].addr = client->addr;
-+	msgs[1].flags = I2C_M_RD;
-+	msgs[1].len = len;
-+	msgs[1].buf = &data_buf[4 - len];
-+
-+	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-+	if (ret != ARRAY_SIZE(msgs))
-+		return -EIO;
-+
-+	*val = get_unaligned_be32(data_buf);
-+
-+	return 0;
-+}
-+
-+/* Write registers up to 4 at a time */
-+static int imx208_write_reg(struct imx208 *imx208, u16 reg, u32 len, u32 val)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-+	u8 buf[6];
-+
-+	if (len > 4)
-+		return -EINVAL;
-+
-+	put_unaligned_be16(reg, buf);
-+	put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
-+	if (i2c_master_send(client, buf, len + 2) != len + 2)
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+/* Write a list of registers */
-+static int imx208_write_regs(struct imx208 *imx208,
-+			      const struct imx208_reg *regs, u32 len)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < len; i++) {
-+		ret = imx208_write_reg(imx208, regs[i].address, 1,
-+				       regs[i].val);
-+		if (ret) {
-+			dev_err_ratelimited(
-+				&client->dev,
-+				"Failed to write reg 0x%4.4x. error = %d\n",
-+				regs[i].address, ret);
-+
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/* Open sub-device */
-+static int imx208_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-+{
-+	struct v4l2_mbus_framefmt *try_fmt =
-+		v4l2_subdev_get_try_format(sd, fh->pad, 0);
-+
-+	/* Initialize try_fmt */
-+	try_fmt->width = supported_modes[0].width;
-+	try_fmt->height = supported_modes[0].height;
-+	try_fmt->code = MEDIA_BUS_FMT_SRGGB10_1X10;
-+	try_fmt->field = V4L2_FIELD_NONE;
-+
-+	return 0;
-+}
-+
-+static int imx208_update_digital_gain(struct imx208 *imx208, u32 len, u32 val)
-+{
-+	int ret;
-+
-+	val = imx208_discrete_digital_gain[val] << IMX208_DIGITAL_GAIN_SHIFT;
-+
-+	ret = imx208_write_reg(imx208, IMX208_REG_GR_DIGITAL_GAIN, 2, val);
-+	if (ret)
-+		return ret;
-+
-+	ret = imx208_write_reg(imx208, IMX208_REG_GB_DIGITAL_GAIN, 2, val);
-+	if (ret)
-+		return ret;
-+
-+	ret = imx208_write_reg(imx208, IMX208_REG_R_DIGITAL_GAIN, 2, val);
-+	if (ret)
-+		return ret;
-+
-+	return imx208_write_reg(imx208, IMX208_REG_B_DIGITAL_GAIN, 2, val);
-+}
-+
-+static int imx208_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct imx208 *imx208 =
-+		container_of(ctrl->handler, struct imx208, ctrl_handler);
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-+	int ret;
-+
-+	/*
-+	 * Applying V4L2 control value only happens
-+	 * when power is up for streaming
-+	 */
-+	if (!pm_runtime_get_if_in_use(&client->dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		ret = imx208_write_reg(imx208, IMX208_REG_ANALOG_GAIN,
-+				       2, ctrl->val);
-+		break;
-+	case V4L2_CID_EXPOSURE:
-+		ret = imx208_write_reg(imx208, IMX208_REG_EXPOSURE,
-+				       2, ctrl->val);
-+		break;
-+	case V4L2_CID_DIGITAL_GAIN:
-+		ret = imx208_update_digital_gain(imx208, 2, ctrl->val);
-+		break;
-+	case V4L2_CID_VBLANK:
-+		/* Update VTS that meets expected vertical blanking */
-+		ret = imx208_write_reg(imx208, IMX208_REG_VTS, 2,
-+				       imx208->cur_mode->height + ctrl->val);
-+		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		ret = imx208_write_reg(imx208, IMX208_REG_TEST_PATTERN_MODE,
-+				       2, imx208_test_pattern_val[ctrl->val]);
-+		break;
-+	case V4L2_CID_HFLIP:
-+	case V4L2_CID_VFLIP:
-+		ret = imx208_write_reg(imx208, IMX208_REG_ORIENTATION_CONTROL,
-+				       1,
-+				       imx208->hflip->val |
-+				       imx208->vflip->val << 1);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		dev_err(&client->dev,
-+			"ctrl(id:0x%x,val:0x%x) is not handled\n",
-+			ctrl->id, ctrl->val);
-+		break;
-+	}
-+
-+	pm_runtime_put(&client->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops imx208_ctrl_ops = {
-+	.s_ctrl = imx208_set_ctrl,
-+};
-+
-+static const struct v4l2_ctrl_config imx208_digital_gain_control = {
-+	.ops = &imx208_ctrl_ops,
-+	.id = V4L2_CID_DIGITAL_GAIN,
-+	.name = "Digital Gain",
-+	.type = V4L2_CTRL_TYPE_INTEGER_MENU,
-+	.min = 0,
-+	.max = ARRAY_SIZE(imx208_discrete_digital_gain) - 1,
-+	.step = 0,
-+	.def = 0,
-+	.menu_skip_mask = 0,
-+	.qmenu_int = imx208_discrete_digital_gain,
-+};
-+
-+static int imx208_enum_mbus_code(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_pad_config *cfg,
-+				  struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct imx208 *imx208 = to_imx208(sd);
-+
-+	if (code->index > 0)
-+		return -EINVAL;
-+
-+	code->code = imx208_get_format_code(imx208);
-+
-+	return 0;
-+}
-+
-+static int imx208_enum_frame_size(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_pad_config *cfg,
-+				   struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	struct imx208 *imx208 = to_imx208(sd);
-+
-+	if (fse->index >= ARRAY_SIZE(supported_modes))
-+		return -EINVAL;
-+
-+	if (fse->code != imx208_get_format_code(imx208))
-+		return -EINVAL;
-+
-+	fse->min_width = supported_modes[fse->index].width;
-+	fse->max_width = fse->min_width;
-+	fse->min_height = supported_modes[fse->index].height;
-+	fse->max_height = fse->min_height;
-+
-+	return 0;
-+}
-+
-+static void imx208_mode_to_pad_format(struct imx208 *imx208,
-+					const struct imx208_mode *mode,
-+					struct v4l2_subdev_format *fmt)
-+{
-+	fmt->format.width = mode->width;
-+	fmt->format.height = mode->height;
-+	fmt->format.code = imx208_get_format_code(imx208);
-+	fmt->format.field = V4L2_FIELD_NONE;
-+}
-+
-+static int __imx208_get_pad_format(struct imx208 *imx208,
-+				     struct v4l2_subdev_pad_config *cfg,
-+				     struct v4l2_subdev_format *fmt)
-+{
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-+		fmt->format = *v4l2_subdev_get_try_format(&imx208->sd, cfg,
-+							  fmt->pad);
-+	else
-+		imx208_mode_to_pad_format(imx208, imx208->cur_mode, fmt);
-+
-+	return 0;
-+}
-+
-+static int imx208_get_pad_format(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_pad_config *cfg,
-+				  struct v4l2_subdev_format *fmt)
-+{
-+	struct imx208 *imx208 = to_imx208(sd);
-+	int ret;
-+
-+	mutex_lock(&imx208->imx208_mx);
-+	ret = __imx208_get_pad_format(imx208, cfg, fmt);
-+	mutex_unlock(&imx208->imx208_mx);
-+
-+	return ret;
-+}
-+
-+static int imx208_set_pad_format(struct v4l2_subdev *sd,
-+		       struct v4l2_subdev_pad_config *cfg,
-+		       struct v4l2_subdev_format *fmt)
-+{
-+	struct imx208 *imx208 = to_imx208(sd);
-+	const struct imx208_mode *mode;
-+	s32 vblank_def;
-+	s32 vblank_min;
-+	s64 h_blank;
-+	s64 pixel_rate;
-+	s64 link_freq;
-+
-+	mutex_lock(&imx208->imx208_mx);
-+
-+	fmt->format.code = imx208_get_format_code(imx208);
-+	mode = v4l2_find_nearest_size(
-+		supported_modes, ARRAY_SIZE(supported_modes), width, height,
-+		fmt->format.width, fmt->format.height);
-+	imx208_mode_to_pad_format(imx208, mode, fmt);
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-+		*v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
-+	} else {
-+		imx208->cur_mode = mode;
-+		__v4l2_ctrl_s_ctrl(imx208->link_freq, mode->link_freq_index);
-+		link_freq = link_freq_menu_items[mode->link_freq_index];
-+		pixel_rate = link_freq_to_pixel_rate(link_freq);
-+		__v4l2_ctrl_s_ctrl_int64(imx208->pixel_rate, pixel_rate);
-+		/* Update limits and set FPS to default */
-+		vblank_def = imx208->cur_mode->vts_def -
-+			     imx208->cur_mode->height;
-+		vblank_min = imx208->cur_mode->vts_min -
-+			     imx208->cur_mode->height;
-+		__v4l2_ctrl_modify_range(
-+			imx208->vblank, vblank_min,
-+			IMX208_VTS_MAX - imx208->cur_mode->height, 1,
-+			vblank_def);
-+		__v4l2_ctrl_s_ctrl(imx208->vblank, vblank_def);
-+		h_blank =
-+			link_freq_configs[mode->link_freq_index].pixels_per_line
-+			 - imx208->cur_mode->width;
-+		__v4l2_ctrl_modify_range(imx208->hblank, h_blank,
-+					 h_blank, 1, h_blank);
-+	}
-+
-+	mutex_unlock(&imx208->imx208_mx);
-+
-+	return 0;
-+}
-+
-+/* Start streaming */
-+static int imx208_start_streaming(struct imx208 *imx208)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-+	const struct imx208_reg_list *reg_list;
-+	int ret, link_freq_index;
-+
-+	/* Setup PLL */
-+	link_freq_index = imx208->cur_mode->link_freq_index;
-+	reg_list = &link_freq_configs[link_freq_index].reg_list;
-+	ret = imx208_write_regs(imx208, reg_list->regs, reg_list->num_of_regs);
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to set plls\n", __func__);
-+		return ret;
-+	}
-+
-+	/* Apply default values of current mode */
-+	reg_list = &imx208->cur_mode->reg_list;
-+	ret = imx208_write_regs(imx208, reg_list->regs, reg_list->num_of_regs);
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to set mode\n", __func__);
-+		return ret;
-+	}
-+
-+	/* Apply customized values from user */
-+	ret =  __v4l2_ctrl_handler_setup(imx208->sd.ctrl_handler);
-+	if (ret)
-+		return ret;
-+
-+	/* set stream on register */
-+	return imx208_write_reg(imx208, IMX208_REG_MODE_SELECT,
-+				1, IMX208_MODE_STREAMING);
-+}
-+
-+/* Stop streaming */
-+static int imx208_stop_streaming(struct imx208 *imx208)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-+	int ret;
-+
-+	/* set stream off register */
-+	ret = imx208_write_reg(imx208, IMX208_REG_MODE_SELECT,
-+			       1, IMX208_MODE_STANDBY);
-+	if (ret)
-+		dev_err(&client->dev, "%s failed to set stream\n", __func__);
-+
-+	/*
-+	 * Return success even if it was an error, as there is nothing the
-+	 * caller can do about it.
-+	 */
-+	return 0;
-+}
-+
-+static int imx208_set_stream(struct v4l2_subdev *sd, int enable)
-+{
-+	struct imx208 *imx208 = to_imx208(sd);
-+	struct i2c_client *client = v4l2_get_subdevdata(sd);
-+	int ret = 0;
-+
-+	mutex_lock(&imx208->imx208_mx);
-+	if (imx208->streaming == enable) {
-+		mutex_unlock(&imx208->imx208_mx);
-+		return 0;
-+	}
-+
-+	if (enable) {
-+		ret = pm_runtime_get_sync(&client->dev);
-+		if (ret < 0)
-+			goto err_rpm_put;
-+
-+		/*
-+		 * Apply default & customized values
-+		 * and then start streaming.
-+		 */
-+		ret = imx208_start_streaming(imx208);
-+		if (ret)
-+			goto err_rpm_put;
-+	} else {
-+		imx208_stop_streaming(imx208);
-+		pm_runtime_put(&client->dev);
-+	}
-+
-+	imx208->streaming = enable;
-+	mutex_unlock(&imx208->imx208_mx);
-+
-+	/* vflip and hflip cannot change during streaming */
-+	v4l2_ctrl_grab(imx208->vflip, enable);
-+	v4l2_ctrl_grab(imx208->hflip, enable);
-+
-+	return ret;
-+
-+err_rpm_put:
-+	pm_runtime_put(&client->dev);
-+	mutex_unlock(&imx208->imx208_mx);
-+
-+	return ret;
-+}
-+
-+static int __maybe_unused imx208_suspend(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx208 *imx208 = to_imx208(sd);
-+
-+	if (imx208->streaming)
-+		imx208_stop_streaming(imx208);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused imx208_resume(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx208 *imx208 = to_imx208(sd);
-+	int ret;
-+
-+	if (imx208->streaming) {
-+		ret = imx208_start_streaming(imx208);
-+		if (ret)
-+			goto error;
-+	}
-+
-+	return 0;
-+
-+error:
-+	imx208_stop_streaming(imx208);
-+	imx208->streaming = 0;
-+
-+	return ret;
-+}
-+
-+/* Verify chip ID */
-+static int imx208_identify_module(struct imx208 *imx208)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-+	int ret;
-+	u32 val;
-+
-+	ret = imx208_read_reg(imx208, IMX208_REG_CHIP_ID,
-+			      2, &val);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to read chip id %x\n",
-+			IMX208_CHIP_ID);
-+		return ret;
-+	}
-+
-+	if (val != IMX208_CHIP_ID) {
-+		dev_err(&client->dev, "chip id mismatch: %x!=%x\n",
-+			IMX208_CHIP_ID, val);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_video_ops imx208_video_ops = {
-+	.s_stream = imx208_set_stream,
-+};
-+
-+static const struct v4l2_subdev_pad_ops imx208_pad_ops = {
-+	.enum_mbus_code = imx208_enum_mbus_code,
-+	.get_fmt = imx208_get_pad_format,
-+	.set_fmt = imx208_set_pad_format,
-+	.enum_frame_size = imx208_enum_frame_size,
-+};
-+
-+static const struct v4l2_subdev_ops imx208_subdev_ops = {
-+	.video = &imx208_video_ops,
-+	.pad = &imx208_pad_ops,
-+};
-+
-+static const struct v4l2_subdev_internal_ops imx208_internal_ops = {
-+	.open = imx208_open,
-+};
-+
-+static int imx208_read_otp(struct imx208 *imx208)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-+	struct i2c_msg msgs[2];
-+	u8 addr_buf[2] = { IMX208_OTP_BASE >> 8, IMX208_OTP_BASE & 0xff };
-+	int ret = 0;
-+
-+	mutex_lock(&imx208->imx208_mx);
-+
-+	if (imx208->otp_read)
-+		goto out_unlock;
-+
-+	ret = pm_runtime_get_sync(&client->dev);
-+	if (ret < 0) {
-+		pm_runtime_put_noidle(&client->dev);
-+		goto out_unlock;
-+	}
-+
-+	/* Write register address */
-+	msgs[0].addr = client->addr;
-+	msgs[0].flags = 0;
-+	msgs[0].len = ARRAY_SIZE(addr_buf);
-+	msgs[0].buf = addr_buf;
-+
-+	/* Read data from registers */
-+	msgs[1].addr = client->addr;
-+	msgs[1].flags = I2C_M_RD;
-+	msgs[1].len = sizeof(imx208->otp_data);
-+	msgs[1].buf = imx208->otp_data;
-+
-+	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-+	if (ret == ARRAY_SIZE(msgs)) {
-+		imx208->otp_read = true;
-+		ret = 0;
-+	}
-+
-+	pm_runtime_put(&client->dev);
-+
-+out_unlock:
-+	mutex_unlock(&imx208->imx208_mx);
-+
-+	return ret;
-+}
-+
-+static ssize_t otp_read(struct file *filp, struct kobject *kobj,
-+			struct bin_attribute *bin_attr,
-+			char *buf, loff_t off, size_t count)
-+{
-+	struct i2c_client *client = to_i2c_client(kobj_to_dev(kobj));
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx208 *imx208 = to_imx208(sd);
-+	int ret;
-+
-+	ret = imx208_read_otp(imx208);
-+	if (ret)
-+		return ret;
-+
-+	memcpy(buf, &imx208->otp_data[off], count);
-+	return count;
-+}
-+static const BIN_ATTR_RO(otp, IMX208_OTP_SIZE);
-+
-+/* Initialize control handlers */
-+static int imx208_init_controls(struct imx208 *imx208)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-+	struct v4l2_ctrl_handler *ctrl_hdlr = &imx208->ctrl_handler;
-+	s64 exposure_max;
-+	s64 vblank_def;
-+	s64 vblank_min;
-+	s64 pixel_rate_min;
-+	s64 pixel_rate_max;
-+	int ret;
-+
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-+	if (ret)
-+		return ret;
-+
-+	mutex_init(&imx208->imx208_mx);
-+	ctrl_hdlr->lock = &imx208->imx208_mx;
-+	imx208->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
-+				&imx208_ctrl_ops,
-+				V4L2_CID_LINK_FREQ,
-+				ARRAY_SIZE(link_freq_menu_items) - 1,
-+				0, link_freq_menu_items);
-+
-+	if (imx208->link_freq)
-+		imx208->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	pixel_rate_max = link_freq_to_pixel_rate(link_freq_menu_items[0]);
-+	pixel_rate_min = link_freq_to_pixel_rate(
-+			 link_freq_menu_items[ARRAY_SIZE(
-+			 link_freq_menu_items) - 1]);
-+	/* By default, PIXEL_RATE is read only */
-+	imx208->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops,
-+					V4L2_CID_PIXEL_RATE,
-+					pixel_rate_min, pixel_rate_max,
-+					1, pixel_rate_max);
-+
-+	vblank_def = imx208->cur_mode->vts_def - imx208->cur_mode->height;
-+	vblank_min = imx208->cur_mode->vts_min - imx208->cur_mode->height;
-+	imx208->vblank = v4l2_ctrl_new_std(
-+				ctrl_hdlr, &imx208_ctrl_ops, V4L2_CID_VBLANK,
-+				vblank_min,
-+				IMX208_VTS_MAX - imx208->cur_mode->height, 1,
-+				vblank_def);
-+
-+	imx208->hblank = v4l2_ctrl_new_std(
-+				ctrl_hdlr, &imx208_ctrl_ops, V4L2_CID_HBLANK,
-+				IMX208_PPL_384MHZ - imx208->cur_mode->width,
-+				IMX208_PPL_384MHZ - imx208->cur_mode->width,
-+				1,
-+				IMX208_PPL_384MHZ - imx208->cur_mode->width);
-+
-+	if (imx208->hblank)
-+		imx208->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	exposure_max = imx208->cur_mode->vts_def - 8;
-+	v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops, V4L2_CID_EXPOSURE,
-+			  IMX208_EXPOSURE_MIN, IMX208_EXPOSURE_MAX,
-+			  IMX208_EXPOSURE_STEP, IMX208_EXPOSURE_DEFAULT);
-+
-+	imx208->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops,
-+					  V4L2_CID_HFLIP, 0, 1, 1, 0);
-+	imx208->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops,
-+					  V4L2_CID_VFLIP, 0, 1, 1, 0);
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
-+			  IMX208_ANA_GAIN_MIN, IMX208_ANA_GAIN_MAX,
-+			  IMX208_ANA_GAIN_STEP, IMX208_ANA_GAIN_DEFAULT);
-+
-+	v4l2_ctrl_new_custom(ctrl_hdlr, &imx208_digital_gain_control, NULL);
-+
-+	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx208_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(imx208_test_pattern_menu) - 1,
-+				     0, 0, imx208_test_pattern_menu);
-+
-+	if (ctrl_hdlr->error) {
-+		ret = ctrl_hdlr->error;
-+		dev_err(&client->dev, "%s control init failed (%d)\n",
-+			__func__, ret);
-+		goto error;
-+	}
-+
-+	imx208->sd.ctrl_handler = ctrl_hdlr;
-+
-+	return 0;
-+
-+error:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+	mutex_destroy(&imx208->imx208_mx);
-+
-+	return ret;
-+}
-+
-+static void imx208_free_controls(struct imx208 *imx208)
-+{
-+	v4l2_ctrl_handler_free(imx208->sd.ctrl_handler);
-+}
-+
-+static int imx208_probe(struct i2c_client *client)
-+{
-+	struct imx208 *imx208;
-+	int ret;
-+	u32 val = 0;
-+
-+	device_property_read_u32(&client->dev, "clock-frequency", &val);
-+	if (val != 19200000) {
-+		dev_err(&client->dev,
-+			"Unsupported clock-frequency %u. Expected 19200000.\n",
-+			val);
-+		return -EINVAL;
-+	}
-+
-+	imx208 = devm_kzalloc(&client->dev, sizeof(*imx208), GFP_KERNEL);
-+	if (!imx208)
-+		return -ENOMEM;
-+
-+	/* Initialize subdev */
-+	v4l2_i2c_subdev_init(&imx208->sd, client, &imx208_subdev_ops);
-+
-+	/* Check module identity */
-+	ret = imx208_identify_module(imx208);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to find sensor: %d", ret);
-+		goto error_probe;
-+	}
-+
-+	/* Set default mode to max resolution */
-+	imx208->cur_mode = &supported_modes[0];
-+
-+	ret = imx208_init_controls(imx208);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to init controls: %d", ret);
-+		goto error_probe;
-+	}
-+
-+	/* Initialize subdev */
-+	imx208->sd.internal_ops = &imx208_internal_ops;
-+	imx208->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	imx208->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+
-+	/* Initialize source pad */
-+	imx208->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	ret = media_entity_pads_init(&imx208->sd.entity, 1, &imx208->pad);
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed:%d\n", __func__, ret);
-+		goto error_handler_free;
-+	}
-+
-+	ret = v4l2_async_register_subdev_sensor_common(&imx208->sd);
-+	if (ret < 0)
-+		goto error_media_entity;
-+
-+	ret = device_create_bin_file(&client->dev, &bin_attr_otp);
-+	if (ret) {
-+		dev_err(&client->dev, "sysfs otp creation failed\n");
-+		goto error_async_subdev;
-+	}
-+
-+	pm_runtime_set_active(&client->dev);
-+	pm_runtime_enable(&client->dev);
-+	pm_runtime_idle(&client->dev);
-+
-+	return 0;
-+
-+error_async_subdev:
-+	v4l2_async_unregister_subdev(&imx208->sd);
-+
-+error_media_entity:
-+	media_entity_cleanup(&imx208->sd.entity);
-+
-+error_handler_free:
-+	imx208_free_controls(imx208);
-+
-+error_probe:
-+	mutex_destroy(&imx208->imx208_mx);
-+
-+	return ret;
-+}
-+
-+static int imx208_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx208 *imx208 = to_imx208(sd);
-+
-+	device_remove_bin_file(&client->dev, &bin_attr_otp);
-+	v4l2_async_unregister_subdev(sd);
-+	media_entity_cleanup(&sd->entity);
-+	imx208_free_controls(imx208);
-+
-+	pm_runtime_disable(&client->dev);
-+	pm_runtime_set_suspended(&client->dev);
-+
-+	mutex_destroy(&imx208->imx208_mx);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops imx208_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(imx208_suspend, imx208_resume)
-+};
-+
-+#ifdef CONFIG_ACPI
-+static const struct acpi_device_id imx208_acpi_ids[] = {
-+	{ "INT3478" },
-+	{ /* sentinel */ }
-+};
-+
-+MODULE_DEVICE_TABLE(acpi, imx208_acpi_ids);
-+#endif
-+
-+static struct i2c_driver imx208_i2c_driver = {
-+	.driver = {
-+		.name = "imx208",
-+		.pm = &imx208_pm_ops,
-+		.acpi_match_table = ACPI_PTR(imx208_acpi_ids),
-+	},
-+	.probe_new = imx208_probe,
-+	.remove = imx208_remove,
-+};
-+
-+module_i2c_driver(imx208_i2c_driver);
-+
-+MODULE_AUTHOR("Yeh, Andy <andy.yeh@intel.com>");
-+MODULE_AUTHOR("Chen, Ping-chung <ping-chung.chen@intel.com>");
-+MODULE_AUTHOR("Shawn Tu <shawnx.tu@intel.com>");
-+MODULE_DESCRIPTION("Sony IMX208 sensor driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.17.1
-
+KyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcNCg0KPiBGcm9tOiBNaXJlbGEg
+UmFidWxlYSAoT1NTKSA8bWlyZWxhLnJhYnVsZWFAb3NzLm54cC5jb20+DQo+IFNlbnQ6IFdlZG5l
+c2RheSwgQXByaWwgNywgMjAyMSAxOjI4IEFNDQo+IA0KPiBBZGQgZHRzIGZvciBpbWFnaW5nIHN1
+YnN5dGVtLCBpbmNsdWRlIGpwZWcgbm9kZXMgaGVyZS4NCj4gVGVzdGVkIG9uIGlteDhxeHAgb25s
+eSwgc2hvdWxkIHdvcmsgb24gaW14OHFtLCBidXQgaXQgd2FzIG5vdCB0ZXN0ZWQuDQo+IA0KPiBT
+aWduZWQtb2ZmLWJ5OiBNaXJlbGEgUmFidWxlYSA8bWlyZWxhLnJhYnVsZWFAbnhwLmNvbT4NCj4g
+LS0tDQo+IFRoaXMgd2FzIHBhdGNoICM3IGluIHRoZSBpbml0aWFsIHBhdGNoIHNldCB0aGF0IGFk
+ZGVkIG14Yy1qcGVnIGRyaXZlcg0KPiANCj4gQ2hhbmdlcyBpbiB2MTA6DQo+ICAgQWRkcmVzc2Vk
+IGZlZWRiYWNrIGZyb20gQWlzaGVuZyBEb25nOg0KPiAgICAgLUFkZCBqcGVnIGNsb2NrcyBpbiB0
+aGUganBlZyBkdHMgbm9kZXMuDQo+ICAgICAtQWRhcHQgdG8gdGhlIHJlY2VudCBzcGxpdCBvZiB0
+aGUgZHRzIGludG8gc3Vic3lzdGVtczoNCj4gICAgICBhZGQgdGhlIGltYWdpbmcgc3Vic3lzdGVt
+LCBhbmQgcGxhY2UganBlZyBub2RlcyB0aGVyZS4NCj4gDQo+ICAuLi4vYXJtNjQvYm9vdC9kdHMv
+ZnJlZXNjYWxlL2lteDgtc3MtaW1nLmR0c2kgfCA4OSArKysrKysrKysrKysrKysrKysrDQo+ICBh
+cmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9pbXg4cXhwLmR0c2kgICAgfCAgMSArDQo+ICAy
+IGZpbGVzIGNoYW5nZWQsIDkwIGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBh
+cmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9pbXg4LXNzLWltZy5kdHNpDQo+IA0KPiBkaWZm
+IC0tZ2l0IGEvYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvaW14OC1zcy1pbWcuZHRzaQ0K
+PiBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDgtc3MtaW1nLmR0c2kNCj4gbmV3
+IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAwLi4xNDU3ZDIxOWE2NTgNCj4g
+LS0tIC9kZXYvbnVsbA0KPiArKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9pbXg4
+LXNzLWltZy5kdHNpDQo+IEBAIC0wLDAgKzEsODkgQEANCj4gKy8vIFNQRFgtTGljZW5zZS1JZGVu
+dGlmaWVyOiBHUEwtMi4wKw0KPiArLyoNCj4gKyAqIENvcHlyaWdodCAyMDE5LTIwMjEgTlhQDQo+
+ICsgKiBaaG91IEd1b25pdSA8Z3Vvbml1Lnpob3VAbnhwLmNvbT4NCj4gKyAqLw0KPiAraW1nX3N1
+YnN5czogYnVzQDU4MDAwMDAwIHsNCj4gKwljb21wYXRpYmxlID0gInNpbXBsZS1idXMiOw0KPiAr
+CSNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KPiArCSNzaXplLWNlbGxzID0gPDE+Ow0KPiArCXJhbmdl
+cyA9IDwweDU4MDAwMDAwIDB4MCAweDU4MDAwMDAwIDB4MTAwMDAwMD47DQo+ICsNCj4gKwlpbWdf
+aXBnX2NsazogY2xvY2staW1nLWlwZyB7DQo+ICsJCWNvbXBhdGlibGUgPSAiZml4ZWQtY2xvY2si
+Ow0KPiArCQkjY2xvY2stY2VsbHMgPSA8MD47DQo+ICsJCWNsb2NrLWZyZXF1ZW5jeSA9IDwyMDAw
+MDAwMDA+Ow0KPiArCQljbG9jay1vdXRwdXQtbmFtZXMgPSAiaW1nX2lwZ19jbGsiOw0KPiArCX07
+DQo+ICsNCj4gKwlpbWdfanBlZ19kZWNfY2xrOiBjbG9jay1jb250cm9sbGVyQDU4NWQwMDAwIHsN
+Cg0Kcy9jbGsvbHBjZw0KDQo+ICsJCWNvbXBhdGlibGUgPSAiZnNsLGlteDhxeHAtbHBjZyI7DQo+
+ICsJCXJlZyA9IDwweDU4NWQwMDAwIDB4MTAwMDA+Ow0KPiArCQkjY2xvY2stY2VsbHMgPSA8MT47
+DQo+ICsJCWNsb2NrcyA9IDwmaW1nX2lwZ19jbGs+LCA8JmltZ19pcGdfY2xrPjsNCj4gKwkJY2xv
+Y2staW5kaWNlcyA9IDxJTVhfTFBDR19DTEtfMD4sDQo+ICsJCQkJPElNWF9MUENHX0NMS180PjsN
+Cj4gKwkJY2xvY2stb3V0cHV0LW5hbWVzID0gImltZ19qcGVnX2RlY19jbGsiLA0KPiArCQkJCSAg
+ICAgImltZ19qcGVnX2RlY19pcGdfY2xrIjsNCj4gKwkJcG93ZXItZG9tYWlucyA9IDwmcGQgSU1Y
+X1NDX1JfTUpQRUdfREVDX01QPjsNCj4gKwl9Ow0KPiArDQo+ICsJaW1nX2pwZWdfZW5jX2Nsazog
+Y2xvY2stY29udHJvbGxlckA1ODVmMDAwMCB7DQoNCnMvY2xrL2xwY2cNCg0KPiArCQljb21wYXRp
+YmxlID0gImZzbCxpbXg4cXhwLWxwY2ciOw0KPiArCQlyZWcgPSA8MHg1ODVmMDAwMCAweDEwMDAw
+PjsNCj4gKwkJI2Nsb2NrLWNlbGxzID0gPDE+Ow0KPiArCQljbG9ja3MgPSA8JmltZ19pcGdfY2xr
+PiwgPCZpbWdfaXBnX2Nsaz47DQo+ICsJCWNsb2NrLWluZGljZXMgPSA8SU1YX0xQQ0dfQ0xLXzA+
+LA0KPiArCQkJCTxJTVhfTFBDR19DTEtfND47DQo+ICsJCWNsb2NrLW91dHB1dC1uYW1lcyA9ICJp
+bWdfanBlZ19lbmNfY2xrIiwNCj4gKwkJCQkgICAgICJpbWdfanBlZ19lbmNfaXBnX2NsayI7DQo+
+ICsJCXBvd2VyLWRvbWFpbnMgPSA8JnBkIElNWF9TQ19SX01KUEVHX0VOQ19NUD47DQo+ICsJfTsN
+Cj4gKw0KPiArCWNhbWVyYWRldjogY2FtZXJhIHsNCg0KSXMgdGhpcyBub2RlIG5lY2Vzc2FyeT8N
+Cg0KPiArCQljb21wYXRpYmxlID0gInNpbXBsZS1idXMiOw0KPiArCQkjYWRkcmVzcy1jZWxscyA9
+IDwxPjsNCj4gKwkJI3NpemUtY2VsbHMgPSA8MT47DQo+ICsJCXJhbmdlczsNCj4gKw0KPiArCQlq
+cGVnZGVjOiBqcGVnZGVjQDU4NDAwMDAwIHsNCj4gKwkJCWNvbXBhdGlibGUgPSAibnhwLGlteDhx
+eHAtanBnZGVjIjsNCg0KSXMgdGhpcyBjb21wYXRpYmxlIHN0cmluZyB1cHN0cmVhbWVkIGFscmVh
+ZHk/DQoNCj4gKwkJCXJlZyA9IDwweDU4NDAwMDAwIDB4MDAwNTAwMDAgPjsNCj4gKwkJCWludGVy
+cnVwdHMgPSA8R0lDX1NQSSAzMDkgSVJRX1RZUEVfTEVWRUxfSElHSD4sDQo+ICsJCQkJICAgICA8
+R0lDX1NQSSAzMTAgSVJRX1RZUEVfTEVWRUxfSElHSD4sDQo+ICsJCQkJICAgICA8R0lDX1NQSSAz
+MTEgSVJRX1RZUEVfTEVWRUxfSElHSD4sDQo+ICsJCQkJICAgICA8R0lDX1NQSSAzMTIgSVJRX1RZ
+UEVfTEVWRUxfSElHSD47DQo+ICsJCQljbG9ja3MgPSA8JmltZ19qcGVnX2RlY19jbGsgMD4sDQo+
+ICsJCQkJIDwmaW1nX2pwZWdfZGVjX2NsayAxPjsNCg0KSXMgdGhlIGluZGV4IGNvcnJlY3QgaGVy
+ZT8NCg0KPiArCQkJY2xvY2stbmFtZXMgPSAicGVyIiwgImlwZyI7DQo+ICsJCQlhc3NpZ25lZC1j
+bG9ja3MgPSA8JmltZ19qcGVnX2RlY19jbGsgMD4sDQo+ICsJCQkJCSAgPCZpbWdfanBlZ19kZWNf
+Y2xrIDE+Ow0KPiArCQkJYXNzaWduZWQtY2xvY2stcmF0ZXMgPSA8MjAwMDAwMDAwPjsNCg0KTWlz
+bWF0Y2ggd2l0aCBhc3NpZ25lZC1jbG9ja3MNCg0KPiArCQkJcG93ZXItZG9tYWlucyA9IDwmcGQg
+SU1YX1NDX1JfTUpQRUdfREVDX01QPiwNCj4gKwkJCQkJPCZwZCBJTVhfU0NfUl9NSlBFR19ERUNf
+UzA+LA0KPiArCQkJCQk8JnBkIElNWF9TQ19SX01KUEVHX0RFQ19TMT4sDQo+ICsJCQkJCTwmcGQg
+SU1YX1NDX1JfTUpQRUdfREVDX1MyPiwNCj4gKwkJCQkJPCZwZCBJTVhfU0NfUl9NSlBFR19ERUNf
+UzM+Ow0KPiArCQl9Ow0KPiArDQo+ICsJCWpwZWdlbmM6IGpwZWdlbmNANTg0NTAwMDAgew0KPiAr
+CQkJY29tcGF0aWJsZSA9ICJueHAsaW14OHF4cC1qcGdlbmMiOw0KPiArCQkJcmVnID0gPDB4NTg0
+NTAwMDAgMHgwMDA1MDAwMCA+Ow0KPiArCQkJaW50ZXJydXB0cyA9IDxHSUNfU1BJIDMwNSBJUlFf
+VFlQRV9MRVZFTF9ISUdIPiwNCj4gKwkJCQkgICAgIDxHSUNfU1BJIDMwNiBJUlFfVFlQRV9MRVZF
+TF9ISUdIPiwNCj4gKwkJCQkgICAgIDxHSUNfU1BJIDMwNyBJUlFfVFlQRV9MRVZFTF9ISUdIPiwN
+Cj4gKwkJCQkgICAgIDxHSUNfU1BJIDMwOCBJUlFfVFlQRV9MRVZFTF9ISUdIPjsNCj4gKwkJCWNs
+b2NrcyA9IDwmaW1nX2pwZWdfZW5jX2NsayAwPiwNCj4gKwkJCQkgPCZpbWdfanBlZ19lbmNfY2xr
+IDE+Ow0KDQpEaXR0bw0KDQo+ICsJCQljbG9jay1uYW1lcyA9ICJwZXIiLCAiaXBnIjsNCj4gKwkJ
+CWFzc2lnbmVkLWNsb2NrcyA9IDwmaW1nX2pwZWdfZW5jX2NsayAwPiwNCj4gKwkJCQkJICA8Jmlt
+Z19qcGVnX2VuY19jbGsgMT47DQo+ICsJCQlhc3NpZ25lZC1jbG9jay1yYXRlcyA9IDwyMDAwMDAw
+MDA+Ow0KDQpEaXR0bw0KDQo+ICsJCQlwb3dlci1kb21haW5zID0gPCZwZCBJTVhfU0NfUl9NSlBF
+R19FTkNfTVA+LA0KPiArCQkJCQk8JnBkIElNWF9TQ19SX01KUEVHX0VOQ19TMD4sDQo+ICsJCQkJ
+CTwmcGQgSU1YX1NDX1JfTUpQRUdfRU5DX1MxPiwNCj4gKwkJCQkJPCZwZCBJTVhfU0NfUl9NSlBF
+R19FTkNfUzI+LA0KPiArCQkJCQk8JnBkIElNWF9TQ19SX01KUEVHX0VOQ19TMz47DQo+ICsJCX07
+DQo+ICsJfTsNCj4gK307DQoNClJlZ2FyZHMNCkFpc2hlbmcNCg0KPiBkaWZmIC0tZ2l0IGEvYXJj
+aC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvaW14OHF4cC5kdHNpDQo+IGIvYXJjaC9hcm02NC9i
+b290L2R0cy9mcmVlc2NhbGUvaW14OHF4cC5kdHNpDQo+IGluZGV4IDFlNmI0OTk1MDkxZS4uMmQ5
+NTg5MzA5YmQwIDEwMDY0NA0KPiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9p
+bXg4cXhwLmR0c2kNCj4gKysrIGIvYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvaW14OHF4
+cC5kdHNpDQo+IEBAIC0yNTgsNiArMjU4LDcgQEANCj4gIAl9Ow0KPiANCj4gIAkvKiBzb3J0ZWQg
+aW4gcmVnaXN0ZXIgYWRkcmVzcyAqLw0KPiArCSNpbmNsdWRlICJpbXg4LXNzLWltZy5kdHNpIg0K
+PiAgCSNpbmNsdWRlICJpbXg4LXNzLWFkbWEuZHRzaSINCj4gIAkjaW5jbHVkZSAiaW14OC1zcy1j
+b25uLmR0c2kiDQo+ICAJI2luY2x1ZGUgImlteDgtc3MtZGRyLmR0c2kiDQo+IC0tDQo+IDIuMTcu
+MQ0KDQo=
