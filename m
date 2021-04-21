@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 413593662A9
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 01:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 895B53662BE
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 02:01:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234452AbhDTX6M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Apr 2021 19:58:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35862 "EHLO
+        id S234555AbhDUABO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Apr 2021 20:01:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234223AbhDTX6M (ORCPT
+        with ESMTP id S234508AbhDUABN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Apr 2021 19:58:12 -0400
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E379C06174A;
-        Tue, 20 Apr 2021 16:57:40 -0700 (PDT)
-Received: by mail-ot1-x331.google.com with SMTP id 35-20020a9d05260000b029029c82502d7bso6013387otw.2;
-        Tue, 20 Apr 2021 16:57:40 -0700 (PDT)
+        Tue, 20 Apr 2021 20:01:13 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85DF7C06174A;
+        Tue, 20 Apr 2021 17:00:40 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id e89-20020a9d01e20000b0290294134181aeso11647627ote.5;
+        Tue, 20 Apr 2021 17:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=znEmkMwEuNpZTNjrNgX8auZmv/MxbCMnb2W49monkys=;
-        b=GVmGslbMavTYJCEB5YDV7vPKVrES6hCjXPElLvaZ8xCTmq/1sq4+i3zMHP4DlW3zVj
-         a3Sn9CYwlIJQorMuwBwOAyAXznfF6yGrTstFc9tLTUtCIOB8KGhz5PQRePKr+M6ZOsdv
-         cbYnfr9wKZvD/2tOHX+nR5zR+2cSp4WGEybv22kiQFRCPmXIu2v5HIcQ5zlJCq9ES62+
-         cg898IMEtcSTu766dCX2jgBRw59371oBnTLS4qf6O+dDEzlzQGAhKJTRq4p1rD9V0LZq
-         5SJYnBsEewSArBUNZdqWPKx+b8aw77GsA5pFcyQ7FirUWFWdUn0F3IkrbqKUnA8mBXBs
-         Uzmg==
+        bh=e9+TAg/KoUWsa99Vc8OUos6cMxUG+phWDsMLGP3+C+w=;
+        b=H9I6YTdW5X1jB4Ak+0cUKMmHDwNhdEcX7fpaedlJtz6o7jWjDXjvWZyFSRPp+0VEGx
+         oV30KOct5TLMbE9r0AFi65mzT6zN4Bzucjoq2VMoGRKFj8G+SZwP8y/ApnTefuEGRJTb
+         6Pn/X0WcDjTwHblpnCnlrjX/KwQSU13CRlMJsSUF8sFC2LBpbUQi7lr2A4laUert7ldP
+         FQlOzSKn7egjwiwWMn1allUdiJysakqI2FyxQYAvNDk5sFuBqsqNMafU9uqA2yKspoav
+         O1Yi8bmuylSp0YUt5VuHjEjH/NfLkPIndJTUmChrghxRsNHsFTghgvK1ot8pq2hl7diF
+         EPCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=znEmkMwEuNpZTNjrNgX8auZmv/MxbCMnb2W49monkys=;
-        b=AvkDwy38/jqv0CgZtuELtwrmTJVyxTFkIHXkrclEuhDYf/DR+rf9GfzPDZMzdpqCAh
-         BqX1ck9pJ6+4CDJrEkMxCNGAu78778Dd0nw/tm6nQhqiNsjs5jOsZCmkZ8USJAXQI+4E
-         geI5+E78CKY4WXgAE/lgZuAAsC8c8uUS/44X+MFoxgv//xVF/E5+E4L8X0APpwIbEDMF
-         tgA322dBE2QUROT0KnR4KSNXeqUZPQFkRC4M3h5gyeF2TgrTMGbYhX40ILZCtPKRFm4t
-         piMz88diQ+SzmzxroNUr/em1nuEJS0cil4b3oraVnYuDGR92zjfE+oNQU/S8gVq+iylH
-         2u1g==
-X-Gm-Message-State: AOAM532r8MzpIMscuRMD67oyx32VAerjoSILHJM4zHZ5wwQsGB6EOiqt
-        7siOG+62hSfvuuLo/5gLwj10Kj+0KjaE30vUNdI=
-X-Google-Smtp-Source: ABdhPJy0WX4lLPLxND4/HFVgGNXBRjQ/mNfR3/MJa/8m1ZFFUa3yeWLUsZ7eZkSrg37tWk3VIErSVNQvG4LUauD3Wv4=
-X-Received: by 2002:a05:6830:1f12:: with SMTP id u18mr14241509otg.132.1618963059489;
- Tue, 20 Apr 2021 16:57:39 -0700 (PDT)
+        bh=e9+TAg/KoUWsa99Vc8OUos6cMxUG+phWDsMLGP3+C+w=;
+        b=ISc5/+Pdu485Wq41Md/8buDyDDnvt38gWC+24artm672hfvxrJ3WNIchVqaxR3caVf
+         S9IM+xFSK+UsdYfFPW2FqySZb7J5rrwXAeP87NtB9bF50Zw23sGC/En8T/n5YTpp1+qQ
+         TM3zcvZUh0mxgGFad8qE5yGyHdc9pEgLZzGjK7KB5+O1vPmbd2vNWEgittSa4sKxbIcY
+         PlfWM+qQ+bMFEpd/2IHjeg0/nOt9ksVFzflGAw5IAd7GtKFWbKTF1jjyCaJ2SaD7QWkz
+         AuH6GnI5Sl2/3Yb7mLZ+ZN3fHJ8/jWTb7lzdshZ4lQcIFGDN822DbDAi+jjs484praeU
+         cNJg==
+X-Gm-Message-State: AOAM5336kueUTbayzyJaGgJ9z66/zmh/eERoVQ8SHmkmw8RRsZWqgkhc
+        vXzbf/djWcKMTIvJq1DpwmA5oYEq+KMjB9CwLE4=
+X-Google-Smtp-Source: ABdhPJymGN8we/4AVICoWFYllwCiQQt06X+J/UkA1Epkav0/XCuFSaiNnmHrehyuBajDCyPXswh2i+Wd9a8SJ9lTrgw=
+X-Received: by 2002:a05:6830:1f12:: with SMTP id u18mr14249635otg.132.1618963240005;
+ Tue, 20 Apr 2021 17:00:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210416143725.2769053-1-lee.jones@linaro.org>
- <20210416143725.2769053-30-lee.jones@linaro.org> <dfb153eb-53cc-ad27-2114-c0db07610a60@amd.com>
-In-Reply-To: <dfb153eb-53cc-ad27-2114-c0db07610a60@amd.com>
+ <20210416143725.2769053-33-lee.jones@linaro.org> <eecd70a6-eb05-ea13-e9ca-c0d989f2210b@amd.com>
+In-Reply-To: <eecd70a6-eb05-ea13-e9ca-c0d989f2210b@amd.com>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 20 Apr 2021 19:57:28 -0400
-Message-ID: <CADnq5_PUK_cGJ+x5rx7bTpWq1iSqYKp5QqiTXRgwoucw1WPQng@mail.gmail.com>
-Subject: Re: [PATCH 29/40] drm/amd/amdgpu/amdgpu_fence: Provide description
- for 'sched_score'
+Date:   Tue, 20 Apr 2021 20:00:29 -0400
+Message-ID: <CADnq5_MqY6qcv97vncaLX_a0r_JBDTxrfkw=cAcHFXH10QEL0A@mail.gmail.com>
+Subject: Re: [PATCH 32/40] drm/amd/amdgpu/amdgpu_ttm: Fix incorrectly
+ documented function 'amdgpu_ttm_copy_mem_to_mem()'
 To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Cc:     Lee Jones <lee.jones@linaro.org>, David Airlie <airlied@linux.ie>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -61,9 +61,8 @@ Cc:     Lee Jones <lee.jones@linaro.org>, David Airlie <airlied@linux.ie>,
         <linaro-mm-sig@lists.linaro.org>,
         Jerome Glisse <glisse@freedesktop.org>,
         Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
+        <dri-devel@lists.freedesktop.org>,
         Alex Deucher <alexander.deucher@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
         linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,15 +74,15 @@ Applied.  Thanks!
 
 Alex
 
-On Fri, Apr 16, 2021 at 11:52 AM Christian K=C3=B6nig
+On Fri, Apr 16, 2021 at 11:53 AM Christian K=C3=B6nig
 <christian.koenig@amd.com> wrote:
 >
 > Am 16.04.21 um 16:37 schrieb Lee Jones:
 > > Fixes the following W=3D1 kernel build warning(s):
 > >
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c:444: warning: Function para=
-meter or member 'sched_score' not described in 'amdgpu_fence_driver_init_ri=
-ng'
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:311: warning: expecting proto=
+type for amdgpu_copy_ttm_mem_to_mem(). Prototype was for amdgpu_ttm_copy_me=
+m_to_mem() instead
 > >
 > > Cc: Alex Deucher <alexander.deucher@amd.com>
 > > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
@@ -100,25 +99,26 @@ ng'
 > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 >
 > > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 1 +
-> >   1 file changed, 1 insertion(+)
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_fence.c
-> > index 47ea468596184..30772608eac6c 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > @@ -434,6 +434,7 @@ int amdgpu_fence_driver_start_ring(struct amdgpu_ri=
-ng *ring,
-> >    *
-> >    * @ring: ring to init the fence driver on
-> >    * @num_hw_submission: number of entries on the hardware queue
-> > + * @sched_score: optional score atomic shared with other schedulers
-> >    *
-> >    * Init the fence driver for the requested ring (all asics).
-> >    * Helper function for amdgpu_fence_driver_init().
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_ttm.c
+> > index 3bef0432cac2f..859314c0d6a39 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > @@ -288,7 +288,7 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_=
+object *bo,
+> >   }
+> >
+> >   /**
+> > - * amdgpu_copy_ttm_mem_to_mem - Helper function for copy
+> > + * amdgpu_ttm_copy_mem_to_mem - Helper function for copy
+> >    * @adev: amdgpu device
+> >    * @src: buffer/address where to read from
+> >    * @dst: buffer/address where to write to
 >
 > _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
