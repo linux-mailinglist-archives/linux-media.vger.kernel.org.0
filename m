@@ -2,228 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79119366BAF
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 15:04:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FCE9366BD2
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 15:06:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240683AbhDUNFY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 09:05:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38440 "EHLO
+        id S240785AbhDUNHX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 09:07:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240750AbhDUNE6 (ORCPT
+        with ESMTP id S241019AbhDUNGd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 09:04:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E273C06138C
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 06:04:25 -0700 (PDT)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40C319DA;
-        Wed, 21 Apr 2021 15:04:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619010263;
-        bh=I/F7YeYrHfF1oUDppAx6E0CNQsdsLywFK1sq+cl6bOk=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=pUF5dO+6VXlXxwty4+Ml9fPCzigEe4dgaKYjZNMoaI87lUxrUEmggo2UL27GC7vee
-         bTuFDKgqcqDFpyv/FEcNawbo70Y+IfwamfQK/n/4SRdliCmsmvD9j1mcp6q7T+lxnz
-         XrIx1gTBTt8QtMHazS1kPHnVKS6Mr5ZgQWaxu4Sg=
-Subject: Re: [PATCH v5 22/24] v4l: subdev: add v4l2_subdev_get_format_dir()
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
- <20210415130450.421168-23-tomi.valkeinen@ideasonboard.com>
- <YHyCwzfrhVFkPXoW@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <d24ad349-0aef-e4cb-59d7-0db52c730f25@ideasonboard.com>
-Date:   Wed, 21 Apr 2021 16:04:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Wed, 21 Apr 2021 09:06:33 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E64D7C061346;
+        Wed, 21 Apr 2021 06:05:59 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id q22so4306849lfu.8;
+        Wed, 21 Apr 2021 06:05:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=JmUkovJ4PF+YyKy/jY+0gRoy2D+XF6hMzgTd5ze+4xg=;
+        b=aImxsQYwp6kUAL2GogTKXZeIFbCiw845KWa6WLKWiH2R2pDvvWqyuEd08Swnrz79LQ
+         htxKev6DLtaTTPhelPLHcbGoGJKsyYFIPAkMX1k5pvGtOrgQ4fTFnzbSzgE4kTihGi8Z
+         pDA+WRoBlkKmN5kQ9M6PMwC7T+74JIiOovWl5o/2GZTxrwrohmjxQHNR7mQNIyCIsiT8
+         joRMrpfFiJZ2hR5D4vC4VxlfK8UpCC1Xx0RZhU04sYRV0V5izQkrOu3xszroITfthKjB
+         J6m8juZ2EOK4xE2ywgum61B8ahqR+v/2ykHY/Wcki2yWmJLn3jwBTlCFP140P67oH6Ld
+         1cNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=JmUkovJ4PF+YyKy/jY+0gRoy2D+XF6hMzgTd5ze+4xg=;
+        b=JXlfCg5sxxG1uA9PU92L52Sm9/EhaD13WxHBjKgSMAsm1p07IUc1DKTB1zhufEDMiZ
+         6h9CEmx6N+dBS3kwGaZRXD/p3S6BHCct3mcY5cpDUHYJ5UyrIAOkb15g+0Az7h04IABa
+         bFju9yojTYe9SAuHuOFQ580W2pQLD7niTqEmDUwo07ddw6ahE/9LqfzoG8xxB3H31R3y
+         jY40z5FHbFb/1h6+eJwDIC7KGO6c7KheOU4XX6xoSt12lMuJxhBE0dKQp5QTcoYa6aVG
+         LSY7NuJ6/5ceY+KewRIizowyAKzl+wLLh7fuWGkxZIw/en1Yu6f3hb6UhJex3cqPtqYZ
+         FVsQ==
+X-Gm-Message-State: AOAM532k8SM0T4osVAtREWUmQZlLaJdhOG1a9vAqtO5KLPKj0eauGFSa
+        gyufvitzFtNeSw/a/aSjN48=
+X-Google-Smtp-Source: ABdhPJw2O58VpMVpU+gR1j223w9p5DmKGY1H7WzcXBxLkb3E7wEvrE/DzxeCxpyIHOSevNFox4N+Uw==
+X-Received: by 2002:a19:e4a:: with SMTP id 71mr19781865lfo.218.1619010358462;
+        Wed, 21 Apr 2021 06:05:58 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id b10sm199558ljr.109.2021.04.21.06.05.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Apr 2021 06:05:57 -0700 (PDT)
+Date:   Wed, 21 Apr 2021 16:05:46 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     <Peter.Enderborg@sony.com>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
+        <adobriyan@gmail.com>, <akpm@linux-foundation.org>,
+        <songmuchun@bytedance.com>, <guro@fb.com>, <shakeelb@google.com>,
+        <mhocko@suse.com>, <neilb@suse.de>, <samitolvanen@google.com>,
+        <rppt@kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <willy@infradead.org>
+Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
+Message-ID: <20210421160546.7045245f@eldfell>
+In-Reply-To: <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
+References: <20210417163835.25064-1-peter.enderborg@sony.com>
+        <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
+        <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
+        <YH63iPzbGWzb676T@phenom.ffwll.local>
+        <a60d1eaf-f9f8-e0f3-d214-15ce2c0635c2@sony.com>
+        <YH/tHFBtIawBfGBl@phenom.ffwll.local>
+        <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YHyCwzfrhVFkPXoW@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/T2Q=aDoIbEuzeKlHNow=Dcn"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+--Sig_/T2Q=aDoIbEuzeKlHNow=Dcn
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 18/04/2021 22:04, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Apr 15, 2021 at 04:04:48PM +0300, Tomi Valkeinen wrote:
->> Add v4l2_subdev_get_format_dir() which can be used to find subdev format
->> for a specific stream on a multiplexed pad. The function will follow the
->> routes and links until it finds a non-multiplexed pad.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 96 +++++++++++++++++++++++++++
->>   include/media/v4l2-subdev.h           | 26 ++++++++
->>   2 files changed, 122 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index 7a4f71d8c6c3..430dbdaab080 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -998,6 +998,102 @@ bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
->>   }
->>   EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
->>   
->> +int v4l2_subdev_get_format_dir(struct media_pad *pad, u16 stream,
->> +			       enum v4l2_direction dir,
->> +			       struct v4l2_subdev_format *fmt)
->> +{
->> +	struct device *dev = pad->entity->graph_obj.mdev->dev;
->> +	int ret;
->> +	int i;
->> +
->> +	dev_dbg(dev, "%s '%s':%u:%u %s\n", __func__,
->> +		pad->entity->name, pad->index, stream,
->> +		dir == V4L2_DIR_SOURCEWARD ? "sourceward" : "sinkward");
->> +
->> +	while (true) {
->> +		struct v4l2_subdev_krouting routing;
->> +		struct v4l2_subdev_route *route;
->> +
->> +		if (pad->entity->obj_type != MEDIA_ENTITY_TYPE_V4L2_SUBDEV)
->> +			return -EINVAL;
->> +
->> +		ret = v4l2_subdev_link_validate_get_format(pad, fmt);
->> +		if (ret == 0)
->> +			return 0;
->> +		else if (ret != -ENOIOCTLCMD)
->> +			return ret;
->> +
->> +		if (pad->flags &
->> +		    (dir == V4L2_DIR_SINKWARD ? MEDIA_PAD_FL_SOURCE :
->> +						MEDIA_PAD_FL_SINK)) {
->> +			pad = media_entity_remote_pad(pad);
->> +
->> +			if (!pad)
->> +				return -EINVAL;
->> +
->> +			if (pad->entity->obj_type != MEDIA_ENTITY_TYPE_V4L2_SUBDEV)
->> +				return -EINVAL;
->> +
->> +			ret = v4l2_subdev_link_validate_get_format(pad, fmt);
->> +			if (ret == 0)
->> +				return 0;
->> +			else if (ret != -ENOIOCTLCMD)
->> +				return ret;
->> +		}
->> +
->> +		ret = v4l2_subdev_get_krouting(media_entity_to_v4l2_subdev(pad->entity), &routing);
->> +		if (ret)
->> +			return ret;
->> +
->> +		route = NULL;
->> +		for (i = 0; i < routing.num_routes; ++i) {
->> +			u16 near_pad = dir == V4L2_DIR_SINKWARD ?
->> +					       routing.routes[i].sink_pad :
->> +					       routing.routes[i].source_pad;
->> +			u16 near_stream = dir == V4L2_DIR_SINKWARD ?
->> +						  routing.routes[i].sink_stream :
->> +						  routing.routes[i].source_stream;
->> +
->> +			if (!(routing.routes[i].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
->> +				continue;
->> +
->> +			if (near_pad != pad->index)
->> +				continue;
->> +
->> +			if (near_stream != stream)
->> +				continue;
->> +
->> +			if (route) {
->> +				dev_err(dev,
->> +					"%s: '%s' has multiple active routes for stream %u\n",
->> +					__func__, pad->entity->name, stream);
->> +				v4l2_subdev_free_routing(&routing);
->> +				return -EINVAL;
->> +			}
->> +
->> +			route = &routing.routes[i];
->> +		}
->> +
->> +		if (!route) {
->> +			dev_err(dev, "%s: no route found in '%s' for stream %u\n",
->> +				__func__, pad->entity->name, stream);
->> +			v4l2_subdev_free_routing(&routing);
->> +			return -EINVAL;
->> +		}
->> +
->> +		if (dir == V4L2_DIR_SINKWARD) {
->> +			pad = &pad->entity->pads[route->source_pad];
->> +			stream = route->source_stream;
->> +		} else {
->> +			pad = &pad->entity->pads[route->sink_pad];
->> +			stream = route->sink_stream;
->> +		}
->> +
->> +		v4l2_subdev_free_routing(&routing);
->> +	}
->> +}
->> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_format_dir);
->> +
->>   int v4l2_subdev_link_validate(struct media_link *link)
->>   {
->>   	struct v4l2_subdev *sink;
->> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->> index 1843b77dd843..730631f9a091 100644
->> --- a/include/media/v4l2-subdev.h
->> +++ b/include/media/v4l2-subdev.h
->> @@ -1239,4 +1239,30 @@ void v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
->>   bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
->>   			   unsigned int pad0, unsigned int pad1);
->>   
->> +/**
->> + * enum v4l2_direction - Direction either towards the source or the sink
->> + *
->> + * @V4L2_DIR_SOURCEWARD: Direction towards the source.
->> + * @V4L2_DIR_SINKWARD: Direction towards the sink.
->> + */
->> +enum v4l2_direction {
->> +	V4L2_DIR_SOURCEWARD,
->> +	V4L2_DIR_SINKWARD,
->> +};
->> +
->> +/**
->> + * v4l2_subdev_get_format_dir() - Find format by following streams
-> 
-> The name is a bit cryptic, and the usage pattern error-prone. Can we do
-> better ?  In particular, if we could limit the usage of this function to
-> be called on a non-multiplexed pad, we could drop the stream argument.
-> Deducing the direction argument from the type of pad would also make the
-> API simpler.
+On Wed, 21 Apr 2021 10:37:11 +0000
+<Peter.Enderborg@sony.com> wrote:
 
-Hmm, but that's not what the function does. It follows a specific 
-stream, from a multiplexed pad, so it has to get the stream as a parameter.
+> On 4/21/21 11:15 AM, Daniel Vetter wrote:
+> > On Tue, Apr 20, 2021 at 11:37:41AM +0000, Peter.Enderborg@sony.com wrot=
+e: =20
 
-We can't deduct the direction from the type of the pad. We can of course 
-define that given a source pad this function goes sourceward. But if 
-that's not what the caller wants, then the caller needs to first follow 
-the stream either direction to get a sink pad, and then call this 
-function, which doesn't make sense.
+> >> But I dont think they will. dma-buf does not have to be mapped to a pr=
+ocess,
+> >> and the case of vram, it is not covered in current global_zone. All of=
+ them
+> >> would be very nice to have in some form. But it wont change what the
+> >> correct value of what "Total" is. =20
+> > We need to understand what the "correct" value is. Not in terms of kern=
+el
+> > code, but in terms of semantics. Like if userspace allocates a GL textu=
+re,
+> > is this supposed to show up in your metric or not. Stuff like that. =20
 
->> + * @pad: The pad from which to start the search
->> + * @stream: The stream for which we want to find the format
->> + * @dir: The direction of the search
->> + * @fmt: Pointer to &struct v4l2_subdev_format where the found format is stored
->> + *
->> + * This function attempts to find v4l2_subdev_format for a specific stream on a
->> + * multiplexed pad by following the stream using routes and links to the specified
->> + * direction, until a non-multiplexed pad is found.
->> + */
->> +int v4l2_subdev_get_format_dir(struct media_pad *pad, u16 stream,
->> +			       enum v4l2_direction dir,
->> +			       struct v4l2_subdev_format *fmt);
->> +
->>   #endif
-> 
+> That it like that would like to only one pointer type. You need to know w=
+hat
+> you pointing at to know what it is. it might be a hardware or a other poi=
+nter.
 
+To clarify the GL texture example: a GL texture consumes "graphics
+memory", whatever that is, but they are not allocated as dmabufs. So
+they count for resource consumption, but they do not show up in your
+counter, until they become exported. Most GL textures are never
+exported at all. In fact, exporting GL textures is a path strongly
+recommended against due to unsuitable EGL/GL API.
+
+As far as I understand, dmabufs are never allocated as is. Dmabufs
+always just wrap an existing memory allocation. So creating (exporting)
+a dmabuf does not increase resource usage. Allocation increases
+resource usage, and most allocations are never exported.
+
+> If there is a limitation on your pointers it is a good metric to count th=
+em
+> even if you don't=C2=A0 know what they are. Same goes for dma-buf, they
+> are generic, but they consume some resources that are counted in pages.
+
+Given above, I could even argue that *dmabufs* do not consume
+resources. They only reference resources that were already allocated
+by some specific means (not generic). They might keep the resource
+allocated, preventing it from being freed if leaked.
+
+As you might know, there is no really generic "dmabuf allocator", not
+as a kernel UAPI nor as a userspace library (the hypothetical Unix
+Device Memory Allocator library notwithstanding).
+
+So this kind of leaves the question, what is DmaBufTotal good for? Is
+it the same kind of counter as VIRT in 'top'? If you know your
+particular programs, you can maybe infer if VIRT is too much or not,
+but for e.g. WebKitWebProcess it is normal to have 85 GB in VIRT and
+it's not a problem (like I have, on this 8 GB RAM machine).
+
+
+Thanks,
+pq
+
+--Sig_/T2Q=aDoIbEuzeKlHNow=Dcn
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCAIyoACgkQI1/ltBGq
+qqdgcA/+OU3upziPx5lqynmqoiFPG1bUHAZHL5yi5T2jmhfS7JPQT5Hkjv3wUtNe
+1liYgsv2ATY/B6EPnwB85cH7mwBdWa2b20cbgld3yoUrTYbGVD6mG5C9xGwgnT/3
+Yu7gABmOPTmnBwjYDpQm/C98QhWDTTeizPYUJzIeb36+Zf1cItMjUhG1dcokslp3
+T0LcPJnttN5WKbmZCPVvAZJ02mWDx6/k6VYbT77NvSRJ+GPMZBL3wNxkY4hzMC4l
+LAmZm2biGahXtgsG93kblsM4DjWppAti0ToJF9OQlnTdzeFWEm8OMuZMrDj7gT6X
+MPfMDR3l+pmfB3VM6QeBxhWC6swl3RvWIEpti6gaHy/JcNdhuDYWuYBFVPosLxQV
+zHEe+wXTuUoQyGtINR0F8aU+pgT7lHp6BBZxHbQyHlxoxo05mM7hSupHt1yFfY+U
+vUvggaM50URJjG+t88DLyYaB0tX3APSkUY8wVuKB/vO3VYb3v9g+dgCN+GJBD4/q
+Yqhjf7PWG3aHU6kwEWIJDHXiXOMKVZnALodzAloRck/vh4zs8QDgGE7MGDnj5NUI
+GdPjTDK6xMx7Xhx0tlZgtkPhbiQdkhN+r0jqgeNlNm2VTUv/T6UerfWOkN9BlS2k
+/6Es9bwDrvvL+MKC2XCylqSNRHQkDMmayMtymQCEIitRZLTYbVg=
+=1pAh
+-----END PGP SIGNATURE-----
+
+--Sig_/T2Q=aDoIbEuzeKlHNow=Dcn--
