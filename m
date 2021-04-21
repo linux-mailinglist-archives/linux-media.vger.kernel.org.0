@@ -2,86 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 246CB366EBA
-	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 17:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FD34366ECC
+	for <lists+linux-media@lfdr.de>; Wed, 21 Apr 2021 17:10:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243799AbhDUPGT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 11:06:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37584 "EHLO
+        id S243835AbhDUPKp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 11:10:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243784AbhDUPGT (ORCPT
+        with ESMTP id S243925AbhDUPJL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 11:06:19 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E07CBC06174A;
-        Wed, 21 Apr 2021 08:05:45 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id o16so8199034plg.5;
-        Wed, 21 Apr 2021 08:05:45 -0700 (PDT)
+        Wed, 21 Apr 2021 11:09:11 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3089C06174A
+        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 08:08:37 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id g8so67402181lfv.12
+        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 08:08:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r/6P/78czMGOWvXynhkkL5aORB61zmrK7gWQX9iwSJI=;
-        b=kXb+5Hr9OFnBDcgjzTb/gcVJTabEOFdI6jrvpVGEaGeyPACKTdIxIvOkEeBXChhwFu
-         Eu4gVDMYCYp1I4Qz2jZtmnOXZSNVtU4D3gLwZMYbCri4esx0Ta00cjkH2fOpusrlnO/s
-         10WQ2Dd1UZaqH/ecLY6E0jpzNmwyJcQEy1BHW9fcsO0V0id6wgNCjHch2ABp8BZOYKuI
-         M7Q+GaKPH+4CKIn+hpICl2UoKJaZR/chSV+/rNualoApd6ZRw85mw2O4JJ97Iokfh0DC
-         LKCdEicYglLMR+UTMujKbDDG/mD4t7EOLxeOrfJ8mJWOgOF8RVgRJd1sEsBwiHzj6mmi
-         G/rw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=yU9qan4gkiNlAA8DevJSM8M5vX6K1Fxe1UmEnDRQ4eY=;
+        b=Cp6clZrPVD7pgez08TByK9BJGYmFd5nfos5xMRxXSt9+iuJv5MXQwzr+LGvxFXnndl
+         RFQRPYEdUHRF8QTJbPI2Eg/2xWGdgYCDR1axCb/iWfMsSyV4V/nVJec8WphXHyeeIFp4
+         JrA+gQulOE8Hw1+zZfNHTKmwTafnggAYG7/mN9yXL9GBbbCXh/wZC9xplcOoM9B0D5iY
+         8JwRoIPY0s9fcV1qeDMY+7Q8BUTSolR7jXf2CsGPekacHhxsLSuewoJikvK2WVQaxsoI
+         M3v9BHL2B37cWNLdxRjZ8aJi+6xWYR+wbQjlsm124JnhTjeUySBWHyQfaZvzxKBvOCbw
+         nCBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r/6P/78czMGOWvXynhkkL5aORB61zmrK7gWQX9iwSJI=;
-        b=Xl8SKezU/oLTfe+WyZeRTmzPeaDvOr6FxvLIC24oVu2ERcMeMtRWUD5RDyILc3DOF1
-         Cdw5U6ldRLVZYzYKR03iC0s2QLYFU19JVwYq1YkhdvffTMfSVa54FJpijLLRK2KKWzG2
-         ytbkfK2+cOXiDrHZ9Dqu20nfpTimqCuQsjIAhyBYY1Y0W8HAHLPksOGfJbjrd32iaasi
-         +0BptY/Eduvtf/76OxEG93u3sRgM99sYgMjKvA2vzqL7shnnZ/gDrxxkCws7TH8cHpG0
-         Zc1wnMAVAJeCTgRryxLBzvF62rc2i34Ub5B2v/rEjlUdHvQ98I8jbCmqCXZcehJZI9b6
-         CoGg==
-X-Gm-Message-State: AOAM532NxXX4oe8SD1wd4aUlx6Pyz6OvOmC612Hf77Fhq8nBfOBN8jRc
-        eqgiERmEmnjmIIQ1PZkQZ2f+E/gLIjwugPZGXmo=
-X-Google-Smtp-Source: ABdhPJzqYGZPIbbvxGfguqe17tf6eTcJtin3HZBfyZy4pmYYHak5rq8/AuAThry9p1jBIFdkLp+nBbBmfeV5EtEiJro=
-X-Received: by 2002:a17:902:264:b029:eb:3d3a:a09c with SMTP id
- 91-20020a1709020264b02900eb3d3aa09cmr34461278plc.0.1619017545476; Wed, 21 Apr
- 2021 08:05:45 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yU9qan4gkiNlAA8DevJSM8M5vX6K1Fxe1UmEnDRQ4eY=;
+        b=XGVeouIKJQQoKNOvZV7XUaAqkr20/bLnihCaUVDZ7KDKibU087hu9kwjc0Pod1Q29T
+         /CV5pvwHVhH0ppbwsDY5Ftad7GdM6O7RqnkOe092/CyhRZlZUkBt45kxmY9XxAI5OK3I
+         2lojWgtfxZKOWLOE1xmRRK4z16NpYEHB5SbdLVQGagg4GUNyehJh8Rzuj4LszegMubz9
+         DhY7+DUtOEPBxBYlD4+XcW+xjpUMEeHPIxfmMDTsvFvwWaCINd9nx7noTv3GqpEEkgsy
+         xhWnoPLs9jA8hZVrg9RJjzXrN4fnoNmg7U63/ZglTgE1B/17yY8riT4Ttuef1QBDpf/e
+         k+Cg==
+X-Gm-Message-State: AOAM531bMSK5o04BFn8Altxz+qBnQI2RnHkzz97j/CSj8NbK9GmUMXPN
+        uJwVXeTXHgxo7ZN5q1/2AsDrst+EkXrlxg==
+X-Google-Smtp-Source: ABdhPJy+x1M9zpCgkhO0A9rH3Q7zB2qQ9GtTRuDV9W3ouxtO2bN8NSFAGBI/lypt5vlZcS/kVhybuQ==
+X-Received: by 2002:ac2:5d66:: with SMTP id h6mr20536144lft.359.1619017716373;
+        Wed, 21 Apr 2021 08:08:36 -0700 (PDT)
+Received: from [192.168.0.69] (cm-84.211.29.145.getinternet.no. [84.211.29.145])
+        by smtp.googlemail.com with ESMTPSA id f8sm238983ljn.1.2021.04.21.08.08.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Apr 2021 08:08:35 -0700 (PDT)
+Subject: Re: [PATCH v2] media: ccs: Fix the op_pll_multiplier address
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org
+References: <20210414162453.22868-1-be.wimm@gmail.com>
+ <20210421123020.GJ3@valkosipuli.retiisi.eu>
+From:   Bernhard Wimmer <be.wimm@gmail.com>
+Message-ID: <1bacf8f5-cf36-aa12-bc08-b797558ce92f@gmail.com>
+Date:   Wed, 21 Apr 2021 17:08:33 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210404181409.1451026-1-andy.shevchenko@gmail.com> <20210421140340.GD3@paasikivi.fi.intel.com>
-In-Reply-To: <20210421140340.GD3@paasikivi.fi.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 21 Apr 2021 18:05:29 +0300
-Message-ID: <CAHp75VcLXE6Bq_7d0DwPwL_EGoCy02dmWF=xZpSUfgkOYNEOew@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] media: ipu3-cio2: Fix referece counting when
- looping over ACPI devices
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Daniel Scally <djrscally@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210421123020.GJ3@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 21, 2021 at 5:04 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
-> On Sun, Apr 04, 2021 at 09:14:09PM +0300, Andy Shevchenko wrote:
-> > When we continue, due to device is disabled, loop we have to drop reference count.
-> > When we have an array full of devices we have to also drop the reference count.
-> > Note, in this case the cio2_bridge_unregister_sensors() is called by the caller.
->
-> Please limit the commit message to 75 chars, at least if there's no reason
-> to do otherwise.
+Hi,
 
-OK.
+On 21/04/2021 14:30, Sakari Ailus wrote:
+> Hi Bernhard,
+> 
+> Thanks for the patch.
+> 
+> On Wed, Apr 14, 2021 at 06:24:53PM +0200, Bernhard Wimmer wrote:
+>> According to the CCS spec the op_pll_multiplier address is 0x030e,
+>> not 0x031e.
+>>
+>> Signed-off-by: Bernhard Wimmer <be.wimm@gmail.com>
+> 
+> I missed last time that the register file and the driver were merged at a
+> different time and the driver fix needs to be backported to the stable
+> tree. Could you split the patch into two, i.e. one that has the changes
+> under Documentation and another one in drivers?
+> 
+> I can do that too, just let me know.
 
-> I can wrap it this time.
+I'm not entirely sure what tags or commits these patches should apply
+to, so it's probably faster if you do it.
 
-Thanks!
+Alternatively if you can point me in the right direction then I'm happy
+to do it (hopefully without too much spam on the mailing list).
 
--- 
-With Best Regards,
-Andy Shevchenko
+> 
+> Thanks.
+> 
