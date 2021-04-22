@@ -2,359 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C4DC36855B
-	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 18:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88EFA3686D2
+	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 20:55:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237972AbhDVQ7d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Apr 2021 12:59:33 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49912 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236058AbhDVQ73 (ORCPT
+        id S236668AbhDVSzw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Apr 2021 14:55:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39106 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236058AbhDVSzv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Apr 2021 12:59:29 -0400
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5C5BED;
-        Thu, 22 Apr 2021 18:58:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619110733;
-        bh=sBdUObit8dbOZ6KUe0Jk2gmYRup20oUhkC9Lqo0sKqY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=BwNKN4G2+RhUYkj2PP4T6Y/Lx0E77m8UlTmnJ6AJe+oKT0AtTrLF5zOVPTyTuysZd
-         QPGYcDgzTqQMn+ifRXnqz0TauFyRi+9PQEfiI02OAwVIoQeApurmRdXfilKOAmBmW3
-         GinM+v3PJMtsHST1c8yL3H/MWJpaqLdF4QpbO0LA=
-Subject: Re: [PATCH v5 18/24] v4l: subdev: Add [GS]_ROUTING subdev ioctls and
- operations
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Michal Simek <michal.simek@xilinx.com>
-References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
- <20210415130450.421168-19-tomi.valkeinen@ideasonboard.com>
- <YHx7T46lkIqu/81e@pendragon.ideasonboard.com>
- <92190167-b38e-a5bd-b475-0c63760948e2@ideasonboard.com>
- <YIGiOZDR/PP0Rt+I@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <175fb74c-bc04-681d-bc96-507f2cfdac0d@ideasonboard.com>
-Date:   Thu, 22 Apr 2021 19:58:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Thu, 22 Apr 2021 14:55:51 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A729C06174A;
+        Thu, 22 Apr 2021 11:55:16 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id a5so16083508ljk.0;
+        Thu, 22 Apr 2021 11:55:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=I43MDT/4gAbtWwlihJ3mHIvjj3Y/M26LvMzUi1efgUY=;
+        b=vdI4R2FP7yHLFU9m2C01Ek5+PqDZvLCFFV8gsOCoi+N4Hr3/lVqIGjXBXZrzgKiIsP
+         T8l8TzMZipVEmkX43o16utrBo355zl3cGFwXK8KH1NFXDgwhHR6aL1k+61cvhr2o2Ej7
+         +mVz4iG3nkBJAqW0mtMkOAEBRPgu5+pb7HGCelq7eLQtdqHrB5XsUxWHnLaeB5YAYDJQ
+         mYGHZr8quQuPjWDBLAcw4wBOk3nIDreGonIsoDwBden65sv7oYK4mmymvL8YYL2RelWw
+         hzRzrJIDaPdzX1Ps9D350oH2xxu6LBmY1QZsDGsiT2hcoD8MckrI7hnr+BLKv6J9LAyP
+         slQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=I43MDT/4gAbtWwlihJ3mHIvjj3Y/M26LvMzUi1efgUY=;
+        b=EGVvJ5t9YrTZc1TV2lOU4tlYNyj/BCTerpWkN1EFGE48tA/tXi8sdgk8AXE8JXmOni
+         KEGcefQnN0IO1Xb+PPyBfyC0wumn5GGw+Gr2JSNP8o10o3FBEJ9C92Ou4XvRQ1mO61mI
+         Kirz1pvFy8XjgwSHtgSjira6Wcl60AzsUFFSW4VSXBnl1O46t8a4AX/17D8nDJBgXHx9
+         BAExllc4N/hTpR0smB42F6UaTDnMc0YeqCULntinSh4STz2zHCn77HF8q5lchO2iSVeE
+         Izi8gxw4ZLoCoT1N5PJ4EOkvJ7ojDpHU9kJCS6J52Jca2oo2qOVfa0RjYGZCm6uLyrO0
+         pJcA==
+X-Gm-Message-State: AOAM533O5p2i6ftz/sovbITNep0TUvG2Asbj9dz2OSpvcgThYtbHFzLI
+        WHySvaJ57QIEbIDayIgqUWJAyrEhissMHp0bkAY=
+X-Google-Smtp-Source: ABdhPJyMQuqDEQ+rl5JGM/TJjvEw0vHbxW8I+fWGTaD4kxtT+pL7kixLKZZM2c8A2IWRLGG0qVKAxA==
+X-Received: by 2002:a2e:90d2:: with SMTP id o18mr179885ljg.288.1619117714738;
+        Thu, 22 Apr 2021 11:55:14 -0700 (PDT)
+Received: from localhost.localdomain ([94.103.229.147])
+        by smtp.gmail.com with ESMTPSA id u8sm332634lfm.133.2021.04.22.11.55.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Apr 2021 11:55:14 -0700 (PDT)
+Date:   Thu, 22 Apr 2021 21:55:11 +0300
+From:   Pavel Skripkin <paskripkin@gmail.com>
+To:     Atul Gopinathan <atulgopinathan@gmail.com>
+Cc:     mchehab@kernel.org,
+        syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: gspca: stv06xx: Fix memleak in stv06xx
+ subdrivers
+Message-ID: <20210422215511.01489adb@gmail.com>
+In-Reply-To: <20210422160742.7166-1-atulgopinathan@gmail.com>
+References: <20210422160742.7166-1-atulgopinathan@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YIGiOZDR/PP0Rt+I@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/04/2021 19:20, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> On Thu, Apr 22, 2021 at 02:16:10PM +0300, Tomi Valkeinen wrote:
->> On 18/04/2021 21:32, Laurent Pinchart wrote:
->>> On Thu, Apr 15, 2021 at 04:04:44PM +0300, Tomi Valkeinen wrote:
->>>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>>
->>>> Add support for subdev internal routing. A route is defined as a single
->>>> stream from a sink pad to a source pad.
->>>>
->>>> The userspace can configure the routing via two new ioctls,
->>>> VIDIOC_SUBDEV_G_ROUTING and VIDIOC_SUBDEV_S_ROUTING, and subdevs can
->>>> implement the functionality with v4l2_subdev_pad_ops.get_routing() and
->>>> v4l2_subdev_pad_ops.set_routing().
->>>>
->>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
->>>>
->>>> - Add sink and source streams for multiplexed links
->>>> - Copy the argument back in case of an error. This is needed to let the
->>>>     caller know the number of routes.
->>>>
->>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>>> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->>>>
->>>> - Expand and refine documentation.
->>>> - Make the 'routes' pointer a __u64 __user pointer so that a compat32
->>>>     version of the ioctl is not required.
->>>> - Add struct v4l2_subdev_krouting to be used for subdevice operations.
->>>>
->>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->>>>
->>>> - Fix typecasing warnings
->>>> - Check sink & source pad types
->>>> - Add 'which' field
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>
->>> Seems few people haven't contributed to this patch one way or another
->>> :-)
->>
->> The more the merrier!
->>
->>>> ---
->>>>    drivers/media/v4l2-core/v4l2-ioctl.c  | 25 ++++++++++++++-
->>>>    drivers/media/v4l2-core/v4l2-subdev.c | 45 +++++++++++++++++++++++++++
->>>>    include/media/v4l2-subdev.h           | 24 ++++++++++++++
->>>>    include/uapi/linux/v4l2-subdev.h      | 44 ++++++++++++++++++++++++++
->>>>    4 files changed, 137 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->>>> index 6a5d1c6d11d6..f5732962753f 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->>>> @@ -16,6 +16,7 @@
->>>>    #include <linux/kernel.h>
->>>>    #include <linux/version.h>
->>>>    
->>>> +#include <linux/v4l2-subdev.h>
->>>>    #include <linux/videodev2.h>
->>>>    
->>>>    #include <media/v4l2-common.h>
->>>> @@ -3108,6 +3109,21 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
->>>>    		ret = 1;
->>>>    		break;
->>>>    	}
->>>> +
->>>> +	case VIDIOC_SUBDEV_G_ROUTING:
->>>> +	case VIDIOC_SUBDEV_S_ROUTING: {
->>>> +		struct v4l2_subdev_routing *route = parg;
->>>
->>> s/route/routing/ to match the code below.
->>>
->>>> +
->>>> +		if (route->num_routes > 256)
->>>> +			return -EINVAL;
->>>> +
->>>> +		*user_ptr = u64_to_user_ptr(route->routes);
->>>> +		*kernel_ptr = (void **)&route->routes;
->>>> +		*array_size = sizeof(struct v4l2_subdev_route)
->>>> +			    * route->num_routes;
->>>> +		ret = 1;
->>>> +		break;
->>>> +	}
->>>>    	}
->>>>    
->>>>    	return ret;
->>>> @@ -3369,8 +3385,15 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
->>>>    	/*
->>>>    	 * Some ioctls can return an error, but still have valid
->>>>    	 * results that must be returned.
->>>> +	 *
->>>> +	 * FIXME: subdev IOCTLS are partially handled here and partially in
->>>> +	 * v4l2-subdev.c and the 'always_copy' flag can only be set for IOCTLS
->>>> +	 * defined here as part of the 'v4l2_ioctls' array. As
->>>> +	 * VIDIOC_SUBDEV_G_ROUTING needs to return results to applications even
->>>> +	 * in case of failure, but it is not defined here as part of the
->>>> +	 * 'v4l2_ioctls' array, insert an ad-hoc check to address that.
->>>>    	 */
->>>> -	if (err < 0 && !always_copy)
->>>> +	if (err < 0 && !always_copy && cmd != VIDIOC_SUBDEV_G_ROUTING)
->>>>    		goto out;
->>>>    
->>>>    out_array_args:
->>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->>>> index 956dafab43d4..95a4c3091fa6 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>>> @@ -681,6 +681,51 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>>>    	case VIDIOC_SUBDEV_QUERYSTD:
->>>>    		return v4l2_subdev_call(sd, video, querystd, arg);
->>>>    
->>>> +	case VIDIOC_SUBDEV_G_ROUTING: {
->>>> +		struct v4l2_subdev_routing *routing = arg;
->>>> +		struct v4l2_subdev_krouting krouting = {
->>>> +			.which = routing->which,
->>>> +			.num_routes = routing->num_routes,
->>>> +			.routes = (struct v4l2_subdev_route *)(uintptr_t)routing->routes,
->>>> +		};
->>>> +		int ret;
->>>> +
->>>> +		ret = v4l2_subdev_call(sd, pad, get_routing, &krouting);
->>>> +		if (ret)
->>>> +			return ret;
->>>> +
->>>> +		routing->num_routes = krouting.num_routes;
->>>
->>> Shouldn't num_routes be set even in case of errors ?
->>
->> Yes, you're right.
->>
->>>> +
->>>> +		return 0;
->>>> +	}
->>>> +
->>>> +	case VIDIOC_SUBDEV_S_ROUTING: {
->>>> +		struct v4l2_subdev_routing *routing = arg;
->>>> +		struct v4l2_subdev_route *route = (struct v4l2_subdev_route *)(uintptr_t)
->>>> +						  routing->routes;
->>>
->>> I'd name the variable routes as it points to an array.
->>>
->>>> +		struct v4l2_subdev_krouting krouting = {};
->>>> +		unsigned int i;
->>>> +
->>>> +		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
->>>> +			return -EPERM;
->>>> +
->>>> +		for (i = 0; i < routing->num_routes; ++i) {
->>>> +			if (route[i].sink_pad >= sd->entity.num_pads ||
->>>> +			    route[i].source_pad >= sd->entity.num_pads)
->>>> +				return -EINVAL;
->>>> +
->>>> +			if (!(sd->entity.pads[route[i].sink_pad].flags & MEDIA_PAD_FL_SINK) ||
->>>> +			    !(sd->entity.pads[route[i].source_pad].flags & MEDIA_PAD_FL_SOURCE))
->>>> +				return -EINVAL;
->>>> +		}
->>>> +
->>>> +		krouting.which = routing->which;
->>>> +		krouting.num_routes = routing->num_routes;
->>>> +		krouting.routes = route;
->>>> +
->>>> +		return v4l2_subdev_call(sd, pad, set_routing, &krouting);
->>>> +	}
->>>> +
->>>>    	default:
->>>>    		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
->>>>    	}
->>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->>>> index 436d0445aafd..3826ab918731 100644
->>>> --- a/include/media/v4l2-subdev.h
->>>> +++ b/include/media/v4l2-subdev.h
->>>> @@ -650,6 +650,22 @@ struct v4l2_subdev_pad_config {
->>>>    	struct v4l2_rect try_compose;
->>>>    };
->>>>    
->>>> +/**
->>>> + * struct v4l2_subdev_krouting - subdev routing table
->>>> + *
->>>> + * @which: format type (from enum v4l2_subdev_format_whence)
->>>> + * @routes: &struct v4l2_subdev_route
->>>> + * @num_routes: number of routes
->>>> + *
->>>> + * This structure is used to translate argument received from
->>>
->>> s/argument/the arguments/
->>>
->>>> + * VIDIOC_SUBDEV_G/S_ROUTING() ioctl to sudev device drivers operations.
->>>
->>> s/sudev/subdev/
->>>
->>>> + */
->>>> +struct v4l2_subdev_krouting {
->>>> +	u32 which;
->>>> +	struct v4l2_subdev_route *routes;
->>>> +	unsigned int num_routes;
->>>> +};
->>>> +
->>>>    /**
->>>>     * struct v4l2_subdev_pad_ops - v4l2-subdev pad level operations
->>>>     *
->>>> @@ -711,6 +727,10 @@ struct v4l2_subdev_pad_config {
->>>>     *		     applied to the hardware. The operation shall fail if the
->>>>     *		     pad index it has been called on is not valid or in case of
->>>>     *		     unrecoverable failures.
->>>> + *
->>>> + * @get_routing: get the subdevice routing table.
->>>> + * @set_routing: enable or disable data connection routes described in the
->>>> + *		 subdevice routing table.
->>>>     */
->>>>    struct v4l2_subdev_pad_ops {
->>>>    	int (*init_cfg)(struct v4l2_subdev *sd,
->>>> @@ -755,6 +775,10 @@ struct v4l2_subdev_pad_ops {
->>>>    			       struct v4l2_mbus_config *config);
->>>>    	int (*set_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
->>>>    			       struct v4l2_mbus_config *config);
->>>> +	int (*get_routing)(struct v4l2_subdev *sd,
->>>> +			   struct v4l2_subdev_krouting *route);
->>>> +	int (*set_routing)(struct v4l2_subdev *sd,
->>>> +			   struct v4l2_subdev_krouting *route);
->>>>    };
->>>>    
->>>>    /**
->>>> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
->>>> index 658106f5b5dc..f2a17cbd1e9a 100644
->>>> --- a/include/uapi/linux/v4l2-subdev.h
->>>> +++ b/include/uapi/linux/v4l2-subdev.h
->>>> @@ -188,6 +188,48 @@ struct v4l2_subdev_capability {
->>>>    /* The v4l2 sub-device video device node is registered in read-only mode. */
->>>>    #define V4L2_SUBDEV_CAP_RO_SUBDEV		0x00000001
->>>>    
->>>> +#define V4L2_SUBDEV_ROUTE_FL_ACTIVE		BIT(0)
->>>> +#define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		BIT(1)
->>>> +
->>>> +/**
->>>> + * struct v4l2_subdev_route - A route inside a subdev
->>>> + *
->>>> + * @sink_pad: the sink pad index
->>>> + * @sink_stream: the sink stream identifier
->>>> + * @source_pad: the source pad index
->>>> + * @source_stream: the source stream identifier
->>>> + * @flags: route flags:
->>>> + *
->>>> + *	V4L2_SUBDEV_ROUTE_FL_ACTIVE: Is the route active? An active
->>>> + *	route will start when streaming is enabled on a video node.
->>>> + *	Set by the user.
->>>> + *
->>>> + *	V4L2_SUBDEV_ROUTE_FL_IMMUTABLE: Is the route immutable, i.e.
->>>> + *	can it be activated and inactivated? Set by the driver.
->>>
->>> This should be moved to the macros.
->>>
->>>> + */
->>>> +struct v4l2_subdev_route {
->>>> +	__u32 sink_pad;
->>>> +	__u32 sink_stream;
->>>> +	__u32 source_pad;
->>>> +	__u32 source_stream;
->>>> +	__u32 flags;
->>>> +	__u32 reserved[5];
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct v4l2_subdev_routing - Subdev routing information
->>>> + *
->>>> + * @which: format type (from enum v4l2_subdev_format_whence)
->>>
->>> v4l2_subdev_format_whence shoudn't have had "format" in its name :-S We
->>> can't do much about that, but should "format type" be changed to "routes
->>> type", or maybe "configuration type" ?
->>>
->>>> + * @routes: pointer to the routes array
->>>> + * @num_routes: the total number of routes in the routes array
->>>
->>> Won't kerneldoc complain about the undocumented reserved field ?
->>>
->>>> + */
->>>> +struct v4l2_subdev_routing {
->>>> +	__u32 which;
->>>> +	__u64 routes;
->>>> +	__u32 num_routes;
->>>> +	__u32 reserved[5];
->>>> +};
->>>> +
->>>>    /* Backwards compatibility define --- to be removed */
->>>>    #define v4l2_subdev_edid v4l2_edid
->>>>    
->>>> @@ -215,5 +257,7 @@ struct v4l2_subdev_capability {
->>>>    #define VIDIOC_SUBDEV_ENUM_DV_TIMINGS		_IOWR('V', 98, struct v4l2_enum_dv_timings)
->>>>    #define VIDIOC_SUBDEV_QUERY_DV_TIMINGS		_IOR('V', 99, struct v4l2_dv_timings)
->>>>    #define VIDIOC_SUBDEV_DV_TIMINGS_CAP		_IOWR('V', 100, struct v4l2_dv_timings_cap)
->>>> +#define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
->>>> +#define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
->>>
->>> I would keep the ioctls sorted by number.
->>
->> The ioctls are not sorted (even if it may look like it above =). I'm not
->> sure if there's a better place for them than the bottom.
-> 
-> Isn't the last block of ioctls (the ones reusing the V4L2 video node
-> numbers) sorted ?
+Hi!
 
-Oh, right, true. But, actually, these new ioctls shouldn't be here, as 
-they are not "identical to the ioctls in videodev2.h". They should be 
-moved above that comment, and the ioctls above that comment are not sorted.
+On Thu, 22 Apr 2021 21:37:42 +0530
+Atul Gopinathan <atulgopinathan@gmail.com> wrote:
+> During probing phase of a gspca driver in "gspca_dev_probe2()", the
+> stv06xx subdrivers have certain sensor variants (namely, hdcs_1x00,
+> hdcs_1020 and pb_0100) that allocate memory for their respective
+> sensor which is passed to the "sd->sensor_priv" field. During the
+> same probe routine, after "sensor_priv" allocation, there are chances
+> of later functions invoked to fail which result in the probing
+> routine to end immediately via "goto out" path. While doing so, the
+> memory allocated earlier for the sensor isn't taken care of resulting
+> in memory leak.
+> 
+> Fix this by adding operations to the gspca, stv06xx and down to the
+> sensor levels to free this allocated memory during gspca probe
+> failure.
+> 
+> -
+> The current level of hierarchy looks something like this:
+> 
+> 	gspca (main driver) represented by struct gspca_dev
+> 	   |
+> ___________|_____________________________________
+> |	|	|	|	|		| (subdrivers)
+> 			|			  represented
+>  			stv06xx			  by "struct
+> sd" |
+>  	 _______________|_______________
+>  	 |	|	|	|	|  (sensors)
+> 	 	|			|
+>  		hdcs_1x00/1020		pb01000
+> 			|_________________|
+> 				|
+> 			These three sensor variants
+> 			allocate memory for
+> 			"sd->sensor_priv" field.
+> 
+> Here, "struct gspca_dev" is the representation used in the top level.
+> In the sub-driver levels, "gspca_dev" pointer is cast to "struct sd*",
+> something like this:
+> 
+> 	struct sd *sd = (struct sd *)gspca_dev;
+> 
+> This is possible because the first field of "struct sd" is
+> "gspca_dev":
+> 
+> 	struct sd {
+> 		struct gspca_dev;
+> 		.
+> 		.
+> 	}
+> 
+> Therefore, to deallocate the "sd->sensor_priv" fields from
+> "gspca_dev_probe2()" which is at the top level, the patch creates
+> operations for the subdrivers and sensors to be invoked from the gspca
+> driver levels. These operations essentially free the "sd->sensor_priv"
+> which were allocated by the "config" and "init_controls" operations in
+> the case of stv06xx sub-drivers and the sensor levels.
+> 
+> This patch doesn't affect other sub-drivers or even sensors who never
+> allocate memory to "sensor_priv". It has also been tested by syzbot
+> and it returned an "OK" result.
+> 
+> https://syzkaller.appspot.com/bug?id=ab69427f2911374e5f0b347d0d7795bfe384016c
+> -
+> 
+> Fixes: 4c98834addfe ("V4L/DVB (10048): gspca - stv06xx: New
+> subdriver.") Cc: stable@vger.kernel.org
+> Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
+> Reported-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
+> Tested-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
+> Signed-off-by: Atul Gopinathan <atulgopinathan@gmail.com>
 
-  Tomi
+AFAIK, something similar is already applied to linux-media tree
+https://git.linuxtv.org/media_tree.git/commit/?id=4f4e6644cd876c844cdb3bea2dd7051787d5ae25
+
+-- 
+With regards,
+Pavel Skripkin
