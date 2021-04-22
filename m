@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78A403677EA
-	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 05:28:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDA703677EB
+	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 05:28:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234626AbhDVD27 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 23:28:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59980 "EHLO
+        id S234632AbhDVD3C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 23:29:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234615AbhDVD26 (ORCPT
+        with ESMTP id S234615AbhDVD3C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 23:28:58 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0274FC06138B
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 20:28:24 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id 20so18851148pll.7
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 20:28:23 -0700 (PDT)
+        Wed, 21 Apr 2021 23:29:02 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EF98C06174A
+        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 20:28:25 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id lt13so11700443pjb.1
+        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 20:28:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :in-reply-to:references;
-        bh=jFGd0iOWrrDCRq1swY9aZJCtYQoP2Jawu8/Eqa9Xslg=;
-        b=IZluTp979k7ofDOisKeQTrGY3reFXHQoG6p9u2sKm40QhYHsMWVTyfIKzSvEQ1GXDh
-         fQ63gAM8EAeSEAq6pSXqRO6/49Myea4cPPz2QjvpF38JySgXOAZi85TD/p7ArPoh6ixF
-         pEmvVqoXBNxmdLUsFRVNepZ3Cx31JSZvTD8XBCNHkQYawug5SDok3u1V0C7aXlbXyQeY
-         sUxLfQAHqbioP0GGBbuywxGRMTlH0tdA3UneatFjp42+3Pv8szeRJlKeICQa1KvDNM1c
-         Y+J+Pe2Vs1Id8pLCYT0Qfr++iLEUip6nyVHlkzZ5lpxq7kzXk2Eix4bPyStPDFwuk/X+
-         jjcw==
+        bh=fAGj+NtHA3L+cHWX2zjzzpvYTknP1on+8VLI+lkCUa8=;
+        b=Q8JnLS4rJ8TvhDFUaMimjPR2nly9Q0hzGJHOxfYYsr4kGW2cWRzA11mHjzMU8Vilii
+         lWLNSzoVIwgh47gkHH6sWazehyeCRrlLKpSV8cpTyRpXhvIECFJ4eLd7f0yr0d1tRCRG
+         Q9Cfx8iexizRiDeekewRV1VQ/F0FtJ3OJ0T9ra6T+tb10b5DQh2otaGKHRG5KkzhhaUa
+         Kf9Q4qSpetWuOFKxxlhze/jF4lKHbSKv2hvXPw1o6ZkBtgiuCM5kzQ2xqTXhR/bopG7E
+         OPT/UmDfU9f5dJ/nChhBz4IKsC7SJ2Ow7xWviSUy+zexSiFBZwM8XmUyCkP3j/0g11z1
+         9nfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:in-reply-to:references;
-        bh=jFGd0iOWrrDCRq1swY9aZJCtYQoP2Jawu8/Eqa9Xslg=;
-        b=N9eOs4b9AJyr4iSQ+Q3ItK7L3K6MRrh+tDQ0ibyUvAHkF9LXaOnhIvW6P+xD4/TIUI
-         Lu+MIVOw/AtIy/i1pOraIU7GNjt03yJ0rlwlHcp8KxC4ZZ1WBcXHYhg+Kyho8edXMKHJ
-         t0RgyEewz6DRbhYxpLC5Z95sdUxmgWQYwdlLVWwK0IFx2WX/dsE88iYcBi585gso/rKc
-         ffKJ6UAM1zRHdBAdIEx8h17b73YyDnUEV+3vx3eY18c1L/LD9BlCxXpVHmEkJVT4rc/S
-         LX/hkMSxXDOABp0AaY4s8Aa2fkYdktTFJyRvwz3Uw12Dq5B9Wdfq/fJA/Z6n19OrnRk8
-         PfjA==
-X-Gm-Message-State: AOAM532DSCTtXD0S9/ostjPiB/i6nZM+/CT9CkFTkDATo0p+O3S0eZdD
-        1+r1oRV1HV47oSOB0hqzdcTgP/Ruq9sN+Q==
-X-Google-Smtp-Source: ABdhPJyKmhpcnOMC6bETxkGMmTszeZl7e6HKSyUQ6+x5BPbmIgIBIXW/8o1q+SdLO3W0vS+O6VNNfg==
-X-Received: by 2002:a17:902:a70f:b029:ea:d4a8:6a84 with SMTP id w15-20020a170902a70fb02900ead4a86a84mr1500112plq.42.1619062103605;
-        Wed, 21 Apr 2021 20:28:23 -0700 (PDT)
+        bh=fAGj+NtHA3L+cHWX2zjzzpvYTknP1on+8VLI+lkCUa8=;
+        b=h0trpVVEyRuOhdU/yHIzAL8kbfjfsj1FabKnu3/uflnK1FwF8UvqU03qy1vlXB6rBW
+         twX36YQiRySfgkFGPZZIjPZhFIeuPGpMcr7V8vrZN+lrypl2/IALeT+Jyhbql1Y1Jdn8
+         S6uUccjYGAVCELUTNcop2T1YJOPybJVUPYBavgHES7mkKBy6llESQV49+ZuPjPmvgx85
+         q+dh5ZjyzjbwjLgthuEi9LtZzipc8W2VPpTWQJhjZpoBZJEVz3PARP4lXA6tBDxZ+NuA
+         joQtisVIPyvTN+skDEA9lrKnezpoQ3NrgQuGOCr8fQ4HSMjxESThMqXNTaKDbZizJSPD
+         Jclg==
+X-Gm-Message-State: AOAM530/NabGORPUtwxPyGlR+6UFCMtc5Lafs0YRCoiZ05C14hVlJK6w
+        NidY+9L4zVEsz/JIMaMCiKkJD+xd7rEt/g==
+X-Google-Smtp-Source: ABdhPJzIs1BfAjPG+e+u7eN82sz+TeDUgE340ARh7Cw6vFrdGK5QC4vqlMDeH5bkwucHC6+BvwQ0Xg==
+X-Received: by 2002:a17:902:f2d1:b029:eb:2e32:8804 with SMTP id h17-20020a170902f2d1b02900eb2e328804mr1497882plc.40.1619062105064;
+        Wed, 21 Apr 2021 20:28:25 -0700 (PDT)
 Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id f3sm6266999pjo.3.2021.04.21.20.28.23
+        by smtp.gmail.com with ESMTPSA id f3sm6266999pjo.3.2021.04.21.20.28.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 20:28:23 -0700 (PDT)
+        Wed, 21 Apr 2021 20:28:24 -0700 (PDT)
 From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil@xs4all.nl, Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH v4 2/3] cec: add active sensing test for Audio Rate Control messages
-Date:   Wed, 21 Apr 2021 20:27:53 -0700
-Message-Id: <7008f3b7930a409284602b4e4868d26ea4a1d23c.1619060430.git.deborahbrouwer3563@gmail.com>
+Subject: [PATCH v4 3/3] cec: add invalid operand test for Audio Rate Control messages
+Date:   Wed, 21 Apr 2021 20:27:54 -0700
+Message-Id: <b1a4ce191ad422e0f178101fe2e9ec73e4625048.1619060430.git.deborahbrouwer3563@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1619060430.git.deborahbrouwer3563@gmail.com>
 References: <cover.1619060430.git.deborahbrouwer3563@gmail.com>
@@ -63,173 +63,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The controlling device should send an Audio Rate Control message at least
-once every 2 seconds for active sensing. Add a test in cec-compliance to
-delay the message by more than 2 seconds. Check the interval between
-messages in cec-follower and warn if the delay is greater than 2 seconds.
+Add a test in cec-compliance that sends an Audio Rate Control message
+with an invalid operand. Check that it receives a Feature Abort reply
+due to the invalid operand. Add a response in cec-follower to Feature
+Abort due to an invalid operand.
 
 Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 ---
- utils/cec-compliance/cec-test-audio.cpp | 34 +++++++++++++++---
- utils/cec-follower/cec-follower.cpp     |  1 +
- utils/cec-follower/cec-follower.h       |  1 +
- utils/cec-follower/cec-processing.cpp   | 46 ++++++++++++++++++++-----
- 4 files changed, 69 insertions(+), 13 deletions(-)
+ utils/cec-compliance/cec-test-audio.cpp | 25 +++++++++++++++++++++++++
+ utils/cec-follower/cec-processing.cpp   |  4 ++++
+ 2 files changed, 29 insertions(+)
 
 diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
-index 4674295b..e1386dbb 100644
+index e1386dbb..bdbcd178 100644
 --- a/utils/cec-compliance/cec-test-audio.cpp
 +++ b/utils/cec-compliance/cec-test-audio.cpp
-@@ -851,10 +851,6 @@ const vec_remote_subtests sac_subtests{
- 
- /* Audio Rate Control */
- 
--/*
--  TODO: These are very rudimentary tests which should be expanded.
-- */
--
- static int audio_rate_ctl_set_audio_rate(struct node *node, unsigned me, unsigned la, bool interactive)
- {
- 	struct cec_msg msg = {};
-@@ -875,6 +871,30 @@ static int audio_rate_ctl_set_audio_rate(struct node *node, unsigned me, unsigne
+@@ -895,6 +895,25 @@ static int audio_rate_ctl_active_sensing(struct node *node, unsigned me, unsigne
  	return OK_PRESUMED;
  }
  
-+static int audio_rate_ctl_active_sensing(struct node *node, unsigned me, unsigned la, bool interactive)
++static int audio_rate_ctl_invalid(struct node *node, unsigned me, unsigned la, bool interactive)
 +{
-+	/*
-+	 * The source shall go back to Rate Control Off if no Set Audio Rate message is
-+	 * received for more than 2 seconds.
-+	 */
 +	if (!node->remote[la].has_aud_rate)
 +		return NOTAPPLICABLE;
 +
 +	struct cec_msg msg = {};
 +
 +	cec_msg_init(&msg, me, la);
-+
-+	/*
-+	 * Since this subtest runs immediately after Set Audio Rate, delaying the interval
-+	 * between the two tests is sufficient to test that the Source turns off rate control.
-+	 */
-+	sleep(3);
-+	cec_msg_set_audio_rate(&msg, CEC_OP_AUD_RATE_OFF);
++	cec_msg_set_audio_rate(&msg, 0xa); /* Invalid Audio Rate Control message operand */
 +	fail_on_test(!transmit_timeout(node, &msg));
-+	fail_on_test_v2(node->remote[la].cec_version, unrecognized_op(&msg));
-+	return OK_PRESUMED;
++	fail_on_test(timed_out(&msg));
++	fail_on_test(!cec_msg_status_is_abort(&msg));
++	if (abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP) {
++		warn("Expected Feature Abort [Invalid operand]\n");
++		return FAIL;
++	}
++	return OK;
 +}
 +
  const vec_remote_subtests audio_rate_ctl_subtests{
  	{
  		"Set Audio Rate",
-@@ -882,4 +902,10 @@ const vec_remote_subtests audio_rate_ctl_subtests{
+@@ -908,4 +927,10 @@ const vec_remote_subtests audio_rate_ctl_subtests{
  		CEC_LOG_ADDR_MASK_TUNER | CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
- 		audio_rate_ctl_set_audio_rate,
+ 		audio_rate_ctl_active_sensing,
  	},
 +	{
-+		"Audio Rate Active Sensing",
++		"Audio Rate Invalid Operand",
 +		CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD |
 +		CEC_LOG_ADDR_MASK_TUNER | CEC_LOG_ADDR_MASK_AUDIOSYSTEM,
-+		audio_rate_ctl_active_sensing,
++		audio_rate_ctl_invalid,
 +	},
  };
-diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/cec-follower.cpp
-index bb63f90d..184cf16a 100644
---- a/utils/cec-follower/cec-follower.cpp
-+++ b/utils/cec-follower/cec-follower.cpp
-@@ -314,6 +314,7 @@ void state_init(struct node &node)
- 	node.state.volume = 50;
- 	node.state.mute = false;
- 	tuner_dev_info_init(&node.state);
-+	node.state.last_aud_rate_rx_ts = 0;
- }
- 
- int main(int argc, char **argv)
-diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
-index 7806a4b6..391b9ab4 100644
---- a/utils/cec-follower/cec-follower.h
-+++ b/utils/cec-follower/cec-follower.h
-@@ -51,6 +51,7 @@ struct state {
- 	bool tuner_report_changes;
- 	bool deck_report_changes;
- 	unsigned toggle_power_status;
-+	__u64 last_aud_rate_rx_ts;
- };
- 
- struct node {
 diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-index 02440747..fc0d5df0 100644
+index fc0d5df0..93db4059 100644
 --- a/utils/cec-follower/cec-processing.cpp
 +++ b/utils/cec-follower/cec-processing.cpp
-@@ -29,6 +29,9 @@
- /* Time between each polling message sent to a device */
- #define POLL_PERIOD 15000
- 
-+/* The maximum interval in seconds between audio rate messages as defined in the spec */
-+#define MAX_AUD_RATE_MSG_INTERVAL 2
-+
- struct cec_enum_values {
- 	const char *type_name;
- 	__u8 value;
-@@ -230,6 +233,22 @@ static __u8 current_power_state(struct node *node)
- 	return CEC_OP_POWER_STATUS_TO_STANDBY;
- }
- 
-+static void aud_rate_msg_interval_check(__u64 ts_new, __u64 ts_old)
-+{
-+	/*
-+	 * The interval between messages is not relevant if this is the
-+	 * first audio rate control message or if the previous message
-+	 * turned off the audio rate control.
-+	 */
-+	if (ts_old) {
-+		unsigned interval = (ts_new - ts_old) / 1000000000;
-+		if (interval > MAX_AUD_RATE_MSG_INTERVAL) {
-+			warn("The interval between Audio Rate Control messages was greater\n");
-+			warn("than the Maxiumum Audio Rate Message Interval (2s).\n");
-+		}
-+	}
-+}
-+
- static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- {
- 	__u8 to = cec_msg_destination(&msg);
-@@ -775,18 +794,27 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 		return;
- 
- 
--		/*
--		  Audio Rate Control
--
--		  This is only a basic implementation.
--
--		  TODO: Set Audio Rate shall be sent at least every 2 seconds by
--		  the controlling device. This should be checked and kept track of.
--		*/
-+		/* Audio Rate Control */
- 
- 	case CEC_MSG_SET_AUDIO_RATE:
--		if (node->has_aud_rate)
-+		if (!node->has_aud_rate)
-+			break;
-+
-+		switch (msg.msg[2]) {
-+		case CEC_OP_AUD_RATE_OFF:
-+			aud_rate_msg_interval_check(msg.rx_ts, node->state.last_aud_rate_rx_ts);
-+			node->state.last_aud_rate_rx_ts = 0;
-+			return;
-+		case CEC_OP_AUD_RATE_WIDE_STD:
-+		case CEC_OP_AUD_RATE_WIDE_FAST:
-+		case CEC_OP_AUD_RATE_WIDE_SLOW:
-+		case CEC_OP_AUD_RATE_NARROW_STD:
-+		case CEC_OP_AUD_RATE_NARROW_FAST:
-+		case CEC_OP_AUD_RATE_NARROW_SLOW:
-+			aud_rate_msg_interval_check(msg.rx_ts, node->state.last_aud_rate_rx_ts);
-+			node->state.last_aud_rate_rx_ts = msg.rx_ts;
+@@ -814,6 +814,10 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 			aud_rate_msg_interval_check(msg.rx_ts, node->state.last_aud_rate_rx_ts);
+ 			node->state.last_aud_rate_rx_ts = msg.rx_ts;
  			return;
-+		}
++		default:
++			cec_msg_reply_feature_abort(&msg, CEC_OP_ABORT_INVALID_OP);
++			transmit(node, &msg);
++			break;
+ 		}
  		break;
- 
  
 -- 
 2.17.1
