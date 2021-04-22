@@ -2,98 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEB033680CA
-	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 14:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53068368177
+	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 15:31:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235875AbhDVMrp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Apr 2021 08:47:45 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47028 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236001AbhDVMrm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Apr 2021 08:47:42 -0400
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30D333EE;
-        Thu, 22 Apr 2021 14:47:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619095626;
-        bh=q5QLNlHI4g65tf+X6x6x9vxv1B8A43HAKwog5h15y+A=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=Z1rU1U7ihCejudRqonXDeQHKqQHnRPDmasGNeh3upeUlGXivrmzsC898sMGXYw2Wt
-         0Asl2UnUC5GToHhptQgXRd743g4Gf1aDYk4Vha6fQ+ws3MzmoOUWOKDvQe+fSRRa1z
-         HiZvvc+B1cDxFPVMbdYlwMpZ2p7D1xh42ejAaMeE=
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
- <20210415130450.421168-18-tomi.valkeinen@ideasonboard.com>
- <YHyIHyJpxvwMf6rZ@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v5 17/24] v4l: Add stream to frame descriptor
-Message-ID: <a259ee1e-10d5-3b5d-0fdc-6fc6a67dcdcd@ideasonboard.com>
-Date:   Thu, 22 Apr 2021 15:47:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S236226AbhDVNbg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Apr 2021 09:31:36 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53662 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230005AbhDVNbg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 22 Apr 2021 09:31:36 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1619098260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=dWM9Hsh1mloRToT60j1IdotWj6QBEDt3x8FllFwWD8k=;
+        b=IB0dQ082XXjMaBaadeYBasBomE9vk7L6hqI8ltWdiiKDphucY/K1N8kc33YXkWq/oe0I0l
+        Tsv62/K1olflzUICTGawY/xlz8mzRwKUn0jFTka+j1MweN7VC2JubOjuV9PoXtsiBxcbhm
+        xs84r/jA5fUTSp8wFHcYEk8iDwO3E0c=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C82AEB151;
+        Thu, 22 Apr 2021 13:31:00 +0000 (UTC)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        syzbot+d1e69c888f0d3866ead4@syzkaller.appspotmail.com
+Subject: [PATCH] cpia2: unregister device on probe error
+Date:   Thu, 22 Apr 2021 15:30:36 +0200
+Message-Id: <20210422133036.4647-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <YHyIHyJpxvwMf6rZ@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/04/2021 22:27, Laurent Pinchart wrote:
-> Hi Tomi and Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Apr 15, 2021 at 04:04:43PM +0300, Tomi Valkeinen wrote:
->> From: Sakari Ailus <sakari.ailus@linux.intel.com>
->>
->> The stream field identifies the stream this frame descriptor applies to in
->> routing configuration across a multiplexed link.
->>
->> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->> ---
->>   include/media/v4l2-subdev.h | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->> index 30ec011d31e3..436d0445aafd 100644
->> --- a/include/media/v4l2-subdev.h
->> +++ b/include/media/v4l2-subdev.h
->> @@ -338,6 +338,7 @@ enum v4l2_mbus_frame_desc_flags {
->>    * struct v4l2_mbus_frame_desc_entry - media bus frame description structure
->>    *
->>    * @flags:	bitmask flags, as defined by &enum v4l2_mbus_frame_desc_flags.
->> + * @stream:	stream in routing configuration
->>    * @pixelcode:	media bus pixel code, valid if @flags
->>    *		%FRAME_DESC_FL_BLOB is not set.
->>    * @length:	number of octets per frame, valid if @flags
->> @@ -347,6 +348,7 @@ enum v4l2_mbus_frame_desc_flags {
->>    */
->>   struct v4l2_mbus_frame_desc_entry {
->>   	enum v4l2_mbus_frame_desc_flags flags;
->> +	u32 stream;
-> 
-> As this isn't used in this series, I can't really tell how it will be
-> used, so it's hard to review the patch. Should we postpone it to the
-> next patch series ?
+The v4l2 device must be unregistered in case probe() fails,
+lest we get a leak.
 
-It's not used here, but it is needed allow the drivers use the features 
-introduced in this series. It is used to match routes to frame_descs.
+Reported-and-tested-by: syzbot+d1e69c888f0d3866ead4@syzkaller.appspotmail.com
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/media/usb/cpia2/cpia2_usb.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-Its usage is quite simple: e.g. when a driver has a route 
-(v4l2_subdev_route), it can get the frame_descs from the entity behind 
-v4l2_subdev_route.source_pad, and then find the matching frame_desc by 
-searching for
+diff --git a/drivers/media/usb/cpia2/cpia2_usb.c b/drivers/media/usb/cpia2/cpia2_usb.c
+index 3ab80a7b4498..db3b5d6d2d9a 100644
+--- a/drivers/media/usb/cpia2/cpia2_usb.c
++++ b/drivers/media/usb/cpia2/cpia2_usb.c
+@@ -844,15 +844,13 @@ static int cpia2_usb_probe(struct usb_interface *intf,
+ 	ret = set_alternate(cam, USBIF_CMDONLY);
+ 	if (ret < 0) {
+ 		ERR("%s: usb_set_interface error (ret = %d)\n", __func__, ret);
+-		kfree(cam);
+-		return ret;
++		goto error;
+ 	}
+ 
+ 
+ 	if((ret = cpia2_init_camera(cam)) < 0) {
+ 		ERR("%s: failed to initialize cpia2 camera (ret = %d)\n", __func__, ret);
+-		kfree(cam);
+-		return ret;
++		goto error;
+ 	}
+ 	LOG("  CPiA Version: %d.%02d (%d.%d)\n",
+ 	       cam->params.version.firmware_revision_hi,
+@@ -872,11 +870,14 @@ static int cpia2_usb_probe(struct usb_interface *intf,
+ 	ret = cpia2_register_camera(cam);
+ 	if (ret < 0) {
+ 		ERR("%s: Failed to register cpia2 camera (ret = %d)\n", __func__, ret);
+-		kfree(cam);
+-		return ret;
++		goto error;
+ 	}
+ 
+ 	return 0;
++error:
++	v4l2_device_unregister(&cam->v4l2_dev);
++	kfree(cam);
++	return ret;
+ }
+ 
+ /******************************************************************************
+-- 
+2.26.2
 
-v4l2_subdev_route.source_stream == v4l2_mbus_frame_desc_entry.stream
-
-  Tomi
