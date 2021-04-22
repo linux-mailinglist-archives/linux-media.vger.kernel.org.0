@@ -2,105 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EF81367EF6
-	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 12:47:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F3CF367F3E
+	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 13:05:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235938AbhDVKrb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Apr 2021 06:47:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235930AbhDVKrb (ORCPT
+        id S235863AbhDVLGY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Apr 2021 07:06:24 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:60122 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230285AbhDVLGX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Apr 2021 06:47:31 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E266C06174A;
-        Thu, 22 Apr 2021 03:46:56 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id u11so17414515pjr.0;
-        Thu, 22 Apr 2021 03:46:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yc9wGyWGhgFaZSQouLz2+dApxfgGjbSS67UWipX0ris=;
-        b=tBH1+sBLqDZuiPdSoyrOO6NT2umNak5OQbG2/NThReyEBwRA/FlPUiSrgW4o5eQb4t
-         iT8DHPHyznITtM2UcyG3Xf51W7dJcNg2eT/6PiPLf2/HuJZ+nI5n/98iRnqSCJR5P3da
-         I2+5kK3S4UVbIo+nxoDE34Kj0yXaVKAAHIbyhAwQGuLMfdqzrgn2ZG3eI9IMSySfzPCt
-         3C9Ab4Hb5BjPDZcCEwEA6CoBA55oznSqzy9s1VtpIjxAcESFMM0Dd2/mbQWYuBHY9OTO
-         Y0E01Z5i37Eff3QTCk2fQzf1unFVF/VUaCd8y2sE83M65AbeJHXuB6RgjfnbOHzk9MRX
-         WcFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yc9wGyWGhgFaZSQouLz2+dApxfgGjbSS67UWipX0ris=;
-        b=KLwuH5EltG1dnfeUT5dKvyZ7BYl26LDIvMjc5f5pkodYMH14Wij+NDNLtCSCY6rNxq
-         ztAfiNedQjEnD8B6jSj0B75xtbfACyXCPKcUfXpg1DxMr5UucLZYnXncKqZi/sDf4ink
-         Yx8Oov/SPNKPzxucPaamOPz1fE+bd72b9KDZGbLSdPFam2HURW1KBsbgCtwL6lgXOINr
-         bZQS/c1YlanbrbFWkGw1+E7oKlImZ9nGyF1Ih0LbGqdlWA48H+C0WMesQkqURPBCrNmQ
-         GQniBFQ+ZchNhLh8Fb5PR88Zvc9lmFov9vpWqoJbIgKLlqWE08DGadkjEh/LagGr8cqE
-         tmCA==
-X-Gm-Message-State: AOAM533iUG/9H2Qi1XcdZkzc6WzeG8Jo0QAoo2vfk/gLLQOH0m1XmV0I
-        FCJL9hx6RRtI8WXz69JawlnwiS/wf4Qp8/Kvox4=
-X-Google-Smtp-Source: ABdhPJy+ERoKJA1hCj8Oe+lftOnHwnIH8BzpBPEwxs0NMI9jWXOCPRjVXNvMvgFuC81oR7tJvfMC2+9aAoffBsOMBgQ=
-X-Received: by 2002:a17:902:e546:b029:ec:a7f5:2a88 with SMTP id
- n6-20020a170902e546b02900eca7f52a88mr3078034plf.21.1619088416159; Thu, 22 Apr
- 2021 03:46:56 -0700 (PDT)
+        Thu, 22 Apr 2021 07:06:23 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1lZX9U-0007S9-MP; Thu, 22 Apr 2021 11:05:44 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp: remove redundant initializations of several variables
+Date:   Thu, 22 Apr 2021 12:05:44 +0100
+Message-Id: <20210422110544.244609-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <202104220841.E5T3ZL3m-lkp@intel.com> <20210422001852.GA24577@de5bcc5e76b6>
-In-Reply-To: <20210422001852.GA24577@de5bcc5e76b6>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 22 Apr 2021 13:46:40 +0300
-Message-ID: <CAHp75VdbegA4iHJcT9s-MbU2nHHAKdaRFA_J8DqzR5BKhh-htg@mail.gmail.com>
-Subject: Re: [RFC PATCH linux-next] kernel/resource: __region_intersects() can
- be static
-To:     kernel test robot <lkp@intel.com>
-Cc:     Alistair Popple <apopple@nvidia.com>, kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 22, 2021 at 4:30 AM kernel test robot <lkp@intel.com> wrote:
+From: Colin Ian King <colin.king@canonical.com>
 
-Can you generate a commit message as well?
-Otherwise looks valid to me, thanks!
+Several variables are being initialized with values that is never
+read and being updated later with a new value. The initializations
+are redundant and can be removed.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/staging/media/atomisp/i2c/atomisp-gc2235.c        | 2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-ov2722.c        | 2 +-
+ drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c | 2 +-
+ drivers/staging/media/atomisp/pci/sh_css.c                | 4 ++--
+ drivers/staging/media/atomisp/pci/sh_css_params.c         | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
 
-> Fixes: edede6a2ecfe ("kernel/resource: allow region_intersects users to hold resource_lock")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: kernel test robot <lkp@intel.com>
-> ---
->  resource.c |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/kernel/resource.c b/kernel/resource.c
-> index 8faae19f8236e..a4bc6f66136c6 100644
-> --- a/kernel/resource.c
-> +++ b/kernel/resource.c
-> @@ -502,8 +502,8 @@ int __weak page_is_ram(unsigned long pfn)
->  }
->  EXPORT_SYMBOL_GPL(page_is_ram);
->
-> -int __region_intersects(resource_size_t start, size_t size, unsigned long flags,
-> -                       unsigned long desc)
-> +static int __region_intersects(resource_size_t start, size_t size, unsigned long flags,
-> +                              unsigned long desc)
->  {
->         struct resource res;
->         int type = 0; int other = 0;
-
-
-
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+index 78147ffb6099..f1ab7a0cab32 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+@@ -548,7 +548,7 @@ static int is_init;
+ 
+ static int power_ctrl(struct v4l2_subdev *sd, bool flag)
+ {
+-	int ret = -1;
++	int ret;
+ 	struct gc2235_device *dev = to_gc2235_sensor(sd);
+ 
+ 	if (!dev || !dev->platform_data)
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+index 1209492c1826..17af178cd54c 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+@@ -673,7 +673,7 @@ static int power_ctrl(struct v4l2_subdev *sd, bool flag)
+ static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
+ {
+ 	struct ov2722_device *dev = to_ov2722_sensor(sd);
+-	int ret = -1;
++	int ret;
+ 
+ 	if (!dev || !dev->platform_data)
+ 		return -ENODEV;
+diff --git a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
+index e698b63d6cb7..769dc122f266 100644
+--- a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
++++ b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
+@@ -932,7 +932,7 @@ static int ov5693_q_exposure(struct v4l2_subdev *sd, s32 *value)
+ static int ad5823_t_focus_vcm(struct v4l2_subdev *sd, u16 val)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	int ret = -EINVAL;
++	int ret;
+ 	u8 vcm_code;
+ 
+ 	ret = ad5823_i2c_read(client, AD5823_REG_VCM_CODE_MSB, &vcm_code);
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 27dd8ce8ba0a..f6edb6171612 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -6259,7 +6259,7 @@ allocate_delay_frames(struct ia_css_pipe *pipe) {
+ 	unsigned int dvs_frame_delay = 0;
+ 	struct ia_css_frame_info ref_info;
+ 	int err = 0;
+-	enum ia_css_pipe_id mode = IA_CSS_PIPE_ID_VIDEO;
++	enum ia_css_pipe_id mode;
+ 	struct ia_css_frame **delay_frames = NULL;
+ 
+ 	IA_CSS_ENTER_PRIVATE("");
+@@ -8764,7 +8764,7 @@ int
+ ia_css_pipe_create_extra(const struct ia_css_pipe_config *config,
+ 			    const struct ia_css_pipe_extra_config *extra_config,
+ 			    struct ia_css_pipe **pipe) {
+-	int err = -EINVAL;
++	int err;
+ 	struct ia_css_pipe *internal_pipe = NULL;
+ 	unsigned int i;
+ 
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 644e14575987..470a7af68ac1 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -3225,7 +3225,7 @@ sh_css_param_update_isp_params(struct ia_css_pipe *curr_pipe,
+ 	int err = 0;
+ 	ia_css_ptr cpy;
+ 	int i;
+-	unsigned int raw_bit_depth = 10;
++	unsigned int raw_bit_depth;
+ 	unsigned int isp_pipe_version = SH_CSS_ISP_PIPE_VERSION_1;
+ 	bool acc_cluster_params_changed = false;
+ 	unsigned int thread_id, pipe_num;
 -- 
-With Best Regards,
-Andy Shevchenko
+2.30.2
+
