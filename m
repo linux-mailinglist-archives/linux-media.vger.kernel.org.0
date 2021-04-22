@@ -2,162 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30037368000
-	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 14:04:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D338B36807D
+	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 14:31:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236317AbhDVMEn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Apr 2021 08:04:43 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46426 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235977AbhDVMEl (ORCPT
+        id S236008AbhDVMbf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Apr 2021 08:31:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38708 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235957AbhDVMbf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Apr 2021 08:04:41 -0400
+        Thu, 22 Apr 2021 08:31:35 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BDDCC06174A
+        for <linux-media@vger.kernel.org>; Thu, 22 Apr 2021 05:31:00 -0700 (PDT)
 Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0CE843EE;
-        Thu, 22 Apr 2021 14:04:04 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BC663EE;
+        Thu, 22 Apr 2021 14:30:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619093045;
-        bh=sfcS978vlqeZu/ZAhGWdwqYMsbtDz5F9JL86a93v86A=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=DbHY/jEuQZyNIBY6RGoVL+la2g110qU0mEgP8GadBm3bpXFreQStX6q33uxvwMLxU
-         iKg+elmFY7dAcdMccWD74hJYpEmVgPoThl58pmUq99BRyR8Wsdngg1M3MkRUjml4e7
-         Qc+OXiSbnqC5Uvp5PfnbAnjkqC2wVhpGEgoa5rcw=
-Subject: Re: [PATCH v5 05/24] media: entity: Add iterator helper for entity
- pads
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        s=mail; t=1619094657;
+        bh=GlRCdIrX66ry8eA05V/irzqi0udIgSQHSjA8jaBw+5A=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=I6yDYx3S0OzBFYrDycL9oEcQGV8H+/Unef5Fi4ucnekI7P9LCqxif1DEC0LtXo0D1
+         Xo4J0UGf2+WJVHpAAFOcq/5mpAj4iEpGTqjy4V629RY0Yw8D0OFbX470v1loKOhdJ4
+         /m67NZWKRfH3NYKXpTnU6PIRP13C5Vb8VasZGrjQ=
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
 References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
- <20210415130450.421168-6-tomi.valkeinen@ideasonboard.com>
- <YHxx8hv1Am4K9kq6@pendragon.ideasonboard.com>
+ <20210415130450.421168-16-tomi.valkeinen@ideasonboard.com>
+ <YHyHN2hWN1Hb3Gv1@pendragon.ideasonboard.com>
+ <20210420115050.GO3@paasikivi.fi.intel.com>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <154288f1-7e90-518a-d57e-7d4d11a1643a@ideasonboard.com>
-Date:   Thu, 22 Apr 2021 15:04:04 +0300
+Subject: Re: [PATCH v5 15/24] v4l: Add bus type to frame descriptors
+Message-ID: <2f39d7b6-ccc4-1afb-d8b2-6e0d44a311b0@ideasonboard.com>
+Date:   Thu, 22 Apr 2021 15:30:55 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <YHxx8hv1Am4K9kq6@pendragon.ideasonboard.com>
+In-Reply-To: <20210420115050.GO3@paasikivi.fi.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/04/2021 20:52, Laurent Pinchart wrote:
-> Hi Tomi and Jacopo,
+On 20/04/2021 14:50, Sakari Ailus wrote:
+> Hi Laurent,
 > 
-> Thank you for the patch.
+> On Sun, Apr 18, 2021 at 10:23:35PM +0300, Laurent Pinchart wrote:
+>> Hi Tomi and Sakari,
+>>
+>> Thank you for the patch.
+>>
+>> On Thu, Apr 15, 2021 at 04:04:41PM +0300, Tomi Valkeinen wrote:
+>>> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>>
+>>> Add the media bus type to the frame descriptor. CSI-2 specific
+>>> information will be added in next patch to the frame descriptor.
+>>
+>> I'd squash the next patch with this one.
+>>
+>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>>>
+>>> - Make the bus type a named enum
+>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> ---
+>>>   include/media/v4l2-subdev.h | 9 +++++++++
+>>>   1 file changed, 9 insertions(+)
+>>>
+>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>>> index d0e9a5bdb08b..85977abbea46 100644
+>>> --- a/include/media/v4l2-subdev.h
+>>> +++ b/include/media/v4l2-subdev.h
+>>> @@ -340,12 +340,21 @@ struct v4l2_mbus_frame_desc_entry {
+>>>   
+>>>   #define V4L2_FRAME_DESC_ENTRY_MAX	4
+>>>   
+>>> +enum v4l2_mbus_frame_desc_type {
+>>> +	V4L2_MBUS_FRAME_DESC_TYPE_PLATFORM,
+>>> +	V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL,
+>>> +	V4L2_MBUS_FRAME_DESC_TYPE_CCP2,
+>>> +	V4L2_MBUS_FRAME_DESC_TYPE_CSI2,
+>>> +};
+>>
+>> This should be documented. In particular, I have no idea what
+>> V4L2_MBUS_FRAME_DESC_TYPE_PLATFORM is. I also wonder if we shouldn't
+>> drop CCP2 (at least for now), does anyone use that anymore ?
 > 
-> On Thu, Apr 15, 2021 at 04:04:31PM +0300, Tomi Valkeinen wrote:
->> From: Jacopo Mondi <jacopo+renesas@jmondi.org>
->>
->> Add an iterator helper to easily cycle through all pads in an entity and
->> use it in media-entity and media-device code where appropriate.
->>
->> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->> ---
->>   drivers/media/mc/mc-device.c | 13 ++++++-------
->>   drivers/media/mc/mc-entity.c | 11 ++++++-----
->>   include/media/media-entity.h | 12 ++++++++++++
->>   3 files changed, 24 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
->> index 9e56d2ad6b94..704ef1360eba 100644
->> --- a/drivers/media/mc/mc-device.c
->> +++ b/drivers/media/mc/mc-device.c
->> @@ -581,7 +581,7 @@ static void __media_device_unregister_entity(struct media_entity *entity)
->>   	struct media_device *mdev = entity->graph_obj.mdev;
->>   	struct media_link *link, *tmp;
->>   	struct media_interface *intf;
->> -	unsigned int i;
->> +	struct media_pad *iter;
->>   
->>   	ida_free(&mdev->entity_internal_idx, entity->internal_idx);
->>   
->> @@ -597,8 +597,8 @@ static void __media_device_unregister_entity(struct media_entity *entity)
->>   	__media_entity_remove_links(entity);
->>   
->>   	/* Remove all pads that belong to this entity */
->> -	for (i = 0; i < entity->num_pads; i++)
->> -		media_gobj_destroy(&entity->pads[i].graph_obj);
->> +	media_entity_for_each_pad(entity, iter)
->> +		media_gobj_destroy(&iter->graph_obj);
->>   
->>   	/* Remove the entity */
->>   	media_gobj_destroy(&entity->graph_obj);
->> @@ -617,7 +617,7 @@ int __must_check media_device_register_entity(struct media_device *mdev,
->>   					      struct media_entity *entity)
->>   {
->>   	struct media_entity_notify *notify, *next;
->> -	unsigned int i;
->> +	struct media_pad *iter;
->>   	int ret;
->>   
->>   	if (entity->function == MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN ||
->> @@ -646,9 +646,8 @@ int __must_check media_device_register_entity(struct media_device *mdev,
->>   	media_gobj_create(mdev, MEDIA_GRAPH_ENTITY, &entity->graph_obj);
->>   
->>   	/* Initialize objects at the pads */
->> -	for (i = 0; i < entity->num_pads; i++)
->> -		media_gobj_create(mdev, MEDIA_GRAPH_PAD,
->> -			       &entity->pads[i].graph_obj);
->> +	media_entity_for_each_pad(entity, iter)
->> +		media_gobj_create(mdev, MEDIA_GRAPH_PAD, &iter->graph_obj);
->>   
->>   	/* invoke entity_notify callbacks */
->>   	list_for_each_entry_safe(notify, next, &mdev->entity_notify, list)
->> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
->> index 401fddf320e7..830841e0cd28 100644
->> --- a/drivers/media/mc/mc-entity.c
->> +++ b/drivers/media/mc/mc-entity.c
->> @@ -198,7 +198,8 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
->>   			   struct media_pad *pads)
->>   {
->>   	struct media_device *mdev = entity->graph_obj.mdev;
->> -	unsigned int i;
->> +	struct media_pad *iter;
->> +	unsigned int i = 0;
->>   
->>   	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
->>   		return -E2BIG;
->> @@ -209,12 +210,12 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
->>   	if (mdev)
->>   		mutex_lock(&mdev->graph_mutex);
->>   
->> -	for (i = 0; i < num_pads; i++) {
->> -		pads[i].entity = entity;
->> -		pads[i].index = i;
->> +	media_entity_for_each_pad(entity, iter) {
->> +		iter->entity = entity;
->> +		iter->index = i++;
->>   		if (mdev)
->>   			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
->> -					&entity->pads[i].graph_obj);
->> +					&iter->graph_obj);
->>   	}
->>   
->>   	if (mdev)
->> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
->> index 2d45344ca527..52b1a1cab57a 100644
->> --- a/include/media/media-entity.h
->> +++ b/include/media/media-entity.h
->> @@ -1102,3 +1102,15 @@ void media_remove_intf_links(struct media_interface *intf);
->>   	 (entity)->ops->operation((entity) , ##args) : -ENOIOCTLCMD)
->>   
->>   #endif
->> +
->> +/**
->> + * media_entity_for_each_pad - Iterate on all pads in an entity
->> + * @entity: The entity the pads belong to
->> + * @iter: The iterator pad
+> I guess we don't need one here, not now at least.
 > 
-> I would name the variable pad, here and in the code above.
+> I agree on the documentation.
 
-'iter' name is used in other similar functions/macros here, so I'd 
-rather keep this the same.
+As it's the first one in the list, I think it really means "undefined", 
+so that current users have a value there (I presume they initialize the 
+struct to 0). Sakari?
 
   Tomi
