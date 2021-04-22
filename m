@@ -2,162 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03006367BB6
-	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 10:06:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACD9A367C71
+	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 10:23:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235097AbhDVIHL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Apr 2021 04:07:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44118 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229655AbhDVIHL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Apr 2021 04:07:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 21D3061426;
-        Thu, 22 Apr 2021 08:06:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619078796;
-        bh=aXzRqf9+8BQeSlqgcbp1fjSrmCFGS3ZTiEGv60tlPLQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TGHULc1tf19ke+HZi9VgxZG1wrWq+r0eLHLjq7sETOCofwk8z8ChXve+KQPzuStiS
-         32XCPa3TMJELh9ardwkf+vGu//PHYr5siRvphXl2waXtDldVfZZe4crGJ08DVYRCyx
-         SrTWMudtZZmWue4jM+jHRBIowQAreCNbY7/GLifu9GMZScvsELcSFdeVLoc3pt4Oba
-         sKqkHieYK9JaqpJET3fL3Dxpk3ZKSpbruN0giOAVyLtLv7YC9f9m1kqdqAfvboOsxG
-         O/RXo5awd0OqYopCqGuIgf9VFNH9Fv24dUdOK2vo+9VijkZ+LFAhTzUbK8eX8rVPKk
-         MKdiQ/v8zPTpA==
-Date:   Thu, 22 Apr 2021 11:06:26 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Peter.Enderborg@sony.com
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        adobriyan@gmail.com, akpm@linux-foundation.org,
-        songmuchun@bytedance.com, guro@fb.com, shakeelb@google.com,
-        mhocko@suse.com, neilb@suse.de, samitolvanen@google.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, willy@infradead.org
-Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
-Message-ID: <YIEugg9RIVSReN97@kernel.org>
-References: <20210417163835.25064-1-peter.enderborg@sony.com>
- <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
- <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
- <YH63iPzbGWzb676T@phenom.ffwll.local>
- <a60d1eaf-f9f8-e0f3-d214-15ce2c0635c2@sony.com>
- <YH/tHFBtIawBfGBl@phenom.ffwll.local>
- <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
- <YIBFbh4Dd1XaDbto@kernel.org>
- <84e0c6d9-74c6-5fa8-f75a-45c8ec995ac2@sony.com>
+        id S235326AbhDVIWc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Apr 2021 04:22:32 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:34879 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230270AbhDVIWb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 22 Apr 2021 04:22:31 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ZUaulq20GvTEDZUaxlYBbb; Thu, 22 Apr 2021 10:21:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1619079715; bh=04/cc0IQjw+TC86aoM8+J8io329tydFMySlCryohbIE=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=bhlB9KFgpYgeWu3SLh5X5oWAO6wGoorFBvTvu+SVvAa//0qkdal3zf5qff6+UVy2U
+         OC9F7YCE2LulQcniPRysi3c595Ujza8/0siigDr12FXSYZwY4jMeMw69KXo6l4bzQq
+         CSVP6+YvwOxy8cGu3DoZdi2uOXsRF6xUw4B+GDboFQpVOXihcpjaSOr/h/pjpNYNCM
+         aD+6xEPYnTjIa+PiM7GwCMwutPJMlXqYDU+SBGDswI5+wJcuBZ1gOZQie1NK4XXAjg
+         +x9gSOveBtn86aOKHfB+jQM/Do2650N44Mv/pl2RzCj6xbkWk/YJnYjYawUj4A2Bc0
+         VjpO/8Kxd0blg==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] rtl2832_sdr/vivid/airspy/hackrf/msi2500: drop memset of
+ fmt.sdr.reserved
+Message-ID: <cf215936-6e19-5793-4ac3-167e70820645@xs4all.nl>
+Date:   Thu, 22 Apr 2021 10:21:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <84e0c6d9-74c6-5fa8-f75a-45c8ec995ac2@sony.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfBmxeULl+kPtoCQlrstR2LzwuVIfjYlrZ4Psp6B53oIEqxh1cMAI716Mt75yb78dEc1IN+vqYHt5uBOjCczKHCCqNEovuFozjxtc+qGjGn/JkvG5iwdF
+ i/MpTqT8L8lfkq7eXBZ0i0I7LujnuLacYQ7QJpU/pUTkaphjBZjmHec5HGy2gvgZTqH0UszqG6vGY2sBhY3hbb4erQImIU+UpTQ=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 21, 2021 at 05:35:57PM +0000, Peter.Enderborg@sony.com wrote:
-> On 4/21/21 5:31 PM, Mike Rapoport wrote:
-> > On Wed, Apr 21, 2021 at 10:37:11AM +0000, Peter.Enderborg@sony.com wrote:
-> >> On 4/21/21 11:15 AM, Daniel Vetter wrote:
-> >>> We need to understand what the "correct" value is. Not in terms of kernel
-> >>> code, but in terms of semantics. Like if userspace allocates a GL texture,
-> >>> is this supposed to show up in your metric or not. Stuff like that.
-> >> That it like that would like to only one pointer type. You need to know what
-> >>
-> >> you pointing at to know what it is. it might be a hardware or a other pointer.
-> >>
-> >> If there is a limitation on your pointers it is a good metric to count them
-> >> even if you don't  know what they are. Same goes for dma-buf, they
-> >> are generic, but they consume some resources that are counted in pages.
-> >>
-> >> It would be very good if there a sub division where you could measure
-> >> all possible types separately.  We have the detailed in debugfs, but nothing
-> >> for the user. A summary in meminfo seems to be the best place for such
-> >> metric.
-> >  
-> > Let me try to summarize my understanding of the problem, maybe it'll help
-> > others as well.
-> 
-> Thanks!
-> 
-> 
-> > A device driver allocates memory and exports this memory via dma-buf so
-> > that this memory will be accessible for userspace via a file descriptor.
-> >
-> > The allocated memory can be either allocated with alloc_page() from system
-> > RAM or by other means from dedicated VRAM (that is not managed by Linux mm)
-> > or even from on-device memory.
-> >
-> > The dma-buf driver tracks the amount of the memory it was requested to
-> > export and the size it sees is available at debugfs and fdinfo.
-> >
-> > The debugfs is not available to user and maybe entirely disabled in
-> > production systems.
-> >
-> > There could be quite a few open dma-bufs so there is no overall summary,
-> > plus fdinfo in production systems your refer to is also unavailable to the
-> > user because of selinux policy.
-> >
-> > And there are a few details that are not clear to me:
-> >
-> > * Since DRM device drivers seem to be the major user of dma-buf exports,
-> >   why cannot we add information about their memory consumption to, say,
-> >   /sys/class/graphics/drm/cardX/memory-usage?
-> 
-> Android is using it for binder that connect more or less everything
-> internally.
- 
-Ok, then it rules out /sys/class/graphics indeed.
+The V4L2 core already zeroes fmt.sdr.reserved, so there is no need for
+drivers to do the same.
 
-> > * How exactly user generates reports that would include the new counters?
-> >   From my (mostly outdated) experience Android users won't open a terminal
-> >   and type 'cat /proc/meminfo' there. I'd presume there is a vendor agent
-> >   that collects the data and sends it for analysis. In this case what is
-> >   the reason the vendor is unable to adjust selinix policy so that the
-> >   agent will be able to access fdinfo?
-> 
-> When you turn on developer mode on android you can use
-> usb with a program called adb. And there you get a normal shell.
-> 
-> (not root though)
-> 
-> There is applications that non developers can use to get
-> information. It is very limited though and there are API's
-> provide it.
-> 
-> 
-> >
-> > * And, as others already mentioned, it is not clear what are the problems
-> >   that can be detected by examining DmaBufTotal except saying "oh, there is
-> >   too much/too little memory exported via dma-buf". What would be user
-> >   visible effects of these problems? What are the next steps to investigate
-> >   them? What other data will be probably required to identify root cause?
-> >
-> When you debug thousands of devices it is quite nice to have
-> ways to classify what the problem it is not. The normal user does not
-> see anything of this. However they can generate bug-reports that
-> collect information about as much they can. Then the user have
-> to provide this bug-report to the manufacture or mostly the
-> application developer. And when the problem is
-> system related we need to reproduce the issue on a full
-> debug enabled unit.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dvb-frontends/rtl2832_sdr.c
+index ef6feb299d46..1a2f0d2adadf 100644
+--- a/drivers/media/dvb-frontends/rtl2832_sdr.c
++++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
+@@ -1130,8 +1130,6 @@ static int rtl2832_sdr_g_fmt_sdr_cap(struct file *file, void *priv,
+ 	f->fmt.sdr.pixelformat = dev->pixelformat;
+ 	f->fmt.sdr.buffersize = dev->buffersize;
 
-So the flow is like this:
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+-
+ 	return 0;
+ }
 
-* a user has a problem and reports it to an application developer; at best
-  the user runs simple and limited app to collect some data
-* if the application developer considers this issue as a system related
-  they can open adb and collect some more information about the system
-  using non-root shell with selinux policy restrictions and send this
-  information to the device manufacturer.
-* the manufacturer continues to debug the issue and at this point as much
-  information is possible would have been useful.
+@@ -1149,7 +1147,6 @@ static int rtl2832_sdr_s_fmt_sdr_cap(struct file *file, void *priv,
+ 	if (vb2_is_busy(q))
+ 		return -EBUSY;
 
-In this flow I still fail to understand why the manufacturer cannot provide
-userspace tools that will be able to collect the required information.
-These tools not necessarily need to target the end user, they may be only
-intended for the application developers, e.g. policy could allow such tool
-to access some of the system data only when the system is in developer
-mode.
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	for (i = 0; i < dev->num_formats; i++) {
+ 		if (formats[i].pixelformat == f->fmt.sdr.pixelformat) {
+ 			dev->pixelformat = formats[i].pixelformat;
+@@ -1177,7 +1174,6 @@ static int rtl2832_sdr_try_fmt_sdr_cap(struct file *file, void *priv,
+ 	dev_dbg(&pdev->dev, "pixelformat fourcc %4.4s\n",
+ 		(char *)&f->fmt.sdr.pixelformat);
 
--- 
-Sincerely yours,
-Mike.
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	for (i = 0; i < dev->num_formats; i++) {
+ 		if (formats[i].pixelformat == f->fmt.sdr.pixelformat) {
+ 			f->fmt.sdr.buffersize = formats[i].buffersize;
+diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
+index a1e52708b7ca..265db2114671 100644
+--- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
+@@ -455,7 +455,6 @@ int vidioc_g_fmt_sdr_cap(struct file *file, void *fh, struct v4l2_format *f)
+
+ 	f->fmt.sdr.pixelformat = dev->sdr_pixelformat;
+ 	f->fmt.sdr.buffersize = dev->sdr_buffersize;
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	return 0;
+ }
+
+@@ -468,7 +467,6 @@ int vidioc_s_fmt_sdr_cap(struct file *file, void *fh, struct v4l2_format *f)
+ 	if (vb2_is_busy(q))
+ 		return -EBUSY;
+
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	for (i = 0; i < ARRAY_SIZE(formats); i++) {
+ 		if (formats[i].pixelformat == f->fmt.sdr.pixelformat) {
+ 			dev->sdr_pixelformat = formats[i].pixelformat;
+@@ -488,7 +486,6 @@ int vidioc_try_fmt_sdr_cap(struct file *file, void *fh, struct v4l2_format *f)
+ {
+ 	int i;
+
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	for (i = 0; i < ARRAY_SIZE(formats); i++) {
+ 		if (formats[i].pixelformat == f->fmt.sdr.pixelformat) {
+ 			f->fmt.sdr.buffersize = formats[i].buffersize;
+diff --git a/drivers/media/usb/airspy/airspy.c b/drivers/media/usb/airspy/airspy.c
+index 751703db06f5..7a81be7970b2 100644
+--- a/drivers/media/usb/airspy/airspy.c
++++ b/drivers/media/usb/airspy/airspy.c
+@@ -632,7 +632,6 @@ static int airspy_g_fmt_sdr_cap(struct file *file, void *priv,
+
+ 	f->fmt.sdr.pixelformat = s->pixelformat;
+ 	f->fmt.sdr.buffersize = s->buffersize;
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+
+ 	return 0;
+ }
+@@ -647,7 +646,6 @@ static int airspy_s_fmt_sdr_cap(struct file *file, void *priv,
+ 	if (vb2_is_busy(q))
+ 		return -EBUSY;
+
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	for (i = 0; i < NUM_FORMATS; i++) {
+ 		if (formats[i].pixelformat == f->fmt.sdr.pixelformat) {
+ 			s->pixelformat = formats[i].pixelformat;
+@@ -670,7 +668,6 @@ static int airspy_try_fmt_sdr_cap(struct file *file, void *priv,
+ {
+ 	int i;
+
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	for (i = 0; i < NUM_FORMATS; i++) {
+ 		if (formats[i].pixelformat == f->fmt.sdr.pixelformat) {
+ 			f->fmt.sdr.buffersize = formats[i].buffersize;
+diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
+index cec841ad7495..3e535be2c520 100644
+--- a/drivers/media/usb/hackrf/hackrf.c
++++ b/drivers/media/usb/hackrf/hackrf.c
+@@ -929,7 +929,6 @@ static int hackrf_s_fmt_sdr(struct file *file, void *priv,
+ 	if (vb2_is_busy(q))
+ 		return -EBUSY;
+
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	for (i = 0; i < NUM_FORMATS; i++) {
+ 		if (f->fmt.sdr.pixelformat == formats[i].pixelformat) {
+ 			dev->pixelformat = formats[i].pixelformat;
+@@ -955,7 +954,6 @@ static int hackrf_g_fmt_sdr(struct file *file, void *priv,
+ 	dev_dbg(dev->dev, "pixelformat fourcc %4.4s\n",
+ 			(char *)&dev->pixelformat);
+
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	f->fmt.sdr.pixelformat = dev->pixelformat;
+ 	f->fmt.sdr.buffersize = dev->buffersize;
+
+@@ -971,7 +969,6 @@ static int hackrf_try_fmt_sdr(struct file *file, void *priv,
+ 	dev_dbg(dev->dev, "pixelformat fourcc %4.4s\n",
+ 			(char *)&f->fmt.sdr.pixelformat);
+
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	for (i = 0; i < NUM_FORMATS; i++) {
+ 		if (formats[i].pixelformat == f->fmt.sdr.pixelformat) {
+ 			f->fmt.sdr.buffersize = formats[i].buffersize;
+diff --git a/drivers/media/usb/msi2500/msi2500.c b/drivers/media/usb/msi2500/msi2500.c
+index 63882a5248ae..71de6b4c4e4c 100644
+--- a/drivers/media/usb/msi2500/msi2500.c
++++ b/drivers/media/usb/msi2500/msi2500.c
+@@ -912,7 +912,6 @@ static int msi2500_g_fmt_sdr_cap(struct file *file, void *priv,
+
+ 	f->fmt.sdr.pixelformat = dev->pixelformat;
+ 	f->fmt.sdr.buffersize = dev->buffersize;
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+
+ 	return 0;
+ }
+@@ -930,7 +929,6 @@ static int msi2500_s_fmt_sdr_cap(struct file *file, void *priv,
+ 	if (vb2_is_busy(q))
+ 		return -EBUSY;
+
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	for (i = 0; i < dev->num_formats; i++) {
+ 		if (formats[i].pixelformat == f->fmt.sdr.pixelformat) {
+ 			dev->pixelformat = formats[i].pixelformat;
+@@ -957,7 +955,6 @@ static int msi2500_try_fmt_sdr_cap(struct file *file, void *priv,
+ 	dev_dbg(dev->dev, "pixelformat fourcc %4.4s\n",
+ 		(char *)&f->fmt.sdr.pixelformat);
+
+-	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	for (i = 0; i < dev->num_formats; i++) {
+ 		if (formats[i].pixelformat == f->fmt.sdr.pixelformat) {
+ 			f->fmt.sdr.buffersize = formats[i].buffersize;
