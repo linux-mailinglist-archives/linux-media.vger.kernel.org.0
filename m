@@ -2,1568 +2,763 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C14C236753A
-	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 00:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 149DF36762D
+	for <lists+linux-media@lfdr.de>; Thu, 22 Apr 2021 02:20:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235362AbhDUWkh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Apr 2021 18:40:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53268 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbhDUWkh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Apr 2021 18:40:37 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3A02C06174A
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 15:40:03 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id t22so22161100ply.1
-        for <linux-media@vger.kernel.org>; Wed, 21 Apr 2021 15:40:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YfLA4NtifrXrMIkGYrnnSlGRoUqhYlSrU1iC0fDTVO8=;
-        b=GUucAgmnZm+i2ltNZnSstlGq9o0BoRvTHWqXzNBWRSYAxOlOwkwlU0ZvBnRwEelW1w
-         BS2R9nc8CA104tW47TSo1Pf76JArNdrX8t6UEclj0dFHN+cLhBAiPvwOAq7ow03lIvHs
-         MZVsxCJPNj11iQ/X+aBDlGPleZljSE8kRCZt5FO2pO0E2F3WA0Uu5+0yifmKquIxTSSM
-         GCKWkQfyakQc1DeDY8QMt7j9dxOuRH64UAtpy3h2gfyiJyjIbInOLZsR4m5MgkSNmL04
-         x4CHZlDcqzlbsFYGYLyl7h447T152z8KJ4TetenW79ER5a9RO/a63r1cRSoTZptnYx3Z
-         gamA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YfLA4NtifrXrMIkGYrnnSlGRoUqhYlSrU1iC0fDTVO8=;
-        b=OFiP5eO7PlycTAzIgrCayPmFOP00+zFjMVxkjihaRQPPhzgUvn7dv85AEVeije9tcf
-         qX/FHoIoJCft+rHxVZQ6RZ07t92F9VT/iHX3hRyw3PC4TiHnkd9JscHsOi9iQRTwfBaZ
-         DF4RkNq/o0Xd2LTT1aklF9tk241l+wvkOwa+N3pjFrkkVDjiw+0W2UygyOkHz+S89Xt0
-         cf91pSpQ5CzWT3QlSVAD6JzGr4dRh5ZR/bFI+PMebNjMfUbrN6SJdHTwM0dYCW6qoTbn
-         nLC74ppdqUfomWMWxIH6KyFuIcicDwHEcJq3ENMIcsVAyZXmI6hFNbTlR68p/v0gKpXQ
-         mKzA==
-X-Gm-Message-State: AOAM532p4B9yXnJ4Ee7bbtwwxMQ7C+7d0Jn6Uy2oihAPF4HuX/DoOmMW
-        hMNiVfhuBjKl9sGKifI34SR+7bOcYu+O1A==
-X-Google-Smtp-Source: ABdhPJyv00Yf/hghM9rPqzXqKvkygySCBGCYDqZHS/ZAfz3JyoQAAOiYyxOfUilW3GpPzbIAZ7wcCg==
-X-Received: by 2002:a17:902:ea0c:b029:eb:7b6:13ba with SMTP id s12-20020a170902ea0cb02900eb07b613bamr257168plg.25.1619044801971;
-        Wed, 21 Apr 2021 15:40:01 -0700 (PDT)
-Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
-        by smtp.gmail.com with ESMTPSA id w8sm327758pjq.10.2021.04.21.15.40.01
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 15:40:01 -0700 (PDT)
-From:   Rosen Penev <rosenp@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH] mass constexpr conversions
-Date:   Wed, 21 Apr 2021 15:40:00 -0700
-Message-Id: <20210421224000.24506-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        id S1343892AbhDVAUC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Apr 2021 20:20:02 -0400
+Received: from mga18.intel.com ([134.134.136.126]:1762 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1343886AbhDVAUB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Apr 2021 20:20:01 -0400
+IronPort-SDR: Ot/aGcfwm09ef0kq6rSAXVLhyQnzshqXKWdfxT1l62gBWbiWirYtUYuJwLezJfMeMzdR5U3lnz
+ XrkgWodGkCug==
+X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="183289027"
+X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; 
+   d="gz'50?scan'50,208,50";a="183289027"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 17:19:26 -0700
+IronPort-SDR: IndBP5TSqp2F+t/pyEI2zWqgQDQvx2NCyEgstNswP+6kueOE4K+/0l8Dz9fUPEh3E+ZCPv8hLE
+ uBMU2VfO/rTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; 
+   d="gz'50?scan'50,208,50";a="617507498"
+Received: from lkp-server01.sh.intel.com (HELO a48ff7ddd223) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 21 Apr 2021 17:19:22 -0700
+Received: from kbuild by a48ff7ddd223 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lZN3x-0003qQ-IP; Thu, 22 Apr 2021 00:19:21 +0000
+Date:   Thu, 22 Apr 2021 08:18:48 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Alistair Popple <apopple@nvidia.com>
+Cc:     kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        linux-kernel@vger.kernel.org
+Subject: [linux-next:master 14157/14231] kernel/resource.c:505:5: sparse:
+ sparse: symbol '__region_intersects' was not declared. Should it be static?
+Message-ID: <202104220841.E5T3ZL3m-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="SUOF0GtieIMvvwua"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reduces size slightly.
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
+--SUOF0GtieIMvvwua
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b74523885a715463203d4ccc3cf8c85952d3701a
+commit: edede6a2ecfe8553e8232eb863a7a13ef40da3a2 [14157/14231] kernel/resource: allow region_intersects users to hold resource_lock
+config: i386-randconfig-s002-20210421 (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.3-341-g8af24329-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=edede6a2ecfe8553e8232eb863a7a13ef40da3a2
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout edede6a2ecfe8553e8232eb863a7a13ef40da3a2
+        # save the attached .config to linux build tree
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' W=1 ARCH=i386 
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+>> kernel/resource.c:505:5: sparse: sparse: symbol '__region_intersects' was not declared. Should it be static?
+
+Please review and possibly fold the followup patch.
+
 ---
- utils/cec-compliance/cec-test-adapter.cpp   |  23 ++-
- utils/cec-compliance/cec-test.cpp           |   2 +-
- utils/cec-ctl/cec-ctl.cpp                   |  38 ++---
- utils/cec-follower/cec-processing.cpp       |   6 +-
- utils/common/media-info.cpp                 |  42 ++---
- utils/common/v4l2-info.cpp                  | 177 ++++++++++----------
- utils/libcecutil/cec-log.cpp                |  10 +-
- utils/libcecutil/cec-log.h                  |   2 +-
- utils/rds-ctl/rds-ctl.cpp                   |   6 +-
- utils/v4l2-compliance/v4l2-compliance.cpp   |   4 +-
- utils/v4l2-compliance/v4l2-test-buffers.cpp |   2 +-
- utils/v4l2-compliance/v4l2-test-colors.cpp  |  28 ++--
- utils/v4l2-compliance/v4l2-test-formats.cpp |   2 +-
- utils/v4l2-ctl/v4l2-ctl-common.cpp          |  11 +-
- utils/v4l2-ctl/v4l2-ctl-edid.cpp            |  91 +++-------
- utils/v4l2-ctl/v4l2-ctl-io.cpp              |   4 +-
- utils/v4l2-ctl/v4l2-ctl-misc.cpp            |  26 +--
- utils/v4l2-ctl/v4l2-ctl-overlay.cpp         |  30 +---
- utils/v4l2-ctl/v4l2-ctl-selection.cpp       |  18 +-
- utils/v4l2-ctl/v4l2-ctl-stds.cpp            |  28 +---
- utils/v4l2-ctl/v4l2-ctl-streaming.cpp       |   2 +-
- utils/v4l2-ctl/v4l2-ctl-subdev.cpp          |  50 ++----
- utils/v4l2-ctl/v4l2-ctl-tuner.cpp           |  13 +-
- utils/v4l2-ctl/v4l2-ctl-vbi.cpp             |  12 +-
- utils/v4l2-ctl/v4l2-ctl-vidcap.cpp          |   9 +-
- utils/v4l2-ctl/v4l2-ctl.cpp                 |  24 +--
- utils/v4l2-dbg/v4l2-dbg.cpp                 |   8 +-
- 27 files changed, 244 insertions(+), 424 deletions(-)
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
-diff --git a/utils/cec-compliance/cec-test-adapter.cpp b/utils/cec-compliance/cec-test-adapter.cpp
-index cf1b6191f..3aa78fd66 100644
---- a/utils/cec-compliance/cec-test-adapter.cpp
-+++ b/utils/cec-compliance/cec-test-adapter.cpp
-@@ -14,8 +14,8 @@
- 
- #include "cec-compliance.h"
- 
--static const __u8 tx_ok_retry_mask = CEC_TX_STATUS_OK | CEC_TX_STATUS_MAX_RETRIES;
--static const __u32 msg_fl_mask = CEC_MSG_FL_REPLY_TO_FOLLOWERS | CEC_MSG_FL_RAW;
-+static constexpr __u8 tx_ok_retry_mask = CEC_TX_STATUS_OK | CEC_TX_STATUS_MAX_RETRIES;
-+static constexpr __u32 msg_fl_mask = CEC_MSG_FL_REPLY_TO_FOLLOWERS | CEC_MSG_FL_RAW;
- 
- // Flush any pending messages
- static int flush_pending_msgs(struct node *node)
-@@ -107,27 +107,24 @@ static int testAdapPhysAddr(struct node *node)
- 
- static int testAdapLogAddrs(struct node *node)
- {
--	static const __u8 la_types[] = {
-+	static constexpr __u8 la_types[] = {
- 		CEC_LOG_ADDR_TYPE_TV,
- 		CEC_LOG_ADDR_TYPE_RECORD,
- 		CEC_LOG_ADDR_TYPE_TUNER,
--		CEC_LOG_ADDR_TYPE_AUDIOSYSTEM
-+		CEC_LOG_ADDR_TYPE_AUDIOSYSTEM,
- 	};
--	static const __u8 prim_dev_types[] = {
-+	static constexpr __u8 prim_dev_types[] = {
- 		CEC_OP_PRIM_DEVTYPE_TV,
- 		CEC_OP_PRIM_DEVTYPE_RECORD,
- 		CEC_OP_PRIM_DEVTYPE_TUNER,
--		CEC_OP_PRIM_DEVTYPE_AUDIOSYSTEM
-+		CEC_OP_PRIM_DEVTYPE_AUDIOSYSTEM,
- 	};
--	static const __u8 all_dev_types[2] = {
--		CEC_OP_ALL_DEVTYPE_TV | CEC_OP_ALL_DEVTYPE_RECORD |
--		CEC_OP_ALL_DEVTYPE_AUDIOSYSTEM,
-+	static constexpr __u8 all_dev_types[2] = {
-+		CEC_OP_ALL_DEVTYPE_TV | CEC_OP_ALL_DEVTYPE_RECORD | CEC_OP_ALL_DEVTYPE_AUDIOSYSTEM,
- 		CEC_OP_ALL_DEVTYPE_RECORD | CEC_OP_ALL_DEVTYPE_AUDIOSYSTEM,
- 	};
--	static const __u8 features[12] = {
--		0x90, 0x00, 0x8e, 0x00,
--		0xff, 0xff, 0xff, 0xff,
--		0xff, 0xff, 0xff, 0xff
-+	static constexpr __u8 features[12] = {
-+		0x90, 0x00, 0x8e, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
- 	};
- 	struct cec_log_addrs clear = { };
- 	struct cec_log_addrs laddrs;
-diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
-index 8da29f227..55e51b7b2 100644
---- a/utils/cec-compliance/cec-test.cpp
-+++ b/utils/cec-compliance/cec-test.cpp
-@@ -701,7 +701,7 @@ static const vec_remote_subtests deck_ctl_subtests{
- 
- /* Tuner Control */
- 
--static const char *bcast_type2s(__u8 bcast_type)
-+static const char *const bcast_type2s(__u8 bcast_type)
- {
- 	switch (bcast_type) {
- 	case CEC_OP_ANA_BCAST_TYPE_CABLE:
-diff --git a/utils/cec-ctl/cec-ctl.cpp b/utils/cec-ctl/cec-ctl.cpp
-index c17265a5c..a7c4f3a2b 100644
---- a/utils/cec-ctl/cec-ctl.cpp
-+++ b/utils/cec-ctl/cec-ctl.cpp
-@@ -350,7 +350,7 @@ static void usage()
- 	       );
- }
- 
--static const char *power_status2s(__u8 power_status)
-+static const char *const power_status2s(__u8 power_status)
- {
- 	switch (power_status) {
- 	case CEC_OP_POWER_STATUS_ON:
-@@ -443,7 +443,7 @@ static void log_raw_msg(const struct cec_msg *msg)
- 	printf("\n");
- }
- 
--static const char *event2s(__u32 event)
-+static const char *const event2s(__u32 event)
- {
- 	switch (event) {
- 	case CEC_EVENT_STATE_CHANGE:
-@@ -2179,9 +2179,9 @@ int main(int argc, char **argv)
- 			usage();
- 			return 1;
- 		case OptVendorCommand: {
--			static const char *arg_names[] = {
-+			static constexpr const char *arg_names[] = {
- 				"payload",
--				nullptr
-+				nullptr,
- 			};
- 			char *value, *endptr, *subs = optarg;
- 			__u8 size = 0;
-@@ -2213,10 +2213,10 @@ int main(int argc, char **argv)
- 			break;
- 		}
- 		case OptCustomCommand: {
--			static const char *arg_names[] = {
-+			static constexpr const char *arg_names[] = {
- 				"cmd",
- 				"payload",
--				nullptr
-+				nullptr,
- 			};
- 			char *value, *endptr, *subs = optarg;
- 			bool have_cmd = false;
-@@ -2256,10 +2256,10 @@ int main(int argc, char **argv)
- 			break;
- 		}
- 		case OptVendorCommandWithID: {
--			static const char *arg_names[] = {
-+			static constexpr const char *arg_names[] = {
- 				"vendor-id",
- 				"cmd",
--				nullptr
-+				nullptr,
- 			};
- 			char *value, *endptr, *subs = optarg;
- 			__u32 vendor_id = 0;
-@@ -2295,9 +2295,9 @@ int main(int argc, char **argv)
- 			break;
- 		}
- 		case OptVendorRemoteButtonDown: {
--			static const char *arg_names[] = {
-+			static constexpr const char *arg_names[] = {
- 				"rc-code",
--				nullptr
-+				nullptr,
- 			};
- 			char *value, *endptr, *subs = optarg;
- 			__u8 size = 0;
-@@ -2344,10 +2344,10 @@ int main(int argc, char **argv)
- 			break;
- 
- 		case OptTestPowerCycle: {
--			static const char *arg_names[] = {
-+			static constexpr const char *arg_names[] = {
- 				"polls",
- 				"sleep",
--				nullptr
-+				nullptr,
- 			};
- 			char *value, *subs = optarg;
- 
-@@ -2371,16 +2371,10 @@ int main(int argc, char **argv)
- 		}
- 
- 		case OptStressTestPowerCycle: {
--			static const char *arg_names[] = {
--				"cnt",
--				"min-sleep",
--				"max-sleep",
--				"seed",
--				"repeats",
--				"sleep-before-on",
--				"sleep-before-off",
--				"polls",
--				nullptr
-+			static constexpr const char *arg_names[] = {
-+				"cnt",	   "min-sleep",	      "max-sleep",	  "seed",
-+				"repeats", "sleep-before-on", "sleep-before-off", "polls",
-+				nullptr,
- 			};
- 			char *value, *subs = optarg;
- 
-diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-index 024407471..48d627096 100644
---- a/utils/cec-follower/cec-processing.cpp
-+++ b/utils/cec-follower/cec-processing.cpp
-@@ -38,10 +38,10 @@ struct la_info la_info[15];
- 
- static struct timespec start_monotonic;
- static struct timeval start_timeofday;
--static const time_t time_to_transient = 1;
--static const time_t time_to_stable = 8;
-+static constexpr time_t time_to_transient = 1;
-+static constexpr time_t time_to_stable = 8;
- 
--static const char *get_ui_cmd_string(__u8 ui_cmd)
-+static const char *const get_ui_cmd_string(__u8 ui_cmd)
- {
- 	return cec_log_ui_cmd_string(ui_cmd) ? : "Unknown";
- }
-diff --git a/utils/common/media-info.cpp b/utils/common/media-info.cpp
-index 3a5477e84..ae327a7a1 100644
---- a/utils/common/media-info.cpp
-+++ b/utils/common/media-info.cpp
-@@ -33,23 +33,17 @@ static std::string num2s(unsigned num, bool is_hex = true)
- 	return buf;
- }
- 
--static struct {
-+static constexpr struct {
- 	const char *devname;
- 	enum media_type type;
- } media_types[] = {
--	{ "video", MEDIA_TYPE_VIDEO },
--	{ "vbi", MEDIA_TYPE_VBI },
--	{ "radio", MEDIA_TYPE_RADIO },
--	{ "swradio", MEDIA_TYPE_SDR },
--	{ "v4l-subdev", MEDIA_TYPE_SUBDEV },
--	{ "v4l-touch", MEDIA_TYPE_TOUCH },
--	{ "media", MEDIA_TYPE_MEDIA },
--	{ "frontend", MEDIA_TYPE_DVB_FRONTEND },
--	{ "demux", MEDIA_TYPE_DVB_DEMUX },
--	{ "dvr", MEDIA_TYPE_DVB_DVR },
--	{ "net", MEDIA_TYPE_DVB_NET },
--	{ "ca", MEDIA_TYPE_DTV_CA },
--	{ nullptr, MEDIA_TYPE_UNKNOWN }
-+	{ "video", MEDIA_TYPE_VIDEO },	     { "vbi", MEDIA_TYPE_VBI },
-+	{ "radio", MEDIA_TYPE_RADIO },	     { "swradio", MEDIA_TYPE_SDR },
-+	{ "v4l-subdev", MEDIA_TYPE_SUBDEV }, { "v4l-touch", MEDIA_TYPE_TOUCH },
-+	{ "media", MEDIA_TYPE_MEDIA },	     { "frontend", MEDIA_TYPE_DVB_FRONTEND },
-+	{ "demux", MEDIA_TYPE_DVB_DEMUX },   { "dvr", MEDIA_TYPE_DVB_DVR },
-+	{ "net", MEDIA_TYPE_DVB_NET },	     { "ca", MEDIA_TYPE_DTV_CA },
-+	{ nullptr, MEDIA_TYPE_UNKNOWN },
- };
- 
- media_type mi_media_detect_type(const char *device)
-@@ -255,10 +249,10 @@ int mi_get_media_fd(int fd, const char *bus_info)
- 	return media_fd;
- }
- 
--static const flag_def entity_flags_def[] = {
-+static constexpr flag_def entity_flags_def[] = {
- 	{ MEDIA_ENT_FL_DEFAULT, "default" },
- 	{ MEDIA_ENT_FL_CONNECTOR, "connector" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string mi_entflags2s(__u32 flags)
-@@ -266,7 +260,7 @@ std::string mi_entflags2s(__u32 flags)
- 	return flags2s(flags, entity_flags_def);
- }
- 
--static const flag_def interface_types_def[] = {
-+static constexpr flag_def interface_types_def[] = {
- 	{ MEDIA_INTF_T_DVB_FE, "DVB Front End" },
- 	{ MEDIA_INTF_T_DVB_DEMUX, "DVB Demuxer" },
- 	{ MEDIA_INTF_T_DVB_DVR, "DVB DVR" },
-@@ -288,7 +282,7 @@ static const flag_def interface_types_def[] = {
- 	{ MEDIA_INTF_T_ALSA_HWDEP, "ALSA HWDEP" },
- 	{ MEDIA_INTF_T_ALSA_SEQUENCER, "ALSA Sequencer" },
- 	{ MEDIA_INTF_T_ALSA_TIMER, "ALSA Timer" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string mi_ifacetype2s(__u32 type)
-@@ -299,7 +293,7 @@ std::string mi_ifacetype2s(__u32 type)
- 	return "FAIL: Unknown (" + num2s(type) + ")";
- }
- 
--static const flag_def entity_functions_def[] = {
-+static constexpr flag_def entity_functions_def[] = {
- 	{ MEDIA_ENT_F_UNKNOWN, "FAIL: Uninitialized Function" },
- 	{ MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN, "FAIL: Unknown V4L2 Sub-Device" },
- 	{ MEDIA_ENT_T_DEVNODE_UNKNOWN, "FAIL: Unknown Device Node" },
-@@ -335,7 +329,7 @@ static const flag_def entity_functions_def[] = {
- 	{ MEDIA_ENT_F_PROC_VIDEO_ENCODER, "Video Encoder" },
- 	{ MEDIA_ENT_F_VID_MUX, "Video Muxer" },
- 	{ MEDIA_ENT_F_VID_IF_BRIDGE, "Video Interface Bridge" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string mi_entfunction2s(__u32 function, bool *is_invalid)
-@@ -392,11 +386,11 @@ bool mi_func_requires_intf(__u32 function)
- 	}
- }
- 
--static const flag_def pad_flags_def[] = {
-+static constexpr flag_def pad_flags_def[] = {
- 	{ MEDIA_PAD_FL_SINK, "Sink" },
- 	{ MEDIA_PAD_FL_SOURCE, "Source" },
- 	{ MEDIA_PAD_FL_MUST_CONNECT, "Must Connect" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string mi_padflags2s(__u32 flags)
-@@ -404,11 +398,11 @@ std::string mi_padflags2s(__u32 flags)
- 	return flags2s(flags, pad_flags_def);
- }
- 
--static const flag_def link_flags_def[] = {
-+static constexpr flag_def link_flags_def[] = {
- 	{ MEDIA_LNK_FL_ENABLED, "Enabled" },
- 	{ MEDIA_LNK_FL_IMMUTABLE, "Immutable" },
- 	{ MEDIA_LNK_FL_DYNAMIC, "Dynamic" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string mi_linkflags2s(__u32 flags)
-diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
-index cb3cb91f7..512597a20 100644
---- a/utils/common/v4l2-info.cpp
-+++ b/utils/common/v4l2-info.cpp
-@@ -201,7 +201,7 @@ std::string buftype2s(int type)
- 	}
- }
- 
--static const flag_def bufcap_def[] = {
-+static constexpr flag_def bufcap_def[] = {
- 	{ V4L2_BUF_CAP_SUPPORTS_MMAP, "mmap" },
- 	{ V4L2_BUF_CAP_SUPPORTS_USERPTR, "userptr" },
- 	{ V4L2_BUF_CAP_SUPPORTS_DMABUF, "dmabuf" },
-@@ -209,7 +209,7 @@ static const flag_def bufcap_def[] = {
- 	{ V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS, "orphaned-bufs" },
- 	{ V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF, "m2m-hold-capture-buf" },
- 	{ V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS, "mmap-cache-hints" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string bufcap2s(__u32 caps)
-@@ -345,9 +345,9 @@ std::string quantization2s(int val)
- 	}
- }
- 
--static const flag_def pixflags_def[] = {
--	{ V4L2_PIX_FMT_FLAG_PREMUL_ALPHA,  "premultiplied-alpha" },
--	{ 0, nullptr }
-+static constexpr flag_def pixflags_def[] = {
-+	{ V4L2_PIX_FMT_FLAG_PREMUL_ALPHA, "premultiplied-alpha" },
-+	{ 0, nullptr },
- };
- 
- std::string pixflags2s(unsigned flags)
-@@ -355,12 +355,12 @@ std::string pixflags2s(unsigned flags)
- 	return flags2s(flags, pixflags_def);
- }
- 
--static const flag_def service_def[] = {
--	{ V4L2_SLICED_TELETEXT_B,  "teletext" },
--	{ V4L2_SLICED_VPS,         "vps" },
-+static constexpr flag_def service_def[] = {
-+	{ V4L2_SLICED_TELETEXT_B, "teletext" },
-+	{ V4L2_SLICED_VPS, "vps" },
- 	{ V4L2_SLICED_CAPTION_525, "cc" },
--	{ V4L2_SLICED_WSS_625,     "wss" },
--	{ 0, nullptr }
-+	{ V4L2_SLICED_WSS_625, "wss" },
-+	{ 0, nullptr },
- };
- 
- std::string service2s(unsigned service)
-@@ -368,19 +368,19 @@ std::string service2s(unsigned service)
- 	return flags2s(service, service_def);
- }
- 
--#define FMTDESC_DEF(enc_type)							\
--static const flag_def fmtdesc_ ## enc_type ## _def[] = { 			\
--	{ V4L2_FMT_FLAG_COMPRESSED, "compressed" }, 				\
--	{ V4L2_FMT_FLAG_EMULATED, "emulated" }, 				\
--	{ V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM, "continuous-bytestream" }, 	\
--	{ V4L2_FMT_FLAG_DYN_RESOLUTION, "dyn-resolution" }, 			\
--	{ V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL, "enc-cap-frame-interval" },	\
--	{ V4L2_FMT_FLAG_CSC_COLORSPACE, "csc-colorspace" }, 			\
--	{ V4L2_FMT_FLAG_CSC_YCBCR_ENC, "csc-"#enc_type }, 			\
--	{ V4L2_FMT_FLAG_CSC_QUANTIZATION, "csc-quantization" }, 		\
--	{ V4L2_FMT_FLAG_CSC_XFER_FUNC, "csc-xfer-func" }, 			\
--	{ 0, NULL } 								\
--};
-+#define FMTDESC_DEF(enc_type)                                                       \
-+	static constexpr flag_def fmtdesc_##enc_type##_def[] = {                    \
-+		{ V4L2_FMT_FLAG_COMPRESSED, "compressed" },                         \
-+		{ V4L2_FMT_FLAG_EMULATED, "emulated" },                             \
-+		{ V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM, "continuous-bytestream" },   \
-+		{ V4L2_FMT_FLAG_DYN_RESOLUTION, "dyn-resolution" },                 \
-+		{ V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL, "enc-cap-frame-interval" }, \
-+		{ V4L2_FMT_FLAG_CSC_COLORSPACE, "csc-colorspace" },                 \
-+		{ V4L2_FMT_FLAG_CSC_YCBCR_ENC, "csc-" #enc_type },                  \
-+		{ V4L2_FMT_FLAG_CSC_QUANTIZATION, "csc-quantization" },             \
-+		{ V4L2_FMT_FLAG_CSC_XFER_FUNC, "csc-xfer-func" },                   \
-+		{ 0, NULL }                                                         \
-+	};
- 
- FMTDESC_DEF(ycbcr)
- FMTDESC_DEF(hsv)
-@@ -392,14 +392,14 @@ std::string fmtdesc2s(unsigned flags, bool is_hsv)
- 	return flags2s(flags, fmtdesc_ycbcr_def);
- }
- 
--#define MBUS_DEF(enc_type)						\
--static const flag_def mbus_ ## enc_type ## _def[] = { 			\
--	{ V4L2_SUBDEV_MBUS_CODE_CSC_COLORSPACE, "csc-colorspace" }, 	\
--	{ V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC, "csc-"#enc_type },	\
--	{ V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION, "csc-quantization" }, \
--	{ V4L2_SUBDEV_MBUS_CODE_CSC_XFER_FUNC, "csc-xfer-func" }, 	\
--	{ 0, NULL }							\
--};
-+#define MBUS_DEF(enc_type)                                                      \
-+	static constexpr flag_def mbus_##enc_type##_def[] = {                   \
-+		{ V4L2_SUBDEV_MBUS_CODE_CSC_COLORSPACE, "csc-colorspace" },     \
-+		{ V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC, "csc-" #enc_type },      \
-+		{ V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION, "csc-quantization" }, \
-+		{ V4L2_SUBDEV_MBUS_CODE_CSC_XFER_FUNC, "csc-xfer-func" },       \
-+		{ 0, NULL }                                                     \
-+	};
- 
- MBUS_DEF(ycbcr)
- MBUS_DEF(hsv)
-@@ -411,7 +411,7 @@ std::string mbus2s(unsigned flags, bool is_hsv)
- 	return flags2s(flags, mbus_ycbcr_def);
- }
- 
--static const flag_def selection_targets_def[] = {
-+static constexpr flag_def selection_targets_def[] = {
- 	{ V4L2_SEL_TGT_CROP_ACTIVE, "crop" },
- 	{ V4L2_SEL_TGT_CROP_DEFAULT, "crop_default" },
- 	{ V4L2_SEL_TGT_CROP_BOUNDS, "crop_bounds" },
-@@ -420,7 +420,7 @@ static const flag_def selection_targets_def[] = {
- 	{ V4L2_SEL_TGT_COMPOSE_BOUNDS, "compose_bounds" },
- 	{ V4L2_SEL_TGT_COMPOSE_PADDED, "compose_padded" },
- 	{ V4L2_SEL_TGT_NATIVE_SIZE, "native_size" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- bool valid_seltarget_at_idx(unsigned i)
-@@ -459,25 +459,22 @@ std::string selflags2s(__u32 flags)
- 	return flags2s(flags, selection_flags_def);
- }
- 
--static const char *std_pal[] = {
--	"B", "B1", "G", "H", "I", "D", "D1", "K",
--	"M", "N", "Nc", "60",
--	nullptr
-+static constexpr const char *std_pal[] = {
-+	"B", "B1", "G", "H", "I", "D", "D1", "K", "M", "N", "Nc", "60", nullptr,
- };
--static const char *std_ntsc[] = {
--	"M", "M-JP", "443", "M-KR",
--	nullptr
-+static constexpr const char *std_ntsc[] = {
-+	"M", "M-JP", "443", "M-KR", nullptr,
- };
--static const char *std_secam[] = {
--	"B", "D", "G", "H", "K", "K1", "L", "Lc",
--	nullptr
-+static constexpr const char *std_secam[] = {
-+	"B", "D", "G", "H", "K", "K1", "L", "Lc", nullptr,
- };
--static const char *std_atsc[] = {
--	"8-VSB", "16-VSB",
--	nullptr
-+static constexpr const char *std_atsc[] = {
-+	"8-VSB",
-+	"16-VSB",
-+	nullptr,
- };
- 
--static std::string partstd2s(const char *prefix, const char *stds[], unsigned long long std)
-+static std::string partstd2s(const char *prefix, const char *const stds[], unsigned long long std)
- {
- 	std::string s = std::string(prefix) + "-";
- 	int first = 1;
-@@ -519,40 +516,40 @@ std::string std2s(v4l2_std_id std, const char *sep)
- 
- std::string ctrlflags2s(__u32 flags)
- {
--	static const flag_def def[] = {
--		{ V4L2_CTRL_FLAG_GRABBED,    "grabbed" },
--		{ V4L2_CTRL_FLAG_DISABLED,   "disabled" },
--		{ V4L2_CTRL_FLAG_READ_ONLY,  "read-only" },
--		{ V4L2_CTRL_FLAG_UPDATE,     "update" },
--		{ V4L2_CTRL_FLAG_INACTIVE,   "inactive" },
--		{ V4L2_CTRL_FLAG_SLIDER,     "slider" },
-+	static constexpr flag_def def[] = {
-+		{ V4L2_CTRL_FLAG_GRABBED, "grabbed" },
-+		{ V4L2_CTRL_FLAG_DISABLED, "disabled" },
-+		{ V4L2_CTRL_FLAG_READ_ONLY, "read-only" },
-+		{ V4L2_CTRL_FLAG_UPDATE, "update" },
-+		{ V4L2_CTRL_FLAG_INACTIVE, "inactive" },
-+		{ V4L2_CTRL_FLAG_SLIDER, "slider" },
- 		{ V4L2_CTRL_FLAG_WRITE_ONLY, "write-only" },
--		{ V4L2_CTRL_FLAG_VOLATILE,   "volatile" },
--		{ V4L2_CTRL_FLAG_HAS_PAYLOAD,"has-payload" },
-+		{ V4L2_CTRL_FLAG_VOLATILE, "volatile" },
-+		{ V4L2_CTRL_FLAG_HAS_PAYLOAD, "has-payload" },
- 		{ V4L2_CTRL_FLAG_EXECUTE_ON_WRITE, "execute-on-write" },
- 		{ V4L2_CTRL_FLAG_MODIFY_LAYOUT, "modify-layout" },
--		{ 0, nullptr }
-+		{ 0, nullptr },
- 	};
- 	return flags2s(flags, def);
- }
- 
--static const flag_def in_status_def[] = {
--	{ V4L2_IN_ST_NO_POWER,    "no power" },
--	{ V4L2_IN_ST_NO_SIGNAL,   "no signal" },
--	{ V4L2_IN_ST_NO_COLOR,    "no color" },
--	{ V4L2_IN_ST_HFLIP,       "hflip" },
--	{ V4L2_IN_ST_VFLIP,       "vflip" },
--	{ V4L2_IN_ST_NO_H_LOCK,   "no hsync lock" },
--	{ V4L2_IN_ST_NO_V_LOCK,   "no vsync lock" },
-+static constexpr flag_def in_status_def[] = {
-+	{ V4L2_IN_ST_NO_POWER, "no power" },
-+	{ V4L2_IN_ST_NO_SIGNAL, "no signal" },
-+	{ V4L2_IN_ST_NO_COLOR, "no color" },
-+	{ V4L2_IN_ST_HFLIP, "hflip" },
-+	{ V4L2_IN_ST_VFLIP, "vflip" },
-+	{ V4L2_IN_ST_NO_H_LOCK, "no hsync lock" },
-+	{ V4L2_IN_ST_NO_V_LOCK, "no vsync lock" },
- 	{ V4L2_IN_ST_NO_STD_LOCK, "no standard format lock" },
--	{ V4L2_IN_ST_COLOR_KILL,  "color kill" },
--	{ V4L2_IN_ST_NO_SYNC,     "no sync lock" },
--	{ V4L2_IN_ST_NO_EQU,      "no equalizer lock" },
--	{ V4L2_IN_ST_NO_CARRIER,  "no carrier" },
-+	{ V4L2_IN_ST_COLOR_KILL, "color kill" },
-+	{ V4L2_IN_ST_NO_SYNC, "no sync lock" },
-+	{ V4L2_IN_ST_NO_EQU, "no equalizer lock" },
-+	{ V4L2_IN_ST_NO_CARRIER, "no carrier" },
- 	{ V4L2_IN_ST_MACROVISION, "macrovision" },
--	{ V4L2_IN_ST_NO_ACCESS,   "no conditional access" },
--	{ V4L2_IN_ST_VTR,         "VTR time constant" },
--	{ 0, nullptr }
-+	{ V4L2_IN_ST_NO_ACCESS, "no conditional access" },
-+	{ V4L2_IN_ST_VTR, "VTR time constant" },
-+	{ 0, nullptr },
- };
- 
- std::string in_status2s(__u32 status)
-@@ -560,11 +557,11 @@ std::string in_status2s(__u32 status)
- 	return status ? flags2s(status, in_status_def) : "ok";
- }
- 
--static const flag_def input_cap_def[] = {
-+static constexpr flag_def input_cap_def[] = {
- 	{ V4L2_IN_CAP_DV_TIMINGS, "DV timings" },
- 	{ V4L2_IN_CAP_STD, "SDTV standards" },
- 	{ V4L2_IN_CAP_NATIVE_SIZE, "Native Size" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string input_cap2s(__u32 capabilities)
-@@ -572,11 +569,11 @@ std::string input_cap2s(__u32 capabilities)
- 	return capabilities ? flags2s(capabilities, input_cap_def) : "not defined";
- }
- 
--static const flag_def output_cap_def[] = {
-+static constexpr flag_def output_cap_def[] = {
- 	{ V4L2_OUT_CAP_DV_TIMINGS, "DV timings" },
- 	{ V4L2_OUT_CAP_STD, "SDTV standards" },
- 	{ V4L2_OUT_CAP_NATIVE_SIZE, "Native Size" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string output_cap2s(__u32 capabilities)
-@@ -630,13 +627,9 @@ std::string fbufflags2s(unsigned fl)
- 	return s;
- }
- 
--static const flag_def dv_standards_def[] = {
--	{ V4L2_DV_BT_STD_CEA861, "CTA-861" },
--	{ V4L2_DV_BT_STD_DMT, "DMT" },
--	{ V4L2_DV_BT_STD_CVT, "CVT" },
--	{ V4L2_DV_BT_STD_GTF, "GTF" },
--	{ V4L2_DV_BT_STD_SDI, "SDI" },
--	{ 0, nullptr }
-+static constexpr flag_def dv_standards_def[] = {
-+	{ V4L2_DV_BT_STD_CEA861, "CTA-861" }, { V4L2_DV_BT_STD_DMT, "DMT" }, { V4L2_DV_BT_STD_CVT, "CVT" },
-+	{ V4L2_DV_BT_STD_GTF, "GTF" },	      { V4L2_DV_BT_STD_SDI, "SDI" }, { 0, nullptr },
- };
- 
- std::string dv_standards2s(__u32 flags)
-@@ -675,12 +668,12 @@ std::string dvflags2s(unsigned vsync, int val)
- 	return s;
- }
- 
--static const flag_def dv_caps_def[] = {
-+static constexpr flag_def dv_caps_def[] = {
- 	{ V4L2_DV_BT_CAP_INTERLACED, "Interlaced" },
- 	{ V4L2_DV_BT_CAP_PROGRESSIVE, "Progressive" },
- 	{ V4L2_DV_BT_CAP_REDUCED_BLANKING, "Reduced Blanking" },
- 	{ V4L2_DV_BT_CAP_CUSTOM, "Custom Formats" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string dv_caps2s(__u32 flags)
-@@ -688,13 +681,13 @@ std::string dv_caps2s(__u32 flags)
- 	return flags2s(flags, dv_caps_def);
- }
- 
--static const flag_def tc_flags_def[] = {
-+static constexpr flag_def tc_flags_def[] = {
- 	{ V4L2_TC_FLAG_DROPFRAME, "dropframe" },
- 	{ V4L2_TC_FLAG_COLORFRAME, "colorframe" },
- 	{ V4L2_TC_USERBITS_field, "userbits-field" },
- 	{ V4L2_TC_USERBITS_USERDEFINED, "userbits-userdefined" },
- 	{ V4L2_TC_USERBITS_8BITCHARS, "userbits-8bitchars" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string tc_flags2s(__u32 flags)
-@@ -702,7 +695,7 @@ std::string tc_flags2s(__u32 flags)
- 	return flags2s(flags, tc_flags_def);
- }
- 
--static const flag_def buffer_flags_def[] = {
-+static constexpr flag_def buffer_flags_def[] = {
- 	{ V4L2_BUF_FLAG_MAPPED, "mapped" },
- 	{ V4L2_BUF_FLAG_QUEUED, "queued" },
- 	{ V4L2_BUF_FLAG_DONE, "done" },
-@@ -718,7 +711,7 @@ static const flag_def buffer_flags_def[] = {
- 	{ V4L2_BUF_FLAG_LAST, "last" },
- 	{ V4L2_BUF_FLAG_REQUEST_FD, "request-fd" },
- 	{ V4L2_BUF_FLAG_IN_REQUEST, "in-request" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string bufferflags2s(__u32 flags)
-@@ -757,10 +750,10 @@ std::string bufferflags2s(__u32 flags)
- 	return s;
- }
- 
--static const flag_def vbi_def[] = {
--	{ V4L2_VBI_UNSYNC,     "unsynchronized" },
-+static constexpr flag_def vbi_def[] = {
-+	{ V4L2_VBI_UNSYNC, "unsynchronized" },
- 	{ V4L2_VBI_INTERLACED, "interlaced" },
--	{ 0, nullptr }
-+	{ 0, nullptr },
- };
- 
- std::string vbiflags2s(__u32 flags)
-diff --git a/utils/libcecutil/cec-log.cpp b/utils/libcecutil/cec-log.cpp
-index e2178473c..3aea03b54 100644
---- a/utils/libcecutil/cec-log.cpp
-+++ b/utils/libcecutil/cec-log.cpp
-@@ -14,19 +14,19 @@
- #include "cec-log.h"
- #include "compiler.h"
- 
--static const struct cec_arg arg_u8 = {
-+static constexpr cec_arg arg_u8 = {
- 	CEC_ARG_TYPE_U8,
- };
- 
--static const struct cec_arg arg_u16 = {
-+static constexpr cec_arg arg_u16 = {
- 	CEC_ARG_TYPE_U16,
- };
- 
--static const struct cec_arg arg_u32 = {
-+static constexpr cec_arg arg_u32 = {
- 	CEC_ARG_TYPE_U32,
- };
- 
--static const struct cec_arg arg_string = {
-+static constexpr cec_arg arg_string = {
- 	CEC_ARG_TYPE_STRING,
- };
- 
-@@ -330,7 +330,7 @@ static void log_unknown_msg(const struct cec_msg *msg)
- 	}
- }
- 
--const char *cec_log_ui_cmd_string(__u8 ui_cmd)
-+const char *const cec_log_ui_cmd_string(__u8 ui_cmd)
- {
- 	for (unsigned i = 0; i < arg_ui_cmd.num_enum_values; i++) {
- 		if (type_ui_cmd[i].value == ui_cmd)
-diff --git a/utils/libcecutil/cec-log.h b/utils/libcecutil/cec-log.h
-index 09bf50637..b903fa22f 100644
---- a/utils/libcecutil/cec-log.h
-+++ b/utils/libcecutil/cec-log.h
-@@ -38,6 +38,6 @@ struct cec_msg_args {
- const struct cec_msg_args *cec_log_msg_args(unsigned int index);
- void cec_log_msg(const struct cec_msg *msg);
- void cec_log_htng_msg(const struct cec_msg *msg);
--const char *cec_log_ui_cmd_string(__u8 ui_cmd);
-+const char *const cec_log_ui_cmd_string(__u8 ui_cmd);
- 
- #endif
-diff --git a/utils/rds-ctl/rds-ctl.cpp b/utils/rds-ctl/rds-ctl.cpp
-index 8161aa453..0cae93a1f 100644
---- a/utils/rds-ctl/rds-ctl.cpp
-+++ b/utils/rds-ctl/rds-ctl.cpp
-@@ -185,7 +185,7 @@ static int doioctl_name(int fd, unsigned long int request, void *parm, const cha
- 
- #define doioctl(n, r, p) doioctl_name(n, r, p, #r)
- 
--static const char *audmode2s(int audmode)
-+static const char *const audmode2s(int audmode)
- {
- 	switch (audmode) {
- 		case V4L2_TUNER_MODE_STEREO: return "stereo";
-@@ -382,11 +382,11 @@ static void parse_freq_seek(char *optarg, struct v4l2_hw_freq_seek &seek)
- 	char *subs = optarg;
- 
- 	while (*subs != '\0') {
--		static const char *const subopts[] = {
-+		static constexpr const char *subopts[] = {
- 			"dir",
- 			"wrap",
- 			"spacing",
--			nullptr
-+			nullptr,
- 		};
- 
- 		switch (parse_subopt(&subs, subopts, &value)) {
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index 90a503612..8bd2f73e4 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -1618,11 +1618,11 @@ int main(int argc, char **argv)
- 		case OptStreamAllColorTest:
- 			subs = optarg;
- 			while (*subs != '\0') {
--				static const char *const subopts[] = {
-+				static constexpr const char *subopts[] = {
- 					"color",
- 					"skip",
- 					"perc",
--					nullptr
-+					nullptr,
- 				};
- 
- 				switch (parse_subopt(&subs, subopts, &value)) {
-diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-index bc5958c2c..f154f3152 100644
---- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-@@ -855,7 +855,7 @@ static int captureBufs(struct node *node, struct node *node_m2m_cap, const cv4l_
- 		cv4l_queue &m2m_q, unsigned frame_count, int pollmode,
- 		unsigned &capture_count)
- {
--	static const char *pollmode_str[] = {
-+	static constexpr const char *pollmode_str[] = {
- 		"",
- 		" (select)",
- 		" (epoll)",
-diff --git a/utils/v4l2-compliance/v4l2-test-colors.cpp b/utils/v4l2-compliance/v4l2-test-colors.cpp
-index 55a816949..3f0afe107 100644
---- a/utils/v4l2-compliance/v4l2-test-colors.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-colors.cpp
-@@ -59,25 +59,25 @@ struct color {
- 	double r, g, b, a;
- };
- 
--static const double bt601[3][3] = {
--	{ 1, 0,       1.4020  },
-+static constexpr double bt601[3][3] = {
-+	{ 1, 0, 1.4020 },
- 	{ 1, -0.3441, -0.7141 },
--	{ 1, 1.7720,  0       },
-+	{ 1, 1.7720, 0 },
- };
--static const double rec709[3][3] = {
--	{ 1, 0,       1.5748  },
-+static constexpr double rec709[3][3] = {
-+	{ 1, 0, 1.5748 },
- 	{ 1, -0.1873, -0.4681 },
--	{ 1, 1.8556,  0       },
-+	{ 1, 1.8556, 0 },
- };
--static const double smpte240m[3][3] = {
--	{ 1, 0,       1.5756  },
-+static constexpr double smpte240m[3][3] = {
-+	{ 1, 0, 1.5756 },
- 	{ 1, -0.2253, -0.4767 },
--	{ 1, 1.8270,  0       },
-+	{ 1, 1.8270, 0 },
- };
--static const double bt2020[3][3] = {
--	{ 1, 0,       1.4746  },
-+static constexpr double bt2020[3][3] = {
-+	{ 1, 0, 1.4746 },
- 	{ 1, -0.1646, -0.5714 },
--	{ 1, 1.8814,  0       },
-+	{ 1, 1.8814, 0 },
- };
- 
- static void ycbcr2rgb(const double m[3][3], double y, double cb, double cr,
-@@ -465,10 +465,10 @@ static void getColor(const cv4l_fmt &fmt, __u8 * const planes[3],
- 	}
- }
- 
--static const char * const colors[] = {
-+static constexpr const char *colors[] = {
- 	"red",
- 	"green",
--	"blue"
-+	"blue",
- };
- 
- static int testColorsFmt(struct node *node, unsigned component,
-diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
-index 60ebf559a..3761b1fa9 100644
---- a/utils/v4l2-compliance/v4l2-test-formats.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
-@@ -27,7 +27,7 @@
- #include "compiler.h"
- #include "v4l2-compliance.h"
- 
--static const __u32 buftype2cap[] = {
-+static constexpr __u32 buftype2cap[] = {
- 	0,
- 	V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_M2M,
- 	V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_VIDEO_M2M,
-diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-index 17ad488dd..66e468c3f 100644
---- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-@@ -116,15 +116,8 @@ void common_usage()
- 	       );
- }
- 
--static const char *prefixes[] = {
--	"video",
--	"radio",
--	"vbi",
--	"swradio",
--	"v4l-subdev",
--	"v4l-touch",
--	"media",
--	nullptr
-+static constexpr const char *prefixes[] = {
-+	"video", "radio", "vbi", "swradio", "v4l-subdev", "v4l-touch", "media", nullptr,
- };
- 
- static bool is_v4l_dev(const char *name)
-diff --git a/utils/v4l2-ctl/v4l2-ctl-edid.cpp b/utils/v4l2-ctl/v4l2-ctl-edid.cpp
-index 80ea151f5..f40c17241 100644
---- a/utils/v4l2-ctl/v4l2-ctl-edid.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-edid.cpp
-@@ -658,23 +658,23 @@ static void print_edid_mods(const struct v4l2_edid *e)
- 	}
- 	loc = get_edid_vid_cap_location(e->edid, e->blocks * 128);
- 	if (loc >= 0) {
--		static const char *pt_scan[] = {
-+		static constexpr const char *pt_scan[] = {
- 			"No Data",
- 			"Always Overscanned",
- 			"Always Underscanned",
--			"Supports both over- and underscan"
-+			"Supports both over- and underscan",
- 		};
--		static const char *it_scan[] = {
-+		static constexpr const char *it_scan[] = {
- 			"IT Formats not supported",
- 			"Always Overscanned",
- 			"Always Underscanned",
--			"Supports both over- and underscan"
-+			"Supports both over- and underscan",
- 		};
--		static const char *ce_scan[] = {
-+		static constexpr const char *ce_scan[] = {
- 			"CE Formats not supported",
- 			"Always Overscanned",
- 			"Always Underscanned",
--			"Supports both over- and underscan"
-+			"Supports both over- and underscan",
- 		};
- 		__u8 v = e->edid[loc];
- 
-@@ -1087,65 +1087,17 @@ void edid_cmd(int ch, char *optarg)
- 			break;
- 		subs = optarg;
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
--				"pad",
--				"type",
--				"edid",
--				"file",
--				"format",
--				"pa",
--				"s-pt",
--				"s-it",
--				"s-ce",
--				"y444",
--				"30-bit",
--				"36-bit",
--				"48-bit",
--				"graphics",
--				"photo",
--				"cinema",
--				"game",
--				"scdc",
--				"underscan",
--				"audio",
--				"ycbcr444",
--				"ycbcr422",
--				"qy",
--				"qs",
--				"xvycc-601",
--				"xvycc-709",
--				"sycc",
--				"opycc",
--				"oprgb",
--				"bt2020-rgb",
--				"bt2020-ycc",
--				"bt2020-cycc",
--				"dci-p3",
--				"sdr",
--				"hdr",
--				"smpte2084",
--				"hlg",
--				"fl-fr",
--				"lfe",
--				"fc",
--				"bl-br",
--				"bc",
--				"flc-frc",
--				"rlc-rrc",
--				"flw-frw",
--				"tpfl-tpfr",
--				"tpc",
--				"tpfc",
--				"ls-rs",
--				"lfe2",
--				"tpbc",
--				"sil-sir",
--				"tpsil-tpsir",
--				"tpbl-tpbr",
--				"btfc",
--				"btfl-btbr",
--				"tpls-tprs",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"pad",	      "type",	     "edid",	  "file",      "format",      "pa",
-+				"s-pt",	      "s-it",	     "s-ce",	  "y444",      "30-bit",      "36-bit",
-+				"48-bit",     "graphics",    "photo",	  "cinema",    "game",	      "scdc",
-+				"underscan",  "audio",	     "ycbcr444",  "ycbcr422",  "qy",	      "qs",
-+				"xvycc-601",  "xvycc-709",   "sycc",	  "opycc",     "oprgb",	      "bt2020-rgb",
-+				"bt2020-ycc", "bt2020-cycc", "dci-p3",	  "sdr",       "hdr",	      "smpte2084",
-+				"hlg",	      "fl-fr",	     "lfe",	  "fc",	       "bl-br",	      "bc",
-+				"flc-frc",    "rlc-rrc",     "flw-frw",	  "tpfl-tpfr", "tpc",	      "tpfc",
-+				"ls-rs",      "lfe2",	     "tpbc",	  "sil-sir",   "tpsil-tpsir", "tpbl-tpbr",
-+				"btfc",	      "btfl-btbr",   "tpls-tprs", nullptr,
- 			};
- 
- 			int opt = getsubopt(&subs, (char* const*)subopts, &value);
-@@ -1307,13 +1259,8 @@ void edid_cmd(int ch, char *optarg)
- 			break;
- 		subs = optarg;
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
--				"pad",
--				"startblock",
--				"blocks",
--				"format",
--				"file",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"pad", "startblock", "blocks", "format", "file", nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-diff --git a/utils/v4l2-ctl/v4l2-ctl-io.cpp b/utils/v4l2-ctl/v4l2-ctl-io.cpp
-index 2c51e5736..c50fff86b 100644
---- a/utils/v4l2-ctl/v4l2-ctl-io.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-io.cpp
-@@ -31,7 +31,7 @@ void io_usage()
- 	       );
- }
- 
--static const char *inputtype2s(__u32 type)
-+static const char *const inputtype2s(__u32 type)
- {
- 	switch (type) {
- 	case V4L2_INPUT_TYPE_TUNER:
-@@ -45,7 +45,7 @@ static const char *inputtype2s(__u32 type)
- 	}
- }
- 
--static const char *outputtype2s(__u32 type)
-+static const char *const outputtype2s(__u32 type)
- {
- 	switch (type) {
- 	case V4L2_OUTPUT_TYPE_MODULATOR:
-diff --git a/utils/v4l2-ctl/v4l2-ctl-misc.cpp b/utils/v4l2-ctl/v4l2-ctl-misc.cpp
-index 1853608a3..06b5c7a90 100644
---- a/utils/v4l2-ctl/v4l2-ctl-misc.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-misc.cpp
-@@ -178,15 +178,10 @@ void misc_cmd(int ch, char *optarg)
- 	case OptSetJpegComp:
- 		subs = optarg;
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
--				"app0", "app1", "app2", "app3",
--				"app4", "app5", "app6", "app7",
--				"app8", "app9", "appa", "appb",
--				"appc", "appd", "appe", "appf",
--				"quality",
--				"markers",
--				"comment",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"app0", "app1", "app2",	   "app3",    "app4",	 "app5",  "app6",
-+				"app7", "app8", "app9",	   "appa",    "appb",	 "appc",  "appd",
-+				"appe", "appf", "quality", "markers", "comment", nullptr,
- 			};
- 			size_t len;
- 			int opt = parse_subopt(&subs, subopts, &value);
-@@ -235,10 +230,10 @@ void misc_cmd(int ch, char *optarg)
- 	case OptTryEncoderCmd:
- 		subs = optarg;
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
-+			static constexpr const char *subopts[] = {
- 				"cmd",
- 				"flags",
--				nullptr
-+				nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-@@ -258,13 +253,8 @@ void misc_cmd(int ch, char *optarg)
- 	case OptTryDecoderCmd:
- 		subs = optarg;
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
--				"cmd",
--				"flags",
--				"stop_pts",
--				"start_speed",
--				"start_format",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"cmd", "flags", "stop_pts", "start_speed", "start_format", nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-diff --git a/utils/v4l2-ctl/v4l2-ctl-overlay.cpp b/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
-index 639a41757..71c437f81 100644
---- a/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
-@@ -209,15 +209,8 @@ void overlay_cmd(int ch, char *optarg)
- 	case OptTryOverlayFormat:
- 		subs = optarg;
- 		while (subs && *subs != '\0') {
--			static const char *const subopts[] = {
--				"chromakey",
--				"global_alpha",
--				"left",
--				"top",
--				"width",
--				"height",
--				"field",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"chromakey", "global_alpha", "left", "top", "width", "height", "field", nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-@@ -260,12 +253,8 @@ void overlay_cmd(int ch, char *optarg)
- 		subs = optarg;
- 		memset(&r, 0, sizeof(r));
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
--				"left",
--				"top",
--				"width",
--				"height",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"left", "top", "width", "height", nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-@@ -308,14 +297,9 @@ void overlay_cmd(int ch, char *optarg)
- 			const unsigned alpha_flags = V4L2_FBUF_FLAG_GLOBAL_ALPHA |
- 						     V4L2_FBUF_FLAG_LOCAL_ALPHA |
- 						     V4L2_FBUF_FLAG_LOCAL_INV_ALPHA;
--			static const char *const subopts[] = {
--				"chromakey",
--				"src_chromakey",
--				"global_alpha",
--				"local_alpha",
--				"local_inv_alpha",
--				"fb",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"chromakey", "src_chromakey", "global_alpha", "local_alpha", "local_inv_alpha",
-+				"fb",	     nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-diff --git a/utils/v4l2-ctl/v4l2-ctl-selection.cpp b/utils/v4l2-ctl/v4l2-ctl-selection.cpp
-index 4633776fb..7385d5bfe 100644
---- a/utils/v4l2-ctl/v4l2-ctl-selection.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-selection.cpp
-@@ -93,12 +93,8 @@ static void parse_crop(char *optarg, unsigned int &set_crop, v4l2_rect &vcrop)
- 	char *subs = optarg;
- 
- 	while (*subs != '\0') {
--		static const char *const subopts[] = {
--			"left",
--			"top",
--			"width",
--			"height",
--			nullptr
-+		static constexpr const char *subopts[] = {
-+			"left", "top", "width", "height", nullptr,
- 		};
- 
- 		switch (parse_subopt(&subs, subopts, &value)) {
-@@ -153,14 +149,8 @@ static int parse_selection(char *optarg, unsigned int &set_sel, v4l2_selection &
- 	char *subs = optarg;
- 
- 	while (*subs != '\0') {
--		static const char *const subopts[] = {
--			"target",
--			"flags",
--			"left",
--			"top",
--			"width",
--			"height",
--			nullptr
-+		static constexpr const char *subopts[] = {
-+			"target", "flags", "left", "top", "width", "height", nullptr,
- 		};
- 
- 		switch (parse_subopt(&subs, subopts, &value)) {
-diff --git a/utils/v4l2-ctl/v4l2-ctl-stds.cpp b/utils/v4l2-ctl/v4l2-ctl-stds.cpp
-index 82571f932..f54368eb4 100644
---- a/utils/v4l2-ctl/v4l2-ctl-stds.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-stds.cpp
-@@ -160,29 +160,11 @@ static int parse_timing_subopt(char **subopt_str, int *value)
- 	int opt;
- 	char *opt_str;
- 
--	static const char * const subopt_list[] = {
--		"width",
--		"height",
--		"interlaced",
--		"polarities",
--		"pixelclock",
--		"hfp",
--		"hs",
--		"hbp",
--		"vfp",
--		"vs",
--		"vbp",
--		"il_vfp",
--		"il_vs",
--		"il_vbp",
--		"index",
--		"cvt",
--		"gtf",
--		"fps",
--		"reduced-blanking",
--		"reduced-fps",
--		"clear",
--		nullptr
-+	static constexpr const char *subopt_list[] = {
-+		"width", "height", "interlaced", "polarities", "pixelclock",	   "hfp",	  "hs",
-+		"hbp",	 "vfp",	   "vs",	 "vbp",	       "il_vfp",	   "il_vs",	  "il_vbp",
-+		"index", "cvt",	   "gtf",	 "fps",	       "reduced-blanking", "reduced-fps", "clear",
-+		nullptr,
- 	};
- 
- 	opt = getsubopt(subopt_str, (char* const*) subopt_list, &opt_str);
-diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-index b8dc30fb3..62424e4cc 100644
---- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-@@ -503,7 +503,7 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
- 		static_cast<__u64>(buf.timestamp.tv_sec), static_cast<__u64>(buf.timestamp.tv_usec),
- 		timestamp_type2s(buf.flags).c_str(), timestamp_src2s(buf.flags).c_str());
- 	if (buf.flags & V4L2_BUF_FLAG_TIMECODE) {
--		static const int fps_types[] = { 0, 24, 25, 30, 50, 60 };
-+		static constexpr int fps_types[] = { 0, 24, 25, 30, 50, 60 };
- 		int fps = buf.timecode.type;
- 
- 		if (fps > 5)
-diff --git a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-index ecfd32443..1764ad485 100644
---- a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-@@ -5,10 +5,10 @@ struct mbus_name {
- 	__u32 code;
- };
- 
--static const struct mbus_name mbus_names[] = {
-+static constexpr struct mbus_name mbus_names[] = {
- 	{ "Fixed", MEDIA_BUS_FMT_FIXED },
- #include "media-bus-format-names.h"
--	{ nullptr, 0 }
-+	{ nullptr, 0 },
- };
- 
- /* selection specified */
-@@ -97,10 +97,10 @@ void subdev_cmd(int ch, char *optarg)
- 	case OptListSubDevFrameSizes:
- 		subs = optarg;
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
-+			static constexpr const char *subopts[] = {
- 				"pad",
- 				"code",
--				nullptr
-+				nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-@@ -119,12 +119,8 @@ void subdev_cmd(int ch, char *optarg)
- 	case OptListSubDevFrameIntervals:
- 		subs = optarg;
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
--				"pad",
--				"code",
--				"width",
--				"height",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"pad", "code", "width", "height", nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-@@ -153,10 +149,10 @@ void subdev_cmd(int ch, char *optarg)
- 	case OptGetSubDevSelection:
- 		subs = optarg;
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
-+			static constexpr const char *subopts[] = {
- 				"pad",
- 				"target",
--				nullptr
-+				nullptr,
- 			};
- 			unsigned int target;
- 
-@@ -187,18 +183,9 @@ void subdev_cmd(int ch, char *optarg)
- 		ffmt.field = V4L2_FIELD_ANY;
- 		subs = optarg;
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
--				"width",
--				"height",
--				"code",
--				"field",
--				"colorspace",
--				"ycbcr",
--				"hsv",
--				"quantization",
--				"xfer",
--				"pad",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"width", "height",	 "code", "field", "colorspace", "ycbcr",
-+				"hsv",	 "quantization", "xfer", "pad",	  nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-@@ -256,15 +243,8 @@ void subdev_cmd(int ch, char *optarg)
- 		subs = optarg;
- 
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
--				"target",
--				"flags",
--				"left",
--				"top",
--				"width",
--				"height",
--				"pad",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"target", "flags", "left", "top", "width", "height", "pad", nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-@@ -309,10 +289,10 @@ void subdev_cmd(int ch, char *optarg)
- 		subs = optarg;
- 
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
-+			static constexpr const char *subopts[] = {
- 				"pad",
- 				"fps",
--				nullptr
-+				nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-diff --git a/utils/v4l2-ctl/v4l2-ctl-tuner.cpp b/utils/v4l2-ctl/v4l2-ctl-tuner.cpp
-index 7d6f6f3e7..126b413eb 100644
---- a/utils/v4l2-ctl/v4l2-ctl-tuner.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-tuner.cpp
-@@ -45,7 +45,7 @@ void tuner_usage()
- 	       );
- }
- 
--static const char *audmode2s(int audmode)
-+static const char *const audmode2s(int audmode)
- {
- 	switch (audmode) {
- 		case V4L2_TUNER_MODE_STEREO: return "stereo";
-@@ -57,7 +57,7 @@ static const char *audmode2s(int audmode)
- 	}
- }
- 
--static const char *ttype2s(int type)
-+static const char *const ttype2s(int type)
- {
- 	switch (type) {
- 		case V4L2_TUNER_RADIO: return "radio";
-@@ -157,13 +157,8 @@ static void parse_freq_seek(char *optarg, struct v4l2_hw_freq_seek &seek)
- 	char *subs = optarg;
- 
- 	while (*subs != '\0') {
--		static const char *const subopts[] = {
--			"dir",
--			"wrap",
--			"spacing",
--			"low",
--			"high",
--			nullptr
-+		static constexpr const char *subopts[] = {
-+			"dir", "wrap", "spacing", "low", "high", nullptr,
- 		};
- 
- 		switch (parse_subopt(&subs, subopts, &value)) {
-diff --git a/utils/v4l2-ctl/v4l2-ctl-vbi.cpp b/utils/v4l2-ctl/v4l2-ctl-vbi.cpp
-index 33191aa64..51508a7b9 100644
---- a/utils/v4l2-ctl/v4l2-ctl-vbi.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-vbi.cpp
-@@ -123,15 +123,9 @@ void vbi_cmd(int ch, char *optarg)
- 		subs = optarg;
- 		memset(&raw->fmt.vbi, 0, sizeof(raw->fmt.vbi));
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
--				"samplingrate",
--				"offset",
--				"samplesperline",
--				"start0",
--				"start1",
--				"count0",
--				"count1",
--				nullptr
-+			static constexpr const char *subopts[] = {
-+				"samplingrate", "offset", "samplesperline", "start0",
-+				"start1",	"count0", "count1",	    nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-index c66c248a3..b12631b80 100644
---- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-@@ -133,11 +133,11 @@ void vidcap_cmd(int ch, char *optarg)
- 	case OptListFrameIntervals:
- 		subs = optarg;
- 		while (*subs != '\0') {
--			static const char *const subopts[] = {
-+			static constexpr const char *subopts[] = {
- 				"width",
- 				"height",
- 				"pixelformat",
--				nullptr
-+				nullptr,
- 			};
- 
- 			switch (parse_subopt(&subs, subopts, &value)) {
-@@ -395,9 +395,8 @@ void vidcap_list(cv4l_fd &fd)
- 
- void print_touch_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
- {
--	static const char img[16] = {
--		'.', ',', ':', ';', '!', '|', 'i', 'c',
--		'n', 'o', 'm', 'I', 'C', 'N', 'O', 'M',
-+	static constexpr char img[16] = {
-+		'.', ',', ':', ';', '!', '|', 'i', 'c', 'n', 'o', 'm', 'I', 'C', 'N', 'O', 'M',
- 	};
- 	auto vbuf = static_cast<__s16 *>(q.g_dataptr(buf.g_index(), 0));
- 	__u32 x, y;
-diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-index d91577e14..4ddbecce7 100644
---- a/utils/v4l2-ctl/v4l2-ctl.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-@@ -523,11 +523,11 @@ void printfmt(int fd, const struct v4l2_format &vfmt)
- 
- static std::string frmtype2s(unsigned type)
- {
--	static const char *types[] = {
-+	static constexpr const char *types[] = {
- 		"Unknown",
- 		"Discrete",
- 		"Continuous",
--		"Stepwise"
-+		"Stepwise",
- 	};
- 
- 	if (type > 3)
-@@ -764,20 +764,9 @@ int parse_fmt(char *optarg, __u32 &width, __u32 &height, __u32 &pixelformat,
- 	flags = 0;
- 	subs = optarg;
- 	while (*subs != '\0') {
--		static const char *const subopts[] = {
--			"width",
--			"height",
--			"pixelformat",
--			"field",
--			"colorspace",
--			"ycbcr",
--			"hsv",
--			"bytesperline",
--			"premul-alpha",
--			"quantization",
--			"xfer",
--			"sizeimage",
--			nullptr
-+		static constexpr const char *subopts[] = {
-+			"width",	"height",	"pixelformat",	"field", "colorspace", "ycbcr", "hsv",
-+			"bytesperline", "premul-alpha", "quantization", "xfer",	 "sizeimage",  nullptr,
- 		};
- 
- 		switch (parse_subopt(&subs, subopts, &value)) {
-@@ -1032,8 +1021,7 @@ static int open_media_bus_info(const std::string &bus_info)
- 	return -1;
- }
- 
--static const char *make_devname(const char *device, const char *devname,
--				const std::string &media_bus_info)
-+static const char *const make_devname(const char *device, const char *devname, const std::string &media_bus_info)
- {
- 	if (device[0] >= '0' && device[0] <= '9' && strlen(device) <= 3) {
- 		static char newdev[32];
-diff --git a/utils/v4l2-dbg/v4l2-dbg.cpp b/utils/v4l2-dbg/v4l2-dbg.cpp
-index 0873c2686..b3eed1de7 100644
---- a/utils/v4l2-dbg/v4l2-dbg.cpp
-+++ b/utils/v4l2-dbg/v4l2-dbg.cpp
-@@ -302,7 +302,7 @@ static unsigned long long parse_reg(const struct board_list *curr_bd, const std:
- 	return strtoull(reg.c_str(), nullptr, 0);
- }
- 
--static const char *reg_name(const struct board_list *curr_bd, unsigned long long reg)
-+static const char *const reg_name(const struct board_list *curr_bd, unsigned long long reg)
- {
- 	if (curr_bd) {
- 		for (const auto &curr : curr_bd->regs) {
-@@ -317,7 +317,7 @@ static const char *reg_name(const struct board_list *curr_bd, unsigned long long
- 	return nullptr;
- }
- 
--static const char *binary(unsigned long long val)
-+static const char *const binary(unsigned long long val)
- {
- 	static char bin[80];
- 	char *p = bin;
-@@ -494,10 +494,10 @@ int main(int argc, char **argv)
- 				break;
- 
- 			while (*subs != '\0') {
--				static const char * const subopts[] = {
-+				static constexpr const char *subopts[] = {
- 					"min",
- 					"max",
--					nullptr
-+					nullptr,
- 				};
- 
- 				switch (parse_subopt(&subs, subopts, &value)) {
--- 
-2.30.2
+--SUOF0GtieIMvvwua
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
 
+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
+DaXZfEiCWO3gQRHCySogXPL+H9eaIAXpMwIA
+
+--SUOF0GtieIMvvwua--
