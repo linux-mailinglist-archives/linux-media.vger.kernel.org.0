@@ -2,151 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48818368B7B
-	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 05:18:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35C21368CD7
+	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 07:59:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240166AbhDWDT3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Apr 2021 23:19:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36300 "EHLO
+        id S240494AbhDWF72 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Apr 2021 01:59:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbhDWDTX (ORCPT
+        with ESMTP id S230520AbhDWF71 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Apr 2021 23:19:23 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBEE8C061574;
-        Thu, 22 Apr 2021 20:18:42 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so502098pjv.1;
-        Thu, 22 Apr 2021 20:18:42 -0700 (PDT)
+        Fri, 23 Apr 2021 01:59:27 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE206C061574
+        for <linux-media@vger.kernel.org>; Thu, 22 Apr 2021 22:58:50 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id nk8so9385284pjb.3
+        for <linux-media@vger.kernel.org>; Thu, 22 Apr 2021 22:58:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1/TOrEqrwiXCSug3JBIyA4BD91Pmv7587CTqOps2XDY=;
-        b=TQ7Ne3vCRWtywSF3nUHKF94uyp5ZkhtJsazryURn2C2aAYQq5H2hpC2SSQmuR5svqJ
-         bZpT4BFgTIVR60BWeRfTb9E+vcyIsICYRm4W1F2ZMm1Jhe3jWqG6tFwPPtBpGIB5WmDh
-         WxFY9Ck66dGb984u478SuWKkPDvBnPVZYhtkSXwlBORwKemE3XNc/IirV26QPsaek7Eh
-         cy/7Wc7hk/bMqIpTIwgH5nM+qbiiPw8Ep/H8l9U9bKQQJSNNVYDldLnyxLCseqguPw4e
-         9F9qGS5AcTfHEYpwGDLRYWw4tE3VeZpt66Cutfh0Mwt5ln6pcFqvv9v579PmW5HW+9aE
-         NTAQ==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WojFyUuBmlCNfO5VcU3mpAXT/QOV485quirzDWuFiHI=;
+        b=nEn0d/cITJwCov5cPnJMctSmaLJUrt8L/kVGZa3Mly7ka+SlPVJ9hl5z5Npj6PQ8lm
+         CHRZZ1dcQyvoWw0dUVqcLAkJrOb5kJO/cxJQCNA7xsQQi/5Th52yb4YUn0RAoGq3lnAJ
+         G+mr9b7dgd2/9zEotik+afdfzYS1OvLXhLluU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1/TOrEqrwiXCSug3JBIyA4BD91Pmv7587CTqOps2XDY=;
-        b=Q2db9jXk8FlFFFFDuFqEu0NdwIOKDix+CB/d8am1MVBgkMsC1UcfOewf5fij8O4TLJ
-         O5FShagqn214WydmchrQggeBF4esPM0pRsZ6Hl+gXhxKbJeG86mFqVVcg13OQFhBDVfy
-         mtRM5yi35JKjdvvHn6hoCPNRGNrriT6TUUJtDr2e5SkDwZj9zEt7/7c0sGDzFuunyHfn
-         4VRq4bCKQ9+1kK11K/+wKfdCdRHBxaVtfxMjoxsqQudECFE2YtFt7dybmyRtrHczKmUR
-         cr7IqBuJOthTZmjG1j+D++2DeRodv4RX7DdQe8l3Z/TiaBSVY3HmRU5lh++KklnKw/4L
-         jSLA==
-X-Gm-Message-State: AOAM530r8h//SmUQxjQJf0mmIWvfhIqPAYlx96VzqCY6mwgz+BexTrG7
-        cSs5WYzpKfx/oWoVwJ6uWaR0HBnw6OEIPw==
-X-Google-Smtp-Source: ABdhPJxff3tR4yY7sdTwZtTCRQzRKpJpoAOfT1Sx3ddOtQYaR9khz9GX9EEwNWkAQweH7dTTixPKOQ==
-X-Received: by 2002:a17:902:b785:b029:eb:7a1b:5016 with SMTP id e5-20020a170902b785b02900eb7a1b5016mr1684048pls.51.1619147922248;
-        Thu, 22 Apr 2021 20:18:42 -0700 (PDT)
-Received: from atulu-nitro ([171.61.238.200])
-        by smtp.gmail.com with ESMTPSA id x14sm3484694pfo.171.2021.04.22.20.18.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Apr 2021 20:18:41 -0700 (PDT)
-Date:   Fri, 23 Apr 2021 08:48:34 +0530
-From:   Atul Gopinathan <atulgopinathan@gmail.com>
-To:     Pavel Skripkin <paskripkin@gmail.com>
-Cc:     mchehab@kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: gspca: stv06xx: Fix memleak in stv06xx subdrivers
-Message-ID: <20210423031834.GA3338@atulu-nitro>
-References: <20210422160742.7166-1-atulgopinathan@gmail.com>
- <20210422215511.01489adb@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WojFyUuBmlCNfO5VcU3mpAXT/QOV485quirzDWuFiHI=;
+        b=BsG8AezHQh1JN0Y7rSSoZzq7TtVXV3ELfy237OSaL7ySgTrcdbx2JktP2jh2lB7yOQ
+         kunwUprIYMbj6R27Z/7xiISLbNJlE1MoOvcMR/rIXmnRgFBLVDcz36g6g/D8/kaNJavs
+         qP5NW7dBhJKAZT2ZQQwEcPFRvpoquenJDe7YqGgF9txRi6yLW9xHf2FAxntUPLlXXVg5
+         qEHlWDIXaOCS86ZEEP0QxuvAuChmjjGIAT0Y1GSLOLX+aST7hYxd348A4+Rg3X2N1QGF
+         mne7SBTEh6ou5YX8YT/oaUY4Gsw1exsnWnL0LxtkyuO7v+iE/2FNONsdOm+Qj5IB0Bad
+         QFXQ==
+X-Gm-Message-State: AOAM533kaA6qFlKL8oyGzodaWobR6hyvkcUoQ2MhKawv76d2sgdp+7V2
+        /qpkhDh7fOh9ZOQKEBdIVZhauQ==
+X-Google-Smtp-Source: ABdhPJwYbk0jpbFk5VmmfOeLYVgcuWObCMUM6VNScD01vj0LdoNVakoEYINA9YdZxs7LcXJ3tQFLag==
+X-Received: by 2002:a17:903:244:b029:ec:9666:9fc6 with SMTP id j4-20020a1709030244b02900ec96669fc6mr2176469plh.63.1619157530312;
+        Thu, 22 Apr 2021 22:58:50 -0700 (PDT)
+Received: from localhost ([2401:fa00:9:14:308c:235d:f7a2:53a1])
+        by smtp.gmail.com with UTF8SMTPSA id m11sm6254433pjs.34.2021.04.22.22.58.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Apr 2021 22:58:49 -0700 (PDT)
+From:   Eizan Miyamoto <eizan@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     enric.balletbo@collabora.com, chunkuang.hu@kernel.org,
+        yong.wu@mediatek.com, Eizan Miyamoto <eizan@chromium.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH v1 0/4] Refactor MTK MDP driver into core/components
+Date:   Fri, 23 Apr 2021 15:58:37 +1000
+Message-Id: <20210423055842.2490679-1-eizan@chromium.org>
+X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210422215511.01489adb@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 22, 2021 at 09:55:11PM +0300, Pavel Skripkin wrote:
-> Hi!
-> 
-> On Thu, 22 Apr 2021 21:37:42 +0530
-> Atul Gopinathan <atulgopinathan@gmail.com> wrote:
-> > During probing phase of a gspca driver in "gspca_dev_probe2()", the
-> > stv06xx subdrivers have certain sensor variants (namely, hdcs_1x00,
-> > hdcs_1020 and pb_0100) that allocate memory for their respective
-> > sensor which is passed to the "sd->sensor_priv" field. During the
-> > same probe routine, after "sensor_priv" allocation, there are chances
-> > of later functions invoked to fail which result in the probing
-> > routine to end immediately via "goto out" path. While doing so, the
-> > memory allocated earlier for the sensor isn't taken care of resulting
-> > in memory leak.
-> > 
-> > Fix this by adding operations to the gspca, stv06xx and down to the
-> > sensor levels to free this allocated memory during gspca probe
-> > failure.
-> > 
-> > -
-> > The current level of hierarchy looks something like this:
-> > 
-> > 	gspca (main driver) represented by struct gspca_dev
-> > 	   |
-> > ___________|_____________________________________
-> > |	|	|	|	|		| (subdrivers)
-> > 			|			  represented
-> >  			stv06xx			  by "struct
-> > sd" |
-> >  	 _______________|_______________
-> >  	 |	|	|	|	|  (sensors)
-> > 	 	|			|
-> >  		hdcs_1x00/1020		pb01000
-> > 			|_________________|
-> > 				|
-> > 			These three sensor variants
-> > 			allocate memory for
-> > 			"sd->sensor_priv" field.
-> > 
-> > Here, "struct gspca_dev" is the representation used in the top level.
-> > In the sub-driver levels, "gspca_dev" pointer is cast to "struct sd*",
-> > something like this:
-> > 
-> > 	struct sd *sd = (struct sd *)gspca_dev;
-> > 
-> > This is possible because the first field of "struct sd" is
-> > "gspca_dev":
-> > 
-> > 	struct sd {
-> > 		struct gspca_dev;
-> > 		.
-> > 		.
-> > 	}
-> > 
-> > Therefore, to deallocate the "sd->sensor_priv" fields from
-> > "gspca_dev_probe2()" which is at the top level, the patch creates
-> > operations for the subdrivers and sensors to be invoked from the gspca
-> > driver levels. These operations essentially free the "sd->sensor_priv"
-> > which were allocated by the "config" and "init_controls" operations in
-> > the case of stv06xx sub-drivers and the sensor levels.
-> > 
-> > This patch doesn't affect other sub-drivers or even sensors who never
-> > allocate memory to "sensor_priv". It has also been tested by syzbot
-> > and it returned an "OK" result.
-> > 
-> > https://syzkaller.appspot.com/bug?id=ab69427f2911374e5f0b347d0d7795bfe384016c
-> > -
-> > 
-> > Fixes: 4c98834addfe ("V4L/DVB (10048): gspca - stv06xx: New
-> > subdriver.") Cc: stable@vger.kernel.org
-> > Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
-> > Reported-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
-> > Tested-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
-> > Signed-off-by: Atul Gopinathan <atulgopinathan@gmail.com>
-> 
-> AFAIK, something similar is already applied to linux-media tree
-> https://git.linuxtv.org/media_tree.git/commit/?id=4f4e6644cd876c844cdb3bea2dd7051787d5ae25
+This is an update to
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=283075
+To address some comments and fixes.
 
-Oh, my bad. Thanks for pointing it out. The syzkaller page of this bug
-hasn't been updated. I will send an e-mail and mark it as fixed.
+This series has been verified to work on 5.11.
 
-Regards,
-Atul
+It has been rebased on top of the series
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=464873
+
+The first two patches are unchanged from the previous series submission.
+
+
+Eizan Miyamoto (4):
+  mtk-mdp: add driver to probe mdp components
+  mtk-mdp: use pm_runtime in MDP component driver
+  media: mtk-mdp: don't pm_run_time_get/put for master comp in clock_on
+  mtk-mdp: soc: mediatek: register mdp from mmsys
+
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 191 ++++++++++++++--
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  35 +--
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 214 +++++++++++-------
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.h |   3 +
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |   4 +-
+ drivers/soc/mediatek/mtk-mmsys.c              |  20 +-
+ 6 files changed, 345 insertions(+), 122 deletions(-)
+
+-- 
+2.31.1.498.g6c1eba8ee3d-goog
+
