@@ -2,128 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC370368F32
-	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 11:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72195368F3E
+	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 11:15:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230339AbhDWJJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Apr 2021 05:09:50 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:44249 "EHLO
+        id S241571AbhDWJPi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Apr 2021 05:15:38 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:57557 "EHLO
         lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229456AbhDWJJu (ORCPT
+        by vger.kernel.org with ESMTP id S229456AbhDWJPi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Apr 2021 05:09:50 -0400
+        Fri, 23 Apr 2021 05:15:38 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id ZroClzuR6vTEDZroFlcj4K; Fri, 23 Apr 2021 11:09:12 +0200
+        id ZrtplzxTvvTEDZrtslckfB; Fri, 23 Apr 2021 11:15:01 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1619168952; bh=x7ozyh8hBJlw/CZeD3L7ZTwGiLAUQCebajl7PyHbRo4=;
+        t=1619169301; bh=XXyij5Qu/uA9noCMhTWBdQLKhasPBJwPX0yij09asCw=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=MmD07osS3QZbgeS68ODZUGbZWrDNrIoLF669aPAPIJiGuPPFTFy53GLDUMhNjdiwx
-         pS31ly+/jPVC3rjGE71zhrWLnx6RTtHFikvhdP64/dj/XRFiC9gn+AdqBgFEC2y3og
-         6Ve1YgRmp6XATK4Vt35DmeordE46pyqQgdWQzUBWjbsmfgQwu7jwTX4nWRfSIVR7DJ
-         yZ+KZXLEm/fTxJaLMgiUayD4TcA+Ex4XuItqTcpms+gaP2GFXeyNVi00RvzFdm49HN
-         gxl+Ip3JFPh5dk+ESSRiSgb8tePfdQjqftsN4tIJygypLV2tUsoHxeQ0LjIhqz2iQq
-         nmd7LkY9Uta5A==
-Subject: Re: [PATCH v3 0/6] staging: media: atomisp: code cleanup fixes
+        b=i3yjFvrav3utG1DmoQpSZ5xuxVGZn85c5mL3tNsE8S6xmDzxN2bDteEgd+tq8mPIg
+         ftnz+Frx2xqPU2cSlCAiZIBli5T6H52GgGkkA5foxab4bjKrYcZpWzAkm6LJs7CCOK
+         fyNt2q2jqi6o2QsSlu9tSzUIlq/ELDnVerTSHd0ueo626+lBpotrYn0Gw3kU3Zao0G
+         /lPagYY1YvSqkgQAKtN31NSWZcsdqtbXn/bEMsPb6Ry0AvLqAYua7Ezg2MD7QcDhD3
+         jUekFti1RnYKowpScpDO+Tv0Kzcn6wi19tgRsVOAxALe874KAX7KZlo4HQmfLv4QLt
+         UdQsesHsuZdJw==
+Subject: Re: [PATCH] staging: media: atomisp: replace pr_info() by dev_info()
 To:     Deepak R Varma <drv@mailo.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
-References: <cover.1619022192.git.drv@mailo.com>
+References: <20210422103037.GA239298@localhost>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <449f49fa-f19b-70bc-5ee9-3187ac43a376@xs4all.nl>
-Date:   Fri, 23 Apr 2021 11:09:08 +0200
+Message-ID: <bcfdf67a-37df-335e-9367-75a46496d04b@xs4all.nl>
+Date:   Fri, 23 Apr 2021 11:14:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1619022192.git.drv@mailo.com>
+In-Reply-To: <20210422103037.GA239298@localhost>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfHNySfGwsTTOcRms+3SBdITadTlRgErLy0mQDD6ZG/F4PHxVt8zWdXknP61qZtztPHWTQhZPQKrdZ/hO3m7RYdXefQEPtn/6kAPUY8+Xi5hOyOg12dBZ
- TkRRkbDB8wkv6R+YhikXU8wjbabOLJDX4DORS5GWk0CAD4D+kFMlwqWPcWg0+AaCKw3enQaODkNOg8wKa5igBvYrQ1aLZwl4YrQMLqPqfSJ+3YR6nthmutHx
- 8MGdB/4UYGLmB7dq/AUvL2BcdYtk4AgeGbSdVKLHxXnV4u12UWvKEE+oabt16fvBOYbaBMjlciY5sCG0nq+edihxWPUS4YdOhQoro0k6uZic+ifdRvsmtXCR
- RP060o+/NknC4EWjyJKqpW2wRslr2el57h1WrIESMB1qdF9pTpH89x07LXcTMa4gaiibvLQo2zBbSqIMXMP2ZodDGPS9qA==
+X-CMAE-Envelope: MS4xfL7IErIMUsYVGnUKOmTBhOmneR0v4GIm9QlEcJHbbhGsB6kTqHVydqTwUASNY0Rl0F3Uk8Gwi65i0HAheICYwAQX3z7dyh/X+TWV/6hJ7G025UNJaq6P
+ 5bPCXXDHgBY4rZqgvsOLDnWRiPF9mC2yuWqzxyQBMSbZExcDPJdA5KkP5yjnhdBgTGvwovFe63STjnOBfkxxPVU5SgPl22mfqT1tzY2pf92tjowgazgKPaEe
+ ZGUckmRUStnho1NXQdxrDo0rFdsam6GqAvmCwllH9S1JgeRyTb3K60UBpnXvTEtlG8UPNe5r2G6YqLOQ9JFMeiMQSIu/RhwYywI3zjg4VFi2Wv9dUNQwvMV/
+ oe6oePyoiTjkpZt3P3f2ywdwLQR6x95RPmFjaX74xJ9YPMFEw/Zk5L0Rl2gerZauNiLxZl2tmCjmY7SPlr0ranZW/DONpg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Deepak,
+On 22/04/2021 12:30, Deepak R Varma wrote:
+> It is recommended to use driver model diagnostic macros dev_*() instead
+> of pr_*() since the former ensures that the log messages are always
+> associated with the corresponding device and driver.
+> 
+> Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
+> 
+> Note: There are few more pr_into() calls that I have not replaced since
+> they are very basic (entry and exit) and temporary. They can be removed 
+> if the APIs are fully tested. See this example:
+> 	pr_info("%s S\n", __func__);
+> 
+> Let me know if I should remove them and resubmit this patch.
+> 
+> 
+>  .../media/atomisp/i2c/atomisp-gc0310.c        | 30 +++++++++----------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> index 7e4e123fdb52..27153ec6f65e 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> @@ -300,7 +300,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+>  	/* pixel clock calculattion */
+>  	dev->vt_pix_clk_freq_mhz = 14400000; // 16.8MHz
+>  	buf->vt_pix_clk_freq_mhz = dev->vt_pix_clk_freq_mhz;
+> -	pr_info("vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
+> +	dev_info(&client->dev, "vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
 
-Something weird is going on. This series didn't appear in patchwork
-(https://patchwork.linuxtv.org/) and looking at lore.kernel.org:
-
-https://lore.kernel.org/linux-media/20210421181101.JySzrynV5EUsi4N5Dh97QA9VUOQjMutu0mNTW7capUw@z/T/#r4d9987c800c28c26c96464bb56916bf0408b4738
-
-it appears v3 was seen as replied to the v1 posts instead of a new thread.
-
-It's probably related to the Message-Id field, which is the same for the
-v1 and v3 posts. Not really sure how you managed that :-)
-
-Please repost so that the v3 series is picked up by patchwork.
+Use dev_dbg instead to avoid spamming the kernel log with all these
+messages. dev_dbg is perfectly fine for this, but not pr_info/dev_info.
 
 Regards,
 
 	Hans
 
-On 21/04/2021 20:11, Deepak R Varma wrote:
-> This patch set addresses different kinds of checkpatch WARNING and
-> CHECK complaints.
-> 
-> Note: The patches should be applied in the ascending order.
-> 
-> Changes since v2:
->    Generic change:
->    1. Correct patch versioning in patch subject
-> 
->    Patch Specific change:
->    1. patch 1/6 : none
->    2. patch 2/6 : none
->    3. patch 3/6 : none
->    4. patch 4/6 :
->         a. Tag Fabio Auito for the patch suggestion
-> 
->    5. patch 5/6 : none
->    6. patch 6/6:
->         a. Tag Fabio Auito for the patch suggestion
-> 
-> Changes since v1:
->    Generic change:
->    1. The patch set is being resent from an email account that matches with
->       the patch signed-of-by tag. Issue highlighted by Hans Verkuil.
-> 
->    Patch specific changes:
->    1. patch 1/6 : none
->    2. patch 2/6 : none
->    3. patch 3/6 : none
->    4. patch 4/6 : implement following changes suggested by Fabio Aiuto
->         a. Corrected commenting style
->         b. Similar style implemented for other comment blocks in
->            the same files.
->    5. patch 5/6 : none
->    6. patch 6/6: implement following changes suggested by Fabio Aiuto
->         a. use dev_info instead of pr_info
->         b. update patch log message accordingly
-> 
-> 
-> Deepak R Varma (6):
->   staging: media: atomisp: improve function argument alignment
->   staging: media: atomisp: balance braces around if...else block
->   staging: media: atomisp: use __func__ over function names
->   staging: media: atomisp: reformat code comment blocks
->   staging: media: atomisp: fix CamelCase variable naming
->   staging: media: atomisp: replace raw printk() by dev_info()
-> 
->  .../media/atomisp/i2c/atomisp-gc0310.c        |  14 +--
->  .../media/atomisp/i2c/atomisp-gc2235.c        |  29 ++---
->  .../atomisp/i2c/atomisp-libmsrlisthelper.c    |   6 +-
->  .../media/atomisp/i2c/atomisp-lm3554.c        |   2 +-
->  .../media/atomisp/i2c/atomisp-mt9m114.c       | 106 ++++++++++--------
->  .../media/atomisp/i2c/atomisp-ov2680.c        |  43 ++++---
->  .../media/atomisp/i2c/atomisp-ov2722.c        |  10 +-
->  7 files changed, 116 insertions(+), 94 deletions(-)
+>  
+>  	/* get integration time */
+>  	buf->coarse_integration_time_min = GC0310_COARSE_INTG_TIME_MIN;
+> @@ -326,7 +326,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+>  	if (ret)
+>  		return ret;
+>  	buf->crop_horizontal_start = val | (reg_val & 0xFF);
+> -	pr_info("crop_horizontal_start=%d\n", buf->crop_horizontal_start);
+> +	dev_info(&client->dev, "crop_horizontal_start=%d\n", buf->crop_horizontal_start);
+>  
+>  	/* Getting crop_vertical_start */
+>  	ret =  gc0310_read_reg(client, GC0310_8BIT,
+> @@ -339,7 +339,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+>  	if (ret)
+>  		return ret;
+>  	buf->crop_vertical_start = val | (reg_val & 0xFF);
+> -	pr_info("crop_vertical_start=%d\n", buf->crop_vertical_start);
+> +	dev_info(&client->dev, "crop_vertical_start=%d\n", buf->crop_vertical_start);
+>  
+>  	/* Getting output_width */
+>  	ret = gc0310_read_reg(client, GC0310_8BIT,
+> @@ -352,7 +352,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+>  	if (ret)
+>  		return ret;
+>  	buf->output_width = val | (reg_val & 0xFF);
+> -	pr_info("output_width=%d\n", buf->output_width);
+> +	dev_info(&client->dev, "output_width=%d\n", buf->output_width);
+>  
+>  	/* Getting output_height */
+>  	ret = gc0310_read_reg(client, GC0310_8BIT,
+> @@ -365,12 +365,12 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+>  	if (ret)
+>  		return ret;
+>  	buf->output_height = val | (reg_val & 0xFF);
+> -	pr_info("output_height=%d\n", buf->output_height);
+> +	dev_info(&client->dev, "output_height=%d\n", buf->output_height);
+>  
+>  	buf->crop_horizontal_end = buf->crop_horizontal_start + buf->output_width - 1;
+>  	buf->crop_vertical_end = buf->crop_vertical_start + buf->output_height - 1;
+> -	pr_info("crop_horizontal_end=%d\n", buf->crop_horizontal_end);
+> -	pr_info("crop_vertical_end=%d\n", buf->crop_vertical_end);
+> +	dev_info(&client->dev, "crop_horizontal_end=%d\n", buf->crop_horizontal_end);
+> +	dev_info(&client->dev, "crop_vertical_end=%d\n", buf->crop_vertical_end);
+>  
+>  	/* Getting line_length_pck */
+>  	ret = gc0310_read_reg(client, GC0310_8BIT,
+> @@ -389,8 +389,8 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+>  		return ret;
+>  	sh_delay = reg_val;
+>  	buf->line_length_pck = buf->output_width + hori_blanking + sh_delay + 4;
+> -	pr_info("hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
+> -		sh_delay, buf->line_length_pck);
+> +	dev_info(&client->dev, "hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
+> +		 sh_delay, buf->line_length_pck);
+>  
+>  	/* Getting frame_length_lines */
+>  	ret = gc0310_read_reg(client, GC0310_8BIT,
+> @@ -404,8 +404,8 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+>  		return ret;
+>  	vert_blanking = val | (reg_val & 0xFF);
+>  	buf->frame_length_lines = buf->output_height + vert_blanking;
+> -	pr_info("vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
+> -		buf->frame_length_lines);
+> +	dev_info(&client->dev, "vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
+> +		 buf->frame_length_lines);
+>  
+>  	buf->binning_factor_x = res->bin_factor_x ?
+>  				res->bin_factor_x : 1;
+> @@ -434,7 +434,7 @@ static int gc0310_set_gain(struct v4l2_subdev *sd, int gain)
+>  		dgain = gain / 2;
+>  	}
+>  
+> -	pr_info("gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
+> +	dev_info(&client->dev, "gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
+>  
+>  	/* set analog gain */
+>  	ret = gc0310_write_reg(client, GC0310_8BIT,
+> @@ -458,7 +458,7 @@ static int __gc0310_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
+>  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+>  	int ret;
+>  
+> -	pr_info("coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
+> +	dev_info(&client->dev, "coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
+>  
+>  	/* set exposure */
+>  	ret = gc0310_write_reg(client, GC0310_8BIT,
+> @@ -1085,7 +1085,7 @@ static int gc0310_detect(struct i2c_client *client)
+>  		return -ENODEV;
+>  	}
+>  	id = ((((u16)high) << 8) | (u16)low);
+> -	pr_info("sensor ID = 0x%x\n", id);
+> +	dev_info(&client->dev, "sensor ID = 0x%x\n", id);
+>  
+>  	if (id != GC0310_ID) {
+>  		dev_err(&client->dev, "sensor ID error, read id = 0x%x, target id = 0x%x\n", id,
+> @@ -1106,7 +1106,7 @@ static int gc0310_s_stream(struct v4l2_subdev *sd, int enable)
+>  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+>  	int ret;
+>  
+> -	pr_info("%s S enable=%d\n", __func__, enable);
+> +	dev_info(&client->dev, "%s S enable=%d\n", __func__, enable);
+>  	mutex_lock(&dev->input_lock);
+>  
+>  	if (enable) {
 > 
 
