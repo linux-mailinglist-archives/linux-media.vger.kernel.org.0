@@ -2,160 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26D45369B36
-	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 22:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB679369B7F
+	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 22:45:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243875AbhDWUT7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Apr 2021 16:19:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35160 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231337AbhDWUT5 (ORCPT
+        id S244019AbhDWUp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Apr 2021 16:45:59 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:58584 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244004AbhDWUpw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Apr 2021 16:19:57 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9AFFC06174A
-        for <linux-media@vger.kernel.org>; Fri, 23 Apr 2021 13:19:17 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id 65-20020a9d03470000b02902808b4aec6dso41592552otv.6
-        for <linux-media@vger.kernel.org>; Fri, 23 Apr 2021 13:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=J1NPesUHck/PXytWUMZaL5H3tigSX17N3XIw4EegWTo=;
-        b=h/zj34eMbFVxnsOvC1DnFfdHinWG50GkumzwQGZ3MZu0ke7Lr1+JaFtFTDV5XOMqgb
-         YRBq6VuCEXA8EBgdPhBKdI8oQ+W1EfSjN+mznToiU1mQ0PHbX7CJj/DLoXjr/0DPhu53
-         nqx6oFLPXP+PI2JuGA23gyWv8SY61CY5Ie7jE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=J1NPesUHck/PXytWUMZaL5H3tigSX17N3XIw4EegWTo=;
-        b=YFGdgBY7FbhcmZV/+L0LzLoC2AQZhYzH8ps6fhWl/7s/Az5qY6fVr6ZplBECUZgkDA
-         ppALEGhn4RS9owgX7dWXmb1UM5qWGheTdUPlaCTjChhJOIGDjbGmaw1GEeWbokUgvTe8
-         GSmJssVhTQgBnpFsFa+idcTn/rdzgEwIixABqEZ1G1SRQRKUydjOVU3LUnqeykgBGL5t
-         PW354cc/txd7HRb/o3X1GB/YjGVWIdKOuqFaSU8PFe07bUhyBgCJkTHa7GgFvkK8pZaJ
-         ZSndwe3ViE97fK1JIM5SWwpzGyCbL76D4J1xNFm89lLLi3QTkDdC+XsZeMm362SYdkpX
-         VUMA==
-X-Gm-Message-State: AOAM530AX/0xb2OtA0/UUhyukXNFZtu68IxelAXPuCPWzVrX2aU20JJZ
-        Wnx5oiF57pzdDeNsem8KdmO9uA==
-X-Google-Smtp-Source: ABdhPJxveYdA31BMuoApMGii8ccA7nrQElJ5ZWPWnXUmpT+f0qLEMUCiESWam2UcuOfjVW+ktXgpRA==
-X-Received: by 2002:a9d:6483:: with SMTP id g3mr4825315otl.332.1619209157176;
-        Fri, 23 Apr 2021 13:19:17 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id o20sm1364829oos.19.2021.04.23.13.19.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Apr 2021 13:19:16 -0700 (PDT)
-Subject: Re: [PATCH] media: gspca: stv06xx: Fix memleak in stv06xx subdrivers
-To:     Pavel Skripkin <paskripkin@gmail.com>,
-        Atul Gopinathan <atulgopinathan@gmail.com>
-Cc:     syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        mchehab@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-media@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20210422160742.7166-1-atulgopinathan@gmail.com>
- <20210422215511.01489adb@gmail.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <36f126fc-6a5e-a078-4cf0-c73d6795a111@linuxfoundation.org>
-Date:   Fri, 23 Apr 2021 14:19:15 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <20210422215511.01489adb@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Fri, 23 Apr 2021 16:45:52 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20210423204511euoutp02bf02ff67ba6b89f0103adecb8ff0db87~4l5ARnue60075400754euoutp026
+        for <linux-media@vger.kernel.org>; Fri, 23 Apr 2021 20:45:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20210423204511euoutp02bf02ff67ba6b89f0103adecb8ff0db87~4l5ARnue60075400754euoutp026
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1619210711;
+        bh=NBm0xRecla9MrLRvQiuvQHIGm/beN9+oBu9WKwOwc1U=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=hTn83j/KJh2sfkt7KpJWQ2bGZYXIhZsuBmAg8sxMP2LMKARObYfkrUmIGwyOJSeLS
+         uAnK1rTcj2/TyWtOC2sJioyhOZ5z61out003Rdxgp/ldFwsQQI1nvyxyX/doK4tvsX
+         OTHRQOpTVMzVxxgo2rnzpWYS2Q9U4aewo8DbcgeE=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20210423204510eucas1p2841fd539a5ceed73caef5a1436021e7a~4l4-VRtsE0622106221eucas1p2h;
+        Fri, 23 Apr 2021 20:45:10 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id F5.3A.09444.5D133806; Fri, 23
+        Apr 2021 21:45:09 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20210423204509eucas1p16ed651b17a096e10e8beb71d26614f66~4l4_pmVn60215802158eucas1p1k;
+        Fri, 23 Apr 2021 20:45:09 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20210423204509eusmtrp2338228e64b0bc4763a8503bf2307c408~4l4_o3iJV2289222892eusmtrp2U;
+        Fri, 23 Apr 2021 20:45:09 +0000 (GMT)
+X-AuditID: cbfec7f4-dd5ff700000024e4-71-608331d5b4aa
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id A5.1F.08705.5D133806; Fri, 23
+        Apr 2021 21:45:09 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20210423204508eusmtip111f37c746fcfdb11535809812d283bea~4l4_IyWHf1797917979eusmtip1L;
+        Fri, 23 Apr 2021 20:45:08 +0000 (GMT)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH] media: s5p-mfc: Fix display delay control creation
+Date:   Fri, 23 Apr 2021 22:44:57 +0200
+Message-Id: <20210423204457.10300-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNIsWRmVeSWpSXmKPExsWy7djP87pXDZsTDPa9trK4te4cq8XGGetZ
+        LU5NfsZkcf78BnaLng1bWS1mnN/HZLH2yF12i2Wb/jBZtLQdYXLg9Ni0qpPN4861PWwefVtW
+        MXp83iTncerrZ/YA1igum5TUnMyy1CJ9uwSujOd/3zIV/GCrWLllK2MD42vWLkZODgkBE4mJ
+        F/+zdzFycQgJrGCUWHv2BCuE84VR4smFhcwQzmdGiTlNK4AcDrCWwwfKQLqFBJYzSjSeN4Nr
+        WPukmQkkwSZgKNH1tosNxBYRcJJYOOsv2ApmgV1MEn8eXwUrEhZwlug5dZkZxGYRUJU4fHMF
+        O4jNK2Ar8e/HbjaI++QlVm84AHaFhMBUDokVc3eyQyRcJNr+n2OEsIUlXh3fAhWXkfi/cz4T
+        REMzo8TDc2vZIZweRonLTTOgOqwl7pz7xQbyD7OApsT6XfoQrzlKdD/0gzD5JG68FQQpZgYy
+        J22bDvU8r0RHmxDEDDWJWcfXwW09eOESM4TtIfHu00NmSADFStw9vYxlAqPcLIRVCxgZVzGK
+        p5YW56anFhvlpZbrFSfmFpfmpesl5+duYgSmh9P/jn/Zwbj81Ue9Q4xMHIyHGCU4mJVEeL2O
+        NiYI8aYkVlalFuXHF5XmpBYfYpTmYFES503asiZeSCA9sSQ1OzW1ILUIJsvEwSnVwLTo954z
+        Cw8lZdYITbT/PGn+m1j+lboOM9Tl5bL0Zi/mW77OSXN1U9nfitX7NDtY9wlW/j23dOO9lLfT
+        Lkp/8rmxdnmH/e6ZGeHTNi+wyrpeG98rFZzfGye+QDGj7Ma9+4devq81nr70QIL8qxktzleb
+        ok7pzHo4UVPoi8xsBn8zXo9erb4dn9PkH9ncsg4IUf/6YN/R5Y7vdZr3W9dOcn7nds3y9WRu
+        mbP36ne9WvTmhOlCA2meXc4pz56fmdr95Euj9+3/FbnTtWtV2Q5On+GkpKzySZcnrfCR43x7
+        zcNVS91nWm98yXvvklvdr+rTe4NdlzrmVJ95/62l7mKmpraWr+rf9al/O5ms3n/cfmuPEktx
+        RqKhFnNRcSIAplmhv34DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrELMWRmVeSWpSXmKPExsVy+t/xu7pXDZsTDObu4rW4te4cq8XGGetZ
+        LU5NfsZkcf78BnaLng1bWS1mnN/HZLH2yF12i2Wb/jBZtLQdYXLg9Ni0qpPN4861PWwefVtW
+        MXp83iTncerrZ/YA1ig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TU
+        nMyy1CJ9uwS9jOd/3zIV/GCrWLllK2MD42vWLkYODgkBE4nDB8q6GLk4hASWMkr8+9XB3MXI
+        CRSXkTg5rYEVwhaW+HOtiw2i6BOjxJ6uTWAJNgFDia63IAlODhEBF4n9e54ygxQxC+xjkmg5
+        2cYOkhAWcJboOXUZbCqLgKrE4ZsrwOK8ArYS/37sZoPYIC+xesMB5gmMPAsYGVYxiqSWFuem
+        5xYb6hUn5haX5qXrJefnbmIEBua2Yz8372Cc9+qj3iFGJg7GQ4wSHMxKIrxeRxsThHhTEiur
+        Uovy44tKc1KLDzGaAu2byCwlmpwPjI28knhDMwNTQxMzSwNTSzNjJXHerXPXxAsJpCeWpGan
+        phakFsH0MXFwSjUwefyQklj6fpGTJYfFkZiJjQsel+yd0r3WUHW30Ub+bQdtujzTnKvE5rzY
+        7Fu8wCXp2Kb3YrlLz4Y8yt7CW7do280ZDTKX4/+pzlGb7Mv06sq/UslZuSstbY6rnQjKXHfQ
+        qdKFI/xK2OZ7C1a5zZ2xg33+3yeX8y2FH5VcXPO68vSqgxULniSyVh+6vjTcS2VTlm6cicu+
+        A3OEfsUIzZZXN2ybeWqiiuqcwA5DntTzGpkr1vnNuHPqVdNR5fqyM6lPD1yfabMyfvNVrdzC
+        xmPMBzd/fWdzYWVmRNKLmVfeHq2/vnferID6mpI1N2bFnc8ItPXR9npXc+nYpYS27QoCOxdq
+        9lx8f8X5w5difn3zhkNKLMUZiYZazEXFiQDDzgX41QIAAA==
+X-CMS-MailID: 20210423204509eucas1p16ed651b17a096e10e8beb71d26614f66
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20210423204509eucas1p16ed651b17a096e10e8beb71d26614f66
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210423204509eucas1p16ed651b17a096e10e8beb71d26614f66
+References: <CGME20210423204509eucas1p16ed651b17a096e10e8beb71d26614f66@eucas1p1.samsung.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/22/21 12:55 PM, Pavel Skripkin wrote:
-> Hi!
-> 
-> On Thu, 22 Apr 2021 21:37:42 +0530
-> Atul Gopinathan <atulgopinathan@gmail.com> wrote:
->> During probing phase of a gspca driver in "gspca_dev_probe2()", the
->> stv06xx subdrivers have certain sensor variants (namely, hdcs_1x00,
->> hdcs_1020 and pb_0100) that allocate memory for their respective
->> sensor which is passed to the "sd->sensor_priv" field. During the
->> same probe routine, after "sensor_priv" allocation, there are chances
->> of later functions invoked to fail which result in the probing
->> routine to end immediately via "goto out" path. While doing so, the
->> memory allocated earlier for the sensor isn't taken care of resulting
->> in memory leak.
->>
->> Fix this by adding operations to the gspca, stv06xx and down to the
->> sensor levels to free this allocated memory during gspca probe
->> failure.
->>
->> -
->> The current level of hierarchy looks something like this:
->>
->> 	gspca (main driver) represented by struct gspca_dev
->> 	   |
->> ___________|_____________________________________
->> |	|	|	|	|		| (subdrivers)
->> 			|			  represented
->>   			stv06xx			  by "struct
->> sd" |
->>   	 _______________|_______________
->>   	 |	|	|	|	|  (sensors)
->> 	 	|			|
->>   		hdcs_1x00/1020		pb01000
->> 			|_________________|
->> 				|
->> 			These three sensor variants
->> 			allocate memory for
->> 			"sd->sensor_priv" field.
->>
->> Here, "struct gspca_dev" is the representation used in the top level.
->> In the sub-driver levels, "gspca_dev" pointer is cast to "struct sd*",
->> something like this:
->>
->> 	struct sd *sd = (struct sd *)gspca_dev;
->>
->> This is possible because the first field of "struct sd" is
->> "gspca_dev":
->>
->> 	struct sd {
->> 		struct gspca_dev;
->> 		.
->> 		.
->> 	}
->>
->> Therefore, to deallocate the "sd->sensor_priv" fields from
->> "gspca_dev_probe2()" which is at the top level, the patch creates
->> operations for the subdrivers and sensors to be invoked from the gspca
->> driver levels. These operations essentially free the "sd->sensor_priv"
->> which were allocated by the "config" and "init_controls" operations in
->> the case of stv06xx sub-drivers and the sensor levels.
->>
->> This patch doesn't affect other sub-drivers or even sensors who never
->> allocate memory to "sensor_priv". It has also been tested by syzbot
->> and it returned an "OK" result.
->>
->> https://syzkaller.appspot.com/bug?id=ab69427f2911374e5f0b347d0d7795bfe384016c
->> -
->>
->> Fixes: 4c98834addfe ("V4L/DVB (10048): gspca - stv06xx: New
->> subdriver.") Cc: stable@vger.kernel.org
->> Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
->> Reported-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
->> Tested-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
->> Signed-off-by: Atul Gopinathan <atulgopinathan@gmail.com>
-> 
-> AFAIK, something similar is already applied to linux-media tree
-> https://git.linuxtv.org/media_tree.git/commit/?id=4f4e6644cd876c844cdb3bea2dd7051787d5ae25
-> 
+v4l2_ctrl_new_std() fails if the caller provides no 'step' parameter for
+integer control, so define it to fix following error:
 
-Pavel,
+s5p_mfc_dec_ctrls_setup:1166: Adding control (1) failed
 
-Does the above handle the other drivers hdcs_1x00/1020 and pb01000?
+Fixes: c3042bff918a ("media: s5p-mfc: Use display delay and display enable std controls")
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Atul's patch handles those cases. If thoese code paths need to be fixes,
-Atul could do a patch on top of yours perhaps?
-
-thanks,
--- Shuah
-
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
+index a92a9ca6e87e..c1d3bda8385b 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
+@@ -172,6 +172,7 @@ static struct mfc_control controls[] = {
+ 		.type = V4L2_CTRL_TYPE_INTEGER,
+ 		.minimum = 0,
+ 		.maximum = 16383,
++		.step = 1,
+ 		.default_value = 0,
+ 	},
+ 	{
+-- 
+2.17.1
 
