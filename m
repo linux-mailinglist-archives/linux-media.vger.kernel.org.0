@@ -2,134 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D814369272
-	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 14:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 606E436930C
+	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 15:27:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231220AbhDWMwg convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 23 Apr 2021 08:52:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48814 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230305AbhDWMwf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Apr 2021 08:52:35 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60A15C061574
-        for <linux-media@vger.kernel.org>; Fri, 23 Apr 2021 05:51:59 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1lZvHp-0005Fm-U2; Fri, 23 Apr 2021 14:51:57 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1lZvHp-00053a-ET; Fri, 23 Apr 2021 14:51:57 +0200
-Message-ID: <9298701d11e591e23b7438d9ed027a56f129a0f1.camel@pengutronix.de>
-Subject: Re: [bug report] media: coda: jpeg: add CODA960 JPEG encoder support
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     linux-media@vger.kernel.org
-Date:   Fri, 23 Apr 2021 14:51:57 +0200
-In-Reply-To: <YIKzER9cE+h0kI2l@mwanda>
-References: <YIKzER9cE+h0kI2l@mwanda>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        id S229891AbhDWN2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Apr 2021 09:28:14 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:36954 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229479AbhDWN2N (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Apr 2021 09:28:13 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1619184456; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=Ej9GWn8CWmuLxU6jDRjOEsE1P4W84PEPRDCBV6jioUY=;
+ b=VXgCXSSJNBRUeXfM2MTCHZY64B3kbvrSzoHVfnxzg8m1aA+J2pSaq6sthYuhzr8d7tkyMLol
+ FsdwtvxbbIcLuUNZc2RNhzVHKlXZXjUzb8cd+CqWHC0o6CjpqPvg9yEKfeRC7m1ctiQ05SSy
+ Ztd1cVdkISrepUguqlCRVOZ0MW8=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 6082cb4887ce1fbb567b9b5b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 23 Apr 2021 13:27:36
+ GMT
+Sender: vgarodia=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id B3778C43460; Fri, 23 Apr 2021 13:27:35 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: vgarodia)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0AF34C433F1;
+        Fri, 23 Apr 2021 13:27:33 +0000 (UTC)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 23 Apr 2021 18:57:33 +0530
+From:   vgarodia@codeaurora.org
+To:     Josh Boyer <jwboyer@kernel.org>
+Cc:     smagar@codeaurora.org, Linux Firmware <linux-firmware@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media-owner@vger.kernel.org, dikshita@codeaurora.org,
+        adhudase@codeaurora.org, sampnimm@codeaurora.org,
+        mansur@codeaurora.org
+Subject: Re: Request to update venus-5.10 FW files
+In-Reply-To: <CA+5PVA7pbgVRpwkM71ToxRwBKfH=j51GrZcz+8Q5H2MpmmL-_w@mail.gmail.com>
+References: <8885c6fbfcc91043a5406cf6e528e0b9@codeaurora.org>
+ <CA+5PVA7pbgVRpwkM71ToxRwBKfH=j51GrZcz+8Q5H2MpmmL-_w@mail.gmail.com>
+Message-ID: <32b3b759d2898bbee847a9f0229b2908@codeaurora.org>
+X-Sender: vgarodia@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+On 2021-04-21 16:48, Josh Boyer wrote:
+> On Wed, Apr 21, 2021 at 2:59 AM <smagar@codeaurora.org> wrote:
+>> 
+>> Hello Team,
+>> 
+>> Please include updated firmware bins for venus-5.10.
+>> 
+>> Snapshot of pull request is as below, let me know if anything is
+>> missing.
+>> 
+>> 
+>> 
+>> The following changes since commit
+>> 5c893c65b862906a627cea238ae8c2d099027dee:
+>> 
+>>    Updated Venus firmware files for v5.10 (2021-04-20 11:48:28 +0530)
+>> 
+>> are available in the git repository at:
+>> 
+>>    https://github.com/suraj714/linux-firmware-venus.git master
+>> 
+>> for you to fetch changes up to 
+>> 2565c9d2576ce1275206483e106d6fb627ace042:
+>> 
+>>    qcom :venus_v5.10: updated venus firmware files for v5.10 
+>> (2021-04-21
+>> 12:04:59 +0530)
+>> 
+>> ----------------------------------------------------------------
+>> smagar (1):
+>>        qcom :venus_v5.10: updated venus firmware files for v5.10
+This should be changed to "qcom: Add venus firmware files for VPU-2.0"
 
-On Fri, 2021-04-23 at 14:44 +0300, Dan Carpenter wrote:
-> Hello Philipp Zabel,
+>> 
+>>   qcom/sc7280/vpu20_1v.b00          | Bin 0 -> 692 bytes
+>>   qcom/sc7280/vpu20_1v.b01          | Bin 0 -> 7376 bytes
+>>   qcom/sc7280/vpu20_1v.b02          | Bin 0 -> 300 bytes
+>>   qcom/sc7280/vpu20_1v.b03          | Bin 0 -> 20 bytes
+>>   qcom/sc7280/vpu20_1v.b04          | Bin 0 -> 20 bytes
+>>   qcom/sc7280/vpu20_1v.b05          | Bin 0 -> 20 bytes
+>>   qcom/sc7280/vpu20_1v.b06          | Bin 0 -> 20 bytes
+>>   qcom/sc7280/vpu20_1v.b07          | Bin 0 -> 24 bytes
+>>   qcom/sc7280/vpu20_1v.b08          | Bin 0 -> 16 bytes
+>>   qcom/sc7280/vpu20_1v.b09          | Bin 0 -> 939184 bytes
+>>   qcom/sc7280/vpu20_1v.b10          | Bin 0 -> 42976 bytes
+>>   qcom/sc7280/vpu20_1v.b11          |   0
+>>   qcom/sc7280/vpu20_1v.b12          |   0
+>>   qcom/sc7280/vpu20_1v.b13          |   0
+>>   qcom/sc7280/vpu20_1v.b14          |   0
+>>   qcom/sc7280/vpu20_1v.b15          |   0
+>>   qcom/sc7280/vpu20_1v.b16          |   0
+>>   qcom/sc7280/vpu20_1v.b17          |   0
+>>   qcom/sc7280/vpu20_1v.b18          |   0
+>>   qcom/sc7280/vpu20_1v.b19          |   1 +
+>>   qcom/sc7280/vpu20_1v.mbn          | Bin 0 -> 2031188 bytes
+>>   qcom/sc7280/vpu20_1v.mdt          | Bin 0 -> 8068 bytes
+>>   qcom/sc7280/vpu20_1v_unsigned.mbn | Bin 0 -> 2031188 bytes
 > 
-> The patch 96f6f62c4656: "media: coda: jpeg: add CODA960 JPEG encoder
-> support" from Dec 12, 2019, leads to the following static checker
-> warning:
+> This looks weird.  You're adding 23 new files, none of which are
+> mentioned in WHENCE.  Also, why do you have a bunch of 0 byte files?
 > 
-> 	drivers/media/platform/coda/coda-jpeg.c:621 coda9_jpeg_gen_enc_huff_tab()
-> 	warn: check that incremented offset 'k' is capped
+> Is this correct?
+0 byte files are not needed. Please remove.
 
-Thank you for the report!
-
-> drivers/media/platform/coda/coda-jpeg.c
->    582  static int coda9_jpeg_gen_enc_huff_tab(struct coda_ctx *ctx, int tab_num,
->    583                                         int *ehufsi, int *ehufco)
->    584  {
->    585          int i, j, k, lastk, si, code, maxsymbol;
->    586          const u8 *bits, *huffval;
->    587          struct {
->    588                  int size[256];
->    589                  int code[256];
->    590          } *huff;
->    591          static const unsigned char *huff_tabs[4] = {
->    592                  luma_dc, luma_ac, chroma_dc, chroma_ac,
->    593          };
->    594          int ret = -EINVAL;
->    595  
->    596          huff = kzalloc(sizeof(*huff), GFP_KERNEL);
+> josh
 > 
-> huff->size[] is a 256 byte array of zero.
-
-int, not byte. It's does contain all zeros though, as does the following
-huff->code[].
-
->    597          if (!huff)
->    598                  return -ENOMEM;
->    599  
->    600          bits = huff_tabs[tab_num];
->    601          huffval = huff_tabs[tab_num] + 16;
->    602  
->    603          maxsymbol = tab_num & 1 ? 256 : 16;
->    604  
->    605          /* Figure C.1 - Generation of table of Huffman code sizes */
->    606          k = 0;
->    607          for (i = 1; i <= 16; i++) {
->    608                  j = bits[i - 1];
->    609                  if (k + j > maxsymbol)
->    610                          goto out;
->    611                  while (j--)
->    612                          huff->size[k++] = i;
->                                 ^^^^^^^^^^^^^^^^^^^
-> We're filling potentially up to to maxsymbol (256) with i.
-
-That is correct. Assuming the sum of bits[0..15] is exactly 256, this
-code will fill all 256 size[] entries.
-
-In practice the four bits tables from huff_tabs only sum up to 162 at
-most, but this may change if we added support for setting the encoder
-Huffman tables from userspace.
-
->    613          }
->    614          lastk = k;
->    615  
->    616          /* Figure C.2 - Generation of table of Huffman codes */
->    617          k = 0;
->    618          code = 0;
->    619          si = huff->size[0];
->    620          while (k < lastk) {
->    621                  while (huff->size[k] == si) {
->                                ^^^^^^^^^^^^^^^^^^^
-> I'm not sure I have understood this code, but I think maybe we do need
-> to if (k < lastk && huff->size[k] == si) {
-
-So this could indeed overflow size[] in theory.
-It would still terminate at &size[256] or &code[0], as code[0] happens
-to always contain 0, but your suggestion is correct.
-
->    622                          huff->code[k++] = code;
->    623                          code++;
->    624                  }
->    625                  if (code >= (1 << si))
->    626                          goto out;
->    627                  code <<= 1;
->    628                  si++;
->    629          }
-
-regards
-Philipp
+>>   23 files changed, 1 insertion(+)
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b00
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b01
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b02
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b03
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b04
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b05
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b06
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b07
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b08
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b09
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b10
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b11
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b12
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b13
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b14
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b15
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b16
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b17
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b18
+>>   create mode 100644 qcom/sc7280/vpu20_1v.b19
+>>   create mode 100644 qcom/sc7280/vpu20_1v.mbn
+>>   create mode 100644 qcom/sc7280/vpu20_1v.mdt
+>>   create mode 100644 qcom/sc7280/vpu20_1v_unsigned.mbn
+>> 
+>> Regards,
+>> Suraj Magar
