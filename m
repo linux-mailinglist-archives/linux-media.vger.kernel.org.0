@@ -2,127 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 599EB368EF6
-	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 10:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC370368F32
+	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 11:09:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230125AbhDWIlZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Apr 2021 04:41:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230007AbhDWIlZ (ORCPT
+        id S230339AbhDWJJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Apr 2021 05:09:50 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:44249 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229456AbhDWJJu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Apr 2021 04:41:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46ABBC061574
-        for <linux-media@vger.kernel.org>; Fri, 23 Apr 2021 01:40:49 -0700 (PDT)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7CD26332;
-        Fri, 23 Apr 2021 10:40:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619167247;
-        bh=a430KVuvvBlbY8MTtCZtoRrGpingkTLTQqPB5KHyYM8=;
-        h=Subject:To:References:From:Date:In-Reply-To:From;
-        b=u1mJle8lM+qhG0SBJ2ZwAKvMhNfe68eYZ7C2vMUEzMPzT8HM3VziYKxnlVSx/jrmE
-         LHVyZsS7Xixb4gzh1wMKnZsEvFglVyVNZ7mCMwx3OfBcHHP45C5bMUglJ9ixgW0PBa
-         xg1ykA6wpHaXgApHes+6d2h81t5DyKJ4LqlST+7c=
-Subject: Re: [PATCH v2 1/3] media: videobuf2-v4l2.c: add
- vb2_queue_change_type() helper
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Fri, 23 Apr 2021 05:09:50 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ZroClzuR6vTEDZroFlcj4K; Fri, 23 Apr 2021 11:09:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1619168952; bh=x7ozyh8hBJlw/CZeD3L7ZTwGiLAUQCebajl7PyHbRo4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=MmD07osS3QZbgeS68ODZUGbZWrDNrIoLF669aPAPIJiGuPPFTFy53GLDUMhNjdiwx
+         pS31ly+/jPVC3rjGE71zhrWLnx6RTtHFikvhdP64/dj/XRFiC9gn+AdqBgFEC2y3og
+         6Ve1YgRmp6XATK4Vt35DmeordE46pyqQgdWQzUBWjbsmfgQwu7jwTX4nWRfSIVR7DJ
+         yZ+KZXLEm/fTxJaLMgiUayD4TcA+Ex4XuItqTcpms+gaP2GFXeyNVi00RvzFdm49HN
+         gxl+Ip3JFPh5dk+ESSRiSgb8tePfdQjqftsN4tIJygypLV2tUsoHxeQ0LjIhqz2iQq
+         nmd7LkY9Uta5A==
+Subject: Re: [PATCH v3 0/6] staging: media: atomisp: code cleanup fixes
+To:     Deepak R Varma <drv@mailo.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210412110211.275791-1-tomi.valkeinen@ideasonboard.com>
- <20210412110211.275791-2-tomi.valkeinen@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <5406d479-c319-0281-7302-099586911ca0@ideasonboard.com>
-Date:   Fri, 23 Apr 2021 11:40:46 +0300
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
+References: <cover.1619022192.git.drv@mailo.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <449f49fa-f19b-70bc-5ee9-3187ac43a376@xs4all.nl>
+Date:   Fri, 23 Apr 2021 11:09:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210412110211.275791-2-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <cover.1619022192.git.drv@mailo.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfHNySfGwsTTOcRms+3SBdITadTlRgErLy0mQDD6ZG/F4PHxVt8zWdXknP61qZtztPHWTQhZPQKrdZ/hO3m7RYdXefQEPtn/6kAPUY8+Xi5hOyOg12dBZ
+ TkRRkbDB8wkv6R+YhikXU8wjbabOLJDX4DORS5GWk0CAD4D+kFMlwqWPcWg0+AaCKw3enQaODkNOg8wKa5igBvYrQ1aLZwl4YrQMLqPqfSJ+3YR6nthmutHx
+ 8MGdB/4UYGLmB7dq/AUvL2BcdYtk4AgeGbSdVKLHxXnV4u12UWvKEE+oabt16fvBOYbaBMjlciY5sCG0nq+edihxWPUS4YdOhQoro0k6uZic+ifdRvsmtXCR
+ RP060o+/NknC4EWjyJKqpW2wRslr2el57h1WrIESMB1qdF9pTpH89x07LXcTMa4gaiibvLQo2zBbSqIMXMP2ZodDGPS9qA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/04/2021 14:02, Tomi Valkeinen wrote:
-> On some platforms a video device can capture either video data or
-> metadata. The driver can implement vidioc functions for both video and
-> metadata, and use a single vb2_queue for the buffers. However, vb2_queue
-> requires choosing a single buffer type, which conflicts with the idea of
-> capturing either video or metadata.
+Hi Deepak,
+
+Something weird is going on. This series didn't appear in patchwork
+(https://patchwork.linuxtv.org/) and looking at lore.kernel.org:
+
+https://lore.kernel.org/linux-media/20210421181101.JySzrynV5EUsi4N5Dh97QA9VUOQjMutu0mNTW7capUw@z/T/#r4d9987c800c28c26c96464bb56916bf0408b4738
+
+it appears v3 was seen as replied to the v1 posts instead of a new thread.
+
+It's probably related to the Message-Id field, which is the same for the
+v1 and v3 posts. Not really sure how you managed that :-)
+
+Please repost so that the v3 series is picked up by patchwork.
+
+Regards,
+
+	Hans
+
+On 21/04/2021 20:11, Deepak R Varma wrote:
+> This patch set addresses different kinds of checkpatch WARNING and
+> CHECK complaints.
 > 
-> The buffer type of vb2_queue can be changed, but it's not obvious how
-> this should be done in the drivers. To help this, add a new helper
-> function vb2_queue_change_type() which ensures the correct checks and
-> documents how it can be used.
+> Note: The patches should be applied in the ascending order.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->   drivers/media/common/videobuf2/videobuf2-v4l2.c | 14 ++++++++++++++
->   include/media/videobuf2-v4l2.h                  | 15 +++++++++++++++
->   2 files changed, 29 insertions(+)
+> Changes since v2:
+>    Generic change:
+>    1. Correct patch versioning in patch subject
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 7e96f67c60ba..2988bb38ceb1 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -939,6 +939,20 @@ void vb2_queue_release(struct vb2_queue *q)
->   }
->   EXPORT_SYMBOL_GPL(vb2_queue_release);
->   
-> +int vb2_queue_change_type(struct vb2_queue *q, unsigned int type)
-> +{
-> +	if (type == q->type)
-> +		return 0;
-> +
-> +	if (vb2_is_busy(q))
-> +		return -EBUSY;
-> +
-> +	q->type = type;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(vb2_queue_change_type);
-> +
->   __poll_t vb2_poll(struct vb2_queue *q, struct file *file, poll_table *wait)
->   {
->   	struct video_device *vfd = video_devdata(file);
-> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
-> index c203047eb834..12fa72a664cf 100644
-> --- a/include/media/videobuf2-v4l2.h
-> +++ b/include/media/videobuf2-v4l2.h
-> @@ -261,6 +261,21 @@ int __must_check vb2_queue_init_name(struct vb2_queue *q, const char *name);
->    */
->   void vb2_queue_release(struct vb2_queue *q);
->   
-> +/**
-> + * vb2_queue_change_type() - change the type of an inactive vb2_queue
-> + * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-> + *
-> + * This function changes the type of the vb2_queue. This is only possible
-> + * if the queue is not busy (i.e. no buffers have been allocated).
-> + *
-> + * vb2_queue_change_type() can be used to support multiple buffer types using
-> + * the same queue. The driver can implement v4l2_ioctl_ops.vidioc_reqbufs and
-> + * v4l2_ioctl_ops.vidioc_create_bufs functions and call vb2_queue_change_type()
-> + * before calling vb2_ioctl_reqbufs() or vb2_ioctl_create_bufs(), and thus
-> + * "lock" the buffer type until the buffers have been released.
-> + */
-> +int vb2_queue_change_type(struct vb2_queue *q, unsigned int type);
-> +
->   /**
->    * vb2_poll() - implements poll userspace operation
->    * @q:		pointer to &struct vb2_queue with videobuf2 queue.
+>    Patch Specific change:
+>    1. patch 1/6 : none
+>    2. patch 2/6 : none
+>    3. patch 3/6 : none
+>    4. patch 4/6 :
+>         a. Tag Fabio Auito for the patch suggestion
+> 
+>    5. patch 5/6 : none
+>    6. patch 6/6:
+>         a. Tag Fabio Auito for the patch suggestion
+> 
+> Changes since v1:
+>    Generic change:
+>    1. The patch set is being resent from an email account that matches with
+>       the patch signed-of-by tag. Issue highlighted by Hans Verkuil.
+> 
+>    Patch specific changes:
+>    1. patch 1/6 : none
+>    2. patch 2/6 : none
+>    3. patch 3/6 : none
+>    4. patch 4/6 : implement following changes suggested by Fabio Aiuto
+>         a. Corrected commenting style
+>         b. Similar style implemented for other comment blocks in
+>            the same files.
+>    5. patch 5/6 : none
+>    6. patch 6/6: implement following changes suggested by Fabio Aiuto
+>         a. use dev_info instead of pr_info
+>         b. update patch log message accordingly
+> 
+> 
+> Deepak R Varma (6):
+>   staging: media: atomisp: improve function argument alignment
+>   staging: media: atomisp: balance braces around if...else block
+>   staging: media: atomisp: use __func__ over function names
+>   staging: media: atomisp: reformat code comment blocks
+>   staging: media: atomisp: fix CamelCase variable naming
+>   staging: media: atomisp: replace raw printk() by dev_info()
+> 
+>  .../media/atomisp/i2c/atomisp-gc0310.c        |  14 +--
+>  .../media/atomisp/i2c/atomisp-gc2235.c        |  29 ++---
+>  .../atomisp/i2c/atomisp-libmsrlisthelper.c    |   6 +-
+>  .../media/atomisp/i2c/atomisp-lm3554.c        |   2 +-
+>  .../media/atomisp/i2c/atomisp-mt9m114.c       | 106 ++++++++++--------
+>  .../media/atomisp/i2c/atomisp-ov2680.c        |  43 ++++---
+>  .../media/atomisp/i2c/atomisp-ov2722.c        |  10 +-
+>  7 files changed, 116 insertions(+), 94 deletions(-)
 > 
 
-This is missing doc for the type parameter. I have added this to my branch:
-
-@type:      The type to change to (V4L2_BUF_TYPE_VIDEO_*)
-
-I'll send a v3 after I get feedback on the vivid patches.
-
-  Tomi
