@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2364368F4E
-	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 11:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D723368F5D
+	for <lists+linux-media@lfdr.de>; Fri, 23 Apr 2021 11:28:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230032AbhDWJ1F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Apr 2021 05:27:05 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50561 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229939AbhDWJ1F (ORCPT
+        id S241782AbhDWJ2u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Apr 2021 05:28:50 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:34011 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S241759AbhDWJ2t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Apr 2021 05:27:05 -0400
+        Fri, 23 Apr 2021 05:28:49 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id Zs4ul03T4vTEDZs4xlcnlH; Fri, 23 Apr 2021 11:26:28 +0200
+        id Zs6bl04LPvTEDZs6elcoAl; Fri, 23 Apr 2021 11:28:12 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1619169988; bh=AuuNHKEQlnVecykRj2Q/6f+tcDmXmU5mEcTJtFxhua8=;
+        t=1619170092; bh=Ad96g8KgImokrYucIBreCjNQ3kHr7IwuOqSsK9ndMq0=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=shZz0qjoAREnVCRO+bBnDP6G8UBsQaj9tdq5wS+DIerET9nK6TtymoMSaAHRiLocy
-         bCu5sUpIpL8CySdMy8ReYCyBlsbfjRDIU8ucibZtFfZGhzlQ0ifNaIq2exkiUwZmxN
-         V1G1bIqPIansfDQOJ6f2V3XHZnjQ2f8tQTG5l3/szX6AFZlWjQby84OSJooCZr4dM+
-         CiVKf7bF32p2A8aP/BLQX4JBtG08Wl+X3YXnaL4tDjQ1f07QF/7+4rJj9AopY0ijRB
-         OJfBHhiDgv1anQibABee6bbgk26lqvB6Efnipza1NFxLjYRWx6lPd9bgbb0XAtYa1K
-         qpEMk+JXv6XMg==
+        b=ELa4NooBxIuSl9TMyePY4jVQpp8vc/pxkLk8whUnZCp9cy9FJFJyjWxXxq22DYS0M
+         ulax8udUj7ThwcCBZEVorD84er/I8bvsZxFEbnu/kpjV06A04SJ2bg2grwjYqqdjuI
+         YW9OipdK0/ax3YVMhTcR5gSZu0gzlGkWQgWJixZohxX6bVA5VKxIL9eArT5Kd8vLgW
+         hzMK0bMjFiYs7S4OIhG7mKD+yQ+MSMlm+mUvpwealFgjTLWtan+ywxNJvXFf+9fDH5
+         8ExkjWx9UgTaGJDMyhApECMLFcv7+ojn9yknChNX8F2YqiTvrdi9ysJM5Y346b7jrv
+         Ch/XunWfyyCuQ==
 Subject: Re: [PATCHv2 5/8] staging: media: atomisp: Refactor
  ia_css_stream_load()
 To:     Martiros Shakhzadyan <vrzh@vrzh.net>
@@ -33,8 +33,8 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
 References: <20210420150356.579395-1-vrzh@vrzh.net>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <7edb21ff-23b5-8195-877f-829bf17bf6bb@xs4all.nl>
-Date:   Fri, 23 Apr 2021 11:26:24 +0200
+Message-ID: <a385f00d-0554-4534-675f-8b5371184cd7@xs4all.nl>
+Date:   Fri, 23 Apr 2021 11:28:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
@@ -42,9 +42,9 @@ In-Reply-To: <20210420150356.579395-1-vrzh@vrzh.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfK23fUSrGU7iaFkipi6tuObRGgkjIsuEEDP8bLMV6X8zPbpqWyk498KPyoQEiBU52wUBnt3QLj+c9aMZb12i7q7HMQJ6BLtSyzhblICjYl4o1yEfpw7w
- izKrUUfF46iOxcPaS3Ji5xZ+go0MiZDkm8XzDCjuF8GQPZRhVj6XX9IgSgoSbtK5bnJhD9nqw5uRVukCsPMMvjdDmimJY5o0O5z8SwJ1FdBO1yRmCzsMyusG
- FJzAN12RL/OmOu9zrDoyo+TJp71QILWa6CYi6yDASZqPlZ5qsp/wfSS8whfDAWKK
+X-CMAE-Envelope: MS4xfAJR7LkSHWmP9zocy+y+/cZDWBan4GfediTQE6fxxrzLtOfwQhc0Sc8IIjTAD7gCY3e1TqLxvUkhi9oDak9mZdESlXR/u5UYq5sgJW4xEFf2LbELHStb
+ 9V9GKwnjiMdfljlJITTq1G7MkKfw++uOjMUX9kFSFQRV2hQMXTezFY4quAziiaHOUmdaTe0qY4mYw1gcKujwKC3lfKJaP47yYvySoq4TfqB23v5RVTGjxNTk
+ rmOTZjUqsyOZCh03/3XdWukXQHvIZIOWx9P/q4cvSN49QxCbYjRrr94keUAN5LQX
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -53,7 +53,17 @@ On 20/04/2021 17:03, Martiros Shakhzadyan wrote:
 > Move the support check to the beginning of the function.
 > Change the logic to avoid multiple nesting blocks.
 > Move variable assignment outside of the if statement.
+
+Which variable? Mention it explicitly: 'Move 'err' variable assignment...'
+
 > Remove an unnecessary check.
+
+Which check?
+
+Regards,
+
+	Hans
+
 > 
 > Signed-off-by: Martiros Shakhzadyan <vrzh@vrzh.net>
 > ---
@@ -141,13 +151,6 @@ On 20/04/2021 17:03, Martiros Shakhzadyan wrote:
 > +				ia_css_pipe_destroy(my_css_save.stream_seeds[i].pipes[j]);
 > +			return err;
 > +		}
-
-You dropped a 'break' here!
-
-Regards,
-
-	Hans
-
 > +	}
 > +
 > +	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_load() exit,\n");
