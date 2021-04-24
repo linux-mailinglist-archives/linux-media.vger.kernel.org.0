@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E6D0369F66
-	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:46:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D5E8369F7B
+	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:48:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237552AbhDXGrS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Apr 2021 02:47:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36128 "EHLO mail.kernel.org"
+        id S237371AbhDXGrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Apr 2021 02:47:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36096 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233206AbhDXGqP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Apr 2021 02:46:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 736B2616EB;
+        id S233677AbhDXGqU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Apr 2021 02:46:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 710AC6162F;
         Sat, 24 Apr 2021 06:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619246733;
-        bh=zSIZIJdKOUAGnyfSOuoxDI+Bj1QIKcCsJeDd9evgSr0=;
+        bh=caAPk+MCL8dn2GoVy6dPupvi3+StYvHdRWjGpSc7psI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B62keZdvIxZEHCpDtpikVj6zVPW6jo6BxVQp9FjXZD7T6E/ex7SmLEELIGv/dq3cl
-         2OWKfTLZZPA56M6K5E91XC3sdEtWxfo1FxGkCZKMlh+hgVP3vUuEH3VgCO7i2R1kJX
-         KRTzOLvAj7Vl7Dat7wNwntP3zE6O1mXhZbWtBfFw5jR5d73ivRALa0Dte8tDso+C1L
-         7RJD+5aopP9t6aOjqIogpempFpiebJwjYsCEtlGw9YpoN4NH0chrtch3EmXCEwHziv
-         2KrtFLlj3SjWxuaCI8n49vhfbIHkvsy56LKRXKiLZ5RcGPEsE+D0Z9R6gwmINXlb7g
-         PsNyJoJbKsOKQ==
+        b=O5lG2fTrSUv+Klvp/Y/ju1Ap7wYlUlfzX426Y10b3zlY+91Yl/C/1Gh4RpdvJDHxp
+         gOscYp9c5RCFxGJdYI+Bg25WLO+s7QT+V/ncbyGqzCPoep2Dy7vpG7I4veqsrBW/y9
+         058m/SwQt+gcuQyossGkAWLZCH1Exi9JGMlI0ScjPdqK66C8xJfqgZ/unqjbTq/7A3
+         g+B/q8c9RLGWMXpQ5F4mHt2+fKYWhVFfwWEj1xE3H3waPI9TO9HetyAKClMkJH4Ft8
+         giroIscp+nBeEUHWDaJ7uyAkvrhivWr62h0na6wY/HPgRGiL1wVKWf2fjko4l74uT5
+         Zo23ozxOFtgig==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1laC2m-004Jgc-Ke; Sat, 24 Apr 2021 08:45:32 +0200
+        id 1laC2m-004Jgf-LY; Sat, 24 Apr 2021 08:45:32 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -36,9 +36,9 @@ Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Todor Tomov <todor.too@gmail.com>,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH 60/78] media: camss-csid: use pm_runtime_resume_and_get()
-Date:   Sat, 24 Apr 2021 08:45:10 +0200
-Message-Id: <080d8d9e0ff6c82cacf3bf728c7bc0f658b43ce6.1619191723.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 61/78] media: camss-csiphy: use pm_runtime_resume_and_get()
+Date:   Sat, 24 Apr 2021 08:45:11 +0200
+Message-Id: <134315407c8289ee207f2ffd554d0bd4ee70793d.1619191723.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
@@ -58,17 +58,17 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/qcom/camss/camss-csid.c | 6 ++----
+ drivers/media/platform/qcom/camss/camss-csiphy.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index cc11fbfdae13..d2a7f2a64f26 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -156,11 +156,9 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
- 	int ret;
- 
+diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
+index b3c3bf19e522..8e18b8e668cf 100644
+--- a/drivers/media/platform/qcom/camss/camss-csiphy.c
++++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
+@@ -197,11 +197,9 @@ static int csiphy_set_power(struct v4l2_subdev *sd, int on)
  	if (on) {
+ 		int ret;
+ 
 -		ret = pm_runtime_get_sync(dev);
 -		if (ret < 0) {
 -			pm_runtime_put_sync(dev);
@@ -77,7 +77,7 @@ index cc11fbfdae13..d2a7f2a64f26 100644
  			return ret;
 -		}
  
- 		ret = regulator_enable(csid->vdda);
+ 		ret = csiphy_set_clock_rates(csiphy);
  		if (ret < 0) {
 -- 
 2.30.2
