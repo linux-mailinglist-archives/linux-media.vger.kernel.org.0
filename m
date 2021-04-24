@@ -2,45 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7D02369F9E
-	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:48:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB2B2369F99
+	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:48:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235342AbhDXGso (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Apr 2021 02:48:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35760 "EHLO mail.kernel.org"
+        id S237438AbhDXGsg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Apr 2021 02:48:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35726 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234271AbhDXGqo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Apr 2021 02:46:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ECCF361956;
+        id S237190AbhDXGql (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Apr 2021 02:46:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DE77661949;
         Sat, 24 Apr 2021 06:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619246734;
-        bh=nHZL/8LfEY59F+jSTZXbI5IsJhAvjS0xN6pbKcv/Zf0=;
+        bh=xpeO+TqQL6lcPMvPb2Bdk8szQoSs+InwQYAk6UJzVbA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=p3FCt65EqeoPSaD+kt8ogwoRrahw1L4N8vCiYmQD4nSwkhczASeHhEePlcE79t2P3
-         /oSX0uaRz7VJB+ekcY1pGCRBIDo1IIMtrX1t5ObNvVwlsN39EbfZIfb7tBb4NOBx1f
-         KjaXCyEb92oNBDVmmmNO9qsfSEG90IMwwzBgT8zr/0EJryHTZ/dqnIscPi0HS4OqjO
-         1ugJjuDw1qUACFpAk+Zkkd2NsLTsl9Ys1qqix4aWxjJMp8Hzs9kGWcIfwpVoFQNoXY
-         desYTduiJLYiiwrh5V9gMH1qnJYncp5cBEami5y+JIrSbZx8hKCTsXedZ4mjtGPoP8
-         /CvDtF4aGzF6g==
+        b=EojMO9FXSFHyxT7wcTLwfBO+LP3dFMh71/mr6tVQ86V0IDwOroL/JmtRbx5wF6QY1
+         V7DVxtNg9fsZyBvZV3/eNpaM+vNAspnats775oaSl46h0TDRVjAFN9rQzGwntE85rN
+         rCo5zwFSM1WSNxBfI7lsauwSHh34jIBG0OEdvMDAKsW8c5o/N71fHoX/ycyXCRrVdC
+         RsE1lYSG9Ub8rFzzziU1YnX6j22F8CvjYcFLqyrRYvsqJZJmlPDns5myNl+kEk8tue
+         Ho4SXO0gyrjQpF1QRkSLhJ3DRzB9nsgb9TkjvobMZVH84LqavWSOy0Bkblj5rYPkls
+         eDST0qplfsVig==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1laC2m-004JgH-Dg; Sat, 24 Apr 2021 08:45:32 +0200
+        id 1laC2m-004JgK-Eh; Sat, 24 Apr 2021 08:45:32 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Chuhong Yuan <hslester96@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Marco Felsch <m.felsch@pengutronix.de>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 53/78] media: i2c: tvp5150: use pm_runtime_resume_and_get()
-Date:   Sat, 24 Apr 2021 08:45:03 +0200
-Message-Id: <e728469973f77ee9ac73224e46d221fd8b2ef55f.1619191723.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 54/78] media: i2c: video-i2c: use pm_runtime_resume_and_get()
+Date:   Sat, 24 Apr 2021 08:45:04 +0200
+Message-Id: <3990190ef127055dc87cbc6b3f9065dd919b8508.1619191723.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
@@ -60,44 +54,50 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/tvp5150.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+ drivers/media/i2c/video-i2c.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index e26e3f544054..374a9da75e4d 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -1448,11 +1448,9 @@ static int tvp5150_s_stream(struct v4l2_subdev *sd, int enable)
- 	       TVP5150_MISC_CTL_CLOCK_OE;
+diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
+index 0465832a4090..5cde7da698bd 100644
+--- a/drivers/media/i2c/video-i2c.c
++++ b/drivers/media/i2c/video-i2c.c
+@@ -286,11 +286,9 @@ static int amg88xx_read(struct device *dev, enum hwmon_sensor_types type,
+ 	__le16 buf;
+ 	int tmp;
  
- 	if (enable) {
--		ret = pm_runtime_get_sync(sd->dev);
--		if (ret < 0) {
--			pm_runtime_put_noidle(sd->dev);
-+		ret = pm_runtime_resume_and_get(sd->dev);
-+		if (ret < 0)
- 			return ret;
--		}
- 
- 		tvp5150_enable(sd);
- 
-@@ -1675,15 +1673,7 @@ static int tvp5150_registered(struct v4l2_subdev *sd)
- 
- static int tvp5150_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- {
--	int ret;
--
--	ret = pm_runtime_get_sync(sd->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(sd->dev);
--		return ret;
+-	tmp = pm_runtime_get_sync(regmap_get_device(data->regmap));
+-	if (tmp < 0) {
+-		pm_runtime_put_noidle(regmap_get_device(data->regmap));
++	tmp = pm_runtime_resume_and_get(regmap_get_device(data->regmap));
++	if (tmp < 0)
+ 		return tmp;
 -	}
--
--	return 0;
-+	return pm_runtime_resume_and_get(sd->dev);
- }
  
- static int tvp5150_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 	tmp = regmap_bulk_read(data->regmap, AMG88XX_REG_TTHL, &buf, 2);
+ 	pm_runtime_mark_last_busy(regmap_get_device(data->regmap));
+@@ -512,11 +510,9 @@ static int start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	if (data->kthread_vid_cap)
+ 		return 0;
+ 
+-	ret = pm_runtime_get_sync(dev);
+-	if (ret < 0) {
+-		pm_runtime_put_noidle(dev);
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret < 0)
+ 		goto error_del_list;
+-	}
+ 
+ 	ret = data->chip->setup(data);
+ 	if (ret)
+@@ -893,7 +889,7 @@ static int video_i2c_remove(struct i2c_client *client)
+ {
+ 	struct video_i2c_data *data = i2c_get_clientdata(client);
+ 
+-	pm_runtime_get_sync(&client->dev);
++	pm_runtime_resume_and_get(&client->dev);
+ 	pm_runtime_disable(&client->dev);
+ 	pm_runtime_set_suspended(&client->dev);
+ 	pm_runtime_put_noidle(&client->dev);
 -- 
 2.30.2
 
