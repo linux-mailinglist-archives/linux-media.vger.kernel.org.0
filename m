@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17F4E369F18
-	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:45:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E998369F15
+	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:45:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232820AbhDXGqN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Apr 2021 02:46:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35486 "EHLO mail.kernel.org"
+        id S232317AbhDXGqM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Apr 2021 02:46:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35402 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229850AbhDXGqL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Apr 2021 02:46:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD63D61462;
+        id S229826AbhDXGqK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Apr 2021 02:46:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DDD1261481;
         Sat, 24 Apr 2021 06:45:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619246732;
-        bh=AWaRUuBTKGjvblFCBeNGn4e+vA3INJOtepNAWbdP4RE=;
+        bh=Z69ehY7S6HpjbLMjJqStag1+c7JNJRTD4xVET17kLNs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rMFCvOPpsjspdNzuXgUwNYEB8oPjGwgy2W1gowa4lMVYA7Ae5uYKw5VO/L+ILc1wJ
-         FfwI2DmpLoX6LsRWrFWsuAtwky5GdxafruxUqFzYmIjqZkKt9fzOCOIHPzC1AA+p31
-         fZoSZk1FnYItMudgtF34wy1U/OpHPvt3agRjw4Li2impE8VAMxOwaB0kXPCyqsRVWg
-         FxBWSJmFAYKqSB3gAN/DrMH4ky3KX0frZlO7SuDoWViQBlhZG++Aud91Mz6fJz0Bvy
-         THBquR75Pjxq6yqFYGASJaj0N9ZUCjPR/+4yBw7PhtGbmcuYa/yd2DoKc4WSlA+7Wn
-         KhNMXf6Z2oXEQ==
+        b=WBeluuHPMoohV6kjXrt6232lvnQ1kN4ts7abU9qOxVGedDbsoVZUjVlSx9CyzK6he
+         Yiun2LKC9gsmGZXQ7r3fYBgg0To3UQmQ8rl4yu4FcbytktdlfWtttfxdkuKW2zsrIH
+         f0CGqlaey01b8FdGWH9TDAddwcEXlftj0t/Ipb371f0LY6bOc8TQrGShe1yV2OGRPi
+         VhE/jWKWaRKQlCi4Szq8Y8jnua/fBZiZHFrwqO5OppoJHmvGALTUK/MTtQnYYRJZj4
+         gzBKC3fZWy4qM5uz6TWHbJ7xF5aDneI93POB3PKIZSFr2mIDfmM+oHs1kWFE0SMVc4
+         64uoUkHsBG9YA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1laC2l-004JeC-5F; Sat, 24 Apr 2021 08:45:31 +0200
+        id 1laC2l-004JeF-6F; Sat, 24 Apr 2021 08:45:31 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jean-Christophe Trotin <jean-christophe.trotin@st.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 10/78] media: sti/hva: use pm_runtime_resume_and_get()
-Date:   Sat, 24 Apr 2021 08:44:20 +0200
-Message-Id: <ea3f148150d98f19d3402202e18270b9977b1959.1619191723.git.mchehab+huawei@kernel.org>
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: [PATCH 11/78] staging: media: rkvdec: fix pm_runtime_get_sync() usage count
+Date:   Sat, 24 Apr 2021 08:44:21 +0200
+Message-Id: <978ba3b7acceb858870c8029f761ae47ea59563d.1619191723.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
@@ -46,92 +48,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-added pm_runtime_resume_and_get() in order to automatically handle
-dev->power.usage_count decrement on errors.
-
-While the hva driver does it right, there are lots of errors
-on other drivers due to its misusage. So, let's change
-this driver to also use pm_runtime_resume_and_get(), as we're
-doing similar changes all over the media subsystem.
+The pm_runtime_get_sync() internally increments the
+dev->power.usage_count without decrementing it, even on errors.
+replace it by the new pm_runtime_resume_and_get(), introduced by:
+commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+in order to properly decrement the usage counter and avoid memory
+leaks.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/sti/hva/hva-hw.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/sti/hva/hva-hw.c b/drivers/media/platform/sti/hva/hva-hw.c
-index f59811e27f51..77b8bfa5e0c5 100644
---- a/drivers/media/platform/sti/hva/hva-hw.c
-+++ b/drivers/media/platform/sti/hva/hva-hw.c
-@@ -270,9 +270,8 @@ static unsigned long int hva_hw_get_ip_version(struct hva_dev *hva)
- 	struct device *dev = hva_to_dev(hva);
- 	unsigned long int version;
- 
--	if (pm_runtime_get_sync(dev) < 0) {
-+	if (pm_runtime_resume_and_get(dev) < 0) {
- 		dev_err(dev, "%s     failed to get pm_runtime\n", HVA_PREFIX);
--		pm_runtime_put_noidle(dev);
- 		mutex_unlock(&hva->protect_mutex);
- 		return -EFAULT;
- 	}
-@@ -386,10 +385,10 @@ int hva_hw_probe(struct platform_device *pdev, struct hva_dev *hva)
- 	pm_runtime_set_suspended(dev);
- 	pm_runtime_enable(dev);
- 
--	ret = pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
- 	if (ret < 0) {
- 		dev_err(dev, "%s     failed to set PM\n", HVA_PREFIX);
--		goto err_pm;
-+		goto err_clk;
- 	}
- 
- 	/* check IP hardware version */
-@@ -462,6 +461,7 @@ int hva_hw_execute_task(struct hva_ctx *ctx, enum hva_hw_cmd_type cmd,
- 	u8 client_id = ctx->id;
- 	int ret;
- 	u32 reg = 0;
-+	bool got_pm = false;
- 
- 	mutex_lock(&hva->protect_mutex);
- 
-@@ -469,12 +469,13 @@ int hva_hw_execute_task(struct hva_ctx *ctx, enum hva_hw_cmd_type cmd,
- 	enable_irq(hva->irq_its);
- 	enable_irq(hva->irq_err);
- 
--	if (pm_runtime_get_sync(dev) < 0) {
-+	if (pm_runtime_resume_and_get(dev) < 0) {
- 		dev_err(dev, "%s     failed to get pm_runtime\n", ctx->name);
- 		ctx->sys_errors++;
- 		ret = -EFAULT;
- 		goto out;
- 	}
-+	got_pm = true;
- 
- 	reg = readl_relaxed(hva->regs + HVA_HIF_REG_CLK_GATING);
- 	switch (cmd) {
-@@ -537,7 +538,8 @@ int hva_hw_execute_task(struct hva_ctx *ctx, enum hva_hw_cmd_type cmd,
- 		dev_dbg(dev, "%s     unknown command 0x%x\n", ctx->name, cmd);
- 	}
- 
--	pm_runtime_put_autosuspend(dev);
-+	if (got_pm)
-+		pm_runtime_put_autosuspend(dev);
- 	mutex_unlock(&hva->protect_mutex);
- 
- 	return ret;
-@@ -553,9 +555,8 @@ void hva_hw_dump_regs(struct hva_dev *hva, struct seq_file *s)
- 
- 	mutex_lock(&hva->protect_mutex);
- 
--	if (pm_runtime_get_sync(dev) < 0) {
-+	if (pm_runtime_resume_and_get(dev) < 0) {
- 		seq_puts(s, "Cannot wake up IP\n");
--		pm_runtime_put_noidle(dev);
- 		mutex_unlock(&hva->protect_mutex);
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index d821661d30f3..8c17615f3a7a 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -658,7 +658,7 @@ static void rkvdec_device_run(void *priv)
+ 	if (WARN_ON(!desc))
  		return;
- 	}
+ 
+-	ret = pm_runtime_get_sync(rkvdec->dev);
++	ret = pm_runtime_resume_and_get(rkvdec->dev);
+ 	if (ret < 0) {
+ 		rkvdec_job_finish_no_pm(ctx, VB2_BUF_STATE_ERROR);
+ 		return;
 -- 
 2.30.2
 
