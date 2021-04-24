@@ -2,40 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 715FD369F5C
-	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A0B7369F6A
+	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:46:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237403AbhDXGrA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Apr 2021 02:47:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36096 "EHLO mail.kernel.org"
+        id S237596AbhDXGrZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Apr 2021 02:47:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35962 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233135AbhDXGqO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Apr 2021 02:46:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 654736162A;
+        id S233252AbhDXGqQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Apr 2021 02:46:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 871896188B;
         Sat, 24 Apr 2021 06:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619246733;
-        bh=K1pnGXdSmZk3xIP43jgrjSRkXQPJaoq5GvJcaE8AzVg=;
+        bh=9Su9Ws433aXy+PjnC7QMSvzB91NG3iiE93sDFxFiYlQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WaC6N38N36D/6kQYFhef7YtzyJvGaRXx8bNQIgl313jmXLJUtGq3Yv4LDyeYgnQ7r
-         oBw15fbTPSXyCzjEsV3jOUTp09Mna3rDpE7dvJLmMAszBUEz+2hxpB8xuLQNQYisYL
-         x3ZAEhSlU6rEYvrAPO00t0fa+bdSgRtIFdz7bbQJehMzn+Ste+iEfcINQH4vZw07dm
-         atYmh9REZQvpylHT++WGKDih/H40ph/4ehUKLS5xx+PX5460iMihhnMezuOcX9ybVp
-         sge6EfFPayzilwvFz8gOd1WwS6ZhMAnvPDbET7XjuEMa/SuvhT43toRSkfjPECOA6V
-         EzoPhXYZ/ZHxQ==
+        b=k3IwNuO9JMoEyQ9FvrtBgiP3PNkgHehAJeBvv27jnD2LTgixVhcN+yY2yxx6QfOqp
+         qFI+9N8r4ClXilr1ekgllBCV7Ga7L+l32djm6Ne3GhYR+AARlfGoZ9wujGcoDWmUqd
+         8J1Z8OZwEaGArfslRwcP+N9IYEXV/DpVvT4Us3DT1wJZ9RV7A8KMhBgxii/UqiQ5MB
+         1yCI6sCUU215zXHaOAyzLxSadhioyxqx+1HorBHbkbm2M6+U3bX9gsiKQDrJiJgq/3
+         7dDajXZuKvOvsJAntylVrSWWAMMe065/9lLgI/ZyqlgaiRL9O0PPZ6PvyhBfRBG+47
+         VkH6CxVQEKT5g==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1laC2n-004JhC-3C; Sat, 24 Apr 2021 08:45:33 +0200
+        id 1laC2n-004JhK-5G; Sat, 24 Apr 2021 08:45:33 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 72/78] media: s3c-camif: use pm_runtime_resume_and_get()
-Date:   Sat, 24 Apr 2021 08:45:22 +0200
-Message-Id: <3cfe70dad65dc078a656458cb55087a5269e9cc3.1619191723.git.mchehab+huawei@kernel.org>
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH 73/78] media: s5p-mfc: use pm_runtime_resume_and_get()
+Date:   Sat, 24 Apr 2021 08:45:23 +0200
+Message-Id: <f01c6e2c5e61bc198443ecb82cd8a6eb6961b6d7.1619191723.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
@@ -55,57 +55,27 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/s3c-camif/camif-capture.c | 5 ++---
- drivers/media/platform/s3c-camif/camif-core.c    | 5 +++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/media/platform/s5p-mfc/s5p_mfc_pm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/s3c-camif/camif-capture.c b/drivers/media/platform/s3c-camif/camif-capture.c
-index 9ca49af29542..01fa08065ebc 100644
---- a/drivers/media/platform/s3c-camif/camif-capture.c
-+++ b/drivers/media/platform/s3c-camif/camif-capture.c
-@@ -547,16 +547,15 @@ static int s3c_camif_open(struct file *file)
- 	if (ret < 0)
- 		goto unlock;
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c b/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c
+index 62d2320a7218..88b7d33c9197 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c
+@@ -78,11 +78,9 @@ int s5p_mfc_power_on(void)
+ {
+ 	int i, ret = 0;
  
--	ret = pm_runtime_get_sync(camif->dev);
-+	ret = pm_runtime_resume_and_get(camif->dev);
- 	if (ret < 0)
--		goto err_pm;
-+		goto unlock;
+-	ret = pm_runtime_get_sync(pm->device);
+-	if (ret < 0) {
+-		pm_runtime_put_noidle(pm->device);
++	ret = pm_runtime_resume_and_get(pm->device);
++	if (ret < 0)
+ 		return ret;
+-	}
  
- 	ret = sensor_set_power(camif, 1);
- 	if (!ret)
- 		goto unlock;
- 
- 	pm_runtime_put(camif->dev);
--err_pm:
- 	v4l2_fh_release(file);
- unlock:
- 	mutex_unlock(&camif->lock);
-diff --git a/drivers/media/platform/s3c-camif/camif-core.c b/drivers/media/platform/s3c-camif/camif-core.c
-index 4c3c00d59c92..e1d51fd3e700 100644
---- a/drivers/media/platform/s3c-camif/camif-core.c
-+++ b/drivers/media/platform/s3c-camif/camif-core.c
-@@ -460,9 +460,9 @@ static int s3c_camif_probe(struct platform_device *pdev)
- 
- 	pm_runtime_enable(dev);
- 
--	ret = pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
- 	if (ret < 0)
--		goto err_pm;
-+		goto err_disable;
- 
- 	ret = camif_media_dev_init(camif);
- 	if (ret < 0)
-@@ -502,6 +502,7 @@ static int s3c_camif_probe(struct platform_device *pdev)
- 	camif_unregister_media_entities(camif);
- err_pm:
- 	pm_runtime_put(dev);
-+err_disable:
- 	pm_runtime_disable(dev);
- 	camif_clk_put(camif);
- err_clk:
+ 	/* clock control */
+ 	for (i = 0; i < pm->num_clocks; i++) {
 -- 
 2.30.2
 
