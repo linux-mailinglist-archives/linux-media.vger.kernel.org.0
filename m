@@ -2,42 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8BFC369F7C
-	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69ABE369F78
+	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237123AbhDXGru (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Apr 2021 02:47:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36098 "EHLO mail.kernel.org"
+        id S244133AbhDXGrn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Apr 2021 02:47:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35848 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233881AbhDXGqV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Apr 2021 02:46:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AE9596192C;
+        id S233643AbhDXGqU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Apr 2021 02:46:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AEB556192D;
         Sat, 24 Apr 2021 06:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619246733;
-        bh=phIvrsjCST0hqKSIzsjBL4/Aigr4NLUZL7GWQhPHYlY=;
+        bh=4l0wYnfzYi1h956EsgOdlzJmS/W0qfvo5eSm9fSkn9o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cxSFgyYt65X6dvnIBfiw6H7qS2vlKGvcmw4KHyHoUyxWnqX8L9c+gfIXD3Y3m8dbS
-         dq3aHWIJJKPyjS/0EPKp/khRcxjQeUxk/p8zK+oVFhiyovvh2SWpWxjkX2nR5CpDwu
-         T/0XhtG5aKGyjgo5GsfFENKinn+482sPhk4zhUL91BWV1GmT04j4Ny59LMAEhqy6+V
-         CRDBiXpbTc8TPJa9Tq/P+pPrbi/dd4GCBVQg4kPFvY0oE0U2I/3hs2GRn0QkE6HAbW
-         Vy55DDXf/pc8LP9gyW7iOVYetsYndvPgXRBxeU5CJdb/k56ofmI75MWWoSSyLrcSvf
-         T/hHbv1tgWt3A==
+        b=USUuCZOBa3BJM0Rlnm0VuiglaAPc8nX63S/cp93xtiRUyZS8vKXLAMz1vHGIsPy0m
+         wGP38SWGEHcXyByTd5zK5ff1weM/x3diUraesk9W+V6LgfDtZyqSNquS9qMQShmL97
+         5ZOlMR7+l0i/X7s7a6YvKZXASNjpN0gCqjwufMGLBxq39ZX8rnD6k3gnPd0cxnWBZy
+         sBMtlDTNd0qPEyWnPRe/VBWo1cz9JAdXLSbhnzqIyIycbIlcWSuThmogcTx23s+Kjf
+         YFCOhMC5wIB5U4/Ua+PpkzChZfdXsqsSnM8d8Agu0Avm9lvNdy0EIVXcTp2GqK4wQy
+         tBgf8lkHkqRXw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1laC2m-004Jgx-RJ; Sat, 24 Apr 2021 08:45:32 +0200
+        id 1laC2m-004Jh0-SC; Sat, 24 Apr 2021 08:45:32 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH 67/78] media: venc: use pm_runtime_resume_and_get()
-Date:   Sat, 24 Apr 2021 08:45:17 +0200
-Message-Id: <382afe29b3e860182d9c09579d11b8884a07414b.1619191723.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 68/78] media: rcar-fcp: use pm_runtime_resume_and_get()
+Date:   Sat, 24 Apr 2021 08:45:18 +0200
+Message-Id: <f5029a01fcf202e5d5be3f33410e50c8f314d031.1619191723.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
@@ -57,32 +55,26 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/qcom/venus/venc.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/platform/rcar-fcp.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 4a7291f934b6..8dd49d4f124c 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -1205,9 +1205,9 @@ static int venc_open(struct file *file)
+diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
+index 5c03318ae07b..de76af58013c 100644
+--- a/drivers/media/platform/rcar-fcp.c
++++ b/drivers/media/platform/rcar-fcp.c
+@@ -101,11 +101,9 @@ int rcar_fcp_enable(struct rcar_fcp_device *fcp)
+ 	if (!fcp)
+ 		return 0;
  
- 	venus_helper_init_instance(inst);
+-	ret = pm_runtime_get_sync(fcp->dev);
+-	if (ret < 0) {
+-		pm_runtime_put_noidle(fcp->dev);
++	ret = pm_runtime_resume_and_get(fcp->dev);
++	if (ret < 0)
+ 		return ret;
+-	}
  
--	ret = pm_runtime_get_sync(core->dev_enc);
-+	ret = pm_runtime_resume_and_get(core->dev_enc);
- 	if (ret < 0)
--		goto err_put_sync;
-+		goto err_free;
- 
- 	ret = venc_ctrl_init(inst);
- 	if (ret)
-@@ -1252,6 +1252,7 @@ static int venc_open(struct file *file)
- 	venc_ctrl_deinit(inst);
- err_put_sync:
- 	pm_runtime_put_sync(core->dev_enc);
-+err_free:
- 	kfree(inst);
- 	return ret;
+ 	return 0;
  }
 -- 
 2.30.2
