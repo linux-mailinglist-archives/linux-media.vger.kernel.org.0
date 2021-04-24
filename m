@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67146369F9A
-	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94FD2369F90
+	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:48:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237584AbhDXGsj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Apr 2021 02:48:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36128 "EHLO mail.kernel.org"
+        id S244287AbhDXGsU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Apr 2021 02:48:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35772 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229704AbhDXGql (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Apr 2021 02:46:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DAA3661947;
+        id S236981AbhDXGqf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Apr 2021 02:46:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D21C561940;
         Sat, 24 Apr 2021 06:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619246734;
-        bh=Luw8i8Wcr7RDhUVQIyKtJIy/TBYgdc1v0nBhRGIz5pw=;
+        bh=rChg/pXG2Qjbehywcb/+z5hE6+LFH66GvNnoCtLFEBo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JJ/17EXdIaQo4vBdqcn8JHsGJHsoMw5jkwHxTd8RLhlkeCZAVlDKL4jNlzaLs6zMk
-         cj0bG8LnkmhW8S5GC1ZZuqLIUmdSxJX9He/1gjHyQRPUVhn+Kra6G0EBaKWOhGhzle
-         Yt+PQvyv8jUgLE+29ufR1Oj0O1C5zJP31ty8iLLdn3Y6Og3qVG6+uusqBuZ0G71rCq
-         qUlN1tmG/hoaAGBgaAkvRuXVEUvwk2fhX/enlHxkU/Imxl2NrlxGmrEWhx3NkiN+j+
-         d17kifflA8o2KmO0/Ki7VtRHwTKYRVvCc5pdLFCJ9MuB99GYHxTWWmCX+fCd8UzFVk
-         l60IDpBEO1rEg==
+        b=PYfBpCc0b7yu+PCNCaJYwzPgNpbFVSNy8eLEqsU/6U4xeQGj/iXnAMxEllUBEx/uN
+         QRTXIpDwnwhOAPo0qTpRtaBJiNocQiF+AOLWYkm/3X4SYG0+5GN7VTt8ZnsRLp+JXL
+         uYcpJEoH6bjiWN32auW9bGEup7RtOGFCU4LuIeMgz4NClFaWsy4nVOhi2kJT6ZcgfR
+         FxPb9QJPe2qg6loO9J8bpK+zhjYABQ6chMCKkN3uYNsjrHnq4YSMRaaehTPsXasWvG
+         igmEm3edSnpkHHt4mQ45U+PS1cy8frNQ2vGTRkuW76pxe2icUGVgZsGIJoX7F4tE2Y
+         nog9MF1ncFQJg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1laC2m-004Jh6-U4; Sat, 24 Apr 2021 08:45:32 +0200
+        id 1laC2m-004Jh9-WB; Sat, 24 Apr 2021 08:45:33 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Heiko Stuebner <heiko@sntech.de>,
-        Jacob Chen <jacob-chen@iotwrt.com>,
+        Helen Koike <helen.koike@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: [PATCH 70/78] media: rga-buf: use pm_runtime_resume_and_get()
-Date:   Sat, 24 Apr 2021 08:45:20 +0200
-Message-Id: <d81e6df2d1a77dc70a4172b77fc15576010e05b3.1619191723.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 71/78] media: rkisp1-capture: use pm_runtime_resume_and_get()
+Date:   Sat, 24 Apr 2021 08:45:21 +0200
+Message-Id: <563a000045b459596c013269311a738d2dddaa37.1619191723.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
@@ -57,23 +57,23 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/rockchip/rga/rga-buf.c | 3 +--
+ drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
-index bf9a75b75083..81508ed5abf3 100644
---- a/drivers/media/platform/rockchip/rga/rga-buf.c
-+++ b/drivers/media/platform/rockchip/rga/rga-buf.c
-@@ -79,9 +79,8 @@ static int rga_buf_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct rockchip_rga *rga = ctx->rga;
- 	int ret;
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+index 5f6c9d1623e4..3730376897d9 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+@@ -1003,9 +1003,8 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
+ 	if (ret)
+ 		goto err_pipeline_stop;
  
--	ret = pm_runtime_get_sync(rga->dev);
-+	ret = pm_runtime_resume_and_get(rga->dev);
+-	ret = pm_runtime_get_sync(cap->rkisp1->dev);
++	ret = pm_runtime_resume_and_get(cap->rkisp1->dev);
  	if (ret < 0) {
--		pm_runtime_put_noidle(rga->dev);
- 		rga_buf_return_buffers(q, VB2_BUF_STATE_QUEUED);
- 		return ret;
+-		pm_runtime_put_noidle(cap->rkisp1->dev);
+ 		dev_err(cap->rkisp1->dev, "power up failed %d\n", ret);
+ 		goto err_destroy_dummy;
  	}
 -- 
 2.30.2
