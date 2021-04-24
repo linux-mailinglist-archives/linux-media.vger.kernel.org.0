@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4AFD369F76
-	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:48:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25A29369F82
+	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:48:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243971AbhDXGrj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Apr 2021 02:47:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36058 "EHLO mail.kernel.org"
+        id S237186AbhDXGsC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Apr 2021 02:48:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35724 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233500AbhDXGqS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Apr 2021 02:46:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9833861920;
+        id S231836AbhDXGqY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Apr 2021 02:46:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C4B0061938;
         Sat, 24 Apr 2021 06:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619246733;
-        bh=bKZpHKXOW0JplSe4YO0635c1m0eb/ZNQKqV2/c8cMew=;
+        s=k20201202; t=1619246734;
+        bh=SctF1EnznGEIIpIjxgpYNPSyfgvGAqEmSYB5mfWpmqw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JkTGK0UM6RlohQhe2LKKy9NJtQF9jF6a36t6ELWtLCTkfUTellTHJZIwG8p3K2RrQ
-         4tuDI3qppincy14JuZZm+LweVSEvBu8YcQ4y9okUhOv5tEPOr/FeKr5PXW/5CkvRsJ
-         WE/QKygDoy1jcGW87HKbo25xkvGgxiZXe8h+gYPpAMyocuVPfK4NHdyL8RgF1Bxjoa
-         NHXj7+SpPHTUQ4h7uTmNz11yDJUzW6N9QrpXHJicOY9cE1HoaWikQkFrooeHeicHM5
-         RqJfyBW+ViB5dcvKE09PkHgs3qXAsUyF31txWEUGdBmr5sGZEVgFWecJpBO6Bd5sXY
-         gcDO/dcSy9O6A==
+        b=arwgI/cDLDju5CZsvLz/7iYTgKUDGxX9A+Kk8KAMtCPdRBDsaDwpqF+i50mMhZD5i
+         QIyFlokd9FKVUQd2NoUp2O7O1HysEp4aHcLWnJ/yzKRRf1jywxKFfcBXiQE/1tlTgE
+         rSqdu6+3CcLe3SNqlVyKKmKFMdvf9LCYlNQ+l9Vxs3gYFSPBinX/Dc2JLgT8fq70hm
+         WioKYLsPMR4AA+9xb63r6TMIe7Epexj3Lu9aZcxKxLsR3gcLsNVZWUFfntipsTVZ/e
+         KmDWrxUpldB372ZDyOmb45LEnlfX82lRSY1MSQqMR9tyqO35zucG5jLZohKuS5fQmS
+         uIXfBg+LKtWWA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1laC2m-004Jgi-MW; Sat, 24 Apr 2021 08:45:32 +0200
+        id 1laC2m-004Jgl-NU; Sat, 24 Apr 2021 08:45:32 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -36,9 +36,9 @@ Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Todor Tomov <todor.too@gmail.com>,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH 62/78] media: camss-ispif: use pm_runtime_resume_and_get()
-Date:   Sat, 24 Apr 2021 08:45:12 +0200
-Message-Id: <b224d426e9296d7b896246e306619ba88d662bde.1619191723.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 63/78] media: camss-vfe: use pm_runtime_resume_and_get()
+Date:   Sat, 24 Apr 2021 08:45:13 +0200
+Message-Id: <925188c1bbe50a14b21bfcc8886e9419a55f9b62.1619191723.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
@@ -58,27 +58,33 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/qcom/camss/camss-ispif.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/media/platform/qcom/camss/camss-vfe.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
-index 37611c8861da..d9907742ba79 100644
---- a/drivers/media/platform/qcom/camss/camss-ispif.c
-+++ b/drivers/media/platform/qcom/camss/camss-ispif.c
-@@ -372,11 +372,9 @@ static int ispif_set_power(struct v4l2_subdev *sd, int on)
- 			goto exit;
- 		}
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+index 15695fd466c4..cf743e61f798 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+@@ -584,9 +584,9 @@ static int vfe_get(struct vfe_device *vfe)
+ 		if (ret < 0)
+ 			goto error_pm_domain;
  
--		ret = pm_runtime_get_sync(dev);
--		if (ret < 0) {
--			pm_runtime_put_sync(dev);
-+		ret = pm_runtime_resume_and_get(dev);
-+		if (ret < 0)
- 			goto exit;
--		}
+-		ret = pm_runtime_get_sync(vfe->camss->dev);
++		ret = pm_runtime_resume_and_get(vfe->camss->dev);
+ 		if (ret < 0)
+-			goto error_pm_runtime_get;
++			goto error_domain_off;
  
- 		ret = camss_enable_clocks(ispif->nclocks, ispif->clock, dev);
- 		if (ret < 0) {
+ 		ret = vfe_set_clock_rates(vfe);
+ 		if (ret < 0)
+@@ -620,6 +620,7 @@ static int vfe_get(struct vfe_device *vfe)
+ 
+ error_pm_runtime_get:
+ 	pm_runtime_put_sync(vfe->camss->dev);
++error_domain_off:
+ 	vfe->ops->pm_domain_off(vfe);
+ 
+ error_pm_domain:
 -- 
 2.30.2
 
