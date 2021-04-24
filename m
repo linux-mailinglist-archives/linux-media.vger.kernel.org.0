@@ -2,43 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5380369F44
-	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E6E0369F95
+	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 08:48:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237233AbhDXGqm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Apr 2021 02:46:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35994 "EHLO mail.kernel.org"
+        id S229850AbhDXGs1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Apr 2021 02:48:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36096 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232775AbhDXGqN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Apr 2021 02:46:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 457106161F;
+        id S237130AbhDXGqj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Apr 2021 02:46:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D6E0F61945;
         Sat, 24 Apr 2021 06:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619246733;
-        bh=WMp2TYCwNpx5gqoBY3FxSLCFIcbo/CZW59R5D62z+MU=;
+        s=k20201202; t=1619246734;
+        bh=g3U42mTCX58vPHFzw5e1ALRdM6DIRlxQAAjJ/CS5BaU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Pb0FEUVsstM+Ka+SkQXcxBAZ6ZpJMMXFngkYhhd6CadyNpITWzT76YSGBH3SAQCRl
-         9OX0YLcnJNWDMOrbkA4N0EI5dzjD/wSrI8UedQhXMPnK9kOhh+gmg0z/ujpIfYe97u
-         39QS+c8PGENgVvW0gbaKq14m3bpoo22M1yxXA8F8xIqGUYhBMM+oboHlllP3r7C28L
-         GVEDa9qF/hrRkuIsF4f9HEQF9JIcMNtua0OSLQa0yFWCyDJstDSrntL2LAumR7ZqSk
-         tYf8RJcrIpPB33Jl8uBbftVxQglMTmkm4uZO+A2DdXGb/lxzdX2DkTGxCdjhuteU6b
-         zWci+lF6KHNsw==
+        b=ep+v57zmsmwNsCZzxBz83Nt0ye7KmeHxGupEj1EPkuJLCMe5JmH0Kx+g/YJVdjFJ1
+         ranNjMSngZaBhiqxld55EdgLZlsFYgWk8m9kr2BkZLxjAK1ZU5U4yqLMkNaB2UYbsl
+         PDygjW7h0lUOnciUMWE0LFH4JaoUeF7wkIPR3EWYQU65k8ArN//UHUR+yoa29QYRoN
+         ctlSP0sHwcqnryqUGu/7gv6DjZnKxlD6ARvPRQyNU/6AnsZETMaHxAlEkud4qN+Ejw
+         LUfReYxdQN1jV1pwpdj1X4v2IhZvk7awtx2IG1ZXIHAoHT9gQVwshMy/I/Q4FsAwme
+         Rc8WQqRMprmDQ==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1laC2m-004JgN-Fm; Sat, 24 Apr 2021 08:45:32 +0200
+        id 1laC2m-004JgQ-Gi; Sat, 24 Apr 2021 08:45:32 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Dan Scally <djrscally@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Yong Zhi <yong.zhi@intel.com>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH 55/78] media: ipu3: use pm_runtime_resume_and_get()
-Date:   Sat, 24 Apr 2021 08:45:05 +0200
-Message-Id: <8c2efb8ac0ead829bbcc9a5586b1e12491048c2b.1619191723.git.mchehab+huawei@kernel.org>
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 56/78] media: coda: use pm_runtime_resume_and_get()
+Date:   Sat, 24 Apr 2021 08:45:06 +0200
+Message-Id: <5102aef0e5d4ccfafed92087e3800ffaca4736ba.1619191723.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
@@ -58,25 +54,22 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/platform/coda/coda-common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-index fecef85bd62e..ca8040d1a725 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-@@ -975,10 +975,9 @@ static int cio2_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	cio2->cur_queue = q;
- 	atomic_set(&q->frame_sequence, 0);
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+index bd666c858fa1..fea1c136a42c 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -2660,7 +2660,7 @@ static int coda_open(struct file *file)
+ 	ctx->use_vdoa = false;
  
--	r = pm_runtime_get_sync(&cio2->pci_dev->dev);
-+	r = pm_runtime_resume_and_get(&cio2->pci_dev->dev);
- 	if (r < 0) {
- 		dev_info(&cio2->pci_dev->dev, "failed to set power %d\n", r);
--		pm_runtime_put_noidle(&cio2->pci_dev->dev);
- 		return r;
- 	}
- 
+ 	/* Power up and upload firmware if necessary */
+-	ret = pm_runtime_get_sync(dev->dev);
++	ret = pm_runtime_resume_and_get(dev->dev);
+ 	if (ret < 0) {
+ 		v4l2_err(&dev->v4l2_dev, "failed to power up: %d\n", ret);
+ 		goto err_pm_get;
 -- 
 2.30.2
 
