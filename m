@@ -2,105 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72F2E369CCD
-	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 00:35:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AFEE369E48
+	for <lists+linux-media@lfdr.de>; Sat, 24 Apr 2021 02:59:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244174AbhDWWfQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Apr 2021 18:35:16 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44178 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237181AbhDWWe6 (ORCPT
+        id S233027AbhDXA7m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Apr 2021 20:59:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39114 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244294AbhDXA64 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Apr 2021 18:34:58 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 32130EE;
-        Sat, 24 Apr 2021 00:34:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619217253;
-        bh=m8jU5cGoHGOkeaMv9EUUiN3kHzevaIEauHuY+D+3dcM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WxNSOSj8Xe/r+p4+nD13oM35hKhui0vGKWBbMaJwxjqvDpJTmS2Hy8fEwCl+XpLDz
-         ozu/AieKqO9GnKvWY6yke5O8ETxN5VkRVJtF8GcUmU95OzthVljPzNsqEA6ip3uedc
-         Gkso+f7ibvjnYZEOTVSFyo9F3kWGr2D4J/akl+pk=
-Date:   Sat, 24 Apr 2021 01:34:07 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Gregor Jasny <gjasny@googlemail.com>,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl, sean@mess.org,
-        p.zabel@pengutronix.de, ezequiel@collabora.com,
-        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com,
-        xavier.claessens@collabora.com, nicolas.dufresne@collabora.com,
-        user.vdr@gmail.com, sakari.ailus@iki.fi
-Subject: Re: [v4l-utils v4 2/5] Add support for meson building
-Message-ID: <YINLX5xd8/16gNYZ@pendragon.ideasonboard.com>
-References: <20210317172227.620584-1-ariel.dalessandro@collabora.com>
- <20210317172227.620584-3-ariel.dalessandro@collabora.com>
- <7096f897-1e48-c1e5-5503-008fff60d2b2@googlemail.com>
- <20210320203209.14c65453@coco.lan>
- <YFZUf9RfS6rdD8Il@pendragon.ideasonboard.com>
- <5eb90b59-8896-ae22-690f-340f4ec9d8db@collabora.com>
+        Fri, 23 Apr 2021 20:58:56 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DC00C061238;
+        Fri, 23 Apr 2021 17:52:11 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id c3so16337986pfo.3;
+        Fri, 23 Apr 2021 17:52:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N2woOalQeKHSawx5nbGb6OzNBKaNOdG68Dymcml4HhM=;
+        b=ExrpsinU0EU1btJ1yQ2K46y0VWIHSbK0RIk11sE59AAMMyS9L6Ra5tnnvsVAGjTUJn
+         NTNCQ7Hmwr+5jzMgpFpHOXQ3ectpVi3QtVFOkLCtok8HCHfUfQGVd2JrRCrTAFSgPNkd
+         Df3UNbfgBRD75Y0KGNoPSfNU+iW+2zJsTs/HOPGC2BDt1yeaFce+XP6+4+d043rQkUHr
+         wd97rCcMEoyOBvLlUqCuEWkHKAlQMZLd31m91D6LlRIjvi1Dhizv3GmoT9qKpSxFseBw
+         anAhXNWKKEM5nwrfjAV1hRwMhaRPlMzTFr7heAltg2vqhftO7g03sJmzvofrGl5a7aIy
+         su2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N2woOalQeKHSawx5nbGb6OzNBKaNOdG68Dymcml4HhM=;
+        b=E5JzZFhmbr5kmBppbB58kc7SN++BMTpDmepnlQ4MvbZrE3jmvM679jdyut+P03K4jO
+         pIam5N8cxGQRR2XSSHmH6lxpYMd7F0NiiAxFVQ8l+2sWG+BpBOYvrpSTWpeYA2O+ay+q
+         u7OO15HzQuFrHMShIynAxnATSC2PKzPq6YJ6bhYP8Ywv6yMJHwJz1egtMZbnieMV/WRh
+         u6klwYBscUNB9Di+Ki2ImSek8csVlhG4GEhUau0AR6JmoPNs0g++iwRIlJ+rCa74XDSu
+         RZnWm+TF0WDdmHyYnTvqWbJ+Ch7MIBDHGSIF05CJF0RgKdo+1GV2f/L5Qg298l/R5nE4
+         +wGQ==
+X-Gm-Message-State: AOAM533lVFBBloAkzocEJxb8G4Iycom++eYayn2OGDHFAumYvSsHkVss
+        kXvt3MqG5Ffkvc5H395AnTQ=
+X-Google-Smtp-Source: ABdhPJxNoAyWK4D49rzoFj1F4/s7/obtXcVV62pW7F47/PMODw3BJItS9tHZzSKHi76rB8KeG8wKtQ==
+X-Received: by 2002:a63:e00f:: with SMTP id e15mr6208389pgh.317.1619225530745;
+        Fri, 23 Apr 2021 17:52:10 -0700 (PDT)
+Received: from tong-desktop.local ([2601:647:4200:13:9d7:3e7c:d3c6:83e6])
+        by smtp.googlemail.com with ESMTPSA id r11sm4996150pff.192.2021.04.23.17.52.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Apr 2021 17:52:10 -0700 (PDT)
+From:   Tong Zhang <ztong0001@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Tong Zhang <ztong0001@gmail.com>
+Subject: [PATCH] media: cobalt: fix null-ptr-deref when there is no PCI bridge
+Date:   Fri, 23 Apr 2021 20:52:06 -0400
+Message-Id: <20210424005206.261622-1-ztong0001@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5eb90b59-8896-ae22-690f-340f4ec9d8db@collabora.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ariel,
+the PCI bridge might be NULL, so we'd better check before use it
 
-On Fri, Apr 23, 2021 at 07:31:01PM -0300, Ariel D'Alessandro wrote:
-> Hi Mauro, Laurent,
-> 
-> I can see this thread didn't follow up.
-> 
-> Regarding Mauro's reasons about why not switching to meson, I totally 
-> agree with this response from Laurent's. I don't see any of those 
-> aspects being really an argument on why not supporting meson, but in any 
-> case, discussion can follow up from there.
-> 
-> On 3/20/21 5:01 PM, Laurent Pinchart wrote:
-> > Hi Mauro,
-> > 
-> > On Sat, Mar 20, 2021 at 08:32:09PM +0100, Mauro Carvalho Chehab wrote:
-> [snip]
-> >>
-> >> I'm not a lover of autoconf tools. Yet, replacing from it on this
-> >> project sounds a bad idea, for a couple of reasons.
-> >>
-> >> The main one is that nobody has yet provided any real reason about
-> >> *why* auto-tools should be replaced.
-> 
-> IMHO, switching from autotools to meson has many advantages, like a 
-> clear syntax, an active community and *faster* build speed than autotools.
-> 
-> On a cold cache:
-> 
->    $ time (meson setup build/ -Ddefault_library=both ; ninja -j4 -C build/)
->    real 0m15.945s ; user 0m51.235s ; sys 0m6.914s
-> 
->    $ time (./configure ; make -j4)
->    real 0m45.985s ; user 1m57.454s ; sys 0m9.404s
-> 
-> Although I haven't been involved in v4l-utils previously, I can see some 
-> people interested on having meson build support, I'm not the only one 
-> involved in this patchset.
-> 
-> I understand that every change comes with a cost, but I believe meson's 
-> been adopted for some time now, other projects have already done the 
-> move, and the advantages overcome the possible negative aspects 
-> mentioned. Again, this is just my humble opinion, and to me that's the 
-> *why* porting to meson is a good idea :-)
-> 
-> I'd like to hear for other reasons.
+[    1.870569] RIP: 0010:pcie_bus_link_get_lanes.isra.0+0x26/0x59 [cobalt]
+[    1.875880] Call Trace:
+[    1.876013]  cobalt_probe.cold+0x1be/0xc11 [cobalt]
+[    1.876683]  pci_device_probe+0x10f/0x1c0
 
-Gregor, you've provided feedback on the implementation (thanks about
-that), but I don't think I've seen your opinion about the switch to
-meson itself. Have I missed it, and if I haven't, could you share your
-thoughts ?
+Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+---
+ drivers/media/pci/cobalt/cobalt-driver.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
+index 0695078ef812..5687ed4869ac 100644
+--- a/drivers/media/pci/cobalt/cobalt-driver.c
++++ b/drivers/media/pci/cobalt/cobalt-driver.c
+@@ -189,6 +189,8 @@ void cobalt_pcie_status_show(struct cobalt *cobalt)
+ 	u32 capa;
+ 	u16 stat, ctrl;
+ 
++	if (!pci_bus_dev)
++		return;
+ 	if (!pci_is_pcie(pci_dev) || !pci_is_pcie(pci_bus_dev))
+ 		return;
+ 
+@@ -247,6 +249,8 @@ static unsigned pcie_bus_link_get_lanes(struct cobalt *cobalt)
+ 	struct pci_dev *pci_dev = cobalt->pci_dev->bus->self;
+ 	u32 link;
+ 
++	if (!pci_dev)
++		return 0;
+ 	if (!pci_is_pcie(pci_dev))
+ 		return 0;
+ 	pcie_capability_read_dword(pci_dev, PCI_EXP_LNKCAP, &link);
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
