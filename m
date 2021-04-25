@@ -2,98 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E83536A504
-	for <lists+linux-media@lfdr.de>; Sun, 25 Apr 2021 08:15:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DEDE36A58D
+	for <lists+linux-media@lfdr.de>; Sun, 25 Apr 2021 09:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbhDYGPl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Apr 2021 02:15:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38674 "EHLO mail.kernel.org"
+        id S229579AbhDYHeq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Apr 2021 03:34:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34592 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229477AbhDYGPk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Apr 2021 02:15:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 742AD6124B;
-        Sun, 25 Apr 2021 06:14:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1619331300;
-        bh=auP6JRuummQkkVZR1IcxBPxBUP5jCkGA0V99FK4ibXQ=;
+        id S229522AbhDYHeq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 25 Apr 2021 03:34:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D18D961245;
+        Sun, 25 Apr 2021 07:34:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619336046;
+        bh=WCsSHB91cvmf5ZeAXu+txZXJ3S/cP/GNMzA77rjuNbE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BSZo7B0ztK/ZJ6b9ewVhX1tiYoKt2aVWLM9tzkidgo8bd4NahwbZgSelW2qjvkeVA
-         4Cuf22JgyanY8g/eHylN+oOyZzH/JbOFwp+a8b6jGIdQW2D6lhpPLcxUewADOVt59p
-         BfKGkxp270f1RqpnNZxbM7mATC8gj00Vgsj6eMUA=
-Date:   Sun, 25 Apr 2021 08:14:53 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Shawn Guo <shawn.guo@linaro.org>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Stuart Hayes <stuart.w.hayes@gmail.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        James Smart <james.smart@broadcom.com>,
-        Dick Kennedy <dick.kennedy@broadcom.com>,
-        Timur Tabi <timur@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, dmaengine@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: Re: [PATCH] firmware: replace HOTPLUG with UEVENT in FW_ACTION
- defines
-Message-ID: <YIUI3TZf/sZ6Sd3K@kroah.com>
-References: <20210425020024.28057-1-shawn.guo@linaro.org>
+        b=q1XswQI3mxMpGcDvpMyZljYfgw5fSLCE1OaoEPKuANpgRNF/l1ND6Se160hAmXY2V
+         WXsK309I7CYtICtk/SZ1nvEJRBpn1+vyAb/P6rKYKnqt7swUW4G1LM16V7f3Ki5hGL
+         6jIWwzqr2Uat6+NgotfFX1qhL914GSyag3QNQK8d6Fq1ux1vwZjFNqhCT53YkaLdTE
+         TS2qfTejBqCr4vVDIHrt8whLwMVintjtCjDUVJJmyRNx/cBFyrNVGMPw+2ZKkhqhxJ
+         c/I7P/Zd+iGUvrgWXjnwivWQGUZ9oTtanEw8H5/Digtge9jnfpQm/dvW+lGWyo3VLQ
+         i6HJsRhSlKs+g==
+Date:   Sun, 25 Apr 2021 10:33:57 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Peter.Enderborg@sony.com
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        adobriyan@gmail.com, akpm@linux-foundation.org,
+        songmuchun@bytedance.com, guro@fb.com, shakeelb@google.com,
+        mhocko@suse.com, neilb@suse.de, samitolvanen@google.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, willy@infradead.org
+Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
+Message-ID: <YIUbZWm+jW21vYJ9@kernel.org>
+References: <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
+ <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
+ <YH63iPzbGWzb676T@phenom.ffwll.local>
+ <a60d1eaf-f9f8-e0f3-d214-15ce2c0635c2@sony.com>
+ <YH/tHFBtIawBfGBl@phenom.ffwll.local>
+ <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
+ <YIBFbh4Dd1XaDbto@kernel.org>
+ <84e0c6d9-74c6-5fa8-f75a-45c8ec995ac2@sony.com>
+ <YIEugg9RIVSReN97@kernel.org>
+ <ae091d3d-623b-ce18-e0f2-1591be6db83e@sony.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210425020024.28057-1-shawn.guo@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ae091d3d-623b-ce18-e0f2-1591be6db83e@sony.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Apr 25, 2021 at 10:00:24AM +0800, Shawn Guo wrote:
-> With commit 312c004d36ce ("[PATCH] driver core: replace "hotplug" by
-> "uevent"") already in the tree over a decade, update the name of
-> FW_ACTION defines to follow semantics, and reflect what the defines are
-> really meant for, i.e. whether or not generate user space event.
+On Thu, Apr 22, 2021 at 02:08:51PM +0000, Peter.Enderborg@sony.com wrote:
+> On 4/22/21 10:06 AM, Mike Rapoport wrote:
+> > So the flow is like this:
+> >
+> > * a user has a problem and reports it to an application developer; at best
+> >   the user runs simple and limited app to collect some data
+> > * if the application developer considers this issue as a system related
+> >   they can open adb and collect some more information about the system
+> >   using non-root shell with selinux policy restrictions and send this
+> >   information to the device manufacturer.
+> > * the manufacturer continues to debug the issue and at this point as much
+> >   information is possible would have been useful.
+> >
+> > In this flow I still fail to understand why the manufacturer cannot provide
+> > userspace tools that will be able to collect the required information.
+> > These tools not necessarily need to target the end user, they may be only
+> > intended for the application developers, e.g. policy could allow such tool
+> > to access some of the system data only when the system is in developer
+> > mode.
+> >
+> The manufacture is trying to get the tool to work. This is what the
+> patch is about. Even for a application developer a commercial
+> phone is locked down.
+
+Right, but it's still in full control of the manufacturer what's flashed
+there, isn't it?
+So there could be some tools that are only available in the developer mode?
+These tools could have different permissions etc.
+
+> Many vendors allow that you flash some other software like a AOSP.  But
+> that can be very different. Like installing a ubuntu on a PC to debug a
+> Fedora issue.
 > 
-> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
-> ---
->  drivers/dma/imx-sdma.c                      |  2 +-
->  drivers/media/platform/exynos4-is/fimc-is.c |  2 +-
->  drivers/mfd/iqs62x.c                        |  2 +-
->  drivers/misc/lattice-ecp3-config.c          |  2 +-
->  drivers/net/wireless/ti/wlcore/main.c       |  2 +-
->  drivers/platform/x86/dell/dell_rbu.c        |  2 +-
->  drivers/remoteproc/remoteproc_core.c        |  2 +-
->  drivers/scsi/lpfc/lpfc_init.c               |  2 +-
->  drivers/tty/serial/ucc_uart.c               |  2 +-
->  include/linux/firmware.h                    |  4 ++--
->  lib/test_firmware.c                         | 10 +++++-----
->  sound/soc/codecs/wm8958-dsp2.c              |  6 +++---
->  12 files changed, 19 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/dma/imx-sdma.c b/drivers/dma/imx-sdma.c
-> index d5590c08db51..e2b559945c11 100644
-> --- a/drivers/dma/imx-sdma.c
-> +++ b/drivers/dma/imx-sdma.c
-> @@ -1829,7 +1829,7 @@ static int sdma_get_firmware(struct sdma_engine *sdma,
->  	int ret;
->  
->  	ret = request_firmware_nowait(THIS_MODULE,
-> -			FW_ACTION_HOTPLUG, fw_name, sdma->dev,
-> +			FW_ACTION_UEVENT, fw_name, sdma->dev,
+> And sure we can pickup parts of what using the dma-buf. But
+> we can not get the total and be sure that is the total without a
+> proper counter.
 
-Naming is hard :)
+If I understand you correctly, a user space tool that scans fdinfo and
+accumulates dma-buf size from there is not accurate enough, that's why an
+atomic counter exposed by kernel is a must.
 
-I can take this after -rc1, but really, is it needed?
+But if the changes in consumption of dma-bufs are that frequent, I cannot
+see how a global counter will help to identify an issue.
 
-What problem does this renaming solve?  Who is the current name
-confusing?
+And if this counter is needed to see if there is a memory leak, summing
+sizes of dma-bufs from fdinfo will identify a leak.
 
-thanks,
+What am I missing?
 
-greg k-h
+-- 
+Sincerely yours,
+Mike.
