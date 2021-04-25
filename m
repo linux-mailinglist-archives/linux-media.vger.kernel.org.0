@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9209736A5D3
-	for <lists+linux-media@lfdr.de>; Sun, 25 Apr 2021 10:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC9BD36A5D5
+	for <lists+linux-media@lfdr.de>; Sun, 25 Apr 2021 10:44:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229747AbhDYIoK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Apr 2021 04:44:10 -0400
-Received: from msg-2.mailo.com ([213.182.54.12]:46538 "EHLO msg-2.mailo.com"
+        id S229707AbhDYIou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Apr 2021 04:44:50 -0400
+Received: from msg-2.mailo.com ([213.182.54.12]:46614 "EHLO msg-2.mailo.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229485AbhDYIoG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Apr 2021 04:44:06 -0400
+        id S229689AbhDYIou (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 25 Apr 2021 04:44:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-        t=1619340201; bh=IfYpw+Ry1fGetkSVGFJGQbGFEKxP9hRXY5rKMEsvTH4=;
+        t=1619340244; bh=KFXV85gScAN4nFM43M90XZX2rg2dk28KoUjrXbDvPKs=;
         h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
          MIME-Version:Content-Type:In-Reply-To;
-        b=N40XJ2M2AzwKSOiuJcIzWuZat3i141kWQLeYGuXQKHEEU/3i2IbrmwrlphIvXvJM6
-         w54gyE6aDBOFgXIy6QART1uNgoVs0ywqyJL+a7ACCWwZGPvwL7kzD4cEZXgNtFIZ2h
-         MxLuz7FlAVoJUlZpQ/AiQGHh7yD87nYVW/czAR/o=
-Received: by 192.168.90.14 [192.168.90.14] with ESMTP
+        b=acz5gZfwyKjnnNOsuR1bbReIWn7e+JsIgXs5NmjxP4K5CwArAKGTQpDDc1AfIPg/Y
+         AvLkMgQpCKO8Z6t3CuGajjUUKCistljZJCdNtpp8yZ2nIGrv9aVitZoVTkBknWgrCe
+         hyW0Ix+i5DbJawImvKoTBYWUqVJm8SHm21bWq07U=
+Received: by 192.168.90.16 [192.168.90.16] with ESMTP
         via ip-206.mailobj.net [213.182.55.206]
-        Sun, 25 Apr 2021 10:43:20 +0200 (CEST)
-X-EA-Auth: +6RQOLJuBIDK1XGWm3V6ZattEF2K/txpnI/apZzi39Vrr57UGOf9+ccLgx0TkaDu7jNpRmhdjQ3cHoZCZCZtCmaoxOo3S7Hd
-Date:   Sun, 25 Apr 2021 14:13:15 +0530
+        Sun, 25 Apr 2021 10:44:04 +0200 (CEST)
+X-EA-Auth: Fz4k9HdTuqnJ3UG7vcm12zfffcYQWfuXw4UAM39kaAzoa53kP/pT617P8vrEZxfVfMj5xwyeKnuPS5baORSd+Vgw2nbBKDM1
+Date:   Sun, 25 Apr 2021 14:13:59 +0530
 From:   Deepak R Varma <drv@mailo.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, drv@mailo.com
-Subject: [PATCH RESEND v3 3/6] staging: media: atomisp: use __func__ over
- function names
-Message-ID: <2cb42846abb7cab5e64bc29d5e496766f5df169b.1619199344.git.drv@mailo.com>
+Subject: [PATCH RESEND v3 4/6] staging: media: atomisp: reformat code comment
+ blocks
+Message-ID: <efdd8910b519dd55838570c72e3ce35e063f4a11.1619199344.git.drv@mailo.com>
 References: <cover.1619199344.git.drv@mailo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -41,141 +41,306 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace hard coded function names from the debug print strings by
-standard __func__ predefined identifier. This resolves following
-checkpatch script WARNING:
-Prefer using '"%s...", __func__' to using function's name, in a string.
+Reformat code comment blocks according to the coding style guidelines.
+This resolves different checkpatch script WARNINGs around block comments.
 
+Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
 
 Changes since v2:
-   - None.
-Changes since v1:
-   - None.
+   - Tag Fabio Auito for the patch suggestion
 
- .../staging/media/atomisp/i2c/atomisp-gc0310.c   |  2 +-
- .../staging/media/atomisp/i2c/atomisp-gc2235.c   |  2 +-
- .../staging/media/atomisp/i2c/atomisp-lm3554.c   |  2 +-
- .../staging/media/atomisp/i2c/atomisp-ov2680.c   | 16 ++++++++--------
- .../staging/media/atomisp/i2c/atomisp-ov2722.c   |  2 +-
- 5 files changed, 12 insertions(+), 12 deletions(-)
+Changes in v1:
+   - implement following changes suggested by Fabio Aiuto
+       a. Corrected commenting style
+       b. Similar style implemented for other comment blocks in
+          the same files.
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index d68a2bcc9ae1..b572551f1a0d 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -1292,7 +1292,7 @@ static int gc0310_remove(struct i2c_client *client)
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct gc0310_device *dev = to_gc0310_sensor(sd);
- 
--	dev_dbg(&client->dev, "gc0310_remove...\n");
-+	dev_dbg(&client->dev, "%s...\n", __func__);
- 
- 	dev->platform_data->csi_cfg(sd, 0);
- 
+
+ .../media/atomisp/i2c/atomisp-gc2235.c        | 19 ++++----
+ .../atomisp/i2c/atomisp-libmsrlisthelper.c    |  6 ++-
+ .../media/atomisp/i2c/atomisp-mt9m114.c       | 46 +++++++++++--------
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 20 +++++---
+ 4 files changed, 56 insertions(+), 35 deletions(-)
+
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index e722c639b60d..548c572d3b57 100644
+index 548c572d3b57..6ee6e8414f0e 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -1034,7 +1034,7 @@ static int gc2235_remove(struct i2c_client *client)
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct gc2235_device *dev = to_gc2235_sensor(sd);
+@@ -228,7 +228,7 @@ static int gc2235_g_focal(struct v4l2_subdev *sd, s32 *val)
  
--	dev_dbg(&client->dev, "gc2235_remove...\n");
-+	dev_dbg(&client->dev, "%s...\n", __func__);
- 
- 	dev->platform_data->csi_cfg(sd, 0);
- 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-index 7ca7378b1859..ab10fd98dbc0 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-@@ -680,7 +680,7 @@ static int lm3554_detect(struct v4l2_subdev *sd)
- 	int ret;
- 
- 	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA)) {
--		dev_err(&client->dev, "lm3554_detect i2c error\n");
-+		dev_err(&client->dev, "%s i2c error\n", __func__);
- 		return -ENODEV;
- 	}
- 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 92c52431bd8f..c17615149f46 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -146,7 +146,7 @@ static int ov2680_g_bin_factor_x(struct v4l2_subdev *sd, s32 *val)
- 	struct ov2680_device *dev = to_ov2680_sensor(sd);
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 
--	dev_dbg(&client->dev,  "++++ov2680_g_bin_factor_x\n");
-+	dev_dbg(&client->dev,  "++++%s\n", __func__);
- 	*val = ov2680_res[dev->fmt_idx].bin_factor_x;
- 
+ static int gc2235_g_fnumber(struct v4l2_subdev *sd, s32 *val)
+ {
+-	/*const f number for imx*/
++	/* const f number for imx */
+ 	*val = (GC2235_F_NUMBER_DEFAULT_NUM << 16) | GC2235_F_NUMBER_DEM;
  	return 0;
-@@ -158,7 +158,7 @@ static int ov2680_g_bin_factor_y(struct v4l2_subdev *sd, s32 *val)
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 
- 	*val = ov2680_res[dev->fmt_idx].bin_factor_y;
--	dev_dbg(&client->dev,  "++++ov2680_g_bin_factor_y\n");
-+	dev_dbg(&client->dev,  "++++%s\n", __func__);
+ }
+@@ -427,7 +427,8 @@ static long gc2235_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
  	return 0;
  }
  
-@@ -173,7 +173,7 @@ static int ov2680_get_intg_factor(struct i2c_client *client,
- 	u16 reg_val;
- 	int ret;
+-/* This returns the exposure time being used. This should only be used
++/*
++ * This returns the exposure time being used. This should only be used
+  * for filling in EXIF data, not for actual image processing.
+  */
+ static int gc2235_q_exposure(struct v4l2_subdev *sd, s32 *value)
+@@ -746,11 +747,12 @@ static int startup(struct v4l2_subdev *sd)
+ 	int ret = 0;
  
--	dev_dbg(&client->dev,  "++++ov2680_get_intg_factor\n");
-+	dev_dbg(&client->dev,  "++++%s\n", __func__);
- 	if (!info)
- 		return -EINVAL;
- 
-@@ -251,8 +251,8 @@ static long __ov2680_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
- 	int ret, exp_val;
- 
- 	dev_dbg(&client->dev,
--		"+++++++__ov2680_set_exposure coarse_itg %d, gain %d, digitgain %d++\n",
--		coarse_itg, gain, digitgain);
-+		"+++++++%s coarse_itg %d, gain %d, digitgain %d++\n",
-+		__func__, coarse_itg, gain, digitgain);
- 
- 	vts = ov2680_res[dev->fmt_idx].lines_per_frame;
- 
-@@ -1061,9 +1061,9 @@ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
+ 	if (is_init == 0) {
+-		/* force gc2235 to do a reset in res change, otherwise it
+-		* can not output normal after switching res. and it is not
+-		* necessary for first time run up after power on, for the sack
+-		* of performance
+-		*/
++		/*
++		 * force gc2235 to do a reset in res change, otherwise it
++		 * can not output normal after switching res. and it is not
++		 * necessary for first time run up after power on, for the sack
++		 * of performance
++		 */
+ 		power_down(sd);
+ 		power_up(sd);
+ 		gc2235_write_reg_array(client, gc2235_init_settings);
+@@ -904,7 +906,8 @@ static int gc2235_s_config(struct v4l2_subdev *sd,
+ 	    (struct camera_sensor_platform_data *)platform_data;
  
  	mutex_lock(&dev->input_lock);
- 	if (enable)
--		dev_dbg(&client->dev, "ov2680_s_stream one\n");
-+		dev_dbg(&client->dev, "%s one\n", __func__);
- 	else
--		dev_dbg(&client->dev, "ov2680_s_stream off\n");
-+		dev_dbg(&client->dev, "%s off\n", __func__);
+-	/* power off the module, then power on it in future
++	/*
++	 * power off the module, then power on it in future
+ 	 * as first power on by board may not fulfill the
+ 	 * power on sequqence needed by the module
+ 	 */
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
+index b93c80471f22..7a20d918a9d5 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
+@@ -50,14 +50,16 @@ struct tbd_data_record_header {
+ static int set_msr_configuration(struct i2c_client *client, uint8_t *bufptr,
+ 				 unsigned int size)
+ {
+-	/* The configuration data contains any number of sequences where
++	/*
++	 * The configuration data contains any number of sequences where
+ 	 * the first byte (that is, uint8_t) that marks the number of bytes
+ 	 * in the sequence to follow, is indeed followed by the indicated
+ 	 * number of bytes of actual data to be written to sensor.
+ 	 * By convention, the first two bytes of actual data should be
+ 	 * understood as an address in the sensor address space (hibyte
+ 	 * followed by lobyte) where the remaining data in the sequence
+-	 * will be written. */
++	 * will be written.
++	 */
  
- 	ret = ov2680_write_reg(client, 1, OV2680_SW_STREAM,
- 			       enable ? OV2680_START_STREAMING :
-@@ -1227,7 +1227,7 @@ static int ov2680_remove(struct i2c_client *client)
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct ov2680_device *dev = to_ov2680_sensor(sd);
+ 	u8 *ptr = bufptr;
  
--	dev_dbg(&client->dev, "ov2680_remove...\n");
-+	dev_dbg(&client->dev, "%s...\n", __func__);
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+index 465fc4468442..f314e5fed9cb 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+@@ -475,10 +475,12 @@ static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
+ 	if (!dev || !dev->platform_data)
+ 		return -ENODEV;
  
- 	dev->platform_data->csi_cfg(sd, 0);
+-	/* Note: current modules wire only one GPIO signal (RESET#),
++	/*
++	 * Note: current modules wire only one GPIO signal (RESET#),
+ 	 * but the schematic wires up two to the connector.  BIOS
+ 	 * versions have been unfortunately inconsistent with which
+-	 * ACPI index RESET# is on, so hit both */
++	 * ACPI index RESET# is on, so hit both
++	 */
  
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-index d046a9804f63..69409f8447b5 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-@@ -1175,7 +1175,7 @@ static int ov2722_remove(struct i2c_client *client)
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct ov2722_device *dev = to_ov2722_sensor(sd);
+ 	if (flag) {
+ 		ret = dev->platform_data->gpio0_ctrl(sd, 0);
+@@ -560,7 +562,7 @@ static int power_down(struct v4l2_subdev *sd)
+ 	if (ret)
+ 		dev_err(&client->dev, "vprog failed.\n");
  
--	dev_dbg(&client->dev, "ov2722_remove...\n");
-+	dev_dbg(&client->dev, "%s...\n", __func__);
+-	/*according to DS, 20ms is needed after power down*/
++	/* according to DS, 20ms is needed after power down */
+ 	msleep(20);
  
- 	dev->platform_data->csi_cfg(sd, 0);
- 	v4l2_ctrl_handler_free(&dev->ctrl_handler);
+ 	return ret;
+@@ -947,7 +949,7 @@ static int mt9m114_g_focal(struct v4l2_subdev *sd, s32 *val)
+ 
+ static int mt9m114_g_fnumber(struct v4l2_subdev *sd, s32 *val)
+ {
+-	/*const f number for mt9m114*/
++	/* const f number for mt9m114 */
+ 	*val = (MT9M114_F_NUMBER_DEFAULT_NUM << 16) | MT9M114_F_NUMBER_DEM;
+ 	return 0;
+ }
+@@ -1014,13 +1016,13 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
+ 	AnalogGain = exposure->gain[0];
+ 	DigitalGain = exposure->gain[1];
+ 	if (!dev->streamon) {
+-		/*Save the first exposure values while stream is off*/
++		/* Save the first exposure values while stream is off */
+ 		dev->first_exp = coarse_integration;
+ 		dev->first_gain = AnalogGain;
+ 		dev->first_diggain = DigitalGain;
+ 	}
+-	/* DigitalGain = 0x400 * (((u16) DigitalGain) >> 8) +
+-	((unsigned int)(0x400 * (((u16) DigitalGain) & 0xFF)) >>8); */
++	/* DigitalGain = 0x400 * (((u16) DigitalGain) >> 8) +		*/
++	/* ((unsigned int)(0x400 * (((u16) DigitalGain) & 0xFF)) >>8);	*/
+ 
+ 	/* set frame length */
+ 	if (FLines < coarse_integration + 6)
+@@ -1034,8 +1036,10 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
+ 	}
+ 
+ 	/* set coarse integration */
+-	/* 3A provide real exposure time.
+-		should not translate to any value here. */
++	/*
++	 * 3A provide real exposure time.
++	 * should not translate to any value here.
++	 */
+ 	ret = mt9m114_write_reg(client, MISENSOR_16BIT,
+ 				REG_EXPO_COARSE, (u16)(coarse_integration));
+ 	if (ret) {
+@@ -1044,7 +1048,7 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
+ 	}
+ 
+ 	/*
+-	// set analog/digital gain
++	 * set analog/digital gain
+ 	switch(AnalogGain)
+ 	{
+ 	case 0:
+@@ -1069,8 +1073,10 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
+ 	*/
+ 	if (DigitalGain >= 16 || DigitalGain <= 1)
+ 		DigitalGain = 1;
+-	/* AnalogGainToWrite =
+-		(u16)((DigitalGain << 12) | AnalogGainToWrite); */
++
++	/*
++	 * AnalogGainToWrite = (u16)((DigitalGain << 12) | AnalogGainToWrite);
++	 */
+ 	AnalogGainToWrite = (u16)((DigitalGain << 12) | (u16)AnalogGain);
+ 	ret = mt9m114_write_reg(client, MISENSOR_16BIT,
+ 				REG_GAIN, AnalogGainToWrite);
+@@ -1095,8 +1101,10 @@ static long mt9m114_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
+ 	return 0;
+ }
+ 
+-/* This returns the exposure time being used. This should only be used
+-   for filling in EXIF data, not for actual image processing. */
++/*
++ * This returns the exposure time being used. This should only be used
++ * for filling in EXIF data, not for actual image processing.
++ */
+ static int mt9m114_g_exposure(struct v4l2_subdev *sd, s32 *value)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+@@ -1247,7 +1255,8 @@ static int mt9m114_s_ev(struct v4l2_subdev *sd, s32 val)
+ 	s32 luma = 0x37;
+ 	int err;
+ 
+-	/* EV value only support -2 to 2
++	/*
++	 * EV value only support -2 to 2
+ 	 * 0: 0x37, 1:0x47, 2:0x57, -1:0x27, -2:0x17
+ 	 */
+ 	if (val < -2 || val > 2)
+@@ -1295,9 +1304,10 @@ static int mt9m114_g_ev(struct v4l2_subdev *sd, s32 *val)
+ 	return 0;
+ }
+ 
+-/* Fake interface
++/*
++ * Fake interface
+  * mt9m114 now can not support 3a_lock
+-*/
++ */
+ static int mt9m114_s_3a_lock(struct v4l2_subdev *sd, s32 val)
+ {
+ 	aaalock = val;
+@@ -1843,7 +1853,7 @@ static int mt9m114_probe(struct i2c_client *client)
+ 		return ret;
+ 	}
+ 
+-	/*TODO add format code here*/
++	/* TODO add format code here */
+ 	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+ 	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	dev->format.code = MEDIA_BUS_FMT_SGRBG10_1X10;
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+index c17615149f46..4571f4328b80 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+@@ -127,7 +127,7 @@ static int ov2680_g_focal(struct v4l2_subdev *sd, s32 *val)
+ 
+ static int ov2680_g_fnumber(struct v4l2_subdev *sd, s32 *val)
+ {
+-	/*const f number for ov2680*/
++	/* const f number for ov2680 */
+ 
+ 	*val = (OV2680_F_NUMBER_DEFAULT_NUM << 16) | OV2680_F_NUMBER_DEM;
+ 	return 0;
+@@ -399,7 +399,8 @@ static long ov2680_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
+ 	return 0;
+ }
+ 
+-/* This returns the exposure time being used. This should only be used
++/*
++ * This returns the exposure time being used. This should only be used
+  * for filling in EXIF data, not for actual image processing.
+  */
+ static int ov2680_q_exposure(struct v4l2_subdev *sd, s32 *value)
+@@ -728,11 +729,13 @@ static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
+ 	if (!dev || !dev->platform_data)
+ 		return -ENODEV;
+ 
+-	/* The OV2680 documents only one GPIO input (#XSHUTDN), but
++	/*
++	 * The OV2680 documents only one GPIO input (#XSHUTDN), but
+ 	 * existing integrations often wire two (reset/power_down)
+ 	 * because that is the way other sensors work.  There is no
+ 	 * way to tell how it is wired internally, so existing
+-	 * firmwares expose both and we drive them symmetrically. */
++	 * firmwares expose both and we drive them symmetrically.
++	 */
+ 	if (flag) {
+ 		ret = dev->platform_data->gpio0_ctrl(sd, 1);
+ 		usleep_range(10000, 15000);
+@@ -978,7 +981,8 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 		goto err;
+ 	}
+ 
+-	/*recall flip functions to avoid flip registers
++	/*
++	 * recall flip functions to avoid flip registers
+ 	 * were overridden by default setting
+ 	 */
+ 	if (h_flag)
+@@ -988,7 +992,8 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 
+ 	v4l2_info(client, "\n%s idx %d\n", __func__, dev->fmt_idx);
+ 
+-	/*ret = startup(sd);
++	/*
++	 * ret = startup(sd);
+ 	 * if (ret)
+ 	 * dev_err(&client->dev, "ov2680 startup err\n");
+ 	 */
+@@ -1097,7 +1102,8 @@ static int ov2680_s_config(struct v4l2_subdev *sd,
+ 	    (struct camera_sensor_platform_data *)platform_data;
+ 
+ 	mutex_lock(&dev->input_lock);
+-	/* power off the module, then power on it in future
++	/*
++	 * power off the module, then power on it in future
+ 	 * as first power on by board may not fulfill the
+ 	 * power on sequqence needed by the module
+ 	 */
 -- 
 2.25.1
 
