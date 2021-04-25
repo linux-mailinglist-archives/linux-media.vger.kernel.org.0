@@ -2,288 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A4FB36A40A
-	for <lists+linux-media@lfdr.de>; Sun, 25 Apr 2021 04:00:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 852DB36A4F6
+	for <lists+linux-media@lfdr.de>; Sun, 25 Apr 2021 07:46:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229771AbhDYCBO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Apr 2021 22:01:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50344 "EHLO
+        id S229518AbhDYFrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Apr 2021 01:47:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229580AbhDYCBO (ORCPT
+        with ESMTP id S229480AbhDYFrH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Apr 2021 22:01:14 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5E57C06174A
-        for <linux-media@vger.kernel.org>; Sat, 24 Apr 2021 19:00:34 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id nk8so11881712pjb.3
-        for <linux-media@vger.kernel.org>; Sat, 24 Apr 2021 19:00:34 -0700 (PDT)
+        Sun, 25 Apr 2021 01:47:07 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17E51C061574
+        for <linux-media@vger.kernel.org>; Sat, 24 Apr 2021 22:46:28 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id u14-20020a17090a1f0eb029014e38011b09so3441122pja.5
+        for <linux-media@vger.kernel.org>; Sat, 24 Apr 2021 22:46:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=pfKEWUq+7HdZXyLv9uBgLMyTjIFIuvFO3U3TOTycvWs=;
-        b=TXA4W+j6ZPgZcjznEbUBFH/sa2ePdug4fG/3ZZgIQUHaMBbgAikBel4x05+lMn6TKx
-         BTwGfiEIE9CMhmw3LRHRD7MM9nRcl0CsiU9SSZX0YKUfe6+BEKugvq73PaQH/bBRG5+q
-         W/QelVx/yeaSJIR+xD04abdDjKSAvPtDLHZ0MWC0jt3NkSsWIpdOTAJpkC7pAiMjLMyM
-         1DH3XT6SSzdI7tZxo0adlAJuQKWcFq9jP545WOxsj2PMN3mm9NTTn6mE3dyLg0M5TUu6
-         ZoX8q8epntw7ynIcY0m1xWUQrVaaettt42UkUiU2qf+x4aEzd0EkXNrTprx/s8BhT9fN
-         kvVw==
+        bh=9O0xRZnKs7aJBNieao+VkpuPy0Ae4mhPSP9H0CH2CSs=;
+        b=fhAmNiBxX2qqI20ZBaLJSQH4w0AURGrg+QN2VUIjMSAqdy6xT6sYP9pjp8GXRKb00k
+         zrILN4xz9Byn0ezjGRt1gN/sDVcjfU3u3SpNijdmPfkX8gLE+bimD+L/0kBdfhwpFXbs
+         xXz/ekuoFlXoLE1rjQzhPLxJrZ7FpdNeBpwUcgRNdZ21deQjQF8yW9EP59J3Vf0+341G
+         I2jTDQXdDOKC1a/JvdgfCkgg9EOvFovWZKXltEkdy1bzPF6/SvyGirrZYDaOSsUHTnD+
+         eVGgiWF68BTw5b4hCEstuihSKKtDVQv8iOx9ZuPAhO6oka/mTk0xekV4WJC7DtonHtNo
+         fVWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=pfKEWUq+7HdZXyLv9uBgLMyTjIFIuvFO3U3TOTycvWs=;
-        b=oR2b9l1DmGy4RTK+b1rZq+RgBEZeb0jxjQX1oweOtc1bS0vgI37UR+0s6IcZOl/JWg
-         Z6RJ7n0vBJpSFqL9VPXCeQo08Ji1b17c8pE5rDYL4KlVP3mLuyebo+lVBTzIvgBjFTOq
-         PQUwn7vSpEOoORa/aeUhZWi7zdZRlfkHPmM3oHM34Q7Dibzpab3g3T/tGGk3Gof/m61d
-         4Q4UBu8C6uia14DrjRLE+UEBxc+xvyvGv/maJUBLOZLOptemM87fNyJmaj6zpWM81ByS
-         BNFnieo25td2IRtSvVAaI5j7tcbD3frRIh6fM4l8VoFbYe1Go774TVJlXtvGfllZ9ZS5
-         1kqw==
-X-Gm-Message-State: AOAM530TwrJg8o6UQLhVt9SJAQGa7HaO3S0U2TXAKCrZ8MLGjeeyEFt0
-        3Ag++n/BdQKjq6cbGmD/eAzbUw==
-X-Google-Smtp-Source: ABdhPJyLTHM+AeR2NF5iMsqOHSN/wM4K9/TwkZNXzXYcU1XACN4MG5MKrwnhNLEYGlAWcX8nSTQu3A==
-X-Received: by 2002:a17:902:9b96:b029:ec:b399:8389 with SMTP id y22-20020a1709029b96b02900ecb3998389mr11387230plp.1.1619316034219;
-        Sat, 24 Apr 2021 19:00:34 -0700 (PDT)
-Received: from localhost.localdomain (80.251.214.228.16clouds.com. [80.251.214.228])
-        by smtp.gmail.com with ESMTPSA id f20sm8101273pgb.47.2021.04.24.19.00.28
+        bh=9O0xRZnKs7aJBNieao+VkpuPy0Ae4mhPSP9H0CH2CSs=;
+        b=LF78OBMky7ZwYjMcxvIO1Fa5g5llHJdN1Ycpyj+tff5f4n1l/zl1eYxndkss2QksQI
+         UQQn8vjuHf3R9eDr24eCHaxIXeiecdsByyUp9koxHBOW/r0seQX9ClyHvf23wmZqWqWL
+         OlXrxUvKqkPQnZ0JhQsU7mqc0pcwSwqgUP/fFnhm13oQgPIOxCQQFegJuSBMwsGz0gq1
+         X0CvV21qyii9rnDBGC4kCoGgAQOjwsKTmXKoRmRjjTn5wcW15P81dumUBsf+D7sKx6+b
+         Gr80YfQ+mqOXifuoJpIYnqGTF2APkF4CWOEY83RN0at4FukualXJ16KfS6EC37YZadYb
+         H5KQ==
+X-Gm-Message-State: AOAM5305fGvoPMAaDEzEVCk2bchnuc5YJnTgLqf8YqG6/ieyrDgl6DYQ
+        KiBvPE7NgflMVYX6wpHWaPt2L725zpapHw==
+X-Google-Smtp-Source: ABdhPJwvv/u6rr8ESyGam4My5vCT9sdBxaakzSTit58aSje4cDcH+YxxMHDbkBHmTPqLLqt4H+f4Lg==
+X-Received: by 2002:a17:90a:ad84:: with SMTP id s4mr6563367pjq.162.1619329587557;
+        Sat, 24 Apr 2021 22:46:27 -0700 (PDT)
+Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
+        by smtp.gmail.com with ESMTPSA id q25sm7823251pfs.152.2021.04.24.22.46.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Apr 2021 19:00:33 -0700 (PDT)
-From:   Shawn Guo <shawn.guo@linaro.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Stuart Hayes <stuart.w.hayes@gmail.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        James Smart <james.smart@broadcom.com>,
-        Dick Kennedy <dick.kennedy@broadcom.com>,
-        Timur Tabi <timur@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, dmaengine@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
-        alsa-devel@alsa-project.org, Shawn Guo <shawn.guo@linaro.org>
-Subject: [PATCH] firmware: replace HOTPLUG with UEVENT in FW_ACTION defines
-Date:   Sun, 25 Apr 2021 10:00:24 +0800
-Message-Id: <20210425020024.28057-1-shawn.guo@linaro.org>
+        Sat, 24 Apr 2021 22:46:27 -0700 (PDT)
+From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: [PATCH] cec-follower: detect the cessation of Audio Rate Control messages
+Date:   Sat, 24 Apr 2021 22:46:14 -0700
+Message-Id: <20210425054614.27822-1-deborahbrouwer3563@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With commit 312c004d36ce ("[PATCH] driver core: replace "hotplug" by
-"uevent"") already in the tree over a decade, update the name of
-FW_ACTION defines to follow semantics, and reflect what the defines are
-really meant for, i.e. whether or not generate user space event.
+If the controlling device simply stops sending audio rate messages, give
+the cec-follower the ability to detect that it has not received an audio
+rate message within 2 seconds as required.  The cec-follower will quit the
+audio rate controlled mode.  Eliminate the need to measure an interval
+between two audio rate messages.
 
-Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 ---
- drivers/dma/imx-sdma.c                      |  2 +-
- drivers/media/platform/exynos4-is/fimc-is.c |  2 +-
- drivers/mfd/iqs62x.c                        |  2 +-
- drivers/misc/lattice-ecp3-config.c          |  2 +-
- drivers/net/wireless/ti/wlcore/main.c       |  2 +-
- drivers/platform/x86/dell/dell_rbu.c        |  2 +-
- drivers/remoteproc/remoteproc_core.c        |  2 +-
- drivers/scsi/lpfc/lpfc_init.c               |  2 +-
- drivers/tty/serial/ucc_uart.c               |  2 +-
- include/linux/firmware.h                    |  4 ++--
- lib/test_firmware.c                         | 10 +++++-----
- sound/soc/codecs/wm8958-dsp2.c              |  6 +++---
- 12 files changed, 19 insertions(+), 19 deletions(-)
+ utils/cec-follower/cec-processing.cpp | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/dma/imx-sdma.c b/drivers/dma/imx-sdma.c
-index d5590c08db51..e2b559945c11 100644
---- a/drivers/dma/imx-sdma.c
-+++ b/drivers/dma/imx-sdma.c
-@@ -1829,7 +1829,7 @@ static int sdma_get_firmware(struct sdma_engine *sdma,
- 	int ret;
- 
- 	ret = request_firmware_nowait(THIS_MODULE,
--			FW_ACTION_HOTPLUG, fw_name, sdma->dev,
-+			FW_ACTION_UEVENT, fw_name, sdma->dev,
- 			GFP_KERNEL, sdma, sdma_load_firmware);
- 
- 	return ret;
-diff --git a/drivers/media/platform/exynos4-is/fimc-is.c b/drivers/media/platform/exynos4-is/fimc-is.c
-index 972d9601d236..8f3ba74f19f2 100644
---- a/drivers/media/platform/exynos4-is/fimc-is.c
-+++ b/drivers/media/platform/exynos4-is/fimc-is.c
-@@ -436,7 +436,7 @@ static void fimc_is_load_firmware(const struct firmware *fw, void *context)
- static int fimc_is_request_firmware(struct fimc_is *is, const char *fw_name)
- {
- 	return request_firmware_nowait(THIS_MODULE,
--				FW_ACTION_HOTPLUG, fw_name, &is->pdev->dev,
-+				FW_ACTION_UEVENT, fw_name, &is->pdev->dev,
- 				GFP_KERNEL, is, fimc_is_load_firmware);
+diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+index 93db4059..111b3604 100644
+--- a/utils/cec-follower/cec-processing.cpp
++++ b/utils/cec-follower/cec-processing.cpp
+@@ -233,18 +233,20 @@ static __u8 current_power_state(struct node *node)
+ 	return CEC_OP_POWER_STATUS_TO_STANDBY;
  }
  
-diff --git a/drivers/mfd/iqs62x.c b/drivers/mfd/iqs62x.c
-index d1fc38a78acb..9805cf191245 100644
---- a/drivers/mfd/iqs62x.c
-+++ b/drivers/mfd/iqs62x.c
-@@ -998,7 +998,7 @@ static int iqs62x_probe(struct i2c_client *client)
- 
- 	device_property_read_string(&client->dev, "firmware-name", &fw_name);
- 
--	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
-+	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
- 				      fw_name ? : iqs62x->dev_desc->fw_name,
- 				      &client->dev, GFP_KERNEL, iqs62x,
- 				      iqs62x_firmware_load);
-diff --git a/drivers/misc/lattice-ecp3-config.c b/drivers/misc/lattice-ecp3-config.c
-index 5eaf74447ca1..0f54730c7ed5 100644
---- a/drivers/misc/lattice-ecp3-config.c
-+++ b/drivers/misc/lattice-ecp3-config.c
-@@ -198,7 +198,7 @@ static int lattice_ecp3_probe(struct spi_device *spi)
- 	spi_set_drvdata(spi, data);
- 
- 	init_completion(&data->fw_loaded);
--	err = request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
-+	err = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
- 				      FIRMWARE_NAME, &spi->dev,
- 				      GFP_KERNEL, spi, firmware_load);
- 	if (err) {
-diff --git a/drivers/net/wireless/ti/wlcore/main.c b/drivers/net/wireless/ti/wlcore/main.c
-index 8509b989940c..5bf15355c2b3 100644
---- a/drivers/net/wireless/ti/wlcore/main.c
-+++ b/drivers/net/wireless/ti/wlcore/main.c
-@@ -6784,7 +6784,7 @@ int wlcore_probe(struct wl1271 *wl, struct platform_device *pdev)
- 
- 	if (pdev_data->family && pdev_data->family->nvs_name) {
- 		nvs_name = pdev_data->family->nvs_name;
--		ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
-+		ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
- 					      nvs_name, &pdev->dev, GFP_KERNEL,
- 					      wl, wlcore_nvs_cb);
- 		if (ret < 0) {
-diff --git a/drivers/platform/x86/dell/dell_rbu.c b/drivers/platform/x86/dell/dell_rbu.c
-index 03c3ff34bcf5..8758d717ae5c 100644
---- a/drivers/platform/x86/dell/dell_rbu.c
-+++ b/drivers/platform/x86/dell/dell_rbu.c
-@@ -573,7 +573,7 @@ static ssize_t image_type_write(struct file *filp, struct kobject *kobj,
- 		if (!rbu_data.entry_created) {
- 			spin_unlock(&rbu_data.lock);
- 			req_firm_rc = request_firmware_nowait(THIS_MODULE,
--				FW_ACTION_NOHOTPLUG, "dell_rbu",
-+				FW_ACTION_NOUEVENT, "dell_rbu",
- 				&rbu_device->dev, GFP_KERNEL, &context,
- 				callbackfn_rbu);
- 			if (req_firm_rc) {
-diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-index ab150765d124..c3e01e95c0d2 100644
---- a/drivers/remoteproc/remoteproc_core.c
-+++ b/drivers/remoteproc/remoteproc_core.c
-@@ -1628,7 +1628,7 @@ static int rproc_trigger_auto_boot(struct rproc *rproc)
- 	 * We're initiating an asynchronous firmware loading, so we can
- 	 * be built-in kernel code, without hanging the boot process.
+-static void aud_rate_msg_interval_check(__u64 ts_new, __u64 ts_old)
++static void aud_rate_msg_interval_check(__u64 ts_new, struct node *node)
+ {
+ 	/*
+-	 * The interval between messages is not relevant if this is the
+-	 * first audio rate control message or if the previous message
+-	 * turned off the audio rate control.
++	 * The interval since the last audio rate message is not relevant
++	 * unless the Source is currently in audio rate controlled mode.
  	 */
--	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
-+	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
- 				      rproc->firmware, &rproc->dev, GFP_KERNEL,
- 				      rproc, rproc_auto_boot_callback);
- 	if (ret < 0)
-diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index 71f340dd4fbd..53546b079553 100644
---- a/drivers/scsi/lpfc/lpfc_init.c
-+++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -13159,7 +13159,7 @@ lpfc_sli4_request_firmware_update(struct lpfc_hba *phba, uint8_t fw_upgrade)
- 	snprintf(file_name, ELX_MODEL_NAME_SIZE, "%s.grp", phba->ModelName);
++	__u64 ts_old = node->state.last_aud_rate_rx_ts;
+ 	if (ts_old) {
+ 		unsigned interval = (ts_new - ts_old) / 1000000000;
+ 		if (interval > MAX_AUD_RATE_MSG_INTERVAL) {
+-			warn("The interval between Audio Rate Control messages was greater\n");
++			warn("The interval since the last Audio Rate Control message was greater\n");
+ 			warn("than the Maxiumum Audio Rate Message Interval (2s).\n");
++			warn("Turning off audio rate control.\n");
++			node->state.last_aud_rate_rx_ts = 0;
+ 		}
+ 	}
+ }
+@@ -802,7 +804,6 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
  
- 	if (fw_upgrade == INT_FW_UPGRADE) {
--		ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
-+		ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
- 					file_name, &phba->pcidev->dev,
- 					GFP_KERNEL, (void *)phba,
- 					lpfc_write_firmware);
-diff --git a/drivers/tty/serial/ucc_uart.c b/drivers/tty/serial/ucc_uart.c
-index d6a8604157ab..e651c9aafdd0 100644
---- a/drivers/tty/serial/ucc_uart.c
-+++ b/drivers/tty/serial/ucc_uart.c
-@@ -1227,7 +1227,7 @@ static int soft_uart_init(struct platform_device *ofdev)
- 		 * kernel, then we use it.
- 		 */
- 		ret = request_firmware_nowait(THIS_MODULE,
--					      FW_ACTION_HOTPLUG, filename, &ofdev->dev,
-+					      FW_ACTION_UEVENT, filename, &ofdev->dev,
- 					      GFP_KERNEL, &ofdev->dev, uart_firmware_cont);
- 		if (ret) {
- 			dev_err(&ofdev->dev,
-diff --git a/include/linux/firmware.h b/include/linux/firmware.h
-index 84e346ae766e..25109192cebe 100644
---- a/include/linux/firmware.h
-+++ b/include/linux/firmware.h
-@@ -6,8 +6,8 @@
- #include <linux/compiler.h>
- #include <linux/gfp.h>
- 
--#define FW_ACTION_NOHOTPLUG 0
--#define FW_ACTION_HOTPLUG 1
-+#define FW_ACTION_NOUEVENT 0
-+#define FW_ACTION_UEVENT 1
- 
- struct firmware {
- 	size_t size;
-diff --git a/lib/test_firmware.c b/lib/test_firmware.c
-index b6fe89add9fe..1bccd6cd5f48 100644
---- a/lib/test_firmware.c
-+++ b/lib/test_firmware.c
-@@ -260,8 +260,8 @@ static ssize_t config_show(struct device *dev,
- 	len += scnprintf(buf + len, PAGE_SIZE - len,
- 			"send_uevent:\t\t%s\n",
- 			test_fw_config->send_uevent ?
--			"FW_ACTION_HOTPLUG" :
--			"FW_ACTION_NOHOTPLUG");
-+			"FW_ACTION_UEVENT" :
-+			"FW_ACTION_NOUEVENT");
- 	len += scnprintf(buf + len, PAGE_SIZE - len,
- 			"into_buf:\t\t%s\n",
- 			test_fw_config->into_buf ? "true" : "false");
-@@ -729,7 +729,7 @@ static ssize_t trigger_custom_fallback_store(struct device *dev,
- 	mutex_lock(&test_fw_mutex);
- 	release_firmware(test_firmware);
- 	test_firmware = NULL;
--	rc = request_firmware_nowait(THIS_MODULE, FW_ACTION_NOHOTPLUG, name,
-+	rc = request_firmware_nowait(THIS_MODULE, FW_ACTION_NOUEVENT, name,
- 				     dev, GFP_KERNEL, NULL,
- 				     trigger_async_request_cb);
- 	if (rc) {
-@@ -938,8 +938,8 @@ ssize_t trigger_batched_requests_async_store(struct device *dev,
- 	pr_info("batched loading '%s' custom fallback mechanism %u times\n",
- 		test_fw_config->name, test_fw_config->num_requests);
- 
--	send_uevent = test_fw_config->send_uevent ? FW_ACTION_HOTPLUG :
--		FW_ACTION_NOHOTPLUG;
-+	send_uevent = test_fw_config->send_uevent ? FW_ACTION_UEVENT :
-+		FW_ACTION_NOUEVENT;
- 
- 	for (i = 0; i < test_fw_config->num_requests; i++) {
- 		req = &test_fw_config->reqs[i];
-diff --git a/sound/soc/codecs/wm8958-dsp2.c b/sound/soc/codecs/wm8958-dsp2.c
-index 3bce9a14f0f3..a5ea1645993b 100644
---- a/sound/soc/codecs/wm8958-dsp2.c
-+++ b/sound/soc/codecs/wm8958-dsp2.c
-@@ -912,13 +912,13 @@ void wm8958_dsp2_init(struct snd_soc_component *component)
- 
- 
- 	/* We don't *require* firmware and don't want to delay boot */
--	request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
-+	request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
- 				"wm8958_mbc.wfw", component->dev, GFP_KERNEL,
- 				component, wm8958_mbc_loaded);
--	request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
-+	request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
- 				"wm8958_mbc_vss.wfw", component->dev, GFP_KERNEL,
- 				component, wm8958_mbc_vss_loaded);
--	request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
-+	request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
- 				"wm8958_enh_eq.wfw", component->dev, GFP_KERNEL,
- 				component, wm8958_enh_eq_loaded);
- 
+ 		switch (msg.msg[2]) {
+ 		case CEC_OP_AUD_RATE_OFF:
+-			aud_rate_msg_interval_check(msg.rx_ts, node->state.last_aud_rate_rx_ts);
+ 			node->state.last_aud_rate_rx_ts = 0;
+ 			return;
+ 		case CEC_OP_AUD_RATE_WIDE_STD:
+@@ -811,7 +812,6 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 		case CEC_OP_AUD_RATE_NARROW_STD:
+ 		case CEC_OP_AUD_RATE_NARROW_FAST:
+ 		case CEC_OP_AUD_RATE_NARROW_SLOW:
+-			aud_rate_msg_interval_check(msg.rx_ts, node->state.last_aud_rate_rx_ts);
+ 			node->state.last_aud_rate_rx_ts = msg.rx_ts;
+ 			return;
+ 		default:
+@@ -1033,6 +1033,9 @@ void testProcessing(struct node *node, bool wallclock)
+ 				node->state.rc_state = NOPRESS;
+ 			}
+ 		}
++
++		if (node->has_aud_rate)
++			aud_rate_msg_interval_check(ts_now, node);
+ 	}
+ 	mode = CEC_MODE_INITIATOR;
+ 	doioctl(node, CEC_S_MODE, &mode);
 -- 
 2.17.1
 
