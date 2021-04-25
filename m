@@ -2,107 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DEDE36A58D
-	for <lists+linux-media@lfdr.de>; Sun, 25 Apr 2021 09:34:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B73236A5C3
+	for <lists+linux-media@lfdr.de>; Sun, 25 Apr 2021 10:38:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229579AbhDYHeq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Apr 2021 03:34:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34592 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229522AbhDYHeq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Apr 2021 03:34:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D18D961245;
-        Sun, 25 Apr 2021 07:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619336046;
-        bh=WCsSHB91cvmf5ZeAXu+txZXJ3S/cP/GNMzA77rjuNbE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=q1XswQI3mxMpGcDvpMyZljYfgw5fSLCE1OaoEPKuANpgRNF/l1ND6Se160hAmXY2V
-         WXsK309I7CYtICtk/SZ1nvEJRBpn1+vyAb/P6rKYKnqt7swUW4G1LM16V7f3Ki5hGL
-         6jIWwzqr2Uat6+NgotfFX1qhL914GSyag3QNQK8d6Fq1ux1vwZjFNqhCT53YkaLdTE
-         TS2qfTejBqCr4vVDIHrt8whLwMVintjtCjDUVJJmyRNx/cBFyrNVGMPw+2ZKkhqhxJ
-         c/I7P/Zd+iGUvrgWXjnwivWQGUZ9oTtanEw8H5/Digtge9jnfpQm/dvW+lGWyo3VLQ
-         i6HJsRhSlKs+g==
-Date:   Sun, 25 Apr 2021 10:33:57 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Peter.Enderborg@sony.com
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        adobriyan@gmail.com, akpm@linux-foundation.org,
-        songmuchun@bytedance.com, guro@fb.com, shakeelb@google.com,
-        mhocko@suse.com, neilb@suse.de, samitolvanen@google.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, willy@infradead.org
-Subject: Re: [PATCH v5] dma-buf: Add DmaBufTotal counter in meminfo
-Message-ID: <YIUbZWm+jW21vYJ9@kernel.org>
-References: <YH6Xv00ddYfMA3Lg@phenom.ffwll.local>
- <176e7e71-59b7-b288-9483-10e0f42a7a3f@sony.com>
- <YH63iPzbGWzb676T@phenom.ffwll.local>
- <a60d1eaf-f9f8-e0f3-d214-15ce2c0635c2@sony.com>
- <YH/tHFBtIawBfGBl@phenom.ffwll.local>
- <cbde932e-8887-391f-4a1d-515e5c56c01d@sony.com>
- <YIBFbh4Dd1XaDbto@kernel.org>
- <84e0c6d9-74c6-5fa8-f75a-45c8ec995ac2@sony.com>
- <YIEugg9RIVSReN97@kernel.org>
- <ae091d3d-623b-ce18-e0f2-1591be6db83e@sony.com>
+        id S229838AbhDYIis (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Apr 2021 04:38:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50864 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229722AbhDYIip (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 25 Apr 2021 04:38:45 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2D2C06175F
+        for <linux-media@vger.kernel.org>; Sun, 25 Apr 2021 01:38:05 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id e9so10370823plj.2
+        for <linux-media@vger.kernel.org>; Sun, 25 Apr 2021 01:38:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3W3NlpZ/7gGHJzSngRPZUKdly0z6CYcYYet1o/3cStA=;
+        b=DXhgLEsi/UC0GR5eFowFBe6fqTQ08/CSV6CJndatd25PlCEktjX6zCvjc3ZChBLqXb
+         fSYFeoB1EtLxUcP7zuBG6mt6+6dv+g9Dwt2WD/DdcWVMFbz++XjMeHA9MO2A0mor7pem
+         uNRuFOmpx5UJ6r1mtRpyCmsPaPwgQUSsrw4azukPCNco++CoqM9+kgWXJ92EzFgRAF97
+         6Q6OQgpNecQl25PNJd6A3M0OcP+el5d/oCjkpuZ8nzcVPJF0P+lI3KjaWuLvrtoi4Hzb
+         7T02TQpjumvtN7bJCUMGMxdFPncIWy32CBPuYhIzuo/4DhgV5scbUJljgZDMqXkI9duF
+         4o+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3W3NlpZ/7gGHJzSngRPZUKdly0z6CYcYYet1o/3cStA=;
+        b=rO9iajQBS7OUvGYepnKYob0qTxHJ6jBt6csjvDk7R6MwYhbegH/ozc3HcAZTVGl2Ju
+         lFw4+2WnENbjlLHFpG4Sp2BFGHbzgu0ZLZanLrRpA/E3c9/mocWdVFqLCwkR9AjVpM7L
+         8DKfgWC+8s/dU0foPh3s1v+oNqiAz9XAC1vej9GmKJQDaEhCbJUHyN42FLGXDoiCjkAI
+         Mhv82UXNKefYfeqxk5Be6Lb25vwyBUSduSpQQZfrpgQ4WPkqw75GkMygCXnSG3ha6OpY
+         XInewIQySNveeqwzTK/RSfNIaanhm0FSH9MNz5EkJ9KHXZC5mK0EmSmuFKWugdf5snWo
+         VK2w==
+X-Gm-Message-State: AOAM5306WXDOymE5rLBB5tJLuRTdGtUV15op4pfAjhFOa/fBEPNMf93N
+        k4kqhlI5rcWo3J5PtFG1wITeyw==
+X-Google-Smtp-Source: ABdhPJw2m1tS8wv7y7a1jo2Ew6sVzyL43/PoChNVNkvcYnSnbekk+H2+GIggB/9rbKvDSb23HTPzHw==
+X-Received: by 2002:a17:902:9347:b029:e8:c21c:f951 with SMTP id g7-20020a1709029347b02900e8c21cf951mr12640722plp.14.1619339884119;
+        Sun, 25 Apr 2021 01:38:04 -0700 (PDT)
+Received: from dragon (80.251.214.228.16clouds.com. [80.251.214.228])
+        by smtp.gmail.com with ESMTPSA id fw24sm8820653pjb.21.2021.04.25.01.37.59
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 25 Apr 2021 01:38:03 -0700 (PDT)
+Date:   Sun, 25 Apr 2021 16:37:55 +0800
+From:   Shawn Guo <shawn.guo@linaro.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Stuart Hayes <stuart.w.hayes@gmail.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        James Smart <james.smart@broadcom.com>,
+        Dick Kennedy <dick.kennedy@broadcom.com>,
+        Timur Tabi <timur@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, dmaengine@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH] firmware: replace HOTPLUG with UEVENT in FW_ACTION
+ defines
+Message-ID: <20210425083754.GF15093@dragon>
+References: <20210425020024.28057-1-shawn.guo@linaro.org>
+ <YIUI3TZf/sZ6Sd3K@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ae091d3d-623b-ce18-e0f2-1591be6db83e@sony.com>
+In-Reply-To: <YIUI3TZf/sZ6Sd3K@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 22, 2021 at 02:08:51PM +0000, Peter.Enderborg@sony.com wrote:
-> On 4/22/21 10:06 AM, Mike Rapoport wrote:
-> > So the flow is like this:
-> >
-> > * a user has a problem and reports it to an application developer; at best
-> >   the user runs simple and limited app to collect some data
-> > * if the application developer considers this issue as a system related
-> >   they can open adb and collect some more information about the system
-> >   using non-root shell with selinux policy restrictions and send this
-> >   information to the device manufacturer.
-> > * the manufacturer continues to debug the issue and at this point as much
-> >   information is possible would have been useful.
-> >
-> > In this flow I still fail to understand why the manufacturer cannot provide
-> > userspace tools that will be able to collect the required information.
-> > These tools not necessarily need to target the end user, they may be only
-> > intended for the application developers, e.g. policy could allow such tool
-> > to access some of the system data only when the system is in developer
-> > mode.
-> >
-> The manufacture is trying to get the tool to work. This is what the
-> patch is about. Even for a application developer a commercial
-> phone is locked down.
-
-Right, but it's still in full control of the manufacturer what's flashed
-there, isn't it?
-So there could be some tools that are only available in the developer mode?
-These tools could have different permissions etc.
-
-> Many vendors allow that you flash some other software like a AOSP.  But
-> that can be very different. Like installing a ubuntu on a PC to debug a
-> Fedora issue.
+On Sun, Apr 25, 2021 at 08:14:53AM +0200, Greg Kroah-Hartman wrote:
+> On Sun, Apr 25, 2021 at 10:00:24AM +0800, Shawn Guo wrote:
+> > With commit 312c004d36ce ("[PATCH] driver core: replace "hotplug" by
+> > "uevent"") already in the tree over a decade, update the name of
+> > FW_ACTION defines to follow semantics, and reflect what the defines are
+> > really meant for, i.e. whether or not generate user space event.
+> > 
+> > Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> > ---
+> >  drivers/dma/imx-sdma.c                      |  2 +-
+> >  drivers/media/platform/exynos4-is/fimc-is.c |  2 +-
+> >  drivers/mfd/iqs62x.c                        |  2 +-
+> >  drivers/misc/lattice-ecp3-config.c          |  2 +-
+> >  drivers/net/wireless/ti/wlcore/main.c       |  2 +-
+> >  drivers/platform/x86/dell/dell_rbu.c        |  2 +-
+> >  drivers/remoteproc/remoteproc_core.c        |  2 +-
+> >  drivers/scsi/lpfc/lpfc_init.c               |  2 +-
+> >  drivers/tty/serial/ucc_uart.c               |  2 +-
+> >  include/linux/firmware.h                    |  4 ++--
+> >  lib/test_firmware.c                         | 10 +++++-----
+> >  sound/soc/codecs/wm8958-dsp2.c              |  6 +++---
+> >  12 files changed, 19 insertions(+), 19 deletions(-)
+> > 
+> > diff --git a/drivers/dma/imx-sdma.c b/drivers/dma/imx-sdma.c
+> > index d5590c08db51..e2b559945c11 100644
+> > --- a/drivers/dma/imx-sdma.c
+> > +++ b/drivers/dma/imx-sdma.c
+> > @@ -1829,7 +1829,7 @@ static int sdma_get_firmware(struct sdma_engine *sdma,
+> >  	int ret;
+> >  
+> >  	ret = request_firmware_nowait(THIS_MODULE,
+> > -			FW_ACTION_HOTPLUG, fw_name, sdma->dev,
+> > +			FW_ACTION_UEVENT, fw_name, sdma->dev,
 > 
-> And sure we can pickup parts of what using the dma-buf. But
-> we can not get the total and be sure that is the total without a
-> proper counter.
+> Naming is hard :)
+> 
+> I can take this after -rc1, but really, is it needed?
+> 
+> What problem does this renaming solve?
 
-If I understand you correctly, a user space tool that scans fdinfo and
-accumulates dma-buf size from there is not accurate enough, that's why an
-atomic counter exposed by kernel is a must.
+To me, it's a leftover from commit 312c004d36ce that made the rename at
+driver core.  With this patch, the define will be more matching its user
+request_firmware_nowait(..., bool uevent, ...).
 
-But if the changes in consumption of dma-bufs are that frequent, I cannot
-see how a global counter will help to identify an issue.
+> Who is the current name
+> confusing?
 
-And if this counter is needed to see if there is a memory leak, summing
-sizes of dma-bufs from fdinfo will identify a leak.
+I'm one at least :)
 
-What am I missing?
-
--- 
-Sincerely yours,
-Mike.
+Shawn
