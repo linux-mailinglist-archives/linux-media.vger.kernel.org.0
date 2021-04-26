@@ -2,194 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 523CB36BC11
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 01:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEB5836BC5E
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 01:51:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232295AbhDZXfa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Apr 2021 19:35:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54960 "EHLO
+        id S234700AbhDZXul (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Apr 2021 19:50:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232022AbhDZXfa (ORCPT
+        with ESMTP id S232022AbhDZXul (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Apr 2021 19:35:30 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D73C061574
-        for <linux-media@vger.kernel.org>; Mon, 26 Apr 2021 16:34:46 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id q6so8483356edr.3
-        for <linux-media@vger.kernel.org>; Mon, 26 Apr 2021 16:34:46 -0700 (PDT)
+        Mon, 26 Apr 2021 19:50:41 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0872FC061574;
+        Mon, 26 Apr 2021 16:49:59 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id w6so25571908pfc.8;
+        Mon, 26 Apr 2021 16:49:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=7q7dD5woCvUF+dF4SsdpwJ1kZB1YsLs1ij7EdhjhTa8=;
-        b=PqR+zB967VO1PilCaCW+x7q1VXcaQXNzU6+QxyJSAkLSte8704b8Mhsfpn/zThr5HD
-         L4JyujVnrRvEe8idnpjkAd4bD5womxvw5BCsPqWhj2bnK9zKq4lMto/ZU/e273DePLFc
-         XywbZ3iKW2fKs67O2tdxHCN32NRMvRQHbJ/QPgKnxa4hq8Gdi9F7PiLFFnVJjQ1BOZGk
-         7jktVKpcGNjR8hRQlMkhk+49CR3FidMSln6uo4yM+AM/IizXm/jhMsBTmp5CCYrL9J6d
-         +FbyKB/63XeiWRNGuWZKUZ+ERI5Ju6zxDPeGh3Eip09gAYr8c5arPUhKIesSPx4yZOFZ
-         kQiQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4Kj0SXA9vsOtoPJRmbl9kO6maA5cV9sB7CgScAwXMzI=;
+        b=PFvUwvqW69maGIZ5IE53RvvUM+/kvn8XSEdtYOjbhbPlzT0Riuw8w7Ts1JFVxIDqpQ
+         hkN+WE+9gKJKaxtoiRgHMpvs9sljBPxeoFTD8nkotwJ/goVrvSwQUvwMUdX0MB/hLWnu
+         MHDlhhg8N/JbcQAJZ2Db5qaoK6tdTEf1BouwU/gi3Jg6UZCryIRDm9+uZZRvWjQ+QUb2
+         +OMRwFtjC+RQpFVbk6gyUexFskpIjmkRZODzFO+vpHsN+PWjGIOYxdVwKcYgAWrvOR92
+         EyGQlT0paeIxMRnpQ59hRd6/qHmCbR/KDJxaMA02Q6ibFopq2uKIiC6xQzJoLcSwHQ+0
+         bIdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7q7dD5woCvUF+dF4SsdpwJ1kZB1YsLs1ij7EdhjhTa8=;
-        b=rhZVRBrwHkxwoLww5jw/fqLNP5BEqv5mvv5MLhSDirIGWQEwHEfjJbNd3nyGUjmejr
-         g/j9xMkBd7oUefPl4tskMwo8v48HEfZj1dHUNNSviMHiYh4u7NKr0ccK4pInixVFxd/2
-         4EpZSC+uQenDq1kaOU9TF40ndmrcGPjfpDP2phUHRAI4hzVQUBow9WRM1H4manBQ5MG4
-         pGBzCmXRP/GLDzMp6iTFm25pwkUgSe4eW0mtxAHWYcrNL2jsFgIuL8QyfVvPLPiYdRR1
-         TEUQiw9NSnzHaktUgjrlnNmOSdoQ0NDd7qhggsWAu6R7yUW+EbpOZcaRHvKN9adSXwXu
-         npZg==
-X-Gm-Message-State: AOAM530u4+XK+uVj1M8uhNVbmw1B+QXX6vrNW0O9uGNFngswlADyqWIR
-        oAB3CKa8qSkY5ZiHLuoGEKtCnWt266FaunfLNVLOyg==
-X-Google-Smtp-Source: ABdhPJyh/i1WI1Bausdx24sz+52HnE6O0YlWwgo8FqO4JWKIVqWmepDc2N0aiGHa1B6cwNhzxA77jvOMveAw3NXw45E=
-X-Received: by 2002:a05:6402:8d4:: with SMTP id d20mr1142683edz.49.1619480084894;
- Mon, 26 Apr 2021 16:34:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4Kj0SXA9vsOtoPJRmbl9kO6maA5cV9sB7CgScAwXMzI=;
+        b=qEzWEhmda9UHg/Ot595huQAWu/MH2ieyK2OdLNZtxjj219A/SNzyKYNDiCt8uh94/i
+         12HBXr2MmOwwZmSSoFtTCVbTxPvBjrNsBuBIWP5kmZEyXKK/m4DzxWcSahTKMOi1UCCc
+         rpF2W+SwZtiuy61pBEi1wEW0mpwG6vAm8Lz+B6qr+uoeyAEfLxJnhRFcW4hsOWfb+gX9
+         ZnFc+3zNA6Ak1cihOT8VTm3pKaWm0BYlBGIWzIvQvQCPuPi438+vY00VfW25YPHtQR9U
+         BPZyT5JSnGAZHioa8N3rNebQSAKWdyuaiQXqCP8qAwWLH6WBVtqNvU8AyoOGb7MWrg3M
+         fMPA==
+X-Gm-Message-State: AOAM532+hbRN7STcip4CfnF8QteAnc3u/bI4BiVl8sBaFc6XPCz7Mv0W
+        r40nmLXo7ewWnlDfc37UNRM=
+X-Google-Smtp-Source: ABdhPJzlJCZjMw1AMpMrqCCtVcFtp5ga8BJTa2+1W/jHgDQCNHWITvuZXAkIlz5HiSTjiD6+Kb+v/A==
+X-Received: by 2002:a63:eb46:: with SMTP id b6mr4060320pgk.199.1619480998570;
+        Mon, 26 Apr 2021 16:49:58 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+        by smtp.gmail.com with ESMTPSA id w189sm646315pfc.31.2021.04.26.16.49.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Apr 2021 16:49:57 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Rob Clark <robdclark@chromium.org>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
+        freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO
+        GPU), linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK)
+Subject: [PATCH] drm/msm: Do not unpin/evict exported dma-buf's
+Date:   Mon, 26 Apr 2021 16:53:25 -0700
+Message-Id: <20210426235326.1230125-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210421100035.13571-1-andrzej.p@collabora.com>
- <23a4ed00-0993-3567-2664-1fcc643915ab@xs4all.nl> <e7b55d3f58a6067ccd68d0e1d772e70bb3c92c93.camel@ndufresne.ca>
-In-Reply-To: <e7b55d3f58a6067ccd68d0e1d772e70bb3c92c93.camel@ndufresne.ca>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Mon, 26 Apr 2021 20:34:37 -0300
-Message-ID: <CAAEAJfB_UdGKnfMRdwu=LRaW+Ujv5pShHYm9i=KO5KaB08JSuA@mail.gmail.com>
-Subject: Re: [RFC RESEND 0/3] vp9 v4l2 stateless uapi
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 26 Apr 2021 at 14:38, Nicolas Dufresne <nicolas@ndufresne.ca> wrote=
-:
->
-> Le lundi 26 avril 2021 =C3=A0 09:38 +0200, Hans Verkuil a =C3=A9crit :
-> > Hi Andrzej,
-> >
-> > Thank you for working on this!
-> >
-> > On 21/04/2021 12:00, Andrzej Pietrasiewicz wrote:
-> > > Dear All,
-> > >
-> > > This is an RFC on stateless uapi for vp9 decoding with v4l2. This wor=
-k is based on https://lkml.org/lkml/2020/11/2/1043, but has been substantia=
-lly reworked. The important change is that the v4l2 control used to pass bo=
-olean decoder probabilities has been made unidirectional, and is now called=
- V4L2_CID_STATELESS_VP9_COMPRESSED_HDR_PROBS.
-> > >
-> > > In the previous proposal, to queue a frame the userspace must fully d=
-equeue the previous one, which effectively results in a forced lockstep beh=
-avior and defeats vb2's capability to enqueue multiple buffers. Such a desi=
-gn was a consequence of backward probability updates being performed by the=
- kernel driver (which has direct access to appropriate counter values) but =
-forward probability updates being coupled with compressed header parsing pe=
-rformed by the userspace.
-> > >
-> > > In vp9 the boolean decoder used to decode the bitstream needs certain=
- parameters to work. Those are probabilities, which change with each frame.=
- After each frame is decoded it is known how many times a given symbol occu=
-red in the frame, so the probabilities can be adapted. This process is know=
-n as backward probabilities update. A next frame header can also contain in=
-formation which modifies probabilities resulting from backward update. The =
-said modification is called forward probabilities update. The data for back=
-ward update is generated by the decoder hardware, while the data for forwar=
-d update is prepared by reading the compressed frame header. The natural pl=
-ace to parse something is userspace, while the natural place to access hard=
-ware-provided counters is the kernel. Such responsibilties assignment was u=
-sed in the original work.
-> > >
-> > > To overcome the lockstep, we moved forward probability updates to the=
- kernel, while leaving parsing them in userspace. This way the v4l2 control=
- which is used to pass the probs becomes unidirectional (user->kernel) and =
-the userspace can keep parsing and enqueueing succeeding frames.
-> > >
-> > > If a particular driver parses the compressed header and does backward=
- probability updates on its own then V4L2_CID_STATELESS_VP9_COMPRESSED_HDR_=
-PROBS does not need to be used.
-> > >
-> > > This series adds vp9 uapi in proper locations, which means it is a pr=
-oper, "official" uapi, as opposed to staging uapi which was proposed in the=
- above mentioned lkml thread.
-> >
-> > Why? I rather liked the way that the other codec APIs started life in a=
- private header
-> > (like include/media/vp8-ctrls.h) and were given time to mature before m=
-oving them to
-> > the uAPI. Is there a reason why you think that VP9 doesn't need that?
->
-> I'll be honest, I accepted early code into GStreamer for H264, and it end=
-ed up
-> in a nightmare for the users. We now have a released GStreamer that suppo=
-rts
-> kernel API up to 5.9, a blackwhole at 5.10 and finally master catched up =
-and can
-> support 5.11+. It is so complicated for packagers to understand what is g=
-oing
-> on, that they endup wasting a lot of their time for a single feature in t=
-heir
-> OS. Same breakage is happening for VP8 in 5.13, even though VP8 has been =
-working
-> great all this time. I will for sure for now on ignore any contribution t=
-hat
-> depends on staged uAPI.
->
-> As for FFMPEG, even though now H264 API is table, the maintainers just si=
-mply
-> ignore the patches as they have been bitten by the reviewing stuff based =
-on
-> unstable APIs and downstream work.
->
-> I believe the staged uAPI has been used wrongly in the past. Stuff has be=
-en
-> staged quicky right before associated project budget for it was exhausted=
-, so it
-> was in the end a way to look good, and someone else had to pick it up and=
- finish
-> it. Going straight for final API put more pressure on making good researc=
-h from
-> the start, doing more in-depth reviews and avoiding delaying for multiple=
- years
-> the support. I believe the staging API are confusing even for the Linux
-> projects. Going straight to stable here is a commitment to finish this wo=
-rk and
-> doing it correctly.
->
-> This specially make sense for VP9, which is a very Open CODEC and were al=
-l HW
-> implementation are Google/Hantro derivatives. Also, unlike when this work=
- all
-> started, we do have multiple HW we can look at to validate the API, with =
-more
-> then enough in-depth information to make the right decisions.
->
+From: Rob Clark <robdclark@chromium.org>
 
-+1
+Our initial logic for excluding dma-bufs was not quite right.  In
+particular we want msm_gem_get/put_pages() path used for exported
+dma-bufs to increment/decrement the pin-count.
 
-Although I can understand how, from the kernel point of view, it's
-tempting to merge
-the uAPI as staging first and then de-stage it, I have to say that I
-agree fully with
-Nicolas, the experience wasn't really good for the userspace.
+Also, in case the importer is vmap'ing the dma-buf, we need to be
+sure to update the object's status, because it is now no longer
+potentially evictable.
 
-I really hope we can do better than this for at least VP9. So, let's make s=
-ure
-the hardware decoders that are currently available (Rockchip,
-Verisilicon, Mediatek)
-are covered, as well as any future features (dynamic frame resize).
+Fixes: 63f17ef83428 drm/msm: Support evicting GEM objects to swap
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gem.c | 16 +++++++++++++++-
+ drivers/gpu/drm/msm/msm_gem.h |  4 ++--
+ 2 files changed, 17 insertions(+), 3 deletions(-)
 
-A well-thought, honest effort for a sane uAPI is IMO the right way,
-and if we find out
-something is missing (which may happen, as we are all humans), we can still
-introduce another API control (V4L2_CID_STATELESS_VP9_V2) and use it
-to supersede the current API. If I understand correctly, this should work,
-and allow backward compatibility without issues.
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 09ef4ec6eb34..17f85d2f23ab 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -190,13 +190,25 @@ struct page **msm_gem_get_pages(struct drm_gem_object *obj)
+ 	}
+ 
+ 	p = get_pages(obj);
++
++	if (!IS_ERR(p)) {
++		msm_obj->pin_count++;
++		update_inactive(msm_obj);
++	}
++
+ 	msm_gem_unlock(obj);
+ 	return p;
+ }
+ 
+ void msm_gem_put_pages(struct drm_gem_object *obj)
+ {
+-	/* when we start tracking the pin count, then do something here */
++	struct msm_gem_object *msm_obj = to_msm_bo(obj);
++
++	msm_gem_lock(obj);
++	msm_obj->pin_count--;
++	GEM_WARN_ON(msm_obj->pin_count < 0);
++	update_inactive(msm_obj);
++	msm_gem_unlock(obj);
+ }
+ 
+ int msm_gem_mmap_obj(struct drm_gem_object *obj,
+@@ -646,6 +658,8 @@ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
+ 			ret = -ENOMEM;
+ 			goto fail;
+ 		}
++
++		update_inactive(msm_obj);
+ 	}
+ 
+ 	return msm_obj->vaddr;
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 1b519fcd8418..66fb40b87122 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -228,7 +228,7 @@ static inline bool is_active(struct msm_gem_object *msm_obj)
+ /* imported/exported objects are not purgeable: */
+ static inline bool is_unpurgeable(struct msm_gem_object *msm_obj)
+ {
+-	return msm_obj->base.dma_buf && msm_obj->base.import_attach;
++	return msm_obj->base.import_attach || msm_obj->pin_count;
+ }
+ 
+ static inline bool is_purgeable(struct msm_gem_object *msm_obj)
+@@ -278,7 +278,7 @@ static inline void mark_unpurgeable(struct msm_gem_object *msm_obj)
+ 
+ static inline bool is_unevictable(struct msm_gem_object *msm_obj)
+ {
+-	return is_unpurgeable(msm_obj) || msm_obj->pin_count || msm_obj->vaddr;
++	return is_unpurgeable(msm_obj) || msm_obj->vaddr;
+ }
+ 
+ static inline void mark_evictable(struct msm_gem_object *msm_obj)
+-- 
+2.30.2
 
-Thanks,
-Ezequiel
