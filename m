@@ -2,140 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94D0D36AC4B
-	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 08:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E8B536AC6B
+	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 08:53:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231879AbhDZGiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Apr 2021 02:38:09 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:54159 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231616AbhDZGiH (ORCPT
+        id S231980AbhDZGyL convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 26 Apr 2021 02:54:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232018AbhDZGyK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Apr 2021 02:38:07 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id aurvla5xWXsivauryl3V6a; Mon, 26 Apr 2021 08:37:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1619419042; bh=+ty+f1Eg+q/gaDSpyiRCC+4TbFtW/p4aj0tQucj7I7I=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=rEhlN/qFxGL2KbNmHqBeycmV6iN+zFXwIGBCTuX1vvYSDFeSMbE1hf1NcC21uNRnG
-         Mp/c/3hM87/zduc7mLCjenkl6oxJAaPiOCLNevDlUfZIzBGMtDd+KlSvcvP25bBHFK
-         8ThXxj1qle2LIiBqv2UgzVn89qs+Jm3yJpDjU/j4nNgqDSr5iLsXvvnINND5DcgPpR
-         jvuHfqbHjPKe+Ae+o7X48/MxMZFv83A1p7S10Ss6hUVEzrDb2mr2jnIczKXjNMUhA/
-         6HstTZdR5ptpNHhS1mJ770A9hyR9/03pr0r8RALiapMkplzSuxHRdkm141GuSOAel/
-         2natJDfgAkJoA==
-Subject: Re: [PATCH v2 2/2] cec-follower: detect the cessation of Audio Rate
- Control messages
-To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        linux-media@vger.kernel.org
-References: <cover.1619389023.git.deborahbrouwer3563@gmail.com>
- <03c855c4a2072a4a174415198e2e44932af75fcd.1619389023.git.deborahbrouwer3563@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <4140a198-7805-d2c8-507c-6c6c0e0618ad@xs4all.nl>
-Date:   Mon, 26 Apr 2021 08:37:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        Mon, 26 Apr 2021 02:54:10 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A21D8C061756
+        for <linux-media@vger.kernel.org>; Sun, 25 Apr 2021 23:53:29 -0700 (PDT)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1lav7M-0003nv-L8; Mon, 26 Apr 2021 08:53:16 +0200
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1lav7K-00051L-VC; Mon, 26 Apr 2021 08:53:14 +0200
+Message-ID: <3ef4238e7e173eb97017aa3d5af86ed578b7c294.camel@pengutronix.de>
+Subject: Re: [PATCH 56/78] media: coda: use pm_runtime_resume_and_get()
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Date:   Mon, 26 Apr 2021 08:53:14 +0200
+In-Reply-To: <5102aef0e5d4ccfafed92087e3800ffaca4736ba.1619191723.git.mchehab+huawei@kernel.org>
+References: <cover.1619191723.git.mchehab+huawei@kernel.org>
+         <5102aef0e5d4ccfafed92087e3800ffaca4736ba.1619191723.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <03c855c4a2072a4a174415198e2e44932af75fcd.1619389023.git.deborahbrouwer3563@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfK6ccfAEu8hjSduQpHvCXLV0j89eaGwALoS8lu6aVQyJit50ebWnHeP3CddmalSyKcYM5R1nXbIsMcGDjHLx2SLjlmp+q6jhuhPBBa60K/r1DKoInPvz
- 9USQX8shgUmCNIk1DD3p/CZ1FhbbmVG6wz+OxbQ2NHUaAYS0gEAq6naogQXZ1yM2kaZEa5RjjvPVn12U6uKFd1MzHkUOxDGM1MVO73I48K+LO6VTBfPERpto
- uR0LVMkGahsHCy8mlKabAg==
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/04/2021 00:54, Deborah Brouwer wrote:
-> If the controlling device simply stops sending audio rate messages, give
-> the cec-follower the ability to detect that it has not received an audio
-> rate message within 2 seconds as required.  The cec-follower will quit the
-> audio rate controlled mode.  Eliminate the need to measure an interval
-> between two audio rate messages.
+Hi Mauro,
+
+On Sat, 2021-04-24 at 08:45 +0200, Mauro Carvalho Chehab wrote:
+> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> added pm_runtime_resume_and_get() in order to automatically handle
+> dev->power.usage_count decrement on errors.
 > 
-> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+> Use the new API, in order to cleanup the error check logic.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  utils/cec-follower/cec-processing.cpp | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
+>  drivers/media/platform/coda/coda-common.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-> index 243c9d09..dd6fd05c 100644
-> --- a/utils/cec-follower/cec-processing.cpp
-> +++ b/utils/cec-follower/cec-processing.cpp
-> @@ -233,19 +233,22 @@ static __u8 current_power_state(struct node *node)
->  	return CEC_OP_POWER_STATUS_TO_STANDBY;
->  }
+> diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+> index bd666c858fa1..fea1c136a42c 100644
+> --- a/drivers/media/platform/coda/coda-common.c
+> +++ b/drivers/media/platform/coda/coda-common.c
+> @@ -2660,7 +2660,7 @@ static int coda_open(struct file *file)
+>  	ctx->use_vdoa = false;
 >  
-> -static void aud_rate_msg_interval_check(__u64 ts_new, __u64 ts_old)
-> +static void aud_rate_msg_interval_check(struct node *node, __u64 ts_new)
->  {
->  	/*
-> -	 * The interval between messages is not relevant if this is the
-> -	 * first audio rate control message or if the previous message
-> -	 * turned off the audio rate control.
-> +	 * The interval since the last audio rate message is not relevant
-> +	 * unless the Source is currently in audio rate controlled mode.
+>  	/* Power up and upload firmware if necessary */
+> -	ret = pm_runtime_get_sync(dev->dev);
+> +	ret = pm_runtime_resume_and_get(dev->dev);
+>  	if (ret < 0) {
+>  		v4l2_err(&dev->v4l2_dev, "failed to power up: %d\n", ret);
+>  		goto err_pm_get;
 
-I think this can be clarified if you extend the comment a bit and avoid
-the double negation (not...unless):
+There's a pm_runtime_put_sync() at the err_pm_get below, so the label
+needs to be moved down a line:
 
-	 * The interval since the last audio rate message is only relevant
-	 * if the Source is currently in audio rate controlled mode
-	 * (i.e. state.last_aud_rate_rx_ts != 0).
+@@ -2705,8 +2705,8 @@ static int coda_open(struct file *file)
+ 	clk_disable_unprepare(dev->clk_ahb);
+ err_clk_ahb:
+ 	clk_disable_unprepare(dev->clk_per);
+-err_pm_get:
+ 	pm_runtime_put_sync(dev->dev);
++err_pm_get:
+ 	v4l2_fh_del(&ctx->fh);
+ 	v4l2_fh_exit(&ctx->fh);
+ err_coda_name_init:
 
->  	 */
-> +	__u64 ts_old = node->state.last_aud_rate_rx_ts;
-> +
->  	if (ts_old) {
->  		__u64 interval = ts_new - ts_old;
->  
->  		if (interval > MAX_AUD_RATE_MSG_INTERVAL) {
-> -			warn("The interval between Audio Rate Control messages was greater\n");
-> +			warn("The interval since the last Audio Rate Control message was greater\n");
->  			warn("than the Maxiumum Audio Rate Message Interval (2s).\n");
-
-This is a bit too verbose. How about this:
-
-			warn("The interval since the last Audio Rate Control message was > 2s.\n");
-
-Regards,
-
-	Hans
-
-> +			warn("Turning off audio rate control.\n");
-> +			node->state.last_aud_rate_rx_ts = 0;
->  		}
->  	}
->  }
-> @@ -803,7 +806,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
->  
->  		switch (msg.msg[2]) {
->  		case CEC_OP_AUD_RATE_OFF:
-> -			aud_rate_msg_interval_check(msg.rx_ts, node->state.last_aud_rate_rx_ts);
-> +			aud_rate_msg_interval_check(node, msg.rx_ts);
->  			node->state.last_aud_rate_rx_ts = 0;
->  			return;
->  		case CEC_OP_AUD_RATE_WIDE_STD:
-> @@ -812,7 +815,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
->  		case CEC_OP_AUD_RATE_NARROW_STD:
->  		case CEC_OP_AUD_RATE_NARROW_FAST:
->  		case CEC_OP_AUD_RATE_NARROW_SLOW:
-> -			aud_rate_msg_interval_check(msg.rx_ts, node->state.last_aud_rate_rx_ts);
-> +			aud_rate_msg_interval_check(node, msg.rx_ts);
->  			node->state.last_aud_rate_rx_ts = msg.rx_ts;
->  			return;
->  		default:
-> @@ -1034,6 +1037,9 @@ void testProcessing(struct node *node, bool wallclock)
->  				node->state.rc_state = NOPRESS;
->  			}
->  		}
-> +
-> +		if (node->has_aud_rate)
-> +			aud_rate_msg_interval_check(node, ts_now);
->  	}
->  	mode = CEC_MODE_INITIATOR;
->  	doioctl(node, CEC_S_MODE, &mode);
-> 
-
+regards
+Philipp
