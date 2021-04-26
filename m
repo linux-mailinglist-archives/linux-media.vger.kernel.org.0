@@ -2,19 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92EA636AB2C
-	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 05:37:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD6536AB2E
+	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 05:37:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231913AbhDZDhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Apr 2021 23:37:38 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38304 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231530AbhDZDhh (ORCPT
+        id S231922AbhDZDhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Apr 2021 23:37:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231530AbhDZDhm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Apr 2021 23:37:37 -0400
+        Sun, 25 Apr 2021 23:37:42 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B3B1C061574;
+        Sun, 25 Apr 2021 20:37:02 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 9272E1F41F8F
+        with ESMTPSA id 801DB1F41F86
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
@@ -26,9 +29,9 @@ Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Daniel Almeida <daniel.almeida@collabora.com>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v6 08/10] media: uapi: Move the MPEG-2 stateless control type out of staging
-Date:   Mon, 26 Apr 2021 00:35:20 -0300
-Message-Id: <20210426033522.69395-9-ezequiel@collabora.com>
+Subject: [PATCH v6 09/10] media: controls: Log MPEG-2 stateless control in .std_log
+Date:   Mon, 26 Apr 2021 00:35:21 -0300
+Message-Id: <20210426033522.69395-10-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210426033522.69395-1-ezequiel@collabora.com>
 References: <20210426033522.69395-1-ezequiel@collabora.com>
@@ -38,45 +41,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move the MPEG-2 stateless control types out of staging,
-and re-number it to avoid any confusion.
+Simply print the type of the control.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- include/media/mpeg2-ctrls.h    | 4 ----
- include/uapi/linux/videodev2.h | 4 ++++
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/v4l2-core/v4l2-ctrls.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/media/mpeg2-ctrls.h b/include/media/mpeg2-ctrls.h
-index 388a796cf75d..c4cf1af5b73b 100644
---- a/include/media/mpeg2-ctrls.h
-+++ b/include/media/mpeg2-ctrls.h
-@@ -16,10 +16,6 @@
- #define V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE		(V4L2_CID_CODEC_BASE+253)
- 
- /* enum v4l2_ctrl_type type values */
--#define V4L2_CTRL_TYPE_MPEG2_QUANTISATION 0x0131
--#define V4L2_CTRL_TYPE_MPEG2_SEQUENCE 0x0132
--#define V4L2_CTRL_TYPE_MPEG2_PICTURE 0x0133
--
- #define V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE		0x0001
- 
- /**
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 311a01cc5775..d3bb18a3a51b 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1807,6 +1807,10 @@ enum v4l2_ctrl_type {
- 	V4L2_CTRL_TYPE_FWHT_PARAMS	    = 0x0220,
- 
- 	V4L2_CTRL_TYPE_VP8_FRAME            = 0x0240,
-+
-+	V4L2_CTRL_TYPE_MPEG2_QUANTISATION   = 0x0250,
-+	V4L2_CTRL_TYPE_MPEG2_SEQUENCE       = 0x0251,
-+	V4L2_CTRL_TYPE_MPEG2_PICTURE        = 0x0252,
- };
- 
- /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index 6a033102d31b..a693ff8dc3dc 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -1873,6 +1873,15 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+ 	case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
+ 		pr_cont("HDR10_MASTERING_DISPLAY");
+ 		break;
++	case V4L2_CTRL_TYPE_MPEG2_QUANTISATION:
++		pr_cont("MPEG2_QUANTISATION");
++		break;
++	case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
++		pr_cont("MPEG2_SEQUENCE");
++		break;
++	case V4L2_CTRL_TYPE_MPEG2_PICTURE:
++		pr_cont("MPEG2_PICTURE");
++		break;
+ 	default:
+ 		pr_cont("unknown type %d", ctrl->type);
+ 		break;
 -- 
 2.30.0
 
