@@ -2,138 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEAD936A9C8
-	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 00:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E323236AB1C
+	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 05:35:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231422AbhDYWzP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Apr 2021 18:55:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231441AbhDYWzP (ORCPT
+        id S231550AbhDZDgf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Apr 2021 23:36:35 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:38186 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231346AbhDZDge (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Apr 2021 18:55:15 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B67AC061574
-        for <linux-media@vger.kernel.org>; Sun, 25 Apr 2021 15:54:34 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id q10so38852290pgj.2
-        for <linux-media@vger.kernel.org>; Sun, 25 Apr 2021 15:54:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :in-reply-to:references;
-        bh=+Pib14yGX41Z5j4qi52XiY8kNCRo5YcvC2plJhDcbf8=;
-        b=p7jh8GTHORWGSRdm4UqTzcZiVQ7NsRjRqPfALZoAU9j7OxJRISix9DFNmis6GVB3ty
-         2yu8ytf3rDhbZ+sZI6ZEHxsbTKvJvGtcRvDT0Ztw5nEK0kjHUYiWAENFFIcfs4DxJHE4
-         pZTEPd/LVNt8wyUyvhJJ35Hgg7JvmRAjZpVRC8SmR5oHJbf05i2Qoa+4jK8d+5myBhyA
-         GpRElpCE1ecDcjfhIk1d+97aHAsc56tnAnY8tx4MHhUISFb/zO6B6axKN5JWYR3aDCKu
-         C3mIBoiucFPmvxn1Yv/TDQ+IRaOXDKCaKDRmfj1X9YilC7+75eTLQEv58LrS6oi2Vzok
-         L70g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:in-reply-to:references;
-        bh=+Pib14yGX41Z5j4qi52XiY8kNCRo5YcvC2plJhDcbf8=;
-        b=XBw3fUSn2P1f4DnsE3mR1NK7otXlSZ69SDZzlz8tvgz6w6+T88evg0vRRUOOLmcWWi
-         lopYRwZXPNyRRDvWIYWWV+H/7mEzeC6E23yYIj+daTndP10dBkh0Nffce7SIRf4+IB12
-         juHcvA3N+Ai3ueZTVBFTk8oMew+uIHzOVDCxG0is7Qg55hTVPRrGBph94XrnCHGgwrDh
-         fvXgKnDC/kp0JV7wd0Z+rFFLRhQHemZjrq/xY8V12mL08mup3EFcahbllvofSo7It18/
-         tFyvF3B+xm5Idv9iIgn/JlY73k52vAt3VraNgxFUA69yiZ43P8Uqde+skfQTDP13SNg6
-         YjXg==
-X-Gm-Message-State: AOAM53104vSR83bxugC0tFIwg9BVj45Y+jv2dp9FCwjJ7GNWo+1WWvT8
-        AKq7k7W75z7I20IxjwU8aunnucOP4oxL3w==
-X-Google-Smtp-Source: ABdhPJzidb/IWqAL7VDUdGW0x6jD6HmzYW10WsDa0al21U9e2MkzXWyF6VH2nxrDxVEipB2+W0jJcg==
-X-Received: by 2002:a62:7592:0:b029:254:ebcd:802b with SMTP id q140-20020a6275920000b0290254ebcd802bmr14556049pfc.41.1619391274267;
-        Sun, 25 Apr 2021 15:54:34 -0700 (PDT)
-Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id s22sm9504207pfe.150.2021.04.25.15.54.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Apr 2021 15:54:33 -0700 (PDT)
-From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH v2 2/2] cec-follower: detect the cessation of Audio Rate Control messages
-Date:   Sun, 25 Apr 2021 15:54:07 -0700
-Message-Id: <03c855c4a2072a4a174415198e2e44932af75fcd.1619389023.git.deborahbrouwer3563@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1619389023.git.deborahbrouwer3563@gmail.com>
-References: <cover.1619389023.git.deborahbrouwer3563@gmail.com>
-In-Reply-To: <cover.1619389023.git.deborahbrouwer3563@gmail.com>
-References: <cover.1619389023.git.deborahbrouwer3563@gmail.com>
+        Sun, 25 Apr 2021 23:36:34 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id E74B31F41F55
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v6 00/10] MPEG-2 stateless API cleanup and destaging
+Date:   Mon, 26 Apr 2021 00:35:12 -0300
+Message-Id: <20210426033522.69395-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the controlling device simply stops sending audio rate messages, give
-the cec-follower the ability to detect that it has not received an audio
-rate message within 2 seconds as required.  The cec-follower will quit the
-audio rate controlled mode.  Eliminate the need to measure an interval
-between two audio rate messages.
+Hi everyone,
 
-Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
----
- utils/cec-follower/cec-processing.cpp | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+Here's another round addressing Hans' feedback. More details
+about this can be found in the previous cover letter [1]:
 
-diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-index 243c9d09..dd6fd05c 100644
---- a/utils/cec-follower/cec-processing.cpp
-+++ b/utils/cec-follower/cec-processing.cpp
-@@ -233,19 +233,22 @@ static __u8 current_power_state(struct node *node)
- 	return CEC_OP_POWER_STATUS_TO_STANDBY;
- }
- 
--static void aud_rate_msg_interval_check(__u64 ts_new, __u64 ts_old)
-+static void aud_rate_msg_interval_check(struct node *node, __u64 ts_new)
- {
- 	/*
--	 * The interval between messages is not relevant if this is the
--	 * first audio rate control message or if the previous message
--	 * turned off the audio rate control.
-+	 * The interval since the last audio rate message is not relevant
-+	 * unless the Source is currently in audio rate controlled mode.
- 	 */
-+	__u64 ts_old = node->state.last_aud_rate_rx_ts;
-+
- 	if (ts_old) {
- 		__u64 interval = ts_new - ts_old;
- 
- 		if (interval > MAX_AUD_RATE_MSG_INTERVAL) {
--			warn("The interval between Audio Rate Control messages was greater\n");
-+			warn("The interval since the last Audio Rate Control message was greater\n");
- 			warn("than the Maxiumum Audio Rate Message Interval (2s).\n");
-+			warn("Turning off audio rate control.\n");
-+			node->state.last_aud_rate_rx_ts = 0;
- 		}
- 	}
- }
-@@ -803,7 +806,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 
- 		switch (msg.msg[2]) {
- 		case CEC_OP_AUD_RATE_OFF:
--			aud_rate_msg_interval_check(msg.rx_ts, node->state.last_aud_rate_rx_ts);
-+			aud_rate_msg_interval_check(node, msg.rx_ts);
- 			node->state.last_aud_rate_rx_ts = 0;
- 			return;
- 		case CEC_OP_AUD_RATE_WIDE_STD:
-@@ -812,7 +815,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 		case CEC_OP_AUD_RATE_NARROW_STD:
- 		case CEC_OP_AUD_RATE_NARROW_FAST:
- 		case CEC_OP_AUD_RATE_NARROW_SLOW:
--			aud_rate_msg_interval_check(msg.rx_ts, node->state.last_aud_rate_rx_ts);
-+			aud_rate_msg_interval_check(node, msg.rx_ts);
- 			node->state.last_aud_rate_rx_ts = msg.rx_ts;
- 			return;
- 		default:
-@@ -1034,6 +1037,9 @@ void testProcessing(struct node *node, bool wallclock)
- 				node->state.rc_state = NOPRESS;
- 			}
- 		}
-+
-+		if (node->has_aud_rate)
-+			aud_rate_msg_interval_check(node, ts_now);
- 	}
- 	mode = CEC_MODE_INITIATOR;
- 	doioctl(node, CEC_S_MODE, &mode);
+[1] https://lore.kernel.org/linux-media/20210403180756.175881-11-ezequiel@collabora.com/T/
+
+The documentation looks good, and so does pahole,
+but it's really easy to miss some detail in this series,
+so we'd appreciate if more people could take a look.
+
+v6: 
+* Reorder patch "media: controls: Log MPEG-2 stateless control in .std_log"
+  to avoid a new compile warning.
+* Remove "reserved" field in mpeg2 sequence control, noted by Hans.
+* Reorder "flags" field in mpeg2 picture control, noted by Hans.
+* Typos and comments fixes, noted by Hans.
+
+v5:
+* Rename "quantization" to "quantisation", so the terminology
+  matches the MPEG-2 specification.
+  This is the only change in v5, compared to v4.
+
+v4:
+* Rework and clarify quantization matrices control semantics.
+* Move reference buffer fields to the picture parameter control.
+* Remove slice parameters control. This can be added back in the
+  future if needed, but for now it's not used.
+  See patch 6/9 for details.
+* Destage the API.
+
+v3:
+* No API changes, just minor boilerplate fixes for the new
+  controls to be properly exposed, initialized and validated.
+
+v2:
+* Fixed bad use of boolean negation in a flag, which
+  was fortunately reported by 0day bot.
+
+Ezequiel Garcia (10):
+  media: uapi: mpeg2: Rename "quantization" to "quantisation"
+  media: uapi: mpeg2: rework quantisation matrices semantics
+  media: uapi: mpeg2: Cleanup flags
+  media: uapi: mpeg2: Split sequence and picture parameters
+  media: uapi: mpeg2: Move reference buffer fields
+  media: hantro/cedrus: Remove unneeded slice size and slice offset
+  media: uapi: mpeg2: Remove V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS
+  media: uapi: Move the MPEG-2 stateless control type out of staging
+  media: controls: Log MPEG-2 stateless control in .std_log
+  media: uapi: move MPEG-2 stateless controls out of staging
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 214 +++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 217 ------------------
+ .../media/v4l/pixfmt-compressed.rst           |  11 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  12 +
+ .../media/v4l/vidioc-queryctrl.rst            |  18 +-
+ .../media/videodev2.h.rst.exceptions          |   5 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c          | 122 +++++++---
+ drivers/staging/media/hantro/hantro_drv.c     |   9 +-
+ .../media/hantro/hantro_g1_mpeg2_dec.c        | 110 ++++-----
+ drivers/staging/media/hantro/hantro_hw.h      |   2 +-
+ drivers/staging/media/hantro/hantro_mpeg2.c   |   2 +-
+ .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    | 106 ++++-----
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  10 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   5 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |  97 +++-----
+ include/media/mpeg2-ctrls.h                   |  82 -------
+ include/media/v4l2-ctrls.h                    |  11 +-
+ include/uapi/linux/v4l2-controls.h            | 112 +++++++++
+ include/uapi/linux/videodev2.h                |   7 +
+ 20 files changed, 610 insertions(+), 552 deletions(-)
+ delete mode 100644 include/media/mpeg2-ctrls.h
+
 -- 
-2.17.1
+2.30.0
 
