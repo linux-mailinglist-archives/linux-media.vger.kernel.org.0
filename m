@@ -2,91 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E8B536AC6B
-	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 08:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E989236ACA2
+	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 09:06:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231980AbhDZGyL convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 26 Apr 2021 02:54:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57796 "EHLO
+        id S232062AbhDZHGy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Apr 2021 03:06:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232018AbhDZGyK (ORCPT
+        with ESMTP id S231616AbhDZHGx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Apr 2021 02:54:10 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A21D8C061756
-        for <linux-media@vger.kernel.org>; Sun, 25 Apr 2021 23:53:29 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1lav7M-0003nv-L8; Mon, 26 Apr 2021 08:53:16 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1lav7K-00051L-VC; Mon, 26 Apr 2021 08:53:14 +0200
-Message-ID: <3ef4238e7e173eb97017aa3d5af86ed578b7c294.camel@pengutronix.de>
-Subject: Re: [PATCH 56/78] media: coda: use pm_runtime_resume_and_get()
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mon, 26 Apr 2021 03:06:53 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93EDCC061574
+        for <linux-media@vger.kernel.org>; Mon, 26 Apr 2021 00:06:11 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id k14so4658588wrv.5
+        for <linux-media@vger.kernel.org>; Mon, 26 Apr 2021 00:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=5RuHvbrZHVloxRo7eENq0ZIryQnDTJP0ete42G83Dm0=;
+        b=rIb8+v2FAdA/HfhwuFQ6R8dphR1T0XKcem+hDmiyp8QJyiWsUG/VegWao1LxxolHOc
+         ctEIXLn6mFraIjAcGx8exbmzWC852dgXWwKnm3td7C06aBOHnlsNlS160CFJsN2ch7Vj
+         HWWjhQbqWx0x6IG9wItFTZ7CFHUw87oc7fyqNSc+/s7ZHgo7JuV9fKzCZn674JYEsCX6
+         +JY2w1OdFXrf2gQXf6S9eNPX7nVE/EMMHAlAlr+3OXLCHkZjMdIqHV0Zr7RTiOc+GI+a
+         gWafVirCtDjutoLU7lw5+fWllx0HFwPneUNauWgJcEPM4s8PQEDUE5Fz8Ws+QQ5hE5Rh
+         LJag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=5RuHvbrZHVloxRo7eENq0ZIryQnDTJP0ete42G83Dm0=;
+        b=KO41lTuK6EWXCkldRZqMiEfYJ52drWr/0aYbpPohckGSBuT77YBTmHNXVF5+iu0LB/
+         rDDw1CdX2ROpBC7MOuazrfgbhloscGwVJpI3TYFTdzPAQElqsIwNf98lbE+YsPNhiaZd
+         iZGx0d0k4qcFd6MGMZu/aqTFqva1x9uvkGZ8RrS3A+2SCYHwyO3FBDFhg1h4YVRBAS/C
+         Gt8rbqMNoI2fsDEI5u5/bur7wGUbQzuwkHbCuQQAuO6YHE3w+Gl9VGobiVzSDpChrtVx
+         I9OBASYbsfWfcR3gEpJT+55hLAExNsUqSIPIYm//YBr+EowYgtSsptaaSguy4bgo6aZ7
+         4p/Q==
+X-Gm-Message-State: AOAM533RPnXfBh7xLyCsgzfaHLbU9O6Fubb4bgp1Qrbmjf019ZOcaFpl
+        1qlJWnGurCZZKbCBQsbxiaD5uw==
+X-Google-Smtp-Source: ABdhPJxQA11AMLyg/X551pHlVu8f4n+OUBOFc1FV8/qEkPz+6JKC49mgf31rgbpUC8pVKrxLOFj9Lw==
+X-Received: by 2002:a5d:4402:: with SMTP id z2mr20396301wrq.179.1619420770263;
+        Mon, 26 Apr 2021 00:06:10 -0700 (PDT)
+Received: from dell ([91.110.221.215])
+        by smtp.gmail.com with ESMTPSA id 200sm16751584wmb.1.2021.04.26.00.06.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Apr 2021 00:06:09 -0700 (PDT)
+Date:   Mon, 26 Apr 2021 08:06:07 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Shawn Guo <shawn.guo@linaro.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Date:   Mon, 26 Apr 2021 08:53:14 +0200
-In-Reply-To: <5102aef0e5d4ccfafed92087e3800ffaca4736ba.1619191723.git.mchehab+huawei@kernel.org>
-References: <cover.1619191723.git.mchehab+huawei@kernel.org>
-         <5102aef0e5d4ccfafed92087e3800ffaca4736ba.1619191723.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        Arnd Bergmann <arnd@arndb.de>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Stuart Hayes <stuart.w.hayes@gmail.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        James Smart <james.smart@broadcom.com>,
+        Dick Kennedy <dick.kennedy@broadcom.com>,
+        Timur Tabi <timur@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, dmaengine@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH] firmware: replace HOTPLUG with UEVENT in FW_ACTION
+ defines
+Message-ID: <20210426070607.GG6446@dell>
+References: <20210425020024.28057-1-shawn.guo@linaro.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210425020024.28057-1-shawn.guo@linaro.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Sun, 25 Apr 2021, Shawn Guo wrote:
 
-On Sat, 2021-04-24 at 08:45 +0200, Mauro Carvalho Chehab wrote:
-> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> added pm_runtime_resume_and_get() in order to automatically handle
-> dev->power.usage_count decrement on errors.
+> With commit 312c004d36ce ("[PATCH] driver core: replace "hotplug" by
+> "uevent"") already in the tree over a decade, update the name of
+> FW_ACTION defines to follow semantics, and reflect what the defines are
+> really meant for, i.e. whether or not generate user space event.
 > 
-> Use the new API, in order to cleanup the error check logic.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
 > ---
->  drivers/media/platform/coda/coda-common.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-> index bd666c858fa1..fea1c136a42c 100644
-> --- a/drivers/media/platform/coda/coda-common.c
-> +++ b/drivers/media/platform/coda/coda-common.c
-> @@ -2660,7 +2660,7 @@ static int coda_open(struct file *file)
->  	ctx->use_vdoa = false;
->  
->  	/* Power up and upload firmware if necessary */
-> -	ret = pm_runtime_get_sync(dev->dev);
-> +	ret = pm_runtime_resume_and_get(dev->dev);
->  	if (ret < 0) {
->  		v4l2_err(&dev->v4l2_dev, "failed to power up: %d\n", ret);
->  		goto err_pm_get;
+>  drivers/dma/imx-sdma.c                      |  2 +-
+>  drivers/media/platform/exynos4-is/fimc-is.c |  2 +-
 
-There's a pm_runtime_put_sync() at the err_pm_get below, so the label
-needs to be moved down a line:
+>  drivers/mfd/iqs62x.c                        |  2 +-
 
-@@ -2705,8 +2705,8 @@ static int coda_open(struct file *file)
- 	clk_disable_unprepare(dev->clk_ahb);
- err_clk_ahb:
- 	clk_disable_unprepare(dev->clk_per);
--err_pm_get:
- 	pm_runtime_put_sync(dev->dev);
-+err_pm_get:
- 	v4l2_fh_del(&ctx->fh);
- 	v4l2_fh_exit(&ctx->fh);
- err_coda_name_init:
+Acked-by: Lee Jones <lee.jones@linaro.org>
 
-regards
-Philipp
+>  drivers/misc/lattice-ecp3-config.c          |  2 +-
+>  drivers/net/wireless/ti/wlcore/main.c       |  2 +-
+>  drivers/platform/x86/dell/dell_rbu.c        |  2 +-
+>  drivers/remoteproc/remoteproc_core.c        |  2 +-
+>  drivers/scsi/lpfc/lpfc_init.c               |  2 +-
+>  drivers/tty/serial/ucc_uart.c               |  2 +-
+>  include/linux/firmware.h                    |  4 ++--
+>  lib/test_firmware.c                         | 10 +++++-----
+>  sound/soc/codecs/wm8958-dsp2.c              |  6 +++---
+>  12 files changed, 19 insertions(+), 19 deletions(-)
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
