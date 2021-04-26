@@ -2,162 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA84A36B34E
-	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 14:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADEAD36B3E0
+	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 15:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233319AbhDZMnD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Apr 2021 08:43:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57916 "EHLO mail.kernel.org"
+        id S233625AbhDZNNP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Apr 2021 09:13:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44526 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232364AbhDZMnB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Apr 2021 08:43:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8106D611CE;
-        Mon, 26 Apr 2021 12:42:16 +0000 (UTC)
+        id S233619AbhDZNNM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Apr 2021 09:13:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 03E7261004;
+        Mon, 26 Apr 2021 13:12:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619440939;
-        bh=6CTY4exOmL7l22aXrPfGFjlNeMqnCUXrgJOGfHlDDfo=;
+        s=k20201202; t=1619442750;
+        bh=TCDuDstO9e95vazIQML7aqZR4Hmg3mT1Cxd58/uWeSw=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VWTJ3W71PmyDqp2EIS/gk2qcSkPxTNg1O0TT+qg7l1CRzIQpx4x8gsLGCNeg8hde6
-         LLDLmGKzWciNzTnd4C+6dzY5zEounZxBbd9JgOYs5KCHTIlFzr0JImy7G9qczdd0FR
-         qhtq4lWhv+/8FcQmtwsRDLXIJvtQRRIsqO1vl59SXtWthmgmlsJzAPNXEgoco4RVrw
-         Ia6nGezETvVK1HyU80csrp7r0GLCF6hIwxruTJo96NyGn/7UM1uUm9LYfjZPBy/5bu
-         SPqi4+DDkZ+3U0VKbxA/UxJ26R/9NcfdWZIqjUnt7SlVIouV29c7DIheCkQFZXiXFA
-         iInt69scoTQrw==
-Date:   Mon, 26 Apr 2021 14:42:12 +0200
+        b=pUH684qOqUDJgOlYcDoFLa2K5c9Q4dqYcVtdex0Y+TdXkTX7AQINy/ApybdtQjBS/
+         pqsOvvgeAEmCUuceaF/LGScZnKpJUEj39B2GpDwBrNB8Y7QQcd3QzecX61zLWChFWj
+         axqBpXSHYeWtPKKYKda66tTTxZTjlgOzXu3jlhRW/JiXx2+KLQ5x+gL+x0Pd5adsf7
+         MjaFLQg1NqlhwGEpT7sptL43SQgtXZjIXfxuT9wMQ43XNEVF6zfTFLaFSmiwr2Cc2I
+         btFMkDVXxa81mzoDPPr/PBZ6VSxwy5//RlY8FwJxbK0LFdl2fKHEdMKj5Xep2r7HKP
+         Oa99+jH98FxuA==
+Date:   Mon, 26 Apr 2021 15:12:24 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
+To:     Sylwester Nawrocki <snawrocki@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 13/78] staging: media: hantro_drv: use
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 57/78] media: exynos4-is: use
  pm_runtime_resume_and_get()
-Message-ID: <20210426144212.1f8430ce@coco.lan>
-In-Reply-To: <20210426143327.4f9fb6ea@coco.lan>
+Message-ID: <20210426151224.2b677d1b@coco.lan>
+In-Reply-To: <45068e81-8f9b-fea8-b7bc-bdd0443ba7e6@kernel.org>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
-        <0021158fb27035a56089683ee712fb3ed6f6032d.1619191723.git.mchehab+huawei@kernel.org>
-        <780afdc9b263928ed378dfbd3eaa8a5509a59a35.camel@collabora.com>
-        <20210426143327.4f9fb6ea@coco.lan>
+        <091915bb1cbec13b566d129f85ae229fcb92e2e4.1619191723.git.mchehab+huawei@kernel.org>
+        <45068e81-8f9b-fea8-b7bc-bdd0443ba7e6@kernel.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 26 Apr 2021 14:33:27 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Em Sun, 25 Apr 2021 22:57:25 +0200
+Sylwester Nawrocki <snawrocki@kernel.org> escreveu:
 
-> Em Sat, 24 Apr 2021 20:23:53 -0300
-> Ezequiel Garcia <ezequiel@collabora.com> escreveu:
->=20
-> > Hi Mauro,
-> >=20
-> > On Sat, 2021-04-24 at 08:44 +0200, Mauro Carvalho Chehab wrote: =20
-> > > Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to d=
-eal with usage counter")
-> > > added pm_runtime_resume_and_get() in order to automatically handle
-> > > dev->power.usage_count decrement on errors.
-> > >=20
-> > > Use the new API, in order to cleanup the error check logic.
-> > >=20
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > ---
-> > > =C2=A0drivers/staging/media/hantro/hantro_drv.c | 2 +-
-> > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/stag=
-ing/media/hantro/hantro_drv.c
-> > > index 595e82a82728..3147dcbebeb9 100644
-> > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > @@ -155,7 +155,7 @@ static void device_run(void *priv)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D clk_bulk_enab=
-le(ctx->dev->variant->num_clocks, ctx->dev->clocks);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0goto err_cancel_job;
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D pm_runtime_get_syn=
-c(ctx->dev->dev);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D pm_runtime_resume_=
-and_get(ctx->dev->dev);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret < 0)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0goto err_cancel_job;
-> > > =C2=A0   =20
-> >=20
-> > Seems this one needs a different fix: err_cancel_job
-> > will call hantro_job_finish which has a pm_runtime put. =20
->=20
-> Good point. Thanks for reviewing it!
->=20
-> It sounds that this is a place where the best seems
-> to keep using pm_runtime_get_sync(), but let's at least add a
-> comment explaining why it should be kept here. This should
-> help to avoid people to copy-and-paste the code on situations
-> where pm_runtime_resume_and_get() should be used instead.
->=20
-> See enclosed patch.
->=20
+> On 24.04.2021 08:45, Mauro Carvalho Chehab wrote:
+> > Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> > added pm_runtime_resume_and_get() in order to automatically handle
+> > dev->power.usage_count decrement on errors.
+> > 
+> > Use the new API, in order to cleanup the error check logic.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >   drivers/media/platform/exynos4-is/fimc-capture.c   | 6 ++----
+> >   drivers/media/platform/exynos4-is/fimc-is.c        | 3 ++-
+> >   drivers/media/platform/exynos4-is/fimc-isp-video.c | 3 +--
+> >   drivers/media/platform/exynos4-is/fimc-isp.c       | 7 +++----
+> >   drivers/media/platform/exynos4-is/fimc-lite.c      | 5 +++--
+> >   drivers/media/platform/exynos4-is/fimc-m2m.c       | 2 +-
+> >   drivers/media/platform/exynos4-is/media-dev.c      | 8 +++-----
+> >   drivers/media/platform/exynos4-is/mipi-csis.c      | 5 ++---
+> >   8 files changed, 17 insertions(+), 22 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/exynos4-is/fimc-capture.c b/drivers/media/platform/exynos4-is/fimc-capture.c
+> > index 13c838d3f947..0da36443173c 100644
+> > --- a/drivers/media/platform/exynos4-is/fimc-capture.c
+> > +++ b/drivers/media/platform/exynos4-is/fimc-capture.c
+> > @@ -478,11 +478,9 @@ static int fimc_capture_open(struct file *file)
+> >   		goto unlock;
+> >   
+> >   	set_bit(ST_CAPT_BUSY, &fimc->state);
+> > -	ret = pm_runtime_get_sync(&fimc->pdev->dev);
+> > -	if (ret < 0) {
+> > -		pm_runtime_put_sync(&fimc->pdev->dev);
+> > +	ret = pm_runtime_resume_and_get(&fimc->pdev->dev);
+> > +	if (ret < 0)
+> >   		goto unlock;
+> > -	}
+> >   
+> >   	ret = v4l2_fh_open(file);
+> >   	if (ret) {
+> > diff --git a/drivers/media/platform/exynos4-is/fimc-is.c b/drivers/media/platform/exynos4-is/fimc-is.c
+> > index 972d9601d236..bca35866cc74 100644
+> > --- a/drivers/media/platform/exynos4-is/fimc-is.c
+> > +++ b/drivers/media/platform/exynos4-is/fimc-is.c
+> > @@ -828,7 +828,7 @@ static int fimc_is_probe(struct platform_device *pdev)
+> >   			goto err_irq;
+> >   	}
+> >   
+> > -	ret = pm_runtime_get_sync(dev);
+> > +	ret = pm_runtime_resume_and_get(dev);
+> >   	if (ret < 0)
+> >   		goto err_pm;  
+> 
+> It seems you intended to use err_suspend label here. We don't need
+> a new label though, instead of err_pm we can jump to err_irq when
+> pm_runtime_resume_and_get() fails. 
+
+Thanks! Will fix at the next version.
+
+> Note that when runtime PM is
+> disabled pm_runtime_resume_and_get() always returns 0.
+
+Ok, but there are a couple of conditions at rpm_resume() function
+at drivers/base/power/runtime.c (which is the code that actually
+handles those PM macros) that could make it to return errors,
+which are independent on the PM callbacks, like those:
+
+        if (dev->power.runtime_error)
+                retval = -EINVAL;
+        else if (dev->power.disable_depth > 0)
+                retval = -EACCES;
+
+and more might be added as the PM core changes.
+
+> 
+> > @@ -862,6 +862,7 @@ static int fimc_is_probe(struct platform_device *pdev)
+> >   	fimc_is_unregister_subdevs(is);
+> >   err_pm:
+> >   	pm_runtime_put_noidle(dev);
+> > +err_suspend:
+> >   	if (!pm_runtime_enabled(dev))
+> >   		fimc_is_runtime_suspend(dev);
+> >   err_irq:  
+> 
+> 
+> > diff --git a/drivers/media/platform/exynos4-is/mipi-csis.c b/drivers/media/platform/exynos4-is/mipi-csis.c
+> > index 1aac167abb17..a0218237d66b 100644
+> > --- a/drivers/media/platform/exynos4-is/mipi-csis.c
+> > +++ b/drivers/media/platform/exynos4-is/mipi-csis.c
+> > @@ -494,7 +494,7 @@ static int s5pcsis_s_power(struct v4l2_subdev *sd, int on)
+> >   	struct device *dev = &state->pdev->dev;
+> >   
+> >   	if (on)
+> > -		return pm_runtime_get_sync(dev);
+> > +		return pm_runtime_resume_and_get(dev);
+> >   
+> >   	return pm_runtime_put_sync(dev);
+> >   }
+> > @@ -509,9 +509,8 @@ static int s5pcsis_s_stream(struct v4l2_subdev *sd, int enable)
+> >   
+> >   	if (enable) {
+> >   		s5pcsis_clear_counters(state);
+> > -		ret = pm_runtime_get_sync(&state->pdev->dev);
+> > +		ret = pm_runtime_resume_and_get(&state->pdev->dev);
+> >   		if (ret && ret != 1) {
+> > -			pm_runtime_put_noidle(&state->pdev->dev);
+> >   			return ret;
+> >   		}  
+> 
+> Braces could be dropped as well here.
+
+OK.
+
+> 
+> >   	}  
+> 
+> 
 > Thanks,
-> Mauro
->=20
-> [PATCH] media: hantro: document the usage of pm_runtime_get_sync()
->=20
-> Despite other *_get()/*_put() functions, where usage count is
-> incremented only if not errors, the pm_runtime_get_sync() has
-> a different behavior, incrementing the counter *even* on
-> errors.
->=20
-> That's an error prone behavior, as people often forget to
-> decrement the usage counter.
->=20
-> However, the hantro driver depends on this behavior, as it
-> will decrement the usage_count unconditionally at the m2m
-> job finish time, which makes sense.
->=20
-> So, intead of using the pm_runtime_resume_and_get() that
-> would decrement the counter on error, keep the current
-> API, but add a documentation explaining the rationale for
-> keep using pm_runtime_get_sync().
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Hmm... maybe it can, instead, use the same solution as the
-rkvdec driver does, having a job_finish_no_pm() plus the normal
-job_finish().
-
-What do you think?
-
-Regards,
-Mauro
-
->=20
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/=
-media/hantro/hantro_drv.c
-> index 595e82a82728..96f940c1c85c 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -155,6 +155,13 @@ static void device_run(void *priv)
->  	ret =3D clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks=
-);
->  	if (ret)
->  		goto err_cancel_job;
-> +
-> +	/*
-> +	 * The pm_runtime_get_sync() will increment dev->power.usage_count,
-> +	 * even on errors. That's the expected behavior here, since the
-> +	 * hantro_job_finish() function at the error handling code
-> +	 * will internally call pm_runtime_put_autosuspend().
-> +	 */
->  	ret =3D pm_runtime_get_sync(ctx->dev->dev);
->  	if (ret < 0)
->  		goto err_cancel_job;
->=20
->=20
+> Sylwester
+> 
 
 
 
