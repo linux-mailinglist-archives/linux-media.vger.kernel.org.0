@@ -2,177 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBA9336B4E3
-	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 16:30:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB3C36B507
+	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 16:38:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233560AbhDZObV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Apr 2021 10:31:21 -0400
-Received: from msg-1.mailo.com ([213.182.54.11]:60702 "EHLO msg-1.mailo.com"
+        id S233471AbhDZOj2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Apr 2021 10:39:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47732 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233884AbhDZObV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Apr 2021 10:31:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-        t=1619447429; bh=Inbt0Id184HS+3SGiT3lLvjT+nH9YAUuSWJJoO9mhDY=;
-        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-         MIME-Version:Content-Type:In-Reply-To;
-        b=GRITIFBS7qBNvRhBKjagHeWEfp4XWGKuEDBxVSAtONY/hGZbTy23i8VwtQl3hzoDL
-         sFePlnm4NLWaiSByVrcYskAfGjk8AEetyCiJ0cv4+hoIN4ms6mDCouPCS+rQSZoT6v
-         Dj/0vtpp62d1OAKmnH8e9gA8tuD4CeA8ILxB1Yko=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
-        via ip-206.mailobj.net [213.182.55.206]
-        Mon, 26 Apr 2021 16:30:29 +0200 (CEST)
-X-EA-Auth: UsphZN1IEXvgssBLQ4zn+KLQbV+3wb6p+AFcq6FCeKZHKKwEhG+OjvXxBnXXB3REz0dnhkxjtwH4iz8wk7aqWiIlmkkbGp0P
-Date:   Mon, 26 Apr 2021 20:00:22 +0530
-From:   Deepak R Varma <drv@mailo.com>
-To:     Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v3 2/6] staging: media: atomisp: balance braces
- around if...else block
-Message-ID: <YIbOfjrPG+NIH4wV@192.168.1.8>
-References: <cover.1619199344.git.drv@mailo.com>
- <71220662c5facd746e56288cc74786c96fa3c5a7.1619199344.git.drv@mailo.com>
- <20210426095610.GA1418@agape.jhs>
+        id S231862AbhDZOj1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Apr 2021 10:39:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 55DF161026;
+        Mon, 26 Apr 2021 14:38:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619447925;
+        bh=9ZkP5XWMFSyQNawvCkw+V/jzWIibGz9/yts5jldzuGQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=IaZRJFAyjEnHmdk+Sw7GRXoFoCfT+0R+3wcY8mkaEdaxEg0W5RbxbAOhtP1JLJa1M
+         v5Ro/g1l6MtUcg0Im03tX8EtuSWLU1oN3NOF+BISeTxD2S5G7PM1DUq1GslYf9xWMp
+         RlhzpUJYOLelDK5BbuHHSo9nnktMp/Z6WyfSOgdyJsiRQdUXchCnQVngp2Ar9zSnep
+         2QbxfaA5VONc+QA9uHCz5yUENI4xLV89gL5IWPwSlLjYdeBP/GDx/O5Hms2GMdIYHH
+         g8sD3QNhG7jxvFWddZsjdhtjz477EaItiY3LP/+nbpMpUf/0b0zpo8VjsUohwIOWSU
+         fzl2cTJJ24VWQ==
+Date:   Mon, 26 Apr 2021 16:38:40 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, linuxarm@huawei.com,
+        mauro.chehab@huawei.com, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 38/78] media: i2c: mt9m001: use
+ pm_runtime_resume_and_get()
+Message-ID: <20210426163840.67ea8af9@coco.lan>
+In-Reply-To: <YIPsTsEA/F+o7fhQ@hovoldconsulting.com>
+References: <cover.1619191723.git.mchehab+huawei@kernel.org>
+        <beddb7295807f43a190f2add6c1665b7475cb154.1619191723.git.mchehab+huawei@kernel.org>
+        <20210424082454.2ciold3j3h2jw47m@uno.localdomain>
+        <YIPsTsEA/F+o7fhQ@hovoldconsulting.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210426095610.GA1418@agape.jhs>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 26, 2021 at 11:56:11AM +0200, Fabio Aiuto wrote:
-> On Sun, Apr 25, 2021 at 02:12:20PM +0530, Deepak R Varma wrote:
-> > Balance braces around the if else blocks as per the code style guidelines.
-> > Resolves checkpatch script CHECK / WARNING feedback messages.
-> > 
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> > 
-> > Changes since v2:
-> >    - None.
-> > Changes since v1:
-> >    - None.
-> > 
-> >  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c  | 4 ++--
-> >  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c  | 4 ++--
-> >  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 4 ++--
-> >  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c  | 7 ++++---
-> >  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c  | 4 ++--
-> >  5 files changed, 12 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > index 6be3ee1d93a5..d68a2bcc9ae1 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > @@ -872,9 +872,9 @@ static int gc0310_s_power(struct v4l2_subdev *sd, int on)
-> >  {
-> >  	int ret;
-> >  
-> > -	if (on == 0)
-> > +	if (on == 0) {
-> >  		return power_down(sd);
-> > -	else {
-> > +	} else {
-> >  		ret = power_up(sd);
-> >  		if (!ret)
-> >  			return gc0310_init(sd);
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > index 6ba4a8adff7c..e722c639b60d 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > @@ -658,9 +658,9 @@ static int gc2235_s_power(struct v4l2_subdev *sd, int on)
-> >  {
-> >  	int ret;
-> >  
-> > -	if (on == 0)
-> > +	if (on == 0) {
-> >  		ret = power_down(sd);
-> > -	else {
-> > +	} else {
-> >  		ret = power_up(sd);
-> >  		if (!ret)
-> >  			ret = __gc2235_init(sd);
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> > index f5de81132177..465fc4468442 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> > @@ -568,9 +568,9 @@ static int power_down(struct v4l2_subdev *sd)
-> >  
-> >  static int mt9m114_s_power(struct v4l2_subdev *sd, int power)
-> >  {
-> > -	if (power == 0)
-> > +	if (power == 0) {
-> >  		return power_down(sd);
-> > -	else {
-> > +	} else {
-> >  		if (power_up(sd))
-> >  			return -EINVAL;
-> >  
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> > index c90730513438..92c52431bd8f 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> > @@ -461,11 +461,12 @@ static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
-> >  	ret = ov2680_read_reg(client, 1, OV2680_FLIP_REG, &val);
-> >  	if (ret)
-> >  		return ret;
-> > -	if (value) {
-> > +
-> > +	if (value)
-> >  		val |= OV2680_FLIP_MIRROR_BIT_ENABLE;
-> > -	} else {
-> > +	else
-> >  		val &= ~OV2680_FLIP_MIRROR_BIT_ENABLE;
-> > -	}
-> > +
-> 
-> Hi Deepak,
-> 
-> what you did above is not what is written in the commit message
-> description about. Here unneeded bracks are removed in both
-> branches, is not a matter of braces balancing.
+Em Sat, 24 Apr 2021 12:00:46 +0200
+Johan Hovold <johan@kernel.org> escreveu:
 
-Okay. I was thinking adding where necessary and removing where not
-would lead to expected balancing.
-I will send this as a separate patch in this patch set. Is it okay to
-add a new patch to the set now?
-
-Thank you,
-deepak.
-
+> On Sat, Apr 24, 2021 at 10:24:54AM +0200, Jacopo Mondi wrote:
+> > Hi Mauro,
+> > 
+> > On Sat, Apr 24, 2021 at 08:44:48AM +0200, Mauro Carvalho Chehab wrote:  
+> > > Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> > > added pm_runtime_resume_and_get() in order to automatically handle
+> > > dev->power.usage_count decrement on errors.
+> > >
+> > > Use the new API, in order to cleanup the error check logic.
+> > >
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> > 
+> > Thanks
+> > Acked-by: Jacopo Mondi <jacopo@jmondi.org>
+> > 
+> > I should re-work the error handling sequence there on top of this
+> > patch as right now it's not the best, that 'done' label bothers me...
+> > anyway, for later.
+> >   
+> > > ---
+> > >  drivers/media/i2c/mt9m001.c | 7 ++++---
+> > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/mt9m001.c b/drivers/media/i2c/mt9m001.c
+> > > index 3b0ba8ed5233..57e15a291ebd 100644
+> > > --- a/drivers/media/i2c/mt9m001.c
+> > > +++ b/drivers/media/i2c/mt9m001.c
+> > > @@ -217,9 +217,9 @@ static int mt9m001_s_stream(struct v4l2_subdev *sd, int enable)
+> > >  		goto done;
+> > >
+> > >  	if (enable) {
+> > > -		ret = pm_runtime_get_sync(&client->dev);
+> > > +		ret = pm_runtime_resume_and_get(&client->dev);
+> > >  		if (ret < 0)
+> > > -			goto put_unlock;
+> > > +			goto unlock;
+> > >
+> > >  		ret = mt9m001_apply_selection(sd);
+> > >  		if (ret)
+> > > @@ -247,6 +247,7 @@ static int mt9m001_s_stream(struct v4l2_subdev *sd, int enable)
+> > >
+> > >  put_unlock:
+> > >  	pm_runtime_put(&client->dev);
+> > > +unlock:
+> > >  	mutex_unlock(&mt9m001->mutex);
+> > >
+> > >  	return ret;
+> > > @@ -834,7 +835,7 @@ static int mt9m001_remove(struct i2c_client *client)
+> > >  {
+> > >  	struct mt9m001 *mt9m001 = to_mt9m001(client);
+> > >
+> > > -	pm_runtime_get_sync(&client->dev);
+> > > +	pm_runtime_resume_and_get(&client->dev);
+> > >
+> > >  	v4l2_async_unregister_subdev(&mt9m001->subdev);
+> > >  	media_entity_cleanup(&mt9m001->subdev.entity);  
 > 
-> thank you,
+> I couldn't help looking at one more now that you got feedback on this
+> one.
 > 
-> fabio 
-> 
-> >  	ret = ov2680_write_reg(client, 1,
-> >  			       OV2680_FLIP_REG, val);
-> >  	if (ret)
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > index aec7392fd1de..d046a9804f63 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > @@ -772,9 +772,9 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
-> >  {
-> >  	int ret;
-> >  
-> > -	if (on == 0)
-> > +	if (on == 0) {
-> >  		return power_down(sd);
-> > -	else {
-> > +	} else {
-> >  		ret = power_up(sd);
-> >  		if (!ret)
-> >  			return ov2722_init(sd);
-> > -- 
-> > 2.25.1
-> > 
-> > 
-> > 
-> > 
+> Here you have the same problem as the one I reported earlier, in that
+> the usage count could end up negative on resume failure due to the later
+> put_noidle() call in remove().
 
+I'll double-check this at the entire series. Different sensor
+drivers are handling this on different ways, which sounds
+bad, as they are meant to be independent on the media bridge
+driver.
 
+> Also note that you're adding more lines than you're removing.
+
+Ok, but the end goal is not really reducing the number of lines,
+but to have the code following the same pattern, and to avoid
+cut-and-paste errors when new drivers are written.
+
+The mt9m001 is one of the oldest sensor drivers, written a long time
+before the PM runtime core, written for the soc_camera driver, back
+in 2008. The port to use PM runtime isn't old:
+
+  commit 8fcfc491c6ca5887bb341b3a622cca3ed8e3c9f0
+  Author: Akinobu Mita <akinobu.mita@gmail.com>
+  Date:   Tue Jan 8 12:51:44 2019 -0200
+
+    media: mt9m001: switch s_power callback to runtime PM
+
+It was part of an attempt to recover the soc_camera sensor drives
+from staging. 
+
+Yet, the logic on this driver seems to be different than the
+one used on more modern I2C sensors. So, better to re-check
+everything.
+
+> I'd say this kind of mass-conversion is of questionable worth as
+> pm_runtime_resume_and_get() isn't necessarily an improvement (even if it
+> may have its use in some places).
+
+The main problem is that other parts of the driver's core APIs
+assume that get object methods will only increment the usage
+counter if no errors. The pm_runtime_get_sync() is an exception.
+
+Its name doesn't help at all: A function like that should, IMHO,
+be called, instead:
+
+	pm_runtime_inc_usage_count_and_try_to_resume().
+
+Or something similar, in order to make clearer that it always
+increment the usage count, no matter what. If possible, all drivers
+should get rid of it too (or alternatively add comments warning
+people that keeping the usage_count incremented is desired on the
+very specific places where it is really needed), as it is risky
+to use something that has a different usage_count increement behavior
+than other more usual *_get() functions.
+
+With regards to mass-fixing it, I've seen several patches seen
+to media fixing bugs due to the bad usage_count decrement logic.
+So, the best is to solve them all at once, and stop using
+pm_runtime_get_sync() inside the subsystem.
+
+Thanks,
+Mauro
