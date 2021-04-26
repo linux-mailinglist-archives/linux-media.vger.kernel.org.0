@@ -2,117 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E989236ACA2
-	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 09:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56C0536ADE0
+	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 09:39:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232062AbhDZHGy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Apr 2021 03:06:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60632 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231616AbhDZHGx (ORCPT
+        id S232995AbhDZHkC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Apr 2021 03:40:02 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:33533 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233378AbhDZHjZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Apr 2021 03:06:53 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93EDCC061574
-        for <linux-media@vger.kernel.org>; Mon, 26 Apr 2021 00:06:11 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id k14so4658588wrv.5
-        for <linux-media@vger.kernel.org>; Mon, 26 Apr 2021 00:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=5RuHvbrZHVloxRo7eENq0ZIryQnDTJP0ete42G83Dm0=;
-        b=rIb8+v2FAdA/HfhwuFQ6R8dphR1T0XKcem+hDmiyp8QJyiWsUG/VegWao1LxxolHOc
-         ctEIXLn6mFraIjAcGx8exbmzWC852dgXWwKnm3td7C06aBOHnlsNlS160CFJsN2ch7Vj
-         HWWjhQbqWx0x6IG9wItFTZ7CFHUw87oc7fyqNSc+/s7ZHgo7JuV9fKzCZn674JYEsCX6
-         +JY2w1OdFXrf2gQXf6S9eNPX7nVE/EMMHAlAlr+3OXLCHkZjMdIqHV0Zr7RTiOc+GI+a
-         gWafVirCtDjutoLU7lw5+fWllx0HFwPneUNauWgJcEPM4s8PQEDUE5Fz8Ws+QQ5hE5Rh
-         LJag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=5RuHvbrZHVloxRo7eENq0ZIryQnDTJP0ete42G83Dm0=;
-        b=KO41lTuK6EWXCkldRZqMiEfYJ52drWr/0aYbpPohckGSBuT77YBTmHNXVF5+iu0LB/
-         rDDw1CdX2ROpBC7MOuazrfgbhloscGwVJpI3TYFTdzPAQElqsIwNf98lbE+YsPNhiaZd
-         iZGx0d0k4qcFd6MGMZu/aqTFqva1x9uvkGZ8RrS3A+2SCYHwyO3FBDFhg1h4YVRBAS/C
-         Gt8rbqMNoI2fsDEI5u5/bur7wGUbQzuwkHbCuQQAuO6YHE3w+Gl9VGobiVzSDpChrtVx
-         I9OBASYbsfWfcR3gEpJT+55hLAExNsUqSIPIYm//YBr+EowYgtSsptaaSguy4bgo6aZ7
-         4p/Q==
-X-Gm-Message-State: AOAM533RPnXfBh7xLyCsgzfaHLbU9O6Fubb4bgp1Qrbmjf019ZOcaFpl
-        1qlJWnGurCZZKbCBQsbxiaD5uw==
-X-Google-Smtp-Source: ABdhPJxQA11AMLyg/X551pHlVu8f4n+OUBOFc1FV8/qEkPz+6JKC49mgf31rgbpUC8pVKrxLOFj9Lw==
-X-Received: by 2002:a5d:4402:: with SMTP id z2mr20396301wrq.179.1619420770263;
-        Mon, 26 Apr 2021 00:06:10 -0700 (PDT)
-Received: from dell ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id 200sm16751584wmb.1.2021.04.26.00.06.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Apr 2021 00:06:09 -0700 (PDT)
-Date:   Mon, 26 Apr 2021 08:06:07 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Shawn Guo <shawn.guo@linaro.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
+        Mon, 26 Apr 2021 03:39:25 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id avpClOeeRvTEDavpGlmTlZ; Mon, 26 Apr 2021 09:38:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1619422722; bh=elDvNl7MRGhnSaMeTRabVZr6W4+83sF0w7OYgrADlDA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=GciWVuAzaYg3te3C6QKiIYoXXxwdA1u7ZKr3Zc5HRzDPVmRYr9EdhZfkLEgya+whn
+         iahJlfuCbYfLpwjnTCqp48xdsqZbxVfONEIVpBDD92l67GIZAmUbyCCFDSK4STvvM8
+         5DtBDhxa4ib8KdsNKxOACOWjJz9A5ZW3K9b73Hn1yGQqXjwSQvao6f6BBU9DuG7uGs
+         6eWbIRadkdiss7/R3QUDzOQ7YGJbFf3iczkvkiXAR191xvS5LEEYXXMKHg4X/QuhwS
+         nuoFOkSailehnjkU54CMTxit5EEycXWk0eVOhAO3PkBeCB6XIT56q5k2XVsg18QjDg
+         KPCn6w/cnlk7w==
+Subject: Re: [RFC RESEND 0/3] vp9 v4l2 stateless uapi
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Stuart Hayes <stuart.w.hayes@gmail.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        James Smart <james.smart@broadcom.com>,
-        Dick Kennedy <dick.kennedy@broadcom.com>,
-        Timur Tabi <timur@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, dmaengine@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: Re: [PATCH] firmware: replace HOTPLUG with UEVENT in FW_ACTION
- defines
-Message-ID: <20210426070607.GG6446@dell>
-References: <20210425020024.28057-1-shawn.guo@linaro.org>
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel@collabora.com
+References: <20210421100035.13571-1-andrzej.p@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <23a4ed00-0993-3567-2664-1fcc643915ab@xs4all.nl>
+Date:   Mon, 26 Apr 2021 09:38:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
+In-Reply-To: <20210421100035.13571-1-andrzej.p@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210425020024.28057-1-shawn.guo@linaro.org>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfP2oPiPAfvVijrBC5AwtSUwdtPowUOisD20CQdXB+cIrY43Cd7ZU9hT18AO5hx/1FZEjGf6cmMkCfL5cjhE95Bo2BhR0Ue3BBHTYJeBTn4f32xfTGxR4
+ aOaEdreDM5vDK4AVQmtIsOcpL5N5RYxV11OWSJxmejrz1ixlqJfpjKA/hR02ER8q4pN9R8yoHAOyBXg08tPwyCg/Q9vQZeHCOYplpwvqBUpnIm6xymjOprk7
+ OXX/7fIpoCkxa8aZnf7TKL3UKlgK9johnd3zVOoLWBNy1pBjyW2KSL1bufIwsRXFqYK90m6zikWStHfx+ORD5BBSw6GL+4B13JsFNJcLthnzrDLBPMs/kbAj
+ +981iciMsaRbpmT/GOP9oqakWWzxioRlCN9qOAvcbLv/SYbDdoQxiTQYWeBiJQpuXNgDHPnjYpirUQRETKACFWFsK/QrdSCt+Tnq2HHnuKdyKYkxHkk=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 25 Apr 2021, Shawn Guo wrote:
+Hi Andrzej,
 
-> With commit 312c004d36ce ("[PATCH] driver core: replace "hotplug" by
-> "uevent"") already in the tree over a decade, update the name of
-> FW_ACTION defines to follow semantics, and reflect what the defines are
-> really meant for, i.e. whether or not generate user space event.
+Thank you for working on this!
+
+On 21/04/2021 12:00, Andrzej Pietrasiewicz wrote:
+> Dear All,
 > 
-> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
-> ---
->  drivers/dma/imx-sdma.c                      |  2 +-
->  drivers/media/platform/exynos4-is/fimc-is.c |  2 +-
+> This is an RFC on stateless uapi for vp9 decoding with v4l2. This work is based on https://lkml.org/lkml/2020/11/2/1043, but has been substantially reworked. The important change is that the v4l2 control used to pass boolean decoder probabilities has been made unidirectional, and is now called V4L2_CID_STATELESS_VP9_COMPRESSED_HDR_PROBS.
+> 
+> In the previous proposal, to queue a frame the userspace must fully dequeue the previous one, which effectively results in a forced lockstep behavior and defeats vb2's capability to enqueue multiple buffers. Such a design was a consequence of backward probability updates being performed by the kernel driver (which has direct access to appropriate counter values) but forward probability updates being coupled with compressed header parsing performed by the userspace.
+> 
+> In vp9 the boolean decoder used to decode the bitstream needs certain parameters to work. Those are probabilities, which change with each frame. After each frame is decoded it is known how many times a given symbol occured in the frame, so the probabilities can be adapted. This process is known as backward probabilities update. A next frame header can also contain information which modifies probabilities resulting from backward update. The said modification is called forward probabilities update. The data for backward update is generated by the decoder hardware, while the data for forward update is prepared by reading the compressed frame header. The natural place to parse something is userspace, while the natural place to access hardware-provided counters is the kernel. Such responsibilties assignment was used in the original work.
+> 
+> To overcome the lockstep, we moved forward probability updates to the kernel, while leaving parsing them in userspace. This way the v4l2 control which is used to pass the probs becomes unidirectional (user->kernel) and the userspace can keep parsing and enqueueing succeeding frames.
+> 
+> If a particular driver parses the compressed header and does backward probability updates on its own then V4L2_CID_STATELESS_VP9_COMPRESSED_HDR_PROBS does not need to be used.
+> 
+> This series adds vp9 uapi in proper locations, which means it is a proper, "official" uapi, as opposed to staging uapi which was proposed in the above mentioned lkml thread.
 
->  drivers/mfd/iqs62x.c                        |  2 +-
+Why? I rather liked the way that the other codec APIs started life in a private header
+(like include/media/vp8-ctrls.h) and were given time to mature before moving them to
+the uAPI. Is there a reason why you think that VP9 doesn't need that?
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
+> 
+> The series adds vp9 support to rkvdec driver.
+> 
+> Rebased onto media_tree.
+> 
+> I kindly ask for your comments.
+> 
+> TODO:
+> 
+> - potentially fine-tune the uAPI (add/remove fields, move between structs)
+> - write another driver (intended g2 @ iMX8)
+> - verify the added documentation
+> 
+> Regards,
+> 
+> Andrzej
+> 
+> Andrzej Pietrasiewicz (1):
+>   media: uapi: Add VP9 stateless decoder controls
+> 
+> Boris Brezillon (1):
+>   media: rkvdec: Add the VP9 backend
+> 
+> Ezequiel Garcia (1):
+>   media: rkvdec: Fix .buf_prepare
 
->  drivers/misc/lattice-ecp3-config.c          |  2 +-
->  drivers/net/wireless/ti/wlcore/main.c       |  2 +-
->  drivers/platform/x86/dell/dell_rbu.c        |  2 +-
->  drivers/remoteproc/remoteproc_core.c        |  2 +-
->  drivers/scsi/lpfc/lpfc_init.c               |  2 +-
->  drivers/tty/serial/ucc_uart.c               |  2 +-
->  include/linux/firmware.h                    |  4 ++--
->  lib/test_firmware.c                         | 10 +++++-----
->  sound/soc/codecs/wm8958-dsp2.c              |  6 +++---
->  12 files changed, 19 insertions(+), 19 deletions(-)
+Isn't this just a bug fix? Should it be part of this series at all?
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+If it is just a bug fix, then please post it separately and let me know if it is
+a fix that should go to 5.13 (i.e. the current mainline) or if 5.14 is fine.
+
+Regards,
+
+	Hans
+
+> 
+>  .../userspace-api/media/v4l/biblio.rst        |   10 +
+>  .../media/v4l/ext-ctrls-codec-stateless.rst   |  523 +++
+>  .../media/v4l/pixfmt-compressed.rst           |   15 +
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |    8 +
+>  .../media/v4l/vidioc-queryctrl.rst            |   12 +
+>  .../media/videodev2.h.rst.exceptions          |    2 +
+>  drivers/media/v4l2-core/v4l2-ctrls.c          |  244 ++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>  drivers/staging/media/rkvdec/Makefile         |    2 +-
+>  drivers/staging/media/rkvdec/rkvdec-vp9.c     | 2846 +++++++++++++++++
+>  drivers/staging/media/rkvdec/rkvdec.c         |   62 +-
+>  drivers/staging/media/rkvdec/rkvdec.h         |    6 +
+>  include/media/v4l2-ctrls.h                    |    4 +
+>  include/uapi/linux/v4l2-controls.h            |  455 +++
+>  include/uapi/linux/videodev2.h                |    6 +
+>  15 files changed, 4190 insertions(+), 6 deletions(-)
+>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
+> 
+
