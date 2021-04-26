@@ -2,81 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12C4836BA1B
-	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 21:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B87D36BC0C
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 01:30:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239019AbhDZThB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Apr 2021 15:37:01 -0400
-Received: from mailoutvs34.siol.net ([185.57.226.225]:57444 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236653AbhDZTg7 (ORCPT
+        id S234820AbhDZXag (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Apr 2021 19:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53912 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232235AbhDZXaf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Apr 2021 15:36:59 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id BD72A5247E7;
-        Mon, 26 Apr 2021 21:36:13 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id mA7bw3r2-FhM; Mon, 26 Apr 2021 21:36:13 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id 7AC7F52490C;
-        Mon, 26 Apr 2021 21:36:13 +0200 (CEST)
-Received: from kista.localnet (cpe-86-58-17-133.cable.triera.net [86.58.17.133])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id A65CF5247E7;
-        Mon, 26 Apr 2021 21:36:12 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>
+        Mon, 26 Apr 2021 19:30:35 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1AFAC061574;
+        Mon, 26 Apr 2021 16:29:53 -0700 (PDT)
+Received: from [IPv6:2804:14d:72b1:a2ff:e1:848c:62d:7304] (unknown [IPv6:2804:14d:72b1:a2ff:e1:848c:62d:7304])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dwlsalmeida)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 77E751F42341;
+        Tue, 27 Apr 2021 00:29:49 +0100 (BST)
+Subject: Re: [PATCH v6 00/10] MPEG-2 stateless API cleanup and destaging
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Maxime Ripard <mripard@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH v6 00/10] MPEG-2 stateless API cleanup and destaging
-Date:   Mon, 26 Apr 2021 21:36:12 +0200
-Message-ID: <1760824.zsKnh077Cu@kista>
-In-Reply-To: <20210426033522.69395-1-ezequiel@collabora.com>
+        Jernej Skrabec <jernej.skrabec@siol.net>
 References: <20210426033522.69395-1-ezequiel@collabora.com>
+From:   Daniel Almeida <daniel.almeida@collabora.com>
+Message-ID: <3bbb3836-802c-5535-005e-5079e8de064e@collabora.com>
+Date:   Mon, 26 Apr 2021 20:29:44 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20210426033522.69395-1-ezequiel@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+Hi Ezequiel, thanks for all your hard work on this!
 
-Dne ponedeljek, 26. april 2021 ob 05:35:12 CEST je Ezequiel Garcia napisal(a):
-> Hi everyone,
-> 
-> Here's another round addressing Hans' feedback. More details
-> about this can be found in the previous cover letter [1]:
-> 
-> [1] https://lore.kernel.org/linux-media/20210403180756.175881-11-ezequiel@collabora.com/T/
-> 
-> The documentation looks good, and so does pahole,
-> but it's really easy to miss some detail in this series,
-> so we'd appreciate if more people could take a look.
-> 
-> v6: 
-> * Reorder patch "media: controls: Log MPEG-2 stateless control in .std_log"
->   to avoid a new compile warning.
-> * Remove "reserved" field in mpeg2 sequence control, noted by Hans.
-> * Reorder "flags" field in mpeg2 picture control, noted by Hans.
-> * Typos and comments fixes, noted by Hans.
+On 26/04/2021 00:35, Ezequiel Garcia wrote:
+ > Hi everyone,
+ >
+ > Here's another round addressing Hans' feedback. More details
+ > about this can be found in the previous cover letter [1]:
+ >
+ > [1] 
+https://lore.kernel.org/linux-media/20210403180756.175881-11-ezequiel@collabora.com/T/
+ >
+ > The documentation looks good, and so does pahole,
+ > but it's really easy to miss some detail in this series,
+ > so we'd appreciate if more people could take a look.
+ >
+ > v6:
+ > * Reorder patch "media: controls: Log MPEG-2 stateless control in 
+.std_log"
+ >    to avoid a new compile warning.
+ > * Remove "reserved" field in mpeg2 sequence control, noted by Hans.
+ > * Reorder "flags" field in mpeg2 picture control, noted by Hans.
+ > * Typos and comments fixes, noted by Hans.
+ >
 
-Thanks for working on this! I tested everything with Cedrus and FFmpeg and it 
-works without a problem. So, whole series is:
+I tested this series on rk3399 (rockpi4) + upcoming gstreamer v4l2 
+stateless mpeg2 decoder and it works just fine.
 
-Tested-by: Jernej Skrabec <jernej.skrabec@siol.net>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
-
-Best regards,
-Jernej
+Tested-by: Daniel Almeida <daniel.almeida@collabora.com>
 
 
+-- thanks
+-- Daniel
