@@ -2,190 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E56C836B4D7
-	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 16:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBA9336B4E3
+	for <lists+linux-media@lfdr.de>; Mon, 26 Apr 2021 16:30:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233762AbhDZO3s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Apr 2021 10:29:48 -0400
-Received: from mga09.intel.com ([134.134.136.24]:38673 "EHLO mga09.intel.com"
+        id S233560AbhDZObV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Apr 2021 10:31:21 -0400
+Received: from msg-1.mailo.com ([213.182.54.11]:60702 "EHLO msg-1.mailo.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231862AbhDZO3r (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Apr 2021 10:29:47 -0400
-IronPort-SDR: VeGNrWNxLQOONbfElEy7ch5lR8rE9xECQYld22VZ5MFXrRQ2RN9TZB2LYI/yOldfulonjjYCuy
- SoBHmnca3tpQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="196454146"
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; 
-   d="scan'208";a="196454146"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2021 07:29:05 -0700
-IronPort-SDR: SODn+dQHlK4O6K7UXNxOJgTaVbYHJZ3E9gJvs9Zy4X1AzpsoZNPmBNjDnfxKZTJsO73n41huVH
- e5MHuhPRwq8g==
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; 
-   d="scan'208";a="429414025"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2021 07:29:04 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 1B6D4203BC;
-        Mon, 26 Apr 2021 17:29:02 +0300 (EEST)
-Date:   Mon, 26 Apr 2021 17:29:02 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 25/78] media: i2c: ccs-core: use
- pm_runtime_resume_and_get()
-Message-ID: <20210426142901.GX3@paasikivi.fi.intel.com>
-References: <cover.1619191723.git.mchehab+huawei@kernel.org>
- <34da940f76da6c1d61a193409164070f47243b64.1619191723.git.mchehab+huawei@kernel.org>
- <20210425185525.GS3@paasikivi.fi.intel.com>
- <20210426160151.61ac6ef2@coco.lan>
- <20210426140900.GW3@paasikivi.fi.intel.com>
- <20210426161659.7b979c44@coco.lan>
+        id S233884AbhDZObV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Apr 2021 10:31:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+        t=1619447429; bh=Inbt0Id184HS+3SGiT3lLvjT+nH9YAUuSWJJoO9mhDY=;
+        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+         MIME-Version:Content-Type:In-Reply-To;
+        b=GRITIFBS7qBNvRhBKjagHeWEfp4XWGKuEDBxVSAtONY/hGZbTy23i8VwtQl3hzoDL
+         sFePlnm4NLWaiSByVrcYskAfGjk8AEetyCiJ0cv4+hoIN4ms6mDCouPCS+rQSZoT6v
+         Dj/0vtpp62d1OAKmnH8e9gA8tuD4CeA8ILxB1Yko=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+        via ip-206.mailobj.net [213.182.55.206]
+        Mon, 26 Apr 2021 16:30:29 +0200 (CEST)
+X-EA-Auth: UsphZN1IEXvgssBLQ4zn+KLQbV+3wb6p+AFcq6FCeKZHKKwEhG+OjvXxBnXXB3REz0dnhkxjtwH4iz8wk7aqWiIlmkkbGp0P
+Date:   Mon, 26 Apr 2021 20:00:22 +0530
+From:   Deepak R Varma <drv@mailo.com>
+To:     Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v3 2/6] staging: media: atomisp: balance braces
+ around if...else block
+Message-ID: <YIbOfjrPG+NIH4wV@192.168.1.8>
+References: <cover.1619199344.git.drv@mailo.com>
+ <71220662c5facd746e56288cc74786c96fa3c5a7.1619199344.git.drv@mailo.com>
+ <20210426095610.GA1418@agape.jhs>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210426161659.7b979c44@coco.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210426095610.GA1418@agape.jhs>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 26, 2021 at 04:16:59PM +0200, Mauro Carvalho Chehab wrote:
-> Em Mon, 26 Apr 2021 17:09:00 +0300
-> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+On Mon, Apr 26, 2021 at 11:56:11AM +0200, Fabio Aiuto wrote:
+> On Sun, Apr 25, 2021 at 02:12:20PM +0530, Deepak R Varma wrote:
+> > Balance braces around the if else blocks as per the code style guidelines.
+> > Resolves checkpatch script CHECK / WARNING feedback messages.
+> > 
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> > 
+> > Changes since v2:
+> >    - None.
+> > Changes since v1:
+> >    - None.
+> > 
+> >  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c  | 4 ++--
+> >  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c  | 4 ++--
+> >  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 4 ++--
+> >  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c  | 7 ++++---
+> >  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c  | 4 ++--
+> >  5 files changed, 12 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > index 6be3ee1d93a5..d68a2bcc9ae1 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > @@ -872,9 +872,9 @@ static int gc0310_s_power(struct v4l2_subdev *sd, int on)
+> >  {
+> >  	int ret;
+> >  
+> > -	if (on == 0)
+> > +	if (on == 0) {
+> >  		return power_down(sd);
+> > -	else {
+> > +	} else {
+> >  		ret = power_up(sd);
+> >  		if (!ret)
+> >  			return gc0310_init(sd);
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> > index 6ba4a8adff7c..e722c639b60d 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> > @@ -658,9 +658,9 @@ static int gc2235_s_power(struct v4l2_subdev *sd, int on)
+> >  {
+> >  	int ret;
+> >  
+> > -	if (on == 0)
+> > +	if (on == 0) {
+> >  		ret = power_down(sd);
+> > -	else {
+> > +	} else {
+> >  		ret = power_up(sd);
+> >  		if (!ret)
+> >  			ret = __gc2235_init(sd);
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> > index f5de81132177..465fc4468442 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> > @@ -568,9 +568,9 @@ static int power_down(struct v4l2_subdev *sd)
+> >  
+> >  static int mt9m114_s_power(struct v4l2_subdev *sd, int power)
+> >  {
+> > -	if (power == 0)
+> > +	if (power == 0) {
+> >  		return power_down(sd);
+> > -	else {
+> > +	} else {
+> >  		if (power_up(sd))
+> >  			return -EINVAL;
+> >  
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> > index c90730513438..92c52431bd8f 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> > @@ -461,11 +461,12 @@ static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
+> >  	ret = ov2680_read_reg(client, 1, OV2680_FLIP_REG, &val);
+> >  	if (ret)
+> >  		return ret;
+> > -	if (value) {
+> > +
+> > +	if (value)
+> >  		val |= OV2680_FLIP_MIRROR_BIT_ENABLE;
+> > -	} else {
+> > +	else
+> >  		val &= ~OV2680_FLIP_MIRROR_BIT_ENABLE;
+> > -	}
+> > +
 > 
-> > Hi Mauro,
-> > 
-> > On Mon, Apr 26, 2021 at 04:01:51PM +0200, Mauro Carvalho Chehab wrote:
-> > > Em Sun, 25 Apr 2021 21:55:25 +0300
-> > > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
-> > >   
-> > > > Hi Mauro,
-> > > > 
-> > > > Thanks for the patch.
-> > > > 
-> > > > On Sat, Apr 24, 2021 at 08:44:35AM +0200, Mauro Carvalho Chehab wrote:  
-> > > > > Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> > > > > added pm_runtime_resume_and_get() in order to automatically handle
-> > > > > dev->power.usage_count decrement on errors.
-> > > > > 
-> > > > > Use the new API, in order to cleanup the error check logic.
-> > > > > 
-> > > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > > > ---
-> > > > >  drivers/media/i2c/ccs/ccs-core.c | 11 +++++------
-> > > > >  1 file changed, 5 insertions(+), 6 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> > > > > index 9dc3f45da3dc..1441ddcc9b35 100644
-> > > > > --- a/drivers/media/i2c/ccs/ccs-core.c
-> > > > > +++ b/drivers/media/i2c/ccs/ccs-core.c
-> > > > > @@ -1880,12 +1880,11 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
-> > > > >  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-> > > > >  	int rval;
-> > > > >  
-> > > > > -	rval = pm_runtime_get_sync(&client->dev);
-> > > > > -	if (rval < 0) {
-> > > > > -		pm_runtime_put_noidle(&client->dev);
-> > > > > -
-> > > > > +	rval = pm_runtime_resume_and_get(&client->dev);
-> > > > > +	if (rval < 0)
-> > > > >  		return rval;
-> > > > > -	} else if (!rval) {
-> > > > > +
-> > > > > +	if (!rval) {
-> > > > >  		rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->
-> > > > >  					       ctrl_handler);
-> > > > >  		if (rval)
-> > > > > @@ -3089,7 +3088,7 @@ static int __maybe_unused ccs_suspend(struct device *dev)
-> > > > >  	bool streaming = sensor->streaming;
-> > > > >  	int rval;
-> > > > >  
-> > > > > -	rval = pm_runtime_get_sync(dev);
-> > > > > +	rval = pm_runtime_resume_and_get(dev);
-> > > > >  	if (rval < 0) {
-> > > > >  		pm_runtime_put_noidle(dev);    
-> > > > 
-> > > > You'll need to drop pm_runtime_put_noidle() here.  
-> > > 
-> > > OK!
-> > > 
-> > > ---
-> > > 
-> > > On a non-related issue at the same code, after the change, the
-> > > suspend function will be:
-> > > 
-> > >   static int __maybe_unused ccs_suspend(struct device *dev)
-> > >   {
-> > >         struct i2c_client *client = to_i2c_client(dev);
-> > >         struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> > >         struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> > >         bool streaming = sensor->streaming;
-> > >         int rval;
-> > > 
-> > >         rval = pm_runtime_resume_and_get(dev);
-> > >         if (rval < 0) 
-> > >                 return -EAGAIN;
-> > > 
-> > >         if (sensor->streaming)
-> > >                 ccs_stop_streaming(sensor);
-> > > 
-> > >         /* save state for resume */
-> > >         sensor->streaming = streaming;
-> > > 
-> > >         return 0;
-> > >   }
-> > > 
-> > > Not sure if "return -EAGAIN" is the right thing here. I mean,
-> > > the PM runtime core has two error conditions that are independent
-> > > on whatever the PM callback would be doing[1]:
-> > > 
-> > > 	        if (dev->power.runtime_error)
-> > >                 retval = -EINVAL;
-> > >         else if (dev->power.disable_depth > 0)
-> > >                 retval = -EACCES;
-> > > 
-> > > It would be very unlikely that trying to suspend again would solve
-> > > those conditions.
-> > > 
-> > > So, I guess that the right thing to do is to change the code
-> > > to do, instead:
-> > > 
-> > >   static int __maybe_unused ccs_suspend(struct device *dev)
-> > >   {
-> > >         struct i2c_client *client = to_i2c_client(dev);
-> > >         struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> > >         struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> > >         bool streaming = sensor->streaming;
-> > >         int rval;
-> > > 
-> > >         rval = pm_runtime_resume_and_get(dev);
-> > >         if (rval < 0) 
-> > >                 return rval;
-> > > 	...
-> > >   }
-> > > 
-> > > 
-> > > [1] see rpm_resume() code at drivers/base/power/runtime.c.  
-> > 
-> > Yeah, I agree. This code is one of the older parts the driver.
-> > 
-> > Please add:
-> > 
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > 
-> > The same goes for the other sensor driver patches in the set you cc'd me,
-> > i.e. patches 12, 15, 26, 28,32, 40, 45, 51, 53 and 55.
+> Hi Deepak,
 > 
-> It probably makes sense to address the suspend/resume -EAGAIN
-> return code on a separate patch series, before this one, as:
-> 
-> 1. this is unrelated to this change;
-> 2. it is something that should be c/c to fixes. So, having it
->    before this series makes easier to apply there.
+> what you did above is not what is written in the commit message
+> description about. Here unneeded bracks are removed in both
+> branches, is not a matter of braces balancing.
 
-Sounds good to me. If you can submit a patch, please add my ack. :-)
+Okay. I was thinking adding where necessary and removing where not
+would lead to expected balancing.
+I will send this as a separate patch in this patch set. Is it okay to
+add a new patch to the set now?
 
--- 
-Sakari Ailus
+Thank you,
+deepak.
+
+> 
+> thank you,
+> 
+> fabio 
+> 
+> >  	ret = ov2680_write_reg(client, 1,
+> >  			       OV2680_FLIP_REG, val);
+> >  	if (ret)
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> > index aec7392fd1de..d046a9804f63 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> > @@ -772,9 +772,9 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
+> >  {
+> >  	int ret;
+> >  
+> > -	if (on == 0)
+> > +	if (on == 0) {
+> >  		return power_down(sd);
+> > -	else {
+> > +	} else {
+> >  		ret = power_up(sd);
+> >  		if (!ret)
+> >  			return ov2722_init(sd);
+> > -- 
+> > 2.25.1
+> > 
+> > 
+> > 
+> > 
+
+
