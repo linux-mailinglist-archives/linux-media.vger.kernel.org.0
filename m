@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56D4036C65A
+	by mail.lfdr.de (Postfix) with ESMTP id A1E0D36C65B
 	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 14:46:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235410AbhD0MrN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 08:47:13 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45386 "EHLO
+        id S237743AbhD0MrP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 08:47:15 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45396 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237743AbhD0MrI (ORCPT
+        with ESMTP id S237632AbhD0MrK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 08:47:08 -0400
+        Tue, 27 Apr 2021 08:47:10 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DA2E2167;
-        Tue, 27 Apr 2021 14:46:22 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D72361838;
+        Tue, 27 Apr 2021 14:46:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619527582;
-        bh=rwh2Qy36d/ilbC1wB0O/8Ko7w3jK8HnGcLIjH8n6Lqc=;
+        s=mail; t=1619527584;
+        bh=AuAKBt3BDpGpx9UkgTjJfBQbEclqgvLFviea8XQtxQY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hwY1hD+4NweX5Z+yNKsyj08EPitXjTom5q1x9owD1I/g735R/n+yXH73i3wuAlB9O
-         /IBpt9KQhFYzoMe5+dqit2K1GrCyyZZO9x/6OQHaAxhPFtNhgAKUR5ZSwh060SlAhk
-         0TGPVvviAuwdhVwhmFjc7v+k7E5D4+PwPvRnWuss=
+        b=XCDDqijQysMb2Zmb2U3HWgeL6cGkizDz0ZWzeRp4B7OHu+EJ5dKMluCyqRrm7+zGP
+         iXZGU++4gYGxhKWu1xuekOFx9/XfKchSMA/HkAnx+OZjPbQhte0W281GwrWsZ8MFto
+         fdwmoWRQ8xaeS0WkbZLas6fJOhML650y41jCSyDQ=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -30,9 +30,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v6 21/24] v4l: subdev: add v4l2_subdev_get_format_dir()
-Date:   Tue, 27 Apr 2021 15:45:20 +0300
-Message-Id: <20210427124523.990938-22-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v6 22/24] media: uapi: add MEDIA_PAD_FL_MULTIPLEXED flag
+Date:   Tue, 27 Apr 2021 15:45:21 +0300
+Message-Id: <20210427124523.990938-23-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210427124523.990938-1-tomi.valkeinen@ideasonboard.com>
 References: <20210427124523.990938-1-tomi.valkeinen@ideasonboard.com>
@@ -42,158 +42,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add v4l2_subdev_get_format_dir() which can be used to find subdev format
-for a specific stream on a multiplexed pad. The function will follow the
-routes and links until it finds a non-multiplexed pad.
+Add a pad flag to indicate that the pad uses multiplexed streams. A pad
+with multiplexed streams won't support pad format configuration and e.g.
+VIDIOC_SUBDEV_S_FMT should return -ENOIOCTLCMD.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 96 +++++++++++++++++++++++++++
- include/media/v4l2-subdev.h           | 26 ++++++++
- 2 files changed, 122 insertions(+)
+ Documentation/userspace-api/media/mediactl/media-types.rst | 6 ++++++
+ include/uapi/linux/media.h                                 | 1 +
+ 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 31e279292ea6..f08847341a6b 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1000,6 +1000,102 @@ bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
+diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+index 0a26397bd01d..d1dca50649f9 100644
+--- a/Documentation/userspace-api/media/mediactl/media-types.rst
++++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+@@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
+ .. _MEDIA-PAD-FL-SINK:
+ .. _MEDIA-PAD-FL-SOURCE:
+ .. _MEDIA-PAD-FL-MUST-CONNECT:
++.. _MEDIA-PAD-FL-MULTIPLEXED:
  
-+int v4l2_subdev_get_format_dir(struct media_pad *pad, u16 stream,
-+			       enum v4l2_direction dir,
-+			       struct v4l2_subdev_format *fmt)
-+{
-+	struct device *dev = pad->entity->graph_obj.mdev->dev;
-+	int ret;
-+	int i;
-+
-+	dev_dbg(dev, "%s '%s':%u:%u %s\n", __func__,
-+		pad->entity->name, pad->index, stream,
-+		dir == V4L2_DIR_SOURCEWARD ? "sourceward" : "sinkward");
-+
-+	while (true) {
-+		struct v4l2_subdev_krouting routing;
-+		struct v4l2_subdev_route *route;
-+
-+		if (pad->entity->obj_type != MEDIA_ENTITY_TYPE_V4L2_SUBDEV)
-+			return -EINVAL;
-+
-+		ret = v4l2_subdev_link_validate_get_format(pad, fmt);
-+		if (ret == 0)
-+			return 0;
-+		else if (ret != -ENOIOCTLCMD)
-+			return ret;
-+
-+		if (pad->flags &
-+		    (dir == V4L2_DIR_SINKWARD ? MEDIA_PAD_FL_SOURCE :
-+						MEDIA_PAD_FL_SINK)) {
-+			pad = media_entity_remote_pad(pad);
-+
-+			if (!pad)
-+				return -EINVAL;
-+
-+			if (pad->entity->obj_type != MEDIA_ENTITY_TYPE_V4L2_SUBDEV)
-+				return -EINVAL;
-+
-+			ret = v4l2_subdev_link_validate_get_format(pad, fmt);
-+			if (ret == 0)
-+				return 0;
-+			else if (ret != -ENOIOCTLCMD)
-+				return ret;
-+		}
-+
-+		ret = v4l2_subdev_get_krouting(media_entity_to_v4l2_subdev(pad->entity), &routing);
-+		if (ret)
-+			return ret;
-+
-+		route = NULL;
-+		for (i = 0; i < routing.num_routes; ++i) {
-+			u16 near_pad = dir == V4L2_DIR_SINKWARD ?
-+					       routing.routes[i].sink_pad :
-+					       routing.routes[i].source_pad;
-+			u16 near_stream = dir == V4L2_DIR_SINKWARD ?
-+						  routing.routes[i].sink_stream :
-+						  routing.routes[i].source_stream;
-+
-+			if (!(routing.routes[i].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+				continue;
-+
-+			if (near_pad != pad->index)
-+				continue;
-+
-+			if (near_stream != stream)
-+				continue;
-+
-+			if (route) {
-+				dev_err(dev,
-+					"%s: '%s' has multiple active routes for stream %u\n",
-+					__func__, pad->entity->name, stream);
-+				v4l2_subdev_free_routing(&routing);
-+				return -EINVAL;
-+			}
-+
-+			route = &routing.routes[i];
-+		}
-+
-+		if (!route) {
-+			dev_err(dev, "%s: no route found in '%s' for stream %u\n",
-+				__func__, pad->entity->name, stream);
-+			v4l2_subdev_free_routing(&routing);
-+			return -EINVAL;
-+		}
-+
-+		if (dir == V4L2_DIR_SINKWARD) {
-+			pad = &pad->entity->pads[route->source_pad];
-+			stream = route->source_stream;
-+		} else {
-+			pad = &pad->entity->pads[route->sink_pad];
-+			stream = route->sink_stream;
-+		}
-+
-+		v4l2_subdev_free_routing(&routing);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_get_format_dir);
-+
- int v4l2_subdev_link_validate(struct media_link *link)
- {
- 	struct v4l2_subdev *sink;
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 1235d4832b76..9025ef3a67f5 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1249,4 +1249,30 @@ void v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
- bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
- 			   unsigned int pad0, unsigned int pad1);
+ .. flat-table:: Media pad flags
+     :header-rows:  0
+@@ -382,6 +383,11 @@ Types and flags used to represent the media graph elements
+ 	  when this flag isn't set; the absence of the flag doesn't imply
+ 	  there is none.
  
-+/**
-+ * enum v4l2_direction - Direction either towards the source or the sink
-+ *
-+ * @V4L2_DIR_SOURCEWARD: Direction towards the source.
-+ * @V4L2_DIR_SINKWARD: Direction towards the sink.
-+ */
-+enum v4l2_direction {
-+	V4L2_DIR_SOURCEWARD,
-+	V4L2_DIR_SINKWARD,
-+};
++    *  -  ``MEDIA_PAD_FL_MULTIPLEXED``
++       -  The pad has multiplexed streams. A pad with multiplexed streams
++          won't support pad format configuration and e.g. VIDIOC_SUBDEV_S_FMT
++          should return -ENOIOCTLCMD.
 +
-+/**
-+ * v4l2_subdev_get_format_dir() - Find format by following streams
-+ * @pad: The pad from which to start the search
-+ * @stream: The stream for which we want to find the format
-+ * @dir: The direction of the search
-+ * @fmt: Pointer to &struct v4l2_subdev_format where the found format is stored
-+ *
-+ * This function attempts to find v4l2_subdev_format for a specific stream on a
-+ * multiplexed pad by following the stream using routes and links to the specified
-+ * direction, until a non-multiplexed pad is found.
-+ */
-+int v4l2_subdev_get_format_dir(struct media_pad *pad, u16 stream,
-+			       enum v4l2_direction dir,
-+			       struct v4l2_subdev_format *fmt);
-+
- #endif
+ 
+ One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
+ must be set for every pad.
+diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+index 200fa8462b90..bdaadef80cbd 100644
+--- a/include/uapi/linux/media.h
++++ b/include/uapi/linux/media.h
+@@ -211,6 +211,7 @@ struct media_entity_desc {
+ #define MEDIA_PAD_FL_SINK			(1 << 0)
+ #define MEDIA_PAD_FL_SOURCE			(1 << 1)
+ #define MEDIA_PAD_FL_MUST_CONNECT		(1 << 2)
++#define MEDIA_PAD_FL_MULTIPLEXED		(1 << 3)
+ 
+ struct media_pad_desc {
+ 	__u32 entity;		/* entity ID */
 -- 
 2.25.1
 
