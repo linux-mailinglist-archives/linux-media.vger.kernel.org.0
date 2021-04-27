@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 604CB36C4D4
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 13:16:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28BD536C4D6
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 13:16:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235969AbhD0LQv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 07:16:51 -0400
+        id S236039AbhD0LQz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 07:16:55 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235943AbhD0LQp (ORCPT
+        with ESMTP id S235428AbhD0LQs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 07:16:45 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CE84C06175F
-        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 04:16:02 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id i190so1525167pfc.12
-        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 04:16:02 -0700 (PDT)
+        Tue, 27 Apr 2021 07:16:48 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD9F5C061574
+        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 04:16:04 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id y62so8494004pfg.4
+        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 04:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FGCi4wgyNmOswZhTsUzcguHV+B0Lp+oepbJNaLdIIQs=;
-        b=eM/J7FTNEqy/zfDU2sn4V/mLvs/9ZVj7P8OeX8GYnAg1OLcd/aZi3pIJ34tMwyGLTg
-         ttZdQQSMaCDyhPcEOUdUT7UqSweFwjsZgymNQ2cqZ4t4cMdUNC8ACJqw+MqWwPw3TOqE
-         XFZY6A4SL+Bh4dfHH3MxZaUUhPfMk/rCzWt8A=
+        bh=qDhPIhfqI4Pq+xMHlyEIR9SMexQlN4dYaagLiPYwmXw=;
+        b=oCxdPjDxqgobH5jkDDoNia3CKUV62rbY0dfh44gq35HsSMuaWJlr7F7TsvdG5aln89
+         uH1/2zlA2BbYG7ca2eTjKcf+Zgx+Jsi1QXv4yKGn5lIrSXaVvO67wQ3TlvbBUdngMyaR
+         vrJ0MO5ui2qHu/dLUbKRXQtfcWpYoxmDpPKBg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FGCi4wgyNmOswZhTsUzcguHV+B0Lp+oepbJNaLdIIQs=;
-        b=q3SjQ1Wm35Eo+tZtKiAcyjQ6YoY8ks0IHYWgcOW1em9AzQkgYIuM00MLgHMmqvW+aC
-         hfhWimU7jd3nteI+H0nq0BFxqQp3V5MO0VLvCOkiiSfsiVjQuQEXzUExVQx90k5B0NBR
-         YGgS7DHy3MYfgEW35yPfMdOsno1YPKF6nCdQLX9fQW/m/Rsf3QbUCKdjjykt6jko3Z+/
-         TNmsvcsDd/WZKT8l1u1cNmVQSA7abVzC5jDrq60U58lS36Q/VpY38TTaFd+epCR6L5Di
-         /gFUUz2TPc4jYqNjHxCkgcjHx+dv/N4nKgXOYS9EmqwcwYYMfCKEUSrJMoLgkwpV3aH5
-         7Rxw==
-X-Gm-Message-State: AOAM532CLE2e+WMmXyM8xSu/HCVNQTXJ8Vlohwk7u5EPtvS8PAZtpGNh
-        VYd14DZWsbaDsXOIhpwfGP8yvg==
-X-Google-Smtp-Source: ABdhPJzMT5Fck/ahyuMY+JNQxL/9oUgdrbw/UDDbspnGnAl+oGo6sz77U5W7LGN1CgNLep74HZAJZA==
-X-Received: by 2002:a62:528e:0:b029:1f5:c5ee:a487 with SMTP id g136-20020a62528e0000b02901f5c5eea487mr21962939pfb.7.1619522161753;
-        Tue, 27 Apr 2021 04:16:01 -0700 (PDT)
+        bh=qDhPIhfqI4Pq+xMHlyEIR9SMexQlN4dYaagLiPYwmXw=;
+        b=QCjMjWwnz0sUtxsSJt8T/ZZopxPpWySRSGjw38LoRze9EuF7KGAM47I4vHRp+r+5yh
+         8p/+ygmHOKY6+yNwgNyriX8VzLJeiEI7zNwMCGXjK8jGKWw3FHAFe1O+6hGg7K59qhhV
+         FRgTI7gRsk3KWHMAjoaCHGRXcbNSQ0WONN63LcT+3sB+LoprFj+pS6EkxGX9x3AzMMgf
+         oc5+VjZTTswdVzmD4I+7vKU/8H0VWsfiSHgGVW5nRAmbsosJBPP4cHyzWnL6rx4RWVxM
+         fbsdljWuJdyVbwrJpDDfDXEBzzubJidrHeQrv1bv/i6/5eSa6rAF03zOkLD5y/5NucCA
+         rNcw==
+X-Gm-Message-State: AOAM531D+mUSnmWTVj0x11eD/DMaCuvtzmmmchA1ALdX60wuInvNKfHg
+        +kDmz8JnrgmM0PyOK4g0nqB8VA==
+X-Google-Smtp-Source: ABdhPJxqw98nbi47JE/oWyswUWPhOTXxfI7Or9Fl7giJxqzcHMD94e1TOTYdUKyFM6zwAZpP78OejQ==
+X-Received: by 2002:a63:e347:: with SMTP id o7mr4815571pgj.184.1619522164479;
+        Tue, 27 Apr 2021 04:16:04 -0700 (PDT)
 Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:b182:d363:32d0:53a2])
-        by smtp.gmail.com with ESMTPSA id c21sm2347210pfc.165.2021.04.27.04.15.59
+        by smtp.gmail.com with ESMTPSA id c21sm2347210pfc.165.2021.04.27.04.16.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Apr 2021 04:16:01 -0700 (PDT)
+        Tue, 27 Apr 2021 04:16:04 -0700 (PDT)
 From:   Alexandre Courbot <acourbot@chromium.org>
 To:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -55,9 +55,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mediatek@lists.infradead.org,
         Alexandre Courbot <acourbot@chromium.org>
-Subject: [PATCH v4 09/15] media: mtk-vcodec: enable MT8183 decoder
-Date:   Tue, 27 Apr 2021 20:15:20 +0900
-Message-Id: <20210427111526.1772293-10-acourbot@chromium.org>
+Subject: [PATCH v4 10/15] media: mtk-vcodec: vdec: use helpers in VIDIOC_(TRY_)DECODER_CMD
+Date:   Tue, 27 Apr 2021 20:15:21 +0900
+Message-Id: <20210427111526.1772293-11-acourbot@chromium.org>
 X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
 In-Reply-To: <20210427111526.1772293-1-acourbot@chromium.org>
 References: <20210427111526.1772293-1-acourbot@chromium.org>
@@ -67,41 +67,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yunfei Dong <yunfei.dong@mediatek.com>
+Let's use the dedicated helpers to make sure we get the expected
+behavior on stateful decoders as well.
 
-Now that all the supporting blocks are present, enable decoder for
-MT8183.
-
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-[acourbot: refactor, cleanup and split]
-Co-developed-by: Alexandre Courbot <acourbot@chromium.org>
 Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../media/platform/mtk-vcodec/mtk_vcodec_dec.c   | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-index e942e28f96fe..e0526c0900c8 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-@@ -383,12 +383,17 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+index 01c5333d6cff..4ef4b68ec9bd 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+@@ -52,22 +52,10 @@ static int vidioc_try_decoder_cmd(struct file *file, void *priv,
+ 	if (ctx->dev->vdec_pdata->uses_stateless_api)
+ 		return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv,
+ 								cmd);
+-
+-	switch (cmd->cmd) {
+-	case V4L2_DEC_CMD_STOP:
+-	case V4L2_DEC_CMD_START:
+-		if (cmd->flags != 0) {
+-			mtk_v4l2_err("cmd->flags=%u", cmd->flags);
+-			return -EINVAL;
+-		}
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-	return 0;
++	else
++		return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
  }
  
- extern const struct mtk_vcodec_dec_pdata mtk_vdec_8173_pdata;
-+extern const struct mtk_vcodec_dec_pdata mtk_vdec_8183_pdata;
- 
- static const struct of_device_id mtk_vcodec_match[] = {
- 	{
- 		.compatible = "mediatek,mt8173-vcodec-dec",
- 		.data = &mtk_vdec_8173_pdata,
- 	},
-+	{
-+		.compatible = "mediatek,mt8183-vcodec-dec",
-+		.data = &mtk_vdec_8183_pdata,
-+	},
- 	{},
- };
- 
+-
+ static int vidioc_decoder_cmd(struct file *file, void *priv,
+ 				struct v4l2_decoder_cmd *cmd)
+ {
 -- 
 2.31.1.498.g6c1eba8ee3d-goog
 
