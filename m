@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E525C36C3C5
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10E2A36C360
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:28:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238356AbhD0K3j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:29:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48172 "EHLO mail.kernel.org"
+        id S237061AbhD0K2R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:28:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48156 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238012AbhD0K2c (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:28:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CF6A36144E;
-        Tue, 27 Apr 2021 10:27:16 +0000 (UTC)
+        id S235517AbhD0K2D (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 06:28:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B303613D0;
+        Tue, 27 Apr 2021 10:27:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619519237;
-        bh=x4LtonqYrT7G4qNBwEeK0f+06mohriAA55Pys8MWWx4=;
+        s=k20201202; t=1619519236;
+        bh=Brp5bgVOD7UqAef4tVuj+33Q8jgTwnd/UQoPNRzNrhM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RFc0Y/+7gCP40w3VzKraULCk+LFdE2ZViPUMHfM3Htxuz+ea83vUb71IZjgDX81Xf
-         9MlAufcUX87FstAU3jcUvOOcVLnc6qCyWPNi2ajgbSlLlhkUzSv+Dat4aDNPsGPn8S
-         M0T0aB86+/HLQOVwocv6NcCaZfqlJK86A1cHfZKfU5F+hyi4XvQ9Be9t2CLejyGM8S
-         l+dLb8Biyu0hsJcE33mzi0IT/DPLLv4Qa8cTeVwBsoGn6UhyVYNWbMpRY7Wha+hDwx
-         EElfiHJlyzKjq3QlqAn97kFNbGngBrkOTyINa7TkPxihdeZZyTeRlMB88/a/0eHApS
-         4cTMvn9CM8qEA==
+        b=e6fyJt/1tyQ+bKXpDrQhcZ2T+6eCV2UdjdMUSlzUshM/+lUly7WUAndQ07uDq81c4
+         3BDo2YsAh9mlufH5zkddHpySwopBKA9CwmUfvK/IPLvO/8Ux03j3Fe3v1dJd3Hgqm8
+         1Zsw5WvJ4XAg1xQjDhzOd2aZVs4yvcxoYiT8q5bAewCKTsp+0wgfliR0TA7oMsxy4Y
+         QvwvMxwjynnbek0QBSHJoA8zpXMOro/I7kJ/P2XrloADUpW8I8DRdDwWtnp+S/SbWb
+         b5Z+H4wxqip4ikECiIgHW/T7hPTXN6f6DBwbu6cRbvtmuPtkhALg35NvY9QZsWCpnF
+         k98sbx5cJ/Zng==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKvw-000o0Z-Ep; Tue, 27 Apr 2021 12:27:12 +0200
+        id 1lbKvw-000o0c-Gf; Tue, 27 Apr 2021 12:27:12 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v3 28/79] media: i2c: ak7375: use pm_runtime_resume_and_get()
-Date:   Tue, 27 Apr 2021 12:26:18 +0200
-Message-Id: <af40eb313e5476f62b9a494b320d81fc24e662bd.1619519080.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 29/79] media: i2c: ccs-core: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:26:19 +0200
+Message-Id: <b605d9efaf6ae9535a7c348e9972af2f6c873a12.1619519080.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619519080.git.mchehab+huawei@kernel.org>
 References: <cover.1619519080.git.mchehab+huawei@kernel.org>
@@ -54,30 +54,45 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/ak7375.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
-index e1f94ee0f48f..40b1a4aa846c 100644
---- a/drivers/media/i2c/ak7375.c
-+++ b/drivers/media/i2c/ak7375.c
-@@ -87,15 +87,7 @@ static const struct v4l2_ctrl_ops ak7375_vcm_ctrl_ops = {
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index b05f409014b2..8cce80557128 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -1880,12 +1880,11 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
+ 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+ 	int rval;
  
- static int ak7375_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- {
--	int ret;
+-	rval = pm_runtime_get_sync(&client->dev);
+-	if (rval < 0) {
+-		pm_runtime_put_noidle(&client->dev);
 -
--	ret = pm_runtime_get_sync(sd->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(sd->dev);
--		return ret;
++	rval = pm_runtime_resume_and_get(&client->dev);
++	if (rval < 0)
+ 		return rval;
+-	} else if (!rval) {
++
++	if (!rval) {
+ 		rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->
+ 					       ctrl_handler);
+ 		if (rval)
+@@ -3089,12 +3088,9 @@ static int __maybe_unused ccs_suspend(struct device *dev)
+ 	bool streaming = sensor->streaming;
+ 	int rval;
+ 
+-	rval = pm_runtime_get_sync(dev);
+-	if (rval < 0) {
+-		pm_runtime_put_noidle(dev);
+-
++	rval = pm_runtime_resume_and_get(dev);
++	if (rval < 0)
+ 		return rval;
 -	}
--
--	return 0;
-+	return pm_runtime_resume_and_get(sd->dev);
- }
  
- static int ak7375_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 	if (sensor->streaming)
+ 		ccs_stop_streaming(sensor);
 -- 
 2.30.2
 
