@@ -2,40 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DB9D36C3D5
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEABA36C390
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:28:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238342AbhD0K3L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:29:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48142 "EHLO mail.kernel.org"
+        id S235515AbhD0K2y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:28:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48192 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237122AbhD0K2S (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:28:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6FFDF6140B;
+        id S235729AbhD0K2J (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 06:28:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B784613E5;
         Tue, 27 Apr 2021 10:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619519236;
-        bh=3LPMYGviydz+wxD+uX1CWPHMq2PRxZGRtXrIww4fEeI=;
+        bh=rXQEV5ur3+5U6VOB8wAB6dlcXqNLqRBsrKFm5rfs1io=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JfYMlpLkTE+a+U7DACSe3kqv79r4hpskaJ8xWggG5CTE731TOPRasVs5/XqeSjNuq
-         6pYjqA1qoaNCY8KCYavQsd5lDEJWqfkq63Nnd8wERXWS6oupupuIp4lhLZUBQpdE6r
-         N3jbGIJMAmN1nKIUNWQS6WVvhhFtNp2aZTpjJgEl5XPoT0KT5Tjze8mlOZYz6YPCUf
-         aVrS5hqV/Dp3+eL/zi56LrCA1CyRpRsKUlaHlZR2ScGgmxXtf+EmBPgK5ey8Kh8wnK
-         CHqS3wnp9XnXF7vPTWtS9rIgULno9+59Bh+TPTJ0zTcTQuvo3qt1oXC695RrkQP+3a
-         89rBlsrR6RR/g==
+        b=TDWEHSoiJqHs+CXnKEzA0b8240R9e7+E5MwttfdXgkUfu4ckV4MTuYOUopf6dbCUO
+         57AO1wormtn9rpGhh26NDa3mpubctsWkq5n9PlCftz/Jm34XtgCdeeEbwYUF6szTBe
+         OSVCrXvbLEB6KeAfd+ZMQtltpJbNi9CDFWgTR07+0DeRsuXbGORG8KXul+QRnPih9r
+         vtp6XfekRVt7r6Eh1+gEA56Ysd1W7aCiNfNDbd8wVauvnd8g4bDq7ig/P8DLzgvM+R
+         7EYC2NXzU1p5I+a+B+9/+Af95BHT6Y/AUhfRSqBc4xwd6hr2chJACrHuG/JFQBUD2V
+         rD0WiGx6/xExA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKvx-000o1F-97; Tue, 27 Apr 2021 12:27:13 +0200
+        id 1lbKvx-000o1I-B1; Tue, 27 Apr 2021 12:27:13 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v3 42/79] media: i2c: mt9m001: use pm_runtime_resume_and_get()
-Date:   Tue, 27 Apr 2021 12:26:32 +0200
-Message-Id: <f7d2f9fe3e0314a7054ad9f2869017db8ab2caf7.1619519080.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 43/79] media: i2c: ov02a10: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:26:33 +0200
+Message-Id: <b25c530fbf2434e6ed6f1ac8ab34ce07e5dc9602.1619519080.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619519080.git.mchehab+huawei@kernel.org>
 References: <cover.1619519080.git.mchehab+huawei@kernel.org>
@@ -55,33 +54,27 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/mt9m001.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov02a10.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/mt9m001.c b/drivers/media/i2c/mt9m001.c
-index ac1b380e6c03..2867f64e357d 100644
---- a/drivers/media/i2c/mt9m001.c
-+++ b/drivers/media/i2c/mt9m001.c
-@@ -217,9 +217,9 @@ static int mt9m001_s_stream(struct v4l2_subdev *sd, int enable)
- 		goto done;
+diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
+index c47b1d45d8fd..a1d7314b20a9 100644
+--- a/drivers/media/i2c/ov02a10.c
++++ b/drivers/media/i2c/ov02a10.c
+@@ -540,11 +540,9 @@ static int ov02a10_s_stream(struct v4l2_subdev *sd, int on)
+ 	}
  
- 	if (enable) {
+ 	if (on) {
 -		ret = pm_runtime_get_sync(&client->dev);
+-		if (ret < 0) {
+-			pm_runtime_put_noidle(&client->dev);
 +		ret = pm_runtime_resume_and_get(&client->dev);
- 		if (ret < 0)
--			goto put_unlock;
-+			goto unlock;
++		if (ret < 0)
+ 			goto unlock_and_return;
+-		}
  
- 		ret = mt9m001_apply_selection(sd);
- 		if (ret)
-@@ -247,6 +247,7 @@ static int mt9m001_s_stream(struct v4l2_subdev *sd, int enable)
- 
- put_unlock:
- 	pm_runtime_put(&client->dev);
-+unlock:
- 	mutex_unlock(&mt9m001->mutex);
- 
- 	return ret;
+ 		ret = __ov02a10_start_stream(ov02a10);
+ 		if (ret) {
 -- 
 2.30.2
 
