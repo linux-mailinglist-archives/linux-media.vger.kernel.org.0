@@ -2,167 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2363036BF9A
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 09:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65E9436BFEF
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 09:16:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231475AbhD0HDq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 03:03:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56916 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229547AbhD0HDp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 03:03:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 537C961159;
-        Tue, 27 Apr 2021 07:03:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619506982;
-        bh=izivrDlVuNDG8rAEjfPQuF8j4WWF/Bepl7fmbRGNam0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=LGqhJt0z5L3oHbMeWvaKxbgfcdzXj7KkduWLqyLKZTfWxvFNrQstpI1U5/d+Ca92L
-         iyBuqEw1ZNfqiHsq6FtMILwOYxQgJCS7gPec4roam2rOI4P1RzZv+RLshy+eMKXK2P
-         qBsYmLOEqiUetSKv9IFm7Wma6C3GRprkP3LBIINQzY1SivoCzsr9TXPYC1jh4XIA4Q
-         PUq8Tqya6Kg1YjL+l9ZE4snc93muiruccuhd9OUWeg8gMSXdhk0p8OBxt4BQPY2LTF
-         fcF09pT/C7wJRyt9jLtmKpYnYOAjJsW1PDYjaeDu4Y/cb2XGXi+L2CahdjNyIRcKas
-         uL7dqPSeSbkPg==
-Date:   Tue, 27 Apr 2021 09:02:58 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 25/78] media: i2c: ccs-core: use
- pm_runtime_resume_and_get()
-Message-ID: <20210427090258.35627539@coco.lan>
-In-Reply-To: <20210426193223.78bd06f3@coco.lan>
-References: <cover.1619191723.git.mchehab+huawei@kernel.org>
-        <34da940f76da6c1d61a193409164070f47243b64.1619191723.git.mchehab+huawei@kernel.org>
-        <20210425185525.GS3@paasikivi.fi.intel.com>
-        <20210426160151.61ac6ef2@coco.lan>
-        <20210426140900.GW3@paasikivi.fi.intel.com>
-        <20210426161659.7b979c44@coco.lan>
-        <20210426142901.GX3@paasikivi.fi.intel.com>
-        <20210426193223.78bd06f3@coco.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S231327AbhD0HQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 03:16:47 -0400
+Received: from mailoutvs4.siol.net ([185.57.226.195]:52826 "EHLO mail.siol.net"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229988AbhD0HQq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 03:16:46 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id C89C9522CEF;
+        Tue, 27 Apr 2021 09:16:01 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id CxEoLfVWkIxP; Tue, 27 Apr 2021 09:16:01 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id 43406524694;
+        Tue, 27 Apr 2021 09:16:01 +0200 (CEST)
+Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net [86.58.17.133])
+        (Authenticated sender: 031275009)
+        by mail.siol.net (Postfix) with ESMTPSA id 45BCD522CEF;
+        Tue, 27 Apr 2021 09:16:00 +0200 (CEST)
+From:   Jernej Skrabec <jernej.skrabec@siol.net>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        ezequiel@collabora.com, benjamin.gaignard@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: [PATCH] media: hevc: Fix dependent slice segment flags
+Date:   Tue, 27 Apr 2021 09:15:54 +0200
+Message-Id: <20210427071554.2222625-1-jernej.skrabec@siol.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Dependent slice segment flag for PPS control is misnamed. It should have
+"enabled" at the end. It only tells if this flag is present in slice
+header or not and not the actual value.
 
-Em Mon, 26 Apr 2021 19:32:23 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Fix this by renaming the PPS flag and introduce another flag for slice
+control which tells actual value.
 
-> Em Mon, 26 Apr 2021 17:29:02 +0300
-> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
-> 
-> > On Mon, Apr 26, 2021 at 04:16:59PM +0200, Mauro Carvalho Chehab wrote:  
-> > > Em Mon, 26 Apr 2021 17:09:00 +0300
-> > > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
-> > >     
-> > > > Hi Mauro,
-> > > > 
-> > > > On Mon, Apr 26, 2021 at 04:01:51PM +0200, Mauro Carvalho Chehab wrote:    
-> > > > > Em Sun, 25 Apr 2021 21:55:25 +0300
-> > > > > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
-> > > > >       
-... 
-> > > > > On a non-related issue at the same code, after the change, the
-> > > > > suspend function will be:
-> > > > > 
-> > > > >   static int __maybe_unused ccs_suspend(struct device *dev)
-> > > > >   {
-> > > > >         struct i2c_client *client = to_i2c_client(dev);
-> > > > >         struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> > > > >         struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> > > > >         bool streaming = sensor->streaming;
-> > > > >         int rval;
-> > > > > 
-> > > > >         rval = pm_runtime_resume_and_get(dev);
-> > > > >         if (rval < 0) 
-> > > > >                 return -EAGAIN;
-> > > > > 
-> > > > >         if (sensor->streaming)
-> > > > >                 ccs_stop_streaming(sensor);
-> > > > > 
-> > > > >         /* save state for resume */
-> > > > >         sensor->streaming = streaming;
-> > > > > 
-> > > > >         return 0;
-> > > > >   }
-> > > > > 
-> > > > > Not sure if "return -EAGAIN" is the right thing here. I mean,
-> > > > > the PM runtime core has two error conditions that are independent
-> > > > > on whatever the PM callback would be doing[1]:
-> > > > > 
-> > > > > 	        if (dev->power.runtime_error)
-> > > > >                 retval = -EINVAL;
-> > > > >         else if (dev->power.disable_depth > 0)
-> > > > >                 retval = -EACCES;
-> > > > > 
-> > > > > It would be very unlikely that trying to suspend again would solve
-> > > > > those conditions.
-> > > > > 
-> > > > > So, I guess that the right thing to do is to change the code
-> > > > > to do, instead:
-> > > > > 
-> > > > >   static int __maybe_unused ccs_suspend(struct device *dev)
-> > > > >   {
-> > > > >         struct i2c_client *client = to_i2c_client(dev);
-> > > > >         struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> > > > >         struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> > > > >         bool streaming = sensor->streaming;
-> > > > >         int rval;
-> > > > > 
-> > > > >         rval = pm_runtime_resume_and_get(dev);
-> > > > >         if (rval < 0) 
-> > > > >                 return rval;
-> > > > > 	...
-> > > > >   }
-> > > > > 
-> > > > > 
-> > > > > [1] see rpm_resume() code at drivers/base/power/runtime.c.      
-> > > > 
-> > > > Yeah, I agree. This code is one of the older parts the driver.
-> > > > 
-> > > > Please add:
-> > > > 
-> > > > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > 
-> > > > The same goes for the other sensor driver patches in the set you cc'd me,
-> > > > i.e. patches 12, 15, 26, 28,32, 40, 45, 51, 53 and 55.    
-> > > 
-> > > It probably makes sense to address the suspend/resume -EAGAIN
-> > > return code on a separate patch series, before this one, as:
-> > > 
-> > > 1. this is unrelated to this change;
-> > > 2. it is something that should be c/c to fixes. So, having it
-> > >    before this series makes easier to apply there.    
-> > 
-> > Sounds good to me. If you can submit a patch, please add my ack. :-)  
-> 
-> Sure. I'll work on such patch series.
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+---
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 ++++-
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 4 ++--
+ include/media/hevc-ctrls.h                                | 3 ++-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-I checked the files affected by those patches:
-12, 15, 26, 28,32, 40, 45, 51, 53 and 55, e.g.:
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index 7b90cb939e9d..5ed343ddd1ea 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -3059,7 +3059,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+     :stub-columns: 0
+     :widths:       1 1 2
+=20
+-    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT``
++    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED``
+       - 0x00000001
+       -
+     * - ``V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT``
+@@ -3274,6 +3274,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+     * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_EN=
+ABLED``
+       - 0x00000100
+       -
++    * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT``
++      - 0x00000200
++      -
+=20
+ .. raw:: latex
+=20
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h265.c
+index 397a4ba5df4c..6821e3d05d34 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+@@ -479,8 +479,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+ 				slice_params->flags);
+=20
+ 	reg |=3D VE_DEC_H265_FLAG(VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_DEPENDEN=
+T_SLICE_SEGMENT,
+-				V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT,
+-				pps->flags);
++				V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT,
++				slice_params->flags);
+=20
+ 	/* FIXME: For multi-slice support. */
+ 	reg |=3D VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PI=
+C;
+diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+index b713eeed1915..dc964ff7cd29 100644
+--- a/include/media/hevc-ctrls.h
++++ b/include/media/hevc-ctrls.h
+@@ -83,7 +83,7 @@ struct v4l2_ctrl_hevc_sps {
+ 	__u64	flags;
+ };
+=20
+-#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT		(1ULL << 0)
++#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
+ #define V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT			(1ULL << 1)
+ #define V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED		(1ULL << 2)
+ #define V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT			(1ULL << 3)
+@@ -166,6 +166,7 @@ struct v4l2_hevc_pred_weight_table {
+ #define V4L2_HEVC_SLICE_PARAMS_FLAG_USE_INTEGER_MV		(1ULL << 6)
+ #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED (1U=
+LL << 7)
+ #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENAB=
+LED (1ULL << 8)
++#define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
+=20
+ struct v4l2_ctrl_hevc_slice_params {
+ 	__u32	bit_size;
+--=20
+2.31.1
 
-
-	drivers/staging/media/atomisp/pci/atomisp_fops.c
-	drivers/staging/media/ipu3/ipu3.c
-	drivers/media/i2c/dw9714.c
-	drivers/media/i2c/dw9807-vcm.c
-	drivers/media/i2c/imx258.c
-	drivers/media/i2c/ov13858.c
-	drivers/media/i2c/ov8865.c
-	drivers/media/i2c/tvp5150.c
-	drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-
-I also double-checked the I2C drivers that use SET_SYSTEM_SLEEP_PM_OPS().
-None of them are calling pm_runtime_* at suspend time, except for the
-ccs-core.
-
-So, I ended writing just a patch for ccs-core, to be applied
-before this /78 series.
-
-Thanks,
-Mauro
