@@ -2,273 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CCB236C483
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C941536C488
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:59:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235391AbhD0K6l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:58:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230365AbhD0K6l (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:58:41 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6092BC061574
-        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 03:57:58 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1lbLPg-0006kR-SG; Tue, 27 Apr 2021 12:57:56 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1lbLPf-0007ap-S3; Tue, 27 Apr 2021 12:57:55 +0200
-Date:   Tue, 27 Apr 2021 12:57:55 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Marek Vasut <marex@denx.de>,
-        kernel@pengutronix.de, Rui Miguel Silva <rmfrfs@gmail.com>,
-        linux-imx@nxp.com, Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH 23/23] media: imx: imx7_mipi_csis: Add i.MX8MM support
-Message-ID: <20210427105755.khoqsuwyaisdd7ca@pengutronix.de>
-References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
- <20210413023014.28797-24-laurent.pinchart@ideasonboard.com>
+        id S235547AbhD0LA3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 07:00:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49316 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230365AbhD0LA3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 07:00:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 62E166112F;
+        Tue, 27 Apr 2021 10:59:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619521186;
+        bh=Xu8yXTNTdsGCIO+l+ExBtuapFY7i/dpS3ImNxVf+HGY=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=CUK0fGcHEhy+5ocazwb3eIFVzBs0TWdr0PYwFHtSYyhZotC/ytZcSVml7oUETcSJu
+         R0i3uOSQKgeDtsmP/h0xvy7U+Fs2Yun8g2Qc2I5k9e0O7/TSM0hUReukg+7Dy+5kfi
+         wLCYrfopyaqid5krcRrlDXSkHaGIi8+fUptdeQIocg6yFBmCuTaeEa07NX7sh96qty
+         RkUb0mW23oQDvwKqimiUMhCI64KIy4rvS/GBIsPWUc3xrhCS0HvKWeB8iWjHC4aVcN
+         4zVpUZEHGDkJBxH3mfedcAgdohamC6oeosqSPb1AcBeqOe0ZIaMfK+biCwcqm+bT27
+         3VcotZh7cB/yg==
+Subject: Re: [PATCH v3 71/79] media: s3c-camif: use
+ pm_runtime_resume_and_get()
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+References: <cover.1619519080.git.mchehab+huawei@kernel.org>
+ <a002bcaa2096cac125469b0188e5967d0e1892a0.1619519080.git.mchehab+huawei@kernel.org>
+From:   Sylwester Nawrocki <snawrocki@kernel.org>
+Message-ID: <0b394ffa-e201-6f49-22c6-eac40a9e034c@kernel.org>
+Date:   Tue, 27 Apr 2021 12:59:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210413023014.28797-24-laurent.pinchart@ideasonboard.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:43:19 up 146 days, 49 min, 46 users,  load average: 0.01, 0.04,
- 0.06
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <a002bcaa2096cac125469b0188e5967d0e1892a0.1619519080.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-thanks a lot for this serie and for enabling the MX8MM device :)
-
-Below are my two cents:
-
-On 21-04-13 05:30, Laurent Pinchart wrote:
-> The CSI-2 receiver in the i.MX8MM is a newer version of the one found in
-> the i.MX7. Differences are minimal, support it in the imx7_mipi_csis
-> driver.
+On 27.04.2021 12:27, Mauro Carvalho Chehab wrote:
+> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> added pm_runtime_resume_and_get() in order to automatically handle
+> dev->power.usage_count decrement on errors.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/staging/media/imx/imx7-mipi-csis.c | 70 ++++++++++++++++------
->  1 file changed, 52 insertions(+), 18 deletions(-)
+> Use the new API, in order to cleanup the error check logic.
 > 
-> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-> index 6e235c86e0aa..0444b784c1ec 100644
-> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
-> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-> @@ -18,6 +18,7 @@
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/of.h>
-> +#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/regulator/consumer.h>
-> @@ -283,12 +284,23 @@ enum mipi_csis_clk {
->  	MIPI_CSIS_CLK_PCLK,
->  	MIPI_CSIS_CLK_WRAP,
->  	MIPI_CSIS_CLK_PHY,
-> +	MIPI_CSIS_CLK_AXI,
->  };
->  
->  static const char * const mipi_csis_clk_id[] = {
->  	"pclk",
->  	"wrap",
->  	"phy",
-> +	"axi",
-> +};
-> +
-> +enum mipi_csis_version {
-> +	MIPI_CSIS_V3_3,
-> +	MIPI_CSIS_V3_6_3,
-> +};
-> +
-> +struct mipi_csis_info {
-> +	enum mipi_csis_version version;
->  };
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Since you are adding a struct here, I would..
-
->  struct csi_state {
-> @@ -298,6 +310,7 @@ struct csi_state {
->  	struct clk_bulk_data *clks;
->  	struct reset_control *mrst;
->  	struct regulator *mipi_phy_regulator;
-> +	const struct mipi_csis_info *info;
->  	u8 index;
->  
->  	struct v4l2_subdev sd;
-> @@ -459,6 +472,9 @@ static void mipi_csis_sw_reset(struct csi_state *state)
->  
->  static int mipi_csis_phy_init(struct csi_state *state)
->  {
-> +	if (state->info->version != MIPI_CSIS_V3_3)
-> +		return 0;
-> +
->  	state->mipi_phy_regulator = devm_regulator_get(state->dev, "phy");
->  	if (IS_ERR(state->mipi_phy_regulator))
->  		return PTR_ERR(state->mipi_phy_regulator);
-> @@ -469,11 +485,11 @@ static int mipi_csis_phy_init(struct csi_state *state)
->  
->  static void mipi_csis_phy_reset(struct csi_state *state)
->  {
-> -	reset_control_assert(state->mrst);
-> -
-> -	msleep(20);
-> -
-> -	reset_control_deassert(state->mrst);
-> +	if (state->info->version == MIPI_CSIS_V3_3) {
-> +		reset_control_assert(state->mrst);
-> +		msleep(20);
-> +		reset_control_deassert(state->mrst);
-> +	}
->  }
-
-Add the phy handling as function callbacks to the struct. This avoids
-the version checking and we are more flexible to extended adapt it for
-further SoCs. According the current state this could be:
-
-.dphy_parse()
-.dphy_init()
-.dphy_reset()
-.dphy_on()
-.dphy_off()
-
->  static void mipi_csis_system_enable(struct csi_state *state, int on)
-> @@ -558,7 +574,8 @@ static void mipi_csis_set_params(struct csi_state *state)
->  	val = mipi_csis_read(state, MIPI_CSIS_CMN_CTRL);
->  	val &= ~MIPI_CSIS_CMN_CTRL_LANE_NR_MASK;
->  	val |= (lanes - 1) << MIPI_CSIS_CMN_CTRL_LANE_NR_OFFSET;
-> -	val |= MIPI_CSIS_CMN_CTRL_INTER_MODE;
-> +	if (state->info->version == MIPI_CSIS_V3_3)
-> +		val |= MIPI_CSIS_CMN_CTRL_INTER_MODE;
->  	mipi_csis_write(state, MIPI_CSIS_CMN_CTRL, val);
->  
->  	__mipi_csis_set_format(state);
-> @@ -610,7 +627,7 @@ static int mipi_csis_clk_get(struct csi_state *state)
->  	unsigned int i;
->  	int ret;
->  
-> -	state->num_clks = ARRAY_SIZE(mipi_csis_clk_id);
-> +	state->num_clks = state->info->version == MIPI_CSIS_V3_3 ? 3 : 4;
-
-I would also add the num_clks to the struct.
-
-Regards,
-  Marco
-
->  	state->clks = devm_kcalloc(state->dev, state->num_clks,
->  				   sizeof(*state->clks), GFP_KERNEL);
->  
-> @@ -1178,9 +1195,11 @@ static int mipi_csis_pm_suspend(struct device *dev, bool runtime)
->  	mutex_lock(&state->lock);
->  	if (state->state & ST_POWERED) {
->  		mipi_csis_stop_stream(state);
-> -		ret = regulator_disable(state->mipi_phy_regulator);
-> -		if (ret)
-> -			goto unlock;
-> +		if (state->info->version == MIPI_CSIS_V3_3) {
-> +			ret = regulator_disable(state->mipi_phy_regulator);
-> +			if (ret)
-> +				goto unlock;
-> +		}
->  		mipi_csis_clk_disable(state);
->  		state->state &= ~ST_POWERED;
->  		if (!runtime)
-> @@ -1204,9 +1223,11 @@ static int mipi_csis_pm_resume(struct device *dev, bool runtime)
->  		goto unlock;
->  
->  	if (!(state->state & ST_POWERED)) {
-> -		ret = regulator_enable(state->mipi_phy_regulator);
-> -		if (ret)
-> -			goto unlock;
-> +		if (state->info->version == MIPI_CSIS_V3_3) {
-> +			ret = regulator_enable(state->mipi_phy_regulator);
-> +			if (ret)
-> +				goto unlock;
-> +		}
->  
->  		state->state |= ST_POWERED;
->  		mipi_csis_clk_enable(state);
-> @@ -1289,9 +1310,11 @@ static int mipi_csis_parse_dt(struct csi_state *state)
->  		state->clk_frequency = DEFAULT_SCLK_CSIS_FREQ;
->  
->  	/* Get MIPI PHY resets */
-> -	state->mrst = devm_reset_control_get_exclusive(state->dev, NULL);
-> -	if (IS_ERR(state->mrst))
-> -		return PTR_ERR(state->mrst);
-> +	if (state->info->version == MIPI_CSIS_V3_3) {
-> +		state->mrst = devm_reset_control_get_exclusive(state->dev, NULL);
-> +		if (IS_ERR(state->mrst))
-> +			return PTR_ERR(state->mrst);
-> +	}
->  
->  	return 0;
->  }
-> @@ -1311,6 +1334,7 @@ static int mipi_csis_probe(struct platform_device *pdev)
->  	spin_lock_init(&state->slock);
->  
->  	state->dev = dev;
-> +	state->info = of_device_get_match_data(dev);
->  
->  	memcpy(state->events, mipi_csis_events, sizeof(state->events));
->  
-> @@ -1419,7 +1443,17 @@ static int mipi_csis_remove(struct platform_device *pdev)
->  }
->  
->  static const struct of_device_id mipi_csis_of_match[] = {
-> -	{ .compatible = "fsl,imx7-mipi-csi2", },
-> +	{
-> +		.compatible = "fsl,imx7-mipi-csi2",
-> +		.data = &(const struct mipi_csis_info){
-> +			.version = MIPI_CSIS_V3_3,
-> +		},
-> +	}, {
-> +		.compatible = "fsl,imx8mm-mipi-csi2",
-> +		.data = &(const struct mipi_csis_info){
-> +			.version = MIPI_CSIS_V3_6_3,
-> +		},
-> +	},
->  	{ /* sentinel */ },
->  };
->  MODULE_DEVICE_TABLE(of, mipi_csis_of_match);
-> @@ -1436,6 +1470,6 @@ static struct platform_driver mipi_csis_driver = {
->  
->  module_platform_driver(mipi_csis_driver);
->  
-> -MODULE_DESCRIPTION("i.MX7 MIPI CSI-2 Receiver driver");
-> +MODULE_DESCRIPTION("i.MX7 & i.MX8 MIPI CSI-2 receiver driver");
->  MODULE_LICENSE("GPL v2");
->  MODULE_ALIAS("platform:imx7-mipi-csi2");
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
-> 
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Reviewed-by: Sylwester Nawrocki <snawrocki@kernel.org>
