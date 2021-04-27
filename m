@@ -2,42 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C38036C2D2
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:15:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24D4D36C2D6
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:16:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235514AbhD0KQV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:16:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34772 "EHLO mail.kernel.org"
+        id S235610AbhD0KQY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:16:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35146 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235643AbhD0KOz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:14:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F1D46192A;
+        id S235304AbhD0KO4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 06:14:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 740B961939;
         Tue, 27 Apr 2021 10:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619518433;
-        bh=tu2hhB6CHAZbCfvPd96Qq+9zsUaGe3IxV7AH+2XbuEs=;
+        bh=wdynVwwhyvqKibF+xyVsNRL7Ix8YvvILE1Sgr+qtqMc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=s8v5HNvwglZGfeJ/zanLqWX6BYRnlg8cTv+FYXIptUe5TPaBW5KTXFhjtUpwp2lHq
-         siVH7DddVKZmRoNQIcCgcnlCJA7++C6asnFY7HEcj8RWi9GEBl7/SHhftU2guuh5N5
-         V1BAqbgUMDNac7KloMdVCUFtsXd4BAxVoLtr8vWrcr/Y9Uck2NGNWl3xP+GrwLFDcu
-         51iNqNVef1aaIDFapLKKAQHg/Vk+UqMJF9IX3+3mE8MZ1GuCgICk23tZHMdUxGK3gd
-         jOCidh4U/Nwgl/hhpjIb3HWsA0nLVp+Rs8akCEdQxoOpQCo37tZSsVsTp0PRYXHLHu
-         HSiU+z/0wgP5g==
+        b=Yx7JeW7Us/vSd3GcfvzRUP1cU2tN1eMSydibUhNJgPBt0t/oMRY0e89kW3d9nsXju
+         ThNOwsflQ1D88kRZRpaRX1zVslb971E9ZlXrqGb3JdopEF79EzwTT6roOb+4lmgLQL
+         QVXkg5iLTMLHEg96wlqgVufUteYPnbOZC0EyUSOM/29qH/piIzRHu0bIj0+48V5F0r
+         SGsCUU02SDY3UBZmOJdOelLV4pGruAchklLbSzLDy7YXNt+bG5Hb/BKbfVnmefphvn
+         1AVOn+//p0A0T7n76wxO9qy4rUoqpMn+amwPGdhxLlaxiGGUpJ3n7plnMdUllLidpz
+         5eBCmNjyeXe0w==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKj1-000j7g-IL; Tue, 27 Apr 2021 12:13:51 +0200
+        id 1lbKj1-000j7j-Jt; Tue, 27 Apr 2021 12:13:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rick Chang <rick.chang@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: [PATCH v2 64/79] media: mtk-jpeg: use pm_runtime_resume_and_get()
-Date:   Tue, 27 Apr 2021 12:13:31 +0200
-Message-Id: <6b9c896cd16a090b334dd657f8937cd436288ba1.1619518193.git.mchehab+huawei@kernel.org>
+        Robert Foss <robert.foss@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2 65/79] media: camss: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:13:32 +0200
+Message-Id: <92a145ccf144236b7dd09d6b7660a5a5c587ea74.1619518193.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619518193.git.mchehab+huawei@kernel.org>
 References: <cover.1619518193.git.mchehab+huawei@kernel.org>
@@ -55,33 +56,93 @@ dev->power.usage_count decrement on errors.
 
 Use the new API, in order to cleanup the error check logic.
 
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/qcom/camss/camss-csid.c   | 6 ++----
+ drivers/media/platform/qcom/camss/camss-csiphy.c | 6 ++----
+ drivers/media/platform/qcom/camss/camss-ispif.c  | 6 ++----
+ drivers/media/platform/qcom/camss/camss-vfe.c    | 5 +++--
+ 4 files changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-index 88a23bce569d..a89c7b206eef 100644
---- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-@@ -920,7 +920,7 @@ static void mtk_jpeg_enc_device_run(void *priv)
- 	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
- 	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+index cc11fbfdae13..d2a7f2a64f26 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid.c
++++ b/drivers/media/platform/qcom/camss/camss-csid.c
+@@ -156,11 +156,9 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+ 	int ret;
  
--	ret = pm_runtime_get_sync(jpeg->dev);
-+	ret = pm_runtime_resume_and_get(jpeg->dev);
- 	if (ret < 0)
- 		goto enc_end;
+ 	if (on) {
+-		ret = pm_runtime_get_sync(dev);
+-		if (ret < 0) {
+-			pm_runtime_put_sync(dev);
++		ret = pm_runtime_resume_and_get(dev);
++		if (ret < 0)
+ 			return ret;
+-		}
  
-@@ -973,7 +973,7 @@ static void mtk_jpeg_dec_device_run(void *priv)
- 		return;
- 	}
+ 		ret = regulator_enable(csid->vdda);
+ 		if (ret < 0) {
+diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
+index b3c3bf19e522..8e18b8e668cf 100644
+--- a/drivers/media/platform/qcom/camss/camss-csiphy.c
++++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
+@@ -197,11 +197,9 @@ static int csiphy_set_power(struct v4l2_subdev *sd, int on)
+ 	if (on) {
+ 		int ret;
  
--	ret = pm_runtime_get_sync(jpeg->dev);
-+	ret = pm_runtime_resume_and_get(jpeg->dev);
- 	if (ret < 0)
- 		goto dec_end;
+-		ret = pm_runtime_get_sync(dev);
+-		if (ret < 0) {
+-			pm_runtime_put_sync(dev);
++		ret = pm_runtime_resume_and_get(dev);
++		if (ret < 0)
+ 			return ret;
+-		}
  
+ 		ret = csiphy_set_clock_rates(csiphy);
+ 		if (ret < 0) {
+diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
+index 37611c8861da..d9907742ba79 100644
+--- a/drivers/media/platform/qcom/camss/camss-ispif.c
++++ b/drivers/media/platform/qcom/camss/camss-ispif.c
+@@ -372,11 +372,9 @@ static int ispif_set_power(struct v4l2_subdev *sd, int on)
+ 			goto exit;
+ 		}
+ 
+-		ret = pm_runtime_get_sync(dev);
+-		if (ret < 0) {
+-			pm_runtime_put_sync(dev);
++		ret = pm_runtime_resume_and_get(dev);
++		if (ret < 0)
+ 			goto exit;
+-		}
+ 
+ 		ret = camss_enable_clocks(ispif->nclocks, ispif->clock, dev);
+ 		if (ret < 0) {
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+index 15695fd466c4..cf743e61f798 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+@@ -584,9 +584,9 @@ static int vfe_get(struct vfe_device *vfe)
+ 		if (ret < 0)
+ 			goto error_pm_domain;
+ 
+-		ret = pm_runtime_get_sync(vfe->camss->dev);
++		ret = pm_runtime_resume_and_get(vfe->camss->dev);
+ 		if (ret < 0)
+-			goto error_pm_runtime_get;
++			goto error_domain_off;
+ 
+ 		ret = vfe_set_clock_rates(vfe);
+ 		if (ret < 0)
+@@ -620,6 +620,7 @@ static int vfe_get(struct vfe_device *vfe)
+ 
+ error_pm_runtime_get:
+ 	pm_runtime_put_sync(vfe->camss->dev);
++error_domain_off:
+ 	vfe->ops->pm_domain_off(vfe);
+ 
+ error_pm_domain:
 -- 
 2.30.2
 
