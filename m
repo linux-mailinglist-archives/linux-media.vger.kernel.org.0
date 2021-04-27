@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17F5F36C3AB
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD0C236C3A3
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:29:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238374AbhD0K3M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:29:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48146 "EHLO mail.kernel.org"
+        id S238294AbhD0K3G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:29:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48136 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237224AbhD0K2S (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:28:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8CA386141F;
+        id S236913AbhD0K2R (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 06:28:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C2176141E;
         Tue, 27 Apr 2021 10:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619519236;
-        bh=TKtKuWw4arj9gE1QW5A97zHnmgQIngfUHjaR8gvLIr8=;
+        bh=tu2hhB6CHAZbCfvPd96Qq+9zsUaGe3IxV7AH+2XbuEs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rUr3XgQuedmLRMxjU5/vIt9xq3JpbinPSkcPt7Dz1Nr7mpIwQU54XeKkV2+9fauMg
-         UtwDc1uiaw4jUHBLclcuWpvNy7kKe/oIedeoS5hRLUKpLKCyQ0pFkMvOQH22vWhCTR
-         gtT9bNbpZuSJNag3ObXD/ra+CB3+kP2q9tBhMoTJfZscEh7B/A9HY42AXeKkfBYKgT
-         ZEZHvMbEEJq8/S9BMQAIv+ptY+MyDDODXUxs8X31QH1/1dLZixmyRieoCnXGGo8gXe
-         eJ1mFW1Si0KDKVNyKkvCfk/+hPAIwPie8MgfkJ91EGfb7sG8jysDUPg4Tus9jmR/DI
-         izVJtK3Pm7u9A==
+        b=pWCJ5+YzV+LcsvBasttI5OaUINWopbWyj5/ga5/WC9JOzN7NxnwTRnzkoR7yiIP3M
+         +PJcHT2kOzktyDUf+En6mdaLVD47HSRIUekSKGttv24KunrF/o7IWKUQgRHxBmRmxP
+         NAKUYCWxqb2ukUddcCcWJe/3opHkQSJ1dpwhkJOnO2HzTPUY/+PvRjKo7uC0AJ/lYE
+         mMICK4o0IugbeRbRrm+pqk6xcnDCcGjbzvzPuJxm4d09/tBaTO7XGgbv3oFX0coXZp
+         kXMCdv3dhLDoUl1ET24dOAze3Z4SUP89d10BaIGokgAoVe1ecYRQdNporXx9cbZbGy
+         UmAxT+47WFBhQ==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKvy-000o2G-Hs; Tue, 27 Apr 2021 12:27:14 +0200
+        id 1lbKvy-000o2J-Jt; Tue, 27 Apr 2021 12:27:14 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rick Chang <rick.chang@mediatek.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v3 63/79] media: exynos-gsc: use pm_runtime_resume_and_get()
-Date:   Tue, 27 Apr 2021 12:26:53 +0200
-Message-Id: <5a8d3ca13956feb5e611cb1fe08195966be5edf2.1619519080.git.mchehab+huawei@kernel.org>
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: [PATCH v3 64/79] media: mtk-jpeg: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:26:54 +0200
+Message-Id: <a6fcf38f0add7f5ffc3b8d8b923c8dabf22738d7.1619519080.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619519080.git.mchehab+huawei@kernel.org>
 References: <cover.1619519080.git.mchehab+huawei@kernel.org>
@@ -57,21 +57,30 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/exynos-gsc/gsc-m2m.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/exynos-gsc/gsc-m2m.c b/drivers/media/platform/exynos-gsc/gsc-m2m.c
-index 27a3c92c73bc..09551e96ac15 100644
---- a/drivers/media/platform/exynos-gsc/gsc-m2m.c
-+++ b/drivers/media/platform/exynos-gsc/gsc-m2m.c
-@@ -58,7 +58,7 @@ static int gsc_m2m_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct gsc_ctx *ctx = q->drv_priv;
- 	int ret;
+diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+index 88a23bce569d..a89c7b206eef 100644
+--- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+@@ -920,7 +920,7 @@ static void mtk_jpeg_enc_device_run(void *priv)
+ 	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+ 	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
  
--	ret = pm_runtime_get_sync(&ctx->gsc_dev->pdev->dev);
-+	ret = pm_runtime_resume_and_get(&ctx->gsc_dev->pdev->dev);
- 	return ret > 0 ? 0 : ret;
- }
+-	ret = pm_runtime_get_sync(jpeg->dev);
++	ret = pm_runtime_resume_and_get(jpeg->dev);
+ 	if (ret < 0)
+ 		goto enc_end;
+ 
+@@ -973,7 +973,7 @@ static void mtk_jpeg_dec_device_run(void *priv)
+ 		return;
+ 	}
+ 
+-	ret = pm_runtime_get_sync(jpeg->dev);
++	ret = pm_runtime_resume_and_get(jpeg->dev);
+ 	if (ret < 0)
+ 		goto dec_end;
  
 -- 
 2.30.2
