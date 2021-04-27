@@ -2,42 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1D8636C2DD
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB33A36C2E0
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:16:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237838AbhD0KQd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:16:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34864 "EHLO mail.kernel.org"
+        id S235652AbhD0KQh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:16:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35420 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235314AbhD0KPK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S235766AbhD0KPK (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 27 Apr 2021 06:15:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A85186194C;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BCE7E61951;
         Tue, 27 Apr 2021 10:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619518433;
-        bh=rChg/pXG2Qjbehywcb/+z5hE6+LFH66GvNnoCtLFEBo=;
+        bh=ORhYQV8MaIIM9QGoq0fv1DmSrG26N8/lfMtTN/XnDlY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XSkxcPymxCcHvHCHnPGNTKlIe7N/iWkE12x5+iF06VhEniD4QeFLHL9o7KnQB+6gf
-         z4w6rnmCHtOLpZfpsniFLxW1j67cKbiF5B3xZQMPX5VM+R6ZNBmTJnvUqrk+yUC9KL
-         25AEapb+FpzGnfeGIkYNUyaLx/9e0zpGHp6v2p2bMvObUY8EyraseE1M4pdSdy7Bxk
-         drk2/1vsmSUype/gw8qJUaMh17jCJiAZmGkIge8RsuRJs+WJy4bkTwPUIlUOWMEMLf
-         Nyxv9LZ/Zaq1kI+6vFlRV9c7q7XiWJWFVt3MBptI/LPv1d3x9yScwa3SsWg2HzjRab
-         T5IhMmxNp2Uag==
+        b=ggOlyf1YNtPBHjycx93XL7+9/FJpqcXn1RjwwVtuYy1ppTBb8ut9ATtgAjEu8VsMg
+         dWrKgO7UTs2MCJW1N6VISg4AC7FY/0wiaaiazic1WRTgT80Z/NS8jYHOO0qS2R31+J
+         hMOrgznyM+GpxW3q1+L5g7lEKn14q7QYELvGFeUy8HBkH4HuK7XV8+5TcHl1uA+z+9
+         hQI2tiIwFeUBNt1vKOwUZBhM6BRIlZcOp3khK6HiPYabOMGMay6v113afJvBRGMOX7
+         6iOvJKql8hN36/6AgC6NaA3+A2zKAW2C+ArY7/nJQlgsMmJe+zEzHkaQ0V02zK2NSB
+         qSnTGug2neRfA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKj1-000j7y-Sx; Tue, 27 Apr 2021 12:13:51 +0200
+        id 1lbKj1-000j81-UR; Tue, 27 Apr 2021 12:13:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Helen Koike <helen.koike@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: [PATCH v2 70/79] media: rkisp1: use pm_runtime_resume_and_get()
-Date:   Tue, 27 Apr 2021 12:13:37 +0200
-Message-Id: <ba62fb97e435003c2eb2949fffa450764772db8f.1619518193.git.mchehab+huawei@kernel.org>
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+Subject: [PATCH v2 71/79] media: s3c-camif: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:13:38 +0200
+Message-Id: <77cb3497163bedc3a75555b4cca4cb980c7756b2.1619518193.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619518193.git.mchehab+huawei@kernel.org>
 References: <cover.1619518193.git.mchehab+huawei@kernel.org>
@@ -57,24 +55,47 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/platform/s3c-camif/camif-capture.c | 2 +-
+ drivers/media/platform/s3c-camif/camif-core.c    | 5 +++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-index 5f6c9d1623e4..3730376897d9 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-@@ -1003,9 +1003,8 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
- 	if (ret)
- 		goto err_pipeline_stop;
+diff --git a/drivers/media/platform/s3c-camif/camif-capture.c b/drivers/media/platform/s3c-camif/camif-capture.c
+index 9ca49af29542..62241ec3b978 100644
+--- a/drivers/media/platform/s3c-camif/camif-capture.c
++++ b/drivers/media/platform/s3c-camif/camif-capture.c
+@@ -547,7 +547,7 @@ static int s3c_camif_open(struct file *file)
+ 	if (ret < 0)
+ 		goto unlock;
  
--	ret = pm_runtime_get_sync(cap->rkisp1->dev);
-+	ret = pm_runtime_resume_and_get(cap->rkisp1->dev);
- 	if (ret < 0) {
--		pm_runtime_put_noidle(cap->rkisp1->dev);
- 		dev_err(cap->rkisp1->dev, "power up failed %d\n", ret);
- 		goto err_destroy_dummy;
- 	}
+-	ret = pm_runtime_get_sync(camif->dev);
++	ret = pm_runtime_resume_and_get(camif->dev);
+ 	if (ret < 0)
+ 		goto err_pm;
+ 
+diff --git a/drivers/media/platform/s3c-camif/camif-core.c b/drivers/media/platform/s3c-camif/camif-core.c
+index 4c3c00d59c92..e1d51fd3e700 100644
+--- a/drivers/media/platform/s3c-camif/camif-core.c
++++ b/drivers/media/platform/s3c-camif/camif-core.c
+@@ -460,9 +460,9 @@ static int s3c_camif_probe(struct platform_device *pdev)
+ 
+ 	pm_runtime_enable(dev);
+ 
+-	ret = pm_runtime_get_sync(dev);
++	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0)
+-		goto err_pm;
++		goto err_disable;
+ 
+ 	ret = camif_media_dev_init(camif);
+ 	if (ret < 0)
+@@ -502,6 +502,7 @@ static int s3c_camif_probe(struct platform_device *pdev)
+ 	camif_unregister_media_entities(camif);
+ err_pm:
+ 	pm_runtime_put(dev);
++err_disable:
+ 	pm_runtime_disable(dev);
+ 	camif_clk_put(camif);
+ err_clk:
 -- 
 2.30.2
 
