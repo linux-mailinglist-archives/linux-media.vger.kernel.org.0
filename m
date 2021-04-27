@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DB6C36C653
+	by mail.lfdr.de (Postfix) with ESMTP id DE62136C654
 	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 14:46:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237809AbhD0MrC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 08:47:02 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45230 "EHLO
+        id S237839AbhD0MrD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 08:47:03 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45348 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237549AbhD0MrB (ORCPT
+        with ESMTP id S237632AbhD0MrB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 27 Apr 2021 08:47:01 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90DBDAF3;
-        Tue, 27 Apr 2021 14:46:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 988B514E2;
+        Tue, 27 Apr 2021 14:46:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619527577;
-        bh=wUtER6y/muvjECE+juvtSzRao4tXrA1xMUhhM/8/SIw=;
+        s=mail; t=1619527578;
+        bh=o0tNGynceYGt7c4qwqdUWuzC/vfOER7eZiEiHOboOVQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Xk7Mrs6aaBqxJkPnf2/aZWi9RzSUGAmeM+6VmM/VoSwpFFT3bqwOIHiUOVqwWkHGe
-         pG5r+e52zJe1WesQJidkKdoYpF2LdRlqS09nV7quF4boFFmeSBZ2lAqfmu4mr1vTB0
-         IzDTCQd56iuHOpmc89AcYvDLdym8oQiXK3dHrPtY=
+        b=md1CQU0Eck6A0pKIczxOn3h2LJdGt56ZNllifEie5f3oQ7Z0B2+tmiFyEokical84
+         OEVtbcDaFRq/omP7Vm4pGdfSGTyqIcBTdMRXNWy/UVoB4c886mqAVDvPezmO1WRJZl
+         u30yRdHuwcLBRqimkpYCzYBhafTso+59z7iYraBs=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -30,9 +30,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v6 15/24] v4l: Add bus type to frame descriptors
-Date:   Tue, 27 Apr 2021 15:45:14 +0300
-Message-Id: <20210427124523.990938-16-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v6 16/24] v4l: Add CSI-2 bus configuration to frame descriptors
+Date:   Tue, 27 Apr 2021 15:45:15 +0300
+Message-Id: <20210427124523.990938-17-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210427124523.990938-1-tomi.valkeinen@ideasonboard.com>
 References: <20210427124523.990938-1-tomi.valkeinen@ideasonboard.com>
@@ -43,55 +43,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the media bus type to the frame descriptor. CSI-2 specific
-information will be added in next patch to the frame descriptor.
+Add CSI-2 bus specific configuration to the frame descriptors. This allows
+obtaining the virtual channel and data type information for each stream
+the transmitter is sending.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-- Make the bus type a named enum
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- include/media/v4l2-subdev.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ include/media/v4l2-subdev.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index d0e9a5bdb08b..ac531b752028 100644
+index ac531b752028..695e97b6eb13 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -340,12 +340,31 @@ struct v4l2_mbus_frame_desc_entry {
- 
- #define V4L2_FRAME_DESC_ENTRY_MAX	4
+@@ -308,6 +308,17 @@ struct v4l2_subdev_audio_ops {
+ 	int (*s_stream)(struct v4l2_subdev *sd, int enable);
+ };
  
 +/**
-+ * enum v4l2_mbus_frame_desc_type - media bus frame description type
++ * struct v4l2_mbus_frame_desc_entry_csi2
 + *
-+ * @V4L2_MBUS_FRAME_DESC_TYPE_PLATFORM:
-+ *	Platform specific frame desc type for backwards compatibility.
-+ * @V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL:
-+ *	Parallel media bus.
-+ * @V4L2_MBUS_FRAME_DESC_TYPE_CSI2:
-+ *	CSI-2 media bus. Frame desc parameters must be set in
-+ *	&struct v4l2_mbus_frame_desc_entry->csi2.
++ * @vc: CSI-2 virtual channel
++ * @dt: CSI-2 data type ID
 + */
-+enum v4l2_mbus_frame_desc_type {
-+	V4L2_MBUS_FRAME_DESC_TYPE_PLATFORM,
-+	V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL,
-+	V4L2_MBUS_FRAME_DESC_TYPE_CSI2,
++struct v4l2_mbus_frame_desc_entry_csi2 {
++	u8 vc;
++	u8 dt;
 +};
 +
  /**
-  * struct v4l2_mbus_frame_desc - media bus data frame description
-+ * @type: type of the bus (enum v4l2_mbus_frame_desc_type)
-  * @entry: frame descriptors array
-  * @num_entries: number of entries in @entry array
+  * enum v4l2_mbus_frame_desc_flags - media bus frame description flags
+  *
+@@ -331,11 +342,16 @@ enum v4l2_mbus_frame_desc_flags {
+  *		%FRAME_DESC_FL_BLOB is not set.
+  * @length:	number of octets per frame, valid if @flags
+  *		%V4L2_MBUS_FRAME_DESC_FL_LEN_MAX is set.
++ * @bus:	Bus-specific frame descriptor parameters
++ * @bus.csi2:	CSI-2-specific bus configuration
   */
- struct v4l2_mbus_frame_desc {
-+	enum v4l2_mbus_frame_desc_type type;
- 	struct v4l2_mbus_frame_desc_entry entry[V4L2_FRAME_DESC_ENTRY_MAX];
- 	unsigned short num_entries;
+ struct v4l2_mbus_frame_desc_entry {
+ 	enum v4l2_mbus_frame_desc_flags flags;
+ 	u32 pixelcode;
+ 	u32 length;
++	union {
++		struct v4l2_mbus_frame_desc_entry_csi2 csi2;
++	} bus;
  };
+ 
+ #define V4L2_FRAME_DESC_ENTRY_MAX	4
 -- 
 2.25.1
 
