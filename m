@@ -2,264 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70CBC36C6ED
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 15:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7C4B36C700
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 15:28:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237219AbhD0NV3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 09:21:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39516 "EHLO
+        id S236401AbhD0N2o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 09:28:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237037AbhD0NV2 (ORCPT
+        with ESMTP id S235875AbhD0N2n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 09:21:28 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19E54C061574
-        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 06:20:44 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id p2so26858444pgh.4
-        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 06:20:44 -0700 (PDT)
+        Tue, 27 Apr 2021 09:28:43 -0400
+Received: from ustc.edu.cn (email6.ustc.edu.cn [IPv6:2001:da8:d800::8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 73453C061574;
+        Tue, 27 Apr 2021 06:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dmEBQ9oze+vOSPoWZulPOLfwDtwyiDRjoXQtAhbhzZM=;
-        b=gJ43ksPA339RyLa6R7LHIrATd44OVBNHwDCPLKQxC9OPKpgY+lyDcA+DwNH5X5w16v
-         0o/7wrEPE5XtbSlpzioXwMDWokIGffdJYmU2i6JnNuybjcdDK0KlpYbl1PBP12IynglQ
-         ibX21f3LfRufTHc8glvzV2T7P8NDOwkW/XnL4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dmEBQ9oze+vOSPoWZulPOLfwDtwyiDRjoXQtAhbhzZM=;
-        b=C1b2dZqZ5+hMm4rBd4m6uVxHrLf5oaBf9we5J2MbCLDr8sHXu5xW3mQmM/mixlWa4b
-         WIq0AEmZfhKt0OsR13PU8a4WDEqs1U5gtznZN5JZodH2L5GANZNv+daezB1lIxs1rR+X
-         raHxLrkJ7UxxdITvZuOt7HN+TiBwxhDCg/Dbn2Pz/BnN+rWNsFl3ZY6fvb+dVZOtzWgT
-         5kxqzdf8/vZWFXOJuFAG+k8mtqdvi3hidCHEiSffMWX9nbfqEmyM2YFl9hrt2VbjgB0T
-         J4Y3S33pCKvU5iMS6vfeE4V7NcocHFdDqJwWOnOyxWrdIuJfIJEeX8VsbUI2xmqek2vv
-         rMXA==
-X-Gm-Message-State: AOAM531X6D6C54uOuoaE6OZZLVvRIMEppVD7RwxF3I6aq1hl4bE8n5zs
-        00FmSQ3CJIv9+ySwfpaEEKJ94Q==
-X-Google-Smtp-Source: ABdhPJwOFOk2BGipGd9ycdNFlDTB5f1HjsEY06YxEgBMhGjd6ZoaViFVHicLTzCRooNupZepUFo/fw==
-X-Received: by 2002:a63:f908:: with SMTP id h8mr15521603pgi.153.1619529643611;
-        Tue, 27 Apr 2021 06:20:43 -0700 (PDT)
-Received: from senozhatsky.flets-east.jp ([2409:10:2e40:5100:8192:3566:9cd4:8ed7])
-        by smtp.gmail.com with ESMTPSA id v21sm2475804pjg.9.2021.04.27.06.20.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Apr 2021 06:20:42 -0700 (PDT)
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCH] v4l-compliance: re-introduce NON_COHERENT and cache hints tests
-Date:   Tue, 27 Apr 2021 22:20:37 +0900
-Message-Id: <20210427132037.140750-1-senozhatsky@chromium.org>
-X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
+        d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+        Message-Id:MIME-Version:Content-Transfer-Encoding; bh=LLXiqaWB2i
+        hLi1eC6hvDshqkAOBZKDMRNCRMgQqT8rc=; b=NTG7Clph5d68j85wWLxsNffHZ2
+        SQ3MwSfPwGBtXUAUNlzedKlLCs1MaubGcggLxUAQOb7UE1bNhBRZjVhf9RdpYu/7
+        lsHWR5rnF6wfinLLmer1tMAJqME59i0R6PyE+4K1xSV4WWgGfeGuQ6XDpqUljYYP
+        P5qN4Bsm0uw+NkMJY=
+Received: from ubuntu.localdomain (unknown [202.38.69.14])
+        by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygBXXp5REYhg_VlTAA--.5809S4;
+        Tue, 27 Apr 2021 21:27:45 +0800 (CST)
+From:   Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+To:     s.nawrocki@samsung.com, mchehab@kernel.org, krzk@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+Subject: [PATCH v3] media:exynos4-is: Fix a use after free in isp_video_release
+Date:   Tue, 27 Apr 2021 06:27:34 -0700
+Message-Id: <20210427132734.5212-1-lyl2019@mail.ustc.edu.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: LkAmygBXXp5REYhg_VlTAA--.5809S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFW5XFykJF4xGF1fAFyrZwb_yoW8AFWfpF
+        98Gw4SyrWkXw1kJ3Zrt3W2gFyrGF4Fqr9Y9Fs7u3yrA3Z8JF4avFn7t3WUuFyjkrs7Ar4a
+        qF10qrykJF4Y9F7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+        1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
+        rcIFxwCY02Avz4vE14v_Xr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+        1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+        14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+        IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvE
+        x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
+        DU0xZFpf9x0JUaeHDUUUUU=
+X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This returns back non-coherent (previously known as NON_COHERENT)
-memory flag and buffer cache management hints testing (for VB2_MEMORY_MMAP
-buffers).
+In isp_video_release, file->private_data is freed via
+_vb2_fop_release()->v4l2_fh_release(). But the freed
+file->private_data is still used in v4l2_fh_is_singular_file()
+->v4l2_fh_is_singular(file->private_data), which is a use
+after free bug.
 
-Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+My patch sets file->private_data to NULL after _vb2_fop_release()
+to avoid the use after free, and uses a variable 'is_singular_file'
+to keep the original function unchanged.
+
+Fixes: 34947b8aebe3f ("[media] exynos4-is: Add the FIMC-IS ISP capture DMA driver")
+Signed-off-by: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
 ---
- utils/common/cv4l-helpers.h                 |  8 +--
- utils/common/v4l-helpers.h                  |  8 ++-
- utils/v4l2-compliance/v4l2-test-buffers.cpp | 65 ++++++++++++++++++---
- 3 files changed, 66 insertions(+), 15 deletions(-)
+ drivers/media/platform/exynos4-is/fimc-isp-video.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
-index 712efde6..3cee372b 100644
---- a/utils/common/cv4l-helpers.h
-+++ b/utils/common/cv4l-helpers.h
-@@ -754,17 +754,17 @@ public:
- 	int g_fd(unsigned index, unsigned plane) const { return v4l_queue_g_fd(this, index, plane); }
- 	void s_fd(unsigned index, unsigned plane, int fd) { v4l_queue_s_fd(this, index, plane, fd); }
+diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.c b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+index 612b9872afc8..c07dcb0bccc2 100644
+--- a/drivers/media/platform/exynos4-is/fimc-isp-video.c
++++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+@@ -306,17 +306,21 @@ static int isp_video_release(struct file *file)
+ 	struct fimc_is_video *ivc = &isp->video_capture;
+ 	struct media_entity *entity = &ivc->ve.vdev.entity;
+ 	struct media_device *mdev = entity->graph_obj.mdev;
++	bool is_singular_file;
  
--	int reqbufs(cv4l_fd *fd, unsigned count = 0)
-+	int reqbufs(cv4l_fd *fd, unsigned count = 0, unsigned int flags = 0)
- 	{
--		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count);
-+		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count, flags);
- 	}
- 	bool has_create_bufs(cv4l_fd *fd) const
- 	{
- 		return v4l_queue_has_create_bufs(fd->g_v4l_fd(), this);
- 	}
--	int create_bufs(cv4l_fd *fd, unsigned count, const v4l2_format *fmt = NULL)
-+	int create_bufs(cv4l_fd *fd, unsigned count, const v4l2_format *fmt = NULL, unsigned int flags = 0)
- 	{
--		return v4l_queue_create_bufs(fd->g_v4l_fd(), this, count, fmt);
-+		return v4l_queue_create_bufs(fd->g_v4l_fd(), this, count, fmt, flags);
- 	}
- 	int mmap_bufs(cv4l_fd *fd, unsigned from = 0)
- 	{
-diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
-index f96b3c38..c09cd987 100644
---- a/utils/common/v4l-helpers.h
-+++ b/utils/common/v4l-helpers.h
-@@ -1515,7 +1515,7 @@ static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, uns
- }
+ 	mutex_lock(&isp->video_lock);
  
- static inline int v4l_queue_reqbufs(struct v4l_fd *f,
--		struct v4l_queue *q, unsigned count)
-+		struct v4l_queue *q, unsigned count, unsigned int flags = 0)
- {
- 	struct v4l2_requestbuffers reqbufs;
- 	int ret;
-@@ -1523,6 +1523,7 @@ static inline int v4l_queue_reqbufs(struct v4l_fd *f,
- 	reqbufs.type = q->type;
- 	reqbufs.memory = q->memory;
- 	reqbufs.count = count;
-+	reqbufs.flags = flags;
- 	/*
- 	 * Problem: if REQBUFS returns an error, did it free any old
- 	 * buffers or not?
-@@ -1547,7 +1548,7 @@ static inline bool v4l_queue_has_create_bufs(struct v4l_fd *f, const struct v4l_
- 
- static inline int v4l_queue_create_bufs(struct v4l_fd *f,
- 		struct v4l_queue *q, unsigned count,
--		const struct v4l2_format *fmt)
-+		const struct v4l2_format *fmt, unsigned int flags = 0)
- {
- 	struct v4l2_create_buffers createbufs;
- 	int ret;
-@@ -1555,6 +1556,7 @@ static inline int v4l_queue_create_bufs(struct v4l_fd *f,
- 	createbufs.format.type = q->type;
- 	createbufs.memory = q->memory;
- 	createbufs.count = count;
-+	createbufs.flags = flags;
- 	if (fmt) {
- 		createbufs.format = *fmt;
- 	} else {
-@@ -1733,7 +1735,7 @@ static inline void v4l_queue_free(struct v4l_fd *f, struct v4l_queue *q)
- 	v4l_ioctl(f, VIDIOC_STREAMOFF, &q->type);
- 	v4l_queue_release_bufs(f, q, 0);
- 	v4l_queue_close_exported_fds(q);
--	v4l_queue_reqbufs(f, q, 0);
-+	v4l_queue_reqbufs(f, q, 0, 0);
- }
- 
- static inline void v4l_queue_buffer_update(const struct v4l_queue *q,
-diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-index e40461bd..6997f40b 100644
---- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-@@ -663,6 +663,10 @@ int testReqBufs(struct node *node)
- 		fail_on_test(q.reqbufs(node, 0));
- 
- 		for (m = V4L2_MEMORY_MMAP; m <= V4L2_MEMORY_DMABUF; m++) {
-+			bool cache_hints_cap = false;
-+			bool consistent;
+-	if (v4l2_fh_is_singular_file(file) && ivc->streaming) {
++	is_singular_file = v4l2_fh_is_singular_file(file);
 +
-+			cache_hints_cap = q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
- 			if (!(node->valid_memorytype & (1 << m)))
- 				continue;
- 			cv4l_queue q2(i, m);
-@@ -678,8 +682,17 @@ int testReqBufs(struct node *node)
- 			reqbufs.count = 1;
- 			reqbufs.type = i;
- 			reqbufs.memory = m;
-+			reqbufs.flags = V4L2_MEMORY_FLAG_NON_COHERENT;
- 			fail_on_test(doioctl(node, VIDIOC_REQBUFS, &reqbufs));
--			fail_on_test(check_0(reqbufs.reserved, sizeof(reqbufs.reserved)));
-+			consistent = reqbufs.flags & V4L2_MEMORY_FLAG_NON_COHERENT;
-+			if (!cache_hints_cap) {
-+				fail_on_test(consistent);
-+			} else {
-+				if (m == V4L2_MEMORY_MMAP)
-+					fail_on_test(!consistent);
-+				else
-+					fail_on_test(consistent);
-+			}
- 			q.reqbufs(node);
++	if (is_singular_file && ivc->streaming) {
+ 		media_pipeline_stop(entity);
+ 		ivc->streaming = 0;
+ 	}
  
- 			ret = q.create_bufs(node, 0);
-@@ -692,9 +705,32 @@ int testReqBufs(struct node *node)
- 			node->g_fmt(crbufs.format, i);
- 			crbufs.count = 1;
- 			crbufs.memory = m;
-+			crbufs.flags = V4L2_MEMORY_FLAG_NON_COHERENT;
- 			fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs));
- 			fail_on_test(check_0(crbufs.reserved, sizeof(crbufs.reserved)));
- 			fail_on_test(crbufs.index != q.g_buffers());
-+
-+			consistent = crbufs.flags & V4L2_MEMORY_FLAG_NON_COHERENT;
-+			if (!cache_hints_cap) {
-+				fail_on_test(consistent);
-+			} else {
-+				if (m == V4L2_MEMORY_MMAP)
-+					fail_on_test(!consistent);
-+				else
-+					fail_on_test(consistent);
-+			}
-+
-+			if (cache_hints_cap) {
-+				/*
-+				 * Different memory consistency model. Should fail for MMAP
-+				 * queues which support cache hints.
-+				 */
-+				crbufs.flags = 0;
-+				if (m == V4L2_MEMORY_MMAP)
-+					fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs) != EINVAL);
-+				else
-+					fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs));
-+			}
- 			q.reqbufs(node);
+ 	_vb2_fop_release(file, NULL);
++	file->private_data = NULL;
  
- 			fail_on_test(q.create_bufs(node, 1));
-@@ -1207,10 +1243,16 @@ static int setupMmap(struct node *node, cv4l_queue &q)
- 		fail_on_test(buf.querybuf(node, i));
- 		fail_on_test(buf.check(q, Unqueued, i));
+-	if (v4l2_fh_is_singular_file(file)) {
++	if (is_singular_file) {
+ 		fimc_pipeline_call(&ivc->ve, close);
  
--		flags = buf.g_flags();
--		flags |= V4L2_BUF_FLAG_NO_CACHE_INVALIDATE;
--		flags |= V4L2_BUF_FLAG_NO_CACHE_CLEAN;
--		buf.s_flags(flags);
-+		/*
-+		 * Do not set cache hints for all the buffers, but only on
-+		 * some of them, so that we can test more cases.
-+		 */
-+		if (i == 0) {
-+			flags = buf.g_flags();
-+			flags |= V4L2_BUF_FLAG_NO_CACHE_INVALIDATE;
-+			flags |= V4L2_BUF_FLAG_NO_CACHE_CLEAN;
-+			buf.s_flags(flags);
-+		}
- 
- 		for (unsigned p = 0; p < buf.g_num_planes(); p++) {
- 			// Try a random offset
-@@ -1250,8 +1292,15 @@ static int setupMmap(struct node *node, cv4l_queue &q)
- 		}
- 		flags = buf.g_flags();
- 		if (cache_hints) {
--			fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE));
--			fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN));
-+			if (i == 0) {
-+				/* We do expect cache hints on this buffer */
-+				fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE));
-+				fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN));
-+			} else {
-+				/* We expect no cache hints on this buffer */
-+				fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE);
-+				fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN);
-+			}
- 		} else if (node->might_support_cache_hints) {
- 			fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE);
- 			fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN);
-@@ -1341,7 +1390,7 @@ int testMmap(struct node *node, struct node *node_m2m_cap, unsigned frame_count,
- 			have_createbufs = false;
- 		if (have_createbufs) {
- 			q.reqbufs(node);
--			q.create_bufs(node, 2, &cur_fmt);
-+			q.create_bufs(node, 2, &cur_fmt, V4L2_MEMORY_FLAG_NON_COHERENT);
- 			fail_on_test(setupMmap(node, q));
- 			q.munmap_bufs(node);
- 			q.reqbufs(node, 2);
+ 		mutex_lock(&mdev->graph_mutex);
 -- 
-2.27.0
+2.25.1
+
 
