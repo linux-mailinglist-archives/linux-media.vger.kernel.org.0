@@ -2,172 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3968F36C1A6
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 11:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8CA736C1BA
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 11:31:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235146AbhD0JXl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 05:23:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33426 "EHLO mail.kernel.org"
+        id S235078AbhD0Jbw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 05:31:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37318 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229938AbhD0JXk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 05:23:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 64C6B6100B;
-        Tue, 27 Apr 2021 09:22:54 +0000 (UTC)
+        id S230316AbhD0Jbv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 05:31:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A6658613BC;
+        Tue, 27 Apr 2021 09:30:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619515377;
-        bh=mETsHWHJFjweReeiHIdDntI2gC9ErHyRmi7GGdO1Me8=;
+        s=k20201202; t=1619515862;
+        bh=wwdocN+FFNO7ugt/9z3SiJCzGGGQpkTsBljNkYzdRsc=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=cCzcG+yb+hGg8qBGDRs+1VUHDqPZWt84Wx3wIMLNN4e0Y/95F2zGyAdCJX4EBlwRU
-         NjVBGuXtj41ZElmpkJpOtNVvnPehF73RRe0iGmVFmI6CXi29U7I3KraBMCWxNF+rJx
-         gEeTwq+6ju13/7vdihq99/9UyzBpZCejElDhn5CiGCFTN13keERSMerkUIqETHMt3y
-         wm8OlWzfcUM460bpVHHnSm2f4Zdtt83M6GfpMdlWa0SyuI+8LhVxSsxq1xW3Wt+JhI
-         gFWtcWcFDgpseYiymNIOFHZZifrvbrmndQsOJkks7YTUszynMX90v+WeUV+D6AEDII
-         baYjgQAH12f2A==
-Date:   Tue, 27 Apr 2021 11:22:50 +0200
+        b=dR+eRUUcFpK7r3Qo3uMIc89WSn+V7tyH+0fKhATah0oY8qwXPKKIcMoDR0TqWJxTs
+         4OuaQI7kmex4sPg8XSzBZ73DSWcXLaaRm+6dF3BuoWLDeGMO49BFvieaqwl4fBViot
+         hgpZveuEPLA9kiaLDEEz/3Sdqk4ofewrIDhYu7EZJqilkKf6143HgVByg5YHRM22kN
+         ItCWCT0uoAQYx56BlKs2SDX1QRKLKAFX3MT/jJiqoz/Fkjo59cE8XGjtix1OpbTGga
+         mG1W746ovMPtbkkyxUbKWBWApKyoHXBdn6sUdh87o1J7Mj04R3JL/In/U8JfHfjVZQ
+         VXliqcie3Qa3A==
+Date:   Tue, 27 Apr 2021 11:30:55 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
+To:     Sylwester Nawrocki <s.nawrocki@samsung.com>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 17/78] staging: media: vde: use
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 58/78] media: exynos-gsc: use
  pm_runtime_resume_and_get()
-Message-ID: <20210427112250.5d40c4f4@coco.lan>
-In-Reply-To: <2349831b-e7cd-d38d-fc19-5fabf06f773e@gmail.com>
+Message-ID: <20210427113055.745d0560@coco.lan>
+In-Reply-To: <ee7b580a-d5bc-bdbf-3efc-c9d8f43316db@samsung.com>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
-        <0eeb886803679cd908cb4576d35b2314993abd2c.1619191723.git.mchehab+huawei@kernel.org>
-        <2349831b-e7cd-d38d-fc19-5fabf06f773e@gmail.com>
+        <CGME20210424064556eucas1p1e89378837c377168c9782b4172e70482@eucas1p1.samsung.com>
+        <9c7d683907b9f9cf4a99f57f978671ec7f5a1dbc.1619191723.git.mchehab+huawei@kernel.org>
+        <ee7b580a-d5bc-bdbf-3efc-c9d8f43316db@samsung.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
+Em Tue, 27 Apr 2021 10:18:12 +0200
+Sylwester Nawrocki <s.nawrocki@samsung.com> escreveu:
 
-Em Sat, 24 Apr 2021 10:35:22 +0300
-Dmitry Osipenko <digetx@gmail.com> escreveu:
-
-> 24.04.2021 09:44, Mauro Carvalho Chehab =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to dea=
-l with usage counter")
+> On 24.04.2021 08:45, Mauro Carvalho Chehab wrote:
+> > Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
 > > added pm_runtime_resume_and_get() in order to automatically handle
 > > dev->power.usage_count decrement on errors.
-> >=20
+> > 
 > > Use the new API, in order to cleanup the error check logic.
-> >=20
+> > 
 > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > > ---
-> >  drivers/staging/media/tegra-vde/vde.c | 16 ++++++++++------
-> >  1 file changed, 10 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/me=
-dia/tegra-vde/vde.c
-> > index 28845b5bafaf..8936f140a246 100644
-> > --- a/drivers/staging/media/tegra-vde/vde.c
-> > +++ b/drivers/staging/media/tegra-vde/vde.c
-> > @@ -775,9 +775,9 @@ static int tegra_vde_ioctl_decode_h264(struct tegra=
-_vde *vde,
-> >  	if (ret)
-> >  		goto release_dpb_frames;
-> > =20
-> > -	ret =3D pm_runtime_get_sync(dev);
-> > +	ret =3D pm_runtime_resume_and_get(dev);
-> >  	if (ret < 0)
-> > -		goto put_runtime_pm;
-> > +		goto unlock;
-> > =20
-> >  	/*
-> >  	 * We rely on the VDE registers reset value, otherwise VDE
-> > @@ -843,6 +843,8 @@ static int tegra_vde_ioctl_decode_h264(struct tegra=
-_vde *vde,
-> >  put_runtime_pm:
-> >  	pm_runtime_mark_last_busy(dev);
-> >  	pm_runtime_put_autosuspend(dev);
-> > +
-> > +unlock:
-> >  	mutex_unlock(&vde->lock);
-> > =20
-> >  release_dpb_frames:
-> > @@ -1069,8 +1071,8 @@ static int tegra_vde_probe(struct platform_device=
- *pdev)
-> >  	 * power-cycle it in order to put hardware into a predictable lower
-> >  	 * power state.
-> >  	 */
-> > -	pm_runtime_get_sync(dev);
-> > -	pm_runtime_put(dev);
-> > +	if (pm_runtime_resume_and_get(dev) >=3D 0)
-> > +		pm_runtime_put(dev);
-> > =20
-> >  	return 0;
-> > =20
-> > @@ -1088,8 +1090,9 @@ static int tegra_vde_remove(struct platform_devic=
-e *pdev)
-> >  {
-> >  	struct tegra_vde *vde =3D platform_get_drvdata(pdev);
-> >  	struct device *dev =3D &pdev->dev;
-> > +	int ret;
-> > =20
-> > -	pm_runtime_get_sync(dev);
-> > +	ret =3D pm_runtime_resume_and_get(dev);
-> >  	pm_runtime_dont_use_autosuspend(dev);
-> >  	pm_runtime_disable(dev);
-> > =20
-> > @@ -1097,7 +1100,8 @@ static int tegra_vde_remove(struct platform_devic=
-e *pdev)
-> >  	 * Balance RPM state, the VDE power domain is left ON and hardware
-> >  	 * is clock-gated. It's safe to reboot machine now.
-> >  	 */
-> > -	pm_runtime_put_noidle(dev);
-> > +	if (ret >=3D 0)
-> > +		pm_runtime_put_noidle(dev);
-> >  	clk_disable_unprepare(vde->clk);
-> > =20
-> >  	misc_deregister(&vde->miscdev);
-> >  =20
->=20
-> Hello Mauro,
->=20
-> Thank you very much for the patch. It looks to me that the original
-> variant was a bit simpler, this patch adds more code lines without
-> changing the previous behaviour. Or am I missing something?
+> >  drivers/media/platform/exynos-gsc/gsc-core.c | 3 +--
+> >  drivers/media/platform/exynos-gsc/gsc-m2m.c  | 2 +-
+> >  2 files changed, 2 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/exynos-gsc/gsc-core.c b/drivers/media/platform/exynos-gsc/gsc-core.c
+> > index 9f41c2e7097a..9d5841194f6b 100644
+> > --- a/drivers/media/platform/exynos-gsc/gsc-core.c
+> > +++ b/drivers/media/platform/exynos-gsc/gsc-core.c
+> > @@ -1210,7 +1210,7 @@ static int gsc_remove(struct platform_device *pdev)
+> >  	struct gsc_dev *gsc = platform_get_drvdata(pdev);
+> >  	int i;
+> >  
+> > -	pm_runtime_get_sync(&pdev->dev);
+> > +	pm_runtime_resume_and_get(&pdev->dev);
+> >  
+> >  	gsc_unregister_m2m_device(gsc);
+> >  	v4l2_device_unregister(&gsc->v4l2_dev);
+> > @@ -1219,7 +1219,6 @@ static int gsc_remove(struct platform_device *pdev)
+> >  	for (i = 0; i < gsc->num_clocks; i++)
+> >  		clk_disable_unprepare(gsc->clock[i]);
+> >  
+> > -	pm_runtime_put_noidle(&pdev->dev);  
+> 
+> If we do this then the device usage count will not get decremented
+> after the pm_runtime_resume_and_get() call above and after driver
+> unload/load cycle it will not be possible to suspend the device.
+> I wouldn't be changing anything in gsc_remove(), pm_runtime_get_sync()
+> works better in that case.
 
-While on several places the newer code is simpler, the end goal here is
-to replace all occurrences of pm_runtime_get_sync() from the media=20
-subsystem, due to the number of problems we're having with this:
+Good point.
 
-1. despite its name, this is actually a PM runtime resume call,
-   but some developers didn't seem to realize that, as I got this
-   pattern on some drivers:
+Actually, I don't see any reason why to call a PM resume
+function - either being pm_runtime_get_sync() or
+pm_runtime_resume_and_get().
 
-        pm_runtime_get_sync(&client->dev);
-        pm_runtime_disable(&client->dev);
-        pm_runtime_set_suspended(&client->dev);
-        pm_runtime_put_noidle(&client->dev);
+The code there could simply be:
 
-   It makes no sense to resume PM just to suspend it again ;-)
+    static int gsc_remove(struct platform_device *pdev)
+    {
+        struct gsc_dev *gsc = platform_get_drvdata(pdev);
+        int i;
 
-   The name of the new variant is a lot clearer:
-	pm_runtime_resume_and_get()
+        gsc_unregister_m2m_device(gsc);
+        v4l2_device_unregister(&gsc->v4l2_dev);
 
-2. Usual *_get() methods only increment their use count on success,
-   but pm_runtime_get_sync() increments it unconditionally. Due to
-   that, several drivers were mistakenly not calling
-   pm_runtime_put_noidle() when it fails;
+        vb2_dma_contig_clear_max_seg_size(&pdev->dev);
+        for (i = 0; i < gsc->num_clocks; i++)
+                clk_disable_unprepare(gsc->clock[i]);
 
-3. Consistency: we did similar changes subsystem wide with
-   for instance strlcpy() and strcpy() that got replaced by
-   strscpy(). Having all drivers using the same known-to-be-safe
-   methods is a good thing;
+        pm_runtime_disable(&pdev->dev);
 
-4. Prevent newer drivers to copy-and-paste a code that it would
-   be easier to break if they don't truly understand what's behind
-   the scenes.
+        dev_dbg(&pdev->dev, "%s driver unloaded\n", pdev->name);
+        return 0;
+    }
 
-Thanks,
+Eventually also adding:
+	pm_runtime_suspended(&pdev->dev);
+
+just after pm_runtime_disable().
+
+Regards,
 Mauro
