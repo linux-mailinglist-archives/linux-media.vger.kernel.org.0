@@ -2,107 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7C4B36C700
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 15:28:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6537F36C702
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 15:28:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236401AbhD0N2o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 09:28:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41106 "EHLO
+        id S236420AbhD0N24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 09:28:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235875AbhD0N2n (ORCPT
+        with ESMTP id S235875AbhD0N2z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 09:28:43 -0400
-Received: from ustc.edu.cn (email6.ustc.edu.cn [IPv6:2001:da8:d800::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 73453C061574;
-        Tue, 27 Apr 2021 06:27:57 -0700 (PDT)
+        Tue, 27 Apr 2021 09:28:55 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10323C061574
+        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 06:28:11 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 124so12679108lff.5
+        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 06:28:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-        Message-Id:MIME-Version:Content-Transfer-Encoding; bh=LLXiqaWB2i
-        hLi1eC6hvDshqkAOBZKDMRNCRMgQqT8rc=; b=NTG7Clph5d68j85wWLxsNffHZ2
-        SQ3MwSfPwGBtXUAUNlzedKlLCs1MaubGcggLxUAQOb7UE1bNhBRZjVhf9RdpYu/7
-        lsHWR5rnF6wfinLLmer1tMAJqME59i0R6PyE+4K1xSV4WWgGfeGuQ6XDpqUljYYP
-        P5qN4Bsm0uw+NkMJY=
-Received: from ubuntu.localdomain (unknown [202.38.69.14])
-        by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygBXXp5REYhg_VlTAA--.5809S4;
-        Tue, 27 Apr 2021 21:27:45 +0800 (CST)
-From:   Lv Yunlong <lyl2019@mail.ustc.edu.cn>
-To:     s.nawrocki@samsung.com, mchehab@kernel.org, krzk@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lv Yunlong <lyl2019@mail.ustc.edu.cn>
-Subject: [PATCH v3] media:exynos4-is: Fix a use after free in isp_video_release
-Date:   Tue, 27 Apr 2021 06:27:34 -0700
-Message-Id: <20210427132734.5212-1-lyl2019@mail.ustc.edu.cn>
-X-Mailer: git-send-email 2.25.1
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QqTVJmb9A9eRq1DvEF1RE2BqQ+7GQz0NLMEFGRmcPkw=;
+        b=DQmdP9qC+8sdYVsLngYvUu6mnEoYbLqZ/MFUDyz58vPUhzeBtVtLoKhFBZ692aSdwp
+         ho59I7Du+h86fAw7eC/SZvGY6PYu3C/0u4CpcCTRPv8Dr1zKhm5cStnVTEE0uu0qSasf
+         B20z/PHKELohstCCWaiXhRVzbeijS4uXJF3vTSCHzHQcsj6BJC5PMcTvxrn48frtFeFK
+         StTQSlDzdGwPWraBFeo2pIW7hA7ktvezlcnstxPQXhzuYcFsXonWVB8yxUF31HyOpCgx
+         vMen0B7JqnCyuCWX1N1T53DpiZRYeFWFbio+t0/KQey9Hpd/iknySfEWXDAcrQCR9N/0
+         lLBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QqTVJmb9A9eRq1DvEF1RE2BqQ+7GQz0NLMEFGRmcPkw=;
+        b=Smf0nRySsPd+j0m7gzQLUSWMhVVXX761lWpQRXBIrBbrakfZdiiCw9l32P3T7d6Qzn
+         Taa4ZYntiFGK51wNKbSxLW9ruET/Uoep4T9IheyH6yE2+nSa2EFzOFtkkbAMcOMob+Fy
+         UyTlj/IJllct3VJgQlX2IKxMCsTMCgmgoB7w/YdAWrNfuXNudOSOErv9Im67qjQJwg17
+         j9rZTFOTGGezJgXlvuZdWpq/dMBjQ1GmFuBfv3ZUZe3VgAwSEnQ+IFGoFyeeLM6q9Guw
+         QGcseC4yqewtqJEuuVtQ+j+zDBwNH2honfK3yDcoqX+cBUSy+qcc4NdOdLRkrueeH2tc
+         z+Ag==
+X-Gm-Message-State: AOAM531K1CxBiLLrdz8Qmt9RepNgvPJRZwmv+0If8OwKnIS8ZkwJTLkE
+        J/n9vuzNCLCex8+uIIHG6zHpWuM0pLp7TiinRP8=
+X-Google-Smtp-Source: ABdhPJxm2DJz3suucyNC3bB2YQJuq01sHP3RYWMprQPNMh6wshS81D1/X9KHLoG3dePGY1IkW8hgsrydWfVuV9k809U=
+X-Received: by 2002:a19:50d:: with SMTP id 13mr16215690lff.443.1619530089558;
+ Tue, 27 Apr 2021 06:28:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: LkAmygBXXp5REYhg_VlTAA--.5809S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7WFW5XFykJF4xGF1fAFyrZwb_yoW8AFWfpF
-        98Gw4SyrWkXw1kJ3Zrt3W2gFyrGF4Fqr9Y9Fs7u3yrA3Z8JF4avFn7t3WUuFyjkrs7Ar4a
-        qF10qrykJF4Y9F7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-        6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
-        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
-        1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
-        rcIFxwCY02Avz4vE14v_Xr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-        1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-        14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
-        IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvE
-        x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
-        DU0xZFpf9x0JUaeHDUUUUU=
-X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/
+References: <CAOMZO5CacHaESju9XQU1C7NU41Myk1-2_+7sju1dnCZuqRv98Q@mail.gmail.com>
+In-Reply-To: <CAOMZO5CacHaESju9XQU1C7NU41Myk1-2_+7sju1dnCZuqRv98Q@mail.gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Tue, 27 Apr 2021 10:27:57 -0300
+Message-ID: <CAOMZO5BEre9=se1yAxr7QTmfV_N=GMKZeanr+jYfRNrSO551hg@mail.gmail.com>
+Subject: Re: adv7280: Scrolling images on imx6
+To:     Tim Harvey <tharvey@gateworks.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In isp_video_release, file->private_data is freed via
-_vb2_fop_release()->v4l2_fh_release(). But the freed
-file->private_data is still used in v4l2_fh_is_singular_file()
-->v4l2_fh_is_singular(file->private_data), which is a use
-after free bug.
+On Mon, Apr 26, 2021 at 1:14 PM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> Hi Tim,
+>
+> I am back at trying to get a proper image captured by the ADV7280 on
+> an imx6dl board connected to the parallel CSI bus.
+>
+> I tried your patches against 5.4 and 5.12:
+>
+> https://github.com/Gateworks/linux-imx6/commit/959fbd4
+> and
+> https://patchwork.kernel.org/project/linux-media/patch/20190827215539.1286-1-mmichilot@gateworks.com/
+>
+> ,but I am still getting horizontal scrolling images after running:
 
-My patch sets file->private_data to NULL after _vb2_fop_release()
-to avoid the use after free, and uses a variable 'is_singular_file'
-to keep the original function unchanged.
+The analog camera I am using produces PAL content. If I force the
+initial curr_norm to PAL like this:
 
-Fixes: 34947b8aebe3f ("[media] exynos4-is: Add the FIMC-IS ISP capture DMA driver")
-Signed-off-by: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
----
- drivers/media/platform/exynos4-is/fimc-isp-video.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+index e780969cc2f2..4ffe85ef02a0 100644
+--- a/drivers/media/i2c/adv7180.c
++++ b/drivers/media/i2c/adv7180.c
+@@ -1346,7 +1346,7 @@ static int adv7180_probe(struct i2c_client *client,
 
-diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.c b/drivers/media/platform/exynos4-is/fimc-isp-video.c
-index 612b9872afc8..c07dcb0bccc2 100644
---- a/drivers/media/platform/exynos4-is/fimc-isp-video.c
-+++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
-@@ -306,17 +306,21 @@ static int isp_video_release(struct file *file)
- 	struct fimc_is_video *ivc = &isp->video_capture;
- 	struct media_entity *entity = &ivc->ve.vdev.entity;
- 	struct media_device *mdev = entity->graph_obj.mdev;
-+	bool is_singular_file;
- 
- 	mutex_lock(&isp->video_lock);
- 
--	if (v4l2_fh_is_singular_file(file) && ivc->streaming) {
-+	is_singular_file = v4l2_fh_is_singular_file(file);
-+
-+	if (is_singular_file && ivc->streaming) {
- 		media_pipeline_stop(entity);
- 		ivc->streaming = 0;
- 	}
- 
- 	_vb2_fop_release(file, NULL);
-+	file->private_data = NULL;
- 
--	if (v4l2_fh_is_singular_file(file)) {
-+	if (is_singular_file) {
- 		fimc_pipeline_call(&ivc->ve, close);
- 
- 		mutex_lock(&mdev->graph_mutex);
--- 
-2.25.1
+  state->irq = client->irq;
+  mutex_init(&state->mutex);
+- state->curr_norm = V4L2_STD_NTSC;
++ state->curr_norm = V4L2_STD_PAL;
+  if (state->chip_info->flags & ADV7180_FLAG_RESET_POWERED)
+  state->powered = true;
+  else
 
+Then I get stable image and no more scrolling.
 
+This patch from Steve is still needed though:
+https://github.com/Gateworks/linux-imx6/commit/959fbd4
+
+What would be the correct way to fix this NTSC versus PAL selection?
+
+I tried passing the norm property like this, but it gives me an error:
+
+# gst-launch-1.0 -v  v4l2src norm=PAL device=/dev/video2 ! kmssink
+Setting pipeline to PAUSED ...
+Pipeline is live and does not need PREROLL ...
+/GstPipeline:pipeline0/GstKMSSink:kmssink0: display-width = 800
+/GstPipeline:pipeline0/GstKMSSink:kmssink0: display-height = 480
+WARNING: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+Failed to set norm for device '/dev/video2'.
+Additional debug info:
+../gst-plugins-good-1.18.2/sys/v4l2/v4l2_calls.c(779):
+gst_v4l2_set_norm (): /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+system error: Inappropriate ioctl for device
+
+Appreciate any suggestions, thanks
