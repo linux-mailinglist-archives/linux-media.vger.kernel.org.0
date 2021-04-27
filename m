@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA79D36C3CD
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:29:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8CFB36C342
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:27:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235609AbhD0K3p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:29:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48146 "EHLO mail.kernel.org"
+        id S235426AbhD0K2D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:28:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47652 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238099AbhD0K2m (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:28:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0383361481;
-        Tue, 27 Apr 2021 10:27:17 +0000 (UTC)
+        id S235304AbhD0K17 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 06:27:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E24CB611F2;
+        Tue, 27 Apr 2021 10:27:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619519237;
-        bh=v3oOn6uPHJX4lDQc2LG+Rn/44BbALYGNkVgzHn1PdbQ=;
+        s=k20201202; t=1619519235;
+        bh=euIQLwDaPDSgWFx6NM45FK2bpju26XjkPQY0ICj4Fck=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JEckz/fuxi4Yvs858mBbDa/aqLRqDtn9bj58CCmGAwK+QlqI37NtGR/Y+J/OXjsBP
-         PNc65TsKhuzdT/yReKJQSOyQBpdMzZ3HgVk459MlonuhUKxN06+tIgvNT9Jaz3QfE/
-         trGOaUWCkBkAAj8suBC9dpgUQjA3PnqAsf9lWiAqueppxgWDLid18DETKQP8NS5sUJ
-         vX1DuVJFZrSRH+Pnwv+Ne0PkrDqGtAXPQHQRPQtlzPUbAiiFx4ilBStNbtSSQrgyhW
-         /Sio56g1+Bv5UGnVUQL38bXFwNA+Ws2vC8338NGikS7/6p8sHMdeRjAOuJjko4MMG1
-         pbDKV4IBvXrOg==
+        b=P5fSA5LOibNGMYPA1Zp+9c/obPnU5Jakea77X+sfyVZD1AbcxM+wz45KtcseD8bNm
+         4KD7oFM2gDFXeB3CAvy7Vp4Z1Pvd4kNk/u2KHTVriRp55zVTWvp4hO/9aVgPIfULYH
+         ek2JL00/fnm68LMnquJI1vcAo7Gx9eAQdu8YNAzWx2TZeN4luu0iPPxUiKt2YbsqQq
+         Ey26ocTLTDuHk/PokhKcaFxFQE3lrLtjATLKqFusiPHjGUafuSxFdDDFqZXZU/oLbx
+         zuKhsEgsojEcGmBQ8OlPk2v72wytbr9pfV8V9DoryqOg//I833iMiR8AwXZUx3+tWK
+         AqYGEAlMoFq+Q==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKvv-000nzt-JM; Tue, 27 Apr 2021 12:27:11 +0200
+        id 1lbKvv-000nzw-LS; Tue, 27 Apr 2021 12:27:11 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v3 14/79] media: am437x: fix pm_runtime_get_sync() usage count
-Date:   Tue, 27 Apr 2021 12:26:04 +0200
-Message-Id: <657bba55e6afbb321b0f0c612d0b8f900e365594.1619519080.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 15/79] media: sh_vou: fix pm_runtime_get_sync() usage count
+Date:   Tue, 27 Apr 2021 12:26:05 +0200
+Message-Id: <3d2ef55f0ca6f4f58804b402d0d1bf176bcf9791.1619519080.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619519080.git.mchehab+huawei@kernel.org>
 References: <cover.1619519080.git.mchehab+huawei@kernel.org>
@@ -53,88 +55,30 @@ commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with us
 in order to properly decrement the usage counter and avoid memory
 leaks.
 
-While here, ensure that the driver will check if PM runtime
-resumed at vpfe_initialize_device().
+While here, check if the PM runtime error was caught at open time.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/am437x/am437x-vpfe.c | 22 +++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+ drivers/media/platform/sh_vou.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
-index 6cdc77dda0e4..bced526f30f2 100644
---- a/drivers/media/platform/am437x/am437x-vpfe.c
-+++ b/drivers/media/platform/am437x/am437x-vpfe.c
-@@ -1021,7 +1021,9 @@ static int vpfe_initialize_device(struct vpfe_device *vpfe)
- 	if (ret)
- 		return ret;
- 
--	pm_runtime_get_sync(vpfe->pdev);
-+	ret = pm_runtime_resume_and_get(vpfe->pdev);
-+	if (ret < 0)
-+		return ret;
- 
- 	vpfe_config_enable(&vpfe->ccdc, 1);
- 
-@@ -2443,7 +2445,11 @@ static int vpfe_probe(struct platform_device *pdev)
- 	pm_runtime_enable(&pdev->dev);
- 
- 	/* for now just enable it here instead of waiting for the open */
--	pm_runtime_get_sync(&pdev->dev);
-+	ret = pm_runtime_resume_and_get(&pdev->dev);
-+	if (ret < 0) {
-+		vpfe_err(vpfe, "Unable to resume device.\n");
-+		goto probe_out_v4l2_unregister;
-+	}
- 
- 	vpfe_ccdc_config_defaults(ccdc);
- 
-@@ -2527,10 +2533,11 @@ static int vpfe_suspend(struct device *dev)
- {
- 	struct vpfe_device *vpfe = dev_get_drvdata(dev);
- 	struct vpfe_ccdc *ccdc = &vpfe->ccdc;
-+	int ret;
- 
- 	/* only do full suspend if streaming has started */
- 	if (vb2_start_streaming_called(&vpfe->buffer_queue)) {
--		pm_runtime_get_sync(dev);
-+		ret = pm_runtime_resume_and_get(dev);
- 		vpfe_config_enable(ccdc, 1);
- 
- 		/* Save VPFE context */
-@@ -2541,7 +2548,8 @@ static int vpfe_suspend(struct device *dev)
- 		vpfe_config_enable(ccdc, 0);
- 
- 		/* Disable both master and slave clock */
--		pm_runtime_put_sync(dev);
-+		if (ret >= 0)
-+			pm_runtime_put_sync(dev);
- 	}
- 
- 	/* Select sleep pin state */
-@@ -2583,18 +2591,20 @@ static int vpfe_resume(struct device *dev)
- {
- 	struct vpfe_device *vpfe = dev_get_drvdata(dev);
- 	struct vpfe_ccdc *ccdc = &vpfe->ccdc;
-+	int ret;
- 
- 	/* only do full resume if streaming has started */
- 	if (vb2_start_streaming_called(&vpfe->buffer_queue)) {
- 		/* Enable both master and slave clock */
--		pm_runtime_get_sync(dev);
-+		ret = pm_runtime_resume_and_get(dev);
- 		vpfe_config_enable(ccdc, 1);
- 
- 		/* Restore VPFE context */
- 		vpfe_restore_context(ccdc);
- 
- 		vpfe_config_enable(ccdc, 0);
--		pm_runtime_put_sync(dev);
-+		if (ret >= 0)
-+			pm_runtime_put_sync(dev);
- 	}
- 
- 	/* Select default pin state */
+diff --git a/drivers/media/platform/sh_vou.c b/drivers/media/platform/sh_vou.c
+index 4ac48441f22c..ca4310e26c49 100644
+--- a/drivers/media/platform/sh_vou.c
++++ b/drivers/media/platform/sh_vou.c
+@@ -1133,7 +1133,11 @@ static int sh_vou_open(struct file *file)
+ 	if (v4l2_fh_is_singular_file(file) &&
+ 	    vou_dev->status == SH_VOU_INITIALISING) {
+ 		/* First open */
+-		pm_runtime_get_sync(vou_dev->v4l2_dev.dev);
++		err = pm_runtime_resume_and_get(vou_dev->v4l2_dev.dev);
++		if (err < 0) {
++			v4l2_fh_release(file);
++			goto done_open;
++		}
+ 		err = sh_vou_hw_init(vou_dev);
+ 		if (err < 0) {
+ 			pm_runtime_put(vou_dev->v4l2_dev.dev);
 -- 
 2.30.2
 
