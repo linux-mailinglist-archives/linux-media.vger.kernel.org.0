@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BDF336C659
+	by mail.lfdr.de (Postfix) with ESMTP id 56D4036C65A
 	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 14:46:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237850AbhD0MrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 08:47:11 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45396 "EHLO
+        id S235410AbhD0MrN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 08:47:13 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45386 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237835AbhD0MrG (ORCPT
+        with ESMTP id S237743AbhD0MrI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 08:47:06 -0400
+        Tue, 27 Apr 2021 08:47:08 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49FBA2155;
-        Tue, 27 Apr 2021 14:46:21 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DA2E2167;
+        Tue, 27 Apr 2021 14:46:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619527581;
-        bh=zMXoUeLQa85OjjTHGdfujlJKNufVmPFBK5PYCMcftmw=;
+        s=mail; t=1619527582;
+        bh=rwh2Qy36d/ilbC1wB0O/8Ko7w3jK8HnGcLIjH8n6Lqc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sgHrvBMm0mFIpSvRh8aLvBF4EurlTnHjcEA4sgvOjVtqr29IdG56alwrbd+9AqtwN
-         C0mMuwgVV9YMGGLN0dCOsamQUog0GuNt78qgW60OecJRKjv0FmUzVOEF+mOhVTD9zu
-         S6Kgj6GHLOzTY9QhwNyeUp2YwRVf3NskEw9MbLR8=
+        b=hwY1hD+4NweX5Z+yNKsyj08EPitXjTom5q1x9owD1I/g735R/n+yXH73i3wuAlB9O
+         /IBpt9KQhFYzoMe5+dqit2K1GrCyyZZO9x/6OQHaAxhPFtNhgAKUR5ZSwh060SlAhk
+         0TGPVvviAuwdhVwhmFjc7v+k7E5D4+PwPvRnWuss=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -30,9 +30,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v6 20/24] v4l: subdev: routing kernel helper functions
-Date:   Tue, 27 Apr 2021 15:45:19 +0300
-Message-Id: <20210427124523.990938-21-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v6 21/24] v4l: subdev: add v4l2_subdev_get_format_dir()
+Date:   Tue, 27 Apr 2021 15:45:20 +0300
+Message-Id: <20210427124523.990938-22-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210427124523.990938-1-tomi.valkeinen@ideasonboard.com>
 References: <20210427124523.990938-1-tomi.valkeinen@ideasonboard.com>
@@ -42,138 +42,156 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add helper functions for routing.
-
-TODO: add docs.
+Add v4l2_subdev_get_format_dir() which can be used to find subdev format
+for a specific stream on a multiplexed pad. The function will follow the
+routes and links until it finds a non-multiplexed pad.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 90 +++++++++++++++++++++++++++
- include/media/v4l2-subdev.h           | 14 +++++
- 2 files changed, 104 insertions(+)
+ drivers/media/v4l2-core/v4l2-subdev.c | 96 +++++++++++++++++++++++++++
+ include/media/v4l2-subdev.h           | 26 ++++++++
+ 2 files changed, 122 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index ad79ce121cee..31e279292ea6 100644
+index 31e279292ea6..f08847341a6b 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -910,6 +910,96 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
- 	return -EINVAL;
+@@ -1000,6 +1000,102 @@ bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
  }
+ EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
  
-+int v4l2_subdev_get_krouting(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_krouting *routing)
++int v4l2_subdev_get_format_dir(struct media_pad *pad, u16 stream,
++			       enum v4l2_direction dir,
++			       struct v4l2_subdev_format *fmt)
 +{
++	struct device *dev = pad->entity->graph_obj.mdev->dev;
 +	int ret;
++	int i;
 +
-+	routing->which = V4L2_SUBDEV_FORMAT_ACTIVE;
-+	routing->routes = NULL;
-+	routing->num_routes = 0;
++	dev_dbg(dev, "%s '%s':%u:%u %s\n", __func__,
++		pad->entity->name, pad->index, stream,
++		dir == V4L2_DIR_SOURCEWARD ? "sourceward" : "sinkward");
 +
-+	ret = v4l2_subdev_call(sd, pad, get_routing, routing);
-+	if (ret == 0)
-+		return 0;
-+	if (ret != -ENOSPC)
-+		return ret;
++	while (true) {
++		struct v4l2_subdev_krouting routing;
++		struct v4l2_subdev_route *route;
 +
-+	routing->routes = kvmalloc_array(routing->num_routes,
-+					 sizeof(*routing->routes), GFP_KERNEL);
-+	if (!routing->routes)
-+		return -ENOMEM;
++		if (pad->entity->obj_type != MEDIA_ENTITY_TYPE_V4L2_SUBDEV)
++			return -EINVAL;
 +
-+	ret = v4l2_subdev_call(sd, pad, get_routing, routing);
-+	if (ret) {
-+		kvfree(routing->routes);
-+		return ret;
++		ret = v4l2_subdev_link_validate_get_format(pad, fmt);
++		if (ret == 0)
++			return 0;
++		else if (ret != -ENOIOCTLCMD)
++			return ret;
++
++		if (pad->flags &
++		    (dir == V4L2_DIR_SINKWARD ? MEDIA_PAD_FL_SOURCE :
++						MEDIA_PAD_FL_SINK)) {
++			pad = media_entity_remote_pad(pad);
++
++			if (!pad)
++				return -EINVAL;
++
++			if (pad->entity->obj_type != MEDIA_ENTITY_TYPE_V4L2_SUBDEV)
++				return -EINVAL;
++
++			ret = v4l2_subdev_link_validate_get_format(pad, fmt);
++			if (ret == 0)
++				return 0;
++			else if (ret != -ENOIOCTLCMD)
++				return ret;
++		}
++
++		ret = v4l2_subdev_get_krouting(media_entity_to_v4l2_subdev(pad->entity), &routing);
++		if (ret)
++			return ret;
++
++		route = NULL;
++		for (i = 0; i < routing.num_routes; ++i) {
++			u16 near_pad = dir == V4L2_DIR_SINKWARD ?
++					       routing.routes[i].sink_pad :
++					       routing.routes[i].source_pad;
++			u16 near_stream = dir == V4L2_DIR_SINKWARD ?
++						  routing.routes[i].sink_stream :
++						  routing.routes[i].source_stream;
++
++			if (!(routing.routes[i].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
++				continue;
++
++			if (near_pad != pad->index)
++				continue;
++
++			if (near_stream != stream)
++				continue;
++
++			if (route) {
++				dev_err(dev,
++					"%s: '%s' has multiple active routes for stream %u\n",
++					__func__, pad->entity->name, stream);
++				v4l2_subdev_free_routing(&routing);
++				return -EINVAL;
++			}
++
++			route = &routing.routes[i];
++		}
++
++		if (!route) {
++			dev_err(dev, "%s: no route found in '%s' for stream %u\n",
++				__func__, pad->entity->name, stream);
++			v4l2_subdev_free_routing(&routing);
++			return -EINVAL;
++		}
++
++		if (dir == V4L2_DIR_SINKWARD) {
++			pad = &pad->entity->pads[route->source_pad];
++			stream = route->source_stream;
++		} else {
++			pad = &pad->entity->pads[route->sink_pad];
++			stream = route->sink_stream;
++		}
++
++		v4l2_subdev_free_routing(&routing);
 +	}
-+
-+	return 0;
 +}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_get_krouting);
-+
-+void v4l2_subdev_free_routing(struct v4l2_subdev_krouting *routing)
-+{
-+	kvfree(routing->routes);
-+	routing->routes = NULL;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_free_routing);
-+
-+void v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
-+			     const struct v4l2_subdev_krouting *src)
-+{
-+	memcpy(dst->routes, src->routes,
-+	       src->num_routes * sizeof(*src->routes));
-+	dst->num_routes = src->num_routes;
-+	dst->which = src->which;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_cpy_routing);
-+
-+int v4l2_subdev_dup_routing(struct v4l2_subdev_krouting *dst,
-+			    const struct v4l2_subdev_krouting *src)
-+{
-+	if (dst->routes)
-+		kvfree(dst->routes);
-+
-+	if (src->num_routes == 0) {
-+		dst->which = src->which;
-+		dst->routes = NULL;
-+		dst->num_routes = 0;
-+		return 0;
-+	}
-+
-+	dst->routes = kvmalloc_array(src->num_routes, sizeof(*src->routes),
-+				     GFP_KERNEL);
-+	if (!dst->routes)
-+		return -ENOMEM;
-+
-+	v4l2_subdev_cpy_routing(dst, src);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_dup_routing);
-+
-+bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
-+			   unsigned int pad0, unsigned int pad1)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < routing->num_routes; ++i) {
-+		struct v4l2_subdev_route *route = &routing->routes[i];
-+
-+		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+			continue;
-+
-+		if (route->sink_pad == pad0 && route->source_pad == pad1)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
++EXPORT_SYMBOL_GPL(v4l2_subdev_get_format_dir);
 +
  int v4l2_subdev_link_validate(struct media_link *link)
  {
  	struct v4l2_subdev *sink;
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index c45f5f0156c9..1235d4832b76 100644
+index 1235d4832b76..9025ef3a67f5 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -1235,4 +1235,18 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
- void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
- 			      const struct v4l2_event *ev);
+@@ -1249,4 +1249,30 @@ void v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
+ bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
+ 			   unsigned int pad0, unsigned int pad1);
  
-+int v4l2_subdev_get_krouting(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_krouting *routing);
++/**
++ * enum v4l2_direction - Direction either towards the source or the sink
++ *
++ * @V4L2_DIR_SOURCEWARD: Direction towards the source.
++ * @V4L2_DIR_SINKWARD: Direction towards the sink.
++ */
++enum v4l2_direction {
++	V4L2_DIR_SOURCEWARD,
++	V4L2_DIR_SINKWARD,
++};
 +
-+void v4l2_subdev_free_routing(struct v4l2_subdev_krouting *routing);
-+
-+int v4l2_subdev_dup_routing(struct v4l2_subdev_krouting *dst,
-+			    const struct v4l2_subdev_krouting *src);
-+
-+void v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
-+			     const struct v4l2_subdev_krouting *src);
-+
-+bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
-+			   unsigned int pad0, unsigned int pad1);
++/**
++ * v4l2_subdev_get_format_dir() - Find format by following streams
++ * @pad: The pad from which to start the search
++ * @stream: The stream for which we want to find the format
++ * @dir: The direction of the search
++ * @fmt: Pointer to &struct v4l2_subdev_format where the found format is stored
++ *
++ * This function attempts to find v4l2_subdev_format for a specific stream on a
++ * multiplexed pad by following the stream using routes and links to the specified
++ * direction, until a non-multiplexed pad is found.
++ */
++int v4l2_subdev_get_format_dir(struct media_pad *pad, u16 stream,
++			       enum v4l2_direction dir,
++			       struct v4l2_subdev_format *fmt);
 +
  #endif
 -- 
