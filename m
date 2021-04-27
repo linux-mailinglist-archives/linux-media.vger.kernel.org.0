@@ -2,42 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60F4E36C27B
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DE4236C273
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:14:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235570AbhD0KOq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:14:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34772 "EHLO mail.kernel.org"
+        id S235517AbhD0KOn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:14:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34668 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235351AbhD0KOe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S235314AbhD0KOe (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 27 Apr 2021 06:14:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0708F613D3;
-        Tue, 27 Apr 2021 10:13:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0CB60613D8;
+        Tue, 27 Apr 2021 10:13:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619518431;
-        bh=cJmIogEt8DtaRrLuirE0smJSOENxo/aAnd7cgWYfYDc=;
+        bh=U3xPtY+HT1GPqKz+iC8qw5pPuPioh4afaqfdd0R7SD0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KZp74C/N3xULsOG1NcjGyCnHrQUbBn7L4C6SjULa6jlIkjkwb4uQjAmyz7MBIatyJ
-         8aZXyLOROj+YrO2pBurSY+F68uEs1Jq7JH8uqCwePJcN1IGEgiLVpmyxerCcjGmQIf
-         ZTmIUdmWmE3sxwJyOEeTKlY2LM2tJP+uzh4xlcCEuQ3IuqdQWKS9j1AdkFOrYN6Vor
-         RafH87t0RcMEZ2XSQQBWv5wtqRM3l8dW6T/m2a2MOTN6eezeZbhPil2BAoyM/Z8ZFK
-         9q5GHr2H+784p6XQXO43aCpof7AgRGZF/J7/LD2TXJKgfIX/Wx5n9U0dNdaQ39pRd9
-         JuMWqXSUso+VQ==
+        b=SF3VGC81jsafrWSb4/+wRsXESNkqb6f087GFtYbL/2+Ajlc4mf6YsA6kWU+zFFinI
+         clmLzaWVwHQyOA9g2Fn2fNMdi1lddtkNBbDYHOuxwh1ge+ToyaS2OuwzS9W0x3E1Kf
+         yX7rHEMbwV1E0ZkvJmx26OP/OV3ssZIv/G2nBAGzyZQ78Pi5/mjJ2xfyybou4IWWnW
+         +ujwaT3KdQSYngxdcbauaCmrC3zSJOcf9AATfe4pYp6v0/T3KBGKFEsBNliHwsBptD
+         rvluOfKwrkg3UJr6ZYNEE0kBT1ZgVkJYgavWSXQUTP6tRYOfkvXEHQMPjcyBa952E6
+         hAd9Qgpx/b17Q==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKiy-000j5P-RZ; Tue, 27 Apr 2021 12:13:48 +0200
+        id 1lbKiy-000j5S-Sd; Tue, 27 Apr 2021 12:13:48 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2 17/79] media: s5p-jpeg: fix pm_runtime_get_sync() usage count
-Date:   Tue, 27 Apr 2021 12:12:44 +0200
-Message-Id: <b6a5ee6479e005c271849b27e752c10f0fd8a150.1619518193.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 18/79] media: delta-v4l2: fix pm_runtime_get_sync() usage count
+Date:   Tue, 27 Apr 2021 12:12:45 +0200
+Message-Id: <9d65648bf69e2c7b2c59fdf06214153491d4cdf2.1619518193.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619518193.git.mchehab+huawei@kernel.org>
 References: <cover.1619518193.git.mchehab+huawei@kernel.org>
@@ -56,25 +53,27 @@ commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with us
 in order to properly decrement the usage counter and avoid memory
 leaks.
 
-Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/s5p-jpeg/jpeg-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/sti/delta/delta-v4l2.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.c b/drivers/media/platform/s5p-jpeg/jpeg-core.c
-index 026111505f5a..c4f19418a460 100644
---- a/drivers/media/platform/s5p-jpeg/jpeg-core.c
-+++ b/drivers/media/platform/s5p-jpeg/jpeg-core.c
-@@ -2568,7 +2568,7 @@ static int s5p_jpeg_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct s5p_jpeg_ctx *ctx = vb2_get_drv_priv(q);
- 	int ret;
+diff --git a/drivers/media/platform/sti/delta/delta-v4l2.c b/drivers/media/platform/sti/delta/delta-v4l2.c
+index c691b3d81549..9928b7c46a41 100644
+--- a/drivers/media/platform/sti/delta/delta-v4l2.c
++++ b/drivers/media/platform/sti/delta/delta-v4l2.c
+@@ -1277,9 +1277,9 @@ int delta_get_sync(struct delta_ctx *ctx)
+ 	int ret = 0;
  
--	ret = pm_runtime_get_sync(ctx->jpeg->dev);
-+	ret = pm_runtime_resume_and_get(ctx->jpeg->dev);
- 
- 	return ret > 0 ? 0 : ret;
- }
+ 	/* enable the hardware */
+-	ret = pm_runtime_get_sync(delta->dev);
++	ret = pm_runtime_resume_and_get(delta->dev);
+ 	if (ret < 0) {
+-		dev_err(delta->dev, "%s pm_runtime_get_sync failed (%d)\n",
++		dev_err(delta->dev, "%s pm_runtime_resume_and_get failed (%d)\n",
+ 			__func__, ret);
+ 		return ret;
+ 	}
 -- 
 2.30.2
 
