@@ -2,40 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7751E36C36A
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00ECA36C367
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:28:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237728AbhD0K20 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:28:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48146 "EHLO mail.kernel.org"
+        id S237632AbhD0K2Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:28:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48148 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235540AbhD0K2E (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S235547AbhD0K2E (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 27 Apr 2021 06:28:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 27746613DD;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 487C1613EF;
         Tue, 27 Apr 2021 10:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619519236;
-        bh=vSVgVx9oCI4BykR40BTa4+7tin+dlK2U4+Benc8+UkQ=;
+        bh=uJQR0czm+DeAW2PWQeBvZ4Rvzd+S5i8+90myFebensI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pLaCD4ofqL5rXZRv9KJFm6qqqJsqVPXNi3IXzSjhGRLDdW9MBRZ5iVhqvRmUsYonP
-         pp/8ZGF5xrtnUbbOYSWlRQINpYubh4VTxzD3w4u0Iju9BCtsQan3Iqzo20e/4fiBj4
-         wxkWEB0iHbYNMPZGR53hBhM2d5U/JxEdM8oYQDBWebB1B9h5izn7/ETooQ6QCwhxkp
-         G/c2H4Z7DdKUO7rT0RA2MTGfoywUxW7tdohSAPKwaQz3RKVmyG5tmdv4nX5r5k0ndt
-         BUwSrcXKUpluwk7ocgeR1Fbk6KUhTz2o1P3azH9yfzFLwvWDkHsAL0dO/nTHDoVTb7
-         UU8L4DE3DAZDg==
+        b=jVnwnb5PZqgl+8wS3a81LGuG33LLQQG5gU+krefP1JpsPHclKD/qXIjYqGWDhXj55
+         33ZRf6pF3l25eqc23Gs5pQdb0PDVHjURu+5v6pv2wTDR2k3uuNt6odSP9+6BpqCcYd
+         d/3Degiy2aE7zY3jDL0nmMN6wAYcVoY24xda0SeYx6pUfEfpJCXrXpLKzBsi3uUBHL
+         pVypllmFBWs0zwfTFOHdkx9Da4ikdpe+ma+x5heSsVnA874VjASk5gH6YgAulNQ3WA
+         BufVzIeVNbWeGsNO45wpB2uYN9PNZRI/HwQ2DqN3hKdQKXTVe0cPNGxufc13iTQ33+
+         pdjzD89XjIGGw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKvv-000nzh-BP; Tue, 27 Apr 2021 12:27:11 +0200
+        id 1lbKvv-000nzk-DU; Tue, 27 Apr 2021 12:27:11 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jacob Chen <jacob-chen@iotwrt.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 10/79] media: rcar_fdp1: fix pm_runtime_get_sync() usage count
-Date:   Tue, 27 Apr 2021 12:26:00 +0200
-Message-Id: <9a79a72f93981227f21cd8fa8fc8c2d26eeb4d7b.1619519080.git.mchehab+huawei@kernel.org>
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: [PATCH v3 11/79] media: rga-buf: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:26:01 +0200
+Message-Id: <a9099f1ffc537e5f997cb260a175715892387c5a.1619519080.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619519080.git.mchehab+huawei@kernel.org>
 References: <cover.1619519080.git.mchehab+huawei@kernel.org>
@@ -47,52 +49,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pm_runtime_get_sync() internally increments the
-dev->power.usage_count without decrementing it, even on errors.
-Replace it by the new pm_runtime_resume_and_get(), introduced by:
-commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-in order to properly decrement the usage counter and avoid memory
-leaks.
+Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+added pm_runtime_resume_and_get() in order to automatically handle
+dev->power.usage_count decrement on errors.
 
-Also, right now, the driver is ignoring any troubles when
-trying to do PM resume. So, add the proper error handling
-for the code.
+Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/rcar_fdp1.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/media/platform/rockchip/rga/rga-buf.c | 3 +--
+ drivers/media/platform/rockchip/rga/rga.c     | 4 +++-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
-index 01c1fbb97bf6..c32d237af618 100644
---- a/drivers/media/platform/rcar_fdp1.c
-+++ b/drivers/media/platform/rcar_fdp1.c
-@@ -2140,7 +2140,13 @@ static int fdp1_open(struct file *file)
+diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
+index bf9a75b75083..81508ed5abf3 100644
+--- a/drivers/media/platform/rockchip/rga/rga-buf.c
++++ b/drivers/media/platform/rockchip/rga/rga-buf.c
+@@ -79,9 +79,8 @@ static int rga_buf_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	struct rockchip_rga *rga = ctx->rga;
+ 	int ret;
+ 
+-	ret = pm_runtime_get_sync(rga->dev);
++	ret = pm_runtime_resume_and_get(rga->dev);
+ 	if (ret < 0) {
+-		pm_runtime_put_noidle(rga->dev);
+ 		rga_buf_return_buffers(q, VB2_BUF_STATE_QUEUED);
+ 		return ret;
+ 	}
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index 9d122429706e..bf3fd71ec3af 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -866,7 +866,9 @@ static int rga_probe(struct platform_device *pdev)
+ 		goto unreg_video_dev;
  	}
  
- 	/* Perform any power management required */
--	pm_runtime_get_sync(fdp1->dev);
-+	ret = pm_runtime_resume_and_get(fdp1->dev);
-+	if (ret < 0) {
-+		v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
-+		v4l2_ctrl_handler_free(&ctx->hdl);
-+		kfree(ctx);
-+		goto done;
-+	}
- 
- 	v4l2_fh_add(&ctx->fh);
- 
-@@ -2351,7 +2357,9 @@ static int fdp1_probe(struct platform_device *pdev)
- 
- 	/* Power up the cells to read HW */
- 	pm_runtime_enable(&pdev->dev);
--	pm_runtime_get_sync(fdp1->dev);
-+	ret = pm_runtime_resume_and_get(fdp1->dev);
+-	pm_runtime_get_sync(rga->dev);
++	ret = pm_runtime_resume_and_get(rga->dev);
 +	if (ret < 0)
-+		return ret;
++		goto unreg_video_dev;
  
- 	hw_version = fdp1_read(fdp1, FD1_IP_INTDATA);
- 	switch (hw_version) {
+ 	rga->version.major = (rga_read(rga, RGA_VERSION_INFO) >> 24) & 0xFF;
+ 	rga->version.minor = (rga_read(rga, RGA_VERSION_INFO) >> 20) & 0x0F;
 -- 
 2.30.2
 
