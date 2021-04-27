@@ -2,114 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0CEC36C706
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 15:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 035D136C713
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 15:33:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236347AbhD0Nas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 09:30:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41566 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235875AbhD0Nas (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 09:30:48 -0400
-Received: from ustc.edu.cn (email6.ustc.edu.cn [IPv6:2001:da8:d800::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2346DC061574;
-        Tue, 27 Apr 2021 06:30:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
-        In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-ID; bh=ALd7aUrx9C59XSdS79bV6IteDhqku7qQ78rk
-        F6VYWmo=; b=ZtGI+BiP9cZdhgHxtn3nU3w+pZZAPv/FQC4xqrheGqhpB28nV6O1
-        EDwJCkmFo1Pn3cQZk2Eg2xosVhN2ZkwBZDav34aMRXq1E3HFGxpX1QjPW14WZOQW
-        ZOQG9xIgEnNHE6cHhd5wjAGBDIaLBv1oDkR1/k2LIl3B45FVAuuDugY=
-Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Tue, 27 Apr
- 2021 21:29:57 +0800 (GMT+08:00)
-X-Originating-IP: [104.245.96.151]
-Date:   Tue, 27 Apr 2021 21:29:57 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   lyl2019@mail.ustc.edu.cn
-To:     "Sylwester Nawrocki" <snawrocki@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        s.nawrocki@samsung.com, mchehab@kernel.org, krzk@kernel.org
-Subject: Re: Re: [PATCH v2] media:exynos4-is: Fix a use after free in
- isp_video_release
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
- 20190610(cb3344cf) Copyright (c) 2002-2021 www.mailtech.cn ustc-xl
-In-Reply-To: <a56d14d8-5be6-24ff-24f1-80274320dfe5@kernel.org>
-References: <20210427060255.3318-1-lyl2019@mail.ustc.edu.cn>
- <a56d14d8-5be6-24ff-24f1-80274320dfe5@kernel.org>
-X-SendMailWithSms: false
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+        id S238166AbhD0NeQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 09:34:16 -0400
+Received: from mail-db8eur05on2132.outbound.protection.outlook.com ([40.107.20.132]:13409
+        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235875AbhD0NeM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 09:34:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WAtPjwxULbSnxbXuttHLL3XrlTAtU8FzrJP796yHr5Z435Dr8PCX1ur58KSP5Ko32zY2QJZqfhonceqk8oKB8vnGgrMJ6cK3vGWPucAm/SmONcehbnH+Hnq1MzSKt8hIQmrXwRXssfocyUX4DN6FcVHe96fxu56mIIK8h1B62msqb0b32iEtMVNsTpR49FFtpJVJVyxEbujg0twalAW4ZTGii1j6uyCFSLRhqEL72n9peY48yo2lLcm2wjUMDd3QVn8DXNUL+v0pdSdivYCXuwPNvPCfL3n68BG+4A5DfQX5bE4DG7iGkoug9EqILVAzGC50zO7fS+DJY4oBbwc66A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gToJAjYh1oVicGZ6G2f0a/IACBq1s74qRoiKFryIY6A=;
+ b=Ot220txastG39Ind6mbqWHbuDSZ/ASrRrlfQFcFFU8LDLqwVi1rZzRAnCDaI2+h15DXyqcNApo7/8loB6uOG9hvChdpVOnK/ChpOqnsWKM5Go158QC6H9+1um6sIJROE2Hob2bOMgfZXFq+fue7l5ZsoEgL8Mp9RiCApC0WWNjOkWLunbFROnpZV7ow662QFetUQyKQinFIWKjcKlXe9fBN5Dhea0fJ8hozEyGW8pyhrEzXCP0zwQR3LRjLAvug9vQmzFoGNbio2fCu1W9O92sS2gobIRrU0EXq892yqZJ/stevBOQXOAAC/5zUD7MSTCbMqBkXaaVxMcezoZlehLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gToJAjYh1oVicGZ6G2f0a/IACBq1s74qRoiKFryIY6A=;
+ b=HRFs5ePyj6tQJBD6ATwMmGXRqVVF/BmZjA5eTV//RkgjE+02si9j94iP+5AM0RoGoOkWf1KnsH2M/VlZpajhc8+KqumNMurq0mvlvNACDKuBajf+PAa2oOTNqkiCg6pQb8f4U8HmGWeAaHy0n+JomppDQbSpJ/l6tPJFDKwfnvQ=
+Authentication-Results: ndufresne.ca; dkim=none (message not signed)
+ header.d=none;ndufresne.ca; dmarc=none action=none header.from=kontron.de;
+Received: from AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:157::14)
+ by AM0PR10MB2164.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e2::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.23; Tue, 27 Apr
+ 2021 13:33:26 +0000
+Received: from AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::3d8a:f56b:3a0c:8a87]) by AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::3d8a:f56b:3a0c:8a87%7]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
+ 13:33:26 +0000
+Subject: Re: adv7280: Scrolling images on imx6
+To:     Fabio Estevam <festevam@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <CAOMZO5CacHaESju9XQU1C7NU41Myk1-2_+7sju1dnCZuqRv98Q@mail.gmail.com>
+ <CAOMZO5BEre9=se1yAxr7QTmfV_N=GMKZeanr+jYfRNrSO551hg@mail.gmail.com>
+From:   Frieder Schrempf <frieder.schrempf@kontron.de>
+Message-ID: <4ea17a0c-b442-1ca2-1ae3-7a305d53273f@kontron.de>
+Date:   Tue, 27 Apr 2021 15:33:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <CAOMZO5BEre9=se1yAxr7QTmfV_N=GMKZeanr+jYfRNrSO551hg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [46.142.161.205]
+X-ClientProxiedBy: AS8PR04CA0010.eurprd04.prod.outlook.com
+ (2603:10a6:20b:310::15) To AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:157::14)
 MIME-Version: 1.0
-Message-ID: <5233bec4.64281.1791385ab97.Coremail.lyl2019@mail.ustc.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: LkAmygB3L1TWEYhgeF1TAA--.11W
-X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/1tbiAQsEBlQhn6cqjwAIso
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.10.27] (46.142.161.205) by AS8PR04CA0010.eurprd04.prod.outlook.com (2603:10a6:20b:310::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22 via Frontend Transport; Tue, 27 Apr 2021 13:33:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1509d6c1-cba2-4db9-b041-08d90981097b
+X-MS-TrafficTypeDiagnostic: AM0PR10MB2164:
+X-Microsoft-Antispam-PRVS: <AM0PR10MB21648500A6E417B18E61B31BE9419@AM0PR10MB2164.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gTdiILA5+RqelLyWTE3N+SjLXMq5dqDYKXvoGbUXFHB2P9t34TRRCccBtmOoxTr6eN8+IhiujzVvpPv5nwNx0VYOENHlmriTiYi4AGo+VkeIwf6uSwQFLOHs3yg03QUh5VVHV35eEGooHZNq8gBL/n+WWquFW8vSCUDwvijLYVN1rrI95DAIRDIQw6whDNNKFFMWayn10s8WwvF8cL91h5MldkctETX6GUNaLMGDsNQrSB1L6BD3GZh5zwUnzl30yFFBbRcihnB4Xq7jrj/cRlouomZusR3LvoqtVV2Sn3fkNBpYnOUQG25VQ0ex5tpNzEvVJJiSwa82+LXxLN7IzNYMWwztSB8gIUOrkNU8hgsC6fUSXxnroU142kht+x5xtgz3gOn+lUsuSHNiwepF2WwmORh2pgDzrHpLo7mwJ+f7929Dgn5b4aMSE+FjvFLHFtLpuWvUUKsrtS+rFaIXxtHoHulvqrA1QObQtbxY+6xmhsGipjElKSOnFRLMRqf4XMZq9V+JGe2XawYj+oUsBjqzAge0HYEJeopI7FI1s/y2KSmdNltNZ3AY7rkE+LXyR+rcPMBsot97A3HG+ZCITKlOSsIOfufRvVNgF1LLaIB03FemWCJhjbdriVOarSDRlkZgoYgjXRjltSjuUv22CgbSB15jrLcbNUXuvPRYAZylYLRahTCmkEfJaE6bQdk6bgKdm474LsYXlyTWBR9eEqVxOzpdG3TUs9SHdFQL0Q+duw+EGxYPvUQAGh6ll1I/Amnf/SJ7EAB49MViiizN2jdB1XC1dRTF4HszLPVkceRF35zd79GMjrcv1gJJrpdP
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(346002)(39850400004)(366004)(396003)(83380400001)(44832011)(966005)(31696002)(2906002)(53546011)(66476007)(4326008)(54906003)(38100700002)(31686004)(66556008)(38350700002)(45080400002)(316002)(110136005)(16576012)(478600001)(5660300002)(66946007)(26005)(52116002)(186003)(2616005)(36756003)(86362001)(8676002)(16526019)(8936002)(956004)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZlpLbXY0WC9lRDUwaTFVTWhKZkZSRm40L2NDVjlUbzdabU1BOHpWb1RTZ2ls?=
+ =?utf-8?B?cWJzcTY0RU9lRWVML1F0eGtxc3lqM3h3OWFyZWg0RVV4bFUzMjJmL3VxeTFj?=
+ =?utf-8?B?UzBUazRkWDFHYnd2TmhQZVE3UjlIRHYwb21PbzliMjM4VXR0a1B3RnR5WVZD?=
+ =?utf-8?B?b2tFWkZtc0NvTHFzT1JLT2pwbDJ6cTNnM3pFYkpTZ3pLZytBSFZHVFcvaUFL?=
+ =?utf-8?B?c2FLTi9lbGladWw4NDFUTmJWcHdxMmcydENqVitycGVqZ1ovZ1A5eDZQVzBH?=
+ =?utf-8?B?ZzRhMWlHaldyY2ZtVmhlTUxmRkszOExFdFQ3Y2UzcXFNMHF6WWhFNmRKZFJ2?=
+ =?utf-8?B?cWIvc2l4RkVaaGlnblZwRCttTi9ZK290Mm9sNmFOQ2NrNStoZDNEWVduRUU4?=
+ =?utf-8?B?RXhQNEFqdTlmYUpWeU03aTZ3T3JKWm1MSnQxRkF1R0xWS2dCTVpuM0JWWG1Z?=
+ =?utf-8?B?QUNkSk5wK1BQUEFCZG1PVXhvbG9mZmpLcmNiWUxhZXd1cmVqMzJRbHRaa0o2?=
+ =?utf-8?B?YXoxR3kzRDV0NGpYQVN3Ukd4TU85czYrMllPQitiUXovVFEvdEp4VEQ3QnE5?=
+ =?utf-8?B?aTRyWHo5K1JJSStiU25mRGlQM2dCMVFTOU9OT1I5bEM1em5zZGJML2pyWDB5?=
+ =?utf-8?B?VGRMTE1BOEg2UWtoakcwSVgwQjR2dnJLVjUwVk5jTHdhV3pxNUtaUlhaUWVJ?=
+ =?utf-8?B?WGRhelNVY2FCdXFicVRDNWlBejZiZ2xrNnBRcTVNUnZieWtPRG9rdm9jTDZW?=
+ =?utf-8?B?VitORTFjY0hKMVRLaWtzTVlTMys4WVRkVFg5ci92cTVtRnFEc291clUvVUhp?=
+ =?utf-8?B?M3p0Y0hmOFlSRGVmYTZPTFpHZ1ViU2JaNVFMdGJIRGFocDR4RURVSkcrNzRo?=
+ =?utf-8?B?T1BpcVlkVXQ0ZitxM2xtSWlFWG9xZGJvZFA4M2lLZjBJRFpRSUNIcWxOWktN?=
+ =?utf-8?B?Ni9wTm5IZ1FKMnlBemJLZjh6N0JqdnNQQ2dxaEN2dENENTNBcVlZSHYzYUYy?=
+ =?utf-8?B?NGhobkdCanpqU1pqdTRLUitoY0ZiOW1xemVXQ2cxMXVQM2N0bnUxUXZQUEly?=
+ =?utf-8?B?TE94TTFSTlYwV2hQQ01NR2VEVEI5eXR1OGlUNndUTWxXYVRCMXBrYkplazJP?=
+ =?utf-8?B?WDJTRzV0VWRRWDZzeWRZZEhJSTBpVGpJVzhmY3Q5Zi94YmhVRkFQeWNyekZt?=
+ =?utf-8?B?cFdCYm8yV09oZVdqeFVkQXU3VENhZ2Nwb1BOdnROazdHa0RUTVNZdmFnTjBv?=
+ =?utf-8?B?cmp4cmR6SEFxb0VIZk1ZbEtHTkZmSVNlbEJDTTZ1MHAzV1RqeThrYnZ4T2xB?=
+ =?utf-8?B?dVd2OUE5SzVCOXhFbUNtQjhKZ3BUdWF6VGx3ZUV3NUxaUncya2pFeHJIVnhT?=
+ =?utf-8?B?NVpSR1FWQ2s1K0p4Y1RRSWdTNTRrL21ZaXppYzVjQ081ZG5ZZ2lSc3F6L29N?=
+ =?utf-8?B?eHpVUU5CTFhFS0k3dFlEKzdVRy9ydmhaWjdLUXlvZ0NUNk1venZlUmRVYXFj?=
+ =?utf-8?B?aTVhRTY2dmxrdHJSM3NhdG5zWDZiem1KOWZvMjdRNjZUbnRxMzdmNlNFclhB?=
+ =?utf-8?B?RVIvSS9oK2ZSNmtRWndqTThNS3UxSnRlNFErVzY5bi9ONUdRQTVIN2U3ZS9p?=
+ =?utf-8?B?RDNBMUNiSGhCYWw0Zm1RdkUyMTBIU2V5M283c0ZXblJlU05MZ2luQTVBay9L?=
+ =?utf-8?B?ZWx4VW80UFFtd2RLcjErcW8yaUtWSGdkbG5pR2hKSlBUVWxySDBnRHdXTTl1?=
+ =?utf-8?Q?EudrYQNiEaYkwua3P6fCAg9R24VXQ/Sv4lM7rTo?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1509d6c1-cba2-4db9-b041-08d90981097b
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 13:33:26.5647
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XKfvmNpLDymqJgZ/WL9WbwN+8S8Ocq35v77OlUAWFwl7XXkBYiNqH3b31sNmELtBZ0TBwtYuGa54PbB9TvOQnTTArqO9+sXp5sSzU4opiOQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB2164
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-DQoNCg0KPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tDQo+IOWPkeS7tuS6ujogIlN5bHdlc3RlciBO
-YXdyb2NraSIgPHNuYXdyb2NraUBrZXJuZWwub3JnPg0KPiDlj5HpgIHml7bpl7Q6IDIwMjEtMDQt
-MjcgMTg6MzY6NDggKOaYn+acn+S6jCkNCj4g5pS25Lu25Lq6OiAiTHYgWXVubG9uZyIgPGx5bDIw
-MTlAbWFpbC51c3RjLmVkdS5jbj4NCj4g5oqE6YCBOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5v
-cmcsIGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZywgbGludXgtc2Ftc3VuZy1z
-b2NAdmdlci5rZXJuZWwub3JnLCBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnLCBzLm5hd3Jv
-Y2tpQHNhbXN1bmcuY29tLCBtY2hlaGFiQGtlcm5lbC5vcmcsIGtyemtAa2VybmVsLm9yZw0KPiDk
-uLvpopg6IFJlOiBbUEFUQ0ggdjJdIG1lZGlhOmV4eW5vczQtaXM6IEZpeCBhIHVzZSBhZnRlciBm
-cmVlIGluIGlzcF92aWRlb19yZWxlYXNlDQo+IA0KPiBPbiAyNy4wNC4yMDIxIDA4OjAyLCBMdiBZ
-dW5sb25nIHdyb3RlOg0KPiA+IEluIGlzcF92aWRlb19yZWxlYXNlLCBmaWxlLT5wcml2YXRlX2Rh
-dGEgaXMgZnJlZWQgdmlhDQo+ID4gX3ZiMl9mb3BfcmVsZWFzZSgpLT52NGwyX2ZoX3JlbGVhc2Uo
-KS4gQnV0IHRoZSBmcmVlZA0KPiA+IGZpbGUtPnByaXZhdGVfZGF0YSBpcyBzdGlsbCB1c2VkIGlu
-IHY0bDJfZmhfaXNfc2luZ3VsYXJfZmlsZSgpDQo+ID4gLT52NGwyX2ZoX2lzX3Npbmd1bGFyKGZp
-bGUtPnByaXZhdGVfZGF0YSksIHdoaWNoIGlzIGEgdXNlDQo+ID4gYWZ0ZXIgZnJlZSBidWcuDQo+
-ID4gDQo+ID4gTXkgcGF0Y2ggc2V0IGZpbGUtPnByaXZhdGVfZGF0YSB0byBOVUxMIGFmdGVyIF92
-YjJfZm9wX3JlbGVhc2UoKQ0KPiA+IHRvIGF2b2lkIHRoZSB1c2UgYWZ0ZXIgZnJlZS4NCj4gPiAN
-Cj4gPiBGaXhlczogMzQ5NDdiOGFlYmUzZiAoIlttZWRpYV0gZXh5bm9zNC1pczogQWRkIHRoZSBG
-SU1DLUlTIElTUCBjYXB0dXJlIERNQSBkcml2ZXIiKQ0KPiA+IFNpZ25lZC1vZmYtYnk6IEx2IFl1
-bmxvbmcgPGx5bDIwMTlAbWFpbC51c3RjLmVkdS5jbj4NCj4gPiAtLS0NCj4gPiAgIGRyaXZlcnMv
-bWVkaWEvcGxhdGZvcm0vZXh5bm9zNC1pcy9maW1jLWlzcC12aWRlby5jIHwgMyArKy0NCj4gPiAg
-IDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiANCj4g
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9leHlub3M0LWlzL2ZpbWMtaXNw
-LXZpZGVvLmMgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2V4eW5vczQtaXMvZmltYy1pc3Atdmlk
-ZW8uYw0KPiA+IGluZGV4IDYxMmI5ODcyYWZjOC4uMmUwNDU4OTA2OGI0IDEwMDY0NA0KPiA+IC0t
-LSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vZXh5bm9zNC1pcy9maW1jLWlzcC12aWRlby5jDQo+
-ID4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9leHlub3M0LWlzL2ZpbWMtaXNwLXZpZGVv
-LmMNCj4gPiBAQCAtMzE1LDcgKzMxNSw4IEBAIHN0YXRpYyBpbnQgaXNwX3ZpZGVvX3JlbGVhc2Uo
-c3RydWN0IGZpbGUgKmZpbGUpDQo+ID4gICAJfQ0KPiA+ICAgDQo+ID4gICAJX3ZiMl9mb3BfcmVs
-ZWFzZShmaWxlLCBOVUxMKTsNCj4gPiAtDQo+ID4gKwlmaWxlLT5wcml2YXRlX2RhdGEgPSBOVUxM
-Ow0KPiANCj4gPiAgIAlpZiAodjRsMl9maF9pc19zaW5ndWxhcl9maWxlKGZpbGUpKSB7DQo+ID4g
-ICAJCWZpbWNfcGlwZWxpbmVfY2FsbCgmaXZjLT52ZSwgY2xvc2UpOw0KPiA+ICAgDQo+IA0KPiBU
-aGFuayB5b3UgZm9yIHRoZSBwYXRjaC4gVG8gZW5zdXJlIHRoZSBwaXBlbGluZSBzdG9wIGNhbGwg
-aXMgZG9uZQ0KPiBvbmx5IHdoZW4gdGhlIGxhc3QgZmlsZSBoYW5kbGUgaXMgcmVsZWFzZWQgd2Ug
-d291bGQgbmVlZCBzb21ldGhpbmcNCj4gYXMgYmVsb3cuDQo+IA0KPiAtLS0tLS0tLTg8LS0tLS0t
-LS0tDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2V4eW5vczQtaXMvZmlt
-Yy1pc3AtdmlkZW8uYyANCj4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2V4eW5vczQtaXMvZmlt
-Yy1pc3AtdmlkZW8uYw0KPiBpbmRleCA2MTJiOTg3MmFmYzguLjMzMzVmZWM1MDljYiAxMDA2NDQN
-Cj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9leHlub3M0LWlzL2ZpbWMtaXNwLXZpZGVv
-LmMNCj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9leHlub3M0LWlzL2ZpbWMtaXNwLXZp
-ZGVvLmMNCj4gQEAgLTMwNiwxNyArMzA2LDIwIEBAIHN0YXRpYyBpbnQgaXNwX3ZpZGVvX3JlbGVh
-c2Uoc3RydWN0IGZpbGUgKmZpbGUpDQo+ICAgICAgICAgIHN0cnVjdCBmaW1jX2lzX3ZpZGVvICpp
-dmMgPSAmaXNwLT52aWRlb19jYXB0dXJlOw0KPiAgICAgICAgICBzdHJ1Y3QgbWVkaWFfZW50aXR5
-ICplbnRpdHkgPSAmaXZjLT52ZS52ZGV2LmVudGl0eTsNCj4gICAgICAgICAgc3RydWN0IG1lZGlh
-X2RldmljZSAqbWRldiA9IGVudGl0eS0+Z3JhcGhfb2JqLm1kZXY7DQo+ICsgICAgICAgYm9vbCBp
-c19zaW5ndWxhcl9maWxlOw0KPiANCj4gICAgICAgICAgbXV0ZXhfbG9jaygmaXNwLT52aWRlb19s
-b2NrKTsNCj4gDQo+IC0gICAgICAgaWYgKHY0bDJfZmhfaXNfc2luZ3VsYXJfZmlsZShmaWxlKSAm
-JiBpdmMtPnN0cmVhbWluZykgew0KPiArICAgICAgIGlzX3Npbmd1bGFyX2ZpbGUgPSB2NGwyX2Zo
-X2lzX3Npbmd1bGFyX2ZpbGUoZmlsZSk7DQo+ICsNCj4gKyAgICAgICBpZiAoaXNfc2luZ3VsYXJf
-ZmlsZSAmJiBpdmMtPnN0cmVhbWluZykgew0KPiAgICAgICAgICAgICAgICAgIG1lZGlhX3BpcGVs
-aW5lX3N0b3AoZW50aXR5KTsNCj4gICAgICAgICAgICAgICAgICBpdmMtPnN0cmVhbWluZyA9IDA7
-DQo+ICAgICAgICAgIH0NCj4gDQo+ICAgICAgICAgIF92YjJfZm9wX3JlbGVhc2UoZmlsZSwgTlVM
-TCk7DQo+IA0KPiAtICAgICAgIGlmICh2NGwyX2ZoX2lzX3Npbmd1bGFyX2ZpbGUoZmlsZSkpIHsN
-Cj4gKyAgICAgICBpZiAoaXNfc2luZ3VsYXJfZmlsZSkgew0KPiAgICAgICAgICAgICAgICAgIGZp
-bWNfcGlwZWxpbmVfY2FsbCgmaXZjLT52ZSwgY2xvc2UpOw0KPiANCj4gICAgICAgICAgICAgICAg
-ICBtdXRleF9sb2NrKCZtZGV2LT5ncmFwaF9tdXRleCk7DQo+IC0tLS0tLS0tODwtLS0tLS0tLS0N
-Cj4gDQo+IFJlZ2FyZHMsDQo+IFN5bHdlc3Rlcg0KDQpPaywgdGhhbmtzIGZvciB5b3VyIHJldmll
-dyBhbmQgaGVscC4NCkkgaGF2ZSBjb3JyZWN0ZWQgbXkgcGF0Y2ggYW5kIHNlbnQgdGhlIFBBVENI
-IHYzIGZvciB5b3UgcmV2aWV3IGFnYWluLg0KDQpUaGFua3MuDQo=
+On 27.04.21 15:27, Fabio Estevam wrote:
+> On Mon, Apr 26, 2021 at 1:14 PM Fabio Estevam <festevam@gmail.com> wrote:
+>>
+>> Hi Tim,
+>>
+>> I am back at trying to get a proper image captured by the ADV7280 on
+>> an imx6dl board connected to the parallel CSI bus.
+>>
+>> I tried your patches against 5.4 and 5.12:
+>>
+>> https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FGateworks%2Flinux-imx6%2Fcommit%2F959fbd4&amp;data=04%7C01%7Cfrieder.schrempf%40kontron.de%7Cbe8362b204924f7c141008d909804d4a%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C637551268920096235%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=2ZBhpF3FRT1hpXKH95KHnoNJm42p9gHzi6h54Fokvvk%3D&amp;reserved=0
+>> and
+>> https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.kernel.org%2Fproject%2Flinux-media%2Fpatch%2F20190827215539.1286-1-mmichilot%40gateworks.com%2F&amp;data=04%7C01%7Cfrieder.schrempf%40kontron.de%7Cbe8362b204924f7c141008d909804d4a%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C637551268920096235%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=6h1N8qQ7J4w2xJujKOQp4spJDiOGLm%2FxTx0SIbBpgGs%3D&amp;reserved=0
+>>
+>> ,but I am still getting horizontal scrolling images after running:
+> 
+> The analog camera I am using produces PAL content. If I force the
+> initial curr_norm to PAL like this:
+> 
+> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+> index e780969cc2f2..4ffe85ef02a0 100644
+> --- a/drivers/media/i2c/adv7180.c
+> +++ b/drivers/media/i2c/adv7180.c
+> @@ -1346,7 +1346,7 @@ static int adv7180_probe(struct i2c_client *client,
+> 
+>    state->irq = client->irq;
+>    mutex_init(&state->mutex);
+> - state->curr_norm = V4L2_STD_NTSC;
+> + state->curr_norm = V4L2_STD_PAL;
+>    if (state->chip_info->flags & ADV7180_FLAG_RESET_POWERED)
+>    state->powered = true;
+>    else
+> 
+> Then I get stable image and no more scrolling.
+> 
+> This patch from Steve is still needed though:
+> https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2FGateworks%2Flinux-imx6%2Fcommit%2F959fbd4&amp;data=04%7C01%7Cfrieder.schrempf%40kontron.de%7Cbe8362b204924f7c141008d909804d4a%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C637551268920096235%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=2ZBhpF3FRT1hpXKH95KHnoNJm42p9gHzi6h54Fokvvk%3D&amp;reserved=0
+> 
+> What would be the correct way to fix this NTSC versus PAL selection?
+> 
+> I tried passing the norm property like this, but it gives me an error:
+> 
+> # gst-launch-1.0 -v  v4l2src norm=PAL device=/dev/video2 ! kmssink
+> Setting pipeline to PAUSED ...
+> Pipeline is live and does not need PREROLL ...
+> /GstPipeline:pipeline0/GstKMSSink:kmssink0: display-width = 800
+> /GstPipeline:pipeline0/GstKMSSink:kmssink0: display-height = 480
+> WARNING: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> Failed to set norm for device '/dev/video2'.
+> Additional debug info:
+> ../gst-plugins-good-1.18.2/sys/v4l2/v4l2_calls.c(779):
+> gst_v4l2_set_norm (): /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> system error: Inappropriate ioctl for device
+> 
+> Appreciate any suggestions, thanks
+
+I don't know much about the v4l/media subsystem, but in my case I was 
+able to switch to PAL like this:
+
+v4l2-ctl --device /dev/v4l-subdev2 --set-standard PAL
+
+Though your subdev is probably a different one as I was running this on 
+i.MX8MM without IPU.
