@@ -2,40 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB33A36C2E0
+	by mail.lfdr.de (Postfix) with ESMTP id 295EA36C2DE
 	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:16:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235652AbhD0KQh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:16:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35420 "EHLO mail.kernel.org"
+        id S237845AbhD0KQg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:16:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34866 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235766AbhD0KPK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S235756AbhD0KPK (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 27 Apr 2021 06:15:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BCE7E61951;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B99CA61950;
         Tue, 27 Apr 2021 10:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619518433;
-        bh=ORhYQV8MaIIM9QGoq0fv1DmSrG26N8/lfMtTN/XnDlY=;
+        bh=GlCvanyZeZRx9KVkDMbg84X3Nl/epjQxFII8vak4mR4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ggOlyf1YNtPBHjycx93XL7+9/FJpqcXn1RjwwVtuYy1ppTBb8ut9ATtgAjEu8VsMg
-         dWrKgO7UTs2MCJW1N6VISg4AC7FY/0wiaaiazic1WRTgT80Z/NS8jYHOO0qS2R31+J
-         hMOrgznyM+GpxW3q1+L5g7lEKn14q7QYELvGFeUy8HBkH4HuK7XV8+5TcHl1uA+z+9
-         hQI2tiIwFeUBNt1vKOwUZBhM6BRIlZcOp3khK6HiPYabOMGMay6v113afJvBRGMOX7
-         6iOvJKql8hN36/6AgC6NaA3+A2zKAW2C+ArY7/nJQlgsMmJe+zEzHkaQ0V02zK2NSB
-         qSnTGug2neRfA==
+        b=P7VHtJ1uz+zwh3J3M1NM5EyiiQiU7ulWuh6jsYSo4+uOq3SQPWkq6fTPen1pJxPic
+         XZge+aium9DyPjVn3aej1TacFAGCKB/FO9CcYC07k++TYdVTQh7KU6eQQ4d+PhW93B
+         5gMrFDssm24BeJuEEqie/LZvrpP7n6EXOeLMYhA8Fx9fsL3BdtbjA2IIIFpQwTgbgh
+         oKvL7XFQagk8hlDPOtpjI9DKVFvWT8oo/TTcrRJb+PF3xxhCEGiARki4QhTm6ZH3b3
+         5cMKb/weT7SG3Z6pUFWZdavFIDTTmn8GD5u3QsTVfWHV2bjnpwCt/5vhKstSwtWr1e
+         4Jx9w0iYp2OZQ==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKj1-000j81-UR; Tue, 27 Apr 2021 12:13:51 +0200
+        id 1lbKj1-000j84-W0; Tue, 27 Apr 2021 12:13:52 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2 71/79] media: s3c-camif: use pm_runtime_resume_and_get()
-Date:   Tue, 27 Apr 2021 12:13:38 +0200
-Message-Id: <77cb3497163bedc3a75555b4cca4cb980c7756b2.1619518193.git.mchehab+huawei@kernel.org>
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: [PATCH v2 72/79] media: s5p-mfc: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:13:39 +0200
+Message-Id: <1b06b8e70c547f8bba0c154488f9f8a8013a0ea4.1619518193.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619518193.git.mchehab+huawei@kernel.org>
 References: <cover.1619518193.git.mchehab+huawei@kernel.org>
@@ -53,49 +54,30 @@ dev->power.usage_count decrement on errors.
 
 Use the new API, in order to cleanup the error check logic.
 
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/s3c-camif/camif-capture.c | 2 +-
- drivers/media/platform/s3c-camif/camif-core.c    | 5 +++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ drivers/media/platform/s5p-mfc/s5p_mfc_pm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/s3c-camif/camif-capture.c b/drivers/media/platform/s3c-camif/camif-capture.c
-index 9ca49af29542..62241ec3b978 100644
---- a/drivers/media/platform/s3c-camif/camif-capture.c
-+++ b/drivers/media/platform/s3c-camif/camif-capture.c
-@@ -547,7 +547,7 @@ static int s3c_camif_open(struct file *file)
- 	if (ret < 0)
- 		goto unlock;
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c b/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c
+index 62d2320a7218..88b7d33c9197 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c
+@@ -78,11 +78,9 @@ int s5p_mfc_power_on(void)
+ {
+ 	int i, ret = 0;
  
--	ret = pm_runtime_get_sync(camif->dev);
-+	ret = pm_runtime_resume_and_get(camif->dev);
- 	if (ret < 0)
- 		goto err_pm;
+-	ret = pm_runtime_get_sync(pm->device);
+-	if (ret < 0) {
+-		pm_runtime_put_noidle(pm->device);
++	ret = pm_runtime_resume_and_get(pm->device);
++	if (ret < 0)
+ 		return ret;
+-	}
  
-diff --git a/drivers/media/platform/s3c-camif/camif-core.c b/drivers/media/platform/s3c-camif/camif-core.c
-index 4c3c00d59c92..e1d51fd3e700 100644
---- a/drivers/media/platform/s3c-camif/camif-core.c
-+++ b/drivers/media/platform/s3c-camif/camif-core.c
-@@ -460,9 +460,9 @@ static int s3c_camif_probe(struct platform_device *pdev)
- 
- 	pm_runtime_enable(dev);
- 
--	ret = pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
- 	if (ret < 0)
--		goto err_pm;
-+		goto err_disable;
- 
- 	ret = camif_media_dev_init(camif);
- 	if (ret < 0)
-@@ -502,6 +502,7 @@ static int s3c_camif_probe(struct platform_device *pdev)
- 	camif_unregister_media_entities(camif);
- err_pm:
- 	pm_runtime_put(dev);
-+err_disable:
- 	pm_runtime_disable(dev);
- 	camif_clk_put(camif);
- err_clk:
+ 	/* clock control */
+ 	for (i = 0; i < pm->num_clocks; i++) {
 -- 
 2.30.2
 
