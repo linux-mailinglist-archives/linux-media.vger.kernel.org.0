@@ -2,154 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14F6236C4FB
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 13:21:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA13536C50F
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 13:28:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235489AbhD0LWU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 07:22:20 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:56904 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235351AbhD0LWT (ORCPT
+        id S235435AbhD0L3R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 07:29:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42730 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230270AbhD0L3R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 07:22:19 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20210427112135euoutp02e48a3e9daaaaab5cbc26dbbb9c9fba4f~5syDymcPq1560915609euoutp02m
-        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 11:21:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20210427112135euoutp02e48a3e9daaaaab5cbc26dbbb9c9fba4f~5syDymcPq1560915609euoutp02m
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1619522495;
-        bh=2YZn6o3y8BH3IKN5MJ2e/CSLk54m5sRY+yaEQo7nwww=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=jT675MYa+zjcNpqF7TCbNtcML6lETm4yrACeeL1Gp2AFITKhcnyrowLClDN3Hx1X9
-         rFrwJ51PMgzRplELZTsMTnoP5MKI4kxyXU2dH4mc6QDErze/Re39V3pvN7jcXB9DlO
-         CPE7Nx4QaqjkSe3sgm1/eYDVAkUmX2/xPHM6foNc=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20210427112134eucas1p245f66fe93e1dbeed80130c9bc482b074~5syDR9tey2817828178eucas1p2p;
-        Tue, 27 Apr 2021 11:21:34 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges1new.samsung.com (EUCPMTA) with SMTP id 72.20.09452.EB3F7806; Tue, 27
-        Apr 2021 12:21:34 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20210427112133eucas1p2128f988e825385cc2b75d5c0aac0f1a8~5syClIf_n2818228182eucas1p2p;
-        Tue, 27 Apr 2021 11:21:33 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20210427112133eusmtrp14836b0b52e9f6471a30050b1ca3d06e6~5syCi6tX71945419454eusmtrp1h;
-        Tue, 27 Apr 2021 11:21:33 +0000 (GMT)
-X-AuditID: cbfec7f2-ab7ff700000024ec-d2-6087f3be64e9
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 99.C5.08705.DB3F7806; Tue, 27
-        Apr 2021 12:21:33 +0100 (BST)
-Received: from [106.210.134.141] (unknown [106.210.134.141]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20210427112132eusmtip15c408780ca6f11ec5aaa3af97045764e~5syBwPg7F0375803758eusmtip1P;
-        Tue, 27 Apr 2021 11:21:32 +0000 (GMT)
-Subject: Re: [PATCH v3 06/79] media: exynos-gsc: don't resume at remove time
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
-Message-ID: <5aab0e11-6818-990b-f583-35036c1bb740@samsung.com>
-Date:   Tue, 27 Apr 2021 13:21:32 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
-        Gecko/20100101 Thunderbird/78.10.0
+        Tue, 27 Apr 2021 07:29:17 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F36BC061574;
+        Tue, 27 Apr 2021 04:28:32 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id h10so69491717edt.13;
+        Tue, 27 Apr 2021 04:28:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5e4pUnGmjwBjpM3egCyMiRzisI5IaXSt+bAblq6W2uU=;
+        b=RnraFxqJkiPQMzJNr8t0w7mxcfm/3ssX/7lX7A+A3mKGCkLmIbugEFFBG+J4yzr3/P
+         5fbLaGICgdjZlkuZAP8NUJciqcvzrkI46+rXQoQms2CAV3GF4l/tMYjukegnUHpJzGe+
+         96hB0Fsbe6cOm/E+OBvFhgBml21+VbY+vYm5rptglsBZ+dTdFIbIbjm3U03DeXb3Jcv4
+         qEbtTS+9YSYQoFjMy+O3CQ25judIuFr2ijRMyAc9HIsmNrqjF1mwcin5CIfBwyUJf6Ky
+         cE0XySzy9Iy+HPKan/GbXauUv6qqmZJkNhA7kg9KVLAAvJc+vvL0XN/w/BVVJoCzoEPz
+         +dyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5e4pUnGmjwBjpM3egCyMiRzisI5IaXSt+bAblq6W2uU=;
+        b=WXoK7YnHApKldMpZ09uTffb+vouL/4EnhYjQi32mFyeI0gIo9vZOeHtEUtaPUcNIWE
+         199WairNmIYfKUKOfXF3puaHr6AWwo3CSvt2BCQx0afKLjiQBHBVtjIZJK/UELYJXhoA
+         b0mkiCT9OyjvrDj9+DnPjnHdOcPSjWyuL18f4T0bT/8+4AxhpYBDPy+45l1qARiUb02e
+         RRpNbIxzd2qUPRp+luFrzcq07xL4HfGoqYcs+m2KvnSbPQK5N1CopiedGeALA8c2hN67
+         4ndXzaX4ofEXrXoWeW1wYj/uMn3ITr2k762LHlXZfevrKIaRCCl5mhiM1swQYvHIM6ro
+         mJvQ==
+X-Gm-Message-State: AOAM533AmXkgsB7sPsFon5nocNjzua/9rTvtkb+jf45Xo0pqZL7CPSU0
+        hd77A8qdzYhdWurBW2HM/AE=
+X-Google-Smtp-Source: ABdhPJwAlvAc83hkcmnnbDFZpe21+5I69oLRO+jNncyvzjqewAB2UplGV8Evt7hygV8STRi6HhCZgQ==
+X-Received: by 2002:a05:6402:31b3:: with SMTP id dj19mr3679883edb.180.1619522911396;
+        Tue, 27 Apr 2021 04:28:31 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id e11sm899479edq.76.2021.04.27.04.28.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Apr 2021 04:28:30 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        amd-gfx@lists.freedesktop.org (open list:AMD KFD),
+        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+        linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK)
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v2] drm/amd/amdgpu: Fix errors in documentation of function parameters
+Date:   Tue, 27 Apr 2021 13:27:38 +0200
+Message-Id: <20210427112738.15869-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <a561d9eb253076cbcb9debe5fcbd3c949d5023d2.1619519080.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOKsWRmVeSWpSXmKPExsWy7djPc7r7PrcnGCw4L2Wxc8MXdouLM++y
-        WJw/v4HdYtPja6wWl3fNYbPo2bCV1WLG+X1MFoc3nmGyaFtwmc3i4eyrjBbLNv1hcuD22HF3
-        CaNHy5G3rB6bVnWyeWxeUu/xeZOcx6mvn9kD2KK4bFJSczLLUov07RK4Mk7evs1UsJ2n4tWj
-        FuYGxvVcXYycHBICJhLzFq9g7mLk4hASWMEo0fhmBguE84VRYmrDBjYI5zOjxJ2NrxlhWnYd
-        +MkEkVjOKHHl5S92COcjo8SnmS2sIFXCAj4SX588ZQaxRQRMJW6+6mQCsZkFHjFJnJ0gC2Kz
-        CRhK9B7tA5vKK2An8eLEXbB6FgFViffrl7CD2KICyRLnH19lh6gRlDg58wkLiM0pkCDRvmQV
-        O8RMcYlbT+ZDzZeX2P52DthDEgLdnBKNt5vYIc52kTjcdZsJwhaWeHV8C1RcRuL05B4WiIZm
-        Rome3bfZIZwJjBL3jy+Aetpa4s65X8DQ4ABaoSmxfpc+RNhR4tKiSUwgYQkBPokbbwUhjuCT
-        mLRtOjNEmFeio00IolpF4veq6VAnSEl0P/nPMoFRaRaS12YheWcWkndmIexdwMiyilE8tbQ4
-        Nz212DAvtVyvODG3uDQvXS85P3cTIzBtnf53/NMOxrmvPuodYmTiYDzEKMHBrCTCy7arNUGI
-        NyWxsiq1KD++qDQntfgQozQHi5I476rZa+KFBNITS1KzU1MLUotgskwcnFINTKEVHmc37KvN
-        figcIPPx0vvKRk6DDXvnZUQa3Pqv2JMq+ab4AEP+F4EdOSbVEwoOC5qcD161fcXElDl+CtJy
-        1xul5slssv9VxPFj88El6bNVJ/yTlVD1Tm55xzbtTPbZk1xq8wrecJTNU7LhORbr+6v5U2+j
-        m3q4d+ePrY410yZe33qy4mdZ24TT2S2fpLS0yhMW5Ct2TOU+vcY70uXnYel027iS43ntW+fe
-        3MH88v33HTeklaNkZpQ5bt2/cp7joaesnzgcmhYvnlE//cXPnswHFrsFNJSll+/et/PzvALm
-        3QXNnQXvL3be/7z7bd2x1ih+BZmWP5ff/bWNTdR96n07beWHYl7XqRktS4zv7VRiKc5INNRi
-        LipOBAC5P5SmygMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsVy+t/xu7p7P7cnGLzu1LTYueELu8XFmXdZ
-        LM6f38BusenxNVaLy7vmsFn0bNjKajHj/D4mi8MbzzBZtC24zGbxcPZVRotlm/4wOXB77Li7
-        hNGj5chbVo9NqzrZPDYvqff4vEnO49TXz+wBbFF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYm
-        lnqGxuaxVkamSvp2NimpOZllqUX6dgl6GSdv32Yq2M5T8epRC3MD43quLkZODgkBE4ldB34y
-        dTFycQgJLGWU2Pang7GLkQMoISUxv0UJokZY4s+1LjaImveMEo837WIHSQgL+Eh8ffKUGcQW
-        ETCVuPmqE2wQs8AzJolFF3dAdTxjlNjytJsVpIpNwFCi92gfI4jNK2An8eLEXbBuFgFViffr
-        l4BNFRVIllj9ezMrRI2gxMmZT1hAbE6BBIn2JavAapgF1CX+zLvEDGGLS9x6Mp8JwpaX2P52
-        DvMERqFZSNpnIWmZhaRlFpKWBYwsqxhFUkuLc9Nziw31ihNzi0vz0vWS83M3MQLjdNuxn5t3
-        MM579VHvECMTB+MhRgkOZiURXrZdrQlCvCmJlVWpRfnxRaU5qcWHGE2B/pnILCWanA9MFHkl
-        8YZmBqaGJmaWBqaWZsZK4rxb566JFxJITyxJzU5NLUgtgulj4uCUamBqOzTnfNF1rQPRczZ/
-        e1E6c4Fz1yO3+ZWvT0zcUd69L/DxmsprqntXbXEt/fe4zvHmesNvpdufvhLT696e5m3+R0zd
-        j29GmM7V5mlmu77bl738s9Bg87wlbmXqgRyv9ftNjm85Zlvi68+W+uTlcqeG1tsel6etNmpi
-        ET++Id/l+yadgNxtL4PXb/OvE16+/uHldJUGhuvxmwsPrDtv5tLHUuKRklbxgufH+7xLa4o3
-        q2k57agyXbtEP2DbIp7DVXKKooVVOitev0jtfPh1OU8X72L9fNdtp/7UO7t/7K4r2XLw46ZT
-        xxoiN96cPeXGsotGb27+fL6E/cQK+Zmyq7+UfbUsE7J7ppn48vXHg99Z7yqxFGckGmoxFxUn
-        AgDm6e+lXAMAAA==
-X-CMS-MailID: 20210427112133eucas1p2128f988e825385cc2b75d5c0aac0f1a8
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210427102744eucas1p208d6f3801db6b5180e7364efc0cd83d2
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210427102744eucas1p208d6f3801db6b5180e7364efc0cd83d2
-References: <cover.1619519080.git.mchehab+huawei@kernel.org>
-        <CGME20210427102744eucas1p208d6f3801db6b5180e7364efc0cd83d2@eucas1p2.samsung.com>
-        <a561d9eb253076cbcb9debe5fcbd3c949d5023d2.1619519080.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27.04.2021 12:25, Mauro Carvalho Chehab wrote:
-> Calling pm_runtime_get_sync() at driver's removal time is not
-> needed, as this will resume PM runtime. Also, the PM runtime
-> code at pm_runtime_disable() already calls it, if it detects
-> the need.
-> 
-> So, simplify the code by getting rid of that.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/media/platform/exynos-gsc/gsc-core.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/exynos-gsc/gsc-core.c b/drivers/media/platform/exynos-gsc/gsc-core.c
-> index 9f41c2e7097a..70e86cdc1012 100644
-> --- a/drivers/media/platform/exynos-gsc/gsc-core.c
-> +++ b/drivers/media/platform/exynos-gsc/gsc-core.c
-> @@ -1210,8 +1210,6 @@ static int gsc_remove(struct platform_device *pdev)
->  	struct gsc_dev *gsc = platform_get_drvdata(pdev);
->  	int i;
->  
-> -	pm_runtime_get_sync(&pdev->dev);
-> -
->  	gsc_unregister_m2m_device(gsc);
->  	v4l2_device_unregister(&gsc->v4l2_dev);
->  
-> @@ -1219,7 +1217,6 @@ static int gsc_remove(struct platform_device *pdev)
->  	for (i = 0; i < gsc->num_clocks; i++)
->  		clk_disable_unprepare(gsc->clock[i]);
->  
-> -	pm_runtime_put_noidle(&pdev->dev);
->  	pm_runtime_disable(&pdev->dev);
+In the documentation of functions, removed excess parameters, described
+undocumented ones, and fixed syntax errors.
 
-This will result in unbalanced clk_disable_unprepare() calls when 
-the device is not runtime PM active at the time of gsc_remove() call. 
-I think we need to first disable runtime PM for the device and then 
-disable the clocks only when pm_runtime_status_suspended(&pdev->dev)
-returns false.
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
+Changes from v1: Cc'ed all the maintainers.
 
-Thanks,
-Sylwester
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c          | 12 ++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |  4 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c |  8 ++++----
+ 3 files changed, 13 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+index 2e9b16fb3fcd..bf2939b6eb43 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+@@ -76,7 +76,7 @@ struct amdgpu_atif {
+ /**
+  * amdgpu_atif_call - call an ATIF method
+  *
+- * @handle: acpi handle
++ * @atif: acpi handle
+  * @function: the ATIF function to execute
+  * @params: ATIF function params
+  *
+@@ -166,7 +166,6 @@ static void amdgpu_atif_parse_functions(struct amdgpu_atif_functions *f, u32 mas
+ /**
+  * amdgpu_atif_verify_interface - verify ATIF
+  *
+- * @handle: acpi handle
+  * @atif: amdgpu atif struct
+  *
+  * Execute the ATIF_FUNCTION_VERIFY_INTERFACE ATIF function
+@@ -240,8 +239,7 @@ static acpi_handle amdgpu_atif_probe_handle(acpi_handle dhandle)
+ /**
+  * amdgpu_atif_get_notification_params - determine notify configuration
+  *
+- * @handle: acpi handle
+- * @n: atif notification configuration struct
++ * @atif: acpi handle
+  *
+  * Execute the ATIF_FUNCTION_GET_SYSTEM_PARAMETERS ATIF function
+  * to determine if a notifier is used and if so which one
+@@ -304,7 +302,7 @@ static int amdgpu_atif_get_notification_params(struct amdgpu_atif *atif)
+ /**
+  * amdgpu_atif_query_backlight_caps - get min and max backlight input signal
+  *
+- * @handle: acpi handle
++ * @atif: acpi handle
+  *
+  * Execute the QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS ATIF function
+  * to determine the acceptable range of backlight values
+@@ -363,7 +361,7 @@ static int amdgpu_atif_query_backlight_caps(struct amdgpu_atif *atif)
+ /**
+  * amdgpu_atif_get_sbios_requests - get requested sbios event
+  *
+- * @handle: acpi handle
++ * @atif: acpi handle
+  * @req: atif sbios request struct
+  *
+  * Execute the ATIF_FUNCTION_GET_SYSTEM_BIOS_REQUESTS ATIF function
+@@ -899,6 +897,8 @@ void amdgpu_acpi_fini(struct amdgpu_device *adev)
+ /**
+  * amdgpu_acpi_is_s0ix_supported
+  *
++ * @adev: amdgpu_device_pointer
++ *
+  * returns true if supported, false if not.
+  */
+ bool amdgpu_acpi_is_s0ix_supported(struct amdgpu_device *adev)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+index 5af464933976..98d31ebad9ce 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+@@ -111,6 +111,8 @@ static const char *amdkfd_fence_get_timeline_name(struct dma_fence *f)
+  *  a KFD BO and schedules a job to move the BO.
+  *  If fence is already signaled return true.
+  *  If fence is not signaled schedule a evict KFD process work item.
++ *
++ *  @f: dma_fence
+  */
+ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
+ {
+@@ -131,7 +133,7 @@ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
+ /**
+  * amdkfd_fence_release - callback that fence can be freed
+  *
+- * @fence: fence
++ * @f: dma_fence
+  *
+  * This function is called when the reference count becomes zero.
+  * Drops the mm_struct reference and RCU schedules freeing up the fence.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+index b43e68fc1378..ed3014fbb563 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+@@ -719,7 +719,7 @@ static void unlock_spi_csq_mutexes(struct amdgpu_device *adev)
+ }
+ 
+ /**
+- * @get_wave_count: Read device registers to get number of waves in flight for
++ * get_wave_count: Read device registers to get number of waves in flight for
+  * a particular queue. The method also returns the VMID associated with the
+  * queue.
+  *
+@@ -755,19 +755,19 @@ static void get_wave_count(struct amdgpu_device *adev, int queue_idx,
+ }
+ 
+ /**
+- * @kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
++ * kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
+  * shader engine and aggregates the number of waves that are in flight for the
+  * process whose pasid is provided as a parameter. The process could have ZERO
+  * or more queues running and submitting waves to compute units.
+  *
+  * @kgd: Handle of device from which to get number of waves in flight
+  * @pasid: Identifies the process for which this query call is invoked
+- * @wave_cnt: Output parameter updated with number of waves in flight that
++ * @pasid_wave_cnt: Output parameter updated with number of waves in flight that
+  * belong to process with given pasid
+  * @max_waves_per_cu: Output parameter updated with maximum number of waves
+  * possible per Compute Unit
+  *
+- * @note: It's possible that the device has too many queues (oversubscription)
++ * Note: It's possible that the device has too many queues (oversubscription)
+  * in which case a VMID could be remapped to a different PASID. This could lead
+  * to an iaccurate wave count. Following is a high-level sequence:
+  *    Time T1: vmid = getVmid(); vmid is associated with Pasid P1
+-- 
+2.31.1
+
