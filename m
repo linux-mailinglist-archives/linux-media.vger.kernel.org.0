@@ -2,85 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05CDB36C738
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 15:48:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B608F36C73C
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 15:48:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236460AbhD0Nsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 09:48:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45544 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234429AbhD0Nsq (ORCPT
+        id S238263AbhD0NtN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 09:49:13 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:60310 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236520AbhD0NtC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 09:48:46 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24A9CC061574
-        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 06:48:02 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id a13so14399275ljp.2
-        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 06:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nXO54wJzrr64si2OY2sg9nabbM6qht5N6+Hpyzx+Is4=;
-        b=ZQ56k0VH6ujwHb1BequjqgqsKtR9j+clqSMDpLBd4zby+Z2NnVRwfGrYstIRF7lUr5
-         lQHtFXMqPWGnb58m5Q84yB3KV4Qx1IsXffbTkbcNcHSlKTV1Sg89+1mzdU0KE+jokknB
-         R8tpv9BbDkhRC/iz4Cq/icrJ85FaQ/pFCIKllp5q9ocu6g4/JMe2qcRDGt9gsUdk5jw9
-         bRrrHo6fZKO8tJUpbv/I/2EVKgMwn0TYzEciXEsxQlokz008TTmhgBrnzVL0PWStc9T9
-         xeV6eB+nLsq+r8RddZA4GtTI4NXQQcJ+Ml0P3CVT3rs8Wkrt18SHu2qrImIOkK3lXNTg
-         Ax0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nXO54wJzrr64si2OY2sg9nabbM6qht5N6+Hpyzx+Is4=;
-        b=dqUd5ZRFCOdsYPT4xJe0aZNoOwxq8XaLiYKdqqJJIbRX8cKDqWoD10uBQB6tEN0Ap6
-         kJ1+HOYeJ3BnRLXE1laBuo7a9HV8of4qPA+ThOZ2hfLepU4YaPKggseN8hmRLrG9W7O2
-         P+/+W4+j7789mXqhpcRRwT96rOVqenmhTqu0GDZImp0YbkrCUy92xp18WaPq95hCb1Hd
-         AUz5pah0iND0LOekmLl7LCxWhyU+eyEHEzQgV7x4enovQVJlkWI9xbElOw8vG2XrCICT
-         gi11tdglCvSg+57LC37xZ+QSt3T5hLOOhgzJOYWhuofyb7FXtfun4iCc8rvevbPtAnd6
-         /JPA==
-X-Gm-Message-State: AOAM532iVw+salvFLZtr/f/2YsDuy6/ztHgravlpADCExVPCtrWXscWg
-        UDkQsOn7VD/FXu+lB4gAwxb/JmH2EjGeCugku+E=
-X-Google-Smtp-Source: ABdhPJyRQbqz0vkMOGcd/mN5Xs3Kq4cH0TRTeYI/QUhSZkwwJKyXbxKGMujM3W6Dd9knmavqml1Dsiuz0oylXE+BE18=
-X-Received: by 2002:a2e:3303:: with SMTP id d3mr2678739ljc.264.1619531280648;
- Tue, 27 Apr 2021 06:48:00 -0700 (PDT)
+        Tue, 27 Apr 2021 09:49:02 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20210427134817euoutp02379d1da12a81256d6cda9b705679ed8b~5uyJi_S7p1089010890euoutp02l
+        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 13:48:17 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20210427134817euoutp02379d1da12a81256d6cda9b705679ed8b~5uyJi_S7p1089010890euoutp02l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1619531297;
+        bh=+aMkihQAegdyYigDg5mTKEVlkZ0cCX26e295FbA7/c4=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=luzNfxdmq97U7KOg8p8w5ASR/axvNyf2feBt95AhaJ6OhgTcMj8g9ok+WcY5hXAfx
+         soEyeW7EbX4TAAKFrWHdkVIxOBUvbA5Wqy9jbw8z85KFyfS36araVVSnJVA4uKRI2u
+         YhftITChGSOkGxFqnqRKGL9Z8ZXWQ66T/v+o71Yk=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20210427134817eucas1p14b7bfd014b63c7b594cace4fa0ee0cef~5uyJbN-xJ1269612696eucas1p1_;
+        Tue, 27 Apr 2021 13:48:17 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 8D.3A.09452.12618806; Tue, 27
+        Apr 2021 14:48:17 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20210427134816eucas1p124e5a78b5beb7a70ca8090cdc6fdae5d~5uyI8tOvA1709117091eucas1p1j;
+        Tue, 27 Apr 2021 13:48:16 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20210427134816eusmtrp14b957a6c7bef52e5fb24cd7239c97fe5~5uyI8Ap2B0501305013eusmtrp17;
+        Tue, 27 Apr 2021 13:48:16 +0000 (GMT)
+X-AuditID: cbfec7f2-a9fff700000024ec-b6-608816212bb8
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id F7.2C.08705.02618806; Tue, 27
+        Apr 2021 14:48:16 +0100 (BST)
+Received: from [106.210.134.141] (unknown [106.210.134.141]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20210427134816eusmtip12b5181d017d7d87d37fdb46567de99be~5uyITggT02529925299eusmtip1Q;
+        Tue, 27 Apr 2021 13:48:15 +0000 (GMT)
+Subject: Re: [PATCH v3] media:exynos4-is: Fix a use after free in
+ isp_video_release
+To:     Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org, krzk@kernel.org
+From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
+Message-ID: <ed80a3f0-048a-17df-4dff-e9d52b777699@samsung.com>
+Date:   Tue, 27 Apr 2021 15:48:15 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
+        Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <CAOMZO5CacHaESju9XQU1C7NU41Myk1-2_+7sju1dnCZuqRv98Q@mail.gmail.com>
- <CAOMZO5BEre9=se1yAxr7QTmfV_N=GMKZeanr+jYfRNrSO551hg@mail.gmail.com> <4ea17a0c-b442-1ca2-1ae3-7a305d53273f@kontron.de>
-In-Reply-To: <4ea17a0c-b442-1ca2-1ae3-7a305d53273f@kontron.de>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Tue, 27 Apr 2021 10:47:49 -0300
-Message-ID: <CAOMZO5Bztrpm4aB9=DmR=3PNfZUoM_niT_+nVE-ZOQm5aUEWBA@mail.gmail.com>
-Subject: Re: adv7280: Scrolling images on imx6
-To:     Frieder Schrempf <frieder.schrempf@kontron.de>
-Cc:     Tim Harvey <tharvey@gateworks.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210427132734.5212-1-lyl2019@mail.ustc.edu.cn>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBKsWRmVeSWpSXmKPExsWy7djPc7qKYh0JBntfclmcP7+B3WLT42us
+        Fpd3zWGz6NmwldVixvl9TBb737ezWCzb9IfJgd1j06pONo/NS+o93i/4zezxeZNcAEsUl01K
+        ak5mWWqRvl0CV8aanxtZCg6yVixq2cncwHiVpYuRk0NCwERi9fPHzF2MXBxCAisYJU5N2cII
+        4XxhlPgy6zMbhPOZUeLl3busXYwcYC2fljhCxJczSjz6NBWq4yOjRO+R2WBzhQVCJfbM2MkI
+        YosIaEpM+drJBFLELLCeUaLp8GQmkASbgKFE79E+sCJeATuJe8+fgNksAqoSM7ZdZwWxRQWS
+        Jc4/vsoOUSMocXLmE7AFnAK2EhdefAezmQXEJW49mc8EYctLbH87B+whCYEbHBJ7Hr9ghDjb
+        RaL5cjDE08ISr45vYYewZSROT+5hgahvZpTo2X2bHcKZwChx//gCRogqa4k7536xgQxiBnpn
+        /S59iLCjxJnusywQ8/kkbrwVhLiBT2LStunMEGFeiY42IYhqFYnfq6YzQdhSEt1P/rNMYFSa
+        heSzWUi+mYXkm1kIexcwsqxiFE8tLc5NTy02zEst1ytOzC0uzUvXS87P3cQITDyn/x3/tINx
+        7quPeocYmTgYDzFKcDArifCy7WpNEOJNSaysSi3Kjy8qzUktPsQozcGiJM67avaaeCGB9MSS
+        1OzU1ILUIpgsEwenVANTUub0Ys1X/OtebvkQUyjOcOz0ztOMBgvcFKI/PKhtmpRn/qJL3z5j
+        +h+mv3uOei67XaLx+mnyq+YDO87p+xxuzKvNuCUo75h4RYCrOuLUIwXplwHvo5PiWk5eK1nx
+        wD/5peWrAqG5S/IqnVw3ZGsy+3zW/SukYiqkNbmiQnzFrM1Ht+85tpNp6vHtip/OzVzRdKHu
+        6LcJSy7t//Dm9Tbe7dseMpnqen823JBe+SFfc2deSdFaue+xjZ78XrzrbbMiXny9ciatbb+v
+        5Plj1+YLzX20Jt31kkEDSxqfEqfmH+Ofjmd8POc72TL5FnBXyXDNLz+4XSH7ysyvlTa7uTc2
+        xv48aFy01/5CFBN/YuU5JZbijERDLeai4kQAruGl0qsDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRmVeSWpSXmKPExsVy+t/xu7oKYh0JBh9XqFicP7+B3WLT42us
+        Fpd3zWGz6NmwldVixvl9TBb737ezWCzb9IfJgd1j06pONo/NS+o93i/4zezxeZNcAEuUnk1R
+        fmlJqkJGfnGJrVK0oYWRnqGlhZ6RiaWeobF5rJWRqZK+nU1Kak5mWWqRvl2CXsaanxtZCg6y
+        Vixq2cncwHiVpYuRg0NCwETi0xLHLkYuDiGBpYwSD3t/sELEpSTmtyh1MXICmcISf651sUHU
+        vGeUeNW1gQUkISwQKrFnxk5GEFtEQFNiytdOJpAiZoH1jBL9O44xgySEBCYwSix8LQliswkY
+        SvQe7QNr4BWwk7j3/AmYzSKgKjFj23VWEFtUIFli9e/NrBA1ghInZz4BW8YpYCtx4cV3MJtZ
+        QF3iz7xLzBC2uMStJ/OZIGx5ie1v5zBPYBSahaR9FpKWWUhaZiFpWcDIsopRJLW0ODc9t9hQ
+        rzgxt7g0L10vOT93EyMwzrYd+7l5B+O8Vx/1DjEycTAeYpTgYFYS4WXb1ZogxJuSWFmVWpQf
+        X1Sak1p8iNEU6J+JzFKiyfnASM8riTc0MzA1NDGzNDC1NDNWEufdOndNvJBAemJJanZqakFq
+        EUwfEwenVAMT4wGBRoZSEctbN3LbC8sN3Xy99V2/3/YU9wgSPlr7e8GkqhyWbXHRcx4f//uo
+        b/fzD5q1B95cDJze6LldoHxlgLjL28/7lWcUXpjT32nSLjhnSdmzSL9VIutLSi6bLSkOvHu7
+        wPa7/Y4KruyAr5FWwrKemhfiF9w+8shZ8OZqG+2E7bZVlwodXCNueWwP4lNmdLleJLbS/uu/
+        jM/Z0kzGKml35X5HH5nHHlmbb3QpPPGnU5hs5rLdjxc/tf0fZWd1uL+Arf7H7RnTLfKnaGus
+        ma60/Fmlxyu7X2/komwYX32N+7D64AedgOSpi+d8mmRqGynvmxi+WX77YbMGQ3EP5u+l7id2
+        51T1lsr4piqxFGckGmoxFxUnAgCSgdzLPAMAAA==
+X-CMS-MailID: 20210427134816eucas1p124e5a78b5beb7a70ca8090cdc6fdae5d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20210427132754eucas1p21042e4e176135e7b3f7b540dc9aadfbb
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210427132754eucas1p21042e4e176135e7b3f7b540dc9aadfbb
+References: <CGME20210427132754eucas1p21042e4e176135e7b3f7b540dc9aadfbb@eucas1p2.samsung.com>
+        <20210427132734.5212-1-lyl2019@mail.ustc.edu.cn>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Frieder,
+On 27.04.2021 15:27, Lv Yunlong wrote:
+> In isp_video_release, file->private_data is freed via
+> _vb2_fop_release()->v4l2_fh_release(). But the freed
+> file->private_data is still used in v4l2_fh_is_singular_file()
+> ->v4l2_fh_is_singular(file->private_data), which is a use
+> after free bug.
+> 
+> My patch sets file->private_data to NULL after _vb2_fop_release()
+> to avoid the use after free, and uses a variable 'is_singular_file'
+> to keep the original function unchanged.
+> 
+> Fixes: 34947b8aebe3f ("[media] exynos4-is: Add the FIMC-IS ISP capture DMA driver")
+> Signed-off-by: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
 
-On Tue, Apr 27, 2021 at 10:33 AM Frieder Schrempf
-<frieder.schrempf@kontron.de> wrote:
+Thanks,
 
-> I don't know much about the v4l/media subsystem, but in my case I was
-> able to switch to PAL like this:
->
-> v4l2-ctl --device /dev/v4l-subdev2 --set-standard PAL
->
-> Though your subdev is probably a different one as I was running this on
-> i.MX8MM without IPU.
-
-Thanks, this does the trick!
-
-I will try to upstream Steve's patch then.
-
-Thanks a lot
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
