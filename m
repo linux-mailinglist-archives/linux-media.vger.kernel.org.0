@@ -2,42 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D493B36C386
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF26136C347
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:27:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238127AbhD0K2n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:28:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48136 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235643AbhD0K2F (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S235663AbhD0K2F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 27 Apr 2021 06:28:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3444B613DF;
-        Tue, 27 Apr 2021 10:27:16 +0000 (UTC)
+Received: from mail.kernel.org ([198.145.29.99]:47814 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235408AbhD0K2B (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 06:28:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E56C76127A;
+        Tue, 27 Apr 2021 10:27:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619519236;
-        bh=yher15YM7h61KHb/hY+EJ/RRJANP10wcnUo8G05kfG0=;
+        s=k20201202; t=1619519235;
+        bh=5AHhx16DJL5gdJqgumKoh72s5QcxkeHszhw8tqlTmq0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fZLOSHxxj6XFtyWy5SPFa4XFXyrPAz+FE3eZ13Vby4rnRpAJS8mxQ2fB061SOoe2g
-         4QdFJF14sJZoWHxdhfGkZPIBpqHjQfPaWBy1I0yDf/bt1t62s/NnmPWG82zX7Saa8v
-         0TB+MR3dqrNB3MJlWOjQSR/hyQSXqtWpSLk0OjYWAyooEvcKhLfOTEYGWWFwSE83bZ
-         8h8l8ZPMX0mPfktJvSRzCeFtyzoUjCQJluYhD0jpE0Fz+knRYKY2W4PhcdutSjybPJ
-         Cy52Kxc2vnSiBAWfsWC4NnPTUjOQ+W7oLci9njUD+Yu/su92K3hbfVH+eHHBnVJKpc
-         DmPhROin1UUEw==
+        b=m2GPWkxvHZOlWbkTSHetERhPlOy8zq3V4Lsk8pt7/i+GzudFxPpOpPRsRQSCogTMw
+         2afTeEMa5Se1g/uTW9W0DQsIOW38JynU/lWkj7ICwstHqBR0VfsgxrEZBXi4od3qGz
+         d+S3uc4YkRcZptKDixHYbD+ldvI9TTredPrNkaiKieDvYdaYwhaSphHZ/gcJdm2wSg
+         z3iascj+yvpxvbADuLWj+924GU+4g8v+X7/g4vRWv+Eh0VDBQLAliLgz4kF8vqojiP
+         jub5B3hXmkl6X46GX147HbJc2mA+UwiMpqu4QOqdpVmPa7IW9fLU5JPzt6RS1JMrIU
+         ahEsILICxWGCA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKvu-000nzL-Ug; Tue, 27 Apr 2021 12:27:10 +0200
+        id 1lbKvu-000nzP-Vp; Tue, 27 Apr 2021 12:27:10 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Songjun Wu <songjun.wu@microchip.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v3 03/79] media: i2c: mt9m001: don't resume at remove time
-Date:   Tue, 27 Apr 2021 12:25:53 +0200
-Message-Id: <6e37d3c545d09222882881b7717379a9042e7005.1619519080.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 04/79] media: i2c: ov7740: don't resume at remove time
+Date:   Tue, 27 Apr 2021 12:25:54 +0200
+Message-Id: <cf2c78bd35f9951508ae6e7aac1c8da7ce870e92.1619519080.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619519080.git.mchehab+huawei@kernel.org>
 References: <cover.1619519080.git.mchehab+huawei@kernel.org>
@@ -57,31 +56,27 @@ pm_runtime_set_suspended() afterwards.
 So, just remove pm runtime get/put logic from the device
 removal logic.
 
-Fixes: 8fcfc491c6ca ("media: mt9m001: switch s_power callback to runtime PM")
+Fixes: 39c5c4471b8d ("media: i2c: Add the ov7740 image sensor driver")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/mt9m001.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/media/i2c/ov7740.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/media/i2c/mt9m001.c b/drivers/media/i2c/mt9m001.c
-index 3b0ba8ed5233..ac1b380e6c03 100644
---- a/drivers/media/i2c/mt9m001.c
-+++ b/drivers/media/i2c/mt9m001.c
-@@ -834,14 +834,11 @@ static int mt9m001_remove(struct i2c_client *client)
- {
- 	struct mt9m001 *mt9m001 = to_mt9m001(client);
+diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
+index 47a9003d29d6..ed6904b2e8f5 100644
+--- a/drivers/media/i2c/ov7740.c
++++ b/drivers/media/i2c/ov7740.c
+@@ -1165,10 +1165,8 @@ static int ov7740_remove(struct i2c_client *client)
+ 	v4l2_async_unregister_subdev(sd);
+ 	ov7740_free_controls(ov7740);
  
 -	pm_runtime_get_sync(&client->dev);
--
- 	v4l2_async_unregister_subdev(&mt9m001->subdev);
- 	media_entity_cleanup(&mt9m001->subdev.entity);
- 
  	pm_runtime_disable(&client->dev);
  	pm_runtime_set_suspended(&client->dev);
 -	pm_runtime_put_noidle(&client->dev);
- 	mt9m001_power_off(&client->dev);
  
- 	v4l2_ctrl_handler_free(&mt9m001->hdl);
+ 	ov7740_set_power(ov7740, 0);
+ 	return 0;
 -- 
 2.30.2
 
