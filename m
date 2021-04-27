@@ -2,58 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C941536C488
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:59:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B66136C48D
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 13:00:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235547AbhD0LA3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 07:00:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49316 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230365AbhD0LA3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 07:00:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 62E166112F;
-        Tue, 27 Apr 2021 10:59:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619521186;
-        bh=Xu8yXTNTdsGCIO+l+ExBtuapFY7i/dpS3ImNxVf+HGY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=CUK0fGcHEhy+5ocazwb3eIFVzBs0TWdr0PYwFHtSYyhZotC/ytZcSVml7oUETcSJu
-         R0i3uOSQKgeDtsmP/h0xvy7U+Fs2Yun8g2Qc2I5k9e0O7/TSM0hUReukg+7Dy+5kfi
-         wLCYrfopyaqid5krcRrlDXSkHaGIi8+fUptdeQIocg6yFBmCuTaeEa07NX7sh96qty
-         RkUb0mW23oQDvwKqimiUMhCI64KIy4rvS/GBIsPWUc3xrhCS0HvKWeB8iWjHC4aVcN
-         4zVpUZEHGDkJBxH3mfedcAgdohamC6oeosqSPb1AcBeqOe0ZIaMfK+biCwcqm+bT27
-         3VcotZh7cB/yg==
-Subject: Re: [PATCH v3 71/79] media: s3c-camif: use
- pm_runtime_resume_and_get()
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-References: <cover.1619519080.git.mchehab+huawei@kernel.org>
- <a002bcaa2096cac125469b0188e5967d0e1892a0.1619519080.git.mchehab+huawei@kernel.org>
-From:   Sylwester Nawrocki <snawrocki@kernel.org>
-Message-ID: <0b394ffa-e201-6f49-22c6-eac40a9e034c@kernel.org>
-Date:   Tue, 27 Apr 2021 12:59:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S235268AbhD0LBf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 07:01:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36504 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235351AbhD0LBd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 07:01:33 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0C2DC061756
+        for <linux-media@vger.kernel.org>; Tue, 27 Apr 2021 04:00:50 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1lbLSP-00071d-Qw; Tue, 27 Apr 2021 13:00:45 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1lbLSP-0007iP-1Z; Tue, 27 Apr 2021 13:00:45 +0200
+Date:   Tue, 27 Apr 2021 13:00:45 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc:     Tim Harvey <tharvey@gateworks.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Marek Vasut <marex@denx.de>,
+        Device Tree Mailing List <devicetree@vger.kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 00/23] media: imx: imx7-mipi-csis: Add i.MX8MM support
+Message-ID: <20210427110045.4cl3w7ij3w6x7rtg@pengutronix.de>
+References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
+ <CAJ+vNU1bnR+L-QkHAN_Yar0MUTjF+QoxgTHV9ZxQW+VWpM6cpg@mail.gmail.com>
+ <e0ac6633-498d-ae9e-5eea-7d7d59742cab@kontron.de>
 MIME-Version: 1.0
-In-Reply-To: <a002bcaa2096cac125469b0188e5967d0e1892a0.1619519080.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e0ac6633-498d-ae9e-5eea-7d7d59742cab@kontron.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 12:59:56 up 146 days,  1:06, 47 users,  load average: 0.08, 0.10,
+ 0.09
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27.04.2021 12:27, Mauro Carvalho Chehab wrote:
-> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> added pm_runtime_resume_and_get() in order to automatically handle
-> dev->power.usage_count decrement on errors.
-> 
-> Use the new API, in order to cleanup the error check logic.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Hi,
 
-Reviewed-by: Sylwester Nawrocki <snawrocki@kernel.org>
+On 21-04-26 12:35, Frieder Schrempf wrote:
+> Hi Tim,
+> 
+> On 21.04.21 17:27, Tim Harvey wrote:
+> > On Mon, Apr 12, 2021 at 7:31 PM Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> > > 
+> > > Hello,
+> > > 
+> > > This patch series adds support for the CSIS found in the NXP i.MX8MM SoC
+> > > to the imx7-mipi-csis driver.
+> > > 
+> > > The CSIS is an IP core from Samsung, integrated in different NXP SoCs.
+> > > The driver currently supports v3.3 of the CSIS, found in SoCs from the
+> > > i.MX6 and i.MX7 families. This series extends the driver to support
+> > > v3.6.3 of the IP, found in i.MX8MM and other members of the i.MX8
+> > > family.
+> > > 
+> > > The first 21 patches are miscellaneous cleanups and improvements. Please
+> > > see individual patches for details.
+> > > 
+> > > Patch 22/23 extends the imx7-mipi-csis DT bindings with i.MX8MM support.
+> > > Support for other members of the i.MX8 family will come later, and for
+> > > SoCs including an ISI IP core (such as the i.MX8MP) this will require
+> > > more work to handle additional glue logic.
+> > > 
+> > > Patch 23/23 finaly extends the imx7-mipi-csis driver accordingly.
+> > > 
+> > > The changes in the integration of the CSIS between i.MX7 and i.MX8, as
+> > > described in the DT bindings, have been found through reading of
+> > > reference manuals and BSP source code, with different sources of
+> > > information contradicting each other. A confirmation from NXP would be
+> > > nice (in particular regarding the clocks).
+> > > 
+> > > Laurent Pinchart (23):
+> > >    media: imx: imx7_mipi_csis: Fix logging of only error event counters
+> > >    media: imx: imx7_mipi_csis: Count the CSI-2 debug interrupts
+> > >    media: imx: imx7_mipi_csis: Update ISP_CONFIG macros for quad pixel
+> > >      mode
+> > >    media: imx: imx7_mipi_csis: Move static data to top of
+> > >      mipi_csis_dump_regs()
+> > >    media: imx: imx7_mipi_csis: Minimize locking in get/set format
+> > >    media: imx: imx7_mipi_csis: Don't set subdev data
+> > >    media: imx: imx7-mipi-csis: Reorganize code in sections
+> > >    media: imx: imx7_mipi_csis: Set the CLKSETTLE register field
+> > >    media: imx: imx7_mipi_csis: Drop unused csis_hw_reset structure
+> > >    media: imx: imx7_mipi_csis: Store CSI-2 data type in format structure
+> > >    media: imx: imx7_mipi_csis: Drop csi_state phy field
+> > >    media: imx: imx7_mipi_csis: Rename mipi_sd to sd
+> > >    media: imx: imx7_mipi_csis: Rename csi_state flag field to state
+> > >    media: imx: imx7_mipi_csis: Turn csi_state irq field into local
+> > >      variable
+> > >    media: imx: imx7_mipi_csis: Don't pass pdev to mipi_csis_parse_dt()
+> > >    media: imx: imx7_mipi_csis: Pass csi_state to mipi_csis_subdev_init()
+> > >    media: imx: imx7_mipi_csis: Drop csi_state pdev field
+> > >    media: imx: imx7_mipi_csis: Make csi_state num_clocks field unsigned
+> > >    media: imx: imx7_mipi_csis: Reorganize csi_state structure
+> > >    media: imx: imx7_mipi_csis: Reorganize mipi_csis_probe()
+> > >    media: imx: imx7_mipi_csis: Reject invalid data-lanes settings
+> > >    dt-bindings: media: nxp,imx7-mipi-csi2: Add i.MX8MM support
+> > >    media: imx: imx7_mipi_csis: Add i.MX8MM support
+> > > 
+> > >   .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 108 +-
+> > >   drivers/staging/media/imx/imx7-mipi-csis.c    | 943 ++++++++++--------
+> > >   2 files changed, 622 insertions(+), 429 deletions(-)
+> > > 
+> > > --
+> > > Regards,
+> > > 
+> > > Laurent Pinchart
+> > > 
+> > 
+> > Laurent,
+> > 
+> > Thank you for your work on this!
+> > 
+> > I have an IMX8MM board supporting CSI and a couple of devices to test with:
+> > - Sony IMX477 12.3MP sensor (do not see any mainline support but there
+> > are some hits on the net as this is a RPi camera)
+> > - Sony IMX219 8MP sensor (should be supported by drivers/media/i2c/imx219.c)
+> > - Auvidea B10x HDMI to CSI-2 bridge (Toshiba TC358743XBG HDMI to CSI-2
+> > (MIPI)- 2D+C) (should be supported by drivers/media/i2c/tc358743.c)
+> > 
+> > Can you summarize the state of IMX8MM CSI capture in mainline? I
+> > suppose the MIPI power domain is still an issue? Anything else that
+> > would keep me from testing the above devices?
+> > 
+> 
+> Just in case it might help you: I tested the previous version of Laurent's
+> patches (not on the mailing list) against mainline v5.10 with Lucas'
+> power-domain patches.
+> 
+> It should work fine in general. Here are some notes about the problems I
+> encountered: https://patchwork.kernel.org/project/linux-media/cover/20210215042741.28850-1-laurent.pinchart@ideasonboard.com/
+
+Is there also any ongoing work for the DPHY driver?
+
+Regards,
+  Marco
