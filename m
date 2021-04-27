@@ -2,40 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 555C836C2C2
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 128BE36C2C7
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:15:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237717AbhD0KPx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:15:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35422 "EHLO mail.kernel.org"
+        id S237757AbhD0KQA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:16:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34862 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235555AbhD0KOq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:14:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D9DD861422;
+        id S235576AbhD0KOr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 06:14:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EC5DB61874;
         Tue, 27 Apr 2021 10:13:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619518432;
-        bh=CBbCf8lLczURo0R8ANC6iiJbxWCN1ESFz/X/hIdzJFg=;
+        s=k20201202; t=1619518433;
+        bh=nHZL/8LfEY59F+jSTZXbI5IsJhAvjS0xN6pbKcv/Zf0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YBwcXBVY4VdpZ7kio+28mV5gRRMhpEp5iSmz4wk6pxNYNbF5BnTIch2YNsMLYQUMP
-         u5BbqWGPYCuN8LTPjatvDMyy2jRHJEunQd8/+S2E9/fAX5xGva7r78PgGbDoJTgTF7
-         rre8kaJcMcGMq8RwpeP6nMzqR+t/REGQzHmocQ023aN2XVj/YuqIAovnC5ncMmfqhu
-         B/7J9cyYfAQB54s7VY3IzEmmqOuxOsRMT98R9SxTTHLKLlIGE+/0U2sZTi1R3elyc0
-         RPnWjile71DxUi3MfB0kZjwp17jJRVIdBfNUzLZDpimpbegNWw9eY28RMovqMStn2H
-         qNvCzq7ykmxeg==
+        b=emJtFZFNkEe/8ckj+gnZ8UAE9MqYFeAxmoGamF8Gk7Emy+aLgLZ7a0RBzmPfsAwQj
+         e+Ku9eYBm6jdud9Bb8jZdNoXZHbk6EATNaRqhY3VtoUK5CcMPOHH66ZZseCVXrJqIR
+         nrf+3lXKotnxbSyoe9mjLo1bRo3Z0i+uOhjB4dD5ro6F4kQYBWuvwqgXxw9kPK8DSR
+         56CUeQNc9ddC0JmbbUYYtj/7zahqN16Wa48d+ONNWFAYOJ6+mKy6ALmtad0iIbIqEN
+         GMNvdP3tmKolsCVYlh/6nVisUPVwmC79UPq05wRuPNaHh5xM4M5IexgtvERvUxahsX
+         SU7gRn+M7vdFg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKj1-000j7I-2V; Tue, 27 Apr 2021 12:13:51 +0200
+        id 1lbKj1-000j7L-4x; Tue, 27 Apr 2021 12:13:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Chuhong Yuan <hslester96@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Marco Felsch <m.felsch@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Zhang Xiaoxu <zhangxiaoxu5@huawei.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v2 56/79] media: i2c: ov9734: use pm_runtime_resume_and_get()
-Date:   Tue, 27 Apr 2021 12:13:23 +0200
-Message-Id: <69eecab44bb0d431ea0403ee66f88f2249093824.1619518193.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 57/79] media: i2c: tvp5150: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:13:24 +0200
+Message-Id: <436fbea339fce027fb8e3aba09b9eb7e42264c68.1619518193.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619518193.git.mchehab+huawei@kernel.org>
 References: <cover.1619518193.git.mchehab+huawei@kernel.org>
@@ -55,24 +61,44 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/ov9734.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/i2c/tvp5150.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/i2c/ov9734.c b/drivers/media/i2c/ov9734.c
-index b7309a551cae..ba156683c533 100644
---- a/drivers/media/i2c/ov9734.c
-+++ b/drivers/media/i2c/ov9734.c
-@@ -644,9 +644,8 @@ static int ov9734_set_stream(struct v4l2_subdev *sd, int enable)
- 	}
+diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+index e26e3f544054..374a9da75e4d 100644
+--- a/drivers/media/i2c/tvp5150.c
++++ b/drivers/media/i2c/tvp5150.c
+@@ -1448,11 +1448,9 @@ static int tvp5150_s_stream(struct v4l2_subdev *sd, int enable)
+ 	       TVP5150_MISC_CTL_CLOCK_OE;
  
  	if (enable) {
--		ret = pm_runtime_get_sync(&client->dev);
-+		ret = pm_runtime_resume_and_get(&client->dev);
- 		if (ret < 0) {
--			pm_runtime_put_noidle(&client->dev);
- 			mutex_unlock(&ov9734->mutex);
+-		ret = pm_runtime_get_sync(sd->dev);
+-		if (ret < 0) {
+-			pm_runtime_put_noidle(sd->dev);
++		ret = pm_runtime_resume_and_get(sd->dev);
++		if (ret < 0)
  			return ret;
- 		}
+-		}
+ 
+ 		tvp5150_enable(sd);
+ 
+@@ -1675,15 +1673,7 @@ static int tvp5150_registered(struct v4l2_subdev *sd)
+ 
+ static int tvp5150_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ {
+-	int ret;
+-
+-	ret = pm_runtime_get_sync(sd->dev);
+-	if (ret < 0) {
+-		pm_runtime_put_noidle(sd->dev);
+-		return ret;
+-	}
+-
+-	return 0;
++	return pm_runtime_resume_and_get(sd->dev);
+ }
+ 
+ static int tvp5150_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
 -- 
 2.30.2
 
