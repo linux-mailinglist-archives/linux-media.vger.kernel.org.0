@@ -2,42 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D089636C3D7
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFA6336C395
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:29:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238459AbhD0K3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:29:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48246 "EHLO mail.kernel.org"
+        id S238229AbhD0K24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:28:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48270 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237792AbhD0K21 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:28:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7FA7661413;
+        id S235804AbhD0K2N (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 06:28:13 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7694661410;
         Tue, 27 Apr 2021 10:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619519236;
-        bh=Q1WsziPcbnwAb2cpqQFZbO8zttZnZQq1oIpn6yJZI+I=;
+        bh=DzFwWWrx/K8GcHK3QK7SiLSCre5vWmnzlplRbKVIaVw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=unDnKlP9o6a+vxQh5qp31nQEN88CtW9mWtX/Ua4La5wmjMW1KGY78blmf7pj1Wyzu
-         qOd5WCV5sohjttf/sTUtf/TFTmUB7bVJS60pepQ3fMX8QkcX166Y1a0xMCkZlVDm9g
-         6FK7Q97cE9jt2NrzFL1Znnbw60l7ea7hOWisMYSG1QCZV2IVSqS2r62lZ5FWloprq5
-         ubcfvLclPeOS5Cr6TkAs9PqHcykmOSm9xjyMvLsp+5caennZjML9l+hWjfMbDF2j0n
-         Z9vVkjalJG50mw6RGDcTxUSSfXV+z9OBGleyf9GzxMqu0VvA3W0f3PyAI7IG/GmKoN
-         x8KFr3FfvGuZw==
+        b=GgBONKa6p/I1DeV6DrdT75QQGY5WBAGnzAKp35ybnJUFqoehBmAXoSYjNmGEEGA/9
+         QB7SR2N17xCHH0hJs1QIeebKGEqR/Qvu/b0LDbw+4mq8glVdePVWjbKvgD7oIyvRVK
+         DU69zKoixkrtwlnNLXIQ/8ZUOWwWjrRjiz9AdH3JIrf3t3qDgFeQelb6nmHRin4IB7
+         gVFzDj16QuJoRpuFnVrWvnJ+w6bXVb/wH3fDBEsAFuRg/jbjL/+entqkTIcFYkeFYh
+         lrpgPbYAVSv9Ad0ix4Ca9rrOqUhaju/8KFRyfvJIjc7bmCiFSnOmF350OpELErO7MD
+         oCSw6I0Q1H7Aw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKvz-000o2q-KC; Tue, 27 Apr 2021 12:27:15 +0200
+        id 1lbKvz-000o2t-MZ; Tue, 27 Apr 2021 12:27:15 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Benoit Parrot <bparrot@ti.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v3 75/79] media: sunxi: use pm_runtime_resume_and_get()
-Date:   Tue, 27 Apr 2021 12:27:05 +0200
-Message-Id: <f1901bc5c3e2a6e88e678f5763b97509cc706bf5.1619519080.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v3 76/79] media: ti-vpe: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:27:06 +0200
+Message-Id: <163e79c9b888f5677fc30150918abdbdc9085b65.1619519080.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619519080.git.mchehab+huawei@kernel.org>
 References: <cover.1619519080.git.mchehab+huawei@kernel.org>
@@ -57,34 +54,78 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/media/platform/ti-vpe/cal-video.c | 4 +++-
+ drivers/media/platform/ti-vpe/cal.c       | 8 +++++---
+ drivers/media/platform/ti-vpe/vpe.c       | 4 +---
+ 3 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-index 4785faddf630..54b909987caa 100644
---- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-+++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-@@ -206,9 +206,9 @@ static int sun4i_csi_open(struct file *file)
+diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
+index 7b7436a355ee..15fb5360cf13 100644
+--- a/drivers/media/platform/ti-vpe/cal-video.c
++++ b/drivers/media/platform/ti-vpe/cal-video.c
+@@ -700,7 +700,9 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 
+ 	addr = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
+ 
+-	pm_runtime_get_sync(ctx->cal->dev);
++	ret = pm_runtime_resume_and_get(ctx->cal->dev);
++	if (ret < 0)
++		goto error_pipeline;
+ 
+ 	cal_ctx_set_dma_addr(ctx, addr);
+ 	cal_ctx_start(ctx);
+diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+index 2e2bef91b2b0..76fe7a8b33f6 100644
+--- a/drivers/media/platform/ti-vpe/cal.c
++++ b/drivers/media/platform/ti-vpe/cal.c
+@@ -1024,7 +1024,7 @@ static int cal_probe(struct platform_device *pdev)
+ 
+ 	/* Read the revision and hardware info to verify hardware access. */
+ 	pm_runtime_enable(&pdev->dev);
+-	ret = pm_runtime_get_sync(&pdev->dev);
++	ret = pm_runtime_resume_and_get(&pdev->dev);
  	if (ret)
- 		return ret;
+ 		goto error_pm_runtime;
  
--	ret = pm_runtime_get_sync(csi->dev);
-+	ret = pm_runtime_resume_and_get(csi->dev);
- 	if (ret < 0)
--		goto err_pm_put;
-+		goto err_unlock;
+@@ -1098,10 +1098,11 @@ static int cal_remove(struct platform_device *pdev)
+ {
+ 	struct cal_dev *cal = platform_get_drvdata(pdev);
+ 	unsigned int i;
++	int ret;
  
- 	ret = v4l2_pipeline_pm_get(&csi->vdev.entity);
- 	if (ret)
-@@ -227,6 +227,8 @@ static int sun4i_csi_open(struct file *file)
+ 	cal_dbg(1, cal, "Removing %s\n", CAL_MODULE_NAME);
  
- err_pm_put:
- 	pm_runtime_put(csi->dev);
-+
-+err_unlock:
- 	mutex_unlock(&csi->lock);
+-	pm_runtime_get_sync(&pdev->dev);
++	ret = pm_runtime_resume_and_get(&pdev->dev);
  
- 	return ret;
+ 	cal_media_unregister(cal);
+ 
+@@ -1115,7 +1116,8 @@ static int cal_remove(struct platform_device *pdev)
+ 	for (i = 0; i < cal->data->num_csi2_phy; i++)
+ 		cal_camerarx_destroy(cal->phy[i]);
+ 
+-	pm_runtime_put_sync(&pdev->dev);
++	if (ret >= 0)
++		pm_runtime_put_sync(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
+ 
+ 	return 0;
+diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
+index 10251b787674..07cb2c140295 100644
+--- a/drivers/media/platform/ti-vpe/vpe.c
++++ b/drivers/media/platform/ti-vpe/vpe.c
+@@ -2471,10 +2471,8 @@ static int vpe_runtime_get(struct platform_device *pdev)
+ 
+ 	dev_dbg(&pdev->dev, "vpe_runtime_get\n");
+ 
+-	r = pm_runtime_get_sync(&pdev->dev);
++	r = pm_runtime_resume_and_get(&pdev->dev);
+ 	WARN_ON(r < 0);
+-	if (r)
+-		pm_runtime_put_noidle(&pdev->dev);
+ 	return r < 0 ? r : 0;
+ }
+ 
 -- 
 2.30.2
 
