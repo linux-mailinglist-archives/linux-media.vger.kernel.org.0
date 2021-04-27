@@ -2,43 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8701F36C3B1
-	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D089636C3D7
+	for <lists+linux-media@lfdr.de>; Tue, 27 Apr 2021 12:30:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238428AbhD0K3S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Apr 2021 06:29:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48204 "EHLO mail.kernel.org"
+        id S238459AbhD0K3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Apr 2021 06:29:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48246 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237609AbhD0K2Z (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Apr 2021 06:28:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 815A661415;
+        id S237792AbhD0K21 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Apr 2021 06:28:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7FA7661413;
         Tue, 27 Apr 2021 10:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619519236;
-        bh=/R60wucnhMxzatTcaaq6aX+wA4KyHRrla+Ogrsx7GxU=;
+        bh=Q1WsziPcbnwAb2cpqQFZbO8zttZnZQq1oIpn6yJZI+I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=P56zrL4Gg3jEUeTkZS2IFHj+uXqtpdhmLsJDUn92MY4jLzJjsQAryX6b1IuA4GpoC
-         uiZVc1R9FxNaZE3nN2cCyZR0UT5MeNcBNUzscwoou2kUKoy+tWYKD1dG8VBteaq506
-         pIOcETXuU9PPpieZnMFlvj8nlszSsVh7Ty5l5thsp1lnQoM42oV9QGL94uNwZanFzZ
-         EAipNbg4MFY7UlZWA3zXP3lxC3IeJxVDBrA121JQ14Ki3F0PsoxcMrpDJEnKDwRzmR
-         QehK2z7aUj8zb2mpo7fTfROvJdt3jaPNmBdKvwFOtLjtKycARv1ZOUIaV88bhGhzyn
-         5xBT36E1ppv7Q==
+        b=unDnKlP9o6a+vxQh5qp31nQEN88CtW9mWtX/Ua4La5wmjMW1KGY78blmf7pj1Wyzu
+         qOd5WCV5sohjttf/sTUtf/TFTmUB7bVJS60pepQ3fMX8QkcX166Y1a0xMCkZlVDm9g
+         6FK7Q97cE9jt2NrzFL1Znnbw60l7ea7hOWisMYSG1QCZV2IVSqS2r62lZ5FWloprq5
+         ubcfvLclPeOS5Cr6TkAs9PqHcykmOSm9xjyMvLsp+5caennZjML9l+hWjfMbDF2j0n
+         Z9vVkjalJG50mw6RGDcTxUSSfXV+z9OBGleyf9GzxMqu0VvA3W0f3PyAI7IG/GmKoN
+         x8KFr3FfvGuZw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lbKvz-000o2n-Hp; Tue, 27 Apr 2021 12:27:15 +0200
+        id 1lbKvz-000o2q-KC; Tue, 27 Apr 2021 12:27:15 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH v3 74/79] media: stm32: use pm_runtime_resume_and_get()
-Date:   Tue, 27 Apr 2021 12:27:04 +0200
-Message-Id: <7a01ab8c03a6778c6aeb9357a3807829c6dc91f3.1619519080.git.mchehab+huawei@kernel.org>
+        linux-media@vger.kernel.org
+Subject: [PATCH v3 75/79] media: sunxi: use pm_runtime_resume_and_get()
+Date:   Tue, 27 Apr 2021 12:27:05 +0200
+Message-Id: <f1901bc5c3e2a6e88e678f5763b97509cc706bf5.1619519080.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619519080.git.mchehab+huawei@kernel.org>
 References: <cover.1619519080.git.mchehab+huawei@kernel.org>
@@ -58,35 +57,34 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/stm32/stm32-dcmi.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
-index bbcc2254fa2e..5f4e1db8cfcd 100644
---- a/drivers/media/platform/stm32/stm32-dcmi.c
-+++ b/drivers/media/platform/stm32/stm32-dcmi.c
-@@ -723,11 +723,11 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	u32 val = 0;
- 	int ret;
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+index 4785faddf630..54b909987caa 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+@@ -206,9 +206,9 @@ static int sun4i_csi_open(struct file *file)
+ 	if (ret)
+ 		return ret;
  
--	ret = pm_runtime_get_sync(dcmi->dev);
-+	ret = pm_runtime_resume_and_get(dcmi->dev);
- 	if (ret < 0) {
- 		dev_err(dcmi->dev, "%s: Failed to start streaming, cannot get sync (%d)\n",
- 			__func__, ret);
+-	ret = pm_runtime_get_sync(csi->dev);
++	ret = pm_runtime_resume_and_get(csi->dev);
+ 	if (ret < 0)
 -		goto err_pm_put;
 +		goto err_unlock;
- 	}
  
- 	ret = media_pipeline_start(&dcmi->vdev->entity, &dcmi->pipeline);
-@@ -848,6 +848,7 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	ret = v4l2_pipeline_pm_get(&csi->vdev.entity);
+ 	if (ret)
+@@ -227,6 +227,8 @@ static int sun4i_csi_open(struct file *file)
  
  err_pm_put:
- 	pm_runtime_put(dcmi->dev);
+ 	pm_runtime_put(csi->dev);
++
 +err_unlock:
- 	spin_lock_irq(&dcmi->irqlock);
- 	/*
- 	 * Return all buffers to vb2 in QUEUED state.
+ 	mutex_unlock(&csi->lock);
+ 
+ 	return ret;
 -- 
 2.30.2
 
