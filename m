@@ -2,47 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAE0836DA3E
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8AA636DA87
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240656AbhD1OzJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 10:55:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36356 "EHLO mail.kernel.org"
+        id S240422AbhD1O41 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 10:56:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36324 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240378AbhD1Oxr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 10:53:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A0EE561931;
+        id S240442AbhD1Ox4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 10:53:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AA0676193A;
         Wed, 28 Apr 2021 14:52:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619621564;
-        bh=ICSqYM0Xgfw9oIMwso+FErzxSuvOpl/fXTNpHffe0xs=;
+        bh=iGZe8aaDJjF2bkRR0aV7yAcLZay9Jx4R6lGwINryHgY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fHysyxFZlmuI50E5t4vV98qvOtEriUoU3KMn0yepTurqasR22TQkWKLrnsjN+D8rd
-         vLJJLRtpQ+QxAXTyWAjI7+EDodeaq/o8EjSMA6wuZMaKbV2rpRPYyPVVSHM6X1kysc
-         2b/Ro7+t0+F7+PNk2/IvalgG1tEOFgrTJP3C1QJMMOtqe+2UACwv3yl4auDzajd2Or
-         n5kXLVLfZRTKcTWYX+h8G0jfGNID60M3O9RnJJfZ/G+NPzwx4nJ19AvOmE2NAh3MeO
-         bo9FXO4lzTeYiFPAS3M5tDHrt4nXqVgbgcJkhm9qDNJur/30jvLIqbWrOpDFzTfaSg
-         YaUni1JsyJ0AQ==
+        b=r7Zsn7ZfibgO5NJ4O8W7hayhDjJqzikad8KZcJEMy4lO6Tn7c1Z9mq4POy6ubsaNP
+         EevLODRnXfD9y4mg3Jb8InxQUOfR89aCWmOcVk67go3jfWYt8Z2ua1Vol8/5h9J+y+
+         HUs3ADhigpOxMlJwTfi3kVMCPSg/qr1HNKwKzct5J59tQ3+Tza/AYLeBbf9Eki6GXM
+         wadAqpYw59ZjJ17iQcLkDHfLelN7Yiq9xGn8U4ueZeZ0yE2LxmnQbEulEHX+WqXLEh
+         oe0VvCNPYVjwSktLb+OGh+KHNrDm9IlHHRVsaGZ4l1K/hk/tCFoEf4NAQC2epp4MuH
+         IUpDoVR0Gc6Lg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lblYS-001Dtc-6h; Wed, 28 Apr 2021 16:52:44 +0200
+        id 1lblYS-001Dtv-AF; Wed, 28 Apr 2021 16:52:44 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v4 77/79] media: rcar-vin: use pm_runtime_resume_and_get()
-Date:   Wed, 28 Apr 2021 16:52:38 +0200
-Message-Id: <c0c8f8b07af20c354b946819f5dcdf9f5129654e.1619621413.git.mchehab+huawei@kernel.org>
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: [PATCH v4 78/79] media: hantro: use pm_runtime_resume_and_get()
+Date:   Wed, 28 Apr 2021 16:52:39 +0200
+Message-Id: <803c39fafdd62efc6f9e4d99a372af2c6955143b.1619621413.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     unlisted-recipients:; (no To-header on input)
@@ -54,87 +53,74 @@ Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with us
 added pm_runtime_resume_and_get() in order to automatically handle
 dev->power.usage_count decrement on errors.
 
-Use the new API, in order to cleanup the error check logic.
+While there's nothing wrong with the current usage on this driver,
+as we're getting rid of the pm_runtime_get_sync() call all over
+the media subsystem, let's remove the last occurrence on this
+driver.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/rcar-vin/rcar-csi2.c | 15 ++++++++++++---
- drivers/media/platform/rcar-vin/rcar-dma.c  |  6 ++----
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  6 ++----
- 3 files changed, 16 insertions(+), 11 deletions(-)
+ drivers/staging/media/hantro/hantro_drv.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index e06cd512aba2..436fb17f73ea 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -406,10 +406,17 @@ static void rcsi2_enter_standby(struct rcar_csi2 *priv)
- 	pm_runtime_put(priv->dev);
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 595e82a82728..25fa36e7e773 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -56,14 +56,12 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
+ 	return hantro_get_dec_buf_addr(ctx, buf);
  }
  
--static void rcsi2_exit_standby(struct rcar_csi2 *priv)
-+static int rcsi2_exit_standby(struct rcar_csi2 *priv)
+-static void hantro_job_finish(struct hantro_dev *vpu,
+-			      struct hantro_ctx *ctx,
+-			      enum vb2_buffer_state result)
++static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
++				    struct hantro_ctx *ctx,
++				    enum vb2_buffer_state result)
  {
--	pm_runtime_get_sync(priv->dev);
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(priv->dev);
-+	if (ret < 0)
-+		return ret;
-+
- 	reset_control_deassert(priv->rstc);
-+
-+	return ret;
+ 	struct vb2_v4l2_buffer *src, *dst;
+ 
+-	pm_runtime_mark_last_busy(vpu->dev);
+-	pm_runtime_put_autosuspend(vpu->dev);
+ 	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
+ 
+ 	src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+@@ -81,6 +79,16 @@ static void hantro_job_finish(struct hantro_dev *vpu,
+ 					 result);
  }
  
- static int rcsi2_wait_phy_start(struct rcar_csi2 *priv,
-@@ -657,7 +664,9 @@ static int rcsi2_start(struct rcar_csi2 *priv)
++static void hantro_job_finish(struct hantro_dev *vpu,
++			      struct hantro_ctx *ctx,
++			      enum vb2_buffer_state result)
++{
++	pm_runtime_mark_last_busy(vpu->dev);
++	pm_runtime_put_autosuspend(vpu->dev);
++
++	hantro_job_finish_no_pm(vpu, ctx, result);
++}
++
+ void hantro_irq_done(struct hantro_dev *vpu,
+ 		     enum vb2_buffer_state result)
  {
- 	int ret;
- 
--	rcsi2_exit_standby(priv);
-+	ret = rcsi2_exit_standby(priv);
-+	if (ret < 0)
-+		return ret;
- 
- 	ret = rcsi2_start_receiver(priv);
- 	if (ret) {
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index f30dafbdf61c..f5f722ab1d4e 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1458,11 +1458,9 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- 	u32 vnmc;
- 	int ret;
- 
--	ret = pm_runtime_get_sync(vin->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(vin->dev);
-+	ret = pm_runtime_resume_and_get(vin->dev);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	/* Make register writes take effect immediately. */
- 	vnmc = rvin_read(vin, VNMC_REG);
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 457a65bf6b66..b1e9f86caa5c 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -870,11 +870,9 @@ static int rvin_open(struct file *file)
- 	struct rvin_dev *vin = video_drvdata(file);
- 	int ret;
- 
--	ret = pm_runtime_get_sync(vin->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(vin->dev);
-+	ret = pm_runtime_resume_and_get(vin->dev);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	ret = mutex_lock_interruptible(&vin->lock);
+@@ -155,7 +163,8 @@ static void device_run(void *priv)
+ 	ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
  	if (ret)
+ 		goto err_cancel_job;
+-	ret = pm_runtime_get_sync(ctx->dev->dev);
++
++	ret = pm_runtime_resume_and_get(ctx->dev->dev);
+ 	if (ret < 0)
+ 		goto err_cancel_job;
+ 
+@@ -165,7 +174,7 @@ static void device_run(void *priv)
+ 	return;
+ 
+ err_cancel_job:
+-	hantro_job_finish(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
++	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
+ }
+ 
+ static struct v4l2_m2m_ops vpu_m2m_ops = {
 -- 
 2.30.2
 
