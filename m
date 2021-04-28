@@ -2,126 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC62136D39F
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 10:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08EBB36D3F2
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 10:29:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236787AbhD1IF6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 04:05:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbhD1IFx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 04:05:53 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50CA0C061574;
-        Wed, 28 Apr 2021 01:05:07 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id a5so34255136ljk.0;
-        Wed, 28 Apr 2021 01:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Nps3nttZguJ8BCD0NvcBimYy31g7NyHD2WV72x2rWLs=;
-        b=scSO1JI2a1WTmBO2H/Tv1tlocFWHO1F1qZLoPwpZbG2D7xUkdpbBZrcN+R9+dNVG3d
-         lx+Gvzn8Z1G/A6pg9rnrjis1Bh+m7iFL2BLoQsJI3JQBnBW1+9QURc7oK6pwP86UQ+4I
-         bv/9z8+yk5GYeIObu6e4WXOdwdJ1nPbX9LNB8BuXqK7SVZTVnpOibFdZWaSJQ77JkKkf
-         FVKzw2j9pCmFA7Ufk66d5GcyzMeBSLFmqeOPWR3MlmT7Mb8KUiyvJOaytc4tboFfrAWy
-         g57cQG+k/ihpkB3mxhHFMyWl414dNqsBmYR4vUoO1qh+PATE3DM5DEI4XBZIUZIXHkWY
-         bqQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Nps3nttZguJ8BCD0NvcBimYy31g7NyHD2WV72x2rWLs=;
-        b=ETNm1l4ytqaRMQpBxnIcEANa0OZG+HpdxUvaahfoLL0YI5hpcrtbpURi1Tp+N/8JZR
-         O7LfbUePcBS06Hjmz9UCfti5MdBTIwZsZ+8qxoxNlrBoqENlikK0LsXwpMsoOSJsvCIm
-         m0p2P/67PEvN5pOyykWkmxc13MqEVZvpacfloZcGalTbouT+3nytNCHtQtWsFg2Angj+
-         0w0P1lOpXvf6ILsmtXRH2y7/nFCWc4srWpdfWI0s8TOFEsYLwihzRhshKjo96sbPoz4k
-         9wBWsXEClYTtpEBHGFVb1ZFo/mlAIqej+sehx34A9rhF+ci/y8lojBkNwsrTXeNVJYvu
-         FUzA==
-X-Gm-Message-State: AOAM532nw/urEFsgocjmwhyqo7AzrKLObiKXy6wpWvl3LeYxw2JF/PWo
-        m9WHv0p6/42snhFCpC6EYU+IAS9UEL8=
-X-Google-Smtp-Source: ABdhPJzdMSR2iHItWodo7Bu1HRxq1zEW2JmCm7rT5HXh8mlSNUuxgSjlcM8R1zaHbOgEbpqbC0RWdA==
-X-Received: by 2002:a05:651c:550:: with SMTP id q16mr20156382ljp.70.1619597105514;
-        Wed, 28 Apr 2021 01:05:05 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-102.dynamic.spd-mgts.ru. [109.252.193.102])
-        by smtp.googlemail.com with ESMTPSA id q9sm522412lfc.201.2021.04.28.01.05.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Apr 2021 01:05:05 -0700 (PDT)
-Subject: Re: [PATCH v3 25/79] staging: media: vde: use
- pm_runtime_resume_and_get()
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        id S237221AbhD1I2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 04:28:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40130 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229643AbhD1I2T (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 04:28:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D023061428;
+        Wed, 28 Apr 2021 08:27:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619598454;
+        bh=MMdojTNsABdHbx90yhpxY/qSAQ0sMQ1zeneARF2DHr4=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=dx+sIiSpWRqddOtUTc+JhzpKDPpbLGDkvs06tkwI7Yw8y3HamdWE5plk9jwEs5j2z
+         Tm/1DpIKdz/3GH/LhLtT0pLNxVQPRCoLmPgBNJScH69Emi3IWiqMF4NEMKM3fjwBC9
+         BqjJeCTbPR9hZczow28fzc92gFyeQkvkWnq8+mZsr08lPJ5SDQu3yOxDRHe88cxQO8
+         252VpD1qJM58PgiiPzqtk0kLyNPHH96i8tmxmWnlVdgicI0Qqw2MBPZ+LngZaozBsv
+         qt+puDwUSSzTYbu1SUoQ6pG5e9ITDmsOSFio8Uw8uTz/pEb7z7g2j33u14HI1IgIkK
+         k2f+4ZFQ+vvCA==
+Subject: Re: [PATCH 58/78] media: exynos-gsc: use pm_runtime_resume_and_get()
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <cover.1619519080.git.mchehab+huawei@kernel.org>
- <d7fb2d00224d37ba1c6c6e9b73609af95c886844.1619519080.git.mchehab+huawei@kernel.org>
- <2e8bdea5-b2a7-df95-9d93-7c1f2df6158d@gmail.com>
- <20210428092043.380c9d4c@coco.lan>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <433bd38c-aec9-a17e-35ca-8a6fca5fa5ef@gmail.com>
-Date:   Wed, 28 Apr 2021 11:05:04 +0300
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>
+References: <cover.1619191723.git.mchehab+huawei@kernel.org>
+ <CGME20210424064556eucas1p1e89378837c377168c9782b4172e70482@eucas1p1.samsung.com>
+ <9c7d683907b9f9cf4a99f57f978671ec7f5a1dbc.1619191723.git.mchehab+huawei@kernel.org>
+ <ee7b580a-d5bc-bdbf-3efc-c9d8f43316db@samsung.com>
+ <20210427113055.745d0560@coco.lan> <20210427114235.45a7b2a4@coco.lan>
+ <5f6088c7-c839-f097-737f-b4234c413eac@samsung.com>
+ <20210428091302.64af1e5d@coco.lan> <20210428091707.3c99d124@coco.lan>
+From:   Sylwester Nawrocki <snawrocki@kernel.org>
+Message-ID: <01a14e06-b7f2-7246-ad12-4a13a96622a0@kernel.org>
+Date:   Wed, 28 Apr 2021 10:27:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210428092043.380c9d4c@coco.lan>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210428091707.3c99d124@coco.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-28.04.2021 10:20, Mauro Carvalho Chehab пишет:
-> Em Tue, 27 Apr 2021 14:47:01 +0300
-> Dmitry Osipenko <digetx@gmail.com> escreveu:
+On 28.04.2021 09:17, Mauro Carvalho Chehab wrote:
+> Em Wed, 28 Apr 2021 09:13:02 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 > 
->> 27.04.2021 13:26, Mauro Carvalho Chehab пишет:
->>> @@ -1088,8 +1090,9 @@ static int tegra_vde_remove(struct platform_device *pdev)
->>>  {
->>>  	struct tegra_vde *vde = platform_get_drvdata(pdev);
->>>  	struct device *dev = &pdev->dev;
->>> +	int ret;
->>>  
->>> -	pm_runtime_get_sync(dev);
->>> +	ret = pm_runtime_resume_and_get(dev);  
+>> Em Tue, 27 Apr 2021 13:50:44 +0200
+>> Sylwester Nawrocki <s.nawrocki@samsung.com> escreveu:
 >>
->> Should be cleaner to return error directly here, IMO.
-> 
-> I double-checked how drivers/base/platform.c deals with non-zero
-> returns at the .remove method:
-> 
-> 	static int platform_remove(struct device *_dev)
-> 	{
-> 	        struct platform_driver *drv = to_platform_driver(_dev->driver);
-> 	        struct platform_device *dev = to_platform_device(_dev);
-> 	
-> 	        if (drv->remove) {
-> 	                int ret = drv->remove(dev);
-> 	
-> 	                if (ret)
-> 	                        dev_warn(_dev, "remove callback returned a non-zero value. This will be ignored.\n");
-> 	        }
-> 	        dev_pm_domain_detach(_dev, true);
-> 	
-> 	        return 0;
-> 	}
-> 
-> Basically, it will print a message but will ignore whatever happens
-> afterwards.
-> 
-> So, if the driver is changed to return an error there, it will leak
-> resources.
+>>> On 27.04.2021 11:42, Mauro Carvalho Chehab wrote:
 
-Indeed, thank you. But then the pm_runtime_get_sync() should be more
-appropriate since this function is specifically made for such cases
-where returned value is ignored.
+>>> I think if the device is brought into suspended state (e.g. by
+>>> disabling clocks as above) the pm_runtime_set_suspended() call
+>>> should be there. IOW a following sequence:
+>>>
+>>> 	pm_runtime_disable(dev);
+>>> 	if (!pm_runtime_status_suspended(dev))
+>>> 		/* put device into suspended state (disable clocks,
+>>> 		  voltage regulators, assert GPIOs, etc. */
+>>> 	pm_runtime_set_suspended(dev);
+>>
+>> Not sure if this would work, as the clock framework would try
+>> to do things like calling clk_pm_runtime_put().
 
-A better option could be better to add a clarifying comment to the code
-rather than to change it to a variant which introduces confusion, IMO.
+It's done in multiple drivers this way. clk_pm_runtime_put() operates
+on different device - the clock supplier, not the consumer device.
+We just need to disable runtime PM for GSC as the last step, to avoid
+any possible v4l2 m2m device_run() call with runtime PM disabled.
 
+>> Perhaps an alternative would be to just return an error if it
+>> can't resume PM runtime, e. g.:
+[...]
+> Nah, forget about that. Despite the platform driver having a return code,
+> support for it bogus:
+
+Yes, we can't really stop remove() from driver level so as much complete
+resource release is being done as possible.
+
+
+Regards,
+Sylwester
