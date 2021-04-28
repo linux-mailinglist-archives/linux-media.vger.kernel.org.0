@@ -2,39 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E64536DA15
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1384D36DA17
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240408AbhD1Oxt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 10:53:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36354 "EHLO mail.kernel.org"
+        id S240426AbhD1Oxy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 10:53:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36356 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240289AbhD1Oxa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S240291AbhD1Oxa (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 28 Apr 2021 10:53:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2713D6157F;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 21675614A7;
         Wed, 28 Apr 2021 14:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619621564;
-        bh=U3xPtY+HT1GPqKz+iC8qw5pPuPioh4afaqfdd0R7SD0=;
+        bh=W1MZ5fUp2z9NMPUzLbsMjuPOyaCJXem6s4s1Qkfcwz8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nU8/4nqsaUzqc/2P2LSyHnwWSNRH0YsgZc7WwCj9qWc17cv+s3MwoJRkLsoUaTrZW
-         0fYO9Yx3bA5D0iH7J7SRbWZaxA6dbnqyIahQ070LTg2iHUTnRhlVKN+iIbUaaoOIh/
-         u5SiAd6E7WXV++WxBhFAJIIXXIZGeRa+7XboOxmWaAetyhAmkRTjgisXuERwmxopfN
-         WV3wZNDuIdABms25SFXDGjRuJURKyGxhQhPHP6EdKLLC3cUPEucpq9nY6raeGLPUgG
-         0nXqfBU6wl0WZyhgSLkuyPhhis5hf9ftTledvQZKIVBvs99Ta3C737EGNzHWABUae0
-         0qemN983jqWfA==
+        b=j2TOTcw5C445poYixO6MB4771lIkivCDk6l1WcyEeoHLXx/19d6xJ7PwFCbd9A7zF
+         nvUAN9xfF2FVM2yBWLaiNmalMlFsxj5A/UBsSSi6eDtBqBG1TUqiwtAMuwwuBPz4Wa
+         T6MVM6CztEmBDxh1mW/Jz/Xs5VyReq83re7kSzaJaSFdmsHDnc89Y8hn9PjRx1ehzZ
+         OFEAxVTSyd6mB4N7MKW6xKmWnVg/yWiU0CN6VtsO3ruHXAhRALU0U9raQ1OvIeylA6
+         0nG8cb9T4w9p+CmQzNnwUlsyp9YqwWAVvIbjdlCaN70KmHaX5tX8q8E6rdVLzQeGTA
+         +JpqFWntku3vg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lblYQ-001DqS-2n; Wed, 28 Apr 2021 16:52:42 +0200
+        id 1lblYQ-001DqV-3i; Wed, 28 Apr 2021 16:52:42 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v4 18/79] media: sti/delta: fix pm_runtime_get_sync() usage count
-Date:   Wed, 28 Apr 2021 16:51:39 +0200
-Message-Id: <e4d120126b7c3be15d33ed8bcf07c285e14c25bf.1619621413.git.mchehab+huawei@kernel.org>
+        Maxime Ripard <mripard@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v4 19/79] media: sunxi: fix pm_runtime_get_sync() usage count
+Date:   Wed, 28 Apr 2021 16:51:40 +0200
+Message-Id: <17cf60c9e5190ff83de40284bb858581bb0ec4a6.1619621413.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
@@ -55,25 +58,22 @@ leaks.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/sti/delta/delta-v4l2.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/sti/delta/delta-v4l2.c b/drivers/media/platform/sti/delta/delta-v4l2.c
-index c691b3d81549..9928b7c46a41 100644
---- a/drivers/media/platform/sti/delta/delta-v4l2.c
-+++ b/drivers/media/platform/sti/delta/delta-v4l2.c
-@@ -1277,9 +1277,9 @@ int delta_get_sync(struct delta_ctx *ctx)
- 	int ret = 0;
+diff --git a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+index 3f81dd17755c..fbcca59a0517 100644
+--- a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
++++ b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+@@ -494,7 +494,7 @@ static int rotate_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 		struct device *dev = ctx->dev->dev;
+ 		int ret;
  
- 	/* enable the hardware */
--	ret = pm_runtime_get_sync(delta->dev);
-+	ret = pm_runtime_resume_and_get(delta->dev);
- 	if (ret < 0) {
--		dev_err(delta->dev, "%s pm_runtime_get_sync failed (%d)\n",
-+		dev_err(delta->dev, "%s pm_runtime_resume_and_get failed (%d)\n",
- 			__func__, ret);
- 		return ret;
- 	}
+-		ret = pm_runtime_get_sync(dev);
++		ret = pm_runtime_resume_and_get(dev);
+ 		if (ret < 0) {
+ 			dev_err(dev, "Failed to enable module\n");
+ 
 -- 
 2.30.2
 
