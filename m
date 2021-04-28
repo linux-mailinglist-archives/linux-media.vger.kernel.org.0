@@ -2,170 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EB1236D76C
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 14:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5229D36D772
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 14:35:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230431AbhD1Mej (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 08:34:39 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:34389 "EHLO m43-7.mailgun.net"
+        id S236905AbhD1MgW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 08:36:22 -0400
+Received: from ni.piap.pl ([195.187.100.5]:48998 "EHLO ni.piap.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236891AbhD1Mei (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 08:34:38 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1619613234; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=ENha3M3OIA5azU7XEdam5MFdGtjZNcN7P7qlyJYh6Wc=;
- b=bN78mIf72JzlyHr/neyyRGLE2kc7r/pv88ewW19oBmW+7PvaIg5eR1R24V/Q9qwfqUFeCmSU
- gAjZF+w85AurKSTWe6x9ZD0Y1M676qYRfaHgAgB+UDijQcgklPuOGj+f9PpBIjaB3IB6eXSp
- bzxul9amqvAoJ0DpG/ju1JhIetE=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 608956102cbba88980e20cbc (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Apr 2021 12:33:20
- GMT
-Sender: smagar=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 13F43C4338A; Wed, 28 Apr 2021 12:33:20 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        id S234439AbhD1MgV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 08:36:21 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: smagar)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 38BF0C433F1;
-        Wed, 28 Apr 2021 12:33:19 +0000 (UTC)
+        by ni.piap.pl (Postfix) with ESMTPSA id 9E831444032;
+        Wed, 28 Apr 2021 14:35:32 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 9E831444032
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1619613332; bh=QG+dsPO25iZIXCJg6jPdT+oPy9Rb1+B7Kg31/40cdVM=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=BzBX6c2UJyS4SVAp2e8hVYI0I8O3B+bIcpTKZg6z1etSX4U41uetBv210EYWv5pgj
+         6J3M21+t5QWuaC6aaFxNbCE7GN9i3JUFbbPc+aXxUAfb61pQcZANyZmFM9+S4a7XOg
+         Xu0Krjr8zl5d/0s8HPXqhmDLsZjojwbcP5TkzJFs=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: RFC: MEDIA: Driver for ON Semi AR0521 camera sensor
+References: <m3mtv3s01z.fsf@t19.piap.pl>
+        <YFEE3WYdECCQRYxl@pendragon.ideasonboard.com>
+Sender: khalasa@piap.pl
+Date:   Wed, 28 Apr 2021 14:35:32 +0200
+In-Reply-To: <YFEE3WYdECCQRYxl@pendragon.ideasonboard.com> (Laurent Pinchart's
+        message of "Tue, 16 Mar 2021 21:19:57 +0200")
+Message-ID: <m3k0om8u3v.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 28 Apr 2021 18:03:19 +0530
-From:   smagar@codeaurora.org
-To:     Josh Boyer <jwboyer@kernel.org>
-Cc:     Linux Firmware <linux-firmware@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media-owner@vger.kernel.org, vgarodia@codeaurora.org,
-        dikshita@codeaurora.org, adhudase@codeaurora.org,
-        sampnimm@codeaurora.org, mansur@codeaurora.org
-Subject: Re: Request to update venus-5.10 FW files
-In-Reply-To: <CA+5PVA7pbgVRpwkM71ToxRwBKfH=j51GrZcz+8Q5H2MpmmL-_w@mail.gmail.com>
-References: <8885c6fbfcc91043a5406cf6e528e0b9@codeaurora.org>
- <CA+5PVA7pbgVRpwkM71ToxRwBKfH=j51GrZcz+8Q5H2MpmmL-_w@mail.gmail.com>
-Message-ID: <69a54323398e54a782c6818e801570fd@codeaurora.org>
-X-Sender: smagar@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 4
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2021-04-21 16:48, Josh Boyer wrote:
-> On Wed, Apr 21, 2021 at 2:59 AM <smagar@codeaurora.org> wrote:
->> 
->> Hello Team,
->> 
->> Please include updated firmware bins for venus-5.10.
->> 
->> Snapshot of pull request is as below, let me know if anything is
->> missing.
->> 
->> 
->> 
->> The following changes since commit
->> 5c893c65b862906a627cea238ae8c2d099027dee:
->> 
->>    Updated Venus firmware files for v5.10 (2021-04-20 11:48:28 +0530)
->> 
->> are available in the git repository at:
->> 
->>    https://github.com/suraj714/linux-firmware-venus.git master
->> 
->> for you to fetch changes up to 
->> 2565c9d2576ce1275206483e106d6fb627ace042:
->> 
->>    qcom :venus_v5.10: updated venus firmware files for v5.10 
->> (2021-04-21
->> 12:04:59 +0530)
->> 
->> ----------------------------------------------------------------
->> smagar (1):
->>        qcom :venus_v5.10: updated venus firmware files for v5.10
->> 
->>   qcom/sc7280/vpu20_1v.b00          | Bin 0 -> 692 bytes
->>   qcom/sc7280/vpu20_1v.b01          | Bin 0 -> 7376 bytes
->>   qcom/sc7280/vpu20_1v.b02          | Bin 0 -> 300 bytes
->>   qcom/sc7280/vpu20_1v.b03          | Bin 0 -> 20 bytes
->>   qcom/sc7280/vpu20_1v.b04          | Bin 0 -> 20 bytes
->>   qcom/sc7280/vpu20_1v.b05          | Bin 0 -> 20 bytes
->>   qcom/sc7280/vpu20_1v.b06          | Bin 0 -> 20 bytes
->>   qcom/sc7280/vpu20_1v.b07          | Bin 0 -> 24 bytes
->>   qcom/sc7280/vpu20_1v.b08          | Bin 0 -> 16 bytes
->>   qcom/sc7280/vpu20_1v.b09          | Bin 0 -> 939184 bytes
->>   qcom/sc7280/vpu20_1v.b10          | Bin 0 -> 42976 bytes
->>   qcom/sc7280/vpu20_1v.b11          |   0
->>   qcom/sc7280/vpu20_1v.b12          |   0
->>   qcom/sc7280/vpu20_1v.b13          |   0
->>   qcom/sc7280/vpu20_1v.b14          |   0
->>   qcom/sc7280/vpu20_1v.b15          |   0
->>   qcom/sc7280/vpu20_1v.b16          |   0
->>   qcom/sc7280/vpu20_1v.b17          |   0
->>   qcom/sc7280/vpu20_1v.b18          |   0
->>   qcom/sc7280/vpu20_1v.b19          |   1 +
->>   qcom/sc7280/vpu20_1v.mbn          | Bin 0 -> 2031188 bytes
->>   qcom/sc7280/vpu20_1v.mdt          | Bin 0 -> 8068 bytes
->>   qcom/sc7280/vpu20_1v_unsigned.mbn | Bin 0 -> 2031188 bytes
-> 
-> This looks weird.  You're adding 23 new files, none of which are
-> mentioned in WHENCE.  Also, why do you have a bunch of 0 byte files?
-> 
-> Is this correct?
-> 
-> josh
-> 
->>   23 files changed, 1 insertion(+)
->>   create mode 100644 qcom/sc7280/vpu20_1v.b00
->>   create mode 100644 qcom/sc7280/vpu20_1v.b01
->>   create mode 100644 qcom/sc7280/vpu20_1v.b02
->>   create mode 100644 qcom/sc7280/vpu20_1v.b03
->>   create mode 100644 qcom/sc7280/vpu20_1v.b04
->>   create mode 100644 qcom/sc7280/vpu20_1v.b05
->>   create mode 100644 qcom/sc7280/vpu20_1v.b06
->>   create mode 100644 qcom/sc7280/vpu20_1v.b07
->>   create mode 100644 qcom/sc7280/vpu20_1v.b08
->>   create mode 100644 qcom/sc7280/vpu20_1v.b09
->>   create mode 100644 qcom/sc7280/vpu20_1v.b10
->>   create mode 100644 qcom/sc7280/vpu20_1v.b11
->>   create mode 100644 qcom/sc7280/vpu20_1v.b12
->>   create mode 100644 qcom/sc7280/vpu20_1v.b13
->>   create mode 100644 qcom/sc7280/vpu20_1v.b14
->>   create mode 100644 qcom/sc7280/vpu20_1v.b15
->>   create mode 100644 qcom/sc7280/vpu20_1v.b16
->>   create mode 100644 qcom/sc7280/vpu20_1v.b17
->>   create mode 100644 qcom/sc7280/vpu20_1v.b18
->>   create mode 100644 qcom/sc7280/vpu20_1v.b19
->>   create mode 100644 qcom/sc7280/vpu20_1v.mbn
->>   create mode 100644 qcom/sc7280/vpu20_1v.mdt
->>   create mode 100644 qcom/sc7280/vpu20_1v_unsigned.mbn
->> 
->> Regards,
->> Suraj Magar
+Hi,
 
-Hi Josh,
+I'm working on AR0521 MIPI camera sensor driver update and I'm still not
+sure how the timings should be programmed. V4L2 has:
 
-I have fixed commit and title updated.
-Removed unwanted bins and 0 byte files, Also updated WHENCE.
+- V4L2_CID_LINK_FREQ
+  I understand it's a menu with fixed integers (frequencies in Hz).
+Documentation/driver-api/media/camera-sensor.rst:
+"For camera sensors that are connected to a bus where transmitter and recei=
+ver
+require common configuration set by drivers, such as CSI-2 or parallel (BT.=
+601
+or BT.656) bus, the ``V4L2_CID_LINK_FREQ`` control is mandatory on transmit=
+ter
+drivers. Receiver drivers can use the ``V4L2_CID_LINK_FREQ`` to query the
+frequency used on the bus."
 
-Both commit are combined in single pull request.
-Created fresh mail thread for firmware venus-5.4 and vpu-2.0,Please 
-review once and comment it.
+How (and if) do I use the above when the sensor in question uses PLLs
+and can generate arbitrary link frequencies?
 
+- V4L2_CID_VBLANK and V4L2_CID_HBLANK
+These are fine for setting the timings (and the AR0521 can use them).
+There is, however, another value needed for precise timing control, the
+so called "extra" timing (a hw register), specified in pixels.
+The calculated frame rate is thus:
+fr =3D pixel_clock / (width + hblank) * (height + vblank) + extra.
 
-Regards,
-Suraj
+How do I specify the "extra"?
+
+Currently, I'm using the [sg]_frame_interval() functions, should it stay
+this way (so there are [HV]BLANK controls AND [sg]_frame_interval() in
+parallel on the same device)?
+
+It appears the userspace should be able to set, in addition to *BLANK,
+the pixel clock. How do I do that? The V4L2_CID_PIXEL_RATE appears to be
+a good candidate, but v4l2_ctrl_fill() sets a read-only flag on it.
+
+Any ideas?
+
+At present I'm about to use two (orthogonal) interfaces (frame interval
+based and the - incomplete - [hv]blank-based) - but perhaps I'm missing
+something important?
+--=20
+Krzysztof Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
