@@ -2,97 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66CF736DE0B
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 19:18:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1858936DE59
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 19:33:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241538AbhD1RSp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 13:18:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43582 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229931AbhD1RSp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 13:18:45 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A103C061573;
-        Wed, 28 Apr 2021 10:18:00 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id BE1851F42B88
-Message-ID: <e5eeffbbad6ee90204cb3928cfd6774efb6174f3.camel@collabora.com>
-Subject: Re: [PATCH v4 79/79] media: hantro: do a PM resume earlier
-From:   Ezequiel Garcia <ezequiel@collabora.com>
+        id S241666AbhD1Rel (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 13:34:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50490 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241617AbhD1Rel (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 13:34:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id C3210613DC;
+        Wed, 28 Apr 2021 17:33:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619631235;
+        bh=cgZ28y9PIH6S6CUiJaIgJeGlCuhp34OxoQ4Ieggjsik=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=ZKqvDGYr637ZTMNnolfmDAfJCL0M3Wz9z3onJRHTMM11euKNkzwoHY9iKjJZ+SnjT
+         dVNkDP6YWuQ+avnQnbgkDEcqGjqG5RB5a3/vyGlD++WnzjI885scXlTO8huluFN6ZB
+         sr/NVTRwcm7/e71uzUj7eXHdPR3zm0IJZuXHwSeIwzreYvpOmm4pxPpvyIc/nP4rxS
+         gmVQtsIavqZcjshxVqoocM6sgMPxTQSYc3P54J/XcaCeO/S/h4Ly4AcG1kLpbhCa03
+         EcWx5HQDhVC2p59FUcW1hzVXHVbwHOdy041vt8BvNbabS/xU+KwL7HWcWSh7gjqL1Y
+         THTTfKsbxRzvQ==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id AAAFC60A23;
+        Wed, 28 Apr 2021 17:33:55 +0000 (UTC)
+Subject: Re: [GIT PULL for v5.13-rc1] media updates
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20210427133934.476f22ff@coco.lan>
+References: <20210427133934.476f22ff@coco.lan>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20210427133934.476f22ff@coco.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.13-1
+X-PR-Tracked-Commit-Id: 0b276e470a4d43e1365d3eb53c608a3d208cabd4
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 3aa139aa9fdc138a84243dc49dc18d9b40e1c6e4
+Message-Id: <161963123563.29190.9892332769359291383.pr-tracker-bot@kernel.org>
+Date:   Wed, 28 Apr 2021 17:33:55 +0000
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Date:   Wed, 28 Apr 2021 14:17:50 -0300
-In-Reply-To: <569838d406dde80dcc64989a663882817a54cbb2.1619621413.git.mchehab+huawei@kernel.org>
-References: <cover.1619621413.git.mchehab+huawei@kernel.org>
-         <569838d406dde80dcc64989a663882817a54cbb2.1619621413.git.mchehab+huawei@kernel.org>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+The pull request you sent on Tue, 27 Apr 2021 13:39:34 +0200:
 
-Thanks a lot for taking care of this.
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.13-1
 
-On Wed, 2021-04-28 at 16:52 +0200, Mauro Carvalho Chehab wrote:
-> The device_run() first enables the clock and then
-> tries to resume PM runtime, checking for errors.
-> 
-> Well, if for some reason the pm_runtime can not resume,
-> it would be better to detect it beforehand.
-> 
-> So, change the order inside device_run().
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/3aa139aa9fdc138a84243dc49dc18d9b40e1c6e4
 
-Clocks could be behind power-domains, IIRC, so this change
-is fixing that.
+Thank you!
 
-However, this has ever been a problem for this driver,
-so I don't think it makes sense to bother with Fixes tag.
-
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-
-Thanks,
-Ezequiel
-
-> ---
->  drivers/staging/media/hantro/hantro_drv.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 25fa36e7e773..67de6b15236d 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -160,14 +160,14 @@ static void device_run(void *priv)
->         src = hantro_get_src_buf(ctx);
->         dst = hantro_get_dst_buf(ctx);
->  
-> -       ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
-> -       if (ret)
-> -               goto err_cancel_job;
-> -
->         ret = pm_runtime_resume_and_get(ctx->dev->dev);
->         if (ret < 0)
->                 goto err_cancel_job;
->  
-> +       ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
-> +       if (ret)
-> +               goto err_cancel_job;
-> +
->         v4l2_m2m_buf_copy_metadata(src, dst, true);
->  
->         ctx->codec_ops->run(ctx);
-
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
