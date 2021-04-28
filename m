@@ -2,24 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C717136DDED
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 19:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 170AB36DDEF
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 19:11:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241488AbhD1RLh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 13:11:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42020 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231560AbhD1RLg (ORCPT
+        id S241494AbhD1RMk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 13:12:40 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:48090 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231560AbhD1RMj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 13:11:36 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE841C061573;
-        Wed, 28 Apr 2021 10:10:51 -0700 (PDT)
+        Wed, 28 Apr 2021 13:12:39 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 05A351F42B77
-Message-ID: <00113d54d30be862195b736a5e5026eab8f6b5ec.camel@collabora.com>
-Subject: Re: [PATCH v3 11/79] media: rga-buf: use pm_runtime_resume_and_get()
+        with ESMTPSA id D09D91F41D72
+Message-ID: <2615f6be602573869e979d4d763155a86332c845.camel@collabora.com>
+Subject: Re: [PATCH v4 57/79] media: rockchip/rga: use
+ pm_runtime_resume_and_get()
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
@@ -28,10 +26,10 @@ Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Date:   Wed, 28 Apr 2021 14:10:41 -0300
-In-Reply-To: <a9099f1ffc537e5f997cb260a175715892387c5a.1619519080.git.mchehab+huawei@kernel.org>
-References: <cover.1619519080.git.mchehab+huawei@kernel.org>
-         <a9099f1ffc537e5f997cb260a175715892387c5a.1619519080.git.mchehab+huawei@kernel.org>
+Date:   Wed, 28 Apr 2021 14:11:44 -0300
+In-Reply-To: <cf0f0cb266c8b552f03583590a3b02a56f751c79.1619621413.git.mchehab+huawei@kernel.org>
+References: <cover.1619621413.git.mchehab+huawei@kernel.org>
+         <cf0f0cb266c8b552f03583590a3b02a56f751c79.1619621413.git.mchehab+huawei@kernel.org>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.38.2-1 
@@ -41,7 +39,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2021-04-27 at 12:26 +0200, Mauro Carvalho Chehab wrote:
+On Wed, 2021-04-28 at 16:52 +0200, Mauro Carvalho Chehab wrote:
 > Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
 > added pm_runtime_resume_and_get() in order to automatically handle
 > dev->power.usage_count decrement on errors.
@@ -50,13 +48,9 @@ On Tue, 2021-04-27 at 12:26 +0200, Mauro Carvalho Chehab wrote:
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Sorry, I just replied to the wrong patch version.
-Again:
+Ugh, sigh... OK, there was a v4. Sorry for the noise!
 
 Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-
-Thanks,
-Ezequiel
 
 > ---
 >  drivers/media/platform/rockchip/rga/rga-buf.c | 3 +--
