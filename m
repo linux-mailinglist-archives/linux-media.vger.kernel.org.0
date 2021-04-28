@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E81B36DA7E
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36EDA36DA6C
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240839AbhD1O4M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 10:56:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36312 "EHLO mail.kernel.org"
+        id S239791AbhD1Ozy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 10:55:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240353AbhD1Oxn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 10:53:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9D9BA6192F;
-        Wed, 28 Apr 2021 14:52:44 +0000 (UTC)
+        id S240496AbhD1OyN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 10:54:13 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EA0CA61474;
+        Wed, 28 Apr 2021 14:52:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619621564;
-        bh=uVFbSBsOFTlNeqpthO6c96NJAUfPhbV6UvOttxV6+5A=;
+        s=k20201202; t=1619621566;
+        bh=6SWDMHkSlrYNzq7GtPd5DH9pbQJCAbHbxO2AKYAv8vU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mu+tde8G/4WoEXfdwsfiZJenrIbGxa2RK+cL+PP853tf6K0IGZ0TEsyuonMyp2UG6
-         PWg1d0DiyFF1ogBKmfeWueF25ZsQ1b5+z2BkXYrNfdreqQ4bEsTmupWEZ8I+gYnGdF
-         da1Jq5ZlJ/qlfA/+bzEgCFX0weSrKgd7ZVlGD8g4fL0OmrN+PPDDLbxvL1iwlHQ4OQ
-         L2jOWVXLL8CL3pvg5RkzoSHMfIMEIWVv2vqCkuXeFRIul+JeNQnJr8c5PT2XQlqU+u
-         TpPYQW+l8s7/cmeXdzh3aUZXrgFjGhWxOGvYGEWjgbnbDjODKX21UkwwLXrTVMSzw1
-         v6Zl5XLyAjDUg==
+        b=GT6O0nt4qbLs0BXJSqPpmzUgFzklLqjIri1f2tLeoqZuz9LcJdWjB349S+TBP6WKU
+         x8F1Pi5vVafuSn/nu3YrR4c2DQ4943anN6Ei7AUqvMUQ09vQpmifdYdz1eFuPrI+Ot
+         yucgbpNM17yxhgdDybfXpo3tCCT+zFtDNGXiT3bxEgC534pZN7rx1TQ9CDMGc6iYJR
+         1CZhKgg+gaXMSiEmUQ3im6rBBLN9z7HIS5DOgIi7SxC79vCccGbCrGadww3JF5UZiF
+         TB4jJccOGimPw4GYdlw7Rfwel62hO61K0eciKZx9Yml2SwcOnvrm2UHfnyXERaCjo3
+         t8xEn0gecBWRw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lblYQ-001DrN-KM; Wed, 28 Apr 2021 16:52:42 +0200
+        id 1lblYQ-001DrQ-LG; Wed, 28 Apr 2021 16:52:42 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v4 37/79] media: i2c: imx290: use pm_runtime_resume_and_get()
-Date:   Wed, 28 Apr 2021 16:51:58 +0200
-Message-Id: <beb091f0b517a2f6d3c839f21481af5f8e752167.1619621413.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 38/79] media: i2c: imx319: use pm_runtime_resume_and_get()
+Date:   Wed, 28 Apr 2021 16:51:59 +0200
+Message-Id: <353715a6b23c075e43d4d21bb77bea6abb2d13da.1619621413.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
@@ -54,27 +54,27 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/imx290.c | 6 ++----
+ drivers/media/i2c/imx319.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 6319a42057d2..06020e648a97 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -764,11 +764,9 @@ static int imx290_set_stream(struct v4l2_subdev *sd, int enable)
- 	int ret = 0;
+diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
+index 38540323a156..4e0a8c9d271f 100644
+--- a/drivers/media/i2c/imx319.c
++++ b/drivers/media/i2c/imx319.c
+@@ -2141,11 +2141,9 @@ static int imx319_set_stream(struct v4l2_subdev *sd, int enable)
+ 	}
  
  	if (enable) {
--		ret = pm_runtime_get_sync(imx290->dev);
+-		ret = pm_runtime_get_sync(&client->dev);
 -		if (ret < 0) {
--			pm_runtime_put_noidle(imx290->dev);
-+		ret = pm_runtime_resume_and_get(imx290->dev);
+-			pm_runtime_put_noidle(&client->dev);
++		ret = pm_runtime_resume_and_get(&client->dev);
 +		if (ret < 0)
- 			goto unlock_and_return;
+ 			goto err_unlock;
 -		}
  
- 		ret = imx290_start_streaming(imx290);
- 		if (ret) {
+ 		/*
+ 		 * Apply default & customized values
 -- 
 2.30.2
 
