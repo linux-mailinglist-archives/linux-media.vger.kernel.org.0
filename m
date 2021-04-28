@@ -2,229 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E93636E159
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 00:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACC6636E178
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 00:16:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231445AbhD1WCh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 18:02:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49526 "EHLO
+        id S232636AbhD1WQ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 18:16:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbhD1WCh (ORCPT
+        with ESMTP id S232310AbhD1WQ7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 18:02:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B224DC06138B;
-        Wed, 28 Apr 2021 15:01:51 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97B2F88C;
-        Thu, 29 Apr 2021 00:01:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619647307;
-        bh=Nz/QCYzL43LScDYgeQKxcDJY4uD2js/djdZrQQeHo84=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H84+64d1WUnNometHHZSbNj+0vMMhDpdJRCDGnCXU550CmVlpVVMmjnj3AbiZnvuc
-         ZS9RH7owFxNKuJr1MUkWb13DJP3q3IZkw1WFNXzPC+RCKDnB2qrM8Hl+J3kBAZmje6
-         IRipDvI/njnNnIM4VjIEq6RaDLk6Aa37IgmuJ1Nw=
-Date:   Thu, 29 Apr 2021 01:01:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nelson Costa <Nelson.Costa@synopsys.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jose Abreu <Jose.Abreu@synopsys.com>
-Subject: Re: [RFC 1/8] dt-bindings: media: Document Synopsys DesignWare HDMI
- RX
-Message-ID: <YInbRfg14YVyeuEB@pendragon.ideasonboard.com>
-References: <cover.1618937288.git.nelson.costa@synopsys.com>
- <21bdecce9dd0a8035d906af2242bc7e3495cc1b0.1618937288.git.nelson.costa@synopsys.com>
+        Wed, 28 Apr 2021 18:16:59 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06310C06138B;
+        Wed, 28 Apr 2021 15:16:13 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id md17so6146163pjb.0;
+        Wed, 28 Apr 2021 15:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=ftMk683axPNdEq4WcuPKh12K2D9Yoa+fg5jvL/NYtb4=;
+        b=D5VjVFi5wMQh86jZf8XAXjjNodd2Mmm8WaIIXzpwECRLNt3JRFg0nZK319mAj1r8IQ
+         V/Bvw/2JRx/W3KfyStDUQXO9EnO3GmA3r35T+uuF++6ZtjO3716buiycRhdYICg+jBzN
+         wST6iRjwesFizubk5womozkaPO/15cJMCLK+1LKJQdHJfMEuvjL3rre7lGHq/0pwZ2HG
+         uXuflQceqdYCWtuHONlbPvlK6mRfFu4JYkI4ovtBIvZjOZAUvA89sIMaIbdj6h1p3klx
+         Ystl7TmF8/hgzQh3LJaVcgX9uW5cq5X75SJeDBpPjXPTF0X9qFvZYhnTS4F/bcPBGAwY
+         0RXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ftMk683axPNdEq4WcuPKh12K2D9Yoa+fg5jvL/NYtb4=;
+        b=EGADyTeYyPrBecAyTa86cqBGp5f8HNJsaElFm4tVEVpTWkaWF/wV+rVqcBB3wrbX/K
+         9EIiDusEV/+3YKCy0c7RL6KBmNRqzj5DKSF78Nu7kEwhw7uDPPpa8lsZmLB1bLgKpBIr
+         ts3XW4ImLoRu4GSbTnFL0U+JdN8bIjlvHiUwpCsi5kiUU7iD7xBVrytD/Wqm2lK3NHkp
+         De9HJBVoGdTWi0L2IMgvXupxFe/RhSAx3E03vn23JLHKhKh8xlSrtX5I/f12e7wJfCrA
+         Okw5eDQgZy6+7ELl8JABB97J4zSoUJEN+nyKH22h4WgZYJfVSzaFutsD3oykUC+MSbkr
+         xYpw==
+X-Gm-Message-State: AOAM530yUOROvP4LUYKDPzHrJgkYsMrGAAbz3cnigjVH9f88771FB/tX
+        VNRZtSj3NwUpZQMPwOaJ9Q4=
+X-Google-Smtp-Source: ABdhPJz2Y0lUTR/ryvbtVwjnMmazBMlSssQP9OcqAuvRUk1OStHvlqY/bgPn3hBH5xNzek6DI6Cdfg==
+X-Received: by 2002:a17:902:b494:b029:e7:36be:9ce7 with SMTP id y20-20020a170902b494b02900e736be9ce7mr32348024plr.43.1619648172493;
+        Wed, 28 Apr 2021 15:16:12 -0700 (PDT)
+Received: from tong-desktop.local ([2601:647:4200:13:dc67:9833:b65f:4f94])
+        by smtp.googlemail.com with ESMTPSA id b5sm659153pgb.0.2021.04.28.15.16.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 15:16:11 -0700 (PDT)
+From:   Tong Zhang <ztong0001@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Tong Zhang <ztong0001@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: bt878: do not schedule tasklet when it is not setup
+Date:   Wed, 28 Apr 2021 18:12:26 -0400
+Message-Id: <20210428221226.1799076-1-ztong0001@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <acd47ab6-49b3-f00d-857d-1f5f42129e05@wanadoo.fr>
+References: <acd47ab6-49b3-f00d-857d-1f5f42129e05@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <21bdecce9dd0a8035d906af2242bc7e3495cc1b0.1618937288.git.nelson.costa@synopsys.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nelson and Jose,
+There is a problem with the tasklet in bt878. bt->tasklet is set by
+dvb-bt8xx.ko, and bt878.ko can be loaded independently.
+In this case if interrupt comes it may cause null-ptr-dereference.
+To solve this issue, we check if the tasklet is actually set before
+calling tasklet_schedule.
 
-Thank you for the patch.
+[    1.750438] bt878(0): irq FDSR FBUS risc_pc=
+[    1.750728] BUG: kernel NULL pointer dereference, address: 0000000000000000
+[    1.752969] RIP: 0010:0x0
+[    1.757526] Call Trace:
+[    1.757659]  <IRQ>
+[    1.757770]  tasklet_action_common.isra.0+0x107/0x110
+[    1.758041]  tasklet_action+0x22/0x30
+[    1.758237]  __do_softirq+0xe0/0x29b
+[    1.758430]  irq_exit_rcu+0xa4/0xb0
+[    1.758618]  common_interrupt+0x8d/0xa0
+[    1.758824]  </IRQ>
 
-On Wed, Apr 28, 2021 at 05:25:04PM +0200, Nelson Costa wrote:
-> Document the bindings for the Synopsys DesignWare HDMI RX.
-> 
-> Signed-off-by: Jose Abreu <jose.abreu@synopsys.com>
-> Signed-off-by: Nelson Costa <nelson.costa@synopsys.com>
-> ---
->  .../devicetree/bindings/media/snps,dw-hdmi-rx.yaml | 149 +++++++++++++++++++++
->  1 file changed, 149 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-> new file mode 100644
-> index 0000000..19c7dd4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-> @@ -0,0 +1,149 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/snps,dw-hdmi-rx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Synopsys DesignWare HDMI RX Controller and PHYs e405/e406 Device Tree Bindings
-> +
-> +maintainers:
-> +  - Jose Abreu <jose.abreu@synopsys.com>
-> +  - Nelson Costa <nelson.costa@synopsys.com>
-> +
-> +description: |
-> +  The Synopsys DesignWare HDMI RX Controller and PHYs e405/e406 is an HDMI 2.0
-> +  Receiver solution that is able to decode video and audio.
-> +
-> +properties:
-> +  compatible:
-> +    const: snps,dw-hdmi-rx
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: phandle to the configuration clock
-> +
-> +  clock-names:
-> +    const: cfg
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  phys:
-> +    maxItems: 1
-> +    description: phandle for the HDMI RX PHY
-> +
-> +  phy-names:
-> +    const: hdmi-phy
-> +
-> +  hdmi-phy@fc:
-> +    type: object
-> +    description: connection point for HDMI PHY
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      compatible:
-> +        oneOf:
-> +          - const: snps,dw-hdmi-phy-e405
-> +          - const: snps,dw-hdmi-phy-e406
-> +
-> +      reg:
-> +        maxItems: 1
-> +
-> +      clocks:
-> +        maxItems: 1
-> +        description: phandle to the configuration clock
-> +
-> +      clock-names:
-> +        const: cfg
-> +
-> +      "#phy-cells":
-> +        const: 0
-> +
-> +      input-count:
-> +        description: Number of PHY input ports
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        enum: [1, 2, 3, 4]
-> +
-> +    required:
-> +      - compatible
-> +      - reg
-> +      - clocks
-> +      - clock-names
-> +      - "#phy-cells"
-> +      - input-count
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - phys
-> +  - phy-names
+Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+---
+v2: fix coding style and commit log
 
-THe bindings should be using OF graph (ports) to model the connection
-between the HDMI source (usually a connector) and the HDMI RX, and
-between the HDMI RX and the downstream IP core in the pipeline.
+ drivers/media/pci/bt8xx/bt878.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    hdmi_rx0: hdmi-rx@0 {
-> +        compatible = "snps,dw-hdmi-rx";
-> +        reg = <0x0 0x10000>;
-> +        interrupts = <1 2>;
-> +
-> +        clocks = <&dw_hdmi_refclk>;
-> +        clock-names = "cfg";
-> +
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        phys = <&hdmi_e405_phy>;
-> +        phy-names = "hdmi-phy";
-> +
-> +        hdmi_e405_phy: hdmi-phy@fc {
-> +                compatible = "snps,dw-hdmi-phy-e405";
-> +                reg = <0xfc>;
-> +
-> +                clocks = <&dw_hdmi_refclk>;
-> +                clock-names = "cfg";
-> +
-> +                #phy-cells = <0>;
-> +                input-count = <4>;
-> +        };
-> +    };
-> +  - |
-> +    hdmi_rx1: hdmi-rx@1 {
-> +        compatible = "snps,dw-hdmi-rx";
-> +        reg = <0x0 0x10000>;
-> +        interrupts = <1 2>;
-> +
-> +        clocks = <&dw_hdmi_refclk>;
-> +        clock-names = "cfg";
-> +
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        phys = <&hdmi_e406_phy>;
-> +        phy-names = "hdmi-phy";
-> +
-> +        hdmi_e406_phy: hdmi-phy@fc {
-> +                compatible = "snps,dw-hdmi-phy-e406";
-> +                reg = <0xfc>;
-> +
-> +                clocks = <&dw_hdmi_refclk>;
-> +                clock-names = "cfg";
-> +
-> +                #phy-cells = <0>;
-> +                input-count = <4>;
-> +        };
-> +    };
-
+diff --git a/drivers/media/pci/bt8xx/bt878.c b/drivers/media/pci/bt8xx/bt878.c
+index 78dd35c9b65d..7ca309121fb5 100644
+--- a/drivers/media/pci/bt8xx/bt878.c
++++ b/drivers/media/pci/bt8xx/bt878.c
+@@ -300,7 +300,8 @@ static irqreturn_t bt878_irq(int irq, void *dev_id)
+ 		}
+ 		if (astat & BT878_ARISCI) {
+ 			bt->finished_block = (stat & BT878_ARISCS) >> 28;
+-			tasklet_schedule(&bt->tasklet);
++			if (bt->tasklet.callback)
++				tasklet_schedule(&bt->tasklet);
+ 			break;
+ 		}
+ 		count++;
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
