@@ -2,156 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84FF636D565
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 12:05:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E48C436D58D
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 12:15:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239087AbhD1KF6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 06:05:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32908 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238345AbhD1KF6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 06:05:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 942BE61026;
-        Wed, 28 Apr 2021 10:05:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619604313;
-        bh=MyeSwjuWDkzwkgFnTJD3WNHelmDMb1YG6N+hdAddu3g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jsg5uBYN0tqjOsXJoDGuhGzUgumrzePDIHuFSW+c8aeNPs5+ayoQ4bXXomBh6mwVZ
-         NeWmNhQB4KslN0JoubOPJRNj6e6XuY3Z+2D3XrgrGl8tr62HPWL0zFpUHOPlWJNUPS
-         j6+1PjcmN8VTI2NDtO/pKOKymfmPHQLKHNmRZ7EY3+rjudM3vi/9PZJKQb+wjXaBR5
-         Rer55BJBxx9YMHsw8YkSmg0q9PF0bjx+cOOkXyK0UibOkSMuGRNBKfaJqxF1uIlEtk
-         hnqgCLTCdGVaeK8J+n7RObpHWJrM4lrE+SA3Dt+VJq4AzJ3RfyPqaba0gM4+q4vtrx
-         XLmMhMYPWQ7Tw==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1lbh4Q-0003ws-5z; Wed, 28 Apr 2021 12:05:26 +0200
-Date:   Wed, 28 Apr 2021 12:05:26 +0200
-From:   Johan Hovold <johan@kernel.org>
+        id S239153AbhD1KPv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 06:15:51 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:7666 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238964AbhD1KPq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 06:15:46 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13SACeBX007948;
+        Wed, 28 Apr 2021 10:14:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=I+MVSz17rMFhUANJ9vAyQofowEWDVcDjmcFL0J5BcrE=;
+ b=uaOHEwiNVwraQynnCPG2JzUVkXn9TRJB98bwFw0nuDEWf2bDE8FmmhWwy27Gv5J3VgGA
+ uewrbjmbZEziXm8mvrKV3ViaWtSgLiYoaaF42HTk3qioV7dpMwQvSgxqhLbQCkVd/3Fw
+ LVJdAJMwZzS019v20hv+Fmbni5XnEu+n0Zh32LH6VtypyYkOVAkTHzHoCZo9BAHC59iD
+ 2k+gys9jMuwtzx/BQy+ly/lwxGeCA/WDfXiZIQN9VANI6J5sGWPFV0QM9JmSbGHuQcE6
+ i6y9ZOrDpCpOAddMtZl/IOGGZmYnYPEWSyqoK+WyRvAh0cOfYCsePDN3Gw1Qw/s/HJKR fg== 
+Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by mx0b-00069f02.pphosted.com with ESMTP id 385p7j97m9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 28 Apr 2021 10:14:17 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 13SAEHeS049706;
+        Wed, 28 Apr 2021 10:14:17 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3020.oracle.com with ESMTP id 384b5884gd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 28 Apr 2021 10:14:17 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13SAA2xH035177;
+        Wed, 28 Apr 2021 10:14:15 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 384b5884e6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 28 Apr 2021 10:14:15 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13SADmYk022121;
+        Wed, 28 Apr 2021 10:13:48 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 28 Apr 2021 03:13:47 -0700
+Date:   Wed, 28 Apr 2021 13:13:25 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linuxarm@huawei.com,
-        mauro.chehab@huawei.com, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+Cc:     Shawn Tu <shawnx.tu@intel.com>,
+        Ricardo Ribalda <ribalda@kernel.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Heiko Stuebner <heiko@sntech.de>, linuxarm@huawei.com,
+        Todor Tomov <todor.too@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 38/78] media: i2c: mt9m001: use
- pm_runtime_resume_and_get()
-Message-ID: <YIkzZs8t0lMWVjzt@hovoldconsulting.com>
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+        Andy Gross <agross@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        devel@driverdev.osuosl.org, Jacopo Mondi <jacopo@jmondi.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        linux-tegra@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Benoit Parrot <bparrot@ti.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        linux-samsung-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        mauro.chehab@huawei.com,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Jacob Chen <jacob-chen@iotwrt.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+        Dan Scally <djrscally@gmail.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH 00/78] media: use pm_runtime_resume_and_get() instead of
+ pm_runtime_get_sync()
+Message-ID: <20210428101325.GS1981@kadam>
 References: <cover.1619191723.git.mchehab+huawei@kernel.org>
- <beddb7295807f43a190f2add6c1665b7475cb154.1619191723.git.mchehab+huawei@kernel.org>
- <20210424082454.2ciold3j3h2jw47m@uno.localdomain>
- <YIPsTsEA/F+o7fhQ@hovoldconsulting.com>
- <20210426163840.67ea8af9@coco.lan>
- <YIgCOA1kSd/lzLFc@hovoldconsulting.com>
- <20210428103148.590191ac@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210428103148.590191ac@coco.lan>
+In-Reply-To: <cover.1619191723.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: Wh3TJZZgxDghGm9XGzqkDIkdKaJ9t1UU
+X-Proofpoint-ORIG-GUID: Wh3TJZZgxDghGm9XGzqkDIkdKaJ9t1UU
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 28, 2021 at 10:31:48AM +0200, Mauro Carvalho Chehab wrote:
-> Em Tue, 27 Apr 2021 14:23:20 +0200
-> Johan Hovold <johan@kernel.org> escreveu:
+There was a Smatch check for these bugs.  This was a good source of
+recurring Reported-by tags for me.  ;)  Thanks for doing this.
 
-> > pm_runtime_get_sync() has worked this way since it was merged 12 years
-> > ago, and for someone who's used to this interface this is not such a big
-> > deal as you seem to think. Sure, you need to remember to put the usage
-> > counter on errors, but that's it (and the other side of that is that you
-> > don't need to worry about error handling where it doesn't matter).
-> 
-> Before we have those at PM subsystem, the media had its own way to
-> set/disable power for their sub-devices. The PCI and USB drivers 
-> still use it, instead of pm_runtime, mostly due to historic reasons.
-> 
-> So, basically, its usage at the media subsystem is restricted to
-> drivers for embedded systems. The vast majority of drivers supporting
-> PM runtime are the I2C camera drivers. The camera drivers can be used 
-> interchangeable. So, in practice, the same bridge driver can work 
-> with a lot of different camera models, depending on the hardware
-> vendors' personal preferences and the desired max resolution.
-> 
-> So, in thesis, all such drivers should behave exactly the same 
-> with regards to PM.
-> 
-> However, on most existing drivers, the pm_runtime was added a
-> couple of years ago, and by people that are not too familiar
-> with the PM subsystem.
-> 
-> That probably explains why there were/are several places that 
-> do things like this[1]:
-> 
-> 	ret = pm_runtime_get_sync(dev);
-> 	if (ret < 0)
-> 		return ret;
-> 
-> without taking care of calling a pm_runtime_put*() function.
-> 
-> [1] besides the 13 patches made by UCN addressing it on
->     existing code, I discovered the same pattern on a 
->     couple of other drivers with current upstream code.
-> 
-> That shows a pattern: several media developers are not familiar
-> with the usage_count behavior for pm_runtime_get functions.
-> 
-> So, doing this work is not only helping to make the PM support
-> more uniform, but it is also helping to solve existing issues.
+regards,
+dan carpenter
 
-Sure, I don't doubt that there are issues with the current code too.
-
-> > You're call, but converting functioning drivers where the authors knew
-> > what they were doing just because you're not used to the API and risk
-> > introducing new bugs in the process isn't necessarily a good idea.
-> 
-> The problem is that the above assumption is not necessarily true:
-> based on the number of drivers that pm_runtime_get_sync() weren't
-> decrementing usage_count on errors, several driver authors were not 
-> familiar enough with the PM runtime behavior by the time the drivers
-> were written or converted to use the PM runtime, instead of the
-> media .s_power()/.s_stream() callbacks.
-
-That may very well be the case. My point is just that this work needs to
-be done carefully and by people familiar with the code (and runtime pm)
-or you risk introducing new issues.
-
-I really don't want the bot-warning-suppression crew to start with this
-for example.
-
-> > Especially since the pm_runtime_get_sync() will continue to be used
-> > elsewhere, and possibly even in media in cases where you don't need to
-> > check for errors (e.g. remove()).
-> 
-> Talking about the remove(), I'm not sure if just ignoring errors
-> there would do the right thing. I mean, if pm_runtime_get_sync()
-> fails, probably any attempts to disable clocks and other things
-> that depend on PM runtime will also (silently) fail.
-> 
-> This may put the device on an unknown PM and keep clock lines enabled
-> after its removal.
-
-Right, a resume failure is a pretty big issue and it's not really clear
-how to to even handle that generally. But at remove() time you don't
-have much choice but to go on and release resource anyway. 
-
-So unless actually implementing some error handling too, using
-pm_runtime_sync_get() without checking for errors is still preferred
-over pm_runtime_resume_and_get(). That is 
-
-	pm_runtime_get_sync();
-	/* cleanup */
-	pm_runtime_disable()
-	pm_runtime_put_noidle();
-
-is better than:
-
-	ret = pm_runtime_resume_and_get();
-	/* cleanup */
-	pm_runtime_disable();
-	if (ret == 0)
-		pm_runtime_put_noidle();
-
-unless you also start doing something ret.
-
-Johan
