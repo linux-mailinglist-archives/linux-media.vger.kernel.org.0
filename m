@@ -2,97 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5229D36D772
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 14:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6B7F36D83C
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 15:25:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236905AbhD1MgW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 08:36:22 -0400
-Received: from ni.piap.pl ([195.187.100.5]:48998 "EHLO ni.piap.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234439AbhD1MgV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 08:36:21 -0400
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ni.piap.pl (Postfix) with ESMTPSA id 9E831444032;
-        Wed, 28 Apr 2021 14:35:32 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 9E831444032
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1619613332; bh=QG+dsPO25iZIXCJg6jPdT+oPy9Rb1+B7Kg31/40cdVM=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=BzBX6c2UJyS4SVAp2e8hVYI0I8O3B+bIcpTKZg6z1etSX4U41uetBv210EYWv5pgj
-         6J3M21+t5QWuaC6aaFxNbCE7GN9i3JUFbbPc+aXxUAfb61pQcZANyZmFM9+S4a7XOg
-         Xu0Krjr8zl5d/0s8HPXqhmDLsZjojwbcP5TkzJFs=
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+        id S239805AbhD1N0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 09:26:36 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:36133 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239634AbhD1N0f (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 09:26:35 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id bkCIlVh38k1MGbkCLlOQ1x; Wed, 28 Apr 2021 15:25:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1619616349; bh=UthuXpu8NhLcMlzJKzArkxx5H5x53BP0fzOHl8ytWwA=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+        b=awMipbD+9Iz/++v9cna/2Zw5HM5w5mUW084MrZjIlBpdgT0/SsaZQJnxu1HT54exg
+         GqNaktbPPTZDjV2wfsz8Oq1Qx/Lo9J9Yn+rZnq6qXU1nqpP72VbqZhZAByQhL67nQR
+         nmrfLuqlrLBlQ5vEbsyBJYpMPU/dQklmp+K0pOsXShjoFB/v5E3O+VPz8UIelZakht
+         5mwB9S2gTIm/rZAqBA0Eu1cK5YP8pGtAmywqTwKZBUk6aKp5IdRTXq1MGCp4KKYMbi
+         pi7YopC2dvlsrBX6dTnmo/LLqWUSUzBvav1f/1zSi9l8LXslOFw46gOxVMVXsIyRyF
+         JMt7EDS08jYFw==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Tony Lindgren <tony@atomide.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: RFC: MEDIA: Driver for ON Semi AR0521 camera sensor
-References: <m3mtv3s01z.fsf@t19.piap.pl>
-        <YFEE3WYdECCQRYxl@pendragon.ideasonboard.com>
-Sender: khalasa@piap.pl
-Date:   Wed, 28 Apr 2021 14:35:32 +0200
-In-Reply-To: <YFEE3WYdECCQRYxl@pendragon.ideasonboard.com> (Laurent Pinchart's
-        message of "Tue, 16 Mar 2021 21:19:57 +0200")
-Message-ID: <m3k0om8u3v.fsf@t19.piap.pl>
+        dri-devel@lists.freedesktop.org
+Subject: [PATCHv3 0/6] drm/omap: hdmi: improve hdmi4 CEC, add CEC for hdmi5
+Date:   Wed, 28 Apr 2021 15:25:39 +0200
+Message-Id: <20210428132545.1205162-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-KLMS-Rule-ID: 4
-X-KLMS-Message-Action: skipped
-X-KLMS-AntiSpam-Status: not scanned, whitelist
-X-KLMS-AntiPhishing: not scanned, whitelist
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfNcxjyqcG4pJNs1Tk8nDvJ3/ZamesNQP5Hi8QpIBONjn0playxL7JoP3ip4juMQSEgVMXQQB+V255EzLLy4U6GjT5JMAxOqJ8HqEaqTWCHnf58gC5NgC
+ GBTAcJGrdQ3qCz0p14/dlAedeK+FTFrEVTgEYGWsVRM9MB5AVrnrEakLXdLSOpXAYUYXRyY0KIWFfgikgi9DPJJvw9lsiPKaLsW8N9KrLwrLOPyFRCc/jt6g
+ bKLAiBXI2CyXjNUX32Tc8kvzPSftCjfbHYgqg7wes/Fo5aQEYr5E2GFZHLLRHiUr4aiwX0lHjwFyoqaY1XParIFF19Z3rjkBifN95XbkTcB133MKU+u6yiT6
+ r5JY+4pqZmB7USCPxD5UvicFP1Ggng==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This series improves the drm_bridge support for CEC by introducing two
+new bridge ops in the first patch, and using those in the second patch.
 
-I'm working on AR0521 MIPI camera sensor driver update and I'm still not
-sure how the timings should be programmed. V4L2 has:
+This makes it possible to call cec_s_conn_info() and set
+CEC_CAP_CONNECTOR_INFO for the CEC adapter, so userspace can associate
+the CEC adapter with the corresponding DRM connector.
 
-- V4L2_CID_LINK_FREQ
-  I understand it's a menu with fixed integers (frequencies in Hz).
-Documentation/driver-api/media/camera-sensor.rst:
-"For camera sensors that are connected to a bus where transmitter and recei=
-ver
-require common configuration set by drivers, such as CSI-2 or parallel (BT.=
-601
-or BT.656) bus, the ``V4L2_CID_LINK_FREQ`` control is mandatory on transmit=
-ter
-drivers. Receiver drivers can use the ``V4L2_CID_LINK_FREQ`` to query the
-frequency used on the bus."
+The third patch simplifies CEC physical address handling by using the
+cec_s_phys_addr_from_edid helper function that didn't exist when this
+code was originally written.
 
-How (and if) do I use the above when the sensor in question uses PLLs
-and can generate arbitrary link frequencies?
+The fourth patch adds the cec clock to ti,omap5-dss.txt.
 
-- V4L2_CID_VBLANK and V4L2_CID_HBLANK
-These are fine for setting the timings (and the AR0521 can use them).
-There is, however, another value needed for precise timing control, the
-so called "extra" timing (a hw register), specified in pixels.
-The calculated frame rate is thus:
-fr =3D pixel_clock / (width + hblank) * (height + vblank) + extra.
+The fifth patch the missing cec clock to the dra7 and omap5 device tree,
+and the last patch adds CEC support to the OMAP5 driver.
 
-How do I specify the "extra"?
+Tested with a Pandaboard and a Beagle X15 board.
 
-Currently, I'm using the [sg]_frame_interval() functions, should it stay
-this way (so there are [HV]BLANK controls AND [sg]_frame_interval() in
-parallel on the same device)?
+Regards,
 
-It appears the userspace should be able to set, in addition to *BLANK,
-the pixel clock. How do I do that? The V4L2_CID_PIXEL_RATE appears to be
-a good candidate, but v4l2_ctrl_fill() sets a read-only flag on it.
+	Hans
 
-Any ideas?
+Changes since v2:
 
-At present I'm about to use two (orthogonal) interfaces (frame interval
-based and the - incomplete - [hv]blank-based) - but perhaps I'm missing
-something important?
---=20
-Krzysztof Ha=C5=82asa
+- connector_attach can now return an error. If an error is
+  returned then connector_detach is called in reverse order
+  to clean up any previous connector_attach calls.
 
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+- connector_attach in hdmi4 and hdmi5 now return 0.
+
+Changes since v1:
+
+- as per suggestion from Laurent, changed cec_init/exit to
+  connector_attach/_detach which are just called for all
+  bridges. The DRM_BRIDGE_OP_CEC was dropped.
+
+- added patch to add the cec clock to ti,omap5-dss.txt
+
+- swapped the order of the last two patches
+
+- incorporated Tomi's suggestions for the hdmi5 CEC support.
+
+Hans Verkuil (6):
+  drm: drm_bridge: add connector_attach/detach bridge ops
+  drm/omapdrm/dss/hdmi4: switch to the connector bridge ops
+  drm/omapdrm/dss/hdmi4: simplify CEC Phys Addr handling
+  dt-bindings: display: ti: ti,omap5-dss.txt: add cec clock
+  dra7.dtsi/omap5.dtsi: add cec clock
+  drm/omapdrm/dss/hdmi5: add CEC support
+
+ .../bindings/display/ti/ti,omap5-dss.txt      |   4 +-
+ arch/arm/boot/dts/dra7.dtsi                   |   5 +-
+ arch/arm/boot/dts/omap5.dtsi                  |   5 +-
+ drivers/gpu/drm/drm_bridge_connector.c        |  25 ++-
+ drivers/gpu/drm/omapdrm/Kconfig               |   8 +
+ drivers/gpu/drm/omapdrm/Makefile              |   1 +
+ drivers/gpu/drm/omapdrm/dss/hdmi.h            |   1 +
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c           |  41 ++--
+ drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c       |  13 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi4_cec.h       |  12 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c           |  64 +++++-
+ drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c       | 209 ++++++++++++++++++
+ drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h       |  42 ++++
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.c      |  35 ++-
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.h      |  33 ++-
+ include/drm/drm_bridge.h                      |  27 +++
+ 16 files changed, 470 insertions(+), 55 deletions(-)
+ create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.c
+ create mode 100644 drivers/gpu/drm/omapdrm/dss/hdmi5_cec.h
+
+-- 
+2.30.2
+
