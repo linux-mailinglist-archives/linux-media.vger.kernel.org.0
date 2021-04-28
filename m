@@ -2,222 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A1F336DC5F
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C34836DCC5
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 18:14:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240821AbhD1Pup (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 11:50:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52502 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240429AbhD1Pum (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 11:50:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B3364610A2;
-        Wed, 28 Apr 2021 15:49:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619624996;
-        bh=6/CoqHvXA5fOpA3A5RVJksN1jb3qc28vss2bW2Ps1h4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=u/FPy0GSqykv7UbP1eGyuKva4OKLzag9Bw/Jd4D0kbJTEf9nFrUMmEvhv5EK6vzMK
-         BjB3VRHy0SWTGSvkxD+onAV4Fieqtf2ZXtTiexGI+RyxJutQZq8VxflGKixqYFOpUz
-         On6PoASK7Vh8yjg3wm62eMFNCYbQtk5gn6WgkeIV2oMUglcpz/AqBzcYM/M4tD51cu
-         QunLw6fSqD+ZQ8VF44WRxVz+8sqWccc8jGe1cZAgUj2axVmUS0f3tcXnA28yKRMb0f
-         56N8MN7/SJV9CcbdLHAoqFUGEthzX/mxeThJcNnMD8j9mKUhq91Kz9hVw+Gg5LOHLo
-         GhnW8kKeIOrcw==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1lbmS0-000592-V7; Wed, 28 Apr 2021 17:50:09 +0200
-Date:   Wed, 28 Apr 2021 17:50:08 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Shawn Tu <shawnx.tu@intel.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Heiko Stuebner <heiko@sntech.de>, linuxarm@huawei.com,
-        Todor Tomov <todor.too@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-        Andy Gross <agross@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devel@driverdev.osuosl.org, Jacopo Mondi <jacopo@jmondi.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-tegra@vger.kernel.org,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-samsung-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        mauro.chehab@huawei.com,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
-        Dan Scally <djrscally@gmail.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v4 00/79] Address some issues with PM runtime at media
- subsystem
-Message-ID: <YImEMN/POW5C8lG7@hovoldconsulting.com>
-References: <cover.1619621413.git.mchehab+huawei@kernel.org>
+        id S240424AbhD1QP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 12:15:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57414 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239915AbhD1QPZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 12:15:25 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FD9C061573;
+        Wed, 28 Apr 2021 09:14:40 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id y124-20020a1c32820000b029010c93864955so9600085wmy.5;
+        Wed, 28 Apr 2021 09:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=aYKVWAKIY2SVLc5Zm+ilU7xifRJwW77SW1HqG8x0JaA=;
+        b=SbSdFVW1uVaKGxNMdvb2zSIxE+zfnIBM1DfXdsREMf2yzLTG9aTam/opWJt6FAR0FO
+         IAE2wArZ+XAhqUb/xgr/uPuJnr04OS0Qdgax29qEP1ROdkNK/pAM88TXXuLEKZikbJXC
+         uC0GOE6Hg6xdlrN5ZI5FXtrozhpi+ytgPyFouiLIdtCEl30o5gFnW2vMkC/JDNwOhlMb
+         C/PAfls4zqUYynpdiP/KEQZmDcHTLpeymfv5e23dTl5Otx3ArQsDvGB/u4wYRRxxc34t
+         0xpfBUcexuPemMENQaFf0aTemJQs4UT7OdCKtpw9X8Ol5jQ7Rz52aTDbRw7jKkleMwW2
+         AwpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=aYKVWAKIY2SVLc5Zm+ilU7xifRJwW77SW1HqG8x0JaA=;
+        b=jKpWpI5MLno76ukz7wXZLRdJBdhDbVAL4WA8BM05k536VZgJZeKqvNWeLcuGRg1dQX
+         05g9MHcnxjbFQvhkMI4xdA+QC5z/oUN/WW1vTMWsw9PhQYvIEPGAeXDexcUBXSRoLyJB
+         DzCLpJWo9if0iqNhTXFEKzUpwscQ76+VcyjDmbmT9pqwYMUh/cL4RHWdE5GdphXe0ZqM
+         myOpgVSui5GwfnCQX+l+Ct5ybPdrhI4MH0kuj24meA2nobiAv+72W8v+F6zdW+JAY5+f
+         ybanH3RuEE1cJZifyrmYO9rWLYTHTfZGr3beSrHLMR2yY5tKVdIL3itWYWnlRXldjg1h
+         G1qw==
+X-Gm-Message-State: AOAM530SdM8+uGexZcnxRD02oHYp3ffYhbwDD3HwrUBdeHUL1e5dqgMP
+        zlXJwjlJ+AUj9OVhFSewN1mn9BWzAlH8iesh
+X-Google-Smtp-Source: ABdhPJwVj5FDMqGLOFFmQahABCgh5yKpcSSFoypgvL/bqC3d1eLkEXCrKRmL9dNVkzTLXDaBCynX0g==
+X-Received: by 2002:a05:600c:4f45:: with SMTP id m5mr5399854wmq.132.1619626479138;
+        Wed, 28 Apr 2021 09:14:39 -0700 (PDT)
+Received: from 192.168.10.5 ([39.46.118.120])
+        by smtp.gmail.com with ESMTPSA id p7sm280375wrt.24.2021.04.28.09.14.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 09:14:38 -0700 (PDT)
+Message-ID: <2b5365025e7a9162aae111b1c5134430a37e6ff8.camel@gmail.com>
+Subject: Re: [PATCH] media: siano: use DEFINE_MUTEX() for mutex lock
+From:   Muhammad Usama Anjum <musamaanjum@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:SIANO DVB DRIVER" <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        zhengyongjun3@huawei.com, kernel-janitors@vger.kernel.org,
+        colin.king@canonical.com, dan.carpenter@oracle.com
+Cc:     musamaanjum@gmail.com
+Date:   Wed, 28 Apr 2021 21:14:34 +0500
+In-Reply-To: <20210405205219.GA687366@LEGION>
+References: <20210405205219.GA687366@LEGION>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 28, 2021 at 04:51:21PM +0200, Mauro Carvalho Chehab wrote:
-> During the review of the patches from unm.edu, one of the patterns
-> I noticed is the amount of patches trying to fix pm_runtime_get_sync()
-> calls.
+Reminder!
+
+On Tue, 2021-04-06 at 01:52 +0500, Muhammad Usama Anjum wrote:
+> mutex lock can be initialized with DEFINE_MUTEX() rather than
+> explicitly calling mutex_init().
 > 
-> After analyzing the feedback from version 1 of this series, I noticed
-> a few other weird behaviors at the PM runtime resume code. So, this
-> series start addressing some bugs and issues at the current code.
-> Then, it gets rid of pm_runtime_get_sync() at the media subsystem
-> (with 2 exceptions).
-> 
-> It should be noticed that
-> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> added a new method to does a pm_runtime get, which increments
-> the usage count only on success.
-> 
-> The rationale of getting rid of pm_runtime_get_sync() is:
-> 
-> 1. despite its name, this is actually a PM runtime resume call,
->    but some developers didn't seem to realize that, as I got this
->    pattern on some drivers:
-> 
->         pm_runtime_get_sync(&client->dev);
->         pm_runtime_disable(&client->dev);
->         pm_runtime_set_suspended(&client->dev);
->         pm_runtime_put_noidle(&client->dev);
-> 
->    It makes no sense to resume PM just to suspend it again ;-)
-
-This is perfectly alright. Take a look at ov7740_remove() for example:
-
-	pm_runtime_get_sync(&client->dev);
-	pm_runtime_disable(&client->dev);
-	pm_runtime_set_suspended(&client->dev);
-	pm_runtime_put_noidle(&client->dev);
-	
-	ov7740_set_power(ov7740, 0);
-
-There's an explicit power-off after balancing the PM count and this will
-work regardless of the power state when entering this function.
-
-So this has nothing to do with pm_runtime_get_sync() per se.
-
-> 2. Usual *_get() methods only increment their use count on success,
->    but pm_runtime_get_sync() increments it unconditionally. Due to
->    that, several drivers were mistakenly not calling
->    pm_runtime_put_noidle() when it fails;
-
-Sure, but pm_runtime_get_async() also works this way. You just won't be
-notified if the async resume fails.
-
-> 3. The name of the new variant is a lot clearer:
-> 	pm_runtime_resume_and_get()
->     As its same clearly says that this is a PM runtime resume function,
->     that also increments the usage counter on success;
-
-It also introduced an inconsistency in the API and does not pair as well
-with the pm_runtime_put variants.
-
-> 4. Consistency: we did similar changes subsystem wide with
->    for instance strlcpy() and strcpy() that got replaced by
->    strscpy(). Having all drivers using the same known-to-be-safe
->    methods is a good thing;
-
-It's not known to be safe; there are ways to get also this interface
-wrong as for example this series has shown.
-
-> 5. Prevent newer drivers to copy-and-paste a code that it would
->    be easier to break if they don't truly understand what's behind
->    the scenes.
-
-Cargo-cult programming always runs that risk.
-
-> This series replace places  pm_runtime_get_sync(), by calling
-> pm_runtime_resume_and_get() instead.
-> 
-> This should help to avoid future mistakes like that, as people
-> tend to use the existing drivers as examples for newer ones.
-
-The only valid point about and use for pm_runtime_resume_and_get() is to
-avoid leaking a PM usage count reference in the unlikely case that
-resume fails (something which hardly any driver implements recovery
-from anyway).
-
-It's a convenience wrapper that saves you from writing one extra line in
-some cases (depending on how you implement runtime-pm support) and not a
-silver bullet against bugs.
- 
-> compile-tested only.
-> 
-> Patches 1 to 7 fix some issues that already exists at the current
-> PM runtime code;
-> 
-> patches 8 to 20 fix some usage_count problems that still exists
-> at the media subsystem;
-> 
-> patches 21 to 78 repaces pm_runtime_get_sync() by 
-> pm_runtime_resume_and_get();
-> 
-> Patch 79 (and a hunk on patch 78) documents the two exceptions
-> where pm_runtime_get_sync() will still be used for now.
-> 
+> Signed-off-by: Muhammad Usama Anjum <musamaanjum@gmail.com>
 > ---
+>  drivers/media/common/siano/smscoreapi.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 > 
-> v4:
->     - Added a couple of additional fixes at existing PM runtime code;
->     - Some patches are now more conservative in order to avoid causing
->      regressions.
-> v3:
->     - fix a compilation error;
-> v2:
->     - addressed pointed issues and fixed a few other PM issues.
+> diff --git a/drivers/media/common/siano/smscoreapi.c b/drivers/media/common/siano/smscoreapi.c
+> index 410cc3ac6f94..7f5b638d2458 100644
+> --- a/drivers/media/common/siano/smscoreapi.c
+> +++ b/drivers/media/common/siano/smscoreapi.c
+> @@ -414,10 +414,10 @@ struct smscore_registry_entry_t {
+>  
+>  static struct list_head g_smscore_notifyees;
+>  static struct list_head g_smscore_devices;
+> -static struct mutex g_smscore_deviceslock;
+> +static DEFINE_MUTEX(g_smscore_deviceslock);
+>  
+>  static struct list_head g_smscore_registry;
+> -static struct mutex g_smscore_registrylock;
+> +static DEFINE_MUTEX(g_smscore_registrylock);
+>  
+>  static int default_mode = DEVICE_MODE_NONE;
+>  
+> @@ -2123,10 +2123,7 @@ static int __init smscore_module_init(void)
+>  {
+>  	INIT_LIST_HEAD(&g_smscore_notifyees);
+>  	INIT_LIST_HEAD(&g_smscore_devices);
+> -	mutex_init(&g_smscore_deviceslock);
+> -
+>  	INIT_LIST_HEAD(&g_smscore_registry);
+> -	mutex_init(&g_smscore_registrylock);
+>  
+>  	return 0;
+>  }
 
-This really doesn't say much more than "changed stuff" so kinda hard to
-track if review feedback has been taken into account for example.
-
-Johan
