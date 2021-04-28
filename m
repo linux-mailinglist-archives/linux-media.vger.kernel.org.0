@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCBFE36DB89
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C54D436DB8F
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:27:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240033AbhD1P0I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 11:26:08 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:56620 "EHLO
+        id S240045AbhD1P0J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 11:26:09 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:56574 "EHLO
         smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239842AbhD1P0E (ORCPT
+        by vger.kernel.org with ESMTP id S239874AbhD1P0E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 28 Apr 2021 11:26:04 -0400
 Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com [10.225.0.210])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 1988A40556;
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 2CC7E4057B;
         Wed, 28 Apr 2021 15:25:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1619623518; bh=RY+Uk1q9vM75nnKs82rLqCw2L+ql5Oy1OTv5L4lrZFM=;
+        t=1619623519; bh=vc/aV4ADefsAO4UVB97gKm1sA9uAsq3kSn/aVyvx3fk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
          References:From;
-        b=YkB/CQhBsLHn2k9g+2GCLk0PTihKPNSk3Z9PNLzNkJlFwnV4HJ7FxXht7QejKWEyY
-         dI2xWr+T6jTNzXPLALkJwShKrrhIaHkHEaHnQI7S+8wruldzpAwFcjqZiO2D5jZfwv
-         0FVu2K4/jatC2l7dNrbB1jn3koZpFZ5HUeuSbnzaNGgp96G5B/eCXfLwGtWt5HaMDP
-         Yte040IBjQnVy/QOiiaM9h315EGwPyPN18KCUbQ2Jhhbk6bFs8jOGNrhuXJ7pzUQha
-         b0kgUZmsnUknebWb/U02x5hb2oJEF3YQQN+QcDSanuAJ3znK26d9z0udYf94RJ9Y2/
-         Dm0wrL2vmBKww==
+        b=F4N5XsVDjJ11DIEzKuk+QKY9pf+6EbJZpks5Xf2PXU9P7jTvbdWBTP157zrOeWIMG
+         lnvNbX3nNte1ot54IEBz60vxnsKGmRzN39vPz0Z84o2RdQZu6w3jgvW0WrRPk3O+WD
+         J9Fh3o9IgWRDcxAmByaHNspYG1pUaWTvpObTlLEPlsQ5JOjj/TXR0vVmqnyfD+fkot
+         emPrcRbKAsnqXZODozbCZ2+8U91i9Gr1XDZh36+Q8fMMx3ohuTRwxLqeyOFhmnPOLV
+         aBlWNYfsvCPhnEz3UYwoh6gesyPoi27JMn8M5lyI9bvTmaIY/MrUcOG/M3iWQFnkAZ
+         Pnq5Jgyez7Qzw==
 Received: from de02dwvm009.internal.synopsys.com (de02dwvm009.internal.synopsys.com [10.225.17.73])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 79E41A0071;
+        by mailhost.synopsys.com (Postfix) with ESMTP id 8749BA0074;
         Wed, 28 Apr 2021 15:25:16 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From:   Nelson Costa <Nelson.Costa@synopsys.com>
@@ -43,9 +43,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Jose Abreu <Jose.Abreu@synopsys.com>,
         Nelson Costa <Nelson.Costa@synopsys.com>,
         Jose Abreu <Jose.Abreu@synopsys.com>
-Subject: [RFC 4/8] phy: dwc: Add Synopsys DesignWare HDMI RX PHYs e405 and e406 Driver
-Date:   Wed, 28 Apr 2021 17:25:07 +0200
-Message-Id: <9cbe84140e8977ee43e43acd74ebd2cc622f09e8.1618937288.git.nelson.costa@synopsys.com>
+Subject: [RFC 5/8] media: platform: Add Synopsys DesignWare HDMI RX Controller Driver
+Date:   Wed, 28 Apr 2021 17:25:08 +0200
+Message-Id: <0256ad53167b2fab13106d8b6bb20e3aa80e62da.1618937288.git.nelson.costa@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1618937288.git.nelson.costa@synopsys.com>
 References: <cover.1618937288.git.nelson.costa@synopsys.com>
@@ -55,124 +55,104 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds support for the Synopsys DesignWare HDMI RX PHYs e405 and e406.
-The PHY receives and decodes HDMI video that is delivered to a controller.
+This is an initial submission for the Synopsys DesignWare HDMI RX
+Controller Driver. It is responsible to manage and handle the PHY
+(through the PHY API) and the Controller configurations in order
+to configure the video and audio pipeline.
 
-Main features included in this driver are:
- - Equalizer algorithm that chooses the PHY best settings
- according to the detected HDMI cable characteristics.
+This driver is implemented as a standard V4L2 subdevice.
+The main features of this module are:
  - Support for scrambling
  - Support for color depth up to 48bpp
- - Support for HDMI 2.0 modes up to 6G (HDMI 4k@60Hz).
-
-The driver was implemented using the standard PHY API in order to
-provide a standard access to the required callbacks to be handled
-by the controller through the phy_ops.
-
-There is a bidirectional communication between controller and PHY:
- - controller -> PHY : communication is done using the PHY API
- - controller <- PHY : communication is done using the callbacks,
- provided by the controller, which are required to handle the PHY
- such as: read/write, pddq, reset, etc.
- This callback functions are specified in struct dw_phy_pdata from
- 'include/linux/phy/dwc/dw-hdmi-phy-pdata.h'.
+ - Support for HDMI 2.0 modes up to 6G (HDMI 4k@60Hz)
+ - Support for RGB, YCC444, YCC422 and YCC420
+ - Support for basic audio (LPCM 2ch, 32KHz/44.1KHz/48KHz, 16bit)
+ - Support for Aspect Ratio
+ - Support for CEC
+ - Internal state machine that reconfigures PHY and controller
+ - JTAG communication with PHY
+ - Inter-module communication with PHY driver:
+   * through the PHY API using the PHY reference "hdmi-phy"
+   * through the callbacks that PHY DWC driver needs.
+ - Debug write/read ioctls.
 
 Signed-off-by: Jose Abreu <jose.abreu@synopsys.com>
 Signed-off-by: Nelson Costa <nelson.costa@synopsys.com>
 ---
- drivers/phy/Kconfig                       |   1 +
- drivers/phy/Makefile                      |   1 +
- drivers/phy/dwc/Kconfig                   |  20 ++
- drivers/phy/dwc/Makefile                  |   9 +
- drivers/phy/dwc/phy-dw-hdmi-e405.c        | 497 +++++++++++++++++++++++++++++
- drivers/phy/dwc/phy-dw-hdmi-e406.c        | 475 +++++++++++++++++++++++++++
- drivers/phy/dwc/phy-dw-hdmi-e40x-core.c   | 514 ++++++++++++++++++++++++++++++
- drivers/phy/dwc/phy-dw-hdmi-e40x.h        | 219 +++++++++++++
- include/linux/phy/dwc/dw-hdmi-phy-pdata.h |  73 +++++
- 9 files changed, 1809 insertions(+)
- create mode 100644 drivers/phy/dwc/Kconfig
- create mode 100644 drivers/phy/dwc/Makefile
- create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e405.c
- create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e406.c
- create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e40x-core.c
- create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e40x.h
- create mode 100644 include/linux/phy/dwc/dw-hdmi-phy-pdata.h
+ drivers/media/platform/Kconfig          |    2 +
+ drivers/media/platform/Makefile         |    1 +
+ drivers/media/platform/dwc/Kconfig      |   10 +
+ drivers/media/platform/dwc/Makefile     |    3 +
+ drivers/media/platform/dwc/dw-hdmi-rx.c | 3239 +++++++++++++++++++++++++++++++
+ drivers/media/platform/dwc/dw-hdmi-rx.h |  476 +++++
+ include/media/dwc/dw-hdmi-rx-pdata.h    |  126 ++
+ 7 files changed, 3857 insertions(+)
+ create mode 100644 drivers/media/platform/dwc/Kconfig
+ create mode 100644 drivers/media/platform/dwc/Makefile
+ create mode 100644 drivers/media/platform/dwc/dw-hdmi-rx.c
+ create mode 100644 drivers/media/platform/dwc/dw-hdmi-rx.h
+ create mode 100644 include/media/dwc/dw-hdmi-rx-pdata.h
 
-diff --git a/drivers/phy/Kconfig b/drivers/phy/Kconfig
-index 68d9c2f..db7c4b1 100644
---- a/drivers/phy/Kconfig
-+++ b/drivers/phy/Kconfig
-@@ -65,6 +65,7 @@ source "drivers/phy/allwinner/Kconfig"
- source "drivers/phy/amlogic/Kconfig"
- source "drivers/phy/broadcom/Kconfig"
- source "drivers/phy/cadence/Kconfig"
-+source "drivers/phy/dwc/Kconfig"
- source "drivers/phy/freescale/Kconfig"
- source "drivers/phy/hisilicon/Kconfig"
- source "drivers/phy/ingenic/Kconfig"
-diff --git a/drivers/phy/Makefile b/drivers/phy/Makefile
-index 32261e1..ac63979 100644
---- a/drivers/phy/Makefile
-+++ b/drivers/phy/Makefile
-@@ -13,6 +13,7 @@ obj-y					+= allwinner/	\
- 					   amlogic/	\
- 					   broadcom/	\
- 					   cadence/	\
-+					   dwc/		\
- 					   freescale/	\
- 					   hisilicon/	\
- 					   ingenic/	\
-diff --git a/drivers/phy/dwc/Kconfig b/drivers/phy/dwc/Kconfig
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index b238a92..20db68d 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -29,6 +29,8 @@ source "drivers/media/platform/cadence/Kconfig"
+ 
+ source "drivers/media/platform/davinci/Kconfig"
+ 
++source "drivers/media/platform/dwc/Kconfig"
++
+ source "drivers/media/platform/omap/Kconfig"
+ 
+ config VIDEO_ASPEED
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index eedc14a..955aae6 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -6,6 +6,7 @@
+ obj-$(CONFIG_VIDEO_ALLEGRO_DVT)		+= allegro-dvt/
+ obj-$(CONFIG_VIDEO_ASPEED)		+= aspeed-video.o
+ obj-$(CONFIG_VIDEO_CADENCE)		+= cadence/
++obj-y					+= dwc/
+ obj-$(CONFIG_VIDEO_VIA_CAMERA) += via-camera.o
+ obj-$(CONFIG_VIDEO_CAFE_CCIC) += marvell-ccic/
+ obj-$(CONFIG_VIDEO_MMP_CAMERA) += marvell-ccic/
+diff --git a/drivers/media/platform/dwc/Kconfig b/drivers/media/platform/dwc/Kconfig
 new file mode 100644
-index 0000000..ab451d8
+index 0000000..ef2a6435
 --- /dev/null
-+++ b/drivers/phy/dwc/Kconfig
-@@ -0,0 +1,20 @@
++++ b/drivers/media/platform/dwc/Kconfig
+@@ -0,0 +1,10 @@
 +# SPDX-License-Identifier: GPL-2.0
-+config VIDEO_DWC_HDMI_PHY_E40X
-+	tristate "Synopsys DesignWare HDMI RX PHYs e405 and e406 driver"
-+	select GENERIC_PHY
++config VIDEO_DWC_HDMI_RX
++	tristate "Synopsys DesignWare HDMI Receiver driver"
++	depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
 +	help
-+	  Support for Synopsys DesignWare HDMI RX PHYs versions
-+	  e405 and e406.
++	  Support for Synopsys DesignWare HDMI RX Controller.
++	  This driver supports HDMI 2.0 version.
 +
 +	  To compile this driver as a module, choose M here. The module
-+	  will be called phy-dw-hdmi-e40x.
-+
-+config VIDEO_DWC_HDMI_PHY_E40X_SUPPORT_TESTCHIP
-+	bool "Synopsys DesignWare HDMI RX PHYs e405/e406 Test Chip Support"
-+	depends on VIDEO_DWC_HDMI_PHY_E40X
-+	help
-+	  Support for Synopsys DesignWare HDMI RX PHYs e405/e406 with Test Chip.
-+
-+	  To have support for HDMI RX PHYs e405/e406 Test Chip, choose Y here.
-+	  It will enable Test Chip additional requirements, for example enable
-+	  the z calibration requirement during the PHY configuration.
-diff --git a/drivers/phy/dwc/Makefile b/drivers/phy/dwc/Makefile
++	  will be called dw-hdmi-rx.
+diff --git a/drivers/media/platform/dwc/Makefile b/drivers/media/platform/dwc/Makefile
 new file mode 100644
-index 0000000..52a5b6b
+index 0000000..fddd30c
 --- /dev/null
-+++ b/drivers/phy/dwc/Makefile
-@@ -0,0 +1,9 @@
++++ b/drivers/media/platform/dwc/Makefile
+@@ -0,0 +1,3 @@
 +# SPDX-License-Identifier: GPL-2.0
-+#
-+# Makefile for the PHY drivers.
-+#
 +
-+phy-dw-hdmi-e40x-y			:= phy-dw-hdmi-e40x-core.o
-+phy-dw-hdmi-e40x-y			+= phy-dw-hdmi-e405.o
-+phy-dw-hdmi-e40x-y			+= phy-dw-hdmi-e406.o
-+obj-$(CONFIG_VIDEO_DWC_HDMI_PHY_E40X)	+= phy-dw-hdmi-e40x.o
-diff --git a/drivers/phy/dwc/phy-dw-hdmi-e405.c b/drivers/phy/dwc/phy-dw-hdmi-e405.c
++obj-$(CONFIG_VIDEO_DWC_HDMI_RX) += dw-hdmi-rx.o
+diff --git a/drivers/media/platform/dwc/dw-hdmi-rx.c b/drivers/media/platform/dwc/dw-hdmi-rx.c
 new file mode 100644
-index 0000000..d4687d6
+index 0000000..07ac62f
 --- /dev/null
-+++ b/drivers/phy/dwc/phy-dw-hdmi-e405.c
-@@ -0,0 +1,497 @@
++++ b/drivers/media/platform/dwc/dw-hdmi-rx.c
+@@ -0,0 +1,3239 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare HDMI PHY e405
++ * Synopsys DesignWare HDMI Receiver controller driver
 + *
 + * Author: Jose Abreu <jose.abreu@synopsys.com>
 + * Author: Nelson Costa <nelson.costa@synopsys.com>
@@ -180,1243 +160,2871 @@ index 0000000..d4687d6
 +
 +#include <linux/clk.h>
 +#include <linux/delay.h>
++#include <linux/dma-mapping.h>
++#include <linux/interrupt.h>
 +#include <linux/module.h>
-+#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/of_platform.h>
 +#include <linux/platform_device.h>
-+#include <linux/types.h>
++#include <linux/phy/phy.h>
 +#include <linux/phy/dwc/dw-hdmi-phy-pdata.h>
++#include <linux/v4l2-dv-timings.h>
++#include <linux/workqueue.h>
++#include <linux/rational.h>
++#include <linux/hdmi.h>
++#include <media/v4l2-async.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-dv-timings.h>
++#include <media/v4l2-event.h>
++#include <media/v4l2-subdev.h>
++#include <media/dwc/dw-hdmi-rx-pdata.h>
 +
-+#include "phy-dw-hdmi-e40x.h"
++#include "dw-hdmi-rx.h"
 +
-+#define DW_PHY_EQ_WAIT_TIME_START		3
-+#define DW_PHY_EQ_SLEEP_TIME_CDR		30
-+#define DW_PHY_EQ_SLEEP_TIME_ACQ		1
-+#define DW_PHY_EQ_BOUNDSPREAD			20
-+#define DW_PHY_EQ_MIN_ACQ_STABLE		3
-+#define DW_PHY_EQ_ACC_LIMIT			360
-+#define DW_PHY_EQ_ACC_MIN_LIMIT			0
-+#define DW_PHY_EQ_MAX_SETTING			13
-+#define DW_PHY_EQ_SHORT_CABLE_SETTING		4
-+#define DW_PHY_EQ_ERROR_CABLE_SETTING		4
-+#define DW_PHY_EQ_MIN_SLOPE			50
-+#define DW_PHY_EQ_AVG_ACQ			5
-+#define DW_PHY_EQ_MINMAX_NTRIES			3
-+#define DW_PHY_EQ_COUNTER_VAL			512
-+#define DW_PHY_EQ_COUNTER_VAL_HDMI20		512
-+#define DW_PHY_EQ_MINMAX_MAXDIFF		4
-+#define DW_PHY_EQ_MINMAX_MAXDIFF_HDMI20		2
-+#define DW_PHY_EQ_FATBIT_MASK			0x0000
-+#define DW_PHY_EQ_FATBIT_MASK_4K		0x0c03
-+#define DW_PHY_EQ_FATBIT_MASK_HDMI20		0x0e03
++#define DW_HDMI_DEFAULT_TIMING		V4L2_DV_BT_CEA_640X480P59_94
++#define DW_HDMI_JTAG_TAP_ADDR_CMD	0
++#define DW_HDMI_JTAG_TAP_WRITE_CMD	1
++#define DW_HDMI_JTAG_TAP_READ_CMD	3
++#define DW_HDMI_AUDIO_FREQ_RANGE	1000
 +
-+/* PHY e405 mpll configuration */
-+static const struct dw_phy_mpll_config dw_phy_e405_mpll_cfg[] = {
-+	{ 0x27, 0x1B94 },
-+	{ 0x28, 0x16D2 },
-+	{ 0x29, 0x12D9 },
-+	{ 0x2A, 0x3249 },
-+	{ 0x2B, 0x3653 },
-+	{ 0x2C, 0x3436 },
-+	{ 0x2D, 0x124D },
-+	{ 0x2E, 0x0001 },
-+	{ 0xCE, 0x0505 },
-+	{ 0xCF, 0x0505 },
-+	{ 0xD0, 0x0000 },
-+	{ 0x00, 0x0000 },
++/* EDID for HDMI RX */
++static u32 dw_hdmi_edid[] = {
++	/* V2 Support for                           */
++	/*  - Video modes up-to 2.97Gbps            */
++	/*  - RGB, Ycc444/422/420                   */
++	/*  - Audio 2Ch L-PCM                       */
++	/*  - SCDC CED                              */
++	0x00FFFFFF, 0xFFFFFF00, 0x4F2E4A21, 0x00000000,
++	0x331E0103, 0x80462878, 0x0A0DC9A0, 0x57479827,
++	0x12484C20, 0x00000101, 0x01010101, 0x01010101,
++	0x01010101, 0x0101023A, 0x80187138, 0x2D40582C,
++	0x450020C2, 0x3100001E, 0x011D0072, 0x51D01E20,
++	0x6E285500, 0x20C23100, 0x001E0000, 0x00FC0053,
++	0x4E505320, 0x48444D49, 0x2052580A, 0x000000FD,
++	0x0017780F, 0x871E000A, 0x20202020, 0x20200160,
++
++	0x02035771, 0x83010000, 0x57696867, 0x6463625F,
++	0x5E5D901F, 0x04131211, 0x0302015A, 0x59585756,
++	0x55555453, 0x5251504F, 0x4E4D4C4B, 0x4A494847,
++	0x46454443, 0x42412309, 0x07076E03, 0x0C001000,
++	0xF83B2000, 0x80010203, 0x0467D85D, 0xC4010080,
++	0x00E50E66, 0x65616000, 0x00000000, 0x00000000,
++	0x00000000, 0x00000000, 0x00000000, 0x00000000,
++	0x00000000, 0x00000000, 0x00000000, 0x000000B6,
 +};
 +
-+/* PHY e405 equalization functions */
-+static int dw_phy_eq_test(struct dw_phy_dev *dw_dev,
-+			  u16 *fat_bit_mask, int *min_max_length)
-+{
-+	u16 main_fsm_status, val;
-+	unsigned int i;
++static const struct v4l2_dv_timings_cap dw_hdmi_timings_cap = {
++	.type = V4L2_DV_BT_656_1120,
++	.reserved = { 0 },
++	V4L2_INIT_BT_TIMINGS(640, 4096,			/* min/max width */
++			     480, 4455,			/* min/max height */
++			     20000000, 600000000,	/* min/max pixelclock */
++			     /* standards */
++			     V4L2_DV_BT_STD_CEA861,
++			     /* capabilities */
++			     V4L2_DV_BT_CAP_PROGRESSIVE)
++};
 +
-+	for (i = 0; i < DW_PHY_EQ_WAIT_TIME_START; i++) {
-+		main_fsm_status = dw_phy_read(dw_dev, DW_PHY_MAINFSM_STATUS1);
-+		if (main_fsm_status & DW_PHY_CLOCK_STABLE)
-+			break;
-+		mdelay(DW_PHY_EQ_SLEEP_TIME_CDR);
++static const struct v4l2_event dw_hdmi_event_fmt = {
++	.type = V4L2_EVENT_SOURCE_CHANGE,
++	.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
++};
++
++enum dw_hdmi_state {
++	HDMI_STATE_NO_INIT = 0,
++	HDMI_STATE_POWER_OFF,
++	HDMI_STATE_POWER_UP,
++	HDMI_STATE_PHY_CONFIG,
++	HDMI_STATE_HPD,
++	HDMI_STATE_EQUALIZER,
++	HDMI_STATE_DATAPATH,
++	HDMI_STATE_VIDEO_UNSTABLE,
++	HDMI_STATE_AUDIO,
++	HDMI_STATE_POWER_ON,
++};
++
++struct dw_hdmi_infoframe_cfg {
++	const char *desc;
++	u8 header[3];
++	u32 header_addr;
++	u32 payload_addr;
++	u32 payload_len;
++	void *frame;
++	unsigned int frame_size;
++};
++
++struct dw_hdmi_dev {
++	struct device *dev;
++	struct device_node *of_node;
++	void __iomem *regs;
++	struct clk *clk;
++
++	/* Platform Data configuration */
++	struct dw_hdmi_rx_pdata *config;
++
++	/* Phy info */
++	struct platform_device *phy_pdev;
++	struct dw_phy_pdata phy_config;
++	struct phy *phy;
++
++	/*
++	 * Used to prevent race conditions between multiple
++	 * concurrent calls to handle the state machine changes
++	 * and pending configurations.
++	 */
++	spinlock_t lock;
++	/*
++	 * Used to prevent race conditions between multiple
++	 * concurrent calls to notify the audio changes.
++	 */
++	spinlock_t event_lock;
++
++	/* Work queue to handle the state machine */
++	struct workqueue_struct *wq;
++	struct work_struct work;
++
++	/* State machine variables */
++	enum dw_hdmi_state state;
++	u32 mbus_code;
++	u32 old_mbus;
++	u8 *curr_edid_blocks;
++	u8 current_vic;
++	bool current_vic_is_4k;
++	bool registered;
++	bool pending_config;
++	bool force_off;
++	bool is_hdmi2;
++	bool is_scrambled;
++	bool phy_eq_force;
++	bool phy_eq_on;
++	bool hw_reset_on_hot_plug;
++	bool *input_connected;
++	unsigned int selected_input;
++	unsigned int configured_input;
++	unsigned int input_stat;
++	unsigned int audio_sf;
++	unsigned int tmds_valid_wait_count;
++	unsigned int has_clock_wait_ms;
++	unsigned int video_stable_wait_ms;
++	unsigned int reset_datapath_enable;
++
++	/* Infoframes */
++	union hdmi_infoframe aviif;
++	union hdmi_infoframe spdif;
++	union hdmi_infoframe audioif;
++	union hdmi_infoframe vsif;
++
++	/* v4l2 device */
++	struct v4l2_subdev sd;
++	struct v4l2_ctrl_handler hdl;
++	struct v4l2_ctrl *detect_tx_5v_ctrl;
++	struct v4l2_dv_timings timings;
++};
++
++static const char *get_state_name(enum dw_hdmi_state state)
++{
++	switch (state) {
++	case HDMI_STATE_NO_INIT:
++		return "NO_INIT";
++	case HDMI_STATE_POWER_OFF:
++		return "POWER_OFF";
++	case HDMI_STATE_POWER_UP:
++		return "POWER_UP";
++	case HDMI_STATE_PHY_CONFIG:
++		return "PHY_CONFIG";
++	case HDMI_STATE_HPD:
++		return "HPD";
++	case HDMI_STATE_EQUALIZER:
++		return "EQUALIZER";
++	case HDMI_STATE_DATAPATH:
++		return "DATAPATH";
++	case HDMI_STATE_VIDEO_UNSTABLE:
++		return "VIDEO_UNSTABLE";
++	case HDMI_STATE_AUDIO:
++		return "AUDIO";
++	case HDMI_STATE_POWER_ON:
++		return "POWER_ON";
++	default:
++		return "UNKNOWN";
 +	}
-+
-+	if (i == DW_PHY_EQ_WAIT_TIME_START) {
-+		dev_dbg(dw_dev->dev, "PHY start conditions not achieved\n");
-+		return -ETIMEDOUT;
-+	}
-+
-+	if (main_fsm_status & DW_PHY_PLL_RATE_BIT1) {
-+		dev_dbg(dw_dev->dev, "invalid pll rate\n");
-+		return -EINVAL;
-+	}
-+
-+	val = dw_phy_read(dw_dev, DW_PHY_CDR_CTRL_CNT) &
-+		DW_PHY_HDMI_MHL_MODE_MASK;
-+	if (val == DW_PHY_HDMI_MHL_MODE_ABOVE_3_4G_BITPS) {
-+		/* HDMI 2.0 */
-+		*fat_bit_mask = DW_PHY_EQ_FATBIT_MASK_HDMI20;
-+		*min_max_length = DW_PHY_EQ_MINMAX_MAXDIFF_HDMI20;
-+		dev_dbg(dw_dev->dev, "[EQUALIZER] using HDMI 2.0 values\n");
-+	} else if (!(main_fsm_status & DW_PHY_PLL_RATE_MASK)) {
-+		/* HDMI 1.4 (pll rate = 0) */
-+		*fat_bit_mask = DW_PHY_EQ_FATBIT_MASK_4K;
-+		*min_max_length = DW_PHY_EQ_MINMAX_MAXDIFF;
-+		dev_dbg(dw_dev->dev, "[EQUALIZER] using HDMI 1.4@4k values\n");
-+	} else {
-+		/* HDMI 1.4 */
-+		*fat_bit_mask = DW_PHY_EQ_FATBIT_MASK;
-+		*min_max_length = DW_PHY_EQ_MINMAX_MAXDIFF;
-+		dev_dbg(dw_dev->dev, "[EQUALIZER] using HDMI 1.4 values\n");
-+	}
-+
-+	return 0;
 +}
 +
-+static void dw_phy_eq_default(struct dw_phy_dev *dw_dev)
++static inline void dw_hdmi_set_state(struct dw_hdmi_dev *dw_dev,
++				     enum dw_hdmi_state new_state)
 +{
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH0_LOOP_CTR_LIMIT(8) |
-+		      DW_PHY_CH0_MSTR_CTR_LIMIT(10) |
-+		      DW_PHY_CH0_ADAP_COMP_LIMIT(4)), DW_PHY_CH0_EQ_CTRL1);
-+	dw_phy_write(dw_dev, DW_PHY_CH0_LB_ACTIVE_OVR, DW_PHY_CH0_EQ_CTRL2);
++	unsigned long flags;
 +
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH1_LOOP_CTR_LIMIT(8) |
-+		      DW_PHY_CH1_MSTR_CTR_LIMIT(10) |
-+		      DW_PHY_CH1_ADAP_COMP_LIMIT(4)), DW_PHY_CH1_EQ_CTRL1);
-+	dw_phy_write(dw_dev, DW_PHY_CH1_LB_ACTIVE_OVR, DW_PHY_CH1_EQ_CTRL2);
-+
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH2_LOOP_CTR_LIMIT(8) |
-+		      DW_PHY_CH2_MSTR_CTR_LIMIT(10) |
-+		      DW_PHY_CH2_ADAP_COMP_LIMIT(4)), DW_PHY_CH2_EQ_CTRL1);
-+	dw_phy_write(dw_dev, DW_PHY_CH2_LB_ACTIVE_OVR, DW_PHY_CH2_EQ_CTRL2);
++	spin_lock_irqsave(&dw_dev->lock, flags);
++	dev_dbg(dw_dev->dev, "old_state=%s, new_state=%s\n",
++		get_state_name(dw_dev->state),
++		get_state_name(new_state));
++	dw_dev->state = new_state;
++	spin_unlock_irqrestore(&dw_dev->lock, flags);
 +}
 +
-+static void dw_phy_eq_single(struct dw_phy_dev *dw_dev)
++static inline struct dw_hdmi_dev *to_dw_dev(struct v4l2_subdev *sd)
 +{
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH0_LOOP_CTR_LIMIT(1) |
-+		      DW_PHY_CH0_MSTR_CTR_LIMIT(1) |
-+		      DW_PHY_CH0_ADAP_COMP_LIMIT(1)), DW_PHY_CH0_EQ_CTRL1);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH1_LOOP_CTR_LIMIT(1) |
-+		      DW_PHY_CH1_MSTR_CTR_LIMIT(1) |
-+		      DW_PHY_CH1_ADAP_COMP_LIMIT(1)), DW_PHY_CH1_EQ_CTRL1);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH2_LOOP_CTR_LIMIT(1) |
-+		      DW_PHY_CH2_MSTR_CTR_LIMIT(1) |
-+		      DW_PHY_CH2_ADAP_COMP_LIMIT(1)), DW_PHY_CH2_EQ_CTRL1);
++	return container_of(sd, struct dw_hdmi_dev, sd);
 +}
 +
-+static void dw_phy_eq_equal_setting_ch0(struct dw_phy_dev *dw_dev,
-+					u16 lock_vector)
++static inline void hdmi_writel(struct dw_hdmi_dev *dw_dev, u32 val, int reg)
 +{
-+	dw_phy_write(dw_dev, lock_vector, DW_PHY_CH0_EQ_CTRL4);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH0_OVRD_LOCK_VECTOR_EN |
-+		      DW_PHY_CH0_LB_ACTIVE_OVR), DW_PHY_CH0_EQ_CTRL2);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH0_OVRD_LOCK |
-+		      DW_PHY_CH0_OVRD_LOCK_VECTOR_EN |
-+		      DW_PHY_CH0_LB_ACTIVE_OVR), DW_PHY_CH0_EQ_CTRL2);
-+	dw_phy_read(dw_dev, DW_PHY_CH0_EQ_STATUS2);
++	writel(val, dw_dev->regs + reg);
 +}
 +
-+static void dw_phy_eq_equal_setting_ch1(struct dw_phy_dev *dw_dev,
-+					u16 lock_vector)
++static inline u32 hdmi_readl(struct dw_hdmi_dev *dw_dev, int reg)
 +{
-+	dw_phy_write(dw_dev, lock_vector, DW_PHY_CH1_EQ_CTRL4);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH1_OVRD_LOCK_VECTOR_EN |
-+		      DW_PHY_CH1_LB_ACTIVE_OVR), DW_PHY_CH1_EQ_CTRL2);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH1_OVRD_LOCK |
-+		      DW_PHY_CH1_OVRD_LOCK_VECTOR_EN |
-+		      DW_PHY_CH1_LB_ACTIVE_OVR), DW_PHY_CH1_EQ_CTRL2);
-+	dw_phy_read(dw_dev, DW_PHY_CH1_EQ_STATUS2);
++	return readl(dw_dev->regs + reg);
 +}
 +
-+static void dw_phy_eq_equal_setting_ch2(struct dw_phy_dev *dw_dev,
-+					u16 lock_vector)
++static void hdmi_modl(struct dw_hdmi_dev *dw_dev, u32 data, u32 mask, int reg)
 +{
-+	dw_phy_write(dw_dev, lock_vector, DW_PHY_CH2_EQ_CTRL4);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH2_OVRD_LOCK_VECTOR_EN |
-+		      DW_PHY_CH2_LB_ACTIVE_OVR), DW_PHY_CH2_EQ_CTRL2);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH2_OVRD_LOCK |
-+		      DW_PHY_CH2_OVRD_LOCK_VECTOR_EN |
-+		      DW_PHY_CH2_LB_ACTIVE_OVR), DW_PHY_CH2_EQ_CTRL2);
-+	dw_phy_read(dw_dev, DW_PHY_CH2_EQ_STATUS2);
++	u32 val = hdmi_readl(dw_dev, reg) & ~mask;
++
++	val |= data & mask;
++	hdmi_writel(dw_dev, val, reg);
 +}
 +
-+static void dw_phy_eq_equal_setting(struct dw_phy_dev *dw_dev, u16 lock_vector)
++static void hdmi_mask_writel(struct dw_hdmi_dev *dw_dev, u32 data, int reg,
++			     u32 shift, u32 mask)
 +{
-+	dw_phy_eq_equal_setting_ch0(dw_dev, lock_vector);
-+	dw_phy_eq_equal_setting_ch1(dw_dev, lock_vector);
-+	dw_phy_eq_equal_setting_ch2(dw_dev, lock_vector);
++	hdmi_modl(dw_dev, data << shift, mask, reg);
 +}
 +
-+static void dw_phy_eq_auto_calib(struct dw_phy_dev *dw_dev)
++static u32 hdmi_mask_readl(struct dw_hdmi_dev *dw_dev, int reg, u32 shift,
++			   u32 mask)
 +{
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_EQCAL_DIS_CTRL_ONE_EIGHT_RATE |
-+		      DW_PHY_EQCAL_DIS_CTRL_QUARTER_RATE |
-+		      DW_PHY_FORCE_STATE_DIS |
-+		      DW_PHY_MAIN_FSM_STATE(9)), DW_PHY_MAINFSM_CTRL);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_EQCAL_DIS_CTRL_ONE_EIGHT_RATE |
-+		      DW_PHY_EQCAL_DIS_CTRL_QUARTER_RATE |
-+		      DW_PHY_FORCE_STATE_EN |
-+		      DW_PHY_MAIN_FSM_STATE(9)), DW_PHY_MAINFSM_CTRL);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_EQCAL_DIS_CTRL_ONE_EIGHT_RATE |
-+		      DW_PHY_EQCAL_DIS_CTRL_QUARTER_RATE |
-+		      DW_PHY_FORCE_STATE_DIS |
-+		      DW_PHY_MAIN_FSM_STATE(9)), DW_PHY_MAINFSM_CTRL);
++	return (hdmi_readl(dw_dev, reg) & mask) >> shift;
 +}
 +
-+static void dw_phy_eq_init_vars(struct dw_phy_eq_ch *ch)
++static bool dw_hdmi_5v_status(struct dw_hdmi_dev *dw_dev, int input)
 +{
-+	ch->acc = 0;
-+	ch->acq = 0;
-+	ch->last_acq = 0;
-+	ch->valid_long_setting = 0;
-+	ch->valid_short_setting = 0;
-+	ch->best_setting = DW_PHY_EQ_SHORT_CABLE_SETTING;
++	void __iomem *arg = dw_dev->config->dw_5v_arg;
++
++	if (dw_dev->config->dw_5v_status)
++		return dw_dev->config->dw_5v_status(arg, input);
++
++	return false;
 +}
 +
-+static bool dw_phy_eq_acquire_early_cnt(struct dw_phy_dev *dw_dev,
-+					u16 setting, u16 acq,
-+					struct dw_phy_eq_ch *ch0,
-+					struct dw_phy_eq_ch *ch1,
-+					struct dw_phy_eq_ch *ch2)
++static void dw_hdmi_5v_disable(struct dw_hdmi_dev *dw_dev, int input)
 +{
-+	u16 lock_vector = 0x1 << setting;
-+	unsigned int i;
++	void __iomem *arg = dw_dev->config->dw_5v_arg;
 +
-+	ch0->out_bound_acq = 0;
-+	ch1->out_bound_acq = 0;
-+	ch2->out_bound_acq = 0;
-+	ch0->acq = 0;
-+	ch1->acq = 0;
-+	ch2->acq = 0;
++	if (!dw_dev->config->dw_5v_disable)
++		return;
 +
-+	dw_phy_eq_equal_setting(dw_dev, lock_vector);
-+	dw_phy_eq_auto_calib(dw_dev);
++	dw_dev->config->dw_5v_disable(arg, input);
++}
 +
-+	mdelay(DW_PHY_EQ_SLEEP_TIME_CDR);
-+	if (!dw_phy_tmds_valid(dw_dev))
-+		dev_dbg(dw_dev->dev, "TMDS is NOT valid\n");
++static void dw_hdmi_5v_enable(struct dw_hdmi_dev *dw_dev, int input)
++{
++	void __iomem *arg = dw_dev->config->dw_5v_arg;
 +
-+	ch0->read_acq = dw_phy_read(dw_dev, DW_PHY_CH0_EQ_STATUS3);
-+	ch1->read_acq = dw_phy_read(dw_dev, DW_PHY_CH1_EQ_STATUS3);
-+	ch2->read_acq = dw_phy_read(dw_dev, DW_PHY_CH2_EQ_STATUS3);
++	if (!dw_dev->config->dw_5v_enable)
++		return;
 +
-+	ch0->acq += ch0->read_acq;
-+	ch1->acq += ch1->read_acq;
-+	ch2->acq += ch2->read_acq;
++	dw_dev->config->dw_5v_enable(arg, input);
++}
 +
-+	ch0->upper_bound_acq = ch0->read_acq + DW_PHY_EQ_BOUNDSPREAD;
-+	ch0->lower_bound_acq = ch0->read_acq - DW_PHY_EQ_BOUNDSPREAD;
-+	ch1->upper_bound_acq = ch1->read_acq + DW_PHY_EQ_BOUNDSPREAD;
-+	ch1->lower_bound_acq = ch1->read_acq - DW_PHY_EQ_BOUNDSPREAD;
-+	ch2->upper_bound_acq = ch2->read_acq + DW_PHY_EQ_BOUNDSPREAD;
-+	ch2->lower_bound_acq = ch2->read_acq - DW_PHY_EQ_BOUNDSPREAD;
++static u32 dw_hdmi_edid_read(struct dw_hdmi_dev *dw_dev, int input, u32 offset)
++{
++	void __iomem *arg = dw_dev->config->dw_edid_arg;
 +
-+	for (i = 1; i < acq; i++) {
-+		dw_phy_eq_auto_calib(dw_dev);
-+		mdelay(DW_PHY_EQ_SLEEP_TIME_ACQ);
++	if (!dw_dev->config->dw_edid_read)
++		return 0x0;
 +
-+		if (ch0->read_acq > ch0->upper_bound_acq ||
-+		    ch0->read_acq < ch0->lower_bound_acq)
-+			ch0->out_bound_acq++;
-+		if (ch1->read_acq > ch1->upper_bound_acq ||
-+		    ch1->read_acq < ch1->lower_bound_acq)
-+			ch1->out_bound_acq++;
-+		if (ch2->read_acq > ch2->upper_bound_acq ||
-+		    ch2->read_acq < ch2->lower_bound_acq)
-+			ch2->out_bound_acq++;
++	return dw_dev->config->dw_edid_read(arg, input, offset);
++}
 +
-+		if (i == DW_PHY_EQ_MIN_ACQ_STABLE) {
-+			if (!ch0->out_bound_acq &&
-+			    !ch1->out_bound_acq &&
-+			    !ch2->out_bound_acq) {
-+				acq = 3;
-+				break;
++static int dw_hdmi_edid_write(struct dw_hdmi_dev *dw_dev, int input, u32 *edid,
++			      int size)
++{
++	void __iomem *arg = dw_dev->config->dw_edid_arg;
++
++	if (!dw_dev->config->dw_edid_write)
++		return 0;
++
++	return dw_dev->config->dw_edid_write(arg, input, edid, size);
++}
++
++static u32 dw_hdmi_edid_4blocks_le(struct dw_hdmi_dev *dw_dev)
++{
++	void __iomem *arg = dw_dev->config->dw_edid_arg;
++
++	if (!dw_dev->config->dw_edid_4blocks_le)
++		return 0x0;
++
++	return dw_dev->config->dw_edid_4blocks_le(arg);
++}
++
++static int dw_hdmi_update_edid(struct dw_hdmi_dev *dw_dev, int input,
++			       u8 *edid, int size, u8 invert_bytes)
++{
++	unsigned int i, j;
++	u32 *w_edid_srt;
++	int ret;
++
++	if (invert_bytes) {
++		/* invert the order of bytes to register 32bit */
++		w_edid_srt = devm_kzalloc(dw_dev->dev, size, GFP_KERNEL);
++		if (!w_edid_srt) {
++			devm_kfree(dw_dev->dev, w_edid_srt);
++			return -ENOMEM;
++		}
++
++		for (i = 0; i < size / sizeof(u32); i++) {
++			for (j = 0; j < 4; j++) {
++				w_edid_srt[i] |=
++					edid[i * 4 + j] << (8 * (3 - j));
 +			}
 +		}
 +
-+		ch0->read_acq = dw_phy_read(dw_dev, DW_PHY_CH0_EQ_STATUS3);
-+		ch1->read_acq = dw_phy_read(dw_dev, DW_PHY_CH1_EQ_STATUS3);
-+		ch2->read_acq = dw_phy_read(dw_dev, DW_PHY_CH2_EQ_STATUS3);
-+
-+		ch0->acq += ch0->read_acq;
-+		ch1->acq += ch1->read_acq;
-+		ch2->acq += ch2->read_acq;
-+	}
-+
-+	ch0->acq /= acq;
-+	ch1->acq /= acq;
-+	ch2->acq /= acq;
-+
-+	return true;
-+}
-+
-+static int dw_phy_eq_test_type(u16 setting, bool tmds_valid,
-+			       struct dw_phy_eq_ch *ch)
-+{
-+	u16 step_slope = 0;
-+
-+	if (ch->acq < ch->last_acq && tmds_valid) {
-+		/* Long cable equalization */
-+		ch->acc += ch->last_acq - ch->acq;
-+		if (!ch->valid_long_setting && ch->acq < 512 && ch->acc) {
-+			ch->best_long_setting = setting;
-+			ch->valid_long_setting = 1;
-+		}
-+		step_slope = ch->last_acq - ch->acq;
-+	}
-+
-+	if (tmds_valid && !ch->valid_short_setting) {
-+		/* Short cable equalization */
-+		if (setting < DW_PHY_EQ_SHORT_CABLE_SETTING &&
-+		    ch->acq < DW_PHY_EQ_COUNTER_VAL) {
-+			ch->best_short_setting = setting;
-+			ch->valid_short_setting = 1;
-+		}
-+
-+		if (setting == DW_PHY_EQ_SHORT_CABLE_SETTING) {
-+			ch->best_short_setting = DW_PHY_EQ_SHORT_CABLE_SETTING;
-+			ch->valid_short_setting = 1;
-+		}
-+	}
-+
-+	if (ch->valid_long_setting && ch->acc > DW_PHY_EQ_ACC_LIMIT) {
-+		ch->best_setting = ch->best_long_setting;
-+		return DW_PHY_EQ_TEST_TYPE_BEST_SET_IS_LONG;
-+	}
-+
-+	if (setting == DW_PHY_EQ_MAX_SETTING && ch->acc < DW_PHY_EQ_ACC_LIMIT &&
-+	    ch->valid_short_setting) {
-+		ch->best_setting = ch->best_short_setting;
-+		return DW_PHY_EQ_TEST_TYPE_BEST_SET_IS_SHORT;
-+	}
-+
-+	if (setting == DW_PHY_EQ_MAX_SETTING && tmds_valid &&
-+	    ch->acc > DW_PHY_EQ_ACC_LIMIT &&
-+	    step_slope > DW_PHY_EQ_MIN_SLOPE) {
-+		ch->best_setting = DW_PHY_EQ_MAX_SETTING;
-+		return DW_PHY_EQ_TEST_TYPE_BEST_SET_IS_MAX;
-+	}
-+
-+	if (setting == DW_PHY_EQ_MAX_SETTING) {
-+		ch->best_setting = DW_PHY_EQ_ERROR_CABLE_SETTING;
-+		return DW_PHY_EQ_TEST_TYPE_BEST_SET_ERROR;
-+	}
-+
-+	return 0;
-+}
-+
-+static bool dw_phy_eq_setting_finder(struct dw_phy_dev *dw_dev, u16 acq,
-+				     struct dw_phy_eq_ch *ch0,
-+				     struct dw_phy_eq_ch *ch1,
-+				     struct dw_phy_eq_ch *ch2)
-+{
-+	int ret_ch0 = 0, ret_ch1 = 0, ret_ch2 = 0;
-+	bool tmds_valid = false;
-+	u16 act = 0;
-+
-+	dw_phy_eq_init_vars(ch0);
-+	dw_phy_eq_init_vars(ch1);
-+	dw_phy_eq_init_vars(ch2);
-+
-+	tmds_valid = dw_phy_eq_acquire_early_cnt(dw_dev, act, acq,
-+						 ch0, ch1, ch2);
-+
-+	while (!ret_ch0 || !ret_ch1 || !ret_ch2) {
-+		act++;
-+
-+		ch0->last_acq = ch0->acq;
-+		ch1->last_acq = ch1->acq;
-+		ch2->last_acq = ch2->acq;
-+
-+		tmds_valid = dw_phy_eq_acquire_early_cnt(dw_dev, act, acq,
-+							 ch0, ch1, ch2);
-+
-+		if (!ret_ch0)
-+			ret_ch0 = dw_phy_eq_test_type(act, tmds_valid, ch0);
-+		if (!ret_ch1)
-+			ret_ch1 = dw_phy_eq_test_type(act, tmds_valid, ch1);
-+		if (!ret_ch2)
-+			ret_ch2 = dw_phy_eq_test_type(act, tmds_valid, ch2);
-+	}
-+
-+	if (ret_ch0 == DW_PHY_EQ_TEST_TYPE_BEST_SET_ERROR ||
-+	    ret_ch1 == DW_PHY_EQ_TEST_TYPE_BEST_SET_ERROR ||
-+	    ret_ch2 == DW_PHY_EQ_TEST_TYPE_BEST_SET_ERROR)
-+		return false;
-+	return true;
-+}
-+
-+static bool dw_phy_eq_maxvsmin(u16 ch0_setting, u16 ch1_setting,
-+			       u16 ch2_setting, u16 min_max_length)
-+{
-+	u16 min = ch0_setting, max = ch0_setting;
-+
-+	if (ch1_setting > max)
-+		max = ch1_setting;
-+	if (ch2_setting > max)
-+		max = ch2_setting;
-+	if (ch1_setting < min)
-+		min = ch1_setting;
-+	if (ch2_setting < min)
-+		min = ch2_setting;
-+
-+	if ((max - min) > min_max_length)
-+		return false;
-+	return true;
-+}
-+
-+static int dw_phy_eq_init(struct dw_phy_dev *dw_dev, u16 acq, bool force)
-+{
-+	struct dw_phy_pdata *phy = dw_dev->config;
-+	u16 fat_bit_mask, lock_vector = 0x1;
-+	struct dw_phy_eq_ch ch0, ch1, ch2;
-+	int min_max_length, ret = 0;
-+	u16 mpll_status;
-+	unsigned int i;
-+
-+	if (phy->version < 401)
-+		return ret;
-+
-+	if (!dw_dev->phy_enabled)
-+		return -EINVAL;
-+
-+	mpll_status = dw_phy_read(dw_dev, DW_PHY_CLK_MPLL_STATUS);
-+	if (mpll_status == dw_dev->mpll_status && !force)
-+		return ret;
-+
-+	dw_dev->mpll_status = mpll_status;
-+
-+	dw_phy_write(dw_dev, 0x00, DW_PHY_MAINFSM_OVR2);
-+	dw_phy_write(dw_dev, 0x00, DW_PHY_CH0_EQ_CTRL3);
-+	dw_phy_write(dw_dev, 0x00, DW_PHY_CH1_EQ_CTRL3);
-+	dw_phy_write(dw_dev, 0x00, DW_PHY_CH2_EQ_CTRL3);
-+
-+	ret = dw_phy_eq_test(dw_dev, &fat_bit_mask, &min_max_length);
-+	if (ret) {
-+		if (ret == -EINVAL) /* Means equalizer is not needed */
-+			ret = 0;
-+
-+		/* Do not change values if we don't have clock */
-+		if (ret != -ETIMEDOUT) {
-+			dw_phy_eq_default(dw_dev);
-+			dw_phy_pddq(dw_dev, 1);
-+			dw_phy_pddq(dw_dev, 0);
-+		}
++		ret = dw_hdmi_edid_write(dw_dev, input, (u32 *)w_edid_srt,
++					 size / sizeof(u32));
++		devm_kfree(dw_dev->dev, w_edid_srt);
 +	} else {
-+		dw_phy_eq_single(dw_dev);
-+		dw_phy_eq_equal_setting(dw_dev, 0x0001);
-+		dw_phy_write(dw_dev, fat_bit_mask, DW_PHY_CH0_EQ_CTRL6);
-+		dw_phy_write(dw_dev, fat_bit_mask, DW_PHY_CH1_EQ_CTRL6);
-+		dw_phy_write(dw_dev, fat_bit_mask, DW_PHY_CH2_EQ_CTRL6);
-+
-+		for (i = 0; i < DW_PHY_EQ_MINMAX_NTRIES; i++) {
-+			if (dw_phy_eq_setting_finder(dw_dev, acq,
-+						     &ch0, &ch1, &ch2)) {
-+				if (dw_phy_eq_maxvsmin(ch0.best_setting,
-+						       ch1.best_setting,
-+						       ch2.best_setting,
-+						       min_max_length))
-+					break;
-+			}
-+
-+			ch0.best_setting = DW_PHY_EQ_ERROR_CABLE_SETTING;
-+			ch1.best_setting = DW_PHY_EQ_ERROR_CABLE_SETTING;
-+			ch2.best_setting = DW_PHY_EQ_ERROR_CABLE_SETTING;
-+		}
-+
-+		dev_dbg(dw_dev->dev, "equalizer settings: ch0=0x%x, ch1=0x%x, ch1=0x%x\n",
-+			ch0.best_setting, ch1.best_setting, ch2.best_setting);
-+
-+		if (i == DW_PHY_EQ_MINMAX_NTRIES)
-+			ret = -EINVAL;
-+
-+		lock_vector = 0x1 << ch0.best_setting;
-+		dw_phy_eq_equal_setting_ch0(dw_dev, lock_vector);
-+
-+		lock_vector = 0x1 << ch1.best_setting;
-+		dw_phy_eq_equal_setting_ch1(dw_dev, lock_vector);
-+
-+		lock_vector = 0x1 << ch2.best_setting;
-+		dw_phy_eq_equal_setting_ch2(dw_dev, lock_vector);
-+
-+		dw_phy_pddq(dw_dev, 1);
-+		dw_phy_pddq(dw_dev, 0);
++		/* no need to invert bytes */
++		ret = dw_hdmi_edid_write(dw_dev, input, (u32 *)edid,
++					 size / sizeof(u32));
 +	}
++	dw_dev->curr_edid_blocks[input] = size / 128;
 +
 +	return ret;
 +}
 +
-+/* PHY e405 data */
-+const struct dw_hdmi_phy_data dw_phy_e405_data = {
-+	.name = "e405",
-+	.version = 405,
-+	.mpll_cfg = dw_phy_e405_mpll_cfg,
-+	.dw_phy_eq_init = dw_phy_eq_init,
-+};
-diff --git a/drivers/phy/dwc/phy-dw-hdmi-e406.c b/drivers/phy/dwc/phy-dw-hdmi-e406.c
-new file mode 100644
-index 0000000..9ee2d00
---- /dev/null
-+++ b/drivers/phy/dwc/phy-dw-hdmi-e406.c
-@@ -0,0 +1,475 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare HDMI PHY e406
-+ *
-+ * Author: Nelson Costa <nelson.costa@synopsys.com>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/types.h>
-+#include <linux/phy/dwc/dw-hdmi-phy-pdata.h>
-+
-+#include "phy-dw-hdmi-e40x.h"
-+
-+/*
-+ * Equalization algorithm based on version 01-08-2019
-+ * but with the following adjustments related with 1080p and 4k:
-+ * - DW_PHY_EQ_MAX_SETTING 14 -> 10
-+ * - DW_PHY_EQ_COUNTER_VAL_4K 512 -> 712
-+ *
-+ */
-+#define DW_PHY_EQ_WAIT_TIME_START		3
-+#define DW_PHY_EQ_SLEEP_TIME_CDR		17
-+#define DW_PHY_EQ_SLEEP_TIME_ACQ		1
-+#define DW_PHY_EQ_BOUNDSPREAD			20
-+#define DW_PHY_EQ_MIN_ACQ_STABLE		3
-+#define DW_PHY_EQ_ACC_LIMIT			360
-+#define DW_PHY_EQ_ACC_MIN_LIMIT			0
-+#define DW_PHY_EQ_MAX_SETTING			10
-+#define DW_PHY_EQ_SHORT_CABLE_SETTING		4
-+#define DW_PHY_EQ_ERROR_CABLE_SETTING		4
-+#define DW_PHY_EQ_MIN_SLOPE			50
-+#define DW_PHY_EQ_AVG_ACQ			3
-+#define DW_PHY_EQ_MINMAX_NTRIES			5
-+#define DW_PHY_EQ_COUNTER_VAL			712
-+#define DW_PHY_EQ_COUNTER_VAL_4K		712
-+#define DW_PHY_EQ_COUNTER_VAL_HDMI20		450
-+#define DW_PHY_EQ_MINMAX_MAXDIFF		4
-+#define DW_PHY_EQ_MINMAX_MAXDIFF_4K		4
-+#define DW_PHY_EQ_MINMAX_MAXDIFF_HDMI20		4
-+#define DW_PHY_EQ_FATBIT_MASK			0x0c03
-+#define DW_PHY_EQ_FATBIT_MASK_4K		0x0c03
-+#define DW_PHY_EQ_FATBIT_MASK_HDMI20		0x0e03
-+#define DW_PHY_EQ_CDR_PHUG_FRUG			0x251f
-+#define DW_PHY_EQ_CDR_PHUG_FRUG_4k		0x001f
-+#define DW_PHY_EQ_CDR_PHUG_FRUG_HDMI20		0x001f
-+#define DW_PHY_EQ_CDR_PHUG_FRUG_DEF		0x001f
-+#define DW_CHX_EQ_CTRL3_MASK			0x0000
-+
-+/* PHY e406 mpll configuration */
-+static const struct dw_phy_mpll_config dw_phy_e406_mpll_cfg[] = {
-+	{ 0x27, 0x1C94 },
-+	{ 0x28, 0x3713 },
-+	{ 0x29, 0x24DA },
-+	{ 0x2A, 0x5492 },
-+	{ 0x2B, 0x4B0D },
-+	{ 0x2C, 0x4760 },
-+	{ 0x2D, 0x008C },
-+	{ 0x2E, 0x0010 },
-+	{ 0x00, 0x0000 },
-+};
-+
-+/* PHY e406 equalization functions */
-+static int dw_phy_eq_test(struct dw_phy_dev *dw_dev,
-+			  u16 *fat_bit_mask, int *min_max_length,
-+			  u16 *eq_cnt_threshold, u16 *cdr_phug_frug)
++static void dw_hdmi_main_reset(struct dw_hdmi_dev *dw_dev)
 +{
-+	u16 main_fsm_status, val;
-+	unsigned int i;
++	void __iomem *arg = dw_dev->config->dw_reset_arg;
 +
-+	for (i = 0; i < DW_PHY_EQ_WAIT_TIME_START; i++) {
-+		main_fsm_status = dw_phy_read(dw_dev, DW_PHY_MAINFSM_STATUS1);
-+		if (main_fsm_status & DW_PHY_CLOCK_STABLE)
-+			break;
-+		mdelay(DW_PHY_EQ_SLEEP_TIME_CDR);
-+	}
++	if (!dw_dev->config->dw_reset_all)
++		return;
 +
-+	if (i == DW_PHY_EQ_WAIT_TIME_START) {
-+		dev_dbg(dw_dev->dev, "PHY start conditions not achieved\n");
-+		return -ETIMEDOUT;
-+	}
++	dev_dbg(dw_dev->dev, "%s: main reset\n", __func__);
 +
-+	if (main_fsm_status & DW_PHY_PLL_RATE_BIT1) {
-+		dev_dbg(dw_dev->dev, "invalid pll rate\n");
-+		return -EINVAL;
-+	}
-+
-+	val = dw_phy_read(dw_dev, DW_PHY_CDR_CTRL_CNT) &
-+		DW_PHY_HDMI_MHL_MODE_MASK;
-+	if (val == DW_PHY_HDMI_MHL_MODE_ABOVE_3_4G_BITPS) {
-+		/* HDMI 2.0 */
-+		*fat_bit_mask = DW_PHY_EQ_FATBIT_MASK_HDMI20;
-+		*min_max_length = DW_PHY_EQ_MINMAX_MAXDIFF_HDMI20;
-+		*eq_cnt_threshold = DW_PHY_EQ_COUNTER_VAL_HDMI20;
-+		*cdr_phug_frug = DW_PHY_EQ_CDR_PHUG_FRUG_HDMI20;
-+		dev_dbg(dw_dev->dev, "[EQUALIZER] using HDMI 2.0 values\n");
-+	} else if (!(main_fsm_status & DW_PHY_PLL_RATE_MASK)) {
-+		/* HDMI 1.4 (pll rate = 0) */
-+		*fat_bit_mask = DW_PHY_EQ_FATBIT_MASK_4K;
-+		*min_max_length = DW_PHY_EQ_MINMAX_MAXDIFF_4K;
-+		*eq_cnt_threshold = DW_PHY_EQ_COUNTER_VAL_4K;
-+		*cdr_phug_frug = DW_PHY_EQ_CDR_PHUG_FRUG_4k;
-+		dev_dbg(dw_dev->dev, "[EQUALIZER] using HDMI 1.4@4k values\n");
-+	} else {
-+		/* HDMI 1.4 */
-+		*fat_bit_mask = DW_PHY_EQ_FATBIT_MASK;
-+		*min_max_length = DW_PHY_EQ_MINMAX_MAXDIFF;
-+		*eq_cnt_threshold = DW_PHY_EQ_COUNTER_VAL;
-+		*cdr_phug_frug = DW_PHY_EQ_CDR_PHUG_FRUG;
-+		dev_dbg(dw_dev->dev, "[EQUALIZER] using HDMI 1.4 values\n");
-+	}
-+
-+	return 0;
++	dw_dev->config->dw_reset_all(arg);
 +}
 +
-+static void dw_phy_eq_auto_calib(struct dw_phy_dev *dw_dev)
++static void dw_hdmi_disable_hpd(struct dw_hdmi_dev *dw_dev);
++
++static void dw_hdmi_reset(struct dw_hdmi_dev *dw_dev)
 +{
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_EQCAL_DIS_CTRL_ONE_EIGHT_RATE |
-+		      DW_PHY_EQCAL_DIS_CTRL_QUARTER_RATE |
-+		      DW_PHY_FORCE_STATE_DIS |
-+		      DW_PHY_MAIN_FSM_STATE(9)), DW_PHY_MAINFSM_CTRL);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_EQCAL_DIS_CTRL_ONE_EIGHT_RATE |
-+		      DW_PHY_EQCAL_DIS_CTRL_QUARTER_RATE |
-+		      DW_PHY_FORCE_STATE_EN |
-+		      DW_PHY_MAIN_FSM_STATE(9)), DW_PHY_MAINFSM_CTRL);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_EQCAL_DIS_CTRL_ONE_EIGHT_RATE |
-+		      DW_PHY_EQCAL_DIS_CTRL_QUARTER_RATE |
-+		      DW_PHY_FORCE_STATE_DIS |
-+		      DW_PHY_MAIN_FSM_STATE(9)), DW_PHY_MAINFSM_CTRL);
++	dev_dbg(dw_dev->dev, "%s: reset\n", __func__);
++
++	/* perform main reset */
++	dw_hdmi_main_reset(dw_dev);
++
++	dw_hdmi_disable_hpd(dw_dev);
 +}
 +
-+void dw_phy_eq_settings(struct dw_phy_dev *dw_dev, u16 ch0_setting,
-+			u16 ch1_setting, u16 ch2_setting)
++static inline bool is_off(struct dw_hdmi_dev *dw_dev)
 +{
-+	dw_phy_write(dw_dev,
-+		     (DW_CHX_EQ_CTRL3_MASK |
-+		      (ch0_setting & DW_PHY_CH0_EXT_EQ_SET_MASK)),
-+		     DW_PHY_CH0_EQ_CTRL3);
-+	dw_phy_write(dw_dev,
-+		     (DW_CHX_EQ_CTRL3_MASK |
-+		      (ch1_setting & DW_PHY_CH1_EXT_EQ_SET_MASK)),
-+		     DW_PHY_CH1_EQ_CTRL3);
-+	dw_phy_write(dw_dev,
-+		     (DW_CHX_EQ_CTRL3_MASK |
-+		      (ch2_setting & DW_PHY_CH2_EXT_EQ_SET_MASK)),
-+		     DW_PHY_CH2_EQ_CTRL3);
-+	dw_phy_write(dw_dev, DW_PHY_EQ_EN_OVR_EN, DW_PHY_MAINFSM_OVR2);
-+
-+	dw_phy_eq_auto_calib(dw_dev);
++	return dw_dev->state <= HDMI_STATE_POWER_OFF;
 +}
 +
-+static void dw_phy_eq_default(struct dw_phy_dev *dw_dev)
++static inline bool is_on(struct dw_hdmi_dev *dw_dev)
 +{
-+	dw_phy_eq_settings(dw_dev, 0, 0, 0);
++	return dw_dev->state == HDMI_STATE_POWER_ON;
 +}
 +
-+static void dw_phy_eq_single(struct dw_phy_dev *dw_dev)
++static bool has_signal(struct dw_hdmi_dev *dw_dev, unsigned int input)
++{
++	return dw_dev->input_connected[input];
++}
++
++static inline bool is_hdmi2(struct dw_hdmi_dev *dw_dev)
++{
++	return hdmi_readl(dw_dev, DW_HDMI_SCDC_REGS0) &
++			DW_HDMI_SCDC_TMDSBITCLKRATIO_MASK;
++}
++
++static inline bool is_scrambled(struct dw_hdmi_dev *dw_dev)
++{
++	return hdmi_readl(dw_dev, DW_HDMI_SCDC_REGS0) &
++			DW_HDMI_SCDC_SCRAMBSTATUS_MASK;
++}
++
++static void hdmi_phy_jtag_send_pulse(struct dw_hdmi_dev *dw_dev, u8 tms, u8 tdi)
++{
++	u8 val;
++
++	val = tms ? DW_HDMI_JTAG_TMS : 0;
++	val |= tdi ? DW_HDMI_JTAG_TDI : 0;
++
++	hdmi_writel(dw_dev, 0, DW_HDMI_JTAG_TAP_TCLK);
++	hdmi_writel(dw_dev, val, DW_HDMI_JTAG_TAP_IN);
++	hdmi_writel(dw_dev, 1, DW_HDMI_JTAG_TAP_TCLK);
++}
++
++static void hdmi_phy_jtag_shift_dr(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
++	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
++	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
++}
++
++static void hdmi_phy_jtag_shift_ir(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
++	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
++	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
++	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
++}
++
++static u16 hdmi_phy_jtag_send(struct dw_hdmi_dev *dw_dev, u8 cmd, u16 val)
++{
++	u32 in = (cmd << 16) | val;
++	u16 out = 0;
++	u8 i;
++
++	for (i = 0; i < 16; i++) {
++		hdmi_phy_jtag_send_pulse(dw_dev, 0, in & 0x1);
++		out |= (hdmi_readl(dw_dev, DW_HDMI_JTAG_TAP_OUT) & 0x1) << i;
++		in >>= 1;
++	}
++
++	hdmi_phy_jtag_send_pulse(dw_dev, 0, in & 0x1);
++	in >>= 1;
++	hdmi_phy_jtag_send_pulse(dw_dev, 1, in & 0x1);
++
++	out |= (hdmi_readl(dw_dev, DW_HDMI_JTAG_TAP_OUT) & 0x1) << ++i;
++	return out;
++}
++
++static void hdmi_phy_jtag_idle(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
++	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
++}
++
++static void hdmi_phy_jtag_init(struct dw_hdmi_dev *dw_dev, u8 addr)
++{
++	u8 i;
++
++	hdmi_writel(dw_dev, addr, DW_HDMI_JTAG_ADDR);
++
++	/* reset */
++	hdmi_writel(dw_dev, 0x10, DW_HDMI_JTAG_TAP_IN);
++	hdmi_writel(dw_dev, 0x0, DW_HDMI_JTAG_CONF);
++	hdmi_writel(dw_dev, 0x1, DW_HDMI_JTAG_CONF);
++	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
++
++	/* soft reset */
++	for (i = 0; i < 5; i++)
++		hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
++	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
++
++	/* set slave address */
++	hdmi_phy_jtag_shift_ir(dw_dev);
++	for (i = 0; i < 7; i++) {
++		hdmi_phy_jtag_send_pulse(dw_dev, 0, addr & 0x1);
++		addr >>= 1;
++	}
++	hdmi_phy_jtag_send_pulse(dw_dev, 1, addr & 0x1);
++	hdmi_phy_jtag_idle(dw_dev);
++}
++
++static void hdmi_phy_jtag_write(struct dw_hdmi_dev *dw_dev, u16 val, u16 addr)
++{
++	hdmi_phy_jtag_shift_dr(dw_dev);
++	hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_ADDR_CMD, addr << 8);
++	hdmi_phy_jtag_idle(dw_dev);
++	hdmi_phy_jtag_shift_dr(dw_dev);
++	hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_WRITE_CMD, val);
++	hdmi_phy_jtag_idle(dw_dev);
++}
++
++static u16 hdmi_phy_jtag_read(struct dw_hdmi_dev *dw_dev, u16 addr)
 +{
 +	u16 val;
 +
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH0_LOOP_CTR_LIMIT(1) |
-+		      DW_PHY_CH0_MSTR_CTR_LIMIT(1) |
-+		      DW_PHY_CH0_ADAP_COMP_LIMIT(1)), DW_PHY_CH0_EQ_CTRL1);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH1_LOOP_CTR_LIMIT(1) |
-+		      DW_PHY_CH1_MSTR_CTR_LIMIT(1) |
-+		      DW_PHY_CH1_ADAP_COMP_LIMIT(1)), DW_PHY_CH1_EQ_CTRL1);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH2_LOOP_CTR_LIMIT(1) |
-+		      DW_PHY_CH2_MSTR_CTR_LIMIT(1) |
-+		      DW_PHY_CH2_ADAP_COMP_LIMIT(1)), DW_PHY_CH2_EQ_CTRL1);
++	hdmi_phy_jtag_shift_dr(dw_dev);
++	hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_ADDR_CMD, addr << 8);
++	hdmi_phy_jtag_idle(dw_dev);
++	hdmi_phy_jtag_shift_dr(dw_dev);
++	val = hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_READ_CMD, 0xFFFF);
++	hdmi_phy_jtag_idle(dw_dev);
 +
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH1_OVRD_LOCK_VECTOR_EN |
-+		      DW_PHY_CH1_LB_ACTIVE_OVR |
-+		      (DW_PHY_CH1_EQUALIZATION_CTR_THR(DW_PHY_EQ_AVG_ACQ) &
-+		       DW_PHY_CH1_EQUALIZATION_CTR_THR_MASK)),
-+		     DW_PHY_CH1_EQ_CTRL2);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH2_OVRD_LOCK_VECTOR_EN |
-+		      DW_PHY_CH2_LB_ACTIVE_OVR |
-+		      (DW_PHY_CH2_EQUALIZATION_CTR_THR(DW_PHY_EQ_AVG_ACQ) &
-+		       DW_PHY_CH2_EQUALIZATION_CTR_THR_MASK)),
-+		     DW_PHY_CH2_EQ_CTRL2);
-+
-+	val = dw_phy_read(dw_dev, DW_PHY_MAINFSM_OVR2);
-+	val &= ~(DW_PHY_EQ_EN_OVR | DW_PHY_EQ_EN_OVR_EN);
-+	dw_phy_write(dw_dev, val, DW_PHY_MAINFSM_OVR2);
++	return val;
 +}
 +
-+static void dw_phy_eq_equal_setting(struct dw_phy_dev *dw_dev, u16 lock_vector)
++static void dw_hdmi_phy_write(void *arg, u16 val, u16 addr)
 +{
-+	dw_phy_write(dw_dev, lock_vector, DW_PHY_CH0_EQ_CTRL4);
++	struct dw_hdmi_dev *dw_dev = arg;
++	u16 rval;
 +
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH0_OVRD_LOCK_VECTOR_EN |
-+		      DW_PHY_CH0_LB_ACTIVE_OVR |
-+		      (DW_PHY_CH0_EQUALIZATION_CTR_THR(DW_PHY_EQ_AVG_ACQ) &
-+		       DW_PHY_CH0_EQUALIZATION_CTR_THR_MASK) |
-+		      DW_PHY_CH0_CH_EQ_SAME_OVRD), DW_PHY_CH0_EQ_CTRL2);
-+	dw_phy_write(dw_dev,
-+		     (DW_PHY_CH0_OVRD_LOCK |
-+		      DW_PHY_CH0_OVRD_LOCK_VECTOR_EN |
-+		      DW_PHY_CH0_LB_ACTIVE_OVR |
-+		      (DW_PHY_CH0_EQUALIZATION_CTR_THR(DW_PHY_EQ_AVG_ACQ) &
-+		       DW_PHY_CH0_EQUALIZATION_CTR_THR_MASK) |
-+		      DW_PHY_CH0_CH_EQ_SAME_OVRD), DW_PHY_CH0_EQ_CTRL2);
++	hdmi_phy_jtag_init(dw_dev, dw_dev->config->phy->jtag_addr);
++	hdmi_phy_jtag_write(dw_dev, val, addr);
++	rval = hdmi_phy_jtag_read(dw_dev, addr);
++
++	if (rval != val) {
++		dev_err(dw_dev->dev,
++			"JTAG read-back failed: expected=0x%x, got=0x%x\n",
++			val, rval);
++	}
 +}
 +
-+static void dw_phy_eq_init_vars(struct dw_phy_eq_ch *ch)
++static u16 dw_hdmi_phy_read(void *arg, u16 addr)
 +{
-+	ch->acc = 0;
-+	ch->acq = 0;
-+	ch->last_acq = 0;
-+	ch->valid_long_setting = 0;
-+	ch->valid_short_setting = 0;
-+	ch->best_setting = DW_PHY_EQ_SHORT_CABLE_SETTING;
++	struct dw_hdmi_dev *dw_dev = arg;
++
++	hdmi_phy_jtag_init(dw_dev, dw_dev->config->phy->jtag_addr);
++	return hdmi_phy_jtag_read(dw_dev, addr);
 +}
 +
-+static bool dw_phy_eq_acquire_early_cnt(struct dw_phy_dev *dw_dev,
-+					u16 setting, u16 acq,
-+					struct dw_phy_eq_ch *ch0,
-+					struct dw_phy_eq_ch *ch1,
-+					struct dw_phy_eq_ch *ch2)
++static void dw_hdmi_phy_reset(void *arg, int enable)
 +{
-+	u16 lock_vector = 0x1 << setting;
++	struct dw_hdmi_dev *dw_dev = arg;
 +
-+	ch0->acq = 0;
-+	ch1->acq = 0;
-+	ch2->acq = 0;
++	hdmi_mask_writel(dw_dev, enable, DW_HDMI_PHY_CTRL,
++			 DW_HDMI_PHYRESET_OFFSET,
++			 DW_HDMI_PHYRESET_MASK);
++}
 +
-+	dw_phy_eq_equal_setting(dw_dev, lock_vector);
-+	dw_phy_eq_auto_calib(dw_dev);
++static void dw_hdmi_phy_pddq(void *arg, int enable)
++{
++	struct dw_hdmi_dev *dw_dev = arg;
 +
-+	mdelay(DW_PHY_EQ_SLEEP_TIME_CDR);
-+	if (!dw_phy_tmds_valid(dw_dev))
-+		dev_dbg(dw_dev->dev, "TMDS is NOT valid\n");
++	hdmi_mask_writel(dw_dev, enable, DW_HDMI_PHY_CTRL,
++			 DW_HDMI_PHYPDDQ_OFFSET,
++			 DW_HDMI_PHYPDDQ_MASK);
++}
 +
-+	ch0->acq = dw_phy_read(dw_dev, DW_PHY_CH0_EQ_STATUS3) >>
-+		DW_PHY_EQ_AVG_ACQ;
-+	ch1->acq = dw_phy_read(dw_dev, DW_PHY_CH1_EQ_STATUS3) >>
-+		DW_PHY_EQ_AVG_ACQ;
-+	ch2->acq = dw_phy_read(dw_dev, DW_PHY_CH2_EQ_STATUS3) >>
-+		DW_PHY_EQ_AVG_ACQ;
++static void dw_hdmi_phy_svsmode(void *arg, int enable)
++{
++	struct dw_hdmi_dev *dw_dev = arg;
 +
-+	dev_dbg(dw_dev->dev,
-+		"%s -> phy_read(dw_dev, DW_PHY_CH0_EQ_STATUS3) [%d] [%u]\n",
-+		__func__, setting, ch0->acq);
-+	dev_dbg(dw_dev->dev,
-+		"%s -> phy_read(dw_dev, DW_PHY_CH1_EQ_STATUS3) [%d] [%u]\n",
-+		__func__, setting, ch1->acq);
-+	dev_dbg(dw_dev->dev,
-+		"%s -> phy_read(dw_dev, DW_PHY_CH2_EQ_STATUS3) [%d] [%u]\n",
-+		__func__, setting, ch2->acq);
++	hdmi_mask_writel(dw_dev, enable, DW_HDMI_PHY_CTRL,
++			 DW_HDMI_PHYSVSRETMODEZ_OFFSET,
++			 DW_HDMI_PHYSVSRETMODEZ_MASK);
++}
++
++static void dw_hdmi_zcal_reset(void *arg)
++{
++	struct dw_hdmi_dev *dw_dev = arg;
++
++	if (dw_dev->config->dw_zcal_reset)
++		dw_dev->config->dw_zcal_reset(dw_dev->config->dw_zcal_arg);
++}
++
++static bool dw_hdmi_zcal_done(void *arg)
++{
++	struct dw_hdmi_dev *dw_dev = arg;
++	void __iomem *zcal_arg = dw_dev->config->dw_zcal_arg;
++
++	if (dw_dev->config->dw_zcal_done)
++		return dw_dev->config->dw_zcal_done(zcal_arg);
++
++	return false;
++}
++
++static bool dw_hdmi_tmds_valid(void *arg)
++{
++	struct dw_hdmi_dev *dw_dev = arg;
++
++	return (hdmi_readl(dw_dev, DW_HDMI_PLL_LCK_STS) & DW_HDMI_PLL_LOCKED);
++}
++
++static bool dw_hdmi_audio_valid(void *arg)
++{
++	struct dw_hdmi_dev *dw_dev = arg;
++
++	return ((hdmi_readl(dw_dev, DW_HDMI_AUD_PLL_CTRL) &
++			DW_HDMI_PLL_LOCK_STABLE_MASK) != 0);
++}
++
++static const struct dw_phy_funcs dw_hdmi_phy_funcs = {
++	.write = dw_hdmi_phy_write,
++	.read = dw_hdmi_phy_read,
++	.reset = dw_hdmi_phy_reset,
++	.pddq = dw_hdmi_phy_pddq,
++	.svsmode = dw_hdmi_phy_svsmode,
++	.zcal_reset = dw_hdmi_zcal_reset,
++	.zcal_done = dw_hdmi_zcal_done,
++	.tmds_valid = dw_hdmi_tmds_valid,
++};
++
++static const struct of_device_id dw_hdmi_supported_phys[] = {
++	{ .compatible = "snps,dw-hdmi-phy-e405", .data = DW_PHY_E40X_DRVNAME, },
++	{ .compatible = "snps,dw-hdmi-phy-e406", .data = DW_PHY_E40X_DRVNAME, },
++	{ },
++};
++
++static struct device_node *
++dw_hdmi_get_phy_of_node(struct dw_hdmi_dev *dw_dev,
++			const struct of_device_id **found_id)
++{
++	struct device_node *child = NULL;
++	const struct of_device_id *id;
++
++	for_each_child_of_node(dw_dev->of_node, child) {
++		id = of_match_node(dw_hdmi_supported_phys, child);
++		if (id)
++			break;
++	}
++
++	if (!id)
++		return NULL;
++	if (found_id)
++		*found_id = id;
++
++	return child;
++}
++
++static bool dw_hdmi_has_dt(struct dw_hdmi_dev *dw_dev)
++{
++	const struct of_device_id *of_id;
++
++	if (!dw_dev->of_node ||
++	    !dw_hdmi_get_phy_of_node(dw_dev, &of_id) ||
++	    !of_id || !of_id->data) {
++		return false;
++	}
 +
 +	return true;
 +}
 +
-+static int dw_phy_eq_test_type(u16 setting, bool tmds_valid,
-+			       u16 eq_cnt_threshold, struct dw_phy_eq_ch *ch)
++static const struct dw_hdmi_phy_cfg {
++	const char *drvname;
++	const struct dw_phy_funcs *funcs;
++	int (*extra_init)(struct dw_hdmi_dev *dw_dev);
++} dw_hdmi_phys[] = {
++	{
++		.drvname = DW_PHY_E40X_DRVNAME,
++		.funcs = &dw_hdmi_phy_funcs,
++	},
++};
++
++static int dw_hdmi_phy_init_dt(struct dw_hdmi_dev *dw_dev)
 +{
-+	u16 step_slope = 0;
++	const struct dw_hdmi_phy_cfg *phy_config = NULL;
++	struct dw_phy_pdata *phy = &dw_dev->phy_config;
++	struct of_dev_auxdata lookup = { };
++	const struct of_device_id *of_id;
++	struct device_node *child;
++	const char *drvname;
++	unsigned int i;
++	int ret;
 +
-+	if (ch->acq < ch->last_acq && tmds_valid) {
-+		/* Long cable equalization */
-+		ch->acc += ch->last_acq - ch->acq;
-+		if (!ch->valid_long_setting &&
-+		    ch->acq < eq_cnt_threshold &&
-+		    ch->acc > DW_PHY_EQ_ACC_MIN_LIMIT) {
-+			ch->best_long_setting = setting;
-+			ch->valid_long_setting = 1;
-+		}
-+		step_slope = ch->last_acq - ch->acq;
++	child = dw_hdmi_get_phy_of_node(dw_dev, &of_id);
++	if (!child || !of_id || !of_id->data) {
++		dev_err(dw_dev->dev, "no supported PHY found in DT\n");
++		return -EINVAL;
 +	}
 +
-+	if (tmds_valid && !ch->valid_short_setting) {
-+		/* Short cable equalization */
-+		if (setting < DW_PHY_EQ_SHORT_CABLE_SETTING &&
-+		    ch->acq < eq_cnt_threshold) {
-+			ch->best_short_setting = setting;
-+			ch->valid_short_setting = 1;
-+		}
-+
-+		if (setting == DW_PHY_EQ_SHORT_CABLE_SETTING) {
-+			ch->best_short_setting = DW_PHY_EQ_SHORT_CABLE_SETTING;
-+			ch->valid_short_setting = 1;
-+		}
++	drvname = of_id->data;
++	for (i = 0; i < ARRAY_SIZE(dw_hdmi_phys); i++) {
++		if (!strcmp(dw_hdmi_phys[i].drvname, drvname))
++			phy_config = &dw_hdmi_phys[i];
 +	}
 +
-+	if (ch->valid_long_setting && ch->acc > DW_PHY_EQ_ACC_LIMIT) {
-+		ch->best_setting = ch->best_long_setting;
-+		return DW_PHY_EQ_TEST_TYPE_BEST_SET_IS_LONG;
++	if (!phy_config) {
++		dev_err(dw_dev->dev, "failed to find PHY configuration\n");
++		return -EINVAL;
 +	}
 +
-+	if (setting == DW_PHY_EQ_MAX_SETTING && ch->acc < DW_PHY_EQ_ACC_LIMIT &&
-+	    ch->valid_short_setting) {
-+		ch->best_setting = ch->best_short_setting;
-+		return DW_PHY_EQ_TEST_TYPE_BEST_SET_IS_SHORT;
++	if (phy_config->extra_init) {
++		ret = phy_config->extra_init(dw_dev);
++		if (ret)
++			return ret;
 +	}
 +
-+	if (setting == DW_PHY_EQ_MAX_SETTING && tmds_valid &&
-+	    ch->acc > DW_PHY_EQ_ACC_LIMIT &&
-+	    step_slope > DW_PHY_EQ_MIN_SLOPE) {
-+		ch->best_setting = DW_PHY_EQ_MAX_SETTING;
-+		return DW_PHY_EQ_TEST_TYPE_BEST_SET_IS_MAX;
-+	}
++	phy->funcs = phy_config->funcs;
++	phy->funcs_arg = dw_dev;
 +
-+	if (setting == DW_PHY_EQ_MAX_SETTING) {
-+		ch->best_setting = DW_PHY_EQ_ERROR_CABLE_SETTING;
-+		return DW_PHY_EQ_TEST_TYPE_BEST_SET_ERROR;
++	lookup.compatible = (char *)of_id->compatible;
++	lookup.platform_data = phy;
++
++	request_module(drvname);
++
++	ret = of_platform_populate(dw_dev->of_node, NULL, &lookup, dw_dev->dev);
++	if (ret) {
++		dev_err(dw_dev->dev, "failed to populate PHY driver\n");
++		return ret;
 +	}
 +
 +	return 0;
 +}
 +
-+static bool dw_phy_eq_setting_finder(struct dw_phy_dev *dw_dev, u16 acq,
-+				     u16 eq_cnt_threshold,
-+				     struct dw_phy_eq_ch *ch0,
-+				     struct dw_phy_eq_ch *ch1,
-+				     struct dw_phy_eq_ch *ch2)
++static int dw_hdmi_phy_init_pd(struct dw_hdmi_dev *dw_dev)
 +{
-+	int ret_ch0 = 0, ret_ch1 = 0, ret_ch2 = 0;
-+	bool tmds_valid = false;
-+	u16 act = 0;
++	const char *drv_name = dw_dev->config->phy->drv_name;
++	const struct dw_hdmi_phy_cfg *phy_config = NULL;
++	struct platform_device_info pdevinfo;
++	unsigned int i;
++	int ret;
 +
-+	dw_phy_eq_init_vars(ch0);
-+	dw_phy_eq_init_vars(ch1);
-+	dw_phy_eq_init_vars(ch2);
++	memset(&pdevinfo, 0, sizeof(pdevinfo));
 +
-+	tmds_valid = dw_phy_eq_acquire_early_cnt(dw_dev, act, acq,
-+						 ch0, ch1, ch2);
-+
-+	while (!ret_ch0 || !ret_ch1 || !ret_ch2) {
-+		act++;
-+
-+		ch0->last_acq = ch0->acq;
-+		ch1->last_acq = ch1->acq;
-+		ch2->last_acq = ch2->acq;
-+
-+		tmds_valid = dw_phy_eq_acquire_early_cnt(dw_dev, act, acq,
-+							 ch0, ch1, ch2);
-+
-+		if (!ret_ch0)
-+			ret_ch0 = dw_phy_eq_test_type(act, tmds_valid,
-+						      eq_cnt_threshold, ch0);
-+		if (!ret_ch1)
-+			ret_ch1 = dw_phy_eq_test_type(act, tmds_valid,
-+						      eq_cnt_threshold, ch1);
-+		if (!ret_ch2)
-+			ret_ch2 = dw_phy_eq_test_type(act, tmds_valid,
-+						      eq_cnt_threshold, ch2);
++	for (i = 0; i < ARRAY_SIZE(dw_hdmi_phys); i++) {
++		if (!strcmp(dw_hdmi_phys[i].drvname, drv_name))
++			phy_config = &dw_hdmi_phys[i];
 +	}
 +
-+	if (ret_ch0 == DW_PHY_EQ_TEST_TYPE_BEST_SET_ERROR ||
-+	    ret_ch1 == DW_PHY_EQ_TEST_TYPE_BEST_SET_ERROR ||
-+	    ret_ch2 == DW_PHY_EQ_TEST_TYPE_BEST_SET_ERROR)
-+		return false;
-+	return true;
-+}
-+
-+static bool dw_phy_eq_maxvsmin(u16 ch0_setting, u16 ch1_setting,
-+			       u16 ch2_setting, u16 min_max_length)
-+{
-+	u16 min = ch0_setting, max = ch0_setting;
-+
-+	if (ch1_setting > max)
-+		max = ch1_setting;
-+	if (ch2_setting > max)
-+		max = ch2_setting;
-+	if (ch1_setting < min)
-+		min = ch1_setting;
-+	if (ch2_setting < min)
-+		min = ch2_setting;
-+
-+	if ((max - min) > min_max_length)
-+		return false;
-+	return true;
-+}
-+
-+static int dw_phy_eq_init(struct dw_phy_dev *dw_dev, u16 acq, bool force)
-+{
-+	u16 fat_bit_mask, eq_cnt_threshold;
-+	struct dw_phy_eq_ch ch0, ch1, ch2;
-+	int min_max_length, ret = 0;
-+	u16 cdr_phug_frug;
-+	u16 mpll_status;
-+	unsigned int i;
-+
-+	if (!dw_dev->phy_enabled)
++	if (!phy_config) {
++		dev_err(dw_dev->dev, "failed to find PHY configuration\n");
 +		return -EINVAL;
++	}
 +
-+	mpll_status = dw_phy_read(dw_dev, DW_PHY_CLK_MPLL_STATUS);
-+	if (mpll_status == dw_dev->mpll_status && !force)
-+		return ret;
++	if (phy_config->extra_init) {
++		ret = phy_config->extra_init(dw_dev);
++		if (ret)
++			return ret;
++	}
 +
-+	dw_dev->mpll_status = mpll_status;
++	dw_dev->phy_config.version = dw_dev->config->phy->version;
++	dw_dev->phy_config.cfg_clk = dw_dev->config->phy->cfg_clk;
++	dw_dev->phy_config.funcs = phy_config->funcs;
++	dw_dev->phy_config.funcs_arg = dw_dev;
 +
-+	ret = dw_phy_eq_test(dw_dev, &fat_bit_mask, &min_max_length,
-+			     &eq_cnt_threshold, &cdr_phug_frug);
-+	if (ret) {
-+		if (ret == -EINVAL) /* Means equalizer is not needed */
-+			ret = 0;
++	pdevinfo.parent = dw_dev->dev;
++	pdevinfo.id = PLATFORM_DEVID_NONE;
++	pdevinfo.name = drv_name;
++	pdevinfo.data = &dw_dev->phy_config;
++	pdevinfo.size_data = sizeof(dw_dev->phy_config);
++	pdevinfo.dma_mask = DMA_BIT_MASK(32);
 +
-+		/* Do not change values if we don't have clock */
-+		if (ret != -ETIMEDOUT) {
-+			dw_phy_eq_default(dw_dev);
-+			dw_phy_pddq(dw_dev, 1);
-+			dw_phy_pddq(dw_dev, 0);
-+		}
++	request_module(pdevinfo.name);
++
++	dw_dev->phy_pdev = platform_device_register_full(&pdevinfo);
++	if (IS_ERR(dw_dev->phy_pdev)) {
++		dev_err(dw_dev->dev, "failed to register PHY device\n");
++		return PTR_ERR(dw_dev->phy_pdev);
++	}
++
++	return 0;
++}
++
++static int dw_hdmi_phy_init(struct dw_hdmi_dev *dw_dev)
++{
++	int ret;
++
++	if (dw_hdmi_has_dt(dw_dev)) {
++		/* init PHY based on device tree */
++		ret = dw_hdmi_phy_init_dt(dw_dev);
 +	} else {
-+		dw_phy_eq_single(dw_dev);
-+		dw_phy_write(dw_dev, fat_bit_mask, DW_PHY_CH0_EQ_CTRL6);
-+		dw_phy_write(dw_dev, fat_bit_mask, DW_PHY_CH1_EQ_CTRL6);
-+		dw_phy_write(dw_dev, fat_bit_mask, DW_PHY_CH2_EQ_CTRL6);
-+		/* config cdr */
-+		dw_phy_write(dw_dev, cdr_phug_frug, DW_PHY_CH0_CDR_CTRL);
-+		dw_phy_write(dw_dev, cdr_phug_frug, DW_PHY_CH1_CDR_CTRL);
-+		dw_phy_write(dw_dev, cdr_phug_frug, DW_PHY_CH2_CDR_CTRL);
++		/* init PHY based on platform device */
++		ret = dw_hdmi_phy_init_pd(dw_dev);
++	}
 +
-+		for (i = 0; i < DW_PHY_EQ_MINMAX_NTRIES; i++) {
-+			if (dw_phy_eq_setting_finder(dw_dev, acq,
-+						     eq_cnt_threshold,
-+						     &ch0, &ch1, &ch2)) {
-+				if (dw_phy_eq_maxvsmin(ch0.best_setting,
-+						       ch1.best_setting,
-+						       ch2.best_setting,
-+						       min_max_length))
-+					break;
-+			}
-+
-+			ch0.best_setting = DW_PHY_EQ_ERROR_CABLE_SETTING;
-+			ch1.best_setting = DW_PHY_EQ_ERROR_CABLE_SETTING;
-+			ch2.best_setting = DW_PHY_EQ_ERROR_CABLE_SETTING;
-+		}
-+
-+		dev_dbg(dw_dev->dev, "equalizer settings: ch0=0x%x, ch1=0x%x, ch1=0x%x\n",
-+			ch0.best_setting, ch1.best_setting,
-+			ch2.best_setting);
-+
-+		if (i == DW_PHY_EQ_MINMAX_NTRIES)
-+			ret = -EINVAL;
-+
-+		/* restore cdr to default settings */
-+		dw_phy_write(dw_dev, DW_PHY_EQ_CDR_PHUG_FRUG_DEF,
-+			     DW_PHY_CH0_CDR_CTRL);
-+		dw_phy_write(dw_dev, DW_PHY_EQ_CDR_PHUG_FRUG_DEF,
-+			     DW_PHY_CH1_CDR_CTRL);
-+		dw_phy_write(dw_dev, DW_PHY_EQ_CDR_PHUG_FRUG_DEF,
-+			     DW_PHY_CH2_CDR_CTRL);
-+
-+		dw_phy_eq_settings(dw_dev, ch0.best_setting, ch1.best_setting,
-+				   ch2.best_setting);
-+
-+		dw_phy_pddq(dw_dev, 1);
-+		dw_phy_pddq(dw_dev, 0);
++	/* get the HDMI PHY reference */
++	dw_dev->phy = devm_phy_get(dw_dev->dev, "hdmi-phy");
++	if (IS_ERR(dw_dev->phy)) {
++		if (PTR_ERR(dw_dev->phy) != -EPROBE_DEFER)
++			dev_err(dw_dev->dev, "Couldn't get the HDMI PHY\n");
++		return PTR_ERR(dw_dev->phy);
 +	}
 +
 +	return ret;
 +}
 +
-+/* PHY e406 data */
-+const struct dw_hdmi_phy_data dw_phy_e406_data = {
-+	.name = "e406",
-+	.version = 406,
-+	.mpll_cfg = dw_phy_e406_mpll_cfg,
-+	.dw_phy_eq_init = dw_phy_eq_init,
-+};
-diff --git a/drivers/phy/dwc/phy-dw-hdmi-e40x-core.c b/drivers/phy/dwc/phy-dw-hdmi-e40x-core.c
-new file mode 100644
-index 0000000..7bac0c6
---- /dev/null
-+++ b/drivers/phy/dwc/phy-dw-hdmi-e40x-core.c
-@@ -0,0 +1,514 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare HDMI PHYs e405 and e406 driver
-+ *
-+ * Author: Jose Abreu <jose.abreu@synopsys.com>
-+ * Author: Nelson Costa <nelson.costa@synopsys.com>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/types.h>
-+#include <linux/phy/phy.h>
-+#include <linux/phy/dwc/dw-hdmi-phy-pdata.h>
-+
-+#include "phy-dw-hdmi-e40x.h"
-+
-+void dw_phy_write(struct dw_phy_dev *dw_dev, u16 val, u16 addr)
++static void dw_hdmi_phy_exit(struct dw_hdmi_dev *dw_dev)
 +{
-+	const struct dw_phy_funcs *funcs = dw_dev->config->funcs;
-+	void *arg = dw_dev->config->funcs_arg;
-+
-+	funcs->write(arg, val, addr);
++	if (dw_hdmi_has_dt(dw_dev)) {
++		/* exit PHY based on device tree */
++		of_platform_depopulate(dw_dev->dev);
++	} else {
++		/* exit PHY based on platform device */
++		if (!IS_ERR(dw_dev->phy_pdev))
++			platform_device_unregister(dw_dev->phy_pdev);
++	}
 +}
 +
-+u16 dw_phy_read(struct dw_phy_dev *dw_dev, u16 addr)
++static int dw_hdmi_phy_eq_init(struct dw_hdmi_dev *dw_dev, u16 acq, bool force)
 +{
-+	const struct dw_phy_funcs *funcs = dw_dev->config->funcs;
-+	void *arg = dw_dev->config->funcs_arg;
++	union phy_configure_opts opts;
++	struct phy_configure_opts_hdmi *hdmi_opts = &opts.hdmi;
++	int ret = 0;
 +
-+	return funcs->read(arg, addr);
-+}
++	/* load the required options for calibration */
++	hdmi_opts->calibration_acq = acq;
++	hdmi_opts->calibration_force = force;
++	/* to avoid other reconfigurations when is to calibrate */
++	hdmi_opts->set_color_depth = 0;
++	hdmi_opts->set_tmds_bit_clock_ratio = 0;
++	hdmi_opts->set_scrambling = 0;
 +
-+static void dw_phy_reset(struct dw_phy_dev *dw_dev, int enable)
-+{
-+	const struct dw_phy_funcs *funcs = dw_dev->config->funcs;
-+	void *arg = dw_dev->config->funcs_arg;
-+
-+	funcs->reset(arg, enable);
-+}
-+
-+void dw_phy_pddq(struct dw_phy_dev *dw_dev, int enable)
-+{
-+	const struct dw_phy_funcs *funcs = dw_dev->config->funcs;
-+	void *arg = dw_dev->config->funcs_arg;
-+
-+	funcs->pddq(arg, enable);
-+}
-+
-+static void dw_phy_svsmode(struct dw_phy_dev *dw_dev, int enable)
-+{
-+	const struct dw_phy_funcs *funcs = dw_dev->config->funcs;
-+	void *arg = dw_dev->config->funcs_arg;
-+
-+	funcs->svsmode(arg, enable);
-+}
-+
-+static void dw_phy_zcal_reset(struct dw_phy_dev *dw_dev)
-+{
-+	const struct dw_phy_funcs *funcs = dw_dev->config->funcs;
-+	void *arg = dw_dev->config->funcs_arg;
-+
-+	funcs->zcal_reset(arg);
-+}
-+
-+static bool dw_phy_zcal_done(struct dw_phy_dev *dw_dev)
-+{
-+	const struct dw_phy_funcs *funcs = dw_dev->config->funcs;
-+	void *arg = dw_dev->config->funcs_arg;
-+
-+	return funcs->zcal_done(arg);
-+}
-+
-+bool dw_phy_tmds_valid(struct dw_phy_dev *dw_dev)
-+{
-+	const struct dw_phy_funcs *funcs = dw_dev->config->funcs;
-+	void *arg = dw_dev->config->funcs_arg;
-+
-+	return funcs->tmds_valid(arg);
-+}
-+
-+static int dw_phy_color_depth_to_mode(u8 color_depth)
-+{
-+	int sc_clrdep = 0;
-+
-+	switch (color_depth) {
-+	case 24:
-+		sc_clrdep = DW_PHY_CLRDEP_8BIT_MODE;
-+		break;
-+	case 30:
-+		sc_clrdep = DW_PHY_CLRDEP_10BIT_MODE;
-+		break;
-+	case 36:
-+		sc_clrdep = DW_PHY_CLRDEP_12BIT_MODE;
-+		break;
-+	case 48:
-+		sc_clrdep = DW_PHY_CLRDEP_16BIT_MODE;
-+		break;
-+	default:
-+		return -EINVAL;
++	/* set PHY configuration */
++	ret = phy_configure(dw_dev->phy, &opts);
++	if (ret) {
++		dev_err(dw_dev->dev, "%s: Couldn't PHY configure (err: %d)\n",
++			__func__, ret);
++		goto err;
 +	}
 +
-+	return sc_clrdep;
++	/* call PHY calibrate */
++	ret = phy_calibrate(dw_dev->phy);
++	if (ret) {
++		dev_err(dw_dev->dev, "%s: Couldn't PHY calibrate (err: %d)\n",
++			__func__, ret);
++		goto err;
++	}
++
++err:
++	return ret;
 +}
 +
-+static int dw_phy_config(struct dw_phy_dev *dw_dev, u8 color_depth,
-+			 bool hdmi2, bool scrambling)
++static int dw_hdmi_phy_config(struct dw_hdmi_dev *dw_dev,
++			      unsigned char color_depth, bool hdmi2,
++			      bool scrambling)
 +{
-+	const struct dw_phy_mpll_config *mpll_cfg = dw_dev->phy_data->mpll_cfg;
-+	struct dw_phy_pdata *phy = dw_dev->config;
-+	struct device *dev = dw_dev->dev;
-+	u16 val, sc_clrdep;
-+	int timeout = 100;
-+	bool zcal_done;
-+	int ret;
++	union phy_configure_opts opts;
++	struct phy_configure_opts_hdmi *hdmi_opts = &opts.hdmi;
++	int ret = 0;
 +
-+	dev_dbg(dev, "%s: color_depth=%d, hdmi2=%d, scrambling=%d, cfg_clk=%d\n",
-+		__func__, color_depth, hdmi2, scrambling, phy->cfg_clk);
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
++			 DW_HDMI_DATAPATH_CBUSZ_OFFSET,
++			 DW_HDMI_DATAPATH_CBUSZ_MASK);
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
++			 DW_HDMI_CBUS_SVSRETMODEZ_OFFSET,
++			 DW_HDMI_CBUS_SVSRETMODEZ_MASK);
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
++			 DW_HDMI_CBUS_PDDQ_OFFSET,
++			 DW_HDMI_CBUS_PDDQ_MASK);
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
++			 DW_HDMI_CBUS_RESET_OFFSET,
++			 DW_HDMI_CBUS_RESET_MASK);
 +
-+	ret = dw_phy_color_depth_to_mode(color_depth);
-+	if (ret < 0)
-+		return ret;
++	/* load the required options for power on */
++	hdmi_opts->color_depth = color_depth;
++	hdmi_opts->tmds_bit_clock_ratio = hdmi2;
++	hdmi_opts->scrambling = scrambling;
++	/* to avoid color depth reconfiguration before the power on */
++	hdmi_opts->set_color_depth = 0;
 +
-+	sc_clrdep = ret;
-+
-+	dw_phy_reset(dw_dev, 1);
-+	dw_phy_pddq(dw_dev, 1);
-+	dw_phy_svsmode(dw_dev, 1);
-+
-+#if IS_ENABLED(CONFIG_VIDEO_DWC_HDMI_PHY_E40X_SUPPORT_TESTCHIP)
-+	dw_phy_zcal_reset(dw_dev);
-+	do {
-+		usleep_range(1000, 1100);
-+		zcal_done = dw_phy_zcal_done(dw_dev);
-+	} while (!zcal_done && timeout--);
-+
-+	if (!zcal_done) {
-+		dev_err(dw_dev->dev, "Zcal calibration failed\n");
-+		return -ETIMEDOUT;
++	/* set PHY configuration */
++	ret = phy_configure(dw_dev->phy, &opts);
++	if (ret) {
++		dev_err(dw_dev->dev, "%s: Couldn't PHY configure (err: %d)\n",
++			__func__, ret);
++		goto err;
 +	}
-+#endif /* CONFIG_VIDEO_DWC_HDMI_PHY_E40X_SUPPORT_TESTCHIP */
 +
-+	dw_phy_reset(dw_dev, 0);
++	/* call PHY power off if needed */
++	if (dw_dev->phy->power_count > 0) {
++		ret = phy_power_off(dw_dev->phy);
++		if (ret) {
++			dev_err(dw_dev->dev, "%s: Couldn't PHY power off (err: %d)\n",
++				__func__, ret);
++		}
++	}
 +
-+	/* CMU */
-+	val = DW_PHY_LOCK_THRES(0x08) & DW_PHY_LOCK_THRES_MASK;
-+	val |= DW_PHY_TIMEBASE_OVR_EN;
-+	val |= DW_PHY_TIMEBASE_OVR(phy->cfg_clk * 4) & DW_PHY_TIMEBASE_OVR_MASK;
-+	dw_phy_write(dw_dev, val, DW_PHY_CMU_CONFIG);
++	/* call PHY power on */
++	ret = phy_power_on(dw_dev->phy);
++	if (ret) {
++		dev_err(dw_dev->dev, "%s: Couldn't PHY power on (err: %d)\n",
++			__func__, ret);
++		goto err;
++	}
 +
-+	/* Color Depth and enable fast switching */
-+	val = dw_phy_read(dw_dev, DW_PHY_SYSTEM_CONFIG);
-+	val &= ~DW_PHY_CLRDEP_MASK;
-+	val |= sc_clrdep | DW_PHY_FAST_SWITCHING;
-+	dw_phy_write(dw_dev, val, DW_PHY_SYSTEM_CONFIG);
++err:
++	return ret;
++}
 +
-+	/* MPLL */
-+	for (; mpll_cfg->addr != 0x0; mpll_cfg++)
-+		dw_phy_write(dw_dev, mpll_cfg->val, mpll_cfg->addr);
++static int dw_hdmi_phy_set_color_depth(struct dw_hdmi_dev *dw_dev,
++				       u8 color_depth)
++{
++	union phy_configure_opts opts;
++	struct phy_configure_opts_hdmi *hdmi_opts = &opts.hdmi;
++	int ret = 0;
 +
-+	/* Operation for data rates between 3.4Gbps and 6Gbps */
-+	val = dw_phy_read(dw_dev, DW_PHY_CDR_CTRL_CNT);
-+	val &= ~DW_PHY_HDMI_MHL_MODE_MASK;
-+	if (hdmi2)
-+		val |= DW_PHY_HDMI_MHL_MODE_ABOVE_3_4G_BITPS;
-+	else
-+		val |= DW_PHY_HDMI_MHL_MODE_BELOW_3_4G_BITPS;
-+	dw_phy_write(dw_dev, val, DW_PHY_CDR_CTRL_CNT);
++	/* load the required options for color depth reconfiguration */
++	hdmi_opts->color_depth = color_depth;
++	/* to avoid other reconfigurations when is to set only color depth */
++	hdmi_opts->set_tmds_bit_clock_ratio = 0;
++	hdmi_opts->set_scrambling = 0;
 +
-+	/* Scrambling */
-+	val = dw_phy_read(dw_dev, DW_PHY_OVL_PROT_CTRL);
-+	if (scrambling)
-+		val |= DW_PHY_SCRAMBLING_EN_OVR |
-+			DW_PHY_SCRAMBLING_EN_OVR_EN;
-+	else
-+		val &= ~(DW_PHY_SCRAMBLING_EN_OVR |
-+			DW_PHY_SCRAMBLING_EN_OVR_EN);
-+	dw_phy_write(dw_dev, val, DW_PHY_OVL_PROT_CTRL);
++	/* set PHY configuration */
++	ret = phy_configure(dw_dev->phy, &opts);
++	if (ret) {
++		dev_err(dw_dev->dev, "%s: Couldn't PHY configure (err: %d)\n",
++			__func__, ret);
++		goto err;
++	}
 +
-+	/* Enable PHY */
-+	dw_phy_pddq(dw_dev, 0);
++err:
++	return ret;
++}
 +
-+	dw_dev->color_depth = color_depth;
-+	dw_dev->hdmi2 = hdmi2;
-+	dw_dev->scrambling = scrambling;
++static void dw_hdmi_event_source_change(struct dw_hdmi_dev *dw_dev)
++{
++	if (dw_dev->registered)
++		v4l2_subdev_notify_event(&dw_dev->sd, &dw_hdmi_event_fmt);
++}
++
++static int dw_hdmi_reset_ceavid(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEAVID_CONFIG,
++			 DW_HDMI_CEAVID_RST_OFFSET,
++			 DW_HDMI_CEAVID_RST_MASK);
++	msleep(100);
++	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_CEAVID_CONFIG,
++			 DW_HDMI_CEAVID_RST_OFFSET,
++			 DW_HDMI_CEAVID_RST_MASK);
++
 +	return 0;
 +}
 +
-+static int dw_phy_enable(struct dw_phy_dev *dw_dev, unsigned char color_depth,
-+			 bool hdmi2, bool scrambling)
++static void dw_hdmi_update_avmute(struct dw_hdmi_dev *dw_dev, u32 mbus_code)
++{
++	u32 val_l = 0x0, val_h = 0x0;
++
++	switch (mbus_code) {
++	case MEDIA_BUS_FMT_YUYV8_1X16: /* YCbCr 4:2:2 */
++		val_h = 0x00008000;
++		val_l = 0x00008000;
++		break;
++	case MEDIA_BUS_FMT_YUYV12_1X24: /* YCbCr 4:4:4 */
++		val_h = 0x00008000;
++		val_l = 0x00008000;
++		break;
++	case MEDIA_BUS_FMT_YVYU8_1X16: /* YCbCr 4:2:0 */
++		val_h = 0x00000f00;
++		val_l = 0x0f007f00;
++		break;
++	case MEDIA_BUS_FMT_RGB888_2X12_BE: /* RGB */
++	default:
++		break;
++	}
++
++	hdmi_writel(dw_dev, val_l, DW_HDMI_VM_CFG_CH_0_1);
++	hdmi_mask_writel(dw_dev, val_h, DW_HDMI_VM_CFG_CH2,
++			 DW_HDMI_VM_CH2_COL_VALUE_OFFSET,
++			 DW_HDMI_VM_CH2_COL_VALUE_MASK);
++}
++
++static u32 dw_hdmi_get_mbus_code(struct dw_hdmi_dev *dw_dev)
++{
++	enum hdmi_colorspace cs = dw_dev->aviif.avi.colorspace;
++
++	switch (cs) {
++	case HDMI_COLORSPACE_RGB: /* RGB */
++		return MEDIA_BUS_FMT_RGB888_2X12_BE;
++	case HDMI_COLORSPACE_YUV422: /* YCbCr 4:2:2 */
++		return MEDIA_BUS_FMT_YUYV8_1X16;
++	case HDMI_COLORSPACE_YUV444: /* YCbCr 4:4:4 */
++		return MEDIA_BUS_FMT_YUYV12_1X24;
++	case HDMI_COLORSPACE_YUV420: /* YCbCr 4:2:0 */
++		return MEDIA_BUS_FMT_YVYU8_1X16;
++	default:
++		return MEDIA_BUS_FMT_RGB888_2X12_BE;
++	}
++}
++
++static u8 dw_hdmi_infoframe_checksum(u8 *ptr, size_t size)
++{
++	u8 csum = 0;
++	size_t i;
++
++	for (i = 0; i < size; i++)
++		csum += ptr[i];
++	return 256 - csum;
++}
++
++static void dw_hdmi_get_raw_infoframe_avi(struct dw_hdmi_dev *dw_dev,
++					  struct dw_hdmi_infoframe_cfg *fcfg)
++{
++	u32 pb, ph = hdmi_readl(dw_dev, fcfg->header_addr);
++	union hdmi_infoframe *frame = fcfg->frame;
++	u8 packet_hlen = sizeof(fcfg->header);
++	u8 packet_len = (ph >> 8) & 0xff;
++	unsigned int i, j, pos = 0;
++	u8 packet[35] = {0};
++
++	dev_dbg(dw_dev->dev, "%s[%s]: packet_header=0x%x\n", __func__,
++		fcfg->desc, ph);
++
++	if (!ph) /* Fail silently if there is no packet */
++		return;
++
++	if ((packet_len + packet_hlen + 1) > sizeof(packet)) {
++		dev_dbg(dw_dev->dev, "%s: invalid length\n", __func__);
++		goto out;
++	}
++
++	memcpy(packet, fcfg->header, packet_hlen);
++	packet[2] = packet_len; /* Replace fake header size by real header */
++	pos += packet_hlen + 1;
++
++	for (i = 0; i < fcfg->payload_len; i++) {
++		j = 0;
++
++		/* specific for AVI */
++		if (fcfg->header[0] == HDMI_INFOFRAME_TYPE_AVI && i == 1) {
++			/* read YQx, CNx, PRx from AVI PH register */
++			u32 offset = DW_HDMI_PIX_REP_FACTOR_OFFSET;
++			u32 mask = DW_HDMI_QUANT_RANGE_MASK |
++				DW_HDMI_CONTENT_TYPE_MASK |
++				DW_HDMI_PIX_REP_FACTOR_MASK;
++
++			pb = hdmi_mask_readl(dw_dev, fcfg->header_addr, offset,
++					     mask);
++			packet[pos++] = pb & 0xff;
++			j = 1;
++		}
++
++		/* the registers are aligned with the standard raw packet */
++		pb = hdmi_readl(dw_dev, fcfg->payload_addr + 4 * i);
++		for (; j < 4; j++) {
++			if (pos >= (packet_len + packet_hlen + 1))
++				break;
++			packet[pos++] = (pb >> (8 * j)) & 0xff;
++		}
++	}
++
++	packet[3] = dw_hdmi_infoframe_checksum(packet, packet_len +
++			packet_hlen + 1);
++
++	/*print all packet bytes */
++	for (j = 0; j < pos; j++) {
++		dev_dbg(dw_dev->dev, "%s[%s]: packet=0x%x\n", __func__,
++			fcfg->desc, packet[j]);
++	}
++
++	if (hdmi_infoframe_unpack(frame, packet, sizeof(packet))) {
++		dev_dbg(dw_dev->dev, "%s[%s]: failed to unpack\n",
++			__func__, fcfg->desc);
++		goto out;
++	}
++
++	return;
++out:
++	dev_err(dw_dev->dev, "[INVALID INFOFRAME]\n");
++}
++
++static void dw_hdmi_get_raw_infoframe_aud(struct dw_hdmi_dev *dw_dev,
++					  struct dw_hdmi_infoframe_cfg *fcfg)
++{
++	u32 pb, ph = hdmi_readl(dw_dev, fcfg->header_addr);
++	union hdmi_infoframe *frame = fcfg->frame;
++	u8 packet_hlen = sizeof(fcfg->header);
++	u8 packet_len = (ph >> 8) & 0xff;
++	unsigned int i, j, pos = 0;
++	u8 packet[35] = {0};
++
++	dev_dbg(dw_dev->dev, "%s[%s]: packet_header=0x%x\n", __func__,
++		fcfg->desc, ph);
++
++	if (!ph) /* Fail silently if there is no packet */
++		return;
++
++	if ((packet_len + packet_hlen + 1) > sizeof(packet)) {
++		dev_dbg(dw_dev->dev, "%s: invalid length\n", __func__);
++		goto out;
++	}
++
++	memcpy(packet, fcfg->header, packet_hlen);
++	packet[2] = packet_len; /* Replace fake header size by real header */
++	pos += packet_hlen + 1;
++
++	for (i = 0; i < fcfg->payload_len; i++) {
++		j = 0;
++
++		/* specific for audio */
++		if (fcfg->header[0] == HDMI_INFOFRAME_TYPE_AUDIO && i == 1) {
++			pb = hdmi_readl(dw_dev, fcfg->payload_addr + 4 * i);
++			packet[pos++] = (pb |
++			    ((pb & DW_HDMI_LFE_PLAYBACK_LEVEL_MASK)
++			    >> DW_HDMI_LFE_PLAYBACK_LEVEL_OFFSET)) &
++			    0xff;
++			break;
++		}
++
++		/* the registers are aligned with the standard raw packet */
++		pb = hdmi_readl(dw_dev, fcfg->payload_addr + 4 * i);
++		for (; j < 4; j++) {
++			if (pos >= (packet_len + packet_hlen + 1))
++				break;
++			packet[pos++] = (pb >> (8 * j)) & 0xff;
++		}
++	}
++
++	packet[3] = dw_hdmi_infoframe_checksum(packet, packet_len +
++			packet_hlen + 1);
++
++	/*print all packet bytes */
++	for (j = 0; j < pos; j++) {
++		dev_dbg(dw_dev->dev, "%s[%s]: packet=0x%x\n", __func__,
++			fcfg->desc, packet[j]);
++	}
++
++	if (hdmi_infoframe_unpack(frame, packet, sizeof(packet))) {
++		dev_dbg(dw_dev->dev, "%s[%s]: failed to unpack\n",
++			__func__, fcfg->desc);
++		goto out;
++	}
++
++	return;
++out:
++	dev_err(dw_dev->dev, "[INVALID INFOFRAME]\n");
++}
++
++static void dw_hdmi_get_raw_infoframe_vs(struct dw_hdmi_dev *dw_dev,
++					 struct dw_hdmi_infoframe_cfg *fcfg)
++{
++	u32 pb, ph = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
++				     DW_HDMI_LENGTH_OFFSET,
++				     DW_HDMI_LENGTH_MASK);
++	union hdmi_infoframe *frame = fcfg->frame;
++	u8 packet_hlen = sizeof(fcfg->header);
++	unsigned int j, pos = 0;
++	u8 packet[35] = {0};
++	u8 packet_len = ph;
++
++	dev_dbg(dw_dev->dev, "%s[%s]: packet_header=0x%x\n", __func__,
++		fcfg->desc, ph);
++
++	if (!ph) /* Fail silently if there is no packet */
++		return;
++
++	if ((packet_len + packet_hlen + 1) > sizeof(packet)) {
++		dev_dbg(dw_dev->dev, "%s: invalid length\n", __func__);
++		goto out;
++	}
++
++	memcpy(packet, fcfg->header, packet_hlen);
++	packet[2] = packet_len; /* Replace fake header size by real header */
++	pos += packet_hlen + 1;
++
++	/* 24bit IEEE Registration identifier */
++	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST0,
++			     DW_HDMI_IEEE_REG_ID_OFFSET,
++			     DW_HDMI_IEEE_REG_ID_MASK);
++	for (j = 0; j < 3; j++) {
++		if (pos >= (packet_len + packet_hlen + 1))
++			break;
++		packet[pos++] = (pb >> (8 * j)) & 0xff;
++	}
++
++	/* HDMI video format */
++	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
++			     DW_HDMI_HDMI_VIDEO_FORMAT_OFFSET,
++			     DW_HDMI_HDMI_VIDEO_FORMAT_MASK);
++	packet[pos++] = (pb << DW_HDMI_HDMI_VIDEO_FORMAT_OFFSET) &
++			0xff;
++
++	/* HDMI vic */
++	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
++			     DW_HDMI_HDMI_VIC_OFFSET,
++			     DW_HDMI_HDMI_VIC_MASK);
++	packet[pos++] = pb & 0xff;
++
++	/* 3d structure */
++	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
++			     DW_HDMI_H3D_STRUCTURE_OFFSET,
++			     DW_HDMI_H3D_STRUCTURE_MASK);
++	packet[pos++] = (pb << 4) & 0xff;
++
++	/* 3d ext data */
++	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
++			     DW_HDMI_H3D_EXT_DATA_OFFSET,
++			     DW_HDMI_H3D_EXT_DATA_MASK);
++	packet[pos++] = (pb << 4) & 0xff;
++
++	packet[3] = dw_hdmi_infoframe_checksum(packet, packet_len +
++			packet_hlen + 1);
++
++	/*print all packet bytes */
++	for (j = 0; j < pos; j++) {
++		dev_dbg(dw_dev->dev, "%s[%s]: packet=0x%x\n", __func__,
++			fcfg->desc, packet[j]);
++	}
++
++	if (hdmi_infoframe_unpack(frame, packet, sizeof(packet))) {
++		dev_dbg(dw_dev->dev, "%s[%s]: failed to unpack\n",
++			__func__, fcfg->desc);
++		goto out;
++	}
++
++	return;
++out:
++	dev_err(dw_dev->dev, "[INVALID INFOFRAME]\n");
++}
++
++static void dw_hdmi_get_raw_infoframe(struct dw_hdmi_dev *dw_dev,
++				      struct dw_hdmi_infoframe_cfg *fcfg)
++{
++	switch (fcfg->header[0]) {
++	case HDMI_INFOFRAME_TYPE_AVI:
++		dw_hdmi_get_raw_infoframe_avi(dw_dev, fcfg);
++		break;
++	case HDMI_INFOFRAME_TYPE_SPD:
++		dev_dbg(dw_dev->dev,
++			"%s[%s]: not processed infoframe packet type %d\n",
++			__func__, fcfg->desc, fcfg->header[0]);
++		break;
++	case HDMI_INFOFRAME_TYPE_AUDIO:
++		dw_hdmi_get_raw_infoframe_aud(dw_dev, fcfg);
++		break;
++	case HDMI_INFOFRAME_TYPE_VENDOR:
++		dw_hdmi_get_raw_infoframe_vs(dw_dev, fcfg);
++		break;
++	case HDMI_INFOFRAME_TYPE_DRM:
++		dev_dbg(dw_dev->dev,
++			"%s[%s]: not processed infoframe packet type %d\n",
++			__func__, fcfg->desc, fcfg->header[0]);
++		break;
++	default:
++		dev_dbg(dw_dev->dev,
++			"%s[%s]: invalid infoframe packet type %d\n",
++			__func__, fcfg->desc, fcfg->header[0]);
++		break;
++	}
++}
++
++/* Forward declaration needed because of color encoding change */
++static void dw_hdmi_power_off(struct dw_hdmi_dev *dw_dev);
++static void dw_hdmi_controller_power_off(struct dw_hdmi_dev *dw_dev);
++static int dw_hdmi_power_on(struct dw_hdmi_dev *dw_dev, unsigned int input);
++
++static void dw_hdmi_get_infoframes(struct dw_hdmi_dev *dw_dev)
++{
++	struct dw_hdmi_infoframe_cfg ifs[] = {
++		{
++			.desc = "AVI",
++			.header = {HDMI_INFOFRAME_TYPE_AVI, 2,
++				   HDMI_AVI_INFOFRAME_SIZE},
++			.header_addr = DW_HDMI_PDEC_AVI_HB,
++			.payload_addr = DW_HDMI_PDEC_AVI_PB,
++			.payload_len = DW_HDMI_PDEC_AVI_PBLEN,
++			.frame = &dw_dev->aviif,
++			.frame_size = sizeof(dw_dev->aviif),
++		}, {
++			.desc = "Audio",
++			.header = {HDMI_INFOFRAME_TYPE_AUDIO, 1,
++				   HDMI_AUDIO_INFOFRAME_SIZE},
++			.header_addr = DW_HDMI_PDEC_AIF_HB,
++			.payload_addr = DW_HDMI_PDEC_AIF_PB0,
++			.payload_len = DW_HDMI_PDEC_AIF_PBLEN,
++			.frame = &dw_dev->audioif,
++			.frame_size = sizeof(dw_dev->audioif),
++		}, {
++			.desc = "Vendor Specific",
++			.header = {HDMI_INFOFRAME_TYPE_VENDOR, 1,
++				   HDMI_VENDOR_INFOFRAME_SIZE},
++			.frame = &dw_dev->vsif,
++			.frame_size = sizeof(dw_dev->vsif),
++		},
++	};
++	union hdmi_vendor_any_infoframe *vendor;
++	struct hdmi_avi_infoframe *avi;
++	unsigned int i;
++	u32 old_mbus;
++
++	for (i = 0; i < ARRAY_SIZE(ifs); i++) {
++		memset(ifs[i].frame, 0, ifs[i].frame_size);
++		dw_hdmi_get_raw_infoframe(dw_dev, &ifs[i]);
++	}
++
++	/* Update color space */
++	old_mbus = dw_dev->mbus_code;
++	dw_dev->mbus_code = dw_hdmi_get_mbus_code(dw_dev);
++	if (dw_dev->mbus_code != old_mbus && is_on(dw_dev)) {
++		dw_hdmi_power_off(dw_dev);
++		if (has_signal(dw_dev, dw_dev->configured_input))
++			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
++	}
++
++	/* Update AVMute value */
++	dw_hdmi_update_avmute(dw_dev, dw_dev->mbus_code);
++
++	vendor = &dw_dev->vsif.vendor;
++	avi = &dw_dev->aviif.avi;
++
++	/*
++	 * Update current VIC: When transmitting any extended video format
++	 * indicated through use of the HDMI_VIC field in the HDMI Vendor
++	 * Specific InfoFrame or any other format which is not described in
++	 * the above cases, an HDMI Source shall set the AVI InfoFrame VIC
++	 * field to zero.
++	 */
++	if (vendor->hdmi.vic && !avi->video_code) {
++		dw_dev->current_vic = vendor->hdmi.vic;
++		dw_dev->current_vic_is_4k = true;
++	} else {
++		dw_dev->current_vic = avi->video_code;
++		dw_dev->current_vic_is_4k = false;
++	}
++}
++
++static int dw_hdmi_wait_phy_lock_poll(struct dw_hdmi_dev *dw_dev)
++{
++	int timeout = dw_dev->tmds_valid_wait_count;
++
++	while (!dw_hdmi_tmds_valid(dw_dev) && timeout-- && !dw_dev->force_off)
++		usleep_range(5000, 10000);
++
++	if (!dw_hdmi_tmds_valid(dw_dev))
++		return -ETIMEDOUT;
++
++	return 0;
++}
++
++static void dw_hdmi_reset_datapath(struct dw_hdmi_dev *dw_dev)
++{
++	u32 val = DW_HDMI_TMDS_SWRESET |
++		DW_HDMI_HDCP_SWRESET |
++		DW_HDMI_VID_SWRESET |
++		DW_HDMI_PIXEL_SWRESET |
++		DW_HDMI_CEC_SWRESET |
++		DW_HDMI_AUD_SWRESET |
++		DW_HDMI_BUS_SWRESET |
++		DW_HDMI_HDMI_SWRESET |
++		DW_HDMI_MODET_SWRESET;
++
++	hdmi_writel(dw_dev, val & dw_dev->reset_datapath_enable,
++		    DW_HDMI_DMI_SW_RST);
++}
++
++static void dw_hdmi_reset_audio(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_writel(dw_dev, DW_HDMI_AUD_SWRESET, DW_HDMI_DMI_SW_RST);
++}
++
++static void dw_hdmi_restart_audio_fifo(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_AUD_FIFO_CTRL,
++			 DW_HDMI_AFIF_INIT_OFFSET,
++			 DW_HDMI_AFIF_INIT_MASK);
++	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_AUD_FIFO_CTRL,
++			 DW_HDMI_AFIF_INIT_OFFSET,
++			 DW_HDMI_AFIF_INIT_MASK);
++}
++
++static int dw_hdmi_wait_audio_lock_poll(struct dw_hdmi_dev *dw_dev)
++{
++	int timeout = 10;
++
++	while (!dw_hdmi_audio_valid(dw_dev) && timeout-- && !dw_dev->force_off)
++		usleep_range(5000, 10000);
++
++	if (!dw_hdmi_audio_valid(dw_dev))
++		return -ETIMEDOUT;
++
++	return 0;
++}
++
++static int dw_hdmi_config_audio(struct dw_hdmi_dev *dw_dev)
 +{
 +	int ret;
 +
-+	ret = dw_phy_config(dw_dev, color_depth, hdmi2, scrambling);
++	ret = dw_hdmi_wait_audio_lock_poll(dw_dev);
++	if (ret) {
++		dev_err(dw_dev->dev, "failed to wait for audio pll lock\n");
++		return ret;
++	}
++
++	/* trigger offset for N and CTS interrupts */
++	hdmi_mask_writel(dw_dev, 0x05, DW_HDMI_PDEC_ACRM_CTRL,
++			 DW_HDMI_DELTACTS_IRQTRIG_OFFSET,
++			 DW_HDMI_DELTACTS_IRQTRIG_MASK);
++
++	/* Config */
++	hdmi_mask_writel(dw_dev, 0x01, DW_HDMI_AUD_MUTE_CTRL,
++			 DW_HDMI_AUD_MUTE_SEL_OFFSET,
++			 DW_HDMI_AUD_MUTE_SEL_MASK);
++
++	/* enable all outputs and select 16-bit for I2S */
++	hdmi_writel(dw_dev, 0x00, DW_HDMI_AUD_SAO_CTRL);
++
++	/* Start */
++	dw_hdmi_restart_audio_fifo(dw_dev);
++	return 0;
++}
++
++static void dw_hdmi_config_packet(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_CTRL,
++			 DW_HDMI_PFIFO_STORE_FILTER_EN_OFFSET,
++			 DW_HDMI_PFIFO_STORE_FILTER_EN_MASK);
++
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_ASP_CTRL,
++			 DW_HDMI_AUTO_VMUTE_OFFSET,
++			 DW_HDMI_AUTO_VMUTE_MASK);
++
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_ASP_CTRL,
++			 DW_HDMI_AUTO_SPFLAT_MUTE_OFFSET,
++			 DW_HDMI_AUTO_SPFLAT_MUTE_MASK);
++
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_CTRL,
++			 DW_HDMI_PD_FIFO_CLR_OFFSET,
++			 DW_HDMI_PD_FIFO_CLR_MASK);
++}
++
++static void dw_hdmi_wait_video_stable(struct dw_hdmi_dev *dw_dev)
++{
++	/*
++	 * Empiric value. Video should be stable way longer before the
++	 * end of this sleep time. Though, we can have some video change
++	 * interrupts before the video is stable so filter them by sleeping.
++	 */
++	msleep(dw_dev->video_stable_wait_ms);
++}
++
++static void dw_hdmi_enable_ints(struct dw_hdmi_dev *dw_dev)
++{
++	u32 pdec_ints = 0;
++
++	/* video interrupts */
++	hdmi_writel(dw_dev, DW_HDMI_CLK_CHANGE_ISTS | DW_HDMI_PLL_LCK_CHG_ISTS |
++			DW_HDMI_DCM_CURRENT_MODE_CHG_ISTS, DW_HDMI_IEN_SET);
++	hdmi_writel(dw_dev, (DW_HDMI_VACT_LIN_ISTS | DW_HDMI_HACT_PIX_ISTS),
++		    DW_HDMI_MD_IEN_SET);
++
++	/* infoframes interrupts */
++	pdec_ints = (DW_HDMI_VSI_CKS_CHG_ISTS |
++		     DW_HDMI_DRM_CKS_CHG_ISTS |
++		     DW_HDMI_AVI_CKS_CHG_ISTS);
++
++	/* audio interrupts */
++	pdec_ints |= (DW_HDMI_AUD_TYPE_CHG_ISTS |
++		      DW_HDMI_AIF_CKS_CHG_ISTS |
++		      DW_HDMI_ACR_N_CHG_ISTS |
++		      DW_HDMI_ACR_CTS_CHG_ISTS |
++		      DW_HDMI_GCP_AV_MUTE_CHG_ISTS);
++
++	hdmi_writel(dw_dev, pdec_ints, DW_HDMI_PDEC_IEN_SET);
++	hdmi_writel(dw_dev, (DW_HDMI_AFIF_OVERFL_ISTS |
++			DW_HDMI_AFIF_UNDERFL_ISTS |
++			DW_HDMI_AFIF_THS_PASS_ISTS),
++		    DW_HDMI_AUD_FIFO_IEN_SET);
++}
++
++static void dw_hdmi_disable_ints(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_writel(dw_dev, ~0x0, DW_HDMI_IEN_CLR);
++	hdmi_writel(dw_dev, ~0x0, DW_HDMI_MD_IEN_CLR);
++
++	hdmi_writel(dw_dev, ~0x0, DW_HDMI_PDEC_IEN_CLR);
++	hdmi_writel(dw_dev, ~0x0, DW_HDMI_AUD_FIFO_IEN_CLR);
++}
++
++static void dw_hdmi_clear_ints(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_writel(dw_dev, ~0x0, DW_HDMI_ICLR);
++	hdmi_writel(dw_dev, ~0x0, DW_HDMI_MD_ICLR);
++
++	hdmi_writel(dw_dev, ~0x0, DW_HDMI_PDEC_ICLR);
++	hdmi_writel(dw_dev, ~0x0, DW_HDMI_AUD_FIFO_ICLR);
++}
++
++static u32 dw_hdmi_get_int_val(struct dw_hdmi_dev *dw_dev, u32 ists, u32 ien)
++{
++	return hdmi_readl(dw_dev, ists) & hdmi_readl(dw_dev, ien);
++}
++
++static u8 dw_hdmi_get_curr_vic(struct dw_hdmi_dev *dw_dev, bool *is_hdmi_vic)
++{
++	u8 vic = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_AVI_PB,
++				 DW_HDMI_VID_IDENT_CODE_OFFSET,
++				 DW_HDMI_VID_IDENT_CODE_MASK);
++
++	if (!vic) {
++		vic = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_PAYLOAD0,
++				      DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_OFFSET,
++				      DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_MASK);
++		if (is_hdmi_vic)
++			*is_hdmi_vic = true;
++	} else {
++		if (is_hdmi_vic)
++			*is_hdmi_vic = false;
++	}
++
++	return vic;
++}
++
++static u32 dw_hdmi_get_evaltime(struct dw_hdmi_dev *dw_dev)
++{
++	return hdmi_mask_readl(dw_dev, DW_HDMI_CKM_EVLTM,
++			       DW_HDMI_EVAL_TIME_OFFSET,
++			       DW_HDMI_EVAL_TIME_MASK);
++}
++
++static u32 dw_hdmi_get_clkrate(struct dw_hdmi_dev *dw_dev)
++{
++	return hdmi_mask_readl(dw_dev, DW_HDMI_CKM_RESULT,
++			       DW_HDMI_CLKRATE_OFFSET,
++			       DW_HDMI_CLKRATE_MASK);
++}
++
++static u32 dw_hdmi_get_cts(struct dw_hdmi_dev *dw_dev)
++{
++	return hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_ACR_CTS,
++			       DW_HDMI_CTS_DECODED_OFFSET,
++			       DW_HDMI_CTS_DECODED_MASK);
++}
++
++static u32 dw_hdmi_get_n(struct dw_hdmi_dev *dw_dev)
++{
++	return hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_ACR_N,
++			       DW_HDMI_N_DECODED_OFFSET,
++			       DW_HDMI_N_DECODED_MASK);
++}
++
++static u32 dw_hdmi_get_tmds_clk(struct dw_hdmi_dev *dw_dev)
++{
++	u32 rate = dw_hdmi_get_clkrate(dw_dev);
++	u64 tmp = (u64)rate * (u64)dw_dev->config->iref_clk * 1000000;
++	u32 evaltime = dw_hdmi_get_evaltime(dw_dev);
++
++	do_div(tmp, evaltime);
++	return tmp;
++}
++
++static u32 dw_hdmi_get_colordepth(struct dw_hdmi_dev *dw_dev)
++{
++	u32 dcm = hdmi_mask_readl(dw_dev, DW_HDMI_STS,
++				  DW_HDMI_DCM_CURRENT_MODE_OFFSET,
++				  DW_HDMI_DCM_CURRENT_MODE_MASK);
++
++	switch (dcm) {
++	case 0x4:
++		return 24;
++	case 0x5:
++		return 30;
++	case 0x6:
++		return 36;
++	case 0x7:
++		return 48;
++	default:
++		return 24;
++	}
++}
++
++static u64 dw_hdmi_get_pixelclk(struct dw_hdmi_dev *dw_dev)
++{
++	u32 tmds_clk = dw_hdmi_get_tmds_clk(dw_dev);
++	u32 cd = dw_hdmi_get_colordepth(dw_dev);
++	u32 pix_clk = 0;
++
++	switch (cd) {
++	case 24:
++		pix_clk = tmds_clk;
++		break;
++	case 30:
++		pix_clk = (tmds_clk * 100) / 125;
++		break;
++	case 36:
++		pix_clk = (tmds_clk * 10) / 15;
++		break;
++	case 48:
++		pix_clk = tmds_clk / 2;
++		break;
++	default:
++		break;
++	}
++
++	return pix_clk;
++}
++
++static void dw_hdmi_set_input(struct dw_hdmi_dev *dw_dev, u32 input)
++{
++	hdmi_mask_writel(dw_dev, input, DW_HDMI_PHY_CTRL,
++			 DW_HDMI_PORTSELECT_OFFSET,
++			 DW_HDMI_PORTSELECT_MASK);
++	dw_dev->configured_input = input;
++	dw_dev->selected_input = input;
++	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_INPUT_CHANGED,
++			   &dw_dev->configured_input);
++}
++
++static void dw_hdmi_enable_hpd(struct dw_hdmi_dev *dw_dev, u32 input_mask)
++{
++	hdmi_mask_writel(dw_dev, input_mask, DW_HDMI_SETUP_CTRL,
++			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_OFFSET,
++			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_MASK);
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_SETUP_CTRL,
++			 DW_HDMI_HOT_PLUG_DETECT_OFFSET,
++			 DW_HDMI_HOT_PLUG_DETECT_MASK);
++}
++
++static void dw_hdmi_disable_hpd(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_SETUP_CTRL,
++			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_OFFSET,
++			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_MASK);
++	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_SETUP_CTRL,
++			 DW_HDMI_HOT_PLUG_DETECT_OFFSET,
++			 DW_HDMI_HOT_PLUG_DETECT_MASK);
++}
++
++static void dw_hdmi_enable_scdc(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_SCDC_CONFIG,
++			 DW_HDMI_POWERPROVIDED_OFFSET,
++			 DW_HDMI_POWERPROVIDED_MASK);
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_IEN_SET,
++			 DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_OFFSET,
++			 DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_MASK);
++}
++
++static void dw_hdmi_disable_scdc(struct dw_hdmi_dev *dw_dev)
++{
++	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_SCDC_CONFIG,
++			 DW_HDMI_POWERPROVIDED_OFFSET,
++			 DW_HDMI_POWERPROVIDED_MASK);
++}
++
++static void dw_hdmi_handle_audio_mute_change(struct dw_hdmi_dev *dw_dev);
++
++static void dw_hdmi_enable_hdmi_domain(struct dw_hdmi_dev *dw_dev, bool enable)
++{
++	hdmi_mask_writel(dw_dev, enable, DW_HDMI_DMI_DISABLE_IF,
++			 DW_HDMI_HDMI_ENABLE_OFFSET,
++			 DW_HDMI_HDMI_ENABLE_MASK);
++}
++
++static int dw_hdmi_initial_config(struct dw_hdmi_dev *dw_dev, u32 input);
++
++static int dw_hdmi_config(struct dw_hdmi_dev *dw_dev, u32 input)
++{
++	u32 in_state = dw_dev->state;
++	u32 cd1 = 0, cd2 = 0;
++	int eqret, ret = 0;
++
++	while (1) {
++		/* Give up silently if we are forcing off */
++		if (dw_dev->force_off) {
++			ret = 0;
++			goto out;
++		}
++		/* Give up silently if input has disconnected */
++		if (!has_signal(dw_dev, input)) {
++			ret = 0;
++			goto out;
++		}
++
++		switch (dw_dev->state) {
++		case HDMI_STATE_POWER_OFF:
++			dw_hdmi_disable_ints(dw_dev);
++			dw_hdmi_set_state(dw_dev, HDMI_STATE_PHY_CONFIG);
++			break;
++		case HDMI_STATE_POWER_UP:
++			/* when connect the cable */
++			dw_hdmi_disable_ints(dw_dev);
++			/* reset */
++			if (dw_dev->hw_reset_on_hot_plug)
++				dw_hdmi_reset(dw_dev);
++			/* initial configuration */
++			dw_hdmi_initial_config(dw_dev, input);
++			dw_hdmi_set_state(dw_dev, HDMI_STATE_PHY_CONFIG);
++			break;
++		case HDMI_STATE_PHY_CONFIG:
++			cd1 = 24;
++			dw_dev->is_hdmi2 = is_hdmi2(dw_dev);
++			dw_dev->is_scrambled = is_scrambled(dw_dev);
++			dw_hdmi_phy_config(dw_dev, cd1, dw_dev->is_hdmi2,
++					   dw_dev->is_scrambled);
++			dw_hdmi_set_state(dw_dev, HDMI_STATE_HPD);
++			break;
++		case HDMI_STATE_HPD:
++			/* disable HDMI domain to avoid the DCM INTs */
++			dw_hdmi_enable_hdmi_domain(dw_dev, false);
++			dw_hdmi_enable_scdc(dw_dev);
++			dw_hdmi_enable_hpd(dw_dev, dw_dev->input_stat);
++			dw_hdmi_set_state(dw_dev, HDMI_STATE_EQUALIZER);
++			break;
++		case HDMI_STATE_EQUALIZER:
++			if (dw_dev->phy_eq_on) {
++				bool phy_eq_force = dw_dev->phy_eq_force;
++
++				eqret = dw_hdmi_phy_eq_init(dw_dev, 5,
++							    phy_eq_force);
++			} else {
++				/* Clear equalizer error status if not on */
++				eqret = 0;
++			}
++
++			ret = dw_hdmi_wait_phy_lock_poll(dw_dev);
++
++			/* Do not force equalizer */
++			dw_dev->phy_eq_force = false;
++
++			if (ret || eqret) {
++				if (ret || eqret == -ETIMEDOUT) {
++					/* No TMDSVALID signal:
++					 * - force equalizer
++					 */
++					dw_dev->phy_eq_force = true;
++				}
++				break;
++			}
++
++			dw_hdmi_set_state(dw_dev, HDMI_STATE_DATAPATH);
++			break;
++		case HDMI_STATE_DATAPATH:
++			dw_hdmi_reset_datapath(dw_dev);
++			/* reenable HDMI domain */
++			dw_hdmi_enable_hdmi_domain(dw_dev, true);
++			dw_hdmi_set_state(dw_dev, HDMI_STATE_VIDEO_UNSTABLE);
++			break;
++		case HDMI_STATE_VIDEO_UNSTABLE:
++			dw_hdmi_wait_video_stable(dw_dev);
++			dw_hdmi_set_state(dw_dev, HDMI_STATE_AUDIO);
++			break;
++		case HDMI_STATE_AUDIO:
++			ret = dw_hdmi_config_audio(dw_dev);
++			dw_hdmi_config_packet(dw_dev);
++
++			if (in_state != HDMI_STATE_EQUALIZER)
++				dw_hdmi_clear_ints(dw_dev);
++
++			dw_hdmi_get_infoframes(dw_dev);
++
++			/* check if there was deep color changes */
++			if (cd1) {
++				cd2 = dw_hdmi_get_colordepth(dw_dev);
++				if (cd1 != cd2)
++					dw_hdmi_phy_set_color_depth(dw_dev,
++								    cd2);
++			}
++
++			/* reset CEA video */
++			dw_hdmi_reset_ceavid(dw_dev);
++
++			dw_hdmi_enable_ints(dw_dev);
++			dw_hdmi_set_state(dw_dev, HDMI_STATE_POWER_ON);
++			break;
++		case HDMI_STATE_POWER_ON:
++			break;
++		default:
++			dev_err(dw_dev->dev, "%s called with state (%d)\n",
++				__func__, dw_dev->state);
++			ret = -EINVAL;
++			goto out;
++		}
++
++		if (dw_dev->state == HDMI_STATE_POWER_ON) {
++			dev_info(dw_dev->dev, "HDMI-RX configured\n");
++			dw_hdmi_event_source_change(dw_dev);
++			dw_hdmi_handle_audio_mute_change(dw_dev);
++			return 0;
++		}
++	}
++
++out:
++	dw_hdmi_set_state(dw_dev, HDMI_STATE_POWER_OFF);
++	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_IS_OFF, NULL);
++	return ret;
++}
++
++static int __dw_hdmi_power_on(struct dw_hdmi_dev *dw_dev, u32 input)
++{
++	unsigned long flags;
++	int ret;
++
++	ret = dw_hdmi_config(dw_dev, input);
++
++	spin_lock_irqsave(&dw_dev->lock, flags);
++	dw_dev->pending_config = false;
++	spin_unlock_irqrestore(&dw_dev->lock, flags);
++
++	return ret;
++}
++
++static void dw_hdmi_work_handler(struct work_struct *work)
++{
++	struct dw_hdmi_dev *dw_dev = container_of(work, struct dw_hdmi_dev,
++						  work);
++
++	__dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
++}
++
++static int dw_hdmi_power_on(struct dw_hdmi_dev *dw_dev, u32 input)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&dw_dev->lock, flags);
++	if (dw_dev->pending_config) {
++		spin_unlock_irqrestore(&dw_dev->lock, flags);
++		return 0;
++	}
++
++	INIT_WORK(&dw_dev->work, dw_hdmi_work_handler);
++	dw_dev->configured_input = input;
++	dw_dev->pending_config = true;
++	queue_work(dw_dev->wq, &dw_dev->work);
++	spin_unlock_irqrestore(&dw_dev->lock, flags);
++	return 0;
++}
++
++static void dw_hdmi_power_off(struct dw_hdmi_dev *dw_dev)
++{
++	unsigned long flags;
++
++	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_IS_OFF, NULL);
++
++	dw_dev->force_off = true;
++	flush_workqueue(dw_dev->wq);
++	dw_dev->force_off = false;
++
++	spin_lock_irqsave(&dw_dev->lock, flags);
++	dw_dev->pending_config = false;
++	dw_dev->state = HDMI_STATE_POWER_OFF;
++	spin_unlock_irqrestore(&dw_dev->lock, flags);
++
++	/* Reset variables */
++	dw_dev->phy_eq_force = true;
++	dw_dev->audio_sf = 0;
++}
++
++static void dw_hdmi_force_off(struct dw_hdmi_dev *dw_dev)
++{
++	unsigned long flags;
++
++	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_IS_OFF, NULL);
++
++	dw_dev->force_off = true;
++	flush_workqueue(dw_dev->wq);
++	dw_dev->force_off = false;
++
++	spin_lock_irqsave(&dw_dev->lock, flags);
++	dw_dev->pending_config = false;
++	spin_unlock_irqrestore(&dw_dev->lock, flags);
++}
++
++static void dw_hdmi_power_up(struct dw_hdmi_dev *dw_dev)
++{
++	dw_hdmi_force_off(dw_dev);
++	dw_hdmi_set_state(dw_dev, HDMI_STATE_POWER_UP);
++
++	/* Reset variables */
++	dw_dev->phy_eq_force = true;
++	dw_dev->audio_sf = 0;
++}
++
++static void dw_hdmi_controller_power_off(struct dw_hdmi_dev *dw_dev)
++{
++	dw_hdmi_force_off(dw_dev);
++	dw_hdmi_set_state(dw_dev, HDMI_STATE_EQUALIZER);
++
++	dw_dev->phy_eq_force = false;
++	dw_dev->audio_sf = 0;
++}
++
++static int dw_hdmi_query_dv_timings(struct v4l2_subdev *sd,
++				    struct v4l2_dv_timings *timings);
++
++static void dw_hdmi_handle_video_change(struct dw_hdmi_dev *dw_dev)
++{
++	struct v4l2_dv_timings timings;
++
++	if (is_on(dw_dev)) {
++		dev_dbg(dw_dev->dev, "[VIDEO] video change interrupt\n");
++		dw_hdmi_query_dv_timings(&dw_dev->sd, &timings);
++		dw_hdmi_controller_power_off(dw_dev);
++		dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
++	}
++}
++
++static u32 dw_hdmi_round_freq(int freq)
++{
++	static const u32 base_freqs[] = { 32000, 44100, 48000, 0 };
++	unsigned int i;
++
++	for (i = 0; base_freqs[i]; i++) {
++		if ((freq <= (base_freqs[i] + DW_HDMI_AUDIO_FREQ_RANGE)) &&
++		    (freq >= (base_freqs[i] - DW_HDMI_AUDIO_FREQ_RANGE))) {
++			return base_freqs[i];
++		}
++	}
++
++	return 0;
++}
++
++static unsigned int dw_hdmi_get_sample_freq(struct dw_hdmi_dev *dw_dev)
++{
++	u64 tmp;
++	u32 cts;
++	u32 sf;
++	u32 n;
++
++	n = dw_hdmi_get_n(dw_dev);
++	cts = dw_hdmi_get_cts(dw_dev);
++
++	if (!n || !cts) {
++		dev_dbg(dw_dev->dev, "%s: cts: %d, n: %d\n", __func__, cts, n);
++		return 0;
++	}
++
++	dev_dbg(dw_dev->dev, "%s: tmds_clk: %d\n",
++		__func__, dw_hdmi_get_tmds_clk(dw_dev));
++
++	/* regenerate the audio clock from tmds clock */
++	tmp = (u64)dw_hdmi_get_tmds_clk(dw_dev) * (u64)n;
++	do_div(tmp, cts);
++	do_div(tmp, 128);
++	sf = tmp;
++
++	dev_dbg(dw_dev->dev, "%s: sf: %d\n", __func__, sf);
++	sf = dw_hdmi_round_freq(sf);
++	dev_dbg(dw_dev->dev, "%s: sf(round): %d\n", __func__, sf);
++
++	return sf;
++}
++
++static void dw_hdmi_handle_audio_mute_change(struct dw_hdmi_dev *dw_dev)
++{
++	unsigned long flags;
++	unsigned int sf;
++
++	spin_lock_irqsave(&dw_dev->event_lock, flags);
++	sf = dw_hdmi_get_sample_freq(dw_dev);
++	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_AUDIO_CHANGED, &sf);
++	dw_dev->audio_sf = sf;
++	spin_unlock_irqrestore(&dw_dev->event_lock, flags);
++}
++
++static void dw_hdmi_handle_audio_change(struct dw_hdmi_dev *dw_dev,
++					u32 afif_stat, u32 pdec_stat)
++{
++	bool restart = true;
++
++	if (pdec_stat & DW_HDMI_GCP_AV_MUTE_CHG_ISTS) {
++		dev_dbg(dw_dev->dev, "[interrupt:audio] AV Mute change\n");
++		dw_hdmi_handle_audio_mute_change(dw_dev);
++		restart = false;
++	}
++
++	if (pdec_stat & DW_HDMI_AUD_TYPE_CHG_ISTS) {
++		dev_dbg(dw_dev->dev, "[interrupt:audio] type change\n");
++		restart = true;
++	}
++	if (pdec_stat & DW_HDMI_AIF_CKS_CHG_ISTS) {
++		dev_dbg(dw_dev->dev, "[interrupt:audio] aif change\n");
++		restart = true;
++	}
++	if (pdec_stat & DW_HDMI_ACR_N_CHG_ISTS) {
++		dev_dbg(dw_dev->dev, "[interrupt:audio] N change\n");
++		restart = true;
++	}
++	if (pdec_stat & DW_HDMI_ACR_CTS_CHG_ISTS) {
++		dev_dbg(dw_dev->dev, "[interrupt:audio] CTS change\n");
++		restart = true;
++	}
++	if (afif_stat & DW_HDMI_AFIF_UNDERFL_ISTS) {
++		dev_dbg(dw_dev->dev, "[interrupt:audio] fifo underflow\n");
++		restart = true;
++	}
++	if (afif_stat & DW_HDMI_AFIF_OVERFL_ISTS) {
++		dev_dbg(dw_dev->dev, "[interrupt:audio] fifo overflow\n");
++		restart = true;
++	}
++	if (afif_stat & DW_HDMI_AFIF_THS_PASS_ISTS) {
++		dev_dbg(dw_dev->dev, "[interrupt:audio] TRH Pass\n");
++		dw_hdmi_handle_audio_mute_change(dw_dev);
++		restart = false;
++	}
++
++	if (restart) {
++		dw_hdmi_handle_audio_mute_change(dw_dev);
++		dw_hdmi_wait_audio_lock_poll(dw_dev);
++		dw_hdmi_reset_audio(dw_dev);
++		dw_hdmi_restart_audio_fifo(dw_dev);
++	}
++}
++
++static irqreturn_t dw_hdmi_irq_handler(int irq, void *dev_data)
++{
++	struct dw_hdmi_dev *dw_dev = dev_data;
++	u32 hdmi_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_ISTS, DW_HDMI_IEN);
++	u32 md_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_MD_ISTS,
++					  DW_HDMI_MD_IEN);
++	u32 pdec_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_PDEC_ISTS,
++					    DW_HDMI_PDEC_IEN);
++	u32 afif_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_AUD_FIFO_ISTS,
++					    DW_HDMI_AUD_FIFO_IEN);
++	u32 cd = 0;
++
++	dw_hdmi_clear_ints(dw_dev);
++
++	/* video handling */
++	if (hdmi_ists & DW_HDMI_CLK_CHANGE_ISTS) {
++		dev_dbg(dw_dev->dev, "[HDMI] clock rate change\n");
++		dw_hdmi_power_off(dw_dev);
++		if (has_signal(dw_dev, dw_dev->configured_input))
++			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
++
++		return IRQ_HANDLED;
++	}
++	if (hdmi_ists & DW_HDMI_PLL_LCK_CHG_ISTS) {
++		dev_dbg(dw_dev->dev,
++			"[PHY] PLL lock state changed (tmds_valid: %d)\n",
++			dw_hdmi_tmds_valid(dw_dev));
++		dw_hdmi_power_off(dw_dev);
++
++		if (has_signal(dw_dev, dw_dev->configured_input))
++			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
++
++		return IRQ_HANDLED;
++	}
++	if (hdmi_ists & DW_HDMI_DCM_CURRENT_MODE_CHG_ISTS) {
++		dev_dbg(dw_dev->dev,
++			"[HDMI] deep color changed\n");
++
++		cd = dw_hdmi_get_colordepth(dw_dev);
++		if (cd)
++			dw_hdmi_phy_set_color_depth(dw_dev, cd);
++
++		/* reset CEA video */
++		dw_hdmi_reset_ceavid(dw_dev);
++
++		return IRQ_HANDLED;
++	}
++	if (md_ists || pdec_ists &
++	    (DW_HDMI_VSI_CKS_CHG_ISTS |
++	     DW_HDMI_DRM_CKS_CHG_ISTS |
++	     DW_HDMI_AVI_CKS_CHG_ISTS)) {
++		dw_hdmi_handle_video_change(dw_dev);
++		dev_dbg(dw_dev->dev,
++			"   md_ists: 0x%x, pdec_ists: 0x%x\n",
++			md_ists, pdec_ists);
++	}
++
++	/* infoframes */
++	if (pdec_ists & DW_HDMI_AIF_CKS_CHG_ISTS)
++		dw_hdmi_get_infoframes(dw_dev);
++
++	/* audio handling */
++	if (pdec_ists & (DW_HDMI_AUD_TYPE_CHG_ISTS |
++			 DW_HDMI_AIF_CKS_CHG_ISTS |
++			 DW_HDMI_ACR_N_CHG_ISTS |
++			 DW_HDMI_ACR_CTS_CHG_ISTS |
++			 DW_HDMI_GCP_AV_MUTE_CHG_ISTS) ||
++	    afif_ists & (DW_HDMI_AFIF_UNDERFL_ISTS |
++			 DW_HDMI_AFIF_OVERFL_ISTS |
++			 DW_HDMI_AFIF_THS_PASS_ISTS)) {
++		dw_hdmi_handle_audio_change(dw_dev, afif_ists, pdec_ists);
++	}
++
++	/* scdc */
++	if (hdmi_ists & DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_MASK) {
++		dev_dbg(dw_dev->dev, "[SCDC] hdmi2=%d->%d, scrambling=%d->%d\n",
++			dw_dev->is_hdmi2, is_hdmi2(dw_dev),
++			dw_dev->is_scrambled, is_scrambled(dw_dev));
++		if (dw_dev->is_hdmi2 != is_hdmi2(dw_dev) ||
++		    dw_dev->is_scrambled != is_scrambled(dw_dev)) {
++			dw_dev->is_hdmi2 = is_hdmi2(dw_dev);
++			dw_dev->is_scrambled = is_scrambled(dw_dev);
++			dw_hdmi_power_off(dw_dev);
++			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
++		}
++	}
++
++	return IRQ_HANDLED;
++}
++
++static int dw_hdmi_detect_tx_5v_ctrl(struct dw_hdmi_dev *dw_dev)
++{
++	bool current_on = dw_hdmi_5v_status(dw_dev, dw_dev->configured_input);
++	unsigned int input_count = dw_dev->config->phy->input_count;
++	unsigned int old_input = dw_dev->configured_input;
++	unsigned int new_input = old_input;
++	bool pending_config = false;
++	unsigned int stat = 0;
++	unsigned int i;
++
++	for (i = 0; i < input_count; i++) {
++		bool on = dw_hdmi_5v_status(dw_dev, i);
++
++		stat |= on << i;
++
++		if (on && on != dw_dev->input_connected[i]) {
++			dw_hdmi_disable_ints(dw_dev);
++			dw_hdmi_power_off(dw_dev);
++			dw_hdmi_power_up(dw_dev);
++			dw_dev->input_connected[i] = true;
++			dw_hdmi_power_on(dw_dev, i);
++			dw_hdmi_set_input(dw_dev, i);
++			new_input = i;
++			pending_config = true;
++		} else {
++			dw_dev->input_connected[i] = on;
++		}
++	}
++
++	dw_dev->input_stat = stat;
++
++	if (!pending_config && !current_on) {
++		dw_hdmi_disable_ints(dw_dev);
++		dw_hdmi_disable_hpd(dw_dev);
++		dw_hdmi_disable_scdc(dw_dev);
++		dw_hdmi_power_off(dw_dev);
++		phy_power_off(dw_dev->phy);
++	}
++
++	dev_dbg(dw_dev->dev, "%s: stat=0x%x, input=%d->%d\n", __func__,
++		stat, old_input, new_input);
++	return v4l2_ctrl_s_ctrl(dw_dev->detect_tx_5v_ctrl, stat);
++}
++
++static irqreturn_t dw_hdmi_5v_irq_handler(int irq, void *dev_data)
++{
++	struct dw_hdmi_dev *dw_dev = dev_data;
++
++	dw_hdmi_detect_tx_5v_ctrl(dw_dev);
++	return IRQ_HANDLED;
++}
++
++static irqreturn_t dw_hdmi_5v_hard_irq_handler(int irq, void *dev_data)
++{
++	struct dw_hdmi_dev *dw_dev = dev_data;
++	unsigned int input_count = dw_dev->config->phy->input_count;
++	u32 stat = 0x0;
++	unsigned int i;
++
++	/* Clear interrupts */
++	for (i = 0; i < input_count; i++) {
++		dw_hdmi_5v_disable(dw_dev, i);
++		dw_hdmi_5v_enable(dw_dev, i);
++		stat |= dw_hdmi_5v_status(dw_dev, i) << i;
++	}
++
++	if (!stat) {
++		/*
++		 * If there are no connected ports disable whole HPD and SCDC
++		 * also.
++		 */
++		dw_hdmi_disable_hpd(dw_dev);
++		dw_hdmi_disable_scdc(dw_dev);
++	}
++
++	return IRQ_WAKE_THREAD;
++}
++
++static int dw_hdmi_s_routing(struct v4l2_subdev *sd, u32 input, u32 output,
++			     u32 config)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++	int ret;
++
++	if (!has_signal(dw_dev, input))
++		return -EINVAL;
++
++	dw_dev->selected_input = input;
++	if (input == dw_dev->configured_input)
++		return 0;
++
++	dw_hdmi_power_off(dw_dev);
++	ret = dw_hdmi_power_on(dw_dev, input);
++	dw_hdmi_set_input(dw_dev, input);
++	return ret;
++}
++
++static int dw_hdmi_g_input_status(struct v4l2_subdev *sd, u32 *status)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++
++	*status = 0;
++	if (!has_signal(dw_dev, dw_dev->selected_input))
++		*status |= V4L2_IN_ST_NO_POWER;
++	if (!is_on(dw_dev))
++		*status |= V4L2_IN_ST_NO_SIGNAL;
++
++	dev_dbg(dw_dev->dev, "%s: status=0x%x\n", __func__, *status);
++	return 0;
++}
++
++static int dw_hdmi_g_frame_interval(struct v4l2_subdev *sd,
++				    struct v4l2_subdev_frame_interval *ival)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++	u32 htot, vtot, fps;
++	unsigned long n, d;
++	u64 pclk;
++
++	htot = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT1,
++			       DW_HDMI_HTOT_PIX_OFFSET,
++			       DW_HDMI_HTOT_PIX_MASK);
++	vtot = hdmi_readl(dw_dev, DW_HDMI_MD_VTL);
++	pclk = dw_hdmi_get_pixelclk(dw_dev);
++
++	fps = (htot * vtot) > 0 ? div_u64((100 * pclk), (htot * vtot)) : 0;
++	if (!fps)
++		return 0;
++
++	rational_best_approximation(fps, 100, fps, 100, &n, &d);
++
++	ival->interval.numerator = d;
++	ival->interval.denominator = n;
++
++	dev_dbg(dw_dev->dev, "%s: %lu / %lu\n", __func__, d, n);
++
++	return 0;
++}
++
++static int dw_hdmi_s_dv_timings(struct v4l2_subdev *sd,
++				struct v4l2_dv_timings *timings)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++
++	if (!v4l2_valid_dv_timings(timings, &dw_hdmi_timings_cap, NULL, NULL))
++		return -EINVAL;
++	if (v4l2_match_dv_timings(timings, &dw_dev->timings, 0, false))
++		return 0;
++
++	dw_dev->timings = *timings;
++	return 0;
++}
++
++static int dw_hdmi_g_dv_timings(struct v4l2_subdev *sd,
++				struct v4l2_dv_timings *timings)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++
++	*timings = dw_dev->timings;
++	return 0;
++}
++
++static u32 dw_hdmi_get_width(struct dw_hdmi_dev *dw_dev)
++{
++	u32 width = hdmi_readl(dw_dev, DW_HDMI_MD_HACT_PX);
++	u32 cd = dw_hdmi_get_colordepth(dw_dev);
++
++	switch (cd) {
++	case 30:
++		width = (width * 100) / 125;
++		break;
++	case 36:
++		width = (width * 10) / 15;
++		break;
++	case 48:
++		width /= 2;
++		break;
++	case 24:
++	default:
++		break;
++	}
++
++	if (dw_hdmi_get_mbus_code(dw_dev) == MEDIA_BUS_FMT_YVYU8_1X16)
++		width *= 2;
++
++	return width;
++}
++
++static int dw_hdmi_query_dv_timings(struct v4l2_subdev *sd,
++				    struct v4l2_dv_timings *timings)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++	struct v4l2_bt_timings *bt = &timings->bt;
++	bool is_hdmi_vic;
++	u32 htot, hofs;
++	u32 vtot;
++	u8 vic;
++
++	memset(timings, 0, sizeof(*timings));
++
++	if (is_off(dw_dev)) {
++		dev_dbg(dw_dev->dev, "%s: controller is off\n", __func__);
++		return -ENOLINK;
++	}
++
++	if (!is_on(dw_dev)) {
++		dev_dbg(dw_dev->dev, "%s: controller is being configured\n",
++			__func__);
++		return -EAGAIN;
++	}
++
++	timings->type = V4L2_DV_BT_656_1120;
++	bt->width = dw_hdmi_get_width(dw_dev);
++	bt->height = hdmi_readl(dw_dev, DW_HDMI_MD_VAL);
++	bt->interlaced =
++		hdmi_readl(dw_dev, DW_HDMI_MD_STS) & DW_HDMI_ILACE_STS ?
++			V4L2_DV_INTERLACED : V4L2_DV_PROGRESSIVE;
++
++	if (hdmi_readl(dw_dev, DW_HDMI_ISTS) & DW_HDMI_VS_POL_ADJ_ISTS)
++		bt->polarities |= V4L2_DV_VSYNC_POS_POL;
++	if (hdmi_readl(dw_dev, DW_HDMI_ISTS) & DW_HDMI_HS_POL_ADJ_ISTS)
++		bt->polarities |= V4L2_DV_HSYNC_POS_POL;
++
++	bt->pixelclock = dw_hdmi_get_pixelclk(dw_dev);
++
++	/* HTOT = HACT + HFRONT + HSYNC + HBACK */
++	htot = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT1,
++			       DW_HDMI_HTOT_PIX_OFFSET,
++			       DW_HDMI_HTOT_PIX_MASK);
++	/* HOFS = HSYNC + HBACK */
++	hofs = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT1,
++			       DW_HDMI_HOFS_PIX_OFFSET,
++			       DW_HDMI_HOFS_PIX_MASK);
++
++	bt->hfrontporch = htot - hofs - bt->width;
++	bt->hsync = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT0,
++				    DW_HDMI_HS_CLK_OFFSET,
++				    DW_HDMI_HS_CLK_MASK);
++	bt->hbackporch = hofs - bt->hsync;
++
++	/* VTOT = VACT + VFRONT + VSYNC + VBACK */
++	vtot = hdmi_readl(dw_dev, DW_HDMI_MD_VTL);
++
++	bt->vsync = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
++
++	bt->vbackporch = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
++	bt->vfrontporch = vtot - bt->height - bt->vsync - bt->vbackporch;
++
++	if (bt->interlaced == V4L2_DV_INTERLACED) {
++		hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MD_VCTRL,
++				 DW_HDMI_V_MODE_OFFSET,
++				 DW_HDMI_V_MODE_MASK);
++		msleep(100); /* Wait for 2 fields */
++
++		vtot = hdmi_readl(dw_dev, DW_HDMI_MD_VTL);
++		hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MD_VCTRL,
++				 DW_HDMI_V_OFFS_LIN_MODE_OFFSET,
++				 DW_HDMI_V_OFFS_LIN_MODE_MASK);
++		msleep(50); /* Wait for 1 field */
++		bt->il_vsync = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
++
++		hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_MD_VCTRL,
++				 DW_HDMI_V_OFFS_LIN_MODE_OFFSET,
++				 DW_HDMI_V_OFFS_LIN_MODE_MASK);
++		msleep(50);
++		bt->il_vbackporch = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
++		bt->il_vfrontporch = vtot - bt->height - bt->il_vsync -
++			bt->il_vbackporch;
++
++		hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_MD_VCTRL,
++				 DW_HDMI_V_MODE_OFFSET,
++				 DW_HDMI_V_MODE_MASK);
++	}
++
++	bt->standards = V4L2_DV_BT_STD_CEA861;
++
++	vic = dw_hdmi_get_curr_vic(dw_dev, &is_hdmi_vic);
++	if (vic) {
++		if (is_hdmi_vic) {
++			bt->flags |= V4L2_DV_FL_HAS_HDMI_VIC;
++			bt->hdmi_vic = vic;
++			bt->cea861_vic = 0;
++		} else {
++			bt->flags |= V4L2_DV_FL_HAS_CEA861_VIC;
++			bt->hdmi_vic = 0;
++			bt->cea861_vic = vic;
++		}
++	}
++
++	dev_dbg(dw_dev->dev, "%s: width=%u, height=%u, mbuscode=%u\n", __func__,
++		bt->width, bt->height, dw_hdmi_get_mbus_code(dw_dev));
++
++	return 0;
++}
++
++static int dw_hdmi_enum_mbus_code(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_pad_config *cfg,
++				  struct v4l2_subdev_mbus_code_enum *code)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++
++	if (code->index != 0)
++		return -EINVAL;
++
++	code->code = dw_dev->mbus_code;
++	return 0;
++}
++
++static int dw_hdmi_fill_format(struct dw_hdmi_dev *dw_dev,
++			       struct v4l2_mbus_framefmt *format)
++{
++	enum hdmi_extended_colorimetry extcol;
++	enum hdmi_colorimetry col;
++	int ret;
++
++	memset(format, 0, sizeof(*format));
++
++	/* Update timings */
++	ret = dw_hdmi_query_dv_timings(&dw_dev->sd, &dw_dev->timings);
 +	if (ret)
 +		return ret;
 +
-+	dw_phy_reset(dw_dev, 0);
-+	dw_phy_pddq(dw_dev, 0);
-+	dw_dev->phy_enabled = true;
++	/* Update infoframe contents */
++	dw_hdmi_get_infoframes(dw_dev);
++
++	col = dw_dev->aviif.avi.colorimetry;
++	extcol = dw_dev->aviif.avi.extended_colorimetry;
++
++	switch (col) {
++	case HDMI_COLORIMETRY_ITU_601:
++		format->colorspace = V4L2_COLORSPACE_SMPTE170M;
++		break;
++	case HDMI_COLORIMETRY_EXTENDED:
++		switch (extcol) {
++		case HDMI_EXTENDED_COLORIMETRY_XV_YCC_601:
++			format->colorspace = V4L2_COLORSPACE_SMPTE170M;
++			break;
++		case HDMI_EXTENDED_COLORIMETRY_XV_YCC_709:
++		case HDMI_EXTENDED_COLORIMETRY_S_YCC_601:
++		case HDMI_EXTENDED_COLORIMETRY_OPYCC_601:
++		case HDMI_EXTENDED_COLORIMETRY_OPRGB:
++		case HDMI_EXTENDED_COLORIMETRY_BT2020_CONST_LUM:
++		case HDMI_EXTENDED_COLORIMETRY_BT2020:
++		case HDMI_EXTENDED_COLORIMETRY_RESERVED:
++		default:
++			format->colorspace = V4L2_COLORSPACE_REC709;
++			break;
++		}
++
++		break;
++	case HDMI_COLORIMETRY_NONE:
++	case HDMI_COLORIMETRY_ITU_709:
++	default:
++		format->colorspace = V4L2_COLORSPACE_REC709;
++		break;
++	}
++
++	format->width = dw_dev->timings.bt.width;
++	format->height = dw_dev->timings.bt.height;
++	format->code = dw_dev->mbus_code;
++	if (dw_dev->timings.bt.interlaced)
++		format->field = V4L2_FIELD_ALTERNATE;
++	else
++		format->field = V4L2_FIELD_NONE;
++
 +	return 0;
 +}
 +
-+static void dw_phy_disable(struct dw_phy_dev *dw_dev)
++static int dw_hdmi_get_fmt(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_pad_config *cfg,
++			   struct v4l2_subdev_format *format)
 +{
-+	if (!dw_dev->phy_enabled)
-+		return;
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
 +
-+	dw_phy_reset(dw_dev, 1);
-+	dw_phy_pddq(dw_dev, 1);
-+	dw_phy_svsmode(dw_dev, 0);
-+	dw_dev->mpll_status = 0xFFFF;
-+	dw_dev->phy_enabled = false;
++	return dw_hdmi_fill_format(dw_dev, &format->format);
 +}
 +
-+static int dw_phy_set_color_depth(struct dw_phy_dev *dw_dev,
-+				  u8 color_depth)
++static int dw_hdmi_set_fmt(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_pad_config *cfg,
++			   struct v4l2_subdev_format *format)
 +{
-+	u16 val, sc_clrdep;
-+	int ret;
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
 +
-+	if (!dw_dev->phy_enabled)
-+		return -EINVAL;
-+
-+	ret = dw_phy_color_depth_to_mode(color_depth);
-+	if (ret < 0)
-+		return ret;
-+
-+	sc_clrdep = ret;
-+
-+	/* Color Depth */
-+	val = dw_phy_read(dw_dev, DW_PHY_SYSTEM_CONFIG);
-+	val &= ~DW_PHY_CLRDEP_MASK;
-+	val |= sc_clrdep;
-+	dw_phy_write(dw_dev, val, DW_PHY_SYSTEM_CONFIG);
-+
-+	dev_dbg(dw_dev->dev, "%s: color_depth=%d\n", __func__, color_depth);
-+
-+	return 0;
-+}
-+
-+static bool dw_phy_has_dt(struct dw_phy_dev *dw_dev)
-+{
-+	return (of_device_get_match_data(dw_dev->dev) != NULL);
-+}
-+
-+static int dw_phy_parse_dt(struct dw_phy_dev *dw_dev)
-+{
-+	const struct dw_hdmi_phy_data *of_data;
-+	int ret;
-+
-+	of_data = of_device_get_match_data(dw_dev->dev);
-+	if (!of_data) {
-+		dev_err(dw_dev->dev, "no valid PHY configuration available\n");
++	if (format->format.code != dw_dev->mbus_code) {
++		dev_dbg(dw_dev->dev, "invalid format\n");
 +		return -EINVAL;
 +	}
 +
-+	/* load PHY version */
-+	dw_dev->config->version = of_data->version;
++	return dw_hdmi_get_fmt(sd, cfg, format);
++}
 +
-+	/* load PHY clock */
++static int dw_hdmi_get_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++	unsigned int input_count = dw_dev->config->phy->input_count;
++	unsigned int i, j, start, end;
++	u8 *ptr = edid->edid;
++	u8 blocks;
++
++	memset(edid->reserved, 0, sizeof(edid->reserved));
++
++	if (edid->pad >= input_count || !ptr)
++		return -EINVAL;
++
++	blocks = dw_dev->curr_edid_blocks[edid->pad];
++
++	if (!edid->start_block && !edid->blocks) {
++		edid->blocks = blocks;
++		return 0;
++	}
++	if (!blocks)
++		return -ENODATA;
++	if (edid->start_block >= blocks)
++		return -EINVAL;
++	if ((edid->start_block + edid->blocks) > blocks)
++		edid->blocks = blocks - edid->start_block;
++
++	start = (edid->start_block * 128) / sizeof(u32);
++	end = start + (edid->blocks * 128) / sizeof(u32);
++
++	for (i = start; i < end; i++) {
++		u32 raw = dw_hdmi_edid_read(dw_dev, edid->pad, i * sizeof(u32));
++
++		if (!dw_hdmi_edid_4blocks_le(dw_dev)) {
++			u32 raw_srt = 0;
++			/* little endian representation, need to invert */
++			for (j = 0; j < 4; j++) {
++				raw_srt |= ((raw >> (8 * (3 - j))) & 0xff)
++					<< (j * 8);
++			}
++			raw = raw_srt;
++		}
++		memcpy(ptr, &raw, sizeof(u32));
++		ptr += sizeof(u32);
++	}
++
++	return 0;
++}
++
++static int dw_hdmi_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++	int input_count = dw_dev->config->phy->input_count;
++	int size, ret;
++	u32 *tmp;
++
++	memset(edid->reserved, 0, sizeof(edid->reserved));
++
++	if (edid->pad >= input_count || !edid->edid || !edid->blocks)
++		return -EINVAL;
++	if (edid->start_block != 0)
++		return -EINVAL;
++
++	/* Clear old EDID */
++	size = dw_dev->curr_edid_blocks[edid->pad] * 128;
++	tmp = devm_kzalloc(dw_dev->dev, size, GFP_KERNEL);
++	if (!tmp)
++		return -ENOMEM;
++
++	ret = dw_hdmi_edid_write(dw_dev, edid->pad, tmp, size / sizeof(u32));
++	devm_kfree(dw_dev->dev, tmp);
++
++	if (ret)
++		return ret;
++
++	dw_dev->curr_edid_blocks[edid->pad] = 0;
++
++	/* Set new EDID */
++	if (dw_hdmi_edid_4blocks_le(dw_dev)) {
++		/* little endian representation, no need to invert bytes */
++		ret = dw_hdmi_update_edid(dw_dev, edid->pad, (u8 *)edid->edid,
++					  (edid->blocks * 128), false);
++	} else {
++		/* invert the order of bytes to register 32bit */
++		ret = dw_hdmi_update_edid(dw_dev, edid->pad, (u8 *)edid->edid,
++					  (edid->blocks * 128), true);
++	}
++	if (ret)
++		return ret;
++
++	dw_dev->curr_edid_blocks[edid->pad] = edid->blocks;
++	return 0;
++}
++
++static int dw_hdmi_dv_timings_cap(struct v4l2_subdev *sd,
++				  struct v4l2_dv_timings_cap *cap)
++{
++	unsigned int pad = cap->pad;
++
++	*cap = dw_hdmi_timings_cap;
++	cap->pad = pad;
++	return 0;
++}
++
++static int dw_hdmi_enum_dv_timings(struct v4l2_subdev *sd,
++				   struct v4l2_enum_dv_timings *timings)
++{
++	return v4l2_enum_dv_timings_cap(timings, &dw_hdmi_timings_cap,
++					NULL, NULL);
++}
++
++static int dw_hdmi_log_status(struct v4l2_subdev *sd)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++	struct v4l2_dv_timings timings;
++
++	v4l2_info(sd, "--- Chip configuration ---\n");
++	v4l2_info(sd, "iref_clk=%dMHz\n", dw_dev->config->iref_clk);
++	v4l2_info(sd, "phy_drv=%s, phy_jtag_addr=0x%x\n",
++		  dw_dev->phy ? "present" : "not present",
++		  dw_dev->config->phy->jtag_addr);
++
++	v4l2_info(sd, "--- Chip status ---\n");
++	v4l2_info(sd, "selected_input=%d: signal=%d\n", dw_dev->selected_input,
++		  has_signal(dw_dev, dw_dev->selected_input));
++	v4l2_info(sd, "configured_input=%d: signal=%d\n",
++		  dw_dev->configured_input,
++		  has_signal(dw_dev, dw_dev->configured_input));
++
++	v4l2_info(sd, "--- Video status ---\n");
++	v4l2_info(sd, "type=%s, color_depth=%dbits",
++		  hdmi_readl(dw_dev, DW_HDMI_PDEC_STS) &
++		  DW_HDMI_DVIDET ? "dvi" : "hdmi",
++		  dw_hdmi_get_colordepth(dw_dev));
++
++	v4l2_info(sd, "--- Video timings ---\n");
++	if (dw_hdmi_query_dv_timings(sd, &timings))
++		v4l2_info(sd, "No video detected\n");
++	else
++		v4l2_print_dv_timings(sd->name, "Detected format: ",
++				      &timings, true);
++	v4l2_print_dv_timings(sd->name, "Configured format: ",
++			      &dw_dev->timings, true);
++
++	v4l2_ctrl_subdev_log_status(sd);
++	return 0;
++}
++
++#ifdef CONFIG_VIDEO_ADV_DEBUG
++static void dw_hdmi_invalid_register(struct dw_hdmi_dev *dw_dev, u64 reg)
++{
++	dev_err(dw_dev->dev, "register 0x%llx not supported\n", reg);
++	dev_err(dw_dev->dev, "0x0000-0x7fff: Main controller map\n");
++	dev_err(dw_dev->dev, "0x8000-0x8fff: Debug registers\n");
++	dev_err(dw_dev->dev, "  0x8000: TMDSVALID wait count\n");
++	dev_err(dw_dev->dev, "  0x8001: SW state\n");
++	dev_err(dw_dev->dev, "  0x8002: Equalizer ON/OFF\n");
++	dev_err(dw_dev->dev, "  0x8003: PHY Version\n");
++	dev_err(dw_dev->dev, "  0x8004: Video Stable Wait Time (ms)\n");
++	dev_err(dw_dev->dev, "  0x8005: Clock wait time (ms)\n");
++	dev_err(dw_dev->dev, "  0x8006: iref_clk value\n");
++	dev_err(dw_dev->dev, "  0x8007: reset_datapath_enable mask value\n");
++	dev_err(dw_dev->dev, "  0x8008: audio sample frequency (read only)\n");
++	dev_err(dw_dev->dev, "  0x8009: hw_reset_on_hot_plug (1=enabled, 0=disabled)");
++	dev_err(dw_dev->dev, "0x10000-0x100ff: PHY map\n");
++}
++
++static bool dw_hdmi_is_reserved_register(struct dw_hdmi_dev *dw_dev, u32 reg)
++{
++	/*
++	 * NOTE: Some of the HDCP registers are write only. This means that
++	 * a read from these registers will never return and can block the bus
++	 * in some architectures. Disable the read to these registers and also
++	 * disable the write as a safety measure because userspace should not
++	 * be able to set HDCP registers.
++	 */
++	if (reg >= DW_HDMI_HDCP_CTRL && reg <= DW_HDMI_HDCP_STS)
++		return true;
++	if (reg == DW_HDMI_HDCP22_CONTROL)
++		return true;
++	if (reg == DW_HDMI_HDCP22_STATUS)
++		return true;
++	return false;
++}
++
++static int dw_hdmi_g_register(struct v4l2_subdev *sd,
++			      struct v4l2_dbg_register *reg)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++
++	switch (reg->reg >> 15) {
++	case 0: /* Controller core read */
++		if (dw_hdmi_is_reserved_register(dw_dev, reg->reg & 0x7fff))
++			return -EINVAL;
++
++		reg->size = 4;
++		reg->val = hdmi_readl(dw_dev, reg->reg & 0x7fff);
++		return 0;
++	case 1: /* Debug registers */
++		reg->size = 4;
++
++		switch (reg->reg & GENMASK(14, 0)) {
++		case 0:
++			reg->val = dw_dev->tmds_valid_wait_count;
++			return 0;
++		case 1:
++			reg->val = dw_dev->state;
++			return 0;
++		case 2:
++			reg->val = dw_dev->phy_eq_on;
++			return 0;
++		case 3:
++			reg->val = dw_dev->config->phy->version;
++			return 0;
++		case 4:
++			reg->val = dw_dev->video_stable_wait_ms;
++			return 0;
++		case 5:
++			reg->val = dw_dev->has_clock_wait_ms;
++			return 0;
++		case 6:
++			reg->val = dw_dev->config->iref_clk;
++			return 0;
++		case 7:
++			reg->val = dw_dev->reset_datapath_enable;
++			return 0;
++		case 8:
++			reg->val = dw_hdmi_get_sample_freq(dw_dev);
++			return 0;
++		case 9:
++			reg->val = dw_dev->hw_reset_on_hot_plug;
++			return 0;
++		default:
++			break;
++		}
++		break;
++	case 2: /* PHY read */
++		if ((reg->reg & ~0xff) != BIT(16))
++			break;
++
++		reg->size = 2;
++		reg->val = dw_hdmi_phy_read(dw_dev, reg->reg & 0xff);
++		return 0;
++	default:
++		break;
++	}
++
++	dw_hdmi_invalid_register(dw_dev, reg->reg);
++	return 0;
++}
++
++static int dw_hdmi_s_register(struct v4l2_subdev *sd,
++			      const struct v4l2_dbg_register *reg)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++
++	switch (reg->reg >> 15) {
++	case 0: /* Controller core write */
++		if (dw_hdmi_is_reserved_register(dw_dev, reg->reg & 0x7fff))
++			return -EINVAL;
++
++		hdmi_writel(dw_dev, reg->val & GENMASK(31, 0),
++			    reg->reg & 0x7fff);
++		return 0;
++	case 1: /* Debug registers */
++		switch (reg->reg & GENMASK(14, 0)) {
++		case 0:
++			dw_dev->tmds_valid_wait_count = reg->val;
++			return 0;
++		case 1:
++			dw_hdmi_set_state(dw_dev, reg->val & 0xff);
++			return 0;
++		case 2:
++			dw_dev->phy_eq_on = reg->val;
++			return 0;
++		case 4:
++			dw_dev->video_stable_wait_ms = reg->val;
++			return 0;
++		case 5:
++			dw_dev->has_clock_wait_ms = reg->val;
++			return 0;
++		case 7:
++			dw_dev->reset_datapath_enable = reg->val;
++			return 0;
++		/* case 8 is read-only */
++		case 9:
++			dw_dev->hw_reset_on_hot_plug = reg->val;
++			return 0;
++		case 400:
++			dev_warn(dw_dev->dev, "synmp debug select timeout\n");
++			return 0;
++		default:
++			break;
++		}
++		break;
++	case 2: /* PHY write */
++		if ((reg->reg & ~0xff) != BIT(16))
++			break;
++		dw_hdmi_phy_write(dw_dev, reg->val & 0xffff, reg->reg & 0xff);
++		return 0;
++	default:
++		break;
++	}
++
++	dw_hdmi_invalid_register(dw_dev, reg->reg);
++	return 0;
++}
++#endif
++
++static int dw_hdmi_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
++				   struct v4l2_event_subscription *sub)
++{
++	switch (sub->type) {
++	case V4L2_EVENT_SOURCE_CHANGE:
++		return v4l2_src_change_event_subdev_subscribe(sd, fh, sub);
++	default:
++		return v4l2_ctrl_subdev_subscribe_event(sd, fh, sub);
++	}
++}
++
++static int dw_hdmi_registered(struct v4l2_subdev *sd)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++
++	dw_dev->registered = true;
++	return 0;
++}
++
++static void dw_hdmi_unregistered(struct v4l2_subdev *sd)
++{
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++
++	dw_dev->registered = false;
++}
++
++static const struct v4l2_subdev_core_ops dw_hdmi_sd_core_ops = {
++	.log_status = dw_hdmi_log_status,
++#ifdef CONFIG_VIDEO_ADV_DEBUG
++	.g_register = dw_hdmi_g_register,
++	.s_register = dw_hdmi_s_register,
++#endif
++	.subscribe_event = dw_hdmi_subscribe_event,
++	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
++};
++
++static const struct v4l2_subdev_video_ops dw_hdmi_sd_video_ops = {
++	.s_routing = dw_hdmi_s_routing,
++	.g_input_status = dw_hdmi_g_input_status,
++	.g_frame_interval = dw_hdmi_g_frame_interval,
++	.s_dv_timings = dw_hdmi_s_dv_timings,
++	.g_dv_timings = dw_hdmi_g_dv_timings,
++	.query_dv_timings = dw_hdmi_query_dv_timings,
++};
++
++static const struct v4l2_subdev_pad_ops dw_hdmi_sd_pad_ops = {
++	.enum_mbus_code = dw_hdmi_enum_mbus_code,
++	.get_fmt = dw_hdmi_get_fmt,
++	.set_fmt = dw_hdmi_set_fmt,
++	.get_edid = dw_hdmi_get_edid,
++	.set_edid = dw_hdmi_set_edid,
++	.dv_timings_cap = dw_hdmi_dv_timings_cap,
++	.enum_dv_timings = dw_hdmi_enum_dv_timings,
++};
++
++static const struct v4l2_subdev_ops dw_hdmi_sd_ops = {
++	.core = &dw_hdmi_sd_core_ops,
++	.video = &dw_hdmi_sd_video_ops,
++	.pad = &dw_hdmi_sd_pad_ops,
++};
++
++static const struct v4l2_subdev_internal_ops dw_hdmi_internal_ops = {
++	.registered = dw_hdmi_registered,
++	.unregistered = dw_hdmi_unregistered,
++};
++
++static int dw_hdmi_parse_pd(struct dw_hdmi_dev *dw_dev)
++{
++	/* PHY address already comes from platform data */
++	if (!dw_dev->config->phy->jtag_addr) {
++		dev_err(dw_dev->dev, "missing PHY jtag address in PD\n");
++		return -EINVAL;
++	}
++
++	/* clock already comes from platform data */
++	if (!dw_dev->config->iref_clk) {
++		dev_err(dw_dev->dev, "invalid cfg clock frequency in PD\n");
++		return -EINVAL;
++	}
++
++	/* PHY input count already comes from platform data */
++	if (!dw_dev->config->phy->input_count) {
++		dev_err(dw_dev->dev, "invalid PHY input count\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int dw_hdmi_parse_dt(struct dw_hdmi_dev *dw_dev)
++{
++	struct device_node *phy_node, *np = dw_dev->of_node;
++	u32 tmp = 0;
++	int ret;
++
++	if (!np) {
++		dev_err(dw_dev->dev, "missing DT node\n");
++		return -EINVAL;
++	}
++
++	/* PHY properties parsing */
++	phy_node = dw_hdmi_get_phy_of_node(dw_dev, NULL);
++	ret = of_property_read_u32(phy_node, "reg", &tmp);
++	if (ret) {
++		dev_err(dw_dev->dev, "missing PHY jtag address in DT\n");
++		return ret;
++	}
++
++	dw_dev->config->phy->jtag_addr = tmp & 0xff;
++
++	/* Get config clock value */
 +	dw_dev->clk = devm_clk_get(dw_dev->dev, "cfg");
 +	if (IS_ERR(dw_dev->clk)) {
 +		dev_err(dw_dev->dev, "failed to get cfg clock\n");
@@ -1429,9 +3037,19 @@ index 0000000..7bac0c6
 +		return ret;
 +	}
 +
-+	dw_dev->config->cfg_clk = clk_get_rate(dw_dev->clk) / 1000000U;
-+	if (!dw_dev->config->cfg_clk) {
++	dw_dev->config->iref_clk = clk_get_rate(dw_dev->clk) / 1000000U;
++	if (!dw_dev->config->iref_clk) {
 +		dev_err(dw_dev->dev, "invalid cfg clock frequency\n");
++		ret = -EINVAL;
++		goto err_clk;
++	}
++
++	/* Get PHY input count */
++	tmp = 0;
++	of_property_read_u32(phy_node, "input-count", &tmp);
++	dw_dev->config->phy->input_count = tmp;
++	if (!dw_dev->config->phy->input_count) {
++		dev_err(dw_dev->dev, "invalid PHY input count\n");
 +		ret = -EINVAL;
 +		goto err_clk;
 +	}
@@ -1443,534 +3061,947 @@ index 0000000..7bac0c6
 +	return ret;
 +}
 +
-+static int dw_phy_parse_pd(struct dw_phy_dev *dw_dev)
++static void dw_hdmi_config_ced(struct dw_hdmi_dev *dw_dev)
 +{
-+	/* validate if the platform data was properly supplied */
++	hdmi_mask_writel(dw_dev, 0x1f, DW_HDMI_HDMI20_CONTROL,
++			 DW_HDMI_CTRLCHECKEN_OFFSET,
++			 DW_HDMI_VIDDATACHECKEN_MASK |
++			 DW_HDMI_DATAISCHECKEN_MASK |
++			 DW_HDMI_GBCHECKEN_MASK |
++			 DW_HDMI_PREAMBCHECKEN_MASK |
++			 DW_HDMI_CTRLCHECKEN_MASK);
++}
 +
-+	if (!dw_dev->config->version) {
-+		dev_err(dw_dev->dev,
-+			"invalid version platform data supplied\n");
-+		return -EINVAL;
-+	}
++static void dw_hdmi_config_mode_recover(struct dw_hdmi_dev *dw_dev)
++{
++	/*NOTE: avoid instability of md_ists interrupts */
 +
-+	if (!dw_dev->config->cfg_clk) {
-+		dev_err(dw_dev->dev, "invalid clock platform data supplied\n");
-+		return -EINVAL;
-+	}
++	/* set HDMI_MODE_HYST */
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MODE_RECOVER,
++			 DW_HDMI_HDMI_MODE_HYST_OFFSET,
++			 DW_HDMI_HDMI_MODE_HYST_MASK);
++	/* set DVI_MODE_HYST */
++	hdmi_mask_writel(dw_dev, 0x8, DW_HDMI_MODE_RECOVER,
++			 DW_HDMI_DVI_MODE_HYST_OFFSET,
++			 DW_HDMI_DVI_MODE_HYST_MASK);
++	/* set SPIKE_FILTER_EN */
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MODE_RECOVER,
++			 DW_HDMI_SPIKE_FILTER_EN_OFFSET,
++			 DW_HDMI_SPIKE_FILTER_EN_MASK);
++
++	/* enable BCH error correction */
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_CTRL,
++			 DW_HDMI_PDEC_BCH_EN_OFFSET,
++			 DW_HDMI_PDEC_BCH_EN_MASK);
++}
++
++static void dw_hdmi_config_scdc(struct dw_hdmi_dev *dw_dev)
++{
++	u32 chlock = dw_dev->config->iref_clk * 1000;
++
++	/* set HDMI_CHLOCK_CONFIG */
++	hdmi_mask_writel(dw_dev, chlock, DW_HDMI_CHLOCK_CONFIG,
++			 DW_HDMI_MILISECTIMERLIMIT_OFFSET,
++			 DW_HDMI_MILISECTIMERLIMIT_MASK);
++}
++
++static void dw_hdmi_config_ceavid(struct dw_hdmi_dev *dw_dev)
++{
++	/* set CEA YCC 422 IPI Mapping */
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEAVID_CONFIG,
++			 DW_HDMI_CEAVID_YCC422_IPIMAP_OFFSET,
++			 DW_HDMI_CEAVID_YCC422_IPIMAP_MASK);
++	/* set CEA YCC 420 IPI Mapping */
++	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEAVID_CONFIG,
++			 DW_HDMI_CEAVID_YCC420_IPIMAP_OFFSET,
++			 DW_HDMI_CEAVID_YCC420_IPIMAP_MASK);
++}
++
++static int dw_hdmi_initial_config(struct dw_hdmi_dev *dw_dev, u32 input)
++{
++	/* disable interrupts */
++	dw_hdmi_disable_ints(dw_dev);
++	/* Disable HPD */
++	dw_hdmi_disable_hpd(dw_dev);
++
++	/* select PHY port */
++	hdmi_mask_writel(dw_dev, input, DW_HDMI_PHY_CTRL,
++			 DW_HDMI_PORTSELECT_OFFSET,
++			 DW_HDMI_PORTSELECT_MASK);
++
++	/* ced */
++	dw_hdmi_config_ced(dw_dev);
++
++	/* HDMI recover configurations */
++	dw_hdmi_config_mode_recover(dw_dev);
++
++	/* scdc configurations */
++	dw_hdmi_config_scdc(dw_dev);
++
++	/* ceavid configuration */
++	dw_hdmi_config_ceavid(dw_dev);
 +
 +	return 0;
 +}
 +
-+static int dw_phy_set_data(struct dw_phy_dev *dw_dev)
++static int dw_hdmi_rx_probe(struct platform_device *pdev)
 +{
-+	const struct dw_hdmi_phy_data *of_data;
-+
-+	of_data = of_device_get_match_data(dw_dev->dev);
-+
-+	if (of_data) {
-+		dw_dev->phy_data = (struct dw_hdmi_phy_data *)of_data;
-+	} else if (dw_dev->config->version == dw_phy_e405_data.version) {
-+		dw_dev->phy_data = &dw_phy_e405_data;
-+	} else if (dw_dev->config->version == dw_phy_e406_data.version) {
-+		dw_dev->phy_data = &dw_phy_e406_data;
-+	} else {
-+		dev_err(dw_dev->dev, "failed setting PHY data\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static const char *dw_phy_lookup_dev_id(struct dw_phy_dev *dw_dev)
-+{
-+	const char *dev_id = "dw-hdmi-rx";
-+
-+	/* The lookup dev_id name by default is "dw-hdmi-rx",
-+	 * however if there is a parent device associated then
-+	 * the dev_id will be overridden by that dev_name of parent.
-+	 * This allows other drivers to re-use the same API PHY.
-+	 */
-+	if (dw_dev->dev->parent)
-+		dev_id = dev_name(dw_dev->dev->parent);
-+
-+	return dev_id;
-+}
-+
-+static int dw_hdmi_phy_calibrate(struct phy *phy)
-+{
-+	struct dw_phy_dev *dw_dev = phy_get_drvdata(phy);
-+	const struct phy_configure_opts_hdmi *hdmi_opts = &dw_dev->hdmi_opts;
-+
-+	/* call the equalization function for calibration */
-+	return dw_dev->phy_data->dw_phy_eq_init(dw_dev,
-+						hdmi_opts->calibration_acq,
-+						hdmi_opts->calibration_force);
-+}
-+
-+static int dw_hdmi_phy_power_on(struct phy *phy)
-+{
-+	struct dw_phy_dev *dw_dev = phy_get_drvdata(phy);
-+
-+	return dw_phy_enable(dw_dev, dw_dev->hdmi_opts.color_depth,
-+			     dw_dev->hdmi_opts.tmds_bit_clock_ratio,
-+			     dw_dev->hdmi_opts.scrambling);
-+}
-+
-+static int dw_hdmi_phy_power_off(struct phy *phy)
-+{
-+	struct dw_phy_dev *dw_dev = phy_get_drvdata(phy);
-+
-+	dw_phy_disable(dw_dev);
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_phy_configure(struct phy *phy,
-+				 union phy_configure_opts *opts)
-+{
-+	const struct phy_configure_opts_hdmi *hdmi_opts = &opts->hdmi;
-+	struct dw_phy_dev *dw_dev = phy_get_drvdata(phy);
-+	int ret = 0;
-+
-+	/* save the configuration options */
-+	memcpy(&dw_dev->hdmi_opts, hdmi_opts, sizeof(*hdmi_opts));
-+
-+	/* check if it is needed to reconfigure deep_color */
-+	if (dw_dev->hdmi_opts.set_color_depth) {
-+		if (dw_dev->phy_enabled) {
-+			ret = dw_phy_set_color_depth(dw_dev,
-+						     hdmi_opts->color_depth);
-+			if (!ret)
-+				dw_dev->hdmi_opts.set_color_depth = 0;
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct phy_ops dw_hdmi_phy_ops = {
-+	.configure	= dw_hdmi_phy_configure,
-+	.power_on	= dw_hdmi_phy_power_on,
-+	.calibrate	= dw_hdmi_phy_calibrate,
-+	.power_off	= dw_hdmi_phy_power_off,
-+	.owner		= THIS_MODULE,
-+};
-+
-+static int dw_phy_probe(struct platform_device *pdev)
-+{
-+	struct dw_phy_pdata *pdata = pdev->dev.platform_data;
++	const struct v4l2_dv_timings timings_def = DW_HDMI_DEFAULT_TIMING;
++	struct dw_hdmi_rx_pdata *pdata = pdev->dev.platform_data;
 +	struct device *dev = &pdev->dev;
-+	struct device_node *node = dev->of_node;
-+	struct dw_phy_dev *dw_dev;
-+	int ret;
++	struct v4l2_ctrl_handler *hdl;
++	struct dw_hdmi_dev *dw_dev;
++	struct v4l2_subdev *sd;
++	struct resource *res;
++	u32 input_count;
++	unsigned int i;
++	int ret, irq;
 +
-+	dev_dbg(dev, "probe start\n");
-+
++	/* Resource allocation */
 +	dw_dev = devm_kzalloc(dev, sizeof(*dw_dev), GFP_KERNEL);
 +	if (!dw_dev)
 +		return -ENOMEM;
 +
++	/* Resource initialization */
 +	if (!pdata) {
-+		dev_err(dev, "no platform data supplied\n");
++		dev_err(dev, "missing platform data\n");
 +		return -EINVAL;
 +	}
 +
 +	dw_dev->dev = dev;
 +	dw_dev->config = pdata;
++	dw_dev->state = HDMI_STATE_NO_INIT;
++	dw_dev->of_node = dev->of_node;
++	dw_dev->tmds_valid_wait_count = 100;
++	dw_dev->has_clock_wait_ms = 200;
++	dw_dev->video_stable_wait_ms = 200;
++	dw_dev->reset_datapath_enable = 0xFFFFFFFF;
++	dw_dev->phy_eq_on = true;
++	dw_dev->hw_reset_on_hot_plug = 1;
++	spin_lock_init(&dw_dev->lock);
++	spin_lock_init(&dw_dev->event_lock);
 +
-+	/* parse configuration */
-+	if (dw_phy_has_dt(dw_dev)) {
-+		/* configuration based on device tree */
-+		ret = dw_phy_parse_dt(dw_dev);
++	if (dw_hdmi_has_dt(dw_dev)) {
++		/* init PHY based on device tree */
++		ret = dw_hdmi_parse_dt(dw_dev);
 +	} else {
-+		/* configuration based on platform device */
-+		ret = dw_phy_parse_pd(dw_dev);
++		/* init PHY based on platform data */
++		ret = dw_hdmi_parse_pd(dw_dev);
 +	}
 +	if (ret)
-+		goto err;
++		return ret;
 +
-+	/* set phy_data depending on the PHY type */
-+	ret = dw_phy_set_data(dw_dev);
-+	if (ret)
-+		goto err;
++	input_count = dw_dev->config->phy->input_count;
 +
-+	/* Force PHY disabling */
-+	dw_dev->phy_enabled = true;
-+	dw_phy_disable(dw_dev);
++	dw_dev->curr_edid_blocks =
++		devm_kzalloc(dev,
++			     sizeof(*dw_dev->curr_edid_blocks) * input_count,
++			     GFP_KERNEL);
++	if (!dw_dev->curr_edid_blocks)
++		return -ENOMEM;
 +
-+	/* creates the PHY reference */
-+	dw_dev->phy = devm_phy_create(dw_dev->dev, node, &dw_hdmi_phy_ops);
-+	if (IS_ERR(dw_dev->phy)) {
-+		dev_err(dw_dev->dev, "Failed to create HDMI PHY reference\n");
-+		return PTR_ERR(dw_dev->phy);
++	dw_dev->input_connected =
++		devm_kzalloc(dev,
++			     sizeof(*dw_dev->input_connected) * input_count,
++			     GFP_KERNEL);
++	if (!dw_dev->input_connected)
++		return -ENOMEM;
++
++	/* Deferred work */
++	dw_dev->wq = create_singlethread_workqueue(DW_HDMI_RX_DRVNAME);
++	if (!dw_dev->wq) {
++		dev_err(dev, "failed to create workqueue\n");
++		return -ENOMEM;
 +	}
 +
-+	platform_set_drvdata(pdev, dw_dev);
-+	phy_set_drvdata(dw_dev->phy, dw_dev);
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	dw_dev->regs = devm_ioremap_resource(dev, res);
++	if (IS_ERR(dw_dev->regs)) {
++		dev_err(dev, "failed to remap resource\n");
++		ret = PTR_ERR(dw_dev->regs);
++		goto err_wq;
++	}
 +
-+	/* create the lookup association for non-dt systems */
-+	if (!node) {
-+		ret = phy_create_lookup(dw_dev->phy, "hdmi-phy",
-+					dw_phy_lookup_dev_id(dw_dev));
-+		if (ret) {
-+			dev_err(dev, "Failed to create HDMI PHY lookup\n");
-+			goto err;
++	/* Disable 5V and write EDID */
++	for (i = 0; i < input_count; i++) {
++		dw_dev->curr_edid_blocks[i] = ARRAY_SIZE(dw_hdmi_edid) / 32;
++		dw_hdmi_5v_disable(dw_dev, i);
++		if (dw_hdmi_edid_4blocks_le(dw_dev)) {
++			/* little endian representation, needs to invert */
++			ret = dw_hdmi_update_edid(dw_dev, i, (u8 *)dw_hdmi_edid,
++						  ARRAY_SIZE(dw_hdmi_edid) *
++							sizeof(u32),
++						  true);
++		} else {
++			/* no need to invert */
++			ret = dw_hdmi_update_edid(dw_dev, i, (u8 *)dw_hdmi_edid,
++						  ARRAY_SIZE(dw_hdmi_edid) *
++							sizeof(u32),
++						  false);
 +		}
-+		dev_dbg(dev,
-+			"phy_create_lookup: con_id='%s' <-> dev_id='%s')\n",
-+			"hdmi-phy", dw_phy_lookup_dev_id(dw_dev));
++		if (ret)
++			goto err_wq;
 +	}
 +
-+	dev_dbg(dev, "driver probed (name=e%d, cfg clock=%d, dev_name=%s)\n",
-+		dw_dev->config->version, dw_dev->config->cfg_clk,
-+		dev_name(dw_dev->dev));
++	dw_hdmi_initial_config(dw_dev, 0);
++
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0) {
++		ret = irq;
++		goto err_wq;
++	}
++
++	ret = devm_request_threaded_irq(dev, irq, NULL, dw_hdmi_irq_handler,
++					IRQF_ONESHOT, DW_HDMI_RX_DRVNAME,
++					dw_dev);
++	if (ret)
++		goto err_wq;
++
++	/* V4L2 initialization */
++	sd = &dw_dev->sd;
++	v4l2_subdev_init(sd, &dw_hdmi_sd_ops);
++	strscpy(sd->name, dev_name(dev), sizeof(sd->name));
++	sd->dev = dev;
++	sd->internal_ops = &dw_hdmi_internal_ops;
++	sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
++
++	/* Control handlers */
++	hdl = &dw_dev->hdl;
++	v4l2_ctrl_handler_init(hdl, 1);
++	dw_dev->detect_tx_5v_ctrl =
++		v4l2_ctrl_new_std(hdl, NULL, V4L2_CID_DV_RX_POWER_PRESENT, 0,
++				  BIT(4) - 1, 0, 0);
++
++	sd->ctrl_handler = hdl;
++	if (hdl->error) {
++		ret = hdl->error;
++		goto err_hdl;
++	}
++
++	/* Wait for ctrl handler register before requesting 5v interrupt */
++	irq = platform_get_irq(pdev, 1);
++	if (irq < 0) {
++		ret = irq;
++		goto err_hdl;
++	}
++
++	ret = devm_request_threaded_irq(dev, irq, dw_hdmi_5v_hard_irq_handler,
++					dw_hdmi_5v_irq_handler, IRQF_ONESHOT,
++					DW_HDMI_RX_DRVNAME "-5v-handler",
++					dw_dev);
++	if (ret)
++		goto err_hdl;
++
++	/* PHY loading */
++	ret = dw_hdmi_phy_init(dw_dev);
++	if (ret)
++		goto err_phy_exit;
++
++	ret = v4l2_async_register_subdev(sd);
++	if (ret) {
++		dev_err(dev, "failed to register subdev\n");
++		goto err_phy_exit;
++	}
++
++	/* Fill initial format settings */
++	dw_dev->timings = timings_def;
++	dw_dev->mbus_code = MEDIA_BUS_FMT_BGR888_1X24;
++
++	dev_set_drvdata(dev, sd);
++	dw_dev->state = HDMI_STATE_POWER_OFF;
++	dw_dev->is_hdmi2 = is_hdmi2(dw_dev);
++	dw_dev->is_scrambled = is_scrambled(dw_dev);
++	dev_info(dev, "using PHY: %s (GEN%d)\n", pdata->phy->name,
++		 pdata->phy->gen);
++	dev_info(dev, "HDMI mode=%s\n", dw_dev->is_hdmi2 ? "2.x" : "1.4");
++
++	/* Set initial input, if any */
++	dw_hdmi_detect_tx_5v_ctrl(dw_dev);
++	if (ret) {
++		dev_err(dev, "failed to set 5V ctrl initial value\n");
++		goto err_subdev;
++	}
++
++	dev_info(dev, "selected_input=%d, state=%s\n",
++		 dw_dev->selected_input, get_state_name(dw_dev->state));
++
++	for (i = 0; i < input_count; i++)
++		dw_hdmi_5v_enable(dw_dev, i);
++
++	dev_dbg(dev, "driver probed\n");
 +	return 0;
 +
-+err:
++err_subdev:
++	v4l2_async_unregister_subdev(sd);
++err_phy_exit:
++	dw_hdmi_phy_exit(dw_dev);
++err_hdl:
++	v4l2_ctrl_handler_free(hdl);
++err_wq:
++	destroy_workqueue(dw_dev->wq);
 +	if (dw_dev->clk)
 +		clk_disable_unprepare(dw_dev->clk);
 +
 +	return ret;
 +}
 +
-+static int dw_phy_remove(struct platform_device *pdev)
++static int dw_hdmi_rx_remove(struct platform_device *pdev)
 +{
-+	struct dw_phy_dev *dw_dev = platform_get_drvdata(pdev);
++	struct device *dev = &pdev->dev;
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
++	unsigned int i, input_count = dw_dev->config->phy->input_count;
 +
-+	phy_remove_lookup(dw_dev->phy, "hdmi-phy",
-+			  dw_phy_lookup_dev_id(dw_dev));
-+
-+	if (dw_dev->clk)
-+		clk_disable_unprepare(dw_dev->clk);
-+
++	dw_hdmi_disable_ints(dw_dev);
++	dw_hdmi_disable_hpd(dw_dev);
++	dw_hdmi_disable_scdc(dw_dev);
++	dw_hdmi_power_off(dw_dev);
++	phy_power_off(dw_dev->phy);
++	for (i = 0; i < input_count; i++)
++		dw_hdmi_5v_disable(dw_dev, i);
++	flush_workqueue(dw_dev->wq);
++	destroy_workqueue(dw_dev->wq);
++	dw_hdmi_phy_exit(dw_dev);
++	v4l2_ctrl_handler_free(sd->ctrl_handler);
++	clk_disable_unprepare(dw_dev->clk);
++	dev_dbg(dev, "driver removed\n");
 +	return 0;
 +}
 +
-+static const struct of_device_id dw_hdmi_phy_e40x_id[] = {
-+	{ .compatible = "snps,dw-hdmi-phy-e405", .data = &dw_phy_e405_data, },
-+	{ .compatible = "snps,dw-hdmi-phy-e406", .data = &dw_phy_e406_data, },
++static const struct of_device_id dw_hdmi_rx_id[] = {
++	{ .compatible = "snps,dw-hdmi-rx" },
 +	{ },
 +};
-+MODULE_DEVICE_TABLE(of, dw_hdmi_phy_e40x_id);
++MODULE_DEVICE_TABLE(of, dw_hdmi_rx_id);
 +
-+static struct platform_driver dw_phy_e40x_driver = {
-+	.probe = dw_phy_probe,
-+	.remove = dw_phy_remove,
++static struct platform_driver dw_hdmi_rx_driver = {
++	.probe = dw_hdmi_rx_probe,
++	.remove = dw_hdmi_rx_remove,
 +	.driver = {
-+		.name = DW_PHY_E40X_DRVNAME,
-+		.of_match_table = dw_hdmi_phy_e40x_id,
++		.name = DW_HDMI_RX_DRVNAME,
++		.of_match_table = dw_hdmi_rx_id,
 +	}
 +};
-+module_platform_driver(dw_phy_e40x_driver);
++module_platform_driver(dw_hdmi_rx_driver);
 +
 +MODULE_AUTHOR("Jose Abreu <jose.abreu@synopsys.com>");
 +MODULE_AUTHOR("Nelson Costa <nelson.costa@synopsys.com>");
-+MODULE_DESCRIPTION("DesignWare HDMI PHYs e405 and e406 driver");
++MODULE_DESCRIPTION("DesignWare HDMI Receiver Driver");
 +MODULE_LICENSE("GPL");
-diff --git a/drivers/phy/dwc/phy-dw-hdmi-e40x.h b/drivers/phy/dwc/phy-dw-hdmi-e40x.h
+diff --git a/drivers/media/platform/dwc/dw-hdmi-rx.h b/drivers/media/platform/dwc/dw-hdmi-rx.h
 new file mode 100644
-index 0000000..03b5c60
+index 0000000..f0ea1d4
 --- /dev/null
-+++ b/drivers/phy/dwc/phy-dw-hdmi-e40x.h
-@@ -0,0 +1,219 @@
++++ b/drivers/media/platform/dwc/dw-hdmi-rx.h
+@@ -0,0 +1,476 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare HDMI PHYs e405 and e406 driver
++ * Synopsys DesignWare HDMI Receiver controller driver
 + *
 + * Author: Jose Abreu <jose.abreu@synopsys.com>
 + * Author: Nelson Costa <nelson.costa@synopsys.com>
 + */
 +
-+#ifndef __DW_HDMI_PHY_E40X_H__
-+#define __DW_HDMI_PHY_E40X_H__
++#ifndef __DW_HDMI_RX_H__
++#define __DW_HDMI_RX_H__
 +
-+#include <linux/phy/phy.h>
++#include <linux/bitops.h>
 +
-+/* PHYs e405 and e406 Registers */
++/* id_hdmi Registers */
++#define DW_HDMI_SETUP_CTRL			0x0000
++#define DW_HDMI_HOT_PLUG_DETECT_INPUT_X_MASK	GENMASK(27, 24)
++#define DW_HDMI_HOT_PLUG_DETECT_INPUT_X_OFFSET	24
++#define DW_HDMI_HDMIBUS_RESET_OVR_EN_MASK	BIT(21)
++#define DW_HDMI_HDMIBUS_RESET_OVR_EN_OFFSET	21
++#define DW_HDMI_BUS_RESET_OVR_MASK		BIT(20)
++#define DW_HDMI_BUS_RESET_OVR_OFFSET		20
++#define DW_HDMI_HDMI_RESET_OVR_MASK		BIT(19)
++#define DW_HDMI_HDMI_RESET_OVR_OFFSET		19
++#define DW_HDMI_PON_RESET_OVR_MASK		BIT(18)
++#define DW_HDMI_PON_RESET_OVR_OFFSET		18
++#define DW_HDMI_RESET_OVR_MASK			BIT(17)
++#define DW_HDMI_RESET_OVR_OFFSET		17
++#define DW_HDMI_RESET_OVR_EN_MASK		BIT(16)
++#define DW_HDMI_RESET_OVR_EN_OFFSET		16
++#define DW_HDMI_EQ_OSM_OVR_MASK			BIT(15)
++#define DW_HDMI_EQ_OSM_OVR_OFFSET		15
++#define DW_HDMI_EQ_OSM_OVR_EN_MASK		BIT(14)
++#define DW_HDMI_EQ_OSM_OVR_EN_OFFSET		14
++#define DW_HDMI_NOWAIT_ACTIVITY_MASK		BIT(13)
++#define DW_HDMI_NOWAIT_ACTIVITY_OFFSET		13
++#define DW_HDMI_EQ_CAL_TIME_MASK		GENMASK(12, 7)
++#define DW_HDMI_EQ_CAL_TIME_OFFSET		7
++#define DW_HDMI_USE_PLL_LOCK_MASK		BIT(6)
++#define DW_HDMI_USE_PLL_LOCK_OFFSET		6
++#define DW_HDMI_FORCE_STATE_MASK		BIT(5)
++#define DW_HDMI_FORCE_STATE_OFFSET		5
++#define DW_HDMI_TARGET_STATE_MASK		GENMASK(4, 1)
++#define DW_HDMI_TARGET_STATE_OFFSET		1
++#define DW_HDMI_HOT_PLUG_DETECT_MASK		BIT(0)
++#define DW_HDMI_HOT_PLUG_DETECT_OFFSET		0
 +
-+/* Clock Measurement Unit Configuration Register */
-+#define DW_PHY_CMU_CONFIG			0x02
-+#define DW_PHY_TIMEBASE_OVR(v)			(v)
-+#define DW_PHY_TIMEBASE_OVR_MASK		GENMASK(8, 0)
-+#define DW_PHY_TIMEBASE_OVR_EN			BIT(9)
-+#define DW_PHY_LOCK_THRES(v)			((v) << 10)
-+#define DW_PHY_LOCK_THRES_MASK			GENMASK(15, 10)
++#define DW_HDMI_PLL_LCK_STS			0x0030
++#define DW_HDMI_PLL_LOCKED			BIT(0)
 +
-+/* System Configuration Register */
-+#define DW_PHY_SYSTEM_CONFIG			0x03
-+#define DW_PHY_CLRDEP_8BIT_MODE			(0 << 5)
-+#define DW_PHY_CLRDEP_10BIT_MODE		BIT(5)
-+#define DW_PHY_CLRDEP_12BIT_MODE		(2 << 5)
-+#define DW_PHY_CLRDEP_16BIT_MODE		(3 << 5)
-+#define DW_PHY_CLRDEP_MASK			GENMASK(6, 5)
-+#define DW_PHY_FAST_SWITCHING			BIT(11)
++#define DW_HDMI_MODE_RECOVER			0x0080
++#define DW_HDMI_SPIKE_FILTER_EN_MASK		BIT(18)
++#define DW_HDMI_SPIKE_FILTER_EN_OFFSET		18
++#define DW_HDMI_DVI_MODE_HYST_MASK		GENMASK(17, 13)
++#define DW_HDMI_DVI_MODE_HYST_OFFSET		13
++#define DW_HDMI_HDMI_MODE_HYST_MASK		GENMASK(12, 8)
++#define DW_HDMI_HDMI_MODE_HYST_OFFSET		8
 +
-+/* Main FSM Control Register */
-+#define DW_PHY_MAINFSM_CTRL			0x05
-+#define DW_PHY_MAIN_FSM_STATE(v)		(v)
-+#define DW_PHY_MAIN_FSM_STATE_MASK		GENMASK(3, 0)
-+#define DW_PHY_FORCE_STATE_EN			BIT(4)
-+#define DW_PHY_FORCE_STATE_DIS			(0 << 4)
-+#define DW_PHY_FORCE_STATE_MASK			BIT(4)
-+#define DW_PHY_EQCAL_DIS_CTRL_QUARTER_RATE	(BIT(2) << 9)
-+#define DW_PHY_EQCAL_DIS_CTRL_ONE_EIGHT_RATE	(BIT(3) << 9)
-+#define DW_PHY_EQCAL_DIS_CTRL_MASK		GENMASK(12, 9)
++#define DW_HDMI_CKM_EVLTM			0x0094
++#define DW_HDMI_LOCK_HYST_MASK			GENMASK(21, 20)
++#define DW_HDMI_LOCK_HYST_OFFSET		20
++#define DW_HDMI_CLK_HYST_MASK			GENMASK(18, 16)
++#define DW_HDMI_CLK_HYST_OFFSET			16
++#define DW_HDMI_EVAL_TIME_MASK			GENMASK(15, 4)
++#define DW_HDMI_EVAL_TIME_OFFSET		4
++#define DW_HDMI_CLK_MEAS_INPUT_SRC_MASK		BIT(0)
++#define DW_HDMI_CLK_MEAS_INPUT_SRC_OFFSET	0
 +
-+/* Main FSM Override 2 Register */
-+#define DW_PHY_MAINFSM_OVR2			0x08
-+#define DW_PHY_EQ_EN_OVR			BIT(5)
-+#define DW_PHY_EQ_EN_OVR_EN			BIT(6)
++#define DW_HDMI_CKM_RESULT			0x009c
++#define DW_HDMI_CLOCK_IN_RANGE			BIT(17)
++#define DW_HDMI_FREQ_LOCKED			BIT(16)
++#define DW_HDMI_CLKRATE_MASK			GENMASK(15, 0)
++#define DW_HDMI_CLKRATE_OFFSET			0
 +
-+/* Main FSM Status 1 Register */
-+#define DW_PHY_MAINFSM_STATUS1			0x09
-+#define DW_PHY_CLOCK_STABLE			BIT(8)
-+#define DW_PHY_PLL_RATE_BIT0			BIT(9)
-+#define DW_PHY_PLL_RATE_BIT1			(2 << 9)
-+#define DW_PHY_PLL_RATE_MASK			GENMASK(10, 9)
++#define DW_HDMI_VM_CFG_CH_0_1			0x00b0
++#define DW_HDMI_VM_CH1_COL_VALUE_MASK		GENMASK(31, 16)
++#define DW_HDMI_VM_CH1_COL_VALUE_OFFSET		16
++#define DW_HDMI_VM_CH0_COL_VALUE_MASK		GENMASK(15, 0)
++#define DW_HDMI_VM_CH0_COL_VALUE_OFFSET		0
 +
-+/* Overload Protection Control Register */
-+#define DW_PHY_OVL_PROT_CTRL			0x0D
-+#define DW_PHY_SCRAMBLING_EN_OVR		BIT(6)
-+#define DW_PHY_SCRAMBLING_EN_OVR_EN		BIT(7)
++#define DW_HDMI_VM_CFG_CH2			0x00b4
++#define DW_HDMI_VM_CH2_COL_VALUE_MASK		GENMASK(15, 0)
++#define DW_HDMI_VM_CH2_COL_VALUE_OFFSET		0
 +
-+/* CDR Control Register */
-+#define DW_PHY_CDR_CTRL_CNT			0x0E
-+#define DW_PHY_HDMI_MHL_MODE_BELOW_3_4G_BITPS	(0 << 8)
-+#define DW_PHY_HDMI_MHL_MODE_ABOVE_3_4G_BITPS	BIT(8)
-+#define DW_PHY_HDMI_MHL_MODE_MASK		GENMASK(9, 8)
++#define DW_HDMI_STS				0x00bc
++#define DW_HDMI_DCM_CURRENT_MODE_MASK		GENMASK(31, 28)
++#define DW_HDMI_DCM_CURRENT_MODE_OFFSET		28
++#define DW_HDMI_DCM_LAST_PIXEL_PHASE_STS_MASK	GENMASK(27, 24)
++#define DW_HDMI_DCM_LAST_PIXEL_PHASE_STS_OFFSET	24
++#define DW_HDMI_DCM_PHASE_DIFF_CNT_MASK		GENMASK(23, 16)
++#define DW_HDMI_DCM_PH_DIFF_CNT_OVERFL		BIT(15)
++#define DW_HDMI_DCM_GCP_ZERO_FIELDS_PASS	BIT(14)
++#define DW_HDMI_CTL3_STS			BIT(13)
++#define DW_HDMI_CTL2_STS			BIT(12)
++#define DW_HDMI_CTL1_STS			BIT(11)
++#define DW_HDMI_CTL0_STS			BIT(10)
++#define DW_HDMI_VS_POL_ADJ_STS			BIT(9)
++#define DW_HDMI_HS_POL_ADJ_STS			BIT(8)
++#define DW_HDMI_RES_OVERLOAD_STS		BIT(7)
++#define DW_HDMI_DCM_CURRENT_PP_MASK		GENMASK(3, 0)
++#define DW_HDMI_DCM_CURRENT_PP_OFFSET		0
 +
-+#define DW_PHY_CLK_MPLL_STATUS			0x2F
-+#define DW_PHY_CH0_CDR_CTRL			0x31
++/* id_hdcp_1_4 Registers */
++#define DW_HDMI_HDCP_CTRL			0x00c0
++#define DW_HDMI_HDCP_STS			0x00fc
 +
-+/* Channel 0 Equalizer Control 1 Register*/
-+#define DW_PHY_CH0_EQ_CTRL1			0x32
-+#define DW_PHY_CH0_LOOP_CTR_LIMIT(v)		(v)
-+#define DW_PHY_CH0_LOOP_CTR_LIMIT_MASK		GENMASK(3, 0)
-+#define DW_PHY_CH0_MSTR_CTR_LIMIT(v)		((v) << 4)
-+#define DW_PHY_CH0_MSTR_CTR_LIMIT_MASK		GENMASK(8, 4)
-+#define DW_PHY_CH0_ADAP_COMP_LIMIT(v)		((v) << 9)
-+#define DW_PHY_CH0_ADAP_COMP_LIMIT_MASK		GENMASK(12, 9)
++/* id_mode_detection Registers */
++#define DW_HDMI_MD_HT0				0x0148
++#define DW_HDMI_HTOT32_CLK_MASK			GENMASK(31, 16)
++#define DW_HDMI_HTOT32_CLK_OFFSET		16
++#define DW_HDMI_HS_CLK_MASK			GENMASK(15, 0)
++#define DW_HDMI_HS_CLK_OFFSET			0
 +
-+/* Channel 0 Equalizer Control 2 Register */
-+#define DW_PHY_CH0_EQ_CTRL2			0x33
-+#define DW_PHY_CH0_OVRD_LOCK			BIT(1)
-+#define DW_PHY_CH0_OVRD_LOCK_VECTOR_EN		BIT(2)
-+#define DW_PHY_CH0_LB_ACTIVE_OVR		BIT(5)
-+#define DW_PHY_CH0_EQUALIZATION_CTR_THR(v)	((v) << 11)
-+#define DW_PHY_CH0_EQUALIZATION_CTR_THR_MASK	GENMASK(13, 11)
-+#define DW_PHY_CH0_CH_EQ_SAME_OVRD		BIT(14)
++#define DW_HDMI_MD_HT1				0x014c
++#define DW_HDMI_HTOT_PIX_MASK			GENMASK(31, 16)
++#define DW_HDMI_HTOT_PIX_OFFSET			16
++#define DW_HDMI_HOFS_PIX_MASK			GENMASK(15, 0)
++#define DW_HDMI_HOFS_PIX_OFFSET			0
 +
-+#define DW_PHY_CH0_EQ_STATUS			0x34
++#define DW_HDMI_MD_HACT_PX			0x0150
 +
-+/* Channel 0 Equalizer Control 3 Register */
-+#define DW_PHY_CH0_EQ_CTRL3			0x3E
-+#define DW_PHY_CH0_EXT_EQ_SET_MASK		GENMASK(3, 0)
++#define DW_HDMI_MD_VCTRL			0x0158
++#define DW_HDMI_V_OFFS_LIN_MODE_MASK		BIT(4)
++#define DW_HDMI_V_OFFS_LIN_MODE_OFFSET		4
++#define DW_HDMI_V_EDGE_MASK			BIT(1)
++#define DW_HDMI_V_EDGE_OFFSET			1
++#define DW_HDMI_V_MODE_MASK			BIT(0)
++#define DW_HDMI_V_MODE_OFFSET			0
 +
-+#define DW_PHY_CH0_EQ_CTRL4			0x3F
-+#define DW_PHY_CH0_EQ_STATUS2			0x40
-+#define DW_PHY_CH0_EQ_STATUS3			0x42
-+#define DW_PHY_CH0_EQ_CTRL6			0x43
-+#define DW_PHY_CH1_CDR_CTRL			0x51
++#define DW_HDMI_MD_VOL				0x0164
++#define DW_HDMI_MD_VAL				0x0168
++#define DW_HDMI_MD_VTL				0x0170
 +
-+/* Channel 1 Equalizer Control 1 Register */
-+#define DW_PHY_CH1_EQ_CTRL1			0x52
-+#define DW_PHY_CH1_LOOP_CTR_LIMIT(v)		(v)
-+#define DW_PHY_CH1_LOOP_CTR_LIMIT_MASK		GENMASK(3, 0)
-+#define DW_PHY_CH1_MSTR_CTR_LIMIT(v)		((v) << 4)
-+#define DW_PHY_CH1_MSTR_CTR_LIMIT_MASK		GENMASK(8, 4)
-+#define DW_PHY_CH1_ADAP_COMP_LIMIT(v)		((v) << 9)
-+#define DW_PHY_CH1_ADAP_COMP_LIMIT_MASK		GENMASK(12, 9)
++#define DW_HDMI_MD_STS				0x0180
++#define DW_HDMI_ILACE_STS			BIT(3)
++#define DW_HDMI_DE_ACTIVITY_STS			BIT(2)
++#define DW_HDMI_VS_ACT_STS			BIT(1)
++#define DW_HDMI_HS_ACT_STS			BIT(0)
 +
-+/* Channel 1 Equalizer Control 2 Register */
-+#define DW_PHY_CH1_EQ_CTRL2			0x53
-+#define DW_PHY_CH1_OVRD_LOCK			BIT(1)
-+#define DW_PHY_CH1_OVRD_LOCK_VECTOR_EN		BIT(2)
-+#define DW_PHY_CH1_LB_ACTIVE_OVR		BIT(5)
-+#define DW_PHY_CH1_EQUALIZATION_CTR_THR(v)	((v) << 11)
-+#define DW_PHY_CH1_EQUALIZATION_CTR_THR_MASK	GENMASK(13, 11)
++/* id_phy_configuration Registers */
++#define DW_HDMI_PHY_CTRL			0x02c0
++#define DW_HDMI_PHYSVSRETMODEZ_MASK		BIT(6)
++#define DW_HDMI_PHYSVSRETMODEZ_OFFSET		6
++#define DW_HDMI_CFGCLKFREQ_MASK			GENMASK(5, 4)
++#define DW_HDMI_CFGCLKFREQ_OFFSET		4
++#define DW_HDMI_PORTSELECT_MASK			GENMASK(3, 2)
++#define DW_HDMI_PORTSELECT_OFFSET		2
++#define DW_HDMI_PHYPDDQ_MASK			BIT(1)
++#define DW_HDMI_PHYPDDQ_OFFSET			1
++#define DW_HDMI_PHYRESET_MASK			BIT(0)
++#define DW_HDMI_PHYRESET_OFFSET			0
 +
-+#define DW_PHY_CH1_EQ_STATUS			0x54
++#define DW_HDMI_JTAG_CONF			0x02ec
++#define DW_HDMI_JTAG_TAP_TCLK			0x02f0
 +
-+/* Channel 1 Equalizer Control 3 Register */
-+#define DW_PHY_CH1_EQ_CTRL3			0x5E
-+#define DW_PHY_CH1_EXT_EQ_SET_MASK		GENMASK(3, 0)
++#define DW_HDMI_JTAG_TAP_IN			0x02f4
++#define DW_HDMI_JTAG_TMS			BIT(4)
++#define DW_HDMI_JTAG_TDI			BIT(0)
 +
-+#define DW_PHY_CH1_EQ_CTRL4			0x5F
-+#define DW_PHY_CH1_EQ_STATUS2			0x60
-+#define DW_PHY_CH1_EQ_STATUS3			0x62
-+#define DW_PHY_CH1_EQ_CTRL6			0x63
-+#define DW_PHY_CH2_CDR_CTRL			0x71
++#define DW_HDMI_JTAG_TAP_OUT			0x02f8
++#define DW_HDMI_JTAG_ADDR			0x02fc
 +
-+/* Channel 2 Equalizer Control 1 Register */
-+#define DW_PHY_CH2_EQ_CTRL1			0x72
-+#define DW_PHY_CH2_LOOP_CTR_LIMIT(v)		(v)
-+#define DW_PHY_CH2_LOOP_CTR_LIMIT_MASK		GENMASK(3, 0)
-+#define DW_PHY_CH2_MSTR_CTR_LIMIT(v)		((v) << 4)
-+#define DW_PHY_CH2_MSTR_CTR_LIMIT_MASK		GENMASK(8, 4)
-+#define DW_PHY_CH2_ADAP_COMP_LIMIT(v)		((v) << 9)
-+#define DW_PHY_CH2_ADAP_COMP_LIMIT_MASK		GENMASK(12, 9)
++/* id_packet_decoder Registers */
++#define DW_HDMI_PDEC_CTRL			0x0300
++#define DW_HDMI_PFIFO_STORE_FILTER_EN_MASK	BIT(31)
++#define DW_HDMI_PFIFO_STORE_FILTER_EN_OFFSET	31
++#define DW_HDMI_PD_FIFO_CLR_MASK		BIT(5)
++#define DW_HDMI_PD_FIFO_CLR_OFFSET		5
++#define DW_HDMI_PDEC_BCH_EN_MASK		BIT(0)
++#define DW_HDMI_PDEC_BCH_EN_OFFSET		0
 +
-+/* Channel 2 Equalizer Control 2 Register */
-+#define DW_PHY_CH2_EQ_CTRL2			0x73
-+#define DW_PHY_CH2_OVRD_LOCK			BIT(1)
-+#define DW_PHY_CH2_OVRD_LOCK_VECTOR_EN		BIT(2)
-+#define DW_PHY_CH2_LB_ACTIVE_OVR		BIT(5)
-+#define DW_PHY_CH2_EQUALIZATION_CTR_THR(v)	((v) << 11)
-+#define DW_PHY_CH2_EQUALIZATION_CTR_THR_MASK	GENMASK(13, 11)
++#define DW_HDMI_PDEC_ACRM_CTRL			0x0330
++#define DW_HDMI_DELTACTS_IRQTRIG_MASK		GENMASK(4, 2)
++#define DW_HDMI_DELTACTS_IRQTRIG_OFFSET		2
 +
-+#define DW_PHY_CH2_EQ_STATUS			0x74
++#define DW_HDMI_PDEC_ASP_CTRL			0x0340
++#define DW_HDMI_AUTO_VMUTE_MASK			BIT(6)
++#define DW_HDMI_AUTO_VMUTE_OFFSET		6
++#define DW_HDMI_AUTO_SPFLAT_MUTE_MASK		GENMASK(5, 2)
++#define DW_HDMI_AUTO_SPFLAT_MUTE_OFFSET		2
 +
-+/* Channel 2 Equalizer Control 3 Register */
-+#define DW_PHY_CH2_EQ_CTRL3			0x7E
-+#define DW_PHY_CH2_EXT_EQ_SET_MASK		GENMASK(3, 0)
++#define DW_HDMI_PDEC_STS			0x0360
++#define DW_HDMI_DRM_CKS_CHG			BIT(31)
++#define DW_HDMI_DRM_RCV				BIT(30)
++#define DW_HDMI_NTSCVBI_CKS_CHG			BIT(29)
++#define DW_HDMI_DVIDET				BIT(28)
++#define DW_HDMI_VSI_CKS_CHG			BIT(27)
++#define DW_HDMI_GMD_CKS_CHG			BIT(26)
++#define DW_HDMI_AIF_CKS_CHG			BIT(25)
++#define DW_HDMI_AVI_CKS_CHG			BIT(24)
++#define DW_HDMI_ACR_N_CHG			BIT(23)
++#define DW_HDMI_ACR_CTS_CHG			BIT(22)
++#define DW_HDMI_GCP_AV_MUTE_CHG			BIT(21)
++#define DW_HDMI_GMD_RCV				BIT(20)
++#define DW_HDMI_AIF_RCV				BIT(19)
++#define DW_HDMI_AVI_RCV				BIT(18)
++#define DW_HDMI_ACR_RCV				BIT(17)
++#define DW_HDMI_GCP_RCV				BIT(16)
++#define DW_HDMI_VSI_RCV				BIT(15)
++#define DW_HDMI_AMP_RCV				BIT(14)
++#define DW_HDMI_NTSCVBI_RCV			BIT(13)
++#define DW_HDMI_OBA_LAYOUT			BIT(12)
++#define DW_HDMI_AUDS_LAYOUT			BIT(11)
++#define DW_HDMI_PD_FIFO_NEW_ENTRY		BIT(8)
++#define DW_HDMI_PD_FIFO_OVERFL			BIT(4)
++#define DW_HDMI_PD_FIFO_UNDERFL			BIT(3)
++#define DW_HDMI_PD_FIFO_TH_START_PASS		BIT(2)
++#define DW_HDMI_PD_FIFO_TH_MAX_PASS		BIT(1)
++#define DW_HDMI_PD_FIFO_TH_MIN_PASS		BIT(0)
 +
-+#define DW_PHY_CH2_EQ_CTRL4			0x7F
-+#define DW_PHY_CH2_EQ_STATUS2			0x80
-+#define DW_PHY_CH2_EQ_STATUS3			0x82
-+#define DW_PHY_CH2_EQ_CTRL6			0x83
++#define DW_HDMI_PDEC_VSI_PAYLOAD0		0x0368
++#define DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_MASK	GENMASK(15, 8)
++#define DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_OFFSET	8
 +
-+/* PHY equalization test type return codes */
-+#define DW_PHY_EQ_TEST_TYPE_BEST_SET_IS_LONG	1
-+#define DW_PHY_EQ_TEST_TYPE_BEST_SET_IS_SHORT	2
-+#define DW_PHY_EQ_TEST_TYPE_BEST_SET_IS_MAX	3
-+#define DW_PHY_EQ_TEST_TYPE_BEST_SET_ERROR	255
++#define DW_HDMI_PDEC_ACR_CTS			0x0390
++#define DW_HDMI_CTS_DECODED_MASK		GENMASK(19, 0)
++#define DW_HDMI_CTS_DECODED_OFFSET		0
 +
-+/* PHY equalization channel struct */
-+struct dw_phy_eq_ch {
-+	u16 best_long_setting;
-+	u8 valid_long_setting;
-+	u16 best_short_setting;
-+	u8 valid_short_setting;
-+	u16 best_setting;
-+	u16 acc;
-+	u16 acq;
-+	u16 last_acq;
-+	u16 upper_bound_acq;
-+	u16 lower_bound_acq;
-+	u16 out_bound_acq;
-+	u16 read_acq;
-+};
++#define DW_HDMI_PDEC_ACR_N			0x0394
++#define DW_HDMI_N_DECODED_MASK			GENMASK(19, 0)
++#define DW_HDMI_N_DECODED_OFFSET		0
 +
-+/* PHY mpll configuration struct */
-+struct dw_phy_mpll_config {
-+	u16 addr;
-+	u16 val;
-+};
++#define DW_HDMI_PDEC_AVI_HB			0x03a0
++#define DW_HDMI_QUANT_RANGE_MASK		GENMASK(31, 30)
++#define DW_HDMI_QUANT_RANGE_OFFSET		30
++#define DW_HDMI_CONTENT_TYPE_MASK		GENMASK(29, 28)
++#define DW_HDMI_CONTENT_TYPE_OFFSET		28
++#define DW_HDMI_PIX_REP_FACTOR_MASK		GENMASK(27, 24)
++#define DW_HDMI_PIX_REP_FACTOR_OFFSET		24
 +
-+struct dw_phy_dev;
++#define DW_HDMI_PDEC_AVI_PB			0x03a4
++#define DW_HDMI_VID_IDENT_CODE_MASK		GENMASK(31, 24)
++#define DW_HDMI_VID_IDENT_CODE_OFFSET		24
++#define DW_HDMI_IT_CONTENT			BIT(23)
++#define DW_HDMI_EXT_COLORIMETRY_MASK		GENMASK(22, 20)
++#define DW_HDMI_EXT_COLORIMETRY_OFFSET		20
++#define DW_HDMI_RGB_QUANT_RANGE_MASK		GENMASK(19, 18)
++#define DW_HDMI_RGB_QUANT_RANGE_OFFSET		18
++#define DW_HDMI_NON_UNIF_SCALE_MASK		GENMASK(17, 16)
++#define DW_HDMI_NON_UNIF_SCALE_OFFSET		16
++#define DW_HDMI_COLORIMETRY_MASK		GENMASK(15, 14)
++#define DW_HDMI_COLORIMETRY_OFFSET		14
++#define DW_HDMI_PIC_ASPECT_RAT_MASK		GENMASK(13, 12)
++#define DW_HDMI_PIC_ASPECT_RAT_OFFSET		12
++#define DW_HDMI_ACT_ASPECT_RAT_MASK		GENMASK(11, 8)
++#define DW_HDMI_ACT_ASPECT_RAT_OFFSET		8
++#define DW_HDMI_VIDEO_FORMAT_MASK		GENMASK(7, 5)
++#define DW_HDMI_VIDEO_FORMAT_OFFSET		5
++#define DW_HDMI_ACT_INFO_PRESENT		BIT(4)
++#define DW_HDMI_BAR_INFO_VALID_MASK		GENMASK(3, 2)
++#define DW_HDMI_BAR_INFO_VALID_OFFSET		2
++#define DW_HDMI_SCAN_INFO_MASK			GENMASK(1, 0)
++#define DW_HDMI_SCAN_INFO_OFFSET		0
 +
-+/* PHY data struct */
-+struct dw_hdmi_phy_data {
-+	const char *name;
-+	unsigned int version;
-+	const struct dw_phy_mpll_config *mpll_cfg;
-+	int (*dw_phy_eq_init)(struct dw_phy_dev *dw_dev, u16 acq, bool force);
-+};
++#define DW_HDMI_PDEC_AVI_PBLEN			4
 +
-+/* PHY device struct */
-+struct dw_phy_dev {
-+	struct device *dev;
-+	struct dw_phy_pdata *config;
-+	const struct dw_hdmi_phy_data *phy_data;
-+	struct phy *phy;
-+	struct phy_configure_opts_hdmi hdmi_opts;
-+	struct clk *clk;
-+	u8 phy_enabled;
-+	u16 mpll_status;
-+	u8 color_depth;
-+	u8 hdmi2;
-+	u8 scrambling;
-+};
++#define DW_HDMI_PDEC_AVI_TBB			0x03a8
++#define DW_HDMI_PDEC_AVI_LRB			0x03ac
++#define DW_HDMI_PDEC_AIF_HB			0x03c4
++#define DW_HDMI_PDEC_AIF_PB0			0x03c8
 +
-+void dw_phy_write(struct dw_phy_dev *dw_dev, u16 val, u16 addr);
-+u16 dw_phy_read(struct dw_phy_dev *dw_dev, u16 addr);
-+void dw_phy_pddq(struct dw_phy_dev *dw_dev, int enable);
-+bool dw_phy_tmds_valid(struct dw_phy_dev *dw_dev);
++#define DW_HDMI_PDEC_AIF_PB1			0x03cc
++#define DW_HDMI_LFE_PLAYBACK_LEVEL_MASK		GENMASK(9, 8)
++#define DW_HDMI_LFE_PLAYBACK_LEVEL_OFFSET	8
 +
-+extern const struct dw_hdmi_phy_data dw_phy_e405_data;
-+extern const struct dw_hdmi_phy_data dw_phy_e406_data;
++#define DW_HDMI_PDEC_AIF_PBLEN			2
 +
-+#endif /* __DW_HDMI_PHY_E40X_H__ */
-diff --git a/include/linux/phy/dwc/dw-hdmi-phy-pdata.h b/include/linux/phy/dwc/dw-hdmi-phy-pdata.h
++#define DW_HDMI_PDEC_VSI_ST0			0x3e0
++#define DW_HDMI_IEEE_REG_ID_MASK		GENMASK(23, 0)
++#define DW_HDMI_IEEE_REG_ID_OFFSET		0
++
++#define DW_HDMI_PDEC_VSI_ST1			0x3e4
++#define DW_HDMI_H3D_EXT_DATA_MASK		GENMASK(23, 20)
++#define DW_HDMI_H3D_EXT_DATA_OFFSET		20
++#define DW_HDMI_H3D_STRUCTURE_MASK		GENMASK(19, 16)
++#define DW_HDMI_H3D_STRUCTURE_OFFSET		16
++#define DW_HDMI_HDMI_VIC_MASK			GENMASK(15, 8)
++#define DW_HDMI_HDMI_VIC_OFFSET			8
++#define DW_HDMI_HDMI_VIDEO_FORMAT_MASK		GENMASK(7, 5)
++#define DW_HDMI_HDMI_VIDEO_FORMAT_OFFSET	5
++#define DW_HDMI_LENGTH_MASK			GENMASK(4, 0)
++#define DW_HDMI_LENGTH_OFFSET			0
++
++/* id_cea_video Registers */
++#define DW_HDMI_CEAVID_CONFIG			0x400
++#define DW_HDMI_CEAVID_RST_MASK			BIT(31)
++#define DW_HDMI_CEAVID_RST_OFFSET		31
++#define DW_HDMI_CEAVID_YCC422_IPIMAP_MASK	BIT(21)
++#define DW_HDMI_CEAVID_YCC422_IPIMAP_OFFSET	21
++#define DW_HDMI_CEAVID_YCC420_IPIMAP_MASK	BIT(20)
++#define DW_HDMI_CEAVID_YCC420_IPIMAP_OFFSET	20
++
++/* id_hdmi_2_0 Registers */
++#define DW_HDMI_HDMI20_CONTROL			0x0800
++#define DW_HDMI_VIDDATACHECKEN_MASK		BIT(12)
++#define DW_HDMI_VIDDATACHECKEN_OFFSET		12
++#define DW_HDMI_DATAISCHECKEN_MASK		BIT(11)
++#define DW_HDMI_DATAISCHECKEN_OFFSET		11
++#define DW_HDMI_GBCHECKEN_MASK			BIT(10)
++#define DW_HDMI_GBCHECKEN_OFFSET		10
++#define DW_HDMI_PREAMBCHECKEN_MASK		BIT(9)
++#define DW_HDMI_PREAMBCHECKEN_OFFSET		9
++#define DW_HDMI_CTRLCHECKEN_MASK		BIT(8)
++#define DW_HDMI_CTRLCHECKEN_OFFSET		8
++
++#define DW_HDMI_SCDC_CONFIG			0x0808
++#define DW_HDMI_HPDLOW_MASK			BIT(1)
++#define DW_HDMI_HPDLOW_OFFSET			1
++#define DW_HDMI_POWERPROVIDED_MASK		BIT(0)
++#define DW_HDMI_POWERPROVIDED_OFFSET		0
++
++#define DW_HDMI_CHLOCK_CONFIG			0x080c
++#define DW_HDMI_MILISECTIMERLIMIT_MASK		GENMASK(15, 0)
++#define DW_HDMI_MILISECTIMERLIMIT_OFFSET	0
++
++#define DW_HDMI_HDCP22_CONTROL			0x081c
++
++#define DW_HDMI_SCDC_REGS0			0x0820
++#define DW_HDMI_SCDC_SCRAMBSTATUS_MASK		BIT(24)
++#define DW_HDMI_SCDC_SCRAMBSTATUS_OFFSET	24
++#define DW_HDMI_SCDC_TMDSBITCLKRATIO_MASK	BIT(17)
++#define DW_HDMI_SCDC_TMDSBITCLKRATIO_OFFSET	17
++#define DW_HDMI_SCDC_SCRAMBEN_MASK		BIT(16)
++#define DW_HDMI_SCDC_SCRAMBEN_OFFSET		16
++
++#define DW_HDMI_HDCP22_STATUS			0x08fc
++
++/* id_mode_detection_interrupt Registers */
++#define DW_HDMI_MD_IEN_CLR			0x0fc0
++#define DW_HDMI_MD_IEN_SET			0x0fc4
++
++#define DW_HDMI_MD_ISTS				0x0fc8
++#define DW_HDMI_VOFS_LIN_ISTS			BIT(11)
++#define DW_HDMI_VTOT_LIN_ISTS			BIT(10)
++#define DW_HDMI_VACT_LIN_ISTS			BIT(9)
++#define DW_HDMI_VS_CLK_ISTS			BIT(8)
++#define DW_HDMI_VTOT_CLK_ISTS			BIT(7)
++#define DW_HDMI_HACT_PIX_ISTS			BIT(6)
++#define DW_HDMI_HS_CLK_ISTS			BIT(5)
++#define DW_HDMI_HTOT32_CLK_ISTS			BIT(4)
++#define DW_HDMI_ILACE_ISTS			BIT(3)
++#define DW_HDMI_DE_ACTIVITY_ISTS		BIT(2)
++#define DW_HDMI_VS_ACT_ISTS			BIT(1)
++#define DW_HDMI_HS_ACT_ISTS			BIT(0)
++
++#define DW_HDMI_MD_IEN				0x0fcc
++#define DW_HDMI_MD_ICLR				0x0fd0
++#define DW_HDMI_MD_ISET				0x0fd4
++
++/* id_hdmi_interrupt Registers */
++#define DW_HDMI_IEN_CLR				0x0fd8
++#define DW_HDMI_IEN_SET				0x0fdc
++
++#define DW_HDMI_ISTS				0x0fe0
++#define DW_HDMI_I2CMP_ARBLOST_ISTS_ISTS		BIT(30)
++#define DW_HDMI_I2CMPNACK_ISTS			BIT(29)
++#define DW_HDMI_I2CMPDONE_ISTS			BIT(28)
++#define DW_HDMI_VS_THR_REACHED_ISTS		BIT(27)
++#define DW_HDMI_VSYNC_ACT_EDGE_ISTS		BIT(26)
++#define DW_HDMI_AKSV_RCV_ISTS			BIT(25)
++#define DW_HDMI_PLL_CLOCK_GATED_ISTS		BIT(24)
++#define DW_HDMI_DESER_MISAL_ISTS		BIT(23)
++#define DW_HDMI_CDSENSE_CHG_ISTS		BIT(22)
++#define DW_HDMI_CEAVID_EMPTY_ISTS		BIT(21)
++#define DW_HDMI_CEAVID_FULL_ISTS		BIT(20)
++#define DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_MASK	BIT(19)
++#define DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_OFFSET	19
++#define DW_HDMI_SCDCSCSTATUSCHANGE_ISTS		BIT(18)
++#define DW_HDMI_SCDCCFGCHANGE_ISTS		BIT(17)
++#define DW_HDMI_DCM_CURRENT_MODE_CHG_ISTS	BIT(16)
++#define DW_HDMI_DCM_PH_DIFF_CNT_OVERFL_ISTS	BIT(15)
++#define DW_HDMI_DCM_GCP_ZERO_FIELDS_PASS_ISTS	BIT(14)
++#define DW_HDMI_CTL3_CHANGE_ISTS		BIT(13)
++#define DW_HDMI_CTL2_CHANGE_ISTS		BIT(12)
++#define DW_HDMI_CTL1_CHANGE_ISTS		BIT(11)
++#define DW_HDMI_CTL0_CHANGE_ISTS		BIT(10)
++#define DW_HDMI_VS_POL_ADJ_ISTS			BIT(9)
++#define DW_HDMI_HS_POL_ADJ_ISTS			BIT(8)
++#define DW_HDMI_RES_OVERLOAD_ISTS		BIT(7)
++#define DW_HDMI_CLK_CHANGE_ISTS			BIT(6)
++#define DW_HDMI_PLL_LCK_CHG_ISTS		BIT(5)
++#define DW_HDMI_EQGAIN_DONE_ISTS		BIT(4)
++#define DW_HDMI_OFFSCAL_DONE_ISTS		BIT(3)
++#define DW_HDMI_RESCAL_DONE_ISTS		BIT(2)
++#define DW_HDMI_ACT_CHANGE_ISTS			BIT(1)
++#define DW_HDMI_STATE_REACHED_ISTS		BIT(0)
++
++#define DW_HDMI_IEN				0x0fe4
++#define DW_HDMI_ICLR				0x0fe8
++#define DW_HDMI_ISET				0x0fec
++
++/* id_packet_decoder_interrupt Registers */
++#define DW_HDMI_PDEC_IEN_CLR			0x0f78
++#define DW_HDMI_PDEC_IEN_SET			0x0f7c
++
++#define DW_HDMI_PDEC_ISTS			0x0f80
++#define DW_HDMI_DRM_CKS_CHG_ISTS		BIT(31)
++#define DW_HDMI_AUD_TYPE_CHG_ISTS		BIT(29)
++#define DW_HDMI_VSI_CKS_CHG_ISTS		BIT(27)
++#define DW_HDMI_AIF_CKS_CHG_ISTS		BIT(25)
++#define DW_HDMI_AVI_CKS_CHG_ISTS		BIT(24)
++#define DW_HDMI_ACR_N_CHG_ISTS			BIT(23)
++#define DW_HDMI_ACR_CTS_CHG_ISTS		BIT(22)
++#define DW_HDMI_GCP_AV_MUTE_CHG_ISTS		BIT(21)
++#define DW_HDMI_PD_FIFO_OVERFL_ISTS		BIT(4)
++#define DW_HDMI_PD_FIFO_UNDERFL_ISTS		BIT(3)
++
++#define DW_HDMI_PDEC_IEN			0x0f84
++#define DW_HDMI_PDEC_ICLR			0x0f88
++#define DW_HDMI_PDEC_ISET			0x0f8c
++
++/* id_dmi Registers */
++#define DW_HDMI_DMI_SW_RST			0x0ff0
++#define DW_HDMI_TMDS_SWRESET			BIT(16)
++#define DW_HDMI_HDCP_SWRESET			BIT(8)
++#define DW_HDMI_VID_SWRESET			BIT(7)
++#define DW_HDMI_PIXEL_SWRESET			BIT(6)
++#define DW_HDMI_CEC_SWRESET			BIT(5)
++#define DW_HDMI_AUD_SWRESET			BIT(4)
++#define DW_HDMI_BUS_SWRESET			BIT(3)
++#define DW_HDMI_HDMI_SWRESET			BIT(2)
++#define DW_HDMI_MODET_SWRESET			BIT(1)
++#define DW_HDMI_MAIN_SWRESET			BIT(0)
++
++#define DW_HDMI_DMI_DISABLE_IF			0x0ff4
++#define DW_HDMI_HDMI_ENABLE_MASK		BIT(2)
++#define DW_HDMI_HDMI_ENABLE_OFFSET		2
++
++/* id_cbus Registers */
++#define DW_HDMI_CBUSIOCTRL			0x3020
++#define DW_HDMI_DATAPATH_CBUSZ_MASK		BIT(24)
++#define DW_HDMI_DATAPATH_CBUSZ_OFFSET		24
++#define DW_HDMI_CBUS_SVSRETMODEZ_MASK		BIT(16)
++#define DW_HDMI_CBUS_SVSRETMODEZ_OFFSET		16
++#define DW_HDMI_CBUS_PDDQ_MASK			BIT(8)
++#define DW_HDMI_CBUS_PDDQ_OFFSET		8
++#define DW_HDMI_CBUS_RESET_MASK			BIT(0)
++#define DW_HDMI_CBUS_RESET_OFFSET		0
++
++/* id_audio Registers */
++#define DW_HDMI_AUD_CTRL			0x0200
++
++#define DW_HDMI_AUD_PLL_CTRL			0x0208
++#define DW_HDMI_PLL_LOCK_STABLE_MASK		BIT(31)
++#define DW_HDMI_PLL_LOCK_STABLE_OFFSET		31
++
++#define DW_HDMI_AUD_FIFO_CTRL			0x0240
++#define DW_HDMI_AFIF_INIT_MASK			BIT(0)
++#define DW_HDMI_AFIF_INIT_OFFSET		0
++
++#define DW_HDMI_AUD_MUTE_CTRL			0x0258
++#define DW_HDMI_AUD_MUTE_SEL_MASK		GENMASK(6, 5)
++#define DW_HDMI_AUD_MUTE_SEL_OFFSET		5
++
++#define DW_HDMI_AUD_SAO_CTRL			0x0260
++#define DW_HDMI_WS_DISABLE_MASK			BIT(10)
++#define DW_HDMI_WS_DISABLE_OFFSET		10
++#define DW_HDMI_I2S_32_16_MASK			BIT(0)
++#define DW_HDMI_I2S_32_16_OFFSET		0
++
++/* id_audio_fifo_interrupt Registers */
++#define DW_HDMI_AUD_FIFO_IEN_CLR		0x0fa8
++#define DW_HDMI_AUD_FIFO_IEN_SET		0x0fac
++
++#define DW_HDMI_AUD_FIFO_ISTS			0x0fb0
++#define DW_HDMI_AFIF_OVERFL_ISTS		BIT(4)
++#define DW_HDMI_AFIF_UNDERFL_ISTS		BIT(3)
++#define DW_HDMI_AFIF_THS_PASS_ISTS		BIT(2)
++#define DW_HDMI_AFIF_TH_MAX_ISTS		BIT(1)
++#define DW_HDMI_AFIF_TH_MIN_ISTS		BIT(0)
++
++#define DW_HDMI_AUD_FIFO_IEN			0x0fb4
++#define DW_HDMI_AUD_FIFO_ICLR			0x0fb8
++#define DW_HDMI_AUD_FIFO_ISET			0x0fbc
++
++#endif /* __DW_HDMI_RX_H__ */
+diff --git a/include/media/dwc/dw-hdmi-rx-pdata.h b/include/media/dwc/dw-hdmi-rx-pdata.h
 new file mode 100644
-index 0000000..19f3b05
+index 0000000..a2a5440
 --- /dev/null
-+++ b/include/linux/phy/dwc/dw-hdmi-phy-pdata.h
-@@ -0,0 +1,73 @@
++++ b/include/media/dwc/dw-hdmi-rx-pdata.h
+@@ -0,0 +1,126 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare HDMI PHY platform data
++ * Synopsys DesignWare HDMI Receiver controller platform data
 + *
 + * Author: Jose Abreu <jose.abreu@synopsys.com>
 + * Author: Nelson Costa <nelson.costa@synopsys.com>
 + */
 +
-+#ifndef __DW_HDMI_PHY_PDATA_H__
-+#define __DW_HDMI_PHY_PDATA_H__
++#ifndef __DW_HDMI_RX_PDATA_H__
++#define __DW_HDMI_RX_PDATA_H__
 +
-+#define DW_PHY_E40X_DRVNAME	"phy-dw-hdmi-e40x"
++#define DW_HDMI_RX_DRVNAME			"dw-hdmi-rx"
 +
-+/**
-+ * struct dw_phy_funcs - Set of callbacks used to communicate between phy
-+ * and hdmi controller. Controller must correctly fill these callbacks
-+ * before probbing the phy driver.
-+ *
-+ * @write: write callback. Write value 'val' into address 'addr' of phy.
-+ *
-+ * @read: read callback. Read address 'addr' and return the value.
-+ *
-+ * @reset: reset callback. Activate phy reset. Active high.
-+ *
-+ * @pddq: pddq callback. Activate phy configuration mode. Active high.
-+ *
-+ * @svsmode: svsmode callback. Activate phy retention mode. Active low.
-+ *
-+ * @zcal_reset: zcal reset callback. Restart the impedance calibration
-+ * procedure. Active high. This is only used in prototyping and not in real
-+ * ASIC. Callback shall be empty (but non NULL) in ASIC cases.
-+ *
-+ * @zcal_done: zcal done callback. Return the current status of impedance
-+ * calibration procedure. This is only used in prototyping and not in real
-+ * ASIC. Shall return always true in ASIC cases.
-+ *
-+ * @tmds_valid: TMDS valid callback. Return the current status of TMDS signal
-+ * that comes from phy and feeds controller. This is read from a controller
-+ * register.
-+ */
-+struct dw_phy_funcs {
-+	void (*write)(void *arg, u16 val, u16 addr);
-+	u16 (*read)(void *arg, u16 addr);
-+	void (*reset)(void *arg, int enable);
-+	void (*pddq)(void *arg, int enable);
-+	void (*svsmode)(void *arg, int enable);
-+	void (*zcal_reset)(void *arg);
-+	bool (*zcal_done)(void *arg);
-+	bool (*tmds_valid)(void *arg);
-+};
++/* Notify events */
++#define DW_HDMI_NOTIFY_IS_OFF		1
++#define DW_HDMI_NOTIFY_INPUT_CHANGED	2
++#define DW_HDMI_NOTIFY_AUDIO_CHANGED	3
++#define DW_HDMI_NOTIFY_IS_STABLE	4
++
++/* HDCP 1.4 */
++#define DW_HDMI_HDCP14_BKSV_SIZE	2
++#define DW_HDMI_HDCP14_KEYS_SIZE	(2 * 40)
 +
 +/**
-+ * struct dw_phy_pdata - Platform data definition for Synopsys HDMI PHY.
++ * struct dw_hdmi_phy_config - Phy configuration for HDMI receiver.
++ *
++ * @name: The name of the phy.
++ *
++ * @drv_name: Driver name of the phy.
++ *
++ * @gen: The generation of the phy.
 + *
 + * @version: The version of the phy.
 + *
-+ * @cfg_clk: Configuration clock.
++ * @cfg_clk: The configuration clock used for phy.
 + *
-+ * @funcs: set of callbacks that must be correctly filled and supplied to phy.
-+ * See @dw_phy_funcs.
++ * @input_count: Number of input ports supported by the phy.
 + *
-+ * @funcs_arg: parameter that is supplied to callbacks along with the function
-+ * parameters.
++ * @jtag_addr: The JTAG address of phy.
 + */
-+struct dw_phy_pdata {
++struct dw_hdmi_phy_config {
++	const char *name;
++	const char *drv_name;
++	unsigned int gen;
 +	unsigned int version;
 +	unsigned int cfg_clk;
-+	const struct dw_phy_funcs *funcs;
-+	void *funcs_arg;
++	unsigned int input_count;
++	u8 jtag_addr;
 +};
 +
-+#endif /* __DW_HDMI_PHY_PDATA_H__ */
++/**
++ * struct dw_hdmi_rx_pdata - Platform Data configuration for HDMI receiver.
++ *
++ * @phy: Phy configuration parameters.
++ *
++ * @iref_clk: Configuration clock.
++ *
++ * @dw_5v_status: 5v status callback. Shall return the status of the given
++ * input, i.e. shall be true if a cable is connected to the specified input.
++ *
++ * @dw_5v_detected: 5v detected callback. Shall return the status changes of
++ * the given input, i.e. shall be true if a cable was (dis)connected to a
++ * specified input.
++ *
++ * @dw_5v_disable: 5v disable callback. Shall clear the interrupt associated
++ * with the 5v sense controller.
++ *
++ * @dw_5v_enable: 5v enable callback. Shall enable the interrupt associated with
++ * the 5v sense controller.
++ *
++ * @dw_5v_arg: Argument to be used with the 5v sense callbacks.
++ *
++ * @dw_zcal_reset: Impedance calibration reset callback. Shall be called when
++ * the impedance calibration needs to be restarted. This is used by phy driver
++ * only.
++ *
++ * @dw_zcal_done: Impedance calibration status callback. Shall return true if
++ * the impedance calibration procedure has ended. This is used by phy driver
++ * only.
++ *
++ * @dw_zcal_arg: Argument to be used with the ZCAL calibration callbacks.
++ *
++ * @dw_edid_read: EDID read callback.
++ *
++ * @dw_edid_write: EDID write callback.
++ *
++ * @dw_edid_4blocks_le: EDID byte ordering callback.
++ *
++ * @dw_edid_arg: Argument to be used with the EDID callbacks.
++ *
++ * @dw_reset_all: Reset all callback.
++ *
++ * @dw_reset_arg: Argument to be used with Reset callbacks.
++ */
++struct dw_hdmi_rx_pdata {
++	/* Phy configuration */
++	struct dw_hdmi_phy_config *phy;
++	/* Controller configuration */
++	unsigned int iref_clk; /* MHz */
++
++	/* 5V sense interface */
++	bool (*dw_5v_status)(void __iomem *regs, int input);
++	bool (*dw_5v_detected)(void __iomem *regs, int input);
++	void (*dw_5v_disable)(void __iomem *regs, int input);
++	void (*dw_5v_enable)(void __iomem *regs, int input);
++	void __iomem *dw_5v_arg;
++
++	/* Zcal interface */
++	void (*dw_zcal_reset)(void __iomem *regs);
++	bool (*dw_zcal_done)(void __iomem *regs);
++	void __iomem *dw_zcal_arg;
++
++	/* EDID */
++	u32 (*dw_edid_read)(void __iomem *regs, int input, u32 offset);
++	int (*dw_edid_write)(void __iomem *regs, int input, u32 *edid,
++			     int size);
++	u32 (*dw_edid_4blocks_le)(void __iomem *regs);
++	void __iomem *dw_edid_arg;
++
++	/* Reset functions */
++	void (*dw_reset_all)(void __iomem *regs);
++	void __iomem *dw_reset_arg;
++};
++
++#endif /* __DW_HDMI_RX_PDATA_H__ */
 -- 
 2.7.4
 
