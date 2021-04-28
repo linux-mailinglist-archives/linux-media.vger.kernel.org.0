@@ -2,142 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B86C336D70A
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 14:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7170036D74C
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 14:28:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234282AbhD1MK6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 08:10:58 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:51905 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229645AbhD1MK5 (ORCPT
+        id S235751AbhD1M2w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 08:28:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234674AbhD1M2w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 08:10:57 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id bj15lVL7Qk1MGbj18lOFMe; Wed, 28 Apr 2021 14:10:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1619611811; bh=x8Q25aX+Npb9ZR8tRbOZJxa+MhNaTu40hM9OtaCYssg=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=eNz4QqzcSAda6vxjk/7qNSjswamv/yOLVFyudswPyl1GNjWnmpXIL3w1tt6YHG/4x
-         +0cID/6v1gvzidor8BANi3Lk5MXZ/JDaVlotN252re2wT6rc/15VkUnSDcQKe0qD3Y
-         bnitUSwpcKmoeqi3DQeL1mJK3KRMuj9SXrZu6RCfyCroGH8JUjHHNgczD6DgejiU00
-         TF56qIeVKRKmem3nXlr5plkku4Wiq3xNmE38YE8yVQlL0aznHrAA4Ddmc5P3j+4Qma
-         jtJh4t44tRhn+Q56e+oLbyCCCncXpV7tBz15klrIgAN+cpCCCnFSqo3cxzzyTloXl6
-         u4U1v55XIa0xQ==
-Subject: Re: [PATCHv2 1/6] drm: drm_bridge: add connector_attach/detach bridge
- ops
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
-        dri-devel@lists.freedesktop.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-omap@vger.kernel.org, devicetree@vger.kernel.org
-References: <20210302162403.983585-1-hverkuil-cisco@xs4all.nl>
- <20210302162403.983585-2-hverkuil-cisco@xs4all.nl>
- <3ba8c7c3-2e86-964d-2e5b-5cdd805def5c@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <54c88a9f-6b80-4d4d-c0e6-c6c7b2a32050@xs4all.nl>
-Date:   Wed, 28 Apr 2021 14:10:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        Wed, 28 Apr 2021 08:28:52 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D7EEC061574;
+        Wed, 28 Apr 2021 05:28:06 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id z16so3671951pga.1;
+        Wed, 28 Apr 2021 05:28:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=FCc5BZu5iRztXIUiSt2+3FhaGtDlfucfxXcqT01eExc=;
+        b=s1ybdI7WecLYnVPXzIG8r2ufsshTyUG6UBIgf5iZ9rQliaO9QErsrYXIa/i4JeqNQF
+         NTu9m1+eajP/7Ozit9TFqR+4pw8P2Ja2s3PWyb+f91pWvvAARcpkSa+HnfVT/C/YVfvh
+         n1crgTzs3K/MEAN/PW2chwCa1hS4loARDIabSVxomFETp3p/GHQ6A7vKf+mCo2pRHjPk
+         iP54a/IAcobV9YjClrPOCz7bYoxN5yAG9KY9zz4dLEAwBwpm4yB+RkP4st+duj5Hhhcm
+         mIXNDw134CsfCAfh/20N4PNaO70pYYZV7Z7MtExQtmJLlziHJgb6W+q0lVqgn0RcmV85
+         /Olg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=FCc5BZu5iRztXIUiSt2+3FhaGtDlfucfxXcqT01eExc=;
+        b=AFGPKFtmgN0uyEycfjqp3+A+2w/4LFfmATcCpYLvtMcZjbWVfLYFfIs5STReNQVkD4
+         bVmSQhW7apFRWMA3IJsdKtI4wvZDiljL4ywJvbO1l8CBAev1z7obOf7jXki/sKBqakZw
+         hNz+BTt4ATvI6Tjb2uBIeC2/lEzYtHZiQaEcpE2vt3wfDJY7+yH0DYGOila1eF3rIxG4
+         nhBUV+LTKiRcgX0Vsg7noTo2XbB08MJEAW05oKE9KPW96b8JFTX7fOqP3tYWSBO7ZD2B
+         8jywk7cmCvut/BWrdHINOA5lfdt9i2i9h3sNMhC4062D2NmZ6XI56lQ/PrCxJebQZtGY
+         LmvQ==
+X-Gm-Message-State: AOAM533nCtsKzuLctaEcCf8P4NftDHyrBxXUOrvyCu2eMeGB5xyEOxFE
+        XsxvasTX90FFPRn2GJbaGjc=
+X-Google-Smtp-Source: ABdhPJzFwvuMniv8ai0SvEHoZynqHjurs4c0D6rOCMpJ54ptB8lK6dKuU/popa6Id15ZLDpegNO2ww==
+X-Received: by 2002:a65:6085:: with SMTP id t5mr26835510pgu.201.1619612884496;
+        Wed, 28 Apr 2021 05:28:04 -0700 (PDT)
+Received: from localhost ([157.45.56.196])
+        by smtp.gmail.com with ESMTPSA id l3sm4868719pju.44.2021.04.28.05.28.02
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 28 Apr 2021 05:28:03 -0700 (PDT)
+Date:   Wed, 28 Apr 2021 17:57:55 +0530
+From:   Shubhankar Kuranagatti <shubhankarvk@gmail.com>
+To:     wsa@kernel.org
+Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] drivers: i2c: i2c-core-smbus.c: Fix alignment of comment
+Message-ID: <20210428122755.2s56uotb225rezcw@kewl-virtual-machine>
 MIME-Version: 1.0
-In-Reply-To: <3ba8c7c3-2e86-964d-2e5b-5cdd805def5c@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLOpfNdVLh3mub3CUnLZYyIn+eAqJ0VAgSEG3mgVP49fHYthJ2LubIw3gJiuc+UsfJpR8DtVTIrEYR5+EAB0jS04uyeMqPgw5+L8zUnLpeNCKEHWgTKr
- Ja6Ad9WtE+wTY+5cO0xSwWi/abxtYsuaeHJvcgk3NrN49wLJUl6gnvPx/SruANEDOY+b3xrD/mch1S0sPAE+DF6+fPOtV0uVGPMW6Hatnofa+yRkfFiPqmX1
- b7XqdJpQZHw5nBpuQ7gwzW20P6BcvV5toqYdAIo+WKP7L65FvrBT+ywN03VEdtml4bRtDC/3zX86e0e793P7Ja4yo+B+eYG2tHDT+mYNNp3FHtXX+7OrT3AR
- Q9MfGwT2GqvO+LAB2+O2s1VZ7wKyOQTaVG0YRMEb+HjhXzrtSjk0EHXuYyMi2G71xUQG+i5Jndju8IR5/ovxECWWKJqI/LmM+V8/b62yEBxCi8JW3yM7FqcP
- /8G2l0quIUC2R0LW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20171215
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/04/2021 09:46, Tomi Valkeinen wrote:
-> Hi Hans,
-> 
-> On 02/03/2021 18:23, Hans Verkuil wrote:
->> Add bridge connector_attach/detach ops. These ops are called when a
->> bridge is attached or detached to a drm_connector. These ops can be
->> used to register and unregister an HDMI CEC adapter for a bridge that
->> supports CEC.
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> ---
->>   drivers/gpu/drm/drm_bridge_connector.c |  9 +++++++++
->>   include/drm/drm_bridge.h               | 27 ++++++++++++++++++++++++++
->>   2 files changed, 36 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
->> index 791379816837..07db71d4f5b3 100644
->> --- a/drivers/gpu/drm/drm_bridge_connector.c
->> +++ b/drivers/gpu/drm/drm_bridge_connector.c
->> @@ -203,6 +203,11 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
->>   {
->>   	struct drm_bridge_connector *bridge_connector =
->>   		to_drm_bridge_connector(connector);
->> +	struct drm_bridge *bridge;
->> +
->> +	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge)
->> +		if (bridge->funcs->connector_detach)
->> +			bridge->funcs->connector_detach(bridge, connector);
->>   
->>   	if (bridge_connector->bridge_hpd) {
->>   		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
->> @@ -375,6 +380,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->>   		connector->polled = DRM_CONNECTOR_POLL_CONNECT
->>   				  | DRM_CONNECTOR_POLL_DISCONNECT;
->>   
->> +	drm_for_each_bridge_in_chain(encoder, bridge)
->> +		if (bridge->funcs->connector_attach)
->> +			bridge->funcs->connector_attach(bridge, connector);
->> +
->>   	return connector;
->>   }
->>   EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
->> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
->> index 2195daa289d2..3320a6ebd253 100644
->> --- a/include/drm/drm_bridge.h
->> +++ b/include/drm/drm_bridge.h
->> @@ -629,6 +629,33 @@ struct drm_bridge_funcs {
->>   	 * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
->>   	 */
->>   	void (*hpd_disable)(struct drm_bridge *bridge);
->> +
->> +	/**
->> +	 * @connector_attach:
->> +	 *
->> +	 * This callback is invoked whenever our bridge is being attached to a
->> +	 * &drm_connector. This is where an HDMI CEC adapter can be registered.
->> +	 * Note that this callback expects that this op always succeeds. Since
->> +	 * HDMI CEC support is an optional feature, any failure to register a
->> +	 * CEC adapter must be ignored since video output will still work
->> +	 * without CEC.
->> +	 *
-> 
-> Even if CEC support is optional, the callback itself is generic. 
-> Wouldn't it be better to make this function return an error, and for 
-> CEC, just return 0 if CEC won't get registered correctly?
+Multi line comment have been aligned starting with a *
+The closing */ has been shifted to a new line.
+Single space replaced with tab space
+This is done to maintain code uniformity.
 
-I'll do that.
+Signed-off-by: Shubhankar Kuranagatti <shubhankarvk@gmail.com>
+---
+ drivers/i2c/i2c-core-smbus.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-> 
-> Also, I personally like things to fail if something doesn't go right, 
-> instead of continuing, if that thing is never supposed to happen in 
-> normal situations. E.g. if CEC registration fails because we're out of 
-> memory, I think the op should fail too.
-
-If that happens you have no video output. And that's a lot more important
-than CEC! As you suggested, I'll have the cec connector_attach just return
-0.
-
-Regards,
-
-	Hans
-
-> 
->   Tomi
-> 
+diff --git a/drivers/i2c/i2c-core-smbus.c b/drivers/i2c/i2c-core-smbus.c
+index d2d32c0fd8c3..205750518c21 100644
+--- a/drivers/i2c/i2c-core-smbus.c
++++ b/drivers/i2c/i2c-core-smbus.c
+@@ -66,10 +66,11 @@ static inline void i2c_smbus_add_pec(struct i2c_msg *msg)
+ }
+ 
+ /* Return <0 on CRC error
+-   If there was a write before this read (most cases) we need to take the
+-   partial CRC from the write part into account.
+-   Note that this function does modify the message (we need to decrease the
+-   message length to hide the CRC byte from the caller). */
++ * If there was a write before this read (most cases) we need to take the
++ * partial CRC from the write part into account.
++ * Note that this function does modify the message (we need to decrease the
++ * message length to hide the CRC byte from the caller).
++ */
+ static int i2c_smbus_check_pec(u8 cpec, struct i2c_msg *msg)
+ {
+ 	u8 rpec = msg->buf[--msg->len];
+@@ -113,7 +114,7 @@ EXPORT_SYMBOL(i2c_smbus_read_byte);
+ s32 i2c_smbus_write_byte(const struct i2c_client *client, u8 value)
+ {
+ 	return i2c_smbus_xfer(client->adapter, client->addr, client->flags,
+-	                      I2C_SMBUS_WRITE, value, I2C_SMBUS_BYTE, NULL);
++			I2C_SMBUS_WRITE, value, I2C_SMBUS_BYTE, NULL);
+ }
+ EXPORT_SYMBOL(i2c_smbus_write_byte);
+ 
+@@ -387,7 +388,8 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
+ 		if (read_write == I2C_SMBUS_READ) {
+ 			msg[1].flags |= I2C_M_RECV_LEN;
+ 			msg[1].len = 1; /* block length will be added by
+-					   the underlying bus driver */
++					 * the underlying bus driver
++					 */
+ 			i2c_smbus_try_get_dmabuf(&msg[1], 0);
+ 		} else {
+ 			msg[0].len = data->block[0] + 2;
+@@ -418,7 +420,8 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
+ 
+ 		msg[1].flags |= I2C_M_RECV_LEN;
+ 		msg[1].len = 1; /* block length will be added by
+-				   the underlying bus driver */
++				 * the underlying bus driver
++				 */
+ 		i2c_smbus_try_get_dmabuf(&msg[1], 0);
+ 		break;
+ 	case I2C_SMBUS_I2C_BLOCK_DATA:
+-- 
+2.17.1
 
