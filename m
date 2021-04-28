@@ -2,40 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 911EC36DA5A
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4E4936DA65
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240609AbhD1Oza (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 10:55:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36784 "EHLO mail.kernel.org"
+        id S240743AbhD1Ozo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 10:55:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36982 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240407AbhD1Oxt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 10:53:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD4AB6195E;
+        id S240453AbhD1Ox6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 10:53:58 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E711A61966;
         Wed, 28 Apr 2021 14:52:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619621564;
-        bh=5KztMjooOddzA79l4hTCyOZrgNAAq7qVnwZ9IgWgZxo=;
+        s=k20201202; t=1619621565;
+        bh=30FDfGkSRFbi6myOhgI3rDKaVJ2tBblGkl0/ENBmv/E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ahmwxtg3NgVw85eqHO+0GHvc/GzU9SQ14ckCypEmh++q1GjZT6DB16z2v+Jy9HoFJ
-         out4E2H4ma4+Th2HSG68e87BgrAA5tdjR4wOfenzvbd0pcvW6ZYrKHtk53h5INJQZl
-         OExON+UxCqsVDYy7l6zzRItwuS3QM+IlMCHWRq8QClKKCSY+J+JSpxT82ErIvxhsOh
-         YNt6SULpTdpcyZqXwBkf/mqlTQHTz/3AaxEySXV3d/T7e1PMIb47R9Odg5mUXGOL+a
-         mZ3Vj7qCJFidnT5yUGXD89b9IrqsdiFrmkltc6MhlkmtpJg24tJdQRysVmaSEb8px+
-         sjXeYKcSC1yjA==
+        b=Lrjts9E9yKLvcWcEXP4ConrbZgaYlplg3GUaO93Co4m/qoM66zNDp4z1Eqi4P8zl2
+         YNDbFrkpmI0E/v/jcbYcOknI1uHHkjMfeIG3UviPsthdcFNR+cPoS/QM48infZLtfL
+         f+WyNSt/iq+Hg1EgjHwpkpjspeozgYefyxOR8KkGo4mpKlu1Ua0W7I4AmuSggHwAgt
+         XW4nL8ZK2s5romV3HXSajHn+OxZhAx/HSmW/SADKxKnkVE4iKabPXUEcmVA/Ru8+Nx
+         EnqQuu6JmG3Ly6dX8MpQJtLPrxTL8Z2vVBGhYZnMoUJ62RQFYAKn3OPhjbioaeYSwL
+         UkU6D74559o2A==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lblYQ-001Dro-T1; Wed, 28 Apr 2021 16:52:42 +0200
+        id 1lblYQ-001Drr-Ty; Wed, 28 Apr 2021 16:52:42 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
+        Colin Ian King <colin.king@canonical.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v4 46/79] media: i2c: ov5647: use pm_runtime_resume_and_get()
-Date:   Wed, 28 Apr 2021 16:52:07 +0200
-Message-Id: <94e1540b6263c3ad4a95495a19cfeebe45c3295b.1619621413.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 47/79] media: i2c: ov5648: use pm_runtime_resume_and_get()
+Date:   Wed, 28 Apr 2021 16:52:08 +0200
+Message-Id: <9f681763d22136bc6f2c6602abc1a95964afe30d.1619621413.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
@@ -53,51 +56,29 @@ dev->power.usage_count decrement on errors.
 
 Use the new API, in order to cleanup the error check logic.
 
-Acked-by: Jacopo Mondi <jacopo@jmondi.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/ov5647.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/media/i2c/ov5648.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 1cefa15729ce..38faa74755e3 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -882,20 +882,20 @@ static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
- 	}
+diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+index 3ecb4a3e8773..07e64ff0be3f 100644
+--- a/drivers/media/i2c/ov5648.c
++++ b/drivers/media/i2c/ov5648.c
+@@ -2132,11 +2132,9 @@ static int ov5648_s_stream(struct v4l2_subdev *subdev, int enable)
+ 	int ret;
  
  	if (enable) {
--		ret = pm_runtime_get_sync(&client->dev);
-+		ret = pm_runtime_resume_and_get(&client->dev);
- 		if (ret < 0)
- 			goto error_unlock;
- 
- 		ret = ov5647_stream_on(sd);
- 		if (ret < 0) {
- 			dev_err(&client->dev, "stream start failed: %d\n", ret);
--			goto error_unlock;
-+			goto error_pm;
- 		}
- 	} else {
- 		ret = ov5647_stream_off(sd);
- 		if (ret < 0) {
- 			dev_err(&client->dev, "stream stop failed: %d\n", ret);
--			goto error_unlock;
-+			goto error_pm;
- 		}
- 		pm_runtime_put(&client->dev);
+-		ret = pm_runtime_get_sync(sensor->dev);
+-		if (ret < 0) {
+-			pm_runtime_put_noidle(sensor->dev);
++		ret = pm_runtime_resume_and_get(sensor->dev);
++		if (ret < 0)
+ 			return ret;
+-		}
  	}
-@@ -905,8 +905,9 @@ static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
  
- 	return 0;
- 
-+error_pm:
-+	pm_runtime_put(&client->dev);
- error_unlock:
--	pm_runtime_put(&client->dev);
- 	mutex_unlock(&sensor->lock);
- 
- 	return ret;
+ 	mutex_lock(&sensor->mutex);
 -- 
 2.30.2
 
