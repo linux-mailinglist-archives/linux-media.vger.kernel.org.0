@@ -2,247 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88C2736D25E
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 08:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0000C36D2D3
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 09:13:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236236AbhD1GpW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 02:45:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46352 "EHLO mail.kernel.org"
+        id S236394AbhD1HNz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 03:13:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60210 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236145AbhD1GpV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 02:45:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AF33661422;
-        Wed, 28 Apr 2021 06:44:34 +0000 (UTC)
+        id S229643AbhD1HNx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 03:13:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 235D4601FC;
+        Wed, 28 Apr 2021 07:13:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619592277;
-        bh=S5Mcku9BqGbqEVzg3DUAzz6HUqoWQEP/3bQrKYHAHMc=;
+        s=k20201202; t=1619593988;
+        bh=vtrlu5NLjbjl/L0tLDBVhlFvjRnFBvLZFZImEEWL/Kk=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=r9ycOZc92ZLGH/GJuCv8MF7WWLmvTEaREagiqxoz+xK7lS7SbaUOHTzN1PMuj8UjJ
-         QWyI3+JkOZA8z6EGW4Xme+vGCTDqcmo8OO3306UV3aURYRQfW8z9n1Tzk2keHc64cr
-         IW0HJL4lG2zKVRksW0AYgU+vUWvmgLgnqR1U34mPnXxf5bZOWnbqKvibhO4rFeW37+
-         i7RHXl9HsZxwdH3hCS2lrTprfoZ5B2YkeM3E/1oDy+JQsJ7ahj5CXImovf4/Ev87eF
-         5dZUBedqinMq/KJ+5wDpfTmXenF6H8psD75QQq4WY4FpCXiL11BTb+jkI422CRl7hh
-         HUMdUbdPFl1wg==
-Date:   Wed, 28 Apr 2021 08:44:31 +0200
+        b=ASBSV4p3ulPv6GeE1EBbPsFhZFJ1rt+T2/fgFgVHaSSfDBmaXJ6jMnj4uIXzWZAif
+         52hCdOB9hI0jNZcosW6vQuQSbJHgqaXCtBhEreWRKeBCo+DgiGEeJpwRgwaiGKuPm0
+         iXkKeSc3++o0Zec4DrZuAjSsLmhPqysBNEeYT291HbxWt6zxxetc/7aeKcnQeD+BEs
+         MJolRy7Vb3GItE3x/agrXCYfFL/R/iYOLARwkY4nYjI2eAWvNSfiz1t6OieD5dZQ6H
+         E4vgkcykWfEKqRkIbSuQu2fRPgj0s9+E0RG1GEiT2Vb14Gz5vTM3ksc4H0KD6gsyRn
+         ClKUXZOd+KNbA==
+Date:   Wed, 28 Apr 2021 09:13:02 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Robin Murphy <robin.murphy@arm.com>, linuxarm@huawei.com,
-        mauro.chehab@huawei.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To:     Sylwester Nawrocki <s.nawrocki@samsung.com>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v3 79/79] media: hantro: document the usage of
- pm_runtime_get_sync()
-Message-ID: <20210428084431.0c2d505b@coco.lan>
-In-Reply-To: <20210428082742.20d54db1@coco.lan>
-References: <cover.1619519080.git.mchehab+huawei@kernel.org>
-        <230f22170db7fa57b49cff4570cef15bf11b2ad5.1619519080.git.mchehab+huawei@kernel.org>
-        <02948673-9572-a570-d28e-03a7208f39e1@arm.com>
-        <95ea572e201545b27ff9f48313f7aaea157d4764.camel@collabora.com>
-        <20210428082742.20d54db1@coco.lan>
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 58/78] media: exynos-gsc: use
+ pm_runtime_resume_and_get()
+Message-ID: <20210428091302.64af1e5d@coco.lan>
+In-Reply-To: <5f6088c7-c839-f097-737f-b4234c413eac@samsung.com>
+References: <cover.1619191723.git.mchehab+huawei@kernel.org>
+        <CGME20210424064556eucas1p1e89378837c377168c9782b4172e70482@eucas1p1.samsung.com>
+        <9c7d683907b9f9cf4a99f57f978671ec7f5a1dbc.1619191723.git.mchehab+huawei@kernel.org>
+        <ee7b580a-d5bc-bdbf-3efc-c9d8f43316db@samsung.com>
+        <20210427113055.745d0560@coco.lan>
+        <20210427114235.45a7b2a4@coco.lan>
+        <5f6088c7-c839-f097-737f-b4234c413eac@samsung.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 28 Apr 2021 08:27:42 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Em Tue, 27 Apr 2021 13:50:44 +0200
+Sylwester Nawrocki <s.nawrocki@samsung.com> escreveu:
 
-> Em Tue, 27 Apr 2021 12:18:32 -0300
-> Ezequiel Garcia <ezequiel@collabora.com> escreveu:
->=20
-> > On Tue, 2021-04-27 at 16:08 +0100, Robin Murphy wrote: =20
-> > > On 2021-04-27 11:27, Mauro Carvalho Chehab wrote:   =20
-> > > > Despite other *_get()/*_put() functions, where usage count is
-> > > > incremented only if not errors, the pm_runtime_get_sync() has
-> > > > a different behavior, incrementing the counter *even* on
-> > > > errors.
-> > > >=20
-> > > > That's an error prone behavior, as people often forget to
-> > > > decrement the usage counter.
-> > > >=20
-> > > > However, the hantro driver depends on this behavior, as it
-> > > > will decrement the usage_count unconditionally at the m2m
-> > > > job finish time, which makes sense.
-> > > >=20
-> > > > So, intead of using the pm_runtime_resume_and_get() that
-> > > > would decrement the counter on error, keep the current
-> > > > API, but add a documentation explaining the rationale for
-> > > > keep using pm_runtime_get_sync().
-> > > >=20
-> > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > > ---
-> > > > =C2=A0 drivers/staging/media/hantro/hantro_drv.c | 7 +++++++
-> > > > =C2=A0 1 file changed, 7 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/st=
-aging/media/hantro/hantro_drv.c
-> > > > index 595e82a82728..96f940c1c85c 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > > @@ -155,6 +155,13 @@ static void device_run(void *priv)
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D clk_bulk_en=
-able(ctx->dev->variant->num_clocks, ctx->dev->clocks);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0goto err_cancel_job;   =20
-> > >=20
-> > > ..except this can also cause the same pm_runtime_put_autosuspend() ca=
-ll=20
-> > > without even reaching the "matching" get below, so rather than some k=
-ind=20
-> > > of cleverness it seems more like it's just broken :/
-> > >    =20
-> >=20
-> > Indeed, I was trying to find time to cook a quick patch, but kept
-> > getting preempted.
-> >=20
-> > Feel free to submit a fix for this, otherwise, I'll try to find
-> > time later this week. =20
->=20
-> What about doing this instead:
->=20
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/=
-media/hantro/hantro_drv.c
-> index 595e82a82728..67de6b15236d 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -56,14 +56,12 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64=
- ts)
->  	return hantro_get_dec_buf_addr(ctx, buf);
->  }
-> =20
-> -static void hantro_job_finish(struct hantro_dev *vpu,
-> -			      struct hantro_ctx *ctx,
-> -			      enum vb2_buffer_state result)
-> +static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
-> +				    struct hantro_ctx *ctx,
-> +				    enum vb2_buffer_state result)
->  {
->  	struct vb2_v4l2_buffer *src, *dst;
-> =20
-> -	pm_runtime_mark_last_busy(vpu->dev);
-> -	pm_runtime_put_autosuspend(vpu->dev);
->  	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
-> =20
->  	src =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-> @@ -81,6 +79,16 @@ static void hantro_job_finish(struct hantro_dev *vpu,
->  					 result);
->  }
-> =20
-> +static void hantro_job_finish(struct hantro_dev *vpu,
-> +			      struct hantro_ctx *ctx,
-> +			      enum vb2_buffer_state result)
-> +{
-> +	pm_runtime_mark_last_busy(vpu->dev);
-> +	pm_runtime_put_autosuspend(vpu->dev);
-> +
-> +	hantro_job_finish_no_pm(vpu, ctx, result);
-> +}
-> +
->  void hantro_irq_done(struct hantro_dev *vpu,
->  		     enum vb2_buffer_state result)
->  {
-> @@ -152,12 +160,13 @@ static void device_run(void *priv)
->  	src =3D hantro_get_src_buf(ctx);
->  	dst =3D hantro_get_dst_buf(ctx);
-> =20
-> +	ret =3D pm_runtime_resume_and_get(ctx->dev->dev);
-> +	if (ret < 0)
-> +		goto err_cancel_job;
-> +
->  	ret =3D clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks=
-);
->  	if (ret)
->  		goto err_cancel_job;
-> -	ret =3D pm_runtime_get_sync(ctx->dev->dev);
-> -	if (ret < 0)
-> -		goto err_cancel_job;
-> =20
->  	v4l2_m2m_buf_copy_metadata(src, dst, true);
-> =20
-> @@ -165,7 +174,7 @@ static void device_run(void *priv)
->  	return;
-> =20
->  err_cancel_job:
-> -	hantro_job_finish(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
-> +	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
->  }
-> =20
->  static struct v4l2_m2m_ops vpu_m2m_ops =3D {
->=20
-> Thanks,
-> Mauro
+> On 27.04.2021 11:42, Mauro Carvalho Chehab wrote:
+> > Em Tue, 27 Apr 2021 11:30:55 +0200
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> >   
+> >> Em Tue, 27 Apr 2021 10:18:12 +0200
+> >> Sylwester Nawrocki <s.nawrocki@samsung.com> escreveu:
+> >>  
+> >>> On 24.04.2021 08:45, Mauro Carvalho Chehab wrote:    
+> >>>> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> >>>> added pm_runtime_resume_and_get() in order to automatically handle
+> >>>> dev->power.usage_count decrement on errors.
+> >>>>
+> >>>> Use the new API, in order to cleanup the error check logic.
+> >>>>
+> >>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >>>> ---
+> >>>>  drivers/media/platform/exynos-gsc/gsc-core.c | 3 +--
+> >>>>  drivers/media/platform/exynos-gsc/gsc-m2m.c  | 2 +-
+> >>>>  2 files changed, 2 insertions(+), 3 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/media/platform/exynos-gsc/gsc-core.c b/drivers/media/platform/exynos-gsc/gsc-core.c
+> >>>> index 9f41c2e7097a..9d5841194f6b 100644
+> >>>> --- a/drivers/media/platform/exynos-gsc/gsc-core.c
+> >>>> +++ b/drivers/media/platform/exynos-gsc/gsc-core.c
+> >>>> @@ -1210,7 +1210,7 @@ static int gsc_remove(struct platform_device *pdev)
+> >>>>  	struct gsc_dev *gsc = platform_get_drvdata(pdev);
+> >>>>  	int i;
+> >>>>  
+> >>>> -	pm_runtime_get_sync(&pdev->dev);
+> >>>> +	pm_runtime_resume_and_get(&pdev->dev);
+> >>>>  
+> >>>>  	gsc_unregister_m2m_device(gsc);
+> >>>>  	v4l2_device_unregister(&gsc->v4l2_dev);
+> >>>> @@ -1219,7 +1219,6 @@ static int gsc_remove(struct platform_device *pdev)
+> >>>>  	for (i = 0; i < gsc->num_clocks; i++)
+> >>>>  		clk_disable_unprepare(gsc->clock[i]);
+> >>>>  
+> >>>> -	pm_runtime_put_noidle(&pdev->dev);      
+> >>>
+> >>> If we do this then the device usage count will not get decremented
+> >>> after the pm_runtime_resume_and_get() call above and after driver
+> >>> unload/load cycle it will not be possible to suspend the device.
+> >>> I wouldn't be changing anything in gsc_remove(), pm_runtime_get_sync()
+> >>> works better in that case.    
+> >>
+> >> Good point.
+> >>
+> >> Actually, I don't see any reason why to call a PM resume
+> >> function - either being pm_runtime_get_sync() or
+> >> pm_runtime_resume_and_get().
+> >>
+> >> The code there could simply be:
+> >>
+> >>     static int gsc_remove(struct platform_device *pdev)
+> >>     {
+> >>         struct gsc_dev *gsc = platform_get_drvdata(pdev);
+> >>         int i;
+> >>
+> >>         gsc_unregister_m2m_device(gsc);
+> >>         v4l2_device_unregister(&gsc->v4l2_dev);
+> >>
+> >>         vb2_dma_contig_clear_max_seg_size(&pdev->dev);
+> >>         for (i = 0; i < gsc->num_clocks; i++)
+> >>                 clk_disable_unprepare(gsc->clock[i]);
+> >>
+> >>         pm_runtime_disable(&pdev->dev);
+> >>
+> >>         dev_dbg(&pdev->dev, "%s driver unloaded\n", pdev->name);
+> >>         return 0;
+> >>     }
+> >>
+> >> Eventually also adding:
+> >> 	pm_runtime_suspended(&pdev->dev);  
+> > 
+> > In time: I actually meant:
+> > 
+> > 	pm_runtime_set_suspended(&pdev->dev);
+> > 
+> > but after double-checking the PM runtime code, it sounds to me that
+> > just calling pm_runtime_disable() would be enough. Not 100% sure
+> > here. Btw, some media drivers call it after pm_runtime_disable(),
+> > while others don't do.  
+> 
+> I think if the device is brought into suspended state (e.g. by
+> disabling clocks as above) the pm_runtime_set_suspended() call
+> should be there. IOW a following sequence: 
+> 
+> 	pm_runtime_disable(dev);
+> 	if (!pm_runtime_status_suspended(dev))
+> 		/* put device into suspended state (disable clocks, 
+> 		  voltage regulators, assert GPIOs, etc. */
+> 	pm_runtime_set_suspended(dev);
 
-Actually, the order at the finish logic should change as well.
-Maybe like this:
+Not sure if this would work, as the clock framework would try
+to do things like calling clk_pm_runtime_put().
 
-<snip>
-static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
-				    struct hantro_ctx *ctx,
-				    enum vb2_buffer_state result)
-{
-	struct vb2_v4l2_buffer *src, *dst;
+Perhaps an alternative would be to just return an error if it
+can't resume PM runtime, e. g.:
 
-	src =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-	dst =3D v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-
-	if (WARN_ON(!src))
-		return;
-	if (WARN_ON(!dst))
-		return;
-
-	src->sequence =3D ctx->sequence_out++;
-	dst->sequence =3D ctx->sequence_cap++;
-
-	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
-					 result);
-}
-
-static void hantro_job_finish(struct hantro_dev *vpu,
-			      struct hantro_ctx *ctx,
-			      enum vb2_buffer_state result)
-{
-
-	hantro_job_finish_no_pm(vpu, ctx, result);
-
-	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
-
-	pm_runtime_mark_last_busy(vpu->dev);
-	pm_runtime_put_autosuspend(vpu->dev);
-}
-
-static void device_run(void *priv)
-{
-	struct hantro_ctx *ctx =3D priv;
-	struct vb2_v4l2_buffer *src, *dst;
-	int ret;
-
-	src =3D hantro_get_src_buf(ctx);
-	dst =3D hantro_get_dst_buf(ctx);
-
-	ret =3D pm_runtime_resume_and_get(ctx->dev->dev);
-	if (ret < 0)
-		goto err_cancel_job;
-
-	ret =3D clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
-	if (ret)
-		goto err_cancel_job;
-
-	v4l2_m2m_buf_copy_metadata(src, dst, true);
-
-	ctx->codec_ops->run(ctx);
-	return;
-
-err_cancel_job:
-	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
-}
-</snip>
+diff --git a/drivers/media/platform/exynos-gsc/gsc-core.c b/drivers/media/platform/exynos-gsc/gsc-core.c
+index 9f41c2e7097a..d47d02c75484 100644
+--- a/drivers/media/platform/exynos-gsc/gsc-core.c
++++ b/drivers/media/platform/exynos-gsc/gsc-core.c
+@@ -1208,9 +1208,11 @@ static int gsc_probe(struct platform_device *pdev)
+ static int gsc_remove(struct platform_device *pdev)
+ {
+        struct gsc_dev *gsc = platform_get_drvdata(pdev);
+-       int i;
++       int ret, i;
+ 
+-       pm_runtime_get_sync(&pdev->dev);
++       ret = pm_runtime_resume_and_get(&pdev->dev);
++       if (ret < 0)
++               return ret;
+ 
+        gsc_unregister_m2m_device(gsc);
+        v4l2_device_unregister(&gsc->v4l2_dev);
 
 
 Thanks,
