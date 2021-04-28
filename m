@@ -2,189 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 954EB36E1FB
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 01:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8CB636E23D
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 01:44:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230166AbhD1XIH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 19:08:07 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:56981 "EHLO mout01.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229624AbhD1XIH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 19:08:07 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id C6080240029
-        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 01:07:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1619651239; bh=XI1aESVa2Wu/renRfpEbPhHM1YJ/jHSPO7TGIj1lnu0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=rmUL9j6RNfLHOKYRWYtmWRhbobAhbjoLJxIS2MnHCuKQyFLpp3ognoAowXEZchJM/
-         dvke4CWV5Y5W37dL0TbIFQxoXUvyFh8uxLBAcSFuMZV7hUIAmqQC8lr8lhp8150phN
-         HX9LZol4tHALscuNBilVIQclhkxPeQrxDkEIHjFcljN3SOEkeU9pPdtcuRpvzvCXvd
-         FVk58wHz/Wpq97FAvS5roWDjRFE2vfR0OmFw9NRLRgV4Xv9XKSoA084mPwONsUelnV
-         pk9M3Jge0UOE9L0XIwmBZ5NCnnqGCLr8cnfDnGGEtxkJqCGDxSCRewyD6LxKKoPRj0
-         SyzVb9BS16sig==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4FVvRB46z2z9rxH;
-        Thu, 29 Apr 2021 01:07:18 +0200 (CEST)
-From:   Benjamin Drung <bdrung@posteo.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Adam Goode <agoode@google.com>, Benjamin Drung <bdrung@posteo.de>,
-        stable@vger.kernel.org
-Subject: [PATCH v2] media: uvcvideo: Fix pixel format change for Elgato Cam Link 4K
-Date:   Wed, 28 Apr 2021 23:03:59 +0000
-Message-Id: <20210428230358.22756-1-bdrung@posteo.de>
+        id S230382AbhD1Xoz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 19:44:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229718AbhD1Xoy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 19:44:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 369A2C06138B
+        for <linux-media@vger.kernel.org>; Wed, 28 Apr 2021 16:44:09 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD5A1DA8;
+        Thu, 29 Apr 2021 01:44:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1619653447;
+        bh=kb2fBlGb9O+0WUWDjOswKfY60IIPrLTNpuFe73Cy1m4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ju2KmsilIbmndFDNLt+ggK2IdEfHWKYUkXhKPT4wZjzP5hXfn6Pz0nAKx1IAmL+dE
+         HzrXlZoLdnkI2CkcrBuiPq7QKfGBxXbN8bOltYFwGS3WJkHu5pIShcb8wEJNNBAJB9
+         P6WGQZi4BJYIj/Xnr0CC1X3f6JQ1ZSwTV3mAdp7E=
+Date:   Thu, 29 Apr 2021 02:44:01 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 14/28] media: ti-vpe: cal: catch VC errors
+Message-ID: <YInzQTnAknPWN5RN@pendragon.ideasonboard.com>
+References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
+ <20210412113457.328012-15-tomi.valkeinen@ideasonboard.com>
+ <YHwoTIhbLtKoD+6F@pendragon.ideasonboard.com>
+ <0e4bcb84-8acf-2bb2-85be-fb96599b3c3c@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <0e4bcb84-8acf-2bb2-85be-fb96599b3c3c@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Elgato Cam Link 4K HDMI video capture card reports to support three
-different pixel formats, where the first format depends on the connected
-HDMI device.
+Hi Tomi,
 
-```
-$ v4l2-ctl -d /dev/video0 --list-formats-ext
-ioctl: VIDIOC_ENUM_FMT
-	Type: Video Capture
+On Mon, Apr 19, 2021 at 02:19:01PM +0300, Tomi Valkeinen wrote:
+> On 18/04/2021 15:38, Laurent Pinchart wrote:
+> > On Mon, Apr 12, 2021 at 02:34:43PM +0300, Tomi Valkeinen wrote:
+> >> CAL driver currently ignores VC related errors. To help catch error
+> >> conditions, enable all the VC error interrupts and handle them in the
+> >> interrupt handler by printing an error.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >> ---
+> >>   drivers/media/platform/ti-vpe/cal-camerarx.c | 23 ++++++++++++++++----
+> >>   drivers/media/platform/ti-vpe/cal.c          |  9 ++++++++
+> >>   2 files changed, 28 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
+> >> index 974fcbb19547..0354f311c5d2 100644
+> >> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
+> >> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
+> >> @@ -226,24 +226,39 @@ static void cal_camerarx_enable_irqs(struct cal_camerarx *phy)
+> >>   		CAL_CSI2_COMPLEXIO_IRQ_FIFO_OVR_MASK |
+> >>   		CAL_CSI2_COMPLEXIO_IRQ_SHORT_PACKET_MASK |
+> >>   		CAL_CSI2_COMPLEXIO_IRQ_ECC_NO_CORRECTION_MASK;
+> >> -
+> >> -	/* Enable CIO error IRQs. */
+> >> +	const u32 vc_err_mask =
+> >> +		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(0) |
+> >> +		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(1) |
+> >> +		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(2) |
+> >> +		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(3) |
+> >> +		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(0) |
+> >> +		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(1) |
+> >> +		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(2) |
+> >> +		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(3);
+> >> +
+> >> +	/* Enable CIO & VC error IRQs. */
+> >>   	cal_write(phy->cal, CAL_HL_IRQENABLE_SET(0),
+> >> -		  CAL_HL_IRQ_CIO_MASK(phy->instance));
+> >> +		  CAL_HL_IRQ_CIO_MASK(phy->instance) | CAL_HL_IRQ_VC_MASK(phy->instance));
+> > 
+> > Line wrap ? Same in multiple places below. I know there's no strict 80
+> > columns limit anymore, but I don't think longer lines help with
+> > readability in this patch (not to mention the coding style inconsistency
+> > with the rest of the driver).
+> 
+> Well, I disagree, but I guess that's in the eye of the beholder.
+> 
+> If we have a coding style with strict 80 column limit, then there are 
+> other places I need to start fixing too. My personal coding style is 
+> such that around 80 columns I start thinking about splitting if it can 
+> be done without any messiness, around 100 I seriously try to split it, 
+> and around 120 I think it's broken.
 
-	[0]: 'NV12' (Y/CbCr 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-	[1]: 'NV12' (Y/CbCr 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-	[2]: 'YU12' (Planar YUV 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-```
+It then all depends on your messiness gauge :-) For the code above,
 
-Changing the pixel format to anything besides the first pixel format
-does not work:
+ 	cal_write(phy->cal, CAL_HL_IRQENABLE_SET(0),
+		  CAL_HL_IRQ_CIO_MASK(phy->instance) |
+		  CAL_HL_IRQ_VC_MASK(phy->instance));
 
-```
-v4l2-ctl -d /dev/video0 --try-fmt-video pixelformat=YU12
-Format Video Capture:
-	Width/Height      : 3840/2160
-	Pixel Format      : 'NV12' (Y/CbCr 4:2:0)
-	Field             : None
-	Bytes per Line    : 3840
-	Size Image        : 12441600
-	Colorspace        : sRGB
-	Transfer Function : Rec. 709
-	YCbCr/HSV Encoding: Rec. 709
-	Quantization      : Default (maps to Limited Range)
-	Flags             :
-```
+doesn't seem messy at all to me (quite the contrary actually).
 
-User space applications like VLC might show an error message on the
-terminal in that case:
+> I can change this and the other similar line, the end result is only 
+> slightly messier, but...
+> 
+> >> +
+> >> +			if (status & CAL_HL_IRQ_VC_MASK(i)) {
+> >> +				u32 vc_stat = cal_read(cal, CAL_CSI2_VC_IRQSTATUS(i));
+> >> +
+> >> +				dev_err_ratelimited(cal->dev,
+> >> +						    "CIO%u VC error: %#08x\n", i, vc_stat);
+> >> +
+> >> +				cal_write(cal, CAL_CSI2_VC_IRQSTATUS(i), vc_stat);
+> >> +			}
+> 
+> ...especially for this part sticking to 80 columns uglifies the code.
+> 
+> u32 vc_stat =
+> 	cal_read(cal,
+> 		 CAL_CSI2_VC_IRQSTATUS(i));
+> 
+> or
+> 
+> u32 cio_stat = cal_read(cal,
+> 	CAL_CSI2_COMPLEXIO_IRQSTATUS(i));
 
-```
-libv4l2: error set_fmt gave us a different result than try_fmt!
-```
+That would be messy, and I think it should either stay as-is, or the
+function should be refactored with code broken out in multiple functions
+(probably overkill for this specific example).
 
-Depending on the error handling of the user space applications, they
-might display a distorted video, because they use the wrong pixel format
-for decoding the stream.
+The next line, however, I would have written as
 
-The Elgato Cam Link 4K responds to the USB video probe
-VS_PROBE_CONTROL/VS_COMMIT_CONTROL with a malformed data structure: The
-second byte contains bFormatIndex (instead of being the second byte of
-bmHint). The first byte is always zero. The third byte is always 1.
+				dev_err_ratelimited(cal->dev,
+						    "CIO%u VC error: %#08x\n",
+						    i, vc_stat);
 
-The firmware bug was reported to Elgato on 2020-12-01 and it was
-forwarded by the support team to the developers as feature request.
-There is no firmware update available since then. The latest firmware
-for Elgato Cam Link 4K as of 2021-03-23 has MCU 20.02.19 and FPGA 67.
+> I could split parts to a separate function, but I don't think the end 
+> result would be better.
+> 
+> I think we discuss the 80-column problem almost in every series. Maybe 
+> we need to agree to some clear predefined rules to avoid future 
+> discussions about this? =)
 
-Therefore add a quirk to correct the malformed data structure.
+So all we need is a metric that measure code mess, right ? :-)
 
-The quirk was successfully tested with VLC, OBS, and Chromium using
-different pixel formats (YUYV, NV12, YU12), resolutions (3840x2160,
-1920x1080), and frame rates (29.970 and 59.940 fps).
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Benjamin Drung <bdrung@posteo.de>
----
- drivers/media/usb/uvc/uvc_driver.c | 13 +++++++++++++
- drivers/media/usb/uvc/uvc_video.c  | 21 +++++++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 3 files changed, 35 insertions(+)
-
-I am resending this patch since I got no response in the last three
-weeks.
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 9a791d8ef200..6ce58950d78b 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3164,6 +3164,19 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/*
-+	 * Elgato Cam Link 4K
-+	 * Latest firmware as of 2021-03-23 needs this quirk.
-+	 * MCU: 20.02.19, FPGA: 67
-+	 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x0fd9,
-+	  .idProduct		= 0x0066,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FIX_FORMAT_INDEX) },
- 	/* Generic USB Video Class */
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index f2f565281e63..06a538d1008b 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -128,6 +128,27 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
- 	struct uvc_frame *frame = NULL;
- 	unsigned int i;
- 
-+	/*
-+	 * The response of the Elgato Cam Link 4K is incorrect: The second byte
-+	 * contains bFormatIndex (instead of being the second byte of bmHint).
-+	 * The first byte is always zero. The third byte is always 1.
-+	 *
-+	 * The UVC 1.5 class specification defines the first five bits in the
-+	 * bmHint bitfield. The remaining bits are reserved and should be zero.
-+	 * Therefore a valid bmHint will be less than 32.
-+	 */
-+	if (stream->dev->quirks & UVC_QUIRK_FIX_FORMAT_INDEX && ctrl->bmHint > 255) {
-+		__u8 corrected_format_index;
-+
-+		corrected_format_index = ctrl->bmHint >> 8;
-+		uvc_dbg(stream->dev, CONTROL,
-+			"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: 0x%02x} to {bmHint: 0x%04x, bFormatIndex: 0x%02x}.\n",
-+			ctrl->bmHint, ctrl->bFormatIndex,
-+			ctrl->bFormatIndex, corrected_format_index);
-+		ctrl->bmHint = ctrl->bFormatIndex;
-+		ctrl->bFormatIndex = corrected_format_index;
-+	}
-+
- 	for (i = 0; i < stream->nformats; ++i) {
- 		if (stream->format[i].index == ctrl->bFormatIndex) {
- 			format = &stream->format[i];
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 97df5ecd66c9..bf401d5ba27d 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -209,6 +209,7 @@
- #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
- #define UVC_QUIRK_FORCE_Y8		0x00000800
- #define UVC_QUIRK_FORCE_BPP		0x00001000
-+#define UVC_QUIRK_FIX_FORMAT_INDEX	0x00002000
- 
- /* Format flags */
- #define UVC_FMT_FLAG_COMPRESSED		0x00000001
 -- 
-2.27.0
+Regards,
 
+Laurent Pinchart
