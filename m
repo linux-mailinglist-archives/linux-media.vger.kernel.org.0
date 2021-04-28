@@ -2,46 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E31136DA5F
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9585736DA40
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240729AbhD1Ozg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 10:55:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36354 "EHLO mail.kernel.org"
+        id S240328AbhD1OzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 10:55:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37052 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240448AbhD1Ox5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 10:53:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BB92561947;
+        id S240389AbhD1Oxr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 10:53:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BAA6A61946;
         Wed, 28 Apr 2021 14:52:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619621565;
-        bh=nHZL/8LfEY59F+jSTZXbI5IsJhAvjS0xN6pbKcv/Zf0=;
+        s=k20201202; t=1619621564;
+        bh=hgVIRXIaDP3qryP6Ow1GN4bGxSo94x3BXa49gnOI5oU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GgvfXq0FPd0nXZ7nGPgs1dqOiQ5HDmrlQ3nw52kie/TcOI1RyT8vHcg4FhzShaNO+
-         BU/PtqBrI/OlsI0y0FJLbhDiRzdtPlISP3cG02Rva5bwburZu+3gkOQQBVuzJKB3R0
-         hhK6YopNNYvuvw4Q+WOm/4sm6uvkE9L8eQOciE86CAqdaInBw8MX+umPHmQ49N9JH2
-         8ZN/Sa4AOQJ2KbqN6RwjlbHEFd1HorZDEjL6C+n/nxSHlYk7gpChyLf9APwSodpyFq
-         tMO0Mn7rn0qxGf3pb2hh4mMum6qk7xdsue8Kiw2r3JtYO9qzvOq4UtKmOFq/iwB7Tt
-         7+3lzmfDtxXkA==
+        b=f3h0eGdXeU42FbQX5nXsu8h3s9APwtyEpXw3+LibpCG6kLrIt6BDyl+FtHQRSKps4
+         Xhc7aPhob8HM6cDJI/26PfL4pGqBkbBGn5DRD3AEyYJ1Gs8OlglLJGBpNQ8tszHOfg
+         uKV5jGBMbk9GHqLZUwR5AefUY3Um86Xr9+SBCA+CSf5nLaaBwhgPfBIyCTfzUhp611
+         DUBoXfgBZPlzlkMUNqBGlc+Yo+VBU+H+2TS2HbWQ+8JuFmL8DgOGMQzE0Xffh3cPEx
+         iOHXAiIVXE0oM7MZChxs+x27CwUnWajos/IIxVzKEKHQ2H38KzEN1mjHEvg7PUGkg0
+         77dxm2LOWJnYQ==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lblYR-001DsF-5S; Wed, 28 Apr 2021 16:52:43 +0200
+        id 1lblYR-001DsI-6N; Wed, 28 Apr 2021 16:52:43 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Chuhong Yuan <hslester96@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Marco Felsch <m.felsch@pengutronix.de>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Zhang Xiaoxu <zhangxiaoxu5@huawei.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v4 55/79] media: i2c: tvp5150: use pm_runtime_resume_and_get()
-Date:   Wed, 28 Apr 2021 16:52:16 +0200
-Message-Id: <4b1b8a0a5867461c391e113eeedaacfd09a8f5d5.1619621413.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 56/79] media: i2c: video-i2c: use pm_runtime_resume_and_get()
+Date:   Wed, 28 Apr 2021 16:52:17 +0200
+Message-Id: <9798637a8003329b10992d1d983041387b2c6677.1619621413.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
@@ -61,44 +54,41 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/tvp5150.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+ drivers/media/i2c/video-i2c.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index e26e3f544054..374a9da75e4d 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -1448,11 +1448,9 @@ static int tvp5150_s_stream(struct v4l2_subdev *sd, int enable)
- 	       TVP5150_MISC_CTL_CLOCK_OE;
+diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
+index c9a774f4c8d2..910a139c5e14 100644
+--- a/drivers/media/i2c/video-i2c.c
++++ b/drivers/media/i2c/video-i2c.c
+@@ -286,11 +286,9 @@ static int amg88xx_read(struct device *dev, enum hwmon_sensor_types type,
+ 	__le16 buf;
+ 	int tmp;
  
- 	if (enable) {
--		ret = pm_runtime_get_sync(sd->dev);
--		if (ret < 0) {
--			pm_runtime_put_noidle(sd->dev);
-+		ret = pm_runtime_resume_and_get(sd->dev);
-+		if (ret < 0)
- 			return ret;
--		}
- 
- 		tvp5150_enable(sd);
- 
-@@ -1675,15 +1673,7 @@ static int tvp5150_registered(struct v4l2_subdev *sd)
- 
- static int tvp5150_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- {
--	int ret;
--
--	ret = pm_runtime_get_sync(sd->dev);
--	if (ret < 0) {
--		pm_runtime_put_noidle(sd->dev);
--		return ret;
+-	tmp = pm_runtime_get_sync(regmap_get_device(data->regmap));
+-	if (tmp < 0) {
+-		pm_runtime_put_noidle(regmap_get_device(data->regmap));
++	tmp = pm_runtime_resume_and_get(regmap_get_device(data->regmap));
++	if (tmp < 0)
+ 		return tmp;
 -	}
--
--	return 0;
-+	return pm_runtime_resume_and_get(sd->dev);
- }
  
- static int tvp5150_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 	tmp = regmap_bulk_read(data->regmap, AMG88XX_REG_TTHL, &buf, 2);
+ 	pm_runtime_mark_last_busy(regmap_get_device(data->regmap));
+@@ -512,11 +510,9 @@ static int start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	if (data->kthread_vid_cap)
+ 		return 0;
+ 
+-	ret = pm_runtime_get_sync(dev);
+-	if (ret < 0) {
+-		pm_runtime_put_noidle(dev);
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret < 0)
+ 		goto error_del_list;
+-	}
+ 
+ 	ret = data->chip->setup(data);
+ 	if (ret)
 -- 
 2.30.2
 
