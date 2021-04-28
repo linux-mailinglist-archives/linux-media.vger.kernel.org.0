@@ -2,43 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4558B36DA44
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 481D736DA0C
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240617AbhD1OzL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 10:55:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36654 "EHLO mail.kernel.org"
+        id S240349AbhD1Oxm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 10:53:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36082 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240390AbhD1Oxr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 10:53:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AD41A6193D;
-        Wed, 28 Apr 2021 14:52:44 +0000 (UTC)
+        id S240275AbhD1Ox3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 10:53:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DA62061456;
+        Wed, 28 Apr 2021 14:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619621564;
-        bh=EG1Xkz5icS6rCKpEKVZN/X2JADr2Ee/ss00sHCZahe0=;
+        bh=Dz4yuaAkE3G30hsowoZG+/b+CgXUAS8PpNDZLkNm+lU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oCHpn+fmwGV/kArmNSoUSn/jMNhaV6E/cELb1239AFp7tEHpXStLvOGkkClPlKqHs
-         S7Qm6nNL7QYa6ulOnG4byCCfTYEem7BFawbiEPTRfzL7bx/AnCwg77yK0FW7b2ZG25
-         OuBvkfQq1VMaaAzRwwV2KPZqEWGdoYalLtmAiKFIjXcFNilFv4IQA+gljSNBPDmclI
-         Fp9MWk+QZqamavqShzSNyVX15Gt7jXrKM5+jwLX5Bb+QL7MSA1f13GVKKe1Dd3ziD/
-         qufSXKj3aJNvEcWVz+MZc5fJCke6X8fF7Yrlott+4MqITcC6qdWAXSq0h3sPOIM/5W
-         NTnDpyOaC0YSg==
+        b=ZX0mpl7M//ITWSgBZLCl23vqF5s2RBkEojQYiSSpy0rGP778niLf1vZz0oLfpxrYS
+         vOuPDOsEkhRSt/HvAQJjXoQ9JAuE/YV3ins38c1TyEYw7KLhZJd2Sk0hPwmSjWKOvC
+         adV903dRVKslctm7I6WYk0crbX6NVHPawVs3mcIA4o6YS0WGU4VN6Qn19uf4fubNYH
+         v7Fx4pOvdk2LAmRjKQQGROrbnvAdnUvpl7wcOy/ZHc7ypyiC+d9AbCZG0Lw79GmPIy
+         PaojTD7NLxiy2fxThwFLXY/PlPCcTK56rVceNQ7wJcoZQrMHKN4EBERMBgroqF9ooy
+         6+xvzoW0RNeig==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lblYP-001Dpf-JZ; Wed, 28 Apr 2021 16:52:41 +0200
+        id 1lblYP-001Dph-KT; Wed, 28 Apr 2021 16:52:41 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kamil Debski <kamil@wypas.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: [PATCH v4 02/79] media: s6p_cec: decrement usage count if disabled
-Date:   Wed, 28 Apr 2021 16:51:23 +0200
-Message-Id: <2c52c48533f6eafdb7b9c72ee2f02747e851a983.1619621413.git.mchehab+huawei@kernel.org>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v4 03/79] media: i2c: ccs-core: return the right error code at suspend
+Date:   Wed, 28 Apr 2021 16:51:24 +0200
+Message-Id: <e4160546ef150e605579b17328aa802d7797a4da.1619621413.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
@@ -50,31 +46,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's a bug at s5p_cec_adap_enable(): if called to
-disable the device, it should call pm_runtime_put()
-instead of pm_runtime_disable(), as the goal here is to
-decrement the usage_count and not to disable PM runtime.
+If pm_runtime resume logic fails, return the error code
+provided by it, instead of -EAGAIN, as, depending on what
+caused it to fail, it may not be something that would be
+recovered.
 
-Reported-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
-Fixes: 1bcbf6f4b6b0 ("[media] cec: s5p-cec: Add s5p-cec driver")
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Fixes: cbba45d43631 ("[media] smiapp: Use runtime PM")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/cec/platform/s5p/s5p_cec.c | 2 +-
+ drivers/media/i2c/ccs/ccs-core.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/cec/platform/s5p/s5p_cec.c b/drivers/media/cec/platform/s5p/s5p_cec.c
-index 2a3e7ffefe0a..3c7c4c3c798c 100644
---- a/drivers/media/cec/platform/s5p/s5p_cec.c
-+++ b/drivers/media/cec/platform/s5p/s5p_cec.c
-@@ -51,7 +51,7 @@ static int s5p_cec_adap_enable(struct cec_adapter *adap, bool enable)
- 	} else {
- 		s5p_cec_mask_tx_interrupts(cec);
- 		s5p_cec_mask_rx_interrupts(cec);
--		pm_runtime_disable(cec->dev);
-+		pm_runtime_put(cec->dev);
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index 9dc3f45da3dc..b05f409014b2 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -3093,7 +3093,7 @@ static int __maybe_unused ccs_suspend(struct device *dev)
+ 	if (rval < 0) {
+ 		pm_runtime_put_noidle(dev);
+ 
+-		return -EAGAIN;
++		return rval;
  	}
  
- 	return 0;
+ 	if (sensor->streaming)
 -- 
 2.30.2
 
