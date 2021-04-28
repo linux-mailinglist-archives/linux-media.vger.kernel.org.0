@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DF8E36DECD
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 20:10:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72DBC36DED1
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 20:10:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243489AbhD1SKy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 14:10:54 -0400
-Received: from msg-1.mailo.com ([213.182.54.11]:35888 "EHLO msg-1.mailo.com"
+        id S243533AbhD1SLZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 14:11:25 -0400
+Received: from msg-1.mailo.com ([213.182.54.11]:35964 "EHLO msg-1.mailo.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231966AbhD1SKx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 14:10:53 -0400
+        id S230248AbhD1SLZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 14:11:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-        t=1619633401; bh=t3JE96zVYYKG27bjjHq2ejoHUh5U+NWsxi8kpPlId1w=;
+        t=1619633433; bh=KqZDY8ia8XjqWkml/EZvqSqDTQ0bSQIY4Y4Z7BltTyo=;
         h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
          MIME-Version:Content-Type:In-Reply-To;
-        b=VK+7sQrUTghVQEyYSnEuXVP5QWtDlQfNGR9DfxGNRB6djthYJK2gvltSOdWHzZ98y
-         Vnbr+nPkFqN3K7yRt/Aauctx8ZPgvj0kO/dklyrwbLwm5Dus6AZIhcafassT+Xgbn+
-         VIbJN89BdTGjXihoQf7Ro+T+GQRKhcfGccRa6KUE=
+        b=SQgKznWbjqbslktcd87LmVmZxgJBQWB8oweY+3tu3YdI5NkHGRb1ta1ZXhV5D1sN5
+         MnsLYao3bO46S0ZcHBX8SM7C4a98ahlnCw5mS1JO1gqr3aCIW7fJhqLWCC/Nx7kE8W
+         L3R5daYL1GJXJg8Ou91fZdirYcKEwRZuTNTx6SRg=
 Received: by 192.168.90.11 [192.168.90.11] with ESMTP
         via ip-206.mailobj.net [213.182.55.206]
-        Wed, 28 Apr 2021 20:10:00 +0200 (CEST)
-X-EA-Auth: npB6Mmrsu2TCp/nxcfyUQXVGkVeruWd30A9MosbrS3TkIblQb+XVhkNPLe3tfkTxtlfjWhTT+24x4ubJIWRVMwkcWVP3WegZ
-Date:   Wed, 28 Apr 2021 23:39:55 +0530
+        Wed, 28 Apr 2021 20:10:31 +0200 (CEST)
+X-EA-Auth: QKDf1PCt+HoVDZjQj6jJf+h1xB0bfgCSSyoB0dtNmZJZOVZ+qUzfK5+WvkUtayo4YJH+MGi3xH6fVtvIgoJDMZ77zlKykEQ8
+Date:   Wed, 28 Apr 2021 23:40:26 +0530
 From:   Deepak R Varma <drv@mailo.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, drv@mailo.com
-Subject: [PATCH v4 7/9] staging: media: atomisp: replace raw pr_*() by
- dev_dbg()
-Message-ID: <c38ab5bf30afd559d0d1649dc47e9d3255480fa2.1619630709.git.drv@mailo.com>
+Subject: [PATCH v4 8/9] staging: media: atomisp: remove unnecessary pr_info
+ calls
+Message-ID: <17bd2c71457d25e584f7fdcc6246a3a8d3e4c959.1619630709.git.drv@mailo.com>
 References: <cover.1619630709.git.drv@mailo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -41,150 +41,142 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It is recommended to use driver model diagnostic macros dev_*() instead
-of raw printk() or pr_*() since the former ensures that the log messages
-are always associated with the corresponding device and driver. This also
-addresses the checkpatch complain for not using KERN_<LEVEL> facility in
-printk() call.
+pr_info() messages to log function entry / exit tracing spams the log.
+Such basic tracing is not necessary and be removed.
 
-Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
 
 Changes since v3:
-   - use dev_dbg instead of dev_info since it spams less
+   - Patch introduced based on other patch review feedback
 Changes since v2:
-   - Tag Fabio Auito for the patch suggestion
-Changes in v1:
-   - implement following changes suggested by Fabio Aiuto
-       a. use dev_info instead of pr_info
-       b. update patch log message accordingly
+   - Patch not part of set
+Changes since v1:
+   - Patch not part of set
 
 
- .../media/atomisp/i2c/atomisp-gc0310.c        | 30 +++++++++----------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+
+ .../staging/media/atomisp/i2c/atomisp-gc0310.c  | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index b572551f1a0d..bb75d077ad63 100644
+index bb75d077ad63..5f1929a49b07 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -300,7 +300,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 	/* pixel clock calculattion */
- 	dev->vt_pix_clk_freq_mhz = 14400000; // 16.8MHz
- 	buf->vt_pix_clk_freq_mhz = dev->vt_pix_clk_freq_mhz;
--	pr_info("vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
-+	dev_dbg(&client->dev, "vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
- 
- 	/* get integration time */
- 	buf->coarse_integration_time_min = GC0310_COARSE_INTG_TIME_MIN;
-@@ -326,7 +326,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 	buf->crop_horizontal_start = val | (reg_val & 0xFF);
--	pr_info("crop_horizontal_start=%d\n", buf->crop_horizontal_start);
-+	dev_dbg(&client->dev, "crop_horizontal_start=%d\n", buf->crop_horizontal_start);
- 
- 	/* Getting crop_vertical_start */
- 	ret =  gc0310_read_reg(client, GC0310_8BIT,
-@@ -339,7 +339,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 	buf->crop_vertical_start = val | (reg_val & 0xFF);
--	pr_info("crop_vertical_start=%d\n", buf->crop_vertical_start);
-+	dev_dbg(&client->dev, "crop_vertical_start=%d\n", buf->crop_vertical_start);
- 
- 	/* Getting output_width */
- 	ret = gc0310_read_reg(client, GC0310_8BIT,
-@@ -352,7 +352,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 	buf->output_width = val | (reg_val & 0xFF);
--	pr_info("output_width=%d\n", buf->output_width);
-+	dev_dbg(&client->dev, "output_width=%d\n", buf->output_width);
- 
- 	/* Getting output_height */
- 	ret = gc0310_read_reg(client, GC0310_8BIT,
-@@ -365,12 +365,12 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 	buf->output_height = val | (reg_val & 0xFF);
--	pr_info("output_height=%d\n", buf->output_height);
-+	dev_dbg(&client->dev, "output_height=%d\n", buf->output_height);
- 
- 	buf->crop_horizontal_end = buf->crop_horizontal_start + buf->output_width - 1;
- 	buf->crop_vertical_end = buf->crop_vertical_start + buf->output_height - 1;
--	pr_info("crop_horizontal_end=%d\n", buf->crop_horizontal_end);
--	pr_info("crop_vertical_end=%d\n", buf->crop_vertical_end);
-+	dev_dbg(&client->dev, "crop_horizontal_end=%d\n", buf->crop_horizontal_end);
-+	dev_dbg(&client->dev, "crop_vertical_end=%d\n", buf->crop_vertical_end);
- 
- 	/* Getting line_length_pck */
- 	ret = gc0310_read_reg(client, GC0310_8BIT,
-@@ -389,7 +389,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 		return ret;
- 	sh_delay = reg_val;
- 	buf->line_length_pck = buf->output_width + hori_blanking + sh_delay + 4;
--	pr_info("hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
-+	dev_dbg(&client->dev, "hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
- 		sh_delay, buf->line_length_pck);
- 
- 	/* Getting frame_length_lines */
-@@ -404,7 +404,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 		return ret;
- 	vert_blanking = val | (reg_val & 0xFF);
- 	buf->frame_length_lines = buf->output_height + vert_blanking;
--	pr_info("vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
-+	dev_dbg(&client->dev, "vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
- 		buf->frame_length_lines);
- 
- 	buf->binning_factor_x = res->bin_factor_x ?
-@@ -434,7 +434,7 @@ static int gc0310_set_gain(struct v4l2_subdev *sd, int gain)
- 		dgain = gain / 2;
- 	}
- 
--	pr_info("gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
-+	dev_dbg(&client->dev, "gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
- 
- 	/* set analog gain */
- 	ret = gc0310_write_reg(client, GC0310_8BIT,
-@@ -458,7 +458,7 @@ static int __gc0310_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
+@@ -718,7 +718,6 @@ static int gc0310_init(struct v4l2_subdev *sd)
  	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int ret;
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
  
--	pr_info("coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
-+	dev_dbg(&client->dev, "coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
- 
- 	/* set exposure */
- 	ret = gc0310_write_reg(client, GC0310_8BIT,
-@@ -1020,8 +1020,8 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 	}
- 
--	printk("%s: before gc0310_write_reg_array %s\n", __func__,
--	       gc0310_res[dev->fmt_idx].desc);
-+	dev_dbg(&client->dev, "%s: before gc0310_write_reg_array %s\n",
-+		__func__, gc0310_res[dev->fmt_idx].desc);
- 	ret = startup(sd);
- 	if (ret) {
- 		dev_err(&client->dev, "gc0310 startup err\n");
-@@ -1085,7 +1085,7 @@ static int gc0310_detect(struct i2c_client *client)
- 		return -ENODEV;
- 	}
- 	id = ((((u16)high) << 8) | (u16)low);
--	pr_info("sensor ID = 0x%x\n", id);
-+	dev_dbg(&client->dev, "sensor ID = 0x%x\n", id);
- 
- 	if (id != GC0310_ID) {
- 		dev_err(&client->dev, "sensor ID error, read id = 0x%x, target id = 0x%x\n", id,
-@@ -1106,7 +1106,7 @@ static int gc0310_s_stream(struct v4l2_subdev *sd, int enable)
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int ret;
- 
--	pr_info("%s S enable=%d\n", __func__, enable);
-+	dev_dbg(&client->dev, "%s S enable=%d\n", __func__, enable);
+-	pr_info("%s S\n", __func__);
  	mutex_lock(&dev->input_lock);
  
- 	if (enable) {
+ 	/* set initial registers */
+@@ -730,7 +729,6 @@ static int gc0310_init(struct v4l2_subdev *sd)
+ 
+ 	mutex_unlock(&dev->input_lock);
+ 
+-	pr_info("%s E\n", __func__);
+ 	return ret;
+ }
+ 
+@@ -796,7 +794,6 @@ static int power_up(struct v4l2_subdev *sd)
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	int ret;
+ 
+-	pr_info("%s S\n", __func__);
+ 	if (!dev->platform_data) {
+ 		dev_err(&client->dev,
+ 			"no camera_sensor_platform_data");
+@@ -823,7 +820,6 @@ static int power_up(struct v4l2_subdev *sd)
+ 
+ 	msleep(100);
+ 
+-	pr_info("%s E\n", __func__);
+ 	return 0;
+ 
+ fail_gpio:
+@@ -959,15 +955,12 @@ static int startup(struct v4l2_subdev *sd)
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	int ret = 0;
+ 
+-	pr_info("%s S\n", __func__);
+-
+ 	ret = gc0310_write_reg_array(client, gc0310_res[dev->fmt_idx].regs);
+ 	if (ret) {
+ 		dev_err(&client->dev, "gc0310 write register err.\n");
+ 		return ret;
+ 	}
+ 
+-	pr_info("%s E\n", __func__);
+ 	return ret;
+ }
+ 
+@@ -982,8 +975,6 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
+ 	int ret = 0;
+ 	int idx = 0;
+ 
+-	pr_info("%s S\n", __func__);
+-
+ 	if (format->pad)
+ 		return -EINVAL;
+ 
+@@ -1035,7 +1026,6 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
+ 		goto err;
+ 	}
+ 
+-	pr_info("%s E\n", __func__);
+ err:
+ 	mutex_unlock(&dev->input_lock);
+ 	return ret;
+@@ -1068,7 +1058,6 @@ static int gc0310_detect(struct i2c_client *client)
+ 	int ret;
+ 	u16 id;
+ 
+-	pr_info("%s S\n", __func__);
+ 	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C))
+ 		return -ENODEV;
+ 
+@@ -1095,8 +1084,6 @@ static int gc0310_detect(struct i2c_client *client)
+ 
+ 	dev_dbg(&client->dev, "detect gc0310 success\n");
+ 
+-	pr_info("%s E\n", __func__);
+-
+ 	return 0;
+ }
+ 
+@@ -1142,7 +1129,6 @@ static int gc0310_s_stream(struct v4l2_subdev *sd, int enable)
+ 	}
+ 
+ 	mutex_unlock(&dev->input_lock);
+-	pr_info("%s E\n", __func__);
+ 	return ret;
+ }
+ 
+@@ -1153,7 +1139,6 @@ static int gc0310_s_config(struct v4l2_subdev *sd,
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	int ret = 0;
+ 
+-	pr_info("%s S\n", __func__);
+ 	if (!platform_data)
+ 		return -ENODEV;
+ 
+@@ -1196,7 +1181,6 @@ static int gc0310_s_config(struct v4l2_subdev *sd,
+ 	}
+ 	mutex_unlock(&dev->input_lock);
+ 
+-	pr_info("%s E\n", __func__);
+ 	return 0;
+ 
+ fail_csi_cfg:
+@@ -1365,7 +1349,6 @@ static int gc0310_probe(struct i2c_client *client)
+ 	if (ret)
+ 		gc0310_remove(client);
+ 
+-	pr_info("%s E\n", __func__);
+ 	return ret;
+ out_free:
+ 	v4l2_device_unregister_subdev(&dev->sd);
 -- 
 2.31.1
 
