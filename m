@@ -2,132 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DB5836DEC7
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 20:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3770036DEC4
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 20:07:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243457AbhD1SIx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 14:08:53 -0400
-Received: from msg-2.mailo.com ([213.182.54.12]:55442 "EHLO msg-2.mailo.com"
+        id S243437AbhD1SHw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 14:07:52 -0400
+Received: from msg-1.mailo.com ([213.182.54.11]:35256 "EHLO msg-1.mailo.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231966AbhD1SIu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 14:08:50 -0400
+        id S243398AbhD1SHt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 14:07:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-        t=1619633147; bh=brOaZ74L5IQCdhe8Ng+gvJInozKmDRxmXQBpvP5SpFQ=;
+        t=1619633216; bh=+c5igyr8ENA48LJUJ/MMslL7XQZTgfJo1NBswH6SmIo=;
         h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
          MIME-Version:Content-Type:In-Reply-To;
-        b=hr5eJctyVMWE0Y1WQTxzDmtjGbNLwiHqVvMqpytPLWIwHZEYzKKTSCpvOIUEaKlzC
-         HpukD/KGqwruQFJXrisggFAc/eKYnaSX6cMFXBMWcEh3Xkiw9JzVNH8ycZiYxOfokJ
-         IqmUqZTbj97JKbTp57j7cDGG/QklzO+vg7DWGC/s=
+        b=CfqfDaxIVm/aoCteFsNNFRU4sUSTJEjh1RH4MLgp4aGZ7bSIJ84MHXW54ko3gb2Vf
+         alfIm74EcGAjv9UPm63zSw+TYahJ34Ofr+/N4we9/1Ef1eoHeKWAKJzx8V2jX4nB1t
+         M04fIU3PD0dUQxNVlSRaxGYdsnCFpal7UhporQD8=
 Received: by 192.168.90.11 [192.168.90.11] with ESMTP
         via ip-206.mailobj.net [213.182.55.206]
-        Wed, 28 Apr 2021 20:05:46 +0200 (CEST)
-X-EA-Auth: K/99XHxJdKp2dF3e8sydn4pVeY8Xh2mVd15q7MyPaG4YplnoQFH8O2Nxc2Sl95pHGIoMLO5mhw3jJFT/411HxoszK3KjqiFV
-Date:   Wed, 28 Apr 2021 23:35:41 +0530
+        Wed, 28 Apr 2021 20:06:56 +0200 (CEST)
+X-EA-Auth: +kU11S5f0ZcelkzG3a+GaSCjPWDesBvh4IV8IbrpdtwTS/md0f6X9qSiFEPSj1t9kFxuweCmS3pFKVyLFfvSYS5fAdVjnvdN
+Date:   Wed, 28 Apr 2021 23:36:50 +0530
 From:   Deepak R Varma <drv@mailo.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, drv@mailo.com
-Subject: [PATCH v4 2/9] staging: media: atomisp: balance braces around
- if...else block
-Message-ID: <b5e1eacf1a3ec2d317e68b1747e92240dedfb160.1619628317.git.drv@mailo.com>
-References: <cover.1619628317.git.drv@mailo.com>
+Subject: [PATCH v4 3/9] staging: media: atomisp: remove unnecessary braces
+Message-ID: <c27f1b162f697bcc4456f68311ad2d08e9038204.1619630709.git.drv@mailo.com>
+References: <cover.1619630709.git.drv@mailo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1619628317.git.drv@mailo.com>
+In-Reply-To: <cover.1619630709.git.drv@mailo.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Balance braces around the if else blocks as per the code style guidelines.
-Add braces to branches where it is missing. Resolves checkpatch script
-CHECK / WARNING feedback messages.
+According to the coding style guidelines, if...else blocks with single
+instructions do not need enclosing braces. This resolves checkpatch
+WARNING / CHECK complaints.
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
 
 Changes since v3:
-   - Split this patch into patch 2 and 3.
-   - patch 2 now only adds missing braces.
-   - Removing unwanted braces is moved into patch 3 
+   - introduced.
 Changes since v2:
    - None.
 Changes since v1:
    - None.
 
 
- drivers/staging/media/atomisp/i2c/atomisp-gc0310.c  | 4 ++--
- drivers/staging/media/atomisp/i2c/atomisp-gc2235.c  | 4 ++--
- drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 4 ++--
- drivers/staging/media/atomisp/i2c/atomisp-ov2722.c  | 4 ++--
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index 6be3ee1d93a5..d68a2bcc9ae1 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -872,9 +872,9 @@ static int gc0310_s_power(struct v4l2_subdev *sd, int on)
- {
- 	int ret;
- 
--	if (on == 0)
-+	if (on == 0) {
- 		return power_down(sd);
--	else {
-+	} else {
- 		ret = power_up(sd);
- 		if (!ret)
- 			return gc0310_init(sd);
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index 6ba4a8adff7c..e722c639b60d 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -658,9 +658,9 @@ static int gc2235_s_power(struct v4l2_subdev *sd, int on)
- {
- 	int ret;
- 
--	if (on == 0)
-+	if (on == 0) {
- 		ret = power_down(sd);
--	else {
-+	} else {
- 		ret = power_up(sd);
- 		if (!ret)
- 			ret = __gc2235_init(sd);
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-index f5de81132177..465fc4468442 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-@@ -568,9 +568,9 @@ static int power_down(struct v4l2_subdev *sd)
- 
- static int mt9m114_s_power(struct v4l2_subdev *sd, int power)
- {
--	if (power == 0)
-+	if (power == 0) {
- 		return power_down(sd);
--	else {
-+	} else {
- 		if (power_up(sd))
- 			return -EINVAL;
- 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-index aec7392fd1de..d046a9804f63 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-@@ -772,9 +772,9 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
- {
- 	int ret;
- 
--	if (on == 0)
-+	if (on == 0) {
- 		return power_down(sd);
--	else {
-+	} else {
- 		ret = power_up(sd);
- 		if (!ret)
- 			return ov2722_init(sd);
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+index c90730513438..f167781e258a 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+@@ -461,11 +461,11 @@ static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
+ 	ret = ov2680_read_reg(client, 1, OV2680_FLIP_REG, &val);
+ 	if (ret)
+ 		return ret;
+-	if (value) {
++	if (value)
+ 		val |= OV2680_FLIP_MIRROR_BIT_ENABLE;
+-	} else {
++	else
+ 		val &= ~OV2680_FLIP_MIRROR_BIT_ENABLE;
+-	}
++
+ 	ret = ov2680_write_reg(client, 1,
+ 			       OV2680_FLIP_REG, val);
+ 	if (ret)
 -- 
 2.31.1
 
