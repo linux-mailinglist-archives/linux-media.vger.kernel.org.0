@@ -2,47 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5026036DA1A
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDF4236DA12
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240432AbhD1Oxz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 10:53:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36352 "EHLO mail.kernel.org"
+        id S240386AbhD1Oxr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 10:53:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36312 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240290AbhD1Oxa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S240281AbhD1Oxa (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 28 Apr 2021 10:53:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD3BD6145A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D39F46144E;
         Wed, 28 Apr 2021 14:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619621564;
-        bh=HuTLNsPcfIqbw1UtY6p4jIBErIihq3Y8I/97JFK7QN0=;
+        bh=XfZSeMotNFyXbfT608pw1ECU5JJkssXPopFyWbltzaE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gCuwNzsLP/DCAChF9rvXjCLhZlwMEr70h9kQ9oMl1sBVFnW3RXxSfdP3RaLMGbGqH
-         3uoxGqPqsWBLJvWQe60yqY8eibD+s4j0FEaV+je7oVk1z4840mTBPN3axizBJRRSQO
-         ACRtf+tG10Mj4QRbwBNLQ+vj8zLtUXDPYQkf+6aiPH4jUkSFvpq0H2HW3hgvErSBpn
-         Q7HDnNTLprUU0XcIECm0pYPBrOsnOHIuWXWzWF609CWtrwddTroJR3j5wvsRNvBTuz
-         +o1uWbZvIqU5/+LVa/mjozD97d+DK+gsXYuYOxb9djCE5VylGD7tMI8QVfAvSXMpQV
-         9pcR3H2sl0MIQ==
+        b=gQMN97eC7BEDIz1pxwojfxcjha4oPcG+hRlJfly/9mEn3EVUjF6A17eUhRaUV4Av6
+         9llNqcINPObifS7R+KKJzcq9sElWMQUcLuEgUGm4dEcPAo7WPuTsJBo8FAKaKUj9Hk
+         VsE0m0+uaGwgEcNcCKy4FE+EybZisDq15Xlqw+m72JjyXstPa88Kj6is8ypDBGKPdI
+         X5k3QuLFiBcmGJ+6I0pWZTX0FzZ3AimINfu9/sQCxIkKFaooCIrQkh6kuh/y12/DqV
+         q/M582iW3kDaTv+n6EwJSHs1PeakpZmbEzfwaSOI0e14HbJuwkIcKyqgVAiYfHvp5V
+         b2Ttn7u9UJXRw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lblYP-001Dq1-QW; Wed, 28 Apr 2021 16:52:41 +0200
+        id 1lblYP-001Dq4-RV; Wed, 28 Apr 2021 16:52:41 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Allen Pais <allen.lkml@gmail.com>,
-        Chuhong Yuan <hslester96@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Helen Koike <helen.koike@collabora.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Vaibhav Gupta <vaibhavgupta40@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v4 09/79] media: marvel-ccic: fix some issues when getting pm_runtime
-Date:   Wed, 28 Apr 2021 16:51:30 +0200
-Message-Id: <eb819ab09ce3ac98ed13493b88495fbd0ca05dec.1619621413.git.mchehab+huawei@kernel.org>
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: [PATCH v4 10/79] media: mdk-mdp: fix pm_runtime_get_sync() usage count
+Date:   Wed, 28 Apr 2021 16:51:31 +0200
+Message-Id: <39851c54046fa0d63f34549803df3388361828b7.1619621413.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
@@ -54,52 +50,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Calling pm_runtime_get_sync() is bad, since even when it
-returns an error, pm_runtime_put*() should be called.
-So, use instead pm_runtime_resume_and_get().
+The pm_runtime_get_sync() internally increments the
+dev->power.usage_count without decrementing it, even on errors.
+Replace it by the new pm_runtime_resume_and_get(), introduced by:
+commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+in order to properly decrement the usage counter and avoid memory
+leaks.
 
-While here, ensure that the error condition will be checked
-during clock enable an media open() calls.
+While here, fix the return contition of mtk_mdp_m2m_start_streaming(),
+as it doesn't make any sense to return 0 if the PM runtime failed
+to resume.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/marvell-ccic/mcam-core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
-index 141bf5d97a04..ea87110d9073 100644
---- a/drivers/media/platform/marvell-ccic/mcam-core.c
-+++ b/drivers/media/platform/marvell-ccic/mcam-core.c
-@@ -918,6 +918,7 @@ static int mclk_enable(struct clk_hw *hw)
- 	struct mcam_camera *cam = container_of(hw, struct mcam_camera, mclk_hw);
- 	int mclk_src;
- 	int mclk_div;
-+	int ret;
+diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+index ace4528cdc5e..f14779e7596e 100644
+--- a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
++++ b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+@@ -391,12 +391,12 @@ static int mtk_mdp_m2m_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	struct mtk_mdp_ctx *ctx = q->drv_priv;
+ 	int ret;
  
- 	/*
- 	 * Clock the sensor appropriately.  Controller clock should
-@@ -931,7 +932,9 @@ static int mclk_enable(struct clk_hw *hw)
- 		mclk_div = 2;
- 	}
+-	ret = pm_runtime_get_sync(&ctx->mdp_dev->pdev->dev);
++	ret = pm_runtime_resume_and_get(&ctx->mdp_dev->pdev->dev);
+ 	if (ret < 0)
+-		mtk_mdp_dbg(1, "[%d] pm_runtime_get_sync failed:%d",
++		mtk_mdp_dbg(1, "[%d] pm_runtime_resume_and_get failed:%d",
+ 			    ctx->id, ret);
  
--	pm_runtime_get_sync(cam->dev);
-+	ret = pm_runtime_resume_and_get(cam->dev);
-+	if (ret < 0)
-+		return ret;
- 	clk_enable(cam->clk[0]);
- 	mcam_reg_write(cam, REG_CLKCTRL, (mclk_src << 29) | mclk_div);
- 	mcam_ctlr_power_up(cam);
-@@ -1611,7 +1614,9 @@ static int mcam_v4l_open(struct file *filp)
- 		ret = sensor_call(cam, core, s_power, 1);
- 		if (ret)
- 			goto out;
--		pm_runtime_get_sync(cam->dev);
-+		ret = pm_runtime_resume_and_get(cam->dev);
-+		if (ret < 0)
-+			goto out;
- 		__mcam_cam_reset(cam);
- 		mcam_set_config_needed(cam, 1);
- 	}
+-	return 0;
++	return ret;
+ }
+ 
+ static void *mtk_mdp_m2m_buf_remove(struct mtk_mdp_ctx *ctx,
 -- 
 2.30.2
 
