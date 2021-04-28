@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D958A36DA1E
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D213536DA19
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240460AbhD1OyF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 10:54:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36302 "EHLO mail.kernel.org"
+        id S240421AbhD1Oxy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 10:53:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36366 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240304AbhD1Oxe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 10:53:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 22A4F61554;
+        id S240292AbhD1Oxa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 10:53:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 104BD61482;
         Wed, 28 Apr 2021 14:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619621564;
-        bh=dO1gD2vCTyNaQMmr4CD5RrufRsq5HOpPc9z13n0Rohk=;
+        bh=kZnJ3c5lxpnyMUPcou0x/B7YpZdYmZe9W/fJf9NvZfI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kCX5EGCo/+tl8FiqD+iNAbou4vWiupP08Ja8L3uTC65gi9JfE/CQToRBSiYRBXdk0
-         Yw2U+kLbsDYq/XQzgAkCxFm72cVF/5JmFhTv1h4X1tfjAV/hScgHc2YCPzGWFCeGfQ
-         JIT+/ymvxUOJ2xHTBMTy1xo8ACpTLPdnt0UYsDie+L4PRYifDpexKYGHf+2BrTWP+j
-         3D47LMx6DT+8/l1DAYIjaWS8yV8QCKuXDo8vOibUBAyxBLTQ2oj6O/I64F6hSHNC5p
-         ATCeTtSBNZo1zWs8rhdRgNsPwd7kiww9HFQS0W26E1NYNcGyjxuzjG2yeBylpJ3vC8
-         XL4KE9+6Np9Kg==
+        b=oSFD5gjj1UhSA5WJUYg4n0cCSF6kFkwx1Z8v9LX72qbiifLtfs4O1M80mPTmB3eiD
+         1Z3J6u++rlX0YrXAOv52opoAPVUF8J+4HEipvqGNBiUUP9+sRWU+o5F6usoKHSmFN3
+         cw7tzFyLyyXm0tbSNHbbrYXx6bp77puSsAxEskJJbQiaGlFvfthvfT2F2fZPAbuVuZ
+         hR4kRBVabfZyU1ygSCPEgS/ehEcYcOWjh/j4SrJb/vQpr/uvfzRu+ku5zpoc3/2S4H
+         MdaO1KxTiCxV9v3hblGbNnAwcEBnkLskuGC7XS5upffVde2RDJy9RoRGsbxw1N1uNw
+         70d/68RpzcNVQ==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lblYQ-001DqM-0u; Wed, 28 Apr 2021 16:52:42 +0200
+        id 1lblYQ-001DqP-1s; Wed, 28 Apr 2021 16:52:42 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: [PATCH v4 16/79] media: mtk-vcodec: fix pm_runtime_get_sync() usage count
-Date:   Wed, 28 Apr 2021 16:51:37 +0200
-Message-Id: <b2f5f6e6287d4b56530dcf51b25b5a1c009381f8.1619621413.git.mchehab+huawei@kernel.org>
+        linux-media@vger.kernel.org
+Subject: [PATCH v4 17/79] media: s5p-jpeg: fix pm_runtime_get_sync() usage count
+Date:   Wed, 28 Apr 2021 16:51:38 +0200
+Message-Id: <83a1f7979382d5d5c44964baae819589c94d80c2.1619621413.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
@@ -56,27 +56,26 @@ commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with us
 in order to properly decrement the usage counter and avoid memory
 leaks.
 
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Acked-by: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/s5p-jpeg/jpeg-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-index ddee7046ce42..fe096fe61c9d 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-@@ -92,9 +92,9 @@ void mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
- {
+diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.c b/drivers/media/platform/s5p-jpeg/jpeg-core.c
+index 026111505f5a..c4f19418a460 100644
+--- a/drivers/media/platform/s5p-jpeg/jpeg-core.c
++++ b/drivers/media/platform/s5p-jpeg/jpeg-core.c
+@@ -2568,7 +2568,7 @@ static int s5p_jpeg_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	struct s5p_jpeg_ctx *ctx = vb2_get_drv_priv(q);
  	int ret;
  
--	ret = pm_runtime_get_sync(pm->dev);
-+	ret = pm_runtime_resume_and_get(pm->dev);
- 	if (ret)
--		mtk_v4l2_err("pm_runtime_get_sync fail %d", ret);
-+		mtk_v4l2_err("pm_runtime_resume_and_get fail %d", ret);
- }
+-	ret = pm_runtime_get_sync(ctx->jpeg->dev);
++	ret = pm_runtime_resume_and_get(ctx->jpeg->dev);
  
- void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
+ 	return ret > 0 ? 0 : ret;
+ }
 -- 
 2.30.2
 
