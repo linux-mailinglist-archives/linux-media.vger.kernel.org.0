@@ -2,44 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF9C736DA36
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9691836DA68
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240635AbhD1OzF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 10:55:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36982 "EHLO mail.kernel.org"
+        id S240762AbhD1Ozs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 10:55:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36302 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240323AbhD1Oxi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 10:53:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4A57F61626;
-        Wed, 28 Apr 2021 14:52:44 +0000 (UTC)
+        id S240483AbhD1OyM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Apr 2021 10:54:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5321E619A7;
+        Wed, 28 Apr 2021 14:52:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619621564;
-        bh=P8ySBvxIssOsYGuosUcRi8p/mrvcDEnJfSep5KVO8S8=;
+        s=k20201202; t=1619621565;
+        bh=llYDk9JyI2jon9eBR93Uie3QTpeZGnmK8q3UUwZjdV8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Qo6Km9p3rlLQFFeDPMopzRqAwQT0xRTT8oR0mOgVJ70ZBXubeI8rO6L3WbleZllBq
-         wXLz5cCHeI3crP/D/uIBx/q2B1Tu8U0nvUu/OBOHq4lxgD4sQHjdiJXkioGljctxuQ
-         FJ8e+2lj50N8k9Pl6yW8LJWqOZUJc6NBcFpfzR8Fr/2f7pG8mr13FZnUTXaZ+BOVCn
-         eW47r7w9zmpXt0ZbfM3ccPIIoeErWpwJAhgWy64n30q6TFS4+kUW/2tpoHVyLU19zQ
-         /Pn1679UhT4OPAqkaUY6nulfuLeB2xZZdNg9BXmt7FbnTA8wgqEqeOa9ozlcE9vaSW
-         Brh6PVCqPlmHw==
+        b=DDpRLKcj+IfcTIa61IFxLfn/lEFs253xaI/l68fMapM9xmWPOcHqXHTIif2SqDfYb
+         GUUZmGE00QAg2fjqq2M+zv0LPVJHuN57mPu8Q9XECT9p0nStWLFjhEN0noXNR36FgH
+         iDsAv2qeNSctEztvMxEmEwFpV+56/1DVI2w9TO4fDaoATjo9NdF/xB3NehEr6WFlQx
+         iHGQcIpDyz9QRobvc//Vi6AtXHE+M10ZB5IaDkk0g/s6d7h+6QNAysZdyDNY04XEBV
+         UzRdzTu9dFdackcTIXnEaqkbjqHEtmhnrP3wV6jFG769iZmD7iV4gSQ9vy/amapyAl
+         GGtj7rfkkuMzg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lblYQ-001Dqk-8Q; Wed, 28 Apr 2021 16:52:42 +0200
+        id 1lblYQ-001Dqn-9M; Wed, 28 Apr 2021 16:52:42 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v4 24/79] staging: media: cedrus_video: use pm_runtime_resume_and_get()
-Date:   Wed, 28 Apr 2021 16:51:45 +0200
-Message-Id: <cc0761dc51d021a4295cce298834afb9be0211c6.1619621413.git.mchehab+huawei@kernel.org>
+        Thierry Reding <thierry.reding@gmail.com>,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v4 25/79] staging: media: tegra-vde: use pm_runtime_resume_and_get()
+Date:   Wed, 28 Apr 2021 16:51:46 +0200
+Message-Id: <bc2b9048d4ad510eec97988ce8f3fd0d2bb26f39.1619621413.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
@@ -59,27 +58,66 @@ Use the new API, in order to cleanup the error check logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/staging/media/tegra-vde/vde.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index b62eb8e84057..9ddd789d0b1f 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -490,11 +490,9 @@ static int cedrus_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	}
+diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+index 28845b5bafaf..1cdacb3f781c 100644
+--- a/drivers/staging/media/tegra-vde/vde.c
++++ b/drivers/staging/media/tegra-vde/vde.c
+@@ -775,9 +775,9 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ 	if (ret)
+ 		goto release_dpb_frames;
  
- 	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
--		ret = pm_runtime_get_sync(dev->dev);
--		if (ret < 0) {
--			pm_runtime_put_noidle(dev->dev);
-+		ret = pm_runtime_resume_and_get(dev->dev);
-+		if (ret < 0)
- 			goto err_cleanup;
--		}
+-	ret = pm_runtime_get_sync(dev);
++	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0)
+-		goto put_runtime_pm;
++		goto unlock;
  
- 		if (dev->dec_ops[ctx->current_codec]->start) {
- 			ret = dev->dec_ops[ctx->current_codec]->start(ctx);
+ 	/*
+ 	 * We rely on the VDE registers reset value, otherwise VDE
+@@ -843,6 +843,8 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ put_runtime_pm:
+ 	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
++
++unlock:
+ 	mutex_unlock(&vde->lock);
+ 
+ release_dpb_frames:
+@@ -1069,11 +1071,17 @@ static int tegra_vde_probe(struct platform_device *pdev)
+ 	 * power-cycle it in order to put hardware into a predictable lower
+ 	 * power state.
+ 	 */
+-	pm_runtime_get_sync(dev);
++	if (pm_runtime_resume_and_get(dev) < 0)
++		goto err_pm_runtime;
++
+ 	pm_runtime_put(dev);
+ 
+ 	return 0;
+ 
++err_pm_runtime:
++	pm_runtime_dont_use_autosuspend(dev);
++	pm_runtime_disable(dev);
++
+ err_deinit_iommu:
+ 	tegra_vde_iommu_deinit(vde);
+ 
+@@ -1089,7 +1097,12 @@ static int tegra_vde_remove(struct platform_device *pdev)
+ 	struct tegra_vde *vde = platform_get_drvdata(pdev);
+ 	struct device *dev = &pdev->dev;
+ 
++	/*
++	 * As it increments RPM usage_count even on errors, we don't need to
++	 * check the returned code here.
++	 */
+ 	pm_runtime_get_sync(dev);
++
+ 	pm_runtime_dont_use_autosuspend(dev);
+ 	pm_runtime_disable(dev);
+ 
 -- 
 2.30.2
 
