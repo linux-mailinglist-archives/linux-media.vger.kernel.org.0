@@ -2,42 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAF1036DA16
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BF3036DA13
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:05:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240414AbhD1Oxw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 10:53:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36324 "EHLO mail.kernel.org"
+        id S240398AbhD1Oxr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 10:53:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36300 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240283AbhD1Oxa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S240278AbhD1Oxa (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 28 Apr 2021 10:53:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D8BEA61455;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D643A61453;
         Wed, 28 Apr 2021 14:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1619621564;
-        bh=v0N3nXsqMajMGBVdnEBF4DR9l7FpjhgT+LyWaPFGjVY=;
+        bh=5nHsKpVEGzLJBEHDZodScTHIbcgjTCmDYHm0aezhxsE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Lgav0xx9qLJD809kGwduHIweCAI4kyiXZBtlMOR7b6LhS+8aCwOYkFJGkMfoF7v+Q
-         AjRZ4gb9KUesndsx3yjJSug0jySNhwmgQ+YyzUeAEo18ELZwgLgBU6W0foVwSMUUH1
-         oMH2fdfOIlUEsN43n3X2l1gBlg+zDvVhjYQU1KEP8BO0eW2VqhN66dYD/0Oq4gXZLq
-         nmRmXujydgjQw/ZeGPN8LvJlrOCDMzeCyUobLxkAo32giYjTcwrCJLNzlqrdZTwxqY
-         PK0w2NVajkQjcT/X26f7Sgo/0F34OgVrjDuqF+huVNWA9pmq45XwidyJ9pJvbXiSRi
-         bWZQhP/eVeijQ==
+        b=lmMOTK68uTVce6FmJb5G0TPy5vctAr6DS7PxkCja8wOyztbJ4nb8slYu26WGvd7CK
+         ubQykByF9tNnb9PDEMJGiNt8uVFN2l26qFXqzGvEXZZ8YoqIZIY9oOygiipAf98HDP
+         uIcM675f4f+qqaSXBY59FEPMAdiyLnqtYRfYd+5M558S81WvNjR789dbLp/GZ3iZYa
+         zo6/KoOcjyBBlld4U+N+8Xzr0q5ZYB8RYNcbBC/hq1e2wOEYIRQEwdAIYfHO8aaoar
+         Dw2Xtfly855Cq9fyzSuhYOkr1Pxxk0ufgYTc1jw44jjN6hZYv/eN48FmFjCr04iw6k
+         EZvoIl9eOXMoA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lblYP-001Dpp-Me; Wed, 28 Apr 2021 16:52:41 +0200
+        id 1lblYP-001Dps-Na; Wed, 28 Apr 2021 16:52:41 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v4 05/79] media: i2c: video-i2c: don't resume at remove time
-Date:   Wed, 28 Apr 2021 16:51:26 +0200
-Message-Id: <4af597b4d09d874308a23680cf3fed4a31a1674a.1619621413.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH v4 06/79] media: i2c: imx334: fix the pm runtime get logic
+Date:   Wed, 28 Apr 2021 16:51:27 +0200
+Message-Id: <10ec24ee3e3a33a4ca5c431fc19d3441d59136c3.1619621413.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
@@ -49,35 +48,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Calling pm_runtime_get_sync() at driver's removal time is
-not right, as this will resume PM runtime. This is clearly
-not what it is desired there, since it calls
-pm_runtime_set_suspended() afterwards.
+The PM runtime get logic is currently broken, as it checks if
+ret is zero instead of checking if it is an error code,
+as reported by Dan Carpenter.
 
-So, just remove pm runtime get/put logic from the device
-removal logic.
+While here, use the pm_runtime_resume_and_get() as added by:
+commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+added pm_runtime_resume_and_get() in order to automatically handle
+dev->power.usage_count decrement on errors.
 
-Fixes: 69d2a734c5dc ("media: video-i2c: support runtime PM")
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reviewed-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/video-i2c.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/media/i2c/imx334.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-index 0465832a4090..c9a774f4c8d2 100644
---- a/drivers/media/i2c/video-i2c.c
-+++ b/drivers/media/i2c/video-i2c.c
-@@ -893,10 +893,8 @@ static int video_i2c_remove(struct i2c_client *client)
- {
- 	struct video_i2c_data *data = i2c_get_clientdata(client);
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index 047aa7658d21..23f28606e570 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -717,9 +717,9 @@ static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
+ 	}
  
--	pm_runtime_get_sync(&client->dev);
- 	pm_runtime_disable(&client->dev);
- 	pm_runtime_set_suspended(&client->dev);
--	pm_runtime_put_noidle(&client->dev);
+ 	if (enable) {
+-		ret = pm_runtime_get_sync(imx334->dev);
+-		if (ret)
+-			goto error_power_off;
++		ret = pm_runtime_resume_and_get(imx334->dev);
++		if (ret < 0)
++			goto error_unlock;
  
- 	if (data->chip->set_power)
- 		data->chip->set_power(data, false);
+ 		ret = imx334_start_streaming(imx334);
+ 		if (ret)
+@@ -737,6 +737,7 @@ static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
+ 
+ error_power_off:
+ 	pm_runtime_put(imx334->dev);
++error_unlock:
+ 	mutex_unlock(&imx334->mutex);
+ 
+ 	return ret;
 -- 
 2.30.2
 
