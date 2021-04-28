@@ -2,128 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7170036D74C
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 14:28:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7456736D767
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 14:33:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235751AbhD1M2w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 08:28:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234674AbhD1M2w (ORCPT
+        id S236891AbhD1Mdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 08:33:46 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:47711 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237167AbhD1Mdp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 08:28:52 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D7EEC061574;
-        Wed, 28 Apr 2021 05:28:06 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id z16so3671951pga.1;
-        Wed, 28 Apr 2021 05:28:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=FCc5BZu5iRztXIUiSt2+3FhaGtDlfucfxXcqT01eExc=;
-        b=s1ybdI7WecLYnVPXzIG8r2ufsshTyUG6UBIgf5iZ9rQliaO9QErsrYXIa/i4JeqNQF
-         NTu9m1+eajP/7Ozit9TFqR+4pw8P2Ja2s3PWyb+f91pWvvAARcpkSa+HnfVT/C/YVfvh
-         n1crgTzs3K/MEAN/PW2chwCa1hS4loARDIabSVxomFETp3p/GHQ6A7vKf+mCo2pRHjPk
-         iP54a/IAcobV9YjClrPOCz7bYoxN5yAG9KY9zz4dLEAwBwpm4yB+RkP4st+duj5Hhhcm
-         mIXNDw134CsfCAfh/20N4PNaO70pYYZV7Z7MtExQtmJLlziHJgb6W+q0lVqgn0RcmV85
-         /Olg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=FCc5BZu5iRztXIUiSt2+3FhaGtDlfucfxXcqT01eExc=;
-        b=AFGPKFtmgN0uyEycfjqp3+A+2w/4LFfmATcCpYLvtMcZjbWVfLYFfIs5STReNQVkD4
-         bVmSQhW7apFRWMA3IJsdKtI4wvZDiljL4ywJvbO1l8CBAev1z7obOf7jXki/sKBqakZw
-         hNz+BTt4ATvI6Tjb2uBIeC2/lEzYtHZiQaEcpE2vt3wfDJY7+yH0DYGOila1eF3rIxG4
-         nhBUV+LTKiRcgX0Vsg7noTo2XbB08MJEAW05oKE9KPW96b8JFTX7fOqP3tYWSBO7ZD2B
-         8jywk7cmCvut/BWrdHINOA5lfdt9i2i9h3sNMhC4062D2NmZ6XI56lQ/PrCxJebQZtGY
-         LmvQ==
-X-Gm-Message-State: AOAM533nCtsKzuLctaEcCf8P4NftDHyrBxXUOrvyCu2eMeGB5xyEOxFE
-        XsxvasTX90FFPRn2GJbaGjc=
-X-Google-Smtp-Source: ABdhPJzFwvuMniv8ai0SvEHoZynqHjurs4c0D6rOCMpJ54ptB8lK6dKuU/popa6Id15ZLDpegNO2ww==
-X-Received: by 2002:a65:6085:: with SMTP id t5mr26835510pgu.201.1619612884496;
-        Wed, 28 Apr 2021 05:28:04 -0700 (PDT)
-Received: from localhost ([157.45.56.196])
-        by smtp.gmail.com with ESMTPSA id l3sm4868719pju.44.2021.04.28.05.28.02
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 28 Apr 2021 05:28:03 -0700 (PDT)
-Date:   Wed, 28 Apr 2021 17:57:55 +0530
-From:   Shubhankar Kuranagatti <shubhankarvk@gmail.com>
-To:     wsa@kernel.org
-Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] drivers: i2c: i2c-core-smbus.c: Fix alignment of comment
-Message-ID: <20210428122755.2s56uotb225rezcw@kewl-virtual-machine>
+        Wed, 28 Apr 2021 08:33:45 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1619613179; h=Message-ID: Subject: Cc: To: From: Date:
+ Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
+ bh=8ApIFdhEvHB7ONJYT4AKP5vpkpB0yYv72B6HGLUQjZ4=; b=WHv4dlKiJnjSRD7Zna5U2n6VW09VKrfqwsE+V6zeSXs7DiLXw0DYGOjESMG53TM3F6lyCXNL
+ j+dSxyZr2AU2rQxP2H2ktI5bUGIZIYDSQZsCkNG+w7KyZU6UP2dpeEVERG4vM7Rycq+M15rL
+ NWdm4SeOMgfWf45+QUM82wV6aV8=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 608955ee2cc44d3aea4ac1c0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Apr 2021 12:32:46
+ GMT
+Sender: smagar=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id A1B0AC4338A; Wed, 28 Apr 2021 12:32:46 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: smagar)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 6DB7BC433F1;
+        Wed, 28 Apr 2021 12:32:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: NeoMutt/20171215
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 28 Apr 2021 18:02:44 +0530
+From:   smagar@codeaurora.org
+To:     linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, mchehab@infradead.org,
+        stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
+Cc:     vgarodia@codeaurora.org, dikshita@codeaurora.org,
+        adhudase@codeaurora.org, sampnimm@codeaurora.org,
+        mansur@codeaurora.org
+Subject: Update venus firmware files for v5.4 and venus firmware files for
+ VPU-2.0
+Message-ID: <bee73b3fe8b04c1a2663be0cd3cc7318@codeaurora.org>
+X-Sender: smagar@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Multi line comment have been aligned starting with a *
-The closing */ has been shifted to a new line.
-Single space replaced with tab space
-This is done to maintain code uniformity.
+Hello Team,
 
-Signed-off-by: Shubhankar Kuranagatti <shubhankarvk@gmail.com>
----
- drivers/i2c/i2c-core-smbus.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+Please include updated firmware bins for venus-5.4 and vpu-2.0.
 
-diff --git a/drivers/i2c/i2c-core-smbus.c b/drivers/i2c/i2c-core-smbus.c
-index d2d32c0fd8c3..205750518c21 100644
---- a/drivers/i2c/i2c-core-smbus.c
-+++ b/drivers/i2c/i2c-core-smbus.c
-@@ -66,10 +66,11 @@ static inline void i2c_smbus_add_pec(struct i2c_msg *msg)
- }
- 
- /* Return <0 on CRC error
--   If there was a write before this read (most cases) we need to take the
--   partial CRC from the write part into account.
--   Note that this function does modify the message (we need to decrease the
--   message length to hide the CRC byte from the caller). */
-+ * If there was a write before this read (most cases) we need to take the
-+ * partial CRC from the write part into account.
-+ * Note that this function does modify the message (we need to decrease the
-+ * message length to hide the CRC byte from the caller).
-+ */
- static int i2c_smbus_check_pec(u8 cpec, struct i2c_msg *msg)
- {
- 	u8 rpec = msg->buf[--msg->len];
-@@ -113,7 +114,7 @@ EXPORT_SYMBOL(i2c_smbus_read_byte);
- s32 i2c_smbus_write_byte(const struct i2c_client *client, u8 value)
- {
- 	return i2c_smbus_xfer(client->adapter, client->addr, client->flags,
--	                      I2C_SMBUS_WRITE, value, I2C_SMBUS_BYTE, NULL);
-+			I2C_SMBUS_WRITE, value, I2C_SMBUS_BYTE, NULL);
- }
- EXPORT_SYMBOL(i2c_smbus_write_byte);
- 
-@@ -387,7 +388,8 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
- 		if (read_write == I2C_SMBUS_READ) {
- 			msg[1].flags |= I2C_M_RECV_LEN;
- 			msg[1].len = 1; /* block length will be added by
--					   the underlying bus driver */
-+					 * the underlying bus driver
-+					 */
- 			i2c_smbus_try_get_dmabuf(&msg[1], 0);
- 		} else {
- 			msg[0].len = data->block[0] + 2;
-@@ -418,7 +420,8 @@ static s32 i2c_smbus_xfer_emulated(struct i2c_adapter *adapter, u16 addr,
- 
- 		msg[1].flags |= I2C_M_RECV_LEN;
- 		msg[1].len = 1; /* block length will be added by
--				   the underlying bus driver */
-+				 * the underlying bus driver
-+				 */
- 		i2c_smbus_try_get_dmabuf(&msg[1], 0);
- 		break;
- 	case I2C_SMBUS_I2C_BLOCK_DATA:
--- 
-2.17.1
+I have fixed comment and title updated.
 
+Removed 0 byte unwanted bins.
+
+Below is combined pull request for venus-5.4 and VPU-2.0.
+
+Please find snapshot of pull request, let me know if anything is 
+missing.
+
+
+The following changes since commit 
+85286184d9df1b03bb76049edcfd87c39ce46e94:
+
+   Merge branch 'for-upstream' of 
+git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19 
+11:34:11 -0400)
+
+are available in the git repository at:
+
+   https://github.com/suraj714/linux-firmware-venus.git master
+
+for you to fetch changes up to 6cdef281cd16d967ad89c01af6fdda85529a2d80:
+
+   qcom: Add venus firmware files for VPU-2.0 (2021-04-28 14:42:48 +0530)
+
+----------------------------------------------------------------
+smagar (2):
+       qcom: update venus firmware files for v5.4
+       qcom: Add venus firmware files for VPU-2.0
+
+  WHENCE                    |  34 +++++++++++++++++++++++++++++++++-
+  qcom/venus-5.4/venus.b00  | Bin 212 -> 212 bytes
+  qcom/venus-5.4/venus.b01  | Bin 6808 -> 6808 bytes
+  qcom/venus-5.4/venus.b02  | Bin 873680 -> 873596 bytes
+  qcom/venus-5.4/venus.b03  | Bin 33792 -> 33792 bytes
+  qcom/venus-5.4/venus.mbn  | Bin 919792 -> 919708 bytes
+  qcom/venus-5.4/venus.mdt  | Bin 7020 -> 7020 bytes
+  qcom/vpu-2.0/vpu20_1v.b00 | Bin 0 -> 692 bytes
+  qcom/vpu-2.0/vpu20_1v.b01 | Bin 0 -> 7376 bytes
+  qcom/vpu-2.0/vpu20_1v.b02 | Bin 0 -> 300 bytes
+  qcom/vpu-2.0/vpu20_1v.b03 | Bin 0 -> 20 bytes
+  qcom/vpu-2.0/vpu20_1v.b04 | Bin 0 -> 20 bytes
+  qcom/vpu-2.0/vpu20_1v.b05 | Bin 0 -> 20 bytes
+  qcom/vpu-2.0/vpu20_1v.b06 | Bin 0 -> 20 bytes
+  qcom/vpu-2.0/vpu20_1v.b07 | Bin 0 -> 24 bytes
+  qcom/vpu-2.0/vpu20_1v.b08 | Bin 0 -> 16 bytes
+  qcom/vpu-2.0/vpu20_1v.b09 | Bin 0 -> 939184 bytes
+  qcom/vpu-2.0/vpu20_1v.b10 | Bin 0 -> 42976 bytes
+  qcom/vpu-2.0/vpu20_1v.b19 |   1 +
+  qcom/vpu-2.0/vpu20_1v.mbn | Bin 0 -> 2031188 bytes
+  qcom/vpu-2.0/vpu20_1v.mdt | Bin 0 -> 8068 bytes
+  21 files changed, 34 insertions(+), 1 deletion(-)
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b00
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b01
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b02
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b03
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b04
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b05
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b06
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b07
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b08
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b09
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b10
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.b19
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.mbn
+  create mode 100644 qcom/vpu-2.0/vpu20_1v.mdt
+
+
+Regards,
+Suraj Magar
