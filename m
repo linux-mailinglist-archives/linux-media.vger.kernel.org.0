@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7249336DB7F
-	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:25:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2195036DB94
+	for <lists+linux-media@lfdr.de>; Wed, 28 Apr 2021 17:27:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239934AbhD1P0E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 11:26:04 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:56554 "EHLO
+        id S240085AbhD1P0N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 11:26:13 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:56574 "EHLO
         smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231604AbhD1P0D (ORCPT
+        by vger.kernel.org with ESMTP id S236545AbhD1P0D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 28 Apr 2021 11:26:03 -0400
 Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com [10.225.0.210])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 13941404C6;
-        Wed, 28 Apr 2021 15:25:17 +0000 (UTC)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 05465404AD;
+        Wed, 28 Apr 2021 15:25:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1619623518; bh=tL58wM0CNHnAjNGaw3b8gFhjcr22ewg76YzUjuR3NOI=;
+        t=1619623518; bh=Cjwofvyx7tHITwroONobhD5qV5HclCkCWYemv1jIgWE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
          References:From;
-        b=TtiE8hkirCMw8JWvajkI09ON9aK2gfnXuIOxGbnvOAUANaT6AXiW7HxhJnwQeaEIm
-         xmuZVm+GGBIbkvbazRTdPfLU3ihjqXIiDg0UciQR3NMo8zILnjtPO+6tAZRZEsZGPS
-         c5+p81JPJWQ3VKNodOpdds102KaUAWnkkTFJoLq4cXPYKFPcZJ7FAxmN4MYYlip0fE
-         +HeoVORFeWWklvsOchF+0PvZ87Kj9o56XgcObTS3btb5AF2aDLpxzuvunUs2/1Ke7Y
-         +IlWncgRHWwC9eK6UU6b86IeismZ2+6c78yj/yXP0FRL+c0izX3zxTICWxi5RXavKL
-         +qEVu6mX7Xw3A==
+        b=Mj2u2xrc7wgTqKRzRT1hlYVqy230P9RUVCGoI0Z3j57KPSW6fkaMPWR23y+OmTIKM
+         c8uGZPvjedHn0tOK4XEkoNifnsTI6QM01Athb59tRTwTA4eLiGbTBC7nN87qe936xF
+         4+6f3XigseBZf+8oIxdD+6AYSvk5dOy79xsjWOJqFO+HLS8kgEEZaN7zOg/9Z/Zcg3
+         HxP1AVWIkgJLhMZST3g2m6OPWsFsxindnK353XBQy2i/lPgfgatbhI9SLtShDDq08Z
+         d5lPitQ3ga3j6jUyG5pFY5/SMgHjxzSNXAM+SBW2Q2ZyBuiaceRNfgWd20VVQ3vHc4
+         kL40ll0g2ZOzQ==
 Received: from de02dwvm009.internal.synopsys.com (de02dwvm009.internal.synopsys.com [10.225.17.73])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 61836A005F;
+        by mailhost.synopsys.com (Postfix) with ESMTP id 72F70A006E;
         Wed, 28 Apr 2021 15:25:16 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From:   Nelson Costa <Nelson.Costa@synopsys.com>
@@ -41,11 +41,10 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Vinod Koul <vkoul@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Jose Abreu <Jose.Abreu@synopsys.com>,
-        Nelson Costa <Nelson.Costa@synopsys.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>
-Subject: [RFC 2/8] MAINTAINERS: Add entry for Synopsys DesignWare HDMI drivers
-Date:   Wed, 28 Apr 2021 17:25:05 +0200
-Message-Id: <badb02be8bc3b962bca578a505fe53d875c41d7e.1618937288.git.nelson.costa@synopsys.com>
+        Nelson Costa <Nelson.Costa@synopsys.com>
+Subject: [RFC 3/8] phy: Add PHY standard HDMI opts to the PHY API
+Date:   Wed, 28 Apr 2021 17:25:06 +0200
+Message-Id: <d854e5cb55be588290738fa93b4a72c8c9f459ed.1618937288.git.nelson.costa@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1618937288.git.nelson.costa@synopsys.com>
 References: <cover.1618937288.git.nelson.costa@synopsys.com>
@@ -55,37 +54,166 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add an entry for Synopsys DesignWare HDMI Receivers drivers
-and PHYs.
+This adds the new options to give support for HDMI
+PHYs in a standard way. This is mainly useful when
+the HDMI PHY requires parameters to be passed by
+"phy_configure" function.
 
-Signed-off-by: Jose Abreu <jose.abreu@synopsys.com>
+For this, the new struct phy_configure_opts_hdmi
+was added with the required generic and standard
+parameters.
+
 Signed-off-by: Nelson Costa <nelson.costa@synopsys.com>
 ---
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/linux/phy/phy-hdmi.h | 102 +++++++++++++++++++++++++++++++++++++++++++
+ include/linux/phy/phy.h      |   7 ++-
+ 2 files changed, 108 insertions(+), 1 deletion(-)
+ create mode 100644 include/linux/phy/phy-hdmi.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 04e6df9..e0e7b41 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17304,6 +17304,17 @@ S:	Supported
- F:	drivers/net/pcs/pcs-xpcs.c
- F:	include/linux/pcs/pcs-xpcs.h
- 
-+SYNOPSYS DESIGNWARE HDMI RECEIVERS AND PHY DRIVERS
-+M:	Jose Abreu <jose.abreu@synopsys.com>
-+M:	Nelson Costa <nelson.costa@synopsys.com>
-+L:	linux-media@vger.kernel.org
-+S:	Odd Fixes
-+F:	Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-+F:	drivers/media/platform/dwc/*
-+F:	drivers/phy/dwc/*
-+F:	include/linux/phy/dwc/*
-+F:	include/media/dwc/*
+diff --git a/include/linux/phy/phy-hdmi.h b/include/linux/phy/phy-hdmi.h
+new file mode 100644
+index 0000000..62334f4
+--- /dev/null
++++ b/include/linux/phy/phy-hdmi.h
+@@ -0,0 +1,102 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2021 - present Synopsys, Inc. and/or its affiliates.
++ * HDMI generic PHY options.
++ *
++ * Author: Nelson Costa <nelson.costa@synopsys.com>
++ */
++#ifndef __PHY_HDMI_H_
++#define __PHY_HDMI_H_
 +
- SYNOPSYS DESIGNWARE I2C DRIVER
- M:	Jarkko Nikula <jarkko.nikula@linux.intel.com>
- R:	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
++#include <linux/types.h>
++
++/**
++ * struct phy_configure_opts_hdmi - HDMI PHY configuration set
++ *
++ * This structure is used to represent the configuration state of an
++ * HDMI PHY.
++ */
++struct phy_configure_opts_hdmi {
++	/**
++	 * @color_depth:
++	 *
++	 * Color depth, as specified by HDMI specification, represents the
++	 * number of bits per pixel.
++	 *
++	 * Allowed values: 24, 30, 36, 48
++	 *
++	 */
++	u8 color_depth;
++
++	/**
++	 * @tmds_bit_clock_ratio:
++	 *
++	 * Flag indicating, as specified by HDMI specification, the relation
++	 * between TMDS Clock Rate and TMDS Character Rate.
++	 *
++	 * As specified by HDMI specification:
++	 *
++	 * tmds_bit_clock_ratio = 0, for TMDS Character Rates <= 340 Mcsc
++	 * (TMDS Clock Rate = TMDS Character Rate)
++	 *
++	 * tmds_bit_clock_ratio = 1, for TMDS Character Rates > 340 Mcsc
++	 * (TMDS Clock Rate = TMDS Character Rate / 4)
++	 *
++	 */
++	u8 tmds_bit_clock_ratio;
++
++	/**
++	 * @scrambling:
++	 *
++	 * Scrambling, as specified by HDMI specification, enables the technique
++	 * to reduce the EMI/RFI.
++	 *
++	 */
++	u8 scrambling;
++
++	/**
++	 * @calibration_acq:
++	 *
++	 * Calibration acquisitions number for the calibration algorithm.
++	 *
++	 */
++	unsigned int calibration_acq;
++
++	/**
++	 * @calibration_force:
++	 *
++	 * Flag indicating, to force calibration algorithm even if the MPLL
++	 * status didn't change from previous run calibration.
++	 *
++	 */
++	u8 calibration_force;
++
++	/**
++	 * @set_color_depth:
++	 *
++	 * Flag indicating, whether or not reconfigure deep_color
++	 * to requested values.
++	 *
++	 */
++	u8 set_color_depth : 1;
++
++	/**
++	 * @set_tmds_bit_clock_ratio:
++	 *
++	 * Flag indicating, whether or not reconfigure tmds_bit_clock_ratio
++	 * to requested values.
++	 *
++	 */
++	u8 set_tmds_bit_clock_ratio : 1;
++
++	/**
++	 * @set_scrambling:
++	 *
++	 * Flag indicating, whether or not reconfigure scrambling
++	 * to requested values.
++	 *
++	 */
++	u8 set_scrambling : 1;
++};
++
++#endif /* __PHY_HDMI_H_ */
+diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
+index e435bdb..8b1aaa4 100644
+--- a/include/linux/phy/phy.h
++++ b/include/linux/phy/phy.h
+@@ -18,6 +18,7 @@
+ 
+ #include <linux/phy/phy-dp.h>
+ #include <linux/phy/phy-mipi-dphy.h>
++#include <linux/phy/phy-hdmi.h>
+ 
+ struct phy;
+ 
+@@ -41,7 +42,8 @@ enum phy_mode {
+ 	PHY_MODE_MIPI_DPHY,
+ 	PHY_MODE_SATA,
+ 	PHY_MODE_LVDS,
+-	PHY_MODE_DP
++	PHY_MODE_DP,
++	PHY_MODE_HDMI
+ };
+ 
+ /**
+@@ -51,10 +53,13 @@ enum phy_mode {
+  *		the MIPI_DPHY phy mode.
+  * @dp:		Configuration set applicable for phys supporting
+  *		the DisplayPort protocol.
++ * @hdmi	Configuration set applicable for phys supporting
++ *		the HDMI protocol.
+  */
+ union phy_configure_opts {
+ 	struct phy_configure_opts_mipi_dphy	mipi_dphy;
+ 	struct phy_configure_opts_dp		dp;
++	struct phy_configure_opts_hdmi		hdmi;
+ };
+ 
+ /**
 -- 
 2.7.4
 
