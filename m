@@ -2,190 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 245E736EA01
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 14:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EC7836EA02
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 14:07:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233327AbhD2MIK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 08:08:10 -0400
-Received: from mga04.intel.com ([192.55.52.120]:22454 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231490AbhD2MIJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 08:08:09 -0400
-IronPort-SDR: jmhXbfuEECbP3sYHp17Lj4BG/iNV5IKR+ooI47HPqBUt9eH7RqyUy2RFXvmgSECClFsUuQVh+O
- coUdyB2gwABQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="194876712"
-X-IronPort-AV: E=Sophos;i="5.82,259,1613462400"; 
-   d="scan'208";a="194876712"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2021 05:07:23 -0700
-IronPort-SDR: 8GhTUJ27mzqXb4TOKHE8YnDmMN6YvTTAtrHHzBEvOe0+swr2l+4T1Q4JCU27jEBo2bQ0hd9/Y+
- wgC3u/RvXP1A==
-X-IronPort-AV: E=Sophos;i="5.82,259,1613462400"; 
-   d="scan'208";a="430812238"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2021 05:07:21 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 78BF6201A6;
-        Thu, 29 Apr 2021 15:07:19 +0300 (EEST)
-Date:   Thu, 29 Apr 2021 15:07:19 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v5 12/24] media: entity: Add an iterator helper for
- connected pads
-Message-ID: <20210429120719.GX3@paasikivi.fi.intel.com>
-References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
- <20210415130450.421168-13-tomi.valkeinen@ideasonboard.com>
- <YHx4U8F/g8dTusc+@pendragon.ideasonboard.com>
- <20210420114825.GN3@paasikivi.fi.intel.com>
- <YIoM/E938uHWMDaJ@pendragon.ideasonboard.com>
- <20210429115614.GU3@paasikivi.fi.intel.com>
- <a23d4695-5629-034a-c9a0-804533518b9e@ideasonboard.com>
+        id S235342AbhD2MIQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 08:08:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37034 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233922AbhD2MIQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Apr 2021 08:08:16 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB467C06138B;
+        Thu, 29 Apr 2021 05:07:29 -0700 (PDT)
+Received: from [IPv6:2a02:810a:880:f54:11ef:dfbe:29a3:d3d] (unknown [IPv6:2a02:810a:880:f54:11ef:dfbe:29a3:d3d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 867411F43410;
+        Thu, 29 Apr 2021 13:07:27 +0100 (BST)
+Subject: Re: [PATCH v4 00/15] media: mtk-vcodec: support for MT8183 decoder
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <20210427111526.1772293-1-acourbot@chromium.org>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <976d420c-b4fc-bc23-c398-9b3a7ab4ffc9@collabora.com>
+Date:   Thu, 29 Apr 2021 14:07:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a23d4695-5629-034a-c9a0-804533518b9e@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210427111526.1772293-1-acourbot@chromium.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 03:04:38PM +0300, Tomi Valkeinen wrote:
-> On 29/04/2021 14:56, Sakari Ailus wrote:
-> > Hi Laurent,
-> > 
-> > On Thu, Apr 29, 2021 at 04:33:48AM +0300, Laurent Pinchart wrote:
-> > > Hi Sakari,
-> > > 
-> > > On Tue, Apr 20, 2021 at 02:48:25PM +0300, Sakari Ailus wrote:
-> > > > On Sun, Apr 18, 2021 at 09:20:03PM +0300, Laurent Pinchart wrote:
-> > > > > On Thu, Apr 15, 2021 at 04:04:38PM +0300, Tomi Valkeinen wrote:
-> > > > > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > > 
-> > > > > > Add a helper macro for iterating over pads that are connected through
-> > > > > > enabled routes. This can be used to find all the connected pads within an
-> > > > > > entity, for instance starting from the pad which has been obtained during
-> > > > > > the graph walk.
-> > > > > > 
-> > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > > > > 
-> > > > > > - Make __media_entity_next_routed_pad() return NULL and adjust the
-> > > > > >    iterator to handle that
-> > > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > > > ---
-> > > > > >   include/media/media-entity.h | 27 +++++++++++++++++++++++++++
-> > > > > >   1 file changed, 27 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> > > > > > index 73de1c335e4e..edd6f60ed6b4 100644
-> > > > > > --- a/include/media/media-entity.h
-> > > > > > +++ b/include/media/media-entity.h
-> > > > > > @@ -916,6 +916,33 @@ __must_check int media_graph_walk_init(
-> > > > > >   bool media_entity_has_route(struct media_entity *entity, unsigned int pad0,
-> > > > > >   			    unsigned int pad1);
-> > > > > > +static inline struct media_pad *__media_entity_next_routed_pad(
-> > > > > > +	struct media_pad *start, struct media_pad *iter)
-> > > > > > +{
-> > > > > > +	struct media_entity *entity = start->entity;
-> > > > > > +
-> > > > > > +	for (; iter < &entity->pads[entity->num_pads]; iter++)
-> > > > > > +		if (media_entity_has_route(entity, start->index, iter->index))
-> > > > > > +			return iter;
-> > > > > 
-> > > > > I'd use curly braces.
-> > > > > 
-> > > > > > +
-> > > > > > +	return NULL;
-> > > > > > +}
-> > > > > 
-> > > > > Does this need to be inlined ?
-> > > > 
-> > > > I guess it doesn't have to. It's used inside loops and it's rather small so
-> > > > I think it should be fine that way.
-> > > 
-> > > It may not be that small. I'd rather let the compiler decide whether to
-> > > inline it or not.
-> > 
-> > Works for me.
-> > 
-> > > 
-> > > > > > +
-> > > > > > +/**
-> > > > > > + * media_entity_for_each_routed_pad - Iterate over entity pads connected by routes
-> > > > > 
-> > > > > "routed" sounds a bit weird. Would media_entity_for_each_connected_pad()
-> > > > > be a better name ?
-> > > > 
-> > > > "Connected" is often used in context of links. We're dealing with routes
-> > > > here, so I thought "routed" is appropriate to avoid confusion.
-> > > 
-> > > I understand the confusion, maybe we can find a better term that would
-> > > be different than "connected". "routed" really sounds weird in this
-> > > context.
-> > 
-> > I'm fine with connected.
-> > 
-> > > 
-> > > > > > + *
-> > > > > > + * @start: The stating pad
-> > > > > 
-> > > > > s/stating/starting/
-> > > > > 
-> > > > > > + * @iter: The iterator pad
-> > > > > > + *
-> > > > > > + * Iterate over all pads connected through routes from a given pad
-> > > > > 
-> > > > > "from the @start pad"
-> > > > > 
-> > > > > > + * within an entity. The iteration will include the starting pad itself.
-> > > > > 
-> > > > > s/starting/@start/
-> > > > > 
-> > > > > I wonder if it wouldn't be more logical to not include the start pad.
-> > > > > That wouldn't match the current usage patterns, which would need to be
-> > > > > adapted accordingly, but I'm worried that including the start pad will
-> > > > > lead to annoying bugs in the future. Maybe I worry too much.
-> > > > 
-> > > > The aim here is to find all pads that are routed to another pad within the
-> > > > same entity. If you remove the start pad, it becomes a task harder than
-> > > > difficult.
-> > > 
-> > > Intuitively, "all pads that are routed to another pad" doesn't include
-> > > the "another pad". I'm not opposed to including the start pad as that's
-> > > what the current usage patterns need, but we should then rename the
-> > > macro accordingly as its current name is counter-intuitive.
-> > 
-> > I'm certainly not opposed to that. But it shouldn't be too much longer than
-> > what's already there.
-> > 
-> > > 
-> > > > > And now that I reread the patch, I also wonder if "start" is a good
-> > > > > name, as it implies we start the enumeration from a given pad, while we
-> > > > > enumerate all pads connected to a given pad. I'm not sure what a better
-> > > > > name would be though, maybe just pad ?
-> > > > 
-> > > > There are two pads here. Therefore explicitly calling them something else
-> > > > makes sense IMO.
-> > > 
-> > > Makes sense, but "start" isn't a good name as we're not starting
-> > > anything.
-> > 
-> > "start" is not a verb here. It's where the iteration *starts*.
+Hi,
+
+On 27.04.21 13:15, Alexandre Courbot wrote:
+> This series adds support for the stateless API into mtk-vcodec, by first
+> separating the stateful ops into their own source file, and introducing
+> a new set of ops suitable for stateless decoding. As such, support for
+> stateful decoders should remain completely unaffected.
 > 
-> Hmm, no, the 'start' is a filter here, isn't it? The macro iterates over all
-> pads which have a route to 'start'.
+> This series has been tested with both MT8183 and MT8173. Decoding was
+> working for both chips, and in the case of MT8173 no regression has been
+> noticed.
 
-The iteration starts from "start", but it does not return all pads, only
-the connected ones.
+I am trying to test the decoder with this patchset using v4l2-ctl on mt8173.
 
-But feel free to use another name if you have a better one.
+I am trying to decode an h264 file into V4L2_PIX_FMT_MT21C format.
+I am not able to do it. It seems that the driver expects each buffer to start
+with a nal starting code, and the v4l2-ctl command just read the files into
+buffers without any parsing.
 
--- 
-Sakari Ailus
+Can you share the command and the files you used for testing?
+
+Thank you,
+Dafna
+
+> 
+> Patches 1-9 add MT8183 support to the decoder using the stateless API.
+> MT8183 only support H.264 acceleration.
+> 
+> Patches 10-15 are follow-ups that further improve compliance for the
+> decoder and encoder, by fixing support for commands on both. Patch 11
+> also makes sure that supported H.264 profiles are exported on MT8173.
+> 
+> Changes since v3:
+> * Stop checking that controls are set for every request.
+> * Add V4L2_CID_STATELESS_H264_START_CODE control.
+> * Stop mapping OUTPUT buffers and getting the NAL type from them, use the
+>    nal_ref_idc field instead.
+> * Make V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control stateful-only.
+> * Set vb2_buffer's field to V4L2_FIELD_NONE in buffer validation hook.
+> 
+> Changes since v2:
+> * Add follow-up patches fixing support for START/STOP commands for the
+>    encoder, and stateful decoder.
+> 
+> Alexandre Courbot (8):
+>    media: mtk-vcodec: vdec: handle firmware version field
+>    media: mtk-vcodec: support version 2 of decoder firmware ABI
+>    media: add Mediatek's MM21 format
+>    dt-bindings: media: document mediatek,mt8183-vcodec-dec
+>    media: mtk-vcodec: vdec: use helpers in VIDIOC_(TRY_)DECODER_CMD
+>    media: mtk-vcodec: vdec: clamp OUTPUT resolution to hardware limits
+>    media: mtk-vcodec: make flush buffer reusable by encoder
+>    media: mtk-vcodec: venc: support START and STOP commands
+> 
+> Hirokazu Honda (1):
+>    media: mtk-vcodec: vdec: Support H264 profile control
+> 
+> Hsin-Yi Wang (1):
+>    media: mtk-vcodec: venc: make sure buffer exists in list before
+>      removing
+> 
+> Yunfei Dong (5):
+>    media: mtk-vcodec: vdec: move stateful ops into their own file
+>    media: mtk-vcodec: vdec: support stateless API
+>    media: mtk-vcodec: vdec: support stateless H.264 decoding
+>    media: mtk-vcodec: vdec: add media device if using stateless api
+>    media: mtk-vcodec: enable MT8183 decoder
+> 
+>   .../bindings/media/mediatek-vcodec.txt        |   1 +
+>   .../media/v4l/pixfmt-reserved.rst             |   7 +
+>   drivers/media/platform/Kconfig                |   2 +
+>   drivers/media/platform/mtk-vcodec/Makefile    |   3 +
+>   .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 818 +++---------------
+>   .../platform/mtk-vcodec/mtk_vcodec_dec.h      |  28 +-
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  66 +-
+>   .../mtk-vcodec/mtk_vcodec_dec_stateful.c      | 667 ++++++++++++++
+>   .../mtk-vcodec/mtk_vcodec_dec_stateless.c     | 370 ++++++++
+>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  58 +-
+>   .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 135 ++-
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |   4 +
+>   .../mtk-vcodec/vdec/vdec_h264_req_if.c        | 780 +++++++++++++++++
+>   .../media/platform/mtk-vcodec/vdec_drv_if.c   |   3 +
+>   .../media/platform/mtk-vcodec/vdec_drv_if.h   |   1 +
+>   .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  23 +-
+>   .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  43 +-
+>   .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   5 +
+>   drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+>   include/uapi/linux/videodev2.h                |   1 +
+>   20 files changed, 2293 insertions(+), 723 deletions(-)
+>   create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+>   create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+>   create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+> 
+> --
+> 2.31.1.498.g6c1eba8ee3d-goog
+> 
