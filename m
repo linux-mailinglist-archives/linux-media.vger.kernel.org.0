@@ -2,227 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23C4736E3E5
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 06:00:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6442736E3E8
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 06:00:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237749AbhD2Dui (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 23:50:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40332 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237568AbhD2Du1 (ORCPT
+        id S238346AbhD2DyQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 23:54:16 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42768 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238329AbhD2DyQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 23:50:27 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63ECFC06138B
-        for <linux-media@vger.kernel.org>; Wed, 28 Apr 2021 20:49:34 -0700 (PDT)
+        Wed, 28 Apr 2021 23:54:16 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7BC8FBC0;
-        Thu, 29 Apr 2021 05:49:32 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E989BC0;
+        Thu, 29 Apr 2021 05:53:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619668172;
-        bh=D7esBieUgzbAsQwsB0Erooqje4G2Es4Q95zmrCKSnwk=;
+        s=mail; t=1619668408;
+        bh=n0b40VLEzbS1OoYz0xc6JZAIL6M1snsDz26CaxKrP0c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NixwOSAZJXLT/Z+3eGD56WKPjjNt5CPmV1+iFsKnX2Weg7m0LDGI1uqAFD+YnGm14
-         lTr4lqoO6Cp0wzmuA9B7GqgrxK3kycwI9Kn0mVTQ/jqdwIRwvPTGN9eWLdGM+z3LnG
-         nsZvyjLQwVK/XqgVOId6Uoshjw4iihq694GC2Xag=
-Date:   Thu, 29 Apr 2021 06:49:26 +0300
+        b=HtZcfcR2KbZfrU8X2jgkHK91dJSo8IpUKRwpIupyHSz5pdUBC57GDf+CM2/gj6tUv
+         +5JhG4cVISsH3pwAaPzfHmdX7OlKmTtxhVlyDlTNiXfDId1kDuGaHiaF00mDwTUAx3
+         pRbSjGpXEeJ3ulH1hPK9S8Yr8QEKK0GM9sViuq+M=
+Date:   Thu, 29 Apr 2021 06:53:22 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org,
         sakari.ailus@linux.intel.com
-Subject: Re: [PATCH 3/4] media: ti-vpe: cal: add routing support
-Message-ID: <YIosxvJ49goRl5N/@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 0/4] media: ti-vpe: cal: multiplexed streams support
+Message-ID: <YIotsrlLrFYeNN/b@pendragon.ideasonboard.com>
 References: <20210427132028.1005757-1-tomi.valkeinen@ideasonboard.com>
- <20210427132028.1005757-4-tomi.valkeinen@ideasonboard.com>
- <YIonhCOpnYIh8dOL@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YIonhCOpnYIh8dOL@pendragon.ideasonboard.com>
+In-Reply-To: <20210427132028.1005757-1-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Tomi,
 
-One more comment.
+Thank you for the series. Nice to see the multiplexed streams API in
+operation.
 
-On Thu, Apr 29, 2021 at 06:27:01AM +0300, Laurent Pinchart wrote:
-> On Tue, Apr 27, 2021 at 04:20:27PM +0300, Tomi Valkeinen wrote:
-> > Add routing support. As we still only support a single stream (i.e. a
-> > single route), the routing is not really used for anything yet.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/ti-vpe/cal-camerarx.c | 64 ++++++++++++++++++++
-> >  drivers/media/platform/ti-vpe/cal.h          |  2 +
-> >  2 files changed, 66 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> > index 36103f5af6e9..3470f6dc0ec1 100644
-> > --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-> > +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> > @@ -805,6 +805,37 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
-> >  	return 0;
-> >  }
-> >  
-> > +static int cal_camerarx_sd_get_routing(struct v4l2_subdev *sd,
-> > +				       struct v4l2_subdev_krouting *routing)
-> > +{
-> > +	struct cal_camerarx *phy = to_cal_camerarx(sd);
-> > +	struct v4l2_subdev_krouting *src;
+On Tue, Apr 27, 2021 at 04:20:24PM +0300, Tomi Valkeinen wrote:
+> Hi,
 > 
-> const, as src isn't modified.
+> This series adds embedded data and multiplexed streams support to TI CAL
+> driver. These patches depend on the subdev routing series and CAL preparation
+> series:
 > 
-> > +
-> > +	src = &phy->routing;
+> https://lore.kernel.org/linux-media/20210427124523.990938-1-tomi.valkeinen@ideasonboard.com/
 > 
-> That could be written
+> https://lore.kernel.org/linux-media/20210420120433.902394-1-tomi.valkeinen@ideasonboard.com/
 > 
-> 	const struct v4l2_subdev_krouting *src = &phy->routing;
+> One detail I'm not too happy about is adding a new kernel module parameter
+> 'cal_streams_api'. Setting this parameter enables the multiplexed streams
+> support for the CAL sink pads. I'd like the driver to be able to figure this
+> out itself, but there's no simple answer to it.
 > 
-> > +
-> > +	if (routing->num_routes < src->num_routes) {
-> > +		routing->num_routes = src->num_routes;
-> > +		return -ENOSPC;
-> > +	}
-> > +
-> > +	v4l2_subdev_cpy_routing(routing, src);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int cal_camerarx_sd_set_routing(struct v4l2_subdev *sd,
-> > +				       struct v4l2_subdev_krouting *routing)
-> > +{
-> > +	struct cal_camerarx *phy = to_cal_camerarx(sd);
-> > +	int ret;
+> A pad in a subdev has to be either in non-multiplexed or multiplexed mode. If
+> the subdev cannot support multiplexed streams, then the answer is clear. But if
+> it can, then the question becomes "what's connected to the pad, and what does
+> it want". Afaik, the idea with subdev configuration is that each subdev can be
+> configured independently, so the driver trying to figure out the answer to that
+> question breaks this idea. Also, two connected subdevs that both can support
+> both modes wouldn't even give the answer, but the answer might be found further
+> away, probably from the sensor subdev.
 > 
-> Shouldn't you reject !ACTIVE configs ? Same in
-> cal_camerarx_sd_get_routing() I suppose.
-> 
-> > +
-> > +	ret = v4l2_subdev_dup_routing(&phy->routing, routing);
-> > +	if (ret)
-> > +		return ret;
+> So, maybe it should be the userspace that can set a subdev pad to either of the
+> modes. There's currently no such uAPI, but I think this option makes the most
+> sense.
 
-Do we need locking here ? The get and set should be serialized, and I
-also think we don't want to allow routing configuration during
-streaming, at least to start with.
+We'll need to brainstorm this a bit. I agree that the module parameter
+isn't a good solution.
 
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int cal_camerarx_sd_init_cfg(struct v4l2_subdev *sd,
-> >  				    struct v4l2_subdev_pad_config *cfg)
-> >  {
-> > @@ -837,6 +868,8 @@ static const struct v4l2_subdev_pad_ops cal_camerarx_pad_ops = {
-> >  	.enum_frame_size = cal_camerarx_sd_enum_frame_size,
-> >  	.get_fmt = cal_camerarx_sd_get_fmt,
-> >  	.set_fmt = cal_camerarx_sd_set_fmt,
-> > +	.get_routing = cal_camerarx_sd_get_routing,
-> > +	.set_routing = cal_camerarx_sd_set_routing,
-> >  };
-> >  
-> >  static const struct v4l2_subdev_ops cal_camerarx_subdev_ops = {
-> > @@ -844,8 +877,18 @@ static const struct v4l2_subdev_ops cal_camerarx_subdev_ops = {
-> >  	.pad = &cal_camerarx_pad_ops,
-> >  };
-> >  
-> > +static bool cal_camerarx_has_route(struct media_entity *entity, unsigned int pad0,
-> > +			  unsigned int pad1)
-> > +{
-> > +	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
-> > +	struct cal_camerarx *phy = to_cal_camerarx(sd);
-> > +
-> > +	return v4l2_subdev_has_route(&phy->routing, pad0, pad1);
-> > +}
-> > +
-> >  static struct media_entity_operations cal_camerarx_media_ops = {
-> >  	.link_validate = v4l2_subdev_link_validate,
-> > +	.has_route = cal_camerarx_has_route,
-> >  };
-> >  
-> >  /* ------------------------------------------------------------------
-> > @@ -862,6 +905,20 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
-> >  	int ret;
-> >  	unsigned int i;
-> >  
-> > +	struct v4l2_subdev_route routes[] = { {
-> > +		.sink_pad = 0,
-> > +		.sink_stream = 0,
-> > +		.source_pad = 1,
-> > +		.source_stream = 0,
-> > +		.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-> > +	} };
-> > +
-> > +	struct v4l2_subdev_krouting routing = {
-> > +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> > +		.num_routes = 1,
-> > +		.routes = routes,
-> > +	};
+> Another detail to note is the embedded data support. I don't have hardware with
+> real embedded data, so I have not added any embedded data formats. Also, the
+> embedded data is captured with the video capture ioctls, not the metadata
+> capture ioctls. The reason for this is that in the case of CSI-2 embedded data
+> (at least for this hardware) the embedded data is very much like pixel data:
+> the data is sent in lines just before or after the pixel content and each
+> subdev needs a set_fmt call with the width, height, and mbus-code.
 > 
-> I'd move this above the other variables. Blank lines are not customary.
+> Using the metadata ioctls is possible, but it only results in much more complex
+> driver code, and, I think, more confusing userspace.
 > 
-> > +
-> >  	phy = kzalloc(sizeof(*phy), GFP_KERNEL);
-> >  	if (!phy)
-> >  		return ERR_PTR(-ENOMEM);
-> > @@ -914,6 +971,11 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
-> >  	if (ret)
-> >  		goto error;
-> >  
-> > +	/* Initialize routing to single route to the fist source pad */
+>  Tomi
 > 
-> s/fist/first/
-> s/pad/pad./
+> Tomi Valkeinen (4):
+>   media: ti-vpe: cal: add embedded data support
+>   media: ti-vpe: cal: use frame desc to get vc and dt
+>   media: ti-vpe: cal: add routing support
+>   media: ti-vpe: cal: add multiplexed streams support
 > 
-> > +	ret = cal_camerarx_sd_set_routing(sd, &routing);
-> > +	if (ret)
-> > +		goto error;
-> > +
-> >  	ret = v4l2_device_register_subdev(&cal->v4l2_dev, sd);
-> >  	if (ret)
-> >  		goto error;
-> > @@ -921,6 +983,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
-> >  	return phy;
-> >  
-> >  error:
-> > +	v4l2_subdev_free_routing(&phy->routing);
-> >  	media_entity_cleanup(&phy->subdev.entity);
-> >  	kfree(phy);
-> >  	return ERR_PTR(ret);
-> > @@ -932,6 +995,7 @@ void cal_camerarx_destroy(struct cal_camerarx *phy)
-> >  		return;
-> >  
-> >  	v4l2_device_unregister_subdev(&phy->subdev);
-> > +	v4l2_subdev_free_routing(&phy->routing);
-> >  	media_entity_cleanup(&phy->subdev.entity);
-> >  	of_node_put(phy->source_ep_node);
-> >  	of_node_put(phy->source_node);
-> > diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> > index 3aea444f8bf8..c96364eb0930 100644
-> > --- a/drivers/media/platform/ti-vpe/cal.h
-> > +++ b/drivers/media/platform/ti-vpe/cal.h
-> > @@ -184,6 +184,8 @@ struct cal_camerarx {
-> >  	struct mutex		mutex;
-> >  
-> >  	unsigned int enable_count;
-> > +
-> > +	struct v4l2_subdev_krouting routing;
-> 
-> Looking forward to storing this in v4l2_subdev_config, and embedding an
-> instance of v4l2_subdev_config in v4l2_subdev :-)
-> cal_camerarx_has_route() could then be replaced by a generic V4L2 subdev
-> helper, and so could cal_camerarx_sd_get_routing().
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> >  };
-> >  
-> >  struct cal_dev {
+>  drivers/media/platform/ti-vpe/cal-camerarx.c | 234 ++++++++++++++++---
+>  drivers/media/platform/ti-vpe/cal-video.c    |  95 +++++++-
+>  drivers/media/platform/ti-vpe/cal.c          | 102 ++++++--
+>  drivers/media/platform/ti-vpe/cal.h          |  10 +-
+>  4 files changed, 383 insertions(+), 58 deletions(-)
 
 -- 
 Regards,
