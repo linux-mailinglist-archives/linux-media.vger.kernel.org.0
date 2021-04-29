@@ -2,132 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EA5E36E5AC
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 09:13:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8951736E5C0
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 09:16:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239076AbhD2HO3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 03:14:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33790 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232075AbhD2HO1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 03:14:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 177EF6141E;
-        Thu, 29 Apr 2021 07:13:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619680421;
-        bh=58tmw40R8d7hq0bYQ7ucYztt+FsoRTyGxT8Or5otJ0Q=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=u57bft8gaxqZ58WFZiZsaUCAj2+SFYgQnW+zHQWeVoDKQuNe28Ui9nkShXq8gVFJP
-         CxAeWwIPITWLcLLSYO5a8o1543Vr7+nNrZWBDirk+efgJkiDxpcY4TllSycRwVeHqg
-         D5XQknT64m26ahQWr9FzltYNllvJes0t6xG92DVAzgEcUYHABn0wodLonRFrXo+4WZ
-         5gby7lVxrfSdnbgxKvu763v6/b6KwHgoB5P54m1Hq6INKRHT4092QQMLAxJBZggXG6
-         C4dTCZbYAp6DMa/E3SHwqVrYbvqocLq0CDv4pM58sLQpLqyduPUhwBWODkU91qqkXU
-         1Q14nXullZdgg==
-Date:   Thu, 29 Apr 2021 09:13:35 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v4 79/79] media: hantro: do a PM resume earlier
-Message-ID: <20210429091335.2b563ab5@coco.lan>
-In-Reply-To: <e5eeffbbad6ee90204cb3928cfd6774efb6174f3.camel@collabora.com>
-References: <cover.1619621413.git.mchehab+huawei@kernel.org>
-        <569838d406dde80dcc64989a663882817a54cbb2.1619621413.git.mchehab+huawei@kernel.org>
-        <e5eeffbbad6ee90204cb3928cfd6774efb6174f3.camel@collabora.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S237247AbhD2HRd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 03:17:33 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:33311 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237128AbhD2HRc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Apr 2021 03:17:32 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id c0ublp8LfiDzSc0uflkOHR; Thu, 29 Apr 2021 09:16:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1619680605; bh=xnnCKfyaJF/eAf+XEZujExVF4AzU7qrZb69GBTxgIEg=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=wsclS3CMRp2+5ueH/aaPIVYdhexV0rultZnjXTgu6xoe+fEAJhXJa8lyOTEK6nwHg
+         G8ZdfBVfbchlRru5O/Q3C1EwlizqAnlqlK/72aVlsl1YhrEIsByJMjdsSBbRtsNlPh
+         8sCEGmWCb6UP9Qp89p1LesWZaNPxmnt7jR2NRS2Emfnjdet+CE+AYsjN77xFJHoRG4
+         ITiqKhwtHRzYUjQfAxXJHkTX2257RjB07q3kEBLpba6uHQ9Vi534Ab47yps2QeCvps
+         bre6RqtzTNEqsvBiBpPeiIdo60d3VBZkPfcH0uJ6JwOzG6wYAMbVQ+WJlahV1pGirB
+         PZ1k9cm6D/opg==
+Subject: Re: [PATCH v4 04/15] media: add Mediatek's MM21 format
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <20210427111526.1772293-1-acourbot@chromium.org>
+ <20210427111526.1772293-5-acourbot@chromium.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <25f9bfc5-7e69-20cc-7078-8783bba2f877@xs4all.nl>
+Date:   Thu, 29 Apr 2021 09:16:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210427111526.1772293-5-acourbot@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfEjD42wv31KGxQzYuQpkZN3n+BoYeNWkPjTUn1ucJATssoAXLUWM7q0ypLRz+BKn1G02eTkdC+wuEYSoJ64rvGv2sJzFfpmT5jae5uqrLqWeGrI5leBn
+ 8/L1IZVhwJQlnjhvDc8qYadwWEm8AvuUDp/rB22FkDdU0aBH0vJx9Hy/USDlIrSciCSVhJMiaG6Ia5QERb2duaZbOhbaC6JR8pBHqxbu4tEDI+jOeP5zOTQu
+ CK1rKHHPJ9QA5PoVsoVdOWMAYgLH7QwIbAtSsb7eO3f/bZ5qU5yuWjVXSfjTmZf70Hin6JQGXay4/NNIwt21H8r0sbNcX+vWb1e3yaoo7+t/SsOYGZC0M85I
+ P/bhVlD8lXg6hTw02/Eo45Pnc1Iuuc1fKHo/X2p/amfv3+SsWcK86Xj0b12yYn5+MXiOdO2c02ZzDfmV5Dh7xI61iCcmOh/dtoo+KYqyVxefl7I/91tdhmrU
+ UPglvFXIR/vL+Mjrg2TeXh0ETenpPprLH1gkAQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 28 Apr 2021 14:17:50 -0300
-Ezequiel Garcia <ezequiel@collabora.com> escreveu:
+On 27/04/2021 13:15, Alexandre Courbot wrote:
+> Add Mediatek's non-compressed 8 bit block video mode. This format is
+> produced by the MT8183 codec and can be converted to a non-proprietary
+> format by the MDP3 component.
+> 
+> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> ---
+>  Documentation/userspace-api/media/v4l/pixfmt-reserved.rst | 7 +++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                      | 1 +
+>  include/uapi/linux/videodev2.h                            | 1 +
+>  3 files changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> index 0b879c0da713..42357b0b3535 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> @@ -246,6 +246,13 @@ please make a proposal on the linux-media mailing list.
+>  	It is an opaque intermediate format and the MDP hardware must be
+>  	used to convert ``V4L2_PIX_FMT_MT21C`` to ``V4L2_PIX_FMT_NV12M``,
+>  	``V4L2_PIX_FMT_YUV420M`` or ``V4L2_PIX_FMT_YVU420``.
+> +    * .. _V4L2-PIX-FMT-MM21:
+> +
+> +      - ``V4L2_PIX_FMT_MM21``
+> +      - 'MM21'
+> +      - Non-compressed, tiled two-planar format used by Mediatek MT8183.
+> +	This is an opaque intermediate format and the MDP3 hardware can be
+> +	used to convert it to other formats.
+>      * .. _V4L2-PIX-FMT-SUNXI-TILED-NV12:
+>  
+>        - ``V4L2_PIX_FMT_SUNXI_TILED_NV12``
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 6a5d1c6d11d6..608e3ddc0f42 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1385,6 +1385,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_TM6000:	descr = "A/V + VBI Mux Packet"; break;
+>  	case V4L2_PIX_FMT_CIT_YYVYUY:	descr = "GSPCA CIT YYVYUY"; break;
+>  	case V4L2_PIX_FMT_KONICA420:	descr = "GSPCA KONICA420"; break;
+> +	case V4L2_PIX_FMT_MM21:		descr = "Mediatek 8-bit block format"; break;
 
-> Hi Mauro,
->=20
-> Thanks a lot for taking care of this.
->=20
-> On Wed, 2021-04-28 at 16:52 +0200, Mauro Carvalho Chehab wrote:
-> > The device_run() first enables the clock and then
-> > tries to resume PM runtime, checking for errors.
-> >=20
-> > Well, if for some reason the pm_runtime can not resume,
-> > it would be better to detect it beforehand.
-> >=20
-> > So, change the order inside device_run().
-> >=20
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org> =20
->=20
-> Clocks could be behind power-domains, IIRC, so this change
-> is fixing that.
->=20
-> However, this has ever been a problem for this driver,
-> so I don't think it makes sense to bother with Fixes tag.
+block format -> Block Format
 
-I would prefer to move this patch to the first part of this
-series, together with other fixes, rebasing it to apply cleanly
-before the pm_runtime_resume_and_get() patch, with:
+(to be consistent with the other descriptions)
 
-    Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+Regards,
 
-This way, people that could be interested on backporting it will be
-capable to apply it as is to stable Kernel releases that came
-with this driver.
+	Hans
 
->=20
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
->=20
-> Thanks,
-> Ezequiel
->=20
-> > ---
-> > =C2=A0drivers/staging/media/hantro/hantro_drv.c | 8 ++++----
-> > =C2=A01 file changed, 4 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/stagin=
-g/media/hantro/hantro_drv.c
-> > index 25fa36e7e773..67de6b15236d 100644
-> > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > @@ -160,14 +160,14 @@ static void device_run(void *priv)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0src =3D hantro_get_src_=
-buf(ctx);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dst =3D hantro_get_dst_=
-buf(ctx);
-> > =C2=A0
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D clk_bulk_enable(ctx-=
->dev->variant->num_clocks, ctx->dev->clocks);
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0goto err_cancel_job;
-> > -
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D pm_runtime_resu=
-me_and_get(ctx->dev->dev);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret < 0)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0goto err_cancel_job;
-> > =C2=A0
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D clk_bulk_enable(ctx-=
->dev->variant->num_clocks, ctx->dev->clocks);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0goto err_cancel_job;
-> > +
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0v4l2_m2m_buf_copy_metad=
-ata(src, dst, true);
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ctx->codec_ops->run(ctx=
-); =20
->=20
->=20
+>  	case V4L2_PIX_FMT_HSV24:	descr = "24-bit HSV 8-8-8"; break;
+>  	case V4L2_PIX_FMT_HSV32:	descr = "32-bit XHSV 8-8-8-8"; break;
+>  	case V4L2_SDR_FMT_CU8:		descr = "Complex U8"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 311a01cc5775..db04e37da1a8 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -733,6 +733,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_Y12I     v4l2_fourcc('Y', '1', '2', 'I') /* Greyscale 12-bit L/R interleaved */
+>  #define V4L2_PIX_FMT_Z16      v4l2_fourcc('Z', '1', '6', ' ') /* Depth data 16-bit */
+>  #define V4L2_PIX_FMT_MT21C    v4l2_fourcc('M', 'T', '2', '1') /* Mediatek compressed block mode  */
+> +#define V4L2_PIX_FMT_MM21     v4l2_fourcc('M', 'M', '2', '1') /* Mediatek 8-bit block mode, two non-contiguous planes */
+>  #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
+>  #define V4L2_PIX_FMT_SUNXI_TILED_NV12 v4l2_fourcc('S', 'T', '1', '2') /* Sunxi Tiled NV12 Format */
+>  #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
+> 
 
-
-
-Thanks,
-Mauro
