@@ -2,121 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D58A736E90E
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 12:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70DBF36E937
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 12:58:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234903AbhD2Ku5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 06:50:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48322 "EHLO
+        id S237051AbhD2K7K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 06:59:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233114AbhD2Ku5 (ORCPT
+        with ESMTP id S233114AbhD2K7I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 06:50:57 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD5AAC06138B
-        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 03:50:10 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id m7so65059796ljp.10
-        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 03:50:10 -0700 (PDT)
+        Thu, 29 Apr 2021 06:59:08 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA756C06138E
+        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 03:58:21 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id m9so53686883wrx.3
+        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 03:58:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=fBz2hTypJluSjziKv7GgA1OX9KQuEuDahZYz6wgVbV4=;
-        b=YXwoqfXY6XhKailBMEwyTqgvGcwttrIvQT8rYv5Sm6vVwAeTvmqPzBoifXPL0AdjXi
-         R5o0QlZ5JJ2irXROA9a5ad6FRwz6Y04yCurAX22X7zCFu+rVxdM15irI2APRP4KYJ3c8
-         XZF3MzFbC3h+dcdIujfVmCdirB134ebMZCDskDrbePNAD5n2kLlIpaq8iFtGU8LfdRVA
-         SZ2wugQGvCM9a1x8+w94PVZTc3Lz/k5YKnTWEy5XvZzOVrYDp10me+6HD4Oj81aEajvM
-         kvpDvrsY3vzHzeiqnou3hmsAg65MCbSXjOx6LOfXTlBwsPvtNYVvvSeTObBdk0oGpsht
-         6K/w==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N22HpYWXUzBgK+T0RJEQQdoyzlJYcc1uUBLY1VBnpyY=;
+        b=wm+9EZRDEj76bRf5XfYHJE+tul/xFGbN6ELREbBcUsjT7MWScuKHKhq5KqyPXc4fmT
+         Qj9/P0VePFfhoYb1yrhZIMfxs07QWa3UAh6WnWnTx3rPzFeb21vLGb7VVkruJNXRlXZx
+         xMa0ekRwupMBwkjKcagQGGlBPKdd8u04uqiMGwDAnDs2x74bT6VBrLOvWBp9sPHOBVeB
+         eHioJYFIvX7OnVcZok48Yo2csCos8nksL3VrS1UQ0lzPgwN1EkqijDIBtU3D1plMcS39
+         vyDVLYyezMUo9Tofc2jcLLs84383y7TBRiivsnLsRwuVym6cqalszGOc4L5a8KzHdPvU
+         GZRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=fBz2hTypJluSjziKv7GgA1OX9KQuEuDahZYz6wgVbV4=;
-        b=URxsjoGlqtKOHv4cKbYVSsvIzssdPL/WiJRACKuh/oJmlQi7jou9kuXBndxlmJlUV5
-         eMWVP7vNLoy1ilC8ek1OZqJ6RXHRwmG5otpR8w5A0v/Jn2RmvSvMlbLFT/wbMtXCSftU
-         zL6HZPgKXoU8BGulTaN971Fe1ff8ch7I/IwteSCewt43FtdD3DliPfv6svqDjc8H7hir
-         iTuWDGhJ3OM4CpOj+XJMSziZ9tSxTiuWTHQ1OsZjifjXxT73cyx5zYM4RlcDPZPdBdXA
-         tQzrtavwv8LdXPKdVDT5zYcCKXeSiko9OqoMSRpvvX0GnNGG649Q7pckiDhhsbZIVm2i
-         3bIA==
-X-Gm-Message-State: AOAM532C/pByk8J8ZkoIpCxxEBKk6C8cXCvV7ncVn9/5WitkhY2a5G9B
-        qmfUaGNRz05HGCuviqkzwyc=
-X-Google-Smtp-Source: ABdhPJwlRk9qDnL1ZGovlBVym9JL/cqVIFEi/RknzkvZxo7opMN02x95e5/dBlbs07lVEk73rRKkqQ==
-X-Received: by 2002:a05:651c:211e:: with SMTP id a30mr24801066ljq.18.1619693409402;
-        Thu, 29 Apr 2021 03:50:09 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id e20sm482647lja.68.2021.04.29.03.50.08
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N22HpYWXUzBgK+T0RJEQQdoyzlJYcc1uUBLY1VBnpyY=;
+        b=p3myqtS+ufiokm7eBhxOFW30jeO8VhO5NKb8R7mtqlJ0udj7/gisSGrFrXtH7Jf1dN
+         y0HDT6uljhIzVx+6iyv8U0Sx2Y75a4W3LCgoXKvFM8hmHwAK8lKMTtziGyMUE2s30i5u
+         FiqQKXIbY9HZaezCD9+gPs4hHU6Sc1cYSqtvE3ybhWVzoBx4TbLU6FP4ID6eYhyyCAzw
+         UYVz2cNEm9kCKUXZcf9RGPqkKeXaIkp1Oyd0+/O/mL9EaC+iHIefuS8+i3QsQQrIgRgY
+         /0lG7qy4TQ/LuZHfSHHrdQEICDiWtZSKcc9DGmsJzu/Nlc6zxcQ5D2mpU6DmOT5EpLrV
+         zmAA==
+X-Gm-Message-State: AOAM533whyJFBgtmdOCp/mAekcOuKpx0UxYMYIOiN6iSn6NbB/PdjK9Q
+        N3tChkP6GDe6IOpNtk/DIQG2wSALaTOQ86NQ
+X-Google-Smtp-Source: ABdhPJyqhv4JL4izT6rVt/yzDldPItU1j0UidqdkrgOMSN0zyV+sapSMoVpnwc65V0jgi/6dudyyfw==
+X-Received: by 2002:a5d:6749:: with SMTP id l9mr34715750wrw.142.1619693900443;
+        Thu, 29 Apr 2021 03:58:20 -0700 (PDT)
+Received: from localhost.localdomain (hst-221-29.medicom.bg. [84.238.221.29])
+        by smtp.gmail.com with ESMTPSA id a9sm3372903wmj.1.2021.04.29.03.58.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 03:50:08 -0700 (PDT)
-Date:   Thu, 29 Apr 2021 13:49:58 +0300
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     "Sharma, Shashank" <Shashank.Sharma@amd.com>
-Cc:     Daniel Stone <daniel@fooishbar.org>,
-        "wayland-devel@lists.freedesktop.org" 
-        <wayland-devel@lists.freedesktop.org>, xorg-devel@lists.x.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: Independent EDID parsing library
-Message-ID: <20210429134958.446ef8c6@eldfell>
-In-Reply-To: <BYAPR12MB31265E45A92C468AC1660EB6F25F9@BYAPR12MB3126.namprd12.prod.outlook.com>
-References: <BYAPR12MB31265E45A92C468AC1660EB6F25F9@BYAPR12MB3126.namprd12.prod.outlook.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Thu, 29 Apr 2021 03:58:20 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH 0/3] Qualcomm custom compressed pixfmt
+Date:   Thu, 29 Apr 2021 13:58:12 +0300
+Message-Id: <20210429105815.2790770-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/p_hvVg0gKYWJI7Iznl+uf7D"; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/p_hvVg0gKYWJI7Iznl+uf7D
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Adding the previous list of CCs.
+This patchset adds two compressed pixel formats used by
+Qualcomm SoCs to optimize interconnect bandwidth.
 
-On Thu, 29 Apr 2021 10:32:58 +0000
-"Sharma, Shashank" <Shashank.Sharma@amd.com> wrote:
+Regards,
+Stan
 
-> Hello Pekka, Daniel
->=20
-> As discussed over IRC, I have prepared the first version of the EDID pars=
-ing library, which is hosted here:
-> https://github.com/contactshashanksharma/libedid/tree/master
->=20
-> This is a simple C library, and I have created this library keeping a com=
-positor's context in mind, so its easy for a compositor to use it.
-> There are only 2 APIs in this library:
->               - libedid_process_edid_info: Get EDID information from raw_=
-edid, returns filled struct edid_info ptr
->               - libedid_destroy_edid_info: Free the EDID information
->=20
-> I have provided much information in the README file, and have also added =
-two simple test apps, with sample EDID, to test it.
-> Please have a look and let me know your opinion on this.
->=20
-> Regards
-> Shashank
+Stanimir Varbanov (3):
+  v4l: Add Qualcomm custom compressed pixel formats
+  venus: Add a handling of QC8C compressed format
+  venus: Add a handling of QC10C compressed format
 
+ .../media/v4l/pixfmt-reserved.rst              | 12 ++++++++++++
+ drivers/media/platform/qcom/venus/helpers.c    |  4 ++++
+ drivers/media/platform/qcom/venus/vdec.c       | 18 ++++++++++++++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c           |  2 ++
+ include/uapi/linux/videodev2.h                 |  2 ++
+ 5 files changed, 36 insertions(+), 2 deletions(-)
 
---Sig_/p_hvVg0gKYWJI7Iznl+uf7D
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCKj1YACgkQI1/ltBGq
-qqcdDQ/9HSU3stmuAhcaQ7858GfGoyYe1DQKLc/dzQJHFhRXPB17qrQxrtWIPIL6
-6lJeCKHVUBKTWpy/a7kgGMye1is5dDSk6mq0YkM4RT2gshLOpzcKM3z8hAMqJM1U
-2vFOKhP26xWue4I5RcI7m21bK8p8LNcfpZVOd81pFxLwwEbHMiLhibbUhS/+XEx0
-PgezX+Mug5tz8zI+VK3he4pvpJ8GHMrpD+nXT5cM0ylVJc1HvtGp3fXOHScVXJhc
-JCO8L1aglbzQ7kMfIZ2En9FzpLwqtnT6wTdZVXj5496Lgp2tsix9xW6A17gSiRTb
-JwAD8b4pmD8rJ0BUP2wkGhVk0OFuWk/cfThF66fvTTdM/Qd9mh8EoxcjRdMpJZer
-oZysZuZydLtVGS9gEH8oSFN//wINPxDKQkAPqCzHSbrRepw5c0IlowT643peHni1
-xeX0AK/HhKshg9bzV70rmlLcBA4QOXt5MY+g3Ktkj3fbqOKMRv8P0r+zqyvOXMud
-utZ0A6y/RGnIF3u3zthlD8lAN2LT/uEcqWlA/BfLCvtwmPLE2twf3zQa8helrl2H
-Fgsjmo9tzhg+cY4sHNBHXkd1cpNZiJ4UYLzi3hBx+gfPmh7F7XQ9krNu2yYYajpI
-6A0/URISJwIH7j26FrIcrdHfMINQ3634ydRLdTFzXA9p2/2oNBI=
-=dP8T
------END PGP SIGNATURE-----
-
---Sig_/p_hvVg0gKYWJI7Iznl+uf7D--
