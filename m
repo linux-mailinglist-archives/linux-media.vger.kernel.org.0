@@ -2,133 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BB3E36E25B
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 02:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8936236E25F
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 02:12:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231161AbhD2AID (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 20:08:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbhD2AID (ORCPT
+        id S229794AbhD2ALv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 20:11:51 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40816 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229488AbhD2ALu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 20:08:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B76C06138B
-        for <linux-media@vger.kernel.org>; Wed, 28 Apr 2021 17:07:17 -0700 (PDT)
+        Wed, 28 Apr 2021 20:11:50 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4445DDA8;
-        Thu, 29 Apr 2021 02:07:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 033B7DA8;
+        Thu, 29 Apr 2021 02:11:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619654836;
-        bh=g0SRrd6UJtNdkHO08mk/DFdLgI4FaTiNUmMjsBl5bxI=;
+        s=mail; t=1619655064;
+        bh=pOJZQGsHjpz14wwSlsyS8qJB5d6D7Xs2lVNX5qZ4iLo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZgzSVRGbHeM+bb5riXiwdYTTSMD+Gz+UXECG4PHcVx4uic4+5d0UKFHw1PA3/ANxj
-         ew0vNEZtLPnZZyXxtDAkV84cd8GRFnGFD49mc4r+TloMr4Ar9T+DpNTrkBFJ5+89yu
-         /+RFhMPmk+SlGWSTIpHSwaHK9mLF9435/HzYUwng=
-Date:   Thu, 29 Apr 2021 03:07:10 +0300
+        b=SOvxLs7ZjKMLQvqk2KO88OilmmgkjRK0+ip5AhrcOW/LesiJAPvH/ndFhsc5ZZDc6
+         4K3KMRI8O7O6bIZg9I2aIqItEv0rc6NljEVdUtNfOZGjZoZ7gN2oFdjOqdqfchTLR8
+         joAOFf9Lr54EaEnt6geQar/bw13T9X6hvKpFAGyA=
+Date:   Thu, 29 Apr 2021 03:10:58 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 18/28] media: ti-vpe: cal: add 'use_pix_proc' field
-Message-ID: <YIn4rhvPFp0BEUHy@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 21/28] media: ti-vpe: cal: fix cal_ctx_v4l2_register
+ error handling
+Message-ID: <YIn5kq28QE5L0/uj@pendragon.ideasonboard.com>
 References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
- <20210412113457.328012-19-tomi.valkeinen@ideasonboard.com>
- <YHwtdPrlkpXeyDP6@pendragon.ideasonboard.com>
- <95b7e178-3448-e3b0-6fd7-93dfd932626b@ideasonboard.com>
+ <20210412113457.328012-22-tomi.valkeinen@ideasonboard.com>
+ <YHwvfL885Qm0iD0/@pendragon.ideasonboard.com>
+ <8fb0ee37-236e-3eaa-9e82-0d9bb8c94c39@ideasonboard.com>
+ <cfe378fb-5637-eee7-040b-c028bf2fc4cc@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <95b7e178-3448-e3b0-6fd7-93dfd932626b@ideasonboard.com>
+In-Reply-To: <cfe378fb-5637-eee7-040b-c028bf2fc4cc@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Tomi,
 
-On Mon, Apr 19, 2021 at 02:53:56PM +0300, Tomi Valkeinen wrote:
-> On 18/04/2021 16:00, Laurent Pinchart wrote:
-> > On Mon, Apr 12, 2021 at 02:34:47PM +0300, Tomi Valkeinen wrote:
-> >> We already have functions to reserve and release a pix proc unit, but we
-> >> always reserve such and the code expects the pix proc unit to be used.
+On Tue, Apr 20, 2021 at 02:17:36PM +0300, Tomi Valkeinen wrote:
+> On 20/04/2021 13:50, Tomi Valkeinen wrote:
+> > On 18/04/2021 16:09, Laurent Pinchart wrote:
+> >> On Mon, Apr 12, 2021 at 02:34:50PM +0300, Tomi Valkeinen wrote:
+> >>> cal_ctx_v4l2_register() returns an error code, but the returned error
+> >>> code is not handled anywhere. However, we can't really even handle the
+> >>> error in any proper way, so lets just drop the return value and make
+> >>> sure all error paths have an error print.
 > >>
-> >> Add a new field, 'use_pix_proc', to indicate if the pix prox unit has
-> >> been reserved and should be used. Use the flag to skip programming pix
-> >> proc unit when not needed.
-> >>
-> >> Note that we still always set the use_pix_proc flag to true.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >> ---
-> >>   drivers/media/platform/ti-vpe/cal.c | 10 +++++++---
-> >>   drivers/media/platform/ti-vpe/cal.h |  2 ++
-> >>   2 files changed, 9 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> >> index e397f59d3bbc..a1d173bd4613 100644
-> >> --- a/drivers/media/platform/ti-vpe/cal.c
-> >> +++ b/drivers/media/platform/ti-vpe/cal.c
-> >> @@ -473,13 +473,15 @@ int cal_ctx_prepare(struct cal_ctx *ctx)
-> >>   	}
-> >>   
-> >>   	ctx->pix_proc = ret;
-> >> +	ctx->use_pix_proc = true;
-> >>   
-> >>   	return 0;
-> >>   }
-> >>   
-> >>   void cal_ctx_unprepare(struct cal_ctx *ctx)
-> >>   {
-> >> -	cal_release_pix_proc(ctx->cal, ctx->pix_proc);
-> >> +	if (ctx->use_pix_proc)
-> >> +		cal_release_pix_proc(ctx->cal, ctx->pix_proc);
-> >>   }
-> >>   
-> >>   void cal_ctx_start(struct cal_ctx *ctx)
-> >> @@ -489,7 +491,8 @@ void cal_ctx_start(struct cal_ctx *ctx)
-> >>   
-> >>   	/* Configure the CSI-2, pixel processing and write DMA contexts. */
-> >>   	cal_ctx_csi2_config(ctx);
-> >> -	cal_ctx_pix_proc_config(ctx);
-> >> +	if (ctx->use_pix_proc)
-> >> +		cal_ctx_pix_proc_config(ctx);
-> >>   	cal_ctx_wr_dma_config(ctx);
-> >>   
-> >>   	/* Enable IRQ_WDMA_END and IRQ_WDMA_START. */
-> >> @@ -530,7 +533,8 @@ void cal_ctx_stop(struct cal_ctx *ctx)
-> >>   	cal_write(ctx->cal, CAL_CSI2_CTX(ctx->phy->instance, ctx->ppi_ctx), 0);
-> >>   
-> >>   	/* Disable pix proc */
-> >> -	cal_write(ctx->cal, CAL_PIX_PROC(ctx->pix_proc), 0);
-> >> +	if (ctx->use_pix_proc)
-> >> +		cal_write(ctx->cal, CAL_PIX_PROC(ctx->pix_proc), 0);
-> >>   }
-> >>   
-> >>   /* ------------------------------------------------------------------
-> >> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> >> index 01e05e46e48d..409b7276a1fa 100644
-> >> --- a/drivers/media/platform/ti-vpe/cal.h
-> >> +++ b/drivers/media/platform/ti-vpe/cal.h
-> >> @@ -223,6 +223,8 @@ struct cal_ctx {
-> >>   	u8			cport;
-> >>   	u8			ppi_ctx;
-> >>   	u8			pix_proc;
-> >> +
-> >> +	bool use_pix_proc;
+> >> Ouch. Doesn't this call for registering the video node earlier, at probe
+> >> time, instead of in the async notifier complete callback ?
 > > 
-> > Indentation ?
-> > 
-> > How about turning pix_proc to a signed value, and using -1 to indicate
-> > it's not used ?
-> 
-> I considered that. But then, instead of "if (ctx->use_pix_proc)" I would 
-> have "if (ctx->use_pix_proc >= 0)". I think the former is better. And 
-> having a non-zero default value always makes me a bit uneasy.
+> > Shouldn't we only register uAPI access points after the kernel has 
+> > probed (succesfully) the hardware? If we register the video nodes at 
+> > probe time I presume we would have to add checks to all the cal ioctl 
+> > handlers to check if we have actually probed.
 
-I personally feel more uneasy when having a bool that qualifies whether
-another field is valid or not :-) Probably because I then never know
-what to set the other field to when setting the bool to false. It could
-just be me, it doesn't matter much.
+There's a long-lasting debate on this topic :-) The issue with
+registering video nodes when all the subdevs have been acquired is that
+you should then unregister them with a subdev is removed. The
+re-registration gets fairly messy, especially if userspace keeps a video
+device node open. It's not like V4L2 handles object life time management
+correctly anyway, as it's completely broken in the core, maybe we
+shouldn't care and just decide that unbinding a device from its driver
+is unsupported.
+
+> > v4l2_async_notifier_operations.complete can return an error, but it's 
+> > not quite clear to me what happens in that case and how the driver 
+> > should handle it.
+> > 
+> > I'll look at this a bit, maybe it's still better to handle the error in 
+> > complete callback and return the error from there, than ignoring the error.
+> 
+> Well, handling the error in complete callback seems to work fine. I'm 
+> not sure why I didn't do that and instead went with the approach in this 
+> patch.
 
 -- 
 Regards,
