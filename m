@@ -2,139 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00B6336E253
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 02:00:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E575A36E257
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 02:05:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbhD1X6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 19:58:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46586 "EHLO
+        id S229624AbhD2AFl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 20:05:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231858AbhD1X6Q (ORCPT
+        with ESMTP id S229479AbhD2AFl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 19:58:16 -0400
+        Wed, 28 Apr 2021 20:05:41 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBEB8C06138B
-        for <linux-media@vger.kernel.org>; Wed, 28 Apr 2021 16:57:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0823C06138B
+        for <linux-media@vger.kernel.org>; Wed, 28 Apr 2021 17:04:55 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4355BDA8;
-        Thu, 29 Apr 2021 01:57:29 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 087FEDA8;
+        Thu, 29 Apr 2021 02:04:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619654249;
-        bh=F2xyZy3EcKtMTaHxiCipYAv1hZMeYtslF4j5VcwtOVo=;
+        s=mail; t=1619654694;
+        bh=bM8WbrmqOGVS6GpfWLEY6sIb9qyNZwIn5wf7MSlEUpw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UynIPbG/YL0gjtXxTKSgYPHqdmv3diSdxmFRYXZ9jAPBVjPd641RSIHKltTbj7hPl
-         wtxZsJGS14WeggrUfrq/J61LAMrZaqktnnM6Fj0OdkpaOjcbBt31c7CQgB09QmO/+J
-         hdJnquVhbowHsXqsBaoiTcA34Orqj1tUpWdva9zk=
-Date:   Thu, 29 Apr 2021 02:57:23 +0300
+        b=M69QGoqpV4acRcVZoRarmuDefLGtOzJH+U5O0uu8yBhnrnNd8ha6tAzluWaByCzKT
+         WjRqqDw9JTqOFOo0GwFgcSfLWEPSBvC9dVzNX6iPaKZDpiuvkQ3B3FijlHwLiei25w
+         IdRMhMimMa+OXt1xse3/UVUiESY/Baoa2tRmqCWQ=
+Date:   Thu, 29 Apr 2021 03:04:48 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 15/28] media: ti-vpe: cal: remove wait when stopping
- camerarx
-Message-ID: <YIn2Y/HpOPBKUzh/@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 17/28] media: ti-vpe: cal: allocate pix proc dynamically
+Message-ID: <YIn4IBdepKdmG2kh@pendragon.ideasonboard.com>
 References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
- <20210412113457.328012-16-tomi.valkeinen@ideasonboard.com>
- <YHwqLSgwYmt9ZAOU@pendragon.ideasonboard.com>
- <9d6b96f4-cdb0-5820-965d-7135a926829f@ideasonboard.com>
+ <20210412113457.328012-18-tomi.valkeinen@ideasonboard.com>
+ <YHwtI+WIlHWCBEH5@pendragon.ideasonboard.com>
+ <5e91c272-67a5-ed76-63c3-6c0972d42cf7@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9d6b96f4-cdb0-5820-965d-7135a926829f@ideasonboard.com>
+In-Reply-To: <5e91c272-67a5-ed76-63c3-6c0972d42cf7@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Tomi,
 
-On Mon, Apr 19, 2021 at 02:29:20PM +0300, Tomi Valkeinen wrote:
-> On 18/04/2021 15:46, Laurent Pinchart wrote:
-> > On Mon, Apr 12, 2021 at 02:34:44PM +0300, Tomi Valkeinen wrote:
-> >> Asserting ComplexIO reset seems to affect the HW (ie. asserting reset
-> >> will break an active capture), but the RESET_DONE bit never changes to
-> >> "reset is ongoing" state. Thus we always get a timeout.
+On Mon, Apr 19, 2021 at 02:45:53PM +0300, Tomi Valkeinen wrote:
+> On 18/04/2021 15:59, Laurent Pinchart wrote:
+> > On Mon, Apr 12, 2021 at 02:34:46PM +0300, Tomi Valkeinen wrote:
+> >> CAL has 4 pixel processing units but the units are not needed e.g. for
+> >> metadata. As we could be capturing 4 pixel streams and 4 metadata
+> >> streams, i.e. using 8 DMA contexts, we cannot assign a pixel processing
+> >> unit to every DMA context. Instead we need to reserve a pixel processing
+> >> unit only when needed.
 > >>
-> >> Drop the wait, as it seems to achieve nothing.
+> >> Add functions to reserve and release a pix proc unit, and use them in
+> >> cal_ctx_prepare/unprepare. Note that for the time being we still always
+> >> reserve a pix proc unit.
 > >>
 > >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > >> ---
-> >>   drivers/media/platform/ti-vpe/cal-camerarx.c | 15 ++-------------
-> >>   1 file changed, 2 insertions(+), 13 deletions(-)
+> >>   drivers/media/platform/ti-vpe/cal.c | 44 +++++++++++++++++++++++++++--
+> >>   drivers/media/platform/ti-vpe/cal.h |  2 ++
+> >>   2 files changed, 44 insertions(+), 2 deletions(-)
 > >>
-> >> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> >> index 0354f311c5d2..245c601b992c 100644
-> >> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-> >> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> >> @@ -405,7 +405,6 @@ static int cal_camerarx_start(struct cal_camerarx *phy)
+> >> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> >> index a6ca341c98bd..e397f59d3bbc 100644
+> >> --- a/drivers/media/platform/ti-vpe/cal.c
+> >> +++ b/drivers/media/platform/ti-vpe/cal.c
+> >> @@ -290,6 +290,37 @@ void cal_quickdump_regs(struct cal_dev *cal)
+> >>    * ------------------------------------------------------------------
+> >>    */
 > >>   
-> >>   static void cal_camerarx_stop(struct cal_camerarx *phy)
+> >> +#define CAL_MAX_PIX_PROC 4
+> >> +
+> >> +static int cal_reserve_pix_proc(struct cal_dev *cal)
+> >> +{
+> >> +	unsigned long ret;
+> >> +
+> >> +	spin_lock(&cal->v4l2_dev.lock);
+> >> +
+> >> +	ret = find_first_zero_bit(&cal->reserve_pix_proc_mask, CAL_MAX_PIX_PROC);
+> >> +
+> >> +	if (ret == CAL_MAX_PIX_PROC) {
+> >> +		spin_unlock(&cal->v4l2_dev.lock);
+> >> +		return -ENOSPC;
+> >> +	}
+> >> +
+> >> +	cal->reserve_pix_proc_mask |= BIT(ret);
+> >> +
+> >> +	spin_unlock(&cal->v4l2_dev.lock);
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +
+> >> +static void cal_release_pix_proc(struct cal_dev *cal, unsigned int pix_proc_num)
+> >> +{
+> >> +	spin_lock(&cal->v4l2_dev.lock);
+> >> +
+> >> +	cal->reserve_pix_proc_mask &= ~BIT(pix_proc_num);
+> >> +
+> >> +	spin_unlock(&cal->v4l2_dev.lock);
+> >> +}
+> >> +
+> >>   static void cal_ctx_csi2_config(struct cal_ctx *ctx)
 > >>   {
-> >> -	unsigned int i;
-> >>   	int ret;
+> >>   	u32 val;
+> >> @@ -433,12 +464,22 @@ static bool cal_ctx_wr_dma_stopped(struct cal_ctx *ctx)
 > >>   
-> >>   	cal_camerarx_ppi_disable(phy);
-> >> @@ -419,19 +418,9 @@ static void cal_camerarx_stop(struct cal_camerarx *phy)
-> >>   			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL,
-> >>   			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK);
-> >>   
-> >> -	/* Wait for power down completion */
-> >> -	for (i = 0; i < 10; i++) {
-> >> -		if (cal_read_field(phy->cal,
-> >> -				   CAL_CSI2_COMPLEXIO_CFG(phy->instance),
-> >> -				   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_MASK) ==
-> >> -		    CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING)
+> >>   int cal_ctx_prepare(struct cal_ctx *ctx)
+> >>   {
+> >> +	int ret;
+> >> +
+> >> +	ret = cal_reserve_pix_proc(ctx->cal);
+> >> +	if (ret < 0) {
+> >> +		ctx_err(ctx, "Failed to reserve pix proc: %d\n", ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	ctx->pix_proc = ret;
 > > 
-> > Isn't this the wrong condition ? I would have expected
-> > CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETCOMPLETED, not
-> > CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING. That could explain why
-> > you always get a timeout.
+> > I wonder if this is the right place to allocate a context, it may be
+> > better to reject invalid pipeline configurations earlier on. It's fine
+> > for now, we can revisit this in subsequent patches, with the full
+> > multiplexed streams implementation.
 > 
-> No, I don't think so. The complexio reset is set active just before the 
-> wait. So the reset status should show reset ongoing, until at some point 
-> we release the reset (we do that when starting the PHY again).
->
-> The TRM doesn't talk about this, though. So, I guess the status might go 
-> to RESETONGOING for a very short time and back to RESETCOMPLETED before 
-> the code can see the RESETONGOING. But I suspect the status just stays 
-> at RESETCOMPLETED.
+> Earlier than what? Even before cal_start_streaming()? I guess we could 
+> do this in cal_vb2_ioctl_reqbufs and cal_vb2_ioctl_create_bufs, but then 
+> I'm not sure where to free the pix proc.
 
-The TRM is indeed not very clear. My understanding was that asserting
-RESET_CTRL initiates the reset, and RESET_DONE switches to 1 once the
-reset completes. There's however a note in the initialization sequence
-that states
+I'm trying to recall what I meant :-) There are only two options really,
+at stream start (that's the latest point at which we need to guarantee a
+valid pipeline), or when configuring routing (either through link setup,
+or internal subdev routing). I'm not sure if the second option is even
+possible. Buffer allocation isn't the right place.
 
-a. Deassert the CAMERARX reset:
-i. Set CAL_CSI2_COMPLEXIO_CFG_j[30] RESET_CTRL to 0x1.
-CAUTION
-For the CAL_CSI2_COMPLEXIO_CFG_j[29] RESET_DONE bit to be set to 0x1
-(reset completed), the external sensor must to be active and sending the
-MIPI HS BYTECLK (that is, RXBYTECLKHS clock).
+> > Another option would be to allocate the context in cal_ctx_create() for
+> > now, with a call to cal_reserve_pix_proc(), and move it later in the
+> > context of the patch series that implements support for multiplexed
+> > streams.
+> 
+> For now cal_reserve_pix_proc() will always succeed, as we have 4 pix 
+> procs but only ever allocate 2 at the same time. If there is a better 
+> place to do this for multiplexed streams, which is not available yet at 
+> this patch, then I agree, we could just do this in cal_ctx_create until 
+> we have that better place available.
 
-The RESET_DONE bit may thus only toggle when de-asserting the reset
-signal (by setting RESET_CTRL to 1). It would be useful to test that
-hypothesis by reading RESET_DONE just before setting RESET_CTRL to 1,
-and right after. I'd expect the values to be 0 and 1 respectively. If
-that's the case, then this patch is likely correct, so
+Maybe that's what I meant :-) As I can't really recall, it probably
+doesn't matter much.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >> +
+> >>   	return 0;
+> >>   }
+> >>   
+> >>   void cal_ctx_unprepare(struct cal_ctx *ctx)
+> >>   {
+> >> -
+> >> +	cal_release_pix_proc(ctx->cal, ctx->pix_proc);
+> >>   }
+> >>   
+> >>   void cal_ctx_start(struct cal_ctx *ctx)
+> >> @@ -872,7 +913,6 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
+> >>   	ctx->dma_ctx = inst;
+> >>   	ctx->ppi_ctx = inst;
+> >>   	ctx->cport = inst;
+> >> -	ctx->pix_proc = inst;
+> >>   
+> >>   	ret = cal_ctx_v4l2_init(ctx);
+> >>   	if (ret)
+> >> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+> >> index c34b843d2019..01e05e46e48d 100644
+> >> --- a/drivers/media/platform/ti-vpe/cal.h
+> >> +++ b/drivers/media/platform/ti-vpe/cal.h
+> >> @@ -188,6 +188,8 @@ struct cal_dev {
+> >>   	struct media_device	mdev;
+> >>   	struct v4l2_device	v4l2_dev;
+> >>   	struct v4l2_async_notifier notifier;
+> >> +
+> >> +	unsigned long reserve_pix_proc_mask;
+> > 
+> > I would have named this used_pix_proc_mask.
+> 
+> The name has a typo, and should actually be 'reserved_pix_proc_mask'. 
+> Doesn't 'used' mean that something was used, but may not be used 
+> anymore? So... in_use_pix_proc_mask? 'active'? I don't know, I like 
+> 'reserved' best here.
 
-
-The register macros are quite confusing by the way. We have
-
-#define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK          BIT(30)
-#define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL                       0
-#define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_OPERATIONAL           1
-
-When reading the code, I thought
-
-        cal_write_field(phy->cal, CAL_CSI2_COMPLEXIO_CFG(phy->instance),
-                        CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL,
-                        CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK)
-
-meant that we were setting the reset bit to 1. I would personally get
-rid of the _MASK suffixes for single bits, and use 0 and 1 in the code
-instead of CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL and
-CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_OPERATIONAL.
+"reserved" is indeed better than "reserve". I may still like "used"
+better, but I don't care much. Or you could flip it, and have
+"free_pix_proc_mask". Up to you.
 
 -- 
 Regards,
