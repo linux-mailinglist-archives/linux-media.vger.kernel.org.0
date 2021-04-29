@@ -2,43 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80BAA36E3AE
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 05:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC86936E3E1
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 06:00:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229888AbhD2D1y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 23:27:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229805AbhD2D1y (ORCPT
+        id S237915AbhD2Dq6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 23:46:58 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42520 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238032AbhD2Dq5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 23:27:54 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BCBFC06138B
-        for <linux-media@vger.kernel.org>; Wed, 28 Apr 2021 20:27:08 -0700 (PDT)
+        Wed, 28 Apr 2021 23:46:57 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97258BC0;
-        Thu, 29 Apr 2021 05:27:06 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2F99BC0;
+        Thu, 29 Apr 2021 05:46:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619666826;
-        bh=qPzxEps9A+vJ4O456HUHAAYlmgvpM2Znpkr9Wr4rivE=;
+        s=mail; t=1619667970;
+        bh=SU28/jFnXbe/k9NXYsNWnCz4tlKq9/2iXGDdZinZOqY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QYGZ+AdSigoXidipiU5GdyOo4PoDqZcsW+8Ab2XL34RNX3Tt/tjh6neRyzh3/c5b6
-         +pWxpwdHlCJnR3NjABdRm1dorHKk7j18BJcOztFi/wovVINnuKkE0cQHfyxiwD+SVO
-         Pt+tbF+lBOfTXZYp29Leauf+ABys2HYj/U8cngl4=
-Date:   Thu, 29 Apr 2021 06:27:00 +0300
+        b=co6aBr0jnuUonavnr2NKAmPWRtasvgyLa9XjAqwgH9UcVV0UmeXd3XcxATiOxhSjb
+         Oq7+FWx65BXer6cLLsTgASAZc3ZK2XJGkWVGJde4CVExsS6KyvO59tQHANNlT+IfP6
+         QGd9LEikktVkvPM+9ymCf/aQVkPlu8xHX09GHPJU=
+Date:   Thu, 29 Apr 2021 06:46:03 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com
-Subject: Re: [PATCH 3/4] media: ti-vpe: cal: add routing support
-Message-ID: <YIonhCOpnYIh8dOL@pendragon.ideasonboard.com>
-References: <20210427132028.1005757-1-tomi.valkeinen@ideasonboard.com>
- <20210427132028.1005757-4-tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v6 20/24] v4l: subdev: routing kernel helper functions
+Message-ID: <YIor+41ZQDLgDTqj@pendragon.ideasonboard.com>
+References: <20210427124523.990938-1-tomi.valkeinen@ideasonboard.com>
+ <20210427124523.990938-21-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210427132028.1005757-4-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20210427124523.990938-21-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -47,175 +46,182 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Tue, Apr 27, 2021 at 04:20:27PM +0300, Tomi Valkeinen wrote:
-> Add routing support. As we still only support a single stream (i.e. a
-> single route), the routing is not really used for anything yet.
+On Tue, Apr 27, 2021 at 03:45:19PM +0300, Tomi Valkeinen wrote:
+> Add helper functions for routing.
+> 
+> TODO: add docs.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/platform/ti-vpe/cal-camerarx.c | 64 ++++++++++++++++++++
->  drivers/media/platform/ti-vpe/cal.h          |  2 +
->  2 files changed, 66 insertions(+)
+>  drivers/media/v4l2-core/v4l2-subdev.c | 90 +++++++++++++++++++++++++++
+>  include/media/v4l2-subdev.h           | 14 +++++
+>  2 files changed, 104 insertions(+)
 > 
-> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> index 36103f5af6e9..3470f6dc0ec1 100644
-> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> @@ -805,6 +805,37 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
->  	return 0;
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index ad79ce121cee..31e279292ea6 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -910,6 +910,96 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
+>  	return -EINVAL;
 >  }
 >  
-> +static int cal_camerarx_sd_get_routing(struct v4l2_subdev *sd,
-> +				       struct v4l2_subdev_krouting *routing)
+> +int v4l2_subdev_get_krouting(struct v4l2_subdev *sd,
+
+I wonder if we could call the function v4l2_subdev_get_routing(), the
+functions below don't have a k prefix.
+
+> +			     struct v4l2_subdev_krouting *routing)
 > +{
-> +	struct cal_camerarx *phy = to_cal_camerarx(sd);
-> +	struct v4l2_subdev_krouting *src;
-
-const, as src isn't modified.
-
-> +
-> +	src = &phy->routing;
-
-That could be written
-
-	const struct v4l2_subdev_krouting *src = &phy->routing;
-
-> +
-> +	if (routing->num_routes < src->num_routes) {
-> +		routing->num_routes = src->num_routes;
-> +		return -ENOSPC;
-> +	}
-> +
-> +	v4l2_subdev_cpy_routing(routing, src);
-> +
-> +	return 0;
-> +}
-> +
-> +static int cal_camerarx_sd_set_routing(struct v4l2_subdev *sd,
-> +				       struct v4l2_subdev_krouting *routing)
-> +{
-> +	struct cal_camerarx *phy = to_cal_camerarx(sd);
 > +	int ret;
-
-Shouldn't you reject !ACTIVE configs ? Same in
-cal_camerarx_sd_get_routing() I suppose.
-
 > +
-> +	ret = v4l2_subdev_dup_routing(&phy->routing, routing);
-> +	if (ret)
+> +	routing->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> +	routing->routes = NULL;
+> +	routing->num_routes = 0;
+> +
+> +	ret = v4l2_subdev_call(sd, pad, get_routing, routing);
+> +	if (ret == 0)
+> +		return 0;
+> +	if (ret != -ENOSPC)
 > +		return ret;
 > +
+> +	routing->routes = kvmalloc_array(routing->num_routes,
+> +					 sizeof(*routing->routes), GFP_KERNEL);
+> +	if (!routing->routes)
+> +		return -ENOMEM;
+> +
+> +	ret = v4l2_subdev_call(sd, pad, get_routing, routing);
+> +	if (ret) {
+> +		kvfree(routing->routes);
+
+Should we handle the case where the subdev configuration gets changed
+between the two calls, and the number of routes increases ? If that can
+happen, there's also a risk for the routing configuration to be stale
+already when this function returns, so it's probably the caller that
+needs to ensure this can't happen.
+
+> +		return ret;
+> +	}
+> +
 > +	return 0;
 > +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_krouting);
 > +
->  static int cal_camerarx_sd_init_cfg(struct v4l2_subdev *sd,
->  				    struct v4l2_subdev_pad_config *cfg)
->  {
-> @@ -837,6 +868,8 @@ static const struct v4l2_subdev_pad_ops cal_camerarx_pad_ops = {
->  	.enum_frame_size = cal_camerarx_sd_enum_frame_size,
->  	.get_fmt = cal_camerarx_sd_get_fmt,
->  	.set_fmt = cal_camerarx_sd_set_fmt,
-> +	.get_routing = cal_camerarx_sd_get_routing,
-> +	.set_routing = cal_camerarx_sd_set_routing,
->  };
->  
->  static const struct v4l2_subdev_ops cal_camerarx_subdev_ops = {
-> @@ -844,8 +877,18 @@ static const struct v4l2_subdev_ops cal_camerarx_subdev_ops = {
->  	.pad = &cal_camerarx_pad_ops,
->  };
->  
-> +static bool cal_camerarx_has_route(struct media_entity *entity, unsigned int pad0,
-> +			  unsigned int pad1)
+> +void v4l2_subdev_free_routing(struct v4l2_subdev_krouting *routing)
 > +{
-> +	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
-> +	struct cal_camerarx *phy = to_cal_camerarx(sd);
-> +
-> +	return v4l2_subdev_has_route(&phy->routing, pad0, pad1);
+> +	kvfree(routing->routes);
+> +	routing->routes = NULL;
+
+I'd set num_routes to 0 too.
+
 > +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_free_routing);
 > +
->  static struct media_entity_operations cal_camerarx_media_ops = {
->  	.link_validate = v4l2_subdev_link_validate,
-> +	.has_route = cal_camerarx_has_route,
->  };
->  
->  /* ------------------------------------------------------------------
-> @@ -862,6 +905,20 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
->  	int ret;
->  	unsigned int i;
->  
-> +	struct v4l2_subdev_route routes[] = { {
-> +		.sink_pad = 0,
-> +		.sink_stream = 0,
-> +		.source_pad = 1,
-> +		.source_stream = 0,
-> +		.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-> +	} };
+> +void v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
+> +			     const struct v4l2_subdev_krouting *src)
+> +{
+> +	memcpy(dst->routes, src->routes,
+> +	       src->num_routes * sizeof(*src->routes));
+
+Is there a guarantee that dst has allocated enough entries in routes ?
+It seems a bit fragile.
+
+> +	dst->num_routes = src->num_routes;
+> +	dst->which = src->which;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_cpy_routing);
 > +
-> +	struct v4l2_subdev_krouting routing = {
-> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> +		.num_routes = 1,
-> +		.routes = routes,
-> +	};
+> +int v4l2_subdev_dup_routing(struct v4l2_subdev_krouting *dst,
+> +			    const struct v4l2_subdev_krouting *src)
+> +{
+> +	if (dst->routes)
+> +		kvfree(dst->routes);
 
-I'd move this above the other variables. Blank lines are not customary.
+I'd set routes to NULL and num_routes to 0 here, so that num_routes
+would be 0 if the allocation fails below. The performance impact will be
+negligible, and the data will be more coherent. We could set num_routes
+to 0 in the allocation error path, but splitting the kvfree() and the
+routes and num_routes assignments opens the door to more bugs when this
+function will be extended/refactored.
 
 > +
->  	phy = kzalloc(sizeof(*phy), GFP_KERNEL);
->  	if (!phy)
->  		return ERR_PTR(-ENOMEM);
-> @@ -914,6 +971,11 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
->  	if (ret)
->  		goto error;
->  
-> +	/* Initialize routing to single route to the fist source pad */
-
-s/fist/first/
-s/pad/pad./
-
-> +	ret = cal_camerarx_sd_set_routing(sd, &routing);
-> +	if (ret)
-> +		goto error;
+> +	if (src->num_routes == 0) {
+> +		dst->which = src->which;
+> +		dst->routes = NULL;
+> +		dst->num_routes = 0;
+> +		return 0;
+> +	}
 > +
->  	ret = v4l2_device_register_subdev(&cal->v4l2_dev, sd);
->  	if (ret)
->  		goto error;
-> @@ -921,6 +983,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
->  	return phy;
->  
->  error:
-> +	v4l2_subdev_free_routing(&phy->routing);
->  	media_entity_cleanup(&phy->subdev.entity);
->  	kfree(phy);
->  	return ERR_PTR(ret);
-> @@ -932,6 +995,7 @@ void cal_camerarx_destroy(struct cal_camerarx *phy)
->  		return;
->  
->  	v4l2_device_unregister_subdev(&phy->subdev);
-> +	v4l2_subdev_free_routing(&phy->routing);
->  	media_entity_cleanup(&phy->subdev.entity);
->  	of_node_put(phy->source_ep_node);
->  	of_node_put(phy->source_node);
-> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> index 3aea444f8bf8..c96364eb0930 100644
-> --- a/drivers/media/platform/ti-vpe/cal.h
-> +++ b/drivers/media/platform/ti-vpe/cal.h
-> @@ -184,6 +184,8 @@ struct cal_camerarx {
->  	struct mutex		mutex;
->  
->  	unsigned int enable_count;
+> +	dst->routes = kvmalloc_array(src->num_routes, sizeof(*src->routes),
+> +				     GFP_KERNEL);
+> +	if (!dst->routes)
+> +		return -ENOMEM;
 > +
-> +	struct v4l2_subdev_krouting routing;
+> +	v4l2_subdev_cpy_routing(dst, src);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_dup_routing);
+> +
+> +bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
+> +			   unsigned int pad0, unsigned int pad1)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < routing->num_routes; ++i) {
+> +		struct v4l2_subdev_route *route = &routing->routes[i];
+> +
+> +		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> +			continue;
+> +
+> +		if (route->sink_pad == pad0 && route->source_pad == pad1)
 
-Looking forward to storing this in v4l2_subdev_config, and embedding an
-instance of v4l2_subdev_config in v4l2_subdev :-)
-cal_camerarx_has_route() could then be replaced by a generic V4L2 subdev
-helper, and so could cal_camerarx_sd_get_routing().
+pad0 and pad1 should be renamed to sink_pad and source_pad if that's how
+they need to be used. Given that this function is called in the media
+entity .has_route() operation, which only guarantees that pad0 < pad 1,
+we probably want to support the case where pad0 is a source pad and pad1
+a sink pad.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I'm trying to recall why the media entity operation was designed this
+way, and I think it was meant to support testing if two sink pads or two
+source pads are connected by routes, indirectly. For instance, if a
+subdev has one sink pad A and two source pads B and C, active routes
+from A to B and from A to C should result in .has_route(B, C) returning
+true. If I remember correctly, this was needed by the graph traversal
+code, but that would need to be double-checked.
 
->  };
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
+> +
+>  int v4l2_subdev_link_validate(struct media_link *link)
+>  {
+>  	struct v4l2_subdev *sink;
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index c45f5f0156c9..1235d4832b76 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -1235,4 +1235,18 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
+>  void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>  			      const struct v4l2_event *ev);
 >  
->  struct cal_dev {
+> +int v4l2_subdev_get_krouting(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_krouting *routing);
+> +
+> +void v4l2_subdev_free_routing(struct v4l2_subdev_krouting *routing);
+> +
+> +int v4l2_subdev_dup_routing(struct v4l2_subdev_krouting *dst,
+> +			    const struct v4l2_subdev_krouting *src);
+> +
+> +void v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
+> +			     const struct v4l2_subdev_krouting *src);
+> +
+> +bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
+> +			   unsigned int pad0, unsigned int pad1);
+> +
+>  #endif
 
 -- 
 Regards,
