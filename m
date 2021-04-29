@@ -2,31 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC49636E5F2
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 09:29:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2968E36E61C
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 09:37:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239274AbhD2Had (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 03:30:33 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:59237 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231405AbhD2Hac (ORCPT
+        id S237215AbhD2HiG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 03:38:06 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:42615 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229814AbhD2HhJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 03:30:32 -0400
+        Thu, 29 Apr 2021 03:37:09 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id c16TlpDS3iDzSc16WlkRRL; Thu, 29 Apr 2021 09:28:56 +0200
+        id c1D6lpGQjiDzSc1DAlkTFj; Thu, 29 Apr 2021 09:35:49 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1619681337; bh=irx+AKzVobrOXchjacnMXLOcJZVMn6WEAoeMBWB+Psk=;
+        t=1619681749; bh=e+nJscNVv3JQsbWlwn5P4urVvkcZ/Jr/l81JInVCgRw=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=ekCX0NTElJI5yRJR/QKxGUS/Glv+c/W2Bwd+vxyASmVphgckLzjRezwYrT2dXCo8K
-         7TfOBzTi48l1A+jnag8XiUQcKAoRyrSG/a1m6NGRtv4d39HmXvDOJM688WYEXQi2fS
-         meSgVTQDVQrXBx6drXk1RH624zfdqCashIH9BlLuSHkz5K/9nzeFd1RKDwYhmVWFXC
-         WvYeeYYCg4goYDbfzA4e5telyeCB3MIkUt52I7Bg+fv3LF2qhGnk1oYUQUnDTsuBKQ
-         UGUs1vapTtybv0VfAXeJmBogOQcJtXmsSgUpOpAfJ/fCFe6HREvowp1g4CW/+QBkDx
-         FcD2nlAp91yXg==
-Subject: Re: [PATCH v4 07/15] media: mtk-vcodec: vdec: add media device if
- using stateless api
+        b=GVTSyQ24Ogjk7I4tcaOqHj0W0Att+FfuPHcIwMezqkIbVqhrMd/W5X4ncDoneaURz
+         z2vD4hpyFjhRT4tdg3jI89Sc0LEnEC3he9AeSK7zlddKZKvubirLayp9QpllJv0OVr
+         QfOWL1H/pPhLltuBzYQs+VbZJKTkcn3q+g6RDAqsiMLbK/8qPC4vVFdxhvBUalfqW9
+         F5zzcwrDFVTsMMBDzLB9eTYB2YpJUG3904OAcKO/4nbrGutTLR0LAIzQltkewsDsR2
+         MzRRfwqhs4EdZpwCo/ATM+aO4EKW005T8uQRAHdK3/xLC46BS4UsbrMvp+0zCCOH2c
+         JX685SJ56JWqg==
+Subject: Re: [PATCH v4 00/15] media: mtk-vcodec: support for MT8183 decoder
 To:     Alexandre Courbot <acourbot@chromium.org>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -36,153 +35,113 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mediatek@lists.infradead.org
 References: <20210427111526.1772293-1-acourbot@chromium.org>
- <20210427111526.1772293-8-acourbot@chromium.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <faa5553f-2ea5-27a5-7f85-e1418d2c7df1@xs4all.nl>
-Date:   Thu, 29 Apr 2021 09:28:53 +0200
+Message-ID: <34782bc5-d891-8eef-d370-6cfcc547166a@xs4all.nl>
+Date:   Thu, 29 Apr 2021 09:35:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210427111526.1772293-8-acourbot@chromium.org>
+In-Reply-To: <20210427111526.1772293-1-acourbot@chromium.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKmi/SGORAUg0f3nHpt2gRRLP6BFQwGcgLu/Gzt9IyC42z6wVdrRmIO8uK/pxq7KxBnzXd3UhoZjt9jqiH5C7PtiMw/pdVT4fI7ilAA3L8RsXzI2YRac
- zqi82jkMFZKRKdjLWm0KB+/YtIwdgzlHd8TTZ+ms3Gu1V6NYmwLO7snmkHmZjKeUE5R+5qKarwJwYVseZuQaaQ+HAOz1lqIzfUgBtWJ4rpyCcQ2395Yt4V00
- xLlwZ7DfC63NxJfk7ud8l1rEiJZDcRVVcvdL7ixSVTRwtY1lIUuu0Zcp1ShyZbOyl8QjuQknEztDZPbsxWp6lJ+l64dEvqXiS8pwpyIlgW6VXXPnF6fBkz23
- U3o0SSREogb0BQxHB0kuKp6UIBJq8A3ieffobATJo+HCDxJewrJJA/7ZSY5x4K4ZE82D+FPBTQjCakOBHZCkFS/Dza9ICgrw9Z71s74GedwAFO8ngF6Zj/hb
- kHMbdyDQw+HCMp8TUlH602vSQb70227lurFW6g==
+X-CMAE-Envelope: MS4xfBegxNwO7sjie5TrkNagJYw+HjzrJ7Zn+5Qg+SpHhR+WqQNGXlOvvaRUlXTd3rM9W28JFL81MTlv7IIDbIRAoZQRCq6qOMfu5R5wBxhuqrgrdOWVQFvV
+ dVRMFwiWslx7Fwdr0AzDsqwgbLBjBtX/brx/cV8umxRe8FwHBG2SRX3960fsiLD8JXFVEMavXUzt1XF/D5AErhsZp8D1k7BVglju9naOtYGgNwmxtfIUyEME
+ VjH/zBOQhW5Qz74NO8CTjQFLrjMGmlNlUgvR9YphAodAYbwJzjkIfRK5Q5ImnWKROWEqxhvXmaRg9TsRqMQc8yY7EC2h86Ygrpl2hxqsPFIuLv92CwguIBXF
+ 8vCu31qhm5SSYKEMrCTBMzOpKipLUlGVUPYqZO1dUL0sqwrv5Zvuk4v5uNEwmt30kM5Bmg7GjxF3AHV4hfQL0D+m4C11Z0snRZtzWyNSl3JW6o8LtK4EA1bl
+ qxxH0YJD5uQ01RLCtdRG2FS6OfEXfNxkfTUGeA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 27/04/2021 13:15, Alexandre Courbot wrote:
-> From: Yunfei Dong <yunfei.dong@mediatek.com>
+> This series adds support for the stateless API into mtk-vcodec, by first
+> separating the stateful ops into their own source file, and introducing
+> a new set of ops suitable for stateless decoding. As such, support for
+> stateful decoders should remain completely unaffected.
 > 
-> The stateless API requires a media device for issuing requests. Add one
-> if we are being instantiated as a stateless decoder.
+> This series has been tested with both MT8183 and MT8173. Decoding was
+> working for both chips, and in the case of MT8173 no regression has been
+> noticed.
+> 
+> Patches 1-9 add MT8183 support to the decoder using the stateless API.
+> MT8183 only support H.264 acceleration.
+> 
+> Patches 10-15 are follow-ups that further improve compliance for the
+> decoder and encoder, by fixing support for commands on both. Patch 11
+> also makes sure that supported H.264 profiles are exported on MT8173.
 
-Why for the stateless decoder only? Why not create one for all?
-
-It's not a blocker, but I would recommend looking at this.
+For a v5 I would recommend that - where possible - these 'improve compliance'
+patches are moved to the beginning of the series. That way they can be picked
+up quickly without having to wait for the whole series to be accepted.
 
 Regards,
 
 	Hans
 
 > 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> [acourbot: refactor, cleanup and split]
-> Co-developed-by: Alexandre Courbot <acourbot@chromium.org>
-> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> ---
->  drivers/media/platform/Kconfig                |  1 +
->  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 39 +++++++++++++++++++
->  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  2 +
->  3 files changed, 42 insertions(+)
+> Changes since v3:
+> * Stop checking that controls are set for every request.
+> * Add V4L2_CID_STATELESS_H264_START_CODE control.
+> * Stop mapping OUTPUT buffers and getting the NAL type from them, use the
+>   nal_ref_idc field instead.
+> * Make V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control stateful-only.
+> * Set vb2_buffer's field to V4L2_FIELD_NONE in buffer validation hook.
 > 
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index ae1468aa1b4e..4154fdec2efb 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -315,6 +315,7 @@ config VIDEO_MEDIATEK_VCODEC
->  	select VIDEO_MEDIATEK_VCODEC_VPU if VIDEO_MEDIATEK_VPU
->  	select VIDEO_MEDIATEK_VCODEC_SCP if MTK_SCP
->  	select V4L2_H264
-> +	select MEDIA_CONTROLLER
->  	help
->  	  Mediatek video codec driver provides HW capability to
->  	  encode and decode in a range of video formats on MT8173
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> index 533781d4680a..e942e28f96fe 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> @@ -14,6 +14,7 @@
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-mem2mem.h>
->  #include <media/videobuf2-dma-contig.h>
-> +#include <media/v4l2-device.h>
->  
->  #include "mtk_vcodec_drv.h"
->  #include "mtk_vcodec_dec.h"
-> @@ -324,6 +325,31 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  		goto err_event_workq;
->  	}
->  
-> +	if (dev->vdec_pdata->uses_stateless_api) {
-> +		dev->mdev_dec.dev = &pdev->dev;
-> +		strscpy(dev->mdev_dec.model, MTK_VCODEC_DEC_NAME,
-> +				sizeof(dev->mdev_dec.model));
-> +
-> +		media_device_init(&dev->mdev_dec);
-> +		dev->mdev_dec.ops = &mtk_vcodec_media_ops;
-> +		dev->v4l2_dev.mdev = &dev->mdev_dec;
-> +
-> +		ret = v4l2_m2m_register_media_controller(dev->m2m_dev_dec,
-> +			dev->vfd_dec, MEDIA_ENT_F_PROC_VIDEO_DECODER);
-> +		if (ret) {
-> +			mtk_v4l2_err("Failed to register media controller");
-> +			goto err_reg_cont;
-> +		}
-> +
-> +		ret = media_device_register(&dev->mdev_dec);
-> +		if (ret) {
-> +			mtk_v4l2_err("Failed to register media device");
-> +			goto err_media_reg;
-> +		}
-> +
-> +		mtk_v4l2_debug(0, "media registered as /dev/media%d",
-> +			vfd_dec->num);
-> +	}
->  	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, 0);
->  	if (ret) {
->  		mtk_v4l2_err("Failed to register video device");
-> @@ -336,6 +362,12 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  	return 0;
->  
->  err_dec_reg:
-> +	if (dev->vdec_pdata->uses_stateless_api)
-> +		media_device_unregister(&dev->mdev_dec);
-> +err_media_reg:
-> +	if (dev->vdec_pdata->uses_stateless_api)
-> +		v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
-> +err_reg_cont:
->  	destroy_workqueue(dev->decode_workqueue);
->  err_event_workq:
->  	v4l2_m2m_release(dev->m2m_dev_dec);
-> @@ -368,6 +400,13 @@ static int mtk_vcodec_dec_remove(struct platform_device *pdev)
->  
->  	flush_workqueue(dev->decode_workqueue);
->  	destroy_workqueue(dev->decode_workqueue);
-> +
-> +	if (media_devnode_is_registered(dev->mdev_dec.devnode)) {
-> +		media_device_unregister(&dev->mdev_dec);
-> +		v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
-> +		media_device_cleanup(&dev->mdev_dec);
-> +	}
-> +
->  	if (dev->m2m_dev_dec)
->  		v4l2_m2m_release(dev->m2m_dev_dec);
->  
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> index 78d4a7728ddf..10edd238c939 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> @@ -383,6 +383,7 @@ struct mtk_vcodec_enc_pdata {
->   * struct mtk_vcodec_dev - driver data
->   * @v4l2_dev: V4L2 device to register video devices for.
->   * @vfd_dec: Video device for decoder
-> + * @mdev_dec: Media device for decoder
->   * @vfd_enc: Video device for encoder.
->   *
->   * @m2m_dev_dec: m2m device for decoder
-> @@ -418,6 +419,7 @@ struct mtk_vcodec_enc_pdata {
->  struct mtk_vcodec_dev {
->  	struct v4l2_device v4l2_dev;
->  	struct video_device *vfd_dec;
-> +	struct media_device mdev_dec;
->  	struct video_device *vfd_enc;
->  
->  	struct v4l2_m2m_dev *m2m_dev_dec;
+> Changes since v2:
+> * Add follow-up patches fixing support for START/STOP commands for the
+>   encoder, and stateful decoder.
+> 
+> Alexandre Courbot (8):
+>   media: mtk-vcodec: vdec: handle firmware version field
+>   media: mtk-vcodec: support version 2 of decoder firmware ABI
+>   media: add Mediatek's MM21 format
+>   dt-bindings: media: document mediatek,mt8183-vcodec-dec
+>   media: mtk-vcodec: vdec: use helpers in VIDIOC_(TRY_)DECODER_CMD
+>   media: mtk-vcodec: vdec: clamp OUTPUT resolution to hardware limits
+>   media: mtk-vcodec: make flush buffer reusable by encoder
+>   media: mtk-vcodec: venc: support START and STOP commands
+> 
+> Hirokazu Honda (1):
+>   media: mtk-vcodec: vdec: Support H264 profile control
+> 
+> Hsin-Yi Wang (1):
+>   media: mtk-vcodec: venc: make sure buffer exists in list before
+>     removing
+> 
+> Yunfei Dong (5):
+>   media: mtk-vcodec: vdec: move stateful ops into their own file
+>   media: mtk-vcodec: vdec: support stateless API
+>   media: mtk-vcodec: vdec: support stateless H.264 decoding
+>   media: mtk-vcodec: vdec: add media device if using stateless api
+>   media: mtk-vcodec: enable MT8183 decoder
+> 
+>  .../bindings/media/mediatek-vcodec.txt        |   1 +
+>  .../media/v4l/pixfmt-reserved.rst             |   7 +
+>  drivers/media/platform/Kconfig                |   2 +
+>  drivers/media/platform/mtk-vcodec/Makefile    |   3 +
+>  .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 818 +++---------------
+>  .../platform/mtk-vcodec/mtk_vcodec_dec.h      |  28 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  66 +-
+>  .../mtk-vcodec/mtk_vcodec_dec_stateful.c      | 667 ++++++++++++++
+>  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     | 370 ++++++++
+>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  58 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 135 ++-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |   4 +
+>  .../mtk-vcodec/vdec/vdec_h264_req_if.c        | 780 +++++++++++++++++
+>  .../media/platform/mtk-vcodec/vdec_drv_if.c   |   3 +
+>  .../media/platform/mtk-vcodec/vdec_drv_if.h   |   1 +
+>  .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  23 +-
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  43 +-
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   5 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+>  include/uapi/linux/videodev2.h                |   1 +
+>  20 files changed, 2293 insertions(+), 723 deletions(-)
+>  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+>  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+>  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+> 
+> --
+> 2.31.1.498.g6c1eba8ee3d-goog
 > 
 
