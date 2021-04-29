@@ -2,159 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16D9F36ECC0
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 16:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEDD936ED36
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 17:17:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234862AbhD2Ovt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 10:51:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45360 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232989AbhD2Ovt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 10:51:49 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 697D9C06138C
-        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 07:51:02 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id n2so14074184wrm.0
-        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 07:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=0snjfriunXokbhjSMJ9Eyiap4guJwiDtJ6KT7smyyik=;
-        b=zZuvgHd91qgQwjw10MKn4hrMbBJwZ/VIUK2nLx6HRcitCkkzaZtGkyAJUgUI4Aet1g
-         wyTdxhA2NL7uTPT2v3OoLOQTp+Uw+KBC13mIBQb07A7NfrpOiECd/kO4dDlwwr3jpNwv
-         5Y44aLLZ0lheYTLUioJBmD5//UBatavi2PwfoPIk/0LkFx25xI3gGo+EqwTFElyrot6S
-         Pe4kotbwcdBCM4az9Ak0Lvcc4un9xQOc7na5Z2Vq5cK4YhWgcv2Y8Zt92uI+l7rEVkES
-         uWFEby+By7MjeuLaNm7ruUSy7Kx3V3ilZYyVuUKVLZO075FXuHGOXQQvTx8riRiZR03Z
-         /sjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=0snjfriunXokbhjSMJ9Eyiap4guJwiDtJ6KT7smyyik=;
-        b=p7A8SsSjV6+yXl2X8u+zvtPej1Pkc+WnNYU6tFBBxv2s24aUXAWfsYt25zSYMvHT8o
-         OfZswhjBKoENMLfZpg8npGQvCoD11Cuu6vXDQZh86ixYvpIU4rPKQSy5M+6B5YTz1fQu
-         k4makg1afQHgUY8USKCck6zLrlFI0lXnueZtKRAak+1k7uk40s7BqSXgO++mTSyAzNJV
-         xg/idc5vdVJtNKHgoF0wNXl2LU2mMHVhmcirjPHVhASg052oF2GCtJ6JuVW37ktXsquk
-         kpndJHLEXIZkl+b9/zQOSRWuW/Mf6xB+59H16LaZlGdGWmbGhjxUFOMMeu3rcsK8LqJy
-         j0UQ==
-X-Gm-Message-State: AOAM533FtGqi9xVxtKJhGSqHx+PmfkBtVH1+jdbnSchPvJ9JcdRUadUm
-        GvCZqABEshNARHDcgN0rWyaSlQ==
-X-Google-Smtp-Source: ABdhPJzj4vvtS0ITy4N2nOoIEmto/xNvRB0C1X+g/W+l+SSz8bMWSXmMg681Oss3TiWJNDLomY4WSA==
-X-Received: by 2002:a5d:6d48:: with SMTP id k8mr155304wri.93.1619707861191;
-        Thu, 29 Apr 2021 07:51:01 -0700 (PDT)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id n7sm3245336wri.14.2021.04.29.07.51.00
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Thu, 29 Apr 2021 07:51:00 -0700 (PDT)
-From:   John Cox <jc@kynesim.co.uk>
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        ezequiel@collabora.com, benjamin.gaignard@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] media: hevc: Fix dependent slice segment flags
-Date:   Thu, 29 Apr 2021 15:51:00 +0100
-Message-ID: <lrhl8gl392tcpss5rcpkqr1cahujnlqq9k@4ax.com>
-References: <20210427071554.2222625-1-jernej.skrabec@siol.net>
-In-Reply-To: <20210427071554.2222625-1-jernej.skrabec@siol.net>
-User-Agent: ForteAgent/8.00.32.1272
+        id S240546AbhD2PRv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 11:17:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36092 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233420AbhD2PRs (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Apr 2021 11:17:48 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DADC8613F8;
+        Thu, 29 Apr 2021 15:17:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619709421;
+        bh=0TF/rgI+kIrUM4ucLgyoRQVNDZwjwMCttPCbdF1J2ts=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TNblwH+As0w11JRNen3DEa/sKtquJO7N/ed+Wi2cPt5DPo/pzApjHeB4CYlT9czKN
+         RFJnIUjSlU/iXNkujkJ9GfUIBpZYvUPaxBLDLGXBQdVlv5qb6mSpE1DcETxlBJLjdH
+         3g63qgtE3JXAaoo4Aq3ZJQdiRo/RBYWmOp0+Glxzsc1YjsicyiOaSi7GIhQYDFx0Ss
+         xxX7tIodOuoDf+uK3PdOkr9EHdavuGSGLxTjoqehEjaUHaupkr1YkvsH7C4pSmGQvt
+         kJLY88R3n7qjm+eBETbZXRLROLJk7BZhgXtoeO/pKC8+dHkhcGgjRgK0xEL1TOs1c0
+         knRtXQpP0PexA==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1lc8Ph-0006kM-4M; Thu, 29 Apr 2021 17:17:13 +0200
+Date:   Thu, 29 Apr 2021 17:17:13 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Shawn Tu <shawnx.tu@intel.com>,
+        Ricardo Ribalda <ribalda@kernel.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Heiko Stuebner <heiko@sntech.de>, linuxarm@huawei.com,
+        Todor Tomov <todor.too@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+        Andy Gross <agross@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        devel@driverdev.osuosl.org, Jacopo Mondi <jacopo@jmondi.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        linux-tegra@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Benoit Parrot <bparrot@ti.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        linux-samsung-soc@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        mauro.chehab@huawei.com,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Jacob Chen <jacob-chen@iotwrt.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+        Dan Scally <djrscally@gmail.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH v4 00/79] Address some issues with PM runtime at media
+ subsystem
+Message-ID: <YIrN+VEY9Sf+eztR@hovoldconsulting.com>
+References: <cover.1619621413.git.mchehab+huawei@kernel.org>
+ <YImEMN/POW5C8lG7@hovoldconsulting.com>
+ <20210429121215.64a7cbdb@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20210429121215.64a7cbdb@coco.lan>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
->Dependent slice segment flag for PPS control is misnamed. It should have
->"enabled" at the end. It only tells if this flag is present in slice
->header or not and not the actual value.
->
->Fix this by renaming the PPS flag and introduce another flag for slice
->control which tells actual value.
->
->Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
->---
-> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 ++++-
-> drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 4 ++--
-> include/media/hevc-ctrls.h                                | 3 ++-
-> 3 files changed, 8 insertions(+), 4 deletions(-)
->
->diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
-b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->index 7b90cb939e9d..5ed343ddd1ea 100644
->--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->@@ -3059,7 +3059,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->     :stub-columns: 0
->     :widths:       1 1 2
->=20
->-    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT``
->+    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED``
->       - 0x00000001
->       -
->     * - ``V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT``
->@@ -3274,6 +3274,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->     * - =
-``V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED``
->       - 0x00000100
->       -
->+    * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT``
->+      - 0x00000200
->+      -
->=20
-> .. raw:: latex
->=20
->diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c =
-b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->index 397a4ba5df4c..6821e3d05d34 100644
->--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->@@ -479,8 +479,8 @@ static void cedrus_h265_setup(struct cedrus_ctx =
-*ctx,
-> 				slice_params->flags);
->=20
-> 	reg |=3D =
-VE_DEC_H265_FLAG(VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_DEPENDENT_SLICE_SEG=
-MENT,
->-				V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT,
->-				pps->flags);
->+				V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT,
->+				slice_params->flags);
->=20
-> 	/* FIXME: For multi-slice support. */
-> 	reg |=3D =
-VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
->diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->index b713eeed1915..dc964ff7cd29 100644
->--- a/include/media/hevc-ctrls.h
->+++ b/include/media/hevc-ctrls.h
->@@ -83,7 +83,7 @@ struct v4l2_ctrl_hevc_sps {
-> 	__u64	flags;
-> };
->=20
->-#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT		(1ULL << 0)
->+#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
-> #define V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT			(1ULL << 1)
-> #define V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED		(1ULL << 2)
-> #define V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT			(1ULL << 3)
->@@ -166,6 +166,7 @@ struct v4l2_hevc_pred_weight_table {
-> #define V4L2_HEVC_SLICE_PARAMS_FLAG_USE_INTEGER_MV		(1ULL << 6)
-> #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED =
-(1ULL << 7)
-> #define =
-V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED (1ULL=
- << 8)
->+#define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
->=20
-> struct v4l2_ctrl_hevc_slice_params {
-> 	__u32	bit_size;
+On Thu, Apr 29, 2021 at 12:18:16PM +0200, Mauro Carvalho Chehab wrote:
+> Em Wed, 28 Apr 2021 17:50:08 +0200
+> Johan Hovold <johan@kernel.org> escreveu:
+> 
+> > On Wed, Apr 28, 2021 at 04:51:21PM +0200, Mauro Carvalho Chehab wrote:
+> 
+> > > 1. despite its name, this is actually a PM runtime resume call,
+> > >    but some developers didn't seem to realize that, as I got this
+> > >    pattern on some drivers:
+> > > 
+> > >         pm_runtime_get_sync(&client->dev);
+> > >         pm_runtime_disable(&client->dev);
+> > >         pm_runtime_set_suspended(&client->dev);
+> > >         pm_runtime_put_noidle(&client->dev);
+> > > 
+> > >    It makes no sense to resume PM just to suspend it again ;-)  
+> > 
+> > This is perfectly alright. Take a look at ov7740_remove() for example:
+> > 
+> > 	pm_runtime_get_sync(&client->dev);
+> > 	pm_runtime_disable(&client->dev);
+> > 	pm_runtime_set_suspended(&client->dev);
+> > 	pm_runtime_put_noidle(&client->dev);
+> > 	
+> > 	ov7740_set_power(ov7740, 0);
+> > 
+> > There's an explicit power-off after balancing the PM count and this will
+> > work regardless of the power state when entering this function.
+> 
+> Ok, but this should equally work:
+> 
+>  	pm_runtime_disable(&client->dev);
+>  	pm_runtime_set_suspended(&client->dev);
+>  	
+>  	ov7740_set_power(ov7740, 0);
+> 
+> as there's no additional cleanup made on this particular driver
+> between pm_runtime_get_sync() and pm_runtime_put_noidle().
 
-Happy to see this flag finally making it
+No, that would break the driver as I pointed out to you yesterday:
 
-Many thanks
+	https://lore.kernel.org/r/YImG1klSPkFSaS3a@hovoldconsulting.com
 
-John Cox
+If the device is already suspended when remove is called then you'll
+end up with an unbalanced call to ov7740_set_power() that will try to
+disable an already disabled clock.
+
+> > So this has nothing to do with pm_runtime_get_sync() per se.
+> 
+> Yes, but some patches on this series are cleaning up the driver release
+> logic.
+
+You mentioned this example as an argument against using
+pm_runtime_get_sync(), which I don't think makes sense.
+
+> > > 2. Usual *_get() methods only increment their use count on success,
+> > >    but pm_runtime_get_sync() increments it unconditionally. Due to
+> > >    that, several drivers were mistakenly not calling
+> > >    pm_runtime_put_noidle() when it fails;  
+> > 
+> > Sure, but pm_runtime_get_async() also works this way. You just won't be
+> > notified if the async resume fails.
+> 
+> Granted, it makes sense along the pm_runtime kAPI.
+> 
+> It is inconsistent with the behavior of kobject_get*() and other
+> *_get*() methods that are based or inspired on it, as, on those, the
+> operations are atomic: either everything succeeds and it doesn't return
+> an error, or the usage counter is not incremented and the object
+> state doesn't change after the call.
+
+Right, and I'm aware that some people have overlooked this. But its not
+the end of the world since hardly any driver can handle resume failures
+properly anyway. 
+
+This is mostly just an exercise to shut up static checkers.
+
+> > > 3. The name of the new variant is a lot clearer:
+> > > 	pm_runtime_resume_and_get()
+> > >     As its same clearly says that this is a PM runtime resume function,
+> > >     that also increments the usage counter on success;  
+> > 
+> > It also introduced an inconsistency in the API and does not pair as well
+> > with the pm_runtime_put variants.
+> 
+> Agreed. A name that would be more consistent with PM runtime would
+> probably be:
+> 
+> 	pm_runtime_resume_if_get()
+
+Naw, since the get part always succeeds.
+
+It should start with pm_runtime_get, but pm_runtime_get_sync() is
+unfortunately taken.
+
+> as there are already:
+> 
+> 	pm_runtime_get_if_in_use()
+> 	pm_runtime_get_if_active()
+> 
+> But any such discussions are out of the scope of this patchset ;-)
+
+Right.
+
+> > > 4. Consistency: we did similar changes subsystem wide with
+> > >    for instance strlcpy() and strcpy() that got replaced by
+> > >    strscpy(). Having all drivers using the same known-to-be-safe
+> > >    methods is a good thing;  
+> > 
+> > It's not known to be safe; there are ways to get also this interface
+> > wrong as for example this series has shown.
+> 
+> Very true. Yet, it is a lot simpler to use functions that won't change
+> the state of the objects when returning an error, as this is by far
+> the most common pattern within the Kernel.
+
+A resume failure does change the state (and needs to be recovered from),
+but I get what you're saying.
+
+> Human brains are trained to identify certain patterns. When there's
+> something using a similar pattern, but with a different behavior, 
+> our brains are more subject to fail identifying problems.
+
+Sure. But I'm not sure that having two interfaces with different
+semantics to do the job is doing us any favours here. But again, that
+discussion has already been had.
+
+And I realise that this is partly also your motive here (even if the old
+interface isn't going to go away).
+
+> > > compile-tested only.
+> > > Patches 1 to 7 fix some issues that already exists at the current
+> > > PM runtime code;
+> > > 
+> > > patches 8 to 20 fix some usage_count problems that still exists
+> > > at the media subsystem;
+> > > 
+> > > patches 21 to 78 repaces pm_runtime_get_sync() by 
+> > > pm_runtime_resume_and_get();
+> > > 
+> > > Patch 79 (and a hunk on patch 78) documents the two exceptions
+> > > where pm_runtime_get_sync() will still be used for now.
+
+80 patches in one series (posted to lkml) is a bit excessive. Perhaps
+you can break it up in a fixes part and one or more cleanups parts?
+
+Johan
