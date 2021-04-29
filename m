@@ -2,109 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13A1936E9B8
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 13:43:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D8CA36E9CB
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 13:49:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231343AbhD2LoO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 07:44:14 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:48282 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230148AbhD2LoN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 07:44:13 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TBcjmt082930;
-        Thu, 29 Apr 2021 11:43:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=l9paM8Sw26fpexoC/EnBzpLilcBGWGzN9ia2QZD4Amc=;
- b=y6v92FQfduysPPZYd19YGHWDnYvjbZ1LP0NJvh2Dssu98G29di71pKF4ZR+E4vBJS/1B
- 7Zxjhi+EFdIXpPdQken01brewrB2+KzBSgx6wl5JLlmrN6ehYF1ZdmOzqBREstoMQhS4
- EsK9krJk0y/cINKXlEADpOZSkvJQJk/6UzyDouDEo0TmzOIHPTtQk4nDwW3qsbPy5J0o
- nS/IM+pyuNmEMsGCVGVROcstbKBslXAkTYpnMUXc3tqmtXTxZfuSUseeIzUUIuVnDsTt
- E3HyIoLkUCS0x2XEydFoM0papsOf0ERxoWCAIgk0++iyTqYpvI1Flm3gq6d1ArPckd87 TQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 385afq44cu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 29 Apr 2021 11:43:15 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TBesH7031945;
-        Thu, 29 Apr 2021 11:43:15 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3030.oracle.com with ESMTP id 3848f0xhme-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 29 Apr 2021 11:43:15 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13TBhETP042674;
-        Thu, 29 Apr 2021 11:43:14 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 3848f0xhks-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 29 Apr 2021 11:43:14 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13TBhCKb001721;
-        Thu, 29 Apr 2021 11:43:12 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 29 Apr 2021 04:43:12 -0700
-Date:   Thu, 29 Apr 2021 14:43:04 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Deepak R Varma <drv@mailo.com>
+        id S233922AbhD2Lum (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 07:50:42 -0400
+Received: from msg-1.mailo.com ([213.182.54.11]:44600 "EHLO msg-1.mailo.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231168AbhD2Lul (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Apr 2021 07:50:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+        t=1619696983; bh=twcZvohCwjd1Si2IWjo5hMQiJhmHeTywKFGo7trrjmM=;
+        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+         MIME-Version:Content-Type:In-Reply-To;
+        b=Si/1+HM4CPa/2TYbFN7rtLmZ1ad+o6SRowrXVbNwE7SHbCb8toW79VTxXzFpFwbe2
+         49Zop4iHdeDCHZxnXUZl9YNLG3bwbJ2WtrtNd0/bhtLnnZl6cUv6t4TkSz2DewZhwM
+         wuSG2Ov/k5NBo2520SqEgo5oKGcfImkjO3Sa62Nk=
+Received: by 192.168.90.11 [192.168.90.11] with ESMTP
+        via ip-206.mailobj.net [213.182.55.206]
+        Thu, 29 Apr 2021 13:49:43 +0200 (CEST)
+X-EA-Auth: Qhap1+fDGjjyE3FPac3PuXQI/P8frPknoRrQRqU1eiTe0gP2ff7WVl63dMDg3Cpt3C2zzvRXSXvQ/QWwYu0b6zHK+UFq7S08
+Date:   Thu, 29 Apr 2021 17:19:35 +0530
+From:   Deepak R Varma <drv@mailo.com>
+To:     Fabio Aiuto <fabioaiuto83@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
-Subject: Re: [PATCH v1 4/6] staging: media: atomisp: reformat code comment
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 5/9] staging: media: atomisp: reformat code comment
  blocks
-Message-ID: <20210429114304.GC21598@kadam>
-References: <cover.1619022192.git.drv@mailo.com>
- <efdd8910b519dd55838570c72e3ce35e063f4a11.1619022192.git.drv@mailo.com>
- <20210429100808.GZ1981@kadam>
- <YIqZHWkHi8HWnF0C@192.168.1.8>
+Message-ID: <YIqdT6wsrlNP/cEo@192.168.1.8>
+References: <cover.1619630709.git.drv@mailo.com>
+ <034c3cc993191feb8fda719dd1b2adc9e2074e78.1619630709.git.drv@mailo.com>
+ <20210429070611.GA1409@agape.jhs>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YIqZHWkHi8HWnF0C@192.168.1.8>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: ag1sDwXR2LCzP4n4viOwz5Kl6tbQ9qNP
-X-Proofpoint-GUID: ag1sDwXR2LCzP4n4viOwz5Kl6tbQ9qNP
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9968 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 phishscore=0
- clxscore=1015 suspectscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0
- adultscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104290080
+In-Reply-To: <20210429070611.GA1409@agape.jhs>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 05:01:41PM +0530, Deepak R Varma wrote:
-> On Thu, Apr 29, 2021 at 01:08:09PM +0300, Dan Carpenter wrote:
-> > On Wed, Apr 21, 2021 at 10:26:09PM +0530, Deepak R Varma wrote:
-> > > @@ -1044,7 +1048,7 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
-> > >  	}
-> > >  
-> > >  	/*
-> > > -	// set analog/digital gain
-> > > +	 * set analog/digital gain
-> > >  	switch(AnalogGain)
-> > >  	{
-> > >  	case 0:
-> > 
-> > How on earth does this compile?
+On Thu, Apr 29, 2021 at 09:06:12AM +0200, Fabio Aiuto wrote:
+> Hi Deepak,
+
+Hello Fabio :)
+
 > 
-> There is a closing */ down under after the entire switch block. The
-> change I made is within the comment block. I have compiled the built the
-> driver successfully.
+> On Wed, Apr 28, 2021 at 11:38:45PM +0530, Deepak R Varma wrote:
+> > Reformat code comment blocks according to the coding style guidelines.
+> > This resolves different checkpatch script WARNINGs around block comments.
+> > 
+> > Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> > 
+> > Changes since v3:
+> >    - Include additional header files in the clean up
+> > Changes since v2:
+> >    - Tag Fabio Auito for the patch suggestion
+> > 
+> > diff --git a/drivers/staging/media/atomisp/i2c/mt9m114.h b/drivers/staging/media/atomisp/i2c/mt9m114.h
+> > index 787bbf59e895..aad98f37aaa6 100644
+> > --- a/drivers/staging/media/atomisp/i2c/mt9m114.h
+> > +++ b/drivers/staging/media/atomisp/i2c/mt9m114.h
+> > @@ -765,7 +765,8 @@ static struct misensor_reg const mt9m114_common[] = {
+> >  	{MISENSOR_16BIT, 0xC868, 0x0280}, /* cam_output_width = 952 */
+> >  	{MISENSOR_16BIT, 0xC86A, 0x01E0}, /* cam_output_height = 538 */
+> >  	/* LOAD = Step3-Recommended
+> > -	 * Patch,Errata and Sensor optimization Setting */
+> > +	 * Patch,Errata and Sensor optimization Setting
+> > +	 */
+> 
+> 	/*
+> 	 * LOAD = Step3-Recommended
+> 
+> :(
 
-Oh...  Duh.  I thought you converted the // to /*.  This patch doesn't
-make any sense though because originally it was commented out code, but
-now it's a commented out ball of code and notes.
+oops... sorry for the oversight. Not sure how I missed it.
+I will wait for any other feedback on other patches and send
+in a corrected version shortly.
 
-Just delete any commented out code.
+Thank you,
+deepak.
 
-regards,
-dan carpenter
+
+
+> 
+> 
+> >  	{MISENSOR_16BIT, 0x316A, 0x8270}, /* DAC_TXLO_ROW */
+> > 
+> 
+> thank you,
+> 
+> fabio
+
 
