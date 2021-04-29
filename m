@@ -2,254 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEDD936ED36
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 17:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9852536ED62
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 17:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240546AbhD2PRv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 11:17:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36092 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233420AbhD2PRs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 11:17:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DADC8613F8;
-        Thu, 29 Apr 2021 15:17:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619709421;
-        bh=0TF/rgI+kIrUM4ucLgyoRQVNDZwjwMCttPCbdF1J2ts=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TNblwH+As0w11JRNen3DEa/sKtquJO7N/ed+Wi2cPt5DPo/pzApjHeB4CYlT9czKN
-         RFJnIUjSlU/iXNkujkJ9GfUIBpZYvUPaxBLDLGXBQdVlv5qb6mSpE1DcETxlBJLjdH
-         3g63qgtE3JXAaoo4Aq3ZJQdiRo/RBYWmOp0+Glxzsc1YjsicyiOaSi7GIhQYDFx0Ss
-         xxX7tIodOuoDf+uK3PdOkr9EHdavuGSGLxTjoqehEjaUHaupkr1YkvsH7C4pSmGQvt
-         kJLY88R3n7qjm+eBETbZXRLROLJk7BZhgXtoeO/pKC8+dHkhcGgjRgK0xEL1TOs1c0
-         knRtXQpP0PexA==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1lc8Ph-0006kM-4M; Thu, 29 Apr 2021 17:17:13 +0200
-Date:   Thu, 29 Apr 2021 17:17:13 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Shawn Tu <shawnx.tu@intel.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Heiko Stuebner <heiko@sntech.de>, linuxarm@huawei.com,
-        Todor Tomov <todor.too@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-        Andy Gross <agross@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devel@driverdev.osuosl.org, Jacopo Mondi <jacopo@jmondi.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-tegra@vger.kernel.org,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-samsung-soc@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        mauro.chehab@huawei.com,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
-        Dan Scally <djrscally@gmail.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v4 00/79] Address some issues with PM runtime at media
- subsystem
-Message-ID: <YIrN+VEY9Sf+eztR@hovoldconsulting.com>
-References: <cover.1619621413.git.mchehab+huawei@kernel.org>
- <YImEMN/POW5C8lG7@hovoldconsulting.com>
- <20210429121215.64a7cbdb@coco.lan>
+        id S233770AbhD2P1j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 11:27:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53438 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232989AbhD2P1i (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Apr 2021 11:27:38 -0400
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAA58C06138B;
+        Thu, 29 Apr 2021 08:26:50 -0700 (PDT)
+Received: by mail-ot1-x331.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso6694298otn.3;
+        Thu, 29 Apr 2021 08:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vbo4pKW3eCIThjMyIy6wsscOAdK3OJqwzPMbrwiTzTg=;
+        b=Srmr0fVOgjkykvlE3qdpkc3N3K5sktCMj6v1OgxqDJL0bljoIWUSciurSzygMcC6+n
+         Kvfe48eZrFMI4Vezxk+6d1SmAwUj3O8KStWxJ7C6QQj643wUL1pTlFt1cIl+3EPJlog8
+         Wjz7r5pur/St1BB4WjvL2c+1TRfSExFtimoriLOUN5bhVZxRQ7ceQ7l6u1U35bjVvgYO
+         G+U3UQmd+zdqnS/9c59d2vTHPjnfybGBOMlKvgo2G6yt/3QwDjhtTZtb/DN7njCxMlfl
+         Z+5BoYbOdcY8gHWg1rB52LVWnrX7HAjpecCdA5JJdAmydYP8GXTBu8hDuNRA/byDUNS0
+         rQAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vbo4pKW3eCIThjMyIy6wsscOAdK3OJqwzPMbrwiTzTg=;
+        b=MGIyoT3NAD/pAQdjvHSrqqo1k4kH6MBdA1sEh9pRpd3fXo9qslVI9uoKtttwgAAXPW
+         gJuxpJ/t4LTVXThMWAt4nNvCOi4JfezjRRPnOwVNAeGqZglDL4TtplRlp36hMoPm7ku5
+         wg0xcWyIhYjpSzzioz9V1TtYlfHJMhGQ9o8meJvOmW5sesvl6H4XVctFpnYjhIjtSTmp
+         +2kQ/G/uqqZkhzxpXAmpeTtzivjqDC20nrrkSqVsbnCL/0t4CmSNA3OilzVYNgcO9uwJ
+         xKahMtf4kZntTtMRpUOowEZ1su+ijRyxjtqkHGcJGVB7LqnXOTp0G9xMDNiMqnRRaUc4
+         3k2A==
+X-Gm-Message-State: AOAM533jIbvB3UAm8ogYkr3vxljxRfzFE0GB8aOdysfLHhxBL650XskD
+        usUNe/HjR+3fSHsOgFK5GBZu0WIVsrIwz6aNLiQ=
+X-Google-Smtp-Source: ABdhPJx/VF42MwLva6s4z6QCvKeFfwbdS1g8a6UEzyk0r2NtvE1jU5KzdNDQMYGiG9P9g6IxZOwxNN7a3OAYwulPFs8=
+X-Received: by 2002:a9d:63d1:: with SMTP id e17mr1296573otl.311.1619710009654;
+ Thu, 29 Apr 2021 08:26:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210429121215.64a7cbdb@coco.lan>
+References: <20210427112738.15869-1-fmdefrancesco@gmail.com> <ef0a9c9d-4a7e-b1ce-05ef-29dca0c020a7@amd.com>
+In-Reply-To: <ef0a9c9d-4a7e-b1ce-05ef-29dca0c020a7@amd.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Thu, 29 Apr 2021 11:26:38 -0400
+Message-ID: <CADnq5_NGxHweFv_Cqwn1em5erGeUH_WJ_6KugJ+iKEUsKtuaYg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amd/amdgpu: Fix errors in documentation of
+ function parameters
+To:     Felix Kuehling <felix.kuehling@amd.com>
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "open list:AMD KFD" <amd-gfx@lists.freedesktop.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 12:18:16PM +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 28 Apr 2021 17:50:08 +0200
-> Johan Hovold <johan@kernel.org> escreveu:
-> 
-> > On Wed, Apr 28, 2021 at 04:51:21PM +0200, Mauro Carvalho Chehab wrote:
-> 
-> > > 1. despite its name, this is actually a PM runtime resume call,
-> > >    but some developers didn't seem to realize that, as I got this
-> > >    pattern on some drivers:
-> > > 
-> > >         pm_runtime_get_sync(&client->dev);
-> > >         pm_runtime_disable(&client->dev);
-> > >         pm_runtime_set_suspended(&client->dev);
-> > >         pm_runtime_put_noidle(&client->dev);
-> > > 
-> > >    It makes no sense to resume PM just to suspend it again ;-)  
-> > 
-> > This is perfectly alright. Take a look at ov7740_remove() for example:
-> > 
-> > 	pm_runtime_get_sync(&client->dev);
-> > 	pm_runtime_disable(&client->dev);
-> > 	pm_runtime_set_suspended(&client->dev);
-> > 	pm_runtime_put_noidle(&client->dev);
-> > 	
-> > 	ov7740_set_power(ov7740, 0);
-> > 
-> > There's an explicit power-off after balancing the PM count and this will
-> > work regardless of the power state when entering this function.
-> 
-> Ok, but this should equally work:
-> 
->  	pm_runtime_disable(&client->dev);
->  	pm_runtime_set_suspended(&client->dev);
->  	
->  	ov7740_set_power(ov7740, 0);
-> 
-> as there's no additional cleanup made on this particular driver
-> between pm_runtime_get_sync() and pm_runtime_put_noidle().
+On Thu, Apr 29, 2021 at 2:44 AM Felix Kuehling <felix.kuehling@amd.com> wrote:
+>
+> On 2021-04-27 7:27, Fabio M. De Francesco wrote:
+> > In the documentation of functions, removed excess parameters, described
+> > undocumented ones, and fixed syntax errors.
+> >
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >
+> > Changes from v1: Cc'ed all the maintainers.
+>
+> Looks like Alex already applied V1. So this one doesn't apply. "git am
+> -3" tells me:
 
-No, that would break the driver as I pointed out to you yesterday:
+Ah sorry, I didn't see the v2 patch.
 
-	https://lore.kernel.org/r/YImG1klSPkFSaS3a@hovoldconsulting.com
+Alex
 
-If the device is already suspended when remove is called then you'll
-end up with an unbalanced call to ov7740_set_power() that will try to
-disable an already disabled clock.
 
-> > So this has nothing to do with pm_runtime_get_sync() per se.
-> 
-> Yes, but some patches on this series are cleaning up the driver release
-> logic.
-
-You mentioned this example as an argument against using
-pm_runtime_get_sync(), which I don't think makes sense.
-
-> > > 2. Usual *_get() methods only increment their use count on success,
-> > >    but pm_runtime_get_sync() increments it unconditionally. Due to
-> > >    that, several drivers were mistakenly not calling
-> > >    pm_runtime_put_noidle() when it fails;  
-> > 
-> > Sure, but pm_runtime_get_async() also works this way. You just won't be
-> > notified if the async resume fails.
-> 
-> Granted, it makes sense along the pm_runtime kAPI.
-> 
-> It is inconsistent with the behavior of kobject_get*() and other
-> *_get*() methods that are based or inspired on it, as, on those, the
-> operations are atomic: either everything succeeds and it doesn't return
-> an error, or the usage counter is not incremented and the object
-> state doesn't change after the call.
-
-Right, and I'm aware that some people have overlooked this. But its not
-the end of the world since hardly any driver can handle resume failures
-properly anyway. 
-
-This is mostly just an exercise to shut up static checkers.
-
-> > > 3. The name of the new variant is a lot clearer:
-> > > 	pm_runtime_resume_and_get()
-> > >     As its same clearly says that this is a PM runtime resume function,
-> > >     that also increments the usage counter on success;  
-> > 
-> > It also introduced an inconsistency in the API and does not pair as well
-> > with the pm_runtime_put variants.
-> 
-> Agreed. A name that would be more consistent with PM runtime would
-> probably be:
-> 
-> 	pm_runtime_resume_if_get()
-
-Naw, since the get part always succeeds.
-
-It should start with pm_runtime_get, but pm_runtime_get_sync() is
-unfortunately taken.
-
-> as there are already:
-> 
-> 	pm_runtime_get_if_in_use()
-> 	pm_runtime_get_if_active()
-> 
-> But any such discussions are out of the scope of this patchset ;-)
-
-Right.
-
-> > > 4. Consistency: we did similar changes subsystem wide with
-> > >    for instance strlcpy() and strcpy() that got replaced by
-> > >    strscpy(). Having all drivers using the same known-to-be-safe
-> > >    methods is a good thing;  
-> > 
-> > It's not known to be safe; there are ways to get also this interface
-> > wrong as for example this series has shown.
-> 
-> Very true. Yet, it is a lot simpler to use functions that won't change
-> the state of the objects when returning an error, as this is by far
-> the most common pattern within the Kernel.
-
-A resume failure does change the state (and needs to be recovered from),
-but I get what you're saying.
-
-> Human brains are trained to identify certain patterns. When there's
-> something using a similar pattern, but with a different behavior, 
-> our brains are more subject to fail identifying problems.
-
-Sure. But I'm not sure that having two interfaces with different
-semantics to do the job is doing us any favours here. But again, that
-discussion has already been had.
-
-And I realise that this is partly also your motive here (even if the old
-interface isn't going to go away).
-
-> > > compile-tested only.
-> > > Patches 1 to 7 fix some issues that already exists at the current
-> > > PM runtime code;
-> > > 
-> > > patches 8 to 20 fix some usage_count problems that still exists
-> > > at the media subsystem;
-> > > 
-> > > patches 21 to 78 repaces pm_runtime_get_sync() by 
-> > > pm_runtime_resume_and_get();
-> > > 
-> > > Patch 79 (and a hunk on patch 78) documents the two exceptions
-> > > where pm_runtime_get_sync() will still be used for now.
-
-80 patches in one series (posted to lkml) is a bit excessive. Perhaps
-you can break it up in a fixes part and one or more cleanups parts?
-
-Johan
+>
+> Applying: drm/amd/amdgpu: Fix errors in documentation of function parameters
+> Using index info to reconstruct a base tree...
+> M       drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> M       drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> M       drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+> Falling back to patching base and 3-way merge...
+> No changes -- Patch already applied.
+>
+> Regards,
+>    Felix
+>
+>
+> >
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c          | 12 ++++++------
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |  4 +++-
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c |  8 ++++----
+> >   3 files changed, 13 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> > index 2e9b16fb3fcd..bf2939b6eb43 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> > @@ -76,7 +76,7 @@ struct amdgpu_atif {
+> >   /**
+> >    * amdgpu_atif_call - call an ATIF method
+> >    *
+> > - * @handle: acpi handle
+> > + * @atif: acpi handle
+> >    * @function: the ATIF function to execute
+> >    * @params: ATIF function params
+> >    *
+> > @@ -166,7 +166,6 @@ static void amdgpu_atif_parse_functions(struct amdgpu_atif_functions *f, u32 mas
+> >   /**
+> >    * amdgpu_atif_verify_interface - verify ATIF
+> >    *
+> > - * @handle: acpi handle
+> >    * @atif: amdgpu atif struct
+> >    *
+> >    * Execute the ATIF_FUNCTION_VERIFY_INTERFACE ATIF function
+> > @@ -240,8 +239,7 @@ static acpi_handle amdgpu_atif_probe_handle(acpi_handle dhandle)
+> >   /**
+> >    * amdgpu_atif_get_notification_params - determine notify configuration
+> >    *
+> > - * @handle: acpi handle
+> > - * @n: atif notification configuration struct
+> > + * @atif: acpi handle
+> >    *
+> >    * Execute the ATIF_FUNCTION_GET_SYSTEM_PARAMETERS ATIF function
+> >    * to determine if a notifier is used and if so which one
+> > @@ -304,7 +302,7 @@ static int amdgpu_atif_get_notification_params(struct amdgpu_atif *atif)
+> >   /**
+> >    * amdgpu_atif_query_backlight_caps - get min and max backlight input signal
+> >    *
+> > - * @handle: acpi handle
+> > + * @atif: acpi handle
+> >    *
+> >    * Execute the QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS ATIF function
+> >    * to determine the acceptable range of backlight values
+> > @@ -363,7 +361,7 @@ static int amdgpu_atif_query_backlight_caps(struct amdgpu_atif *atif)
+> >   /**
+> >    * amdgpu_atif_get_sbios_requests - get requested sbios event
+> >    *
+> > - * @handle: acpi handle
+> > + * @atif: acpi handle
+> >    * @req: atif sbios request struct
+> >    *
+> >    * Execute the ATIF_FUNCTION_GET_SYSTEM_BIOS_REQUESTS ATIF function
+> > @@ -899,6 +897,8 @@ void amdgpu_acpi_fini(struct amdgpu_device *adev)
+> >   /**
+> >    * amdgpu_acpi_is_s0ix_supported
+> >    *
+> > + * @adev: amdgpu_device_pointer
+> > + *
+> >    * returns true if supported, false if not.
+> >    */
+> >   bool amdgpu_acpi_is_s0ix_supported(struct amdgpu_device *adev)
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> > index 5af464933976..98d31ebad9ce 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+> > @@ -111,6 +111,8 @@ static const char *amdkfd_fence_get_timeline_name(struct dma_fence *f)
+> >    *  a KFD BO and schedules a job to move the BO.
+> >    *  If fence is already signaled return true.
+> >    *  If fence is not signaled schedule a evict KFD process work item.
+> > + *
+> > + *  @f: dma_fence
+> >    */
+> >   static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
+> >   {
+> > @@ -131,7 +133,7 @@ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
+> >   /**
+> >    * amdkfd_fence_release - callback that fence can be freed
+> >    *
+> > - * @fence: fence
+> > + * @f: dma_fence
+> >    *
+> >    * This function is called when the reference count becomes zero.
+> >    * Drops the mm_struct reference and RCU schedules freeing up the fence.
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+> > index b43e68fc1378..ed3014fbb563 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
+> > @@ -719,7 +719,7 @@ static void unlock_spi_csq_mutexes(struct amdgpu_device *adev)
+> >   }
+> >
+> >   /**
+> > - * @get_wave_count: Read device registers to get number of waves in flight for
+> > + * get_wave_count: Read device registers to get number of waves in flight for
+> >    * a particular queue. The method also returns the VMID associated with the
+> >    * queue.
+> >    *
+> > @@ -755,19 +755,19 @@ static void get_wave_count(struct amdgpu_device *adev, int queue_idx,
+> >   }
+> >
+> >   /**
+> > - * @kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
+> > + * kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
+> >    * shader engine and aggregates the number of waves that are in flight for the
+> >    * process whose pasid is provided as a parameter. The process could have ZERO
+> >    * or more queues running and submitting waves to compute units.
+> >    *
+> >    * @kgd: Handle of device from which to get number of waves in flight
+> >    * @pasid: Identifies the process for which this query call is invoked
+> > - * @wave_cnt: Output parameter updated with number of waves in flight that
+> > + * @pasid_wave_cnt: Output parameter updated with number of waves in flight that
+> >    * belong to process with given pasid
+> >    * @max_waves_per_cu: Output parameter updated with maximum number of waves
+> >    * possible per Compute Unit
+> >    *
+> > - * @note: It's possible that the device has too many queues (oversubscription)
+> > + * Note: It's possible that the device has too many queues (oversubscription)
+> >    * in which case a VMID could be remapped to a different PASID. This could lead
+> >    * to an iaccurate wave count. Following is a high-level sequence:
+> >    *    Time T1: vmid = getVmid(); vmid is associated with Pasid P1
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
