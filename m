@@ -2,126 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B538636E640
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 09:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F9A736E71E
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 10:36:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbhD2HuD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 03:50:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36500 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232455AbhD2HuC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 03:50:02 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD02DC06138B
-        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 00:49:14 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1lc1Q0-0002AW-Gt; Thu, 29 Apr 2021 09:49:04 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1lc1Pz-000726-Km; Thu, 29 Apr 2021 09:49:03 +0200
-Date:   Thu, 29 Apr 2021 09:49:03 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, slongerbeam@gmail.com,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 1/6] media: uapi: Add MEDIA_BUS_FMT_SGRGB_IGIG_GBGR_IGIG
- media bus formats
-Message-ID: <20210429074903.cc5gohn52cgv4i5z@pengutronix.de>
-References: <20210427120701.21809-1-m.felsch@pengutronix.de>
- <20210427120701.21809-2-m.felsch@pengutronix.de>
- <YIoRLQfoNm0GJGsY@pendragon.ideasonboard.com>
+        id S233104AbhD2Ig5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 04:36:57 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:44110 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231701AbhD2Ig4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Apr 2021 04:36:56 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1619685370; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=XErExocfvzioA095Ye/csdwTGte0Z7OiMKiPrNLQVLI=;
+ b=kF4/FT5Wg0oUZJTSDZukWhXfm04hUeC8aFRLDe4Xsu9jEAEoLXM7PGNN/q5XEVm6glnB00Ky
+ u+HH+vBa6cROSCoxDlKRvvJQPiIAQtlCqou+AUXI8dlb6FoFy7bMea6ov+zhjjNDr3rXqEOr
+ w9BgGxWpglMnRwMs1D0/1v1IOno=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 608a6feda817abd39a9a5592 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 29 Apr 2021 08:35:57
+ GMT
+Sender: vgarodia=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 34276C4338A; Thu, 29 Apr 2021 08:35:57 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: vgarodia)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 5A4FFC433D3;
+        Thu, 29 Apr 2021 08:35:56 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YIoRLQfoNm0GJGsY@pendragon.ideasonboard.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:25:01 up 147 days, 21:31, 44 users,  load average: 0.64, 0.26,
- 0.15
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Thu, 29 Apr 2021 14:05:56 +0530
+From:   vgarodia@codeaurora.org
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     smagar@codeaurora.org, linux-firmware@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        mchehab@infradead.org, linux-media-owner@vger.kernel.org,
+        dikshita@codeaurora.org, adhudase@codeaurora.org,
+        sampnimm@codeaurora.org, mansur@codeaurora.org
+Subject: Re: Update venus firmware files for v5.4 and venus firmware files for
+ VPU-2.0
+In-Reply-To: <9eaaec5d-a7d4-1889-5c92-28944b198adc@linaro.org>
+References: <bee73b3fe8b04c1a2663be0cd3cc7318@codeaurora.org>
+ <9eaaec5d-a7d4-1889-5c92-28944b198adc@linaro.org>
+Message-ID: <c38ab84b90feddb43b2782fa11ee5189@codeaurora.org>
+X-Sender: vgarodia@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 2021-04-28 19:18, Stanimir Varbanov wrote:
+> On 4/28/21 3:32 PM, smagar@codeaurora.org wrote:
+>> Hello Team,
+>> 
+>> Please include updated firmware bins for venus-5.4 and vpu-2.0.
+>> 
+>> I have fixed comment and title updated.
+>> 
+>> Removed 0 byte unwanted bins.
+>> 
+>> Below is combined pull request for venus-5.4 and VPU-2.0.
+>> 
+>> Please find snapshot of pull request, let me know if anything is 
+>> missing.
+>> 
+>> 
+>> The following changes since commit
+>> 85286184d9df1b03bb76049edcfd87c39ce46e94:
+>> 
+>>   Merge branch 'for-upstream' of
+>> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
+>> 11:34:11 -0400)
+>> 
+>> are available in the git repository at:
+>> 
+>>   https://github.com/suraj714/linux-firmware-venus.git master
+>> 
+>> for you to fetch changes up to 
+>> 6cdef281cd16d967ad89c01af6fdda85529a2d80:
+>> 
+>>   qcom: Add venus firmware files for VPU-2.0 (2021-04-28 14:42:48 
+>> +0530)
+>> 
+>> ----------------------------------------------------------------
+>> smagar (2):
+>>       qcom: update venus firmware files for v5.4
+>>       qcom: Add venus firmware files for VPU-2.0
+>> 
+>>  WHENCE                    |  34 +++++++++++++++++++++++++++++++++-
+>>  qcom/venus-5.4/venus.b00  | Bin 212 -> 212 bytes
+>>  qcom/venus-5.4/venus.b01  | Bin 6808 -> 6808 bytes
+>>  qcom/venus-5.4/venus.b02  | Bin 873680 -> 873596 bytes
+>>  qcom/venus-5.4/venus.b03  | Bin 33792 -> 33792 bytes
+>>  qcom/venus-5.4/venus.mbn  | Bin 919792 -> 919708 bytes
+>>  qcom/venus-5.4/venus.mdt  | Bin 7020 -> 7020 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b00 | Bin 0 -> 692 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b01 | Bin 0 -> 7376 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b02 | Bin 0 -> 300 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b03 | Bin 0 -> 20 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b04 | Bin 0 -> 20 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b05 | Bin 0 -> 20 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b06 | Bin 0 -> 20 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b07 | Bin 0 -> 24 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b08 | Bin 0 -> 16 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b09 | Bin 0 -> 939184 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b10 | Bin 0 -> 42976 bytes
+>>  qcom/vpu-2.0/vpu20_1v.b19 |   1 +
+>>  qcom/vpu-2.0/vpu20_1v.mbn | Bin 0 -> 2031188 bytes
+>>  qcom/vpu-2.0/vpu20_1v.mdt | Bin 0 -> 8068 bytes
 
-On 21-04-29 04:51, Laurent Pinchart wrote:
-> Hi Marco,
+Suraj, lets make these as generic names venus.bxx. We could confirm on 
+hardware
+with generic binary names.
+
 > 
-> Thank you for the patch.
-> 
-> On Tue, Apr 27, 2021 at 02:06:56PM +0200, Marco Felsch wrote:
-> > Add special 8/12bit bayer media bus format for the OnSemi AR0237IR
-> > camera sensor [1]. OnSemi calls this format RGB-IR, the pixel array
-> > with the interleaved IR pixels looks like:
-> > 
-> >         |  G |  R |  G |  B | ...
-> >         +----+----+----+----+---
-> >         | IR |  G | IR |  G | ...
-> >         +----+----+----+----+---
-> >         |  G |  B |  G |  R | ...
-> >         +----+----+----+----+---
-> >         | IR |  G | IR |  G | ...
-> >         +----+----+----+----+---
-> >         | .. | .. | .. | .. | ..
-> > 
-> > [1] https://www.framos.com/media/pdf/96/ac/8f/AR0237CS-D-PDF-framos.pdf
-> 
-> I think we're reaching a limit of the media bus codes model here, due to
-> a historical mistake. The four possible Bayer patterns, times the
-> different number of bits per pixel, creates a lot of media bus codes,
-> and drivers for CSI-2 receivers and IP cores further down the pipeline
-> have to support them all.
+> Which Venus IP/SoCs use vpu-2.0 firmware? And what is the difference
+> with existing vpu-1.0?
+This is for sc7280.
+vpu-1.0 and vpu-2.0 differs in hardware w.r.t number of hardware 
+processing pipes.
 
-That's correct but it is not bayer related. Currently it is what it is,
-if a new code is added it must be propagated through all the involved
-subdevs. On the other hand I wouldn't say that it is better to support
-new codes per default for all drivers. Since this would add a lot of
-untested code paths.
-
-> This is already painful, and if we had a
-> non-Bayer pattern such as this one,
-
-That's not exactly true since it is a bayer pattern but instead of using
-4x4 it uses 8x8 and it as some special pixels.
-
-> we'll open the door to an explosion
-> of the number of media bus codes (imagine all the different possible
-> arrangements of this pattern, for instance if you enable horizontal
-> and/or vertical flipping on the sensor). All drivers would need to be
-> updated to support these new bus codes, and this really kills the
-> current model.
-
-Yep, I know what you mean but as I said above I think that adding it
-explicite is the better abbroach since it involves somone who add _and_
-test the new code on the particular platform.
-
-> The historical mistake was to tie the Bayer pattern with the media bus
-> code. We should really have specified raw 8/10/12/14/16 media bus codes,
-> and conveyed the pattern separately. Most IP cores in the pipeline don't
-> need to care about the pattern at all, and those who do (that's mostly
-> ISPs) could be programmed explicitly by userspace as long as we have an
-> API to retrieve the pattern from the sensor. I believe it's time to bite
-> the bullet and go in that direction. I'm sorry for this case of yak
-> shaving, but it really wouldn't be manageable anymore :-(
-
-I got all your points and would agree but this is not a bayer only
-related problem. You will have this problem with all new other formats
-as well. I'm with you, most IP cores don't care but I wouldn't
-guarantee that.
-
-Regards,
-  Marco
+Thanks,
+Vikash
