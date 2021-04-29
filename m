@@ -2,30 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A46AD36EC23
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 16:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7372B36EC26
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 16:10:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237314AbhD2OKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 10:10:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36012 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233602AbhD2OKX (ORCPT
+        id S239032AbhD2OLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 10:11:17 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53254 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235277AbhD2OLR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 10:10:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFD6AC06138B
-        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 07:09:35 -0700 (PDT)
+        Thu, 29 Apr 2021 10:11:17 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D876E70;
-        Thu, 29 Apr 2021 16:09:32 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A262145F;
+        Thu, 29 Apr 2021 16:10:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619705372;
-        bh=OZwGB5rAIXjNubZefMV6t7iZpSTCeD3PIc7tOMlkqMg=;
+        s=mail; t=1619705424;
+        bh=BRIcmu0jwebXwo+uZXpaeAASjNeP5VTEJ3famTbIawg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dpnJCOBY6vIR8tjcIZ+cQJUhJBDmPV+xCKRlIlZbUasEgaHy1k6ADkvKjrE77vYSx
-         qOiMIeGsU1u8AYki5aR7+jGqafdZlt1KMnNkqzqskFxEcxOhPCIYb2YizCMMcMYAlH
-         00t5HTcu7FLZgnBM1WoOnBUO8Y+srQAFNQWHQnQk=
-Date:   Thu, 29 Apr 2021 17:09:26 +0300
+        b=fd/zcWQfJlkpUxHnacy5syGlLrA0ZrpR7aok48HSH4SEsHoju8RgxiHL8GxcBOKMi
+         UI3jePWdkiDWmfzmfCft+z+7iz0vTKAxE7tdPB/wr1pFoLI4SGd9sf4QnOfERe+UDp
+         CzGcBhePuIo39HgMsFnCuGU6EfU3+Z54P/4SdkG4=
+Date:   Thu, 29 Apr 2021 17:10:18 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
@@ -34,75 +31,56 @@ Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v5 15/24] v4l: Add bus type to frame descriptors
-Message-ID: <YIq+FlDs7T+5FjCN@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v5 11/24] media: entity: Skip link validation for pads to
+ which there is no route to
+Message-ID: <YIq+Sni7nd5sY/VB@pendragon.ideasonboard.com>
 References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
- <20210415130450.421168-16-tomi.valkeinen@ideasonboard.com>
- <YHyHN2hWN1Hb3Gv1@pendragon.ideasonboard.com>
- <20210420115050.GO3@paasikivi.fi.intel.com>
- <2f39d7b6-ccc4-1afb-d8b2-6e0d44a311b0@ideasonboard.com>
- <20210429115811.GV3@paasikivi.fi.intel.com>
+ <20210415130450.421168-12-tomi.valkeinen@ideasonboard.com>
+ <YHx1E3AWm2mzD4Gs@pendragon.ideasonboard.com>
+ <20210420114153.GM3@paasikivi.fi.intel.com>
+ <a6b24f1b-5e59-4622-de53-f2ae4beee6c6@ideasonboard.com>
+ <20210429120612.GW3@paasikivi.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210429115811.GV3@paasikivi.fi.intel.com>
+In-Reply-To: <20210429120612.GW3@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Sakari,
 
-On Thu, Apr 29, 2021 at 02:58:11PM +0300, Sakari Ailus wrote:
-> On Thu, Apr 22, 2021 at 03:30:55PM +0300, Tomi Valkeinen wrote:
-> > On 20/04/2021 14:50, Sakari Ailus wrote:
-> > > On Sun, Apr 18, 2021 at 10:23:35PM +0300, Laurent Pinchart wrote:
-> > > > On Thu, Apr 15, 2021 at 04:04:41PM +0300, Tomi Valkeinen wrote:
+On Thu, Apr 29, 2021 at 03:06:12PM +0300, Sakari Ailus wrote:
+> On Fri, Apr 23, 2021 at 03:37:03PM +0300, Tomi Valkeinen wrote:
+> > On 20/04/2021 14:41, Sakari Ailus wrote:
+> > > On Sun, Apr 18, 2021 at 09:06:11PM +0300, Laurent Pinchart wrote:
+> > > > Hi Tomi and Sakari,
+> > > > 
+> > > > Thank you for the patch.
+> > > > 
+> > > > There's an extra "to" in the subject line.
+> > > > 
+> > > > On Thu, Apr 15, 2021 at 04:04:37PM +0300, Tomi Valkeinen wrote:
 > > > > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
 > > > > > 
-> > > > > Add the media bus type to the frame descriptor. CSI-2 specific
-> > > > > information will be added in next patch to the frame descriptor.
+> > > > > Links are validated along the pipeline which is about to start streaming.
+> > > > > Not all the pads in entities that are traversed along that pipeline are
+> > > > > part of the pipeline, however. Skip the link validation for such pads,
+> > > > > and while at there rename "other_pad" to "local_pad" to convey the fact
+> > > > > the route to be checked is internal to the entity.
 > > > > 
-> > > > I'd squash the next patch with this one.
-> > > > 
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > > > 
-> > > > > - Make the bus type a named enum
-> > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > > ---
-> > > > >   include/media/v4l2-subdev.h | 9 +++++++++
-> > > > >   1 file changed, 9 insertions(+)
-> > > > > 
-> > > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > > > > index d0e9a5bdb08b..85977abbea46 100644
-> > > > > --- a/include/media/v4l2-subdev.h
-> > > > > +++ b/include/media/v4l2-subdev.h
-> > > > > @@ -340,12 +340,21 @@ struct v4l2_mbus_frame_desc_entry {
-> > > > >   #define V4L2_FRAME_DESC_ENTRY_MAX	4
-> > > > > +enum v4l2_mbus_frame_desc_type {
-> > > > > +	V4L2_MBUS_FRAME_DESC_TYPE_PLATFORM,
-> > > > > +	V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL,
-> > > > > +	V4L2_MBUS_FRAME_DESC_TYPE_CCP2,
-> > > > > +	V4L2_MBUS_FRAME_DESC_TYPE_CSI2,
-> > > > > +};
-> > > > 
-> > > > This should be documented. In particular, I have no idea what
-> > > > V4L2_MBUS_FRAME_DESC_TYPE_PLATFORM is. I also wonder if we shouldn't
-> > > > drop CCP2 (at least for now), does anyone use that anymore ?
+> > > > Both "pad" and "local_pad" are local. I would have kept the "other_pad"
 > > > 
-> > > I guess we don't need one here, not now at least.
-> > > 
-> > > I agree on the documentation.
+> > > The pad that in the remote entity is not local. The other one could be
+> > > called remote_pad though.
 > > 
-> > As it's the first one in the list, I think it really means "undefined", so
-> > that current users have a value there (I presume they initialize the struct
-> > to 0). Sakari?
+> > I'm not sure what you mean here. Aren't both pad and local_pad pads of a
+> > single entity here? If so, I think Laurent's comment makes sense, and
+> > other_pad is a better name.
 > 
-> I guess you could drop PLATFORM if there's no need for it now. In practice
-> PARALLEL is probably a good choice.
+> I guess you could argue for either. I'm fine dropping the patch.
 
-Works for me too.
+I think the patch is good, it's just the extra rename that puzzled me.
 
 -- 
 Regards,
