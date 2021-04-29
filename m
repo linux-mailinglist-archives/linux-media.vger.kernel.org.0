@@ -2,177 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B5AE36E300
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 03:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3668E36E308
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 03:43:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232992AbhD2Bem (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 21:34:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39248 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231564AbhD2Bel (ORCPT
+        id S235354AbhD2Bob (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Apr 2021 21:44:31 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41370 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235346AbhD2Bob (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 21:34:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4547AC06138B
-        for <linux-media@vger.kernel.org>; Wed, 28 Apr 2021 18:33:56 -0700 (PDT)
+        Wed, 28 Apr 2021 21:44:31 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A77578E5;
-        Thu, 29 Apr 2021 03:33:54 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A661BC0;
+        Thu, 29 Apr 2021 03:43:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619660034;
-        bh=1ZFmJzHTZQgg6mNfnbenAnEXZxCFxVmVGAdxqlFng+M=;
+        s=mail; t=1619660624;
+        bh=7zchr3QVbI+9eVWWYgRUcPObTAFh3V07HqatO1TBjTY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AmqqCm0cvE/8J2ccsd4Duq4Q2FLYrfQokSUv1wAxu6tol5quHIyfdk1WbStIUheqU
-         FZULVMd6MkE09sjNGRwd2GwKjA0J26cBwOnOlOHHCsCc3vKUdHh9fh2i3EYnopnfYf
-         hUKElb/mgfj8d3hdzc8NN5Yu9HA+Gjt1ChIuVb6w=
-Date:   Thu, 29 Apr 2021 04:33:48 +0300
+        b=leLL3kGgyyEK8juguxzCWOwQ/zkShM68bJT7Jm96o6Lzj8KSNRpB5JLLYt9UkCEW6
+         hmS/WvSgOGbySU4r/+1e0CktEYX6bn1te6hIvWCepdpl/+q6GlY9WZNe+sxbSGqdIf
+         KKDF5WQc3c6gR6DOKTxPHpwAIVv0nBMZb3NuY5RY=
+Date:   Thu, 29 Apr 2021 04:43:38 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v5 12/24] media: entity: Add an iterator helper for
- connected pads
-Message-ID: <YIoM/E938uHWMDaJ@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v5 22/24] v4l: subdev: add v4l2_subdev_get_format_dir()
+Message-ID: <YIoPSoQTb3loaQFu@pendragon.ideasonboard.com>
 References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
- <20210415130450.421168-13-tomi.valkeinen@ideasonboard.com>
- <YHx4U8F/g8dTusc+@pendragon.ideasonboard.com>
- <20210420114825.GN3@paasikivi.fi.intel.com>
+ <20210415130450.421168-23-tomi.valkeinen@ideasonboard.com>
+ <YHyCwzfrhVFkPXoW@pendragon.ideasonboard.com>
+ <d24ad349-0aef-e4cb-59d7-0db52c730f25@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210420114825.GN3@paasikivi.fi.intel.com>
+In-Reply-To: <d24ad349-0aef-e4cb-59d7-0db52c730f25@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Tomi,
 
-On Tue, Apr 20, 2021 at 02:48:25PM +0300, Sakari Ailus wrote:
-> On Sun, Apr 18, 2021 at 09:20:03PM +0300, Laurent Pinchart wrote:
-> > On Thu, Apr 15, 2021 at 04:04:38PM +0300, Tomi Valkeinen wrote:
-> > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > 
-> > > Add a helper macro for iterating over pads that are connected through
-> > > enabled routes. This can be used to find all the connected pads within an
-> > > entity, for instance starting from the pad which has been obtained during
-> > > the graph walk.
-> > > 
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > 
-> > > - Make __media_entity_next_routed_pad() return NULL and adjust the
-> > >   iterator to handle that
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  include/media/media-entity.h | 27 +++++++++++++++++++++++++++
-> > >  1 file changed, 27 insertions(+)
-> > > 
-> > > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> > > index 73de1c335e4e..edd6f60ed6b4 100644
-> > > --- a/include/media/media-entity.h
-> > > +++ b/include/media/media-entity.h
-> > > @@ -916,6 +916,33 @@ __must_check int media_graph_walk_init(
-> > >  bool media_entity_has_route(struct media_entity *entity, unsigned int pad0,
-> > >  			    unsigned int pad1);
-> > >  
-> > > +static inline struct media_pad *__media_entity_next_routed_pad(
-> > > +	struct media_pad *start, struct media_pad *iter)
-> > > +{
-> > > +	struct media_entity *entity = start->entity;
-> > > +
-> > > +	for (; iter < &entity->pads[entity->num_pads]; iter++)
-> > > +		if (media_entity_has_route(entity, start->index, iter->index))
-> > > +			return iter;
+On Wed, Apr 21, 2021 at 04:04:22PM +0300, Tomi Valkeinen wrote:
+> On 18/04/2021 22:04, Laurent Pinchart wrote:
+> > On Thu, Apr 15, 2021 at 04:04:48PM +0300, Tomi Valkeinen wrote:
+> >> Add v4l2_subdev_get_format_dir() which can be used to find subdev format
+> >> for a specific stream on a multiplexed pad. The function will follow the
+> >> routes and links until it finds a non-multiplexed pad.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >> ---
+> >>   drivers/media/v4l2-core/v4l2-subdev.c | 96 +++++++++++++++++++++++++++
+> >>   include/media/v4l2-subdev.h           | 26 ++++++++
+> >>   2 files changed, 122 insertions(+)
+> >>
+> >> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> >> index 7a4f71d8c6c3..430dbdaab080 100644
+> >> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> >> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> >> @@ -998,6 +998,102 @@ bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
+> >>   }
+> >>   EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
+> >>   
+> >> +int v4l2_subdev_get_format_dir(struct media_pad *pad, u16 stream,
+> >> +			       enum v4l2_direction dir,
+> >> +			       struct v4l2_subdev_format *fmt)
+> >> +{
+> >> +	struct device *dev = pad->entity->graph_obj.mdev->dev;
+> >> +	int ret;
+> >> +	int i;
+> >> +
+> >> +	dev_dbg(dev, "%s '%s':%u:%u %s\n", __func__,
+> >> +		pad->entity->name, pad->index, stream,
+> >> +		dir == V4L2_DIR_SOURCEWARD ? "sourceward" : "sinkward");
+> >> +
+> >> +	while (true) {
+> >> +		struct v4l2_subdev_krouting routing;
+> >> +		struct v4l2_subdev_route *route;
+> >> +
+> >> +		if (pad->entity->obj_type != MEDIA_ENTITY_TYPE_V4L2_SUBDEV)
+> >> +			return -EINVAL;
+> >> +
+> >> +		ret = v4l2_subdev_link_validate_get_format(pad, fmt);
+> >> +		if (ret == 0)
+> >> +			return 0;
+> >> +		else if (ret != -ENOIOCTLCMD)
+> >> +			return ret;
+> >> +
+> >> +		if (pad->flags &
+> >> +		    (dir == V4L2_DIR_SINKWARD ? MEDIA_PAD_FL_SOURCE :
+> >> +						MEDIA_PAD_FL_SINK)) {
+> >> +			pad = media_entity_remote_pad(pad);
+> >> +
+> >> +			if (!pad)
+> >> +				return -EINVAL;
+> >> +
+> >> +			if (pad->entity->obj_type != MEDIA_ENTITY_TYPE_V4L2_SUBDEV)
+> >> +				return -EINVAL;
+> >> +
+> >> +			ret = v4l2_subdev_link_validate_get_format(pad, fmt);
+> >> +			if (ret == 0)
+> >> +				return 0;
+> >> +			else if (ret != -ENOIOCTLCMD)
+> >> +				return ret;
+> >> +		}
+> >> +
+> >> +		ret = v4l2_subdev_get_krouting(media_entity_to_v4l2_subdev(pad->entity), &routing);
+> >> +		if (ret)
+> >> +			return ret;
+> >> +
+> >> +		route = NULL;
+> >> +		for (i = 0; i < routing.num_routes; ++i) {
+> >> +			u16 near_pad = dir == V4L2_DIR_SINKWARD ?
+> >> +					       routing.routes[i].sink_pad :
+> >> +					       routing.routes[i].source_pad;
+> >> +			u16 near_stream = dir == V4L2_DIR_SINKWARD ?
+> >> +						  routing.routes[i].sink_stream :
+> >> +						  routing.routes[i].source_stream;
+> >> +
+> >> +			if (!(routing.routes[i].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> >> +				continue;
+> >> +
+> >> +			if (near_pad != pad->index)
+> >> +				continue;
+> >> +
+> >> +			if (near_stream != stream)
+> >> +				continue;
+> >> +
+> >> +			if (route) {
+> >> +				dev_err(dev,
+> >> +					"%s: '%s' has multiple active routes for stream %u\n",
+> >> +					__func__, pad->entity->name, stream);
+> >> +				v4l2_subdev_free_routing(&routing);
+> >> +				return -EINVAL;
+> >> +			}
+> >> +
+> >> +			route = &routing.routes[i];
+> >> +		}
+> >> +
+> >> +		if (!route) {
+> >> +			dev_err(dev, "%s: no route found in '%s' for stream %u\n",
+> >> +				__func__, pad->entity->name, stream);
+> >> +			v4l2_subdev_free_routing(&routing);
+> >> +			return -EINVAL;
+> >> +		}
+> >> +
+> >> +		if (dir == V4L2_DIR_SINKWARD) {
+> >> +			pad = &pad->entity->pads[route->source_pad];
+> >> +			stream = route->source_stream;
+> >> +		} else {
+> >> +			pad = &pad->entity->pads[route->sink_pad];
+> >> +			stream = route->sink_stream;
+> >> +		}
+> >> +
+> >> +		v4l2_subdev_free_routing(&routing);
+> >> +	}
+> >> +}
+> >> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_format_dir);
+> >> +
+> >>   int v4l2_subdev_link_validate(struct media_link *link)
+> >>   {
+> >>   	struct v4l2_subdev *sink;
+> >> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> >> index 1843b77dd843..730631f9a091 100644
+> >> --- a/include/media/v4l2-subdev.h
+> >> +++ b/include/media/v4l2-subdev.h
+> >> @@ -1239,4 +1239,30 @@ void v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
+> >>   bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
+> >>   			   unsigned int pad0, unsigned int pad1);
+> >>   
+> >> +/**
+> >> + * enum v4l2_direction - Direction either towards the source or the sink
+> >> + *
+> >> + * @V4L2_DIR_SOURCEWARD: Direction towards the source.
+> >> + * @V4L2_DIR_SINKWARD: Direction towards the sink.
+> >> + */
+> >> +enum v4l2_direction {
+> >> +	V4L2_DIR_SOURCEWARD,
+> >> +	V4L2_DIR_SINKWARD,
+> >> +};
+> >> +
+> >> +/**
+> >> + * v4l2_subdev_get_format_dir() - Find format by following streams
 > > 
-> > I'd use curly braces.
-> > 
-> > > +
-> > > +	return NULL;
-> > > +}
-> > 
-> > Does this need to be inlined ?
+> > The name is a bit cryptic, and the usage pattern error-prone. Can we do
+> > better ?  In particular, if we could limit the usage of this function to
+> > be called on a non-multiplexed pad, we could drop the stream argument.
+> > Deducing the direction argument from the type of pad would also make the
+> > API simpler.
 > 
-> I guess it doesn't have to. It's used inside loops and it's rather small so
-> I think it should be fine that way.
-
-It may not be that small. I'd rather let the compiler decide whether to
-inline it or not.
-
-> > > +
-> > > +/**
-> > > + * media_entity_for_each_routed_pad - Iterate over entity pads connected by routes
-> > 
-> > "routed" sounds a bit weird. Would media_entity_for_each_connected_pad()
-> > be a better name ?
+> Hmm, but that's not what the function does. It follows a specific 
+> stream, from a multiplexed pad, so it has to get the stream as a parameter.
 > 
-> "Connected" is often used in context of links. We're dealing with routes
-> here, so I thought "routed" is appropriate to avoid confusion.
+> We can't deduct the direction from the type of the pad. We can of course 
+> define that given a source pad this function goes sourceward. But if 
+> that's not what the caller wants, then the caller needs to first follow 
+> the stream either direction to get a sink pad, and then call this 
+> function, which doesn't make sense.
 
-I understand the confusion, maybe we can find a better term that would
-be different than "connected". "routed" really sounds weird in this
-context.
+What do the current callers need ? We don't have to implement something
+that is more generic or featureful than our needs dictate, as this is a
+very ad hoc function anyway. If we really need the full behaviour
+implemented here, we should at the very least rename the function, but I
+think it should be possible to do better overall, perhaps splitting the
+operation in the caller into cleaner functions.
 
-> > > + *
-> > > + * @start: The stating pad
-> > 
-> > s/stating/starting/
-> > 
-> > > + * @iter: The iterator pad
-> > > + *
-> > > + * Iterate over all pads connected through routes from a given pad
-> > 
-> > "from the @start pad"
-> > 
-> > > + * within an entity. The iteration will include the starting pad itself.
-> > 
-> > s/starting/@start/
-> > 
-> > I wonder if it wouldn't be more logical to not include the start pad.
-> > That wouldn't match the current usage patterns, which would need to be
-> > adapted accordingly, but I'm worried that including the start pad will
-> > lead to annoying bugs in the future. Maybe I worry too much.
-> 
-> The aim here is to find all pads that are routed to another pad within the
-> same entity. If you remove the start pad, it becomes a task harder than
-> difficult.
-
-Intuitively, "all pads that are routed to another pad" doesn't include
-the "another pad". I'm not opposed to including the start pad as that's
-what the current usage patterns need, but we should then rename the
-macro accordingly as its current name is counter-intuitive.
-
-> > And now that I reread the patch, I also wonder if "start" is a good
-> > name, as it implies we start the enumeration from a given pad, while we
-> > enumerate all pads connected to a given pad. I'm not sure what a better
-> > name would be though, maybe just pad ?
-> 
-> There are two pads here. Therefore explicitly calling them something else
-> makes sense IMO.
-
-Makes sense, but "start" isn't a good name as we're not starting
-anything.
-
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> I agree on the comments I didn't reply to.
-> 
-> Thank you!
-> 
-> > > + */
-> > > +#define media_entity_for_each_routed_pad(start, iter)			\
-> > > +	for (iter = __media_entity_next_routed_pad(			\
-> > > +		     start, (start)->entity->pads);			\
-> > > +	     iter != NULL;						\
-> > > +	     iter = __media_entity_next_routed_pad(start, iter + 1))
-> > > +
-> > >  /**
-> > >   * media_graph_walk_cleanup - Release resources used by graph walk.
-> > >   *
+> >> + * @pad: The pad from which to start the search
+> >> + * @stream: The stream for which we want to find the format
+> >> + * @dir: The direction of the search
+> >> + * @fmt: Pointer to &struct v4l2_subdev_format where the found format is stored
+> >> + *
+> >> + * This function attempts to find v4l2_subdev_format for a specific stream on a
+> >> + * multiplexed pad by following the stream using routes and links to the specified
+> >> + * direction, until a non-multiplexed pad is found.
+> >> + */
+> >> +int v4l2_subdev_get_format_dir(struct media_pad *pad, u16 stream,
+> >> +			       enum v4l2_direction dir,
+> >> +			       struct v4l2_subdev_format *fmt);
+> >> +
+> >>   #endif
 
 -- 
 Regards,
