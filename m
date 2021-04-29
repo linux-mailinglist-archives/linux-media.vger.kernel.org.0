@@ -2,156 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 403E736EB59
+	by mail.lfdr.de (Postfix) with ESMTP id BD4C836EB5A
 	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 15:29:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237130AbhD2N3d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 09:29:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55030 "EHLO
+        id S237302AbhD2N3e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 09:29:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236635AbhD2N3c (ORCPT
+        with ESMTP id S236635AbhD2N3d (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 09:29:32 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C5F4C06138B
+        Thu, 29 Apr 2021 09:29:33 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4FE6C06138B
         for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 06:28:46 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id h15so14707586wre.11
-        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 06:28:45 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id z6so5676510wrm.4
+        for <linux-media@vger.kernel.org>; Thu, 29 Apr 2021 06:28:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p8qAnJhu426Yk0q3ANLKCzgV8SiusL56tznRnb2ny3w=;
-        b=rtmoKzoOI+lN0atSJDZwVj+MfAztl04Bcm2Q/thGxeg9yPoVDj8tV8wk5/I3ZiemaM
-         C8VyrCgYYucTJmZZ1zIxyyqX8HaTa4DhbIwnvcSP70WCTNQMJNDjz5no1fMRcjYElhcZ
-         4oeeG4E5Dlm7Kkp1L161CNLi1h6np0mXo0EPzzgW63851LCN3rZ1KJDCAksC/1t3yQiU
-         ZhwtNMm/FwYPgOm+F9UhhuF9bVBdSahhXArIqUUaldd6rBLuW0hPdKp4wAfWobyYH84Y
-         ++xC+bj0X8f96GCzt182b5+s69RXHauRGfUnkFl8uNrSZCkksBZeKZ2UFzyTFRd5IIcF
-         RAIA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ryhh0/XlJ3AbDBsHZICjqkSID/+spC7zQgSt9QUY5NE=;
+        b=xX0MmYQ9zNKEXCV1CVjGtNmmzO7Yycr/LRdCnQecFgH3MSu50bUKiwZH1EReMzHQWw
+         JCcy8B3GiSFLEADrZiE5F2UUi/EqWvkXrxu3vTBUq4c3iGp2IFo6N6eAshhUaHfa63T0
+         kj3aZR3S9OPCXtvHDsuNb6lUJUmExfy/Mx8e4Uuy1V2sAjNeysUCzNLbZysmCuEGxy67
+         H/sCdZxhGZ9caUzR9tRo2pYx13/DIXnnTYR+EYB0sR7WjF/Xj461R6U+pw7yFHAxzHTl
+         AUxxRZSLW9iIimgO2/xgjlN7wz2kd5VZR2cBuZJBdK8c23czS1rtXdO9jHbVxA227c+W
+         Xocg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p8qAnJhu426Yk0q3ANLKCzgV8SiusL56tznRnb2ny3w=;
-        b=iXd/gwDpswWnHa+y17nVzl7lsAGok6OtDZhMliGjNNSAwtTK2TvwZqM/JOy+wqexPA
-         8lajmp6se1J1AeotX9maOJKRyhyFfFFgKXY1PpfKLQtpz+NfvGIk9821UVRJjLDiS+UF
-         nJqbcdTEm1g8YydAI12kTWbKvgCLQt2Hue/U05Eato6AgIKcCLSzlQRcksqaEYV6XIU7
-         KFBI4DNveoKWBBgmbI5IH6SZJD+uAnz70pWZr1EjBogqHDM5ZyGFgm6cnqtfLcIvLG1v
-         WQCNgVXdhwDlGozbKJ/SWpAUncRjtifpvWckYyN01KT+GgGZJ7SjGDdJuvDY3baqDgOg
-         90XA==
-X-Gm-Message-State: AOAM531rvkEo8RO2psIC9XB46ZTRKnbJDaaDWJVFlIKtELICQvMnYpj6
-        fBkrhOJ3kskSWcx0f6Up0zsR28Z9RXNhyRE0
-X-Google-Smtp-Source: ABdhPJyb8fmOqVDcDfoAnfOf1N48eGPB8bBJsR3ng3DxPt0V1t/P8S4pJE8VNilkSKwJ0ENKPcyT9w==
-X-Received: by 2002:a5d:6181:: with SMTP id j1mr30633672wru.16.1619702924603;
-        Thu, 29 Apr 2021 06:28:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ryhh0/XlJ3AbDBsHZICjqkSID/+spC7zQgSt9QUY5NE=;
+        b=bC2to0zIUa7qMyZyoidu6QXJp9HOtsp8mo3udkwFlmR5n8bPiH/tq65l/mtBSYRoGQ
+         b/VncvLkkufWpieOrHvL9Px/yEgfZKl/wJlJVbPF5vnQ3S0irqfhH/du1u4d+aeGOZY2
+         eqvnVGkG+Ay8mfC2ii3Kva3UCydXmsrwhIYDBFe3orXgW8tFBo0xVR9WldM3JGWi/tFg
+         DQpwlPKVZdw80r6aukrx1C+OwfLTuvcs8zYVRuxd+ylz83ZLUeMRHOvFn5OmTh4Huns+
+         7CTnAfaclhrKeorQfg7MfJvhqXeRdWHKlFpzQrGs+FpYVuYv7U4skmUwPGq8yRd7TXpz
+         3dMw==
+X-Gm-Message-State: AOAM531NLYl0imIOhkF5JSCllEkbZOBiHeiJ6Eaunxz+8PBhrezE3bKL
+        hp55NrGgozQnDP5+94Oq1eiAEfAxvZxQ4L3p
+X-Google-Smtp-Source: ABdhPJy4zCXHUmsp3h3N+ztTM7YTCe5GHukwtkZfKl5yQX62jrPVhzOJEF3lwxBCdyX938GGrDKS1A==
+X-Received: by 2002:a5d:6787:: with SMTP id v7mr34870624wru.386.1619702925323;
+        Thu, 29 Apr 2021 06:28:45 -0700 (PDT)
 Received: from localhost.localdomain (hst-221-38.medicom.bg. [84.238.221.38])
-        by smtp.gmail.com with ESMTPSA id n10sm4811462wrw.37.2021.04.29.06.28.43
+        by smtp.gmail.com with ESMTPSA id n10sm4811462wrw.37.2021.04.29.06.28.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 06:28:44 -0700 (PDT)
+        Thu, 29 Apr 2021 06:28:45 -0700 (PDT)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [RFC/WIP 0/4] HEIC image encoder
-Date:   Thu, 29 Apr 2021 16:28:29 +0300
-Message-Id: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
+Subject: [RFC/WIP 1/4] media: Add HEIC compressed pixel format
+Date:   Thu, 29 Apr 2021 16:28:30 +0300
+Message-Id: <20210429132833.2802390-2-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
+References: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Add HEIC (High-Efficiency Image Container) pixel format. This an
+image container which use HEVC codec to encoded images.
 
-HEIC (High-Efficiency Image Container) is a variant of HEIF (High
-Efficiency Image File Format) where HEVC/h265 codec is used to encode
-images.  For more info see [1].
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
+ .../userspace-api/media/v4l/pixfmt-compressed.rst    | 12 ++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c                 |  1 +
+ include/uapi/linux/videodev2.h                       |  1 +
+ 3 files changed, 14 insertions(+)
 
-In this RFC we propose a new compressed pixel format V4L2_PIX_FMT_HEIC.
-The name is debatable and could be changed (V4L2_PIX_FMT_HEVC_HEIF is
-also an option).
-
-There are two encoding modes which should be selectable by clients:
-    1. Regular image encoding
-    2. Grid image encoding
-
-1. Regular image encoding
-
-Propose to reuse stateful video encoder spec [2].
-
-- queuing one OUTPUT buffer will produce one CAPTURE buffer.  The
-client could trigger Drain sequence at any point of time.
-
-2. Grid image encoding
-
-Propose to reuse stateful video encoder spec [2].
-
-- queuing one OUTPUT buffer will produce a number of grids CAPTURE
-buffers.  The client could trigger Drain sequence at any point of time.
-
-This image encoding mode is used when the input image resolution is
-bigger then the hardware can support and/or for compatibility reasons
-(for exmaple, the HEIC decoding hardware is not capable to decode higher
-than VGA resolutions).
-
-In this mode the input image is divided on square blocks (we call them grids)
-and every block is encoded separately (the Venus driver presently supports 
-grid size of 512x512 but that could be changed in the future).
-
-To set the grid size we use a new v4l2 control.
-
-The side effect of this mode is that the client have to set the v4l2
-control and thus enable grid encoding before setting the formats on
-CAPTURE and OUTPUT queues, because the grid size reflects on the
-selected resolutions. Also the horizontal and vertical strides will
-also be affected because thеy have to be aligned to the grid size
-in order to satisfy DMA alignment restrictions.
-
-Using of v4l2 control to set up Grid mode and Grid size above looks
-inpractical and somehow breaks the v4l2 and v4l2 control rules, so
-I'd give one more option. 
-
-Encoding the Grid mode/size in the new proposed HEIC pixel format:
-
-   V4L2_PIX_FMT_HEIC - Regular HEIC image encoding
-   V4L2_PIX_FMT_HEIC_GRID_512x512 - Grid HEIC image encoding, grid size of 512x512 
-   and so on ...
-
-Comments and suggestions are welcome!
-
-regards,
-Stan
-
-[1] https://en.wikipedia.org/wiki/High_Efficiency_Image_File_Format
-[2] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-encoder.html
-
-
-Stanimir Varbanov (4):
-  media: Add HEIC compressed pixel format
-  v4l2-ctrls: Add HEIC grid size control
-  venus: helpers: Add a new helper for buffer processing
-  venus: Add HEIC image encoder
-
- .../media/v4l/pixfmt-compressed.rst           |   12 +
- drivers/media/platform/qcom/venus/Makefile    |    2 +
- drivers/media/platform/qcom/venus/core.h      |   10 +
- drivers/media/platform/qcom/venus/helpers.c   |   20 +
- drivers/media/platform/qcom/venus/helpers.h   |    1 +
- drivers/media/platform/qcom/venus/hfi_cmds.c  |   10 +-
- .../media/platform/qcom/venus/hfi_helper.h    |    5 +
- drivers/media/platform/qcom/venus/ienc.c      | 1348 +++++++++++++++++
- drivers/media/platform/qcom/venus/ienc.h      |   14 +
- .../media/platform/qcom/venus/ienc_ctrls.c    |   83 +
- drivers/media/v4l2-core/v4l2-ctrls.c          |    3 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
- include/uapi/linux/v4l2-controls.h            |    1 +
- include/uapi/linux/videodev2.h                |    1 +
- 14 files changed, 1510 insertions(+), 1 deletion(-)
- create mode 100644 drivers/media/platform/qcom/venus/ienc.c
- create mode 100644 drivers/media/platform/qcom/venus/ienc.h
- create mode 100644 drivers/media/platform/qcom/venus/ienc_ctrls.c
-
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+index ba6c0c961204..246bff90dcac 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+@@ -186,6 +186,18 @@ Compressed Formats
+ 	If :ref:`VIDIOC_ENUM_FMT` reports ``V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM``
+ 	then the decoder has no	requirements since it can parse all the
+ 	information from the raw bytestream.
++    * .. _V4L2-PIX-FMT-HEIC:
++
++      - ``V4L2_PIX_FMT_HEIC``
++      - 'HEIC'
++      - High Efficiency Image Container is an image container file format which
++        uses HEVC encoding and it is a variant of HEIF (High Efficiency Image File)
++        format.
++	The decoder expects one Access Unit per buffer.
++	The encoder generates one Access Unit per buffer.
++	If :ref:`VIDIOC_ENUM_FMT` reports ``V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM``
++	then the decoder has no	requirements since it can parse all the
++	information from the raw bytestream.
+     * .. _V4L2-PIX-FMT-HEVC-SLICE:
+ 
+       - ``V4L2_PIX_FMT_HEVC_SLICE``
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 31d1342e61e8..3a1b4c3a76c8 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1454,6 +1454,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
+ 		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
+ 		case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
++		case V4L2_PIX_FMT_HEIC:		descr = "HEIC Image Format"; break;
+ 		default:
+ 			if (fmt->description[0])
+ 				return;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 79dbde3bcf8d..2153b5c31d46 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -699,6 +699,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
+ #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
+ #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
++#define V4L2_PIX_FMT_HEIC	v4l2_fourcc('H', 'E', 'I', 'C') /* HEIC HEVC image format */
+ 
+ /*  Vendor-specific formats   */
+ #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
 -- 
 2.25.1
+
