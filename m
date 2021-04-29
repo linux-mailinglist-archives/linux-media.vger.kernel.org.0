@@ -2,230 +2,364 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9852536ED62
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 17:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F78A36ED94
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 17:46:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233770AbhD2P1j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 11:27:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53438 "EHLO
+        id S240736AbhD2Prc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 11:47:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232989AbhD2P1i (ORCPT
+        with ESMTP id S233420AbhD2Prc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 11:27:38 -0400
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAA58C06138B;
-        Thu, 29 Apr 2021 08:26:50 -0700 (PDT)
-Received: by mail-ot1-x331.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso6694298otn.3;
-        Thu, 29 Apr 2021 08:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vbo4pKW3eCIThjMyIy6wsscOAdK3OJqwzPMbrwiTzTg=;
-        b=Srmr0fVOgjkykvlE3qdpkc3N3K5sktCMj6v1OgxqDJL0bljoIWUSciurSzygMcC6+n
-         Kvfe48eZrFMI4Vezxk+6d1SmAwUj3O8KStWxJ7C6QQj643wUL1pTlFt1cIl+3EPJlog8
-         Wjz7r5pur/St1BB4WjvL2c+1TRfSExFtimoriLOUN5bhVZxRQ7ceQ7l6u1U35bjVvgYO
-         G+U3UQmd+zdqnS/9c59d2vTHPjnfybGBOMlKvgo2G6yt/3QwDjhtTZtb/DN7njCxMlfl
-         Z+5BoYbOdcY8gHWg1rB52LVWnrX7HAjpecCdA5JJdAmydYP8GXTBu8hDuNRA/byDUNS0
-         rQAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vbo4pKW3eCIThjMyIy6wsscOAdK3OJqwzPMbrwiTzTg=;
-        b=MGIyoT3NAD/pAQdjvHSrqqo1k4kH6MBdA1sEh9pRpd3fXo9qslVI9uoKtttwgAAXPW
-         gJuxpJ/t4LTVXThMWAt4nNvCOi4JfezjRRPnOwVNAeGqZglDL4TtplRlp36hMoPm7ku5
-         wg0xcWyIhYjpSzzioz9V1TtYlfHJMhGQ9o8meJvOmW5sesvl6H4XVctFpnYjhIjtSTmp
-         +2kQ/G/uqqZkhzxpXAmpeTtzivjqDC20nrrkSqVsbnCL/0t4CmSNA3OilzVYNgcO9uwJ
-         xKahMtf4kZntTtMRpUOowEZ1su+ijRyxjtqkHGcJGVB7LqnXOTp0G9xMDNiMqnRRaUc4
-         3k2A==
-X-Gm-Message-State: AOAM533jIbvB3UAm8ogYkr3vxljxRfzFE0GB8aOdysfLHhxBL650XskD
-        usUNe/HjR+3fSHsOgFK5GBZu0WIVsrIwz6aNLiQ=
-X-Google-Smtp-Source: ABdhPJx/VF42MwLva6s4z6QCvKeFfwbdS1g8a6UEzyk0r2NtvE1jU5KzdNDQMYGiG9P9g6IxZOwxNN7a3OAYwulPFs8=
-X-Received: by 2002:a9d:63d1:: with SMTP id e17mr1296573otl.311.1619710009654;
- Thu, 29 Apr 2021 08:26:49 -0700 (PDT)
+        Thu, 29 Apr 2021 11:47:32 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED63EC06138B;
+        Thu, 29 Apr 2021 08:46:44 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 621441F435E6
+Subject: Re: [PATCH v1 4/4] mtk-mdp: soc: mediatek: register mdp from mmsys
+To:     Eizan Miyamoto <eizan@chromium.org>, linux-kernel@vger.kernel.org
+Cc:     chunkuang.hu@kernel.org, yong.wu@mediatek.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <20210423055842.2490679-1-eizan@chromium.org>
+ <20210423155824.v1.4.I558dcbaa17bf00243951a8ceb6d0e98758aacfa4@changeid>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <ecf9ab25-779d-01c7-97e3-76aa09b69415@collabora.com>
+Date:   Thu, 29 Apr 2021 17:46:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <20210427112738.15869-1-fmdefrancesco@gmail.com> <ef0a9c9d-4a7e-b1ce-05ef-29dca0c020a7@amd.com>
-In-Reply-To: <ef0a9c9d-4a7e-b1ce-05ef-29dca0c020a7@amd.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Thu, 29 Apr 2021 11:26:38 -0400
-Message-ID: <CADnq5_NGxHweFv_Cqwn1em5erGeUH_WJ_6KugJ+iKEUsKtuaYg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amd/amdgpu: Fix errors in documentation of
- function parameters
-To:     Felix Kuehling <felix.kuehling@amd.com>
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:AMD KFD" <amd-gfx@lists.freedesktop.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210423155824.v1.4.I558dcbaa17bf00243951a8ceb6d0e98758aacfa4@changeid>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 2:44 AM Felix Kuehling <felix.kuehling@amd.com> wrote:
->
-> On 2021-04-27 7:27, Fabio M. De Francesco wrote:
-> > In the documentation of functions, removed excess parameters, described
-> > undocumented ones, and fixed syntax errors.
-> >
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> >
-> > Changes from v1: Cc'ed all the maintainers.
->
-> Looks like Alex already applied V1. So this one doesn't apply. "git am
-> -3" tells me:
+Hi Eizan,
 
-Ah sorry, I didn't see the v2 patch.
+Thank you for your patch.
 
-Alex
+On 23/4/21 7:58, Eizan Miyamoto wrote:
+> Rather than hanging the MDP master component driver off of the rdma0
+> device, create a "virtual" device by the mmsys driver instead which is
+> probed by the mtk_mdp_core driver.
+> 
+> Broadly, four interdependent things are done by this change:
+> - A virtual device that is probed by the mtk_mdp_core driver is
+>   instantiated by the mtk_mmsys driver.
+> - Presence of a mediatek,vpu property in a child node to the mmsys
+>   device node is used to determine what device to use when dispatching
+>   dma ops from the relevant ioctl.
+> - v4l-related setup is moved into from the mtk_mdp_core driver to the
+>   mtk_mdp_comp driver.
+> 
+> Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
+> ---
+> 
+>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 47 +++++++++-----
+>  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 62 ++++++-------------
+>  drivers/media/platform/mtk-mdp/mtk_mdp_core.h |  2 +
+>  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |  4 +-
+>  drivers/soc/mediatek/mtk-mmsys.c              | 20 +++++-
+>  5 files changed, 75 insertions(+), 60 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> index d447bfaadef4..dc5231a1fcfd 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> @@ -106,8 +106,41 @@ static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
+>  {
+>  	struct mtk_mdp_comp *comp = dev_get_drvdata(dev);
+>  	struct mtk_mdp_dev *mdp = data;
+> +	struct device_node *vpu_node;
+>  
+>  	mtk_mdp_register_component(mdp, comp);
+> +
+> +	// If this component has a "mediatek-vpu" property, it is responsible for
+> +	// notifying the mdp master driver about it so it can be further initialized
+> +	// later.
+
+Please use c-style comments here.
+
+> +	vpu_node = of_parse_phandle(dev->of_node, "mediatek,vpu", 0);
+
+That's a bit confusing to me, please correct me if I am wrong, so, the
+mediatek,vpu property is used to tell the code that this component should be the
+'vpu master', not to point a vpu node in the DT? I understood correctly?
 
 
->
-> Applying: drm/amd/amdgpu: Fix errors in documentation of function parameters
-> Using index info to reconstruct a base tree...
-> M       drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> M       drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-> M       drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-> Falling back to patching base and 3-way merge...
-> No changes -- Patch already applied.
->
-> Regards,
->    Felix
->
->
-> >
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c          | 12 ++++++------
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |  4 +++-
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c |  8 ++++----
-> >   3 files changed, 13 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> > index 2e9b16fb3fcd..bf2939b6eb43 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> > @@ -76,7 +76,7 @@ struct amdgpu_atif {
-> >   /**
-> >    * amdgpu_atif_call - call an ATIF method
-> >    *
-> > - * @handle: acpi handle
-> > + * @atif: acpi handle
-> >    * @function: the ATIF function to execute
-> >    * @params: ATIF function params
-> >    *
-> > @@ -166,7 +166,6 @@ static void amdgpu_atif_parse_functions(struct amdgpu_atif_functions *f, u32 mas
-> >   /**
-> >    * amdgpu_atif_verify_interface - verify ATIF
-> >    *
-> > - * @handle: acpi handle
-> >    * @atif: amdgpu atif struct
-> >    *
-> >    * Execute the ATIF_FUNCTION_VERIFY_INTERFACE ATIF function
-> > @@ -240,8 +239,7 @@ static acpi_handle amdgpu_atif_probe_handle(acpi_handle dhandle)
-> >   /**
-> >    * amdgpu_atif_get_notification_params - determine notify configuration
-> >    *
-> > - * @handle: acpi handle
-> > - * @n: atif notification configuration struct
-> > + * @atif: acpi handle
-> >    *
-> >    * Execute the ATIF_FUNCTION_GET_SYSTEM_PARAMETERS ATIF function
-> >    * to determine if a notifier is used and if so which one
-> > @@ -304,7 +302,7 @@ static int amdgpu_atif_get_notification_params(struct amdgpu_atif *atif)
-> >   /**
-> >    * amdgpu_atif_query_backlight_caps - get min and max backlight input signal
-> >    *
-> > - * @handle: acpi handle
-> > + * @atif: acpi handle
-> >    *
-> >    * Execute the QUERY_BRIGHTNESS_TRANSFER_CHARACTERISTICS ATIF function
-> >    * to determine the acceptable range of backlight values
-> > @@ -363,7 +361,7 @@ static int amdgpu_atif_query_backlight_caps(struct amdgpu_atif *atif)
-> >   /**
-> >    * amdgpu_atif_get_sbios_requests - get requested sbios event
-> >    *
-> > - * @handle: acpi handle
-> > + * @atif: acpi handle
-> >    * @req: atif sbios request struct
-> >    *
-> >    * Execute the ATIF_FUNCTION_GET_SYSTEM_BIOS_REQUESTS ATIF function
-> > @@ -899,6 +897,8 @@ void amdgpu_acpi_fini(struct amdgpu_device *adev)
-> >   /**
-> >    * amdgpu_acpi_is_s0ix_supported
-> >    *
-> > + * @adev: amdgpu_device_pointer
-> > + *
-> >    * returns true if supported, false if not.
-> >    */
-> >   bool amdgpu_acpi_is_s0ix_supported(struct amdgpu_device *adev)
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-> > index 5af464933976..98d31ebad9ce 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-> > @@ -111,6 +111,8 @@ static const char *amdkfd_fence_get_timeline_name(struct dma_fence *f)
-> >    *  a KFD BO and schedules a job to move the BO.
-> >    *  If fence is already signaled return true.
-> >    *  If fence is not signaled schedule a evict KFD process work item.
-> > + *
-> > + *  @f: dma_fence
-> >    */
-> >   static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
-> >   {
-> > @@ -131,7 +133,7 @@ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
-> >   /**
-> >    * amdkfd_fence_release - callback that fence can be freed
-> >    *
-> > - * @fence: fence
-> > + * @f: dma_fence
-> >    *
-> >    * This function is called when the reference count becomes zero.
-> >    * Drops the mm_struct reference and RCU schedules freeing up the fence.
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-> > index b43e68fc1378..ed3014fbb563 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-> > @@ -719,7 +719,7 @@ static void unlock_spi_csq_mutexes(struct amdgpu_device *adev)
-> >   }
-> >
-> >   /**
-> > - * @get_wave_count: Read device registers to get number of waves in flight for
-> > + * get_wave_count: Read device registers to get number of waves in flight for
-> >    * a particular queue. The method also returns the VMID associated with the
-> >    * queue.
-> >    *
-> > @@ -755,19 +755,19 @@ static void get_wave_count(struct amdgpu_device *adev, int queue_idx,
-> >   }
-> >
-> >   /**
-> > - * @kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
-> > + * kgd_gfx_v9_get_cu_occupancy: Reads relevant registers associated with each
-> >    * shader engine and aggregates the number of waves that are in flight for the
-> >    * process whose pasid is provided as a parameter. The process could have ZERO
-> >    * or more queues running and submitting waves to compute units.
-> >    *
-> >    * @kgd: Handle of device from which to get number of waves in flight
-> >    * @pasid: Identifies the process for which this query call is invoked
-> > - * @wave_cnt: Output parameter updated with number of waves in flight that
-> > + * @pasid_wave_cnt: Output parameter updated with number of waves in flight that
-> >    * belong to process with given pasid
-> >    * @max_waves_per_cu: Output parameter updated with maximum number of waves
-> >    * possible per Compute Unit
-> >    *
-> > - * @note: It's possible that the device has too many queues (oversubscription)
-> > + * Note: It's possible that the device has too many queues (oversubscription)
-> >    * in which case a VMID could be remapped to a different PASID. This could lead
-> >    * to an iaccurate wave count. Following is a high-level sequence:
-> >    *    Time T1: vmid = getVmid(); vmid is associated with Pasid P1
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> +	if (vpu_node) {
+> +		int ret;
+> +
+> +		mdp->vpu_dev = of_find_device_by_node(vpu_node);
+> +		if (WARN_ON(!mdp->vpu_dev)) {
+> +			dev_err(dev, "vpu pdev failed\n");
+> +			of_node_put(vpu_node);
+> +		}
+> +
+> +		ret = v4l2_device_register(dev, &mdp->v4l2_dev);
+> +		if (ret) {
+> +			dev_err(dev, "Failed to register v4l2 device\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		ret = vb2_dma_contig_set_max_seg_size(dev, DMA_BIT_MASK(32));
+> +		if (ret) {
+> +			dev_err(dev, "Failed to set vb2 dma mag seg size\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		// presence of the "mediatek,vpu" property in a device node
+> +		// indicates that it is the primary MDP rdma device and MDP DMA
+> +		// ops should be handled by its DMA callbacks.
+
+Isn't rdma0 always the primary MDP device? or there are SoCs or configurations
+where this is different? At least I think it is for MT8173 and MT8183.
+
+> +		mdp->rdma_dev = dev;
+> +	}
+> +
+>  	pm_runtime_enable(dev);
+>  
+>  	return 0;
+> @@ -164,23 +197,9 @@ int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev)
+>  static int mtk_mdp_comp_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> -	struct device_node *vpu_node;
+>  	int status;
+>  	struct mtk_mdp_comp *comp;
+>  
+> -	vpu_node = of_parse_phandle(dev->of_node, "mediatek,vpu", 0);
+> -	if (vpu_node) {
+> -		of_node_put(vpu_node);
+> -		/*
+> -		 * The device tree node with a mediatek,vpu property is deemed
+> -		 * the MDP "master" device, we don't want to add a component
+> -		 * for it in this function because the initialization for the
+> -		 * master is done elsewhere.
+> -		 */
+> -		dev_info(dev, "vpu node found, not probing\n");
+> -		return -ENODEV;
+> -	}
+> -
+>  	comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
+>  	if (!comp)
+>  		return -ENOMEM;
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> index 5e71496e2517..4d7aa4e26be6 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> @@ -121,6 +121,17 @@ static int mtk_mdp_master_bind(struct device *dev)
+>  		goto err_component_bind_all;
+>  	}
+>  
+> +	if (mdp->vpu_dev) {
+> +		int ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
+> +					  VPU_RST_MDP);
+> +		if (ret) {
+> +			dev_err(dev, "Failed to register reset handler\n");
+> +			goto err_wdt_reg;
+> +		}
+> +	} else {
+> +		dev_err(dev, "no vpu_dev found\n");
+> +	}
+> +
+>  	status = mtk_mdp_register_m2m_device(mdp);
+>  	if (status) {
+>  		dev_err(dev, "Failed to register m2m device: %d\n", status);
+> @@ -133,6 +144,8 @@ static int mtk_mdp_master_bind(struct device *dev)
+>  	return 0;
+>  
+>  err_mtk_mdp_register_m2m_device:
+> +
+> +err_wdt_reg:
+>  	component_unbind_all(dev, mdp);
+>  
+>  err_component_bind_all:
+> @@ -191,8 +204,13 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+>  		of_node_put(node);
+>  		parent = dev->of_node;
+>  		dev_warn(dev, "device tree is out of date\n");
+> -	} else {
+> +	} else if (dev->of_node) {
+>  		parent = dev->of_node->parent;
+> +	} else if (dev->parent) {
+> +		// maybe we were created from a call to platform_device_register_data()
+> +		parent = dev->parent->parent->of_node;
+> +	} else {
+> +		return -ENODEV;
+>  	}
+>  
+>  	/* Iterate over sibling MDP function blocks */
+> @@ -225,16 +243,6 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+>  		}
+>  	}
+>  
+> -	/*
+> -	 * Create a component for myself so that clocks can be toggled in
+> -	 * clock_on().
+> -	 */
+> -	ret = mtk_mdp_comp_init(&mdp->comp_self, dev);
+> -	if (ret) {
+> -		dev_err(dev, "Failed to initialize component\n");
+> -		goto err_comp;
+> -	}
+> -
+>  	mdp->job_wq = create_singlethread_workqueue(MTK_MDP_MODULE_NAME);
+>  	if (!mdp->job_wq) {
+>  		dev_err(&pdev->dev, "unable to alloc job workqueue\n");
+> @@ -250,29 +258,8 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+>  	}
+>  	INIT_WORK(&mdp->wdt_work, mtk_mdp_wdt_worker);
+>  
+> -	ret = v4l2_device_register(dev, &mdp->v4l2_dev);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "Failed to register v4l2 device\n");
+> -		ret = -EINVAL;
+> -		goto err_dev_register;
+> -	}
+> -
+> -	mdp->vpu_dev = vpu_get_plat_device(pdev);
+> -	ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
+> -				  VPU_RST_MDP);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "Failed to register reset handler\n");
+> -		goto err_wdt_reg;
+> -	}
+> -
+>  	platform_set_drvdata(pdev, mdp);
+>  
+> -	ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "Failed to set vb2 dma mag seg size\n");
+> -		goto err_set_max_seg_size;
+> -	}
+> -
+>  	ret = component_master_add_with_match(dev, &mtk_mdp_com_ops, match);
+>  	if (ret) {
+>  		dev_err(dev, "Component master add failed\n");
+> @@ -284,22 +271,12 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+>  	return 0;
+>  
+>  err_component_master_add:
+> -	vb2_dma_contig_clear_max_seg_size(&pdev->dev);
+> -
+> -err_set_max_seg_size:
+> -
+> -err_wdt_reg:
+> -	v4l2_device_unregister(&mdp->v4l2_dev);
+> -
+> -err_dev_register:
+>  	destroy_workqueue(mdp->wdt_wq);
+>  
+>  err_alloc_wdt_wq:
+>  	destroy_workqueue(mdp->job_wq);
+>  
+>  err_alloc_job_wq:
+> -
+> -err_comp:
+>  	dev_dbg(dev, "err %d\n", ret);
+>  	return ret;
+>  }
+> @@ -371,7 +348,6 @@ static struct platform_driver mtk_mdp_driver = {
+>  	.driver = {
+>  		.name	= MTK_MDP_MODULE_NAME,
+>  		.pm	= &mtk_mdp_pm_ops,
+> -		.of_match_table = mtk_mdp_of_ids,
+>  	}
+>  };
+>  
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.h b/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+> index 230f531400ca..78c3c77cd226 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+> @@ -133,6 +133,7 @@ struct mtk_mdp_variant {
+>   * struct mtk_mdp_dev - abstraction for image processor entity
+>   * @lock:	the mutex protecting this data structure
+>   * @vpulock:	the mutex protecting the communication with VPU
+> + * @rdma_dev:  device pointer to rdma device for MDP
+>   * @pdev:	pointer to the image processor platform device
+>   * @variant:	the IP variant information
+>   * @id:		image processor device index (0..MTK_MDP_MAX_DEVS)
+> @@ -151,6 +152,7 @@ struct mtk_mdp_variant {
+>  struct mtk_mdp_dev {
+>  	struct mutex			lock;
+>  	struct mutex			vpulock;
+> +	struct device			*rdma_dev;
+>  	struct platform_device		*pdev;
+>  	struct mtk_mdp_variant		*variant;
+>  	u16				id;
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+> index d351e5a44768..c80ad8299c5e 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+> @@ -932,7 +932,7 @@ static int mtk_mdp_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+>  	src_vq->mem_ops = &vb2_dma_contig_memops;
+>  	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
+>  	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> -	src_vq->dev = &ctx->mdp_dev->pdev->dev;
+> +	src_vq->dev = ctx->mdp_dev->rdma_dev;
+>  	src_vq->lock = &ctx->mdp_dev->lock;
+>  
+>  	ret = vb2_queue_init(src_vq);
+> @@ -947,7 +947,7 @@ static int mtk_mdp_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+>  	dst_vq->mem_ops = &vb2_dma_contig_memops;
+>  	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
+>  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> -	dst_vq->dev = &ctx->mdp_dev->pdev->dev;
+> +	dst_vq->dev = ctx->mdp_dev->rdma_dev;
+>  	dst_vq->lock = &ctx->mdp_dev->lock;
+>  
+>  	return vb2_queue_init(dst_vq);
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+> index 18f93979e14a..6f9cf7725529 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.c
+> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> @@ -305,6 +305,7 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
+>  	struct device *dev = &pdev->dev;
+>  	struct platform_device *clks;
+>  	struct platform_device *drm;
+> +	struct platform_device *mdp;
+>  	void __iomem *config_regs;
+>  	int ret;
+>  
+> @@ -328,10 +329,27 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
+>  					    PLATFORM_DEVID_AUTO, NULL, 0);
+>  	if (IS_ERR(drm)) {
+>  		platform_device_unregister(clks);
+> -		return PTR_ERR(drm);
+> +		ret = PTR_ERR(drm);
+> +		goto err_drm;
+> +	}
+> +
+> +	mdp = platform_device_register_data(&pdev->dev, "mtk-mdp",
+> +					    PLATFORM_DEVID_AUTO, NULL, 0);
+> +	if (IS_ERR(mdp)) {
+> +		ret = PTR_ERR(mdp);
+> +		dev_err(dev, "Failed to register mdp: %d\n", ret);
+> +		goto err_mdp;
+>  	}
+>  
+>  	return 0;
+> +
+> +err_mdp:
+> +	platform_device_unregister(drm);
+> +
+> +err_drm:
+> +	platform_device_unregister(clks);
+> +
+> +	return ret;
+>  }
+>  
+>  static const struct of_device_id of_match_mtk_mmsys[] = {
+> 
