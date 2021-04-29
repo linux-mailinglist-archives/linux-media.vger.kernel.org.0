@@ -2,87 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7372B36EC26
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 16:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1C3436ECA0
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 16:48:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239032AbhD2OLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 10:11:17 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53254 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235277AbhD2OLR (ORCPT
+        id S239981AbhD2OtQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 10:49:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232820AbhD2OtQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 10:11:17 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A262145F;
-        Thu, 29 Apr 2021 16:10:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619705424;
-        bh=BRIcmu0jwebXwo+uZXpaeAASjNeP5VTEJ3famTbIawg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fd/zcWQfJlkpUxHnacy5syGlLrA0ZrpR7aok48HSH4SEsHoju8RgxiHL8GxcBOKMi
-         UI3jePWdkiDWmfzmfCft+z+7iz0vTKAxE7tdPB/wr1pFoLI4SGd9sf4QnOfERe+UDp
-         CzGcBhePuIo39HgMsFnCuGU6EfU3+Z54P/4SdkG4=
-Date:   Thu, 29 Apr 2021 17:10:18 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v5 11/24] media: entity: Skip link validation for pads to
- which there is no route to
-Message-ID: <YIq+Sni7nd5sY/VB@pendragon.ideasonboard.com>
-References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
- <20210415130450.421168-12-tomi.valkeinen@ideasonboard.com>
- <YHx1E3AWm2mzD4Gs@pendragon.ideasonboard.com>
- <20210420114153.GM3@paasikivi.fi.intel.com>
- <a6b24f1b-5e59-4622-de53-f2ae4beee6c6@ideasonboard.com>
- <20210429120612.GW3@paasikivi.fi.intel.com>
+        Thu, 29 Apr 2021 10:49:16 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7AE8C06138B;
+        Thu, 29 Apr 2021 07:48:29 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id BFCE51F43316
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v7 00/10] MPEG-2 stateless API cleanup and destaging
+Date:   Thu, 29 Apr 2021 11:48:08 -0300
+Message-Id: <20210429144818.67105-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210429120612.GW3@paasikivi.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi,
 
-On Thu, Apr 29, 2021 at 03:06:12PM +0300, Sakari Ailus wrote:
-> On Fri, Apr 23, 2021 at 03:37:03PM +0300, Tomi Valkeinen wrote:
-> > On 20/04/2021 14:41, Sakari Ailus wrote:
-> > > On Sun, Apr 18, 2021 at 09:06:11PM +0300, Laurent Pinchart wrote:
-> > > > Hi Tomi and Sakari,
-> > > > 
-> > > > Thank you for the patch.
-> > > > 
-> > > > There's an extra "to" in the subject line.
-> > > > 
-> > > > On Thu, Apr 15, 2021 at 04:04:37PM +0300, Tomi Valkeinen wrote:
-> > > > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > 
-> > > > > Links are validated along the pipeline which is about to start streaming.
-> > > > > Not all the pads in entities that are traversed along that pipeline are
-> > > > > part of the pipeline, however. Skip the link validation for such pads,
-> > > > > and while at there rename "other_pad" to "local_pad" to convey the fact
-> > > > > the route to be checked is internal to the entity.
-> > > > 
-> > > > Both "pad" and "local_pad" are local. I would have kept the "other_pad"
-> > > 
-> > > The pad that in the remote entity is not local. The other one could be
-> > > called remote_pad though.
-> > 
-> > I'm not sure what you mean here. Aren't both pad and local_pad pads of a
-> > single entity here? If so, I think Laurent's comment makes sense, and
-> > other_pad is a better name.
-> 
-> I guess you could argue for either. I'm fine dropping the patch.
+Seventh round.
 
-I think the patch is good, it's just the extra rename that puzzled me.
+v7:
+* Fix padding in v4l2_ctrl_mpeg2_picture.
+* Fix V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE.
+
+v6: 
+* Reorder patch "media: controls: Log MPEG-2 stateless control in .std_log"
+  to avoid a new compile warning.
+* Remove "reserved" field in mpeg2 sequence control, noted by Hans.
+* Reorder "flags" field in mpeg2 picture control, noted by Hans.
+* Typos and comments fixes, noted by Hans.
+
+v5:
+* Rename "quantization" to "quantisation", so the terminology
+  matches the MPEG-2 specification.
+  This is the only change in v5, compared to v4.
+
+v4:
+* Rework and clarify quantization matrices control semantics.
+* Move reference buffer fields to the picture parameter control.
+* Remove slice parameters control. This can be added back in the
+  future if needed, but for now it's not used.
+  See patch 6/9 for details.
+* Destage the API.
+
+v3:
+* No API changes, just minor boilerplate fixes for the new
+  controls to be properly exposed, initialized and validated.
+
+v2:
+* Fixed bad use of boolean negation in a flag, which
+  was fortunately reported by 0day bot.
+
+Ezequiel Garcia (10):
+  media: uapi: mpeg2: Rename "quantization" to "quantisation"
+  media: uapi: mpeg2: rework quantisation matrices semantics
+  media: uapi: mpeg2: Cleanup flags
+  media: uapi: mpeg2: Split sequence and picture parameters
+  media: uapi: mpeg2: Move reference buffer fields
+  media: hantro/cedrus: Remove unneeded slice size and slice offset
+  media: uapi: mpeg2: Remove V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS
+  media: uapi: Move the MPEG-2 stateless control type out of staging
+  media: controls: Log MPEG-2 stateless control in .std_log
+  media: uapi: move MPEG-2 stateless controls out of staging
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 214 +++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 217 ------------------
+ .../media/v4l/pixfmt-compressed.rst           |  11 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  12 +
+ .../media/v4l/vidioc-queryctrl.rst            |  18 +-
+ .../media/videodev2.h.rst.exceptions          |   5 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c          | 122 +++++++---
+ drivers/staging/media/hantro/hantro_drv.c     |   9 +-
+ .../media/hantro/hantro_g1_mpeg2_dec.c        | 110 ++++-----
+ drivers/staging/media/hantro/hantro_hw.h      |   2 +-
+ drivers/staging/media/hantro/hantro_mpeg2.c   |   2 +-
+ .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    | 106 ++++-----
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  10 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   5 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |  97 +++-----
+ include/media/mpeg2-ctrls.h                   |  82 -------
+ include/media/v4l2-ctrls.h                    |  11 +-
+ include/uapi/linux/v4l2-controls.h            | 112 +++++++++
+ include/uapi/linux/videodev2.h                |   7 +
+ 20 files changed, 610 insertions(+), 552 deletions(-)
+ delete mode 100644 include/media/mpeg2-ctrls.h
 
 -- 
-Regards,
+2.30.0
 
-Laurent Pinchart
