@@ -2,106 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6442736E3E8
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 06:00:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A25BB36E45B
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 06:55:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238346AbhD2DyQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Apr 2021 23:54:16 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42768 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238329AbhD2DyQ (ORCPT
+        id S236873AbhD2E4P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 00:56:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54610 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235202AbhD2E4P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Apr 2021 23:54:16 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E989BC0;
-        Thu, 29 Apr 2021 05:53:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619668408;
-        bh=n0b40VLEzbS1OoYz0xc6JZAIL6M1snsDz26CaxKrP0c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HtZcfcR2KbZfrU8X2jgkHK91dJSo8IpUKRwpIupyHSz5pdUBC57GDf+CM2/gj6tUv
-         +5JhG4cVISsH3pwAaPzfHmdX7OlKmTtxhVlyDlTNiXfDId1kDuGaHiaF00mDwTUAx3
-         pRbSjGpXEeJ3ulH1hPK9S8Yr8QEKK0GM9sViuq+M=
-Date:   Thu, 29 Apr 2021 06:53:22 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com
-Subject: Re: [PATCH 0/4] media: ti-vpe: cal: multiplexed streams support
-Message-ID: <YIotsrlLrFYeNN/b@pendragon.ideasonboard.com>
-References: <20210427132028.1005757-1-tomi.valkeinen@ideasonboard.com>
+        Thu, 29 Apr 2021 00:56:15 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF1AC06138C
+        for <linux-media@vger.kernel.org>; Wed, 28 Apr 2021 21:55:28 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id g10so8999365edb.0
+        for <linux-media@vger.kernel.org>; Wed, 28 Apr 2021 21:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=9zsc5VqP7ZFRstzMnPtTwsmXOiG7krTO/wBwrEEQqNs=;
+        b=hpnNVleirSLGr4umoRdSGkhwiE4ZxO8jpExjOJ+TBy+Nq9PEJ3KcF70Quo32X5Dgoy
+         04v3fAHa6IHqxq5gfPQAzAcEAM6dyHEkC0TxXfbMbJKjJyohkVMnFFmiMzgdhgmAhRyz
+         W3FYrB/6KHSW0yijKA4FIriJ5tIVD+2a7Dq8pxPF9CyPsU827mYxNPL0kr7R8VuQl5CN
+         /kLqkkkDvltuvi6Go26ONyfTTKk778d0XliZAJiOTIk7OKLwnkwDJAPL50wfyk4agRai
+         DP+tikKAgE3vtcXpqIJCpdjkv4mn6ETHY6nMT5JwRRvqL9qkMchJQOCjuB9zQ5ux7Ckc
+         kzeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=9zsc5VqP7ZFRstzMnPtTwsmXOiG7krTO/wBwrEEQqNs=;
+        b=HLIsTVahcMcpnlpShOGGbtVXDe6OoU+u5IpO9GCs+xOFwAlP93bif3mKZ7RVzyS6l/
+         AWHpMesObej/T5akJah59UfqssyG54xLf4vEOjVEdwoh62lzYOyPfsg5aLVbd9XONmqt
+         1chyrf31Hcq3M6+akKjyA8mmyksduIf/ndA2rdoZIzkJogK+zefj3oE6u9rV9t/l/rVb
+         6v6EPekLwR34ipVwuNlhjWjCJQYiZENArOkZiSbpwfHmYnyiW9fv5ikFcudCrPgNiwl5
+         CBmKGCkpyfy3JzYUWDOZo046yvKMQWfflyuBA5zgFOlD3maKkOZRI0G+nhfpF/HWOd7G
+         bCpw==
+X-Gm-Message-State: AOAM5326hM5tpY4gFq85rBXBntmIyVRJ+7Fdx4Kjjg4iVvFsOG2qMFJa
+        AyX0GJjabvDP1iwZNx4w6IM6TWDaXHTaXCAVB8o=
+X-Google-Smtp-Source: ABdhPJxvljdMyXJZPfDBAHucIEczrcUma1AJJB5Ekax7lcNoJQHxPgWIsMf6jYf6ySaNA2OjS+E8xXHI5p5xdCAbVaE=
+X-Received: by 2002:aa7:cf86:: with SMTP id z6mr8712341edx.120.1619672127742;
+ Wed, 28 Apr 2021 21:55:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210427132028.1005757-1-tomi.valkeinen@ideasonboard.com>
+Received: by 2002:ab4:a6a6:0:0:0:0:0 with HTTP; Wed, 28 Apr 2021 21:55:27
+ -0700 (PDT)
+Reply-To: vpnchuk@gmail.com
+From:   Victor Team <vfcordinator@gmail.com>
+Date:   Wed, 28 Apr 2021 21:55:27 -0700
+Message-ID: <CAAfYsC721VEvxp+Op88-aM9jU+v8w1fygCVj9dHYJrf5RuhtSQ@mail.gmail.com>
+Subject: =?UTF-8?Q?Gl=C3=BCckwunsch=21_Sie_haben_eine_Spende_f=C3=BCr_wohlt=C3=A4tige?=
+        =?UTF-8?Q?_Zwecke=2E?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
-
-Thank you for the series. Nice to see the multiplexed streams API in
-operation.
-
-On Tue, Apr 27, 2021 at 04:20:24PM +0300, Tomi Valkeinen wrote:
-> Hi,
-> 
-> This series adds embedded data and multiplexed streams support to TI CAL
-> driver. These patches depend on the subdev routing series and CAL preparation
-> series:
-> 
-> https://lore.kernel.org/linux-media/20210427124523.990938-1-tomi.valkeinen@ideasonboard.com/
-> 
-> https://lore.kernel.org/linux-media/20210420120433.902394-1-tomi.valkeinen@ideasonboard.com/
-> 
-> One detail I'm not too happy about is adding a new kernel module parameter
-> 'cal_streams_api'. Setting this parameter enables the multiplexed streams
-> support for the CAL sink pads. I'd like the driver to be able to figure this
-> out itself, but there's no simple answer to it.
-> 
-> A pad in a subdev has to be either in non-multiplexed or multiplexed mode. If
-> the subdev cannot support multiplexed streams, then the answer is clear. But if
-> it can, then the question becomes "what's connected to the pad, and what does
-> it want". Afaik, the idea with subdev configuration is that each subdev can be
-> configured independently, so the driver trying to figure out the answer to that
-> question breaks this idea. Also, two connected subdevs that both can support
-> both modes wouldn't even give the answer, but the answer might be found further
-> away, probably from the sensor subdev.
-> 
-> So, maybe it should be the userspace that can set a subdev pad to either of the
-> modes. There's currently no such uAPI, but I think this option makes the most
-> sense.
-
-We'll need to brainstorm this a bit. I agree that the module parameter
-isn't a good solution.
-
-> Another detail to note is the embedded data support. I don't have hardware with
-> real embedded data, so I have not added any embedded data formats. Also, the
-> embedded data is captured with the video capture ioctls, not the metadata
-> capture ioctls. The reason for this is that in the case of CSI-2 embedded data
-> (at least for this hardware) the embedded data is very much like pixel data:
-> the data is sent in lines just before or after the pixel content and each
-> subdev needs a set_fmt call with the width, height, and mbus-code.
-> 
-> Using the metadata ioctls is possible, but it only results in much more complex
-> driver code, and, I think, more confusing userspace.
-> 
->  Tomi
-> 
-> Tomi Valkeinen (4):
->   media: ti-vpe: cal: add embedded data support
->   media: ti-vpe: cal: use frame desc to get vc and dt
->   media: ti-vpe: cal: add routing support
->   media: ti-vpe: cal: add multiplexed streams support
-> 
->  drivers/media/platform/ti-vpe/cal-camerarx.c | 234 ++++++++++++++++---
->  drivers/media/platform/ti-vpe/cal-video.c    |  95 +++++++-
->  drivers/media/platform/ti-vpe/cal.c          | 102 ++++++--
->  drivers/media/platform/ti-vpe/cal.h          |  10 +-
->  4 files changed, 383 insertions(+), 58 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+Victor Pinchuk ist ein ukrainischer Milliard=C3=A4r, Gesch=C3=A4ftsmann und
+Oligarch. Ein Philanthrop und Gr=C3=BCnder der EastOne Group LLC hat
+zugesagt, in diesem Jahr 2021 einen Viertel seines Nettoverm=C3=B6gens zu
+verschenken.
+Sie sind einer der 5 Beg=C3=BCnstigten weltweit, die im Rahmen des Victor
+Pinchuk Charity-Projekts $1,500,000.00 USD erhalten.
+Wenn Sie diese E-Mail erhalten haben, best=C3=A4tigen Sie bitte das
+Eigentum an Ihrer E-Mail, indem Sie sich an Victor Pinchuk wenden:
+vpnchuk@gmail.com, da er daf=C3=BCr verantwortlich ist, die Bank
+anzuweisen, Ihr Geld zu =C3=BCberweisen ($1,500,000.00 USD).
+Name des Ansprechpartners: Victor Pinchuk
+E-Mail: vpnchuk@gmail.com
