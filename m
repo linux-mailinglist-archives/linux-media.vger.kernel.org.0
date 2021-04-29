@@ -2,1041 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FFA436E754
-	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 10:48:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 966B636E7E2
+	for <lists+linux-media@lfdr.de>; Thu, 29 Apr 2021 11:23:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239890AbhD2IsI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Apr 2021 04:48:08 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50011 "EHLO
+        id S232596AbhD2JX4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Apr 2021 05:23:56 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:60515 "EHLO
         lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236781AbhD2IsH (ORCPT
+        by vger.kernel.org with ESMTP id S231135AbhD2JX4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Apr 2021 04:48:07 -0400
+        Thu, 29 Apr 2021 05:23:56 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id c2KJla63gk1MGc2KMlPtso; Thu, 29 Apr 2021 10:47:19 +0200
+        id c2swlaHMhk1MGc2t0lPzyk; Thu, 29 Apr 2021 11:23:07 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1619686039; bh=e8kc+QJq/gIpURWU0UCDsYUgd1WvEkt3FhWwPWr9Oxo=;
+        t=1619688187; bh=s3ipDlypoNm3vwhR/M4/sqd3vCeKq1dZfzYQUWfDnww=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=ZOYj7p+c/2MtsgfS7gZU2a3v7IW/Xlzm19mnDuY1o81kDUayxOk4KriSfMddywep2
-         z4MKhvxK1rl4muW/fLRrCK/1I7AAnktPsxOCl/emS4SfWrNE0ZBFfE1T0iJkl0Zpvq
-         HEbsiaTkQKQfi8UXEFEISmg7ekU4ynQp+5eaWhND292Nl45Bpv6YPTDu+uPSytfhmQ
-         VISlAX9GfrWFj4HqKQgZXFVhIOc2Wj5D/FagsJwIF8tJusM1QUY8dD3yHj+qI/1dqE
-         TN62NyyX1Pzhgal7TqsAMgt9J3Gb6HLZyPbMP2IJbMUYNnZByA30kuTMeD3J3OmQbL
-         TrRgX5T9U5a3Q==
-Subject: Re: [PATCH v6 10/10] media: uapi: move MPEG-2 stateless controls out
- of staging
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Daniel Almeida <daniel.almeida@collabora.com>
-References: <20210426033522.69395-1-ezequiel@collabora.com>
- <20210426033522.69395-11-ezequiel@collabora.com>
+        b=mVQHIgGq0384Yi1ZV8aZ4i859z1cLY20+TE/NAzh1lmOPXb2TYuE3JYbak5otfwbc
+         h1Awdq8jaxjJGd9KOjLo4rMh7hhpWHD3ojTgaAbiI35bPVC1x9lvJPdZrYp5qlONvY
+         jR0PmXIbLTPFBnSRxi3j8M5e1tcInFwTV6ZlYqCs2ucu4c1yuAWIaC31kzqgbqCOvc
+         iWzNvveZcDByjJbfoH5GcOmzemNNg/Ve/eDeMcHa8NFpD2oVcIiaiaUvO06AAO07yJ
+         +dKGuIun4BeGRXtQuAEmq+2lMUZnUtFAWJyR0tihTzF0kQlaqicW6i+6nHmPNmndv6
+         5nxF46hgD48IA==
+Subject: Re: [RFC RESEND 0/3] vp9 v4l2 stateless uapi
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel@collabora.com
+References: <20210421100035.13571-1-andrzej.p@collabora.com>
+ <23a4ed00-0993-3567-2664-1fcc643915ab@xs4all.nl>
+ <e7b55d3f58a6067ccd68d0e1d772e70bb3c92c93.camel@ndufresne.ca>
+ <CAAEAJfB_UdGKnfMRdwu=LRaW+Ujv5pShHYm9i=KO5KaB08JSuA@mail.gmail.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <b3e31760-a40a-4995-e43f-c50f1d2625b1@xs4all.nl>
-Date:   Thu, 29 Apr 2021 10:47:15 +0200
+Message-ID: <463d2636-6de9-112b-3536-5cef38ef6093@xs4all.nl>
+Date:   Thu, 29 Apr 2021 11:23:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210426033522.69395-11-ezequiel@collabora.com>
+In-Reply-To: <CAAEAJfB_UdGKnfMRdwu=LRaW+Ujv5pShHYm9i=KO5KaB08JSuA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfD12OnAeefmW1BySVogJ7Fku3fItVhIymTI2N124QjM+ircmRDqLuvJN/tGj3/EOHFfjjq+JH0c+ExGQXSSe6TkcbkVt+CraMXZmfyucVsONqKxr5wPK
- N9vOrL3e21HzTIswolkgxgnEPC7ids/FJ077j/TWwdKXSpTXW/0pwhsf4Ynz0mCLTfhIMpcaW6t/DCGQ10VKqP6oo4r0m5ZZwPxy9MrXKW/oaXnTSid9Z2LG
- 5KXXSLKAvhGYWe+GFqFmRGBKTGH3g9oslmsKUUjJLXDSMxR1IEgxKUm5FbKeslUZh7YQzVDcQtdHbQi5ppsMV3ceIuW2gb+8YxS4oesBofEPLYlQu09BBpvI
- iStMW1Ni9mC+ntO1XjUXfBybOtmuvYZPo3IQ/76Q5jKF50dFHKr0YQf8OW9snMaAyO0hBmsQlNqdfLKS9bexOoZBCAiUSFhKm8t7kSf64mWX7tjOIfEi9Pi1
- SCxMBh8dBS9YcQn7U3uH98bGRkPS4pysbOdJMP98rKIKToSJIFs/SDE9qCgJawDTZGLa92d5cvV2N3oMETpNCFGcT7MnzVShsLB0jg==
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfIKdM0al2i9WC6E+tLeoxaVsRwrsxJX3pVO98NS+Efa7vX3ZT/LIEJzDdOX8hab2OXIwbIvTyQrawHXdcYNMLSLmfWEkoq0GEubsU+CyfpxPyUgCjTLi
+ Art65U2mDLk4QfL5IJj4Dyuc3kfy/mF3tseCDITX+Qom2Mf4S8BK1A3v2RAeSONMRZas1JNjYICUle7FlEE7QabIXI1yhM1wMfDlSQ1JIZfLXpyXg0RiImfm
+ DbgEavQrkYbMm2oNJEatC/IxaNL4GT2lD1WI6YnVVXXpxougl8TKnZvNcSEhZCBUYEnvR1Gj1cU6DSn9nCuNw6T1C/NIruJWA47OzKrk2bQBnL1EtY1v1NNF
+ lpkxYgX3dW/3ataQiNC1Nm6Z2LMMTaL6Hb6z/qj2HJKqF89b1A8nkYlS6l6/QV2GoVlxQj2lwBVDYhX5Hewmw5AW7wPPMfiaN6040jRqO6zU+THbWGA6FRvC
+ wf2oIWv3cSVKCRMM/R+rzuh5AeUsf22x54OzZOgojqC7SFWDRXVlQRF0efQ=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/04/2021 05:35, Ezequiel Garcia wrote:
-> Until now, the MPEG-2 V4L2 API was not exported as a public API,
-> and only defined in a private media header (media/mpeg2-ctrls.h).
+On 27/04/2021 01:34, Ezequiel Garcia wrote:
+> On Mon, 26 Apr 2021 at 14:38, Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+>>
+>> Le lundi 26 avril 2021 à 09:38 +0200, Hans Verkuil a écrit :
+>>> Hi Andrzej,
+>>>
+>>> Thank you for working on this!
+>>>
+>>> On 21/04/2021 12:00, Andrzej Pietrasiewicz wrote:
+>>>> Dear All,
+>>>>
+>>>> This is an RFC on stateless uapi for vp9 decoding with v4l2. This work is based on https://lkml.org/lkml/2020/11/2/1043, but has been substantially reworked. The important change is that the v4l2 control used to pass boolean decoder probabilities has been made unidirectional, and is now called V4L2_CID_STATELESS_VP9_COMPRESSED_HDR_PROBS.
+>>>>
+>>>> In the previous proposal, to queue a frame the userspace must fully dequeue the previous one, which effectively results in a forced lockstep behavior and defeats vb2's capability to enqueue multiple buffers. Such a design was a consequence of backward probability updates being performed by the kernel driver (which has direct access to appropriate counter values) but forward probability updates being coupled with compressed header parsing performed by the userspace.
+>>>>
+>>>> In vp9 the boolean decoder used to decode the bitstream needs certain parameters to work. Those are probabilities, which change with each frame. After each frame is decoded it is known how many times a given symbol occured in the frame, so the probabilities can be adapted. This process is known as backward probabilities update. A next frame header can also contain information which modifies probabilities resulting from backward update. The said modification is called forward probabilities update. The data for backward update is generated by the decoder hardware, while the data for forward update is prepared by reading the compressed frame header. The natural place to parse something is userspace, while the natural place to access hardware-provided counters is the kernel. Such responsibilties assignment was used in the original work.
+>>>>
+>>>> To overcome the lockstep, we moved forward probability updates to the kernel, while leaving parsing them in userspace. This way the v4l2 control which is used to pass the probs becomes unidirectional (user->kernel) and the userspace can keep parsing and enqueueing succeeding frames.
+>>>>
+>>>> If a particular driver parses the compressed header and does backward probability updates on its own then V4L2_CID_STATELESS_VP9_COMPRESSED_HDR_PROBS does not need to be used.
+>>>>
+>>>> This series adds vp9 uapi in proper locations, which means it is a proper, "official" uapi, as opposed to staging uapi which was proposed in the above mentioned lkml thread.
+>>>
+>>> Why? I rather liked the way that the other codec APIs started life in a private header
+>>> (like include/media/vp8-ctrls.h) and were given time to mature before moving them to
+>>> the uAPI. Is there a reason why you think that VP9 doesn't need that?
+>>
+>> I'll be honest, I accepted early code into GStreamer for H264, and it ended up
+>> in a nightmare for the users. We now have a released GStreamer that supports
+>> kernel API up to 5.9, a blackwhole at 5.10 and finally master catched up and can
+>> support 5.11+. It is so complicated for packagers to understand what is going
+>> on, that they endup wasting a lot of their time for a single feature in their
+>> OS. Same breakage is happening for VP8 in 5.13, even though VP8 has been working
+>> great all this time. I will for sure for now on ignore any contribution that
+>> depends on staged uAPI.
+>>
+>> As for FFMPEG, even though now H264 API is table, the maintainers just simply
+>> ignore the patches as they have been bitten by the reviewing stuff based on
+>> unstable APIs and downstream work.
+>>
+>> I believe the staged uAPI has been used wrongly in the past. Stuff has been
+>> staged quicky right before associated project budget for it was exhausted, so it
+>> was in the end a way to look good, and someone else had to pick it up and finish
+>> it. Going straight for final API put more pressure on making good research from
+>> the start, doing more in-depth reviews and avoiding delaying for multiple years
+>> the support. I believe the staging API are confusing even for the Linux
+>> projects. Going straight to stable here is a commitment to finish this work and
+>> doing it correctly.
+>>
+>> This specially make sense for VP9, which is a very Open CODEC and were all HW
+>> implementation are Google/Hantro derivatives. Also, unlike when this work all
+>> started, we do have multiple HW we can look at to validate the API, with more
+>> then enough in-depth information to make the right decisions.
+>>
 > 
-> After reviewing the MPEG-2 specification in detail, and reworking
-> the controls so they match the MPEG-2 semantics properly,
-> we can consider it ready.
+> +1
 > 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  .../media/v4l/ext-ctrls-codec-stateless.rst   | 214 +++++++++++++++++
->  .../media/v4l/ext-ctrls-codec.rst             | 216 ------------------
->  .../media/v4l/pixfmt-compressed.rst           |  10 +-
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  12 +
->  drivers/media/v4l2-core/v4l2-ctrls.c          |  12 +-
->  drivers/staging/media/hantro/hantro_drv.c     |   6 +-
->  .../media/hantro/hantro_g1_mpeg2_dec.c        |   6 +-
->  .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |   6 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |   6 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   6 +-
->  include/media/mpeg2-ctrls.h                   | 126 ----------
->  include/media/v4l2-ctrls.h                    |   1 -
->  include/uapi/linux/v4l2-controls.h            | 112 +++++++++
->  include/uapi/linux/videodev2.h                |   3 +
->  14 files changed, 367 insertions(+), 369 deletions(-)
->  delete mode 100644 include/media/mpeg2-ctrls.h
+> Although I can understand how, from the kernel point of view, it's
+> tempting to merge
+> the uAPI as staging first and then de-stage it, I have to say that I
+> agree fully with
+> Nicolas, the experience wasn't really good for the userspace.
+
+It was a completely new API and it took quite a long time to really understand
+what was needed and how to get it right. Not to mention implement it for
+different platforms. Both H264 and MPEG-2 saw major changes. VP8 was the exception,
+so it might well be that VP9 is equally good at the first attempt.
+
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> index 3fc04daa9ffb..eaaf96f5dde6 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> @@ -1244,3 +1244,217 @@ FWHT Flags
->      * - __u8
->        - ``padding[3]``
->        - Applications and drivers must set this to zero.
-> +
-> +.. _v4l2-codec-stateless-mpeg2:
-> +
-> +``V4L2_CID_STATELESS_MPEG2_SEQUENCE (struct)``
-> +    Specifies the sequence parameters (as extracted from the bitstream) for the
-> +    associated MPEG-2 slice data. This includes fields matching the syntax
-> +    elements from the sequence header and sequence extension parts of the
-> +    bitstream as specified by :ref:`mpeg2part2`.
-> +
-> +.. c:type:: v4l2_ctrl_mpeg2_sequence
-> +
-> +.. raw:: latex
-> +
-> +    \small
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.4cm}|p{6.5cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_ctrl_mpeg2_sequence
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u16
-> +      - ``horizontal_size``
-> +      - The width of the displayable part of the frame's luminance component.
-> +    * - __u16
-> +      - ``vertical_size``
-> +      - The height of the displayable part of the frame's luminance component.
-> +    * - __u32
-> +      - ``vbv_buffer_size``
-> +      - Used to calculate the required size of the video buffering verifier,
-> +	defined (in bits) as: 16 * 1024 * vbv_buffer_size.
-> +    * - __u16
-> +      - ``profile_and_level_indication``
-> +      - The current profile and level indication as extracted from the
-> +	bitstream.
-> +    * - __u8
-> +      - ``chroma_format``
-> +      - The chrominance sub-sampling format (1: 4:2:0, 2: 4:2:2, 3: 4:4:4).
-> +    * - __u8
-> +      - ``flags``
-> +      - See :ref:`MPEG-2 Sequence Flags <mpeg2_sequence_flags>`.
-> +
-> +.. _mpeg2_sequence_flags:
-> +
-> +``MPEG-2 Sequence Flags``
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - ``V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE``
-> +      - 0x00000001
-> +      - Indication that all the frames for the sequence are progressive instead
-> +	of interlaced.
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
-> +``V4L2_CID_STATELESS_MPEG2_PICTURE (struct)``
-> +    Specifies the picture parameters (as extracted from the bitstream) for the
-> +    associated MPEG-2 slice data. This includes fields matching the syntax
-> +    elements from the picture header and picture coding extension parts of the
-> +    bitstream as specified by :ref:`mpeg2part2`.
-> +
-> +.. c:type:: v4l2_ctrl_mpeg2_picture
-> +
-> +.. raw:: latex
-> +
-> +    \small
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.0cm}|p{5.6cm}|p{10.7cm}|
-> +
-> +.. flat-table:: struct v4l2_ctrl_mpeg2_picture
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u64
-> +      - ``backward_ref_ts``
-> +      - Timestamp of the V4L2 capture buffer to use as backward reference, used
-> +        with B-coded and P-coded frames. The timestamp refers to the
-> +	``timestamp`` field in struct :c:type:`v4l2_buffer`. Use the
-> +	:c:func:`v4l2_timeval_to_ns()` function to convert the struct
-> +	:c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
-> +    * - __u64
-> +      - ``forward_ref_ts``
-> +      - Timestamp for the V4L2 capture buffer to use as forward reference, used
-> +        with B-coded frames. The timestamp refers to the ``timestamp`` field in
-> +	struct :c:type:`v4l2_buffer`. Use the :c:func:`v4l2_timeval_to_ns()`
-> +	function to convert the struct :c:type:`timeval` in struct
-> +	:c:type:`v4l2_buffer` to a __u64.
-> +    * - __u32
-> +      - ``flags``
-> +      - See :ref:`MPEG-2 Picture Flags <mpeg2_picture_flags>`.
-> +    * - __u8
-> +      - ``f_code[2][2]``
-> +      - Motion vector codes.
-> +    * - __u8
-> +      - ``picture_coding_type``
-> +      - Picture coding type for the frame covered by the current slice
-> +	(V4L2_MPEG2_PICTURE_CODING_TYPE_I, V4L2_MPEG2_PICTURE_CODING_TYPE_P or
-> +	V4L2_MPEG2_PICTURE_CODING_TYPE_B).
-> +    * - __u8
-> +      - ``picture_structure``
-> +      - Picture structure (1: interlaced top field, 2: interlaced bottom field,
-> +	3: progressive frame).
-> +    * - __u8
-> +      - ``intra_dc_precision``
-> +      - Precision of Discrete Cosine transform (0: 8 bits precision,
-> +	1: 9 bits precision, 2: 10 bits precision, 3: 11 bits precision).
-> +    * - __u8
-> +      - ``reserved``
-> +      - Applications and drivers must set this to zero.
-> +
-> +.. _mpeg2_picture_flags:
-> +
-> +``MPEG-2 Picture Flags``
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - ``V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST``
-> +      - 0x00000001
-> +      - If set and it's an interlaced stream, top field is output first.
-> +    * - ``V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT``
-> +      - 0x00000002
-> +      - If set only frame-DCT and frame prediction are used.
-> +    * - ``V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV``
-> +      - 0x00000004
-> +      -  If set motion vectors are coded for intra macroblocks.
-> +    * - ``V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE``
-> +      - 0x00000008
-> +      - This flag affects the inverse quantization process.
-> +    * - ``V4L2_MPEG2_PIC_FLAG_INTRA_VLC``
-> +      - 0x00000010
-> +      - This flag affects the decoding of transform coefficient data.
-> +    * - ``V4L2_MPEG2_PIC_FLAG_ALT_SCAN``
-> +      - 0x00000020
-> +      - This flag affects the decoding of transform coefficient data.
-> +    * - ``V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST``
-> +      - 0x00000040
-> +      - This flag affects the decoding process of progressive frames.
-> +    * - ``V4L2_MPEG2_PIC_FLAG_PROGRESSIVE``
-> +      - 0x00000080
-> +      - Indicates whether the current frame is progressive.
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
-> +``V4L2_CID_STATELESS_MPEG2_QUANTISATION (struct)``
-> +    Specifies quantisation matrices, in zigzag scanning order, for the
-> +    associated MPEG-2 slice data. This control is initialized by the kernel
-> +    to the matrices default values. If a bitstream transmits a user-defined
-> +    quantisation matrices load, applications are expected to use this control.
-> +    Applications are also expected to set the control loading the default
-> +    values, if the quantisation matrices need to be reset, for instance on a
-> +    sequence header. This process is specified by section 6.3.7.
-> +    "Quant matrix extension" of the specification.
-> +
-> +.. c:type:: v4l2_ctrl_mpeg2_quantisation
-> +
-> +.. tabularcolumns:: |p{0.8cm}|p{8.0cm}|p{8.5cm}|
-> +
-> +.. cssclass:: longtable
-> +
-> +.. raw:: latex
-> +
-> +    \small
-> +
-> +.. flat-table:: struct v4l2_ctrl_mpeg2_quantisation
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``intra_quantiser_matrix[64]``
-> +      - The quantisation matrix coefficients for intra-coded frames, in zigzag
-> +	scanning order. It is relevant for both luma and chroma components,
-> +	although it can be superseded by the chroma-specific matrix for
-> +	non-4:2:0 YUV formats.
-> +    * - __u8
-> +      - ``non_intra_quantiser_matrix[64]``
-> +      - The quantisation matrix coefficients for non-intra-coded frames, in
-> +	zigzag scanning order. It is relevant for both luma and chroma
-> +	components, although it can be superseded by the chroma-specific matrix
-> +	for non-4:2:0 YUV formats.
-> +    * - __u8
-> +      - ``chroma_intra_quantiser_matrix[64]``
-> +      - The quantisation matrix coefficients for the chominance component of
-> +	intra-coded frames, in zigzag scanning order. Only relevant for
-> +	non-4:2:0 YUV formats.
-> +    * - __u8
-> +      - ``chroma_non_intra_quantiser_matrix[64]``
-> +      - The quantisation matrix coefficients for the chrominance component of
-> +	non-intra-coded frames, in zigzag scanning order. Only relevant for
-> +	non-4:2:0 YUV formats.
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index af12c869e304..a580ea953c4e 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1606,222 +1606,6 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->  ``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L6_BR (integer)``
->      Indicates bit rate (bps) for hierarchical coding layer 6 for H264 encoder.
->  
-> -.. _v4l2-mpeg-mpeg2:
-> -
-> -``V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE (struct)``
-> -    Specifies the sequence parameters (as extracted from the bitstream) for the
-> -    associated MPEG-2 slice data. This includes fields matching the syntax
-> -    elements from the sequence header and sequence extension parts of the
-> -    bitstream as specified by :ref:`mpeg2part2`.
-> -
-> -    .. note::
-> -
-> -       This compound control is not yet part of the public kernel API and
-> -       it is expected to change.
-> -
-> -.. c:type:: v4l2_ctrl_mpeg2_sequence
-> -
-> -.. cssclass:: longtable
-> -
-> -.. tabularcolumns:: |p{1.4cm}|p{6.5cm}|p{9.4cm}|
-> -
-> -.. flat-table:: struct v4l2_ctrl_mpeg2_sequence
-> -    :header-rows:  0
-> -    :stub-columns: 0
-> -    :widths:       1 1 2
-> -
-> -    * - __u16
-> -      - ``horizontal_size``
-> -      - The width of the displayable part of the frame's luminance component.
-> -    * - __u16
-> -      - ``vertical_size``
-> -      - The height of the displayable part of the frame's luminance component.
-> -    * - __u32
-> -      - ``vbv_buffer_size``
-> -      - Used to calculate the required size of the video buffering verifier,
-> -	defined (in bits) as: 16 * 1024 * vbv_buffer_size.
-> -    * - __u16
-> -      - ``profile_and_level_indication``
-> -      - The current profile and level indication as extracted from the
-> -	bitstream.
-> -    * - __u8
-> -      - ``chroma_format``
-> -      - The chrominance sub-sampling format (1: 4:2:0, 2: 4:2:2, 3: 4:4:4).
-> -    * - __u8
-> -      - ``flags``
-> -      - See :ref:`MPEG-2 Sequence Flags <mpeg2_sequence_flags>`.
-> -
-> -.. _mpeg2_sequence_flags:
-> -
-> -``MPEG-2 Sequence Flags``
-> -
-> -.. cssclass:: longtable
-> -
-> -.. flat-table::
-> -    :header-rows:  0
-> -    :stub-columns: 0
-> -    :widths:       1 1 2
-> -
-> -    * - ``V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE``
-> -      - 0x00000001
-> -      - Indication that all the frames for the sequence are progressive instead
-> -	of interlaced.
-> -
-> -``V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE (struct)``
-> -    Specifies the picture parameters (as extracted from the bitstream) for the
-> -    associated MPEG-2 slice data. This includes fields matching the syntax
-> -    elements from the picture header and picture coding extension parts of the
-> -    bitstream as specified by :ref:`mpeg2part2`.
-> -
-> -    .. note::
-> -
-> -       This compound control is not yet part of the public kernel API and
-> -       it is expected to change.
-> -
-> -.. c:type:: v4l2_ctrl_mpeg2_picture
-> -
-> -.. raw:: latex
-> -
-> -    \small
-> -
-> -.. cssclass:: longtable
-> -
-> -.. tabularcolumns:: |p{1.0cm}|p{5.6cm}|p{10.7cm}|
-> -
-> -.. flat-table:: struct v4l2_ctrl_mpeg2_picture
-> -    :header-rows:  0
-> -    :stub-columns: 0
-> -    :widths:       1 1 2
-> -
-> -    * - __u64
-> -      - ``backward_ref_ts``
-> -      - Timestamp of the V4L2 capture buffer to use as backward reference, used
-> -        with B-coded and P-coded frames. The timestamp refers to the
-> -	``timestamp`` field in struct :c:type:`v4l2_buffer`. Use the
-> -	:c:func:`v4l2_timeval_to_ns()` function to convert the struct
-> -	:c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
-> -    * - __u64
-> -      - ``forward_ref_ts``
-> -      - Timestamp for the V4L2 capture buffer to use as forward reference, used
-> -        with B-coded frames. The timestamp refers to the ``timestamp`` field in
-> -	struct :c:type:`v4l2_buffer`. Use the :c:func:`v4l2_timeval_to_ns()`
-> -	function to convert the struct :c:type:`timeval` in struct
-> -	:c:type:`v4l2_buffer` to a __u64.
-> -    * - __u32
-> -      - ``flags``
-> -      - See :ref:`MPEG-2 Picture Flags <mpeg2_picture_flags>`.
-> -    * - __u8
-> -      - ``f_code[2][2]``
-> -      - Motion vector codes.
-> -    * - __u8
-> -      - ``picture_coding_type``
-> -      - Picture coding type for the frame covered by the current slice
-> -	(V4L2_MPEG2_PICTURE_CODING_TYPE_I, V4L2_MPEG2_PICTURE_CODING_TYPE_P or
-> -	V4L2_MPEG2_PICTURE_CODING_TYPE_B).
-> -    * - __u8
-> -      - ``picture_structure``
-> -      - Picture structure (1: interlaced top field, 2: interlaced bottom field,
-> -	3: progressive frame).
-> -    * - __u8
-> -      - ``intra_dc_precision``
-> -      - Precision of Discrete Cosine transform (0: 8 bits precision,
-> -	1: 9 bits precision, 2: 10 bits precision, 3: 11 bits precision).
-> -    * - __u8
-> -      - ``reserved``
-> -      - Applications and drivers must set this to zero.
-> -
-> -
-> -.. _mpeg2_picture_flags:
-> -
-> -``MPEG-2 Picture Flags``
-> -
-> -.. cssclass:: longtable
-> -
-> -.. flat-table::
-> -    :header-rows:  0
-> -    :stub-columns: 0
-> -    :widths:       1 1 2
-> -
-> -    * - ``V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST``
-> -      - 0x00000001
-> -      - If set and it's an interlaced stream, top field is output first.
-> -    * - ``V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT``
-> -      - 0x00000002
-> -      - If set only frame-DCT and frame prediction are used.
-> -    * - ``V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV``
-> -      - 0x00000004
-> -      -  If set motion vectors are coded for intra macroblocks.
-> -    * - ``V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE``
-> -      - 0x00000008
-> -      - This flag affects the inverse quantization process.
-> -    * - ``V4L2_MPEG2_PIC_FLAG_INTRA_VLC``
-> -      - 0x00000010
-> -      - This flag affects the decoding of transform coefficient data.
-> -    * - ``V4L2_MPEG2_PIC_FLAG_ALT_SCAN``
-> -      - 0x00000020
-> -      - This flag affects the decoding of transform coefficient data.
-> -    * - ``V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST``
-> -      - 0x00000040
-> -      - This flag affects the decoding process of progressive frames.
-> -    * - ``V4L2_MPEG2_PIC_FLAG_PROGRESSIVE``
-> -      - 0x00000080
-> -      - Indicates whether the current frame is progressive.
-> -
-> -.. raw:: latex
-> -
-> -    \normalsize
-> -
-> -``V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION (struct)``
-> -    Specifies quantisation matrices (as extracted from the bitstream) for the
-> -    associated MPEG-2 slice data.
-> -
-> -    .. note::
-> -
-> -       This compound control is not yet part of the public kernel API and
-> -       it is expected to change.
-> -
-> -.. c:type:: v4l2_ctrl_mpeg2_quantisation
-> -
-> -.. tabularcolumns:: |p{0.8cm}|p{8.0cm}|p{8.5cm}|
-> -
-> -.. cssclass:: longtable
-> -
-> -.. raw:: latex
-> -
-> -    \small
-> -
-> -.. flat-table:: struct v4l2_ctrl_mpeg2_quantisation
-> -    :header-rows:  0
-> -    :stub-columns: 0
-> -    :widths:       1 1 2
-> -
-> -    * - __u8
-> -      - ``intra_quantiser_matrix[64]``
-> -      - The quantisation matrix coefficients for intra-coded frames, in zigzag
-> -	scanning order. It is relevant for both luma and chroma components,
-> -	although it can be superseded by the chroma-specific matrix for
-> -	non-4:2:0 YUV formats.
-> -    * - __u8
-> -      - ``non_intra_quantiser_matrix[64]``
-> -      - The quantisation matrix coefficients for non-intra-coded frames, in
-> -	zigzag scanning order. It is relevant for both luma and chroma
-> -	components, although it can be superseded by the chroma-specific matrix
-> -	for non-4:2:0 YUV formats.
-> -    * - __u8
-> -      - ``chroma_intra_quantiser_matrix[64]``
-> -      - The quantisation matrix coefficients for the chominance component of
-> -	intra-coded frames, in zigzag scanning order. Only relevant for
-> -	non-4:2:0 YUV formats.
-> -    * - __u8
-> -      - ``chroma_non_intra_quantiser_matrix[64]``
-> -      - The quantisation matrix coefficients for the chrominance component of
-> -	non-intra-coded frames, in zigzag scanning order. Only relevant for
-> -	non-4:2:0 YUV formats.
-> -
-> -.. raw:: latex
-> -
-> -    \normalsize
-> -
->  ``V4L2_CID_FWHT_I_FRAME_QP (integer)``
->      Quantization parameter for an I frame for FWHT. Valid range: from 1
->      to 31.
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> index 6c10a062adac..0ede39907ee2 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> @@ -112,13 +112,13 @@ Compressed Formats
->        - 'MG2S'
->        - MPEG-2 parsed slice data, as extracted from the MPEG-2 bitstream.
->  	This format is adapted for stateless video decoders that implement a
-> -	MPEG-2 pipeline (using the :ref:`mem2mem` and :ref:`media-request-api`).
-> +	MPEG-2 pipeline with the :ref:`stateless_decoder`.
->  	Metadata associated with the frame to decode is required to be passed
-> -	through the ``V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE`` and
-> -        ``V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE`` controls.
-> +	through the ``V4L2_CID_STATELESS_MPEG2_SEQUENCE`` and
-> +        ``V4L2_CID_STATELESS_MPEG2_PICTURE`` controls.
->          Quantisation matrices can optionally be specified through the
-> -	``V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION`` control.
-> -	See the :ref:`associated Codec Control IDs <v4l2-mpeg-mpeg2>`.
-> +	``V4L2_CID_STATELESS_MPEG2_QUANTISATION`` control.
-> +	See the :ref:`associated Codec Control IDs <v4l2-codec-stateless-mpeg2>`.
->  	Exactly one output and one capture buffer must be provided for use with
->  	this pixel format. The output buffer must contain the appropriate number
->  	of macroblocks to decode a full corresponding frame to the matching
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> index 3ba22983d21f..2d6bc8d94380 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> @@ -221,6 +221,18 @@ still cause this situation.
->        - ``p_vp8_frame``
->        - A pointer to a struct :c:type:`v4l2_ctrl_vp8_frame`. Valid if this control is
->          of type ``V4L2_CTRL_TYPE_VP8_FRAME``.
-> +    * - struct :c:type:`v4l2_ctrl_mpeg2_sequence` *
-> +      - ``p_mpeg2_sequence``
-> +      - A pointer to a struct :c:type:`v4l2_ctrl_mpeg2_sequence`. Valid if this control is
-> +        of type ``V4L2_CTRL_TYPE_MPEG2_SEQUENCE``.
-> +    * - struct :c:type:`v4l2_ctrl_mpeg2_picture` *
-> +      - ``p_mpeg2_picture``
-> +      - A pointer to a struct :c:type:`v4l2_ctrl_mpeg2_picture`. Valid if this control is
-> +        of type ``V4L2_CTRL_TYPE_MPEG2_PICTURE``.
-> +    * - struct :c:type:`v4l2_ctrl_mpeg2_quantisation` *
-> +      - ``p_mpeg2_quantisation``
-> +      - A pointer to a struct :c:type:`v4l2_ctrl_mpeg2_quantisation`. Valid if this control is
-> +        of type ``V4L2_CTRL_TYPE_MPEG2_QUANTISATION``.
->      * - struct :c:type:`v4l2_ctrl_hdr10_cll_info` *
->        - ``p_hdr10_cll``
->        - A pointer to a struct :c:type:`v4l2_ctrl_hdr10_cll_info`. Valid if this control is
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index a693ff8dc3dc..d4e2c7318ee6 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -977,9 +977,6 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:			return "LTR Count";
->  	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:		return "Frame LTR Index";
->  	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frames";
-> -	case V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE:		return "MPEG-2 Sequence Header";
-> -	case V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE:			return "MPEG-2 Picture Header";
-> -	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION:		return "MPEG-2 Quantisation Matrices";
->  	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
->  	case V4L2_CID_FWHT_P_FRAME_QP:				return "FWHT P-Frame QP Value";
->  
-> @@ -1228,6 +1225,9 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_STATELESS_H264_DECODE_PARAMS:		return "H264 Decode Parameters";
->  	case V4L2_CID_STATELESS_FWHT_PARAMS:			return "FWHT Stateless Parameters";
->  	case V4L2_CID_STATELESS_VP8_FRAME:			return "VP8 Frame Parameters";
-> +	case V4L2_CID_STATELESS_MPEG2_SEQUENCE:			return "MPEG-2 Sequence Header";
-> +	case V4L2_CID_STATELESS_MPEG2_PICTURE:			return "MPEG-2 Picture Header";
-> +	case V4L2_CID_STATELESS_MPEG2_QUANTISATION:		return "MPEG-2 Quantisation Matrices";
->  
->  	/* Colorimetry controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> @@ -1500,13 +1500,13 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_RDS_TX_ALT_FREQS:
->  		*type = V4L2_CTRL_TYPE_U32;
->  		break;
-> -	case V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE:
-> +	case V4L2_CID_STATELESS_MPEG2_SEQUENCE:
->  		*type = V4L2_CTRL_TYPE_MPEG2_SEQUENCE;
->  		break;
-> -	case V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE:
-> +	case V4L2_CID_STATELESS_MPEG2_PICTURE:
->  		*type = V4L2_CTRL_TYPE_MPEG2_PICTURE;
->  		break;
-> -	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION:
-> +	case V4L2_CID_STATELESS_MPEG2_QUANTISATION:
->  		*type = V4L2_CTRL_TYPE_MPEG2_QUANTISATION;
->  		break;
->  	case V4L2_CID_STATELESS_FWHT_PARAMS:
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index f5fa7e0940c4..b48552bddb3a 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -289,17 +289,17 @@ static const struct hantro_ctrl controls[] = {
->  	}, {
->  		.codec = HANTRO_MPEG2_DECODER,
->  		.cfg = {
-> -			.id = V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE,
-> +			.id = V4L2_CID_STATELESS_MPEG2_SEQUENCE,
->  		},
->  	}, {
->  		.codec = HANTRO_MPEG2_DECODER,
->  		.cfg = {
-> -			.id = V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE,
-> +			.id = V4L2_CID_STATELESS_MPEG2_PICTURE,
->  		},
->  	}, {
->  		.codec = HANTRO_MPEG2_DECODER,
->  		.cfg = {
-> -			.id = V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION,
-> +			.id = V4L2_CID_STATELESS_MPEG2_QUANTISATION,
->  		},
->  	}, {
->  		.codec = HANTRO_VP8_DECODER,
-> diff --git a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-> index 6d89cae7df45..f565e37e397a 100644
-> --- a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-> @@ -83,7 +83,7 @@ hantro_g1_mpeg2_dec_set_quantisation(struct hantro_dev *vpu,
->  {
->  	struct v4l2_ctrl_mpeg2_quantisation *q;
->  
-> -	q = hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION);
-> +	q = hantro_get_ctrl(ctx, V4L2_CID_STATELESS_MPEG2_QUANTISATION);
->  	hantro_mpeg2_dec_copy_qtable(ctx->mpeg2_dec.qtable.cpu, q);
->  	vdpu_write_relaxed(vpu, ctx->mpeg2_dec.qtable.dma, G1_REG_QTABLE_BASE);
->  }
-> @@ -160,9 +160,9 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
->  	hantro_start_prepare_run(ctx);
->  
->  	seq = hantro_get_ctrl(ctx,
-> -			      V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE);
-> +			      V4L2_CID_STATELESS_MPEG2_SEQUENCE);
->  	pic = hantro_get_ctrl(ctx,
-> -			      V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE);
-> +			      V4L2_CID_STATELESS_MPEG2_PICTURE);
->  
->  	reg = G1_REG_DEC_AXI_RD_ID(0) |
->  	      G1_REG_DEC_TIMEOUT_E(1) |
-> diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c b/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
-> index d16d76760278..2527dce7eb18 100644
-> --- a/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
-> +++ b/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
-> @@ -85,7 +85,7 @@ rk3399_vpu_mpeg2_dec_set_quantisation(struct hantro_dev *vpu,
->  {
->  	struct v4l2_ctrl_mpeg2_quantisation *q;
->  
-> -	q = hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION);
-> +	q = hantro_get_ctrl(ctx, V4L2_CID_STATELESS_MPEG2_QUANTISATION);
->  	hantro_mpeg2_dec_copy_qtable(ctx->mpeg2_dec.qtable.cpu, q);
->  	vdpu_write_relaxed(vpu, ctx->mpeg2_dec.qtable.dma, VDPU_REG_QTABLE_BASE);
->  }
-> @@ -162,9 +162,9 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
->  	hantro_start_prepare_run(ctx);
->  
->  	seq = hantro_get_ctrl(ctx,
-> -			      V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE);
-> +			      V4L2_CID_STATELESS_MPEG2_SEQUENCE);
->  	pic = hantro_get_ctrl(ctx,
-> -			      V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE);
-> +			      V4L2_CID_STATELESS_MPEG2_PICTURE);
->  
->  	reg = VDPU_REG_DEC_ADV_PRE_DIS(0) |
->  	      VDPU_REG_DEC_SCMD_DIS(0) |
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> index 4430c8fa2cc7..fa348c09f844 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -31,19 +31,19 @@
->  static const struct cedrus_control cedrus_controls[] = {
->  	{
->  		.cfg = {
-> -			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE,
-> +			.id	= V4L2_CID_STATELESS_MPEG2_SEQUENCE,
->  		},
->  		.codec		= CEDRUS_CODEC_MPEG2,
->  	},
->  	{
->  		.cfg = {
-> -			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE,
-> +			.id	= V4L2_CID_STATELESS_MPEG2_PICTURE,
->  		},
->  		.codec		= CEDRUS_CODEC_MPEG2,
->  	},
->  	{
->  		.cfg = {
-> -			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION,
-> +			.id	= V4L2_CID_STATELESS_MPEG2_QUANTISATION,
->  		},
->  		.codec		= CEDRUS_CODEC_MPEG2,
->  	},
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> index e98185c1f5a7..97e410d92506 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> @@ -41,11 +41,11 @@ void cedrus_device_run(void *priv)
->  	switch (ctx->src_fmt.pixelformat) {
->  	case V4L2_PIX_FMT_MPEG2_SLICE:
->  		run.mpeg2.sequence = cedrus_find_control_data(ctx,
-> -			V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE);
-> +			V4L2_CID_STATELESS_MPEG2_SEQUENCE);
->  		run.mpeg2.picture = cedrus_find_control_data(ctx,
-> -			V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE);
-> +			V4L2_CID_STATELESS_MPEG2_PICTURE);
->  		run.mpeg2.quantisation = cedrus_find_control_data(ctx,
-> -			V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION);
-> +			V4L2_CID_STATELESS_MPEG2_QUANTISATION);
->  		break;
->  
->  	case V4L2_PIX_FMT_H264_SLICE:
-> diff --git a/include/media/mpeg2-ctrls.h b/include/media/mpeg2-ctrls.h
-> deleted file mode 100644
-> index c4cf1af5b73b..000000000000
-> --- a/include/media/mpeg2-ctrls.h
-> +++ /dev/null
-> @@ -1,126 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * These are the MPEG2 state controls for use with stateless MPEG-2
-> - * codec drivers.
-> - *
-> - * It turns out that these structs are not stable yet and will undergo
-> - * more changes. So keep them private until they are stable and ready to
-> - * become part of the official public API.
-> - */
-> -
-> -#ifndef _MPEG2_CTRLS_H_
-> -#define _MPEG2_CTRLS_H_
-> -
-> -#define V4L2_CID_MPEG_VIDEO_MPEG2_QUANTISATION		(V4L2_CID_CODEC_BASE+251)
-> -#define V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE		(V4L2_CID_CODEC_BASE+252)
-> -#define V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE		(V4L2_CID_CODEC_BASE+253)
-> -
-> -/* enum v4l2_ctrl_type type values */
-> -#define V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE		0x0001
-> -
-> -/**
-> - * struct v4l2_ctrl_mpeg2_sequence - MPEG-2 sequence header
-> - *
-> - * All the members on this structure match the sequence header and sequence
-> - * extension syntaxes as specified by the MPEG-2 specification.
-> - *
-> - * Fields horizontal_size, vertical_size and vbv_buffer_size are a
-> - * combination of respective _value and extension syntax elements,
-> - * as described in section 6.3.3 "Sequence header".
-> - *
-> - * @horizontal_size: combination of elements horizontal_size_value and
-> - * horizontal_size_extension.
-> - * @vertical_size: combination of elements vertical_size_value and
-> - * vertical_size_extension.
-> - * @vbv_buffer_size: combination of elements vbv_buffer_size_value and
-> - * vbv_buffer_size_extension.
-> - * @profile_and_level_indication: see MPEG-2 specification.
-> - * @chroma_format: see MPEG-2 specification.
-> - * @flags: see V4L2_MPEG2_SEQ_FLAG_{}.
-> - */
-> -struct v4l2_ctrl_mpeg2_sequence {
-> -	__u16	horizontal_size;
-> -	__u16	vertical_size;
-> -	__u32	vbv_buffer_size;
-> -	__u16	profile_and_level_indication;
-> -	__u8	chroma_format;
-> -	__u8	flags;
-> -};
-> -
-> -#define V4L2_MPEG2_PIC_CODING_TYPE_I			1
-> -#define V4L2_MPEG2_PIC_CODING_TYPE_P			2
-> -#define V4L2_MPEG2_PIC_CODING_TYPE_B			3
-> -#define V4L2_MPEG2_PIC_CODING_TYPE_D			4
-> -
-> -#define V4L2_MPEG2_PIC_TOP_FIELD			0x1
-> -#define V4L2_MPEG2_PIC_BOTTOM_FIELD			0x2
-> -#define V4L2_MPEG2_PIC_FRAME				0x3
-> -
-> -#define V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST		0x0001
-> -#define V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT		0x0002
-> -#define V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV		0x0004
-> -#define V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE		0x0008
-> -#define V4L2_MPEG2_PIC_FLAG_INTRA_VLC			0x0010
-> -#define V4L2_MPEG2_PIC_FLAG_ALT_SCAN			0x0020
-> -#define V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST		0x0040
-> -#define V4L2_MPEG2_PIC_FLAG_PROGRESSIVE			0x0080
-> -
-> -/**
-> - * struct v4l2_ctrl_mpeg2_picture - MPEG-2 picture header
-> - *
-> - * All the members on this structure match the picture header and picture
-> - * coding extension syntaxes as specified by the MPEG-2 specification.
-> - *
-> - * @backward_ref_ts: timestamp of the V4L2 capture buffer to use as
-> - * reference for backward prediction.
-> - * @forward_ref_ts: timestamp of the V4L2 capture buffer to use as
-> - * reference for forward prediction. These timestamp refers to the
-> - * timestamp field in struct v4l2_buffer. Use v4l2_timeval_to_ns()
-> - * to convert the struct timeval to a __u64.
-> - * @flags: see V4L2_MPEG2_PIC_FLAG_{}.
-> - * @f_code[2][2]: see MPEG-2 specification.
-> - * @picture_coding_type: see MPEG-2 specification.
-> - * @picture_structure: see V4L2_MPEG2_PIC_{}_FIELD.
-> - * @intra_dc_precision: see MPEG-2 specification.
-> - * @reserved: padding field. Should be zeroed by applications.
-> - */
-> -struct v4l2_ctrl_mpeg2_picture {
-> -	__u64	backward_ref_ts;
-> -	__u64	forward_ref_ts;
-> -	__u32	flags;
-> -	__u8	f_code[2][2];
-> -	__u8	picture_coding_type;
-> -	__u8	picture_structure;
-> -	__u8	intra_dc_precision;
-> -	__u8	reserved;
-> -};
-> -
-> -/**
-> - * struct v4l2_ctrl_mpeg2_quantisation - MPEG-2 quantisation
-> - *
-> - * Quantization matrices as specified by section 6.3.7
-> - * "Quant matrix extension".
-> - *
-> - * @intra_quantiser_matrix: The quantisation matrix coefficients
-> - * for intra-coded frames, in zigzag scanning order. It is relevant
-> - * for both luma and chroma components, although it can be superseded
-> - * by the chroma-specific matrix for non-4:2:0 YUV formats.
-> - * @non_intra_quantiser_matrix: The quantisation matrix coefficients
-> - * for non-intra-coded frames, in zigzag scanning order. It is relevant
-> - * for both luma and chroma components, although it can be superseded
-> - * by the chroma-specific matrix for non-4:2:0 YUV formats.
-> - * @chroma_intra_quantiser_matrix: The quantisation matrix coefficients
-> - * for the chominance component of intra-coded frames, in zigzag scanning
-> - * order. Only relevant for 4:2:2 and 4:4:4 YUV formats.
-> - * @chroma_non_intra_quantiser_matrix: The quantisation matrix coefficients
-> - * for the chrominance component of non-intra-coded frames, in zigzag scanning
-> - * order. Only relevant for 4:2:2 and 4:4:4 YUV formats.
-> - */
-> -struct v4l2_ctrl_mpeg2_quantisation {
-> -	__u8	intra_quantiser_matrix[64];
-> -	__u8	non_intra_quantiser_matrix[64];
-> -	__u8	chroma_intra_quantiser_matrix[64];
-> -	__u8	chroma_non_intra_quantiser_matrix[64];
-> -};
-> -
-> -#endif
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index 215e44172c66..575b59fbac77 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -17,7 +17,6 @@
->   * Include the stateless codec compound control definitions.
->   * This will move to the public headers once this API is fully stable.
->   */
-> -#include <media/mpeg2-ctrls.h>
->  #include <media/hevc-ctrls.h>
->  
->  /* forward references */
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index d43bec5f1afd..7c0cf9121669 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1862,6 +1862,118 @@ struct v4l2_ctrl_vp8_frame {
->  	__u64 flags;
->  };
->  
-> +/* Stateless MPEG-2 controls */
-> +
-> +#define V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE	0x0001
+> I really hope we can do better than this for at least VP9. So, let's make sure
+> the hardware decoders that are currently available (Rockchip,
+> Verisilicon, Mediatek)
+> are covered, as well as any future features (dynamic frame resize).
 
-Since the flags field is a single byte, I would recommend that you write this
-as 0x01 instead of 0x0001 to reflect that there are just 8 bits available.
+Sure, if we can have this supported on several platforms and it is well reviewed,
+then I am not opposed to merging it as a public API without going through
+staging. We have build up a lot of experience by now.
 
-> +
-> +#define V4L2_CID_STATELESS_MPEG2_SEQUENCE (V4L2_CID_CODEC_STATELESS_BASE+220)
-> +/**
-> + * struct v4l2_ctrl_mpeg2_sequence - MPEG-2 sequence header
-> + *
-> + * All the members on this structure match the sequence header and sequence
-> + * extension syntaxes as specified by the MPEG-2 specification.
-> + *
-> + * Fields horizontal_size, vertical_size and vbv_buffer_size are a
-> + * combination of respective _value and extension syntax elements,
-> + * as described in section 6.3.3 "Sequence header".
-> + *
-> + * @horizontal_size: combination of elements horizontal_size_value and
-> + * horizontal_size_extension.
-> + * @vertical_size: combination of elements vertical_size_value and
-> + * vertical_size_extension.
-> + * @vbv_buffer_size: combination of elements vbv_buffer_size_value and
-> + * vbv_buffer_size_extension.
-> + * @profile_and_level_indication: see MPEG-2 specification.
-> + * @chroma_format: see MPEG-2 specification.
-> + * @flags: see V4L2_MPEG2_SEQ_FLAG_{}.
-> + */
-> +struct v4l2_ctrl_mpeg2_sequence {
-> +	__u16	horizontal_size;
-> +	__u16	vertical_size;
-> +	__u32	vbv_buffer_size;
-> +	__u16	profile_and_level_indication;
-> +	__u8	chroma_format;
-> +	__u8	flags;
-> +};
-> +
-> +#define V4L2_MPEG2_PIC_CODING_TYPE_I			1
-> +#define V4L2_MPEG2_PIC_CODING_TYPE_P			2
-> +#define V4L2_MPEG2_PIC_CODING_TYPE_B			3
-> +#define V4L2_MPEG2_PIC_CODING_TYPE_D			4
-> +
-> +#define V4L2_MPEG2_PIC_TOP_FIELD			0x1
-> +#define V4L2_MPEG2_PIC_BOTTOM_FIELD			0x2
-> +#define V4L2_MPEG2_PIC_FRAME				0x3
-> +
-> +#define V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST		0x0001
-> +#define V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT		0x0002
-> +#define V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV		0x0004
-> +#define V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE		0x0008
-> +#define V4L2_MPEG2_PIC_FLAG_INTRA_VLC			0x0010
-> +#define V4L2_MPEG2_PIC_FLAG_ALT_SCAN			0x0020
-> +#define V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST		0x0040
-> +#define V4L2_MPEG2_PIC_FLAG_PROGRESSIVE			0x0080
-> +
-> +#define V4L2_CID_STATELESS_MPEG2_PICTURE (V4L2_CID_CODEC_STATELESS_BASE+221)
-> +/**
-> + * struct v4l2_ctrl_mpeg2_picture - MPEG-2 picture header
-> + *
-> + * All the members on this structure match the picture header and picture
-> + * coding extension syntaxes as specified by the MPEG-2 specification.
-> + *
-> + * @backward_ref_ts: timestamp of the V4L2 capture buffer to use as
-> + * reference for backward prediction.
-> + * @forward_ref_ts: timestamp of the V4L2 capture buffer to use as
-> + * reference for forward prediction. These timestamp refers to the
-> + * timestamp field in struct v4l2_buffer. Use v4l2_timeval_to_ns()
-> + * to convert the struct timeval to a __u64.
-> + * @flags: see V4L2_MPEG2_PIC_FLAG_{}.
-> + * @f_code: see MPEG-2 specification.
-> + * @picture_coding_type: see MPEG-2 specification.
-> + * @picture_structure: see V4L2_MPEG2_PIC_{}_FIELD.
-> + * @intra_dc_precision: see MPEG-2 specification.
-> + * @reserved: padding field. Should be zeroed by applications.
-> + */
-> +struct v4l2_ctrl_mpeg2_picture {
-> +	__u64	backward_ref_ts;
-> +	__u64	forward_ref_ts;
-> +	__u32	flags;
-> +	__u8	f_code[2][2];
-> +	__u8	picture_coding_type;
-> +	__u8	picture_structure;
-> +	__u8	intra_dc_precision;
-> +	__u8	reserved;
+> 
+> A well-thought, honest effort for a sane uAPI is IMO the right way,
+> and if we find out
+> something is missing (which may happen, as we are all humans), we can still
+> introduce another API control (V4L2_CID_STATELESS_VP9_V2) and use it
+> to supersede the current API. If I understand correctly, this should work,
+> and allow backward compatibility without issues.
 
-pahole reports that the struct size is different between 32 and 64 bit
-x86 architectures. The initial u64 fields will force the total struct size
-to be a multiple of 8 bytes on x86_64, so it has to be padded with reserved[5].
+Yes, but it is something we'd like to avoid. You need to have sufficient
+confidence that the uAPI has been well tested and is in good shape. If you
+have that, then great, we can merge it without going through staging.
 
-While the 32 and 64 arm architectures have the same size, there too
-4 bytes padding is applied, which you don't want.
+In particular, if 1) we support at least two HW platforms, and 2) testing
+with test suites (I assume those are available for VP9) passed on those
+platforms, then I'd be happy to merge.
+
+Regarding the 'userspace mess': why did support for staging APIs end up
+in released gstreamer/ffmpeg implementations at all? What did you expect
+would happen? Released versions of those applications should only support
+public APIs, not staging APIs. Unless perhaps if you explicitly enable it
+with some test config option that is by default off. And once a codec API
+becomes public, rip out the old code.
+
+I don't use gstreamer/ffmpeg myself, so I hadn't noticed. I thought people
+were testing using test branches of those apps. It's staging for a reason,
+you are completely on your own if you use it.
+
+I wonder if I should make a patch that issues some really serious messages
+in the kernel log if someone attempts to use these staging APIs.
+
+Of course, ideally you would have a perfect API from the beginning, but that
+wasn't an option here, and keeping everything out of the kernel entirely until
+we're happy with the uAPI would be almost impossible to maintain.
 
 Regards,
 
 	Hans
-
-> +};
-> +
-> +#define V4L2_CID_STATELESS_MPEG2_QUANTISATION (V4L2_CID_CODEC_STATELESS_BASE+222)
-> +/**
-> + * struct v4l2_ctrl_mpeg2_quantisation - MPEG-2 quantisation
-> + *
-> + * Quantisation matrices as specified by section 6.3.7
-> + * "Quant matrix extension".
-> + *
-> + * @intra_quantiser_matrix: The quantisation matrix coefficients
-> + * for intra-coded frames, in zigzag scanning order. It is relevant
-> + * for both luma and chroma components, although it can be superseded
-> + * by the chroma-specific matrix for non-4:2:0 YUV formats.
-> + * @non_intra_quantiser_matrix: The quantisation matrix coefficients
-> + * for non-intra-coded frames, in zigzag scanning order. It is relevant
-> + * for both luma and chroma components, although it can be superseded
-> + * by the chroma-specific matrix for non-4:2:0 YUV formats.
-> + * @chroma_intra_quantiser_matrix: The quantisation matrix coefficients
-> + * for the chominance component of intra-coded frames, in zigzag scanning
-> + * order. Only relevant for 4:2:2 and 4:4:4 YUV formats.
-> + * @chroma_non_intra_quantiser_matrix: The quantisation matrix coefficients
-> + * for the chrominance component of non-intra-coded frames, in zigzag scanning
-> + * order. Only relevant for 4:2:2 and 4:4:4 YUV formats.
-> + */
-> +struct v4l2_ctrl_mpeg2_quantisation {
-> +	__u8	intra_quantiser_matrix[64];
-> +	__u8	non_intra_quantiser_matrix[64];
-> +	__u8	chroma_intra_quantiser_matrix[64];
-> +	__u8	chroma_non_intra_quantiser_matrix[64];
-> +};
-> +
->  #define V4L2_CID_COLORIMETRY_CLASS_BASE	(V4L2_CTRL_CLASS_COLORIMETRY | 0x900)
->  #define V4L2_CID_COLORIMETRY_CLASS	(V4L2_CTRL_CLASS_COLORIMETRY | 1)
->  
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index d3bb18a3a51b..9260791b8438 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -1747,6 +1747,9 @@ struct v4l2_ext_control {
->  		struct v4l2_ctrl_h264_decode_params __user *p_h264_decode_params;
->  		struct v4l2_ctrl_fwht_params __user *p_fwht_params;
->  		struct v4l2_ctrl_vp8_frame __user *p_vp8_frame;
-> +		struct v4l2_ctrl_mpeg2_sequence __user *p_mpeg2_sequence;
-> +		struct v4l2_ctrl_mpeg2_picture __user *p_mpeg2_picture;
-> +		struct v4l2_ctrl_mpeg2_quantisation __user *p_mpeg2_quantisation;
->  		void __user *ptr;
->  	};
->  } __attribute__ ((packed));
-> 
-
