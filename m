@@ -2,123 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CD3136FA25
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 14:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38D1936FAD1
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 14:45:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230172AbhD3Ma3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 08:30:29 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:40135 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229864AbhD3Ma3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 08:30:29 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id cSH0lhkiPk1MGcSH3lSka0; Fri, 30 Apr 2021 14:29:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1619785779; bh=eBuGDvP6jpprI9FvAwTsQdzOtYN2UUA2sHz6ab5qJNA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Il3ErgOfd9uzygMgnhXCOtz8E/sK/5y7Pj2R2whHUbgcLJu7XjRUWP3UlozzIPNcy
-         qpBOInO/kJ8ERCDvzHZOR+uHi/0IO206zXhFDIR0RM+xqlygEr7BhCcISqLEpWnYXq
-         2+e/d8O7+QAGKw3RlFijJq9Wo5qiOslOZSi/KZ8ndAjEKMxZbia5AApeLXlaAqrzej
-         Wug0s7T3KyVQurG7OGRq9S+bnfvfmdICKZXewwOOO7htCJL1YhdrarVM7q5ZEXYm8R
-         td1lz6ZMs8wriMyeoqyPUB/yshd7yg9H5cshTP6Wwu6bTpp3Y8tQ8cH8dD3bEAt2Sh
-         zu1kIUmV2yWFw==
-Subject: Re: [PATCH v4 5/9] staging: media: atomisp: reformat code comment
- blocks
-To:     Deepak R Varma <drv@mailo.com>
-Cc:     Fabio Aiuto <fabioaiuto83@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-References: <cover.1619630709.git.drv@mailo.com>
- <034c3cc993191feb8fda719dd1b2adc9e2074e78.1619630709.git.drv@mailo.com>
- <20210429070611.GA1409@agape.jhs> <YIqdT6wsrlNP/cEo@192.168.1.8>
- <693e054f-6a7b-d9e7-a72a-07d7fa295487@xs4all.nl> <YIvm4M0Gru+RpV5O@dU2104>
- <YIv3lEAC8d8LsCb+@dU2104>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <40bd5f58-9561-89bb-ada5-1cdf56d62ef8@xs4all.nl>
-Date:   Fri, 30 Apr 2021 14:29:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        id S232382AbhD3MqC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 08:46:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57038 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232588AbhD3Mp3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Apr 2021 08:45:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 48E6661468;
+        Fri, 30 Apr 2021 12:44:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619786681;
+        bh=aWOY8yCD3XeORturh27KsdNRXUQJPRlZ72BNyuj1wOI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=OUGF4NRAAk2RVPUxlUV2qSNu9wlevcOttM3R8uFg/CNQZWFY3l9CFgGKTU6zxAn4k
+         ipu7axCdBTd2JOkiRiWcHTU0b1HAljHh8rkugbz+nybstbaibTYYRv82wXWmldFpcz
+         dntii4kONGBnHwh775YhvX+bbvyjacxVNZSQeI9eTcaXh4WS8EHCGTxDv/3AAf70lZ
+         YJaeYyif+ZI0cr9WV9oP8GtmOATO6ldqMOjiprBeft6p5Id8BGlMusVWjYQoGN1tYG
+         Ca5Jlf1U6hsd+rOOG8QsqDfriIuYJaeRpkA/VUUG5AJnKU8wHHjqc12+EaSLt8VlKr
+         WV4v/AYPNA7eQ==
+Date:   Fri, 30 Apr 2021 14:44:36 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Marco Felsch <m.felsch@pengutronix.de>, p.zabel@pengutronix.de,
+        slongerbeam@gmail.com, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH 1/6] media: uapi: Add MEDIA_BUS_FMT_SGRGB_IGIG_GBGR_IGIG
+ media bus formats
+Message-ID: <20210430144436.2c09c99a@coco.lan>
+In-Reply-To: <YIrkjcuF/+huMotl@pendragon.ideasonboard.com>
+References: <20210427120701.21809-1-m.felsch@pengutronix.de>
+        <20210427120701.21809-2-m.felsch@pengutronix.de>
+        <YIoRLQfoNm0GJGsY@pendragon.ideasonboard.com>
+        <20210429074903.cc5gohn52cgv4i5z@pengutronix.de>
+        <20210429104441.3e85d81b@coco.lan>
+        <YIrkjcuF/+huMotl@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YIv3lEAC8d8LsCb+@dU2104>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCkufyEQC7jnUiXS982vLsX1k+5Kg/nzRnpDkoYysb3JC3f9DlrsvjRoPNJ64qbNckX0AQ2z4fNWbRNbVx+ToE/ZKfGCsZQdTccc+GzJp5M4FI32mPR/
- lhfFM8arSlu1b4V3BrYHio+moWDryIVAlV+g0nSTOSW5so+c0L4c06iJCJPi2IrZJSRpmnXU96C2BjzSyUBCRZz0jDxms31G7hb2ip6k54tFCpN1Tk7eE9k+
- K5MbsSA058yolQ1RNrmLC/knotAXWwwfs9tg7OeTbMjAaMYt9EYlGPilpNmNBjm/vDvPcHUwnxDuEmS1gBzQFZ1TSyW7jO4PNljhs5BVUq1Om6VEiCETG9ph
- 1mgbcZw6n6Pu/Acv+RSPfZRPS1ajGF9sZkgjbyiDBKtBlfSn/UXuq/1G73y85C1LYjBPBrUxyebiSTXW0MnKo9+jBiPJkfFzQQGaCq1DVWd0G+grHrs=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/04/2021 14:27, Deepak R Varma wrote:
-> On Fri, Apr 30, 2021 at 04:45:56PM +0530, Deepak R Varma wrote:
->> On Fri, Apr 30, 2021 at 12:04:33PM +0200, Hans Verkuil wrote:
->>> On 29/04/2021 13:49, Deepak R Varma wrote:
->>>> On Thu, Apr 29, 2021 at 09:06:12AM +0200, Fabio Aiuto wrote:
->>>>> Hi Deepak,
->>>>>>  	{MISENSOR_16BIT, 0xC868, 0x0280}, /* cam_output_width = 952 */
->>>>>>  	{MISENSOR_16BIT, 0xC86A, 0x01E0}, /* cam_output_height = 538 */
->>>>>>  	/* LOAD = Step3-Recommended
->>>>>> -	 * Patch,Errata and Sensor optimization Setting */
->>>>>> +	 * Patch,Errata and Sensor optimization Setting
->>>>>> +	 */
->>>>>
->>>>> 	/*
->>>>> 	 * LOAD = Step3-Recommended
->>>>>
->>>>> :(
->>>>
->>>> oops... sorry for the oversight. Not sure how I missed it.
->>>> I will wait for any other feedback on other patches and send
->>>> in a corrected version shortly.
->>>
->>> I've fixed this up myself.
->>>
->>> I'm taking this series and make a PR for this, wrapping up these
->>> atomisp cleanups.
->>>
->>> If you plan any more cleanups, then please do this on top of this
->>> branch: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.14-out1
->>>
->>> That contains all pending cleanups for staging/media.
->>
->> Thank you Hans and everyone. Appreciate your time, comments and patience. I
->> understand this entire patch series is acceptable for your consideration and
->> that I can now move on to other changes.
->>
->> I will be sending additional clean up patches and I will base those on top of the
->> mentioned branch.
-> 
-> Hello Hans,
-> I have cloned media_tree repository and checked out branch for-v5.14-out1
-> 
-> Is it okay for me to start my next patch in this branch? I do not need for
-> you the last patch set to be applied to the git tree, correct?
-> 
+Em Thu, 29 Apr 2021 19:53:33 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-Correct.
-
-	Hans
-
-> Thank you,
-> deepak.
+> Hi Mauro,
 > 
->>
->> Have a good one.
->> deepak.
->>
->>>
->>> Regards,
->>>
->>> 	Hans
->>>
+> On Thu, Apr 29, 2021 at 10:44:41AM +0200, Mauro Carvalho Chehab wrote:
+> > Em Thu, 29 Apr 2021 09:49:03 +0200 Marco Felsch escreveu:  
+> > > On 21-04-29 04:51, Laurent Pinchart wrote:  
+> > > > On Tue, Apr 27, 2021 at 02:06:56PM +0200, Marco Felsch wrote:    
+> > > > > Add special 8/12bit bayer media bus format for the OnSemi AR0237IR
+> > > > > camera sensor [1]. OnSemi calls this format RGB-IR, the pixel array
+> > > > > with the interleaved IR pixels looks like:
+> > > > > 
+> > > > >         |  G |  R |  G |  B | ...
+> > > > >         +----+----+----+----+---
+> > > > >         | IR |  G | IR |  G | ...
+> > > > >         +----+----+----+----+---
+> > > > >         |  G |  B |  G |  R | ...
+> > > > >         +----+----+----+----+---
+> > > > >         | IR |  G | IR |  G | ...
+> > > > >         +----+----+----+----+---
+> > > > >         | .. | .. | .. | .. | ..
+> > > > > 
+> > > > > [1] https://www.framos.com/media/pdf/96/ac/8f/AR0237CS-D-PDF-framos.pdf    
+> > > > 
+> > > > I think we're reaching a limit of the media bus codes model here, due to
+> > > > a historical mistake. The four possible Bayer patterns, times the
+> > > > different number of bits per pixel, creates a lot of media bus codes,
+> > > > and drivers for CSI-2 receivers and IP cores further down the pipeline
+> > > > have to support them all.    
+> > > 
+> > > That's correct but it is not bayer related.  
+> > 
+> > Err... there are two separate things here:
+> > 
+> > 1) for the uAPI part, we're not even close to the limit of a 4-bytes
+> >    fourcc;
+> > 
+> > 2) the kAPI is currently sharing the same fourcc from the uAPI,
+> >    because it is a lot simpler than doing something different.  
 > 
-> 
+> Please note that we're talking about media bus codes here, not pixel
+> formats. Both are part of the UAPI though, and pixel formats suffer from
+> a similar issue, but I'd like to focus on the media bus codes first.
 
+Yes, I'm aware of that, but the same principle used by fourcc pixel
+formats can also be applied to media bus codes and vice versa[1].
+
+[1] IMO, a kAPI change like that should consider the big picture, 
+    and allow using the same process for both, even if we start
+    implementing it for media bus (where it makes more sense).
+
+On both cases, we're talking about a 32-bit code (either encoded
+as fourcc or via MEDIA_BUS_FMT_* codespace).
+
+Both can be 1:1 mapped to some structure similar to:
+
+enum v4l2_pixformat_type {
+	VIDEO_PIXFORMAT_RGB,
+	VIDEO_PIXFORMAT_YUV,
+	VIDEO_PIXFORMAT_COMPRESSED,
+	VIDEO_PIXFORMAT_BAYER_RGB,
+	VIDEO_PIXFORMAT_BAYER_RGB_IR,
+};
+ 
+struct v4l2_pixformat_desc {
+	enum v4l2_pixformat_type	pixfmt_type;
+	bool				is_packed;
+ 	int				bits_per_component;
+ 
+	union {
+		enum v4l2_pixformat_rgb_order		rgb_order;
+		enum v4l2_pixformat_yuv_order		yuv_order;
+		enum v4l2_pixformat_bayer_rgb_order	bayer_rgb_order;
+		enum v4l2_pixformat_bayer_rgb_ir_order	bayer_rgb_ir_order;
+		enum v4l2_pixformat_compress_type	compress_type;
+	};
+	...
+};
+
+And new drivers can use such struct, instead of handling the
+fourcc/mbus code directly.
+
+Also, this can be gradually implemented, in order to avoid the
+need of touching at the existing drivers.
+
+Thanks,
+Mauro
