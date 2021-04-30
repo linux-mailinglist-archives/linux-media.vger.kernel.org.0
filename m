@@ -2,79 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82A9236FF42
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 19:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1231136FF50
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 19:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230105AbhD3RNy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 13:13:54 -0400
-Received: from mga02.intel.com ([134.134.136.20]:63665 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229750AbhD3RNy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 13:13:54 -0400
-IronPort-SDR: c6tlyCii+mtfuFTLssfeNgkGzW/uXMIz+pA3MriI1Z9Gdpqf4/anhWawlBjCrWXT3CsNr26oy4
- M56b4J8J+wnw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9970"; a="184456687"
-X-IronPort-AV: E=Sophos;i="5.82,263,1613462400"; 
-   d="scan'208";a="184456687"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 10:12:46 -0700
-IronPort-SDR: Lz5KIy5ekSzPKCUggg0rlcFyOWTixQPR1m3agrRuwDxHF467cBZ+854Ke9G+zlPChkZfh/y05Q
- sBqbwmlIZRTQ==
-X-IronPort-AV: E=Sophos;i="5.82,263,1613462400"; 
-   d="scan'208";a="431532061"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 10:12:44 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id EE556203F0;
-        Fri, 30 Apr 2021 20:12:41 +0300 (EEST)
-Date:   Fri, 30 Apr 2021 20:12:41 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Deepak R Varma <drv@mailo.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S230473AbhD3RP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 13:15:26 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2971 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229750AbhD3RP0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Apr 2021 13:15:26 -0400
+Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FWzGy0pltz70gFK;
+        Sat,  1 May 2021 01:03:54 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 30 Apr 2021 19:14:36 +0200
+Received: from localhost (10.52.125.96) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 30 Apr
+ 2021 18:14:35 +0100
+Date:   Fri, 30 Apr 2021 18:13:00 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: pci: reposition braces as per
- coding style
-Message-ID: <20210430171241.GJ3@paasikivi.fi.intel.com>
-References: <YIwk3KbVGRPJwKa4@dU2104>
- <20210430163327.GI3@paasikivi.fi.intel.com>
- <YIw4pUzTOHV6E9WZ@dU2104>
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        <devel@driverdev.osuosl.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v4 26/79] staging: media: tegra-video: use
+ pm_runtime_resume_and_get()
+Message-ID: <20210430181300.00003f78@Huawei.com>
+In-Reply-To: <956254cdffbc7d07b30e41f7b7cb41cf60bbfc72.1619621413.git.mchehab+huawei@kernel.org>
+References: <cover.1619621413.git.mchehab+huawei@kernel.org>
+        <956254cdffbc7d07b30e41f7b7cb41cf60bbfc72.1619621413.git.mchehab+huawei@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YIw4pUzTOHV6E9WZ@dU2104>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.125.96]
+X-ClientProxiedBy: lhreml721-chm.china.huawei.com (10.201.108.72) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Deepak,
+On Wed, 28 Apr 2021 16:51:47 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-On Fri, Apr 30, 2021 at 10:34:37PM +0530, Deepak R Varma wrote:
-> On Fri, Apr 30, 2021 at 07:33:27PM +0300, Sakari Ailus wrote:
-> > Hi Deepak,
-> > 
-> > If you're touching all these lines, I might do a little more. Please see
-> > the comments below.
-> > 
-> Hello Sakari,
-> I can definitely include other changes, but then it will be many different
-> types of changes into a single patch. Will that be okay?
+> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> added pm_runtime_resume_and_get() in order to automatically handle
+> dev->power.usage_count decrement on errors.
 > 
-> I was planning to address one issue per patch as I think the volume of
-> change is going to be high.  I mentioned that in the notes section of the patch
-> message.
+> Use the new API, in order to cleanup the error check logic.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+NOP patch so 
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>  drivers/staging/media/tegra-video/csi.c | 3 +--
+>  drivers/staging/media/tegra-video/vi.c  | 3 +--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+> index 033a6935c26d..e938bf4c48b6 100644
+> --- a/drivers/staging/media/tegra-video/csi.c
+> +++ b/drivers/staging/media/tegra-video/csi.c
+> @@ -298,10 +298,9 @@ static int tegra_csi_enable_stream(struct v4l2_subdev *subdev)
+>  	struct tegra_csi *csi = csi_chan->csi;
+>  	int ret, err;
+>  
+> -	ret = pm_runtime_get_sync(csi->dev);
+> +	ret = pm_runtime_resume_and_get(csi->dev);
+>  	if (ret < 0) {
+>  		dev_err(csi->dev, "failed to get runtime PM: %d\n", ret);
+> -		pm_runtime_put_noidle(csi->dev);
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index 7a09061cda57..1298740a9c6c 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -297,10 +297,9 @@ static int tegra_channel_start_streaming(struct vb2_queue *vq, u32 count)
+>  	struct tegra_vi_channel *chan = vb2_get_drv_priv(vq);
+>  	int ret;
+>  
+> -	ret = pm_runtime_get_sync(chan->vi->dev);
+> +	ret = pm_runtime_resume_and_get(chan->vi->dev);
+>  	if (ret < 0) {
+>  		dev_err(chan->vi->dev, "failed to get runtime PM: %d\n", ret);
+> -		pm_runtime_put_noidle(chan->vi->dev);
+>  		return ret;
+>  	}
+>  
 
-I think I'd split the patch into smaller chunks if the result becomes too
-big but I don't think it's necessary yet.
-
-Splitting different kinds of simple cleanups into several patches takes
-longer time to review when they're touching the same piece of code. As the
-chunks in these patches have virtually no dependencies to other chunks,
-it's fine to do several kinds of cleanups at once.
-
--- 
-Kind regards,
-
-Sakari Ailus
