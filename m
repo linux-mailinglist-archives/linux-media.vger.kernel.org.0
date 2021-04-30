@@ -2,137 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97DAC36FF45
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 19:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82A9236FF42
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 19:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230452AbhD3RN4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 13:13:56 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2970 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230303AbhD3RN4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 13:13:56 -0400
-Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FWzM049hHz6wl4Y;
-        Sat,  1 May 2021 01:07:24 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 30 Apr 2021 19:13:05 +0200
-Received: from localhost (10.52.125.96) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 30 Apr
- 2021 18:13:04 +0100
-Date:   Fri, 30 Apr 2021 18:11:29 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
+        id S230105AbhD3RNy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 13:13:54 -0400
+Received: from mga02.intel.com ([134.134.136.20]:63665 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229750AbhD3RNy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Apr 2021 13:13:54 -0400
+IronPort-SDR: c6tlyCii+mtfuFTLssfeNgkGzW/uXMIz+pA3MriI1Z9Gdpqf4/anhWawlBjCrWXT3CsNr26oy4
+ M56b4J8J+wnw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9970"; a="184456687"
+X-IronPort-AV: E=Sophos;i="5.82,263,1613462400"; 
+   d="scan'208";a="184456687"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 10:12:46 -0700
+IronPort-SDR: Lz5KIy5ekSzPKCUggg0rlcFyOWTixQPR1m3agrRuwDxHF467cBZ+854Ke9G+zlPChkZfh/y05Q
+ sBqbwmlIZRTQ==
+X-IronPort-AV: E=Sophos;i="5.82,263,1613462400"; 
+   d="scan'208";a="431532061"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 10:12:44 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id EE556203F0;
+        Fri, 30 Apr 2021 20:12:41 +0300 (EEST)
+Date:   Fri, 30 Apr 2021 20:12:41 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Deepak R Varma <drv@mailo.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Jonathan Hunter" <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        <devel@driverdev.osuosl.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH v4 25/79] staging: media: tegra-vde: use
- pm_runtime_resume_and_get()
-Message-ID: <20210430181129.00005f1f@Huawei.com>
-In-Reply-To: <20210430180836.00006da4@Huawei.com>
-References: <cover.1619621413.git.mchehab+huawei@kernel.org>
-        <bc2b9048d4ad510eec97988ce8f3fd0d2bb26f39.1619621413.git.mchehab+huawei@kernel.org>
-        <20210430180836.00006da4@Huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: pci: reposition braces as per
+ coding style
+Message-ID: <20210430171241.GJ3@paasikivi.fi.intel.com>
+References: <YIwk3KbVGRPJwKa4@dU2104>
+ <20210430163327.GI3@paasikivi.fi.intel.com>
+ <YIw4pUzTOHV6E9WZ@dU2104>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.125.96]
-X-ClientProxiedBy: lhreml721-chm.china.huawei.com (10.201.108.72) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YIw4pUzTOHV6E9WZ@dU2104>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 30 Apr 2021 18:08:36 +0100
-Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+Hi Deepak,
 
-> On Wed, 28 Apr 2021 16:51:46 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> > added pm_runtime_resume_and_get() in order to automatically handle
-> > dev->power.usage_count decrement on errors.
+On Fri, Apr 30, 2021 at 10:34:37PM +0530, Deepak R Varma wrote:
+> On Fri, Apr 30, 2021 at 07:33:27PM +0300, Sakari Ailus wrote:
+> > Hi Deepak,
 > > 
-> > Use the new API, in order to cleanup the error check logic.
+> > If you're touching all these lines, I might do a little more. Please see
+> > the comments below.
 > > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> LGTM
+> Hello Sakari,
+> I can definitely include other changes, but then it will be many different
+> types of changes into a single patch. Will that be okay?
 > 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-drop that.  I missed the misc unwind thing caught in the other review.
-Too many patches without a break :(
-> 
-> > ---
-> >  drivers/staging/media/tegra-vde/vde.c | 19 ++++++++++++++++---
-> >  1 file changed, 16 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-> > index 28845b5bafaf..1cdacb3f781c 100644
-> > --- a/drivers/staging/media/tegra-vde/vde.c
-> > +++ b/drivers/staging/media/tegra-vde/vde.c
-> > @@ -775,9 +775,9 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
-> >  	if (ret)
-> >  		goto release_dpb_frames;
-> >  
-> > -	ret = pm_runtime_get_sync(dev);
-> > +	ret = pm_runtime_resume_and_get(dev);
-> >  	if (ret < 0)
-> > -		goto put_runtime_pm;
-> > +		goto unlock;
-> >  
-> >  	/*
-> >  	 * We rely on the VDE registers reset value, otherwise VDE
-> > @@ -843,6 +843,8 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
-> >  put_runtime_pm:
-> >  	pm_runtime_mark_last_busy(dev);
-> >  	pm_runtime_put_autosuspend(dev);
-> > +
-> > +unlock:
-> >  	mutex_unlock(&vde->lock);
-> >  
-> >  release_dpb_frames:
-> > @@ -1069,11 +1071,17 @@ static int tegra_vde_probe(struct platform_device *pdev)
-> >  	 * power-cycle it in order to put hardware into a predictable lower
-> >  	 * power state.
-> >  	 */
-> > -	pm_runtime_get_sync(dev);
-> > +	if (pm_runtime_resume_and_get(dev) < 0)
-> > +		goto err_pm_runtime;
-> > +
-> >  	pm_runtime_put(dev);
-> >  
-> >  	return 0;
-> >  
-> > +err_pm_runtime:
-> > +	pm_runtime_dont_use_autosuspend(dev);
-> > +	pm_runtime_disable(dev);
-> > +
-> >  err_deinit_iommu:
-> >  	tegra_vde_iommu_deinit(vde);
-> >  
-> > @@ -1089,7 +1097,12 @@ static int tegra_vde_remove(struct platform_device *pdev)
-> >  	struct tegra_vde *vde = platform_get_drvdata(pdev);
-> >  	struct device *dev = &pdev->dev;
-> >  
-> > +	/*
-> > +	 * As it increments RPM usage_count even on errors, we don't need to
-> > +	 * check the returned code here.
-> > +	 */
-> >  	pm_runtime_get_sync(dev);
-> > +
-> >  	pm_runtime_dont_use_autosuspend(dev);
-> >  	pm_runtime_disable(dev);
-> >  
-> 
+> I was planning to address one issue per patch as I think the volume of
+> change is going to be high.  I mentioned that in the notes section of the patch
+> message.
 
+I think I'd split the patch into smaller chunks if the result becomes too
+big but I don't think it's necessary yet.
+
+Splitting different kinds of simple cleanups into several patches takes
+longer time to review when they're touching the same piece of code. As the
+chunks in these patches have virtually no dependencies to other chunks,
+it's fine to do several kinds of cleanups at once.
+
+-- 
+Kind regards,
+
+Sakari Ailus
