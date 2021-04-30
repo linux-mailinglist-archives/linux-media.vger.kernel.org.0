@@ -2,46 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B53EE36FF2A
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 19:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1362436FF3B
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 19:10:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230350AbhD3RHl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 13:07:41 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2968 "EHLO
+        id S230514AbhD3RLC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 13:11:02 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2969 "EHLO
         frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229902AbhD3RHl (ORCPT
+        with ESMTP id S229750AbhD3RLC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 13:07:41 -0400
-Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FWz6066bWz689R8;
-        Sat,  1 May 2021 00:56:08 +0800 (CST)
+        Fri, 30 Apr 2021 13:11:02 -0400
+Received: from fraeml743-chm.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FWz9t0KM8z689R8;
+        Sat,  1 May 2021 00:59:30 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
+ fraeml743-chm.china.huawei.com (10.206.15.224) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 30 Apr 2021 19:06:51 +0200
+ 15.1.2176.2; Fri, 30 Apr 2021 19:10:12 +0200
 Received: from localhost (10.52.125.96) by lhreml710-chm.china.huawei.com
  (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 30 Apr
- 2021 18:06:50 +0100
-Date:   Fri, 30 Apr 2021 18:05:15 +0100
+ 2021 18:10:11 +0100
+Date:   Fri, 30 Apr 2021 18:08:36 +0100
 From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
-        Chen-Yu Tsai <wens@csie.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Jernej Skrabec" <jernej.skrabec@siol.net>,
+        "Jonathan Hunter" <jonathanh@nvidia.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        <devel@driverdev.osuosl.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v4 24/79] staging: media: cedrus_video: use
+        Thierry Reding <thierry.reding@gmail.com>,
+        <devel@driverdev.osuosl.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v4 25/79] staging: media: tegra-vde: use
  pm_runtime_resume_and_get()
-Message-ID: <20210430180515.0000134f@Huawei.com>
-In-Reply-To: <cc0761dc51d021a4295cce298834afb9be0211c6.1619621413.git.mchehab+huawei@kernel.org>
+Message-ID: <20210430180836.00006da4@Huawei.com>
+In-Reply-To: <bc2b9048d4ad510eec97988ce8f3fd0d2bb26f39.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
-        <cc0761dc51d021a4295cce298834afb9be0211c6.1619621413.git.mchehab+huawei@kernel.org>
+        <bc2b9048d4ad510eec97988ce8f3fd0d2bb26f39.1619621413.git.mchehab+huawei@kernel.org>
 Organization: Huawei Technologies Research and Development (UK) Ltd.
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
@@ -55,7 +53,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 28 Apr 2021 16:51:45 +0200
+On Wed, 28 Apr 2021 16:51:46 +0200
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
 > Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
@@ -65,28 +63,69 @@ Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > Use the new API, in order to cleanup the error check logic.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+LGTM
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 > ---
->  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>  drivers/staging/media/tegra-vde/vde.c | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> index b62eb8e84057..9ddd789d0b1f 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> @@ -490,11 +490,9 @@ static int cedrus_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	}
+> diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+> index 28845b5bafaf..1cdacb3f781c 100644
+> --- a/drivers/staging/media/tegra-vde/vde.c
+> +++ b/drivers/staging/media/tegra-vde/vde.c
+> @@ -775,9 +775,9 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+>  	if (ret)
+>  		goto release_dpb_frames;
 >  
->  	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
-> -		ret = pm_runtime_get_sync(dev->dev);
-> -		if (ret < 0) {
-> -			pm_runtime_put_noidle(dev->dev);
-> +		ret = pm_runtime_resume_and_get(dev->dev);
-> +		if (ret < 0)
->  			goto err_cleanup;
-> -		}
+> -	ret = pm_runtime_get_sync(dev);
+> +	ret = pm_runtime_resume_and_get(dev);
+>  	if (ret < 0)
+> -		goto put_runtime_pm;
+> +		goto unlock;
 >  
->  		if (dev->dec_ops[ctx->current_codec]->start) {
->  			ret = dev->dec_ops[ctx->current_codec]->start(ctx);
+>  	/*
+>  	 * We rely on the VDE registers reset value, otherwise VDE
+> @@ -843,6 +843,8 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+>  put_runtime_pm:
+>  	pm_runtime_mark_last_busy(dev);
+>  	pm_runtime_put_autosuspend(dev);
+> +
+> +unlock:
+>  	mutex_unlock(&vde->lock);
+>  
+>  release_dpb_frames:
+> @@ -1069,11 +1071,17 @@ static int tegra_vde_probe(struct platform_device *pdev)
+>  	 * power-cycle it in order to put hardware into a predictable lower
+>  	 * power state.
+>  	 */
+> -	pm_runtime_get_sync(dev);
+> +	if (pm_runtime_resume_and_get(dev) < 0)
+> +		goto err_pm_runtime;
+> +
+>  	pm_runtime_put(dev);
+>  
+>  	return 0;
+>  
+> +err_pm_runtime:
+> +	pm_runtime_dont_use_autosuspend(dev);
+> +	pm_runtime_disable(dev);
+> +
+>  err_deinit_iommu:
+>  	tegra_vde_iommu_deinit(vde);
+>  
+> @@ -1089,7 +1097,12 @@ static int tegra_vde_remove(struct platform_device *pdev)
+>  	struct tegra_vde *vde = platform_get_drvdata(pdev);
+>  	struct device *dev = &pdev->dev;
+>  
+> +	/*
+> +	 * As it increments RPM usage_count even on errors, we don't need to
+> +	 * check the returned code here.
+> +	 */
+>  	pm_runtime_get_sync(dev);
+> +
+>  	pm_runtime_dont_use_autosuspend(dev);
+>  	pm_runtime_disable(dev);
+>  
 
