@@ -2,172 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C798636F770
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 10:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20C8336F844
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 12:04:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229696AbhD3I5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 04:57:45 -0400
-Received: from mga06.intel.com ([134.134.136.31]:65421 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229567AbhD3I5p (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 04:57:45 -0400
-IronPort-SDR: +tUIGGVWtRzO5nHDha9NRqiqVKUEi/wpiCLJxMPfWHBo+yWBokVpGdhVrL1aJDrskR/n2pbPfJ
- fdLN05EkS1rA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="258514644"
-X-IronPort-AV: E=Sophos;i="5.82,262,1613462400"; 
-   d="scan'208";a="258514644"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 01:56:56 -0700
-IronPort-SDR: +qrE+NYRkvrmpXgaDiG+DWg6+JFoSO2G3fTS/0CL9FMjGI8mwVlIHWBavwTvdWD3kmRNsy/Nkj
- 5x/Jd4Vhds9Q==
-X-IronPort-AV: E=Sophos;i="5.82,262,1613462400"; 
-   d="scan'208";a="404524576"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 01:56:54 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 6BEAF201A6;
-        Fri, 30 Apr 2021 11:56:52 +0300 (EEST)
-Date:   Fri, 30 Apr 2021 11:56:52 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Shawnx Tu <shawnx.tu@intel.com>
-Cc:     linux-media@vger.kernel.org, andy.yeh@intel.com, jim.lai@intel.com,
-        ping-chung.chen@intel.com, tfiga@chromium.org,
-        grundler@chromium.org, Yeh@linux.intel.com
-Subject: Re: [PATCH v7] media: imx208: Add imx208 camera sensor driver
-Message-ID: <20210430085652.GE3@paasikivi.fi.intel.com>
-References: <20210430140549.15579-1-shawnx.tu@intel.com>
+        id S231431AbhD3KFa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 06:05:30 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:59161 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229559AbhD3KFa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Apr 2021 06:05:30 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id cQ0flz9J4iDzScQ0ilpTHh; Fri, 30 Apr 2021 12:04:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1619777078; bh=ks5//nsbY4IUJklzOoYqyw4PJOvSbdi7HJh52A5cUF4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=GBhCHuBCr7Vh8TMi4K6lW3rslbTRu7/vl07evAY9X+XlJDhkrEy0v9egsX2r0qgaP
+         spRJHb9zh/30xFS22SE9Ld3Gk9LW15B0CHO48HEGY9uqk0/AYf9kvRyw8cxPFDa/I3
+         hfPyWy9/Ul9IpawjfbWJwEGO6uSlU1iVOddynrOYf/bcnX27ckek7q8IDBr9B7wm6Q
+         9fJLNq7T5m2WvhqX5OClxDGNTpzE6k8+W7Td8RdNo5vBW1yROl17yHGw1uZFTuhVal
+         0B3GL50lLArg5b2/Ergev3Ad8xKfBrQeIzB3XxyxMI2Ut14Pecgs+2zWkkWfvzsiMW
+         VMi9Chyi0D3Eg==
+Subject: Re: [PATCH v4 5/9] staging: media: atomisp: reformat code comment
+ blocks
+To:     Deepak R Varma <drv@mailo.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <cover.1619630709.git.drv@mailo.com>
+ <034c3cc993191feb8fda719dd1b2adc9e2074e78.1619630709.git.drv@mailo.com>
+ <20210429070611.GA1409@agape.jhs> <YIqdT6wsrlNP/cEo@192.168.1.8>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <693e054f-6a7b-d9e7-a72a-07d7fa295487@xs4all.nl>
+Date:   Fri, 30 Apr 2021 12:04:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210430140549.15579-1-shawnx.tu@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YIqdT6wsrlNP/cEo@192.168.1.8>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfGCHXKh7uC75znIjT/4+e+hkPHcw11bfPLpGPToLoXiXCKDbOKgsRGMbJJlr/kj/L2ESWNHlsACJF11zQPEzx9cnDt8f4SA18By6iALUYpICUkAiDZh2
+ d5wIK2ivnu1qVQSyliNKWtM2fWQ7b3wdAWvUZ0P/LlJ87YELOIMnS+MZgteQI3phFc+Ig0jKX7o7qk5rcUwVYzFZSDo2jFIXsdzdbJfl+9r8LeD7p47NBD/r
+ 8xlNn3FnMguwGoN+RHtQlIWmFrpXI9T9XOZQruxf9XXuh2EibZ6ldegrgZ4tdh8m9rUeixDDSks2OjiMgxZSGnTtmC8zISqIyLC81WK0kjLj2fz37DptPkRY
+ 7s04vXkX45YGEulzB7c3bHz1JNrzSQ3W5a5vdDP4cRgcF2t13ueGzVN8/oBxXIWcDu5uzWWWOIWPLFBGVW3aekDRcgQp18hBRAgSGchZpCAIa/ouK/A=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shawn,
-
-On Fri, Apr 30, 2021 at 10:05:49PM +0800, Shawnx Tu wrote:
-> From: Shawn Tu <shawnx.tu@intel.com>
+On 29/04/2021 13:49, Deepak R Varma wrote:
+> On Thu, Apr 29, 2021 at 09:06:12AM +0200, Fabio Aiuto wrote:
+>> Hi Deepak,
 > 
-> Add a V4L2 sub-device driver for the Sony IMX208 image sensor.
-> This is a camera sensor using the I2C bus for control and the
-> CSI-2 bus for data.
+> Hello Fabio :)
 > 
-> since v1:
-> -- Update the function media_entity_pads_init for upstreaming.
-> -- Change the structure name mutex as imx208_mx.
-> -- Refine the control flow of test pattern function.
-> -- vflip/hflip control support (will impact the output bayer order)
-> -- support 4 bayer orders output (via change v/hflip)
->     - SRGGB10(default), SGRBG10, SGBRG10, SBGGR10
-> -- Simplify error handling in the set_stream function.
-> since v2:
-> -- Refine coding style.
-> -- Fix the if statement to use pm_runtime_get_if_in_use().
-> -- Print more error log during error handling.
-> -- Remove mutex_destroy() from imx208_free_controls().
-> -- Add more comments.
-> since v3:
-> -- Set explicit indices to link frequencies.
-> since v4:
-> -- Fix the wrong index in link_freq_menu_items.
-> since v5:
-> -- Expose OTP data through a sysfs attribute
-> -- Enable the DG v4l2 control with integer menu type
-> since v6:
-> -- Fix the checkpatch.pl warnings
+>>
+>> On Wed, Apr 28, 2021 at 11:38:45PM +0530, Deepak R Varma wrote:
+>>> Reformat code comment blocks according to the coding style guidelines.
+>>> This resolves different checkpatch script WARNINGs around block comments.
+>>>
+>>> Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+>>> Signed-off-by: Deepak R Varma <drv@mailo.com>
+>>> ---
+>>>
+>>> Changes since v3:
+>>>    - Include additional header files in the clean up
+>>> Changes since v2:
+>>>    - Tag Fabio Auito for the patch suggestion
+>>>
+>>> diff --git a/drivers/staging/media/atomisp/i2c/mt9m114.h b/drivers/staging/media/atomisp/i2c/mt9m114.h
+>>> index 787bbf59e895..aad98f37aaa6 100644
+>>> --- a/drivers/staging/media/atomisp/i2c/mt9m114.h
+>>> +++ b/drivers/staging/media/atomisp/i2c/mt9m114.h
+>>> @@ -765,7 +765,8 @@ static struct misensor_reg const mt9m114_common[] = {
+>>>  	{MISENSOR_16BIT, 0xC868, 0x0280}, /* cam_output_width = 952 */
+>>>  	{MISENSOR_16BIT, 0xC86A, 0x01E0}, /* cam_output_height = 538 */
+>>>  	/* LOAD = Step3-Recommended
+>>> -	 * Patch,Errata and Sensor optimization Setting */
+>>> +	 * Patch,Errata and Sensor optimization Setting
+>>> +	 */
+>>
+>> 	/*
+>> 	 * LOAD = Step3-Recommended
+>>
+>> :(
 > 
-> Signed-off-by: Ping-Chung Chen <ping-chung.chen@intel.com>
-> Signed-off-by: Yeh, Andy <andy.yeh@intel.com>
-> Signed-off-by: Shawn Tu <shawnx.tu@intel.com>
-> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> oops... sorry for the oversight. Not sure how I missed it.
+> I will wait for any other feedback on other patches and send
+> in a corrected version shortly.
 
-I've applied the patch to my tree, with this diff, and removed the
-changelog from the commit message:
+I've fixed this up myself.
 
-diff --git a/drivers/media/i2c/imx208.c b/drivers/media/i2c/imx208.c
-index 74383aeb1460..9ed261ea7255 100644
---- a/drivers/media/i2c/imx208.c
-+++ b/drivers/media/i2c/imx208.c
-@@ -603,8 +603,8 @@ static int imx208_set_pad_format(struct v4l2_subdev *sd,
- 		vblank_min = imx208->cur_mode->vts_min -
- 			     imx208->cur_mode->height;
- 		__v4l2_ctrl_modify_range(imx208->vblank, vblank_min,
--					 IMX208_VTS_MAX - imx208->cur_mode->height, 1,
--					 vblank_def);
-+					 IMX208_VTS_MAX - imx208->cur_mode->height,
-+					 1, vblank_def);
- 		__v4l2_ctrl_s_ctrl(imx208->vblank, vblank_def);
- 		h_blank =
- 			link_freq_configs[mode->link_freq_index].pixels_per_line
-@@ -875,18 +875,19 @@ static int imx208_init_controls(struct imx208 *imx208)
- 
- 	mutex_init(&imx208->imx208_mx);
- 	ctrl_hdlr->lock = &imx208->imx208_mx;
--	imx208->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
--						   &imx208_ctrl_ops,
--						   V4L2_CID_LINK_FREQ,
--						   ARRAY_SIZE(link_freq_menu_items) - 1,
--						   0, link_freq_menu_items);
-+	imx208->link_freq =
-+		v4l2_ctrl_new_int_menu(ctrl_hdlr,
-+				       &imx208_ctrl_ops,
-+				       V4L2_CID_LINK_FREQ,
-+				       ARRAY_SIZE(link_freq_menu_items) - 1,
-+				       0, link_freq_menu_items);
- 
- 	if (imx208->link_freq)
- 		imx208->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
- 	pixel_rate_max = link_freq_to_pixel_rate(link_freq_menu_items[0]);
--	pixel_rate_min = link_freq_to_pixel_rate(link_freq_menu_items[ARRAY_SIZE
--						 (link_freq_menu_items) - 1]);
-+	pixel_rate_min =
-+		link_freq_to_pixel_rate(link_freq_menu_items[ARRAY_SIZE(link_freq_menu_items) - 1]);
- 	/* By default, PIXEL_RATE is read only */
- 	imx208->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops,
- 					       V4L2_CID_PIXEL_RATE,
-@@ -895,24 +896,25 @@ static int imx208_init_controls(struct imx208 *imx208)
- 
- 	vblank_def = imx208->cur_mode->vts_def - imx208->cur_mode->height;
- 	vblank_min = imx208->cur_mode->vts_min - imx208->cur_mode->height;
--	imx208->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops, V4L2_CID_VBLANK,
--					   vblank_min,
--					   IMX208_VTS_MAX - imx208->cur_mode->height, 1,
--					   vblank_def);
--
--	imx208->hblank = v4l2_ctrl_new_std(ctrl_hdlr,
--					   &imx208_ctrl_ops, V4L2_CID_HBLANK,
--					   IMX208_PPL_384MHZ - imx208->cur_mode->width,
--					   IMX208_PPL_384MHZ - imx208->cur_mode->width,
--					   1,
--					   IMX208_PPL_384MHZ - imx208->cur_mode->width);
-+	imx208->vblank =
-+		v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops, V4L2_CID_VBLANK,
-+				  vblank_min,
-+				  IMX208_VTS_MAX - imx208->cur_mode->height, 1,
-+				  vblank_def);
-+
-+	imx208->hblank =
-+		v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops, V4L2_CID_HBLANK,
-+				  IMX208_PPL_384MHZ - imx208->cur_mode->width,
-+				  IMX208_PPL_384MHZ - imx208->cur_mode->width,
-+				  1,
-+				  IMX208_PPL_384MHZ - imx208->cur_mode->width);
- 
- 	if (imx208->hblank)
- 		imx208->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
- 	exposure_max = imx208->cur_mode->vts_def - 8;
- 	v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops, V4L2_CID_EXPOSURE,
--			  IMX208_EXPOSURE_MIN, IMX208_EXPOSURE_MAX,
-+			  IMX208_EXPOSURE_MIN, exposure_max,
- 			  IMX208_EXPOSURE_STEP, IMX208_EXPOSURE_DEFAULT);
- 
- 	imx208->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx208_ctrl_ops,
+I'm taking this series and make a PR for this, wrapping up these
+atomisp cleanups.
 
--- 
-Kind regards,
+If you plan any more cleanups, then please do this on top of this
+branch: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.14-out1
 
-Sakari Ailus
+That contains all pending cleanups for staging/media.
+
+Regards,
+
+	Hans
+
+> 
+> Thank you,
+> deepak.
+> 
+> 
+> 
+>>
+>>
+>>>  	{MISENSOR_16BIT, 0x316A, 0x8270}, /* DAC_TXLO_ROW */
+>>>
+>>
+>> thank you,
+>>
+>> fabio
+> 
+> 
+
