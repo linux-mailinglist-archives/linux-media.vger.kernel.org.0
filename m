@@ -2,86 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 330AD370365
-	for <lists+linux-media@lfdr.de>; Sat,  1 May 2021 00:18:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ECC1370422
+	for <lists+linux-media@lfdr.de>; Sat,  1 May 2021 01:37:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbhD3WT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 18:19:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38018 "EHLO
+        id S231462AbhD3XiM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 19:38:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231992AbhD3WTO (ORCPT
+        with ESMTP id S230508AbhD3XiL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 18:19:14 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECAFFC06174A;
-        Fri, 30 Apr 2021 15:18:24 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id p17so11450177plf.12;
-        Fri, 30 Apr 2021 15:18:24 -0700 (PDT)
+        Fri, 30 Apr 2021 19:38:11 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C875DC06174A
+        for <linux-media@vger.kernel.org>; Fri, 30 Apr 2021 16:37:22 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id x2so6632569lff.10
+        for <linux-media@vger.kernel.org>; Fri, 30 Apr 2021 16:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=GreS4fBgl6pEV5ybguXpWoNeQVZDsUS8OAXOHJk+8wM=;
-        b=pPYasJfQPDLh9FrOMp0mptyMvy4gjMQJa0NBf57qfvjppSfIGNvQI3ykjfqEhfS8kj
-         UztaSTIEExHo3ovN02obtP/xOfpiPqJyY7agRcYr4z0I+G5qKOJOJ5Sqw3jv9U3Z0n0r
-         CGsiZUO1OmHNBdDz2rRY0nIlcZ+U055wHVc/Ws0QwkbFa3joDsj3rYJcawo2tPekzOs7
-         it1YtjeBe8+2QKz75hvbTkennxGSFkLYnb5fYWEPnGDfEzdC1W6GF7eZMcsO2JqQ2PaW
-         MXrCQeU/oP73pqk3Z4UIIlYzLgpdEEwx8C0Ox93QbEvOnEzW56ROST9ln+aaQnwwP1M+
-         Zw5A==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=h6jmTahhOXkt9FPExUK+c60K/g6rBslabSTQ1lDFwaQ=;
+        b=fe2ghiIRfO6QBGvx1p4ZVETJzTqORMw/qsBL0KGXbEJXDr+TWSU8TtKqusaY0Wu3JV
+         IfamRgZCsfXhWTzDnbs9I06T2BjGc82oQldKFVSj6N9p6iU7lnJmQmdF/QLnnZDOdr/0
+         kfd4UmkvHmq+g99Twc237EEcqDJy0+8H745aTElJbRWn3MsRyqpifKJsj4wCmoyEO8Sb
+         UuzRwK4vDXRPTbXx1pNGsSBahHoOBCtQMnq60ZIEnSSrb3uMntEAE9zAKNDUmT+VTGo4
+         rBv6G6KBzWY6dFKf0WVgPyKfsyQEiNbqjbfDWIWGRpvWXKj8Sc+omRyLwnMGx8xeVg7i
+         PPNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=GreS4fBgl6pEV5ybguXpWoNeQVZDsUS8OAXOHJk+8wM=;
-        b=pF6/ps4ABO1Gr1ngLylLatMm/Ce0f+k8Y7+V+nEUdoqOsosf5YWFu0qzB6DJDTcRMA
-         wR5J8kB/Tub0fNxP2/TdKIlH1WaoE810Q/IV3vdqWJtDt+xHkwTFHRNbJOCWfLdqjXlX
-         8ktFevxDHxFPAzGCmsbiZvyeA+Gqk0lpoAT8xohI0Lvo2sXbu7enZlxDqplQfWFWy5XQ
-         ipnPAkmPqDSwiVftmjZgTgUGTRC+KGypPtehQgAMug/LP7I2K/OYd4PMWWbU8l9db40m
-         fRvj8YY70QHZJlW56wKH07bG5jmEL1sd8pUsXEL9FshB4lSahYE730QUenJUzyrqp9un
-         gERw==
-X-Gm-Message-State: AOAM530WMcJSSzM/YH7BTjvdJ/y5uQ3mKw+lzUkXyPvLaU3Wicy3Qqta
-        3BujLoDBoMrzXyFjK1PnZq0=
-X-Google-Smtp-Source: ABdhPJxaDiH9szIVfnkcaUq0V1qiXIgYt0WLhR4vZ+vpkdpMLhQTURmvpGsZa/fSLVhrv3pmVEic0Q==
-X-Received: by 2002:a17:902:7603:b029:ec:f560:7d66 with SMTP id k3-20020a1709027603b02900ecf5607d66mr7503330pll.39.1619821104487;
-        Fri, 30 Apr 2021 15:18:24 -0700 (PDT)
-Received: from fedora ([103.125.235.29])
-        by smtp.gmail.com with ESMTPSA id e5sm2926887pjv.22.2021.04.30.15.18.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 15:18:24 -0700 (PDT)
-Date:   Fri, 30 Apr 2021 18:18:14 -0400
-From:   Nigel Christian <nigel.l.christian@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: uvcvideo: Remove unused variable
-Message-ID: <YIyCJoEwdqgqkxYN@fedora>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=h6jmTahhOXkt9FPExUK+c60K/g6rBslabSTQ1lDFwaQ=;
+        b=ZKDhitU9ggkOSMeMs31PrFoZt/J2QSKWNwIyXeSWNHlQ9c9SwSPJekGFRZTRb9ZJpz
+         BrzNhdVzrDQX29zWWV2T37CHoO+hXsv+71y4JEIHQVQnt7CNRuY3B4KvUzSR2PgCflZl
+         Ok1CbBQSbMu8KpVK04il5vXHRYBVC21WLsUR8lq4eTevZyjaPoFaNp1reQihJtp+rEDK
+         gdPZbG15S2z2Lq/LqdACh0tkcjNWzsj4RtoNAttlfkm7il+hIxMwZpXlOdF+K+2kHDfV
+         hydct0FrnF4uG+SmvbnCvZ2NZpclRWdm5sYL0rDLeuts21lsrEuZDtsBMB9gnlSCHA1w
+         RRsw==
+X-Gm-Message-State: AOAM5320a16jOjdMG6yykJxbEQpLxjXZv5zFMLCThcZ63pHqYeh0La1+
+        VxQzsvK+vQHw0w21AAAVSHswsqEXmw2D9rX19fYNJsPODCo=
+X-Google-Smtp-Source: ABdhPJwnQ2epwGHwsAQiYntUgMgyDE+II9wCmtS60NPUaRnoKIPTctNBdviel1IlN02w01bs+BvYV6FexmO+wC36zJg=
+X-Received: by 2002:ac2:4c82:: with SMTP id d2mr4922651lfl.212.1619825841235;
+ Fri, 30 Apr 2021 16:37:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From:   Chris McCrae <chrismccraeworks@gmail.com>
+Date:   Fri, 30 Apr 2021 19:37:10 -0400
+Message-ID: <CAN2W0iNOsa6GYK28Vz=DmkyjY72H_bq=8EUkzFuy0_p9ZVms4A@mail.gmail.com>
+Subject: Asus PN62S vs PN50 - ITE8708
+To:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The variable buflen is being assigned a value that is never read,
-which can be removed.
+Long time stalker, first time caller, so go easy please :-)  (I've
+already learned I need to use plain text mode ... what's next?)
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Nigel Christian <nigel.l.christian@gmail.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 1 -
- 1 file changed, 1 deletion(-)
+Recently acquired an Asus PN62S (Intel) as a media centre frontend
+(currently testing with Xubuntu 20.04 and a 5.10 kernel, and the most
+current BIOS available).  Having an integrated IR was part of the
+selling features.  However, getting it to be recognized by my system
+has become a challenge that I am getting obsessed with.  There's very
+little to find online on this device that is current, but there has
+been some recent conversation on this list about the same device, on a
+related machine, the PN50 (AMD).  I'm hoping that the knowledge here
+may lead to a solution for my issue.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 9a791d8ef200..370b086c6e22 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -768,7 +768,6 @@ static int uvc_parse_format(struct uvc_device *dev,
- 		format->xfer_func = uvc_xfer_func(buffer[4]);
- 		format->ycbcr_enc = uvc_ycbcr_enc(buffer[5]);
- 
--		buflen -= buffer[0];
- 		buffer += buffer[0];
- 	}
- 
--- 
-2.31.1
+I can provide more detail on request, but at the moment I am focusing
+on the DSDT as a possible suspect.  I do not have the 16 byte issue
+that the PN50 experiences.  Mine is defined as 8 bytes, which is
+compatible with the ite-cir driver.  My issue is that there appears to
+be no attempt to bind the device to the driver (but it is visible in
+lsmod)... no messages about the driver in dmesg at all.  My thought is
+that the definition of the device in DSDT may somehow give it enough
+information (ITE8708) to know the driver could be needed, but not the
+correct information to make it work.
 
+An earlier message provided only part of the device definition in DSDT
+for the PN50.  I would like to be able to see the full definition for
+it from the PN50, to see if anything is significantly different.
+Ideally, if I had the full DSDT as a starting point, I could compare
+other areas such as motherboard resources.
+
+I have learned a lot about ACPI lately, and am continuing to learn.
+In the end, ACPI may have nothing to do with my problem.  If anyone
+has other suggestions as to where an issue might originate, I'm ready
+to look there too (like when does the kernel make the decision to bind
+or not).  I've used acpi.debug_layer and debug_level options, tested
+with fwts, recompiled kernels and drivers with patches, rebuilt the
+DSDT to force some parameters, installed Windows 10 and confirmed
+things actually work, and probably a few other things I can't
+remember.
+
+Any help is appreciated.
+
+Chris
