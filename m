@@ -2,153 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF53736FA08
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 14:20:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBC8A36FA1F
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 14:27:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232473AbhD3MUt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 08:20:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230208AbhD3MUG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 08:20:06 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA20BC06138C
-        for <linux-media@vger.kernel.org>; Fri, 30 Apr 2021 05:18:55 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 113F91027;
-        Fri, 30 Apr 2021 14:18:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1619785133;
-        bh=c3cyiOV2AWT2FYNFCzLCDqCcFgqeXbUN0zl/A2/gTiE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZV6aIuKKo45ncI8COELfOCXYIftmG9c6T3YdHSBjryWdXEqy6Qm3C//eecH1Yi9ND
-         3erq+oxgDNLNtWPdvzzLR5nLsdfnFrppsyiC7OnVgu0YcUqS821wdUqYaV7/3jrLn/
-         4wPGpYqAJUo8c/Blf2dLTPYdzBCfUBgarz2BjsAE=
-Date:   Fri, 30 Apr 2021 15:18:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, slongerbeam@gmail.com,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 1/6] media: uapi: Add MEDIA_BUS_FMT_SGRGB_IGIG_GBGR_IGIG
- media bus formats
-Message-ID: <YIv1rMFZuv7z4R8a@pendragon.ideasonboard.com>
-References: <20210427120701.21809-1-m.felsch@pengutronix.de>
- <20210427120701.21809-2-m.felsch@pengutronix.de>
- <YIoRLQfoNm0GJGsY@pendragon.ideasonboard.com>
- <20210429074903.cc5gohn52cgv4i5z@pengutronix.de>
- <YIsvyz49KvZK6Wg5@pendragon.ideasonboard.com>
- <20210430065134.jwscxlv3sydo4zgy@pengutronix.de>
+        id S230208AbhD3M2I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 08:28:08 -0400
+Received: from msg-1.mailo.com ([213.182.54.11]:53330 "EHLO msg-1.mailo.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229864AbhD3M2I (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Apr 2021 08:28:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+        t=1619785625; bh=2HIgowVCeeS0VSBy4mZ1r3TtIT+EekDnKb318+ZW250=;
+        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+         MIME-Version:Content-Type:In-Reply-To;
+        b=CuyXQ0DH9TpisKyDUcPiqQdq2o2D4FM8/q781u+fAH6lfTK7KNKDPANEwFukBezem
+         fJ2z+Lfn1PsqgV/YVZ49Apho8vye1AmE03f0K3/W1KYUZgfEG1RtwblA0WhoZzOiEU
+         aO3nKkhoWf4n/jSnIBFNWXsaTGKfVIGDl56/C2Es=
+Received: by 192.168.90.16 [192.168.90.16] with ESMTP
+        via ip-206.mailobj.net [213.182.55.206]
+        Fri, 30 Apr 2021 14:27:05 +0200 (CEST)
+X-EA-Auth: ShcEcij6R581OKL0kHBcfmQVUrY5LT0DiOcT6LDwen/2s9qMz+pqzjfVcOIVzQf6B4lON2Ga3UJC1mQTGAFINdq0K3da5cpV
+Date:   Fri, 30 Apr 2021 17:57:00 +0530
+From:   Deepak R Varma <drv@mailo.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Fabio Aiuto <fabioaiuto83@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 5/9] staging: media: atomisp: reformat code comment
+ blocks
+Message-ID: <YIv3lEAC8d8LsCb+@dU2104>
+References: <cover.1619630709.git.drv@mailo.com>
+ <034c3cc993191feb8fda719dd1b2adc9e2074e78.1619630709.git.drv@mailo.com>
+ <20210429070611.GA1409@agape.jhs>
+ <YIqdT6wsrlNP/cEo@192.168.1.8>
+ <693e054f-6a7b-d9e7-a72a-07d7fa295487@xs4all.nl>
+ <YIvm4M0Gru+RpV5O@dU2104>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210430065134.jwscxlv3sydo4zgy@pengutronix.de>
+In-Reply-To: <YIvm4M0Gru+RpV5O@dU2104>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marco,
-
-On Fri, Apr 30, 2021 at 08:51:34AM +0200, Marco Felsch wrote:
-> On 21-04-30 01:14, Laurent Pinchart wrote:
-> > On Thu, Apr 29, 2021 at 09:49:03AM +0200, Marco Felsch wrote:
-> > > On 21-04-29 04:51, Laurent Pinchart wrote:
-> > > > On Tue, Apr 27, 2021 at 02:06:56PM +0200, Marco Felsch wrote:
-> > > > > Add special 8/12bit bayer media bus format for the OnSemi AR0237IR
-> > > > > camera sensor [1]. OnSemi calls this format RGB-IR, the pixel array
-> > > > > with the interleaved IR pixels looks like:
-> > > > > 
-> > > > >         |  G |  R |  G |  B | ...
-> > > > >         +----+----+----+----+---
-> > > > >         | IR |  G | IR |  G | ...
-> > > > >         +----+----+----+----+---
-> > > > >         |  G |  B |  G |  R | ...
-> > > > >         +----+----+----+----+---
-> > > > >         | IR |  G | IR |  G | ...
-> > > > >         +----+----+----+----+---
-> > > > >         | .. | .. | .. | .. | ..
-> > > > > 
-> > > > > [1] https://www.framos.com/media/pdf/96/ac/8f/AR0237CS-D-PDF-framos.pdf
-> > > > 
-> > > > I think we're reaching a limit of the media bus codes model here, due to
-> > > > a historical mistake. The four possible Bayer patterns, times the
-> > > > different number of bits per pixel, creates a lot of media bus codes,
-> > > > and drivers for CSI-2 receivers and IP cores further down the pipeline
-> > > > have to support them all.
+On Fri, Apr 30, 2021 at 04:45:56PM +0530, Deepak R Varma wrote:
+> On Fri, Apr 30, 2021 at 12:04:33PM +0200, Hans Verkuil wrote:
+> > On 29/04/2021 13:49, Deepak R Varma wrote:
+> > > On Thu, Apr 29, 2021 at 09:06:12AM +0200, Fabio Aiuto wrote:
+> > >> Hi Deepak,
+> > >>>  	{MISENSOR_16BIT, 0xC868, 0x0280}, /* cam_output_width = 952 */
+> > >>>  	{MISENSOR_16BIT, 0xC86A, 0x01E0}, /* cam_output_height = 538 */
+> > >>>  	/* LOAD = Step3-Recommended
+> > >>> -	 * Patch,Errata and Sensor optimization Setting */
+> > >>> +	 * Patch,Errata and Sensor optimization Setting
+> > >>> +	 */
+> > >>
+> > >> 	/*
+> > >> 	 * LOAD = Step3-Recommended
+> > >>
+> > >> :(
 > > > 
-> > > That's correct but it is not bayer related. Currently it is what it is,
-> > > if a new code is added it must be propagated through all the involved
-> > > subdevs. On the other hand I wouldn't say that it is better to support
-> > > new codes per default for all drivers. Since this would add a lot of
-> > > untested code paths.
+> > > oops... sorry for the oversight. Not sure how I missed it.
+> > > I will wait for any other feedback on other patches and send
+> > > in a corrected version shortly.
 > > 
-> > It's not an issue limited to Bayer patterns, but they make the issue
-> > worse given the number of possible combinations (think about adding DPCM
-> > and ALAW compression on top of that...).
-> 
-> You're right and again this will apply to all mbus formats...
-> 
-> > > > This is already painful, and if we had a
-> > > > non-Bayer pattern such as this one,
-> > > 
-> > > That's not exactly true since it is a bayer pattern but instead of using
-> > > 4x4 it uses 8x8 and it as some special pixels.
-> > > 
-> > > > we'll open the door to an explosion
-> > > > of the number of media bus codes (imagine all the different possible
-> > > > arrangements of this pattern, for instance if you enable horizontal
-> > > > and/or vertical flipping on the sensor). All drivers would need to be
-> > > > updated to support these new bus codes, and this really kills the
-> > > > current model.
-> > > 
-> > > Yep, I know what you mean but as I said above I think that adding it
-> > > explicite is the better abbroach since it involves somone who add _and_
-> > > test the new code on the particular platform.
-> > > 
-> > > > The historical mistake was to tie the Bayer pattern with the media bus
-> > > > code. We should really have specified raw 8/10/12/14/16 media bus codes,
-> > > > and conveyed the pattern separately. Most IP cores in the pipeline don't
-> > > > need to care about the pattern at all, and those who do (that's mostly
-> > > > ISPs) could be programmed explicitly by userspace as long as we have an
-> > > > API to retrieve the pattern from the sensor. I believe it's time to bite
-> > > > the bullet and go in that direction. I'm sorry for this case of yak
-> > > > shaving, but it really wouldn't be manageable anymore :-(
-> > > 
-> > > I got all your points and would agree but this is not a bayer only
-> > > related problem. You will have this problem with all new other formats
-> > > as well. I'm with you, most IP cores don't care but I wouldn't
-> > > guarantee that.
+> > I've fixed this up myself.
 > > 
-> > Sorry, but adding new media bus formats like this one will just not
-> > scale. We have two options, either fixing the issue, or considering that
-> > V4L2 is a barely alive API with no future, and merging this without
-> > caring anymore.
+> > I'm taking this series and make a PR for this, wrapping up these
+> > atomisp cleanups.
+> > 
+> > If you plan any more cleanups, then please do this on top of this
+> > branch: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.14-out1
+> > 
+> > That contains all pending cleanups for staging/media.
 > 
-> Hm.. you're right that it doesn't scale, as I said I'm absolute on your
-> side. So let us consider a new approach @Mauro, @Hans, @Sailus what do
-> you think about?
+> Thank you Hans and everyone. Appreciate your time, comments and patience. I
+> understand this entire patch series is acceptable for your consideration and
+> that I can now move on to other changes.
+> 
+> I will be sending additional clean up patches and I will base those on top of the
+> mentioned branch.
 
-Starting brainstorming, how about new media bus codes for
-raw{8,10,12,14,16}, and a read-only CFA pattern control to retrieve the
-pattern from the sensor subdev ? We could use the same control to set
-the pattern on subdevs that require it, which would mostly be ISPs. As
-ISPs are configured using parameter buffers these days, it may be better
-to pass the pattern in the parameter buffer instead though.
+Hello Hans,
+I have cloned media_tree repository and checked out branch for-v5.14-out1
 
-This shouldn't be too hard to implement, but the devil is of course in
-the details, and we should consider how to handle the pattern control
-when flipping and/or cropping is configured on the sensor.
+Is it okay for me to start my next patch in this branch? I do not need for
+you the last patch set to be applied to the git tree, correct?
 
-> BTW: IMHO videobuf2 interface isn't that good as well, since you are
-> blaming ;)
+Thank you,
+deepak.
 
-Have you looked at videobuf1 ? ;-) Jokes aside, there's certainly room
-for improvement, but it hasn't struck me as a particularly bad part of
-the framework. Is there anything in particular you think is painful ?
+> 
+> Have a good one.
+> deepak.
+> 
+> > 
+> > Regards,
+> > 
+> > 	Hans
+> > 
 
--- 
-Regards,
 
-Laurent Pinchart
