@@ -2,166 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A95936F624
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 09:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A00E536F675
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 09:39:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230491AbhD3HEa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 03:04:30 -0400
-Received: from mga12.intel.com ([192.55.52.136]:1089 "EHLO mga12.intel.com"
+        id S229752AbhD3HkW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 03:40:22 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:22439 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231206AbhD3HE3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 03:04:29 -0400
-IronPort-SDR: cxhfpUA9kd+48UkAGLn70/SAVhS7IsrkkosTLkjAbyrwHBBp4uo3AiIhbBRaHNgZZq/bep1Xsh
- P0Kltbggp51g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="176697246"
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; 
-   d="scan'208";a="176697246"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 00:03:41 -0700
-IronPort-SDR: J7Fc2bH4kUscPm97/LRSU1qnj7zRZHZV/4m2uHukkibE+IGiG2XW4I9SMuGCXGSTMoLDpPvSB7
- 90aftG8YcM3Q==
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; 
-   d="scan'208";a="387266731"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 00:03:40 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 25D0D203B0;
-        Fri, 30 Apr 2021 10:03:38 +0300 (EEST)
-Date:   Fri, 30 Apr 2021 10:03:38 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, ezequiel.garcia@collabora.com
-Subject: Re: [PATCH v2 4/4] v4l: async, fwnode: Improve module organisation
-Message-ID: <20210430070338.GD3@paasikivi.fi.intel.com>
-References: <20210312125657.25442-1-sakari.ailus@linux.intel.com>
- <20210312125657.25442-5-sakari.ailus@linux.intel.com>
- <8f28218c90cdf22dd7f3d2cea259f4013ff263c4.camel@collabora.com>
- <20210323192742.GA3@paasikivi.fi.intel.com>
- <d0736505a4814aa2ba19c3c2cd9480d44b0781ef.camel@collabora.com>
+        id S229610AbhD3HkV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Apr 2021 03:40:21 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1619768372; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=W2XjG4CptMb+RNbFw7VVIBbgjKSt8I60liXBkJ+nyTo=;
+ b=XUNs/foT09Ueh4p4lTR11gvJumNzrpEef3n/ezvDQvZeIxFB/zU+WCF+7XYyczCPWEDmG9Ma
+ iKNJj7/4cNibGUv+o0nkEo/vn/i1Zv+hjKgdlJvIo8gM7fJB/EL7a5SGgHQpEajpZI1MN037
+ +aqCUDd4Y2a+/robXg0gMPM4dHE=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 608bb431853c0a2c463541b7 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 30 Apr 2021 07:39:29
+ GMT
+Sender: vgarodia=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 1C5FCC4323A; Fri, 30 Apr 2021 07:39:29 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: vgarodia)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 55ED3C433F1;
+        Fri, 30 Apr 2021 07:39:27 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d0736505a4814aa2ba19c3c2cd9480d44b0781ef.camel@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Date:   Fri, 30 Apr 2021 13:09:27 +0530
+From:   vgarodia@codeaurora.org
+To:     smagar@codeaurora.org
+Cc:     stanimir.varbanov@linaro.org, linux-firmware@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        mchehab@infradead.org, linux-media-owner@vger.kernel.org,
+        dikshita@codeaurora.org, adhudase@codeaurora.org,
+        sampnimm@codeaurora.org, mansur@codeaurora.org
+Subject: Re: Update venus firmware files for v5.4 and venus firmware files for
+ VPU-2.0
+In-Reply-To: <52ac8a546ecdb6a11b10edf936ba714d@codeaurora.org>
+References: <bee73b3fe8b04c1a2663be0cd3cc7318@codeaurora.org>
+ <9eaaec5d-a7d4-1889-5c92-28944b198adc@linaro.org>
+ <c38ab84b90feddb43b2782fa11ee5189@codeaurora.org>
+ <52ac8a546ecdb6a11b10edf936ba714d@codeaurora.org>
+Message-ID: <194da82a3a5f2010fadca4fe6960b359@codeaurora.org>
+X-Sender: vgarodia@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
-
-On Sun, Mar 28, 2021 at 10:27:35AM -0300, Ezequiel Garcia wrote:
-> On Tue, 2021-03-23 at 21:27 +0200, Sakari Ailus wrote:
-> > Hi Ezequiel,
-> > 
-> > On Tue, Mar 23, 2021 at 02:46:04PM -0300, Ezequiel Garcia wrote:
-> > > On Fri, 2021-03-12 at 14:56 +0200, Sakari Ailus wrote:
-> > > > The V4L2 async framework is generally used with the V4L2 fwnode, which
-> > > > also depends on the former. There is only one exception, the CAFE_CCIC
-> > > > driver, which uses V4L2 async but does not need V4L2 fwnode.
-> > > > 
-> > > > At the same time there is a vast number of systems that need videodev
-> > > > module, but have no use for v4l2-async that's now part of videodev.
-> > > > 
-> > > > In order to improve, build v4l2-async and v4l2-fwnode as a single module
-> > > > called v4l2-async (the v4l2-async.c file is renamed as v4l2-async-core.c).
-> > > > Also the menu item V4L2_FWNODE is renamed as V4L2_ASYNC.
-> > > > 
-> > > 
-> > > Seems this is not what this patch is doing: the symbol is not renamed,
-> > > and now we have two modules v4l2-fwnode.ko and v4l2-async.ko, unless
-> > > I'm confused.
-> > 
-> > Oh, well, I changed what the patch does but forgot to update this. :-I
-> > 
-> > Basically this now splits v4l2-async out of videodev.
-> > 
-> > > 
-> > > I personally was more fond of having just one v4l2-async.ko module,
-> > > but I'm not sure if you found any obstacles.
-> > > 
-> > > > This also moves the initialisation of the debufs entries for async subdevs
-> > > > to loading of the v4l2-async module. The directory is named as
-> > > > "v4l2-async".
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  drivers/media/i2c/Kconfig            |  8 ++++++++
-> > > >  drivers/media/v4l2-core/Kconfig      |  4 ++++
-> > > >  drivers/media/v4l2-core/Makefile     | 11 +++++++++--
-> > > >  drivers/media/v4l2-core/v4l2-async.c | 23 +++++++++++++++++++++--
-> > > >  drivers/media/v4l2-core/v4l2-dev.c   |  5 -----
-> > > >  5 files changed, 42 insertions(+), 9 deletions(-)
-> > > > 
-> > > [..]
-> > > > diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-> > > > index e4cd589b99a5..eb5ebb5461fd 100644
-> > > > --- a/drivers/media/v4l2-core/Makefile
-> > > > +++ b/drivers/media/v4l2-core/Makefile
-> > > > @@ -7,15 +7,22 @@ tuner-objs    :=      tuner-core.o
-> > > >  
-> > > >  videodev-objs  :=      v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
-> > > >                         v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
-> > > > -                       v4l2-async.o v4l2-common.o
-> > > > +                       v4l2-common.o
-> > > >  videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
-> > > >  videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
-> > > >  videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
-> > > >  videodev-$(CONFIG_SPI) += v4l2-spi.o
-> > > >  videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
-> > > >  
-> > > > -obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
-> > > >  obj-$(CONFIG_VIDEO_V4L2) += videodev.o
-> > > > +ifneq ($(findstring y,$(CONFIG_V4L2_ASYNC)$(CONFIG_V4L2_FWNODE)),)
-> > > 
-> > > Hm, to me this ifdefery is an indication that we are trying
-> > > to do something fishy.
-> > 
-> > What's happening here is that v4l2-fwnode depends on v4l2-async, but for
-> > drivers to avoid selecting both, v4l2-async is built if only
-> > CONFIG_V4L2_FWNODE is set.
-> > 
-> > So this perhaps isn't too pretty but it saves hassle in Kconfig files.
-> > 
+On 2021-04-29 17:37, smagar@codeaurora.org wrote:
+> On 2021-04-29 14:05, vgarodia@codeaurora.org wrote:
+>> On 2021-04-28 19:18, Stanimir Varbanov wrote:
+>>> On 4/28/21 3:32 PM, smagar@codeaurora.org wrote:
+>>>> Hello Team,
+>>>> 
+>>>> Please include updated firmware bins for venus-5.4 and vpu-2.0.
+>>>> 
+>>>> I have fixed comment and title updated.
+>>>> 
+>>>> Removed 0 byte unwanted bins.
+>>>> 
+>>>> Below is combined pull request for venus-5.4 and VPU-2.0.
+>>>> 
+>>>> Please find snapshot of pull request, let me know if anything is 
+>>>> missing.
+>>>> 
+>>>> 
+>>>> The following changes since commit
+>>>> 85286184d9df1b03bb76049edcfd87c39ce46e94:
+>>>> 
+>>>> Â  Merge branch 'for-upstream' of
+>>>> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
+>>>> 11:34:11 -0400)
+>>>> 
+>>>> are available in the git repository at:
+>>>> 
+>>>> Â  https://github.com/suraj714/linux-firmware-venus.git master
+>>>> 
+>>>> for you to fetch changes up to 
+>>>> 6cdef281cd16d967ad89c01af6fdda85529a2d80:
+>>>> 
+>>>> Â  qcom: Add venus firmware files for VPU-2.0 (2021-04-28 14:42:48 
+>>>> +0530)
+>>>> 
+>>>> ----------------------------------------------------------------
+>>>> smagar (2):
+>>>> Â Â Â Â Â  qcom: update venus firmware files for v5.4
+>>>> Â Â Â Â Â  qcom: Add venus firmware files for VPU-2.0
+>>>> 
+>>>> Â WHENCEÂ Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  |Â  34 +++++++++++++++++++++++++++++++++-
+>>>> Â qcom/venus-5.4/venus.b00Â  | Bin 212 -> 212 bytes
+>>>> Â qcom/venus-5.4/venus.b01Â  | Bin 6808 -> 6808 bytes
+>>>> Â qcom/venus-5.4/venus.b02Â  | Bin 873680 -> 873596 bytes
+>>>> Â qcom/venus-5.4/venus.b03Â  | Bin 33792 -> 33792 bytes
+>>>> Â qcom/venus-5.4/venus.mbnÂ  | Bin 919792 -> 919708 bytes
+>>>> Â qcom/venus-5.4/venus.mdtÂ  | Bin 7020 -> 7020 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b00 | Bin 0 -> 692 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b01 | Bin 0 -> 7376 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b02 | Bin 0 -> 300 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b03 | Bin 0 -> 20 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b04 | Bin 0 -> 20 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b05 | Bin 0 -> 20 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b06 | Bin 0 -> 20 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b07 | Bin 0 -> 24 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b08 | Bin 0 -> 16 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b09 | Bin 0 -> 939184 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b10 | Bin 0 -> 42976 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.b19 |Â Â  1 +
+>>>> Â qcom/vpu-2.0/vpu20_1v.mbn | Bin 0 -> 2031188 bytes
+>>>> Â qcom/vpu-2.0/vpu20_1v.mdt | Bin 0 -> 8068 bytes
+>> 
+>> Suraj, lets make these as generic names venus.bxx. We could confirm on 
+>> hardware
+>> with generic binary names.
+>> 
+>>> 
+>>> Which Venus IP/SoCs use vpu-2.0 firmware? And what is the difference
+>>> with existing vpu-1.0?
+>> This is for sc7280.
+>> vpu-1.0 and vpu-2.0 differs in hardware w.r.t number of hardware
+>> processing pipes.
+>> 
+>> Thanks,
+>> Vikash
 > 
-> How about:
 > 
-> v4l2-async-objs := v4l2-async-core.o
-> v4l2-async-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
-> obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
 > 
-> config V4L2_FWNODE
->         bool
->         select V4L2_ASYNC
-
-Drivers are using select to enable V4L2_FWNODE. Select will select the
-config option but will not care about its dependencies, i.e. V4L2_ASYNC in
-this case.
-
-I guess another option could be just to sprinkle both in Kconfig files as
-needed.
-
-I'm fraknkly not too concerned about the few lines in the Makefile. If
-there's a need to get rid of them, there's always an easy way to get rid of
-it.
-
 > 
-> config V4L2_ASYNC
->         tristate
+> Hi Vikash,
 > 
-> This avoids the ifdefs and expresses the same behavior
-> you stated above:
+> As you suggested I did this changes.
+> Below is combined pull request for venus-5.4 and VPU-2.0.
+> Please find snapshot of pull request, let me know if anything is 
+> missing.
 > 
-> * v4l2-async is now out of videodev
-> * v4l2-fwnode depends on v4l2-async (through select in this case,
->   given they are helper modules).
-> * v4l2-async is built if CONFIG_V4L2_FWNODE is set.
 > 
-> And v4l2-async is a module or built-in, depending on the
-> media subsystem (MEDIA_SUPPORT) being module or built-in,
-> which I think makes sense.
+> The following changes since commit 
+> 85286184d9df1b03bb76049edcfd87c39ce46e94:
+> 
+>   Merge branch 'for-upstream' of
+> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
+> 11:34:11 -0400)
+> 
+> are available in the git repository at:
+> 
+>   https://github.com/suraj714/linux-firmware-venus.git master
+> 
+> for you to fetch changes up to 
+> 3499110b56ddfe5c66ee7ade8754c4be573cc8a9:
+> 
+>   qcom: Add venus firmware files for VPU-2.0 (2021-04-29 16:59:54 
+> +0530)
+> 
+> ----------------------------------------------------------------
+> smagar (2):
+>       qcom: update venus firmware files for v5.4
+>       qcom: Add venus firmware files for VPU-2.0
+> 
+>  WHENCE                   |  34 +++++++++++++++++++++++++++++++++-
 
--- 
-Kind regards,
+Remove the reference of "vpu20_1v.xxx from WHENCE file. Keep only 
+venus.xxx.
 
-Sakari Ailus
+>  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
+>  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
+>  qcom/venus-5.4/venus.b02 | Bin 873680 -> 873596 bytes
+>  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
+>  qcom/venus-5.4/venus.mbn | Bin 919792 -> 919708 bytes
+>  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
+>  qcom/vpu-2.0/venus.b00   | Bin 0 -> 692 bytes
+>  qcom/vpu-2.0/venus.b01   | Bin 0 -> 7376 bytes
+>  qcom/vpu-2.0/venus.b02   | Bin 0 -> 300 bytes
+>  qcom/vpu-2.0/venus.b03   | Bin 0 -> 20 bytes
+>  qcom/vpu-2.0/venus.b04   | Bin 0 -> 20 bytes
+>  qcom/vpu-2.0/venus.b05   | Bin 0 -> 20 bytes
+>  qcom/vpu-2.0/venus.b06   | Bin 0 -> 20 bytes
+>  qcom/vpu-2.0/venus.b07   | Bin 0 -> 24 bytes
+>  qcom/vpu-2.0/venus.b08   | Bin 0 -> 16 bytes
+>  qcom/vpu-2.0/venus.b09   | Bin 0 -> 939184 bytes
+>  qcom/vpu-2.0/venus.b10   | Bin 0 -> 42976 bytes
+>  qcom/vpu-2.0/venus.b19   |   1 +
+>  qcom/vpu-2.0/venus.mbn   | Bin 0 -> 2031188 bytes
+>  qcom/vpu-2.0/venus.mdt   | Bin 0 -> 8068 bytes
+>  21 files changed, 34 insertions(+), 1 deletion(-)
+>  create mode 100644 qcom/vpu-2.0/venus.b00
+>  create mode 100644 qcom/vpu-2.0/venus.b01
+>  create mode 100644 qcom/vpu-2.0/venus.b02
+>  create mode 100644 qcom/vpu-2.0/venus.b03
+>  create mode 100644 qcom/vpu-2.0/venus.b04
+>  create mode 100644 qcom/vpu-2.0/venus.b05
+>  create mode 100644 qcom/vpu-2.0/venus.b06
+>  create mode 100644 qcom/vpu-2.0/venus.b07
+>  create mode 100644 qcom/vpu-2.0/venus.b08
+>  create mode 100644 qcom/vpu-2.0/venus.b09
+>  create mode 100644 qcom/vpu-2.0/venus.b10
+>  create mode 100644 qcom/vpu-2.0/venus.b19
+>  create mode 100644 qcom/vpu-2.0/venus.mbn
+>  create mode 100644 qcom/vpu-2.0/venus.mdt
+> 
+> 
+> Regards,
+> Suraj
