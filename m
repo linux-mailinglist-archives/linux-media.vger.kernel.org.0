@@ -2,88 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8EE336FF53
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 19:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8351B36FF5A
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 19:18:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230303AbhD3RRW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 13:17:22 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2972 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbhD3RRU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 13:17:20 -0400
-Received: from fraeml736-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FWzK908Cxz689R8;
-        Sat,  1 May 2021 01:05:49 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml736-chm.china.huawei.com (10.206.15.217) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 30 Apr 2021 19:16:31 +0200
-Received: from localhost (10.52.125.96) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 30 Apr
- 2021 18:16:30 +0100
-Date:   Fri, 30 Apr 2021 18:14:55 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v4 27/79] media: i2c: ak7375: use
- pm_runtime_resume_and_get()
-Message-ID: <20210430181455.00006c49@Huawei.com>
-In-Reply-To: <1e1d532702a6f708eb48d1e8aa0bc2d6722ac211.1619621413.git.mchehab+huawei@kernel.org>
-References: <cover.1619621413.git.mchehab+huawei@kernel.org>
-        <1e1d532702a6f708eb48d1e8aa0bc2d6722ac211.1619621413.git.mchehab+huawei@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+        id S230506AbhD3RSv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 13:18:51 -0400
+Received: from msg-2.mailo.com ([213.182.54.12]:38966 "EHLO msg-2.mailo.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229750AbhD3RSv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Apr 2021 13:18:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+        t=1619803075; bh=ojnJ555lXA46GF3/qKIyAUShuviwd+s4Ftf9ASPM424=;
+        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+         MIME-Version:Content-Type:In-Reply-To;
+        b=Ro6898nhQabAFbhExawoG3OrpSeVplTWpiPtSGGYFx7zyBdOwP1+2gtO6UgAvEnev
+         goGwDOExM6qWilF500x73krqgHvmRgyjcS9shUHnXfL8lJJo+FTEiM8ut4tUrkKU34
+         40yqRl9Nw74v7vN2tBnQXGZVPR7l77sLhxVhrCY8=
+Received: by 192.168.90.13 [192.168.90.13] with ESMTP
+        via ip-206.mailobj.net [213.182.55.206]
+        Fri, 30 Apr 2021 19:17:55 +0200 (CEST)
+X-EA-Auth: c1gehlscvNEfQhgT4PN/cZce+z64ErNVj5he8oBiRfc/1rwcXcmA8TBoV4AqVJqBm3PHo3spQSTL9XjN5x4mx152xFjdHwQq
+Date:   Fri, 30 Apr 2021 22:47:50 +0530
+From:   Deepak R Varma <drv@mailo.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: pci: reposition braces as per
+ coding style
+Message-ID: <YIw7vsy+bYzFIQC0@dU2104>
+References: <YIwk3KbVGRPJwKa4@dU2104>
+ <20210430163327.GI3@paasikivi.fi.intel.com>
+ <YIw4pUzTOHV6E9WZ@dU2104>
+ <20210430171241.GJ3@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.125.96]
-X-ClientProxiedBy: lhreml721-chm.china.huawei.com (10.201.108.72) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210430171241.GJ3@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 28 Apr 2021 16:51:48 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Fri, Apr 30, 2021 at 08:12:41PM +0300, Sakari Ailus wrote:
+> Hi Deepak,
+> 
+> On Fri, Apr 30, 2021 at 10:34:37PM +0530, Deepak R Varma wrote:
+> > On Fri, Apr 30, 2021 at 07:33:27PM +0300, Sakari Ailus wrote:
+> > > Hi Deepak,
+> > > 
+> > > If you're touching all these lines, I might do a little more. Please see
+> > > the comments below.
+> > > 
+> > Hello Sakari,
+> > I can definitely include other changes, but then it will be many different
+> > types of changes into a single patch. Will that be okay?
+> > 
+> > I was planning to address one issue per patch as I think the volume of
+> > change is going to be high.  I mentioned that in the notes section of the patch
+> > message.
+> 
+> I think I'd split the patch into smaller chunks if the result becomes too
+> big but I don't think it's necessary yet.
+> 
+> Splitting different kinds of simple cleanups into several patches takes
+> longer time to review when they're touching the same piece of code. As the
+> chunks in these patches have virtually no dependencies to other chunks,
+> it's fine to do several kinds of cleanups at once.
 
-> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> added pm_runtime_resume_and_get() in order to automatically handle
-> dev->power.usage_count decrement on errors.
-> 
-> Use the new API, in order to cleanup the error check logic.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Okay, sure. That sounds good to me. I will include other related
+improvements in the same area and send split patch set accordingly. I will
+include this patch in the patch set.
 
-> ---
->  drivers/media/i2c/ak7375.c | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
+Thank you for the guidance.
+deepak.
+
 > 
-> diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
-> index e1f94ee0f48f..40b1a4aa846c 100644
-> --- a/drivers/media/i2c/ak7375.c
-> +++ b/drivers/media/i2c/ak7375.c
-> @@ -87,15 +87,7 @@ static const struct v4l2_ctrl_ops ak7375_vcm_ctrl_ops = {
->  
->  static int ak7375_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
->  {
-> -	int ret;
-> -
-> -	ret = pm_runtime_get_sync(sd->dev);
-> -	if (ret < 0) {
-> -		pm_runtime_put_noidle(sd->dev);
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	return pm_runtime_resume_and_get(sd->dev);
->  }
->  
->  static int ak7375_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
+
 
