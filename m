@@ -2,43 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA2FE370008
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 19:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46F32370011
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 19:59:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230387AbhD3R4S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 13:56:18 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2977 "EHLO
+        id S230229AbhD3SAn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 14:00:43 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2978 "EHLO
         frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbhD3R4S (ORCPT
+        with ESMTP id S229954AbhD3SAm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 13:56:18 -0400
-Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FX0FN6xJTz71fch;
-        Sat,  1 May 2021 01:47:36 +0800 (CST)
+        Fri, 30 Apr 2021 14:00:42 -0400
+Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FX0Ny6hwZz6wkr8;
+        Sat,  1 May 2021 01:54:10 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
+ fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 30 Apr 2021 19:55:28 +0200
+ 15.1.2176.2; Fri, 30 Apr 2021 19:59:52 +0200
 Received: from localhost (10.52.125.96) by lhreml710-chm.china.huawei.com
  (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 30 Apr
- 2021 18:55:27 +0100
-Date:   Fri, 30 Apr 2021 18:53:52 +0100
+ 2021 18:59:51 +0100
+Date:   Fri, 30 Apr 2021 18:58:16 +0100
 From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
         "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v4 67/79] media: venus: vdec: use
- pm_runtime_resume_and_get()
-Message-ID: <20210430185352.00003b27@Huawei.com>
-In-Reply-To: <8541040c4b0830bb2c2f015b8c26c890baa5918a.1619621413.git.mchehab+huawei@kernel.org>
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>
+Subject: Re: [PATCH v4 73/79] media: stm32: use pm_runtime_resume_and_get()
+Message-ID: <20210430185816.00000ef5@Huawei.com>
+In-Reply-To: <cd918677e36e89196670cacd7027569e741f7d98.1619621413.git.mchehab+huawei@kernel.org>
 References: <cover.1619621413.git.mchehab+huawei@kernel.org>
-        <8541040c4b0830bb2c2f015b8c26c890baa5918a.1619621413.git.mchehab+huawei@kernel.org>
+        <cd918677e36e89196670cacd7027569e741f7d98.1619621413.git.mchehab+huawei@kernel.org>
 Organization: Huawei Technologies Research and Development (UK) Ltd.
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
@@ -52,7 +52,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 28 Apr 2021 16:52:28 +0200
+On Wed, 28 Apr 2021 16:52:34 +0200
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
 > Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
@@ -63,33 +63,36 @@ Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  drivers/media/platform/qcom/venus/vdec.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/media/platform/stm32/stm32-dcmi.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index ddb7cd39424e..347e533ea673 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -568,7 +568,7 @@ static int vdec_pm_get(struct venus_inst *inst)
+> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+> index bbcc2254fa2e..5f4e1db8cfcd 100644
+> --- a/drivers/media/platform/stm32/stm32-dcmi.c
+> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
+> @@ -723,11 +723,11 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	u32 val = 0;
 >  	int ret;
 >  
->  	mutex_lock(&core->pm_lock);
-> -	ret = pm_runtime_get_sync(dev);
-> +	ret = pm_runtime_resume_and_get(dev);
->  	mutex_unlock(&core->pm_lock);
->  
->  	return ret < 0 ? ret : 0;
-Don't need this dance any more due to " Return 0 if the runtime PM usage counter of @dev has been
- * incremented or a negative error code otherwise."
-return ret;
+> -	ret = pm_runtime_get_sync(dcmi->dev);
+> +	ret = pm_runtime_resume_and_get(dcmi->dev);
+>  	if (ret < 0) {
+>  		dev_err(dcmi->dev, "%s: Failed to start streaming, cannot get sync (%d)\n",
+>  			__func__, ret);
+> -		goto err_pm_put;
+> +		goto err_unlock;
 
-> @@ -601,7 +601,7 @@ static int vdec_pm_get_put(struct venus_inst *inst)
->  	mutex_lock(&core->pm_lock);
+maybe err_unlocked; to indicate the lock isn't held.  This briefly confused me.
+
+>  	}
 >  
->  	if (pm_runtime_suspended(dev)) {
-> -		ret = pm_runtime_get_sync(dev);
-> +		ret = pm_runtime_resume_and_get(dev);
->  		if (ret < 0)
->  			goto error;
+>  	ret = media_pipeline_start(&dcmi->vdev->entity, &dcmi->pipeline);
+> @@ -848,6 +848,7 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
 >  
+>  err_pm_put:
+>  	pm_runtime_put(dcmi->dev);
+> +err_unlock:
+>  	spin_lock_irq(&dcmi->irqlock);
+>  	/*
+>  	 * Return all buffers to vb2 in QUEUED state.
 
