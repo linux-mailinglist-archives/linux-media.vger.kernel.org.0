@@ -2,107 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E77636F5CC
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 08:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C366936F5E7
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 08:48:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbhD3Gmx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 02:42:53 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:52656 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229482AbhD3Gmw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 02:42:52 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lcMqg-00EOSG-Hf; Fri, 30 Apr 2021 06:42:02 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lcMuq-0003fw-2D; Fri, 30 Apr 2021 06:46:20 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.14] MPEG-2 stateless API cleanup and destaging (#73991)
-Date:   Fri, 30 Apr 2021 06:46:18 +0000
-Message-Id: <20210430064619.14087-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <79eb0d83-1967-8caf-e205-b29beec6fa23@xs4all.nl>
-References: 
+        id S229692AbhD3Gtj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 02:49:39 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:34469 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229508AbhD3Gti (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Apr 2021 02:49:38 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id cMxBlg1aNk1MGcMxFlRvr3; Fri, 30 Apr 2021 08:48:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1619765329; bh=dkEtC5XdY2RlhAON5hqFGT1ptsAWTSkPX7/TlnK/Ako=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=aqlUIIJa3hOke51i8QmkoW28pFiYa3sWvPDramymhZSggC1tc704Ek+FcC5cyAoaa
+         4FO6DfSQeKxcATMOFcrgfi+2mG5vIOBtjsdV2ouD89rO7fLo60DW0lO4HIwn2O68GE
+         EzvmUZIWQjX1TCgyic4aWgenq+kZk+WhtXGkO8kbGW8IcLYzdNu0JQO6uQeJqPWrS7
+         Ql9qt7pl2qbsIzMxhMqiJuNexPph30hTMybe/bx4EBioTlVh/q3KCwJp/hhANsfTI/
+         2CauefvquB+clc3mqRoE9EI0zd+6T4ABp0t76wHSm/AwCObDAzXP2/PRa/WjLLxa/b
+         DftCrZEf93V1Q==
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [RFC] Moving codec drivers out of staging
+Message-ID: <9bde97ea-aea7-3db4-407b-2ac9e13a9a28@xs4all.nl>
+Date:   Fri, 30 Apr 2021 08:48:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfJbaPYToG6IrChnq35lbVunfyAP19Q1j/g72I9f6kypW8zr4viU9qGbWxvsDgLtnv7V10L4kNLhv0NkkbSt7IiuexDCcfAz7/zIYYhixl/Zs6oaqTJnA
+ L20Yxl5joC2VKfd9GSvqdF0qq8ov1iBrBVV4s37W+KZy9p34dyelWJKYcU8IRNPFZNA7eDVb2GPQi3wXNKG/wnG3WQQFfD3yrifuQU8ZgIK6NGjBCUQBodZP
+ +3ZiZI9ExvpT8RQThNphAXeQ1jvhSQbdLATmmWt3sBYV1+NhV1a835C1Xzxob4ryKR4i6QfoFneBwJupXhN7T7WmR+hmFSXXeRlKNrUvXlvgvBIdq9KVpH1M
+ qLfjHDze6qHGlG1BQJ7B1fIGKiHMCCD5juJ/T7zO11s5YNg9H4sFIGjUx/i2BMSWnE2gTEvq40QfZwvFo/YklNEV1FQ6pA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi all,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/79eb0d83-1967-8caf-e205-b29beec6fa23@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/102371/
-Build time: 00:29:01
-Link: https://lore.kernel.org/linux-media/79eb0d83-1967-8caf-e205-b29beec6fa23@xs4all.nl
+I just posted the pull request to move the MPEG-2 stateless codec API out of staging,
+so after that only the HEVC stateless codec API is still in staging.
 
-gpg: Signature made Fri 30 Apr 2021 06:03:41 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+I think it is time to move the stateless codec drivers out of staging, and use a
+kernel config option to enable/disable the staging HEVC API:
 
-Summary: got 6/10 patches with issues, being 0 at build time, plus one error when buinding PDF document
+---------------------------------------------------------------------------
+diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
+index ca59986b20f8..faa2fbeb29f0 100644
+--- a/drivers/staging/media/Kconfig
++++ b/drivers/staging/media/Kconfig
+@@ -22,6 +22,15 @@ if STAGING_MEDIA && MEDIA_SUPPORT
+ # Please keep them in alphabetic order
+ source "drivers/staging/media/atomisp/Kconfig"
 
-Error/warnings:
++menuconfig STAGING_MEDIA_HEVC
++	bool "Support HEVC in stateless codec drivers"
++	default n
++	help
++	  This option allows you to enable support for the HEVC codec in
++	  stateless codec drivers. The public API for HEVC is still under
++	  development and is guaranteed to change in the future, so this
++	  option should not be enabled unless you know what you are doing!
++
+ source "drivers/staging/media/hantro/Kconfig"
 
-patches/0001-media-uapi-mpeg2-Rename-quantization-to-quantisation.patch:
+ source "drivers/staging/media/imx/Kconfig"
+---------------------------------------------------------------------------
 
-   checkpatch.pl:
-	$ cat patches/0001-media-uapi-mpeg2-Rename-quantization-to-quantisation.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:153: WARNING: line length of 102 exceeds 100 columns
-	-:336: CHECK: Alignment should match open parenthesis
-	-:423: CHECK: spaces preferred around that '+' (ctx:VxV)
+Is there any reason why hantro cannot be moved to mainline? It doesn't
+support HEVC, so it can just be moved. Ezequiel, can you check the TODO?
+I don't think there is anything there that prevents moving it.
 
-patches/0002-media-uapi-mpeg2-rework-quantisation-matrices-semant.patch:
+Same question for rkvdec, that too looks ready to move over to mainline.
 
-   checkpatch.pl:
-	$ cat patches/0002-media-uapi-mpeg2-rework-quantisation-matrices-semant.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:36: WARNING: Duplicate signature
+Same question for the cedrus driver, that too should be ready to move.
+It only needs to be patched so that it depends on the suggested kernel option
+above. Everything in the TODO is done, so there is no reason to keep it
+in staging.
 
-patches/0003-media-uapi-mpeg2-Cleanup-flags.patch:
+Regards,
 
-   checkpatch.pl:
-	$ cat patches/0003-media-uapi-mpeg2-Cleanup-flags.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:542: WARNING: line length of 101 exceeds 100 columns
-	-:543: WARNING: line length of 105 exceeds 100 columns
-	-:544: WARNING: line length of 111 exceeds 100 columns
-
-patches/0004-media-uapi-mpeg2-Split-sequence-and-picture-paramete.patch:
-
-   checkpatch.pl:
-	$ cat patches/0004-media-uapi-mpeg2-Split-sequence-and-picture-paramete.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:511: CHECK: Alignment should match open parenthesis
-	-:513: CHECK: Alignment should match open parenthesis
-	-:551: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:552: CHECK: spaces preferred around that '+' (ctx:VxV)
-
-patches/0009-media-controls-Log-MPEG-2-stateless-control-in-.std_.patch:
-
-   checkpatch.pl:
-	$ cat patches/0009-media-controls-Log-MPEG-2-stateless-control-in-.std_.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:26: WARNING: Avoid logging continuation uses where feasible
-	-:29: WARNING: Avoid logging continuation uses where feasible
-	-:32: WARNING: Avoid logging continuation uses where feasible
-
-patches/0010-media-uapi-move-MPEG-2-stateless-controls-out-of-sta.patch:
-
-   checkpatch.pl:
-	$ cat patches/0010-media-uapi-move-MPEG-2-stateless-controls-out-of-sta.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:551: WARNING: line length of 102 exceeds 100 columns
-	-:694: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:849: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:897: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:928: CHECK: spaces preferred around that '+' (ctx:VxV)
-
-
-Error #512 when building PDF docs
-
+	Hans
