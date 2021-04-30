@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94C1B36FE06
-	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 17:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FA9B36FE07
+	for <lists+linux-media@lfdr.de>; Fri, 30 Apr 2021 17:48:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231230AbhD3PsT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Apr 2021 11:48:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36542 "EHLO
+        id S231290AbhD3PsU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Apr 2021 11:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230227AbhD3PsQ (ORCPT
+        with ESMTP id S230195AbhD3PsT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Apr 2021 11:48:16 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B043C06138C;
-        Fri, 30 Apr 2021 08:47:28 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id d10so11302104pgf.12;
-        Fri, 30 Apr 2021 08:47:28 -0700 (PDT)
+        Fri, 30 Apr 2021 11:48:19 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3D3EC06174A;
+        Fri, 30 Apr 2021 08:47:30 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id y1so21168779plg.11;
+        Fri, 30 Apr 2021 08:47:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IDmD6UL5zzFu8Hty4nIsR290r6jC597Ze/W65NxX2v0=;
-        b=T0L7Iqq4nM7ma40iDk+H+cSXnrC/Q0RorLQFIzQEiUGmtT3yrJXLuh39GKquLOtMkB
-         oCEUHLhxvSDjqffG9St/BlEH6oOWWK0s23M4dU3nlw1UlFZNPO3jXV/0FgW1v3mUJvja
-         rh18i9DuKRGSL1P2VYmWp1wlfYAGLK0jIed03eTxvnm2wNU9BvmqrwnsUKiY/06D7xD4
-         9d6flT5XbZ/b1JGBSz523JFnd+P3xWXu41spjyXjfgH+UQLtv3twZpv3F10gFPYnSFGm
-         szmy3zW1OHqIf4vumwKCDsGEn4HARVrkRCX8151CK3DCAvyn0WOKslBK00aL+RD4NU6x
-         Jw9A==
+        bh=+G+f+RqY1tQqQC+A6Uop1YINz7gAicX1/Ug6Ztkf9rA=;
+        b=SW4SMbcBTk22iqiR5nvJwSWwuBxN/4ylhbg5TmV2uePMe721u0dht7zRBFGOvj1WIA
+         8Qv8UyW3fWS94aF3nlMqigks0J7EO2jgeUeV8scG7XR7PLJ99YT1kMuNJd5Lq4Q7XNmV
+         gc5b23dJHoGZJ2fz9frKJGaeOQypFC9mCtRVecG1pJyRv3RlgGBTyNi3DHOcHYB9eMW3
+         wotgVBeNnZaCRBpYvhhtf3ApzXLZk+8fr98u2H7rkAKKeplPaYfKKJG1mC+0cuCnKNR1
+         NB8C4rwQ1gPH1kym7spQi4S50Phce1FRqi0JreFJoMcOKR8i5jLmbkaSKtqD1i1aA3bB
+         JwJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IDmD6UL5zzFu8Hty4nIsR290r6jC597Ze/W65NxX2v0=;
-        b=Dlr81SIeBGSV6p1wm88v14Hud171X1klTl+GGxSzj+XMZHhm8argwqAy3omz2XfvdP
-         2ZQ62Jxb+1vzhcpbvD0H7hZPUxDfU3fU5aQwmMUHymcoQQ1wQ6xhw7vRtx6Dyp7tpzRl
-         YwJET7O8qxPio190+zkh+KqLFqJQqahwJnHS3xZgtgjVvJE3noKDVf8pm6DS/QJgCoqc
-         YZkTZ0tLfyyng8PrmSw/ahaJlxB79GfC4++Sez0jMqs0XyUSu7Jxr2kzAYCcUwKUi0sa
-         ZHYllSoLy5pJlnJD7H9tccf3lVEpijs4pzocIpRYykNdgWhJ9yVvCgYUFNerpK32gadi
-         f2Hg==
-X-Gm-Message-State: AOAM530bVIhVX0conk+v07P4wUOHLuSdj4xDya002c4P4Kh9kYf5oINv
-        h9A/Ouxu6G5bD1zWz8Kw+rxN0MdTPweqeBLA
-X-Google-Smtp-Source: ABdhPJzeVXvdpkMHrZu0Mk4N0GSGHJqvzfr9ZjLW7G/dhGMjxY8ZuMi7Wkl+OmUvm7FAIR+A1Kz9fA==
-X-Received: by 2002:a05:6a00:845:b029:28d:e03:6d7e with SMTP id q5-20020a056a000845b029028d0e036d7emr2486493pfk.37.1619797647450;
-        Fri, 30 Apr 2021 08:47:27 -0700 (PDT)
+        bh=+G+f+RqY1tQqQC+A6Uop1YINz7gAicX1/Ug6Ztkf9rA=;
+        b=kuQqSj+rDyiXwyYuhs9x5iNtkeLDovcVNJIqbf5uaTAQhAYn9/gOb/wvFHZVArjatw
+         JMl3usQY6tFcDKlFzFyuOeupjPhzwIf65snsn+JOcuZzxEwWMTwj+RqcNO6mPPIlzNmj
+         pBW+/w7F3M5pqXErY2pQFP4+jOXRgpFTyHlbAxvvfzwuNhEogjammJDRHVvVf6jAHCV2
+         PcOYxlFoTjzwJ/NLOT8f7LeytchZOl0MR1VNgyqhS5n0KiKZwKvHPqhvH+WhqTp7xMa4
+         rmTfOrMzaB+Ufu+TO1OvTydRquQOnIBoiqXjZDotiG25lWBOzs8ow5+lkIT6gr1J3Onr
+         5/pA==
+X-Gm-Message-State: AOAM533jNhfzdLRC+3Cr5hIssuDM94Weq1OfVgp2nhmXQ0jcYGkjaTZy
+        WP8GFx+VkB6/XnNKZp3kXFIrJQB2+kpkuJj8
+X-Google-Smtp-Source: ABdhPJxx9yMGJq2pfikQDu2Sz7XYL/7OzCKxW0PckBReOUzlhKVd6ekMHjw8k2FPfUzwIhddbR9iTw==
+X-Received: by 2002:a17:902:c106:b029:ee:a12b:c097 with SMTP id 6-20020a170902c106b02900eea12bc097mr2839979pli.27.1619797650285;
+        Fri, 30 Apr 2021 08:47:30 -0700 (PDT)
 Received: from localhost.localdomain ([2402:8100:30a6:a362:7862:2436:1c0a:c59d])
-        by smtp.gmail.com with ESMTPSA id o187sm2530591pfb.190.2021.04.30.08.47.24
+        by smtp.gmail.com with ESMTPSA id o187sm2530591pfb.190.2021.04.30.08.47.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 08:47:27 -0700 (PDT)
+        Fri, 30 Apr 2021 08:47:29 -0700 (PDT)
 From:   Piyush Thange <pthange19@gmail.com>
 To:     mchehab@kernel.org, leon@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Piyush Thange <pthange19@gmail.com>
-Subject: [PATCH 3/4] media: usb: cpia2: Fixed coding style issues
-Date:   Fri, 30 Apr 2021 21:13:13 +0530
-Message-Id: <20210430154314.3152-3-pthange19@gmail.com>
+Subject: [PATCH 4/4] media: usb: cpia2: Fixed coding style issues
+Date:   Fri, 30 Apr 2021 21:13:14 +0530
+Message-Id: <20210430154314.3152-4-pthange19@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210430154314.3152-1-pthange19@gmail.com>
 References: <20210430154314.3152-1-pthange19@gmail.com>
@@ -64,66 +64,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Additional fixes about coding style.
+Addition of more fixes on coding style.
 
 Signed-off-by: Piyush Thange <pthange19@gmail.com>
 ---
- drivers/media/usb/cpia2/cpia2_v4l.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ drivers/media/usb/cpia2/cpia2_v4l.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/media/usb/cpia2/cpia2_v4l.c b/drivers/media/usb/cpia2/cpia2_v4l.c
-index 2d9156ea7652..261ced144793 100644
+index 261ced144793..d950f9171208 100644
 --- a/drivers/media/usb/cpia2/cpia2_v4l.c
 +++ b/drivers/media/usb/cpia2/cpia2_v4l.c
-@@ -783,7 +783,7 @@ static int cpia2_querybuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+@@ -883,12 +883,12 @@ static int cpia2_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
  
- 	buf->memory = V4L2_MEMORY_MMAP;
+ 	frame = find_earliest_filled_buffer(cam);
  
--	if(cam->mmapped)
-+	if (cam->mmapped)
- 		buf->flags = V4L2_BUF_FLAG_MAPPED;
- 	else
- 		buf->flags = 0;
-@@ -824,14 +824,14 @@ static int cpia2_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+-	if(frame < 0 && file->f_flags&O_NONBLOCK)
++	if (frame < 0 && file->f_flags&O_NONBLOCK)
+ 		return -EAGAIN;
+ 
+-	if(frame < 0) {
++	if (frame < 0) {
+ 		/* Wait for a frame to become available */
+-		struct framebuf *cb=cam->curbuff;
++		struct framebuf *cb = cam->curbuff;
+ 		mutex_unlock(&cam->v4l2_lock);
+ 		wait_event_interruptible(cam->wq_stream,
+ 					 !video_is_registered(&cam->vdev) ||
+@@ -970,7 +970,7 @@ static int cpia2_mmap(struct file *file, struct vm_area_struct *area)
+ 		return -ERESTARTSYS;
+ 	retval = cpia2_remap_buffer(cam, area);
+ 
+-	if(!retval)
++	if (!retval)
+ 		cam->stream_fh = file->private_data;
+ 	mutex_unlock(&cam->v4l2_lock);
+ 	return retval;
+@@ -1160,10 +1160,10 @@ void cpia2_unregister_camera(struct camera_data *cam)
+  *****************************************************************************/
+ static void __init check_parameters(void)
  {
- 	struct camera_data *cam = video_drvdata(file);
+-	if(buffer_size < PAGE_SIZE) {
++	if (buffer_size < PAGE_SIZE) {
+ 		buffer_size = PAGE_SIZE;
+ 		LOG("buffer_size too small, setting to %d\n", buffer_size);
+-	} else if(buffer_size > 1024*1024) {
++	} else if (buffer_size > 1024*1024) {
+ 		/* arbitrary upper limiit */
+ 		buffer_size = 1024*1024;
+ 		LOG("buffer_size ridiculously large, setting to %d\n",
+@@ -1173,15 +1173,15 @@ static void __init check_parameters(void)
+ 		buffer_size &= ~(PAGE_SIZE-1);
+ 	}
  
--	if(buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-+	if (buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
- 	   buf->memory != V4L2_MEMORY_MMAP ||
- 	   buf->index >= cam->num_frames)
- 		return -EINVAL;
+-	if(num_buffers < 1) {
++	if (num_buffers < 1) {
+ 		num_buffers = 1;
+ 		LOG("num_buffers too small, setting to %d\n", num_buffers);
+-	} else if(num_buffers > VIDEO_MAX_FRAME) {
++	} else if (num_buffers > VIDEO_MAX_FRAME) {
+ 		num_buffers = VIDEO_MAX_FRAME;
+ 		LOG("num_buffers too large, setting to %d\n", num_buffers);
+ 	}
  
- 	DBG("QBUF #%d\n", buf->index);
- 
--	if(cam->buffers[buf->index].status == FRAME_READY)
-+	if (cam->buffers[buf->index].status == FRAME_READY)
- 		cam->buffers[buf->index].status = FRAME_EMPTY;
- 
- 	return 0;
-@@ -849,9 +849,10 @@ static int find_earliest_filled_buffer(struct camera_data *cam)
- {
- 	int i;
- 	int found = -1;
--	for (i=0; i<cam->num_frames; i++) {
--		if(cam->buffers[i].status == FRAME_READY) {
--			if(found < 0) {
-+
-+	for (i = 0; i < cam->num_frames; i++) {
-+		if (cam->buffers[i].status == FRAME_READY) {
-+			if (found < 0) {
- 				found = i;
- 			} else {
- 				/* find which buffer is earlier */
-@@ -876,7 +877,7 @@ static int cpia2_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- 	struct camera_data *cam = video_drvdata(file);
- 	int frame;
- 
--	if(buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-+	if (buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
- 	   buf->memory != V4L2_MEMORY_MMAP)
- 		return -EINVAL;
- 
+-	if(alternate < USBIF_ISO_1 || alternate > USBIF_ISO_6) {
++	if (alternate < USBIF_ISO_1 || alternate > USBIF_ISO_6) {
+ 		alternate = DEFAULT_ALT;
+ 		LOG("alternate specified is invalid, using %d\n", alternate);
+ 	}
 -- 
 2.25.1
 
