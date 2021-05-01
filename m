@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D515237065D
-	for <lists+linux-media@lfdr.de>; Sat,  1 May 2021 10:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9806C37065F
+	for <lists+linux-media@lfdr.de>; Sat,  1 May 2021 10:20:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231791AbhEAIVE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 May 2021 04:21:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54402 "EHLO
+        id S231863AbhEAIVM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 May 2021 04:21:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231713AbhEAIVE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 May 2021 04:21:04 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41AD1C06138B
-        for <linux-media@vger.kernel.org>; Sat,  1 May 2021 01:20:14 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id t22so266721pgu.0
-        for <linux-media@vger.kernel.org>; Sat, 01 May 2021 01:20:14 -0700 (PDT)
+        with ESMTP id S231839AbhEAIVJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 May 2021 04:21:09 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7AE4C06174A
+        for <linux-media@vger.kernel.org>; Sat,  1 May 2021 01:20:17 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id k3-20020a17090ad083b0290155b934a295so2964817pju.2
+        for <linux-media@vger.kernel.org>; Sat, 01 May 2021 01:20:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oQxgXbJ1dnrWy/sF8jzljIADGkpBbS6PQOX1pY2bYYo=;
-        b=VURGzM4OPnfrdmIm//RVnKQL79RLkBI0T8BgdQBowgY0j5tVNn/+Hq5Py34gS/Smvg
-         kGBDeRlUZYd1QDPXLTW6+a5FC5mPKJB1vbd9n6z4BxO3hUntkv8fm6LjZIRNd2n0i3do
-         hMAt+TwerUTkos/kLxHqQM5tyybQb9w98VR/s=
+        bh=e+UREwMvCU0p3OyZGXcUE16i/Oh63EmiI8PH18y1vb4=;
+        b=ZK8+D/as8DjRIpotVFjLYMEBQQUy+dGI7Hy0EQJY7ZqBoeb+TK3Mdp5t8sQs+CvsrO
+         YkrOcf5HswROCirjmDM8PMIRRVVJfLM2NuCpJ2ZZ7YpJbLm/PyqnU0fjar0Wro8jN9Rb
+         Gb+P5SBAXCCvRjMpsXb1CkdPEHi6TYHeoApNc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oQxgXbJ1dnrWy/sF8jzljIADGkpBbS6PQOX1pY2bYYo=;
-        b=mZSMoCgR3E4pCIZJK2U9jl3SU1sOQNYKAhMt9F70BwExzl4c86jzWXZ6zQSCExmztX
-         Lya8oAWJU3ERkkhHmflvVFFJGC0zV8ik16upA1hvuoDtLESN7h3B3ZtBIRLb1jHEeosi
-         X3AJ/mqiA8yKshZm1PsuhUDJ/gjCUkuQJ7A2mP5dgL/x33X30Kr0YD0fD+DNvIrTALCj
-         ikE3FH03FDn4nRznoJKCZFee2NB/EyUqbQfhp0Y9eQjDiTa74ihMYdJGWgsqmUCLMkl3
-         Q3vEjWmDzvNJoLwzb6YKiCPH79gM9WWqKPoyT5baI7winYNa6kq0/j2LcWO/O/b3rETN
-         kJZg==
-X-Gm-Message-State: AOAM532ND+2H4WohG5/6NT+4+CN+yaMK4UXLjiz9zJUdZxWRfu2nHKMH
-        B8tAJ6f+YiWEc8ps4Ubq+Elr2A==
-X-Google-Smtp-Source: ABdhPJwSRfoW6Pm2vHysB79ZLPzTk5PqgOCbrbYBiLdUsztTASGUah0iW4Ly6W7zWsthXpAG7lSCDw==
-X-Received: by 2002:a63:fc10:: with SMTP id j16mr8592123pgi.152.1619857213836;
-        Sat, 01 May 2021 01:20:13 -0700 (PDT)
+        bh=e+UREwMvCU0p3OyZGXcUE16i/Oh63EmiI8PH18y1vb4=;
+        b=bherDDb2vr9dOXR5JocuALnYpGHBEq8MQgiOZNiMXjoi9awgzg+XitfRUY5oLWAbik
+         oTFZ/VfI5slt63ngFM3BR1/RxpGv9qTIpQ4X3A0BH0LJZ/cgfVNWUKV5c2F+j5fhrOQ4
+         ZkWQhtzniJIJXKd+lEOINnhWoY785u6Onn31FR13jg6AgqmnHaurQPd6uPbcp09p5bfb
+         NxYCywI0vbdWtuaeIIo/j+Z8FljuGGYWKS1Hsxv8cu7aRJ8gMDv7REEzj/aJ4CnZdJyV
+         E1kDhGTWYjJLQyBt6elH8muOWm+S78pDON9Q7BPEW+kGJEhyZ4SFg/koTRUvRGoBr3Jz
+         QuEw==
+X-Gm-Message-State: AOAM530sNgeebWNGR1DfhYSClCrLROqG4uqDsIsviQlHuI/DD9Vj3pa5
+        ru+9DIX7U2TAOSjIFvsY7PC/sg==
+X-Google-Smtp-Source: ABdhPJyy4DBtvRhqdgmbFu2rM+S4smwJszQFFUF0M0OjAAThphehEU+5PDPSPQSC8/9oVO/C2f4eIg==
+X-Received: by 2002:a17:90a:1657:: with SMTP id x23mr341811pje.120.1619857217306;
+        Sat, 01 May 2021 01:20:17 -0700 (PDT)
 Received: from senozhatsky.flets-east.jp ([2409:10:2e40:5100:8be7:e987:d00a:1442])
-        by smtp.gmail.com with ESMTPSA id b7sm3763003pjq.36.2021.05.01.01.20.11
+        by smtp.gmail.com with ESMTPSA id b7sm3763003pjq.36.2021.05.01.01.20.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 May 2021 01:20:13 -0700 (PDT)
+        Sat, 01 May 2021 01:20:16 -0700 (PDT)
 From:   Sergey Senozhatsky <senozhatsky@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Ricardo Ribalda <ribalda@chromium.org>
@@ -52,9 +52,9 @@ Cc:     Tomasz Figa <tfiga@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCHv5 2/5] media: v4l UAPI: document ROI selection targets
-Date:   Sat,  1 May 2021 17:19:58 +0900
-Message-Id: <20210501082001.100533-3-senozhatsky@chromium.org>
+Subject: [PATCHv5 3/5] media: uvcvideo: add ROI auto controls
+Date:   Sat,  1 May 2021 17:19:59 +0900
+Message-Id: <20210501082001.100533-4-senozhatsky@chromium.org>
 X-Mailer: git-send-email 2.31.1.527.g47e6f16901-goog
 In-Reply-To: <20210501082001.100533-1-senozhatsky@chromium.org>
 References: <20210501082001.100533-1-senozhatsky@chromium.org>
@@ -64,116 +64,118 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document V4L2 selection targets that will be used to ROI
-implementation.
+This patch adds support for Region of Interest bmAutoControls.
+
+ROI control is a compound data type:
+  Control Selector     CT_REGION_OF_INTEREST_CONTROL
+  Mandatory Requests   SET_CUR, GET_CUR, GET_MIN, GET_MAX, GET_DEF
+  wLength 10
+  Offset   Field            Size
+  0        wROI_Top         2
+  2        wROI_Left        2
+  4        wROI_Bottom      2
+  6        wROI_Right       2
+  8        bmAutoControls   2       (Bitmap)
+
+uvc_control_mapping, however, can handle only s32 data type at the
+moment: ->get() returns s32 value, ->set() accepts s32 value; while
+v4l2_ctrl maximum/minimum/default_value can hold only s64 values.
+
+Hence ROI control handling is split into two patches:
+a) bmAutoControls is handled via uvc_control_mapping as V4L2_CTRL_TYPE_BITMASK
+b) ROI rectangle (SET_CUR, GET_CUR, GET_DEF, etc.) handling is implemented
+   separately, by the means of selection API.
 
 Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 ---
- .../media/v4l/selection-api-configuration.rst | 22 +++++++++++++++
- .../media/v4l/selection-api-examples.rst      | 27 +++++++++++++++++++
- .../media/v4l/v4l2-selection-targets.rst      | 24 +++++++++++++++++
- 3 files changed, 73 insertions(+)
+ drivers/media/usb/uvc/uvc_ctrl.c     | 19 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls.c |  1 +
+ include/uapi/linux/usb/video.h       |  1 +
+ include/uapi/linux/v4l2-controls.h   | 10 ++++++++++
+ 4 files changed, 31 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/selection-api-configuration.rst b/Documentation/userspace-api/media/v4l/selection-api-configuration.rst
-index fee49bf1a1c0..b5fdd765e2db 100644
---- a/Documentation/userspace-api/media/v4l/selection-api-configuration.rst
-+++ b/Documentation/userspace-api/media/v4l/selection-api-configuration.rst
-@@ -135,3 +135,25 @@ and the height of rectangles obtained using ``V4L2_SEL_TGT_CROP`` and
- ``V4L2_SEL_TGT_COMPOSE`` targets. If these are not equal then the
- scaling is applied. The application can compute the scaling ratios using
- these values.
-+
-+Configuration of Region of Interest (ROI)
-+=========================================
-+
-+The range of auto-controls values and of coordinates of the top left
-+corner, width and height of areas that can be ROI is given by the
-+``V4L2_SEL_TGT_ROI_BOUNDS_MIN`` and ``V4L2_SEL_TGT_ROI_BOUNDS_MAX``
-+targets. It is recommended for the driver developers to put the top/left
-+corner at position ``(0,0)``.
-+
-+The top left corner, width and height of the Region of Interest area
-+and auto-controls currently being employed by the device are given by
-+the ``V4L2_SEL_TGT_ROI`` target. It uses the same coordinate system
-+as ``V4L2_SEL_TGT_ROI_BOUNDS_MIN`` and ``V4L2_SEL_TGT_ROI_BOUNDS_MAX``.
-+
-+In order to change active ROI top left, width and height coordinates
-+and ROI auto-controls use ``V4L2_SEL_TGT_ROI`` target.
-+
-+Each capture device has a default ROI rectangle and auto-controls
-+value given by the ``V4L2_SEL_TGT_ROI_DEFAULT`` target. Drivers shall
-+set the ROI rectangle to the default when the driver is first loaded,
-+but not later.
-diff --git a/Documentation/userspace-api/media/v4l/selection-api-examples.rst b/Documentation/userspace-api/media/v4l/selection-api-examples.rst
-index 5f8e8a1f59d7..39aba98d55f1 100644
---- a/Documentation/userspace-api/media/v4l/selection-api-examples.rst
-+++ b/Documentation/userspace-api/media/v4l/selection-api-examples.rst
-@@ -82,3 +82,30 @@ Example: Querying for scaling factors
- 	/* computing scaling factors */
- 	hscale = (double)compose.r.width / crop.r.width;
- 	vscale = (double)compose.r.height / crop.r.height;
-+
-+Setting Region Of Interest area to half of the default value
-+
-+Example: Simple ROI
-+===========================
-+
-+.. code-block:: c
-+
-+	struct v4l2_selection roi = {
-+	    .type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
-+	    .target = V4L2_SEL_TGT_ROI_DEFAULT,
-+	};
-+	struct v4l2_rect r;
-+
-+	ret = ioctl(fd, VIDIOC_G_SELECTION, &roi);
-+	if (ret)
-+	    exit(-1);
-+	/* setting smaller ROI rectangle */
-+	r.width = roi.r.width / 2;
-+	r.height = roi.r.height / 2;
-+	r.left = roi.r.width / 4;
-+	r.top = roi.r.height / 4;
-+	roi.r = r;
-+	roi.target = V4L2_SEL_TGT_ROI;
-+	ret = ioctl(fd, VIDIOC_S_SELECTION, &roi);
-+	if (ret)
-+	    exit(-1);
-diff --git a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
-index b46bae984f35..d1dc9c50eb05 100644
---- a/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
-+++ b/Documentation/userspace-api/media/v4l/v4l2-selection-targets.rst
-@@ -75,6 +75,30 @@ of the two interfaces they are used.
- 	modified by hardware.
-       - Yes
-       - No
-+    * - ``V4L2_SEL_TGT_ROI``
-+      - 0x0200
-+      - Current Region of Interest rectangle and auto-controls value.
-+      - Yes
-+      - No
-+    * - ``V4L2_SEL_TGT_ROI_DEFAULT``
-+      - 0x0201
-+      - Suggested Region of Interest rectangle and auto-controls value.
-+      - Yes
-+      - No
-+    * - ``V4L2_SEL_TGT_ROI_BOUNDS_MIN``
-+      - 0x0202
-+      - Minimum bounds of the Region of Interest rectangle and minimum
-+	auto-controls value. All valid ROI rectangles and auto-controls
-+	should be within minimum-maximum range.
-+      - Yes
-+      - No
-+    * - ``V4L2_SEL_TGT_ROI_BOUNDS_MAX``
-+      - 0x0203
-+      - Maximum bounds of the Region of Interest rectangle and maximum
-+	auto-controls value. All valid ROI rectangles and auto-controls
-+	should be within minimum-maximum range.
-+      - Yes
-+      - No
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index b3dde98499f4..5502fe540519 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -355,6 +355,15 @@ static const struct uvc_control_info uvc_ctrls[] = {
+ 		.flags		= UVC_CTRL_FLAG_GET_CUR
+ 				| UVC_CTRL_FLAG_AUTO_UPDATE,
+ 	},
++	{
++		.entity		= UVC_GUID_UVC_CAMERA,
++		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
++		.index		= 21,
++		.size		= 10,
++		.flags		= UVC_CTRL_FLAG_SET_CUR | UVC_CTRL_FLAG_GET_CUR
++				| UVC_CTRL_FLAG_GET_MIN | UVC_CTRL_FLAG_GET_MAX
++				| UVC_CTRL_FLAG_GET_DEF
++	},
+ };
  
- .. raw:: latex
+ static const struct uvc_menu_info power_line_frequency_controls[] = {
+@@ -753,6 +762,16 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+ 		.v4l2_type	= V4L2_CTRL_TYPE_BOOLEAN,
+ 		.data_type	= UVC_CTRL_DATA_TYPE_BOOLEAN,
+ 	},
++	{
++		.id		= V4L2_CID_REGION_OF_INTEREST_AUTO,
++		.name		= "Region of Interest (auto)",
++		.entity		= UVC_GUID_UVC_CAMERA,
++		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
++		.size		= 16,
++		.offset		= 64,
++		.v4l2_type	= V4L2_CTRL_TYPE_BITMASK,
++		.data_type	= UVC_CTRL_DATA_TYPE_BITMASK,
++	},
+ };
  
+ /* ------------------------------------------------------------------------
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index 0d7fe1bd975a..8c5816f3f7d4 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -832,6 +832,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:	return "Min Number of Output Buffers";
+ 	case V4L2_CID_ALPHA_COMPONENT:		return "Alpha Component";
+ 	case V4L2_CID_COLORFX_CBCR:		return "Color Effects, CbCr";
++	case V4L2_CID_REGION_OF_INTEREST_AUTO:	return "Region Of Interest Auto Controls";
+ 
+ 	/* Codec controls */
+ 	/* The MPEG controls are applicable to all codec controls
+diff --git a/include/uapi/linux/usb/video.h b/include/uapi/linux/usb/video.h
+index bfdae12cdacf..9076a444758a 100644
+--- a/include/uapi/linux/usb/video.h
++++ b/include/uapi/linux/usb/video.h
+@@ -104,6 +104,7 @@
+ #define UVC_CT_ROLL_ABSOLUTE_CONTROL			0x0f
+ #define UVC_CT_ROLL_RELATIVE_CONTROL			0x10
+ #define UVC_CT_PRIVACY_CONTROL				0x11
++#define UVC_CT_REGION_OF_INTEREST_CONTROL		0x14
+ 
+ /* A.9.5. Processing Unit Control Selectors */
+ #define UVC_PU_CONTROL_UNDEFINED			0x00
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index d43bec5f1afd..97f11b7a3a7c 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -993,6 +993,16 @@ enum v4l2_auto_focus_range {
+ 
+ #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
+ 
++#define V4L2_CID_REGION_OF_INTEREST_AUTO	(V4L2_CID_CAMERA_CLASS_BASE+36)
++#define V4L2_CID_REGION_OF_INTEREST_AUTO_EXPOSURE		(1 << 0)
++#define V4L2_CID_REGION_OF_INTEREST_AUTO_IRIS			(1 << 1)
++#define V4L2_CID_REGION_OF_INTEREST_AUTO_WHITE_BALANCE		(1 << 2)
++#define V4L2_CID_REGION_OF_INTEREST_AUTO_FOCUS			(1 << 3)
++#define V4L2_CID_REGION_OF_INTEREST_AUTO_FACE_DETECT		(1 << 4)
++#define V4L2_CID_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK	(1 << 5)
++#define V4L2_CID_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION	(1 << 6)
++#define V4L2_CID_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY	(1 << 7)
++
+ /* FM Modulator class control IDs */
+ 
+ #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
 -- 
 2.31.1.527.g47e6f16901-goog
 
