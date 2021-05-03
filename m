@@ -2,35 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD2EC371CA3
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 18:56:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0E3B371CD7
+	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 18:56:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234373AbhECQx5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 12:53:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34624 "EHLO mail.kernel.org"
+        id S232420AbhECQ5J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 12:57:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42992 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233479AbhECQvx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 May 2021 12:51:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8AF96611C9;
-        Mon,  3 May 2021 16:41:37 +0000 (UTC)
+        id S234314AbhECQwv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 May 2021 12:52:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EC41F61073;
+        Mon,  3 May 2021 16:41:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620060098;
-        bh=DvfzcZZKT1+Vl2Mc3w7GDXe2MAqP1ldJ4/4PcIQFUfI=;
+        s=k20201202; t=1620060105;
+        bh=OGZPhf9AAnvplo3tk4SDgZ6m8WAY3wshvN3+bs/qWjA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eIfsOb30quIB81S7Bl38KKFdaFDR2xMBwNkTRa7IqCkxW/F//0ZxxJwAozwNSRWw2
-         B7CDpvox9oazPh0hJ9sJ/ZtgwGd7TqYXWunukBfyjwWM3ZgIW5Mcyxa6H/g7Nccmjw
-         V52c7DaA2ZlgoTyCeuxpPxMxkX+3x9ovrp47zE7vsxPYSXY/YWNR4FO64NMVSe40rs
-         FAKINu7X6vbrL+/mPzjqZwEm3dRfD6l9uPr5LJrVd3LQ6epKjdL+0SawqjNEU0K+42
-         sGs3B5JJEigbYPPjNoq9tUMRr/gv8WQwiK4+oDe0qAUlDkLl0+iisSOp+wNllMQqaH
-         rg4YW3IsMg3GQ==
+        b=cV7bcnEbEDdY7vV7jRwkSFqIl2JYUFptL0Vdn175yIdR+J2Rxs7biLDdQ4QnhgqZj
+         Wr8EY5a62v13jrg1kZuei7uSsqKjD5EMGlqPcvQq42r0bCnfZQ/itEy5EU5aj/mEeq
+         j5Fus0ZTWdWFePrTh/1ISRF5lFvb+CboO3Pm30Tmp+DuJW4AfOhu6r6LiahuWzS2q6
+         JD5O/wInF/loXukKnJ37x75ObDpJjYO2COiUv6KY7Pqqu0Wdr9fYxAk1IueALUMpKO
+         Pbak57QbFNDy9fOsj+8P0I44E8ozBTGKFpMd1jDu0OVzryzkT9pDxI7j5JeHQ72OLw
+         bkXYF3BhhKFPg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Yang Yingliang <yangyingliang@huawei.com>,
+        Hulk Robot <hulkci@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 19/35] media: vivid: update EDID
-Date:   Mon,  3 May 2021 12:40:53 -0400
-Message-Id: <20210503164109.2853838-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 23/35] media: tc358743: fix possible use-after-free in tc358743_remove()
+Date:   Mon,  3 May 2021 12:40:57 -0400
+Message-Id: <20210503164109.2853838-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503164109.2853838-1-sashal@kernel.org>
 References: <20210503164109.2853838-1-sashal@kernel.org>
@@ -42,54 +44,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+From: Yang Yingliang <yangyingliang@huawei.com>
 
-[ Upstream commit 443ec4bbc6116f6f492a7a1282bfd8422c862158 ]
+[ Upstream commit 6107a4fdf8554a7aa9488bdc835bb010062fa8a9 ]
 
-The EDID had a few mistakes as reported by edid-decode:
+This driver's remove path calls cancel_delayed_work(). However, that
+function does not wait until the work function finishes. This means
+that the callback function may still be running after the driver's
+remove function has finished, which would result in a use-after-free.
 
-Block 1, CTA-861 Extension Block:
-  Video Data Block: For improved preferred timing interoperability, set 'Native detailed modes' to 1.
-  Video Capability Data Block: S_PT is equal to S_IT and S_CE, so should be set to 0 instead.
+Fix by calling cancel_delayed_work_sync(), which ensures that
+the work is properly cancelled, no longer running, and unable
+to re-schedule itself.
 
-Fixed those.
-
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/vivid/vivid-core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/i2c/tc358743.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
-index 31db363602e5..b603ca412387 100644
---- a/drivers/media/platform/vivid/vivid-core.c
-+++ b/drivers/media/platform/vivid/vivid-core.c
-@@ -174,13 +174,13 @@ static const u8 vivid_hdmi_edid[256] = {
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x7b,
- 
--	0x02, 0x03, 0x3f, 0xf0, 0x51, 0x61, 0x60, 0x5f,
-+	0x02, 0x03, 0x3f, 0xf1, 0x51, 0x61, 0x60, 0x5f,
- 	0x5e, 0x5d, 0x10, 0x1f, 0x04, 0x13, 0x22, 0x21,
- 	0x20, 0x05, 0x14, 0x02, 0x11, 0x01, 0x23, 0x09,
- 	0x07, 0x07, 0x83, 0x01, 0x00, 0x00, 0x6d, 0x03,
- 	0x0c, 0x00, 0x10, 0x00, 0x00, 0x3c, 0x21, 0x00,
- 	0x60, 0x01, 0x02, 0x03, 0x67, 0xd8, 0x5d, 0xc4,
--	0x01, 0x78, 0x00, 0x00, 0xe2, 0x00, 0xea, 0xe3,
-+	0x01, 0x78, 0x00, 0x00, 0xe2, 0x00, 0xca, 0xe3,
- 	0x05, 0x00, 0x00, 0xe3, 0x06, 0x01, 0x00, 0x4d,
- 	0xd0, 0x00, 0xa0, 0xf0, 0x70, 0x3e, 0x80, 0x30,
- 	0x20, 0x35, 0x00, 0xc0, 0x1c, 0x32, 0x00, 0x00,
-@@ -189,7 +189,7 @@ static const u8 vivid_hdmi_edid[256] = {
- 	0x00, 0x00, 0x1a, 0x1a, 0x1d, 0x00, 0x80, 0x51,
- 	0xd0, 0x1c, 0x20, 0x40, 0x80, 0x35, 0x00, 0xc0,
- 	0x1c, 0x32, 0x00, 0x00, 0x1c, 0x00, 0x00, 0x00,
--	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x63,
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x82,
- };
- 
- static int vidioc_querycap(struct file *file, void  *priv,
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index d9bc3851bf63..041b16965b96 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -2192,7 +2192,7 @@ static int tc358743_remove(struct i2c_client *client)
+ 		del_timer_sync(&state->timer);
+ 		flush_work(&state->work_i2c_poll);
+ 	}
+-	cancel_delayed_work(&state->delayed_work_enable_hotplug);
++	cancel_delayed_work_sync(&state->delayed_work_enable_hotplug);
+ 	cec_unregister_adapter(state->cec_adap);
+ 	v4l2_async_unregister_subdev(sd);
+ 	v4l2_device_unregister_subdev(sd);
 -- 
 2.30.2
 
