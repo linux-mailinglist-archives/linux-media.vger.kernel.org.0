@@ -2,38 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECB1B371C2C
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 18:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1518D371C33
+	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 18:51:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233549AbhECQvh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 12:51:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32850 "EHLO mail.kernel.org"
+        id S232607AbhECQvl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 12:51:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33124 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233397AbhECQrw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 May 2021 12:47:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 789EE613CF;
-        Mon,  3 May 2021 16:39:56 +0000 (UTC)
+        id S233445AbhECQr7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 May 2021 12:47:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7A051613C4;
+        Mon,  3 May 2021 16:40:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620059997;
-        bh=AQJ9f4ACWu1BWs9uka6D3ZPaN2EluY0pQ4R8vA/fE8E=;
+        s=k20201202; t=1620060003;
+        bh=81GWPSg106hfbIPfhlB6rpot/yd2HEWpe5+wVp14E/Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CEE/gm44lHQAKOI7NoZ0wgUfCW+nuLMld8ZmZL8s38n6uzIZklmBlfI3m1N3cCvLH
-         pe+HbAb2spN0u7+N3rCdnskNA2He34IVNugEAHxTR2F3/wPs/ZvHGYE0fUwGxFaHtv
-         9nYmry/KbY6+jX/jNKQzaamP0OWqW/hAzAKCsEiITvYq3bYQydY1ZwcTm6WQmb8UK9
-         VBJwv386YOQV4jM1hbVJ2R/exuYF8fUA4s825cC26ADSicBWS4CGoU+xhSWTUWoeVQ
-         fpIuTxO4fP/zhU6rfO1SLtwfRBrYZ6CKB9YzApm8Nwa35ocJ/eZWCPFR+WupYOKRcJ
-         0sCx9bnZdnrIA==
+        b=EsHOtXLV5thVOeppBWg5PlzsRKoqKeltHITWaG95c0BuDFRMmbaLfrYIQkjj2DtSm
+         HJvtquBJd9h/o2onTTfXan0CzyPEBhHpH0wXzawMiuG8L9wel2Dukk6gSWvhgOFIyo
+         k0nN9aIweCbna86etATCj3hvzhpPcXpM0myFMiU2F79cEJ71hGullIwirZngpv/zA0
+         OZRucj6GA5KgSusY4pBRdwMVnkvDGuN5v5w5emS0BEW2vctgQmdbLFHTXK0vEPi7Uw
+         kLMpyiB5g4wuUTRp/NbRRdFwml7wL5yCEQZD5IouRcXrO/XFax2gv69fCUizTAMwQ2
+         XUYyQbfEWyMIw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
+Cc:     Daniel Niv <danielniv3@gmail.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 10/57] media: imx: capture: Return -EPIPE from __capture_legacy_try_fmt()
-Date:   Mon,  3 May 2021 12:38:54 -0400
-Message-Id: <20210503163941.2853291-10-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 14/57] media: media/saa7164: fix saa7164_encoder_register() memory leak bugs
+Date:   Mon,  3 May 2021 12:38:58 -0400
+Message-Id: <20210503163941.2853291-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503163941.2853291-1-sashal@kernel.org>
 References: <20210503163941.2853291-1-sashal@kernel.org>
@@ -45,37 +43,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Daniel Niv <danielniv3@gmail.com>
 
-[ Upstream commit cc271b6754691af74d710b761eaf027e3743e243 ]
+[ Upstream commit c759b2970c561e3b56aa030deb13db104262adfe ]
 
-The correct return code to report an invalid pipeline configuration is
--EPIPE. Return it instead of -EINVAL from __capture_legacy_try_fmt()
-when the capture format doesn't match the media bus format of the
-connected subdev.
+Add a fix for the memory leak bugs that can occur when the
+saa7164_encoder_register() function fails.
+The function allocates memory without explicitly freeing
+it when errors occur.
+Add a better error handling that deallocate the unused buffers before the
+function exits during a fail.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Signed-off-by: Daniel Niv <danielniv3@gmail.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/imx/imx-media-capture.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/saa7164/saa7164-encoder.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-index d151cd6d3188..fabbfceaa107 100644
---- a/drivers/staging/media/imx/imx-media-capture.c
-+++ b/drivers/staging/media/imx/imx-media-capture.c
-@@ -553,7 +553,7 @@ static int capture_validate_fmt(struct capture_priv *priv)
- 		priv->vdev.fmt.fmt.pix.height != f.fmt.pix.height ||
- 		priv->vdev.cc->cs != cc->cs ||
- 		priv->vdev.compose.width != compose.width ||
--		priv->vdev.compose.height != compose.height) ? -EINVAL : 0;
-+		priv->vdev.compose.height != compose.height) ? -EPIPE : 0;
+diff --git a/drivers/media/pci/saa7164/saa7164-encoder.c b/drivers/media/pci/saa7164/saa7164-encoder.c
+index 3fca7257a720..df494644b5b6 100644
+--- a/drivers/media/pci/saa7164/saa7164-encoder.c
++++ b/drivers/media/pci/saa7164/saa7164-encoder.c
+@@ -1008,7 +1008,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
+ 		printk(KERN_ERR "%s() failed (errno = %d), NO PCI configuration\n",
+ 			__func__, result);
+ 		result = -ENOMEM;
+-		goto failed;
++		goto fail_pci;
+ 	}
+ 
+ 	/* Establish encoder defaults here */
+@@ -1062,7 +1062,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
+ 			  100000, ENCODER_DEF_BITRATE);
+ 	if (hdl->error) {
+ 		result = hdl->error;
+-		goto failed;
++		goto fail_hdl;
+ 	}
+ 
+ 	port->std = V4L2_STD_NTSC_M;
+@@ -1080,7 +1080,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
+ 		printk(KERN_INFO "%s: can't allocate mpeg device\n",
+ 			dev->name);
+ 		result = -ENOMEM;
+-		goto failed;
++		goto fail_hdl;
+ 	}
+ 
+ 	port->v4l_device->ctrl_handler = hdl;
+@@ -1091,10 +1091,7 @@ int saa7164_encoder_register(struct saa7164_port *port)
+ 	if (result < 0) {
+ 		printk(KERN_INFO "%s: can't register mpeg device\n",
+ 			dev->name);
+-		/* TODO: We're going to leak here if we don't dealloc
+-		 The buffers above. The unreg function can't deal wit it.
+-		*/
+-		goto failed;
++		goto fail_reg;
+ 	}
+ 
+ 	printk(KERN_INFO "%s: registered device video%d [mpeg]\n",
+@@ -1116,9 +1113,14 @@ int saa7164_encoder_register(struct saa7164_port *port)
+ 
+ 	saa7164_api_set_encoder(port);
+ 	saa7164_api_get_encoder(port);
++	return 0;
+ 
+-	result = 0;
+-failed:
++fail_reg:
++	video_device_release(port->v4l_device);
++	port->v4l_device = NULL;
++fail_hdl:
++	v4l2_ctrl_handler_free(hdl);
++fail_pci:
+ 	return result;
  }
  
- static int capture_start_streaming(struct vb2_queue *vq, unsigned int count)
 -- 
 2.30.2
 
