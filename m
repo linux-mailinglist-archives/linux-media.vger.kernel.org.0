@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83E4D371D3F
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 19:01:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76C59371D42
+	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 19:01:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234665AbhECQ61 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 12:58:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44504 "EHLO mail.kernel.org"
+        id S233131AbhECQ6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 12:58:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45566 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235368AbhECQ4U (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 May 2021 12:56:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 130B06142C;
-        Mon,  3 May 2021 16:43:37 +0000 (UTC)
+        id S233619AbhECQ43 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 May 2021 12:56:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C2BC86140E;
+        Mon,  3 May 2021 16:43:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620060219;
-        bh=QtrTKay1ajT/LKJmg8N/4yTTMxUhtwIbpfISVZoFGt8=;
+        s=k20201202; t=1620060224;
+        bh=o2t2W2YyIFJIlQucS6TNKdg6QFtpsMeIboeh/CYstVU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rHxw4GwQ8CE2fmfkcQCXZ5TWVL9FRlGh2JKYyIIHcGTYxe3fEesIvHjQcb4dF+z5n
-         XDbLvMydHbJoOeRb6pl6VEgpFPq30ZTv8zClFYqKgcyxjqOJ56lxJm8D42CiMe7t3k
-         Ye7z6XZ5QQXQpVCG0zGp/9AKZln9zgAmAiL39DyZgYsUP2fXSfr0VOLTtEKkIds+Eq
-         H7W5a3IKm5VpXxl9hJ/Y+hFHAhLsSg5UmoqOy2OoUY9PL5hU4xp7wIVUwqYjVDtKDU
-         Kd/RhyvvyMD3kI8pcCagCD75ty0KOO70vXGlqcwNpE450cWtc6Iv87IGDe4AgL29xb
-         jNcFdtN22VF7w==
+        b=WgBrIn22PlZCpT6AIqDEHj8lKzhSdTjy1aHgWt4K6G5vfIpbJJbEF0ojy3Yy24JGk
+         vBXi/LmLoIh5SC3qyeo9y44p4Z0aZ5UlrPnXbVIBZh+fL+wAx1FqTUNkn8Ku2w5Wem
+         t8hmUY0pcHhJUcU1kwRrrg1GBMLNEfcReXXj4cn7KXsMRkcxYHXVWCoP4avFudfFcG
+         mOkkt2PYOoxaRQbXJFRaKFR8WpdEMma1018zmhraiW7mOynkqV8SkW+ANxYuVUN/Tg
+         cblru5ZLtGmn/VElr90xdu5HNsaOVmP94F/3xWM655nT3xmpHawwHXAUfr0gt/9pAp
+         +Q86w2CbXXK1g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Muhammad Usama Anjum <musamaanjum@gmail.com>,
-        syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com,
+Cc:     Yang Yingliang <yangyingliang@huawei.com>,
+        Hulk Robot <hulkci@huawei.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 06/16] media: em28xx: fix memory leak
-Date:   Mon,  3 May 2021 12:43:19 -0400
-Message-Id: <20210503164329.2854739-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 10/16] media: i2c: adv7511-v4l2: fix possible use-after-free in adv7511_remove()
+Date:   Mon,  3 May 2021 12:43:23 -0400
+Message-Id: <20210503164329.2854739-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210503164329.2854739-1-sashal@kernel.org>
 References: <20210503164329.2854739-1-sashal@kernel.org>
@@ -44,39 +44,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Muhammad Usama Anjum <musamaanjum@gmail.com>
+From: Yang Yingliang <yangyingliang@huawei.com>
 
-[ Upstream commit 0ae10a7dc8992ee682ff0b1752ff7c83d472eef1 ]
+[ Upstream commit 2c9541720c66899adf6f3600984cf3ef151295ad ]
 
-If some error occurs, URB buffers should also be freed. If they aren't
-freed with the dvb here, the em28xx_dvb_fini call doesn't frees the URB
-buffers as dvb is set to NULL. The function in which error occurs should
-do all the cleanup for the allocations it had done.
+This driver's remove path calls cancel_delayed_work(). However, that
+function does not wait until the work function finishes. This means
+that the callback function may still be running after the driver's
+remove function has finished, which would result in a use-after-free.
 
-Tested the patch with the reproducer provided by syzbot. This patch
-fixes the memleak.
+Fix by calling cancel_delayed_work_sync(), which ensures that
+the work is properly cancelled, no longer running, and unable
+to re-schedule itself.
 
-Reported-by: syzbot+889397c820fa56adf25d@syzkaller.appspotmail.com
-Signed-off-by: Muhammad Usama Anjum <musamaanjum@gmail.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/em28xx/em28xx-dvb.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/i2c/adv7511-v4l2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/em28xx/em28xx-dvb.c b/drivers/media/usb/em28xx/em28xx-dvb.c
-index 5502a0fb94fd..a19c89009bf3 100644
---- a/drivers/media/usb/em28xx/em28xx-dvb.c
-+++ b/drivers/media/usb/em28xx/em28xx-dvb.c
-@@ -1757,6 +1757,7 @@ static int em28xx_dvb_init(struct em28xx *dev)
- 	return result;
+diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
+index b35400e4e9af..e85777dfe81d 100644
+--- a/drivers/media/i2c/adv7511-v4l2.c
++++ b/drivers/media/i2c/adv7511-v4l2.c
+@@ -1570,7 +1570,7 @@ static int adv7511_remove(struct i2c_client *client)
+ 		 client->addr << 1, client->adapter->name);
  
- out_free:
-+	em28xx_uninit_usb_xfer(dev, EM28XX_DIGITAL_MODE);
- 	kfree(dvb);
- 	dev->dvb = NULL;
- 	goto ret;
+ 	adv7511_init_setup(sd);
+-	cancel_delayed_work(&state->edid_handler);
++	cancel_delayed_work_sync(&state->edid_handler);
+ 	i2c_unregister_device(state->i2c_edid);
+ 	i2c_unregister_device(state->i2c_pktmem);
+ 	destroy_workqueue(state->work_queue);
 -- 
 2.30.2
 
