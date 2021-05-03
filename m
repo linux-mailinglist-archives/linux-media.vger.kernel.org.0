@@ -2,199 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2EA437166F
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 16:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C195237183A
+	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 17:44:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234137AbhECONS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 10:13:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45432 "EHLO
+        id S230424AbhECPpL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 11:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229900AbhECONR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 May 2021 10:13:17 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7086C06174A;
-        Mon,  3 May 2021 07:12:23 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id p17so3160763pjz.3;
-        Mon, 03 May 2021 07:12:23 -0700 (PDT)
+        with ESMTP id S230416AbhECPpK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 May 2021 11:45:10 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69618C06174A
+        for <linux-media@vger.kernel.org>; Mon,  3 May 2021 08:44:16 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id s25so7365427lji.0
+        for <linux-media@vger.kernel.org>; Mon, 03 May 2021 08:44:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Is7Jnp3BHxwMJZ3xqBnGr8z8FKTgA32vVnaoI/FxVRw=;
-        b=qP2nfbxnF0v/sj2jLAmEFSVPxwLhwlMF20PXnyLaA9PYe+C/txCz4VB4sw0vfwOQE0
-         rDBs99GmYLB1gp65xco9ZDUAgbD4sBqcqlrVWe40GS8+8IJPNl9c4oCMsV50AEXrEpOr
-         vjREqcKuBI//GhYbxhXnYH7TVaIqwW0sOXRe79+9xYSKJchowUEEO+MtXUy6kzvVJASh
-         fJP2n0rR6hld6Sz5gMN/DanLOO3w9stPMfCagZRE2pVoeOQd01WhiAZI0J4gtCaSRbRb
-         zbMb/kYUzkrNQcyfuWtwB1dOQFBZ17fc45AXmlpALVvovOKFc/Vph9lo7/Y0CfrY0aMW
-         Ruvg==
+        bh=CMnE7uVlbVVh6/ZzHL0VV11oRxaKyvvKQkNdewiYDB8=;
+        b=lYEIlwv1+A17m5EG7T5DW++9pQxNoHRv5PpAm3F7C/Tn+Ex72NZBb2yLiCG/84FkMX
+         ejRf0ZsBhje/KguMhGbb/AF+4u/ydi0O9yj1hxs8q6qcDvo2EHQlygvqS+f8SBJVZHcy
+         RetgVXIFjbjlOo74tb7zgOaYiXB+2ep8a6eLQ14FJ5R/OOIdNy7NntEH7+Ap9tgwO9vl
+         ke5/X42MOp957RavYbkNMaNbqL/NSxwHoLTXLPNa92/BES5j1dAhwzzq9nNKa4ZlZT4F
+         vWTSktK09E5BjRwiXcKm24LIDBmP/8fn2YX8VHyGSsAIMj91fX3Wzuphj9V1xEa+10aV
+         esIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Is7Jnp3BHxwMJZ3xqBnGr8z8FKTgA32vVnaoI/FxVRw=;
-        b=jkfuc2XT055vADIxy03/topTVqt6ZX+roqunN7j76mgzKyIDLTx3zclrFuL64g0xeJ
-         2stGd72aGsj0RJpKTvtWKbMgSbxhfIIlNPGAEdnoNsRwP6ZMrxCUiAqQplUVgSQ2irNT
-         qvjHRG4F26vIYGadt3Z4rDuaNlZDcvOzzLLAdI0KKuxDzn01T3ime7QRFZzniLrbLp/P
-         pUfMJWjZadkVHgYLPvsArj85BsKrbUoEc2gRokij1ga1FBU96RhZnIhtRmOrf3RMPZpM
-         hxA8Ev2Z/xH7gsH+DrzTHYSQHPPj90hx+NVzXa9wqA9Pa6vpo2gv4bIHOUnZcn6XODo0
-         8YJw==
-X-Gm-Message-State: AOAM531BsRycVdnFHEXEzaX1W4cC5YHEx8PDGVh+TtYEnjJiD0p8dCv9
-        5PjkDnAs6xJDHfMtMEpTZeuVpDCtiAsRwAbki+o=
-X-Google-Smtp-Source: ABdhPJymHtG2UL8qr+SXl+0VKwKjjvxhxPOxDqG7ZGrefDQ+W0Bg/BeS140OYJWVnY4w2zxwZNKvFgq+a2cRhKu/H/A=
-X-Received: by 2002:a17:90a:dc81:: with SMTP id j1mr21840725pjv.115.1620051143214;
- Mon, 03 May 2021 07:12:23 -0700 (PDT)
+        bh=CMnE7uVlbVVh6/ZzHL0VV11oRxaKyvvKQkNdewiYDB8=;
+        b=FbJCBXsZDTu4MmY8HTGqQqNePGNAC/HQFkWOiPxFJMbyrZ3++SRF2maDh2Ty1XZvp1
+         D70Qs8hbnvbGZZcwwWlrld6h5bFHMAAsb2bRo+wpKG9vX2bfLTUGrphwui/vai4f4xlm
+         e3Qew1lQv+zk2IWxnXWUE6SDw88LzvYN3SAbLGSvN3L2wWdvDWWcOFevWOYtMIrrAGKM
+         YbGc2J04Ex+pEs7TxxOryA3LMl0Klc4xeqg58YvzwBD0zWHkoCHMCKA+w8IwZti05IZ8
+         Kjfgj/bs7xvxYo6HL/QIRpASMwVfFNBcNhrmLaJN3TT5Od6axjwFEKz7uXe0xyhbpKrP
+         53sA==
+X-Gm-Message-State: AOAM532bKKPJ1WYv3D/Bu7VQCT+B+EPbnTBIlGaeYlGUze2bA1ZHlBvt
+        yj4tbtKnG8HILlAE3c4U6BwURXB5hEG4YwbE5/pvYyjgOZTp+w==
+X-Google-Smtp-Source: ABdhPJyJvFxg/V4ZUAGCGLeyMapdd3OKwQ/3OqqNsE5SCdwF7n61fupFOtB5N6vhurD5zV9XdQPNZupWq+e4bBJE4EM=
+X-Received: by 2002:a2e:9b0c:: with SMTP id u12mr14025016lji.506.1620056654942;
+ Mon, 03 May 2021 08:44:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <1618976938-20834-1-git-send-email-dillon.minfei@gmail.com>
- <1618976938-20834-5-git-send-email-dillon.minfei@gmail.com> <CA+V-a8sBAW2k8zKk3ZLgAh02SxyEmLSt=a1Z5b1perBOgpmysQ@mail.gmail.com>
-In-Reply-To: <CA+V-a8sBAW2k8zKk3ZLgAh02SxyEmLSt=a1Z5b1perBOgpmysQ@mail.gmail.com>
-From:   dillon min <dillon.minfei@gmail.com>
-Date:   Mon, 3 May 2021 22:11:47 +0800
-Message-ID: <CAL9mu0LJ1txew9iL89YchmXyx78oecAUhcJ-U14NsWgehF2SQw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] media: i2c: ov2659: Use clk_{prepare_enable,disable_unprepare}()
- to set xvclk on/off
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Riedmueller <s.riedmueller@phytec.de>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        leoyang.li@nxp.com, Arnd Bergmann <arnd@arndb.de>,
-        Olof Johansson <olof@lixom.net>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>
+References: <CAN2W0iNOsa6GYK28Vz=DmkyjY72H_bq=8EUkzFuy0_p9ZVms4A@mail.gmail.com>
+ <20210503092005.GB14939@gofer.mess.org>
+In-Reply-To: <20210503092005.GB14939@gofer.mess.org>
+From:   Chris McCrae <chrismccraeworks@gmail.com>
+Date:   Mon, 3 May 2021 11:44:04 -0400
+Message-ID: <CAN2W0iME8VCdP=KdcH8PW7ZfEOdQJicKWQmE675-h3cd2=D1cA@mail.gmail.com>
+Subject: Re: Asus PN62S vs PN50 - ITE8708
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+Thanks for answering the call Sean.
 
-Thanks for the reminder.
+On Mon, 3 May 2021 at 05:20, Sean Young <sean@mess.org> wrote:
+>
+> Hi Chris,
+>
+> On Fri, Apr 30, 2021 at 07:37:10PM -0400, Chris McCrae wrote:
+> > Recently acquired an Asus PN62S (Intel) as a media centre frontend
+> > (currently testing with Xubuntu 20.04 and a 5.10 kernel, and the most
+> > current BIOS available).  Having an integrated IR was part of the
+> > selling features.  However, getting it to be recognized by my system
+> > has become a challenge that I am getting obsessed with.  There's very
+> > little to find online on this device that is current, but there has
+> > been some recent conversation on this list about the same device, on a
+> > related machine, the PN50 (AMD).  I'm hoping that the knowledge here
+> > may lead to a solution for my issue.
+> >
+> > I can provide more detail on request, but at the moment I am focusing
+> > on the DSDT as a possible suspect.  I do not have the 16 byte issue
+> > that the PN50 experiences.  Mine is defined as 8 bytes, which is
+> > compatible with the ite-cir driver.  My issue is that there appears to
+> > be no attempt to bind the device to the driver (but it is visible in
+> > lsmod)... no messages about the driver in dmesg at all.  My thought is
+> > that the definition of the device in DSDT may somehow give it enough
+> > information (ITE8708) to know the driver could be needed, but not the
+> > correct information to make it work.
+> >
+> > An earlier message provided only part of the device definition in DSDT
+> > for the PN50.  I would like to be able to see the full definition for
+> > it from the PN50, to see if anything is significantly different.
+> > Ideally, if I had the full DSDT as a starting point, I could compare
+> > other areas such as motherboard resources.
+>
+> It would be great if we could see the entries for the IR device in your
+> DSDT. There is a guide here https://wiki.archlinux.org/title/DSDT on
+> how to do that.
+>
+Here the full device from the DSDT:
 
-On Mon, May 3, 2021 at 8:24 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
-> Hi Dillon,
->
-> Thank you for the patch.
->
-> On Wed, Apr 21, 2021 at 4:49 AM <dillon.minfei@gmail.com> wrote:
-> >
-> > From: dillon min <dillon.minfei@gmail.com>
-> >
-> > On some platform(imx6q), xvclk might not switch on in advance,
-> > also for power save purpose, xvclk should not be always on.
-> > so, add clk_prepare_enable(), clk_disable_unprepare() in driver
-> > side to set xvclk on/off at proper stage.
-> >
-> > Add following changes:
-> > - add 'struct clk *clk;' in 'struct ov2659 {}'
-> > - enable xvclk in ov2659_power_on()
-> > - disable xvclk in ov2659_power_off()
-> >
-> > Signed-off-by: dillon min <dillon.minfei@gmail.com>
-> s / dillon min /Dillon Min (unless you prefer in lower case) ?
+            Device (CR00)
+            {
+                Name (_ADR, Zero)  // _ADR: Address
+                Name (VBAN, 0x0680)
+                Name (VIRQ, 0x0A)
+                Name (UIDN, Zero)
+                Name (_HID, EisaId ("ITE8708"))  // _HID: Hardware ID
+                Method (_UID, 0, NotSerialized)  // _UID: Unique ID
+                {
+                    Return (UIDN) /* \_SB_.PCI0.CR00.UIDN */
+                }
 
-Thanks, I haven't noticed it yet, and will change to a higher case in
-the next submission.
+                Method (_STA, 0, Serialized)  // _STA: Status
+                {
+                    If ((CIRE == Zero))
+                    {
+                        Return (Zero)
+                    }
+                    Return (0x0F)
+                }
 
-Best regards.
-Dillon
+                Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+                {
+                    Name (BUF0, ResourceTemplate ()
+                    {
+                        IO (Decode16,
+                            0x0000,             // Range Minimum
+                            0x0000,             // Range Maximum
+                            0x01,               // Alignment
+                            0x08,               // Length
+                            _Y10)
+                        IRQNoFlags (_Y11)
+                            {}
+                        DMA (Compatibility, NotBusMaster, Transfer8, )
+                            {}
+                    })
+                    CreateWordField (BUF0,
+\_SB.PCI0.CR00._CRS._Y10._MIN, IOPL)  // _MIN: Minimum Base Address
+                    CreateWordField (BUF0,
+\_SB.PCI0.CR00._CRS._Y10._MAX, IOPH)  // _MAX: Maximum Base Address
+                    CreateWordField (BUF0,
+\_SB.PCI0.CR00._CRS._Y11._INT, IRQ)  // _INT: Interrupts
+                    IOPL = VBAN /* \_SB_.PCI0.CR00.VBAN */
+                    IOPH = VBAN /* \_SB_.PCI0.CR00.VBAN */
+                    IRQ = (One << VIRQ) /* \_SB_.PCI0.CR00.VIRQ */
+                    Return (BUF0) /* \_SB_.PCI0.CR00._CRS.BUF0 */
+                }
+            }
+
+> Thanks
 >
-> > ---
-> > v4: no changes
-> >
-> >  drivers/media/i2c/ov2659.c | 24 ++++++++++++++++++------
-> >  1 file changed, 18 insertions(+), 6 deletions(-)
-> >
-> Acked-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
->
-> Cheers,
-> Prabhakar
->
-> > diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-> > index 42f64175a6df..fb78a1cedc03 100644
-> > --- a/drivers/media/i2c/ov2659.c
-> > +++ b/drivers/media/i2c/ov2659.c
-> > @@ -204,6 +204,7 @@ struct ov2659 {
-> >         struct i2c_client *client;
-> >         struct v4l2_ctrl_handler ctrls;
-> >         struct v4l2_ctrl *link_frequency;
-> > +       struct clk *clk;
-> >         const struct ov2659_framesize *frame_size;
-> >         struct sensor_register *format_ctrl_regs;
-> >         struct ov2659_pll_ctrl pll;
-> > @@ -1270,6 +1271,8 @@ static int ov2659_power_off(struct device *dev)
-> >
-> >         gpiod_set_value(ov2659->pwdn_gpio, 1);
-> >
-> > +       clk_disable_unprepare(ov2659->clk);
-> > +
-> >         return 0;
-> >  }
-> >
-> > @@ -1278,9 +1281,17 @@ static int ov2659_power_on(struct device *dev)
-> >         struct i2c_client *client = to_i2c_client(dev);
-> >         struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >         struct ov2659 *ov2659 = to_ov2659(sd);
-> > +       int ret;
-> >
-> >         dev_dbg(&client->dev, "%s:\n", __func__);
-> >
-> > +       ret = clk_prepare_enable(ov2659->clk);
-> > +       if (ret) {
-> > +               dev_err(&client->dev, "%s: failed to enable clock\n",
-> > +                       __func__);
-> > +               return ret;
-> > +       }
-> > +
-> >         gpiod_set_value(ov2659->pwdn_gpio, 0);
-> >
-> >         if (ov2659->resetb_gpio) {
-> > @@ -1425,7 +1436,6 @@ static int ov2659_probe(struct i2c_client *client)
-> >         const struct ov2659_platform_data *pdata = ov2659_get_pdata(client);
-> >         struct v4l2_subdev *sd;
-> >         struct ov2659 *ov2659;
-> > -       struct clk *clk;
-> >         int ret;
-> >
-> >         if (!pdata) {
-> > @@ -1440,11 +1450,11 @@ static int ov2659_probe(struct i2c_client *client)
-> >         ov2659->pdata = pdata;
-> >         ov2659->client = client;
-> >
-> > -       clk = devm_clk_get(&client->dev, "xvclk");
-> > -       if (IS_ERR(clk))
-> > -               return PTR_ERR(clk);
-> > +       ov2659->clk = devm_clk_get(&client->dev, "xvclk");
-> > +       if (IS_ERR(ov2659->clk))
-> > +               return PTR_ERR(ov2659->clk);
-> >
-> > -       ov2659->xvclk_frequency = clk_get_rate(clk);
-> > +       ov2659->xvclk_frequency = clk_get_rate(ov2659->clk);
-> >         if (ov2659->xvclk_frequency < 6000000 ||
-> >             ov2659->xvclk_frequency > 27000000)
-> >                 return -EINVAL;
-> > @@ -1506,7 +1516,9 @@ static int ov2659_probe(struct i2c_client *client)
-> >         ov2659->frame_size = &ov2659_framesizes[2];
-> >         ov2659->format_ctrl_regs = ov2659_formats[0].format_ctrl_regs;
-> >
-> > -       ov2659_power_on(&client->dev);
-> > +       ret = ov2659_power_on(&client->dev);
-> > +       if (ret < 0)
-> > +               goto error;
-> >
-> >         ret = ov2659_detect(sd);
-> >         if (ret < 0)
-> > --
-> > 2.7.4
-> >
+> Sean
+
+I've been using the latest ACPI Spec (6.3) to better comprehend the
+macros, and what they should produce.  Running the DSDT through
+acpiexec for \_SB.PCI0.CR00._CRS gives:
+
+- execute \_SB.PCI0.CR00._CRS
+Evaluating \_SB.PCI0.CR00._CRS
+0x1 Outstanding allocations after evaluation of \_SB.PCI0.CR00._CRS
+Evaluation of \_SB.PCI0.CR00._CRS returned object 0x562c4e9a9c90,
+external buffer length 28
+[Buffer] Length 10 =   0000: 47 01 80 06 80 06 01 08 22 00 04 2A 00 00
+79 00  // G......."..*..y.
+
+I'm still a little unclear on the first byte (47) and the last two (79
+00), generated presumably by ResourceTemplate(), but the rest seem to
+match the expected results based on the inputs.  Aside from the
+obvious difference in the address range length compared to the PN50's
+BUF0, which seems to be the PN50's problem, the definition of BUF0 is
+consistent.  I've even recompiled the DSDT with a length of 0x10 just
+to see if that made a difference, and it doesn't.  Still no sign of
+the driver in dmesg.  Although it would be nice to see the full CR00
+definition for the PN50, it seems less likely that the problem lies
+here.
+
+I've tried various acpi kernel debugging settings, but easily get
+swamped with output.  Is there a process path somewhere that can be
+followed to understand how the device goes through the ACPI process
+and eventually gets picked up by the kernel?  I still feel like the
+problem precedes the kernel's involvement.  The kernel obviously has
+some degree of awareness of the DSDT entry, because I can find :
+
+/sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/ITE8708:00/
+
+The status is correct (0x0F), but under the physical_node, I have no
+'resources' entry.  Should there be one?  I have a 'resource' file,
+but it only returns zeroes.
+
+And instead of being linked to ite_cir (which is showing in lsmod, but
+not used by anything), the driver ->
+../../../bus/pci/drivers/skl_uncore
+
+To me, that seems like it's processing what it has been presented, but
+I've been wrong before.  I'm open for directions on where to
+investigate next.
+
+Thanks,
+
+Chris
