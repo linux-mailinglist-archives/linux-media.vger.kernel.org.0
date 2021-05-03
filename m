@@ -2,300 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAAC3371201
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 09:30:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ED5E3712CE
+	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 11:00:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232946AbhECHbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 03:31:08 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:33264 "EHLO m43-7.mailgun.net"
+        id S233023AbhECJB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 05:01:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42052 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231605AbhECHbF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 May 2021 03:31:05 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620027013; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=bLHkrer1Bf+3ZElThz8QU5D45d9+qkx7tMzvrYQcYLk=;
- b=Uas8AJ48YksHHMTdyzyjgqsxc4z+kSjb0UeVlawPwvXWRsZUmkjDfL38lpSuyfmTN54woAXe
- UsoBfSl1h/zS0NYJw2nklxej7zUSgIKXeYBkC8PFRZlGuthF0nZ07qvxne7Iu8plG7MzTXK1
- EReMpohirimLSSdd2FjYJL6PONQ=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 608fa6842cc44d3aea6ac336 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 03 May 2021 07:30:12
- GMT
-Sender: smagar=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 3A45FC43460; Mon,  3 May 2021 07:30:12 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: smagar)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 766DBC433D3;
-        Mon,  3 May 2021 07:30:09 +0000 (UTC)
+        id S231531AbhECJBY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 May 2021 05:01:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9D9E860FEB;
+        Mon,  3 May 2021 09:00:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620032431;
+        bh=NM7OrmlALeZ32h6rHMv+l8Rr/iKbNjIkdTl15+pN+3s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KrMg7rZDAvuF8TSPaz3tHXjheVZ8VWJcWtxGSauCj+5vW2KabqwOdyeTgtGbqlfGF
+         8unLL3Kt+lb+2P0TATB03NT5m66Xgz6HD3tncDgwXLUKrdrUJ8QhTLmDK+yM8MLAMp
+         uv4KZQeiLzZyYpsnaevhEy2QLxVYPzYb5sNLoc6/FU034FCT0mDmPyKkICU4p4EGSK
+         gJNajfcvnz635r/XYPr7DQved2cUsTrhpgZIFhPKYKgo6dMDlt/BKcsw6AohW8LZTu
+         bLKgxm6rpBtgtkhXS/kkW9ChsK8hVxJ+L02Btp+3BITtue4jjDQPHDTVtoQR7L7xBG
+         rQoCFDRJSkkwQ==
+Date:   Mon, 3 May 2021 11:00:22 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "Hans Verkuil" <hans.verkuil@cisco.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v4 01/79] media: venus: fix PM runtime logic at
+ venus_sys_error_handler()
+Message-ID: <20210503110022.22503bfd@coco.lan>
+In-Reply-To: <20210430162110.000058e0@Huawei.com>
+References: <cover.1619621413.git.mchehab+huawei@kernel.org>
+        <6d463d21f0dd55c3d84db0458c7a5c4e0d7c5bc1.1619621413.git.mchehab+huawei@kernel.org>
+        <20210430162110.000058e0@Huawei.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Mon, 03 May 2021 13:00:09 +0530
-From:   smagar@codeaurora.org
-To:     vgarodia@codeaurora.org, stanimir.varbanov@linaro.org
-Cc:     linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, mchehab@infradead.org,
-        linux-media-owner@vger.kernel.org, dikshita@codeaurora.org,
-        adhudase@codeaurora.org, sampnimm@codeaurora.org,
-        mansur@codeaurora.org
-Subject: Re: Update venus firmware files for v5.4 and venus firmware files for
- VPU-2.0
-In-Reply-To: <194da82a3a5f2010fadca4fe6960b359@codeaurora.org>
-References: <bee73b3fe8b04c1a2663be0cd3cc7318@codeaurora.org>
- <9eaaec5d-a7d4-1889-5c92-28944b198adc@linaro.org>
- <c38ab84b90feddb43b2782fa11ee5189@codeaurora.org>
- <52ac8a546ecdb6a11b10edf936ba714d@codeaurora.org>
- <194da82a3a5f2010fadca4fe6960b359@codeaurora.org>
-Message-ID: <f2d3176d5e78b50275ad81d37e908d4b@codeaurora.org>
-X-Sender: smagar@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2021-04-30 13:09, vgarodia@codeaurora.org wrote:
-> On 2021-04-29 17:37, smagar@codeaurora.org wrote:
->> On 2021-04-29 14:05, vgarodia@codeaurora.org wrote:
->>> On 2021-04-28 19:18, Stanimir Varbanov wrote:
->>>> On 4/28/21 3:32 PM, smagar@codeaurora.org wrote:
->>>>> Hello Team,
->>>>> 
->>>>> Please include updated firmware bins for venus-5.4 and vpu-2.0.
->>>>> 
->>>>> I have fixed comment and title updated.
->>>>> 
->>>>> Removed 0 byte unwanted bins.
->>>>> 
->>>>> Below is combined pull request for venus-5.4 and VPU-2.0.
->>>>> 
->>>>> Please find snapshot of pull request, let me know if anything is 
->>>>> missing.
->>>>> 
->>>>> 
->>>>> The following changes since commit
->>>>> 85286184d9df1b03bb76049edcfd87c39ce46e94:
->>>>> 
->>>>>   Merge branch 'for-upstream' of
->>>>> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
->>>>> 11:34:11 -0400)
->>>>> 
->>>>> are available in the git repository at:
->>>>> 
->>>>>   https://github.com/suraj714/linux-firmware-venus.git master
->>>>> 
->>>>> for you to fetch changes up to 
->>>>> 6cdef281cd16d967ad89c01af6fdda85529a2d80:
->>>>> 
->>>>>   qcom: Add venus firmware files for VPU-2.0 (2021-04-28 14:42:48 
->>>>> +0530)
->>>>> 
->>>>> ----------------------------------------------------------------
->>>>> smagar (2):
->>>>>       qcom: update venus firmware files for v5.4
->>>>>       qcom: Add venus firmware files for VPU-2.0
->>>>> 
->>>>>  WHENCE                    |  34 +++++++++++++++++++++++++++++++++-
->>>>>  qcom/venus-5.4/venus.b00  | Bin 212 -> 212 bytes
->>>>>  qcom/venus-5.4/venus.b01  | Bin 6808 -> 6808 bytes
->>>>>  qcom/venus-5.4/venus.b02  | Bin 873680 -> 873596 bytes
->>>>>  qcom/venus-5.4/venus.b03  | Bin 33792 -> 33792 bytes
->>>>>  qcom/venus-5.4/venus.mbn  | Bin 919792 -> 919708 bytes
->>>>>  qcom/venus-5.4/venus.mdt  | Bin 7020 -> 7020 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b00 | Bin 0 -> 692 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b01 | Bin 0 -> 7376 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b02 | Bin 0 -> 300 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b03 | Bin 0 -> 20 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b04 | Bin 0 -> 20 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b05 | Bin 0 -> 20 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b06 | Bin 0 -> 20 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b07 | Bin 0 -> 24 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b08 | Bin 0 -> 16 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b09 | Bin 0 -> 939184 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b10 | Bin 0 -> 42976 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.b19 |   1 +
->>>>>  qcom/vpu-2.0/vpu20_1v.mbn | Bin 0 -> 2031188 bytes
->>>>>  qcom/vpu-2.0/vpu20_1v.mdt | Bin 0 -> 8068 bytes
->>> 
->>> Suraj, lets make these as generic names venus.bxx. We could confirm 
->>> on hardware
->>> with generic binary names.
->>> 
->>>> 
->>>> Which Venus IP/SoCs use vpu-2.0 firmware? And what is the difference
->>>> with existing vpu-1.0?
->>> This is for sc7280.
->>> vpu-1.0 and vpu-2.0 differs in hardware w.r.t number of hardware
->>> processing pipes.
->>> 
->>> Thanks,
->>> Vikash
->> 
->> 
->> 
->> 
->> Hi Vikash,
->> 
->> As you suggested I did this changes.
->> Below is combined pull request for venus-5.4 and VPU-2.0.
->> Please find snapshot of pull request, let me know if anything is 
->> missing.
->> 
->> 
->> The following changes since commit 
->> 85286184d9df1b03bb76049edcfd87c39ce46e94:
->> 
->>   Merge branch 'for-upstream' of
->> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
->> 11:34:11 -0400)
->> 
->> are available in the git repository at:
->> 
->>   https://github.com/suraj714/linux-firmware-venus.git master
->> 
->> for you to fetch changes up to 
->> 3499110b56ddfe5c66ee7ade8754c4be573cc8a9:
->> 
->>   qcom: Add venus firmware files for VPU-2.0 (2021-04-29 16:59:54 
->> +0530)
->> 
->> ----------------------------------------------------------------
->> smagar (2):
->>       qcom: update venus firmware files for v5.4
->>       qcom: Add venus firmware files for VPU-2.0
->> 
->>  WHENCE                   |  34 +++++++++++++++++++++++++++++++++-
+Em Fri, 30 Apr 2021 16:21:10 +0100
+Jonathan Cameron <Jonathan.Cameron@Huawei.com> escreveu:
+
+> On Wed, 28 Apr 2021 16:51:22 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
-> Remove the reference of "vpu20_1v.xxx from WHENCE file. Keep only 
-> venus.xxx.
-> 
->>  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
->>  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
->>  qcom/venus-5.4/venus.b02 | Bin 873680 -> 873596 bytes
->>  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
->>  qcom/venus-5.4/venus.mbn | Bin 919792 -> 919708 bytes
->>  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
->>  qcom/vpu-2.0/venus.b00   | Bin 0 -> 692 bytes
->>  qcom/vpu-2.0/venus.b01   | Bin 0 -> 7376 bytes
->>  qcom/vpu-2.0/venus.b02   | Bin 0 -> 300 bytes
->>  qcom/vpu-2.0/venus.b03   | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/venus.b04   | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/venus.b05   | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/venus.b06   | Bin 0 -> 20 bytes
->>  qcom/vpu-2.0/venus.b07   | Bin 0 -> 24 bytes
->>  qcom/vpu-2.0/venus.b08   | Bin 0 -> 16 bytes
->>  qcom/vpu-2.0/venus.b09   | Bin 0 -> 939184 bytes
->>  qcom/vpu-2.0/venus.b10   | Bin 0 -> 42976 bytes
->>  qcom/vpu-2.0/venus.b19   |   1 +
->>  qcom/vpu-2.0/venus.mbn   | Bin 0 -> 2031188 bytes
->>  qcom/vpu-2.0/venus.mdt   | Bin 0 -> 8068 bytes
->>  21 files changed, 34 insertions(+), 1 deletion(-)
->>  create mode 100644 qcom/vpu-2.0/venus.b00
->>  create mode 100644 qcom/vpu-2.0/venus.b01
->>  create mode 100644 qcom/vpu-2.0/venus.b02
->>  create mode 100644 qcom/vpu-2.0/venus.b03
->>  create mode 100644 qcom/vpu-2.0/venus.b04
->>  create mode 100644 qcom/vpu-2.0/venus.b05
->>  create mode 100644 qcom/vpu-2.0/venus.b06
->>  create mode 100644 qcom/vpu-2.0/venus.b07
->>  create mode 100644 qcom/vpu-2.0/venus.b08
->>  create mode 100644 qcom/vpu-2.0/venus.b09
->>  create mode 100644 qcom/vpu-2.0/venus.b10
->>  create mode 100644 qcom/vpu-2.0/venus.b19
->>  create mode 100644 qcom/vpu-2.0/venus.mbn
->>  create mode 100644 qcom/vpu-2.0/venus.mdt
->> 
->> 
->> Regards,
->> Suraj
+> > The venus_sys_error_handler() assumes that pm_runtime was
+> > able to resume, as it does things like:
+> > 
+> > 	while (pm_runtime_active(core->dev_dec) || pm_runtime_active(core->dev_enc))
+> > 		msleep(10);
+> > 
+> > Well, if, for whatever reason, this won't happen, the routine
+> > won't do what's expected. So, check for the returned error
+> > condition, warning if it returns an error.
+> > 
+> > Fixes: af2c3834c8ca ("[media] media: venus: adding core part and helper functions")
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  drivers/media/platform/qcom/venus/core.c | 14 +++++++++++---
+> >  1 file changed, 11 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> > index 54bac7ec14c5..c80c27c87ccc 100644
+> > --- a/drivers/media/platform/qcom/venus/core.c
+> > +++ b/drivers/media/platform/qcom/venus/core.c
+> > @@ -84,7 +84,11 @@ static void venus_sys_error_handler(struct work_struct *work)
+> >  			container_of(work, struct venus_core, work.work);
+> >  	int ret = 0;
+> >  
+> > -	pm_runtime_get_sync(core->dev);
+> > +	ret = pm_runtime_get_sync(core->dev);
+> > +	if (WARN_ON(ret < 0)) {
+> > +		pm_runtime_put_noidle(core->dev);
+> > +		return;
+> > +	}
+> >  
+> >  	hfi_core_deinit(core, true);
+> >  
+> > @@ -106,9 +110,13 @@ static void venus_sys_error_handler(struct work_struct *work)
+> >  
+> >  	hfi_reinit(core);
+> >  
+> > -	pm_runtime_get_sync(core->dev);
+> > +	ret = pm_runtime_get_sync(core->dev);
+> > +	if (WARN_ON(ret < 0)) {
+> > +		pm_runtime_put_noidle(core->dev);  
 
+Thanks for review!
 
+> mutex_unlock(&core->lock);
+> (the unlock is currently just below the enable_irq() in 5.12)
 
+Basically, this function assumes that the core->lock is not locked
+and that IRQs are disabled, as can be seen at the function which
+starts such work:
 
-Hi Vikash,
+    static void venus_event_notify(struct venus_core *core, u32 event)
+    {
+	struct venus_inst *inst;
 
-As you suggested I did this changes.
-Below is combined pull request for venus-5.4 and VPU-2.0.
-Please find snapshot of pull request, let me know if anything is 
-missing.
+	switch (event) {
+	case EVT_SYS_WATCHDOG_TIMEOUT:
+	case EVT_SYS_ERROR:
+		break;
+	default:
+		return;
+	}
 
+	mutex_lock(&core->lock);
+	core->sys_error = true;
+	list_for_each_entry(inst, &core->instances, list)
+		inst->ops->event_notify(inst, EVT_SESSION_ERROR, NULL);
+	mutex_unlock(&core->lock);
 
+	disable_irq_nosync(core->irq);
+	schedule_delayed_work(&core->work, msecs_to_jiffies(10));
+    }
 
-The following changes since commit 
-85286184d9df1b03bb76049edcfd87c39ce46e94:
+The code inside it actually locks/unlocks two times the core->lock. 
+See, this is the original code:
 
-   Merge branch 'for-upstream' of 
-git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19 
-11:34:11 -0400)
+    static void venus_sys_error_handler(struct work_struct *work)
+    {
+	<not locked>
 
-are available in the git repository at:
+        pm_runtime_get_sync(core->dev);
 
-   https://github.com/suraj714/linux-firmware-venus.git master
+        hfi_core_deinit(core, true);
 
-for you to fetch changes up to c7b11ed12b6391097e84babab62802076fd15902:
+        dev_warn(core->dev, "system error has occurred, starting recovery!\n");
 
-   qcom: Add venus firmware files for VPU-2.0 (2021-05-03 12:18:45 +0530)
+        mutex_lock(&core->lock);
+	while (pm_runtime_active(core->dev_dec) || pm_runtime_active(core->dev_enc))
+                msleep(10);
+...
+        enable_irq(core->irq);
+        mutex_unlock(&core->lock);
+...
+	if (ret) {
+                disable_irq_nosync(core->irq);
+                dev_warn(core->dev, "recovery failed (%d)\n", ret);
+                schedule_delayed_work(&core->work, msecs_to_jiffies(10));
+                return;
+        }
 
-----------------------------------------------------------------
-smagar (2):
-       qcom: update venus firmware files for v5.4
-       qcom: Add venus firmware files for VPU-2.0
+	mutex_lock(&core->lock);
+        core->sys_error = false;
+        mutex_unlock(&core->lock);
+    }
 
-  WHENCE                   |  19 ++++++++++++++++++-
-  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
-  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
-  qcom/venus-5.4/venus.b02 | Bin 873680 -> 873596 bytes
-  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
-  qcom/venus-5.4/venus.mbn | Bin 919792 -> 919708 bytes
-  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
-  qcom/vpu-2.0/venus.b00   | Bin 0 -> 692 bytes
-  qcom/vpu-2.0/venus.b01   | Bin 0 -> 7376 bytes
-  qcom/vpu-2.0/venus.b02   | Bin 0 -> 300 bytes
-  qcom/vpu-2.0/venus.b03   | Bin 0 -> 20 bytes
-  qcom/vpu-2.0/venus.b04   | Bin 0 -> 20 bytes
-  qcom/vpu-2.0/venus.b05   | Bin 0 -> 20 bytes
-  qcom/vpu-2.0/venus.b06   | Bin 0 -> 20 bytes
-  qcom/vpu-2.0/venus.b07   | Bin 0 -> 24 bytes
-  qcom/vpu-2.0/venus.b08   | Bin 0 -> 16 bytes
-  qcom/vpu-2.0/venus.b09   | Bin 0 -> 939184 bytes
-  qcom/vpu-2.0/venus.b10   | Bin 0 -> 42976 bytes
-  qcom/vpu-2.0/venus.b19   |   1 +
-  qcom/vpu-2.0/venus.mbn   | Bin 0 -> 2031188 bytes
-  qcom/vpu-2.0/venus.mdt   | Bin 0 -> 8068 bytes
-  21 files changed, 19 insertions(+), 1 deletion(-)
-  create mode 100644 qcom/vpu-2.0/venus.b00
-  create mode 100644 qcom/vpu-2.0/venus.b01
-  create mode 100644 qcom/vpu-2.0/venus.b02
-  create mode 100644 qcom/vpu-2.0/venus.b03
-  create mode 100644 qcom/vpu-2.0/venus.b04
-  create mode 100644 qcom/vpu-2.0/venus.b05
-  create mode 100644 qcom/vpu-2.0/venus.b06
-  create mode 100644 qcom/vpu-2.0/venus.b07
-  create mode 100644 qcom/vpu-2.0/venus.b08
-  create mode 100644 qcom/vpu-2.0/venus.b09
-  create mode 100644 qcom/vpu-2.0/venus.b10
-  create mode 100644 qcom/vpu-2.0/venus.b19
-  create mode 100644 qcom/vpu-2.0/venus.mbn
-  create mode 100644 qcom/vpu-2.0/venus.mdt
+It should be noticed that, once started, this delayed work re-starts
+itself, with IRQs disabled, trying to reboot the Venus IP hardware,
+until it stops failing [1].
 
+[1] IMHO, it seems a very bad idea to keep running the work forever,
+flooding syslog with error messages on every 10ms or so.
 
+That's said, my patch doesn't seem to fix all potential issues that
+could happen there.
+
+I'll propose a separate fix, outside this patch series, as the issues
+here are not only due to RPM, but the main issue is that both
+while loops inside this code can run forever with the core->lock
+hold.
 
 Thanks,
-Suraj
-
-
-
-
+Mauro
