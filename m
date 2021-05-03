@@ -2,425 +2,300 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 469173711B4
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 08:42:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAAC3371201
+	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 09:30:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232891AbhECGnW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 02:43:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232880AbhECGnV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 May 2021 02:43:21 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A61C061756
-        for <linux-media@vger.kernel.org>; Sun,  2 May 2021 23:42:27 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id z9so2064145lfu.8
-        for <linux-media@vger.kernel.org>; Sun, 02 May 2021 23:42:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=50tzV6/44j0eBTOhl81nHs1oy+v+DFkPFiSwkc1A+c4=;
-        b=Kf3ua/xxB8cYfhFxw6ua20pX4hMRhXlR9yXJL9ptXTeBLrcrwYGtfF8lL3pDX6VMJc
-         +hu8XDWixDQR3MZeaKnrBmWqgVKio3mWafX+/HCclzG9Xp01NxBG1bD/gBApfh/5k6C6
-         hBCySaa2RPpcaXoW1OVHIH1ChEIq7f3JByeudTqcvPX91h9yVegweVeDowNk4RVRHCSJ
-         FhmSsfRarFJg78VXARNRIDqIS7Jn/KZPnYMna6PYP2/JAuEM+ffAxdnHvTC4FZcjQrq5
-         wsnWSaT6sq6yAaM6BzEABuymgI/I0NQAxNA26YM8PEkVx2L2Wb2b4kZoiBibRjWJpph8
-         JupQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=50tzV6/44j0eBTOhl81nHs1oy+v+DFkPFiSwkc1A+c4=;
-        b=EsR9V+gF1g0omg2A6khhQ8/xaqK+4VAAbgcHMwXWFbNNCkx3d9JiFH/50lcgie4pTa
-         QLcd5FfDrWwA/lsN4vN6D12zz1TdJ6CJ2If16sbqmQ43iounpDgH3vrtOc0ydkj+ehHD
-         L8OL2ELhjk94pEzxXlNIEaQCAnLaRV2egvyXLaFXPIih2theczrPRFwzOABvFVyMdOd8
-         BFZcsJWYMj8aeGyazcgi0ZXz2LeotHK71zhnsdN1PpMntiJgN5pfxZCzyUwHX0h+CE/Z
-         7q86Jj17GYZnJPbEsIZp1EDhZB2AVA41ZlzymVPvVi4k2LnyFiQky0UggvYhj/fcuV2w
-         wqUA==
-X-Gm-Message-State: AOAM5306Uiz/IFC+RCwpdTuPN+/xvmuF5rSL/2tPiW+N2UoAotT4P03i
-        DVqOnZAsMBbflDKEpMpHpvH1ReaNXk42mO3PC++VQQ==
-X-Google-Smtp-Source: ABdhPJzoZNti7FvYqwZimISC7OBoePXjcEaNts04BuXNL4OzmPCKmohafZodsfvgKD3HxvFhlmmpuncaC0qXN1E9HIE=
-X-Received: by 2002:a05:6512:3d8f:: with SMTP id k15mr6611586lfv.227.1620024145521;
- Sun, 02 May 2021 23:42:25 -0700 (PDT)
+        id S232946AbhECHbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 03:31:08 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:33264 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231605AbhECHbF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 May 2021 03:31:05 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1620027013; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=bLHkrer1Bf+3ZElThz8QU5D45d9+qkx7tMzvrYQcYLk=;
+ b=Uas8AJ48YksHHMTdyzyjgqsxc4z+kSjb0UeVlawPwvXWRsZUmkjDfL38lpSuyfmTN54woAXe
+ UsoBfSl1h/zS0NYJw2nklxej7zUSgIKXeYBkC8PFRZlGuthF0nZ07qvxne7Iu8plG7MzTXK1
+ EReMpohirimLSSdd2FjYJL6PONQ=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 608fa6842cc44d3aea6ac336 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 03 May 2021 07:30:12
+ GMT
+Sender: smagar=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 3A45FC43460; Mon,  3 May 2021 07:30:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: smagar)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 766DBC433D3;
+        Mon,  3 May 2021 07:30:09 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210423055842.2490679-1-eizan@chromium.org> <20210423155824.v1.4.I558dcbaa17bf00243951a8ceb6d0e98758aacfa4@changeid>
- <ecf9ab25-779d-01c7-97e3-76aa09b69415@collabora.com>
-In-Reply-To: <ecf9ab25-779d-01c7-97e3-76aa09b69415@collabora.com>
-From:   Eizan Miyamoto <eizan@google.com>
-Date:   Mon, 3 May 2021 16:42:14 +1000
-Message-ID: <CAOak1e82j+j_1pWACS5j5cZ2ZZhN+C-6kJYCg5q_bCarTPqHww@mail.gmail.com>
-Subject: Re: [PATCH v1 4/4] mtk-mdp: soc: mediatek: register mdp from mmsys
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     Eizan Miyamoto <eizan@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>, chunkuang.hu@kernel.org,
-        yong.wu@mediatek.com, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Mon, 03 May 2021 13:00:09 +0530
+From:   smagar@codeaurora.org
+To:     vgarodia@codeaurora.org, stanimir.varbanov@linaro.org
+Cc:     linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, mchehab@infradead.org,
+        linux-media-owner@vger.kernel.org, dikshita@codeaurora.org,
+        adhudase@codeaurora.org, sampnimm@codeaurora.org,
+        mansur@codeaurora.org
+Subject: Re: Update venus firmware files for v5.4 and venus firmware files for
+ VPU-2.0
+In-Reply-To: <194da82a3a5f2010fadca4fe6960b359@codeaurora.org>
+References: <bee73b3fe8b04c1a2663be0cd3cc7318@codeaurora.org>
+ <9eaaec5d-a7d4-1889-5c92-28944b198adc@linaro.org>
+ <c38ab84b90feddb43b2782fa11ee5189@codeaurora.org>
+ <52ac8a546ecdb6a11b10edf936ba714d@codeaurora.org>
+ <194da82a3a5f2010fadca4fe6960b359@codeaurora.org>
+Message-ID: <f2d3176d5e78b50275ad81d37e908d4b@codeaurora.org>
+X-Sender: smagar@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Apr 30, 2021 at 1:46 AM Enric Balletbo i Serra
-<enric.balletbo@collabora.com> wrote:
->
-> Hi Eizan,
->
-> Thank you for your patch.
->
-> On 23/4/21 7:58, Eizan Miyamoto wrote:
-> > Rather than hanging the MDP master component driver off of the rdma0
-> > device, create a "virtual" device by the mmsys driver instead which is
-> > probed by the mtk_mdp_core driver.
-> >
-> > Broadly, four interdependent things are done by this change:
-> > - A virtual device that is probed by the mtk_mdp_core driver is
-> >   instantiated by the mtk_mmsys driver.
-> > - Presence of a mediatek,vpu property in a child node to the mmsys
-> >   device node is used to determine what device to use when dispatching
-> >   dma ops from the relevant ioctl.
-> > - v4l-related setup is moved into from the mtk_mdp_core driver to the
-> >   mtk_mdp_comp driver.
-> >
-> > Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
-> > ---
-> >
-> >  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 47 +++++++++-----
-> >  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 62 ++++++-------------
-> >  drivers/media/platform/mtk-mdp/mtk_mdp_core.h |  2 +
-> >  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |  4 +-
-> >  drivers/soc/mediatek/mtk-mmsys.c              | 20 +++++-
-> >  5 files changed, 75 insertions(+), 60 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> > index d447bfaadef4..dc5231a1fcfd 100644
-> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> > @@ -106,8 +106,41 @@ static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
-> >  {
-> >       struct mtk_mdp_comp *comp = dev_get_drvdata(dev);
-> >       struct mtk_mdp_dev *mdp = data;
-> > +     struct device_node *vpu_node;
-> >
-> >       mtk_mdp_register_component(mdp, comp);
-> > +
-> > +     // If this component has a "mediatek-vpu" property, it is responsible for
-> > +     // notifying the mdp master driver about it so it can be further initialized
-> > +     // later.
->
-> Please use c-style comments here.
+On 2021-04-30 13:09, vgarodia@codeaurora.org wrote:
+> On 2021-04-29 17:37, smagar@codeaurora.org wrote:
+>> On 2021-04-29 14:05, vgarodia@codeaurora.org wrote:
+>>> On 2021-04-28 19:18, Stanimir Varbanov wrote:
+>>>> On 4/28/21 3:32 PM, smagar@codeaurora.org wrote:
+>>>>> Hello Team,
+>>>>> 
+>>>>> Please include updated firmware bins for venus-5.4 and vpu-2.0.
+>>>>> 
+>>>>> I have fixed comment and title updated.
+>>>>> 
+>>>>> Removed 0 byte unwanted bins.
+>>>>> 
+>>>>> Below is combined pull request for venus-5.4 and VPU-2.0.
+>>>>> 
+>>>>> Please find snapshot of pull request, let me know if anything is 
+>>>>> missing.
+>>>>> 
+>>>>> 
+>>>>> The following changes since commit
+>>>>> 85286184d9df1b03bb76049edcfd87c39ce46e94:
+>>>>> 
+>>>>>   Merge branch 'for-upstream' of
+>>>>> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
+>>>>> 11:34:11 -0400)
+>>>>> 
+>>>>> are available in the git repository at:
+>>>>> 
+>>>>>   https://github.com/suraj714/linux-firmware-venus.git master
+>>>>> 
+>>>>> for you to fetch changes up to 
+>>>>> 6cdef281cd16d967ad89c01af6fdda85529a2d80:
+>>>>> 
+>>>>>   qcom: Add venus firmware files for VPU-2.0 (2021-04-28 14:42:48 
+>>>>> +0530)
+>>>>> 
+>>>>> ----------------------------------------------------------------
+>>>>> smagar (2):
+>>>>>       qcom: update venus firmware files for v5.4
+>>>>>       qcom: Add venus firmware files for VPU-2.0
+>>>>> 
+>>>>>  WHENCE                    |  34 +++++++++++++++++++++++++++++++++-
+>>>>>  qcom/venus-5.4/venus.b00  | Bin 212 -> 212 bytes
+>>>>>  qcom/venus-5.4/venus.b01  | Bin 6808 -> 6808 bytes
+>>>>>  qcom/venus-5.4/venus.b02  | Bin 873680 -> 873596 bytes
+>>>>>  qcom/venus-5.4/venus.b03  | Bin 33792 -> 33792 bytes
+>>>>>  qcom/venus-5.4/venus.mbn  | Bin 919792 -> 919708 bytes
+>>>>>  qcom/venus-5.4/venus.mdt  | Bin 7020 -> 7020 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b00 | Bin 0 -> 692 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b01 | Bin 0 -> 7376 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b02 | Bin 0 -> 300 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b03 | Bin 0 -> 20 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b04 | Bin 0 -> 20 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b05 | Bin 0 -> 20 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b06 | Bin 0 -> 20 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b07 | Bin 0 -> 24 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b08 | Bin 0 -> 16 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b09 | Bin 0 -> 939184 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b10 | Bin 0 -> 42976 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.b19 |   1 +
+>>>>>  qcom/vpu-2.0/vpu20_1v.mbn | Bin 0 -> 2031188 bytes
+>>>>>  qcom/vpu-2.0/vpu20_1v.mdt | Bin 0 -> 8068 bytes
+>>> 
+>>> Suraj, lets make these as generic names venus.bxx. We could confirm 
+>>> on hardware
+>>> with generic binary names.
+>>> 
+>>>> 
+>>>> Which Venus IP/SoCs use vpu-2.0 firmware? And what is the difference
+>>>> with existing vpu-1.0?
+>>> This is for sc7280.
+>>> vpu-1.0 and vpu-2.0 differs in hardware w.r.t number of hardware
+>>> processing pipes.
+>>> 
+>>> Thanks,
+>>> Vikash
+>> 
+>> 
+>> 
+>> 
+>> Hi Vikash,
+>> 
+>> As you suggested I did this changes.
+>> Below is combined pull request for venus-5.4 and VPU-2.0.
+>> Please find snapshot of pull request, let me know if anything is 
+>> missing.
+>> 
+>> 
+>> The following changes since commit 
+>> 85286184d9df1b03bb76049edcfd87c39ce46e94:
+>> 
+>>   Merge branch 'for-upstream' of
+>> git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19
+>> 11:34:11 -0400)
+>> 
+>> are available in the git repository at:
+>> 
+>>   https://github.com/suraj714/linux-firmware-venus.git master
+>> 
+>> for you to fetch changes up to 
+>> 3499110b56ddfe5c66ee7ade8754c4be573cc8a9:
+>> 
+>>   qcom: Add venus firmware files for VPU-2.0 (2021-04-29 16:59:54 
+>> +0530)
+>> 
+>> ----------------------------------------------------------------
+>> smagar (2):
+>>       qcom: update venus firmware files for v5.4
+>>       qcom: Add venus firmware files for VPU-2.0
+>> 
+>>  WHENCE                   |  34 +++++++++++++++++++++++++++++++++-
+> 
+> Remove the reference of "vpu20_1v.xxx from WHENCE file. Keep only 
+> venus.xxx.
+> 
+>>  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
+>>  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
+>>  qcom/venus-5.4/venus.b02 | Bin 873680 -> 873596 bytes
+>>  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
+>>  qcom/venus-5.4/venus.mbn | Bin 919792 -> 919708 bytes
+>>  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
+>>  qcom/vpu-2.0/venus.b00   | Bin 0 -> 692 bytes
+>>  qcom/vpu-2.0/venus.b01   | Bin 0 -> 7376 bytes
+>>  qcom/vpu-2.0/venus.b02   | Bin 0 -> 300 bytes
+>>  qcom/vpu-2.0/venus.b03   | Bin 0 -> 20 bytes
+>>  qcom/vpu-2.0/venus.b04   | Bin 0 -> 20 bytes
+>>  qcom/vpu-2.0/venus.b05   | Bin 0 -> 20 bytes
+>>  qcom/vpu-2.0/venus.b06   | Bin 0 -> 20 bytes
+>>  qcom/vpu-2.0/venus.b07   | Bin 0 -> 24 bytes
+>>  qcom/vpu-2.0/venus.b08   | Bin 0 -> 16 bytes
+>>  qcom/vpu-2.0/venus.b09   | Bin 0 -> 939184 bytes
+>>  qcom/vpu-2.0/venus.b10   | Bin 0 -> 42976 bytes
+>>  qcom/vpu-2.0/venus.b19   |   1 +
+>>  qcom/vpu-2.0/venus.mbn   | Bin 0 -> 2031188 bytes
+>>  qcom/vpu-2.0/venus.mdt   | Bin 0 -> 8068 bytes
+>>  21 files changed, 34 insertions(+), 1 deletion(-)
+>>  create mode 100644 qcom/vpu-2.0/venus.b00
+>>  create mode 100644 qcom/vpu-2.0/venus.b01
+>>  create mode 100644 qcom/vpu-2.0/venus.b02
+>>  create mode 100644 qcom/vpu-2.0/venus.b03
+>>  create mode 100644 qcom/vpu-2.0/venus.b04
+>>  create mode 100644 qcom/vpu-2.0/venus.b05
+>>  create mode 100644 qcom/vpu-2.0/venus.b06
+>>  create mode 100644 qcom/vpu-2.0/venus.b07
+>>  create mode 100644 qcom/vpu-2.0/venus.b08
+>>  create mode 100644 qcom/vpu-2.0/venus.b09
+>>  create mode 100644 qcom/vpu-2.0/venus.b10
+>>  create mode 100644 qcom/vpu-2.0/venus.b19
+>>  create mode 100644 qcom/vpu-2.0/venus.mbn
+>>  create mode 100644 qcom/vpu-2.0/venus.mdt
+>> 
+>> 
+>> Regards,
+>> Suraj
 
-Thank you for the reminder, I'll update these in the next version of
-this patch series.
 
->
-> > +     vpu_node = of_parse_phandle(dev->of_node, "mediatek,vpu", 0);
->
-> That's a bit confusing to me, please correct me if I am wrong, so, the
-> mediatek,vpu property is used to tell the code that this component should be the
-> 'vpu master', not to point a vpu node in the DT? I understood correctly?
 
-Is what you mean by 'vpu master' is that it is the device whose driver
-implements the wdt reset function? In that case, the mtk_mdp_core
-driver is still the 'vpu master' because mtk_mdp_reset_handler
-(contained in mtk_mdp_core) is passed to vpu_wdt_reg_handler(). The
-presence of the property in any MDP component device node can do the
-job of passing the vpu device (obtained from the node being pointed
-to) back mtk_mdp_core's mtk_mdp_master_bind() function.
 
-*However*, I'm using the presence of that property to indicate another
-thing: this is the device that the mdp filesystem device node in /dev
-should be registered against for v4l2. We will need to save this
-device for later (in mdp->rdma_dev) to be used to find the DMA
-callbacks when a call to mtk_mdp_m2m_queue_init is made from the file
-open() callback (mtk_mdp_m2m_open) attached to the filesystem device
-node.
+Hi Vikash,
 
-Before this change, the mtk_mdp_core driver was serving triple duty as
-the driver for the device that provided DMA op callbacks, the vpu
-master, and the MDP component master. Now it is the vpu master and the
-MDP component master, but not the driver for the device that provides
-DMA op callbacks.
+As you suggested I did this changes.
+Below is combined pull request for venus-5.4 and VPU-2.0.
+Please find snapshot of pull request, let me know if anything is 
+missing.
 
->
->
-> > +     if (vpu_node) {
-> > +             int ret;
-> > +
-> > +             mdp->vpu_dev = of_find_device_by_node(vpu_node);
-> > +             if (WARN_ON(!mdp->vpu_dev)) {
-> > +                     dev_err(dev, "vpu pdev failed\n");
-> > +                     of_node_put(vpu_node);
-> > +             }
-> > +
-> > +             ret = v4l2_device_register(dev, &mdp->v4l2_dev);
-> > +             if (ret) {
-> > +                     dev_err(dev, "Failed to register v4l2 device\n");
-> > +                     return -EINVAL;
-> > +             }
-> > +
-> > +             ret = vb2_dma_contig_set_max_seg_size(dev, DMA_BIT_MASK(32));
-> > +             if (ret) {
-> > +                     dev_err(dev, "Failed to set vb2 dma mag seg size\n");
-> > +                     return -EINVAL;
-> > +             }
-> > +
-> > +             // presence of the "mediatek,vpu" property in a device node
-> > +             // indicates that it is the primary MDP rdma device and MDP DMA
-> > +             // ops should be handled by its DMA callbacks.
->
-> Isn't rdma0 always the primary MDP device? or there are SoCs or configurations
-> where this is different? At least I think it is for MT8173 and MT8183.
 
-I suppose you're right, though now it seems to be called mdp_rdma0 in
-the device tree?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/mediatek/mt8173.dtsi?id=9ccce092fc64d19504fa54de4fd659e279cc92e7#n1004
 
-Maybe somebody from MediaTek can confirm this?
+The following changes since commit 
+85286184d9df1b03bb76049edcfd87c39ce46e94:
 
->
-> > +             mdp->rdma_dev = dev;
-> > +     }
-> > +
-> >       pm_runtime_enable(dev);
-> >
-> >       return 0;
-> > @@ -164,23 +197,9 @@ int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev)
-> >  static int mtk_mdp_comp_probe(struct platform_device *pdev)
-> >  {
-> >       struct device *dev = &pdev->dev;
-> > -     struct device_node *vpu_node;
-> >       int status;
-> >       struct mtk_mdp_comp *comp;
-> >
-> > -     vpu_node = of_parse_phandle(dev->of_node, "mediatek,vpu", 0);
-> > -     if (vpu_node) {
-> > -             of_node_put(vpu_node);
-> > -             /*
-> > -              * The device tree node with a mediatek,vpu property is deemed
-> > -              * the MDP "master" device, we don't want to add a component
-> > -              * for it in this function because the initialization for the
-> > -              * master is done elsewhere.
-> > -              */
-> > -             dev_info(dev, "vpu node found, not probing\n");
-> > -             return -ENODEV;
-> > -     }
-> > -
-> >       comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
-> >       if (!comp)
-> >               return -ENOMEM;
-> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> > index 5e71496e2517..4d7aa4e26be6 100644
-> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> > @@ -121,6 +121,17 @@ static int mtk_mdp_master_bind(struct device *dev)
-> >               goto err_component_bind_all;
-> >       }
-> >
-> > +     if (mdp->vpu_dev) {
-> > +             int ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
-> > +                                       VPU_RST_MDP);
-> > +             if (ret) {
-> > +                     dev_err(dev, "Failed to register reset handler\n");
-> > +                     goto err_wdt_reg;
-> > +             }
-> > +     } else {
-> > +             dev_err(dev, "no vpu_dev found\n");
-> > +     }
-> > +
-> >       status = mtk_mdp_register_m2m_device(mdp);
-> >       if (status) {
-> >               dev_err(dev, "Failed to register m2m device: %d\n", status);
-> > @@ -133,6 +144,8 @@ static int mtk_mdp_master_bind(struct device *dev)
-> >       return 0;
-> >
-> >  err_mtk_mdp_register_m2m_device:
-> > +
-> > +err_wdt_reg:
-> >       component_unbind_all(dev, mdp);
-> >
-> >  err_component_bind_all:
-> > @@ -191,8 +204,13 @@ static int mtk_mdp_probe(struct platform_device *pdev)
-> >               of_node_put(node);
-> >               parent = dev->of_node;
-> >               dev_warn(dev, "device tree is out of date\n");
-> > -     } else {
-> > +     } else if (dev->of_node) {
-> >               parent = dev->of_node->parent;
-> > +     } else if (dev->parent) {
-> > +             // maybe we were created from a call to platform_device_register_data()
-> > +             parent = dev->parent->parent->of_node;
-> > +     } else {
-> > +             return -ENODEV;
-> >       }
-> >
-> >       /* Iterate over sibling MDP function blocks */
-> > @@ -225,16 +243,6 @@ static int mtk_mdp_probe(struct platform_device *pdev)
-> >               }
-> >       }
-> >
-> > -     /*
-> > -      * Create a component for myself so that clocks can be toggled in
-> > -      * clock_on().
-> > -      */
-> > -     ret = mtk_mdp_comp_init(&mdp->comp_self, dev);
-> > -     if (ret) {
-> > -             dev_err(dev, "Failed to initialize component\n");
-> > -             goto err_comp;
-> > -     }
-> > -
-> >       mdp->job_wq = create_singlethread_workqueue(MTK_MDP_MODULE_NAME);
-> >       if (!mdp->job_wq) {
-> >               dev_err(&pdev->dev, "unable to alloc job workqueue\n");
-> > @@ -250,29 +258,8 @@ static int mtk_mdp_probe(struct platform_device *pdev)
-> >       }
-> >       INIT_WORK(&mdp->wdt_work, mtk_mdp_wdt_worker);
-> >
-> > -     ret = v4l2_device_register(dev, &mdp->v4l2_dev);
-> > -     if (ret) {
-> > -             dev_err(&pdev->dev, "Failed to register v4l2 device\n");
-> > -             ret = -EINVAL;
-> > -             goto err_dev_register;
-> > -     }
-> > -
-> > -     mdp->vpu_dev = vpu_get_plat_device(pdev);
-> > -     ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
-> > -                               VPU_RST_MDP);
-> > -     if (ret) {
-> > -             dev_err(&pdev->dev, "Failed to register reset handler\n");
-> > -             goto err_wdt_reg;
-> > -     }
-> > -
-> >       platform_set_drvdata(pdev, mdp);
-> >
-> > -     ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-> > -     if (ret) {
-> > -             dev_err(&pdev->dev, "Failed to set vb2 dma mag seg size\n");
-> > -             goto err_set_max_seg_size;
-> > -     }
-> > -
-> >       ret = component_master_add_with_match(dev, &mtk_mdp_com_ops, match);
-> >       if (ret) {
-> >               dev_err(dev, "Component master add failed\n");
-> > @@ -284,22 +271,12 @@ static int mtk_mdp_probe(struct platform_device *pdev)
-> >       return 0;
-> >
-> >  err_component_master_add:
-> > -     vb2_dma_contig_clear_max_seg_size(&pdev->dev);
-> > -
-> > -err_set_max_seg_size:
-> > -
-> > -err_wdt_reg:
-> > -     v4l2_device_unregister(&mdp->v4l2_dev);
-> > -
-> > -err_dev_register:
-> >       destroy_workqueue(mdp->wdt_wq);
-> >
-> >  err_alloc_wdt_wq:
-> >       destroy_workqueue(mdp->job_wq);
-> >
-> >  err_alloc_job_wq:
-> > -
-> > -err_comp:
-> >       dev_dbg(dev, "err %d\n", ret);
-> >       return ret;
-> >  }
-> > @@ -371,7 +348,6 @@ static struct platform_driver mtk_mdp_driver = {
-> >       .driver = {
-> >               .name   = MTK_MDP_MODULE_NAME,
-> >               .pm     = &mtk_mdp_pm_ops,
-> > -             .of_match_table = mtk_mdp_of_ids,
-> >       }
-> >  };
-> >
-> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.h b/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
-> > index 230f531400ca..78c3c77cd226 100644
-> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
-> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
-> > @@ -133,6 +133,7 @@ struct mtk_mdp_variant {
-> >   * struct mtk_mdp_dev - abstraction for image processor entity
-> >   * @lock:    the mutex protecting this data structure
-> >   * @vpulock: the mutex protecting the communication with VPU
-> > + * @rdma_dev:  device pointer to rdma device for MDP
-> >   * @pdev:    pointer to the image processor platform device
-> >   * @variant: the IP variant information
-> >   * @id:              image processor device index (0..MTK_MDP_MAX_DEVS)
-> > @@ -151,6 +152,7 @@ struct mtk_mdp_variant {
-> >  struct mtk_mdp_dev {
-> >       struct mutex                    lock;
-> >       struct mutex                    vpulock;
-> > +     struct device                   *rdma_dev;
-> >       struct platform_device          *pdev;
-> >       struct mtk_mdp_variant          *variant;
-> >       u16                             id;
-> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
-> > index d351e5a44768..c80ad8299c5e 100644
-> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
-> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
-> > @@ -932,7 +932,7 @@ static int mtk_mdp_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
-> >       src_vq->mem_ops = &vb2_dma_contig_memops;
-> >       src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
-> >       src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> > -     src_vq->dev = &ctx->mdp_dev->pdev->dev;
-> > +     src_vq->dev = ctx->mdp_dev->rdma_dev;
-> >       src_vq->lock = &ctx->mdp_dev->lock;
-> >
-> >       ret = vb2_queue_init(src_vq);
-> > @@ -947,7 +947,7 @@ static int mtk_mdp_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
-> >       dst_vq->mem_ops = &vb2_dma_contig_memops;
-> >       dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
-> >       dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> > -     dst_vq->dev = &ctx->mdp_dev->pdev->dev;
-> > +     dst_vq->dev = ctx->mdp_dev->rdma_dev;
-> >       dst_vq->lock = &ctx->mdp_dev->lock;
-> >
-> >       return vb2_queue_init(dst_vq);
-> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-> > index 18f93979e14a..6f9cf7725529 100644
-> > --- a/drivers/soc/mediatek/mtk-mmsys.c
-> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> > @@ -305,6 +305,7 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
-> >       struct device *dev = &pdev->dev;
-> >       struct platform_device *clks;
-> >       struct platform_device *drm;
-> > +     struct platform_device *mdp;
-> >       void __iomem *config_regs;
-> >       int ret;
-> >
-> > @@ -328,10 +329,27 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
-> >                                           PLATFORM_DEVID_AUTO, NULL, 0);
-> >       if (IS_ERR(drm)) {
-> >               platform_device_unregister(clks);
-> > -             return PTR_ERR(drm);
-> > +             ret = PTR_ERR(drm);
-> > +             goto err_drm;
-> > +     }
-> > +
-> > +     mdp = platform_device_register_data(&pdev->dev, "mtk-mdp",
-> > +                                         PLATFORM_DEVID_AUTO, NULL, 0);
-> > +     if (IS_ERR(mdp)) {
-> > +             ret = PTR_ERR(mdp);
-> > +             dev_err(dev, "Failed to register mdp: %d\n", ret);
-> > +             goto err_mdp;
-> >       }
-> >
-> >       return 0;
-> > +
-> > +err_mdp:
-> > +     platform_device_unregister(drm);
-> > +
-> > +err_drm:
-> > +     platform_device_unregister(clks);
-> > +
-> > +     return ret;
-> >  }
-> >
-> >  static const struct of_device_id of_match_mtk_mmsys[] = {
-> >
+   Merge branch 'for-upstream' of 
+git://git.chelsio.net/pub/git/linux-firmware into main (2021-04-19 
+11:34:11 -0400)
+
+are available in the git repository at:
+
+   https://github.com/suraj714/linux-firmware-venus.git master
+
+for you to fetch changes up to c7b11ed12b6391097e84babab62802076fd15902:
+
+   qcom: Add venus firmware files for VPU-2.0 (2021-05-03 12:18:45 +0530)
+
+----------------------------------------------------------------
+smagar (2):
+       qcom: update venus firmware files for v5.4
+       qcom: Add venus firmware files for VPU-2.0
+
+  WHENCE                   |  19 ++++++++++++++++++-
+  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
+  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
+  qcom/venus-5.4/venus.b02 | Bin 873680 -> 873596 bytes
+  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
+  qcom/venus-5.4/venus.mbn | Bin 919792 -> 919708 bytes
+  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
+  qcom/vpu-2.0/venus.b00   | Bin 0 -> 692 bytes
+  qcom/vpu-2.0/venus.b01   | Bin 0 -> 7376 bytes
+  qcom/vpu-2.0/venus.b02   | Bin 0 -> 300 bytes
+  qcom/vpu-2.0/venus.b03   | Bin 0 -> 20 bytes
+  qcom/vpu-2.0/venus.b04   | Bin 0 -> 20 bytes
+  qcom/vpu-2.0/venus.b05   | Bin 0 -> 20 bytes
+  qcom/vpu-2.0/venus.b06   | Bin 0 -> 20 bytes
+  qcom/vpu-2.0/venus.b07   | Bin 0 -> 24 bytes
+  qcom/vpu-2.0/venus.b08   | Bin 0 -> 16 bytes
+  qcom/vpu-2.0/venus.b09   | Bin 0 -> 939184 bytes
+  qcom/vpu-2.0/venus.b10   | Bin 0 -> 42976 bytes
+  qcom/vpu-2.0/venus.b19   |   1 +
+  qcom/vpu-2.0/venus.mbn   | Bin 0 -> 2031188 bytes
+  qcom/vpu-2.0/venus.mdt   | Bin 0 -> 8068 bytes
+  21 files changed, 19 insertions(+), 1 deletion(-)
+  create mode 100644 qcom/vpu-2.0/venus.b00
+  create mode 100644 qcom/vpu-2.0/venus.b01
+  create mode 100644 qcom/vpu-2.0/venus.b02
+  create mode 100644 qcom/vpu-2.0/venus.b03
+  create mode 100644 qcom/vpu-2.0/venus.b04
+  create mode 100644 qcom/vpu-2.0/venus.b05
+  create mode 100644 qcom/vpu-2.0/venus.b06
+  create mode 100644 qcom/vpu-2.0/venus.b07
+  create mode 100644 qcom/vpu-2.0/venus.b08
+  create mode 100644 qcom/vpu-2.0/venus.b09
+  create mode 100644 qcom/vpu-2.0/venus.b10
+  create mode 100644 qcom/vpu-2.0/venus.b19
+  create mode 100644 qcom/vpu-2.0/venus.mbn
+  create mode 100644 qcom/vpu-2.0/venus.mdt
+
+
+
+Thanks,
+Suraj
+
+
+
+
