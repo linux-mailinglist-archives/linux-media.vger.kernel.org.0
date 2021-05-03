@@ -2,130 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44BE037203A
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 21:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6D42372110
+	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 22:02:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbhECTQK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 15:16:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57840 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbhECTQK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 May 2021 15:16:10 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69000C06138D
-        for <linux-media@vger.kernel.org>; Mon,  3 May 2021 12:15:16 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id b17so4598673ede.0
-        for <linux-media@vger.kernel.org>; Mon, 03 May 2021 12:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:mime-version
-         :content-disposition;
-        bh=fyFJP735XQXj4LkTnGwzm4qSEE25PUlvsZ5m+5XoeTg=;
-        b=R5TKedJKe8jFlf9lMHC2G4AqVWRJE0dTCT/4m3gzvsre1icWgKAlqnQ/n8OCP5qBu6
-         OD201KjlWSPNGB7YCWZ0BEgT0iiYzJnMY8R9kBq7QxnWO5Ec69yWP5imZDzfjfI87Icq
-         Vu9mz6P83IjWi+hHed0zvq1mo7iSp7BFBiuFo=
+        id S229604AbhECUDl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 16:03:41 -0400
+Received: from mail-oi1-f174.google.com ([209.85.167.174]:38596 "EHLO
+        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229560AbhECUDk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 May 2021 16:03:40 -0400
+Received: by mail-oi1-f174.google.com with SMTP id d25so6567437oij.5;
+        Mon, 03 May 2021 13:02:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:mime-version:content-disposition;
-        bh=fyFJP735XQXj4LkTnGwzm4qSEE25PUlvsZ5m+5XoeTg=;
-        b=as7WO1znlwGkLanjHIgi83YSu6hn8mvEskRM8szyysmtzMK+NJJHryMennY2Db3/8V
-         boDCWnqjrZ4QFH2ecni/gw2LvFXjCobc5maW+IKM90JHZY/72MQMnDRE7nfimddAH58h
-         e6K9O7dnFo3eXD4fHkXu9A9yV3noodjltmgaO/55FDpg3HeBtLzKl2XZ3roHLhQ8ivp5
-         wT2NOpatRXMqOX7Eld2Z0Y9nEpGosPTAIm7APhi7Eukv867DYKeykWko/Ma92xHPrNJ9
-         6AgJ9h9JV2/YQ1HktCdmtcHGf7793Pe/wiWsOdOZKoatmU/DfB7NlUTqaP9DeHxzQ5+p
-         NkxQ==
-X-Gm-Message-State: AOAM531UbSOeqwqrLo+rPe3NwOLmycZZ/FgJaMsHJ1f4Ps8O4brBQARQ
-        mT16Su4d6umyUal+dEu6CdWQ3g==
-X-Google-Smtp-Source: ABdhPJwHjMUFJwM40ARD1fhW9cBMZs1N9ixtJyT4oagDjJlQdPziQznBELdraes2Gu2qzngLQrV4Pw==
-X-Received: by 2002:a05:6402:c8:: with SMTP id i8mr22275371edu.57.1620069315093;
-        Mon, 03 May 2021 12:15:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id sb20sm255703ejb.100.2021.05.03.12.15.14
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=tlVcbWxU8A4MpsymAErnTlb8ex26tnEUc1jrAssV4LI=;
+        b=qo7chC7aQxuNxQvLMkkZfP8qStHBS+OF9XMPfNo33+DqXEa+v2+B6KlLddxbQ6Lh8q
+         d/3QBmkNVxpjOEwystY/LCAm0rlG2hacs42XcuV+NV3etvB9jhOUgO2hxMFxgs94Ojj9
+         SLnoBaHxsAR4XmnCEWWoFzilTKIsoGVUtMLMe3v8wOt9RmizHvDCQN3RKZci5xc/HrB5
+         segfqGiie/gpdvA4vbNbrLjdqIwJj8I2XDgaHZNU8fAoPwawaBdS5SxhEH+mqR2gd2gs
+         dqterpbM2Obm0R9t03HIbfvsx3wCtceg1g3oZ0EBI4GWblMWLug5rtp3CiwpIig9PtB2
+         29qw==
+X-Gm-Message-State: AOAM530OxilNDwfqW83c+ciZS/uNVItkX9iB68YyFNvWYlWlBjiwxE50
+        FQvImP8ZzES3CR8XRbK5VLd3ldVmHA==
+X-Google-Smtp-Source: ABdhPJxxGYe73pUJsg9Hd/f3oZBFw7GMjTo47Hgojq4F4V3KAcPdJLsERFFsd1uEUSR7ArpxIi6CNw==
+X-Received: by 2002:a05:6808:982:: with SMTP id a2mr5735571oic.117.1620072166843;
+        Mon, 03 May 2021 13:02:46 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id d3sm174441oic.48.2021.05.03.13.02.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 May 2021 12:15:14 -0700 (PDT)
-Date:   Mon, 3 May 2021 21:15:08 +0200
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PULL] topic/iomem-mmap-vs-gup
-Message-ID: <YJBHiRiCGzojk25U@phenom.ffwll.local>
-Mail-Followup-To: Linus Torvalds <torvalds@linux-foundation.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
+        Mon, 03 May 2021 13:02:46 -0700 (PDT)
+Received: (nullmailer pid 2298513 invoked by uid 1000);
+        Mon, 03 May 2021 20:02:45 -0000
+Date:   Mon, 3 May 2021 15:02:45 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     devicetree@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+Subject: Re: [PATCH] dt-bindings: media: renesas,vin: Make resets optional on
+ R-Car Gen1
+Message-ID: <20210503200245.GA2298465@robh.at.kernel.org>
+References: <217c8197efaee7d803b22d433abb0ea8e33b84c6.1619700314.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <217c8197efaee7d803b22d433abb0ea8e33b84c6.1619700314.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+On Thu, 29 Apr 2021 14:45:52 +0200, Geert Uytterhoeven wrote:
+> The "resets" property is not present on R-Car Gen1 SoCs.
+> Supporting it would require migrating from renesas,cpg-clocks to
+> renesas,cpg-mssr.
+> 
+> Fixes: 905fc6b1bfb4a631 ("dt-bindings: rcar-vin: Convert bindings to json-schema")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Note that VIN is not yet enabled in r8a777[89].dtsi.
+> ---
+>  .../bindings/media/renesas,vin.yaml           | 46 ++++++++++++-------
+>  1 file changed, 29 insertions(+), 17 deletions(-)
+> 
 
-It's still the same topic branch as last merge window, but the name isn't
-fitting all that well anymore :-)
-
-Anyway here's a small pull for you to ponder, now that the big ones are
-all through. It's been in -next almost the entire cycle, I've only done
-some non-code rebases due to the -rc1 fumble and to fix some commit
-message typos.
-
-Christoph Hellwig also looked at these and aside from wanting to outright
-remove it all didn't have objections.
-
-topic/iomem-mmap-vs-gup-2021-05-03:
-unexport follow_pfn
-
-Follow-up to my pull from last merge window: kvm and vfio lost their
-very unsafe use of follow_pfn, this appropriately marks up the very
-last user for some userptr-as-buffer use-cases in media. There was
-some resistance to outright removing it, maybe we can do this in a few
-releases.
-
-Cheers, Daniel
-
-The following changes since commit 0d02ec6b3136c73c09e7859f0d0e4e2c4c07b49b:
-
-  Linux 5.12-rc4 (2021-03-21 14:56:43 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/topic/iomem-mmap-vs-gup-2021-05-03
-
-for you to fetch changes up to ac8b8400620a4b0d9ca903ee9ad440bec736f5fa:
-
-  mm: unexport follow_pfn (2021-04-08 16:54:38 +0200)
-
-----------------------------------------------------------------
-unexport follow_pfn
-
-Follow-up to my pull from last merge window: kvm and vfio lost their
-very unsafe use of follow_pfn, this appropriately marks up the very
-last user for some userptr-as-buffer use-cases in media. There was
-some resistance to outright removing it, maybe we can do this in a few
-releases.
-
-----------------------------------------------------------------
-Daniel Vetter (3):
-      mm: Add unsafe_follow_pfn
-      media/videobuf1|2: Mark follow_pfn usage as unsafe
-      mm: unexport follow_pfn
-
- drivers/media/common/videobuf2/frame_vector.c |  2 +-
- drivers/media/v4l2-core/videobuf-dma-contig.c |  2 +-
- include/linux/mm.h                            |  4 +--
- mm/memory.c                                   | 46 +++++++++++++++++----------
- mm/nommu.c                                    | 28 ++++++++++++----
- security/Kconfig                              | 13 ++++++++
- 6 files changed, 68 insertions(+), 27 deletions(-)
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Applied, thanks!
