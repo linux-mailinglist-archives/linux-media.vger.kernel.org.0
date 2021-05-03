@@ -2,39 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E54E371CE5
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 18:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02B93371CE8
+	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 18:56:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234144AbhECQ5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 12:57:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43266 "EHLO mail.kernel.org"
+        id S234197AbhECQ5Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 12:57:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44910 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234112AbhECQxB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 May 2021 12:53:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 873CE613C7;
-        Mon,  3 May 2021 16:41:51 +0000 (UTC)
+        id S233271AbhECQxx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 May 2021 12:53:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 54B9B61466;
+        Mon,  3 May 2021 16:42:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620060112;
-        bh=Mh0jLuMpRlj7PT8ujy5fCajKV/bIs9e6tDZFhVfAW38=;
+        s=k20201202; t=1620060131;
+        bh=jFWwtTE5bvOh7Wi21Gb39v5DHA/gpFqzU5H/FeuTnxs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fDGJLhQwWyGU7P3LeE1ZDlc5sgb05GsfDgXNtzphRMX4p3Iik3H0jp/Ubqzmk7lhK
-         mJLAGkpvSJZbPn3cBJT5oSS9kj2a3fVopGxvoYSO9etSrPxH3DYSxe4viuFkuPcEC4
-         eC3BM7e9IsdIU1nItcQ2YO0P85XEQImJ6Ofp7IbfTlSyG2y/y2vOugWF2wZMGAhnUo
-         zZVsThMbA6NaFFpWPToX9o2lrlxiHHhjherUhkpM97CkeOyPVBRDGElRrQzNso5rx7
-         3EqQ5g7gyjKgQJU3pgSBuTY0NDaVvne/w2hI+6e/RnVvmkh79lm3BEGfi12MDFHdtF
-         g5rixIR4LoYRw==
+        b=jgcADf6iD62d/gMAW7GfGHSglMHrA+rqRLcN6MTT/eFXW7EoyFVaFZmgFNnXsGljp
+         QN4NeOa7O9cmXS+N93btzaN3m5NeiBwZYJ0/R7kTiUh8HJ0fUSH5YlwNrnFN/t+ntE
+         ckEH0o3GBEraZ3RzIcSiEt5SUfPwIVGKJOkTLt4At2rmvpGNS29W+7zSthLMSOu2lL
+         FA9Ea6uGExa+toBnMzbyA6mvLvEE9dWGkOn6XmqnB9IDfpq8nDPBkZO+TAq7CXnhf6
+         jo6Yyty8YD0rVsK5pfnBB+vM0d8XWoY4k6KmOyuzJ0Wk2c2N34J4blowF16PeSOpyC
+         IpIcPt9mdnmJA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        syzbot+e7f4c64a4248a0340c37@syzkaller.appspotmail.com,
+Cc:     Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 28/35] media: gscpa/stv06xx: fix memory leak
-Date:   Mon,  3 May 2021 12:41:02 -0400
-Message-Id: <20210503164109.2853838-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 04/31] media: ite-cir: check for receive overflow
+Date:   Mon,  3 May 2021 12:41:37 -0400
+Message-Id: <20210503164204.2854178-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210503164109.2853838-1-sashal@kernel.org>
-References: <20210503164109.2853838-1-sashal@kernel.org>
+In-Reply-To: <20210503164204.2854178-1-sashal@kernel.org>
+References: <20210503164204.2854178-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,82 +42,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+From: Sean Young <sean@mess.org>
 
-[ Upstream commit 4f4e6644cd876c844cdb3bea2dd7051787d5ae25 ]
+[ Upstream commit 28c7afb07ccfc0a939bb06ac1e7afe669901c65a ]
 
-For two of the supported sensors the stv06xx driver allocates memory which
-is stored in sd->sensor_priv. This memory is freed on a disconnect, but if
-the probe() fails, then it isn't freed and so this leaks memory.
+It's best if this condition is reported.
 
-Add a new probe_error() op that drivers can use to free any allocated
-memory in case there was a probe failure.
-
-Thanks to Pavel Skripkin <paskripkin@gmail.com> for discovering the cause
-of the memory leak.
-
-Reported-and-tested-by: syzbot+e7f4c64a4248a0340c37@syzkaller.appspotmail.com
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/gspca/gspca.c           | 2 ++
- drivers/media/usb/gspca/gspca.h           | 1 +
- drivers/media/usb/gspca/stv06xx/stv06xx.c | 9 +++++++++
- 3 files changed, 12 insertions(+)
+ drivers/media/rc/ite-cir.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/gspca/gspca.c b/drivers/media/usb/gspca/gspca.c
-index 93212ed80bf8..f0562b8eef56 100644
---- a/drivers/media/usb/gspca/gspca.c
-+++ b/drivers/media/usb/gspca/gspca.c
-@@ -1586,6 +1586,8 @@ int gspca_dev_probe2(struct usb_interface *intf,
- #endif
- 	v4l2_ctrl_handler_free(gspca_dev->vdev.ctrl_handler);
- 	v4l2_device_unregister(&gspca_dev->v4l2_dev);
-+	if (sd_desc->probe_error)
-+		sd_desc->probe_error(gspca_dev);
- 	kfree(gspca_dev->usb_buf);
- 	kfree(gspca_dev);
- 	return ret;
-diff --git a/drivers/media/usb/gspca/gspca.h b/drivers/media/usb/gspca/gspca.h
-index b0ced2e14006..a6554d5e9e1a 100644
---- a/drivers/media/usb/gspca/gspca.h
-+++ b/drivers/media/usb/gspca/gspca.h
-@@ -105,6 +105,7 @@ struct sd_desc {
- 	cam_cf_op config;	/* called on probe */
- 	cam_op init;		/* called on probe and resume */
- 	cam_op init_controls;	/* called on probe */
-+	cam_v_op probe_error;	/* called if probe failed, do cleanup here */
- 	cam_op start;		/* called on stream on after URBs creation */
- 	cam_pkt_op pkt_scan;
- /* optional operations */
-diff --git a/drivers/media/usb/gspca/stv06xx/stv06xx.c b/drivers/media/usb/gspca/stv06xx/stv06xx.c
-index b7ea4f982964..ccec6138f678 100644
---- a/drivers/media/usb/gspca/stv06xx/stv06xx.c
-+++ b/drivers/media/usb/gspca/stv06xx/stv06xx.c
-@@ -538,12 +538,21 @@ static int sd_int_pkt_scan(struct gspca_dev *gspca_dev,
- static int stv06xx_config(struct gspca_dev *gspca_dev,
- 			  const struct usb_device_id *id);
+diff --git a/drivers/media/rc/ite-cir.c b/drivers/media/rc/ite-cir.c
+index 65e104c7ddfc..c7eea16225e7 100644
+--- a/drivers/media/rc/ite-cir.c
++++ b/drivers/media/rc/ite-cir.c
+@@ -285,8 +285,14 @@ static irqreturn_t ite_cir_isr(int irq, void *data)
+ 	/* read the interrupt flags */
+ 	iflags = dev->params.get_irq_causes(dev);
  
-+static void stv06xx_probe_error(struct gspca_dev *gspca_dev)
-+{
-+	struct sd *sd = (struct sd *)gspca_dev;
++	/* Check for RX overflow */
++	if (iflags & ITE_IRQ_RX_FIFO_OVERRUN) {
++		dev_warn(&dev->rdev->dev, "receive overflow\n");
++		ir_raw_event_reset(dev->rdev);
++	}
 +
-+	kfree(sd->sensor_priv);
-+	sd->sensor_priv = NULL;
-+}
-+
- /* sub-driver description */
- static const struct sd_desc sd_desc = {
- 	.name = MODULE_NAME,
- 	.config = stv06xx_config,
- 	.init = stv06xx_init,
- 	.init_controls = stv06xx_init_controls,
-+	.probe_error = stv06xx_probe_error,
- 	.start = stv06xx_start,
- 	.stopN = stv06xx_stopN,
- 	.pkt_scan = stv06xx_pkt_scan,
+ 	/* check for the receive interrupt */
+-	if (iflags & (ITE_IRQ_RX_FIFO | ITE_IRQ_RX_FIFO_OVERRUN)) {
++	if (iflags & ITE_IRQ_RX_FIFO) {
+ 		/* read the FIFO bytes */
+ 		rx_bytes =
+ 			dev->params.get_rx_bytes(dev, rx_buf,
 -- 
 2.30.2
 
