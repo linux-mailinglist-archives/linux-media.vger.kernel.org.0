@@ -2,102 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BE76371301
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 11:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC76F371313
+	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 11:37:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233115AbhECJag (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 05:30:36 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:51496 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231523AbhECJaf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 May 2021 05:30:35 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1439Ej47095761;
-        Mon, 3 May 2021 09:29:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=D9UNFPRmfvogZj9PAB7k6zDOA5DgR66HQyCjzw0gC7g=;
- b=jglg8iSsE9X60e3V3hTwmJTyMyDrs/krt6TPV9Nia+OLRp4xo+UjOQfWGCOJ1pGP/ZqG
- 63ZasQzaYquod3AOV5oyQxPUEFDMgTwO54J3NX46yTWMQocU3RSQLi/zpv/UNnI65RsF
- +KPap+anQKgIpjZ/7YlK9O4vPRKo4nNL/3Ks2rpbRjNz2on0TSjGMI2fNALr3oHAMgPL
- kVwCPsYDXoEmok8u2YbSCwQNpHVJGG1jQn8CLAkBaurKrAes6hLcBWlYzhGIC/fyzSwg
- Br1WcvCAcE57n+nGj5MZfXPEf5ptHktyGrV5WP6pEbteAY/ZNGrqGmCaqM/D4NCmo8Fa Qw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 389h13syd1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 03 May 2021 09:29:33 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1439ABI8116302;
-        Mon, 3 May 2021 09:29:33 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by aserp3020.oracle.com with ESMTP id 388xt234rs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 03 May 2021 09:29:33 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1439TWpE191144;
-        Mon, 3 May 2021 09:29:32 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 388xt234rd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 03 May 2021 09:29:32 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 1439TVNC004813;
-        Mon, 3 May 2021 09:29:31 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 03 May 2021 02:29:31 -0700
-Date:   Mon, 3 May 2021 12:29:24 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Nigel Christian <nigel.l.christian@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S233079AbhECJiF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 05:38:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54916 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230358AbhECJiE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 May 2021 05:38:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 52B0B611CD;
+        Mon,  3 May 2021 09:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620034631;
+        bh=M987MvGM1WxXqWZEfX5EOoKkXuQSVSi+BFpcAGqzjdE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oZxvE1H64mH2mK95gnGcBCoOTtuNbB98PM74L49AcjsxiytRfPdDJ9ZG+tOOJgweg
+         iDPm/5fXr8yUf/ty5P/XPmGABlqWIcdGmUObktAR0bUCKwdM5ORTnvaLnObMsvOB2A
+         y+oAEzL83PcKB5nagxFBQa738OVpZp27X/HI16tHJbzAPxdcaoilk3zvtpfUapyrWn
+         xCzAADT4WWjbNAAeb102skAB3OCFtk0S8UeNm4WJ42xSmkBbrr+vN3+lBz03wjBVGa
+         6pUybv7oyabnLf5MktSFhmODOwUJu3k9u3o2oIkGm03eYzEjy1nPc6jZc2FEvq6Onc
+         K7UffcPEvoYEA==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1ldV0m-0093Lg-NW; Mon, 03 May 2021 11:37:08 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Remove unused variable
-Message-ID: <20210503092924.GO1981@kadam>
-References: <YIyCJoEwdqgqkxYN@fedora>
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH] media: venus: Rework error fail recover logic
+Date:   Mon,  3 May 2021 11:37:05 +0200
+Message-Id: <a18137ad51435ff828748e30dcd139e6cacdc120.1620034356.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YIyCJoEwdqgqkxYN@fedora>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: 7S3tJumW5rB0_PZXjIny7zHgSmJqKNrg
-X-Proofpoint-GUID: 7S3tJumW5rB0_PZXjIny7zHgSmJqKNrg
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9972 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011 spamscore=0 mlxscore=0
- phishscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 mlxlogscore=999 malwarescore=0 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2105030062
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Apr 30, 2021 at 06:18:14PM -0400, Nigel Christian wrote:
-> The variable buflen is being assigned a value that is never read,
-> which can be removed.
-> 
-> Addresses-Coverity: ("Unused value")
-> Signed-off-by: Nigel Christian <nigel.l.christian@gmail.com>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 9a791d8ef200..370b086c6e22 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -768,7 +768,6 @@ static int uvc_parse_format(struct uvc_device *dev,
->  		format->xfer_func = uvc_xfer_func(buffer[4]);
->  		format->ycbcr_enc = uvc_ycbcr_enc(buffer[5]);
->  
-> -		buflen -= buffer[0];
->  		buffer += buffer[0];
->  	}
+The Venus code has a sort of watchdog that attempts to recover
+from IP errors, implemented as a delayed work job, which
+calls venus_sys_error_handler().
 
-This is a situation where I think that the unused assignment helps
-readability because it shows how buflen and buffer are connected.
+Right now, it has several issues:
 
-regards,
-dan carpenter
+1. It assumes that pm_runtime never fails to resume PM;
+
+2. It internally run two while() loops that also assumes that
+   PM runtime will never fail to go idle:
+
+	while (pm_runtime_active(core->dev_dec) || pm_runtime_active(core->dev_enc))
+		msleep(10);
+
+...
+
+	while (core->pmdomains[0] && pm_runtime_active(core->pmdomains[0]))
+		usleep_range(1000, 1500);
+
+3. It uses an OR to merge all return codes and then report to the user.
+
+4. If the hardware never recovers, it keeps running on every 10ms,
+   flooding the syslog.
+
+Rework the code, in order to prevent that, by:
+
+1. check the return code from PM runtime resume;
+2. don't let the while() loops run forever;
+3. store the failed event;
+4. use warn ratelimited when it fails to recover.
+
+Fixes: af2c3834c8ca ("[media] media: venus: adding core part and helper functions")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+
+Hi Stanimir,
+
+While reviewing the occurrences of pm_runtime_get_sync(), I noticed that
+the logic under  pm_runtime_get_sync() could fail very badly, keep
+running endless loops with the dev->core locked and core->irq disabled
+or flooding the syslog with up to 100 messages per second.
+
+This patch should make the code more reliable.
+
+
+ drivers/media/platform/qcom/venus/core.c | 59 +++++++++++++++++++-----
+ 1 file changed, 47 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 54bac7ec14c5..4d0482743c0a 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -78,22 +78,32 @@ static const struct hfi_core_ops venus_core_ops = {
+ 	.event_notify = venus_event_notify,
+ };
+ 
++#define RPM_WAIT_FOR_IDLE_MAX_ATTEMPTS 10
++
+ static void venus_sys_error_handler(struct work_struct *work)
+ {
+ 	struct venus_core *core =
+ 			container_of(work, struct venus_core, work.work);
+-	int ret = 0;
++	int ret, i, max_attempts = RPM_WAIT_FOR_IDLE_MAX_ATTEMPTS;
++	bool failed = false;
++	const char *err_msg = "";
+ 
+-	pm_runtime_get_sync(core->dev);
++	ret = pm_runtime_get_sync(core->dev);
++	if (ret < 0) {
++		err_msg = "resume runtime PM\n";
++		max_attempts = 0;
++		failed = true;
++	}
+ 
+ 	hfi_core_deinit(core, true);
+ 
+-	dev_warn(core->dev, "system error has occurred, starting recovery!\n");
+-
+ 	mutex_lock(&core->lock);
+ 
+-	while (pm_runtime_active(core->dev_dec) || pm_runtime_active(core->dev_enc))
++	for (i = 0; i < max_attempts; i++) {
++		if (!pm_runtime_active(core->dev_dec) && !pm_runtime_active(core->dev_enc))
++			break;
+ 		msleep(10);
++	}
+ 
+ 	venus_shutdown(core);
+ 
+@@ -101,31 +111,56 @@ static void venus_sys_error_handler(struct work_struct *work)
+ 
+ 	pm_runtime_put_sync(core->dev);
+ 
+-	while (core->pmdomains[0] && pm_runtime_active(core->pmdomains[0]))
++	for (i = 0; i < max_attempts; i++) {
++		if (!core->pmdomains[0] || !pm_runtime_active(core->pmdomains[0]))
++			break;
+ 		usleep_range(1000, 1500);
++	}
+ 
+ 	hfi_reinit(core);
+ 
+-	pm_runtime_get_sync(core->dev);
++	ret = pm_runtime_get_sync(core->dev);
++	if (ret < 0) {
++		err_msg = "resume runtime PM\n";
++		max_attempts = 0;
++		failed = true;
++	}
+ 
+-	ret |= venus_boot(core);
+-	ret |= hfi_core_resume(core, true);
++	ret = venus_boot(core);
++	if (ret && !failed) {
++		err_msg = "boot Venus\n";
++		failed = true;
++	}
++
++	ret = hfi_core_resume(core, true);
++	if (ret && !failed) {
++		err_msg = "resume HFI\n";
++		failed = true;
++	}
+ 
+ 	enable_irq(core->irq);
+ 
+ 	mutex_unlock(&core->lock);
+ 
+-	ret |= hfi_core_init(core);
++	ret = hfi_core_init(core);
++	if (ret && !failed) {
++		err_msg = "init HFI\n";
++		failed = true;
++	}
+ 
+ 	pm_runtime_put_sync(core->dev);
+ 
+-	if (ret) {
++	if (failed) {
+ 		disable_irq_nosync(core->irq);
+-		dev_warn(core->dev, "recovery failed (%d)\n", ret);
++		dev_warn_ratelimited(core->dev,
++				     "System error has occurred, recovery failed to %s\n",
++				     err_msg);
+ 		schedule_delayed_work(&core->work, msecs_to_jiffies(10));
+ 		return;
+ 	}
+ 
++	dev_warn(core->dev, "system error has occurred (recovered)\n");
++
+ 	mutex_lock(&core->lock);
+ 	core->sys_error = false;
+ 	mutex_unlock(&core->lock);
+-- 
+2.30.2
+
 
