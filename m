@@ -2,195 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15D643712FA
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 11:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BE76371301
+	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 11:29:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233041AbhECJ3Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 05:29:24 -0400
-Received: from gofer.mess.org ([88.97.38.141]:37753 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231523AbhECJ3K (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 May 2021 05:29:10 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id BEB21C63DD; Mon,  3 May 2021 10:28:03 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1620034083; bh=3Lqh525HUZgW/IOmgNPErIBSMpq4pjo2qRROx5FNK/w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hH06HIWxHE1Q4YAmW3DFjF5VOK/M3Si3dtxwuu5EdtK1mOEHJ4aKvyCuMG9wD6PVj
-         2Cc6Gac8IZ/F0ZcOnlixAl8TAjBN1teAe3iA37LCks+5pGT7S4HJ3pMt2r2PAeZw7H
-         n8O2UcBn/O1riavUyz3g7K5+x+e12OeGPDDGUVg00UfT7l2x9ksojmSu7AYG54eyF3
-         ScLFewD6WaCHOGW7KypkoNF2B5vm99sZC+EM1ieNq9mRrpsG6jlyFmVvyxsou6zfT4
-         mEYpwlZodWcqpLwWmxUizdy4jWjiLHOpegB8cFVPutl/B7m2tAZnhh8RLwSh1qpGuO
-         aOyJanVDI19Bw==
-Date:   Mon, 3 May 2021 10:28:03 +0100
-From:   Sean Young <sean@mess.org>
-To:     =?utf-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>, jr@memlen.com,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        anant.thazhemadam@gmail.com,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: "UBSAN: shift-out-of-bounds in mceusb_dev_recv" should share the
- same root cause with "UBSAN: shift-out-of-bounds in mceusb_dev_printdata"
-Message-ID: <20210503092803.GA15275@gofer.mess.org>
-References: <CAD-N9QW-zm37f9PW-iF-NaAH5LLePWFba3aG5LkXD2a07YBZpg@mail.gmail.com>
- <X/6mhQfPRt0QoorO@kroah.com>
- <CAD-N9QUuvxa3CCqru08O2x9p-AJp54qo-e-9O49YGQwQEWKLdA@mail.gmail.com>
- <CAD-N9QVAaVozZuPSG9YKjEYreRX3PEoW0UM3Dwhko_-tVTpK0Q@mail.gmail.com>
+        id S233115AbhECJag (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 05:30:36 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:51496 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231523AbhECJaf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 May 2021 05:30:35 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1439Ej47095761;
+        Mon, 3 May 2021 09:29:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=D9UNFPRmfvogZj9PAB7k6zDOA5DgR66HQyCjzw0gC7g=;
+ b=jglg8iSsE9X60e3V3hTwmJTyMyDrs/krt6TPV9Nia+OLRp4xo+UjOQfWGCOJ1pGP/ZqG
+ 63ZasQzaYquod3AOV5oyQxPUEFDMgTwO54J3NX46yTWMQocU3RSQLi/zpv/UNnI65RsF
+ +KPap+anQKgIpjZ/7YlK9O4vPRKo4nNL/3Ks2rpbRjNz2on0TSjGMI2fNALr3oHAMgPL
+ kVwCPsYDXoEmok8u2YbSCwQNpHVJGG1jQn8CLAkBaurKrAes6hLcBWlYzhGIC/fyzSwg
+ Br1WcvCAcE57n+nGj5MZfXPEf5ptHktyGrV5WP6pEbteAY/ZNGrqGmCaqM/D4NCmo8Fa Qw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 389h13syd1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 03 May 2021 09:29:33 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1439ABI8116302;
+        Mon, 3 May 2021 09:29:33 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3020.oracle.com with ESMTP id 388xt234rs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 03 May 2021 09:29:33 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1439TWpE191144;
+        Mon, 3 May 2021 09:29:32 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3020.oracle.com with ESMTP id 388xt234rd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 03 May 2021 09:29:32 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 1439TVNC004813;
+        Mon, 3 May 2021 09:29:31 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 03 May 2021 02:29:31 -0700
+Date:   Mon, 3 May 2021 12:29:24 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Nigel Christian <nigel.l.christian@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Remove unused variable
+Message-ID: <20210503092924.GO1981@kadam>
+References: <YIyCJoEwdqgqkxYN@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD-N9QVAaVozZuPSG9YKjEYreRX3PEoW0UM3Dwhko_-tVTpK0Q@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YIyCJoEwdqgqkxYN@fedora>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: 7S3tJumW5rB0_PZXjIny7zHgSmJqKNrg
+X-Proofpoint-GUID: 7S3tJumW5rB0_PZXjIny7zHgSmJqKNrg
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9972 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011 spamscore=0 mlxscore=0
+ phishscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 mlxlogscore=999 malwarescore=0 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2105030062
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-HI,
+On Fri, Apr 30, 2021 at 06:18:14PM -0400, Nigel Christian wrote:
+> The variable buflen is being assigned a value that is never read,
+> which can be removed.
+> 
+> Addresses-Coverity: ("Unused value")
+> Signed-off-by: Nigel Christian <nigel.l.christian@gmail.com>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 9a791d8ef200..370b086c6e22 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -768,7 +768,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+>  		format->xfer_func = uvc_xfer_func(buffer[4]);
+>  		format->ycbcr_enc = uvc_ycbcr_enc(buffer[5]);
+>  
+> -		buflen -= buffer[0];
+>  		buffer += buffer[0];
+>  	}
 
-On Sun, May 02, 2021 at 10:29:25PM +0800, 慕冬亮 wrote:
-> Hi kernel developers,
-> 
-> I found one interesting follow-up for these two crash reports. In the
-> syzbot dashboard, they are fixed with different patches. Each patch
-> fixes at the failure point - mceusb_handle_command  and
-> mceusb_dev_printdata. For patch details, please have a look at the
-> crash reports [1] and [2].
-> 
-> Recall the vulnerability below, and kernel crashes both at the case
-> SUBCMD with incorrect value in ir_buf_in[i+2]. I still think they
-> share the same root cause and fixing this bug needs two patches at the
-> same time.
-> 
-> --------------------------------------------------------------------------------------------------------------------------
-> for (; i < buf_len; i++) {
->      switch (ir->parser_state) {
->      case SUBCMD:
->              ir->rem = mceusb_cmd_datasize(ir->cmd, ir->buf_in[i]);
->              mceusb_dev_printdata(ir, ir->buf_in, buf_len, i - 1,
->                                                    ir->rem + 2, false);
->              if (i + ir->rem < buf_len)
->              mceusb_handle_command(ir, &ir->buf_in[i - 1]);
-> --------------------------------------------------------------------------------------------------------------------------
-> 
-> I wonder if developers can see two crash reports in the very
-> beginning, they may craft different patches which fix this bug in the
-> root cause. Meanwhile, if developers can see those crash reports in
-> advance, this may save some time for developers since only one takes
-> time to analyze this bug. If you have any issues about this statement,
-> please let me know.
+This is a situation where I think that the unused assignment helps
+readability because it shows how buflen and buffer are connected.
 
-I am sorry, I have a hard time following. As far as I am aware, the issue
-with mceusb_dev_printdata() have been resolved. If you think there is still
-is an issue, please do send a patch and then we can discuss it. As far as I
-know there is noone else working on this.
+regards,
+dan carpenter
 
-This mceusb_dev_printdata() function has been very troublesome, maybe it
-could be written in a different way.
-
-Thanks,
-
-Sean
-
-> 
-> 
-> [1] UBSAN: shift-out-of-bounds in mceusb_dev_printdata
-> https://syzkaller.appspot.com/bug?id=df1efbbf75149f5853ecff1938ffd3134f269119
-> [2] UBSAN: shift-out-of-bounds in mceusb_dev_recv
-> https://syzkaller.appspot.com/bug?id=50d4123e6132c9563297ecad0479eaad7480c172
-> 
-> On Wed, Jan 13, 2021 at 7:20 PM 慕冬亮 <mudongliangabcd@gmail.com> wrote:
-> >
-> > On Wed, Jan 13, 2021 at 3:51 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Wed, Jan 13, 2021 at 01:04:44PM +0800, 慕冬亮 wrote:
-> > > > Hi developers,
-> > > >
-> > > > I found that "UBSAN: shift-out-of-bounds in mceusb_dev_recv" and
-> > > > "UBSAN: shift-out-of-bounds in mceusb_dev_printdata" should share the
-> > > > same root cause.
-> > > > The reason is that the PoCs after minimization has a high similarity
-> > > > with the other. And their stack trace only diverges at the last
-> > > > function call. The following is some analysis for this bug.
-> > > >
-> > > > The following code in the mceusb_process_ir_data is the vulnerable
-> > > > --------------------------------------------------------------------------------------------------------------------------
-> > > > for (; i < buf_len; i++) {
-> > > >      switch (ir->parser_state) {
-> > > >      case SUBCMD:
-> > > >              ir->rem = mceusb_cmd_datasize(ir->cmd, ir->buf_in[i]);
-> > > >              mceusb_dev_printdata(ir, ir->buf_in, buf_len, i - 1,
-> > > >                                                    ir->rem + 2, false);
-> > > >              if (i + ir->rem < buf_len)
-> > > >              mceusb_handle_command(ir, &ir->buf_in[i - 1]);
-> > > > --------------------------------------------------------------------------------------------------------------------------
-> > > >
-> > > > The first report crashes at a shift operation(1<<*hi) in mceusb_handle_command.
-> > > > --------------------------------------------------------------------------------------------------------------------------
-> > > > static void mceusb_handle_command(struct mceusb_dev *ir, u8 *buf_in)
-> > > > {
-> > > > u8 *hi = &buf_in[2]; /* read only when required */
-> > > > if (cmd == MCE_CMD_PORT_SYS) {
-> > > >       switch (subcmd) {
-> > > >       case MCE_RSP_GETPORTSTATUS:
-> > > >               if (buf_in[5] == 0)
-> > > >                      ir->txports_cabled |= 1 << *hi;
-> > > > --------------------------------------------------------------------------------------------------------------------------
-> > > >
-> > > > The second report crashes at another shift operation (1U << data[0])
-> > > > in mceusb_dev_printdata.
-> > > > --------------------------------------------------------------------------------------------------------------------------
-> > > > static void mceusb_dev_printdata(struct mceusb_dev *ir, u8 *buf, int buf_len,
-> > > > int offset, int len, bool out)
-> > > > {
-> > > > data   = &buf[offset] + 2;
-> > > >
-> > > >           period = DIV_ROUND_CLOSEST((1U << data[0] * 2) *
-> > > >                         (data[1] + 1), 10);
-> > > > --------------------------------------------------------------------------------------------------------------------------
-> > > >
-> > > > >From the analysis, we can know the data[0] and *hi access the same
-> > > > memory cell - ``ir->buf_in[i+1]``. So the root cause should be that it
-> > > > misses the check of ir->buf_in[i+1].
-> > > >
-> > > > For the patch of this bug, there is one from anant.thazhemadam@gmail.com:
-> > > > --------------------------------------------------------------------------------------------------------------------------
-> > > > diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
-> > > > index f1dbd059ed08..79de721b1c4a 100644
-> > > > --- a/drivers/media/rc/mceusb.c
-> > > > +++ b/drivers/media/rc/mceusb.c
-> > > > @@ -1169,7 +1169,7 @@ static void mceusb_handle_command(struct
-> > > > mceusb_dev *ir, u8 *buf_in)
-> > > >   switch (subcmd) {
-> > > >   /* the one and only 5-byte return value command */
-> > > >   case MCE_RSP_GETPORTSTATUS:
-> > > > - if (buf_in[5] == 0)
-> > > > + if ((buf_in[5] == 0) && (*hi <= 32))
-> > > >   ir->txports_cabled |= 1 << *hi;
-> > > >   break;
-> > > > --------------------------------------------------------------------------------------------------------------------------
-> > > > I tried this patch in the second crash report and found it does not
-> > > > work. I think we should add another filter for the value in
-> > > > ``ir->buf_in[i+1]``.
-> > > >
-> > > > With this grouping, I think developers can take into consideration the
-> > > > issue in mceusb_dev_printdata and generate a complete patch for this
-> > > > bug.
-> > >
-> > > Why not create a patch yourself and submit it?  That way you get the
-> > > correct credit for solving the problem.
-> > >
-> >
-> > I have sent a simple but working patch to the corresponding
-> > developers. We can take it as a base to discuss.
-> >
-> > And this email is to provide some information about bug duplication
-> > for developers as I am doing some research on crash deduplication. I
-> > want to get some credits if our grouping information is useful for
-> > some kernel developers.
-> >
-> > > thanks,
-> > >
-> > > greg k-h
