@@ -2,145 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0DE2373052
-	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 21:07:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68C723731BF
+	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 23:06:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232252AbhEDTIc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 May 2021 15:08:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36094 "EHLO
+        id S232798AbhEDVHl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 May 2021 17:07:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232164AbhEDTI0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 15:08:26 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5852C06174A;
-        Tue,  4 May 2021 12:07:31 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id 76so7883899qkn.13;
-        Tue, 04 May 2021 12:07:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2GHL/SEgSOnHu9ybvCk72F3enffJ+oqaNygEn1HzTJQ=;
-        b=R/JSj+Dq8U4sMWy39msHdEPCd1+/8QkjFJzCgo9juFXOdyk+28I00LwgvPv+Xr+y7j
-         WXlmoz2Gfl6ONsLx0fos5mxA2xQAQd8SVe0TZ4Flfx3qzQ6VYn6vETPlL8CqknDmt0x0
-         QtubWFpTsVcu5yPprtY+P+VPBlQ1XDqh65SxL79kJqYNDwLlLTK4vnZRcekDM250bwqp
-         q92Uf3pg1Xl4MEwW79HKIILwpw946eRGwhUGC/F2mr3FXZZFIdKVgyOhoSMqyu7yzNPh
-         gIUEKQN5j+O6OSfvBY8G4+WtexXpdsTqcnfNHSDttNjxAH/sbyMdg7D0cyAUWTp9JgRP
-         gN9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2GHL/SEgSOnHu9ybvCk72F3enffJ+oqaNygEn1HzTJQ=;
-        b=aLlO/K9lt/cVd+V09WIn7Vk9m3G54ZQg5rA4MjGAbUbpH2TyX89B3npeAr9fXdh9qD
-         hDQ1BkCiaCYvgWWqDNQ5UNGSyykM3Bm99gJe5PJ0SiNQiYI9/mzu3Ark16TbdKaJSP+h
-         b0eQtJLZjaAMW/ymK6v5Lx1u/cNEj3+tPYChTnfep/kCVv3SnbzBwa4sxG8btND2C4Zs
-         Mtv2liUVp36XI5nmTGNaaMosMNpsoR8ghoQXIfK68IetYajKp5kGKV1inwk/s59RHUBt
-         WY3uR2XsPVqppyOBqaASNgs9C+ZHkRKgKGE1mM79tKpQBhqsnsI5a1oQmMJaam5IUfvP
-         HiZg==
-X-Gm-Message-State: AOAM5309V7p8htFzvD3xq9Vzbsp+UtKP+yctqcjFmXSEHhkPxnzpgtUv
-        Sws2njZ22HO3LEZWPSqoS3Z2GoW9+sbCcQ==
-X-Google-Smtp-Source: ABdhPJziMVhIhR3ZpRonQ8FNTyJsfiu4+N+8fWV2sAyiXHXK7nZ/i3jAPnq2rNc6ZpbDnyT2DsOxOg==
-X-Received: by 2002:a37:6850:: with SMTP id d77mr22571773qkc.57.1620155250886;
-        Tue, 04 May 2021 12:07:30 -0700 (PDT)
-Received: from ?IPv6:2804:14c:125:811b:fbbc:3360:40c4:fb64? ([2804:14c:125:811b:fbbc:3360:40c4:fb64])
-        by smtp.gmail.com with ESMTPSA id t1sm3059094qto.78.2021.05.04.12.07.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 May 2021 12:07:30 -0700 (PDT)
-Subject: Re: [PATCH] media: em28xx: Fix possible memory leak of em28xx struct
-To:     Shuah Khan <skhan@linuxfoundation.org>, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl
-References: <20210503173716.21652-1-igormtorrente@gmail.com>
- <dc285959-080a-3809-2f3e-e1de3440374a@linuxfoundation.org>
-From:   Igor Torrente <igormtorrente@gmail.com>
-Message-ID: <e5fa7752-a6d4-7d5b-160c-c92a38fed0e6@gmail.com>
-Date:   Tue, 4 May 2021 16:07:27 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        with ESMTP id S232169AbhEDVHl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 17:07:41 -0400
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21CA3C061574
+        for <linux-media@vger.kernel.org>; Tue,  4 May 2021 14:06:46 -0700 (PDT)
+Received: from lanttu.localdomain (unknown [192.168.2.193])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 0101F634C87;
+        Wed,  5 May 2021 00:04:19 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     ezequiel.garcia@collabora.com
+Subject: [PATCH v3 1/1] v4l: async, fwnode: Improve module organisation
+Date:   Wed,  5 May 2021 00:06:42 +0300
+Message-Id: <20210504210642.9568-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <dc285959-080a-3809-2f3e-e1de3440374a@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The V4L2 async framework is generally used with the V4L2 fwnode, which
+also depends on the former. There are a few exceptions but they are
+relatively few.
 
+At the same time there is a vast number of systems that need videodev
+module, but have no use for v4l2-async that's now part of videodev.
 
-On 5/3/21 5:06 PM, Shuah Khan wrote:
-> Hi Igor,
-> 
-> On 5/3/21 11:37 AM, Igor Matheus Andrade Torrente wrote:
->> The em28xx struct kref isn't being decreased after an error in the
->> em28xx_ir_init, leading to a possible memory leak.
->>
->> A kref_put is added to the error handler code.
->>
->> Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
->> ---
->>   drivers/media/usb/em28xx/em28xx-input.c | 7 +++++--
->>   1 file changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/usb/em28xx/em28xx-input.c 
->> b/drivers/media/usb/em28xx/em28xx-input.c
->> index 5aa15a7a49de..b89527014cad 100644
->> --- a/drivers/media/usb/em28xx/em28xx-input.c
->> +++ b/drivers/media/usb/em28xx/em28xx-input.c
->> @@ -720,7 +720,8 @@ static int em28xx_ir_init(struct em28xx *dev)
->>               dev->board.has_ir_i2c = 0;
->>               dev_warn(&dev->intf->dev,
->>                    "No i2c IR remote control device found.\n");
->> -            return -ENODEV;
->> +            err = -ENODEV;
->> +            goto ref_put;
-> 
-> This doesn't look right. em28xx_init_buttons() is already happened and
-> em28xx_shutdown_buttons() needs to be done from fini. fini needs to run
-> with this ref. If ref is released here, device might be released before
-> em28xx_shutdown_buttons() can run leading to potential use-after-free
-> 
+In order to improve, split the v4l2-async into its own module. Selecting
+V4L2_FWNODE also selects V4L2_ASYNC.
 
-Thanks for the feedback.
+This also moves the initialisation of the debufs entries for async subdevs
+to loading of the v4l2-async module. The directory is named as
+"v4l2-async".
 
-I sent a patch V2 that I think fix the problem pointed out.
-
->>           }
->>       }
->> @@ -735,7 +736,7 @@ static int em28xx_ir_init(struct em28xx *dev)
->>       ir = kzalloc(sizeof(*ir), GFP_KERNEL);
->>       if (!ir)
->> -        return -ENOMEM;
->> +        goto ref_put;
-> 
-> This doesn't look right. Same comment as above. fini accounts for null
-> ir.
-> 
->        em28xx_shutdown_buttons(dev);
-> 
->         /* skip detach on non attached boards */
->         if (!ir)
->                 goto ref_put;
-> 
-> 
->>       rc = rc_allocate_device(RC_DRIVER_SCANCODE);
->>       if (!rc)
->>           goto error;
->> @@ -839,6 +840,8 @@ static int em28xx_ir_init(struct em28xx *dev)
->>       dev->ir = NULL;
->>       rc_free_device(rc);
->>       kfree(ir);
->> +ref_put:
->> +    kref_put(&dev->ref, em28xx_free_device);
->>       return err;
->>   }
->>
-> 
-> thanks,
-> -- Shuah
-
-Best regard,
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
-Igor M. A. Torrente
+since v2:
+
+- Use select to choose V4L2_ASYNC when V4L2_FWNODE is required by the
+  driver (thanks to Ezequiel).
+
+- Select V4L2_ASYNC for a few more drivers.
+
+- Rework the commit message.
+
+ drivers/media/i2c/Kconfig            | 11 +++++++++++
+ drivers/media/v4l2-core/Kconfig      |  5 +++++
+ drivers/media/v4l2-core/Makefile     |  5 +++--
+ drivers/media/v4l2-core/v4l2-async.c | 23 +++++++++++++++++++++--
+ drivers/media/v4l2-core/v4l2-dev.c   |  5 -----
+ 5 files changed, 40 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 462c0e059754..4f1dafc64816 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -217,6 +217,7 @@ config VIDEO_ADV7180
+ 	depends on GPIOLIB && VIDEO_V4L2 && I2C
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
++	select V4L2_ASYNC
+ 	help
+ 	  Support for the Analog Devices ADV7180 video decoder.
+ 
+@@ -534,6 +535,7 @@ config VIDEO_ADV7175
+ config VIDEO_ADV7343
+ 	tristate "ADV7343 video encoder"
+ 	depends on I2C
++	select V4L2_ASYNC
+ 	help
+ 	  Support for Analog Devices I2C bus based ADV7343 encoder.
+ 
+@@ -652,6 +654,7 @@ config SDR_MAX2175
+ 	tristate "Maxim 2175 RF to Bits tuner"
+ 	depends on VIDEO_V4L2 && MEDIA_SDR_SUPPORT && I2C
+ 	select REGMAP_I2C
++	select V4L2_ASYNC
+ 	help
+ 	  Support for Maxim 2175 tuner. It is an advanced analog/digital
+ 	  radio receiver with RF-to-Bits front-end designed for SDR solutions.
+@@ -668,6 +671,7 @@ menu "Miscellaneous helper chips"
+ config VIDEO_THS7303
+ 	tristate "THS7303/53 Video Amplifier"
+ 	depends on VIDEO_V4L2 && I2C
++	select V4L2_ASYNC
+ 	help
+ 	  Support for TI THS7303/53 video amplifier
+ 
+@@ -1341,6 +1345,7 @@ config VIDEO_AD5820
+ 	tristate "AD5820 lens voice coil support"
+ 	depends on GPIOLIB && I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
++	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the AD5820 camera lens voice coil.
+ 	  It is used for example in Nokia N900 (RX-51).
+@@ -1350,6 +1355,7 @@ config VIDEO_AK7375
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
++	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the AK7375 camera lens voice coil.
+ 	  AK7375 is a 12 bit DAC with 120mA output current sink
+@@ -1361,6 +1367,7 @@ config VIDEO_DW9714
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
++	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the DW9714 camera lens voice coil.
+ 	  DW9714 is a 10 bit DAC with 120mA output current sink
+@@ -1384,6 +1391,7 @@ config VIDEO_DW9807_VCM
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
++	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the DW9807 camera lens voice coil.
+ 	  DW9807 is a 10 bit DAC with 100mA output current sink
+@@ -1399,6 +1407,7 @@ config VIDEO_ADP1653
+ 	tristate "ADP1653 flash support"
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
++	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the ADP1653 flash controller. It is used for
+ 	  example in Nokia N900.
+@@ -1408,6 +1417,7 @@ config VIDEO_LM3560
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select REGMAP_I2C
++	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the lm3560 dual flash controllers. It controls
+ 	  flash, torch LEDs.
+@@ -1417,6 +1427,7 @@ config VIDEO_LM3646
+ 	depends on I2C && VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select REGMAP_I2C
++	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the lm3646 dual flash controllers. It controls
+ 	  flash, torch LEDs.
+diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+index bf49f83cb86f..02dc1787e953 100644
+--- a/drivers/media/v4l2-core/Kconfig
++++ b/drivers/media/v4l2-core/Kconfig
+@@ -62,6 +62,7 @@ config V4L2_FLASH_LED_CLASS
+ 	tristate "V4L2 flash API for LED flash class devices"
+ 	depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+ 	depends on LEDS_CLASS_FLASH
++	select V4L2_ASYNC
+ 	help
+ 	  Say Y here to enable V4L2 flash API support for LED flash
+ 	  class drivers.
+@@ -70,6 +71,10 @@ config V4L2_FLASH_LED_CLASS
+ 
+ config V4L2_FWNODE
+ 	tristate
++	select V4L2_ASYNC
++
++config V4L2_ASYNC
++	tristate
+ 
+ # Used by drivers that need Videobuf modules
+ config VIDEOBUF_GEN
+diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+index e4cd589b99a5..e18667c67aa8 100644
+--- a/drivers/media/v4l2-core/Makefile
++++ b/drivers/media/v4l2-core/Makefile
+@@ -7,15 +7,16 @@ tuner-objs	:=	tuner-core.o
+ 
+ videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
+ 			v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
+-			v4l2-async.o v4l2-common.o
++			v4l2-common.o
+ videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
+ videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
+ videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
+ videodev-$(CONFIG_SPI) += v4l2-spi.o
+ videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
+ 
+-obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+ obj-$(CONFIG_VIDEO_V4L2) += videodev.o
++obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
++obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+ obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
+ 
+ obj-$(CONFIG_VIDEO_TUNER) += tuner.o
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index e638aa8aecb7..cd9e78c63791 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -854,8 +854,27 @@ static int pending_subdevs_show(struct seq_file *s, void *data)
+ }
+ DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+ 
+-void v4l2_async_debug_init(struct dentry *debugfs_dir)
++static struct dentry *v4l2_async_debugfs_dir;
++
++static int __init v4l2_async_init(void)
+ {
+-	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
++	v4l2_async_debugfs_dir = debugfs_create_dir("v4l2-async", NULL);
++	debugfs_create_file("pending_async_subdevices", 0444,
++			    v4l2_async_debugfs_dir, NULL,
+ 			    &pending_subdevs_fops);
++
++	return 0;
++}
++
++static void __exit v4l2_async_exit(void)
++{
++	debugfs_remove_recursive(v4l2_async_debugfs_dir);
+ }
++
++subsys_initcall(v4l2_async_init);
++module_exit(v4l2_async_exit);
++
++MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
++MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
++MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+index 7d0edf3530be..4aa8fcd674d7 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -39,8 +39,6 @@
+ 		       __func__, ##arg);				\
+ } while (0)
+ 
+-static struct dentry *v4l2_debugfs_dir;
+-
+ /*
+  *	sysfs stuff
+  */
+@@ -1121,8 +1119,6 @@ static int __init videodev_init(void)
+ 		return -EIO;
+ 	}
+ 
+-	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
+-	v4l2_async_debug_init(v4l2_debugfs_dir);
+ 	return 0;
+ }
+ 
+@@ -1130,7 +1126,6 @@ static void __exit videodev_exit(void)
+ {
+ 	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
+ 
+-	debugfs_remove_recursive(v4l2_debugfs_dir);
+ 	class_unregister(&video_class);
+ 	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
+ }
+-- 
+2.29.2
+
