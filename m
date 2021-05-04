@@ -2,168 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E6137255A
-	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 07:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 066C83725F3
+	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 08:49:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbhEDFL0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 May 2021 01:11:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229881AbhEDFLZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 01:11:25 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 974B5C06138D;
-        Mon,  3 May 2021 22:10:29 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id m124so367286pgm.13;
-        Mon, 03 May 2021 22:10:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=DDm+IUuMuEMjBqzuCfuKqp0I9bKlFQdWahJfgNfmLoE=;
-        b=iNp//tlggIAsYmIJCRwYiOelXJRiE3KlLPgXSXL6Q0m5bbK0CmMVr5Yuq69hj8DQaZ
-         vIIgDS3OBWyzBOs+RLM1CHdHf7AEoRO40KJeg/lV1aTUuEnC8somJAX9Uc+XCSlGCIB+
-         s2zenw0p2hCY++2nFxSUbHwZaPB9ARlozIWk8JTY723AdR3iMyczNNMcxoOZAvCL/OfM
-         YbHzvLlXEhNa3Pld7EhInBW4F5yDIBRx8J6chx+aRhXWIaygOTw82TUF49ArVSHWx5wA
-         novmsqVBIwF13UE0RUt/xSyMDNn1+gxH1KbNzaTqNasD3dQcU0rkCXoeatUA7fURvBqG
-         aA1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=DDm+IUuMuEMjBqzuCfuKqp0I9bKlFQdWahJfgNfmLoE=;
-        b=Bvep0cYED5j6roaymbZoK/pwFsUjdyQiEJ5zGFNSlXs5/qtwfifflpFWVJ3exdbxyv
-         Bs3T2XHOvBM443bylMSZ/Z9bWGxYvJ/5exHm34yO54YDYnpniT8UDu6yB8zcZwk2hu3o
-         7NtPyHOlR4JF31H+S3erA1bBWIupcEV0fl8/62E5qejKSPc/Hf92kU4NDIIAS0d4d4v5
-         zSP1nr4N8LIq2nJxmnSQzSCJIe8qYiaJffrrotcrONOvOY5rcqk/gIgkotyjMaHiVsiv
-         teOJVXJkEqjPyTOuPyAd/QS6CqsW0uvyDAt+NBJuwU4FIOCZCYOv4XYLn5j1yM1q4YNK
-         0mIg==
-X-Gm-Message-State: AOAM533h9zHRM8ZpIp+A+xs51Lt3tuUOMbnmQU2I8a/G4n6Fgz+bUfKd
-        qmvV4ERm1e9T1o+uldge9kM=
-X-Google-Smtp-Source: ABdhPJxkTWRtPHQxkUHQa52Xfb4Or/HEoVTVXpdYypHtdj+NbF1l0aq6p8mgWQqsW/BdrDwEJcHZvw==
-X-Received: by 2002:a63:38d:: with SMTP id 135mr13391680pgd.285.1620105029188;
-        Mon, 03 May 2021 22:10:29 -0700 (PDT)
-Received: from localhost.localdomain ([63.143.61.57])
-        by smtp.gmail.com with ESMTPSA id 3sm10457815pff.132.2021.05.03.22.10.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 May 2021 22:10:28 -0700 (PDT)
-From:   dillon.minfei@gmail.com
-To:     festevam@gmail.com, shawnguo@kernel.org, s.riedmueller@phytec.de,
-        matthias.schiffer@ew.tq-group.com, leoyang.li@nxp.com,
-        arnd@arndb.de, olof@lixom.net, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, prabhakar.csengg@gmail.com,
-        mchehab@kernel.org, mchehab+huawei@kernel.org
-Cc:     krzysztof.kozlowski@canonical.com, krzk@kernel.org,
-        robh+dt@kernel.org, linux@rempel-privat.de,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, Dillon Min <dillon.minfei@gmail.com>
-Subject: [PATCH v5 4/4] media: i2c: ov2659: Use clk_{prepare_enable,disable_unprepare}() to set xvclk on/off
-Date:   Tue,  4 May 2021 13:09:53 +0800
-Message-Id: <1620104993-5850-5-git-send-email-dillon.minfei@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1620104993-5850-1-git-send-email-dillon.minfei@gmail.com>
-References: <1620104993-5850-1-git-send-email-dillon.minfei@gmail.com>
+        id S229861AbhEDGun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 May 2021 02:50:43 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43786 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229724AbhEDGun (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 02:50:43 -0400
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1B7B58E;
+        Tue,  4 May 2021 08:49:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1620110987;
+        bh=XLkxwvAZSxHrcrFzR/qa2S/ekh8LGDvfQ6wIKBf4MIM=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=QtxlCaMiynsy3d77xCD8BhV4F7X/WCL2a6bKUHy+TKclJSFBpbBRHrYPik4iAd22s
+         QBbet6fdLZcitmdKAg/uaDihNLiWMgms1zNRTuMq5SYuttou8GvhcIplmqI2ud3SF+
+         EhOEA/6ElT9m4VgQwAb69NnppK/4Bxbf/PAX6XR0=
+Subject: Re: [PATCH v5 22/24] v4l: subdev: add v4l2_subdev_get_format_dir()
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20210415130450.421168-1-tomi.valkeinen@ideasonboard.com>
+ <20210415130450.421168-23-tomi.valkeinen@ideasonboard.com>
+ <YHyCwzfrhVFkPXoW@pendragon.ideasonboard.com>
+ <d24ad349-0aef-e4cb-59d7-0db52c730f25@ideasonboard.com>
+ <YIoPSoQTb3loaQFu@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <f7b920be-29ce-51ce-b499-227ac2253e5c@ideasonboard.com>
+Date:   Tue, 4 May 2021 09:49:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <YIoPSoQTb3loaQFu@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dillon Min <dillon.minfei@gmail.com>
+On 29/04/2021 04:43, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> On Wed, Apr 21, 2021 at 04:04:22PM +0300, Tomi Valkeinen wrote:
+>> On 18/04/2021 22:04, Laurent Pinchart wrote:
+>>> On Thu, Apr 15, 2021 at 04:04:48PM +0300, Tomi Valkeinen wrote:
+>>>> Add v4l2_subdev_get_format_dir() which can be used to find subdev format
+>>>> for a specific stream on a multiplexed pad. The function will follow the
+>>>> routes and links until it finds a non-multiplexed pad.
+>>>>
+>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>> ---
+>>>>    drivers/media/v4l2-core/v4l2-subdev.c | 96 +++++++++++++++++++++++++++
+>>>>    include/media/v4l2-subdev.h           | 26 ++++++++
+>>>>    2 files changed, 122 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>>>> index 7a4f71d8c6c3..430dbdaab080 100644
+>>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>>>> @@ -998,6 +998,102 @@ bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
+>>>>    }
+>>>>    EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
+>>>>    
+>>>> +int v4l2_subdev_get_format_dir(struct media_pad *pad, u16 stream,
+>>>> +			       enum v4l2_direction dir,
+>>>> +			       struct v4l2_subdev_format *fmt)
+>>>> +{
+>>>> +	struct device *dev = pad->entity->graph_obj.mdev->dev;
+>>>> +	int ret;
+>>>> +	int i;
+>>>> +
+>>>> +	dev_dbg(dev, "%s '%s':%u:%u %s\n", __func__,
+>>>> +		pad->entity->name, pad->index, stream,
+>>>> +		dir == V4L2_DIR_SOURCEWARD ? "sourceward" : "sinkward");
+>>>> +
+>>>> +	while (true) {
+>>>> +		struct v4l2_subdev_krouting routing;
+>>>> +		struct v4l2_subdev_route *route;
+>>>> +
+>>>> +		if (pad->entity->obj_type != MEDIA_ENTITY_TYPE_V4L2_SUBDEV)
+>>>> +			return -EINVAL;
+>>>> +
+>>>> +		ret = v4l2_subdev_link_validate_get_format(pad, fmt);
+>>>> +		if (ret == 0)
+>>>> +			return 0;
+>>>> +		else if (ret != -ENOIOCTLCMD)
+>>>> +			return ret;
+>>>> +
+>>>> +		if (pad->flags &
+>>>> +		    (dir == V4L2_DIR_SINKWARD ? MEDIA_PAD_FL_SOURCE :
+>>>> +						MEDIA_PAD_FL_SINK)) {
+>>>> +			pad = media_entity_remote_pad(pad);
+>>>> +
+>>>> +			if (!pad)
+>>>> +				return -EINVAL;
+>>>> +
+>>>> +			if (pad->entity->obj_type != MEDIA_ENTITY_TYPE_V4L2_SUBDEV)
+>>>> +				return -EINVAL;
+>>>> +
+>>>> +			ret = v4l2_subdev_link_validate_get_format(pad, fmt);
+>>>> +			if (ret == 0)
+>>>> +				return 0;
+>>>> +			else if (ret != -ENOIOCTLCMD)
+>>>> +				return ret;
+>>>> +		}
+>>>> +
+>>>> +		ret = v4l2_subdev_get_krouting(media_entity_to_v4l2_subdev(pad->entity), &routing);
+>>>> +		if (ret)
+>>>> +			return ret;
+>>>> +
+>>>> +		route = NULL;
+>>>> +		for (i = 0; i < routing.num_routes; ++i) {
+>>>> +			u16 near_pad = dir == V4L2_DIR_SINKWARD ?
+>>>> +					       routing.routes[i].sink_pad :
+>>>> +					       routing.routes[i].source_pad;
+>>>> +			u16 near_stream = dir == V4L2_DIR_SINKWARD ?
+>>>> +						  routing.routes[i].sink_stream :
+>>>> +						  routing.routes[i].source_stream;
+>>>> +
+>>>> +			if (!(routing.routes[i].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+>>>> +				continue;
+>>>> +
+>>>> +			if (near_pad != pad->index)
+>>>> +				continue;
+>>>> +
+>>>> +			if (near_stream != stream)
+>>>> +				continue;
+>>>> +
+>>>> +			if (route) {
+>>>> +				dev_err(dev,
+>>>> +					"%s: '%s' has multiple active routes for stream %u\n",
+>>>> +					__func__, pad->entity->name, stream);
+>>>> +				v4l2_subdev_free_routing(&routing);
+>>>> +				return -EINVAL;
+>>>> +			}
+>>>> +
+>>>> +			route = &routing.routes[i];
+>>>> +		}
+>>>> +
+>>>> +		if (!route) {
+>>>> +			dev_err(dev, "%s: no route found in '%s' for stream %u\n",
+>>>> +				__func__, pad->entity->name, stream);
+>>>> +			v4l2_subdev_free_routing(&routing);
+>>>> +			return -EINVAL;
+>>>> +		}
+>>>> +
+>>>> +		if (dir == V4L2_DIR_SINKWARD) {
+>>>> +			pad = &pad->entity->pads[route->source_pad];
+>>>> +			stream = route->source_stream;
+>>>> +		} else {
+>>>> +			pad = &pad->entity->pads[route->sink_pad];
+>>>> +			stream = route->sink_stream;
+>>>> +		}
+>>>> +
+>>>> +		v4l2_subdev_free_routing(&routing);
+>>>> +	}
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_format_dir);
+>>>> +
+>>>>    int v4l2_subdev_link_validate(struct media_link *link)
+>>>>    {
+>>>>    	struct v4l2_subdev *sink;
+>>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>>>> index 1843b77dd843..730631f9a091 100644
+>>>> --- a/include/media/v4l2-subdev.h
+>>>> +++ b/include/media/v4l2-subdev.h
+>>>> @@ -1239,4 +1239,30 @@ void v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
+>>>>    bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
+>>>>    			   unsigned int pad0, unsigned int pad1);
+>>>>    
+>>>> +/**
+>>>> + * enum v4l2_direction - Direction either towards the source or the sink
+>>>> + *
+>>>> + * @V4L2_DIR_SOURCEWARD: Direction towards the source.
+>>>> + * @V4L2_DIR_SINKWARD: Direction towards the sink.
+>>>> + */
+>>>> +enum v4l2_direction {
+>>>> +	V4L2_DIR_SOURCEWARD,
+>>>> +	V4L2_DIR_SINKWARD,
+>>>> +};
+>>>> +
+>>>> +/**
+>>>> + * v4l2_subdev_get_format_dir() - Find format by following streams
+>>>
+>>> The name is a bit cryptic, and the usage pattern error-prone. Can we do
+>>> better ?  In particular, if we could limit the usage of this function to
+>>> be called on a non-multiplexed pad, we could drop the stream argument.
+>>> Deducing the direction argument from the type of pad would also make the
+>>> API simpler.
+>>
+>> Hmm, but that's not what the function does. It follows a specific
+>> stream, from a multiplexed pad, so it has to get the stream as a parameter.
+>>
+>> We can't deduct the direction from the type of the pad. We can of course
+>> define that given a source pad this function goes sourceward. But if
+>> that's not what the caller wants, then the caller needs to first follow
+>> the stream either direction to get a sink pad, and then call this
+>> function, which doesn't make sense.
+> 
+> What do the current callers need ? We don't have to implement something
+> that is more generic or featureful than our needs dictate, as this is a
+> very ad hoc function anyway. If we really need the full behaviour
+> implemented here, we should at the very least rename the function, but I
+> think it should be possible to do better overall, perhaps splitting the
+> operation in the caller into cleaner functions.
 
-On some platform(imx6q), xvclk might not switch on in advance,
-also for power save purpose, xvclk should not be always on.
-so, add clk_prepare_enable(), clk_disable_unprepare() in driver
-side to set xvclk on/off at proper stage.
+The link validation will call the function with both V4L2_DIR_SOURCEWARD 
+and V4L2_DIR_SINKWARD. DS90UB960 driver also uses the function, with 
+V4L2_DIR_SOURCEWARD.
 
-Add following changes:
-- add 'struct clk *clk;' in 'struct ov2659 {}'
-- enable xvclk in ov2659_power_on()
-- disable xvclk in ov2659_power_off()
+The name may not be the most clear one, but it's not easy to invent a 
+name for something like this =). Why do you think the usage pattern is 
+error prone?
 
-Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
-Acked-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
----
-
-v5:
-- no code change, just change my git author name from lower case to higher case
-- add 'Acked-by: Lad Prabhakar <prabhakar.csengg@gmail.com>'
-
- drivers/media/i2c/ov2659.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-index 42f64175a6df..fb78a1cedc03 100644
---- a/drivers/media/i2c/ov2659.c
-+++ b/drivers/media/i2c/ov2659.c
-@@ -204,6 +204,7 @@ struct ov2659 {
- 	struct i2c_client *client;
- 	struct v4l2_ctrl_handler ctrls;
- 	struct v4l2_ctrl *link_frequency;
-+	struct clk *clk;
- 	const struct ov2659_framesize *frame_size;
- 	struct sensor_register *format_ctrl_regs;
- 	struct ov2659_pll_ctrl pll;
-@@ -1270,6 +1271,8 @@ static int ov2659_power_off(struct device *dev)
- 
- 	gpiod_set_value(ov2659->pwdn_gpio, 1);
- 
-+	clk_disable_unprepare(ov2659->clk);
-+
- 	return 0;
- }
- 
-@@ -1278,9 +1281,17 @@ static int ov2659_power_on(struct device *dev)
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct ov2659 *ov2659 = to_ov2659(sd);
-+	int ret;
- 
- 	dev_dbg(&client->dev, "%s:\n", __func__);
- 
-+	ret = clk_prepare_enable(ov2659->clk);
-+	if (ret) {
-+		dev_err(&client->dev, "%s: failed to enable clock\n",
-+			__func__);
-+		return ret;
-+	}
-+
- 	gpiod_set_value(ov2659->pwdn_gpio, 0);
- 
- 	if (ov2659->resetb_gpio) {
-@@ -1425,7 +1436,6 @@ static int ov2659_probe(struct i2c_client *client)
- 	const struct ov2659_platform_data *pdata = ov2659_get_pdata(client);
- 	struct v4l2_subdev *sd;
- 	struct ov2659 *ov2659;
--	struct clk *clk;
- 	int ret;
- 
- 	if (!pdata) {
-@@ -1440,11 +1450,11 @@ static int ov2659_probe(struct i2c_client *client)
- 	ov2659->pdata = pdata;
- 	ov2659->client = client;
- 
--	clk = devm_clk_get(&client->dev, "xvclk");
--	if (IS_ERR(clk))
--		return PTR_ERR(clk);
-+	ov2659->clk = devm_clk_get(&client->dev, "xvclk");
-+	if (IS_ERR(ov2659->clk))
-+		return PTR_ERR(ov2659->clk);
- 
--	ov2659->xvclk_frequency = clk_get_rate(clk);
-+	ov2659->xvclk_frequency = clk_get_rate(ov2659->clk);
- 	if (ov2659->xvclk_frequency < 6000000 ||
- 	    ov2659->xvclk_frequency > 27000000)
- 		return -EINVAL;
-@@ -1506,7 +1516,9 @@ static int ov2659_probe(struct i2c_client *client)
- 	ov2659->frame_size = &ov2659_framesizes[2];
- 	ov2659->format_ctrl_regs = ov2659_formats[0].format_ctrl_regs;
- 
--	ov2659_power_on(&client->dev);
-+	ret = ov2659_power_on(&client->dev);
-+	if (ret < 0)
-+		goto error;
- 
- 	ret = ov2659_detect(sd);
- 	if (ret < 0)
--- 
-1.9.1
-
+  Tomi
