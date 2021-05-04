@@ -2,268 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68C723731BF
-	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 23:06:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D85C13731E8
+	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 23:28:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232798AbhEDVHl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 May 2021 17:07:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34612 "EHLO
+        id S232840AbhEDV3T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 May 2021 17:29:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232169AbhEDVHl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 17:07:41 -0400
-Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21CA3C061574
-        for <linux-media@vger.kernel.org>; Tue,  4 May 2021 14:06:46 -0700 (PDT)
-Received: from lanttu.localdomain (unknown [192.168.2.193])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 0101F634C87;
-        Wed,  5 May 2021 00:04:19 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     ezequiel.garcia@collabora.com
-Subject: [PATCH v3 1/1] v4l: async, fwnode: Improve module organisation
-Date:   Wed,  5 May 2021 00:06:42 +0300
-Message-Id: <20210504210642.9568-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
+        with ESMTP id S232684AbhEDV3S (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 17:29:18 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA83C061574;
+        Tue,  4 May 2021 14:28:23 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id x188so336964pfd.7;
+        Tue, 04 May 2021 14:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=rC//UL0/if2O+6rVcbTRHyqn0UdJ7E2Vf9+qwJ26TeM=;
+        b=fZlfWZAbu4AwQZ+NbeVjgm9DgtC+xgb9ILAqOypUGFJMQZENNfA6hVJlQmsvs+jOmp
+         P3SNIZBWZWZvYe+DBJcv7K62+tBq14nGIoZBIN4kJIjhIx4+ho2cUB7XyP1HokNJZcFt
+         PhWqcEOsMBo72RBlIM17dUoZvgZvKD8tH4BDaymN75s7Md0OKA9MW7e8uGdh0+HVMVnm
+         cCBwJItqb8rU9OTuI8yvZODDhCpCZIS+et81uYC6rsFqIkBemc3kQsURT+jZe4k2zbPS
+         Df+AEL69PeaH5UqKAee8GpQ4brRGvt75oLLqktk7Z3AxlWdEdpa5jC+MrbgOYOV0PCeb
+         UB1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=rC//UL0/if2O+6rVcbTRHyqn0UdJ7E2Vf9+qwJ26TeM=;
+        b=k2SaF1qcbT+RjDdDHjhI6/v+OHAIZHnOomB4Sh/VxSzGkZReXGlLS3GcvN7c+NGgoR
+         dvDVaoepHRIGJtJmXDCN3wuKtZ0PRcxgseBiyqefWXR+efepgPyj48XPFhODrSdD2klT
+         Cdd+rPPtxUF8H7g35N3ZkOY05DDXyE7jhqnf2cv5NKfC9p262X57udywt3dy+LP+IqkL
+         4a4Fy90oyhk8YA/7SjGuvfqiXXZAIl/p9pqKi3HrhacOVXLFEqjIVbZQwfp0VJR9Mg2q
+         RYBD62ga15IdlD76od3sPyKlILD+szNkkHEuQ7GpJlnZJgJiY+86l+gdYytK8QifnWCK
+         +WBw==
+X-Gm-Message-State: AOAM531znHSL6UQCMJ5MHRSg3PZI0IaEa5//85zOS7bMs78f6EC5hav7
+        fKYvgRQ9tFWyZwQExYhEKkw=
+X-Google-Smtp-Source: ABdhPJychChkEZvwblfM+Ev1M/+OJ/hC+QsmiOLtnzW6WN20OXxgWF5ZG9aLWujmqKLsAwx4PycEUA==
+X-Received: by 2002:aa7:80c9:0:b029:249:cac5:e368 with SMTP id a9-20020aa780c90000b0290249cac5e368mr25276068pfn.12.1620163703116;
+        Tue, 04 May 2021 14:28:23 -0700 (PDT)
+Received: from [192.168.1.41] (097-090-198-083.res.spectrum.com. [97.90.198.83])
+        by smtp.gmail.com with ESMTPSA id c134sm8571790pfb.135.2021.05.04.14.28.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 May 2021 14:28:22 -0700 (PDT)
+Subject: Re: KASAN: use-after-free Read in v4l2_fh_open
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org
+References: <00000000000017937c05bb617f1d@google.com>
+From:   SyzScope <syzscope@gmail.com>
+Message-ID: <471c3801-2fe9-59bd-b2ad-9877dae05484@gmail.com>
+Date:   Tue, 4 May 2021 14:28:21 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <00000000000017937c05bb617f1d@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The V4L2 async framework is generally used with the V4L2 fwnode, which
-also depends on the former. There are a few exceptions but they are
-relatively few.
+Hi,
 
-At the same time there is a vast number of systems that need videodev
-module, but have no use for v4l2-async that's now part of videodev.
+This is SyzScope, a research project that aims to reveal high-risk 
+primitives from a seemingly low-risk bug (UAF/OOB read, WARNING, BUG, etc.).
 
-In order to improve, split the v4l2-async into its own module. Selecting
-V4L2_FWNODE also selects V4L2_ASYNC.
+We are currently testing seemingly low-risk bugs on syzbot's open 
+section(https://syzkaller.appspot.com/upstream), and try to reach out to 
+kernel developers as long as SyzScope discovers any high-risk primitives.
 
-This also moves the initialisation of the debufs entries for async subdevs
-to loading of the v4l2-async module. The directory is named as
-"v4l2-async".
+Please let us know if SyzScope indeed helps, and any suggestions/feedback.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
-since v2:
+Regrading the bug "KASAN: use-after-free Read in v4l2_fh_open", SyzScope 
+reports 1 memory write capability.
 
-- Use select to choose V4L2_ASYNC when V4L2_FWNODE is required by the
-  driver (thanks to Ezequiel).
+The detailed comments can be found at 
+https://sites.google.com/view/syzscope/kasan-use-after-free-read-in-v4l2_fh_open
 
-- Select V4L2_ASYNC for a few more drivers.
+On 2/15/2021 7:18 AM, syzbot wrote:
 
-- Rework the commit message.
-
- drivers/media/i2c/Kconfig            | 11 +++++++++++
- drivers/media/v4l2-core/Kconfig      |  5 +++++
- drivers/media/v4l2-core/Makefile     |  5 +++--
- drivers/media/v4l2-core/v4l2-async.c | 23 +++++++++++++++++++++--
- drivers/media/v4l2-core/v4l2-dev.c   |  5 -----
- 5 files changed, 40 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 462c0e059754..4f1dafc64816 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -217,6 +217,7 @@ config VIDEO_ADV7180
- 	depends on GPIOLIB && VIDEO_V4L2 && I2C
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_ASYNC
- 	help
- 	  Support for the Analog Devices ADV7180 video decoder.
- 
-@@ -534,6 +535,7 @@ config VIDEO_ADV7175
- config VIDEO_ADV7343
- 	tristate "ADV7343 video encoder"
- 	depends on I2C
-+	select V4L2_ASYNC
- 	help
- 	  Support for Analog Devices I2C bus based ADV7343 encoder.
- 
-@@ -652,6 +654,7 @@ config SDR_MAX2175
- 	tristate "Maxim 2175 RF to Bits tuner"
- 	depends on VIDEO_V4L2 && MEDIA_SDR_SUPPORT && I2C
- 	select REGMAP_I2C
-+	select V4L2_ASYNC
- 	help
- 	  Support for Maxim 2175 tuner. It is an advanced analog/digital
- 	  radio receiver with RF-to-Bits front-end designed for SDR solutions.
-@@ -668,6 +671,7 @@ menu "Miscellaneous helper chips"
- config VIDEO_THS7303
- 	tristate "THS7303/53 Video Amplifier"
- 	depends on VIDEO_V4L2 && I2C
-+	select V4L2_ASYNC
- 	help
- 	  Support for TI THS7303/53 video amplifier
- 
-@@ -1341,6 +1345,7 @@ config VIDEO_AD5820
- 	tristate "AD5820 lens voice coil support"
- 	depends on GPIOLIB && I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the AD5820 camera lens voice coil.
- 	  It is used for example in Nokia N900 (RX-51).
-@@ -1350,6 +1355,7 @@ config VIDEO_AK7375
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the AK7375 camera lens voice coil.
- 	  AK7375 is a 12 bit DAC with 120mA output current sink
-@@ -1361,6 +1367,7 @@ config VIDEO_DW9714
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the DW9714 camera lens voice coil.
- 	  DW9714 is a 10 bit DAC with 120mA output current sink
-@@ -1384,6 +1391,7 @@ config VIDEO_DW9807_VCM
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the DW9807 camera lens voice coil.
- 	  DW9807 is a 10 bit DAC with 100mA output current sink
-@@ -1399,6 +1407,7 @@ config VIDEO_ADP1653
- 	tristate "ADP1653 flash support"
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the ADP1653 flash controller. It is used for
- 	  example in Nokia N900.
-@@ -1408,6 +1417,7 @@ config VIDEO_LM3560
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select REGMAP_I2C
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the lm3560 dual flash controllers. It controls
- 	  flash, torch LEDs.
-@@ -1417,6 +1427,7 @@ config VIDEO_LM3646
- 	depends on I2C && VIDEO_V4L2
- 	select MEDIA_CONTROLLER
- 	select REGMAP_I2C
-+	select V4L2_ASYNC
- 	help
- 	  This is a driver for the lm3646 dual flash controllers. It controls
- 	  flash, torch LEDs.
-diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-index bf49f83cb86f..02dc1787e953 100644
---- a/drivers/media/v4l2-core/Kconfig
-+++ b/drivers/media/v4l2-core/Kconfig
-@@ -62,6 +62,7 @@ config V4L2_FLASH_LED_CLASS
- 	tristate "V4L2 flash API for LED flash class devices"
- 	depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
- 	depends on LEDS_CLASS_FLASH
-+	select V4L2_ASYNC
- 	help
- 	  Say Y here to enable V4L2 flash API support for LED flash
- 	  class drivers.
-@@ -70,6 +71,10 @@ config V4L2_FLASH_LED_CLASS
- 
- config V4L2_FWNODE
- 	tristate
-+	select V4L2_ASYNC
-+
-+config V4L2_ASYNC
-+	tristate
- 
- # Used by drivers that need Videobuf modules
- config VIDEOBUF_GEN
-diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-index e4cd589b99a5..e18667c67aa8 100644
---- a/drivers/media/v4l2-core/Makefile
-+++ b/drivers/media/v4l2-core/Makefile
-@@ -7,15 +7,16 @@ tuner-objs	:=	tuner-core.o
- 
- videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
- 			v4l2-event.o v4l2-ctrls.o v4l2-subdev.o \
--			v4l2-async.o v4l2-common.o
-+			v4l2-common.o
- videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
- videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
- videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
- videodev-$(CONFIG_SPI) += v4l2-spi.o
- videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
- 
--obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
- obj-$(CONFIG_VIDEO_V4L2) += videodev.o
-+obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
-+obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
- obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
- 
- obj-$(CONFIG_VIDEO_TUNER) += tuner.o
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index e638aa8aecb7..cd9e78c63791 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -854,8 +854,27 @@ static int pending_subdevs_show(struct seq_file *s, void *data)
- }
- DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
- 
--void v4l2_async_debug_init(struct dentry *debugfs_dir)
-+static struct dentry *v4l2_async_debugfs_dir;
-+
-+static int __init v4l2_async_init(void)
- {
--	debugfs_create_file("pending_async_subdevices", 0444, debugfs_dir, NULL,
-+	v4l2_async_debugfs_dir = debugfs_create_dir("v4l2-async", NULL);
-+	debugfs_create_file("pending_async_subdevices", 0444,
-+			    v4l2_async_debugfs_dir, NULL,
- 			    &pending_subdevs_fops);
-+
-+	return 0;
-+}
-+
-+static void __exit v4l2_async_exit(void)
-+{
-+	debugfs_remove_recursive(v4l2_async_debugfs_dir);
- }
-+
-+subsys_initcall(v4l2_async_init);
-+module_exit(v4l2_async_exit);
-+
-+MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
-+MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
-+MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index 7d0edf3530be..4aa8fcd674d7 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -39,8 +39,6 @@
- 		       __func__, ##arg);				\
- } while (0)
- 
--static struct dentry *v4l2_debugfs_dir;
--
- /*
-  *	sysfs stuff
-  */
-@@ -1121,8 +1119,6 @@ static int __init videodev_init(void)
- 		return -EIO;
- 	}
- 
--	v4l2_debugfs_dir = debugfs_create_dir("video4linux", NULL);
--	v4l2_async_debug_init(v4l2_debugfs_dir);
- 	return 0;
- }
- 
-@@ -1130,7 +1126,6 @@ static void __exit videodev_exit(void)
- {
- 	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
- 
--	debugfs_remove_recursive(v4l2_debugfs_dir);
- 	class_unregister(&video_class);
- 	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
- }
--- 
-2.29.2
-
+> Hello,
+>
+> syzbot found the following issue on:
+>
+> HEAD commit:    291009f6 Merge tag 'pm-5.11-rc8' of git://git.kernel.org/p..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=17260814d00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=6a218c95bd23063a
+> dashboard link: https://syzkaller.appspot.com/bug?extid=b2391895514ed9ef4a8e
+> compiler:       Debian clang version 11.0.1-2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14ec5814d00000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17179dd4d00000
+>
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com
+>
+> ==================================================================
+> BUG: KASAN: use-after-free in v4l2_fh_init drivers/media/v4l2-core/v4l2-fh.c:25 [inline]
+> BUG: KASAN: use-after-free in v4l2_fh_open+0xc7/0x430 drivers/media/v4l2-core/v4l2-fh.c:63
+> Read of size 8 at addr ffff8880228b88b8 by task v4l_id/18349
+>
+> CPU: 1 PID: 18349 Comm: v4l_id Not tainted 5.11.0-rc7-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> Call Trace:
+>   __dump_stack lib/dump_stack.c:79 [inline]
+>   dump_stack+0x137/0x1be lib/dump_stack.c:120
+>   print_address_description+0x5f/0x3a0 mm/kasan/report.c:230
+>   __kasan_report mm/kasan/report.c:396 [inline]
+>   kasan_report+0x15e/0x200 mm/kasan/report.c:413
+>   v4l2_fh_init drivers/media/v4l2-core/v4l2-fh.c:25 [inline]
+>   v4l2_fh_open+0xc7/0x430 drivers/media/v4l2-core/v4l2-fh.c:63
+>   em28xx_v4l2_open+0x15c/0xa60 drivers/media/usb/em28xx/em28xx-video.c:2163
+>   v4l2_open+0x229/0x360 drivers/media/v4l2-core/v4l2-dev.c:423
+>   chrdev_open+0x4a0/0x570 fs/char_dev.c:414
+>   do_dentry_open+0x7cb/0x1010 fs/open.c:817
+>   do_open fs/namei.c:3254 [inline]
+>   path_openat+0x2791/0x37a0 fs/namei.c:3371
+>   do_filp_open+0x191/0x3a0 fs/namei.c:3398
+>   do_sys_openat2+0xba/0x380 fs/open.c:1172
+>   do_sys_open fs/open.c:1188 [inline]
+>   __do_sys_open fs/open.c:1196 [inline]
+>   __se_sys_open fs/open.c:1192 [inline]
+>   __x64_sys_open+0x1af/0x1e0 fs/open.c:1192
+>   do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+>   entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> RIP: 0033:0x7fdd62b00840
+> Code: 73 01 c3 48 8b 0d 68 77 20 00 f7 d8 64 89 01 48 83 c8 ff c3 66 0f 1f 44 00 00 83 3d 89 bb 20 00 00 75 10 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48 83 ec 08 e8 1e f6 ff ff 48 89 04 24
+> RSP: 002b:00007ffe8bb255b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+> RAX: ffffffffffffffda RBX: 00007ffe8bb25728 RCX: 00007fdd62b00840
+> RDX: 00007fdd62aecea0 RSI: 0000000000000000 RDI: 00007ffe8bb26f1c
+> RBP: 0000000000000003 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000002 R11: 0000000000000246 R12: 000055f8a7dee8d0
+> R13: 00007ffe8bb25720 R14: 0000000000000000 R15: 0000000000000000
+>
+> The buggy address belongs to the page:
+> page:00000000b7dd9778 refcount:0 mapcount:-128 mapping:0000000000000000 index:0x0 pfn:0x228b8
+> flags: 0xfff00000000000()
+> raw: 00fff00000000000 ffffea0000580108 ffff88813fffb910 0000000000000000
+> raw: 0000000000000000 0000000000000002 00000000ffffff7f 0000000000000000
+> page dumped because: kasan: bad access detected
+>
+> Memory state around the buggy address:
+>   ffff8880228b8780: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+>   ffff8880228b8800: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+>> ffff8880228b8880: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+>                                          ^
+>   ffff8880228b8900: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+>   ffff8880228b8980: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+> ==================================================================
+>
+>
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> syzbot can test patches for this issue, for details see:
+> https://goo.gl/tpsmEJ#testing-patches
+>
