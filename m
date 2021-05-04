@@ -2,193 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 597D93727C3
-	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 11:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49B35372997
+	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 13:37:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230145AbhEDJFd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 May 2021 05:05:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42736 "EHLO
+        id S230113AbhEDLiR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 May 2021 07:38:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230130AbhEDJF3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 05:05:29 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6E7DC061574;
-        Tue,  4 May 2021 02:04:00 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id BCC38C645F; Tue,  4 May 2021 10:03:58 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1620119038; bh=EU8m/i/aDn4a1obGPTuutqZXKT0XejSop5WCsofK7+8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=diC3HZ5+3cqoNkwOTBfBXnNvH3M90GYCezwXrvR37rWPTOTAsTtLPvwXtGwOUPEWO
-         zzgzdNVhyCkIP5Jo+KirsxX4w7A3MenvDnGcZuS2jFpMBWmN7JTrg8AB9FF+8htay4
-         cVis3XroUUezJ6iikRTRGGUsysJhGPlmb6yjpTTMpa5kQx0PDrvXxzJHStzHbzbFCX
-         DnZ3xZvL0GyuBbwNLGG7y10kPO5DQhaTd3xYgRW0qjP9QMJCc5O2sV36YRae+iVHWj
-         ljUYbBtIp6Kiu8btvyFr0aVdQM8sD+lyJfpmdYtC2Uw8DGkdHCqbYZ/EGM1xJ5eiYp
-         yiBQBEwCFfMBQ==
-Date:   Tue, 4 May 2021 10:03:58 +0100
-From:   Sean Young <sean@mess.org>
-To:     Chris McCrae <chrismccraeworks@gmail.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: Asus PN62S vs PN50 - ITE8708
-Message-ID: <20210504090358.GA26800@gofer.mess.org>
-References: <CAN2W0iNOsa6GYK28Vz=DmkyjY72H_bq=8EUkzFuy0_p9ZVms4A@mail.gmail.com>
- <20210503092005.GB14939@gofer.mess.org>
- <CAN2W0iME8VCdP=KdcH8PW7ZfEOdQJicKWQmE675-h3cd2=D1cA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAN2W0iME8VCdP=KdcH8PW7ZfEOdQJicKWQmE675-h3cd2=D1cA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        with ESMTP id S230046AbhEDLiQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 07:38:16 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B3CC061574
+        for <linux-media@vger.kernel.org>; Tue,  4 May 2021 04:37:21 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 3152B1F41DFC
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        kernel@collabora.com, Adrian Ratiu <adrian.ratiu@collabora.com>
+Subject: [PATCH] media: rkvdec: Fix .buf_prepare
+Date:   Tue,  4 May 2021 13:37:14 +0200
+Message-Id: <20210504113714.30612-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Chris,
+From: Ezequiel Garcia <ezequiel@collabora.com>
 
-On Mon, May 03, 2021 at 11:44:04AM -0400, Chris McCrae wrote:
-> Thanks for answering the call Sean.
-> 
-> On Mon, 3 May 2021 at 05:20, Sean Young <sean@mess.org> wrote:
-> >
-> > Hi Chris,
-> >
-> > On Fri, Apr 30, 2021 at 07:37:10PM -0400, Chris McCrae wrote:
-> > > Recently acquired an Asus PN62S (Intel) as a media centre frontend
-> > > (currently testing with Xubuntu 20.04 and a 5.10 kernel, and the most
-> > > current BIOS available).  Having an integrated IR was part of the
-> > > selling features.  However, getting it to be recognized by my system
-> > > has become a challenge that I am getting obsessed with.  There's very
-> > > little to find online on this device that is current, but there has
-> > > been some recent conversation on this list about the same device, on a
-> > > related machine, the PN50 (AMD).  I'm hoping that the knowledge here
-> > > may lead to a solution for my issue.
-> > >
-> > > I can provide more detail on request, but at the moment I am focusing
-> > > on the DSDT as a possible suspect.  I do not have the 16 byte issue
-> > > that the PN50 experiences.  Mine is defined as 8 bytes, which is
-> > > compatible with the ite-cir driver.  My issue is that there appears to
-> > > be no attempt to bind the device to the driver (but it is visible in
-> > > lsmod)... no messages about the driver in dmesg at all.  My thought is
-> > > that the definition of the device in DSDT may somehow give it enough
-> > > information (ITE8708) to know the driver could be needed, but not the
-> > > correct information to make it work.
-> > >
-> > > An earlier message provided only part of the device definition in DSDT
-> > > for the PN50.  I would like to be able to see the full definition for
-> > > it from the PN50, to see if anything is significantly different.
-> > > Ideally, if I had the full DSDT as a starting point, I could compare
-> > > other areas such as motherboard resources.
-> >
-> > It would be great if we could see the entries for the IR device in your
-> > DSDT. There is a guide here https://wiki.archlinux.org/title/DSDT on
-> > how to do that.
-> >
-> Here the full device from the DSDT:
-> 
->             Device (CR00)
->             {
->                 Name (_ADR, Zero)  // _ADR: Address
->                 Name (VBAN, 0x0680)
->                 Name (VIRQ, 0x0A)
->                 Name (UIDN, Zero)
->                 Name (_HID, EisaId ("ITE8708"))  // _HID: Hardware ID
->                 Method (_UID, 0, NotSerialized)  // _UID: Unique ID
->                 {
->                     Return (UIDN) /* \_SB_.PCI0.CR00.UIDN */
->                 }
-> 
->                 Method (_STA, 0, Serialized)  // _STA: Status
->                 {
->                     If ((CIRE == Zero))
->                     {
->                         Return (Zero)
->                     }
->                     Return (0x0F)
->                 }
-> 
->                 Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
->                 {
->                     Name (BUF0, ResourceTemplate ()
->                     {
->                         IO (Decode16,
->                             0x0000,             // Range Minimum
->                             0x0000,             // Range Maximum
->                             0x01,               // Alignment
->                             0x08,               // Length
->                             _Y10)
->                         IRQNoFlags (_Y11)
->                             {}
->                         DMA (Compatibility, NotBusMaster, Transfer8, )
->                             {}
->                     })
->                     CreateWordField (BUF0,
-> \_SB.PCI0.CR00._CRS._Y10._MIN, IOPL)  // _MIN: Minimum Base Address
->                     CreateWordField (BUF0,
-> \_SB.PCI0.CR00._CRS._Y10._MAX, IOPH)  // _MAX: Maximum Base Address
->                     CreateWordField (BUF0,
-> \_SB.PCI0.CR00._CRS._Y11._INT, IRQ)  // _INT: Interrupts
->                     IOPL = VBAN /* \_SB_.PCI0.CR00.VBAN */
->                     IOPH = VBAN /* \_SB_.PCI0.CR00.VBAN */
->                     IRQ = (One << VIRQ) /* \_SB_.PCI0.CR00.VIRQ */
->                     Return (BUF0) /* \_SB_.PCI0.CR00._CRS.BUF0 */
->                 }
->             }
+The driver should only set the payload on .buf_prepare if the
+buffer is CAPTURE type. If an OUTPUT buffer has a zero bytesused
+set by userspace then v4l2-core will set it to buffer length.
 
-Hmm this is not really telling us everything yet. Would you mind sending
-on the entire dmesg please?
+Fixes: cd33c830448ba ("media: rkvdec: Add the rkvdec driver")
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
-> > Thanks
-> >
-> > Sean
-> 
-> I've been using the latest ACPI Spec (6.3) to better comprehend the
-> macros, and what they should produce.  Running the DSDT through
-> acpiexec for \_SB.PCI0.CR00._CRS gives:
-> 
-> - execute \_SB.PCI0.CR00._CRS
-> Evaluating \_SB.PCI0.CR00._CRS
-> 0x1 Outstanding allocations after evaluation of \_SB.PCI0.CR00._CRS
-> Evaluation of \_SB.PCI0.CR00._CRS returned object 0x562c4e9a9c90,
-> external buffer length 28
-> [Buffer] Length 10 =   0000: 47 01 80 06 80 06 01 08 22 00 04 2A 00 00
-> 79 00  // G......."..*..y.
-> 
-> I'm still a little unclear on the first byte (47) and the last two (79
-> 00), generated presumably by ResourceTemplate(), but the rest seem to
-> match the expected results based on the inputs.  Aside from the
-> obvious difference in the address range length compared to the PN50's
-> BUF0, which seems to be the PN50's problem, the definition of BUF0 is
-> consistent.  I've even recompiled the DSDT with a length of 0x10 just
-> to see if that made a difference, and it doesn't.  Still no sign of
-> the driver in dmesg.  Although it would be nice to see the full CR00
-> definition for the PN50, it seems less likely that the problem lies
-> here.
-> 
-> I've tried various acpi kernel debugging settings, but easily get
-> swamped with output.  Is there a process path somewhere that can be
-> followed to understand how the device goes through the ACPI process
-> and eventually gets picked up by the kernel?  I still feel like the
-> problem precedes the kernel's involvement.  The kernel obviously has
-> some degree of awareness of the DSDT entry, because I can find :
-> 
-> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/ITE8708:00/
-> 
-> The status is correct (0x0F), but under the physical_node, I have no
-> 'resources' entry.  Should there be one?  I have a 'resource' file,
-> but it only returns zeroes.
+---
+@Hans: I haven't had anyone complain about the issue. The fix is needed for
+the rkvdec vp9 work, so I think 5.14 is fine.
 
-This does _sound_ like an acpi issue, I've cc'ed linux-acpi@vger.kernel.org.
+ drivers/staging/media/rkvdec/rkvdec.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-> And instead of being linked to ite_cir (which is showing in lsmod, but
-> not used by anything), the driver ->
-> ../../../bus/pci/drivers/skl_uncore
-> 
-> To me, that seems like it's processing what it has been presented, but
-> I've been wrong before.  I'm open for directions on where to
-> investigate next.
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index d821661d30f3..ef2166043127 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -481,7 +481,15 @@ static int rkvdec_buf_prepare(struct vb2_buffer *vb)
+ 		if (vb2_plane_size(vb, i) < sizeimage)
+ 			return -EINVAL;
+ 	}
+-	vb2_set_plane_payload(vb, 0, f->fmt.pix_mp.plane_fmt[0].sizeimage);
++
++	/*
++	 * Buffer bytesused is written by driver for CAPTURE buffers.
++	 * (if userspace passes 0 bytesused for OUTPUT buffers, v4l2-core sets
++	 * it to buffer length).
++	 */
++	if (!V4L2_TYPE_IS_OUTPUT(vq->type))
++		vb2_set_plane_payload(vb, 0, f->fmt.pix_mp.plane_fmt[0].sizeimage);
++
+ 	return 0;
+ }
+ 
 
-This is not something I can help with, I'm afraid.
+base-commit: 0b276e470a4d43e1365d3eb53c608a3d208cabd4
+-- 
+2.17.1
 
-Thanks,
-
-Sean
