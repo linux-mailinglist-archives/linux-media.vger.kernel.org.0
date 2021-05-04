@@ -2,132 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DE99372117
-	for <lists+linux-media@lfdr.de>; Mon,  3 May 2021 22:06:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A7F83724BA
+	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 05:39:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229560AbhECUHG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 May 2021 16:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41028 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbhECUHF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 May 2021 16:07:05 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D900C06174A
-        for <linux-media@vger.kernel.org>; Mon,  3 May 2021 13:06:12 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id q127so6400347qkb.1
-        for <linux-media@vger.kernel.org>; Mon, 03 May 2021 13:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=F2io10OAL67cb7EHMlJRCzofAP/Qs75/sPOGNK5/d6o=;
-        b=fJkMqqW4BsgYDoQdC+rpvXd6PP2Kwhd5l1y08IonEtTtWULi3c3M0PEaE7Rb0GZlqu
-         xBpMeYNhIBZHSp1kAeDUx0ErAB+UL6ryjm6iWnCkZhNsaquj2XYfvIM4XVDQL3EVWNW6
-         tu1iGpsGZo8xVPCmEF6ISJSawjhUXdcJm7hU8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=F2io10OAL67cb7EHMlJRCzofAP/Qs75/sPOGNK5/d6o=;
-        b=hTwFnPATJr90ndheAXaa5TVjX+Q7VLbpdUScYV6TH2TqACROQCH/Pcf5lklyVHk1ud
-         G8eyLH8TF0ylaADLydJVHL25Rejy6HTv0dOuP/AHizO7W6urCPvaqZH6MGmJWhxbOuH4
-         8kwkCpZDD97x3TXyvvF6DM+/BY57Mk400Pl3k23U2EEa/IvN8XbzT+B0GRHUVjI4LqlT
-         RTTthpiq4vhy6gl7KdzR0AuFqJ0wLxAdaM0O/wKTiIgIVh2DVYiS1HPMf/GGgo1juBP/
-         8jb9Nk61sMDMLCDMaO4xB/MEN7WBcABjJ6+Ndhbyht9W9C4NLn+IMDsnOnguXh1rccgb
-         9QEA==
-X-Gm-Message-State: AOAM533cwk89PWws4+u7KehFpa6vYIEmth968CUrTU/xKFzuP3zb4jJm
-        RtB+Y0KYQ5SUAlMKYOBHZ9yc/g==
-X-Google-Smtp-Source: ABdhPJzE75yCgO1kCiFHoMg8Xem5C4qDa9BAPkckdLhrJrnp69tnFeLo1hfZHUjlMVEx4ujuWnsYaw==
-X-Received: by 2002:a37:5945:: with SMTP id n66mr21057766qkb.138.1620072371604;
-        Mon, 03 May 2021 13:06:11 -0700 (PDT)
-Received: from [192.168.151.33] (50-232-25-43-static.hfc.comcastbusiness.net. [50.232.25.43])
-        by smtp.gmail.com with ESMTPSA id l16sm720725qtr.65.2021.05.03.13.06.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 May 2021 13:06:11 -0700 (PDT)
-Subject: Re: [PATCH] media: em28xx: Fix possible memory leak of em28xx struct
-To:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl, Shuah Khan <skhan@linuxfoundation.org>
-References: <20210503173716.21652-1-igormtorrente@gmail.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <dc285959-080a-3809-2f3e-e1de3440374a@linuxfoundation.org>
-Date:   Mon, 3 May 2021 16:06:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <20210503173716.21652-1-igormtorrente@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S229698AbhEDDkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 May 2021 23:40:39 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:36049 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229499AbhEDDkj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 May 2021 23:40:39 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id dluPlZKrNyEWwdluSlok0M; Tue, 04 May 2021 05:39:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1620099584; bh=i0CzZwbAmSCIlxiyE9Fo7xg6qXckHHJLtKAdEKkZVSc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=vOor+cRHGIuPWWZwwCxA5/BiofAfziKbMauRIoWveSJGII6GkhOFda/U9ggsX0UJB
+         lEYCa6fY+8BLgS2DsdRcUrYRZJ88GS7AD8/PCD7zmc9AEAaDnyeixOb88D19Nn+zJK
+         VL6zQ2iuqRXHulR25XUThwExC2WytfjA/ccAvi1NAZxXjTMtfS3xYBBSkN5w7q1Dnu
+         +yeSZ4tN/llwTo01uk0O21iE2FrL9w16e0tRUR8svGln1teTR6ZQQwcuRwNof+E7WA
+         sUEhmdGFpTHO8Ehskvk59x/IfwHIWXaVW+39/qVIbUA2j7q257fCCBH0WiDx2XgWBr
+         kXylJ8WE/c3hw==
+Message-ID: <1cdfa0453ef29df4b1f611d5ca010400@smtp-cloud7.xs4all.net>
+Date:   Tue, 04 May 2021 05:39:41 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfOO1uSMf6rk4ie6vztAiyorvW5EN0KdRGvZ3H66wqUj4J+Aqp7iuFPbs6MFtMcoW63HhiB3o3DiHryMSNm7Yij7ABS+9ciZ7JkD6Ur0vYxVeZ5T9HWz1
+ SuOdFdCVNEei+J9/2zk3NNWtg5DfEicsPtBN7p+ScfX4lR2KexF4fGvjGCuVPjAzDbi+t2V/MscAeVPT4pINhSUKoyk2R4ni53tLXJixaCLFiE7rpQMt1TGO
+ kJtst9owhqAGuPZP9pExsQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Igor,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 5/3/21 11:37 AM, Igor Matheus Andrade Torrente wrote:
-> The em28xx struct kref isn't being decreased after an error in the
-> em28xx_ir_init, leading to a possible memory leak.
-> 
-> A kref_put is added to the error handler code.
-> 
-> Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-> ---
->   drivers/media/usb/em28xx/em28xx-input.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/em28xx/em28xx-input.c b/drivers/media/usb/em28xx/em28xx-input.c
-> index 5aa15a7a49de..b89527014cad 100644
-> --- a/drivers/media/usb/em28xx/em28xx-input.c
-> +++ b/drivers/media/usb/em28xx/em28xx-input.c
-> @@ -720,7 +720,8 @@ static int em28xx_ir_init(struct em28xx *dev)
->   			dev->board.has_ir_i2c = 0;
->   			dev_warn(&dev->intf->dev,
->   				 "No i2c IR remote control device found.\n");
-> -			return -ENODEV;
-> +			err = -ENODEV;
-> +			goto ref_put;
+Results of the daily build of media_tree:
 
-This doesn't look right. em28xx_init_buttons() is already happened and
-em28xx_shutdown_buttons() needs to be done from fini. fini needs to run
-with this ref. If ref is released here, device might be released before
-em28xx_shutdown_buttons() can run leading to potential use-after-free
+date:			Tue May  4 05:00:11 CEST 2021
+media-tree git hash:	0b276e470a4d43e1365d3eb53c608a3d208cabd4
+media_build git hash:	1521b23ea5307bef1ee17489c5323f00891dd52b
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7413-g9bb66fa2d
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
->   		}
->   	}
->   
-> @@ -735,7 +736,7 @@ static int em28xx_ir_init(struct em28xx *dev)
->   
->   	ir = kzalloc(sizeof(*ir), GFP_KERNEL);
->   	if (!ir)
-> -		return -ENOMEM;
-> +		goto ref_put;
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: ERRORS
+linux-5.12.1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2963, Succeeded: 2962, Failed: 1, Warnings: 1
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-This doesn't look right. Same comment as above. fini accounts for null
-ir.
+Detailed results are available here:
 
-        em28xx_shutdown_buttons(dev);
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
-         /* skip detach on non attached boards */
-         if (!ir)
-                 goto ref_put;
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
 
->   	rc = rc_allocate_device(RC_DRIVER_SCANCODE);
->   	if (!rc)
->   		goto error;
-> @@ -839,6 +840,8 @@ static int em28xx_ir_init(struct em28xx *dev)
->   	dev->ir = NULL;
->   	rc_free_device(rc);
->   	kfree(ir);
-> +ref_put:
-> +	kref_put(&dev->ref, em28xx_free_device);
->   	return err;
->   }
->   
-> 
+Full logs are available here:
 
-thanks,
--- Shuah
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
