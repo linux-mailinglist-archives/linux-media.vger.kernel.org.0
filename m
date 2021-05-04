@@ -2,74 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6970372A0E
-	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 14:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68D5E372A5D
+	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 14:50:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230314AbhEDM1s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 May 2021 08:27:48 -0400
-Received: from www.zeus03.de ([194.117.254.33]:39834 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230133AbhEDM1r (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 4 May 2021 08:27:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=IJoVgc0rDjC9hvmw012JfGzIlDq
-        CXupqMVtab30co9g=; b=OgnOFkRA1LxROgnyeHkyOvdHkjmmzZ8nzZG72/DqHak
-        cE9lRyCOLD3azVoCOKDU5EhaZC8aC8A4htidBtPz+5Ayy4x11kpRzS+LSl6ZHTef
-        ebOFyWTOpZM5VVZoP0P3Mu8z9gfhFQx7j0h9TG3lBsnyhINshencTSQXFXwyz1CI
-        =
-Received: (qmail 1356275 invoked from network); 4 May 2021 14:26:51 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 May 2021 14:26:51 +0200
-X-UD-Smtp-Session: l3s3148p1@FH5VMYDBuIsgAwDPXxOMAJUzfx/HAvHg
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        id S230348AbhEDMu5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 May 2021 08:50:57 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:32985 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230306AbhEDMu5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 4 May 2021 08:50:57 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id duUolE0kgWztCduUslIJRs; Tue, 04 May 2021 14:49:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1620132597; bh=Dc/eF3A4c9X62TxwSvOnpa3ffTV6fzGnkokXDjnXOxA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=oryRv/9tgvyURLERIBaYxUXSMQlDw5kBS0DV3TD+UA74t5wMQpKpMyExDd/P2AeL0
+         mR6FWz+Sa7Zl2jioLcziG1xk6sVZiIdoPZtv+3kozXecu6Sb+0xRVjJVLdQ/Zd5AU9
+         nt4YrteRHNszbNLOC5Fg9d8wHDOi5B2OCXkC3iB05sMUd1ngTLIjN2lpLUTjFvgCru
+         sOsPMRFlAXIVNXE3GC/mEixJgrmNRHoXRO31zNTa33aY5xHVvV5N0cXiEqa+ed1XRS
+         QbGNV/l3V0D/Gkx6Ie6jX9VXHdRsVSzlf29KkhQ9qLMZHDhRpRJoWGqzwRQ9iT//a5
+         foj0HvGivM8Ow==
+Subject: Re: [PATCH v4 0/9] Microchip SAMA5D4 VPU support et al
+To:     Emil Velikov <emil.l.velikov@gmail.com>, kernel@collabora.com,
+        Ezequiel Garcia <ezequiel@collabora.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH] media: coda: set debugfs blobs to read only
-Date:   Tue,  4 May 2021 14:26:48 +0200
-Message-Id: <20210504122649.44870-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.0
+        Rob Herring <robh+dt@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-media@vger.kernel.org,
+        linux-rockchip <linux-rockchip@lists.infradead.org>
+References: <20210401144336.2495479-1-emil.l.velikov@gmail.com>
+ <CACvgo50-fKJk_EpY-G_SGes6-FUs=nAouzBmSN-CYgMTpoeN_w@mail.gmail.com>
+ <CACvgo53Mkvx8n8RQ4BRCNWgb2wBWhyn8A2syYzHmuv0eJ=eChg@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <99f08c89-ce90-16b1-bd96-1114e3ce02e5@xs4all.nl>
+Date:   Tue, 4 May 2021 14:49:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACvgo53Mkvx8n8RQ4BRCNWgb2wBWhyn8A2syYzHmuv0eJ=eChg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfFMRMAM69sLXyWIa87bLuqtH89biH8TkKpdsukACuWvyyPEmvqSQkxFBGzP5iIu1UV90Bjr1ZNp4e5ZlgL3HqZ+v2xvrdbAM85XRLPNdwTd3H+EFhgba
+ ddNsd2KnE4c+9a8nxgZipk3K5uhOcRzNEwlchvHEmgfFRCLSzJTykz+w68Y8h+85AFNDysCQTi3dgVH1tU//xoMWnmvydNs88J+TgZNlgKvyKNW/3mERFxON
+ Uquyq8c6vsaiq2QvmkbCI3KdinDydKNeY1WfmnQD7Uy2HrwNtNPhKQgDeW5FyICjyo9bN9yhxpKwqZgvIaNMGj6PzxcogFo3ZLkgwUspg//4/oKvbq0XMNlN
+ 5swZEbwP+pFwirm+Z4dGZ0fV3dgU76AWzce3zfPk7+OEYMsfYr9Irnm1V07hNadlVVDo2yx8JwTYXUpkPNqmzbgEewQC7brRgd8WIqbY7DapUCSwxfE=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Those blobs can only be read. So, don't confuse users with 'writable'
-flags.
+On 04/05/2021 14:03, Emil Velikov wrote:
+> Hi Hans, all
+> 
+> On Wed, 14 Apr 2021 at 11:32, Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> <snip>
+> 
+>> Is there anything I can do to move the series forward?
+>>
+> 
+> Based on the Patchwork tracking [1], I suspect that Hans will be
+> merging the series.
+> Although if there is anything I can do to ease things, please let me know.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+It's on my todo list for this week.
 
-Found while working with blobs myself. I don't have coda HW.
+Regards,
 
- drivers/media/platform/coda/coda-common.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+	Hans
 
-diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-index 995e95272e51..294dfe7e1d33 100644
---- a/drivers/media/platform/coda/coda-common.c
-+++ b/drivers/media/platform/coda/coda-common.c
-@@ -1935,7 +1935,7 @@ int coda_alloc_aux_buf(struct coda_dev *dev, struct coda_aux_buf *buf,
- 	if (name && parent) {
- 		buf->blob.data = buf->vaddr;
- 		buf->blob.size = size;
--		buf->dentry = debugfs_create_blob(name, 0644, parent,
-+		buf->dentry = debugfs_create_blob(name, 0444, parent,
- 						  &buf->blob);
- 	}
- 
-@@ -3230,7 +3230,7 @@ static int coda_probe(struct platform_device *pdev)
- 		memset(dev->iram.vaddr, 0, dev->iram.size);
- 		dev->iram.blob.data = dev->iram.vaddr;
- 		dev->iram.blob.size = dev->iram.size;
--		dev->iram.dentry = debugfs_create_blob("iram", 0644,
-+		dev->iram.dentry = debugfs_create_blob("iram", 0444,
- 						       dev->debugfs_root,
- 						       &dev->iram.blob);
- 	}
--- 
-2.30.0
+> 
+> Thanks
+> Emil
+> [1] https://patchwork.linuxtv.org/project/linux-media/list/?series=5041
+> 
 
