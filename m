@@ -2,42 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16F9C3726D4
-	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 09:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EBBA372730
+	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 10:26:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229929AbhEDH55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 May 2021 03:57:57 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45634 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229601AbhEDH54 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 03:57:56 -0400
+        id S230074AbhEDI1O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 May 2021 04:27:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230083AbhEDI1M (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 04:27:12 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 421C7C061574
+        for <linux-media@vger.kernel.org>; Tue,  4 May 2021 01:26:16 -0700 (PDT)
 Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DACF580;
-        Tue,  4 May 2021 09:57:00 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30DBD58E;
+        Tue,  4 May 2021 10:26:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1620115020;
-        bh=OmpxqGhxRge89hghuuhW9cj6FCDfmZEhlFR+KI22uV4=;
+        s=mail; t=1620116774;
+        bh=651Njm1PFavKJRD30KAL7DAxIfjbLZIDM84/G6BWZiU=;
         h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=fxmkcJWh0EFJ6aO3mtTbAS1Olvdv96EZuAM9zdvWmMFUcVXLr7jUNfJ7+Rv6L1m8F
-         c2WJgwaACRe9d/4p+BfQE/9IKbLSP1Dj8hR8XG0EIaDh25Oy56LZ+/0Ijk9kdFKmCx
-         I04j41SrHk0/z0PasNJiv5E9lF1ovlE2/Wczmvf8=
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
-References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
- <20210412113457.328012-16-tomi.valkeinen@ideasonboard.com>
- <YHwqLSgwYmt9ZAOU@pendragon.ideasonboard.com>
- <9d6b96f4-cdb0-5820-965d-7135a926829f@ideasonboard.com>
- <YIn2Y/HpOPBKUzh/@pendragon.ideasonboard.com>
+        b=NWn9JHJBBZYbbQKnFryJ0C9kJzvLL+qUGdiGrjL0nm13RLcsR6WVU8WrSBiqvA2tF
+         ts162Zp27WaOhGHYgxWaDhWpYfRrcblV1pwksf4Ci5g21BUywXwfOep1tQSUKApsCA
+         MbyWFOARM2Ni21PgUM9G+RfTfg5/Rk3e0Uc5IFWs=
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        dri-devel@lists.freedesktop.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Tony Lindgren <tony@atomide.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+References: <20210428132545.1205162-1-hverkuil-cisco@xs4all.nl>
+ <20210428132545.1205162-2-hverkuil-cisco@xs4all.nl>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 15/28] media: ti-vpe: cal: remove wait when stopping
- camerarx
-Message-ID: <28d4fab7-44c5-70d3-1dd7-d8814a39fef0@ideasonboard.com>
-Date:   Tue, 4 May 2021 10:56:59 +0300
+Subject: Re: [PATCHv3 1/6] drm: drm_bridge: add connector_attach/detach bridge
+ ops
+Message-ID: <bcf1d476-216f-db51-840e-7cda58585b5b@ideasonboard.com>
+Date:   Tue, 4 May 2021 11:26:13 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <YIn2Y/HpOPBKUzh/@pendragon.ideasonboard.com>
+In-Reply-To: <20210428132545.1205162-2-hverkuil-cisco@xs4all.nl>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -45,80 +52,113 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/04/2021 02:57, Laurent Pinchart wrote:
-> Hi Tomi,
+On 28/04/2021 16:25, Hans Verkuil wrote:
+> Add bridge connector_attach/detach ops. These ops are called when a
+> bridge is attached or detached to a drm_connector. These ops can be
+> used to register and unregister an HDMI CEC adapter for a bridge that
+> supports CEC.
 > 
-> On Mon, Apr 19, 2021 at 02:29:20PM +0300, Tomi Valkeinen wrote:
->> On 18/04/2021 15:46, Laurent Pinchart wrote:
->>> On Mon, Apr 12, 2021 at 02:34:44PM +0300, Tomi Valkeinen wrote:
->>>> Asserting ComplexIO reset seems to affect the HW (ie. asserting reset
->>>> will break an active capture), but the RESET_DONE bit never changes to
->>>> "reset is ongoing" state. Thus we always get a timeout.
->>>>
->>>> Drop the wait, as it seems to achieve nothing.
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>    drivers/media/platform/ti-vpe/cal-camerarx.c | 15 ++-------------
->>>>    1 file changed, 2 insertions(+), 13 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
->>>> index 0354f311c5d2..245c601b992c 100644
->>>> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
->>>> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
->>>> @@ -405,7 +405,6 @@ static int cal_camerarx_start(struct cal_camerarx *phy)
->>>>    
->>>>    static void cal_camerarx_stop(struct cal_camerarx *phy)
->>>>    {
->>>> -	unsigned int i;
->>>>    	int ret;
->>>>    
->>>>    	cal_camerarx_ppi_disable(phy);
->>>> @@ -419,19 +418,9 @@ static void cal_camerarx_stop(struct cal_camerarx *phy)
->>>>    			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL,
->>>>    			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK);
->>>>    
->>>> -	/* Wait for power down completion */
->>>> -	for (i = 0; i < 10; i++) {
->>>> -		if (cal_read_field(phy->cal,
->>>> -				   CAL_CSI2_COMPLEXIO_CFG(phy->instance),
->>>> -				   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_MASK) ==
->>>> -		    CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING)
->>>
->>> Isn't this the wrong condition ? I would have expected
->>> CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETCOMPLETED, not
->>> CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING. That could explain why
->>> you always get a timeout.
->>
->> No, I don't think so. The complexio reset is set active just before the
->> wait. So the reset status should show reset ongoing, until at some point
->> we release the reset (we do that when starting the PHY again).
->>
->> The TRM doesn't talk about this, though. So, I guess the status might go
->> to RESETONGOING for a very short time and back to RESETCOMPLETED before
->> the code can see the RESETONGOING. But I suspect the status just stays
->> at RESETCOMPLETED.
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>   drivers/gpu/drm/drm_bridge_connector.c | 25 +++++++++++++++++++++++-
+>   include/drm/drm_bridge.h               | 27 ++++++++++++++++++++++++++
+>   2 files changed, 51 insertions(+), 1 deletion(-)
 > 
-> The TRM is indeed not very clear. My understanding was that asserting
-> RESET_CTRL initiates the reset, and RESET_DONE switches to 1 once the
-> reset completes. There's however a note in the initialization sequence
-> that states
+> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+> index 791379816837..0676677badfe 100644
+> --- a/drivers/gpu/drm/drm_bridge_connector.c
+> +++ b/drivers/gpu/drm/drm_bridge_connector.c
+> @@ -203,6 +203,11 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
+>   {
+>   	struct drm_bridge_connector *bridge_connector =
+>   		to_drm_bridge_connector(connector);
+> +	struct drm_bridge *bridge;
+> +
+> +	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge)
+> +		if (bridge->funcs->connector_detach)
+> +			bridge->funcs->connector_detach(bridge, connector);
+>   
+>   	if (bridge_connector->bridge_hpd) {
+>   		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
+> @@ -318,6 +323,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+>   	struct i2c_adapter *ddc = NULL;
+>   	struct drm_bridge *bridge;
+>   	int connector_type;
+> +	int ret;
+>   
+>   	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
+>   	if (!bridge_connector)
+> @@ -375,6 +381,23 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+>   		connector->polled = DRM_CONNECTOR_POLL_CONNECT
+>   				  | DRM_CONNECTOR_POLL_DISCONNECT;
+>   
+> -	return connector;
+> +	ret = 0;
+> +	/* call connector_attach for all bridges */
+> +	drm_for_each_bridge_in_chain(encoder, bridge) {
+> +		if (!bridge->funcs->connector_attach)
+> +			continue;
+> +		ret = bridge->funcs->connector_attach(bridge, connector);
+> +		if (ret)
+> +			break;
+> +	}
+> +	if (!ret)
+> +		return connector;
+> +
+> +	/* on error, detach any previously successfully attached connectors */
+> +	list_for_each_entry_continue_reverse(bridge, &(encoder)->bridge_chain,
 
-No, it's a bit to keep (or release) camerarx in reset. When the camerarx 
-is being started, both reset ctrl and done are 0. The driver then 
-releases the reset by setting ctrl to 1. Nothing happens at this time, 
-as the camerarx needs the byteclk from the sensor to finish the reset. 
-Later, when the sensor has been started, done changes to 1. This works fine.
+No need for parenthesis in (encoder) here.
 
-The problem is on the stop side. Setting ctrl back to 0 does something, 
-as the capture stops, so presumably the camerarx goes into reset state. 
-But the done bit does not change.
+> +					     chain_node)
+> +		if (bridge->funcs->connector_detach)
+> +			bridge->funcs->connector_detach(bridge, connector);
+> +	return ERR_PTR(ret);
+>   }
+>   EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 2195daa289d2..333fbc3a03e9 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -629,6 +629,33 @@ struct drm_bridge_funcs {
+>   	 * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
+>   	 */
+>   	void (*hpd_disable)(struct drm_bridge *bridge);
+> +
+> +	/**
+> +	 * @connector_attach:
+> +	 *
+> +	 * This callback is invoked whenever our bridge is being attached to a
+> +	 * &drm_connector. This is where an HDMI CEC adapter can be registered.
+> +	 *
+> +	 * The @connector_attach callback is optional.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * Zero on success, error code on failure.
+> +	 */
+> +	int (*connector_attach)(struct drm_bridge *bridge,
+> +				struct drm_connector *conn);
+> +
+> +	/**
+> +	 * @connector_detach:
+> +	 *
+> +	 * This callback is invoked whenever our bridge is being detached from a
+> +	 * &drm_connector. This is where an HDMI CEC adapter can be
+> +	 * unregistered.
+> +	 *
+> +	 * The @connector_detach callback is optional.
+> +	 */
+> +	void (*connector_detach)(struct drm_bridge *bridge,
+> +				 struct drm_connector *conn);
+>   };
+>   
+>   /**
+> 
 
-The done bit is back to 0 when we start the camerarx again. My guess is 
-that it's reset when the CAL module is turned off via runtime PM. This 
-is not good, as there's no strict rule that says CAL will be turned off 
-by runtime PM. However, I have not found any other way to reset the done 
-bit. And in the case that we don't get a CAL reset, I guess we're still 
-fine, as the camerarx is just already out of reset, and works.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+I can take this series as it's mostly omapdrm, but we'll need a 
+reviewed-by/acked-by from a maintainer for this patch.
 
   Tomi
