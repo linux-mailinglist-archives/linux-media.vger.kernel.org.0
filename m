@@ -2,167 +2,307 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D85C13731E8
-	for <lists+linux-media@lfdr.de>; Tue,  4 May 2021 23:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2012337339C
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 03:38:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232840AbhEDV3T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 May 2021 17:29:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39356 "EHLO
+        id S232130AbhEEBjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 May 2021 21:39:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232684AbhEDV3S (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 17:29:18 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA83C061574;
-        Tue,  4 May 2021 14:28:23 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id x188so336964pfd.7;
-        Tue, 04 May 2021 14:28:23 -0700 (PDT)
+        with ESMTP id S231991AbhEEBjD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 21:39:03 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F06CC061574
+        for <linux-media@vger.kernel.org>; Tue,  4 May 2021 18:38:07 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id g15-20020a9d128f0000b02902a7d7a7bb6eso345409otg.9
+        for <linux-media@vger.kernel.org>; Tue, 04 May 2021 18:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=rC//UL0/if2O+6rVcbTRHyqn0UdJ7E2Vf9+qwJ26TeM=;
-        b=fZlfWZAbu4AwQZ+NbeVjgm9DgtC+xgb9ILAqOypUGFJMQZENNfA6hVJlQmsvs+jOmp
-         P3SNIZBWZWZvYe+DBJcv7K62+tBq14nGIoZBIN4kJIjhIx4+ho2cUB7XyP1HokNJZcFt
-         PhWqcEOsMBo72RBlIM17dUoZvgZvKD8tH4BDaymN75s7Md0OKA9MW7e8uGdh0+HVMVnm
-         cCBwJItqb8rU9OTuI8yvZODDhCpCZIS+et81uYC6rsFqIkBemc3kQsURT+jZe4k2zbPS
-         Df+AEL69PeaH5UqKAee8GpQ4brRGvt75oLLqktk7Z3AxlWdEdpa5jC+MrbgOYOV0PCeb
-         UB1g==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=lX6vTVdP28sAUcsZAx6P7d8fEnuW4SnnYR6kFB2r4Dk=;
+        b=PziAM8UzWWk2O/fAzTSdFRXR7VcbJ09nbjUox6Gj//Qu/D9P8KlV8l6Au+ElQtRw6X
+         8T8bE2mwD02yOI1opc3c1rt4s5Ex9Iad+xA8TfnCoKIdoe/LnfsTFq+5m5hVVkxJGjxk
+         LTm7cuzIh7Xb0zG00C464iaHUBYkOtxO/4ces=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=rC//UL0/if2O+6rVcbTRHyqn0UdJ7E2Vf9+qwJ26TeM=;
-        b=k2SaF1qcbT+RjDdDHjhI6/v+OHAIZHnOomB4Sh/VxSzGkZReXGlLS3GcvN7c+NGgoR
-         dvDVaoepHRIGJtJmXDCN3wuKtZ0PRcxgseBiyqefWXR+efepgPyj48XPFhODrSdD2klT
-         Cdd+rPPtxUF8H7g35N3ZkOY05DDXyE7jhqnf2cv5NKfC9p262X57udywt3dy+LP+IqkL
-         4a4Fy90oyhk8YA/7SjGuvfqiXXZAIl/p9pqKi3HrhacOVXLFEqjIVbZQwfp0VJR9Mg2q
-         RYBD62ga15IdlD76od3sPyKlILD+szNkkHEuQ7GpJlnZJgJiY+86l+gdYytK8QifnWCK
-         +WBw==
-X-Gm-Message-State: AOAM531znHSL6UQCMJ5MHRSg3PZI0IaEa5//85zOS7bMs78f6EC5hav7
-        fKYvgRQ9tFWyZwQExYhEKkw=
-X-Google-Smtp-Source: ABdhPJychChkEZvwblfM+Ev1M/+OJ/hC+QsmiOLtnzW6WN20OXxgWF5ZG9aLWujmqKLsAwx4PycEUA==
-X-Received: by 2002:aa7:80c9:0:b029:249:cac5:e368 with SMTP id a9-20020aa780c90000b0290249cac5e368mr25276068pfn.12.1620163703116;
-        Tue, 04 May 2021 14:28:23 -0700 (PDT)
-Received: from [192.168.1.41] (097-090-198-083.res.spectrum.com. [97.90.198.83])
-        by smtp.gmail.com with ESMTPSA id c134sm8571790pfb.135.2021.05.04.14.28.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 May 2021 14:28:22 -0700 (PDT)
-Subject: Re: KASAN: use-after-free Read in v4l2_fh_open
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org
-References: <00000000000017937c05bb617f1d@google.com>
-From:   SyzScope <syzscope@gmail.com>
-Message-ID: <471c3801-2fe9-59bd-b2ad-9877dae05484@gmail.com>
-Date:   Tue, 4 May 2021 14:28:21 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=lX6vTVdP28sAUcsZAx6P7d8fEnuW4SnnYR6kFB2r4Dk=;
+        b=LOvnAnEoGmYMl8KK5+vQV5jVNzhG/Of00N0MXIx1ticao7X7XFFDRE0/GrpAhMYMRk
+         BYndmGhO/yR5vD5DBN8kCYfP2bFkQf3M7xNMH11Sgvzx5XzxGbtJFSHKeI1abeneQoBw
+         KUYSotj2edZWKUK1BU8/Z5CGHARNbKHZF18eUT1iQDjbd1mMHfA387jLmN6bMR7h55uR
+         wdq1oe+RPFQZLKY/H6vy9tLIjekPBhtdCY2RMZzopbTPSw8iMSFIzISTbqjbAcgkdCgG
+         KDtKbA4X4Sd23Gnn9RfhdYi1BGQnd69jEBUA2WIn6Kkw+nnHv33AHG52c9YGhFqnQ+Hy
+         dr3g==
+X-Gm-Message-State: AOAM5307eWSDd5EkuTWjnfBmHjMmeslpgUd5boXq1sbYQ/nL41Yl/O65
+        /NEPYXZW1z5NPIE3jIJEcAZ054GGHwJHSy2qXa7kaA==
+X-Google-Smtp-Source: ABdhPJzro2JKCy5vcnXa+onhPlmyRkPLgrndLJM9Va0ydjoM12Zj8/ZTtsjIG2ChK4qCSQ+1i5lO2Rxulpu23l1dX20=
+X-Received: by 2002:a9d:1ea9:: with SMTP id n38mr22439486otn.233.1620178686562;
+ Tue, 04 May 2021 18:38:06 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 4 May 2021 21:38:05 -0400
 MIME-Version: 1.0
-In-Reply-To: <00000000000017937c05bb617f1d@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+In-Reply-To: <20210420111355.18462-1-rojay@codeaurora.org>
+References: <20210420111355.18462-1-rojay@codeaurora.org>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Tue, 4 May 2021 21:38:05 -0400
+Message-ID: <CAE-0n51iyNgVW4Vra2C_4FAqQECU-aqAHLWZ+kB2Xv3i-inxiQ@mail.gmail.com>
+Subject: Re: [PATCH V9] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
+Cc:     dianders@chromium.org, saiprakash.ranjan@codeaurora.org,
+        gregkh@linuxfoundation.org, mka@chromium.org,
+        skananth@codeaurora.org, msavaliy@qti.qualcomm.com,
+        skakit@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Quoting Roja Rani Yarubandi (2021-04-20 04:13:55)
+> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
+> index 214b4c913a13..8ae17ccad99e 100644
+> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> @@ -71,6 +71,8 @@ enum geni_i2c_err_code {
+>  #define ABORT_TIMEOUT          HZ
+>  #define XFER_TIMEOUT           HZ
+>  #define RST_TIMEOUT            HZ
+> +#define ABORT_XFER             0
+> +#define STOP_AND_ABORT_XFER    1
 
-This is SyzScope, a research project that aims to reveal high-risk 
-primitives from a seemingly low-risk bug (UAF/OOB read, WARNING, BUG, etc.).
+These should be an enum.
 
-We are currently testing seemingly low-risk bugs on syzbot's open 
-section(https://syzkaller.appspot.com/upstream), and try to reach out to 
-kernel developers as long as SyzScope discovers any high-risk primitives.
+>
+>  struct geni_i2c_dev {
+>         struct geni_se se;
+> @@ -89,6 +91,7 @@ struct geni_i2c_dev {
+>         void *dma_buf;
+>         size_t xfer_len;
+>         dma_addr_t dma_addr;
+> +       bool stop_xfer;
+>  };
+>
+>  struct geni_i2c_err_log {
+> @@ -215,6 +218,11 @@ static irqreturn_t geni_i2c_irq(int irq, void *dev)
+>         struct i2c_msg *cur;
+>
+>         spin_lock(&gi2c->lock);
+> +       if (!gi2c->cur) {
+> +               dev_err(gi2c->se.dev, "Can't process irq, gi2c->cur is NULL\n");
 
-Please let us know if SyzScope indeed helps, and any suggestions/feedback.
+This error message is worthless. The user won't know what to do and then
+we return IRQ_HANDLED? If the device is misbehaving we should return
+IRQ_NONE and shut down the irq storm that will soon be upon us, not
+print an error message and hope for the best.
 
-Regrading the bug "KASAN: use-after-free Read in v4l2_fh_open", SyzScope 
-reports 1 memory write capability.
+> +               spin_unlock(&gi2c->lock);
+> +               return IRQ_HANDLED;
+> +       }
+>         m_stat = readl_relaxed(base + SE_GENI_M_IRQ_STATUS);
+>         rx_st = readl_relaxed(base + SE_GENI_RX_FIFO_STATUS);
+>         dm_tx_st = readl_relaxed(base + SE_DMA_TX_IRQ_STAT);
+> @@ -222,8 +230,7 @@ static irqreturn_t geni_i2c_irq(int irq, void *dev)
+>         dma = readl_relaxed(base + SE_GENI_DMA_MODE_EN);
+>         cur = gi2c->cur;
+>
+> -       if (!cur ||
+> -           m_stat & (M_CMD_FAILURE_EN | M_CMD_ABORT_EN) ||
+> +       if (m_stat & (M_CMD_FAILURE_EN | M_CMD_ABORT_EN) ||
+>             dm_rx_st & (DM_I2C_CB_ERR)) {
+>                 if (m_stat & M_GP_IRQ_1_EN)
+>                         geni_i2c_err(gi2c, NACK);
+> @@ -301,17 +308,19 @@ static irqreturn_t geni_i2c_irq(int irq, void *dev)
+>         return IRQ_HANDLED;
+>  }
+>
+> -static void geni_i2c_abort_xfer(struct geni_i2c_dev *gi2c)
+> +static void geni_i2c_abort_xfer(struct geni_i2c_dev *gi2c, bool is_stop_xfer)
 
-The detailed comments can be found at 
-https://sites.google.com/view/syzscope/kasan-use-after-free-read-in-v4l2_fh_open
+The bool should be an enum, but a better approach would be to have a
+locked and unlocked version of this function.
 
-On 2/15/2021 7:18 AM, syzbot wrote:
+>  {
+>         u32 val;
+>         unsigned long time_left = ABORT_TIMEOUT;
+>         unsigned long flags;
+>
+> -       spin_lock_irqsave(&gi2c->lock, flags);
+> +       if (!is_stop_xfer)
+> +               spin_lock_irqsave(&gi2c->lock, flags);
+>         geni_i2c_err(gi2c, GENI_TIMEOUT);
+>         gi2c->cur = NULL;
+>         geni_se_abort_m_cmd(&gi2c->se);
+> -       spin_unlock_irqrestore(&gi2c->lock, flags);
+> +       if (!is_stop_xfer)
+> +               spin_unlock_irqrestore(&gi2c->lock, flags);
 
-> Hello,
+Please no conditional locking. It's too hard to reason about.
+
+>         do {
+>                 time_left = wait_for_completion_timeout(&gi2c->done, time_left);
+>                 val = readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATUS);
+> @@ -375,6 +384,38 @@ static void geni_i2c_tx_msg_cleanup(struct geni_i2c_dev *gi2c,
+>         }
+>  }
 >
-> syzbot found the following issue on:
+> +static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
+> +{
+> +       int ret;
+> +       u32 geni_status;
+> +       struct i2c_msg *cur;
+> +       unsigned long flags;
+> +
+> +       /* Resume device, as runtime suspend can happen anytime during transfer */
+
+This comment doesn't make any sense. Hopefully a suspend can't happen
+during a transfer, but only before or after a transfer. Otherwise, the
+transfer code is broken and isn't properly keeping the device runtime
+resumed during the transfer.
+
+> +       ret = pm_runtime_get_sync(gi2c->se.dev);
+> +       if (ret < 0) {
+> +               dev_err(gi2c->se.dev, "Failed to resume device: %d\n", ret);
+> +               return;
+> +       }
+> +
+> +       spin_lock_irqsave(&gi2c->lock, flags);
+> +       gi2c->stop_xfer = 1;
+> +       geni_status = readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
+> +       if (geni_status & M_GENI_CMD_ACTIVE) {
+> +               cur = gi2c->cur;
+> +               geni_i2c_abort_xfer(gi2c, STOP_AND_ABORT_XFER);
+> +               spin_unlock_irqrestore(&gi2c->lock, flags);
+> +               if (cur->flags & I2C_M_RD)
+> +                       geni_i2c_rx_msg_cleanup(gi2c, cur);
+> +               else
+> +                       geni_i2c_tx_msg_cleanup(gi2c, cur);
+> +       } else {
+> +               spin_unlock_irqrestore(&gi2c->lock, flags);
+> +       }
+
+Please unlock outside of an if condition. A local variable can be used
+outside of the unlock, but then the code is easier to follow
+
+	spin_lock_irqsave(&gi2c->lock, flags);
+	if (geni_status & M_GENI_CMD_ACTIVE) {
+		cur = gic2->cur;
+		geni_i2c_abort_xfer(....);
+	}
+	spin_unlock_irqrestore(gi2c->lock, flags);
+
+	if (cur) {
+		if (cur->flags & I2C_M_RD)
+			...
+		else
+			...
+	}
+
+And then I don't really know if grabbing 'cur' out of the struct and
+then messing with it outside the lock is correct.
+
+> +
+> +       pm_runtime_put_sync_suspend(gi2c->se.dev);
+> +}
+> +
+>  static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>                                 u32 m_param)
+>  {
+> @@ -407,7 +448,7 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>         cur = gi2c->cur;
+>         time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
+>         if (!time_left)
+> -               geni_i2c_abort_xfer(gi2c);
+> +               geni_i2c_abort_xfer(gi2c, ABORT_XFER);
+
+So this would say geni_i2c_abort_xfer() but the one above would say
+geni_i2c_abort_xfer_locked() because the lock is already held.
+
 >
-> HEAD commit:    291009f6 Merge tag 'pm-5.11-rc8' of git://git.kernel.org/p..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=17260814d00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=6a218c95bd23063a
-> dashboard link: https://syzkaller.appspot.com/bug?extid=b2391895514ed9ef4a8e
-> compiler:       Debian clang version 11.0.1-2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14ec5814d00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17179dd4d00000
+>         geni_i2c_rx_msg_cleanup(gi2c, cur);
 >
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com
+> @@ -449,7 +490,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+>         cur = gi2c->cur;
+>         time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
+>         if (!time_left)
+> -               geni_i2c_abort_xfer(gi2c);
+> +               geni_i2c_abort_xfer(gi2c, ABORT_XFER);
 >
-> ==================================================================
-> BUG: KASAN: use-after-free in v4l2_fh_init drivers/media/v4l2-core/v4l2-fh.c:25 [inline]
-> BUG: KASAN: use-after-free in v4l2_fh_open+0xc7/0x430 drivers/media/v4l2-core/v4l2-fh.c:63
-> Read of size 8 at addr ffff8880228b88b8 by task v4l_id/18349
+>         geni_i2c_tx_msg_cleanup(gi2c, cur);
 >
-> CPU: 1 PID: 18349 Comm: v4l_id Not tainted 5.11.0-rc7-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> Call Trace:
->   __dump_stack lib/dump_stack.c:79 [inline]
->   dump_stack+0x137/0x1be lib/dump_stack.c:120
->   print_address_description+0x5f/0x3a0 mm/kasan/report.c:230
->   __kasan_report mm/kasan/report.c:396 [inline]
->   kasan_report+0x15e/0x200 mm/kasan/report.c:413
->   v4l2_fh_init drivers/media/v4l2-core/v4l2-fh.c:25 [inline]
->   v4l2_fh_open+0xc7/0x430 drivers/media/v4l2-core/v4l2-fh.c:63
->   em28xx_v4l2_open+0x15c/0xa60 drivers/media/usb/em28xx/em28xx-video.c:2163
->   v4l2_open+0x229/0x360 drivers/media/v4l2-core/v4l2-dev.c:423
->   chrdev_open+0x4a0/0x570 fs/char_dev.c:414
->   do_dentry_open+0x7cb/0x1010 fs/open.c:817
->   do_open fs/namei.c:3254 [inline]
->   path_openat+0x2791/0x37a0 fs/namei.c:3371
->   do_filp_open+0x191/0x3a0 fs/namei.c:3398
->   do_sys_openat2+0xba/0x380 fs/open.c:1172
->   do_sys_open fs/open.c:1188 [inline]
->   __do_sys_open fs/open.c:1196 [inline]
->   __se_sys_open fs/open.c:1192 [inline]
->   __x64_sys_open+0x1af/0x1e0 fs/open.c:1192
->   do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
->   entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> RIP: 0033:0x7fdd62b00840
-> Code: 73 01 c3 48 8b 0d 68 77 20 00 f7 d8 64 89 01 48 83 c8 ff c3 66 0f 1f 44 00 00 83 3d 89 bb 20 00 00 75 10 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48 83 ec 08 e8 1e f6 ff ff 48 89 04 24
-> RSP: 002b:00007ffe8bb255b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
-> RAX: ffffffffffffffda RBX: 00007ffe8bb25728 RCX: 00007fdd62b00840
-> RDX: 00007fdd62aecea0 RSI: 0000000000000000 RDI: 00007ffe8bb26f1c
-> RBP: 0000000000000003 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000002 R11: 0000000000000246 R12: 000055f8a7dee8d0
-> R13: 00007ffe8bb25720 R14: 0000000000000000 R15: 0000000000000000
+> @@ -462,6 +503,7 @@ static int geni_i2c_xfer(struct i2c_adapter *adap,
+>  {
+>         struct geni_i2c_dev *gi2c = i2c_get_adapdata(adap);
+>         int i, ret;
+> +       unsigned long flags;
 >
-> The buggy address belongs to the page:
-> page:00000000b7dd9778 refcount:0 mapcount:-128 mapping:0000000000000000 index:0x0 pfn:0x228b8
-> flags: 0xfff00000000000()
-> raw: 00fff00000000000 ffffea0000580108 ffff88813fffb910 0000000000000000
-> raw: 0000000000000000 0000000000000002 00000000ffffff7f 0000000000000000
-> page dumped because: kasan: bad access detected
+>         gi2c->err = 0;
+>         reinit_completion(&gi2c->done);
+> @@ -480,7 +522,13 @@ static int geni_i2c_xfer(struct i2c_adapter *adap,
 >
-> Memory state around the buggy address:
->   ffff8880228b8780: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
->   ffff8880228b8800: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
->> ffff8880228b8880: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
->                                          ^
->   ffff8880228b8900: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
->   ffff8880228b8980: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ==================================================================
+>                 m_param |= ((msgs[i].addr << SLV_ADDR_SHFT) & SLV_ADDR_MSK);
 >
+> +               spin_lock_irqsave(&gi2c->lock, flags);
+> +               if (gi2c->stop_xfer) {
+> +                       spin_unlock_irqrestore(&gi2c->lock, flags);
+> +                       break;
+> +               }
+>                 gi2c->cur = &msgs[i];
+> +               spin_unlock_irqrestore(&gi2c->lock, flags);
+
+Is this to jump into the transfer real fast and break out if we're in
+the middle of a transfer?
+
+>                 if (msgs[i].flags & I2C_M_RD)
+>                         ret = geni_i2c_rx_one_msg(gi2c, &msgs[i], m_param);
+>                 else
+> @@ -624,6 +672,7 @@ static int geni_i2c_probe(struct platform_device *pdev)
+>         dev_dbg(dev, "i2c fifo/se-dma mode. fifo depth:%d\n", tx_depth);
 >
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>         gi2c->suspended = 1;
+> +       gi2c->stop_xfer = 0;
+>         pm_runtime_set_suspended(gi2c->se.dev);
+>         pm_runtime_set_autosuspend_delay(gi2c->se.dev, I2C_AUTO_SUSPEND_DELAY);
+>         pm_runtime_use_autosuspend(gi2c->se.dev);
+> @@ -650,6 +699,13 @@ static int geni_i2c_remove(struct platform_device *pdev)
+>         return 0;
+>  }
 >
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> syzbot can test patches for this issue, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
->
+> +static void  geni_i2c_shutdown(struct platform_device *pdev)
+> +{
+> +       struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
+> +
+> +       geni_i2c_stop_xfer(gi2c);
+
+It would read better as
+
+	geni_i2c_plug_xfer(gi2c);
+
+or
+
+	geni_i2c_flush_and_teardown(gi2c);
+
+or
+
+	geni_i2c_teardown_tx_rx(gi2c);
+
+Something that says we're waiting for any transfer to complete, and then
+plugging the queue and removing the i2c bus entirely.
+
+In fact, where is that code? I'd expect to see i2c_del_adapter() in here
+so we know the adapter can't accept transfers anymore. Maybe
+i2c_del_adapter() could be called, and then there's nothing to do after
+that? This whole patch is trying to rip the adapter out from under the
+i2c core framework, when we should take the opposite approach and remove
+it from the core framework so that it can't transfer anything anymore
+and thus the IOMMU can remove the mapping.
+
+> +}
+> +
+>  static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
+>  {
+>         int ret;
