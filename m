@@ -2,365 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDC0D373604
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 10:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B61C937369D
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 10:50:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231929AbhEEIHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 04:07:32 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:37439 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231697AbhEEIHb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 04:07:31 -0400
-X-UUID: 9169c652bd164b86b7e1ba6de4c47b6a-20210505
-X-UUID: 9169c652bd164b86b7e1ba6de4c47b6a-20210505
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
-        (envelope-from <louis.kuo@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1755114515; Wed, 05 May 2021 16:06:30 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 5 May 2021 16:06:29 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 5 May 2021 16:06:29 +0800
-From:   Louis Kuo <louis.kuo@mediatek.com>
-To:     <sakari.ailus@linux.intel.com>,
-        <laurent.pinchart@ideasonboard.com>, <mchehab@kernel.org>,
-        <matthias.bgg@gmail.com>, <hverkuil-cisco@xs4all.nl>,
-        <arnd@arndb.de>, <louis.kuo@mediatek.com>,
-        <sergey.senozhatsky@gmail.com>, <helen.koike@collabora.com>,
-        <niklas.soderlund+renesas@ragnatech.se>, <yepeilin.cs@gmail.com>
-CC:     <frederic.chen@mediatek.com>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: [RFC PATCH V0 4/4] media: pixfmt: Add ISP Camsys formats
-Date:   Wed, 5 May 2021 16:06:26 +0800
-Message-ID: <20210505080626.15432-5-louis.kuo@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210505080626.15432-1-louis.kuo@mediatek.com>
-References: <20210505080626.15432-1-louis.kuo@mediatek.com>
+        id S232223AbhEEIvB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 04:51:01 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48096 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232144AbhEEIvA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 May 2021 04:51:00 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1620204602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XlreHJSFOa0zh8VVnpDZWGdPYd4/0cBdM7glQh7Ld9A=;
+        b=k0ULywp2xsJxR0Mz78nWDgdSLChio96FaDSQTlafFs/Z/MrkODjxhZfj+xNioWQCCpEv2y
+        /liRIqv3fbnh3mheAOHDP5KEtpJedbiBxWkyzuj//TVKs8hzRX5Nm9cU3+jEZrXYTWuw9R
+        aV7QhcxVTV7LH9PRVRs0WYHOkwpKwBc=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A16ECAECE;
+        Wed,  5 May 2021 08:50:02 +0000 (UTC)
+Message-ID: <df5bef579be9bee300c42cf3e03c9b029c83a800.camel@suse.com>
+Subject: Re: [PATCH 2/3] media: rc: new driver for USB-UIRT device
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>
+Date:   Wed, 05 May 2021 10:50:01 +0200
+In-Reply-To: <92bbe875e1783c7bc79cde33d783eab66ef9cd46.1620149665.git.sean@mess.org>
+References: <cover.1620149665.git.sean@mess.org>
+         <92bbe875e1783c7bc79cde33d783eab66ef9cd46.1620149665.git.sean@mess.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add packed bayer formats with 10/12/14 bit for image output.
-Add packed/unpacked yuv formats with 10/12 bit for image output.
-Add specific meta formats for parameter processing and 3A/other
-statistics.
+Am Dienstag, den 04.05.2021, 18:52 +0100 schrieb Sean Young:
+> See http://www.usbuirt.com/
+> 
 
-Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
----
- drivers/media/v4l2-core/v4l2-ioctl.c | 145 ++++++++++++++++++++++++++-
- include/uapi/linux/videodev2.h       | 101 +++++++++++++++++++
- 2 files changed, 245 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 823ebd175f3a..00dba596893a 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1259,6 +1259,30 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_YVYU:		descr = "YVYU 4:2:2"; break;
- 	case V4L2_PIX_FMT_UYVY:		descr = "UYVY 4:2:2"; break;
- 	case V4L2_PIX_FMT_VYUY:		descr = "VYUY 4:2:2"; break;
-+	case V4L2_PIX_FMT_YUYV10:
-+		descr = "YUYV 4:2:2 10 bits";
-+		break;
-+	case V4L2_PIX_FMT_YVYU10:
-+		descr = "YVYU 4:2:2 10 bits";
-+		break;
-+	case V4L2_PIX_FMT_UYVY10:
-+		descr = "UYVY 4:2:2 10 bits";
-+		break;
-+	case V4L2_PIX_FMT_VYUY10:
-+		descr = "VYUY 4:2:2 10 bits";
-+		break;
-+	case V4L2_PIX_FMT_YUYV12:
-+		descr = "YUYV 4:2:2 12 bits";
-+		break;
-+	case V4L2_PIX_FMT_YVYU12:
-+		descr = "YVYU 4:2:2 12 bits";
-+		break;
-+	case V4L2_PIX_FMT_UYVY12:
-+		descr = "UYVY 4:2:2 12 bits";
-+		break;
-+	case V4L2_PIX_FMT_VYUY12:
-+		descr = "VYUY 4:2:2 12 bits";
-+		break;
- 	case V4L2_PIX_FMT_YUV422P:	descr = "Planar YUV 4:2:2"; break;
- 	case V4L2_PIX_FMT_YUV411P:	descr = "Planar YUV 4:1:1"; break;
- 	case V4L2_PIX_FMT_Y41P:		descr = "YUV 4:1:1 (Packed)"; break;
-@@ -1282,6 +1306,30 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
- 	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
- 	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
-+	case V4L2_PIX_FMT_NV12_10:
-+		descr = "Y/CbCr 4:2:0 10 bits";
-+		break;
-+	case V4L2_PIX_FMT_NV21_10:
-+		descr = "Y/CrCb 4:2:0 10 bits";
-+		break;
-+	case V4L2_PIX_FMT_NV16_10:
-+		descr = "Y/CbCr 4:2:2 10 bits";
-+		break;
-+	case V4L2_PIX_FMT_NV61_10:
-+		descr = "Y/CrCb 4:2:2 10 bits";
-+		break;
-+	case V4L2_PIX_FMT_NV12_12:
-+		descr = "Y/CbCr 4:2:0 12 bits";
-+		break;
-+	case V4L2_PIX_FMT_NV21_12:
-+		descr = "Y/CrCb 4:2:0 12 bits";
-+		break;
-+	case V4L2_PIX_FMT_NV16_12:
-+		descr = "Y/CbCr 4:2:2 12 bits";
-+		break;
-+	case V4L2_PIX_FMT_NV61_12:
-+		descr = "Y/CrCb 4:2:2 12 bits";
-+		break;
- 	case V4L2_PIX_FMT_NV12M:	descr = "Y/CbCr 4:2:0 (N-C)"; break;
- 	case V4L2_PIX_FMT_NV21M:	descr = "Y/CrCb 4:2:0 (N-C)"; break;
- 	case V4L2_PIX_FMT_NV16M:	descr = "Y/CbCr 4:2:2 (N-C)"; break;
-@@ -1348,6 +1396,90 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_KONICA420:	descr = "GSPCA KONICA420"; break;
- 	case V4L2_PIX_FMT_HSV24:	descr = "24-bit HSV 8-8-8"; break;
- 	case V4L2_PIX_FMT_HSV32:	descr = "32-bit XHSV 8-8-8-8"; break;
-+	case V4L2_PIX_FMT_MTISP_SBGGR10:
-+		descr = "10-bit Bayer BGGR MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SGBRG10:
-+		descr = "10-bit Bayer GBRG MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SGRBG10:
-+		descr = "10-bit Bayer GRBG MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SRGGB10:
-+		descr = "10-bit Bayer RGGB MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SBGGR12:
-+		descr = "12-bit Bayer BGGR MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SGBRG12:
-+		descr = "12-bit Bayer GBRG MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SGRBG12:
-+		descr = "12-bit Bayer GRBG MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SRGGB12:
-+		descr = "12-bit Bayer RGGB MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SBGGR14:
-+		descr = "14-bit Bayer BGGR MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SGBRG14:
-+		descr = "14-bit Bayer GBRG MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SGRBG14:
-+		descr = "14-bit Bayer GRBG MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_SRGGB14:
-+		descr = "14-bit Bayer RGGB MTISP Packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_NV12_10P:
-+		descr = "Y/CbCr 4:2:0 10 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_NV21_10P:
-+		descr = "Y/CrCb 4:2:0 10 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_NV16_10P:
-+		descr = "Y/CbCr 4:2:2 10 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_NV61_10P:
-+		descr = "Y/CrCb 4:2:2 10 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_YUYV10P:
-+		descr = "YUYV 4:2:2 10 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_YVYU10P:
-+		descr = "YVYU 4:2:2 10 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_UYVY10P:
-+		descr = "UYVY 4:2:2 10 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_VYUY10P:
-+		descr = "VYUY 4:2:2 10 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_NV12_12P:
-+		descr = "Y/CbCr 4:2:0 12 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_NV21_12P:
-+		descr = "Y/CrCb 4:2:0 12 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_NV16_12P:
-+		descr = "Y/CbCr 4:2:2 12 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_NV61_12P:
-+		descr = "Y/CrCb 4:2:2 12 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_YUYV12P:
-+		descr = "YUYV 4:2:2 12 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_YVYU12P:
-+		descr = "YVYU 4:2:2 12 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_UYVY12P:
-+		descr = "UYVY 4:2:2 12 bits packed";
-+		break;
-+	case V4L2_PIX_FMT_MTISP_VYUY12P:
-+		descr = "VYUY 4:2:2 12 bits packed";
-+		break;
- 	case V4L2_SDR_FMT_CU8:		descr = "Complex U8"; break;
- 	case V4L2_SDR_FMT_CU16LE:	descr = "Complex U16LE"; break;
- 	case V4L2_SDR_FMT_CS8:		descr = "Complex S8"; break;
-@@ -1367,7 +1499,18 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
- 	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
- 	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
--
-+	case V4L2_META_FMT_MTISP_AF:
-+		descr = "AF Histogram";
-+		break;
-+	case V4L2_META_FMT_MTISP_LCS:
-+		descr = "Local Contrast Enhancement Stat";
-+		break;
-+	case V4L2_META_FMT_MTISP_LMV:
-+		descr = "Local Motion Vector Histogram";
-+		break;
-+	case V4L2_META_FMT_MTISP_PARAMS:
-+		descr = "MTK ISP Tuning Metadata";
-+		break;
- 	default:
- 		/* Compressed formats */
- 		flags = V4L2_FMT_FLAG_COMPRESSED;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 6641194b3fab..c86ab1c18284 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -593,6 +593,22 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_VUYA32  v4l2_fourcc('V', 'U', 'Y', 'A') /* 32  VUYA-8-8-8-8  */
- #define V4L2_PIX_FMT_VUYX32  v4l2_fourcc('V', 'U', 'Y', 'X') /* 32  VUYX-8-8-8-8  */
- #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV 4:2:0 2 lines y, 1 line uv interleaved */
-+#define V4L2_PIX_FMT_YUYV10  v4l2_fourcc('Y', 'U', 'Y', 'A')
-+/* 16  YUV 4:2:2 10-bit */
-+#define V4L2_PIX_FMT_YVYU10  v4l2_fourcc('Y', 'V', 'Y', 'A')
-+/* 16  YUV 4:2:2 10-bit */
-+#define V4L2_PIX_FMT_UYVY10  v4l2_fourcc('U', 'Y', 'V', 'A')
-+/* 16  YUV 4:2:2 10-bit */
-+#define V4L2_PIX_FMT_VYUY10  v4l2_fourcc('V', 'Y', 'U', 'A')
-+/* 16  YUV 4:2:2 10-bit */
-+#define V4L2_PIX_FMT_YUYV12  v4l2_fourcc('Y', 'U', 'Y', 'C')
-+/* 16  YUV 4:2:2 12-bit */
-+#define V4L2_PIX_FMT_YVYU12  v4l2_fourcc('Y', 'V', 'Y', 'C')
-+/* 16  YUV 4:2:2 12-bit */
-+#define V4L2_PIX_FMT_UYVY12  v4l2_fourcc('U', 'Y', 'V', 'C')
-+/* 16  YUV 4:2:2 12-bit */
-+#define V4L2_PIX_FMT_VYUY12  v4l2_fourcc('V', 'Y', 'U', 'C')
-+/* 16  YUV 4:2:2 12-bit */
- 
- /* two planes -- one Y, one Cr + Cb interleaved  */
- #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
-@@ -602,6 +618,22 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
- #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
- #define V4L2_PIX_FMT_HM12    v4l2_fourcc('H', 'M', '1', '2') /*  8  YUV 4:2:0 16x16 macroblocks */
-+#define V4L2_PIX_FMT_NV12_10 v4l2_fourcc('1', '2', 'A', 'U')
-+	/* 12  Y/CbCr 4:2:0 10 bits un-packed */
-+#define V4L2_PIX_FMT_NV21_10 v4l2_fourcc('2', '1', 'A', 'U')
-+	/* 12  Y/CrCb 4:2:0 10 bits un-packed */
-+#define V4L2_PIX_FMT_NV16_10 v4l2_fourcc('1', '6', 'A', 'U')
-+	/* 16  Y/CbCr 4:2:2 10 bits un-packed */
-+#define V4L2_PIX_FMT_NV61_10 v4l2_fourcc('6', '1', 'A', 'U')
-+	/* 16  Y/CrCb 4:2:2 10 bits un-packed */
-+#define V4L2_PIX_FMT_NV12_12 v4l2_fourcc('1', '2', 'C', 'U')
-+	/* 12  Y/CbCr 4:2:0 12 bits un-packed */
-+#define V4L2_PIX_FMT_NV21_12 v4l2_fourcc('2', '1', 'C', 'U')
-+	/* 12  Y/CrCb 4:2:0 12 bits un-packed */
-+#define V4L2_PIX_FMT_NV16_12 v4l2_fourcc('1', '6', 'C', 'U')
-+	/* 16  Y/CbCr 4:2:2 12 bits un-packed */
-+#define V4L2_PIX_FMT_NV61_12 v4l2_fourcc('6', '1', 'C', 'U')
-+	/* 16  Y/CrCb 4:2:2 12 bits un-packed */
- 
- /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
- #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
-@@ -743,6 +775,75 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_IPU3_SGBRG10	v4l2_fourcc('i', 'p', '3', 'g') /* IPU3 packed 10-bit GBRG bayer */
- #define V4L2_PIX_FMT_IPU3_SGRBG10	v4l2_fourcc('i', 'p', '3', 'G') /* IPU3 packed 10-bit GRBG bayer */
- #define V4L2_PIX_FMT_IPU3_SRGGB10	v4l2_fourcc('i', 'p', '3', 'r') /* IPU3 packed 10-bit RGGB bayer */
-+	/* Vendor specific - Mediatek ISP bayer formats */
-+#define V4L2_PIX_FMT_MTISP_SBGGR10  v4l2_fourcc('M', 'B', 'B', 'A')
-+	/*  Packed 10-bit  */
-+#define V4L2_PIX_FMT_MTISP_SGBRG10  v4l2_fourcc('M', 'B', 'G', 'A')
-+	/*  Packed 10-bit  */
-+#define V4L2_PIX_FMT_MTISP_SGRBG10  v4l2_fourcc('M', 'B', 'g', 'A')
-+	/*  Packed 10-bit  */
-+#define V4L2_PIX_FMT_MTISP_SRGGB10  v4l2_fourcc('M', 'B', 'R', 'A')
-+	/*  Packed 10-bit  */
-+#define V4L2_PIX_FMT_MTISP_SBGGR12  v4l2_fourcc('M', 'B', 'B', 'C')
-+	/*  Packed 12-bit  */
-+#define V4L2_PIX_FMT_MTISP_SGBRG12  v4l2_fourcc('M', 'B', 'G', 'C')
-+	/*  Packed 12-bit  */
-+#define V4L2_PIX_FMT_MTISP_SGRBG12  v4l2_fourcc('M', 'B', 'g', 'C')
-+	/*  Packed 12-bit  */
-+#define V4L2_PIX_FMT_MTISP_SRGGB12  v4l2_fourcc('M', 'B', 'R', 'C')
-+	/*  Packed 12-bit  */
-+#define V4L2_PIX_FMT_MTISP_SBGGR14  v4l2_fourcc('M', 'B', 'B', 'E')
-+	/*  Packed 14-bit  */
-+#define V4L2_PIX_FMT_MTISP_SGBRG14  v4l2_fourcc('M', 'B', 'G', 'E')
-+	/*  Packed 14-bit  */
-+#define V4L2_PIX_FMT_MTISP_SGRBG14  v4l2_fourcc('M', 'B', 'g', 'E')
-+	/*  Packed 14-bit  */
-+#define V4L2_PIX_FMT_MTISP_SRGGB14  v4l2_fourcc('M', 'B', 'R', 'E')
-+	/*  Packed 14-bit  */
-+/* Vendor specific - Mediatek Luminance+Chrominance formats */
-+#define V4L2_PIX_FMT_MTISP_YUYV10P v4l2_fourcc('Y', 'U', 'A', 'P')
-+/* YUV 4:2:2 10-bit packed */
-+#define V4L2_PIX_FMT_MTISP_YVYU10P v4l2_fourcc('Y', 'V', 'A', 'P')
-+/* YUV 4:2:2 10-bit packed */
-+#define V4L2_PIX_FMT_MTISP_UYVY10P v4l2_fourcc('U', 'Y', 'A', 'P')
-+/* YUV 4:2:2 10-bit packed */
-+#define V4L2_PIX_FMT_MTISP_VYUY10P v4l2_fourcc('V', 'Y', 'A', 'P')
-+/* YUV 4:2:2 10-bit packed */
-+#define V4L2_PIX_FMT_MTISP_NV12_10P v4l2_fourcc('1', '2', 'A', 'P')
-+/* Y/CbCr 4:2:0 10 bits packed */
-+#define V4L2_PIX_FMT_MTISP_NV21_10P v4l2_fourcc('2', '1', 'A', 'P')
-+/* Y/CrCb 4:2:0 10 bits packed */
-+#define V4L2_PIX_FMT_MTISP_NV16_10P v4l2_fourcc('1', '6', 'A', 'P')
-+/* Y/CbCr 4:2:2 10 bits packed */
-+#define V4L2_PIX_FMT_MTISP_NV61_10P v4l2_fourcc('6', '1', 'A', 'P')
-+/* Y/CrCb 4:2:2 10 bits packed */
-+#define V4L2_PIX_FMT_MTISP_YUYV12P v4l2_fourcc('Y', 'U', 'C', 'P')
-+/* YUV 4:2:2 12-bit packed */
-+#define V4L2_PIX_FMT_MTISP_YVYU12P v4l2_fourcc('Y', 'V', 'C', 'P')
-+/* YUV 4:2:2 12-bit packed */
-+#define V4L2_PIX_FMT_MTISP_UYVY12P v4l2_fourcc('U', 'Y', 'C', 'P')
-+/* YUV 4:2:2 12-bit packed */
-+#define V4L2_PIX_FMT_MTISP_VYUY12P v4l2_fourcc('V', 'Y', 'C', 'P')
-+/* YUV 4:2:2 12-bit packed */
-+#define V4L2_PIX_FMT_MTISP_NV12_12P v4l2_fourcc('1', '2', 'C', 'P')
-+/* Y/CbCr 4:2:0 12 bits packed */
-+#define V4L2_PIX_FMT_MTISP_NV21_12P v4l2_fourcc('2', '1', 'C', 'P')
-+/* Y/CrCb 4:2:0 12 bits packed */
-+#define V4L2_PIX_FMT_MTISP_NV16_12P v4l2_fourcc('1', '6', 'C', 'P')
-+/* Y/CbCr 4:2:2 12 bits packed */
-+#define V4L2_PIX_FMT_MTISP_NV61_12P v4l2_fourcc('6', '1', 'C', 'P')
-+/* Y/CrCb 4:2:2 12 bits packed */
-+/* Vendor specific - Mediatek ISP parameters for firmware */
-+#define V4L2_META_FMT_MTISP_PARAMS v4l2_fourcc('M', 'T', 'f', 'p')
-+	/* ISP tuning parameters */
-+#define V4L2_META_FMT_MTISP_3A     v4l2_fourcc('M', 'T', 'f', 'a')
-+	/* AE/AWB histogram */
-+#define V4L2_META_FMT_MTISP_AF     v4l2_fourcc('M', 'T', 'f', 'f')
-+	/* AF histogram */
-+#define V4L2_META_FMT_MTISP_LCS    v4l2_fourcc('M', 'T', 'f', 'c')
-+	/* Local contrast enhanced statistics */
-+#define V4L2_META_FMT_MTISP_LMV    v4l2_fourcc('M', 'T', 'f', 'm')
-+	/* Local motion vector histogram */
- 
- /* SDR formats - used only for Software Defined Radio devices */
- #define V4L2_SDR_FMT_CU8          v4l2_fourcc('C', 'U', '0', '8') /* IQ u8 */
--- 
-2.18.0
+nice driver, just a few issues.
+I have marked them inline.
+
+	Regards
+		Oliver
+
+> +
+> +#define WDR_TIMEOUT 5000 /* default urb timeout */
+
+That is the default ctrl timeout. Do you need this?
+
+> +#define WDR_SHORT_TIMEOUT 1000	/* shorter urb timeout */
+> +#define UNIT_US 50
+> +#define IR_TIMEOUT 12500
+> +#define MAX_PACKET 64
+> 
+> +static int uirt_tx(struct rc_dev *rc, uint *txbuf, uint count)
+> +{
+> +	struct uirt *uirt = rc->priv;
+> +	u8 *out;
+> +	u32 i, dest, unit_raw, freq, len;
+> +	int err;
+> +
+> +	// streaming tx does not work for short IR; use non-streaming
+> +	// tx for short IR
+> +	if (count <= 24)
+> +		return uirt_short_tx(rc, txbuf, count);
+> +
+> +	out = kmalloc(count * 2 + 3, GFP_KERNEL);
+> +	if (!out)
+> +		return -ENOMEM;
+> +
+> +	out[0] = 0x25; // Streaming Transmit
+> +	out[1] = 0xdb; // checksum
+
+A constant checksum? Now that is a new concept.
+
+> +	out[2] = uirt->freq; // carrier frequency
+> +
+> +	dest = 3;
+> +
+> +	freq = uirt->freq & 0x7f;
+> +
+> +	for (i = 0; i < count; i++) {
+> +		// width = (us / freq) * 2.5
+> +		unit_raw = DIV_ROUND_CLOSEST(txbuf[i] * 5, freq * 2);
+> +
+> +		if (unit_raw == 0)
+> +			unit_raw = 1;
+> +		else if (unit_raw > 127)
+> +			out[dest++] = (unit_raw >> 8) | 0x80;
+> +
+> +		out[dest++] = unit_raw;
+> +	}
+> +
+> +	len = min_t(u32, dest, MAX_PACKET);
+> +
+> +	uirt->tx_buf = out + len;
+> +	uirt->tx_len = dest - len;
+> +
+> +	err = uirt_command(uirt, out, len, CMD_STATE_STREAMING_TX);
+> +	kfree(out);
+> +	if (err != 0)
+> +		return err;
+> +
+> +	return count;
+> +}
+> +
+> 
+> +static int uirt_probe(struct usb_interface *intf,
+> +		      const struct usb_device_id *id)
+> +{
+> +	struct usb_host_interface *idesc = intf->cur_altsetting;
+> +	struct usb_device *usbdev = interface_to_usbdev(intf);
+> +	struct usb_endpoint_descriptor *ep_in = NULL;
+> +	struct usb_endpoint_descriptor *ep_out = NULL;
+> +	struct usb_endpoint_descriptor *ep = NULL;
+> +	struct uirt *uirt;
+> +	struct rc_dev *rc;
+> +	struct urb *urb;
+> +	int i, pipe, err = -ENOMEM;
+> +
+> +	for (i = 0; i < idesc->desc.bNumEndpoints; i++) {
+> +		ep = &idesc->endpoint[i].desc;
+> +
+> +		if (!ep_in && usb_endpoint_is_bulk_in(ep) &&
+> +		    usb_endpoint_maxp(ep) == MAX_PACKET)
+> +			ep_in = ep;
+> +
+> +		if (!ep_out && usb_endpoint_is_bulk_out(ep) &&
+> +		    usb_endpoint_maxp(ep) == MAX_PACKET)
+> +			ep_out = ep;
+> +	}
+> +
+> +	if (!ep_in || !ep_out) {
+> +		dev_err(&intf->dev, "required endpoints not found\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	uirt = kzalloc(sizeof(*uirt), GFP_KERNEL);
+> +	if (!uirt)
+> +		return -ENOMEM;
+> +
+> +	uirt->in = kmalloc(MAX_PACKET, GFP_KERNEL);
+> +	if (!uirt->in)
+> +		goto free_uirt;
+> +
+> +	uirt->out = kmalloc(MAX_PACKET, GFP_KERNEL);
+> +	if (!uirt->out)
+> +		goto free_uirt;
+> +
+> +	rc = rc_allocate_device(RC_DRIVER_IR_RAW);
+> +	if (!rc)
+> +		goto free_uirt;
+> +
+> +	urb = usb_alloc_urb(0, GFP_KERNEL);
+> +	if (!urb)
+> +		goto free_rcdev;
+> +
+> +	pipe = usb_rcvbulkpipe(usbdev, ep_in->bEndpointAddress);
+> +	usb_fill_bulk_urb(urb, usbdev, pipe, uirt->in, MAX_PACKET,
+> +			  uirt_in_callback, uirt);
+> +	uirt->urb_in = urb;
+> +
+> +	urb = usb_alloc_urb(0, GFP_KERNEL);
+> +	if (!urb)
+> +		goto free_rcdev;
+> +
+> +	pipe = usb_sndbulkpipe(usbdev, ep_out->bEndpointAddress);
+> +	usb_fill_bulk_urb(urb, usbdev, pipe, uirt->out, MAX_PACKET,
+> +			  uirt_out_callback, uirt);
+> +
+> +	uirt->dev = &intf->dev;
+> +	uirt->usbdev = usbdev;
+> +	uirt->rc = rc;
+> +	uirt->urb_out = urb;
+> +	uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
+> +
+> +	err = usb_submit_urb(uirt->urb_in, GFP_KERNEL);
+> +	if (err != 0) {
+> +		dev_err(uirt->dev, "failed to submit read urb: %d\n",
+> err);
+> +		return err;
+
+Massive memory leak. You cannot just return.
+
 
