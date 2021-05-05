@@ -2,39 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2B67373B52
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 14:34:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFE2C373B59
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 14:34:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233172AbhEEMez (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 08:34:55 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3026 "EHLO
+        id S232934AbhEEMfg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 08:35:36 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3027 "EHLO
         frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233425AbhEEMex (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 08:34:53 -0400
-Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FZwwQ3vwXz6yhy0;
-        Wed,  5 May 2021 20:28:06 +0800 (CST)
+        with ESMTP id S232200AbhEEMff (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 08:35:35 -0400
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FZwxF3yppz6yhyt;
+        Wed,  5 May 2021 20:28:49 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 5 May 2021 14:33:54 +0200
+ 15.1.2176.2; Wed, 5 May 2021 14:34:38 +0200
 Received: from localhost (10.52.120.138) by lhreml710-chm.china.huawei.com
  (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 5 May 2021
- 13:33:54 +0100
-Date:   Wed, 5 May 2021 13:32:15 +0100
+ 13:34:37 +0100
+Date:   Wed, 5 May 2021 13:32:58 +0100
 From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 16/25] media: am437x: fix pm_runtime_get_sync() usage
- count
-Message-ID: <20210505133215.00005f4e@Huawei.com>
-In-Reply-To: <8688555079cf30f5848bb020b5ecf0b0132b2c7e.1620207353.git.mchehab+huawei@kernel.org>
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH 18/25] media: mtk-vcodec: fix PM runtime get logic
+Message-ID: <20210505133258.00002ae4@Huawei.com>
+In-Reply-To: <b8d69ce52e4e455aa8c6e629e215a52847c7c9e0.1620207353.git.mchehab+huawei@kernel.org>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-        <8688555079cf30f5848bb020b5ecf0b0132b2c7e.1620207353.git.mchehab+huawei@kernel.org>
+        <b8d69ce52e4e455aa8c6e629e215a52847c7c9e0.1620207353.git.mchehab+huawei@kernel.org>
 Organization: Huawei Technologies Research and Development (UK) Ltd.
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
@@ -48,64 +51,81 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 5 May 2021 11:42:06 +0200
+On Wed,  5 May 2021 11:42:08 +0200
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> The pm_runtime_get_sync() internally increments the
-> dev->power.usage_count without decrementing it, even on errors.
-> Replace it by the new pm_runtime_resume_and_get(), introduced by:
-> commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> in order to properly decrement the usage counter, avoiding
-> a potential PM usage counter leak.
+> Currently, the driver just assumes that PM runtime logic
+> succeded resuming the device.
 > 
-> While here, ensure that the driver will check if PM runtime
-> resumed at vpfe_initialize_device().
+> That may not be the case, as pm_runtime_get_sync()
+> can fail (but keeping the usage count incremented).
+> 
+> Replace the code to use pm_runtime_resume_and_get(),
+> and letting it return the error code.
+> 
+> This way, if mtk_vcodec_dec_pw_on() fails, the logic
+> under fops_vcodec_open() will do the right thing and
+> return an error, instead of just assuming that the
+> device is ready to be used.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 > ---
->  drivers/media/platform/am437x/am437x-vpfe.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
+>  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 4 +++-
+>  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c  | 8 +++++---
+>  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h  | 2 +-
+>  3 files changed, 9 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
-> index 6cdc77dda0e4..1c9cb9e05fdf 100644
-> --- a/drivers/media/platform/am437x/am437x-vpfe.c
-> +++ b/drivers/media/platform/am437x/am437x-vpfe.c
-> @@ -1021,7 +1021,9 @@ static int vpfe_initialize_device(struct vpfe_device *vpfe)
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> index 147dfef1638d..f87dc47d9e63 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> @@ -126,7 +126,9 @@ static int fops_vcodec_open(struct file *file)
+>  	mtk_vcodec_dec_set_default_params(ctx);
+>  
+>  	if (v4l2_fh_is_singular(&ctx->fh)) {
+> -		mtk_vcodec_dec_pw_on(&dev->pm);
+> +		ret = mtk_vcodec_dec_pw_on(&dev->pm);
+> +		if (ret < 0)
+> +			goto err_load_fw;
+>  		/*
+>  		 * Does nothing if firmware was already loaded.
+>  		 */
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> index ddee7046ce42..6038db96f71c 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> @@ -88,13 +88,15 @@ void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev)
+>  	put_device(dev->pm.larbvdec);
+>  }
+>  
+> -void mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
+> +int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
+>  {
+>  	int ret;
+>  
+> -	ret = pm_runtime_get_sync(pm->dev);
+> +	ret = pm_runtime_resume_and_get(pm->dev);
 >  	if (ret)
->  		return ret;
+> -		mtk_v4l2_err("pm_runtime_get_sync fail %d", ret);
+> +		mtk_v4l2_err("pm_runtime_resume_and_get fail %d", ret);
+> +
+> +	return ret;
+>  }
 >  
-> -	pm_runtime_get_sync(vpfe->pdev);
-> +	ret = pm_runtime_resume_and_get(vpfe->pdev);
-> +	if (ret < 0)
-> +		return ret;
+>  void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
+> index 872d8bf8cfaf..280aeaefdb65 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
+> @@ -12,7 +12,7 @@
+>  int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *dev);
+>  void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev);
 >  
->  	vpfe_config_enable(&vpfe->ccdc, 1);
->  
-> @@ -2443,7 +2445,11 @@ static int vpfe_probe(struct platform_device *pdev)
->  	pm_runtime_enable(&pdev->dev);
->  
->  	/* for now just enable it here instead of waiting for the open */
-> -	pm_runtime_get_sync(&pdev->dev);
-> +	ret = pm_runtime_resume_and_get(&pdev->dev);
-> +	if (ret < 0) {
-> +		vpfe_err(vpfe, "Unable to resume device.\n");
-> +		goto probe_out_v4l2_unregister;
-> +	}
->  
->  	vpfe_ccdc_config_defaults(ccdc);
->  
-> @@ -2530,6 +2536,11 @@ static int vpfe_suspend(struct device *dev)
->  
->  	/* only do full suspend if streaming has started */
->  	if (vb2_start_streaming_called(&vpfe->buffer_queue)) {
-> +		/*
-> +		 * ignore RPM resume errors here, as it is already too late.
-> +		 * A check like that should happen earlier, either at
-> +		 * open() or just before start streaming.
-> +		 */
->  		pm_runtime_get_sync(dev);
->  		vpfe_config_enable(ccdc, 1);
->  
+> -void mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm);
+> +int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm);
+>  void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm);
+>  void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm);
+>  void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm);
 
