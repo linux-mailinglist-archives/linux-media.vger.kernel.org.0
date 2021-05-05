@@ -2,155 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4C5F3733F3
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 05:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D68B4373408
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 05:52:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231228AbhEEDkH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 May 2021 23:40:07 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:53667 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229617AbhEEDkH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 4 May 2021 23:40:07 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id e8NPlW3j9Um2ue8NSlJeUZ; Wed, 05 May 2021 05:39:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1620185950; bh=/mWG3GnusQSe0nnJsRGbF8idkqNpH9vGWfDHz9J/vfQ=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=NJEHmr/TqXV1bEBHkZ87/43ijGNLVkKENZkJymO6MzweIUSdR/8nWOsAYiHcVKsHC
-         kkmthavX6sZ3E6TfK8GqlEDHRXdLB+bjynPQtOWOjNNYxv9kQZtLdeHyVEZhENNdCX
-         X1uTbKaSsStdKFhv1wTvHAqv5TLR5wKKCzqbLwr4RN1EBtZI4RsSyYF+GWJUPrtAKj
-         0HZqn+ebVPQMPCP+Q01YlcI3eYZ3fZb1CoNgW/KAlsoW++YsR/P0QvzgPb4WuTI/P6
-         n6mgkNX2vHCmThCxLJvGxY5yatrWdGjw9Z8i2PpmkhVyMiW5GqxM9nHzTFXoxfHmTH
-         GAFdtPd7p0QmA==
-Message-ID: <91fe9b91e01ba2162a600e06ac1055d2@smtp-cloud8.xs4all.net>
-Date:   Wed, 05 May 2021 05:39:07 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfF1MSbGproi9fjVF+rTUVF0VzG4XG+9++FzjqoIQ/J4InpNbqf5WjZEuaER856Vhh/yCRJrWLMZ7XLOMXj2cSw8mDUeiznU4DJa7fR6Salp/kOdphkdn
- WxqbTUwKLKyv7ACnM2qbHHryoAdUniJ+9pBGShzf6MdLqv08AXuPOrA+ncfHMPIQZTTUDyA0Gz9LRuLQv+GgPpxDv/rW1PYLYJOedvUT7LBK6HADmoWN/RLg
- ibDBBpGg71yE50r9rEpmLg==
+        id S231367AbhEEDxh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 May 2021 23:53:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38542 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230465AbhEEDxh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 23:53:37 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02F11C061574;
+        Tue,  4 May 2021 20:52:40 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id e12so703422ljn.2;
+        Tue, 04 May 2021 20:52:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8mmiFrZCTc5COSdywEuhQgJ81UHfZD82WwalKAnp/s4=;
+        b=clbVKtibRFRr3Es155PDE8ajOZ2y+ZwCbczMQbFAsvc8g24XTSOeH6FbKtOGmoZDON
+         qlosUWDP4qjZxLDYxUJd54qJJctP7fytcj1ejmmqhwzJrg3wsmDb7E0kqtVGXFPLQR9m
+         0L59zVlcLVTR+iO8exmJ2E9EbHz81aSbtPlP8Rt09GDXbNzba5NJA82eQT4Gmm9ysKQY
+         YA0OfigDlqiLuwWJDQ5Zh8tQIFDnM9Vq8Tf8YqQuA8tEPCHbLRrlEt9rei9A7Sr8UqqC
+         cdLMl909mgcy6t8zsLepyJbQtgy8qLeM3VbSrZkPspjXJu44WCA9CxHCiA1lQAp28P0G
+         4bzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8mmiFrZCTc5COSdywEuhQgJ81UHfZD82WwalKAnp/s4=;
+        b=AtlAw3p5aoYeMseDtS8C+5yboWdIrizWrrKbQKxuG9hI6Gg1vEtJRgjHqbIetNeYCE
+         xoRo9vIeeg0bfo4Q6fw+XEK+ynfUui7qT0dOMlBrCmelZuXBFZG37mquF4q509JdsHVW
+         ScmXSBCWSwwwgv4CGUtC0vwTjOxRi2sIsEw3RUXFmHX605HFNx/KSGdq0eccEwoZhlox
+         ZVs1+bDx9v6zD02Pgxr3WaOQVtmfz9y9ZC+o7dyZwR1aT3URFosiYuMzGAOxkB8+jgNd
+         Pm1WbdRO3xFD7Xj0sdKJhhR7/vfaKuBlYxGrkEZkgxAwJt+d7uTGBj8nTzJBGlV9JvSN
+         kyqA==
+X-Gm-Message-State: AOAM532oeRDkV5xDawDjmS2tzv/4cqB0DKtAopKVna7K91quYD/EJ6W+
+        loaIaLxZKf9pY/9eFytlKq8LHdPewnzAx7UNHTu+V5fVvKJn6g==
+X-Google-Smtp-Source: ABdhPJyn4ShXRkZ/z+eIiiMfkhm7kD1oHs6wJZH+4Oc1K/ZpTPqu4NF/zdKkgVrPjQmu6zeCFbN4r2urfv93t34aBo4=
+X-Received: by 2002:a2e:2419:: with SMTP id k25mr14393563ljk.266.1620186758465;
+ Tue, 04 May 2021 20:52:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAN2W0iNOsa6GYK28Vz=DmkyjY72H_bq=8EUkzFuy0_p9ZVms4A@mail.gmail.com>
+ <20210503092005.GB14939@gofer.mess.org> <CAN2W0iME8VCdP=KdcH8PW7ZfEOdQJicKWQmE675-h3cd2=D1cA@mail.gmail.com>
+ <20210504090358.GA26800@gofer.mess.org>
+In-Reply-To: <20210504090358.GA26800@gofer.mess.org>
+From:   Chris McCrae <chrismccraeworks@gmail.com>
+Date:   Tue, 4 May 2021 23:52:27 -0400
+Message-ID: <CAN2W0iPsovnGnEZFsQi5wmERVM20hb3TsW1sRb-OfwH0mXh_pg@mail.gmail.com>
+Subject: Re: Asus PN62S vs PN50 - ITE8708
+To:     Sean Young <sean@mess.org>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, 4 May 2021 at 05:03, Sean Young <sean@mess.org> wrote:
+>
+> Hi Chris,
+>
+> On Mon, May 03, 2021 at 11:44:04AM -0400, Chris McCrae wrote:
+> > Thanks for answering the call Sean.
+> >
+> > On Mon, 3 May 2021 at 05:20, Sean Young <sean@mess.org> wrote:
+> > >
+> > > Hi Chris,
+> > >
+> > > On Fri, Apr 30, 2021 at 07:37:10PM -0400, Chris McCrae wrote:
+> > > > Recently acquired an Asus PN62S (Intel) as a media centre frontend
+> > > > (currently testing with Xubuntu 20.04 and a 5.10 kernel, and the most
+> > > > current BIOS available).  Having an integrated IR was part of the
+> > > > selling features.  However, getting it to be recognized by my system
+> > > > has become a challenge that I am getting obsessed with.  There's very
+> > > > little to find online on this device that is current, but there has
+> > > > been some recent conversation on this list about the same device, on a
+> > > > related machine, the PN50 (AMD).  I'm hoping that the knowledge here
+> > > > may lead to a solution for my issue.
+> > > >
+> > > > I can provide more detail on request, but at the moment I am focusing
+> > > > on the DSDT as a possible suspect.  I do not have the 16 byte issue
+> > > > that the PN50 experiences.  Mine is defined as 8 bytes, which is
+> > > > compatible with the ite-cir driver.  My issue is that there appears to
+> > > > be no attempt to bind the device to the driver (but it is visible in
+> > > > lsmod)... no messages about the driver in dmesg at all.  My thought is
+> > > > that the definition of the device in DSDT may somehow give it enough
+> > > > information (ITE8708) to know the driver could be needed, but not the
+> > > > correct information to make it work.
+> > > >
+> > > > An earlier message provided only part of the device definition in DSDT
+> > > > for the PN50.  I would like to be able to see the full definition for
+> > > > it from the PN50, to see if anything is significantly different.
+> > > > Ideally, if I had the full DSDT as a starting point, I could compare
+> > > > other areas such as motherboard resources.
+> > >
+> > > It would be great if we could see the entries for the IR device in your
+> > > DSDT. There is a guide here https://wiki.archlinux.org/title/DSDT on
+> > > how to do that.
+> > >
+> > Here the full device from the DSDT:
+> >
+> >             Device (CR00)
+> >             {
+> >                 Name (_ADR, Zero)  // _ADR: Address
+> >                 Name (VBAN, 0x0680)
+> >                 Name (VIRQ, 0x0A)
+> >                 Name (UIDN, Zero)
+> >                 Name (_HID, EisaId ("ITE8708"))  // _HID: Hardware ID
+> >                 Method (_UID, 0, NotSerialized)  // _UID: Unique ID
+> >                 {
+> >                     Return (UIDN) /* \_SB_.PCI0.CR00.UIDN */
+> >                 }
+> >
+> >                 Method (_STA, 0, Serialized)  // _STA: Status
+> >                 {
+> >                     If ((CIRE == Zero))
+> >                     {
+> >                         Return (Zero)
+> >                     }
+> >                     Return (0x0F)
+> >                 }
+> >
+> >                 Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+> >                 {
+> >                     Name (BUF0, ResourceTemplate ()
+> >                     {
+> >                         IO (Decode16,
+> >                             0x0000,             // Range Minimum
+> >                             0x0000,             // Range Maximum
+> >                             0x01,               // Alignment
+> >                             0x08,               // Length
+> >                             _Y10)
+> >                         IRQNoFlags (_Y11)
+> >                             {}
+> >                         DMA (Compatibility, NotBusMaster, Transfer8, )
+> >                             {}
+> >                     })
+> >                     CreateWordField (BUF0,
+> > \_SB.PCI0.CR00._CRS._Y10._MIN, IOPL)  // _MIN: Minimum Base Address
+> >                     CreateWordField (BUF0,
+> > \_SB.PCI0.CR00._CRS._Y10._MAX, IOPH)  // _MAX: Maximum Base Address
+> >                     CreateWordField (BUF0,
+> > \_SB.PCI0.CR00._CRS._Y11._INT, IRQ)  // _INT: Interrupts
+> >                     IOPL = VBAN /* \_SB_.PCI0.CR00.VBAN */
+> >                     IOPH = VBAN /* \_SB_.PCI0.CR00.VBAN */
+> >                     IRQ = (One << VIRQ) /* \_SB_.PCI0.CR00.VIRQ */
+> >                     Return (BUF0) /* \_SB_.PCI0.CR00._CRS.BUF0 */
+> >                 }
+> >             }
+>
+> Hmm this is not really telling us everything yet. Would you mind sending
+> on the entire dmesg please?
+>
 
-Results of the daily build of media_tree:
+I could send dmesg output, but aside from the fact that it's almost
+1000 lines, I have just had a moderate degree of success.  Using the
+pci=noacpi kernel option, gives me:
 
-date:			Wed May  5 05:00:11 CEST 2021
-media-tree git hash:	0b276e470a4d43e1365d3eb53c608a3d208cabd4
-media_build git hash:	1521b23ea5307bef1ee17489c5323f00891dd52b
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7413-g9bb66fa2d
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+[    1.767176] ite_cir: Auto-detected model: ITE8708 CIR transceiver
+[    1.767177] ite_cir: Using model: ITE8708 CIR transceiver
+[    1.767178] ite_cir: TX-capable: 1
+[    1.767179] ite_cir: Sample period (ns): 8680
+[    1.767180] ite_cir: TX carrier frequency (Hz): 38000
+[    1.767180] ite_cir: TX duty cycle (%): 33
+[    1.767181] ite_cir: RX low carrier frequency (Hz): 0
+[    1.767182] ite_cir: RX high carrier frequency (Hz): 0
+[    1.840766] rc rc0: ITE8708 CIR transceiver as /devices/virtual/rc/rc0
+[    1.840842] rc rc0: lirc_dev: driver ite-cir registered at minor =
+0, raw IR receiver, raw IR transmitter
+[    1.840881] input: ITE8708 CIR transceiver as /devices/virtual/rc/rc0/input3
+[    1.844915] ite_cir: driver has been successfully loaded
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: ERRORS
-linux-5.12.1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+So after a couple of weeks, I should be happier, right?  Never seen
+any of these lines before.  I am happy that there's progress, but some
+things still aren't right.
 
-Detailed results are available here:
+1.  The kernel option will be used to focus my debugging efforts.  At
+least this seems to support the idea that ACPI plays a role in this.
+I was beginning to lose faith in that idea.
+2.  Since the device seems to be recognized by the system, I thought
+I'd take a quick stab at seeing if it recognized a remote.  No matter
+the protocol, the remote, or distance, neither ir-keytable or ir-ctl
+(thanks for that tool!) wanted to register any signals.  So far I'm
+chalking that up to the previous point.  Maybe it's possible that
+communication is still hampered, even though the device can be
+identified.  Sort out PCI, and maybe things start rolling.  I know the
+receiver works, since I confirmed that with a test install of Windows
+10 early on in this process.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+Thanks for taking the time Sean.  I know you've got a lot of other
+things on the go, so I really do appreciate it.
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> > > Thanks
+> > >
+> > > Sean
+> >
+> > I've been using the latest ACPI Spec (6.3) to better comprehend the
+> > macros, and what they should produce.  Running the DSDT through
+> > acpiexec for \_SB.PCI0.CR00._CRS gives:
+> >
+> > - execute \_SB.PCI0.CR00._CRS
+> > Evaluating \_SB.PCI0.CR00._CRS
+> > 0x1 Outstanding allocations after evaluation of \_SB.PCI0.CR00._CRS
+> > Evaluation of \_SB.PCI0.CR00._CRS returned object 0x562c4e9a9c90,
+> > external buffer length 28
+> > [Buffer] Length 10 =   0000: 47 01 80 06 80 06 01 08 22 00 04 2A 00 00
+> > 79 00  // G......."..*..y.
+> >
+> > I'm still a little unclear on the first byte (47) and the last two (79
+> > 00), generated presumably by ResourceTemplate(), but the rest seem to
+> > match the expected results based on the inputs.  Aside from the
+> > obvious difference in the address range length compared to the PN50's
+> > BUF0, which seems to be the PN50's problem, the definition of BUF0 is
+> > consistent.  I've even recompiled the DSDT with a length of 0x10 just
+> > to see if that made a difference, and it doesn't.  Still no sign of
+> > the driver in dmesg.  Although it would be nice to see the full CR00
+> > definition for the PN50, it seems less likely that the problem lies
+> > here.
+> >
+> > I've tried various acpi kernel debugging settings, but easily get
+> > swamped with output.  Is there a process path somewhere that can be
+> > followed to understand how the device goes through the ACPI process
+> > and eventually gets picked up by the kernel?  I still feel like the
+> > problem precedes the kernel's involvement.  The kernel obviously has
+> > some degree of awareness of the DSDT entry, because I can find :
+> >
+> > /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/ITE8708:00/
+> >
+> > The status is correct (0x0F), but under the physical_node, I have no
+> > 'resources' entry.  Should there be one?  I have a 'resource' file,
+> > but it only returns zeroes.
+>
+> This does _sound_ like an acpi issue, I've cc'ed linux-acpi@vger.kernel.org.
+>
+> > And instead of being linked to ite_cir (which is showing in lsmod, but
+> > not used by anything), the driver ->
+> > ../../../bus/pci/drivers/skl_uncore
+> >
+> > To me, that seems like it's processing what it has been presented, but
+> > I've been wrong before.  I'm open for directions on where to
+> > investigate next.
+>
+> This is not something I can help with, I'm afraid.
+>
+> Thanks,
+>
+> Sean
