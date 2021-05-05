@@ -2,40 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 634533737D8
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:42:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4CAA3737D4
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232714AbhEEJn0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 05:43:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48650 "EHLO mail.kernel.org"
+        id S232717AbhEEJnZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 05:43:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48656 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232441AbhEEJnR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S232435AbhEEJnR (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 5 May 2021 05:43:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F5F06142C;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 44BC161423;
         Wed,  5 May 2021 09:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620207739;
-        bh=nQwSJPLaVBdYjIemEjVYgYFNl6DQmZf6LrKXcLdjxJM=;
+        bh=6MhSd0Gx/6VuoMI9uWT2v1VRzcCGAFf3IJvFSMDOw+M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=F9WUUhkgAtjIMrRyssd4lqvAgaNoCpjaPTh7w7MGeWRglTuwvS98rekMY6tjnCFfU
-         qN1nJqOXFDSgxykV8A1UP4emDRvb/rsb3LW6ZZhBi5Ucb7BFnz4lMW1ZIpuZosoIDS
-         nQKYca3xqqSVSwNF9R5+gYdxDpyQJz+oBXc0yadciXJRqjDBS4uCl77uXuSRTFGhta
-         kXZxGGiZxKoCrim6BkWlJtAWscRtJXcd8Jrv5qtr7ZLOa2m5+PGFvksDUVVxC96Rru
-         xwL3j/PqrCyZpMKnz23T+WtGdFASUpZxmpX/TewQDPeA56fy040o3GUQv351bIF/IT
-         UXqf5fbLWQNpw==
+        b=FWPk3sVYJHJFzNk5hqt10Ix93PRAUjxWb5bPNk0UkGojFOgypyd5HMdoKdDdkjIEC
+         FyYah+GV1zFdewE7dpqboFKqO4wcfPy8jGC5Fr+mv44rI/AvHfZRgqZgJ5QVAM0skq
+         ve0rBKhepGUR1xCOq5IhUkPzDbZ/zWc43XQdw4rXgXOS0+t41Tg284oXVBq+WvqG99
+         MRIMHX5TC5iqXqH6heIRMiTJiln3DUNsQdjDwTagu+R7loMe7/vkynzzdmOGCSsMe+
+         2vszbikT8+ly+cOVJZaS+453+Ow+I8yhk2dUcQgcjOIpXPKnuGuNko/ds5ssfsTrOx
+         LOSBaFL3lQSMw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1leE2r-00AHwR-5F; Wed, 05 May 2021 11:42:17 +0200
+        id 1leE2r-00AHwU-6x; Wed, 05 May 2021 11:42:17 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 13/25] media: rcar_fdp1: fix pm_runtime_get_sync() usage count
-Date:   Wed,  5 May 2021 11:42:03 +0200
-Message-Id: <372d88637707ececab77fffaae49d455d90cf24f.1620207353.git.mchehab+huawei@kernel.org>
+        linux-renesas-soc@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH 14/25] media: renesas-ceu: Properly check for PM errors
+Date:   Wed,  5 May 2021 11:42:04 +0200
+Message-Id: <c3b5546444a33840c569e9b7b968f5f81db96ac0.1620207353.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620207353.git.mchehab+huawei@kernel.org>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
@@ -47,67 +48,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pm_runtime_get_sync() internally increments the
+Right now, the driver just assumes that PM runtime resume
+worked, but it may fail.
+
+Well, the pm_runtime_get_sync() internally increments the
 dev->power.usage_count without decrementing it, even on errors.
-Replace it by the new pm_runtime_resume_and_get(), introduced by:
+
+So, using it is tricky. Let's replace it by the new
+pm_runtime_resume_and_get(), introduced by:
 commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-in order to properly decrement the usage counter, avoiding
-a potential PM usage counter leak.
+and return an error if something bad happens.
 
-Also, right now, the driver is ignoring any troubles when
-trying to do PM resume. So, add the proper error handling
-for the code.
+This should ensure that the PM runtime usage_count will be
+properly decremented if an error happens at open time.
 
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/rcar_fdp1.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ drivers/media/platform/renesas-ceu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
-index d26413fa5205..89aac60066d9 100644
---- a/drivers/media/platform/rcar_fdp1.c
-+++ b/drivers/media/platform/rcar_fdp1.c
-@@ -2135,7 +2135,9 @@ static int fdp1_open(struct file *file)
- 	}
+diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
+index cd137101d41e..17f01b6e3fe0 100644
+--- a/drivers/media/platform/renesas-ceu.c
++++ b/drivers/media/platform/renesas-ceu.c
+@@ -1099,10 +1099,10 @@ static int ceu_open(struct file *file)
  
- 	/* Perform any power management required */
--	pm_runtime_get_sync(fdp1->dev);
-+	ret = pm_runtime_resume_and_get(fdp1->dev);
-+	if (ret < 0)
-+		goto error_pm;
+ 	mutex_lock(&ceudev->mlock);
+ 	/* Causes soft-reset and sensor power on on first open */
+-	pm_runtime_get_sync(ceudev->dev);
++	ret = pm_runtime_resume_and_get(ceudev->dev);
+ 	mutex_unlock(&ceudev->mlock);
  
- 	v4l2_fh_add(&ctx->fh);
+-	return 0;
++	return ret;
+ }
  
-@@ -2145,6 +2147,8 @@ static int fdp1_open(struct file *file)
- 	mutex_unlock(&fdp1->dev_mutex);
- 	return 0;
- 
-+error_pm:
-+       v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
- error_ctx:
- 	v4l2_ctrl_handler_free(&ctx->hdl);
- 	kfree(ctx);
-@@ -2352,7 +2356,9 @@ static int fdp1_probe(struct platform_device *pdev)
- 
- 	/* Power up the cells to read HW */
- 	pm_runtime_enable(&pdev->dev);
--	pm_runtime_get_sync(fdp1->dev);
-+	ret = pm_runtime_resume_and_get(fdp1->dev);
-+	if (ret < 0)
-+		goto disable_pm;
- 
- 	hw_version = fdp1_read(fdp1, FD1_IP_INTDATA);
- 	switch (hw_version) {
-@@ -2381,6 +2387,9 @@ static int fdp1_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
-+disable_pm:
-+	pm_runtime_disable(fdp1->dev);
-+
- release_m2m:
- 	v4l2_m2m_release(fdp1->m2m_dev);
- 
+ static int ceu_release(struct file *file)
 -- 
 2.30.2
 
