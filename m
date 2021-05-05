@@ -2,41 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4CAA3737D4
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC4033737D9
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:42:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232717AbhEEJnZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 05:43:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48656 "EHLO mail.kernel.org"
+        id S232771AbhEEJn1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 05:43:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48636 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232435AbhEEJnR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 05:43:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 44BC161423;
+        id S232413AbhEEJnQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 May 2021 05:43:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 440076141C;
         Wed,  5 May 2021 09:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620207739;
-        bh=6MhSd0Gx/6VuoMI9uWT2v1VRzcCGAFf3IJvFSMDOw+M=;
+        bh=e6cg3vt5gdRSnzuWDjBWlr3jZ9qzDtzBe//Hw9aDZms=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FWPk3sVYJHJFzNk5hqt10Ix93PRAUjxWb5bPNk0UkGojFOgypyd5HMdoKdDdkjIEC
-         FyYah+GV1zFdewE7dpqboFKqO4wcfPy8jGC5Fr+mv44rI/AvHfZRgqZgJ5QVAM0skq
-         ve0rBKhepGUR1xCOq5IhUkPzDbZ/zWc43XQdw4rXgXOS0+t41Tg284oXVBq+WvqG99
-         MRIMHX5TC5iqXqH6heIRMiTJiln3DUNsQdjDwTagu+R7loMe7/vkynzzdmOGCSsMe+
-         2vszbikT8+ly+cOVJZaS+453+Ow+I8yhk2dUcQgcjOIpXPKnuGuNko/ds5ssfsTrOx
-         LOSBaFL3lQSMw==
+        b=UTRFnfuFAjc8bTsLJzXYCs7bJJiLrJT4aQkq1wE9ELZ6bKZpIV6DU2/2WkfulFbcY
+         cPj0VkZ3DAStETq7XrOAHya7zoBwOUAHf+uBYsaugIK2BUoPEEe3EIZiCXKxs/H3PY
+         S1h4gng4dzYhzkIbwKC4FdNUn5hhX/jlvDXh1hQ2fZlbOI1zLz5ag+IGIh73Y2393A
+         tHkNN1cFwcAc2/pPzizSb1l8tNLjGGzGmumw9eyhWgCrXvEmc52XZSyALnDEbkMIhF
+         AOHskWLYGBMnAxEGxWrWYKHX9r+giFf3kl/zSllgbc8vInNM8g3KVFaa0jolGb1PLT
+         nu9zA4ms+MRMA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1leE2r-00AHwU-6x; Wed, 05 May 2021 11:42:17 +0200
+        id 1leE2r-00AHwX-8H; Wed, 05 May 2021 11:42:17 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 14/25] media: renesas-ceu: Properly check for PM errors
-Date:   Wed,  5 May 2021 11:42:04 +0200
-Message-Id: <c3b5546444a33840c569e9b7b968f5f81db96ac0.1620207353.git.mchehab+huawei@kernel.org>
+        linux-samsung-soc@vger.kernel.org,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: [PATCH 15/25] media: s5p: fix pm_runtime_get_sync() usage count
+Date:   Wed,  5 May 2021 11:42:05 +0200
+Message-Id: <57a141a2c538b253f1c9502a790c370007d2ed83.1620207353.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620207353.git.mchehab+huawei@kernel.org>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
@@ -48,43 +49,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Right now, the driver just assumes that PM runtime resume
-worked, but it may fail.
-
-Well, the pm_runtime_get_sync() internally increments the
+The pm_runtime_get_sync() internally increments the
 dev->power.usage_count without decrementing it, even on errors.
-
-So, using it is tricky. Let's replace it by the new
-pm_runtime_resume_and_get(), introduced by:
+Replace it by the new pm_runtime_resume_and_get(), introduced by:
 commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-and return an error if something bad happens.
+in order to properly decrement the usage counter, avoiding
+a potential PM usage counter leak.
 
-This should ensure that the PM runtime usage_count will be
-properly decremented if an error happens at open time.
+While here, check if the PM runtime error was caught at
+s5p_cec_adap_enable().
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/renesas-ceu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/cec/platform/s5p/s5p_cec.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
-index cd137101d41e..17f01b6e3fe0 100644
---- a/drivers/media/platform/renesas-ceu.c
-+++ b/drivers/media/platform/renesas-ceu.c
-@@ -1099,10 +1099,10 @@ static int ceu_open(struct file *file)
+diff --git a/drivers/media/cec/platform/s5p/s5p_cec.c b/drivers/media/cec/platform/s5p/s5p_cec.c
+index 3c7c4c3c798c..028a09a7531e 100644
+--- a/drivers/media/cec/platform/s5p/s5p_cec.c
++++ b/drivers/media/cec/platform/s5p/s5p_cec.c
+@@ -35,10 +35,13 @@ MODULE_PARM_DESC(debug, "debug level (0-2)");
  
- 	mutex_lock(&ceudev->mlock);
- 	/* Causes soft-reset and sensor power on on first open */
--	pm_runtime_get_sync(ceudev->dev);
-+	ret = pm_runtime_resume_and_get(ceudev->dev);
- 	mutex_unlock(&ceudev->mlock);
+ static int s5p_cec_adap_enable(struct cec_adapter *adap, bool enable)
+ {
++	int ret;
+ 	struct s5p_cec_dev *cec = cec_get_drvdata(adap);
  
--	return 0;
-+	return ret;
- }
+ 	if (enable) {
+-		pm_runtime_get_sync(cec->dev);
++		ret = pm_runtime_resume_and_get(cec->dev);
++		if (ret < 0)
++			return ret;
  
- static int ceu_release(struct file *file)
+ 		s5p_cec_reset(cec);
+ 
 -- 
 2.30.2
 
