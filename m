@@ -2,41 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADAAE3737E5
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:43:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0B3C3737C1
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:42:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232827AbhEEJne (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 05:43:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48620 "EHLO mail.kernel.org"
+        id S232466AbhEEJnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 05:43:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48246 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232397AbhEEJnQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S232109AbhEEJnQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 5 May 2021 05:43:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B01E6140F;
-        Wed,  5 May 2021 09:42:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D7FEB613D6;
+        Wed,  5 May 2021 09:42:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620207739;
-        bh=JcIZp6yZMv3qHRfQxdJ/W6eZtpcx5F6VpH0Ap9ywfpI=;
+        s=k20201202; t=1620207738;
+        bh=mnwOoPbSt3peAjkyotn8X7kUrTzZPsSiyyacWXI13wM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Li6W/6B6PEyOTmCfqBIvlgMUcPvGhr788mD8SPztiXVf7B0g1vijAlk9+cF3j4nyX
-         YvVsbQWQu8TObhK0NJtCkPgpkI9LYUl/PXdizLvv4e/rYxXA/QSxXzjp66vwAkxXc4
-         n/ccMwFogr2m8WZgameQQZIYKudzQgfP3RkGE239f48cqZlx3kG7pMWSkRL1m47HE4
-         LFIXkA6aLre5AiNdNAjZpoOp8zih4WA4DTNXaXmqRRK1F9gmnprrrEHuxZd/+XqSCi
-         pwMakB/BUmI5Q8Gd2RaYindlsy+fSZJ5CDxQqRmf4qeecEbgQ5F4eYKctUcBJGyNcS
-         Qm8kstE46/xog==
+        b=bgfruVEEULYmgG8/EtzRxyrlkAlbXqpxHyLYWRYORK3lTHHwyE7wPJ96drcdorIc1
+         D4GndNvQT0xO0M8kqfe9fdMGZ13MftfEJ7aNDQXUnKYnhAxqwIEdivyt2LzNIvHgyG
+         kHJIUUIyHL9ZZYkaxLrCB/jUI08u1rsRDK6zvm+J6e+8CUZoomYLuKMeHIxlOx4oa3
+         hj57c8Kq3+kCxjge4PuopSuXt+QDkKzP81q4VppzM+6p+GxklFiqhfK0P8dhMUHExH
+         Ob4zfKSovQbjxrWNOnQ9cG8JpzDBcP0SS/LqlwzybnI4AsnfAwCYVx0qI5iYi3PNX7
+         cjyOBBv8BA+iw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1leE2q-00AHw6-RN; Wed, 05 May 2021 11:42:16 +0200
+        id 1leE2q-00AHw9-Sx; Wed, 05 May 2021 11:42:16 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH 06/25] media: i2c: imx334: fix the pm runtime get logic
-Date:   Wed,  5 May 2021 11:41:56 +0200
-Message-Id: <9552f3daece8bec6869b518410b2998c3fc0a1fc.1620207353.git.mchehab+huawei@kernel.org>
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: [PATCH 07/25] media: exynos-gsc: don't resume at remove time
+Date:   Wed,  5 May 2021 11:41:57 +0200
+Message-Id: <f90e4f9b1dbc71f2a598f057a93dffc69fa3850d.1620207353.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620207353.git.mchehab+huawei@kernel.org>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
@@ -48,52 +50,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The PM runtime get logic is currently broken, as it checks if
-ret is zero instead of checking if it is an error code,
-as reported by Dan Carpenter.
+Calling pm_runtime_get_sync() at driver's removal time is not
+needed, as this will resume PM runtime. Also, the PM runtime
+code at pm_runtime_disable() already calls it, if it detects
+the need.
 
-While here, use the pm_runtime_resume_and_get() as added by:
-commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-added pm_runtime_resume_and_get() in order to automatically handle
-dev->power.usage_count decrement on errors. As a bonus, such function
-always return zero on success.
+So, change the logic in order to disable PM runtime earlier.
 
-It should also be noticed that a fail of pm_runtime_get_sync() would
-potentially result in a spurious runtime_suspend(), instead of
-using pm_runtime_put_noidle().
-
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Reviewed-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/imx334.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/media/platform/exynos-gsc/gsc-core.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index 047aa7658d21..23f28606e570 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -717,9 +717,9 @@ static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
- 	}
+diff --git a/drivers/media/platform/exynos-gsc/gsc-core.c b/drivers/media/platform/exynos-gsc/gsc-core.c
+index 9f41c2e7097a..f49f3322f835 100644
+--- a/drivers/media/platform/exynos-gsc/gsc-core.c
++++ b/drivers/media/platform/exynos-gsc/gsc-core.c
+@@ -1210,18 +1210,19 @@ static int gsc_remove(struct platform_device *pdev)
+ 	struct gsc_dev *gsc = platform_get_drvdata(pdev);
+ 	int i;
  
- 	if (enable) {
--		ret = pm_runtime_get_sync(imx334->dev);
--		if (ret)
--			goto error_power_off;
-+		ret = pm_runtime_resume_and_get(imx334->dev);
-+		if (ret < 0)
-+			goto error_unlock;
+-	pm_runtime_get_sync(&pdev->dev);
+-
+ 	gsc_unregister_m2m_device(gsc);
+ 	v4l2_device_unregister(&gsc->v4l2_dev);
  
- 		ret = imx334_start_streaming(imx334);
- 		if (ret)
-@@ -737,6 +737,7 @@ static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
+ 	vb2_dma_contig_clear_max_seg_size(&pdev->dev);
+-	for (i = 0; i < gsc->num_clocks; i++)
+-		clk_disable_unprepare(gsc->clock[i]);
  
- error_power_off:
- 	pm_runtime_put(imx334->dev);
-+error_unlock:
- 	mutex_unlock(&imx334->mutex);
+-	pm_runtime_put_noidle(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
  
- 	return ret;
++	if (!pm_runtime_status_suspended(&pdev->dev))
++		for (i = 0; i < gsc->num_clocks; i++)
++			clk_disable_unprepare(gsc->clock[i]);
++
++	pm_runtime_set_suspended(&pdev->dev);
++
+ 	dev_dbg(&pdev->dev, "%s driver unloaded\n", pdev->name);
+ 	return 0;
+ }
 -- 
 2.30.2
 
