@@ -2,76 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B9E037398F
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 13:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F2ED3739B0
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 13:50:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233120AbhEELiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 07:38:25 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:48469 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232917AbhEELiX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 07:38:23 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id eFqElLscqWztCeFqIlL6qg; Wed, 05 May 2021 13:37:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1620214646; bh=5iRJzA5kEubJp60F25EMFuTMRaHhlBLtQf10r4ujFDw=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=E2+tadw+If8QahzYHZRLjSbceOVG+BSoWhmr+6HXnmz8DeRgl7E3BqlFZOSihHfSd
-         KPJ9wcQFzgOi2Liq+1NYMdGNxSHzhloP2gG9bt2GnSgOir0oZZWsru/kzCIAYobRPF
-         zleT2vNWPvxdx2ZbgY/CBfp6XbQIJhisCi786wxZtmNcy1Eg71U+YdpzuIdsEAO0Vq
-         ttGJ3yNVAiEZrqajxI32jFogagXn4z112nQ7ppUgEeMvBpiAv/A6UO2GboSrcS8QUg
-         C4eDnbVj/HTA9WsVrt+cr2kgs3AJaM0K4jzTpB+Phb3u7t72zcKMWu3esKDCjEfGEJ
-         VZDxwlqffA5fw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT FIXES FOR v5.13] Three fixes for 5.13.
-Message-ID: <e2d6324c-b001-7468-2eb6-3df9f044ae8c@xs4all.nl>
-Date:   Wed, 5 May 2021 13:37:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        id S232944AbhEELvZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 07:51:25 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:40694 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232658AbhEELvZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 May 2021 07:51:25 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1leG2u-005SYF-9a; Wed, 05 May 2021 11:50:28 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1leG75-0004sb-9O; Wed, 05 May 2021 11:54:47 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] Various fixes (1) (#74074)
+Date:   Wed,  5 May 2021 11:54:46 +0000
+Message-Id: <20210505115446.18716-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <e4087d7e-01e9-3a55-eab7-090e95028b57@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfFNApQPBdB//fqwok0bU2VA+cDIffV4mg2Rupm/p1ToXD8bKUpnNIdhRHFWRndwWrdUel3tnBRKs4EMsOgLKvgN3cnu4VTX0OQtXnhQV87rg91LJO6oP
- 2mDt9NYECshZ036KU3MJdTGjNddJM1a4VfMr+Z3tcGDXZz2mEG3HqP3z+TDd/W29P22eveMNYZXcsTxrEQyXvfWtv1kpULptn0jX+E/SAggSe01SdKW3pXKz
- tUrzljgW8/BnOpJUqOaKeRjV5lmjg0/dj9t8ij+2Y5gXmi0vT6wIf1gyue9rPLr1bavNi9MEUT6bQIw9gUYWUw==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 0b276e470a4d43e1365d3eb53c608a3d208cabd4:
+From: builder@linuxtv.org
 
-  media: coda: fix macroblocks count control usage (2021-04-15 13:23:26 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/e4087d7e-01e9-3a55-eab7-090e95028b57@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/103870/
+Build time: 00:10:09
+Link: https://lore.kernel.org/linux-media/e4087d7e-01e9-3a55-eab7-090e95028b57@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Wed 05 May 2021 11:34:42 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.13d
+Summary: got 1/11 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to a3a4bedde4611ba771e3a23b1741199994cb1f66:
+Error/warnings:
 
-  media: s5p-mfc: Fix display delay control creation (2021-05-05 13:35:55 +0200)
+patches/0008-media-hevc-Fix-dependent-slice-segment-flags.patch:
 
-----------------------------------------------------------------
-Tag branch
+   checkpatch.pl:
+	$ cat patches/0008-media-hevc-Fix-dependent-slice-segment-flags.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:68: CHECK: Prefer using the BIT_ULL macro
+	-:76: CHECK: Prefer using the BIT_ULL macro
 
-----------------------------------------------------------------
-Dafna Hirschfeld (1):
-      media: mtk-vpu: on suspend, read/write regs only if vpu is running
 
-Marek Szyprowski (1):
-      media: s5p-mfc: Fix display delay control creation
+Error #512 when building PDF docs
 
-Philipp Zabel (1):
-      media: video-mux: Skip dangling endpoints
-
- drivers/media/platform/mtk-vpu/mtk_vpu.c     |  6 ++++++
- drivers/media/platform/s5p-mfc/s5p_mfc_dec.c |  1 +
- drivers/media/platform/video-mux.c           | 10 +++++++++-
- 3 files changed, 16 insertions(+), 1 deletion(-)
