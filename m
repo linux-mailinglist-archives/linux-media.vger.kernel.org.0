@@ -2,41 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1341373B4D
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 14:33:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2B67373B52
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 14:34:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233354AbhEEMeb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 08:34:31 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3025 "EHLO
+        id S233172AbhEEMez (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 08:34:55 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3026 "EHLO
         frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbhEEMe3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 08:34:29 -0400
-Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FZwvz13Gpz72f1w;
-        Wed,  5 May 2021 20:27:43 +0800 (CST)
+        with ESMTP id S233425AbhEEMex (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 08:34:53 -0400
+Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FZwwQ3vwXz6yhy0;
+        Wed,  5 May 2021 20:28:06 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 5 May 2021 14:33:31 +0200
+ 15.1.2176.2; Wed, 5 May 2021 14:33:54 +0200
 Received: from localhost (10.52.120.138) by lhreml710-chm.china.huawei.com
  (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 5 May 2021
- 13:33:30 +0100
-Date:   Wed, 5 May 2021 13:31:52 +0100
+ 13:33:54 +0100
+Date:   Wed, 5 May 2021 13:32:15 +0100
 From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-samsung-soc@vger.kernel.org>,
-        "Sylwester Nawrocki" <s.nawrocki@samsung.com>
-Subject: Re: [PATCH 15/25] media: s5p: fix pm_runtime_get_sync() usage count
-Message-ID: <20210505133152.000017ff@Huawei.com>
-In-Reply-To: <57a141a2c538b253f1c9502a790c370007d2ed83.1620207353.git.mchehab+huawei@kernel.org>
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 16/25] media: am437x: fix pm_runtime_get_sync() usage
+ count
+Message-ID: <20210505133215.00005f4e@Huawei.com>
+In-Reply-To: <8688555079cf30f5848bb020b5ecf0b0132b2c7e.1620207353.git.mchehab+huawei@kernel.org>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-        <57a141a2c538b253f1c9502a790c370007d2ed83.1620207353.git.mchehab+huawei@kernel.org>
+        <8688555079cf30f5848bb020b5ecf0b0132b2c7e.1620207353.git.mchehab+huawei@kernel.org>
 Organization: Huawei Technologies Research and Development (UK) Ltd.
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
@@ -50,7 +48,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 5 May 2021 11:42:05 +0200
+On Wed, 5 May 2021 11:42:06 +0200
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
 > The pm_runtime_get_sync() internally increments the
@@ -60,35 +58,54 @@ Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > in order to properly decrement the usage counter, avoiding
 > a potential PM usage counter leak.
 > 
-> While here, check if the PM runtime error was caught at
-> s5p_cec_adap_enable().
+> While here, ensure that the driver will check if PM runtime
+> resumed at vpfe_initialize_device().
 > 
-> Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
-> Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 > ---
->  drivers/media/cec/platform/s5p/s5p_cec.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  drivers/media/platform/am437x/am437x-vpfe.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/cec/platform/s5p/s5p_cec.c b/drivers/media/cec/platform/s5p/s5p_cec.c
-> index 3c7c4c3c798c..028a09a7531e 100644
-> --- a/drivers/media/cec/platform/s5p/s5p_cec.c
-> +++ b/drivers/media/cec/platform/s5p/s5p_cec.c
-> @@ -35,10 +35,13 @@ MODULE_PARM_DESC(debug, "debug level (0-2)");
+> diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
+> index 6cdc77dda0e4..1c9cb9e05fdf 100644
+> --- a/drivers/media/platform/am437x/am437x-vpfe.c
+> +++ b/drivers/media/platform/am437x/am437x-vpfe.c
+> @@ -1021,7 +1021,9 @@ static int vpfe_initialize_device(struct vpfe_device *vpfe)
+>  	if (ret)
+>  		return ret;
 >  
->  static int s5p_cec_adap_enable(struct cec_adapter *adap, bool enable)
->  {
-> +	int ret;
->  	struct s5p_cec_dev *cec = cec_get_drvdata(adap);
+> -	pm_runtime_get_sync(vpfe->pdev);
+> +	ret = pm_runtime_resume_and_get(vpfe->pdev);
+> +	if (ret < 0)
+> +		return ret;
 >  
->  	if (enable) {
-> -		pm_runtime_get_sync(cec->dev);
-> +		ret = pm_runtime_resume_and_get(cec->dev);
-> +		if (ret < 0)
-> +			return ret;
+>  	vpfe_config_enable(&vpfe->ccdc, 1);
 >  
->  		s5p_cec_reset(cec);
+> @@ -2443,7 +2445,11 @@ static int vpfe_probe(struct platform_device *pdev)
+>  	pm_runtime_enable(&pdev->dev);
+>  
+>  	/* for now just enable it here instead of waiting for the open */
+> -	pm_runtime_get_sync(&pdev->dev);
+> +	ret = pm_runtime_resume_and_get(&pdev->dev);
+> +	if (ret < 0) {
+> +		vpfe_err(vpfe, "Unable to resume device.\n");
+> +		goto probe_out_v4l2_unregister;
+> +	}
+>  
+>  	vpfe_ccdc_config_defaults(ccdc);
+>  
+> @@ -2530,6 +2536,11 @@ static int vpfe_suspend(struct device *dev)
+>  
+>  	/* only do full suspend if streaming has started */
+>  	if (vb2_start_streaming_called(&vpfe->buffer_queue)) {
+> +		/*
+> +		 * ignore RPM resume errors here, as it is already too late.
+> +		 * A check like that should happen earlier, either at
+> +		 * open() or just before start streaming.
+> +		 */
+>  		pm_runtime_get_sync(dev);
+>  		vpfe_config_enable(ccdc, 1);
 >  
 
