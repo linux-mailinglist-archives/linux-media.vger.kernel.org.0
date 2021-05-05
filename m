@@ -2,108 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF0C2374AE1
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 23:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51B2C374B0C
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 00:12:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229813AbhEEV6R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 17:58:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229784AbhEEV6Q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 17:58:16 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A1DEC061761;
-        Wed,  5 May 2021 14:57:19 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id E5B92C652A; Wed,  5 May 2021 22:57:15 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1620251836; bh=+aEvwnnamLpbPMC0Zf6oc8EHS1sTKnBdL/3mFyrQNpU=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=j9qpGXEgWbKCSil1WX166ZpLbb7uNJuogee5w1r+hwdPa3wCrsuKr2STmZIVKZMrc
-         r/ckzY2Wyhj9j0UMmxC6dyUmb1OEPjxGfuMNzLYUlteNikHxycEX4VOBGGvNspq5SX
-         mQFIlJLckBCvbQ/m6t96Pr3OVx+2yAz+Aum3qZ7jd+R0Tr2lo1u3OjBDnjJWmm+cMJ
-         Qlx+gZkXQc1DGf7A5d643SP6Ozk4HsXDrMVhcOsEw1jEj1lBLqBSXciJCcRp0gc1nf
-         KDsxTn5i4VK2/UWLYitBPLqx9/r+rlv4uT0dna7tM94D5zK5/PYgat2+2bpf+1xWWd
-         qYhI+m+mOlwqQ==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Rhees <support@usbuirt.com>,
-        Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH v2 3/3] USB: serial: blacklist USB-UIRT when driver is selected
-Date:   Wed,  5 May 2021 22:57:15 +0100
-Message-Id: <4e6ea50861b4d65d0be5b8b84c992dbe927103d6.1620251141.git.sean@mess.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1620251141.git.sean@mess.org>
-References: <cover.1620251141.git.sean@mess.org>
+        id S233504AbhEEWNh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 18:13:37 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55130 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229601AbhEEWNh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 18:13:37 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id B19C91F42E39
+Message-ID: <0c0bf5d35c3098188dc594268e721f8133f38789.camel@collabora.com>
+Subject: Re: [PATCH v3 1/1] v4l: async, fwnode: Improve module organisation
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     ezequiel.garcia@collabora.com
+Date:   Wed, 05 May 2021 19:12:30 -0300
+In-Reply-To: <20210504210642.9568-1-sakari.ailus@linux.intel.com>
+References: <20210504210642.9568-1-sakari.ailus@linux.intel.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The USB-UIRT device has its own driver, so blacklist the fdti driver
-from using it if the driver has been enabled.
+On Wed, 2021-05-05 at 00:06 +0300, Sakari Ailus wrote:
+> The V4L2 async framework is generally used with the V4L2 fwnode, which
+> also depends on the former. There are a few exceptions but they are
+> relatively few.
+> 
+> At the same time there is a vast number of systems that need videodev
+> module, but have no use for v4l2-async that's now part of videodev.
+> 
+> In order to improve, split the v4l2-async into its own module. Selecting
+> V4L2_FWNODE also selects V4L2_ASYNC.
+> 
+> This also moves the initialisation of the debufs entries for async subdevs
+> to loading of the v4l2-async module. The directory is named as
+> "v4l2-async".
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/usb/serial/ftdi_sio.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 542073d2f0dd..2320bda57796 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -95,7 +95,9 @@ static int   ftdi_jtag_probe(struct usb_serial *serial);
- static int   ftdi_NDI_device_setup(struct usb_serial *serial);
- static int   ftdi_stmclite_probe(struct usb_serial *serial);
- static int   ftdi_8u2232c_probe(struct usb_serial *serial);
-+#if !IS_ENABLED(CONFIG_IR_UIRT)
- static void  ftdi_USB_UIRT_setup(struct ftdi_private *priv);
-+#endif
- static void  ftdi_HE_TIRA1_setup(struct ftdi_private *priv);
- 
- static const struct ftdi_sio_quirk ftdi_jtag_quirk = {
-@@ -106,9 +108,11 @@ static const struct ftdi_sio_quirk ftdi_NDI_device_quirk = {
- 	.probe	= ftdi_NDI_device_setup,
- };
- 
-+#if !IS_ENABLED(CONFIG_IR_UIRT)
- static const struct ftdi_sio_quirk ftdi_USB_UIRT_quirk = {
- 	.port_probe = ftdi_USB_UIRT_setup,
- };
-+#endif
- 
- static const struct ftdi_sio_quirk ftdi_HE_TIRA1_quirk = {
- 	.port_probe = ftdi_HE_TIRA1_setup,
-@@ -568,8 +572,10 @@ static const struct usb_device_id id_table_combined[] = {
- 	{ USB_DEVICE(OCT_VID, OCT_DK201_PID) },
- 	{ USB_DEVICE(FTDI_VID, FTDI_HE_TIRA1_PID),
- 		.driver_info = (kernel_ulong_t)&ftdi_HE_TIRA1_quirk },
-+#if !IS_ENABLED(CONFIG_IR_UIRT)
- 	{ USB_DEVICE(FTDI_VID, FTDI_USB_UIRT_PID),
- 		.driver_info = (kernel_ulong_t)&ftdi_USB_UIRT_quirk },
-+#endif
- 	{ USB_DEVICE(FTDI_VID, PROTEGO_SPECIAL_1) },
- 	{ USB_DEVICE(FTDI_VID, PROTEGO_R2X0) },
- 	{ USB_DEVICE(FTDI_VID, PROTEGO_SPECIAL_3) },
-@@ -2292,6 +2298,7 @@ static int ftdi_sio_port_probe(struct usb_serial_port *port)
- 	return 0;
- }
- 
-+#if !IS_ENABLED(CONFIG_IR_UIRT)
- /* Setup for the USB-UIRT device, which requires hardwired
-  * baudrate (38400 gets mapped to 312500) */
- /* Called from usbserial:serial_probe */
-@@ -2301,6 +2308,7 @@ static void ftdi_USB_UIRT_setup(struct ftdi_private *priv)
- 	priv->custom_divisor = 77;
- 	priv->force_baud = 38400;
- }
-+#endif
- 
- /* Setup for the HE-TIRA1 device, which requires hardwired
-  * baudrate (38400 gets mapped to 100000) and RTS-CTS enabled.  */
--- 
-2.31.1
+Thanks!
+Ezequiel
 
