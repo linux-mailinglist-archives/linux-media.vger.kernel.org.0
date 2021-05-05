@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5FD1373602
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 10:06:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06BBE37360C
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 10:07:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231866AbhEEIHb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 04:07:31 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:37452 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231671AbhEEIHa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 04:07:30 -0400
-X-UUID: e3176c72c0d64f268c2e6d0a75354e85-20210505
-X-UUID: e3176c72c0d64f268c2e6d0a75354e85-20210505
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+        id S232081AbhEEIHo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 04:07:44 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:57234 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S232040AbhEEIHi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 04:07:38 -0400
+X-UUID: fb3878ce0eef4a62b9ebe58e825dcc96-20210505
+X-UUID: fb3878ce0eef4a62b9ebe58e825dcc96-20210505
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
         (envelope-from <louis.kuo@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 943048906; Wed, 05 May 2021 16:06:30 +0800
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 808723057; Wed, 05 May 2021 16:06:37 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 5 May 2021 16:06:28 +0800
+ mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 5 May 2021 16:06:29 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
  Transport; Wed, 5 May 2021 16:06:29 +0800
@@ -34,86 +34,194 @@ CC:     <frederic.chen@mediatek.com>, <linux-media@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>
-Subject: [RFC PATCH V0 0/4] media: some framework interface extension for new feature of Mediatek Camsys driver 
-Date:   Wed, 5 May 2021 16:06:22 +0800
-Message-ID: <20210505080626.15432-1-louis.kuo@mediatek.com>
+Subject: [RFC PATCH V0 1/4] media: v4l2-core: extend the v4l2 format to support request
+Date:   Wed, 5 May 2021 16:06:23 +0800
+Message-ID: <20210505080626.15432-2-louis.kuo@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210505080626.15432-1-louis.kuo@mediatek.com>
+References: <20210505080626.15432-1-louis.kuo@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-SNTS-SMTP: E1C3DF428786500A3F771BBCE878E2714D40607E359BBFA66FC5D5BF188E010D2000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-This is the first version of the RFC patch series extending V4L2 and media
-framework to support some advanced camera function, for example, to change
-the sensor when ISP is still streaming. A typical scenario is the wide-angle
-sensor and telephoto sensor switching in camera application. When the user
-is using the zooming UI, the application needs to switch the sensor from
-wide-angle sensor to telephoto sensor smoothly.
-
-To finish the function, we may need to modify the links of a pipeline and
-the format of pad and video device per request. Currently, the link,
-pad and video device format and selection settings are not involved in
-media request's design. Therefore, we try to extend the related interface
-to support the request-based operations. In the early version, we added
-request fd to the parameters of MEDIA_IOC_SETUP_LINK,
+This patch is to extend the related interface to support the request-based
+operations. We added request fd to the parameters of MEDIA_IOC_SETUP_LINK,
 VIDIOC_S_FMT, VIDIOC_SUBDEV_S_SELECTION, VIDIOC_SUBDEV_S_FMT.
-The driver uses media_request_get_by_fd() to retrieve the media request
-and save the pending change in it, so that we can apply the pending change
-in req_queue() callback then.
+The driver uses media_request_get_by_fd() to retrieve the media request and
+save the pending change in it, so that we can apply the pending change in
+req_queue() callback then.
 
-Here is an example:
+Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
+---
+ drivers/media/mc/mc-device.c         | 7 ++++++-
+ drivers/media/v4l2-core/v4l2-ioctl.c | 8 ++++----
+ include/media/media-entity.h         | 3 +++
+ include/uapi/linux/media.h           | 3 ++-
+ include/uapi/linux/v4l2-subdev.h     | 3 ++-
+ include/uapi/linux/videodev2.h       | 8 ++++++--
+ 6 files changed, 23 insertions(+), 9 deletions(-)
 
-int mtk_cam_vidioc_s_selection(struct file *file, void *fh,
-				struct v4l2_selection *s)
-{
-	struct mtk_cam_device *cam = video_drvdata(file);
-	struct mtk_cam_video_device *node = file_to_mtk_cam_node(file);
-	struct mtk_cam_request_stream_data *stream_data;
-	struct mtk_cam_request *cam_req;
-	struct media_request *req;
-	s32 fd;
-
-	fd = s->request_fd;
-	if (fd < 0)
-		return -EINVAL;
-
-	req = media_request_get_by_fd(&cam->media_dev, fd);
-
-	/* .... */
+diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+index 9e56d2ad6b94..f46ae4c38102 100644
+--- a/drivers/media/mc/mc-device.c
++++ b/drivers/media/mc/mc-device.c
+@@ -203,6 +203,7 @@ static long media_device_setup_link(struct media_device *mdev, void *arg)
+ 	struct media_link *link = NULL;
+ 	struct media_entity *source;
+ 	struct media_entity *sink;
++	int ret;
  
-	cam_req = to_mtk_cam_req(req);
-	stream_data = &cam_req->stream_data[node->uid.pipe_id];
-	stream_data->vdev_selection_update |= (1 << node->desc.id);
-	stream_data->vdev_selection[node->desc.id] = *s;
-
-	/* .... */
-
-	media_request_put(req);
-
-	return 0;
-}
-
-I posted interface change as RFC to discuss first and would like some
-review comments.
-
-Thank you very much.
-
-  media: v4l2-core: extend the v4l2 format to support request
-  media: subdev: support which in v4l2_subdev_frame_interval
-  media: v4l2-ctrl: Add ISP Camsys user control
-  media: pixfmt: Add ISP Camsys formats
-
- drivers/media/mc/mc-device.c         |   7 +-
- drivers/media/v4l2-core/v4l2-ioctl.c | 153 ++++++++++++++++++++++++++-
- include/media/media-entity.h         |   3 +
- include/uapi/linux/media.h           |   3 +-
- include/uapi/linux/v4l2-controls.h   |   4 +
- include/uapi/linux/v4l2-subdev.h     |   8 +-
- include/uapi/linux/videodev2.h       | 109 ++++++++++++++++++-
- 7 files changed, 275 insertions(+), 12 deletions(-)
-
+ 	/* Find the source and sink entities and link.
+ 	 */
+@@ -221,10 +222,14 @@ static long media_device_setup_link(struct media_device *mdev, void *arg)
+ 	if (link == NULL)
+ 		return -EINVAL;
+ 
++	link->request_fd = linkd->request_fd;
+ 	memset(linkd->reserved, 0, sizeof(linkd->reserved));
+ 
+ 	/* Setup the link on both entities. */
+-	return __media_entity_setup_link(link, linkd->flags);
++	ret = __media_entity_setup_link(link, linkd->flags);
++	link->request_fd = 0;
++
++	return ret;
+ }
+ 
+ static long media_device_get_topology(struct media_device *mdev, void *arg)
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 2673f51aafa4..823ebd175f3a 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1634,7 +1634,7 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+ 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+ 		if (unlikely(!ops->vidioc_s_fmt_vid_cap_mplane))
+ 			break;
+-		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
++		CLEAR_AFTER_FIELD(p, fmt.pix_mp.request_fd);
+ 		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+ 			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+ 					  bytesperline);
+@@ -1665,7 +1665,7 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+ 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+ 		if (unlikely(!ops->vidioc_s_fmt_vid_out_mplane))
+ 			break;
+-		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
++		CLEAR_AFTER_FIELD(p, fmt.pix_mp.request_fd);
+ 		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+ 			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+ 					  bytesperline);
+@@ -1736,7 +1736,7 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
+ 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+ 		if (unlikely(!ops->vidioc_try_fmt_vid_cap_mplane))
+ 			break;
+-		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
++		CLEAR_AFTER_FIELD(p, fmt.pix_mp.request_fd);
+ 		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+ 			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+ 					  bytesperline);
+@@ -1767,7 +1767,7 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
+ 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+ 		if (unlikely(!ops->vidioc_try_fmt_vid_out_mplane))
+ 			break;
+-		CLEAR_AFTER_FIELD(p, fmt.pix_mp.xfer_func);
++		CLEAR_AFTER_FIELD(p, fmt.pix_mp.request_fd);
+ 		for (i = 0; i < p->fmt.pix_mp.num_planes; i++)
+ 			CLEAR_AFTER_FIELD(&p->fmt.pix_mp.plane_fmt[i],
+ 					  bytesperline);
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index 09737b47881f..30ad665c4413 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -128,6 +128,8 @@ struct media_pipeline {
+  *		link.
+  * @flags:	Link flags, as defined in uapi/media.h (MEDIA_LNK_FL_*)
+  * @is_backlink: Indicate if the link is a backlink.
++ * @request_fd: The media request triggered the media link change, it is only
++ *		meaningful in media_device_setup_link()
+  */
+ struct media_link {
+ 	struct media_gobj graph_obj;
+@@ -145,6 +147,7 @@ struct media_link {
+ 	struct media_link *reverse;
+ 	unsigned long flags;
+ 	bool is_backlink;
++	int request_fd;
+ };
+ 
+ /**
+diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+index 200fa8462b90..a331f80afe2d 100644
+--- a/include/uapi/linux/media.h
++++ b/include/uapi/linux/media.h
+@@ -231,7 +231,8 @@ struct media_link_desc {
+ 	struct media_pad_desc source;
+ 	struct media_pad_desc sink;
+ 	__u32 flags;
+-	__u32 reserved[2];
++	__s32 request_fd;
++	__u32 reserved[1];
+ };
+ 
+ struct media_links_enum {
+diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+index 658106f5b5dc..d6ffd5981c68 100644
+--- a/include/uapi/linux/v4l2-subdev.h
++++ b/include/uapi/linux/v4l2-subdev.h
+@@ -50,7 +50,8 @@ struct v4l2_subdev_format {
+ 	__u32 which;
+ 	__u32 pad;
+ 	struct v4l2_mbus_framefmt format;
+-	__u32 reserved[8];
++	__s32 request_fd;
++	__u32 reserved[7];
+ };
+ 
+ /**
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 311a01cc5775..6641194b3fab 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1246,6 +1246,7 @@ struct v4l2_crop {
+  *		defined in v4l2-common.h; V4L2_SEL_TGT_* .
+  * @flags:	constraints flags, defined in v4l2-common.h; V4L2_SEL_FLAG_*.
+  * @r:		coordinates of selection window
++ * @request_fd: fd of the request that trigger the set selection operation
+  * @reserved:	for future use, rounds structure size to 64 bytes, set to zero
+  *
+  * Hardware may use multiple helper windows to process a video stream.
+@@ -1257,7 +1258,8 @@ struct v4l2_selection {
+ 	__u32			target;
+ 	__u32                   flags;
+ 	struct v4l2_rect        r;
+-	__u32                   reserved[9];
++	__s32			request_fd;
++	__u32                   reserved[8];
+ };
+ 
+ 
+@@ -2266,6 +2268,7 @@ struct v4l2_plane_pix_format {
+  * @hsv_enc:		enum v4l2_hsv_encoding, HSV encoding
+  * @quantization:	enum v4l2_quantization, colorspace quantization
+  * @xfer_func:		enum v4l2_xfer_func, colorspace transfer function
++ * @request_fd:	fd of the request that trigger the set format operation
+  * @reserved:		drivers and applications must zero this array
+  */
+ struct v4l2_pix_format_mplane {
+@@ -2284,7 +2287,8 @@ struct v4l2_pix_format_mplane {
+ 	};
+ 	__u8				quantization;
+ 	__u8				xfer_func;
+-	__u8				reserved[7];
++	__s32				request_fd;
++	__u8				reserved[3];
+ } __attribute__ ((packed));
+ 
+ /**
+-- 
+2.18.0
 
