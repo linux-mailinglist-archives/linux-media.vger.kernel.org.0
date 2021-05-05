@@ -2,251 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 502413738F2
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 13:02:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26AAF373900
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 13:06:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232140AbhEELD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 07:03:26 -0400
-Received: from mga07.intel.com ([134.134.136.100]:27393 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229559AbhEELDZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 07:03:25 -0400
-IronPort-SDR: h6HsIwd+3fJsRPvF/Uf2DBxREbUG6qPODSlvE+Ubp4lx1FzpoN8k5s5ZcgPYDtg5FDDZT5CB5V
- pXAdVcElUyyA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="262129174"
-X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; 
-   d="scan'208";a="262129174"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2021 04:02:28 -0700
-IronPort-SDR: FZf52xL00zCjeufPwcx1WYqmxeoVKWEsYFHIECR/kRGMZRZZHfnHf08C7W8s/919Hej07/rHBr
- eTCFLYMg7zhA==
-X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; 
-   d="scan'208";a="539515219"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2021 04:02:26 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id CE665203BC;
-        Wed,  5 May 2021 14:02:24 +0300 (EEST)
-Date:   Wed, 5 May 2021 14:02:24 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S232433AbhEELHl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 07:07:41 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2999 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232256AbhEELHl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 07:07:41 -0400
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FZtzn3MSwz72f1x;
+        Wed,  5 May 2021 19:00:53 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 5 May 2021 13:06:41 +0200
+Received: from localhost (10.52.120.138) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 5 May 2021
+ 12:06:41 +0100
+Date:   Wed, 5 May 2021 12:05:02 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "Hans Verkuil" <hans.verkuil@cisco.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 25/25] media: i2c: ccs-core: fix pm_runtime_get_sync()
- usage count
-Message-ID: <20210505110224.GP3@paasikivi.fi.intel.com>
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 03/25] media: venus: Rework error fail recover logic
+Message-ID: <20210505120502.000047e0@Huawei.com>
+In-Reply-To: <419e346f01af5423485202d624fc144756bd2b11.1620207353.git.mchehab+huawei@kernel.org>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
- <83ec24acb15f17e2ce589575c2f5eb7bdd1daf28.1620207353.git.mchehab+huawei@kernel.org>
- <20210505103409.GN3@paasikivi.fi.intel.com>
- <20210505125700.4a7584ca@coco.lan>
+        <419e346f01af5423485202d624fc144756bd2b11.1620207353.git.mchehab+huawei@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210505125700.4a7584ca@coco.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.120.138]
+X-ClientProxiedBy: lhreml725-chm.china.huawei.com (10.201.108.76) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Wed, 5 May 2021 11:41:53 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-On Wed, May 05, 2021 at 12:57:00PM +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 5 May 2021 13:34:09 +0300
-> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+> The Venus code has a sort of watchdog that attempts to recover
+> from IP errors, implemented as a delayed work job, which
+> calls venus_sys_error_handler().
 > 
-> > Hi Mauro,
-> > 
-> > Thanks for the patch.
-> > 
-> > On Wed, May 05, 2021 at 11:42:15AM +0200, Mauro Carvalho Chehab wrote:
-> > > The pm_runtime_get_sync() internally increments the
-> > > dev->power.usage_count without decrementing it, even on errors.
-> > > 
-> > > There is a bug at ccs_pm_get_init(): when this function returns
-> > > an error, the stream is not started, and RPM usage_count
-> > > should not be incremented. However, if the calls to
-> > > v4l2_ctrl_handler_setup() return errors, it will be kept
-> > > incremented.
-> > > 
-> > > At ccs_suspend() the best is to replace it by the new
-> > > pm_runtime_resume_and_get(), introduced by:
-> > > commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> > > in order to properly decrement the usage counter automatically,
-> > > in the case of errors.
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> > 
-> > Could you add Fixes: line and Cc: stable?
+> Right now, it has several issues:
 > 
-> Sure. See the fixes one enclosed.
+> 1. It assumes that PM runtime resume never fails
 > 
-> > The patch that breaks this is 96e3a6b92f23a .
-> > 
-> > It would be better to fix the bug first so the patch to the stable trees
-> > doesn't need special handling.
-
-Please ignore this comment.
-
-> > 
-> > > ---
-> > >  drivers/media/i2c/ccs/ccs-core.c | 39 ++++++++++++++++++++------------
-> > >  1 file changed, 24 insertions(+), 15 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> > > index b05f409014b2..04c3ab9e37b4 100644
-> > > --- a/drivers/media/i2c/ccs/ccs-core.c
-> > > +++ b/drivers/media/i2c/ccs/ccs-core.c
-> > > @@ -1880,21 +1880,33 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
-> > >  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-> > >  	int rval;
-> > >  
-> > > +	/*
-> > > +	 * It can't use pm_runtime_resume_and_get() here, as the driver
-> > > +	 * relies at the returned value to detect if the device was already
-> > > +	 * active or not.
-> > > +	 */
-> > >  	rval = pm_runtime_get_sync(&client->dev);
-> > > -	if (rval < 0) {
-> > > -		pm_runtime_put_noidle(&client->dev);
-> > > +	if (rval < 0)
-> > > +		goto error;
-> > >  
-> > > -		return rval;
-> > > -	} else if (!rval) {
-> > > -		rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->
-> > > -					       ctrl_handler);
-> > > -		if (rval)
-> > > -			return rval;
-> > > +	/* Device was already active, so don't set controls */
-> > > +	if (rval == 1)
-> > > +		return 0;
-> > >  
-> > > -		return v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
-> > > -	}
-> > > +	/* Restore V4L2 controls to the suspended device */
-> > > +	rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
-> > > +	if (rval)
-> > > +		goto error;
-> > >  
-> > > +	rval = v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
-> > > +	if (rval)
-> > > +		goto error;
-> > > +
-> > > +	/* Keep PM runtime usage_count incremented on success */
-> > >  	return 0;
-> > > +error:
-> > > +	pm_runtime_put_noidle(&client->dev);  
-> > 
-> > This needs to be pm_runtime_put() as the device has been successfully.
+> 2. It internally runs two while() loops that also assume that
+>    PM runtime will never fail to go idle:
 > 
-> Ok.
+> 	while (pm_runtime_active(core->dev_dec) || pm_runtime_active(core->dev_enc))
+> 		msleep(10);
 > 
-> > 
-> > > +	return rval;
-> > >  }
-> > >  
-> > >  static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
-> > > @@ -3089,12 +3101,9 @@ static int __maybe_unused ccs_suspend(struct device *dev)
-> > >  	bool streaming = sensor->streaming;
-> > >  	int rval;
-> > >  
-> > > -	rval = pm_runtime_get_sync(dev);
-> > > -	if (rval < 0) {
-> > > -		pm_runtime_put_noidle(dev);
-> > > -
-> > > +	rval = pm_runtime_resume_and_get(dev);
-> > > +	if (rval < 0)
-> > >  		return rval;
-> > > -	}
-> > >  
-> > >  	if (sensor->streaming)
-> > >  		ccs_stop_streaming(sensor);  
-> > 
+> ...
 > 
-> Thanks,
-> Mauro
+> 	while (core->pmdomains[0] && pm_runtime_active(core->pmdomains[0]))
+> 		usleep_range(1000, 1500);
 > 
-> ---
+> 3. It uses an OR to merge all return codes and then report to the user
 > 
-> [PATCH] media: i2c: ccs-core: fix pm_runtime_get_sync() usage count
+> 4. If the hardware never recovers, it keeps running on every 10ms,
+>    flooding the syslog with 2 messages (so, up to 200 messages
+>    per second).
 > 
-> The pm_runtime_get_sync() internally increments the
-> dev->power.usage_count without decrementing it, even on errors.
+> Rework the code, in order to prevent that, by:
 > 
-> There is a bug at ccs_pm_get_init(): when this function returns
-> an error, the stream is not started, and RPM usage_count
-> should not be incremented. However, if the calls to
-> v4l2_ctrl_handler_setup() return errors, it will be kept
-> incremented.
+> 1. check the return code from PM runtime resume;
+> 2. don't let the while() loops run forever;
+> 3. store the failed event;
+> 4. use warn ratelimited when it fails to recover.
 > 
-> At ccs_suspend() the best is to replace it by the new
-> pm_runtime_resume_and_get(), introduced by:
-> commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> in order to properly decrement the usage counter automatically,
-> in the case of errors.
-> 
-> Fixes: 96e3a6b92f23 ("media: smiapp: Avoid maintaining power state information")
-> Cc: stable@vger.kernel.org
+> Fixes: af2c3834c8ca ("[media] media: venus: adding core part and helper functions")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Trivial comments inline, otherwise based on no knowledge at all of the
+actual hardware, the fix looks sane.
 
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 59 +++++++++++++++++++-----
+>  1 file changed, 47 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index b05f409014b2..5ea471fefa3a 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -1880,21 +1880,33 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
->  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
->  	int rval;
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 54bac7ec14c5..4d0482743c0a 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -78,22 +78,32 @@ static const struct hfi_core_ops venus_core_ops = {
+>  	.event_notify = venus_event_notify,
+>  };
 >  
-> +	/*
-> +	 * It can't use pm_runtime_resume_and_get() here, as the driver
-> +	 * relies at the returned value to detect if the device was already
-> +	 * active or not.
-> +	 */
->  	rval = pm_runtime_get_sync(&client->dev);
-> -	if (rval < 0) {
-> -		pm_runtime_put_noidle(&client->dev);
-> +	if (rval < 0)
-> +		goto error;
->  
-> -		return rval;
-> -	} else if (!rval) {
-> -		rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->
-> -					       ctrl_handler);
-> -		if (rval)
-> -			return rval;
-> +	/* Device was already active, so don't set controls */
-> +	if (rval == 1)
-> +		return 0;
->  
-> -		return v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
-> -	}
-> +	/* Restore V4L2 controls to the suspended device */
-> +	rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
-> +	if (rval)
-> +		goto error;
->  
-> +	rval = v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
-> +	if (rval)
-> +		goto error;
+> +#define RPM_WAIT_FOR_IDLE_MAX_ATTEMPTS 10
 > +
-> +	/* Keep PM runtime usage_count incremented on success */
->  	return 0;
-> +error:
-> +	pm_runtime_put(&client->dev);
-> +	return rval;
->  }
+>  static void venus_sys_error_handler(struct work_struct *work)
+>  {
+>  	struct venus_core *core =
+>  			container_of(work, struct venus_core, work.work);
+> -	int ret = 0;
+> +	int ret, i, max_attempts = RPM_WAIT_FOR_IDLE_MAX_ATTEMPTS;
+> +	bool failed = false;
+> +	const char *err_msg = "";
 >  
->  static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
-> 
-> 
-> 
-> 
+> -	pm_runtime_get_sync(core->dev);
+> +	ret = pm_runtime_get_sync(core->dev);
+> +	if (ret < 0) {
+> +		err_msg = "resume runtime PM\n";
 
--- 
-Kind regards,
+Will end up with two newlines I think as %s\n" later.
 
-Sakari Ailus
+> +		max_attempts = 0;
+> +		failed = true;
+> +	}
+>  
+>  	hfi_core_deinit(core, true);
+>  
+> -	dev_warn(core->dev, "system error has occurred, starting recovery!\n");
+> -
+>  	mutex_lock(&core->lock);
+>  
+> -	while (pm_runtime_active(core->dev_dec) || pm_runtime_active(core->dev_enc))
+> +	for (i = 0; i < max_attempts; i++) {
+> +		if (!pm_runtime_active(core->dev_dec) && !pm_runtime_active(core->dev_enc))
+> +			break;
+>  		msleep(10);
+> +	}
+>  
+>  	venus_shutdown(core);
+>  
+> @@ -101,31 +111,56 @@ static void venus_sys_error_handler(struct work_struct *work)
+>  
+>  	pm_runtime_put_sync(core->dev);
+>  
+> -	while (core->pmdomains[0] && pm_runtime_active(core->pmdomains[0]))
+> +	for (i = 0; i < max_attempts; i++) {
+> +		if (!core->pmdomains[0] || !pm_runtime_active(core->pmdomains[0]))
+> +			break;
+>  		usleep_range(1000, 1500);
+> +	}
+>  
+>  	hfi_reinit(core);
+>  
+> -	pm_runtime_get_sync(core->dev);
+> +	ret = pm_runtime_get_sync(core->dev);
+> +	if (ret < 0) {
+> +		err_msg = "resume runtime PM\n";
+> +		max_attempts = 0;
+
+This is after the last use of max_attempts, so no point in setting it to zero.
+
+> +		failed = true;
+> +	}
+>  
+> -	ret |= venus_boot(core);
+> -	ret |= hfi_core_resume(core, true);
+> +	ret = venus_boot(core);
+> +	if (ret && !failed) {
+> +		err_msg = "boot Venus\n";
+> +		failed = true;
+> +	}
+> +
+> +	ret = hfi_core_resume(core, true);
+> +	if (ret && !failed) {
+> +		err_msg = "resume HFI\n";
+> +		failed = true;
+> +	}
+>  
+>  	enable_irq(core->irq);
+>  
+>  	mutex_unlock(&core->lock);
+>  
+> -	ret |= hfi_core_init(core);
+> +	ret = hfi_core_init(core);
+> +	if (ret && !failed) {
+> +		err_msg = "init HFI\n";
+> +		failed = true;
+> +	}
+>  
+>  	pm_runtime_put_sync(core->dev);
+>  
+> -	if (ret) {
+> +	if (failed) {
+>  		disable_irq_nosync(core->irq);
+> -		dev_warn(core->dev, "recovery failed (%d)\n", ret);
+> +		dev_warn_ratelimited(core->dev,
+> +				     "System error has occurred, recovery failed to %s\n",
+> +				     err_msg);
+>  		schedule_delayed_work(&core->work, msecs_to_jiffies(10));
+>  		return;
+>  	}
+>  
+> +	dev_warn(core->dev, "system error has occurred (recovered)\n");
+> +
+>  	mutex_lock(&core->lock);
+>  	core->sys_error = false;
+>  	mutex_unlock(&core->lock);
+
