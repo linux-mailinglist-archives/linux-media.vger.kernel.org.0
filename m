@@ -2,197 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B61C937369D
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 10:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E41B3736CE
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:11:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232223AbhEEIvB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 04:51:01 -0400
-Received: from mx2.suse.de ([195.135.220.15]:48096 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232144AbhEEIvA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 04:51:00 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1620204602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XlreHJSFOa0zh8VVnpDZWGdPYd4/0cBdM7glQh7Ld9A=;
-        b=k0ULywp2xsJxR0Mz78nWDgdSLChio96FaDSQTlafFs/Z/MrkODjxhZfj+xNioWQCCpEv2y
-        /liRIqv3fbnh3mheAOHDP5KEtpJedbiBxWkyzuj//TVKs8hzRX5Nm9cU3+jEZrXYTWuw9R
-        aV7QhcxVTV7LH9PRVRs0WYHOkwpKwBc=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A16ECAECE;
-        Wed,  5 May 2021 08:50:02 +0000 (UTC)
-Message-ID: <df5bef579be9bee300c42cf3e03c9b029c83a800.camel@suse.com>
-Subject: Re: [PATCH 2/3] media: rc: new driver for USB-UIRT device
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Rhees <support@usbuirt.com>
-Date:   Wed, 05 May 2021 10:50:01 +0200
-In-Reply-To: <92bbe875e1783c7bc79cde33d783eab66ef9cd46.1620149665.git.sean@mess.org>
-References: <cover.1620149665.git.sean@mess.org>
-         <92bbe875e1783c7bc79cde33d783eab66ef9cd46.1620149665.git.sean@mess.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        id S232284AbhEEJMF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 05:12:05 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:55207 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232091AbhEEJMF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 May 2021 05:12:05 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id eDYdlkXMLyEWweDYglukBU; Wed, 05 May 2021 11:11:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1620205867; bh=SxgYb14ClndkCKGy9k2rbObXxdvwXYY3UatDeaUJVuw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=mSSx2oI+rD14wX/Qm6rXHTkbZp5E6KVIr2v7Y/ARJ9/bxeGyNAt3qZNG6PBVLxRsf
+         fG5H2T9rJpWtfHd1VFE/uKd0NSeGCMz0+9x+g+gv8lAZt8ZnjNNfOxrcQgGeOx1fuw
+         RNnWON/vSNQZeq4X2vyx9avs7EOSlFMWLXUSsXuJeI5XaLRfVLPnsNqZQyY5piObAO
+         nk94E3VeJQSHsFEXlFvfz74VPHlOOUeWnpU0ZqfZ23uVxlApg0Q1NdcMpSl2tKSv4V
+         tUy+hNQEhKilLBH1Lv08GD46tuAcNTIHwt9b0lVq8jvZAr8P5vhCoTUw2aVZ/hdh6H
+         aK5+WurgJdJMg==
+Subject: Re: [PATCH] media: gspca: stv06xx: Fix memleak in stv06xx subdrivers
+To:     Shuah Khan <skhan@linuxfoundation.org>,
+        Pavel Skripkin <paskripkin@gmail.com>
+Cc:     Atul Gopinathan <atulgopinathan@gmail.com>,
+        syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        mchehab@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-media@vger.kernel.org
+References: <20210422160742.7166-1-atulgopinathan@gmail.com>
+ <20210422215511.01489adb@gmail.com>
+ <36f126fc-6a5e-a078-4cf0-c73d6795a111@linuxfoundation.org>
+ <20210423234458.3f754de2@gmail.com>
+ <4c22cfa5-5702-6181-0f9a-d1d8d4041156@linuxfoundation.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <e8f45770-76c1-22d3-0960-03e2965b79ab@xs4all.nl>
+Date:   Wed, 5 May 2021 11:11:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
+In-Reply-To: <4c22cfa5-5702-6181-0f9a-d1d8d4041156@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfFtNF0AOKSec5MD9by5lOuaECiQ8FyLuep91fSEXbKDbjWNqLjdt+YfLJqNpk4I2vpTyPL+BEJhlJFJP2zENP6njY4zsa9WhIGnl0E0wMO6+xockKQ31
+ l0eFT5/KSYtNLGbxbrGT8hsPsmF6gy73tvnMmLF8sB5wnskYrUnEBQp/BxRZh5Dwcfk7y2RpbZZNAiqC2o1hCt9G6QkOCXn7XjRUJjtKi+kqMf8THm1zMxwy
+ HLeH4GrOrTbL5Vn4xloy1EYTv3eSwgn7o+Sdl5aAH0cwH4dtovT7fKAaVRaOZLNb0I7pvGYFcWAoUalLwMYgOxCjOykN/Q3fY7zirisR+9lQJ9Xqw3q3XJgU
+ wsNw8glPWYBZLwaVkCDxMt34p0g29FIScneBLNy+Vtv5ZPcGZhCRS+2NdPZYGLZAiOrgN+6GHM2evp5FMF3YW/Xf32DDBPMRQpY1r5qxVePeyn9tNL9q1QIn
+ 4kbJtxEkUgqJH044RDjQRI8USpOkp/f27qQ40HH/c0ixKupd9ZibALBlpIJ5Imy1wWxF3CVZ4SFugnCDV/yusCjVLhd7xl7ulH3kLg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, den 04.05.2021, 18:52 +0100 schrieb Sean Young:
-> See http://www.usbuirt.com/
+On 23/04/2021 22:56, Shuah Khan wrote:
+> On 4/23/21 2:44 PM, Pavel Skripkin wrote:
+>> Hi!
+>>
+>> On Fri, 23 Apr 2021 14:19:15 -0600
+>> Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>> On 4/22/21 12:55 PM, Pavel Skripkin wrote:
+>>>> Hi!
+>>>>
+>>>> On Thu, 22 Apr 2021 21:37:42 +0530
+>>>> Atul Gopinathan <atulgopinathan@gmail.com> wrote:
+>>>>> During probing phase of a gspca driver in "gspca_dev_probe2()", the
+>>>>> stv06xx subdrivers have certain sensor variants (namely, hdcs_1x00,
+>>>>> hdcs_1020 and pb_0100) that allocate memory for their respective
+>>>>> sensor which is passed to the "sd->sensor_priv" field. During the
+>>>>> same probe routine, after "sensor_priv" allocation, there are
+>>>>> chances of later functions invoked to fail which result in the
+>>>>> probing routine to end immediately via "goto out" path. While
+>>>>> doing so, the memory allocated earlier for the sensor isn't taken
+>>>>> care of resulting in memory leak.
+>>>>>
+>>>>> Fix this by adding operations to the gspca, stv06xx and down to the
+>>>>> sensor levels to free this allocated memory during gspca probe
+>>>>> failure.
+>>>>>
+>>>>> -
+>>>>> The current level of hierarchy looks something like this:
+>>>>>
+>>>>> 	gspca (main driver) represented by struct gspca_dev
+>>>>> 	   |
+>>>>> ___________|_____________________________________
+>>>>> |	|	|	|	|		| (subdrivers)
+>>>>> 			|			  represented
+>>>>>    			stv06xx			  by
+>>>>> "struct sd" |
+>>>>>    	 _______________|_______________
+>>>>>    	 |	|	|	|	|  (sensors)
+>>>>> 	 	|			|
+>>>>>    		hdcs_1x00/1020		pb01000
+>>>>> 			|_________________|
+>>>>> 				|
+>>>>> 			These three sensor variants
+>>>>> 			allocate memory for
+>>>>> 			"sd->sensor_priv" field.
+>>>>>
+>>>>> Here, "struct gspca_dev" is the representation used in the top
+>>>>> level. In the sub-driver levels, "gspca_dev" pointer is cast to
+>>>>> "struct sd*", something like this:
+>>>>>
+>>>>> 	struct sd *sd = (struct sd *)gspca_dev;
+>>>>>
+>>>>> This is possible because the first field of "struct sd" is
+>>>>> "gspca_dev":
+>>>>>
+>>>>> 	struct sd {
+>>>>> 		struct gspca_dev;
+>>>>> 		.
+>>>>> 		.
+>>>>> 	}
+>>>>>
+>>>>> Therefore, to deallocate the "sd->sensor_priv" fields from
+>>>>> "gspca_dev_probe2()" which is at the top level, the patch creates
+>>>>> operations for the subdrivers and sensors to be invoked from the
+>>>>> gspca driver levels. These operations essentially free the
+>>>>> "sd->sensor_priv" which were allocated by the "config" and
+>>>>> "init_controls" operations in the case of stv06xx sub-drivers and
+>>>>> the sensor levels.
+>>>>>
+>>>>> This patch doesn't affect other sub-drivers or even sensors who
+>>>>> never allocate memory to "sensor_priv". It has also been tested by
+>>>>> syzbot and it returned an "OK" result.
+>>>>>
+>>>>> https://syzkaller.appspot.com/bug?id=ab69427f2911374e5f0b347d0d7795bfe384016c
+>>>>> -
+>>>>>
+>>>>> Fixes: 4c98834addfe ("V4L/DVB (10048): gspca - stv06xx: New
+>>>>> subdriver.") Cc: stable@vger.kernel.org
+>>>>> Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
+>>>>> Reported-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
+>>>>> Tested-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
+>>>>> Signed-off-by: Atul Gopinathan <atulgopinathan@gmail.com>
+>>>>
+>>>> AFAIK, something similar is already applied to linux-media tree
+>>>> https://git.linuxtv.org/media_tree.git/commit/?id=4f4e6644cd876c844cdb3bea2dd7051787d5ae25
+>>>>
+>>>
+>>> Pavel,
+>>>
+>>> Does the above handle the other drivers hdcs_1x00/1020 and pb01000?
+>>>
+>>> Atul's patch handles those cases. If thoese code paths need to be
+>>> fixes, Atul could do a patch on top of yours perhaps?
+>>>
+>>> thanks,
+>>> -- Shuah
+>>>
+>>>
+>>
+>> It's not my patch. I've sent a patch sometime ago, but it was reject
+>> by Mauro (we had a small discussion on linux-media mailing-list), then
+>> Hans wrote the patch based on my leak discoverage.
+>>
 > 
-
-Hi,
-
-nice driver, just a few issues.
-I have marked them inline.
-
-	Regards
-		Oliver
-
-> +
-> +#define WDR_TIMEOUT 5000 /* default urb timeout */
-
-That is the default ctrl timeout. Do you need this?
-
-> +#define WDR_SHORT_TIMEOUT 1000	/* shorter urb timeout */
-> +#define UNIT_US 50
-> +#define IR_TIMEOUT 12500
-> +#define MAX_PACKET 64
+> Yes my bad. :)
 > 
-> +static int uirt_tx(struct rc_dev *rc, uint *txbuf, uint count)
-> +{
-> +	struct uirt *uirt = rc->priv;
-> +	u8 *out;
-> +	u32 i, dest, unit_raw, freq, len;
-> +	int err;
-> +
-> +	// streaming tx does not work for short IR; use non-streaming
-> +	// tx for short IR
-> +	if (count <= 24)
-> +		return uirt_short_tx(rc, txbuf, count);
-> +
-> +	out = kmalloc(count * 2 + 3, GFP_KERNEL);
-> +	if (!out)
-> +		return -ENOMEM;
-> +
-> +	out[0] = 0x25; // Streaming Transmit
-> +	out[1] = 0xdb; // checksum
-
-A constant checksum? Now that is a new concept.
-
-> +	out[2] = uirt->freq; // carrier frequency
-> +
-> +	dest = 3;
-> +
-> +	freq = uirt->freq & 0x7f;
-> +
-> +	for (i = 0; i < count; i++) {
-> +		// width = (us / freq) * 2.5
-> +		unit_raw = DIV_ROUND_CLOSEST(txbuf[i] * 5, freq * 2);
-> +
-> +		if (unit_raw == 0)
-> +			unit_raw = 1;
-> +		else if (unit_raw > 127)
-> +			out[dest++] = (unit_raw >> 8) | 0x80;
-> +
-> +		out[dest++] = unit_raw;
-> +	}
-> +
-> +	len = min_t(u32, dest, MAX_PACKET);
-> +
-> +	uirt->tx_buf = out + len;
-> +	uirt->tx_len = dest - len;
-> +
-> +	err = uirt_command(uirt, out, len, CMD_STATE_STREAMING_TX);
-> +	kfree(out);
-> +	if (err != 0)
-> +		return err;
-> +
-> +	return count;
-> +}
-> +
+>> I added Hans to CC, maybe, he will help :)
+>>
 > 
-> +static int uirt_probe(struct usb_interface *intf,
-> +		      const struct usb_device_id *id)
-> +{
-> +	struct usb_host_interface *idesc = intf->cur_altsetting;
-> +	struct usb_device *usbdev = interface_to_usbdev(intf);
-> +	struct usb_endpoint_descriptor *ep_in = NULL;
-> +	struct usb_endpoint_descriptor *ep_out = NULL;
-> +	struct usb_endpoint_descriptor *ep = NULL;
-> +	struct uirt *uirt;
-> +	struct rc_dev *rc;
-> +	struct urb *urb;
-> +	int i, pipe, err = -ENOMEM;
-> +
-> +	for (i = 0; i < idesc->desc.bNumEndpoints; i++) {
-> +		ep = &idesc->endpoint[i].desc;
-> +
-> +		if (!ep_in && usb_endpoint_is_bulk_in(ep) &&
-> +		    usb_endpoint_maxp(ep) == MAX_PACKET)
-> +			ep_in = ep;
-> +
-> +		if (!ep_out && usb_endpoint_is_bulk_out(ep) &&
-> +		    usb_endpoint_maxp(ep) == MAX_PACKET)
-> +			ep_out = ep;
-> +	}
-> +
-> +	if (!ep_in || !ep_out) {
-> +		dev_err(&intf->dev, "required endpoints not found\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	uirt = kzalloc(sizeof(*uirt), GFP_KERNEL);
-> +	if (!uirt)
-> +		return -ENOMEM;
-> +
-> +	uirt->in = kmalloc(MAX_PACKET, GFP_KERNEL);
-> +	if (!uirt->in)
-> +		goto free_uirt;
-> +
-> +	uirt->out = kmalloc(MAX_PACKET, GFP_KERNEL);
-> +	if (!uirt->out)
-> +		goto free_uirt;
-> +
-> +	rc = rc_allocate_device(RC_DRIVER_IR_RAW);
-> +	if (!rc)
-> +		goto free_uirt;
-> +
-> +	urb = usb_alloc_urb(0, GFP_KERNEL);
-> +	if (!urb)
-> +		goto free_rcdev;
-> +
-> +	pipe = usb_rcvbulkpipe(usbdev, ep_in->bEndpointAddress);
-> +	usb_fill_bulk_urb(urb, usbdev, pipe, uirt->in, MAX_PACKET,
-> +			  uirt_in_callback, uirt);
-> +	uirt->urb_in = urb;
-> +
-> +	urb = usb_alloc_urb(0, GFP_KERNEL);
-> +	if (!urb)
-> +		goto free_rcdev;
-> +
-> +	pipe = usb_sndbulkpipe(usbdev, ep_out->bEndpointAddress);
-> +	usb_fill_bulk_urb(urb, usbdev, pipe, uirt->out, MAX_PACKET,
-> +			  uirt_out_callback, uirt);
-> +
-> +	uirt->dev = &intf->dev;
-> +	uirt->usbdev = usbdev;
-> +	uirt->rc = rc;
-> +	uirt->urb_out = urb;
-> +	uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
-> +
-> +	err = usb_submit_urb(uirt->urb_in, GFP_KERNEL);
-> +	if (err != 0) {
-> +		dev_err(uirt->dev, "failed to submit read urb: %d\n",
-> err);
-> +		return err;
+> Will wait for Hans to take a look.
 
-Massive memory leak. You cannot just return.
+Yes, my patch does the same as this patch, just a bit more concise.
 
+I'll drop this one.
+
+Regards,
+
+	Hans
+
+> 
+> thanks,
+> -- Shuah
+> 
 
