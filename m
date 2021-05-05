@@ -2,241 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6920373B73
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 14:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C31AB373B85
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 14:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233227AbhEEMi3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 08:38:29 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3032 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232513AbhEEMiZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 08:38:25 -0400
-Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FZx0W1q8Bz72f3Z;
-        Wed,  5 May 2021 20:31:39 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 5 May 2021 14:37:27 +0200
-Received: from localhost (10.52.120.138) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 5 May 2021
- 13:37:27 +0100
-Date:   Wed, 5 May 2021 13:35:48 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     Sakari Ailus <sakari.ailus@linux.intel.com>, <linuxarm@huawei.com>,
-        <mauro.chehab@huawei.com>,
+        id S233548AbhEEMjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 08:39:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41504 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232981AbhEEMjk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 08:39:40 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 307EFC061574
+        for <linux-media@vger.kernel.org>; Wed,  5 May 2021 05:38:44 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 37BDA1F42E68
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-rockchip@lists.infradead.org, devel@driverdev.osuosl.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 25/25] media: i2c: ccs-core: fix pm_runtime_get_sync()
- usage count
-Message-ID: <20210505133548.00005c1a@Huawei.com>
-In-Reply-To: <20210505125857.7f30d8fa@coco.lan>
-References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-        <83ec24acb15f17e2ce589575c2f5eb7bdd1daf28.1620207353.git.mchehab+huawei@kernel.org>
-        <20210505103409.GN3@paasikivi.fi.intel.com>
-        <20210505125700.4a7584ca@coco.lan>
-        <20210505125857.7f30d8fa@coco.lan>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.120.138]
-X-ClientProxiedBy: lhreml725-chm.china.huawei.com (10.201.108.76) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        kernel@collabora.com
+Subject: [RFCv2 0/3] vp9 v4l2 stateless uapi
+Date:   Wed,  5 May 2021 14:38:33 +0200
+Message-Id: <20210505123836.9573-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 5 May 2021 12:58:57 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Dear All,
 
-> Em Wed, 5 May 2021 12:57:00 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> 
-> > Em Wed, 5 May 2021 13:34:09 +0300
-> > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
-> >   
-> > > Hi Mauro,
-> > > 
-> > > Thanks for the patch.
-> > > 
-> > > On Wed, May 05, 2021 at 11:42:15AM +0200, Mauro Carvalho Chehab wrote:  
-> > > > The pm_runtime_get_sync() internally increments the
-> > > > dev->power.usage_count without decrementing it, even on errors.
-> > > > 
-> > > > There is a bug at ccs_pm_get_init(): when this function returns
-> > > > an error, the stream is not started, and RPM usage_count
-> > > > should not be incremented. However, if the calls to
-> > > > v4l2_ctrl_handler_setup() return errors, it will be kept
-> > > > incremented.
-> > > > 
-> > > > At ccs_suspend() the best is to replace it by the new
-> > > > pm_runtime_resume_and_get(), introduced by:
-> > > > commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> > > > in order to properly decrement the usage counter automatically,
-> > > > in the case of errors.
-> > > > 
-> > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>    
-> > > 
-> > > Could you add Fixes: line and Cc: stable?  
-> > 
-> > Sure. See the fixes one enclosed.
-> >   
-> > > The patch that breaks this is 96e3a6b92f23a .
-> > > 
-> > > It would be better to fix the bug first so the patch to the stable trees
-> > > doesn't need special handling.
-> > >   
-> > > > ---
-> > > >  drivers/media/i2c/ccs/ccs-core.c | 39 ++++++++++++++++++++------------
-> > > >  1 file changed, 24 insertions(+), 15 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> > > > index b05f409014b2..04c3ab9e37b4 100644
-> > > > --- a/drivers/media/i2c/ccs/ccs-core.c
-> > > > +++ b/drivers/media/i2c/ccs/ccs-core.c
-> > > > @@ -1880,21 +1880,33 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
-> > > >  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-> > > >  	int rval;
-> > > >  
-> > > > +	/*
-> > > > +	 * It can't use pm_runtime_resume_and_get() here, as the driver
-> > > > +	 * relies at the returned value to detect if the device was already
-> > > > +	 * active or not.
-> > > > +	 */
-> > > >  	rval = pm_runtime_get_sync(&client->dev);
-> > > > -	if (rval < 0) {
-> > > > -		pm_runtime_put_noidle(&client->dev);
-> > > > +	if (rval < 0)
-> > > > +		goto error;
-> > > >  
-> > > > -		return rval;
-> > > > -	} else if (!rval) {
-> > > > -		rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->
-> > > > -					       ctrl_handler);
-> > > > -		if (rval)
-> > > > -			return rval;
-> > > > +	/* Device was already active, so don't set controls */
-> > > > +	if (rval == 1)
-> > > > +		return 0;
-> > > >  
-> > > > -		return v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
-> > > > -	}
-> > > > +	/* Restore V4L2 controls to the suspended device */
-> > > > +	rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
-> > > > +	if (rval)
-> > > > +		goto error;
-> > > >  
-> > > > +	rval = v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
-> > > > +	if (rval)
-> > > > +		goto error;
-> > > > +
-> > > > +	/* Keep PM runtime usage_count incremented on success */
-> > > >  	return 0;
-> > > > +error:
-> > > > +	pm_runtime_put_noidle(&client->dev);    
-> > > 
-> > > This needs to be pm_runtime_put() as the device has been successfully.  
-> > 
-> > Ok.
-> >   
-> > >   
-> > > > +	return rval;
-> > > >  }
-> > > >  
-> > > >  static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
-> > > > @@ -3089,12 +3101,9 @@ static int __maybe_unused ccs_suspend(struct device *dev)
-> > > >  	bool streaming = sensor->streaming;
-> > > >  	int rval;
-> > > >  
-> > > > -	rval = pm_runtime_get_sync(dev);
-> > > > -	if (rval < 0) {
-> > > > -		pm_runtime_put_noidle(dev);
-> > > > -
-> > > > +	rval = pm_runtime_resume_and_get(dev);
-> > > > +	if (rval < 0)
-> > > >  		return rval;
-> > > > -	}
-> > > >  
-> > > >  	if (sensor->streaming)
-> > > >  		ccs_stop_streaming(sensor);    
-> > >   
-> > 
-> > Thanks,
-> > Mauro
-> > 
-> > ---
-> > 
-> > [PATCH] media: i2c: ccs-core: fix pm_runtime_get_sync() usage count
-> > 
-> > The pm_runtime_get_sync() internally increments the
-> > dev->power.usage_count without decrementing it, even on errors.
-> > 
-> > There is a bug at ccs_pm_get_init(): when this function returns
-> > an error, the stream is not started, and RPM usage_count
-> > should not be incremented. However, if the calls to
-> > v4l2_ctrl_handler_setup() return errors, it will be kept
-> > incremented.
-> > 
-> > At ccs_suspend() the best is to replace it by the new
-> > pm_runtime_resume_and_get(), introduced by:
-> > commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> > in order to properly decrement the usage counter automatically,
-> > in the case of errors.
-> > 
-> > Fixes: 96e3a6b92f23 ("media: smiapp: Avoid maintaining power state information")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+This is a follow-up work for https://patchwork.linuxtv.org/project/linux-media/list/?series=5268
+I addressed Hans's comments.
 
-> > 
-> > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> > index b05f409014b2..5ea471fefa3a 100644
-> > --- a/drivers/media/i2c/ccs/ccs-core.c
-> > +++ b/drivers/media/i2c/ccs/ccs-core.c
-> > @@ -1880,21 +1880,33 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
-> >  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-> >  	int rval;
-> >  
-> > +	/*
-> > +	 * It can't use pm_runtime_resume_and_get() here, as the driver
-> > +	 * relies at the returned value to detect if the device was already
-> > +	 * active or not.
-> > +	 */
-> >  	rval = pm_runtime_get_sync(&client->dev);
-> > -	if (rval < 0) {
-> > -		pm_runtime_put_noidle(&client->dev);
-> > +	if (rval < 0)
-> > +		goto error;
-> >  
-> > -		return rval;
-> > -	} else if (!rval) {
-> > -		rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->
-> > -					       ctrl_handler);
-> > -		if (rval)
-> > -			return rval;
-> > +	/* Device was already active, so don't set controls */
-> > +	if (rval == 1)
-> > +		return 0;
-> >  
-> > -		return v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
-> > -	}
-> > +	/* Restore V4L2 controls to the suspended device */  
-> 
-> In time: I'll fold this at the patch:
-> 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index 5ea471fefa3a..4a848ac2d2cd 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -1896 +1896 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
-> -       /* Restore V4L2 controls to the suspended device */
-> +       /* Restore V4L2 controls to the previously suspended device */
-> 
-> Regards,
-> Mauro
+Changes:
+
+v1..v2:
+- improve documentation
+- imrpove coding style
+- factor out of common vp9 code into v4l2-vp9.c
+- rename V4L2_CID_STATELESS_VP9_FRAME_DECODE_PARAMS into V4L2_CID_STATELESS_VP9_FRAME
+
+This is still sent as an RFC because the works for adding the second driver (g2@imx8)
+are ongoing.
+
+The v1 was an RFC on stateless uapi for vp9 decoding with v4l2, which was based on
+https://lkml.org/lkml/2020/11/2/1043, but had been substantially reworked. The important
+change was that the v4l2 control used to pass boolean decoder probabilities had been made
+unidirectional, and was renamed V4L2_CID_STATELESS_VP9_COMPRESSED_HDR_PROBS.
+
+In the original proposal from Boris, to queue a frame the userspace must fully dequeue
+the previous one, which effectively results in a forced lockstep behavior and defeats
+vb2's capability to enqueue multiple buffers. Such a design was a consequence of backward
+probability updates being performed by the kernel driver (which has direct access to
+appropriate counter values) but forward probability updates being coupled with compressed
+header parsing performed by the userspace.
+
+In vp9 the boolean decoder used to decode the bitstream needs certain parameters to work.
+Those are probabilities, which change with each frame. After each frame is decoded it is
+known how many times a given symbol occured in the frame, so the probabilities can be adapted.
+This process is known as backward probabilities update. A next frame header can also contain
+information which modifies probabilities resulting from backward update. The said modification
+is called forward probabilities update. The data for backward update is generated by the decoder
+hardware, while the data for forward update is prepared by reading the compressed frame header.
+The natural place to parse something is userspace, while the natural place to access
+hardware-provided counters is the kernel. Such responsibilties assignment was used in the
+original work.
+
+To overcome the lockstep, we moved forward probability updates to the kernel, while leaving
+parsing them in userspace. This way the v4l2 control which is used to pass the probs becomes
+unidirectional (user->kernel) and the userspace can keep parsing and enqueueing succeeding
+frames.
+
+If a particular driver parses the compressed header and does backward probability updates
+on its own then V4L2_CID_STATELESS_VP9_COMPRESSED_HDR_PROBS does not need to be used.
+
+This series adds vp9 uapi in proper locations, which means it is a proper, "official" uapi,
+as opposed to staging uapi which was proposed in the above mentioned lkml thread.
+
+The series adds vp9 support to rkvdec driver.
+
+Rebased onto media_tree, requires this patch:
+
+https://patchwork.linuxtv.org/project/linux-media/patch/20210505122347.7576-2-andrzej.p@collabora.com/
+
+You can test rkvdec implementation with gstreamer, please clone gstreamer and then
+use these branches for -base and -bad:
+
+https://gitlab.freedesktop.org/dwlsalmeida/gst-plugins-base/-/tree/vp9-upstream-padding
+https://gitlab.freedesktop.org/dwlsalmeida/gst-plugins-bad/-/tree/vp9-upstream
+
+Example invocation:
+
+without format conversion:
+
+gst-launch-1.0 filesrc location=Big_Buck_Bunny_1080_10s_1MB.webm ! parsebin ! v4l2slvp9dec ! filesink location=out.yuv
+
+with format conversion to match vpxdec output:
+
+gst-launch-1.0 filesrc location=Big_Buck_Bunny_1080_10s_1MB.webm ! parsebin ! v4l2slvp9dec ! videoconvert ! video/x-raw,format=I420 ! filesink location=out.yuv
+
+I kindly ask for your comments.
+
+Andrzej Pietrasiewicz (2):
+  media: uapi: Add VP9 stateless decoder controls
+  media: uapi: Add VP9 v4l2 library
+
+Boris Brezillon (1):
+  media: rkvdec: Add the VP9 backend
+
+ .../userspace-api/media/v4l/biblio.rst        |   10 +
+ .../media/v4l/ext-ctrls-codec-stateless.rst   |  547 +++++
+ .../media/v4l/pixfmt-compressed.rst           |   15 +
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |    8 +
+ .../media/v4l/vidioc-queryctrl.rst            |   12 +
+ .../media/videodev2.h.rst.exceptions          |    2 +
+ drivers/media/v4l2-core/Kconfig               |    4 +
+ drivers/media/v4l2-core/Makefile              |    1 +
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  229 +++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ drivers/media/v4l2-core/v4l2-vp9.c            | 1831 +++++++++++++++++
+ drivers/staging/media/rkvdec/Kconfig          |    1 +
+ drivers/staging/media/rkvdec/Makefile         |    2 +-
+ drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1084 ++++++++++
+ drivers/staging/media/rkvdec/rkvdec.c         |   52 +-
+ drivers/staging/media/rkvdec/rkvdec.h         |    6 +
+ include/media/v4l2-ctrls.h                    |    4 +
+ include/media/v4l2-vp9.h                      |  168 ++
+ include/uapi/linux/v4l2-controls.h            |  425 ++++
+ include/uapi/linux/videodev2.h                |    6 +
+ 20 files changed, 4403 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/media/v4l2-core/v4l2-vp9.c
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
+ create mode 100644 include/media/v4l2-vp9.h
+
+
+base-commit: 0b276e470a4d43e1365d3eb53c608a3d208cabd4
+prerequisite-patch-id: d148a5f17bbb03e88c3744a166d1dd2c6088ce7d
+prerequisite-patch-id: 1817161060ef577cff00a8f7892eb9cbbfa2f327
+prerequisite-patch-id: 5d4236886083146c81f4234d5f97acf6fd6dd4e4
+-- 
+2.17.1
 
