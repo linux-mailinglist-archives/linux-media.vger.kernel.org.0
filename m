@@ -2,125 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD76A373942
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 13:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A661337398B
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 13:36:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232904AbhEELZc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 07:25:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60934 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230001AbhEELZb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 07:25:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0373C60FDB;
-        Wed,  5 May 2021 11:24:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620213875;
-        bh=rVCsHanvqm4YbOH1pKSl0D43qcxm+rzTIq9CtXtWzII=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=mGtDIMBLxCuyomx94k+BVEGqlmSHB7386cweu5nx3hDaUMDhk+yURvJ/YoigukApd
-         fKC+upgdwCvhE0htHj03x4lIiu1oo7Xt5OV32bTPhcAOw3lLppnIElbp2j12Hsm5Gp
-         6jttOLICZ0CD8ZUww33tZ2Xb9fkizYX96jrf87rZq8lpgRs99+mqpBPKGWbju5aF8T
-         0XsVi/YDGpLaWgo0BhwcEVmxWbHR/q5llS1o2KKZwSpROd+Rwwu8gxgkngD5os3ph/
-         zd5DwxsqxetKl6T1ZoLzwVZ+wd5V2B0WTqmZpbK5BV8K75+5+elGV2GqLnRgCqJgTL
-         fuNfcWIxsW+ow==
-Date:   Wed, 5 May 2021 13:24:26 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        id S233042AbhEELhO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 07:37:14 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:3015 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232934AbhEELhM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 07:37:12 -0400
+Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FZvbK0QHrz6rlWH;
+        Wed,  5 May 2021 19:28:13 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 5 May 2021 13:36:15 +0200
+Received: from localhost (10.52.120.138) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 5 May 2021
+ 12:36:14 +0100
+Date:   Wed, 5 May 2021 12:34:35 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CC:     <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH 06/25] media: i2c: imx334: fix the pm runtime get logic
-Message-ID: <20210505132426.201e9262@coco.lan>
-In-Reply-To: <20210505121040.00002094@Huawei.com>
+        <linux-rockchip@lists.infradead.org>,
+        <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH 09/25] media: hantro: do a PM resume earlier
+Message-ID: <20210505123435.00002065@Huawei.com>
+In-Reply-To: <82114a4bd9c7bc1188c6a7167a6e74bb3360961d.1620207353.git.mchehab+huawei@kernel.org>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-        <9552f3daece8bec6869b518410b2998c3fc0a1fc.1620207353.git.mchehab+huawei@kernel.org>
-        <20210505121040.00002094@Huawei.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        <82114a4bd9c7bc1188c6a7167a6e74bb3360961d.1620207353.git.mchehab+huawei@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.120.138]
+X-ClientProxiedBy: lhreml725-chm.china.huawei.com (10.201.108.76) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 5 May 2021 12:10:40 +0100
-Jonathan Cameron <Jonathan.Cameron@Huawei.com> escreveu:
+On Wed, 5 May 2021 11:41:59 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> On Wed, 5 May 2021 11:41:56 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> The device_run() first enables the clock and then
+> tries to resume PM runtime, checking for errors.
 > 
-> > The PM runtime get logic is currently broken, as it checks if
-> > ret is zero instead of checking if it is an error code,
-> > as reported by Dan Carpenter.
-> > 
-> > While here, use the pm_runtime_resume_and_get() as added by:
-> > commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> > added pm_runtime_resume_and_get() in order to automatically handle
-> > dev->power.usage_count decrement on errors. As a bonus, such function
-> > always return zero on success.
-> > 
-> > It should also be noticed that a fail of pm_runtime_get_sync() would
-> > potentially result in a spurious runtime_suspend(), instead of
-> > using pm_runtime_put_noidle().  
+> Well, if for some reason the pm_runtime can not resume,
+> it would be better to detect it beforehand.
 > 
-> Irony here is that pm_runtime_resume_and_get() returns <= 0 so with that
-> function change, you can stick with if (ret) and still be correct.
+> So, change the order inside device_run().
 > 
-> So only one of the two changes is needed to fix the bug.
+> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Yeah, I noticed ;-)
+Does this move not result in a potential call of clk_bulk_disable() for clocks
+that aren't enabled?
 
-On media, almost all devices have I2C bus(es), and I2C send/receive functions
-return positive values. So, a good practice is to check for errors with:
-
-	if (ret < 0)
-
-That's why I opted to keep both changes here ;-)
-
-Regards,
-Mauro
-
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> J
-> > 
-> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > Reviewed-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  drivers/media/i2c/imx334.c | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> > index 047aa7658d21..23f28606e570 100644
-> > --- a/drivers/media/i2c/imx334.c
-> > +++ b/drivers/media/i2c/imx334.c
-> > @@ -717,9 +717,9 @@ static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
-> >  	}
-> >  
-> >  	if (enable) {
-> > -		ret = pm_runtime_get_sync(imx334->dev);
-> > -		if (ret)
-> > -			goto error_power_off;
-> > +		ret = pm_runtime_resume_and_get(imx334->dev);
-> > +		if (ret < 0)
-> > +			goto error_unlock;
-> >  
-> >  		ret = imx334_start_streaming(imx334);
-> >  		if (ret)
-> > @@ -737,6 +737,7 @@ static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
-> >  
-> >  error_power_off:
-> >  	pm_runtime_put(imx334->dev);
-> > +error_unlock:
-> >  	mutex_unlock(&imx334->mutex);
-> >  
-> >  	return ret;  
-> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 595e82a82728..4387edaa1d0d 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -152,13 +152,14 @@ static void device_run(void *priv)
+>  	src = hantro_get_src_buf(ctx);
+>  	dst = hantro_get_dst_buf(ctx);
+>  
+> -	ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
+> -	if (ret)
+> -		goto err_cancel_job;
+>  	ret = pm_runtime_get_sync(ctx->dev->dev);
+>  	if (ret < 0)
+>  		goto err_cancel_job;
+>  
+> +	ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
+> +	if (ret)
+> +		goto err_cancel_job;
+> +
+>  	v4l2_m2m_buf_copy_metadata(src, dst, true);
+>  
+>  	ctx->codec_ops->run(ctx);
 
-
-
-Thanks,
-Mauro
