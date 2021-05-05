@@ -2,106 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4DF2373D96
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 16:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A2B3373DAD
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 16:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232836AbhEEOYc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 10:24:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42118 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232283AbhEEOYb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 10:24:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 22F9361029;
-        Wed,  5 May 2021 14:23:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620224614;
-        bh=fHzvZb04EncTIhKLD9UpQo/lk3yj1BkGTtkLC0Aet3s=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=eR+gstgGSeKG+jWCsGQlOUU36DMvvYokFuDdQ8fWjhCk8SwIcIUeRsqMiy1w9JzOQ
-         olgBZoyo/vuZ3T6yhYdZkzp76Wt/WHpTuyt6rusu8cCI7MhauTYQIlJLD8bUCeiWKQ
-         a8vnBbb2ISRqNebLFV1/Qpud/P7sJDlJyy17vcNNHi+790hKOJcHxjTwbi70yt7LMR
-         klp08xMRp1mXYk928MshmGC8Li2JXImIuvuLGPT9amHX95fyA2jXKdqWJFBKZISGve
-         1+5qAtjO7WDzl5NYuFt+9rMdMyUZLBaQRFrpP3sbObpd/8xvzDoDey3oACapIaVrIc
-         08Zz5Gi6x+aPQ==
-Date:   Wed, 5 May 2021 16:23:28 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Rui Miguel Silva" <rmfrfs@gmail.com>
-Cc:     "Jonathan Cameron" <Jonathan.Cameron@Huawei.com>,
-        <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
-        "Fabio Estevam" <festevam@gmail.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "NXP Linux Team" <linux-imx@nxp.com>,
-        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        "Sascha Hauer" <s.hauer@pengutronix.de>,
-        "Shawn Guo" <shawnguo@kernel.org>,
-        "Steve Longerbeam" <slongerbeam@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH 02/25] staging: media: imx7-mipi-csis: fix
- pm_runtime_get_sync() usage count
-Message-ID: <20210505162328.1e5fff80@coco.lan>
-In-Reply-To: <CB5D4B64QTP4.GBH80G3VX3B6@arch-thunder>
-References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-        <793a5806a63b6313606fd1c344b9eec41e61a440.1620207353.git.mchehab+huawei@kernel.org>
-        <20210505120652.00001236@Huawei.com>
-        <CB5D4B64QTP4.GBH80G3VX3B6@arch-thunder>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S232816AbhEEOay (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 10:30:54 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:50207 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231792AbhEEOav (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 May 2021 10:30:51 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id eIX8lNQLoWztCeIXBlLhcm; Wed, 05 May 2021 16:29:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1620224994; bh=CoLigjWlMF4XQZsbOq0TxYrVuOXY0X4UEiYtrK544OQ=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ufeaar4rUtNVtUuIRQFY2XWA1HwQQw0BYAHXPkNl70EVTqa1HQDHrMZH7DnnSHuO4
+         9xYtWnkd3t1BjMa58idYCdAg8CzhdGvq12zI0JCjw/k7TjPwfgZf1nxODwTwPJRHDR
+         NaLNMhWVZr7352vLrmX5dIR1cl8E7GevKK4knNz8q3SkY3N68sjxdb8GpcKIdeLlU4
+         uHGsBHz05NDMdMVFRTGDKLIAJ4FaEKF2ngZe0ZrTSKtFT0JuiG7wsvMJ2WoeERe3DF
+         xJ8dY3uo89SXaR30UPybXhxQIcCE1pVpIDmyXQKlE7UJDGTJ4EsrQ0sCmFlzj401iX
+         jGZWflEH9y9Lw==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     emil.velikov@collabora.com
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.14] Microchip SAMA5D4 VPU support
+Message-ID: <d674ef0f-b73d-ca99-6287-66545edc72aa@xs4all.nl>
+Date:   Wed, 5 May 2021 16:29:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfNOGdtNLrL4dZENhrIBZdIfn9A2mUbQLXdNlwJQZzfJw9B1oAHFff1fCVgZP8NUDo1VCjuQOGBlxYAiwUWYShodHOWs653V/N60IKx7aXBCknWEG13Im
+ iH97EHaFgGMNk3ZFgQ1s/DS/lSlRGUi4ryxIRw5bUw5Zeaxf7fTrlMe+ZDG+IcNFYVyGS05SbLN3EgTU2RKwNyPngzo0n31DkoQ7ZpcJgEzrTIQLASxlRmf9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 05 May 2021 14:56:40 +0100
-"Rui Miguel Silva" <rmfrfs@gmail.com> escreveu:
+Thank you, Emil!
 
-> Hi,
-> On Wed May 5, 2021 at 12:06 PM WEST, Jonathan Cameron wrote:
-> 
-> > On Wed, 5 May 2021 11:41:52 +0200
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> >  
-> > > The pm_runtime_get_sync() internally increments the
-> > > dev->power.usage_count without decrementing it, even on errors.
-> > > Replace it by the new pm_runtime_resume_and_get(), introduced by:
-> > > commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> > > in order to properly decrement the usage counter, avoiding
-> > > a potential PM usage counter leak.
-> > > 
-> > > Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> >
-> > Not a fix as far as I can see, just a cleanup - so perhaps not this set?  
-> 
-> yes, the original changelog of this patch, that I acked,  made it
-> clear it was a cleanup:
-> 
-> "
-> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to
-> deal with usage counter")                                                                                                                                         
-> added pm_runtime_resume_and_get() in order to automatically handle 
-> dev->power.usage_count decrement on errors.
-> 
-> Use the new API, in order to cleanup the error check logic.
-> "
-> 
-> This one above is new, but I saw Mauro is going change it.
+	Hans
 
-Yes, I'll change the subject/description to the
-"use pm_runtime_resume_and_get()" one on this patch, as there's
-no issue to be fixed here, just a cleanup ;-)
+The following changes since commit 0b276e470a4d43e1365d3eb53c608a3d208cabd4:
 
-Sorry for the mess. I did lots of rebase on ~80 patch series
-over the last couple of days, based on the reviews (and my own
-internal reviews)...
+  media: coda: fix macroblocks count control usage (2021-04-15 13:23:26 +0200)
 
-See, the current patchset has ~80 patches with ~30% contained
-fixes. It shows that writing a balanced PM runtime code is not
-so trivial ;-)
+are available in the Git repository at:
 
-Thanks,
-Mauro
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14c
+
+for you to fetch changes up to 9a66affa6ff0d21cafc5af8f21edd328f3eaf009:
+
+  media: hantro: add initial SAMA5D4 support (2021-05-05 16:13:09 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Emil Velikov (8):
+      media: hantro: use G1_REG_INTERRUPT directly for the mpeg2
+      media: hantro: imx: reuse MB_DIM define
+      media: hantro: imx: remove duplicate dec_base init
+      media: hantro: imx: remove unused include
+      media: hantro: introduce hantro_g1.c for common API
+      media: hantro: add fallback handling for single irq/clk
+      media: dt-bindings: Document SAMA5D4 VDEC bindings
+      media: hantro: add initial SAMA5D4 support
+
+ Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml |  47 +++++++++++++
+ drivers/staging/media/hantro/Kconfig                                |  10 ++-
+ drivers/staging/media/hantro/Makefile                               |   4 ++
+ drivers/staging/media/hantro/hantro_drv.c                           |  40 ++++++++---
+ drivers/staging/media/hantro/hantro_g1.c                            |  39 +++++++++++
+ drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c                  |   5 +-
+ drivers/staging/media/hantro/hantro_hw.h                            |   4 ++
+ drivers/staging/media/hantro/imx8m_vpu_hw.c                         |  27 +-------
+ drivers/staging/media/hantro/rk3288_vpu_hw.c                        |  36 ++--------
+ drivers/staging/media/hantro/sama5d4_vdec_hw.c                      | 117 ++++++++++++++++++++++++++++++++
+ 10 files changed, 261 insertions(+), 68 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+ create mode 100644 drivers/staging/media/hantro/hantro_g1.c
+ create mode 100644 drivers/staging/media/hantro/sama5d4_vdec_hw.c
