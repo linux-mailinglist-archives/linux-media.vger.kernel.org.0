@@ -2,133 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4669A3737EC
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D6D637380C
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:48:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232936AbhEEJnl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 05:43:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48708 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232504AbhEEJnR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 05:43:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BA8CE61581;
-        Wed,  5 May 2021 09:42:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620207739;
-        bh=n8BdYNFKHpGuvTsaDKiqExH9RPNm4SzImqrTD24XJEw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D5T/Giy9UwbacLo5/r243zsPBZ7bkoG9N39UtkebzGibE2JzsvfvECZm6Zbguc6Uu
-         GTLD3m8D6+iHXCihxX/T3oEYcyShEYVZ6ZuebL91GQWXu2ErP1Pin4TxjkmC0Z3Mn4
-         /Rlz+WQTgF+x/qdH+qzMCxRvzMCOQpnUsbHZsPs2Oi0fV4xStJEi6cNxY96KVK42Ee
-         lfbW+cPG8uR0sAT5xyjz37bkVSrTe7am2zPJQAnYECVG0ALKFGx2k9aPchNc6zBr/E
-         Ursdkl9WjSgrF4HHILE35g25HfkopYqDbw/2QlF3c7I64raujdA+cbcWmF0ZLGalk4
-         daiAuIpELUvOw==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1leE2r-00AHx1-Lz; Wed, 05 May 2021 11:42:17 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        id S233072AbhEEJt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 05:49:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60002 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233002AbhEEJtY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 05:49:24 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2536CC061574;
+        Wed,  5 May 2021 02:48:25 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 2so1704796lft.4;
+        Wed, 05 May 2021 02:48:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=T9xggn2FMiHUCK0JlgIAaoS/FDcktmglWb4xoxeN6Tg=;
+        b=RMdoQG/DGvhjj378i2tgVHLSU7jPCo8Q3GAdPuFYp6Els+PiHp77O/IHNmbxSb+hOD
+         IQmq10ICgbhp3gULA5p22NXW7Ify3NZwatHUWvJmWqmPmsMJICeKYccd3dR9Fd6kLiiO
+         9Le+1+wRrIgHWYku54L1HX8KBNWufzjB9CSpfymTu6w500Vq65JXfzGphiR7zgCT1GMo
+         T2IX3iDpsEDLcQAaCpXuJQF5TtAxym6tyHDnpxcfbaI+zqvUP7vhN+L63tY7QAgFMH2G
+         z5OxOn95+iqqV3mO582NFFtBjB42z1nNiDqBnHdRFcmwpHywoVD1hPOLH48gP9m0/wp3
+         5P8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=T9xggn2FMiHUCK0JlgIAaoS/FDcktmglWb4xoxeN6Tg=;
+        b=A/0dBZbN6WxJWKP34qS45EVq4fAAiURMAH5wPBMAHYZDOWH3/e5kRfaieo2S9Uwich
+         E1Qa/4P3Tt/6DAy865cMw2oZdgFsUoyZBlYZFGFSJjDIg6cAzqUIit+wTNsBxB0Ebovn
+         4alShfxF7iMtb7+Fgdj/PLjsRXh3uJodRgz6uoABIm5IdQtMOaB9+MRENJSC8NSBBi0D
+         GYSegakkYW57VKrOfma0TsStNcF/irTvSA5DhJpJfnnVulmYL5ib0i/T4I5I9UDbdnXv
+         Uq0rqLzaAMLwCgQa9ooJwpnpOS0LmOMMxhkUnibC/UBWHnMA0c/N6Ok4Xe/uaetTHvPO
+         RJVA==
+X-Gm-Message-State: AOAM533uPonWtDQeEKjavvnBIlmVjhd3IXiczp1qn2dY+E09Gjrj/GH0
+        f7J/HXVvIF+Vx5cy42jxwIkaU3aQxQU=
+X-Google-Smtp-Source: ABdhPJwNQpAAyMQzifb+wR7LJgqRVho6ApD70rHoAY1Gt66RZsTl0RO2v2lvGHo8oeN2+QIarHBIpQ==
+X-Received: by 2002:a05:6512:92e:: with SMTP id f14mr19752982lft.347.1620208103478;
+        Wed, 05 May 2021 02:48:23 -0700 (PDT)
+Received: from [192.168.1.100] ([31.173.83.246])
+        by smtp.gmail.com with ESMTPSA id z27sm2009990ljn.23.2021.05.05.02.48.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 May 2021 02:48:23 -0700 (PDT)
+Subject: Re: [PATCH 12/25] media: rcar_fdp1: simplify error check logic at
+ fdp_open()
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 25/25] media: i2c: ccs-core: fix pm_runtime_get_sync() usage count
-Date:   Wed,  5 May 2021 11:42:15 +0200
-Message-Id: <83ec24acb15f17e2ce589575c2f5eb7bdd1daf28.1620207353.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1620207353.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
+ <c9e7c9b02841c149b0127a7658d2a3e2828cfb90.1620207353.git.mchehab+huawei@kernel.org>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <42cf9dff-5c8a-02bd-610f-d88507eb7519@gmail.com>
+Date:   Wed, 5 May 2021 12:48:17 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <c9e7c9b02841c149b0127a7658d2a3e2828cfb90.1620207353.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pm_runtime_get_sync() internally increments the
-dev->power.usage_count without decrementing it, even on errors.
+Hello!
 
-There is a bug at ccs_pm_get_init(): when this function returns
-an error, the stream is not started, and RPM usage_count
-should not be incremented. However, if the calls to
-v4l2_ctrl_handler_setup() return errors, it will be kept
-incremented.
+On 05.05.2021 12:42, Mauro Carvalho Chehab wrote:
 
-At ccs_suspend() the best is to replace it by the new
-pm_runtime_resume_and_get(), introduced by:
-commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-in order to properly decrement the usage counter automatically,
-in the case of errors.
+> Avoid some code duplication by moving the common error path
+> logit at fdp_open().
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/i2c/ccs/ccs-core.c | 39 ++++++++++++++++++++------------
- 1 file changed, 24 insertions(+), 15 deletions(-)
+    Logic?
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index b05f409014b2..04c3ab9e37b4 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -1880,21 +1880,33 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
- 	int rval;
- 
-+	/*
-+	 * It can't use pm_runtime_resume_and_get() here, as the driver
-+	 * relies at the returned value to detect if the device was already
-+	 * active or not.
-+	 */
- 	rval = pm_runtime_get_sync(&client->dev);
--	if (rval < 0) {
--		pm_runtime_put_noidle(&client->dev);
-+	if (rval < 0)
-+		goto error;
- 
--		return rval;
--	} else if (!rval) {
--		rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->
--					       ctrl_handler);
--		if (rval)
--			return rval;
-+	/* Device was already active, so don't set controls */
-+	if (rval == 1)
-+		return 0;
- 
--		return v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
--	}
-+	/* Restore V4L2 controls to the suspended device */
-+	rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
-+	if (rval)
-+		goto error;
- 
-+	rval = v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
-+	if (rval)
-+		goto error;
-+
-+	/* Keep PM runtime usage_count incremented on success */
- 	return 0;
-+error:
-+	pm_runtime_put_noidle(&client->dev);
-+	return rval;
- }
- 
- static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
-@@ -3089,12 +3101,9 @@ static int __maybe_unused ccs_suspend(struct device *dev)
- 	bool streaming = sensor->streaming;
- 	int rval;
- 
--	rval = pm_runtime_get_sync(dev);
--	if (rval < 0) {
--		pm_runtime_put_noidle(dev);
--
-+	rval = pm_runtime_resume_and_get(dev);
-+	if (rval < 0)
- 		return rval;
--	}
- 
- 	if (sensor->streaming)
- 		ccs_stop_streaming(sensor);
--- 
-2.30.2
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+[...]
 
+MBR, Sergei
