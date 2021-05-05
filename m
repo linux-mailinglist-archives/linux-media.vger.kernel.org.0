@@ -2,94 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D70A03736EB
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D663D37376B
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:23:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232236AbhEEJTT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 05:19:19 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:55097 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231987AbhEEJTQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 05:19:16 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id eDfalkaaVyEWweDfelumJB; Wed, 05 May 2021 11:18:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1620206299; bh=uFqvRwOLsMa7SIQMsQ5/JoCIwOaiv0b6VkBg1dtVN3c=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=EyiCUfh4g4r1oXOpTnrOc7cvDVCT4mizeUXhPkrLHVqd4HCUPXYnS/Csu4Ty4YjQL
-         o83XyTq5H0kACQ2mruR5HAtwkXiaRlDkkd4QDmA4Ygx1mkUL0YSfi3MdxovTiVC2AY
-         VwBQq575GZHxs/MGPdMkhxhCtRAPde8TC+87Sp8uQuaXcUwMUuWriWlJj7k3b/r3hZ
-         lXIezVvUFELfHHiSQp0/lUg7r8SngbWshr8giYVATUKpTK2hI0OqJEjSto6BGeFV9o
-         Iix2SRAqqBxvAa1FD/00Z6qVCo8TRneI5cPuqILXTFpzEvQQ5r3FDTPghDf7m31LNt
-         rae268bThwPJw==
-Subject: Re: [PATCH] media: cobalt: fix null-ptr-deref when there is no PCI
- bridge
-To:     Tong Zhang <ztong0001@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210424005206.261622-1-ztong0001@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <b84e0b87-4753-0513-9803-0cda4ceb4adc@xs4all.nl>
-Date:   Wed, 5 May 2021 11:18:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        id S232629AbhEEJYe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 05:24:34 -0400
+Received: from gofer.mess.org ([88.97.38.141]:49831 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232715AbhEEJYU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 May 2021 05:24:20 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 79866C63B7; Wed,  5 May 2021 10:23:22 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1620206602; bh=NcI80OiY7iMVsOxAZGIoa0r26MTmLyLN2E0F5oSZZ+g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lFnP+dXgI0lvGnpbufNmcB6Dp12mIUBARifp7Eho+w1kRy8pZyXc9dtExoGDLBFuN
+         jx0FNBlEsUsSshn8CDX/q0H7sVSrQ5gpt9KW68V3ssO/1gzvqXLtr6AoHwMj6Ek52D
+         W1LgszFhHYN33gGXjES+VVvWqBZ6zYspi8R6v0QtNBiOg8vCHhGkfR4dSiX1zW4yGB
+         F0+33jw5Dx5uAGCoV9kt77HSm0y9Ti+zCANpFhbFY5+QuXatnVmsvOkOqmNpVQuGMf
+         T+G1rO9984B22sD0a/e//7HSG1lNL1KB6uhj0mlIQyhtLfhsnXGpoFR/30BwwwCBXu
+         oxnzMMu9v0K7w==
+Date:   Wed, 5 May 2021 10:23:22 +0100
+From:   Sean Young <sean@mess.org>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>
+Subject: Re: [PATCH 2/3] media: rc: new driver for USB-UIRT device
+Message-ID: <20210505092322.GA14524@gofer.mess.org>
+References: <cover.1620149665.git.sean@mess.org>
+ <92bbe875e1783c7bc79cde33d783eab66ef9cd46.1620149665.git.sean@mess.org>
+ <df5bef579be9bee300c42cf3e03c9b029c83a800.camel@suse.com>
 MIME-Version: 1.0
-In-Reply-To: <20210424005206.261622-1-ztong0001@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfEoTHaoLL+uzMYkeMiBfZMc9OFcCGcXwTwWbX1s2vdLVpxIYkt+xcS3wDYUm+2AX4ee9AHwZwSPFMKMXneINE/QyNY5p9O5ZQc17K5MuafpXlAiHg7UK
- kLiZsHESNKJfCzOoWWrvKZEAToXGqADzdeldVCMOj3GfnwPXL+0nOlfptMv7eges425RrR0YXrKwUjeX8TeAbKXiDZMkJuSBA4l1eXs9jPr9qWGv/4rQoJAZ
- 9cXRYLyC/wpYYpfqzIUY8IADRMewg0wUSeEZ1bXuXdPmutKrFUx5QEKoOiWS63DF2RQOdAwl7PFZDklLwme1kA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <df5bef579be9bee300c42cf3e03c9b029c83a800.camel@suse.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/04/2021 02:52, Tong Zhang wrote:
-> the PCI bridge might be NULL, so we'd better check before use it
+Hi,
+
+On Wed, May 05, 2021 at 10:50:01AM +0200, Oliver Neukum wrote:
+> Am Dienstag, den 04.05.2021, 18:52 +0100 schrieb Sean Young:
+> > See http://www.usbuirt.com/
+> > 
 > 
-> [    1.870569] RIP: 0010:pcie_bus_link_get_lanes.isra.0+0x26/0x59 [cobalt]
-> [    1.875880] Call Trace:
-> [    1.876013]  cobalt_probe.cold+0x1be/0xc11 [cobalt]
-> [    1.876683]  pci_device_probe+0x10f/0x1c0
-
-How did you test this? With some virtualized PCI bus or something? I'm not sure
-how this can happen.
-
-Regards,
-
-	Hans
-
+> Hi,
 > 
-> Signed-off-by: Tong Zhang <ztong0001@gmail.com>
-> ---
->  drivers/media/pci/cobalt/cobalt-driver.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
-> index 0695078ef812..5687ed4869ac 100644
-> --- a/drivers/media/pci/cobalt/cobalt-driver.c
-> +++ b/drivers/media/pci/cobalt/cobalt-driver.c
-> @@ -189,6 +189,8 @@ void cobalt_pcie_status_show(struct cobalt *cobalt)
->  	u32 capa;
->  	u16 stat, ctrl;
->  
-> +	if (!pci_bus_dev)
-> +		return;
->  	if (!pci_is_pcie(pci_dev) || !pci_is_pcie(pci_bus_dev))
->  		return;
->  
-> @@ -247,6 +249,8 @@ static unsigned pcie_bus_link_get_lanes(struct cobalt *cobalt)
->  	struct pci_dev *pci_dev = cobalt->pci_dev->bus->self;
->  	u32 link;
->  
-> +	if (!pci_dev)
-> +		return 0;
->  	if (!pci_is_pcie(pci_dev))
->  		return 0;
->  	pcie_capability_read_dword(pci_dev, PCI_EXP_LNKCAP, &link);
-> 
+> nice driver, just a few issues.
+> I have marked them inline.
 
+Thank you for the review, I appreciate it.
+
+> 	Regards
+> 		Oliver
+> 
+> > +
+> > +#define WDR_TIMEOUT 5000 /* default urb timeout */
+> 
+> That is the default ctrl timeout. Do you need this?
+
+Good point, no I don't.
+
+> > +#define WDR_SHORT_TIMEOUT 1000	/* shorter urb timeout */
+> > +#define UNIT_US 50
+> > +#define IR_TIMEOUT 12500
+> > +#define MAX_PACKET 64
+> > 
+> > +static int uirt_tx(struct rc_dev *rc, uint *txbuf, uint count)
+> > +{
+> > +	struct uirt *uirt = rc->priv;
+> > +	u8 *out;
+> > +	u32 i, dest, unit_raw, freq, len;
+> > +	int err;
+> > +
+> > +	// streaming tx does not work for short IR; use non-streaming
+> > +	// tx for short IR
+> > +	if (count <= 24)
+> > +		return uirt_short_tx(rc, txbuf, count);
+> > +
+> > +	out = kmalloc(count * 2 + 3, GFP_KERNEL);
+> > +	if (!out)
+> > +		return -ENOMEM;
+> > +
+> > +	out[0] = 0x25; // Streaming Transmit
+> > +	out[1] = 0xdb; // checksum
+> 
+> A constant checksum? Now that is a new concept.
+
+Yes, this really needs a comment. It is a checksum over the command, which
+in this case is just the previous byte. I'll add a comment.
+
+> > +	out[2] = uirt->freq; // carrier frequency
+> > +
+> > +	dest = 3;
+> > +
+> > +	freq = uirt->freq & 0x7f;
+> > +
+> > +	for (i = 0; i < count; i++) {
+> > +		// width = (us / freq) * 2.5
+> > +		unit_raw = DIV_ROUND_CLOSEST(txbuf[i] * 5, freq * 2);
+> > +
+> > +		if (unit_raw == 0)
+> > +			unit_raw = 1;
+> > +		else if (unit_raw > 127)
+> > +			out[dest++] = (unit_raw >> 8) | 0x80;
+> > +
+> > +		out[dest++] = unit_raw;
+> > +	}
+> > +
+> > +	len = min_t(u32, dest, MAX_PACKET);
+> > +
+> > +	uirt->tx_buf = out + len;
+> > +	uirt->tx_len = dest - len;
+> > +
+> > +	err = uirt_command(uirt, out, len, CMD_STATE_STREAMING_TX);
+> > +	kfree(out);
+> > +	if (err != 0)
+> > +		return err;
+> > +
+> > +	return count;
+> > +}
+> > +
+> > 
+> > +static int uirt_probe(struct usb_interface *intf,
+> > +		      const struct usb_device_id *id)
+> > +{
+> > +	struct usb_host_interface *idesc = intf->cur_altsetting;
+> > +	struct usb_device *usbdev = interface_to_usbdev(intf);
+> > +	struct usb_endpoint_descriptor *ep_in = NULL;
+> > +	struct usb_endpoint_descriptor *ep_out = NULL;
+> > +	struct usb_endpoint_descriptor *ep = NULL;
+> > +	struct uirt *uirt;
+> > +	struct rc_dev *rc;
+> > +	struct urb *urb;
+> > +	int i, pipe, err = -ENOMEM;
+> > +
+> > +	for (i = 0; i < idesc->desc.bNumEndpoints; i++) {
+> > +		ep = &idesc->endpoint[i].desc;
+> > +
+> > +		if (!ep_in && usb_endpoint_is_bulk_in(ep) &&
+> > +		    usb_endpoint_maxp(ep) == MAX_PACKET)
+> > +			ep_in = ep;
+> > +
+> > +		if (!ep_out && usb_endpoint_is_bulk_out(ep) &&
+> > +		    usb_endpoint_maxp(ep) == MAX_PACKET)
+> > +			ep_out = ep;
+> > +	}
+> > +
+> > +	if (!ep_in || !ep_out) {
+> > +		dev_err(&intf->dev, "required endpoints not found\n");
+> > +		return -ENODEV;
+> > +	}
+> > +
+> > +	uirt = kzalloc(sizeof(*uirt), GFP_KERNEL);
+> > +	if (!uirt)
+> > +		return -ENOMEM;
+> > +
+> > +	uirt->in = kmalloc(MAX_PACKET, GFP_KERNEL);
+> > +	if (!uirt->in)
+> > +		goto free_uirt;
+> > +
+> > +	uirt->out = kmalloc(MAX_PACKET, GFP_KERNEL);
+> > +	if (!uirt->out)
+> > +		goto free_uirt;
+> > +
+> > +	rc = rc_allocate_device(RC_DRIVER_IR_RAW);
+> > +	if (!rc)
+> > +		goto free_uirt;
+> > +
+> > +	urb = usb_alloc_urb(0, GFP_KERNEL);
+> > +	if (!urb)
+> > +		goto free_rcdev;
+> > +
+> > +	pipe = usb_rcvbulkpipe(usbdev, ep_in->bEndpointAddress);
+> > +	usb_fill_bulk_urb(urb, usbdev, pipe, uirt->in, MAX_PACKET,
+> > +			  uirt_in_callback, uirt);
+> > +	uirt->urb_in = urb;
+> > +
+> > +	urb = usb_alloc_urb(0, GFP_KERNEL);
+> > +	if (!urb)
+> > +		goto free_rcdev;
+> > +
+> > +	pipe = usb_sndbulkpipe(usbdev, ep_out->bEndpointAddress);
+> > +	usb_fill_bulk_urb(urb, usbdev, pipe, uirt->out, MAX_PACKET,
+> > +			  uirt_out_callback, uirt);
+> > +
+> > +	uirt->dev = &intf->dev;
+> > +	uirt->usbdev = usbdev;
+> > +	uirt->rc = rc;
+> > +	uirt->urb_out = urb;
+> > +	uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
+> > +
+> > +	err = usb_submit_urb(uirt->urb_in, GFP_KERNEL);
+> > +	if (err != 0) {
+> > +		dev_err(uirt->dev, "failed to submit read urb: %d\n",
+> > err);
+> > +		return err;
+> 
+> Massive memory leak. You cannot just return.
+
+Yes, that's broken. Thanks for catching that. I'll go over the error paths.
+
+Thanks again for the review, I'll send out v2 when I'm done.
+
+
+Sean
