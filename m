@@ -2,307 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2012337339C
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 03:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4C5F3733F3
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 05:39:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232130AbhEEBjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 May 2021 21:39:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37682 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231991AbhEEBjD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 May 2021 21:39:03 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F06CC061574
-        for <linux-media@vger.kernel.org>; Tue,  4 May 2021 18:38:07 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id g15-20020a9d128f0000b02902a7d7a7bb6eso345409otg.9
-        for <linux-media@vger.kernel.org>; Tue, 04 May 2021 18:38:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=lX6vTVdP28sAUcsZAx6P7d8fEnuW4SnnYR6kFB2r4Dk=;
-        b=PziAM8UzWWk2O/fAzTSdFRXR7VcbJ09nbjUox6Gj//Qu/D9P8KlV8l6Au+ElQtRw6X
-         8T8bE2mwD02yOI1opc3c1rt4s5Ex9Iad+xA8TfnCoKIdoe/LnfsTFq+5m5hVVkxJGjxk
-         LTm7cuzIh7Xb0zG00C464iaHUBYkOtxO/4ces=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=lX6vTVdP28sAUcsZAx6P7d8fEnuW4SnnYR6kFB2r4Dk=;
-        b=LOvnAnEoGmYMl8KK5+vQV5jVNzhG/Of00N0MXIx1ticao7X7XFFDRE0/GrpAhMYMRk
-         BYndmGhO/yR5vD5DBN8kCYfP2bFkQf3M7xNMH11Sgvzx5XzxGbtJFSHKeI1abeneQoBw
-         KUYSotj2edZWKUK1BU8/Z5CGHARNbKHZF18eUT1iQDjbd1mMHfA387jLmN6bMR7h55uR
-         wdq1oe+RPFQZLKY/H6vy9tLIjekPBhtdCY2RMZzopbTPSw8iMSFIzISTbqjbAcgkdCgG
-         KDtKbA4X4Sd23Gnn9RfhdYi1BGQnd69jEBUA2WIn6Kkw+nnHv33AHG52c9YGhFqnQ+Hy
-         dr3g==
-X-Gm-Message-State: AOAM5307eWSDd5EkuTWjnfBmHjMmeslpgUd5boXq1sbYQ/nL41Yl/O65
-        /NEPYXZW1z5NPIE3jIJEcAZ054GGHwJHSy2qXa7kaA==
-X-Google-Smtp-Source: ABdhPJzro2JKCy5vcnXa+onhPlmyRkPLgrndLJM9Va0ydjoM12Zj8/ZTtsjIG2ChK4qCSQ+1i5lO2Rxulpu23l1dX20=
-X-Received: by 2002:a9d:1ea9:: with SMTP id n38mr22439486otn.233.1620178686562;
- Tue, 04 May 2021 18:38:06 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 4 May 2021 21:38:05 -0400
-MIME-Version: 1.0
-In-Reply-To: <20210420111355.18462-1-rojay@codeaurora.org>
-References: <20210420111355.18462-1-rojay@codeaurora.org>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date:   Tue, 4 May 2021 21:38:05 -0400
-Message-ID: <CAE-0n51iyNgVW4Vra2C_4FAqQECU-aqAHLWZ+kB2Xv3i-inxiQ@mail.gmail.com>
-Subject: Re: [PATCH V9] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
-Cc:     dianders@chromium.org, saiprakash.ranjan@codeaurora.org,
-        gregkh@linuxfoundation.org, mka@chromium.org,
-        skananth@codeaurora.org, msavaliy@qti.qualcomm.com,
-        skakit@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S231228AbhEEDkH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 May 2021 23:40:07 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:53667 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229617AbhEEDkH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 4 May 2021 23:40:07 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id e8NPlW3j9Um2ue8NSlJeUZ; Wed, 05 May 2021 05:39:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1620185950; bh=/mWG3GnusQSe0nnJsRGbF8idkqNpH9vGWfDHz9J/vfQ=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=NJEHmr/TqXV1bEBHkZ87/43ijGNLVkKENZkJymO6MzweIUSdR/8nWOsAYiHcVKsHC
+         kkmthavX6sZ3E6TfK8GqlEDHRXdLB+bjynPQtOWOjNNYxv9kQZtLdeHyVEZhENNdCX
+         X1uTbKaSsStdKFhv1wTvHAqv5TLR5wKKCzqbLwr4RN1EBtZI4RsSyYF+GWJUPrtAKj
+         0HZqn+ebVPQMPCP+Q01YlcI3eYZ3fZb1CoNgW/KAlsoW++YsR/P0QvzgPb4WuTI/P6
+         n6mgkNX2vHCmThCxLJvGxY5yatrWdGjw9Z8i2PpmkhVyMiW5GqxM9nHzTFXoxfHmTH
+         GAFdtPd7p0QmA==
+Message-ID: <91fe9b91e01ba2162a600e06ac1055d2@smtp-cloud8.xs4all.net>
+Date:   Wed, 05 May 2021 05:39:07 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfF1MSbGproi9fjVF+rTUVF0VzG4XG+9++FzjqoIQ/J4InpNbqf5WjZEuaER856Vhh/yCRJrWLMZ7XLOMXj2cSw8mDUeiznU4DJa7fR6Salp/kOdphkdn
+ WxqbTUwKLKyv7ACnM2qbHHryoAdUniJ+9pBGShzf6MdLqv08AXuPOrA+ncfHMPIQZTTUDyA0Gz9LRuLQv+GgPpxDv/rW1PYLYJOedvUT7LBK6HADmoWN/RLg
+ ibDBBpGg71yE50r9rEpmLg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Roja Rani Yarubandi (2021-04-20 04:13:55)
-> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-> index 214b4c913a13..8ae17ccad99e 100644
-> --- a/drivers/i2c/busses/i2c-qcom-geni.c
-> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
-> @@ -71,6 +71,8 @@ enum geni_i2c_err_code {
->  #define ABORT_TIMEOUT          HZ
->  #define XFER_TIMEOUT           HZ
->  #define RST_TIMEOUT            HZ
-> +#define ABORT_XFER             0
-> +#define STOP_AND_ABORT_XFER    1
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-These should be an enum.
+Results of the daily build of media_tree:
 
->
->  struct geni_i2c_dev {
->         struct geni_se se;
-> @@ -89,6 +91,7 @@ struct geni_i2c_dev {
->         void *dma_buf;
->         size_t xfer_len;
->         dma_addr_t dma_addr;
-> +       bool stop_xfer;
->  };
->
->  struct geni_i2c_err_log {
-> @@ -215,6 +218,11 @@ static irqreturn_t geni_i2c_irq(int irq, void *dev)
->         struct i2c_msg *cur;
->
->         spin_lock(&gi2c->lock);
-> +       if (!gi2c->cur) {
-> +               dev_err(gi2c->se.dev, "Can't process irq, gi2c->cur is NULL\n");
+date:			Wed May  5 05:00:11 CEST 2021
+media-tree git hash:	0b276e470a4d43e1365d3eb53c608a3d208cabd4
+media_build git hash:	1521b23ea5307bef1ee17489c5323f00891dd52b
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7413-g9bb66fa2d
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3ce9a878c7e648b006568e3fa69a2c4fcd251925
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-This error message is worthless. The user won't know what to do and then
-we return IRQ_HANDLED? If the device is misbehaving we should return
-IRQ_NONE and shut down the irq storm that will soon be upon us, not
-print an error message and hope for the best.
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: ERRORS
+linux-5.12.1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-> +               spin_unlock(&gi2c->lock);
-> +               return IRQ_HANDLED;
-> +       }
->         m_stat = readl_relaxed(base + SE_GENI_M_IRQ_STATUS);
->         rx_st = readl_relaxed(base + SE_GENI_RX_FIFO_STATUS);
->         dm_tx_st = readl_relaxed(base + SE_DMA_TX_IRQ_STAT);
-> @@ -222,8 +230,7 @@ static irqreturn_t geni_i2c_irq(int irq, void *dev)
->         dma = readl_relaxed(base + SE_GENI_DMA_MODE_EN);
->         cur = gi2c->cur;
->
-> -       if (!cur ||
-> -           m_stat & (M_CMD_FAILURE_EN | M_CMD_ABORT_EN) ||
-> +       if (m_stat & (M_CMD_FAILURE_EN | M_CMD_ABORT_EN) ||
->             dm_rx_st & (DM_I2C_CB_ERR)) {
->                 if (m_stat & M_GP_IRQ_1_EN)
->                         geni_i2c_err(gi2c, NACK);
-> @@ -301,17 +308,19 @@ static irqreturn_t geni_i2c_irq(int irq, void *dev)
->         return IRQ_HANDLED;
->  }
->
-> -static void geni_i2c_abort_xfer(struct geni_i2c_dev *gi2c)
-> +static void geni_i2c_abort_xfer(struct geni_i2c_dev *gi2c, bool is_stop_xfer)
+Detailed results are available here:
 
-The bool should be an enum, but a better approach would be to have a
-locked and unlocked version of this function.
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
->  {
->         u32 val;
->         unsigned long time_left = ABORT_TIMEOUT;
->         unsigned long flags;
->
-> -       spin_lock_irqsave(&gi2c->lock, flags);
-> +       if (!is_stop_xfer)
-> +               spin_lock_irqsave(&gi2c->lock, flags);
->         geni_i2c_err(gi2c, GENI_TIMEOUT);
->         gi2c->cur = NULL;
->         geni_se_abort_m_cmd(&gi2c->se);
-> -       spin_unlock_irqrestore(&gi2c->lock, flags);
-> +       if (!is_stop_xfer)
-> +               spin_unlock_irqrestore(&gi2c->lock, flags);
+Detailed regression test results are available here:
 
-Please no conditional locking. It's too hard to reason about.
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
->         do {
->                 time_left = wait_for_completion_timeout(&gi2c->done, time_left);
->                 val = readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATUS);
-> @@ -375,6 +384,38 @@ static void geni_i2c_tx_msg_cleanup(struct geni_i2c_dev *gi2c,
->         }
->  }
->
-> +static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
-> +{
-> +       int ret;
-> +       u32 geni_status;
-> +       struct i2c_msg *cur;
-> +       unsigned long flags;
-> +
-> +       /* Resume device, as runtime suspend can happen anytime during transfer */
+Full logs are available here:
 
-This comment doesn't make any sense. Hopefully a suspend can't happen
-during a transfer, but only before or after a transfer. Otherwise, the
-transfer code is broken and isn't properly keeping the device runtime
-resumed during the transfer.
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
 
-> +       ret = pm_runtime_get_sync(gi2c->se.dev);
-> +       if (ret < 0) {
-> +               dev_err(gi2c->se.dev, "Failed to resume device: %d\n", ret);
-> +               return;
-> +       }
-> +
-> +       spin_lock_irqsave(&gi2c->lock, flags);
-> +       gi2c->stop_xfer = 1;
-> +       geni_status = readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
-> +       if (geni_status & M_GENI_CMD_ACTIVE) {
-> +               cur = gi2c->cur;
-> +               geni_i2c_abort_xfer(gi2c, STOP_AND_ABORT_XFER);
-> +               spin_unlock_irqrestore(&gi2c->lock, flags);
-> +               if (cur->flags & I2C_M_RD)
-> +                       geni_i2c_rx_msg_cleanup(gi2c, cur);
-> +               else
-> +                       geni_i2c_tx_msg_cleanup(gi2c, cur);
-> +       } else {
-> +               spin_unlock_irqrestore(&gi2c->lock, flags);
-> +       }
+The Media Infrastructure API from this daily build is here:
 
-Please unlock outside of an if condition. A local variable can be used
-outside of the unlock, but then the code is easier to follow
-
-	spin_lock_irqsave(&gi2c->lock, flags);
-	if (geni_status & M_GENI_CMD_ACTIVE) {
-		cur = gic2->cur;
-		geni_i2c_abort_xfer(....);
-	}
-	spin_unlock_irqrestore(gi2c->lock, flags);
-
-	if (cur) {
-		if (cur->flags & I2C_M_RD)
-			...
-		else
-			...
-	}
-
-And then I don't really know if grabbing 'cur' out of the struct and
-then messing with it outside the lock is correct.
-
-> +
-> +       pm_runtime_put_sync_suspend(gi2c->se.dev);
-> +}
-> +
->  static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->                                 u32 m_param)
->  {
-> @@ -407,7 +448,7 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->         cur = gi2c->cur;
->         time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
->         if (!time_left)
-> -               geni_i2c_abort_xfer(gi2c);
-> +               geni_i2c_abort_xfer(gi2c, ABORT_XFER);
-
-So this would say geni_i2c_abort_xfer() but the one above would say
-geni_i2c_abort_xfer_locked() because the lock is already held.
-
->
->         geni_i2c_rx_msg_cleanup(gi2c, cur);
->
-> @@ -449,7 +490,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->         cur = gi2c->cur;
->         time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
->         if (!time_left)
-> -               geni_i2c_abort_xfer(gi2c);
-> +               geni_i2c_abort_xfer(gi2c, ABORT_XFER);
->
->         geni_i2c_tx_msg_cleanup(gi2c, cur);
->
-> @@ -462,6 +503,7 @@ static int geni_i2c_xfer(struct i2c_adapter *adap,
->  {
->         struct geni_i2c_dev *gi2c = i2c_get_adapdata(adap);
->         int i, ret;
-> +       unsigned long flags;
->
->         gi2c->err = 0;
->         reinit_completion(&gi2c->done);
-> @@ -480,7 +522,13 @@ static int geni_i2c_xfer(struct i2c_adapter *adap,
->
->                 m_param |= ((msgs[i].addr << SLV_ADDR_SHFT) & SLV_ADDR_MSK);
->
-> +               spin_lock_irqsave(&gi2c->lock, flags);
-> +               if (gi2c->stop_xfer) {
-> +                       spin_unlock_irqrestore(&gi2c->lock, flags);
-> +                       break;
-> +               }
->                 gi2c->cur = &msgs[i];
-> +               spin_unlock_irqrestore(&gi2c->lock, flags);
-
-Is this to jump into the transfer real fast and break out if we're in
-the middle of a transfer?
-
->                 if (msgs[i].flags & I2C_M_RD)
->                         ret = geni_i2c_rx_one_msg(gi2c, &msgs[i], m_param);
->                 else
-> @@ -624,6 +672,7 @@ static int geni_i2c_probe(struct platform_device *pdev)
->         dev_dbg(dev, "i2c fifo/se-dma mode. fifo depth:%d\n", tx_depth);
->
->         gi2c->suspended = 1;
-> +       gi2c->stop_xfer = 0;
->         pm_runtime_set_suspended(gi2c->se.dev);
->         pm_runtime_set_autosuspend_delay(gi2c->se.dev, I2C_AUTO_SUSPEND_DELAY);
->         pm_runtime_use_autosuspend(gi2c->se.dev);
-> @@ -650,6 +699,13 @@ static int geni_i2c_remove(struct platform_device *pdev)
->         return 0;
->  }
->
-> +static void  geni_i2c_shutdown(struct platform_device *pdev)
-> +{
-> +       struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
-> +
-> +       geni_i2c_stop_xfer(gi2c);
-
-It would read better as
-
-	geni_i2c_plug_xfer(gi2c);
-
-or
-
-	geni_i2c_flush_and_teardown(gi2c);
-
-or
-
-	geni_i2c_teardown_tx_rx(gi2c);
-
-Something that says we're waiting for any transfer to complete, and then
-plugging the queue and removing the i2c bus entirely.
-
-In fact, where is that code? I'd expect to see i2c_del_adapter() in here
-so we know the adapter can't accept transfers anymore. Maybe
-i2c_del_adapter() could be called, and then there's nothing to do after
-that? This whole patch is trying to rip the adapter out from under the
-i2c core framework, when we should take the opposite approach and remove
-it from the core framework so that it can't transfer anything anymore
-and thus the IOMMU can remove the mapping.
-
-> +}
-> +
->  static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
->  {
->         int ret;
+http://www.xs4all.nl/~hverkuil/spec/index.html
