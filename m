@@ -2,52 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CC8D3738E9
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 12:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 502413738F2
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 13:02:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232525AbhEEK76 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 06:59:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39994 "EHLO mail.kernel.org"
+        id S232140AbhEELD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 07:03:26 -0400
+Received: from mga07.intel.com ([134.134.136.100]:27393 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231750AbhEEK76 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 06:59:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2E3AC613C7;
-        Wed,  5 May 2021 10:58:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620212342;
-        bh=SJKhjz6kStgLYNpkGUvEZlfiTGUIIdKZGRZ11FTO5+g=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=fHk/lzfKDSYfy5dObYAjyGbXP9knhHjeDzRwsvU9gXsOSjU1dF6vrGk8KFuvkyoJQ
-         tGKg2JMld3S137HqkwqF9SuIZq0g3SSaFA0qA4wLCYL3UUSwtbnWSJhrDyzNpyxzUK
-         tBflOsu2qiDb7w3AduksPNJ/4qV9T97X6eDTK7jtvkhFJ8Ef7ffTLihZDx9GocYont
-         z9enlLFvm/kfyC6Mr0dlKEVbH8QkiGwv30kLwGtDWBWlpftiFSsQtYE211vp2SOf4G
-         vwSr0Z3yXhMYxfCZNSxo/xXcIw7ItajQQIKW5mAncndyjQh6eUCgxjBwoTVxTJYlom
-         H+A09AkXTWMeg==
-Date:   Wed, 5 May 2021 12:58:57 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S229559AbhEELDZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 May 2021 07:03:25 -0400
+IronPort-SDR: h6HsIwd+3fJsRPvF/Uf2DBxREbUG6qPODSlvE+Ubp4lx1FzpoN8k5s5ZcgPYDtg5FDDZT5CB5V
+ pXAdVcElUyyA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="262129174"
+X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; 
+   d="scan'208";a="262129174"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2021 04:02:28 -0700
+IronPort-SDR: FZf52xL00zCjeufPwcx1WYqmxeoVKWEsYFHIECR/kRGMZRZZHfnHf08C7W8s/919Hej07/rHBr
+ eTCFLYMg7zhA==
+X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; 
+   d="scan'208";a="539515219"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2021 04:02:26 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id CE665203BC;
+        Wed,  5 May 2021 14:02:24 +0300 (EEST)
+Date:   Wed, 5 May 2021 14:02:24 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 Subject: Re: [PATCH 25/25] media: i2c: ccs-core: fix pm_runtime_get_sync()
  usage count
-Message-ID: <20210505125857.7f30d8fa@coco.lan>
-In-Reply-To: <20210505125700.4a7584ca@coco.lan>
+Message-ID: <20210505110224.GP3@paasikivi.fi.intel.com>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-        <83ec24acb15f17e2ce589575c2f5eb7bdd1daf28.1620207353.git.mchehab+huawei@kernel.org>
-        <20210505103409.GN3@paasikivi.fi.intel.com>
-        <20210505125700.4a7584ca@coco.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ <83ec24acb15f17e2ce589575c2f5eb7bdd1daf28.1620207353.git.mchehab+huawei@kernel.org>
+ <20210505103409.GN3@paasikivi.fi.intel.com>
+ <20210505125700.4a7584ca@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210505125700.4a7584ca@coco.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 5 May 2021 12:57:00 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Hi Mauro,
 
+On Wed, May 05, 2021 at 12:57:00PM +0200, Mauro Carvalho Chehab wrote:
 > Em Wed, 5 May 2021 13:34:09 +0300
 > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 > 
@@ -81,6 +85,9 @@ Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 > > 
 > > It would be better to fix the bug first so the patch to the stable trees
 > > doesn't need special handling.
+
+Please ignore this comment.
+
 > > 
 > > > ---
 > > >  drivers/media/i2c/ccs/ccs-core.c | 39 ++++++++++++++++++++------------
@@ -182,6 +189,9 @@ Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 > Fixes: 96e3a6b92f23 ("media: smiapp: Avoid maintaining power state information")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
 > 
 > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
 > index b05f409014b2..5ea471fefa3a 100644
@@ -215,16 +225,28 @@ Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 > -		return v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
 > -	}
 > +	/* Restore V4L2 controls to the suspended device */
+> +	rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
+> +	if (rval)
+> +		goto error;
+>  
+> +	rval = v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
+> +	if (rval)
+> +		goto error;
+> +
+> +	/* Keep PM runtime usage_count incremented on success */
+>  	return 0;
+> +error:
+> +	pm_runtime_put(&client->dev);
+> +	return rval;
+>  }
+>  
+>  static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
+> 
+> 
+> 
+> 
 
-In time: I'll fold this at the patch:
+-- 
+Kind regards,
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 5ea471fefa3a..4a848ac2d2cd 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -1896 +1896 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
--       /* Restore V4L2 controls to the suspended device */
-+       /* Restore V4L2 controls to the previously suspended device */
-
-Regards,
-Mauro
+Sakari Ailus
