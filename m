@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 653413737CE
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:42:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADAAE3737E5
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 11:43:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232614AbhEEJnV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 05:43:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48262 "EHLO mail.kernel.org"
+        id S232827AbhEEJne (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 05:43:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48620 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232136AbhEEJnQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S232397AbhEEJnQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 5 May 2021 05:43:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DA5EE613ED;
-        Wed,  5 May 2021 09:42:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B01E6140F;
+        Wed,  5 May 2021 09:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620207738;
-        bh=G+D62uYOeO3E6zIZOyRsLhX8wVEnwPFM5avER7onHgI=;
+        s=k20201202; t=1620207739;
+        bh=JcIZp6yZMv3qHRfQxdJ/W6eZtpcx5F6VpH0Ap9ywfpI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cGJFjveEllVyJRu+S+l9xNWE7UxP6WPat24ylQV7DVcJff2jOVkZaFQgX07UOdk2t
-         tjfv6Nj36v+5JyX1KZlkgGiyq7wIocHJW8grZt+xZm2+8pyXj5WVtkzPP0xHdzHk+u
-         CjgREtYNjvYZCXhCGJZ1n6Rgpslh05hAm0FFQxcp9BtwzpaH7o36raQM3vSw1YYCyf
-         R6d5cJ5d5fXVZBrU5Ghq9Jz+nc9X+UNMPG79Ilj++jV5wIZc/nd9vkojWLTidm2Z4b
-         GmXeFXCMMYbhqyQ1jyckcYCFcRYaztk9kV9kPQlo/AxpK25qcW5BeMAyiCCKBYdWym
-         isb6YRYcS7NYA==
+        b=Li6W/6B6PEyOTmCfqBIvlgMUcPvGhr788mD8SPztiXVf7B0g1vijAlk9+cF3j4nyX
+         YvVsbQWQu8TObhK0NJtCkPgpkI9LYUl/PXdizLvv4e/rYxXA/QSxXzjp66vwAkxXc4
+         n/ccMwFogr2m8WZgameQQZIYKudzQgfP3RkGE239f48cqZlx3kG7pMWSkRL1m47HE4
+         LFIXkA6aLre5AiNdNAjZpoOp8zih4WA4DTNXaXmqRRK1F9gmnprrrEHuxZd/+XqSCi
+         pwMakB/BUmI5Q8Gd2RaYindlsy+fSZJ5CDxQqRmf4qeecEbgQ5F4eYKctUcBJGyNcS
+         Qm8kstE46/xog==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1leE2q-00AHw3-Ph; Wed, 05 May 2021 11:42:16 +0200
+        id 1leE2q-00AHw6-RN; Wed, 05 May 2021 11:42:16 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 05/25] media: i2c: ccs-core: return the right error code at suspend
-Date:   Wed,  5 May 2021 11:41:55 +0200
-Message-Id: <92cb0f741d16d9eaa9f99f336d826f30ac7a2671.1620207353.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH 06/25] media: i2c: imx334: fix the pm runtime get logic
+Date:   Wed,  5 May 2021 11:41:56 +0200
+Message-Id: <9552f3daece8bec6869b518410b2998c3fc0a1fc.1620207353.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620207353.git.mchehab+huawei@kernel.org>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
@@ -46,30 +48,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If pm_runtime resume logic fails, return the error code
-provided by it, instead of -EAGAIN, as, depending on what
-caused it to fail, it may not be something that would be
-recovered.
+The PM runtime get logic is currently broken, as it checks if
+ret is zero instead of checking if it is an error code,
+as reported by Dan Carpenter.
 
-Fixes: cbba45d43631 ("[media] smiapp: Use runtime PM")
+While here, use the pm_runtime_resume_and_get() as added by:
+commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+added pm_runtime_resume_and_get() in order to automatically handle
+dev->power.usage_count decrement on errors. As a bonus, such function
+always return zero on success.
+
+It should also be noticed that a fail of pm_runtime_get_sync() would
+potentially result in a spurious runtime_suspend(), instead of
+using pm_runtime_put_noidle().
+
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reviewed-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/imx334.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 9dc3f45da3dc..b05f409014b2 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -3093,7 +3093,7 @@ static int __maybe_unused ccs_suspend(struct device *dev)
- 	if (rval < 0) {
- 		pm_runtime_put_noidle(dev);
- 
--		return -EAGAIN;
-+		return rval;
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index 047aa7658d21..23f28606e570 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -717,9 +717,9 @@ static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
  	}
  
- 	if (sensor->streaming)
+ 	if (enable) {
+-		ret = pm_runtime_get_sync(imx334->dev);
+-		if (ret)
+-			goto error_power_off;
++		ret = pm_runtime_resume_and_get(imx334->dev);
++		if (ret < 0)
++			goto error_unlock;
+ 
+ 		ret = imx334_start_streaming(imx334);
+ 		if (ret)
+@@ -737,6 +737,7 @@ static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
+ 
+ error_power_off:
+ 	pm_runtime_put(imx334->dev);
++error_unlock:
+ 	mutex_unlock(&imx334->mutex);
+ 
+ 	return ret;
 -- 
 2.30.2
 
