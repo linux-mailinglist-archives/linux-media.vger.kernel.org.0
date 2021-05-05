@@ -2,61 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 261E1373BB9
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 14:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DB32373C46
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 15:22:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232822AbhEEMwa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 08:52:30 -0400
-Received: from mga02.intel.com ([134.134.136.20]:19052 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230034AbhEEMw3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 08:52:29 -0400
-IronPort-SDR: sj9j8Gw4NYafmq1HZfUpgHTfZhD77RnYvsvSZ/ArGuowxLgyQDpmupMYRZ5M7kj+nd0lHKMaL0
- +zvdm9Yr4DjQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="185330685"
-X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; 
-   d="scan'208";a="185330685"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2021 05:51:22 -0700
-IronPort-SDR: DsuQ9oH5Ut9FXE5vfQE05Ut/jd5kk+Cm5IVyiWjA1U3hx8iJmWpi3KzKNWJCSeiX6q5m5Egpc3
- uO4md9IIUVxA==
-X-IronPort-AV: E=Sophos;i="5.82,274,1613462400"; 
-   d="scan'208";a="451763476"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2021 05:51:21 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id AA43F20315;
-        Wed,  5 May 2021 15:51:18 +0300 (EEST)
-Date:   Wed, 5 May 2021 15:51:18 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S233445AbhEENXM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 09:23:12 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:50382 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231774AbhEENXM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 09:23:12 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 5EAF21F42BB0
+Message-ID: <11c24f97ef71b16c2e7b3ba40ca66a28c12df692.camel@collabora.com>
+Subject: Re: [PATCH 09/25] media: hantro: do a PM resume earlier
+From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 05/25] media: i2c: ccs-core: return the right error code
- at suspend
-Message-ID: <20210505125118.GR3@paasikivi.fi.intel.com>
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
+Date:   Wed, 05 May 2021 10:22:03 -0300
+In-Reply-To: <82114a4bd9c7bc1188c6a7167a6e74bb3360961d.1620207353.git.mchehab+huawei@kernel.org>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
- <92cb0f741d16d9eaa9f99f336d826f30ac7a2671.1620207353.git.mchehab+huawei@kernel.org>
+         <82114a4bd9c7bc1188c6a7167a6e74bb3360961d.1620207353.git.mchehab+huawei@kernel.org>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <92cb0f741d16d9eaa9f99f336d826f30ac7a2671.1620207353.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 05, 2021 at 11:41:55AM +0200, Mauro Carvalho Chehab wrote:
-> If pm_runtime resume logic fails, return the error code
-> provided by it, instead of -EAGAIN, as, depending on what
-> caused it to fail, it may not be something that would be
-> recovered.
+Hi Mauro,
+
+Thanks for working on this.
+
+On Wed, 2021-05-05 at 11:41 +0200, Mauro Carvalho Chehab wrote:
+> The device_run() first enables the clock and then
+> tries to resume PM runtime, checking for errors.
 > 
-> Fixes: cbba45d43631 ("[media] smiapp: Use runtime PM")
+> Well, if for some reason the pm_runtime can not resume,
+> it would be better to detect it beforehand.
+> 
+> So, change the order inside device_run().
+> 
+> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+It seems this is wrong now, as this series doesn't have
 
--- 
-Sakari Ailus
+https://lore.kernel.org/linux-media/803c39fafdd62efc6f9e4d99a372af2c6955143b.1619621413.git.mchehab+huawei@kernel.org/
+
+I don't fully understand why all the back and forth
+happening on this series, but the former Hantro patches
+looked good (despite perhaps unclear commit messages).
+
+Any issues just squashing these two commits from "[PATCH v4 00/79] Address some issues with PM runtime at media subsystem":
+
+  media: hantro: use pm_runtime_resume_and_get()
+  media: hantro: do a PM resume earlier
+
+?
+
+Thanks,
+Ezequiel
+
+>  drivers/staging/media/hantro/hantro_drv.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 595e82a82728..4387edaa1d0d 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -152,13 +152,14 @@ static void device_run(void *priv)
+>         src = hantro_get_src_buf(ctx);
+>         dst = hantro_get_dst_buf(ctx);
+>  
+> -       ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
+> -       if (ret)
+> -               goto err_cancel_job;
+>         ret = pm_runtime_get_sync(ctx->dev->dev);
+>         if (ret < 0)
+>                 goto err_cancel_job;
+>  
+> +       ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
+> +       if (ret)
+> +               goto err_cancel_job;
+> +
+>         v4l2_m2m_buf_copy_metadata(src, dst, true);
+>  
+>         ctx->codec_ops->run(ctx);
+
+
