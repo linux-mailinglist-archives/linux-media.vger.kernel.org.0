@@ -2,281 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0277374A08
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 23:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBDE7374A77
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 23:39:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbhEEVTq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 17:19:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45242 "EHLO
+        id S234132AbhEEVjw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 17:39:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbhEEVTp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 17:19:45 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B858C061574;
-        Wed,  5 May 2021 14:18:48 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id s25so4366981lji.0;
-        Wed, 05 May 2021 14:18:48 -0700 (PDT)
+        with ESMTP id S234246AbhEEVjv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 May 2021 17:39:51 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F7DC061761;
+        Wed,  5 May 2021 14:38:53 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id e2so1920898plh.8;
+        Wed, 05 May 2021 14:38:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=djoC0Z+pmOInDICvyUS0uOVicy3QU7aVQXXHVWM84O0=;
-        b=KlG5H+3gT4FHDGnwoyJgdPxK4ZvPmKaM1z1/+POFbQBQVwq0qfH+qjfLEli+8k3oI+
-         K26t69SuxEYSCQm3n21ABT0Dn0IfHPqpLo5mVaNBXYXqCXCnvrM6kghqgpyuZ/+Y9ut6
-         k7J/ydiE13Rc20ehyBU4RJ8KQdbj//zZqgPWiNzMQqsQjM91HKmbM/Xo1tGixfbh308e
-         N37qhph+7OcT3tSXz+BjBXNKFaiwmS/7wvrtJmox8cVEMOJSG6L2Ge7IPbrvh9CSVczH
-         HMwbwFNd1QMIM7Ejl3Vp8kpu1s0G9tcIzuf+hpxJiqwdVf6wze9jyRkzQZe+j4bd54Ut
-         nCXQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=nED1tfdyad77CyL5ahIoVpnSjfX9IAkRkG2H71l3Az8=;
+        b=mD7nMf5EDRT5x5dqMxJv+lvSKkg6elqBAP9eWS9YKDFwQq36Atm3/9R+ToXtNAvD/y
+         k3tqJujsngiQZYdOuZGeH/KbZYSWeVxWl59LHP3UP3NsDo2yuY1+1tXivm7aWwWz+Ofu
+         FLqLRu4DgQ9CeKsCy/iu7Ar68uI++dmWUOEotaTDcsPhadGBUvPncaIGud37grprDOFq
+         DaGkfhR/nQZPc5Yhq8jX+rkd2c+sXESg3nqCCXSDkg3Qc7P9HEAKQjECqHKkeO+zje74
+         jakIJAsZ9g6Mlys1PDoionmxib3jwEHMfFlCwqEqw3BqBFinNAYCGlUH8Ute8pS6IPGB
+         f8sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=djoC0Z+pmOInDICvyUS0uOVicy3QU7aVQXXHVWM84O0=;
-        b=Yx99pLs7Zuqw7qTkR7nNBmTB+wcxmaf4vpCwtnFEfABVYI2jJUlm39BAveVukBg0O3
-         w2Zh1fTY27+Na+7gRmlo6XXXjz2pB3tk/eMis8sMNay1ZwOvie29E4fpGFiwtByEmAs5
-         WjnyiaJgZe1/gvAntkIK/WF6m334YVbsUekXdwYRNQlFMym4CNr8dHNJtJvdruRgzv+g
-         NDpn0MWUc+bu+ls5Jb9CRPeAOM2aaUqNWMUcRS8xx+iZBfYOmgU+IouJTgvLklCb3WXr
-         Tjx2k9yMUa4X5WNbPm/Py3LGQCCLNzTUkp3zbW0PinjtTFxlTxq3M6GzjyuiUKkltU+F
-         hm/Q==
-X-Gm-Message-State: AOAM532UgGUbGkiJHvynQyaKttABFOPMhHt80Xe4HcdBtbTIyY/hfce2
-        bOsLIri1amnTi0gBSIZz4Yq+nkvpoeyA9sKOlSKgqL1RoIfHig==
-X-Google-Smtp-Source: ABdhPJw3/kv8oLy/NRWhoUI59OvqC/6ZUpwH5Hyeq+ZDu+nF9esyATskAj6fsTm7SQJYUDWJ6CwHm8LVYUZRup1T19Y=
-X-Received: by 2002:a2e:2419:: with SMTP id k25mr604828ljk.266.1620249526714;
- Wed, 05 May 2021 14:18:46 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=nED1tfdyad77CyL5ahIoVpnSjfX9IAkRkG2H71l3Az8=;
+        b=ECHBhNAIqXjoDiR8e7JhXjbP54L8MoPtK0C8Jbk2WVyQksxdtIsrjJUMRmQ91lYcGG
+         XPavYPugJESt5GapdFaoxTTRABwVFI5Jxh2xLnv2W9FGwGb5c+DH8nNpAus+wPXaD6HF
+         CKDBRoA6RQ4bOd2vBIJzA+49CKT2nJGvmkPaM+Mw2S8+a0GkDqvwPGe1UZUZaQOFk2M4
+         SutTZJxM2742Ne9yvYqbFo5/JaxtjC5h7VKx9P2yANXoRq4qzQgeNtsK703Kr/oj/r12
+         STbkjDa/TLedypzlxXcfkJbeto87Ut4IHG2iaINOTH8U1yNSTEf9bQXasPnKJrgu5Wra
+         sHHQ==
+X-Gm-Message-State: AOAM531ud8H6fgQmEriwoXZGRL0898Rg18spJYCygZgGmBi65uzZ64ak
+        XfFtYK5kar217SdmRNSrzg3ZkZNka77Raw==
+X-Google-Smtp-Source: ABdhPJwXlz7jAdqnQ/pz7K234pdI+wSXJafvAnXxqkBZ5QVq5pqhY7jhYYhDGnWS4Z6dDd4Eua6Y0A==
+X-Received: by 2002:a17:902:b68c:b029:eb:6c82:60da with SMTP id c12-20020a170902b68cb02900eb6c8260damr947039pls.25.1620250732852;
+        Wed, 05 May 2021 14:38:52 -0700 (PDT)
+Received: from [172.18.1.216] (b-fw-1-nat-campusvpn.ucr.edu. [169.235.64.254])
+        by smtp.gmail.com with ESMTPSA id x79sm165861pfc.57.2021.05.05.14.38.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 May 2021 14:38:52 -0700 (PDT)
+Subject: Re: WARNING in em28xx_init_extension
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        syzbot <syzbot+76929be61691e7b3904b@syzkaller.appspotmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+References: <00000000000063015a05938f04f0@google.com>
+ <CAAeHK+zzdt2ua0XX2_rzuW=+Vs7SQvKgLMz5wir=xh0cqnFTuw@mail.gmail.com>
+From:   SyzScope <syzscope@gmail.com>
+Message-ID: <79e05615-eb47-c71b-9a06-93a50cb6b777@gmail.com>
+Date:   Wed, 5 May 2021 14:38:50 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <CAN2W0iNOsa6GYK28Vz=DmkyjY72H_bq=8EUkzFuy0_p9ZVms4A@mail.gmail.com>
- <20210503092005.GB14939@gofer.mess.org> <CAN2W0iME8VCdP=KdcH8PW7ZfEOdQJicKWQmE675-h3cd2=D1cA@mail.gmail.com>
- <20210504090358.GA26800@gofer.mess.org> <CAN2W0iPsovnGnEZFsQi5wmERVM20hb3TsW1sRb-OfwH0mXh_pg@mail.gmail.com>
-In-Reply-To: <CAN2W0iPsovnGnEZFsQi5wmERVM20hb3TsW1sRb-OfwH0mXh_pg@mail.gmail.com>
-From:   Chris McCrae <chrismccraeworks@gmail.com>
-Date:   Wed, 5 May 2021 17:18:35 -0400
-Message-ID: <CAN2W0iPo=kxJmkcPP9+p2nH_T+fyZ8KVFO4ehc8UOeK5A9O=Lg@mail.gmail.com>
-Subject: Re: Asus PN62S vs PN50 - ITE8708
-To:     Sean Young <sean@mess.org>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAAeHK+zzdt2ua0XX2_rzuW=+Vs7SQvKgLMz5wir=xh0cqnFTuw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 4 May 2021 at 23:52, Chris McCrae <chrismccraeworks@gmail.com> wrote:
->
-> On Tue, 4 May 2021 at 05:03, Sean Young <sean@mess.org> wrote:
-> >
-> > Hi Chris,
-> >
-> > On Mon, May 03, 2021 at 11:44:04AM -0400, Chris McCrae wrote:
-> > > Thanks for answering the call Sean.
-> > >
-> > > On Mon, 3 May 2021 at 05:20, Sean Young <sean@mess.org> wrote:
-> > > >
-> > > > Hi Chris,
-> > > >
-> > > > On Fri, Apr 30, 2021 at 07:37:10PM -0400, Chris McCrae wrote:
-> > > > > Recently acquired an Asus PN62S (Intel) as a media centre frontend
-> > > > > (currently testing with Xubuntu 20.04 and a 5.10 kernel, and the most
-> > > > > current BIOS available).  Having an integrated IR was part of the
-> > > > > selling features.  However, getting it to be recognized by my system
-> > > > > has become a challenge that I am getting obsessed with.  There's very
-> > > > > little to find online on this device that is current, but there has
-> > > > > been some recent conversation on this list about the same device, on a
-> > > > > related machine, the PN50 (AMD).  I'm hoping that the knowledge here
-> > > > > may lead to a solution for my issue.
-> > > > >
-> > > > > I can provide more detail on request, but at the moment I am focusing
-> > > > > on the DSDT as a possible suspect.  I do not have the 16 byte issue
-> > > > > that the PN50 experiences.  Mine is defined as 8 bytes, which is
-> > > > > compatible with the ite-cir driver.  My issue is that there appears to
-> > > > > be no attempt to bind the device to the driver (but it is visible in
-> > > > > lsmod)... no messages about the driver in dmesg at all.  My thought is
-> > > > > that the definition of the device in DSDT may somehow give it enough
-> > > > > information (ITE8708) to know the driver could be needed, but not the
-> > > > > correct information to make it work.
-> > > > >
-> > > > > An earlier message provided only part of the device definition in DSDT
-> > > > > for the PN50.  I would like to be able to see the full definition for
-> > > > > it from the PN50, to see if anything is significantly different.
-> > > > > Ideally, if I had the full DSDT as a starting point, I could compare
-> > > > > other areas such as motherboard resources.
-> > > >
-> > > > It would be great if we could see the entries for the IR device in your
-> > > > DSDT. There is a guide here https://wiki.archlinux.org/title/DSDT on
-> > > > how to do that.
-> > > >
-> > > Here the full device from the DSDT:
-> > >
-> > >             Device (CR00)
-> > >             {
-> > >                 Name (_ADR, Zero)  // _ADR: Address
-> > >                 Name (VBAN, 0x0680)
-> > >                 Name (VIRQ, 0x0A)
-> > >                 Name (UIDN, Zero)
-> > >                 Name (_HID, EisaId ("ITE8708"))  // _HID: Hardware ID
-> > >                 Method (_UID, 0, NotSerialized)  // _UID: Unique ID
-> > >                 {
-> > >                     Return (UIDN) /* \_SB_.PCI0.CR00.UIDN */
-> > >                 }
-> > >
-> > >                 Method (_STA, 0, Serialized)  // _STA: Status
-> > >                 {
-> > >                     If ((CIRE == Zero))
-> > >                     {
-> > >                         Return (Zero)
-> > >                     }
-> > >                     Return (0x0F)
-> > >                 }
-> > >
-> > >                 Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
-> > >                 {
-> > >                     Name (BUF0, ResourceTemplate ()
-> > >                     {
-> > >                         IO (Decode16,
-> > >                             0x0000,             // Range Minimum
-> > >                             0x0000,             // Range Maximum
-> > >                             0x01,               // Alignment
-> > >                             0x08,               // Length
-> > >                             _Y10)
-> > >                         IRQNoFlags (_Y11)
-> > >                             {}
-> > >                         DMA (Compatibility, NotBusMaster, Transfer8, )
-> > >                             {}
-> > >                     })
-> > >                     CreateWordField (BUF0,
-> > > \_SB.PCI0.CR00._CRS._Y10._MIN, IOPL)  // _MIN: Minimum Base Address
-> > >                     CreateWordField (BUF0,
-> > > \_SB.PCI0.CR00._CRS._Y10._MAX, IOPH)  // _MAX: Maximum Base Address
-> > >                     CreateWordField (BUF0,
-> > > \_SB.PCI0.CR00._CRS._Y11._INT, IRQ)  // _INT: Interrupts
-> > >                     IOPL = VBAN /* \_SB_.PCI0.CR00.VBAN */
-> > >                     IOPH = VBAN /* \_SB_.PCI0.CR00.VBAN */
-> > >                     IRQ = (One << VIRQ) /* \_SB_.PCI0.CR00.VIRQ */
-> > >                     Return (BUF0) /* \_SB_.PCI0.CR00._CRS.BUF0 */
-> > >                 }
-> > >             }
-> >
-> > Hmm this is not really telling us everything yet. Would you mind sending
-> > on the entire dmesg please?
-> >
->
-> I could send dmesg output, but aside from the fact that it's almost
-> 1000 lines, I have just had a moderate degree of success.  Using the
-> pci=noacpi kernel option, gives me:
->
-> [    1.767176] ite_cir: Auto-detected model: ITE8708 CIR transceiver
-> [    1.767177] ite_cir: Using model: ITE8708 CIR transceiver
-> [    1.767178] ite_cir: TX-capable: 1
-> [    1.767179] ite_cir: Sample period (ns): 8680
-> [    1.767180] ite_cir: TX carrier frequency (Hz): 38000
-> [    1.767180] ite_cir: TX duty cycle (%): 33
-> [    1.767181] ite_cir: RX low carrier frequency (Hz): 0
-> [    1.767182] ite_cir: RX high carrier frequency (Hz): 0
-> [    1.840766] rc rc0: ITE8708 CIR transceiver as /devices/virtual/rc/rc0
-> [    1.840842] rc rc0: lirc_dev: driver ite-cir registered at minor =
-> 0, raw IR receiver, raw IR transmitter
-> [    1.840881] input: ITE8708 CIR transceiver as /devices/virtual/rc/rc0/input3
-> [    1.844915] ite_cir: driver has been successfully loaded
->
-> So after a couple of weeks, I should be happier, right?  Never seen
-> any of these lines before.  I am happy that there's progress, but some
-> things still aren't right.
->
-> 1.  The kernel option will be used to focus my debugging efforts.  At
-> least this seems to support the idea that ACPI plays a role in this.
-> I was beginning to lose faith in that idea.
-> 2.  Since the device seems to be recognized by the system, I thought
-> I'd take a quick stab at seeing if it recognized a remote.  No matter
-> the protocol, the remote, or distance, neither ir-keytable or ir-ctl
-> (thanks for that tool!) wanted to register any signals.  So far I'm
-> chalking that up to the previous point.  Maybe it's possible that
-> communication is still hampered, even though the device can be
-> identified.  Sort out PCI, and maybe things start rolling.  I know the
-> receiver works, since I confirmed that with a test install of Windows
-> 10 early on in this process.
+Hi,
 
-Getting happier :-)  I have at least a work-around for each of my two
-points of contention.
+This is SyzScope, a research project that aims to reveal high-risk 
+primitives from a seemingly low-risk bug (UAF/OOB read, WARNING, BUG, etc.).
 
-For #1.  Having ruled out IRQ as an area of interest, looked at PCI
-enumeration.  After some reading, on a bit of a whim, I changed device
-\_SB.PCI0.CR00._ADR from Zero to One in my custom DSDT.  Now the
-driver shows up without having to use pci=noacpi.  In fact, I tested
-addresses from 0x01 to 0x0F, and all produced driver loading results.
-So I can make this work with a custom DSDT, however I don't know if
-this is the correct/accurate fix, or did 2 ugly bugs just have a
-beautiful child?  I'd like to know and understand the true solution,
-plus I'd like to at least try to feed some sort of realistic
-information to ASUS to perhaps make its way into a future BIOS
-revision.  Should I start a new thread on linux-acpi with this more
-pointed question?
+We are currently testing seemingly low-risk bugs on syzbot's open 
+section(https://syzkaller.appspot.com/upstream), and try to reach out to 
+kernel developers if SyzScope discovers any high-risk primitives.
 
-For #2.  This seems to be mostly the common Linux gotcha of
-permissions.  Once I added the user to the groups 'input' and 'video'
-I started to see results.  Plus the barebones kernel I had made (to
-save compile time and have a huge log buffer) was missing most of the
-protocols.  Once I added the user to the groups, rebooted with the
-full kernel sporting a custom DSDT, ir-keytable and ir-ctl both had
-lots to say.
+Regrading the bug "BUG: corrupted list in em28xx_init_extension", it 
+seems that this bug is still missing a valid patch.
 
-Thanks again.
+SyzScope reports 4 memory write primitives from this bug.
 
-Chris
+The detailed comments can be found at 
+https://sites.google.com/view/syzscope/bug-corrupted-list-in-em28xx_init_extension
 
+Please let us know if SyzScope indeed helps, and any suggestions/feedback.
+
+On 3/9/2020 8:24 AM, Andrey Konovalov wrote:
+> On Fri, Sep 27, 2019 at 10:49 PM syzbot
+> <syzbot+76929be61691e7b3904b@syzkaller.appspotmail.com> wrote:
+>> Hello,
+>>
+>> syzbot found the following crash on:
+>>
+>> HEAD commit:    2994c077 usb-fuzzer: main usb gadget fuzzer driver
+>> git tree:       https://github.com/google/kasan.git usb-fuzzer
+>> console output: https://syzkaller.appspot.com/x/log.txt?x=171c4be3600000
+>> kernel config:  https://syzkaller.appspot.com/x/.config?x=69ddefac6929256a
+>> dashboard link: https://syzkaller.appspot.com/bug?extid=76929be61691e7b3904b
+>> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+>> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=137d73bd600000
+>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14f0c8cb600000
+>>
+>> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+>> Reported-by: syzbot+76929be61691e7b3904b@syzkaller.appspotmail.com
+>>
+>> em28xx 1-1:0.221: Audio interface 221 found (Vendor Class)
+>> em28xx 1-1:0.221: unknown em28xx chip ID (0)
+>> em28xx 1-1:0.221: Config register raw data: 0xfffffffb
+>> em28xx 1-1:0.221: AC97 chip type couldn't be determined
+>> em28xx 1-1:0.221: No AC97 audio processor
+>> ------------[ cut here ]------------
+>> list_add corruption. prev->next should be next (ffffffff87779de0), but was
+>> ffffffff8352fdcc. (prev=ffff8881d2ecc240).
+>> WARNING: CPU: 1 PID: 83 at lib/list_debug.c:26 __list_add_valid+0x99/0xf0
+>> lib/list_debug.c:26
+>> Kernel panic - not syncing: panic_on_warn set ...
+>> CPU: 1 PID: 83 Comm: kworker/1:2 Not tainted 5.3.0+ #0
+>> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+>> Google 01/01/2011
+>> Workqueue: usb_hub_wq hub_event
+>> Call Trace:
+>>    __dump_stack lib/dump_stack.c:77 [inline]
+>>    dump_stack+0xca/0x13e lib/dump_stack.c:113
+>>    panic+0x2a3/0x6da kernel/panic.c:219
+>>    __warn.cold+0x20/0x4a kernel/panic.c:576
+>>    report_bug+0x262/0x2a0 lib/bug.c:186
+>>    fixup_bug arch/x86/kernel/traps.c:179 [inline]
+>>    fixup_bug arch/x86/kernel/traps.c:174 [inline]
+>>    do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
+>>    do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
+>>    invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1028
+>> RIP: 0010:__list_add_valid+0x99/0xf0 lib/list_debug.c:26
+>> Code: 48 c7 c7 60 06 db 85 e8 2a 7a 30 ff 0f 0b 48 83 c4 08 31 c0 5d 41 5c
+>> c3 48 89 f1 48 c7 c7 20 07 db 85 4c 89 e6 e8 0c 7a 30 ff <0f> 0b 31 c0 eb
+>> c5 48 89 f2 4c 89 e1 48 89 ee 48 c7 c7 a0 07 db 85
+>> RSP: 0018:ffff8881d93cf120 EFLAGS: 00010286
+>> RAX: 0000000000000000 RBX: ffff8881d2810120 RCX: 0000000000000000
+>> RDX: 0000000000000000 RSI: ffffffff8128d3fd RDI: ffffed103b279e16
+>> RBP: ffff8881d2810240 R08: ffff8881d92a3000 R09: fffffbfff11f45af
+>> R10: fffffbfff11f45ae R11: ffffffff88fa2d77 R12: ffffffff87779de0
+>> R13: ffff8881d2810000 R14: ffff8881d281012c R15: ffff8881d2c84400
+>>    __list_add include/linux/list.h:60 [inline]
+>>    list_add_tail include/linux/list.h:93 [inline]
+>>    em28xx_init_extension+0x44/0x1f0
+>> drivers/media/usb/em28xx/em28xx-core.c:1125
+>>    em28xx_init_dev.isra.0+0xa7b/0x15d8
+>> drivers/media/usb/em28xx/em28xx-cards.c:3520
+>>    em28xx_usb_probe.cold+0xcac/0x2516
+>> drivers/media/usb/em28xx/em28xx-cards.c:3869
+>>    usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+>>    really_probe+0x281/0x6d0 drivers/base/dd.c:548
+>>    driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+>>    __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+>>    bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+>>    __device_attach+0x217/0x360 drivers/base/dd.c:894
+>>    bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+>>    device_add+0xae6/0x16f0 drivers/base/core.c:2201
+>>    usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+>>    generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+>>    usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+>>    really_probe+0x281/0x6d0 drivers/base/dd.c:548
+>>    driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+>>    __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+>>    bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+>>    __device_attach+0x217/0x360 drivers/base/dd.c:894
+>>    bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+>>    device_add+0xae6/0x16f0 drivers/base/core.c:2201
+>>    usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+>>    hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+>>    hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+>>    port_event drivers/usb/core/hub.c:5359 [inline]
+>>    hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
+>>    process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+>>    process_scheduled_works kernel/workqueue.c:2331 [inline]
+>>    worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+>>    kthread+0x318/0x420 kernel/kthread.c:255
+>>    ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+>> Kernel Offset: disabled
+>> Rebooting in 86400 seconds..
+>>
+>>
+>> ---
+>> This bug is generated by a bot. It may contain errors.
+>> See https://goo.gl/tpsmEJ for more information about syzbot.
+>> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>>
+>> syzbot will keep track of this bug report. See:
+>> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>> syzbot can test patches for this bug, for details see:
+>> https://goo.gl/tpsmEJ#testing-patches
+> #syz dup: BUG: corrupted list in em28xx_init_extension
 >
-> Thanks for taking the time Sean.  I know you've got a lot of other
-> things on the go, so I really do appreciate it.
->
-> > > > Thanks
-> > > >
-> > > > Sean
-> > >
-> > > I've been using the latest ACPI Spec (6.3) to better comprehend the
-> > > macros, and what they should produce.  Running the DSDT through
-> > > acpiexec for \_SB.PCI0.CR00._CRS gives:
-> > >
-> > > - execute \_SB.PCI0.CR00._CRS
-> > > Evaluating \_SB.PCI0.CR00._CRS
-> > > 0x1 Outstanding allocations after evaluation of \_SB.PCI0.CR00._CRS
-> > > Evaluation of \_SB.PCI0.CR00._CRS returned object 0x562c4e9a9c90,
-> > > external buffer length 28
-> > > [Buffer] Length 10 =   0000: 47 01 80 06 80 06 01 08 22 00 04 2A 00 00
-> > > 79 00  // G......."..*..y.
-> > >
-> > > I'm still a little unclear on the first byte (47) and the last two (79
-> > > 00), generated presumably by ResourceTemplate(), but the rest seem to
-> > > match the expected results based on the inputs.  Aside from the
-> > > obvious difference in the address range length compared to the PN50's
-> > > BUF0, which seems to be the PN50's problem, the definition of BUF0 is
-> > > consistent.  I've even recompiled the DSDT with a length of 0x10 just
-> > > to see if that made a difference, and it doesn't.  Still no sign of
-> > > the driver in dmesg.  Although it would be nice to see the full CR00
-> > > definition for the PN50, it seems less likely that the problem lies
-> > > here.
-> > >
-> > > I've tried various acpi kernel debugging settings, but easily get
-> > > swamped with output.  Is there a process path somewhere that can be
-> > > followed to understand how the device goes through the ACPI process
-> > > and eventually gets picked up by the kernel?  I still feel like the
-> > > problem precedes the kernel's involvement.  The kernel obviously has
-> > > some degree of awareness of the DSDT entry, because I can find :
-> > >
-> > > /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/ITE8708:00/
-> > >
-> > > The status is correct (0x0F), but under the physical_node, I have no
-> > > 'resources' entry.  Should there be one?  I have a 'resource' file,
-> > > but it only returns zeroes.
-> >
-> > This does _sound_ like an acpi issue, I've cc'ed linux-acpi@vger.kernel.org.
-> >
-> > > And instead of being linked to ite_cir (which is showing in lsmod, but
-> > > not used by anything), the driver ->
-> > > ../../../bus/pci/drivers/skl_uncore
-> > >
-> > > To me, that seems like it's processing what it has been presented, but
-> > > I've been wrong before.  I'm open for directions on where to
-> > > investigate next.
-> >
-> > This is not something I can help with, I'm afraid.
-> >
-> > Thanks,
-> >
-> > Sean
