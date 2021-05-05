@@ -2,220 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFC2E373D71
-	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 16:15:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4DF2373D96
+	for <lists+linux-media@lfdr.de>; Wed,  5 May 2021 16:23:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232759AbhEEOQg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 May 2021 10:16:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35654 "EHLO mail.kernel.org"
+        id S232836AbhEEOYc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 May 2021 10:24:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42118 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232733AbhEEOQe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 May 2021 10:16:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B97261106;
-        Wed,  5 May 2021 14:15:35 +0000 (UTC)
+        id S232283AbhEEOYb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 May 2021 10:24:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 22F9361029;
+        Wed,  5 May 2021 14:23:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620224138;
-        bh=Dm86HNWhTP5ywVYQgBazD3r+DHUcNYJVAYcVIdMuGt4=;
+        s=k20201202; t=1620224614;
+        bh=fHzvZb04EncTIhKLD9UpQo/lk3yj1BkGTtkLC0Aet3s=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=mPQAayT+vIeGsDpuv5VCic1U8BoxH50iO7qWXqGufVb8NAbxCJtYhs6bsnKQtjN/C
-         xBGcAoZ49N/sGES3er5z8VmPDdRGJ/BJeWWorTCFB/vfKsgk5V1Rc9W4o/FzZVwn5n
-         KhiQV4CDU5lOQVeFp1S9Y0dvqLB7KHMkYHr+gbgFvCrkx0m5p4uD86WjQH/cBcYUkZ
-         anyI8gy42uJ+/KDtm6G4uUWXi+rGgX5mpizE7GyIDHM3G65mF4HdCs8PvnMZuOPGxh
-         r8HPWWQokQZ2tvGZzC4LHVwAf+iqzKsIBVO3FxrlTajLnrBMr9VpByvg1uejhk+My1
-         1kFgXf0DdDseg==
-Date:   Wed, 5 May 2021 16:15:32 +0200
+        b=eR+gstgGSeKG+jWCsGQlOUU36DMvvYokFuDdQ8fWjhCk8SwIcIUeRsqMiy1w9JzOQ
+         olgBZoyo/vuZ3T6yhYdZkzp76Wt/WHpTuyt6rusu8cCI7MhauTYQIlJLD8bUCeiWKQ
+         a8vnBbb2ISRqNebLFV1/Qpud/P7sJDlJyy17vcNNHi+790hKOJcHxjTwbi70yt7LMR
+         klp08xMRp1mXYk928MshmGC8Li2JXImIuvuLGPT9amHX95fyA2jXKdqWJFBKZISGve
+         1+5qAtjO7WDzl5NYuFt+9rMdMyUZLBaQRFrpP3sbObpd/8xvzDoDey3oACapIaVrIc
+         08Zz5Gi6x+aPQ==
+Date:   Wed, 5 May 2021 16:23:28 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 09/25] media: hantro: do a PM resume earlier
-Message-ID: <20210505161532.6d9da768@coco.lan>
-In-Reply-To: <735925557d7fde1c11affeea703f8486febc825d.camel@collabora.com>
+To:     "Rui Miguel Silva" <rmfrfs@gmail.com>
+Cc:     "Jonathan Cameron" <Jonathan.Cameron@Huawei.com>,
+        <linuxarm@huawei.com>, <mauro.chehab@huawei.com>,
+        "Fabio Estevam" <festevam@gmail.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "NXP Linux Team" <linux-imx@nxp.com>,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        "Sascha Hauer" <s.hauer@pengutronix.de>,
+        "Shawn Guo" <shawnguo@kernel.org>,
+        "Steve Longerbeam" <slongerbeam@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH 02/25] staging: media: imx7-mipi-csis: fix
+ pm_runtime_get_sync() usage count
+Message-ID: <20210505162328.1e5fff80@coco.lan>
+In-Reply-To: <CB5D4B64QTP4.GBH80G3VX3B6@arch-thunder>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-        <82114a4bd9c7bc1188c6a7167a6e74bb3360961d.1620207353.git.mchehab+huawei@kernel.org>
-        <11c24f97ef71b16c2e7b3ba40ca66a28c12df692.camel@collabora.com>
-        <20210505154647.62784bf7@coco.lan>
-        <735925557d7fde1c11affeea703f8486febc825d.camel@collabora.com>
+        <793a5806a63b6313606fd1c344b9eec41e61a440.1620207353.git.mchehab+huawei@kernel.org>
+        <20210505120652.00001236@Huawei.com>
+        <CB5D4B64QTP4.GBH80G3VX3B6@arch-thunder>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 05 May 2021 11:01:35 -0300
-Ezequiel Garcia <ezequiel@collabora.com> escreveu:
+Em Wed, 05 May 2021 14:56:40 +0100
+"Rui Miguel Silva" <rmfrfs@gmail.com> escreveu:
 
-> On Wed, 2021-05-05 at 15:46 +0200, Mauro Carvalho Chehab wrote:
-> > Em Wed, 05 May 2021 10:22:03 -0300
-> > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> >  =20
-> > > Hi Mauro,
-> > >=20
-> > > Thanks for working on this.
-> > >=20
-> > > On Wed, 2021-05-05 at 11:41 +0200, Mauro Carvalho Chehab wrote: =20
-> > > > The device_run() first enables the clock and then
-> > > > tries to resume PM runtime, checking for errors.
-> > > >=20
-> > > > Well, if for some reason the pm_runtime can not resume,
-> > > > it would be better to detect it beforehand.
-> > > >=20
-> > > > So, change the order inside device_run().
-> > > >=20
-> > > > Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-> > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>=C2=
-=A0  =20
-> > >=20
-> > > It seems this is wrong now, as this series doesn't have
-> > >=20
-> > > https://lore.kernel.org/linux-media/803c39fafdd62efc6f9e4d99a372af2c6=
-955143b.1619621413.git.mchehab+huawei@kernel.org/
-> > >=20
-> > > I don't fully understand why all the back and forth
-> > > happening on this series, but the former Hantro patches
-> > > looked good (despite perhaps unclear commit messages). =20
-> >=20
-> > There was a request to break the original /79 series into smaller ones,
-> > to make easier for reviewers. So, I opted to split it into (probably)
-> > 3 series:
-> >=20
-> > 1. Fixes (this series);
-> > 2. "use pm_runtime_resume_and_get" for the I2C drivers;
-> > 3. "use pm_runtime_resume_and_get" for remaining ones.
-> >=20
-> > Before flooding everybody's email's with series (2) and (3), better
-> > to focus at the fixes first. I'll probably send the other two series
-> > by tomorrow.
-> >  =20
-> > > Any issues just squashing these two commits from "[PATCH v4 00/79] Ad=
-dress some issues with PM runtime at media subsystem":
-> > >=20
-> > > =C2=A0 media: hantro: use pm_runtime_resume_and_get()
-> > > =C2=A0 media: hantro: do a PM resume earlier =20
-> >=20
-> > The problem is that pm_runtime_resume_and_get() was added only
-> > recently (Kernel v5.10).=20
-> >=20
-> > So, I opted to place the fix patches before the changes, as this
-> > way, most (all?) patches can be easily be backported to legacy Kernels
-> > as needed.
-> >  =20
->=20
-> Got it.
->=20
-> Maybe the better fix would be the squash of [PATCH v4 78/79] media: hantr=
-o: use pm_runtime_resume_and_get()
-> and [PATCH v4 79/79] media: hantro: do a PM resume earlier but keeping pm=
-_runtime_get_sync.
->=20
-> And then you can replace the pm_runtime_get_sync with pm_runtime_resume_a=
-nd_get.
+> Hi,
+> On Wed May 5, 2021 at 12:06 PM WEST, Jonathan Cameron wrote:
+> 
+> > On Wed, 5 May 2021 11:41:52 +0200
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> >  
+> > > The pm_runtime_get_sync() internally increments the
+> > > dev->power.usage_count without decrementing it, even on errors.
+> > > Replace it by the new pm_runtime_resume_and_get(), introduced by:
+> > > commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> > > in order to properly decrement the usage counter, avoiding
+> > > a potential PM usage counter leak.
+> > > 
+> > > Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> >
+> > Not a fix as far as I can see, just a cleanup - so perhaps not this set?  
+> 
+> yes, the original changelog of this patch, that I acked,  made it
+> clear it was a cleanup:
+> 
+> "
+> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to
+> deal with usage counter")                                                                                                                                         
+> added pm_runtime_resume_and_get() in order to automatically handle 
+> dev->power.usage_count decrement on errors.
+> 
+> Use the new API, in order to cleanup the error check logic.
+> "
+> 
+> This one above is new, but I saw Mauro is going change it.
 
-Works for me. So, the fixes patch will be the enclosed one, right?
+Yes, I'll change the subject/description to the
+"use pm_runtime_resume_and_get()" one on this patch, as there's
+no issue to be fixed here, just a cleanup ;-)
 
-Btw, I agree with Jonathan that the best would be to also move this:
+Sorry for the mess. I did lots of rebase on ~80 patch series
+over the last couple of days, based on the reviews (and my own
+internal reviews)...
 
-	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
-
-out of hantro_job_finish_no_pm(), as, when an error happens at
-device_run(), the clock lines won't be enabled at the first place.
-
-> Thanks,
-> Ezequiel
+See, the current patchset has ~80 patches with ~30% contained
+fixes. It shows that writing a balanced PM runtime code is not
+so trivial ;-)
 
 Thanks,
 Mauro
-
-[PATCH] media: hantro: do a PM resume earlier
-
-The device_run() first enables the clock and then
-tries to resume PM runtime, checking for errors.
-
-Well, if for some reason the pm_runtime can not resume,
-it would be better to detect it beforehand.
-
-So, change the order inside device_run().
-
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/me=
-dia/hantro/hantro_drv.c
-index 595e82a82728..bdb57fb56f47 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -56,14 +56,12 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 t=
-s)
- 	return hantro_get_dec_buf_addr(ctx, buf);
- }
-=20
--static void hantro_job_finish(struct hantro_dev *vpu,
--			      struct hantro_ctx *ctx,
--			      enum vb2_buffer_state result)
-+static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
-+				    struct hantro_ctx *ctx,
-+				    enum vb2_buffer_state result)
- {
- 	struct vb2_v4l2_buffer *src, *dst;
-=20
--	pm_runtime_mark_last_busy(vpu->dev);
--	pm_runtime_put_autosuspend(vpu->dev);
- 	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
-=20
- 	src =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-@@ -81,6 +79,16 @@ static void hantro_job_finish(struct hantro_dev *vpu,
- 					 result);
- }
-=20
-+static void hantro_job_finish(struct hantro_dev *vpu,
-+			      struct hantro_ctx *ctx,
-+			      enum vb2_buffer_state result)
-+{
-+	pm_runtime_mark_last_busy(vpu->dev);
-+	pm_runtime_put_autosuspend(vpu->dev);
-+
-+	hantro_job_finish_no_pm(vpu, ctx, result);
-+}
-+
- void hantro_irq_done(struct hantro_dev *vpu,
- 		     enum vb2_buffer_state result)
- {
-@@ -152,12 +160,15 @@ static void device_run(void *priv)
- 	src =3D hantro_get_src_buf(ctx);
- 	dst =3D hantro_get_dst_buf(ctx);
-=20
-+	ret =3D pm_runtime_get_sync(ctx->dev->dev);
-+	if (ret < 0) {
-+		pm_runtime_put_noidle(ctx->dev->dev);
-+		goto err_cancel_job;
-+	}
-+
- 	ret =3D clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
- 	if (ret)
- 		goto err_cancel_job;
--	ret =3D pm_runtime_get_sync(ctx->dev->dev);
--	if (ret < 0)
--		goto err_cancel_job;
-=20
- 	v4l2_m2m_buf_copy_metadata(src, dst, true);
-=20
-@@ -165,7 +176,7 @@ static void device_run(void *priv)
- 	return;
-=20
- err_cancel_job:
--	hantro_job_finish(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
-+	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
- }
-=20
- static struct v4l2_m2m_ops vpu_m2m_ops =3D {
-
-
