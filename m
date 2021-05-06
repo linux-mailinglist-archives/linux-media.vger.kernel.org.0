@@ -2,99 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D8793753EA
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 14:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 276233753F1
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 14:38:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231512AbhEFMgu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 08:36:50 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:60061 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229777AbhEFMgt (ORCPT
+        id S231190AbhEFMjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 08:39:41 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:34407 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229777AbhEFMjj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 May 2021 08:36:49 -0400
+        Thu, 6 May 2021 08:39:39 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id edEFlv0CwyEWwedEIl0zd8; Thu, 06 May 2021 14:35:49 +0200
+        id edGylv1O8yEWwedH2l10Jt; Thu, 06 May 2021 14:38:36 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1620304549; bh=WOR19envAlRRRl8TIK3qpcWJWZjCtwsC2mEH2Fdqy/I=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1620304716; bh=vuJ1klFDzrOgfdmAyyu4U1WriC+g6L2JHBDwgk6cMUA=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=GlViP6PDykjVIhbawEFdOMy0C4z3wXUEfsM7pAn3f+HNIW7lq/shfDgvZHMc75WE9
-         +EeRlLeOaAJPAFxziFYufCGeRXI7NnHVMEIsdokhyJaHbtmCazBIVfzReDTZUQMA6E
-         LNTChQm0NMDiEVF9ZNxOB3m67IPK+6iTfqYLd9SQ3+qulJt71gvqC9Z8TQD0ULc2Ic
-         MiBDWNY9ch7v3QheM2VOiL27/lvbpJcL160VjJnR0zjGyI2SGLSlf+gTH4ftfIK6om
-         C8kZ2B3M4dZTJxr7FGApY1qipJRmoovkB5gwHjOusiH9j3Xd+4fbSrS49pMLi55m38
-         +2S/Ed1to38Yg==
-Subject: Re: [PATCH v4 9/9] ARM: dts: sama5d4: enable Hantro G1 VDEC
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-media@vger.kernel.org,
-        linux-rockchip <linux-rockchip@lists.infradead.org>,
-        Frank Rowand <frowand.list@gmail.com>
-References: <20210401144336.2495479-1-emil.l.velikov@gmail.com>
- <20210401144336.2495479-10-emil.l.velikov@gmail.com>
- <a9829af1-f4e9-5835-9a74-15a0fce6b1eb@xs4all.nl>
- <CACvgo53L-3kN6WGn6VqkpZTRcVnrnLeCxRPxcGks0TR+VQuXbQ@mail.gmail.com>
+        b=NKfCPmecF69PYMSHcGYGCU+ioARVAPolCLJn5CHwJMnfrlhTJg8AepIe/kZ4ewpWE
+         QZe659EOWJKiKG9SkmuDaXPTY54zrk3D5RRD7hp0uW1ec3n4memDyWUn3kpBr4dpb6
+         DL5bIjdfvrPhEXX7NQlGWiaJAcwt53PZpClNWk+D3Rwuj0aQF3fDI0Q4A9xPADlBuA
+         obkTb7jslgWLzF4hVCf6FJs8Nzn054GwtdkUuojebpx1JVwXsjZcZmdVMAZtoIwYcO
+         n4+LVD2fC9pfbCHCDHBieuoShV2Q3Br9tWL30EzTmcNsCo5N8X/1fPoCtMfwHTbPma
+         bqqL7hLejA11g==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     emil.velikov@collabora.com
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <4b22a35f-5599-799e-9887-8ccd5a550af3@xs4all.nl>
-Date:   Thu, 6 May 2021 14:35:43 +0200
+Subject: [GIT PULL FOR v5.14] Microchip SAMA5D4 VPU support (v2)
+Message-ID: <5559aa93-3afd-a711-bd95-4ff2c77f2e49@xs4all.nl>
+Date:   Thu, 6 May 2021 14:38:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <CACvgo53L-3kN6WGn6VqkpZTRcVnrnLeCxRPxcGks0TR+VQuXbQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPQLXgmw3TGPOc4mJIm5s24EQtla8xjWuiul4+Zab4VWAYHBR33TdRxTpxrlo3azmc23Fo/ROG1fEr1jIhNkPA0jYb82UU3L6n5YmwjAPCxF7LPOj5Ts
- +LzNcwGfm+M2UhreTZTObltyByiJvGVEDFBxhhsX3C2TaUTgewariZhudBc8mt73oPSlTypRbUBQtBclgTZmTBX47yWQd3Sx/ySbd/qUqViM+V3GbQGvdwI3
- SLmRK/SyO3PmxgPSlvZYVKXAEzWm+2GsIAPTCws4H1C3VheZr/LptI5AniZJxGTOujhJLhw8mGAh472POLl0k2lSpNcN2IetFx6O0WCoei1phTP3i7kqBR0y
- 8cqyy5RTXaiPCsrWYxmATpCntsrH7tXIt5FvPOPeSbbHUOVpBfw7/IOf6RRhWiydIuVI6xJOEjmXgw50POZD1qOm7TUpRiyS7vq6wUgYRCmIrmfAtB/oSScd
- qWaEyvSvba08qrM7
+X-CMAE-Envelope: MS4xfAPK0wAB22J2d5inCiCBjn2Hm/1xHRxda7jV4eHt7J5fcXuJHmgYP8aPmFTYqnGAvKW8CudZMmtAgwHBEZ1tc4eTZgVfnWAB+MmmEaqjxzqkK5AMR6gm
+ wilYKc20+Cvm+wyieAl2bZ0cWO0Z6/UoLbwNyfkTYTF7i7ml2l/4yEJDqUrHtjlNKUS6NKG/wKIVIJiCTpF1L5RhJGXDmsYpSjSfihhzk5MSHfYmYVZyLSrr
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/05/2021 14:31, Emil Velikov wrote:
-> Hi Hans,
-> 
-> On Wed, 5 May 2021 at 15:31, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 01/04/2021 16:43, Emil Velikov wrote:
->>> From: Emil Velikov <emil.velikov@collabora.com>
->>>
->>> Add the SAMA5D4 VDEC module which comprises Hantro G1 video decoder
->>> core.
->>
->> I've accepted parts 1-8 of this series for 5.14, so this remaining patch
->> can be merged by whoever handles such dts patches.
->>
-> Can you please include this patch as well. As you can see it has been
-> Acked by Nicolas, one of the AT91 maintainers so it can go with the
-> media tree.
-
-OK, I'll do that. Usually these dts patches go through a different
-subsystem...
+Changes since the v1 of this PR: added the dts patch upon request from Emil
+(the AT91 maintainer Nicolas has acked this patch).
 
 Regards,
 
 	Hans
 
-> 
->> Regards,
->>
->>         Hans
->>
->>>
->>> Cc: Rob Herring <robh+dt@kernel.org>
->>> Cc: Frank Rowand <frowand.list@gmail.com>
->>> Cc: devicetree@vger.kernel.org
->>> Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
->>> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-> 
-> Thanks
-> Emil
-> 
+The following changes since commit 0b276e470a4d43e1365d3eb53c608a3d208cabd4:
 
+  media: coda: fix macroblocks count control usage (2021-04-15 13:23:26 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14c
+
+for you to fetch changes up to 6010200718f812870694ed41c023ea6e18fc3cc8:
+
+  ARM: dts: sama5d4: enable Hantro G1 VDEC (2021-05-06 14:34:52 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Emil Velikov (9):
+      media: hantro: use G1_REG_INTERRUPT directly for the mpeg2
+      media: hantro: imx: reuse MB_DIM define
+      media: hantro: imx: remove duplicate dec_base init
+      media: hantro: imx: remove unused include
+      media: hantro: introduce hantro_g1.c for common API
+      media: hantro: add fallback handling for single irq/clk
+      media: dt-bindings: Document SAMA5D4 VDEC bindings
+      media: hantro: add initial SAMA5D4 support
+      ARM: dts: sama5d4: enable Hantro G1 VDEC
+
+ Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml |  47 +++++++++++++
+ arch/arm/boot/dts/sama5d4.dtsi                                      |   7 ++
+ drivers/staging/media/hantro/Kconfig                                |  10 ++-
+ drivers/staging/media/hantro/Makefile                               |   4 ++
+ drivers/staging/media/hantro/hantro_drv.c                           |  40 ++++++++---
+ drivers/staging/media/hantro/hantro_g1.c                            |  39 +++++++++++
+ drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c                  |   5 +-
+ drivers/staging/media/hantro/hantro_hw.h                            |   4 ++
+ drivers/staging/media/hantro/imx8m_vpu_hw.c                         |  27 +-------
+ drivers/staging/media/hantro/rk3288_vpu_hw.c                        |  36 ++--------
+ drivers/staging/media/hantro/sama5d4_vdec_hw.c                      | 117 ++++++++++++++++++++++++++++++++
+ 11 files changed, 268 insertions(+), 68 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+ create mode 100644 drivers/staging/media/hantro/hantro_g1.c
+ create mode 100644 drivers/staging/media/hantro/sama5d4_vdec_hw.c
