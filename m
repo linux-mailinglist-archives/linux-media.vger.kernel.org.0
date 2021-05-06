@@ -2,100 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2235375D30
-	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 00:31:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1275F375DAE
+	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 01:49:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230473AbhEFWcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 18:32:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42206 "EHLO
+        id S233141AbhEFXuH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 19:50:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230149AbhEFWcE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 18:32:04 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4708C061574
-        for <linux-media@vger.kernel.org>; Thu,  6 May 2021 15:31:05 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2so10068698lft.4
-        for <linux-media@vger.kernel.org>; Thu, 06 May 2021 15:31:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=htNAnGunm2mFYSv2XzhlQsCDD0LeBwjAb0MYMtun6cM=;
-        b=BORPcZuE9+rrQQNFUoJnt6f4FpTDIRpdNZeTdxMdbIECzBdY5oiwCD0JpZedlSNZ+7
-         bix+fDrgKkNKxnNlizSFTjxEzgqSzLtT6D02CJDWAGt9oBFGQ4VHrgxc6tYB6CmAeE2+
-         8YQ9a8BVm4oo8k7TJnGL+6WsOCsGhg6VQJj04=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=htNAnGunm2mFYSv2XzhlQsCDD0LeBwjAb0MYMtun6cM=;
-        b=T85KFws9q0bBYEclny1b+MmL8RZGbrLRc+QQSgnrvODJQ1OzmXIg63U/swDMpw1p/2
-         OMAARN6mRL37L5RKKci0B4tDgdJgcQZrLmNT/SSGkvJ9PO7T68ZTJyMgYdCIul7zXS78
-         R2B6OUcZ2asgHhU/T1rHwbH3bSacJJhdIPPlJXQtjm/PMXqpKB++SppmVk81U8t8wj9A
-         ELvvU7KZK283AyJ/m0NAcJ5IFWBbeb1r4eAIKEgRsQZfwLimqpsG9p20z1yVZ3S9lKv+
-         hPMSm/d52qPi4BREe/Js0lhl8IogXqnmCYb0V6fXgcmIA+Mqxms6n5RMFu84GkY/ZojZ
-         3PmQ==
-X-Gm-Message-State: AOAM531W7eqAab+xbCSEslDBc9UEN9rjbDVp3tfbipoMXZTO2/brij6Y
-        4p5yLWhe4moKEpU9Xp1NiH3/MaXrXN0iPDaS
-X-Google-Smtp-Source: ABdhPJwEpLjTfZcVU89N7YRonF1AAzyyw7I9PpdfbEzYaAICeCQq0Md1IAVXzyeNXLFpx50LeR4LbA==
-X-Received: by 2002:a05:6512:104d:: with SMTP id c13mr4487077lfb.59.1620340263837;
-        Thu, 06 May 2021 15:31:03 -0700 (PDT)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
-        by smtp.gmail.com with ESMTPSA id t17sm975560lff.25.2021.05.06.15.31.02
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 May 2021 15:31:02 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id n138so10059204lfa.3
-        for <linux-media@vger.kernel.org>; Thu, 06 May 2021 15:31:02 -0700 (PDT)
-X-Received: by 2002:a05:6512:1095:: with SMTP id j21mr4272160lfg.40.1620340261797;
- Thu, 06 May 2021 15:31:01 -0700 (PDT)
+        with ESMTP id S233139AbhEFXuG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 19:50:06 -0400
+X-Greylist: delayed 484 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 May 2021 16:49:07 PDT
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5363BC061574
+        for <linux-media@vger.kernel.org>; Thu,  6 May 2021 16:49:07 -0700 (PDT)
+Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: zev)
+        by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 74A9D57F;
+        Thu,  6 May 2021 16:41:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+        s=thorn; t=1620344462;
+        bh=jIaZvfkenQf1rh57M8vcem0GlDIo6IbnDC4FoRVlbJo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=R7rM3llmUGP+0fYa8CpKS0+1h0hUeNv1FOm3hdT2UH2YTOQGi4WDA1S3gnMG7guDn
+         cle+gZkQjVvE0xZGiRncJVc8oIYs4D1hvZ826qUBSCHBiBrjUaf37nNmmUpixLXF8A
+         OiJYoB/0iSCorwoO77FIu3VtyXSaOxQziJji1lq8=
+From:   Zev Weiss <zev@bewilderbeest.net>
+To:     Eddie James <eajames@linux.ibm.com>
+Cc:     Zev Weiss <zev@bewilderbeest.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        Ryan Chen <ryan_chen@aspeedtech.com>,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Subject: [PATCH v2] media: aspeed-video: ignore interrupts that aren't enabled
+Date:   Thu,  6 May 2021 18:40:48 -0500
+Message-Id: <20210506234048.3214-1-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <YJBHiRiCGzojk25U@phenom.ffwll.local>
-In-Reply-To: <YJBHiRiCGzojk25U@phenom.ffwll.local>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 6 May 2021 15:30:45 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
-Message-ID: <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
-Subject: Re: [PULL] topic/iomem-mmap-vs-gup
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[ You had a really odd Reply-to on this one ]
+As partially addressed in commit 65d270acb2d6, the ASpeed video engine
+sometimes asserts interrupts that the driver hasn't enabled.  In
+addition to the CAPTURE_COMPLETE and FRAME_COMPLETE interrupts
+addressed in that patch, COMP_READY has also been observed.  Instead
+of playing whack-a-mole with each one individually, we can instead
+just blanket ignore everything we haven't explicitly enabled.
 
-On Mon, May 3, 2021 at 12:15 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> Anyway here's a small pull for you to ponder, now that the big ones are
-> all through.
+Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+---
 
-Well, _now_ I'm all caught up. Knock wood. Anyway, time to look at it:
+Changes since v1 [0]:
+ - dropped error message
+ - switched to a blanket-ignore approach as suggested by Ryan
 
-> Follow-up to my pull from last merge window: kvm and vfio lost their
-> very unsafe use of follow_pfn, this appropriately marks up the very
-> last user for some userptr-as-buffer use-cases in media. There was
-> some resistance to outright removing it, maybe we can do this in a few
-> releases.
+[0] https://lore.kernel.org/linux-arm-kernel/20201215024542.18888-1-zev@bewilderbeest.net/
 
-Hmm. So this looks mostly ok to me, although I think the change to the
-nommu case is pretty ridiculous.
+ drivers/media/platform/aspeed-video.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-On nommu, unsafe_follow_pfn() should just be a wrapper around
-follow_pfn(). There's no races when you can't remap anything. No?
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index 7bb6babdcade..77611c296a25 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -563,6 +563,12 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+ 	struct aspeed_video *video = arg;
+ 	u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
+ 
++	/*
++	 * Hardware sometimes asserts interrupts that we haven't actually
++	 * enabled; ignore them if so.
++	 */
++	sts &= aspeed_video_read(video, VE_INTERRUPT_CTRL);
++
+ 	/*
+ 	 * Resolution changed or signal was lost; reset the engine and
+ 	 * re-initialize
+@@ -629,16 +635,6 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+ 			aspeed_video_start_frame(video);
+ 	}
+ 
+-	/*
+-	 * CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even when these
+-	 * are disabled in the VE_INTERRUPT_CTRL register so clear them to
+-	 * prevent unnecessary interrupt calls.
+-	 */
+-	if (sts & VE_INTERRUPT_CAPTURE_COMPLETE)
+-		sts &= ~VE_INTERRUPT_CAPTURE_COMPLETE;
+-	if (sts & VE_INTERRUPT_FRAME_COMPLETE)
+-		sts &= ~VE_INTERRUPT_FRAME_COMPLETE;
+-
+ 	return sts ? IRQ_NONE : IRQ_HANDLED;
+ }
+ 
+-- 
+2.31.1
 
-Do the two media cases even work on nommu?
-
-Finally - did you intend fo this to be a real pull request? Because
-the email read to me like "think about this and tell me what you
-think" rather than "please pull"..
-
-And I have now fulfilled that "think about and tell me" part ;)
-
-              Linus
