@@ -2,186 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A7B5375C94
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 23:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2235375D30
+	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 00:31:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230383AbhEFVHi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 17:07:38 -0400
-Received: from smtp01.smtpout.orange.fr ([80.12.242.123]:19813 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230348AbhEFVHh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 17:07:37 -0400
-Received: from localhost.localdomain ([86.243.172.93])
-        by mwinf5d54 with ME
-        id 1Z6c2500B21Fzsu03Z6dmj; Thu, 06 May 2021 23:06:37 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 06 May 2021 23:06:37 +0200
-X-ME-IP: 86.243.172.93
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] media: ttpci: switch from 'pci_' to 'dma_' API
-Date:   Thu,  6 May 2021 23:06:34 +0200
-Message-Id: <5fedfb7d18b8b1ae9c9fee0dd894e87f735f70f6.1620335119.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.30.2
+        id S230473AbhEFWcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 18:32:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42206 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230149AbhEFWcE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 18:32:04 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4708C061574
+        for <linux-media@vger.kernel.org>; Thu,  6 May 2021 15:31:05 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2so10068698lft.4
+        for <linux-media@vger.kernel.org>; Thu, 06 May 2021 15:31:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=htNAnGunm2mFYSv2XzhlQsCDD0LeBwjAb0MYMtun6cM=;
+        b=BORPcZuE9+rrQQNFUoJnt6f4FpTDIRpdNZeTdxMdbIECzBdY5oiwCD0JpZedlSNZ+7
+         bix+fDrgKkNKxnNlizSFTjxEzgqSzLtT6D02CJDWAGt9oBFGQ4VHrgxc6tYB6CmAeE2+
+         8YQ9a8BVm4oo8k7TJnGL+6WsOCsGhg6VQJj04=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=htNAnGunm2mFYSv2XzhlQsCDD0LeBwjAb0MYMtun6cM=;
+        b=T85KFws9q0bBYEclny1b+MmL8RZGbrLRc+QQSgnrvODJQ1OzmXIg63U/swDMpw1p/2
+         OMAARN6mRL37L5RKKci0B4tDgdJgcQZrLmNT/SSGkvJ9PO7T68ZTJyMgYdCIul7zXS78
+         R2B6OUcZ2asgHhU/T1rHwbH3bSacJJhdIPPlJXQtjm/PMXqpKB++SppmVk81U8t8wj9A
+         ELvvU7KZK283AyJ/m0NAcJ5IFWBbeb1r4eAIKEgRsQZfwLimqpsG9p20z1yVZ3S9lKv+
+         hPMSm/d52qPi4BREe/Js0lhl8IogXqnmCYb0V6fXgcmIA+Mqxms6n5RMFu84GkY/ZojZ
+         3PmQ==
+X-Gm-Message-State: AOAM531W7eqAab+xbCSEslDBc9UEN9rjbDVp3tfbipoMXZTO2/brij6Y
+        4p5yLWhe4moKEpU9Xp1NiH3/MaXrXN0iPDaS
+X-Google-Smtp-Source: ABdhPJwEpLjTfZcVU89N7YRonF1AAzyyw7I9PpdfbEzYaAICeCQq0Md1IAVXzyeNXLFpx50LeR4LbA==
+X-Received: by 2002:a05:6512:104d:: with SMTP id c13mr4487077lfb.59.1620340263837;
+        Thu, 06 May 2021 15:31:03 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
+        by smtp.gmail.com with ESMTPSA id t17sm975560lff.25.2021.05.06.15.31.02
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 May 2021 15:31:02 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id n138so10059204lfa.3
+        for <linux-media@vger.kernel.org>; Thu, 06 May 2021 15:31:02 -0700 (PDT)
+X-Received: by 2002:a05:6512:1095:: with SMTP id j21mr4272160lfg.40.1620340261797;
+ Thu, 06 May 2021 15:31:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <YJBHiRiCGzojk25U@phenom.ffwll.local>
+In-Reply-To: <YJBHiRiCGzojk25U@phenom.ffwll.local>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 6 May 2021 15:30:45 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
+Message-ID: <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
+Subject: Re: [PULL] topic/iomem-mmap-vs-gup
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-samsung-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The wrappers in include/linux/pci-dma-compat.h should go away.
+[ You had a really odd Reply-to on this one ]
 
-The patch has been generated with the coccinelle script below and has been
-hand modified to replace GFP_ with a correct flag.
-It has been compile tested.
+On Mon, May 3, 2021 at 12:15 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> Anyway here's a small pull for you to ponder, now that the big ones are
+> all through.
 
-When memory is allocated in 'ace_allocate_descriptors()' and
-'ace_init()' GFP_KERNEL can be used because both functions are called from
-the probe function and no lock is acquired.
+Well, _now_ I'm all caught up. Knock wood. Anyway, time to look at it:
 
+> Follow-up to my pull from last merge window: kvm and vfio lost their
+> very unsafe use of follow_pfn, this appropriately marks up the very
+> last user for some userptr-as-buffer use-cases in media. There was
+> some resistance to outright removing it, maybe we can do this in a few
+> releases.
 
-@@
-@@
--    PCI_DMA_BIDIRECTIONAL
-+    DMA_BIDIRECTIONAL
+Hmm. So this looks mostly ok to me, although I think the change to the
+nommu case is pretty ridiculous.
 
-@@
-@@
--    PCI_DMA_TODEVICE
-+    DMA_TO_DEVICE
+On nommu, unsafe_follow_pfn() should just be a wrapper around
+follow_pfn(). There's no races when you can't remap anything. No?
 
-@@
-@@
--    PCI_DMA_FROMDEVICE
-+    DMA_FROM_DEVICE
+Do the two media cases even work on nommu?
 
-@@
-@@
--    PCI_DMA_NONE
-+    DMA_NONE
+Finally - did you intend fo this to be a real pull request? Because
+the email read to me like "think about this and tell me what you
+think" rather than "please pull"..
 
-@@
-expression e1, e2, e3;
-@@
--    pci_alloc_consistent(e1, e2, e3)
-+    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+And I have now fulfilled that "think about and tell me" part ;)
 
-@@
-expression e1, e2, e3;
-@@
--    pci_zalloc_consistent(e1, e2, e3)
-+    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_free_consistent(e1, e2, e3, e4)
-+    dma_free_coherent(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_map_single(e1, e2, e3, e4)
-+    dma_map_single(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_unmap_single(e1, e2, e3, e4)
-+    dma_unmap_single(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4, e5;
-@@
--    pci_map_page(e1, e2, e3, e4, e5)
-+    dma_map_page(&e1->dev, e2, e3, e4, e5)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_unmap_page(e1, e2, e3, e4)
-+    dma_unmap_page(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_map_sg(e1, e2, e3, e4)
-+    dma_map_sg(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_unmap_sg(e1, e2, e3, e4)
-+    dma_unmap_sg(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
-+    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_dma_sync_single_for_device(e1, e2, e3, e4)
-+    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
-+    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2, e3, e4;
-@@
--    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
-+    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
-
-@@
-expression e1, e2;
-@@
--    pci_dma_mapping_error(e1, e2)
-+    dma_mapping_error(&e1->dev, e2)
-
-@@
-expression e1, e2;
-@@
--    pci_set_dma_mask(e1, e2)
-+    dma_set_mask(&e1->dev, e2)
-
-@@
-expression e1, e2;
-@@
--    pci_set_consistent_dma_mask(e1, e2)
-+    dma_set_coherent_mask(&e1->dev, e2)
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-If needed, see post from Christoph Hellwig on the kernel-janitors ML:
-   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
----
- drivers/media/pci/ttpci/budget-core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/pci/ttpci/budget-core.c b/drivers/media/pci/ttpci/budget-core.c
-index d405eea5c37f..5d5796f24469 100644
---- a/drivers/media/pci/ttpci/budget-core.c
-+++ b/drivers/media/pci/ttpci/budget-core.c
-@@ -180,7 +180,8 @@ static void vpeirq(struct tasklet_struct *t)
- 	u32 count;
- 
- 	/* Ensure streamed PCI data is synced to CPU */
--	pci_dma_sync_sg_for_cpu(budget->dev->pci, budget->pt.slist, budget->pt.nents, PCI_DMA_FROMDEVICE);
-+	dma_sync_sg_for_cpu(&budget->dev->pci->dev, budget->pt.slist,
-+			    budget->pt.nents, DMA_FROM_DEVICE);
- 
- 	/* nearest lower position divisible by 188 */
- 	newdma -= newdma % 188;
--- 
-2.30.2
-
+              Linus
