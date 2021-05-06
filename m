@@ -2,129 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56D253752B6
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 13:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B99EF37536D
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 14:07:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234638AbhEFLBS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 07:01:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56650 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234508AbhEFLBR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 07:01:17 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30568C061574
-        for <linux-media@vger.kernel.org>; Thu,  6 May 2021 04:00:18 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2so7186213lft.4
-        for <linux-media@vger.kernel.org>; Thu, 06 May 2021 04:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=YG0Wik7vCVlEPNPBs+I/+DdeQPewCO2NCWYBkcQbEVI=;
-        b=sRfrXDMzv3JcpQYnLRVH9IgOPpqgu2IurpOv462AsEoJDZXFw8R6el1vspPjWQeVpa
-         yOAdVFCNERkzbFFZTbHt23em65l8WEH8jxi7ibXztz8h0Wup1fCAad/IOnkPJ/sxwovN
-         l4HJnqRiW4lOTmdKMH/HP6zV4PrbX8BdtDUvJalOuJr7tbD3+N0qv2hO8vBZAz9Al1aB
-         5ImSiqS8h+slwquAuucnNafJ/mSkIfHtThgvGTKCPRf5Zi/Nn+OTb8dpAS7s6l44Td6I
-         tzw8GCD0l1kFe0bgKC2GI/S7ULSzdfiCAoR/1P6z2+UK1V1IoOw/LkRTqeotilVJpmcD
-         UWsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=YG0Wik7vCVlEPNPBs+I/+DdeQPewCO2NCWYBkcQbEVI=;
-        b=ZRViJlvtZfGs0zUOeOYZPisjKTTjnJ9OQo1LORAcy0BMD+X2MYB3Sko+pTBsvlHKSm
-         CEFx3EIbH6gFyAdxZXSLNtUPU2WSHBqqXZkrVl+2SVwdTs7qGVQSF2wL/zSwcbGuXgIp
-         FP7EgSs1/268mvdiITMJvyJC3n8w+HI1+6daA+YL6401ANn7T77x1p/UieYFs7uz1cAD
-         V00tGvo5OJZxRXQlZNlG1B19QqYmSzf2m4zeXL/5L22qDy/2sJ2pJc7pPB07Q94Dto9N
-         MAweAA4+UtHeh1/rUiXkd5cVJSdDMwO/8PpvtqYdlQgaRalufUR1S1Ko3RNvlDL8RgK9
-         clyA==
-X-Gm-Message-State: AOAM533j8N470m9/FKERWxqUQudH/JESK9qyrLCnzqgMwWUpGtL2tPWf
-        fcvK/swV8hMbSzdvbKw84AY=
-X-Google-Smtp-Source: ABdhPJxuNuVRIw5CLy3WnAOdZxc91G8YrQ5LGJQCFq7iUZMjOsI8AONkbaqqDY+9GOECs0Wav44ylg==
-X-Received: by 2002:a05:6512:33c4:: with SMTP id d4mr2607760lfg.536.1620298816679;
-        Thu, 06 May 2021 04:00:16 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id q5sm589077lfu.109.2021.05.06.04.00.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 04:00:16 -0700 (PDT)
-Date:   Thu, 6 May 2021 14:00:05 +0300
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     "Sharma, Shashank" <Shashank.Sharma@amd.com>
-Cc:     Daniel Stone <daniel@fooishbar.org>,
-        "wayland-devel@lists.freedesktop.org" 
-        <wayland-devel@lists.freedesktop.org>, xorg-devel@lists.x.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: Independent EDID parsing library
-Message-ID: <20210506140005.72db6d83@eldfell>
-In-Reply-To: <20210429134958.446ef8c6@eldfell>
-References: <BYAPR12MB31265E45A92C468AC1660EB6F25F9@BYAPR12MB3126.namprd12.prod.outlook.com>
-        <20210429134958.446ef8c6@eldfell>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S230372AbhEFMIA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 08:08:00 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35975 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230145AbhEFMH7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 May 2021 08:07:59 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id ecmPlunZvyEWwecmSl0rmX; Thu, 06 May 2021 14:07:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1620302820; bh=6B0qo5cFnFbeyWyB0JOKX48ni7gKNjHRb1YuNVqvBo8=;
+        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=GNiUTk2riMClpYtxRrSL1IapACrlbkSGuka8Kf3N5G2C6F1PQZjNuyz91nUG+7kir
+         WMhuyF76M+VJumoWLsokX1auqAXdY+ADlnHGNqYbSR4WAqrBUNK0rcDns9kVOvV/pW
+         bFVo1TjmfD+4wil8UsSmFZ5YlMt7kr/NNiYomZzrqBzoYDduhNoJTDOvgv2TAL2+3c
+         78swC9WTItzlf8JveQXa4Mgrt+sPG55S9E8UCLZ2pEBoDksMrd6VSp952o+BfMs7ly
+         qXNVTMU7ViFCTl8oBQGOL61tgOvkW2zoRZNPUR7iGvaHPzcDJ8zntgq+zBNRC2qFN7
+         8iT8/9XDeqQ8Q==
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] adv7842: support EDIDs up to 4 blocks
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Message-ID: <9fb6b6bc-6b42-9aa0-cee7-b2d461a6f20b@xs4all.nl>
+Date:   Thu, 6 May 2021 14:06:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/W7FDa0tjSw1+cujpALB9tcc"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfFxd6C5varv1rzq/e9cuJdt1o3+F/ZCzunI4rtOHE7TPyTdvoPDQBMBBtL0YzrPONs/hzYFjOBS8qDP0JpfLlvye2ZSPElLb+egCYBvNQreMHLk9ZBAe
+ x4I0LNfpskMWE0e0Uck3BgN4ojKY3AM5QBrE+xXaN1t21hImWx3vdfAWVykUTPPFuVBpBfrjXCIEwGCm4PrrI1UtQXyXN89vQ/w=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/W7FDa0tjSw1+cujpALB9tcc
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The adv7842 driver didn't support EDIDs of 3 or 4 blocks, even though the
+hardware supports this.
 
-On Thu, 29 Apr 2021 13:49:58 +0300
-Pekka Paalanen <ppaalanen@gmail.com> wrote:
+It is a bit more complicated due to the fact that the adv7842 can expose
+two EDIDs: one digital, one analog, for DVI-I connectors. In that case the
+VGA_EDID_ENABLE bit is set and blocks 0 and 1 of the EDID eeprom are used
+for the DVI-D part and block 2 is used for the DVI-A part of the DVI-I
+connector.
 
-> Adding the previous list of CCs.
->=20
-> On Thu, 29 Apr 2021 10:32:58 +0000
-> "Sharma, Shashank" <Shashank.Sharma@amd.com> wrote:
->=20
-> > Hello Pekka, Daniel
-> >=20
-> > As discussed over IRC, I have prepared the first version of the EDID pa=
-rsing library, which is hosted here:
-> > https://github.com/contactshashanksharma/libedid/tree/master
-> >=20
-> > This is a simple C library, and I have created this library keeping a c=
-ompositor's context in mind, so its easy for a compositor to use it.
-> > There are only 2 APIs in this library:
-> >               - libedid_process_edid_info: Get EDID information from ra=
-w_edid, returns filled struct edid_info ptr
-> >               - libedid_destroy_edid_info: Free the EDID information
-> >=20
-> > I have provided much information in the README file, and have also adde=
-d two simple test apps, with sample EDID, to test it.
-> > Please have a look and let me know your opinion on this.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
+index 29140d0c4c0e..a0be78a6a617 100644
+--- a/drivers/media/i2c/adv7842.c
++++ b/drivers/media/i2c/adv7842.c
+@@ -98,12 +98,12 @@ struct adv7842_state {
 
-Hi,
+ 	v4l2_std_id norm;
+ 	struct {
+-		u8 edid[256];
++		u8 edid[512];
+ 		u32 blocks;
+ 		u32 present;
+ 	} hdmi_edid;
+ 	struct {
+-		u8 edid[256];
++		u8 edid[128];
+ 		u32 blocks;
+ 		u32 present;
+ 	} vga_edid;
+@@ -720,6 +720,9 @@ static int edid_write_vga_segment(struct v4l2_subdev *sd)
 
-I started a discussion on the API:
-https://github.com/contactshashanksharma/libedid/issues/2
+ 	v4l2_dbg(2, debug, sd, "%s: write EDID on VGA port\n", __func__);
 
++	if (!state->vga_edid.present)
++		return 0;
++
+ 	/* HPA disable on port A and B */
+ 	io_write_and_or(sd, 0x20, 0xcf, 0x00);
 
-Thanks,
-pq
+@@ -763,7 +766,7 @@ static int edid_write_hdmi_segment(struct v4l2_subdev *sd, u8 port)
+ 	struct adv7842_state *state = to_state(sd);
+ 	const u8 *edid = state->hdmi_edid.edid;
+ 	u32 blocks = state->hdmi_edid.blocks;
+-	int spa_loc;
++	unsigned int spa_loc;
+ 	u16 pa, parent_pa;
+ 	int err = 0;
+ 	int i;
+@@ -796,12 +799,14 @@ static int edid_write_hdmi_segment(struct v4l2_subdev *sd, u8 port)
+ 		pa = (edid[spa_loc] << 8) | edid[spa_loc + 1];
+ 	}
 
---Sig_/W7FDa0tjSw1+cujpALB9tcc
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+-	/* edid segment pointer '0' for HDMI ports */
+-	rep_write_and_or(sd, 0x77, 0xef, 0x00);
 
------BEGIN PGP SIGNATURE-----
+-	for (i = 0; !err && i < blocks * 128; i += I2C_SMBUS_BLOCK_MAX)
++	for (i = 0; !err && i < blocks * 128; i += I2C_SMBUS_BLOCK_MAX) {
++		/* set edid segment pointer for HDMI ports */
++		if (i % 256 == 0)
++			rep_write_and_or(sd, 0x77, 0xef, i >= 256 ? 0x10 : 0x00);
+ 		err = i2c_smbus_write_i2c_block_data(state->i2c_edid, i,
+ 						     I2C_SMBUS_BLOCK_MAX, edid + i);
++	}
+ 	if (err)
+ 		return err;
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCTzDUACgkQI1/ltBGq
-qqcNrw//Zm5LchI+BE8lN105rRh/6pAaSCKQ2ZC8XIifMdAECpdQG6VqR5sXD/V2
-P0Nr3QVrIy8vSFGdH9E+AAMaqQzO0AbA5PkkUOnwlRSsgXgokuexKEEmCLKnlRYA
-zhKE/aKUtyFh91V3Pk8Eaw4ELR1YV/HqpEoSDue08HY0HML14DT85MECqEgh8uwb
-BoT6HX9TN/8Ri9k3HSaqSQtzR64B4k8hdy3D0Kayq/LDjIi+WCCKqPs3qzn7TTwK
-7vIB7nQrtSXb6fvCXG3oTK6LLCdkh9IAGrhr8yVkkBK4q1v6ys1S+a5cu5bbcfIR
-TLubIyHR3c4NwQl24vlMeegkYnHbKJs/eEHHeJIzv7G9EHbuHOff3Y0Zm3nT6BA3
-ph7gX+fI9mOHFnXu+wB5N7P42dnDwClskNYOgFN/kb0P2C4Dy2Uv29TI08IMP3st
-NuUmXN8U7DIt5eg9d2iB5DnJuvfqIq6ncEV25hzaB15twoDNq8URF1UJWTTSKSmB
-oCT5AFtBV4fYwMIzC2SpjCrgHdaOKLMpCPt7sZKu0d2DHr0eAJr8p6xwQ8eLCNdL
-MPpigYe4/CZZWaOX7PtapLOFTyqlACvDRFHxCBpQSQligBk+tkKADovyxF+ug2rS
-9+/iia/VUD3h1p+emI1emIk6M0lw80YAo4Lkx37Jy7+J+Vmmyqk=
-=ReUL
------END PGP SIGNATURE-----
+@@ -2491,9 +2496,17 @@ static int adv7842_get_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
+ 	return 0;
+ }
 
---Sig_/W7FDa0tjSw1+cujpALB9tcc--
++/*
++ * If the VGA_EDID_ENABLE bit is set (Repeater Map 0x7f, bit 7), then
++ * the first two blocks of the EDID are for the HDMI, and the first block
++ * of segment 1 (i.e. the third block of the EDID) is for VGA.
++ * So if a VGA EDID is installed, then the maximum size of the HDMI EDID
++ * is 2 blocks.
++ */
+ static int adv7842_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *e)
+ {
+ 	struct adv7842_state *state = to_state(sd);
++	unsigned int max_blocks = e->pad == ADV7842_EDID_PORT_VGA ? 1 : 4;
+ 	int err = 0;
+
+ 	memset(e->reserved, 0, sizeof(e->reserved));
+@@ -2502,8 +2515,12 @@ static int adv7842_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *e)
+ 		return -EINVAL;
+ 	if (e->start_block != 0)
+ 		return -EINVAL;
+-	if (e->blocks > 2) {
+-		e->blocks = 2;
++	if (e->pad < ADV7842_EDID_PORT_VGA && state->vga_edid.blocks)
++		max_blocks = 2;
++	if (e->pad == ADV7842_EDID_PORT_VGA && state->hdmi_edid.blocks > 2)
++		return -EBUSY;
++	if (e->blocks > max_blocks) {
++		e->blocks = max_blocks;
+ 		return -E2BIG;
+ 	}
+
+@@ -2514,7 +2531,7 @@ static int adv7842_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *e)
+
+ 	switch (e->pad) {
+ 	case ADV7842_EDID_PORT_VGA:
+-		memset(&state->vga_edid.edid, 0, 256);
++		memset(&state->vga_edid.edid, 0, sizeof(state->vga_edid.edid));
+ 		state->vga_edid.blocks = e->blocks;
+ 		state->vga_edid.present = e->blocks ? 0x1 : 0x0;
+ 		if (e->blocks)
+@@ -2523,7 +2540,7 @@ static int adv7842_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *e)
+ 		break;
+ 	case ADV7842_EDID_PORT_A:
+ 	case ADV7842_EDID_PORT_B:
+-		memset(&state->hdmi_edid.edid, 0, 256);
++		memset(&state->hdmi_edid.edid, 0, sizeof(state->hdmi_edid.edid));
+ 		state->hdmi_edid.blocks = e->blocks;
+ 		if (e->blocks) {
+ 			state->hdmi_edid.present |= 0x04 << e->pad;
+
