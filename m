@@ -2,93 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3EAB37582D
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 18:06:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D9D13758E8
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 19:07:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235710AbhEFQHU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 12:07:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41278 "EHLO
+        id S236122AbhEFRIN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 13:08:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235156AbhEFQHT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 12:07:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B68C061574;
-        Thu,  6 May 2021 09:06:20 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7DBA89D;
-        Thu,  6 May 2021 18:06:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1620317179;
-        bh=pPRN7aviLixXqbXvHZ811Lqc8oDiwN3xjtvymz/3+pY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o8j4QTHg69dGi6GRqr/9rBeBfIaf8RzOgt1yRTEB+bA+Boz37zOvPVxSCZvAQeTma
-         2MM7ZhvxYcC1Jzc4Ssgs5EhEOUfdJ0sK9/U4e4kYt9OoYz5O+a4/H/NP0BGiJca/8g
-         9h1PeQarvjTI9HE/x3u9GKkQQ2ZVwsqaTMAfeNDM=
-Date:   Thu, 6 May 2021 19:06:14 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 23/25] media: vsp1: use pm_runtime_resume_and_get()
-Message-ID: <YJQT9hXnGn5hrjQA@pendragon.ideasonboard.com>
-References: <cover.1620314616.git.mchehab+huawei@kernel.org>
- <8e8ca03fd0dfa1b3245c0ff0201f3cf9a522ede2.1620314616.git.mchehab+huawei@kernel.org>
+        with ESMTP id S236042AbhEFRIN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 13:08:13 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B78C061574
+        for <linux-media@vger.kernel.org>; Thu,  6 May 2021 10:07:14 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 0C724C6393; Thu,  6 May 2021 18:07:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1620320833; bh=vdFzh8vAVOnsaluLJNV2YoHkigl7CDiWTL7QiYDCScU=;
+        h=From:To:Subject:Date:From;
+        b=SqUeceglpQRlILCC+PzZDXCYVd8MeMj2v2vuZvplVSkspw5AydaaSAUGF4owozfks
+         2jtXfl+1CVu1wxr14xqcTf6pHxmw0KUUbiQDx1ScJWLLB3UShFDiqaCkAcgW3mIadi
+         iaqHw4WexCRRvQGrz1I0oskI/CN9VN4LQHlyaqYySIqIticWjs6IcVlnNSVGpI7F+r
+         fa52svSkjeos5FmvYyntkdCjvUzsaSwKjR0DyimjT5/fWfCNeJSSlYqrDBpobA5vTw
+         lCKT7sJ4YFDDuQZd6cgRjeRZ0uCVu5W6fk6hXUoeLS8r+7zlvOv5rJU7SFFrWOc18z
+         KAKbNbp0KNHjQ==
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v4l-utils] ir-ctl: usb-uirt device reports carrier frequency for each pulse
+Date:   Thu,  6 May 2021 18:07:12 +0100
+Message-Id: <20210506170712.11732-1-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8e8ca03fd0dfa1b3245c0ff0201f3cf9a522ede2.1620314616.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+The carrier frequency is reported a number of times. So, rather than
+printing the last carrier reported, calculate the mean.
 
-Thank you for the patch.
+Possibly it would be better to calculate the mode rather than the mean.
 
-On Thu, May 06, 2021 at 05:26:01PM +0200, Mauro Carvalho Chehab wrote:
-> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> added pm_runtime_resume_and_get() in order to automatically handle
-> dev->power.usage_count decrement on errors.
-> 
-> Use the new API, in order to cleanup the error check logic.
-> 
-> As a bonus, pm_runtime_resume_and_get() always return 0 on success.
-> So, the code can be simplified.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ utils/ir-ctl/ir-ctl.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/platform/vsp1/vsp1_drv.c | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-> index aa66e4f5f3f3..de442d6c9926 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -559,15 +559,7 @@ static int vsp1_device_init(struct vsp1_device *vsp1)
->   */
->  int vsp1_device_get(struct vsp1_device *vsp1)
->  {
-> -	int ret;
-> -
-> -	ret = pm_runtime_get_sync(vsp1->dev);
-> -	if (ret < 0) {
-> -		pm_runtime_put_noidle(vsp1->dev);
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	return pm_runtime_resume_and_get(vsp1->dev);
->  }
->  
->  /*
-
+diff --git a/utils/ir-ctl/ir-ctl.c b/utils/ir-ctl/ir-ctl.c
+index 3c3bcca1..3270a5e7 100644
+--- a/utils/ir-ctl/ir-ctl.c
++++ b/utils/ir-ctl/ir-ctl.c
+@@ -1148,7 +1148,8 @@ int lirc_receive(struct arguments *args, int fd, unsigned features)
+ 
+ 	bool keep_reading = true;
+ 	bool leading_space = true;
+-	unsigned carrier = 0;
++	unsigned long long total_carriers = 0;
++	unsigned int no_carriers = 0;
+ 
+ 	while (keep_reading) {
+ 		ssize_t ret = TEMP_FAILURE_RETRY(read(fd, buf, sizeof(buf)));
+@@ -1201,10 +1202,13 @@ int lirc_receive(struct arguments *args, int fd, unsigned features)
+ 				switch (msg) {
+ 				case LIRC_MODE2_TIMEOUT:
+ 					fprintf(out, "-%u\n", val);
+-					if (carrier)
+-						fprintf(out, " # carrier %uHz, timeout %u\n", carrier, val);
++					if (no_carriers) {
++						// averge of all the carriers reported mean (do we want the mode?)
++						fprintf(out, " # carrier %lluHz, timeout %u\n", total_carriers / no_carriers, val);
++					}
+ 					leading_space = true;
+-					carrier = 0;
++					no_carriers = 0;
++					total_carriers = 0;
+ 					break;
+ 				case LIRC_MODE2_PULSE:
+ 					fprintf(out, "+%u ", val);
+@@ -1213,7 +1217,8 @@ int lirc_receive(struct arguments *args, int fd, unsigned features)
+ 					fprintf(out, "-%u ", val);
+ 					break;
+ 				case LIRC_MODE2_FREQUENCY:
+-					carrier = val;
++					total_carriers += val;
++					no_carriers += 1;
+ 					break;
+ 				}
+ 			}
 -- 
-Regards,
+2.31.1
 
-Laurent Pinchart
