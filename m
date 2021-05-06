@@ -2,136 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A6D4375C16
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 22:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A7B5375C94
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 23:06:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232012AbhEFULY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 16:11:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39418 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231839AbhEFULX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 16:11:23 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7724DC061574;
-        Thu,  6 May 2021 13:10:22 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id v6so8673209ljj.5;
-        Thu, 06 May 2021 13:10:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9Y3teniSGRQ0VOrXvsmVmKBJjGDITdl3HQv9AqHHKVM=;
-        b=NIQ32j57TAAgIyZgpVYmU0tkONnXNd82pp6sk55/HTpN4m9d9FrsKz3Ru4B8oE+vBy
-         aaQjGS1i6Ttx15LSUhwbNq1RzKZnS8QDsZTaIYOnzeJVPPhxZPJCdRNOsYhGoDL6feA7
-         piYwvVVABrxPIzRQ2JddGwTqUp9FEN/d7nQYzyc8DwJEOFd0adyuQoUVsASsiRgARs7D
-         OR2MZ7/mKn+xPAqp+PwxHJbpg0iKMxhguuRlqtFkgaUjF1x+xQNttET1gmOiG67XMoWY
-         YKLA6TcBfbZc3rdcQ83LPtRIu0L4MdYnEj2/bO03RcRHJoXZx/KU2SlhfcIC8qPPs3jO
-         IEsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9Y3teniSGRQ0VOrXvsmVmKBJjGDITdl3HQv9AqHHKVM=;
-        b=qIZ/qwEHvbmkgI1ilOh/jVo2u887akxz11XyQaUHvAvnrWACfb3b2nInj1pE50VVTy
-         +thvx4ApuvLi5OWhwP/4Yb420D4V/7DSzco4WimDdl8yxpXinJilh0XNFClkuMbkA/dM
-         j/Ysb8cu4rXKVlTsH+Vjb+1wO6oOzZ0jYBQBJTrWNPaav0n6MqNotwuHnUp9cl/qTWkP
-         sylVwgrZ0su69SY6DVnZafOUxKw+VprHs+BQQ6s2+s7vgUf/J+TQjxQ/ClvULyfa0rh2
-         ncxy5ZfUPnmADBOSkVBUtssluvO79M5nUBlYvkVjn0jWzGuXLy3Y/3efWG3ShGVVveyO
-         Dppw==
-X-Gm-Message-State: AOAM532xxMIvQvZzBKASHJtPBVsZFS0E0qUk5OFISIOU3p6gViAnP/bm
-        Chwkr59AHoEFcT8hIr13+d9VaGYQyrlOJCUE
-X-Google-Smtp-Source: ABdhPJyqFyrOJScrddF2MX+6nCuHCmry6An/qw8LYEm8UBrmrh5Lfn4WXzEEB02aFHjcg7WZRGhdbg==
-X-Received: by 2002:a2e:5819:: with SMTP id m25mr4878840ljb.144.1620331821016;
-        Thu, 06 May 2021 13:10:21 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.226.84])
-        by smtp.gmail.com with ESMTPSA id q24sm924032lfc.261.2021.05.06.13.10.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 13:10:20 -0700 (PDT)
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH] staging: media: atomisp: remove useless breaks
-Date:   Thu,  6 May 2021 23:09:56 +0300
-Message-Id: <20210506200956.16593-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        id S230383AbhEFVHi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 17:07:38 -0400
+Received: from smtp01.smtpout.orange.fr ([80.12.242.123]:19813 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230348AbhEFVHh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 17:07:37 -0400
+Received: from localhost.localdomain ([86.243.172.93])
+        by mwinf5d54 with ME
+        id 1Z6c2500B21Fzsu03Z6dmj; Thu, 06 May 2021 23:06:37 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 06 May 2021 23:06:37 +0200
+X-ME-IP: 86.243.172.93
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: ttpci: switch from 'pci_' to 'dma_' API
+Date:   Thu,  6 May 2021 23:06:34 +0200
+Message-Id: <5fedfb7d18b8b1ae9c9fee0dd894e87f735f70f6.1620335119.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Breaks are not useful after a return, they can
-simply be removed.
+The wrappers in include/linux/pci-dma-compat.h should go away.
 
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+The patch has been generated with the coccinelle script below and has been
+hand modified to replace GFP_ with a correct flag.
+It has been compile tested.
+
+When memory is allocated in 'ace_allocate_descriptors()' and
+'ace_init()' GFP_KERNEL can be used because both functions are called from
+the probe function and no lock is acquired.
+
+
+@@
+@@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
+
+@@
+@@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
+
+@@
+@@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
+
+@@
+@@
+-    PCI_DMA_NONE
++    DMA_NONE
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- .../pci/hive_isp_css_common/host/input_system.c       | 11 -----------
- 1 file changed, 11 deletions(-)
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+---
+ drivers/media/pci/ttpci/budget-core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-index 0f5a231672a8..fd82997b11cc 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-@@ -904,16 +904,12 @@ static input_system_err_t input_system_configure_channel(
- 			break;
- 		case INPUT_SYSTEM_SOURCE_TPG:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
- 		case INPUT_SYSTEM_SOURCE_PRBS:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
- 		case INPUT_SYSTEM_SOURCE_FIFO:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
- 		default:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
- 		}
+diff --git a/drivers/media/pci/ttpci/budget-core.c b/drivers/media/pci/ttpci/budget-core.c
+index d405eea5c37f..5d5796f24469 100644
+--- a/drivers/media/pci/ttpci/budget-core.c
++++ b/drivers/media/pci/ttpci/budget-core.c
+@@ -180,7 +180,8 @@ static void vpeirq(struct tasklet_struct *t)
+ 	u32 count;
  
- 		if (error != INPUT_SYSTEM_ERR_NO_ERROR) return error;
-@@ -995,7 +991,6 @@ static input_system_err_t input_buffer_configuration(void)
- 			default:
- 				config.csi_buffer_flags[port] |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
- 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--				break;
- 			}
+ 	/* Ensure streamed PCI data is synced to CPU */
+-	pci_dma_sync_sg_for_cpu(budget->dev->pci, budget->pt.slist, budget->pt.nents, PCI_DMA_FROMDEVICE);
++	dma_sync_sg_for_cpu(&budget->dev->pci->dev, budget->pt.slist,
++			    budget->pt.nents, DMA_FROM_DEVICE);
  
- 			// Check acquisition buffer specified but set it later since it has to be unique.
-@@ -1032,7 +1027,6 @@ static input_system_err_t input_buffer_configuration(void)
- 
- 			default:
- 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--				break;
- 			}
- 		} else {
- 			config.csi_buffer_flags[port] = INPUT_SYSTEM_CFG_FLAG_BLOCKED;
-@@ -1319,7 +1313,6 @@ static input_system_err_t configuration_to_registers(void)
- 
- 	default:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
- 
- 	} // end of switch (source_type)
- 
-@@ -1696,16 +1689,12 @@ static input_system_err_t input_system_configure_channel_sensor(
- 		break;
- 	case INPUT_SYSTEM_FIFO_CAPTURE_WITH_COUNTING:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
- 	case INPUT_SYSTEM_XMEM_CAPTURE:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
- 	case INPUT_SYSTEM_XMEM_ACQUIRE:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
- 	default:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
- 	}
- 	return INPUT_SYSTEM_ERR_NO_ERROR;
- }
+ 	/* nearest lower position divisible by 188 */
+ 	newdma -= newdma % 188;
 -- 
-2.31.1
+2.30.2
 
