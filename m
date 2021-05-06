@@ -2,107 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 455A9374FEF
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 09:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07CB8375011
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 09:23:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233271AbhEFHUT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 03:20:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35734 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229640AbhEFHUS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 03:20:18 -0400
-Received: from ustc.edu.cn (email6.ustc.edu.cn [IPv6:2001:da8:d800::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BE833C061574;
-        Thu,  6 May 2021 00:19:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
-        In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-ID; bh=FBOZ4Wnj05nzGETLo6GOsoIxerikGh7kei6G
-        4HU8i9A=; b=RscCmcbR6lVf4NOo87d/vCwLTBFJe7I3M9RDVDWIYauQ1WdQzkPB
-        FnAGVz93PGpOrAJ50TFY3r3sPCTUlHLzXrgifeOliXMQKev4JgppKYX86xUsf+vw
-        KPSdL1pRsR4WsKfOLYzZhPctWCjBZMvXZpGjxqaRr1jnAaeQkLBM9+g=
-Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Thu, 6 May
- 2021 15:19:09 +0800 (GMT+08:00)
-X-Originating-IP: [202.38.69.14]
-Date:   Thu, 6 May 2021 15:19:09 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   lyl2019@mail.ustc.edu.cn
-To:     "Hans Verkuil" <hverkuil@xs4all.nl>
+        id S233300AbhEFHY0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 03:24:26 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:56117 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233163AbhEFHY0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 May 2021 03:24:26 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id eYLwlT8KlWztCeYLzlNQhC; Thu, 06 May 2021 09:23:26 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1620285806; bh=LR3clUHjVBftDzFCX3LyxLbFvneYwPcjG1houGAXXzI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=kBTbvO1LoW285EE9kFRPCPIp2VGwBeQN6DoGePMofuj/wVXD+IrNkiE8cOrYzRAIr
+         8LEwXzscpCO+ChGSFb1JYHa8z2rMvBrjBOU55fRU31HYfDVThi5dT4HCGgizwHcLoA
+         AEFWvQVisvgtWJMXmnn5OCc97t/IjthSzMmp0H7UmDq1LDvezmns6lvI5z/b8Xb3WC
+         fH/JZiSjz7WxR/pEwD0VqOxTifHc8/IaEoLUeampOdDrM3TSJuIzJADhzoNvewKNYD
+         Q15PV1gPqo+gAc0ISpdcoiKYhr8C6qJSZOJyC96GbaVeXY7xapdvcEnjHiWN52mKk4
+         6Dxv4kyLfVM3w==
+Subject: Re: [PATCH v3] media:exynos4-is: Fix a use after free in
+ isp_video_release
+To:     lyl2019@mail.ustc.edu.cn
 Cc:     s.nawrocki@samsung.com, mchehab@kernel.org, krzk@kernel.org,
         linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH v3] media:exynos4-is: Fix a use after free in
- isp_video_release
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
- 20190610(cb3344cf) Copyright (c) 2002-2021 www.mailtech.cn ustc-xl
-In-Reply-To: <44f264d9-e039-66b6-6e4b-1a5b3c386aa4@xs4all.nl>
 References: <20210427132734.5212-1-lyl2019@mail.ustc.edu.cn>
  <44f264d9-e039-66b6-6e4b-1a5b3c386aa4@xs4all.nl>
-X-SendMailWithSms: false
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ <3f2f155c.72fa7.179408b6b2e.Coremail.lyl2019@mail.ustc.edu.cn>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c3f03430-e595-38a8-b60d-4a338c751c04@xs4all.nl>
+Date:   Thu, 6 May 2021 09:23:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 MIME-Version: 1.0
-Message-ID: <3f2f155c.72fa7.179408b6b2e.Coremail.lyl2019@mail.ustc.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: LkAmygAnLJxtmJNgpDWSAA--.3W
-X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/1tbiAQsNBlQhn6tCNwAAs1
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
+In-Reply-To: <3f2f155c.72fa7.179408b6b2e.Coremail.lyl2019@mail.ustc.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfHt/vWvFyV4O9vViaNtKEIB+ZQgCzc42RFxLaPmLWlVwc0FvmH08rP/GLz1Hcvk0MDzzy6YSdmg7lisLd5PgYlcTRjEw9Qwir8P1krPMzTpgzcEsT114
+ VcxCcnCxGaHlG91sLQsZrS3NLPFfSrMMq66jycMcDxSqu8b/UTJOeIF4WHDVBetrhPUknqYNqYrkI4UpkY9L254yUX0tnSVYF4CCVpFDueJKvBTBVCKtoAXh
+ 7ROtKCvkU/dCXv5aqJVePDCkXD+RC3RPfad2muFwHdaw5S1o8/IS5a1TOmaHwWBl5ea5wrtNQX30wNyBMyBh8tx11IFiNRiOFC1x8mLSPNKwu5TC1qOMDmN1
+ qERT7wUK5lczgbDr6njpyg6J4TLsrCxok/EB4qIs5ssvPs2lk+D4ok9boOaS3tjy/3bvz9H05TI5WMRmI12fOt4S04G5Wl4l69FbDZtt0p8A/YLc+Wo=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-DQoNCg0KPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tDQo+IOWPkeS7tuS6ujogIkhhbnMgVmVya3Vp
-bCIgPGh2ZXJrdWlsQHhzNGFsbC5ubD4NCj4g5Y+R6YCB5pe26Ze0OiAyMDIxLTA1LTA1IDE3OjMx
-OjA0ICjmmJ/mnJ/kuIkpDQo+IOaUtuS7tuS6ujogIkx2IFl1bmxvbmciIDxseWwyMDE5QG1haWwu
-dXN0Yy5lZHUuY24+LCBzLm5hd3JvY2tpQHNhbXN1bmcuY29tLCBtY2hlaGFiQGtlcm5lbC5vcmcs
-IGtyemtAa2VybmVsLm9yZw0KPiDmioTpgIE6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZywg
-bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnLCBsaW51eC1zYW1zdW5nLXNvY0B2
-Z2VyLmtlcm5lbC5vcmcsIGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4g5Li76aKYOiBS
-ZTogW1BBVENIIHYzXSBtZWRpYTpleHlub3M0LWlzOiBGaXggYSB1c2UgYWZ0ZXIgZnJlZSBpbiBp
-c3BfdmlkZW9fcmVsZWFzZQ0KPiANCj4gSGkgTHYgWXVubG9uZywNCj4gDQo+IE9uIDI3LzA0LzIw
-MjEgMTU6MjcsIEx2IFl1bmxvbmcgd3JvdGU6DQo+ID4gSW4gaXNwX3ZpZGVvX3JlbGVhc2UsIGZp
-bGUtPnByaXZhdGVfZGF0YSBpcyBmcmVlZCB2aWENCj4gPiBfdmIyX2ZvcF9yZWxlYXNlKCktPnY0
-bDJfZmhfcmVsZWFzZSgpLiBCdXQgdGhlIGZyZWVkDQo+ID4gZmlsZS0+cHJpdmF0ZV9kYXRhIGlz
-IHN0aWxsIHVzZWQgaW4gdjRsMl9maF9pc19zaW5ndWxhcl9maWxlKCkNCj4gPiAtPnY0bDJfZmhf
-aXNfc2luZ3VsYXIoZmlsZS0+cHJpdmF0ZV9kYXRhKSwgd2hpY2ggaXMgYSB1c2UNCj4gPiBhZnRl
-ciBmcmVlIGJ1Zy4NCj4gPiANCj4gPiBNeSBwYXRjaCBzZXRzIGZpbGUtPnByaXZhdGVfZGF0YSB0
-byBOVUxMIGFmdGVyIF92YjJfZm9wX3JlbGVhc2UoKQ0KPiA+IHRvIGF2b2lkIHRoZSB1c2UgYWZ0
-ZXIgZnJlZSwgYW5kIHVzZXMgYSB2YXJpYWJsZSAnaXNfc2luZ3VsYXJfZmlsZScNCj4gPiB0byBr
-ZWVwIHRoZSBvcmlnaW5hbCBmdW5jdGlvbiB1bmNoYW5nZWQuDQo+IA0KPiBBY3R1YWxseSwgaXQg
-aXMgdGhlIHVzZSBvZiAnaXNfc2luZ3VsYXJfZmlsZScgdGhhdCBmaXhlcyB0aGUgYnVnLA0KPiB0
-aGUgJ2ZpbGUtPnByaXZhdGVfZGF0YSA9IE5VTEw7JyBpcyB1bm5lY2Vzc2FyeSBoZXJlLg0KPiAN
-Cj4gVGhhdCBzYWlkLCBpdCB3b3VsZCBiZSBhIHJlYWxseSBnb29kIGlkZWEgaWYgaW4gYSBzZXBh
-cmF0ZSBwYXRjaCB5b3UNCj4gbWFrZSB2NGwyX2ZoX3JlbGVhc2UoKSBtb3JlIHJvYnVzdCBieSBz
-ZXR0aW5nIGZpbHAtPnByaXZhdGVfZGF0YSB0bw0KPiBOVUxMIGFmdGVyIHRoZSBrZnJlZShmaCku
-DQo+IA0KPiBSZWdhcmRzLA0KPiANCj4gCUhhbnMNCj4gDQo+ID4gDQo+ID4gRml4ZXM6IDM0OTQ3
-YjhhZWJlM2YgKCJbbWVkaWFdIGV4eW5vczQtaXM6IEFkZCB0aGUgRklNQy1JUyBJU1AgY2FwdHVy
-ZSBETUEgZHJpdmVyIikNCj4gPiBTaWduZWQtb2ZmLWJ5OiBMdiBZdW5sb25nIDxseWwyMDE5QG1h
-aWwudXN0Yy5lZHUuY24+DQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vZXh5
-bm9zNC1pcy9maW1jLWlzcC12aWRlby5jIHwgOCArKysrKystLQ0KPiA+ICAxIGZpbGUgY2hhbmdl
-ZCwgNiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+IA0KPiA+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2V4eW5vczQtaXMvZmltYy1pc3AtdmlkZW8uYyBiL2Ry
-aXZlcnMvbWVkaWEvcGxhdGZvcm0vZXh5bm9zNC1pcy9maW1jLWlzcC12aWRlby5jDQo+ID4gaW5k
-ZXggNjEyYjk4NzJhZmM4Li5jMDdkY2IwYmNjYzIgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9t
-ZWRpYS9wbGF0Zm9ybS9leHlub3M0LWlzL2ZpbWMtaXNwLXZpZGVvLmMNCj4gPiArKysgYi9kcml2
-ZXJzL21lZGlhL3BsYXRmb3JtL2V4eW5vczQtaXMvZmltYy1pc3AtdmlkZW8uYw0KPiA+IEBAIC0z
-MDYsMTcgKzMwNiwyMSBAQCBzdGF0aWMgaW50IGlzcF92aWRlb19yZWxlYXNlKHN0cnVjdCBmaWxl
-ICpmaWxlKQ0KPiA+ICAJc3RydWN0IGZpbWNfaXNfdmlkZW8gKml2YyA9ICZpc3AtPnZpZGVvX2Nh
-cHR1cmU7DQo+ID4gIAlzdHJ1Y3QgbWVkaWFfZW50aXR5ICplbnRpdHkgPSAmaXZjLT52ZS52ZGV2
-LmVudGl0eTsNCj4gPiAgCXN0cnVjdCBtZWRpYV9kZXZpY2UgKm1kZXYgPSBlbnRpdHktPmdyYXBo
-X29iai5tZGV2Ow0KPiA+ICsJYm9vbCBpc19zaW5ndWxhcl9maWxlOw0KPiA+ICANCj4gPiAgCW11
-dGV4X2xvY2soJmlzcC0+dmlkZW9fbG9jayk7DQo+ID4gIA0KPiA+IC0JaWYgKHY0bDJfZmhfaXNf
-c2luZ3VsYXJfZmlsZShmaWxlKSAmJiBpdmMtPnN0cmVhbWluZykgew0KPiA+ICsJaXNfc2luZ3Vs
-YXJfZmlsZSA9IHY0bDJfZmhfaXNfc2luZ3VsYXJfZmlsZShmaWxlKTsNCj4gPiArDQo+ID4gKwlp
-ZiAoaXNfc2luZ3VsYXJfZmlsZSAmJiBpdmMtPnN0cmVhbWluZykgew0KPiA+ICAJCW1lZGlhX3Bp
-cGVsaW5lX3N0b3AoZW50aXR5KTsNCj4gPiAgCQlpdmMtPnN0cmVhbWluZyA9IDA7DQo+ID4gIAl9
-DQo+ID4gIA0KPiA+ICAJX3ZiMl9mb3BfcmVsZWFzZShmaWxlLCBOVUxMKTsNCj4gPiArCWZpbGUt
-PnByaXZhdGVfZGF0YSA9IE5VTEw7DQo+ID4gIA0KPiA+IC0JaWYgKHY0bDJfZmhfaXNfc2luZ3Vs
-YXJfZmlsZShmaWxlKSkgew0KPiA+ICsJaWYgKGlzX3Npbmd1bGFyX2ZpbGUpIHsNCj4gPiAgCQlm
-aW1jX3BpcGVsaW5lX2NhbGwoJml2Yy0+dmUsIGNsb3NlKTsNCj4gPiAgDQo+ID4gIAkJbXV0ZXhf
-bG9jaygmbWRldi0+Z3JhcGhfbXV0ZXgpOw0KPiA+IA0KPiANCg0KDQpPaywgdGhhbmtzIGZvciB5
-b3VyIHN1Z2dlc3Rpb24uDQoNCkRvIHlvdSBtZWFucyBpIG5lZWQgc3VibWl0IGEgbmV3IHBhdGgg
-dG8gc2V0IGZpbHAtPnByaXZhdGVfZGF0YSA9IE5VTEwNCmFmdGVyIGtmcmVlKGZoKSBpbiB2NGwy
-X2ZoX3JlbGVhc2UoKSA/DQoNCkx2IFl1bmxvbmc=
+On 06/05/2021 09:19, lyl2019@mail.ustc.edu.cn wrote:
+> 
+> 
+> 
+>> -----原始邮件-----
+>> 发件人: "Hans Verkuil" <hverkuil@xs4all.nl>
+>> 发送时间: 2021-05-05 17:31:04 (星期三)
+>> 收件人: "Lv Yunlong" <lyl2019@mail.ustc.edu.cn>, s.nawrocki@samsung.com, mchehab@kernel.org, krzk@kernel.org
+>> 抄送: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+>> 主题: Re: [PATCH v3] media:exynos4-is: Fix a use after free in isp_video_release
+>>
+>> Hi Lv Yunlong,
+>>
+>> On 27/04/2021 15:27, Lv Yunlong wrote:
+>>> In isp_video_release, file->private_data is freed via
+>>> _vb2_fop_release()->v4l2_fh_release(). But the freed
+>>> file->private_data is still used in v4l2_fh_is_singular_file()
+>>> ->v4l2_fh_is_singular(file->private_data), which is a use
+>>> after free bug.
+>>>
+>>> My patch sets file->private_data to NULL after _vb2_fop_release()
+>>> to avoid the use after free, and uses a variable 'is_singular_file'
+>>> to keep the original function unchanged.
+>>
+>> Actually, it is the use of 'is_singular_file' that fixes the bug,
+>> the 'file->private_data = NULL;' is unnecessary here.
+>>
+>> That said, it would be a really good idea if in a separate patch you
+>> make v4l2_fh_release() more robust by setting filp->private_data to
+>> NULL after the kfree(fh).
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>
+>>> Fixes: 34947b8aebe3f ("[media] exynos4-is: Add the FIMC-IS ISP capture DMA driver")
+>>> Signed-off-by: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+>>> ---
+>>>  drivers/media/platform/exynos4-is/fimc-isp-video.c | 8 ++++++--
+>>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.c b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+>>> index 612b9872afc8..c07dcb0bccc2 100644
+>>> --- a/drivers/media/platform/exynos4-is/fimc-isp-video.c
+>>> +++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+>>> @@ -306,17 +306,21 @@ static int isp_video_release(struct file *file)
+>>>  	struct fimc_is_video *ivc = &isp->video_capture;
+>>>  	struct media_entity *entity = &ivc->ve.vdev.entity;
+>>>  	struct media_device *mdev = entity->graph_obj.mdev;
+>>> +	bool is_singular_file;
+>>>  
+>>>  	mutex_lock(&isp->video_lock);
+>>>  
+>>> -	if (v4l2_fh_is_singular_file(file) && ivc->streaming) {
+>>> +	is_singular_file = v4l2_fh_is_singular_file(file);
+>>> +
+>>> +	if (is_singular_file && ivc->streaming) {
+>>>  		media_pipeline_stop(entity);
+>>>  		ivc->streaming = 0;
+>>>  	}
+>>>  
+>>>  	_vb2_fop_release(file, NULL);
+>>> +	file->private_data = NULL;
+>>>  
+>>> -	if (v4l2_fh_is_singular_file(file)) {
+>>> +	if (is_singular_file) {
+>>>  		fimc_pipeline_call(&ivc->ve, close);
+>>>  
+>>>  		mutex_lock(&mdev->graph_mutex);
+>>>
+>>
+> 
+> 
+> Ok, thanks for your suggestion.
+> 
+> Do you means i need submit a new path to set filp->private_data = NULL
+> after kfree(fh) in v4l2_fh_release() ?
+
+Yes, so one updated patch for fimc-isp-video.c and a second patch for v4l2-fh.c.
+
+Regards,
+
+	Hans
+
+> 
+> Lv Yunlong
+> 
+
