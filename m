@@ -2,162 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B99EF37536D
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 14:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 604C6375370
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 14:12:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230372AbhEFMIA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 08:08:00 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35975 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230145AbhEFMH7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 May 2021 08:07:59 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id ecmPlunZvyEWwecmSl0rmX; Thu, 06 May 2021 14:07:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1620302820; bh=6B0qo5cFnFbeyWyB0JOKX48ni7gKNjHRb1YuNVqvBo8=;
-        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=GNiUTk2riMClpYtxRrSL1IapACrlbkSGuka8Kf3N5G2C6F1PQZjNuyz91nUG+7kir
-         WMhuyF76M+VJumoWLsokX1auqAXdY+ADlnHGNqYbSR4WAqrBUNK0rcDns9kVOvV/pW
-         bFVo1TjmfD+4wil8UsSmFZ5YlMt7kr/NNiYomZzrqBzoYDduhNoJTDOvgv2TAL2+3c
-         78swC9WTItzlf8JveQXa4Mgrt+sPG55S9E8UCLZ2pEBoDksMrd6VSp952o+BfMs7ly
-         qXNVTMU7ViFCTl8oBQGOL61tgOvkW2zoRZNPUR7iGvaHPzcDJ8zntgq+zBNRC2qFN7
-         8iT8/9XDeqQ8Q==
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] adv7842: support EDIDs up to 4 blocks
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Message-ID: <9fb6b6bc-6b42-9aa0-cee7-b2d461a6f20b@xs4all.nl>
-Date:   Thu, 6 May 2021 14:06:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+        id S230381AbhEFMNd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 08:13:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44484 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229824AbhEFMNb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 08:13:31 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C44C061574;
+        Thu,  6 May 2021 05:12:32 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id j10so7405484lfb.12;
+        Thu, 06 May 2021 05:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fZu2pbACv1pjiePADfO8gBHAoJuthgIq1ShMV5M39W8=;
+        b=d1gK+nyCabCN6MgYPaUnPqnVnFCTnrweOvWBKyfk3M+iv8dsVGai11pJrwhQtvcdsU
+         jnk7YrvyT5QEJp+R8FxVwZXHSzuC9Y9sPCDse3yd++vkEgILOQEks4r2DCYNhY0pNpiE
+         VUTjpxLA0SdA1EpRxrlfzSN6t0tYg32BjUCITVNySloQ3D/UoI11rh+iXGQBT286s8WU
+         MDHJqRj24S4TBqYlKtNt7sdbWVjWxEo9TVHC34G6G2Si8zfCc7z6+1U6akbjCZ+0MhJS
+         VIJ+QLma4fYSsqQDO7RaGoScw7cEfZl+elEhnnvxIATJVf0po5BTAJTW8RiSvtBhEs/j
+         us4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fZu2pbACv1pjiePADfO8gBHAoJuthgIq1ShMV5M39W8=;
+        b=InXCZ3lHh43Gx3Fjx/jn/V8JaVhe/0yLsQLSigD4QrKIqtaGlI7KGhbqwIiq3wx4Ah
+         J9YRLm79Ye+izBEO19yDUoowqkuv8a1Yr6RShB/GMqg8Tyv8I/KqB2TeEQr1Q7O2+Y1O
+         gCIvvVo86ADI3ScQRifreWzgg7FSlCDjoM6TlTQFqLqvekFxIXZrcXr96OE0hcB5tdeb
+         UF1nWovKxg7hfkEG7sd4ieC/LMD++aplO69pIaMV8Ie4JeTbEqAwZEozmRguXPLrmjo1
+         FmTG+MHRizp/ijO2oSphcReNzTDEC4/YNPfycx2zw0wsfgIpLoh4d6/sjuwzcYlENoIw
+         24nw==
+X-Gm-Message-State: AOAM530UokhQFFuPNnkiUifSZwk/0AQFWdE4fmroVgxICTD4rk2fkz54
+        i0Ei3ZDBtCfqN9fR9Hy3LceGwCNixdBauw==
+X-Google-Smtp-Source: ABdhPJzGET6GJ1dUtBo/4G3xycq3vQf2BHCJJXhYgMRUdsQoeELqJ9iKcNowAHqXBlnGi92WhAN0Eg==
+X-Received: by 2002:a05:6512:3888:: with SMTP id n8mr2702820lft.407.1620303150604;
+        Thu, 06 May 2021 05:12:30 -0700 (PDT)
+Received: from localhost.localdomain ([94.103.226.84])
+        by smtp.gmail.com with ESMTPSA id z23sm630791lfu.32.2021.05.06.05.12.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 May 2021 05:12:30 -0700 (PDT)
+From:   Pavel Skripkin <paskripkin@gmail.com>
+To:     mkrufky@linuxtv.org, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Pavel Skripkin <paskripkin@gmail.com>,
+        syzbot+7336195c02c1bd2f64e1@syzkaller.appspotmail.com
+Subject: [PATCH] media: dvb-usb: fix wrong definition
+Date:   Thu,  6 May 2021 15:12:11 +0300
+Message-Id: <20210506121211.8556-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfFxd6C5varv1rzq/e9cuJdt1o3+F/ZCzunI4rtOHE7TPyTdvoPDQBMBBtL0YzrPONs/hzYFjOBS8qDP0JpfLlvye2ZSPElLb+egCYBvNQreMHLk9ZBAe
- x4I0LNfpskMWE0e0Uck3BgN4ojKY3AM5QBrE+xXaN1t21hImWx3vdfAWVykUTPPFuVBpBfrjXCIEwGCm4PrrI1UtQXyXN89vQ/w=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The adv7842 driver didn't support EDIDs of 3 or 4 blocks, even though the
-hardware supports this.
+syzbot reported WARNING in vmalloc. The problem
+was in sizo size passed to vmalloc.
 
-It is a bit more complicated due to the fact that the adv7842 can expose
-two EDIDs: one digital, one analog, for DVI-I connectors. In that case the
-VGA_EDID_ENABLE bit is set and blocks 0 and 1 of the EDID eeprom are used
-for the DVI-D part and block 2 is used for the DVI-A part of the DVI-I
-connector.
+The root case was in wrong cxusb_bluebird_lgz201_properties
+defenition. adapter array has only 1 entry, but num_adapters was
+2.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Call Trace:
+ __vmalloc_node mm/vmalloc.c:2963 [inline]
+ vmalloc+0x67/0x80 mm/vmalloc.c:2996
+ dvb_dmx_init+0xe4/0xb90 drivers/media/dvb-core/dvb_demux.c:1251
+ dvb_usb_adapter_dvb_init+0x564/0x860 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:184
+ dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:86 [inline]
+ dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
+ dvb_usb_device_init.cold+0xc94/0x146e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
+ cxusb_probe+0x159/0x5e0 drivers/media/usb/dvb-usb/cxusb.c:1634
+
+Reported-and-tested-by: syzbot+7336195c02c1bd2f64e1@syzkaller.appspotmail.com
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 ---
-diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-index 29140d0c4c0e..a0be78a6a617 100644
---- a/drivers/media/i2c/adv7842.c
-+++ b/drivers/media/i2c/adv7842.c
-@@ -98,12 +98,12 @@ struct adv7842_state {
+ drivers/media/usb/dvb-usb/cxusb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- 	v4l2_std_id norm;
- 	struct {
--		u8 edid[256];
-+		u8 edid[512];
- 		u32 blocks;
- 		u32 present;
- 	} hdmi_edid;
- 	struct {
--		u8 edid[256];
-+		u8 edid[128];
- 		u32 blocks;
- 		u32 present;
- 	} vga_edid;
-@@ -720,6 +720,9 @@ static int edid_write_vga_segment(struct v4l2_subdev *sd)
-
- 	v4l2_dbg(2, debug, sd, "%s: write EDID on VGA port\n", __func__);
-
-+	if (!state->vga_edid.present)
-+		return 0;
-+
- 	/* HPA disable on port A and B */
- 	io_write_and_or(sd, 0x20, 0xcf, 0x00);
-
-@@ -763,7 +766,7 @@ static int edid_write_hdmi_segment(struct v4l2_subdev *sd, u8 port)
- 	struct adv7842_state *state = to_state(sd);
- 	const u8 *edid = state->hdmi_edid.edid;
- 	u32 blocks = state->hdmi_edid.blocks;
--	int spa_loc;
-+	unsigned int spa_loc;
- 	u16 pa, parent_pa;
- 	int err = 0;
- 	int i;
-@@ -796,12 +799,14 @@ static int edid_write_hdmi_segment(struct v4l2_subdev *sd, u8 port)
- 		pa = (edid[spa_loc] << 8) | edid[spa_loc + 1];
- 	}
-
--	/* edid segment pointer '0' for HDMI ports */
--	rep_write_and_or(sd, 0x77, 0xef, 0x00);
-
--	for (i = 0; !err && i < blocks * 128; i += I2C_SMBUS_BLOCK_MAX)
-+	for (i = 0; !err && i < blocks * 128; i += I2C_SMBUS_BLOCK_MAX) {
-+		/* set edid segment pointer for HDMI ports */
-+		if (i % 256 == 0)
-+			rep_write_and_or(sd, 0x77, 0xef, i >= 256 ? 0x10 : 0x00);
- 		err = i2c_smbus_write_i2c_block_data(state->i2c_edid, i,
- 						     I2C_SMBUS_BLOCK_MAX, edid + i);
-+	}
- 	if (err)
- 		return err;
-
-@@ -2491,9 +2496,17 @@ static int adv7842_get_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
- 	return 0;
- }
-
-+/*
-+ * If the VGA_EDID_ENABLE bit is set (Repeater Map 0x7f, bit 7), then
-+ * the first two blocks of the EDID are for the HDMI, and the first block
-+ * of segment 1 (i.e. the third block of the EDID) is for VGA.
-+ * So if a VGA EDID is installed, then the maximum size of the HDMI EDID
-+ * is 2 blocks.
-+ */
- static int adv7842_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *e)
- {
- 	struct adv7842_state *state = to_state(sd);
-+	unsigned int max_blocks = e->pad == ADV7842_EDID_PORT_VGA ? 1 : 4;
- 	int err = 0;
-
- 	memset(e->reserved, 0, sizeof(e->reserved));
-@@ -2502,8 +2515,12 @@ static int adv7842_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *e)
- 		return -EINVAL;
- 	if (e->start_block != 0)
- 		return -EINVAL;
--	if (e->blocks > 2) {
--		e->blocks = 2;
-+	if (e->pad < ADV7842_EDID_PORT_VGA && state->vga_edid.blocks)
-+		max_blocks = 2;
-+	if (e->pad == ADV7842_EDID_PORT_VGA && state->hdmi_edid.blocks > 2)
-+		return -EBUSY;
-+	if (e->blocks > max_blocks) {
-+		e->blocks = max_blocks;
- 		return -E2BIG;
- 	}
-
-@@ -2514,7 +2531,7 @@ static int adv7842_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *e)
-
- 	switch (e->pad) {
- 	case ADV7842_EDID_PORT_VGA:
--		memset(&state->vga_edid.edid, 0, 256);
-+		memset(&state->vga_edid.edid, 0, sizeof(state->vga_edid.edid));
- 		state->vga_edid.blocks = e->blocks;
- 		state->vga_edid.present = e->blocks ? 0x1 : 0x0;
- 		if (e->blocks)
-@@ -2523,7 +2540,7 @@ static int adv7842_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *e)
- 		break;
- 	case ADV7842_EDID_PORT_A:
- 	case ADV7842_EDID_PORT_B:
--		memset(&state->hdmi_edid.edid, 0, 256);
-+		memset(&state->hdmi_edid.edid, 0, sizeof(state->hdmi_edid.edid));
- 		state->hdmi_edid.blocks = e->blocks;
- 		if (e->blocks) {
- 			state->hdmi_edid.present |= 0x04 << e->pad;
+diff --git a/drivers/media/usb/dvb-usb/cxusb.c b/drivers/media/usb/dvb-usb/cxusb.c
+index 761992ad05e2..7707de7bae7c 100644
+--- a/drivers/media/usb/dvb-usb/cxusb.c
++++ b/drivers/media/usb/dvb-usb/cxusb.c
+@@ -1947,7 +1947,7 @@ static struct dvb_usb_device_properties cxusb_bluebird_lgz201_properties = {
+ 
+ 	.size_of_priv     = sizeof(struct cxusb_state),
+ 
+-	.num_adapters = 2,
++	.num_adapters = 1,
+ 	.adapter = {
+ 		{
+ 		.num_frontends = 1,
+-- 
+2.31.1
 
