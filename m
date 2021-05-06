@@ -2,43 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC88B3756DA
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 17:27:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41D793756DF
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 17:27:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235319AbhEFP14 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 11:27:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40884 "EHLO mail.kernel.org"
+        id S235542AbhEFP17 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 11:27:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235239AbhEFP1m (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 May 2021 11:27:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C5786192E;
+        id S235396AbhEFP1n (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 May 2021 11:27:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B045C6194A;
         Thu,  6 May 2021 15:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620314783;
-        bh=WMp2TYCwNpx5gqoBY3FxSLCFIcbo/CZW59R5D62z+MU=;
+        bh=VccqcJ215VR7UKWGbWUF3AZ/5qIK/dKNloYRA4F/kE0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AWt4hW2ZGZ3f85/eVQEa+XswyEFLuEpZnXpzJwBWHNQFjmoRz1fmS+qqwF2eKDIAj
-         UWE+exzGn8DQp2upxeh45HWmwA7mZwfwTZHvY5WltSGNfEfYzuqJ/PSUTYVkGqksHo
-         dBEVX/wFE01aSUs+RGsYTIpQPMo+K4Qqu43246mWwr4K6ExLmYY4ckV6KhSQ+KvA3/
-         YM5GPsJYtMFZNeRDUT8xYlGF743M0LBfNEtn5KpIN6euQb1c2VlzBBq4HEmyzhn7t7
-         E97PPTP8pvq0qxz31OaS6jtA4eTh+/gcuS/L2qdH61WDAL6QMZOljxw9TvRTJwJfcK
-         eOblnxezeWNkg==
+        b=uSusGkQLOU6HgwA9pFBT5EWjRxWsReP8IXtdb/JqiVOx3MSOX0fnVIMiViZyiiSEX
+         0pEYDBhXdWYXRc9jgjfhbs80fwOZoVUhJSecULPm8Vq7bHbOEQ3QPMuGOXIJ2I6CRQ
+         9sgsKTarwzkSAFyCQjxEY8ryzBZ2SzhnK6i9aQLzCGNwflI6scRGk0dK+/zj+nV9RQ
+         w6SfMaiitudYEZtG3xpVvftfdi4oM9MYS0W2B9R1gUPyT10FPHhn/DXYv9u5llfHp2
+         LcfM7FLzP/fm8jNgwUCMBooMRp+5KqoPF/L5Ei5Ed1W4NEXYpO85EfouROtrZ26SFs
+         amilumy8ZFQjw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1left7-000SBb-UQ; Thu, 06 May 2021 17:26:05 +0200
+        id 1left7-000SBf-VU; Thu, 06 May 2021 17:26:05 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Dan Scally <djrscally@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Yong Zhi <yong.zhi@intel.com>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v5 09/25] media: ipu3: use pm_runtime_resume_and_get()
-Date:   Thu,  6 May 2021 17:25:47 +0200
-Message-Id: <af2a45be02dc5d19c756918c3aca5547291dd17b.1620314616.git.mchehab+huawei@kernel.org>
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v5 10/25] media: coda: use pm_runtime_resume_and_get()
+Date:   Thu,  6 May 2021 17:25:48 +0200
+Message-Id: <6b1404005196a38948fb4f6c30715bc6bedafef2.1620314616.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620314616.git.mchehab+huawei@kernel.org>
 References: <cover.1620314616.git.mchehab+huawei@kernel.org>
@@ -56,27 +52,51 @@ dev->power.usage_count decrement on errors.
 
 Use the new API, in order to cleanup the error check logic.
 
+While here, as noted by Phillip, the labels at the coda_open()
+function are currently named after what operation failed,
+instead of what they do in response. So, change the name of
+the error label that it is called when clk_enable fails,
+in order to be consistent.
+
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/platform/coda/coda-common.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-index fecef85bd62e..ca8040d1a725 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-@@ -975,10 +975,9 @@ static int cio2_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	cio2->cur_queue = q;
- 	atomic_set(&q->frame_sequence, 0);
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+index bd666c858fa1..2017de85713e 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -2660,7 +2660,7 @@ static int coda_open(struct file *file)
+ 	ctx->use_vdoa = false;
  
--	r = pm_runtime_get_sync(&cio2->pci_dev->dev);
-+	r = pm_runtime_resume_and_get(&cio2->pci_dev->dev);
- 	if (r < 0) {
- 		dev_info(&cio2->pci_dev->dev, "failed to set power %d\n", r);
--		pm_runtime_put_noidle(&cio2->pci_dev->dev);
- 		return r;
- 	}
+ 	/* Power up and upload firmware if necessary */
+-	ret = pm_runtime_get_sync(dev->dev);
++	ret = pm_runtime_resume_and_get(dev->dev);
+ 	if (ret < 0) {
+ 		v4l2_err(&dev->v4l2_dev, "failed to power up: %d\n", ret);
+ 		goto err_pm_get;
+@@ -2668,7 +2668,7 @@ static int coda_open(struct file *file)
  
+ 	ret = clk_prepare_enable(dev->clk_per);
+ 	if (ret)
+-		goto err_pm_get;
++		goto err_clk_enable;
+ 
+ 	ret = clk_prepare_enable(dev->clk_ahb);
+ 	if (ret)
+@@ -2707,8 +2707,9 @@ static int coda_open(struct file *file)
+ 	clk_disable_unprepare(dev->clk_ahb);
+ err_clk_ahb:
+ 	clk_disable_unprepare(dev->clk_per);
++err_clk_enable:
++	pm_runtime_put_sync(dev->dev);
+ err_pm_get:
+-	pm_runtime_put_sync(dev->dev);
+ 	v4l2_fh_del(&ctx->fh);
+ 	v4l2_fh_exit(&ctx->fh);
+ err_coda_name_init:
 -- 
 2.30.2
 
