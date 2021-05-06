@@ -2,39 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 252853756AB
+	by mail.lfdr.de (Postfix) with ESMTP id 909493756AC
 	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 17:24:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235254AbhEFPZP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S235413AbhEFPZP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 6 May 2021 11:25:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38140 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:38338 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235161AbhEFPYj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S235226AbhEFPYj (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Thu, 6 May 2021 11:24:39 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DF6D061426;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EF8BD61414;
         Thu,  6 May 2021 15:23:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620314610;
-        bh=HyEc9UNwq5f+9HkjZrtYJol03xr9+57BThXZkb1RvbU=;
+        s=k20201202; t=1620314611;
+        bh=79OkehonmjtZng1/b9LdwRP7XaO8omnxvo99Fl7zk0I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Zr4XORA0UIja5TGWNYfypJu8ac+wIlsz1ZhleHAIroEDx25+SY/hySKaAXyHTmZrb
-         WtRJnUl/j69SsgG2gq4qfTHSqarIUzUcvDAHZzXl5lF1THl6QWDl1Pa4puxr9N4eRf
-         fNZ2nJCK53Ja6eNsWR/D17im9ZFDxso4BmVaywlWRdeN5xVe0a40wIazu4ROm57NuS
-         ynMRM2oLufrzMQhgmZaEZcUjF+HEop/veNcCZnv2mo4vP7w/e8mcehkFPBy1yUwXpB
-         2NjaHfMjfeem03LOthYrlIt4MXBdC7iILpt7zachvADpQsmOfLsuEiXNXPNvw2YZRU
-         fd1QOpY6efmJA==
+        b=e9Sjz/0Ldr9Vqmcgo7hHeTt48TKpX2hJHRAGXrChAnj4HQK04a+O8wMEDAyPnzBj5
+         83t+NUzy+Msm5WQWVoSMqlhLN1yWxf2yZsITvPExdDZcxEMe1Aax0WhoYevh846Awh
+         W/rGEsqo+aW+xbOadaWiekD0TTmp9h1xYYa1a0/CIU8muCMvTEqXc353Priz8fLB18
+         BgB1hSTVefTGinDBtzFb2JB5cazZOZTfcfjM59b8uQ8rbybwbq9zNEGpi+mG/MWyVL
+         QZkdRXQ+UBo8i218IXTtPRYkbVeoLRd0YWYxw+xQGeYPDOREwMsAOymalXfQt+hD7g
+         fDIlnXCI2jQAA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lefqb-000RwQ-28; Thu, 06 May 2021 17:23:29 +0200
+        id 1lefqb-000RwU-3b; Thu, 06 May 2021 17:23:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v5 29/30] media: i2c: video-i2c: use pm_runtime_resume_and_get()
-Date:   Thu,  6 May 2021 17:23:25 +0200
-Message-Id: <f6efc87d96826e3d2067b874e034b5edf73bb593.1620314098.git.mchehab+huawei@kernel.org>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH v5 30/30] media: i2c: ccs-core: use pm_runtime_resume_and_get()
+Date:   Thu,  6 May 2021 17:23:26 +0200
+Message-Id: <588552504c2e4b0347b237454588e7040eff857a.1620314098.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620314098.git.mchehab+huawei@kernel.org>
 References: <cover.1620314098.git.mchehab+huawei@kernel.org>
@@ -52,43 +53,31 @@ dev->power.usage_count decrement on errors.
 
 Use the new API, in order to cleanup the error check logic.
 
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/i2c/video-i2c.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-index 0465832a4090..de12f38f347c 100644
---- a/drivers/media/i2c/video-i2c.c
-+++ b/drivers/media/i2c/video-i2c.c
-@@ -286,11 +286,9 @@ static int amg88xx_read(struct device *dev, enum hwmon_sensor_types type,
- 	__le16 buf;
- 	int tmp;
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index 4a848ac2d2cd..a349189a38db 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -3101,12 +3101,9 @@ static int __maybe_unused ccs_suspend(struct device *dev)
+ 	bool streaming = sensor->streaming;
+ 	int rval;
  
--	tmp = pm_runtime_get_sync(regmap_get_device(data->regmap));
--	if (tmp < 0) {
--		pm_runtime_put_noidle(regmap_get_device(data->regmap));
-+	tmp = pm_runtime_resume_and_get(regmap_get_device(data->regmap));
-+	if (tmp < 0)
- 		return tmp;
--	}
- 
- 	tmp = regmap_bulk_read(data->regmap, AMG88XX_REG_TTHL, &buf, 2);
- 	pm_runtime_mark_last_busy(regmap_get_device(data->regmap));
-@@ -512,11 +510,9 @@ static int start_streaming(struct vb2_queue *vq, unsigned int count)
- 	if (data->kthread_vid_cap)
- 		return 0;
- 
--	ret = pm_runtime_get_sync(dev);
--	if (ret < 0) {
+-	rval = pm_runtime_get_sync(dev);
+-	if (rval < 0) {
 -		pm_runtime_put_noidle(dev);
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret < 0)
- 		goto error_del_list;
+-
++	rval = pm_runtime_resume_and_get(dev);
++	if (rval < 0)
+ 		return rval;
 -	}
  
- 	ret = data->chip->setup(data);
- 	if (ret)
+ 	if (sensor->streaming)
+ 		ccs_stop_streaming(sensor);
 -- 
 2.30.2
 
