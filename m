@@ -2,180 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E607375648
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 17:12:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC22F375692
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 17:23:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235014AbhEFPNH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 11:13:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33862 "EHLO mail.kernel.org"
+        id S235106AbhEFPYu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 11:24:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38110 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234888AbhEFPNH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 May 2021 11:13:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7452D61041;
-        Thu,  6 May 2021 15:12:00 +0000 (UTC)
+        id S235187AbhEFPY3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 May 2021 11:24:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EB3F61289;
+        Thu,  6 May 2021 15:23:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620313928;
-        bh=5pyBiTEHvMxAj8e/yO3yGgrWonLAEYO6vTvkoiWBA6I=;
-        h=Date:From:Cc:Subject:In-Reply-To:References:From;
-        b=gCHwiMQxRg/34kpnWeUtVHGRkYuqPEOIQkZjVTbPZZPFy2jqZ6oslJA4TOQa+gcHd
-         Z0NptbjOm1CDOQB3ZQKMyntN6xQ5y7grAgI5pG3HJhrWpTilFGoxYfvmb6EoYj445K
-         CQ0uc3Z4NuK9pz7n4SC/EZcPlSxDibZYfzeHq83K3HcpNS0SlwJvX6wThXiW6AEk2u
-         hMwzEy9DylBCX+jg+CvlvqsbQ2ABQrFVf8X1Vi88Uh4ZWYq9UGScRPv8ih+Dd5UE7z
-         mmJ11YeiM3YEzKEgUBlxxi6W4vsOo94Lj61ii0dn8Sbwu0SCHHobKO2iHWqCOgTTiV
-         lZpsKjD8tnxqw==
-Date:   Thu, 6 May 2021 17:11:57 +0200
+        s=k20201202; t=1620314610;
+        bh=mHMffteSTguBJ20cEjxFDlhyxs7b4CZOVWuPWstQVxs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=V5sH6CPic+zohK9e0Tej3j8T0kxhtrLLXH+mZlmBv49+NZtZPuX2kr6TsFBz5vekd
+         urwi/KUoo9XkzkPDq6TXUaZQ7nYXGaRLBm8llSAPGI1KovW1EGpcUWUY6erJRofnaH
+         bZnc3eARG7nffX83sw1h1xumx9wqxAA9j0K3VIi0R7jlVOKT5Xp9/B/Eh/XkCNXDzs
+         9+90CCva4xyhxqv+w+WZWiyLR78rX1Z2hD8XE5MZahgwqCOEvUI6WXnWjY4Rh/4mTq
+         0bCj7Zdd2oR1IOAQKOOjIMUGbBRARvm0VVC7riOKIwpD4JN3ZHbZ443EJtIpd6ZSy6
+         0nFUXN48LqZbg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lefqZ-000RuV-V0; Thu, 06 May 2021 17:23:27 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Ricardo Ribalda <ribalda@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 00/25] Fix some PM runtime issues at the media subsystem
-Message-ID: <20210506171157.678f5c15@coco.lan>
-In-Reply-To: <cover.1620207353.git.mchehab+huawei@kernel.org>
-References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        Shawn Tu <shawnx.tu@intel.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v5 00/30] media: i2c: use pm_runtime_resume_and_get() were possible
+Date:   Thu,  6 May 2021 17:22:56 +0200
+Message-Id: <cover.1620314098.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed,  5 May 2021 11:41:50 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Dealing with PM runtime (RPM) is different than dealing with other kAPIs used
+on media, as most pm_runtime_get_*() functions won't return to the the state
+before the call if an error rises. They, instead, increment an usage_count.
 
-> As part of an effort to cleanup pm_runtime*get* calls, I detected a number
-> of issues at the media subsystem.
-> 
-> Most of the patches here were submitted previously at:
-> 
-> 	https://lore.kernel.org/linux-media/cover.1619621413.git.mchehab+huawei@kernel.org/
-> 
-> This series contain just the bug fixes and other related issues that are
-> present with the current code on media.
+Due to that, there were several bugs on media. Just on this review, we found
+24 such errors.
 
-Series merged on my stage tree, at:
-	https://git.linuxtv.org/media_stage.git/log/
+So, let's use pm_runtime_resume_and_get() whenever possible, as it
+has two advantages over :
 
-I'll be merging it at media_tree (either for 5.13 or 5.14) after the
-end of the merge window (likely next week).
+1. On errors, it decrements the usage count;
+2. It always return zero on success or an error code. This prevents a 
+   common error pattern of checking if ret is not zero to identify
+   for errors.
 
-Please let me know if you find any problems on it.
+There are however a few places where calls to pm_runtime_get_sync()
+are kept. On several of those, a comment was added, in order to
+help preventing trivial patches that could try to change them.
 
-PS.: please notice that my stage tree can be rebased.
+PS.: This series was submitted already together with the fix patches
+at:
 
-Regards,
-Mauro
+	https://lore.kernel.org/linux-media/cover.1619621413.git.mchehab+huawei@kernel.org/
 
-> 
-> It address the points from the existing reviews. I also did my own
-> set of reviews, in order to avoid regressions.
-> 
-> Changes from v4 of the previous changeset:
-> 
-> - reworked i2c/css RPM get logic;
-> - dropped two patches that could cause regressions;
-> - am437x: keep using pm_runtime_get_sync on suspend/resume;
-> - atmel: fix the returned code and add a print on failures at start streaming;
-> - simplify some checks for return code > 0;
-> - mdk-vcodec: properly handle RPM errors at device on logic;
-> - venus: rework venus_sys_error_handler() logic;
-> - sti/delta: fix an issue at the error checking logic.
-> 
-> Mauro Carvalho Chehab (25):
->   staging: media: rkvdec: fix pm_runtime_get_sync() usage count
->   staging: media: imx7-mipi-csis: fix pm_runtime_get_sync() usage count
->   media: venus: Rework error fail recover logic
->   media: s5p_cec: decrement usage count if disabled
->   media: i2c: ccs-core: return the right error code at suspend
->   media: i2c: imx334: fix the pm runtime get logic
->   media: exynos-gsc: don't resume at remove time
->   media: atmel: properly get pm_runtime
->   media: hantro: do a PM resume earlier
->   media: marvel-ccic: fix some issues when getting pm_runtime
->   media: mdk-mdp: fix pm_runtime_get_sync() usage count
->   media: rcar_fdp1: simplify error check logic at fdp_open()
->   media: rcar_fdp1: fix pm_runtime_get_sync() usage count
->   media: renesas-ceu: Properly check for PM errors
->   media: s5p: fix pm_runtime_get_sync() usage count
->   media: am437x: fix pm_runtime_get_sync() usage count
->   media: sh_vou: fix pm_runtime_get_sync() usage count
->   media: mtk-vcodec: fix PM runtime get logic
->   media: s5p-jpeg: fix pm_runtime_get_sync() usage count
->   media: sti/delta: use pm_runtime_resume_and_get()
->   media: sunxi: fix pm_runtime_get_sync() usage count
->   media: sti/bdisp: fix pm_runtime_get_sync() usage count
->   media: exynos4-is: fix pm_runtime_get_sync() usage count
->   media: exynos-gsc: fix pm_runtime_get_sync() usage count
->   media: i2c: ccs-core: fix pm_runtime_get_sync() usage count
-> 
->  drivers/media/cec/platform/s5p/s5p_cec.c      |  7 ++-
->  drivers/media/i2c/ccs/ccs-core.c              | 41 ++++++++-----
->  drivers/media/i2c/imx334.c                    |  7 ++-
->  drivers/media/platform/am437x/am437x-vpfe.c   | 15 ++++-
->  drivers/media/platform/atmel/atmel-isc-base.c | 30 +++++++---
->  drivers/media/platform/atmel/atmel-isi.c      | 19 ++++--
->  drivers/media/platform/exynos-gsc/gsc-core.c  | 11 ++--
->  drivers/media/platform/exynos-gsc/gsc-m2m.c   |  4 +-
->  .../media/platform/exynos4-is/fimc-capture.c  |  6 +-
->  drivers/media/platform/exynos4-is/fimc-is.c   |  4 +-
->  .../platform/exynos4-is/fimc-isp-video.c      |  3 +-
->  drivers/media/platform/exynos4-is/fimc-isp.c  |  7 +--
->  drivers/media/platform/exynos4-is/fimc-lite.c |  5 +-
->  drivers/media/platform/exynos4-is/fimc-m2m.c  |  5 +-
->  drivers/media/platform/exynos4-is/media-dev.c |  9 +--
->  drivers/media/platform/exynos4-is/mipi-csis.c | 10 ++--
->  .../media/platform/marvell-ccic/mcam-core.c   |  9 ++-
->  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |  6 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  4 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  8 ++-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  2 +-
->  drivers/media/platform/qcom/venus/core.c      | 59 +++++++++++++++----
->  drivers/media/platform/rcar_fdp1.c            | 28 ++++++---
->  drivers/media/platform/renesas-ceu.c          |  4 +-
->  drivers/media/platform/s5p-jpeg/jpeg-core.c   |  5 +-
->  drivers/media/platform/sh_vou.c               |  6 +-
->  drivers/media/platform/sti/bdisp/bdisp-v4l2.c |  7 ++-
->  drivers/media/platform/sti/delta/delta-v4l2.c |  8 +--
->  .../sunxi/sun8i-rotate/sun8i_rotate.c         |  2 +-
->  drivers/staging/media/hantro/hantro_drv.c     |  7 ++-
->  drivers/staging/media/imx/imx7-mipi-csis.c    |  7 +--
->  drivers/staging/media/rkvdec/rkvdec.c         |  2 +-
->  32 files changed, 220 insertions(+), 127 deletions(-)
-> 
+I opted to break it on 3 parts, in order to make easier to review.
+
+This is the second part.
+
+Mauro Carvalho Chehab (30):
+  media: i2c: ak7375: use pm_runtime_resume_and_get()
+  media: i2c: dw9714: use pm_runtime_resume_and_get()
+  media: i2c: dw9768: use pm_runtime_resume_and_get()
+  media: i2c: dw9807-vcm: use pm_runtime_resume_and_get()
+  media: i2c: hi556: use pm_runtime_resume_and_get()
+  media: i2c: imx214: use pm_runtime_resume_and_get()
+  media: i2c: imx219: use pm_runtime_resume_and_get()
+  media: i2c: imx258: use pm_runtime_resume_and_get()
+  media: i2c: imx274: use pm_runtime_resume_and_get()
+  media: i2c: imx290: use pm_runtime_resume_and_get()
+  media: i2c: imx319: use pm_runtime_resume_and_get()
+  media: i2c: imx355: use pm_runtime_resume_and_get()
+  media: i2c: mt9m001: use pm_runtime_resume_and_get()
+  media: i2c: ov02a10: use pm_runtime_resume_and_get()
+  media: i2c: ov13858: use pm_runtime_resume_and_get()
+  media: i2c: ov2659: use pm_runtime_resume_and_get()
+  media: i2c: ov2685: use pm_runtime_resume_and_get()
+  media: i2c: ov2740: use pm_runtime_resume_and_get()
+  media: i2c: ov5647: use pm_runtime_resume_and_get()
+  media: i2c: ov5648: use pm_runtime_resume_and_get()
+  media: i2c: ov5670: use pm_runtime_resume_and_get()
+  media: i2c: ov5675: use pm_runtime_resume_and_get()
+  media: i2c: ov5695: use pm_runtime_resume_and_get()
+  media: i2c: ov7740: use pm_runtime_resume_and_get()
+  media: i2c: ov8856: use pm_runtime_resume_and_get()
+  media: i2c: ov8865: use pm_runtime_resume_and_get()
+  media: i2c: ov9734: use pm_runtime_resume_and_get()
+  media: i2c: tvp5150: use pm_runtime_resume_and_get()
+  media: i2c: video-i2c: use pm_runtime_resume_and_get()
+  media: i2c: ccs-core: use pm_runtime_resume_and_get()
+
+ drivers/media/i2c/ak7375.c       | 10 +---------
+ drivers/media/i2c/ccs/ccs-core.c |  7 ++-----
+ drivers/media/i2c/dw9714.c       | 10 +---------
+ drivers/media/i2c/dw9768.c       | 10 +---------
+ drivers/media/i2c/dw9807-vcm.c   | 10 +---------
+ drivers/media/i2c/hi556.c        |  3 +--
+ drivers/media/i2c/imx214.c       |  6 ++----
+ drivers/media/i2c/imx219.c       |  6 ++----
+ drivers/media/i2c/imx258.c       |  6 ++----
+ drivers/media/i2c/imx274.c       |  3 +--
+ drivers/media/i2c/imx290.c       |  6 ++----
+ drivers/media/i2c/imx319.c       |  6 ++----
+ drivers/media/i2c/imx355.c       |  6 ++----
+ drivers/media/i2c/mt9m001.c      |  9 +++++++--
+ drivers/media/i2c/ov02a10.c      |  6 ++----
+ drivers/media/i2c/ov13858.c      |  6 ++----
+ drivers/media/i2c/ov2659.c       |  6 ++----
+ drivers/media/i2c/ov2685.c       |  7 +++----
+ drivers/media/i2c/ov2740.c       |  6 ++----
+ drivers/media/i2c/ov5647.c       |  9 +++++----
+ drivers/media/i2c/ov5648.c       |  6 ++----
+ drivers/media/i2c/ov5670.c       |  6 ++----
+ drivers/media/i2c/ov5675.c       |  3 +--
+ drivers/media/i2c/ov5695.c       |  6 ++----
+ drivers/media/i2c/ov7740.c       |  6 ++----
+ drivers/media/i2c/ov8856.c       |  3 +--
+ drivers/media/i2c/ov8865.c       |  6 ++----
+ drivers/media/i2c/ov9734.c       |  3 +--
+ drivers/media/i2c/tvp5150.c      | 16 +++-------------
+ drivers/media/i2c/video-i2c.c    | 12 ++++--------
+ 30 files changed, 63 insertions(+), 142 deletions(-)
+
+-- 
+2.30.2
 
 
-
-Thanks,
-Mauro
