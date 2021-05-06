@@ -2,133 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 091FE375262
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 12:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56D253752B6
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 13:00:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234479AbhEFKeS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 06:34:18 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:48869 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234439AbhEFKeS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 06:34:18 -0400
-Received: by mail-io1-f71.google.com with SMTP id y191-20020a6bc8c80000b02904313407018fso3172819iof.15
-        for <linux-media@vger.kernel.org>; Thu, 06 May 2021 03:33:19 -0700 (PDT)
+        id S234638AbhEFLBS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 07:01:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56650 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234508AbhEFLBR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 07:01:17 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30568C061574
+        for <linux-media@vger.kernel.org>; Thu,  6 May 2021 04:00:18 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2so7186213lft.4
+        for <linux-media@vger.kernel.org>; Thu, 06 May 2021 04:00:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=YG0Wik7vCVlEPNPBs+I/+DdeQPewCO2NCWYBkcQbEVI=;
+        b=sRfrXDMzv3JcpQYnLRVH9IgOPpqgu2IurpOv462AsEoJDZXFw8R6el1vspPjWQeVpa
+         yOAdVFCNERkzbFFZTbHt23em65l8WEH8jxi7ibXztz8h0Wup1fCAad/IOnkPJ/sxwovN
+         l4HJnqRiW4lOTmdKMH/HP6zV4PrbX8BdtDUvJalOuJr7tbD3+N0qv2hO8vBZAz9Al1aB
+         5ImSiqS8h+slwquAuucnNafJ/mSkIfHtThgvGTKCPRf5Zi/Nn+OTb8dpAS7s6l44Td6I
+         tzw8GCD0l1kFe0bgKC2GI/S7ULSzdfiCAoR/1P6z2+UK1V1IoOw/LkRTqeotilVJpmcD
+         UWsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=gEzWFeT+0h8lPmc7NREAgF3P5/yzcA+Z7mY7aMEhe+Y=;
-        b=ruZE3l5NkOa3x0qOopxb8L2zFEwuc+HR193CP39HgpXtRhn239fdbKO88z5Edc+E3B
-         cmYpLa0F7OD7WG3i3P8s7awLWWgTudf+x/OzP5rGxDBDg6NWsYsleb3REyuVRQKtekJc
-         SESWAOEkqI6eGdQRtmYMmCWlLIyQ1oYTK0Q2GpQ/V9V+j/sWDDayyXR//dZ87xe/mL5z
-         Mvb0yKsSEkGNFSs3+5Q8dOScBOOryU7oCVp3QLTVDMajBnW+00eE47YDv5fQeyHAL4h5
-         QbmuKtbUwAYx0SP8yreJ4sF3PRqb5aBLZImHrwUEf9r8J+zeIvvuuAnTgy+iYBT8nH0Q
-         GZew==
-X-Gm-Message-State: AOAM532OrDFZwWuHhA5CIMU1WIRJlZvXN8qd39YJCvR5oEBsx/72hl8z
-        qJ6uHYdyEyd6wFeAPrLl/rnq1DPYLguOOr5i/0Kp61mQGYul
-X-Google-Smtp-Source: ABdhPJySOCjGht6lWTW0mzsnRkQtohwvqYtIdOms1blaP3GGjeVqYEXUE1B4a0nSz+NXISL06HKKoADHHrnN8H2/KYWBPOb9Xkjd
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=YG0Wik7vCVlEPNPBs+I/+DdeQPewCO2NCWYBkcQbEVI=;
+        b=ZRViJlvtZfGs0zUOeOYZPisjKTTjnJ9OQo1LORAcy0BMD+X2MYB3Sko+pTBsvlHKSm
+         CEFx3EIbH6gFyAdxZXSLNtUPU2WSHBqqXZkrVl+2SVwdTs7qGVQSF2wL/zSwcbGuXgIp
+         FP7EgSs1/268mvdiITMJvyJC3n8w+HI1+6daA+YL6401ANn7T77x1p/UieYFs7uz1cAD
+         V00tGvo5OJZxRXQlZNlG1B19QqYmSzf2m4zeXL/5L22qDy/2sJ2pJc7pPB07Q94Dto9N
+         MAweAA4+UtHeh1/rUiXkd5cVJSdDMwO/8PpvtqYdlQgaRalufUR1S1Ko3RNvlDL8RgK9
+         clyA==
+X-Gm-Message-State: AOAM533j8N470m9/FKERWxqUQudH/JESK9qyrLCnzqgMwWUpGtL2tPWf
+        fcvK/swV8hMbSzdvbKw84AY=
+X-Google-Smtp-Source: ABdhPJxuNuVRIw5CLy3WnAOdZxc91G8YrQ5LGJQCFq7iUZMjOsI8AONkbaqqDY+9GOECs0Wav44ylg==
+X-Received: by 2002:a05:6512:33c4:: with SMTP id d4mr2607760lfg.536.1620298816679;
+        Thu, 06 May 2021 04:00:16 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id q5sm589077lfu.109.2021.05.06.04.00.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 May 2021 04:00:16 -0700 (PDT)
+Date:   Thu, 6 May 2021 14:00:05 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Cc:     Daniel Stone <daniel@fooishbar.org>,
+        "wayland-devel@lists.freedesktop.org" 
+        <wayland-devel@lists.freedesktop.org>, xorg-devel@lists.x.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: Independent EDID parsing library
+Message-ID: <20210506140005.72db6d83@eldfell>
+In-Reply-To: <20210429134958.446ef8c6@eldfell>
+References: <BYAPR12MB31265E45A92C468AC1660EB6F25F9@BYAPR12MB3126.namprd12.prod.outlook.com>
+        <20210429134958.446ef8c6@eldfell>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Received: by 2002:a92:cd8a:: with SMTP id r10mr3579681ilb.282.1620297199237;
- Thu, 06 May 2021 03:33:19 -0700 (PDT)
-Date:   Thu, 06 May 2021 03:33:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000fdc0be05c1a6d68f@google.com>
-Subject: [syzbot] WARNING in __vmalloc_node_range
-From:   syzbot <syzbot+7336195c02c1bd2f64e1@syzkaller.appspotmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/W7FDa0tjSw1+cujpALB9tcc"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+--Sig_/W7FDa0tjSw1+cujpALB9tcc
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-syzbot found the following issue on:
+On Thu, 29 Apr 2021 13:49:58 +0300
+Pekka Paalanen <ppaalanen@gmail.com> wrote:
 
-HEAD commit:    d665ea6e Merge tag 'for-linus-5.13-rc1' of git://git.kerne..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=148bff43d00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f635d6ce17da8a68
-dashboard link: https://syzkaller.appspot.com/bug?extid=7336195c02c1bd2f64e1
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16e963e1d00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=116eec2dd00000
+> Adding the previous list of CCs.
+>=20
+> On Thu, 29 Apr 2021 10:32:58 +0000
+> "Sharma, Shashank" <Shashank.Sharma@amd.com> wrote:
+>=20
+> > Hello Pekka, Daniel
+> >=20
+> > As discussed over IRC, I have prepared the first version of the EDID pa=
+rsing library, which is hosted here:
+> > https://github.com/contactshashanksharma/libedid/tree/master
+> >=20
+> > This is a simple C library, and I have created this library keeping a c=
+ompositor's context in mind, so its easy for a compositor to use it.
+> > There are only 2 APIs in this library:
+> >               - libedid_process_edid_info: Get EDID information from ra=
+w_edid, returns filled struct edid_info ptr
+> >               - libedid_destroy_edid_info: Free the EDID information
+> >=20
+> > I have provided much information in the README file, and have also adde=
+d two simple test apps, with sample EDID, to test it.
+> > Please have a look and let me know your opinion on this.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7336195c02c1bd2f64e1@syzkaller.appspotmail.com
+Hi,
 
-usb 1-1: media controller created
-dvbdev: dvb_create_media_entity: media entity 'dvb-demux' registered.
-cxusb: set interface failed
-dvb-usb: bulk message failed: -22 (1/0)
-DVB: Unable to find symbol mt352_attach()
-dvb-usb: no frontend was attached by 'DViCO FusionHDTV DVB-T USB (LGZ201)'
-dvbdev: DVB: registering new adapter (DViCO FusionHDTV DVB-T USB (LGZ201))
-usb 1-1: media controller created
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 7 at mm/vmalloc.c:2873 __vmalloc_node_range+0x769/0x970 mm/vmalloc.c:2873
-Modules linked in:
-CPU: 0 PID: 7 Comm: kworker/0:1 Not tainted 5.12.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:__vmalloc_node_range+0x769/0x970 mm/vmalloc.c:2873
-Code: c7 04 24 00 00 00 00 eb 93 e8 93 b7 d9 ff 44 89 fa 44 89 f6 4c 89 ef e8 75 20 07 00 48 89 04 24 e9 be fb ff ff e8 77 b7 d9 ff <0f> 0b 48 c7 04 24 00 00 00 00 e9 63 ff ff ff e8 63 b7 d9 ff 8b 7c
-RSP: 0018:ffffc9000007ee30 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffffffff8403d464 RCX: 0000000000000000
-RDX: ffff888100283680 RSI: ffffffff81673599 RDI: 0000000000000003
-RBP: 0000000000000001 R08: 0000000000000000 R09: 8000000000000163
-R10: ffffffff81672ed2 R11: 0000000000000000 R12: 0000000000000000
-R13: ffffc90000000000 R14: dffffc0000000000 R15: 00000000ffffffff
-FS:  0000000000000000(0000) GS:ffff8881f6a00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fffeb9f7c40 CR3: 00000001033f2000 CR4: 00000000001506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- __vmalloc_node mm/vmalloc.c:2963 [inline]
- vmalloc+0x67/0x80 mm/vmalloc.c:2996
- dvb_dmx_init+0xe4/0xb90 drivers/media/dvb-core/dvb_demux.c:1251
- dvb_usb_adapter_dvb_init+0x564/0x860 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:184
- dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:86 [inline]
- dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
- dvb_usb_device_init.cold+0xc94/0x146e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
- cxusb_probe+0x159/0x5e0 drivers/media/usb/dvb-usb/cxusb.c:1634
- usb_probe_interface+0x315/0x7f0 drivers/usb/core/driver.c:396
- really_probe+0x291/0xf60 drivers/base/dd.c:576
- driver_probe_device+0x298/0x410 drivers/base/dd.c:763
- __device_attach_driver+0x203/0x2c0 drivers/base/dd.c:870
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
- __device_attach+0x228/0x4b0 drivers/base/dd.c:938
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
- device_add+0xbe0/0x2100 drivers/base/core.c:3319
- usb_set_configuration+0x113f/0x1910 drivers/usb/core/message.c:2164
- usb_generic_driver_probe+0xba/0x100 drivers/usb/core/generic.c:238
- usb_probe_device+0xd9/0x2c0 drivers/usb/core/driver.c:293
- really_probe+0x291/0xf60 drivers/base/dd.c:576
- driver_probe_device+0x298/0x410 drivers/base/dd.c:763
- __device_attach_driver+0x203/0x2c0 drivers/base/dd.c:870
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
- __device_attach+0x228/0x4b0 drivers/base/dd.c:938
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
- device_add+0xbe0/0x2100 drivers/base/core.c:3319
- usb_new_device.cold+0x721/0x1058 drivers/usb/core/hub.c:2556
- hub_port_connect drivers/usb/core/hub.c:5276 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5416 [inline]
- port_event drivers/usb/core/hub.c:5562 [inline]
- hub_event+0x2357/0x4320 drivers/usb/core/hub.c:5644
- process_one_work+0x98d/0x1580 kernel/workqueue.c:2275
- worker_thread+0x64c/0x1120 kernel/workqueue.c:2421
- kthread+0x38c/0x460 kernel/kthread.c:313
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+I started a discussion on the API:
+https://github.com/contactshashanksharma/libedid/issues/2
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Thanks,
+pq
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+--Sig_/W7FDa0tjSw1+cujpALB9tcc
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmCTzDUACgkQI1/ltBGq
+qqcNrw//Zm5LchI+BE8lN105rRh/6pAaSCKQ2ZC8XIifMdAECpdQG6VqR5sXD/V2
+P0Nr3QVrIy8vSFGdH9E+AAMaqQzO0AbA5PkkUOnwlRSsgXgokuexKEEmCLKnlRYA
+zhKE/aKUtyFh91V3Pk8Eaw4ELR1YV/HqpEoSDue08HY0HML14DT85MECqEgh8uwb
+BoT6HX9TN/8Ri9k3HSaqSQtzR64B4k8hdy3D0Kayq/LDjIi+WCCKqPs3qzn7TTwK
+7vIB7nQrtSXb6fvCXG3oTK6LLCdkh9IAGrhr8yVkkBK4q1v6ys1S+a5cu5bbcfIR
+TLubIyHR3c4NwQl24vlMeegkYnHbKJs/eEHHeJIzv7G9EHbuHOff3Y0Zm3nT6BA3
+ph7gX+fI9mOHFnXu+wB5N7P42dnDwClskNYOgFN/kb0P2C4Dy2Uv29TI08IMP3st
+NuUmXN8U7DIt5eg9d2iB5DnJuvfqIq6ncEV25hzaB15twoDNq8URF1UJWTTSKSmB
+oCT5AFtBV4fYwMIzC2SpjCrgHdaOKLMpCPt7sZKu0d2DHr0eAJr8p6xwQ8eLCNdL
+MPpigYe4/CZZWaOX7PtapLOFTyqlACvDRFHxCBpQSQligBk+tkKADovyxF+ug2rS
+9+/iia/VUD3h1p+emI1emIk6M0lw80YAo4Lkx37Jy7+J+Vmmyqk=
+=ReUL
+-----END PGP SIGNATURE-----
+
+--Sig_/W7FDa0tjSw1+cujpALB9tcc--
