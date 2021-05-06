@@ -2,44 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0481E3756F0
-	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 17:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DEE13756FB
+	for <lists+linux-media@lfdr.de>; Thu,  6 May 2021 17:27:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235255AbhEFP2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 11:28:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41066 "EHLO mail.kernel.org"
+        id S235454AbhEFP2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 11:28:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40894 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235573AbhEFP1y (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 May 2021 11:27:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B58F26101D;
+        id S235579AbhEFP1z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 May 2021 11:27:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E82DD613F9;
         Thu,  6 May 2021 15:26:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620314799;
-        bh=MXpnKbLLJHoaKaSDG9Nm2cU25Bmpfhlpa/FbF9E3XvE=;
+        s=k20201202; t=1620314800;
+        bh=xz8CqpZ4+x3T0PuHBH80JgKsOsDXkGM9E9TZgFaHE80=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W8ip/QxH+Y0Etz5pdi/g8HQMWk5RcQl3yV626phIa7/INWQEP7huliglW1N5k5vKa
-         Lxk8oKnLEHOGbZ7hu48dwEFxZ3XWfclHeA3g4OdJcAqneWqIM1Ai8ru2JgGYSma2Pf
-         vxXdqNxQlboOkM+xfovZ92fvT0AByRGoWaJbVLvmqPFa18Dzgb61fzCGV+TVPBwDzP
-         Yxd7NAqDG8GFh9Ldnm8zwkyKynfQ/bgWmoFS6N7LXqPGNGnxwiDlyf/j30IlaDewrI
-         LM1w9YAYx+v0XkIKrutyF2LSdBNU+URCHf2pufpsRsN7/Lq4Bt3H1oOls7XXcV4+l/
-         KDnAFT/pXUoag==
+        b=WVkPCXeD/lC2yqMDp38ScqUMAWU2/1tLoLJHjvaCXAv5jVf6FqVdqIlH/vUsJLOdf
+         HPng1B2hSGwakbAMEiMzLFQU8RnQVP0SlAiNKfgv8RgqF00Daeg8zUY2R4JM4MPJtv
+         6YXBNmenQpA9aXDdCKQcaGj9y5aankpgBvLNT/1Ws7ZcWgmjyoCrN5venUu29Iq7mw
+         XCXF82uZr4o7gHAl8wfelwaFKYyKLYDhBYnbJW8phEYWNuyWBP1dOdegxCOKE4l998
+         Ud6xdnulaQJbSA3vcY/oketjMySqcLTCSeEVTP5y4t2ePpcs/QdGFlvzdoe6vjw6VS
+         xR54OYXPCZupg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1left7-000SBD-O8; Thu, 06 May 2021 17:26:05 +0200
+        id 1left7-000SBH-PC; Thu, 06 May 2021 17:26:05 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
+        Chen-Yu Tsai <wens@csie.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-sunxi@lists.linux.dev,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v5 03/25] staging: media: ipu3: use pm_runtime_resume_and_get()
-Date:   Thu,  6 May 2021 17:25:41 +0200
-Message-Id: <a32caa4bce0341ab99a4440a431b4aebd55f8498.1620314616.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v5 04/25] staging: media: cedrus_video: use pm_runtime_resume_and_get()
+Date:   Thu,  6 May 2021 17:25:42 +0200
+Message-Id: <be4047dc72232adcedfa319aa4dfcee7bcde8d80.1620314616.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620314616.git.mchehab+huawei@kernel.org>
 References: <cover.1620314616.git.mchehab+huawei@kernel.org>
@@ -57,28 +59,30 @@ dev->power.usage_count decrement on errors.
 
 Use the new API, in order to cleanup the error check logic.
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/media/ipu3/ipu3.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-index ee1bba6bdcac..8e1e9e46e604 100644
---- a/drivers/staging/media/ipu3/ipu3.c
-+++ b/drivers/staging/media/ipu3/ipu3.c
-@@ -392,10 +392,9 @@ int imgu_s_stream(struct imgu_device *imgu, int enable)
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+index b62eb8e84057..9ddd789d0b1f 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -490,11 +490,9 @@ static int cedrus_start_streaming(struct vb2_queue *vq, unsigned int count)
  	}
  
- 	/* Set Power */
--	r = pm_runtime_get_sync(dev);
-+	r = pm_runtime_resume_and_get(dev);
- 	if (r < 0) {
- 		dev_err(dev, "failed to set imgu power\n");
--		pm_runtime_put(dev);
- 		return r;
- 	}
+ 	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
+-		ret = pm_runtime_get_sync(dev->dev);
+-		if (ret < 0) {
+-			pm_runtime_put_noidle(dev->dev);
++		ret = pm_runtime_resume_and_get(dev->dev);
++		if (ret < 0)
+ 			goto err_cleanup;
+-		}
  
+ 		if (dev->dec_ops[ctx->current_codec]->start) {
+ 			ret = dev->dec_ops[ctx->current_codec]->start(ctx);
 -- 
 2.30.2
 
