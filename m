@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75BCB375EE1
-	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 04:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 563CD375EE2
+	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 04:53:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230216AbhEGCyr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 May 2021 22:54:47 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:44095 "EHLO
+        id S234151AbhEGCyt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 May 2021 22:54:49 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:44118 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229663AbhEGCyr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 22:54:47 -0400
-X-UUID: 85cb6e1275724f86bd0e99d5a0625899-20210507
-X-UUID: 85cb6e1275724f86bd0e99d5a0625899-20210507
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+        with ESMTP id S230294AbhEGCys (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 May 2021 22:54:48 -0400
+X-UUID: c1428aed7e1341c181f146c1464fc15f-20210507
+X-UUID: c1428aed7e1341c181f146c1464fc15f-20210507
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
         (envelope-from <john.wei@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1295018239; Fri, 07 May 2021 10:53:46 +0800
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 55639792; Fri, 07 May 2021 10:53:45 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Fri, 7 May 2021 10:53:44 +0800
 Received: from mtkswgap22.mediatek.inc (172.21.77.33) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
@@ -29,10 +29,12 @@ To:     <john.wei@mediatek.com>, <louis.kuo@mediak.com>,
 CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>, <wsd_upstream@mediatek.com>
-Subject: [RFC PATCH V0 0/2] media: v4l2: extend framework to support advanced feature of Mediatek Camsys driver
-Date:   Fri, 7 May 2021 10:53:35 +0800
-Message-ID: <1620356017-26486-1-git-send-email-john.wei@mediatek.com>
+Subject: [RFC PATCH V0 1/2] media: v4l2: Add fields to frame descriptors
+Date:   Fri, 7 May 2021 10:53:36 +0800
+Message-ID: <1620356017-26486-2-git-send-email-john.wei@mediatek.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1620356017-26486-1-git-send-email-john.wei@mediatek.com>
+References: <1620356017-26486-1-git-send-email-john.wei@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
@@ -40,56 +42,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+From: John Wei <john.wei@mediatek.com>
 
-This is the first version of the RFC patch series to v4l2 and media framework
-to support virtual channel (an advanced feature of MIPI CSI). Virtual channel
-was used commonly among modern image sensor. It was used to transfer
-metadata of an image such as statistical data of AE or AF.Some advanced
-features of camera such as HDR (High dynamic range), PDAF (Phase Detection
-Auto Focus) were achieved by virtual channel. Medaitek made some modification
-to frame descriptor based on https://patchwork.kernel.org/patch/10875875/ and
-https://patchwork.kernel.org/patch/10875875/.We extend the struct
-v4l2_mbus_frame_desc_entry by add enable, hsize, vsize and user_data_desc.
-With this modification, frame descriptor are now more powerful to meet all
-kinds of need among different applications. Here is an example that we use
-frame descriptor to describe all data streams in a frame output by a
- stagger sensor.
+Add enable, hsize, vsize, user_data_desc to frame descriptors
 
-static struct v4l2_mbus_frame_desc_entry frame_desc_cus1[] = {
-        {
-                .bus.csi2 = {
-                        .channel = 0,
-                        .data_type = 0x2b,
-                        .enable = 1,
-                        .hsize = 0xF00,
-                        .vsize = 0x870,
-                        .user_data_desc = V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_HDR_LE,
-                },
-        },
-        {
-                .bus.csi2 = {
-                        .channel = 1,
-                        .data_type = 0x2b,
-                        .enable = 1,
-                        .hsize = 0xF00,
-                        .vsize = 0x870,
-                        .user_data_desc = V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_HDR_SE,
-                },
-        },
-};
+This patch is derived from following patches
+https://patchwork.kernel.org/patch/10875875/
+https://patchwork.kernel.org/patch/10875869/
 
-The first data stream, data for long exposure was transfer by channel 0 with
-data type 0x2b and the resolution was 0xF00 by horizontal and 0x870 by vertical.
-The second data stream, data for short exposure was transfer by channel 1
-with data type 0x2b and the resolution was also 0xF00 by horizontal and 0x870
-by vertical. Both long exposure and short exposure data will be fused in ISP
-stage to output a HDR image.
+Signed-off-by: John Wei <john.wei@mediatek.com>
+---
+ include/media/v4l2-subdev.h |   25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-  media: v4l2: Add fields to frame descriptors
-  media: v4l2-ctrl: Add user defined base for ISP user control
-
- include/media/v4l2-subdev.h        |   25 ++++++++++++++++++++++++-
- include/uapi/linux/v4l2-controls.h |   10 ++++++++++
- 2 files changed, 34 insertions(+), 1 deletion(-)
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 30ec011..f603831 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -308,15 +308,38 @@ struct v4l2_subdev_audio_ops {
+ 	int (*s_stream)(struct v4l2_subdev *sd, int enable);
+ };
+ 
++enum v4l2_mbus_csi2_user_defined_data_desc {
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_NONE,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_Y_HIST,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_AE_HIST,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_FLICKER,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_GYRO,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_PDAF_PIXEL,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_PDAF_DIFF,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_HDR_LE,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_HDR_ME,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_HDR_SE,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_HDR_SSE,
++	V4L2_MBUS_CSI2_USER_DEFINED_DATA_DESC_HDR_SSSE,
++};
++
+ /**
+  * struct v4l2_mbus_frame_desc_entry_csi2
+  *
+  * @channel: CSI-2 virtual channel
+  * @data_type: CSI-2 data type ID
++ * @enable: enable this data identifier
++ * @hsize: horizontal size
++ * @vsize: vertical size
++ * @user_data_desc: the description of user defined data
+  */
+ struct v4l2_mbus_frame_desc_entry_csi2 {
+ 	u8 channel;
+ 	u8 data_type;
++	u8 enable;
++	u16 hsize;
++	u16 vsize;
++	enum v4l2_mbus_csi2_user_defined_data_desc user_data_desc;
+ };
+ 
+ /**
+@@ -354,7 +377,7 @@ struct v4l2_mbus_frame_desc_entry {
+ 	} bus;
+ };
+ 
+-#define V4L2_FRAME_DESC_ENTRY_MAX	4
++#define V4L2_FRAME_DESC_ENTRY_MAX	8
+ 
+ enum v4l2_mbus_frame_desc_type {
+ 	V4L2_MBUS_FRAME_DESC_TYPE_PLATFORM,
+-- 
+1.7.9.5
 
