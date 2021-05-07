@@ -2,28 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C196837654A
-	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 14:37:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39D5037654B
+	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 14:37:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236820AbhEGMiG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 May 2021 08:38:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59860 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236685AbhEGMiF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 May 2021 08:38:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13AEAC061574
-        for <linux-media@vger.kernel.org>; Fri,  7 May 2021 05:37:06 -0700 (PDT)
+        id S236827AbhEGMiH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 May 2021 08:38:07 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59808 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236794AbhEGMiG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 May 2021 08:38:06 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDEC3ACF;
-        Fri,  7 May 2021 14:37:03 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C03ABBA;
+        Fri,  7 May 2021 14:37:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1620391024;
-        bh=ujWbShictQzSPtJxmY+BOuJqQsuCDncrDAXqtk/0Mfc=;
+        s=mail; t=1620391025;
+        bh=T9y0lwkVpTBvak2wxtK0+frKPsFgMQzQ1QwRKrYqRG8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uA4xeSC/mCA1pvyI4RsFEpjZl8CFD3jh8LSZXTl+QSvaYeYwyFFQRhhUd4oad9LWO
-         UTNWKmPJJgPWiolYUkkbwsd2iPzdEC3tJ7PnLErkO2vin9iozkbz7SLlzjxRLTnn4n
-         7bO+7RQDLQRudhHj4bk7iI2gHleFs1rMpVgfFplE=
+        b=jjfDJiCFVdHPj9AksJ+gnABuZhSqyUWHLpHtU8GTs+mLRBkQDyvh+xAXUSZjwP9xi
+         JJGKwCwn4+wDOyIhLX70QETg7XeOfAtmPOKChM14Qyy/mVP2bTkCf1EAe3+o7nLH8M
+         rUi6r+yuY3lV1q7FuNJv/tg0+52a0lYDBeMIwqSw=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -34,9 +31,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Pratyush Yadav <p.yadav@ti.com>, john.wei@mediatek.com,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [RFC 09/11] v4l: subdev: add routing & stream config to v4l2_subdev_state
-Date:   Fri,  7 May 2021 15:35:56 +0300
-Message-Id: <20210507123558.146948-10-tomi.valkeinen@ideasonboard.com>
+Subject: [RFC 10/11] v4l: subdev: add V4L2_SUBDEV_FL_MULTIPLEXED
+Date:   Fri,  7 May 2021 15:35:57 +0300
+Message-Id: <20210507123558.146948-11-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210507123558.146948-1-tomi.valkeinen@ideasonboard.com>
 References: <20210507123558.146948-1-tomi.valkeinen@ideasonboard.com>
@@ -46,44 +43,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add routing and stream_configs to struct v4l2_subdev_state. This lets
-the drivers to implement V4L2_SUBDEV_FORMAT_TRY support for routing and
-the stream configurations.
+Add V4L2_SUBDEV_FL_MULTIPLEXED, which indicates that the subdev supports
+routing and per-stream configuration. These drivers do not need the old
+pad based configuration, so we can skip the allocation in
+v4l2_subdev_alloc_state().
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 3 +++
- include/media/v4l2-subdev.h           | 3 +++
- 2 files changed, 6 insertions(+)
+ drivers/media/v4l2-core/v4l2-subdev.c | 3 ++-
+ include/media/v4l2-subdev.h           | 6 ++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 52e4290aa8a2..0acc2607b78c 100644
+index 0acc2607b78c..f5cca45becf4 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1216,6 +1216,9 @@ EXPORT_SYMBOL_GPL(v4l2_subdev_alloc_state);
+@@ -1188,7 +1188,8 @@ struct v4l2_subdev_state *v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
+ 		goto err;
+ 	}
  
- void v4l2_subdev_free_state(struct v4l2_subdev_state *state)
- {
-+	v4l2_subdev_free_routing(&state->routing);
-+	v4l2_free_stream_configs(&state->stream_configs);
-+
- 	kvfree(state->pads);
- 	kvfree(state);
- }
+-	if (sd->entity.num_pads) {
++	/* Drivers that support streams do not need the legacy pad config */
++	if (!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED) && sd->entity.num_pads) {
+ 		state->pads = kvmalloc_array(sd->entity.num_pads,
+ 					     sizeof(*state->pads),
+ 					     GFP_KERNEL | __GFP_ZERO);
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 36be66e18abc..1c3de4a0606e 100644
+index 1c3de4a0606e..cc9953d88ce2 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -706,6 +706,9 @@ struct v4l2_subdev_krouting {
+@@ -900,6 +900,12 @@ struct v4l2_subdev_internal_ops {
+  * should set this flag.
   */
- struct v4l2_subdev_state {
- 	struct v4l2_subdev_pad_config *pads;
-+
-+	struct v4l2_subdev_krouting routing;
-+	struct v4l2_subdev_stream_configs stream_configs;
- };
+ #define V4L2_SUBDEV_FL_HAS_EVENTS		(1U << 3)
++/*
++ * Set this flag if this subdev supports multiplexed streams. This means
++ * that the driver supports routing and handles the stream parameter in its
++ * v4l2_subdev_pad_ops handlers.
++ */
++#define V4L2_SUBDEV_FL_MULTIPLEXED		(1U << 4)
  
- /**
+ struct regulator_bulk_data;
+ 
 -- 
 2.25.1
 
