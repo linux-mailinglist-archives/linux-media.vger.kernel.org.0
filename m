@@ -2,126 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26F7A376B0E
-	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 22:09:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D7B7376BB4
+	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 23:26:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230126AbhEGUKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 May 2021 16:10:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46904 "EHLO
+        id S229652AbhEGV1U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 May 2021 17:27:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230021AbhEGUKX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 May 2021 16:10:23 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CC87C0613ED
-        for <linux-media@vger.kernel.org>; Fri,  7 May 2021 13:09:22 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id f75-20020a9d03d10000b0290280def9ab76so8917785otf.12
-        for <linux-media@vger.kernel.org>; Fri, 07 May 2021 13:09:22 -0700 (PDT)
+        with ESMTP id S229488AbhEGV1S (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 May 2021 17:27:18 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6310C061761
+        for <linux-media@vger.kernel.org>; Fri,  7 May 2021 14:26:16 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id l21so9285991iob.1
+        for <linux-media@vger.kernel.org>; Fri, 07 May 2021 14:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=r1kPto3KzlNbAX0lDy+fl0HZN7GLrSQn6mvGXMGR828=;
-        b=oNy6r+suTKQ6IrZyOFUnSIXNr8ggFi3mCsRTPsy9sJPYKtAWUVzfbztR29TBqVsAxb
-         /G4Ac8umSTo9PlhWtWoYkKZt552l80dDgB7oqf//7tWNlU+1WCu5JTQQsybILeF7Zcsj
-         DrP/vJDQ+kqU47Yv1cEL7MpZRHQmwD8NE6ONE=
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=STKiO9AWpCH39xgVyEDHDKCth0FNOrDqcymI0L9meSo=;
+        b=WARh69Kczqdp+LQIYesVKz6ExULo6eoSYeI7iIW/Q+OO6F+Zl5OkQNgdNgi3Jt4I8W
+         c44rh4RqJQSf3jvfLzNFUDGlTH2SVWAWW5ahnXhhWlUCBacsApAEp8p+PvhlxjwEHKuU
+         Gxgcpb8oh5wu5pVWwQi3ILcI5ZRmabNvZkT/M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=r1kPto3KzlNbAX0lDy+fl0HZN7GLrSQn6mvGXMGR828=;
-        b=XClcK+5K+uoC9rEqVrshkXhVP9LUTBSDjapw85xx/0uvm5WZTN7o1TZQO8FBRilQeJ
-         jHbBCCsD7l7ggPG2bmabAGn9E/a276s9tl/46JTZ+juDXRfVEkbhsygljce+HUpGBE08
-         aPlywpVQNmINFNVNfou0xx+QQdvAFa6AcdSewWl5d7iB0seTQWNxJSbd0wM709UL49Fz
-         5xlks0vOeOIFYefgyk0XbaJCF/yN8OIvXgDZWFtQjG0CMOPBMoCMKAAHKGIayEFreH59
-         CZbPoEBeH15drbAv6bq77+ERZvbIaeBBk8hX3Lenp2CHH4gDhiAqag+wQB3NAQ5rGzG8
-         0BXw==
-X-Gm-Message-State: AOAM532M5sZcRDj6CUnQU5sq/oQaCm6JhCxxdoOm4niPAK7SC4noHxZO
-        ZncxCZ0O5RQYCCWV/U88MCzrJNGViWzqFZI5yp4YeA==
-X-Google-Smtp-Source: ABdhPJxZ061OkNR2+KyMC9fMqg6AIYlmIWzLNJjFE2lr/X9A/aJT0ru5fvuT3lGqLqrk9nSCuasHw9RrjklcTKZIICc=
-X-Received: by 2002:a9d:1ea9:: with SMTP id n38mr10001438otn.233.1620418161680;
- Fri, 07 May 2021 13:09:21 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 7 May 2021 13:09:21 -0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=STKiO9AWpCH39xgVyEDHDKCth0FNOrDqcymI0L9meSo=;
+        b=ZhlLEpny/92CQkMwMYNKUYpL7oHq/so7vBpXnWHL16dUZfG9kILTfn8ZD5Wud/8bf0
+         wdV7JPq8ya9bzBDOZkbI2vcr54C+MFrHlqRHMPZaUda/Ze+mFTQu+2Yekx4e5HmHQ3r8
+         t9IuKEENqoOluMZ1tpvgTV5Rk4syNC+hwVaeq79pKbrLaDU/cRsboS0qmxuTmRqAMz6i
+         r3PyLqKSuFxOEe/IqPM7ucqHhoiSMszePvtL80GWw5eVzo6w3SqcfiwGbBOHktUikUFl
+         luB8ygFew2mV3mYoXfAoRJD6bCffSDLOGcgZqQMSdUzJauNVuLuXkLoJNmQEtY2z/Wuz
+         Oorg==
+X-Gm-Message-State: AOAM5302BC7ubG5TRh8TVo3SL/UIJZc31Sx+VeuON5EApmjF7d3aFjgq
+        +vfvnxeU7maHbRwvgSYAikyidXCZKlL992wtVkfBVg==
+X-Google-Smtp-Source: ABdhPJxEvAGnj2AJE+vvIJ2GGQoEcb6+aGVGE/J72s4ZVmpvaQAUKg/kHn3pW4/LwiH8dI51b1se5InfpZo3BeRnJ8s=
+X-Received: by 2002:a6b:cdc6:: with SMTP id d189mr8797891iog.46.1620422776360;
+ Fri, 07 May 2021 14:26:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d23263dcb0f1535275ff37524b0203b2@codeaurora.org>
-References: <d23263dcb0f1535275ff37524b0203b2@codeaurora.org>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date:   Fri, 7 May 2021 13:09:21 -0700
-Message-ID: <CAE-0n51YQf=NZxnw9+FLU=PSG8di7Ztp5pP03JdLXgEWGM0AZg@mail.gmail.com>
-Subject: Re: [PATCH V9] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-To:     rojay@codeaurora.org
-Cc:     wsa@kernel.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, skananth@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+References: <cover.1620314098.git.mchehab+huawei@kernel.org> <f6efc87d96826e3d2067b874e034b5edf73bb593.1620314098.git.mchehab+huawei@kernel.org>
+In-Reply-To: <f6efc87d96826e3d2067b874e034b5edf73bb593.1620314098.git.mchehab+huawei@kernel.org>
+From:   Matt Ranostay <matt.ranostay@konsulko.com>
+Date:   Fri, 7 May 2021 14:26:05 -0700
+Message-ID: <CAJCx=gnP0oK2YqmffH=CfeWQbCcAa4hS_QRXwu49tdG3kW8TWQ@mail.gmail.com>
+Subject: Re: [PATCH v5 29/30] media: i2c: video-i2c: use pm_runtime_resume_and_get()
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting rojay@codeaurora.org (2021-05-07 03:07:42)
-> On 2021-05-05 07:08, Stephen Boyd wrote:
-> > Quoting Roja Rani Yarubandi (2021-04-20 04:13:55)
+On Thu, May 6, 2021 at 8:23 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 >
-> > In fact, where is that code? I'd expect to see i2c_del_adapter() in
-> > here
-> > so we know the adapter can't accept transfers anymore. Maybe
-> > i2c_del_adapter() could be called, and then there's nothing to do after
-> > that? This whole patch is trying to rip the adapter out from under the
-> > i2c core framework, when we should take the opposite approach and
-> > remove
-> > it from the core framework so that it can't transfer anything anymore
-> > and thus the IOMMU can remove the mapping.
-> >
+> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> added pm_runtime_resume_and_get() in order to automatically handle
+> dev->power.usage_count decrement on errors.
 >
-> IIUC about probe/remove/shutdown calls, during "remove" we will unplug
-> the
-> device with opposite calls to "probe's" plug operations.
-> For example i2c_add_adapter() from 'probe' and i2c_del_adapter() from
-> 'remove'.
-> For "shutdown", as system is going to shutdown, there is no need of
-> unplug
-> operations to be done.
->
-> And also, I had a glance on other upstream i2c drivers, and noticed
-> "i2c-i801.c"
-> driver has i2c_del_adapter() called from remove callback but not from
-> shutdown
-> callback.
-
-Sure, other drivers could also be broken.
-
->
-> And actually I tried calling i2c_del_adapter() from geni_i2c_shutdown(),
-> and it resulted in below WARNING trace
-> [   90.320282] Call trace:
-> [   90.322807]  _regulator_put+0xc4/0xcc
-> [   90.326583]  regulator_bulk_free+0x48/0x6c
-> [   90.330808]  devm_regulator_bulk_release+0x20/0x2c
-> [   90.335744]  release_nodes+0x1d0/0x244
-> [   90.339609]  devres_release_all+0x3c/0x54
-> [   90.343735]  device_release_driver_internal+0x108/0x194
-> [   90.349109]  device_release_driver+0x24/0x30
-> [   90.353510]  bus_remove_device+0xd0/0xf4
-> [   90.357548]  device_del+0x1a8/0x2f8
-> [   90.361143]  device_unregister+0x1c/0x34
-> [   90.365181]  __unregister_client+0x78/0x88
-> [   90.369397]  device_for_each_child+0x64/0xb4
-> [   90.373797]  i2c_del_adapter+0xf0/0x1d4
-> [   90.377745]  geni_i2c_shutdown+0x9c/0xc0
-> [   90.381783]  platform_drv_shutdown+0x28/0x34
-> [   90.386182]  device_shutdown+0x148/0x1f0
->
-> Can you please suggest me what might be missing here?
+> Use the new API, in order to cleanup the error check logic.
 >
 
-It looks like some device that is on the i2c bus is putting a regulator
-in the remove path without disabling it. Can you print out which device
-driver it is and fix that driver to call regulator_disable() on the
-driver remove path? I'll try locally and see if I can find the driver
-too.
+Acked-by: Matt Ranostay <matt.ranostay@konsulko.com>
+
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/media/i2c/video-i2c.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
+> index 0465832a4090..de12f38f347c 100644
+> --- a/drivers/media/i2c/video-i2c.c
+> +++ b/drivers/media/i2c/video-i2c.c
+> @@ -286,11 +286,9 @@ static int amg88xx_read(struct device *dev, enum hwmon_sensor_types type,
+>         __le16 buf;
+>         int tmp;
+>
+> -       tmp = pm_runtime_get_sync(regmap_get_device(data->regmap));
+> -       if (tmp < 0) {
+> -               pm_runtime_put_noidle(regmap_get_device(data->regmap));
+> +       tmp = pm_runtime_resume_and_get(regmap_get_device(data->regmap));
+> +       if (tmp < 0)
+>                 return tmp;
+> -       }
+>
+>         tmp = regmap_bulk_read(data->regmap, AMG88XX_REG_TTHL, &buf, 2);
+>         pm_runtime_mark_last_busy(regmap_get_device(data->regmap));
+> @@ -512,11 +510,9 @@ static int start_streaming(struct vb2_queue *vq, unsigned int count)
+>         if (data->kthread_vid_cap)
+>                 return 0;
+>
+> -       ret = pm_runtime_get_sync(dev);
+> -       if (ret < 0) {
+> -               pm_runtime_put_noidle(dev);
+> +       ret = pm_runtime_resume_and_get(dev);
+> +       if (ret < 0)
+>                 goto error_del_list;
+> -       }
+>
+>         ret = data->chip->setup(data);
+>         if (ret)
+> --
+> 2.30.2
+>
