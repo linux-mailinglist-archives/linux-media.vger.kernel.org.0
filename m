@@ -2,130 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CABB37656B
-	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 14:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C969376592
+	for <lists+linux-media@lfdr.de>; Fri,  7 May 2021 14:51:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236628AbhEGMqF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 May 2021 08:46:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33444 "EHLO
+        id S237094AbhEGMwg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 May 2021 08:52:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233518AbhEGMqF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 May 2021 08:46:05 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 873D2C061574;
-        Fri,  7 May 2021 05:45:04 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 82-20020a1c01550000b0290142562ff7c9so4824316wmb.3;
-        Fri, 07 May 2021 05:45:04 -0700 (PDT)
+        with ESMTP id S237052AbhEGMwf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 May 2021 08:52:35 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA76FC061574;
+        Fri,  7 May 2021 05:51:35 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id w15so11392176ljo.10;
+        Fri, 07 May 2021 05:51:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=G3ZPlqSS2SM+tCjnUEbVUkvvf8BLcEfy9KwkaPBN/zw=;
-        b=XkDyfZHTQRXeozSPOoHTGxUipgMTxiE7XjrtlFIZj+Da8csqJ8sF9my2PCSws1ddlQ
-         I9Sq2oaDIMFjbWkCO2am6G5leS4zYidy2ctbV+zAF6bDAxwu1x10vhHAs01vYiSRl8FC
-         pQEuF9823jYGB3OQD5415nWLhm2TED/NiO/qRFRM+Lne4Pu/yvdW0gCk/D++8ChlNjJc
-         ApoY1+MPaqN/rtDmjEHUQZsWievyIi7IVTYBE+3fNw/ZC9gRZrpMiAOuCYHv5CdMoCmk
-         ivlJvMRLx/qldIQNvrMRi1kfAYA4xqZCFt/InKpS48u5snR77blRceZKyiDjMO0Nf0jD
-         akDA==
+        bh=k/DtSPUDkSbuRZ0BQAVzillf2V45Xj8sjRcVKiI789k=;
+        b=YhPg6AH5PtgAMazNsAKtBLkIFFyi/lLcNbGXD/g/e8XWc1gzAKu4/ROVfOFGP/sSvW
+         J6Gff1bXStGxePc2OB9iCyKXLGhJ0NKUTi7EBB4AIzwaE9DRFgCnbl99Tgtq0ofCLGxA
+         7MgtRCGxqdpOOUd3DqxMZaRfG0TbYyCTKQp1Y40AqE8DfsVVI3eqoVPC/dhiEememOCt
+         rOnfBLcbaPYk3y+h3XLDgTIA7Xt1i5idIxTM3YJIj0nvepd48uq8k1PMBUFEuiw+nZT7
+         p33w2gce7dwKnUXGuQyKPPvUjBOHu9zmwTLkpARht0GoyTn3qH7FEQyRfJrGBjTz2S7W
+         u1Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=G3ZPlqSS2SM+tCjnUEbVUkvvf8BLcEfy9KwkaPBN/zw=;
-        b=R9gal0r67LznnoUEqQ4YMn1/zGHY3lSIDltr+ykneRP1VqC5cXl7KXlYTGWbRXS+kz
-         bqcwIq7PEOrrwV+s7k3PC8SADIuLkzmo34SS/uxQkSZ5TSEyuxHMz9QcoLRydmPD2MBB
-         +0AEnRM+EflbIh5+MyVayynpQKVappzbX4/vS8Qxp6xHus6HvF14KV4o6unSZnfY/6Mb
-         8XAvs8/O0EBLsWbjD4rzwXmc69MlMQwOWIBSrn51GRtgcwFG1Frq4Lbqq8RZRbGTKVoo
-         kwKPgDxMVP6OghkjOd7j1cJQ/tEW/sH6ROyX76ewSlEgw0aFz7i/VHjGsTI3GswYZR5Q
-         z5dg==
-X-Gm-Message-State: AOAM532j6OyA66JZHUMogJHIj7QISON/brxMigOVmEY+TZlVOg7FEgCy
-        ZUAbK0p4oCNmkXFeNQ4iCiQ=
-X-Google-Smtp-Source: ABdhPJxbiOAtUQYxF+fijkvU2JYqLmROYR4X50ZYAqGwUgz30p8cgyIKUQ8bvpoLdsa1Hxku0BbUMA==
-X-Received: by 2002:a05:600c:47d7:: with SMTP id l23mr20786260wmo.95.1620391503246;
-        Fri, 07 May 2021 05:45:03 -0700 (PDT)
+        bh=k/DtSPUDkSbuRZ0BQAVzillf2V45Xj8sjRcVKiI789k=;
+        b=sq8r0Ebe5S2tXYP4dilfR2MrYwCqyBRkhlCKgu2JlcPbosfrVTmXLAxnGM0QRzR6N4
+         dLzACpZDJb8YzEFGx4AjEaOBI4aOb9HmqugsHGNDwDOSusdMkdal9/5rpQHaWhmd55/J
+         ghrJr6JT+3l6sLNYfyk6zLF+CW8Dai+epu32hCpKP67OVm3QZob9QswRbG5DOCA93vnN
+         pWOYNcKzFzxyobGC+c1P9k/cdj1CMWCZ8QubACyZWRXWyNRdPAIEjChf1/yCwA7Jb+JY
+         KSICkLnuDfp/s5qdomm5GqivYjB7Vpd+0SmTOYunRyhQtyGMSkvz4Qt3ImXbCv2oC/op
+         znzg==
+X-Gm-Message-State: AOAM531ucQorKYcl6py7NwJTEFneZcpBH1Z3Xd9jQy+efGwMfEyDIjcL
+        qFnX3UnREp8glThi269G32A=
+X-Google-Smtp-Source: ABdhPJz3y7Xr3Nw+3mhxe7PhcWEzINPKHvxkvwn5fmRb0vNJZIxc+vO3M+pwHzrBmO/w1sXeQgp/cQ==
+X-Received: by 2002:a2e:8e9a:: with SMTP id z26mr783712ljk.301.1620391894189;
+        Fri, 07 May 2021 05:51:34 -0700 (PDT)
 Received: from localhost.localdomain ([94.103.226.84])
-        by smtp.gmail.com with ESMTPSA id r2sm8704380wrv.39.2021.05.07.05.45.02
+        by smtp.gmail.com with ESMTPSA id r9sm1887855ljp.79.2021.05.07.05.51.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 May 2021 05:45:03 -0700 (PDT)
-Date:   Fri, 7 May 2021 15:45:00 +0300
+        Fri, 07 May 2021 05:51:33 -0700 (PDT)
 From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     Uladzislau Rezki <urezki@gmail.com>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, mchehab@kernel.org,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: [syzbot] WARNING in __vmalloc_node_range
-Message-ID: <20210507154500.0951876a@gmail.com>
-In-Reply-To: <CA+KHdyWuf8iDvrmGfapVy3pRie4FOwdasbtRij39MmXr0Wpzuw@mail.gmail.com>
-References: <000000000000fdc0be05c1a6d68f@google.com>
-        <20210506142210.GA37570@pc638.lan>
-        <20210506145722.GC1955@kadam>
-        <20210506180053.4770f495@gmail.com>
-        <20210507080435.GF1922@kadam>
-        <20210507152954.5773592a@gmail.com>
-        <CA+KHdyWuf8iDvrmGfapVy3pRie4FOwdasbtRij39MmXr0Wpzuw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
+To:     mkrufky@linuxtv.org, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Pavel Skripkin <paskripkin@gmail.com>, stable@vger.kernel.org,
+        syzbot+7336195c02c1bd2f64e1@syzkaller.appspotmail.com
+Subject: [PATCH v2] media: dvb-usb: fix wrong definition
+Date:   Fri,  7 May 2021 15:50:43 +0300
+Message-Id: <20210507125043.29825-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210506121211.8556-1-paskripkin@gmail.com>
+References: <20210506121211.8556-1-paskripkin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 7 May 2021 14:42:14 +0200
-Uladzislau Rezki <urezki@gmail.com> wrote:
+syzbot reported WARNING in vmalloc. The problem
+was in zero size passed to vmalloc.
 
-> Hello, Pavel.
-> 
-> Also in the commit message i see a type.
-> 
-> <snip>
-> syzbot reported WARNING in vmalloc. The problem
-> was in sizo size passed to vmalloc.
-> <snip>
-> 
-> Should it be "...zero size passed to vmalloc"?
-> 
+The root case was in wrong cxusb_bluebird_lgz201_properties
+definition. adapter array has only 1 entry, but num_adapters was
+2.
 
-Yes, it should. Thank you so much!
+Call Trace:
+ __vmalloc_node mm/vmalloc.c:2963 [inline]
+ vmalloc+0x67/0x80 mm/vmalloc.c:2996
+ dvb_dmx_init+0xe4/0xb90 drivers/media/dvb-core/dvb_demux.c:1251
+ dvb_usb_adapter_dvb_init+0x564/0x860 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:184
+ dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:86 [inline]
+ dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
+ dvb_usb_device_init.cold+0xc94/0x146e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
+ cxusb_probe+0x159/0x5e0 drivers/media/usb/dvb-usb/cxusb.c:1634
 
-> --
-> Vlad Rezki
-> 
-> 
-> On Fri, May 7, 2021 at 2:29 PM Pavel Skripkin <paskripkin@gmail.com>
-> wrote:
-> >
-> > On Fri, 7 May 2021 11:04:36 +0300
-> > Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> >
-> > > On Thu, May 06, 2021 at 06:00:53PM +0300, Pavel Skripkin wrote:
-> > > >
-> > > > Hi!
-> > > >
-> > > > I've already sent the patch:
-> > > > https://patchwork.linuxtv.org/project/linux-media/patch/20210506121211.8556-1-paskripkin@gmail.com/
-> > > >
-> > >
-> > > Please, always add a Fixes tag.
-> > >
-> > > Fixes: 4d43e13f723e ("V4L/DVB (4643): Multi-input patch for
-> > > DVB-USB device")
-> > >
-> > > regards,
-> > > dan carpenter
-> > >
-> >
-> > oh..., that's one thing I always forget about. Thanks for pointing
-> > it out, I'll send v2 soon
-> >
-> >
-> > With regards,
-> > Pavel Skripkin
-> 
-> 
-> 
+Fixes: 4d43e13f723e ("V4L/DVB (4643): Multi-input patch for DVB-USB device")
+Cc: stable@vger.kernel.org
+Reported-by: syzbot+7336195c02c1bd2f64e1@syzkaller.appspotmail.com
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+----
 
+Changes in v2:
 
-With regards,
-Pavel Skripkin
+ Added Fixes tag.
+ Fixed typos in commit message
+
+---
+ drivers/media/usb/dvb-usb/cxusb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/dvb-usb/cxusb.c b/drivers/media/usb/dvb-usb/cxusb.c
+index 761992ad05e2..7707de7bae7c 100644
+--- a/drivers/media/usb/dvb-usb/cxusb.c
++++ b/drivers/media/usb/dvb-usb/cxusb.c
+@@ -1947,7 +1947,7 @@ static struct dvb_usb_device_properties cxusb_bluebird_lgz201_properties = {
+ 
+ 	.size_of_priv     = sizeof(struct cxusb_state),
+ 
+-	.num_adapters = 2,
++	.num_adapters = 1,
+ 	.adapter = {
+ 		{
+ 		.num_frontends = 1,
+-- 
+2.31.1
+
