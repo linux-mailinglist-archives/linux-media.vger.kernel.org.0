@@ -2,155 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40EB0376F26
-	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 05:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34760377083
+	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 09:56:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230483AbhEHDkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 May 2021 23:40:25 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49261 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230482AbhEHDkY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 7 May 2021 23:40:24 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id fDoGlraUCUm2ufDoIlQkHN; Sat, 08 May 2021 05:39:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1620445162; bh=vi2b3uoOu38AWS2JaUYWYcsE/La7p5WlMqZj8aPjqkA=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Z7YtCJkq16dlKX25r+A/jMYITlOJb9FPhI7qtPyI/S5khh4nXeZKznRWbhTXze5Vg
-         tnyTajxwQztFX5XtfcbeXHZeyxtqPJlKougFPDIecnCOjF3YxiY/eGPkNaRlu9JPmq
-         z8UgZLKGG3e7vpmPY4Po8xdX4aXiRL+GIqaXP1IjRMHbiDtSJqaiQJP+/4eisukvRG
-         Hpx/2brDYKqd34dowFRFSd70eymOShWOP1ofU8flmIZmXvbqBmu2fPI7OuYU9PuEwZ
-         UdrmzufrBqyGQJyIDxJVbLXHgrskphzHtUwxKSByoBMBH5PJQZBTADPnv4ApWlmWh4
-         8wYewlTrakKcg==
-Message-ID: <0e5376b2a98f3c54d833b8c1372b1c44@smtp-cloud8.xs4all.net>
-Date:   Sat, 08 May 2021 05:39:20 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfMQJJvcSpZ6R8q3nQ4+sOOc68rRpXrtoEId4EPK9E+2lneY7LzBbQpFrL9jqN+x9bZFtv0nyHSjtGHTkstzHdWaGUSlfz05mTbuCJjd/rnTP7hI0dcX4
- 1NvA+/Qmoa1uEOg/VuQTA+7s6VLYOD8lh6UiZAa9hMyT7h0HWU3nnv3IK+Mj5dy7hn7+VPzk3j35aMkTHTbue4YiO0UoKezk48TIiV8ui3Oo23Rvm4YRfW5D
- dtZvLCWvcePOgXGw0iHn7g==
+        id S230056AbhEHH54 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 May 2021 03:57:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59628 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229726AbhEHH54 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 03:57:56 -0400
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B9A7C061763
+        for <linux-media@vger.kernel.org>; Sat,  8 May 2021 00:56:55 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id v22so6076008oic.2
+        for <linux-media@vger.kernel.org>; Sat, 08 May 2021 00:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=JrQQPnsSDvIt+Vs+sC/UQRgUAX7dRIg7UlNi3hAtXkE=;
+        b=NcSUpamwkblVtQWP+uVaCVkgeaL5EmFvgVrX9hva5KZt7Zpv7uXli8NxLz54Tw3ik1
+         TlcVnxqa7iK4Rcyoy4FGiRkIZ6ik8/QU3+PpkRMb/Q22mXXwRlS/xPPaAwMxFFxrbCdI
+         k882WIM8/QvoTqgT15FA6sYpk9zPNNt28w4bo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=JrQQPnsSDvIt+Vs+sC/UQRgUAX7dRIg7UlNi3hAtXkE=;
+        b=NWrMh20775enlA8aV5n04plpzzbflDewtUJW5mxcxq7qxeO0DDeQDMAWqxIyUYPsZ7
+         IlFZ7THBPIQUBlRTeeDysi+NM0ZGq5xwUhJVwkIIx5+nj1oBGLN9vr89WyJ7ucbTlRaW
+         L4HY5/gA+BF2yZQiuJiEg3MDRJS7AbN4rxkLHmtHSQ5gTo6EYVmDySbcEILuqBjDslvM
+         oPlSY4jkIFaW5PbJbQp3jfoAq/ASES6BfJcAiQVJZYTRiN8Fzvjr+RX8uSHeeD7vmmIy
+         Gutc66F5ljqDtyqfraXqi7/2aZYPorU6QdD//zf+3WbEw4mSOeVvUpLpvING/c3O5OFG
+         lerw==
+X-Gm-Message-State: AOAM532MnP3KO2cA5ddSjPHhvHG8/O4A2IuiMPNwmPE1xlWCvWjVEfes
+        pT3ypReLA5l94PZd04iiRD2qbC9/j6O8bWYCiHxVRw==
+X-Google-Smtp-Source: ABdhPJzCngHZLZwvIFlG4AXfe17Dm6sGZGCEACxJNB2T+RputFCCLcQ2dgn1fZdP4KPk1rqSENbK3+ZrtMd309glq8E=
+X-Received: by 2002:a05:6808:3d9:: with SMTP id o25mr18570086oie.166.1620460614405;
+ Sat, 08 May 2021 00:56:54 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Sat, 8 May 2021 03:56:53 -0400
+MIME-Version: 1.0
+In-Reply-To: <CAE-0n51YQf=NZxnw9+FLU=PSG8di7Ztp5pP03JdLXgEWGM0AZg@mail.gmail.com>
+References: <d23263dcb0f1535275ff37524b0203b2@codeaurora.org> <CAE-0n51YQf=NZxnw9+FLU=PSG8di7Ztp5pP03JdLXgEWGM0AZg@mail.gmail.com>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Sat, 8 May 2021 03:56:53 -0400
+Message-ID: <CAE-0n51MEJ_+7QKpBKenjjB+rwdGN-=vxx=4oo8_-P=_yJe+jQ@mail.gmail.com>
+Subject: Re: [PATCH V9] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+To:     rojay@codeaurora.org
+Cc:     wsa@kernel.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, skananth@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Quoting Stephen Boyd (2021-05-07 13:09:21)
+> Quoting rojay@codeaurora.org (2021-05-07 03:07:42)
+> > On 2021-05-05 07:08, Stephen Boyd wrote:
+> > > Quoting Roja Rani Yarubandi (2021-04-20 04:13:55)
+> >
+> > > In fact, where is that code? I'd expect to see i2c_del_adapter() in
+> > > here
+> > > so we know the adapter can't accept transfers anymore. Maybe
+> > > i2c_del_adapter() could be called, and then there's nothing to do after
+> > > that? This whole patch is trying to rip the adapter out from under the
+> > > i2c core framework, when we should take the opposite approach and
+> > > remove
+> > > it from the core framework so that it can't transfer anything anymore
+> > > and thus the IOMMU can remove the mapping.
+> > >
+> >
+> > IIUC about probe/remove/shutdown calls, during "remove" we will unplug
+> > the
+> > device with opposite calls to "probe's" plug operations.
+> > For example i2c_add_adapter() from 'probe' and i2c_del_adapter() from
+> > 'remove'.
+> > For "shutdown", as system is going to shutdown, there is no need of
+> > unplug
+> > operations to be done.
+> >
+> > And also, I had a glance on other upstream i2c drivers, and noticed
+> > "i2c-i801.c"
+> > driver has i2c_del_adapter() called from remove callback but not from
+> > shutdown
+> > callback.
+>
+> Sure, other drivers could also be broken.
 
-Results of the daily build of media_tree:
+What does it have in the shutdown callback? I see that it is wrong to
+delete the adapter in shutdown because this problem happens. First
+shutdown is called for various i2c clients, then shutdown is called for
+the adapter. If the adapter shutdown calls i2c_del_adapter(), then
+remove is called for the various i2c clients. The i2c clients aren't
+expecting this and start doing double frees and stuff. It's really quite
+a mess. I suspect i2c shutdown should probably block remove from being
+called on it entirely. Either way, it's the wrong approach.
 
-date:			Sat May  8 05:00:11 CEST 2021
-media-tree git hash:	0b276e470a4d43e1365d3eb53c608a3d208cabd4
-media_build git hash:	1521b23ea5307bef1ee17489c5323f00891dd52b
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7413-g9bb66fa2d
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Instead, I think we should merely suspend the i2c bus like this. Then we
+can hunt down the various drivers that try to access the bus after the
+i2c bus has been removed. I've already done that for rt5682 (see the
+patch link later).
 
-linux-git-arm-davinci: OK
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: ERRORS
-linux-5.12.1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 1
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+----8<---
+diff --git a/drivers/i2c/busses/i2c-qcom-geni.c
+b/drivers/i2c/busses/i2c-qcom-geni.c
+index 20216e382b4c..af3ed808ba2e 100644
+--- a/drivers/i2c/busses/i2c-qcom-geni.c
++++ b/drivers/i2c/busses/i2c-qcom-geni.c
+@@ -655,6 +655,14 @@ static int geni_i2c_remove(struct platform_device *pdev)
+ 	return 0;
+ }
 
-Detailed results are available here:
++static void geni_i2c_shutdown(struct platform_device *pdev)
++{
++	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
++
++	/* Make client i2c transfers start failing */
++	i2c_mark_adapter_suspended(&gi2c->adap);
++}
++
+ static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
+ {
+ 	int ret;
+@@ -719,6 +727,7 @@ MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
+ static struct platform_driver geni_i2c_driver = {
+ 	.probe  = geni_i2c_probe,
+ 	.remove = geni_i2c_remove,
++	.shutdown = geni_i2c_shutdown,
+ 	.driver = {
+ 		.name = "geni_i2c",
+ 		.pm = &geni_i2c_pm_ops,
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+>
+> >
+> > And actually I tried calling i2c_del_adapter() from geni_i2c_shutdown(),
+> > and it resulted in below WARNING trace
+> > [   90.320282] Call trace:
+> > [   90.322807]  _regulator_put+0xc4/0xcc
+> > [   90.326583]  regulator_bulk_free+0x48/0x6c
+> > [   90.330808]  devm_regulator_bulk_release+0x20/0x2c
+> > [   90.335744]  release_nodes+0x1d0/0x244
+> > [   90.339609]  devres_release_all+0x3c/0x54
+> > [   90.343735]  device_release_driver_internal+0x108/0x194
+> > [   90.349109]  device_release_driver+0x24/0x30
+> > [   90.353510]  bus_remove_device+0xd0/0xf4
+> > [   90.357548]  device_del+0x1a8/0x2f8
+> > [   90.361143]  device_unregister+0x1c/0x34
+> > [   90.365181]  __unregister_client+0x78/0x88
+> > [   90.369397]  device_for_each_child+0x64/0xb4
+> > [   90.373797]  i2c_del_adapter+0xf0/0x1d4
+> > [   90.377745]  geni_i2c_shutdown+0x9c/0xc0
+> > [   90.381783]  platform_drv_shutdown+0x28/0x34
+> > [   90.386182]  device_shutdown+0x148/0x1f0
+> >
+> > Can you please suggest me what might be missing here?
+> >
+>
+> It looks like some device that is on the i2c bus is putting a regulator
+> in the remove path without disabling it. Can you print out which device
+> driver it is and fix that driver to call regulator_disable() on the
+> driver remove path? I'll try locally and see if I can find the driver
+> too.
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+I see that it's the rt5682 driver. I sent
+https://lore.kernel.org/r/20210508075151.1626903-2-swboyd@chromium.org
+for this in case you want to look, but it won't be necessary.
