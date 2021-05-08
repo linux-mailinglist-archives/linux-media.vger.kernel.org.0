@@ -2,80 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63DF7377242
-	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 15:59:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37CF83772DF
+	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 18:05:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbhEHOA4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 May 2021 10:00:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53196 "EHLO
+        id S229657AbhEHQGH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 May 2021 12:06:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbhEHOA4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 10:00:56 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D74C061574
-        for <linux-media@vger.kernel.org>; Sat,  8 May 2021 06:59:48 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id f8so4550957qth.6
-        for <linux-media@vger.kernel.org>; Sat, 08 May 2021 06:59:48 -0700 (PDT)
+        with ESMTP id S229610AbhEHQGE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 12:06:04 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B915C06175F
+        for <linux-media@vger.kernel.org>; Sat,  8 May 2021 09:05:01 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id s25so15437171lji.0
+        for <linux-media@vger.kernel.org>; Sat, 08 May 2021 09:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=R/JuDQ+oF99EtfWG0xgvY1oYsnPQqhiOC6lHyHjtrt4=;
-        b=coIYgjQPPFx5c+523fPQ6mnMEiaXb7D39wSSPTQRhmlFp82KwSPhK07KMUZ24pUxtj
-         fzKUn3Ukfp+G4fzOXdz/FS74uKQxZ2NDgyu26f+CWsoDOcsN7MJyzvUxGbpe0QQCXEoh
-         q+Q+EBuw7q+P5Je4Tjes4gnl5arOqlv1tImYMo/mhVCn/ApZpkVE6c4Ln7UNpcpCxlva
-         uccUgJ64T3poYeaAaG3KMok9JRSx4WpuP3DDo1WlPktP70IFPMy7h5IPH7pKX52Uhq7y
-         hekJvvbJhzCh/T4pmIbaJS+eO+X2u0/6QCQ/3Ai+jtkvV2hOaIMsbFVfXKy0ivi1rnIE
-         xShg==
+        d=gse-cs-msu-ru.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7DhCvIteBF1AiZLgolJdfWDXx7RlxiueUEPWfMrlLO0=;
+        b=qjXvg4TkfMJbXDBLbUb7ptQZpozeTcxE3jz3cMNqAl4XcCBz55Xj3dGyNClf2ND/49
+         Si0ZiJBAYJNlaA/xBCLN0LwrQgnIzn/zr+vvIyUD7mFSnUQp4gsgWPofcecWxdZyErdR
+         BRBaLk97hB4P3ZpTBRUwl9dhmIUnR4U7sHTIOaaNJ/pOUgd6RyrP+p9TAXmr2N7klB0G
+         XvjQK+uTxwJeJze1rKpX2Ir7IqAcBJjHqsgS8xc3dzp8ikF0Pg4FlUkrqIOG/UEMaezy
+         nFYcu3XgjTQ2SDO0twXPwbWCtj6FeUq6AtsbjG+4mtB8hVihBztSMOBYnHJnZPtbbxJK
+         TANw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=R/JuDQ+oF99EtfWG0xgvY1oYsnPQqhiOC6lHyHjtrt4=;
-        b=kja6zRC8wH403Tn5fGYFJSFIoBH1PbFfr4YqeWYitJAxmSIzOJuudX8hK6+tJNRsDd
-         bmnavuEcB83R6yd4KiSb+5eguJ8I/rMbQ7J14pLHtKMQrCleAsGBeQQIVfLpIU4dcXwt
-         cllZQH0tILpQnL8wv2IpT8PDbPzRqYE2EkSOiNPgvAVcxE8FW3QAok13zpfZRdrI935j
-         Y7WFvpnguVOWVB4Adn0vsKfVXD/PBlnND+9Y/MxzoRkQMgreRCxdm/ux8wkjFPKFkuzu
-         5GfCsBwfQzq2EHEPmrfG1wa9gPGD9d9Rb44Fi+6N8ShhsumkCLbbss2cYW+3Qga8cX4+
-         yhAw==
-X-Gm-Message-State: AOAM533ncEodB86MrUKjxZ2pccPob7Q76K++npXkdnVnkxgf0hi/LsW/
-        QkKrafbMz0sflQ2nmIoSoAc3xzuNDeTZoYoVjcU=
-X-Google-Smtp-Source: ABdhPJziKBLIeF4QQEKc6W9yA8DVNLn1Uo0dAzOg4R5jkxj4x30BS1v2DGBBXiPwfvAKdeFBbXLYau5m42/3myyYF8w=
-X-Received: by 2002:a05:622a:1708:: with SMTP id h8mr13748215qtk.217.1620482387764;
- Sat, 08 May 2021 06:59:47 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7DhCvIteBF1AiZLgolJdfWDXx7RlxiueUEPWfMrlLO0=;
+        b=FRxH2szV79AY2ShHket0POx8nnyKUtsjHvoImnPbwdOYzSadB57JEu1exjoQ8q48Bf
+         G1CdlnXBSj6i8LPMqZxZZAzmybU5pm/dYokIee0lAoJXsosAPiEat7UnVwrkpfZTiddm
+         q1ZhAFzdayRLG6E8d85CBVOKGkvrfV4leGApppCwyEO0qtYHWKer9fpz9eQhWe9M4X69
+         z8VDSevz4JSm7xtfKi9/9Nt+EGKueUYm+tQsax8230Nlbdp0LJ9mtRdg6hsMZ8wRaS6Q
+         iV6JMHyAMhjZaAIQ7npxthhFeS90H6KjD6TxGztMxdYpr+1vui6gYk8SeJ76Kp+pyEFk
+         m5Kg==
+X-Gm-Message-State: AOAM530Sw6bliVxS7/1BC1U9BL4cHyO63mkIv8X/3XSx2yke7n4UsoJX
+        Pu0/G9drojCQQmnqUOO6c2sOwg==
+X-Google-Smtp-Source: ABdhPJyV1vkEl+NROpF0QFiCOzWCNEOAGU8Jji8JGy3yPbWPrMuh6hvpp23ZjvrL3uMgSaiq2QoL8g==
+X-Received: by 2002:a2e:b601:: with SMTP id r1mr12313125ljn.203.1620489899128;
+        Sat, 08 May 2021 09:04:59 -0700 (PDT)
+Received: from localhost.localdomain ([79.165.19.240])
+        by smtp.gmail.com with ESMTPSA id o139sm1665325lfa.129.2021.05.08.09.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 May 2021 09:04:58 -0700 (PDT)
+From:   Yuri Savinykh <s02190703@gse.cs.msu.ru>
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     Yuri Savinykh <s02190703@gse.cs.msu.ru>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ldv-project@linuxtesting.org
+Subject: [bug report] media: allegro: possible NULL pointer dereference.
+Date:   Sat,  8 May 2021 19:04:55 +0300
+Message-Id: <20210508160455.86976-1-s02190703@gse.cs.msu.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Reply-To: muhammadrawani80@gmail.com
-Sender: sergeantemad.alabbasi@gmail.com
-Received: by 2002:a0c:a146:0:0:0:0:0 with HTTP; Sat, 8 May 2021 06:59:47 -0700 (PDT)
-From:   Dr Muhammad Rawani <rawanimuhammad0@gmail.com>
-Date:   Sat, 8 May 2021 06:59:47 -0700
-X-Google-Sender-Auth: 6Ip2Pb6dXQv1TBis0mSIJccOkmw
-Message-ID: <CAN645xUpgK68GXX3NOZhJOw_XJSKuxrXsaAQ8ZZPComQtm1uqA@mail.gmail.com>
-Subject: Hello Dear
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Friend,
+Hello,
 
-Please forgive me for stressing you with this mail, as I know that my
-mail will come to you as a surprise. I am Dr.Muhammad Rawani a banker
-in Ouagadougou, Burkina Faso West Africa .I Discovered the sum of
-seven million, two hundred thousand dollars (usd7.2) belonging to a
-deceased customer of this bank the fund has been lying in a suspense
-account without anybody coming to put claim over the money since the
-account late owner from Lebanese who died in accident with his family.
+At the moment of enabling irq handling:
 
-Therefore, I am soliciting for your assistance to come forward as the
-next of kin. I have agreed that 40% of this money will be for you as
-the beneficiary respect of the provision of your account and service
-rendered, 60% will be for me. Then immediately the money transferred
-to your account from this bank, I will proceed to your country for the
-sharing of the fund. If you think you are capable and will be
-committed to making this deal successes send me an email as soon as
-possible to confirm your interest.
+3166     ret = devm_request_threaded_irq(&pdev->dev, irq,
+3167                     allegro_hardirq,
+3168                     allegro_irq_thread,
+3169                     IRQF_SHARED, dev_name(&pdev->dev), dev);
 
-Thanks.
-Yours faithful,
-Dr. Muhammad Rawani
+there is still uninitialized field mbox_status of struct allegro_dev *dev.
+If an interrupt occurs in the interval between the installation of the
+interrupt handler and the initialization of this field, NULL pointer
+dereference happens.
+
+This field is dereferenced in the handler function without any check:
+
+1801 static irqreturn_t allegro_irq_thread(int irq, void *data)
+1802 {
+1803     struct allegro_dev *dev = data;
+1804
+1805     allegro_mbox_notify(dev->mbox_status);
+
+
+and then:
+
+752 static void allegro_mbox_notify(struct allegro_mbox *mbox)
+753 {
+754     struct allegro_dev *dev = mbox->dev;
+
+The initialization of the mbox_status field happens asynchronously in
+allegro_fw_callback() via allegro_mcu_hw_init(). 
+
+Is it guaranteed that an interrupt does not occur in this interval?
+If it is not, is it better to move interrupt handler installation
+after initialization of this field has been completed?
+
+Found by Linux Driver Verification project (linuxtesting.org).
