@@ -2,102 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37CF83772DF
-	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 18:05:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0B41377341
+	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 18:47:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbhEHQGH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 May 2021 12:06:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52066 "EHLO
+        id S229579AbhEHQsF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 May 2021 12:48:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbhEHQGE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 12:06:04 -0400
+        with ESMTP id S229552AbhEHQsF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 12:48:05 -0400
 Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B915C06175F
-        for <linux-media@vger.kernel.org>; Sat,  8 May 2021 09:05:01 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id s25so15437171lji.0
-        for <linux-media@vger.kernel.org>; Sat, 08 May 2021 09:05:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6931C061760
+        for <linux-media@vger.kernel.org>; Sat,  8 May 2021 09:47:02 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id w4so15493681ljw.9
+        for <linux-media@vger.kernel.org>; Sat, 08 May 2021 09:47:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gse-cs-msu-ru.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7DhCvIteBF1AiZLgolJdfWDXx7RlxiueUEPWfMrlLO0=;
-        b=qjXvg4TkfMJbXDBLbUb7ptQZpozeTcxE3jz3cMNqAl4XcCBz55Xj3dGyNClf2ND/49
-         Si0ZiJBAYJNlaA/xBCLN0LwrQgnIzn/zr+vvIyUD7mFSnUQp4gsgWPofcecWxdZyErdR
-         BRBaLk97hB4P3ZpTBRUwl9dhmIUnR4U7sHTIOaaNJ/pOUgd6RyrP+p9TAXmr2N7klB0G
-         XvjQK+uTxwJeJze1rKpX2Ir7IqAcBJjHqsgS8xc3dzp8ikF0Pg4FlUkrqIOG/UEMaezy
-         nFYcu3XgjTQ2SDO0twXPwbWCtj6FeUq6AtsbjG+4mtB8hVihBztSMOBYnHJnZPtbbxJK
-         TANw==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RpBgi0AKlff8147OOEepLQzMBGFd2Jt9bavNArPpQME=;
+        b=bypPdqFJPA5UGrC7VjMqIpDRd67/c4G9oxLzYlL8bqj5WHAW1G0t+zlQDg0DLILqA8
+         K4pattodnxkJL9u3sPT5fbfMSAiz0Z1Bc3f1KBYDfpdNL36j/INuMqu9tRPTnyIKMJaK
+         wTzy/qU2N01zcOpGy1Hz/2WG6ax9Mzy9on2bQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7DhCvIteBF1AiZLgolJdfWDXx7RlxiueUEPWfMrlLO0=;
-        b=FRxH2szV79AY2ShHket0POx8nnyKUtsjHvoImnPbwdOYzSadB57JEu1exjoQ8q48Bf
-         G1CdlnXBSj6i8LPMqZxZZAzmybU5pm/dYokIee0lAoJXsosAPiEat7UnVwrkpfZTiddm
-         q1ZhAFzdayRLG6E8d85CBVOKGkvrfV4leGApppCwyEO0qtYHWKer9fpz9eQhWe9M4X69
-         z8VDSevz4JSm7xtfKi9/9Nt+EGKueUYm+tQsax8230Nlbdp0LJ9mtRdg6hsMZ8wRaS6Q
-         iV6JMHyAMhjZaAIQ7npxthhFeS90H6KjD6TxGztMxdYpr+1vui6gYk8SeJ76Kp+pyEFk
-         m5Kg==
-X-Gm-Message-State: AOAM530Sw6bliVxS7/1BC1U9BL4cHyO63mkIv8X/3XSx2yke7n4UsoJX
-        Pu0/G9drojCQQmnqUOO6c2sOwg==
-X-Google-Smtp-Source: ABdhPJyV1vkEl+NROpF0QFiCOzWCNEOAGU8Jji8JGy3yPbWPrMuh6hvpp23ZjvrL3uMgSaiq2QoL8g==
-X-Received: by 2002:a2e:b601:: with SMTP id r1mr12313125ljn.203.1620489899128;
-        Sat, 08 May 2021 09:04:59 -0700 (PDT)
-Received: from localhost.localdomain ([79.165.19.240])
-        by smtp.gmail.com with ESMTPSA id o139sm1665325lfa.129.2021.05.08.09.04.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 May 2021 09:04:58 -0700 (PDT)
-From:   Yuri Savinykh <s02190703@gse.cs.msu.ru>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     Yuri Savinykh <s02190703@gse.cs.msu.ru>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ldv-project@linuxtesting.org
-Subject: [bug report] media: allegro: possible NULL pointer dereference.
-Date:   Sat,  8 May 2021 19:04:55 +0300
-Message-Id: <20210508160455.86976-1-s02190703@gse.cs.msu.ru>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RpBgi0AKlff8147OOEepLQzMBGFd2Jt9bavNArPpQME=;
+        b=o+6yCnsnX5LF+cLkG0SqCxzTiBmBNh76arJ9RCOsn7gkjWZrIJTEnSsKkV7TD8C5yY
+         p9cVXpwEK07UN1aqusxFRQKxfBK6aUzr8HFrymtVb32XWxKQEG/U7IkbqrUDXQWDCSQ9
+         6EISd8uOoWdhAVPbNs3+cRMeistTUVrDl+UnA1Tza/NRZrmYKuJrzD3BfvbGsspFbdfE
+         kdlwkLURNzwTpiFnoMNujvY/LYxKJ3XvWfHaejJrdD2Lkbzvx16BaxOq7R8AbNlA6S2l
+         Tn78dhoX3TjfT1xO6eUXfrXQYe2BUA6qHsiSjeY/Q3zdJv27+7EsIVo2F3g/1MPOe9If
+         HKCA==
+X-Gm-Message-State: AOAM533UYZlwcHqAV+QLs/iofxi/TVyK54xFKb2s8QP6rrs6UiIzHGaT
+        1xFXysCOMaNIZOU7q7MyVhWq/Ie8M9CCCxiCaF4=
+X-Google-Smtp-Source: ABdhPJxwFZZmP4sHmvaqgEvGaAMB47WcHjALlKlJpZHSBVzU8f4Q2jP/b1tUrfJdgp3iPaLhsqPh3w==
+X-Received: by 2002:a2e:8e9a:: with SMTP id z26mr5786779ljk.301.1620492421066;
+        Sat, 08 May 2021 09:47:01 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id w38sm1662707lfu.156.2021.05.08.09.46.57
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 May 2021 09:47:00 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id c11so17154912lfi.9
+        for <linux-media@vger.kernel.org>; Sat, 08 May 2021 09:46:57 -0700 (PDT)
+X-Received: by 2002:a19:7504:: with SMTP id y4mr10031878lfe.41.1620492417345;
+ Sat, 08 May 2021 09:46:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <YJBHiRiCGzojk25U@phenom.ffwll.local> <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
+ <YJVijmznt1xnsCxc@phenom.ffwll.local>
+In-Reply-To: <YJVijmznt1xnsCxc@phenom.ffwll.local>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 8 May 2021 09:46:41 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgjO8-f1bUwQB=5HGzkvSS+aGACR9+H5CkkDhRgud+3MA@mail.gmail.com>
+Message-ID: <CAHk-=wgjO8-f1bUwQB=5HGzkvSS+aGACR9+H5CkkDhRgud+3MA@mail.gmail.com>
+Subject: Re: [PULL] topic/iomem-mmap-vs-gup
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-samsung-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+[ Daniel, please fix your broken email setup. You have this insane
+"Reply-to" list that just duplicates all the participants. Very
+broken, very annoying ]
 
-At the moment of enabling irq handling:
+On Fri, May 7, 2021 at 8:53 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> So personally I think the entire thing should just be thrown out, it's all
+> levels of scary and we have zero-copy buffer sharing done properly with
+> dma-buf since years in v4l.
 
-3166     ret = devm_request_threaded_irq(&pdev->dev, irq,
-3167                     allegro_hardirq,
-3168                     allegro_irq_thread,
-3169                     IRQF_SHARED, dev_name(&pdev->dev), dev);
+So I've been looking at this more, and the more I look at it, the less
+I like this series.
 
-there is still uninitialized field mbox_status of struct allegro_dev *dev.
-If an interrupt occurs in the interval between the installation of the
-interrupt handler and the initialization of this field, NULL pointer
-dereference happens.
+I think the proper fix is to just fix things.
 
-This field is dereferenced in the handler function without any check:
+For example, I'm looking at the v4l users of follow_pfn(), and I find
+get_vaddr_frames(), which is just broken.
 
-1801 static irqreturn_t allegro_irq_thread(int irq, void *data)
-1802 {
-1803     struct allegro_dev *dev = data;
-1804
-1805     allegro_mbox_notify(dev->mbox_status);
+Fine, we know users are broken, but look at what appears to be the
+main user of get_vaddr_frames(): vb2_dc_get_userptr().
 
+What does that function do? Immediately after doing
+get_vaddr_frames(), it tries to turn those pfn's into page pointers,
+and then do sg_alloc_table_from_pages() on the end result.
 
-and then:
+Yes, yes, it also has that "ok, that failed, let's try to see if it's
+some physically contiguous mapping" and do DMA directly to those
+physical pages, but the point there is that that only happens when
+they weren't normal pages to begin with.
 
-752 static void allegro_mbox_notify(struct allegro_mbox *mbox)
-753 {
-754     struct allegro_dev *dev = mbox->dev;
+So thew *fix* for at least that path is to
 
-The initialization of the mbox_status field happens asynchronously in
-allegro_fw_callback() via allegro_mcu_hw_init(). 
+ (a) just use the regular pin_user_pages() for normal pages
 
-Is it guaranteed that an interrupt does not occur in this interval?
-If it is not, is it better to move interrupt handler installation
-after initialization of this field has been completed?
+ (b) perhaps keep the follow_pfn() case, but then limit it to that "no
+page backing" and that physical pages case.
 
-Found by Linux Driver Verification project (linuxtesting.org).
+And honestly, the "struct frame_vector" thing already *has* support
+for this, and the problem is simply that the v4l code has decided to
+have the callers ask for pfn's rather than have the callers just ask
+for a frame-vector that is either "pfn's with no paeg backing" _or_
+"page list with proper page reference counting".
+
+So this series of yours that just disables follow_pfn() actually seems
+very wrong.
+
+I think follow_pfn() is ok for the actual "this is not a 'struct page'
+backed area", and disabling that case is wrong even going forward.
+
+End result, I think the proper model is:
+
+ - keep follow_pfn(), but limit it to the "not vm_normal_page()" case,
+and return error for some real page mapping
+
+ - make the get_vaddr_frames() first try "pin_user_pages()" (and
+create a page array) and fall back to "follow_pfn()" if that fails (or
+the other way around). Set the
+
+IOW, get_vaddr_frames() would just do
+
+        vec->got_ref = is_pages;
+        vec->is_pfns = !is_pages;
+
+and everything would just work out - the v4l code seems to already
+have all the support for "it's a ofn array" vs "it's properly
+refcounted pages".
+
+So the only case we should disallow is the mixed case, that the v4l
+code already seems to not be able to handle anyway (and honestly, it
+looks like "got_ref/is_pfns" should be just one flag - they always
+have to have the opposite values).
+
+So I think this "unsafe_follow_pfn()" halfway step is actively wrong.
+It doesn't move us forward. Quite the reverse. It just makes the
+proper fix harder.
+
+End result: not pulling it, unless somebody can explain to me in small
+words why I'm wrong and have the mental capacity of a damaged rodent.
+
+                Linus
