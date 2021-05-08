@@ -2,176 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34760377083
-	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 09:56:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 069CE377148
+	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 12:52:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230056AbhEHH54 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 May 2021 03:57:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59628 "EHLO
+        id S230349AbhEHKxF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 May 2021 06:53:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbhEHH54 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 03:57:56 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B9A7C061763
-        for <linux-media@vger.kernel.org>; Sat,  8 May 2021 00:56:55 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id v22so6076008oic.2
-        for <linux-media@vger.kernel.org>; Sat, 08 May 2021 00:56:55 -0700 (PDT)
+        with ESMTP id S230257AbhEHKxE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 06:53:04 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EC39C061574;
+        Sat,  8 May 2021 03:52:02 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id c3so16376021lfs.7;
+        Sat, 08 May 2021 03:52:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=JrQQPnsSDvIt+Vs+sC/UQRgUAX7dRIg7UlNi3hAtXkE=;
-        b=NcSUpamwkblVtQWP+uVaCVkgeaL5EmFvgVrX9hva5KZt7Zpv7uXli8NxLz54Tw3ik1
-         TlcVnxqa7iK4Rcyoy4FGiRkIZ6ik8/QU3+PpkRMb/Q22mXXwRlS/xPPaAwMxFFxrbCdI
-         k882WIM8/QvoTqgT15FA6sYpk9zPNNt28w4bo=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=epHj2Vy2VG6M1RxgYQQjVnOCKuKHQEQgyxsjJaLhn3o=;
+        b=jOKgMZNNcqHPGyfHVskdeg3YdEWcsurJkwLbZEXRCwPot61v4xytMk9oOccXrQq587
+         JRMAAGAs39kk7JAgUIqgadluT+2y5l+blRzs7GW46fFkp1S9hsrPH+x5nfUB/xTN6mch
+         iPi8bSx5LE5y6GNUZRtUcrgdHCaFlTUOy0DkEBKUDNZcYEJdoWejVPran+7wKNjmu286
+         ENLlQTMBBdlfv8oLBogRM2KoiJNYs5GeX/chPHgQ3l6mCJuM82pm3xxD6NqyWDEskcAe
+         KfLJwKqV/TF3AVI5yZny3agwmsKxL+7ynDD8PO3WzUJ2yYoLB8ItmLWjkQHdwmry0N4j
+         kbGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=JrQQPnsSDvIt+Vs+sC/UQRgUAX7dRIg7UlNi3hAtXkE=;
-        b=NWrMh20775enlA8aV5n04plpzzbflDewtUJW5mxcxq7qxeO0DDeQDMAWqxIyUYPsZ7
-         IlFZ7THBPIQUBlRTeeDysi+NM0ZGq5xwUhJVwkIIx5+nj1oBGLN9vr89WyJ7ucbTlRaW
-         L4HY5/gA+BF2yZQiuJiEg3MDRJS7AbN4rxkLHmtHSQ5gTo6EYVmDySbcEILuqBjDslvM
-         oPlSY4jkIFaW5PbJbQp3jfoAq/ASES6BfJcAiQVJZYTRiN8Fzvjr+RX8uSHeeD7vmmIy
-         Gutc66F5ljqDtyqfraXqi7/2aZYPorU6QdD//zf+3WbEw4mSOeVvUpLpvING/c3O5OFG
-         lerw==
-X-Gm-Message-State: AOAM532MnP3KO2cA5ddSjPHhvHG8/O4A2IuiMPNwmPE1xlWCvWjVEfes
-        pT3ypReLA5l94PZd04iiRD2qbC9/j6O8bWYCiHxVRw==
-X-Google-Smtp-Source: ABdhPJzCngHZLZwvIFlG4AXfe17Dm6sGZGCEACxJNB2T+RputFCCLcQ2dgn1fZdP4KPk1rqSENbK3+ZrtMd309glq8E=
-X-Received: by 2002:a05:6808:3d9:: with SMTP id o25mr18570086oie.166.1620460614405;
- Sat, 08 May 2021 00:56:54 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 8 May 2021 03:56:53 -0400
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=epHj2Vy2VG6M1RxgYQQjVnOCKuKHQEQgyxsjJaLhn3o=;
+        b=ceM0B8rjf2OOi+jO3qvWZ+SwQqc3QNRJ8vR3COtGpxqM7QxBc2QVbYt6WLbR8YE9HY
+         Z37uFBfHmCfAhovsZZqjiHpJUiIQSNSXQ38KZtrl0750i8HvOXj5SbNpER8sHSdtKOke
+         pXi3PGNIvyqAg+/vS3P2nBSO2GGgR4hunx5xQfY8j3Xs9NU+D7lSCmFhzNtxu/UiqggP
+         dEbHU+PYnuRGgLxoNtbq3JYGJ1vKGovlpA9QUcBazkKquqds1zSuG+Zia+K6ekPfPq94
+         3rVRjeGt/yopowe5bpHpBld5YaGcJdEyQIAxnhWYD5q6dWPsPE7EXK6RpalSXeKHaula
+         GBvQ==
+X-Gm-Message-State: AOAM532vULu72OSmlZ2LmUStmw9IC1y+WzAhc6c2jYN1nJiVWz/oHa3N
+        2ELVnqgcHFRfnF3VyC08TgU=
+X-Google-Smtp-Source: ABdhPJytsdxqc3V4oxOo3qtJmc5umaIJJGSlUZKGqzBs2NYt3UcFIIr7Zxcpm2+KkO/LISPR4EJoGA==
+X-Received: by 2002:a05:6512:c1a:: with SMTP id z26mr9804138lfu.378.1620471121314;
+        Sat, 08 May 2021 03:52:01 -0700 (PDT)
+Received: from localhost.localdomain ([185.215.60.119])
+        by smtp.gmail.com with ESMTPSA id i20sm1593738lfv.71.2021.05.08.03.52.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 May 2021 03:52:00 -0700 (PDT)
+From:   Pavel Skripkin <paskripkin@gmail.com>
+To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: code cleanup
+Date:   Sat,  8 May 2021 13:51:29 +0300
+Message-Id: <20210508105129.2698-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210507075458.GB3@paasikivi.fi.intel.com>
+References: <20210507075458.GB3@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAE-0n51YQf=NZxnw9+FLU=PSG8di7Ztp5pP03JdLXgEWGM0AZg@mail.gmail.com>
-References: <d23263dcb0f1535275ff37524b0203b2@codeaurora.org> <CAE-0n51YQf=NZxnw9+FLU=PSG8di7Ztp5pP03JdLXgEWGM0AZg@mail.gmail.com>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date:   Sat, 8 May 2021 03:56:53 -0400
-Message-ID: <CAE-0n51MEJ_+7QKpBKenjjB+rwdGN-=vxx=4oo8_-P=_yJe+jQ@mail.gmail.com>
-Subject: Re: [PATCH V9] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-To:     rojay@codeaurora.org
-Cc:     wsa@kernel.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, skananth@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Stephen Boyd (2021-05-07 13:09:21)
-> Quoting rojay@codeaurora.org (2021-05-07 03:07:42)
-> > On 2021-05-05 07:08, Stephen Boyd wrote:
-> > > Quoting Roja Rani Yarubandi (2021-04-20 04:13:55)
-> >
-> > > In fact, where is that code? I'd expect to see i2c_del_adapter() in
-> > > here
-> > > so we know the adapter can't accept transfers anymore. Maybe
-> > > i2c_del_adapter() could be called, and then there's nothing to do after
-> > > that? This whole patch is trying to rip the adapter out from under the
-> > > i2c core framework, when we should take the opposite approach and
-> > > remove
-> > > it from the core framework so that it can't transfer anything anymore
-> > > and thus the IOMMU can remove the mapping.
-> > >
-> >
-> > IIUC about probe/remove/shutdown calls, during "remove" we will unplug
-> > the
-> > device with opposite calls to "probe's" plug operations.
-> > For example i2c_add_adapter() from 'probe' and i2c_del_adapter() from
-> > 'remove'.
-> > For "shutdown", as system is going to shutdown, there is no need of
-> > unplug
-> > operations to be done.
-> >
-> > And also, I had a glance on other upstream i2c drivers, and noticed
-> > "i2c-i801.c"
-> > driver has i2c_del_adapter() called from remove callback but not from
-> > shutdown
-> > callback.
->
-> Sure, other drivers could also be broken.
+Breaks are not useful after a return, they can
+simply be removed.
 
-What does it have in the shutdown callback? I see that it is wrong to
-delete the adapter in shutdown because this problem happens. First
-shutdown is called for various i2c clients, then shutdown is called for
-the adapter. If the adapter shutdown calls i2c_del_adapter(), then
-remove is called for the various i2c clients. The i2c clients aren't
-expecting this and start doing double frees and stuff. It's really quite
-a mess. I suspect i2c shutdown should probably block remove from being
-called on it entirely. Either way, it's the wrong approach.
+Also, dropped the individual return statements
+after or inside switch cases
 
-Instead, I think we should merely suspend the i2c bus like this. Then we
-can hunt down the various drivers that try to access the bus after the
-i2c bus has been removed. I've already done that for rt5682 (see the
-patch link later).
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+Changes in v2:
+  dropped the individual return statements
+---
+ .../hive_isp_css_common/host/input_system.c    | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-----8<---
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c
-b/drivers/i2c/busses/i2c-qcom-geni.c
-index 20216e382b4c..af3ed808ba2e 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -655,6 +655,14 @@ static int geni_i2c_remove(struct platform_device *pdev)
- 	return 0;
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+index 0f5a231672a8..cbaaec620581 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+@@ -903,17 +903,10 @@ static input_system_err_t input_system_configure_channel(
+ 			error = input_system_configure_channel_sensor(channel);
+ 			break;
+ 		case INPUT_SYSTEM_SOURCE_TPG:
+-			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		case INPUT_SYSTEM_SOURCE_PRBS:
+-			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		case INPUT_SYSTEM_SOURCE_FIFO:
+-			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		default:
+ 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		}
+ 
+ 		if (error != INPUT_SYSTEM_ERR_NO_ERROR) return error;
+@@ -995,7 +988,6 @@ static input_system_err_t input_buffer_configuration(void)
+ 			default:
+ 				config.csi_buffer_flags[port] |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
+ 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-				break;
+ 			}
+ 
+ 			// Check acquisition buffer specified but set it later since it has to be unique.
+@@ -1032,7 +1024,6 @@ static input_system_err_t input_buffer_configuration(void)
+ 
+ 			default:
+ 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-				break;
+ 			}
+ 		} else {
+ 			config.csi_buffer_flags[port] = INPUT_SYSTEM_CFG_FLAG_BLOCKED;
+@@ -1319,7 +1310,6 @@ static input_system_err_t configuration_to_registers(void)
+ 
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 
+ 	} // end of switch (source_type)
+ 
+@@ -1695,19 +1685,11 @@ static input_system_err_t input_system_configure_channel_sensor(
+ 
+ 		break;
+ 	case INPUT_SYSTEM_FIFO_CAPTURE_WITH_COUNTING:
+-		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	case INPUT_SYSTEM_XMEM_CAPTURE:
+-		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	case INPUT_SYSTEM_XMEM_ACQUIRE:
+-		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	}
+-	return INPUT_SYSTEM_ERR_NO_ERROR;
  }
+ 
+ // Test flags and set structure.
+-- 
+2.31.1
 
-+static void geni_i2c_shutdown(struct platform_device *pdev)
-+{
-+	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
-+
-+	/* Make client i2c transfers start failing */
-+	i2c_mark_adapter_suspended(&gi2c->adap);
-+}
-+
- static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
- {
- 	int ret;
-@@ -719,6 +727,7 @@ MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
- static struct platform_driver geni_i2c_driver = {
- 	.probe  = geni_i2c_probe,
- 	.remove = geni_i2c_remove,
-+	.shutdown = geni_i2c_shutdown,
- 	.driver = {
- 		.name = "geni_i2c",
- 		.pm = &geni_i2c_pm_ops,
-
->
-> >
-> > And actually I tried calling i2c_del_adapter() from geni_i2c_shutdown(),
-> > and it resulted in below WARNING trace
-> > [   90.320282] Call trace:
-> > [   90.322807]  _regulator_put+0xc4/0xcc
-> > [   90.326583]  regulator_bulk_free+0x48/0x6c
-> > [   90.330808]  devm_regulator_bulk_release+0x20/0x2c
-> > [   90.335744]  release_nodes+0x1d0/0x244
-> > [   90.339609]  devres_release_all+0x3c/0x54
-> > [   90.343735]  device_release_driver_internal+0x108/0x194
-> > [   90.349109]  device_release_driver+0x24/0x30
-> > [   90.353510]  bus_remove_device+0xd0/0xf4
-> > [   90.357548]  device_del+0x1a8/0x2f8
-> > [   90.361143]  device_unregister+0x1c/0x34
-> > [   90.365181]  __unregister_client+0x78/0x88
-> > [   90.369397]  device_for_each_child+0x64/0xb4
-> > [   90.373797]  i2c_del_adapter+0xf0/0x1d4
-> > [   90.377745]  geni_i2c_shutdown+0x9c/0xc0
-> > [   90.381783]  platform_drv_shutdown+0x28/0x34
-> > [   90.386182]  device_shutdown+0x148/0x1f0
-> >
-> > Can you please suggest me what might be missing here?
-> >
->
-> It looks like some device that is on the i2c bus is putting a regulator
-> in the remove path without disabling it. Can you print out which device
-> driver it is and fix that driver to call regulator_disable() on the
-> driver remove path? I'll try locally and see if I can find the driver
-> too.
-
-I see that it's the rt5682 driver. I sent
-https://lore.kernel.org/r/20210508075151.1626903-2-swboyd@chromium.org
-for this in case you want to look, but it won't be necessary.
