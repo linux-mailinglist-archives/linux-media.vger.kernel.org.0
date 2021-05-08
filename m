@@ -2,95 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D75F3771E5
-	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 14:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 991C63771E8
+	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 14:54:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbhEHMuA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 May 2021 08:50:00 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:41748 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230419AbhEHMt7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 08:49:59 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 148CmqjP053809;
-        Sat, 8 May 2021 12:48:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=SBx3deiTVeEuoX0w7ieKjdDS48e8ft7buEKWAF3U1pM=;
- b=LVguNhDNcxCLr8CCRBHSjZO+uuUQb/c+JMEfX5Gg36eJbMTmWoHxIdnN+wxhFOZiVQ+R
- InZSnp9/xd8OpL6btqVVWdbuMclLbFpfb0Hz+16C0NDZtDk/e7y9hbGlE96jQRgMqOtX
- /U2Ec4GQ11EkW3h6yZqxwHcpRtS558fwOiqh5LOFB+/U1jfHoYX6hTMmhFR841Js34d2
- KaL5Xgcz/teVlAtRu8/6+DYanhEuvogvnYoYSizhr0Wj4p7g4gr9aBzx6ZuMU43iFzwG
- yczOdk/E2/fKaium6jB7RP/W0tvLJ+k9MX0NPqSfZRxSoJVhBBW2nDmKAXTTeOUXFuRq vw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 38dg5b8gun-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 08 May 2021 12:48:52 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 148CTnHe106768;
-        Sat, 8 May 2021 12:48:51 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3020.oracle.com with ESMTP id 38dhyjuhq5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 08 May 2021 12:48:51 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 148CmooG140142;
-        Sat, 8 May 2021 12:48:51 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 38dhyjuhnk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 08 May 2021 12:48:50 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 148Cmn8R016622;
-        Sat, 8 May 2021 12:48:49 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Sat, 08 May 2021 05:48:48 -0700
-Date:   Sat, 8 May 2021 15:48:41 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc:     Pavel Skripkin <paskripkin@gmail.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] staging: media: atomisp: remove useless returns
-Message-ID: <20210508124841.GM1955@kadam>
-References: <cover.1620475909.git.paskripkin@gmail.com>
- <f5b8abd8a92fcdd9b0ec49902d4363bc35c86218.1620475909.git.paskripkin@gmail.com>
- <20210508124334.GA1403@agape.jhs>
+        id S230488AbhEHMzY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 May 2021 08:55:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39080 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230438AbhEHMzW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 08:55:22 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFB58C061574;
+        Sat,  8 May 2021 05:54:07 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id l7so15480551ybf.8;
+        Sat, 08 May 2021 05:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aXVXrFw3OGzh7nVtDJeFdDpq7b/QcyboCBGX47RVf78=;
+        b=aekVGnd449/i9yVzo2TgnVAsOPnB78JLrCiAFCnk9wDt3RwY1XU3/p+x9Y5QN9zCE8
+         qkfWF1ownY2HwvYl4h0hrkJ6D2fnSaiM7zvCJ6MrI+2HAZYsLoEjN+3re6mxrz2aeSUD
+         uv9Uz3l8feQ9VJXV6CdCYgppOBphHZG1FesPXGYK7O/STINXgZjQSal7mxumay+9UOhA
+         DYVOfPARzFyDYfi/lYiDY13g0mg01I+2GFtLo9+KS7Dtwu0+h2+V52czH5+jGCvNm9C8
+         2iNsrf+LbpBM4IJZgz+qYiKhVaL3Z24ST0S6XyciqFtGZR4ZwXLaCStsGVPcC2D4KhYp
+         M/GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aXVXrFw3OGzh7nVtDJeFdDpq7b/QcyboCBGX47RVf78=;
+        b=Pd2hpZO2j9Wr9jqYlUimdh7yA0i5uS8D+RPJu0NSQELAO+XGkkFQA4AFjSyX5V5747
+         uMyx0pafLavIB54B8xJuTji0our2MC89Wh8r4fHoKjGeH0a7OK/F4juQfDpg3OxtvPs8
+         jbGWmq8EuO/9squ9wJIJOYCTNlIRZuWZkADVrSm74J3jsFM4hSUIrzNh04rm+uCsezFR
+         zARaVFfRG8uq3VHbXtNldQYGe1qZfr03Z5Vm9s1emYXrRIohWsYU4JsyObmguaEt13Q3
+         We+E4y28y9AF39/lwUeMYPL/EaZE8Sa/4p/XtRpJEITaYZlZAANP8rD9+LC5vSgbaJ2W
+         f9wg==
+X-Gm-Message-State: AOAM532l8mlBFow83qXfs5f3bNvG3T5tX8jOnpqL0GLm4V2hBhJ+fN5d
+        0YRxOW2DBi6zTwem9XOw15I+EIFdKFf0bjynQ9vljuJQ9nllmw==
+X-Google-Smtp-Source: ABdhPJyb/sC0ao9kv47LEMxG2PnSQdrq895Z/M3G/4emGSqWcKLCKYdyG3tUt5Ul/WZ46VKYX+Qcknk6SLiQmFn5GnU=
+X-Received: by 2002:a25:5741:: with SMTP id l62mr19697754ybb.119.1620478447017;
+ Sat, 08 May 2021 05:54:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210508124334.GA1403@agape.jhs>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: P7_qWKZjJCPx_hUMwk6ha3HJUI3Y7HkL
-X-Proofpoint-ORIG-GUID: P7_qWKZjJCPx_hUMwk6ha3HJUI3Y7HkL
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9977 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 malwarescore=0
- bulkscore=0 spamscore=0 clxscore=1015 priorityscore=1501 adultscore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 impostorscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105080093
+References: <d995e27db003a26e5b5eb53b0f40b55f8015d873.1620245794.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <d995e27db003a26e5b5eb53b0f40b55f8015d873.1620245794.git.christophe.jaillet@wanadoo.fr>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sat, 8 May 2021 13:53:41 +0100
+Message-ID: <CA+V-a8sd7GYGWqvDQX4Zc1Z-t+L1oSSmYUpHrVkB0-6mqVhnBA@mail.gmail.com>
+Subject: Re: [PATCH V2] media: i2c: ov2659: Fix an error message
+To:     christophe.jaillet@wanadoo.fr
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, May 08, 2021 at 02:43:35PM +0200, Fabio Aiuto wrote:
-> Hi Pavel,
-> 
-> On Sat, May 08, 2021 at 03:21:52PM +0300, Pavel Skripkin wrote:
-> > Breaks are not useful at the end of void function,
-> > they can simply be removed.
-> 
-> this commit description is not really describing the changes that
-> have been made
-> 
+Hi Christophe,
 
-Pavel clearly intended to say "Returns" instead of "Breaks".  But when
-you're complaining about commit messages please write a better one so
-the people can cut and paste it.
+Thank you for the patch.
 
-regards,
-dan carpenter
+On Wed, May 5, 2021 at 9:17 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+>
+> 'ret' is known to be 0 here and printing -ENODEV wouldn't be really
+> helpful. So remove it from the error message.
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> V2: Remove the Fixes tag. It doesn't really fix something, it just removes
+>     a useless information.
+>     Just remove ret. No need to add something else.
+> ---
+>  drivers/media/i2c/ov2659.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+Acked-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
 
+Cheers,
+Prabhakar
+
+> diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+> index 42f64175a6df..6bbbb94fdda4 100644
+> --- a/drivers/media/i2c/ov2659.c
+> +++ b/drivers/media/i2c/ov2659.c
+> @@ -1368,8 +1368,7 @@ static int ov2659_detect(struct v4l2_subdev *sd)
+>                 id = OV265X_ID(pid, ver);
+>                 if (id != OV2659_ID) {
+>                         dev_err(&client->dev,
+> -                               "Sensor detection failed (%04X, %d)\n",
+> -                               id, ret);
+> +                               "Sensor detection failed (%04X)\n", id);
+>                         ret = -ENODEV;
+>                 } else {
+>                         dev_info(&client->dev, "Found OV%04X sensor\n", id);
+> --
+> 2.30.2
+>
