@@ -2,93 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FA1C3771F0
-	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 15:00:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 134023771F2
+	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 15:02:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbhEHNA4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 May 2021 09:00:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40300 "EHLO
+        id S230473AbhEHNDW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 May 2021 09:03:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230438AbhEHNAv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 09:00:51 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93414C061574;
-        Sat,  8 May 2021 05:59:48 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id l13so11897785wru.11;
-        Sat, 08 May 2021 05:59:48 -0700 (PDT)
+        with ESMTP id S230438AbhEHNDU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 09:03:20 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3113C061574;
+        Sat,  8 May 2021 06:02:17 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id 15so15589391ybc.0;
+        Sat, 08 May 2021 06:02:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=r56wwvOkk5KtOS6qDl36Vf4/PDgdK1xTKxZ+baf0zEA=;
-        b=G+bLWWrL/DSdYUiU6vaq6hNPMh7IYOYCWfeiOw3c26r+Awf+pi+7MFysvmIJ5er0Mc
-         Kar+KFiFU5PwVOvFhSbNQRlLRHehj0EAOOyYimXJaTSTfgc3OhYmi3BP5OiQatajElTr
-         OswiDICzt6HD3BE27W6mdi8LFdol5XDPJsm1KRvv/DtRw0UiM/kuTn4DZwmOPoQVMenc
-         KuImHTY9cYhIMg6/MFBhwmFfZ587jeM/F+J6iw2k9mYPdQV0vl255BVg797BkUKn/cfu
-         yGsRRwhZSUAOAIsut3Ye1KIJtP6yoJ6jEbZTGDa4wmZkNz47JH3LdA0YTHEc9J70Uq18
-         4F8w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=m8n1RVy0uySX4EeEK2a9QiZXfMDvuOsOW8yZyEoM5m0=;
+        b=LIyOTWm4CuS3iXqrOiO7M5nyflSltv/6B9Az6rQX22H6hVA7q+hF+Uc66rRdUN/djp
+         R8t4R3Nlg6Wh/jNfSZfP3zfRE93jw8oqTom2lb7+dkedDfZ58CEDe1RC3+27chOYHuB/
+         kDXWLzKT6COm1KHDAnhbe0ZrxHDhjMFqNYePkBv0kGnIw4PIERACivg63B6uahmysh5q
+         dzjI3ean2/2knd3ctBmToy82Iqmw/MjZ2fBQdDJNirhBtl8laTmbed2ZFgx/5BmKAvs1
+         Qowgqz2BJNXqJ+SjTmCWIPU48xe/JDXbZD/xM5+jDoDA+lTVBd7/7u0VQDqbiNq9Ah1U
+         jlWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=r56wwvOkk5KtOS6qDl36Vf4/PDgdK1xTKxZ+baf0zEA=;
-        b=goz3H9QjuDJVWa751H9XCsnvRNhpKDLSzrCIsJ3gblhGsYxTWMG8W7j/td1TKaCZjQ
-         5i6G0sxlZZnwLYww2vb9cuMSRIQu7iZz7+mDpHu7prcNc2U01576uQgAZKcjj1qIwVim
-         bSUqoKuAGNlkQ7Kf3wzTEtvdR4q31hDxT4Xj3MqAhaFglY2h1+Bj2GaMsFkIfASic49j
-         U9r5dJ3rOT7L6QNAk9B9zkmiMC3O/p226My04Jk1NiNak1HwwAVmJv5qlsde1PydHsbe
-         UJtEGaQgYYu00DpQBXToR5S1SjTHShxk8YXZz7mB07OGAv5SOf5qVT9TZZ8pmzGjO/o0
-         0Z/g==
-X-Gm-Message-State: AOAM531f7gxymwR3IlkJLbqCdJ7xENXL21D6K9zXq70z5opxh0LKtSAs
-        8nMA+cGED4PzLWCPDk5fOw4=
-X-Google-Smtp-Source: ABdhPJwW/yE97ERQ1dJIxtUww7DExYQG/2FNJPnt+FtC/WHrX4W666jEeDMTzSjhyzepvVCCZkep+w==
-X-Received: by 2002:a5d:6302:: with SMTP id i2mr19205592wru.237.1620478787287;
-        Sat, 08 May 2021 05:59:47 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.44])
-        by smtp.gmail.com with ESMTPSA id s5sm11324774wmh.37.2021.05.08.05.59.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 May 2021 05:59:47 -0700 (PDT)
-Date:   Sat, 8 May 2021 14:59:42 +0200
-From:   Fabio Aiuto <fabioaiuto83@gmail.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Pavel Skripkin <paskripkin@gmail.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] staging: media: atomisp: remove useless returns
-Message-ID: <20210508125942.GB1403@agape.jhs>
-References: <cover.1620475909.git.paskripkin@gmail.com>
- <f5b8abd8a92fcdd9b0ec49902d4363bc35c86218.1620475909.git.paskripkin@gmail.com>
- <20210508124334.GA1403@agape.jhs>
- <20210508124841.GM1955@kadam>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m8n1RVy0uySX4EeEK2a9QiZXfMDvuOsOW8yZyEoM5m0=;
+        b=OMazGBUvtHPL3Ko93eivJuPRrKGZxsH+3nGAQ0rAvhL7QqiLUR7iI8ViPmNX0CKu9F
+         /6A0crrMJdWp6oaQF5ji8fKc6vABjDDiqxy3Yl+MdLXi/TQs1h7/eSK3l10ew2aPn3K6
+         QRNyc1BkcYg3VhLbpIkc2Ve1lvV0gKFWKXgR6h8qP81aLWX58gmy4SSrahbDa7CnN0pc
+         XMkdXSQv/JrSv+SGbRLJsg8GAxtEPo/LRqwG5rfEO/67I7pOXBOhgb9EgSnZxsPWKtpy
+         3EQkvnFstVcFtyInWqon7gQ5Mz5IRGTpVHBV12ZJQcGevMw10EBvUOzGj/PKCqKDD2Vg
+         bqvQ==
+X-Gm-Message-State: AOAM530QfOiWXWUiX11eakGcWvXh1Y9YahBuQvxXbizT4Ghb/VBp36zP
+        xHlxlLO3ifKpEqN2q95luhTjE2PV80iiPB9Muof3XqsyAAaeOw==
+X-Google-Smtp-Source: ABdhPJyt8krSibCIBTKlHCXun2hXSLfmRrWa6NFj+l3jaMEn2tELmCqLNtXtRHaEAVp78XLbbletMGOzZLuoa7Sdcrs=
+X-Received: by 2002:a25:5741:: with SMTP id l62mr19739217ybb.119.1620478936935;
+ Sat, 08 May 2021 06:02:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210508124841.GM1955@kadam>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1620207353.git.mchehab+huawei@kernel.org> <8688555079cf30f5848bb020b5ecf0b0132b2c7e.1620207353.git.mchehab+huawei@kernel.org>
+In-Reply-To: <8688555079cf30f5848bb020b5ecf0b0132b2c7e.1620207353.git.mchehab+huawei@kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sat, 8 May 2021 14:01:51 +0100
+Message-ID: <CA+V-a8sLF-q13RaM-9g5XRtU_t_5Ztn5X7hsg=AdgMPOEpdTZA@mail.gmail.com>
+Subject: Re: [PATCH 16/25] media: am437x: fix pm_runtime_get_sync() usage count
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, May 08, 2021 at 03:48:41PM +0300, Dan Carpenter wrote:
-> On Sat, May 08, 2021 at 02:43:35PM +0200, Fabio Aiuto wrote:
-> > Hi Pavel,
-> > 
-> > On Sat, May 08, 2021 at 03:21:52PM +0300, Pavel Skripkin wrote:
-> > > Breaks are not useful at the end of void function,
-> > > they can simply be removed.
-> > 
-> > this commit description is not really describing the changes that
-> > have been made
-> > 
-> 
-> Pavel clearly intended to say "Returns" instead of "Breaks".  But when
-> you're complaining about commit messages please write a better one so
-> the people can cut and paste it.
-> 
-> regards,
-> dan carpenter
-> 
+Hi Mauro,
 
-got it, thank you Dan, and sorry Pavel
+Thank you for the patch.
 
-fabio
+On Wed, May 5, 2021 at 10:42 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> The pm_runtime_get_sync() internally increments the
+> dev->power.usage_count without decrementing it, even on errors.
+> Replace it by the new pm_runtime_resume_and_get(), introduced by:
+> commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> in order to properly decrement the usage counter, avoiding
+> a potential PM usage counter leak.
+>
+> While here, ensure that the driver will check if PM runtime
+> resumed at vpfe_initialize_device().
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/media/platform/am437x/am437x-vpfe.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+>
+Acked-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
+
+Cheers,
+Prabhakar
+
+
+> diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
+> index 6cdc77dda0e4..1c9cb9e05fdf 100644
+> --- a/drivers/media/platform/am437x/am437x-vpfe.c
+> +++ b/drivers/media/platform/am437x/am437x-vpfe.c
+> @@ -1021,7 +1021,9 @@ static int vpfe_initialize_device(struct vpfe_device *vpfe)
+>         if (ret)
+>                 return ret;
+>
+> -       pm_runtime_get_sync(vpfe->pdev);
+> +       ret = pm_runtime_resume_and_get(vpfe->pdev);
+> +       if (ret < 0)
+> +               return ret;
+>
+>         vpfe_config_enable(&vpfe->ccdc, 1);
+>
+> @@ -2443,7 +2445,11 @@ static int vpfe_probe(struct platform_device *pdev)
+>         pm_runtime_enable(&pdev->dev);
+>
+>         /* for now just enable it here instead of waiting for the open */
+> -       pm_runtime_get_sync(&pdev->dev);
+> +       ret = pm_runtime_resume_and_get(&pdev->dev);
+> +       if (ret < 0) {
+> +               vpfe_err(vpfe, "Unable to resume device.\n");
+> +               goto probe_out_v4l2_unregister;
+> +       }
+>
+>         vpfe_ccdc_config_defaults(ccdc);
+>
+> @@ -2530,6 +2536,11 @@ static int vpfe_suspend(struct device *dev)
+>
+>         /* only do full suspend if streaming has started */
+>         if (vb2_start_streaming_called(&vpfe->buffer_queue)) {
+> +               /*
+> +                * ignore RPM resume errors here, as it is already too late.
+> +                * A check like that should happen earlier, either at
+> +                * open() or just before start streaming.
+> +                */
+>                 pm_runtime_get_sync(dev);
+>                 vpfe_config_enable(ccdc, 1);
+>
+> --
+> 2.30.2
+>
