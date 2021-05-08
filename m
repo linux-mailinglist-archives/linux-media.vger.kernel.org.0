@@ -2,82 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0FD53771DF
-	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 14:43:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FDE03771E1
+	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 14:47:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230483AbhEHMol (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 May 2021 08:44:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36822 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230419AbhEHMol (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 08:44:41 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0C04C061574;
-        Sat,  8 May 2021 05:43:39 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id h4so11874694wrt.12;
-        Sat, 08 May 2021 05:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=8dWNJqGeO28h3+LJctIyuduk63WWQ2H2We1e6Kmdbcc=;
-        b=WJlqlfw4KqEJEYtwo3XvIxHn2oPgFjIosnEp35LUQWmP6KIWRPCLeFPwhBe2hued2W
-         qRPVKROfJq0qsWqSW+VhzZLwF36wc2sjLKsvWCSRD80Z3a8efekHbJmuTjHbsH2JDrGc
-         gltTqoqxFiEQbhF3C2wuq7Qd/5T8hGkTyLRqun1VbtNH5DkxmA+aWC5RSsiuE1eZsOAz
-         omUhnanjUSPgUlNIq1/mwvczuUBycxAFvdkSSrVmF+4d3dAYd1GcZtwcsugcOHuxOkRf
-         dWp6UkJKc1EZJB4bqflfrj6ptYZ+RiVSOWjX9YtdbZU4Chk6xqB1i5O/xNlIq11yQhhn
-         qIiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8dWNJqGeO28h3+LJctIyuduk63WWQ2H2We1e6Kmdbcc=;
-        b=bqXZJwdB43wxAj2r22XDbwUrCZzH0ChOtIUqzdqztrmj+1yIlRp/3T+xkFS0MkUZpk
-         EwEa5cNtKWETLLBZpknmb7+jgZ7XWEAdq+ro36W8NxjcErcpAtRCw/Rnt//U8uroW9bv
-         8FblRa9qEDeVI6Hc0AJjF2XC8D7XX7/bYgTkm263OjS7+VJe33LF5BzxRPcgv9Xr6zZI
-         ucnOA2+s26mV0++eHR2YDKqoMTjtQbk/qWEUOabSA3/0A+EBDD1tYZ8vtBwzi7kVJTKA
-         goqJXwHL7MNXpGt7FeFr162FFBnDruyxf0JKKH4XCOi5/36NGwy62VrNR33hPQj9aONQ
-         qTXQ==
-X-Gm-Message-State: AOAM532oTLfWp2qPr5eB47B4/Rw6AwI82umyMlebzzTKU9eDbuO/7VFJ
-        xCR2dXWn6ahqI5nwGJI2ToLe0nN6JCF2Sg==
-X-Google-Smtp-Source: ABdhPJwHlX5yjTi1BS6fd7w3SLeYJMZkzI9LwKOChEaQhz+1kQpQxmiv8o4Q6ozyrp+9E8awxNt9OA==
-X-Received: by 2002:a5d:4acd:: with SMTP id y13mr18747852wrs.185.1620477818392;
-        Sat, 08 May 2021 05:43:38 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.44])
-        by smtp.gmail.com with ESMTPSA id e38sm16491786wmp.21.2021.05.08.05.43.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 May 2021 05:43:38 -0700 (PDT)
-Date:   Sat, 8 May 2021 14:43:35 +0200
-From:   Fabio Aiuto <fabioaiuto83@gmail.com>
-To:     Pavel Skripkin <paskripkin@gmail.com>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] staging: media: atomisp: remove useless returns
-Message-ID: <20210508124334.GA1403@agape.jhs>
-References: <cover.1620475909.git.paskripkin@gmail.com>
- <f5b8abd8a92fcdd9b0ec49902d4363bc35c86218.1620475909.git.paskripkin@gmail.com>
+        id S230483AbhEHMsC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 May 2021 08:48:02 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:56790 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230419AbhEHMsC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 08:48:02 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 148Ck2dr195991;
+        Sat, 8 May 2021 12:46:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=dQLKDQcKr1hFvTAPqe1ScZ6M97IWge/GLE2pIbxQwb0=;
+ b=o0khWlPDYWHGI+tqiQKHb8kIXUdlFgZ0Rc1Qjp4hLWeQDg0mJWwnmscG/saGWidGCis5
+ gP6NdI0T6o2vZ9DpCP57X5ZdudpicvGwvD1/wPPbyXS+4WMGPVVyF5+SMoTLX9np06PT
+ UV1vu9qF0NAH5lV1RNhw1ontcYNioN+UGolzgmKD5pifrS0NrLRyP6BEyny7ZmzbCr/2
+ KGj/ajBMNSRfHD7t2qEyUfvRgOOyJBxKTPOZxRxnPVKFMHqB9tCBYjpr64RntCJkoV9q
+ EC/IAmWT4IWnZU/f9AQ/KsHTs8AaVLRQCXYpM+FqxTKEOU8tN6U1asjRS+U4q9dpAnC6 rg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 38dj2r0e79-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 08 May 2021 12:46:56 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 148CTb5P063390;
+        Sat, 8 May 2021 12:46:55 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3030.oracle.com with ESMTP id 38dgpcrd7m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 08 May 2021 12:46:55 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 148CktiI095491;
+        Sat, 8 May 2021 12:46:55 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 38dgpcrd7g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 08 May 2021 12:46:55 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 148CksN1015700;
+        Sat, 8 May 2021 12:46:54 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Sat, 08 May 2021 05:46:53 -0700
+Date:   Sat, 8 May 2021 15:46:30 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Pavel Skripkin <paskripkin@gmail.com>, mchehab@kernel.org
+Cc:     Uladzislau Rezki <urezki@gmail.com>, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] WARNING in __vmalloc_node_range
+Message-ID: <20210508124630.GN1922@kadam>
+References: <000000000000fdc0be05c1a6d68f@google.com>
+ <20210506142210.GA37570@pc638.lan>
+ <20210506145722.GC1955@kadam>
+ <20210506180053.4770f495@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f5b8abd8a92fcdd9b0ec49902d4363bc35c86218.1620475909.git.paskripkin@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210506180053.4770f495@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: Ln0t5G_yt0lQXANV2KM8ByDwxgj5nXxn
+X-Proofpoint-GUID: Ln0t5G_yt0lQXANV2KM8ByDwxgj5nXxn
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9977 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 spamscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ adultscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105080093
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Pavel,
+I wrote a Smatch check to see if there were more of these and here are
+the other issues that it found.  (I will expant this check to more types
+on Monday).
 
-On Sat, May 08, 2021 at 03:21:52PM +0300, Pavel Skripkin wrote:
-> Breaks are not useful at the end of void function,
-> they can simply be removed.
+drivers/media/usb/dvb-usb-v2/lmedm04.c:1196 (null)() warn: element count is wrong 'lme2510_props.num_adapters=0' vs 'lme2510_props.adapter=2'
+drivers/media/usb/dvb-usb-v2/af9035.c:1997 (null)() warn: element count is wrong 'af9035_props.num_adapters=0' vs 'af9035_props.adapter=2'
+drivers/media/usb/dvb-usb-v2/af9035.c:2043 (null)() warn: element count is wrong 'it930x_props.num_adapters=0' vs 'it930x_props.adapter=2'
+drivers/media/usb/dvb-usb-v2/af9015.c:1409 (null)() warn: element count is wrong 'af9015_props.num_adapters=0' vs 'af9015_props.adapter=2'
+drivers/media/usb/dvb-usb/dtt200u.c:384 (null)() warn: element count is wrong 'wt220u_miglia_properties.num_adapters=1' vs 'wt220u_miglia_properties.adapter=0'
 
-this commit description is not really describing the changes that
-have been made
+As far as I can see these are initialized in dvb_usb_adapter_init()
+where the loop is:
 
-> 
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+	for (n = 0; n < d->props.num_adapters; n++) {
 
-thank you,
+So it looks like all of these are genuine bugs.  But I'm not a subsystem
+expert and can't test them.  These line numbers are from linux-next.
 
-fabio
+Btw, here are the other element/count pairings I was able to find which
+I'm going to test on Monday.
+
+ath5k_gain_opt, go_steps_count, go_step
+atomisp_camera_caps, sensor_num, sensor
+brcmf_rssi_event_le, rssi_level_num, rssi_levels
+catpt_stream_template, num_entries, entries
+dvb_usb_device_properties, num_adapters, adapter
+dvb_usb_device_properties, num_device_descs, devices
+go7007_board_info, num_inputs, inputs
+hda_input_mux, num_items, items
+idt_89hpes_cfg, port_cnt, ports
+mipi_phy_device_desc, num_regmaps, regmap_names
+mtk_thermal_data, need_switch_bank, bank_data
+mwifiex_sdio_card_reg, func1_spec_reg_num, func1_spec_reg_table
+nft_chain_type, hook_mask, hooks
+PWR_DFY_Section, dfy_size, dfy_data
+rkisp1_cif_isp_afc_config, num_afm_win, afm_win
+scarlett_device_info, num_controls, controls
+snd_soc_acpi_codecs, num_codecs, codecs
+timb_dma_platform_data, nr_channels, channels
+uniphier_u3hsphy_soc_data, nparams, param
+uniphier_u3ssphy_soc_data, nparams, param
+venus_resources, vcodec_clks_num, vcodec_pmdomains
+
+regards,
+dan carpenter
+
