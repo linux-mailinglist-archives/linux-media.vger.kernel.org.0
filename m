@@ -2,89 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95712377204
-	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 15:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10F77377207
+	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 15:17:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230488AbhEHNSB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 May 2021 09:18:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43988 "EHLO
+        id S231152AbhEHNSY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 May 2021 09:18:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230438AbhEHNSA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 09:18:00 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4E14C061574;
-        Sat,  8 May 2021 06:16:57 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id y9so15084585ljn.6;
-        Sat, 08 May 2021 06:16:57 -0700 (PDT)
+        with ESMTP id S230438AbhEHNSU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 09:18:20 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4CA8C061574;
+        Sat,  8 May 2021 06:17:16 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id w15so15054259ljo.10;
+        Sat, 08 May 2021 06:17:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uQGOlx1y8xhrLtj22U5j8Zg9KBmr0pSSDAjHsnxb01o=;
-        b=I5kjCO5ApJPpGf7tUK7/V1OjgeR5svT6W8embMQCIl5sIXvbS1ARPasMPams9FE71w
-         kI4yrYQEWVtNTstGR53mTeAOXQr5/gZWrhz+tMR5hhGmboA2I4mvTtNHIeTYdnUg+Hrm
-         L1n97AOuHhWmjPzJvYC5qrbGuvt0kY1E6b1gE8JSL5WinNjV0s2q6I7Rn60Mo+Ad9TCW
-         UFdqobc+p6FjEKCbWPCB0WF//qEOqbXMS1yPfGuz2XaUUNHaK3PIMUqPIzuo69UgoWry
-         ac9kB3Oy/yoAXhxi02drTvpoe5GUTSl0FsAPeGNL8FoO0aDwIRQCxGShXaH6xfVmVDQZ
-         rlzQ==
+        bh=9Y3teniSGRQ0VOrXvsmVmKBJjGDITdl3HQv9AqHHKVM=;
+        b=uiydmKVhHj4fc2Ul7DZWPG69vVbH7I5EBSw8mpeOLCH+uTfBJ0WC4NHAqr5+Fi9YHL
+         +QkvyXT3E5mgBGFpQOu9dsYT1VHnEwGX7LnBG1ZBXtXpB2Oy2I7ng+ZTrXqN3+6wPjvU
+         DnMICAhLurTzeHqppDfUdlGK+fcYP524QX3SfWhqIW/MdUER7aMchZAhM099WO2D9xWn
+         UPz0y0/SUC4frt5zrdz4Y6Zgsb5AhEA/9U9eFIMbjpXhhgzwcxp99mUmjhLBxLcdEmtj
+         iWWZoaZz/qS+N5GPPpLt+w3tQM4VzX25JFBTs0sqWm0rqCPPU4tvArU0wh/AE5+X0RC5
+         Ly1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uQGOlx1y8xhrLtj22U5j8Zg9KBmr0pSSDAjHsnxb01o=;
-        b=r5w5j14ya/bRfpTyLKRX+ZLD4sIi0C/NNvESPTVcHH6wbRubATSJT5plEuT6NDhz0Z
-         ar0a5s87YLsFXtuMxz+W5QLsk2vZBJjFi9jiz8CPHgHjttoCair3703qClPMSjGyOOrC
-         x4he7nJ6agxgkIqbZu8kt0wr02Dd2KmSpBk1n1qSZX0/sMFhuZf63rEKdMdqjtq8sN2i
-         ny4GwimVYrfBl0OYviYmyNOt0LgYi85pBjn/bi9YVlGSxeUR5PfoumfV5KZGLPZ8PXyL
-         ZcnnXbEmIBBoq6s3rpUSZqZVHRsaGY+g+Ifc6Ub2IU9izNVmX2ebkMyIpHloBGe51YP3
-         9BXg==
-X-Gm-Message-State: AOAM532XJTRwWMKBt5bBjN6jtpt87mKejzYfT1HNJ9soqSl8eHOksHBl
-        MdhTUpzeRa+pBTJGSrBAKUc=
-X-Google-Smtp-Source: ABdhPJx9n8nzZvFCVZh3ez6MBbSoJMwUFIQI79Clvmm8Ib7vky89gPqJbIk1Fkk43axempwQRXKnVA==
-X-Received: by 2002:a2e:7a09:: with SMTP id v9mr12485962ljc.33.1620479816024;
-        Sat, 08 May 2021 06:16:56 -0700 (PDT)
+        bh=9Y3teniSGRQ0VOrXvsmVmKBJjGDITdl3HQv9AqHHKVM=;
+        b=mGALh0DhRaY3RpAy6yPoY8vzFnVll0JVpst5hGU82NIvw0JxzPEOCTEOZLxLnOSj2X
+         +1MbbTruF8dh2y+fZWVgxRLwEDpNeWkEnc6EOg/5xhjOx9ky/+EK57wQ8O4Iu5OnCAqO
+         cOU+AquCdq6rCBZeLoSnorv1NA4q8/lG6HZeYGUBWbqVBKozljjv5xEtaju3pPYtSkRi
+         mboS0N8VRo0PDcjIzykuXVVkpU2y0ee/24jKwJ34O1X8zDSAdulSSwZ1ZZiUCKj/jOBK
+         B7aCvU02zInoFTB6fpEpYKMAc/uCQrpLN7Rtr5utCV8dL4oYvcLcp4PXezuxwXsL45Q7
+         koWA==
+X-Gm-Message-State: AOAM531tcfPzC1PoPLwsM71Kc3Di7Bd021C7d3K4/tNh0dzWKJUE/VzS
+        t4E3Mzgl/BnnJxb9MlHJzHN5BSYDuBPhIg==
+X-Google-Smtp-Source: ABdhPJwCrUuouKX7ZTNOggSFm6MybDemlvemuHTfoseX9ntL8SPfprKbrGyITBS/vfg8YmM3F/Fjcw==
+X-Received: by 2002:a2e:b5d6:: with SMTP id g22mr12108585ljn.423.1620479835253;
+        Sat, 08 May 2021 06:17:15 -0700 (PDT)
 Received: from localhost.localdomain ([185.215.60.119])
-        by smtp.gmail.com with ESMTPSA id p2sm1138376lfc.115.2021.05.08.06.16.55
+        by smtp.gmail.com with ESMTPSA id j10sm1636022lfb.176.2021.05.08.06.17.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 May 2021 06:16:55 -0700 (PDT)
+        Sat, 08 May 2021 06:17:14 -0700 (PDT)
 From:   Pavel Skripkin <paskripkin@gmail.com>
 To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         gregkh@linuxfoundation.org
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH v4 0/3] staging: media: atomisp: code clean up
-Date:   Sat,  8 May 2021 16:16:47 +0300
-Message-Id: <cover.1620479607.git.paskripkin@gmail.com>
+Subject: [PATCH v4 1/3] staging: media: atomisp: remove useless breaks
+Date:   Sat,  8 May 2021 16:17:12 +0300
+Message-Id: <4b4a6ad1bc8fc1fd6aafc3e6cd7a4969890340c1.1620479607.git.paskripkin@gmail.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210508124334.GA1403@agape.jhs>
-References: <20210508124334.GA1403@agape.jhs>
+In-Reply-To: <cover.1620479607.git.paskripkin@gmail.com>
+References: <cover.1620479607.git.paskripkin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch series include code clean up for input_system.c.
+Breaks are not useful after a return, they can
+simply be removed.
 
-Changes from v4:
-  Fixed commit message in 3rd patch
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+ .../pci/hive_isp_css_common/host/input_system.c       | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-Changes from v3:
-  Removed returns at the end of void functions
-  Split all changes into 3 patches
-
-Changes from v2:
-  Removed useless returns
-
-
-Pavel Skripkin (3):
-  staging: media: atomisp: remove useless breaks
-  staging: media: atomisp: remove dublicate code
-  staging: media: atomisp: remove useless returns
-
- .../hive_isp_css_common/host/input_system.c   | 62 -------------------
- 1 file changed, 62 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+index 0f5a231672a8..fd82997b11cc 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+@@ -904,16 +904,12 @@ static input_system_err_t input_system_configure_channel(
+ 			break;
+ 		case INPUT_SYSTEM_SOURCE_TPG:
+ 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		case INPUT_SYSTEM_SOURCE_PRBS:
+ 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		case INPUT_SYSTEM_SOURCE_FIFO:
+ 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		default:
+ 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		}
+ 
+ 		if (error != INPUT_SYSTEM_ERR_NO_ERROR) return error;
+@@ -995,7 +991,6 @@ static input_system_err_t input_buffer_configuration(void)
+ 			default:
+ 				config.csi_buffer_flags[port] |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
+ 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-				break;
+ 			}
+ 
+ 			// Check acquisition buffer specified but set it later since it has to be unique.
+@@ -1032,7 +1027,6 @@ static input_system_err_t input_buffer_configuration(void)
+ 
+ 			default:
+ 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-				break;
+ 			}
+ 		} else {
+ 			config.csi_buffer_flags[port] = INPUT_SYSTEM_CFG_FLAG_BLOCKED;
+@@ -1319,7 +1313,6 @@ static input_system_err_t configuration_to_registers(void)
+ 
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 
+ 	} // end of switch (source_type)
+ 
+@@ -1696,16 +1689,12 @@ static input_system_err_t input_system_configure_channel_sensor(
+ 		break;
+ 	case INPUT_SYSTEM_FIFO_CAPTURE_WITH_COUNTING:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	case INPUT_SYSTEM_XMEM_CAPTURE:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	case INPUT_SYSTEM_XMEM_ACQUIRE:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	}
+ 	return INPUT_SYSTEM_ERR_NO_ERROR;
+ }
 -- 
 2.31.1
 
