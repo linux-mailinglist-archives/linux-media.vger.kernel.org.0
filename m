@@ -2,23 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32B493774E2
-	for <lists+linux-media@lfdr.de>; Sun,  9 May 2021 03:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6C213774E1
+	for <lists+linux-media@lfdr.de>; Sun,  9 May 2021 03:53:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229763AbhEIBzO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 May 2021 21:55:14 -0400
-Received: from lnx-ppa-mail-01.microblau.net ([62.97.115.39]:52317 "EHLO
+        id S229761AbhEIByo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 May 2021 21:54:44 -0400
+Received: from lnx-ppa-mail-01.microblau.net ([62.97.115.39]:58115 "EHLO
         lnx-ppa-mail-01.microblau.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229609AbhEIBzN (ORCPT
+        by vger.kernel.org with ESMTP id S229609AbhEIByn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 8 May 2021 21:55:13 -0400
+        Sat, 8 May 2021 21:54:43 -0400
+X-Greylist: delayed 4469 seconds by postgrey-1.27 at vger.kernel.org; Sat, 08 May 2021 21:54:43 EDT
 Received: from lnx-ppa-mail-01.microblau.net (lnx-ppa-mail-01.microblau.net [62.97.115.39])
-        by lnx-ppa-mail-01.microblau.net (Postfix) with ESMTPSA id 2C9BC2E4CE0;
-        Sun,  9 May 2021 01:11:13 +0200 (CEST)
+        by lnx-ppa-mail-01.microblau.net (Postfix) with ESMTPSA id 5F1BF2E5251;
+        Sun,  9 May 2021 01:12:16 +0200 (CEST)
 Received: from 105.112.101.122 ([105.112.101.122]) by webmail.cecot.es
- (Horde Framework) with HTTP; Sat, 08 May 2021 23:11:11 +0000
-Date:   Sat, 08 May 2021 23:11:11 +0000
-Message-ID: <20210508231111.Horde.C1sILDdWlltlUp0ADsuJqQ1@webmail.cecot.es>
+ (Horde Framework) with HTTP; Sat, 08 May 2021 23:12:15 +0000
+Date:   Sat, 08 May 2021 23:12:15 +0000
+Message-ID: <20210508231215.Horde.FHTQ4fYbehGXg8VRFmRvug2@webmail.cecot.es>
 From:   Mrs Mavis Wanczyk <electro_mabar@cecot.es>
 Subject: Charity Donation
 Reply-to: mavis_wanczyk@126.com
