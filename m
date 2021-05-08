@@ -2,100 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EC1B37716D
-	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 13:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C67A537719F
+	for <lists+linux-media@lfdr.de>; Sat,  8 May 2021 14:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230487AbhEHLda (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 May 2021 07:33:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49632 "EHLO
+        id S230452AbhEHMW0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 May 2021 08:22:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230234AbhEHLd3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 07:33:29 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CC17C061574;
-        Sat,  8 May 2021 04:32:27 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id x2so16447496lff.10;
-        Sat, 08 May 2021 04:32:27 -0700 (PDT)
+        with ESMTP id S230419AbhEHMW0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 May 2021 08:22:26 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 565F0C061574;
+        Sat,  8 May 2021 05:21:24 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id c11so16564927lfi.9;
+        Sat, 08 May 2021 05:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PXAa7ncW6tnQNSCVmINwjOAXmzqHMKlEEaaWFcl+Zig=;
-        b=sPUbSjRETuhU1bfQmElfOC8xI1jqxOeo727f0En4w3gRQCDqhkU0fR2gOC7DAu+5DV
-         w0ZQWlSEH6VTyTQx2zWBMlxoBcGVRawJuZd5DP6Lk7h4wLHN3bZ2nPJNaBz1IidvbxnG
-         DesFThsHa7xq2omfQaJh43yu9DRxjsBKttN4QhKDw9IC5x3xC2ngffQGj2ZJQ7driXKM
-         aNR1fCZZcxPG8bod4Zraf7Jh83oXbG7hf3Hus99ggnxoIpSvGW7K1OuMCa54sSDCipwc
-         ULhsDzXM4xYh/7crNbBImG4dDYscEphdJHP6vzpjq6be0aWuQ2j1cH05dqQeDM/XLNTB
-         4BQA==
+        bh=04cgrkWh50flqZpRh37baQFAIaC4WlfO0T6oXLED7ks=;
+        b=mExExvHoG8jNOehgnXXg0lQ2Y7jCePctD8KnPz4fksYeeg24T0xXYp1+pCQAbXbMJ6
+         dbGpEJBUECwthAvx3d9YIH6KPvL3vGBUo/NWc1baxesdpdqoUNc3rwDBH455x0nMJRbH
+         ngGDI+EUMZUVRO+UCj/msTEoPTXv7t6fSHC9jdRP/qaF2GJdBQWiUSG/UTrUbETJaOZS
+         bxitWoIWcfIF0qhJOiZrgcS+mmjxvSGckcP68D6B6yJqNZ9HYBtU9ZobBguRHdjAEMZp
+         O8Jt6kdK58fvWL0mfcDSKtnMm0gAgOkJD+JauC1TvPLDQPQS5BjydGWx2uTHIssG1DzQ
+         eybA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PXAa7ncW6tnQNSCVmINwjOAXmzqHMKlEEaaWFcl+Zig=;
-        b=TDH6xs+/Aqj2Gj/enV4znajSVoZNoiO/eA+Eig2+3RNVIY1L5DIQv1gjX27SFNtwAS
-         wYp7KKrzkqsQfmdX04AEIJzpXfj3QJb6hASz1yB6g/4ZhLTdmHQTZI7g/9ou2oPcLKZr
-         quEqUDmOoqyNpiwLFizyCwiGW//GWgkMLstsWrQjqNmdrDcX2n4urbZjZnp0BGq4NUDO
-         WVt+7LE5nAuKcnOWKXdFaU0Mmqg2nbRRL13a0eL4OGi5GOY876o4NxOogoypm1+FK/iO
-         IGigADHXcEE+Xef5LnESt4ygtFBCFyUgtZx7WPLvXhtpDpFgmVdmALhn64mlhmDrPiGp
-         w/HA==
-X-Gm-Message-State: AOAM530+Yj1oNnXt0q+zhEkwrR/d6fK3Ysy+lUBHeOnp32MSGU3bIbvZ
-        b8yRLLmvMTs5MU3vWqxRyjk=
-X-Google-Smtp-Source: ABdhPJyEgioyenwxZoCGG+r6LrzxG1yPLmEV5JjlAUjlK+TN8vTgsFK6s5swlQsTZyMzZ5/uclhsHw==
-X-Received: by 2002:a05:6512:3e12:: with SMTP id i18mr10122lfv.154.1620473545722;
-        Sat, 08 May 2021 04:32:25 -0700 (PDT)
+        bh=04cgrkWh50flqZpRh37baQFAIaC4WlfO0T6oXLED7ks=;
+        b=W9KJidtIwwIi5dcPoorVTSF0fG5BJzgBytMrLcQq39BDLjrUm697HK1/fqTIZmJcXo
+         AbFczEmrVqWDj8lrEa4/XyLQnILwZ6tMkSwlay8kMCFCjcJYpHAY9S+xQ8DioqhaFSB3
+         tj1rTfPvRmCvWua0Fu4r/bPEbQJwZdlRRVa8nUEVXfnSYSnxxX6t7fGIiAi6eMfw+o5m
+         bMoD+cASrWDcUHdvN+UtHtetUv40JUiR/VEo2wAXWK5c5iEIkiu2RH0xUKp3pnX+dZ8i
+         goBrzlAPIhVNJnA67Y0DpTx7t/bcJAJrmKjim6JzVzm+LNPsHcKUPjkz4WDBztTgIoj3
+         QHTA==
+X-Gm-Message-State: AOAM530YY09yi70JE6wIMluLyzXnHr7WOmkeU8pm0E1lqXgS2PAd/wup
+        aWxu9BC3/jOunuy/G7CXZe4=
+X-Google-Smtp-Source: ABdhPJzPNFgLMWYqVx205XcNshsO4fb+1wFy+XgJ4uRekQG1wGH6SIr+SADaI6l/hmdiIF/ZNgCruQ==
+X-Received: by 2002:ac2:5497:: with SMTP id t23mr9953657lfk.52.1620476482679;
+        Sat, 08 May 2021 05:21:22 -0700 (PDT)
 Received: from localhost.localdomain ([185.215.60.119])
-        by smtp.gmail.com with ESMTPSA id s4sm2278568ljp.114.2021.05.08.04.32.25
+        by smtp.gmail.com with ESMTPSA id u5sm1627354lfk.237.2021.05.08.05.21.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 May 2021 04:32:25 -0700 (PDT)
-Date:   Sat, 8 May 2021 14:32:20 +0300
+        Sat, 08 May 2021 05:21:22 -0700 (PDT)
 From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: media: atomisp: code cleanup
-Message-ID: <20210508143220.0b92bc37@gmail.com>
+To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
+Subject: [PATCH v3 0/3] staging: media: atomisp: code clean up
+Date:   Sat,  8 May 2021 15:21:16 +0300
+Message-Id: <cover.1620475909.git.paskripkin@gmail.com>
+X-Mailer: git-send-email 2.31.1
 In-Reply-To: <YJZuviLa3SRLWASk@kroah.com>
-References: <20210507075458.GB3@paasikivi.fi.intel.com>
-        <20210508105129.2698-1-paskripkin@gmail.com>
-        <YJZuviLa3SRLWASk@kroah.com>
-X-Mailer: Claws Mail 3.17.8git77 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
+References: <YJZuviLa3SRLWASk@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Greg!
+This patch series includes code clean up for input_system.c.
 
-On Sat, 8 May 2021 12:58:06 +0200
-Greg KH <gregkh@linuxfoundation.org> wrote:
+Changes from v3:
+  Removed returns at the end of void functions
+  Split all changes into 3 patches
 
-> On Sat, May 08, 2021 at 01:51:29PM +0300, Pavel Skripkin wrote:
-> > Breaks are not useful after a return, they can
-> > simply be removed.
-> > 
-> > Also, dropped the individual return statements
-> > after or inside switch cases
-> 
-> Almost always, when you say "also" in a patch changelog, that means
-> this should be split up into two different patches.
-> 
+Changes from v2:
+  Removed useless returns
 
-I thought, I could add this to current patch, because It was suggested
-by maintainer, but, I guess, I was wrong :)
+Pavel Skripkin (3):
+  staging: media: atomisp: remove useless breaks
+  staging: media: atomisp: remove dublicate code
+  staging: media: atomisp: remove useless returns
 
-> I recommend doing that here as well, this should be a 2 patch series,
-> right?
-> 
+ .../hive_isp_css_common/host/input_system.c   | 62 -------------------
+ 1 file changed, 62 deletions(-)
 
-Thanks for suggestion! I will also remove returns at the end of void
-functions as 3rd patch in serie.
+-- 
+2.31.1
 
-> thanks,
-> 
-> greg k-h
-
-With regards,
-Pavel Skripkin
