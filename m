@@ -2,39 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C276378202
-	for <lists+linux-media@lfdr.de>; Mon, 10 May 2021 12:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AA3F3781FA
+	for <lists+linux-media@lfdr.de>; Mon, 10 May 2021 12:30:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231230AbhEJKbm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 May 2021 06:31:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58322 "EHLO mail.kernel.org"
+        id S231747AbhEJKb0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 May 2021 06:31:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59988 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231803AbhEJKaF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 May 2021 06:30:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A20B36162E;
+        id S231680AbhEJK3f (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 10 May 2021 06:29:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 854456157F;
         Mon, 10 May 2021 10:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620642443;
-        bh=iXeyTUXAdlgg0SuSf6hKwYNiPGAjzoVAH1M8YwWp+8g=;
+        bh=JrLMYL4JThvq3F8iBkWp1UK3eSd5nAUFv6Kg0wHMGcE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cgpArYRrukcr6HidtXoNZ8Hc9B/QW9l5vaWquFbMyCPYcNl48WViJSfe8VgW8Lf0y
-         ltJlqplbQrsexGqHaxrnIzaO6yzTXSR0SByfr+47jjF6tneCVp8o9NOmGjaMSATNlt
-         xJoZKUpW8nwS2wFJPCyL5d76O4hD2R2L0kMQ94VaKN4oOYkl6O715jrX+dpW8nxaCe
-         MZvrDbvD8Vtq//5SU6OtYYDGNsQlg/d1+R1UeZxEllsEt5Fsd6+Sp8CJTleamMdYO7
-         ESI7C6mjWtOYofE2DM61vOaRdNJy/Zyekqr0q3LPVgwFwiG5gvXq4afNlZgMcMQ9Ak
-         bT9PHEfyPzozg==
+        b=YnWY2hZWNeHAPr7IU+RXYtk/YCOhzkDj4igjW97kvMGX+dGYkPWgEA5G4RTwDEA/M
+         sB/skEROu0R62Q0g+d3FJXlrl0Ox46VyjGPv5d9SVkqdxnECOc0NMPTSjDFSndqcBy
+         Nmna0XJ7NqWro49eat00KYeKPZ/ekODKeue/CQMheyP1CPEqxSWB43VA/GMN0BHPaw
+         KeqFwI1xcBgbtSJm8mH0WufW8++SFBG/Izo/289+NgNzIx2eUpLsN5fy3/S4y1ZtWg
+         0B6ZP39Ro+PYej0LgbGrVsKUoAISVnYMF2OdpxsJ3ToysYHkANZqhgK7sOsfxTKPXA
+         hYebhXr+7EqNw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lg38D-000UPo-El; Mon, 10 May 2021 12:27:21 +0200
+        id 1lg38D-000UPs-GF; Mon, 10 May 2021 12:27:21 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 23/53] docs: userspace-api: media: fdl-appendix.rst: avoid using UTF-8 chars
-Date:   Mon, 10 May 2021 12:26:35 +0200
-Message-Id: <7d38be007f5dd0495e254a7a6c6bd3e74665723d.1620641727.git.mchehab+huawei@kernel.org>
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH 24/53] docs: userspace-api: media: v4l: avoid using UTF-8 chars
+Date:   Mon, 10 May 2021 12:26:36 +0200
+Message-Id: <7bfa245cf54bfea669e2f46de4a91eeb3155c169.1620641727.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
 References: <cover.1620641727.git.mchehab+huawei@kernel.org>
@@ -50,217 +55,168 @@ While UTF-8 characters can be used at the Linux documentation,
 the best is to use them only when ASCII doesn't offer a good replacement.
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
-	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
+	- U+00a0 (' '): NO-BREAK SPACE
+	- U+00d7 ('×'): MULTIPLICATION SIGN
+	- U+2014 ('—'): EM DASH
+	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../userspace-api/media/fdl-appendix.rst      | 64 +++++++++----------
- 1 file changed, 32 insertions(+), 32 deletions(-)
+ Documentation/userspace-api/media/v4l/biblio.rst |  8 ++++----
+ Documentation/userspace-api/media/v4l/crop.rst   | 16 ++++++++--------
+ .../userspace-api/media/v4l/dev-decoder.rst      |  6 +++---
+ .../userspace-api/media/v4l/diff-v4l.rst         |  2 +-
+ Documentation/userspace-api/media/v4l/open.rst   |  2 +-
+ .../userspace-api/media/v4l/vidioc-cropcap.rst   |  4 ++--
+ 6 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/fdl-appendix.rst b/Documentation/userspace-api/media/fdl-appendix.rst
-index 683ebed87017..b1bc725b4ec7 100644
---- a/Documentation/userspace-api/media/fdl-appendix.rst
-+++ b/Documentation/userspace-api/media/fdl-appendix.rst
-@@ -13,14 +13,14 @@ GNU Free Documentation License
+diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
+index 64d241daf63c..6e07b78bd39d 100644
+--- a/Documentation/userspace-api/media/v4l/biblio.rst
++++ b/Documentation/userspace-api/media/v4l/biblio.rst
+@@ -51,7 +51,7 @@ ISO 13818-1
  ===========
  
- The purpose of this License is to make a manual, textbook, or other
--written document “free” in the sense of freedom: to assure everyone the
-+written document "free" in the sense of freedom: to assure everyone the
- effective freedom to copy and redistribute it, with or without modifying
- it, either commercially or noncommercially. Secondarily, this License
- preserves for the author and publisher a way to get credit for their
- work, while not being considered responsible for modifications made by
- others.
  
--This License is a kind of “copyleft”, which means that derivative works
-+This License is a kind of "copyleft", which means that derivative works
- of the document must themselves be free in the same sense. It
- complements the GNU General Public License, which is a copyleft license
- designed for free software.
-@@ -44,21 +44,21 @@ works whose purpose is instruction or reference.
+-:title:     ITU-T Rec. H.222.0 | ISO/IEC 13818-1 "Information technology — Generic coding of moving pictures and associated audio information: Systems"
++:title:     ITU-T Rec. H.222.0 | ISO/IEC 13818-1 "Information technology - Generic coding of moving pictures and associated audio information: Systems"
  
- This License applies to any manual or other work that contains a notice
- placed by the copyright holder saying it can be distributed under the
--terms of this License. The “Document”, below, refers to any such manual
-+terms of this License. The "Document", below, refers to any such manual
- or work. Any member of the public is a licensee, and is addressed as
--“you”.
-+"you".
+ :author:    International Telecommunication Union (http://www.itu.ch), International Organisation for Standardisation (http://www.iso.ch)
+ 
+@@ -61,7 +61,7 @@ ISO 13818-2
+ ===========
  
  
- .. _fdl-modified:
+-:title:     ITU-T Rec. H.262 | ISO/IEC 13818-2 "Information technology — Generic coding of moving pictures and associated audio information: Video"
++:title:     ITU-T Rec. H.262 | ISO/IEC 13818-2 "Information technology - Generic coding of moving pictures and associated audio information: Video"
  
--A “Modified Version” of the Document means any work containing the
-+A "Modified Version" of the Document means any work containing the
- Document or a portion of it, either copied verbatim, or with
- modifications and/or translated into another language.
+ :author:    International Telecommunication Union (http://www.itu.ch), International Organisation for Standardisation (http://www.iso.ch)
  
- 
- .. _fdl-secondary:
- 
--A “Secondary Section” is a named appendix or a front-matter section of
-+A "Secondary Section" is a named appendix or a front-matter section of
- the :ref:`Document <fdl-document>` that deals exclusively with the
- relationship of the publishers or authors of the Document to the
- Document's overall subject (or to related matters) and contains nothing
-@@ -72,7 +72,7 @@ regarding them.
- 
- .. _fdl-invariant:
- 
--The “Invariant Sections” are certain
-+The "Invariant Sections" are certain
- :ref:`Secondary Sections <fdl-secondary>` whose titles are designated,
- as being those of Invariant Sections, in the notice that says that the
- :ref:`Document <fdl-document>` is released under this License.
-@@ -80,14 +80,14 @@ as being those of Invariant Sections, in the notice that says that the
- 
- .. _fdl-cover-texts:
- 
--The “Cover Texts” are certain short passages of text that are listed, as
-+The "Cover Texts" are certain short passages of text that are listed, as
- Front-Cover Texts or Back-Cover Texts, in the notice that says that the
- :ref:`Document <fdl-document>` is released under this License.
+@@ -150,7 +150,7 @@ ITU-T.81
+ ========
  
  
- .. _fdl-transparent:
+-:title:     ITU-T Recommendation T.81 "Information Technology — Digital Compression and Coding of Continous-Tone Still Images — Requirements and Guidelines"
++:title:     ITU-T Recommendation T.81 "Information Technology - Digital Compression and Coding of Continous-Tone Still Images - Requirements and Guidelines"
  
--A “Transparent” copy of the :ref:`Document <fdl-document>` means a
-+A "Transparent" copy of the :ref:`Document <fdl-document>` means a
- machine-readable copy, represented in a format whose specification is
- available to the general public, whose contents can be viewed and edited
- directly and straightforwardly with generic text editors or (for images
-@@ -97,7 +97,7 @@ formatters or for automatic translation to a variety of formats suitable
- for input to text formatters. A copy made in an otherwise Transparent
- file format whose markup has been designed to thwart or discourage
- subsequent modification by readers is not Transparent. A copy that is
--not “Transparent” is called “Opaque”.
-+not "Transparent" is called "Opaque".
+ :author:    International Telecommunication Union (http://www.itu.int)
  
- Examples of suitable formats for Transparent copies include plain ASCII
- without markup, Texinfo input format, LaTeX input format, SGML or XML
-@@ -111,10 +111,10 @@ word processors for output purposes only.
- 
- .. _fdl-title-page:
- 
--The “Title Page” means, for a printed book, the title page itself, plus
-+The "Title Page" means, for a printed book, the title page itself, plus
- such following pages as are needed to hold, legibly, the material this
- License requires to appear in the title page. For works in formats which
--do not have any title page as such, “Title Page” means the text near the
-+do not have any title page as such, "Title Page" means the text near the
- most prominent appearance of the work's title, preceding the beginning
- of the body of the text.
- 
-@@ -242,11 +242,11 @@ Modified Version:
-    Include an unaltered copy of this License.
- 
- -  **I.**
--   Preserve the section entitled “History”, and its title, and add to it
-+   Preserve the section entitled "History", and its title, and add to it
-    an item stating at least the title, year, new authors, and publisher
-    of the :ref:`Modified Version <fdl-modified>` as given on the
-    :ref:`Title Page <fdl-title-page>`. If there is no section entitled
--   “History” in the :ref:`Document <fdl-document>`, create one stating
-+   "History" in the :ref:`Document <fdl-document>`, create one stating
-    the title, year, authors, and publisher of the Document as given on
-    its Title Page, then add an item describing the Modified Version as
-    stated in the previous sentence.
-@@ -256,13 +256,13 @@ Modified Version:
-    :ref:`Document <fdl-document>` for public access to a
-    :ref:`Transparent <fdl-transparent>` copy of the Document, and
-    likewise the network locations given in the Document for previous
--   versions it was based on. These may be placed in the “History”
-+   versions it was based on. These may be placed in the "History"
-    section. You may omit a network location for a work that was
-    published at least four years before the Document itself, or if the
-    original publisher of the version it refers to gives permission.
- 
- -  **K.**
--   In any section entitled “Acknowledgements” or “Dedications”, preserve
-+   In any section entitled "Acknowledgements" or "Dedications", preserve
-    the section's title, and preserve in the section all the substance
-    and tone of each of the contributor acknowledgements and/or
-    dedications given therein.
-@@ -274,11 +274,11 @@ Modified Version:
-    part of the section titles.
- 
- -  **M.**
--   Delete any section entitled “Endorsements”. Such a section may not be
-+   Delete any section entitled "Endorsements". Such a section may not be
-    included in the :ref:`Modified Version <fdl-modified>`.
- 
- -  **N.**
--   Do not retitle any existing section as “Endorsements” or to conflict
-+   Do not retitle any existing section as "Endorsements" or to conflict
-    in title with any :ref:`Invariant Section <fdl-invariant>`.
- 
- If the :ref:`Modified Version <fdl-modified>` includes new
-@@ -290,7 +290,7 @@ of :ref:`Invariant Sections <fdl-invariant>` in the Modified Version's
- license notice. These titles must be distinct from any other section
- titles.
- 
--You may add a section entitled “Endorsements”, provided it contains
-+You may add a section entitled "Endorsements", provided it contains
- nothing but endorsements of your
- :ref:`Modified Version <fdl-modified>` by various parties--for
- example, statements of peer review or that the text has been approved by
-@@ -337,11 +337,11 @@ the original author or publisher of that section if known, or else a
- unique number. Make the same adjustment to the section titles in the
- list of Invariant Sections in the license notice of the combined work.
- 
--In the combination, you must combine any sections entitled “History” in
--the various original documents, forming one section entitled “History”;
--likewise combine any sections entitled “Acknowledgements”, and any
--sections entitled “Dedications”. You must delete all sections entitled
--“Endorsements.”
-+In the combination, you must combine any sections entitled "History" in
-+the various original documents, forming one section entitled "History";
-+likewise combine any sections entitled "Acknowledgements", and any
-+sections entitled "Dedications". You must delete all sections entitled
-+"Endorsements."
+@@ -310,7 +310,7 @@ ISO 12232:2006
+ ==============
  
  
- .. _fdl-section6:
-@@ -372,7 +372,7 @@ with other separate and independent documents or works, in or on a
- volume of a storage or distribution medium, does not as a whole count as
- a :ref:`Modified Version <fdl-modified>` of the Document, provided no
- compilation copyright is claimed for the compilation. Such a compilation
--is called an “aggregate”, and this License does not apply to the other
-+is called an "aggregate", and this License does not apply to the other
- self-contained works thus compiled with the Document , on account of
- their being thus compiled, if they are not themselves derivative works
- of the Document. If the :ref:`Cover Text <fdl-cover-texts>`
-@@ -429,7 +429,7 @@ concerns. See
+-:title:     Photography — Digital still cameras — Determination of exposure index, ISO speed ratings, standard output sensitivity, and recommended exposure index
++:title:     Photography - Digital still cameras - Determination of exposure index, ISO speed ratings, standard output sensitivity, and recommended exposure index
  
- Each version of the License is given a distinguishing version number. If
- the :ref:`Document <fdl-document>` specifies that a particular
--numbered version of this License “or any later version” applies to it,
-+numbered version of this License "or any later version" applies to it,
- you have the option of following the terms and conditions either of that
- specified version or of any later version that has been published (not
- as a draft) by the Free Software Foundation. If the Document does not
-@@ -455,13 +455,13 @@ notices just after the title page:
-     being LIST THEIR TITLES, with the
-     :ref:`Front-Cover Texts <fdl-cover-texts>` being LIST, and with
-     the :ref:`Back-Cover Texts <fdl-cover-texts>` being LIST. A copy
--    of the license is included in the section entitled “GNU Free
--    Documentation License”.
-+    of the license is included in the section entitled "GNU Free
-+    Documentation License".
+ :author:    International Organization for Standardization (http://www.iso.org)
  
--If you have no :ref:`Invariant Sections <fdl-invariant>`, write “with
--no Invariant Sections” instead of saying which ones are invariant. If
--you have no :ref:`Front-Cover Texts <fdl-cover-texts>`, write “no
--Front-Cover Texts” instead of “Front-Cover Texts being LIST”; likewise
-+If you have no :ref:`Invariant Sections <fdl-invariant>`, write "with
-+no Invariant Sections" instead of saying which ones are invariant. If
-+you have no :ref:`Front-Cover Texts <fdl-cover-texts>`, write "no
-+Front-Cover Texts" instead of "Front-Cover Texts being LIST"; likewise
- for :ref:`Back-Cover Texts <fdl-cover-texts>`.
+diff --git a/Documentation/userspace-api/media/v4l/crop.rst b/Documentation/userspace-api/media/v4l/crop.rst
+index 3fe185e25ccf..23c2b71f449e 100644
+--- a/Documentation/userspace-api/media/v4l/crop.rst
++++ b/Documentation/userspace-api/media/v4l/crop.rst
+@@ -130,22 +130,22 @@ the driver state and therefore only adjust the requested rectangle.
  
- If your document contains nontrivial examples of program code, we
+ Suppose scaling on a video capture device is restricted to a factor 1:1
+ or 2:1 in either direction and the target image size must be a multiple
+-of 16 × 16 pixels. The source cropping rectangle is set to defaults,
+-which are also the upper limit in this example, of 640 × 400 pixels at
+-offset 0, 0. An application requests an image size of 300 × 225 pixels,
++of 16 x 16 pixels. The source cropping rectangle is set to defaults,
++which are also the upper limit in this example, of 640 x 400 pixels at
++offset 0, 0. An application requests an image size of 300 x 225 pixels,
+ assuming video will be scaled down from the "full picture" accordingly.
+-The driver sets the image size to the closest possible values 304 × 224,
++The driver sets the image size to the closest possible values 304 x 224,
+ then chooses the cropping rectangle closest to the requested size, that
+-is 608 × 224 (224 × 2:1 would exceed the limit 400). The offset 0, 0 is
++is 608 x 224 (224 x 2:1 would exceed the limit 400). The offset 0, 0 is
+ still valid, thus unmodified. Given the default cropping rectangle
+ reported by :ref:`VIDIOC_CROPCAP <VIDIOC_CROPCAP>` the application can
+ easily propose another offset to center the cropping rectangle.
+ 
+ Now the application may insist on covering an area using a picture
+ aspect ratio closer to the original request, so it asks for a cropping
+-rectangle of 608 × 456 pixels. The present scaling factors limit
+-cropping to 640 × 384, so the driver returns the cropping size 608 × 384
+-and adjusts the image size to closest possible 304 × 192.
++rectangle of 608 x 456 pixels. The present scaling factors limit
++cropping to 640 x 384, so the driver returns the cropping size 608 x 384
++and adjusts the image size to closest possible 304 x 192.
+ 
+ 
+ Examples
+diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+index 3d4138a4ba69..5b9b83feeceb 100644
+--- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
++++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+@@ -38,7 +38,7 @@ Conventions and Notations Used in This Document
+ 6. i = [a..b]: sequence of integers from a to b, inclusive, i.e. i =
+    [0..2]: i = 0, 1, 2.
+ 
+-7. Given an ``OUTPUT`` buffer A, then A’ represents a buffer on the ``CAPTURE``
++7. Given an ``OUTPUT`` buffer A, then A' represents a buffer on the ``CAPTURE``
+    queue containing data that resulted from processing buffer A.
+ 
+ .. _decoder-glossary:
+@@ -288,7 +288,7 @@ Initialization
+ 
+       Changing the ``OUTPUT`` format may change the currently set ``CAPTURE``
+       format. How the new ``CAPTURE`` format is determined is up to the decoder
+-      and the client must ensure it matches its needs afterwards.
++      and the client must ensure it matches its needs afterwards.
+ 
+ 2.  Allocate source (bytestream) buffers via :c:func:`VIDIOC_REQBUFS` on
+     ``OUTPUT``.
+@@ -874,7 +874,7 @@ it may be affected as per normal decoder operation.
+ 
+    any of the following results on the ``CAPTURE`` queue is allowed:
+ 
+-     {A’, B’, G’, H’}, {A’, G’, H’}, {G’, H’}.
++     {A', B', G', H'}, {A', G', H'}, {G', H'}.
+ 
+    To determine the CAPTURE buffer containing the first decoded frame after the
+    seek, the client may observe the timestamps to match the CAPTURE and OUTPUT
+diff --git a/Documentation/userspace-api/media/v4l/diff-v4l.rst b/Documentation/userspace-api/media/v4l/diff-v4l.rst
+index 33243ecb5033..9ce60e625974 100644
+--- a/Documentation/userspace-api/media/v4l/diff-v4l.rst
++++ b/Documentation/userspace-api/media/v4l/diff-v4l.rst
+@@ -447,7 +447,7 @@ name ``V4L2_FBUF_FLAG_CHROMAKEY``.
+ 
+ In V4L, storing a bitmap pointer in ``clips`` and setting ``clipcount``
+ to ``VIDEO_CLIP_BITMAP`` (-1) requests bitmap clipping, using a fixed
+-size bitmap of 1024 × 625 bits. Struct :c:type:`v4l2_window`
++size bitmap of 1024 x 625 bits. Struct :c:type:`v4l2_window`
+ has a separate ``bitmap`` pointer field for this purpose and the bitmap
+ size is determined by ``w.width`` and ``w.height``.
+ 
+diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
+index 18bfb9b8137d..b015bbbdf8b5 100644
+--- a/Documentation/userspace-api/media/v4l/open.rst
++++ b/Documentation/userspace-api/media/v4l/open.rst
+@@ -100,7 +100,7 @@ Where ``X`` is a non-negative integer.
+ 	$ tree /dev/v4l
+ 	/dev/v4l
+ 	├── by-id
+-	│   └── usb-OmniVision._USB_Camera-B4.04.27.1-video-index0 -> ../../video0
++	│   └── usb-OmniVision._USB_Camera-B4.04.27.1-video-index0 -> ../../video0
+ 	└── by-path
+ 	    └── pci-0000:00:14.0-usb-0:2:1.0-video-index0 -> ../../video0
+ 
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst b/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst
+index 551ac9d3c6ef..4ea652e66401 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst
+@@ -69,8 +69,8 @@ overlay devices.
+     * - struct :ref:`v4l2_rect <v4l2-rect-crop>`
+       - ``defrect``
+       - Default cropping rectangle, it shall cover the "whole picture".
+-	Assuming pixel aspect 1/1 this could be for example a 640 × 480
+-	rectangle for NTSC, a 768 × 576 rectangle for PAL and SECAM
++	Assuming pixel aspect 1/1 this could be for example a 640 x 480
++	rectangle for NTSC, a 768 x 576 rectangle for PAL and SECAM
+ 	centered over the active picture area. The same co-ordinate system
+ 	as for ``bounds`` is used.
+     * - struct :c:type:`v4l2_fract`
 -- 
 2.30.2
 
