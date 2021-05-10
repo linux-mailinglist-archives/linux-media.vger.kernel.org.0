@@ -2,115 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25E6937905C
-	for <lists+linux-media@lfdr.de>; Mon, 10 May 2021 16:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2AC8379079
+	for <lists+linux-media@lfdr.de>; Mon, 10 May 2021 16:19:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233137AbhEJOMA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 May 2021 10:12:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58796 "EHLO
+        id S232983AbhEJOUP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 May 2021 10:20:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348692AbhEJOJ6 (ORCPT
+        with ESMTP id S230300AbhEJOR4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 May 2021 10:09:58 -0400
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE2BC061364
-        for <linux-media@vger.kernel.org>; Mon, 10 May 2021 06:50:34 -0700 (PDT)
-Received: by mail-qk1-x735.google.com with SMTP id c20so4342563qkm.3
-        for <linux-media@vger.kernel.org>; Mon, 10 May 2021 06:50:34 -0700 (PDT)
+        Mon, 10 May 2021 10:17:56 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A2DC06137A
+        for <linux-media@vger.kernel.org>; Mon, 10 May 2021 06:54:48 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id l4so24637469ejc.10
+        for <linux-media@vger.kernel.org>; Mon, 10 May 2021 06:54:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=+2U891pcT5PFaAL7+dZJNGYBFLIb+qctBvykRURXgBY=;
-        b=dACYFzmZp5FCubbaz661EkjXMEr4yIw8M3uTK3Kyf9WGXPYwdZw+Te0aQwLTIgwwC2
-         IcIyUfISzla30F1Y5z5YNyfFMSuvpPToFEKyFwyWyzNO8J90FAq4FSLctkLmbUnqXieu
-         lMQ7sIa6zzDWNW+3ZAA/Ywi2wnST8RvZfOXC1jXTR/nDU/u1OUAIwV5METsf0kVOPHrk
-         PIuKStNqOQCBo7BK5+duLO5e2wBIi32E+Rgu2kNOG2SYryYXUN5IAmaJPspud5x7d6Vf
-         5XGHOc/1cpdW83EDoXATbw25gMJUpTl30B68jCIFcCNIzm8fMivAz/aG2nH3kKyIFqz2
-         KzIA==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=N/tsR4FPpi1SMa4JphRzoqbRD642hzPRhRehPxfLE8I=;
+        b=FPrJVgd7V/a2zz2Q0otP08sQFNf/w1p+kVWgnWsOnyKsYCck2v8rIeWPnFO2FuYhuI
+         bE2RHp92aBVZ6n4NZ4rz7Kg1aiRJQf2/EXF+OlgXmVhxhlDFQeVASC/NuoaNhQqd4y6K
+         eEZ8IpC6c0yXpubstKGcroxL6vZ6Vvg8920GalWCq/BAbUgMSK848W/e0xXI2u/FF2Wc
+         vANQekUzQlLLjYdwyGc9ID0Y9UiqrbpgiS4rGltEP4GlJtAZjO6YoErvirmwVdb5eScx
+         M4rjJzY1C/75EVAd9XX9gBT+1w5poDKuWYut+ufz8O3zndjtkL57z4F9xiAxX410Kq4V
+         bYmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+2U891pcT5PFaAL7+dZJNGYBFLIb+qctBvykRURXgBY=;
-        b=bIp+6ouyqIONtJr+wsmAuM69ZMazVZXhRjnTLzJvW3BG0AP/BcQfXfq+9tWf51p0BC
-         WgjPD5dPS6nxXD0ov9AlUjH3HewC7oO1X8qi9lIlgqKk49bl2f5gyZKiDzn6NTEu0qYP
-         7+e9Rqnd3/28EKqWWRhQwj5UPpJ/XYFGnmJvkidTKFilf0LnJfbHC/oz3e7jWrHHL1ru
-         z+sRCm6dlsxISvrekH9BUVdtQtB+91jWCFtCJBGoqGVNuLR30lXuguwfCe6Uctm/aByB
-         RGr9FghMP7raBj//MOTz2rHd+0z3GfLxgKmEjFgvI3jhuUDq52wNzRI+gYjNImC69TqB
-         k29Q==
-X-Gm-Message-State: AOAM530VU8Nr74fAkG41ABgiDmMAi7dKqC352+tOazPiQz5IHkKZcR9m
-        JamAO3gWM29dcJPXNukHEaYhUA==
-X-Google-Smtp-Source: ABdhPJzBvEXIq3ZKj83MNPLUEszsweYjMFeVQA7SyU/yis3HOqTzVmEhu9DH0fP04ViEgC4gr5a3yA==
-X-Received: by 2002:a05:620a:4543:: with SMTP id u3mr22610464qkp.118.1620654633736;
-        Mon, 10 May 2021 06:50:33 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-47-55-113-94.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.113.94])
-        by smtp.gmail.com with ESMTPSA id e7sm11644631qth.27.2021.05.10.06.50.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 06:50:32 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1lg6Ip-004ZFk-QY; Mon, 10 May 2021 10:50:31 -0300
-Date:   Mon, 10 May 2021 10:50:31 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=N/tsR4FPpi1SMa4JphRzoqbRD642hzPRhRehPxfLE8I=;
+        b=c4dwhYqxparwdT6qr0VkuJjsMhwI8qt++ipgimSC8yhHZx6epk221+I4sLCtjE/eco
+         BJqZGlCQ44RIVRPuiml8+pFYVzHp2plqZ3/kyqH3veP9IvE2PieLenjyXNMg4cK512Kl
+         Fic8XZ0d/Ho5oHOJMkJccL2xHRPhg5/W83PuorX1jMnpuzOw643+m8CuZfm64RstbT1o
+         VtTXUEYb5hdrkHv6BVmhovi8ndVE6mKryIoLq0WFW4PgL9/+rsZoY5BBCjPskQe7RiWr
+         KZrD/hQuAOrde74RnoZkMlOcDwK/Xy98pjl6zZRlzreQcMB8ea7blVu3YA/WeLPj7OdX
+         2GnA==
+X-Gm-Message-State: AOAM531mk6I1tjZOrtqTk8r/BpQBztUwJpVWGE/eUcp174JqCaj9P020
+        Tta3PGwZ0qLJ2UUJs8GwIsvxmL1fPdrgwA==
+X-Google-Smtp-Source: ABdhPJx4OsN4bcqkQbOKWXhTyPn2+tTamYNiif8kVzvyu0hItzjNmFGr6lyBRCAfCvz2Y20of3O3mQ==
+X-Received: by 2002:a17:906:4809:: with SMTP id w9mr22916796ejq.401.1620654887266;
+        Mon, 10 May 2021 06:54:47 -0700 (PDT)
+Received: from [192.168.1.14] ([195.24.90.54])
+        by smtp.googlemail.com with ESMTPSA id v14sm11444780edx.5.2021.05.10.06.54.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 May 2021 06:54:46 -0700 (PDT)
+Subject: Re: [PATCH v5 13/25] media: venus: core: use
+ pm_runtime_resume_and_get()
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-samsung-soc@vger.kernel.org
-Subject: Re: [PULL] topic/iomem-mmap-vs-gup
-Message-ID: <20210510135031.GF2047089@ziepe.ca>
-References: <YJBHiRiCGzojk25U@phenom.ffwll.local>
- <CAHk-=wiwgOPQ+4Eaf0GD5P_GveE6vUHsKxAT=pMsjk1v_kh4ig@mail.gmail.com>
- <YJVijmznt1xnsCxc@phenom.ffwll.local>
- <CAHk-=wgjO8-f1bUwQB=5HGzkvSS+aGACR9+H5CkkDhRgud+3MA@mail.gmail.com>
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <cover.1620314616.git.mchehab+huawei@kernel.org>
+ <492e148ae1c7b0a8858c1670037925d3e4adb719.1620314616.git.mchehab+huawei@kernel.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <adb102ab-c197-fdc8-4858-5683bd97baf4@linaro.org>
+Date:   Mon, 10 May 2021 16:54:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgjO8-f1bUwQB=5HGzkvSS+aGACR9+H5CkkDhRgud+3MA@mail.gmail.com>
+In-Reply-To: <492e148ae1c7b0a8858c1670037925d3e4adb719.1620314616.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, May 08, 2021 at 09:46:41AM -0700, Linus Torvalds wrote:
 
-> I think follow_pfn() is ok for the actual "this is not a 'struct page'
-> backed area", and disabling that case is wrong even going forward.
 
-Every place we've audited using follow_pfn() has been shown to have
-some use-after-free bugs like Daniel describes, and a failure to check
-permissions bug too.
+On 5/6/21 6:25 PM, Mauro Carvalho Chehab wrote:
+> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+> added pm_runtime_resume_and_get() in order to automatically handle
+> dev->power.usage_count decrement on errors.
+> 
+> Use the new API, in order to cleanup the error check logic.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/media/platform/qcom/venus/pm_helpers.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-All the other follow_pfn() users were moved to follow_pte() to fix the
-permissions check and this shifts the use-after-free bug away from
-being inside an MM API and into the caller mis-using the API by, say,
-extracting and using the PFN outside the pte lock.
+Tested-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 
-eg look at how VFIO wrongly uses follow_pte():
+> 
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index c7e1ebec47ee..d0fddf5e9a69 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -990,9 +990,8 @@ static int core_power_v4(struct venus_core *core, int on)
+>  
+>  	if (on == POWER_ON) {
+>  		if (pmctrl) {
+> -			ret = pm_runtime_get_sync(pmctrl);
+> +			ret = pm_runtime_resume_and_get(pmctrl);
+>  			if (ret < 0) {
+> -				pm_runtime_put_noidle(pmctrl);
+>  				return ret;
+>  			}
+>  		}
+> 
 
-static int follow_fault_pfn()
-        ret = follow_pte(vma->vm_mm, vaddr, &ptep, &ptl);
-                *pfn = pte_pfn(*ptep);
-        pte_unmap_unlock(ptep, ptl);
-
-        // no protection that pte_pfn() is still valid!
-        use_pfn(*pfn)
-
-v4l is the only user that still has the missing permissions check
-security bug too - so there is no outcome that should keep
-follow_pfn() in the tree.
-
-At worst v4l should change to follow_pte() and use it wrongly like
-VFIO. At best we should delete all the v4l stuff.
-
-Daniel I suppose we missed this relation to follow_pte(), so I agree
-that keeping a unsafe_follow_pfn() around is not good.
-
-Regards,
-Jason
+-- 
+regards,
+Stan
