@@ -2,132 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D9303798B5
-	for <lists+linux-media@lfdr.de>; Mon, 10 May 2021 23:02:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D7D3379A33
+	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 00:36:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231374AbhEJVDv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 May 2021 17:03:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39550 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231193AbhEJVDu (ORCPT
+        id S231376AbhEJWha (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 May 2021 18:37:30 -0400
+Received: from tartarus.angband.pl ([51.83.246.204]:34704 "EHLO
+        tartarus.angband.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230271AbhEJWh2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 May 2021 17:03:50 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEE96C061574;
-        Mon, 10 May 2021 14:02:44 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id d25-20020a0568300459b02902f886f7dd43so2262801otc.6;
-        Mon, 10 May 2021 14:02:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3cBBZkePd5gfKATN60V4QwGBhUGNtLUNcw+1xoOiiZs=;
-        b=S2lsNjatPX3UKOV5pkxnIgd2tRdEDE1F/mJYBW1mBH0XTLW23kTgYMfvEuqFgWgCcG
-         GpeN7skQ8HRDLyzonMznUF4k4KFu9cRWv9zQBbCtBdxybb7lS7+cyIM8ceLQvVpqebto
-         Ta+XIA3rtvSzNn4QMP/U5sGbl11s41Entls7NMUUyS7wgK8ENv7EKgBBvrS2SLGEeu/q
-         d1IQpmZRoZCDXEKRI0odbDo0kwhcdmT8MQOmT+KdCYBwpXFOZgoUV4JgLhmcnri/7V1S
-         Spb/pP0HPKxZnPu9b/Ufuha9NG2NpU2UJiquIBsEYYnlWwNWoBWkSs0Wbz2Mx2SUicRq
-         3rdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3cBBZkePd5gfKATN60V4QwGBhUGNtLUNcw+1xoOiiZs=;
-        b=fi9BjZjl/jtrlaMzz5n9jkJsTfAUfLmbn0nEQ05awh0fwXS/qxudJo8z2jYqs9XZAH
-         Jg9aUM+Q/szIJkPAy7Q3rwp8nYBDvXq0PI7EnX8o/iObDZCnJHVnuGVUN28behUE3au8
-         a5SBIv2orWxXPokt50Yg/SsLC9LKjubnRZ9QjaYqv3OQL+Cyg/5aR1XG8PGfhUsvGGLD
-         f10ggyC99JdcC9KtGX5IcgLqKnyMe6o465GT4rc+rYXWvOGdx5pPT/lSDaJNWRM55k3H
-         9BTr0fvHsVnBiS6s7DrwUjLbLbB0MD07UZTqzio3GMu1zCJnBUZmebOZcP+Lq02euB1+
-         Yuhg==
-X-Gm-Message-State: AOAM531RN8pgElKcC4s7QuTf1TtNZLeAtyt18K0w4oZ/BdUt0zVCI5IY
-        8OL+Mszo3Oo+obpqy+2REcw4G9pFnbkLuwCuz2g=
-X-Google-Smtp-Source: ABdhPJw7DyKD1Lyyq9S41EMv+Yyu/ErA9AViQoXtkzjglGNF7HKdlfnp86mEla//UDe5eTZlAP0X/kMW5Kco3byONpk=
-X-Received: by 2002:a9d:51c6:: with SMTP id d6mr16637610oth.311.1620680564170;
- Mon, 10 May 2021 14:02:44 -0700 (PDT)
+        Mon, 10 May 2021 18:37:28 -0400
+X-Greylist: delayed 1784 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 May 2021 18:37:20 EDT
+Received: from kilobyte by tartarus.angband.pl with local (Exim 4.94.2)
+        (envelope-from <kilobyte@angband.pl>)
+        id 1lgDtp-00EKjz-Lm; Mon, 10 May 2021 23:57:13 +0200
+Date:   Mon, 10 May 2021 23:57:13 +0200
+From:   Adam Borowski <kilobyte@angband.pl>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
+        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
+        rcu@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
+Message-ID: <YJmsOYzPIsQ04Zxb@angband.pl>
+References: <cover.1620641727.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <20210509144923.6316-1-dwaipayanray1@gmail.com> <2c5387b7-2fa1-9b5a-c671-806429b463aa@amd.com>
-In-Reply-To: <2c5387b7-2fa1-9b5a-c671-806429b463aa@amd.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Mon, 10 May 2021 17:02:32 -0400
-Message-ID: <CADnq5_NXXD1K6kb0Jr8P5DPGcHRMo0jQTC+y2n4-4sfZY12pyA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/amdgpu: Fix errors in function documentation
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        "Deucher, Alexander" <alexander.deucher@amd.com>,
-        Dave Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1620641727.git.mchehab+huawei@kernel.org>
+X-Junkbait: aaron@angband.pl, zzyx@angband.pl
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: kilobyte@angband.pl
+X-SA-Exim-Scanned: No (on tartarus.angband.pl); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Applied.  Thanks!
+On Mon, May 10, 2021 at 12:26:12PM +0200, Mauro Carvalho Chehab wrote:
+> There are several UTF-8 characters at the Kernel's documentation.
+[...]
+> Other UTF-8 characters were added along the time, but they're easily
+> replaceable by ASCII chars.
+> 
+> As Linux developers are all around the globe, and not everybody has UTF-8
+> as their default charset
 
-Alex
+I'm not aware of a distribution that still allows selecting a non-UTF-8
+charset in a normal flow in their installer.  And if they haven't purged
+support for ancient encodings, that support is thoroughly bitrotten.
+Thus, I disagree that this is a legitimate concern.
 
-On Sun, May 9, 2021 at 12:30 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 09.05.21 um 16:49 schrieb Dwaipayan Ray:
-> > Fix a couple of syntax errors and removed one excess
-> > parameter in the function documentations which lead
-> > to kernel docs build warning.
-> >
-> > Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 3 +++
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c  | 1 -
-> >   2 files changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_ras.c
-> > index ae9fb2025259..312f24004413 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > @@ -320,11 +320,14 @@ static int amdgpu_ras_debugfs_ctrl_parse_data(str=
-uct file *f,
-> >    * "disable" requires only the block.
-> >    * "enable" requires the block and error type.
-> >    * "inject" requires the block, error type, address, and value.
-> > + *
-> >    * The block is one of: umc, sdma, gfx, etc.
-> >    *  see ras_block_string[] for details
-> > + *
-> >    * The error type is one of: ue, ce, where,
-> >    *  ue is multi-uncorrectable
-> >    *  ce is single-correctable
-> > + *
-> >    * The sub-block is a the sub-block index, pass 0 if there is no sub-=
-block.
-> >    * The address and value are hexadecimal numbers, leading 0x is optio=
-nal.
-> >    *
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_vm.c
-> > index 16252d48e5a4..7e1a67295106 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> > @@ -2796,7 +2796,6 @@ long amdgpu_vm_wait_idle(struct amdgpu_vm *vm, lo=
-ng timeout)
-> >    *
-> >    * @adev: amdgpu_device pointer
-> >    * @vm: requested vm
-> > - * @vm_context: Indicates if it GFX or Compute context
-> >    * @pasid: Process address space identifier
-> >    *
-> >    * Init @vm fields.
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+What _could_ be a legitimate reason is that someone is on a _terminal_
+that can't display a wide enough set of glyphs.  Such terminals are:
+ • Linux console (because of vgacon limitations; patchsets to improve
+   other cons haven't been mainlined)
+ • some Windows terminals (putty, old Windows console) that can't borrow
+   glyphs from other fonts like fontconfig can
+
+For the former, it's whatever your distribution ships in
+/usr/share/consolefonts/ or an equivalent, which is based on historic
+ISO-8859 and VT100 traditions.
+
+For the latter, the near-guaranteed character set is WGL4.
+
+
+Thus, at least two of your choices seem to disagree with the above:
+[dropped]
+> 	0xd7   => 'x',		# MULTIPLICATION SIGN
+[retained]
+> 	- U+2b0d ('⬍'): UP DOWN BLACK ARROW
+
+× is present in ISO-8859, V100, WGL4; I've found no font in
+/usr/share/consolefonts/ on my Debian unstable box that lacks this
+character.
+
+⬍ is not found in any of the above.  You might want to at least
+convert it to ↕ which is at least present in WGL4, and thus likely
+to be supported in fonts heeding Windows/Mac/OpenType recommendations.
+That still won't make it work on VT.
+
+
+Meow!
+-- 
+⢀⣴⠾⠻⢶⣦⠀ .--[ Makefile ]
+⣾⠁⢠⠒⠀⣿⡁ # beware of races
+⢿⡄⠘⠷⠚⠋⠀ all: pillage burn
+⠈⠳⣄⠀⠀⠀⠀ `----
