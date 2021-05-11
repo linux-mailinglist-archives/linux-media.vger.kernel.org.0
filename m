@@ -2,66 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EC8F37A616
-	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 13:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0D5437A6FC
+	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 14:44:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231245AbhEKLyC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 May 2021 07:54:02 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2485 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229892AbhEKLyC (ORCPT
+        id S231586AbhEKMp5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 May 2021 08:45:57 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:35982 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230315AbhEKMp4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 May 2021 07:54:02 -0400
-Received: from dggeml716-chm.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FfbpB3z0vzYdZD;
-        Tue, 11 May 2021 19:50:26 +0800 (CST)
-Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
- dggeml716-chm.china.huawei.com (10.3.17.127) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 11 May 2021 19:52:53 +0800
-Received: from huawei.com (10.175.103.91) by dggpeml500017.china.huawei.com
- (7.185.36.243) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Tue, 11 May
- 2021 19:52:53 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
-CC:     <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH -next] media: saa7134: Remove unnecessary INIT_LIST_HEAD()
-Date:   Tue, 11 May 2021 19:55:24 +0800
-Message-ID: <20210511115524.3809939-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 11 May 2021 08:45:56 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 14BCifrQ033227;
+        Tue, 11 May 2021 07:44:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1620737081;
+        bh=rnLxLj7u+SRLP5C+EjI1XluTvjiwwG/phu5Ue2Vyc5o=;
+        h=From:To:CC:Subject:Date;
+        b=WkEK4G8UxDxAtcIk6gW/8aa83MBphi8eovNJOxd/BmA0yF0TP+HSlUoVCHE+FofTu
+         b62t2BTWAr9KMCBz9kI61bXVoYBtog5CMUIZe5vgWwmoZZE+9aRsGvFpNkK7/PNw1z
+         FQoBZekF+mCmxwkaT5VjoxbSezLL1gaAjWw1tdK4=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 14BCifir115752
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 11 May 2021 07:44:41 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 11
+ May 2021 07:44:40 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Tue, 11 May 2021 07:44:40 -0500
+Received: from pratyush-OptiPlex-790.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 14BCicYt110487;
+        Tue, 11 May 2021 07:44:38 -0500
+From:   Pratyush Yadav <p.yadav@ti.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     Pratyush Yadav <p.yadav@ti.com>
+Subject: [PATCH] media: i2c: ov5648: Plug runtime pm counter leak
+Date:   Tue, 11 May 2021 18:14:37 +0530
+Message-ID: <20210511124437.9930-1-p.yadav@ti.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500017.china.huawei.com (7.185.36.243)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The list_head saa7134_devlist is initialized statically.
-It is unnecessary to initialize by INIT_LIST_HEAD().
+When the stream is being enabled, the runtime pm usage counter is
+incremented. Then if ov5648_sw_standby() fails, the function returns
+error without decrementing the counter, leaking it.
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
 ---
- drivers/media/pci/saa7134/saa7134-core.c | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/pci/saa7134/saa7134-core.c b/drivers/media/pci/saa7134/saa7134-core.c
-index efb757d5168a..ec8dd41f9ebb 100644
---- a/drivers/media/pci/saa7134/saa7134-core.c
-+++ b/drivers/media/pci/saa7134/saa7134-core.c
-@@ -1524,7 +1524,6 @@ static struct pci_driver saa7134_pci_driver = {
- 
- static int __init saa7134_init(void)
- {
--	INIT_LIST_HEAD(&saa7134_devlist);
- 	pr_info("saa7130/34: v4l2 driver version %s loaded\n",
- 	       SAA7134_VERSION);
- 	return pci_register_driver(&saa7134_pci_driver);
--- 
-2.25.1
+Hi,
+
+I spotted this when converting OV5640 driver to use runtime PM using
+this driver as reference. I only have a very surface level understanding
+of runtime PM system as of now so please review with that in mind.
+
+This patch is only compile-tested since I don't have the hardware with
+me.
+
+ drivers/media/i2c/ov5648.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+index 3ecb4a3e8773..6aa2c950f505 100644
+--- a/drivers/media/i2c/ov5648.c
++++ b/drivers/media/i2c/ov5648.c
+@@ -2143,8 +2143,12 @@ static int ov5648_s_stream(struct v4l2_subdev *subdev, int enable)
+ 	ret = ov5648_sw_standby(sensor, !enable);
+ 	mutex_unlock(&sensor->mutex);
+
+-	if (ret)
++	if (ret) {
++		if (enable)
++			pm_runtime_put(sensor->dev);
++
+ 		return ret;
++	}
+
+ 	state->streaming = !!enable;
+
+--
+2.30.0
 
