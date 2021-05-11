@@ -2,157 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96132379DD6
-	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 05:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60BB3379E0A
+	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 06:09:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230096AbhEKDdz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 May 2021 23:33:55 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:38373 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229920AbhEKDdw (ORCPT
+        id S229586AbhEKEKi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 May 2021 00:10:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50178 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229456AbhEKEKh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 May 2021 23:33:52 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id gJ8Pl5UeGWztCgJ8WlbJZU; Tue, 11 May 2021 05:32:45 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1620703965; bh=OLHESRuqkqDC/TChDdOseP0xbtN6Y/j7hL5vpOY48GA=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Lowy0CBIsNWicHU93P84hx219P5DWd8iapr/OaOByWgUYH/SkT4nzclz6TmdbZqLQ
-         2n6I2ZFTkDXHtKC1C3th/LpL+OB8QQD9ZYbIZbplVE0GCeeme7q1SNsjbxKJcqVigs
-         y0BtDc6vRCJ6jt7IcjlIrmRwntpFKRCGN4RQ+r6bbWjJKZoSeZIU601CbfDt1AUuRx
-         abzj7yw3gis7rEkXEIZEQikQ00/Q1CTTbFhMeM2sYyUbLL9N7FjgpAzyovUPiBNdxC
-         vEyAyjlDOm0BQ2wCrKxLKa9SMU9lumthW/gvY5OLhmDVyGIs6HNJP5LnQEc+hl+8oW
-         ty9OkK7QBQ3iA==
-Message-ID: <dd73e7213fd336f004587daeaa13b8c0@smtp-cloud9.xs4all.net>
-Date:   Tue, 11 May 2021 05:32:37 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfJEC+QPL2ztl62RpQL5g06MZdAcCMF8ElyIbsn8EkoGNq8exZ2QIU/PlKe4x0KcLGoQOE0ZIoYloUPFo4H1Zjhn3PI0x9vAbZBSwxTXzc2K/NzQfZvRs
- eHD4kibLTneIbzav197P1ttDGZ4aPSRpkhgnLIPXuPCHwnTrNSoq/aTo5uvYiZldnJzZFg+UorFIXN6AHRbE0zYJexZ3eHwRz5IIlxZcZhEkL/jEqPOqImGu
- fY5uLfiv3r2oWrPm/ehrRw==
+        Tue, 11 May 2021 00:10:37 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3244C061574;
+        Mon, 10 May 2021 21:09:30 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id b14-20020a17090a6e0eb0290155c7f6a356so687691pjk.0;
+        Mon, 10 May 2021 21:09:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=V5cc8gqWmhgI8hymJnMxwJpjQF8i+VU2pCJJ8axwstk=;
+        b=dXYTVILtW0smoS+ZCCp5EKDoSxqxtkmkBGghPetrKwjOh7CMyDUtvatt+o49mlEC+p
+         VCC5qxBMsKrHzec9wcE7cP/ZtBa5s1n5ezpdPDXEX+52xnqqeFma9lOeCczZr4fnozhc
+         o2EAGXFhRjzQpTKXGjRiR/oMXUoyBeesKN2rr+QyW7VYX9SUiUEWcdLXHrgA7C+GDWkE
+         lL8on+iYUS4iGpa3tiXuPqqBnpl517Y83MhhrWrS9SYU3R1DFFMcZumQ4HxmiGOdVTkk
+         Sp9q5PoLoL/CS4wmXnjWPNkzHMIEMB1ItjXny6mpsrlRUyKLrq023pTah9W8ehYDxkQZ
+         8HUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=V5cc8gqWmhgI8hymJnMxwJpjQF8i+VU2pCJJ8axwstk=;
+        b=rFGqJ2BxLgyjhydRlLyyMXpyRkSPSziPcypBP4NTLH5Mx+ls61m8OKe19l6EynonQy
+         vw0DfeoSAe1Uj4nxzczgXnmjggM74wi4D8gMU8iyBkb/Y9O3Fn/ImRIw/9kiElawmuxQ
+         UL8C7S9BQdIdLbCvD6/59BzC7HQD7ArwgbZ1CYx+R+kUD+w9bI5kIIFlJYumz3Ym/D4J
+         2benIxvWzgH3rymzqgzcCmR+ViSXFeY2fh14rrBg+zz/VTvYHuoTD5A1kGFAq98uOGPT
+         A8p8t0glRg4iCXqaJm5V7N882CpFGmgl3opNsPR19NJiXwB2KgRruRlsz50GmpY5mteH
+         g1+w==
+X-Gm-Message-State: AOAM532Yot9ZWWZDZS5Uh9zTymWb9kOk+Fo+KUw7hPyJBGuwuMDXEOPB
+        u3Pv/gp/fo/s1ulotRJagYM=
+X-Google-Smtp-Source: ABdhPJx92pj68s8jJWnq2LdkDNdYrQb2lFiDBdLcfgK3rBeuv9O5qgLHeqYSp905RMzgPA5h8BA2SQ==
+X-Received: by 2002:a17:90a:488a:: with SMTP id b10mr31428392pjh.2.1620706170503;
+        Mon, 10 May 2021 21:09:30 -0700 (PDT)
+Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
+        by smtp.gmail.com with ESMTPSA id g18sm12531352pfb.178.2021.05.10.21.09.27
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 May 2021 21:09:30 -0700 (PDT)
+From:   dillon.minfei@gmail.com
+To:     mchehab+huawei@kernel.org, hverkuil-cisco@xs4all.nl,
+        a.hajda@samsung.com
+Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Dillon Min <dillon.minfei@gmail.com>
+Subject: [PATCH] media: s5p-g2d: Fix a memory leak on ctx->fh.m2m_ctx
+Date:   Tue, 11 May 2021 12:09:24 +0800
+Message-Id: <1620706164-28856-1-git-send-email-dillon.minfei@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Dillon Min <dillon.minfei@gmail.com>
 
-Results of the daily build of media_tree:
+The m2m_ctx resources was allocated by v4l2_m2m_ctx_init() in g2d_open()
+should be freed from g2d_release() when it's not used.
 
-date:			Tue May 11 05:00:13 CEST 2021
-media-tree git hash:	73edc4da40635774100d0eb9ca2e6476e3b2b470
-media_build git hash:	1521b23ea5307bef1ee17489c5323f00891dd52b
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7413-g9bb66fa2d
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Fix it
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: WARNINGS
-linux-git-arm64: WARNINGS
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: ERRORS
-linux-4.4.258-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.258-i686: ERRORS
-linux-4.9.258-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.222-i686: ERRORS
-linux-4.14.222-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.177-i686: ERRORS
-linux-4.19.177-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.100-i686: ERRORS
-linux-5.4.100-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.13-i686: ERRORS
-linux-5.8.13-x86_64: ERRORS
-linux-5.9.1-i686: ERRORS
-linux-5.9.1-x86_64: ERRORS
-linux-5.10.18-i686: ERRORS
-linux-5.10.18-x86_64: ERRORS
-linux-5.11.1-i686: ERRORS
-linux-5.11.1-x86_64: ERRORS
-linux-5.12.1-i686: ERRORS
-linux-5.12.1-x86_64: ERRORS
-linux-5.13-rc1-i686: ERRORS
-linux-5.13-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Fixes: 918847341af0 ("[media] v4l: add G2D driver for s5p device family")
+Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+---
+ drivers/media/platform/s5p-g2d/g2d.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Detailed results are available here:
+diff --git a/drivers/media/platform/s5p-g2d/g2d.c b/drivers/media/platform/s5p-g2d/g2d.c
+index 15bcb7f6e113..0818fdd3e984 100644
+--- a/drivers/media/platform/s5p-g2d/g2d.c
++++ b/drivers/media/platform/s5p-g2d/g2d.c
+@@ -279,6 +279,9 @@ static int g2d_release(struct file *file)
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+ 	v4l2_fh_del(&ctx->fh);
+ 	v4l2_fh_exit(&ctx->fh);
++	mutex_lock(&dev->mutex);
++	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
++	mutex_unlock(&dev->mutex);
+ 	kfree(ctx);
+ 	v4l2_info(&dev->v4l2_dev, "instance closed\n");
+ 	return 0;
+-- 
+2.7.4
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
