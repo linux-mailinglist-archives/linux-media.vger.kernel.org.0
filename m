@@ -2,190 +2,302 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B329237A73A
-	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 14:58:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78FE237A90A
+	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 16:23:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231384AbhEKM7e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 May 2021 08:59:34 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:36413 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231324AbhEKM7d (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 May 2021 08:59:33 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620737907; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=lYaVpUKqUhk7AZILQOBcBVn1o1hxlbG/qfA0IIbmC/o=;
- b=t8oFDPDYmxV5mgZ0qSlIx1rhh12IDy2BtUvsB8CcFJZjTEvdoyWSI9LV9G8qsXEwSigFG5n5
- l7jIr7tkA7/dT3GBuLoMCqhTWadbe1zP4XNNLUkxSHB5pv6S7oLgRzM01Bl/OakS+TFnlTiU
- wkcqfa/GklgkYJWHcxKNNfc0PJw=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 609a7f6de0211609c436956e (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 11 May 2021 12:58:21
- GMT
-Sender: rojay=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 2C3D6C43145; Tue, 11 May 2021 12:58:21 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: rojay)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0EE92C4338A;
-        Tue, 11 May 2021 12:58:19 +0000 (UTC)
+        id S231710AbhEKOYz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 May 2021 10:24:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231154AbhEKOYy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 May 2021 10:24:54 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EFCDC06175F
+        for <linux-media@vger.kernel.org>; Tue, 11 May 2021 07:23:48 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id f1so862430edt.4
+        for <linux-media@vger.kernel.org>; Tue, 11 May 2021 07:23:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Br8rMX5HFxDRkh9ZQ3wOwD7w/n9WgFZfbCjeKHedFic=;
+        b=F/yK3VMsNrQ9uRK+zK0uvVo09atNln8Pg6B/yMAjawvRyCz0GXT3c1ObjYFC5pwL4E
+         CjR5EKMW3JX/U4+RPdpRbknd5AFDz+2cySorzXzlfDxe3Pl8pCZoDwDLd+qyWXxdt3kT
+         GopJlW7OnIJDhWv662lQGvPuctkuZkghWO/oouxmysx9HUA1P8rIYeNRxhDlkzYyC/pW
+         2vCAMeuEsyReoSJ/9BoEvAVvcxwL1M4oG1O4RTqM9HHVT1a+UAT6nSgr1nIfuu1x3+24
+         88IUgrqu9ozVqLiQ+xFEbUJq8nB24LRCiNmgPz3hX8vIgj9CAy9iy7gFUKUTcBc1bHps
+         OLng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Br8rMX5HFxDRkh9ZQ3wOwD7w/n9WgFZfbCjeKHedFic=;
+        b=mv/NqJ5mcn1gcuVS7nmPU/UtXUVFpmTjvGx4CLi6HoCOzzDz+J7Wt3TNgCq+NOhV2e
+         gOwoiMiJdiGujZ7mbBeziGZqunJFhDrz3OVuiXuLFIoeCRP4F4S1m5dcyPbKwMpdatxn
+         78kfopoJReqtxY63sk8gWWkhk/76PduHGfG6sOwKwjSo/V8Aw1zBgQDTvSlpqKNVTQOo
+         bCxObMfR2IuHG6Djkmmx4eDeiE9/ATRm+LLQ3fYp7ZA0tN5Rbn23+cKgqz8FqN7EsYGZ
+         bTrmQov23KNAzfZkWu2TN2kmTd+5RyOaNHIHsd826AfCkgHEjIU8wylqdXBWcK5IMirn
+         LQww==
+X-Gm-Message-State: AOAM533VSc4MnoVcGu7h78rxjZAeudt0vpAp5TNSQcN2Kv6fWoLJnU7d
+        I3JgAQtiFjF+acoAgJm6nh7F0YiHU5wAz1H05II=
+X-Google-Smtp-Source: ABdhPJw3QMO17Xc6fkoixF8k6OA9IQQZz7j/h65Uo4/I+kG0XIJ3DEl2gOMptIKZkzLjjP2i6E2wfQ==
+X-Received: by 2002:a05:6402:c7:: with SMTP id i7mr37569269edu.194.1620743027005;
+        Tue, 11 May 2021 07:23:47 -0700 (PDT)
+Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de. [84.172.85.33])
+        by smtp.googlemail.com with ESMTPSA id l11sm14303565eds.75.2021.05.11.07.23.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 May 2021 07:23:46 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2] media: dt-bindings: media: renesas,isp: Add bindings for ISP Channel Selector
+Date:   Tue, 11 May 2021 16:23:20 +0200
+Message-Id: <20210511142320.3463742-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 11 May 2021 18:28:19 +0530
-From:   rojay@codeaurora.org
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     wsa@kernel.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, skananth@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH V9] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-In-Reply-To: <CAE-0n51MEJ_+7QKpBKenjjB+rwdGN-=vxx=4oo8_-P=_yJe+jQ@mail.gmail.com>
-References: <d23263dcb0f1535275ff37524b0203b2@codeaurora.org>
- <CAE-0n51YQf=NZxnw9+FLU=PSG8di7Ztp5pP03JdLXgEWGM0AZg@mail.gmail.com>
- <CAE-0n51MEJ_+7QKpBKenjjB+rwdGN-=vxx=4oo8_-P=_yJe+jQ@mail.gmail.com>
-Message-ID: <84d603d86a74efeb78b78f5812d3921c@codeaurora.org>
-X-Sender: rojay@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2021-05-08 13:26, Stephen Boyd wrote:
-> Quoting Stephen Boyd (2021-05-07 13:09:21)
->> Quoting rojay@codeaurora.org (2021-05-07 03:07:42)
->> > On 2021-05-05 07:08, Stephen Boyd wrote:
->> > > Quoting Roja Rani Yarubandi (2021-04-20 04:13:55)
->> >
->> > > In fact, where is that code? I'd expect to see i2c_del_adapter() in
->> > > here
->> > > so we know the adapter can't accept transfers anymore. Maybe
->> > > i2c_del_adapter() could be called, and then there's nothing to do after
->> > > that? This whole patch is trying to rip the adapter out from under the
->> > > i2c core framework, when we should take the opposite approach and
->> > > remove
->> > > it from the core framework so that it can't transfer anything anymore
->> > > and thus the IOMMU can remove the mapping.
->> > >
->> >
->> > IIUC about probe/remove/shutdown calls, during "remove" we will unplug
->> > the
->> > device with opposite calls to "probe's" plug operations.
->> > For example i2c_add_adapter() from 'probe' and i2c_del_adapter() from
->> > 'remove'.
->> > For "shutdown", as system is going to shutdown, there is no need of
->> > unplug
->> > operations to be done.
->> >
->> > And also, I had a glance on other upstream i2c drivers, and noticed
->> > "i2c-i801.c"
->> > driver has i2c_del_adapter() called from remove callback but not from
->> > shutdown
->> > callback.
->> 
->> Sure, other drivers could also be broken.
-> 
-> What does it have in the shutdown callback? I see that it is wrong to
-> delete the adapter in shutdown because this problem happens. First
-> shutdown is called for various i2c clients, then shutdown is called for
-> the adapter. If the adapter shutdown calls i2c_del_adapter(), then
-> remove is called for the various i2c clients. The i2c clients aren't
-> expecting this and start doing double frees and stuff. It's really 
-> quite
-> a mess. I suspect i2c shutdown should probably block remove from being
-> called on it entirely. Either way, it's the wrong approach.
-> 
-> Instead, I think we should merely suspend the i2c bus like this. Then 
-> we
-> can hunt down the various drivers that try to access the bus after the
-> i2c bus has been removed. I've already done that for rt5682 (see the
-> patch link later).
-> 
+Add bindings for Renesas R-Car ISP Channel Selector IP. The ISP is
+responsible for filtering the MIPI CSI-2 bus and directing the different
+CSI-2 virtual channels to different R-Car VIN instances (DMA engines)
+for capture.
 
-Ok. I will proceed with the current approach only then
-(not calling i2c_del_adapter() in shutdown). I will post the
-patch with the other comments answered.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+* Changes since v1
+- Fix order of compatible value.
+- Use /schemas/graph.yaml#/properties/port instead of
+  /schemas/graph.yaml#/$defs/port-base for port@0.
+- Drop status in examples.
+---
+ .../bindings/media/renesas,isp.yaml           | 196 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 2 files changed, 197 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/renesas,isp.yaml
 
-> ----8<---
-> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c
-> b/drivers/i2c/busses/i2c-qcom-geni.c
-> index 20216e382b4c..af3ed808ba2e 100644
-> --- a/drivers/i2c/busses/i2c-qcom-geni.c
-> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
-> @@ -655,6 +655,14 @@ static int geni_i2c_remove(struct platform_device 
-> *pdev)
->  	return 0;
->  }
-> 
-> +static void geni_i2c_shutdown(struct platform_device *pdev)
-> +{
-> +	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
-> +
-> +	/* Make client i2c transfers start failing */
-> +	i2c_mark_adapter_suspended(&gi2c->adap);
-> +}
-> +
->  static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
->  {
->  	int ret;
-> @@ -719,6 +727,7 @@ MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
->  static struct platform_driver geni_i2c_driver = {
->  	.probe  = geni_i2c_probe,
->  	.remove = geni_i2c_remove,
-> +	.shutdown = geni_i2c_shutdown,
->  	.driver = {
->  		.name = "geni_i2c",
->  		.pm = &geni_i2c_pm_ops,
-> 
->> 
->> >
->> > And actually I tried calling i2c_del_adapter() from geni_i2c_shutdown(),
->> > and it resulted in below WARNING trace
->> > [   90.320282] Call trace:
->> > [   90.322807]  _regulator_put+0xc4/0xcc
->> > [   90.326583]  regulator_bulk_free+0x48/0x6c
->> > [   90.330808]  devm_regulator_bulk_release+0x20/0x2c
->> > [   90.335744]  release_nodes+0x1d0/0x244
->> > [   90.339609]  devres_release_all+0x3c/0x54
->> > [   90.343735]  device_release_driver_internal+0x108/0x194
->> > [   90.349109]  device_release_driver+0x24/0x30
->> > [   90.353510]  bus_remove_device+0xd0/0xf4
->> > [   90.357548]  device_del+0x1a8/0x2f8
->> > [   90.361143]  device_unregister+0x1c/0x34
->> > [   90.365181]  __unregister_client+0x78/0x88
->> > [   90.369397]  device_for_each_child+0x64/0xb4
->> > [   90.373797]  i2c_del_adapter+0xf0/0x1d4
->> > [   90.377745]  geni_i2c_shutdown+0x9c/0xc0
->> > [   90.381783]  platform_drv_shutdown+0x28/0x34
->> > [   90.386182]  device_shutdown+0x148/0x1f0
->> >
->> > Can you please suggest me what might be missing here?
->> >
->> 
->> It looks like some device that is on the i2c bus is putting a 
->> regulator
->> in the remove path without disabling it. Can you print out which 
->> device
->> driver it is and fix that driver to call regulator_disable() on the
->> driver remove path? I'll try locally and see if I can find the driver
->> too.
-> 
-> I see that it's the rt5682 driver. I sent
-> https://lore.kernel.org/r/20210508075151.1626903-2-swboyd@chromium.org
-> for this in case you want to look, but it won't be necessary.
+diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+new file mode 100644
+index 0000000000000000..514857d36f6b7d74
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+@@ -0,0 +1,196 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++# Copyright (C) 2021 Renesas Electronics Corp.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/renesas,isp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car ISP Channel Selector
++
++maintainers:
++  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
++
++description:
++  The R-Car ISP Channel Selector provides MIPI CSI-2 VC and DT filtering
++  capabilities for the Renesas R-Car family of devices. It is used in
++  conjunction with the R-Car VIN and CSI-2 modules, which provides the video
++  capture capabilities.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,r8a779a0-isp # V3U
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Input port node, multiple endpoints describing the connected R-Car
++          CSI-2 receivers.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Single endpoint describing the R-Car VIN connected to output port 0.
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Single endpoint describing the R-Car VIN connected to output port 1.
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Single endpoint describing the R-Car VIN connected to output port 2.
++
++      port@4:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Single endpoint describing the R-Car VIN connected to output port 3.
++
++      port@5:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Single endpoint describing the R-Car VIN connected to output port 4.
++
++      port@6:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Single endpoint describing the R-Car VIN connected to output port 5.
++
++      port@7:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Single endpoint describing the R-Car VIN connected to output port 6.
++
++      port@8:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Single endpoint describing the R-Car VIN connected to output port 7.
++
++    required:
++      - port@0
++      - port@1
++      - port@2
++      - port@3
++      - port@4
++      - port@5
++      - port@6
++      - port@7
++      - port@8
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - power-domains
++  - resets
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a779a0-sysc.h>
++
++    isp1: isp@fed20000 {
++            compatible = "renesas,r8a779a0-isp";
++            reg = <0xfed20000 0x10000>;
++            interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&cpg CPG_MOD 613>;
++            power-domains = <&sysc R8A779A0_PD_A3ISP01>;
++            resets = <&cpg 613>;
++
++            ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    port@0 {
++                            #address-cells = <1>;
++                            #size-cells = <0>;
++
++                            reg = <0>;
++                            isp1csi41: endpoint@1 {
++                                    reg = <1>;
++                                    remote-endpoint = <&csi41isp1>;
++                            };
++                    };
++
++                    port@1 {
++                            reg = <1>;
++                            isp1vin08: endpoint {
++                                    remote-endpoint = <&vin08isp1>;
++                            };
++                    };
++
++                    port@2 {
++                            reg = <2>;
++                            isp1vin09: endpoint {
++                                    remote-endpoint = <&vin09isp1>;
++                            };
++                    };
++
++                    port@3 {
++                            reg = <3>;
++                            isp1vin10: endpoint {
++                                    remote-endpoint = <&vin10isp1>;
++                            };
++                    };
++
++                    port@4 {
++                            reg = <4>;
++                            isp1vin11: endpoint {
++                                    remote-endpoint = <&vin11isp1>;
++                            };
++                    };
++
++                    port@5 {
++                            reg = <5>;
++                            isp1vin12: endpoint {
++                                    remote-endpoint = <&vin12isp1>;
++                            };
++                    };
++
++                    port@6 {
++                            reg = <6>;
++                            isp1vin13: endpoint {
++                                    remote-endpoint = <&vin13isp1>;
++                            };
++                    };
++
++                    port@7 {
++                            reg = <7>;
++                            isp1vin14: endpoint {
++                                    remote-endpoint = <&vin14isp1>;
++                            };
++                    };
++
++                    port@8 {
++                            reg = <8>;
++                            isp1vin15: endpoint {
++                                    remote-endpoint = <&vin15isp1>;
++                            };
++                    };
++            };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8d36a86863b25335..c35a9c93da84f4f7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11398,6 +11398,7 @@ L:	linux-renesas-soc@vger.kernel.org
+ S:	Supported
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
++F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
+ F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
+ F:	drivers/media/platform/rcar-vin/
+ 
+-- 
+2.31.1
+
