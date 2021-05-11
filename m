@@ -2,115 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 862B137A3DC
-	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 11:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C6D437A4A3
+	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 12:32:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231431AbhEKJik (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 May 2021 05:38:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52066 "EHLO mail.kernel.org"
+        id S231294AbhEKKd1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 May 2021 06:33:27 -0400
+Received: from gofer.mess.org ([88.97.38.141]:45825 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230434AbhEKJif (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 May 2021 05:38:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A14E161925;
-        Tue, 11 May 2021 09:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620725848;
-        bh=6o759ShUxJ4M0iPoewavcBs0joP5lvg0/UyuatoupKw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VmShZQzrJkNUYpzDiT8lkPsxOAMSd9Mve7i5gQll5qndGWVpx/umg+CXxAKGpoNMA
-         r3FMkUmVknRLOM40Or9NWwNOL92NSwkHrq/d0ndNeQRTu32uCCDHx2IbSd5VG2b4ul
-         nosZAixjCj57nhk32NpeqSVxAJnPk2eny4EB88KTc/gQGnVuXNqo0yWlzvNXSmu4ZF
-         mRycl9aLbRnBPpCgKOBrtmqpOvb6P16yZBfRn67Vau0A0Tq2FleVuS/QpC4INaUcg7
-         P/ifJQg2MpIKloJneBuh4wLQ19EHMgDmJrDBTumwAHsRVeIkB/VjkEIaNgqi+q08au
-         3pae3xKzjvu8Q==
-Date:   Tue, 11 May 2021 11:37:17 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Theodore Ts'o" <tytso@mit.edu>
-Cc:     David Woodhouse <dwmw2@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as
- ASCII
-Message-ID: <20210511113717.5c8b68f7@coco.lan>
-In-Reply-To: <YJmH2irxoRsyNudb@mit.edu>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
-        <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
-        <20210510135518.305cc03d@coco.lan>
-        <de6d1fa5b7934f4afd61370d9c58502bef588466.camel@infradead.org>
-        <YJmH2irxoRsyNudb@mit.edu>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S231272AbhEKKd1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 May 2021 06:33:27 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 62A88C6387; Tue, 11 May 2021 11:32:19 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1620729139; bh=3qZe47ccXZi94QbD/AGEgaZol/0JCzTRr/e1v62Fbb4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FAc2mVIpLJOw0xAqKhsxrAh1zP0zAawVbasoE36G7Pb7AR5kK7PijluWH16trFxTb
+         IaD/SBCGTlfqIW+aZmh1+RJwLPFmxYiX7qWMxGWmPXVBYohVXVSnToOPhAlW3w/nql
+         rVTjxD7OYsnk35uPBLzx+qqiuluaKc2iJS8ITYMheUwRn4deDQHwOzP2ftvGOgWWpe
+         eKhtUaoIv7FSMiT1BqQm35H5eOZ+Fa4Nb6EJcj2M+WG4MyWTd8YPnDsD7E9GRk6fWp
+         2yefxvhmduFixjF5AWtFIyyNeheTi29fMEcC76NNT1pT2VOUx7djnskIAOA29ppxbM
+         ke0B4+gxaejXw==
+Date:   Tue, 11 May 2021 11:32:19 +0100
+From:   Sean Young <sean@mess.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: Re: [PATCH v3 0/3] IR driver for USB-UIRT device
+Message-ID: <20210511103219.GA13769@gofer.mess.org>
+References: <cover.1620304986.git.sean@mess.org>
+ <YJjrkhfN9Sgq6UX8@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YJjrkhfN9Sgq6UX8@hovoldconsulting.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 10 May 2021 15:22:02 -0400
-"Theodore Ts'o" <tytso@mit.edu> escreveu:
+On Mon, May 10, 2021 at 10:15:14AM +0200, Johan Hovold wrote:
+> On Thu, May 06, 2021 at 01:44:52PM +0100, Sean Young wrote:
+> > This is a new rc-core driver for the USB-UIRT which you can see here
+> > http://www.usbuirt.com/
+> > 
+> > This device is supported in lirc, via the usb serial kernel driver. This
+> > driver is both for rc-core, which means it can use kernel/BPF decoding
+> > ec. Also this implement is superior because it can:
+> >  - support learning mode
+> >  - setting transmit carrier
+> >  - larger transmits using streaming tx command
+> 
+> This looks like something which should have been implemented as a
+> line-discipline or serdev driver instead of reimplementing a minimal
+> on-off ftdi driver and tying it closely to the RC subsystem.
 
-> On Mon, May 10, 2021 at 02:49:44PM +0100, David Woodhouse wrote:
-> > On Mon, 2021-05-10 at 13:55 +0200, Mauro Carvalho Chehab wrote: =20
-> > > This patch series is doing conversion only when using ASCII makes
-> > > more sense than using UTF-8.=20
-> > >=20
-> > > See, a number of converted documents ended with weird characters
-> > > like ZERO WIDTH NO-BREAK SPACE (U+FEFF) character. This specific
-> > > character doesn't do any good.
-> > >=20
-> > > Others use NO-BREAK SPACE (U+A0) instead of 0x20. Harmless, until
-> > > someone tries to use grep[1]. =20
-> >=20
-> > Replacing those makes sense. But replacing emdashes =E2=80=94 which are=
- a
-> > distinct character that has no direct replacement in ASCII and which
-> > people do *deliberately* use instead of hyphen-minus =E2=80=94 does not=
-. =20
->=20
-> I regularly use --- for em-dashes and -- for en-dashes.  Markdown will
-> automatically translate 3 ASCII hypens to em-dashes, and 2 ASCII
-> hyphens to en-dashes.  It's much, much easier for me to type 2 or 3
-> hypens into my text editor of choice than trying to enter the UTF-8
-> characters.=20
+The device is an infrared device, I'm not sure what it is lost by
+doing it this way. The "minimal on-off ftdi driver" is super trivial.
 
-Yeah, typing those UTF-8 chars are a lot harder than typing -- and ---
-on several text editors ;-)
+> Why can't you just add support for the above features to whatever
+> subsystem is managing this device today?
+> 
+> Serdev still doesn't support hotplugging unfortunately so that route may
+> take a bit more work.
 
-Here, I only type UTF-8 chars for accents (my US-layout keyboards are=20
-all set to US international, so typing those are easy).
+There seems to be at least three ways of attaching drivers to serial
+devices: serio, serdev, and line-discipline. All seem to have limitations,
+as you say none of them provide a way of hotplugging devices without
+user-space attaching them through an ioctl or so.
 
-> If we can make sphinx do this translation, maybe that's
-> the best way of dealing with these two characters?
+If you want to go down this route, then ideally you'd want a quirk on
+fdti saying "attach usb-uirt serdev device to this pid/vid". Considering
+module dependencies, I don't know how that could work without again
+userspace getting involved.
 
-Sphinx already does that by default[1], using smartquotes:
+Getting userspace involved seem like a big song and dance because the
+device uses an fdti device, even though it's not a serial port because
+it's hardwired for infrared functions, no db9 connector in sight.
 
-	https://docutils.sourceforge.io/docs/user/smartquotes.html
 
-Those are the conversions that are done there:
-
-      - Straight quotes (" and ') turned into "curly" quote characters;
-      - dashes (-- and ---) turned into en- and em-dash entities;
-      - three consecutive dots (... or . . .) turned into an ellipsis char.
-
-So, we can simply use single/double commas, hyphens and dots for
-curly commas and ellipses.
-
-[1] There's a way to disable it at conf.py, but at the Kernel this is
-    kept on its default: to automatically do such conversions.=20
-
-Thanks,
-Mauro
+Sean
