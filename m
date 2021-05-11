@@ -2,97 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0D5437A6FC
-	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 14:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B329237A73A
+	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 14:58:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231586AbhEKMp5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 May 2021 08:45:57 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:35982 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230315AbhEKMp4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 May 2021 08:45:56 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 14BCifrQ033227;
-        Tue, 11 May 2021 07:44:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1620737081;
-        bh=rnLxLj7u+SRLP5C+EjI1XluTvjiwwG/phu5Ue2Vyc5o=;
-        h=From:To:CC:Subject:Date;
-        b=WkEK4G8UxDxAtcIk6gW/8aa83MBphi8eovNJOxd/BmA0yF0TP+HSlUoVCHE+FofTu
-         b62t2BTWAr9KMCBz9kI61bXVoYBtog5CMUIZe5vgWwmoZZE+9aRsGvFpNkK7/PNw1z
-         FQoBZekF+mCmxwkaT5VjoxbSezLL1gaAjWw1tdK4=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 14BCifir115752
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 11 May 2021 07:44:41 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 11
- May 2021 07:44:40 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Tue, 11 May 2021 07:44:40 -0500
-Received: from pratyush-OptiPlex-790.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 14BCicYt110487;
-        Tue, 11 May 2021 07:44:38 -0500
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Pratyush Yadav <p.yadav@ti.com>
-Subject: [PATCH] media: i2c: ov5648: Plug runtime pm counter leak
-Date:   Tue, 11 May 2021 18:14:37 +0530
-Message-ID: <20210511124437.9930-1-p.yadav@ti.com>
-X-Mailer: git-send-email 2.30.0
+        id S231384AbhEKM7e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 May 2021 08:59:34 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:36413 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231324AbhEKM7d (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 May 2021 08:59:33 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1620737907; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=lYaVpUKqUhk7AZILQOBcBVn1o1hxlbG/qfA0IIbmC/o=;
+ b=t8oFDPDYmxV5mgZ0qSlIx1rhh12IDy2BtUvsB8CcFJZjTEvdoyWSI9LV9G8qsXEwSigFG5n5
+ l7jIr7tkA7/dT3GBuLoMCqhTWadbe1zP4XNNLUkxSHB5pv6S7oLgRzM01Bl/OakS+TFnlTiU
+ wkcqfa/GklgkYJWHcxKNNfc0PJw=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 609a7f6de0211609c436956e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 11 May 2021 12:58:21
+ GMT
+Sender: rojay=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 2C3D6C43145; Tue, 11 May 2021 12:58:21 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: rojay)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0EE92C4338A;
+        Tue, 11 May 2021 12:58:19 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 11 May 2021 18:28:19 +0530
+From:   rojay@codeaurora.org
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     wsa@kernel.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, skananth@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH V9] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+In-Reply-To: <CAE-0n51MEJ_+7QKpBKenjjB+rwdGN-=vxx=4oo8_-P=_yJe+jQ@mail.gmail.com>
+References: <d23263dcb0f1535275ff37524b0203b2@codeaurora.org>
+ <CAE-0n51YQf=NZxnw9+FLU=PSG8di7Ztp5pP03JdLXgEWGM0AZg@mail.gmail.com>
+ <CAE-0n51MEJ_+7QKpBKenjjB+rwdGN-=vxx=4oo8_-P=_yJe+jQ@mail.gmail.com>
+Message-ID: <84d603d86a74efeb78b78f5812d3921c@codeaurora.org>
+X-Sender: rojay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the stream is being enabled, the runtime pm usage counter is
-incremented. Then if ov5648_sw_standby() fails, the function returns
-error without decrementing the counter, leaking it.
+On 2021-05-08 13:26, Stephen Boyd wrote:
+> Quoting Stephen Boyd (2021-05-07 13:09:21)
+>> Quoting rojay@codeaurora.org (2021-05-07 03:07:42)
+>> > On 2021-05-05 07:08, Stephen Boyd wrote:
+>> > > Quoting Roja Rani Yarubandi (2021-04-20 04:13:55)
+>> >
+>> > > In fact, where is that code? I'd expect to see i2c_del_adapter() in
+>> > > here
+>> > > so we know the adapter can't accept transfers anymore. Maybe
+>> > > i2c_del_adapter() could be called, and then there's nothing to do after
+>> > > that? This whole patch is trying to rip the adapter out from under the
+>> > > i2c core framework, when we should take the opposite approach and
+>> > > remove
+>> > > it from the core framework so that it can't transfer anything anymore
+>> > > and thus the IOMMU can remove the mapping.
+>> > >
+>> >
+>> > IIUC about probe/remove/shutdown calls, during "remove" we will unplug
+>> > the
+>> > device with opposite calls to "probe's" plug operations.
+>> > For example i2c_add_adapter() from 'probe' and i2c_del_adapter() from
+>> > 'remove'.
+>> > For "shutdown", as system is going to shutdown, there is no need of
+>> > unplug
+>> > operations to be done.
+>> >
+>> > And also, I had a glance on other upstream i2c drivers, and noticed
+>> > "i2c-i801.c"
+>> > driver has i2c_del_adapter() called from remove callback but not from
+>> > shutdown
+>> > callback.
+>> 
+>> Sure, other drivers could also be broken.
+> 
+> What does it have in the shutdown callback? I see that it is wrong to
+> delete the adapter in shutdown because this problem happens. First
+> shutdown is called for various i2c clients, then shutdown is called for
+> the adapter. If the adapter shutdown calls i2c_del_adapter(), then
+> remove is called for the various i2c clients. The i2c clients aren't
+> expecting this and start doing double frees and stuff. It's really 
+> quite
+> a mess. I suspect i2c shutdown should probably block remove from being
+> called on it entirely. Either way, it's the wrong approach.
+> 
+> Instead, I think we should merely suspend the i2c bus like this. Then 
+> we
+> can hunt down the various drivers that try to access the bus after the
+> i2c bus has been removed. I've already done that for rt5682 (see the
+> patch link later).
+> 
 
-Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
----
+Ok. I will proceed with the current approach only then
+(not calling i2c_del_adapter() in shutdown). I will post the
+patch with the other comments answered.
 
-Hi,
-
-I spotted this when converting OV5640 driver to use runtime PM using
-this driver as reference. I only have a very surface level understanding
-of runtime PM system as of now so please review with that in mind.
-
-This patch is only compile-tested since I don't have the hardware with
-me.
-
- drivers/media/i2c/ov5648.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
-index 3ecb4a3e8773..6aa2c950f505 100644
---- a/drivers/media/i2c/ov5648.c
-+++ b/drivers/media/i2c/ov5648.c
-@@ -2143,8 +2143,12 @@ static int ov5648_s_stream(struct v4l2_subdev *subdev, int enable)
- 	ret = ov5648_sw_standby(sensor, !enable);
- 	mutex_unlock(&sensor->mutex);
-
--	if (ret)
-+	if (ret) {
-+		if (enable)
-+			pm_runtime_put(sensor->dev);
-+
- 		return ret;
-+	}
-
- 	state->streaming = !!enable;
-
---
-2.30.0
-
+> ----8<---
+> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c
+> b/drivers/i2c/busses/i2c-qcom-geni.c
+> index 20216e382b4c..af3ed808ba2e 100644
+> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> @@ -655,6 +655,14 @@ static int geni_i2c_remove(struct platform_device 
+> *pdev)
+>  	return 0;
+>  }
+> 
+> +static void geni_i2c_shutdown(struct platform_device *pdev)
+> +{
+> +	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
+> +
+> +	/* Make client i2c transfers start failing */
+> +	i2c_mark_adapter_suspended(&gi2c->adap);
+> +}
+> +
+>  static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
+>  {
+>  	int ret;
+> @@ -719,6 +727,7 @@ MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
+>  static struct platform_driver geni_i2c_driver = {
+>  	.probe  = geni_i2c_probe,
+>  	.remove = geni_i2c_remove,
+> +	.shutdown = geni_i2c_shutdown,
+>  	.driver = {
+>  		.name = "geni_i2c",
+>  		.pm = &geni_i2c_pm_ops,
+> 
+>> 
+>> >
+>> > And actually I tried calling i2c_del_adapter() from geni_i2c_shutdown(),
+>> > and it resulted in below WARNING trace
+>> > [   90.320282] Call trace:
+>> > [   90.322807]  _regulator_put+0xc4/0xcc
+>> > [   90.326583]  regulator_bulk_free+0x48/0x6c
+>> > [   90.330808]  devm_regulator_bulk_release+0x20/0x2c
+>> > [   90.335744]  release_nodes+0x1d0/0x244
+>> > [   90.339609]  devres_release_all+0x3c/0x54
+>> > [   90.343735]  device_release_driver_internal+0x108/0x194
+>> > [   90.349109]  device_release_driver+0x24/0x30
+>> > [   90.353510]  bus_remove_device+0xd0/0xf4
+>> > [   90.357548]  device_del+0x1a8/0x2f8
+>> > [   90.361143]  device_unregister+0x1c/0x34
+>> > [   90.365181]  __unregister_client+0x78/0x88
+>> > [   90.369397]  device_for_each_child+0x64/0xb4
+>> > [   90.373797]  i2c_del_adapter+0xf0/0x1d4
+>> > [   90.377745]  geni_i2c_shutdown+0x9c/0xc0
+>> > [   90.381783]  platform_drv_shutdown+0x28/0x34
+>> > [   90.386182]  device_shutdown+0x148/0x1f0
+>> >
+>> > Can you please suggest me what might be missing here?
+>> >
+>> 
+>> It looks like some device that is on the i2c bus is putting a 
+>> regulator
+>> in the remove path without disabling it. Can you print out which 
+>> device
+>> driver it is and fix that driver to call regulator_disable() on the
+>> driver remove path? I'll try locally and see if I can find the driver
+>> too.
+> 
+> I see that it's the rt5682 driver. I sent
+> https://lore.kernel.org/r/20210508075151.1626903-2-swboyd@chromium.org
+> for this in case you want to look, but it won't be necessary.
