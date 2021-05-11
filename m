@@ -2,628 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 015B237AA7D
-	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 17:19:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76BF637AAF7
+	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 17:42:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231723AbhEKPU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 May 2021 11:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60262 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231461AbhEKPU0 (ORCPT
+        id S231826AbhEKPnL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 May 2021 11:43:11 -0400
+Received: from gateway31.websitewelcome.com ([192.185.144.219]:19827 "EHLO
+        gateway31.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231824AbhEKPnK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 May 2021 11:20:26 -0400
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D760C061574;
-        Tue, 11 May 2021 08:19:20 -0700 (PDT)
-Received: by mail-il1-x12b.google.com with SMTP id c3so17490620ils.5;
-        Tue, 11 May 2021 08:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ITUCF5idaMyjulgWYZsj9z0DnGYmAnsMjf0cly+RMJo=;
-        b=OSdZPCmLRIw+BEcZ1tdIK3QrabF9uhZQ0mnpZYBpB2l3i7mBQ1RpSIb0Ggj+StGWfd
-         4q9EJJLxsgcU7Zsg/z6+TWsowzVIWozYaunTuZeqa/dcXuDj+pvGsdc8TdHBOmQRy9Lh
-         dMZWnoUY+RmuCg1+AwPqu3Z7c5BVb/JsAjAPAJW/8MjAN+vG4jsUaSCWMLOwuoQJvfhz
-         rVc7Vvg19z8a7TQDFYLR+NmBdFdIGHDRvEZxWnlv2ZNmUe/iUS5a7n4WKpyZwe9hINXu
-         nHfrkqe8O3ybCS7PRVFjER3Br8DxCEwPcE2K7ZBRaeeQ0VZOySFPY28ytsP5yIOSaegr
-         7Jwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ITUCF5idaMyjulgWYZsj9z0DnGYmAnsMjf0cly+RMJo=;
-        b=t9GDIaNMYQxYU3/eY3WK/ZmAI0akT6LMsvoP/zkRpN1OYkV1NeLnp5ZJA3vWULQxYd
-         JfrTW1MQkpEXhpdtlDNh1BkW7WSTwfbbmmju+MT6MOVHREPRghPtDlvwogj0STVbpgpy
-         c5jChHlLI+hwWTjL0lBX43LVJLGFMuWWXd8nA6IIYZxymR1z2Ri/6ulMpaYzBYYO93gX
-         QqdboP9XyOvs6vgfntZx2EW0qhorRMHjktcSh3kEhhSM0M88Py1EYbm76FHhjodj8agU
-         2lsyBG0bvS7sMr1e4q+CXidOn+ALPtc2Ua6f9GN8ZbSU+X+1It8mu/hOKudCRy/uTTWx
-         IZ4g==
-X-Gm-Message-State: AOAM530P9Ih9ZLHoCE1ZdmtxMZtZ/iUbV4Uu7YWXp6GZGszqzc5Mavrb
-        aVfmSQc0QppJblvY1BjIxXBMr6XppLDQhmU1gDU=
-X-Google-Smtp-Source: ABdhPJy2WYeKNzUH2FxeXihXtEsNh6VMT2Y5nQKkcw6Ik/wwGrnY4ewMBY2UXtpXy3tI27GP9kHTIxcsv2n5FRnCmrU=
-X-Received: by 2002:a92:6f11:: with SMTP id k17mr27202007ilc.200.1620746359505;
- Tue, 11 May 2021 08:19:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <1620104993-5850-1-git-send-email-dillon.minfei@gmail.com> <1620104993-5850-4-git-send-email-dillon.minfei@gmail.com>
-In-Reply-To: <1620104993-5850-4-git-send-email-dillon.minfei@gmail.com>
-From:   Dillon Min <dillon.minfei@gmail.com>
-Date:   Tue, 11 May 2021 23:18:44 +0800
-Message-ID: <CAL9mu0KRxsDhhfO0CXu8zi5_h2LDerpd7NnyASaBf_+XX1diAw@mail.gmail.com>
-Subject: Re: [PATCH v5 3/4] arm: dts: imx: Add i.mx6q DaSheng COM-9XX SBC
- board support
-To:     Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Riedmueller <s.riedmueller@phytec.de>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        leoyang.li@nxp.com, Arnd Bergmann <arnd@arndb.de>,
-        Olof Johansson <olof@lixom.net>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Tue, 11 May 2021 11:43:10 -0400
+X-Greylist: delayed 1446 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 May 2021 11:43:10 EDT
+Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
+        by gateway31.websitewelcome.com (Postfix) with ESMTP id AACDD6F
+        for <linux-media@vger.kernel.org>; Tue, 11 May 2021 10:17:55 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id gU8xlL1aaDedfgU8xlbQas; Tue, 11 May 2021 10:17:55 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=DDOCPGapOLlsE2IYQuoK/zwcdMB7QQyc4Xurd5Cwsb0=; b=ZVrup4weJ+Bfd4j1p1ds0ZWied
+        qA9SWMqwNNYyF6R4uRGWiljt9h4SphXHwEYZBwVtINn+yV/8JXFhMvaqTxo9ADlzF+2alm3/uqcvk
+        dyYqibYZ03s7nLcC4Szqc9xIA4Pcbhg+tzNYYL3ciTDTyEAd6jE1N0MXah/kNAnfjgl+H5rRGd9IL
+        N69zcmgASIdaNOl9mvb2+rQunt10Oghgq5YJwR2Vu1JXA6/kcc1wOh0z4SiNBesh367y1vP/93E98
+        RPG5RlEr51+lnuTySNcvZjtlS9BaZE8iyKJGV77m8kvWZeauDpwbnPirZ6Jguj3kSjJAczdLhSIb7
+        1xDH9hxQ==;
+Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:58934 helo=[192.168.15.8])
+        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1lgU8v-004HqZ-83; Tue, 11 May 2021 10:17:53 -0500
+Subject: Re: [PATCH][next] media: siano: Fix multiple out-of-bounds warnings
+ in smscore_load_firmware_family2()
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        mchehab+huawei@kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Kees Cook <keescook@chromium.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+References: <20210311021947.GA129388@embeddedor>
+ <b0e46b46-db9a-7e3d-cadb-e3855c68373e@embeddedor.com>
+Message-ID: <3936c005-0b53-bdae-d5ba-07f68eac628d@embeddedor.com>
+Date:   Tue, 11 May 2021 10:18:19 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <b0e46b46-db9a-7e3d-cadb-e3855c68373e@embeddedor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.31.110
+X-Source-L: No
+X-Exim-ID: 1lgU8v-004HqZ-83
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8]) [187.162.31.110]:58934
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 4
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabio,
+Hi all,
 
-Could you help to check this patch?
-All the changes was based on your review from [1]
-
-Really appreciate it.
-
-[1] https://lore.kernel.org/lkml/CAOMZO5CcoKDZhj5rQ0_0wkHgk5Mf2RtAHy94EAzjwVgXvvmNeg@mail.gmail.com/
+Friendly ping (second one): who can take this, please?
 
 Thanks
-Best regards.
+--
+Gustavo
 
-Dillon
-
-On Tue, May 4, 2021 at 1:10 PM <dillon.minfei@gmail.com> wrote:
->
-> From: Dillon Min <dillon.minfei@gmail.com>
->
-> The DaSheng Com-9xx is and ARM based signle board computer (SBC)
-> featuring:
-> - i.MX6Q
-> - 2GiB LPDDR3 DRAM
-> - 8GiB eMMC 5.0 FLASH
-> - 4MiB SPI Flash
-> - USB 2.0 Host/Device
-> - Multiple multi-protocol RS232/RS485 Serial ports
-> - microSD socket
-> - 5V DC power input
-> - HDMI1.4a,1080p@60
-> - RGMIIx1 Gigabit Ethernet
-> - CSI0x1, connect with ov2659
->
-> Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
-> ---
->
-> v5:
-> - no code change, just change my git author name from lower case to higher case
->
->  arch/arm/boot/dts/Makefile        |   1 +
->  arch/arm/boot/dts/imx6q-ds.dts    |  17 ++
->  arch/arm/boot/dts/imx6qdl-ds.dtsi | 460 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 478 insertions(+)
->  create mode 100644 arch/arm/boot/dts/imx6q-ds.dts
->  create mode 100644 arch/arm/boot/dts/imx6qdl-ds.dtsi
->
-> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-> index a19c5ab9df84..425fe17ef7c1 100644
-> --- a/arch/arm/boot/dts/Makefile
-> +++ b/arch/arm/boot/dts/Makefile
-> @@ -510,6 +510,7 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
->         imx6q-display5-tianma-tm070-1280x768.dtb \
->         imx6q-dmo-edmqmx6.dtb \
->         imx6q-dms-ba16.dtb \
-> +       imx6q-ds.dtb \
->         imx6q-emcon-avari.dtb \
->         imx6q-evi.dtb \
->         imx6q-gk802.dtb \
-> diff --git a/arch/arm/boot/dts/imx6q-ds.dts b/arch/arm/boot/dts/imx6q-ds.dts
-> new file mode 100644
-> index 000000000000..b0a63a133977
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/imx6q-ds.dts
-> @@ -0,0 +1,17 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +//
-> +// Copyright 2021 Dillon Min <dillon.minfei@gmail.com>
-> +//
-> +// Based on imx6qdl-sabresd.dtsi which is:
-> +// Copyright 2012 Freescale Semiconductor, Inc.
-> +// Copyright 2011 Linaro Ltd.
-> +
-> +/dts-v1/;
-> +
-> +#include "imx6q.dtsi"
-> +#include "imx6qdl-ds.dtsi"
-> +
-> +/ {
-> +       model = "DaSheng i.MX6 Quad Com-9xx Board";
-> +       compatible = "ds,imx6q-sbc", "fsl,imx6q";
-> +};
-> diff --git a/arch/arm/boot/dts/imx6qdl-ds.dtsi b/arch/arm/boot/dts/imx6qdl-ds.dtsi
-> new file mode 100644
-> index 000000000000..a2069caf4ea7
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/imx6qdl-ds.dtsi
-> @@ -0,0 +1,460 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +//
-> +// Copyright 2021 Dillon Min <dillon.minfei@gmail.com>
-> +//
-> +// Based on imx6qdl-sabresd.dtsi which is:
-> +// Copyright 2012 Freescale Semiconductor, Inc.
-> +// Copyright 2011 Linaro Ltd.
-> +
-> +#include <dt-bindings/clock/imx6qdl-clock.h>
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/input/input.h>
-> +
-> +/ {
-> +       chosen {
-> +               stdout-path = &uart4;
-> +       };
-> +
-> +       memory@10000000 {
-> +               device_type = "memory";
-> +               reg = <0x10000000 0x80000000>;
-> +       };
-> +
-> +       reg_usb_otg_vbus: regulator-usb-otg-vbus {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "usb_otg_vbus";
-> +               regulator-min-microvolt = <5000000>;
-> +               regulator-max-microvolt = <5000000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       reg_usb_h1_vbus: regulator-usb-h1-vbus {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "usb_h1_vbus";
-> +               regulator-min-microvolt = <5000000>;
-> +               regulator-max-microvolt = <5000000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       leds {
-> +               compatible = "gpio-leds";
-> +               pinctrl-names = "default";
-> +               pinctrl-0 = <&pinctrl_gpio_leds>;
-> +
-> +               led-0 {
-> +                       gpios = <&gpio4 8 GPIO_ACTIVE_HIGH>;
-> +                       default-state = "on";
-> +                       linux,default-trigger = "heartbeat";
-> +               };
-> +       };
-> +};
-> +
-> +&ipu1_csi0_from_ipu1_csi0_mux {
-> +       bus-width = <8>;
-> +       data-shift = <12>; /* Lines 19:12 used */
-> +       hsync-active = <1>;
-> +       vsync-active = <1>;
-> +};
-> +
-> +&ipu1_csi0_mux_from_parallel_sensor {
-> +       remote-endpoint = <&ov2659_to_ipu1_csi0_mux>;
-> +};
-> +
-> +&ipu1_csi0 {
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_ipu1_csi0>;
-> +       status = "okay";
-> +};
-> +
-> +&ecspi1 {
-> +       cs-gpios = <&gpio4 9 GPIO_ACTIVE_LOW>;
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_ecspi1>, <&pinctrl_ecspi1_gpio>;
-> +       status = "okay";
-> +
-> +       m25p80: flash@0 {
-> +               #address-cells = <1>;
-> +               #size-cells = <1>;
-> +               compatible = "st,m25p80", "jedec,spi-nor";
-> +               spi-max-frequency = <20000000>;
-> +               reg = <0>;
-> +       };
-> +};
-> +
-> +&fec {
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_enet>;
-> +       phy-mode = "rgmii-id";
-> +       phy-handle = <&phy>;
-> +       fsl,magic-packet;
-> +       status = "okay";
-> +
-> +       mdio {
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-> +
-> +               phy: ethernet-phy@1 {
-> +                       reg = <1>;
-> +                       qca,clk-out-frequency = <125000000>;
-> +                       reset-gpios = <&gpio4 10 GPIO_ACTIVE_LOW>;
-> +                       reset-assert-us = <10000>;
-> +               };
-> +       };
-> +};
-> +
-> +&hdmi {
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_hdmi_cec>;
-> +       ddc-i2c-bus = <&i2c3>;
-> +       status = "okay";
-> +};
-> +
-> +&i2c2 {
-> +       clock-frequency = <100000>;
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_i2c2>;
-> +       status = "okay";
-> +
-> +       pfuze100: pmic@8 {
-> +               compatible = "fsl,pfuze100";
-> +               reg = <0x08>;
-> +
-> +               regulators {
-> +                       sw1a_reg: sw1ab {
-> +                               regulator-min-microvolt = <300000>;
-> +                               regulator-max-microvolt = <1875000>;
-> +                               regulator-boot-on;
-> +                               regulator-always-on;
-> +                               regulator-ramp-delay = <6250>;
-> +                       };
-> +
-> +                       sw1c_reg: sw1c {
-> +                               regulator-min-microvolt = <300000>;
-> +                               regulator-max-microvolt = <1875000>;
-> +                               regulator-boot-on;
-> +                               regulator-always-on;
-> +                               regulator-ramp-delay = <6250>;
-> +                       };
-> +
-> +                       sw2_reg: sw2 {
-> +                               regulator-min-microvolt = <800000>;
-> +                               regulator-max-microvolt = <3300000>;
-> +                               regulator-boot-on;
-> +                               regulator-always-on;
-> +                               regulator-ramp-delay = <6250>;
-> +                       };
-> +
-> +                       sw3a_reg: sw3a {
-> +                               regulator-min-microvolt = <400000>;
-> +                               regulator-max-microvolt = <1975000>;
-> +                               regulator-boot-on;
-> +                               regulator-always-on;
-> +                       };
-> +
-> +                       sw3b_reg: sw3b {
-> +                               regulator-min-microvolt = <400000>;
-> +                               regulator-max-microvolt = <1975000>;
-> +                               regulator-boot-on;
-> +                               regulator-always-on;
-> +                       };
-> +
-> +                       sw4_reg: sw4 {
-> +                               regulator-min-microvolt = <800000>;
-> +                               regulator-max-microvolt = <3300000>;
-> +                               regulator-always-on;
-> +                       };
-> +
-> +                       swbst_reg: swbst {
-> +                               regulator-min-microvolt = <5000000>;
-> +                               regulator-max-microvolt = <5150000>;
-> +                       };
-> +
-> +                       snvs_reg: vsnvs {
-> +                               regulator-min-microvolt = <1000000>;
-> +                               regulator-max-microvolt = <3000000>;
-> +                               regulator-boot-on;
-> +                               regulator-always-on;
-> +                       };
-> +
-> +                       vref_reg: vrefddr {
-> +                               regulator-boot-on;
-> +                               regulator-always-on;
-> +                       };
-> +
-> +                       vgen1_reg: vgen1 {
-> +                               regulator-min-microvolt = <800000>;
-> +                               regulator-max-microvolt = <1550000>;
-> +                       };
-> +
-> +                       vgen2_reg: vgen2 {
-> +                               regulator-min-microvolt = <800000>;
-> +                               regulator-max-microvolt = <1550000>;
-> +                       };
-> +
-> +                       vgen3_reg: vgen3 {
-> +                               regulator-min-microvolt = <1800000>;
-> +                               regulator-max-microvolt = <3300000>;
-> +                       };
-> +
-> +                       vgen4_reg: vgen4 {
-> +                               regulator-min-microvolt = <1800000>;
-> +                               regulator-max-microvolt = <3300000>;
-> +                               regulator-always-on;
-> +                       };
-> +
-> +                       vgen5_reg: vgen5 {
-> +                               regulator-min-microvolt = <1800000>;
-> +                               regulator-max-microvolt = <3300000>;
-> +                               regulator-always-on;
-> +                       };
-> +
-> +                       vgen6_reg: vgen6 {
-> +                               regulator-min-microvolt = <1800000>;
-> +                               regulator-max-microvolt = <3300000>;
-> +                               regulator-always-on;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +&i2c3 {
-> +       clock-frequency = <100000>;
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_i2c3>;
-> +       status = "okay";
-> +
-> +       ov2659: camera@30 {
-> +               compatible = "ovti,ov2659";
-> +               pinctrl-names = "default";
-> +               pinctrl-0 = <&pinctrl_ov2659>;
-> +               clocks = <&clks IMX6QDL_CLK_CKO>;
-> +               clock-names = "xvclk";
-> +               reg = <0x30>;
-> +               powerdown-gpios = <&gpio7 11 GPIO_ACTIVE_HIGH>;
-> +               reset-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
-> +               status = "okay";
-> +
-> +               port {
-> +                       ov2659_to_ipu1_csi0_mux: endpoint {
-> +                               remote-endpoint = <&ipu1_csi0_mux_from_parallel_sensor>;
-> +                               link-frequencies = /bits/ 64 <70000000>;
-> +                               bus-width = <8>;
-> +                               hsync-active = <1>;
-> +                               vsync-active = <1>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +&iomuxc {
-> +       pinctrl_ecspi1: ecspi1grp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_EIM_D16__ECSPI1_SCLK         0x100b1
-> +                       MX6QDL_PAD_EIM_D18__ECSPI1_MOSI         0x100b1
-> +                       MX6QDL_PAD_EIM_D17__ECSPI1_MISO         0x100b1
-> +               >;
-> +       };
-> +
-> +       pinctrl_ecspi1_gpio: ecspi1grpgpiogrp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_KEY_ROW1__GPIO4_IO09         0x1b0b0
-> +                       MX6QDL_PAD_ENET_RXD0__GPIO1_IO27        0x1b0b0
-> +               >;
-> +       };
-> +
-> +       pinctrl_enet: enetgrp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_ENET_MDIO__ENET_MDIO         0x1b0b0
-> +                       MX6QDL_PAD_ENET_MDC__ENET_MDC           0x1b0b0
-> +                       MX6QDL_PAD_RGMII_TXC__RGMII_TXC         0x1b030
-> +                       MX6QDL_PAD_RGMII_TD0__RGMII_TD0         0x1b030
-> +                       MX6QDL_PAD_RGMII_TD1__RGMII_TD1         0x1b030
-> +                       MX6QDL_PAD_RGMII_TD2__RGMII_TD2         0x1b030
-> +                       MX6QDL_PAD_RGMII_TD3__RGMII_TD3         0x1b030
-> +                       MX6QDL_PAD_RGMII_TX_CTL__RGMII_TX_CTL   0x1b030
-> +                       MX6QDL_PAD_ENET_REF_CLK__ENET_TX_CLK    0x1b0b0
-> +                       MX6QDL_PAD_RGMII_RXC__RGMII_RXC         0x1b030
-> +                       MX6QDL_PAD_RGMII_RD0__RGMII_RD0         0x1b030
-> +                       MX6QDL_PAD_RGMII_RD1__RGMII_RD1         0x1b030
-> +                       MX6QDL_PAD_RGMII_RD2__RGMII_RD2         0x1b030
-> +                       MX6QDL_PAD_RGMII_RD3__RGMII_RD3         0x1b030
-> +                       MX6QDL_PAD_RGMII_RX_CTL__RGMII_RX_CTL   0x1b030
-> +                       MX6QDL_PAD_KEY_COL2__GPIO4_IO10         0x1b0b0
-> +               >;
-> +       };
-> +
-> +       pinctrl_hdmi_cec: hdmicecgrp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_EIM_A25__HDMI_TX_CEC_LINE    0x1f8b0
-> +               >;
-> +       };
-> +
-> +       pinctrl_i2c2: i2c2grp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_EIM_EB2__I2C2_SCL            0x4001b8b1
-> +                       MX6QDL_PAD_KEY_ROW3__I2C2_SDA           0x4001b8b1
-> +               >;
-> +       };
-> +
-> +       pinctrl_i2c3: i2c3grp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_GPIO_5__I2C3_SCL             0x4001b8b1
-> +                       MX6QDL_PAD_GPIO_6__I2C3_SDA             0x4001b8b1
-> +               >;
-> +       };
-> +
-> +       pinctrl_ipu1_csi0: ipu1csi0grp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_CSI0_DAT12__IPU1_CSI0_DATA12    0x1b0b0
-> +                       MX6QDL_PAD_CSI0_DAT13__IPU1_CSI0_DATA13    0x1b0b0
-> +                       MX6QDL_PAD_CSI0_DAT14__IPU1_CSI0_DATA14    0x1b0b0
-> +                       MX6QDL_PAD_CSI0_DAT15__IPU1_CSI0_DATA15    0x1b0b0
-> +                       MX6QDL_PAD_CSI0_DAT16__IPU1_CSI0_DATA16    0x1b0b0
-> +                       MX6QDL_PAD_CSI0_DAT17__IPU1_CSI0_DATA17    0x1b0b0
-> +                       MX6QDL_PAD_CSI0_DAT18__IPU1_CSI0_DATA18    0x1b0b0
-> +                       MX6QDL_PAD_CSI0_DAT19__IPU1_CSI0_DATA19    0x1b0b0
-> +                       MX6QDL_PAD_CSI0_PIXCLK__IPU1_CSI0_PIXCLK   0x1b0b0
-> +                       MX6QDL_PAD_CSI0_MCLK__IPU1_CSI0_HSYNC      0x1b0b0
-> +                       MX6QDL_PAD_CSI0_VSYNC__IPU1_CSI0_VSYNC     0x1b0b0
-> +               >;
-> +       };
-> +
-> +       pinctrl_ov2659: ov2659grp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_GPIO_16__GPIO7_IO11          0x1b0b0
-> +                       MX6QDL_PAD_GPIO_7__GPIO1_IO07           0x1b0b0
-> +                       MX6QDL_PAD_GPIO_0__CCM_CLKO1            0x130b0
-> +               >;
-> +       };
-> +
-> +       pinctrl_uart4: uart4grp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_KEY_COL0__UART4_TX_DATA      0x1b0b1
-> +                       MX6QDL_PAD_KEY_ROW0__UART4_RX_DATA      0x1b0b1
-> +               >;
-> +       };
-> +
-> +       pinctrl_usbotg: usbotggrp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_ENET_RX_ER__USB_OTG_ID       0x17059
-> +               >;
-> +       };
-> +
-> +       pinctrl_usdhc1: usdhc1grp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_SD1_CMD__SD1_CMD             0x17059
-> +                       MX6QDL_PAD_SD1_CLK__SD1_CLK             0x10059
-> +                       MX6QDL_PAD_SD1_DAT0__SD1_DATA0          0x17059
-> +                       MX6QDL_PAD_SD1_DAT1__SD1_DATA1          0x17059
-> +                       MX6QDL_PAD_SD1_DAT2__SD1_DATA2          0x17059
-> +                       MX6QDL_PAD_SD1_DAT3__SD1_DATA3          0x17059
-> +               >;
-> +       };
-> +
-> +       pinctrl_usdhc1_gpio: usdhc1grpgpiogrp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_ENET_TX_EN__GPIO1_IO28       0x1b0b0
-> +               >;
-> +       };
-> +
-> +       pinctrl_usdhc2: usdhc2grp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_SD2_CMD__SD2_CMD             0x17059
-> +                       MX6QDL_PAD_SD2_CLK__SD2_CLK             0x10059
-> +                       MX6QDL_PAD_SD2_DAT0__SD2_DATA0          0x17059
-> +                       MX6QDL_PAD_SD2_DAT1__SD2_DATA1          0x17059
-> +                       MX6QDL_PAD_SD2_DAT2__SD2_DATA2          0x17059
-> +                       MX6QDL_PAD_SD2_DAT3__SD2_DATA3          0x17059
-> +               >;
-> +       };
-> +
-> +       pinctrl_usdhc2_gpio: usdhc2grpgpiogrp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_NANDF_D0__GPIO2_IO00         0x1b0b0
-> +                       MX6QDL_PAD_NANDF_D1__GPIO2_IO01         0x1b0b0
-> +               >;
-> +       };
-> +
-> +       pinctrl_usdhc3: usdhc3grp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_SD3_CMD__SD3_CMD             0x17059
-> +                       MX6QDL_PAD_SD3_CLK__SD3_CLK             0x10059
-> +                       MX6QDL_PAD_SD3_DAT0__SD3_DATA0          0x17059
-> +                       MX6QDL_PAD_SD3_DAT1__SD3_DATA1          0x17059
-> +                       MX6QDL_PAD_SD3_DAT2__SD3_DATA2          0x17059
-> +                       MX6QDL_PAD_SD3_DAT3__SD3_DATA3          0x17059
-> +                       MX6QDL_PAD_SD3_DAT4__SD3_DATA4          0x17059
-> +                       MX6QDL_PAD_SD3_DAT5__SD3_DATA5          0x17059
-> +                       MX6QDL_PAD_SD3_DAT6__SD3_DATA6          0x17059
-> +                       MX6QDL_PAD_SD3_DAT7__SD3_DATA7          0x17059
-> +               >;
-> +       };
-> +
-> +       pinctrl_wdog: wdoggrp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_GPIO_1__WDOG2_B              0x1b0b0
-> +               >;
-> +       };
-> +
-> +       pinctrl_gpio_leds: gpioledsgrp {
-> +               fsl,pins = <
-> +                       MX6QDL_PAD_KEY_COL1__GPIO4_IO08 0x1b0b0
-> +               >;
-> +       };
-> +};
-> +
-> +&uart4 {
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_uart4>;
-> +       status = "okay";
-> +};
-> +
-> +&usbh1 {
-> +       vbus-supply = <&reg_usb_h1_vbus>;
-> +       status = "okay";
-> +};
-> +
-> +&usbotg {
-> +       vbus-supply = <&reg_usb_otg_vbus>;
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_usbotg>;
-> +       disable-over-current;
-> +       status = "okay";
-> +};
-> +
-> +&usdhc1 {
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_usdhc1>, <&pinctrl_usdhc1_gpio>;
-> +       bus-width = <4>;
-> +       cd-gpios = <&gpio1 28 GPIO_ACTIVE_LOW>;
-> +       status = "okay";
-> +};
-> +
-> +&usdhc2 {
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_usdhc2>, <&pinctrl_usdhc2_gpio>;
-> +       bus-width = <4>;
-> +       cd-gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
-> +       wp-gpios = <&gpio2 1 GPIO_ACTIVE_HIGH>;
-> +       status = "disabled";
-> +};
-> +
-> +&usdhc3 {
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_usdhc3>;
-> +       bus-width = <8>;
-> +       non-removable;
-> +       no-1-8-v;
-> +       status = "okay";
-> +};
-> +
-> +&wdog1 {
-> +       status = "disabled";
-> +};
-> +
-> +&wdog2 {
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_wdog>;
-> +       fsl,ext-reset-output;
-> +       status = "okay";
-> +};
+On 3/26/21 11:30, Gustavo A. R. Silva wrote:
+> Hi all,
+> 
+> Friendly ping: who can take this, please?
+> 
+> Thanks
 > --
-> 1.9.1
->
+> Gustavo
+> 
+> On 3/10/21 20:19, Gustavo A. R. Silva wrote:
+>> Rename struct sms_msg_data4 to sms_msg_data5 and increase the size of
+>> its msg_data array from 4 to 5 elements. Notice that at some point
+>> the 5th element of msg_data is being accessed in function
+>> smscore_load_firmware_family2():
+>>
+>> 1006                 trigger_msg->msg_data[4] = 4; /* Task ID */
+>>
+>> Also, there is no need for the object _trigger_msg_ of type struct
+>> sms_msg_data *, when _msg_ can be used, directly. Notice that msg_data
+>> in struct sms_msg_data is a one-element array, which causes multiple
+>> out-of-bounds warnings when accessing beyond its first element
+>> in function smscore_load_firmware_family2():
+>>
+>>  992                 struct sms_msg_data *trigger_msg =                                                  
+>>  993                         (struct sms_msg_data *) msg;                                                
+>>  994                                                                                                     
+>>  995                 pr_debug("sending MSG_SMS_SWDOWNLOAD_TRIGGER_REQ\n");                               
+>>  996                 SMS_INIT_MSG(&msg->x_msg_header,                                                    
+>>  997                                 MSG_SMS_SWDOWNLOAD_TRIGGER_REQ,                                     
+>>  998                                 sizeof(struct sms_msg_hdr) +                                        
+>>  999                                 sizeof(u32) * 5);                                                   
+>> 1000                                                                                                     
+>> 1001                 trigger_msg->msg_data[0] = firmware->start_address;                                 
+>> 1002                                         /* Entry point */                                           
+>> 1003                 trigger_msg->msg_data[1] = 6; /* Priority */                                        
+>> 1004                 trigger_msg->msg_data[2] = 0x200; /* Stack size */                                  
+>> 1005                 trigger_msg->msg_data[3] = 0; /* Parameter */                                       
+>> 1006                 trigger_msg->msg_data[4] = 4; /* Task ID */ 
+>>
+>> even when enough dynamic memory is allocated for _msg_:
+>>
+>>  929         /* PAGE_SIZE buffer shall be enough and dma aligned */
+>>  930         msg = kmalloc(PAGE_SIZE, GFP_KERNEL | coredev->gfp_buf_flags);
+>>
+>> but as _msg_ is casted to (struct sms_msg_data *):
+>>
+>>  992                 struct sms_msg_data *trigger_msg =
+>>  993                         (struct sms_msg_data *) msg;
+>>
+>> the out-of-bounds warnings are actually valid and should be addressed.
+>>
+>> Fix this by declaring object _msg_ of type struct sms_msg_data5 *,
+>> which contains a 5-elements array, instead of just 4. And use
+>> _msg_ directly, instead of creating object trigger_msg.
+>>
+>> This helps with the ongoing efforts to enable -Warray-bounds by fixing
+>> the following warnings:
+>>
+>>   CC [M]  drivers/media/common/siano/smscoreapi.o
+>> drivers/media/common/siano/smscoreapi.c: In function ‘smscore_load_firmware_family2’:
+>> drivers/media/common/siano/smscoreapi.c:1003:24: warning: array subscript 1 is above array bounds of ‘u32[1]’ {aka ‘unsigned int[1]’} [-Warray-bounds]
+>>  1003 |   trigger_msg->msg_data[1] = 6; /* Priority */
+>>       |   ~~~~~~~~~~~~~~~~~~~~~^~~
+>> In file included from drivers/media/common/siano/smscoreapi.c:12:
+>> drivers/media/common/siano/smscoreapi.h:619:6: note: while referencing ‘msg_data’
+>>   619 |  u32 msg_data[1];
+>>       |      ^~~~~~~~
+>> drivers/media/common/siano/smscoreapi.c:1004:24: warning: array subscript 2 is above array bounds of ‘u32[1]’ {aka ‘unsigned int[1]’} [-Warray-bounds]
+>>  1004 |   trigger_msg->msg_data[2] = 0x200; /* Stack size */
+>>       |   ~~~~~~~~~~~~~~~~~~~~~^~~
+>> In file included from drivers/media/common/siano/smscoreapi.c:12:
+>> drivers/media/common/siano/smscoreapi.h:619:6: note: while referencing ‘msg_data’
+>>   619 |  u32 msg_data[1];
+>>       |      ^~~~~~~~
+>> drivers/media/common/siano/smscoreapi.c:1005:24: warning: array subscript 3 is above array bounds of ‘u32[1]’ {aka ‘unsigned int[1]’} [-Warray-bounds]
+>>  1005 |   trigger_msg->msg_data[3] = 0; /* Parameter */
+>>       |   ~~~~~~~~~~~~~~~~~~~~~^~~
+>> In file included from drivers/media/common/siano/smscoreapi.c:12:
+>> drivers/media/common/siano/smscoreapi.h:619:6: note: while referencing ‘msg_data’
+>>   619 |  u32 msg_data[1];
+>>       |      ^~~~~~~~
+>> drivers/media/common/siano/smscoreapi.c:1006:24: warning: array subscript 4 is above array bounds of ‘u32[1]’ {aka ‘unsigned int[1]’} [-Warray-bounds]
+>>  1006 |   trigger_msg->msg_data[4] = 4; /* Task ID */
+>>       |   ~~~~~~~~~~~~~~~~~~~~~^~~
+>> In file included from drivers/media/common/siano/smscoreapi.c:12:
+>> drivers/media/common/siano/smscoreapi.h:619:6: note: while referencing ‘msg_data’
+>>   619 |  u32 msg_data[1];
+>>       |      ^~~~~~~~
+>>
+>> Fixes: 018b0c6f8acb ("[media] siano: make load firmware logic to work with newer firmwares")
+>> Co-developed-by: Kees Cook <keescook@chromium.org>
+>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+>> ---
+>>  drivers/media/common/siano/smscoreapi.c | 22 +++++++++-------------
+>>  drivers/media/common/siano/smscoreapi.h |  4 ++--
+>>  2 files changed, 11 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/media/common/siano/smscoreapi.c b/drivers/media/common/siano/smscoreapi.c
+>> index 410cc3ac6f94..bceaf91faa15 100644
+>> --- a/drivers/media/common/siano/smscoreapi.c
+>> +++ b/drivers/media/common/siano/smscoreapi.c
+>> @@ -908,7 +908,7 @@ static int smscore_load_firmware_family2(struct smscore_device_t *coredev,
+>>  					 void *buffer, size_t size)
+>>  {
+>>  	struct sms_firmware *firmware = (struct sms_firmware *) buffer;
+>> -	struct sms_msg_data4 *msg;
+>> +	struct sms_msg_data5 *msg;
+>>  	u32 mem_address,  calc_checksum = 0;
+>>  	u32 i, *ptr;
+>>  	u8 *payload = firmware->payload;
+>> @@ -989,24 +989,20 @@ static int smscore_load_firmware_family2(struct smscore_device_t *coredev,
+>>  		goto exit_fw_download;
+>>  
+>>  	if (coredev->mode == DEVICE_MODE_NONE) {
+>> -		struct sms_msg_data *trigger_msg =
+>> -			(struct sms_msg_data *) msg;
+>> -
+>>  		pr_debug("sending MSG_SMS_SWDOWNLOAD_TRIGGER_REQ\n");
+>>  		SMS_INIT_MSG(&msg->x_msg_header,
+>>  				MSG_SMS_SWDOWNLOAD_TRIGGER_REQ,
+>> -				sizeof(struct sms_msg_hdr) +
+>> -				sizeof(u32) * 5);
+>> +				sizeof(*msg));
+>>  
+>> -		trigger_msg->msg_data[0] = firmware->start_address;
+>> +		msg->msg_data[0] = firmware->start_address;
+>>  					/* Entry point */
+>> -		trigger_msg->msg_data[1] = 6; /* Priority */
+>> -		trigger_msg->msg_data[2] = 0x200; /* Stack size */
+>> -		trigger_msg->msg_data[3] = 0; /* Parameter */
+>> -		trigger_msg->msg_data[4] = 4; /* Task ID */
+>> +		msg->msg_data[1] = 6; /* Priority */
+>> +		msg->msg_data[2] = 0x200; /* Stack size */
+>> +		msg->msg_data[3] = 0; /* Parameter */
+>> +		msg->msg_data[4] = 4; /* Task ID */
+>>  
+>> -		rc = smscore_sendrequest_and_wait(coredev, trigger_msg,
+>> -					trigger_msg->x_msg_header.msg_length,
+>> +		rc = smscore_sendrequest_and_wait(coredev, msg,
+>> +					msg->x_msg_header.msg_length,
+>>  					&coredev->trigger_done);
+>>  	} else {
+>>  		SMS_INIT_MSG(&msg->x_msg_header, MSG_SW_RELOAD_EXEC_REQ,
+>> diff --git a/drivers/media/common/siano/smscoreapi.h b/drivers/media/common/siano/smscoreapi.h
+>> index 4a6b9f4c44ac..f8789ee0d554 100644
+>> --- a/drivers/media/common/siano/smscoreapi.h
+>> +++ b/drivers/media/common/siano/smscoreapi.h
+>> @@ -624,9 +624,9 @@ struct sms_msg_data2 {
+>>  	u32 msg_data[2];
+>>  };
+>>  
+>> -struct sms_msg_data4 {
+>> +struct sms_msg_data5 {
+>>  	struct sms_msg_hdr x_msg_header;
+>> -	u32 msg_data[4];
+>> +	u32 msg_data[5];
+>>  };
+>>  
+>>  struct sms_data_download {
+>>
