@@ -2,90 +2,240 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60BB3379E0A
-	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 06:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36312379F93
+	for <lists+linux-media@lfdr.de>; Tue, 11 May 2021 08:13:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229586AbhEKEKi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 May 2021 00:10:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50178 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbhEKEKh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 May 2021 00:10:37 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3244C061574;
-        Mon, 10 May 2021 21:09:30 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id b14-20020a17090a6e0eb0290155c7f6a356so687691pjk.0;
-        Mon, 10 May 2021 21:09:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=V5cc8gqWmhgI8hymJnMxwJpjQF8i+VU2pCJJ8axwstk=;
-        b=dXYTVILtW0smoS+ZCCp5EKDoSxqxtkmkBGghPetrKwjOh7CMyDUtvatt+o49mlEC+p
-         VCC5qxBMsKrHzec9wcE7cP/ZtBa5s1n5ezpdPDXEX+52xnqqeFma9lOeCczZr4fnozhc
-         o2EAGXFhRjzQpTKXGjRiR/oMXUoyBeesKN2rr+QyW7VYX9SUiUEWcdLXHrgA7C+GDWkE
-         lL8on+iYUS4iGpa3tiXuPqqBnpl517Y83MhhrWrS9SYU3R1DFFMcZumQ4HxmiGOdVTkk
-         Sp9q5PoLoL/CS4wmXnjWPNkzHMIEMB1ItjXny6mpsrlRUyKLrq023pTah9W8ehYDxkQZ
-         8HUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=V5cc8gqWmhgI8hymJnMxwJpjQF8i+VU2pCJJ8axwstk=;
-        b=rFGqJ2BxLgyjhydRlLyyMXpyRkSPSziPcypBP4NTLH5Mx+ls61m8OKe19l6EynonQy
-         vw0DfeoSAe1Uj4nxzczgXnmjggM74wi4D8gMU8iyBkb/Y9O3Fn/ImRIw/9kiElawmuxQ
-         UL8C7S9BQdIdLbCvD6/59BzC7HQD7ArwgbZ1CYx+R+kUD+w9bI5kIIFlJYumz3Ym/D4J
-         2benIxvWzgH3rymzqgzcCmR+ViSXFeY2fh14rrBg+zz/VTvYHuoTD5A1kGFAq98uOGPT
-         A8p8t0glRg4iCXqaJm5V7N882CpFGmgl3opNsPR19NJiXwB2KgRruRlsz50GmpY5mteH
-         g1+w==
-X-Gm-Message-State: AOAM532Yot9ZWWZDZS5Uh9zTymWb9kOk+Fo+KUw7hPyJBGuwuMDXEOPB
-        u3Pv/gp/fo/s1ulotRJagYM=
-X-Google-Smtp-Source: ABdhPJx92pj68s8jJWnq2LdkDNdYrQb2lFiDBdLcfgK3rBeuv9O5qgLHeqYSp905RMzgPA5h8BA2SQ==
-X-Received: by 2002:a17:90a:488a:: with SMTP id b10mr31428392pjh.2.1620706170503;
-        Mon, 10 May 2021 21:09:30 -0700 (PDT)
-Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
-        by smtp.gmail.com with ESMTPSA id g18sm12531352pfb.178.2021.05.10.21.09.27
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 May 2021 21:09:30 -0700 (PDT)
-From:   dillon.minfei@gmail.com
-To:     mchehab+huawei@kernel.org, hverkuil-cisco@xs4all.nl,
-        a.hajda@samsung.com
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dillon Min <dillon.minfei@gmail.com>
-Subject: [PATCH] media: s5p-g2d: Fix a memory leak on ctx->fh.m2m_ctx
-Date:   Tue, 11 May 2021 12:09:24 +0800
-Message-Id: <1620706164-28856-1-git-send-email-dillon.minfei@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        id S230018AbhEKGOv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 May 2021 02:14:51 -0400
+Received: from mga01.intel.com ([192.55.52.88]:28920 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229840AbhEKGOv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 May 2021 02:14:51 -0400
+IronPort-SDR: q6B7qhVcSDEKB+avr1dhcfRQqCgaMZiVoOZ8JHCXNcbmyOiqqHii/bbonf2jLETeE+dEhGbHlH
+ cCasDMuSyFbQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="220320635"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; 
+   d="scan'208";a="220320635"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 23:13:45 -0700
+IronPort-SDR: Oj17utWyshzF2uUXKnIVJZ42ODLduaCW2gmmep0dypxaxNsQGmG3GD8UJmmt/c3XN8J6AqfDr0
+ Tuohh4UNOjhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; 
+   d="scan'208";a="621685197"
+Received: from lkp-server01.sh.intel.com (HELO f375d57c4ed4) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 10 May 2021 23:13:43 -0700
+Received: from kbuild by f375d57c4ed4 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lgLeI-0000aD-SD; Tue, 11 May 2021 06:13:42 +0000
+Date:   Tue, 11 May 2021 14:12:50 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ 73edc4da40635774100d0eb9ca2e6476e3b2b470
+Message-ID: <609a2062.7WfAXZnwgV8F9MeP%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dillon Min <dillon.minfei@gmail.com>
+tree/branch: git://git.ragnatech.se/linux media-tree
+branch HEAD: 73edc4da40635774100d0eb9ca2e6476e3b2b470  media: staging: media: atomisp: pci: Format comments according to coding-style in file atomisp_cmd.h
 
-The m2m_ctx resources was allocated by v4l2_m2m_ctx_init() in g2d_open()
-should be freed from g2d_release() when it's not used.
+elapsed time: 1185m
 
-Fix it
+configs tested: 178
+configs skipped: 2
 
-Fixes: 918847341af0 ("[media] v4l: add G2D driver for s5p device family")
-Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+x86_64                           allyesconfig
+riscv                            allmodconfig
+i386                             allyesconfig
+riscv                            allyesconfig
+i386                                defconfig
+ia64                      gensparse_defconfig
+arm                        neponset_defconfig
+arm                            qcom_defconfig
+sh                          urquell_defconfig
+arm                          exynos_defconfig
+sparc                       sparc32_defconfig
+riscv                             allnoconfig
+arm                       aspeed_g4_defconfig
+mips                        workpad_defconfig
+arm                       aspeed_g5_defconfig
+arm                           u8500_defconfig
+arm                          iop32x_defconfig
+mips                          ath25_defconfig
+arc                                 defconfig
+riscv                            alldefconfig
+arm                         lpc32xx_defconfig
+mips                      maltaaprp_defconfig
+sh                     magicpanelr2_defconfig
+m68k                        mvme16x_defconfig
+mips                           xway_defconfig
+powerpc                  storcenter_defconfig
+mips                           ip32_defconfig
+arm                             mxs_defconfig
+parisc                generic-64bit_defconfig
+ia64                             allyesconfig
+arm                          simpad_defconfig
+sh                          polaris_defconfig
+sparc                            allyesconfig
+mips                     loongson1c_defconfig
+mips                       capcella_defconfig
+arm                           sunxi_defconfig
+arm                          pxa3xx_defconfig
+powerpc                 mpc834x_itx_defconfig
+mips                     decstation_defconfig
+arm                        magician_defconfig
+powerpc                 mpc85xx_cds_defconfig
+nios2                               defconfig
+mips                     cu1830-neo_defconfig
+x86_64                           alldefconfig
+mips                        bcm47xx_defconfig
+mips                         tb0226_defconfig
+powerpc                 xes_mpc85xx_defconfig
+mips                        omega2p_defconfig
+arm                         mv78xx0_defconfig
+ia64                             alldefconfig
+arc                          axs101_defconfig
+sh                      rts7751r2d1_defconfig
+sh                   secureedge5410_defconfig
+powerpc                 mpc837x_mds_defconfig
+arc                        vdk_hs38_defconfig
+mips                          ath79_defconfig
+openrisc                    or1ksim_defconfig
+mips                  cavium_octeon_defconfig
+powerpc                      chrp32_defconfig
+powerpc                 mpc8272_ads_defconfig
+powerpc                          g5_defconfig
+arm                      footbridge_defconfig
+arm                       multi_v4t_defconfig
+sh                        sh7757lcr_defconfig
+mips                        nlm_xlp_defconfig
+arc                 nsimosci_hs_smp_defconfig
+csky                                defconfig
+mips                       rbtx49xx_defconfig
+sh                          kfr2r09_defconfig
+powerpc               mpc834x_itxgp_defconfig
+mips                          rb532_defconfig
+mips                           ci20_defconfig
+arc                     nsimosci_hs_defconfig
+sparc                               defconfig
+mips                malta_qemu_32r6_defconfig
+powerpc                 canyonlands_defconfig
+sh                           se7619_defconfig
+sh                     sh7710voipgw_defconfig
+sh                          rsk7201_defconfig
+sh                               j2_defconfig
+powerpc                   currituck_defconfig
+mips                            gpr_defconfig
+arm                          ixp4xx_defconfig
+sh                              ul2_defconfig
+powerpc                     rainier_defconfig
+xtensa                       common_defconfig
+m68k                        stmark2_defconfig
+mips                           gcw0_defconfig
+m68k                            q40_defconfig
+sh                        edosk7760_defconfig
+mips                      pistachio_defconfig
+mips                  decstation_64_defconfig
+arm                      jornada720_defconfig
+x86_64                            allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a003-20210510
+x86_64               randconfig-a004-20210510
+x86_64               randconfig-a001-20210510
+x86_64               randconfig-a005-20210510
+x86_64               randconfig-a002-20210510
+x86_64               randconfig-a006-20210510
+i386                 randconfig-a003-20210510
+i386                 randconfig-a001-20210510
+i386                 randconfig-a005-20210510
+i386                 randconfig-a004-20210510
+i386                 randconfig-a002-20210510
+i386                 randconfig-a006-20210510
+i386                 randconfig-a003-20210511
+i386                 randconfig-a001-20210511
+i386                 randconfig-a005-20210511
+i386                 randconfig-a004-20210511
+i386                 randconfig-a002-20210511
+i386                 randconfig-a006-20210511
+x86_64               randconfig-a012-20210511
+x86_64               randconfig-a015-20210511
+x86_64               randconfig-a011-20210511
+x86_64               randconfig-a013-20210511
+x86_64               randconfig-a016-20210511
+x86_64               randconfig-a014-20210511
+i386                 randconfig-a016-20210510
+i386                 randconfig-a014-20210510
+i386                 randconfig-a011-20210510
+i386                 randconfig-a015-20210510
+i386                 randconfig-a012-20210510
+i386                 randconfig-a013-20210510
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a015-20210510
+x86_64               randconfig-a012-20210510
+x86_64               randconfig-a011-20210510
+x86_64               randconfig-a013-20210510
+x86_64               randconfig-a016-20210510
+x86_64               randconfig-a014-20210510
+x86_64               randconfig-a003-20210511
+x86_64               randconfig-a004-20210511
+x86_64               randconfig-a001-20210511
+x86_64               randconfig-a005-20210511
+x86_64               randconfig-a002-20210511
+x86_64               randconfig-a006-20210511
+
 ---
- drivers/media/platform/s5p-g2d/g2d.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/media/platform/s5p-g2d/g2d.c b/drivers/media/platform/s5p-g2d/g2d.c
-index 15bcb7f6e113..0818fdd3e984 100644
---- a/drivers/media/platform/s5p-g2d/g2d.c
-+++ b/drivers/media/platform/s5p-g2d/g2d.c
-@@ -279,6 +279,9 @@ static int g2d_release(struct file *file)
- 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
- 	v4l2_fh_del(&ctx->fh);
- 	v4l2_fh_exit(&ctx->fh);
-+	mutex_lock(&dev->mutex);
-+	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
-+	mutex_unlock(&dev->mutex);
- 	kfree(ctx);
- 	v4l2_info(&dev->v4l2_dev, "instance closed\n");
- 	return 0;
--- 
-2.7.4
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
