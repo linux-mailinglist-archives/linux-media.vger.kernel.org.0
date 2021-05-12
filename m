@@ -2,44 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4E9737BD0D
-	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 14:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0A4537BD05
+	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 14:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231792AbhELMxF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 May 2021 08:53:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52504 "EHLO mail.kernel.org"
+        id S231710AbhELMxD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 May 2021 08:53:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52780 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231481AbhELMw7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 May 2021 08:52:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C79261433;
+        id S231389AbhELMwz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 May 2021 08:52:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8CEA661434;
         Wed, 12 May 2021 12:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823902;
-        bh=9CPQp7MPzDV6VUXKW/UwJMFGHuGr2ouXLMwFYL30Ie8=;
+        bh=qN4Xto9q7BDAdXgMgIL7kT5vL081HfY6IT10ClR3inc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LZ/zLEsCzTMn33lLAlI+FcB1PvtFemZvcFqOe0kLj6E8X27RmgdG+FFkCid1ZcvD3
-         A/WsjuQ+ZLkcI8eoLyBvnHTiws6g2SsMGo+Yw732IGQ6gWlwzHNL1EWjKgrAW5BcHj
-         4f/8UEzI2mlzmfQnxESDaKAsl/Ff+bLEaqewRUvWZZFiTvvcrMwuA/ijYHEZdWpZe5
-         eOCcVFdBP5Ro7c1VK1GA9dSRkoQPag0lLzfbXQCGJ3c7ivRQt7RTwESj6a549za3Gf
-         ANVlN1OQfNIhwmI8eWHeHYzHYarpjc7GIbznoAMmZN4hYB1Z0lAWILJeiwu9oPBYGQ
-         HDttaeqlXaGKQ==
+        b=DGeLH8hN5cv5F/plR/w5nPL2vN/UHSeumvMtO8JYvmtrXodeHPvgDClbohFVfZ5yz
+         oCmRFs6m0i4oq5UPCiCL0Nn3pW9eOvhj/2Ekf+yj04zljGP0uQSTkiKAJm70UtGCAZ
+         +K+Pslo5TUV4ItKS3qkMMgS8byCGC8WR6a1nvezjJxMbXJVbwz/FmFLhYxPLFoUWyT
+         lcMEH/sxAZMsJ9seaR8a6SEncDgW+NHTPAi9v5tjSdZ/PffxRp4LjC40dc7GoiGFfd
+         F3IQZGf8nnBpkw8kNQSz0YvKy2peSt8EvSGQa/4BxAIJmhiYgkOK9EeiYFZhWXg1U2
+         /kM3pnblXT2iA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018hl-L6; Wed, 12 May 2021 14:51:40 +0200
+        id 1lgoKy-0018hp-N4; Wed, 12 May 2021 14:51:40 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2 15/40] docs: userspace-api: media: v4l: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:19 +0200
-Message-Id: <9b48ff68615727c517df824af6a5b8f9edf55622.1620823573.git.mchehab+huawei@kernel.org>
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 16/40] docs: userspace-api: media: dvb: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:20 +0200
+Message-Id: <ce5783afc7452bfe1eb8d812c18f498cf78d34b1.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -67,125 +63,124 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 So, replace the occurences of the following UTF-8 characters:
 
 	- U+00a0 (' '): NO-BREAK SPACE
-	- U+00d7 ('×'): MULTIPLICATION SIGN
 	- U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
+	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
+	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/userspace-api/media/v4l/crop.rst   | 16 ++++++++--------
- .../userspace-api/media/v4l/dev-decoder.rst      |  6 +++---
- .../userspace-api/media/v4l/diff-v4l.rst         |  2 +-
- Documentation/userspace-api/media/v4l/open.rst   |  2 +-
- .../userspace-api/media/v4l/vidioc-cropcap.rst   |  4 ++--
- 5 files changed, 15 insertions(+), 15 deletions(-)
+ .../userspace-api/media/dvb/audio-set-bypass-mode.rst       | 2 +-
+ Documentation/userspace-api/media/dvb/audio.rst             | 2 +-
+ Documentation/userspace-api/media/dvb/dmx-fopen.rst         | 2 +-
+ Documentation/userspace-api/media/dvb/dmx-fread.rst         | 2 +-
+ Documentation/userspace-api/media/dvb/dmx-set-filter.rst    | 2 +-
+ Documentation/userspace-api/media/dvb/intro.rst             | 6 +++---
+ Documentation/userspace-api/media/dvb/video.rst             | 2 +-
+ 7 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/crop.rst b/Documentation/userspace-api/media/v4l/crop.rst
-index 3fe185e25ccf..23c2b71f449e 100644
---- a/Documentation/userspace-api/media/v4l/crop.rst
-+++ b/Documentation/userspace-api/media/v4l/crop.rst
-@@ -130,22 +130,22 @@ the driver state and therefore only adjust the requested rectangle.
+diff --git a/Documentation/userspace-api/media/dvb/audio-set-bypass-mode.rst b/Documentation/userspace-api/media/dvb/audio-set-bypass-mode.rst
+index ecac02f1b2fc..80d551a2053a 100644
+--- a/Documentation/userspace-api/media/dvb/audio-set-bypass-mode.rst
++++ b/Documentation/userspace-api/media/dvb/audio-set-bypass-mode.rst
+@@ -50,7 +50,7 @@ Description
  
- Suppose scaling on a video capture device is restricted to a factor 1:1
- or 2:1 in either direction and the target image size must be a multiple
--of 16 × 16 pixels. The source cropping rectangle is set to defaults,
--which are also the upper limit in this example, of 640 × 400 pixels at
--offset 0, 0. An application requests an image size of 300 × 225 pixels,
-+of 16 x 16 pixels. The source cropping rectangle is set to defaults,
-+which are also the upper limit in this example, of 640 x 400 pixels at
-+offset 0, 0. An application requests an image size of 300 x 225 pixels,
- assuming video will be scaled down from the "full picture" accordingly.
--The driver sets the image size to the closest possible values 304 × 224,
-+The driver sets the image size to the closest possible values 304 x 224,
- then chooses the cropping rectangle closest to the requested size, that
--is 608 × 224 (224 × 2:1 would exceed the limit 400). The offset 0, 0 is
-+is 608 x 224 (224 x 2:1 would exceed the limit 400). The offset 0, 0 is
- still valid, thus unmodified. Given the default cropping rectangle
- reported by :ref:`VIDIOC_CROPCAP <VIDIOC_CROPCAP>` the application can
- easily propose another offset to center the cropping rectangle.
+ This ioctl call asks the Audio Device to bypass the Audio decoder and
+ forward the stream without decoding. This mode shall be used if streams
+-that can’t be handled by the Digital TV system shall be decoded. Dolby
++that can't be handled by the Digital TV system shall be decoded. Dolby
+ DigitalTM streams are automatically forwarded by the Digital TV subsystem if
+ the hardware can handle it.
  
- Now the application may insist on covering an area using a picture
- aspect ratio closer to the original request, so it asks for a cropping
--rectangle of 608 × 456 pixels. The present scaling factors limit
--cropping to 640 × 384, so the driver returns the cropping size 608 × 384
--and adjusts the image size to closest possible 304 × 192.
-+rectangle of 608 x 456 pixels. The present scaling factors limit
-+cropping to 640 x 384, so the driver returns the cropping size 608 x 384
-+and adjusts the image size to closest possible 304 x 192.
+diff --git a/Documentation/userspace-api/media/dvb/audio.rst b/Documentation/userspace-api/media/dvb/audio.rst
+index eaae5675a47d..aa753336b31f 100644
+--- a/Documentation/userspace-api/media/dvb/audio.rst
++++ b/Documentation/userspace-api/media/dvb/audio.rst
+@@ -11,7 +11,7 @@ TV hardware. It can be accessed through ``/dev/dvb/adapter?/audio?``. Data
+ types and ioctl definitions can be accessed by including
+ ``linux/dvb/audio.h`` in your application.
  
+-Please note that some Digital TV cards don’t have their own MPEG decoder, which
++Please note that some Digital TV cards don't have their own MPEG decoder, which
+ results in the omission of the audio and video device.
  
- Examples
-diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-index 3d4138a4ba69..5b9b83feeceb 100644
---- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-@@ -38,7 +38,7 @@ Conventions and Notations Used in This Document
- 6. i = [a..b]: sequence of integers from a to b, inclusive, i.e. i =
-    [0..2]: i = 0, 1, 2.
+ These ioctls were also used by V4L2 to control MPEG decoders implemented
+diff --git a/Documentation/userspace-api/media/dvb/dmx-fopen.rst b/Documentation/userspace-api/media/dvb/dmx-fopen.rst
+index 8f0a2b831d4a..50b36eb4371e 100644
+--- a/Documentation/userspace-api/media/dvb/dmx-fopen.rst
++++ b/Documentation/userspace-api/media/dvb/dmx-fopen.rst
+@@ -82,7 +82,7 @@ appropriately.
+     :widths: 1 16
  
--7. Given an ``OUTPUT`` buffer A, then A’ represents a buffer on the ``CAPTURE``
-+7. Given an ``OUTPUT`` buffer A, then A' represents a buffer on the ``CAPTURE``
-    queue containing data that resulted from processing buffer A.
+     -  -  ``EMFILE``
+-       -  “Too many open files”, i.e. no more filters available.
++       -  "Too many open files", i.e. no more filters available.
  
- .. _decoder-glossary:
-@@ -288,7 +288,7 @@ Initialization
+ The generic error codes are described at the
+ :ref:`Generic Error Codes <gen-errors>` chapter.
+diff --git a/Documentation/userspace-api/media/dvb/dmx-fread.rst b/Documentation/userspace-api/media/dvb/dmx-fread.rst
+index 78e9daef595a..88c4cddf7c30 100644
+--- a/Documentation/userspace-api/media/dvb/dmx-fread.rst
++++ b/Documentation/userspace-api/media/dvb/dmx-fread.rst
+@@ -34,7 +34,7 @@ Description
  
-       Changing the ``OUTPUT`` format may change the currently set ``CAPTURE``
-       format. How the new ``CAPTURE`` format is determined is up to the decoder
--      and the client must ensure it matches its needs afterwards.
-+      and the client must ensure it matches its needs afterwards.
+ This system call returns filtered data, which might be section or Packetized
+ Elementary Stream (PES) data. The filtered data is transferred from
+-the driver’s internal circular buffer to ``buf``. The maximum amount of data
++the driver's internal circular buffer to ``buf``. The maximum amount of data
+ to be transferred is implied by count.
  
- 2.  Allocate source (bytestream) buffers via :c:func:`VIDIOC_REQBUFS` on
-     ``OUTPUT``.
-@@ -874,7 +874,7 @@ it may be affected as per normal decoder operation.
+ .. note::
+diff --git a/Documentation/userspace-api/media/dvb/dmx-set-filter.rst b/Documentation/userspace-api/media/dvb/dmx-set-filter.rst
+index f43455b7adae..1b8c8071b14f 100644
+--- a/Documentation/userspace-api/media/dvb/dmx-set-filter.rst
++++ b/Documentation/userspace-api/media/dvb/dmx-set-filter.rst
+@@ -37,7 +37,7 @@ parameters provided. A timeout may be defined stating number of seconds
+ to wait for a section to be loaded. A value of 0 means that no timeout
+ should be applied. Finally there is a flag field where it is possible to
+ state whether a section should be CRC-checked, whether the filter should
+-be a ”one-shot” filter, i.e. if the filtering operation should be
++be a "one-shot" filter, i.e. if the filtering operation should be
+ stopped after the first section is received, and whether the filtering
+ operation should be started immediately (without waiting for a
+ :ref:`DMX_START` ioctl call). If a filter was previously set-up, this
+diff --git a/Documentation/userspace-api/media/dvb/intro.rst b/Documentation/userspace-api/media/dvb/intro.rst
+index a935f3914e56..6784ae79657c 100644
+--- a/Documentation/userspace-api/media/dvb/intro.rst
++++ b/Documentation/userspace-api/media/dvb/intro.rst
+@@ -107,7 +107,7 @@ Audio and video decoder
+       a Systems on a Chip (SoC) integrated circuit.
  
-    any of the following results on the ``CAPTURE`` queue is allowed:
+       It may also not be needed for certain usages (e.g. for data-only
+-      uses like “internet over satellite”).
++      uses like "internet over satellite").
  
--     {A’, B’, G’, H’}, {A’, G’, H’}, {G’, H’}.
-+     {A', B', G', H'}, {A', G', H'}, {G', H'}.
+ :ref:`stb_components` shows a crude schematic of the control and data
+ flow between those components.
+@@ -148,9 +148,9 @@ individual devices are called:
  
-    To determine the CAPTURE buffer containing the first decoded frame after the
-    seek, the client may observe the timestamps to match the CAPTURE and OUTPUT
-diff --git a/Documentation/userspace-api/media/v4l/diff-v4l.rst b/Documentation/userspace-api/media/v4l/diff-v4l.rst
-index 33243ecb5033..9ce60e625974 100644
---- a/Documentation/userspace-api/media/v4l/diff-v4l.rst
-+++ b/Documentation/userspace-api/media/v4l/diff-v4l.rst
-@@ -447,7 +447,7 @@ name ``V4L2_FBUF_FLAG_CHROMAKEY``.
+ -  ``/dev/dvb/adapterN/caM``,
  
- In V4L, storing a bitmap pointer in ``clips`` and setting ``clipcount``
- to ``VIDEO_CLIP_BITMAP`` (-1) requests bitmap clipping, using a fixed
--size bitmap of 1024 × 625 bits. Struct :c:type:`v4l2_window`
-+size bitmap of 1024 x 625 bits. Struct :c:type:`v4l2_window`
- has a separate ``bitmap`` pointer field for this purpose and the bitmap
- size is determined by ``w.width`` and ``w.height``.
+-where ``N`` enumerates the Digital TV cards in a system starting from 0, and
++where ``N`` enumerates the Digital TV cards in a system starting from 0, and
+ ``M`` enumerates the devices of each type within each adapter, starting
+-from 0, too. We will omit the “``/dev/dvb/adapterN/``\ ” in the further
++from 0, too. We will omit the "``/dev/dvb/adapterN/``\ " in the further
+ discussion of these devices.
  
-diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
-index 18bfb9b8137d..b015bbbdf8b5 100644
---- a/Documentation/userspace-api/media/v4l/open.rst
-+++ b/Documentation/userspace-api/media/v4l/open.rst
-@@ -100,7 +100,7 @@ Where ``X`` is a non-negative integer.
- 	$ tree /dev/v4l
- 	/dev/v4l
- 	├── by-id
--	│   └── usb-OmniVision._USB_Camera-B4.04.27.1-video-index0 -> ../../video0
-+	│   └── usb-OmniVision._USB_Camera-B4.04.27.1-video-index0 -> ../../video0
- 	└── by-path
- 	    └── pci-0000:00:14.0-usb-0:2:1.0-video-index0 -> ../../video0
+ More details about the data structures and function calls of all the
+diff --git a/Documentation/userspace-api/media/dvb/video.rst b/Documentation/userspace-api/media/dvb/video.rst
+index 38a8d39a1d25..808705b769a1 100644
+--- a/Documentation/userspace-api/media/dvb/video.rst
++++ b/Documentation/userspace-api/media/dvb/video.rst
+@@ -16,7 +16,7 @@ stream, not its presentation on the TV or computer screen. On PCs this
+ is typically handled by an associated video4linux device, e.g.
+ **/dev/video**, which allows scaling and defining output windows.
  
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst b/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst
-index 551ac9d3c6ef..4ea652e66401 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-cropcap.rst
-@@ -69,8 +69,8 @@ overlay devices.
-     * - struct :ref:`v4l2_rect <v4l2-rect-crop>`
-       - ``defrect``
-       - Default cropping rectangle, it shall cover the "whole picture".
--	Assuming pixel aspect 1/1 this could be for example a 640 × 480
--	rectangle for NTSC, a 768 × 576 rectangle for PAL and SECAM
-+	Assuming pixel aspect 1/1 this could be for example a 640 x 480
-+	rectangle for NTSC, a 768 x 576 rectangle for PAL and SECAM
- 	centered over the active picture area. The same co-ordinate system
- 	as for ``bounds`` is used.
-     * - struct :c:type:`v4l2_fract`
+-Some Digital TV cards don’t have their own MPEG decoder, which results in the
++Some Digital TV cards don't have their own MPEG decoder, which results in the
+ omission of the audio and video device as well as the video4linux
+ device.
+ 
 -- 
 2.30.2
 
