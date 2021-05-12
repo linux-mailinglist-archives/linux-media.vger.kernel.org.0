@@ -2,134 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D816C37BF30
-	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 16:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6CAD37BFAB
+	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 16:16:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231133AbhELOEp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 May 2021 10:04:45 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:3730 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230211AbhELOEp (ORCPT
+        id S231626AbhELORE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 May 2021 10:17:04 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:41050 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231630AbhELOQh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 May 2021 10:04:45 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14CDphZ0010801;
-        Wed, 12 May 2021 14:03:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=V+hE2ghJIzR7WK80U/S5ajeHoA9mgVnom0IfGthfcp0=;
- b=tpLsXOc24SmnYXMKlHelJK/1b9mbVL9DCDloLdip1ALLDJMTSE1qTT1Uxmszmnu8xQ2Y
- zLpGBEpfvViyF6DGaUCLqp52ZNpsUOiEIIuSQWCaW52sTNOsfh1fA8sfEpE0sFDS2vuM
- PhJxXWW7+4CHT9fCTBw6D1xt2RNwn6DVid3hFX7z8KlYQYy4hOghyGEEvXolOVDNor9I
- xHtRpOOvtx83Zw6bKhHl3YV2gN6M8w97aJbvvISe2lnd7jZ6hDY28EVbV4eOvPcCXW7T
- UqPUfmA3Hzpd7QZKfsOCTPhXXnl9Bu/UGRiQvSFL7Iqi0kdILgHRoJDnwrLEY/InH0PT Wg== 
-Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by mx0b-00069f02.pphosted.com with ESMTP id 38eyurrsdg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 12 May 2021 14:03:35 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14CE3ZYi086243;
-        Wed, 12 May 2021 14:03:35 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by aserp3030.oracle.com with ESMTP id 38e5pyxrxk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 12 May 2021 14:03:35 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14CE3Yhg086231;
-        Wed, 12 May 2021 14:03:34 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 38e5pyxrx9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 12 May 2021 14:03:34 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14CE3XqU031598;
-        Wed, 12 May 2021 14:03:33 GMT
-Received: from mwanda (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 12 May 2021 07:03:33 -0700
-Date:   Wed, 12 May 2021 17:03:26 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     baijiaju1990@gmail.com
-Cc:     linux-media@vger.kernel.org
-Subject: [bug report] media: tuners: fix error return code of
- hybrid_tuner_request_state()
-Message-ID: <YJvgLgZAEo5NtM2x@mwanda>
+        Wed, 12 May 2021 10:16:37 -0400
+Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 14CEEiap031112
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 12 May 2021 10:14:45 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 448C815C39C2; Wed, 12 May 2021 10:14:44 -0400 (EDT)
+Date:   Wed, 12 May 2021 10:14:44 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mali DP Maintainers <malidp@foss.arm.com>,
+        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
+        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
+        rcu@vger.kernel.org
+Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
+ symbols
+Message-ID: <YJvi1L2ss5Tfi+My@mit.edu>
+References: <cover.1620823573.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Proofpoint-GUID: NM0TwrvEgO2Mz-8sGyfdCNGb5UHwdXfp
-X-Proofpoint-ORIG-GUID: NM0TwrvEgO2Mz-8sGyfdCNGb5UHwdXfp
+In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Jia-Ju Bai,
+On Wed, May 12, 2021 at 02:50:04PM +0200, Mauro Carvalho Chehab wrote:
+> v2:
+> - removed EM/EN DASH conversion from this patchset;
 
-The patch b9302fa7ed97: "media: tuners: fix error return code of
-hybrid_tuner_request_state()" from Mar 6, 2021, leads to the
-following static checker warnings:
+Are you still thinking about doing the
 
-drivers/media/tuners/tuner-simple.c:1112 simple_tuner_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
-drivers/media/tuners/mxl5007t.c:885 mxl5007t_attach() error: potential null dereference 'state'.  (<unknown> returns null)
-drivers/media/tuners/tda18271-fe.c:1311 tda18271_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
-drivers/media/tuners/xc4000.c:1685 xc4000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
-drivers/media/tuners/xc4000.c:1699 xc4000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
-drivers/media/tuners/xc5000.c:1397 xc5000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
-drivers/media/tuners/r820t.c:2350 r820t_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
-drivers/media/tuners/tuner-xc2028.c:1500 xc2028_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+EN DASH --> "--"
+EM DASH --> "---"
 
-drivers/media/tuners/tuner-i2c.h
-   109  /* The return value of hybrid_tuner_request_state indicates the number of
-   110   * instances using this tuner object.
-   111   *
-   112   * 0 - no instances, indicates an error - kzalloc must have failed
+conversion?  That's not going to change what the documentation will
+look like in the HTML and PDF output forms, and I think it would make
+life easier for people are reading and editing the Documentation/*
+files in text form.
 
-The comment says that hybrid_tuner_request_state() returns an error.
-
-   113   *
-   114   * 1 - one instance, indicates that the tuner object was created successfully
-   115   *
-   116   * 2 (or more) instances, indicates that an existing tuner object was found
-   117   */
-   118  
-   119  #define hybrid_tuner_request_state(type, state, list, i2cadap, i2caddr, devname)\
-   120  ({                                                                      \
-   121          int __ret = 0;                                                  \
-   122          list_for_each_entry(state, &list, hybrid_tuner_instance_list) { \
-   123                  if (((i2cadap) && (state->i2c_props.adap)) &&           \
-   124                      ((i2c_adapter_id(state->i2c_props.adap) ==          \
-   125                        i2c_adapter_id(i2cadap)) &&                       \
-   126                       (i2caddr == state->i2c_props.addr))) {             \
-   127                          __tuner_info(state->i2c_props,                  \
-   128                                       "attaching existing instance\n");  \
-   129                          state->i2c_props.count++;                       \
-   130                          __ret = state->i2c_props.count;                 \
-   131                          break;                                          \
-   132                  }                                                       \
-   133          }                                                               \
-   134          if (0 == __ret) {                                               \
-   135                  state = kzalloc(sizeof(type), GFP_KERNEL);              \
-   136                  if (!state) {                                           \
-   137                          __ret = -ENOMEM;                                \
-   138                          goto __fail;                                    \
-
-But the patch changes the code to return -ENOMEM on error.  The callers
-need to be updated or it intruces a bunch of potential NULL
-dereferences.
-
-   139                  }                                                       \
-   140                  state->i2c_props.addr = i2caddr;                        \
-   141                  state->i2c_props.adap = i2cadap;                        \
-   142                  state->i2c_props.name = devname;                        \
-   143                  __tuner_info(state->i2c_props,                          \
-   144                               "creating new instance\n");                \
-   145                  list_add_tail(&state->hybrid_tuner_instance_list, &list);\
-   146                  state->i2c_props.count++;                               \
-   147                  __ret = state->i2c_props.count;                         \
-   148          }                                                               \
-   149  __fail:                                                                 \
-   150          __ret;                                                          \
-   151  })
-
-regards,
-dan carpenter
+				- Ted
