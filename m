@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB3C437B813
-	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 10:34:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A373337B8EB
+	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 11:15:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230455AbhELIfQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 May 2021 04:35:16 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:59312 "EHLO www.linuxtv.org"
+        id S230114AbhELJRB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 May 2021 05:17:01 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:34240 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230452AbhELIfQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 May 2021 04:35:16 -0400
+        id S230035AbhELJRA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 May 2021 05:17:00 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1lgkJj-00GFVo-15; Wed, 12 May 2021 08:34:07 +0000
+        id 1lgky7-00GHzk-KY; Wed, 12 May 2021 09:15:51 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1lgkNx-00059e-Km; Wed, 12 May 2021 08:38:29 +0000
-Date:   Wed, 12 May 2021 08:38:29 +0000 (UTC)
+        id 1lgl2M-0002Bq-GQ; Wed, 12 May 2021 09:20:14 +0000
+Date:   Wed, 12 May 2021 09:20:14 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1882303653.10.1620808709636@builder.linuxtv.org>
-In-Reply-To: <75384152.9.1620724944175@builder.linuxtv.org>
-References: <75384152.9.1620724944175@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3494
+Message-ID: <1096825257.11.1620811214499@builder.linuxtv.org>
+In-Reply-To: <1882303653.10.1620808709636@builder.linuxtv.org>
+References: <1882303653.10.1620808709636@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3495
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -38,26 +38,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3494/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/media-build/3495/display/redirect>
 
 Changes:
 
-[hverkuil-cisco] compat.h: add linux/kconfig.h include
-
-[hverkuil-cisco] Added backports/rc-cec.patch
-
-[hverkuil-cisco] Add backports/v5.12_uvc.patch
-
 
 ------------------------------------------
-[...truncated 32.84 KB...]
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_demux.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ca_en50221.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_frontend.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_net.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ringbuffer.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_vb2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_math.o>
+[...truncated 33.28 KB...]
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-adstech-dvb-t-pci.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-alink-dtu-m.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-anysee.o>
@@ -283,6 +270,13 @@ Changes:
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/budget-core.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/budget.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/budget-av.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/budget-ci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/budget-patch.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/av7110_hw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/av7110_v4l.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/av7110_av.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/av7110_ca.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/av7110.o>
 <https://builder.linuxtv.org/job/media-build/ws/v4l/mcam-core.c>: In function 'mclk_enable':
 <https://builder.linuxtv.org/job/media-build/ws/v4l/mcam-core.c>:935:8: error: implicit declaration of function 'pm_runtime_resume_and_get'; did you mean 'pm_runtime_resume'? [-Werror=implicit-function-declaration]
   ret = pm_runtime_resume_and_get(cam->dev);
