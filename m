@@ -2,67 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6CAD37BFAB
-	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 16:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58C5537BFB3
+	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 16:16:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231626AbhELORE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 May 2021 10:17:04 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:41050 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231630AbhELOQh (ORCPT
+        id S230483AbhELORn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 May 2021 10:17:43 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:15468 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231162AbhELOR3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 May 2021 10:16:37 -0400
-Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 14CEEiap031112
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 12 May 2021 10:14:45 -0400
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id 448C815C39C2; Wed, 12 May 2021 10:14:44 -0400 (EDT)
-Date:   Wed, 12 May 2021 10:14:44 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org
-Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
- symbols
-Message-ID: <YJvi1L2ss5Tfi+My@mit.edu>
-References: <cover.1620823573.git.mchehab+huawei@kernel.org>
+        Wed, 12 May 2021 10:17:29 -0400
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14CEDDh4029993;
+        Wed, 12 May 2021 14:16:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=fZwZo6h3NXAD9L+KDRUrlCgKwXzRCavdrOYZsyLaWW0=;
+ b=AtxlSA2U0jcu4MS1lubZLnUWP7TYRTEbPFH3KEcagHiuOQK4RjwwrgABx8OEcqslDrmv
+ 07N0A/MjtDUQrsA3ILuDQJ6QAtFpwKBmpEXNNJih5Flhej0s9WXLMV6t07denGO2WBOW
+ Io7pLnDNeaQBFL9vcNGAkQnTa3cMkZ1nw3qtVz8Zt2bQi9JcxyjCYjPDNhsEbOrooeb8
+ gDIFei+XKBfHB8hQqgEGK99pg938UYWZyJ9Xc3LBiMCAwLR4vkxJzu61esaUb6TF9pou
+ gI1bqI5Et3YLoxqTaOC/xVQ+Fg1lYL4Fj4QAeSdnGkx25A0N2uTXfjB5MEhxh6brVKXU 2A== 
+Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 38eyurrsjq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 12 May 2021 14:16:19 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14CEGJK3115813;
+        Wed, 12 May 2021 14:16:19 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3030.oracle.com with ESMTP id 38e5pyy0w5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 12 May 2021 14:16:19 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14CEGIaP115807;
+        Wed, 12 May 2021 14:16:18 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 38e5pyy0w1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 12 May 2021 14:16:18 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14CEGIDG019784;
+        Wed, 12 May 2021 14:16:18 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 12 May 2021 07:16:17 -0700
+Date:   Wed, 12 May 2021 17:16:12 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     baijiaju1990@gmail.com
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [bug report] media: tuners: fix error return code of
+ hybrid_tuner_request_state()
+Message-ID: <20210512141612.GA1922@kadam>
+References: <YJvgLgZAEo5NtM2x@mwanda>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
+In-Reply-To: <YJvgLgZAEo5NtM2x@mwanda>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: THaWaklJ-561kCwdx9L5Z_aV_Sa1irfj
+X-Proofpoint-ORIG-GUID: THaWaklJ-561kCwdx9L5Z_aV_Sa1irfj
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 12, 2021 at 02:50:04PM +0200, Mauro Carvalho Chehab wrote:
-> v2:
-> - removed EM/EN DASH conversion from this patchset;
+On Wed, May 12, 2021 at 05:03:26PM +0300, Dan Carpenter wrote:
+> Hello Jia-Ju Bai,
+> 
+> The patch b9302fa7ed97: "media: tuners: fix error return code of
+> hybrid_tuner_request_state()" from Mar 6, 2021, leads to the
+> following static checker warnings:
+> 
+> drivers/media/tuners/tuner-simple.c:1112 simple_tuner_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+> drivers/media/tuners/mxl5007t.c:885 mxl5007t_attach() error: potential null dereference 'state'.  (<unknown> returns null)
+> drivers/media/tuners/tda18271-fe.c:1311 tda18271_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+> drivers/media/tuners/xc4000.c:1685 xc4000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+> drivers/media/tuners/xc4000.c:1699 xc4000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+> drivers/media/tuners/xc5000.c:1397 xc5000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+> drivers/media/tuners/r820t.c:2350 r820t_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+> drivers/media/tuners/tuner-xc2028.c:1500 xc2028_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+> 
+> drivers/media/tuners/tuner-i2c.h
+>    109  /* The return value of hybrid_tuner_request_state indicates the number of
+>    110   * instances using this tuner object.
+>    111   *
+>    112   * 0 - no instances, indicates an error - kzalloc must have failed
+> 
+> The comment says that hybrid_tuner_request_state() returns an error.
 
-Are you still thinking about doing the
+I meant returns zero on error.
 
-EN DASH --> "--"
-EM DASH --> "---"
+regards,
+dan carpenter
 
-conversion?  That's not going to change what the documentation will
-look like in the HTML and PDF output forms, and I think it would make
-life easier for people are reading and editing the Documentation/*
-files in text form.
-
-				- Ted
