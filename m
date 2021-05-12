@@ -2,42 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 641FC37BCF0
-	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 14:51:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A285237BD02
+	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 14:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231319AbhELMww (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 May 2021 08:52:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52110 "EHLO mail.kernel.org"
+        id S231549AbhELMxB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 May 2021 08:53:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52580 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231224AbhELMwu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 May 2021 08:52:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2515061139;
+        id S231308AbhELMwv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 May 2021 08:52:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3CA0C613FE;
         Wed, 12 May 2021 12:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1620823902;
-        bh=bnu1cBkpfu6XTv2fqQnm+Wxaf59PXRV8jPumsy3FHs8=;
+        bh=gBojUuAxkEIMMYcr4yqiMf2CAE+iYREtTJ0SySLQafU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WDcRtBsBng0JUHK9CgbB58zQcXc0Srwj0bqrsRVVObHhVcU6eY/5brUTEAdXuEkso
-         qhqM2PqgMnDmLM7q0JQJ7qnvZm1Mhi/0Sfbzsnc6x0148WwFfXNJ0lPFyLHurEALwO
-         yWjlc1yLwQgZNqVph52DEIGsBPniyClMPysjErxPjr0xAzN/yWwEEAQNgXbnHPXYXd
-         FhZD4uwi7KZ29F0PM9eY63JtD4/k3wLIJ7MegOl9WJjMSG68QntEkI1vwQeFvMyZfP
-         PcVfW+RzO30jYIuyI2Gt8FvbQ/uDhnp6XvM1Z0MwwVO3CD5YsG0ercLSwjimPzTT3/
-         TLO3ffQA99q9g==
+        b=RS2dnaaG4Peowz7mEncXM71htgkxYx4eu7bN4QiWUF1PpM0CqPkD8YUD02Bjz/M+l
+         c1vyG3OBlLEBjlsHdhplqDN4koCozEOswNOS1PNzOKLzjtqrfeEOig+tXQ1AIq1u7j
+         P64PUf5HTtBZbf+QMBNcsjakFcxLZTbwhw18S+3c9xMIsXNi02HnLHA1fsHdf6/2Py
+         6TNuRp/89vvS4U8+arJgh7/vtKoj0Hy9Bid+rRBCQHxLhcFz5iZld7iLI9617g5lMr
+         uNNs1Elhvu3yQvcpQU5s1cdmUKnyjaY/m0YuWTXuGWYMqrtKwqR+ASkdtRq1PgQPg8
+         iFkLRxeJIlBSQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018gy-5n; Wed, 12 May 2021 14:51:40 +0200
+        id 1lgoKy-0018hN-CM; Wed, 12 May 2021 14:51:40 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Bingbu Cao <bingbu.cao@intel.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v2 03/40] docs: admin-guide: media: ipu3.rst: Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:07 +0200
-Message-Id: <54995f43fcba6c52b6f2163cd9f9e39cb702b40b.1620823573.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net
+Subject: [PATCH v2 09/40] docs: driver-api: media: drivers: Use ASCII subset instead of UTF-8 alternate symbols
+Date:   Wed, 12 May 2021 14:50:13 +0200
+Message-Id: <99228c03965f3347cd910e20f7c914e14c7243b7.1620823573.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620823573.git.mchehab+huawei@kernel.org>
 References: <cover.1620823573.git.mchehab+huawei@kernel.org>
@@ -64,27 +63,47 @@ Also, Sphinx already do such conversion automatically outside literal blocks:
 
 So, replace the occurences of the following UTF-8 characters:
 
-	- U+201c ('“'): LEFT DOUBLE QUOTATION MARK
-	- U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
+	- U+00ad ('­'): SOFT HYPHEN
+	- U+00b4 ('´'): ACUTE ACCENT
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/media/ipu3.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../driver-api/media/drivers/sh_mobile_ceu_camera.rst     | 8 ++++----
+ Documentation/driver-api/media/drivers/zoran.rst          | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
-index f59697c7b374..f77cb1384dc3 100644
---- a/Documentation/admin-guide/media/ipu3.rst
-+++ b/Documentation/admin-guide/media/ipu3.rst
-@@ -244,7 +244,7 @@ larger bayer frame for further YUV processing than "VIDEO" mode to get high
- quality images. Besides, "STILL" mode need XNR3 to do noise reduction, hence
- "STILL" mode will need more power and memory bandwidth than "VIDEO" mode. TNR
- will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is running at
--“VIDEO” mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
-+"VIDEO" mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
- (currently defined in drivers/staging/media/ipu3/include/intel-ipu3.h) to query
- and set the running mode. For user, there is no difference for buffer queueing
- between the "VIDEO" and "STILL" mode, mandatory input and main output node
+diff --git a/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst b/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst
+index 822fcb8368ae..280a322c34c6 100644
+--- a/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst
++++ b/Documentation/driver-api/media/drivers/sh_mobile_ceu_camera.rst
+@@ -30,10 +30,10 @@ Generic scaling / cropping scheme
+ 	|                       `. .6--
+ 	|
+ 	|                        . .6'-
+-	|                      .´
+-	|           ... -4'- .´
+-	|       ...´             - -7'.
+-	+-5'- .´               -/
++	|                      .'
++	|           ... -4'- .'
++	|       ...'             - -7'.
++	+-5'- .'               -/
+ 	|            -- -3'- -/
+ 	|         --/
+ 	|      --/
+diff --git a/Documentation/driver-api/media/drivers/zoran.rst b/Documentation/driver-api/media/drivers/zoran.rst
+index 83cbae9cedef..b205e10c3154 100644
+--- a/Documentation/driver-api/media/drivers/zoran.rst
++++ b/Documentation/driver-api/media/drivers/zoran.rst
+@@ -319,7 +319,7 @@ Conexant bt866 TV encoder
+ ~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ - is used in AVS6EYES, and
+-- can generate: NTSC/PAL, PAL­M, PAL­N
++- can generate: NTSC/PAL, PAL-M, PAL-N
+ 
+ The adv717x, should be able to produce PAL N. But you find nothing PAL N
+ specific in the registers. Seem that you have to reuse a other standard
 -- 
 2.30.2
 
