@@ -2,93 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFB5137BE71
-	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 15:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D816C37BF30
+	for <lists+linux-media@lfdr.de>; Wed, 12 May 2021 16:03:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230373AbhELNpr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 May 2021 09:45:47 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55858 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbhELNpq (ORCPT
+        id S231133AbhELOEp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 May 2021 10:04:45 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:3730 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230211AbhELOEp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 May 2021 09:45:46 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: adalessandro)
-        with ESMTPSA id E17E81F42685
-Subject: Re: [v4l-utils v4 2/5] Add support for meson building
-To:     Rosen Penev <rosenp@gmail.com>
-Cc:     Gregor Jasny <gjasny@googlemail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, Sean Young <sean@mess.org>,
-        p.zabel@pengutronix.de, laurent.pinchart@ideasonboard.com,
-        ezequiel@collabora.com, nicolas@ndufresne.ca,
-        kieran.bingham@ideasonboard.com, xavier.claessens@collabora.com,
-        nicolas.dufresne@collabora.com, user.vdr@gmail.com,
-        sakari.ailus@iki.fi
-References: <20210317172227.620584-1-ariel.dalessandro@collabora.com>
- <20210317172227.620584-3-ariel.dalessandro@collabora.com>
- <7096f897-1e48-c1e5-5503-008fff60d2b2@googlemail.com>
- <e9dc1ebd-9a68-adc6-2a61-5555d622ccf3@collabora.com>
- <CAKxU2N_b8758FUKF=MoWRny59NxAZ6qSWETH4_6OhQpAP0OBTQ@mail.gmail.com>
-From:   Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Message-ID: <29ac2c16-5d0f-a6a5-77ca-4e046aeecceb@collabora.com>
-Date:   Wed, 12 May 2021 10:44:28 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        Wed, 12 May 2021 10:04:45 -0400
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14CDphZ0010801;
+        Wed, 12 May 2021 14:03:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=V+hE2ghJIzR7WK80U/S5ajeHoA9mgVnom0IfGthfcp0=;
+ b=tpLsXOc24SmnYXMKlHelJK/1b9mbVL9DCDloLdip1ALLDJMTSE1qTT1Uxmszmnu8xQ2Y
+ zLpGBEpfvViyF6DGaUCLqp52ZNpsUOiEIIuSQWCaW52sTNOsfh1fA8sfEpE0sFDS2vuM
+ PhJxXWW7+4CHT9fCTBw6D1xt2RNwn6DVid3hFX7z8KlYQYy4hOghyGEEvXolOVDNor9I
+ xHtRpOOvtx83Zw6bKhHl3YV2gN6M8w97aJbvvISe2lnd7jZ6hDY28EVbV4eOvPcCXW7T
+ UqPUfmA3Hzpd7QZKfsOCTPhXXnl9Bu/UGRiQvSFL7Iqi0kdILgHRoJDnwrLEY/InH0PT Wg== 
+Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 38eyurrsdg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 12 May 2021 14:03:35 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14CE3ZYi086243;
+        Wed, 12 May 2021 14:03:35 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3030.oracle.com with ESMTP id 38e5pyxrxk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 12 May 2021 14:03:35 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14CE3Yhg086231;
+        Wed, 12 May 2021 14:03:34 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3030.oracle.com with ESMTP id 38e5pyxrx9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 12 May 2021 14:03:34 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14CE3XqU031598;
+        Wed, 12 May 2021 14:03:33 GMT
+Received: from mwanda (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 12 May 2021 07:03:33 -0700
+Date:   Wed, 12 May 2021 17:03:26 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     baijiaju1990@gmail.com
+Cc:     linux-media@vger.kernel.org
+Subject: [bug report] media: tuners: fix error return code of
+ hybrid_tuner_request_state()
+Message-ID: <YJvgLgZAEo5NtM2x@mwanda>
 MIME-Version: 1.0
-In-Reply-To: <CAKxU2N_b8758FUKF=MoWRny59NxAZ6qSWETH4_6OhQpAP0OBTQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Proofpoint-GUID: NM0TwrvEgO2Mz-8sGyfdCNGb5UHwdXfp
+X-Proofpoint-ORIG-GUID: NM0TwrvEgO2Mz-8sGyfdCNGb5UHwdXfp
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rosen,
+Hello Jia-Ju Bai,
 
-On 4/28/21 11:11 PM, Rosen Penev wrote:
-> On Fri, Apr 23, 2021 at 2:03 PM Ariel D'Alessandro
-> <ariel.dalessandro@collabora.com> wrote:
->>
->> Hi Gregor,
->>
->> Following up on this patchset after some time.
->>
->> On 3/20/21 1:56 PM, Gregor Jasny wrote:
->>> Hello,
->>>
->>> Thank you again for these patches. Building v4l-utils has never been so
->>> fast and easy. It will accelerate my Debian / Ubuntu packaging and
->>> really sparks joy!
->>
->> Happy to see it being useful :-)
->>
->>>
->>> On 17.03.21 18:22, Ariel D'Alessandro wrote:
->>>> Supports building libraries and tools found in contrib/, lib/ and
->>>> utils/ directories, along with the implemented gettext translations.
->>>
->>> Here's a patch on top of your tree:
->>> https://gitlab.com/gjasny/v4l-utils/-/commit/a9853f79c2675bf08fc3e93f15aa4158c9769bdd
->>>
->>>
->>> I changed the following:
->>> * Use pkgconfig to detect libbpf (like configure.ac does)
->>> * check for libbpf presence in the keytable subdir (like it's done for
->>> libelf
->>> * refined the empty rc_keymaps dir hack with something supported by
->>> meson: https://github.com/mesonbuild/meson/issues/2904 (your hack
->>> stopped working for me with meson on Ubuntu 20.04.2)
->> [snip]
->>> Tested-by: Gregor Jasny <gjasny@googlemail.com>
->>
->> Thanks a lot for your changes! LGTM, I'll add these changes, test and
->> post a v5 asap.
-> I recommend adding c_std=gnu99 and cpp_std=gnu++11 to default_options
-> as otherwise compilation will fail with older compilers.
-> 
-> gnu is needed. the C variants do not work.
+The patch b9302fa7ed97: "media: tuners: fix error return code of
+hybrid_tuner_request_state()" from Mar 6, 2021, leads to the
+following static checker warnings:
 
-+1
+drivers/media/tuners/tuner-simple.c:1112 simple_tuner_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+drivers/media/tuners/mxl5007t.c:885 mxl5007t_attach() error: potential null dereference 'state'.  (<unknown> returns null)
+drivers/media/tuners/tda18271-fe.c:1311 tda18271_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+drivers/media/tuners/xc4000.c:1685 xc4000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+drivers/media/tuners/xc4000.c:1699 xc4000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+drivers/media/tuners/xc5000.c:1397 xc5000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+drivers/media/tuners/r820t.c:2350 r820t_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
+drivers/media/tuners/tuner-xc2028.c:1500 xc2028_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
 
-Thanks!
+drivers/media/tuners/tuner-i2c.h
+   109  /* The return value of hybrid_tuner_request_state indicates the number of
+   110   * instances using this tuner object.
+   111   *
+   112   * 0 - no instances, indicates an error - kzalloc must have failed
+
+The comment says that hybrid_tuner_request_state() returns an error.
+
+   113   *
+   114   * 1 - one instance, indicates that the tuner object was created successfully
+   115   *
+   116   * 2 (or more) instances, indicates that an existing tuner object was found
+   117   */
+   118  
+   119  #define hybrid_tuner_request_state(type, state, list, i2cadap, i2caddr, devname)\
+   120  ({                                                                      \
+   121          int __ret = 0;                                                  \
+   122          list_for_each_entry(state, &list, hybrid_tuner_instance_list) { \
+   123                  if (((i2cadap) && (state->i2c_props.adap)) &&           \
+   124                      ((i2c_adapter_id(state->i2c_props.adap) ==          \
+   125                        i2c_adapter_id(i2cadap)) &&                       \
+   126                       (i2caddr == state->i2c_props.addr))) {             \
+   127                          __tuner_info(state->i2c_props,                  \
+   128                                       "attaching existing instance\n");  \
+   129                          state->i2c_props.count++;                       \
+   130                          __ret = state->i2c_props.count;                 \
+   131                          break;                                          \
+   132                  }                                                       \
+   133          }                                                               \
+   134          if (0 == __ret) {                                               \
+   135                  state = kzalloc(sizeof(type), GFP_KERNEL);              \
+   136                  if (!state) {                                           \
+   137                          __ret = -ENOMEM;                                \
+   138                          goto __fail;                                    \
+
+But the patch changes the code to return -ENOMEM on error.  The callers
+need to be updated or it intruces a bunch of potential NULL
+dereferences.
+
+   139                  }                                                       \
+   140                  state->i2c_props.addr = i2caddr;                        \
+   141                  state->i2c_props.adap = i2cadap;                        \
+   142                  state->i2c_props.name = devname;                        \
+   143                  __tuner_info(state->i2c_props,                          \
+   144                               "creating new instance\n");                \
+   145                  list_add_tail(&state->hybrid_tuner_instance_list, &list);\
+   146                  state->i2c_props.count++;                               \
+   147                  __ret = state->i2c_props.count;                         \
+   148          }                                                               \
+   149  __fail:                                                                 \
+   150          __ret;                                                          \
+   151  })
+
+regards,
+dan carpenter
