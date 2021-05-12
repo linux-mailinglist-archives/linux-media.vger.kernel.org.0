@@ -2,467 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99A6337EADF
-	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 00:06:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1A8537EAE9
+	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 00:06:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244539AbhELTN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 May 2021 15:13:57 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:58996 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359078AbhELSvd (ORCPT
+        id S1358424AbhELTOl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 May 2021 15:14:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38146 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1377307AbhELTDc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 May 2021 14:51:33 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: adalessandro)
-        with ESMTPSA id C233A1F41BEF
-From:   Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
-        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
-        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com,
-        gjasny@googlemail.com, xavier.claessens@collabora.com,
-        nicolas.dufresne@collabora.com, user.vdr@gmail.com,
-        sakari.ailus@iki.fi, mchehab+huawei@kernel.org, rosenp@gmail.com
-Subject: [v4l-utils v5 5/5] Makefile.am: Distribute meson related files
-Date:   Wed, 12 May 2021 15:49:46 -0300
-Message-Id: <20210512184946.102863-6-ariel.dalessandro@collabora.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
-References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
+        Wed, 12 May 2021 15:03:32 -0400
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D0B2C061354
+        for <linux-media@vger.kernel.org>; Wed, 12 May 2021 11:57:57 -0700 (PDT)
+Received: by mail-ot1-x330.google.com with SMTP id r26-20020a056830121ab02902a5ff1c9b81so21494641otp.11
+        for <linux-media@vger.kernel.org>; Wed, 12 May 2021 11:57:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=PehLa9MGShjuTsXrSuonmCUzxBSw0r+oW/besiLAOSg=;
+        b=e7QWriUulUNRPB0jJnAJKw/zMmZn8kRRBSywopzp5wcDxq2VWWf3bpHvugikCOY9W7
+         a0kHkr5Jzk42OGM3+lOAtcuS0p0ieGRuKMhb2vlc8V0O/xW/q5D3pDzlFkt0uzQFmD9p
+         nSwAKymo6YI0llaqDyFJQY9dDhKN070USLUjM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=PehLa9MGShjuTsXrSuonmCUzxBSw0r+oW/besiLAOSg=;
+        b=cbR1Do76bZSWD3/BJofBao0wsMRr6MAWot4fe56QbY5g8BI7vKBIFdWZrMCpMj6rW3
+         SbPWfRQL+/ZP11NvzcFzq6EE146kWVLRb/hTVbztV8t3U0RPdWSgLZ2YRL8+r2yC4orw
+         XlUT/VSfN8k7ex7QJohKXkzJU4ZBGabrjc8Zu/rxmWOKmwmwRGaoB/gFFkQwuZmQ3+pn
+         RhW0UZpN97ds4MDNJ0dua3K/nOyG/SUOjnmI7+1DPDOEMlXEU3IjsEKS5zDmdWrOi7K+
+         Q+0DXgXka7bkjMnSh7kOPuLelv1sHza2HIB5p1uSlFxIeCfkSylTWx4ltP7qhyheZwew
+         DhAg==
+X-Gm-Message-State: AOAM5330TrwmMcSw4yapJnQJS3ySzTRmvG7hnpewqKIvnzsmgBkn3Wjy
+        n9j6xMLtbqUG1Lh7NQYDpeYbl8qMjH1MPZxe28uMeA==
+X-Google-Smtp-Source: ABdhPJzBOj/82oAh5sBucFDlICY1aaY8WRL1s5yQq3y7rEs/5jiHV7d0KyTPx5JmEzraeDWWvfK+qDFF5VxaUmj9mUE=
+X-Received: by 2002:a9d:1ea9:: with SMTP id n38mr32942611otn.233.1620845876668;
+ Wed, 12 May 2021 11:57:56 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 12 May 2021 11:57:56 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210512082220.7137-1-rojay@codeaurora.org>
+References: <20210512082220.7137-1-rojay@codeaurora.org>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Wed, 12 May 2021 11:57:56 -0700
+Message-ID: <CAE-0n52D-K1T0QgxA-S7BXxE3Qk807F9edNyR+2RL4YxRyigMg@mail.gmail.com>
+Subject: Re: [PATCH V10] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
+Cc:     dianders@chromium.org, saiprakash.ranjan@codeaurora.org,
+        gregkh@linuxfoundation.org, mka@chromium.org,
+        skananth@codeaurora.org, msavaliy@qti.qualcomm.com,
+        skakit@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Several files have been introduced by meson support. Add these files to
-be distributed by autotools.
+Quoting Roja Rani Yarubandi (2021-05-12 01:22:20)
+> If the hardware is still accessing memory after SMMU translation
+> is disabled (as part of smmu shutdown callback), then the
+> IOVAs (I/O virtual address) which it was using will go on the bus
+> as the physical addresses which will result in unknown crashes
+> like NoC/interconnect errors.
+>
+> So, implement shutdown callback for i2c driver to suspend the bus
+> during system "reboot" or "shutdown".
+>
+> Fixes: 37692de5d523 ("i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C controller")
+> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
+> ---
+> Changes in V2:
+>  - As per Stephen's comments added seperate function for stop transfer,
+>    fixed minor nitpicks.
+>  - As per Stephen's comments, changed commit text.
+>
+> Changes in V3:
+>  - As per Stephen's comments, squashed patch 1 into patch 2, added Fixes tag.
+>  - As per Akash's comments, included FIFO case in stop_xfer, fixed minor nitpicks.
+>
+> Changes in V4:
+>  - As per Stephen's comments cleaned up geni_i2c_stop_xfer function,
+>    added dma_buf in geni_i2c_dev struct to call i2c_put_dma_safe_msg_buf()
+>    from other functions, removed "iova" check in geni_se_rx_dma_unprep()
+>    and geni_se_tx_dma_unprep() functions.
+>  - Added two helper functions geni_i2c_rx_one_msg_done() and
+>    geni_i2c_tx_one_msg_done() to unwrap the things after rx/tx FIFO/DMA
+>    transfers, so that the same can be used in geni_i2c_stop_xfer() function
+>    during shutdown callback. Updated commit text accordingly.
+>  - Checking whether it is tx/rx transfer using I2C_M_RD which is valid for both
+>    FIFO and DMA cases, so dropped DMA_RX_ACTIVE and DMA_TX_ACTIVE bit checking
+>
+> Changes in V5:
+>  - As per Stephen's comments, added spin_lock_irqsave & spin_unlock_irqsave in
+>    geni_i2c_stop_xfer() function.
+>
+> Changes in V6:
+>  - As per Stephen's comments, taken care of unsafe lock order in
+>    geni_i2c_stop_xfer().
+>  - Moved spin_lock/unlock to geni_i2c_rx_msg_cleanup() and
+>    geni_i2c_tx_msg_cleanup() functions.
+>
+> Changes in V7:
+>  - No changes
+>
+> Changes in V8:
+>  - As per Wolfram Sang comment, removed goto and modified geni_i2c_stop_xfer()
+>    accordingly.
+>
+> Changes in V9:
+>  - Fixed possbile race by protecting gi2c->cur and calling geni_i2c_abort_xfer()
+>    with adding another parameter to differentiate from which sequence is the
+>    geni_i2c_abort_xfer() called and handle the spin_lock/spin_unlock accordingly
+>    inside geni_i2c_abort_xfer(). For this added two macros ABORT_XFER and
+>    STOP_AND_ABORT_XFER.
+>  - Added a bool variable "stop_xfer" in geni_i2c_dev struct, used to put stop
+>    to upcoming geni_i2c_rx_one_msg() and geni_i2c_tx_one_msg() calls once we
+>    recieve the shutdown call.
+>  - Added gi2c->cur == NULL check in geni_i2c_irq() to not to process the irq
+>    even if any transfer is queued and shutdown to HW received.
+>
+> Changes in V10:
+>  - As per Stephen's comments, removed ongoing transfers flush and only
+>    suspending i2c bus in shutdown callback.
+>  - Also removed all other changes which have been made for ongoing transfers
+>    flush, handling race issues etc., during shutdown callback.
+>  - Updated commit text accordingly.
+>
+>  drivers/i2c/busses/i2c-qcom-geni.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
+> index 214b4c913a13..277ab7e7dd51 100644
+> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> @@ -650,6 +650,14 @@ static int geni_i2c_remove(struct platform_device *pdev)
+>         return 0;
+>  }
+>
+> +static void geni_i2c_shutdown(struct platform_device *pdev)
+> +{
+> +       struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
+> +
+> +       if (!pm_runtime_status_suspended(gi2c->se.dev))
+> +               pm_runtime_set_suspended(gi2c->se.dev);
 
-Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
----
- Makefile.am                              | 5 ++++-
- contrib/Makefile.am                      | 3 ++-
- contrib/cobalt-ctl/Makefile.am           | 2 ++
- contrib/decode_tm6000/Makefile.am        | 2 ++
- contrib/gconv/Makefile.am                | 2 +-
- contrib/rds-saa6588/Makefile.am          | 2 ++
- contrib/test/Makefile.am                 | 3 ++-
- contrib/xc3028-firmware/Makefile.am      | 2 +-
- lib/Makefile.am                          | 2 +-
- lib/libdvbv5/Makefile.am                 | 2 +-
- lib/libv4l-mplane/Makefile.am            | 2 ++
- lib/libv4l1/Makefile.am                  | 2 +-
- lib/libv4l2/Makefile.am                  | 2 +-
- lib/libv4l2rds/Makefile.am               | 2 ++
- lib/libv4lconvert/Makefile.am            | 2 +-
- utils/Makefile.am                        | 2 +-
- utils/cec-compliance/Makefile.am         | 2 +-
- utils/cec-ctl/Makefile.am                | 2 +-
- utils/cec-follower/Makefile.am           | 2 +-
- utils/cx18-ctl/Makefile.am               | 2 ++
- utils/dvb/Makefile.am                    | 2 +-
- utils/ir-ctl/Makefile.am                 | 2 ++
- utils/ivtv-ctl/Makefile.am               | 2 ++
- utils/keytable/Makefile.am               | 3 ++-
- utils/keytable/bpf_protocols/Makefile.am | 3 ++-
- utils/libcecutil/Makefile.am             | 2 +-
- utils/libmedia_dev/Makefile.am           | 2 +-
- utils/libv4l2util/Makefile.am            | 2 +-
- utils/media-ctl/Makefile.am              | 2 ++
- utils/qv4l2/Makefile.am                  | 3 ++-
- utils/qvidcap/Makefile.am                | 3 ++-
- utils/rds-ctl/Makefile.am                | 1 +
- utils/v4l2-compliance/Makefile.am        | 2 +-
- utils/v4l2-ctl/Makefile.am               | 2 +-
- utils/v4l2-dbg/Makefile.am               | 2 +-
- utils/v4l2-sysfs-path/Makefile.am        | 2 ++
- 36 files changed, 55 insertions(+), 25 deletions(-)
+What was wrong with my suggested approach of telling i2c core that the
+bus is suspended? This looks to do a bunch of work right before we're
+shutting down, when it would be simpler to just mark the bus as
+suspended and have it block future transactions and spit out a warning.
 
-diff --git a/Makefile.am b/Makefile.am
-index 7fb443ab..4b4bac09 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -11,6 +11,9 @@ endif
- EXTRA_DIST = android-config.h sync-with-kernel.sh bootstrap.sh \
- 	doxygen_libdvbv5.cfg include COPYING.libv4l \
- 	COPYING.libdvbv5 README.libv4l README.lib-multi-threading \
--	TODO.libdvbv5 doc/libdvbv5-index.doc
-+	TODO.libdvbv5 doc/libdvbv5-index.doc \
-+	doc/Doxyfile.in doc/meson.build \
-+	meson.build meson_options.txt \
-+	libdvbv5-po/meson.build v4l-utils-po/meson.build
- 
- include $(top_srcdir)/aminclude.am
-diff --git a/contrib/Makefile.am b/contrib/Makefile.am
-index b418b518..1d7299d0 100644
---- a/contrib/Makefile.am
-+++ b/contrib/Makefile.am
-@@ -22,4 +22,5 @@ EXTRA_DIST = \
- 	parsers \
- 	pci_traffic \
- 	v4l_rec.pl \
--	lircd2toml.py
-+	lircd2toml.py \
-+	meson.build
-diff --git a/contrib/cobalt-ctl/Makefile.am b/contrib/cobalt-ctl/Makefile.am
-index 2cc69000..168873e4 100644
---- a/contrib/cobalt-ctl/Makefile.am
-+++ b/contrib/cobalt-ctl/Makefile.am
-@@ -1,3 +1,5 @@
- bin_PROGRAMS = cobalt-ctl
- 
- cobalt_ctl_SOURCES = cobalt-ctl.c s-record.c
-+
-+EXTRA_DIST = meson.build
-diff --git a/contrib/decode_tm6000/Makefile.am b/contrib/decode_tm6000/Makefile.am
-index 863933cc..e9bb5fef 100644
---- a/contrib/decode_tm6000/Makefile.am
-+++ b/contrib/decode_tm6000/Makefile.am
-@@ -2,3 +2,5 @@ bin_PROGRAMS = decode_tm6000
- decode_tm6000_SOURCES = decode_tm6000.c
- decode_tm6000_LDADD = ../../utils/libv4l2util/libv4l2util.la
- decode_tm6000_LDFLAGS = $(ARGP_LIBS)
-+
-+EXTRA_DIST = meson.build
-diff --git a/contrib/gconv/Makefile.am b/contrib/gconv/Makefile.am
-index 68b5bd5f..9c822b8b 100644
---- a/contrib/gconv/Makefile.am
-+++ b/contrib/gconv/Makefile.am
-@@ -14,4 +14,4 @@ ARIB_STD_B24_la_LDFLAGS = $(gconv_ldflags) -L@gconvsysdir@ -R@gconvsysdir@ -lJIS
- EN300_468_TAB00_la_SOURCES = en300-468-tab00.c
- EN300_468_TAB00_la_LDFLAGS = $(gconv_ldflags)
- 
--EXTRA_DIST = $(gconv_base_sources) $(gconv_DATA) gconv.map
-+EXTRA_DIST = $(gconv_base_sources) $(gconv_DATA) gconv.map meson.build
-diff --git a/contrib/rds-saa6588/Makefile.am b/contrib/rds-saa6588/Makefile.am
-index a551d9fb..8bda60a2 100644
---- a/contrib/rds-saa6588/Makefile.am
-+++ b/contrib/rds-saa6588/Makefile.am
-@@ -1,3 +1,5 @@
- noinst_PROGRAMS = rds-saa6588
- 
- rds_saa6588_SOURCES = rds-saa6588.c
-+
-+EXTRA_DIST = meson.build
-diff --git a/contrib/test/Makefile.am b/contrib/test/Makefile.am
-index 5771ee4d..56203fb3 100644
---- a/contrib/test/Makefile.am
-+++ b/contrib/test/Makefile.am
-@@ -62,4 +62,5 @@ EXTRA_DIST = \
- 	test-media \
- 	test-media-unload.pl \
- 	vim2m_test_with_gstreamer.sh \
--	vim2m_test_with_qvidcap.sh
-+	vim2m_test_with_qvidcap.sh \
-+	meson.build
-diff --git a/contrib/xc3028-firmware/Makefile.am b/contrib/xc3028-firmware/Makefile.am
-index 8b23d1e1..0ea17885 100644
---- a/contrib/xc3028-firmware/Makefile.am
-+++ b/contrib/xc3028-firmware/Makefile.am
-@@ -2,4 +2,4 @@ noinst_PROGRAMS = firmware-tool
- 
- firmware_tool_SOURCES = firmware-tool.c standards.c extract_head.h standards.h tuner-xc2028-types.h
- 
--EXTRA_DIST = README
-+EXTRA_DIST = README meson.build
-diff --git a/lib/Makefile.am b/lib/Makefile.am
-index a105c95a..8fc99339 100644
---- a/lib/Makefile.am
-+++ b/lib/Makefile.am
-@@ -10,4 +10,4 @@ SUBDIRS += \
- 	libdvbv5
- endif
- 
--EXTRA_DIST = Android.mk
-+EXTRA_DIST = Android.mk meson.build
-diff --git a/lib/libdvbv5/Makefile.am b/lib/libdvbv5/Makefile.am
-index 683ae3fb..3b5a28db 100644
---- a/lib/libdvbv5/Makefile.am
-+++ b/lib/libdvbv5/Makefile.am
-@@ -123,4 +123,4 @@ libdvbv5_la_CPPFLAGS = -I../.. $(ENFORCE_LIBDVBV5_STATIC) $(LIBUDEV_CFLAGS) $(PT
- libdvbv5_la_LDFLAGS = $(LIBDVBV5_VERSION) $(ENFORCE_LIBDVBV5_STATIC) $(LIBUDEV_LIBS) -lm -lrt
- libdvbv5_la_LIBADD = $(LTLIBICONV)
- 
--EXTRA_DIST = README gen_dvb_structs.pl
-+EXTRA_DIST = README gen_dvb_structs.pl meson.build
-diff --git a/lib/libv4l-mplane/Makefile.am b/lib/libv4l-mplane/Makefile.am
-index 5264ecf2..fb858e54 100644
---- a/lib/libv4l-mplane/Makefile.am
-+++ b/lib/libv4l-mplane/Makefile.am
-@@ -5,3 +5,5 @@ endif
- libv4l_mplane_la_SOURCES = libv4l-mplane.c
- libv4l_mplane_la_CPPFLAGS = $(CFLAG_VISIBILITY)
- libv4l_mplane_la_LDFLAGS = -avoid-version -module -shared -export-dynamic -lpthread
-+
-+EXTRA_DIST = meson.build
-diff --git a/lib/libv4l1/Makefile.am b/lib/libv4l1/Makefile.am
-index 42cb3dbb..a9e60fb4 100644
---- a/lib/libv4l1/Makefile.am
-+++ b/lib/libv4l1/Makefile.am
-@@ -26,4 +26,4 @@ v4l1compat_la_LIBADD = libv4l1.la
- v4l1compat_la_LDFLAGS = -avoid-version -module -shared -export-dynamic
- v4l1compat_la_LIBTOOLFLAGS = --tag=disable-static
- 
--EXTRA_DIST = libv4l1-kernelcode-license.txt
-+EXTRA_DIST = libv4l1-kernelcode-license.txt meson.build
-diff --git a/lib/libv4l2/Makefile.am b/lib/libv4l2/Makefile.am
-index 3a1bb901..0b473782 100644
---- a/lib/libv4l2/Makefile.am
-+++ b/lib/libv4l2/Makefile.am
-@@ -29,4 +29,4 @@ v4l2convert_la_LIBADD = libv4l2.la
- v4l2convert_la_LDFLAGS = -avoid-version -module -shared -export-dynamic
- v4l2convert_la_LIBTOOLFLAGS = --tag=disable-static
- 
--EXTRA_DIST = Android.mk v4l2-plugin-android.c
-+EXTRA_DIST = Android.mk v4l2-plugin-android.c meson.build
-diff --git a/lib/libv4l2rds/Makefile.am b/lib/libv4l2rds/Makefile.am
-index 73fdd3e2..3ee535f0 100644
---- a/lib/libv4l2rds/Makefile.am
-+++ b/lib/libv4l2rds/Makefile.am
-@@ -10,3 +10,5 @@ endif
- libv4l2rds_la_SOURCES = libv4l2rds.c
- libv4l2rds_la_CPPFLAGS = $(CFLAG_VISIBILITY) $(ENFORCE_LIBV4L_STATIC)
- libv4l2rds_la_LDFLAGS = $(LIBV4L2RDS_VERSION) -lpthread $(ENFORCE_LIBV4L_STATIC)
-+
-+EXTRA_DIST = meson.build
-diff --git a/lib/libv4lconvert/Makefile.am b/lib/libv4lconvert/Makefile.am
-index f266f3e7..e769d2fd 100644
---- a/lib/libv4lconvert/Makefile.am
-+++ b/lib/libv4lconvert/Makefile.am
-@@ -33,4 +33,4 @@ ov511_decomp_SOURCES = ov511-decomp.c
- 
- ov518_decomp_SOURCES = ov518-decomp.c
- 
--EXTRA_DIST = Android.mk
-+EXTRA_DIST = Android.mk meson.build
-diff --git a/utils/Makefile.am b/utils/Makefile.am
-index 0e68a612..5dc55671 100644
---- a/utils/Makefile.am
-+++ b/utils/Makefile.am
-@@ -33,4 +33,4 @@ if WITH_QVIDCAP
- SUBDIRS += qvidcap
- endif
- 
--EXTRA_DIST = common
-+EXTRA_DIST = common meson.build gen_media_bus_format_codes.sh gen_media_bus_format_names.sh
-diff --git a/utils/cec-compliance/Makefile.am b/utils/cec-compliance/Makefile.am
-index 93c1b568..8f0a50e5 100644
---- a/utils/cec-compliance/Makefile.am
-+++ b/utils/cec-compliance/Makefile.am
-@@ -5,4 +5,4 @@ cec_compliance_SOURCES = cec-compliance.cpp cec-compliance.h cec-test.cpp cec-te
- cec_compliance_CPPFLAGS = -I$(top_srcdir)/utils/libcecutil $(GIT_SHA) $(GIT_COMMIT_CNT) $(GIT_COMMIT_DATE)
- cec_compliance_LDADD = -lrt ../libcecutil/libcecutil.la
- 
--EXTRA_DIST = cec-compliance.1
-+EXTRA_DIST = cec-compliance.1 meson.build
-diff --git a/utils/cec-ctl/Makefile.am b/utils/cec-ctl/Makefile.am
-index 27e69494..e42046a4 100644
---- a/utils/cec-ctl/Makefile.am
-+++ b/utils/cec-ctl/Makefile.am
-@@ -5,4 +5,4 @@ cec_ctl_SOURCES = cec-ctl.cpp cec-pin.cpp cec-ctl.h
- cec_ctl_CPPFLAGS = -I$(top_srcdir)/utils/libcecutil $(GIT_SHA) $(GIT_COMMIT_CNT) $(GIT_COMMIT_DATE)
- cec_ctl_LDADD = -lrt -lpthread ../libcecutil/libcecutil.la
- 
--EXTRA_DIST = cec-ctl.1
-+EXTRA_DIST = cec-ctl.1 meson.build
-diff --git a/utils/cec-follower/Makefile.am b/utils/cec-follower/Makefile.am
-index 903d3715..e0df03c4 100644
---- a/utils/cec-follower/Makefile.am
-+++ b/utils/cec-follower/Makefile.am
-@@ -5,4 +5,4 @@ cec_follower_SOURCES = cec-follower.cpp cec-follower.h cec-processing.cpp cec-tu
- cec_follower_CPPFLAGS = -I$(top_srcdir)/utils/libcecutil $(GIT_SHA) $(GIT_COMMIT_CNT) $(GIT_COMMIT_DATE)
- cec_follower_LDADD = -lrt ../libcecutil/libcecutil.la
- 
--EXTRA_DIST = cec-follower.1
-+EXTRA_DIST = cec-follower.1 meson.build
-diff --git a/utils/cx18-ctl/Makefile.am b/utils/cx18-ctl/Makefile.am
-index 94fce36d..4d2a159a 100644
---- a/utils/cx18-ctl/Makefile.am
-+++ b/utils/cx18-ctl/Makefile.am
-@@ -1,3 +1,5 @@
- bin_PROGRAMS = cx18-ctl
- 
- cx18_ctl_SOURCES = cx18-ctl.c
-+
-+EXTRA_DIST = meson.build
-diff --git a/utils/dvb/Makefile.am b/utils/dvb/Makefile.am
-index 1895018a..5f99e7be 100644
---- a/utils/dvb/Makefile.am
-+++ b/utils/dvb/Makefile.am
-@@ -32,4 +32,4 @@ dvbv5_daemon_LDADD = ../../lib/libdvbv5/libdvbv5.la @LIBINTL@ $(LIBUDEV_LIBS) $(
- dvbv5_daemon_LDFLAGS = $(ARGP_LIBS) -lm $(XMLRPC_LDFLAGS) $(PTHREAD_LDFLAGS)
- dvbv5_daemon_CFLAGS =  $(XMLRPC_CFLAGS) $(LIBUDEV_CFLAGS) $(PTHREAD_CFLAGS)
- 
--EXTRA_DIST = README
-+EXTRA_DIST = README meson.build
-diff --git a/utils/ir-ctl/Makefile.am b/utils/ir-ctl/Makefile.am
-index ad90b84e..0e3c178a 100644
---- a/utils/ir-ctl/Makefile.am
-+++ b/utils/ir-ctl/Makefile.am
-@@ -4,3 +4,5 @@ man_MANS = ir-ctl.1
- ir_ctl_SOURCES = ir-ctl.c ir-encode.c ir-encode.h toml.c toml.h keymap.c keymap.h bpf_encoder.c bpf_encoder.h
- ir_ctl_LDADD = @LIBINTL@
- ir_ctl_LDFLAGS = $(ARGP_LIBS)
-+
-+EXTRA_DIST = meson.build
-diff --git a/utils/ivtv-ctl/Makefile.am b/utils/ivtv-ctl/Makefile.am
-index c1196673..a8ddc9d2 100644
---- a/utils/ivtv-ctl/Makefile.am
-+++ b/utils/ivtv-ctl/Makefile.am
-@@ -2,3 +2,5 @@ bin_PROGRAMS = ivtv-ctl
- 
- ivtv_ctl_SOURCES = ivtv-ctl.c
- ivtv_ctl_LDFLAGS = -lm
-+
-+EXTRA_DIST = meson.build
-diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
-index eee61f0e..d3edcf77 100644
---- a/utils/keytable/Makefile.am
-+++ b/utils/keytable/Makefile.am
-@@ -26,7 +26,8 @@ ir_keytable_CFLAGS = $(LIBBPF_CFLAGS)
- SUBDIRS = bpf_protocols
- endif
- 
--EXTRA_DIST = 70-infrared.rules 50-rc_keymap.conf rc_keymaps rc_keymaps_userspace gen_input_events.pl gen_keytables.pl ir-keytable.1 rc_maps.cfg rc_keymap.5
-+EXTRA_DIST = 70-infrared.rules 50-rc_keymap.conf rc_keymaps rc_keymaps_userspace gen_input_events.pl gen_keytables.pl ir-keytable.1 rc_maps.cfg rc_keymap.5 \
-+	     meson.build
- 
- check:
- 	@$(foreach keymap,$(wildcard $(keytablesystem_DATA)),./ir-keytable --test-keymap=$(keymap);)
-diff --git a/utils/keytable/bpf_protocols/Makefile.am b/utils/keytable/bpf_protocols/Makefile.am
-index 13be2794..eac27f15 100644
---- a/utils/keytable/bpf_protocols/Makefile.am
-+++ b/utils/keytable/bpf_protocols/Makefile.am
-@@ -15,7 +15,8 @@ PROTOCOLS = grundig.o pulse_distance.o pulse_length.o rc_mm.o manchester.o xbox-
- all: $(PROTOCOLS)
- 
- CLEANFILES = $(PROTOCOLS)
--EXTRA_DIST = $(PROTOCOLS:%.o=%.c) bitmap.h bpf_helpers.h
-+EXTRA_DIST = $(PROTOCOLS:%.o=%.c) bitmap.h bpf_helpers.h clang_sys_includes.sh \
-+	meson.build
- 
- # custom target
- install-data-local:
-diff --git a/utils/libcecutil/Makefile.am b/utils/libcecutil/Makefile.am
-index d2c7ddcc..03635e57 100644
---- a/utils/libcecutil/Makefile.am
-+++ b/utils/libcecutil/Makefile.am
-@@ -21,4 +21,4 @@ gen.intermediate: cec-gen.pl $(CEC_GEN_PREREQS)
- clean-local:
- 	-rm -vf $(CEC_GEN_HDRS)
- 
--EXTRA_DIST = cec-gen.pl
-+EXTRA_DIST = cec-gen.pl meson.build
-diff --git a/utils/libmedia_dev/Makefile.am b/utils/libmedia_dev/Makefile.am
-index 3796efbd..f4e4a3f4 100644
---- a/utils/libmedia_dev/Makefile.am
-+++ b/utils/libmedia_dev/Makefile.am
-@@ -4,4 +4,4 @@ libmedia_dev_la_SOURCES = get_media_devices.c get_media_devices.h
- libmedia_dev_la_CPPFLAGS = -static
- libmedia_dev_la_LDFLAGS = -static
- 
--EXTRA_DIST = README
-+EXTRA_DIST = README meson.build
-diff --git a/utils/libv4l2util/Makefile.am b/utils/libv4l2util/Makefile.am
-index eb11017a..fb25c3b6 100644
---- a/utils/libv4l2util/Makefile.am
-+++ b/utils/libv4l2util/Makefile.am
-@@ -4,4 +4,4 @@ libv4l2util_la_SOURCES = frequencies.c v4l2_driver.c v4l2_driver.h libv4l2util.h
- libv4l2util_la_CPPFLAGS = -static
- libv4l2util_la_LDFLAGS = -static
- 
--EXTRA_DIST = TODO
-+EXTRA_DIST = TODO meson.build
-diff --git a/utils/media-ctl/Makefile.am b/utils/media-ctl/Makefile.am
-index c48c8d62..075274d6 100644
---- a/utils/media-ctl/Makefile.am
-+++ b/utils/media-ctl/Makefile.am
-@@ -28,3 +28,5 @@ bin_PROGRAMS = media-ctl
- media_ctl_SOURCES = media-ctl.c options.c options.h tools.h
- media_ctl_LDADD = libmediactl.la libv4l2subdev.la
- media_ctl_CFLAGS = $(GIT_COMMIT_CNT)
-+
-+EXTRA_DIST = meson.build
-diff --git a/utils/qv4l2/Makefile.am b/utils/qv4l2/Makefile.am
-index bef699c0..977ae243 100644
---- a/utils/qv4l2/Makefile.am
-+++ b/utils/qv4l2/Makefile.am
-@@ -23,7 +23,8 @@ qv4l2_LDFLAGS += $(ALSA_LIBS) -pthread
- 
- EXTRA_DIST = enterbutt.png exit.png fileopen.png qv4l2_24x24.png qv4l2_64x64.png qv4l2.png qv4l2.svg \
-   snapshot.png video-television.png fileclose.png qv4l2_16x16.png qv4l2_32x32.png qv4l2.desktop \
--  qv4l2.qrc saveraw.png qv4l2.pro qv4l2.1 fullscreenexit.png fullscreen.png start.png step.png
-+  qv4l2.qrc saveraw.png qv4l2.pro qv4l2.1 fullscreenexit.png fullscreen.png start.png step.png \
-+  meson.build
- 
- clean-local:
- 	-rm -vf moc_*.cpp qrc_*.cpp qrc_*.o ui_*.h
-diff --git a/utils/qvidcap/Makefile.am b/utils/qvidcap/Makefile.am
-index 9e873ca1..c8e0c570 100644
---- a/utils/qvidcap/Makefile.am
-+++ b/utils/qvidcap/Makefile.am
-@@ -16,7 +16,8 @@ qvidcap_LDFLAGS += $(ALSA_LIBS) -pthread
- 
- EXTRA_DIST = qvidcap_24x24.png qvidcap_64x64.png qvidcap.png qvidcap.svg \
-   qvidcap_16x16.png qvidcap_32x32.png qvidcap.desktop \
--  qvidcap.qrc qvidcap.pro qvidcap.1 v4l2-convert.glsl v4l2-convert.pl
-+  qvidcap.qrc qvidcap.pro qvidcap.1 v4l2-convert.glsl v4l2-convert.pl \
-+  meson.build
- 
- clean-local:
- 	-rm -vf moc_*.cpp qrc_*.cpp qrc_*.o ui_*.h v4l2-convert.h formats.h
-diff --git a/utils/rds-ctl/Makefile.am b/utils/rds-ctl/Makefile.am
-index 1afdf808..f9685f48 100644
---- a/utils/rds-ctl/Makefile.am
-+++ b/utils/rds-ctl/Makefile.am
-@@ -3,3 +3,4 @@ bin_PROGRAMS = rds-ctl
- rds_ctl_SOURCES = rds-ctl.cpp
- rds_ctl_LDADD = ../../lib/libv4l2rds/libv4l2rds.la
- 
-+EXTRA_DIST = meson.build
-diff --git a/utils/v4l2-compliance/Makefile.am b/utils/v4l2-compliance/Makefile.am
-index 6baf1f5c..1172433d 100644
---- a/utils/v4l2-compliance/Makefile.am
-+++ b/utils/v4l2-compliance/Makefile.am
-@@ -23,7 +23,7 @@ v4l2_compliance_LDADD = -lrt -lpthread
- DEFS += -DNO_LIBV4L2
- endif
- 
--EXTRA_DIST = Android.mk fixme.txt v4l2-compliance.1
-+EXTRA_DIST = Android.mk fixme.txt v4l2-compliance.1 meson.build
- 
- nodist_v4l2_compliance_32_SOURCES = v4l2-compliance-32.c
- 
-diff --git a/utils/v4l2-ctl/Makefile.am b/utils/v4l2-ctl/Makefile.am
-index 55d234cf..ad8a5a6d 100644
---- a/utils/v4l2-ctl/Makefile.am
-+++ b/utils/v4l2-ctl/Makefile.am
-@@ -41,4 +41,4 @@ v4l2-ctl-32$(EXEEXT): $(addprefix $(top_srcdir)/utils/v4l2-ctl/,$(v4l2_ctl_SOURC
- 	$(CXXCOMPILE) -static -m32 -DNO_LIBV4L2 -o $@ -I$(top_srcdir) -I$(top_srcdir)/include $(v4l2_ctl_CPPFLAGS) $(addprefix $(top_srcdir)/utils/v4l2-ctl/,$(filter %.cpp,$(v4l2_ctl_SOURCES))) $@.o
- 	rm -f $@.c $@.o
- 
--EXTRA_DIST = Android.mk v4l2-ctl.1
-+EXTRA_DIST = Android.mk v4l2-ctl.1 meson.build
-diff --git a/utils/v4l2-dbg/Makefile.am b/utils/v4l2-dbg/Makefile.am
-index 94a5fb53..0b3dcfaa 100644
---- a/utils/v4l2-dbg/Makefile.am
-+++ b/utils/v4l2-dbg/Makefile.am
-@@ -1,4 +1,4 @@
- sbin_PROGRAMS = v4l2-dbg
- v4l2_dbg_SOURCES = v4l2-dbg.cpp v4l2-dbg-ac97.h  v4l2-dbg-bttv.h  v4l2-dbg-em28xx.h  v4l2-dbg.h  v4l2-dbg-micron.h  v4l2-dbg-saa7134.h	v4l2-dbg-tvp5150.h
- 
--EXTRA_DIST = Android.mk
-+EXTRA_DIST = Android.mk meson.build
-diff --git a/utils/v4l2-sysfs-path/Makefile.am b/utils/v4l2-sysfs-path/Makefile.am
-index 6ef4228e..4ab84dd9 100644
---- a/utils/v4l2-sysfs-path/Makefile.am
-+++ b/utils/v4l2-sysfs-path/Makefile.am
-@@ -2,3 +2,5 @@ bin_PROGRAMS = v4l2-sysfs-path
- v4l2_sysfs_path_SOURCES = v4l2-sysfs-path.c
- v4l2_sysfs_path_LDADD = ../libmedia_dev/libmedia_dev.la
- v4l2_sysfs_path_LDFLAGS = $(ARGP_LIBS)
-+
-+EXTRA_DIST = meson.build
--- 
-2.30.2
+I do see that we should be marking it suspended/resumed during runtime
+suspend/resume. I'm also confused if during system wide suspend/resume
+we actually do anything in this driver. Is runtime suspend called for
+system wide suspend?
 
+----8<----
+diff --git a/drivers/i2c/busses/i2c-qcom-geni.c
+b/drivers/i2c/busses/i2c-qcom-geni.c
+index 214b4c913a13..ca12d348336b 100644
+--- a/drivers/i2c/busses/i2c-qcom-geni.c
++++ b/drivers/i2c/busses/i2c-qcom-geni.c
+@@ -656,6 +656,7 @@ static int __maybe_unused
+geni_i2c_runtime_suspend(struct device *dev)
+ 	struct geni_i2c_dev *gi2c = dev_get_drvdata(dev);
+
+ 	disable_irq(gi2c->irq);
++	i2c_mark_adapter_suspended(&gi2c->adap);
+ 	ret = geni_se_resources_off(&gi2c->se);
+ 	if (ret) {
+ 		enable_irq(gi2c->irq);
+@@ -682,6 +683,7 @@ static int __maybe_unused
+geni_i2c_runtime_resume(struct device *dev)
+ 		return ret;
+
+ 	enable_irq(gi2c->irq);
++	i2c_mark_adapter_resumed(&gi2c->adap);
+ 	gi2c->suspended = 0;
+ 	return 0;
+ }
