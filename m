@@ -2,73 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1022137FA43
-	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 17:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0209D37FA51
+	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 17:11:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233019AbhEMPIy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 May 2021 11:08:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51980 "EHLO
+        id S234356AbhEMPMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 May 2021 11:12:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232518AbhEMPIx (ORCPT
+        with ESMTP id S233774AbhEMPMm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 May 2021 11:08:53 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE666C06174A
-        for <linux-media@vger.kernel.org>; Thu, 13 May 2021 08:07:43 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id v4so11139229qtp.1
-        for <linux-media@vger.kernel.org>; Thu, 13 May 2021 08:07:43 -0700 (PDT)
+        Thu, 13 May 2021 11:12:42 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F36FC061574
+        for <linux-media@vger.kernel.org>; Thu, 13 May 2021 08:11:32 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id dl3so13938978qvb.3
+        for <linux-media@vger.kernel.org>; Thu, 13 May 2021 08:11:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=TLkSbdc1fw8jgiPXkD5Ij+EaQClDSHw8ek8z1tmir8s=;
-        b=xLFFqHGJUuKACF0i4U8uJPm4Twx4FLRwFZ3bHS1rcLvjc7XLRx0eiQCtipmD/9Aj17
-         qp+yYqr0XN5FRLxDmsV5BWl9A0aVboKsjGCtUP7RloVY9soeG0cvxBMt5bGg8YB87XCV
-         FQUVBvw3ujSSW5spSdxqiFA4Q+e0OVlHan1ttnh5RYd968dQG5+5Lwo0Dr5PS6Ko38Mj
-         LIcJ2jpay7bZ9RsUhr1z1bxmuazuKOpn//ABPNBQMBpAg7YglmRbAjj7svL0pORUVg2o
-         7yuqP9/C/itpIXv1p5o34uXj01lDTBuiYfnZQeBeVWd6bYfyRb34Vr4AwjbM9+zl3lA0
-         gEaA==
+        bh=BeplTBdXzCMRJtq75KvkBSYOXC0YncEEEybwIvizLCk=;
+        b=DKK4HtUl5PbrzqIoQiBM+eKPlA7Rf7V83q+7PgAqQaMf9x9EGoQlycSNFQonRZJuZZ
+         OPmyqg/5FA/Ht3wgZfRXCOAdrSYwXMoo0ev0lR57mfXH9UoxEXz3nMHmX1IRQO8chrr0
+         PIpc/UJqXbqu96h3LL646zpV18eYCKUx5ubeNpZw39Kz3mYwdVD8DXE/BgsmTxNnRkvA
+         SsfU1jsKi7BExw8AQrbSbX96Iux9wmQy0MXbjWWL9g2c6Kap1HT+sa1k63xt8fjt0AtL
+         T0nRHvGIt0S9rvhYLYi8zgGDEMKVo0jmt8e/t8QqWFLhXJ73Wz0YyGjP9L4JquPUru1R
+         +mVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=TLkSbdc1fw8jgiPXkD5Ij+EaQClDSHw8ek8z1tmir8s=;
-        b=ufL+2OpsHdljyys16G8h4LOemCeXJDV53xoGrVMqGFtoJW9rzVSDFUmGaAvfZLpHHt
-         kXo8Hjxh6CV27skwUbnYCxKMZiNuray03tYQMI6JHtmbhM2SC/jkY8F5d3nawYqlIMLb
-         QTEYtW6VbnUz/D/XmbKoeocHjY9VpE2vfSp+KDBZmQscRBxzPmL/1nSS6ElB1plJBiwA
-         waaDv5+XJiGsjrKbAC8L/fASbNSBM2MTbo4SSnVuDIeYUEcWj4drXxX1pO2vO8EmtCX+
-         X7QoQ6ydOUo2VidbyE+DcQfPZ1neV9gtxXo2PKlmZxE4QI2Vw5FUxrcx+bOiPcePnyyW
-         Y4Aw==
-X-Gm-Message-State: AOAM532ix19wWqxDsuLftzyTKxIwqJ/yDp61PmLA/DGmMtz2XUcfRLsQ
-        eBPd75YkjO/+xzbFbBqgdc4oZg==
-X-Google-Smtp-Source: ABdhPJzQjQznftnSoUznPn4Riax7X6sR3Jx0KiEsVldOVfBawDd633rhVFzGDWtrbUuPSud3+4cEsg==
-X-Received: by 2002:ac8:5dcc:: with SMTP id e12mr27252202qtx.70.1620918462544;
-        Thu, 13 May 2021 08:07:42 -0700 (PDT)
+        bh=BeplTBdXzCMRJtq75KvkBSYOXC0YncEEEybwIvizLCk=;
+        b=pFkpWauGRbr1G+oBBuZrOm6xJgVs2LFMN4kQJa6K1/re0JLfFYMOMfrGQG1YRGMpV+
+         Q+4Pej+PH8+2DlkKApseoFTce/WRK2S/WOsKRCGEdD4iuLtNS+j7lT+gKqqYYeTCIzql
+         3+P5nG5YMsrpqWS0zyQtFRkV3XU0tj+KV2DoKZrrS4AbqoDAxZQNDblLGdvn6+z7hvGw
+         GrWbEQfy4WDhWq/g5W3zLuo/K503Zh5Wr4RKTRTcUAPjs6YgyTu2BU0NxTF69o/ybDAe
+         omazbdusuHQ5Vjm8tyHNpfx7dgroa+Sv6CD07nHLlhj93wyxwggiNmOZqxzSASSMhbf+
+         1T2A==
+X-Gm-Message-State: AOAM530Uh0b4XY0QxF/3FfYjXC5Ke/f1XITzw5qknzcAmUYxoYrcIVJM
+        ZWGxbj9PliRZsuzkLEjQBnEcViN8c2d46J3M
+X-Google-Smtp-Source: ABdhPJzSEzHaojwp+iawjs+bmqYRF/HpuN/LZtP9cuGMZRk+cx/2laFd5Tin28SMNF6XK6Q8WSe2nQ==
+X-Received: by 2002:ad4:5c68:: with SMTP id i8mr41067164qvh.53.1620918691530;
+        Thu, 13 May 2021 08:11:31 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id h65sm2413773qkc.128.2021.05.13.08.07.41
+        by smtp.gmail.com with ESMTPSA id g5sm2887744qtm.2.2021.05.13.08.11.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 May 2021 08:07:42 -0700 (PDT)
-Message-ID: <83a807111f17c9e2db4e9f12a7ec1437c11d0f55.camel@ndufresne.ca>
-Subject: Re: [PATCH v4 07/15] media: mtk-vcodec: vdec: add media device if
- using stateless api
+        Thu, 13 May 2021 08:11:30 -0700 (PDT)
+Message-ID: <694c6d07525eb5f6d5a19a0c94b4f1f280b03973.camel@ndufresne.ca>
+Subject: Re: Recording videos on phones and camera on Librem 5 devboard
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Date:   Thu, 13 May 2021 11:07:40 -0400
-In-Reply-To: <CAPBb6MUKtxCS=JbtBmvwwEovrN8NCtLmMGcTkozo_gnDMRsqHw@mail.gmail.com>
-References: <20210427111526.1772293-1-acourbot@chromium.org>
-         <20210427111526.1772293-8-acourbot@chromium.org>
-         <faa5553f-2ea5-27a5-7f85-e1418d2c7df1@xs4all.nl>
-         <CAPBb6MUKtxCS=JbtBmvwwEovrN8NCtLmMGcTkozo_gnDMRsqHw@mail.gmail.com>
+To:     Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+        Pavel Machek <pavel@ucw.cz>
+Cc:     phone-devel@vger.kernel.org, martijn@brixit.nl,
+        linux-media@vger.kernel.org, martin.kepplinger@puri.sm,
+        dorota.czaplejewicz@puri.sm
+Date:   Thu, 13 May 2021 11:11:21 -0400
+In-Reply-To: <YJz0cn4OrXNhRDoO@bogon.m.sigxcpu.org>
+References: <20210512214702.GB27652@duo.ucw.cz>
+         <YJz0cn4OrXNhRDoO@bogon.m.sigxcpu.org>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
@@ -77,36 +68,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 13 mai 2021 à 17:05 +0900, Alexandre Courbot a écrit :
-> Hi Hans, thanks for the review!
+Le jeudi 13 mai 2021 à 11:42 +0200, Guido Günther a écrit :
+> Hi Pavel,
+> On Wed, May 12, 2021 at 11:47:02PM +0200, Pavel Machek wrote:
+> > Hi!
+> > 
+> > Who is the right person to talk about Librem 5 cameras? Is there
+> > mailing list I should use?
 > 
-> On Thu, Apr 29, 2021 at 4:28 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> > 
-> > On 27/04/2021 13:15, Alexandre Courbot wrote:
-> > > From: Yunfei Dong <yunfei.dong@mediatek.com>
-> > > 
-> > > The stateless API requires a media device for issuing requests. Add one
-> > > if we are being instantiated as a stateless decoder.
-> > 
-> > Why for the stateless decoder only? Why not create one for all?
-> > 
-> > It's not a blocker, but I would recommend looking at this.
+> I think most of the coordination is mostly happening via the gitlab issues in
 > 
-> Would there be any use in creating a media device for a stateful
-> decoder that does not need to use requests?
+> https://source.puri.sm/Librem5/linux-next
+> 
+> Maybe Martin and Dorota who are working on the camera drivers (put in cc:)
+> have a more suggestions.
+> 
+> > 
+> > AFAICS from bugzillas, it is still not compeletely working. I see
+> > megapixels packaged in the repository, but without required config
+> > files. Are there work-in-progress configurations somewhere? Would it
+> > be useful if I tried to get it to work on the devboard?
+> 
+> Megapixels work is mostly happening here atm:
+> 
+> https://source.puri.sm/dorota.czaplejewicz/megapixels
 
-The only thing I can think of is classification. In GStreamer support for
-stateless decoders, I use the topology to classify what is a decoder by walking
-the toplogy and making sure it's what I expect, and that there is no other
-branches or functions that I may not support. This makes it more strict, so less
-likely to confuse driver function.
+While this is interesting work, I would also keep an eye on libcamera, which I
+believe is a better place for HW specific media controller and request handling.
+Shouldn't be very hard to port this GTK3 library on top of libcamera.
 
-Note that v4l2-compliance just use the same old heuristic we have used for
-stateful, which is to check that one side have only RAW format, and the other
-side have only encoded formats. It works too, it's just less strict.
+https://libcamera.org/
 
 > 
 > Cheers,
-> Alex.
+>  -- Guido
+> 
+> > 
+> > I created simple python+gtk+gstreamer application to take photos,
+> > pictures and record videos. It is in tui repository; it is work on
+> > progress but some functionality is available on PinePhone, Librem 5
+> > devboard and a PC. If someone could test it on actual Librem 5... that
+> > would be nice.
+> > 
+> > https://gitlab.com/tui/tui/-/tree/master/cam
+> > 
+> > Best regards,
+> > 										Pavel
+> > 
+> > -- 
+> > (english) http://www.livejournal.com/~pavelmachek
+> > 
+> 
+> 
 
 
