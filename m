@@ -2,106 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E187E37F1BC
-	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 05:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42CF737F1BE
+	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 05:47:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230301AbhEMDsQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 May 2021 23:48:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230109AbhEMDsO (ORCPT
+        id S231139AbhEMDsk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 May 2021 23:48:40 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:44545 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230514AbhEMDsh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 May 2021 23:48:14 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66804C061574;
-        Wed, 12 May 2021 20:47:05 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id 10so20604905pfl.1;
-        Wed, 12 May 2021 20:47:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uCFKPzrYeuwaqZekX+y/t+Ka+1uMgBTfhabTovYmswE=;
-        b=S1VPcIohjHX5sP19NIEdpm56pe9PXvkGl7DaTv6G2T0uAyfAvcQT5SAa9lnNA978jO
-         ZTt1yWfo6m3kOYvXP69MZcGR4kAaKxbtzpsWs2ds2wua4NBX2zBrxJEXmhjtDh8A9cpm
-         wFalWIggNCl1SonztJEPMp+AXsWI8KEsEUcj+iKPeKVNJ/pd6gxkm9WIyJBCPSuvOKQ7
-         dLs8Fxf6vhrqz0pvgjvkMUA1qG89j8YCWtQR0C7Di8b3ZgPztHfxKpTX8Adem0bsK9cq
-         u2E9YhfAEIXrSUp4KUI4/XIAcKJLm2mpMq2YXfRu4TfhYtNrUqmKjWi3TMHdVWyb5xhr
-         M0Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uCFKPzrYeuwaqZekX+y/t+Ka+1uMgBTfhabTovYmswE=;
-        b=E9AJjxzxkLcL3bmVwI2SVaf+Mxklip5PTbhK1iev5b++y7aLjgYs7e7lBOTaLsA9DU
-         1OKL8AfAphx+RnVowUkt8mNXw6seJeG2pJPRAZjVKXprpK44JCDts8yO41Wc7KH101ot
-         2z67LNcBaQOxvc7JMTqQF/x+mHizGT4nMI1TyRBBesXNAb7xlxj5Bi8lZciN4ZhuNdCE
-         Xue0EwCWLNy0hSBJE/eN8XazqSS9pOpZb67MBLLi6ylNuOA8lLbzLs8ft60m1uD+WlBl
-         S6v6DkUOtItV48SHh1AfrDups1P3A8wBkUSNGGmKMSOmvbSZsefUaclMqrMAGqvey84r
-         nWmQ==
-X-Gm-Message-State: AOAM531QuWNrG2WQYWGd4eMxREEd7jFShK9QYvl49f1QN4WuJKUxnTPN
-        mvtrRV3ZwJ2pHH4daP0YlwI=
-X-Google-Smtp-Source: ABdhPJy+EbKIa+BZvLYWEb/qxTIUGLYURVDv4BQlMdlRdnjgQvyyOG8THHzFekc06oruonzKBg/68A==
-X-Received: by 2002:a17:90a:a60d:: with SMTP id c13mr2242335pjq.172.1620877624487;
-        Wed, 12 May 2021 20:47:04 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.63.8])
-        by smtp.gmail.com with ESMTPSA id t19sm988295pfg.70.2021.05.12.20.47.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 20:47:04 -0700 (PDT)
-From:   Nguyen Dinh Phi <phind.uet@gmail.com>
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Staging: atomisp: Use sysfs_emit() instead of sprintf() where appropriate
-Date:   Thu, 13 May 2021 11:46:50 +0800
-Message-Id: <20210513034650.252993-1-phind.uet@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 12 May 2021 23:48:37 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id h2JllsDjcWkKbh2Jrlbd8H; Thu, 13 May 2021 05:47:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1620877647; bh=qs5TfgBhAPQo1a0GCwRGjMAFPJEqxzqsJ+GzOIwsNLE=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=SuWaBnnyumfxbbCEiBxAd62clIn9eJgiXIiz0+Y19OZMOIejsXS2Am91LIDAOEV01
+         x+Hsy+6R57ybyUNJ2s38EfVKyRV+x4sI1QcoDSQ/vMFDF8/bK3Cx4VS7PFbEkNQCju
+         9Ojy2yVkLWo27ygwE0bOQcEfUfrP9MH09s3MInYVViw/zSyangQ6rak7qoxBYaD2Cy
+         O8K8TIniFYLbmQW5FQdQB3rvGArgMkn/phmCGfj940/OHPnYboolFDtWDTA0/kKpX8
+         dj3Xp7Mm7b840tvzU4yDhZjExCFEfY0CzAks+zjVVIWO5+nSRRMXOHcsgJqnGx4c2b
+         eOoV7BDIsU4YA==
+Message-ID: <dd6b57134972a5f1081d06f174706d91@smtp-cloud8.xs4all.net>
+Date:   Thu, 13 May 2021 05:47:21 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfCXj2iUjJD1FqQ4hcyQLC+wUbx5uBW7IhSgLViubgpyGl/vN8wOBF6TMR5YVPqodPx+OZj+Gi4wcVAWwIZHSBQaXUyQ0FBnhHJX9grfJwyCUHlNTN3z3
+ aU4rUr2u8K4NJl2dw6FnoQSzAfGPQfLvNksFE6qoYOAUmVp9JAIQi2FvA3QETfoFtCArlCKXHlF3V44m1YC0O4XUbsawOVba1YOe0jqXR0fBz5TK/GO0Rgdq
+ I9vay3EIUOiTftRMiCybcA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-sysfs_emit() is preferred over raw sprintf() for sysfs attributes since it
-knows about the sysfs buffer specifics and has some built-in sanity checks.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_drvfs.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-index f670faf978e6..dcb571f515a7 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-@@ -96,7 +96,7 @@ static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
- static ssize_t iunit_dbglvl_show(struct device_driver *drv, char *buf)
- {
- 	iunit_debug.dbglvl = dbg_level;
--	return sprintf(buf, "dtrace level:%u\n", iunit_debug.dbglvl);
-+	return sysfs_emit(buf, "dtrace level:%u\n", iunit_debug.dbglvl);
- }
- 
- static ssize_t iunit_dbglvl_store(struct device_driver *drv, const char *buf,
-@@ -115,7 +115,7 @@ static ssize_t iunit_dbglvl_store(struct device_driver *drv, const char *buf,
- static ssize_t iunit_dbgfun_show(struct device_driver *drv, char *buf)
- {
- 	iunit_debug.dbgfun = atomisp_get_css_dbgfunc();
--	return sprintf(buf, "dbgfun opt:%u\n", iunit_debug.dbgfun);
-+	return sysfs_emit(buf, "dbgfun opt:%u\n", iunit_debug.dbgfun);
- }
- 
- static ssize_t iunit_dbgfun_store(struct device_driver *drv, const char *buf,
-@@ -139,7 +139,7 @@ static ssize_t iunit_dbgfun_store(struct device_driver *drv, const char *buf,
- 
- static ssize_t iunit_dbgopt_show(struct device_driver *drv, char *buf)
- {
--	return sprintf(buf, "option:0x%x\n", iunit_debug.dbgopt);
-+	return sysfs_emit(buf, "option:0x%x\n", iunit_debug.dbgopt);
- }
- 
- static ssize_t iunit_dbgopt_store(struct device_driver *drv, const char *buf,
--- 
-2.25.1
+date:			Thu May 13 05:00:08 CEST 2021
+media-tree git hash:	73edc4da40635774100d0eb9ca2e6476e3b2b470
+media_build git hash:	fe2dddd7a72848ec66131d15c4f1893db7daf84b
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7413-g9bb66fa2d
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: WARNINGS
+linux-git-powerpc64: OK
+linux-git-arm-multi: WARNINGS
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13-rc1-i686: OK
+linux-5.13-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
