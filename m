@@ -2,89 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 150C037F391
-	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 09:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24E6B37F39B
+	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 09:38:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230443AbhEMHa6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 May 2021 03:30:58 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:50570 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230151AbhEMHa5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 May 2021 03:30:57 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14D7TBi9001885;
-        Thu, 13 May 2021 07:29:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=BHtquug1M2yss+hf9/2dufpqsD0fg1DEG+oMbnK3C7k=;
- b=u2C8k7asiBxK8ZLCcE8J7Fk3KQ6v/kZnQawrtf8WGPrRc4IjRPMmBn2x6Dt9DIqlYujT
- C4d2QpSDEe70o8aao/ImQNesLK+5CadFCHUfcr0gKHOPhnCOGArrbGw2bZOSH020KL4N
- cBIvjEbNDT3uEVNmH4VPnCvKPjoLoWaTR+rRWSjyeMuqhdCHDLh45oorG22D8GJEF0qb
- 1zEeat5i7GrCWASdvfmyHiEvey9YSFoaXFJJyjblTOMAbsl1v5qHNNrwSW6NUiOBE1GT
- wvE/k1zBYrT2myYu8cv+gYbyvr8H0Ii/6Y+jHEqbhtio0rVtNhlvqY4KOmJapAeu3A5Y fg== 
-Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 38gpphr5me-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 13 May 2021 07:29:46 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14D7Tjtl120368;
-        Thu, 13 May 2021 07:29:45 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3030.oracle.com with ESMTP id 38gpq1pmnv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 13 May 2021 07:29:45 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14D7Titd120317;
-        Thu, 13 May 2021 07:29:44 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 38gpq1pmkx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 13 May 2021 07:29:44 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14D7TcOL003657;
-        Thu, 13 May 2021 07:29:38 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 13 May 2021 00:29:37 -0700
-Date:   Thu, 13 May 2021 10:29:31 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Jia-Ju Bai <baijiaju1990@gmail.com>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        hverkuil-cisco@xs4all.nl
-Subject: Re: [bug report] media: tuners: fix error return code of
- hybrid_tuner_request_state()
-Message-ID: <20210513072931.GF1922@kadam>
-References: <YJvgLgZAEo5NtM2x@mwanda>
- <20210512141612.GA1922@kadam>
- <ec6ac4ef-057f-22a2-f2be-1773b2c50c8e@gmail.com>
+        id S231653AbhEMHjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 May 2021 03:39:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55514 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230443AbhEMHju (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 13 May 2021 03:39:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3322161059;
+        Thu, 13 May 2021 07:38:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620891521;
+        bh=oIkrDf7r1eCbpBjzxlZjiY/RWLxK0G9GSpPDm7dmqaI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IJeMRY0jT/wV2Grmc6dzgid6khFTsW7geka4iqlnOIGFeOMtZnQ0LOmdfK9aKgpFX
+         ZFfPfkwN0Bh93n3ATaz4e9YZEzhbuX5F+UQvNB0Lt9IL910lsBGx2FtxInJYu2x0JS
+         ywlmryAwAlt+HVnpjpUku4B46t5nRV71TXwFwFf0OULIMS/Zg/GfLNm8JV17aJh1z9
+         OsnBrpK93gtOTyKJMbs1yOFz8eMKagzM2YJFBq16zW6Z9dbuN/1yrwvKCi83mwK8QP
+         l5w7geZJfaraynloV6j/IhDQW8o7mCYDjxfa42Bt0Obp0yG7ALpIEbbo886QdNN/1t
+         nPrBj1J0GNtRg==
+Date:   Thu, 13 May 2021 15:38:33 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>
+Cc:     robh+dt@kernel.org, aisheng.dong@nxp.com, guoniu.zhou@nxp.com,
+        linux-arm-kernel@lists.infradead.org, peng.fan@nxp.com,
+        s.hauer@pengutronix.de, linux-imx@nxp.com,
+        devicetree@vger.kernel.org, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, paul.kocialkowski@bootlin.com,
+        daniel.baluta@nxp.com, robert.chiras@nxp.com,
+        laurentiu.palcu@nxp.com, p.zabel@pengutronix.de,
+        ezequiel@collabora.com, Mirela Rabulea <mirela.rabulea@nxp.com>
+Subject: Re: [PATCH v11] arm64: dts: imx8qxp: Add jpeg encoder/decoder nodes
+Message-ID: <20210513073832.GS3425@dragon>
+References: <20210423101414.20068-1-mirela.rabulea@oss.nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ec6ac4ef-057f-22a2-f2be-1773b2c50c8e@gmail.com>
+In-Reply-To: <20210423101414.20068-1-mirela.rabulea@oss.nxp.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: mBLobE7ziw8-pLMoecMQzyg42BbyCaIb
-X-Proofpoint-GUID: mBLobE7ziw8-pLMoecMQzyg42BbyCaIb
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 13, 2021 at 10:20:08AM +0800, Jia-Ju Bai wrote:
-> Hi Dan,
+On Fri, Apr 23, 2021 at 01:14:14PM +0300, Mirela Rabulea (OSS) wrote:
+> From: Mirela Rabulea <mirela.rabulea@nxp.com>
 > 
-> Thanks for your report.
-> I check the code again, and find that returning zero should indicate an
-> error here.
-> Good catch of Smatch :)
+> Add dts for imaging subsytem, include jpeg nodes here.
+> Tested on imx8qxp only, should work on imx8qm, but it was not tested.
 > 
-> Sorry for my mistake in my patch...
-> Please revert the incorrect change caused by my patch b9302fa7ed97.
+> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 
-I don't think Mauro and Hans are necessarily going to see this.  Please
-send a proper patch that they can apply.  :P
+So the bindings and driver parts have been accepted already?
 
-regards,
-dan carpenter
+> ---
+> Changes in v11:
+>   Adress feedback from Aisheng Dong:
+>   - Rename img_jpeg_dec_clk/img_jpeg_enc_clk to jpeg_dec_lpcg/jpeg_enc_lpcg to make it visible it's lpcg not other type of clk
+>   - Drop the cameradev node, not needed for jpeg
+>   - Match assigned-clocks & assigned-clock-rates
+> 
+>  .../arm64/boot/dts/freescale/imx8-ss-img.dtsi | 82 +++++++++++++++++++
+>  arch/arm64/boot/dts/freescale/imx8qxp.dtsi    |  1 +
+>  2 files changed, 83 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+> new file mode 100644
+> index 000000000000..c508e5d0c92b
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+> @@ -0,0 +1,82 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright 2019-2021 NXP
+> + * Zhou Guoniu <guoniu.zhou@nxp.com>
+> + */
+> +img_subsys: bus@58000000 {
+> +	compatible = "simple-bus";
+> +	#address-cells = <1>;
+> +	#size-cells = <1>;
+> +	ranges = <0x58000000 0x0 0x58000000 0x1000000>;
+> +
+> +	img_ipg_clk: clock-img-ipg {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <200000000>;
+> +		clock-output-names = "img_ipg_clk";
+> +	};
 
+Hmm, not sure a fixed-clock should be in the subsystem.
+
+> +
+> +	img_jpeg_dec_lpcg: clock-controller@585d0000 {
+> +		compatible = "fsl,imx8qxp-lpcg";
+> +		reg = <0x585d0000 0x10000>;
+> +		#clock-cells = <1>;
+> +		clocks = <&img_ipg_clk>, <&img_ipg_clk>;
+> +		clock-indices = <IMX_LPCG_CLK_0>,
+> +				<IMX_LPCG_CLK_4>;
+> +		clock-output-names = "img_jpeg_dec_lpcg_clk",
+> +				     "img_jpeg_dec_lpcg_ipg_clk";
+> +		power-domains = <&pd IMX_SC_R_MJPEG_DEC_MP>;
+> +	};
+> +
+> +	img_jpeg_enc_lpcg: clock-controller@585f0000 {
+> +		compatible = "fsl,imx8qxp-lpcg";
+> +		reg = <0x585f0000 0x10000>;
+> +		#clock-cells = <1>;
+> +		clocks = <&img_ipg_clk>, <&img_ipg_clk>;
+> +		clock-indices = <IMX_LPCG_CLK_0>,
+> +				<IMX_LPCG_CLK_4>;
+> +		clock-output-names = "img_jpeg_enc_lpcg_clk",
+> +				     "img_jpeg_enc_lpcg_ipg_clk";
+> +		power-domains = <&pd IMX_SC_R_MJPEG_ENC_MP>;
+> +	};
+> +
+> +	jpegdec: jpegdec@58400000 {
+
+Keep nodes sorted in unit address.
+
+Shawn
+
+> +		compatible = "nxp,imx8qxp-jpgdec";
+> +		reg = <0x58400000 0x00050000 >;
+> +		interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>,
+> +			     <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
+> +			     <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>,
+> +			     <GIC_SPI 312 IRQ_TYPE_LEVEL_HIGH>;
+> +		clocks = <&img_jpeg_dec_lpcg 0>,
+> +			 <&img_jpeg_dec_lpcg 1>;
+> +		clock-names = "per", "ipg";
+> +		assigned-clocks = <&img_jpeg_dec_lpcg 0>,
+> +				  <&img_jpeg_dec_lpcg 1>;
+> +		assigned-clock-rates = <200000000>, <200000000>;
+> +		power-domains = <&pd IMX_SC_R_MJPEG_DEC_MP>,
+> +				<&pd IMX_SC_R_MJPEG_DEC_S0>,
+> +				<&pd IMX_SC_R_MJPEG_DEC_S1>,
+> +				<&pd IMX_SC_R_MJPEG_DEC_S2>,
+> +				<&pd IMX_SC_R_MJPEG_DEC_S3>;
+> +	};
+> +
+> +	jpegenc: jpegenc@58450000 {
+> +		compatible = "nxp,imx8qxp-jpgenc";
+> +		reg = <0x58450000 0x00050000 >;
+> +		interrupts = <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
+> +			     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
+> +			     <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>,
+> +			     <GIC_SPI 308 IRQ_TYPE_LEVEL_HIGH>;
+> +		clocks = <&img_jpeg_enc_lpcg 0>,
+> +			 <&img_jpeg_enc_lpcg 1>;
+> +		clock-names = "per", "ipg";
+> +		assigned-clocks = <&img_jpeg_enc_lpcg 0>,
+> +				  <&img_jpeg_enc_lpcg 1>;
+> +		assigned-clock-rates = <200000000>, <200000000>;
+> +		power-domains = <&pd IMX_SC_R_MJPEG_ENC_MP>,
+> +				<&pd IMX_SC_R_MJPEG_ENC_S0>,
+> +				<&pd IMX_SC_R_MJPEG_ENC_S1>,
+> +				<&pd IMX_SC_R_MJPEG_ENC_S2>,
+> +				<&pd IMX_SC_R_MJPEG_ENC_S3>;
+> +	};
+> +};
+> diff --git a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+> index 1e6b4995091e..2d9589309bd0 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+> @@ -258,6 +258,7 @@
+>  	};
+>  
+>  	/* sorted in register address */
+> +	#include "imx8-ss-img.dtsi"
+>  	#include "imx8-ss-adma.dtsi"
+>  	#include "imx8-ss-conn.dtsi"
+>  	#include "imx8-ss-ddr.dtsi"
+> -- 
+> 2.17.1
+> 
