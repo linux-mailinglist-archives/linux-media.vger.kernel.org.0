@@ -2,80 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A579037F4F7
-	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 11:42:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B78837F81F
+	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 14:47:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232458AbhEMJnZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 May 2021 05:43:25 -0400
-Received: from honk.sigxcpu.org ([24.134.29.49]:60984 "EHLO honk.sigxcpu.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231980AbhEMJnY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 May 2021 05:43:24 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id 09A8FFB03;
-        Thu, 13 May 2021 11:42:13 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
-        by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id j5roLQSI2tEf; Thu, 13 May 2021 11:42:12 +0200 (CEST)
-Date:   Thu, 13 May 2021 11:42:10 +0200
-From:   Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     phone-devel@vger.kernel.org, martijn@brixit.nl,
-        linux-media@vger.kernel.org, martin.kepplinger@puri.sm,
-        dorota.czaplejewicz@puri.sm
-Subject: Re: Recording videos on phones and camera on Librem 5 devboard
-Message-ID: <YJz0cn4OrXNhRDoO@bogon.m.sigxcpu.org>
-References: <20210512214702.GB27652@duo.ucw.cz>
+        id S233709AbhEMMse (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 May 2021 08:48:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48860 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232344AbhEMMsd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 13 May 2021 08:48:33 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB0CAC06175F
+        for <linux-media@vger.kernel.org>; Thu, 13 May 2021 05:47:22 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id l1so3668112ejb.6
+        for <linux-media@vger.kernel.org>; Thu, 13 May 2021 05:47:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W1J1Y/llzefABiurBrXhH3P/Yf5bUZKTxFl7ki73TUM=;
+        b=dNGZV1nNZfey2bqWkxy116QdVoE+0leuNGLTebhBwH+kktGks6cj+t1Js5jgjF84SO
+         q9zu48R0qfu1PYlPP64PaXoKFa8rHrbDpMlduGiYdtJuRetaqNOQHy74MEHmBPKulpSY
+         28tLhBkcDq4354iVCHo4Lfjd2l8xYdC+pFrggDzxxbeFfTehsvH9KJXz1e5jbwyczPm0
+         NFg9Q7JC6orOUaYm8YIAZAs+ORUKw+SsfP9lqAiHdUzN051I+vYrmEz6kL3QhTgh3DQg
+         gwHDXOUbj93fIqFEtbeZZEzR3krut9Mbkq57f0kkkLRxcZZbU4k+GdBqWPw0UCCyL/ld
+         nXug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W1J1Y/llzefABiurBrXhH3P/Yf5bUZKTxFl7ki73TUM=;
+        b=Y4VIoqe2nkPlqL3ID6wpya59J7bqQ4iKERv1MdjB6bCk0IGmlWZgT0uTsZRzlUx/Kn
+         P7GvTI27n/ZTEhesICQTjoPzhvBxCgd694o2XFXXevh+FQJVjiFMAVlwhQvkdzKoIiv4
+         8FXGzh0FcrWhC98G5aFxmLYKEwBloQB2JmRi6+lObRDbP70LKT225DTaWnVTlOtr4wbi
+         WaFuK2mu/T3SUu4K1l32CPbxLVSoSeSpvzUUvBK/4nUoRYMbwq2+219pcGVT/RQbSyux
+         JneycQyDdqjvhs5ztYKJaGNFhOyocwr7u+mmka3s5MEF4jjgGEqiufAuJ2czJ1SFihS5
+         AU4A==
+X-Gm-Message-State: AOAM530A/L2uUfOYwN7jL/Zdm0mZ0xDNU3UESUGxZhzRjmLj1pcgL+22
+        LRARTs9MxkZAMKquTaDIBXAF5A==
+X-Google-Smtp-Source: ABdhPJzaRAjidQD4l8Ibmd4kxySWxB8+li+B9mPkM8DTbC7Rrye9kQrEKEJ7ogQb/Om/KpaFAkv36Q==
+X-Received: by 2002:a17:906:2f91:: with SMTP id w17mr23889632eji.443.1620910041562;
+        Thu, 13 May 2021 05:47:21 -0700 (PDT)
+Received: from bismarck.berto.se (p54ac5521.dip0.t-ipconnect.de. [84.172.85.33])
+        by smtp.googlemail.com with ESMTPSA id k5sm2582607edk.46.2021.05.13.05.47.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 May 2021 05:47:20 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        LUU HOAI <hoai.luu.ub@renesas.com>
+Subject: [PATCH v2] media: rcar-vin: Enable support for r8a77961
+Date:   Thu, 13 May 2021 14:47:15 +0200
+Message-Id: <20210513124715.598093-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210512214702.GB27652@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Pavel,
-On Wed, May 12, 2021 at 11:47:02PM +0200, Pavel Machek wrote:
-> Hi!
-> 
-> Who is the right person to talk about Librem 5 cameras? Is there
-> mailing list I should use?
+Enable support for M3-W+ (r8a77961).
 
-I think most of the coordination is mostly happening via the gitlab issues in
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Tested-by: LUU HOAI <hoai.luu.ub@renesas.com>
+---
+ drivers/media/platform/rcar-vin/rcar-core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-https://source.puri.sm/Librem5/linux-next
-
-Maybe Martin and Dorota who are working on the camera drivers (put in cc:)
-have a more suggestions.
-
-> 
-> AFAICS from bugzillas, it is still not compeletely working. I see
-> megapixels packaged in the repository, but without required config
-> files. Are there work-in-progress configurations somewhere? Would it
-> be useful if I tried to get it to work on the devboard?
-
-Megapixels work is mostly happening here atm:
-
-https://source.puri.sm/dorota.czaplejewicz/megapixels
-
-Cheers,
- -- Guido
-
-> 
-> I created simple python+gtk+gstreamer application to take photos,
-> pictures and record videos. It is in tui repository; it is work on
-> progress but some functionality is available on PinePhone, Librem 5
-> devboard and a PC. If someone could test it on actual Librem 5... that
-> would be nice.
-> 
-> https://gitlab.com/tui/tui/-/tree/master/cam
-> 
-> Best regards,
-> 										Pavel
-> 
-> -- 
-> (english) http://www.livejournal.com/~pavelmachek
-> 
-
+diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+index cb3025992817d625..33957cc9118ca79e 100644
+--- a/drivers/media/platform/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/rcar-vin/rcar-core.c
+@@ -1362,6 +1362,10 @@ static const struct of_device_id rvin_of_id_table[] = {
+ 		.compatible = "renesas,vin-r8a7796",
+ 		.data = &rcar_info_r8a7796,
+ 	},
++	{
++		.compatible = "renesas,vin-r8a77961",
++		.data = &rcar_info_r8a7796,
++	},
+ 	{
+ 		.compatible = "renesas,vin-r8a77965",
+ 		.data = &rcar_info_r8a77965,
+-- 
+2.31.1
 
