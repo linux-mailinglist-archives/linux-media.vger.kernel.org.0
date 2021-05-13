@@ -2,114 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CFC937F13B
-	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 04:20:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E187E37F1BC
+	for <lists+linux-media@lfdr.de>; Thu, 13 May 2021 05:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230128AbhEMCVV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 May 2021 22:21:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51342 "EHLO
+        id S230301AbhEMDsQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 May 2021 23:48:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229630AbhEMCVV (ORCPT
+        with ESMTP id S230109AbhEMDsO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 May 2021 22:21:21 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8187DC061574
-        for <linux-media@vger.kernel.org>; Wed, 12 May 2021 19:20:11 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id h127so20288928pfe.9
-        for <linux-media@vger.kernel.org>; Wed, 12 May 2021 19:20:11 -0700 (PDT)
+        Wed, 12 May 2021 23:48:14 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66804C061574;
+        Wed, 12 May 2021 20:47:05 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id 10so20604905pfl.1;
+        Wed, 12 May 2021 20:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=nkSn4a2LombnxEdXcRnOLrSxk+/qCpYZC5FFdG62AXs=;
-        b=IsQ6SZYlsP4HM+GY1tw39YEJnboAxO/ygVr1RPfPWkqiWT1URvAaXJ8XQcprLiNySR
-         KIuXXJ1Rs//iddFdEBzLDD00cfUj+uEleU3uXOSHNHIppIU09+TjPhF5D8oy4b+d8FWa
-         d+jdbTot4BDZa2YkG8jR9+MXZopRxBUHOylI8P40cXppm29ceJpnAXW6T60RkrOIQz6k
-         k6yCBZSDd6FqJ4ffPrnnhuH3mB9KgMCi/sgy2lhIQ962fPmtHh1Pu+DcVYT+7H0J5Ggy
-         O8tCto9z9yOQRT/o1Aujb31R71uro+oU/l4qyfAwlan5ybuLY9VkH2JniScN3AWjUqGd
-         jl7g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uCFKPzrYeuwaqZekX+y/t+Ka+1uMgBTfhabTovYmswE=;
+        b=S1VPcIohjHX5sP19NIEdpm56pe9PXvkGl7DaTv6G2T0uAyfAvcQT5SAa9lnNA978jO
+         ZTt1yWfo6m3kOYvXP69MZcGR4kAaKxbtzpsWs2ds2wua4NBX2zBrxJEXmhjtDh8A9cpm
+         wFalWIggNCl1SonztJEPMp+AXsWI8KEsEUcj+iKPeKVNJ/pd6gxkm9WIyJBCPSuvOKQ7
+         dLs8Fxf6vhrqz0pvgjvkMUA1qG89j8YCWtQR0C7Di8b3ZgPztHfxKpTX8Adem0bsK9cq
+         u2E9YhfAEIXrSUp4KUI4/XIAcKJLm2mpMq2YXfRu4TfhYtNrUqmKjWi3TMHdVWyb5xhr
+         M0Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=nkSn4a2LombnxEdXcRnOLrSxk+/qCpYZC5FFdG62AXs=;
-        b=Hd2fXzdM9IQU/lfUZFBZXJFax/Ukxr/A2SG2vKVBmsfRilT8YOtpJ9hZtqTnX+A8CG
-         9Ti3G4cLrHfJx1IUa1fDHGPx6/uNvHmbpJMQ0LmtCZMqehpyBWTCJ4N61BngKYuJzaAU
-         bwzuUvZx+6SFZkIU7UUoYmUoXJeuuXEmNeNPmFSmK24mcT9gplA5PPHs2hVWEVtQZc4k
-         Ei0Kfi9UxjJ7do6C+B2FaJwbWwY/koQ1DIYPscGfPsIAVHSS8zRNzaq7W6N0hi2DidT7
-         i3Sv15C6OzGwEWGk930JzkpHvNgKAFNhrAEler4yWZOy3dfJNEaJ0GxQ5J0Fdau5ssf6
-         4mHA==
-X-Gm-Message-State: AOAM532l+sr54ESMbXScfc1d4Mn/Be+uMLXit/gtK3pOWEBW4OS7h+uK
-        ikhZOvBtW0rti/kTQWPgCNs=
-X-Google-Smtp-Source: ABdhPJwDJpQRWUOx9hV81WH879ws1yrL1aIEyRmkLwm/cyJHDuo/8UggeQs+P89ft1OFzLacf0lZ2g==
-X-Received: by 2002:a63:104a:: with SMTP id 10mr28460186pgq.66.1620872411072;
-        Wed, 12 May 2021 19:20:11 -0700 (PDT)
-Received: from [10.69.1.18] ([45.135.186.136])
-        by smtp.gmail.com with ESMTPSA id j16sm911505pgh.69.2021.05.12.19.20.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 May 2021 19:20:10 -0700 (PDT)
-Subject: Re: [bug report] media: tuners: fix error return code of
- hybrid_tuner_request_state()
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        hverkuil-cisco@xs4all.nl
-References: <YJvgLgZAEo5NtM2x@mwanda> <20210512141612.GA1922@kadam>
-From:   Jia-Ju Bai <baijiaju1990@gmail.com>
-Message-ID: <ec6ac4ef-057f-22a2-f2be-1773b2c50c8e@gmail.com>
-Date:   Thu, 13 May 2021 10:20:08 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uCFKPzrYeuwaqZekX+y/t+Ka+1uMgBTfhabTovYmswE=;
+        b=E9AJjxzxkLcL3bmVwI2SVaf+Mxklip5PTbhK1iev5b++y7aLjgYs7e7lBOTaLsA9DU
+         1OKL8AfAphx+RnVowUkt8mNXw6seJeG2pJPRAZjVKXprpK44JCDts8yO41Wc7KH101ot
+         2z67LNcBaQOxvc7JMTqQF/x+mHizGT4nMI1TyRBBesXNAb7xlxj5Bi8lZciN4ZhuNdCE
+         Xue0EwCWLNy0hSBJE/eN8XazqSS9pOpZb67MBLLi6ylNuOA8lLbzLs8ft60m1uD+WlBl
+         S6v6DkUOtItV48SHh1AfrDups1P3A8wBkUSNGGmKMSOmvbSZsefUaclMqrMAGqvey84r
+         nWmQ==
+X-Gm-Message-State: AOAM531QuWNrG2WQYWGd4eMxREEd7jFShK9QYvl49f1QN4WuJKUxnTPN
+        mvtrRV3ZwJ2pHH4daP0YlwI=
+X-Google-Smtp-Source: ABdhPJy+EbKIa+BZvLYWEb/qxTIUGLYURVDv4BQlMdlRdnjgQvyyOG8THHzFekc06oruonzKBg/68A==
+X-Received: by 2002:a17:90a:a60d:: with SMTP id c13mr2242335pjq.172.1620877624487;
+        Wed, 12 May 2021 20:47:04 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.63.8])
+        by smtp.gmail.com with ESMTPSA id t19sm988295pfg.70.2021.05.12.20.47.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 May 2021 20:47:04 -0700 (PDT)
+From:   Nguyen Dinh Phi <phind.uet@gmail.com>
+To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Staging: atomisp: Use sysfs_emit() instead of sprintf() where appropriate
+Date:   Thu, 13 May 2021 11:46:50 +0800
+Message-Id: <20210513034650.252993-1-phind.uet@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210512141612.GA1922@kadam>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+sysfs_emit() is preferred over raw sprintf() for sysfs attributes since it
+knows about the sysfs buffer specifics and has some built-in sanity checks.
 
-Thanks for your report.
-I check the code again, and find that returning zero should indicate an 
-error here.
-Good catch of Smatch :)
+Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_drvfs.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Sorry for my mistake in my patch...
-Please revert the incorrect change caused by my patch b9302fa7ed97.
-
-CC to Mauro Carvalho Chehab and Hans Verkuil.
-
-
-Best wishes,
-Jia-Ju Bai
-
-
-On 2021/5/12 22:16, Dan Carpenter wrote:
-> On Wed, May 12, 2021 at 05:03:26PM +0300, Dan Carpenter wrote:
->> Hello Jia-Ju Bai,
->>
->> The patch b9302fa7ed97: "media: tuners: fix error return code of
->> hybrid_tuner_request_state()" from Mar 6, 2021, leads to the
->> following static checker warnings:
->>
->> drivers/media/tuners/tuner-simple.c:1112 simple_tuner_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
->> drivers/media/tuners/mxl5007t.c:885 mxl5007t_attach() error: potential null dereference 'state'.  (<unknown> returns null)
->> drivers/media/tuners/tda18271-fe.c:1311 tda18271_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
->> drivers/media/tuners/xc4000.c:1685 xc4000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
->> drivers/media/tuners/xc4000.c:1699 xc4000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
->> drivers/media/tuners/xc5000.c:1397 xc5000_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
->> drivers/media/tuners/r820t.c:2350 r820t_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
->> drivers/media/tuners/tuner-xc2028.c:1500 xc2028_attach() error: potential null dereference 'priv'.  (<unknown> returns null)
->>
->> drivers/media/tuners/tuner-i2c.h
->>     109  /* The return value of hybrid_tuner_request_state indicates the number of
->>     110   * instances using this tuner object.
->>     111   *
->>     112   * 0 - no instances, indicates an error - kzalloc must have failed
->>
->> The comment says that hybrid_tuner_request_state() returns an error.
-> I meant returns zero on error.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
+index f670faf978e6..dcb571f515a7 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
+@@ -96,7 +96,7 @@ static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
+ static ssize_t iunit_dbglvl_show(struct device_driver *drv, char *buf)
+ {
+ 	iunit_debug.dbglvl = dbg_level;
+-	return sprintf(buf, "dtrace level:%u\n", iunit_debug.dbglvl);
++	return sysfs_emit(buf, "dtrace level:%u\n", iunit_debug.dbglvl);
+ }
+ 
+ static ssize_t iunit_dbglvl_store(struct device_driver *drv, const char *buf,
+@@ -115,7 +115,7 @@ static ssize_t iunit_dbglvl_store(struct device_driver *drv, const char *buf,
+ static ssize_t iunit_dbgfun_show(struct device_driver *drv, char *buf)
+ {
+ 	iunit_debug.dbgfun = atomisp_get_css_dbgfunc();
+-	return sprintf(buf, "dbgfun opt:%u\n", iunit_debug.dbgfun);
++	return sysfs_emit(buf, "dbgfun opt:%u\n", iunit_debug.dbgfun);
+ }
+ 
+ static ssize_t iunit_dbgfun_store(struct device_driver *drv, const char *buf,
+@@ -139,7 +139,7 @@ static ssize_t iunit_dbgfun_store(struct device_driver *drv, const char *buf,
+ 
+ static ssize_t iunit_dbgopt_show(struct device_driver *drv, char *buf)
+ {
+-	return sprintf(buf, "option:0x%x\n", iunit_debug.dbgopt);
++	return sysfs_emit(buf, "option:0x%x\n", iunit_debug.dbgopt);
+ }
+ 
+ static ssize_t iunit_dbgopt_store(struct device_driver *drv, const char *buf,
+-- 
+2.25.1
 
