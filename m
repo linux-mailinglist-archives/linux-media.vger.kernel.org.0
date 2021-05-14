@@ -2,128 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CC8D3807FB
-	for <lists+linux-media@lfdr.de>; Fri, 14 May 2021 13:03:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8675C380824
+	for <lists+linux-media@lfdr.de>; Fri, 14 May 2021 13:08:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232409AbhENLEK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 May 2021 07:04:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34182 "EHLO
+        id S231687AbhENLJx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 May 2021 07:09:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232391AbhENLEH (ORCPT
+        with ESMTP id S229445AbhENLJu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 May 2021 07:04:07 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4169C061574;
-        Fri, 14 May 2021 04:02:55 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id h16so11624037pfk.0;
-        Fri, 14 May 2021 04:02:55 -0700 (PDT)
+        Fri, 14 May 2021 07:09:50 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39449C061574;
+        Fri, 14 May 2021 04:08:39 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id n17-20020a7bc5d10000b0290169edfadac9so1248684wmk.1;
+        Fri, 14 May 2021 04:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=JbtmVlFegu/yEOkgo/QoQ3O9Y1pQZgcP2L+SCuXVqL0=;
-        b=fp1v09Fw8o/YJrDM0ISr4sBVIAh5N8cQ5ede5YPsHlfph256kamuUPI8xN6w8baQ6j
-         TWvGKzsgItfyZDBLU8d6pnm3TN586CAJzzDJd8uYY7dw3T/Hs6xwnpPalxEzPvFgKrMJ
-         TyEkVpkZy929j0ARWFkghwfAs3M5tDYY+YD5RvLqQqV8LuDWyf1UKNE9guc3vJzuUv5F
-         ILa89dPd6jLhdF7+X/czAmaH1ZwO2aqqG7vahRqb9QZHzECaSRN4Xl8gurEGJzjx8AuQ
-         485rHEglAlqGca8kkJWVpC4jgvV4eorjccCXgyjRLT0hnJmlOqLBCt8pXJ4m2R+q3E50
-         Aarg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=DnsDrIqkWnYf7da8HpIWFBQQt2XImu+6ZyHWBvjrfcE=;
+        b=sDX/4vOZ59ic93Kj1k7EQHH5H75TwRxFQdfU97NsB2/Y+xVttZgCu6VcmdiZBbTXV4
+         Yd9dS94Y1asR2VIYZN7NEerfwgmtEUFK3NZSUIzeY6J/4AmyVofgnwxiuO5puvulkCHX
+         zAH+iCNJUU2yLFhQkplxklOlcyZUbrmQbTIThNq4BukYbZy9X610Bla24hpoPnMCKKtF
+         HaX7GWwtAjZyjiNuvWcCoIBPkXTf9xY5aCFfjMGcrbRCdRoMLY/c+VX1+t1XGHSYNqtQ
+         /vEAS8jymBn+QTD3oR/5dtU3nH62pPJpzKh6iPn38AjBb8Fr8EpkCArPsjTRrMSNZ8n3
+         9CtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=JbtmVlFegu/yEOkgo/QoQ3O9Y1pQZgcP2L+SCuXVqL0=;
-        b=NPD6dWxqs9BgikLImZ60iqanxLeTgBh/j1SekaOq01yHS1OYGkkX9gDh5Ww7GbKaJs
-         2/aMBCjkrHaitNnc7ndPJavgt1xkMRb1yPSYYaChTV8Ybc88Mixv5B4Mcos2s3TLKfRN
-         Rzf9pWSGsDIDPPDiA/+U2+m4VWTsKC9WAqtSDbKwrND2mh8+eqMLnwnJxbskOTN/Idar
-         HYneUe+aGtqAf2uuqbwkp42CT1g9tP7LWAgmCBP/aMi3ZiGBcNUk5loxqAay57QGD42t
-         h6u4KlMtCqAAOLuwBx0SKMU5SNQDJPetS9neVUsRBXvLxkfUMEfMQN3c9Xj82/6wZ7t2
-         YqXg==
-X-Gm-Message-State: AOAM533nDOqsI6xgEmRxsJw/iURkr9UPKJafQUr12KUV5zX7xao1OWK5
-        MxAu1/f46vkgch7Gs5cgh75cKNSnCRIoa/oN
-X-Google-Smtp-Source: ABdhPJxqI2KKH4oJ6y3qHsv0zSC7+p7HNCpz1OvYKNLOB5TRihvLmt8HQDIN8MLwI+mNHsDbnB1E5A==
-X-Received: by 2002:a62:644d:0:b029:2d1:1c84:dae5 with SMTP id y74-20020a62644d0000b02902d11c84dae5mr8511892pfb.77.1620990175080;
-        Fri, 14 May 2021 04:02:55 -0700 (PDT)
-Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
-        by smtp.gmail.com with ESMTPSA id 202sm4193402pgg.59.2021.05.14.04.02.51
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 May 2021 04:02:54 -0700 (PDT)
-From:   dillon.minfei@gmail.com
-To:     patrice.chotard@foss.st.com, pierre-yves.mordret@foss.st.com,
-        alain.volmat@foss.st.com, mcoquelin.stm32@gmail.com,
-        alexandre.torgue@foss.st.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, mturquette@baylibre.com
-Cc:     sboyd@kernel.org, linux-i2c@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-clk@vger.kernel.org,
-        Dillon Min <dillon.minfei@gmail.com>
-Subject: [PATCH 4/4] clk: stm32: Fix ltdc's clock turn off by clk_disable_unused() after kernel startup
-Date:   Fri, 14 May 2021 19:02:32 +0800
-Message-Id: <1620990152-19255-5-git-send-email-dillon.minfei@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1620990152-19255-1-git-send-email-dillon.minfei@gmail.com>
-References: <1620990152-19255-1-git-send-email-dillon.minfei@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DnsDrIqkWnYf7da8HpIWFBQQt2XImu+6ZyHWBvjrfcE=;
+        b=TD856n5ZaQSeJHGEx9lBl3DYJwSrmzWVHV1McUmXOwhUBLbSBNiZ/6VlNVh199g9Ri
+         9ldmsRKsgTpW0jJKu8wKKq9vTGxH8oYk1RYzr0pjjLyUXEWToFutGV6NHvDxrr3dRNcd
+         xpI6drJa0q8KxQI7Q383NhY5taZvAWG0bu4SH+Vv8KsL8GmXv+26WjLv17OjGJIsC9KP
+         zFk3FPiWWaCXwZzHBuEalGXketW02Jwpz/pzIJrrM7hhmVXx0ONOcWgQH31a0goO2DN0
+         0t4ahJ7da1+KepMU+CFz4Dgi5zZsjD3BtWZd2x/DzFYx57euWgcPya3+ADCpQXiDX1a0
+         9KEw==
+X-Gm-Message-State: AOAM530kBEY1aeTl7/fqP01xjKBxsG+XUhMJjIAC3GW4JTFpOAA74x2o
+        06yceDCYnkP+PZ9QsYvx+4mADfV1+btBCg==
+X-Google-Smtp-Source: ABdhPJwViz0BDPUuVH349RqXP0p4zCVFhrVjXNorTYnm55dAjMiaqH0FajvtM+sJwCYcinjBh5k1qQ==
+X-Received: by 2002:a7b:c005:: with SMTP id c5mr21007074wmb.113.1620990517974;
+        Fri, 14 May 2021 04:08:37 -0700 (PDT)
+Received: from [192.168.1.122] (cpc159425-cmbg20-2-0-cust403.5-4.cable.virginm.net. [86.7.189.148])
+        by smtp.gmail.com with ESMTPSA id b10sm7116349wrr.27.2021.05.14.04.08.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 May 2021 04:08:37 -0700 (PDT)
+Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
+ symbols
+To:     David Woodhouse <dwmw2@infradead.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mali DP Maintainers <malidp@foss.arm.com>,
+        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
+        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
+        rcu@vger.kernel.org
+References: <cover.1620823573.git.mchehab+huawei@kernel.org>
+ <d2fed242fbe200706b8d23a53512f0311d900297.camel@infradead.org>
+ <20210514102118.1b71bec3@coco.lan>
+ <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
+From:   Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <8b8bc929-2f07-049d-f24c-cb1f1d85bbaa@gmail.com>
+Date:   Fri, 14 May 2021 12:08:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dillon Min <dillon.minfei@gmail.com>
+> On Fri, 2021-05-14 at 10:21 +0200, Mauro Carvalho Chehab wrote:
+>> I do use a lot of UTF-8 here, as I type texts in Portuguese, but I rely
+>> on the US-intl keyboard settings, that allow me to type as "'a" for á.
+>> However, there's no shortcut for non-Latin UTF-codes, as far as I know.
+>>
+>> So, if would need to type a curly comma on the text editors I normally 
+>> use for development (vim, nano, kate), I would need to cut-and-paste
+>> it from somewhere
 
-stm32's clk driver register two ltdc gate clk to clk core by
-clk_hw_register_gate() and clk_hw_register_composite()
+For anyone who doesn't know about it: X has this wonderful thing called
+ the Compose key[1].  For instance, type ⎄--- to get —, or ⎄<" for “.
+Much more mnemonic than Unicode codepoints; and you can extend it with
+ user-defined sequences in your ~/.XCompose file.
+(I assume Wayland supports all this too, but don't know the details.)
 
-first: 'stm32f429_gates[]', clk name is 'ltdc', which no user to use.
-second: 'stm32f429_aux_clk[]', clk name is 'lcd-tft', used by ltdc driver
+On 14/05/2021 10:06, David Woodhouse wrote:
+> Again, if you want to make specific fixes like removing non-breaking
+> spaces and byte order marks, with specific reasons, then those make
+> sense. But it's got very little to do with UTF-8 and how easy it is to
+> type them. And the excuse you've put in the commit comment for your
+> patches is utterly bogus.
 
-both of them point to the same offset of stm32's RCC register. after
-kernel enter console, clk core turn off ltdc's clk as 'stm32f429_gates[]'
-is no one to use. but, actually 'stm32f429_aux_clk[]' is in use.
++1
 
-Fixes: daf2d117cbca ("clk: stm32f4: Add lcd-tft clock")
-Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
-Acked-by: Stephen Boyd <sboyd@kernel.org>
-Link: https://lore.kernel.org/linux-arm-kernel/1590564453-24499-7-git-send-email-dillon.minfei@gmail.com/
----
- drivers/clk/clk-stm32f4.c | 4 ----
- 1 file changed, 4 deletions(-)
+-ed
 
-diff --git a/drivers/clk/clk-stm32f4.c b/drivers/clk/clk-stm32f4.c
-index 42ca2dd86aea..f4156a8a6041 100644
---- a/drivers/clk/clk-stm32f4.c
-+++ b/drivers/clk/clk-stm32f4.c
-@@ -129,7 +129,6 @@ static const struct stm32f4_gate_data stm32f429_gates[] __initconst = {
- 	{ STM32F4_RCC_APB2ENR, 20,	"spi5",		"apb2_div" },
- 	{ STM32F4_RCC_APB2ENR, 21,	"spi6",		"apb2_div" },
- 	{ STM32F4_RCC_APB2ENR, 22,	"sai1",		"apb2_div" },
--	{ STM32F4_RCC_APB2ENR, 26,	"ltdc",		"apb2_div" },
- };
- 
- static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
-@@ -211,7 +210,6 @@ static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
- 	{ STM32F4_RCC_APB2ENR, 20,	"spi5",		"apb2_div" },
- 	{ STM32F4_RCC_APB2ENR, 21,	"spi6",		"apb2_div" },
- 	{ STM32F4_RCC_APB2ENR, 22,	"sai1",		"apb2_div" },
--	{ STM32F4_RCC_APB2ENR, 26,	"ltdc",		"apb2_div" },
- };
- 
- static const struct stm32f4_gate_data stm32f746_gates[] __initconst = {
-@@ -286,7 +284,6 @@ static const struct stm32f4_gate_data stm32f746_gates[] __initconst = {
- 	{ STM32F4_RCC_APB2ENR, 21,	"spi6",		"apb2_div" },
- 	{ STM32F4_RCC_APB2ENR, 22,	"sai1",		"apb2_div" },
- 	{ STM32F4_RCC_APB2ENR, 23,	"sai2",		"apb2_div" },
--	{ STM32F4_RCC_APB2ENR, 26,	"ltdc",		"apb2_div" },
- };
- 
- static const struct stm32f4_gate_data stm32f769_gates[] __initconst = {
-@@ -364,7 +361,6 @@ static const struct stm32f4_gate_data stm32f769_gates[] __initconst = {
- 	{ STM32F4_RCC_APB2ENR, 21,	"spi6",		"apb2_div" },
- 	{ STM32F4_RCC_APB2ENR, 22,	"sai1",		"apb2_div" },
- 	{ STM32F4_RCC_APB2ENR, 23,	"sai2",		"apb2_div" },
--	{ STM32F4_RCC_APB2ENR, 26,	"ltdc",		"apb2_div" },
- 	{ STM32F4_RCC_APB2ENR, 30,	"mdio",		"apb2_div" },
- };
- 
--- 
-2.7.4
-
+[1] https://en.wikipedia.org/wiki/Compose_key
