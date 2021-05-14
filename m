@@ -2,77 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 418A63809B0
-	for <lists+linux-media@lfdr.de>; Fri, 14 May 2021 14:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8025C380BA4
+	for <lists+linux-media@lfdr.de>; Fri, 14 May 2021 16:18:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233513AbhENMhp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 May 2021 08:37:45 -0400
-Received: from m12-18.163.com ([220.181.12.18]:42094 "EHLO m12-18.163.com"
+        id S234300AbhENOTw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 May 2021 10:19:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37092 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232712AbhENMhn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 May 2021 08:37:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=MoSSP
-        kXKo4o6qIFWqVEQl4V2Nc01N2F0xON63x+w1u8=; b=PFUngJNoSIPqXYGmCc1q9
-        oDhWFnEU0ucPX/X0nldZFP8E1163/e1mGIG2dtlWEYI+9AXRUOD19FYF3w8YH6FS
-        AA1dRzfw+o42zxEQspsOaOF+3pNc1eAmLFT27gaqNR7XrHOfyNpOKhBtzdPK0ASr
-        HAkkx+u1k1+5rVQMCKEhZE=
-Received: from COOL-20201222LC.ccdomain.com (unknown [218.94.48.178])
-        by smtp14 (Coremail) with SMTP id EsCowACXkcHBbp5gGuSZjQ--.23353S2;
-        Fri, 14 May 2021 20:36:18 +0800 (CST)
-From:   dingsenjie@163.com
-To:     mchehab@kernel.org, matthias.bgg@gmail.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ding Senjie <dingsenjie@yulong.com>
-Subject: [PATCH] media: mtk-vpu: Use devm_platform_ioremap_resource_byname
-Date:   Fri, 14 May 2021 20:35:21 +0800
-Message-Id: <20210514123521.39296-1-dingsenjie@163.com>
-X-Mailer: git-send-email 2.21.0.windows.1
+        id S230097AbhENOTu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 May 2021 10:19:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C73C61408;
+        Fri, 14 May 2021 14:18:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621001918;
+        bh=c7dfcDSUedN/VQoQv/XM8fRZG2HhOOW57vq4i3XI37w=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=OQ+w8jq41p/pK8QPzt383K43rnWDvG9IebEZzoZj7WKu0EgpEM3a4OB9pZnDV5/lC
+         MxVWpkmQpp2inFtKTGn6bM1fAR+gA+04aBXFsHrR34k+VM9wQUFTEenWCHNxw8mV5S
+         Rr3kzMIGVT+KJ8CgQJfj5jt0KJvZQg0gfBfD7ImGjDrz6TXEWqjpD0nn1NC8t6bBSV
+         Y2m7PBzQCXheFvsYF9jZqx3chr66nJXcElBiHfvACPcxjY0VNJoiSeft4M6sPjRp9i
+         /15Ta8qfh6z3LjSIBpnNeZl0hFKEsFjvWWGKfF/qxDT0jcgdTLCyifuXI2D1S1QhIL
+         whK9i7cORQs2g==
+Date:   Fri, 14 May 2021 16:18:25 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Edward Cree <ecree.xilinx@gmail.com>
+Cc:     David Woodhouse <dwmw2@infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mali DP Maintainers <malidp@foss.arm.com>,
+        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
+        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
+        rcu@vger.kernel.org
+Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
+ symbols
+Message-ID: <20210514161825.4e4c0d3e@coco.lan>
+In-Reply-To: <8b8bc929-2f07-049d-f24c-cb1f1d85bbaa@gmail.com>
+References: <cover.1620823573.git.mchehab+huawei@kernel.org>
+        <d2fed242fbe200706b8d23a53512f0311d900297.camel@infradead.org>
+        <20210514102118.1b71bec3@coco.lan>
+        <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
+        <8b8bc929-2f07-049d-f24c-cb1f1d85bbaa@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EsCowACXkcHBbp5gGuSZjQ--.23353S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Wry3ZF13tw4fWryDGF4rZrb_yoW8GrWDpr
-        yvkay7CryrGF4jqas8t3WUZFZ8AF4avayUC393Zw1fZ398XFWDZr18Ja48Zryak397Ja43
-        tF45CrW3AFZ5ZFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jbsqXUUUUU=
-X-Originating-IP: [218.94.48.178]
-X-CM-SenderInfo: 5glqw25hqmxvi6rwjhhfrp/1tbiTgKSyFUDJdSwjAAAsN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ding Senjie <dingsenjie@yulong.com>
+Em Fri, 14 May 2021 12:08:36 +0100
+Edward Cree <ecree.xilinx@gmail.com> escreveu:
 
-Use the devm_platform_ioremap_resource_byname() helper instead of
-calling platform_get_resource_byname() and devm_ioremap_resource()
-separately.
+> For anyone who doesn't know about it: X has this wonderful thing called
+>  the Compose key[1].  For instance, type =E2=8E=84--- to get =E2=80=94, o=
+r =E2=8E=84<" for =E2=80=9C.
+> Much more mnemonic than Unicode codepoints; and you can extend it with
+>  user-defined sequences in your ~/.XCompose file.
 
-Signed-off-by: Ding Senjie <dingsenjie@yulong.com>
----
- drivers/media/platform/mtk-vpu/mtk_vpu.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Good tip. I haven't use composite for years, as US-intl with dead keys is
+enough for 99.999% of my needs.=20
 
-diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-index 043894f..bfb9932 100644
---- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
-+++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-@@ -821,13 +821,11 @@ static int mtk_vpu_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	vpu->dev = &pdev->dev;
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tcm");
--	vpu->reg.tcm = devm_ioremap_resource(dev, res);
-+	vpu->reg.tcm = devm_platform_ioremap_resource_byname(pdev, "tcm");
- 	if (IS_ERR((__force void *)vpu->reg.tcm))
- 		return PTR_ERR((__force void *)vpu->reg.tcm);
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "cfg_reg");
--	vpu->reg.cfg = devm_ioremap_resource(dev, res);
-+	vpu->reg.cfg = devm_platform_ioremap_resource_byname(pdev, "cfg_reg");
- 	if (IS_ERR((__force void *)vpu->reg.cfg))
- 		return PTR_ERR((__force void *)vpu->reg.cfg);
- 
--- 
-1.9.1
+Btw, at least on Fedora with Mate, Composite is disabled by default. It has
+to be enabled first using the same tool that allows changing the Keyboard
+layout[1].
 
+Yet, typing an EN DASH for example, would be "<composite>--.", with is 4
+keystrokes instead of just two ('--'). It means twice the effort ;-)
 
+[1] KDE, GNome, Mate, ... have different ways to enable it and to=20
+    select what key would be considered <composite>:
+
+	https://dry.sailingissues.com/us-international-keyboard-layout.html
+	https://help.ubuntu.com/community/ComposeKey
+
+Thanks,
+Mauro
