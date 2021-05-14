@@ -2,118 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36B6D3808B0
-	for <lists+linux-media@lfdr.de>; Fri, 14 May 2021 13:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90E343808E8
+	for <lists+linux-media@lfdr.de>; Fri, 14 May 2021 13:51:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231968AbhENLlc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 May 2021 07:41:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59090 "EHLO mail.kernel.org"
+        id S232178AbhENLwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 May 2021 07:52:21 -0400
+Received: from mga09.intel.com ([134.134.136.24]:63201 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230213AbhENLlb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 May 2021 07:41:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 523CB61457;
-        Fri, 14 May 2021 11:40:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620992420;
-        bh=tdDTmQ969uyJaNrdpkRYeCHEcNv4TX8HEuna88IYW8A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sitwqcTz+gsXmZ9H3s6ppwV6oRJah2zb3BcGDF0QuIM1Rzhx8fizmbnPC2ZcFo3wU
-         UQKf8DrqofjyBvp4FsfsUq2+nas3GVmK7VGx/hgyceO3xTXd4Mc1RLqIYgmK5XB3o4
-         oujTai0apd1XmxENmmKzfl4GqTrSkLdnFxjhDMIfbzoW87gtRFwFcTsvIxyM0quRv9
-         vMeSdXamve9byaWSj8s1xMaesXveM4/FAAUcddLzNBYO7RXHW/jiA8oXIrV/CFtWYW
-         7vbO6wSHh5X/9enZyHf37o88IP2VE7Ni7m9TDkCKP4c90ddREuxuYxjRF5/mrxl7F9
-         WqYRTBr6TjLyQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1lhWB3-0000ww-Cs; Fri, 14 May 2021 13:40:21 +0200
-Date:   Fri, 14 May 2021 13:40:21 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Rhees <support@usbuirt.com>,
-        Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH v3 3/3] USB: serial: blacklist USB-UIRT when driver is
- selected
-Message-ID: <YJ5hpTqH7Ke+Fv7V@hovoldconsulting.com>
-References: <cover.1620304986.git.sean@mess.org>
- <37339f4102666345168a738d0ffd80d8133a6a03.1620304986.git.sean@mess.org>
+        id S229445AbhENLwU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 May 2021 07:52:20 -0400
+IronPort-SDR: SoNGWOdsW3mMssEc5jZqatOGNDD1k912L9vBJUieh38k6QsCJ5C+/VDol5mUN3ZbBiHvLD6Juh
+ hKzXAS3FTy3w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9983"; a="200214620"
+X-IronPort-AV: E=Sophos;i="5.82,299,1613462400"; 
+   d="scan'208";a="200214620"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2021 04:51:07 -0700
+IronPort-SDR: 5TnQW4EWiEKIo7ubH3OCvuHpmTsRjkMqb0dYevrwtdIoLl75JfkCPguHc7xs2GVoeqsO61OOFN
+ rBmc5mbg0iUQ==
+X-IronPort-AV: E=Sophos;i="5.82,299,1613462400"; 
+   d="scan'208";a="627114901"
+Received: from mkrastex-mobl.ger.corp.intel.com (HELO mkrastexMOBL) ([10.104.84.2])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2021 04:51:05 -0700
+From:   "Martina Krasteva" <martinax.krasteva@linux.intel.com>
+To:     "'Sakari Ailus'" <sakari.ailus@linux.intel.com>
+Cc:     <linux-media@vger.kernel.org>, <mchehab@kernel.org>,
+        <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
+        <daniele.alessandrelli@linux.intel.com>,
+        <paul.j.murphy@linux.intel.com>,
+        <gjorgjix.rosikopulos@linux.intel.com>
+References: <20210330142023.141-1-martinax.krasteva@linux.intel.com> <20210330142023.141-3-martinax.krasteva@linux.intel.com> <20210429215150.GA3@paasikivi.fi.intel.com>
+In-Reply-To: <20210429215150.GA3@paasikivi.fi.intel.com>
+Subject: RE: [PATCH 2/6] media: i2c: Add imx335 camera sensor driver
+Date:   Fri, 14 May 2021 12:50:48 +0100
+Message-ID: <000001d748b7$6ce65b50$46b311f0$@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37339f4102666345168a738d0ffd80d8133a6a03.1620304986.git.sean@mess.org>
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AQMGgl+zuelOrAO8/f9lWDH85rRoUgGmaB/RAz0eolGoXUuZEA==
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 06, 2021 at 01:44:55PM +0100, Sean Young wrote:
-> The USB-UIRT device has its own driver, so blacklist the fdti driver
-> from using it if the driver has been enabled.
+Hi Sakari,
+
+Thank you for your review. I will address both your and Rob's comments.
+
+I have a question regarding the switch from pm_runtime_get_sync() to pm_runtime_resume_and_get()
+In my understanding get_sync() is fine to use in case the error handling is correct, but for convenience resume_and_get() is
+recommended.
+So should I do this change in my drivers as well? 
+
+Best Regards,
+Martina
+
 > 
-> Signed-off-by: Sean Young <sean@mess.org>
-> ---
->  drivers/usb/serial/ftdi_sio.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> Hi Martina,
 > 
-> diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-> index 542073d2f0dd..2320bda57796 100644
-> --- a/drivers/usb/serial/ftdi_sio.c
-> +++ b/drivers/usb/serial/ftdi_sio.c
-> @@ -95,7 +95,9 @@ static int   ftdi_jtag_probe(struct usb_serial *serial);
->  static int   ftdi_NDI_device_setup(struct usb_serial *serial);
->  static int   ftdi_stmclite_probe(struct usb_serial *serial);
->  static int   ftdi_8u2232c_probe(struct usb_serial *serial);
-> +#if !IS_ENABLED(CONFIG_IR_UIRT)
->  static void  ftdi_USB_UIRT_setup(struct ftdi_private *priv);
-> +#endif
->  static void  ftdi_HE_TIRA1_setup(struct ftdi_private *priv);
->  
->  static const struct ftdi_sio_quirk ftdi_jtag_quirk = {
-> @@ -106,9 +108,11 @@ static const struct ftdi_sio_quirk ftdi_NDI_device_quirk = {
->  	.probe	= ftdi_NDI_device_setup,
->  };
->  
-> +#if !IS_ENABLED(CONFIG_IR_UIRT)
->  static const struct ftdi_sio_quirk ftdi_USB_UIRT_quirk = {
+> Thanks for the a of new drivers. Also my apologies for reviewing them so
+> late.
+> 
+> On Tue, Mar 30, 2021 at 03:20:19PM +0100, Martina Krasteva wrote:
+> 
+> ...
+> > +static int imx335_probe(struct i2c_client *client)
+> > +{
+> > +	struct imx335 *imx335;
+> > +	int ret;
+> > +
+> > +	imx335 = devm_kzalloc(&client->dev, sizeof(*imx335), GFP_KERNEL);
+> > +	if (!imx335)
+> > +		return -ENOMEM;
+> > +
+> > +	imx335->dev = &client->dev;
+> > +
+> > +	/* Initialize subdev */
+> > +	v4l2_i2c_subdev_init(&imx335->sd, client, &imx335_subdev_ops);
+> > +
+> > +	ret = imx335_parse_hw_config(imx335);
+> > +	if (ret) {
+> > +		dev_err(imx335->dev, "HW configuration is not supported");
+> > +		return ret;
+> > +	}
+> > +
+> > +	mutex_init(&imx335->mutex);
+> > +
+> > +	ret = imx335_power_on(imx335->dev);
+> > +	if (ret) {
+> > +		dev_err(imx335->dev, "failed to power-on the sensor");
+> > +		goto error_mutex_destroy;
+> > +	}
+> > +
+> > +	/* Check module identity */
+> > +	ret = imx335_detect(imx335);
+> > +	if (ret) {
+> > +		dev_err(imx335->dev, "failed to find sensor: %d", ret);
+> > +		goto error_power_off;
+> > +	}
+> > +
+> > +	/* Set default mode to max resolution */
+> > +	imx335->cur_mode = &supported_mode;
+> > +	imx335->vblank = imx335->cur_mode->vblank;
+> > +
+> > +	ret = imx335_init_controls(imx335);
+> > +	if (ret) {
+> > +		dev_err(imx335->dev, "failed to init controls: %d", ret);
+> > +		goto error_power_off;
+> > +	}
+> > +
+> > +	/* Initialize subdev */
+> > +	imx335->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > +	imx335->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> > +
+> > +	/* Initialize source pad */
+> > +	imx335->pad.flags = MEDIA_PAD_FL_SOURCE;
+> > +	ret = media_entity_pads_init(&imx335->sd.entity, 1, &imx335->pad);
+> > +	if (ret) {
+> > +		dev_err(imx335->dev, "failed to init entity pads: %d", ret);
+> > +		goto error_handler_free;
+> > +	}
+> > +
+> > +	ret = v4l2_async_register_subdev_sensor_common(&imx335->sd);
+> > +	if (ret < 0) {
+> > +		dev_err(imx335->dev,
+> > +			"failed to register async subdev: %d", ret);
+> > +		goto error_media_entity;
+> > +	}
+> > +
+> > +	pm_runtime_set_active(imx335->dev);
+> > +	pm_runtime_enable(imx335->dev);
+> > +	pm_runtime_idle(imx335->dev);
+> > +
+> > +	return 0;
+> > +
+> > +error_media_entity:
+> > +	media_entity_cleanup(&imx335->sd.entity);
+> > +error_handler_free:
+> > +	v4l2_ctrl_handler_free(imx335->sd.ctrl_handler);
+> > +error_power_off:
+> > +	imx335_power_off(imx335->dev);
+> > +error_mutex_destroy:
+> > +	mutex_destroy(&imx335->mutex);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +/**
+> > + * imx335_remove() - I2C client device unbinding
+> > + * @client: pointer to I2C client device
+> > + *
+> > + * Return: 0 if successful, error code otherwise.
+> > + */
+> > +static int imx335_remove(struct i2c_client *client)
+> > +{
+> > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +	struct imx335 *imx335 = to_imx335(sd);
+> > +
+> > +	v4l2_async_unregister_subdev(sd);
+> > +	media_entity_cleanup(&sd->entity);
+> > +	v4l2_ctrl_handler_free(sd->ctrl_handler);
+> > +
+> > +	pm_runtime_disable(&client->dev);
+> > +	pm_runtime_suspended(&client->dev);
+> 
+> The sensor will be powered off here only if runtime PM is enabled.
+> 
+> Could you use pm_runtime_status_suspended() to check whether the device is
+> still powered on, as e.g. the CCS driver (drivers/media/i2c/ccs/ccs-core.c)
+> does?
+> 
+> I think I'll merge these when this and Rob's comments have been addressed.
+> 
+> > +
+> > +	mutex_destroy(&imx335->mutex);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct dev_pm_ops imx335_pm_ops = {
+> > +	SET_RUNTIME_PM_OPS(imx335_power_off, imx335_power_on, NULL)
+> > +};
+> > +
+> > +static const struct of_device_id imx335_of_match[] = {
+> > +	{ .compatible = "sony,imx335" },
+> > +	{ }
+> > +};
+> > +
+> > +MODULE_DEVICE_TABLE(of, imx335_of_match);
+> > +
+> > +static struct i2c_driver imx335_driver = {
+> > +	.probe_new = imx335_probe,
+> > +	.remove = imx335_remove,
+> > +	.driver = {
+> > +		.name = "imx335",
+> > +		.pm = &imx335_pm_ops,
+> > +		.of_match_table = imx335_of_match,
+> > +	},
+> > +};
+> > +
+> > +module_i2c_driver(imx335_driver);
+> > +
+> > +MODULE_DESCRIPTION("Sony imx335 sensor driver");
+> > +MODULE_LICENSE("GPL");
+> 
+> --
+> Kind regards,
+> 
+> Sakari Ailus
 
-Please use __maybe_unused instead of sprinkling ifdefs throughout the
-driver.
-
->  	.port_probe = ftdi_USB_UIRT_setup,
->  };
-> +#endif
->  
->  static const struct ftdi_sio_quirk ftdi_HE_TIRA1_quirk = {
->  	.port_probe = ftdi_HE_TIRA1_setup,
-> @@ -568,8 +572,10 @@ static const struct usb_device_id id_table_combined[] = {
->  	{ USB_DEVICE(OCT_VID, OCT_DK201_PID) },
->  	{ USB_DEVICE(FTDI_VID, FTDI_HE_TIRA1_PID),
->  		.driver_info = (kernel_ulong_t)&ftdi_HE_TIRA1_quirk },
-> +#if !IS_ENABLED(CONFIG_IR_UIRT)
->  	{ USB_DEVICE(FTDI_VID, FTDI_USB_UIRT_PID),
->  		.driver_info = (kernel_ulong_t)&ftdi_USB_UIRT_quirk },
-> +#endif
-
-This would still be needed.
-
->  	{ USB_DEVICE(FTDI_VID, PROTEGO_SPECIAL_1) },
->  	{ USB_DEVICE(FTDI_VID, PROTEGO_R2X0) },
->  	{ USB_DEVICE(FTDI_VID, PROTEGO_SPECIAL_3) },
-> @@ -2292,6 +2298,7 @@ static int ftdi_sio_port_probe(struct usb_serial_port *port)
->  	return 0;
->  }
->  
-> +#if !IS_ENABLED(CONFIG_IR_UIRT)
->  /* Setup for the USB-UIRT device, which requires hardwired
->   * baudrate (38400 gets mapped to 312500) */
->  /* Called from usbserial:serial_probe */
-> @@ -2301,6 +2308,7 @@ static void ftdi_USB_UIRT_setup(struct ftdi_private *priv)
->  	priv->custom_divisor = 77;
->  	priv->force_baud = 38400;
->  }
-> +#endif
->  
->  /* Setup for the HE-TIRA1 device, which requires hardwired
->   * baudrate (38400 gets mapped to 100000) and RTS-CTS enabled.  */
-
-Johan
