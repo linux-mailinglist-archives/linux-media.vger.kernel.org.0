@@ -2,192 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B93E380512
-	for <lists+linux-media@lfdr.de>; Fri, 14 May 2021 10:21:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B0F338052D
+	for <lists+linux-media@lfdr.de>; Fri, 14 May 2021 10:27:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233485AbhENIWl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 May 2021 04:22:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45708 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233416AbhENIWk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 May 2021 04:22:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C728061408;
-        Fri, 14 May 2021 08:21:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620980488;
-        bh=gH2wh+Hc0GOhQOIRbo/h4JAX62sDUeKs2tmsR+5ILos=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=e4qbUbfx0hxY+yj5rwe10X7fv77kQb6ZtXwJRT57564V2F/AP6l30KEqmfnQ8Z9/m
-         GbE6KTSFaLVgK/IALz8lgNCCJI09Wv6ypJxw7X8+NYsSH+qLTaA3rBVUJFbnXj6RkO
-         OLP+toeaBJ59mDypgIfhUX1EfHY2OFa2Ex63sriWaBCbSg8WSO+y0qdrgc5mMfEUKi
-         zoIKuKJCbIWchz7V1P1kNvQQPYr/hVEIXMXwl9v4IpEIdTp9mOKu3ZsGi5lbDjocf7
-         LN9AhGRwhMXdDuYb3SF+qI1QUoGfgKM56pIxwAOv5jsDOpM5r9sAA4fr4BFVLy6RmQ
-         IhAi7M7Jw2dRw==
-Date:   Fri, 14 May 2021 10:21:18 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     David Woodhouse <dwmw2@infradead.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org
-Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
- symbols
-Message-ID: <20210514102118.1b71bec3@coco.lan>
-In-Reply-To: <d2fed242fbe200706b8d23a53512f0311d900297.camel@infradead.org>
-References: <cover.1620823573.git.mchehab+huawei@kernel.org>
-        <d2fed242fbe200706b8d23a53512f0311d900297.camel@infradead.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S231681AbhENI2n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 May 2021 04:28:43 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49464 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230362AbhENI2n (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 May 2021 04:28:43 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 73A9E1F430CC
+Subject: Re: [PATCH v1 2/4] mtk-mdp: use pm_runtime in MDP component driver
+To:     Eizan Miyamoto <eizan@chromium.org>, linux-kernel@vger.kernel.org
+Cc:     chunkuang.hu@kernel.org, yong.wu@mediatek.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <20210423055842.2490679-1-eizan@chromium.org>
+ <20210423155824.v1.2.I909f5375d930f5d0cc877128e30e2a67078b674c@changeid>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <47dcbf45-be84-79ec-896b-a2aa1caba236@collabora.com>
+Date:   Fri, 14 May 2021 10:27:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210423155824.v1.2.I909f5375d930f5d0cc877128e30e2a67078b674c@changeid>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 12 May 2021 18:07:04 +0100
-David Woodhouse <dwmw2@infradead.org> escreveu:
+Hi Eizan,
 
-> On Wed, 2021-05-12 at 14:50 +0200, Mauro Carvalho Chehab wrote:
-> > Such conversion tools - plus some text editor like LibreOffice  or simi=
-lar  - have
-> > a set of rules that turns some typed ASCII characters into UTF-8 altern=
-atives,
-> > for instance converting commas into curly commas and adding non-breakab=
-le
-> > spaces. All of those are meant to produce better results when the text =
-is
-> > displayed in HTML or PDF formats. =20
->=20
-> And don't we render our documentation into HTML or PDF formats?=20
+Thank you for your patch.
 
-Yes.
+On 23/4/21 7:58, Eizan Miyamoto wrote:
+> Without this change, the MDP components are not fully integrated into
+> the runtime power management subsystem, and the MDP driver does not
+> work.
+> 
+> For each of the component device drivers to be able to call
+> pm_runtime_get/put_sync() a pointer to the component's device struct
+> had to be added to struct mtk_mdp_comp, set by mtk_mdp_comp_init().
+> 
+> Note that the dev argument to mtk_mdp_comp_clock_on/off() has been
+> removed. Those functions used to be called from the "master" mdp driver
+> in mtk_mdp_core.c, but the component's device pointer no longer
+> corresponds to the mdp master device pointer, which is not the right
+> device to pass to pm_runtime_put/get_sync() which we had to add to get
+> the driver to work properly.
+> 
+> Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
+> ---
+> 
+>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 19 ++++++++++++++++---
+>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  6 ++++--
+>  drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  6 ++----
+>  3 files changed, 22 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> index 3fbbcf05440a..84f9c529d74a 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> @@ -13,6 +13,8 @@
+>  #include <linux/of.h>
+>  #include <linux/of_irq.h>
+>  #include <linux/of_platform.h>
+> +#include <soc/mediatek/smi.h>
+> +#include <linux/pm_runtime.h>
+>  
+>  #include "mtk_mdp_comp.h"
+>  #include "mtk_mdp_core.h"
+> @@ -51,22 +53,28 @@ static const struct of_device_id mtk_mdp_comp_driver_dt_match[] = {
+>  };
+>  MODULE_DEVICE_TABLE(of, mtk_mdp_comp_driver_dt_match);
+>  
+> -void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
+> +void mtk_mdp_comp_clock_on(struct mtk_mdp_comp *comp)
+>  {
+>  	int i, err;
+>  
+> +	err = pm_runtime_get_sync(comp->dev);
+> +	if (err < 0)
+> +		dev_err(comp->dev,
+> +			"failed to runtime get, err %d.\n",
+> +			err);
+> +
 
-> Are
-> some of those non-breaking spaces not actually *useful* for their
-> intended purpose?
+Personally, in the subsystem I take care I don't allow printing errors that are
+ignored. Shouldn't you propagate the error?
 
-No.
-
-The thing is: non-breaking space can cause a lot of problems.
-
-We even had to disable Sphinx usage of non-breaking space for
-PDF outputs, as this was causing bad LaTeX/PDF outputs.
-
-See, commit: 3b4c963243b1 ("docs: conf.py: adjust the LaTeX document output=
-")
-
-The afore mentioned patch disables Sphinx default behavior of
-using NON-BREAKABLE SPACE on literal blocks and strings, using this
-special setting: "parsedliteralwraps=3Dtrue".
-
-When NON-BREAKABLE SPACE were used on PDF outputs, several parts of=20
-the media uAPI docs were violating the document margins by far,
-causing texts to be truncated.
-
-So, please **don't add NON-BREAKABLE SPACE**, unless you test
-(and keep testing it from time to time) if outputs on all
-formats are properly supporting it on different Sphinx versions.
-
--
-
-Also, most of those came from conversion tools, together with other
-eccentricities, like the usage of U+FEFF (BOM) character at the
-start of some documents. The remaining ones seem to came from=20
-cut-and-paste.
-
-For instance,  bibliographic references (there are a couple of
-those on media) sometimes have NON-BREAKABLE SPACE. I'm pretty
-sure that those came from cut-and-pasting the document titles
-from their names at the original PDF documents or web pages that
-are referenced.
-
-> > While it is perfectly fine to use UTF-8 characters in Linux, and specia=
-lly at
-> > the documentation,  it is better to  stick to the ASCII subset  on such
-> > particular case,  due to a couple of reasons:
-> >=20
-> > 1. it makes life easier for tools like grep; =20
->=20
-> Barely, as noted, because of things like line feeds.
-
-You can use grep with "-z" to seek for multi-line strings(*), Like:
-
-	$ grep -Pzl 'grace period started,\s*then' $(find Documentation/ -type f)
-	Documentation/RCU/Design/Data-Structures/Data-Structures.rst
-
-(*) Unfortunately, while "git grep" also has a "-z" flag, it
-    seems that this is (currently?) broken with regards of handling multili=
-nes:
-
-	$ git grep -Pzl 'grace period started,\s*then'
-	$
-
-> > 2. they easier to edit with the some commonly used text/source
-> >    code editors. =20
->=20
-> That is nonsense. Any but the most broken and/or anachronistic
-> environments and editors will be just fine.
-
-Not really.
-
-I do use a lot of UTF-8 here, as I type texts in Portuguese, but I rely
-on the US-intl keyboard settings, that allow me to type as "'a" for =C3=A1.
-However, there's no shortcut for non-Latin UTF-codes, as far as I know.
-
-So, if would need to type a curly comma on the text editors I normally=20
-use for development (vim, nano, kate), I would need to cut-and-paste
-it from somewhere[1].
-
-[1] If I have a table with UTF-8 codes handy, I could type the UTF-8=20
-    number manually... However, it seems that this is currently broken=20
-    at least on Fedora 33 (with Mate Desktop and US intl keyboard with=20
-    dead keys).
-
-    Here, <CTRL><SHIFT>U is not working. No idea why. I haven't=20
-    test it for *years*, as I din't see any reason why I would
-    need to type UTF-8 characters by numbers until we started
-    this thread.
-=20
-In practice, on the very rare cases where I needed to write
-non-Latin utf-8 chars (maybe once in a year or so, Like when I
-would need to use a Greek letter or some weird symbol), there changes
-are high that I wouldn't remember its UTF-8 code.
-
-So, If I need to spend time to seek for an specific symbol, after
-finding it, I just cut-and-paste it.
-
-But even in the best case scenario where I know the UTF-8 and
-<CTRL><SHIFT>U works, if I wanted to use, for instance, a curly
-comma, the keystroke sequence would be:
-
-	<CTRL><SHIFT>U201csome string<CTRL><SHIFT>U201d
-
-That's a lot harder than typing and has a higher chances of
-mistakenly add a wrong symbol than just typing:
-
-	"some string"
-
-Knowing that both will produce *exactly* the same output, why
-should I bother doing it the hard way?
-
--
-
-Now, I'm not arguing that you can't use whatever UTF-8 symbol you
-want on your docs. I'm just saying that, now that the conversion=20
-is over and a lot of documents ended getting some UTF-8 characters
-by accident, it is time for a cleanup.
-
-Thanks,
-Mauro
+>  	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
+>  		if (IS_ERR(comp->clk[i]))
+>  			continue;
+>  		err = clk_prepare_enable(comp->clk[i]);
+>  		if (err)
+> -			dev_err(dev,
+> +			dev_err(comp->dev,
+>  				"failed to enable clock, err %d. i:%d\n",
+>  				err, i);
+>  	}
+>  }
+>  
+> -void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp)
+> +void mtk_mdp_comp_clock_off(struct mtk_mdp_comp *comp)
+>  {
+>  	int i;
+>  
+> @@ -75,6 +83,8 @@ void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp)
+>  			continue;
+>  		clk_disable_unprepare(comp->clk[i]);
+>  	}
+> +
+> +	pm_runtime_put_sync(comp->dev);
+>  }
+>  
+>  static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
+> @@ -84,6 +94,7 @@ static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
+>  	struct mtk_mdp_dev *mdp = data;
+>  
+>  	mtk_mdp_register_component(mdp, comp);
+> +	pm_runtime_enable(dev);
+>  
+>  	return 0;
+>  }
+> @@ -94,6 +105,7 @@ static void mtk_mdp_comp_unbind(struct device *dev, struct device *master,
+>  	struct mtk_mdp_dev *mdp = data;
+>  	struct mtk_mdp_comp *comp = dev_get_drvdata(dev);
+>  
+> +	pm_runtime_disable(dev);
+>  	mtk_mdp_unregister_component(mdp, comp);
+>  }
+>  
+> @@ -111,6 +123,7 @@ int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev)
+>  		 (enum mtk_mdp_comp_type)of_device_get_match_data(dev);
+>  
+>  	INIT_LIST_HEAD(&comp->node);
+> +	comp->dev = dev;
+>  
+>  	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
+>  		comp->clk[i] = of_clk_get(node, i);
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+> index 956d20c01e34..355e226d74fe 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+> @@ -11,16 +11,18 @@
+>   * struct mtk_mdp_comp - the MDP's function component data
+>   * @node:	list node to track sibing MDP components
+>   * @clk:	clocks required for component
+> + * @dev:	component's device
+>   */
+>  struct mtk_mdp_comp {
+>  	struct list_head	node;
+>  	struct clk		*clk[2];
+> +	struct device		*dev;
+>  };
+>  
+>  int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev);
+>  
+> -void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp);
+> -void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp);
+> +void mtk_mdp_comp_clock_on(struct mtk_mdp_comp *comp);
+> +void mtk_mdp_comp_clock_off(struct mtk_mdp_comp *comp);
+>  
+>  extern struct platform_driver mtk_mdp_component_driver;
+>  
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> index d79bf7f0031a..c55bcfe4cbb7 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> @@ -51,20 +51,18 @@ MODULE_DEVICE_TABLE(of, mtk_mdp_of_ids);
+>  
+>  static void mtk_mdp_clock_on(struct mtk_mdp_dev *mdp)
+>  {
+> -	struct device *dev = &mdp->pdev->dev;
+>  	struct mtk_mdp_comp *comp_node;
+>  
+>  	list_for_each_entry(comp_node, &mdp->comp_list, node)
+> -		mtk_mdp_comp_clock_on(dev, comp_node);
+> +		mtk_mdp_comp_clock_on(comp_node);
+>  }
+>  
+>  static void mtk_mdp_clock_off(struct mtk_mdp_dev *mdp)
+>  {
+> -	struct device *dev = &mdp->pdev->dev;
+>  	struct mtk_mdp_comp *comp_node;
+>  
+>  	list_for_each_entry(comp_node, &mdp->comp_list, node)
+> -		mtk_mdp_comp_clock_off(dev, comp_node);
+> +		mtk_mdp_comp_clock_off(comp_node);
+>  }
+>  
+>  static void mtk_mdp_wdt_worker(struct work_struct *work)
+> 
