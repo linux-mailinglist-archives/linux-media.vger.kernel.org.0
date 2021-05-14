@@ -2,349 +2,415 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E81163805E1
-	for <lists+linux-media@lfdr.de>; Fri, 14 May 2021 11:06:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D78A23806FE
+	for <lists+linux-media@lfdr.de>; Fri, 14 May 2021 12:14:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233890AbhENJH0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 May 2021 05:07:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36056 "EHLO
+        id S232636AbhENKP5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 May 2021 06:15:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230525AbhENJHW (ORCPT
+        with ESMTP id S229634AbhENKP5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 May 2021 05:07:22 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD7B5C061574;
-        Fri, 14 May 2021 02:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Mime-Version:Content-Type:References:
-        In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=wJ/s2QfMNTOyTmAVrtCY2CXjxIzIo3n63jc+NCKOLVA=; b=qSdZ8XEu7oRfN3BBgzEHopiTqS
-        jG82n131hUCIcPhL/w7BpeBcjIKG4Se8cut+H2eYH3uOfbcNc7XGdGIVO0uSQfx4iK4PzAeAUbF47
-        s4NeyxYEZrokaZG8vXvllhAVi13S8TKrRyssrgAp/z1xL56gQXAHbyDmNqp2B+nCcPBR4b3vKKP/6
-        WZap8/pZ+M0Fu6/S+LcKQXTZOBM21oBFJBC6bs4YY8zXYLoGfBXcTU+OOoEdKTC+f8945eYS5r8vY
-        zeI/I13z7D3mRVVokdlbY8t5yWaIvIxQI9QWgqVafmOYRy9Cc/IPb3MSh4WbRqO6atJAiwzvd5UcX
-        0kfhSlGA==;
-Received: from 54-240-197-239.amazon.com ([54.240.197.239] helo=iad7-dhcp-95-145-115.iad7.amazon.com)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lhTln-00BqP5-JN; Fri, 14 May 2021 09:06:08 +0000
-Message-ID: <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
-Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
- symbols
-From:   David Woodhouse <dwmw2@infradead.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org
-Date:   Fri, 14 May 2021 10:06:01 +0100
-In-Reply-To: <20210514102118.1b71bec3@coco.lan>
-References: <cover.1620823573.git.mchehab+huawei@kernel.org>
-         <d2fed242fbe200706b8d23a53512f0311d900297.camel@infradead.org>
-         <20210514102118.1b71bec3@coco.lan>
-Content-Type: multipart/signed; micalg="sha-256";
-        protocol="application/x-pkcs7-signature";
-        boundary="=-yaWQTSPMGuNj6joXfKRG"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Mime-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+        Fri, 14 May 2021 06:15:57 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BD41C061574;
+        Fri, 14 May 2021 03:14:46 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id D3A231F43141
+Subject: Re: [PATCH v1 4/4] mtk-mdp: soc: mediatek: register mdp from mmsys
+To:     Eizan Miyamoto <eizan@google.com>
+Cc:     Eizan Miyamoto <eizan@chromium.org>,
+        LKML <linux-kernel@vger.kernel.org>, chunkuang.hu@kernel.org,
+        yong.wu@mediatek.com, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-media@vger.kernel.org,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+References: <20210423055842.2490679-1-eizan@chromium.org>
+ <20210423155824.v1.4.I558dcbaa17bf00243951a8ceb6d0e98758aacfa4@changeid>
+ <ecf9ab25-779d-01c7-97e3-76aa09b69415@collabora.com>
+ <CAOak1e82j+j_1pWACS5j5cZ2ZZhN+C-6kJYCg5q_bCarTPqHww@mail.gmail.com>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <63b4568d-55bc-e88e-be9d-9a2fecddeb3c@collabora.com>
+Date:   Fri, 14 May 2021 12:14:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAOak1e82j+j_1pWACS5j5cZ2ZZhN+C-6kJYCg5q_bCarTPqHww@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---=-yaWQTSPMGuNj6joXfKRG
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 2021-05-14 at 10:21 +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 12 May 2021 18:07:04 +0100
-> David Woodhouse <dwmw2@infradead.org> escreveu:
->=20
-> > On Wed, 2021-05-12 at 14:50 +0200, Mauro Carvalho Chehab wrote:
-> > > Such conversion tools - plus some text editor like LibreOffice  or si=
-milar  - have
-> > > a set of rules that turns some typed ASCII characters into UTF-8 alte=
-rnatives,
-> > > for instance converting commas into curly commas and adding non-break=
-able
-> > > spaces. All of those are meant to produce better results when the tex=
-t is
-> > > displayed in HTML or PDF formats. =20
-> >=20
-> > And don't we render our documentation into HTML or PDF formats?=20
->=20
-> Yes.
->=20
-> > Are
-> > some of those non-breaking spaces not actually *useful* for their
-> > intended purpose?
->=20
-> No.
->=20
-> The thing is: non-breaking space can cause a lot of problems.
->=20
-> We even had to disable Sphinx usage of non-breaking space for
-> PDF outputs, as this was causing bad LaTeX/PDF outputs.
->=20
-> See, commit: 3b4c963243b1 ("docs: conf.py: adjust the LaTeX document outp=
-ut")
->=20
-> The afore mentioned patch disables Sphinx default behavior of
-> using NON-BREAKABLE SPACE on literal blocks and strings, using this
-> special setting: "parsedliteralwraps=3Dtrue".
->=20
-> When NON-BREAKABLE SPACE were used on PDF outputs, several parts of=20
-> the media uAPI docs were violating the document margins by far,
-> causing texts to be truncated.
->=20
-> So, please **don't add NON-BREAKABLE SPACE**, unless you test
-> (and keep testing it from time to time) if outputs on all
-> formats are properly supporting it on different Sphinx versions.
-
-And there you have a specific change with a specific fix. Nothing to do
-with whether NON-BREAKABLE SPACE is =E2=88=89 ASCII, and *certainly* nothin=
-g to
-do with the fact that, like *every* character in every kernel file
-except the *binary* files, it's representable in UTF-8.
-
-By all means fix the specific characters which are typographically
-wrong or which, like NON-BREAKABLE SPACE, cause problems for rendering
-the documentation.
+Hi Eizan,
 
 
-> Also, most of those came from conversion tools, together with other
-> eccentricities, like the usage of U+FEFF (BOM) character at the
-> start of some documents. The remaining ones seem to came from=20
-> cut-and-paste.
+On 3/5/21 8:42, Eizan Miyamoto wrote:
+> On Fri, Apr 30, 2021 at 1:46 AM Enric Balletbo i Serra
+> <enric.balletbo@collabora.com> wrote:
+>>
+>> Hi Eizan,
+>>
+>> Thank you for your patch.
+>>
+>> On 23/4/21 7:58, Eizan Miyamoto wrote:
+>>> Rather than hanging the MDP master component driver off of the rdma0
+>>> device, create a "virtual" device by the mmsys driver instead which is
+>>> probed by the mtk_mdp_core driver.
+>>>
+>>> Broadly, four interdependent things are done by this change:
+>>> - A virtual device that is probed by the mtk_mdp_core driver is
+>>>   instantiated by the mtk_mmsys driver.
+>>> - Presence of a mediatek,vpu property in a child node to the mmsys
+>>>   device node is used to determine what device to use when dispatching
+>>>   dma ops from the relevant ioctl.
+>>> - v4l-related setup is moved into from the mtk_mdp_core driver to the
+>>>   mtk_mdp_comp driver.
+>>>
+>>> Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
+>>> ---
+>>>
+>>>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 47 +++++++++-----
+>>>  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 62 ++++++-------------
+>>>  drivers/media/platform/mtk-mdp/mtk_mdp_core.h |  2 +
+>>>  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |  4 +-
+>>>  drivers/soc/mediatek/mtk-mmsys.c              | 20 +++++-
+>>>  5 files changed, 75 insertions(+), 60 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+>>> index d447bfaadef4..dc5231a1fcfd 100644
+>>> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+>>> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+>>> @@ -106,8 +106,41 @@ static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
+>>>  {
+>>>       struct mtk_mdp_comp *comp = dev_get_drvdata(dev);
+>>>       struct mtk_mdp_dev *mdp = data;
+>>> +     struct device_node *vpu_node;
+>>>
+>>>       mtk_mdp_register_component(mdp, comp);
+>>> +
+>>> +     // If this component has a "mediatek-vpu" property, it is responsible for
+>>> +     // notifying the mdp master driver about it so it can be further initialized
+>>> +     // later.
+>>
+>> Please use c-style comments here.
+> 
+> Thank you for the reminder, I'll update these in the next version of
+> this patch series.
+> 
+>>
+>>> +     vpu_node = of_parse_phandle(dev->of_node, "mediatek,vpu", 0);
+>>
+>> That's a bit confusing to me, please correct me if I am wrong, so, the
+>> mediatek,vpu property is used to tell the code that this component should be the
+>> 'vpu master', not to point a vpu node in the DT? I understood correctly?
+> 
+> Is what you mean by 'vpu master' is that it is the device whose driver
+> implements the wdt reset function? In that case, the mtk_mdp_core
+> driver is still the 'vpu master' because mtk_mdp_reset_handler
+> (contained in mtk_mdp_core) is passed to vpu_wdt_reg_handler(). The
+> presence of the property in any MDP component device node can do the
+> job of passing the vpu device (obtained from the node being pointed
+> to) back mtk_mdp_core's mtk_mdp_master_bind() function.
+> 
+> *However*, I'm using the presence of that property to indicate another
+> thing: this is the device that the mdp filesystem device node in /dev
+> should be registered against for v4l2. We will need to save this
+> device for later (in mdp->rdma_dev) to be used to find the DMA
+> callbacks when a call to mtk_mdp_m2m_queue_init is made from the file
+> open() callback (mtk_mdp_m2m_open) attached to the filesystem device
+> node.
+> 
+> Before this change, the mtk_mdp_core driver was serving triple duty as
+> the driver for the device that provided DMA op callbacks, the vpu
+> master, and the MDP component master. Now it is the vpu master and the
+> MDP component master, but not the driver for the device that provides
+> DMA op callbacks.
+> 
+>>
+>>
+>>> +     if (vpu_node) {
+>>> +             int ret;
+>>> +
+>>> +             mdp->vpu_dev = of_find_device_by_node(vpu_node);
+>>> +             if (WARN_ON(!mdp->vpu_dev)) {
+>>> +                     dev_err(dev, "vpu pdev failed\n");
+>>> +                     of_node_put(vpu_node);
+>>> +             }
+>>> +
+>>> +             ret = v4l2_device_register(dev, &mdp->v4l2_dev);
+>>> +             if (ret) {
+>>> +                     dev_err(dev, "Failed to register v4l2 device\n");
+>>> +                     return -EINVAL;
+>>> +             }
+>>> +
+>>> +             ret = vb2_dma_contig_set_max_seg_size(dev, DMA_BIT_MASK(32));
+>>> +             if (ret) {
+>>> +                     dev_err(dev, "Failed to set vb2 dma mag seg size\n");
+>>> +                     return -EINVAL;
+>>> +             }
+>>> +
+>>> +             // presence of the "mediatek,vpu" property in a device node
+>>> +             // indicates that it is the primary MDP rdma device and MDP DMA
+>>> +             // ops should be handled by its DMA callbacks.
+>>
+>> Isn't rdma0 always the primary MDP device? or there are SoCs or configurations
+>> where this is different? At least I think it is for MT8173 and MT8183.
+> 
+> I suppose you're right, though now it seems to be called mdp_rdma0 in
+> the device tree?
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/mediatek/mt8173.dtsi?id=9ccce092fc64d19504fa54de4fd659e279cc92e7#n1004
+> 
+> Maybe somebody from MediaTek can confirm this?
 
-... or which are just entirely redundant and gratuitous, like a BOM in
-an environment where all files are UTF-8 and never 16-bit encodings
-anyway.
+That's the case on all the devices that are upstream, so maybe we can just
+assume that for now if nobody from MediaTek confirms. I am in the opinion that
+we should avoid use the mediatek,vpu property if is possible.
 
-> > > While it is perfectly fine to use UTF-8 characters in Linux, and spec=
-ially at
-> > > the documentation,  it is better to  stick to the ASCII subset  on su=
-ch
-> > > particular case,  due to a couple of reasons:
-> > >=20
-> > > 1. it makes life easier for tools like grep; =20
-> >=20
-> > Barely, as noted, because of things like line feeds.
->=20
-> You can use grep with "-z" to seek for multi-line strings(*), Like:
->=20
-> 	$ grep -Pzl 'grace period started,\s*then' $(find Documentation/ -type f=
-)
-> 	Documentation/RCU/Design/Data-Structures/Data-Structures.rst
-
-Yeah, right. That works if you don't just use the text that you'll have
-seen in the HTML/PDF "grace period started, then", and if you instead
-craft a *regex* for it, replacing the spaces with '\s*'. Or is that
-[[:space:]]* if you don't want to use the experimental Perl regex
-feature?
-
- $ grep -zlr 'grace[[:space:]]\+period[[:space:]]\+started,[[:space:]]\+the=
-n' Documentation/RCU
-Documentation/RCU/Design/Data-Structures/Data-Structures.rst
-
-And without '-l' it'll obviously just give you the whole file. No '-A5
--B5' to see the surroundings... it's hardly a useful thing, is it?
-
-> (*) Unfortunately, while "git grep" also has a "-z" flag, it
->     seems that this is (currently?) broken with regards of handling multi=
-lines:
->=20
-> 	$ git grep -Pzl 'grace period started,\s*then'
-> 	$
-
-Even better. So no, multiline grep isn't really a commonly usable
-feature at all.
-
-This is why we prefer to put user-visible strings on one line in C
-source code, even if it takes the lines over 80 characters =E2=80=94 to all=
-ow
-for grep to find them.
-
-> > > 2. they easier to edit with the some commonly used text/source
-> > >    code editors. =20
-> >=20
-> > That is nonsense. Any but the most broken and/or anachronistic
-> > environments and editors will be just fine.
->=20
-> Not really.
->=20
-> I do use a lot of UTF-8 here, as I type texts in Portuguese, but I rely
-> on the US-intl keyboard settings, that allow me to type as "'a" for =C3=
-=A1.
-> However, there's no shortcut for non-Latin UTF-codes, as far as I know.
->=20
-> So, if would need to type a curly comma on the text editors I normally=
-=20
-> use for development (vim, nano, kate), I would need to cut-and-paste
-> it from somewhere[1].
-
-That's entirely irrelevant. You don't need to be able to *type* every
-character that you see in front of you, as long as your editor will
-render it correctly and perhaps let you cut/paste it as you're editing
-the document if you're moving things around.
-
-> [1] If I have a table with UTF-8 codes handy, I could type the UTF-8=20
->     number manually... However, it seems that this is currently broken=
-=20
->     at least on Fedora 33 (with Mate Desktop and US intl keyboard with=
-=20
->     dead keys).
->=20
->     Here, <CTRL><SHIFT>U is not working. No idea why. I haven't=20
->     test it for *years*, as I din't see any reason why I would
->     need to type UTF-8 characters by numbers until we started
->     this thread.
-
-Please provide the bug number for this; I'd like to track it.
-
-> But even in the best case scenario where I know the UTF-8 and
-> <CTRL><SHIFT>U works, if I wanted to use, for instance, a curly
-> comma, the keystroke sequence would be:
->=20
-> 	<CTRL><SHIFT>U201csome string<CTRL><SHIFT>U201d
->=20
-> That's a lot harder than typing and has a higher chances of
-> mistakenly add a wrong symbol than just typing:
->=20
-> 	"some string"
->=20
-> Knowing that both will produce *exactly* the same output, why
-> should I bother doing it the hard way?
-
-Nobody's asked you to do it the "hard way". That's completely
-irrelevant to the discussion we were having.
-
-> Now, I'm not arguing that you can't use whatever UTF-8 symbol you
-> want on your docs. I'm just saying that, now that the conversion=20
-> is over and a lot of documents ended getting some UTF-8 characters
-> by accident, it is time for a cleanup.
-
-All text documents are *full* of UTF-8 characters. If there is a file
-in the source code which has *any* non-UTF8, we call that a 'binary
-file'.
-
-Again, if you want to make specific fixes like removing non-breaking
-spaces and byte order marks, with specific reasons, then those make
-sense. But it's got very little to do with UTF-8 and how easy it is to
-type them. And the excuse you've put in the commit comment for your
-patches is utterly bogus.
-
-
---=-yaWQTSPMGuNj6joXfKRG
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCECow
-ggUcMIIEBKADAgECAhEA4rtJSHkq7AnpxKUY8ZlYZjANBgkqhkiG9w0BAQsFADCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0EwHhcNMTkwMTAyMDAwMDAwWhcNMjIwMTAxMjM1
-OTU5WjAkMSIwIAYJKoZIhvcNAQkBFhNkd213MkBpbmZyYWRlYWQub3JnMIIBIjANBgkqhkiG9w0B
-AQEFAAOCAQ8AMIIBCgKCAQEAsv3wObLTCbUA7GJqKj9vHGf+Fa+tpkO+ZRVve9EpNsMsfXhvFpb8
-RgL8vD+L133wK6csYoDU7zKiAo92FMUWaY1Hy6HqvVr9oevfTV3xhB5rQO1RHJoAfkvhy+wpjo7Q
-cXuzkOpibq2YurVStHAiGqAOMGMXhcVGqPuGhcVcVzVUjsvEzAV9Po9K2rpZ52FE4rDkpDK1pBK+
-uOAyOkgIg/cD8Kugav5tyapydeWMZRJQH1vMQ6OVT24CyAn2yXm2NgTQMS1mpzStP2ioPtTnszIQ
-Ih7ASVzhV6csHb8Yrkx8mgllOyrt9Y2kWRRJFm/FPRNEurOeNV6lnYAXOymVJwIDAQABo4IB0zCC
-Ac8wHwYDVR0jBBgwFoAUgq9sjPjF/pZhfOgfPStxSF7Ei8AwHQYDVR0OBBYEFLfuNf820LvaT4AK
-xrGK3EKx1DE7MA4GA1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUF
-BwMEBggrBgEFBQcDAjBGBgNVHSAEPzA9MDsGDCsGAQQBsjEBAgEDBTArMCkGCCsGAQUFBwIBFh1o
-dHRwczovL3NlY3VyZS5jb21vZG8ubmV0L0NQUzBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3Js
-LmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWls
-Q0EuY3JsMIGLBggrBgEFBQcBAQR/MH0wVQYIKwYBBQUHMAKGSWh0dHA6Ly9jcnQuY29tb2RvY2Eu
-Y29tL0NPTU9ET1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcnQwJAYI
-KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTAeBgNVHREEFzAVgRNkd213MkBpbmZy
-YWRlYWQub3JnMA0GCSqGSIb3DQEBCwUAA4IBAQALbSykFusvvVkSIWttcEeifOGGKs7Wx2f5f45b
-nv2ghcxK5URjUvCnJhg+soxOMoQLG6+nbhzzb2rLTdRVGbvjZH0fOOzq0LShq0EXsqnJbbuwJhK+
-PnBtqX5O23PMHutP1l88AtVN+Rb72oSvnD+dK6708JqqUx2MAFLMevrhJRXLjKb2Mm+/8XBpEw+B
-7DisN4TMlLB/d55WnT9UPNHmQ+3KFL7QrTO8hYExkU849g58Dn3Nw3oCbMUgny81ocrLlB2Z5fFG
-Qu1AdNiBA+kg/UxzyJZpFbKfCITd5yX49bOriL692aMVDyqUvh8fP+T99PqorH4cIJP6OxSTdxKM
-MIIFHDCCBASgAwIBAgIRAOK7SUh5KuwJ6cSlGPGZWGYwDQYJKoZIhvcNAQELBQAwgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTE5MDEwMjAwMDAwMFoXDTIyMDEwMTIz
-NTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCASIwDQYJKoZIhvcN
-AQEBBQADggEPADCCAQoCggEBALL98Dmy0wm1AOxiaio/bxxn/hWvraZDvmUVb3vRKTbDLH14bxaW
-/EYC/Lw/i9d98CunLGKA1O8yogKPdhTFFmmNR8uh6r1a/aHr301d8YQea0DtURyaAH5L4cvsKY6O
-0HF7s5DqYm6tmLq1UrRwIhqgDjBjF4XFRqj7hoXFXFc1VI7LxMwFfT6PStq6WedhROKw5KQytaQS
-vrjgMjpICIP3A/CroGr+bcmqcnXljGUSUB9bzEOjlU9uAsgJ9sl5tjYE0DEtZqc0rT9oqD7U57My
-ECIewElc4VenLB2/GK5MfJoJZTsq7fWNpFkUSRZvxT0TRLqznjVepZ2AFzsplScCAwEAAaOCAdMw
-ggHPMB8GA1UdIwQYMBaAFIKvbIz4xf6WYXzoHz0rcUhexIvAMB0GA1UdDgQWBBS37jX/NtC72k+A
-CsaxitxCsdQxOzAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAUBggrBgEF
-BQcDBAYIKwYBBQUHAwIwRgYDVR0gBD8wPTA7BgwrBgEEAbIxAQIBAwUwKzApBggrBgEFBQcCARYd
-aHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9DUFMwWgYDVR0fBFMwUTBPoE2gS4ZJaHR0cDovL2Ny
-bC5jb21vZG9jYS5jb20vQ09NT0RPUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFp
-bENBLmNybDCBiwYIKwYBBQUHAQEEfzB9MFUGCCsGAQUFBzAChklodHRwOi8vY3J0LmNvbW9kb2Nh
-LmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWlsQ0EuY3J0MCQG
-CCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAC20spBbrL71ZEiFrbXBHonzhhirO1sdn+X+O
-W579oIXMSuVEY1LwpyYYPrKMTjKECxuvp24c829qy03UVRm742R9Hzjs6tC0oatBF7KpyW27sCYS
-vj5wbal+TttzzB7rT9ZfPALVTfkW+9qEr5w/nSuu9PCaqlMdjABSzHr64SUVy4ym9jJvv/FwaRMP
-gew4rDeEzJSwf3eeVp0/VDzR5kPtyhS+0K0zvIWBMZFPOPYOfA59zcN6AmzFIJ8vNaHKy5QdmeXx
-RkLtQHTYgQPpIP1Mc8iWaRWynwiE3ecl+PWzq4i+vdmjFQ8qlL4fHz/k/fT6qKx+HCCT+jsUk3cS
-jDCCBeYwggPOoAMCAQICEGqb4Tg7/ytrnwHV2binUlYwDQYJKoZIhvcNAQEMBQAwgYUxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMSswKQYDVQQDEyJDT01PRE8gUlNBIENlcnRpZmljYXRp
-b24gQXV0aG9yaXR5MB4XDTEzMDExMDAwMDAwMFoXDTI4MDEwOTIzNTk1OVowgZcxCzAJBgNVBAYT
-AkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAYBgNV
-BAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAvrOeV6wodnVAFsc4A5jTxhh2IVDzJXkLTLWg0X06WD6cpzEup/Y0dtmEatrQPTRI5Or1u6zf
-+bGBSyD9aH95dDSmeny1nxdlYCeXIoymMv6pQHJGNcIDpFDIMypVpVSRsivlJTRENf+RKwrB6vcf
-WlP8dSsE3Rfywq09N0ZfxcBa39V0wsGtkGWC+eQKiz4pBZYKjrc5NOpG9qrxpZxyb4o4yNNwTqza
-aPpGRqXB7IMjtf7tTmU2jqPMLxFNe1VXj9XB1rHvbRikw8lBoNoSWY66nJN/VCJv5ym6Q0mdCbDK
-CMPybTjoNCQuelc0IAaO4nLUXk0BOSxSxt8kCvsUtQIDAQABo4IBPDCCATgwHwYDVR0jBBgwFoAU
-u69+Aj36pvE8hI6t7jiY7NkyMtQwHQYDVR0OBBYEFIKvbIz4xf6WYXzoHz0rcUhexIvAMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMBEGA1UdIAQKMAgwBgYEVR0gADBMBgNVHR8E
-RTBDMEGgP6A9hjtodHRwOi8vY3JsLmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDZXJ0aWZpY2F0aW9u
-QXV0aG9yaXR5LmNybDBxBggrBgEFBQcBAQRlMGMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9jcnQuY29t
-b2RvY2EuY29tL0NPTU9ET1JTQUFkZFRydXN0Q0EuY3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2Nz
-cC5jb21vZG9jYS5jb20wDQYJKoZIhvcNAQEMBQADggIBAHhcsoEoNE887l9Wzp+XVuyPomsX9vP2
-SQgG1NgvNc3fQP7TcePo7EIMERoh42awGGsma65u/ITse2hKZHzT0CBxhuhb6txM1n/y78e/4ZOs
-0j8CGpfb+SJA3GaBQ+394k+z3ZByWPQedXLL1OdK8aRINTsjk/H5Ns77zwbjOKkDamxlpZ4TKSDM
-KVmU/PUWNMKSTvtlenlxBhh7ETrN543j/Q6qqgCWgWuMAXijnRglp9fyadqGOncjZjaaSOGTTFB+
-E2pvOUtY+hPebuPtTbq7vODqzCM6ryEhNhzf+enm0zlpXK7q332nXttNtjv7VFNYG+I31gnMrwfH
-M5tdhYF/8v5UY5g2xANPECTQdu9vWPoqNSGDt87b3gXb1AiGGaI06vzgkejL580ul+9hz9D0S0U4
-jkhJiA7EuTecP/CFtR72uYRBcunwwH3fciPjviDDAI9SnC/2aPY8ydehzuZutLbZdRJ5PDEJM/1t
-yZR2niOYihZ+FCbtf3D9mB12D4ln9icgc7CwaxpNSCPt8i/GqK2HsOgkL3VYnwtx7cJUmpvVdZ4o
-gnzgXtgtdk3ShrtOS1iAN2ZBXFiRmjVzmehoMof06r1xub+85hFQzVxZx5/bRaTKTlL8YXLI8nAb
-R9HWdFqzcOoB/hxfEyIQpx9/s81rgzdEZOofSlZHynoSMYIDyjCCA8YCAQEwga0wgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA4rtJSHkq7AnpxKUY8ZlYZjANBglghkgB
-ZQMEAgEFAKCCAe0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjEw
-NTE0MDkwNjAxWjAvBgkqhkiG9w0BCQQxIgQgRtNzbeu5bsoNcbDbiy2DI8xBXrnEUoNy+3PeRBi7
-ocwwgb4GCSsGAQQBgjcQBDGBsDCBrTCBlzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
-TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQx
-PTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1h
-aWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMIHABgsqhkiG9w0BCRACCzGBsKCBrTCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMA0GCSqGSIb3
-DQEBAQUABIIBAG4iEcQoKZbciqO8UTjj3Ul3XZurUfbBSxRFkr4krMkAtIXtGzBe5kw5UgEtQ43c
-adrLgLYJ5JYMqy67j+r7p8zEgeXNx9rUvKjuR0eQsUyBEfmTQIuYgX67ChBAONPO/cDR6AqQP2Kc
-scoU4Lzl2O+p+KE0kPvscY2Mm91fuwKxarqZY9lNI+VoyW9uYIuD6BSiZIaWpZiuaryxLelhWHay
-8OYH/pRSvgjry42MLa1GUePUXm5M4NqeD0vKZVyzpFAftfHc6urFB3TNQ8yjeSBaxw3wkVBShkuB
-yhc3/6yoegNWASNgF5veVsrZ/2L+VxVQi7icYamHNJ9gu4g7KkgAAAAAAAA=
-
-
---=-yaWQTSPMGuNj6joXfKRG--
-
+> 
+>>
+>>> +             mdp->rdma_dev = dev;
+>>> +     }
+>>> +
+>>>       pm_runtime_enable(dev);
+>>>
+>>>       return 0;
+>>> @@ -164,23 +197,9 @@ int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev)
+>>>  static int mtk_mdp_comp_probe(struct platform_device *pdev)
+>>>  {
+>>>       struct device *dev = &pdev->dev;
+>>> -     struct device_node *vpu_node;
+>>>       int status;
+>>>       struct mtk_mdp_comp *comp;
+>>>
+>>> -     vpu_node = of_parse_phandle(dev->of_node, "mediatek,vpu", 0);
+>>> -     if (vpu_node) {
+>>> -             of_node_put(vpu_node);
+>>> -             /*
+>>> -              * The device tree node with a mediatek,vpu property is deemed
+>>> -              * the MDP "master" device, we don't want to add a component
+>>> -              * for it in this function because the initialization for the
+>>> -              * master is done elsewhere.
+>>> -              */
+>>> -             dev_info(dev, "vpu node found, not probing\n");
+>>> -             return -ENODEV;
+>>> -     }
+>>> -
+>>>       comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
+>>>       if (!comp)
+>>>               return -ENOMEM;
+>>> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+>>> index 5e71496e2517..4d7aa4e26be6 100644
+>>> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+>>> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+>>> @@ -121,6 +121,17 @@ static int mtk_mdp_master_bind(struct device *dev)
+>>>               goto err_component_bind_all;
+>>>       }
+>>>
+>>> +     if (mdp->vpu_dev) {
+>>> +             int ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
+>>> +                                       VPU_RST_MDP);
+>>> +             if (ret) {
+>>> +                     dev_err(dev, "Failed to register reset handler\n");
+>>> +                     goto err_wdt_reg;
+>>> +             }
+>>> +     } else {
+>>> +             dev_err(dev, "no vpu_dev found\n");
+>>> +     }
+>>> +
+>>>       status = mtk_mdp_register_m2m_device(mdp);
+>>>       if (status) {
+>>>               dev_err(dev, "Failed to register m2m device: %d\n", status);
+>>> @@ -133,6 +144,8 @@ static int mtk_mdp_master_bind(struct device *dev)
+>>>       return 0;
+>>>
+>>>  err_mtk_mdp_register_m2m_device:
+>>> +
+>>> +err_wdt_reg:
+>>>       component_unbind_all(dev, mdp);
+>>>
+>>>  err_component_bind_all:
+>>> @@ -191,8 +204,13 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+>>>               of_node_put(node);
+>>>               parent = dev->of_node;
+>>>               dev_warn(dev, "device tree is out of date\n");
+>>> -     } else {
+>>> +     } else if (dev->of_node) {
+>>>               parent = dev->of_node->parent;
+>>> +     } else if (dev->parent) {
+>>> +             // maybe we were created from a call to platform_device_register_data()
+>>> +             parent = dev->parent->parent->of_node;
+>>> +     } else {
+>>> +             return -ENODEV;
+>>>       }
+>>>
+>>>       /* Iterate over sibling MDP function blocks */
+>>> @@ -225,16 +243,6 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+>>>               }
+>>>       }
+>>>
+>>> -     /*
+>>> -      * Create a component for myself so that clocks can be toggled in
+>>> -      * clock_on().
+>>> -      */
+>>> -     ret = mtk_mdp_comp_init(&mdp->comp_self, dev);
+>>> -     if (ret) {
+>>> -             dev_err(dev, "Failed to initialize component\n");
+>>> -             goto err_comp;
+>>> -     }
+>>> -
+>>>       mdp->job_wq = create_singlethread_workqueue(MTK_MDP_MODULE_NAME);
+>>>       if (!mdp->job_wq) {
+>>>               dev_err(&pdev->dev, "unable to alloc job workqueue\n");
+>>> @@ -250,29 +258,8 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+>>>       }
+>>>       INIT_WORK(&mdp->wdt_work, mtk_mdp_wdt_worker);
+>>>
+>>> -     ret = v4l2_device_register(dev, &mdp->v4l2_dev);
+>>> -     if (ret) {
+>>> -             dev_err(&pdev->dev, "Failed to register v4l2 device\n");
+>>> -             ret = -EINVAL;
+>>> -             goto err_dev_register;
+>>> -     }
+>>> -
+>>> -     mdp->vpu_dev = vpu_get_plat_device(pdev);
+>>> -     ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
+>>> -                               VPU_RST_MDP);
+>>> -     if (ret) {
+>>> -             dev_err(&pdev->dev, "Failed to register reset handler\n");
+>>> -             goto err_wdt_reg;
+>>> -     }
+>>> -
+>>>       platform_set_drvdata(pdev, mdp);
+>>>
+>>> -     ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+>>> -     if (ret) {
+>>> -             dev_err(&pdev->dev, "Failed to set vb2 dma mag seg size\n");
+>>> -             goto err_set_max_seg_size;
+>>> -     }
+>>> -
+>>>       ret = component_master_add_with_match(dev, &mtk_mdp_com_ops, match);
+>>>       if (ret) {
+>>>               dev_err(dev, "Component master add failed\n");
+>>> @@ -284,22 +271,12 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+>>>       return 0;
+>>>
+>>>  err_component_master_add:
+>>> -     vb2_dma_contig_clear_max_seg_size(&pdev->dev);
+>>> -
+>>> -err_set_max_seg_size:
+>>> -
+>>> -err_wdt_reg:
+>>> -     v4l2_device_unregister(&mdp->v4l2_dev);
+>>> -
+>>> -err_dev_register:
+>>>       destroy_workqueue(mdp->wdt_wq);
+>>>
+>>>  err_alloc_wdt_wq:
+>>>       destroy_workqueue(mdp->job_wq);
+>>>
+>>>  err_alloc_job_wq:
+>>> -
+>>> -err_comp:
+>>>       dev_dbg(dev, "err %d\n", ret);
+>>>       return ret;
+>>>  }
+>>> @@ -371,7 +348,6 @@ static struct platform_driver mtk_mdp_driver = {
+>>>       .driver = {
+>>>               .name   = MTK_MDP_MODULE_NAME,
+>>>               .pm     = &mtk_mdp_pm_ops,
+>>> -             .of_match_table = mtk_mdp_of_ids,
+>>>       }
+>>>  };
+>>>
+>>> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.h b/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+>>> index 230f531400ca..78c3c77cd226 100644
+>>> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+>>> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+>>> @@ -133,6 +133,7 @@ struct mtk_mdp_variant {
+>>>   * struct mtk_mdp_dev - abstraction for image processor entity
+>>>   * @lock:    the mutex protecting this data structure
+>>>   * @vpulock: the mutex protecting the communication with VPU
+>>> + * @rdma_dev:  device pointer to rdma device for MDP
+>>>   * @pdev:    pointer to the image processor platform device
+>>>   * @variant: the IP variant information
+>>>   * @id:              image processor device index (0..MTK_MDP_MAX_DEVS)
+>>> @@ -151,6 +152,7 @@ struct mtk_mdp_variant {
+>>>  struct mtk_mdp_dev {
+>>>       struct mutex                    lock;
+>>>       struct mutex                    vpulock;
+>>> +     struct device                   *rdma_dev;
+>>>       struct platform_device          *pdev;
+>>>       struct mtk_mdp_variant          *variant;
+>>>       u16                             id;
+>>> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+>>> index d351e5a44768..c80ad8299c5e 100644
+>>> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+>>> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+>>> @@ -932,7 +932,7 @@ static int mtk_mdp_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+>>>       src_vq->mem_ops = &vb2_dma_contig_memops;
+>>>       src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
+>>>       src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>>> -     src_vq->dev = &ctx->mdp_dev->pdev->dev;
+>>> +     src_vq->dev = ctx->mdp_dev->rdma_dev;
+>>>       src_vq->lock = &ctx->mdp_dev->lock;
+>>>
+>>>       ret = vb2_queue_init(src_vq);
+>>> @@ -947,7 +947,7 @@ static int mtk_mdp_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+>>>       dst_vq->mem_ops = &vb2_dma_contig_memops;
+>>>       dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
+>>>       dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>>> -     dst_vq->dev = &ctx->mdp_dev->pdev->dev;
+>>> +     dst_vq->dev = ctx->mdp_dev->rdma_dev;
+>>>       dst_vq->lock = &ctx->mdp_dev->lock;
+>>>
+>>>       return vb2_queue_init(dst_vq);
+>>> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+>>> index 18f93979e14a..6f9cf7725529 100644
+>>> --- a/drivers/soc/mediatek/mtk-mmsys.c
+>>> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+>>> @@ -305,6 +305,7 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
+>>>       struct device *dev = &pdev->dev;
+>>>       struct platform_device *clks;
+>>>       struct platform_device *drm;
+>>> +     struct platform_device *mdp;
+>>>       void __iomem *config_regs;
+>>>       int ret;
+>>>
+>>> @@ -328,10 +329,27 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
+>>>                                           PLATFORM_DEVID_AUTO, NULL, 0);
+>>>       if (IS_ERR(drm)) {
+>>>               platform_device_unregister(clks);
+>>> -             return PTR_ERR(drm);
+>>> +             ret = PTR_ERR(drm);
+>>> +             goto err_drm;
+>>> +     }
+>>> +
+>>> +     mdp = platform_device_register_data(&pdev->dev, "mtk-mdp",
+>>> +                                         PLATFORM_DEVID_AUTO, NULL, 0);
+>>> +     if (IS_ERR(mdp)) {
+>>> +             ret = PTR_ERR(mdp);
+>>> +             dev_err(dev, "Failed to register mdp: %d\n", ret);
+>>> +             goto err_mdp;
+>>>       }
+>>>
+>>>       return 0;
+>>> +
+>>> +err_mdp:
+>>> +     platform_device_unregister(drm);
+>>> +
+>>> +err_drm:
+>>> +     platform_device_unregister(clks);
+>>> +
+>>> +     return ret;
+>>>  }
+>>>
+>>>  static const struct of_device_id of_match_mtk_mmsys[] = {
+>>>
