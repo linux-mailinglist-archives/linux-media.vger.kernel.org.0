@@ -2,29 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11EBE381BF9
-	for <lists+linux-media@lfdr.de>; Sun, 16 May 2021 04:14:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B061381BFD
+	for <lists+linux-media@lfdr.de>; Sun, 16 May 2021 04:14:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232227AbhEPCPL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 May 2021 22:15:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41170 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232059AbhEPCMx (ORCPT
+        id S232139AbhEPCPr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 May 2021 22:15:47 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35538 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232040AbhEPCMx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Sat, 15 May 2021 22:12:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A51C061348
-        for <linux-media@vger.kernel.org>; Sat, 15 May 2021 19:10:26 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15CE92570;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0046E2735;
         Sun, 16 May 2021 03:45:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621129515;
-        bh=/tcOV4ib2Wyda2gQQ5gd15qymmCeTTfT4JITCH3Rqqk=;
+        s=mail; t=1621129516;
+        bh=2mH24ja4zoag2SCvos1LR2CpAz46bfJlt/+u4++nzqc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bX2typJCRQ+Xfvc1XQ/hDZ9/esw4YtlkIAGqtIZny7IiQPCbG8nTlgtBm/ds8IJ0j
-         OT8sqOzQ4+UHR0nmVQeXpFDKI63KQfrkKUCXxejOHftrxe4WrXdPWsCyff9D2b0Iol
-         h3RG/lUKyAHuDBDhxBnWSlTxkrZFaGuLPwS5sNaQ=
+        b=H3bLYgeHA8NaT9ihmQpksApOlWyCfIwnf4qbtloMkuykDn8QjWcM/za5sufqINvzK
+         m4uZUIZN649jZgGmOsW3wV5WmgPvkJIbNowK+59vBIXK9VoVAdpuUfH0P99/UgZYhb
+         5FGJqrI+fllGkajAUGRDG31WckGgmCWJ5tcFqvts=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
@@ -36,9 +33,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
         Marco Felsch <m.felsch@pengutronix.de>,
         Martin Kepplinger <martin.kepplinger@puri.sm>,
         Tim Harvey <tharvey@gateworks.com>
-Subject: [PATCH v2 19/25] media: imx: imx7_mipi_csis: Reorganize csi_state structure
-Date:   Sun, 16 May 2021 04:44:35 +0300
-Message-Id: <20210516014441.5508-20-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 20/25] media: imx: imx7_mipi_csis: Reorganize mipi_csis_probe()
+Date:   Sun, 16 May 2021 04:44:36 +0300
+Message-Id: <20210516014441.5508-21-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.28.1
 In-Reply-To: <20210516014441.5508-1-laurent.pinchart@ideasonboard.com>
 References: <20210516014441.5508-1-laurent.pinchart@ideasonboard.com>
@@ -48,74 +45,101 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Group the fiels of the csi_state structure logically to improve
+Group the operations performed in mipi_csis_probe() logically to improve
 readability.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 ---
- drivers/staging/media/imx/imx7-mipi-csis.c | 35 +++++++++-------------
- 1 file changed, 14 insertions(+), 21 deletions(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 30 ++++++++++++++--------
+ 1 file changed, 19 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index 0ec6870f98a8..61da4db292ef 100644
+index 61da4db292ef..07b331667db7 100644
 --- a/drivers/staging/media/imx/imx7-mipi-csis.c
 +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -292,40 +292,33 @@ static const char * const mipi_csis_clk_id[] = {
- };
+@@ -1298,22 +1298,21 @@ static int mipi_csis_probe(struct platform_device *pdev)
+ 	if (!state)
+ 		return -ENOMEM;
  
- struct csi_state {
--	/* lock elements below */
--	struct mutex lock;
--	/* lock for event handler */
--	spinlock_t slock;
- 	struct device *dev;
--	struct media_pad pads[CSIS_PADS_NUM];
--	struct v4l2_subdev sd;
--	struct v4l2_async_notifier notifier;
--	struct v4l2_subdev *src_sd;
--
--	u8 index;
- 	void __iomem *regs;
--	u32 state;
--
--	struct dentry *debugfs_root;
--	bool debug;
--
- 	unsigned int num_clks;
- 	struct clk_bulk_data *clks;
-+	struct reset_control *mrst;
-+	struct regulator *mipi_phy_regulator;
-+	u8 index;
++	mutex_init(&state->lock);
+ 	spin_lock_init(&state->slock);
  
-+	struct v4l2_subdev sd;
-+	struct media_pad pads[CSIS_PADS_NUM];
-+	struct v4l2_async_notifier notifier;
-+	struct v4l2_subdev *src_sd;
+ 	state->dev = dev;
+ 
++	memcpy(state->events, mipi_csis_events, sizeof(state->events));
 +
-+	struct v4l2_fwnode_bus_mipi_csi2 bus;
- 	u32 clk_frequency;
- 	u32 hs_settle;
- 	u32 clk_settle;
++	/* Parse DT properties. */
+ 	ret = mipi_csis_parse_dt(state);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Failed to parse device tree: %d\n", ret);
+ 		return ret;
+ 	}
  
--	struct reset_control *mrst;
+-	ret = mipi_csis_phy_init(state);
+-	if (ret < 0)
+-		return ret;
 -
-+	struct mutex lock;	/* Protect csis_fmt, format_mbus and state */
- 	const struct csis_pix_format *csis_fmt;
- 	struct v4l2_mbus_framefmt format_mbus;
-+	u32 state;
+-	mipi_csis_phy_reset(state);
+-
++	/* Acquire resources. */
+ 	state->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(state->regs))
+ 		return PTR_ERR(state->regs);
+@@ -1322,16 +1321,24 @@ static int mipi_csis_probe(struct platform_device *pdev)
+ 	if (irq < 0)
+ 		return irq;
  
--	struct v4l2_fwnode_bus_mipi_csi2 bus;
--
-+	spinlock_t slock;	/* Protect events */
- 	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
--
--	struct regulator *mipi_phy_regulator;
-+	struct dentry *debugfs_root;
-+	bool debug;
- };
++	ret = mipi_csis_phy_init(state);
++	if (ret < 0)
++		return ret;
++
+ 	ret = mipi_csis_clk_get(state);
+ 	if (ret < 0)
+ 		return ret;
  
- /* -----------------------------------------------------------------------------
++	/* Reset PHY and enable the clocks. */
++	mipi_csis_phy_reset(state);
++
+ 	ret = mipi_csis_clk_enable(state);
+ 	if (ret < 0) {
+ 		dev_err(state->dev, "failed to enable clocks: %d\n", ret);
+ 		return ret;
+ 	}
+ 
++	/* Now that the hardware is initialized, request the interrupt. */
+ 	ret = devm_request_irq(dev, irq, mipi_csis_irq_handler, 0,
+ 			       dev_name(dev), state);
+ 	if (ret) {
+@@ -1339,22 +1346,23 @@ static int mipi_csis_probe(struct platform_device *pdev)
+ 		goto disable_clock;
+ 	}
+ 
+-	platform_set_drvdata(pdev, &state->sd);
+-
+-	mutex_init(&state->lock);
++	/* Initialize and register the subdev. */
+ 	ret = mipi_csis_subdev_init(state);
+ 	if (ret < 0)
+ 		goto disable_clock;
+ 
++	platform_set_drvdata(pdev, &state->sd);
++
+ 	ret = mipi_csis_async_register(state);
+ 	if (ret < 0) {
+ 		dev_err(dev, "async register failed: %d\n", ret);
+ 		goto cleanup;
+ 	}
+ 
+-	memcpy(state->events, mipi_csis_events, sizeof(state->events));
+-
++	/* Initialize debugfs. */
+ 	mipi_csis_debugfs_init(state);
++
++	/* Enable runtime PM. */
+ 	pm_runtime_enable(dev);
+ 	if (!pm_runtime_enabled(dev)) {
+ 		ret = mipi_csis_pm_resume(dev, true);
 -- 
 Regards,
 
