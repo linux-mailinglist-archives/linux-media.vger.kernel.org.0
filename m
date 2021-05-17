@@ -2,158 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D35B8382858
-	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 11:30:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6F973828B1
+	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 11:46:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235910AbhEQJcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 May 2021 05:32:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44308 "EHLO mail.kernel.org"
+        id S236151AbhEQJrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 May 2021 05:47:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47662 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235863AbhEQJb6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 May 2021 05:31:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DBB1E611CC;
-        Mon, 17 May 2021 09:30:41 +0000 (UTC)
+        id S236066AbhEQJrs (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 May 2021 05:47:48 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 69EFF611CA;
+        Mon, 17 May 2021 09:38:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621243841;
-        bh=0isyKzJBz2glDSCHaGYr98WTCKtZiZtdG2mRXWGAAOU=;
+        s=k20201202; t=1621244292;
+        bh=FODlh22Ar0Gze2kxdZOImhYdQ1KD7tuxHQZzw8GIY/4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=J4FsMlugZne44eq4ZjgLA+C1wedd8PEfxhaKxTOthJgGVzZlWAYBVfknafkY7aBWr
-         ADND+ji7nUN0jFEM5h/Ptlz5E9gFIm2KDOQK7PEIG4gqsLpP4exm5flIBPfP3Ytqg/
-         fT/29azLXdLvmhkBn5rMWlmujSPePevsfztJCYl4RqFCYZRZV369pXk1JmUXTpOFTC
-         wIxRE8PSLO0f8CSwOKltZD/4jU8Mw0+mFOhaEFlmolc4g9bn2bClN1e/gH+x1uq6xH
-         EXgD9eZncoZeARHVnGliDNnvnzN6mmyy9Sddj8PzBFA5CL6zzVbaTVbbJzK6d7oxQo
-         /AwEKInP7h0vQ==
+        b=AOWF5PL77d4zpUTDxlKCweel4PSNdA1O/qN9tDg+2d/DU0pR2UAT0bmqV2FP9pXrK
+         Jys3Pjk+//7i8iNew2v5cyhO8aa9W1xGzqCppdIbIMn1hcNKdLZJ9O96H0HMtSTzmB
+         S1I4pyKpLvQ0ZYxGNzuklZ1coX/lr6jWkEanldJIfD1RUnF7FSGchnzFOnblIMQyrQ
+         JVww0/6QVNaJVPpbNCbglSHeF3O6+rCkP+xKjYXv0VRle0vXwBoje61QnijHx/JSi0
+         QaRPk78RNultpudbNyT+MQfAY5Pp8UVGoWhFj6Mrl75wuo2YQFsgu3VHU6jdiGk07t
+         qbPlv3hCJdWNA==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1liZaB-0003iT-6j; Mon, 17 May 2021 11:30:39 +0200
-Date:   Mon, 17 May 2021 11:30:39 +0200
+        id 1liZhS-0003kv-9v; Mon, 17 May 2021 11:38:10 +0200
+Date:   Mon, 17 May 2021 11:38:10 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Sean Young <sean@mess.org>
 Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jon Rhees <support@usbuirt.com>,
         Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH v3 0/3] IR driver for USB-UIRT device
-Message-ID: <YKI3vyOE8XmpNAuC@hovoldconsulting.com>
+Subject: Re: [PATCH v3 2/3] media: rc: new driver for USB-UIRT device
+Message-ID: <YKI5gthIZBkzHFzz@hovoldconsulting.com>
 References: <cover.1620304986.git.sean@mess.org>
- <YJjrkhfN9Sgq6UX8@hovoldconsulting.com>
- <20210511103219.GA13769@gofer.mess.org>
- <YJ5cH1Z5MdZHE8HU@hovoldconsulting.com>
- <20210515092226.GA31801@gofer.mess.org>
+ <1c40fb8cf798d185a62b56121f58eff1720b76a6.1620304986.git.sean@mess.org>
+ <YJ5hI4HCfkSgKoNQ@hovoldconsulting.com>
+ <20210515095241.GB31801@gofer.mess.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210515092226.GA31801@gofer.mess.org>
+In-Reply-To: <20210515095241.GB31801@gofer.mess.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, May 15, 2021 at 10:22:26AM +0100, Sean Young wrote:
-> On Fri, May 14, 2021 at 01:16:47PM +0200, Johan Hovold wrote:
-> > On Tue, May 11, 2021 at 11:32:19AM +0100, Sean Young wrote:
-> > > On Mon, May 10, 2021 at 10:15:14AM +0200, Johan Hovold wrote:
-> > > > On Thu, May 06, 2021 at 01:44:52PM +0100, Sean Young wrote:
-> > > > > This is a new rc-core driver for the USB-UIRT which you can see here
-> > > > > http://www.usbuirt.com/
-> > > > > 
-> > > > > This device is supported in lirc, via the usb serial kernel driver. This
-> > > > > driver is both for rc-core, which means it can use kernel/BPF decoding
-> > > > > ec. Also this implement is superior because it can:
-> > > > >  - support learning mode
-> > > > >  - setting transmit carrier
-> > > > >  - larger transmits using streaming tx command
-> > > > 
-> > > > This looks like something which should have been implemented as a
-> > > > line-discipline or serdev driver instead of reimplementing a minimal
-> > > > on-off ftdi driver and tying it closely to the RC subsystem.
-> > > 
-> > > The device is an infrared device, I'm not sure what it is lost by
-> > > doing it this way. The "minimal on-off ftdi driver" is super trivial.
+On Sat, May 15, 2021 at 10:52:41AM +0100, Sean Young wrote:
+> On Fri, May 14, 2021 at 01:38:11PM +0200, Johan Hovold wrote:
+> > On Thu, May 06, 2021 at 01:44:54PM +0100, Sean Young wrote:
+> > > See http://www.usbuirt.com/
 > > 
-> > It's still code duplication (and I meant to say "one-off" above").
-> > 
-> > What is preventing you from supporting the above functionality through
-> > lirc?
+> > No proper commit message?
 > 
-> I guess you mean the userspace lirc daemon, as opposed to the /dev/lirc
-> chardev. If you use the lirc daemon, you don't use rc-core which comes with
-> IR decoding using BPF IR decoding or in-kernel decoders, automatic setup of
-> rc keymaps via udev. None of the modern ir-ctl/ir-keytable tooling will
-> work, including the IRP encoder/BPF compiler I'm working on (very slowly).
-
-Ok, but apart from BPF that sound like other stuff and not the three
-items you list above? Is there anything preventing those items from
-being implemented in user space?
-
-Obviously a user-space implementation (e.g. accessing the device through
-/dev/ttyUSB0) is not going to be able to use in-kernel RC functionality.
-For that you'd need to use either a line-discipline or serdev driver,
-that is, a kernel driver, but not everything has to live in the kernel.
-
-> The other nice thing is that IR TX feeds data from an urb interrupt handler,
-> so you don't need to rely userspace being scheduled quickly enough to feed
-> more data before the device runs out.
-
-The tty layer and tty drivers provide write buffering so that need not
-be an issue.
-
-> > > > Why can't you just add support for the above features to whatever
-> > > > subsystem is managing this device today?
-> > > > 
-> > > > Serdev still doesn't support hotplugging unfortunately so that route may
-> > > > take a bit more work.
-> > > 
-> > > There seems to be at least three ways of attaching drivers to serial
-> > > devices: serio, serdev, and line-discipline. All seem to have limitations,
-> > > as you say none of them provide a way of hotplugging devices without
-> > > user-space attaching them through an ioctl or so.
-> > 
-> > serio is also a line-discipline driver, which unlike serdev needs to be
-> > set up by user space.
+> No sure what to say here what's not already in the first line of the
+> commit.
 > 
-> serio is unusable for this case. serio does not allow more than one byte
-> to be written nor does it have callbacks for CTS readiness.
+> Maybe I could mention the fact this uses fdti usb serial chip.
 
-Ok, but you could still implement this as an rc-core line-discipline or
-serdev driver. And when you use hardware flow control as you do here,
-you shouldn't need any callbacks for CTS events either, right?
+That'd be good. Perhaps mention why you chose to implement a kernel
+driver for this device which appears to already be supported by the lirc
+daemon from user space too.
  
-> > And the problem with serdev is that it does not (yet) support
-> > hotplugging (specifically hangups) so it can't be enabled for USB serial
-> > just yet.
+> > > +static void uirt_response(struct uirt *uirt, u32 len)
+> > > +{
+> > > +	int i;
+> > > +
+> > > +	dev_dbg(uirt->dev, "state:%d data: %*phN\n", uirt->cmd_state, len, uirt->in);
+> > > +
+> > > +	// Do we have more IR to transmit
+> > > +	if (uirt->cmd_state == CMD_STATE_STREAMING_TX && len >= 2 &&
+> > > +	    uirt->tx_len && uirt->in[0] & FTDI_RS0_CTS) {
+> > > +		u32 len;
+> > > +		int err;
+> > > +
+> > > +		len = min_t(u32, uirt->tx_len, MAX_PACKET);
+> > > +
+> > > +		memcpy(uirt->out, uirt->tx_buf, len);
+> > > +		uirt->urb_out->transfer_buffer_length = len;
+> > > +
+> > > +		uirt->tx_len -= len;
+> > > +		uirt->tx_buf += len;
+> > > +
+> > > +		err = usb_submit_urb(uirt->urb_out, GFP_ATOMIC);
+> > > +		if (err != 0)
+> > > +			dev_warn(uirt->dev,
+> > > +				 "failed to submit out urb: %d\n", err);
+> > > +	}
+> > > +
+> > > +	// if we only have two bytes, it just gives us the serial line status
+> > > +	if (len <= 2)
+> > > +		return;
+> > > +
+> > > +	switch (uirt->cmd_state) {
+> > > +	case CMD_STATE_GETVERSION:
+> > > +		if (len == 10) {
+> > > +			// check checksum
+> > > +			u8 checksum = 0;
+> > > +
+> > > +			for (i = 2; i < len; i++)
+> > > +				checksum += uirt->in[i];
+> > > +
+> > > +			if (checksum != 0) {
+> > > +				dev_err(uirt->dev, "checksum does not match: %*phN\n",
+> > > +					len, uirt->in);
+> > > +				return;
+> > > +			}
+> > > +
+> > > +			dev_info(uirt->dev,
+> > > +				 "USB-UIRT firmware v%u.%u protocol v%u.%u %02u-%02u-%04u",
+> > > +				 uirt->in[2], uirt->in[3], uirt->in[4],
+> > > +				 uirt->in[5], uirt->in[6], uirt->in[7],
+> > > +				 2000 + uirt->in[8]);
+> > > +
+> > > +			complete(&uirt->cmd_done);
+> > > +			uirt->cmd_state = CMD_STATE_IRDATA;
+> > > +			return;
+> > > +		}
+> > > +		break;
+> > > +	case CMD_STATE_DOTXRAW:
+> > > +	case CMD_STATE_STREAMING_TX:
+> > > +	case CMD_STATE_SETMODERAW:
+> > > +	case CMD_STATE_SETMODEWIDEBAND:
+> > > +		if (len == 3) {
+> > > +			switch (uirt->in[2]) {
+> > > +			case 0x20:
+> > > +				// 0x20 transmitting is expected during streaming tx
+> > > +				if (uirt->cmd_state == CMD_STATE_STREAMING_TX)
+> > > +					return;
+> > > +
+> > > +				if (uirt->cmd_state == CMD_STATE_DOTXRAW)
+> > > +					complete(&uirt->cmd_done);
+> > > +				else
+> > > +					dev_err(uirt->dev, "device transmitting");
+> > > +				break;
+> > > +			case 0x21:
+> > > +				if (uirt->tx_len) {
+> > > +					dev_err(uirt->dev, "tx completed with %u left to send",
+> > > +						uirt->tx_len);
+> > > +				} else {
+> > > +					if (uirt->cmd_state == CMD_STATE_SETMODERAW)
+> > > +						uirt->wideband = false;
+> > > +					if (uirt->cmd_state == CMD_STATE_SETMODEWIDEBAND)
+> > > +						uirt->wideband = true;
+> > > +
+> > > +					complete(&uirt->cmd_done);
+> > > +				}
+> > > +				break;
+> > > +			case 0x80:
+> > > +				dev_err(uirt->dev, "checksum error");
+> > > +				break;
+> > > +			case 0x81:
+> > > +				dev_err(uirt->dev, "timeout");
+> > > +				break;
+> > > +			case 0x82:
+> > > +				dev_err(uirt->dev, "command error");
+> > > +				break;
+> > > +			default:
+> > > +				dev_err(uirt->dev, "unknown response");
+> > > +			}
+> > > +
+> > > +			uirt->cmd_state = CMD_STATE_IRDATA;
+> > > +			return;
+> > > +		}
+> > > +	default:
+> > > +		break;
+> > > +	}
+> > > +
+> > > +	if (uirt->wideband)
+> > > +		uirt_wideband(uirt, len);
+> > > +	else
+> > > +		uirt_raw_mode(uirt, len);
+> > > +}
 > > 
-> > > If you want to go down this route, then ideally you'd want a quirk on
-> > > fdti saying "attach usb-uirt serdev device to this pid/vid". Considering
-> > > module dependencies, I don't know how that could work without again
-> > > userspace getting involved.
-> > 
-> > We'd just reuse or add another matching mechanism for USB devices. This
-> > can be handled without user-space interaction just fine as long as you
-> > have a dedicated device id as you do here.
+> > Your code assumes that you'll always get one message per transfer, but
+> > since the device uses a regular FTDI chip with a FIFO this isn't
+> > guaranteed. 
 > 
-> Right, ok. I don't quite follow what you have in mind. If at all possible
-> keep me in the loop for any patches for this, I'm happy to test/re-write
-> this driver and the drivers/media/rc/ir_toy.c driver on top of any such
-> patches.
+> I guess you're talking about that data can straddle multiple packets
+> because there is a fifo involved, or there can be more data before/after
+> a command response.
 
-Thanks for that pointer. Judging from a quick look, the new driver
-appears to based on this one. By abstracting the serial interface bits
-in a generic RC serdev/ldisc driver you may be able reuse more code,
-even if I'm not in a position to judge how much of the IR protocol bits
-that can be shared.
+Right.
 
-> There are a bunch old serial usb device IR devices and even older non-usb
-> serial devices that would be nice to have supported, if anyone is still
-> using them.
+> Let me see what I can do about that.
 
-I noticed that drivers/media/rc/serial_ir.c also appears to use a
-similar approach of implementing a minimal one-off serial (8250?) driver
-and tying it closely to RC core. This one might also benefit from using
-the standard serial drivers for the transport and having an RC layer on
-top.
+You'd get buffering for free if you let the tty layer handle this...
 
-Currently it appears to use module-parameters for configuration instead
-of devicetree or some to-be-implemented interface for instantiating
-serdev devices from user space.
+> > > +static int init_ftdi(struct usb_device *udev)
+> > > +{
+> > > +	int err;
+> > > +
+> > > +	// set the baud rate
+> > > +	err = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+> > > +			      FTDI_SIO_SET_BAUDRATE_REQUEST,
+> > > +			      FTDI_SIO_SET_BAUDRATE_REQUEST_TYPE,
+> > > +			      0x4009, 0x0001,
+> > > +			      NULL, 0, USB_CTRL_SET_TIMEOUT);
+> > > +	if (err)
+> > > +		return err;
+> > > +
+> > > +	// enabling rts/cts flow control
+> > > +	err = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+> > > +			      FTDI_SIO_SET_FLOW_CTRL_REQUEST,
+> > > +			      FTDI_SIO_SET_FLOW_CTRL_REQUEST_TYPE,
+> > > +			      0, FTDI_SIO_RTS_CTS_HS,
+> > > +			      NULL, 0, USB_CTRL_SET_TIMEOUT);
+> > > +	if (err)
+> > > +		return err;
+> > 
+> > Does the device UART actually have RTS wired up?
+> 
+> I don't know TBH. However it does have CTS wired up.
+
+When using a serial driver, RTS would be asserted on open and
+(typically) deasserted on close. Not sure it matters.
+
+The FTDI driver would also clear the receive FIFO when opening the port
+I believe.
 
 Johan
