@@ -2,222 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6F973828B1
-	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 11:46:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6231C38288A
+	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 11:40:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236151AbhEQJrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 May 2021 05:47:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47662 "EHLO mail.kernel.org"
+        id S236059AbhEQJle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 May 2021 05:41:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46494 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236066AbhEQJrs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 May 2021 05:47:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 69EFF611CA;
-        Mon, 17 May 2021 09:38:12 +0000 (UTC)
+        id S235911AbhEQJld (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 May 2021 05:41:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 46425611CD;
+        Mon, 17 May 2021 09:40:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621244292;
-        bh=FODlh22Ar0Gze2kxdZOImhYdQ1KD7tuxHQZzw8GIY/4=;
+        s=k20201202; t=1621244417;
+        bh=cTiy/a7+Enu12kixTOOmGWJ1ZQKLAAv1lUq4CXeD4Ss=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AOWF5PL77d4zpUTDxlKCweel4PSNdA1O/qN9tDg+2d/DU0pR2UAT0bmqV2FP9pXrK
-         Jys3Pjk+//7i8iNew2v5cyhO8aa9W1xGzqCppdIbIMn1hcNKdLZJ9O96H0HMtSTzmB
-         S1I4pyKpLvQ0ZYxGNzuklZ1coX/lr6jWkEanldJIfD1RUnF7FSGchnzFOnblIMQyrQ
-         JVww0/6QVNaJVPpbNCbglSHeF3O6+rCkP+xKjYXv0VRle0vXwBoje61QnijHx/JSi0
-         QaRPk78RNultpudbNyT+MQfAY5Pp8UVGoWhFj6Mrl75wuo2YQFsgu3VHU6jdiGk07t
-         qbPlv3hCJdWNA==
+        b=N45325oMUhi4vxWoLOS7F/rMYHd6M5MgOeYvXJ+cNVh3h7OjxchlYHlnWtBaOGi9U
+         TbgKZTwAhceYhDgRgYM4Y6rERwzGH9/dU4NSXJN+jASLsKUyfcVSZSAPizdAUankiO
+         Hg2DiLwjpp2Cg+mwrfYAFYN+24wcRKUw0M9MOJgOeEUENv+KW7DlXeQsmqLhEXXtwF
+         Y5UFUmOxBjg8RFyyBEEcDwsFDOqFc2rWWLxSyLwdNxCpRH59ze5cQGhHwLAsVoORtx
+         fndvMM6gl0gYXPACCleKB8Q20TT8muuYGD3TGhLwnheDq3mfHSWx6VhiUaEHAJPK+/
+         +Z3ukYDh+yaJw==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1liZhS-0003kv-9v; Mon, 17 May 2021 11:38:10 +0200
-Date:   Mon, 17 May 2021 11:38:10 +0200
+        id 1liZjT-0003lu-8H; Mon, 17 May 2021 11:40:15 +0200
+Date:   Mon, 17 May 2021 11:40:15 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Sean Young <sean@mess.org>
 Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jon Rhees <support@usbuirt.com>,
         Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH v3 2/3] media: rc: new driver for USB-UIRT device
-Message-ID: <YKI5gthIZBkzHFzz@hovoldconsulting.com>
+Subject: Re: [PATCH v3 3/3] USB: serial: blacklist USB-UIRT when driver is
+ selected
+Message-ID: <YKI5/4Yy+PmO6+vl@hovoldconsulting.com>
 References: <cover.1620304986.git.sean@mess.org>
- <1c40fb8cf798d185a62b56121f58eff1720b76a6.1620304986.git.sean@mess.org>
- <YJ5hI4HCfkSgKoNQ@hovoldconsulting.com>
- <20210515095241.GB31801@gofer.mess.org>
+ <37339f4102666345168a738d0ffd80d8133a6a03.1620304986.git.sean@mess.org>
+ <YJ5hpTqH7Ke+Fv7V@hovoldconsulting.com>
+ <20210515095628.GC31801@gofer.mess.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210515095241.GB31801@gofer.mess.org>
+In-Reply-To: <20210515095628.GC31801@gofer.mess.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, May 15, 2021 at 10:52:41AM +0100, Sean Young wrote:
-> On Fri, May 14, 2021 at 01:38:11PM +0200, Johan Hovold wrote:
-> > On Thu, May 06, 2021 at 01:44:54PM +0100, Sean Young wrote:
-> > > See http://www.usbuirt.com/
+On Sat, May 15, 2021 at 10:56:28AM +0100, Sean Young wrote:
+> On Fri, May 14, 2021 at 01:40:21PM +0200, Johan Hovold wrote:
+> > On Thu, May 06, 2021 at 01:44:55PM +0100, Sean Young wrote:
+> > > The USB-UIRT device has its own driver, so blacklist the fdti driver
+> > > from using it if the driver has been enabled.
+> > > 
+> > > Signed-off-by: Sean Young <sean@mess.org>
+> > > ---
+> > >  drivers/usb/serial/ftdi_sio.c | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > > 
+> > > diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+> > > index 542073d2f0dd..2320bda57796 100644
+> > > --- a/drivers/usb/serial/ftdi_sio.c
+> > > +++ b/drivers/usb/serial/ftdi_sio.c
+> > > @@ -95,7 +95,9 @@ static int   ftdi_jtag_probe(struct usb_serial *serial);
+> > >  static int   ftdi_NDI_device_setup(struct usb_serial *serial);
+> > >  static int   ftdi_stmclite_probe(struct usb_serial *serial);
+> > >  static int   ftdi_8u2232c_probe(struct usb_serial *serial);
+> > > +#if !IS_ENABLED(CONFIG_IR_UIRT)
+> > >  static void  ftdi_USB_UIRT_setup(struct ftdi_private *priv);
+> > > +#endif
+> > >  static void  ftdi_HE_TIRA1_setup(struct ftdi_private *priv);
+> > >  
+> > >  static const struct ftdi_sio_quirk ftdi_jtag_quirk = {
+> > > @@ -106,9 +108,11 @@ static const struct ftdi_sio_quirk ftdi_NDI_device_quirk = {
+> > >  	.probe	= ftdi_NDI_device_setup,
+> > >  };
+> > >  
+> > > +#if !IS_ENABLED(CONFIG_IR_UIRT)
+> > >  static const struct ftdi_sio_quirk ftdi_USB_UIRT_quirk = {
 > > 
-> > No proper commit message?
+> > Please use __maybe_unused instead of sprinkling ifdefs throughout the
+> > driver.
 > 
-> No sure what to say here what's not already in the first line of the
-> commit.
+> Good point.
 > 
-> Maybe I could mention the fact this uses fdti usb serial chip.
-
-That'd be good. Perhaps mention why you chose to implement a kernel
-driver for this device which appears to already be supported by the lirc
-daemon from user space too.
- 
-> > > +static void uirt_response(struct uirt *uirt, u32 len)
-> > > +{
-> > > +	int i;
-> > > +
-> > > +	dev_dbg(uirt->dev, "state:%d data: %*phN\n", uirt->cmd_state, len, uirt->in);
-> > > +
-> > > +	// Do we have more IR to transmit
-> > > +	if (uirt->cmd_state == CMD_STATE_STREAMING_TX && len >= 2 &&
-> > > +	    uirt->tx_len && uirt->in[0] & FTDI_RS0_CTS) {
-> > > +		u32 len;
-> > > +		int err;
-> > > +
-> > > +		len = min_t(u32, uirt->tx_len, MAX_PACKET);
-> > > +
-> > > +		memcpy(uirt->out, uirt->tx_buf, len);
-> > > +		uirt->urb_out->transfer_buffer_length = len;
-> > > +
-> > > +		uirt->tx_len -= len;
-> > > +		uirt->tx_buf += len;
-> > > +
-> > > +		err = usb_submit_urb(uirt->urb_out, GFP_ATOMIC);
-> > > +		if (err != 0)
-> > > +			dev_warn(uirt->dev,
-> > > +				 "failed to submit out urb: %d\n", err);
-> > > +	}
-> > > +
-> > > +	// if we only have two bytes, it just gives us the serial line status
-> > > +	if (len <= 2)
-> > > +		return;
-> > > +
-> > > +	switch (uirt->cmd_state) {
-> > > +	case CMD_STATE_GETVERSION:
-> > > +		if (len == 10) {
-> > > +			// check checksum
-> > > +			u8 checksum = 0;
-> > > +
-> > > +			for (i = 2; i < len; i++)
-> > > +				checksum += uirt->in[i];
-> > > +
-> > > +			if (checksum != 0) {
-> > > +				dev_err(uirt->dev, "checksum does not match: %*phN\n",
-> > > +					len, uirt->in);
-> > > +				return;
-> > > +			}
-> > > +
-> > > +			dev_info(uirt->dev,
-> > > +				 "USB-UIRT firmware v%u.%u protocol v%u.%u %02u-%02u-%04u",
-> > > +				 uirt->in[2], uirt->in[3], uirt->in[4],
-> > > +				 uirt->in[5], uirt->in[6], uirt->in[7],
-> > > +				 2000 + uirt->in[8]);
-> > > +
-> > > +			complete(&uirt->cmd_done);
-> > > +			uirt->cmd_state = CMD_STATE_IRDATA;
-> > > +			return;
-> > > +		}
-> > > +		break;
-> > > +	case CMD_STATE_DOTXRAW:
-> > > +	case CMD_STATE_STREAMING_TX:
-> > > +	case CMD_STATE_SETMODERAW:
-> > > +	case CMD_STATE_SETMODEWIDEBAND:
-> > > +		if (len == 3) {
-> > > +			switch (uirt->in[2]) {
-> > > +			case 0x20:
-> > > +				// 0x20 transmitting is expected during streaming tx
-> > > +				if (uirt->cmd_state == CMD_STATE_STREAMING_TX)
-> > > +					return;
-> > > +
-> > > +				if (uirt->cmd_state == CMD_STATE_DOTXRAW)
-> > > +					complete(&uirt->cmd_done);
-> > > +				else
-> > > +					dev_err(uirt->dev, "device transmitting");
-> > > +				break;
-> > > +			case 0x21:
-> > > +				if (uirt->tx_len) {
-> > > +					dev_err(uirt->dev, "tx completed with %u left to send",
-> > > +						uirt->tx_len);
-> > > +				} else {
-> > > +					if (uirt->cmd_state == CMD_STATE_SETMODERAW)
-> > > +						uirt->wideband = false;
-> > > +					if (uirt->cmd_state == CMD_STATE_SETMODEWIDEBAND)
-> > > +						uirt->wideband = true;
-> > > +
-> > > +					complete(&uirt->cmd_done);
-> > > +				}
-> > > +				break;
-> > > +			case 0x80:
-> > > +				dev_err(uirt->dev, "checksum error");
-> > > +				break;
-> > > +			case 0x81:
-> > > +				dev_err(uirt->dev, "timeout");
-> > > +				break;
-> > > +			case 0x82:
-> > > +				dev_err(uirt->dev, "command error");
-> > > +				break;
-> > > +			default:
-> > > +				dev_err(uirt->dev, "unknown response");
-> > > +			}
-> > > +
-> > > +			uirt->cmd_state = CMD_STATE_IRDATA;
-> > > +			return;
-> > > +		}
-> > > +	default:
-> > > +		break;
-> > > +	}
-> > > +
-> > > +	if (uirt->wideband)
-> > > +		uirt_wideband(uirt, len);
-> > > +	else
-> > > +		uirt_raw_mode(uirt, len);
-> > > +}
+> > >  	.port_probe = ftdi_USB_UIRT_setup,
+> > >  };
+> > > +#endif
+> > >  
+> > >  static const struct ftdi_sio_quirk ftdi_HE_TIRA1_quirk = {
+> > >  	.port_probe = ftdi_HE_TIRA1_setup,
+> > > @@ -568,8 +572,10 @@ static const struct usb_device_id id_table_combined[] = {
+> > >  	{ USB_DEVICE(OCT_VID, OCT_DK201_PID) },
+> > >  	{ USB_DEVICE(FTDI_VID, FTDI_HE_TIRA1_PID),
+> > >  		.driver_info = (kernel_ulong_t)&ftdi_HE_TIRA1_quirk },
+> > > +#if !IS_ENABLED(CONFIG_IR_UIRT)
+> > >  	{ USB_DEVICE(FTDI_VID, FTDI_USB_UIRT_PID),
+> > >  		.driver_info = (kernel_ulong_t)&ftdi_USB_UIRT_quirk },
+> > > +#endif
 > > 
-> > Your code assumes that you'll always get one message per transfer, but
-> > since the device uses a regular FTDI chip with a FIFO this isn't
-> > guaranteed. 
+> > This would still be needed.
 > 
-> I guess you're talking about that data can straddle multiple packets
-> because there is a fifo involved, or there can be more data before/after
-> a command response.
+> I agree having the quirk in place would be useful, but if vid/pid is listed
+> in the id_table then both uirt and ftdi_sio have the same vid/pid listed,
+> which is not a great idea. How can this work?
 
-Right.
-
-> Let me see what I can do about that.
-
-You'd get buffering for free if you let the tty layer handle this...
-
-> > > +static int init_ftdi(struct usb_device *udev)
-> > > +{
-> > > +	int err;
-> > > +
-> > > +	// set the baud rate
-> > > +	err = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-> > > +			      FTDI_SIO_SET_BAUDRATE_REQUEST,
-> > > +			      FTDI_SIO_SET_BAUDRATE_REQUEST_TYPE,
-> > > +			      0x4009, 0x0001,
-> > > +			      NULL, 0, USB_CTRL_SET_TIMEOUT);
-> > > +	if (err)
-> > > +		return err;
-> > > +
-> > > +	// enabling rts/cts flow control
-> > > +	err = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-> > > +			      FTDI_SIO_SET_FLOW_CTRL_REQUEST,
-> > > +			      FTDI_SIO_SET_FLOW_CTRL_REQUEST_TYPE,
-> > > +			      0, FTDI_SIO_RTS_CTS_HS,
-> > > +			      NULL, 0, USB_CTRL_SET_TIMEOUT);
-> > > +	if (err)
-> > > +		return err;
-> > 
-> > Does the device UART actually have RTS wired up?
-> 
-> I don't know TBH. However it does have CTS wired up.
-
-When using a serial driver, RTS would be asserted on open and
-(typically) deasserted on close. Not sure it matters.
-
-The FTDI driver would also clear the receive FIFO when opening the port
-I believe.
+Sorry if I was being unclear; I meant that this ifdef would still be
+needed.
 
 Johan
