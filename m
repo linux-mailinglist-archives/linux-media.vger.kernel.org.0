@@ -2,123 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3E453829B2
-	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 12:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB7A33829B3
+	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 12:21:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236249AbhEQKWH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 May 2021 06:22:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40816 "EHLO
+        id S236275AbhEQKWa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 May 2021 06:22:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230248AbhEQKWG (ORCPT
+        with ESMTP id S230248AbhEQKWa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 May 2021 06:22:06 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 915B3C061573;
-        Mon, 17 May 2021 03:20:50 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id n2so5844026wrm.0;
-        Mon, 17 May 2021 03:20:50 -0700 (PDT)
+        Mon, 17 May 2021 06:22:30 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF79C061573
+        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 03:21:13 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id r12so5795102wrp.1
+        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 03:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:content-transfer-encoding:date:message-id:cc:subject
          :from:to:references:in-reply-to;
-        bh=p5B0LfPWxukMwc2CWTpCHetVCW9lclGiGdiXVNhvVxQ=;
-        b=UXI3dPpznRJ7eMcG4L0qr8aRXYY08vnQk7O02lg//IekINR/WJQneiKMUptqAes8bC
-         jK6BOd8nUAUKPboX2l6SlFJIbA8q8JaV2/I/3UIAEpowd++Va9hVmWyWG5eihiXLmPp1
-         JG5g+BDFv2Q1w/fb6hCDkzFGqezLzuvKbeRCYfuPNBRzrqFdxIA71o0/ymIHc0+Gd1EQ
-         xKaqjXINsJZq7dcks4Lsujq/CHNzteeaMxA7BgqqblaOi3hzwQddeZg9+IEshszSrLps
-         nyDM2p8+MeHPMZnqqP+Dcjq/tvfXd7CbpElemG4o78ekcLuv5SiBRRddfUnsVmO1w1D1
-         1ZJw==
+        bh=qvRzzRLLcu4dcIkgDy/SSU5DLTHbPvdSUySllQ5EIUc=;
+        b=DzN9PNffdjzZnQimIfuCh8eY1Evp3rPEI/kCphll6Vgt1SSpm6ABMzcLMFMRlpqQtA
+         EgDr9bmO0NAvs4XLq+PsI1Dvl+CYmVWYJof4rTaVQaDwT6QZprX28AdK1lPUJwygWn86
+         aPN7Xx2vAZYBWkqnB0XQ6HviZim+DUY4xxlCfJiBqdZ63mQlfWkGtPV0lNQYEy6o2jie
+         mTPW96PXQC6dfQCxnSdbymKRKq3LXT42h1uQxEHFpZykFPyLzpxLWLAjuJ+8nvuDPTzM
+         0eKdJk+Bqx6Rp0DyqAuUUosXUdx8BcZPKIwCi8NObAZGQpjBlpEDNXamGcnLMyq2A936
+         +gzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:content-transfer-encoding:date
          :message-id:cc:subject:from:to:references:in-reply-to;
-        bh=p5B0LfPWxukMwc2CWTpCHetVCW9lclGiGdiXVNhvVxQ=;
-        b=RdJn/N3guPG0LYCqTOC7RgOmBATxPFqucJLqaHXCA1FCwqGdtzvqioAgNZz5bo7fqc
-         YPidXvFsFcl9bBWTuo/pS0txtgYz/qKcIkmtbtdYM1GEdyNaLa21nc4/WP7hPEoZO0wt
-         rABqEaHlE2OFPdrGi7SEXbjAVABYaKcRUOlbMNIPSnBcFYS1HLFnwLJXbqW0lLPd3Act
-         7EwJrjgzJfNcC/UaZY/tkZxErEMX5USQpsSUA7OEZlTVEjmA8Uu7z4b3AsbWBKXYZauS
-         /MZobGgdRG+LRBFIXCMqWMhaSNaZ4FettvDHKKOOcgAb73V5w9t4bgUcWfA8xwaSbFw3
-         aiLA==
-X-Gm-Message-State: AOAM532bULcRgg3dyrDRUh8/85gUATbnn3rVyNWiqalmCNHPKygkuXha
-        EMnMnIFZO3PXVeNH/Qk9YLQ=
-X-Google-Smtp-Source: ABdhPJypNrPG7VMem7/+BkEvqjU3vFa7r9JPQ9iWNu97p0dQiSAkeTuDDcyZayoiVaU3CMRMFJrcDQ==
-X-Received: by 2002:a05:6000:1c1:: with SMTP id t1mr72596535wrx.421.1621246849174;
-        Mon, 17 May 2021 03:20:49 -0700 (PDT)
+        bh=qvRzzRLLcu4dcIkgDy/SSU5DLTHbPvdSUySllQ5EIUc=;
+        b=tbR9k3ffV6HR7vn86wifaz5ruxaAzJIQZstyzP1W9DCvFToxuEoM1n+Hftu7u87KWY
+         z42bqaDQhn2BKwQv8y7nPRymaKXOlGB794FvusoarqjKp+2RPYrMjm2k7Zt1LEvSBX/k
+         bx7iM89KFTOLEEY4dD99mO6uFoHOC4GKpfLqyiz8RS1w0kLL4Eg+qvSpY6v+xy6/Vmfo
+         pyGsEZ9jy19Dtqf34VUCZWLZ+4ZClgKK8OvOUn/KRQi6dBm/weoneSQs26d8VqQ2eE4p
+         1Hi86lmHQOPa7UDDMl+v59pp5Em/QIaWsPqy/BdCQWmYY8hfTdVJYsccUWXvIqrlI9/4
+         RGuQ==
+X-Gm-Message-State: AOAM5331Bbtx/o+JuyURKexPvyc9oKqqzNYCt1Mx6OfflaxubksY3zvM
+        npAPtaBc5/k3g18TzFwmC5c=
+X-Google-Smtp-Source: ABdhPJwPbDSXkZUARb4iXvU7FKJIwkfZAGE8zFU+lPO/ovuM8bgcVQJ1rCd5o2V/f6yen8C4LbYgcQ==
+X-Received: by 2002:a5d:64e4:: with SMTP id g4mr72864101wri.366.1621246872780;
+        Mon, 17 May 2021 03:21:12 -0700 (PDT)
 Received: from localhost (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id g5sm4132675wmi.8.2021.05.17.03.20.48
+        by smtp.gmail.com with ESMTPSA id r2sm17791823wrv.39.2021.05.17.03.21.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 03:20:48 -0700 (PDT)
+        Mon, 17 May 2021 03:21:12 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 17 May 2021 11:20:48 +0100
-Message-Id: <CBFG1K0T4F4N.2TVMNM7DIWEVZ@arch-thunder>
+Date:   Mon, 17 May 2021 11:21:11 +0100
+Message-Id: <CBFG1V17RJK2.2Q6JTIOSUD8ML@arch-thunder>
 Cc:     <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>,
         <linux-imx@nxp.com>, "Steve Longerbeam" <slongerbeam@gmail.com>,
         "Philipp Zabel" <p.zabel@pengutronix.de>,
         "Marek Vasut" <marex@denx.de>,
         "Marco Felsch" <m.felsch@pengutronix.de>,
         "Martin Kepplinger" <martin.kepplinger@puri.sm>,
-        "Dorota Czaplejewicz" <dorota.czaplejewicz@puri.sm>,
-        "Rob Herring" <robh+dt@kernel.org>, <devicetree@vger.kernel.org>
-Subject: Re: [RFC PATCH 0/3] media: imx: imx7-media-csi: i.MX8MM support
+        "Dorota Czaplejewicz" <dorota.czaplejewicz@puri.sm>
+Subject: Re: [RFC PATCH 2/3] media: imx: imx7-media-csi: Set TWO_8BIT_SENSOR
+ for >= 10-bit formats
 From:   "Rui Miguel Silva" <rmfrfs@gmail.com>
 To:     "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
         <linux-media@vger.kernel.org>
 References: <20210516024216.4576-1-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20210516024216.4576-1-laurent.pinchart@ideasonboard.com>
+ <20210516024216.4576-3-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20210516024216.4576-3-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
-Thanks for extending support for imx8.
-
 On Sun May 16, 2021 at 3:42 AM WEST, Laurent Pinchart wrote:
-> Hello,
->
-> This small patch series updates the imx7-media-csi driver to work on the
-> i.MX8MM with an OV5640 sensor.
->
-> Patch 1/3 extends the nxp,imx7-csi DT bindings with a compatible string
-> for the i.MX8MM. While the CSI bridge in that SoC doesn't seem to differ
-> from the one in the i.MX7 according to the reference manual, experience
-> shows that NXP reference manuals are not always reliable. To be on the
-> safe side, a new fsl,imx8mm-csi compatible string, with a fallback on
-> fsl,imx7-csi, will avoid future backward-compatibility problems.
->
-> Patches 2/3 and 3/3 fix issues with RAW8 and RAW10 capture from an
-> OV5640 sensor. The fixes are the result of experimentation and study of
-> NXP BSP drivers, as the reference manual doesn't provide much
-> information in this area. I'm not very happy with this, as understanding
-> the exact effect of the register fields modified by those two patches
-> would be better. Still, without support from NXP (which I would really,
-> really appreciate - anyone from NXP reading this ?), I can't do better.
->
-> Given those concerns, I would also appreciate if this series could be
-> tested widely for possible regressions. There should be no change for
-> YUV formats, so only raw formats (RAW8, RAW10, RAW12 and RAW14) need to
-> be tested.
 
-I've tested with my setup in imx7 which is RAW10 only, and everything
-looks fine.
+> Sample code from NXP, as well as experiments on i.MX8MM with RAW10
+> capture with an OV5640 sensor connected over CSI-2, showed that the
+> TWO_8BIT_SENSOR field of the CSICR3 register needs to be set for formats
+> larger than 8 bits. Do so, even if the reference manual doesn't clearly
+> describe the effect of the field.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/staging/media/imx/imx7-media-csi.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging=
+/media/imx/imx7-media-csi.c
+> index f85a2f5f1413..256b9aa978f0 100644
+> --- a/drivers/staging/media/imx/imx7-media-csi.c
+> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> @@ -422,6 +422,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+>  	int width =3D out_pix->width;
+>  	u32 stride =3D 0;
+>  	u32 cr1, cr18;
+> +	u32 cr3 =3D 0;
+> =20
+>  	cr18 =3D imx7_csi_reg_read(csi, CSI_CSICR18);
+> =20
+> @@ -464,6 +465,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+>  		case MEDIA_BUS_FMT_SGBRG10_1X10:
+>  		case MEDIA_BUS_FMT_SGRBG10_1X10:
+>  		case MEDIA_BUS_FMT_SRGGB10_1X10:
+> +			cr3 |=3D BIT_TWO_8BIT_SENSOR;
+>  			cr18 |=3D BIT_MIPI_DATA_FORMAT_RAW10;
+>  			break;
+>  		case MEDIA_BUS_FMT_Y12_1X12:
+> @@ -471,6 +473,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+>  		case MEDIA_BUS_FMT_SGBRG12_1X12:
+>  		case MEDIA_BUS_FMT_SGRBG12_1X12:
+>  		case MEDIA_BUS_FMT_SRGGB12_1X12:
+> +			cr3 |=3D BIT_TWO_8BIT_SENSOR;
+>  			cr18 |=3D BIT_MIPI_DATA_FORMAT_RAW12;
+>  			break;
+>  		case MEDIA_BUS_FMT_Y14_1X14:
+> @@ -478,6 +481,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+>  		case MEDIA_BUS_FMT_SGBRG14_1X14:
+>  		case MEDIA_BUS_FMT_SGRBG14_1X14:
+>  		case MEDIA_BUS_FMT_SRGGB14_1X14:
+> +			cr3 |=3D BIT_TWO_8BIT_SENSOR;
+>  			cr18 |=3D BIT_MIPI_DATA_FORMAT_RAW14;
+>  			break;
+>  		/*
+> @@ -510,7 +514,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+> =20
+>  	imx7_csi_reg_write(csi, cr1, CSI_CSICR1);
+>  	imx7_csi_reg_write(csi, BIT_DMA_BURST_TYPE_RFF_INCR16, CSI_CSICR2);
+> -	imx7_csi_reg_write(csi, BIT_FRMCNT_RST, CSI_CSICR3);
+> +	imx7_csi_reg_write(csi, BIT_FRMCNT_RST | cr3, CSI_CSICR3);
 
-I only have a small suggestion in 2/3.
+I would prefer if you initialize cr3 with BIT_FRMCNT_RST above at
+declaration or even better bellow after cr18 read or something like
+that, would make it more coherent with the rest of the cr's handling.
+
+other than that LGTM.
 
 ------
 Cheers,
      Rui
 
->
-> Laurent Pinchart (3):
->   dt-bindings: media: nxp,imx7-csi: Add i.MX8MM support
->   media: imx: imx7-media-csi: Set TWO_8BIT_SENSOR for >=3D 10-bit formats
->   media: imx: imx7-media-csi: Don't set PIXEL_BIT in CSICR1
->
->  .../bindings/media/nxp,imx7-csi.yaml          | 12 +++++++----
->  drivers/staging/media/imx/imx7-media-csi.c    | 21 +++++--------------
->  2 files changed, 13 insertions(+), 20 deletions(-)
->
+
+>  	imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
+> =20
+>  	imx7_csi_reg_write(csi, (width * out_pix->height) >> 2, CSI_CSIRXCNT);
 > --=20
 > Regards,
 >
