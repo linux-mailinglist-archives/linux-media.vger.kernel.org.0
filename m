@@ -2,425 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9455F386CC7
-	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 00:13:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8A81386DD1
+	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 01:40:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234563AbhEQWPN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 May 2021 18:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60990 "EHLO
+        id S1344540AbhEQXmF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 May 2021 19:42:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235143AbhEQWPL (ORCPT
+        with ESMTP id S239228AbhEQXmB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 May 2021 18:15:11 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FDB8C061756
-        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 15:13:54 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F5D53EE;
-        Tue, 18 May 2021 00:13:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621289630;
-        bh=1CXK8s0kEAG1CDNZzOvJk8Gs4lXY/BTkHHh7XiIKvK8=;
-        h=Reply-To:To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=gYRPlc+fDWPbVhEINIQa9q64lcnwJ+dHzdc2bEO135YhcZ5fZN7KW5V0rk+BQ1F8p
-         EDsN4X/EK4xB0ZafNXhK4dWq8IB4OTF+qFFBCsO5cJw7w9zCchOakCWkoop7DCokpg
-         crnhWfgBu1GA4aBN7bdlB4zvadyiAhgNalNKe7Gc=
-Reply-To: kieran.bingham@ideasonboard.com
-To:     Ariel D'Alessandro <ariel.dalessandro@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
-        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
-        nicolas@ndufresne.ca, gjasny@googlemail.com,
-        xavier.claessens@collabora.com, nicolas.dufresne@collabora.com,
-        user.vdr@gmail.com, sakari.ailus@iki.fi, mchehab+huawei@kernel.org,
-        rosenp@gmail.com
-References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
- <f2f72ec5-e352-132f-b8d1-718589360bf0@ideasonboard.com>
- <008aec9c-c1e6-7f8b-dde5-8fa53c1e9ee6@collabora.com>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Organization: Ideas on Board
-Subject: Re: [v4l-utils v5 0/5] Add support for meson building
-Message-ID: <92b5c1bf-f4cf-5d5e-7c16-57d4a3446f67@ideasonboard.com>
-Date:   Mon, 17 May 2021 23:13:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Mon, 17 May 2021 19:42:01 -0400
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9FC5C061573
+        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 16:40:44 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id z24so7582394ioi.3
+        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 16:40:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=LJhqXDNgAunfF3EaEdEZ2ukbveO+y6tByxrDaKVfys4=;
+        b=Ba2T0Aqf/W0NuiwmMe5p93ARPYqEGCFdc1+9a+RPd7Q6D0h9kt5oHX71YiCpQhuyW8
+         zGcVoYJSennOwwLxIXVxz+c5GS5es+V1MV/3fQHGtK09GunF6iaAGeRIwwG/cv1zfSBn
+         rsVCOr6iPvrviaXtY22ZG1Vue82UdKRs3aUiA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=LJhqXDNgAunfF3EaEdEZ2ukbveO+y6tByxrDaKVfys4=;
+        b=XcQ1XjLxrIXr8ECTVZu6sqD87U6/2o0LiL2sgWLWzrpYXjyOVM3TByNpKVBvyCHkNy
+         B6hjSEaRL9hFC4B3gO/ZZpg0KtumnRYedEGW+wueiABl7oQ0kPP+1VNlZMMZazoePHBZ
+         X3+Ggl2XQSUu+Z10e037Nh7EHfXjict953aelvR0CCyuwFjzs/sqfIiSECCRTJ8irBvk
+         MbFS83R/hEGVL+hb0GGtaxZLTzBpWfJLYSFuaKbCwGY+OmEwulT2Yf6d7xALoelXEzvD
+         S6nN91UfRm/8F6Ky9v7TtvZi8+2HBRE+CpepC2y01MdrPpaA7bbb/njyVFKmhbB0KNXK
+         pjPg==
+X-Gm-Message-State: AOAM530LdCjB4RwWzCYtA8jhp24l2eI1kMmGFyBCi29UAz44BJUznCly
+        /obQ3eGFgCEWmJKiygua0BzeX+qjyl1D9o3+xzwBnMuUnPQZgQ==
+X-Google-Smtp-Source: ABdhPJxaTG3gsAyJnUa535o5SoT0wzb1AYOmCE/NP1GUqGEGrOMUtLMiaZ07gOO0MSKoR81bU6eKBQVjSvjuckYh29c=
+X-Received: by 2002:a5e:a619:: with SMTP id q25mr1942118ioi.95.1621294844187;
+ Mon, 17 May 2021 16:40:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <008aec9c-c1e6-7f8b-dde5-8fa53c1e9ee6@collabora.com>
-Content-Type: multipart/mixed;
- boundary="------------46DEE8162DEAA1573B009866"
-Content-Language: en-GB
+References: <20210516110902.784-1-euphoriccatface@gmail.com>
+ <20210516110902.784-2-euphoriccatface@gmail.com> <CAJCx=gkWjWrM_JOB3HrCb9y7iQH0rEwJSsCj8KWfoJ5i5+pNCQ@mail.gmail.com>
+ <CAJp=mWTq86O_OTXo4yvnKgUw6P_M1hAAqqR7HJdBGkzSZpt4qw@mail.gmail.com>
+In-Reply-To: <CAJp=mWTq86O_OTXo4yvnKgUw6P_M1hAAqqR7HJdBGkzSZpt4qw@mail.gmail.com>
+From:   Matt Ranostay <matt.ranostay@konsulko.com>
+Date:   Mon, 17 May 2021 16:40:32 -0700
+Message-ID: <CAJCx=gnZ-4Dyk+f3fzH0-9X-of1r7Q9TSXs1Jk+8cHAiR8+Ueg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: video-i2c: append register data on MLX90640's frame
+To:     Seongyong Park <euphoriccatface@gmail.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------46DEE8162DEAA1573B009866
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+On Sun, May 16, 2021 at 6:40 PM Seongyong Park
+<euphoriccatface@gmail.com> wrote:
+>
+> 2021=EB=85=84 5=EC=9B=94 17=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 5:49,=
+ Matt Ranostay <matt.ranostay@konsulko.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
+=84=B1:
+> >
+> > On Sun, May 16, 2021 at 4:09 AM Seongyong Park
+> > <euphoriccatface@gmail.com> wrote:
+> > >
+> > > On MLX90640, Each measurement step updates half of the pixels in the =
+frame
+> > > (every other pixel in default "chess mode", and every other row
+> > > in "interleave mode"), while additional coefficient data (25th & 26th=
+ row)
+> > > updates every step. The compensational coefficient data only correspo=
+nds
+> > > with the pixels updated in the same step.
+> > >
+> > > Only way to know which "subpage" was updated on the last step is to r=
+ead
+> > > "status register" on address 0x8000. Without this data,
+> > > compensation calculation may be able to detect which sets of pixels h=
+ave
+> > > been updated, but it will have to make assumptions when frame skip ha=
+ppens,
+> > > and there is no way to do it correctly when the host simply cannot
+> > > keep up with refresh rate.
+> > >
+> > > Signed-off-by: Seongyong Park <euphoriccatface@gmail.com>
+> > > ---
+> > >  drivers/media/i2c/video-i2c.c | 11 +++++++----
+> > >  1 file changed, 7 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-=
+i2c.c
+> > > index 2ccb08335..ca3a1c504 100644
+> > > --- a/drivers/media/i2c/video-i2c.c
+> > > +++ b/drivers/media/i2c/video-i2c.c
+> > > @@ -74,7 +74,7 @@ static const struct v4l2_fmtdesc mlx90640_format =
+=3D {
+> > >
+> > >  static const struct v4l2_frmsize_discrete mlx90640_size =3D {
+> > >         .width =3D 32,
+> > > -       .height =3D 26, /* 24 lines of pixel data + 2 lines of proces=
+sing data */
+> > > +       .height =3D 27, /* 24 lines of pixel data + 2 lines of proces=
+sing data + 1 line of registers */
+> > >  };
+> > >
+> > >  static const struct regmap_config amg88xx_regmap_config =3D {
+> > > @@ -168,8 +168,11 @@ static int amg88xx_xfer(struct video_i2c_data *d=
+ata, char *buf)
+> > >
+> > >  static int mlx90640_xfer(struct video_i2c_data *data, char *buf)
+> > >  {
+> > > -       return regmap_bulk_read(data->regmap, 0x400, buf,
+> > > -                               data->chip->buffer_size);
+> > > +       int ret =3D regmap_bulk_read(data->regmap, 0x400, buf,
+> > > +                                  data->chip->buffer_size - 64);
+> > > +       if (ret) return ret;
+> > > +       return regmap_bulk_read(data->regmap, 0x8000, buf + 1664,
+> > > +                               64);
+> >
+> > Rather than "buf + 1664" it would be more portable and clear if you
+> > use "buf + (data->chip->buffer_size - 64)"
+>
+> Okay, I'll send another patch later to change it.
+>
+> > Also isn't the 1 line of registers only 32-bytes not 64-bytes?
+>
+> In terms of the V4L2 frame, a row is 64-bytes because width is 32 and
+> each pixel is 16-bit.
+> This was the main reason to decide the appendage to be 64-bytes.
+>
 
-Hi Ariel,
+Ok, forgot this sensor has 12-bit data padded to 16-bits.
 
-On 17/05/2021 21:55, Ariel D'Alessandro wrote:
-> Hi Kieran!
-> 
-> Thanks a lot for the feedback.
+- Matt
 
-No worries, somehow this is almost fun to test out (mostly because of
-watching how crazy fast it is building in meson in comparison).
-
-
-> On 5/13/21 5:56 AM, Kieran Bingham wrote:
->> Hi Ariel,
->>
->> I'm still very much looking forward to this update!
->>
->> I still think meson could be used in parallel for some cross over period
->> while these issues are worked out, which would encourage and support
->> wider testing before any consideration to swap altogether occurred.
->>
->>
->> Furthermore, the performance improvement on this is really nice
->> (intel i7 8th gen 4 core/8threads)
->>
->> /usr/bin/time -v ./make-meson.sh
->> 	User time (seconds): 99.38
->> 	System time (seconds): 10.69
->> 	Percent of CPU this job got: 577%
->> 	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:19.05
->>
->>
->> /usr/bin/time -v ./make-autoconf.sh
->> 	User time (seconds): 218.19
->> 	System time (seconds): 21.46
->> 	Percent of CPU this job got: 360%
->> 	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:06.54
->>
->> however the build output directories are not comparable so I suspect
->> that perhaps meson isn't (yet?) building all the same things?
-> 
-> Not sure what your scripts are doing, but the default autotools
-
-Ah, yes I should have been clearer there - but they don't do 'anything'
-except the bare minimum for both:
-
-----------
-kbingham@Q:/opt/projects/media/v4l-utils$ cat make-autoconf.sh
-#!/bin/sh
-
-export CCACHE_DISABLE=true
-
-rm -rf build-autoconf
-mkdir -p build-autoconf
-cd build-autoconf
-../configure
-make -j8
-
-----------
-kbingham@Q:/opt/projects/media/v4l-utils$ cat make-meson.sh
-#!/bin/sh
-
-export CCACHE_DISABLE=true
-
-rm -rf build-meson
-meson build-meson
-ninja -C build-meson
-----------
-
-> behaviour should be equivalent to:
-> 
->   $ meson configure build/ -Ddefault_library=both -Ddoxygen-doc=disabled
-
-Ok, updated script to run that:
-
-	meson -Ddefault_library=both -Ddoxygen-doc=disabled build-meson
-
-and still the same fast results.
-
-	Command being timed: "./make-meson.sh"
-	User time (seconds): 96.65
-	System time (seconds): 10.42
-	Percent of CPU this job got: 526%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:20.34
-
-(i.e. really fast ;D)
-
-
->> du -sh build-autoconf build-meson/
->> 129M	build-autoconf
->> 69M	build-meson/
-
-Still a comparable output size as well, but the main difference from
-size is a lot of extra build files in the -autoconf directory.
-
-A lot of these are things like .Po files. Does this series already
-handle internationalisation?
-
-
-The next step was to install both versions, as that will compare what's
-actually built and results in the package, and in fact they do look
-quite similar.
-
-There are a few small changes, that might be worth looking into - but I
-don't think there's any major difference in what is or isn't built.
-(unless the Internationalisation stuff really is the major factor)
-
- - Spurious meson.build file is being installed at
-   /lib/udev/rc_keymaps/meson.build
-
- - Meson decided to default libdir to
-     /usr/local/lib/x86_64-linux-gnu
-   while autoconf used
-     /usr/local/lib
-   (it's likely handled by the package managers anyway)
-
- - /usr/local/etc/rc_keymaps/protocols
-    was installed though autoconf didn't ?
-
- - Autoconf seemed to install v4l1compat.so and v4l2convert.so
-   (possibly in duplicate) in the libdir, as well as in libdir/libv4l/
-   I'm not sure if that's a bug or a feature in autoconf
-
-Ah, and again - size of those installs looks quite different suggesting
-(probably that localisation) has differed between the two builds quite
-drastically
-
-(after DESTDIR=/tmp/v4l2-$BUILDSYSTEM {make, ninja} install)
-
-
-du -sh /tmp/v4l2-autoconf/ /tmp/v4l2-meson/
-39M	/tmp/v4l2-autoconf/
-22M	/tmp/v4l2-meson/
-
-
->> I've just tried testing it locally and found a smallish issue:
->>
->>
->> On 12/05/2021 19:49, Ariel D'Alessandro wrote:
-> <snip>
->>> Changes from v4:
->>>
->>>   * Dropped install_subdir() work-around to install empty dir. Supported
->>>     now in meson v0.57.
->>>   * Bump to meson v0.57. Replaced deprecated methods.
->>>   * Added override_dependency() calls on libraries.
->>>   * Properly check for bpf and SDL2 dependencies.
->>
->> The SDL2 dependency is optional when I run ./bootstrap.sh; ./configure
->> which gives the following output:
->>
->> compile time options summary
->> ============================
->>
->>     Host OS                    : linux-gnu
->>     X11                        : yes
->>     GL                         : yes
->>     glu                        : yes
->>     libelf		       : yes
->>     libjpeg                    : yes
->>     libudev                    : yes
->>     pthread                    : yes
->>     QT version                 : v5.4 with QtGL
->>     ALSA support               : yes
->>     SDL support		       : no
->>
->>     build dynamic libs         : yes
->>     build static libs          : yes
->>
->>     gconv                      : no
-
-Interesting, it looks like on my system autoconf defaults gconv to no,
-but meson built it I think.
-
-I'd call that a feature not a bug at the moment though?
-
->>
->>     dynamic libv4l             : yes
->>     v4l_plugins                : yes
->>     v4l_wrappers               : yes
->>     libdvbv5                   : yes
->>     dvbv5-daemon               : yes
->>     v4lutils                   : yes
->>     qv4l2                      : yes
->>     qvidcap                    : yes
->>     v4l2-ctl uses libv4l       : yes
->>     v4l2-ctl-32                : no
->>     v4l2-compliance            : yes
->>     v4l2-compliance uses libv4l: yes
->>     v4l2-compliance-32         : no
->>     BPF IR Decoders:           : no
->>
->>
->> However running meson build gives:
->>
->> Has header "bpf/bpf.h" : NO
->> Run-time dependency sdl2 found: YES 2.0.10
->> Run-time dependency sdl2_image found: NO (tried pkgconfig and cmake)
->>
->> meson.build:90:4: ERROR: C header 'SDL2/SDL_image.h' not found
->>
->> Now I bet that's a corner case because SDL was found but SDL Image
->> wasn't, but perhaps it needs updating so that both are optional, and the
->> SDL support is only enabled when all SDL dependencies are met.
->>
->>
->>
->> Of course I was able to 'solve/workaround' this locally with
->>  sudo apt install libsdl2-image-dev
->>
->> Note that the time measurements reported above were after installing SDL
->> image so that both meson and autoconf should have been building the
-> 
-> That's a bug introducen in the latest v5 patchset, while addressing
-> comment [0] from Xavier. This will fix it:
-> 
-> $ git diff
-> diff --git a/meson.build b/meson.build
-> index bba8e030..f062856c 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -82,12 +82,12 @@ endif
-> 
->  dep_sdl = dependency('SDL2', required: false)
->  if not dep_sdl.found()
-> -    dep_sdl = cc.find_library('SDL2', has_headers: 'SDL2/SDL.h')
-> +    dep_sdl = cc.find_library('SDL2', has_headers: 'SDL2/SDL.h',
-> required: false)
->  endif
-> 
->  dep_sdl_image = dependency('SDL2_image', required: false)
->  if not dep_sdl_image.found()
-> -    dep_sdl_image = cc.find_library('SDL2_image', has_headers:
-> 'SDL2/SDL_image.h')
-> +    dep_sdl_image = cc.find_library('SDL2_image', has_headers:
-> 'SDL2/SDL_image.h', required: false)
->  endif
-> 
->  dep_threads = dependency('threads')
-> 
-> [0]
-> https://gitlab.collabora.com/adalessandro/v4l-utils/-/commit/d6fc25fdd28227e88d5517342f045d5bda632272#note_82115
-> 
-> Thanks again!
-> Ariel
-
-
--- 
-Regards
---
-Kieran
-
---------------46DEE8162DEAA1573B009866
-Content-Type: text/x-patch; charset=UTF-8;
- name="v4l2-utils-meson-installed.diff"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="v4l2-utils-meson-installed.diff"
-
---- /tmp/v4l2-install-autoconf.list	2021-05-17 22:39:34.951165299 +0100
-+++ /tmp/v4l2-install-meson.list	2021-05-17 22:39:24.843084176 +0100
-@@ -86,7 +86,6 @@
- ./lib/udev/rc_keymaps/medion_x10_or2x.toml
- ./lib/udev/rc_keymaps/medion_x10.toml
- ./lib/udev/rc_keymaps/megasky.toml
--./lib/udev/rc_keymaps/meson.build
- ./lib/udev/rc_keymaps/minix_neo.toml
- ./lib/udev/rc_keymaps/msi_digivox_iii.toml
- ./lib/udev/rc_keymaps/msi_digivox_ii.toml
-@@ -179,6 +178,7 @@
- ./usr/local/bin/v4l2-sysfs-path
- ./usr/local/etc
- ./usr/local/etc/rc_keymaps
-+./usr/local/etc/rc_keymaps/protocols
- ./usr/local/etc/rc_maps.cfg
- ./usr/local/include
- ./usr/local/include/libdvbv5
-@@ -236,49 +236,44 @@
- ./usr/local/include/libv4lconvert.h
- ./usr/local/include/libv4l-plugin.h
- ./usr/local/lib
--./usr/local/lib/libdvbv5.a
--./usr/local/lib/libdvbv5.la
--./usr/local/lib/libdvbv5.so
--./usr/local/lib/libdvbv5.so.0
--./usr/local/lib/libdvbv5.so.0.0.0
--./usr/local/lib/libv4l
--./usr/local/lib/libv4l1.a
--./usr/local/lib/libv4l1.la
--./usr/local/lib/libv4l1.so
--./usr/local/lib/libv4l1.so.0
--./usr/local/lib/libv4l1.so.0.0.0
--./usr/local/lib/libv4l2.a
--./usr/local/lib/libv4l2.la
--./usr/local/lib/libv4l2rds.a
--./usr/local/lib/libv4l2rds.la
--./usr/local/lib/libv4l2rds.so
--./usr/local/lib/libv4l2rds.so.0
--./usr/local/lib/libv4l2rds.so.0.0.0
--./usr/local/lib/libv4l2.so
--./usr/local/lib/libv4l2.so.0
--./usr/local/lib/libv4l2.so.0.0.0
--./usr/local/lib/libv4lconvert.a
--./usr/local/lib/libv4lconvert.la
--./usr/local/lib/libv4lconvert.so
--./usr/local/lib/libv4lconvert.so.0
--./usr/local/lib/libv4lconvert.so.0.0.0
--./usr/local/lib/libv4l/ov511-decomp
--./usr/local/lib/libv4l/ov518-decomp
--./usr/local/lib/libv4l/plugins
--./usr/local/lib/libv4l/plugins/libv4l-mplane.la
--./usr/local/lib/libv4l/plugins/libv4l-mplane.so
--./usr/local/lib/libv4l/v4l1compat.la
--./usr/local/lib/libv4l/v4l1compat.so
--./usr/local/lib/libv4l/v4l2convert.la
--./usr/local/lib/libv4l/v4l2convert.so
--./usr/local/lib/pkgconfig
--./usr/local/lib/pkgconfig/libdvbv5.pc
--./usr/local/lib/pkgconfig/libv4l1.pc
--./usr/local/lib/pkgconfig/libv4l2.pc
--./usr/local/lib/pkgconfig/libv4l2rds.pc
--./usr/local/lib/pkgconfig/libv4lconvert.pc
--./usr/local/lib/v4l1compat.so
--./usr/local/lib/v4l2convert.so
-+./usr/local/lib/x86_64-linux-gnu
-+./usr/local/lib/x86_64-linux-gnu/gconv
-+./usr/local/lib/x86_64-linux-gnu/gconv/ARIB-STD-B24.so
-+./usr/local/lib/x86_64-linux-gnu/gconv/EN300-468-TAB00.so
-+./usr/local/lib/x86_64-linux-gnu/gconv/gconv-modules
-+./usr/local/lib/x86_64-linux-gnu/libdvbv5.a
-+./usr/local/lib/x86_64-linux-gnu/libdvbv5.so
-+./usr/local/lib/x86_64-linux-gnu/libdvbv5.so.0
-+./usr/local/lib/x86_64-linux-gnu/libdvbv5.so.0.0.0
-+./usr/local/lib/x86_64-linux-gnu/libv4l
-+./usr/local/lib/x86_64-linux-gnu/libv4l1.a
-+./usr/local/lib/x86_64-linux-gnu/libv4l1.so
-+./usr/local/lib/x86_64-linux-gnu/libv4l1.so.0
-+./usr/local/lib/x86_64-linux-gnu/libv4l1.so.0.0.0
-+./usr/local/lib/x86_64-linux-gnu/libv4l2.a
-+./usr/local/lib/x86_64-linux-gnu/libv4l2rds.a
-+./usr/local/lib/x86_64-linux-gnu/libv4l2rds.so
-+./usr/local/lib/x86_64-linux-gnu/libv4l2rds.so.0
-+./usr/local/lib/x86_64-linux-gnu/libv4l2rds.so.0.0.0
-+./usr/local/lib/x86_64-linux-gnu/libv4l2.so
-+./usr/local/lib/x86_64-linux-gnu/libv4l2.so.0
-+./usr/local/lib/x86_64-linux-gnu/libv4l2.so.0.0.0
-+./usr/local/lib/x86_64-linux-gnu/libv4lconvert.a
-+./usr/local/lib/x86_64-linux-gnu/libv4lconvert.so
-+./usr/local/lib/x86_64-linux-gnu/libv4lconvert.so.0
-+./usr/local/lib/x86_64-linux-gnu/libv4lconvert.so.0.0.0
-+./usr/local/lib/x86_64-linux-gnu/libv4l/ov511-decomp
-+./usr/local/lib/x86_64-linux-gnu/libv4l/ov518-decomp
-+./usr/local/lib/x86_64-linux-gnu/libv4l/plugins
-+./usr/local/lib/x86_64-linux-gnu/libv4l/plugins/libv4l-mplane.so
-+./usr/local/lib/x86_64-linux-gnu/libv4l/v4l1compat.so
-+./usr/local/lib/x86_64-linux-gnu/libv4l/v4l2convert.so
-+./usr/local/lib/x86_64-linux-gnu/pkgconfig
-+./usr/local/lib/x86_64-linux-gnu/pkgconfig/libdvbv5.pc
-+./usr/local/lib/x86_64-linux-gnu/pkgconfig/libv4l1.pc
-+./usr/local/lib/x86_64-linux-gnu/pkgconfig/libv4l2.pc
-+./usr/local/lib/x86_64-linux-gnu/pkgconfig/libv4l2rds.pc
-+./usr/local/lib/x86_64-linux-gnu/pkgconfig/libv4lconvert.pc
- ./usr/local/sbin
- ./usr/local/sbin/v4l2-dbg
- ./usr/local/share
-
---------------46DEE8162DEAA1573B009866--
+> For MLX90640, the address 0x8010 is mentioned in the datasheet, and
+> actual output appears that up to 0x8013 is valid
+> For reference, an output from my sensor shows:
+> 0x8000: 0900 a200 9f69 0000 6120 0500 2003 e003 2817 4f8e 8701 8d04
+> 0000 8119 0000 0000
+> 0x8010: 33be 8000 4d02 0000 ffff ffff ffff ffff ffff ffff ffff ffff
+> ffff ffff ffff ffff
+>
+> - Seongyong
+>
+> >
+> > - Matt
+> >
+> > >  }
+> > >
+> > >  static int amg88xx_setup(struct video_i2c_data *data)
+> > > @@ -375,7 +378,7 @@ static const struct video_i2c_chip video_i2c_chip=
+[] =3D {
+> > >                 .format         =3D &mlx90640_format,
+> > >                 .frame_intervals        =3D mlx90640_frame_intervals,
+> > >                 .num_frame_intervals    =3D ARRAY_SIZE(mlx90640_frame=
+_intervals),
+> > > -               .buffer_size    =3D 1664,
+> > > +               .buffer_size    =3D 1728,
+> > >                 .bpp            =3D 16,
+> > >                 .regmap_config  =3D &mlx90640_regmap_config,
+> > >                 .nvmem_config   =3D &mlx90640_nvram_config,
+> > > --
+> > > 2.31.1
+> > >
