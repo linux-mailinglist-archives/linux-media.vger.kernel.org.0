@@ -2,120 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D2AB382DCF
-	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 15:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 505D7382E11
+	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 15:57:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235508AbhEQNrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 May 2021 09:47:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59492 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235085AbhEQNrz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 May 2021 09:47:55 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C7FC061573
-        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 06:46:39 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1lidZf-0004om-9Q; Mon, 17 May 2021 15:46:23 +0200
-Message-ID: <7c09d1ffbe79c3d6138258d0827613a1cc6544c4.camel@pengutronix.de>
-Subject: Re: [PATCH v9 03/13] media: hantro: Use syscon instead of 'ctrl'
- register
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        lee.jones@linaro.org, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
-        emil.l.velikov@gmail.com, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-        Jacky Bai <ping.bai@nxp.com>
-Cc:     devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-imx@nxp.com,
-        kernel@pengutronix.de, kernel@collabora.com, cphealy@gmail.com,
-        linux-arm-kernel@lists.infradead.org
-Date:   Mon, 17 May 2021 15:46:20 +0200
-In-Reply-To: <5aa5700b862234895a7a6eb251ca3c80fdc1a6d3.camel@collabora.com>
-References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
-         <20210407073534.376722-4-benjamin.gaignard@collabora.com>
-         <7bcbb787d82f21d42563d8fb7e3c2e7d40123932.camel@pengutronix.de>
-         <831a59b052df02e9860b9766e631a7ab6a37c46a.camel@collabora.com>
-         <72fef3d9f79194876f2035e996bb83f9f8b12902.camel@pengutronix.de>
-         <5aa5700b862234895a7a6eb251ca3c80fdc1a6d3.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
+        id S235967AbhEQN6j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 May 2021 09:58:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43970 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232924AbhEQN6j (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 May 2021 09:58:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8FB87611ED;
+        Mon, 17 May 2021 13:57:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621259842;
+        bh=oRn2k+vSlFwDIc2QK+eBvBWMy+OIb7F6v4LHbmff01g=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qn7AULGWBb73/eXHX5d2RCHKXF54apLvJ96NMmBw6EcLw9Azs5CpT6xHe/uaP+Lue
+         wjNRHo8qveWltYhJBUckLsu0eOMFtPoWEMGQ7fQA+hfw9GryUT9vqqfFxKWsyUC8+Y
+         UbM/2bBnbKD/tASIQqTVuzwUMaHhygcaTECIUXItMS85vRXUrHzMH2PRqyguBenM5G
+         gjZe8OMBu4aZs2fuS0sapHbP8OcYG1+L+M2poYJ/60QVqOowpPN9kvPEXyGlJiHHiD
+         o5HjUBIocmZgtfKPo1+5Ju5jEggxc9CZTeSmMOy0RMzTdrDAXufQCMMSGW5SvA5NgR
+         p8LNm+XLpEqtQ==
+Date:   Mon, 17 May 2021 15:57:18 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Deepak R Varma <mh12gx2825@gmail.com>,
+        Martiros Shakhzadyan <vrzh@vrzh.net>
+Subject: Re: [GIT PULL FOR v5.14] More Outreachy cleanups (v2)
+Message-ID: <20210517155718.196a6089@coco.lan>
+In-Reply-To: <706ba93e-fa1c-34ce-8c54-d8a1c442811e@xs4all.nl>
+References: <706ba93e-fa1c-34ce-8c54-d8a1c442811e@xs4all.nl>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Montag, dem 17.05.2021 um 10:23 -0300 schrieb Ezequiel Garcia:
-> On Mon, 2021-05-17 at 12:52 +0200, Lucas Stach wrote:
-> > Hi Ezequiel,
-> > 
-> > Am Sonntag, dem 16.05.2021 um 19:40 -0300 schrieb Ezequiel Garcia:
-> > > Hi Lucas,
-> > > 
-> > > On Fri, 2021-04-16 at 12:54 +0200, Lucas Stach wrote:
-> > > > Am Mittwoch, dem 07.04.2021 um 09:35 +0200 schrieb Benjamin Gaignard:
-> > > > > In order to be able to share the control hardware block between
-> > > > > VPUs use a syscon instead a ioremap it in the driver.
-> > > > > To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
-> > > > > phandle is not found look at 'ctrl' reg-name.
-> > > > > With the method it becomes useless to provide a list of register
-> > > > > names so remove it.
-> > > > 
-> > > > Sorry for putting a spoke in the wheel after many iterations of the
-> > > > series.
-> > > > 
-> > > > We just discussed a way forward on how to handle the clocks and resets
-> > > > provided by the blkctl block on i.MX8MM and later and it seems there is
-> > > > a consensus on trying to provide virtual power domains from a blkctl
-> > > > driver, controlling clocks and resets for the devices in the power
-> > > > domain. I would like to avoid introducing yet another way of handling
-> > > > the blkctl and thus would like to align the i.MX8MQ VPU blkctl with
-> > > > what we are planning to do on the later chip generations.
-> > > > 
-> > > > CC'ing Jacky Bai and Peng Fan from NXP, as they were going to give this
-> > > > virtual power domain thing a shot.
-> > > > 
-> > > 
-> > > It seems the i.MX8MM BLK-CTL series are moving forward:
-> > > 
-> > > https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=479175
-> > > 
-> > > ... but I'm unable to wrap my head around how this affects the
-> > > devicetree VPU modelling for i.MX8MQ (and also i.MX8MM, i.MX8MP, ...).
-> > > 
-> > > 
-> > For the i.MX8MQ we want to have the same virtual power-domains provided
-> > by a BLK-CTRL driver for the VPUs, as on i.MX8MM. This way we should be
-> > able to use the same DT bindings for the VPUs on i.MX8MQ and i.MX8MM,
-> > even though the SoC integration with the blk-ctrl is a little
-> > different.
-> > 
+Em Fri, 30 Apr 2021 12:11:22 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+
+> This supersedes an earlier PR. This v2 adds more patches from Martiros and
+> Deepak.
 > 
-> AFAICS, there's not support for i.MX8MP VPU power domains. I suppose
-> we should make sure we'll be able to cover those as well.
+> Regards,
 > 
-> Will i.MX8MP need its own driver as well?
-> > 
+> 	Hans
+> 
+> The following changes since commit 6756ae29420f849de4dc5c41f9fe948450b09285:
+> 
+>   media: staging: media: atomisp: pci: Format comments according to coding-style in file atomisp_cmd.h (2021-04-21 14:07:01 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14-out1
+> 
+> for you to fetch changes up to 68dc2d762b637dd980f8dcc9e762da8cb788b57e:
+> 
+>   staging: media: atomisp: remove unwanted dev_*() calls (2021-04-30 11:49:40 +0200)
+> 
+> ----------------------------------------------------------------
+> Tag branch
+> 
+> ----------------------------------------------------------------
+> Aline Santana Cordeiro (5):
+>       staging: media: atomisp: pci: Balance braces around conditional statements in file atomisp_cmd.c
+>       staging: media: atomisp: pci: Balance braces around conditional statements in file atomisp_compat_css20.c
+>       staging: media: atomisp: pci: Balance braces around conditional statements in file atomisp_subdev.c
+>       staging: media: atomisp: pci: Balance braces around conditional statements in file atomisp_v4l2.c
+>       staging: media: tegra-video: Align line break to match with the open parenthesis in file vi.c
+> 
+> Deepak R Varma (8):
+>       staging: media: atomisp: balance braces around if...else block
+>       staging: media: atomisp: remove unnecessary braces
+>       staging: media: atomisp: use __func__ over function names
+>       staging: media: atomisp: reformat code comment blocks
+>       staging: media: atomisp: fix CamelCase variable naming
+>       staging: media: atomisp: replace raw pr_*() by dev_dbg()
+>       staging: media: atomisp: remove unnecessary pr_info calls
+>       staging: media: atomisp: remove unwanted dev_*() calls
+> 
+> Martiros Shakhzadyan (9):
+>       staging: media: atomisp: Fix sh_css.c brace coding style issues
+>       staging: media: atomisp: Remove redundant assertions in sh_css.c
+>       staging: media: atomisp: Fix the rest of sh_css.c brace issues
+>       staging: media: atomisp: Remove all redundant assertions in sh_css.c
+>       staging: media: atomisp: Remove a superfluous else clause in sh_css.c
+>       staging: media: atomisp: Replace if else clause with a ternary
+>       staging: media: atomisp: Fix alignment and line length issues
+>       staging: media: atomisp: Refactor ia_css_stream_load()
+>       staging: media: atomisp: Fix line split style issues
 
-I haven't looked too closely at the 8MP VPU subsystem yet, but I expect
-it to be slightly different again so it will need changes to the blk-
-ctrl driver. But that's the whole point of this virtual power domain
-exercise: abstract away the SoC specific things in the blk-ctrl driver,
-so the VPU driver doesn't need to care about them.
+I ended not applying two patches from this series:
 
-Regards,
-Lucas
+- staging: media: atomisp: use __func__ over function names
 
+Dan requested some changes on it, as it has several dev_dbg() calls
+used just for tracing. I sent a reply with a few additional issues;
+
+- staging: media: atomisp: remove unwanted dev_*() calls
+
+This one didn't apply. Is it touching the same lines the first patch
+changed? If so, please merge both into a single one, after applying
+the fixes I mentioned on my e-mail:
+
+	https://lore.kernel.org/linux-media/20210517154448.7bb8be17@coco.lan/T/#ma9ded10c22aaa86de74babf1bd2a2320c3dac70b
+	
+The remaining ones were applied.
+
+Thanks!
+Mauro
