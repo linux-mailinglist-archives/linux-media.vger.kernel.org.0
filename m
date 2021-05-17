@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D94A383C7E
-	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 20:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EDD9383C7F
+	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 20:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235518AbhEQSj3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 May 2021 14:39:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40556 "EHLO
+        id S235555AbhEQSjc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 May 2021 14:39:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229736AbhEQSj3 (ORCPT
+        with ESMTP id S229736AbhEQSjc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 May 2021 14:39:29 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7662DC061573
-        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 11:38:12 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id q5so7483642wrs.4
-        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 11:38:12 -0700 (PDT)
+        Mon, 17 May 2021 14:39:32 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61EF6C061573
+        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 11:38:14 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id q5so7483733wrs.4
+        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 11:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mf7MUGFARqePOB7P0w6DNBDaMgW/aPgr1gz2d+UdhuU=;
-        b=oLH4sQiElMsE4agFXU1EAJ3GdgfNQvvw7jvKMYh5ewvgRzQDIX3e3Vxw7cGHszT0X4
-         gqekav5LtITBedSn+MYVd2kmlSgktNbxXHKzWUC2wSuvfRfqqt8r/r0e/TSTikKlqpQ0
-         mymF8AOXov6Dij3SikdoUdn6UuiGsclj7j/d/zKojfRg9yYZUKJgw5GonK0GUJ4rG1dJ
-         xMYtofESxTG9T0j/SRWlu+X7ZIHTPJA0rogLP1slieysNryHclBITQ+si3C7U+mF6pcw
-         XQbJnpglG9WGjlPSZMKNNAHjKn8VuO09soQh/vanMkxEe20khO9MnmnpQqcjWF+q22zM
-         fyDg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=r3w59S3cRCL6la/fQ2ihysYOi34FUudTPWCo8KCLDz4=;
+        b=dSB4BJMxwbTfX2NJImHipExoMduhsdy/G5qXcUUS3dUsrYQSZsqmivfizw8tkd8Xi5
+         dN3yDu8IagJT2p0PDsRElroZ0zsZN5N+JqdFnC6x9sdetBclEsIb8B6bFz8nnU9MnJ8E
+         opcD+raSRiKm3Krv6baRecQpdQ+lux+7IxphJYHrjwYkUC2nRsCRjD0VCEZXmY04t8LI
+         HBmgO4X7iQyTH48eQJDDoYOKTECGzJ5UCHqX9WOUJAoFhUU0LnkGGo1EKbDXf2M5Tx/m
+         PaKrTYejYoNNxUb/lKhJ1nK9JqOSyG+SI2jjlj5u+kMC99DLgzuTdpE8vKeYcf2JKtOV
+         b7VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mf7MUGFARqePOB7P0w6DNBDaMgW/aPgr1gz2d+UdhuU=;
-        b=ZZpxeRfX/FyojUoDTxXqB8j+4p3boPBY1i+e4lfNIc9mIpQLMi4ea3DMdtYT8IHpAj
-         ioOLbQASerFwqB35nWpPzhFc8iiP1kU0esFI40dciXoj+NgDcWoWqZXbgWw68/YPB3CR
-         Ag+F/+1r43OcZnUglJf2+BvLbyc8/9kYbZUXw/YUKlD0XaMZFXdXbXnI81eDXturN+OE
-         F4B4nZD/BKHbM0B3/yjyRGBt9VreFqR8N/JJcB8v2EnvZ4yBIRbCKNEC69aqUmV1uipE
-         7JoWkmYLE8p2Ch2to+WMXMqfXEy+K2FBCAQj0eNdLS2pZSAvfnB8SrfZVSOu1uSx2k7G
-         0DtQ==
-X-Gm-Message-State: AOAM531voh35qoNlN+tqXnwzfiTEWRcPzfySHKA7uAOQr7F/DBuDkvvB
-        EvpYRxbZ8v3rr1ukCZKQg0g=
-X-Google-Smtp-Source: ABdhPJw3ZjPNIFe7BuMQExVcbUbVkQbrUS4+yx0XJp0UMwXX/TxZJ8EITYH4irsqpQChRagEszu30g==
-X-Received: by 2002:adf:9f51:: with SMTP id f17mr1274073wrg.3.1621276691262;
-        Mon, 17 May 2021 11:38:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=r3w59S3cRCL6la/fQ2ihysYOi34FUudTPWCo8KCLDz4=;
+        b=gF2G/Hx3vIEzt2r8TMMzoAc3bgrrZ07Y9P1WO6/WqFmhmkJKDfls3khA+1XAEgwnel
+         sU71a7LdJ8Z7BecX7++eRFcTkrOdtn+VBO7XREJ6MRzwoqHFVKm6FhWaQ09ZNxOcDuQ/
+         5q6sCAzXqS/C/Wf60vK6nE4hALDwR5HdGq516XthweukQlGzBe98hNI16AStK1+NiKnD
+         09HX7ibD9wI9/bIF46H/9FkOkBGFwbsyn8IuCBEwBl4+6Av1q26/w93DSiU1vfWyXD0t
+         60tIQA/QGX4NcyPZC4kg0DnmQ2c06LAuz8Bt0hoEaTp3G9QicZWtOYOdVTzwgp1crGr1
+         BbTg==
+X-Gm-Message-State: AOAM533zxnnJ6zR71aLtV3NIkZvrL+pRAZi0TirN+Czpz01kBlZyv4UK
+        4AzIJ7mtipj9gNx2OqGkhYw=
+X-Google-Smtp-Source: ABdhPJwk9wK3xEYeGxuK43/5bkvCQDmvFMbJ2sJ507RgpNwwykFFDWAW0a1X072hZ7f74BICGU/eyQ==
+X-Received: by 2002:a05:6000:1ac7:: with SMTP id i7mr1314447wry.380.1621276693147;
+        Mon, 17 May 2021 11:38:13 -0700 (PDT)
 Received: from arch-x1c3.. (cpc92308-cmbg19-2-0-cust99.5-4.cable.virginm.net. [82.24.248.100])
-        by smtp.gmail.com with ESMTPSA id f3sm18076625wrp.7.2021.05.17.11.38.09
+        by smtp.gmail.com with ESMTPSA id f3sm18076625wrp.7.2021.05.17.11.38.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 11:38:10 -0700 (PDT)
+        Mon, 17 May 2021 11:38:12 -0700 (PDT)
 From:   Emil Velikov <emil.l.velikov@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -57,126 +57,123 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
         kernel@collabora.com
 Cc:     linux-media@vger.kernel.org
-Subject: [RFC] media: v4l2: Adding mem2mem ftrace support
-Date:   Mon, 17 May 2021 19:37:56 +0100
-Message-Id: <20210517183801.1255496-1-emil.l.velikov@gmail.com>
+Subject: [PATCH 1/5] media: v4l2: print the fh, during qbuf/dqbuf tracing
+Date:   Mon, 17 May 2021 19:37:57 +0100
+Message-Id: <20210517183801.1255496-2-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210517183801.1255496-1-emil.l.velikov@gmail.com>
+References: <20210517183801.1255496-1-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi everyone,
+From: Emil Velikov <emil.velikov@collabora.com>
 
-This RFC aims to kick off a discussion about adding ftrace events in
-V4L2 and mem2mem in particular.
+To correlate the buffer handling with specific jobs, we need to provide
+the file handle (pointer) used.
 
-The goal is to aid both userspace and kernel developers alike by
-allowing them to trace their individual application/library and drivers,
-respectively.
+Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+---
+ drivers/media/v4l2-core/v4l2-ioctl.c | 10 ++++++++--
+ include/trace/events/v4l2.h          | 22 ++++++++++++----------
+ 2 files changed, 20 insertions(+), 12 deletions(-)
 
-
-# Data provided
-
-In order to correlate the components through their lifetime we need a
-few unique identifiers:
-
- - minor: the device minor, aka /dev/video
-   Useful, when multiple devices are present.
-
- - fh: file handle
-   Allows us to map the buffer, ioctl and mem2mem jobs.
-
- - fh: as a job instance... sort of
-   We also use it as to distinguish between the different jobs, as long
-   as we track the cancel/finish events.
-
-
-Additionally, for buffers we need:
- - type: VIDEO_OUTPUT_MPLANE, VIDEO_CAPTURE_MPLANE, etc
- - index: buffer index
-   Each buffer type has its own pool.
-
-
-# Event list and examples
-
-Generic:
-
-v4l2_ioctl_s_fmt: minor = 0, fh = 5068c670, type = VIDEO_OUTPUT_MPLANE,
-width=1280, height=720, ...
-
-v4l2_qbuf: minor = 0, fh = 5068c670, index = 0, type =
-VIDEO_CAPTURE_MPLANE, bytesused = 0, ...
-v4l2_dqbuf: minor = 0, fh = 5068c670, index = 0, type =
-VIDEO_CAPTURE_MPLANE, bytesused = 0, ...
-
-
-Mem2mem specific:
-
-v4l2_m2m_schedule: minor = 0, fh = 5068c670
-v4l2_m2m_schedule_failed: minor = 0, fh = 5068c670, reason = NO_SRC
-v4l2_m2m_queue_job: minor = 0, fh = 5068c670, src = 0, dst = 0
-Currently src and dst only show the buffer index. Buffer type can be
-deduced based on the type of job - encode or decode.
-
-v4l2_m2m_run_job: minor = 0, fh = 5068c670
-v4l2_m2m_cancel_job: minor = 0, fh = 5068c670
-v4l2_m2m_finish_job: minor = 0, fh = 5068c670
-
-v4l2_m2m_stream_on: minor = 0, fh = 5068c670, type = f9e16c2e
-v4l2_m2m_stream_off: minor = 0, fh = 5068c670, type = f9e16c2e
-
-v4l2_m2m_buf_done: minor = 0, fh = 5068c670, index = 0, type =
-VIDEO_CAPTURE_MPLANE, state = DONE
-
-
-# Testing and feasibility
-
-While developing this series I've used them against the recent SAMA5D4
-Hantro driver. As result I was able to measure:
-
- - No time differences when switching from hard to soft IRQ
- - Seemingly gstreamer issues decoding jobs, even before it has queued
-   any buffers.
- - Notable 1ms queue times, when using gstreamer's new decodebin3
-   element - relative to 50us when using decodebin.
-
-
-# Open questions
-
-As you may have noticed, a couple of places are not so friendly to
-scripting and external tools. Here is what we can do:
- - add additional mem2mem job index identifier, so we can parse traces
-   without having to track v4l2_m2m_cancel_job or v4l2_m2m_finish_job.
- - expand v4l2_m2m_queue_job() to include mode buffer details
-   {src,dst}_buf { .index = foo, .type = bar, ... }
-
-
-Thus looking for feedback from the overall community - is this something
-we want, do the proposed trace events seem sufficient for your use-case?
-
-Comments and reviews for the individual patches is more than welcome.
-
-Thanks
-Emil
-
-
-Emil Velikov (5):
-  media: v4l2: print the fh, during qbuf/dqbuf tracing
-  media: v4l2: add VIDIOC_S_FMT tracing
-  media: v4l2-mem2mem: add job tracing
-  media: v4l2-mem2mem: add v4l2_m2m_buf_done trace point
-  media: v4l2-mem2mem: add v4l2_m2m_stream_on/off tracepoints
-
- drivers/media/v4l2-core/v4l2-ioctl.c   |  12 +-
- drivers/media/v4l2-core/v4l2-mem2mem.c |  26 ++
- drivers/media/v4l2-core/v4l2-trace.c   |  11 +
- include/media/v4l2-mem2mem.h           |  21 +-
- include/trace/events/v4l2.h            | 357 ++++++++++++++++++++++++-
- include/uapi/linux/videodev2.h         |   1 +
- 6 files changed, 411 insertions(+), 17 deletions(-)
-
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 31d1342e61e8..4b56493a1bae 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -3343,10 +3343,16 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+ 	}
+ 
+ 	if (err == 0) {
++		struct video_device *vdev = video_devdata(file);
++		struct v4l2_fh *fh = NULL;
++
++		if (test_bit(V4L2_FL_USES_V4L2_FH, &vdev->flags))
++			fh = file->private_data;
++
+ 		if (cmd == VIDIOC_DQBUF)
+-			trace_v4l2_dqbuf(video_devdata(file)->minor, parg);
++			trace_v4l2_dqbuf(fh, parg);
+ 		else if (cmd == VIDIOC_QBUF)
+-			trace_v4l2_qbuf(video_devdata(file)->minor, parg);
++			trace_v4l2_qbuf(fh, parg);
+ 	}
+ 
+ 	if (has_array_args) {
+diff --git a/include/trace/events/v4l2.h b/include/trace/events/v4l2.h
+index 248bc09bfc99..e07311cfe5ca 100644
+--- a/include/trace/events/v4l2.h
++++ b/include/trace/events/v4l2.h
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/tracepoint.h>
+ #include <media/videobuf2-v4l2.h>
++#include <media/v4l2-device.h>
+ 
+ /* Enums require being exported to userspace, for user tool parsing */
+ #undef EM
+@@ -98,12 +99,12 @@ SHOW_FIELD
+ 		{ V4L2_TC_USERBITS_8BITCHARS,	"USERBITS_8BITCHARS" })
+ 
+ DECLARE_EVENT_CLASS(v4l2_event_class,
+-	TP_PROTO(int minor, struct v4l2_buffer *buf),
+-
+-	TP_ARGS(minor, buf),
++	TP_PROTO(struct v4l2_fh *fh, struct v4l2_buffer *buf),
++	TP_ARGS(fh, buf),
+ 
+ 	TP_STRUCT__entry(
+ 		__field(int, minor)
++		__field(struct v4l2_fh *, fh)
+ 		__field(u32, index)
+ 		__field(u32, type)
+ 		__field(u32, bytesused)
+@@ -124,7 +125,8 @@ DECLARE_EVENT_CLASS(v4l2_event_class,
+ 	),
+ 
+ 	TP_fast_assign(
+-		__entry->minor = minor;
++		__entry->minor = fh ? fh->vdev->minor : -1;
++		__entry->fh = fh;
+ 		__entry->index = buf->index;
+ 		__entry->type = buf->type;
+ 		__entry->bytesused = buf->bytesused;
+@@ -144,12 +146,12 @@ DECLARE_EVENT_CLASS(v4l2_event_class,
+ 		__entry->sequence = buf->sequence;
+ 	),
+ 
+-	TP_printk("minor = %d, index = %u, type = %s, bytesused = %u, "
++	TP_printk("minor = %d, fh = %p, index = %u, type = %s, bytesused = %u, "
+ 		  "flags = %s, field = %s, timestamp = %llu, "
+ 		  "timecode = { type = %s, flags = %s, frames = %u, "
+ 		  "seconds = %u, minutes = %u, hours = %u, "
+ 		  "userbits = { %u %u %u %u } }, sequence = %u", __entry->minor,
+-		  __entry->index, show_type(__entry->type),
++		  __entry->fh, __entry->index, show_type(__entry->type),
+ 		  __entry->bytesused,
+ 		  show_flags(__entry->flags),
+ 		  show_field(__entry->field),
+@@ -169,13 +171,13 @@ DECLARE_EVENT_CLASS(v4l2_event_class,
+ )
+ 
+ DEFINE_EVENT(v4l2_event_class, v4l2_dqbuf,
+-	TP_PROTO(int minor, struct v4l2_buffer *buf),
+-	TP_ARGS(minor, buf)
++	TP_PROTO(struct v4l2_fh *fh, struct v4l2_buffer *buf),
++	TP_ARGS(fh, buf)
+ );
+ 
+ DEFINE_EVENT(v4l2_event_class, v4l2_qbuf,
+-	TP_PROTO(int minor, struct v4l2_buffer *buf),
+-	TP_ARGS(minor, buf)
++	TP_PROTO(struct v4l2_fh *fh, struct v4l2_buffer *buf),
++	TP_ARGS(fh, buf)
+ );
+ 
+ DECLARE_EVENT_CLASS(vb2_v4l2_event_class,
 -- 
 2.31.1
 
