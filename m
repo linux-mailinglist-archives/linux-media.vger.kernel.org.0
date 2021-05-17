@@ -2,225 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CEAC382DC2
-	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 15:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D2AB382DCF
+	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 15:46:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235632AbhEQNqJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 May 2021 09:46:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60104 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235085AbhEQNqJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 May 2021 09:46:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5477460FD8;
-        Mon, 17 May 2021 13:44:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621259093;
-        bh=k11JsfpDj2dEpY2+InXSRMOEVYdB4rJJhnckyRs29oI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=t80f/h3pzTYPPrK1EESIpcvM/bauPBDV0p2VOcMavaGPtH1rCvXi3TG1zJ0+y61ML
-         1LhtEUNgs7xH/tHqudstWPX2pbgN8pPmY6+DeFmlHc/IVNYWpcChr8lt2GmWbzx9zU
-         Jz5d62NS9+FwxFZlHklyMneFDSKzjBT/kRcMO1QYIjKWkGfYZebhK9ym2Wy05c5W5E
-         QDfzZ2JMcTiFhWGMMIY/jIcdnRETvenLoNXctm02KHUDq8EHPI5EubykVT22hX59g1
-         BPONzmShWyCSu3DElSD4ilxvfQXpQaj4t9fPYyJedakrqxKBJbYUZjE7sLWMNBiPF1
-         sjTBVAt+QFRSA==
-Date:   Mon, 17 May 2021 15:44:48 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Deepak R Varma <drv@mailo.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/9] staging: media: atomisp: use __func__ over
- function names
-Message-ID: <20210517154448.7bb8be17@coco.lan>
-In-Reply-To: <ff72157dce3b0b3f317ffb399362af7ee23109a3.1619630709.git.drv@mailo.com>
-References: <cover.1619630709.git.drv@mailo.com>
-        <ff72157dce3b0b3f317ffb399362af7ee23109a3.1619630709.git.drv@mailo.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S235508AbhEQNrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 May 2021 09:47:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59492 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235085AbhEQNrz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 May 2021 09:47:55 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C7FC061573
+        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 06:46:39 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1lidZf-0004om-9Q; Mon, 17 May 2021 15:46:23 +0200
+Message-ID: <7c09d1ffbe79c3d6138258d0827613a1cc6544c4.camel@pengutronix.de>
+Subject: Re: [PATCH v9 03/13] media: hantro: Use syscon instead of 'ctrl'
+ register
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        lee.jones@linaro.org, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
+        emil.l.velikov@gmail.com, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+        Jacky Bai <ping.bai@nxp.com>
+Cc:     devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-imx@nxp.com,
+        kernel@pengutronix.de, kernel@collabora.com, cphealy@gmail.com,
+        linux-arm-kernel@lists.infradead.org
+Date:   Mon, 17 May 2021 15:46:20 +0200
+In-Reply-To: <5aa5700b862234895a7a6eb251ca3c80fdc1a6d3.camel@collabora.com>
+References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
+         <20210407073534.376722-4-benjamin.gaignard@collabora.com>
+         <7bcbb787d82f21d42563d8fb7e3c2e7d40123932.camel@pengutronix.de>
+         <831a59b052df02e9860b9766e631a7ab6a37c46a.camel@collabora.com>
+         <72fef3d9f79194876f2035e996bb83f9f8b12902.camel@pengutronix.de>
+         <5aa5700b862234895a7a6eb251ca3c80fdc1a6d3.camel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 28 Apr 2021 23:37:54 +0530
-Deepak R Varma <drv@mailo.com> escreveu:
-
-> Replace hard coded function names from the debug print strings by
-> standard __func__ predefined identifier. This resolves following
-> checkpatch script WARNING:
-> Prefer using '"%s...", __func__' to using function's name, in a string.
+Am Montag, dem 17.05.2021 um 10:23 -0300 schrieb Ezequiel Garcia:
+> On Mon, 2021-05-17 at 12:52 +0200, Lucas Stach wrote:
+> > Hi Ezequiel,
+> > 
+> > Am Sonntag, dem 16.05.2021 um 19:40 -0300 schrieb Ezequiel Garcia:
+> > > Hi Lucas,
+> > > 
+> > > On Fri, 2021-04-16 at 12:54 +0200, Lucas Stach wrote:
+> > > > Am Mittwoch, dem 07.04.2021 um 09:35 +0200 schrieb Benjamin Gaignard:
+> > > > > In order to be able to share the control hardware block between
+> > > > > VPUs use a syscon instead a ioremap it in the driver.
+> > > > > To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
+> > > > > phandle is not found look at 'ctrl' reg-name.
+> > > > > With the method it becomes useless to provide a list of register
+> > > > > names so remove it.
+> > > > 
+> > > > Sorry for putting a spoke in the wheel after many iterations of the
+> > > > series.
+> > > > 
+> > > > We just discussed a way forward on how to handle the clocks and resets
+> > > > provided by the blkctl block on i.MX8MM and later and it seems there is
+> > > > a consensus on trying to provide virtual power domains from a blkctl
+> > > > driver, controlling clocks and resets for the devices in the power
+> > > > domain. I would like to avoid introducing yet another way of handling
+> > > > the blkctl and thus would like to align the i.MX8MQ VPU blkctl with
+> > > > what we are planning to do on the later chip generations.
+> > > > 
+> > > > CC'ing Jacky Bai and Peng Fan from NXP, as they were going to give this
+> > > > virtual power domain thing a shot.
+> > > > 
+> > > 
+> > > It seems the i.MX8MM BLK-CTL series are moving forward:
+> > > 
+> > > https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=479175
+> > > 
+> > > ... but I'm unable to wrap my head around how this affects the
+> > > devicetree VPU modelling for i.MX8MQ (and also i.MX8MM, i.MX8MP, ...).
+> > > 
+> > > 
+> > For the i.MX8MQ we want to have the same virtual power-domains provided
+> > by a BLK-CTRL driver for the VPUs, as on i.MX8MM. This way we should be
+> > able to use the same DT bindings for the VPUs on i.MX8MQ and i.MX8MM,
+> > even though the SoC integration with the blk-ctrl is a little
+> > different.
+> > 
 > 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
+> AFAICS, there's not support for i.MX8MP VPU power domains. I suppose
+> we should make sure we'll be able to cover those as well.
 > 
-> Changes since v3:
->    - None.
-> Changes since v2:
->    - None.
-> Changes since v1:
->    - None.
+> Will i.MX8MP need its own driver as well?
+> > 
 
-Huh? Why are you sending a new version when there's no difference
-from the past ones?
+I haven't looked too closely at the 8MP VPU subsystem yet, but I expect
+it to be slightly different again so it will need changes to the blk-
+ctrl driver. But that's the whole point of this virtual power domain
+exercise: abstract away the SoC specific things in the blk-ctrl driver,
+so the VPU driver doesn't need to care about them.
 
-> 
->  .../staging/media/atomisp/i2c/atomisp-gc0310.c   |  2 +-
->  .../staging/media/atomisp/i2c/atomisp-gc2235.c   |  2 +-
->  .../staging/media/atomisp/i2c/atomisp-lm3554.c   |  2 +-
->  .../staging/media/atomisp/i2c/atomisp-ov2680.c   | 16 ++++++++--------
->  .../staging/media/atomisp/i2c/atomisp-ov2722.c   |  2 +-
->  5 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index d68a2bcc9ae1..b572551f1a0d 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -1292,7 +1292,7 @@ static int gc0310_remove(struct i2c_client *client)
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  	struct gc0310_device *dev = to_gc0310_sensor(sd);
->  
-> -	dev_dbg(&client->dev, "gc0310_remove...\n");
-> +	dev_dbg(&client->dev, "%s...\n", __func__);
->  
+Regards,
+Lucas
 
-As Dan already pointed, please delete this and other
-dev_dbg() that are just tracing functions without any other
-real meaning. If one needs that, ftrace could be used.
-
-
-
->  	dev->platform_data->csi_cfg(sd, 0);
->  
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> index e722c639b60d..548c572d3b57 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> @@ -1034,7 +1034,7 @@ static int gc2235_remove(struct i2c_client *client)
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  	struct gc2235_device *dev = to_gc2235_sensor(sd);
->  
-> -	dev_dbg(&client->dev, "gc2235_remove...\n");
-> +	dev_dbg(&client->dev, "%s...\n", __func__);
->  
->  	dev->platform_data->csi_cfg(sd, 0);
->  
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> index 7ca7378b1859..ab10fd98dbc0 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> @@ -680,7 +680,7 @@ static int lm3554_detect(struct v4l2_subdev *sd)
->  	int ret;
->  
->  	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA)) {
-> -		dev_err(&client->dev, "lm3554_detect i2c error\n");
-> +		dev_err(&client->dev, "%s i2c error\n", __func__);
->  		return -ENODEV;
->  	}
->  
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> index f167781e258a..a51ad9843d39 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> @@ -146,7 +146,7 @@ static int ov2680_g_bin_factor_x(struct v4l2_subdev *sd, s32 *val)
->  	struct ov2680_device *dev = to_ov2680_sensor(sd);
->  	struct i2c_client *client = v4l2_get_subdevdata(sd);
->  
-> -	dev_dbg(&client->dev,  "++++ov2680_g_bin_factor_x\n");
-> +	dev_dbg(&client->dev,  "++++%s\n", __func__);
->  	*val = ov2680_res[dev->fmt_idx].bin_factor_x;
->  
->  	return 0;
-> @@ -158,7 +158,7 @@ static int ov2680_g_bin_factor_y(struct v4l2_subdev *sd, s32 *val)
->  	struct i2c_client *client = v4l2_get_subdevdata(sd);
->  
->  	*val = ov2680_res[dev->fmt_idx].bin_factor_y;
-> -	dev_dbg(&client->dev,  "++++ov2680_g_bin_factor_y\n");
-> +	dev_dbg(&client->dev,  "++++%s\n", __func__);
->  	return 0;
->  }
->  
-> @@ -173,7 +173,7 @@ static int ov2680_get_intg_factor(struct i2c_client *client,
->  	u16 reg_val;
->  	int ret;
->  
-> -	dev_dbg(&client->dev,  "++++ov2680_get_intg_factor\n");
-> +	dev_dbg(&client->dev,  "++++%s\n", __func__);
->  	if (!info)
->  		return -EINVAL;
->  
-> @@ -251,8 +251,8 @@ static long __ov2680_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
->  	int ret, exp_val;
->  
->  	dev_dbg(&client->dev,
-> -		"+++++++__ov2680_set_exposure coarse_itg %d, gain %d, digitgain %d++\n",
-> -		coarse_itg, gain, digitgain);
-> +		"+++++++%s coarse_itg %d, gain %d, digitgain %d++\n",
-> +		__func__, coarse_itg, gain, digitgain);
-
-This one for instance, is not a plain trace, so it could make
-sense to be kept, but please remove those "+++..."  sequences
-from the string, as this has no meaning. So, just:
-
- 	dev_dbg(&client->dev,
-		"%s: coarse_itg %d, gain %d, digitgain %d\n",
-		__func__, coarse_itg, gain, digitgain);
-
-would be enough.
-
->  
->  	vts = ov2680_res[dev->fmt_idx].lines_per_frame;
->  
-> @@ -1060,9 +1060,9 @@ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
->  
->  	mutex_lock(&dev->input_lock);
->  	if (enable)
-> -		dev_dbg(&client->dev, "ov2680_s_stream one\n");
-> +		dev_dbg(&client->dev, "%s one\n", __func__);
-
-There's a typo here:
-
-	one -> on
-
-Please fix.
-
->  	else
-> -		dev_dbg(&client->dev, "ov2680_s_stream off\n");
-> +		dev_dbg(&client->dev, "%s off\n", __func__);
-
-Btw, the entire logic above could be re-written as:
-
-	dev_dbg(&client->dev, "%s: %s\n", __func__,
-		enable ? "on" : "off");
-
->  
->  	ret = ov2680_write_reg(client, 1, OV2680_SW_STREAM,
->  			       enable ? OV2680_START_STREAMING :
-> @@ -1226,7 +1226,7 @@ static int ov2680_remove(struct i2c_client *client)
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  	struct ov2680_device *dev = to_ov2680_sensor(sd);
->  
-> -	dev_dbg(&client->dev, "ov2680_remove...\n");
-> +	dev_dbg(&client->dev, "%s...\n", __func__);
->  
->  	dev->platform_data->csi_cfg(sd, 0);
->  
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> index d046a9804f63..69409f8447b5 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> @@ -1175,7 +1175,7 @@ static int ov2722_remove(struct i2c_client *client)
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  	struct ov2722_device *dev = to_ov2722_sensor(sd);
->  
-> -	dev_dbg(&client->dev, "ov2722_remove...\n");
-> +	dev_dbg(&client->dev, "%s...\n", __func__);
->  
->  	dev->platform_data->csi_cfg(sd, 0);
->  	v4l2_ctrl_handler_free(&dev->ctrl_handler);
-
-
-
-Thanks,
-Mauro
