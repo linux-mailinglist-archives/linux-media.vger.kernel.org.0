@@ -2,137 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 156713821D9
-	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 01:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0EFB382283
+	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 03:22:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231720AbhEPXFf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 May 2021 19:05:35 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:45132 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230210AbhEPXFf (ORCPT
+        id S232158AbhEQBYD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 May 2021 21:24:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231755AbhEQBYD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 May 2021 19:05:35 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id D03971F40F2E
-Message-ID: <f46b9c889914360348f218b45f10a06bd1bd8595.camel@collabora.com>
-Subject: Re: [PATCH v10 6/9] media: uapi: Add a control for HANTRO driver
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        lee.jones@linaro.org, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com, cphealy@gmail.com
-Date:   Sun, 16 May 2021 20:04:05 -0300
-In-Reply-To: <815a4bd6-599b-cfb8-9ddc-efa4b7092c23@xs4all.nl>
-References: <20210420121046.181889-1-benjamin.gaignard@collabora.com>
-         <20210420121046.181889-7-benjamin.gaignard@collabora.com>
-         <a7c9fe23-2900-ac90-7131-21380fbfc793@xs4all.nl>
-         <1cf94540-7f4d-0179-dd1e-0b82ee30f6d2@collabora.com>
-         <815a4bd6-599b-cfb8-9ddc-efa4b7092c23@xs4all.nl>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        Sun, 16 May 2021 21:24:03 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0874C061573
+        for <linux-media@vger.kernel.org>; Sun, 16 May 2021 18:22:47 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id u20so5223314ljo.4
+        for <linux-media@vger.kernel.org>; Sun, 16 May 2021 18:22:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yrWR3GjFgwsDZZR4dl9tPHryd85TvJD0lLZ8WpYL1EM=;
+        b=MHX8aEhtGwYPyQR4n53z2FXJxdAvTJoW6IodlWLvPCHtiAkYlUKWLgDw/vD5RuWCEj
+         +3kzXhcKz7kriOTHPvASwWv7wUiExUtvU+81M2oR+fQXr2cpZuWqfpc/Ikk8HS4aIE/q
+         5BUMPKgMUna4ZHm/+zuDZ//CehSP8Op83TdyMDENEif8GyiYu/zVN9fSPUEFbn9SUFLM
+         SdOt7DuY4XJi5XcZlRSdYzMnDdKlOwT9+lxL0YBKLZ8tp4MuIrRMwmBBln6y2qFS6V5l
+         QCq7C4ufzt1FCTAyRAh+X3rwfsyurTdSIpZBervNWbpAZehtAs19SmmxK+qjebxZ4BLy
+         xCgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yrWR3GjFgwsDZZR4dl9tPHryd85TvJD0lLZ8WpYL1EM=;
+        b=mu9QnB/m1WbDA/r3K5lnjy5ZwLntI+Wl3dGRPP5+VGZSRfOUPwS+nLZ8YEtlFCq+Pu
+         fqiw/XTJwWVJRZ3z6vQqq6AymHSBnXI/hFLD4P2+WQ90H/7CYCUpEtBzGAs3lmmsSvxD
+         ebTPJRezP2s/7k47hfGRtSxGe9qVUuZ0vbt6DI/GaQvZZ7oUb4WJoM0lYNiGKhC2ylh6
+         hW0atngjy51q0yf4ogahtjJOIFWHVmpL6y0Kug8QlIWSzGBtg3Ala+5lv56vtWcmJIGU
+         wTx6vMnYyJFrPDCjUZGgRbv01dMcmbP4w2IoWWPKdQx4myU3O1Pkm7jXhzgpcYaEZTti
+         GRXA==
+X-Gm-Message-State: AOAM531pgWXoGvnYsf/tOOjBJdOD8HUasYDxDMTCS1yOCfROHuWoQl+G
+        +Ef1n1ijkGv/JSsONXVoeH1MQYZUOqpfi9sryis=
+X-Google-Smtp-Source: ABdhPJwRFKONgFS8N36rwQFIo9gRzLIXc4okQJ+7ma79BT3rSJ7fQrgnUn55UQPT5/dpy5OA3MORfsse70D3DGLi9xI=
+X-Received: by 2002:a2e:9f14:: with SMTP id u20mr46616023ljk.53.1621214566252;
+ Sun, 16 May 2021 18:22:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAOMZO5BDzjfMrg5Eh_esi=ixtP1g87nk5mu3i0zJZ2=aa08Uig@mail.gmail.com>
+In-Reply-To: <CAOMZO5BDzjfMrg5Eh_esi=ixtP1g87nk5mu3i0zJZ2=aa08Uig@mail.gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Sun, 16 May 2021 22:22:34 -0300
+Message-ID: <CAOMZO5BpBSzM6rMz=kjzY3XkS4HRcLGdHRFmtaWva7Mp3ZHQVw@mail.gmail.com>
+Subject: Re: ADV7280-M probe failure
+To:     Lars-Peter Clausen <lars@metafoo.de>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Matthew Michilot <matthew.michilot@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Sun, May 16, 2021 at 11:22 AM Fabio Estevam <festevam@gmail.com> wrote:
 
-On Thu, 2021-05-06 at 14:50 +0200, Hans Verkuil wrote:
-> On 05/05/2021 17:20, Benjamin Gaignard wrote:
-> > 
-> > Le 05/05/2021 à 16:55, Hans Verkuil a écrit :
-> > > On 20/04/2021 14:10, Benjamin Gaignard wrote:
-> > > > The HEVC HANTRO driver needs to know the number of bits to skip at
-> > > > the beginning of the slice header.
-> > > > That is a hardware specific requirement so create a dedicated control
-> > > > for this purpose.
-> > > > 
-> > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > > ---
-> > > >   .../userspace-api/media/drivers/hantro.rst    | 19 +++++++++++++++++++
-> > > >   .../userspace-api/media/drivers/index.rst     |  1 +
-> > > >   include/media/hevc-ctrls.h                    | 13 +++++++++++++
-> > > >   3 files changed, 33 insertions(+)
-> > > >   create mode 100644 Documentation/userspace-api/media/drivers/hantro.rst
-> > > > 
-> > > > diff --git a/Documentation/userspace-api/media/drivers/hantro.rst b/Documentation/userspace-api/media/drivers/hantro.rst
-> > > > new file mode 100644
-> > > > index 000000000000..cd9754b4e005
-> > > > --- /dev/null
-> > > > +++ b/Documentation/userspace-api/media/drivers/hantro.rst
-> > > > @@ -0,0 +1,19 @@
-> > > > +.. SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +Hantro video decoder driver
-> > > > +===========================
-> > > > +
-> > > > +The Hantro video decoder driver implements the following driver-specific controls:
-> > > > +
-> > > > +``V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP (integer)``
-> > > > +    Specifies to Hantro HEVC video decoder driver the number of data (in bits) to
-> > > > +    skip in the slice segment header.
-> > > > +    If non-IDR, the bits to be skipped go from syntax element "pic_output_flag"
-> > > > +    to before syntax element "slice_temporal_mvp_enabled_flag".
-> > > > +    If IDR, the skipped bits are just "pic_output_flag"
-> > > > +    (separate_colour_plane_flag is not supported).
-> > > I'm not very keen on this. Without this information the video data cannot be
-> > > decoded, or will it just be suboptimal?
-> > 
-> > Without that information the video can't be decoded.
-> > 
-> > > 
-> > > The problem is that a generic decoder would have to know that the HW is a hantro,
-> > > and then call this control. If they don't (and are testing on non-hantro HW), then
-> > > it won't work, thus defeating the purpose of the HW independent decoder API.
-> > > 
-> > > Since hantro is widely used, and if there is no other way to do this beside explitely
-> > > setting this control, then perhaps this should be part of the standard HEVC API.
-> > > Non-hantro drivers that do not need this can just skip it.
-> > 
-> > Even if I put this parameter in decode_params structure that would means that a generic
-> > userland decoder will have to know how the compute this value for hantro HW since it
-> > isn't something that could be done on kernel side.
-> 
-> But since hantro is very common, any userland decoder will need to calculate this anyway.
-> So perhaps it is better to have this as part of the decode_params?
-> 
-> I'd like to know what others think about this.
-> 
+> Does anyone have any suggestions as to why these registers writes fail
+> only on the ADV7280-M connected to the MIPI CSI2 port case?
 
-As you know, I'm not a fan of carrying these "unstable" APIs around.
-I know it's better than nothing, but I feel they create the illusion
-of the interface being supported in mainline. Since it's unstable,
-it's difficult for applications to adopt them.
+I have fixed the probe issue and will submit the fix soon.
 
-As Nicolas mentioned, this means neither FFmpeg nor GStreamer will adopt
-these APIs, which worries me, as that means we lose two major user bases.
-
-My personal take from this, is that we need to find ways to stabilize
-our stateless codec APIs in less time and perhaps with less effort.
-
-IMO, a less stiff interface could help us here, and that's why I think
-having hardware-specific controls can be useful. Hardware designers
-can be so creative :)
-
-I'm not against introducing this specific parameter in
-v4l2_ctrl_hevc_codec_params, arguing that Hantro is widely used,
-but I'd like us to be open to hardware-specific controls as a way
-to extend the APIs seamlessly.
-
-Applications won't have to _know_ what hardware they are running on,
-they can just use VIDIOC_QUERYCTRL to find out which controls are needed.
-
-Thanks,
-Ezequiel
-
+Thanks
