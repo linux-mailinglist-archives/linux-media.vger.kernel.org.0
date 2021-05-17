@@ -2,116 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 505D7382E11
-	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 15:57:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 289743835A4
+	for <lists+linux-media@lfdr.de>; Mon, 17 May 2021 17:25:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235967AbhEQN6j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 May 2021 09:58:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43970 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232924AbhEQN6j (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 May 2021 09:58:39 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8FB87611ED;
-        Mon, 17 May 2021 13:57:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621259842;
-        bh=oRn2k+vSlFwDIc2QK+eBvBWMy+OIb7F6v4LHbmff01g=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qn7AULGWBb73/eXHX5d2RCHKXF54apLvJ96NMmBw6EcLw9Azs5CpT6xHe/uaP+Lue
-         wjNRHo8qveWltYhJBUckLsu0eOMFtPoWEMGQ7fQA+hfw9GryUT9vqqfFxKWsyUC8+Y
-         UbM/2bBnbKD/tASIQqTVuzwUMaHhygcaTECIUXItMS85vRXUrHzMH2PRqyguBenM5G
-         gjZe8OMBu4aZs2fuS0sapHbP8OcYG1+L+M2poYJ/60QVqOowpPN9kvPEXyGlJiHHiD
-         o5HjUBIocmZgtfKPo1+5Ju5jEggxc9CZTeSmMOy0RMzTdrDAXufQCMMSGW5SvA5NgR
-         p8LNm+XLpEqtQ==
-Date:   Mon, 17 May 2021 15:57:18 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Deepak R Varma <mh12gx2825@gmail.com>,
-        Martiros Shakhzadyan <vrzh@vrzh.net>
-Subject: Re: [GIT PULL FOR v5.14] More Outreachy cleanups (v2)
-Message-ID: <20210517155718.196a6089@coco.lan>
-In-Reply-To: <706ba93e-fa1c-34ce-8c54-d8a1c442811e@xs4all.nl>
-References: <706ba93e-fa1c-34ce-8c54-d8a1c442811e@xs4all.nl>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S236366AbhEQPXf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 May 2021 11:23:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52164 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244424AbhEQPUj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 May 2021 11:20:39 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F66C0610E3
+        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 07:29:39 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id j19so4941142qtp.7
+        for <linux-media@vger.kernel.org>; Mon, 17 May 2021 07:29:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fHCHTlP3//K978EvY7rwF4tuW8ieWnf/K366gEOonds=;
+        b=Y0RzLQXC0TAqeZkyAXC92ZZwUs24j282EVieboVyU38BlaPEsyN8ynkeJCsapNHiPS
+         xEFrwsAR4lW7tQRHHfgYTGEWH7YHG7GRISe7BMcQ5QnyhftJeI1uxWSMBOcUmSK9MYwH
+         O4XtE7LLmHl3jKc0jpSYZKHnXFgBiAtNyca3wR7ShLP8t35Xy3tOB6bEAtGkVrQ4Xk79
+         L4BklvBhf7UAZ914GeH0i/fgN55Wi+co6UMEB+iHaC1Y0JrFg9/gHl1bnwFmdcoNw2ly
+         TlG+t/Z3XQ8cBkCROy3Bk70woFr35MIKtLeNQaoovrr2rqNrPOUkV2rZmonYxgn2LKVy
+         Q0YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fHCHTlP3//K978EvY7rwF4tuW8ieWnf/K366gEOonds=;
+        b=QRz5jpVVcLmkP6sEsm4BDlTiHv8++3D3WJNbA+4GkWRefqNBqLjGe2ytjtiMw60woq
+         4J52FdB+mIb96/jCb5FmyEuTkbXUlWX70uZpfLwVlrL5s1nntPKSgjLD5a8rwmN+RRaJ
+         Pk7Gr3u3Kk9qH9eTTEpX4Zfhusp3/pGu5tNhemH5pd/92/tHkm00AUR+k6QLpYd8GG5K
+         Q8e64Dve/8ZTekd+b5ZQj2HkVuvOVMQtKe4Ok2NUiXXXJJmbIsLUIUQ7QjEmt7HptMy+
+         lVv+fTLofmsxj8JemtD6NXAwnqdcy7+bPM7FR7Lrr056QKxMKEuL9dawPZPn58evVfVA
+         XULQ==
+X-Gm-Message-State: AOAM530wbF+8TZk1YYK3YjRvdSO+NUT8WNsC2Ny3GsHfJsEzBjRO0d3f
+        KSqbBgTQ6QEiySY6qIzIO6w=
+X-Google-Smtp-Source: ABdhPJyXGsiVOpLBOY9RRgPMa6Vnr1y3+C3osJVrDq85CUHKaoTxd+ktn9RkUWWDHA5nlbLJwnYDwQ==
+X-Received: by 2002:ac8:7442:: with SMTP id h2mr51137656qtr.315.1621261778206;
+        Mon, 17 May 2021 07:29:38 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:919:7569:d958:c12:8892])
+        by smtp.gmail.com with ESMTPSA id h65sm10591449qkd.112.2021.05.17.07.29.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 May 2021 07:29:37 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de,
+        frieder.schrempf@kontron.de, tharvey@gateworks.com,
+        linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v3] media: imx-csi: Skip first few frames from a BT.656 source
+Date:   Mon, 17 May 2021 11:29:23 -0300
+Message-Id: <20210517142923.3173431-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 30 Apr 2021 12:11:22 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+From: Steve Longerbeam <slongerbeam@gmail.com>
 
-> This supersedes an earlier PR. This v2 adds more patches from Martiros and
-> Deepak.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> The following changes since commit 6756ae29420f849de4dc5c41f9fe948450b09285:
-> 
->   media: staging: media: atomisp: pci: Format comments according to coding-style in file atomisp_cmd.h (2021-04-21 14:07:01 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14-out1
-> 
-> for you to fetch changes up to 68dc2d762b637dd980f8dcc9e762da8cb788b57e:
-> 
->   staging: media: atomisp: remove unwanted dev_*() calls (2021-04-30 11:49:40 +0200)
-> 
-> ----------------------------------------------------------------
-> Tag branch
-> 
-> ----------------------------------------------------------------
-> Aline Santana Cordeiro (5):
->       staging: media: atomisp: pci: Balance braces around conditional statements in file atomisp_cmd.c
->       staging: media: atomisp: pci: Balance braces around conditional statements in file atomisp_compat_css20.c
->       staging: media: atomisp: pci: Balance braces around conditional statements in file atomisp_subdev.c
->       staging: media: atomisp: pci: Balance braces around conditional statements in file atomisp_v4l2.c
->       staging: media: tegra-video: Align line break to match with the open parenthesis in file vi.c
-> 
-> Deepak R Varma (8):
->       staging: media: atomisp: balance braces around if...else block
->       staging: media: atomisp: remove unnecessary braces
->       staging: media: atomisp: use __func__ over function names
->       staging: media: atomisp: reformat code comment blocks
->       staging: media: atomisp: fix CamelCase variable naming
->       staging: media: atomisp: replace raw pr_*() by dev_dbg()
->       staging: media: atomisp: remove unnecessary pr_info calls
->       staging: media: atomisp: remove unwanted dev_*() calls
-> 
-> Martiros Shakhzadyan (9):
->       staging: media: atomisp: Fix sh_css.c brace coding style issues
->       staging: media: atomisp: Remove redundant assertions in sh_css.c
->       staging: media: atomisp: Fix the rest of sh_css.c brace issues
->       staging: media: atomisp: Remove all redundant assertions in sh_css.c
->       staging: media: atomisp: Remove a superfluous else clause in sh_css.c
->       staging: media: atomisp: Replace if else clause with a ternary
->       staging: media: atomisp: Fix alignment and line length issues
->       staging: media: atomisp: Refactor ia_css_stream_load()
->       staging: media: atomisp: Fix line split style issues
+Some BT.656 sensors (e.g. ADV718x) transmit frames with unstable BT.656
+sync codes after initial power on. This confuses the imx CSI,resulting
+in vertical and/or horizontal sync issues. Skip the first 20 frames
+to avoid the unstable sync codes.
 
-I ended not applying two patches from this series:
+Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+[fabio: fixed checkpatch warning and increased the frame skipping to 20]
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+Changes since v2:
+- Increase 'bad_frames' to 20 as 10 was not enough to avoid
+the problem when using an NTSC camera.
 
-- staging: media: atomisp: use __func__ over function names
+ drivers/staging/media/imx/imx-media-csi.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-Dan requested some changes on it, as it has several dev_dbg() calls
-used just for tracing. I sent a reply with a few additional issues;
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+index e3bfd635a89a..6a94fff49bf6 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -750,9 +750,10 @@ static int csi_setup(struct csi_priv *priv)
+ 
+ static int csi_start(struct csi_priv *priv)
+ {
+-	struct v4l2_fract *output_fi;
++	struct v4l2_fract *input_fi, *output_fi;
+ 	int ret;
+ 
++	input_fi = &priv->frame_interval[CSI_SINK_PAD];
+ 	output_fi = &priv->frame_interval[priv->active_output_pad];
+ 
+ 	/* start upstream */
+@@ -761,6 +762,17 @@ static int csi_start(struct csi_priv *priv)
+ 	if (ret)
+ 		return ret;
+ 
++	/* Skip first few frames from a BT.656 source */
++	if (priv->upstream_ep.bus_type == V4L2_MBUS_BT656) {
++		u32 delay_usec, bad_frames = 20;
++
++		delay_usec = DIV_ROUND_UP_ULL((u64)USEC_PER_SEC *
++			input_fi->numerator * bad_frames,
++			input_fi->denominator);
++
++		usleep_range(delay_usec, delay_usec + 1000);
++	}
++
+ 	if (priv->dest == IPU_CSI_DEST_IDMAC) {
+ 		ret = csi_idmac_start(priv);
+ 		if (ret)
+-- 
+2.25.1
 
-- staging: media: atomisp: remove unwanted dev_*() calls
-
-This one didn't apply. Is it touching the same lines the first patch
-changed? If so, please merge both into a single one, after applying
-the fixes I mentioned on my e-mail:
-
-	https://lore.kernel.org/linux-media/20210517154448.7bb8be17@coco.lan/T/#ma9ded10c22aaa86de74babf1bd2a2320c3dac70b
-	
-The remaining ones were applied.
-
-Thanks!
-Mauro
