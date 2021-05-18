@@ -2,48 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 309A3387756
-	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 13:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65CE9387783
+	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 13:27:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244058AbhERLVI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 May 2021 07:21:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45260 "EHLO mail.kernel.org"
+        id S233705AbhERL2W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 May 2021 07:28:22 -0400
+Received: from comms.puri.sm ([159.203.221.185]:58644 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237443AbhERLVH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 May 2021 07:21:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B4B76117A;
-        Tue, 18 May 2021 11:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1621336790;
-        bh=5ElBQ67xchsmbI6FU/TuSqPdSTdZKs79VdcdoI+X2Qk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NcnQkouSGOr40R8oAjIaaQTMkWy4YmXpW+fKWnvp0zO9vdTJoZMzxbo4bP3HkxQqk
-         p1znWEdUe8PJ9SVPm1vq1ErC2FQkEdw6ymiXFJd7Bw/O0jjq1ig+9lzhmGP9dox2Jx
-         awlX5h7cDKxVx7m38i7IGmIdnmv303I8v+HXF118=
-Date:   Tue, 18 May 2021 13:19:47 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Wan Jiabing <wanjiabing@vivo.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jiabing Wan <kael_w@yeah.net>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: Align block comments
-Message-ID: <YKOi05BwSon+++kq@kroah.com>
-References: <20210518111125.87304-1-wanjiabing@vivo.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210518111125.87304-1-wanjiabing@vivo.com>
+        id S233632AbhERL2U (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 18 May 2021 07:28:20 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 10C96E0DCA;
+        Tue, 18 May 2021 04:26:32 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Zs4ZMaLfVfwn; Tue, 18 May 2021 04:26:27 -0700 (PDT)
+Message-ID: <bbe18b43336f73a5c3809b933e07270ef0a45134.camel@puri.sm>
+Subject: Re: [RFC PATCH 1/3] dt-bindings: media: nxp,imx7-csi: Add i.MX8MM
+ support
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
+        Fabio Estevam <festevam@gmail.com>, linux-imx@nxp.com,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Marek Vasut <marex@denx.de>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+        Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Date:   Tue, 18 May 2021 13:26:21 +0200
+In-Reply-To: <20210516024216.4576-2-laurent.pinchart@ideasonboard.com>
+References: <20210516024216.4576-1-laurent.pinchart@ideasonboard.com>
+         <20210516024216.4576-2-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 18, 2021 at 07:11:12PM +0800, Wan Jiabing wrote:
-> From: Jiabing Wan<kael_w@yeah.net>
+Am Sonntag, dem 16.05.2021 um 05:42 +0300 schrieb Laurent Pinchart:
+> The i.MX8MM integrates a CSI bridge IP core, as the i.MX7. There
+> seems
+> to be no difference between the two SoCs according to the reference
+> manual, but as documentation may not be accurate, add a compatible
+> string for the i.MX8MM, with a fallback on the compatible i.MX7.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../devicetree/bindings/media/nxp,imx7-csi.yaml      | 12 ++++++++--
+> --
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-
+> csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> index d91575b8ebb9..5922a2795167 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/media/nxp,imx7-csi.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: i.MX7 CMOS Sensor Interface
+> +title: i.MX7 and i.MX8 CSI bridge (CMOS Sensor Interface)
+>  
+>  maintainers:
+>    - Rui Miguel Silva <rmfrfs@gmail.com>
+> @@ -15,9 +15,13 @@ description: |
+>  
+>  properties:
+>    compatible:
+> -    enum:
+> -      - fsl,imx7-csi
+> -      - fsl,imx6ul-csi
+> +    oneOf:
+> +      - enum:
+> +          - fsl,imx7-csi
+> +          - fsl,imx6ul-csi
+> +      - items:
+> +          - const: fsl,imx8mm-csi
+> +          - const: fsl,imx7-csi
+>  
+>    reg:
+>      maxItems: 1
 
-Need a space before the "<" character here, and in the signed-off-by
-line.
+isn't the fsl,imx8mm-csi compatible missing in the driver then?
 
-thanks,
+thanks!
+                     martin
 
-greg k-h
