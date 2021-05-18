@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AE7B387CBE
+	by mail.lfdr.de (Postfix) with ESMTP id 749BF387CBF
 	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 17:46:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350377AbhERPsB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 May 2021 11:48:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44424 "EHLO
+        id S1350380AbhERPsE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 May 2021 11:48:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350325AbhERPrS (ORCPT
+        with ESMTP id S1350331AbhERPrW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 May 2021 11:47:18 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CB56C06138F
-        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 08:45:28 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id b25so15337799eju.5
+        Tue, 18 May 2021 11:47:22 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 829FAC061344
+        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 08:45:29 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id lg14so15312977ejb.9
         for <linux-media@vger.kernel.org>; Tue, 18 May 2021 08:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Y7K2JbNeUWm87uiKc3ObB7AJ60gqYS/WRSTd2rZZKPQ=;
-        b=NPEiXHChn3WwgCCrlRDA2Pr9U8tOuNH538BPSpd6Al/XC/DBBtreV9h6ky5XUB8nar
-         SKRS88Uz4OxHyDtGhi70CfQQw84mcg5CgFOXbRZ/3nhOfur2gOfyzHfItD/+3yEo5ksT
-         8FOHplGBOw1A/PSedhwiGZ5jhd+n9SV2IBCck01s8RYdVtV0VHZjFxKePBkBFZYGZBMv
-         GoBZ6fyl11KKhuBmYnfURitHCDEGRjlfhze8TajoPf0I2M8mbXF6M/jQ9MjAPXC0wRXk
-         u1mWPItXfjpfcEYModQmL9mWx1lfajVZ2ErNwFVeM5zjU4gS10tsFFyZJl+EOHJW2XHx
-         Qgfg==
+        bh=pBC9lAWMmdU2wypGRaqpn1YM7C+m/9LQ4eZFQOQwGaM=;
+        b=V5vmq52b+rKzRQya3bt/2XugBvt5zZTXazpcMM91mDBR6xlKrEcXJUHCfPgP4cRTwu
+         dJm+7hKTEeJAqdIPG7dlP8Ohpx+85+GSztuxIpRyh7kszcfUOUoVuwnz2oNuf5IUVP6R
+         UNSf+CCPA5ZKrQRjobHJ+BFsCoKwKQxR2oh7r9rHoVlG3445qQRS1UPOqQbVdAVhGIty
+         7YV+WONKc14E1ZT2UVM61zdboD8cGF+icAVxTuHyc9HAUrVFG8gsTZXDfF0VeuuPUZds
+         hXKYP5/g+Qw7N67g2uZTfRMfdS9CIMCnuXe2LrKEXbMY8yScGXsqHCUA5Botle9q/SkN
+         lVbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Y7K2JbNeUWm87uiKc3ObB7AJ60gqYS/WRSTd2rZZKPQ=;
-        b=jxbzUvXsbbUjmFtOBccEatBZRIIr0ljNHWTv2xyqh0LUGs04wTdFwv3uvJqjlWhSWy
-         i/Wy8b/vPBVBhrAFUBmIY+c/2HotIzL9mBEFKAd046xii5UjxC6Mzk7DOjaEsBkiaGJI
-         kqiv+aRpUVG44OaOw0IvZraSIwvOqMYdRyEkm0wRpwhxz7JHN7kfp/h7PQt9ie7D4s3T
-         Q/wD3D+pe6Kvmuitm8QhZCnyxsftZC9MNSvV24zUoEkObKM5BQB6OgukIjwBT5uKkV+c
-         WKEg2WkAY3VoDDJLx04mSVPuWcGBh1V1ALyi3xh6gLdrPSMM1YuBCiT8KQziA45WWBqb
-         R6IQ==
-X-Gm-Message-State: AOAM533VTRIrStDYehr5qZsVLxciyRSxdyGor/qkMUEMIOfz4b3oQHyM
-        l3GjXuiTWIfjfyS0l5gp2BOiDLBwckmPzjSh
-X-Google-Smtp-Source: ABdhPJxryiFwZacAU28Dew5wKo1zmwaHalSPONXiyeux9FGYfZmrHx4yMhhcbSmBzZCHZLpBKHEv2g==
-X-Received: by 2002:a17:906:2b57:: with SMTP id b23mr6625927ejg.294.1621352726608;
-        Tue, 18 May 2021 08:45:26 -0700 (PDT)
+        bh=pBC9lAWMmdU2wypGRaqpn1YM7C+m/9LQ4eZFQOQwGaM=;
+        b=gCTn2OTHYCwuuHF3E0ReWY0oB+B9W0AxftVNpWKpokmlifaNcMRhOUlVsN45nfz8Vu
+         vg0XVhf+ul2Y8XTYSN/c/dVO/ZvFptIVIRfbuDZDJ9rDr3B4UwZJr0JojO6DtKmcC9h3
+         w3b7/u3wGWZVoo6cjRWqHfZ0ZrMgdiSlXy3jJgNFzBM4JAYQvEio8Jlq4OWZfNDAGeU6
+         6Jr9/6eunBRhS8LDN3YfEgtDJmTNttiZtf8wjDbNsEyt+tN+CXiPY+bAs/8KLcBCDrxB
+         mjlJuy7UIzw6mkUziBxK9mqanVtwnsO1glu9A485fcaI2FffpjKbw8Iu6V+256detWqe
+         Y9RQ==
+X-Gm-Message-State: AOAM533g1QW8Td2aFhFvt/aKh77vaQPDc3q+i00k2gvU98kkJt0AY29S
+        r0CHry3pbDQ772hh9IFIiDhxkrY3/l35TeVO
+X-Google-Smtp-Source: ABdhPJyF0u5iCgHUOUf+Rga/dW7eHv6Htp7UVHdfG05mY3Ay4XOD/GtmnD+iTkFfo7hd386i1aoxkQ==
+X-Received: by 2002:a17:906:3ed0:: with SMTP id d16mr6671002ejj.16.1621352727606;
+        Tue, 18 May 2021 08:45:27 -0700 (PDT)
 Received: from localhost.localdomain ([195.24.90.54])
-        by smtp.gmail.com with ESMTPSA id n17sm13016434eds.72.2021.05.18.08.45.25
+        by smtp.gmail.com with ESMTPSA id n17sm13016434eds.72.2021.05.18.08.45.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 May 2021 08:45:26 -0700 (PDT)
+        Tue, 18 May 2021 08:45:27 -0700 (PDT)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
         Mansur Alisha Shaik <mansur@codeaurora.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 3/5] venus: hfi: Check for sys error on session hfi functions
-Date:   Tue, 18 May 2021 18:45:07 +0300
-Message-Id: <20210518154509.602137-4-stanimir.varbanov@linaro.org>
+Subject: [PATCH 4/5] venus: helpers: Add helper to mark fatal vb2 error
+Date:   Tue, 18 May 2021 18:45:08 +0300
+Message-Id: <20210518154509.602137-5-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210518154509.602137-1-stanimir.varbanov@linaro.org>
 References: <20210518154509.602137-1-stanimir.varbanov@linaro.org>
@@ -66,176 +66,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Check sys error flag for all hfi_session_xxx functions and
-exit with EIO in case of an error.
+Add a helper to mark source and destination vb2 queues fatal
+unrecoverable error.
 
 Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
- drivers/media/platform/qcom/venus/hfi.c | 46 +++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ drivers/media/platform/qcom/venus/helpers.c | 12 ++++++++++++
+ drivers/media/platform/qcom/venus/helpers.h |  1 +
+ 2 files changed, 13 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
-index 179b1f8b2650..4e2151fb47f0 100644
---- a/drivers/media/platform/qcom/venus/hfi.c
-+++ b/drivers/media/platform/qcom/venus/hfi.c
-@@ -187,6 +187,11 @@ int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops)
- 
- 	mutex_lock(&core->lock);
- 
-+	if (test_bit(0, &inst->core->sys_error)) {
-+		ret = -EIO;
-+		goto unlock;
-+	}
-+
- 	max = atomic_add_unless(&core->insts_count, 1,
- 				core->max_sessions_supported);
- 	if (!max) {
-@@ -196,6 +201,7 @@ int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops)
- 		ret = 0;
- 	}
- 
-+unlock:
- 	mutex_unlock(&core->lock);
- 
- 	return ret;
-@@ -263,6 +269,9 @@ int hfi_session_deinit(struct venus_inst *inst)
- 	if (inst->state < INST_INIT)
- 		return -EINVAL;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		goto done;
-+
- 	reinit_completion(&inst->done);
- 
- 	ret = ops->session_end(inst);
-@@ -273,6 +282,7 @@ int hfi_session_deinit(struct venus_inst *inst)
- 	if (ret)
- 		return ret;
- 
-+done:
- 	inst->state = INST_UNINIT;
- 
- 	return 0;
-@@ -284,6 +294,9 @@ int hfi_session_start(struct venus_inst *inst)
- 	const struct hfi_ops *ops = inst->core->ops;
- 	int ret;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
-+
- 	if (inst->state != INST_LOAD_RESOURCES)
- 		return -EINVAL;
- 
-@@ -308,6 +321,9 @@ int hfi_session_stop(struct venus_inst *inst)
- 	const struct hfi_ops *ops = inst->core->ops;
- 	int ret;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
-+
- 	if (inst->state != INST_START)
- 		return -EINVAL;
- 
-@@ -331,6 +347,9 @@ int hfi_session_continue(struct venus_inst *inst)
- {
- 	struct venus_core *core = inst->core;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
-+
- 	if (core->res->hfi_version == HFI_VERSION_1XX)
- 		return 0;
- 
-@@ -343,6 +362,9 @@ int hfi_session_abort(struct venus_inst *inst)
- 	const struct hfi_ops *ops = inst->core->ops;
- 	int ret;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
-+
- 	reinit_completion(&inst->done);
- 
- 	ret = ops->session_abort(inst);
-@@ -362,6 +384,9 @@ int hfi_session_load_res(struct venus_inst *inst)
- 	const struct hfi_ops *ops = inst->core->ops;
- 	int ret;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
-+
- 	if (inst->state != INST_INIT)
- 		return -EINVAL;
- 
-@@ -385,6 +410,9 @@ int hfi_session_unload_res(struct venus_inst *inst)
- 	const struct hfi_ops *ops = inst->core->ops;
- 	int ret;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
-+
- 	if (inst->state != INST_STOP)
- 		return -EINVAL;
- 
-@@ -409,6 +437,9 @@ int hfi_session_flush(struct venus_inst *inst, u32 type, bool block)
- 	const struct hfi_ops *ops = inst->core->ops;
- 	int ret;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
-+
- 	reinit_completion(&inst->done);
- 
- 	ret = ops->session_flush(inst, type);
-@@ -429,6 +460,9 @@ int hfi_session_set_buffers(struct venus_inst *inst, struct hfi_buffer_desc *bd)
- {
- 	const struct hfi_ops *ops = inst->core->ops;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
-+
- 	return ops->session_set_buffers(inst, bd);
+diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+index de87f4c81a1c..6c4b64e995a1 100644
+--- a/drivers/media/platform/qcom/venus/helpers.c
++++ b/drivers/media/platform/qcom/venus/helpers.c
+@@ -1506,6 +1506,18 @@ void venus_helper_vb2_stop_streaming(struct vb2_queue *q)
  }
+ EXPORT_SYMBOL_GPL(venus_helper_vb2_stop_streaming);
  
-@@ -438,6 +472,9 @@ int hfi_session_unset_buffers(struct venus_inst *inst,
- 	const struct hfi_ops *ops = inst->core->ops;
- 	int ret;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
++void venus_helper_vb2_queue_error(struct venus_inst *inst)
++{
++	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
++	struct vb2_queue *q;
 +
- 	reinit_completion(&inst->done);
- 
- 	ret = ops->session_unset_buffers(inst, bd);
-@@ -460,6 +497,9 @@ int hfi_session_get_property(struct venus_inst *inst, u32 ptype,
- 	const struct hfi_ops *ops = inst->core->ops;
- 	int ret;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
++	q = v4l2_m2m_get_src_vq(m2m_ctx);
++	vb2_queue_error(q);
++	q = v4l2_m2m_get_dst_vq(m2m_ctx);
++	vb2_queue_error(q);
++}
++EXPORT_SYMBOL_GPL(venus_helper_vb2_queue_error);
 +
- 	if (inst->state < INST_INIT || inst->state >= INST_STOP)
- 		return -EINVAL;
- 
-@@ -483,6 +523,9 @@ int hfi_session_set_property(struct venus_inst *inst, u32 ptype, void *pdata)
+ int venus_helper_process_initial_cap_bufs(struct venus_inst *inst)
  {
- 	const struct hfi_ops *ops = inst->core->ops;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
-+
- 	if (inst->state < INST_INIT || inst->state >= INST_STOP)
- 		return -EINVAL;
- 
-@@ -494,6 +537,9 @@ int hfi_session_process_buf(struct venus_inst *inst, struct hfi_frame_data *fd)
- {
- 	const struct hfi_ops *ops = inst->core->ops;
- 
-+	if (test_bit(0, &inst->core->sys_error))
-+		return -EIO;
-+
- 	if (fd->buffer_type == HFI_BUFFER_INPUT)
- 		return ops->session_etb(inst, fd);
- 	else if (fd->buffer_type == HFI_BUFFER_OUTPUT ||
+ 	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
+diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+index e6269b4be3af..6a250c3d3cfe 100644
+--- a/drivers/media/platform/qcom/venus/helpers.h
++++ b/drivers/media/platform/qcom/venus/helpers.h
+@@ -21,6 +21,7 @@ int venus_helper_vb2_buf_prepare(struct vb2_buffer *vb);
+ void venus_helper_vb2_buf_queue(struct vb2_buffer *vb);
+ void venus_helper_vb2_stop_streaming(struct vb2_queue *q);
+ int venus_helper_vb2_start_streaming(struct venus_inst *inst);
++void venus_helper_vb2_queue_error(struct venus_inst *inst);
+ void venus_helper_m2m_device_run(void *priv);
+ void venus_helper_m2m_job_abort(void *priv);
+ int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
 -- 
 2.25.1
 
