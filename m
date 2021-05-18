@@ -2,300 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B347838764B
-	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 12:18:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A934638765C
+	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 12:23:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240902AbhERKT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 May 2021 06:19:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241172AbhERKT1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 May 2021 06:19:27 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94497C061573
-        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 03:18:09 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 905C3102;
-        Tue, 18 May 2021 12:18:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621333086;
-        bh=Qvj1uYLnggxbSbCw500jJwNjv9KRc/iJCEkLSF+9M5k=;
-        h=Reply-To:To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=tnXf9UK7E2FsFbIqvQN7KGn0GhOvBVa7ChX2nccqJkbVPupki+xQnls4BdQT+FBvF
-         kIAll/hxcg7H1XBXKMRl0N2DBt4cwzzB93JAzTLVYrEbbH7/8cr1CnBVJdPFbeOvhX
-         t3QDGnU9qlRDoNlldaQcWshjWx8Ykt3z3dZU9Pbc=
-Reply-To: kieran.bingham@ideasonboard.com
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Ariel D'Alessandro <ariel.dalessandro@collabora.com>,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl, sean@mess.org,
-        p.zabel@pengutronix.de, laurent.pinchart@ideasonboard.com,
-        ezequiel@collabora.com, nicolas@ndufresne.ca,
-        gjasny@googlemail.com, xavier.claessens@collabora.com,
-        nicolas.dufresne@collabora.com, user.vdr@gmail.com,
-        sakari.ailus@iki.fi, rosenp@gmail.com
-References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
- <f2f72ec5-e352-132f-b8d1-718589360bf0@ideasonboard.com>
- <008aec9c-c1e6-7f8b-dde5-8fa53c1e9ee6@collabora.com>
- <92b5c1bf-f4cf-5d5e-7c16-57d4a3446f67@ideasonboard.com>
- <20210518092358.05c7a189@coco.lan>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Organization: Ideas on Board
-Subject: Re: [v4l-utils v5 0/5] Add support for meson building
-Message-ID: <78322e18-2086-1eda-3b39-bbd71160be27@ideasonboard.com>
-Date:   Tue, 18 May 2021 11:18:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S1348451AbhERKYt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 May 2021 06:24:49 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:44076 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1348441AbhERKYe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 18 May 2021 06:24:34 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1liwsc-0093EP-GJ; Tue, 18 May 2021 10:23:14 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1liwwt-0006M7-P8; Tue, 18 May 2021 10:27:39 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] Minor RC & DVB updates (#74265)
+Date:   Tue, 18 May 2021 10:27:39 +0000
+Message-Id: <20210518102739.24390-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210513091426.GA12409@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <20210518092358.05c7a189@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
-
-On 18/05/2021 08:23, Mauro Carvalho Chehab wrote:
-> Em Mon, 17 May 2021 23:13:45 +0100
-> Kieran Bingham <kieran.bingham@ideasonboard.com> escreveu:
-> 
->> Ah, yes I should have been clearer there - but they don't do 'anything'
->> except the bare minimum for both:
->>
->> ----------
->> kbingham@Q:/opt/projects/media/v4l-utils$ cat make-autoconf.sh
->> #!/bin/sh
->>
->> export CCACHE_DISABLE=true
->>
->> rm -rf build-autoconf
->> mkdir -p build-autoconf
->> cd build-autoconf
->> ../configure
-> 
-> This is not the bare minimum. It is just the opposite: the way we
-
-Ok, I'm sorry - I need to be clearer about my being clearer.
-
-My *scripts* don't do anything except the bare minimum to build.
-
-I pulled out the simplest commands to build both versions so that the
-times could be compared.
-
-  - Autoconf
-    mkdir; ../configure; make
-
-  - Meson
-    meson build; ninja
-
-I expected no parameters to be passed
-
-(Yes, I played with these in the last reply to see the effects suggested
-by Ariel, but I shouldn't have to)
-
-
-
-> intentionally implemented configure.ac is to auto-detect as much as possible
-> what tools are supported and to build the maximum number of features as
-> possible.
-
-Agreed, I expect both sides to auto-detect the most features that are
-possible to build on a given configuration by default, *and* I expect
-both versions to detect the same.
-
-
-
-> See, when one calls:
-> 
-> 	$ ./configure
-> 
-> It will display at the end the optional features that were enabled
-> that we found important enough to report:
-> 
-> compile time options summary
-> ============================
-> 
->     Host OS                    : linux-gnu
->     X11                        : yes
->     GL                         : yes
->     glu                        : yes
->     libelf		       : yes
->     libjpeg                    : yes
->     libudev                    : yes
->     pthread                    : yes
->     QT version                 : v5.4 with QtGL
->     ALSA support               : yes
->     SDL support		       : yes
-> 
->     build dynamic libs         : yes
->     build static libs          : yes
-> 
->     gconv                      : no
-> 
->     dynamic libv4l             : yes
->     v4l_plugins                : yes
->     v4l_wrappers               : yes
->     libdvbv5                   : yes
->     dvbv5-daemon               : yes
->     v4lutils                   : yes
->     qv4l2                      : yes
->     qvidcap                    : yes
->     v4l2-ctl uses libv4l       : yes
->     v4l2-ctl-32                : no
->     v4l2-compliance            : yes
->     v4l2-compliance uses libv4l: yes
->     v4l2-compliance-32         : no
->     BPF IR Decoders:           : no
-> 
-> a bare minimum setting would print most (if not all) above features
-> as "no".
+From: builder@linuxtv.org
+
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210513091426.GA12409@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/107575/
+Build time: 00:25:58
+Link: https://lore.kernel.org/linux-media/20210513091426.GA12409@gofer.mess.org
+
+gpg: Signature made Thu 13 May 2021 09:06:38 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
+
+Summary: got 3/8 patches with issues, being 2 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-lirc-remove-out-of-date-comment.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/platform/exynos4-is/media-dev.c:1287:6: warning: unused variable ‘ret’ [-Wunused-variable]
+	../drivers/media/platform/davinci/vpif_display.c:114: warning: Function parameter or member 'nplanes' not described in 'vpif_buffer_queue_setup'
+	../drivers/media/platform/davinci/vpif_capture.c:112: warning: Function parameter or member 'nplanes' not described in 'vpif_buffer_queue_setup'
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1929 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2835 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+    allmodconfig: return code #0:
+	../drivers/media/platform/exynos4-is/media-dev.c:1287:6: warning: unused variable ‘ret’ [-Wunused-variable]
+
+patches/0002-media-rc-remove-tango-ir-driver-and-keymap.patch:
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1929 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+   checkpatch.pl:
+	$ cat patches/0002-media-rc-remove-tango-ir-driver-and-keymap.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:40: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:43: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+
+patches/0008-media-dvb-usb-fix-wrong-definition.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-media-dvb-usb-fix-wrong-definition.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:17: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+
+Error #512 when building PDF docs
 
-
-This is a mis-communication. I said (or intended to say?) my scripts do
-the bare minimum.
-
-I agree, if we want to compare both build systems; building the bare
-minimum - then that list would be full of no's - but why would we want
-to compare two build systems doing nothing.
-
-ok, so that might be one data point, but not one I'm interested in
-comparing. I want to see what differences occur between both build
-systems building everything, and ensure that both produce the same result.
-
-
-It would likely be useful to get a summary() of what is and isn't built
-from the meson to produce a comparable output summary.
-
-
-> See, we never treated internationalization or documentation as
-> features. So, it won't display anything about that. It will just
-> build docs and .po files by default, if the needed tools and
-> libraries are present at the building system.
-
-I think that's fine (building when possible).
-
-I think the meson build (in my system configuration) didn't do this,
-lets call that a bug in the current meson version. I've tried to
-highlight that in the previous e-mail.
-
-We need to do testing of different cases to make sure that the features
-are comparable across both systems.
-
-That's what I was trying to do.
-
-
-
-
-> Yet, autotools have some options that could disable building them.
-> ./configure --help is your friend[1], if you want a bare minimum
-> build.
-
-Yes, I'm aware of these options. A 'bare minimum build' was not my goal.
-
-
-
-> [1] You can see most of the options that can be enabled/disabled with:
-> 
-> 	./configure --help|grep -E '(enable|disable|with)'
-> 
->     The command would be similar to: 
-> 
-> 	./configure --disable-nls --disable-libdvbv5 --disable-dyn-libv4l --disable-v4l-utils --disable-v4l2-compliance-libv4l --disable-v4l2-ctl-libv4l --disable-qv4l2 --disable-qvidcap --disable-bpf --without-jpeg --without-libudev --disable-gconv --disable-doxygen-doc --disable-doxygen-dot --disable-doxygen-html --disable-doxygen-ps --disable-doxygen-pdf
-> 
-> 	here, after running the above, building with autoconf was very fast.
-> 
-> 		$ make clean
-> 		$ time CCACHE_DISABLE=true make -j8
-> 		real	0m4,594s
-> 		user	0m14,050s
-> 		sys	0m1,613s
-
-
-This isn't what I've been comparing.
-
-I have been trying to (or I want to) compare the performance differences
-of two *full* builds on the same system. I'm sorry that my language on
-the previous e-mail caused confusion there.
-
-To clarify, I expect a
-   minimal build script (*no parameters passed*)
-
-to provide a
-   maximal build configuration (everything that could be built).
-
-
-And I would expect both sides to produce the same feature set.
-If they don't - then it should be fixed.
-
-
->> meson build-meson
->> ninja -C build-meson
-> 
-> I would be expecting that the above would do the same, but
-> it sounds it is lacking a lot of things...
-
-meson build-meson; ninja -C build-meson should be building a maximal
-configuration. (if it isn't, that's something to look at)
-
-As identified, I think there are things missing, or not yet the same
-which is why I've been highlighting the size of the build directories.
-
-In particular I'm highlighting the fact that I have observed
-internationalisation files are missing.
-
-
->>>> du -sh build-autoconf build-meson/
->>>> 129M	build-autoconf
->>>> 69M	build-meson/  
-
-
-However I do not think that difference alone can account for a 60MB
-difference.
-
-
-
-> as otherwise the difference won't be so huge.
-> 
-
-Agreed.
-
-
-> See, you're comparing very different things, as autotools is clearly
-> doing a lot more than meson. If they were building the same thing, I 
-> would expect a difference at the order of tens of KB at most, due to
-> temporary/cache files, build logs and, in the case of autotools, m4
-> files. Neither of those are huge.
-
-Agreed.
-
-Something is missing, that's to be investigated. That's why I've been
-highlighting the difference in build output size specifically. But I do
-not know what the difference is. I just built them together.
-
-
-Re-reading my mail from last night - it looks like I was being overly
-enthusiastic on the speed differences. I'm sorry - it was late, and I
-was giddy watching it fly by. (The things people do for fun hey)
-
-I was reporting that they are not building the same output, so I
-shouldn't have made any comment on comparing speeds until they are
-producing identical outputs.
-
-
-
-> Assuming that both builds used the same compilers, a difference at 
-> the order of (tens of) MB can only be explained if Meson build
-> was very incomplete, and/or the output files don't carry the same
-> debug info.
-
-Indeed - compiler debug info level changes could be another thing to
-check. That could account for a larger build output difference, but
-there's certainly a large discrepancy to solve.
-
-
--- 
-Regards
---
-Kieran
