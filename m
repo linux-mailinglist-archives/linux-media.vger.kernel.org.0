@@ -2,117 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5776C387CD0
-	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 17:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F68E387E3C
+	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 19:07:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350325AbhERPua (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 May 2021 11:50:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45312 "EHLO
+        id S1344186AbhERRJI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 May 2021 13:09:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245015AbhERPua (ORCPT
+        with ESMTP id S239478AbhERRJH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 May 2021 11:50:30 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8A49C06175F
-        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 08:49:11 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id k10so15328512ejj.8
-        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 08:49:11 -0700 (PDT)
+        Tue, 18 May 2021 13:09:07 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71665C061573
+        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 10:07:49 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id l129so9962455qke.8
+        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 10:07:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8wobWCeO9TnSsNp7Gs4zzmLKeoIRn3xZJv1FCbDfq60=;
-        b=oW+DxoZfcvSH8LaRykrzTmc+KFKmiN+W881QfIJ+3wvCb2PclV+Ja5f2+YuzVzDvn/
-         ayseq80JMuj25ZniVCywFM0AX+uoPAZ8oho3RGOE27Eg2VXdmKeoi1WmTmtMQIPo/EyG
-         jNakzkGhU/ZV/Kf9GgEqAbPrfsygkXzU5C4HRUouVscXETCmuauBFDveTE7YRBVxo1KR
-         JyILTxFoA7xFJIq0P4F+5GPGBVgVg28Ujq5BLPr9vbuBGeJDipg3dq0L5Iv74/isn1R4
-         AwYlQwdPwnyj5oIwhh10sElqh9SBEal09w0XNIK62bwFgbOs2vSdTRnmkedTvQG17eHd
-         zYeA==
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=ZoeBzd2qIYnpyFwHkst81r+c/yX9fIxmhQRsqSYuafU=;
+        b=fkBQ4rd0eL02xmwLfEC9OW2Yxu5xGnbDzI/eCsTkr6kVj5zZ+as09RxnuvpT1n3MQB
+         eYsWv/Fm1z+58FJUQs52teI5YZUB8g5NDIXD3phfTPasF/AfxkOqoORPayDHl89WEI/t
+         Rj6Yk0TF3wRIPWj7sKGkBpY0lu6/AwgUU7N2YsYQDUzknFNPParf+CzGQ6UQC8yaa7sw
+         Vy1fKTDmxD5+wUCKTytqEzPcNXt+t3q3rt/gXXc9p4uwLd/Je6lZo7X+D3Xog7Tuizmr
+         aZh8TpKoJPa2fXozWdpAAF8OjAkqAgO6kgHoNQY6u8rRXroHWJs7TatpR4e3+Rt9yNBI
+         sGgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8wobWCeO9TnSsNp7Gs4zzmLKeoIRn3xZJv1FCbDfq60=;
-        b=HXyZo4oqZFuwU1SB3OMIzE9zWz0LtVc5X1JK99nvT3kZpWJy02H4JVZYp6Vascy4gT
-         83T5Yr/7kU7BPt01KC8X02t8vNfV636GWU9d9vKxsLVDdApWxzdmAfHWYFxZZOQ9plVO
-         gYKZFiU0n2Wg2n0PZtz2UiUZqFhMdLAFTfCWtY8wLBdLwi2oG7S8CQoGbyYdO5DBjNMv
-         77o180+0uK32Q2uPGgMpN8DYZmRXG+O5O0tecYniPNcNjEhZ5qZXWolI8xD7cAPzxsW/
-         n9/a9tjN0hB7qe6ZgiG+xljx/DHJvyTh1ctOPbYZK6Q/og+pO0SfAGwGAokE1nlgOKkl
-         MVaQ==
-X-Gm-Message-State: AOAM532/pX8MeFrwUvUPsZFMJNxQQxz+A/0116qWtmdOs3im4anNAQIK
-        XeYDaS3kGFPvHjyJV1/b6VY6YCbEDPV6xHXX
-X-Google-Smtp-Source: ABdhPJxg7/5WdMrCpZWoWIYBhCrSNmK+yH0GfICeh4qldNd0fp4m6LpEdfMGrLryK2Wtt3rQgMzMdA==
-X-Received: by 2002:a17:906:4e8c:: with SMTP id v12mr6733093eju.365.1621352950499;
-        Tue, 18 May 2021 08:49:10 -0700 (PDT)
-Received: from [192.168.1.14] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id i5sm6739287edt.11.2021.05.18.08.49.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 May 2021 08:49:10 -0700 (PDT)
-Subject: Re: [PATCH v5 13/25] media: venus: core: use
- pm_runtime_resume_and_get()
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ZoeBzd2qIYnpyFwHkst81r+c/yX9fIxmhQRsqSYuafU=;
+        b=c5N96s0mxYgNp3auBykWAflDMhJqld49T1rLaxcMzajWIPkRgs3KCitDcd8HmbTSLT
+         a/f7/aksLyDqHQLRw8obD/Aw7UtuxWDPUM8SG8zK9RyowijYc/k5WXPlpy7n6ufqTmVU
+         XEmDAcd4PNAY+Kiz6x6jG3F1yRyl4p75irt5Ny3frtZPtrtHP5PbJsBrEbmXEvyAtL9D
+         3irtkCDVxu7r0sgb2JmmHFvV4MS0sKjVAenOik8Ou2p1W/rHSknIJOdpraC/MKB0AGAD
+         eJQZEeg/Uf9gatw0qrhr5ew1tCcpE++ONQcSHnTThDCpK5iY+knn8oJEaF/N3RHmZvzA
+         Rp6Q==
+X-Gm-Message-State: AOAM532Rt/2McN/OjtePPS4HVewS/TVasIfISMR2Pz2WGMWz+OEQtq7K
+        IAG2unKX/nn3Ctdf3HkPYBpilQ==
+X-Google-Smtp-Source: ABdhPJymeAQZkd/N+VpKrntqIAo/AYnGQDIZI8gcjjYZgDqDbXT+7v4ka2Y4+QcmUNutn9Nlx2quNw==
+X-Received: by 2002:ae9:ef46:: with SMTP id d67mr3514691qkg.312.1621357668584;
+        Tue, 18 May 2021 10:07:48 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id g25sm12821395qtu.93.2021.05.18.10.07.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 May 2021 10:07:48 -0700 (PDT)
+Message-ID: <3a9c6b170817c0d9456539b683439ed1681953a2.camel@ndufresne.ca>
+Subject: Re: [RFC/WIP 0/4] HEIC image encoder
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         linux-media@vger.kernel.org
-References: <cover.1620314616.git.mchehab+huawei@kernel.org>
- <492e148ae1c7b0a8858c1670037925d3e4adb719.1620314616.git.mchehab+huawei@kernel.org>
- <adb102ab-c197-fdc8-4858-5683bd97baf4@linaro.org>
- <3f41387e-a15f-1e45-6b63-bd6ef647a47f@linaro.org>
- <20210518172014.68f7a655@coco.lan>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <cae92b86-39f3-b00a-76bd-0c81b439b464@linaro.org>
-Date:   Tue, 18 May 2021 18:49:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Date:   Tue, 18 May 2021 13:07:47 -0400
+In-Reply-To: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
+References: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
-In-Reply-To: <20210518172014.68f7a655@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
-
-On 5/18/21 6:20 PM, Mauro Carvalho Chehab wrote:
-> Em Mon, 17 May 2021 18:26:14 +0300
-> Stanimir Varbanov <stanimir.varbanov@linaro.org> escreveu:
+Le jeudi 29 avril 2021 à 16:28 +0300, Stanimir Varbanov a écrit :
+> Hi,
 > 
->> Hi Mauro,
->>
->> On 5/10/21 4:54 PM, Stanimir Varbanov wrote:
->>>
->>>
->>> On 5/6/21 6:25 PM, Mauro Carvalho Chehab wrote:  
->>>> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
->>>> added pm_runtime_resume_and_get() in order to automatically handle
->>>> dev->power.usage_count decrement on errors.
->>>>
->>>> Use the new API, in order to cleanup the error check logic.
->>>>
->>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->>>> ---
->>>>  drivers/media/platform/qcom/venus/pm_helpers.c | 3 +--
->>>>  1 file changed, 1 insertion(+), 2 deletions(-)  
->>>
->>> Tested-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->>> Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->>>   
->>
->> What is the plan for these venus patches. Do I need to take them through
->> my Venus pull request for v5.14 or you will take them directly?
+> HEIC (High-Efficiency Image Container) is a variant of HEIF (High
+> Efficiency Image File Format) where HEVC/h265 codec is used to encode
+> images.  For more info see [1].
 > 
-> Whatever works best for you. In principle, I should apply them on my
-> tree probably tomorrow, if ok for you.
+> In this RFC we propose a new compressed pixel format V4L2_PIX_FMT_HEIC.
+> The name is debatable and could be changed (V4L2_PIX_FMT_HEVC_HEIF is
+> also an option).
+> 
+> There are two encoding modes which should be selectable by clients:
+>     1. Regular image encoding
+>     2. Grid image encoding
+> 
+> 1. Regular image encoding
+> 
+> Propose to reuse stateful video encoder spec [2].
+> 
+> - queuing one OUTPUT buffer will produce one CAPTURE buffer.  The
+> client could trigger Drain sequence at any point of time.
+
+Do you know the rationale why the normal HEVC encoder isn't used and then muxed
+into the HEIF container ? It is these days quite atypical for HW to handle the
+container part. Perhaps they hacked the header, I am not so familiar with these
+new ISOMBF based image format (AV1 got something very similar, though less
+convoluted).
+
+> 
+> 2. Grid image encoding
+> 
+> Propose to reuse stateful video encoder spec [2].
+> 
+> - queuing one OUTPUT buffer will produce a number of grids CAPTURE
+> buffers.  The client could trigger Drain sequence at any point of time.
+> 
+> This image encoding mode is used when the input image resolution is
+> bigger then the hardware can support and/or for compatibility reasons
+> (for exmaple, the HEIC decoding hardware is not capable to decode higher
+> than VGA resolutions).
+> 
+> In this mode the input image is divided on square blocks (we call them grids)
+> and every block is encoded separately (the Venus driver presently supports 
+> grid size of 512x512 but that could be changed in the future).
+
+Are the blocks always power of two ? Or multiple of 16 ? How do you expose this
+information to application ? It sounds like an HW decoder would also need to
+expose these restrictions. Userspace will need to be able to check without
+trying if the HW decoder handles the grid side to be able to fallback to
+software decoding.
+
+> 
+> To set the grid size we use a new v4l2 control.
+> 
+> The side effect of this mode is that the client have to set the v4l2
+> control and thus enable grid encoding before setting the formats on
+> CAPTURE and OUTPUT queues, because the grid size reflects on the
+> selected resolutions. Also the horizontal and vertical strides will
+> also be affected because thеy have to be aligned to the grid size
+> in order to satisfy DMA alignment restrictions.
+> 
+> Using of v4l2 control to set up Grid mode and Grid size above looks
+> inpractical and somehow breaks the v4l2 and v4l2 control rules, so
+> I'd give one more option. 
+
+The stasteless decoders uses a control that must be set after the OUTPUT format,
+but before enumerating capture formats. Not exactly the same, but there is a
+control that interact with the format negotiation.
+
+> 
+> Encoding the Grid mode/size in the new proposed HEIC pixel format:
+> 
+>    V4L2_PIX_FMT_HEIC - Regular HEIC image encoding
+>    V4L2_PIX_FMT_HEIC_GRID_512x512 - Grid HEIC image encoding, grid size of 512x512 
+>    and so on ...
+
+I would be worry of the about of formats that may generates.
+
+> 
+> Comments and suggestions are welcome!
+> 
+> regards,
+> Stan
+> 
+> [1] https://en.wikipedia.org/wiki/High_Efficiency_Image_File_Format
+> [2] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-encoder.html
+> 
+> 
+> Stanimir Varbanov (4):
+>   media: Add HEIC compressed pixel format
+>   v4l2-ctrls: Add HEIC grid size control
+>   venus: helpers: Add a new helper for buffer processing
+>   venus: Add HEIC image encoder
+> 
+>  .../media/v4l/pixfmt-compressed.rst           |   12 +
+>  drivers/media/platform/qcom/venus/Makefile    |    2 +
+>  drivers/media/platform/qcom/venus/core.h      |   10 +
+>  drivers/media/platform/qcom/venus/helpers.c   |   20 +
+>  drivers/media/platform/qcom/venus/helpers.h   |    1 +
+>  drivers/media/platform/qcom/venus/hfi_cmds.c  |   10 +-
+>  .../media/platform/qcom/venus/hfi_helper.h    |    5 +
+>  drivers/media/platform/qcom/venus/ienc.c      | 1348 +++++++++++++++++
+>  drivers/media/platform/qcom/venus/ienc.h      |   14 +
+>  .../media/platform/qcom/venus/ienc_ctrls.c    |   83 +
+>  drivers/media/v4l2-core/v4l2-ctrls.c          |    3 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>  include/uapi/linux/v4l2-controls.h            |    1 +
+>  include/uapi/linux/videodev2.h                |    1 +
+>  14 files changed, 1510 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/media/platform/qcom/venus/ienc.c
+>  create mode 100644 drivers/media/platform/qcom/venus/ienc.h
+>  create mode 100644 drivers/media/platform/qcom/venus/ienc_ctrls.c
 > 
 
-It is perfectly fine, please apply them. Thank you!
 
--- 
-regards,
-Stan
