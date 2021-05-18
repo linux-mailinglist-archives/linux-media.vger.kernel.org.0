@@ -2,107 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 688EB387C53
-	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 17:20:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF20A387CB2
+	for <lists+linux-media@lfdr.de>; Tue, 18 May 2021 17:46:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350131AbhERPVi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 May 2021 11:21:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54296 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350112AbhERPVi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 May 2021 11:21:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7214D61074;
-        Tue, 18 May 2021 15:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621351219;
-        bh=pM/wP3SO41YR80bpdiSeEVPNAWyq2ivENVttrfaRQHs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Cr1JVzJpVxA9bSwQKfEm7NFNpHGuLvIkYLdaPZDX+C04HCezG/s5TBTjK9uPufG5L
-         GtFvCKBz5kMWgJHH+XhgR0JlDEF/iTBluzxOOc+4BO/fQpibetNmRFhufzRF1yV8VY
-         x9HOX6XVrYiyd0Y6jgdV6N4WPeIaL/LVMNloD6yt0gchD6fM96IqYzeEj/4nkCFHWz
-         hJwFzDA0zSO1mpfD+i5JynSGp5np3T8DSq3krsGVW3Gyc3r6/AnuebRjtw8pSeewCJ
-         /TmysaiRwgEK2rr0mdEnEcSxpeg0+wpAqCYrC56AfBTeOqxua0LKmKqpAVJd4PCXKL
-         FUajvLvD2jzOg==
-Date:   Tue, 18 May 2021 17:20:14 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 13/25] media: venus: core: use
- pm_runtime_resume_and_get()
-Message-ID: <20210518172014.68f7a655@coco.lan>
-In-Reply-To: <3f41387e-a15f-1e45-6b63-bd6ef647a47f@linaro.org>
-References: <cover.1620314616.git.mchehab+huawei@kernel.org>
-        <492e148ae1c7b0a8858c1670037925d3e4adb719.1620314616.git.mchehab+huawei@kernel.org>
-        <adb102ab-c197-fdc8-4858-5683bd97baf4@linaro.org>
-        <3f41387e-a15f-1e45-6b63-bd6ef647a47f@linaro.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S1350329AbhERPrW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 May 2021 11:47:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44428 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350309AbhERPqq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 18 May 2021 11:46:46 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C1BC06175F
+        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 08:45:24 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id n2so15309522ejy.7
+        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 08:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Uzhu44uRZv1s3nfAlcOB8ei5a/9G/5m4eMNR5sBJlT4=;
+        b=Gv4f8B/Gxitv8+cOCEpXL5j7KUaKWbrZswuaSXIHed5VMYd8XhHu7K7zKuml6EFOpb
+         dZknsuFeZNYojlHQng9VgaM/QrqcH74VJrmdrfwPgeo5XDwWGNZTKVpp9EO7PqyJKMyJ
+         7JSkTosNgiQaEdWvV6OYiumeVB7+oEZA1yUmApJOgWWGzVe5fWGW/UlF3Pbx3wmExdF4
+         P3exJcgdKVUN9X6M0d8VZWT23DeQSGq4sFDbUMAXs38QsTYIQobDQ6Ed2dVLU+exv+35
+         NndqJuQLUQFI/XMBCdBGwvDRkfaxHVHME9h/X7O19sAqwn64FE9HG+Z8aG78GSXOc0gj
+         D+mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Uzhu44uRZv1s3nfAlcOB8ei5a/9G/5m4eMNR5sBJlT4=;
+        b=Bl/levYJdONEhqniAse5KoXZb2TCRbUzJpBC7rKkkkW6YsjdzxhsasyNsRKStlJs6X
+         vBmflYhmFHFuClxamdllX96228eTLmBM5UcRR6whnM3r5t9YLLcUz9gz7IHu4hogHChb
+         kpxfDIIDNRRw22cCEDVl9anISHAV1P4eWMBvI1N8p5/cnse+VHzdMxey2rk+p/yyt/md
+         4FODTJJ1iwTPTvWjUqgmf1mfU5ZEE4ubGG5IED9+phGuNouNzpYc6r3om4C36KnZkqI3
+         +m6tMQk9VZNZWu2m0kbFcfZQpx4HNl7bim1HzGpiSZpM1cbIAWkUasu82Ma8KFNM7La4
+         3hzg==
+X-Gm-Message-State: AOAM533IMz+6vw4mnmR/atsNoE4hXJQZOMTeh05iyUeo3+srt+F6dIzI
+        g9HZkzrroqyU2g8OYVeVIebzJFV4YspSVAw5
+X-Google-Smtp-Source: ABdhPJyWv38guj9NKPQJrcpRLso+xBI2P2svq44TuYFknZlEJ1aJN2cs8hJT8lW6Jvur3bQEyDT4vg==
+X-Received: by 2002:a17:906:1e15:: with SMTP id g21mr6660662ejj.241.1621352723392;
+        Tue, 18 May 2021 08:45:23 -0700 (PDT)
+Received: from localhost.localdomain ([195.24.90.54])
+        by smtp.gmail.com with ESMTPSA id n17sm13016434eds.72.2021.05.18.08.45.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 May 2021 08:45:23 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH 0/5] Venus fatal error handling
+Date:   Tue, 18 May 2021 18:45:04 +0300
+Message-Id: <20210518154509.602137-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 17 May 2021 18:26:14 +0300
-Stanimir Varbanov <stanimir.varbanov@linaro.org> escreveu:
+According to the stateful decoder spec fatal errors could be
+recovered either by close and open it again the file descriptor
+or by stop the streaming and starting it again. This patch series
+is attempting to solve the second fatal recovery case.
 
-> Hi Mauro,
-> 
-> On 5/10/21 4:54 PM, Stanimir Varbanov wrote:
-> > 
-> > 
-> > On 5/6/21 6:25 PM, Mauro Carvalho Chehab wrote:  
-> >> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> >> added pm_runtime_resume_and_get() in order to automatically handle
-> >> dev->power.usage_count decrement on errors.
-> >>
-> >> Use the new API, in order to cleanup the error check logic.
-> >>
-> >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> >> ---
-> >>  drivers/media/platform/qcom/venus/pm_helpers.c | 3 +--
-> >>  1 file changed, 1 insertion(+), 2 deletions(-)  
-> > 
-> > Tested-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> > Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> >   
-> 
-> What is the plan for these venus patches. Do I need to take them through
-> my Venus pull request for v5.14 or you will take them directly?
+regards,
+Stan
 
-Whatever works best for you. In principle, I should apply them on my
-tree probably tomorrow, if ok for you.
+Stanimir Varbanov (5):
+  venus: venc: Use pmruntime autosuspend
+  venus: Make sys_error flag an atomic bitops
+  venus: hfi: Check for sys error on session hfi functions
+  venus: helpers: Add helper to mark fatal vb2 error
+  venus: Handle fatal errors during encoding and decoding
 
-Regards,
-Mauro
+ drivers/media/platform/qcom/venus/core.c    |  13 ++-
+ drivers/media/platform/qcom/venus/core.h    |   6 +-
+ drivers/media/platform/qcom/venus/helpers.c |  16 ++-
+ drivers/media/platform/qcom/venus/helpers.h |   1 +
+ drivers/media/platform/qcom/venus/hfi.c     |  48 +++++++-
+ drivers/media/platform/qcom/venus/vdec.c    |  18 ++-
+ drivers/media/platform/qcom/venus/venc.c    | 117 ++++++++++++++++++--
+ 7 files changed, 202 insertions(+), 17 deletions(-)
 
-> 
-> >>
-> >> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> >> index c7e1ebec47ee..d0fddf5e9a69 100644
-> >> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> >> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> >> @@ -990,9 +990,8 @@ static int core_power_v4(struct venus_core *core, int on)
-> >>  
-> >>  	if (on == POWER_ON) {
-> >>  		if (pmctrl) {
-> >> -			ret = pm_runtime_get_sync(pmctrl);
-> >> +			ret = pm_runtime_resume_and_get(pmctrl);
-> >>  			if (ret < 0) {
-> >> -				pm_runtime_put_noidle(pmctrl);
-> >>  				return ret;
-> >>  			}
-> >>  		}
-> >>  
-> >   
-> 
+-- 
+2.25.1
 
-
-
-Thanks,
-Mauro
