@@ -2,151 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B001C389611
-	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 21:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9241538987E
+	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 23:19:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231368AbhESTDP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 May 2021 15:03:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47162 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231802AbhESTDN (ORCPT
+        id S229610AbhESVUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 May 2021 17:20:40 -0400
+Received: from fgw23-7.mail.saunalahti.fi ([62.142.5.84]:29294 "EHLO
+        fgw23-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229507AbhESVUk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 May 2021 15:03:13 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 302FAC06175F
-        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 12:01:51 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dsl-hkibng32-54fb5d-176.dhcp.inet.fi [84.251.93.176])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 3F7442018E;
-        Wed, 19 May 2021 22:01:48 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1621450908;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ssvzXEsTKxPNH609zlUP6Nsybv42jNeVLh7L5JxWZfI=;
-        b=SW2nBVMYKVvaJiSWDfemtc3eAlRWw2lFhRGuXO49KKvLibv9lqPH7xpomgtozqaM7sCJMP
-        AeHJXo6VxosCg6XpQPD6PQpk2vmHWiQotFBLd5MfaTppZTQ/FZ3TLNQ50ubLjp0q90xAlk
-        +G9pYOD5c3EwXBptS5KgBkGv7oxOfKE=
-Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id CB0D3634C87;
-        Wed, 19 May 2021 21:58:20 +0300 (EEST)
-Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
-        by valkosipuli.localdomain with esmtp (Exim 4.92)
-        (envelope-from <sakari.ailus@iki.fi>)
-        id 1ljRS1-0000O0-0N; Wed, 19 May 2021 22:01:49 +0300
-Date:   Wed, 19 May 2021 22:01:49 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     David Plowman <david.plowman@raspberrypi.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 2/2] media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAIN_XXX
- controls
-Message-ID: <20210519190148.GK3@valkosipuli.retiisi.eu>
-References: <20210517100240.3323-1-david.plowman@raspberrypi.com>
- <20210517100240.3323-3-david.plowman@raspberrypi.com>
- <20210519190121.GJ3@valkosipuli.retiisi.eu>
+        Wed, 19 May 2021 17:20:40 -0400
+X-Greylist: delayed 963 seconds by postgrey-1.27 at vger.kernel.org; Wed, 19 May 2021 17:20:39 EDT
+Received: from localhost (88-115-248-186.elisa-laajakaista.fi [88.115.248.186])
+        by fgw23.mail.saunalahti.fi (Halon) with ESMTP
+        id a0466097-b8e5-11eb-8ccd-005056bdfda7;
+        Thu, 20 May 2021 00:03:15 +0300 (EEST)
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>
+Subject: [PATCH v1 1/1] ACPI: utils: Fix reference counting in for_each_acpi_dev_match()
+Date:   Thu, 20 May 2021 00:02:53 +0300
+Message-Id: <20210519210253.3578025-1-andy.shevchenko@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210519190121.GJ3@valkosipuli.retiisi.eu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1621450908; a=rsa-sha256; cv=none;
-        b=hGH/gEoyKsxpAeq9ZOLoaVQY0L9m21VjFaloCXSxNFd4xiymSeVCGyx7znAPOjomnmdfsT
-        LXiLWLtFknDU0xl+2HxSimsOujUmCeHllziCGS03G/VvnrtMBlj4VwfUClkOBIzl1wMUTa
-        xVDJcJKxnXjW5mJZSzwC9E/dOU0iWec=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1621450908;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ssvzXEsTKxPNH609zlUP6Nsybv42jNeVLh7L5JxWZfI=;
-        b=UH4g33qpiHpmMKGYrV5h9fjD69NE33QwS8zZhm9c7mDrlnDPZra1TZvs2bJ/WWkXb48qzv
-        /RISqJgpfLvpP78zLb35+c51N8vf2YvhtAB0btSrmouO/fxYxo1qMY5Tvqzd5s9xQ4thSm
-        qWPN0klAiufZblDZolbNnOCd1cnGiL8=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Added Laurent to cc.
+Currently it's possible to iterate over the dangling pointer in case the device
+suddenly disappears. This may happen becase callers put it at the end of a loop.
 
-On Wed, May 19, 2021 at 10:01:21PM +0300, Sakari Ailus wrote:
-> Hi David,
-> 
-> Thanks for the patch.
-> 
-> Cc'ing Laurent, too.
-> 
-> On Mon, May 17, 2021 at 11:02:40AM +0100, David Plowman wrote:
-> > Add documentation for each of the controls
-> > 
-> > V4L2_CID_NOTIFY_GAIN_RED
-> > V4L2_CID_NOTIFY_GAIN_GREENR
-> > V4L2_CID_NOTIFY_GAIN_BLUE
-> > V4L2_CID_NOTIFY_GAIN_GREENB
-> > 
-> > These controls are required by sensors that need to know what colour
-> > gains will be applied to pixels by downstream processing (such as by
-> > an ISP), though the sensor does not apply these gains itself.
-> > 
-> > Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
-> > ---
-> >  .../media/v4l/ext-ctrls-image-source.rst      | 28 +++++++++++++++++++
-> >  1 file changed, 28 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > index de43f5c8486d..f824d6c36ae8 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > @@ -72,3 +72,31 @@ Image Source Control IDs
-> >      * - __u32
-> >        - ``height``
-> >        - Height of the area.
-> > +
-> > +``V4L2_CID_NOTIFY_GAIN_RED (integer)``
-> > +    Notify the sensor what gain will be applied to red pixels by the
-> > +    subsequent processing (such as by an ISP). The sensor is merely
-> > +    informed of this value in case it performs processing that requires
-> > +    it, but it is not applied to the output pixels themselves. The
-> > +    units are determined by the sensor driver.
-> 
-> I wonder if this should say the default value should reflect gain of 1. It
-> probably wouldn't hurt at least.
-> 
-> > +
-> > +``V4L2_CID_NOTIFY_GAIN_GREENR (integer)``
-> > +    Notify the sensor what gain will be applied to green pixels (on
-> > +    red rows) by subsequent processing (such as by an ISP). The sensor
-> > +    is merely informed of this value in case it performs processing
-> > +    that requires it, but it is not applied to the output pixels
-> > +    themselves. The units are determined by the sensor driver.
-> > +
-> > +``V4L2_CID_NOTIFY_GAIN_BLUE (integer)``
-> > +    Notify the sensor what gain will be applied to blue pixels by the
-> > +    subsequent processing (such as by an ISP). The sensor is merely
-> > +    informed of this value in case it performs processing that requires
-> > +    it, but it is not applied to the output pixels themselves. The
-> > +    units are determined by the sensor driver.
-> > +
-> > +``V4L2_CID_NOTIFY_GAIN_GREENB (integer)``
-> > +    Notify the sensor what gain will be applied to green pixels (on
-> > +    blue rows) by subsequent processing (such as by an ISP). The sensor
-> > +    is merely informed of this value in case it performs processing
-> > +    that requires it, but it is not applied to the output pixels
-> > +    themselves. The units are determined by the sensor driver.
-> 
-> -- 
-> Kind regards,
-> 
-> Sakari Ailus
+Instead, let's move that call inside acpi_dev_get_next_match_dev().
 
+Fixes: 803abec64ef9 ("media: ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver")
+Fixes: bf263f64e804 ("media: ACPI / bus: Add acpi_dev_get_next_match_dev() and helper macro")
+Cc: Daniel Scally <djrscally@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+---
+ drivers/acpi/utils.c                       | 5 +----
+ drivers/media/pci/intel/ipu3/cio2-bridge.c | 8 +++-----
+ include/acpi/acpi_bus.h                    | 5 -----
+ 3 files changed, 4 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/acpi/utils.c b/drivers/acpi/utils.c
+index 3b54b8fd7396..ccfc484dbffd 100644
+--- a/drivers/acpi/utils.c
++++ b/drivers/acpi/utils.c
+@@ -846,10 +846,6 @@ EXPORT_SYMBOL(acpi_dev_present);
+  * Return the next match of ACPI device if another matching device was present
+  * at the moment of invocation, or NULL otherwise.
+  *
+- * FIXME: The function does not tolerate the sudden disappearance of @adev, e.g.
+- * in the case of a hotplug event. That said, the caller should ensure that
+- * this will never happen.
+- *
+  * The caller is responsible for invoking acpi_dev_put() on the returned device.
+  *
+  * See additional information in acpi_dev_present() as well.
+@@ -866,6 +862,7 @@ acpi_dev_get_next_match_dev(struct acpi_device *adev, const char *hid, const cha
+ 	match.hrv = hrv;
+ 
+ 	dev = bus_find_device(&acpi_bus_type, start, &match, acpi_dev_match_cb);
++	acpi_dev_put(adev);
+ 	return dev ? to_acpi_device(dev) : NULL;
+ }
+ EXPORT_SYMBOL(acpi_dev_get_next_match_dev);
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+index e8511787c1e4..477417261b6e 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+@@ -178,13 +178,11 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 
+ 		if (bridge->n_sensors >= CIO2_NUM_PORTS) {
+ 			dev_err(&cio2->dev, "Exceeded available CIO2 ports\n");
+-			cio2_bridge_unregister_sensors(bridge);
+ 			ret = -EINVAL;
+-			goto err_out;
++			goto err_put_adev;
+ 		}
+ 
+ 		sensor = &bridge->sensors[bridge->n_sensors];
+-		sensor->adev = adev;
+ 		strscpy(sensor->name, cfg->hid, sizeof(sensor->name));
+ 
+ 		ret = cio2_bridge_read_acpi_buffer(adev, "SSDB",
+@@ -214,6 +212,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 			goto err_free_swnodes;
+ 		}
+ 
++		sensor->adev = acpi_dev_get(adev);
+ 		adev->fwnode.secondary = fwnode;
+ 
+ 		dev_info(&cio2->dev, "Found supported sensor %s\n",
+@@ -227,8 +226,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ err_free_swnodes:
+ 	software_node_unregister_nodes(sensor->swnodes);
+ err_put_adev:
+-	acpi_dev_put(sensor->adev);
+-err_out:
++	acpi_dev_put(adev);
+ 	return ret;
+ }
+ 
+diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
+index 3a82faac5767..bff6a11bb21f 100644
+--- a/include/acpi/acpi_bus.h
++++ b/include/acpi/acpi_bus.h
+@@ -698,11 +698,6 @@ acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv);
+  * @hrv: Hardware Revision of the device, pass -1 to not check _HRV
+  *
+  * The caller is responsible for invoking acpi_dev_put() on the returned device.
+- *
+- * FIXME: Due to above requirement there is a window that may invalidate @adev
+- * and next iteration will use a dangling pointer, e.g. in the case of a
+- * hotplug event. That said, the caller should ensure that this will never
+- * happen.
+  */
+ #define for_each_acpi_dev_match(adev, hid, uid, hrv)			\
+ 	for (adev = acpi_dev_get_first_match_dev(hid, uid, hrv);	\
 -- 
-Sakari Ailus
+2.31.1
+
