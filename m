@@ -2,177 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 502393890CF
-	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 16:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E0D3890D4
+	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 16:30:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347541AbhESOaF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 May 2021 10:30:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41006 "EHLO
+        id S1347569AbhESOb6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 May 2021 10:31:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241764AbhESOaE (ORCPT
+        with ESMTP id S1347552AbhESOb5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 May 2021 10:30:04 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067CEC06175F;
-        Wed, 19 May 2021 07:28:45 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 865D2BA7;
-        Wed, 19 May 2021 16:28:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621434522;
-        bh=0+5VCbtkiIDim7GlHlKBCPXn/uByoOsuGrJFJo6ix8c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=N07SYwlMZ0d8nSWLEP/hcdWm/19/O7cGfcs7RxFAvNwJrEHirifa96Nku4hcp2z3v
-         8KCVRsL3Nu06bFbYTxFukhVmXyBgSzfph0VQZd0ZXslFEiJqoPTnyLJN2eoA6OkHyB
-         WYjJE93WnmnuKi/JRfcXRtKowNDrN7MpfkC7zUss=
-Date:   Wed, 19 May 2021 17:28:40 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
+        Wed, 19 May 2021 10:31:57 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57B0C06175F
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:30:37 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id b13so6276033pfv.4
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:30:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rt/H9kqo4opNwZCAYpaq4Dm1MqGgRfPs4hw8Yb8ixao=;
+        b=i0PtYZ6fhrKb5OBqzIORwwCTePqgZ28Sr0YjIbiqyA18fd+tgipwr3YBxDp2CxqrPy
+         iJMwNeyV/wYkmLGrf6aq+iYJdi0Rq9l5Se7RJErRSEvoDDpCIBFf4AX0h80/7pFbnqtS
+         XcKbtm+IYOO4uwK/MoYML+C6EL5FXReGS2zPU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rt/H9kqo4opNwZCAYpaq4Dm1MqGgRfPs4hw8Yb8ixao=;
+        b=s+Ry6Rjc7hHytYaERreylLoZHKTe3uZ9Nu6tlUxRaJ9M3ZLk9j3Ra287kloWfL644N
+         pq6Mg/Lze6sSM6pSIjIlYY5GHhgStSPneLcRYf5425bc7LunSSUVaHwcSvcibAnPd+J0
+         X969Dg8xZ3fzrQpl4r/jOknPfbLuVg/RJbPC0d1qcTMnG0URRjUTwoxM7njHG1NA+KP0
+         flm8D6p5ApHHvCZAjjYw9Wepaa35mpWblV9XxFrzKxoJ4KN3l7cxOXi7G2SXBgxFRte5
+         /3pbY/EwPAmMUWybbug11hiy2ARQfML7lbdHXaNRCgH2BSDN+DrjVm6jLueh4xWOUPXI
+         L/PQ==
+X-Gm-Message-State: AOAM532eBvqFj/CjW8u/ONfyVXXTfeofd5XXC3kQXmog6r4B5RHKWzsr
+        +xEkqnMoeG6Nm+UGi+uAtVrgWL3yW3GkJw==
+X-Google-Smtp-Source: ABdhPJzOpymkaL4fPwyPa2NIrifUr+bc66RUEBAnS8XP3YyYvp0CA6ioy/nE/sd6OZw+h1dVPo1UcQ==
+X-Received: by 2002:aa7:8b56:0:b029:2b9:77be:d305 with SMTP id i22-20020aa78b560000b02902b977bed305mr10940065pfd.61.1621434637343;
+        Wed, 19 May 2021 07:30:37 -0700 (PDT)
+Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:87ab:ff82:1544:697])
+        by smtp.gmail.com with ESMTPSA id 3sm14337661pff.132.2021.05.19.07.30.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 May 2021 07:30:36 -0700 (PDT)
+From:   Alexandre Courbot <acourbot@chromium.org>
+To:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: renesas,jpu: Convert to json-schema
-Message-ID: <YKUgmGeFtcJn6KeV@pendragon.ideasonboard.com>
-References: <ded1a61cbaa39fa7a15efdaa2fdfa4fdb307b930.1621429165.git.geert+renesas@glider.be>
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Alexandre Courbot <acourbot@chromium.org>
+Subject: [PATCH v5 00/14] media: mtk-vcodec: support for MT8183 decoder
+Date:   Wed, 19 May 2021 23:29:57 +0900
+Message-Id: <20210519143011.1175546-1-acourbot@chromium.org>
+X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ded1a61cbaa39fa7a15efdaa2fdfa4fdb307b930.1621429165.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+This series adds support for the stateless API into mtk-vcodec, by first
+separating the stateful ops into their own source file, and introducing
+a new set of ops suitable for stateless decoding. As such, support for
+stateful decoders should remain completely unaffected.
 
-Thank you for the patch.
+This series has been tested with both MT8183 and MT8173. Decoding was
+working for both chips, and in the case of MT8173 no regression has been
+spotted.
 
-On Wed, May 19, 2021 at 03:00:56PM +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas JPEG Processing Unit Device Tree binding
-> documentation to json-schema.
-> 
-> Document missing properties.
-> Update the example to match reality.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Patches 1-5 fix a few compliance issues with the decoder and encoder, most
+notably by adding support for the START and STOP command for the latter. These
+patches were last in the previous series but have been moved to the beginning so
+they can be applied sooner.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Patches 6-9 separates the "stateful" part of the driver into its own file and
+add support for the new firmware and pixel format used by MT8183.
 
-> ---
-> I have listed Mikhail as the maintainer, as he wrote the original driver
-> and bindings.  Mikhail: Please scream if this is inappropriate ;-)
-> ---
->  .../devicetree/bindings/media/renesas,jpu.txt | 25 -------
->  .../bindings/media/renesas,jpu.yaml           | 65 +++++++++++++++++++
->  2 files changed, 65 insertions(+), 25 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/renesas,jpu.txt
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,jpu.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,jpu.txt b/Documentation/devicetree/bindings/media/renesas,jpu.txt
-> deleted file mode 100644
-> index d3436e5190f9196a..0000000000000000
-> --- a/Documentation/devicetree/bindings/media/renesas,jpu.txt
-> +++ /dev/null
-> @@ -1,25 +0,0 @@
-> -* Renesas JPEG Processing Unit
-> -
-> -The JPEG processing unit (JPU) incorporates the JPEG codec with an encoding
-> -and decoding function conforming to the JPEG baseline process, so that the JPU
-> -can encode image data and decode JPEG data quickly.
-> -
-> -Required properties:
-> -- compatible: "renesas,jpu-<soctype>", "renesas,rcar-gen2-jpu" as fallback.
-> -	Examples with soctypes are:
-> -	  - "renesas,jpu-r8a7790" for R-Car H2
-> -	  - "renesas,jpu-r8a7791" for R-Car M2-W
-> -	  - "renesas,jpu-r8a7792" for R-Car V2H
-> -	  - "renesas,jpu-r8a7793" for R-Car M2-N
-> -
-> -  - reg: Base address and length of the registers block for the JPU.
-> -  - interrupts: JPU interrupt specifier.
-> -  - clocks: A phandle + clock-specifier pair for the JPU functional clock.
-> -
-> -Example: R8A7790 (R-Car H2) JPU node
-> -	jpeg-codec@fe980000 {
-> -		compatible = "renesas,jpu-r8a7790", "renesas,rcar-gen2-jpu";
-> -		reg = <0 0xfe980000 0 0x10300>;
-> -		interrupts = <0 272 IRQ_TYPE_LEVEL_HIGH>;
-> -		clocks = <&mstp1_clks R8A7790_CLK_JPU>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/media/renesas,jpu.yaml b/Documentation/devicetree/bindings/media/renesas,jpu.yaml
-> new file mode 100644
-> index 0000000000000000..2f55968e864fe2f5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,jpu.yaml
-> @@ -0,0 +1,65 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/renesas,jpu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas JPEG Processing Unit
-> +
-> +maintainers:
-> +  - Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
-> +
-> +description:
-> +  The JPEG processing unit (JPU) incorporates the JPEG codec with an encoding
-> +  and decoding function conforming to the JPEG baseline process, so that the
-> +  JPU can encode image data and decode JPEG data quickly.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,jpu-r8a7790      # R-Car H2
-> +          - renesas,jpu-r8a7791      # R-Car M2-W
-> +          - renesas,jpu-r8a7792      # R-Car V2H
-> +          - renesas,jpu-r8a7793      # R-Car M2-N
-> +      - const: renesas,rcar-gen2-jpu # R-Car Gen2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - power-domains
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7790-sysc.h>
-> +
-> +    jpeg-codec@fe980000 {
-> +            compatible = "renesas,jpu-r8a7790", "renesas,rcar-gen2-jpu";
-> +            reg = <0xfe980000 0x10300>;
-> +            interrupts = <GIC_SPI 272 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 106>;
-> +            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> +            resets = <&cpg 106>;
-> +    };
+Patches 10-14 add support for H.264 stateless decoding and MT8183.
 
--- 
-Regards,
+Changes since v4:
+* Moved compliance fix patches to the head of the series.
+* Select MEDIA_CONTROLLER_REQUEST_API.
+* Properly capitalize MM21's format description string.
+* Reorganize stateless code as suggested by Hans.
+* Fix compilation errors when DEBUG is defined.
+* Merge double-free fixup patch into the patch that introduced the issue (was
+  a separate patch coming right after the one introducing the issue).
 
-Laurent Pinchart
+Changes since v3:
+* Stop checking that controls are set for every request.
+* Add V4L2_CID_STATELESS_H264_START_CODE control.
+* Stop mapping OUTPUT buffers and getting the NAL type from them, use the
+  nal_ref_idc field instead.
+* Make V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control stateful-only.
+* Set vb2_buffer's field to V4L2_FIELD_NONE in buffer validation hook.
+
+Changes since v2:
+* Add follow-up patches fixing support for START/STOP commands for the
+  encoder, and stateful decoder.
+
+Alexandre Courbot (8):
+  media: mtk-vcodec: vdec: use helpers in VIDIOC_(TRY_)DECODER_CMD
+  media: mtk-vcodec: vdec: clamp OUTPUT resolution to hardware limits
+  media: mtk-vcodec: make flush buffer reusable by encoder
+  media: mtk-vcodec: venc: support START and STOP commands
+  media: mtk-vcodec: vdec: handle firmware version field
+  media: mtk-vcodec: support version 2 of decoder firmware ABI
+  media: add Mediatek's MM21 format
+  dt-bindings: media: document mediatek,mt8183-vcodec-dec
+
+Hirokazu Honda (1):
+  media: mtk-vcodec: vdec: Support H264 profile control
+
+Yunfei Dong (5):
+  media: mtk-vcodec: vdec: move stateful ops into their own file
+  media: mtk-vcodec: vdec: support stateless API
+  media: mtk-vcodec: vdec: support stateless H.264 decoding
+  media: mtk-vcodec: vdec: add media device if using stateless api
+  media: mtk-vcodec: enable MT8183 decoder
+
+ .../bindings/media/mediatek-vcodec.txt        |   1 +
+ .../media/v4l/pixfmt-reserved.rst             |   7 +
+ drivers/media/platform/Kconfig                |   3 +
+ drivers/media/platform/mtk-vcodec/Makefile    |   3 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 817 +++---------------
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |  27 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  66 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      | 668 ++++++++++++++
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     | 366 ++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  58 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 135 ++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |   4 +
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        | 780 +++++++++++++++++
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |   3 +
+ .../media/platform/mtk-vcodec/vdec_drv_if.h   |   1 +
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  23 +-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  43 +-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   5 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 20 files changed, 2290 insertions(+), 722 deletions(-)
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+
+--
+2.31.1.751.gd2f1c929bd-goog
+
