@@ -2,118 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67A5E38842C
-	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 02:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D07AF388437
+	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 03:05:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230284AbhESBAB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 May 2021 21:00:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbhESBAB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 May 2021 21:00:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6F90C06175F
-        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 17:58:42 -0700 (PDT)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5171145E;
-        Wed, 19 May 2021 02:58:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621385920;
-        bh=aXZu6ini9tyX0i9HZps2Rkab/b7j68aVQcSIO8NT4X4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=HY5g74K3wLlo0GaY8Q5QPowKs8dobhf3eLBbGkLaMZi672Rk22FHvyPHcSHCmUjDX
-         W3S33pJmnkmzLkmOeXqfLEyKv+Rz5hK1Vl1a+UtEFvgpNLrqkrG/Ew9nZxgJjqVLDT
-         pyrC143x4I/pcdPa/kKWmptSC9dQv5r5xpKr2A0E=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Marek Vasut <marek.vasut@gmail.com>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Subject: [PATCH] media: imx: imx7-media-csi: Fix buffer return upon stream start failure
-Date:   Wed, 19 May 2021 03:58:34 +0300
-Message-Id: <20210519005834.8690-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.28.1
+        id S231205AbhESBHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 May 2021 21:07:09 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:42466 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229485AbhESBHJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 18 May 2021 21:07:09 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ljAej-00A2Y5-Qc; Wed, 19 May 2021 01:05:49 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ljAj1-0001DV-Cn; Wed, 19 May 2021 01:10:15 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] imx7-mipi-csis driver improvements (#74349)
+Date:   Wed, 19 May 2021 01:10:15 +0000
+Message-Id: <20210519011015.4636-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <YKReJdBSV9yIXfxt@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the stream fails to start, the first two buffers in the queue have
-been moved to the active_vb2_buf array and are returned to vb2 by
-imx7_csi_dma_unsetup_vb2_buf(). The function is called with the buffer
-state set to VB2_BUF_STATE_ERROR unconditionally, which is correct when
-stopping the stream, but not when the start operation fails. In that
-case, the state should be set to VB2_BUF_STATE_QUEUED. Fix it.
+From: builder@linuxtv.org
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/staging/media/imx/imx7-media-csi.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YKReJdBSV9yIXfxt@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/107748/
+Build time: 00:23:35
+Link: https://lore.kernel.org/linux-media/YKReJdBSV9yIXfxt@pendragon.ideasonboard.com
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index f644a640a831..da768ea21d03 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -361,6 +361,7 @@ static void imx7_csi_dma_unsetup_vb2_buf(struct imx7_csi *csi,
- 
- 			vb->timestamp = ktime_get_ns();
- 			vb2_buffer_done(vb, return_status);
-+			csi->active_vb2_buf[i] = NULL;
- 		}
- 	}
- }
-@@ -386,9 +387,10 @@ static int imx7_csi_dma_setup(struct imx7_csi *csi)
- 	return 0;
- }
- 
--static void imx7_csi_dma_cleanup(struct imx7_csi *csi)
-+static void imx7_csi_dma_cleanup(struct imx7_csi *csi,
-+				 enum vb2_buffer_state return_status)
- {
--	imx7_csi_dma_unsetup_vb2_buf(csi, VB2_BUF_STATE_ERROR);
-+	imx7_csi_dma_unsetup_vb2_buf(csi, return_status);
- 	imx_media_free_dma_buf(csi->dev, &csi->underrun_buf);
- }
- 
-@@ -526,9 +528,10 @@ static int imx7_csi_init(struct imx7_csi *csi)
- 	return 0;
- }
- 
--static void imx7_csi_deinit(struct imx7_csi *csi)
-+static void imx7_csi_deinit(struct imx7_csi *csi,
-+			    enum vb2_buffer_state return_status)
- {
--	imx7_csi_dma_cleanup(csi);
-+	imx7_csi_dma_cleanup(csi, return_status);
- 	imx7_csi_init_default(csi);
- 	imx7_csi_dmareq_rff_disable(csi);
- 	clk_disable_unprepare(csi->mclk);
-@@ -691,7 +694,7 @@ static int imx7_csi_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 		ret = v4l2_subdev_call(csi->src_sd, video, s_stream, 1);
- 		if (ret < 0) {
--			imx7_csi_deinit(csi);
-+			imx7_csi_deinit(csi, VB2_BUF_STATE_QUEUED);
- 			goto out_unlock;
- 		}
- 
-@@ -701,7 +704,7 @@ static int imx7_csi_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 		v4l2_subdev_call(csi->src_sd, video, s_stream, 0);
- 
--		imx7_csi_deinit(csi);
-+		imx7_csi_deinit(csi, VB2_BUF_STATE_ERROR);
- 	}
- 
- 	csi->is_streaming = !!enable;
--- 
-Regards,
+gpg: Signature made Wed 19 May 2021 12:37:13 AM UTC
+gpg:                using RSA key CB9D6877529820CD53099B1B65F89C37BC54210D
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
-Laurent Pinchart
+Summary: got 2/25 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-imx-imx7_mipi_csis-Fix-logging-of-only-error-e.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1929 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/exynos4-is/media-dev.c:1287:6: warning: unused variable ‘ret’ [-Wunused-variable]
+	../drivers/media/platform/davinci/vpif_display.c:114: warning: Function parameter or member 'nplanes' not described in 'vpif_buffer_queue_setup'
+	../drivers/media/platform/davinci/vpif_capture.c:112: warning: Function parameter or member 'nplanes' not described in 'vpif_buffer_queue_setup'
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+    allmodconfig: return code #0:
+	../drivers/media/platform/exynos4-is/media-dev.c:1287:6: warning: unused variable ‘ret’ [-Wunused-variable]
+
+patches/0003-media-imx-imx7_mipi_csis-Update-ISP_CONFIG-macros-fo.patch:
+
+   checkpatch.pl:
+	$ cat patches/0003-media-imx-imx7_mipi_csis-Update-ISP_CONFIG-macros-fo.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:28: CHECK: Prefer using the BIT macro
+
+
+Error #512 when building PDF docs
 
