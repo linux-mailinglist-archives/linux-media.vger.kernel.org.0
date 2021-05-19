@@ -2,174 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC82638957F
-	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 20:35:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F09238960F
+	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 21:01:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231590AbhESSgg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 May 2021 14:36:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41142 "EHLO
+        id S231384AbhESTCr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 May 2021 15:02:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231576AbhESSge (ORCPT
+        with ESMTP id S231382AbhESTCp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 May 2021 14:36:34 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17255C06175F;
-        Wed, 19 May 2021 11:35:15 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id n8so2327544plf.7;
-        Wed, 19 May 2021 11:35:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=n5uWZIfYNT9NU92iv+57nnURivFj6aDlrNkoAZSXV/w=;
-        b=KOarvd9cHWYKgnPJf9nSyzfOesTFIXD7IGNVJ+du1Z0SHpY0Xm/EXFqN9HQCuRMAQv
-         2kguO8VQtBzz6vByBahivwR4XUM3q8ulOI8YpSsXjpoEOvnn5Q8Agif1PURmqHLXabsp
-         7ut0TDH/YxF+ybzk5eNjGyIgsd59xbXVTFbcLLxezlV9PYiC90gA5k4sHMSHYcE/eL71
-         WDNWal+4Iwi/BnBVwN/Ro2dY2R06U35roeH5Zz9oUvtHgiLl40sNw1Oan98B2QWU9aFW
-         27b1mG8mnUdeTGBpYRnPwm0j9hU/61yxlpITvDf8+bBkjQqHITe1Egm6dmEBdNCIeVEm
-         1sag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=n5uWZIfYNT9NU92iv+57nnURivFj6aDlrNkoAZSXV/w=;
-        b=Q1VuU+BjWrGwr4FK5whZQMkjD61v+9J0jZvDqz5ElgV5FKq76OLePsKnVa1Dj/zDjv
-         V1+AH/VsUswyTGI2BSURaWYv+3dlD+mr5wsnzy2iOdlC/Z52ErCj0UZ/g/ty8KV4cSNz
-         V+F4kcOLfeDCJQ3OjbsAFkUxM7gkYwPnMT+YsdxS7cIjxVyEZmF07epNpLGGYaeOZtNo
-         lkFd6bixJDpipb0GhweXS3kSjTBoTyIYgn4erqk2I2UQZLsx8hJrxOfD+d2T7zd7mUDv
-         fEUo9drsXOZvDqAoeC30FjuivzXu60D+A4G0Vp8w7GU43mQ1dMmEhCq1hhKLDQCs7EGe
-         2f3Q==
-X-Gm-Message-State: AOAM533E/CSSo/VHcLy4Z2qMYvkCRLv/0IBS+jI6UL/hc2DZs8wSzCbr
-        0YKXmiAOBhnh+PJPZ694mnU=
-X-Google-Smtp-Source: ABdhPJx7j2+wCkNK1D1YUAjaIZNBYpRrQkfJ3sHGCatwOmy6egf6QrGebz1yZKbJJVE5Een+NF84FA==
-X-Received: by 2002:a17:902:8e88:b029:ee:b947:d7df with SMTP id bg8-20020a1709028e88b02900eeb947d7dfmr1029276plb.48.1621449314588;
-        Wed, 19 May 2021 11:35:14 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
-        by smtp.gmail.com with ESMTPSA id a24sm68148pgv.76.2021.05.19.11.35.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 11:35:13 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        Rob Clark <robdclark@chromium.org>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK)
-Subject: [RFC 3/3] drm/msm: Wire up gpu boost
-Date:   Wed, 19 May 2021 11:38:54 -0700
-Message-Id: <20210519183855.1523927-4-robdclark@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210519183855.1523927-1-robdclark@gmail.com>
-References: <20210519183855.1523927-1-robdclark@gmail.com>
+        Wed, 19 May 2021 15:02:45 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78324C061761
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 12:01:25 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (unknown [IPv6:2001:2003:f75d:b010:afd2:773e:79db:477b])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4DF6B1B002F1;
+        Wed, 19 May 2021 22:01:21 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1621450881;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Qo/vi0wq4L+WKO/LfHvNJwknDs9hwyaZcr0nmGtpm0Y=;
+        b=D6Q0IUrsgxxmkWCzui7CZR1q469yyuofl+zJB0a9/hw6616g0oyyAemoqaqz9xJIWgYuGq
+        gOhjQvbVahoB3tejo4iGa68lJ0NSgRbURTe+3AdITO32Rev6itwhKNg9KAkGpafIvQJbGn
+        Dh/fqF5FhdUumf6sXj8eEhdIRc2zFICcs0NIkA2YlLQevo1cUc+daMf8O7ITK7mgJRRtLG
+        mk/RFS4UceGXK73jEwXXBDfps2gvqb0zef42Z3TvBul0lqCqlJ1F8v5dY7vM7BpcuSLp22
+        6OOn4+3dU8kwRXwonSvEL1NlbVVreFJ6iLiVVuHlVfmIJVCZWwv3vpwJXFsiRQ==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5EAE3634C89;
+        Wed, 19 May 2021 21:57:52 +0300 (EEST)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1ljRRZ-0000Nt-7D; Wed, 19 May 2021 22:01:21 +0300
+Date:   Wed, 19 May 2021 22:01:21 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     David Plowman <david.plowman@raspberrypi.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAIN_XXX
+ controls
+Message-ID: <20210519190121.GJ3@valkosipuli.retiisi.eu>
+References: <20210517100240.3323-1-david.plowman@raspberrypi.com>
+ <20210517100240.3323-3-david.plowman@raspberrypi.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210517100240.3323-3-david.plowman@raspberrypi.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1621450881;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Qo/vi0wq4L+WKO/LfHvNJwknDs9hwyaZcr0nmGtpm0Y=;
+        b=jZNO3Fyt5jY4IlLonzZjGnAAu837BU242P2aErscAuzMUOHHQvyIuj6Ho5+bBD2tJ4F4a3
+        IdWOtsajXeY1TWkGtmxfULFcxY2bu8jPPud+p7QWqSPhzjmYEDzZG70C4f/VvHpmtYYQNg
+        6VX/olGgmZYOmDFXx8LfL0ygmWODKbKgKd5ly8kflZl0eaPu0PRIa6UDel4pMfg3a5pnZD
+        9Rk4MNtxG8wQhD0Q3NY1qhJCxO99yoJNt9Zhk7/6CTpCRcZYqsUOr0DaVWzqW407157fjB
+        k+CQwhVL36P6dIgZrYfAGiuIucHIPvEp0zluXTRunGKibvfYdVECcc+6Hsfh1Q==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1621450881; a=rsa-sha256;
+        cv=none;
+        b=H8LfKURfC4mAuAUInq9OeWfanScWJmFouOwEb9AcEgOsrNzH2I7BOV1DZtis5FlvEUWkrK
+        qb1PADgMrXoF7XQF04aojMCi1dy9MQP8W85hY1UDJGxg7Xu4i3m6rT0HnEeiOS7uuBU8pf
+        6buD6sH2dFRtFf+BO/tDiQpKUsgW8mKz7RZIkw64B4I1ZtmWP+t3qHUtdS8+QvaTbGayj9
+        6e1oubZBsJM2V0tphnqtrdW1s/ObGfzzDn4AuYW/ZRemTMJS/Wdv6AhKLloNKq/Jav70z9
+        PARN4KspHexHV7L4AkRn69u1kj5j91HlmcOvjt7JEToJH4KWu3cy2/bb9F5bgA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+Hi David,
 
-Note, at this point I haven't given a lot of consideration into how much
-we should boost, and for how long.  And perhaps we should only boost at
-less than 50% utilization?  At this point, this is only an example of
-dma_fence_boost() implementation.
+Thanks for the patch.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_fence.c | 10 ++++++++++
- drivers/gpu/drm/msm/msm_gpu.c   | 13 +++++++++++++
- drivers/gpu/drm/msm/msm_gpu.h   |  2 ++
- 3 files changed, 25 insertions(+)
+Cc'ing Laurent, too.
 
-diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
-index cd59a5918038..e58895603726 100644
---- a/drivers/gpu/drm/msm/msm_fence.c
-+++ b/drivers/gpu/drm/msm/msm_fence.c
-@@ -8,6 +8,7 @@
- 
- #include "msm_drv.h"
- #include "msm_fence.h"
-+#include "msm_gpu.h"
- 
- 
- struct msm_fence_context *
-@@ -114,10 +115,19 @@ static bool msm_fence_signaled(struct dma_fence *fence)
- 	return fence_completed(f->fctx, f->base.seqno);
- }
- 
-+static void msm_fence_boost(struct dma_fence *fence)
-+{
-+	struct msm_fence *f = to_msm_fence(fence);
-+	struct msm_drm_private *priv = f->fctx->dev->dev_private;
-+
-+	msm_gpu_boost(priv->gpu);
-+}
-+
- static const struct dma_fence_ops msm_fence_ops = {
- 	.get_driver_name = msm_fence_get_driver_name,
- 	.get_timeline_name = msm_fence_get_timeline_name,
- 	.signaled = msm_fence_signaled,
-+	.boost = msm_fence_boost,
- };
- 
- struct dma_fence *
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 9dd1c58430ab..c90b79116500 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -62,6 +62,10 @@ static int msm_devfreq_get_dev_status(struct device *dev,
- 	status->total_time = ktime_us_delta(time, gpu->devfreq.time);
- 	gpu->devfreq.time = time;
- 
-+	if (atomic_dec_if_positive(&gpu->devfreq.boost) >= 0) {
-+		status->busy_time = status->total_time;
-+	}
-+
- 	return 0;
- }
- 
-@@ -84,6 +88,15 @@ static struct devfreq_dev_profile msm_devfreq_profile = {
- 	.get_cur_freq = msm_devfreq_get_cur_freq,
- };
- 
-+void msm_gpu_boost(struct msm_gpu *gpu)
-+{
-+	if (!gpu->funcs->gpu_busy)
-+		return;
-+
-+	/* Add three devfreq polling intervals worth of boost: */
-+	atomic_add(3, &gpu->devfreq.boost);
-+}
-+
- static void msm_devfreq_init(struct msm_gpu *gpu)
- {
- 	/* We need target support to do devfreq */
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 18baf935e143..7a082a12d98f 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -150,6 +150,7 @@ struct msm_gpu {
- 		struct devfreq *devfreq;
- 		u64 busy_cycles;
- 		ktime_t time;
-+		atomic_t boost;
- 	} devfreq;
- 
- 	uint32_t suspend_count;
-@@ -295,6 +296,7 @@ static inline void gpu_write64(struct msm_gpu *gpu, u32 lo, u32 hi, u64 val)
- int msm_gpu_pm_suspend(struct msm_gpu *gpu);
- int msm_gpu_pm_resume(struct msm_gpu *gpu);
- void msm_gpu_resume_devfreq(struct msm_gpu *gpu);
-+void msm_gpu_boost(struct msm_gpu *gpu);
- 
- int msm_gpu_hw_init(struct msm_gpu *gpu);
- 
+On Mon, May 17, 2021 at 11:02:40AM +0100, David Plowman wrote:
+> Add documentation for each of the controls
+> 
+> V4L2_CID_NOTIFY_GAIN_RED
+> V4L2_CID_NOTIFY_GAIN_GREENR
+> V4L2_CID_NOTIFY_GAIN_BLUE
+> V4L2_CID_NOTIFY_GAIN_GREENB
+> 
+> These controls are required by sensors that need to know what colour
+> gains will be applied to pixels by downstream processing (such as by
+> an ISP), though the sensor does not apply these gains itself.
+> 
+> Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
+> ---
+>  .../media/v4l/ext-ctrls-image-source.rst      | 28 +++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> index de43f5c8486d..f824d6c36ae8 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> @@ -72,3 +72,31 @@ Image Source Control IDs
+>      * - __u32
+>        - ``height``
+>        - Height of the area.
+> +
+> +``V4L2_CID_NOTIFY_GAIN_RED (integer)``
+> +    Notify the sensor what gain will be applied to red pixels by the
+> +    subsequent processing (such as by an ISP). The sensor is merely
+> +    informed of this value in case it performs processing that requires
+> +    it, but it is not applied to the output pixels themselves. The
+> +    units are determined by the sensor driver.
+
+I wonder if this should say the default value should reflect gain of 1. It
+probably wouldn't hurt at least.
+
+> +
+> +``V4L2_CID_NOTIFY_GAIN_GREENR (integer)``
+> +    Notify the sensor what gain will be applied to green pixels (on
+> +    red rows) by subsequent processing (such as by an ISP). The sensor
+> +    is merely informed of this value in case it performs processing
+> +    that requires it, but it is not applied to the output pixels
+> +    themselves. The units are determined by the sensor driver.
+> +
+> +``V4L2_CID_NOTIFY_GAIN_BLUE (integer)``
+> +    Notify the sensor what gain will be applied to blue pixels by the
+> +    subsequent processing (such as by an ISP). The sensor is merely
+> +    informed of this value in case it performs processing that requires
+> +    it, but it is not applied to the output pixels themselves. The
+> +    units are determined by the sensor driver.
+> +
+> +``V4L2_CID_NOTIFY_GAIN_GREENB (integer)``
+> +    Notify the sensor what gain will be applied to green pixels (on
+> +    blue rows) by subsequent processing (such as by an ISP). The sensor
+> +    is merely informed of this value in case it performs processing
+> +    that requires it, but it is not applied to the output pixels
+> +    themselves. The units are determined by the sensor driver.
+
 -- 
-2.30.2
+Kind regards,
 
+Sakari Ailus
