@@ -2,110 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9F4C3883B9
-	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 02:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80F623883D6
+	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 02:39:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237171AbhESAY5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 May 2021 20:24:57 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60792 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233756AbhESAY5 (ORCPT
+        id S234612AbhESAkY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 May 2021 20:40:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51584 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234097AbhESAkX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 May 2021 20:24:57 -0400
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81A5145E;
-        Wed, 19 May 2021 02:23:36 +0200 (CEST)
+        Tue, 18 May 2021 20:40:23 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79E13C06175F
+        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 17:39:04 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE13045E
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 02:39:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621383817;
-        bh=cRw4b1DrjSLxNdY/lyr3LkOl/8VlGtxInKBCvumkRlE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rzrL+2jU3bYEEQhDqW53P64Z8crYosYSQ5mh8xuT6gonlCp9RyANBbxr9uT71o5Xn
-         LbYIpx2XwC5JU/Ds+Z0CysQGNCYo2eusN17NkgOkXLr7h21MQwes6KW8Y/8fF6cyBh
-         coi7A+2JtSaAng0YsG9DgCZLrXotFhtVBcr5C03g=
+        s=mail; t=1621384743;
+        bh=/lT/f5RQbZ4lIpVLUISg1OhPS/1UaNyILcRds5ykg5o=;
+        h=Date:From:To:Subject:From;
+        b=g66y6t+aPrJ2FYYH3fuaTKyXRMqvPHR7rgWJ6afS9eDId74pDS/Hq0iuMqRmlxXSH
+         uvAxB+VjosxwCK4XtViPnlYfrG/vftfCcwB9f3b1mRyhtASx/RwTQKG6n+m46RK/hv
+         GCarqX5uQuS2i//mkRoyxezkGJLHYRurJoIHsvoM=
+Date:   Wed, 19 May 2021 03:39:01 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     kernel@pengutronix.de, Fabio Estevam <festevam@gmail.com>,
-        linux-imx@nxp.com, Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Marek Vasut <marex@denx.de>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: [RFC PATCH 2/3 v1.1] media: imx: imx7-media-csi: Set TWO_8BIT_SENSOR for >= 10-bit formats
-Date:   Wed, 19 May 2021 03:23:32 +0300
-Message-Id: <20210519002332.10406-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.28.1
-In-Reply-To: <CBFG1V17RJK2.2Q6JTIOSUD8ML@arch-thunder>
-References: <CBFG1V17RJK2.2Q6JTIOSUD8ML@arch-thunder>
+Subject: [GIT PULL FOR v5.14] imx7-mipi-csis driver improvements
+Message-ID: <YKReJdBSV9yIXfxt@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sample code from NXP, as well as experiments on i.MX8MM with RAW10
-capture with an OV5640 sensor connected over CSI-2, showed that the
-TWO_8BIT_SENSOR field of the CSICR3 register needs to be set for formats
-larger than 8 bits. Do so, even if the reference manual doesn't clearly
-describe the effect of the field.
+Hi Mauro,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Changes since v1:
+The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
 
-- Initialize cr3 to BIT_FRMCNT_RST
----
- drivers/staging/media/imx/imx7-media-csi.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index f85a2f5f1413..5ae9ed1849e9 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -421,6 +421,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
- 	struct v4l2_pix_format *out_pix = &vdev->fmt;
- 	int width = out_pix->width;
- 	u32 stride = 0;
-+	u32 cr3 = BIT_FRMCNT_RST;
- 	u32 cr1, cr18;
- 
- 	cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
-@@ -464,6 +465,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
- 		case MEDIA_BUS_FMT_SGBRG10_1X10:
- 		case MEDIA_BUS_FMT_SGRBG10_1X10:
- 		case MEDIA_BUS_FMT_SRGGB10_1X10:
-+			cr3 |= BIT_TWO_8BIT_SENSOR;
- 			cr18 |= BIT_MIPI_DATA_FORMAT_RAW10;
- 			break;
- 		case MEDIA_BUS_FMT_Y12_1X12:
-@@ -471,6 +473,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
- 		case MEDIA_BUS_FMT_SGBRG12_1X12:
- 		case MEDIA_BUS_FMT_SGRBG12_1X12:
- 		case MEDIA_BUS_FMT_SRGGB12_1X12:
-+			cr3 |= BIT_TWO_8BIT_SENSOR;
- 			cr18 |= BIT_MIPI_DATA_FORMAT_RAW12;
- 			break;
- 		case MEDIA_BUS_FMT_Y14_1X14:
-@@ -478,6 +481,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
- 		case MEDIA_BUS_FMT_SGBRG14_1X14:
- 		case MEDIA_BUS_FMT_SGRBG14_1X14:
- 		case MEDIA_BUS_FMT_SRGGB14_1X14:
-+			cr3 |= BIT_TWO_8BIT_SENSOR;
- 			cr18 |= BIT_MIPI_DATA_FORMAT_RAW14;
- 			break;
- 		/*
-@@ -510,7 +514,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
- 
- 	imx7_csi_reg_write(csi, cr1, CSI_CSICR1);
- 	imx7_csi_reg_write(csi, BIT_DMA_BURST_TYPE_RFF_INCR16, CSI_CSICR2);
--	imx7_csi_reg_write(csi, BIT_FRMCNT_RST, CSI_CSICR3);
-+	imx7_csi_reg_write(csi, cr3, CSI_CSICR3);
- 	imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
- 
- 	imx7_csi_reg_write(csi, (width * out_pix->height) >> 2, CSI_CSIRXCNT);
+are available in the Git repository at:
+
+  git://linuxtv.org/pinchartl/media.git tags/imx-20210519
+
+for you to fetch changes up to 702077f1dd8ea4c0b6a91543b8d8946c77420ce8:
+
+  media: imx: imx7_mipi_csis: Update MAINTAINERS (2021-05-19 03:36:26 +0300)
+
+----------------------------------------------------------------
+- Miscellaneous imx7-mipi-csis cleanups and fixes
+- i.MX8MM support in the imx7-mipi-csis driver
+
+----------------------------------------------------------------
+Laurent Pinchart (25):
+      media: imx: imx7_mipi_csis: Fix logging of only error event counters
+      media: imx: imx7_mipi_csis: Count the CSI-2 debug interrupts
+      media: imx: imx7_mipi_csis: Update ISP_CONFIG macros for quad pixel mode
+      media: imx: imx7_mipi_csis: Move static data to top of mipi_csis_dump_regs()
+      media: imx: imx7_mipi_csis: Minimize locking in get/set format
+      media: imx: imx7_mipi_csis: Don't set subdev data
+      media: imx: imx7_mipi_csis: Reorganize code in sections
+      media: imx: imx7_mipi_csis: Set the CLKSETTLE register field
+      media: imx: imx7_mipi_csis: Drop unused csis_hw_reset structure
+      media: imx: imx7_mipi_csis: Store CSI-2 data type in format structure
+      media: imx: imx7_mipi_csis: Drop csi_state phy field
+      media: imx: imx7_mipi_csis: Rename mipi_sd to sd
+      media: imx: imx7_mipi_csis: Rename csi_state flag field to state
+      media: imx: imx7_mipi_csis: Turn csi_state irq field into local variable
+      media: imx: imx7_mipi_csis: Don't pass pdev to mipi_csis_parse_dt()
+      media: imx: imx7_mipi_csis: Pass csi_state to mipi_csis_subdev_init()
+      media: imx: imx7_mipi_csis: Drop csi_state pdev field
+      media: imx: imx7_mipi_csis: Make csi_state num_clocks field unsigned
+      media: imx: imx7_mipi_csis: Reorganize csi_state structure
+      media: imx: imx7_mipi_csis: Reorganize mipi_csis_probe()
+      media: imx: imx7_mipi_csis: Reject invalid data-lanes settings
+      media: imx: imx7_mipi_csis: Move PHY control to dedicated functions
+      dt-bindings: media: nxp,imx7-mipi-csi2: Add i.MX8MM support
+      media: imx: imx7_mipi_csis: Add i.MX8MM support
+      media: imx: imx7_mipi_csis: Update MAINTAINERS
+
+ .../devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml      | 109 ++-
+ MAINTAINERS                                                |   1 +
+ drivers/staging/media/imx/imx7-mipi-csis.c                 | 994 ++++++++++++++-----------
+ 3 files changed, 658 insertions(+), 446 deletions(-)
+
 -- 
 Regards,
 
 Laurent Pinchart
-
