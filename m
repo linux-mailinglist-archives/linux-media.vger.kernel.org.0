@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 048DF3890EA
+	by mail.lfdr.de (Postfix) with ESMTP id C38AF3890EC
 	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 16:31:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354176AbhESOct (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 May 2021 10:32:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41604 "EHLO
+        id S1354196AbhESOcv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 May 2021 10:32:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354068AbhESOc0 (ORCPT
+        with ESMTP id S1354087AbhESOca (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 May 2021 10:32:26 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEEE2C06175F
-        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:31:06 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id t4so7136256plc.6
-        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:31:06 -0700 (PDT)
+        Wed, 19 May 2021 10:32:30 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC302C06138C
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:31:09 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id e15so505698plh.1
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=deKF/Bc7RLrNKH3X7BtqRU3YNC0l4ZMyaRNDCIqzcbk=;
-        b=hZWVSHiv19bJyUkkpEsaTns+31SXGVB1rhstYqeWCUulSPVP7q8o0e43eU1D89MX2I
-         sgVZk0hb44c/4iRocM4Q9T/RUogQoAY4v3x8hmlAiTo7/M+7jS7t6NdilcHZqU3996gJ
-         NQ6r+oHPdK2R5Ku1+9xvrPHdDeJh6X+NNGPhM=
+        bh=HdY8ykhNJOlCn5+VIkriOqOCS+fZl93mdH0WPpLKP1c=;
+        b=W7mI4N3vgRJAraR0YiFe0N8YNECWL7nLHIeWE4QDVlR8YGa459VvSTMri0Qiv1jUBH
+         NXA2wScA/cUV52UHgCGmDdmEharZ0zs+o+/8Y4bDYNkWNk16LobzBomX+TjkcKZc+M5+
+         xINz9AxMoEDEIafvgePeWvHbF1asKFee688SU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=deKF/Bc7RLrNKH3X7BtqRU3YNC0l4ZMyaRNDCIqzcbk=;
-        b=jn9AMGKovyvFAqug0psPHVoq0ac+jKjVkaMjw+4wEMLzMKYT1Y4A7jcethlPtPBrQv
-         7Hyt9EuF2qKrxBIUJXcE/M7nDrNZljPhFCyxeB8c9KmFDTgEHdsUEHI1CpFOydUAIgT1
-         LxT8ABElBSvdIcFrTdfBQv1xKoXGJ/OFlJ8YNC/VnzjtzUmdP3X5Tz12DkyvbKmDnL3X
-         CGtBgksrf5DBPnRnhf4v/GRU6GTzciooxLpJ8XqayU9Zcyvn5jIoc9v0VZyMqjWQ9PEM
-         DiyhMvSWyUrPawHFOVB2UTFkiBB/R6v8lzuCT6u/ktAbzgV5dwMfooKcE7jHKf39/G6q
-         zn8g==
-X-Gm-Message-State: AOAM531dBJESGETRbBwsmaECms4xe5bnvxKOeciZCR6qc4GRxhs+WydV
-        Tx1Ybl1qeV5a++Ar//eBqViokQ==
-X-Google-Smtp-Source: ABdhPJyUGRBO+oNWbIkCmo8Bf4txgIvpUR0qPyPcG5POaIcljDCODtAh+TPgBYjNTsLMaOQE58a6hw==
-X-Received: by 2002:a17:90b:1b4c:: with SMTP id nv12mr11811131pjb.55.1621434666200;
-        Wed, 19 May 2021 07:31:06 -0700 (PDT)
+        bh=HdY8ykhNJOlCn5+VIkriOqOCS+fZl93mdH0WPpLKP1c=;
+        b=a0W7IaJMf1Z4sRPXHtqoCd/8vYBDo6+vPZPhsdppuKHTulI3AQAMXYZ+aYoFOh8wAJ
+         XDzaZmqva9nHMqeUps+s/N1EIN9ssxTmQck+w3Szrg1UjluIopLNNnPtNhL+AmS6dG4y
+         DeGc4mPJ0KFXejZP2pTvDWKHPEzQcttzJzZsUrG9gGYjjwwjX1G+ZJj3BQJObskPImwL
+         0QbaJ3oSzGAdEvaCn5gVl59Ugdq8edmqKBd/qytRXgHqp5dXJExBh+53jSIX1S21gHe7
+         ZWpE+TxBKwG4BdgG26JEs9vimSjLUc7imC507PhTwMj900qzy0M5Qd+w6li+fNTsHhFN
+         Kbeg==
+X-Gm-Message-State: AOAM533Em6PWFabFx8nPdmnF1/MSIm+q+KEOTdebhqSMI2bBKjaQIxz5
+        eUDLP5mlKagU32q1snR2GGUsWw==
+X-Google-Smtp-Source: ABdhPJw6PmPzMVRiYk+4Xie5G1vSDBkGeRpL3H/qo4nrhADkPi3YOhz1i/Yy+VAehJ1DRiuawenHKA==
+X-Received: by 2002:a17:90b:4ac2:: with SMTP id mh2mr11666482pjb.33.1621434669295;
+        Wed, 19 May 2021 07:31:09 -0700 (PDT)
 Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:87ab:ff82:1544:697])
-        by smtp.gmail.com with ESMTPSA id 3sm14337661pff.132.2021.05.19.07.31.03
+        by smtp.gmail.com with ESMTPSA id 3sm14337661pff.132.2021.05.19.07.31.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 07:31:05 -0700 (PDT)
+        Wed, 19 May 2021 07:31:08 -0700 (PDT)
 From:   Alexandre Courbot <acourbot@chromium.org>
 To:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -55,9 +55,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mediatek@lists.infradead.org,
         Alexandre Courbot <acourbot@chromium.org>
-Subject: [PATCH v5 10/14] media: mtk-vcodec: vdec: support stateless API
-Date:   Wed, 19 May 2021 23:30:07 +0900
-Message-Id: <20210519143011.1175546-11-acourbot@chromium.org>
+Subject: [PATCH v5 11/14] media: mtk-vcodec: vdec: support stateless H.264 decoding
+Date:   Wed, 19 May 2021 23:30:08 +0900
+Message-Id: <20210519143011.1175546-12-acourbot@chromium.org>
 X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
 In-Reply-To: <20210519143011.1175546-1-acourbot@chromium.org>
 References: <20210519143011.1175546-1-acourbot@chromium.org>
@@ -69,572 +69,859 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 
-Support the stateless codec API that will be used by MT8183.
+Add support for H.264 decoding using the stateless API, as supported by
+MT8183. This support takes advantage of the V4L2 H.264 reference list
+builders.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 [acourbot: refactor, cleanup and split]
 Co-developed-by: Alexandre Courbot <acourbot@chromium.org>
 Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 ---
+ drivers/media/platform/Kconfig                |   1 +
  drivers/media/platform/mtk-vcodec/Makefile    |   1 +
- .../platform/mtk-vcodec/mtk_vcodec_dec.c      |  68 +++-
- .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   8 +-
- .../mtk-vcodec/mtk_vcodec_dec_stateless.c     | 366 ++++++++++++++++++
- .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   3 +
- 5 files changed, 442 insertions(+), 4 deletions(-)
- create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        | 780 ++++++++++++++++++
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |   3 +
+ .../media/platform/mtk-vcodec/vdec_drv_if.h   |   1 +
+ 5 files changed, 786 insertions(+)
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
 
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index 157c924686e4..ae1468aa1b4e 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -314,6 +314,7 @@ config VIDEO_MEDIATEK_VCODEC
+ 	select V4L2_MEM2MEM_DEV
+ 	select VIDEO_MEDIATEK_VCODEC_VPU if VIDEO_MEDIATEK_VPU
+ 	select VIDEO_MEDIATEK_VCODEC_SCP if MTK_SCP
++	select V4L2_H264
+ 	help
+ 	  Mediatek video codec driver provides HW capability to
+ 	  encode and decode in a range of video formats on MT8173
 diff --git a/drivers/media/platform/mtk-vcodec/Makefile b/drivers/media/platform/mtk-vcodec/Makefile
-index 9c3cbb5b800e..4ba93d838ab6 100644
+index 4ba93d838ab6..ca8e9e7a9c4e 100644
 --- a/drivers/media/platform/mtk-vcodec/Makefile
 +++ b/drivers/media/platform/mtk-vcodec/Makefile
-@@ -12,6 +12,7 @@ mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
+@@ -7,6 +7,7 @@ obj-$(CONFIG_VIDEO_MEDIATEK_VCODEC) += mtk-vcodec-dec.o \
+ mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
+ 		vdec/vdec_vp8_if.o \
+ 		vdec/vdec_vp9_if.o \
++		vdec/vdec_h264_req_if.o \
+ 		mtk_vcodec_dec_drv.o \
+ 		vdec_drv_if.o \
  		vdec_vpu_if.o \
- 		mtk_vcodec_dec.o \
- 		mtk_vcodec_dec_stateful.o \
-+		mtk_vcodec_dec_stateless.o \
- 		mtk_vcodec_dec_pm.o \
- 
- mtk-vcodec-enc-y := venc/venc_vp8_if.o \
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-index 5149b555e6fa..4652b772af93 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-@@ -46,7 +46,14 @@ static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_ctx *ctx,
- static int vidioc_try_decoder_cmd(struct file *file, void *priv,
- 				struct v4l2_decoder_cmd *cmd)
- {
--	return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
-+	struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
-+
-+	/* Use M2M stateless helper if relevant */
-+	if (ctx->dev->vdec_pdata->uses_stateless_api)
-+		return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv,
-+								cmd);
-+	else
-+		return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
- }
- 
- 
-@@ -61,6 +68,10 @@ static int vidioc_decoder_cmd(struct file *file, void *priv,
- 	if (ret)
- 		return ret;
- 
-+	/* Use M2M stateless helper if relevant */
-+	if (ctx->dev->vdec_pdata->uses_stateless_api)
-+		return v4l2_m2m_ioctl_stateless_decoder_cmd(file, priv, cmd);
-+
- 	mtk_v4l2_debug(1, "decoder cmd=%u", cmd->cmd);
- 	dst_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
- 				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-@@ -402,7 +413,8 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
- 	 * Setting OUTPUT format after OUTPUT buffers are allocated is invalid
- 	 * if using the stateful API.
- 	 */
--	if ((f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) &&
-+	if (!dec_pdata->uses_stateless_api &&
-+	    (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) &&
- 	    vb2_is_busy(&ctx->m2m_ctx->out_q_ctx.q)) {
- 		mtk_v4l2_err("out_q_ctx buffers already requested");
- 		ret = -EBUSY;
-@@ -445,6 +457,7 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
- 		ctx->quantization = pix_mp->quantization;
- 		ctx->xfer_func = pix_mp->xfer_func;
- 
-+		ctx->current_codec = fmt->fourcc;
- 		if (ctx->state == MTK_STATE_FREE) {
- 			ret = vdec_if_init(ctx, q_data->fmt->fourcc);
- 			if (ret) {
-@@ -456,6 +469,49 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
- 		}
- 	}
- 
-+	/*
-+	 * If using the stateless API, S_FMT should have the effect of setting
-+	 * the CAPTURE queue resolution no matter which queue it was called on.
-+	 */
-+	if (dec_pdata->uses_stateless_api) {
-+		ctx->picinfo.pic_w = pix_mp->width;
-+		ctx->picinfo.pic_h = pix_mp->height;
-+
-+		ret = vdec_if_get_param(ctx, GET_PARAM_PIC_INFO, &ctx->picinfo);
-+		if (ret) {
-+			mtk_v4l2_err("[%d]Error!! Get GET_PARAM_PICTURE_INFO Fail",
-+				ctx->id);
-+			return -EINVAL;
-+		}
-+
-+		ctx->last_decoded_picinfo = ctx->picinfo;
-+
-+		if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 1) {
-+			ctx->q_data[MTK_Q_DATA_DST].sizeimage[0] =
-+				ctx->picinfo.fb_sz[0] +
-+				ctx->picinfo.fb_sz[1];
-+			ctx->q_data[MTK_Q_DATA_DST].bytesperline[0] =
-+				ctx->picinfo.buf_w;
-+		} else {
-+			ctx->q_data[MTK_Q_DATA_DST].sizeimage[0] =
-+				ctx->picinfo.fb_sz[0];
-+			ctx->q_data[MTK_Q_DATA_DST].bytesperline[0] =
-+				ctx->picinfo.buf_w;
-+			ctx->q_data[MTK_Q_DATA_DST].sizeimage[1] =
-+				ctx->picinfo.fb_sz[1];
-+			ctx->q_data[MTK_Q_DATA_DST].bytesperline[1] =
-+				ctx->picinfo.buf_w;
-+		}
-+
-+		ctx->q_data[MTK_Q_DATA_DST].coded_width = ctx->picinfo.buf_w;
-+		ctx->q_data[MTK_Q_DATA_DST].coded_height = ctx->picinfo.buf_h;
-+		mtk_v4l2_debug(2, "[%d] vdec_if_init() num_plane = %d wxh=%dx%d pic wxh=%dx%d sz[0]=0x%x sz[1]=0x%x",
-+			ctx->id, pix_mp->num_planes,
-+			ctx->picinfo.buf_w, ctx->picinfo.buf_h,
-+			ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-+			ctx->q_data[MTK_Q_DATA_DST].sizeimage[0],
-+			ctx->q_data[MTK_Q_DATA_DST].sizeimage[1]);
-+	}
- 	return 0;
- }
- 
-@@ -749,9 +805,15 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
- 
- 	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
- 		while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
--			if (src_buf != &ctx->empty_flush_buf.vb)
-+			if (src_buf != &ctx->empty_flush_buf.vb) {
-+				struct media_request *req =
-+					src_buf->vb2_buf.req_obj.req;
- 				v4l2_m2m_buf_done(src_buf,
- 						VB2_BUF_STATE_ERROR);
-+				if (req)
-+					v4l2_ctrl_request_complete(req,
-+								&ctx->ctrl_hdl);
-+			}
- 		}
- 		return;
- 	}
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-index 8d54244f0065..d9410afd1bec 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-@@ -44,6 +44,7 @@ struct vdec_fb {
-  *			queue yet
-  * @error:		An unrecoverable error occurs on this buffer.
-  * @frame_buffer:	Decode status, and buffer information of Capture buffer
-+ * @bs_buffer:	Output buffer info
-  *
-  * Note : These status information help us track and debug buffer state
-  */
-@@ -54,11 +55,16 @@ struct mtk_video_dec_buf {
- 	bool	queued_in_vb2;
- 	bool	queued_in_v4l2;
- 	bool	error;
--	struct vdec_fb	frame_buffer;
-+
-+	union {
-+		struct vdec_fb	frame_buffer;
-+		struct mtk_vcodec_mem	bs_buffer;
-+	};
- };
- 
- extern const struct v4l2_ioctl_ops mtk_vdec_ioctl_ops;
- extern const struct v4l2_m2m_ops mtk_vdec_m2m_ops;
-+extern const struct media_device_ops mtk_vcodec_media_ops;
- 
- 
- /*
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
 new file mode 100644
-index 000000000000..26f62b1f209f
+index 000000000000..70199db2f844
 --- /dev/null
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
-@@ -0,0 +1,366 @@
++++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+@@ -0,0 +1,780 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
-+#include "media/videobuf2-v4l2.h"
-+#include <media/videobuf2-dma-contig.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-mem2mem.h>
 +#include <linux/module.h>
++#include <linux/slab.h>
++#include <media/v4l2-mem2mem.h>
++#include <media/v4l2-h264.h>
++#include <media/videobuf2-dma-contig.h>
 +
-+#include "mtk_vcodec_drv.h"
-+#include "mtk_vcodec_dec.h"
-+#include "mtk_vcodec_intr.h"
-+#include "mtk_vcodec_util.h"
-+#include "vdec_drv_if.h"
-+#include "mtk_vcodec_dec_pm.h"
++#include "../vdec_drv_if.h"
++#include "../mtk_vcodec_util.h"
++#include "../mtk_vcodec_dec.h"
++#include "../mtk_vcodec_intr.h"
++#include "../vdec_vpu_if.h"
++#include "../vdec_drv_base.h"
++
++#define BUF_PREDICTION_SZ			(64 * 4096)
++#define MB_UNIT_LEN				16
++
++/* get used parameters for sps/pps */
++#define GET_MTK_VDEC_FLAG(cond, flag) \
++	{ dst_param->cond = ((src_param->flags & flag) ? (1) : (0)); }
++#define GET_MTK_VDEC_PARAM(param) \
++	{ dst_param->param = src_param->param; }
++/* motion vector size (bytes) for every macro block */
++#define HW_MB_STORE_SZ				64
++
++#define H264_MAX_FB_NUM				17
++#define H264_MAX_MV_NUM				32
++#define HDR_PARSING_BUF_SZ			1024
 +
 +/**
-+ * struct mtk_stateless_control  - CID control type
-+ * @cfg: control configuration
-+ * @codec_type: codec type (V4L2 pixel format) for CID control type
++ * struct mtk_h264_dpb_info  - h264 dpb information
++ * @y_dma_addr: Y bitstream physical address
++ * @c_dma_addr: CbCr bitstream physical address
++ * @reference_flag: reference picture flag (short/long term reference picture)
++ * @field: field picture flag
 + */
-+struct mtk_stateless_control {
-+	struct v4l2_ctrl_config cfg;
-+	int codec_type;
++struct mtk_h264_dpb_info {
++	dma_addr_t y_dma_addr;
++	dma_addr_t c_dma_addr;
++	int reference_flag;
++	int field;
 +};
 +
-+static const struct mtk_stateless_control mtk_stateless_controls[] = {
-+	{
-+		.cfg = {
-+			.id = V4L2_CID_STATELESS_H264_SPS,
-+		},
-+		.codec_type = V4L2_PIX_FMT_H264_SLICE,
-+	},
-+	{
-+		.cfg = {
-+			.id = V4L2_CID_STATELESS_H264_PPS,
-+		},
-+		.codec_type = V4L2_PIX_FMT_H264_SLICE,
-+	},
-+	{
-+		.cfg = {
-+			.id = V4L2_CID_STATELESS_H264_SCALING_MATRIX,
-+		},
-+		.codec_type = V4L2_PIX_FMT_H264_SLICE,
-+	},
-+	{
-+		.cfg = {
-+			.id = V4L2_CID_STATELESS_H264_DECODE_PARAMS,
-+		},
-+		.codec_type = V4L2_PIX_FMT_H264_SLICE,
-+	},
-+	{
-+		.cfg = {
-+			.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-+			.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
-+			.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-+			.menu_skip_mask =
-+				BIT(V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
-+				BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
-+		},
-+		.codec_type = V4L2_PIX_FMT_H264_SLICE,
-+	},
-+	{
-+		.cfg = {
-+			.id = V4L2_CID_STATELESS_H264_DECODE_MODE,
-+			.min = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
-+			.def = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
-+			.max = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
-+		},
-+		.codec_type = V4L2_PIX_FMT_H264_SLICE,
-+	},
-+	{
-+		.cfg = {
-+			.id = V4L2_CID_STATELESS_H264_START_CODE,
-+			.min = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
-+			.def = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
-+			.max = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
-+		},
-+		.codec_type = V4L2_PIX_FMT_H264_SLICE,
-+	}
-+};
-+#define NUM_CTRLS ARRAY_SIZE(mtk_stateless_controls)
-+
-+static const struct mtk_video_fmt mtk_video_formats[] = {
-+	{
-+		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-+		.type = MTK_FMT_DEC,
-+		.num_planes = 1,
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_MM21,
-+		.type = MTK_FMT_FRAME,
-+		.num_planes = 2,
-+	},
-+};
-+#define NUM_FORMATS ARRAY_SIZE(mtk_video_formats)
-+#define DEFAULT_OUT_FMT_IDX    0
-+#define DEFAULT_CAP_FMT_IDX    1
-+
-+static const struct mtk_codec_framesizes mtk_vdec_framesizes[] = {
-+	{
-+		.fourcc	= V4L2_PIX_FMT_H264_SLICE,
-+		.stepwise = {  MTK_VDEC_MIN_W, MTK_VDEC_MAX_W, 16,
-+				MTK_VDEC_MIN_H, MTK_VDEC_MAX_H, 16 },
-+	},
++/**
++ * struct mtk_h264_sps_param  - parameters for sps
++ */
++struct mtk_h264_sps_param {
++	unsigned char chroma_format_idc;
++	unsigned char bit_depth_luma_minus8;
++	unsigned char bit_depth_chroma_minus8;
++	unsigned char log2_max_frame_num_minus4;
++	unsigned char pic_order_cnt_type;
++	unsigned char log2_max_pic_order_cnt_lsb_minus4;
++	unsigned char max_num_ref_frames;
++	unsigned char separate_colour_plane_flag;
++	unsigned short pic_width_in_mbs_minus1;
++	unsigned short pic_height_in_map_units_minus1;
++	unsigned int max_frame_nums;
++	unsigned char qpprime_y_zero_transform_bypass_flag;
++	unsigned char delta_pic_order_always_zero_flag;
++	unsigned char frame_mbs_only_flag;
++	unsigned char mb_adaptive_frame_field_flag;
++	unsigned char direct_8x8_inference_flag;
++	unsigned char reserved[3];
 +};
 +
-+#define NUM_SUPPORTED_FRAMESIZE ARRAY_SIZE(mtk_vdec_framesizes)
++/**
++ * struct mtk_h264_pps_param  - parameters for pps
++ */
++struct mtk_h264_pps_param {
++	unsigned char num_ref_idx_l0_default_active_minus1;
++	unsigned char num_ref_idx_l1_default_active_minus1;
++	unsigned char weighted_bipred_idc;
++	char pic_init_qp_minus26;
++	char chroma_qp_index_offset;
++	char second_chroma_qp_index_offset;
++	unsigned char entropy_coding_mode_flag;
++	unsigned char pic_order_present_flag;
++	unsigned char deblocking_filter_control_present_flag;
++	unsigned char constrained_intra_pred_flag;
++	unsigned char weighted_pred_flag;
++	unsigned char redundant_pic_cnt_present_flag;
++	unsigned char transform_8x8_mode_flag;
++	unsigned char scaling_matrix_present_flag;
++	unsigned char reserved[2];
++};
 +
-+static void mtk_vdec_stateless_set_dst_payload(struct mtk_vcodec_ctx *ctx,
-+					       struct vdec_fb *fb)
++struct slice_api_h264_scaling_matrix {
++	unsigned char scaling_list_4x4[6][16];
++	unsigned char scaling_list_8x8[6][64];
++};
++
++struct slice_h264_dpb_entry {
++	unsigned long long reference_ts;
++	unsigned short frame_num;
++	unsigned short pic_num;
++	/* Note that field is indicated by v4l2_buffer.field */
++	int top_field_order_cnt;
++	int bottom_field_order_cnt;
++	unsigned int flags; /* V4L2_H264_DPB_ENTRY_FLAG_* */
++};
++
++/**
++ * struct slice_api_h264_decode_param - parameters for decode.
++ */
++struct slice_api_h264_decode_param {
++	struct slice_h264_dpb_entry dpb[16];
++	unsigned short num_slices;
++	unsigned short nal_ref_idc;
++	unsigned char ref_pic_list_p0[32];
++	unsigned char ref_pic_list_b0[32];
++	unsigned char ref_pic_list_b1[32];
++	int top_field_order_cnt;
++	int bottom_field_order_cnt;
++	unsigned int flags; /* V4L2_H264_DECODE_PARAM_FLAG_* */
++};
++
++/**
++ * struct mtk_h264_dec_slice_param  - parameters for decode current frame
++ */
++struct mtk_h264_dec_slice_param {
++	struct mtk_h264_sps_param			sps;
++	struct mtk_h264_pps_param			pps;
++	struct slice_api_h264_scaling_matrix		scaling_matrix;
++	struct slice_api_h264_decode_param		decode_params;
++	struct mtk_h264_dpb_info h264_dpb_info[16];
++};
++
++/**
++ * struct h264_fb - h264 decode frame buffer information
++ * @vdec_fb_va  : virtual address of struct vdec_fb
++ * @y_fb_dma    : dma address of Y frame buffer (luma)
++ * @c_fb_dma    : dma address of C frame buffer (chroma)
++ * @poc         : picture order count of frame buffer
++ * @reserved    : for 8 bytes alignment
++ */
++struct h264_fb {
++	uint64_t vdec_fb_va;
++	uint64_t y_fb_dma;
++	uint64_t c_fb_dma;
++	int32_t poc;
++	uint32_t reserved;
++};
++
++/**
++ * struct vdec_h264_dec_info - decode information
++ * @dpb_sz		: decoding picture buffer size
++ * @resolution_changed  : resoltion change happen
++ * @realloc_mv_buf	: flag to notify driver to re-allocate mv buffer
++ * @cap_num_planes	: number planes of capture buffer
++ * @bs_dma		: Input bit-stream buffer dma address
++ * @y_fb_dma		: Y frame buffer dma address
++ * @c_fb_dma		: C frame buffer dma address
++ * @vdec_fb_va		: VDEC frame buffer struct virtual address
++ */
++struct vdec_h264_dec_info {
++	uint32_t dpb_sz;
++	uint32_t resolution_changed;
++	uint32_t realloc_mv_buf;
++	uint32_t cap_num_planes;
++	uint64_t bs_dma;
++	uint64_t y_fb_dma;
++	uint64_t c_fb_dma;
++	uint64_t vdec_fb_va;
++};
++
++/**
++ * struct vdec_h264_vsi - shared memory for decode information exchange
++ *                        between VPU and Host.
++ *                        The memory is allocated by VPU then mapping to Host
++ *                        in vpu_dec_init() and freed in vpu_dec_deinit()
++ *                        by VPU.
++ *                        AP-W/R : AP is writer/reader on this item
++ *                        VPU-W/R: VPU is write/reader on this item
++ * @pred_buf_dma : HW working predication buffer dma address (AP-W, VPU-R)
++ * @mv_buf_dma   : HW working motion vector buffer dma address (AP-W, VPU-R)
++ * @dec          : decode information (AP-R, VPU-W)
++ * @pic          : picture information (AP-R, VPU-W)
++ * @crop         : crop information (AP-R, VPU-W)
++ */
++struct vdec_h264_vsi {
++	uint64_t pred_buf_dma;
++	uint64_t mv_buf_dma[H264_MAX_MV_NUM];
++	struct vdec_h264_dec_info dec;
++	struct vdec_pic_info pic;
++	struct v4l2_rect crop;
++	struct mtk_h264_dec_slice_param h264_slice_params;
++};
++
++/**
++ * struct vdec_h264_slice_inst - h264 decoder instance
++ * @num_nalu : how many nalus be decoded
++ * @ctx      : point to mtk_vcodec_ctx
++ * @pred_buf : HW working predication buffer
++ * @mv_buf   : HW working motion vector buffer
++ * @vpu      : VPU instance
++ * @vsi_ctx  : Local VSI data for this decoding context
++ */
++struct vdec_h264_slice_inst {
++	unsigned int num_nalu;
++	struct mtk_vcodec_ctx *ctx;
++	struct mtk_vcodec_mem pred_buf;
++	struct mtk_vcodec_mem mv_buf[H264_MAX_MV_NUM];
++	struct vdec_vpu_inst vpu;
++	struct vdec_h264_vsi vsi_ctx;
++	struct mtk_h264_dec_slice_param h264_slice_param;
++
++	struct v4l2_h264_dpb_entry dpb[16];
++};
++
++static void *get_ctrl_ptr(struct mtk_vcodec_ctx *ctx,
++				 int id)
 +{
-+	struct mtk_video_dec_buf *vdec_frame_buf =
-+		container_of(fb, struct mtk_video_dec_buf, frame_buffer);
-+	struct vb2_v4l2_buffer *vb = &vdec_frame_buf->m2m_buf.vb;
-+	unsigned int cap_y_size = ctx->q_data[MTK_Q_DATA_DST].sizeimage[0];
++	struct v4l2_ctrl *ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl, id);
 +
-+	vb2_set_plane_payload(&vb->vb2_buf, 0, cap_y_size);
-+	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2) {
-+		unsigned int cap_c_size =
-+			ctx->q_data[MTK_Q_DATA_DST].sizeimage[1];
-+
-+		vb2_set_plane_payload(&vb->vb2_buf, 1, cap_c_size);
-+	}
++	return ctrl->p_cur.p;
 +}
 +
-+static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_ctx *ctx,
-+					   struct vb2_v4l2_buffer *vb2_v4l2)
++static void get_h264_dpb_list(struct vdec_h264_slice_inst *inst,
++			      struct mtk_h264_dec_slice_param *slice_param)
 +{
-+	struct mtk_video_dec_buf *framebuf =
-+		container_of(vb2_v4l2, struct mtk_video_dec_buf, m2m_buf.vb);
-+	struct vdec_fb *pfb = &framebuf->frame_buffer;
-+	struct vb2_buffer *dst_buf = &vb2_v4l2->vb2_buf;
++	struct vb2_queue *vq;
++	struct vb2_buffer *vb;
++	struct vb2_v4l2_buffer *vb2_v4l2;
++	u64 index;
 +
-+	pfb = &framebuf->frame_buffer;
-+	pfb->base_y.va = NULL;
-+	pfb->base_y.dma_addr = vb2_dma_contig_plane_dma_addr(dst_buf, 0);
-+	pfb->base_y.size = ctx->q_data[MTK_Q_DATA_DST].sizeimage[0];
++	vq = v4l2_m2m_get_vq(inst->ctx->m2m_ctx,
++		V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
 +
-+	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2) {
-+		pfb->base_c.va = NULL;
-+		pfb->base_c.dma_addr =
-+			vb2_dma_contig_plane_dma_addr(dst_buf, 1);
-+		pfb->base_c.size = ctx->q_data[MTK_Q_DATA_DST].sizeimage[1];
-+	}
-+	mtk_v4l2_debug(1,
-+		"id=%d Framebuf  pfb=%p VA=%p Y_DMA=%pad C_DMA=%pad Size=%zx frame_count = %d",
-+		dst_buf->index, pfb,
-+		pfb->base_y.va, &pfb->base_y.dma_addr,
-+		&pfb->base_c.dma_addr, pfb->base_y.size,
-+		ctx->decoded_frame_cnt);
++	for (index = 0; index < ARRAY_SIZE(slice_param->decode_params.dpb); index++) {
++		const struct slice_h264_dpb_entry *dpb;
++		int vb2_index;
 +
-+	return pfb;
-+}
++		dpb = &slice_param->decode_params.dpb[index];
++		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)) {
++			slice_param->h264_dpb_info[index].reference_flag = 0;
++			continue;
++		}
 +
-+static void vb2ops_vdec_buf_request_complete(struct vb2_buffer *vb)
-+{
-+	struct mtk_vcodec_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
++		vb2_index = vb2_find_timestamp(vq, dpb->reference_ts, 0);
++		if (vb2_index < 0) {
++			mtk_vcodec_err(inst, "Reference invalid: dpb_index(%lld) reference_ts(%lld)",
++				index, dpb->reference_ts);
++			continue;
++		}
++		/* 1 for short term reference, 2 for long term reference */
++		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM))
++			slice_param->h264_dpb_info[index].reference_flag = 1;
++		else
++			slice_param->h264_dpb_info[index].reference_flag = 2;
 +
-+	v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->ctrl_hdl);
-+}
++		vb = vq->bufs[vb2_index];
++		vb2_v4l2 = container_of(vb, struct vb2_v4l2_buffer, vb2_buf);
++		slice_param->h264_dpb_info[index].field = vb2_v4l2->field;
 +
-+static void mtk_vdec_worker(struct work_struct *work)
-+{
-+	struct mtk_vcodec_ctx *ctx =
-+		container_of(work, struct mtk_vcodec_ctx, decode_work);
-+	struct mtk_vcodec_dev *dev = ctx->dev;
-+	struct vb2_v4l2_buffer *vb2_v4l2_src, *vb2_v4l2_dst;
-+	struct vb2_buffer *vb2_src;
-+	struct mtk_vcodec_mem *bs_src;
-+	struct mtk_video_dec_buf *dec_buf_src;
-+	struct media_request *src_buf_req;
-+	struct vdec_fb *dst_buf;
-+	bool res_chg = false;
-+	int ret;
-+
-+	vb2_v4l2_src = v4l2_m2m_next_src_buf(ctx->m2m_ctx);
-+	if (vb2_v4l2_src == NULL) {
-+		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
-+		mtk_v4l2_debug(1, "[%d] no available source buffer", ctx->id);
-+		return;
-+	}
-+
-+	vb2_v4l2_dst = v4l2_m2m_next_dst_buf(ctx->m2m_ctx);
-+	if (vb2_v4l2_dst == NULL) {
-+		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
-+		mtk_v4l2_debug(1, "[%d] no available destination buffer", ctx->id);
-+		return;
-+	}
-+
-+	vb2_src = &vb2_v4l2_src->vb2_buf;
-+	dec_buf_src = container_of(vb2_v4l2_src, struct mtk_video_dec_buf,
-+				   m2m_buf.vb);
-+	bs_src = &dec_buf_src->bs_buffer;
-+
-+	mtk_v4l2_debug(3, "[%d] (%d) id=%d, vb=%p", ctx->id,
-+		       vb2_src->vb2_queue->type, vb2_src->index, vb2_src);
-+
-+	bs_src->va = NULL;
-+	bs_src->dma_addr = vb2_dma_contig_plane_dma_addr(vb2_src, 0);
-+	bs_src->size = (size_t)vb2_src->planes[0].bytesused;
-+
-+	mtk_v4l2_debug(3, "[%d] Bitstream VA=%p DMA=%pad Size=%zx vb=%p",
-+		       ctx->id, bs_src->va, &bs_src->dma_addr, bs_src->size, vb2_src);
-+	/* Apply request controls. */
-+	src_buf_req = vb2_src->req_obj.req;
-+	if (src_buf_req)
-+		v4l2_ctrl_request_setup(src_buf_req, &ctx->ctrl_hdl);
-+	else
-+		mtk_v4l2_err("vb2 buffer media request is NULL");
-+
-+	dst_buf = vdec_get_cap_buffer(ctx, vb2_v4l2_dst);
-+	v4l2_m2m_buf_copy_metadata(vb2_v4l2_src, vb2_v4l2_dst, true);
-+	ret = vdec_if_decode(ctx, bs_src, dst_buf, &res_chg);
-+	if (ret) {
-+		mtk_v4l2_err(
-+			" <===[%d], src_buf[%d] sz=0x%zx pts=%llu vdec_if_decode() ret=%d res_chg=%d===>",
-+			ctx->id, vb2_src->index, bs_src->size,
-+			vb2_src->timestamp, ret, res_chg);
-+		if (ret == -EIO) {
-+			mutex_lock(&ctx->lock);
-+			dec_buf_src->error = true;
-+			mutex_unlock(&ctx->lock);
++		slice_param->h264_dpb_info[index].y_dma_addr =
++			vb2_dma_contig_plane_dma_addr(vb, 0);
++		if (inst->ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2) {
++			slice_param->h264_dpb_info[index].c_dma_addr =
++				vb2_dma_contig_plane_dma_addr(vb, 1);
 +		}
 +	}
-+
-+	mtk_vdec_stateless_set_dst_payload(ctx, dst_buf);
-+
-+	v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx,
-+		ret ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
-+
-+	v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
 +}
 +
-+static void vb2ops_vdec_stateless_buf_queue(struct vb2_buffer *vb)
++static void get_h264_sps_parameters(struct mtk_h264_sps_param *dst_param,
++	const struct v4l2_ctrl_h264_sps *src_param)
 +{
-+	struct mtk_vcodec_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
-+	struct vb2_v4l2_buffer *vb2_v4l2 = to_vb2_v4l2_buffer(vb);
++	GET_MTK_VDEC_PARAM(chroma_format_idc);
++	GET_MTK_VDEC_PARAM(bit_depth_luma_minus8);
++	GET_MTK_VDEC_PARAM(bit_depth_chroma_minus8);
++	GET_MTK_VDEC_PARAM(log2_max_frame_num_minus4);
++	GET_MTK_VDEC_PARAM(pic_order_cnt_type);
++	GET_MTK_VDEC_PARAM(log2_max_pic_order_cnt_lsb_minus4);
++	GET_MTK_VDEC_PARAM(max_num_ref_frames);
++	GET_MTK_VDEC_PARAM(pic_width_in_mbs_minus1);
++	GET_MTK_VDEC_PARAM(pic_height_in_map_units_minus1);
 +
-+	mtk_v4l2_debug(3, "[%d] (%d) id=%d, vb=%p",
-+			ctx->id, vb->vb2_queue->type,
-+			vb->index, vb);
++	GET_MTK_VDEC_FLAG(separate_colour_plane_flag,
++		V4L2_H264_SPS_FLAG_SEPARATE_COLOUR_PLANE);
++	GET_MTK_VDEC_FLAG(qpprime_y_zero_transform_bypass_flag,
++		V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS);
++	GET_MTK_VDEC_FLAG(delta_pic_order_always_zero_flag,
++		V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZERO);
++	GET_MTK_VDEC_FLAG(frame_mbs_only_flag,
++		V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY);
++	GET_MTK_VDEC_FLAG(mb_adaptive_frame_field_flag,
++		V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD);
++	GET_MTK_VDEC_FLAG(direct_8x8_inference_flag,
++		V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE);
++}
 +
-+	mutex_lock(&ctx->lock);
-+	v4l2_m2m_buf_queue(ctx->m2m_ctx, vb2_v4l2);
-+	mutex_unlock(&ctx->lock);
-+	if (vb->vb2_queue->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-+		return;
++static void get_h264_pps_parameters(struct mtk_h264_pps_param *dst_param,
++	const struct v4l2_ctrl_h264_pps *src_param)
++{
++	GET_MTK_VDEC_PARAM(num_ref_idx_l0_default_active_minus1);
++	GET_MTK_VDEC_PARAM(num_ref_idx_l1_default_active_minus1);
++	GET_MTK_VDEC_PARAM(weighted_bipred_idc);
++	GET_MTK_VDEC_PARAM(pic_init_qp_minus26);
++	GET_MTK_VDEC_PARAM(chroma_qp_index_offset);
++	GET_MTK_VDEC_PARAM(second_chroma_qp_index_offset);
 +
-+	/* If an OUTPUT buffer, we may need to update the state */
-+	if (ctx->state == MTK_STATE_INIT) {
-+		ctx->state = MTK_STATE_HEADER;
-+		mtk_v4l2_debug(1, "Init driver from init to header.");
-+	} else {
-+		mtk_v4l2_debug(3, "[%d] already init driver %d",
-+				ctx->id, ctx->state);
++	GET_MTK_VDEC_FLAG(entropy_coding_mode_flag,
++		V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE);
++	GET_MTK_VDEC_FLAG(pic_order_present_flag,
++		V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT);
++	GET_MTK_VDEC_FLAG(weighted_pred_flag,
++		V4L2_H264_PPS_FLAG_WEIGHTED_PRED);
++	GET_MTK_VDEC_FLAG(deblocking_filter_control_present_flag,
++		V4L2_H264_PPS_FLAG_DEBLOCKING_FILTER_CONTROL_PRESENT);
++	GET_MTK_VDEC_FLAG(constrained_intra_pred_flag,
++		V4L2_H264_PPS_FLAG_CONSTRAINED_INTRA_PRED);
++	GET_MTK_VDEC_FLAG(redundant_pic_cnt_present_flag,
++		V4L2_H264_PPS_FLAG_REDUNDANT_PIC_CNT_PRESENT);
++	GET_MTK_VDEC_FLAG(transform_8x8_mode_flag,
++		V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE);
++	GET_MTK_VDEC_FLAG(scaling_matrix_present_flag,
++		V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT);
++}
++
++static void
++get_h264_scaling_matrix(struct slice_api_h264_scaling_matrix *dst_matrix,
++			const struct v4l2_ctrl_h264_scaling_matrix *src_matrix)
++{
++	memcpy(dst_matrix->scaling_list_4x4, src_matrix->scaling_list_4x4,
++	       sizeof(dst_matrix->scaling_list_4x4));
++
++	memcpy(dst_matrix->scaling_list_8x8, src_matrix->scaling_list_8x8,
++	       sizeof(dst_matrix->scaling_list_8x8));
++}
++
++static void get_h264_decode_parameters(
++	struct slice_api_h264_decode_param *dst_params,
++	const struct v4l2_ctrl_h264_decode_params *src_params,
++	const struct v4l2_h264_dpb_entry dpb[V4L2_H264_NUM_DPB_ENTRIES])
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(dst_params->dpb); i++) {
++		struct slice_h264_dpb_entry *dst_entry = &dst_params->dpb[i];
++		const struct v4l2_h264_dpb_entry *src_entry = &dpb[i];
++
++		dst_entry->reference_ts = src_entry->reference_ts;
++		dst_entry->frame_num = src_entry->frame_num;
++		dst_entry->pic_num = src_entry->pic_num;
++		dst_entry->top_field_order_cnt = src_entry->top_field_order_cnt;
++		dst_entry->bottom_field_order_cnt =
++			src_entry->bottom_field_order_cnt;
++		dst_entry->flags = src_entry->flags;
 +	}
++
++	/*
++	 * num_slices is a leftover from the old H.264 support and is ignored
++	 * by the firmware.
++	 */
++	dst_params->num_slices = 0;
++	dst_params->nal_ref_idc = src_params->nal_ref_idc;
++	dst_params->top_field_order_cnt = src_params->top_field_order_cnt;
++	dst_params->bottom_field_order_cnt = src_params->bottom_field_order_cnt;
++	dst_params->flags = src_params->flags;
 +}
 +
-+static int mtk_vdec_flush_decoder(struct mtk_vcodec_ctx *ctx)
++static bool dpb_entry_match(const struct v4l2_h264_dpb_entry *a,
++			    const struct v4l2_h264_dpb_entry *b)
 +{
-+	bool res_chg;
-+
-+	return vdec_if_decode(ctx, NULL, NULL, &res_chg);
++	return a->top_field_order_cnt == b->top_field_order_cnt &&
++	       a->bottom_field_order_cnt == b->bottom_field_order_cnt;
 +}
 +
-+static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_ctx *ctx)
++/*
++ * Move DPB entries of dec_param that refer to a frame already existing in dpb
++ * into the already existing slot in dpb, and move other entries into new slots.
++ *
++ * This function is an adaptation of the similarly-named function in
++ * hantro_h264.c.
++ */
++static void update_dpb(const struct v4l2_ctrl_h264_decode_params *dec_param,
++		       struct v4l2_h264_dpb_entry *dpb)
 +{
-+	unsigned int i;
++	DECLARE_BITMAP(new, ARRAY_SIZE(dec_param->dpb)) = { 0, };
++	DECLARE_BITMAP(in_use, ARRAY_SIZE(dec_param->dpb)) = { 0, };
++	DECLARE_BITMAP(used, ARRAY_SIZE(dec_param->dpb)) = { 0, };
++	unsigned int i, j;
 +
-+	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS);
-+	if (ctx->ctrl_hdl.error) {
-+		mtk_v4l2_err("v4l2_ctrl_handler_init failed\n");
-+		return ctx->ctrl_hdl.error;
++	/* Disable all entries by default, and mark the ones in use. */
++	for (i = 0; i < ARRAY_SIZE(dec_param->dpb); i++) {
++		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
++			set_bit(i, in_use);
++		dpb[i].flags &= ~V4L2_H264_DPB_ENTRY_FLAG_ACTIVE;
 +	}
 +
-+	for (i = 0; i < NUM_CTRLS; i++) {
-+		struct v4l2_ctrl_config cfg = mtk_stateless_controls[i].cfg;
++	/* Try to match new DPB entries with existing ones by their POCs. */
++	for (i = 0; i < ARRAY_SIZE(dec_param->dpb); i++) {
++		const struct v4l2_h264_dpb_entry *ndpb = &dec_param->dpb[i];
 +
-+		v4l2_ctrl_new_custom(&ctx->ctrl_hdl, &cfg, NULL);
-+		if (ctx->ctrl_hdl.error) {
-+			mtk_v4l2_err("Adding control %d failed %d",
-+					i, ctx->ctrl_hdl.error);
-+			return ctx->ctrl_hdl.error;
++		if (!(ndpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
++			continue;
++
++		/*
++		 * To cut off some comparisons, iterate only on target DPB
++		 * entries were already used.
++		 */
++		for_each_set_bit(j, in_use, ARRAY_SIZE(dec_param->dpb)) {
++			struct v4l2_h264_dpb_entry *cdpb;
++
++			cdpb = &dpb[j];
++			if (!dpb_entry_match(cdpb, ndpb))
++				continue;
++
++			*cdpb = *ndpb;
++			set_bit(j, used);
++			/* Don't reiterate on this one. */
++			clear_bit(j, in_use);
++			break;
 +		}
++
++		if (j == ARRAY_SIZE(dec_param->dpb))
++			set_bit(i, new);
 +	}
 +
-+	v4l2_ctrl_handler_setup(&ctx->ctrl_hdl);
++	/* For entries that could not be matched, use remaining free slots. */
++	for_each_set_bit(i, new, ARRAY_SIZE(dec_param->dpb)) {
++		const struct v4l2_h264_dpb_entry *ndpb = &dec_param->dpb[i];
++		struct v4l2_h264_dpb_entry *cdpb;
++
++		/*
++		 * Both arrays are of the same sizes, so there is no way
++		 * we can end up with no space in target array, unless
++		 * something is buggy.
++		 */
++		j = find_first_zero_bit(used, ARRAY_SIZE(dec_param->dpb));
++		if (WARN_ON(j >= ARRAY_SIZE(dec_param->dpb)))
++			return;
++
++		cdpb = &dpb[j];
++		*cdpb = *ndpb;
++		set_bit(j, used);
++	}
++}
++
++/*
++ * The firmware expects unused reflist entries to have the value 0x20.
++ */
++static void fixup_ref_list(u8 *ref_list, size_t num_valid)
++{
++	memset(&ref_list[num_valid], 0x20, 32 - num_valid);
++}
++
++static void get_vdec_decode_parameters(struct vdec_h264_slice_inst *inst)
++{
++	const struct v4l2_ctrl_h264_decode_params *dec_params =
++		get_ctrl_ptr(inst->ctx, V4L2_CID_STATELESS_H264_DECODE_PARAMS);
++	const struct v4l2_ctrl_h264_sps *sps =
++		get_ctrl_ptr(inst->ctx, V4L2_CID_STATELESS_H264_SPS);
++	const struct v4l2_ctrl_h264_pps *pps =
++		get_ctrl_ptr(inst->ctx, V4L2_CID_STATELESS_H264_PPS);
++	const struct v4l2_ctrl_h264_scaling_matrix *scaling_matrix =
++		get_ctrl_ptr(inst->ctx, V4L2_CID_STATELESS_H264_SCALING_MATRIX);
++	struct mtk_h264_dec_slice_param *slice_param = &inst->h264_slice_param;
++	struct v4l2_h264_reflist_builder reflist_builder;
++	u8 *p0_reflist = slice_param->decode_params.ref_pic_list_p0;
++	u8 *b0_reflist = slice_param->decode_params.ref_pic_list_b0;
++	u8 *b1_reflist = slice_param->decode_params.ref_pic_list_b1;
++
++	update_dpb(dec_params, inst->dpb);
++
++	get_h264_sps_parameters(&slice_param->sps, sps);
++	get_h264_pps_parameters(&slice_param->pps, pps);
++	get_h264_scaling_matrix(&slice_param->scaling_matrix, scaling_matrix);
++	get_h264_decode_parameters(&slice_param->decode_params, dec_params,
++				   inst->dpb);
++	get_h264_dpb_list(inst, slice_param);
++
++	/* Build the reference lists */
++	v4l2_h264_init_reflist_builder(&reflist_builder, dec_params, sps,
++				       inst->dpb);
++	v4l2_h264_build_p_ref_list(&reflist_builder, p0_reflist);
++	v4l2_h264_build_b_ref_lists(&reflist_builder, b0_reflist, b1_reflist);
++	/* Adapt the built lists to the firmware's expectations */
++	fixup_ref_list(p0_reflist, reflist_builder.num_valid);
++	fixup_ref_list(b0_reflist, reflist_builder.num_valid);
++	fixup_ref_list(b1_reflist, reflist_builder.num_valid);
++
++	memcpy(&inst->vsi_ctx.h264_slice_params, slice_param,
++	       sizeof(inst->vsi_ctx.h264_slice_params));
++}
++
++static unsigned int get_mv_buf_size(unsigned int width, unsigned int height)
++{
++	int unit_size = (width / MB_UNIT_LEN) * (height / MB_UNIT_LEN) + 8;
++
++	return HW_MB_STORE_SZ * unit_size;
++}
++
++static int allocate_predication_buf(struct vdec_h264_slice_inst *inst)
++{
++	int err = 0;
++
++	inst->pred_buf.size = BUF_PREDICTION_SZ;
++	err = mtk_vcodec_mem_alloc(inst->ctx, &inst->pred_buf);
++	if (err) {
++		mtk_vcodec_err(inst, "failed to allocate ppl buf");
++		return err;
++	}
++
++	inst->vsi_ctx.pred_buf_dma = inst->pred_buf.dma_addr;
++	return 0;
++}
++
++static void free_predication_buf(struct vdec_h264_slice_inst *inst)
++{
++	struct mtk_vcodec_mem *mem = NULL;
++
++	mtk_vcodec_debug_enter(inst);
++
++	inst->vsi_ctx.pred_buf_dma = 0;
++	mem = &inst->pred_buf;
++	if (mem->va)
++		mtk_vcodec_mem_free(inst->ctx, mem);
++}
++
++static int alloc_mv_buf(struct vdec_h264_slice_inst *inst,
++	struct vdec_pic_info *pic)
++{
++	int i;
++	int err;
++	struct mtk_vcodec_mem *mem = NULL;
++	unsigned int buf_sz = get_mv_buf_size(pic->buf_w, pic->buf_h);
++
++	mtk_v4l2_debug(3, "size = 0x%lx", buf_sz);
++	for (i = 0; i < H264_MAX_MV_NUM; i++) {
++		mem = &inst->mv_buf[i];
++		if (mem->va)
++			mtk_vcodec_mem_free(inst->ctx, mem);
++		mem->size = buf_sz;
++		err = mtk_vcodec_mem_alloc(inst->ctx, mem);
++		if (err) {
++			mtk_vcodec_err(inst, "failed to allocate mv buf");
++			return err;
++		}
++		inst->vsi_ctx.mv_buf_dma[i] = mem->dma_addr;
++	}
 +
 +	return 0;
 +}
 +
-+static int fops_media_request_validate(struct media_request *mreq)
++static void free_mv_buf(struct vdec_h264_slice_inst *inst)
 +{
-+	const unsigned int buffer_cnt = vb2_request_buffer_cnt(mreq);
++	int i;
++	struct mtk_vcodec_mem *mem = NULL;
 +
-+	switch (buffer_cnt) {
-+	case 1:
-+		/* We expect exactly one buffer with the request */
++	for (i = 0; i < H264_MAX_MV_NUM; i++) {
++		inst->vsi_ctx.mv_buf_dma[i] = 0;
++		mem = &inst->mv_buf[i];
++		if (mem->va)
++			mtk_vcodec_mem_free(inst->ctx, mem);
++	}
++}
++
++static void get_pic_info(struct vdec_h264_slice_inst *inst,
++			 struct vdec_pic_info *pic)
++{
++	struct mtk_vcodec_ctx *ctx = inst->ctx;
++
++	ctx->picinfo.buf_w = (ctx->picinfo.pic_w + 15) & 0xFFFFFFF0;
++	ctx->picinfo.buf_h = (ctx->picinfo.pic_h + 31) & 0xFFFFFFE0;
++	ctx->picinfo.fb_sz[0] = ctx->picinfo.buf_w * ctx->picinfo.buf_h;
++	ctx->picinfo.fb_sz[1] = ctx->picinfo.fb_sz[0] >> 1;
++	inst->vsi_ctx.dec.cap_num_planes =
++		ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes;
++
++	*pic = ctx->picinfo;
++	mtk_vcodec_debug(inst, "pic(%d, %d), buf(%d, %d)",
++			 ctx->picinfo.pic_w, ctx->picinfo.pic_h,
++			 ctx->picinfo.buf_w, ctx->picinfo.buf_h);
++	mtk_vcodec_debug(inst, "Y/C(%d, %d)", ctx->picinfo.fb_sz[0],
++		ctx->picinfo.fb_sz[1]);
++
++	if ((ctx->last_decoded_picinfo.pic_w != ctx->picinfo.pic_w) ||
++		(ctx->last_decoded_picinfo.pic_h != ctx->picinfo.pic_h)) {
++		inst->vsi_ctx.dec.resolution_changed = true;
++		if ((ctx->last_decoded_picinfo.buf_w != ctx->picinfo.buf_w) ||
++			(ctx->last_decoded_picinfo.buf_h != ctx->picinfo.buf_h))
++			inst->vsi_ctx.dec.realloc_mv_buf = true;
++
++		mtk_v4l2_debug(1, "ResChg: (%d %d) : old(%d, %d) -> new(%d, %d)",
++			inst->vsi_ctx.dec.resolution_changed,
++			inst->vsi_ctx.dec.realloc_mv_buf,
++			ctx->last_decoded_picinfo.pic_w,
++			ctx->last_decoded_picinfo.pic_h,
++			ctx->picinfo.pic_w, ctx->picinfo.pic_h);
++	}
++}
++
++static void get_crop_info(struct vdec_h264_slice_inst *inst,
++	struct v4l2_rect *cr)
++{
++	cr->left = inst->vsi_ctx.crop.left;
++	cr->top = inst->vsi_ctx.crop.top;
++	cr->width = inst->vsi_ctx.crop.width;
++	cr->height = inst->vsi_ctx.crop.height;
++
++	mtk_vcodec_debug(inst, "l=%d, t=%d, w=%d, h=%d",
++			 cr->left, cr->top, cr->width, cr->height);
++}
++
++static void get_dpb_size(struct vdec_h264_slice_inst *inst,
++	unsigned int *dpb_sz)
++{
++	*dpb_sz = inst->vsi_ctx.dec.dpb_sz;
++	mtk_vcodec_debug(inst, "sz=%d", *dpb_sz);
++}
++
++static int vdec_h264_slice_init(struct mtk_vcodec_ctx *ctx)
++{
++	struct vdec_h264_slice_inst *inst = NULL;
++	int err;
++
++	inst = kzalloc(sizeof(*inst), GFP_KERNEL);
++	if (!inst)
++		return -ENOMEM;
++
++	inst->ctx = ctx;
++
++	inst->vpu.id = SCP_IPI_VDEC_H264;
++	inst->vpu.ctx = ctx;
++
++	err = vpu_dec_init(&inst->vpu);
++	if (err) {
++		mtk_vcodec_err(inst, "vdec_h264 init err=%d", err);
++		goto error_free_inst;
++	}
++
++	memcpy(&inst->vsi_ctx, inst->vpu.vsi, sizeof(inst->vsi_ctx));
++	inst->vsi_ctx.dec.resolution_changed = true;
++	inst->vsi_ctx.dec.realloc_mv_buf = true;
++
++	err = allocate_predication_buf(inst);
++	if (err)
++		goto error_deinit;
++
++	mtk_vcodec_debug(inst, "struct size = %d,%d,%d,%d\n",
++		sizeof(struct mtk_h264_sps_param),
++		sizeof(struct mtk_h264_pps_param),
++		sizeof(struct mtk_h264_dec_slice_param),
++		sizeof(struct mtk_h264_dpb_info));
++
++	mtk_vcodec_debug(inst, "H264 Instance >> %p", inst);
++
++	ctx->drv_handle = inst;
++	return 0;
++
++error_deinit:
++	vpu_dec_deinit(&inst->vpu);
++
++error_free_inst:
++	kfree(inst);
++	return err;
++}
++
++static void vdec_h264_slice_deinit(void *h_vdec)
++{
++	struct vdec_h264_slice_inst *inst =
++		(struct vdec_h264_slice_inst *)h_vdec;
++
++	mtk_vcodec_debug_enter(inst);
++
++	vpu_dec_deinit(&inst->vpu);
++	free_predication_buf(inst);
++	free_mv_buf(inst);
++
++	kfree(inst);
++}
++
++static int vdec_h264_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
++				  struct vdec_fb *fb, bool *res_chg)
++{
++	struct vdec_h264_slice_inst *inst =
++		(struct vdec_h264_slice_inst *)h_vdec;
++	const struct v4l2_ctrl_h264_decode_params *dec_params =
++		get_ctrl_ptr(inst->ctx, V4L2_CID_STATELESS_H264_DECODE_PARAMS);
++	struct vdec_vpu_inst *vpu = &inst->vpu;
++	uint32_t data[2];
++	uint64_t y_fb_dma;
++	uint64_t c_fb_dma;
++	int err;
++
++	/* bs NULL means flush decoder */
++	if (bs == NULL)
++		return vpu_dec_reset(vpu);
++
++	y_fb_dma = fb ? (u64)fb->base_y.dma_addr : 0;
++	c_fb_dma = fb ? (u64)fb->base_c.dma_addr : 0;
++
++	mtk_vcodec_debug(inst, "+ [%d] FB y_dma=%llx c_dma=%llx va=%p",
++			 ++inst->num_nalu, y_fb_dma, c_fb_dma, fb);
++
++	inst->vsi_ctx.dec.bs_dma = (uint64_t)bs->dma_addr;
++	inst->vsi_ctx.dec.y_fb_dma = y_fb_dma;
++	inst->vsi_ctx.dec.c_fb_dma = c_fb_dma;
++	inst->vsi_ctx.dec.vdec_fb_va = (u64)(uintptr_t)fb;
++
++	get_vdec_decode_parameters(inst);
++	data[0] = bs->size;
++	/*
++	 * Reconstruct the first byte of the NAL unit, as the firmware requests
++	 * that information to be passed even though it is present in the stream
++	 * itself...
++	 */
++	data[1] = (dec_params->nal_ref_idc << 5) |
++		  ((dec_params->flags & V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC)
++			? 0x5 : 0x1);
++
++	*res_chg = inst->vsi_ctx.dec.resolution_changed;
++	if (*res_chg) {
++		mtk_vcodec_debug(inst, "- resolution changed -");
++		if (inst->vsi_ctx.dec.realloc_mv_buf) {
++			err = alloc_mv_buf(inst, &(inst->ctx->picinfo));
++			inst->vsi_ctx.dec.realloc_mv_buf = false;
++			if (err)
++				goto err_free_fb_out;
++		}
++		*res_chg = false;
++	}
++
++	memcpy(inst->vpu.vsi, &inst->vsi_ctx, sizeof(inst->vsi_ctx));
++	err = vpu_dec_start(vpu, data, 2);
++	if (err)
++		goto err_free_fb_out;
++
++	/* wait decoder done interrupt */
++	err = mtk_vcodec_wait_for_done_ctx(inst->ctx,
++					   MTK_INST_IRQ_RECEIVED,
++					   WAIT_INTR_TIMEOUT_MS);
++	if (err)
++		goto err_free_fb_out;
++	vpu_dec_end(vpu);
++
++	memcpy(&inst->vsi_ctx, inst->vpu.vsi, sizeof(inst->vsi_ctx));
++	mtk_vcodec_debug(inst, "\n - NALU[%d]", inst->num_nalu);
++	return 0;
++
++err_free_fb_out:
++	mtk_vcodec_err(inst, "\n - NALU[%d] err=%d -\n", inst->num_nalu, err);
++	return err;
++}
++
++static int vdec_h264_slice_get_param(void *h_vdec,
++			       enum vdec_get_param_type type, void *out)
++{
++	struct vdec_h264_slice_inst *inst =
++		(struct vdec_h264_slice_inst *)h_vdec;
++
++	switch (type) {
++	case GET_PARAM_PIC_INFO:
++		get_pic_info(inst, out);
 +		break;
-+	case 0:
-+		mtk_v4l2_debug(1, "No buffer provided with the request");
-+		return -ENOENT;
++
++	case GET_PARAM_DPB_SIZE:
++		get_dpb_size(inst, out);
++		break;
++
++	case GET_PARAM_CROP_INFO:
++		get_crop_info(inst, out);
++		break;
++
 +	default:
-+		mtk_v4l2_debug(1, "Too many buffers (%d) provided with the request",
-+			       buffer_cnt);
++		mtk_vcodec_err(inst, "invalid get parameter type=%d", type);
 +		return -EINVAL;
 +	}
 +
-+	return vb2_request_validate(mreq);
-+}
-+
-+const struct media_device_ops mtk_vcodec_media_ops = {
-+	.req_validate	= fops_media_request_validate,
-+	.req_queue	= v4l2_m2m_request_queue,
-+};
-+
-+static void mtk_init_vdec_params(struct mtk_vcodec_ctx *ctx)
-+{
-+	struct vb2_queue *src_vq;
-+
-+	src_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
-+				 V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-+
-+	/* Support request api for output plane */
-+	src_vq->supports_requests = true;
-+	src_vq->requires_requests = true;
-+}
-+
-+static int vb2ops_vdec_out_buf_validate(struct vb2_buffer *vb)
-+{
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+
-+	vbuf->field = V4L2_FIELD_NONE;
 +	return 0;
 +}
 +
-+static struct vb2_ops mtk_vdec_request_vb2_ops = {
-+	.queue_setup	= vb2ops_vdec_queue_setup,
-+	.wait_prepare	= vb2_ops_wait_prepare,
-+	.wait_finish	= vb2_ops_wait_finish,
-+	.start_streaming	= vb2ops_vdec_start_streaming,
-+	.stop_streaming	= vb2ops_vdec_stop_streaming,
-+
-+	.buf_queue	= vb2ops_vdec_stateless_buf_queue,
-+	.buf_out_validate = vb2ops_vdec_out_buf_validate,
-+	.buf_init	= vb2ops_vdec_buf_init,
-+	.buf_prepare	= vb2ops_vdec_buf_prepare,
-+	.buf_finish	= vb2ops_vdec_buf_finish,
-+	.buf_request_complete = vb2ops_vdec_buf_request_complete,
++const struct vdec_common_if vdec_h264_slice_if = {
++	.init		= vdec_h264_slice_init,
++	.decode		= vdec_h264_slice_decode,
++	.get_param	= vdec_h264_slice_get_param,
++	.deinit		= vdec_h264_slice_deinit,
 +};
-+
-+const struct mtk_vcodec_dec_pdata mtk_vdec_8183_pdata = {
-+	.chip = MTK_MT8183,
-+	.init_vdec_params = mtk_init_vdec_params,
-+	.ctrls_setup = mtk_vcodec_dec_ctrls_setup,
-+	.vdec_vb2_ops = &mtk_vdec_request_vb2_ops,
-+	.vdec_formats = mtk_video_formats,
-+	.num_formats = NUM_FORMATS,
-+	.default_out_fmt = &mtk_video_formats[DEFAULT_OUT_FMT_IDX],
-+	.default_cap_fmt = &mtk_video_formats[DEFAULT_CAP_FMT_IDX],
-+	.vdec_framesizes = mtk_vdec_framesizes,
-+	.num_framesizes = NUM_SUPPORTED_FRAMESIZE,
-+	.uses_stateless_api = true,
-+	.worker = mtk_vdec_worker,
-+	.flush_decoder = mtk_vdec_flush_decoder,
-+};
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-index a4360d653037..e0737165ecdc 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-@@ -253,6 +253,7 @@ struct vdec_pic_info {
-  * @empty_flush_buf: a fake size-0 capture buffer that indicates flush. Only
-  *		     to be used with encoder and stateful decoder.
-  * @is_flushing: set to true if flushing is in progress.
-+ * @current_codec: current set input codec, in V4L2 pixel format
-  *
-  * @colorspace: enum v4l2_colorspace; supplemental to pixelformat
-  * @ycbcr_enc: enum v4l2_ycbcr_encoding, Y'CbCr encoding
-@@ -293,6 +294,8 @@ struct mtk_vcodec_ctx {
- 	struct v4l2_m2m_buffer empty_flush_buf;
- 	bool is_flushing;
+diff --git a/drivers/media/platform/mtk-vcodec/vdec_drv_if.c b/drivers/media/platform/mtk-vcodec/vdec_drv_if.c
+index b18743b906ea..42008243ceac 100644
+--- a/drivers/media/platform/mtk-vcodec/vdec_drv_if.c
++++ b/drivers/media/platform/mtk-vcodec/vdec_drv_if.c
+@@ -19,6 +19,9 @@ int vdec_if_init(struct mtk_vcodec_ctx *ctx, unsigned int fourcc)
+ 	int ret = 0;
  
-+	u32 current_codec;
-+
- 	enum v4l2_colorspace colorspace;
- 	enum v4l2_ycbcr_encoding ycbcr_enc;
- 	enum v4l2_quantization quantization;
+ 	switch (fourcc) {
++	case V4L2_PIX_FMT_H264_SLICE:
++		ctx->dec_if = &vdec_h264_slice_if;
++		break;
+ 	case V4L2_PIX_FMT_H264:
+ 		ctx->dec_if = &vdec_h264_if;
+ 		break;
+diff --git a/drivers/media/platform/mtk-vcodec/vdec_drv_if.h b/drivers/media/platform/mtk-vcodec/vdec_drv_if.h
+index ec8f4e8d3d23..d467e8af4a84 100644
+--- a/drivers/media/platform/mtk-vcodec/vdec_drv_if.h
++++ b/drivers/media/platform/mtk-vcodec/vdec_drv_if.h
+@@ -55,6 +55,7 @@ struct vdec_fb_node {
+ };
+ 
+ extern const struct vdec_common_if vdec_h264_if;
++extern const struct vdec_common_if vdec_h264_slice_if;
+ extern const struct vdec_common_if vdec_vp8_if;
+ extern const struct vdec_common_if vdec_vp9_if;
+ 
 -- 
 2.31.1.751.gd2f1c929bd-goog
 
