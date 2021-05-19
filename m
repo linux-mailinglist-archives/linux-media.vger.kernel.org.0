@@ -2,125 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F07D3885A7
-	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 05:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2420F38867D
+	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 07:23:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353062AbhESDve (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 May 2021 23:51:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37416 "EHLO
+        id S238866AbhESFZC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 May 2021 01:25:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353035AbhESDve (ORCPT
+        with ESMTP id S233549AbhESFZB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 May 2021 23:51:34 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCAF5C06175F
-        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 20:50:14 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id o17-20020a17090a9f91b029015cef5b3c50so2743147pjp.4
-        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 20:50:14 -0700 (PDT)
+        Wed, 19 May 2021 01:25:01 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 856C5C06175F
+        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 22:23:41 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id c15so14088845ljr.7
+        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 22:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IF9z/4CR4I9nODmhixle8IEYz+JA1I8SG+9FbLFfO/8=;
-        b=mOJmigFjM68s+YZeY9hUbJh7NLZ/iS5i0LsfdpTKEZdQZR2D2Z19il570KhKV+r+43
-         u0BKRfUfXQguxfdnfJO3fh27J5mJmzJaLNUoPIZgc6KIMeF+/jCVEIbx7E4m8Qfl/ZNH
-         dpgc+3tehog7G5QuP3fem6QzQfN25JPtVC0k6dQCTun03mHjSknYyqZzhC1q4Rrtichk
-         pkNPB6d88cpIs54mAO5/ZbPPh06kIYmK2OoxJ7TF6VoKrcBcm8YKVANTBXnpG1LSXBZA
-         oujTFWLaNrs/vgkiPcCvyeOk/PbxwzRg7fQDM1Fq1WWOoUJ+rE712KAoICMlXHx0orh/
-         mqsA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mgekGujD0L3/nuy0lfC+9c6pRyC5gvzSw48ji+1o7eY=;
+        b=BxXwbNi9geW7T+UQxXc7H28320kvwfeHhK6Z/pd+0AYTKV/reJlbzKJC4H19m0YnoU
+         iFW1hqFzgcsSMO9x503aMETpWJfSZP1YRNossqQlHRVF3YwT6NpR35ZR9ioalX8zjyLC
+         VRhwJtGk99MfU9GmkdCBAIaYcg8r5cKy5Aa/w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IF9z/4CR4I9nODmhixle8IEYz+JA1I8SG+9FbLFfO/8=;
-        b=aoLNsQFW7xRVKQjF6XErYkIfzyfVtKqidvLERSDUWOqJo6d5hlX+A/8z2V8fIiSJtS
-         PQZO2PHrnobyT/Lm+ZN9gOEs8Wjj+eCkDcZno2IFqrQQ3l1Ao8GQk9ZSEBL7jyx3BUkM
-         olvYpfAzt0vOgt2dJZ+PSDIYVeAmGTk8tBp1+ftdeQINRZIyAfzdDNchw3an61GB9wWl
-         pML73zrqO6jKDghfNUmxR0rLR3t/1wC183OjnmYwFbevTtzXEg2tabK7XVeh36vkJLa4
-         mn9zqdcd8oL8PdShUV9JVEXQwo0M2Q6JPPgKs/gBuhMencCQ9Kkg8UtiGnhaAQN5BzrI
-         aWFQ==
-X-Gm-Message-State: AOAM530Qe+xcpXC8YSTBoApi8eK89HgaPVomXDakYl7DG/lBej6ABveQ
-        91ErWXbCXgQFKYkNOZTwPy89MVPOw6zXhQ==
-X-Google-Smtp-Source: ABdhPJweBaVCNuEmaGJuJkpPNoaiXSjWnlfPWyge68Mr64fMjT12xK1cFDcoNel3ATbHncId4FJpxg==
-X-Received: by 2002:a17:902:b7c3:b029:ef:8d29:a7d1 with SMTP id v3-20020a170902b7c3b02900ef8d29a7d1mr8434918plz.55.1621396213903;
-        Tue, 18 May 2021 20:50:13 -0700 (PDT)
-Received: from odkf.hopto.org ([211.58.213.153])
-        by smtp.gmail.com with ESMTPSA id o4sm14070038pjf.9.2021.05.18.20.50.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 May 2021 20:50:13 -0700 (PDT)
-From:   Seongyong Park <euphoriccatface@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     Matt Ranostay <matt.ranostay@konsulko.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Seongyong Park <euphoriccatface@gmail.com>
-Subject: [PATCH V2 2/2] media: video-i2c: append register data on MLX90640's frame
-Date:   Wed, 19 May 2021 12:45:08 +0900
-Message-Id: <20210519034507.9576-1-euphoriccatface@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210516110902.784-1-euphoriccatface@gmail.com>
-References: 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mgekGujD0L3/nuy0lfC+9c6pRyC5gvzSw48ji+1o7eY=;
+        b=JhP1VpSYk5oLMjvmlcy6CF9w8Ai0Ex0VgYOueIcmk1MTB6KAQpfOESGjZ7IydEFylu
+         APCtsDpWno43RuHbJ+DLl56SHcuLm8eT1YVfh/3aP/QhAnRIrPJ5JCvL6OAwG47u6i8P
+         jhtlPAglq/u8cjdsXn39kFfTR/vo0LvDFQRAiCi0ljILeBbGuXVvw5ujkNL3vU+nROPr
+         3ms37k2mGV/eF5j9chLHV2ORu3y9l56ZOvjqeyDhMoZNI5MqhAirt5VvLHV08uI0Ed7s
+         L0ulFLichEXatk7wdYuPwy4QLA7+u/T09F4ht6uv/26DFRo4HPJPkcWCI82ZYj+BVund
+         DAog==
+X-Gm-Message-State: AOAM531VS0uFsul4BP3z4BC8iudwLUD5XqT+voU+CfwgnVD5W6E6/Z5N
+        hilnBUZ2CpaOVWpEJQsXGzgHgsinsIbUsw==
+X-Google-Smtp-Source: ABdhPJyVwaZh6wmvaromzlwPP7sKRNi/QT0td5F5GbgCD8me2cQ039MIQkhsHKFgML7QWCjNvjznWA==
+X-Received: by 2002:a2e:9586:: with SMTP id w6mr7206735ljh.131.1621401819766;
+        Tue, 18 May 2021 22:23:39 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id k5sm2529474lfu.0.2021.05.18.22.23.39
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 May 2021 22:23:39 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id z13so17186769lft.1
+        for <linux-media@vger.kernel.org>; Tue, 18 May 2021 22:23:39 -0700 (PDT)
+X-Received: by 2002:a05:6512:33c8:: with SMTP id d8mr7286426lfg.614.1621401818561;
+ Tue, 18 May 2021 22:23:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210427111526.1772293-1-acourbot@chromium.org>
+ <20210427111526.1772293-8-acourbot@chromium.org> <CAJMQK-g=bnr9bAkvN61sFapX_XOKmUF8LPivtCEzUhP-LjoHUw@mail.gmail.com>
+In-Reply-To: <CAJMQK-g=bnr9bAkvN61sFapX_XOKmUF8LPivtCEzUhP-LjoHUw@mail.gmail.com>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Wed, 19 May 2021 14:23:25 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXgG2fENJXgCrKoUxaeV6H0Azo7BWpwf9-4ZyJZ9JiSTg@mail.gmail.com>
+Message-ID: <CAPBb6MXgG2fENJXgCrKoUxaeV6H0Azo7BWpwf9-4ZyJZ9JiSTg@mail.gmail.com>
+Subject: Re: [PATCH v4 07/15] media: mtk-vcodec: vdec: add media device if
+ using stateless api
+To:     Hsin-Yi Wang <hsinyi@chromium.org>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On MLX90640, Each measurement step updates half of the pixels in the frame
-(every other pixel in default "chess mode", and every other row
-in "interleave mode"), while additional coefficient data (25th & 26th row)
-updates every step. The compensational coefficient data only corresponds
-with the pixels updated in the same step.
+On Mon, May 17, 2021 at 1:35 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>
+> On Tue, Apr 27, 2021 at 7:16 PM Alexandre Courbot <acourbot@chromium.org> wrote:
+> >
+> > From: Yunfei Dong <yunfei.dong@mediatek.com>
+> >
+> > The stateless API requires a media device for issuing requests. Add one
+> > if we are being instantiated as a stateless decoder.
+> >
+> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > [acourbot: refactor, cleanup and split]
+> > Co-developed-by: Alexandre Courbot <acourbot@chromium.org>
+> > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> > ---
+> >  drivers/media/platform/Kconfig                |  1 +
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 39 +++++++++++++++++++
+> >  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  2 +
+> >  3 files changed, 42 insertions(+)
+> >
+> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> > index ae1468aa1b4e..4154fdec2efb 100644
+> > --- a/drivers/media/platform/Kconfig
+> > +++ b/drivers/media/platform/Kconfig
+> > @@ -315,6 +315,7 @@ config VIDEO_MEDIATEK_VCODEC
+> >         select VIDEO_MEDIATEK_VCODEC_VPU if VIDEO_MEDIATEK_VPU
+> >         select VIDEO_MEDIATEK_VCODEC_SCP if MTK_SCP
+> >         select V4L2_H264
+> > +       select MEDIA_CONTROLLER
+>
+> Should this also select MEDIA_CONTROLLER_REQUEST_API config?
 
-Only way to know which "subpage" was updated on the last step is to read
-"status register" on address 0x8000. Without this data,
-compensation calculation may be able to detect which sets of pixels have
-been updated, but it will have to make assumptions when frame skip happens,
-and there is no way to do it correctly when the host simply cannot
-keep up with refresh rate.
+Yup, it probably should. hantro and rkvdec also select it, so let's do the same.
 
-Signed-off-by: Seongyong Park <euphoriccatface@gmail.com>
----
- drivers/media/i2c/video-i2c.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-index 2ccb08335..f2313b446 100644
---- a/drivers/media/i2c/video-i2c.c
-+++ b/drivers/media/i2c/video-i2c.c
-@@ -74,7 +74,8 @@ static const struct v4l2_fmtdesc mlx90640_format = {
- 
- static const struct v4l2_frmsize_discrete mlx90640_size = {
- 	.width = 32,
--	.height = 26, /* 24 lines of pixel data + 2 lines of processing data */
-+	.height = 27,
-+	/* 24 lines of pixel data + 2 lines of processing data + 1 line of registers */
- };
- 
- static const struct regmap_config amg88xx_regmap_config = {
-@@ -168,8 +169,12 @@ static int amg88xx_xfer(struct video_i2c_data *data, char *buf)
- 
- static int mlx90640_xfer(struct video_i2c_data *data, char *buf)
- {
--	return regmap_bulk_read(data->regmap, 0x400, buf,
--				data->chip->buffer_size);
-+	int ret = regmap_bulk_read(data->regmap, 0x400, buf,
-+				   data->chip->buffer_size - 64);
-+	if (ret)
-+		return ret;
-+	return regmap_bulk_read(data->regmap, 0x8000, buf + (data->chip->buffer_size - 64),
-+				64);
- }
- 
- static int amg88xx_setup(struct video_i2c_data *data)
-@@ -375,7 +380,7 @@ static const struct video_i2c_chip video_i2c_chip[] = {
- 		.format		= &mlx90640_format,
- 		.frame_intervals	= mlx90640_frame_intervals,
- 		.num_frame_intervals	= ARRAY_SIZE(mlx90640_frame_intervals),
--		.buffer_size	= 1664,
-+		.buffer_size	= 1728,
- 		.bpp		= 16,
- 		.regmap_config	= &mlx90640_regmap_config,
- 		.nvmem_config	= &mlx90640_nvram_config,
--- 
-2.31.1
-
+Thanks!
+Alex.
