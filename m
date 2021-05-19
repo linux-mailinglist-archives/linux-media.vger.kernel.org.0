@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC42B3890E5
-	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 16:31:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 801F03890E9
+	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 16:31:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354083AbhESOc0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 May 2021 10:32:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41576 "EHLO
+        id S1354161AbhESOcm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 May 2021 10:32:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354003AbhESOcU (ORCPT
+        with ESMTP id S1354060AbhESOcY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 May 2021 10:32:20 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D41F2C061763
-        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:31:00 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id b9-20020a17090a9909b029015cf9effaeaso3588175pjp.5
-        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:31:00 -0700 (PDT)
+        Wed, 19 May 2021 10:32:24 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96193C06138A
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:31:03 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d78so9154702pfd.10
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:31:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JgArL14ajRohcXyEiSMLAcJTXjckPVSt3YXRJ5CcQT0=;
-        b=O2x2XX659CHop9jQ1XLZ2F7l4dUpo1vfAH8BGQ7YltWd0dgLEDPR6a8rDZ8dAAuvcP
-         QgP+jw4Mlldurx9XU0M8zwRRhtUueoi5pTIES9lATeYB27ESpdiolDORltTru0qqyxfq
-         sz92Ua3FGvMIDoU2P7kikdSJerJxza6HSsuws=
+        bh=gednTxgPx66VC4gCQ3Jr7JXud1OWY9l/+WYNK98hMTs=;
+        b=BHh51IQPT+XAspq8nFIWtmtzukkvDbgIYm+vZLcsrzOC67hcMsaooPLQ68qZFXcMqU
+         wxLhMd2i/qaJRzN1alTaj/Qx+1kIBslJnB4IlNrPrydks0cIXOR9AS3xx/Cxl5E8Fk0N
+         gY7Omlt2GBBaaFNYLOoIOrYysD6XVNulRbh+g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JgArL14ajRohcXyEiSMLAcJTXjckPVSt3YXRJ5CcQT0=;
-        b=ChXGDH4K/U9B3vJoUl2/TajMIh0gwq6YAs3xnW7oKe28APKw8jPuN1ChRGMWPK7FZu
-         aqUsk72dErF5iOXMhqKKPcyNHfTUjHLt9DIYZqV2FHZlN0tiQpKA7p9PyNVqaumXpOw0
-         54SNIwlI/WKHrTRo2kTvCTJcFRqQUJ7sbvN26kxCUwfaOiw0T9ZNQsEGeA1hV8CPl6mA
-         YQbhivekHh5pxbRHM9rIlSUZ3h1QpFGmJ1Vxy0fWmTk3JpnNGGP6/ADDBuxT2j/zu87f
-         z02it/9shjsO2q61wKfaN69BWTrBHhjtmW6CvQ2U7zbrKL68Dw+PgGqa7y1m07PiJtvo
-         kwJw==
-X-Gm-Message-State: AOAM5310PqTFaRjsJ5qWiHgn11EyvjSwR8mJO/m4frMMU+POObwSPLtd
-        fPng9Du31tJHpm3CvNELYxKz6g==
-X-Google-Smtp-Source: ABdhPJz2wsEQm6AwEkiR2+lDZE+gXkVPqSokD1+NxXypXy3REtzrfBqb7EKAgYK4U6jhOsbdfX9/aw==
-X-Received: by 2002:a17:90b:a18:: with SMTP id gg24mr11373887pjb.188.1621434660381;
-        Wed, 19 May 2021 07:31:00 -0700 (PDT)
+        bh=gednTxgPx66VC4gCQ3Jr7JXud1OWY9l/+WYNK98hMTs=;
+        b=J1Tf2m7JLxRwbvzYDlhoB9sEvwSlwhI3cJywXHyw0I15hu88hXetyKy6F9bTaZMXBY
+         u7/poZP/jW4bxmKH+pNVnxkvMnNp662IDnqSeq9Zn1kWNOpoQsDRpR/aoM5KeKM6w3p4
+         cEq/gzmZqL44jsVb6sqBq1200kBTzWdm+lZnwTTOxfxUEIlFRo0cj4w6+8RAZkXVjSuZ
+         5QoJeEGkiiq8P4ZFqwvW6dziQPw9LNDfpUkAXMl1jV/HClPLcsYIpzBZ3kRptfR1Clth
+         5D5Rjj1sH8Ml+sZ1TBsXIEU1Fhvv3txKr2wCz/zFpx0xDxR6h8Njbk4SoyURKQ9D9Rnx
+         NX3g==
+X-Gm-Message-State: AOAM531PBIJlQFih+mIzfdn1yW+XHVWzUGzD26v7O9AKmoPQ1mm50naj
+        jQ+XurOOe6hPnpn/Ztnr8kWNyA==
+X-Google-Smtp-Source: ABdhPJzsmmBc5/96G4MtQtTnAEtviCgTpS4rSYWla9GFOKZzkPE/ZYp2wn61NySvAEWQ5xl2bJU9qA==
+X-Received: by 2002:aa7:90d5:0:b029:28e:df57:47ff with SMTP id k21-20020aa790d50000b029028edf5747ffmr11101397pfk.74.1621434663174;
+        Wed, 19 May 2021 07:31:03 -0700 (PDT)
 Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:87ab:ff82:1544:697])
-        by smtp.gmail.com with ESMTPSA id 3sm14337661pff.132.2021.05.19.07.30.57
+        by smtp.gmail.com with ESMTPSA id 3sm14337661pff.132.2021.05.19.07.31.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 07:31:00 -0700 (PDT)
+        Wed, 19 May 2021 07:31:02 -0700 (PDT)
 From:   Alexandre Courbot <acourbot@chromium.org>
 To:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -55,9 +55,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mediatek@lists.infradead.org,
         Alexandre Courbot <acourbot@chromium.org>
-Subject: [PATCH v5 08/14] media: mtk-vcodec: support version 2 of decoder firmware ABI
-Date:   Wed, 19 May 2021 23:30:05 +0900
-Message-Id: <20210519143011.1175546-9-acourbot@chromium.org>
+Subject: [PATCH v5 09/14] media: add Mediatek's MM21 format
+Date:   Wed, 19 May 2021 23:30:06 +0900
+Message-Id: <20210519143011.1175546-10-acourbot@chromium.org>
 X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
 In-Reply-To: <20210519143011.1175546-1-acourbot@chromium.org>
 References: <20210519143011.1175546-1-acourbot@chromium.org>
@@ -67,162 +67,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for decoder firmware version 2, which makes the kernel
-responsible for managing the VSI context and is used for stateless
-codecs.
+Add Mediatek's non-compressed 8 bit block video mode. This format is
+produced by the MT8183 codec and can be converted to a non-proprietary
+format by the MDP3 component.
 
 Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 ---
- .../media/platform/mtk-vcodec/vdec_ipi_msg.h  | 18 +++++++++---
- .../media/platform/mtk-vcodec/vdec_vpu_if.c   | 28 +++++++++++++++----
- .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  5 ++++
- 3 files changed, 42 insertions(+), 9 deletions(-)
+ Documentation/userspace-api/media/v4l/pixfmt-reserved.rst | 7 +++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c                      | 1 +
+ include/uapi/linux/videodev2.h                            | 1 +
+ 3 files changed, 9 insertions(+)
 
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-index eb66729fda63..a0e773ae3ab3 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-+++ b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-@@ -29,11 +29,15 @@ enum vdec_ipi_msgid {
- /**
-  * struct vdec_ap_ipi_cmd - generic AP to VPU ipi command format
-  * @msg_id	: vdec_ipi_msgid
-- * @vpu_inst_addr	: VPU decoder instance address
-+ * @vpu_inst_addr : VPU decoder instance address. Used if ABI version < 2.
-+ * @inst_id     : instance ID. Used if the ABI version >= 2.
-  */
- struct vdec_ap_ipi_cmd {
- 	uint32_t msg_id;
--	uint32_t vpu_inst_addr;
-+	union {
-+		uint32_t vpu_inst_addr;
-+		uint32_t inst_id;
-+	};
- };
- 
- /**
-@@ -63,7 +67,8 @@ struct vdec_ap_ipi_init {
- /**
-  * struct vdec_ap_ipi_dec_start - for AP_IPIMSG_DEC_START
-  * @msg_id	: AP_IPIMSG_DEC_START
-- * @vpu_inst_addr	: VPU decoder instance address
-+ * @vpu_inst_addr : VPU decoder instance address. Used if ABI version < 2.
-+ * @inst_id     : instance ID. Used if the ABI version >= 2.
-  * @data	: Header info
-  *	H264 decoder [0]:buf_sz [1]:nal_start
-  *	VP8 decoder  [0]:width/height
-@@ -72,7 +77,10 @@ struct vdec_ap_ipi_init {
-  */
- struct vdec_ap_ipi_dec_start {
- 	uint32_t msg_id;
--	uint32_t vpu_inst_addr;
-+	union {
-+		uint32_t vpu_inst_addr;
-+		uint32_t inst_id;
-+	};
- 	uint32_t data[3];
- 	uint32_t reserved;
- };
-@@ -87,6 +95,7 @@ struct vdec_ap_ipi_dec_start {
-  *			ensure that it is compatible with the firmware.
-  *			This field is not valid for MT8173 and must not be
-  *			accessed for this chip.
-+ * @inst_id     : instance ID. Valid only if the ABI version >= 2.
-  */
- struct vdec_vpu_ipi_init_ack {
- 	uint32_t msg_id;
-@@ -94,6 +103,7 @@ struct vdec_vpu_ipi_init_ack {
- 	uint64_t ap_inst_addr;
- 	uint32_t vpu_inst_addr;
- 	uint32_t vdec_abi_version;
-+	uint32_t inst_id;
- };
- 
- #endif
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-index 203089213e67..5dffc459a33d 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-+++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-@@ -25,18 +25,30 @@ static void handle_init_ack_msg(const struct vdec_vpu_ipi_init_ack *msg)
- 
- 	mtk_vcodec_debug(vpu, "- vpu_inst_addr = 0x%x", vpu->inst_addr);
- 
-+	/* Set default ABI version if dealing with unversioned firmware. */
-+	vpu->fw_abi_version = 0;
-+	/*
-+	 * Instance ID is only used if ABI version >= 2. Initialize it with
-+	 * garbage by default.
-+	 */
-+	vpu->inst_id = 0xdeadbeef;
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+index 0b879c0da713..42357b0b3535 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+@@ -246,6 +246,13 @@ please make a proposal on the linux-media mailing list.
+ 	It is an opaque intermediate format and the MDP hardware must be
+ 	used to convert ``V4L2_PIX_FMT_MT21C`` to ``V4L2_PIX_FMT_NV12M``,
+ 	``V4L2_PIX_FMT_YUV420M`` or ``V4L2_PIX_FMT_YVU420``.
++    * .. _V4L2-PIX-FMT-MM21:
 +
- 	/* Firmware version field does not exist on MT8173. */
- 	if (vpu->ctx->dev->vdec_pdata->chip == MTK_MT8173)
- 		return;
++      - ``V4L2_PIX_FMT_MM21``
++      - 'MM21'
++      - Non-compressed, tiled two-planar format used by Mediatek MT8183.
++	This is an opaque intermediate format and the MDP3 hardware can be
++	used to convert it to other formats.
+     * .. _V4L2-PIX-FMT-SUNXI-TILED-NV12:
  
- 	/* Check firmware version. */
--	mtk_vcodec_debug(vpu, "firmware version 0x%x\n", msg->vdec_abi_version);
--	switch (msg->vdec_abi_version) {
-+	vpu->fw_abi_version = msg->vdec_abi_version;
-+	mtk_vcodec_debug(vpu, "firmware version 0x%x\n", vpu->fw_abi_version);
-+	switch (vpu->fw_abi_version) {
- 	case 1:
- 		break;
-+	case 2:
-+		vpu->inst_id = msg->inst_id;
-+		break;
- 	default:
- 		mtk_vcodec_err(vpu, "unhandled firmware version 0x%x\n",
--			       msg->vdec_abi_version);
-+			       vpu->fw_abi_version);
- 		vpu->failure = 1;
- 		break;
- 	}
-@@ -113,7 +125,10 @@ static int vcodec_send_ap_ipi(struct vdec_vpu_inst *vpu, unsigned int msg_id)
- 
- 	memset(&msg, 0, sizeof(msg));
- 	msg.msg_id = msg_id;
--	msg.vpu_inst_addr = vpu->inst_addr;
-+	if (vpu->fw_abi_version < 2)
-+		msg.vpu_inst_addr = vpu->inst_addr;
-+	else
-+		msg.inst_id = vpu->inst_id;
- 
- 	err = vcodec_vpu_send_msg(vpu, &msg, sizeof(msg));
- 	mtk_vcodec_debug(vpu, "- id=%X ret=%d", msg_id, err);
-@@ -163,7 +178,10 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t *data, unsigned int len)
- 
- 	memset(&msg, 0, sizeof(msg));
- 	msg.msg_id = AP_IPIMSG_DEC_START;
--	msg.vpu_inst_addr = vpu->inst_addr;
-+	if (vpu->fw_abi_version < 2)
-+		msg.vpu_inst_addr = vpu->inst_addr;
-+	else
-+		msg.inst_id = vpu->inst_id;
- 
- 	for (i = 0; i < len; i++)
- 		msg.data[i] = data[i];
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-index 85224eb7e34b..c2ed5b6cab8b 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-+++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-@@ -18,6 +18,9 @@ struct mtk_vcodec_ctx;
-  *                for control and info share
-  * @failure     : VPU execution result status, 0: success, others: fail
-  * @inst_addr	: VPU decoder instance address
-+ * @fw_abi_version : ABI version of the firmware.
-+ * @inst_id	: if fw_abi_version >= 2, contains the instance ID to be given
-+ *                in place of inst_addr in messages.
-  * @signaled    : 1 - Host has received ack message from VPU, 0 - not received
-  * @ctx         : context for v4l2 layer integration
-  * @dev		: platform device of VPU
-@@ -29,6 +32,8 @@ struct vdec_vpu_inst {
- 	void *vsi;
- 	int32_t failure;
- 	uint32_t inst_addr;
-+	uint32_t fw_abi_version;
-+	uint32_t inst_id;
- 	unsigned int signaled;
- 	struct mtk_vcodec_ctx *ctx;
- 	wait_queue_head_t wq;
+       - ``V4L2_PIX_FMT_SUNXI_TILED_NV12``
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 2673f51aafa4..c63341b8456a 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1346,6 +1346,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_TM6000:	descr = "A/V + VBI Mux Packet"; break;
+ 	case V4L2_PIX_FMT_CIT_YYVYUY:	descr = "GSPCA CIT YYVYUY"; break;
+ 	case V4L2_PIX_FMT_KONICA420:	descr = "GSPCA KONICA420"; break;
++	case V4L2_PIX_FMT_MM21:		descr = "Mediatek 8-bit Block Format"; break;
+ 	case V4L2_PIX_FMT_HSV24:	descr = "24-bit HSV 8-8-8"; break;
+ 	case V4L2_PIX_FMT_HSV32:	descr = "32-bit XHSV 8-8-8-8"; break;
+ 	case V4L2_SDR_FMT_CU8:		descr = "Complex U8"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 311a01cc5775..db04e37da1a8 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -733,6 +733,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_Y12I     v4l2_fourcc('Y', '1', '2', 'I') /* Greyscale 12-bit L/R interleaved */
+ #define V4L2_PIX_FMT_Z16      v4l2_fourcc('Z', '1', '6', ' ') /* Depth data 16-bit */
+ #define V4L2_PIX_FMT_MT21C    v4l2_fourcc('M', 'T', '2', '1') /* Mediatek compressed block mode  */
++#define V4L2_PIX_FMT_MM21     v4l2_fourcc('M', 'M', '2', '1') /* Mediatek 8-bit block mode, two non-contiguous planes */
+ #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
+ #define V4L2_PIX_FMT_SUNXI_TILED_NV12 v4l2_fourcc('S', 'T', '1', '2') /* Sunxi Tiled NV12 Format */
+ #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
 -- 
 2.31.1.751.gd2f1c929bd-goog
 
