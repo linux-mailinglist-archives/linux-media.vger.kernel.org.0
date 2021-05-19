@@ -2,249 +2,277 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82D4B389340
-	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 18:08:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EE633893BD
+	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 18:27:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343707AbhESQKG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 May 2021 12:10:06 -0400
-Received: from ip-15.mailobj.net ([213.182.54.15]:34622 "EHLO msg-4.mailo.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240247AbhESQKE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 May 2021 12:10:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-        t=1621440511; bh=uHGKXxXQE9JuFBYruIrsV1wTta2G8ffoHyOGDd/pkHM=;
-        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-         MIME-Version:Content-Type:In-Reply-To;
-        b=Fs6eK/y1AmwvkMxM9y/rD2YJZGici8zUKY1iuM1/n+P2fohA1osbOzF//VYOMOlbP
-         L27snbrM5vG9Lh6y9gH3EIKEw7HSJdG5AGGIT3EtpVlGiZHTxt8ou8TvE+WJPOOXFj
-         QGoArJ0brT29xRmH4vX1M8+cqbdHCq7SsLtw72Lg=
-Received: by 192.168.90.14 [192.168.90.14] with ESMTP
-        via ip-206.mailobj.net [213.182.55.206]
-        Wed, 19 May 2021 18:08:31 +0200 (CEST)
-X-EA-Auth: wX9+6mUicxAyNIE9wkcLOVPbvAIIHQjA0JiXDQLosPysEqBMc7yhnNPqmxqhogTIBAoR1gGZKjgfGlZVY3u4NTjdDT0WtAdz
-Date:   Wed, 19 May 2021 21:38:26 +0530
-From:   Deepak R Varma <drv@mailo.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/9] staging: media: atomisp: use __func__ over
- function names
-Message-ID: <YKU3+nUQYELnoYad@dU2104>
-References: <cover.1619630709.git.drv@mailo.com>
- <ff72157dce3b0b3f317ffb399362af7ee23109a3.1619630709.git.drv@mailo.com>
- <20210517154448.7bb8be17@coco.lan>
+        id S1355265AbhESQ2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 May 2021 12:28:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40360 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1355411AbhESQ23 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 May 2021 12:28:29 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41463C06175F
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 09:27:09 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id 6so9833819pgk.5
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 09:27:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SakSgiZ4ddbOim/P+Jnfe0RsK1mrrxRc8FFWjgiG+Hw=;
+        b=C4RQBdYrK8StFkUZxtXfsB0waWA1/ViKjhuPBk07N76D6u5UT1LGXcZMc5aDZVdXBw
+         iTBHHNXJYaZkygeKDrLpKb0qzmmIpKNQSbXtQeSUmfvIUIOt7pAzvT2Xjrf7YW2as+DO
+         LUyGCOFcJpHFWRNntaK90tv4pJZlDR32phNsmmnlPqQnAghYvFM6IbCsOb5lkrXjPt8s
+         LX3gmQrpa+KInfNtM4ffR5n6FV7Fxr1lSgom0Ojh8ivnnhnhOzgPhOjvwl+EGn5v/Gdx
+         8MUixZbxbUoBzFL7KUTeVZ5LoNQyjpTRVxP7PQQtoDyHOS0xCPY+F62VI4b7bPkHmppo
+         0XLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SakSgiZ4ddbOim/P+Jnfe0RsK1mrrxRc8FFWjgiG+Hw=;
+        b=ReOyeMFpVMZRGcSfCSXw7UM48rZvGLQkGcnH0i9m0YXo74eZmROixYGpHl+5iAaJ3M
+         WQdQpNMebGVWmxYIluHafqnrwYJgH/D8S/yyk/JhjRxMl6rV0pc4j6Gzfppr/ZmiYpom
+         H2i0IGzZycUbzGl+ubWgDiRo51Yer/0I2f0q2BgC08ooJBbkh8vciWVwOMLYNIAcdKPf
+         jzFGWYI00MxAk1xn3hg+QSKc0ZP1xqzCJlImSuZ70I9uD2/g0lYlHOHqdmfqNmYHZf7D
+         F4wXOox/bGvNwG5bNpao7VSrpAJjW5aadYzk0Gr3uIHXL0hp51Usf44vkdS3AUF520lU
+         186Q==
+X-Gm-Message-State: AOAM532qtvJfS4Wvy6p8tbmLFWx5E8wWkLLoIJPWquplcPImkvcxHtr7
+        8NbobyMPfSLYSQD9g1twnhcHww6kINhdBZr/MpNzbQ==
+X-Google-Smtp-Source: ABdhPJwBsBhjiVRzoKpttjhEcHUgcSBV5/F0iI39ODAGN8VEsOq+opgx2eS+Vsrr/pYeZ7Vkt9I6CAAl7ipObN2gnIc=
+X-Received: by 2002:a05:6a00:bc2:b029:2df:93cc:371a with SMTP id
+ x2-20020a056a000bc2b02902df93cc371amr4622908pfu.12.1621441628686; Wed, 19 May
+ 2021 09:27:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210517154448.7bb8be17@coco.lan>
+References: <20210511180728.23781-1-jonathan@marek.ca> <20210511180728.23781-4-jonathan@marek.ca>
+In-Reply-To: <20210511180728.23781-4-jonathan@marek.ca>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Wed, 19 May 2021 18:26:57 +0200
+Message-ID: <CAG3jFytj8sgC-GW03e17RWFLhJGhMGTBpBpFBhYi3fixJuAdFg@mail.gmail.com>
+Subject: Re: [PATCH 03/17] media: camss: csiphy-3ph: add support for SM8250
+ CSI DPHY
+To:     Jonathan Marek <jonathan@marek.ca>
+Cc:     MSM <linux-arm-msm@vger.kernel.org>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:QUALCOMM CAMERA SUBSYSTEM DRIVER" 
+        <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 17, 2021 at 03:44:48PM +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 28 Apr 2021 23:37:54 +0530
-> Deepak R Varma <drv@mailo.com> escreveu:
-> 
-> > Replace hard coded function names from the debug print strings by
-> > standard __func__ predefined identifier. This resolves following
-> > checkpatch script WARNING:
-> > Prefer using '"%s...", __func__' to using function's name, in a string.
-> > 
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> > 
-> > Changes since v3:
-> >    - None.
-> > Changes since v2:
-> >    - None.
-> > Changes since v1:
-> >    - None.
-> 
-> Huh? Why are you sending a new version when there's no difference
-> from the past ones?
+On Tue, 11 May 2021 at 20:08, Jonathan Marek <jonathan@marek.ca> wrote:
+>
+> Add support for CSIPHY (2PH/DPHY mode) found on SM8250 hardware.
+>
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> ---
+>  .../qcom/camss/camss-csiphy-3ph-1-0.c         | 144 +++++++++++++++++-
+>  1 file changed, 137 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> index 783b65295d20..61947576ddfb 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> @@ -62,6 +62,7 @@ struct csiphy_reg_t {
+>         u32 csiphy_param_type;
+>  };
+>
+> +/* GEN2 1.0 2PH */
+>  static const struct
+>  csiphy_reg_t lane_regs_sdm845[5][14] = {
+>         {
+> @@ -146,6 +147,121 @@ csiphy_reg_t lane_regs_sdm845[5][14] = {
+>         },
+>  };
+>
+> +/* GEN2 1.2.1 2PH */
+> +static const struct
+> +csiphy_reg_t lane_regs_sm8250[5][20] = {
+> +       {
+> +               {0x0030, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0900, 0x05, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0908, 0x10, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0904, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0904, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0034, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0010, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x001C, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x003C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0008, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+> +               {0x0000, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x000c, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0038, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0014, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0028, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0024, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +       },
+> +       {
+> +               {0x0730, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0C80, 0x05, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0C88, 0x10, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0C84, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0C84, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0704, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x072C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0734, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0710, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x071C, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x073C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0708, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+> +               {0x0700, 0x80, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x070c, 0xA5, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0738, 0x1F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0714, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0728, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0724, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +       },
+> +       {
+> +               {0x0230, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0A00, 0x05, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0A08, 0x10, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0A04, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0A04, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0204, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x022C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0234, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0210, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x021C, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x023C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0208, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+> +               {0x0200, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x020c, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0238, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0214, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0228, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0224, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +       },
+> +       {
+> +               {0x0430, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0B00, 0x05, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0B08, 0x10, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0B04, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0B04, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0404, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x042C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0434, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0410, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x041C, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x043C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0408, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+> +               {0x0400, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x040c, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0438, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0414, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0428, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0424, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +       },
+> +       {
+> +               {0x0630, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0C00, 0x05, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0C08, 0x10, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0C04, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0C04, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0604, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x062C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0634, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0610, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x061C, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x063C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0608, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+> +               {0x0600, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x060c, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0638, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0614, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0628, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0624, 0x00, 0x00, CSIPHY_DNP_PARAMS},
+> +               {0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +               {0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +       },
+> +};
+> +
+>  static void csiphy_hw_version_read(struct csiphy_device *csiphy,
+>                                    struct device *dev)
+>  {
+> @@ -298,13 +414,23 @@ static void csiphy_gen1_config_lanes(struct csiphy_device *csiphy,
+>  static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
+>                                      u8 settle_cnt)
+>  {
+> -       int i, l;
+> -       u32 val;
+> +       const struct csiphy_reg_t *r;
+> +       int i, l, array_size;
+> +       u32 val, lane_enable;
+> +
+> +       switch (csiphy->camss->version) {
+> +       case CAMSS_845:
+> +               r = &lane_regs_sdm845[0][0];
+> +               array_size = ARRAY_SIZE(lane_regs_sdm845[0]);
+> +               break;
+> +       case CAMSS_8250:
 
-Sorry, I thought I have to resend the whole patch set so that all the
-patches have the same version history. Are you saying I just resend the
-ones that required a change? No need to include those that do not have any
-comments / feedback or are acked?
+CAMSS_8250 is not defined until later in the series, in "media: camss:
+add support for SM8250 camss".
 
-> 
-> > 
-> >  .../staging/media/atomisp/i2c/atomisp-gc0310.c   |  2 +-
-> >  .../staging/media/atomisp/i2c/atomisp-gc2235.c   |  2 +-
-> >  .../staging/media/atomisp/i2c/atomisp-lm3554.c   |  2 +-
-> >  .../staging/media/atomisp/i2c/atomisp-ov2680.c   | 16 ++++++++--------
-> >  .../staging/media/atomisp/i2c/atomisp-ov2722.c   |  2 +-
-> >  5 files changed, 12 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > index d68a2bcc9ae1..b572551f1a0d 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > @@ -1292,7 +1292,7 @@ static int gc0310_remove(struct i2c_client *client)
-> >  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >  	struct gc0310_device *dev = to_gc0310_sensor(sd);
-> >  
-> > -	dev_dbg(&client->dev, "gc0310_remove...\n");
-> > +	dev_dbg(&client->dev, "%s...\n", __func__);
-> >  
-> 
-> As Dan already pointed, please delete this and other
-> dev_dbg() that are just tracing functions without any other
-> real meaning. If one needs that, ftrace could be used.
+> +               r = &lane_regs_sm8250[0][0];
+> +               array_size = ARRAY_SIZE(lane_regs_sm8250[0]);
+> +               break;
+> +       }
+>
+>         for (l = 0; l < 5; l++) {
+> -               for (i = 0; i < 14; i++) {
+> -                       const struct csiphy_reg_t *r = &lane_regs_sdm845[l][i];
+> -
+> +               for (i = 0; i < array_size; i++, r++) {
+>                         switch (r->csiphy_param_type) {
+>                         case CSIPHY_SETTLE_CNT_LOWER_BYTE:
+>                                 val = settle_cnt & 0xff;
+> @@ -331,7 +457,10 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
+>
+>         settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
+>
+> -       val = BIT(c->clk.pos);
+> +       if (csiphy->camss->version == CAMSS_8250)
+> +               val = BIT(7);
+> +       else
+> +               val = BIT(c->clk.pos);
 
-I have made this correction in a separate patch send afterwards. I will
-confirm if this file was included. If not, I will include this in the next
-version. 
+sdm845 and sm8250 behave the same way, and I think this chunk should
+reflect that. With that being said the docs for camss-sdm845 mention
+that the only valid lane for the clock is #7. I don't know if it is
+preferred to enforce the restriction in the driver, yaml or both.
 
-> 
-> 
-> 
-> >  	dev->platform_data->csi_cfg(sd, 0);
-> >  
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > index e722c639b60d..548c572d3b57 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > @@ -1034,7 +1034,7 @@ static int gc2235_remove(struct i2c_client *client)
-> >  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >  	struct gc2235_device *dev = to_gc2235_sensor(sd);
-> >  
-> > -	dev_dbg(&client->dev, "gc2235_remove...\n");
-> > +	dev_dbg(&client->dev, "%s...\n", __func__);
-> >  
-> >  	dev->platform_data->csi_cfg(sd, 0);
-> >  
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> > index 7ca7378b1859..ab10fd98dbc0 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> > @@ -680,7 +680,7 @@ static int lm3554_detect(struct v4l2_subdev *sd)
-> >  	int ret;
-> >  
-> >  	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA)) {
-> > -		dev_err(&client->dev, "lm3554_detect i2c error\n");
-> > +		dev_err(&client->dev, "%s i2c error\n", __func__);
-> >  		return -ENODEV;
-> >  	}
-> >  
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> > index f167781e258a..a51ad9843d39 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> > @@ -146,7 +146,7 @@ static int ov2680_g_bin_factor_x(struct v4l2_subdev *sd, s32 *val)
-> >  	struct ov2680_device *dev = to_ov2680_sensor(sd);
-> >  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> >  
-> > -	dev_dbg(&client->dev,  "++++ov2680_g_bin_factor_x\n");
-> > +	dev_dbg(&client->dev,  "++++%s\n", __func__);
-> >  	*val = ov2680_res[dev->fmt_idx].bin_factor_x;
-> >  
-> >  	return 0;
-> > @@ -158,7 +158,7 @@ static int ov2680_g_bin_factor_y(struct v4l2_subdev *sd, s32 *val)
-> >  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> >  
-> >  	*val = ov2680_res[dev->fmt_idx].bin_factor_y;
-> > -	dev_dbg(&client->dev,  "++++ov2680_g_bin_factor_y\n");
-> > +	dev_dbg(&client->dev,  "++++%s\n", __func__);
-> >  	return 0;
-> >  }
-> >  
-> > @@ -173,7 +173,7 @@ static int ov2680_get_intg_factor(struct i2c_client *client,
-> >  	u16 reg_val;
-> >  	int ret;
-> >  
-> > -	dev_dbg(&client->dev,  "++++ov2680_get_intg_factor\n");
-> > +	dev_dbg(&client->dev,  "++++%s\n", __func__);
-> >  	if (!info)
-> >  		return -EINVAL;
-> >  
-> > @@ -251,8 +251,8 @@ static long __ov2680_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
-> >  	int ret, exp_val;
-> >  
-> >  	dev_dbg(&client->dev,
-> > -		"+++++++__ov2680_set_exposure coarse_itg %d, gain %d, digitgain %d++\n",
-> > -		coarse_itg, gain, digitgain);
-> > +		"+++++++%s coarse_itg %d, gain %d, digitgain %d++\n",
-> > +		__func__, coarse_itg, gain, digitgain);
-> 
-> This one for instance, is not a plain trace, so it could make
-> sense to be kept, but please remove those "+++..."  sequences
-> from the string, as this has no meaning. So, just:
-> 
->  	dev_dbg(&client->dev,
-> 		"%s: coarse_itg %d, gain %d, digitgain %d\n",
-> 		__func__, coarse_itg, gain, digitgain);
-> 
-> would be enough.
+>         for (i = 0; i < c->num_data; i++)
+>                 val |= BIT(c->data[i].pos * 2);
+>
+> @@ -349,7 +478,8 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
+>         if (csiphy->camss->version == CAMSS_8x16 ||
+>             csiphy->camss->version == CAMSS_8x96)
+>                 csiphy_gen1_config_lanes(csiphy, cfg, settle_cnt);
+> -       else if (csiphy->camss->version == CAMSS_845)
+> +       else if (csiphy->camss->version == CAMSS_845 ||
+> +                csiphy->camss->version == CAMSS_8250)
+>                 csiphy_gen2_config_lanes(csiphy, settle_cnt);
+>
+>         /* IRQ_MASK registers - disable all interrupts */
 
-Sounds good. I will include this in my next version.
+With the above issues fixed;
 
-> 
-> >  
-> >  	vts = ov2680_res[dev->fmt_idx].lines_per_frame;
-> >  
-> > @@ -1060,9 +1060,9 @@ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
-> >  
-> >  	mutex_lock(&dev->input_lock);
-> >  	if (enable)
-> > -		dev_dbg(&client->dev, "ov2680_s_stream one\n");
-> > +		dev_dbg(&client->dev, "%s one\n", __func__);
-> 
-> There's a typo here:
-> 
-> 	one -> on
-> 
-> Please fix.
-
-Yes, will do.
-
-> 
-> >  	else
-> > -		dev_dbg(&client->dev, "ov2680_s_stream off\n");
-> > +		dev_dbg(&client->dev, "%s off\n", __func__);
-> 
-> Btw, the entire logic above could be re-written as:
-> 
-> 	dev_dbg(&client->dev, "%s: %s\n", __func__,
-> 		enable ? "on" : "off");
-> 
-> >  
-> >  	ret = ov2680_write_reg(client, 1, OV2680_SW_STREAM,
-> >  			       enable ? OV2680_START_STREAMING :
-> > @@ -1226,7 +1226,7 @@ static int ov2680_remove(struct i2c_client *client)
-> >  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >  	struct ov2680_device *dev = to_ov2680_sensor(sd);
-> >  
-> > -	dev_dbg(&client->dev, "ov2680_remove...\n");
-> > +	dev_dbg(&client->dev, "%s...\n", __func__);
-> >  
-> >  	dev->platform_data->csi_cfg(sd, 0);
-> >  
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > index d046a9804f63..69409f8447b5 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > @@ -1175,7 +1175,7 @@ static int ov2722_remove(struct i2c_client *client)
-> >  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >  	struct ov2722_device *dev = to_ov2722_sensor(sd);
-> >  
-> > -	dev_dbg(&client->dev, "ov2722_remove...\n");
-> > +	dev_dbg(&client->dev, "%s...\n", __func__);
-> >  
-> >  	dev->platform_data->csi_cfg(sd, 0);
-> >  	v4l2_ctrl_handler_free(&dev->ctrl_handler);
-> 
-> 
-> 
-> Thanks,
-> Mauro
-
-Thank you so much for the detailed review. Really appreciate your time
-Mauro.
-
-deepak.
-
-
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
