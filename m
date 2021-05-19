@@ -2,197 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38D9A3892EB
-	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 17:47:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73810389307
+	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 17:52:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241115AbhESPsW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 May 2021 11:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59548 "EHLO
+        id S1346825AbhESPyJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 May 2021 11:54:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231948AbhESPsV (ORCPT
+        with ESMTP id S1346863AbhESPyD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 May 2021 11:48:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F0A8C06175F;
-        Wed, 19 May 2021 08:47:02 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A7F9DBA7;
-        Wed, 19 May 2021 17:46:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621439219;
-        bh=SV82KYXCt/yhIoUavxJdGfzficwpdfZ/IMJ5IePuVEg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IyMt6zIKpB4JK2Gw/yE7ZROfbKndHwzBt582k10n+Nm7HtysefFuB2V4jEC/7OgBQ
-         xTzN1PeGg1IPUP0gaQOXw5DxCJhuDTbSxUYondXXAIwODszzg/bOOIurcuyklHZsgI
-         kAzT4YRpO6PgyWDVLKMN/6+SPGvin3Xa4gPQA4rA=
-Date:   Wed, 19 May 2021 18:46:58 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     devicetree@vger.kernel.org, festevam@gmail.com,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, marex@denx.de, p.zabel@pengutronix.de,
-        rmfrfs@gmail.com, robh@kernel.org, slongerbeam@gmail.com
-Subject: Re: [PATCH 00/23] media: imx: imx7-mipi-csis: Add i.MX8MM support /
- imx8mq support
-Message-ID: <YKUy8gu3Jc3VDy5i@pendragon.ideasonboard.com>
-References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
- <20210504155939.1194369-1-martin.kepplinger@puri.sm>
- <YKBRXesDsXk9K15J@pendragon.ideasonboard.com>
- <1da3de6c879474b814f4d820ca5eb5ba07174a26.camel@puri.sm>
- <YKRmhSn65fiqshsp@pendragon.ideasonboard.com>
- <7f922c8b3d4396c00ba15ad99dd572699f4b69b1.camel@puri.sm>
+        Wed, 19 May 2021 11:54:03 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91700C061761
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 08:52:43 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id t11so7564750pjm.0
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 08:52:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AjaxYg4bUUARP67WdGinpCbYpxiblugMhlcvL7HjH8s=;
+        b=exnK+d2N5ecA63XuVyOCKzjR4/cye2CMBz3pcMSTaRcM9gs5Ic38YZqMewJJFd16MT
+         p0x7DhlXbr/+0VixgDfqq+En4zwXPeji2FA+ulvWQVxzmUldfdo2e5AwOMJ/Cw2EV4oY
+         x3Y/nGHpsqOaI9GDwedwIJWbklq13gbzEENJgnvabAJquqBHI4IivPX3XPntBMDd1IUb
+         bYOXHrIBxfyouKSWEnaeCawybiTYK/murqLNxF+VzIyNbtFHbAJA7cVZBkDQzhKODo+K
+         977ADWL9KRjFVmDH4i0jL3MaQi+mjoNfaOItgTT2V8h88glq7/WacRl3u1mclRFsneSH
+         we5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AjaxYg4bUUARP67WdGinpCbYpxiblugMhlcvL7HjH8s=;
+        b=nqSxRBULWQ+z3gggaqrJmCZ5xjKeamQe9GHgDQUol3h7Gdp6IS6Ih02MJoCoNK6i4Z
+         iBXtcHOqOd/zXJQiUGSQc7/sKSe+kwLl2Fvw103SPtClFzp4xsXpHlCEfic20S94pkOW
+         0tn6Iv7S7GKvb28FjmDW66VjnXhKKY9Oh7X/SJ55gub24gAHPnT6Cpuv12V1hnCdeYh7
+         zup7teM7EFIK5t+Jly1bMji/BiqQ+Y908LOnSWdcb+uQVE5O5qXEeH0emoHcP6xz43rT
+         vEyLsCUciNyGbyuomMOhqvMIw6P6R8JEqrLewjQ2+G8AMQzCYv9bUCwdF7Cdk5D9vgT0
+         UJ4w==
+X-Gm-Message-State: AOAM532vATzJcc554XQD+6yLqUHW4/fInIjNKDyl2Gv+WR2jco0/NVWI
+        7JaggBRKhorwm+k6dbhmqMuZxNhns+rbV2jKXepO5A==
+X-Google-Smtp-Source: ABdhPJznYOweZXIKYDgZ3nLOZlhjx+oq97Yjw8fXxaWJMMRlfhU/ljaNm1YJbtniMdzPJeCNQ4PYsRKhN4xoAo/Jfkk=
+X-Received: by 2002:a17:90a:b38d:: with SMTP id e13mr11507026pjr.222.1621439562957;
+ Wed, 19 May 2021 08:52:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7f922c8b3d4396c00ba15ad99dd572699f4b69b1.camel@puri.sm>
+References: <20210511180728.23781-1-jonathan@marek.ca> <20210511180728.23781-3-jonathan@marek.ca>
+In-Reply-To: <20210511180728.23781-3-jonathan@marek.ca>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Wed, 19 May 2021 17:52:31 +0200
+Message-ID: <CAG3jFyvx3szAdUFJWyQCe6DndQX6YEY3M=xWM585ujSv1ro6VQ@mail.gmail.com>
+Subject: Re: [PATCH 02/17] media: camss: csiphy-3ph: disable interrupts
+To:     Jonathan Marek <jonathan@marek.ca>
+Cc:     MSM <linux-arm-msm@vger.kernel.org>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:QUALCOMM CAMERA SUBSYSTEM DRIVER" 
+        <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+On Tue, 11 May 2021 at 20:08, Jonathan Marek <jonathan@marek.ca> wrote:
+>
+> The driver does nothing with the interrupts, so set the irq mask registers
+> to zero to avoid wasting CPU time for thing.
+>
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> ---
+>  .../qcom/camss/camss-csiphy-3ph-1-0.c         | 35 ++-----------------
+>  1 file changed, 3 insertions(+), 32 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> index 5948abdcd220..783b65295d20 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> @@ -352,38 +352,9 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
+>         else if (csiphy->camss->version == CAMSS_845)
+>                 csiphy_gen2_config_lanes(csiphy, settle_cnt);
+>
+> -       val = 0xff;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(11));
+> -
+> -       val = 0xff;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(12));
+> -
+> -       val = 0xfb;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(13));
+> -
+> -       val = 0xff;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(14));
+> -
+> -       val = 0x7f;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(15));
+> -
+> -       val = 0xff;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(16));
+> -
+> -       val = 0xff;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(17));
+> -
+> -       val = 0xef;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(18));
+> -
+> -       val = 0xff;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(19));
+> -
+> -       val = 0xff;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(20));
+> -
+> -       val = 0xff;
+> -       writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(21));
+> +       /* IRQ_MASK registers - disable all interrupts */
+> +       for (i = 11; i < 22; i++)
+> +               writel_relaxed(0, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(i));
+>  }
+>
+>  static void csiphy_lanes_disable(struct csiphy_device *csiphy,
 
-On Wed, May 19, 2021 at 05:21:11PM +0200, Martin Kepplinger wrote:
-> Am Mittwoch, dem 19.05.2021 um 04:14 +0300 schrieb Laurent Pinchart:
-> > On Tue, May 18, 2021 at 04:39:00PM +0200, Martin Kepplinger wrote:
-> > > Am Sonntag, dem 16.05.2021 um 01:55 +0300 schrieb Laurent Pinchart:
-> > > > On Tue, May 04, 2021 at 05:59:39PM +0200, Martin Kepplinger wrote:
-> > > > > hi Laurent, again thanks a lot for posting this series! I can't fully test
-> > > > > it, but base my work for imx8mq on it now. imx8mq includes
-> > > > > yet another mipi phy version than this and below is some very rough testing
-> > > > > code. it's not at all something I sign-off on but my following
-> > > > > problem is based on it.
-> > > > 
-> > > > Unless I'm mistaken, the CSI-2 receiver in the i.MX8MQ is a completely
-> > > > different device. I wouldn't try to support it in the imx7-mipi-csis
-> > > > driver, but in a separate driver.
-> > > > 
-> > > > >  * configured to use both staging csi drivers
-> > > > >  * the csi bridge driver at least streams frames together with the
-> > > > > nxp "yav" mipi driver
-> > > > > 
-> > > > > media-ctl -p now says the output below, so one link from mipi to
-> > > > > csi is missing.
-> > > > > 
-> > > > > Note that
-> > > > > 
-> > > > > media-ctl --set-v4l2 "'csi':0 [fmt:SBGGR10/640x480]"
-> > > > > works in that it changes the configured format below, but
-> > > > > 
-> > > > > media-ctl -l "'imx7-mipi-csis.0':1" -> "'csi':0[1]"
-> > > > > doesn't create said missing link.
-> > > > 
-> > > > media-ctl can't create links, it can only enable or disable them. Link
-> > > > creation is the prerogative of drivers.
-> > > > 
-> > > > > Do I maybe use that wrongly? If now, does anything come to mind that would
-> > > > > be missing specifically?
-> > > > 
-> > > > The link should be created by the call to media_create_pad_link() in
-> > > > imx_media_capture_device_register(). You'll need to figure out if the
-> > > > function is called and returns an error early, or if it doesn't get
-> > > > called at all, and why.
-> > > > 
-> > > > > When trying to stream anyway (if that makes sense), I get the
-> > > > > following:
-> > > > > 
-> > > > > [ 2008.377470] capture_start_streaming: starting
-> > > > > [ 2008.381883] capture_find_format: calling imx_media_find_mbus_format with code 0x2006
-> > > > > [ 2008.389671] imx7-csi 30a90000.csi1_bridge: capture_validate_fmt: capture_find_format err
-> > > > > [ 2008.397794] imx7-csi 30a90000.csi1_bridge: capture_validate_fmt: capture_find_format found colorspace 0x1 != 0x0
-> > > > > [ 2008.407999] imx7-csi 30a90000.csi1_bridge: capture format not valid: -32
-> > > > > 
-> > > > > and if I ignore that (because I'm not yet sure whether that is specific to
-> > > > > platforms including an IPU), I get a WARN_ON from vb2_start_streaming()
-> > > > 
-> > > > That I have a fix for, I'll post it as part of an imx7-media-csi
-> > > > series.
-> > > 
-> > > Hi Laurent,
-> > > 
-> > > You haven't posted that fix you're talking about, right?
-> > 
-> > Correct. It's now fixed (see "[PATCH] media: imx: imx7-media-csi: Fix
-> > buffer return upon stream start failure", I've CC'ed you).
-> > 
-> > > The below
-> > > driver (attached; I'll send it as patches after I successfully tested
-> > > myself, and cleanup and fixes obviously)
-> > 
-> > Don't forget the DT bindings at that point :-)
-> > 
-> > > results in the same situation I described above:
-> > > 
-> > > * missing link from mipi (entity 10) -> csi (entity 1):
-> > 
-> > The link is supposed to be created by
-> > v4l2_create_fwnode_links_to_pad(),
-> > called from imx7_csi_notify_bound(). Could you trace the calls and
-> > figure out what goes wrong ?
-> 
-> that bound callback imx7_csi_notify_bound() is called only once during
-> probe: v4l2_create_fwnode_links_to_pad() returns 0 and
-> imx7_csi_async_register() returns success too.
-
-What subdev is it called for (I assume the imx8mq-mipi-csis.0) ? Have
-you traced inside the function to see why it doesn't create links ?
-
-> (the imx8mq mipi driver probes successfully, independently, a few ms
-> before the above, the sensor driver a few ms after that)
-> 
-> So nothing obviously going wrong during probe(). that's the call trace
-> in imx7_csi_notify_bound() :
-> 
-> [    5.992126] Call trace:
-> [    5.992129]  dump_backtrace+0x0/0x1e4
-> [    5.992149]  show_stack+0x24/0x30
-> [    5.992155]  dump_stack+0xd0/0x12c
-> [    5.992163]  imx7_csi_notify_bound+0x78/0x8c [imx7_media_csi]
-> [    5.992182]  v4l2_async_match_notify+0x58/0x1b0 [videodev]
-> [    5.992262]  v4l2_async_notifier_try_all_subdevs+0x60/0xd0 [videodev]
-> [    5.992316]  v4l2_async_match_notify+0x130/0x1b0 [videodev]
-> [    5.992370]  v4l2_async_register_subdev+0x98/0x1f0 [videodev]
-> [    5.992424]  imx7_csi_probe+0x2c8/0x310 [imx7_media_csi]
-> [    5.992436]  platform_probe+0x74/0xe4
-> [    5.992446]  really_probe+0xf0/0x510
-> [    5.992453]  driver_probe_device+0xfc/0x170
-> [    5.992458]  device_driver_attach+0xcc/0xd4
-> [    5.992464]  __driver_attach+0xb0/0x17c
-> [    5.992469]  bus_for_each_dev+0x7c/0xe0
-> [    5.992478]  driver_attach+0x30/0x40
-> [    5.992483]  bus_add_driver+0x154/0x250
-> [    5.992490]  driver_register+0x84/0x140
-> [    5.992496]  __platform_driver_register+0x34/0x40
-> [    5.992502]  imx7_csi_driver_init+0x2c/0x1000 [imx7_media_csi]
-> [    5.992515]  do_one_initcall+0x50/0x2d0
-> [    5.992522]  do_init_module+0x60/0x274
-> [    5.992532]  load_module+0x2078/0x2450
-> [    5.992539]  __do_sys_finit_module+0xbc/0x130
-> [    5.992547]  __arm64_sys_finit_module+0x2c/0x3c
-> [    5.992555]  el0_svc_common.constprop.0+0x68/0x130
-> [    5.992565]  do_el0_svc+0x28/0x34
-> [    5.992571]  el0_svc+0x2c/0x54
-> [    5.992580]  el0_sync_handler+0x1a4/0x1b0
-> [    5.992587]  el0_sync+0x174/0x180
-> 
-> 
-> btw, my test is:
-> 
-> v4l2-ctl -d "/dev/v4l/by-path/platform-30a90000.csi1_bridge-video-
-> index0" --set-fmt-video=width=640,height=480 --stream-mmap --stream-
-> to=test.raw --stream-count=1
-> 
-> and that (probably because of the missing link) fails with
-> 
-> VIDIOC_STREAMON returned -1 (No such device)
-> 
-> which is in the kernel:
-> 
-> imx7-csi 30a90000.csi1_bridge: pipeline start failed with -19
-
-Let's fix the missing link first.
-
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
