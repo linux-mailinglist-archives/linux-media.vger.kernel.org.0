@@ -2,171 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C4F3388E86
-	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 15:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A370388FD7
+	for <lists+linux-media@lfdr.de>; Wed, 19 May 2021 16:07:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353479AbhESNDI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 May 2021 09:03:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49280 "EHLO
+        id S1353823AbhESOI3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 May 2021 10:08:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240957AbhESNDH (ORCPT
+        with ESMTP id S1346859AbhESOI1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 May 2021 09:03:07 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1828BC06175F
-        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 06:01:47 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:c161:a89e:52bd:1787])
-        by albert.telenet-ops.be with bizsmtp
-        id 6d1n2500E446CkP06d1nqM; Wed, 19 May 2021 15:01:47 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ljLpb-007FKq-7q; Wed, 19 May 2021 15:01:47 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ljLpa-007dZC-7J; Wed, 19 May 2021 15:01:46 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: media: renesas,imr: Convert to json-schema
-Date:   Wed, 19 May 2021 15:01:43 +0200
-Message-Id: <353c2d181ceb6a5dfc553f88a201c6b18ee6914d.1621429265.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 19 May 2021 10:08:27 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EAA7C06175F
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:07:05 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso3371238wmc.1
+        for <linux-media@vger.kernel.org>; Wed, 19 May 2021 07:07:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:content-transfer-encoding:date:message-id:subject:from
+         :to:cc:references:in-reply-to;
+        bh=Bkv+zvzXINhOZaAJcPv95LawMTnaCWfzRsV1aUsFx1E=;
+        b=DgUcvJxZjoznKN326byUoEND1hDd2S+0stet38GbpMMG8Fzkp3tcXwX+nACbDgjDlm
+         zcbed2tHpQZxNifm2mT28c5HG9ngMt6dy77ZsNOVgztEhydNJiU+pAxOEx6XX7HHnWe7
+         L5GcRsFbELiftRxRmlHymwlVhWCag6TBuDQ5MChcPQmGSy0nb5UtF8k6Req8lb5TwW1o
+         Ex0mHX9/wgZ+YbJZGkFgN+Ngj+kacRC3sn/YeGGopcz2dnk/zGMUgFwztbeg1m7yEJ/V
+         k5AkHg86QCOblnkThfgr+I1ylO5vMmWBrvv2OLiVn5MyyfbgMhFEZVvW2vKoA6/brIUL
+         LRtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding:date
+         :message-id:subject:from:to:cc:references:in-reply-to;
+        bh=Bkv+zvzXINhOZaAJcPv95LawMTnaCWfzRsV1aUsFx1E=;
+        b=Wqd7xU70oRw9ZDycEIsz+iYRogfWWJ9Bfn8ytyBZFsUUT4H4ij6NCRHFHzTJgLuXC2
+         XmS8TLKZ17yO/lbEg3n7bXje6pNm6tldkuKcHFk3lOax+MvTuPHM1dgX3YBnHA6h6vZ4
+         Ljmk4Zvx58eXOUls5fV+Kh9maexZEvK02CidSKVdHUgnaxygUk+JeTopvuBC+XINzeeO
+         y9SncN2J0o6R7+Td0oKWW4VN35k4YjqMWjB+8vcTC4stQ8vvG4UHBu3m477VFLmhY1Mi
+         dhaLy03/1N0cmkRtq+mPfsn+4MMV330V1a5jTqmJ/XLLPgbpncLScrspqyfY5613vk2t
+         gmFw==
+X-Gm-Message-State: AOAM5319bicHGgT1tUuSUhPt3zJWtw78BTSDA31HyDdAPJIfsuy+DKQj
+        pNVIqabRpC0Wy1HFT4kGgok=
+X-Google-Smtp-Source: ABdhPJz/oPWSLx2FyM7RtPunwaviOWsAd/J+am6gcw4kVFT1qcLuNGM4MwzcQp7KE1NphnksP86isg==
+X-Received: by 2002:a05:600c:4f4e:: with SMTP id m14mr11345947wmq.164.1621433224067;
+        Wed, 19 May 2021 07:07:04 -0700 (PDT)
+Received: from localhost (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id x13sm15689014wro.31.2021.05.19.07.07.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 May 2021 07:07:03 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Wed, 19 May 2021 15:07:02 +0100
+Message-Id: <CBHA3VHGIILR.1FSF2H4I4IPI6@arch-thunder>
+Subject: Re: [RFC PATCH 2/3 v1.1] media: imx: imx7-media-csi: Set
+ TWO_8BIT_SENSOR for >= 10-bit formats
+From:   "Rui Miguel Silva" <rmfrfs@gmail.com>
+To:     "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>
+Cc:     <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>,
+        <linux-imx@nxp.com>, "Steve Longerbeam" <slongerbeam@gmail.com>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        "Marek Vasut" <marex@denx.de>,
+        "Marco Felsch" <m.felsch@pengutronix.de>,
+        "Martin Kepplinger" <martin.kepplinger@puri.sm>,
+        "Dorota Czaplejewicz" <dorota.czaplejewicz@puri.sm>
+References: <CBFG1V17RJK2.2Q6JTIOSUD8ML@arch-thunder>
+ <20210519002332.10406-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20210519002332.10406-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the Renesas R-Car Image Renderer Tree binding documentation to
-json-schema.
+Thanks Laurent,
+On Wed May 19, 2021 at 1:23 AM WEST, Laurent Pinchart wrote:
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-I have listed Sergei as the maintainer, as he wrote the original
-bindings.  Sergei: Please scream if this is inappropriate ;-)
----
- .../devicetree/bindings/media/renesas,imr.txt | 31 ---------
- .../bindings/media/renesas,imr.yaml           | 66 +++++++++++++++++++
- 2 files changed, 66 insertions(+), 31 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/renesas,imr.txt
- create mode 100644 Documentation/devicetree/bindings/media/renesas,imr.yaml
+> Sample code from NXP, as well as experiments on i.MX8MM with RAW10
+> capture with an OV5640 sensor connected over CSI-2, showed that the
+> TWO_8BIT_SENSOR field of the CSICR3 register needs to be set for formats
+> larger than 8 bits. Do so, even if the reference manual doesn't clearly
+> describe the effect of the field.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,imr.txt b/Documentation/devicetree/bindings/media/renesas,imr.txt
-deleted file mode 100644
-index b0614153ed3682eb..0000000000000000
---- a/Documentation/devicetree/bindings/media/renesas,imr.txt
-+++ /dev/null
-@@ -1,31 +0,0 @@
--Renesas R-Car Image Renderer (Distortion Correction Engine)
-------------------------------------------------------------
--
--The image renderer, or the distortion correction engine, is a drawing processor
--with a simple instruction system capable of referencing video capture data or
--data in an external memory as 2D texture data and performing texture mapping
--and drawing with respect to any shape that is split into triangular objects.
--
--Required properties:
--
--- compatible: "renesas,<soctype>-imr-lx4", "renesas,imr-lx4" as a fallback for
--  the image renderer light extended 4 (IMR-LX4) found in the R-Car gen3 SoCs,
--  where the examples with <soctype> are:
--  - "renesas,r8a7795-imr-lx4" for R-Car H3,
--  - "renesas,r8a7796-imr-lx4" for R-Car M3-W.
--- reg: offset and length of the register block;
--- interrupts: single interrupt specifier;
--- clocks: single clock phandle/specifier pair;
--- power-domains: power domain phandle/specifier pair;
--- resets: reset phandle/specifier pair.
--
--Example:
--
--	imr-lx4@fe860000 {
--		compatible = "renesas,r8a7795-imr-lx4", "renesas,imr-lx4";
--		reg = <0 0xfe860000 0 0x2000>;
--		interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&cpg CPG_MOD 823>;
--		power-domains = <&sysc R8A7795_PD_A3VC>;
--		resets = <&cpg 823>;
--	};
-diff --git a/Documentation/devicetree/bindings/media/renesas,imr.yaml b/Documentation/devicetree/bindings/media/renesas,imr.yaml
-new file mode 100644
-index 0000000000000000..ea4579209e81660f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/renesas,imr.yaml
-@@ -0,0 +1,66 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/renesas,imr.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R-Car Image Renderer (Distortion Correction Engine)
-+
-+maintainers:
-+  - Sergei Shtylyov <sergei.shtylyov@gmail.com>
-+
-+description:
-+  The image renderer, or the distortion correction engine, is a drawing
-+  processor with a simple instruction system capable of referencing video
-+  capture data or data in an external memory as 2D texture data and performing
-+  texture mapping and drawing with respect to any shape that is split into
-+  triangular objects.
-+  The image renderer light extended 4 (IMR-LX4) is found in R-Car Gen3 SoCs.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - renesas,r8a7795-imr-lx4 # R-Car H3
-+          - renesas,r8a7796-imr-lx4 # R-Car M3-W
-+      - const: renesas,imr-lx4      # R-Car Gen3
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - power-domains
-+  - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7795-sysc.h>
-+
-+    imr-lx4@fe860000 {
-+            compatible = "renesas,r8a7795-imr-lx4", "renesas,imr-lx4";
-+            reg = <0xfe860000 0x2000>;
-+            interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&cpg CPG_MOD 823>;
-+            power-domains = <&sysc R8A7795_PD_A3VC>;
-+            resets = <&cpg 823>;
-+    };
--- 
-2.25.1
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+
+------
+Cheers,
+     Rui
+> ---
+> Changes since v1:
+>
+> - Initialize cr3 to BIT_FRMCNT_RST
+> ---
+>  drivers/staging/media/imx/imx7-media-csi.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging=
+/media/imx/imx7-media-csi.c
+> index f85a2f5f1413..5ae9ed1849e9 100644
+> --- a/drivers/staging/media/imx/imx7-media-csi.c
+> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> @@ -421,6 +421,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+>  	struct v4l2_pix_format *out_pix =3D &vdev->fmt;
+>  	int width =3D out_pix->width;
+>  	u32 stride =3D 0;
+> +	u32 cr3 =3D BIT_FRMCNT_RST;
+>  	u32 cr1, cr18;
+> =20
+>  	cr18 =3D imx7_csi_reg_read(csi, CSI_CSICR18);
+> @@ -464,6 +465,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+>  		case MEDIA_BUS_FMT_SGBRG10_1X10:
+>  		case MEDIA_BUS_FMT_SGRBG10_1X10:
+>  		case MEDIA_BUS_FMT_SRGGB10_1X10:
+> +			cr3 |=3D BIT_TWO_8BIT_SENSOR;
+>  			cr18 |=3D BIT_MIPI_DATA_FORMAT_RAW10;
+>  			break;
+>  		case MEDIA_BUS_FMT_Y12_1X12:
+> @@ -471,6 +473,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+>  		case MEDIA_BUS_FMT_SGBRG12_1X12:
+>  		case MEDIA_BUS_FMT_SGRBG12_1X12:
+>  		case MEDIA_BUS_FMT_SRGGB12_1X12:
+> +			cr3 |=3D BIT_TWO_8BIT_SENSOR;
+>  			cr18 |=3D BIT_MIPI_DATA_FORMAT_RAW12;
+>  			break;
+>  		case MEDIA_BUS_FMT_Y14_1X14:
+> @@ -478,6 +481,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+>  		case MEDIA_BUS_FMT_SGBRG14_1X14:
+>  		case MEDIA_BUS_FMT_SGRBG14_1X14:
+>  		case MEDIA_BUS_FMT_SRGGB14_1X14:
+> +			cr3 |=3D BIT_TWO_8BIT_SENSOR;
+>  			cr18 |=3D BIT_MIPI_DATA_FORMAT_RAW14;
+>  			break;
+>  		/*
+> @@ -510,7 +514,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+> =20
+>  	imx7_csi_reg_write(csi, cr1, CSI_CSICR1);
+>  	imx7_csi_reg_write(csi, BIT_DMA_BURST_TYPE_RFF_INCR16, CSI_CSICR2);
+> -	imx7_csi_reg_write(csi, BIT_FRMCNT_RST, CSI_CSICR3);
+> +	imx7_csi_reg_write(csi, cr3, CSI_CSICR3);
+>  	imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
+> =20
+>  	imx7_csi_reg_write(csi, (width * out_pix->height) >> 2, CSI_CSIRXCNT);
+> --=20
+> Regards,
+>
+> Laurent Pinchart
+
+
 
