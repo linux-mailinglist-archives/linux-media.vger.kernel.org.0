@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DC1C38B6C5
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 21:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E76C38B6D1
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 21:13:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234228AbhETTLk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 15:11:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34884 "EHLO
+        id S236689AbhETTO2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 15:14:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232667AbhETTLi (ORCPT
+        with ESMTP id S233891AbhETTO1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 15:11:38 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B3D8C061574;
-        Thu, 20 May 2021 12:10:15 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id t10-20020a05683022eab0290304ed8bc759so15807679otc.12;
-        Thu, 20 May 2021 12:10:15 -0700 (PDT)
+        Thu, 20 May 2021 15:14:27 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C771C061574;
+        Thu, 20 May 2021 12:13:04 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id v22so17436002oic.2;
+        Thu, 20 May 2021 12:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=qZmqhErjNw9NpB4sTEi7TBGKOlHWpPlsaMkchqCd25U=;
-        b=VUk9UBH/QcIR0qeCSyhDdMQ/L42ux4gncCKIrTFJFcDzd6FRRipqIKh8piNmD1KJnl
-         kmHeFjswq2lFGSXDBDXUCEt1dLMwk6XSOgtK6Ax11cwQyipfUaJRO0Z6bHFj7Sf19SoB
-         LJASG5MubLxCC7Dv0UYkWWlAwT1hTF6AFdkCqD5f/pSvAHyVWMELpLmJaV8XQZIv7eMZ
-         n7Fw0Xpf1bwMUgAOMFuUhGe6cIyjjTMicraKgLuYtwvFkS0D8jNaRI0I40CCB527W60y
-         ptF9CSJPC7NFp2kmV0GTbc2GoN1Qc2vNoo3XHRFV7uD2bnguZGzpNtbozHgPPM7XHbnx
-         MmRw==
+        bh=f1HOQI0BiwYrzUbgtBfaRLayWrin0jlbAh0a0ONBLOo=;
+        b=uQBkLZJqm0DE/dKM+x7eb9gLh8/XDQt5USaoCAeW2WbEHrTj2uym/bC+wCmhG0gcl4
+         v4NQnxVANDznwTrUF2WAxSaLDVfwZPjcLsiIUd7gsifdF2O/K+9d/qSdM6vpL8UzCQ2/
+         73uBQdlN03hLEV+x5rSZqiIJ5du8gB+Fgd9odvQcpXzIPrTOB/QGQ9IXdoDesyE8sy52
+         kfTPxvTssaqnqYUnD5b3xYlU05n8y4dO7HzRUksofF4xi+w4eDcv4jFMSjbhQpef7aRE
+         3zbqsXANWhvcqhHJDz3Qn1pw7IL/xwiWgYZDEcs/RBTUJ1t8qLRcLfZsz6YLEMgo8I/0
+         DINA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qZmqhErjNw9NpB4sTEi7TBGKOlHWpPlsaMkchqCd25U=;
-        b=arB/cNQY32gvhU+zPAEInLr7ZMB4wDQq4iUax6o57qb4Hd4YZ+C8nzeRnTZNlyO6ma
-         /Nwce/Sh03RPZ1y4RqUtcNicDXoe/BWYtlCdB4xpYZGQXqeOlasqOz5JqbIzRrPsHeBV
-         N3XlwtuZzs9/5wop62Zy0WFwyukq9pSWAG/sagcc8fb20y7w0nwZMhX8uQvBgolRGRfE
-         w3WfPih4SqPvoynBKvYzXL0HPj2i8uQLq5ZvUmhd/rM46xLiWGE0twz7YPqdzHBrmMUm
-         e3xmODHGKFregK2/kMKKhAoug6kF44KIpLN1+bSbJVdJQ54DPRDgdzAfOeh+tcm6Fp+R
-         u2iw==
-X-Gm-Message-State: AOAM533yATA0moqrxFA2DV3xyWjSwJZKHJsKSjtFHgllslkZY055+qRy
-        NDWdmQi3NFUpNhYNY+U6oNpTxFDp+7tDs175bwXykPfC
-X-Google-Smtp-Source: ABdhPJwMqj/CKQBdLb7dxshnqMhIbg//f1Ttg3En9FmwFe/Hdagzvy9jXwWeDIpGu4wupnXvU9vTUoBsQYzf0ZLnT+8=
-X-Received: by 2002:a9d:74c6:: with SMTP id a6mr5119212otl.132.1621537814661;
- Thu, 20 May 2021 12:10:14 -0700 (PDT)
+        bh=f1HOQI0BiwYrzUbgtBfaRLayWrin0jlbAh0a0ONBLOo=;
+        b=ia41hAVHGaG2bdxLxe3Dx5o6xkM4fsnj5Rs4q7gwizy7E89U9uKxoeZ+1ub2gZAcu9
+         2z/by/eSDLssH8fBp4HN/ApFWpT8h9oDXp/B6WSB4SVo7S/ysHtBJ5x7JTmjG58m9Qq3
+         cm5ymYup8m+beD0lr/Nb69QiiE+ebc8Uo19V+T6s+qqmG/fvgTQtjSckYs1g4voKpXys
+         dGk2woVb00cfjYhOAEv3+bMFvEJCvwlKZRybRHyj0ZPsJzhPBcxwiXuHZaGm+oDZrbYU
+         wldTS9s60hx03eCkcKpD5VJ1giZgFpIRZQB3UaYkzDXbAdT1tetJb1FwlOlOACZ6KbB4
+         KiYQ==
+X-Gm-Message-State: AOAM532EPFSPT9G2cqEH+Muib1MnhZuAkzbhd2qi/g9ONhYRQOszWDqz
+        75RiX9/6vr4b3oViwZXCn2VO8+SkW5bCVDNVCD0=
+X-Google-Smtp-Source: ABdhPJxpLtprybsUn1KTxq9uRURqDKRbgBwQ5gkvNzCxNnBiUHkZOfWu506pJSfVTEeY/5X+bvFi9I9ic2wihYDZZHc=
+X-Received: by 2002:a05:6808:249:: with SMTP id m9mr4186705oie.120.1621537983767;
+ Thu, 20 May 2021 12:13:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210520120248.3464013-1-lee.jones@linaro.org> <20210520120248.3464013-12-lee.jones@linaro.org>
-In-Reply-To: <20210520120248.3464013-12-lee.jones@linaro.org>
+References: <20210520120248.3464013-1-lee.jones@linaro.org> <20210520120248.3464013-14-lee.jones@linaro.org>
+In-Reply-To: <20210520120248.3464013-14-lee.jones@linaro.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Thu, 20 May 2021 15:10:03 -0400
-Message-ID: <CADnq5_P1zF2Pw5BW54n+XEXyfNOLRnEvsk_zzZcz0TuanobubA@mail.gmail.com>
-Subject: Re: [PATCH 11/38] drm/amd/amdgpu/amdgpu_debugfs: Fix a couple of
- misnamed functions
+Date:   Thu, 20 May 2021 15:12:52 -0400
+Message-ID: <CADnq5_NPpWbDwOffhShmWGTydz+fu0K-OQ=HO81+tcOWKzaicQ@mail.gmail.com>
+Subject: Re: [PATCH 13/38] drm/amd/amdgpu/cik_sdma: Fix a few incorrectly
+ named functions
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     David Airlie <airlied@linux.ie>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -62,6 +62,7 @@ Cc:     David Airlie <airlied@linux.ie>,
         Maling list - DRI developers 
         <dri-devel@lists.freedesktop.org>,
         Alex Deucher <alexander.deucher@amd.com>,
+        Evan Quan <evan.quan@amd.com>,
         linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -77,52 +78,78 @@ On Thu, May 20, 2021 at 8:03 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1004: warning: expecting pro=
-totype for amdgpu_debugfs_regs_gfxoff_write(). Prototype was for amdgpu_deb=
-ugfs_gfxoff_write() instead
->  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1053: warning: expecting pro=
-totype for amdgpu_debugfs_regs_gfxoff_status(). Prototype was for amdgpu_de=
-bugfs_gfxoff_read() instead
+>  drivers/gpu/drm/amd/amdgpu/cik_sdma.c:735: warning: expecting prototype =
+for cik_sdma_vm_copy_pages(). Prototype was for cik_sdma_vm_copy_pte() inst=
+ead
+>  drivers/gpu/drm/amd/amdgpu/cik_sdma.c:762: warning: expecting prototype =
+for cik_sdma_vm_write_pages(). Prototype was for cik_sdma_vm_write_pte() in=
+stead
+>  drivers/gpu/drm/amd/amdgpu/cik_sdma.c:792: warning: expecting prototype =
+for cik_sdma_vm_set_pages(). Prototype was for cik_sdma_vm_set_pte_pde() in=
+stead
+>  drivers/gpu/drm/amd/amdgpu/cik_sdma.c:814: warning: expecting prototype =
+for cik_sdma_vm_pad_ib(). Prototype was for cik_sdma_ring_pad_ib() instead
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Evan Quan <evan.quan@amd.com>
 > Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: linux-media@vger.kernel.org
 > Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/cik_sdma.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_debugfs.c
-> index bcaf271b39bf5..a9bbb0034e1ec 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> @@ -990,7 +990,7 @@ static ssize_t amdgpu_debugfs_gpr_read(struct file *f=
-, char __user *buf,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c b/drivers/gpu/drm/amd/=
+amdgpu/cik_sdma.c
+> index c4bb8eed246d6..c8ebd108548d3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
+> @@ -720,7 +720,7 @@ static int cik_sdma_ring_test_ib(struct amdgpu_ring *=
+ring, long timeout)
 >  }
 >
 >  /**
-> - * amdgpu_debugfs_regs_gfxoff_write - Enable/disable GFXOFF
-> + * amdgpu_debugfs_gfxoff_write - Enable/disable GFXOFF
+> - * cik_sdma_vm_copy_pages - update PTEs by copying them from the GART
+> + * cik_sdma_vm_copy_pte - update PTEs by copying them from the GART
 >   *
->   * @f: open file handle
->   * @buf: User buffer to write data from
-> @@ -1041,7 +1041,7 @@ static ssize_t amdgpu_debugfs_gfxoff_write(struct f=
-ile *f, const char __user *bu
->
+>   * @ib: indirect buffer to fill with commands
+>   * @pe: addr of the page entry
+> @@ -746,7 +746,7 @@ static void cik_sdma_vm_copy_pte(struct amdgpu_ib *ib=
+,
+>  }
 >
 >  /**
-> - * amdgpu_debugfs_regs_gfxoff_status - read gfxoff status
-> + * amdgpu_debugfs_gfxoff_read - read gfxoff status
+> - * cik_sdma_vm_write_pages - update PTEs by writing them manually
+> + * cik_sdma_vm_write_pte - update PTEs by writing them manually
 >   *
->   * @f: open file handle
->   * @buf: User buffer to store read data in
+>   * @ib: indirect buffer to fill with commands
+>   * @pe: addr of the page entry
+> @@ -775,7 +775,7 @@ static void cik_sdma_vm_write_pte(struct amdgpu_ib *i=
+b, uint64_t pe,
+>  }
+>
+>  /**
+> - * cik_sdma_vm_set_pages - update the page tables using sDMA
+> + * cik_sdma_vm_set_pte_pde - update the page tables using sDMA
+>   *
+>   * @ib: indirect buffer to fill with commands
+>   * @pe: addr of the page entry
+> @@ -804,7 +804,7 @@ static void cik_sdma_vm_set_pte_pde(struct amdgpu_ib =
+*ib, uint64_t pe,
+>  }
+>
+>  /**
+> - * cik_sdma_vm_pad_ib - pad the IB to the required number of dw
+> + * cik_sdma_ring_pad_ib - pad the IB to the required number of dw
+>   *
+>   * @ring: amdgpu_ring structure holding ring information
+>   * @ib: indirect buffer to fill with padding
 > --
 > 2.31.1
 >
