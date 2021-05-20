@@ -2,89 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AE7138AE6C
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 14:36:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A0DF38AE86
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 14:39:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238573AbhETMhq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 08:37:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57134 "EHLO
+        id S238273AbhETMkd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 08:40:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238589AbhETMhb (ORCPT
+        with ESMTP id S233161AbhETMkV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 08:37:31 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FA1BC0E434B;
-        Thu, 20 May 2021 04:50:22 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id w1so11081680ybt.1;
-        Thu, 20 May 2021 04:50:22 -0700 (PDT)
+        Thu, 20 May 2021 08:40:21 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A435C04C3D7
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 04:55:01 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id b15-20020a17090a550fb029015dad75163dso5162677pji.0
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 04:55:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kA7gbYG5mZ/XE5ox6MsJ7wukpRv3oiq5D7tNsc46zVo=;
-        b=vdSRm/MvOkj2jQDDq87RdfrUUuXYO0vQdgSzqw3sn0wA72CJChFzMh9Af+5g8S6oVp
-         MOs/Hf0rhka+MGqnEtuc98XWsaRbTsgYCk/7Ez9tdkMGeUWYBs+HET/Tz5b3DfhPeYuL
-         s1KGy3wMPfUjfSfv+xPjcxkrurXt3k9J5DIPWfCJVdB7VY7TocjTvsyKWV4sLyihG74Q
-         oYCE/UbHH4J69AGYDK5n8Lo0GFuqkvSBV2AaoUEAcVkoTe+dMM85HNSO2ULriwujfwGG
-         6vDAujO/Mu8NUQur4bo/+WJMqW0g+J4fnokAi/RekXmHTY+UiskEsStnEbLXvHCxQ207
-         qsSQ==
+        bh=FssKbDFPY84FqxgRVczPOQqjaBhVLv/zqtosL172dAg=;
+        b=Ozji9B7yvpIIIu5G7KIaK5nxYDL6KtsKb7UayXC0ku2+yWb86BDep+IyAO3Llj/WiS
+         eDsolB/vooHciUlnNSx2KjS8u0H9ow6pUNXew+nE8jRfuzFsejV/Qsh0BUpTX9rVu4tx
+         CtSPIGWq/dnguqy0H7oGb4aG0wdM+oNlAj3qiNUWL3I+tHE8/x3ynjJ7ddzVwRkPFXHq
+         /5obJC6dXSbEyJ4WcBh8YT2hxZtoasYW8Kp/D2PCqBOOPEywsIXdtTssqXTBXgsxMClk
+         KNM13psztzO2HrdKg7hYrvWcnxzKZDWFV6anMJuku1CObBqcS6rHxFKucTjmK91nOCFY
+         XLjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kA7gbYG5mZ/XE5ox6MsJ7wukpRv3oiq5D7tNsc46zVo=;
-        b=GF/SjJNHMyz2Lnz7UHoXHz/zWkGvXU+gb+EUdOTnBmj0lOqJn6wimman5lf3i9T6Ux
-         jc6kvEejqpdCJPpNL1CO9YWfNoagZ9WXbuDiwawtWo4R5Z4Gaoj9QREJTSI/T7KZW91i
-         9o4X2MgBkLpoBBDi+xwBIkJgzb0ZksWv55L7KcfXuiz+pFNdxwQMNNqsLFwJlr33URiR
-         dZqhpQTZY3V5MSFbEqe173etL8KElD3tqw2tQRMpnZVu3ZGR6llCbz0ihcqyBjw2ds2s
-         eSFtKJhkjeubkA1PNDjgKbCe1r30snyE8lvAxe60h7iKDU/KdSVELv3R8bPM0CF41BoD
-         41eQ==
-X-Gm-Message-State: AOAM533AoYiVn2tWCccqAq/y9aaweJmULWw7RJR54NDLI5GMUoZGSlIi
-        mSZx4A4+Hm/3mBYNyUGMQ5GF6aAGswK3qZrwFOQ=
-X-Google-Smtp-Source: ABdhPJz4v+1BCu8WOXRXaA62w7PQlZdArSe2T/Ikmc2udv9oOmGPo1CwQzOh8tXoGyW9z4cD7c0SLtAgBihXJP/ArK8=
-X-Received: by 2002:a05:6902:134f:: with SMTP id g15mr6765498ybu.278.1621511421871;
- Thu, 20 May 2021 04:50:21 -0700 (PDT)
+        bh=FssKbDFPY84FqxgRVczPOQqjaBhVLv/zqtosL172dAg=;
+        b=P5KudFvpbVA7otbg7m6Ovt30oYGNUvRwtkPY84AOldFNh9l9bojK8z6Cu1rcSUFkbE
+         NFeeSChjnrwbSYwqwOy7OrEjyz6aSRalBPGkT86wzeyf4xEUVRKyAmbtlv4iWtqrgfzg
+         9ZG/obGxUPcXqYBLcmCT0s8wEZEL+qxpEiYAM5gAUZRxw+9p1zB9aOekBdOzzC2zSCjm
+         bloRAKhqEvr7ueSzL2b1A3YvtslpVUo7HiHsiuY+9ygV+vI/hXiWpNLwuharpJfh2Hce
+         oHxdRultIIFyr3HihGlUThdI1+9yaF4IRFVghrKuGmzEvHr65bgooSmenqUzG7gzlcje
+         2M8w==
+X-Gm-Message-State: AOAM531W4Bspvkd7UJnsjIgY0J8NoK/MX5mP0y+qVx8Vz5B5Way+xZO+
+        cELCBdXLa/Z8Yfl0H1kcz8BtX7fVSQIi1WXp1cx2Ig==
+X-Google-Smtp-Source: ABdhPJzZhJPDqB5Bu92WJSnbUI2ZhtvlXOs8/Jk5M3ss5oQPFYlNS1TEf+8BglgT/2Rg0R8wB000YuCnqz05Of3sKsY=
+X-Received: by 2002:a17:902:8693:b029:f3:b47e:6a08 with SMTP id
+ g19-20020a1709028693b02900f3b47e6a08mr5362284plo.69.1621511700665; Thu, 20
+ May 2021 04:55:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210520104343.317119-1-joerichey94@gmail.com> <YKZC9o8019kH76xS@zn.tnic>
-In-Reply-To: <YKZC9o8019kH76xS@zn.tnic>
-From:   Joseph Richey <joerichey94@gmail.com>
-Date:   Thu, 20 May 2021 04:50:11 -0700
-Message-ID: <CAAXkRocqFZgC-pWLc3V+VQLAVRvLXk+wTOhp+F4_WGRByjxhDQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Don't use BIT() macro in UAPI headers
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     trivial@kernel.org, Joe Richey <joerichey@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+References: <20210511180728.23781-1-jonathan@marek.ca> <20210511180728.23781-8-jonathan@marek.ca>
+In-Reply-To: <20210511180728.23781-8-jonathan@marek.ca>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Thu, 20 May 2021 13:54:49 +0200
+Message-ID: <CAG3jFyt7vG4jQux76+g9r=ohJzhqBDE7g3A1LiwK_pUv2VBbzg@mail.gmail.com>
+Subject: Re: [PATCH 07/17] media: camss: csid-170: support more than one lite vfe
+To:     Jonathan Marek <jonathan@marek.ca>
+Cc:     MSM <linux-arm-msm@vger.kernel.org>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Zhangfei Gao <zhangfei.gao@linaro.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org
+        "open list:QUALCOMM CAMERA SUBSYSTEM DRIVER" 
+        <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> > Currently, the script actually _encourages_ users to use the BIT macro
-> > even if adding things to UAPI.
+On Tue, 11 May 2021 at 20:08, Jonathan Marek <jonathan@marek.ca> wrote:
 >
-> How so?
+> Change the IS_LITE condition so that it returns true for the second lite
+> vfe found on titan 480 hardware (8250), which will have id == 3.
+>
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> ---
+>  drivers/media/platform/qcom/camss/camss-csid-170.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid-170.c b/drivers/media/platform/qcom/camss/camss-csid-170.c
+> index 3958bacd7b97..af134ded241d 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid-170.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid-170.c
+> @@ -21,7 +21,7 @@
+>   * interface support. As a result of that it has an
+>   * alternate register layout.
+>   */
+> -#define IS_LITE                (csid->id == 2 ? 1 : 0)
+> +#define IS_LITE                (csid->id >= 2 ? 1 : 0)
+>
+>  #define CSID_HW_VERSION                0x0
+>  #define                HW_VERSION_STEPPING     0
 
-Running checkpatch.pl with --strict gives:
-
-CHECK: Prefer using the BIT macro
-#26: FILE: arch/x86/include/uapi/asm/hwcap2.h:9:
-+#define HWCAP2_FSGSBASE                        (1 << 1)
-
-It should probably just recommend the _BITUL macro.
-
-> Also, in your commit messages you refer to patches with patchwork links
-> - please use the respective upstream commit IDs instead. Grep for
-> "Fixes:" here:
-
-Ahhhhh, I figured there was a more standard way. Will fix.
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
