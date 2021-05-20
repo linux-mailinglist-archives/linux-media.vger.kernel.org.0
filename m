@@ -2,101 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F40D38AD99
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 14:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BACB38ADA3
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 14:08:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242380AbhETMId (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 08:08:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50750 "EHLO
+        id S239168AbhETMKF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 08:10:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240989AbhETMIU (ORCPT
+        with ESMTP id S239809AbhETMJ4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 08:08:20 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD821C06EA73
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 03:39:44 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id v13so8769534ple.9
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 03:39:44 -0700 (PDT)
+        Thu, 20 May 2021 08:09:56 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89BB0C01CEBA;
+        Thu, 20 May 2021 03:44:23 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d16so12036244pfn.12;
+        Thu, 20 May 2021 03:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m/RdGTpHpIlnNqukYMSfOi40wGs3gJ2bxRFA/p/HWmc=;
-        b=Vhj8ZxDnRnFsKkjgvE0jTxFiP9E6eGyLcgWFUbcEE6BPCOaYrfiee/sSxQ3bZ3EmIA
-         8qUPu2mopXJqA5KvDOG7fLjhRNErG+GGUFexzHbLH4YKa69rcXjN0GBvGE1rsIY05p2e
-         VROBlatX93nO4HEMcczfdE1W935uS1GxpIkkQGV0VWsWo71UQYT7Tq39t5h0jiz88DUu
-         q13f+kH8jZmY1bdai6bxM2NpJ4rOaf/sGrOVZ3+cn8Z5zd9zHRc5AIobTBTe0Q7cq/zo
-         GkW4aBUXx17jLCVVrC8mDrHyqSPGRU0oaLUS2156S3ymDUAjA0k6rDXw736AH2PngNEw
-         ENdQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ln/GNcNq5Ro2OkNEh/LM02ElmNPWJ/3MY9XfiUntdlc=;
+        b=C6COQJUoHVx1FUvpa/Y1+fgwUD5eOuVSngTVZKQOjmbeC5IMKGBGpirqwdq+yh6upP
+         AAaOuC+kLKQtVyi05CWflFO1z5s11+7IHT3F0e0/Vo0zvqZDWUcE7XoXicuK9f+kQXI5
+         opcyMD5UHfWrvGvjmkB6YUwXTFX5sNPzXPQil7/dwuPVpnLbdAMMDaTw7Z8VdnTP3cnr
+         gPvwGl7MmoMV61feZJCu26gtXthY5ipd/i0Tl3FEle/ftQ+/Fhf5SsUBLwdZTWj+SfDS
+         NcK0JqDQfoe+MGWgaYnFTpZLh2TY87+u5TXIm5qcqaBU76RLN4Pw9IsQd2P7NRzjfZdD
+         NReQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m/RdGTpHpIlnNqukYMSfOi40wGs3gJ2bxRFA/p/HWmc=;
-        b=SDLrwY/VsBpuduP4e9N5w3B7YrRhAk6DrWh8IyegCL3AmvBZUOqEhPR3tU1GsSdrFP
-         hhqPFjerQDBYQ21jQeM0p/R1aH9UgP/VPvIWe7PLBv6g7D0ASsx5aJXONXoJANjTysUd
-         3BKuDbZdZiZDXRacCuZ5QAQVtvrQBfYaTNiCg5pKzvy9paVMqrZMJBDtxp3fH0ukvQYm
-         5TiZsd/gDkX943Q4WS7L48fXV1+KuFiS+7RM0QWu9Lr8aZf0rMCt8umkkMbEhFzRFydM
-         K2jaj98O94QQlVOog17QulgN81vVhbD8AJyPT2BxeqtccBYhJffjm/wmOU11TyPzxdVT
-         IfNQ==
-X-Gm-Message-State: AOAM531v09ABIBxi37jY8f/nj9bO5mEQhZ2XyQGlUazulzX0lW6gbkak
-        YnV326bgTVg2bPKa/dyF8IRg+bk9g6iHDOhwfgzrTg==
-X-Google-Smtp-Source: ABdhPJzf2fR6d+CPHdEr95MzZvm9RJFlJaLVIyK+Nk/R1dCYvI8lZdQuPG7bvcKxY0sCx8N2rOrD6gLETNVjiPOY5J0=
-X-Received: by 2002:a17:902:b70f:b029:f4:5445:cd9f with SMTP id
- d15-20020a170902b70fb02900f45445cd9fmr5262680pls.32.1621507184286; Thu, 20
- May 2021 03:39:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210511180728.23781-1-jonathan@marek.ca> <20210511180728.23781-6-jonathan@marek.ca>
-In-Reply-To: <20210511180728.23781-6-jonathan@marek.ca>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 20 May 2021 12:39:33 +0200
-Message-ID: <CAG3jFytS-SBsgPTwN5Uzn=g9k_o-+ifyN7aPrzTvY1nb_csptA@mail.gmail.com>
-Subject: Re: [PATCH 05/17] media: camss: csid-170: don't enable unused irqs
-To:     Jonathan Marek <jonathan@marek.ca>
-Cc:     MSM <linux-arm-msm@vger.kernel.org>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ln/GNcNq5Ro2OkNEh/LM02ElmNPWJ/3MY9XfiUntdlc=;
+        b=t+8fwuE2JOOzIy12DLAYid1D+3vC34CtOQBI2JDrRr5EKiyKPBltwK9cABGZuZF8HS
+         tDNmb7Hl6aBxOxaNEtnD05ppPYhZ0EvuRA+SZWiobTDzDggDuX/wilBM2YH3FLVn8qz5
+         7pKjAbjYKP5gP2uLeKdWNKemzEUrtrgM05I1OXn1rPqNla9xUjUgDk5NPCacu6qHRPz5
+         RXIxEuXAB5OM79p24c7wbl45PxnO3g1N/mPTv95sI7Ka+dJo4Ph73HJdk9wMJWy3aqoJ
+         oC2iHbip/dJIXhhIj4/03r4CZg8zcE3kfkSgL/uR0g6mYtEDB/pVw+GpEVXy1aLezXKV
+         qSrw==
+X-Gm-Message-State: AOAM530NB2+a+oL6rG1YpNvdi9VHZ9P7FAlpIG/4Vcc336gtKrn12tyc
+        7sdYoBgmE2PJ4HfNjuRESeM=
+X-Google-Smtp-Source: ABdhPJyPJkh+woUNcvvPhjV9BLZHjDX9cfefs69QBlPovPMsvgSoJkKXNt+FopPHtSuynAjN2RWamA==
+X-Received: by 2002:a62:2901:0:b029:28e:ef3d:10d2 with SMTP id p1-20020a6229010000b029028eef3d10d2mr3823125pfp.45.1621507463048;
+        Thu, 20 May 2021 03:44:23 -0700 (PDT)
+Received: from pride.localdomain (c-174-61-140-56.hsd1.wa.comcast.net. [174.61.140.56])
+        by smtp.gmail.com with ESMTPSA id z12sm1762572pfk.45.2021.05.20.03.44.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 May 2021 03:44:22 -0700 (PDT)
+From:   Joe Richey <joerichey94@gmail.com>
+To:     trivial@kernel.org
+Cc:     Joe Richey <joerichey@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "open list:QUALCOMM CAMERA SUBSYSTEM DRIVER" 
-        <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Zhangfei Gao <zhangfei.gao@linaro.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-accelerators@lists.ozlabs.org
+Subject: [PATCH 0/6] Don't use BIT() macro in UAPI headers
+Date:   Thu, 20 May 2021 03:43:37 -0700
+Message-Id: <20210520104343.317119-1-joerichey94@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 11 May 2021 at 20:08, Jonathan Marek <jonathan@marek.ca> wrote:
->
-> csid_isr() only checks for the reset irq, so enabling any other irqs
-> doesn't make sense. The "RDI irq" comment is also wrong, the register
-> should be CSID_CSI2_RDIN_IRQ_MASK. Without this fix there may be an
-> excessive amount of irqs.
->
-> Fixes: eebe6d00e9bf ("media: camss: Add support for CSID hardware version Titan 170")
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> ---
->  drivers/media/platform/qcom/camss/camss-csid-170.c | 6 ------
->  1 file changed, 6 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid-170.c b/drivers/media/platform/qcom/camss/camss-csid-170.c
-> index a81cc94c075f..2bc695819919 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid-170.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid-170.c
-> @@ -443,12 +443,6 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
->         val |= 1 << CSI2_RX_CFG1_MISR_EN;
->         writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1); // csi2_vc_mode_shift_val ?
->
-> -       /* error irqs start at BIT(11) */
-> -       writel_relaxed(~0u, csid->base + CSID_CSI2_RX_IRQ_MASK);
-> -
-> -       /* RDI irq */
-> -       writel_relaxed(~0u, csid->base + CSID_TOP_IRQ_MASK);
-> -
->         val = 1 << RDI_CTRL_HALT_CMD;
->         writel_relaxed(val, csid->base + CSID_RDI_CTRL(0));
->  }
+From: Joe Richey <joerichey@google.com>
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+The BIT(n) macro is used in the kernel as an alias for (1 << n).
+However, it is not defined in the UAPI headers, which means that any
+UAPI header files must be careful not to use it, or else the user
+will get a linker error. For example, compiling the following program:
+
+    #include <sys/auxv.h>
+    #include <asm/hwcap2.h>
+
+    // Detect if FSGSBASE instructions are enabled
+    int main() {
+        unsigned long val = getauxval(AT_HWCAP2);
+        return !(val & HWCAP2_FSGSBASE);
+    }
+
+Results in the following likner error:
+
+    /usr/bin/ld: /tmp/cceFpAdR.o: in function `main':
+    gs.c:(.text+0x21): undefined reference to `BIT'
+
+This patch series changes all UAPI uses of BIT() to just be open-coded.
+However, there really should be a check for this in checkpatch.pl
+Currently, the script actually _encourages_ users to use the BIT macro
+even if adding things to UAPI.
+
+Running `rg "BIT\(" **/uapi/**` shows no more usage of BIT() in any
+UAPI headers. Tested by building a basic kernel. Changes are trivial.
+
+Joe Richey (6):
+  x86/elf: Don't use BIT() macro in UAPI headers
+  KVM: X86: Don't use BIT() macro in UAPI headers
+  drivers: firmware: psci: Don't use BIT() macro in UAPI headers
+  uacce: Don't use BIT() macro in UAPI headers
+  media: vicodec: Don't use BIT() macro in UAPI headers
+  tools headers UAPI: Sync pkt_sched.h with the kernel sources
+
+ arch/x86/include/uapi/asm/hwcap2.h   |   2 +-
+ include/uapi/linux/kvm.h             |   4 +-
+ include/uapi/linux/psci.h            |   2 +-
+ include/uapi/linux/v4l2-controls.h   |  22 ++---
+ include/uapi/misc/uacce/uacce.h      |   2 +-
+ tools/include/uapi/linux/kvm.h       |   4 +-
+ tools/include/uapi/linux/pkt_sched.h | 122 ++++++++++++++++++++++++---
+ 7 files changed, 130 insertions(+), 28 deletions(-)
+
+-- 
+2.31.1
+
