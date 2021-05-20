@@ -2,108 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D19AD38B38F
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 17:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B32AE38B3A3
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 17:48:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240674AbhETPtN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 11:49:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232546AbhETPtM (ORCPT
+        id S242354AbhETPtr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 11:49:47 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:45102 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239281AbhETPtl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 11:49:12 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90259C06175F
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 08:47:50 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id n6-20020a17090ac686b029015d2f7aeea8so5671735pjt.1
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 08:47:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=TbJQOEEFF/+nf1KiXSLwJcY/vwU+LRKGaCo1IHQgEHk=;
-        b=nc9d59urRD2gADVZIakW9AaJC1C5aS/uZY9a449dXEeqz33LeD3zgBoFymK/FFzx9W
-         8UMLGr5qQ1Opl1RnjvIZ6C9oBra3dAeV44x+HMZgRPUb+HQxs2/27kS9SCrLMM42SsDE
-         FnSSqxYyqy07U4oIZlH9vBaexa9vFQtM+SZTp7/kQtYKYom/1FojUrbkRlk0cziddX39
-         IGt7QouHuVRYLfDXlip7ZuNP1HLcDP81qreveh8VZWPPjps1Jj5vRA50bDfk6i4vB5i2
-         zn6rIuJFLxJvM/AgFYkEAL2phrdzLXl7hqu0s45hITCo4o2Y7zUpaoplgH8O2oPD0QtS
-         ltMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TbJQOEEFF/+nf1KiXSLwJcY/vwU+LRKGaCo1IHQgEHk=;
-        b=n/NCxj11zsJb9+zJQ5QFVAPEbqiD8krTYj+NLEtZ3lI4VeNRszDwD7+3aDUCiVzRWF
-         wO0VQyir2WuqvqQ+qUh7wnMDyeleDWTVlVOH/KOAl7YNicy8529afC4b1c3b2NdBJBiO
-         XHEwAJEZ8b0j9yxVLN5NCtbl1ulCd5wa+jGIW/zALcaGpn4XTxPVyznj7VbtmjystuNX
-         YjI0Hj0Ur9orfIM0koB1K5VBzcz330G2zzRdUgGSmjLRDDUwExJxVlMnd/Yi12zonJrD
-         zXE3ISgSUtqbHfvBFvGC5pCfApHkZocUXKnUl1YDytnjwt4qnf6fFGfjfXcvsaFGp1pt
-         3x0g==
-X-Gm-Message-State: AOAM533wnGcrMrN6qpfStgUPBPxwqWLT9oVC8Q2QW+xFGDUecc8jOaOU
-        dclfDKT9HVoswzvqXltw2opw7Q==
-X-Google-Smtp-Source: ABdhPJxTM/jRG6LA6ksVCqvmEyYOIRv/ZFqP16D9FpSI6ufCXuMAETXrh9UrMjmvWOGKuc+j4Z/ITw==
-X-Received: by 2002:a17:90b:1902:: with SMTP id mp2mr5550488pjb.176.1621525669947;
-        Thu, 20 May 2021 08:47:49 -0700 (PDT)
-Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
-        by smtp.gmail.com with ESMTPSA id c191sm2278922pfc.94.2021.05.20.08.47.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 08:47:49 -0700 (PDT)
-Date:   Thu, 20 May 2021 15:47:46 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Joe Richey <joerichey94@gmail.com>
-Cc:     trivial@kernel.org, Joe Richey <joerichey@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Zhangfei Gao <zhangfei.gao@linaro.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org
-Subject: Re: [PATCH 0/6] Don't use BIT() macro in UAPI headers
-Message-ID: <YKaEov7nKBFjtRXu@google.com>
-References: <20210520104343.317119-1-joerichey94@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210520104343.317119-1-joerichey94@gmail.com>
+        Thu, 20 May 2021 11:49:41 -0400
+Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4180EC06B1;
+        Thu, 20 May 2021 15:48:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1621525699; bh=JJ/c8C+pVZi3N1FcrcVHTZLIqTQYdSRuR+1afrYIFGw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VW+NoEAhE2gzr7v5j322A51ERnLRwxg/N4JmSsF1YaF4ekEoKECAs7RjHJAjhzEzs
+         cSWPGbxwEdfdn3TAvqPZR8uyWWJ8iih4toVHFzZYV50izel7VqL1vjAfYqa6iw0uIE
+         ZnF83TM6BdCoCgghnoRMpHnB1VFjLdw+8Diz4lehULS1di3krGbzV+todKgx2xlcyz
+         jmVObBwqLbCHi86EGHMiCLnZ74rUtV+aJFcTxZQUlc7Ia0i7phT8iFHuCvyFXIM8H1
+         yy/hZFjJYIDb+akvgnQpcF7BEYQzFGaUQEl5MBwMiAlsQLhhCKOa1H1ACifZ+bmFJu
+         Qgk95cLdGFH5Q==
+Received: from de02dwvm009.internal.synopsys.com (de02dwvm009.internal.synopsys.com [10.225.17.73])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 3ED76A005C;
+        Thu, 20 May 2021 15:48:17 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From:   Nelson Costa <Nelson.Costa@synopsys.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        Nelson Costa <Nelson.Costa@synopsys.com>
+Subject: [RFC v2 0/9] Add Synopsys DesignWare HDMI RX Controller and PHY drivers
+Date:   Thu, 20 May 2021 17:47:54 +0200
+Message-Id: <cover.1621524721.git.nelson.costa@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 20, 2021, Joe Richey wrote:
-> From: Joe Richey <joerichey@google.com>
-> 
-> The BIT(n) macro is used in the kernel as an alias for (1 << n).
-> However, it is not defined in the UAPI headers, which means that any
-> UAPI header files must be careful not to use it, or else the user
-> will get a linker error. For example, compiling the following program:
-> 
->     #include <sys/auxv.h>
->     #include <asm/hwcap2.h>
-> 
->     // Detect if FSGSBASE instructions are enabled
->     int main() {
->         unsigned long val = getauxval(AT_HWCAP2);
->         return !(val & HWCAP2_FSGSBASE);
->     }
-> 
-> Results in the following likner error:
-> 
->     /usr/bin/ld: /tmp/cceFpAdR.o: in function `main':
->     gs.c:(.text+0x21): undefined reference to `BIT'
-> 
-> This patch series changes all UAPI uses of BIT() to just be open-coded.
-> However, there really should be a check for this in checkpatch.pl
+This series implements support for the Synopsys DesignWare HDMI RX Controller
+and PHYs e405/e406 drivers, being compliant with standard HDMI 1.4 and
+HDMI 2.0.
 
-Any reason not to provide such a patch in this series?  :-)
+The Controller + PHY pipeline can be integrated into a fully featured
+system that can be able to receive video up to 4k@60Hz with basic audio.
 
-> Currently, the script actually _encourages_ users to use the BIT macro
-> even if adding things to UAPI.
-> 
-> Running `rg "BIT\(" **/uapi/**` shows no more usage of BIT() in any
-> UAPI headers. Tested by building a basic kernel. Changes are trivial.
+This solution is mainly composed by two modules: phy-dw-hdmi-e40x and
+dw-hdmi-rx.
+
+phy-dw-hdmi-e40x: it's the PHY (Physical Layer) driver that implements
+support for Synopsys DesignWare e405 and e406 PHYs. It is responsible to
+configure the PHY and equalize it for the best settings, in order to
+receive and decode video to be delivered to the Controller.
+This driver is integrated in the PHY subsystem.
+The main features of this module are:
+ - Equalizer algorithm that chooses the phy best settings
+ according to the detected HDMI cable characteristics
+ - Support for scrambling
+ - Support for color depth up to 48bpp
+ - Support for HDMI 2.0 modes up to 6G (HDMI 4k@60Hz).
+
+dw-hdmi-rx: it's the Controller driver that implements support for
+Synopsys DesignWare HDMI RX Controller. It is responsible to manage and
+handle the PHY (through the PHY API) and the Controller configurations in
+order to configure the video and audio pipeline.
+This driver is implemented as a standard V4L2 subdevice.
+The main features of this module are:
+ - Support for scrambling
+ - Support for color depth up to 48bpp
+ - Support for HDMI 2.0 modes up to 6G (HDMI 4k@60Hz)
+ - Support for RGB, YCC444, YCC422 and YCC420
+ - Support for basic audio (LPCM 2ch, 32KHz/44.1KHz/48KHz, 16bit)
+ - Support for Aspect Ratio
+ - Support for CEC
+ - Internal state machine that reconfigures phy and controller
+ - JTAG communication with phy
+ - Inter-module communication with phy driver:
+   * through the PHY API using the phy reference "hdmi-phy"
+   * through the callbacks that phy dwc driver needs.
+ - Debug write/read ioctls
+
+NOTES: This patch series has two specific patches (Patch [4/8] and [7/8])
+one for the PHY API and the other for v4l2-dv-timings.
+
+Patch [4/8] adds phy standard HDMI opts to the phy API that contributes
+for the PHY subsystem, which allows to integrate the PHY driver in the
+PHY subsystem using this new HDMI opts structure, because there are hdmi
+options that are needed to pass between the Controller and PHY drivers
+using the standard API.
+
+Patch [7/8] adds more CEA/CTA-861 video format timings that contributes
+to the v4l2 media subsystem, which in our case is needed to provide
+information about the Aspect Ratio.
+
+version 2:
+ - The original media Device Tree bindings was divided in two independent
+  Device Trees:
+  * Device tree for PHYs e405/e406 in PHY dt bindings
+  * Device tree for HDMI RX Controller in media dt bindings
+ - Add OF graph ports connection model in the Device Trees
+  (Thanks to Laurent Pinchart <laurent.pinchart@ideasonboard.com>)
+ - The HDMI RX Controller was adjusted in order to work with the new
+  Device Trees Model:
+  * the "input-count" field was removed from original Device Tree and now
+  the count is done based on port child count.
+  * Changed the way to get the phy node, removing the dependency as child
+  node of Controller node
+ - Fix reported kernel test robot issues:
+  * Fix "warning: no previous prototype for 'dw_phy_eq_settings'"
+  * Fix "warning: integer literal is too large to be represented in type
+  'long', interpreting as 'unsigned long' per C89; this literal will have
+  type 'long long' in C99 onwards [-Wc99-compat]"
+  Reported-by: kernel test robot <lkp@intel.com>
+ - Fix phy power off/on issue when the system startups without the cable
+  connected.
+ - Fix "CHECK: Comparison to NULL could be written
+  "of_device_get_match_data""
+
+Nelson Costa (9):
+  dt-bindings: phy: Document Synopsys DesignWare HDMI RX PHYs e405 and
+    e406
+  dt-bindings: media: Document Synopsys DesignWare HDMI RX
+  MAINTAINERS: Add entry for Synopsys DesignWare HDMI drivers
+  phy: Add PHY standard HDMI opts to the PHY API
+  phy: dwc: Add Synopsys DesignWare HDMI RX PHYs e405 and e406 Driver
+  media: platform: Add Synopsys DesignWare HDMI RX Controller Driver
+  media: v4l2-dv-timings: Add more CEA/CTA-861 video format timings
+  media: dwc: dw-hdmi-rx: Add support for Aspect Ratio
+  media: dwc: dw-hdmi-rx: Add support for CEC
+
+ .../devicetree/bindings/media/snps,dw-hdmi-rx.yaml |   98 +
+ .../bindings/phy/snps,phy-dw-hdmi-e40x.yaml        |   93 +
+ MAINTAINERS                                        |   11 +
+ drivers/media/platform/Kconfig                     |    2 +
+ drivers/media/platform/Makefile                    |    1 +
+ drivers/media/platform/dwc/Kconfig                 |   20 +
+ drivers/media/platform/dwc/Makefile                |    3 +
+ drivers/media/platform/dwc/dw-hdmi-rx.c            | 3542 ++++++++++++++++++++
+ drivers/media/platform/dwc/dw-hdmi-rx.h            |  533 +++
+ drivers/media/v4l2-core/v4l2-dv-timings.c          |  139 +
+ drivers/phy/Kconfig                                |    1 +
+ drivers/phy/Makefile                               |    1 +
+ drivers/phy/dwc/Kconfig                            |   20 +
+ drivers/phy/dwc/Makefile                           |    9 +
+ drivers/phy/dwc/phy-dw-hdmi-e405.c                 |  497 +++
+ drivers/phy/dwc/phy-dw-hdmi-e406.c                 |  475 +++
+ drivers/phy/dwc/phy-dw-hdmi-e40x-core.c            |  514 +++
+ drivers/phy/dwc/phy-dw-hdmi-e40x.h                 |  219 ++
+ include/linux/phy/dwc/dw-hdmi-phy-pdata.h          |   73 +
+ include/linux/phy/phy-hdmi.h                       |  102 +
+ include/linux/phy/phy.h                            |    7 +-
+ include/media/dwc/dw-hdmi-rx-pdata.h               |  126 +
+ include/uapi/linux/v4l2-dv-timings.h               | 1595 ++++++++-
+ 23 files changed, 8079 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/snps,phy-dw-hdmi-e40x.yaml
+ create mode 100644 drivers/media/platform/dwc/Kconfig
+ create mode 100644 drivers/media/platform/dwc/Makefile
+ create mode 100644 drivers/media/platform/dwc/dw-hdmi-rx.c
+ create mode 100644 drivers/media/platform/dwc/dw-hdmi-rx.h
+ create mode 100644 drivers/phy/dwc/Kconfig
+ create mode 100644 drivers/phy/dwc/Makefile
+ create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e405.c
+ create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e406.c
+ create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e40x-core.c
+ create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e40x.h
+ create mode 100644 include/linux/phy/dwc/dw-hdmi-phy-pdata.h
+ create mode 100644 include/linux/phy/phy-hdmi.h
+ create mode 100644 include/media/dwc/dw-hdmi-rx-pdata.h
+
+-- 
+2.7.4
+
