@@ -2,103 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76FE338A04A
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 10:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE88838A49B
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 12:06:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231208AbhETI5x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 04:57:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37342 "EHLO
+        id S235468AbhETKHC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 06:07:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbhETI5w (ORCPT
+        with ESMTP id S235420AbhETKFA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 04:57:52 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A9BCC061574
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 01:56:30 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id o5so9499932edc.5
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 01:56:30 -0700 (PDT)
+        Thu, 20 May 2021 06:05:00 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 130D3C03542F;
+        Thu, 20 May 2021 02:36:12 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id v14so8720836pgi.6;
+        Thu, 20 May 2021 02:36:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:cc:subject:message-id:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NHo7EOcH6zakvLRkkwiuD2TngoKB4qsV+psQZ5fh3JI=;
-        b=ogw6vZQD84F0m8FkNXocwSnC82UviXpTnghgvXA4MkG6AXUGS1e9nOUxSCY/DmpewD
-         SGqpxbsmaq1ULfzIDT1NhSI31A56kstmiyOyOwHQd303tXkA03ZUzIrEfgA+rYIrZzfj
-         APzIqnPhgC+MQrTfa1Sw0aVdgxWz0HJYdicu1IYptxSRtgpxQ4WfqbNM3/HX/IqssohY
-         JBj2buZS4+5dArFpoDYSHBRtWjPm6Cl+B4mem6nl639z7vzCM4Tlea+LEgfhB3Ad0+Zj
-         /GKGrjsOPSu/NJHcn1aIzCAVHJ1TW9Mghqzk+e0N/hrpeGG7sqUWfRpC7cpjks7JJq9p
-         VbBw==
+        bh=8VdCk0Xr5OKjr3jMTbjvJ7ymRpuonD1B8tTYgUKgw+g=;
+        b=Xe/SYEbSK4NP9VtMvTGAt3vex7IeT+pMAIP6Bd4w8ASuj/NtH/YC9ppidKcFE9SWew
+         sxHb1qrL57xOSizySBDQVzDLph4elKg7LP9zqcv+ilrXBkyUNqAR8OXHWFv7oAozR1nE
+         8Ia4UZKW5IajVewsKhOaPD/TN1WC9wunJWevYMIsr3nrWXC68f5EKIuCx913PTB4Vefe
+         oD9j/OKNews5e+j2nbklC8CUMNIaP+365IvU6UbObPXscG02rHImYfd6yn4oAy8VwX6P
+         SognfXzbMfvmAcuowst7AHkQratB5lxsYGhqEjVdg/Hr/2Huw3x5AQAf2pkCGAucoAAD
+         LR/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NHo7EOcH6zakvLRkkwiuD2TngoKB4qsV+psQZ5fh3JI=;
-        b=qcdVthW9BMKDgg6TMsZivr9hDjt5KepDkeeoBBijsMWio23GG8sr8WinelovjJupqn
-         pDEU4jTVYnl1INDXeuuPLem5t9x0g/aZFaoyYZS5lwQxbADe9Noqq+68LmeO8DdwSldt
-         GygRIyKhthDFQT5VUe1vph3uIzZJqCvJZ5pcHLK4A6HItMzGJrCzROGCgN0LV0pc0WBU
-         qdqnSQpzE2z5ansiHhj6P5ammP+mcJJkdYTReVeRoiVbNmVVZhDkZ0/YTdE4Y6b1QIZN
-         AOQ0BsGXZDoT9N129Rx1P45d6uUvm6zUSZtYJFCBNoaTTSW+xCzvyHp+SEjMLjvEyh1y
-         OyuA==
-X-Gm-Message-State: AOAM531JK599k/xnM7dUykZVsJVOqs/usc4ACo0+sMdnMzzbQlLj2ln9
-        A6Y9N24UdhcJvI+rHfTKUO9YVcKeNcc=
-X-Google-Smtp-Source: ABdhPJz92MiPaM3EJqLiN3HXL84f2ZrT58AwCLfUetNFKW5STimmMURHHH77MxFIJG5jsGT21YRcCw==
-X-Received: by 2002:aa7:ca0c:: with SMTP id y12mr3800875eds.380.1621500988868;
-        Thu, 20 May 2021 01:56:28 -0700 (PDT)
-Received: from coco.lan (ip5f5ad500.dynamic.kabel-deutschland.de. [95.90.213.0])
-        by smtp.gmail.com with ESMTPSA id p25sm1039062eja.35.2021.05.20.01.56.28
-        for <linux-media@vger.kernel.org>
+        bh=8VdCk0Xr5OKjr3jMTbjvJ7ymRpuonD1B8tTYgUKgw+g=;
+        b=WoojQ+c70B+c8QDeSzbrzS5MfpvIsx1QQLJ6NdQy/lFB0w7ajOtwiKQ0bh9AC4uJvn
+         xIcph9chGIwDFt38oAUf9bvpGhDclXvw2OhKpjJRWbcpXY8d7+TcvDmx9y9jTv3la/+K
+         eTuGemR5EU+j4WI29cOB16LVd/XMbguy3tgaoxDw2jcWa2Jz9G9jbxxssuuRzB0H2fmt
+         Mu5aT0mjPiVugSf+vlv00Tq7UBMC8soqfiWrdufoe9zIWxrhp436uukdNLh2doCAKYYj
+         EBrWS9GwLbW6tm80+5eQfQigDp4Lln1Hk6hk+4Eatv1qOx/Z/z5q4fNqmZ1zF+/mzp9e
+         nKoA==
+X-Gm-Message-State: AOAM530KgFx737fRheb9noyP9j9JxFril6L0Becnxk7iGvxWtBurHA15
+        gZsVmlvYtldzSB92rxsU5qU=
+X-Google-Smtp-Source: ABdhPJwyN3kNkmiThSRbwr3YndagaFARc36+mO+xipFRADroDvNHFi+/SiQ+TV+Eja1lJIYVXJux/Q==
+X-Received: by 2002:a65:480a:: with SMTP id h10mr3695444pgs.63.1621503371699;
+        Thu, 20 May 2021 02:36:11 -0700 (PDT)
+Received: from yanshuaijun.ccdomain.com ([103.220.76.197])
+        by smtp.gmail.com with ESMTPSA id a15sm1450871pff.128.2021.05.20.02.36.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 01:56:28 -0700 (PDT)
-Date:   Thu, 20 May 2021 10:56:26 +0200
-From:   Mauro Carvalho Chehab <maurochehab@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: LinuxTV IRC channels
-Message-ID: <20210520105626.00802e5d@coco.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        Thu, 20 May 2021 02:36:07 -0700 (PDT)
+From:   Herman <herman.yim88@gmail.com>
+X-Google-Original-From: Herman <yanshuaijun@yulong.com>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Herman <yanshuaijun@yulong.com>
+Subject: [PATCH] drivers/media/usb/em28xx/em28xx-cards.c : fix typo issues
+Date:   Thu, 20 May 2021 17:35:53 +0800
+Message-Id: <20210520093553.5652-1-yanshuaijun@yulong.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+change 'Configuare' into 'Configure'
+change 'Configuared' into 'Configured'
 
-Probably some of you already read some news about Freenode, like those:
+Signed-off-by: Herman <yanshuaijun@yulong.com>
+---
+ drivers/media/usb/em28xx/em28xx-cards.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-	https://www.phoronix.com/scan.php?page=news_item&px=Free-Software-Exits-Freenode
-	https://lwn.net/Articles/856543
+diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
+index ba9292e2a587..c1e0dccb7408 100644
+--- a/drivers/media/usb/em28xx/em28xx-cards.c
++++ b/drivers/media/usb/em28xx/em28xx-cards.c
+@@ -4065,15 +4065,15 @@ static int em28xx_usb_probe(struct usb_interface *intf,
+ 		dev->dev_next->dvb_max_pkt_size_isoc = dev->dvb_max_pkt_size_isoc_ts2;
+ 		dev->dev_next->dvb_alt_isoc = dev->dvb_alt_isoc;
+ 
+-		/* Configuare hardware to support TS2*/
++		/* Configure hardware to support TS2*/
+ 		if (dev->dvb_xfer_bulk) {
+-			/* The ep4 and ep5 are configuared for BULK */
++			/* The ep4 and ep5 are configured for BULK */
+ 			em28xx_write_reg(dev, 0x0b, 0x96);
+ 			mdelay(100);
+ 			em28xx_write_reg(dev, 0x0b, 0x80);
+ 			mdelay(100);
+ 		} else {
+-			/* The ep4 and ep5 are configuared for ISO */
++			/* The ep4 and ep5 are configured for ISO */
+ 			em28xx_write_reg(dev, 0x0b, 0x96);
+ 			mdelay(100);
+ 			em28xx_write_reg(dev, 0x0b, 0x82);
+-- 
+2.25.1
 
-It sounds too early to take any decisions about that, as we need to
-wait for things to calm down in order to take any decisions that
-could impact our community.
-
-Yet, as concerns regarding privacy could be real, I'd like to remind
-you that:
-
-1. we use the IRC chat channels at Freenode (#v4l and #linuxtv) on
-   our public discussions.
-
-   As such, those channels (either at Freenode or on any other IRC server)
-   shouldn't be used to discuss sensitive information or to expose data
-   that could compromise personal information;
-
-2. only the server owners could ensure that information exchanged via
-   a chat platform is secure;
-
-3. The LinuxTV community doesn't own any servers. So, there's no 
-   warranty - either explicit or implicit - that any information
-   posted there would be kept in private, even if exchanged via
-   private messages.
-
-On other words, only use chat channels for information that aren't
-sensitive. Also, use private messages at your own risk. From my side,
-I recommend you to not discuss any sensitive information via IRC  ;-)
-
-The media maintainers are following closely what's happening with 
-Freenode and, while we registered some channels at Libera.chat
-(to where several Freenode operator volunteers moded), for now,
-we're keep using #v4l and #linuxtv channels at Freenode.
-
-If something changes, we'll let you know via e-mail.
