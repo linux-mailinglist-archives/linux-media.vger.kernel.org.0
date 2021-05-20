@@ -2,525 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E8F038B3A4
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 17:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAB3B38B3B6
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 17:50:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242652AbhETPtt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 11:49:49 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:45114 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239761AbhETPtl (ORCPT
+        id S232561AbhETPve (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 11:51:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232016AbhETPvd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 11:49:41 -0400
-Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 6C1E0C06B6;
-        Thu, 20 May 2021 15:48:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1621525699; bh=rTD31JMNi55W5EN+vD2U8540L+97KY4PSF0qVD2fCLA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
-         References:From;
-        b=eMax7MWtQ5/LhyPbpRXMOd/gUV371/jdXzABZ4jjNVKUiygS5V057v9+Z8NCcd6nt
-         X0QCSd+tndyL7bMJrqhk2cpsq8AUvMDAQHVHJrSW8AQkfjQNbzOyBxl1gyTbpPG8dM
-         VvUJe2o8o4goUWoUDNJFc9jSHsZvWO+n7wsKlchK2yMHEoI7sssmcAf324HtUPiB9H
-         ptRod9FhebmJ8CB2DuKpw49DKQbZ3hz5JIPgYk64gGgF6/zRQYxytFNVNVunUgGBXz
-         0/Ic0wyiFalqCPDKaJbiXox1zoAv7DgKqPm8Yi+WFCHZPs020FIXT+8qD8ZMnZKzgK
-         8cUzISU3YMXCw==
-Received: from de02dwvm009.internal.synopsys.com (de02dwvm009.internal.synopsys.com [10.225.17.73])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 32EA1A0077;
-        Thu, 20 May 2021 15:48:18 +0000 (UTC)
-X-SNPS-Relay: synopsys.com
-From:   Nelson Costa <Nelson.Costa@synopsys.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Nelson Costa <Nelson.Costa@synopsys.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>
-Subject: [RFC v2 9/9] media: dwc: dw-hdmi-rx: Add support for CEC
-Date:   Thu, 20 May 2021 17:48:03 +0200
-Message-Id: <832ad1d939c5b1579029f9ff80cdfea3fbd7cf32.1621524721.git.nelson.costa@synopsys.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1621524721.git.nelson.costa@synopsys.com>
-References: <cover.1621524721.git.nelson.costa@synopsys.com>
-In-Reply-To: <cover.1621524721.git.nelson.costa@synopsys.com>
-References: <cover.1621524721.git.nelson.costa@synopsys.com>
+        Thu, 20 May 2021 11:51:33 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FCCAC061760
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 08:50:12 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id f22so4297766pfn.0
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 08:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pWfEJ33HmYjyJ1Y5NXIDf1GmNE5PqL3F2Pv45dftgSU=;
+        b=EdlG5Qf7QEWX704/Y6+GYnd32o0nYlnE3E/NiWhrP8dFMil+TqElUzyv7omguVtwPy
+         YhWJOheS/s5hIMi/LxAUa8cGzj4mUq90S+cNqYNcW7QdS33FRMMkowf3JvT71JcwYg5R
+         GNFacIMxL63N9DCAoJ25Z3e8VbnLFY7/i4wg2phjrlPgwSW4uncK7u3Jm6MujnNnmY2H
+         R2+VJj4UxbLn4T1pA6tYFLp9IeHHWzteD+jKFwQOABdmoMrkqJxR305obI6O+YERz3X1
+         Ldo0fMLzyns1tgycBjHWwK18AuyVvUEk9670Ddhgzb/9QmW4cv9SW7iHg+c7JUZGLJSl
+         4t2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pWfEJ33HmYjyJ1Y5NXIDf1GmNE5PqL3F2Pv45dftgSU=;
+        b=ebFTHy1TTVzEcgW5uyCiAX58/t8+UOJ8/6PpB39XyOAeW5KmQBKjCb7/LoZmNRfzBL
+         mkWEw3st/FBeW3YUoTazW8fkjwdzDJKWTFefm+Cc1bci2r0E7ncu+LbC8TWu+CliOtor
+         78yL2ozZeyPbwuCcatjRKZ06ji5m86jgqMrdqiJ0vvM+RF/qB1n0TTRa1SHtzffcY1+z
+         ImYYK309zySbkxYEbNyVmFXGqOJKzdbZ/JOof4Jk41+pDrEph2aXDUKIfOsNfTT8ikdi
+         zn4Oi1ZdCuJzTePB8w3O/BjYg7v8su4HzCO1Jjrc9g6PHWy8d6DO6TgJgg3oI5u/4OL9
+         l4Og==
+X-Gm-Message-State: AOAM533L9EabPe0YipQFuH9IrJ298w13XoF+Qw3pJhSDCKTuY1P7ulTt
+        S7v7NDyn8Oi3t3VMZ9N8R/AVJg==
+X-Google-Smtp-Source: ABdhPJxpB51ovb+xOMBMfQ27ebYcjzzqo75xRL/4ldCDgC3y2w/k3e8jb2E74WRsVJp1Z/4CAYodIw==
+X-Received: by 2002:a63:f5c:: with SMTP id 28mr5378882pgp.84.1621525811763;
+        Thu, 20 May 2021 08:50:11 -0700 (PDT)
+Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
+        by smtp.gmail.com with ESMTPSA id f83sm2300640pfa.163.2021.05.20.08.50.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 May 2021 08:50:11 -0700 (PDT)
+Date:   Thu, 20 May 2021 15:50:07 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Joe Richey <joerichey94@gmail.com>, trivial@kernel.org,
+        Joe Richey <joerichey@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Zhangfei Gao <zhangfei.gao@linaro.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-accelerators@lists.ozlabs.org
+Subject: Re: [PATCH 0/6] Don't use BIT() macro in UAPI headers
+Message-ID: <YKaFLxhuI2i0IX/a@google.com>
+References: <20210520104343.317119-1-joerichey94@gmail.com>
+ <YKZC9o8019kH76xS@zn.tnic>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YKZC9o8019kH76xS@zn.tnic>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds support for the optional HDMI CEC feature
-for the Synopsys DesignWare HDMI RX Controller.
+On Thu, May 20, 2021, Borislav Petkov wrote:
+> On Thu, May 20, 2021 at 03:43:37AM -0700, Joe Richey wrote:
+> > This patch series changes all UAPI uses of BIT() to just be open-coded.
+> > However, there really should be a check for this in checkpatch.pl
+> 
+> Wanna add that check too?
+> 
+> > Currently, the script actually _encourages_ users to use the BIT macro
+> > even if adding things to UAPI.
+> 
+> How so?
+> 
+> This is with your first patch:
+> 
+> $ ./scripts/checkpatch.pl /tmp/bit.01
+> total: 0 errors, 0 warnings, 7 lines checked
+> 
+> /tmp/bit.01 has no obvious style problems and is ready for submission.
+> 
+> Also, in your commit messages you refer to patches with patchwork links
+> - please use the respective upstream commit IDs instead. Grep for
+> "Fixes:" here:
 
-It uses the generic CEC framework interface.
-
-Signed-off-by: Jose Abreu <jose.abreu@synopsys.com>
-Signed-off-by: Nelson Costa <nelson.costa@synopsys.com>
----
- drivers/media/platform/dwc/Kconfig      |  10 ++
- drivers/media/platform/dwc/dw-hdmi-rx.c | 259 +++++++++++++++++++++++++++++++-
- drivers/media/platform/dwc/dw-hdmi-rx.h |  57 +++++++
- 3 files changed, 324 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/dwc/Kconfig b/drivers/media/platform/dwc/Kconfig
-index ef2a6435..4d39be7 100644
---- a/drivers/media/platform/dwc/Kconfig
-+++ b/drivers/media/platform/dwc/Kconfig
-@@ -8,3 +8,13 @@ config VIDEO_DWC_HDMI_RX
- 
- 	  To compile this driver as a module, choose M here. The module
- 	  will be called dw-hdmi-rx.
-+
-+config VIDEO_DWC_HDMI_RX_CEC
-+	bool "Synopsys DesignWare HDMI Receiver CEC support"
-+	depends on VIDEO_DWC_HDMI_RX
-+	select CEC_CORE
-+	help
-+	  When selected the Synopsys DesignWare HDMI RX controller
-+	  will support the optional HDMI CEC feature.
-+
-+	  It uses the generic CEC framework interface.
-diff --git a/drivers/media/platform/dwc/dw-hdmi-rx.c b/drivers/media/platform/dwc/dw-hdmi-rx.c
-index a468a93..5d6b1c0 100644
---- a/drivers/media/platform/dwc/dw-hdmi-rx.c
-+++ b/drivers/media/platform/dwc/dw-hdmi-rx.c
-@@ -21,6 +21,7 @@
- #include <linux/workqueue.h>
- #include <linux/rational.h>
- #include <linux/hdmi.h>
-+#include <media/cec.h>
- #include <media/v4l2-async.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-@@ -36,6 +37,7 @@
- #define DW_HDMI_JTAG_TAP_WRITE_CMD	1
- #define DW_HDMI_JTAG_TAP_READ_CMD	3
- #define DW_HDMI_AUDIO_FREQ_RANGE	1000
-+#define DW_HDMI_CEC_MAX_LOG_ADDRS	CEC_MAX_LOG_ADDRS
- 
- /* EDID for HDMI RX */
- static u32 dw_hdmi_edid[] = {
-@@ -164,6 +166,9 @@ struct dw_hdmi_dev {
- 	union hdmi_infoframe audioif;
- 	union hdmi_infoframe vsif;
- 
-+	/* CEC */
-+	struct cec_adapter *cec_adap;
-+
- 	/* v4l2 device */
- 	struct v4l2_subdev sd;
- 	struct v4l2_ctrl_handler hdl;
-@@ -365,6 +370,20 @@ static void dw_hdmi_reset(struct dw_hdmi_dev *dw_dev)
- 	dw_hdmi_main_reset(dw_dev);
- 
- 	dw_hdmi_disable_hpd(dw_dev);
-+
-+	/* After a main reset try to re-enable the cec adapter in order to
-+	 * reconfigure the required cec registers. For this the physical address
-+	 * is invalidated and reconfigured, and with CEC_CAP_NEEDS_HPD allowing
-+	 * to re-enable the adapter.
-+	 */
-+	if (dw_dev->cec_adap) {
-+		u16 phys_addr = dw_dev->cec_adap->phys_addr;
-+
-+		cec_phys_addr_invalidate(dw_dev->cec_adap);
-+		cec_s_phys_addr(dw_dev->cec_adap, phys_addr, false);
-+		dev_dbg(dw_dev->dev, "%s: re-enable cec adapter\n",
-+			__func__);
-+	}
- }
- 
- static inline bool is_off(struct dw_hdmi_dev *dw_dev)
-@@ -1460,6 +1479,184 @@ static u32 dw_hdmi_get_int_val(struct dw_hdmi_dev *dw_dev, u32 ists, u32 ien)
- 	return hdmi_readl(dw_dev, ists) & hdmi_readl(dw_dev, ien);
- }
- 
-+#if IS_ENABLED(CONFIG_VIDEO_DWC_HDMI_RX_CEC)
-+static void dw_hdmi_cec_enable_ints(struct dw_hdmi_dev *dw_dev)
-+{
-+	u32 mask = DW_HDMI_DONE_ISTS | DW_HDMI_EOM_ISTS |
-+		DW_HDMI_NACK_ISTS | DW_HDMI_ARBLST_ISTS |
-+		DW_HDMI_ERROR_INIT_ISTS | DW_HDMI_ERROR_FOLL_ISTS;
-+
-+	hdmi_writel(dw_dev, mask, DW_HDMI_AUD_CEC_IEN_SET);
-+	hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_MASK);
-+}
-+
-+static void dw_hdmi_cec_disable_ints(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_AUD_CEC_IEN_CLR);
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_CEC_MASK);
-+}
-+
-+static void dw_hdmi_cec_clear_ints(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_AUD_CEC_ICLR);
-+}
-+
-+static void dw_hdmi_cec_tx_raw_status(struct dw_hdmi_dev *dw_dev, u32 stat)
-+{
-+	if (hdmi_readl(dw_dev, DW_HDMI_CEC_CTRL) & DW_HDMI_SEND_MASK) {
-+		dev_dbg(dw_dev->dev, "%s: tx is busy\n", __func__);
-+		return;
-+	}
-+
-+	if (stat & DW_HDMI_ARBLST_ISTS) {
-+		cec_transmit_attempt_done(dw_dev->cec_adap,
-+					  CEC_TX_STATUS_ARB_LOST);
-+		return;
-+	}
-+
-+	if (stat & DW_HDMI_NACK_ISTS) {
-+		cec_transmit_attempt_done(dw_dev->cec_adap, CEC_TX_STATUS_NACK);
-+		return;
-+	}
-+
-+	if (stat & DW_HDMI_ERROR_INIT_ISTS) {
-+		dev_dbg(dw_dev->dev, "%s: got low drive error\n", __func__);
-+		cec_transmit_attempt_done(dw_dev->cec_adap,
-+					  CEC_TX_STATUS_LOW_DRIVE);
-+		return;
-+	}
-+
-+	if (stat & DW_HDMI_DONE_ISTS) {
-+		cec_transmit_attempt_done(dw_dev->cec_adap, CEC_TX_STATUS_OK);
-+		return;
-+	}
-+}
-+
-+static void dw_hdmi_cec_received_msg(struct dw_hdmi_dev *dw_dev)
-+{
-+	struct cec_msg msg;
-+	u8 i;
-+
-+	msg.len = hdmi_readl(dw_dev, DW_HDMI_CEC_RX_CNT);
-+	if (!msg.len || msg.len > DW_HDMI_CEC_RX_DATA_MAX)
-+		return; /* it's an invalid/non-existent message */
-+
-+	for (i = 0; i < msg.len; i++)
-+		msg.msg[i] = hdmi_readl(dw_dev, DW_HDMI_CEC_RX_DATA(i));
-+
-+	hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_LOCK);
-+	cec_received_msg(dw_dev->cec_adap, &msg);
-+}
-+
-+static int dw_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
-+{
-+	struct dw_hdmi_dev *dw_dev = cec_get_drvdata(adap);
-+
-+	dev_dbg(dw_dev->dev, "%s: enable=%d\n", __func__, enable);
-+
-+	hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_ADDR_L);
-+	hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_ADDR_H);
-+
-+	if (enable) {
-+		hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_LOCK);
-+		dw_hdmi_cec_clear_ints(dw_dev);
-+		dw_hdmi_cec_enable_ints(dw_dev);
-+	} else {
-+		dw_hdmi_cec_disable_ints(dw_dev);
-+		dw_hdmi_cec_clear_ints(dw_dev);
-+	}
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_cec_adap_log_addr(struct cec_adapter *adap, u8 addr)
-+{
-+	struct dw_hdmi_dev *dw_dev = cec_get_drvdata(adap);
-+	u32 tmp;
-+
-+	dev_dbg(dw_dev->dev, "%s: addr=%d\n", __func__, addr);
-+
-+	if (addr == CEC_LOG_ADDR_INVALID) {
-+		hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_ADDR_L);
-+		hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_ADDR_H);
-+		return 0;
-+	}
-+
-+	if (addr >= 8) {
-+		tmp = hdmi_readl(dw_dev, DW_HDMI_CEC_ADDR_H);
-+		tmp |= BIT(addr - 8);
-+		hdmi_writel(dw_dev, tmp, DW_HDMI_CEC_ADDR_H);
-+	} else {
-+		tmp = hdmi_readl(dw_dev, DW_HDMI_CEC_ADDR_L);
-+		tmp |= BIT(addr);
-+		hdmi_writel(dw_dev, tmp, DW_HDMI_CEC_ADDR_L);
-+	}
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
-+				     u32 signal_free_time, struct cec_msg *msg)
-+{
-+	struct dw_hdmi_dev *dw_dev = cec_get_drvdata(adap);
-+	u8 len = msg->len;
-+	u32 reg;
-+	u8 i;
-+
-+	dev_dbg(dw_dev->dev, "%s: len=%d\n", __func__, len);
-+
-+	if (hdmi_readl(dw_dev, DW_HDMI_CEC_CTRL) & DW_HDMI_SEND_MASK) {
-+		dev_err(dw_dev->dev, "%s: tx is busy\n", __func__);
-+		return -EBUSY;
-+	}
-+
-+	for (i = 0; i < len; i++)
-+		hdmi_writel(dw_dev, msg->msg[i], DW_HDMI_CEC_TX_DATA(i));
-+
-+	switch (signal_free_time) {
-+	case CEC_SIGNAL_FREE_TIME_RETRY:
-+		reg = 0x0;
-+		break;
-+	case CEC_SIGNAL_FREE_TIME_NEXT_XFER:
-+		reg = 0x2;
-+		break;
-+	case CEC_SIGNAL_FREE_TIME_NEW_INITIATOR:
-+	default:
-+		reg = 0x1;
-+		break;
-+	}
-+
-+	hdmi_writel(dw_dev, len, DW_HDMI_CEC_TX_CNT);
-+	hdmi_mask_writel(dw_dev, reg, DW_HDMI_CEC_CTRL,
-+			 DW_HDMI_FRAME_TYP_OFFSET,
-+			 DW_HDMI_FRAME_TYP_MASK);
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEC_CTRL,
-+			 DW_HDMI_SEND_OFFSET,
-+			 DW_HDMI_SEND_MASK);
-+	return 0;
-+}
-+
-+static const struct cec_adap_ops dw_hdmi_cec_adap_ops = {
-+	.adap_enable = dw_hdmi_cec_adap_enable,
-+	.adap_log_addr = dw_hdmi_cec_adap_log_addr,
-+	.adap_transmit = dw_hdmi_cec_adap_transmit,
-+};
-+
-+static void dw_hdmi_cec_irq_handler(struct dw_hdmi_dev *dw_dev)
-+{
-+	u32 cec_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_AUD_CEC_ISTS,
-+			DW_HDMI_AUD_CEC_IEN);
-+
-+	dw_hdmi_cec_clear_ints(dw_dev);
-+
-+	if (cec_ists) {
-+		dw_hdmi_cec_tx_raw_status(dw_dev, cec_ists);
-+		if (cec_ists & DW_HDMI_EOM_ISTS)
-+			dw_hdmi_cec_received_msg(dw_dev);
-+	}
-+}
-+#endif /* CONFIG_VIDEO_DWC_HDMI_RX_CEC */
-+
- static u8 dw_hdmi_get_curr_vic(struct dw_hdmi_dev *dw_dev, bool *is_hdmi_vic)
- {
- 	u8 vic = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_AVI_PB,
-@@ -2058,6 +2255,10 @@ static irqreturn_t dw_hdmi_irq_handler(int irq, void *dev_data)
- 		}
- 	}
- 
-+#if IS_ENABLED(CONFIG_VIDEO_DWC_HDMI_RX_CEC)
-+	dw_hdmi_cec_irq_handler(dw_dev);
-+#endif /* CONFIG_VIDEO_DWC_HDMI_RX_CEC */
-+
- 	return IRQ_HANDLED;
- }
- 
-@@ -2556,14 +2757,27 @@ static int dw_hdmi_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
- 	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
- 	int input_count = dw_dev->config->phy->input_count;
- 	int size, ret;
-+	u16 phys_addr;
- 	u32 *tmp;
- 
- 	memset(edid->reserved, 0, sizeof(edid->reserved));
- 
--	if (edid->pad >= input_count || !edid->edid || !edid->blocks)
-+	if (edid->pad >= input_count || !edid->edid)
- 		return -EINVAL;
- 	if (edid->start_block != 0)
- 		return -EINVAL;
-+	if (!edid->blocks) {
-+		phys_addr = CEC_PHYS_ADDR_INVALID;
-+		goto set_phys_addr;
-+	}
-+
-+	/* get the source physical address (PA) from edid */
-+	phys_addr = cec_get_edid_phys_addr(edid->edid, edid->blocks * 128,
-+					   NULL);
-+	/* get the own physical address getting the parent of Source PA */
-+	ret = v4l2_phys_addr_validate(phys_addr, &phys_addr, NULL);
-+	if (ret)
-+		return ret;
- 
- 	/* Clear old EDID */
- 	size = dw_dev->curr_edid_blocks[edid->pad] * 128;
-@@ -2592,7 +2806,9 @@ static int dw_hdmi_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
- 	if (ret)
- 		return ret;
- 
-+set_phys_addr:
- 	dw_dev->curr_edid_blocks[edid->pad] = edid->blocks;
-+	cec_s_phys_addr(dw_dev->cec_adap, phys_addr, false);
- 	return 0;
- }
- 
-@@ -2825,15 +3041,33 @@ static int dw_hdmi_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
- static int dw_hdmi_registered(struct v4l2_subdev *sd)
- {
- 	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+	int ret;
-+
-+	ret = cec_register_adapter(dw_dev->cec_adap, dw_dev->dev);
-+	if (ret) {
-+		dev_err(dw_dev->dev, "failed to register CEC adapter\n");
-+		goto err_adapter;
-+	}
-+	cec_s_phys_addr(dw_dev->cec_adap, 0, false);
-+	if (dw_dev->cec_adap)
-+		dev_info(dw_dev->dev,
-+			 "CEC adapter %s registered for HDMI input\n",
-+			 dev_name(&dw_dev->cec_adap->devnode.dev));
- 
- 	dw_dev->registered = true;
- 	return 0;
-+
-+err_adapter:
-+	cec_delete_adapter(dw_dev->cec_adap);
-+	return ret;
- }
- 
- static void dw_hdmi_unregistered(struct v4l2_subdev *sd)
- {
- 	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
- 
-+	cec_unregister_adapter(dw_dev->cec_adap);
-+
- 	dw_dev->registered = false;
- }
- 
-@@ -3194,10 +3428,29 @@ static int dw_hdmi_rx_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_phy_exit;
- 
-+	/* CEC */
-+#if IS_ENABLED(CONFIG_VIDEO_DWC_HDMI_RX_CEC)
-+	dw_dev->cec_adap = cec_allocate_adapter(&dw_hdmi_cec_adap_ops,
-+						dw_dev, dev_name(dev),
-+						(CEC_CAP_DEFAULTS |
-+						 CEC_CAP_NEEDS_HPD |
-+						 CEC_CAP_CONNECTOR_INFO),
-+						DW_HDMI_CEC_MAX_LOG_ADDRS);
-+	ret = PTR_ERR_OR_ZERO(dw_dev->cec_adap);
-+	if (ret) {
-+		dev_err(dev, "failed to allocate CEC adapter\n");
-+		goto err_cec;
-+	}
-+
-+	dev_info(dev, "CEC is enabled\n");
-+#else
-+	dev_info(dev, "CEC is disabled\n");
-+#endif /* CONFIG_VIDEO_DWC_HDMI_RX_CEC */
-+
- 	ret = v4l2_async_register_subdev(sd);
- 	if (ret) {
- 		dev_err(dev, "failed to register subdev\n");
--		goto err_phy_exit;
-+		goto err_cec;
- 	}
- 
- 	/* Fill initial format settings */
-@@ -3230,6 +3483,8 @@ static int dw_hdmi_rx_probe(struct platform_device *pdev)
- 
- err_subdev:
- 	v4l2_async_unregister_subdev(sd);
-+err_cec:
-+	cec_delete_adapter(dw_dev->cec_adap);
- err_phy_exit:
- 	dw_hdmi_phy_exit(dw_dev);
- err_hdl:
-diff --git a/drivers/media/platform/dwc/dw-hdmi-rx.h b/drivers/media/platform/dwc/dw-hdmi-rx.h
-index f0ea1d4..775b7a9 100644
---- a/drivers/media/platform/dwc/dw-hdmi-rx.h
-+++ b/drivers/media/platform/dwc/dw-hdmi-rx.h
-@@ -325,6 +325,25 @@
- 
- #define DW_HDMI_HDCP22_STATUS			0x08fc
- 
-+/* id_audio_and_cec_interrupt Registers */
-+#define DW_HDMI_AUD_CEC_IEN_CLR			0x0f90
-+#define DW_HDMI_AUD_CEC_IEN_SET			0x0f94
-+
-+#define DW_HDMI_AUD_CEC_ISTS			0x0f98
-+#define DW_HDMI_WAKEUPCTRL_ISTS			BIT(22)
-+#define DW_HDMI_ERROR_FOLL_ISTS			BIT(21)
-+#define DW_HDMI_ERROR_INIT_ISTS			BIT(20)
-+#define DW_HDMI_ARBLST_ISTS			BIT(19)
-+#define DW_HDMI_NACK_ISTS			BIT(18)
-+#define DW_HDMI_EOM_ISTS			BIT(17)
-+#define DW_HDMI_DONE_ISTS			BIT(16)
-+#define DW_HDMI_SCK_STABLE_ISTS			BIT(1)
-+#define DW_HDMI_CTSN_CNT_ISTS			BIT(0)
-+
-+#define DW_HDMI_AUD_CEC_IEN			0x0f9c
-+#define DW_HDMI_AUD_CEC_ICLR			0x0fa0
-+#define DW_HDMI_AUD_CEC_ISET			0x0fa4
-+
- /* id_mode_detection_interrupt Registers */
- #define DW_HDMI_MD_IEN_CLR			0x0fc0
- #define DW_HDMI_MD_IEN_SET			0x0fc4
-@@ -426,6 +445,44 @@
- #define DW_HDMI_HDMI_ENABLE_MASK		BIT(2)
- #define DW_HDMI_HDMI_ENABLE_OFFSET		2
- 
-+/* id_cec Registers */
-+#define DW_HDMI_CEC_CTRL			0x1f00
-+#define DW_HDMI_STANDBY_MASK			BIT(4)
-+#define DW_HDMI_STANDBY_OFFSET			4
-+#define DW_HDMI_BC_NACK_MASK			BIT(3)
-+#define DW_HDMI_BC_NACK_OFFSET			3
-+#define DW_HDMI_FRAME_TYP_MASK			GENMASK(2, 1)
-+#define DW_HDMI_FRAME_TYP_OFFSET		1
-+#define DW_HDMI_SEND_MASK			BIT(0)
-+#define DW_HDMI_SEND_OFFSET			0
-+
-+#define DW_HDMI_CEC_MASK			0x1f08
-+#define DW_HDMI_WAKEUP_MASK			BIT(6)
-+#define DW_HDMI_WAKEUP_OFFSET			6
-+#define DW_HDMI_ERROR_FLOW_MASK			BIT(5)
-+#define DW_HDMI_ERROR_FLOW_OFFSET		5
-+#define DW_HDMI_ERROR_INITITATOR_MASK		BIT(4)
-+#define DW_HDMI_ERROR_INITITATOR_OFFSET		4
-+#define DW_HDMI_ARB_LOST_MASK			BIT(3)
-+#define DW_HDMI_ARB_LOST_OFFSET			3
-+#define DW_HDMI_NACK_MASK			BIT(2)
-+#define DW_HDMI_NACK_OFFSET			2
-+#define DW_HDMI_EOM_MASK			BIT(1)
-+#define DW_HDMI_EOM_OFFSET			1
-+#define DW_HDMI_DONE_MASK			BIT(0)
-+#define DW_HDMI_DONE_OFFSET			0
-+
-+#define DW_HDMI_CEC_ADDR_L			0x1f14
-+#define DW_HDMI_CEC_ADDR_H			0x1f18
-+#define DW_HDMI_CEC_TX_CNT			0x1f1c
-+#define DW_HDMI_CEC_RX_CNT			0x1f20
-+#define DW_HDMI_CEC_TX_DATA(i)			(0x1f40 + ((i) * 4))
-+#define DW_HDMI_CEC_TX_DATA_MAX			16
-+#define DW_HDMI_CEC_RX_DATA(i)			(0x1f80 + ((i) * 4))
-+#define DW_HDMI_CEC_RX_DATA_MAX			16
-+#define DW_HDMI_CEC_LOCK			0x1fc0
-+#define DW_HDMI_CEC_WAKEUPCTRL			0x1fc4
-+
- /* id_cbus Registers */
- #define DW_HDMI_CBUSIOCTRL			0x3020
- #define DW_HDMI_DATAPATH_CBUSZ_MASK		BIT(24)
--- 
-2.7.4
-
+Gah, beat me to the punch.  Stupid weird mutt sorting.
