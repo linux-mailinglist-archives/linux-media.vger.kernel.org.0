@@ -2,173 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C557038AF89
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 15:03:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E977438AFFF
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 15:31:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237449AbhETNEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 09:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34516 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237416AbhETNEZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 09:04:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44D12C04C078;
-        Thu, 20 May 2021 05:37:11 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67842D41;
-        Thu, 20 May 2021 14:37:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621514229;
-        bh=Z8+koyrFSsNxPvJAIRmysNgWsSYVKHA1qVL+EiUQQtQ=;
+        id S235083AbhETNc5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 09:32:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50510 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234765AbhETNc4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 May 2021 09:32:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B4866108B;
+        Thu, 20 May 2021 13:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621517495;
+        bh=a3dwOLxH06q4Z9S2NwACojtAv/LxYoVTrGUj6pjNmt4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WjTmnKzYqPaRJEruiSnE2YLogXqkkyxS6pMxRcu9mNSRl+sZGzsYAhUefTiMqRs/r
-         JIM0F2QXSo/nWibIr5bkChLEoBgkiv6W78NW8MFiu2iHa6XFa4gPZOuP384qfl398z
-         2TfCVsJfkD2Gb8mqc4lE4D7FoPaKsDOfPXtBoUB4=
-Date:   Thu, 20 May 2021 15:37:07 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     devicetree@vger.kernel.org, festevam@gmail.com,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, marex@denx.de, p.zabel@pengutronix.de,
-        rmfrfs@gmail.com, robh@kernel.org, slongerbeam@gmail.com
-Subject: Re: [PATCH 00/23] media: imx: imx7-mipi-csis: Add i.MX8MM support /
- imx8mq support
-Message-ID: <YKZX8z1Vb0PAYk+G@pendragon.ideasonboard.com>
-References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
- <20210504155939.1194369-1-martin.kepplinger@puri.sm>
- <YKBRXesDsXk9K15J@pendragon.ideasonboard.com>
- <1da3de6c879474b814f4d820ca5eb5ba07174a26.camel@puri.sm>
- <YKRmhSn65fiqshsp@pendragon.ideasonboard.com>
- <7f922c8b3d4396c00ba15ad99dd572699f4b69b1.camel@puri.sm>
- <YKUy8gu3Jc3VDy5i@pendragon.ideasonboard.com>
- <f1d44bbd85edf547bc2b7c758b5e822e08cc80d0.camel@puri.sm>
+        b=cD2IUEPvUG4saun4D0Z6epBdYTaevNYr91+SQKfe9kRjX3hKvd0rRCi+CR3hDWP0c
+         mNYN71C4CAG3WUjGikwt3jm419j6uAk937JkuNq41VcsCi2YYM9Ev1qYUL7Tal4Yws
+         R+3ecf9ZC41FQU2+XZsjhC6sov1tyZo7vg38tNeatHZbifNkbCJhh11OKX8ky31qGl
+         K3urQW+nJZ/aHXzUj/TkIvkv8Na/QK19fZvKUMM6ADOU1NU5R2+65EQSg9TaUe994z
+         gxrkpV/2OoRg7M+TrcThcmTYXHvLqGsaS/JPHv2AUjpcXN9pk4y3tl1f8oHdAOAEbH
+         o5IaBUuTb9GiA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1ljily-00035w-PO; Thu, 20 May 2021 15:31:35 +0200
+Date:   Thu, 20 May 2021 15:31:34 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: Re: [PATCH v3 0/3] IR driver for USB-UIRT device
+Message-ID: <YKZktqzkddh3amqX@hovoldconsulting.com>
+References: <cover.1620304986.git.sean@mess.org>
+ <YJjrkhfN9Sgq6UX8@hovoldconsulting.com>
+ <20210511103219.GA13769@gofer.mess.org>
+ <YJ5cH1Z5MdZHE8HU@hovoldconsulting.com>
+ <20210515092226.GA31801@gofer.mess.org>
+ <YKI3vyOE8XmpNAuC@hovoldconsulting.com>
+ <20210517103522.GA4644@gofer.mess.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f1d44bbd85edf547bc2b7c758b5e822e08cc80d0.camel@puri.sm>
+In-Reply-To: <20210517103522.GA4644@gofer.mess.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
-
-On Thu, May 20, 2021 at 12:54:27PM +0200, Martin Kepplinger wrote:
-> Am Mittwoch, dem 19.05.2021 um 18:46 +0300 schrieb Laurent Pinchart:
-> > On Wed, May 19, 2021 at 05:21:11PM +0200, Martin Kepplinger wrote:
-> > > Am Mittwoch, dem 19.05.2021 um 04:14 +0300 schrieb Laurent Pinchart:
-> > > > On Tue, May 18, 2021 at 04:39:00PM +0200, Martin Kepplinger wrote:
-> > > > > Am Sonntag, dem 16.05.2021 um 01:55 +0300 schrieb Laurent Pinchart:
-> > > > > > On Tue, May 04, 2021 at 05:59:39PM +0200, Martin Kepplinger wrote:
-
-[snip]
-
-> I fixed mipi -> csi link. I had the DT port descriptions for mipi csi
-> wrong.
-
-\o/
-
-> now, just because I think it makes sense, I do:
-> 
-> media-ctl --set-v4l2 "'csi':0 [fmt:SGBRG10/640x480 colorspace:raw]"
-> 
-> which now prints:
-> 
-> Device topology
-> - entity 1: csi (2 pads, 2 links)
->             type V4L2 subdev subtype Unknown flags 0
->             device node name /dev/v4l-subdev0
-> 	pad0: Sink
-> 		[fmt:SGBRG10_1X10/640x480 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
-> 		<- "imx8mq-mipi-csis.0":1 [ENABLED,IMMUTABLE]
-> 	pad1: Source
-> 		[fmt:SGBRG10_1X10/640x480 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
-> 		-> "csi capture":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 4: csi capture (1 pad, 1 link)
->             type Node subtype V4L flags 0
->             device node name /dev/video1
-> 	pad0: Sink
-> 		<- "csi":1 [ENABLED,IMMUTABLE]
-> 
-> - entity 10: imx8mq-mipi-csis.0 (2 pads, 2 links)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev1
-> 	pad0: Sink
-> 		<- "hi846 2-0020":0 []
-> 	pad1: Source
-> 		-> "csi":0 [ENABLED,IMMUTABLE]
-
-This subdev doesn't seem to report formats on its sink and source pads,
-which is weird. I've had a quick look at the .get_fmt() and .set_fmt()
-implementations in the code you've posted, and they're wrong. They
-shouldn't pass the calls to the source subdev with v4l2_subdev_call(),
-they should instead implement get and set format on this subdev. You can
-look at the imx7-mipi-csis driver to see how that's done. Once you'll
-have fixed this, you'll have to set the format on each pad with
-media-ctl to make sure formats through the pipeline match.
-
-The only location where you imx8mq-mipi-csis driver should use
-v4l2_subdev_call() is in .s_stream(), to propagate the operation to the
-source.
-
-By the way, I'd replace every occurence of "csis" with "csi2" in your
-driver. The name "csis" in the i.MX7 driver comes from the CSI-2 RX IP
-core that is named CSIS. That's not the case on the i.MX8QM.
-
-> - entity 15: hi846 2-0020 (1 pad, 1 link)
->              type V4L2 subdev subtype Sensor flags 0
->              device node name /dev/v4l-subdev2
-> 	pad0: Source
-> 		[fmt:SGBRG10_1X10/640x480 field:none colorspace:raw]
-> 		-> "imx8mq-mipi-csis.0":0 []
-
-You need to enable this link, the following should do
-
-media-ctl -l "'hi846 2-0020':0 -> 'imx8mq-mipi-csis.0':0 [1]"
-
-> > > btw, my test is:
+On Mon, May 17, 2021 at 11:35:22AM +0100, Sean Young wrote:
+> On Mon, May 17, 2021 at 11:30:39AM +0200, Johan Hovold wrote:
+> > On Sat, May 15, 2021 at 10:22:26AM +0100, Sean Young wrote:
+> > > On Fri, May 14, 2021 at 01:16:47PM +0200, Johan Hovold wrote:
+> > > > On Tue, May 11, 2021 at 11:32:19AM +0100, Sean Young wrote:
+> > > > > On Mon, May 10, 2021 at 10:15:14AM +0200, Johan Hovold wrote:
+> > > > > > On Thu, May 06, 2021 at 01:44:52PM +0100, Sean Young wrote:
+> > > > > > > This is a new rc-core driver for the USB-UIRT which you can see here
+> > > > > > > http://www.usbuirt.com/
+> > > > > > > 
+> > > > > > > This device is supported in lirc, via the usb serial kernel driver. This
+> > > > > > > driver is both for rc-core, which means it can use kernel/BPF decoding
+> > > > > > > ec. Also this implement is superior because it can:
+> > > > > > >  - support learning mode
+> > > > > > >  - setting transmit carrier
+> > > > > > >  - larger transmits using streaming tx command
+> > > > > > 
+> > > > > > This looks like something which should have been implemented as a
+> > > > > > line-discipline or serdev driver instead of reimplementing a minimal
+> > > > > > on-off ftdi driver and tying it closely to the RC subsystem.
+> > > > > 
+> > > > > The device is an infrared device, I'm not sure what it is lost by
+> > > > > doing it this way. The "minimal on-off ftdi driver" is super trivial.
+> > > > 
+> > > > It's still code duplication (and I meant to say "one-off" above").
+> > > > 
+> > > > What is preventing you from supporting the above functionality through
+> > > > lirc?
 > > > 
-> > > v4l2-ctl -d "/dev/v4l/by-path/platform-30a90000.csi1_bridge-video-index0"
-> > > --set-fmt-video=width=640,height=480 --stream-mmap
-> > > --stream-to=test.raw --stream-count=1
-> > > 
-> > > and that (probably because of the missing link) fails with
-> > > 
-> > > VIDIOC_STREAMON returned -1 (No such device)
-> > > 
-> > > which is in the kernel:
-> > > 
-> > > imx7-csi 30a90000.csi1_bridge: pipeline start failed with -19
+> > > I guess you mean the userspace lirc daemon, as opposed to the /dev/lirc
+> > > chardev. If you use the lirc daemon, you don't use rc-core which comes with
+> > > IR decoding using BPF IR decoding or in-kernel decoders, automatic setup of
+> > > rc keymaps via udev. None of the modern ir-ctl/ir-keytable tooling will
+> > > work, including the IRP encoder/BPF compiler I'm working on (very slowly).
 > > 
-> > Let's fix the missing link first.
+> > Ok, but apart from BPF that sound like other stuff and not the three
+> > items you list above? Is there anything preventing those items from
+> > being implemented in user space?
 > 
-> But now when trying to stream a frame, the error is:
-> 
-> Because of:
-> 
-> media bus code not compatible with the pixel format set on the video
-> node: 1 != 0
-> 
-> I get :
-> 
-> imx7-csi 30a90000.csi1_bridge: capture format not valid
-> 
-> which becomes for userspace:
-> 
-> VIDIOC_STREAMON returned -1 (Broken pipe)
-> 
-> Could that be a "user-problem" because "fmt" is not exactly the same
-> everywhere? Also, the sensor entity pad is not yet ENABLED...
+> Well, after IR is decoded, you want to send decoded scancodes/key codes
+> to any input device, so your remote works just like any input device.
 
-There's a combination of kernel-side issues (as detailed above) and
-userspace issues (also as detailed above :-)).
+Isn't that already handled by lircd using uinput?
+ 
+> > Obviously a user-space implementation (e.g. accessing the device through
+> > /dev/ttyUSB0) is not going to be able to use in-kernel RC functionality.
+> > For that you'd need to use either a line-discipline or serdev driver,
+> > that is, a kernel driver, but not everything has to live in the kernel.
+> 
+> No, of course not. A lot of kernel functionality could live in user space,
+> for sure. But it doesn't.
+> 
+> Even if the input problem can be resolved, the lirc daemon is pretty outdated.
+> All the existing functionality in-kernel would have to be re-written for
+> userspace, and it would be total duplication of code, which you do not like.
+> You end up with a userspace implementation and a kernel space implementation.
+> 
+> There are many other IR devices that can be controlled through libusb in
+> userspace, which could work entirely in userspace. Same for i2c IR
+> devices, those could work entirely from userspace too. I don't know what
+> the state is of pci userspace drivers, but there certainly have been patches
+> for that; the line is not so clear.
+> 
+> I do think that the monolithic approach to kernels necessarily invokes
+> discussions like these, and there are no perfect answers. 
 
-> (media-ctl is still very new to me, sorry if that's dumb questions now)
+I hear you, but we still need to have those discussions from time to
+time to make sure our architecture is sane. One of the problems today
+with the kernel development process appears to be that too few questions
+are asked. If it builds, ship it...
 
-It's not dumb at all.
+In this case the device in question can already be handled in user space
+by lirqd (at least to some degree) and we have infrastructure for
+writing in-kernel serial client drivers (i.e. ldisc/serdev). While
+neither option may support everything we need today, adding further
+one-off serial-device + client combo drivers is still a step in the
+wrong direction.
 
--- 
-Regards,
+But I think I've got that point across by now.
 
-Laurent Pinchart
+> > > The other nice thing is that IR TX feeds data from an urb interrupt handler,
+> > > so you don't need to rely userspace being scheduled quickly enough to feed
+> > > more data before the device runs out.
+> > 
+> > The tty layer and tty drivers provide write buffering so that need not
+> > be an issue.
+>  
+> Ok. I don't know what the size of the write buffer is or what the maximum
+> TX size is; the IR device supports infinite streaming.
+
+Our tty drivers typically have at least a 4k buffer for transmission.
+Surely that should be enough for a remote control but perhaps there are
+other more demanding applications?
+
+> > Thanks for that pointer. Judging from a quick look, the new driver
+> > appears to based on this one. By abstracting the serial interface bits
+> > in a generic RC serdev/ldisc driver you may be able reuse more code,
+> > even if I'm not in a position to judge how much of the IR protocol bits
+> > that can be shared.
+> 
+> Yes, I agree. Once hotplugging is in place. If you have patches for that,
+> please CC me and I can see if will work for IR drivers.
+
+Let's hope someone steps up to fund that work then.
+
+> > > There are a bunch old serial usb device IR devices and even older non-usb
+> > > serial devices that would be nice to have supported, if anyone is still
+> > > using them.
+> > 
+> > I noticed that drivers/media/rc/serial_ir.c also appears to use a
+> > similar approach of implementing a minimal one-off serial (8250?) driver
+> > and tying it closely to RC core. This one might also benefit from using
+> > the standard serial drivers for the transport and having an RC layer on
+> > top.
+> > 
+> > Currently it appears to use module-parameters for configuration instead
+> > of devicetree or some to-be-implemented interface for instantiating
+> > serdev devices from user space.
+> 
+> serial_ir.c (called lirc_serial in the past) is a bit special. It uses
+> an IR sensor connected directly to DCD and an output led connected to DTR,
+> (depending on the configuration used). I don't think this can be done with
+> a standard serial port driver. If it is possible, I'd like to know.
+> 
+> It's a bit of an insane way of doing things, but it's super cheap to build.
+
+Heh, ok. Perhaps we'll just have to live with this one then.
+
+Johan
