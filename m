@@ -2,170 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3D8D38B6E5
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 21:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B95338B6E9
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 21:14:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237063AbhETTPM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 15:15:12 -0400
-Received: from mail-oi1-f175.google.com ([209.85.167.175]:42831 "EHLO
-        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236992AbhETTPJ (ORCPT
+        id S237136AbhETTPU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 15:15:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237138AbhETTPR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 15:15:09 -0400
-Received: by mail-oi1-f175.google.com with SMTP id c196so9223341oib.9;
-        Thu, 20 May 2021 12:13:47 -0700 (PDT)
+        Thu, 20 May 2021 15:15:17 -0400
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68046C061763;
+        Thu, 20 May 2021 12:13:55 -0700 (PDT)
+Received: by mail-ot1-x331.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso15847969otn.3;
+        Thu, 20 May 2021 12:13:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=4e2VdgTFJlvcvj2P7xFhk2OWf2Vw8hURmKQ/jkEZ8DQ=;
+        b=ezXgqYpyUEE3k6E23Z2w5y+7QpfYLuVRb58W1d8LCGCQ0rI4n/+xcn5pEOnD2XEwGc
+         ZFESJRjhrzmvYJypAz7kjFxjWWm69x1rgmsg1M5+byOvCbkqD42Kily+y/V2v7FJzoQG
+         GfDqsptBHJ0Uxc3A6wre9aw1x4UCQx+8I5G1vOLiof5atKnNOO6XN1iNHxqQb2vMGBLf
+         53GGvgIlVVnteholUZOzNBuxzJhcv7wvIo/t18cbb5lbKHntcgUKW4U+Z9clRT/TAcLx
+         dc+jUzXPwbm/yPvryNh3KuiOLNobxwyIFoHHpPTE3KtW7XcCnOXgmMGaZ4+7xbGqHpjI
+         R8TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8clB6TpIVCho94JnVEq2KjWI71LnxqVBb8WHhQLjztY=;
-        b=aDcEqrqwJRjem8UTJUdeImTvhaTiNy/kjgwnW+oMNIRoRgOZtmxXNAPDQEb2SsYclq
-         o/lTYvbTomRFAxJwHzCUod9aP+PftJnbtNWlYKEEoUptbAVRZ4W9eeKWe1Va4evCJy2f
-         EiouwYzA3TisTwltDFlC50frclXwhSeFiAiLpmDU2VNIaihxAMXQeIarUfnygSH58COM
-         Wxn1rT+Ld/qLiMcBAaBeGSANkvh308vhZE27W470R7fTavcVvb5O0gTVlaDihB07pins
-         tWZ3vWr4+cxlQFItAsHyHWGDiEtt18HeZNRSw65bqamOrfJodL1x7G0MuE+qz1QsiDTm
-         BVuQ==
-X-Gm-Message-State: AOAM530IWdOQ/PiUVgrz++3cSCFRCGJ21z/aDKRZ9cjRK74skor0VR1w
-        lDcTEcxuVsqa7FAPsAyynYv6rlmYrRk17+C+S+w=
-X-Google-Smtp-Source: ABdhPJzR2IDcCbVrUe2qyMRRXhFKtU5QzQLchWh+Q6eTtGKEBvB1s/MT5NhCnUIeIhPUC4pL2HbJM1ILhZWMi4V6nKE=
-X-Received: by 2002:aca:1910:: with SMTP id l16mr4152216oii.69.1621538027288;
- Thu, 20 May 2021 12:13:47 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=4e2VdgTFJlvcvj2P7xFhk2OWf2Vw8hURmKQ/jkEZ8DQ=;
+        b=gcb/SUeJc0U8Bqm46Y7S8g0n4UFArvacA8PviScpEk+i2qDhgnqzPgLUzE2IbE880U
+         91jVUGktu9aRhDJtQeGdsVbFvVQ8wx8gMNtI6zclTH6Uz4ruL8b2FdWXGg9Jdx8fvXfY
+         YwSC5Pyy0MggeMjLXuElPsDQi3n5Z7I1jrpMyA03AqJNnaSh/GPfxvVGgvCnEhJU0Zjs
+         FiYzdv7h4qwQdjjTC9YgP0hq7e+F5GE589ULIp3eye1gIhR8Yt2TvphtxCNMo/Dh4vHu
+         Bpz2UYhpwj4ZnDkPxn59VIbw7yrxgKiUClTeI7G/7PqTg4FEJwEMqPLWFVZbsrAPWGr1
+         YMrA==
+X-Gm-Message-State: AOAM533uVc6b38JI6ANE7P5ksviR1pdmAsrr9QYPDrkduPrc4rXaP+2t
+        mT0LZoJ2YhqnChEDn8V8rQaRZANRRarfCtHuXTw=
+X-Google-Smtp-Source: ABdhPJzAKzYxXdp5xq0MqY9EcXKxblI7UDxmIIZsPw8Bd2K9JzAYaNM6nwJLxQjNQ1GW6s2RE+yFoJXI7ECtaUP0+68=
+X-Received: by 2002:a9d:57cd:: with SMTP id q13mr5101139oti.23.1621538034833;
+ Thu, 20 May 2021 12:13:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210519210253.3578025-1-andy.shevchenko@gmail.com>
-In-Reply-To: <20210519210253.3578025-1-andy.shevchenko@gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 20 May 2021 21:13:36 +0200
-Message-ID: <CAJZ5v0in=qEtVULLF=RwBTiFqiRK-DyPfD4F6uUAqeUfPFB8QQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] ACPI: utils: Fix reference counting in for_each_acpi_dev_match()
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>
+References: <20210520120248.3464013-1-lee.jones@linaro.org> <20210520120248.3464013-15-lee.jones@linaro.org>
+In-Reply-To: <20210520120248.3464013-15-lee.jones@linaro.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Thu, 20 May 2021 15:13:43 -0400
+Message-ID: <CADnq5_Mpddbb4FX0FX+6NAhhOH0iQ3ZnP37-jOkWupqdmWwmrA@mail.gmail.com>
+Subject: Re: [PATCH 14/38] drm/amd/amdgpu/gfx_v7_0: Repair function names in
+ the documentation
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     David Airlie <airlied@linux.ie>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 19, 2021 at 11:19 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> Currently it's possible to iterate over the dangling pointer in case the device
-> suddenly disappears. This may happen becase callers put it at the end of a loop.
->
-> Instead, let's move that call inside acpi_dev_get_next_match_dev().
+Applied.  Thanks!
 
-Not really.
+Alex
 
-> Fixes: 803abec64ef9 ("media: ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver")
-> Fixes: bf263f64e804 ("media: ACPI / bus: Add acpi_dev_get_next_match_dev() and helper macro")
-> Cc: Daniel Scally <djrscally@gmail.com>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+On Thu, May 20, 2021 at 8:03 AM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> Fixes the following W=3D1 kernel build warning(s):
+>
+>  drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:2126: warning: expecting prototype=
+ for gfx_v7_0_ring_emit_hdp(). Prototype was for gfx_v7_0_ring_emit_hdp_flu=
+sh() instead
+>  drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:2262: warning: expecting prototype=
+ for gfx_v7_0_ring_emit_ib(). Prototype was for gfx_v7_0_ring_emit_ib_gfx()=
+ instead
+>  drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:3207: warning: expecting prototype=
+ for gfx_v7_0_ring_emit_vm_flush(). Prototype was for gfx_v7_0_ring_emit_pi=
+peline_sync() instead
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/acpi/utils.c                       | 5 +----
->  drivers/media/pci/intel/ipu3/cio2-bridge.c | 8 +++-----
->  include/acpi/acpi_bus.h                    | 5 -----
->  3 files changed, 4 insertions(+), 14 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/acpi/utils.c b/drivers/acpi/utils.c
-> index 3b54b8fd7396..ccfc484dbffd 100644
-> --- a/drivers/acpi/utils.c
-> +++ b/drivers/acpi/utils.c
-> @@ -846,10 +846,6 @@ EXPORT_SYMBOL(acpi_dev_present);
->   * Return the next match of ACPI device if another matching device was present
->   * at the moment of invocation, or NULL otherwise.
->   *
-> - * FIXME: The function does not tolerate the sudden disappearance of @adev, e.g.
-> - * in the case of a hotplug event. That said, the caller should ensure that
-> - * this will never happen.
-> - *
->   * The caller is responsible for invoking acpi_dev_put() on the returned device.
->   *
->   * See additional information in acpi_dev_present() as well.
-> @@ -866,6 +862,7 @@ acpi_dev_get_next_match_dev(struct acpi_device *adev, const char *hid, const cha
->         match.hrv = hrv;
->
->         dev = bus_find_device(&acpi_bus_type, start, &match, acpi_dev_match_cb);
-> +       acpi_dev_put(adev);
-
-What's the point?
-
-The caller may as well put it after this returns, can't it?
-
-And what if the caller still wants to do something with adev after this returns?
-
->         return dev ? to_acpi_device(dev) : NULL;
->  }
->  EXPORT_SYMBOL(acpi_dev_get_next_match_dev);
-
-The original changelog is somewhat unclear.  It should say that it is
-required to reference-count the start-point device before passing it
-to this function, but beyond that I don't see a bug here.
-
-> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> index e8511787c1e4..477417261b6e 100644
-> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> @@ -178,13 +178,11 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
->
->                 if (bridge->n_sensors >= CIO2_NUM_PORTS) {
->                         dev_err(&cio2->dev, "Exceeded available CIO2 ports\n");
-> -                       cio2_bridge_unregister_sensors(bridge);
->                         ret = -EINVAL;
-> -                       goto err_out;
-> +                       goto err_put_adev;
->                 }
->
->                 sensor = &bridge->sensors[bridge->n_sensors];
-> -               sensor->adev = adev;
->                 strscpy(sensor->name, cfg->hid, sizeof(sensor->name));
->
->                 ret = cio2_bridge_read_acpi_buffer(adev, "SSDB",
-> @@ -214,6 +212,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
->                         goto err_free_swnodes;
->                 }
->
-> +               sensor->adev = acpi_dev_get(adev);
->                 adev->fwnode.secondary = fwnode;
->
->                 dev_info(&cio2->dev, "Found supported sensor %s\n",
-> @@ -227,8 +226,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
->  err_free_swnodes:
->         software_node_unregister_nodes(sensor->swnodes);
->  err_put_adev:
-> -       acpi_dev_put(sensor->adev);
-> -err_out:
-> +       acpi_dev_put(adev);
->         return ret;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c b/drivers/gpu/drm/amd/=
+amdgpu/gfx_v7_0.c
+> index c35fdd2ef2d4d..685212c3ddae5 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
+> @@ -2116,7 +2116,7 @@ static int gfx_v7_0_ring_test_ring(struct amdgpu_ri=
+ng *ring)
 >  }
 >
-> diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
-> index 3a82faac5767..bff6a11bb21f 100644
-> --- a/include/acpi/acpi_bus.h
-> +++ b/include/acpi/acpi_bus.h
-> @@ -698,11 +698,6 @@ acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv);
->   * @hrv: Hardware Revision of the device, pass -1 to not check _HRV
+>  /**
+> - * gfx_v7_0_ring_emit_hdp - emit an hdp flush on the cp
+> + * gfx_v7_0_ring_emit_hdp_flush - emit an hdp flush on the cp
 >   *
->   * The caller is responsible for invoking acpi_dev_put() on the returned device.
-> - *
-> - * FIXME: Due to above requirement there is a window that may invalidate @adev
-> - * and next iteration will use a dangling pointer, e.g. in the case of a
-> - * hotplug event. That said, the caller should ensure that this will never
-> - * happen.
+>   * @ring: amdgpu_ring structure holding ring information
+>   *
+> @@ -2242,7 +2242,7 @@ static void gfx_v7_0_ring_emit_fence_compute(struct=
+ amdgpu_ring *ring,
+>   * IB stuff
 >   */
->  #define for_each_acpi_dev_match(adev, hid, uid, hrv)                   \
->         for (adev = acpi_dev_get_first_match_dev(hid, uid, hrv);        \
+>  /**
+> - * gfx_v7_0_ring_emit_ib - emit an IB (Indirect Buffer) on the ring
+> + * gfx_v7_0_ring_emit_ib_gfx - emit an IB (Indirect Buffer) on the ring
+>   *
+>   * @ring: amdgpu_ring structure holding ring information
+>   * @job: job to retrieve vmid from
+> @@ -3196,7 +3196,7 @@ static int gfx_v7_0_cp_resume(struct amdgpu_device =
+*adev)
+>  }
+>
+>  /**
+> - * gfx_v7_0_ring_emit_vm_flush - cik vm flush using the CP
+> + * gfx_v7_0_ring_emit_pipeline_sync - cik vm flush using the CP
+>   *
+>   * @ring: the ring to emit the commands to
+>   *
 > --
 > 2.31.1
 >
