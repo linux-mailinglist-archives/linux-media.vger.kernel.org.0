@@ -2,106 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0504538AECB
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 14:44:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DA2B38AF2D
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 14:51:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242798AbhETMpS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 08:45:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59338 "EHLO
+        id S243100AbhETMwa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 08:52:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242927AbhETMoc (ORCPT
+        with ESMTP id S243087AbhETMvi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 08:44:32 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E223C069146
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:03:41 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id n17-20020a7bc5d10000b0290169edfadac9so5281565wmk.1
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:03:41 -0700 (PDT)
+        Thu, 20 May 2021 08:51:38 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2747DC069176
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:14:17 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id t30so11710615pgl.8
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jO7V0H98Qg2tMCIwDj4FeeKzGM5dSknTEV1LYii8u8w=;
-        b=W4x0Pew/IdeVOzVWOMkZldd12omXYquCVkPlxohuHIUCvZ/BWTepLzjBlhhiblpmG0
-         gUJwuwhnYvyv3Q3h88pNwzZmHXBXelFCn6KJjQLnX6ztOSiKbeLA8UQ59wDQB2zY9GaL
-         QLs6gEfartIy6XZI2vtzV58nNt4DztnsXEvnC40J/30hlNC2OMHkkZA3dq9TFiT/N9Mf
-         dd0Bp1pJrdlAv+FGpU8Ls1aO0UGpHh4ZR66obyMP/QvI82ONSDznjEddDWl0rdVuXqLV
-         C58IkWCeCV0wiruzMSD8MyGAIL0W379+i/+Dm5F23398Yl+LZOo+S2CYDUorHkHYMCty
-         sF3A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+11Asx9mB6ZyWHyZn4h1vSOfApP9ND3aSL86GPZLDE8=;
+        b=drRAtIfz7o3efRjYGNUrYYK4FSZooNjDRta0p9WGLPAgjwmUIB2Rt0HozeQ9k72rI6
+         n0DfB7ldV8NvKV7bGfRMoElKKbwdsamH+qba9+Spn3R/XlRn0kh8YSIKnnyK4o9yEZZp
+         Ipl8lTxvURBCzbqQZYBPaHtYwjPgLKVs6R2B/K0nWIbgIld2rgWK4OUx1z8vQeTbS3ah
+         1tIRbbkS1YeBvUpBdcuf7UNwkFH3Ivwl1HuSocPqCCKnbztfuT2Rh3dLAr2uWx1TqPi0
+         hEIKfv4vfStz3l/k4JT+cOoSo0A5Ybu0pwKh2TIWQo/r98HnZYxIQlUAYK0ePoU1eBFU
+         PxCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jO7V0H98Qg2tMCIwDj4FeeKzGM5dSknTEV1LYii8u8w=;
-        b=B4X9m95Lekh4Hx2naNuPo2bLrerQWfJlVsWZYm2J+A+MBzVrpGOY9soiMa751lbIWn
-         cAuL3GjHrywa4atSPJa8d2WGZdpZrj8151eyEgeJEPiXzb5eYpO26RaGUk7s/Z1+FBYM
-         u6WzK9an3LnW8+bUIheB4juN6R8Uxjn36FdQm3Ss4tgbFrkVn9EI7123hFJChUaMm6WT
-         ziML/rJpeYwzZwiqUIylDaI42kiDFxQOMNgcTwlyMc3i7N2mPPsPyfOt1uiGqCC+bxbM
-         CQcj88avPLWB2UlUf1fW1mUoLzxzk9RTFbooP4MgdFr+pLb8eLIS+bd0JIPiyAnN6MRm
-         5Zeg==
-X-Gm-Message-State: AOAM530pGTC5UBq+e2aIvdKVkl2P9y3fet5q0axHvoaOxW2PxUJrghCL
-        RsCKm9gvd8RjnHfhnXhP+HZe1g==
-X-Google-Smtp-Source: ABdhPJyV3+TJPHVMnYSdJETlXphndM0hvCrXSlYbuhpUFkSBWFHcg1oC7Whm3urACs0DpxdCMukdUQ==
-X-Received: by 2002:a1c:cc12:: with SMTP id h18mr3238405wmb.141.1621512220189;
-        Thu, 20 May 2021 05:03:40 -0700 (PDT)
-Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 05:03:39 -0700 (PDT)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 37/38] drm/amd/amdgpu/gfx_v10_0: Demote kernel-doc abuse
-Date:   Thu, 20 May 2021 13:02:47 +0100
-Message-Id: <20210520120248.3464013-38-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210520120248.3464013-1-lee.jones@linaro.org>
-References: <20210520120248.3464013-1-lee.jones@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+11Asx9mB6ZyWHyZn4h1vSOfApP9ND3aSL86GPZLDE8=;
+        b=ZNEd/AEW2H9uOy4Y7vNe0ajmW+piSDcTioRNj0uYBO2o+SJ2M/IKDE+wnoR26XHh1A
+         pzzYQqkD0rC6vNp5EAANksVPj+OHWFafp5UVllRh5I22fY72EyEnL8kgzr5bLTJR3dzc
+         PKl9b57IwCENpFYRkpQsxilDWG5CCpTO/zA4AcepKjtyjJGBiuP6pV8t1ahTQS0Owkit
+         dmfx+5fLvkhoLxrGRRBV8f6jmY2F9OloCi9yf2x/wjp9CVEuyx5bqDXNPxX6uoPlzBir
+         7T0b78jqCOmzyT0XXXhbk/OVj36m3E++5kwUqXIoG37mh3W9iA2SGn1qkWjUzCY49f8C
+         HdTQ==
+X-Gm-Message-State: AOAM531ykOUI1qIa130mAYmyjLmq2XJPskQ50yBFUJiavGULczeSrk3P
+        4175a0xj8Qwf5JCS6NgP68oy5xvIfiKXRVX7VxSpIrt14HTAFw==
+X-Google-Smtp-Source: ABdhPJwbodNgWFgeN2AQHQRqgbGi8pKONPqqgmZHyx3zuUWP8wat9k8I1mThIO5zDnJdgh+krIPYwYTr7uNlCIK1IH4=
+X-Received: by 2002:a63:1054:: with SMTP id 20mr4317007pgq.120.1621512857098;
+ Thu, 20 May 2021 05:14:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210511180728.23781-1-jonathan@marek.ca> <20210511180728.23781-10-jonathan@marek.ca>
+In-Reply-To: <20210511180728.23781-10-jonathan@marek.ca>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Thu, 20 May 2021 14:14:04 +0200
+Message-ID: <CAG3jFyv71xJxkH_aq9PMObSKRu1GUcekCHpwKRMTbnrch2vG_Q@mail.gmail.com>
+Subject: Re: [PATCH 09/17] media: camss: csid: allow csid to work without a regulator
+To:     Jonathan Marek <jonathan@marek.ca>
+Cc:     MSM <linux-arm-msm@vger.kernel.org>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:QUALCOMM CAMERA SUBSYSTEM DRIVER" 
+        <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+On Tue, 11 May 2021 at 20:08, Jonathan Marek <jonathan@marek.ca> wrote:
+>
+> At least for titan HW, CSID don't have an associated regulator. This change
+> is necessary to be able to model this in the CSID resources.
+>
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> ---
+>  drivers/media/platform/qcom/camss/camss-csid.c | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+> index cc11fbfdae13..528674dea06c 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
+> @@ -162,7 +162,7 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+>                         return ret;
+>                 }
+>
+> -               ret = regulator_enable(csid->vdda);
+> +               ret = csid->vdda ? regulator_enable(csid->vdda) : 0;
+>                 if (ret < 0) {
+>                         pm_runtime_put_sync(dev);
+>                         return ret;
+> @@ -170,14 +170,16 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+>
+>                 ret = csid_set_clock_rates(csid);
+>                 if (ret < 0) {
+> -                       regulator_disable(csid->vdda);
+> +                       if (csid->vdda)
+> +                               regulator_disable(csid->vdda);
+>                         pm_runtime_put_sync(dev);
+>                         return ret;
+>                 }
+>
+>                 ret = camss_enable_clocks(csid->nclocks, csid->clock, dev);
+>                 if (ret < 0) {
+> -                       regulator_disable(csid->vdda);
+> +                       if (csid->vdda)
+> +                               regulator_disable(csid->vdda);
+>                         pm_runtime_put_sync(dev);
+>                         return ret;
+>                 }
+> @@ -188,7 +190,8 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+>                 if (ret < 0) {
+>                         disable_irq(csid->irq);
+>                         camss_disable_clocks(csid->nclocks, csid->clock);
+> -                       regulator_disable(csid->vdda);
+> +                       if (csid->vdda)
+> +                               regulator_disable(csid->vdda);
+>                         pm_runtime_put_sync(dev);
+>                         return ret;
 
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:51: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+Since this & the previous chunks of failure cleanups are growing
+larger, maybe it is time to extract all of the failure cleanups into
+gotos. That should probably go into a seperate patch though.
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>                 }
+> @@ -197,7 +200,7 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+>         } else {
+>                 disable_irq(csid->irq);
+>                 camss_disable_clocks(csid->nclocks, csid->clock);
+> -               ret = regulator_disable(csid->vdda);
+> +               ret = csid->vdda ? regulator_disable(csid->vdda) : 0;
+>                 pm_runtime_put_sync(dev);
+>         }
+>
+> @@ -634,7 +637,9 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
+>
+>         /* Regulator */
+>
+> -       csid->vdda = devm_regulator_get(dev, res->regulator[0]);
+> +       csid->vdda = NULL;
+> +       if (res->regulator[0])
+> +               csid->vdda = devm_regulator_get(dev, res->regulator[0]);
+>         if (IS_ERR(csid->vdda)) {
+>                 dev_err(dev, "could not get regulator\n");
+>                 return PTR_ERR(csid->vdda);
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index fc12e3c3e9cae..c833be31e4ae6 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-@@ -47,7 +47,7 @@
- #include "gfx_v10_0.h"
- #include "nbio_v2_3.h"
- 
--/**
-+/*
-  * Navi10 has two graphic rings to share each graphic pipe.
-  * 1. Primary ring
-  * 2. Async ring
--- 
-2.31.1
-
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
