@@ -2,53 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6139A38B640
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 20:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 713DF38B679
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 21:01:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235723AbhETSov (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 14:44:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57070 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232681AbhETSov (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 14:44:51 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F847C061574;
-        Thu, 20 May 2021 11:43:29 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: evelikov)
-        with ESMTPSA id 1650F1F4215F
-Date:   Thu, 20 May 2021 19:43:22 +0100
-From:   Emil Velikov <emil.velikov@collabora.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: hantro: test the correct variable in probe()
-Message-ID: <YKatymPzAtKxpSOY@arch-x1c3>
-References: <YKaIKXOcDb0nXguP@mwanda>
+        id S236472AbhETTCd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 15:02:33 -0400
+Received: from msg-2.mailo.com ([213.182.54.12]:48110 "EHLO msg-2.mailo.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234486AbhETTCc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 May 2021 15:02:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+        t=1621537260; bh=TWiNdURZ1lEp1xpr9VOsip1Riwkh1Q/WyXtAZIvp1sQ=;
+        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+         Content-Type;
+        b=SPPufKj9kVK2eOk1QrPiYUYx0AWJv1/WFfUYzBgiUpPuZpQgqLOXHo/MHP9caAPgG
+         KtNMVaHwX4/juv1rN0T9QGc5rSALATZXkKo2jJemMO/RgxLBDLiREGsA5W0NtxqhRb
+         w28YgHe5zz8VUIJU01uc+6fqqvnmhQtJRhdPm5aM=
+Received: by 192.168.90.15 [192.168.90.15] with ESMTP
+        via ip-206.mailobj.net [213.182.55.206]
+        Thu, 20 May 2021 21:00:59 +0200 (CEST)
+X-EA-Auth: kLc09m6AjTNTFQ0pDF3o6BRXVrApVEscOKBZcnucRK2aUaeIHyBXoUEW0budx8Cf2EqYjjCVjRFTxnnHUlLs7BB0iKLx2byc
+Date:   Fri, 21 May 2021 00:30:41 +0530
+From:   Deepak R Varma <drv@mailo.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, drv@mailo.com
+Subject: [PATCH RESEND 0/5] staging: media: atomisp: code formatting changes
+Message-ID: <cover.1619850663.git.drv@mailo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YKaIKXOcDb0nXguP@mwanda>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+This patch set overall improves the code organisation and readability of
+the files of atomisp drivers. There are several complaints reported by
+checkpatch including ERROR and WARNING types on the files under atomisp/pci
+directory.
 
-Thank you for the patch.
+The changes are proposed on a per file basis since there are many
+issues to be addressed in each individual file. The patches are built
+on the media_tree/for-v5.14-out1 tree/branch.
 
-On 2021/05/20, Dan Carpenter wrote:
-> This should be testing "vpu->clocks[0].clk" instead of "vpu->clocks".
-> 
-> Fixes: eb4cacdfb998 ("media: hantro: add fallback handling for single irq/clk")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+Deepak R Varma (5):
+  staging: media: atomisp: code formatting changes atomisp_csi2.c
+  staging: media: atomisp: code formatting changes sh_css_mipi.c
+  staging: media: atomisp: code formatting changes sh_css_params.c
+  staging: media: atomisp: code formatting changes sh_css_sp.c
+  staging: media: atomisp: code formatting changes sh_css_version.c
 
--Emil
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |  72 +-
+ .../staging/media/atomisp/pci/sh_css_mipi.c   | 170 ++--
+ .../staging/media/atomisp/pci/sh_css_params.c | 929 +++++++++---------
+ drivers/staging/media/atomisp/pci/sh_css_sp.c | 471 ++++-----
+ .../media/atomisp/pci/sh_css_version.c        |   4 +-
+ 5 files changed, 754 insertions(+), 892 deletions(-)
+
+-- 
+2.30.2
+
+
+
