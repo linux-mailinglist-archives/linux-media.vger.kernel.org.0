@@ -2,110 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51E7D38B7AE
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 21:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAC5838B7D4
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 21:49:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236546AbhETTmZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 15:42:25 -0400
-Received: from mail-oi1-f170.google.com ([209.85.167.170]:46002 "EHLO
-        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232281AbhETTmY (ORCPT
+        id S239929AbhETTuw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 15:50:52 -0400
+Received: from mail-oo1-f47.google.com ([209.85.161.47]:43005 "EHLO
+        mail-oo1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233763AbhETTuv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 15:42:24 -0400
-Received: by mail-oi1-f170.google.com with SMTP id w127so13653384oig.12;
-        Thu, 20 May 2021 12:41:01 -0700 (PDT)
+        Thu, 20 May 2021 15:50:51 -0400
+Received: by mail-oo1-f47.google.com with SMTP id v13-20020a4ac00d0000b029020b43b918eeso4053142oop.9;
+        Thu, 20 May 2021 12:49:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=K1iin/fsWDM3w5QyDMVs0rUZIL7VQZLTGcYt+0lEbCQ=;
-        b=EEk4riasDquK6JGMs0d9+/LhG8hgfs3pNF++ijDNiIWI48jWXFM5wIsWlRCrB/6P3W
-         6JIoHYfoPSOre9dCce/anfyahEM/G9GK+JeM+pIm/9jA5wXF2Y/xIIgKhnzzEVPoPhmr
-         2Hjw125qoA6+bwhrdo1p25VwYSUvc5kLdJy4ruoZg0LzQT5m/LhXyUtREwp8Qjz6ltn1
-         IwJxf5t8scJGdrgWZzrY97Di2LP58pgF42YR9/op8n6pwwGvrC2qYb+0ssTVbL2GEFuk
-         HW4ulv/hzgfrvcrnTy4gjrmRtO6B9jgYOCM3Y2UrtcE8C0z9UOuzIjcNxCzInFQyudAG
-         kRvA==
-X-Gm-Message-State: AOAM530XUUSfwwB+BdMJxzxdJ6/I+/Ycnie8MUbG/nTdmUjMxr1nHX3z
-        WwXFf/r71oELY6pbuRr35fyAlFql4u34lDvs6QQ=
-X-Google-Smtp-Source: ABdhPJwlLcanJ8ZpS/SGjqVaANYZucjsh3Cy2+yy0vt8wVmKq3yOMqnXSOAC2qLMGX83z3ynXSbHNO1JHSA7oR8D/po=
-X-Received: by 2002:aca:380a:: with SMTP id f10mr4623632oia.157.1621539661194;
- Thu, 20 May 2021 12:41:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210519210253.3578025-1-andy.shevchenko@gmail.com> <CAJZ5v0in=qEtVULLF=RwBTiFqiRK-DyPfD4F6uUAqeUfPFB8QQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0in=qEtVULLF=RwBTiFqiRK-DyPfD4F6uUAqeUfPFB8QQ@mail.gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 20 May 2021 21:40:50 +0200
-Message-ID: <CAJZ5v0hsDpGtLHPQvcnof3c1LBnhoZSwWyHJdj1mOov9gV_W8A@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] ACPI: utils: Fix reference counting in for_each_acpi_dev_match()
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Y7/r+lTzvcpyRcN9xZW/fO3+JmbWhZxxbfns43ZWFog=;
+        b=fsNMKUnRGACuML6GInZi7HUxWSoxtS/Y/zdvRFMzGxyxDOaSBxW7kVnW3DCEaroM+u
+         zxkrkm211V78ylnsfWBGO8JDXH5gp6oJp4JoMv5U3s050B0zPe1flOFiaSNE2C+u5x2l
+         rHSHQAq9dO1NiJzoNJcZlB1YBc4Tb//kOsnyXM+s45O51/2fnvRnOQeBRBUfpluuGK9U
+         LfZXEBdi9oxZxyhx5JplAkKhbAozPwVApmiRcFfY6LCdgLAoW62TCFkFFwopAf2Dx9QK
+         wbM3bt5VOEKTKYZ6TMkt/aOOWFFzjCDmLUh/iWdlIz+Gtz+AO5czV/PEqp2+Dt0iAJxT
+         EuDg==
+X-Gm-Message-State: AOAM531JWTvg2p74FgC1+EGtoxhqugBgTrE94HrUxC9w1KbTGZt0bAyi
+        eMA4aLw6qnf5IE3Vxj947+uGljCmGQ==
+X-Google-Smtp-Source: ABdhPJxZDhHg2Fi3gVOKdznze2iYk/Alkj5D5w8hoFCPZhGUvHvVrP0Uud0Bu2ePkOtU9iRzT4+FOw==
+X-Received: by 2002:a4a:ab04:: with SMTP id i4mr5029085oon.56.1621540168107;
+        Thu, 20 May 2021 12:49:28 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id f8sm696491oos.33.2021.05.20.12.49.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 May 2021 12:49:27 -0700 (PDT)
+Received: (nullmailer pid 1828469 invoked by uid 1000);
+        Thu, 20 May 2021 19:49:26 -0000
+Date:   Thu, 20 May 2021 14:49:26 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: renesas,jpu: Convert to json-schema
+Message-ID: <20210520194926.GA1828412@robh.at.kernel.org>
+References: <ded1a61cbaa39fa7a15efdaa2fdfa4fdb307b930.1621429165.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ded1a61cbaa39fa7a15efdaa2fdfa4fdb307b930.1621429165.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 20, 2021 at 9:13 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
->
-> On Wed, May 19, 2021 at 11:19 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> >
-> > Currently it's possible to iterate over the dangling pointer in case the device
-> > suddenly disappears. This may happen becase callers put it at the end of a loop.
-> >
-> > Instead, let's move that call inside acpi_dev_get_next_match_dev().
->
-> Not really.
+On Wed, 19 May 2021 15:00:56 +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas JPEG Processing Unit Device Tree binding
+> documentation to json-schema.
+> 
+> Document missing properties.
+> Update the example to match reality.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> I have listed Mikhail as the maintainer, as he wrote the original driver
+> and bindings.  Mikhail: Please scream if this is inappropriate ;-)
+> ---
+>  .../devicetree/bindings/media/renesas,jpu.txt | 25 -------
+>  .../bindings/media/renesas,jpu.yaml           | 65 +++++++++++++++++++
+>  2 files changed, 65 insertions(+), 25 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/renesas,jpu.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,jpu.yaml
+> 
 
-OK, I see what you want to achieve and the macro is actually buggy,
-because it leaves unbalanced references behind.
-
-> > Fixes: 803abec64ef9 ("media: ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver")
-> > Fixes: bf263f64e804 ("media: ACPI / bus: Add acpi_dev_get_next_match_dev() and helper macro")
-> > Cc: Daniel Scally <djrscally@gmail.com>
-> > Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > ---
-> >  drivers/acpi/utils.c                       | 5 +----
-> >  drivers/media/pci/intel/ipu3/cio2-bridge.c | 8 +++-----
-> >  include/acpi/acpi_bus.h                    | 5 -----
-> >  3 files changed, 4 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/drivers/acpi/utils.c b/drivers/acpi/utils.c
-> > index 3b54b8fd7396..ccfc484dbffd 100644
-> > --- a/drivers/acpi/utils.c
-> > +++ b/drivers/acpi/utils.c
-> > @@ -846,10 +846,6 @@ EXPORT_SYMBOL(acpi_dev_present);
-> >   * Return the next match of ACPI device if another matching device was present
-> >   * at the moment of invocation, or NULL otherwise.
-> >   *
-> > - * FIXME: The function does not tolerate the sudden disappearance of @adev, e.g.
-> > - * in the case of a hotplug event. That said, the caller should ensure that
-> > - * this will never happen.
-> > - *
-> >   * The caller is responsible for invoking acpi_dev_put() on the returned device.
-> >   *
-> >   * See additional information in acpi_dev_present() as well.
-
-But the kerneldoc really needs to say that the caller is required to
-obtain a reference on adev before passing it here, because that
-reference will be dropped and the object pointed to by adev may not be
-present any more after this returns.
-
-> > @@ -866,6 +862,7 @@ acpi_dev_get_next_match_dev(struct acpi_device *adev, const char *hid, const cha
-> >         match.hrv = hrv;
-> >
-> >         dev = bus_find_device(&acpi_bus_type, start, &match, acpi_dev_match_cb);
-> > +       acpi_dev_put(adev);
+Reviewed-by: Rob Herring <robh@kernel.org>
