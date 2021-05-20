@@ -2,191 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 876F8389E22
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 08:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F41B389F9D
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 10:15:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbhETGsV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 02:48:21 -0400
-Received: from mail-mw2nam10on2081.outbound.protection.outlook.com ([40.107.94.81]:36033
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229534AbhETGsV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 02:48:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HQ9N7vO/i2dqk5o5n/NBtsJFzGf7lACjmsvYv32FUuiIeSR+z3EFCTV1HFlN4n5a61ZZUpCRvQnhdE6l2qRAoHN/CIEyuua4z025YV/rgS1pYSPRojHANwA0Mbc0ng5Zv7Ycbsp01aFcCrlGkg4nh96Bw+6NFphC5wL3r3e1cxj3kgCfJw9LxiXQkihEQ8scOCCFDBTFqwrl0U+kdXDmIQefuPbV0h/6Hzg7LQ0//8i3GZ7iEFqlUE2tT57u81uXk6nvPR/kOKHPSjzuQ1qUleFAD/U2MIEJRtItf7axXojK44I/bf1vvjHqtJeP1sgeIHZPE3LJF+P5pFUzcEN7aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lhFm+yLTHed8WfbzsTjLlL3L8IA8ugE3lVbFzEW7UCk=;
- b=RvEouwOpOEvxV5GmyyOLyr3Qo6DexJ7CdVcGkka/5s784u4nCUmJCxQf6w1tqGPRjbsR4d6tX1Y388OE8EN1M4AVo5mP+oGNr6pGEbldHDoGzk3xcZynW2lthc1p5cFph26RHLbTkHQxMbpAZ3O4A7+Zpq0sRiIUKk8AzT+Ws5qj1TZDudyZNmOQrEAA+Kd3ehoXsIuv0G/fddZQRXiOHZFXfoswacSK4uh2O/pLHWkoz/bIWi/euHLpucX2pKrTAoH9I/I05E4ZdploSRIhDEfjbRbJXCD9xXtOb0k0NYHs/MB+ssfjarWBIl/ZR3lSNhq3L3JWGCa0gV8NmVQZzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lhFm+yLTHed8WfbzsTjLlL3L8IA8ugE3lVbFzEW7UCk=;
- b=gbjS6D+WNcovXcfOnnEgWWna4JbBpzIKKji2PDdxGeiT4ILlQmEgLSrHCONEh40DSPj3m7TDze5jHGqAwDu8tzEah4BXWShH43JnNGShBIsiJXk+8miVl4m/zlXeftZBOdU+VMtsj5SVdFcBqz5Ak2ZBc+OnADdRvTQWTy3Aof4=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4157.namprd12.prod.outlook.com (2603:10b6:208:1db::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Thu, 20 May
- 2021 06:46:57 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4150.023; Thu, 20 May 2021
- 06:46:57 +0000
-Subject: Re: [RFC 1/3] dma-fence: Add boost fence op
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20210519183855.1523927-1-robdclark@gmail.com>
- <20210519183855.1523927-2-robdclark@gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <8dcdc8d5-176c-f0ad-0d54-6466e9e68a0a@amd.com>
-Date:   Thu, 20 May 2021 08:46:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210519183855.1523927-2-robdclark@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:4635:589e:67a4:e02a]
-X-ClientProxiedBy: AM4PR0701CA0036.eurprd07.prod.outlook.com
- (2603:10a6:200:42::46) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+        id S230527AbhETIQh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 04:16:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56212 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230505AbhETIQg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 May 2021 04:16:36 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4A9FC061761
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 01:15:11 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id y76so6386833oia.6
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 01:15:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=nMDQIGNN2athUw77QzoxbIIxTVnjEUXN1gVmGUELkVE=;
+        b=SsQfc1zR+XeSGQo7ATvGLAygCqAoQdAKJ10BQbNRTAdGZbHXkP5E2SeBTa/fmozrtr
+         BW1ch1lrmrOquATIbjBBJQ3qB7nz2vMpT+teZq42SgeJ1AlWZPQW7JZSQePDVYDQhZNQ
+         /3xuFjIu65ZqHjnqpsHTH4b61QayocPTbNdrw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=nMDQIGNN2athUw77QzoxbIIxTVnjEUXN1gVmGUELkVE=;
+        b=Pgq1LJzvu/FWvjRyN64DLuL9Ybekq5q3OsUcQ6sK25cvjtlXgUmvsI0sajOxexvj+q
+         HdXRQCrWRir23fMx7pK7v3stiuxd8lfewHKqsGE3tNBwYim/fsiz1av2I0WvG1Zp61bV
+         2++ttadb0en8F2UFHl37b8/xxtB/8gaTkFNG3xAvMaZ6wctHKEi48A4xycCA/IbBlR9N
+         RnbhPBt7omP/R5vbE+aWhKp6wW3IqPCsReY9m1ed9BYZ5bgYsIl2N1jHUF+5Imp7mev9
+         DKSaqQLx+3/9OJoKqwSuxHZSZVtAjEzYQYxV8YWfmH7mBga7Ra/A6dbc9NLFiuny90C+
+         YtpQ==
+X-Gm-Message-State: AOAM533vxNhxsMW0PXfwWKJgYEfPnmN+j64YO/VCV4a96oudOKqSbcP+
+        uhWH6Ay1cl/kZ7iofR0svA30obHjT++Cw/hpY+ZZHg==
+X-Google-Smtp-Source: ABdhPJwxsXmfJTVN1Dt1DE1hOOnvh3huMgzuBaqFM49Psm1tLnZS6IREr/TfQ24FfmOw3l4L4vqvrWbtroEWNUiP9Ek=
+X-Received: by 2002:aca:654d:: with SMTP id j13mr2566246oiw.125.1621498511160;
+ Thu, 20 May 2021 01:15:11 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 20 May 2021 04:15:10 -0400
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:4635:589e:67a4:e02a] (2a02:908:1252:fb60:4635:589e:67a4:e02a) by AM4PR0701CA0036.eurprd07.prod.outlook.com (2603:10a6:200:42::46) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.12 via Frontend Transport; Thu, 20 May 2021 06:46:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 00a6c7d3-a8fd-4019-c691-08d91b5b0fca
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4157:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB41572F8B88F5234551E9BC2F832A9@MN2PR12MB4157.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hIBGICQIGDCQgL+OSt2qN9L3yv+famlYXD6rdLCmdbf7JrwOGXrHe1RagArnZ9WgFyH4MY46Co8v4b2RIR6L84SyBu9koNZEKbpcjJ04yZ2yfeUDB7nGuAppBcT+widd1gUlQAMMWzg7PZjWcAF1IFvEx3w44usu6mdVfANjUUvxSxyBfg4lRR1PHD8DzafRQDo0m5zlpwalGeL9sBCUIPkVNlK2CCsEimS6XRXkXE1O1kP1yE1ZlGCpSY4ZYWKzDHyspgYZTnm+2STaOFZmyqs9dBTiU4ucBAXVTTYKZd0Vk+s6EOTdN4d8+sxuGbDLfHuE4hUDRYm2Rlp5UMN2W1icoVuMI2Dh2RHvYUUccKSRX7we/meXduvfvHR8+ilJymilngpEaEWFBGC+k1wsBxnZNZQIx93zEBgV2IJIUhu6HUTFNvZh4QsHZJVCuIo6qqCB1/v2CVFfPcb1+jNbK95cc7G8Mf5FnEBtKVzt/x2iFlC7y/xhkOAXNpcQZjLOOXH2PqpNc2b2QB6ouSezXetWZjOdW4aAs32pD3AoCDiGGvNTc2CuvDPXvBKVKbtugdM20vEKoJ49X0nH+LNGhVtX4x0kJtczsL2v+n6tGj8UyH1pmTfSiLaIZybhI8Xalsq3BwULKK+rEqbtP5CNUddFbqHiYqFFG4PSI1zxMoeQrYpMNoaLOXychtPIXeBp
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(346002)(39860400002)(136003)(376002)(86362001)(52116002)(31696002)(6486002)(66556008)(66946007)(66476007)(54906003)(6666004)(31686004)(4326008)(316002)(5660300002)(2616005)(83380400001)(38100700002)(2906002)(8676002)(8936002)(186003)(36756003)(478600001)(16526019)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Z0s0SHB6Ry9FRFZiMDJxSVFpMHlxYlRacStKMDBLZWJwZWd6MUNMOXRSSnVS?=
- =?utf-8?B?SFBtTUxmQzV5WjUvbmZxZUQ4cWVheWwySWRvYndEL1d5SmcwdDQrUlpYd1hP?=
- =?utf-8?B?OG1pZTE5bGJkWCt1UHE0aktsYzBEZE9kZXAzVFZrKytIU0E2bU9aYTFVSHVl?=
- =?utf-8?B?TU9WTVlCSk1EN2ZVNXJ5czZZTS9EaVdDQzFXS2lBOXdVWi9tbEllMWJtV2lr?=
- =?utf-8?B?R1h1QlRINlZNRGs0b0trVFQ5THRhRi9oSkJIem1vb1JJUFN4ejNuUlVYZkFh?=
- =?utf-8?B?WVk1TUVKa0hmZ2hqQWxLb1YwVnRqUnlkbEdwUG5xTE8zelFRU2xqS1h6U3l4?=
- =?utf-8?B?UEFDakJSS09lU0dUT2w3dWQ4TUgvKzRoUzRiTERlRXRPQXZ0WXBEbkRCQ0p4?=
- =?utf-8?B?OTdTSVhCNTRyVGFBc1JuQkw4M1NERnBzSFdpTEpwaWJNSUtNWU04TUxtbkJD?=
- =?utf-8?B?SjlKbDZWYk41N3RhK2dkaUV5WmZzOXNCUWVncUJIZUxxbGtPWW9HeVhIb2dH?=
- =?utf-8?B?TE5NK3RhZVFrckRjeEpCZXRXOGZCM1l3YkhiS1U5YnBuUmtkbml0cm1SRG5x?=
- =?utf-8?B?VnJTaXFpdWRTV0JvZ3Q5RmNOTDNRTXlJRXBZMnhzbW80SUpjb3ROR1Y3M2hI?=
- =?utf-8?B?OXFCNXY4UldxTVZkc1dGTHR0RUEvOGgwUUM1cFkxSzdhYno3N2VjSXh0VEV6?=
- =?utf-8?B?TlNJT1ArS2VGTnpqblZPbGpLRHBDenZuc1A3M0laZm1jTTJHWm83UVdOYWE5?=
- =?utf-8?B?bVJoQ2JRa2hMV3M4cGptK1hSSXNJcUMraG9jcHh5M0FOdmhYNUM1Z1QyeXUw?=
- =?utf-8?B?NjZIbk5udWRmUDJLa1p5UUN2MTU3VzNLRDBaMmZGazJzSnFPMGFkclZGL01W?=
- =?utf-8?B?UTJlRlptSWdWS0RIM3MzYU4zUTNTOGFLZzdOVFdURlg0RGw4clg3aVNsdWF6?=
- =?utf-8?B?dGNHamtIUU5JeS9sQSt3ZjZacGFwMG1nMHNXT1hsdXBvZHdYbnk1WnBTdEdq?=
- =?utf-8?B?RkRRZExNelg5Y0xwMU01YTIwK3N2MTQvQmhEYmFTZEdUTnJXWXFhaGdxbkdr?=
- =?utf-8?B?WnExZ2tmZTR1aVg1RGc5NlRFa252L0J1T2lqTUNpSkk4SnhMdms1eGI0QXh6?=
- =?utf-8?B?RERPRDdsM0dWZUpqNi9xeDd3WnFabXo5ZkExYlJ6R3hONFd1bVA0KzVUQ0Z4?=
- =?utf-8?B?YVlFcnlEVm1oZXI5WklIdWhJTkJrZkJQUk5VVnpGdFplY0p1eFVxS0h0Mm9B?=
- =?utf-8?B?Y2lVY1hhdWhXU1l6VzlEMHdXcldqY3VIZjRYa2dJckpHVmRscWwwV2FYME5o?=
- =?utf-8?B?cGVxWjFlTVBCbk80WTllRjU5cnJhcllTNFUwaWZQVWh1cXBGemJOQnhBbDc1?=
- =?utf-8?B?NHdQUm00NUxiSVlhM0hSNDdjd1BEM04zNndSOWxjTjJHVVNmR0ZETHBLRUpJ?=
- =?utf-8?B?T0pKODl4ZlM1ay9jMllCdXlNNlNidFVOMit6bnJyUTdnWVlCV29SQWp2a0RB?=
- =?utf-8?B?SnJqa2tBNzhSdWZ2eGtsYklqdG9EY2NKWlAyUlRvQzE3RWxiT0F3MWU4aE9O?=
- =?utf-8?B?Q3NsSThROVREWTZ3cWsrYnczNERBSk1jU1hTNm5hODlqaFo5UzBuTm1SU1NX?=
- =?utf-8?B?alljakZZL0Z0MWlNLzlUTlBzekdZOGN2cjlOOWwvVFJRQ0c0L3E5ejE0a2ha?=
- =?utf-8?B?SVdRbG10eHRMdklWYjZMeC9ibmU5dS9ZblVQVS9YbVp3bEZYMnhEUHc1Wmg1?=
- =?utf-8?B?RXNpWG9ka1NxNSt0NkcvTUhRaCtNaXJTWkJmUnVOaTh5NUVyMVdmQ2d2aXhL?=
- =?utf-8?B?YkFwVDRQUEdTV2kxNzVYaDV5aFp5K1hpc0xOTFQ5WktqL0lxTWV3cVhaRE1z?=
- =?utf-8?Q?kYtvdJUKYv2gW?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00a6c7d3-a8fd-4019-c691-08d91b5b0fca
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2021 06:46:57.5014
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r9nu2d1lVCUTykt16sxfa7sy+FCzC8G3rv5zScBEZ7PlalnpJtUrgXKvr8k2ftJG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4157
+In-Reply-To: <70a90d229551bcec21ed74cfd1350b9b@codeaurora.org>
+References: <20210512082220.7137-1-rojay@codeaurora.org> <CAE-0n52D-K1T0QgxA-S7BXxE3Qk807F9edNyR+2RL4YxRyigMg@mail.gmail.com>
+ <70a90d229551bcec21ed74cfd1350b9b@codeaurora.org>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Thu, 20 May 2021 04:15:10 -0400
+Message-ID: <CAE-0n50o1XRnV3HSAM7uhfS8M3kf_m0DrTkqCfYGdnSjpF6Xfg@mail.gmail.com>
+Subject: Re: [PATCH V10] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+To:     rojay@codeaurora.org
+Cc:     wsa@kernel.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, skananth@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Uff, that looks very hardware specific to me.
-
-As far as I can see you can also implement completely inside the backend 
-by starting a timer on enable_signaling, don't you?
-
-Christian.
-
-Am 19.05.21 um 20:38 schrieb Rob Clark:
-> From: Rob Clark <robdclark@chromium.org>
+Quoting rojay@codeaurora.org (2021-05-16 23:32:50)
+> Hi Stephen,
 >
-> Add a way to hint to the fence signaler that a fence waiter has missed a
-> deadline waiting on the fence.
+> Now, I have made the changes, calling i2c_mark_adapter_suspended() in
+> shutdown() and i2c_mark_adapter_suspended()/_resumed() from runtime
+> suspend/resume also and validated the changes. I have also picked
+> your patch [1] for this validation.
 >
-> In some cases, missing a vblank can result in lower gpu utilization,
-> when really we want to go in the opposite direction and boost gpu freq.
-> The boost callback gives some feedback to the fence signaler that we
-> are missing deadlines, so it can take this into account in it's freq/
-> utilization calculations.
+> During the device boot up I am seeing multiple traces shown below.
+> Are these expected now and needs to be fixed from rt5682/respective
+> client driver?
 >
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   include/linux/dma-fence.h | 26 ++++++++++++++++++++++++++
->   1 file changed, 26 insertions(+)
->
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 9f12efaaa93a..172702521acc 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -231,6 +231,17 @@ struct dma_fence_ops {
->   	signed long (*wait)(struct dma_fence *fence,
->   			    bool intr, signed long timeout);
->   
-> +	/**
-> +	 * @boost:
-> +	 *
-> +	 * Optional callback, to indicate that a fence waiter missed a deadline.
-> +	 * This can serve as a signal that (if possible) whatever signals the
-> +	 * fence should boost it's clocks.
-> +	 *
-> +	 * This can be called in any context that can call dma_fence_wait().
-> +	 */
-> +	void (*boost)(struct dma_fence *fence);
-> +
->   	/**
->   	 * @release:
->   	 *
-> @@ -586,6 +597,21 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
->   	return ret < 0 ? ret : 0;
->   }
->   
-> +/**
-> + * dma_fence_boost - hint from waiter that it missed a deadline
-> + *
-> + * @fence: the fence that caused the missed deadline
-> + *
-> + * This function gives a hint from a fence waiter that a deadline was
-> + * missed, so that the fence signaler can factor this in to device
-> + * power state decisions
-> + */
-> +static inline void dma_fence_boost(struct dma_fence *fence)
-> +{
-> +	if (fence->ops->boost)
-> +		fence->ops->boost(fence);
-> +}
-> +
->   struct dma_fence *dma_fence_get_stub(void);
->   u64 dma_fence_context_alloc(unsigned num);
->   
+> Trace1:
+> [   11.709477] i2c i2c-9: Transfer while suspended
+> [   11.905595] Call trace:
+> [   11.908124]  __i2c_transfer+0xb8/0x38c
+> [   11.911984]  i2c_transfer+0xa0/0xf4
+> [   11.915569]  i2c_transfer_buffer_flags+0x68/0x9c
+> [   11.920314]  regmap_i2c_write+0x34/0x64
+> [   11.924255]  _regmap_raw_write_impl+0x4e8/0x7bc
+> [   11.928911]  _regmap_bus_raw_write+0x70/0x8c
+> [   11.933301]  _regmap_write+0x100/0x150
+> [   11.937152]  regmap_write+0x54/0x78
+> [   11.940744]  soc_component_write_no_lock+0x34/0xa8
+> [   11.945666]  snd_soc_component_write+0x3c/0x5c
+> [   11.950242]  rt5682_set_component_pll+0x1e4/0x2b4 [snd_soc_rt5682]
+> [   11.956588]  snd_soc_component_set_pll+0x50/0xa8
+> [   11.961328]  snd_soc_dai_set_pll+0x74/0xc8
+> [   11.965542]  sc7180_snd_startup+0x9c/0x120 [snd_soc_sc7180]
+> [   11.971262]  snd_soc_link_startup+0x34/0x88
+> [   11.975557]  soc_pcm_open+0x100/0x538
+> [   11.979323]  snd_pcm_open_substream+0x530/0x704
+> [   11.983980]  snd_pcm_open+0xc8/0x210
+> [   11.987653]  snd_pcm_playback_open+0x50/0x80
+> [   11.992049]  snd_open+0x120/0x150
+> [   11.995462]  chrdev_open+0xb8/0x1a4
+> [   11.999056]  do_dentry_open+0x238/0x358
+> [   12.003001]  vfs_open+0x34/0x40
+> [   12.006235]  path_openat+0x9e8/0xd60
+> [   12.009913]  do_filp_open+0x90/0x10c
+> [   12.013587]  do_sys_open+0x148/0x314
+> [   12.017260]  __arm64_compat_sys_openat+0x28/0x34
+> [   12.022009]  el0_svc_common+0xa4/0x16c
+> [   12.025860]  el0_svc_compat_handler+0x2c/0x40
+> [   12.030337]  el0_svc_compat+0x8/0x10
+> [   12.034018] ---[ end trace 745ead557fcbb5dc ]---
 
+Ah I see. Maybe it isn't correct to mark the device as suspended in
+runtime PM operations because the bus will be resumed during the
+transfer? So only mark it suspended during system wide suspend/resume
+transitions?
+
+-Stephen
+
+> [   12.040151] rt5682 9-001a: ASoC: error at soc_component_write_no_lock
+> on rt5682.9-001a: -108
+> [   12.049055] rt5682 9-001a: ASoC: error at soc_component_write_no_lock
+> on rt5682.9-001a: -108
+> [   12.057742] rt5682 9-001a: ASoC: error at
+> snd_soc_component_update_bits on rt5682.9-001a: -108
+>
+> Trace2:
+> [    3.515390] i2c i2c-2: Transfer while suspended
+> [    3.606749] Call trace:
+> [    3.606751]  __i2c_transfer+0xb8/0x38c
+> [    3.606752]  i2c_transfer+0xa0/0xf4
+> [    3.606754]  i2c_transfer_buffer_flags+0x68/0x9c
+> [    3.639599] hub 2-1.4:1.0: USB hub found
+> [    3.644375]  regmap_i2c_write+0x34/0x64
+> [    3.644376]  _regmap_raw_write_impl+0x4e8/0x7bc
+> [    3.644378]  _regmap_bus_raw_write+0x70/0x8c
+> [    3.644379]  _regmap_write+0x100/0x150
+> [    3.644381]  regmap_write+0x54/0x78
+> [    3.644383]  ti_sn_aux_transfer+0x90/0x244
+> [    3.650695] hub 2-1.4:1.0: 4 ports detected
+> [    3.655288]  drm_dp_dpcd_access+0x8c/0x11c
+> [    3.655289]  drm_dp_dpcd_read+0x64/0x10c
+> [    3.655290]  ti_sn_bridge_enable+0x5c/0x824
+> [    3.655292]  drm_atomic_bridge_chain_enable+0x78/0xa0
+> [    3.655294]  drm_atomic_helper_commit_modeset_enables+0x198/0x238
+> [    3.655295]  msm_atomic_commit_tail+0x324/0x714
+> [    3.655297]  commit_tail+0xa4/0x108
+> [    3.664985] usb 1-1.4: new high-speed USB device number 4 using
+> xhci-hcd
+> [    3.666204]  drm_atomic_helper_commit+0xf4/0xfc
+> [    3.666205]  drm_atomic_commit+0x50/0x5c
+> [    3.666206]  drm_atomic_helper_set_config+0x64/0x98
+> [    3.666208]  drm_mode_setcrtc+0x26c/0x590
+> [    3.666209]  drm_ioctl_kernel+0x9c/0x114
+> [    3.701074] hub 2-1.4:1.0: USB hub found
+> [    3.703347]  drm_ioctl+0x288/0x420
+> [    3.703349]  drm_compat_ioctl+0xd0/0xe0
+> [    3.703351]  __arm64_compat_sys_ioctl+0x100/0x2108
+> [    3.703354]  el0_svc_common+0xa4/0x16c
+> [    3.708499] hub 2-1.4:1.0: 4 ports detected
+> [    3.711588]  el0_svc_compat_handler+0x2c/0x40
+> [    3.711590]  el0_svc_compat+0x8/0x10
+> [    3.711591] ---[ end trace 745ead557fcbb5db ]---
+> [    3.772120] usb 1-1.4: New USB device found, idVendor=0bda,
+> idProduct=5411, bcdDevice= 1.04
+> [    3.794990] ti_sn65dsi86 2-002d: [drm:ti_sn_bridge_enable] *ERROR*
+> Can't read lane count (-108); assuming 4
+>
+> [1]
+> https://lore.kernel.org/r/20210508075151.1626903-2-swboyd@chromium.org
+>
