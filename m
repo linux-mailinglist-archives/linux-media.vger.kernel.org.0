@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0045538B6FA
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 21:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4B1C38B707
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 21:16:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237341AbhETTQJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 15:16:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35890 "EHLO
+        id S237880AbhETTRe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 15:17:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237676AbhETTQF (ORCPT
+        with ESMTP id S236921AbhETTRe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 15:16:05 -0400
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB543C06138E;
-        Thu, 20 May 2021 12:14:38 -0700 (PDT)
-Received: by mail-ot1-x32c.google.com with SMTP id v19-20020a0568301413b0290304f00e3d88so15835231otp.4;
-        Thu, 20 May 2021 12:14:38 -0700 (PDT)
+        Thu, 20 May 2021 15:17:34 -0400
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B525DC061574;
+        Thu, 20 May 2021 12:16:12 -0700 (PDT)
+Received: by mail-oi1-x233.google.com with SMTP id z3so17412120oib.5;
+        Thu, 20 May 2021 12:16:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=CFznQ5UzwVzYSrYk++bKt7INj01icNDyVEHe4lOS4xc=;
-        b=oE4NN5AjJr7IrcZo1Es/vlSqvlT754NfJM7Mfc3xB6CSK7ll+/YvAtbQ2mR8AmC2BT
-         sqS5dDVeSrEVWayFMSVJDASe9FKfS/Wr+qazoBbhp1Mr5/3hGxEj3m4HbdwTGxSA57TV
-         tsUkAfXtKbZiSLaKd7b6iQvIx1PLbFfsvdI70eiZVuoimjccc7Oj24jOCjMZq8sDyO2X
-         Gv0+5ths4rebFvxoKAo+njIxd/9sGHIKha8J/mMF2dIP6p44evYd0zbysZmm2eSWaG0V
-         O5f+2Aw+n+upOXSmQcSvJZizKUNdhUyUqPutN+1XKRyxG3dHqSjSG6i6PLNAiQvAa5GA
-         WMTA==
+        bh=8IA4EK6QCZUPS2VJM/CthWGQXD1VY0qEbTyCJO+YaKI=;
+        b=IB7FUTa3Fm9U+stZPo8LH03erUcgUmfhx7Jry7EQ7Jtzc3Ac1SG4eaPkgQitM1UHr0
+         jpEDSZeQG+skg4Dwxxv/gO/wLl867g1RwV0EN1QvM6I+Djtd7951uvKVrQnx7hOJfg+o
+         miEzOj5wK5zSDduqudgNH7DiQDBvLljTQapNLDsAXmkfTZOF02r1LiNMkbwwlPnnVFIH
+         VvXftcgZxL+5WaQrD86+D4UAPJ5Dp/4yu/z0PNs/LeQ8/NuzS0R31Fk8I68nEDKmDGjP
+         5zohz3AsNpNBp5VfyqmlQ7bZTKU3kL7PcB/G5XVu3FrGbBJHk7ejRMG4qU8InVWmjbpW
+         rw2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CFznQ5UzwVzYSrYk++bKt7INj01icNDyVEHe4lOS4xc=;
-        b=LGKyZoLRfYbFhIBrPGHw8Uo5R5S/zIWqfXfoYMAjBPUnSslbKhVTiA5cQTUryclztX
-         QX/CKgAMl6tPnW8NFfLnAteD9TN5wPX7DAJ3j0lnG008NgRq+Q1DSkDjYJfHGHP/yi0T
-         9PE2rzGAp4VgXmqX5pFCh1BMq1Vc3KXtQYJ/1KkhPgkF+qvpQsEBDI94A4HN7jPH/KZQ
-         0M93+VF2EcRUzAPIsu7AkNL9/7QvKzB2Xnh81Mi/JxRlabIUh5HSjLeJaR+DLBFM1cKE
-         DmGl5bQjT1VNahbYuHePFcB+h6QIPXI80UcVr2IQqe5vgam/jBgd5fGLKwYRNkUxtV77
-         st9w==
-X-Gm-Message-State: AOAM530jE5SbXtkqfkDdhikkQPwWKedZejOyMbfoGce/qJwnQvAMflxI
-        U+pgAW0G5XBCEg6EDMW3gKGfFB8kRF6zbHOunMw=
-X-Google-Smtp-Source: ABdhPJx25eh9IbEMpsnOwMHXas2EpZVFTY5iQRIyfyjEiHJt8Xqx1LcdVt3ezxRqHGRJRlAfp7MTX+b2xOf6Ptl94Fg=
-X-Received: by 2002:a9d:57cd:: with SMTP id q13mr5103104oti.23.1621538078199;
- Thu, 20 May 2021 12:14:38 -0700 (PDT)
+        bh=8IA4EK6QCZUPS2VJM/CthWGQXD1VY0qEbTyCJO+YaKI=;
+        b=EfnEa5dC7wveKhzohCczZLjkTFnN4I7kgV+6OHfKEDbExvNqfr+FfWKkI7fKA2uy1H
+         4asLq5bvGVKIEaKp3TnP8ULqYlNHBb916GHbGD4nqZg2MyfYawyyduN2iiDG7dK+xpe5
+         AfD/njsEcr2ZeDOm3wiVEjOc9Gu4TOIV8Jw9D20MwS5aZbKVNUiz1xT367hse0Zpa+U7
+         iAmwyG7tW5adPKcLgS4UY1nZJbnPjyjMFXHAvY4Z3/XPiBorwomQnhXS/IxTPCC9wyxO
+         bsKYGpRemTBtsw89EuXRUkcmns0Vp4gWtx2M8p4BU8RHw8jPRgWWEyK9ginvKP0f2S7+
+         GNNw==
+X-Gm-Message-State: AOAM532zM+PM8ehRahrqKunN+G7SvH8OQrTxlLnDQvqNIFaVFlcuw+gl
+        RhFccxmSg18JywXCIa/XCrqCRf8JBEzBBKvLi1A=
+X-Google-Smtp-Source: ABdhPJyjZJXNvUa5xHZWnGMQdRLZVinC4OBHnKgEG8wYkwieJ5ywWJUtdKBa3zvbFenStYoZkol8ak3wmyzA1Ffu+LI=
+X-Received: by 2002:a05:6808:249:: with SMTP id m9mr4194241oie.120.1621538170961;
+ Thu, 20 May 2021 12:16:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210520120248.3464013-1-lee.jones@linaro.org> <20210520120248.3464013-17-lee.jones@linaro.org>
-In-Reply-To: <20210520120248.3464013-17-lee.jones@linaro.org>
+References: <20210520120248.3464013-1-lee.jones@linaro.org> <20210520120248.3464013-20-lee.jones@linaro.org>
+In-Reply-To: <20210520120248.3464013-20-lee.jones@linaro.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Thu, 20 May 2021 15:14:27 -0400
-Message-ID: <CADnq5_MXLwMR7XsEiu1pAJ9d8cm6uHA7S4jtuqf-9z=kHbuMww@mail.gmail.com>
-Subject: Re: [PATCH 16/38] drm/amd/amdgpu/si_dma: Fix some function name disparity
+Date:   Thu, 20 May 2021 15:15:59 -0400
+Message-ID: <CADnq5_OZR3qTX2hcDQyhgSGUyWAgCdUiJu3ODD_owJRip_RMOw@mail.gmail.com>
+Subject: Re: [PATCH 19/38] drm/radeon/cik: Fix incorrectly named function 'cik_irq_suspend()'
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     David Airlie <airlied@linux.ie>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -70,19 +70,12 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Applied.  Thanks!
 
-Alex
-
-On Thu, May 20, 2021 at 8:04 AM Lee Jones <lee.jones@linaro.org> wrote:
+On Thu, May 20, 2021 at 8:03 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/si_dma.c:320: warning: expecting prototype fo=
-r cik_dma_vm_copy_pte(). Prototype was for si_dma_vm_copy_pte() instead
->  drivers/gpu/drm/amd/amdgpu/si_dma.c:412: warning: expecting prototype fo=
-r si_dma_pad_ib(). Prototype was for si_dma_ring_pad_ib() instead
->  drivers/gpu/drm/amd/amdgpu/si_dma.c:425: warning: expecting prototype fo=
-r cik_sdma_ring_emit_pipeline_sync(). Prototype was for si_dma_ring_emit_pi=
-peline_sync() instead
+>  drivers/gpu/drm/radeon/cik.c:7450: warning: expecting prototype for cik_=
+irq_disable(). Prototype was for cik_irq_suspend() instead
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
@@ -95,43 +88,22 @@ peline_sync() instead
 > Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/si_dma.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/radeon/cik.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/si_dma.c b/drivers/gpu/drm/amd/am=
-dgpu/si_dma.c
-> index cb703e307238d..195b45bcb8ad9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/si_dma.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/si_dma.c
-> @@ -305,7 +305,7 @@ static int si_dma_ring_test_ib(struct amdgpu_ring *ri=
-ng, long timeout)
+> diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
+> index 42a8afa839cbb..73ea5189dfb1a 100644
+> --- a/drivers/gpu/drm/radeon/cik.c
+> +++ b/drivers/gpu/drm/radeon/cik.c
+> @@ -7439,7 +7439,7 @@ static void cik_irq_disable(struct radeon_device *r=
+dev)
 >  }
 >
 >  /**
-> - * cik_dma_vm_copy_pte - update PTEs by copying them from the GART
-> + * si_dma_vm_copy_pte - update PTEs by copying them from the GART
+> - * cik_irq_disable - disable interrupts for suspend
+> + * cik_irq_suspend - disable interrupts for suspend
 >   *
->   * @ib: indirect buffer to fill with commands
->   * @pe: addr of the page entry
-> @@ -402,7 +402,7 @@ static void si_dma_vm_set_pte_pde(struct amdgpu_ib *i=
-b,
->  }
->
->  /**
-> - * si_dma_pad_ib - pad the IB to the required number of dw
-> + * si_dma_ring_pad_ib - pad the IB to the required number of dw
->   *
->   * @ring: amdgpu_ring pointer
->   * @ib: indirect buffer to fill with padding
-> @@ -415,7 +415,7 @@ static void si_dma_ring_pad_ib(struct amdgpu_ring *ri=
-ng, struct amdgpu_ib *ib)
->  }
->
->  /**
-> - * cik_sdma_ring_emit_pipeline_sync - sync the pipeline
-> + * si_dma_ring_emit_pipeline_sync - sync the pipeline
->   *
->   * @ring: amdgpu_ring pointer
+>   * @rdev: radeon_device pointer
 >   *
 > --
 > 2.31.1
