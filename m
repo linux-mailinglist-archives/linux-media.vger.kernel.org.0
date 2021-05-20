@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35C6238AEC5
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 14:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 869E938AEC8
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 14:43:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242684AbhETMo7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 08:44:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58720 "EHLO
+        id S242710AbhETMpE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 08:45:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242862AbhETMoY (ORCPT
+        with ESMTP id S242878AbhETMo1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 08:44:24 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05099C0564AF
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:03:38 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id n2so17469816wrm.0
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:03:37 -0700 (PDT)
+        Thu, 20 May 2021 08:44:27 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28190C0564B1
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:03:39 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id a4so17425369wrr.2
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=25hbKCKPnZleCOPr+RSYM8icUrz00DW2ZJX4QTilpw8=;
-        b=T+NtzJmFUghwg7s32gDqjUu8IBC4kxHD18dAQVtRRVAmbg0mCylHk99kLxQQPe45t7
-         mQwRZi00yTostuRy+A6rYt60NFhyn5sMWlWDlrC/SgC684FQxmPGwrOBcjAWxsHYiT6m
-         X2QhXN5aCsKAbsT0nir4URuVJYeK46Emef0w3uyEPkFy/dsc834OSj5V6xX/Cm+eywih
-         YYIEL5odB9rBQzvi3rR42Qy26ybZkPttc/evZ2pDRDawBBBcupFY7l6jEAEZ9KOfhWqW
-         fdbNuvFM1uzpcK7ZyGlIyXPRPfemXKC0Ecpj53AbEx+IzL/YMlxvUoBwZUs1ajfWbbbO
-         Hsrw==
+        bh=tJTJtfpMV/J/H+YFu2v39vUwU64txzJ+siPwQcxgUUI=;
+        b=mDFB9RE1bc0Vqz3kk4DPBdJ9UZ/aMsd+rUlwA7frOrSPKA4J5EOky+7+ysl+VIeslx
+         VnuHUou9Hz0olWToCaUysglK/ryHBbFYTG1zdzpfEsRKX2oKSczKuKDc2NZI/0vROlwG
+         nFEFSbfmg6XBybX7YhaVP+Tr/LE1gctAgIP1HLMc0JcMywAitb0spISUg8E4IOPhaaJJ
+         Kqq4h1v8Gm03ZOYI1kvz7TzyM67/zNMNzWIRm1646/gx9rl1Tvfm9CQGE6wVv488bsYO
+         r6S8oUrYDtO3fYI5BS7HPcNxS2VKfxQLPJABQ3qYCqjXM6uEPjbehPB4X9i5wQ+XUa3x
+         o/kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=25hbKCKPnZleCOPr+RSYM8icUrz00DW2ZJX4QTilpw8=;
-        b=IxG+Xtg+Vi0v5VM6RgmwJbcx4PAmgLc2ReIXBnNFvIKjH1z+H/DxlCijv0DUfV0mtw
-         rmn46QXyQ22xH0H0JqWFDlVMav0arQeTD18ob5zSC/eBqsDGgUV1EhsosO3Vu3F+0YTi
-         zCeM9kRdhdgE02smOuFKf8KXqXDQXcnSbWGs6Ixg5Ei2v0CnTqH+jm2lVK4aA2S3xYe5
-         rzYGR07XYnOi1+2sIHT4PDowdsrfLBqMxfb1xogoxrAlyRSfcaXp/SHNsNZMsFbVM1x1
-         OZOTqiS0pkIMdGOQQLXNwp6jUoEHoErYBgwlUBOgUlABQBN/f48cqsMEf/qsmQFghscZ
-         RKfw==
-X-Gm-Message-State: AOAM533F69ZyL7zCJdBZUuUod7tVsNs6qKwSe6KprxTuT/klyTJDu7xB
-        s8FR9Z7KEiM5OHdfoG1+n4kRXw==
-X-Google-Smtp-Source: ABdhPJyL3A14u1dIYxWZuBNDzCNakC9GYeqVMGa1CSSlfC6rvVzVOSJi3RJqmvSko5JP/WBPAWzp9g==
-X-Received: by 2002:a5d:50c7:: with SMTP id f7mr4040620wrt.189.1621512216601;
-        Thu, 20 May 2021 05:03:36 -0700 (PDT)
+        bh=tJTJtfpMV/J/H+YFu2v39vUwU64txzJ+siPwQcxgUUI=;
+        b=e8qhmCQk3rmIfB1fqYxWHq0dYM5eP1g6JpvrJYk7ALj+UIPuqb4FTAgLC4EXFL7WIN
+         OYIpluduS3Z4Xr9WyI69o7vRuZ4DCXtdx9Sut9ENUDHz5AullR/0aFPd+lIIktAofFeW
+         77cdXkAG1JdCBqU3CCCuZjbHNYiE4KXCHTZmZGD5qzovKWHhjaLZKurrOdjnkVVzAIZS
+         eeU6YupxHLhD+So+HcBJqViiyiOm5rZXDROog1EMaAaB7gaGnG+B3jDaHRyEoak1BSBv
+         Y5Htes1dcgUFI3OS1uVexGTs19lGC2vdDFYCw0LF4plYqHC3f3Q+MoSXwmQrhRUgSzJF
+         SF1A==
+X-Gm-Message-State: AOAM530O6+Vnlkfk5v7Uy2TrwxMgtduqti4ADMHY/9EVKpeKKRXAPWlw
+        e8M1iOJ1pHGDGZT1nHXAHBJ/CQ==
+X-Google-Smtp-Source: ABdhPJwhOZLLUHKejvhGLkMhKQ561C0i0iSobmuqHgR5qbq460hZZkBpBeFxX4iu+mRWKCqZF6aUVQ==
+X-Received: by 2002:adf:e0c6:: with SMTP id m6mr4107882wri.66.1621512217735;
+        Thu, 20 May 2021 05:03:37 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.35
+        by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 05:03:36 -0700 (PDT)
+        Thu, 20 May 2021 05:03:37 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 34/38] drm/amd/amdgpu/amdgpu_vce: Fix a few incorrectly named functions
-Date:   Thu, 20 May 2021 13:02:44 +0100
-Message-Id: <20210520120248.3464013-35-lee.jones@linaro.org>
+Subject: [PATCH 35/38] drm/amd/amdgpu/sdma_v5_2: Repair typo in function name
+Date:   Thu, 20 May 2021 13:02:45 +0100
+Message-Id: <20210520120248.3464013-36-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520120248.3464013-1-lee.jones@linaro.org>
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
@@ -73,11 +73,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:98: warning: expecting prototype for amdgpu_vce_init(). Prototype was for amdgpu_vce_sw_init() instead
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:214: warning: expecting prototype for amdgpu_vce_fini(). Prototype was for amdgpu_vce_sw_fini() instead
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:590: warning: expecting prototype for amdgpu_vce_cs_validate_bo(). Prototype was for amdgpu_vce_validate_bo() instead
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:724: warning: expecting prototype for amdgpu_vce_cs_parse(). Prototype was for amdgpu_vce_ring_parse_cs() instead
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:960: warning: expecting prototype for amdgpu_vce_cs_parse_vm(). Prototype was for amdgpu_vce_ring_parse_cs_vm() instead
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c:501: warning: expecting prototype for sdma_v_0_ctx_switch_enable(). Prototype was for sdma_v5_2_ctx_switch_enable() instead
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
@@ -90,58 +86,22 @@ Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
-index ea6a62f67e380..7ad83da613edd 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
-@@ -87,7 +87,7 @@ static int amdgpu_vce_get_destroy_msg(struct amdgpu_ring *ring, uint32_t handle,
- 				      bool direct, struct dma_fence **fence);
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+index ecb82c39b1062..deb907f960906 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+@@ -517,7 +517,7 @@ static void sdma_v5_2_rlc_stop(struct amdgpu_device *adev)
+ }
  
  /**
-- * amdgpu_vce_init - allocate memory, load vce firmware
-+ * amdgpu_vce_sw_init - allocate memory, load vce firmware
+- * sdma_v_0_ctx_switch_enable - stop the async dma engines context switch
++ * sdma_v5_2_ctx_switch_enable - stop the async dma engines context switch
   *
   * @adev: amdgpu_device pointer
-  * @size: size for the new BO
-@@ -204,7 +204,7 @@ int amdgpu_vce_sw_init(struct amdgpu_device *adev, unsigned long size)
- }
- 
- /**
-- * amdgpu_vce_fini - free memory
-+ * amdgpu_vce_sw_fini - free memory
-  *
-  * @adev: amdgpu_device pointer
-  *
-@@ -574,7 +574,7 @@ static int amdgpu_vce_get_destroy_msg(struct amdgpu_ring *ring, uint32_t handle,
- }
- 
- /**
-- * amdgpu_vce_cs_validate_bo - make sure not to cross 4GB boundary
-+ * amdgpu_vce_validate_bo - make sure not to cross 4GB boundary
-  *
-  * @p: parser context
-  * @ib_idx: indirect buffer to use
-@@ -715,7 +715,7 @@ static int amdgpu_vce_validate_handle(struct amdgpu_cs_parser *p,
- }
- 
- /**
-- * amdgpu_vce_cs_parse - parse and validate the command stream
-+ * amdgpu_vce_ring_parse_cs - parse and validate the command stream
-  *
-  * @p: parser context
-  * @ib_idx: indirect buffer to use
-@@ -951,7 +951,7 @@ int amdgpu_vce_ring_parse_cs(struct amdgpu_cs_parser *p, uint32_t ib_idx)
- }
- 
- /**
-- * amdgpu_vce_cs_parse_vm - parse the command stream in VM mode
-+ * amdgpu_vce_ring_parse_cs_vm - parse the command stream in VM mode
-  *
-  * @p: parser context
-  * @ib_idx: indirect buffer to use
+  * @enable: enable/disable the DMA MEs context switch.
 -- 
 2.31.1
 
