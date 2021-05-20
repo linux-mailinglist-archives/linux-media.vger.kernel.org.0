@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C7338AEBC
-	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 14:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C799338AEC0
+	for <lists+linux-media@lfdr.de>; Thu, 20 May 2021 14:43:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242352AbhETMos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 08:44:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58404 "EHLO
+        id S242566AbhETMou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 May 2021 08:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242768AbhETMoQ (ORCPT
+        with ESMTP id S242788AbhETMoR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 08:44:16 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06AF7C0564AA
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:03:23 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id v12so17386840wrq.6
-        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:03:22 -0700 (PDT)
+        Thu, 20 May 2021 08:44:17 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CCF7C0564AB
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:03:34 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id u133so9025651wmg.1
+        for <linux-media@vger.kernel.org>; Thu, 20 May 2021 05:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oOCS+hcR746GCJgf+MTN84dmS4mfJygmI/El7Wrt4P4=;
-        b=ZUD65uqjYlggL85gY9v2dGP0qaEAtUv9/6yMYvyc6T+yU5TXOVtoJYkrk15QeUqmTC
-         cE3LQxHt/DtOkRgOgMIfh0MRQGRTTmnYhR4AgZwQQLc3SCNbDeioVcipg6covQsn4ynm
-         +GCS3mvEDYAgBL4Hn/l6Ci0RwqwCRXM8oWyhnBZ5L+dwOj4c0mg9nNp9ETdiFOkR46P0
-         IsDLYhphvMJegX3q3vjLGm6YIWJ0u3V0ktJfDTBfWhBv/yDqJIq2Yhd0k+sBC64x5JMb
-         Ni05pKPh4xHIe1OK0JoD10mCgbve8icQ/yi0vvUP5sCREjDv861COjn5th/TxAaeEvYr
-         /2qQ==
+        bh=nynxxR/OsBCzgQqs0HwpEzxLm2OUnGw35ueUBnmCZ5g=;
+        b=UVushAvSHMxa0C5XeIr0bdnDeei0Y1WMhTJYIgy8dRMkWcdNb44elX1h9GjF+D91/g
+         3k64urbysVJKIrBU6PzA9VQ3NsXOwtgj13lRJYOyJYsJA3e0j/9qshxBzBZ6TtR5YRPe
+         y/FRBOgs+Ef7wwJovho+qJW4lgNU1EePROSRQxihFEpoh+ATXkOFcIUpzwu4AUnPeVOm
+         EeRD4yDhkcOrQtK2qkzw9DlMihFqF2Kcnh/TOt5xZU2mcps7qvrMLId8Ald+2NeO/5nr
+         4koCiRAM+2HJ0uXudQpe77PWXptcGWavHthevwz9C/nmG0EBxHYBX7QkwZ5OVHTnadHs
+         /Pkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oOCS+hcR746GCJgf+MTN84dmS4mfJygmI/El7Wrt4P4=;
-        b=uibSDEUhrbS4iBxxmckR5wCPefpYtoafbFIB4ZW0+XrHDdzqLR7a4Xir2zwxe+FJI9
-         7Sqk1qSKkrGX4j0DgquwM1xcTOdJ88GO0ON5Jwg13UlNhxbVSL0gLUFNLZrMHKivOeef
-         E9v8sdJ9OI1WpGp086n/YIorWBaNAdGWRPOXkunS9xRnmTYBWM3U54/xc71dng/RH2oJ
-         urxsB8wYQkbRdJ8ZpWpMVMCJwAR3X5CfF/tFlkpFN9FWKI/pwCPzt6trop85nE46bnvw
-         hCd4oo8oqQl11IU+4wWci2bmSGhUslMzRm3CGiC64TwqVOu7fviLVkdvg6qcwzf1OiyE
-         xc8w==
-X-Gm-Message-State: AOAM532J5QFAkXiscmvD5Lc858RjDSAe1RlAYXMGrLQwy2AWcNNmtWcn
-        aVFtt6YsJoRz2z3zIXpWWOfDZg==
-X-Google-Smtp-Source: ABdhPJyAItR0gb4XPRxdBIWogM59UBoe9P9QuJ8hc0mi4kUzQUx9yTK3mbjp5Cx9hjsoU+iBasFpHQ==
-X-Received: by 2002:a05:6000:10d1:: with SMTP id b17mr3885211wrx.281.1621512201663;
-        Thu, 20 May 2021 05:03:21 -0700 (PDT)
+        bh=nynxxR/OsBCzgQqs0HwpEzxLm2OUnGw35ueUBnmCZ5g=;
+        b=PGtwrPrIF3Uoe4GBqgDgUhftFf956OLFwghz4repqK4/C4thpwchFHNmeSvZ/O6C8X
+         2J2jCJ8Udzuj1IT3+4M5DIgWFVR0dZ6AuFDWfojpGEHB2bcNqNi775mlxsWB/LSWGjM9
+         6+Zon4ue5LR9Vzewncemk62YdNy4Mf+ZYoN7Igp+QHMxOWb4WWXXLS81bO3q44AXzY7+
+         Rep7LNXqetnjhHXwXQc44IJdDkLz8qRbJrU+bMb2lkIiSzlVvULnSUWSODTMAlzs+ekV
+         pod7X0LqlwNw/HCdaRGmYI2HbwlYxWHXKrcZMxc/W5P7Z3pD9jf0R1KTjK6PXn5ccXUt
+         5KSA==
+X-Gm-Message-State: AOAM533eCqU6AMxwaGosXPYZe2xVH1blRSu2gKteB+duRuWpsu6sAyBq
+        kZ+H6knhbUkkvh/hXKE/4mJkg0Xm303eDA==
+X-Google-Smtp-Source: ABdhPJwMr2S46p+INbbf4IlG3gi+W3uNAXiPXWi5P3w8PnLPD7lw+1iFRHCGlUXFBNZ3FsCYsPxzCA==
+X-Received: by 2002:a1c:f30a:: with SMTP id q10mr3317496wmq.138.1621512213083;
+        Thu, 20 May 2021 05:03:33 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.20
+        by smtp.gmail.com with ESMTPSA id j10sm2886332wrt.32.2021.05.20.05.03.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 05:03:21 -0700 (PDT)
+        Thu, 20 May 2021 05:03:32 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 29/38] drm/radeon/r100: Realign doc header with function 'r100_cs_packet_parse_vline()'
-Date:   Thu, 20 May 2021 13:02:39 +0100
-Message-Id: <20210520120248.3464013-30-lee.jones@linaro.org>
+Subject: [PATCH 31/38] drm/amd/amdgpu/sdma_v2_4: Correct misnamed function 'sdma_v2_4_ring_emit_hdp_flush()'
+Date:   Thu, 20 May 2021 13:02:41 +0100
+Message-Id: <20210520120248.3464013-32-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210520120248.3464013-1-lee.jones@linaro.org>
 References: <20210520120248.3464013-1-lee.jones@linaro.org>
@@ -73,7 +73,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/radeon/r100.c:1423: warning: expecting prototype for r100_cs_packet_next_vline(). Prototype was for r100_cs_packet_parse_vline() instead
+ drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c:281: warning: expecting prototype for sdma_v2_4_hdp_flush_ring_emit(). Prototype was for sdma_v2_4_ring_emit_hdp_flush() instead
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
@@ -86,22 +86,22 @@ Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/radeon/r100.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.c
-index fcfcaec25a9ef..3c4e7c15fd159 100644
---- a/drivers/gpu/drm/radeon/r100.c
-+++ b/drivers/gpu/drm/radeon/r100.c
-@@ -1406,7 +1406,7 @@ int r100_cs_parse_packet0(struct radeon_cs_parser *p,
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c b/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
+index 9f0dda040ec88..4509bd4cce2d6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
+@@ -271,7 +271,7 @@ static void sdma_v2_4_ring_emit_ib(struct amdgpu_ring *ring,
  }
  
  /**
-- * r100_cs_packet_next_vline() - parse userspace VLINE packet
-+ * r100_cs_packet_parse_vline() - parse userspace VLINE packet
-  * @p:		parser structure holding parsing context.
+- * sdma_v2_4_hdp_flush_ring_emit - emit an hdp flush on the DMA ring
++ * sdma_v2_4_ring_emit_hdp_flush - emit an hdp flush on the DMA ring
   *
-  * Userspace sends a special sequence for VLINE waits.
+  * @ring: amdgpu ring pointer
+  *
 -- 
 2.31.1
 
