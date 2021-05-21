@@ -2,102 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8C3E38C545
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 12:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADD5638C55D
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 13:02:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233171AbhEUKyK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 May 2021 06:54:10 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:47224 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233237AbhEUKyI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 May 2021 06:54:08 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14LAnODi086105;
-        Fri, 21 May 2021 10:52:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=0Jjud9746+KvN80q/qs8axWUfdliXQL13Z5+q/QBesE=;
- b=fMAYwqkTld88VUACoDCt6CAe1Mo1goQIN5DkESnWtCNNBwe9cLh5/iTD7n6GpBBWmcqn
- iO1rxeEiHVHP9U+OnWnmPQJh9m91rzkW8kvdZvswtYFUSxi7yoBqv5xDnJx0Vifj/kUC
- VWv46yTBt4zDipp5JTi/qE9ls8Ds9/gY1j+mxyblo0QHKiIt81AlvMFg8miLXUCeVp4e
- heBdQdkYwb4VWUXcM4Wz0wX6O+a1MnPhyy5nFDQt19g0hM1y5F3bme2c10N3EQbVFju1
- JreHY5RCMRUaSbR31xVExoMeLVuFj45DMeNwk+Z5ZhKpF4q6yE7gCfgv+pcFV2WyKuUe ZQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2120.oracle.com with ESMTP id 38j6xnq9mm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 21 May 2021 10:52:34 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14LAoYF0188999;
-        Fri, 21 May 2021 10:52:33 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3030.oracle.com with ESMTP id 38megnes9r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 21 May 2021 10:52:33 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14LAqXH8191697;
-        Fri, 21 May 2021 10:52:33 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 38megnes9b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 21 May 2021 10:52:33 +0000
-Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14LAqTus029316;
-        Fri, 21 May 2021 10:52:30 GMT
-Received: from kadam (/41.212.42.34)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 21 May 2021 03:52:29 -0700
-Date:   Fri, 21 May 2021 13:52:22 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Deepak R Varma <drv@mailo.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 3/5] staging: media: atomisp: code formatting changes
- sh_css_params.c
-Message-ID: <20210521105222.GJ1955@kadam>
-References: <cover.1619850663.git.drv@mailo.com>
- <6bc123d66150ccaa6dc6fdf2f11c8669e2f493e2.1619850663.git.drv@mailo.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6bc123d66150ccaa6dc6fdf2f11c8669e2f493e2.1619850663.git.drv@mailo.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: uZkRzXC1QhBSiVaXVRV9daKOqDwUwBoP
-X-Proofpoint-ORIG-GUID: uZkRzXC1QhBSiVaXVRV9daKOqDwUwBoP
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9990 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
- mlxlogscore=999 adultscore=0 malwarescore=0 priorityscore=1501
- phishscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105210067
+        id S233736AbhEULEC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 07:04:02 -0400
+Received: from comms.puri.sm ([159.203.221.185]:37676 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230387AbhEULEB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 May 2021 07:04:01 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 573B2DFD7B;
+        Fri, 21 May 2021 04:02:38 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Z33JWzdz0crk; Fri, 21 May 2021 04:02:37 -0700 (PDT)
+Message-ID: <bd5dc783e39d750693ac2b49050681c5e3088330.camel@puri.sm>
+Subject: Re: [PATCH 00/23] media: imx: imx7-mipi-csis: Add i.MX8MM support /
+ imx8mq support
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org, festevam@gmail.com,
+        kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, marex@denx.de, p.zabel@pengutronix.de,
+        rmfrfs@gmail.com, robh@kernel.org, slongerbeam@gmail.com
+Date:   Fri, 21 May 2021 13:02:30 +0200
+In-Reply-To: <YKeAuGJbr9CorhZR@pendragon.ideasonboard.com>
+References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
+         <20210504155939.1194369-1-martin.kepplinger@puri.sm>
+         <YKBRXesDsXk9K15J@pendragon.ideasonboard.com>
+         <1da3de6c879474b814f4d820ca5eb5ba07174a26.camel@puri.sm>
+         <YKRmhSn65fiqshsp@pendragon.ideasonboard.com>
+         <7f922c8b3d4396c00ba15ad99dd572699f4b69b1.camel@puri.sm>
+         <YKUy8gu3Jc3VDy5i@pendragon.ideasonboard.com>
+         <f1d44bbd85edf547bc2b7c758b5e822e08cc80d0.camel@puri.sm>
+         <YKZX8z1Vb0PAYk+G@pendragon.ideasonboard.com>
+         <eff48d63017dc4ed1111b7d87a731d587f51885d.camel@puri.sm>
+         <YKeAuGJbr9CorhZR@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, May 01, 2021 at 12:16:07PM +0530, Deepak R Varma wrote:
-> @@ -1562,8 +1544,10 @@ ia_css_isp_3a_statistics_map_allocate(
->  	base_ptr = me->data_ptr;
->  
->  	me->size = isp_stats->size;
-> -	/* GCC complains when we assign a char * to a void *, so these
-> -	 * casts are necessary unfortunately. */
-> +	/*
-> +	 * GCC complains when we assign a char * to a void *, so these
-> +	 * casts are necessary unfortunately.
-> +	 */
+Am Freitag, dem 21.05.2021 um 12:43 +0300 schrieb Laurent Pinchart:
+> Hi Martin,
+> 
+> On Fri, May 21, 2021 at 11:25:20AM +0200, Martin Kepplinger wrote:
+> > Am Donnerstag, dem 20.05.2021 um 15:37 +0300 schrieb Laurent
+> > Pinchart:
+> > > On Thu, May 20, 2021 at 12:54:27PM +0200, Martin Kepplinger
+> > > wrote:
+> > > > Am Mittwoch, dem 19.05.2021 um 18:46 +0300 schrieb Laurent
+> > > > Pinchart:
+> > > > > On Wed, May 19, 2021 at 05:21:11PM +0200, Martin Kepplinger
+> > > > > wrote:
+> > > > > > Am Mittwoch, dem 19.05.2021 um 04:14 +0300 schrieb Laurent
+> > > > > > Pinchart:
+> > > > > > > On Tue, May 18, 2021 at 04:39:00PM +0200, Martin
+> > > > > > > Kepplinger wrote:
+> > > > > > > > Am Sonntag, dem 16.05.2021 um 01:55 +0300 schrieb
+> > > > > > > > Laurent Pinchart:
+> > > > > > > > > On Tue, May 04, 2021 at 05:59:39PM +0200, Martin
+> > > > > > > > > Kepplinger wrote:
+> > > 
+> > > [snip]
+> > > 
+> > > > I fixed mipi -> csi link. I had the DT port descriptions for
+> > > > mipi
+> > > > csi wrong.
+> > > 
+> > > \o/
+> > > 
+> > > > now, just because I think it makes sense, I do:
+> > > > 
+> > > > media-ctl --set-v4l2 "'csi':0 [fmt:SGBRG10/640x480
+> > > > colorspace:raw]"
+> > > > 
+> > > > which now prints:
+> > > > 
+> > > > Device topology
+> > > > - entity 1: csi (2 pads, 2 links)
+> > > >             type V4L2 subdev subtype Unknown flags 0
+> > > >             device node name /dev/v4l-subdev0
+> > > >         pad0: Sink
+> > > >                 [fmt:SGBRG10_1X10/640x480 field:none
+> > > > colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+> > > >                 <- "imx8mq-mipi-csis.0":1 [ENABLED,IMMUTABLE]
+> > > >         pad1: Source
+> > > >                 [fmt:SGBRG10_1X10/640x480 field:none
+> > > > colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+> > > >                 -> "csi capture":0 [ENABLED,IMMUTABLE]
+> > > > 
+> > > > - entity 4: csi capture (1 pad, 1 link)
+> > > >             type Node subtype V4L flags 0
+> > > >             device node name /dev/video1
+> > > >         pad0: Sink
+> > > >                 <- "csi":1 [ENABLED,IMMUTABLE]
+> > > > 
+> > > > - entity 10: imx8mq-mipi-csis.0 (2 pads, 2 links)
+> > > >              type V4L2 subdev subtype Unknown flags 0
+> > > >              device node name /dev/v4l-subdev1
+> > > >         pad0: Sink
+> > > >                 <- "hi846 2-0020":0 []
+> > > >         pad1: Source
+> > > >                 -> "csi":0 [ENABLED,IMMUTABLE]
+> > > 
+> > > This subdev doesn't seem to report formats on its sink and source
+> > > pads,
+> > > which is weird. I've had a quick look at the .get_fmt() and
+> > > .set_fmt()
+> > > implementations in the code you've posted, and they're wrong.
+> > > They
+> > > shouldn't pass the calls to the source subdev with
+> > > v4l2_subdev_call(),
+> > > they should instead implement get and set format on this subdev.
+> > > You can
+> > > look at the imx7-mipi-csis driver to see how that's done. Once
+> > > you'll
+> > > have fixed this, you'll have to set the format on each pad with
+> > > media-ctl to make sure formats through the pipeline match.
+> > > 
+> > > The only location where you imx8mq-mipi-csis driver should use
+> > > v4l2_subdev_call() is in .s_stream(), to propagate the operation
+> > > to the
+> > > source.
+> > > 
+> > > By the way, I'd replace every occurence of "csis" with "csi2" in
+> > > your
+> > > driver. The name "csis" in the i.MX7 driver comes from the CSI-2
+> > > RX IP
+> > > core that is named CSIS. That's not the case on the i.MX8QM.
+> > > 
+> > > > - entity 15: hi846 2-0020 (1 pad, 1 link)
+> > > >              type V4L2 subdev subtype Sensor flags 0
+> > > >              device node name /dev/v4l-subdev2
+> > > >         pad0: Source
+> > > >                 [fmt:SGBRG10_1X10/640x480 field:none
+> > > > colorspace:raw]
+> > > >                 -> "imx8mq-mipi-csis.0":0 []
+> > > 
+> > > You need to enable this link, the following should do
+> > > 
+> > > media-ctl -l "'hi846 2-0020':0 -> 'imx8mq-mipi-csis.0':0 [1]"
+> > 
+> > ok makes sense, even though I basically just allow a set of formats
+> > without yet having to configure anything format-specific (I can at
+> > least use bits-per-pixel later, so it makes sense to have them).
+> > nevermind. I again append the current driver I use here.
+> > 
+> > then I do:
+> > 
+> > media-ctl --set-v4l2 "'csi':0 [fmt:SGBRG10/640x480 colorspace:raw]"
+> > media-ctl --set-v4l2 "'imx8mq-mipi-csi2.0':0 [fmt:SGBRG10/640x480
+> > colorspace:raw]"
+> > media-ctl -l "'hi846 2-0020':0 -> 'imx8mq-mipi-csi2.0':0 [1]"
+> > 
+> > which gets me:
+> > 
+> > Device topology
+> > - entity 1: csi (2 pads, 2 links)
+> >             type V4L2 subdev subtype Unknown flags 0
+> >             device node name /dev/v4l-subdev0
+> >         pad0: Sink
+> >                 [fmt:SGBRG10_1X10/640x480 field:none colorspace:raw
+> > xfer:none ycbcr:601 quantization:full-range]
+> >                 <- "imx8mq-mipi-csi2.0":1 [ENABLED,IMMUTABLE]
+> >         pad1: Source
+> >                 [fmt:SGBRG10_1X10/640x480 field:none colorspace:raw
+> > xfer:none ycbcr:601 quantization:full-range]
+> >                 -> "csi capture":0 [ENABLED,IMMUTABLE]
+> > 
+> > - entity 4: csi capture (1 pad, 1 link)
+> >             type Node subtype V4L flags 0
+> >             device node name /dev/video0
+> >         pad0: Sink
+> >                 <- "csi":1 [ENABLED,IMMUTABLE]
+> > 
+> > - entity 10: imx8mq-mipi-csi2.0 (2 pads, 2 links)
+> >              type V4L2 subdev subtype Unknown flags 0
+> >              device node name /dev/v4l-subdev1
+> >         pad0: Sink
+> >                 [fmt:SGBRG10_1X10/640x480]
+> >                 <- "hi846 2-0020":0 [ENABLED]
+> >         pad1: Source
+> >                 [fmt:SGBRG10_1X10/640x480]
+> >                 -> "csi":0 [ENABLED,IMMUTABLE]
+> > 
+> > - entity 15: hi846 2-0020 (1 pad, 1 link)
+> >              type V4L2 subdev subtype Sensor flags 0
+> >              device node name /dev/v4l-subdev2
+> >         pad0: Source
+> >                 [fmt:SGBRG10_1X10/640x480 field:none
+> > colorspace:raw]
+> >                 -> "imx8mq-mipi-csi2.0":0 [ENABLED]
+> 
+> This looks better.
+> 
+> > but streaming still fails with:
+> > 
+> > [  352.255129] imx7-csi 30a90000.csi1_bridge: media bus code not
+> > compatible with the pixel format set on the video node: 1 != 0
+> 
+> What is the capture command line ? Can you trace this (I assume the
+> message is printed by capture_validate_fmt(), it's not present in
+> mainline so I don't know what 1 and 0 correspond to, even though I
+> suspect they would be IPUV3_COLORSPACE_* values) to see why it fails
+> ?
 
-Not related to your patch, but assigning a char pointer to a void
-pointer is fine and GCC will not complain.  The problem is that
-me->dmem_stats is not a void pointer.  Someone should delete that
-nonsense comment.
+capture command:
 
->  	me->dmem_stats    = (void *)base_ptr;
->  	me->vmem_stats_hi = (void *)(base_ptr + isp_stats->dmem_size);
->  	me->vmem_stats_lo = (void *)(base_ptr + isp_stats->dmem_size +
+v4l2-ctl -d "/dev/v4l/by-path/platform-30a90000.csi1_bridge-video-
+index0" --set-fmt-video=width=640,height=480 --stream-mmap --stream-
+to=test.raw --stream-count=1
 
-regards,
-dan carpenter
+I'll have to continue after the weekend, but let's share some logs.
+Yes, "1 != 0" is from capture_validate_fmt():
+
+priv->vdev.cc->cs != cc->cs
+
+When I print the format the imx_media_find_mbus_format() finds and do:
+
+media-ctl --set-v4l2 "'csi':0 [fmt:SGBRG10/640x480 colorspace:raw]"
+
+I see:
+
+[  184.251144] mc: media_release: Media Release
+[  184.254397] selected specific mbus code 0 for list nr 0 (fourcc
+0x59565955)
+[  184.264564] selected specific mbus code 0 for list nr 0 (fourcc
+0x59565955)
+[  184.274763] selected specific mbus code 0 for list nr 21 (fourcc
+0x36314247)
+[  184.285102] selected specific mbus code 0 for list nr 21 (fourcc
+0x36314247)
+[  184.295383] selected specific mbus code 0 for list nr 21 (fourcc
+0x36314247)
+[  184.305752] selected specific mbus code 0 for list nr 21 (fourcc
+0x36314247)
+
+21 is the correct bayer format I want, but there's 0, so
+"MEDIA_BUS_FMT_UYVY8_2X8" found the first 2 times. That is
+IPUV3_COLORSPACE_YUV (1) while the correct Bayer format 21 is
+IPUV3_COLORSPACE_RGB (0).
+
+so some format settings not yet correct.
+
