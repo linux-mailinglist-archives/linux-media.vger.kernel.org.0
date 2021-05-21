@@ -2,119 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 089F738CA10
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 17:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B08CE38CAB0
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 18:12:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237442AbhEUP2d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 May 2021 11:28:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234799AbhEUP2c (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 May 2021 11:28:32 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 606EFC061574
-        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 08:27:09 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id r12so21473180wrp.1
-        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 08:27:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ZVSedFrP+0tpxLZ8F7Yf3PCmIz+TOL1d4BZ3SCIGqFE=;
-        b=P2NuhRay4VNswk6R+Mre8cDLI1JTeYXs84jE3PUeuJ9FEjGEy44+eU3AsPhsymn0Y1
-         b32L5+CXT9AlhdAFPHq0dTdVjFREUTaNPlay2EoCyebUZE7mS2xazPPpTsLDNYWPZP0c
-         fVdScbzLPZLzwbByZaWmThuHDrIQDGkbZ3bbY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ZVSedFrP+0tpxLZ8F7Yf3PCmIz+TOL1d4BZ3SCIGqFE=;
-        b=aVpxSwTJeygRrV7eKuJIK2yFjrhMp4M+WvbeZePjBZVb1k9Khh4Gh1A230hyVE8lJG
-         IH0XtTRZrHYl6+c2Rt3CQB+1RcfIjiun/5HdXHFNyZgcX6rnbozVzRvWYnBri91h6ImQ
-         MYDBbGwaPIYSRBV7quBbOnJ9BUwwDXZmequgJccLJz0FS41xbab+KyL22y2kZTS4SmH1
-         W51OuQ15RBPM16nMbZEznIU+UILqfGENMCqMsqnkJn67W0nMZ2zMLqsvtxezA7+KPh0m
-         V7GamoVLxL9Hfg/xJR83UhKzXf1WslcD9khZqoXFtRZSjoEXE7QOnIEHEG7Z7XL81MqU
-         CA7Q==
-X-Gm-Message-State: AOAM530yISMdkYo28TTUQdeT6mYJ4xOQb82Mg9S9WkjYr92ZlVkt0RRQ
-        n4yr8lHV2WCFJQ2/Q6bxzg1Y8w==
-X-Google-Smtp-Source: ABdhPJxp5JhtTYd5Eu2lgi4XdHMzE1uuhrrmpFYMpAYZzEYZ74t1J5SVaMxTD3OGi8zkWgSqYJrzZw==
-X-Received: by 2002:adf:e50c:: with SMTP id j12mr10249245wrm.418.1621610828056;
-        Fri, 21 May 2021 08:27:08 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id m7sm2487624wrv.35.2021.05.21.08.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 08:27:07 -0700 (PDT)
-Date:   Fri, 21 May 2021 17:27:05 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH] drm/doc: Includ fence chain api
-Message-ID: <YKfRSaG2x6FcrKOL@phenom.ffwll.local>
-References: <20210521082457.1656333-1-daniel.vetter@ffwll.ch>
- <b8cfff00-2545-8a09-1591-f2f162e2adb7@amd.com>
+        id S237407AbhEUQOD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 12:14:03 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:59010 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237226AbhEUQN7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 May 2021 12:13:59 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1621613556; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=JBNjKRUr1tE/SpZsz0PTWtWzyb4OvafTBwnzC/mARrY=;
+ b=b/+W2OUTjXKp5bkPNG2e3x7A3dtP+jrlkMHQUWcQKATTQpcC9ExHKfovjEp2b35oC+ZkZho9
+ KOBnCExvIQNXo6K/CXIi5wpkXrGBY8OuN45Nwn3UAKv+iuyoQJY2IIbjq41Rr+/KkSJhPuOx
+ ESv1wyfAFyxWw7K0likFMO8HjCI=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 60a7dbd32bff04e53bb086b0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 21 May 2021 16:12:03
+ GMT
+Sender: rojay=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 79E72C4360C; Fri, 21 May 2021 16:12:03 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: rojay)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2A055C433D3;
+        Fri, 21 May 2021 16:12:02 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b8cfff00-2545-8a09-1591-f2f162e2adb7@amd.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 21 May 2021 21:42:02 +0530
+From:   rojay@codeaurora.org
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     wsa@kernel.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, skananth@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH V10] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+In-Reply-To: <CAE-0n50o1XRnV3HSAM7uhfS8M3kf_m0DrTkqCfYGdnSjpF6Xfg@mail.gmail.com>
+References: <20210512082220.7137-1-rojay@codeaurora.org>
+ <CAE-0n52D-K1T0QgxA-S7BXxE3Qk807F9edNyR+2RL4YxRyigMg@mail.gmail.com>
+ <70a90d229551bcec21ed74cfd1350b9b@codeaurora.org>
+ <CAE-0n50o1XRnV3HSAM7uhfS8M3kf_m0DrTkqCfYGdnSjpF6Xfg@mail.gmail.com>
+Message-ID: <79fdd08e974d6f6e35f0042c98a9415c@codeaurora.org>
+X-Sender: rojay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 21, 2021 at 10:26:28AM +0200, Christian König wrote:
-> Am 21.05.21 um 10:24 schrieb Daniel Vetter:
-> > We have this nice kerneldoc, but forgot to include it.
+On 2021-05-20 13:45, Stephen Boyd wrote:
+> Quoting rojay@codeaurora.org (2021-05-16 23:32:50)
+>> Hi Stephen,
+>> 
+>> Now, I have made the changes, calling i2c_mark_adapter_suspended() in
+>> shutdown() and i2c_mark_adapter_suspended()/_resumed() from runtime
+>> suspend/resume also and validated the changes. I have also picked
+>> your patch [1] for this validation.
+>> 
+>> During the device boot up I am seeing multiple traces shown below.
+>> Are these expected now and needs to be fixed from rt5682/respective
+>> client driver?
+>> 
+>> Trace1:
+>> [   11.709477] i2c i2c-9: Transfer while suspended
+>> [   11.905595] Call trace:
+>> [   11.908124]  __i2c_transfer+0xb8/0x38c
+>> [   11.911984]  i2c_transfer+0xa0/0xf4
+>> [   11.915569]  i2c_transfer_buffer_flags+0x68/0x9c
+>> [   11.920314]  regmap_i2c_write+0x34/0x64
+>> [   11.924255]  _regmap_raw_write_impl+0x4e8/0x7bc
+>> [   11.928911]  _regmap_bus_raw_write+0x70/0x8c
+>> [   11.933301]  _regmap_write+0x100/0x150
+>> [   11.937152]  regmap_write+0x54/0x78
+>> [   11.940744]  soc_component_write_no_lock+0x34/0xa8
+>> [   11.945666]  snd_soc_component_write+0x3c/0x5c
+>> [   11.950242]  rt5682_set_component_pll+0x1e4/0x2b4 [snd_soc_rt5682]
+>> [   11.956588]  snd_soc_component_set_pll+0x50/0xa8
+>> [   11.961328]  snd_soc_dai_set_pll+0x74/0xc8
+>> [   11.965542]  sc7180_snd_startup+0x9c/0x120 [snd_soc_sc7180]
+>> [   11.971262]  snd_soc_link_startup+0x34/0x88
+>> [   11.975557]  soc_pcm_open+0x100/0x538
+>> [   11.979323]  snd_pcm_open_substream+0x530/0x704
+>> [   11.983980]  snd_pcm_open+0xc8/0x210
+>> [   11.987653]  snd_pcm_playback_open+0x50/0x80
+>> [   11.992049]  snd_open+0x120/0x150
+>> [   11.995462]  chrdev_open+0xb8/0x1a4
+>> [   11.999056]  do_dentry_open+0x238/0x358
+>> [   12.003001]  vfs_open+0x34/0x40
+>> [   12.006235]  path_openat+0x9e8/0xd60
+>> [   12.009913]  do_filp_open+0x90/0x10c
+>> [   12.013587]  do_sys_open+0x148/0x314
+>> [   12.017260]  __arm64_compat_sys_openat+0x28/0x34
+>> [   12.022009]  el0_svc_common+0xa4/0x16c
+>> [   12.025860]  el0_svc_compat_handler+0x2c/0x40
+>> [   12.030337]  el0_svc_compat+0x8/0x10
+>> [   12.034018] ---[ end trace 745ead557fcbb5dc ]---
 > 
-> Well I didn't forgot it, I just didn't had time to double check that it is
-> bug free :)
-
-It does seem to generate decent looking output and no new warnings.
-
-> > 
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
+> Ah I see. Maybe it isn't correct to mark the device as suspended in
+> runtime PM operations because the bus will be resumed during the
+> transfer? So only mark it suspended during system wide suspend/resume
+> transitions?
 > 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
-
-Thanks for taking a look, applied to drm-misc-next.
--Daniel
-
-> 
-> > ---
-> >   Documentation/driver-api/dma-buf.rst | 9 +++++++++
-> >   1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> > index 7f37ec30d9fd..7f21425d9435 100644
-> > --- a/Documentation/driver-api/dma-buf.rst
-> > +++ b/Documentation/driver-api/dma-buf.rst
-> > @@ -178,6 +178,15 @@ DMA Fence Array
-> >   .. kernel-doc:: include/linux/dma-fence-array.h
-> >      :internal:
-> > +DMA Fence Chain
-> > +~~~~~~~~~~~~~~~
-> > +
-> > +.. kernel-doc:: drivers/dma-buf/dma-fence-chain.c
-> > +   :export:
-> > +
-> > +.. kernel-doc:: include/linux/dma-fence-chain.h
-> > +   :internal:
-> > +
-> >   DMA Fence uABI/Sync File
-> >   ~~~~~~~~~~~~~~~~~~~~~~~~
+> -Stephen
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Yes, we cannot mark device as suspended/resumed during
+runtime PM operations. Bus will be resumed during i2c
+transfers and before transfer initiation, in __i2c_transfer()
+from i2c-core-base.c there is a check to see whether the device
+is marked as suspended with "__i2c_check_suspended(adap)" call,
+which is "true" in this case and returning from there.
+
+To mark it only suspended during system wide suspend/resume
+transitions, currently our geni i2c driver has only
+system_suspend implemented (geni_i2c_suspend_noirq()) and
+does not have system_resume implemented, which again causes i2c
+transfers to fail during system_resume after system_suspend.
+
+Shall I go ahead with marking device suspended during
+shutdown() only?
+
+-Roja
+
+>> [   12.040151] rt5682 9-001a: ASoC: error at 
+>> soc_component_write_no_lock
+>> on rt5682.9-001a: -108
+>> [   12.049055] rt5682 9-001a: ASoC: error at 
+>> soc_component_write_no_lock
+>> on rt5682.9-001a: -108
+>> [   12.057742] rt5682 9-001a: ASoC: error at
+>> snd_soc_component_update_bits on rt5682.9-001a: -108
+>> 
+>> Trace2:
+>> [    3.515390] i2c i2c-2: Transfer while suspended
+>> [    3.606749] Call trace:
+>> [    3.606751]  __i2c_transfer+0xb8/0x38c
+>> [    3.606752]  i2c_transfer+0xa0/0xf4
+>> [    3.606754]  i2c_transfer_buffer_flags+0x68/0x9c
+>> [    3.639599] hub 2-1.4:1.0: USB hub found
+>> [    3.644375]  regmap_i2c_write+0x34/0x64
+>> [    3.644376]  _regmap_raw_write_impl+0x4e8/0x7bc
+>> [    3.644378]  _regmap_bus_raw_write+0x70/0x8c
+>> [    3.644379]  _regmap_write+0x100/0x150
+>> [    3.644381]  regmap_write+0x54/0x78
+>> [    3.644383]  ti_sn_aux_transfer+0x90/0x244
+>> [    3.650695] hub 2-1.4:1.0: 4 ports detected
+>> [    3.655288]  drm_dp_dpcd_access+0x8c/0x11c
+>> [    3.655289]  drm_dp_dpcd_read+0x64/0x10c
+>> [    3.655290]  ti_sn_bridge_enable+0x5c/0x824
+>> [    3.655292]  drm_atomic_bridge_chain_enable+0x78/0xa0
+>> [    3.655294]  drm_atomic_helper_commit_modeset_enables+0x198/0x238
+>> [    3.655295]  msm_atomic_commit_tail+0x324/0x714
+>> [    3.655297]  commit_tail+0xa4/0x108
+>> [    3.664985] usb 1-1.4: new high-speed USB device number 4 using
+>> xhci-hcd
+>> [    3.666204]  drm_atomic_helper_commit+0xf4/0xfc
+>> [    3.666205]  drm_atomic_commit+0x50/0x5c
+>> [    3.666206]  drm_atomic_helper_set_config+0x64/0x98
+>> [    3.666208]  drm_mode_setcrtc+0x26c/0x590
+>> [    3.666209]  drm_ioctl_kernel+0x9c/0x114
+>> [    3.701074] hub 2-1.4:1.0: USB hub found
+>> [    3.703347]  drm_ioctl+0x288/0x420
+>> [    3.703349]  drm_compat_ioctl+0xd0/0xe0
+>> [    3.703351]  __arm64_compat_sys_ioctl+0x100/0x2108
+>> [    3.703354]  el0_svc_common+0xa4/0x16c
+>> [    3.708499] hub 2-1.4:1.0: 4 ports detected
+>> [    3.711588]  el0_svc_compat_handler+0x2c/0x40
+>> [    3.711590]  el0_svc_compat+0x8/0x10
+>> [    3.711591] ---[ end trace 745ead557fcbb5db ]---
+>> [    3.772120] usb 1-1.4: New USB device found, idVendor=0bda,
+>> idProduct=5411, bcdDevice= 1.04
+>> [    3.794990] ti_sn65dsi86 2-002d: [drm:ti_sn_bridge_enable] *ERROR*
+>> Can't read lane count (-108); assuming 4
+>> 
+>> [1]
+>> https://lore.kernel.org/r/20210508075151.1626903-2-swboyd@chromium.org
+>> 
