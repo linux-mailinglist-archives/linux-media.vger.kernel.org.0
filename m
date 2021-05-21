@@ -2,123 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2333C38C988
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 16:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 089F738CA10
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 17:27:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237115AbhEUOwc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 May 2021 10:52:32 -0400
-Received: from smtprelay0094.hostedemail.com ([216.40.44.94]:32824 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232057AbhEUOwc (ORCPT
+        id S237442AbhEUP2d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 11:28:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234799AbhEUP2c (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 May 2021 10:52:32 -0400
-X-Greylist: delayed 331 seconds by postgrey-1.27 at vger.kernel.org; Fri, 21 May 2021 10:52:32 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave04.hostedemail.com (Postfix) with ESMTP id CDFDB18005A65;
-        Fri, 21 May 2021 14:45:44 +0000 (UTC)
-Received: from omf03.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay02.hostedemail.com (Postfix) with ESMTP id BE128D218;
-        Fri, 21 May 2021 14:45:37 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 74ED713D95;
-        Fri, 21 May 2021 14:45:25 +0000 (UTC)
-Message-ID: <9d8659fc8bc0729dd255c20234fb1a4210847ce9.camel@perches.com>
-Subject: Re: [PATCH v2 7/7] checkpatch: suggest _BITULL() and _BITUL() for
- UAPI headers
-From:   Joe Perches <joe@perches.com>
-To:     Joe Richey <joerichey94@gmail.com>, trivial@kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Joe Richey <joerichey@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Zhangfei Gao <zhangfei.gao@linaro.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Sasha Levin <sashal@kernel.org>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Andi Kleen <ak@linux.intel.com>, Peter Xu <peterx@redhat.com>,
-        Lei Cao <lei.cao@stratus.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org
-Date:   Fri, 21 May 2021 07:45:23 -0700
-In-Reply-To: <20210521085849.37676-8-joerichey94@gmail.com>
-References: <20210520104343.317119-1-joerichey94@gmail.com>
-         <20210521085849.37676-1-joerichey94@gmail.com>
-         <20210521085849.37676-8-joerichey94@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        Fri, 21 May 2021 11:28:32 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 606EFC061574
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 08:27:09 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id r12so21473180wrp.1
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 08:27:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ZVSedFrP+0tpxLZ8F7Yf3PCmIz+TOL1d4BZ3SCIGqFE=;
+        b=P2NuhRay4VNswk6R+Mre8cDLI1JTeYXs84jE3PUeuJ9FEjGEy44+eU3AsPhsymn0Y1
+         b32L5+CXT9AlhdAFPHq0dTdVjFREUTaNPlay2EoCyebUZE7mS2xazPPpTsLDNYWPZP0c
+         fVdScbzLPZLzwbByZaWmThuHDrIQDGkbZ3bbY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ZVSedFrP+0tpxLZ8F7Yf3PCmIz+TOL1d4BZ3SCIGqFE=;
+        b=aVpxSwTJeygRrV7eKuJIK2yFjrhMp4M+WvbeZePjBZVb1k9Khh4Gh1A230hyVE8lJG
+         IH0XtTRZrHYl6+c2Rt3CQB+1RcfIjiun/5HdXHFNyZgcX6rnbozVzRvWYnBri91h6ImQ
+         MYDBbGwaPIYSRBV7quBbOnJ9BUwwDXZmequgJccLJz0FS41xbab+KyL22y2kZTS4SmH1
+         W51OuQ15RBPM16nMbZEznIU+UILqfGENMCqMsqnkJn67W0nMZ2zMLqsvtxezA7+KPh0m
+         V7GamoVLxL9Hfg/xJR83UhKzXf1WslcD9khZqoXFtRZSjoEXE7QOnIEHEG7Z7XL81MqU
+         CA7Q==
+X-Gm-Message-State: AOAM530yISMdkYo28TTUQdeT6mYJ4xOQb82Mg9S9WkjYr92ZlVkt0RRQ
+        n4yr8lHV2WCFJQ2/Q6bxzg1Y8w==
+X-Google-Smtp-Source: ABdhPJxp5JhtTYd5Eu2lgi4XdHMzE1uuhrrmpFYMpAYZzEYZ74t1J5SVaMxTD3OGi8zkWgSqYJrzZw==
+X-Received: by 2002:adf:e50c:: with SMTP id j12mr10249245wrm.418.1621610828056;
+        Fri, 21 May 2021 08:27:08 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id m7sm2487624wrv.35.2021.05.21.08.27.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 May 2021 08:27:07 -0700 (PDT)
+Date:   Fri, 21 May 2021 17:27:05 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] drm/doc: Includ fence chain api
+Message-ID: <YKfRSaG2x6FcrKOL@phenom.ffwll.local>
+References: <20210521082457.1656333-1-daniel.vetter@ffwll.ch>
+ <b8cfff00-2545-8a09-1591-f2f162e2adb7@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.40
-X-Stat-Signature: qn5g8k3jtqoj4kuui4tsua91y1s1o8zk
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 74ED713D95
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/+/DrG8NEx+1xztaZeFya67FR2cEwvbqU=
-X-HE-Tag: 1621608325-902736
+In-Reply-To: <b8cfff00-2545-8a09-1591-f2f162e2adb7@amd.com>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2021-05-21 at 01:58 -0700, Joe Richey wrote:
-> From: Joe Richey <joerichey@google.com>
+On Fri, May 21, 2021 at 10:26:28AM +0200, Christian König wrote:
+> Am 21.05.21 um 10:24 schrieb Daniel Vetter:
+> > We have this nice kerneldoc, but forgot to include it.
 > 
-> Instead of just ignoring UAPI headers, reccomend the UAPI compatible
-> macros if a user adds something that looks like (1 << n). Normal kernel
-> code will continue to get BIT_ULL() and BIT() reccomended.
+> Well I didn't forgot it, I just didn't had time to double check that it is
+> bug free :)
+
+It does seem to generate decent looking output and no new warnings.
+
+> > 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian König" <christian.koenig@amd.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
 > 
-> This change also modifies the $realfile regex to match headers that have
-> "include/uapi" anywhere in their path so paths like:
->     tools/include/uapi/linux/kvm.h
->     arch/x86/include/uapi/asm/hwcap2.h
-> get recognized as UAPI headers.
-[]
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> @@ -7020,15 +7020,17 @@ sub process {
->  			}
->  		}
->  
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+
+Thanks for taking a look, applied to drm-misc-next.
+-Daniel
+
 > 
-> -# check for #defines like: 1 << <digit> that could be BIT(digit), it is not exported to uapi
-> -		if ($realfile !~ m@^include/uapi/@ &&
-> -		    $line =~ /#\s*define\s+\w+\s+\(?\s*1\s*([ulUL]*)\s*\<\<\s*(?:\d+|$Ident)\s*\)?/) {
-> -			my $ull = "";
-> -			$ull = "_ULL" if (defined($1) && $1 =~ /ll/i);
-> +# check for #defines like: 1 << <digit> that could be BIT(digit) or similar
-> +		if ($line =~ /#\s*define\s+\w+\s+\(?\s*1\s*([ulUL]*)\s*\<\<\s*(?:\d+|$Ident)\s*\)?/) {
-> +			my $ull = (defined($1) && $1 =~ /ll/i);
-> +			my $macroname = $ull ? "BIT_ULL" : "BIT";
-> +			if ($realfile =~ m@include/uapi/@) {
+> > ---
+> >   Documentation/driver-api/dma-buf.rst | 9 +++++++++
+> >   1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> > index 7f37ec30d9fd..7f21425d9435 100644
+> > --- a/Documentation/driver-api/dma-buf.rst
+> > +++ b/Documentation/driver-api/dma-buf.rst
+> > @@ -178,6 +178,15 @@ DMA Fence Array
+> >   .. kernel-doc:: include/linux/dma-fence-array.h
+> >      :internal:
+> > +DMA Fence Chain
+> > +~~~~~~~~~~~~~~~
+> > +
+> > +.. kernel-doc:: drivers/dma-buf/dma-fence-chain.c
+> > +   :export:
+> > +
+> > +.. kernel-doc:: include/linux/dma-fence-chain.h
+> > +   :internal:
+> > +
+> >   DMA Fence uABI/Sync File
+> >   ~~~~~~~~~~~~~~~~~~~~~~~~
+> 
 
-Likely better with \b
-			if ($realfile =~ m@\binclude/uapi/@) {
-
-> +				$macroname = $ull ? "_BITULL" : "_BITUL";
-> +			}
->  			if (CHK("BIT_MACRO",
-> -				"Prefer using the BIT$ull macro\n" . $herecurr) &&
-> +				"Prefer using the $macroname macro\n" . $herecurr) &&
->  			    $fix) {
-> -				$fixed[$fixlinenr] =~ s/\(?\s*1\s*[ulUL]*\s*<<\s*(\d+|$Ident)\s*\)?/BIT${ull}($1)/;
-> +				$fixed[$fixlinenr] =~ s/\(?\s*1\s*[ulUL]*\s*<<\s*(\d+|$Ident)\s*\)?/${macroname}($1)/;
-
-Doesn't need braces
-				$fixed[$fixlinenr] =~ s/\(?\s*1\s*[ulUL]*\s*<<\s*(\d+|$Ident)\s*\)?/$macroname($1)/;
-
-Otherwise, fine by me.
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
