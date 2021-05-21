@@ -2,261 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 319BD38C91A
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 16:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA55F38C92D
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 16:25:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236658AbhEUOWg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 May 2021 10:22:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39900 "EHLO
+        id S236726AbhEUO1A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 10:27:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229813AbhEUOWf (ORCPT
+        with ESMTP id S236720AbhEUO0y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 May 2021 10:22:35 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2A7BC061574
-        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 07:21:11 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id r12so21263965wrp.1
-        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 07:21:11 -0700 (PDT)
+        Fri, 21 May 2021 10:26:54 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5A48C061574
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 07:25:30 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id ne24-20020a17090b3758b029015f2dafecb0so6078885pjb.4
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 07:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=wG9Dta0CaSLcShWSym55/bpGe6Fxr6HiM0MjsqM0GpA=;
-        b=RDX2hdnIo6f3DUh4nJ1K97BcaNQN8gpv0wjGqd3ja+QqP0Y9yzrTT2zz1IMk/Biyxm
-         x3Fwn1AO/sbgoy1cP2EoklOMdwh1IPMjOc3SeVCUUvEbftCzeBbec7peNNbL0p78q5q9
-         K8eXGg7lsqV7FacR6TtJQzQiV1Vi1VOKJc9BA=
+        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FIZ+voj/c9MI1XNZCdVo5wLfUBVvakbwmwUMg+EAre4=;
+        b=wgiVfoBtsfnb760SD25OJ98ei0mkYq6c71/tO7C5cHiQbd2qlg2MbnMG8Kir1vy5Ve
+         xIl4Qna7eaw1PwZkwpqphHHEBDYuDCgoaI5nx3HLJ2ZYIzPFVMOSYdFAUzPPqsykCR9g
+         iLyVcOhV8lRGrPCJwvAKMFZIeFpALVDYIATALQ4SzrqN4Q48nfnkckZLqOKguDTcSqYD
+         3T/+vG5cYQl+bIEPWO6Ip2mO/4HIyUbvYuxfiF75/4Zhu60ztobZ2lisEFUc036Cvmze
+         9y/5h8DyFOz9X0n/a21JSTVjryRQ9KKrNlwwvns7+hNlvSKUUjmkz+kcCz2UoWL7VX4t
+         znlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=wG9Dta0CaSLcShWSym55/bpGe6Fxr6HiM0MjsqM0GpA=;
-        b=MVGa5EN47pPvNiA4+7Q+VaU0bVgEcpN5deBXN5JP4M6YQYYQVzOjAN4ilmNGo5rJRD
-         ZvWfKeuADONv7YixmWRTh8p4aA4BIlMjkvHNUK5DFGD44ASuLqcUaabafXqapTUWez8c
-         VWA/EC5f2HiKkljHMzew8IILBW4ZGpkwY2c61wMubccXn8xvShfx4OAa98uEvl7Nr+6J
-         clInIYMv07QBIKF1RrJFdwjKaOHcCp5f5PA600iSvOgDeMvXDK2ekqrMszy9W+1gXxNe
-         BKDzOTfJ+f538egm0RwUjfkSjPEsTZAO240iOEBQdwAuUywKk13ju7FhKs2wuUKDGYb+
-         bwYA==
-X-Gm-Message-State: AOAM533xrUk9yCUb59r3Ox7j/1iGBFu6IOqtiLcSpYb6925JbKIy3w6p
-        /SMpxUzKoDXtJWhfpy/eXTouCQ==
-X-Google-Smtp-Source: ABdhPJy4RupA0RXG/bNF7PD78NvJ0QKf6Vd2VyhKKxTlhoDXSliYWWTxh9uksBg5g2Gs/DhKchOnWw==
-X-Received: by 2002:a5d:5257:: with SMTP id k23mr9894401wrc.328.1621606870495;
-        Fri, 21 May 2021 07:21:10 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id q62sm6358399wma.42.2021.05.21.07.21.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 07:21:09 -0700 (PDT)
-Date:   Fri, 21 May 2021 16:21:07 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [Linaro-mm-sig] [RFC 1/3] dma-fence: Add boost fence op
-Message-ID: <YKfB06kpmrb56etU@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Rob Clark <robdclark@gmail.com>, Rob Clark <robdclark@chromium.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-References: <20210519183855.1523927-2-robdclark@gmail.com>
- <8dcdc8d5-176c-f0ad-0d54-6466e9e68a0a@amd.com>
- <CAF6AEGtg_VnxYrj94AfbAfViK1v8U0ZJyfJjS4taVLMF=YVy+w@mail.gmail.com>
- <d65acf46-4c3b-4903-6222-0b81915d355d@amd.com>
- <CAF6AEGvm1tFwpfyJrX1bTGoHg_wzKKLQvSk2qLHf3XeqvEzDPA@mail.gmail.com>
- <e8f3d71c-7025-deab-4dd7-14f3fa6a8810@gmail.com>
- <YKaPf3VLfjoZJRw7@phenom.ffwll.local>
- <4244879a-e2b8-7994-e3fb-f63c0e115a2c@amd.com>
- <CAKMK7uHROqWzTaG-JDzd343WJJiJCbzEOCZ++oCmKrQJAQgo7A@mail.gmail.com>
- <17f7e755-fce2-b7cf-dd6f-0a0dec618bba@amd.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FIZ+voj/c9MI1XNZCdVo5wLfUBVvakbwmwUMg+EAre4=;
+        b=oytytPwGKK0qIlT2ZYtrvENAb9IaixtS0D1DYLQpnfVDYbpRP4ywMGggmvOospq8V4
+         z1r+MXQqvjy9W/8ealqovp1Gf80Kpj6KL1AXFtNjHqKrLGzRy3Y809ETnx+X/srw1EOl
+         5S1L+nuSkijLeAwnS0bSGf9xrZ3/3a+7iFh0TxrxS3aOHtY4PtaY264YlaN+bi3EXxfw
+         pcEftIEoeIhMKjwnggESCxwipW2ou6jhZu+/LYz4tujIByhh/YKPldPsaSQsPTZ3PTWK
+         cU1NPMsMeMT7beuquvcdudhAg25F793qRga3NtRkXUga7OI4EhQHbl1SzwxrdypBmKfa
+         xdHg==
+X-Gm-Message-State: AOAM533ZLk2XccWbWFwbbxT04ty4N3uUK5W8WMHT2oF0pi4G9yjHH9Xv
+        2K7KNc8ElRbb+2ABOUJWh+XsPf4cCxyd/t9wbzd4FA==
+X-Google-Smtp-Source: ABdhPJy9jM+G2t4x0sjzdLAQ6Y0lsdzYtLCKmjrIGe2I5vshNqRTzM9sOgVtU0Yf2DFuJf0O7RD/4iCjzzl5G2P/Jl8=
+X-Received: by 2002:a17:902:fe02:b029:f5:6e58:91c0 with SMTP id
+ g2-20020a170902fe02b02900f56e5891c0mr12414895plj.81.1621607130249; Fri, 21
+ May 2021 07:25:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <17f7e755-fce2-b7cf-dd6f-0a0dec618bba@amd.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+References: <CAOMZO5CacHaESju9XQU1C7NU41Myk1-2_+7sju1dnCZuqRv98Q@mail.gmail.com>
+ <CAJ+vNU09LC1i_-HzybPSy02DY5x-JNfMrO9wPMsb5BSK0ofEYg@mail.gmail.com>
+ <CAOMZO5DJ0Y5CaeBLanQssqsb6fA5ma+B363g=d33BPb9+me3wQ@mail.gmail.com> <CAOMZO5BCDMnPT3m=usxWrhVmEw+a9X8uCnv-J5gv4JQC8UCYWA@mail.gmail.com>
+In-Reply-To: <CAOMZO5BCDMnPT3m=usxWrhVmEw+a9X8uCnv-J5gv4JQC8UCYWA@mail.gmail.com>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Fri, 21 May 2021 07:25:18 -0700
+Message-ID: <CAJ+vNU1e5m45xSRqFJPSKqEL-bOLsGX+OhOFA5vERob+o1SYUg@mail.gmail.com>
+Subject: Re: adv7280: Scrolling images on imx6
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 21, 2021 at 09:43:59AM +0200, Christian König wrote:
-> Am 20.05.21 um 19:08 schrieb Daniel Vetter:
-> > [SNIP]
-> > > AH! So we are basically telling the fence backend that we have just
-> > > missed an event we waited for.
-> > > 
-> > > So what we want to know is how long the frontend wanted to wait instead
-> > > of how long the backend took for rendering.
-> > tbh I'm not sure the timestamp matters at all. What we do in i915 is
-> > boost quite aggressively, and then let the usual clock tuning wittle
-> > it down if we overshot. Plus soom cool-down to prevent
-> > abuse/continuous boosting. I think we also differentiate between
-> > display boost and userspace waits.
-> 
-> I was not thinking about time stamps here, but more like which information
-> we need at which place.
-> 
-> > On the display side we also wait until the vblank has passed we aimed
-> > for (atm always the next, we don't have target_frame support like
-> > amdgpu), to avoid boosting when there's no point.
-> > 
-> > > > So boosting right when you've missed your frame (not what Rob implements
-> > > > currently, but fixable) is the right semantics.
-> > > > 
-> > > > The other issue is that for cpu waits, we want to differentiate from fence
-> > > > waits that userspace does intentially (e.g. wait ioctl) and waits that
-> > > > random other things are doing within the kernel to keep track of progress.
-> > > > 
-> > > > For the former we know that userspace is stuck waiting for the gpu, and we
-> > > > probably want to boost. For the latter we most definitely do _not_ want to
-> > > > boost.
-> > > > 
-> > > > Otoh I do agree with you that the current api is a bit awkward, so perhaps
-> > > > we do need a dma_fence_userspace_wait wrapper which boosts automatically
-> > > > after a bit. And similarly perhaps a drm_vblank_dma_fence_wait, where you
-> > > > give it a vblank target, and if the fence isn't signalled by then, we kick
-> > > > it real hard.
-> > > Yeah, something like an use case driven API would be nice to have.
-> > > 
-> > > For this particular case I suggest that we somehow extend the enable
-> > > signaling callback.
-> > > 
-> > > > But otherwise yes this is absolutely a thing that matters a ton. If you
-> > > > look at Matt Brost's scheduler rfc, there's also a line item in there
-> > > > about adding this kind of boosting to drm/scheduler.
-> > > BTW: I still can't see this in my inbox.
-> > You've replied already:
-> > 
-> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2F20210518235830.133834-1-matthew.brost%40intel.com%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Ce4f3688b832842c4236e08d91bb1e148%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637571273080820910%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=uk3Gs%2FW42BDqMuMJtujcAH5GvN8mOlDnmywK8x1I%2F0k%3D&amp;reserved=0
-> 
-> Yeah, but doesn't that also require some changes to the DRM scheduler?
-> 
-> I was expecting that this is a bit more than just two patches.
+On Thu, May 20, 2021 at 4:42 PM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> Hi Tim,
+>
+> On Tue, Apr 27, 2021 at 12:51 PM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> > I didn't apply Matthew's patch and I am getting a good quality image though.
+> >
+> > What is the problem you notice when not applying this patch?
+>
+> Now I see the problem when an NTSC camera is used.
+>
+> I confirm that Matthew's patch fixes the issue.
+>
 
-It's just the rfc document, per the new rfc process:
+Fabio,
 
-https://dri.freedesktop.org/docs/drm/gpu/rfc/
+Yes sorry for not getting back to you on this. I actually haven't had
+time to go find the proper board and test it. You are correct, the
+scrolling sync issue on the adv7280 occurs with NTSC. I'm still not
+sure how best to fix this as the patch was Nak'd. As discussed I guess
+we will have to do something with a kernel param. I am told that we
+should not attempt to normalize default configurations among the
+various chips the adv7180 driver supports as it may break someone's
+current use of them.
 
-It's rather obviously not any piece of code in there, but just meant to
-check rough direction before we go rewrite the entire i915 execbuf
-frontend.
--Daniel
-
-> 
-> Christian.
-> 
-> > 
-> > It's just the big picture plan of what areas we're all trying to
-> > tackle with some why, so that everyone knows what's coming in the next
-> > half year at least. Probably longer until this is all sorted. I think
-> > Matt has some poc hacked-up pile, but nothing really to show.
-> > -Daniel
-> > 
-> > > Do you have a link?
-> > > 
-> > > Christian.
-> > > 
-> > > > -Daniel
-> > > > 
-> > > > 
-> > > > > Regards,
-> > > > > Christian.
-> > > > > 
-> > > > > > BR,
-> > > > > > -R
-> > > > > > 
-> > > > > > > Thanks,
-> > > > > > > Christian.
-> > > > > > > 
-> > > > > > > > BR,
-> > > > > > > > -R
-> > > > > > > > 
-> > > > > > > > > Christian.
-> > > > > > > > > 
-> > > > > > > > > Am 19.05.21 um 20:38 schrieb Rob Clark:
-> > > > > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > > > > > 
-> > > > > > > > > > Add a way to hint to the fence signaler that a fence waiter has missed a
-> > > > > > > > > > deadline waiting on the fence.
-> > > > > > > > > > 
-> > > > > > > > > > In some cases, missing a vblank can result in lower gpu utilization,
-> > > > > > > > > > when really we want to go in the opposite direction and boost gpu freq.
-> > > > > > > > > > The boost callback gives some feedback to the fence signaler that we
-> > > > > > > > > > are missing deadlines, so it can take this into account in it's freq/
-> > > > > > > > > > utilization calculations.
-> > > > > > > > > > 
-> > > > > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > > > > > ---
-> > > > > > > > > >       include/linux/dma-fence.h | 26 ++++++++++++++++++++++++++
-> > > > > > > > > >       1 file changed, 26 insertions(+)
-> > > > > > > > > > 
-> > > > > > > > > > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > > > > > > > > > index 9f12efaaa93a..172702521acc 100644
-> > > > > > > > > > --- a/include/linux/dma-fence.h
-> > > > > > > > > > +++ b/include/linux/dma-fence.h
-> > > > > > > > > > @@ -231,6 +231,17 @@ struct dma_fence_ops {
-> > > > > > > > > >           signed long (*wait)(struct dma_fence *fence,
-> > > > > > > > > >                               bool intr, signed long timeout);
-> > > > > > > > > > 
-> > > > > > > > > > +     /**
-> > > > > > > > > > +      * @boost:
-> > > > > > > > > > +      *
-> > > > > > > > > > +      * Optional callback, to indicate that a fence waiter missed a deadline.
-> > > > > > > > > > +      * This can serve as a signal that (if possible) whatever signals the
-> > > > > > > > > > +      * fence should boost it's clocks.
-> > > > > > > > > > +      *
-> > > > > > > > > > +      * This can be called in any context that can call dma_fence_wait().
-> > > > > > > > > > +      */
-> > > > > > > > > > +     void (*boost)(struct dma_fence *fence);
-> > > > > > > > > > +
-> > > > > > > > > >           /**
-> > > > > > > > > >            * @release:
-> > > > > > > > > >            *
-> > > > > > > > > > @@ -586,6 +597,21 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
-> > > > > > > > > >           return ret < 0 ? ret : 0;
-> > > > > > > > > >       }
-> > > > > > > > > > 
-> > > > > > > > > > +/**
-> > > > > > > > > > + * dma_fence_boost - hint from waiter that it missed a deadline
-> > > > > > > > > > + *
-> > > > > > > > > > + * @fence: the fence that caused the missed deadline
-> > > > > > > > > > + *
-> > > > > > > > > > + * This function gives a hint from a fence waiter that a deadline was
-> > > > > > > > > > + * missed, so that the fence signaler can factor this in to device
-> > > > > > > > > > + * power state decisions
-> > > > > > > > > > + */
-> > > > > > > > > > +static inline void dma_fence_boost(struct dma_fence *fence)
-> > > > > > > > > > +{
-> > > > > > > > > > +     if (fence->ops->boost)
-> > > > > > > > > > +             fence->ops->boost(fence);
-> > > > > > > > > > +}
-> > > > > > > > > > +
-> > > > > > > > > >       struct dma_fence *dma_fence_get_stub(void);
-> > > > > > > > > >       u64 dma_fence_context_alloc(unsigned num);
-> > > > > > > > > > 
-> > > > > > _______________________________________________
-> > > > > > Linaro-mm-sig mailing list
-> > > > > > Linaro-mm-sig@lists.linaro.org
-> > > > > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.linaro.org%2Fmailman%2Flistinfo%2Flinaro-mm-sig&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Ce4f3688b832842c4236e08d91bb1e148%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637571273080820910%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=lOOKD4J4h7byys2ifx0Ibn5vVr9gwZGGGsgrNmaymc4%3D&amp;reserved=0
-> > 
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Tim
