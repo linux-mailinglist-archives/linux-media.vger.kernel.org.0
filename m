@@ -2,107 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A604D38BC50
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 04:15:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C73438C02D
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 09:01:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237941AbhEUCQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 May 2021 22:16:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45864 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232979AbhEUCQe (ORCPT
+        id S234617AbhEUHDO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 03:03:14 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:50553 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230257AbhEUHDO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 May 2021 22:16:34 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 257C4C061574;
-        Thu, 20 May 2021 19:15:12 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id i5so13168051pgm.0;
-        Thu, 20 May 2021 19:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dLz7aGadF+Xv8kztA4v+2siux99sGnYrpna00jPGZa8=;
-        b=KfeFyY1X93WLYvQD5maNBWuyjPmwAHN94p00zMt3KkNC8Ite9P0I9CVAoItqpBM4Ej
-         g0AIdkX4hO6gyksRyv1r5qOyXy3+D2cKGM4yt419UZ2ohEKdw01GgPdGBcZ04Gc9BZXo
-         u4PGL31HI8FXy16OaZz18h+0Sf1rrVvr2p4JaJ3wu/Ty8wWYUu8I6/jx7k17esthOYRl
-         pO1U3/W8456/4CgAlYUkf2Tx/IsC2BaDPPiu8PHI0XoE8dBe56V1Qt/U50kwZUYtzadu
-         wvG+R9HeLqjUiT/FJzrB9/g7Mz6yIJxKf84/yVqt4LM/+xZL1Ha+z0YVospFGAdsSv71
-         eOaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dLz7aGadF+Xv8kztA4v+2siux99sGnYrpna00jPGZa8=;
-        b=QwmEvdMixa5iCG8cTmJDBMc4jkrGRAeVBpTNFepcOvGgK5wDuP9z/b2sqT4QxU8M1s
-         Puk+w655/T7e+fxcLx8o7ZR3IGqyTwOkJ8wsgzvK1/KzMlnQr2TNnq7Mry6tRqHnbaSm
-         6/o8P3OH6QSrJhT/ZA6dBGn6HcsZGifGY1EXAmdspYB1RS/vyUeNb1bpUNswqoitE+BE
-         mQtyZT7pZ3U+/p2IGgE0XXr6DlEL5ze1qr80VlyzisF/NDD3cVIBlo8qJvovUvmEY4dV
-         YqEzIEWdkGdN8aajke9j/QBuaRtLmzfV0eR9GdQffNsAc46570vxCzDs6UoAFZIg2WgE
-         jUwQ==
-X-Gm-Message-State: AOAM531EvW74N3NQVLNjo+cR1tdyrjTk+SvN7+EI6uGhDIW079eW/Gpq
-        ffaTwmWJj7KsTRgtRomqxH4R9psolWy8F0eC
-X-Google-Smtp-Source: ABdhPJzvtWdnQpDzsPFcvca+oidldFST5RqHZtrj3v/QvQZ3M6NhLldggj/UtI1x3jn4lwAbfS312Q==
-X-Received: by 2002:a05:6a00:b51:b029:2d5:874a:6bd7 with SMTP id p17-20020a056a000b51b02902d5874a6bd7mr7922656pfo.6.1621563311585;
-        Thu, 20 May 2021 19:15:11 -0700 (PDT)
-Received: from yanshuaijun.ccdomain.com ([103.220.76.197])
-        by smtp.gmail.com with ESMTPSA id a23sm2474346pjo.21.2021.05.20.19.15.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 19:15:10 -0700 (PDT)
-From:   Herman <herman.yim88@gmail.com>
-X-Google-Original-From: Herman <yanshuaijun@yulong.com>
-To:     mikhail.ulyanov@cogentembedded.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Herman <yanshuaijun@yulong.com>
-Subject: [PATCH] drivers/media/platform/Rcar_jpu.c : fix typo issues
-Date:   Fri, 21 May 2021 10:14:57 +0800
-Message-Id: <20210521021457.6977-1-yanshuaijun@yulong.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 21 May 2021 03:03:14 -0400
+X-UUID: e343d66a90cf40b5a507c0856315c43b-20210521
+X-UUID: e343d66a90cf40b5a507c0856315c43b-20210521
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 389252559; Fri, 21 May 2021 15:01:47 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 21 May 2021 15:01:43 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 21 May 2021 15:01:42 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yong Wu <yong.wu@mediatek.com>
+CC:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v4,0/6] Support H264 4K on MT8192
+Date:   Fri, 21 May 2021 15:01:33 +0800
+Message-ID: <20210521070139.20644-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-change 'requerment' into 'requirement'
-change 'quantanization' into 'quantization'
-change 'qantization' into 'quantization'
+Add MT8192 H264 venc driver and support H264 4K encoding on MT8192.
 
-Signed-off-by: Herman <yanshuaijun@yulong.com>
----
- drivers/media/platform/rcar_jpu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Change notes:
+v4: rebase on Linux 5.13-rc1
 
-diff --git a/drivers/media/platform/rcar_jpu.c b/drivers/media/platform/rcar_jpu.c
-index a7c198c17deb..f57158bf2b11 100644
---- a/drivers/media/platform/rcar_jpu.c
-+++ b/drivers/media/platform/rcar_jpu.c
-@@ -42,7 +42,7 @@
- 
- /*
-  * Align JPEG header end to cache line to make sure we will not have any issues
-- * with cache; additionally to requerment (33.3.27 R01UH0501EJ0100 Rev.1.00)
-+ * with cache; additionally to requirement (33.3.27 R01UH0501EJ0100 Rev.1.00)
-  */
- #define JPU_JPEG_HDR_SIZE		(ALIGN(0x258, L1_CACHE_BYTES))
- #define JPU_JPEG_MAX_BYTES_PER_PIXEL	2	/* 16 bit precision format */
-@@ -121,7 +121,7 @@
- #define JCCMD_JEND	(1 << 2)
- #define JCCMD_JSRT	(1 << 0)
- 
--/* JPEG code quantanization table number register */
-+/* JPEG code quantization table number register */
- #define JCQTN	0x0c
- #define JCQTN_SHIFT(t)		(((t) - 1) << 1)
- 
-@@ -1644,7 +1644,7 @@ static int jpu_probe(struct platform_device *pdev)
- 		goto device_register_rollback;
- 	}
- 
--	/* fill in qantization and Huffman tables for encoder */
-+	/* fill in quantization and Huffman tables for encoder */
- 	for (i = 0; i < JPU_MAX_QUALITY; i++)
- 		jpu_generate_hdr(i, (unsigned char *)jpeg_hdrs[i]);
- 
+Alexandre Courbot (1):
+  media: mtk-vcodec: venc: remove redundant code
+
+Irui Wang (5):
+  dt-bindings: media: mtk-vcodec: Add dma-ranges property
+  media: mtk-vcodec: Support 4GB~8GB range iova space for venc
+  dt-bindings: media: mtk-vcodec: Add binding for MT8192 VENC
+  media: mtk-vcodec: Add MT8192 H264 venc driver
+  media: mtk-vcodec: Support MT8192 H264 4K encoding
+
+ .../bindings/media/mediatek-vcodec.txt        |  3 +
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  1 +
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 89 +++++++++++--------
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 17 ++++
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   |  4 +
+ 5 files changed, 78 insertions(+), 36 deletions(-)
+
 -- 
-2.25.1
+2.18.0
 
