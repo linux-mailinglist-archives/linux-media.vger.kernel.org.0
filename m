@@ -2,119 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26F9638CE5F
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 21:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7675338CEA3
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 22:08:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235919AbhEUTtg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 May 2021 15:49:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51009 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229518AbhEUTtg (ORCPT
+        id S231837AbhEUUJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 16:09:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33780 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231295AbhEUUJp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 May 2021 15:49:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621626492;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=dcVKe0qdt5wPmssTiHpynTzWxX54hdMY2B36rci5X+Q=;
-        b=J++/KxGQEocKpjRIRcFQGc+6qqHA8USJfHh+RXYbcHRgBW4FZI/5MN85xdl4H6BVxAgF2w
-        PJHJb4hpQldE/hW8UxCr7f+DdAGcDy4/60RiUJRijGhTB2yrD/v1jQnWAYCyy6dmR4VTtB
-        SloJsqyHlYLq6/95JfuUy7lE2V9eoNA=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-Bs0EDtvoOvCH2iQLDkP0Vg-1; Fri, 21 May 2021 15:48:10 -0400
-X-MC-Unique: Bs0EDtvoOvCH2iQLDkP0Vg-1
-Received: by mail-ot1-f72.google.com with SMTP id d17-20020a0568300051b02902eef7abfb41so13756971otp.17
-        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 12:48:10 -0700 (PDT)
+        Fri, 21 May 2021 16:09:45 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0B7AC06138B
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 13:08:21 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id j10so31383469lfb.12
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 13:08:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=xvfpVd2OzH4+o/D/vVDC31Zzvji7CpUDutlyGbWSS2M=;
+        b=EbaAG9yK/DK3FcwWC04VW6QzRYN89xRqlD00mrvuESUFgBxV9HY8hkAXOyT5Lt0xpx
+         PppMV5UTCm21S4B9qt/ncdmHkOMYb27DbVQ9WV5E09GdcFKA0hRbhSVghHeaEPPoJaSb
+         dEcBcUUDgAw4ejb0yilsMouDiF0KWMY5GDKlYDPEhctNS87/jVTGh5VE5vDzRgUx3Q1P
+         ImYqL0JyA4p95+SC38XbOoxlTbUyOgGY7+aBPyPpC6NgRTzAHg92siUlFxEhm3olReik
+         2zNUFAEeFXvA/EXlg42qs5DoJCeGPD0efucoC+esFnELqjhO9qUj2rveosnwnT78ncVZ
+         PUhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dcVKe0qdt5wPmssTiHpynTzWxX54hdMY2B36rci5X+Q=;
-        b=fu1t0nOPLhhFhNnm6RgDr7mIwl+cYPJYGgBJy1zwSoh+L/iuXHbjxlRG3j+gF//nu9
-         NUwSKE4NAKxNs/Cioga9BeKocBca4OxEnd+kTl0+OiLKvP/gdlr1GIazWGFXUWVHERk+
-         xqnBkpnTQKY/klY2OV9N/5jCZSNyspKxCpV/rimnk5tjuG8T9VWVhnoWGwqNwBTex8L+
-         pvFhN0qvU0rZWWc6vUTh9fjqsvBy1RkJ2WDDwCWQd/M8FuPykjYnqPqbpKe/f2QRN0IT
-         usYO+rCrHiyE8X5e/QCURvZPsKJCnb4Za5l3sqqUhouVVmPAH0zz0S86tk2dh8w82hgl
-         LDIw==
-X-Gm-Message-State: AOAM530DnDoOZpOrdWuYtXyCKV+vsuXXYYKMMwPnIOGXf8Z6ESlp8F5i
-        KQB7tt+45j3yIx7fjjQN3EWQUx2V2rCPvRYUa2jJ/y3njxH1ChK5MS5VKvb8PGPsWiBta8M24w2
-        JZHYZXX8MRL8yde0G7QqzvSM=
-X-Received: by 2002:a05:6808:6c5:: with SMTP id m5mr3394624oih.128.1621626490083;
-        Fri, 21 May 2021 12:48:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYrYQGPQcv+yBq3l/flebYi1hTX+R84vJTx8eoodbyd7DfEsBjcEW5UppYT9L2Rb+H4ngnOw==
-X-Received: by 2002:a05:6808:6c5:: with SMTP id m5mr3394619oih.128.1621626489952;
-        Fri, 21 May 2021 12:48:09 -0700 (PDT)
-Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id w20sm1302157oic.54.2021.05.21.12.48.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 12:48:09 -0700 (PDT)
-From:   trix@redhat.com
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-        drv@mailo.com, martinsdecarvalhobeatriz@gmail.com
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Tom Rix <trix@redhat.com>
-Subject: [PATCH] media: staging: atomisp: improve error handling in gc2235_detect()
-Date:   Fri, 21 May 2021 12:48:05 -0700
-Message-Id: <20210521194805.2078135-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xvfpVd2OzH4+o/D/vVDC31Zzvji7CpUDutlyGbWSS2M=;
+        b=eQN4hG04FX2dLclyEdy79SypBA8PR4CQvS7lXrjMAwDeWNw6fL2xtwt44otxsu0rNY
+         2qC2S/UvrNVVGFdLOd4YTM3Qw7D/rgcZ2UsLts+QEGCQXTj0u2DrmzXD9TE2V6pYHuzm
+         q/AOZdeONyNOr6/ZfHgWKyZcYQ65aNUatO/POtCX1K6HXDYGbDdJn6J1xI3gY9FseIAZ
+         u4lSQdr4KzFPcVGBGBdywenjStFdAvbb6+hwo8XXj+STFi972RSFldVSHiO3Ce/9IHZi
+         ACRW0zD5TT56NqDt6Mnw/aTM9qL9Qq5Hfv/K9LzqSG+elyWJ2zlplaOnNSGaSAsukmJB
+         sSuA==
+X-Gm-Message-State: AOAM530fo+Kf+AEUxyPW0B0c1fVAslZbogE0XIrutIZSuCZiwD8LpqoH
+        JC01qXMIHIi1kPt71JsJPzzbfus60rSFDiQbYLE6vQ==
+X-Google-Smtp-Source: ABdhPJwkNqh6VetR4pQ9osWleGLD8Gu670e5ZwNiJj7gabab2EtxcbnJLTI/hP8824g6eoId8EW/5PjT89tzRHZhP7w=
+X-Received: by 2002:a19:8083:: with SMTP id b125mr3166068lfd.204.1621627700167;
+ Fri, 21 May 2021 13:08:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201110034934.70898-1-john.stultz@linaro.org> <CAF2Aj3iEUkBDyyWDT63iT_7KrquOcEo_L5rCteGF1OJg8Ux3ug@mail.gmail.com>
+In-Reply-To: <CAF2Aj3iEUkBDyyWDT63iT_7KrquOcEo_L5rCteGF1OJg8Ux3ug@mail.gmail.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Fri, 21 May 2021 13:08:07 -0700
+Message-ID: <CALAqxLVPj_dhkME24hYc_fqMOfPRydQjVLSq26gKV+pEAWaw-g@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
+ & a system-uncached implementation
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+On Fri, May 21, 2021 at 2:40 AM Lee Jones <lee.jones@linaro.org> wrote:
+> On Tue, 10 Nov 2020 at 03:49, John Stultz <john.stultz@linaro.org> wrote:
+>> This series reworks the system heap to use sgtables, and then
+>> consolidates the pagelist method from the heap-helpers into the
+>> CMA heap. After which the heap-helpers logic is removed (as it
+>> is unused). I'd still like to find a better way to avoid some of
+>> the logic duplication in implementing the entire dma_buf_ops
+>> handlers per heap. But unfortunately that code is tied somewhat
+>> to how the buffer's memory is tracked. As more heaps show up I
+>> think we'll have a better idea how to best share code, so for
+>> now I think this is ok.
+>>
+>> After this, the series introduces an optimization that
+>> =C3=98rjan Eide implemented for ION that avoids calling sync on
+>> attachments that don't have a mapping.
+>>
+>> Next, an optimization to use larger order pages for the system
+>> heap. This change brings us closer to the current performance
+>> of the ION allocation code (though there still is a gap due
+>> to ION using a mix of deferred-freeing and page pools, I'll be
+>> looking at integrating those eventually).
+>>
+>> Finally, a reworked version of my uncached system heap
+>> implementation I was submitting a few weeks back. Since it
+>> duplicated a lot of the now reworked system heap code, I
+>> realized it would be much simpler to add the functionality to
+>> the system_heap implementation itself.
+>>
+>> While not improving the core allocation performance, the
+>> uncached heap allocations do result in *much* improved
+>> performance on HiKey960 as it avoids a lot of flushing and
+>> invalidating buffers that the cpu doesn't touch often.
+>>
+>
+>
+> John, did this ever make it past v5?  I don't see a follow-up.
 
-Static analysis reports this representative problem
+So most of these have landed upstream already.
 
-atomisp-gc2235.c:867:20: warning: The right operand
-  of '|' is a garbage value
-        id = ((high << 8) | low);
-                          ^ ~~~
-When gc2235_read_reg() fails, its return val is never written.
+The one exception is the system-uncached heap implementation, as
+DanielV wanted a usecase where it was beneficial to a device with an
+open driver.
+Unfortunately this hasn't been trivial to show with the open gpu
+devices I have, but taking Nicolas Dufresne's note, we're looking to
+enable v4l2 integration in AOSP on db845c, so we can hopefully show
+some benefit there. The HAL integration work has been taking some time
+to get working though.
 
-For gc2235_detect(), high and low are or-ed and compared
-with GC2235_ID, 0x2235.  Initialize both to 0 and skip
-checking the read returns, it's errors are not passed up, only
--ENODEV is.
+So it's a bit blocked on that for now.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index 38defa0f81513..3b6e02b1f45d1 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -849,21 +849,14 @@ static int gc2235_get_fmt(struct v4l2_subdev *sd,
- static int gc2235_detect(struct i2c_client *client)
- {
- 	struct i2c_adapter *adapter = client->adapter;
--	u16 high, low;
--	int ret;
-+	u16 high = 0, low = 0;
- 	u16 id;
- 
- 	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C))
- 		return -ENODEV;
- 
--	ret = gc2235_read_reg(client, GC2235_8BIT,
--			      GC2235_SENSOR_ID_H, &high);
--	if (ret) {
--		dev_err(&client->dev, "sensor_id_high = 0x%x\n", high);
--		return -ENODEV;
--	}
--	ret = gc2235_read_reg(client, GC2235_8BIT,
--			      GC2235_SENSOR_ID_L, &low);
-+	gc2235_read_reg(client, GC2235_8BIT, GC2235_SENSOR_ID_H, &high);
-+	gc2235_read_reg(client, GC2235_8BIT, GC2235_SENSOR_ID_L, &low);
- 	id = ((high << 8) | low);
- 
- 	if (id != GC2235_ID) {
--- 
-2.26.3
-
+thanks
+-john
