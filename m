@@ -2,56 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6639D38C14B
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 10:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8B2E38C14F
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 10:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233626AbhEUIHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 May 2021 04:07:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39516 "EHLO
+        id S235291AbhEUIID (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 04:08:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232833AbhEUIHr (ORCPT
+        with ESMTP id S229807AbhEUIIA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 May 2021 04:07:47 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41665C061763
-        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 01:06:24 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id h11so17482296ili.9
-        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 01:06:24 -0700 (PDT)
+        Fri, 21 May 2021 04:08:00 -0400
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D118FC061763
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 01:06:36 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id n10so19293252ion.8
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 01:06:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=WAoGYY/IZ06EOl2sgqeBHp4au5PF0E3H2r0EKWA9o4I=;
-        b=RSqrkjnpNv3xOnHZ57xV85Uq945ViwHco45Lb/nK/s/aRNbcF9pCLsb4Y/mHIA3IYC
-         Je32opFAc0+tjj+OFJinHjPHi+Z6Eveu98JACjdv/T0YIZTwGfNRfn7QoGIU6u0xBgi4
-         kZo5mUmgF8CHehv0XiTKyEvKYc3YNgsBDXDqbt+kjVgG15OM/j8KAkYcu+n2T5Os1kyD
-         Agszq5EsRdHn8bEYnTwe5g9ZABpyl2rZxFP9/FXYrB10YlXSEICIC4Ov2ahNXLmk9rhP
-         4D6bQthjeF7dN4B8gfI0pGsqR0GP8sWzQM0lVItc/wBdFGwnlSuFFl5ZbnMiyviYnEL3
-         lwSA==
+        bh=RT+JgsYt45829ZHd2BYc40XqO99OHa9pHrzKSSD5j9A=;
+        b=kLDJ66UxJgXBhTlXqQcr4bzo/A2l5Q8HqghhVGTZn1NhjtsLvIntyyuByjyK72XJiV
+         EguZV7WiHzjL9tIOuUpIheqlo/zIR7fCiXRdRsiM9XgCDiG83jwTK8jfkfWII0aiEc+B
+         XLW4AK2y3GYblWpuR0WfCpTNh59ZKDqfw+BUVoJ2NPRJ9b+p4M7w32T5SIS0ZEyI8iTF
+         uZuzVOQ6hRqrSmIIzBC73CSBQ6vQkLdiJzGnB1y4VMW6hz66G7NvqwOFP97s21DQ5hvw
+         VPRizS0txzrgGhqLjoUKanc3unVj53BjOFJS5QE2/1UNWd370D6MHF3o4TDKN7Pdd7uN
+         yxAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WAoGYY/IZ06EOl2sgqeBHp4au5PF0E3H2r0EKWA9o4I=;
-        b=HYWv8zYkTwglKehaYQgz2rzoMaCmDcyoAvKc6uCZRMoy4Bp8dZSgMUigKwtsBQuxcO
-         vRMc5zL4ZEhFGyyKDn1cAHUOu5bqgGDH2lUimTTYyX+6ZI7C6a9PJZsxduV1HMWO/MpW
-         XOAGir/ScX61U1gXK3pY22xiSM1TLBKSYP+s1UrM5pJ64RdqFQpv+UuEhl2evZXB9f8+
-         93caOHnWPqKQO0FMTl92l7R+1+0McDZm58l5oWCY7fPL2BE6WYo4YjSZO1gEzyOMsVEs
-         1b39gf+90S8cbSxG6VVVlabiW05rCapRsEn3IPX30KZzNamQBZXPwtBjyMb0RrgOF/tk
-         jbUA==
-X-Gm-Message-State: AOAM532r9+28kHNlQZGfz6J0y4kaN6gooFsF3U74clsuqS6cSdf8H+bV
-        w4zA8GQBvki0+Ov64jhQ/1rnF4tA5kDA+/F8eogE6A==
-X-Google-Smtp-Source: ABdhPJw3h/Rdza5ih9pjbFjbrw/o2STJYHbm+xddgxIMSH3QaWhkLzFTbyk3TsjrO8vCypKIDZQWFwj1Tvz/HMgWS40=
-X-Received: by 2002:a92:520e:: with SMTP id g14mr10448898ilb.218.1621584383431;
- Fri, 21 May 2021 01:06:23 -0700 (PDT)
+        bh=RT+JgsYt45829ZHd2BYc40XqO99OHa9pHrzKSSD5j9A=;
+        b=LEwCQdkmYpdXshkeV1dgg4SfFsw3f9cW4F/pJ1IpQh4yXV/AjnYphxqHBDIOR2Poza
+         YbnROKmwplk2RmzGZxXs3+fWyP3VZNi18DsAIF5ez4iuqQc5rzG6/yKR7w3ADGfRuEv8
+         hIOt1sC69PYnaC48Ak9sqyMKaHLmLzzbvGyCQPIYdP/vu7MF6IeNTWSSjzcLy2aqVrE5
+         /t9RGYF0fO8CTzt/Gp3+mfix70jNL1sSp/KiKTiFzr8b5xS81ePQyQC1OogWwdE0T0yr
+         Vdr54a2h+zi4RsF/GjIxnvVXqrXCUv+gwCCH4Q1Jix57MpAIkume4aX4CD9RIz2KVY7u
+         ELDA==
+X-Gm-Message-State: AOAM5309/6OOQJ2J9vGJFw0cYQX/Dmsq1dD0Fn5/6kFwKKOxbYC8ivGr
+        M1bww7gq15ZgiauOzHAiqXxxuJLdwjbC7MBiDkHeIg==
+X-Google-Smtp-Source: ABdhPJzli/TP6ekzSUzbblqRjUcznUEUpI63eE2KDBygtddGTKqTJLATk1eu/Q+8mrD9doz5sb8hrdaLnSgi1Azv0y0=
+X-Received: by 2002:a05:6638:3010:: with SMTP id r16mr2626171jak.126.1621584396061;
+ Fri, 21 May 2021 01:06:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210521070139.20644-1-irui.wang@mediatek.com> <20210521070139.20644-4-irui.wang@mediatek.com>
-In-Reply-To: <20210521070139.20644-4-irui.wang@mediatek.com>
+References: <20210521070139.20644-1-irui.wang@mediatek.com> <20210521070139.20644-6-irui.wang@mediatek.com>
+In-Reply-To: <20210521070139.20644-6-irui.wang@mediatek.com>
 From:   Tzung-Bi Shih <tzungbi@google.com>
-Date:   Fri, 21 May 2021 16:06:12 +0800
-Message-ID: <CA+Px+wXkn2ih0JdgKBOoHZU1=QqO=vE1MAP5tauHvRe=rtjg7g@mail.gmail.com>
-Subject: Re: [PATCH v4,3/6] media: mtk-vcodec: Support 4GB~8GB range iova
- space for venc
+Date:   Fri, 21 May 2021 16:06:25 +0800
+Message-ID: <CA+Px+wXOKM6y4aHsHTGOiT-VJJ=wzghNDiKSkgaxiefhs+mO3A@mail.gmail.com>
+Subject: Re: [PATCH v4,5/6] media: mtk-vcodec: Add MT8192 H264 venc driver
 To:     Irui Wang <irui.wang@mediatek.com>
 Cc:     Alexandre Courbot <acourbot@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -84,14 +83,9 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On Fri, May 21, 2021 at 3:02 PM Irui Wang <irui.wang@mediatek.com> wrote:
-> +       if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
-> +               dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
-> +
+>
+> Add MT8192 venc driver's compatible and device private data.
+>
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
 
-From your previous dt-bindings patch[1], it has 4 banks.
-> 0~4G; 4G~8G; 8G~12G; 12G~16G.
-
-But, the code treats it as a boolean.  I.e. 0~4GB if non-existent;
-otherwise, 4GB~8GB.
-
-[1]: https://patchwork.linuxtv.org/project/linux-media/patch/20210521070139.20644-3-irui.wang@mediatek.com/
+Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
