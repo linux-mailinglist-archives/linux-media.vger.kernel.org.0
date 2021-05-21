@@ -2,194 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1232E38C3AA
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 11:43:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A4B238C3D3
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 11:50:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237057AbhEUJo6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 May 2021 05:44:58 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48178 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236986AbhEUJor (ORCPT
+        id S231341AbhEUJwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 05:52:01 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:39275 "EHLO
+        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230186AbhEUJwA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 May 2021 05:44:47 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 478BC8D8;
-        Fri, 21 May 2021 11:43:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621590202;
-        bh=mN3U+w8SyVb2SmZwX/4IvpV9KdQ7sQaDay4iii/NjIU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vWG5Mm4GL9Ul9tFNskQs5qTz7dWy0BzkYnvbihcdme1l1U3cf1rRTBQQ+JEpRlPUP
-         NnMhNmUR1hJf1tcp+AVv3fOnMeDI/8IJSJ/y33bRcc0L1LVq9x8JRAccASS4+tboyD
-         ILkzjXSYsSngXCsZkDEdo2Nk9FTpRhoNsAOSYWxQ=
-Date:   Fri, 21 May 2021 12:43:20 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     devicetree@vger.kernel.org, festevam@gmail.com,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, marex@denx.de, p.zabel@pengutronix.de,
-        rmfrfs@gmail.com, robh@kernel.org, slongerbeam@gmail.com
-Subject: Re: [PATCH 00/23] media: imx: imx7-mipi-csis: Add i.MX8MM support /
- imx8mq support
-Message-ID: <YKeAuGJbr9CorhZR@pendragon.ideasonboard.com>
-References: <20210413023014.28797-1-laurent.pinchart@ideasonboard.com>
- <20210504155939.1194369-1-martin.kepplinger@puri.sm>
- <YKBRXesDsXk9K15J@pendragon.ideasonboard.com>
- <1da3de6c879474b814f4d820ca5eb5ba07174a26.camel@puri.sm>
- <YKRmhSn65fiqshsp@pendragon.ideasonboard.com>
- <7f922c8b3d4396c00ba15ad99dd572699f4b69b1.camel@puri.sm>
- <YKUy8gu3Jc3VDy5i@pendragon.ideasonboard.com>
- <f1d44bbd85edf547bc2b7c758b5e822e08cc80d0.camel@puri.sm>
- <YKZX8z1Vb0PAYk+G@pendragon.ideasonboard.com>
- <eff48d63017dc4ed1111b7d87a731d587f51885d.camel@puri.sm>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <eff48d63017dc4ed1111b7d87a731d587f51885d.camel@puri.sm>
+        Fri, 21 May 2021 05:52:00 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=alimailimapcm10staff010182156082;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0UZaz--9_1621590630;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UZaz--9_1621590630)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 21 May 2021 17:50:36 +0800
+From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To:     alexander.deucher@amd.com
+Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+        daniel@ffwll.ch, sumit.semwal@linaro.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] drm/amdgpu: Fix inconsistent indenting
+Date:   Fri, 21 May 2021 17:50:28 +0800
+Message-Id: <1621590628-75988-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+Eliminate the follow smatch warning:
 
-On Fri, May 21, 2021 at 11:25:20AM +0200, Martin Kepplinger wrote:
-> Am Donnerstag, dem 20.05.2021 um 15:37 +0300 schrieb Laurent Pinchart:
-> > On Thu, May 20, 2021 at 12:54:27PM +0200, Martin Kepplinger wrote:
-> > > Am Mittwoch, dem 19.05.2021 um 18:46 +0300 schrieb Laurent Pinchart:
-> > > > On Wed, May 19, 2021 at 05:21:11PM +0200, Martin Kepplinger wrote:
-> > > > > Am Mittwoch, dem 19.05.2021 um 04:14 +0300 schrieb Laurent Pinchart:
-> > > > > > On Tue, May 18, 2021 at 04:39:00PM +0200, Martin Kepplinger wrote:
-> > > > > > > Am Sonntag, dem 16.05.2021 um 01:55 +0300 schrieb Laurent Pinchart:
-> > > > > > > > On Tue, May 04, 2021 at 05:59:39PM +0200, Martin Kepplinger wrote:
-> > 
-> > [snip]
-> > 
-> > > I fixed mipi -> csi link. I had the DT port descriptions for mipi
-> > > csi wrong.
-> > 
-> > \o/
-> > 
-> > > now, just because I think it makes sense, I do:
-> > > 
-> > > media-ctl --set-v4l2 "'csi':0 [fmt:SGBRG10/640x480 colorspace:raw]"
-> > > 
-> > > which now prints:
-> > > 
-> > > Device topology
-> > > - entity 1: csi (2 pads, 2 links)
-> > >             type V4L2 subdev subtype Unknown flags 0
-> > >             device node name /dev/v4l-subdev0
-> > >         pad0: Sink
-> > >                 [fmt:SGBRG10_1X10/640x480 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
-> > >                 <- "imx8mq-mipi-csis.0":1 [ENABLED,IMMUTABLE]
-> > >         pad1: Source
-> > >                 [fmt:SGBRG10_1X10/640x480 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
-> > >                 -> "csi capture":0 [ENABLED,IMMUTABLE]
-> > > 
-> > > - entity 4: csi capture (1 pad, 1 link)
-> > >             type Node subtype V4L flags 0
-> > >             device node name /dev/video1
-> > >         pad0: Sink
-> > >                 <- "csi":1 [ENABLED,IMMUTABLE]
-> > > 
-> > > - entity 10: imx8mq-mipi-csis.0 (2 pads, 2 links)
-> > >              type V4L2 subdev subtype Unknown flags 0
-> > >              device node name /dev/v4l-subdev1
-> > >         pad0: Sink
-> > >                 <- "hi846 2-0020":0 []
-> > >         pad1: Source
-> > >                 -> "csi":0 [ENABLED,IMMUTABLE]
-> > 
-> > This subdev doesn't seem to report formats on its sink and source pads,
-> > which is weird. I've had a quick look at the .get_fmt() and .set_fmt()
-> > implementations in the code you've posted, and they're wrong. They
-> > shouldn't pass the calls to the source subdev with v4l2_subdev_call(),
-> > they should instead implement get and set format on this subdev. You can
-> > look at the imx7-mipi-csis driver to see how that's done. Once you'll
-> > have fixed this, you'll have to set the format on each pad with
-> > media-ctl to make sure formats through the pipeline match.
-> > 
-> > The only location where you imx8mq-mipi-csis driver should use
-> > v4l2_subdev_call() is in .s_stream(), to propagate the operation to the
-> > source.
-> > 
-> > By the way, I'd replace every occurence of "csis" with "csi2" in your
-> > driver. The name "csis" in the i.MX7 driver comes from the CSI-2 RX IP
-> > core that is named CSIS. That's not the case on the i.MX8QM.
-> > 
-> > > - entity 15: hi846 2-0020 (1 pad, 1 link)
-> > >              type V4L2 subdev subtype Sensor flags 0
-> > >              device node name /dev/v4l-subdev2
-> > >         pad0: Source
-> > >                 [fmt:SGBRG10_1X10/640x480 field:none colorspace:raw]
-> > >                 -> "imx8mq-mipi-csis.0":0 []
-> > 
-> > You need to enable this link, the following should do
-> > 
-> > media-ctl -l "'hi846 2-0020':0 -> 'imx8mq-mipi-csis.0':0 [1]"
-> 
-> ok makes sense, even though I basically just allow a set of formats
-> without yet having to configure anything format-specific (I can at
-> least use bits-per-pixel later, so it makes sense to have them).
-> nevermind. I again append the current driver I use here.
-> 
-> then I do:
-> 
-> media-ctl --set-v4l2 "'csi':0 [fmt:SGBRG10/640x480 colorspace:raw]"
-> media-ctl --set-v4l2 "'imx8mq-mipi-csi2.0':0 [fmt:SGBRG10/640x480 colorspace:raw]"
-> media-ctl -l "'hi846 2-0020':0 -> 'imx8mq-mipi-csi2.0':0 [1]"
-> 
-> which gets me:
-> 
-> Device topology
-> - entity 1: csi (2 pads, 2 links)
->             type V4L2 subdev subtype Unknown flags 0
->             device node name /dev/v4l-subdev0
-> 	pad0: Sink
-> 		[fmt:SGBRG10_1X10/640x480 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
-> 		<- "imx8mq-mipi-csi2.0":1 [ENABLED,IMMUTABLE]
-> 	pad1: Source
-> 		[fmt:SGBRG10_1X10/640x480 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
-> 		-> "csi capture":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 4: csi capture (1 pad, 1 link)
->             type Node subtype V4L flags 0
->             device node name /dev/video0
-> 	pad0: Sink
-> 		<- "csi":1 [ENABLED,IMMUTABLE]
-> 
-> - entity 10: imx8mq-mipi-csi2.0 (2 pads, 2 links)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev1
-> 	pad0: Sink
-> 		[fmt:SGBRG10_1X10/640x480]
-> 		<- "hi846 2-0020":0 [ENABLED]
-> 	pad1: Source
-> 		[fmt:SGBRG10_1X10/640x480]
-> 		-> "csi":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 15: hi846 2-0020 (1 pad, 1 link)
->              type V4L2 subdev subtype Sensor flags 0
->              device node name /dev/v4l-subdev2
-> 	pad0: Source
-> 		[fmt:SGBRG10_1X10/640x480 field:none colorspace:raw]
-> 		-> "imx8mq-mipi-csi2.0":0 [ENABLED]
+drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:449
+sdma_v5_0_ring_emit_mem_sync() warn: inconsistent indenting.
 
-This looks better.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-> but streaming still fails with:
-> 
-> [  352.255129] imx7-csi 30a90000.csi1_bridge: media bus code not compatible with the pixel format set on the video node: 1 != 0
-
-What is the capture command line ? Can you trace this (I assume the
-message is printed by capture_validate_fmt(), it's not present in
-mainline so I don't know what 1 and 0 correspond to, even though I
-suspect they would be IPUV3_COLORSPACE_* values) to see why it fails ?
-
-> [  352.266439] imx7-csi 30a90000.csi1_bridge: capture format not valid
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+index 75d7310..c45e1b0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+@@ -440,20 +440,19 @@ static void sdma_v5_0_ring_emit_ib(struct amdgpu_ring *ring,
+  */
+ static void sdma_v5_0_ring_emit_mem_sync(struct amdgpu_ring *ring)
+ {
+-    uint32_t gcr_cntl =
+-		    SDMA_GCR_GL2_INV | SDMA_GCR_GL2_WB | SDMA_GCR_GLM_INV |
+-			SDMA_GCR_GL1_INV | SDMA_GCR_GLV_INV | SDMA_GCR_GLK_INV |
+-			SDMA_GCR_GLI_INV(1);
++	uint32_t gcr_cntl = SDMA_GCR_GL2_INV | SDMA_GCR_GL2_WB | SDMA_GCR_GLM_INV |
++			    SDMA_GCR_GL1_INV | SDMA_GCR_GLV_INV | SDMA_GCR_GLK_INV |
++			    SDMA_GCR_GLI_INV(1);
+ 
+ 	/* flush entire cache L0/L1/L2, this can be optimized by performance requirement */
+ 	amdgpu_ring_write(ring, SDMA_PKT_HEADER_OP(SDMA_OP_GCR_REQ));
+ 	amdgpu_ring_write(ring, SDMA_PKT_GCR_REQ_PAYLOAD1_BASE_VA_31_7(0));
+ 	amdgpu_ring_write(ring, SDMA_PKT_GCR_REQ_PAYLOAD2_GCR_CONTROL_15_0(gcr_cntl) |
+-			SDMA_PKT_GCR_REQ_PAYLOAD2_BASE_VA_47_32(0));
++			  SDMA_PKT_GCR_REQ_PAYLOAD2_BASE_VA_47_32(0));
+ 	amdgpu_ring_write(ring, SDMA_PKT_GCR_REQ_PAYLOAD3_LIMIT_VA_31_7(0) |
+-			SDMA_PKT_GCR_REQ_PAYLOAD3_GCR_CONTROL_18_16(gcr_cntl >> 16));
++			  SDMA_PKT_GCR_REQ_PAYLOAD3_GCR_CONTROL_18_16(gcr_cntl >> 16));
+ 	amdgpu_ring_write(ring, SDMA_PKT_GCR_REQ_PAYLOAD4_LIMIT_VA_47_32(0) |
+-			SDMA_PKT_GCR_REQ_PAYLOAD4_VMID(0));
++			  SDMA_PKT_GCR_REQ_PAYLOAD4_VMID(0));
+ }
+ 
+ /**
 -- 
-Regards,
+1.8.3.1
 
-Laurent Pinchart
