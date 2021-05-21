@@ -2,91 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E04838C5D6
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 13:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6A7D38C656
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 14:18:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234806AbhEULl3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 May 2021 07:41:29 -0400
-Received: from gofer.mess.org ([88.97.38.141]:37575 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234235AbhEULlV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 May 2021 07:41:21 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 7A7DCC636F; Fri, 21 May 2021 12:39:54 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1621597194; bh=nNH5XtoC9UBrAOPRpJUJWpS23rVXETysVj2i/d51D0A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=P+4WBeMiu084vUEE/3HYe+wchXQ7CoiJE4PmxI9sktnApV3/9FWvmhaig16AOhMPv
-         hvAM7mxe6sNjWTbkwFMRbxZXNGs6vu5JS+YSqbiHinMTnVAXg2R2ckrcJUJ8dlRpTh
-         X+4cHxVBFp5l2N4cZGZq4hSGwebNwnuv/40q75P6pQ9KG1N7nyNzJkMKMRy0ZVDdgU
-         gg5FQGi/UtOPQs7ApMOpJU4G/ptquuB/36r/AP5vIQk6phM3BEZaJVRY1Q1bHgnpJS
-         KD/FS74abHH9rudh8/KIQYjk3xCCXBzUkP/HEqe7xO0bI9GX03UmiUAjYedIdE9NZG
-         oTVdfoFEOo3mQ==
-Date:   Fri, 21 May 2021 12:39:54 +0100
-From:   Sean Young <sean@mess.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Rhees <support@usbuirt.com>,
-        Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH v3 0/3] IR driver for USB-UIRT device
-Message-ID: <20210521113954.GA21275@gofer.mess.org>
-References: <cover.1620304986.git.sean@mess.org>
- <YJjrkhfN9Sgq6UX8@hovoldconsulting.com>
- <20210511103219.GA13769@gofer.mess.org>
- <YJ5cH1Z5MdZHE8HU@hovoldconsulting.com>
- <20210515092226.GA31801@gofer.mess.org>
- <YKI3vyOE8XmpNAuC@hovoldconsulting.com>
- <20210517103522.GA4644@gofer.mess.org>
- <YKZktqzkddh3amqX@hovoldconsulting.com>
+        id S232806AbhEUMTo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 08:19:44 -0400
+Received: from smtp02.smtpout.orange.fr ([80.12.242.124]:17370 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230440AbhEUMTk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 May 2021 08:19:40 -0400
+Received: from localhost.localdomain ([86.243.172.93])
+        by mwinf5d78 with ME
+        id 7QJF2500C21Fzsu03QJFo2; Fri, 21 May 2021 14:18:16 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 21 May 2021 14:18:16 +0200
+X-ME-IP: 86.243.172.93
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Yasunari.Takiguchi@sony.com, mchehab@kernel.org,
+        narmstrong@baylibre.com, sean@mess.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH 1/2] media: cxd2880-spi: Fix an error handling path
+Date:   Fri, 21 May 2021 14:18:14 +0200
+Message-Id: <28a115d7207b258715a029f822ab88f7a4ee05e6.1621599392.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKZktqzkddh3amqX@hovoldconsulting.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 20, 2021 at 03:31:34PM +0200, Johan Hovold wrote:
-> On Mon, May 17, 2021 at 11:35:22AM +0100, Sean Young wrote:
-> > On Mon, May 17, 2021 at 11:30:39AM +0200, Johan Hovold wrote:
-> > > On Sat, May 15, 2021 at 10:22:26AM +0100, Sean Young wrote:
-> > > > The other nice thing is that IR TX feeds data from an urb interrupt handler,
-> > > > so you don't need to rely userspace being scheduled quickly enough to feed
-> > > > more data before the device runs out.
-> > > 
-> > > The tty layer and tty drivers provide write buffering so that need not
-> > > be an issue.
-> >  
-> > Ok. I don't know what the size of the write buffer is or what the maximum
-> > TX size is; the IR device supports infinite streaming.
-> 
-> Our tty drivers typically have at least a 4k buffer for transmission.
-> Surely that should be enough for a remote control but perhaps there are
-> other more demanding applications?
+If an error occurs after a successful 'regulator_enable()' call,
+'regulator_disable()' must be called.
 
-That's more than enough. The most demanding consumer IR I know of, is
-an air conditioner which encodes temperature and a few others things. That's
-a maximum of 439 pulse/spaces which should into 1k.
-> 
-> > > Thanks for that pointer. Judging from a quick look, the new driver
-> > > appears to based on this one. By abstracting the serial interface bits
-> > > in a generic RC serdev/ldisc driver you may be able reuse more code,
-> > > even if I'm not in a position to judge how much of the IR protocol bits
-> > > that can be shared.
-> > 
-> > Yes, I agree. Once hotplugging is in place. If you have patches for that,
-> > please CC me and I can see if will work for IR drivers.
-> 
-> Let's hope someone steps up to fund that work then.
+Fix the error handling path of the probe accordingly.
 
-I'm just a volunteer. I've literally never heard anything about kernel work
-being funded by anyone.
+Fixes: cb496cd472af ("media: cxd2880-spi: Add optional vcc regulator")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/media/spi/cxd2880-spi.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Would you mind giving a brief summary what is needed to implement hotplugging
-for serdev? I get the impression it's not a lot of work, but I'm probably
-missing something obvious.
+diff --git a/drivers/media/spi/cxd2880-spi.c b/drivers/media/spi/cxd2880-spi.c
+index 931ec0727cd3..df1335e7061c 100644
+--- a/drivers/media/spi/cxd2880-spi.c
++++ b/drivers/media/spi/cxd2880-spi.c
+@@ -524,13 +524,13 @@ cxd2880_spi_probe(struct spi_device *spi)
+ 	if (IS_ERR(dvb_spi->vcc_supply)) {
+ 		if (PTR_ERR(dvb_spi->vcc_supply) == -EPROBE_DEFER) {
+ 			ret = -EPROBE_DEFER;
+-			goto fail_adapter;
++			goto fail_regulator;
+ 		}
+ 		dvb_spi->vcc_supply = NULL;
+ 	} else {
+ 		ret = regulator_enable(dvb_spi->vcc_supply);
+ 		if (ret)
+-			goto fail_adapter;
++			goto fail_regulator;
+ 	}
+ 
+ 	dvb_spi->spi = spi;
+@@ -618,6 +618,9 @@ cxd2880_spi_probe(struct spi_device *spi)
+ fail_attach:
+ 	dvb_unregister_adapter(&dvb_spi->adapter);
+ fail_adapter:
++	if (!IS_ERR(dvb_spi->vcc_supply))
++		regulator_disable(dvb_spi->vcc_supply);
++fail_regulator:
+ 	kfree(dvb_spi);
+ 	return ret;
+ }
+-- 
+2.30.2
 
-
-Sean
