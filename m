@@ -2,141 +2,316 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0978638C278
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 10:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4A9438C2AC
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 11:10:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235454AbhEUJBC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 May 2021 05:01:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51654 "EHLO
+        id S235567AbhEUJLc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 05:11:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234881AbhEUJAx (ORCPT
+        with ESMTP id S233695AbhEUJLb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 May 2021 05:00:53 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB99DC06138A;
-        Fri, 21 May 2021 01:59:28 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id f22so12777663pgb.9;
-        Fri, 21 May 2021 01:59:28 -0700 (PDT)
+        Fri, 21 May 2021 05:11:31 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7A47C061574
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 02:10:08 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id z17so20281547wrq.7
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 02:10:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9VVK8/1KColE59Xv+mm8AL8uAr/GCHzBnr8zfukNEnQ=;
-        b=tzlpR0iZmoOnnL3HUU+5tU3XVVpaO9lr4EYeRCULCPKhd9atNaueRaBVMauwxoFL3V
-         guhGiDAcC93SbpTyCmq3CAMSpk1TCWpnoU/dPnHUUrydMd0M7RMjARdrZtNa3NGiez8q
-         AVq8u7a+Mnsa364kIM7Y7P0cyYqGmtBaXnQms7iTyb18Cg9IOhp5ynXqI/WzUs00R/pL
-         eXqqNda9L1/0HUusHsWegsA6GENsNCUYPjTnA0AQaUX/lbrodTJ+2z3QxNIbaoDmjVz8
-         JTlBX7e79sqyjxLNYmhwUNNBfoFU8FspEUnIP2s+8LP35yVAzTjhn/0LW4lS/o1SQuc/
-         WTcA==
+        bh=uR9DJ2jr8CtcwsyrpRGKPhRjzhUtmedeglZUml8ukWI=;
+        b=D358aI72G7Z8RB1g0ZjFMZ550KSzBgA01qygw0+7GbzVZyVPpi+fbyIfMjSzFocn1M
+         ZHY3VuqQTFFGTnqiz2rrknwFjnc9bugVRhUc4PBRVYITNWRLCy+/yT9BWhDjLmoB1TLp
+         2hD2rj6mpcyXXjkmi/fOmlXrQqcqtAhn/OVVE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9VVK8/1KColE59Xv+mm8AL8uAr/GCHzBnr8zfukNEnQ=;
-        b=LcoyEX8c//Elo2IUTAO6uVy2i5zj3DbLGCxoG9XFKyF34XCN5ITAPGm6aID9zvVzsT
-         VwcJ6RKzPj+5PMO0mhfwawpxa+3mosTXJ9dqLrGPrel64lEhaty2NotLawGCRQfsN7am
-         zjIetnKM5kc3bgehKkv8/B2J+jn6uNweUbeQPlKjj0y20C5/KWZ6TjIxzLpgeg9YBVTr
-         Dgh8lz2OFccEsRFeRMC8Q0SOjcd3BGbuljRGVy1TGEoqPjkld7OzsNbLgscWeK5dhn2/
-         5W7OW4fLjxNqZ7V89NpLrn0DCghBm9nMLpSjqbfQZWhLbaI1sBZmt3fkSE4lMDC9M9d2
-         P0Yg==
-X-Gm-Message-State: AOAM532gMqAzm8bkXRDeAbS8h/bps7p0vEcr0pTj/oIMvxrPfRk+g3y2
-        EGl2jhyMPYT3XvwxTBIy4+s=
-X-Google-Smtp-Source: ABdhPJyc9Jyz5l4cpY6SfZOEGuvmlCLat0me4TBWH+8q7gJMiyUN/NrNb6qzjrqqQCVYZ1W+qfk04g==
-X-Received: by 2002:a62:e21a:0:b029:2de:4440:3a with SMTP id a26-20020a62e21a0000b02902de4440003amr9052894pfi.23.1621587568515;
-        Fri, 21 May 2021 01:59:28 -0700 (PDT)
-Received: from pride.localdomain (c-174-61-140-56.hsd1.wa.comcast.net. [174.61.140.56])
-        by smtp.gmail.com with ESMTPSA id q3sm3914489pff.142.2021.05.21.01.59.27
+        bh=uR9DJ2jr8CtcwsyrpRGKPhRjzhUtmedeglZUml8ukWI=;
+        b=ce+kqq0L1Brw2a2/VR4fZrm9SMt6c1qSPKQSPEYExw0GSjn2bUn0W14DxayI1fVmKT
+         6S6NS/uIJf4+3n9Y9jbyEegwRBYA8q3J5shIpQT2Q4ZpLNxEwBVl1xLgiaLKqvBCVHv7
+         eTCskCfzEm/XnGbWHvPPdy8uOT4EIUY1qsoGorPJQW17xnFbKQZsXcr4b+uwkohFM5j2
+         nL8NdSH002pVo/mcfLmgaO/J2AwwmYKk3M1ysiol+5W0UGTHY0z8MMYZAl0O+b2jHG7o
+         +2oUJsQeSHreSXUKzAllYnfuhmdyvsGeJIL/WA9ElUuVSoMkleO9bAtSbnsGRlNCC+5z
+         tnjw==
+X-Gm-Message-State: AOAM530cA5t1vZVhDDrYJusW0gUEQFJ+MDuYrBAI6dlAhqld06rEMVzp
+        qq3dgXb3nQwSs3zIRaSxFBJAgw==
+X-Google-Smtp-Source: ABdhPJyV03WtTPWcuWSUSfzX27B39Gja1SJYx6ys8Uq9kTJPc/guCGF6Ua1Qi84vOdtB1jBqU6XmOw==
+X-Received: by 2002:a5d:6d8f:: with SMTP id l15mr8522028wrs.313.1621588207333;
+        Fri, 21 May 2021 02:10:07 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id y2sm13589457wmq.45.2021.05.21.02.10.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 01:59:28 -0700 (PDT)
-From:   Joe Richey <joerichey94@gmail.com>
-To:     trivial@kernel.org
-Cc:     Joe Richey <joerichey@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Zhangfei Gao <zhangfei.gao@linaro.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Sasha Levin <sashal@kernel.org>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Andi Kleen <ak@linux.intel.com>, Peter Xu <peterx@redhat.com>,
-        Lei Cao <lei.cao@stratus.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org
-Subject: [PATCH v2 7/7] checkpatch: suggest _BITULL() and _BITUL() for UAPI headers
-Date:   Fri, 21 May 2021 01:58:48 -0700
-Message-Id: <20210521085849.37676-8-joerichey94@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210521085849.37676-1-joerichey94@gmail.com>
-References: <20210520104343.317119-1-joerichey94@gmail.com>
- <20210521085849.37676-1-joerichey94@gmail.com>
+        Fri, 21 May 2021 02:10:06 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Steven Price <steven.price@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH 03/11] drm/panfrost: Use xarray and helpers for depedency tracking
+Date:   Fri, 21 May 2021 11:09:51 +0200
+Message-Id: <20210521090959.1663703-3-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Joe Richey <joerichey@google.com>
+More consistency and prep work for the next patch.
 
-Instead of just ignoring UAPI headers, reccomend the UAPI compatible
-macros if a user adds something that looks like (1 << n). Normal kernel
-code will continue to get BIT_ULL() and BIT() reccomended.
+Aside: I wonder whether we shouldn't just move this entire xarray
+business into the scheduler so that not everyone has to reinvent the
+same wheels. Cc'ing some scheduler people for this too.
 
-This change also modifies the $realfile regex to match headers that have
-"include/uapi" anywhere in their path so paths like:
-    tools/include/uapi/linux/kvm.h
-    arch/x86/include/uapi/asm/hwcap2.h
-get recognized as UAPI headers.
-
-Signed-off-by: Joe Richey <joerichey@google.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- scripts/checkpatch.pl | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 41 ++++++++---------
+ drivers/gpu/drm/panfrost/panfrost_job.c | 61 ++++++++++---------------
+ drivers/gpu/drm/panfrost/panfrost_job.h |  8 ++--
+ 3 files changed, 46 insertions(+), 64 deletions(-)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index d65334588eb4..47edc61b74c2 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -7020,15 +7020,17 @@ sub process {
- 			}
- 		}
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index ca07098a6141..7977b4752b5c 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -137,12 +137,6 @@ panfrost_lookup_bos(struct drm_device *dev,
+ 	if (!job->bo_count)
+ 		return 0;
  
--# check for #defines like: 1 << <digit> that could be BIT(digit), it is not exported to uapi
--		if ($realfile !~ m@^include/uapi/@ &&
--		    $line =~ /#\s*define\s+\w+\s+\(?\s*1\s*([ulUL]*)\s*\<\<\s*(?:\d+|$Ident)\s*\)?/) {
--			my $ull = "";
--			$ull = "_ULL" if (defined($1) && $1 =~ /ll/i);
-+# check for #defines like: 1 << <digit> that could be BIT(digit) or similar
-+		if ($line =~ /#\s*define\s+\w+\s+\(?\s*1\s*([ulUL]*)\s*\<\<\s*(?:\d+|$Ident)\s*\)?/) {
-+			my $ull = (defined($1) && $1 =~ /ll/i);
-+			my $macroname = $ull ? "BIT_ULL" : "BIT";
-+			if ($realfile =~ m@include/uapi/@) {
-+				$macroname = $ull ? "_BITULL" : "_BITUL";
-+			}
- 			if (CHK("BIT_MACRO",
--				"Prefer using the BIT$ull macro\n" . $herecurr) &&
-+				"Prefer using the $macroname macro\n" . $herecurr) &&
- 			    $fix) {
--				$fixed[$fixlinenr] =~ s/\(?\s*1\s*[ulUL]*\s*<<\s*(\d+|$Ident)\s*\)?/BIT${ull}($1)/;
-+				$fixed[$fixlinenr] =~ s/\(?\s*1\s*[ulUL]*\s*<<\s*(\d+|$Ident)\s*\)?/${macroname}($1)/;
- 			}
- 		}
+-	job->implicit_fences = kvmalloc_array(job->bo_count,
+-				  sizeof(struct dma_fence *),
+-				  GFP_KERNEL | __GFP_ZERO);
+-	if (!job->implicit_fences)
+-		return -ENOMEM;
+-
+ 	ret = drm_gem_objects_lookup(file_priv,
+ 				     (void __user *)(uintptr_t)args->bo_handles,
+ 				     job->bo_count, &job->bos);
+@@ -173,7 +167,7 @@ panfrost_lookup_bos(struct drm_device *dev,
+ }
  
+ /**
+- * panfrost_copy_in_sync() - Sets up job->in_fences[] with the sync objects
++ * panfrost_copy_in_sync() - Sets up job->deps with the sync objects
+  * referenced by the job.
+  * @dev: DRM device
+  * @file_priv: DRM file for this fd
+@@ -193,22 +187,14 @@ panfrost_copy_in_sync(struct drm_device *dev,
+ {
+ 	u32 *handles;
+ 	int ret = 0;
+-	int i;
++	int i, in_fence_count;
+ 
+-	job->in_fence_count = args->in_sync_count;
++	in_fence_count = args->in_sync_count;
+ 
+-	if (!job->in_fence_count)
++	if (!in_fence_count)
+ 		return 0;
+ 
+-	job->in_fences = kvmalloc_array(job->in_fence_count,
+-					sizeof(struct dma_fence *),
+-					GFP_KERNEL | __GFP_ZERO);
+-	if (!job->in_fences) {
+-		DRM_DEBUG("Failed to allocate job in fences\n");
+-		return -ENOMEM;
+-	}
+-
+-	handles = kvmalloc_array(job->in_fence_count, sizeof(u32), GFP_KERNEL);
++	handles = kvmalloc_array(in_fence_count, sizeof(u32), GFP_KERNEL);
+ 	if (!handles) {
+ 		ret = -ENOMEM;
+ 		DRM_DEBUG("Failed to allocate incoming syncobj handles\n");
+@@ -217,16 +203,23 @@ panfrost_copy_in_sync(struct drm_device *dev,
+ 
+ 	if (copy_from_user(handles,
+ 			   (void __user *)(uintptr_t)args->in_syncs,
+-			   job->in_fence_count * sizeof(u32))) {
++			   in_fence_count * sizeof(u32))) {
+ 		ret = -EFAULT;
+ 		DRM_DEBUG("Failed to copy in syncobj handles\n");
+ 		goto fail;
+ 	}
+ 
+-	for (i = 0; i < job->in_fence_count; i++) {
++	for (i = 0; i < in_fence_count; i++) {
++		struct dma_fence *fence;
++
+ 		ret = drm_syncobj_find_fence(file_priv, handles[i], 0, 0,
+-					     &job->in_fences[i]);
+-		if (ret == -EINVAL)
++					     &fence);
++		if (ret)
++			goto fail;
++
++		ret = drm_gem_fence_array_add(&job->deps, fence);
++
++		if (ret)
+ 			goto fail;
+ 	}
+ 
+@@ -264,6 +257,8 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+ 
+ 	kref_init(&job->refcount);
+ 
++	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
++
+ 	job->pfdev = pfdev;
+ 	job->jc = args->jc;
+ 	job->requirements = args->requirements;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index f5d39ee14ab5..707d912ff64a 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -196,14 +196,21 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+ 	job_write(pfdev, JS_COMMAND_NEXT(js), JS_COMMAND_START);
+ }
+ 
+-static void panfrost_acquire_object_fences(struct drm_gem_object **bos,
+-					   int bo_count,
+-					   struct dma_fence **implicit_fences)
++static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
++					  int bo_count,
++					  struct xarray *deps)
+ {
+-	int i;
++	int i, ret;
+ 
+-	for (i = 0; i < bo_count; i++)
+-		implicit_fences[i] = dma_resv_get_excl_rcu(bos[i]->resv);
++	for (i = 0; i < bo_count; i++) {
++		struct dma_fence *fence = dma_resv_get_excl_rcu(bos[i]->resv);
++
++		ret = drm_gem_fence_array_add(deps, fence);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
+ }
+ 
+ static void panfrost_attach_object_fences(struct drm_gem_object **bos,
+@@ -236,8 +243,10 @@ int panfrost_job_push(struct panfrost_job *job)
+ 
+ 	kref_get(&job->refcount); /* put by scheduler job completion */
+ 
+-	panfrost_acquire_object_fences(job->bos, job->bo_count,
+-				       job->implicit_fences);
++	ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
++					     &job->deps);
++	if (ret)
++		goto unlock;
+ 
+ 	drm_sched_entity_push_job(&job->base, entity);
+ 
+@@ -254,18 +263,15 @@ static void panfrost_job_cleanup(struct kref *ref)
+ {
+ 	struct panfrost_job *job = container_of(ref, struct panfrost_job,
+ 						refcount);
++	struct dma_fence *fence;
++	unsigned long index;
+ 	unsigned int i;
+ 
+-	if (job->in_fences) {
+-		for (i = 0; i < job->in_fence_count; i++)
+-			dma_fence_put(job->in_fences[i]);
+-		kvfree(job->in_fences);
+-	}
+-	if (job->implicit_fences) {
+-		for (i = 0; i < job->bo_count; i++)
+-			dma_fence_put(job->implicit_fences[i]);
+-		kvfree(job->implicit_fences);
++	xa_for_each(&job->deps, index, fence) {
++		dma_fence_put(fence);
+ 	}
++	xa_destroy(&job->deps);
++
+ 	dma_fence_put(job->done_fence);
+ 	dma_fence_put(job->render_done_fence);
+ 
+@@ -308,26 +314,9 @@ static struct dma_fence *panfrost_job_dependency(struct drm_sched_job *sched_job
+ 						 struct drm_sched_entity *s_entity)
+ {
+ 	struct panfrost_job *job = to_panfrost_job(sched_job);
+-	struct dma_fence *fence;
+-	unsigned int i;
+ 
+-	/* Explicit fences */
+-	for (i = 0; i < job->in_fence_count; i++) {
+-		if (job->in_fences[i]) {
+-			fence = job->in_fences[i];
+-			job->in_fences[i] = NULL;
+-			return fence;
+-		}
+-	}
+-
+-	/* Implicit fences, max. one per BO */
+-	for (i = 0; i < job->bo_count; i++) {
+-		if (job->implicit_fences[i]) {
+-			fence = job->implicit_fences[i];
+-			job->implicit_fences[i] = NULL;
+-			return fence;
+-		}
+-	}
++	if (!xa_empty(&job->deps))
++		return xa_erase(&job->deps, job->last_dep++);
+ 
+ 	return NULL;
+ }
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+index bbd3ba97ff67..82306a03b57e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.h
++++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+@@ -19,9 +19,9 @@ struct panfrost_job {
+ 	struct panfrost_device *pfdev;
+ 	struct panfrost_file_priv *file_priv;
+ 
+-	/* Optional fences userspace can pass in for the job to depend on. */
+-	struct dma_fence **in_fences;
+-	u32 in_fence_count;
++	/* Contains both explicit and implicit fences */
++	struct xarray deps;
++	unsigned long last_dep;
+ 
+ 	/* Fence to be signaled by IRQ handler when the job is complete. */
+ 	struct dma_fence *done_fence;
+@@ -30,8 +30,6 @@ struct panfrost_job {
+ 	__u32 requirements;
+ 	__u32 flush_id;
+ 
+-	/* Exclusive fences we have taken from the BOs to wait for */
+-	struct dma_fence **implicit_fences;
+ 	struct panfrost_gem_mapping **mappings;
+ 	struct drm_gem_object **bos;
+ 	u32 bo_count;
 -- 
-2.31.1
+2.31.0
 
