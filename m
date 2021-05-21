@@ -2,108 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C37738C658
-	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 14:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3B3938C66B
+	for <lists+linux-media@lfdr.de>; Fri, 21 May 2021 14:22:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232820AbhEUMUF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 May 2021 08:20:05 -0400
-Received: from smtp02.smtpout.orange.fr ([80.12.242.124]:47454 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233556AbhEUMTx (ORCPT
+        id S231558AbhEUMYU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 May 2021 08:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41054 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231621AbhEUMYQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 May 2021 08:19:53 -0400
-Received: from localhost.localdomain ([86.243.172.93])
-        by mwinf5d78 with ME
-        id 7QJU2500J21Fzsu03QJUpX; Fri, 21 May 2021 14:18:29 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Fri, 21 May 2021 14:18:29 +0200
-X-ME-IP: 86.243.172.93
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Yasunari.Takiguchi@sony.com, mchehab@kernel.org,
-        narmstrong@baylibre.com, sean@mess.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH 2/2] media: cxd2880-spi: Fix some error messages
-Date:   Fri, 21 May 2021 14:18:27 +0200
-Message-Id: <172cc58731c52da7c7b351349118a348d34a9913.1621599392.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <28a115d7207b258715a029f822ab88f7a4ee05e6.1621599392.git.christophe.jaillet@wanadoo.fr>
-References: <28a115d7207b258715a029f822ab88f7a4ee05e6.1621599392.git.christophe.jaillet@wanadoo.fr>
+        Fri, 21 May 2021 08:24:16 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD85C061574
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 05:22:53 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id q5so20879150wrs.4
+        for <linux-media@vger.kernel.org>; Fri, 21 May 2021 05:22:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tXzqoTh9Q6otGWSG/m2z4V/r+EdDHQXeOAwek5k1Apw=;
+        b=fhGWDMtRWPPjaQRts6ngbU7RFDRPLZxsO/dYPBecxs11qDVpGOrqwFwTAclyPM2NM3
+         nJP9nH1WfXkimY2pRXSwkgLLRAM1hH5iq2wdhk6yXFysmb/2V3dCMD+m/r8bCg5pCu20
+         ytbeUFu8HYocl8xDkZD07SCx8OTWunCSNaeGb5HErEc3xvmS5tCcs72NgEZ5msvLwMmJ
+         TOWwwzflosPbtN0ZPrkoNPsHKONhitwQCzjd2zYdQDaHymQK32IP8XUOxG5tKCfgtJrg
+         sUALcf4OR6cFiuK4C+tykpV7nmZrJeviPP7dL+Zbes4wNiRGNZImMKgqKoXmpnF0BBeO
+         sm8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tXzqoTh9Q6otGWSG/m2z4V/r+EdDHQXeOAwek5k1Apw=;
+        b=cidfQNwyITwDBebB1b8UtR95ek6OieBBs4pYDWrKcW2RIJMTcwgzOm3kLNipvvxlXD
+         MrPD4lI8XXiruTA4aHl7kq0rSVUxSf44nDfiqwu3k6/gJ6J27qc05ShHHpALJ7m3CTpi
+         /NVRa6We8g4cpeiEaXVh7FdpQjkmh8O+V6tgmOHPyELaLaw55fzOuhC/7KXViLBPbAgU
+         /5DvuwvQ546THcSOoJwSHdKl+Kb3Ku+40pMVUYivwRafhsvcV259XGNe8LhPGUNOCvAS
+         dFR6D3piFiSRGijIMiH15Qg1rfayl4Es299TJfehv8cN9vxGpNLzK1HklKfitWIYIESO
+         lTow==
+X-Gm-Message-State: AOAM53161ceMRAXkVcXDxE+8HrbZ5DESFAt3J/X1IgA9+Wf8X82hpl1Q
+        gPXxfd3MR4Oy7Z4DVF8Hga+/zV/GGcFg89b8pelWlg==
+X-Google-Smtp-Source: ABdhPJzs6JDh/PVfFHAZiz0tvGCOrZlKRQmwz7h15e9g9pD1J/vW4gLLdrMc8KrEGPgbhOVJa3TJluupr6PSsDmH+Fc=
+X-Received: by 2002:adf:e70e:: with SMTP id c14mr9371714wrm.6.1621599771623;
+ Fri, 21 May 2021 05:22:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch> <20210521090959.1663703-4-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210521090959.1663703-4-daniel.vetter@ffwll.ch>
+From:   Daniel Stone <daniel@fooishbar.org>
+Date:   Fri, 21 May 2021 13:22:40 +0100
+Message-ID: <CAPj87rMBVRamT+VAVUaUnq3C1KFVqzABi99RKs=1_vyb4YWDnQ@mail.gmail.com>
+Subject: Re: [PATCH 04/11] drm/panfrost: Fix implicit sync
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Steven Price <steven.price@arm.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix some erroneous function names in some error messages.
-Remove some spurious or useless trailing and leading character in some
-messages.
+Hi,
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/spi/cxd2880-spi.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+On Fri, 21 May 2021 at 10:10, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> Currently this has no practial relevance I think because there's not
+> many who can pull off a setup with panfrost and another gpu in the
+> same system. But the rules are that if you're setting an exclusive
+> fence, indicating a gpu write access in the implicit fencing system,
+> then you need to wait for all fences, not just the previous exclusive
+> fence.
+>
+> panfrost against itself has no problem, because it always sets the
+> exclusive fence (but that's probably something that will need to be
+> fixed for vulkan and/or multi-engine gpus, or you'll suffer badly).
+> Also no problem with that against display.
 
-diff --git a/drivers/media/spi/cxd2880-spi.c b/drivers/media/spi/cxd2880-spi.c
-index df1335e7061c..88aef9333ad8 100644
---- a/drivers/media/spi/cxd2880-spi.c
-+++ b/drivers/media/spi/cxd2880-spi.c
-@@ -147,7 +147,7 @@ static int cxd2880_spi_read_ts(struct spi_device *spi,
- 
- 	ret = spi_sync(spi, &message);
- 	if (ret)
--		pr_err("spi_write_then_read failed\n");
-+		pr_err("spi_sync failed\n");
- 
- 	return ret;
- }
-@@ -401,7 +401,7 @@ static int cxd2880_start_feed(struct dvb_demux_feed *feed)
- 							      dvb_spi,
- 							      "cxd2880_ts_read");
- 		if (IS_ERR(dvb_spi->cxd2880_ts_read_thread)) {
--			pr_err("kthread_run failed/\n");
-+			pr_err("kthread_run failed\n");
- 			kfree(dvb_spi->ts_buf);
- 			dvb_spi->ts_buf = NULL;
- 			memset(&dvb_spi->filter_config, 0,
-@@ -448,7 +448,7 @@ static int cxd2880_stop_feed(struct dvb_demux_feed *feed)
- 		 * in dvb_spi->all_pid_feed_count.
- 		 */
- 		if (dvb_spi->all_pid_feed_count <= 0) {
--			pr_err("PID %d not found.\n", feed->pid);
-+			pr_err("PID %d not found\n", feed->pid);
- 			return -EINVAL;
- 		}
- 		dvb_spi->all_pid_feed_count--;
-@@ -485,7 +485,7 @@ static int cxd2880_stop_feed(struct dvb_demux_feed *feed)
- 
- 		ret_stop = kthread_stop(dvb_spi->cxd2880_ts_read_thread);
- 		if (ret_stop) {
--			pr_err("'kthread_stop failed. (%d)\n", ret_stop);
-+			pr_err("kthread_stop failed. (%d)\n", ret_stop);
- 			ret = ret_stop;
- 		}
- 		kfree(dvb_spi->ts_buf);
-@@ -512,7 +512,7 @@ cxd2880_spi_probe(struct spi_device *spi)
- 	struct cxd2880_config config;
- 
- 	if (!spi) {
--		pr_err("invalid arg.\n");
-+		pr_err("invalid arg\n");
- 		return -EINVAL;
- 	}
- 
-@@ -596,7 +596,7 @@ cxd2880_spi_probe(struct spi_device *spi)
- 	ret = dvb_spi->demux.dmx.connect_frontend(&dvb_spi->demux.dmx,
- 						  &dvb_spi->dmx_fe);
- 	if (ret < 0) {
--		pr_err("dvb_register_frontend() failed\n");
-+		pr_err("connect_frontend() failed\n");
- 		goto fail_fe_conn;
- 	}
- 
--- 
-2.30.2
+Yeah, the 'second-generation Valhall' GPUs coming later this year /
+early next year are starting to get pretty weird. Firmware-mediated
+job scheduling out of multiple queues, userspace having direct access
+to the queues and can do inter-queue synchronisation (at least I think
+so), etc. For bonus points, synchronisation is based on $addr = $val
+to signal and $addr == $val to wait, with a separate fence primitive
+as well.
 
+Obviously Arm should be part of this conversation here, but I guess
+we'll have to wait for a while yet to see how everything's shaken out
+with this new gen, and hope that whatever's been designed upstream in
+the meantime is actually vaguely compatible ...
+
+Cheers,
+Daniel
