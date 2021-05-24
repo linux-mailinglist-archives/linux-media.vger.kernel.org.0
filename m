@@ -2,73 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BAD738E696
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 14:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E79038E6A0
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 14:31:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232844AbhEXMah (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 08:30:37 -0400
-Received: from foss.arm.com ([217.140.110.172]:41710 "EHLO foss.arm.com"
+        id S232752AbhEXMcr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 08:32:47 -0400
+Received: from m12-18.163.com ([220.181.12.18]:59808 "EHLO m12-18.163.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232476AbhEXMah (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 08:30:37 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02C2C113E;
-        Mon, 24 May 2021 05:29:09 -0700 (PDT)
-Received: from C02TD0UTHF1T.local (unknown [10.57.38.161])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D91A03F719;
-        Mon, 24 May 2021 05:29:04 -0700 (PDT)
-Date:   Mon, 24 May 2021 13:29:01 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Joe Richey <joerichey94@gmail.com>, trivial@kernel.org,
-        Joe Richey <joerichey@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Zhangfei Gao <zhangfei.gao@linaro.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org
-Subject: Re: [PATCH 0/6] Don't use BIT() macro in UAPI headers
-Message-ID: <20210524122901.GH1040@C02TD0UTHF1T.local>
-References: <20210520104343.317119-1-joerichey94@gmail.com>
- <YKuSEnfEbjpOOgLS@infradead.org>
+        id S232409AbhEXMcq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 May 2021 08:32:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=sU5FY
+        b8dbRCDV7uzf79+KDS0Ydjp7nGO86CkKtG3jkY=; b=NoCqksKag7hdsEvMEK7H3
+        R76yvtwkiD3bqkWnPNIAKqHvUgIlULcVxfjqO7coRhiMp9mHz/g27CzW7ozM2T71
+        uKrG5nYLhjx51Mq/dt8uDfTIo5GJ//p0adhmQ0GY+0VEqlS4Lz1sZ1eRDkUIRw0S
+        c0k6y0W83+Q1gD5kDx4Lec=
+Received: from COOL-20201210PM.ccdomain.com (unknown [218.94.48.178])
+        by smtp14 (Coremail) with SMTP id EsCowAC3n92DnKtg2fc2lQ--.61126S2;
+        Mon, 24 May 2021 20:31:03 +0800 (CST)
+From:   zuoqilin1@163.com
+To:     mchehab@kernel.org, colin.king@canonical.com,
+        gustavoars@kernel.org, trix@redhat.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        zuoqilin <zuoqilin@yulong.com>
+Subject: [PATCH] drivers: media: Simplify the return expression
+Date:   Mon, 24 May 2021 20:31:08 +0800
+Message-Id: <20210524123108.470-1-zuoqilin1@163.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKuSEnfEbjpOOgLS@infradead.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: EsCowAC3n92DnKtg2fc2lQ--.61126S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7JF13ZF1fCw47tryktFWfuFg_yoWDZrg_KF
+        93Z3W5WrW0yF48G34Utr1xJ3s5trWYqF1vqF1UtFZxXFs3GF15Jr1DKr47XryYga17ury5
+        WFnxWr1xCr4UGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU09NVDUUUUU==
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: 52xr1xpolqiqqrwthudrp/1tbipQeciVUMeTFAxAAAsi
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 24, 2021 at 12:46:26PM +0100, Christoph Hellwig wrote:
-> On Thu, May 20, 2021 at 03:43:37AM -0700, Joe Richey wrote:
-> > This patch series changes all UAPI uses of BIT() to just be open-coded.
-> > However, there really should be a check for this in checkpatch.pl
-> > Currently, the script actually _encourages_ users to use the BIT macro
-> > even if adding things to UAPI.
-> 
-> Yes.  In fact it should warn about BIT() in general.  It is totally
-> pointless obsfucation that doesn't even save any typing at all.
+From: zuoqilin <zuoqilin@yulong.com>
 
-That's not quite true; the point is that if you use BIT() consistently,
-then even when you refer to bits 32 to 63 you won't accidentally
-introduce shifts of more than the width of int, and the definition will
-work equally well for assembly and C, which isn't true if you use `1UL`
-in the definition.
+Simplify the return expression of drxj_dap_scu_atomic_write_reg16().
 
-With that in mind it's shorter and clearer than its functional
-equivalent:
+Signed-off-by: zuoqilin <zuoqilin@yulong.com>
+---
+ drivers/media/dvb-frontends/drx39xyj/drxj.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-  BIT(x)
-  (UL(1) << (x))
+diff --git a/drivers/media/dvb-frontends/drx39xyj/drxj.c b/drivers/media/dvb-frontends/drx39xyj/drxj.c
+index bf9e4ef..108d1f4 100644
+--- a/drivers/media/dvb-frontends/drx39xyj/drxj.c
++++ b/drivers/media/dvb-frontends/drx39xyj/drxj.c
+@@ -4234,14 +4234,11 @@ int drxj_dap_scu_atomic_write_reg16(struct i2c_device_addr *dev_addr,
+ 					  u16 data, u32 flags)
+ {
+ 	u8 buf[2];
+-	int rc;
+ 
+ 	buf[0] = (u8) (data & 0xff);
+ 	buf[1] = (u8) ((data >> 8) & 0xff);
+ 
+-	rc = drxj_dap_scu_atomic_read_write_block(dev_addr, addr, 2, buf, false);
+-
+-	return rc;
++	return drxj_dap_scu_atomic_read_write_block(dev_addr, addr, 2, buf, false);
+ }
+ 
+ /* -------------------------------------------------------------------------- */
+-- 
+1.9.1
 
-So IMO it's preferable to use BIT() generally, or _BITUL() in uapi
-headers.
 
-Thanks,
-Mark.
