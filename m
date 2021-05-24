@@ -2,64 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FD1E38E5C6
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 13:47:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE96638E588
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 13:35:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232670AbhEXLtE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 07:49:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232553AbhEXLtE (ORCPT
+        id S232779AbhEXLhP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 07:37:15 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3646 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232719AbhEXLhM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 07:49:04 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A463C061574;
-        Mon, 24 May 2021 04:47:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=UEO6EAq0B/BZq9m5Zu1X6wIqhfXCfA6vaV6yeUoFwnk=; b=Or7cMQ7Nzl98SOGOLDHWQs5AkK
-        kd6QvgbIiLkHCNig8TZkoK4Qk6eNVlF8A1kPxiWTx3ZYBfDZPOecUnZcvWOhgRctNgCnWdwgB/Qkx
-        vLz/kHulVD5Q6nuLTMUhcHWhdHOikWBkftygJrUaInoHHfJgHwqdSvdqSKR/pHk8CGtAnPw9D02tj
-        DyDijYr5PtZjidf15hDW7+YrgdJ2t2IoCJ5Jbiw/8ca42BSrgNbBytwINWR8pyZ0gSJbhKsaUYEpa
-        XRN2E5K6gLTLC74ituBPeZOM9HNyHtpT5HLvKmUofGtlt98U4zea5TdBHH9bPhlQAy+2O52rgjPuk
-        bCEGnSFg==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1ll92Q-002KEc-QT; Mon, 24 May 2021 11:46:31 +0000
-Date:   Mon, 24 May 2021 12:46:26 +0100
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Joe Richey <joerichey94@gmail.com>
-Cc:     trivial@kernel.org, Joe Richey <joerichey@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Zhangfei Gao <zhangfei.gao@linaro.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org
-Subject: Re: [PATCH 0/6] Don't use BIT() macro in UAPI headers
-Message-ID: <YKuSEnfEbjpOOgLS@infradead.org>
-References: <20210520104343.317119-1-joerichey94@gmail.com>
+        Mon, 24 May 2021 07:37:12 -0400
+Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.60])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FpZn43JPrzNyhx;
+        Mon, 24 May 2021 19:32:08 +0800 (CST)
+Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
+ dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 24 May 2021 19:35:43 +0800
+Received: from huawei.com (10.175.113.32) by dggpemm500009.china.huawei.com
+ (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 24 May
+ 2021 19:35:43 +0800
+From:   Liu Shixin <liushixin2@huawei.com>
+To:     Mike Isely <isely@pobox.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH -next] [media] media: Replaced simple_strtol() with kstrtoint()
+Date:   Mon, 24 May 2021 20:08:36 +0800
+Message-ID: <20210524120836.1580468-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.18.0.huawei.25
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210520104343.317119-1-joerichey94@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500009.china.huawei.com (7.185.36.225)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 20, 2021 at 03:43:37AM -0700, Joe Richey wrote:
-> This patch series changes all UAPI uses of BIT() to just be open-coded.
-> However, there really should be a check for this in checkpatch.pl
-> Currently, the script actually _encourages_ users to use the BIT macro
-> even if adding things to UAPI.
+It looks like that memcpy() is a superfluous operation in
+parse_token()/parse_mtoken(). Simple these two functions and
+use kstrtoint() instead of simple_strtol() to avoid data
+overflow.
 
-Yes.  In fact it should warn about BIT() in general.  It is totally
-pointless obsfucation that doesn't even save any typing at all.
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+---
+ drivers/media/usb/pvrusb2/pvrusb2-ctrl.c | 25 ++----------------------
+ 1 file changed, 2 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c b/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c
+index 9f71d8c2a3c6..8ae3ad80cccb 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c
+@@ -355,11 +355,8 @@ static int parse_token(const char *ptr,unsigned int len,
+ 		       int *valptr,
+ 		       const char * const *names, unsigned int namecnt)
+ {
+-	char buf[33];
+ 	unsigned int slen;
+ 	unsigned int idx;
+-	int negfl;
+-	char *p2;
+ 	*valptr = 0;
+ 	if (!names) namecnt = 0;
+ 	for (idx = 0; idx < namecnt; idx++) {
+@@ -370,18 +367,7 @@ static int parse_token(const char *ptr,unsigned int len,
+ 		*valptr = idx;
+ 		return 0;
+ 	}
+-	negfl = 0;
+-	if ((*ptr == '-') || (*ptr == '+')) {
+-		negfl = (*ptr == '-');
+-		ptr++; len--;
+-	}
+-	if (len >= sizeof(buf)) return -EINVAL;
+-	memcpy(buf,ptr,len);
+-	buf[len] = 0;
+-	*valptr = simple_strtol(buf,&p2,0);
+-	if (negfl) *valptr = -(*valptr);
+-	if (*p2) return -EINVAL;
+-	return 1;
++	return kstrtoint(ptr, 0, valptr) ? -EINVAL : 1;
+ }
+ 
+ 
+@@ -389,10 +375,8 @@ static int parse_mtoken(const char *ptr,unsigned int len,
+ 			int *valptr,
+ 			const char **names,int valid_bits)
+ {
+-	char buf[33];
+ 	unsigned int slen;
+ 	unsigned int idx;
+-	char *p2;
+ 	int msk;
+ 	*valptr = 0;
+ 	for (idx = 0, msk = 1; valid_bits; idx++, msk <<= 1) {
+@@ -405,12 +389,7 @@ static int parse_mtoken(const char *ptr,unsigned int len,
+ 		*valptr = msk;
+ 		return 0;
+ 	}
+-	if (len >= sizeof(buf)) return -EINVAL;
+-	memcpy(buf,ptr,len);
+-	buf[len] = 0;
+-	*valptr = simple_strtol(buf,&p2,0);
+-	if (*p2) return -EINVAL;
+-	return 0;
++	return kstrtoint(ptr, 0, valptr);
+ }
+ 
+ 
+-- 
+2.18.0.huawei.25
+
