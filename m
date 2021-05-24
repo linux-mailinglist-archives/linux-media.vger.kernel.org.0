@@ -2,84 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDB7D38E506
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 13:09:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A73BE38E523
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 13:13:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232796AbhEXLLU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 07:11:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36702 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232734AbhEXLLK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 07:11:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8775361153;
-        Mon, 24 May 2021 11:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621854582;
-        bh=GVsPUYUbH6Fhhs9/c1HYG789KkLiGQmAFPvGxAEzfZw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hcwVbcNJ0Akpo4wTKnWBaTfvzngnBY9pvoRnrM6kiZoEiZBS+zyPHwbmI6J7k3Vfu
-         +kmyyh5jCP5lGK4RelfJJgRC0u09ocQLXuL271GdSQQe5HOQ3UB+oyPyiL7tYWdrzF
-         Efe217s5NENfYhE7A7VEFcDvj9lT/WNUulhVDllPe81oFARpMfKxSsxqHqCxCLDQSW
-         TAHoOFJMTP0KrPiYaxuelbp3HiYJkeVXI65AHxn0dEbwWzzYhDAqkfpm1hWlc0bEyi
-         EDgPW+nqgGTzB+tkXrfDEX+q/zR+EiUdz8JC6ZL05m/CDLo/kS9jE2eAfMtUwRR2J5
-         cwod2wQaCBeNA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1ll8Sp-0006Pt-Hr; Mon, 24 May 2021 13:09:39 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>,
-        syzbot+faf11bbadc5a372564da@syzkaller.appspotmail.com,
-        stable@vger.kernel.org, Antti Palosaari <crope@iki.fi>
-Subject: [PATCH 3/3] media: rtl28xxu: fix zero-length control request
-Date:   Mon, 24 May 2021 13:09:20 +0200
-Message-Id: <20210524110920.24599-4-johan@kernel.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210524110920.24599-1-johan@kernel.org>
-References: <20210524110920.24599-1-johan@kernel.org>
+        id S232476AbhEXLOu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 07:14:50 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5751 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232517AbhEXLOs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 May 2021 07:14:48 -0400
+Received: from dggems701-chm.china.huawei.com (unknown [172.30.72.58])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FpZHD25tNzmks2;
+        Mon, 24 May 2021 19:09:44 +0800 (CST)
+Received: from dggpeml500023.china.huawei.com (7.185.36.114) by
+ dggems701-chm.china.huawei.com (10.3.19.178) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 24 May 2021 19:13:19 +0800
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 24 May 2021 19:13:19 +0800
+From:   Shaokun Zhang <zhangshaokun@hisilicon.com>
+To:     <linux-media@vger.kernel.org>
+CC:     Shaokun Zhang <zhangshaokun@hisilicon.com>,
+        Erik Andren <erik.andren@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH] m5602_ov7660: remove the repeated declaration
+Date:   Mon, 24 May 2021 19:13:12 +0800
+Message-ID: <1621854792-18123-1-git-send-email-zhangshaokun@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The direction of the pipe argument must match the request-type direction
-bit or control requests may fail depending on the host-controller-driver
-implementation.
+Function 'ov7660_init' is declared twice, remove the repeated
+declaration.
 
-Control transfers without a data stage are treated as OUT requests by
-the USB stack and should be using usb_sndctrlpipe(). Failing to do so
-will now trigger a warning.
-
-Fix the zero-length i2c-read request used for type detection by
-attempting to read a single byte instead.
-
-Reported-by: syzbot+faf11bbadc5a372564da@syzkaller.appspotmail.com
-Fixes: d0f232e823af ("[media] rtl28xxu: add heuristic to detect chip type")
-Cc: stable@vger.kernel.org      # 4.0
-Cc: Antti Palosaari <crope@iki.fi>
-Signed-off-by: Johan Hovold <johan@kernel.org>
+Cc: Erik Andren <erik.andren@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
 ---
- drivers/media/usb/dvb-usb-v2/rtl28xxu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/usb/gspca/m5602/m5602_ov7660.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-index 97ed17a141bb..2c04ed8af0e4 100644
---- a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-+++ b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-@@ -612,8 +612,9 @@ static int rtl28xxu_read_config(struct dvb_usb_device *d)
- static int rtl28xxu_identify_state(struct dvb_usb_device *d, const char **name)
- {
- 	struct rtl28xxu_dev *dev = d_to_priv(d);
-+	u8 buf[1];
- 	int ret;
--	struct rtl28xxu_req req_demod_i2c = {0x0020, CMD_I2C_DA_RD, 0, NULL};
-+	struct rtl28xxu_req req_demod_i2c = {0x0020, CMD_I2C_DA_RD, 1, buf};
+diff --git a/drivers/media/usb/gspca/m5602/m5602_ov7660.h b/drivers/media/usb/gspca/m5602/m5602_ov7660.h
+index d60247e10c2c..6146e8ef17c0 100644
+--- a/drivers/media/usb/gspca/m5602/m5602_ov7660.h
++++ b/drivers/media/usb/gspca/m5602/m5602_ov7660.h
+@@ -86,7 +86,6 @@ extern bool dump_sensor;
  
- 	dev_dbg(&d->intf->dev, "\n");
- 
+ int ov7660_probe(struct sd *sd);
+ int ov7660_init(struct sd *sd);
+-int ov7660_init(struct sd *sd);
+ int ov7660_init_controls(struct sd *sd);
+ int ov7660_start(struct sd *sd);
+ int ov7660_stop(struct sd *sd);
 -- 
-2.26.3
+2.7.4
 
