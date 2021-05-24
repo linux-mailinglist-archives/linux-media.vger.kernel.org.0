@@ -2,182 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BA6238E410
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 12:31:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB7D538E44D
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 12:44:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232536AbhEXKdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 06:33:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34642 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232519AbhEXKdD (ORCPT
+        id S232584AbhEXKpw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 06:45:52 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60804 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232422AbhEXKpw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 06:33:03 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47FFBC061574
-        for <linux-media@vger.kernel.org>; Mon, 24 May 2021 03:31:35 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id u4-20020a05600c00c4b02901774b80945cso11148343wmm.3
-        for <linux-media@vger.kernel.org>; Mon, 24 May 2021 03:31:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vMWVKs1JTtne6DONBYbw+8L6Hg2mrUi7VKxUmAqK9nc=;
-        b=Xh6Es5DRo26hM3Plt6dQ33HvYP+A0JQCSaRwAmwdB+ZoBB5ynYz43JpTu5Ocy6oJFP
-         I5RmTUdmvzZT6tApWUmqXsu4NduYZvvPXkAQ69ilEwyWHY11514/5g4F9OPZiei8OonC
-         JnVJeW01cbT5OrWs2UKrS74pLOIY2NLa+G9r180iZVXg21Lu1VEsTmh7+dBUsNcRe90W
-         6Y75KdEZPn0tBccL7AkErf1O4PnhBfg7oKmNCt/HvysFdXjX4xlD+Ytfr0il/l7bB6Rh
-         tSshOdR8uwminTwQZ55q7+tfAXaKn6X9AJOAoT6mEtH+8Y9dotEMKZk+vnurzEvaee5o
-         5N1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vMWVKs1JTtne6DONBYbw+8L6Hg2mrUi7VKxUmAqK9nc=;
-        b=t6yoGVB36dbJDPgugCHjUww/mHMsr1mny/diK7FazOQqkbWsb5F859yXh9RcOwB3mC
-         RpCCa911l9y88/kmFqQrq0XAHbUDX7spFbrhR6gERI8Y0BevosOwxbD4LPcBjjFxJmyf
-         7WiEjzEgpWmBNvpn+GfqqN4nI6CSnyLq2jWgStfhwXbNLhjcXRIdmYe1wTk+BPPu/cZt
-         r6BU9ijI+H8qNICSjpNbCpBGXfTJhju52qcvv7TZCe7f0HB/6UfrCFKmJN/NRRjCyOGH
-         DHkpVAYfMQ0hPjwlEzlkJHq187JwXmUNO6I5DNbbNNrGe6dcoXVFdCjIbaxo2Lhm33xG
-         yxqA==
-X-Gm-Message-State: AOAM532xE5eKL/oAMZX2U2hCXdO6NRLXeeMakhjMHKerPh8MrFi7UwsR
-        8nqb0BEjnmlgbUKWtBFRApk3kcP/qnCQiBRAdzjYeA==
-X-Google-Smtp-Source: ABdhPJwU4GKReY1df/x0G0FdCA5LtZLoLE9V8bjanLspYY9hJu3SPY2IKfIUHbyAoZpS472M6E+XrrsbjYMf2XDC3J0=
-X-Received: by 2002:a05:600c:4a23:: with SMTP id c35mr19414959wmp.130.1621852293802;
- Mon, 24 May 2021 03:31:33 -0700 (PDT)
+        Mon, 24 May 2021 06:45:52 -0400
+Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 054F0140C;
+        Mon, 24 May 2021 12:44:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1621853062;
+        bh=SUizTomL128MIBXQoEsUKulMEASr8z9wEK5RNLlHBfM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=rOcsokpj70YmOTIyE/JdG0QVrHc+7SkAlQ09OTzBinVP6C06ZXP+PtjfGIp0BCjwF
+         GX7bV9J3lpt4vjvWGs0wpDj53SjSeiXVfdwehYvyA/N1/njwxZ3x9k7rXjC4VXVAGl
+         bzFV5RMP1yuiclMEDiwGDp+u0WiOvZxd29v6afIM=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+Subject: [PATCH v7 00/27] v4l: subdev internal routing and streams
+Date:   Mon, 24 May 2021 13:43:41 +0300
+Message-Id: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210517100240.3323-1-david.plowman@raspberrypi.com>
- <20210517100240.3323-3-david.plowman@raspberrypi.com> <20210519190121.GJ3@valkosipuli.retiisi.eu>
- <20210519190148.GK3@valkosipuli.retiisi.eu> <YKr8Qc65KSFBZJ2s@pendragon.ideasonboard.com>
-In-Reply-To: <YKr8Qc65KSFBZJ2s@pendragon.ideasonboard.com>
-From:   David Plowman <david.plowman@raspberrypi.com>
-Date:   Mon, 24 May 2021 11:31:22 +0100
-Message-ID: <CAHW6GYJrhWDUEhexGMAVBJDs0GG=DzhE9OjCCOzMcw0doSp_6g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAIN_XXX controls
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari, Laurent, everyone
+Hi,
 
-Thanks for the feedback.
+This is v7 of the series, the previous one is:
 
-On Mon, 24 May 2021 at 02:07, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hello,
->
-> On Wed, May 19, 2021 at 10:01:49PM +0300, Sakari Ailus wrote:
-> > Added Laurent to cc.
-> >
-> > On Wed, May 19, 2021 at 10:01:21PM +0300, Sakari Ailus wrote:
-> > > Hi David,
-> > >
-> > > Thanks for the patch.
-> > >
-> > > Cc'ing Laurent, too.
-> > >
-> > > On Mon, May 17, 2021 at 11:02:40AM +0100, David Plowman wrote:
-> > > > Add documentation for each of the controls
-> > > >
-> > > > V4L2_CID_NOTIFY_GAIN_RED
-> > > > V4L2_CID_NOTIFY_GAIN_GREENR
-> > > > V4L2_CID_NOTIFY_GAIN_BLUE
-> > > > V4L2_CID_NOTIFY_GAIN_GREENB
-> > > >
-> > > > These controls are required by sensors that need to know what colour
-> > > > gains will be applied to pixels by downstream processing (such as by
-> > > > an ISP), though the sensor does not apply these gains itself.
-> > > >
-> > > > Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
-> > > > ---
-> > > >  .../media/v4l/ext-ctrls-image-source.rst      | 28 +++++++++++++++++++
-> > > >  1 file changed, 28 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > index de43f5c8486d..f824d6c36ae8 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > @@ -72,3 +72,31 @@ Image Source Control IDs
-> > > >      * - __u32
-> > > >        - ``height``
-> > > >        - Height of the area.
-> > > > +
-> > > > +``V4L2_CID_NOTIFY_GAIN_RED (integer)``
-> > > > +    Notify the sensor what gain will be applied to red pixels by the
-> > > > +    subsequent processing (such as by an ISP). The sensor is merely
-> > > > +    informed of this value in case it performs processing that requires
-> > > > +    it, but it is not applied to the output pixels themselves. The
-> > > > +    units are determined by the sensor driver.
-> > >
-> > > I wonder if this should say the default value should reflect gain of 1. It
-> > > probably wouldn't hurt at least.
->
-> Seems reasonable to me.
+https://lore.kernel.org/linux-media/20210427124523.990938-1-tomi.valkeinen@ideasonboard.com/
 
-Yes, I think this is a good idea.
+In this version I have changed the approach to multiplexed streams, and
+I went with the approach described in the RFC I sent:
 
->
-> David, do you think we could also document that the values of these
-> controls are linear, or would that be too restrictive ?
+https://lore.kernel.org/linux-media/20210507123558.146948-1-tomi.valkeinen@ideasonboard.com/
 
-That's an interesting point. I guess I was drawing on the precedent
-set by analogue gain, but in many respects mandating a linear
-response, and not letting device specific units escape the driver,
-might be more convenient for application code.
+The main change is that in this series each pad+stream combination can
+have its own configuration, versus only pad having its own
+configuration. In other words, a pad with 4 streams will contain 4
+configurations.
 
-The typical use would, I expect, involve firmware reading colour gains
-from an ISP and passing them in here. As such, linear is quite likely
-to be desirable. In the event that there is a conversion to be done,
-the driver can always take care of it.
+The patches up to and including "v4l: Add stream to frame descriptor"
+are the same as previously, except changes done according to the review
+comments. After that, the new pad+stream approach is implemented.
 
-Further, if we want to go with linear values, I wonder whether we
-should go all the way and specify it fully. For example we could
-mandate u8.8 values, so that 256 means 1.0x - this already feels like
-more than enough range and precision.
+This series is based on the subdev-wide state change:
 
-There's a slight question in my mind as to whether we should specify
-the range of the control too, in particular whether gains can be less
-than unity or not. Again, this would be kind to applications, but
-drivers might have to re-interpret it internally for "fussy" sensors.
-Any other opinions on that?
+https://lore.kernel.org/linux-media/20210519091558.562318-1-tomi.valkeinen@ideasonboard.com/
 
-One side effect of specifying the meaning precisely is that all four
-necessarily become identical. I hadn't mentioned this previously, but
-having them different would clearly be a right nuisance!
+ Tomi
 
-If that sounds good to everyone I'll make up a second version with
-updated documentation.
+Jacopo Mondi (2):
+  media: entity: Add iterator helper for entity pads
+  media: Documentation: Add GS_ROUTING documentation
 
-Thanks and best regards
-David
+Laurent Pinchart (4):
+  media: entity: Add has_route entity operation
+  media: entity: Add media_entity_has_route() function
+  media: entity: Use routing information during graph traversal
+  v4l: subdev: Add [GS]_ROUTING subdev ioctls and operations
 
->
-> > > > +
-> > > > +``V4L2_CID_NOTIFY_GAIN_GREENR (integer)``
-> > > > +    Notify the sensor what gain will be applied to green pixels (on
-> > > > +    red rows) by subsequent processing (such as by an ISP). The sensor
-> > > > +    is merely informed of this value in case it performs processing
-> > > > +    that requires it, but it is not applied to the output pixels
-> > > > +    themselves. The units are determined by the sensor driver.
-> > > > +
-> > > > +``V4L2_CID_NOTIFY_GAIN_BLUE (integer)``
-> > > > +    Notify the sensor what gain will be applied to blue pixels by the
-> > > > +    subsequent processing (such as by an ISP). The sensor is merely
-> > > > +    informed of this value in case it performs processing that requires
-> > > > +    it, but it is not applied to the output pixels themselves. The
-> > > > +    units are determined by the sensor driver.
-> > > > +
-> > > > +``V4L2_CID_NOTIFY_GAIN_GREENB (integer)``
-> > > > +    Notify the sensor what gain will be applied to green pixels (on
-> > > > +    blue rows) by subsequent processing (such as by an ISP). The sensor
-> > > > +    is merely informed of this value in case it performs processing
-> > > > +    that requires it, but it is not applied to the output pixels
-> > > > +    themselves. The units are determined by the sensor driver.
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Sakari Ailus (13):
+  media: entity: Use pad as a starting point for graph walk
+  media: entity: Use pads instead of entities in the media graph walk
+    stack
+  media: entity: Walk the graph based on pads
+  v4l: mc: Start walk from a specific pad in use count calculation
+  media: entity: Move the pipeline from entity to pads
+  media: entity: Use pad as the starting point for a pipeline
+  media: entity: Skip link validation for pads to which there is no
+    route
+  media: entity: Add an iterator helper for connected pads
+  media: entity: Add only connected pads to the pipeline
+  media: entity: Add debug information in graph walk route check
+  v4l: Add bus type to frame descriptors
+  v4l: Add CSI-2 bus configuration to frame descriptors
+  v4l: Add stream to frame descriptor
+
+Tomi Valkeinen (8):
+  v4l: subdev: add V4L2_SUBDEV_ROUTE_FL_SOURCE
+  v4l: subdev: routing kernel helper functions
+  v4l: subdev: add stream based configuration
+  v4l: subdev: add 'stream' to subdev ioctls
+  v4l: subdev: use streams in v4l2_subdev_link_validate()
+  v4l: subdev: add routing & stream config to v4l2_subdev_state
+  v4l: subdev: add V4L2_SUBDEV_FL_MULTIPLEXED
+  v4l: subdev: increase V4L2_FRAME_DESC_ENTRY_MAX to 8
+
+ Documentation/driver-api/media/mc-core.rst    |  15 +-
+ .../userspace-api/media/v4l/dev-subdev.rst    | 128 ++++++
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../v4l/vidioc-subdev-enum-frame-interval.rst |   5 +-
+ .../v4l/vidioc-subdev-enum-frame-size.rst     |   5 +-
+ .../v4l/vidioc-subdev-enum-mbus-code.rst      |   5 +-
+ .../media/v4l/vidioc-subdev-g-crop.rst        |   5 +-
+ .../media/v4l/vidioc-subdev-g-fmt.rst         |   5 +-
+ .../v4l/vidioc-subdev-g-frame-interval.rst    |   5 +-
+ .../media/v4l/vidioc-subdev-g-routing.rst     | 142 +++++++
+ .../media/v4l/vidioc-subdev-g-selection.rst   |   5 +-
+ drivers/media/mc/mc-device.c                  |  13 +-
+ drivers/media/mc/mc-entity.c                  | 257 +++++++-----
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |   6 +-
+ .../media/platform/exynos4-is/fimc-capture.c  |   8 +-
+ .../platform/exynos4-is/fimc-isp-video.c      |   8 +-
+ drivers/media/platform/exynos4-is/fimc-isp.c  |   2 +-
+ drivers/media/platform/exynos4-is/fimc-lite.c |  10 +-
+ drivers/media/platform/exynos4-is/media-dev.c |  20 +-
+ drivers/media/platform/omap3isp/isp.c         |   2 +-
+ drivers/media/platform/omap3isp/ispvideo.c    |  25 +-
+ drivers/media/platform/omap3isp/ispvideo.h    |   2 +-
+ .../media/platform/qcom/camss/camss-video.c   |   6 +-
+ drivers/media/platform/rcar-vin/rcar-core.c   |  16 +-
+ drivers/media/platform/rcar-vin/rcar-dma.c    |   8 +-
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |   6 +-
+ .../media/platform/s3c-camif/camif-capture.c  |   6 +-
+ drivers/media/platform/stm32/stm32-dcmi.c     |   6 +-
+ .../platform/sunxi/sun4i-csi/sun4i_dma.c      |   6 +-
+ .../platform/sunxi/sun6i-csi/sun6i_video.c    |   6 +-
+ drivers/media/platform/ti-vpe/cal-video.c     |   6 +-
+ drivers/media/platform/vsp1/vsp1_video.c      |  18 +-
+ drivers/media/platform/xilinx/xilinx-dma.c    |  20 +-
+ drivers/media/platform/xilinx/xilinx-dma.h    |   2 +-
+ .../media/test-drivers/vimc/vimc-capture.c    |   6 +-
+ drivers/media/usb/au0828/au0828-core.c        |   8 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  25 +-
+ drivers/media/v4l2-core/v4l2-mc.c             |  43 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         | 396 +++++++++++++++++-
+ drivers/staging/media/imx/imx-media-utils.c   |   8 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c        |   6 +-
+ drivers/staging/media/omap4iss/iss.c          |   2 +-
+ drivers/staging/media/omap4iss/iss_video.c    |  40 +-
+ drivers/staging/media/omap4iss/iss_video.h    |   2 +-
+ drivers/staging/media/tegra-video/tegra210.c  |   6 +-
+ include/media/media-entity.h                  | 142 +++++--
+ include/media/v4l2-subdev.h                   | 204 ++++++++-
+ include/uapi/linux/v4l2-subdev.h              |  76 +++-
+ 48 files changed, 1410 insertions(+), 334 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+
+-- 
+2.25.1
+
