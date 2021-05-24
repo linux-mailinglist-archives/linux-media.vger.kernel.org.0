@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B4F138E462
+	by mail.lfdr.de (Postfix) with ESMTP id 8874038E463
 	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 12:44:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232517AbhEXKqX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 06:46:23 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60880 "EHLO
+        id S232701AbhEXKqY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 06:46:24 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60914 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232684AbhEXKqO (ORCPT
+        with ESMTP id S232494AbhEXKqP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 06:46:14 -0400
+        Mon, 24 May 2021 06:46:15 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D9E617C6;
-        Mon, 24 May 2021 12:44:45 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A186345C;
+        Mon, 24 May 2021 12:44:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621853086;
-        bh=bxKq3bwr+jHLPWImDfes9V8Rbc0x8PR//0MsVrKLtz4=;
+        s=mail; t=1621853087;
+        bh=dRACppGO0vScoL90ipeeNKSysWmpuH8hEJSMmFsu3iM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WNWwPC+CYSRleRmzoMJmqbWdkLqOJ9LKeOQNIrx3a3Lu/9navRUhf9jugJc9TuSGU
-         IR6c/FvDq/XT+h0a7du7VNhIX5DC3fHWY5kf1T/pjLY0thMcQwInTnfsoz4pQDacb1
-         4hXcCsT7PfGE5hOqgikiljJkYfLHk1XNtiBUgZDM=
+        b=NJxL2MOYJdjKHZZCFX3COsrHU/zcb0/74XxrEv0a1rfFd0f2CzF2lQiuMsv6h9oKg
+         caQGLGx3O3hODh7xa2tX4qQ6DcEdQ/x1nrpM/1qjW3WJaAVnfmedtlM6+VGc4+rwY6
+         EkVZn0GoX3VtYxTddKvfuVKHDI6/ExMZm8jUsx6U=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -32,9 +32,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>
-Subject: [PATCH v7 21/27] v4l: subdev: routing kernel helper functions
-Date:   Mon, 24 May 2021 13:44:02 +0300
-Message-Id: <20210524104408.599645-22-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v7 22/27] v4l: subdev: add stream based configuration
+Date:   Mon, 24 May 2021 13:44:03 +0300
+Message-Id: <20210524104408.599645-23-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
 References: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
@@ -44,202 +44,159 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add helper functions for routing. These helpers make it easier for the
-drivers to use struct v4l2_subdev_krouting.
+Add support to manage configurations (format, crop, compose) per stream,
+instead of per pad. This is accomplished with data structures that hold
+an array of all subdev's stream configurations.
+
+The number of streams can vary at runtime based on routing. Every time
+the routing is changed, the stream configurations need to be
+re-initialized.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 100 ++++++++++++++++++++++++++
- include/media/v4l2-subdev.h           |  69 ++++++++++++++++++
- 2 files changed, 169 insertions(+)
+ drivers/media/v4l2-core/v4l2-subdev.c | 62 +++++++++++++++++++++++++++
+ include/media/v4l2-subdev.h           | 55 ++++++++++++++++++++++++
+ 2 files changed, 117 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 28e84453fe28..ef18682dbc6f 100644
+index ef18682dbc6f..da6ea9b14631 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -912,6 +912,106 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
- 	return -EINVAL;
+@@ -1112,3 +1112,65 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+ 	v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
  }
- 
-+int v4l2_subdev_get_routing(struct v4l2_subdev *sd,
-+			    struct v4l2_subdev_state *state,
-+			    struct v4l2_subdev_krouting *routing)
+ EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
++
++int v4l2_init_stream_configs(struct v4l2_subdev_stream_configs *stream_configs,
++			     const struct v4l2_subdev_krouting *routing)
 +{
-+	int ret;
-+
-+	routing->which = state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-+	routing->routes = NULL;
-+	routing->num_routes = 0;
-+
-+	ret = v4l2_subdev_call(sd, pad, get_routing, state, routing);
-+	if (ret == 0)
-+		return 0;
-+	if (ret != -ENOSPC)
-+		return ret;
-+
-+	routing->routes = kvmalloc_array(routing->num_routes,
-+					 sizeof(*routing->routes), GFP_KERNEL);
-+	if (!routing->routes)
-+		return -ENOMEM;
-+
-+	ret = v4l2_subdev_call(sd, pad, get_routing, state, routing);
-+	if (ret) {
-+		kvfree(routing->routes);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_get_routing);
-+
-+void v4l2_subdev_free_routing(struct v4l2_subdev_krouting *routing)
-+{
-+	kvfree(routing->routes);
-+	routing->routes = NULL;
-+	routing->num_routes = 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_free_routing);
-+
-+int v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
-+			    const struct v4l2_subdev_krouting *src)
-+{
-+	if (dst->num_routes < src->num_routes) {
-+		dst->num_routes = src->num_routes;
-+		return -ENOSPC;
-+	}
-+
-+	memcpy(dst->routes, src->routes,
-+	       src->num_routes * sizeof(*src->routes));
-+	dst->num_routes = src->num_routes;
-+	dst->which = src->which;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_cpy_routing);
-+
-+int v4l2_subdev_dup_routing(struct v4l2_subdev_krouting *dst,
-+			    const struct v4l2_subdev_krouting *src)
-+{
-+	v4l2_subdev_free_routing(dst);
-+
-+	if (src->num_routes == 0) {
-+		dst->which = src->which;
-+		return 0;
-+	}
-+
-+	dst->routes = kvmalloc_array(src->num_routes, sizeof(*src->routes),
-+				     GFP_KERNEL);
-+	if (!dst->routes)
-+		return -ENOMEM;
-+
-+	memcpy(dst->routes, src->routes,
-+	       src->num_routes * sizeof(*src->routes));
-+	dst->num_routes = src->num_routes;
-+	dst->which = src->which;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_dup_routing);
-+
-+bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
-+			   unsigned int pad0, unsigned int pad1)
-+{
++	u32 num_configs = 0;
 +	unsigned int i;
++	u32 format_idx = 0;
 +
++	v4l2_uninit_stream_configs(stream_configs);
++
++	/* Count number of formats needed */
 +	for (i = 0; i < routing->num_routes; ++i) {
 +		struct v4l2_subdev_route *route = &routing->routes[i];
 +
 +		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
 +			continue;
 +
-+		if ((route->sink_pad == pad0 && route->source_pad == pad1) ||
-+		    (route->source_pad == pad0 && route->sink_pad == pad1))
-+			return true;
++		/* Each route needs a format on both ends of the route */
++		num_configs += 2;
 +	}
 +
-+	return false;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
++	if (num_configs) {
++		stream_configs->configs =
++			kvcalloc(num_configs, sizeof(*stream_configs->configs),
++				 GFP_KERNEL);
 +
- int v4l2_subdev_link_validate(struct media_link *link)
- {
- 	struct v4l2_subdev *sink;
++		if (!stream_configs->configs)
++			return -ENOMEM;
++
++		stream_configs->num_configs = num_configs;
++	}
++
++	/* Fill in the 'pad' and stream' value for each item in the array from the routing table */
++	for (i = 0; i < routing->num_routes; ++i) {
++		struct v4l2_subdev_route *route = &routing->routes[i];
++		u32 idx;
++
++		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
++			continue;
++
++		idx = format_idx++;
++
++		stream_configs->configs[idx].pad = route->sink_pad;
++		stream_configs->configs[idx].stream = route->sink_stream;
++
++		idx = format_idx++;
++
++		stream_configs->configs[idx].pad = route->source_pad;
++		stream_configs->configs[idx].stream = route->source_stream;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(v4l2_init_stream_configs);
++
++void v4l2_uninit_stream_configs(struct v4l2_subdev_stream_configs *stream_configs)
++{
++	kvfree(stream_configs->configs);
++	stream_configs->configs = NULL;
++	stream_configs->num_configs = 0;
++}
++EXPORT_SYMBOL_GPL(v4l2_uninit_stream_configs);
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 1cf91372d3cf..87f6bb78bbe9 100644
+index 87f6bb78bbe9..39c6b811463a 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -1248,4 +1248,73 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
- void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
- 			      const struct v4l2_event *ev);
+@@ -661,6 +661,37 @@ struct v4l2_subdev_pad_config {
+ 	struct v4l2_rect try_compose;
+ };
  
 +/**
-+ * v4l2_subdev_get_routing() - Get routing from a subdevice
++ * struct v4l2_subdev_stream_config - Used for storing stream configuration.
 + *
-+ * @sd: The subdev from which to get the routing
-+ * @state: Pointer to &struct v4l2_subdev_state
-+ * @routing: Pointer to the target &struct v4l2_subdev_krouting
++ * @pad: pad number
++ * @stream: stream number
++ * @fmt: &struct v4l2_mbus_framefmt
++ * @crop: &struct v4l2_rect to be used for crop
++ * @compose: &struct v4l2_rect to be used for compose
 + *
-+ * Get a copy of the subdevice's routing table.
-+ *
-+ * Must be freed with v4l2_subdev_free_routing after use.
++ * This structure stores configuration for a stream.
 + */
-+int v4l2_subdev_get_routing(struct v4l2_subdev *sd,
-+			    struct v4l2_subdev_state *state,
-+			    struct v4l2_subdev_krouting *routing);
++struct v4l2_subdev_stream_config {
++	u32 pad;
++	u32 stream;
++
++	struct v4l2_mbus_framefmt fmt;
++	struct v4l2_rect crop;
++	struct v4l2_rect compose;
++};
 +
 +/**
-+ * v4l2_subdev_free_routing() - Free the routing
++ * struct v4l2_subdev_stream_configs - A collection of stream configs.
 + *
-+ * @routing: The routing to be freed
-+ *
-+ * Frees the routing data in @routing.
++ * @num_configs: number of entries in @config.
++ * @config: an array of &struct v4l2_subdev_stream_configs.
 + */
-+void v4l2_subdev_free_routing(struct v4l2_subdev_krouting *routing);
++struct v4l2_subdev_stream_configs {
++	u32 num_configs;
++	struct v4l2_subdev_stream_config *configs;
++};
++
+ /**
+  * struct v4l2_subdev_krouting - subdev routing table
+  *
+@@ -1317,4 +1348,28 @@ int v4l2_subdev_dup_routing(struct v4l2_subdev_krouting *dst,
+ bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
+ 			   unsigned int pad0, unsigned int pad1);
+ 
 +
 +/**
-+ * v4l2_subdev_cpy_routing() - Copy the routing
++ * v4l2_init_stream_configs() - Initialize stream configs according to routing
 + *
-+ * @dst: The destination routing
-+ * @src: The source routing
++ * @stream_configs: The stream configs to initialize
++ * @routing: The routing used for the stream configs
 + *
-+ * Copies routing from @src to @dst without allocating space. If @dst does not
-+ * have enough space, set dst->num_routes to the required number of routes, and
-+ * return -ENOSPC.
++ * Initializes @stream_configs according to @routing, allocating enough
++ * space to hold configuration for each route endpoint.
 + *
-+ * Can be used in subdevice's v4l2_subdev_pad_ops.get_routing() callback.
++ * Must be freed with v4l2_uninit_stream_configs().
 + */
-+int v4l2_subdev_cpy_routing(struct v4l2_subdev_krouting *dst,
-+			    const struct v4l2_subdev_krouting *src);
++int v4l2_init_stream_configs(struct v4l2_subdev_stream_configs *stream_configs,
++			     const struct v4l2_subdev_krouting *routing);
 +
 +/**
-+ * v4l2_subdev_dup_routing() - Duplicate the routing
++ * v4l2_uninit_stream_configs() - Uninitialize stream configs
 + *
-+ * @dst: The destination routing
-+ * @src: The source routing
++ * @stream_configs: The stream configs to uninitialize
 + *
-+ * Makes a duplicate of the routing from @src to @dst by allocating enough
-+ * memory and making a copy of the routing.
-+ *
-+ * Can be used in subdevice's v4l2_subdev_pad_ops.set_routing() callback
-+ * to store the given routing.
-+ *
-+ * Must be freed with v4l2_subdev_free_routing after use.
++ * Frees any allocated memory in @stream_configs.
 + */
-+int v4l2_subdev_dup_routing(struct v4l2_subdev_krouting *dst,
-+			    const struct v4l2_subdev_krouting *src);
-+
-+/**
-+ * v4l2_subdev_has_route() - Check if there is a route between two pads
-+ *
-+ * @routing: The subdevice's routing
-+ * @pad0: First pad
-+ * @pad1: Second pad
-+ *
-+ * Returns whether there is a route between @pad0 and @pad1 of the same
-+ * subdevice according to the given routing.
-+ */
-+bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
-+			   unsigned int pad0, unsigned int pad1);
++void v4l2_uninit_stream_configs(struct v4l2_subdev_stream_configs *stream_configs);
 +
  #endif
 -- 
