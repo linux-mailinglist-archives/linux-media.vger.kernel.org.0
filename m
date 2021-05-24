@@ -2,90 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 190B738EC82
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 17:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A75938EF24
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 17:55:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234164AbhEXPQC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 11:16:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40894 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234805AbhEXPJK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 11:09:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D2A826191F;
-        Mon, 24 May 2021 14:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621867904;
-        bh=ZLSLEAHz+odBCjxBEJd4M0bW9wsgwR8skocIbqmHwt8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Hk5goBM0/iR2ghX4n4A7fOUW5tTneXNIasV1hzNR9O4v1L99lOfvoinNvrJtQ7yJH
-         c21OK+PcRKNtSBJvCcV3DX8DZvP3QIUTvqctB3cKvLyj6GxQw7r1wMT20/8t0769TJ
-         V/YwZShAHvFwSGMOqYRFVgI54TD5MwucHQemsx5WnQ1jE8JCYRtr6ZPHi9t8wpn24I
-         HnioIIrtDOPkm6QsZyXl20CDYB4m3PKSuoQQheAkepMBLdHrn7riin4BZ+FCAa7Z5R
-         SVpZ/DPBT+uzFFJoa5qBoG+Ab9g3Gob534PiV725nZL7CJrdr8k98WAn0aIVbQVT6t
-         9JOeeVtd1jY2Q==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 11/16] media: gspca: properly check for errors in po1030_probe()
-Date:   Mon, 24 May 2021 10:51:25 -0400
-Message-Id: <20210524145130.2499829-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210524145130.2499829-1-sashal@kernel.org>
-References: <20210524145130.2499829-1-sashal@kernel.org>
+        id S235257AbhEXP4J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 11:56:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50746 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234328AbhEXPz3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 May 2021 11:55:29 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF5AC0611B4;
+        Mon, 24 May 2021 08:06:33 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id s6so32308035edu.10;
+        Mon, 24 May 2021 08:06:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=hYc9RqsGPOFH4b9ZCxZD1i1R6dOMPd4eh7fzqVzT0H8=;
+        b=IYggH2+zUrbdnBrdf/jTJBsFvsk4fNzJueTFJWS2wav+i4qdiNx+Cg0ds2JTrtFcJK
+         T0RtnoZxttQZp0nj6iOlzrT7rkaHfWvs5EQDRIMjbwVcQDab1kFlwtrzAhAUmNszUMXE
+         mlWELyPzvUT5Hwby3Mu+xJRDzQt2R3Dhpe3/qxCxniY/MO4vxeVuu8Gj2tgy9IDFoe9q
+         XuiY4wOt76aQ6kgEv9nz8fWdfq2lue434npLku5Ss7xpDFDkllkfdX9CZyAfQxQ+OtsS
+         TncgOK/EWbljBM15dTijeALKHyo5V+bt98Jx2zJXFkesK/GaSJ88AfBd+7rTvBLXdrG7
+         Hdxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=hYc9RqsGPOFH4b9ZCxZD1i1R6dOMPd4eh7fzqVzT0H8=;
+        b=GUj6USM/ECCiY4t7WeQxefutyqudkF6pIa0EBMdzw+VJEP1avOvoVnQiEjyYt0XA5q
+         s68uYuFw9MDTlUc5awaMfFYadouF+/H60X12ND1o/Pt85sGS1R3nWjhmilfsNWy+pktm
+         qyMFm6ciSwwj+K4l1EYDCrGw2BgXdMxLaamy1Pv4RZ1C7gd4TsWgdtwdhZw6fH/JhTT6
+         lJNZKeOobLfgtQcTZX5M4P0BuoqoKvvfjMrOUlsavzJv9nQ14MYQYrEFPUCDzB93Ul7e
+         dkbG+pLSSyn4UooX+u/CcjYxbNGBBCnaMFGci+aLfQodGWGr6eA1MS9idbKbE35iP2Xf
+         mDVw==
+X-Gm-Message-State: AOAM530LnHVRqjcwx+fW20km5ItWUUX8ZU9fypKZwnZ39p/XnupBGyOz
+        Iw1iTNE/zQ/+A/R77VBeDLyjWG5pYHBmzNgW/Xs=
+X-Google-Smtp-Source: ABdhPJxnql6m4jMoSsNIXd+822UQ+FgMCyWYYrxYDrZNdFQtMwci4jKmziipZTven+e/600RCUx8aswTUzA0OJJ9xKs=
+X-Received: by 2002:a05:6402:4256:: with SMTP id g22mr25643956edb.214.1621868792568;
+ Mon, 24 May 2021 08:06:32 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+From:   =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
+Date:   Mon, 24 May 2021 23:06:11 +0800
+Message-ID: <CAD-N9QU7T0vb1YaZ_NJfySEGiUsQ1ix6ved6TJKSUBQ+HqO1eQ@mail.gmail.com>
+Subject: Is this a bug between dvb_usb_adapter_frontend_init and cinergyt2_frontend_attach?
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Hi kernel developers,
 
-[ Upstream commit dacb408ca6f0e34df22b40d8dd5fae7f8e777d84 ]
+I doubt there is a bug between dvb_usb_adapter_frontend_init [1] and
+cinergyt2_frontend_attach [2]. The following source code includes the
+critical part.
 
-If m5602_write_sensor() or m5602_write_bridge() fail, do not continue to
-initialize the device but return the error to the calling funtion.
+-----------------------------------------------------------------------------------------------------
+int dvb_usb_adapter_frontend_init(struct dvb_usb_adapter *adap)
+{
+        ......
+        /* register all given adapter frontends */
+        for (i = 0; i < adap->props.num_frontends; i++) {
+                ret = adap->props.fe[i].frontend_attach(adap);
+                if (ret || adap->fe_adap[i].fe == NULL) {
+                        return 0;
+                }
+        }
+        ......
+}
 
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Link: https://lore.kernel.org/r/20210503115736.2104747-64-gregkh@linuxfoundation.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/usb/gspca/m5602/m5602_po1030.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+static int cinergyt2_frontend_attach(struct dvb_usb_adapter *adap)
+{
+        ......
+        adap->fe_adap[0].fe = cinergyt2_fe_attach(adap->dev);
+        ......
+        return ret;
+}
+-----------------------------------------------------------------------------------------------------
 
-diff --git a/drivers/media/usb/gspca/m5602/m5602_po1030.c b/drivers/media/usb/gspca/m5602/m5602_po1030.c
-index 4bf5c43424b7..971253dafb57 100644
---- a/drivers/media/usb/gspca/m5602/m5602_po1030.c
-+++ b/drivers/media/usb/gspca/m5602/m5602_po1030.c
-@@ -55,6 +55,7 @@ static const struct v4l2_ctrl_config po1030_greenbal_cfg = {
- int po1030_probe(struct sd *sd)
- {
- 	u8 dev_id_h = 0, i;
-+	int err;
- 	struct gspca_dev *gspca_dev = (struct gspca_dev *)sd;
- 
- 	if (force_sensor) {
-@@ -73,10 +74,13 @@ int po1030_probe(struct sd *sd)
- 	for (i = 0; i < ARRAY_SIZE(preinit_po1030); i++) {
- 		u8 data = preinit_po1030[i][2];
- 		if (preinit_po1030[i][0] == SENSOR)
--			m5602_write_sensor(sd,
--				preinit_po1030[i][1], &data, 1);
-+			err = m5602_write_sensor(sd, preinit_po1030[i][1],
-+						 &data, 1);
- 		else
--			m5602_write_bridge(sd, preinit_po1030[i][1], data);
-+			err = m5602_write_bridge(sd, preinit_po1030[i][1],
-+						 data);
-+		if (err < 0)
-+			return err;
- 	}
- 
- 	if (m5602_read_sensor(sd, PO1030_DEVID_H, &dev_id_h, 1))
--- 
-2.30.2
+In the dvb_usb_adapter_frontend_init, the function pointer -
+frontend_attach points to cinergyt2_frontend_attach. Then the parent
+function dvb_usb_adapter_frontend_init checks the return value and
+adap->fe_adap[i].fe to verify the execution of the child function.
+However, the child function - cinergyt2_frontend_attach passes the
+allocated dvb_frontend with adap->fe_adap[0].fe, but the check is
+performed on adap->fe_adap[i].fe. At the same time, the adap in both
+expressions should be the same data pointer.
 
+Please correct me if you have any opinions with the above statements.
+
+[1] dvb_usb_adapter_frontend_init:
+https://elixir.bootlin.com/linux/latest/source/drivers/media/usb/dvb-usb/dvb-usb-dvb.c#L276
+
+[2] cinergyt2_frontend_attach:
+https://elixir.bootlin.com/linux/latest/source/drivers/media/usb/dvb-usb/cinergyT2-core.c#L68
+
+--
+My best regards to you.
+
+     No System Is Safe!
+     Dongliang Mu
