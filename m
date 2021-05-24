@@ -2,107 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A75938EF24
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 17:55:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D05238ECBC
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 17:21:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235257AbhEXP4J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 11:56:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50746 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234328AbhEXPz3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 11:55:29 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF5AC0611B4;
-        Mon, 24 May 2021 08:06:33 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id s6so32308035edu.10;
-        Mon, 24 May 2021 08:06:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=hYc9RqsGPOFH4b9ZCxZD1i1R6dOMPd4eh7fzqVzT0H8=;
-        b=IYggH2+zUrbdnBrdf/jTJBsFvsk4fNzJueTFJWS2wav+i4qdiNx+Cg0ds2JTrtFcJK
-         T0RtnoZxttQZp0nj6iOlzrT7rkaHfWvs5EQDRIMjbwVcQDab1kFlwtrzAhAUmNszUMXE
-         mlWELyPzvUT5Hwby3Mu+xJRDzQt2R3Dhpe3/qxCxniY/MO4vxeVuu8Gj2tgy9IDFoe9q
-         XuiY4wOt76aQ6kgEv9nz8fWdfq2lue434npLku5Ss7xpDFDkllkfdX9CZyAfQxQ+OtsS
-         TncgOK/EWbljBM15dTijeALKHyo5V+bt98Jx2zJXFkesK/GaSJ88AfBd+7rTvBLXdrG7
-         Hdxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=hYc9RqsGPOFH4b9ZCxZD1i1R6dOMPd4eh7fzqVzT0H8=;
-        b=GUj6USM/ECCiY4t7WeQxefutyqudkF6pIa0EBMdzw+VJEP1avOvoVnQiEjyYt0XA5q
-         s68uYuFw9MDTlUc5awaMfFYadouF+/H60X12ND1o/Pt85sGS1R3nWjhmilfsNWy+pktm
-         qyMFm6ciSwwj+K4l1EYDCrGw2BgXdMxLaamy1Pv4RZ1C7gd4TsWgdtwdhZw6fH/JhTT6
-         lJNZKeOobLfgtQcTZX5M4P0BuoqoKvvfjMrOUlsavzJv9nQ14MYQYrEFPUCDzB93Ul7e
-         dkbG+pLSSyn4UooX+u/CcjYxbNGBBCnaMFGci+aLfQodGWGr6eA1MS9idbKbE35iP2Xf
-         mDVw==
-X-Gm-Message-State: AOAM530LnHVRqjcwx+fW20km5ItWUUX8ZU9fypKZwnZ39p/XnupBGyOz
-        Iw1iTNE/zQ/+A/R77VBeDLyjWG5pYHBmzNgW/Xs=
-X-Google-Smtp-Source: ABdhPJxnql6m4jMoSsNIXd+822UQ+FgMCyWYYrxYDrZNdFQtMwci4jKmziipZTven+e/600RCUx8aswTUzA0OJJ9xKs=
-X-Received: by 2002:a05:6402:4256:: with SMTP id g22mr25643956edb.214.1621868792568;
- Mon, 24 May 2021 08:06:32 -0700 (PDT)
+        id S234309AbhEXPWo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 11:22:44 -0400
+Received: from mga01.intel.com ([192.55.52.88]:44414 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235295AbhEXPUl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 May 2021 11:20:41 -0400
+IronPort-SDR: 3VAmEWNKnN1kJRH5F+MBT+S+8/OQ7aElxVzIfCXaQR+3zXkhx4IvpyAx3wZU8Ipnw3AkXzWXB7
+ HWi4JpcJr7fw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="223112581"
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
+   d="scan'208";a="223112581"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 08:18:34 -0700
+IronPort-SDR: 3xTXIYzKCtF6IjPu7vE/AmzsvA23PXBxNkDOLWZ71J7wEIsEt2GSoZn7c8zNKaDFnHxGeMg9wl
+ hq5kQftQnV1w==
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
+   d="scan'208";a="629725647"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 08:18:31 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id B4AA4202F7;
+        Mon, 24 May 2021 18:18:29 +0300 (EEST)
+Date:   Mon, 24 May 2021 18:18:29 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Christoph Hellwig <hch@lst.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH] media: atomisp: remove compat_ioctl32 code
+Message-ID: <20210524151829.GO3@paasikivi.fi.intel.com>
+References: <20210516204818.2967910-1-arnd@kernel.org>
 MIME-Version: 1.0
-From:   =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
-Date:   Mon, 24 May 2021 23:06:11 +0800
-Message-ID: <CAD-N9QU7T0vb1YaZ_NJfySEGiUsQ1ix6ved6TJKSUBQ+HqO1eQ@mail.gmail.com>
-Subject: Is this a bug between dvb_usb_adapter_frontend_init and cinergyt2_frontend_attach?
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210516204818.2967910-1-arnd@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi kernel developers,
+Hi Arnd,
 
-I doubt there is a bug between dvb_usb_adapter_frontend_init [1] and
-cinergyt2_frontend_attach [2]. The following source code includes the
-critical part.
+On Sun, May 16, 2021 at 10:47:43PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> This is one of the last remaining users of compat_alloc_user_space()
+> and copy_in_user(), which are in the process of getting removed.
+> 
+> As of commit 57e6b6f2303e ("media: atomisp_fops.c: disable
+> atomisp_compat_ioctl32"), nothing in this file is actually getting used
+> as the only reference has been stubbed out.
 
------------------------------------------------------------------------------------------------------
-int dvb_usb_adapter_frontend_init(struct dvb_usb_adapter *adap)
-{
-        ......
-        /* register all given adapter frontends */
-        for (i = 0; i < adap->props.num_frontends; i++) {
-                ret = adap->props.fe[i].frontend_attach(adap);
-                if (ret || adap->fe_adap[i].fe == NULL) {
-                        return 0;
-                }
-        }
-        ......
-}
+This patch was made redundant by another one that fixed the bug. But I
+guess you're right in the sense that no-one could have used this because of
+the patch that disabled it.
 
-static int cinergyt2_frontend_attach(struct dvb_usb_adapter *adap)
-{
-        ......
-        adap->fe_adap[0].fe = cinergyt2_fe_attach(adap->dev);
-        ......
-        return ret;
-}
------------------------------------------------------------------------------------------------------
+So:
 
-In the dvb_usb_adapter_frontend_init, the function pointer -
-frontend_attach points to cinergyt2_frontend_attach. Then the parent
-function dvb_usb_adapter_frontend_init checks the return value and
-adap->fe_adap[i].fe to verify the execution of the child function.
-However, the child function - cinergyt2_frontend_attach passes the
-allocated dvb_frontend with adap->fe_adap[0].fe, but the check is
-performed on adap->fe_adap[i].fe. At the same time, the adap in both
-expressions should be the same data pointer.
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Please correct me if you have any opinions with the above statements.
+But:
 
-[1] dvb_usb_adapter_frontend_init:
-https://elixir.bootlin.com/linux/latest/source/drivers/media/usb/dvb-usb/dvb-usb-dvb.c#L276
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> index f1e6b2597853..e383e17c5072 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> @@ -1283,7 +1283,8 @@ const struct v4l2_file_operations atomisp_fops = {
+>  	.unlocked_ioctl = video_ioctl2,
+>  #ifdef CONFIG_COMPAT
+>  	/*
+> -	 * There are problems with this code. Disable this for now.
+> +	 * this was removed because of bugs, the interface
+> +	 * needs to be made safe for compat tasks instead.
+>  	.compat_ioctl32 = atomisp_compat_ioctl32,
 
-[2] cinergyt2_frontend_attach:
-https://elixir.bootlin.com/linux/latest/source/drivers/media/usb/dvb-usb/cinergyT2-core.c#L68
+I think the comment could go, too.
 
---
-My best regards to you.
+>  	 */
+>  #endif
+> @@ -1297,10 +1298,7 @@ const struct v4l2_file_operations atomisp_file_fops = {
+>  	.mmap = atomisp_file_mmap,
+>  	.unlocked_ioctl = video_ioctl2,
+>  #ifdef CONFIG_COMPAT
+> -	/*
+> -	 * There are problems with this code. Disable this for now.
+> -	.compat_ioctl32 = atomisp_compat_ioctl32,
+> -	 */
+> +	/* .compat_ioctl32 = atomisp_compat_ioctl32, */
 
-     No System Is Safe!
-     Dongliang Mu
+Thie one, too.
+
+>  #endif
+>  	.poll = atomisp_poll,
+>  };
+
+-- 
+Kind  regards,
+
+Sakari Ailus
