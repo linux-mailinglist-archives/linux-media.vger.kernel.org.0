@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0433838E4E6
+	by mail.lfdr.de (Postfix) with ESMTP id 9825938E4E8
 	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 13:09:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232684AbhEXLK4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 07:10:56 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33754 "EHLO
+        id S232694AbhEXLK6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 07:10:58 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33776 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232660AbhEXLKx (ORCPT
+        with ESMTP id S232665AbhEXLKy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 07:10:53 -0400
+        Mon, 24 May 2021 07:10:54 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0C7F17C6;
-        Mon, 24 May 2021 13:09:20 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83D47182C;
+        Mon, 24 May 2021 13:09:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1621854561;
-        bh=/gkVBS+9GUyxhBELfwBEuZ0OXe28THzi7so3Rwk9D+A=;
+        bh=fWGZFWN5+U0n63CdGWDy3nJ34Xex2vtAsUJOIw7B2zg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UnJPY7/+K5ZQw6ODdOyKHMjuqegazWimj1lZyqmBDQ4kjmkokJ9MWMx+3w5g+MX3M
-         TJQq5QxKHW4WZn/0U5B/jwV7EMu2109YVawzWqhmMCFXF/VZmxol4DlfE3uMdV9uYA
-         kG/m8vAonrZEWSIKqxJ0r7E3Rfzd9lFdEJpv5A1s=
+        b=uP96VXx2MAsXo3mTWAxNfqoGUU/CJC4c8MuJ5PrgGGhQwSyz0nbmfQncwewSnhzcp
+         4dZauCCaGDP0ihl7yKdxQwaOqNZtPbxG3R5t3BfogqQjoO1+O1FXnEip3NvV32Abij
+         pShNFFebl5iC5HqjXP4yLdHoUSRzC2IaVXTVMub4=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v3 09/38] media: ti-vpe: cal: Add CSI2 context
-Date:   Mon, 24 May 2021 14:08:40 +0300
-Message-Id: <20210524110909.672432-10-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 10/38] media: ti-vpe: cal: Add pixel processing context
+Date:   Mon, 24 May 2021 14:08:41 +0300
+Message-Id: <20210524110909.672432-11-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
 References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
@@ -39,102 +39,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-CAL has 8 CSI2 contexts per PHY, which are used to tag the incoming
-data.  The current driver only uses the first context, but we need to
-support all of them to implement multi-stream support.
+CAL has 4 pixel processing contexts (PIX PROC) of which the driver
+currently uses pix proc 0 for PHY0, and pix proc 1 for PHY1 (as the
+driver supports only a single source per PHY).
 
-Add a csi2_ctx field to cal_ctx, which indicates which of the 8 CSI2
-contexts is used for the particular cal_ctx. Also clean up the context
-register macros to take the CSI2 context number as a parameter.
-
-Note that before this patch the CSI2 context used for both PHYs was
-always 0. This patch always uses cal_ctx index number as the CSI2
-context. There is no functional difference, but this approach will work
-also in the future when we use more than 1 CSI2 context per PHY.
+Add a pix_proc field to cal_ctx to allow us to use different pix proc
+contexts in the future
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal.c      | 10 ++++++----
- drivers/media/platform/ti-vpe/cal.h      |  1 +
- drivers/media/platform/ti-vpe/cal_regs.h | 18 ++----------------
- 3 files changed, 9 insertions(+), 20 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 9 +++++----
+ drivers/media/platform/ti-vpe/cal.h | 1 +
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 6d6dce8001b2..98739f9200ff 100644
+index 98739f9200ff..7f5ce6f9d874 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -294,7 +294,7 @@ static void cal_ctx_csi2_config(struct cal_ctx *ctx)
- {
- 	u32 val;
+@@ -355,16 +355,16 @@ static void cal_ctx_pix_proc_config(struct cal_ctx *ctx)
+ 		break;
+ 	}
  
--	val = cal_read(ctx->cal, CAL_CSI2_CTX0(ctx->index));
-+	val = cal_read(ctx->cal, CAL_CSI2_CTX(ctx->phy->instance, ctx->csi2_ctx));
- 	cal_set_field(&val, ctx->cport, CAL_CSI2_CTX_CPORT_MASK);
- 	/*
- 	 * DT type: MIPI CSI-2 Specs
-@@ -310,9 +310,10 @@ static void cal_ctx_csi2_config(struct cal_ctx *ctx)
- 	cal_set_field(&val, CAL_CSI2_CTX_ATT_PIX, CAL_CSI2_CTX_ATT_MASK);
- 	cal_set_field(&val, CAL_CSI2_CTX_PACK_MODE_LINE,
- 		      CAL_CSI2_CTX_PACK_MODE_MASK);
--	cal_write(ctx->cal, CAL_CSI2_CTX0(ctx->index), val);
--	ctx_dbg(3, ctx, "CAL_CSI2_CTX0(%d) = 0x%08x\n", ctx->index,
--		cal_read(ctx->cal, CAL_CSI2_CTX0(ctx->index)));
-+	cal_write(ctx->cal, CAL_CSI2_CTX(ctx->phy->instance, ctx->csi2_ctx), val);
-+	ctx_dbg(3, ctx, "CAL_CSI2_CTX(%u, %u) = 0x%08x\n",
-+		ctx->phy->instance, ctx->csi2_ctx,
-+		cal_read(ctx->cal, CAL_CSI2_CTX(ctx->phy->instance, ctx->csi2_ctx)));
+-	val = cal_read(ctx->cal, CAL_PIX_PROC(ctx->index));
++	val = cal_read(ctx->cal, CAL_PIX_PROC(ctx->pix_proc));
+ 	cal_set_field(&val, extract, CAL_PIX_PROC_EXTRACT_MASK);
+ 	cal_set_field(&val, CAL_PIX_PROC_DPCMD_BYPASS, CAL_PIX_PROC_DPCMD_MASK);
+ 	cal_set_field(&val, CAL_PIX_PROC_DPCME_BYPASS, CAL_PIX_PROC_DPCME_MASK);
+ 	cal_set_field(&val, pack, CAL_PIX_PROC_PACK_MASK);
+ 	cal_set_field(&val, ctx->cport, CAL_PIX_PROC_CPORT_MASK);
+ 	cal_set_field(&val, 1, CAL_PIX_PROC_EN_MASK);
+-	cal_write(ctx->cal, CAL_PIX_PROC(ctx->index), val);
+-	ctx_dbg(3, ctx, "CAL_PIX_PROC(%d) = 0x%08x\n", ctx->index,
+-		cal_read(ctx->cal, CAL_PIX_PROC(ctx->index)));
++	cal_write(ctx->cal, CAL_PIX_PROC(ctx->pix_proc), val);
++	ctx_dbg(3, ctx, "CAL_PIX_PROC(%u) = 0x%08x\n", ctx->pix_proc,
++		cal_read(ctx->cal, CAL_PIX_PROC(ctx->pix_proc)));
  }
  
- static void cal_ctx_pix_proc_config(struct cal_ctx *ctx)
-@@ -854,6 +855,7 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
- 	ctx->cal = cal;
- 	ctx->phy = cal->phy[inst];
+ static void cal_ctx_wr_dma_config(struct cal_ctx *ctx)
+@@ -857,6 +857,7 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
  	ctx->index = inst;
-+	ctx->csi2_ctx = inst;
+ 	ctx->csi2_ctx = inst;
  	ctx->cport = inst;
++	ctx->pix_proc = inst;
  
  	ret = cal_ctx_v4l2_init(ctx);
+ 	if (ret)
 diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-index 251bb0ba7b3b..bcc3378b6b41 100644
+index bcc3378b6b41..9475dc80559b 100644
 --- a/drivers/media/platform/ti-vpe/cal.h
 +++ b/drivers/media/platform/ti-vpe/cal.h
-@@ -219,6 +219,7 @@ struct cal_ctx {
- 	struct vb2_queue	vb_vidq;
+@@ -220,6 +220,7 @@ struct cal_ctx {
  	u8			index;
  	u8			cport;
-+	u8			csi2_ctx;
+ 	u8			csi2_ctx;
++	u8			pix_proc;
  };
  
  extern unsigned int cal_debug;
-diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
-index f752096dcf7f..bf937919a1e9 100644
---- a/drivers/media/platform/ti-vpe/cal_regs.h
-+++ b/drivers/media/platform/ti-vpe/cal_regs.h
-@@ -72,22 +72,8 @@
- #define CAL_CSI2_TIMING(m)		(0x314U + (m) * 0x80U)
- #define CAL_CSI2_VC_IRQENABLE(m)	(0x318U + (m) * 0x80U)
- #define CAL_CSI2_VC_IRQSTATUS(m)	(0x328U + (m) * 0x80U)
--#define CAL_CSI2_CTX0(m)		(0x330U + (m) * 0x80U)
--#define CAL_CSI2_CTX1(m)		(0x334U + (m) * 0x80U)
--#define CAL_CSI2_CTX2(m)		(0x338U + (m) * 0x80U)
--#define CAL_CSI2_CTX3(m)		(0x33cU + (m) * 0x80U)
--#define CAL_CSI2_CTX4(m)		(0x340U + (m) * 0x80U)
--#define CAL_CSI2_CTX5(m)		(0x344U + (m) * 0x80U)
--#define CAL_CSI2_CTX6(m)		(0x348U + (m) * 0x80U)
--#define CAL_CSI2_CTX7(m)		(0x34cU + (m) * 0x80U)
--#define CAL_CSI2_STATUS0(m)		(0x350U + (m) * 0x80U)
--#define CAL_CSI2_STATUS1(m)		(0x354U + (m) * 0x80U)
--#define CAL_CSI2_STATUS2(m)		(0x358U + (m) * 0x80U)
--#define CAL_CSI2_STATUS3(m)		(0x35cU + (m) * 0x80U)
--#define CAL_CSI2_STATUS4(m)		(0x360U + (m) * 0x80U)
--#define CAL_CSI2_STATUS5(m)		(0x364U + (m) * 0x80U)
--#define CAL_CSI2_STATUS6(m)		(0x368U + (m) * 0x80U)
--#define CAL_CSI2_STATUS7(m)		(0x36cU + (m) * 0x80U)
-+#define CAL_CSI2_CTX(phy, csi2_ctx)	(0x330U + (phy) * 0x80U + (csi2_ctx) * 4)
-+#define CAL_CSI2_STATUS(phy, csi2_ctx)	(0x350U + (phy) * 0x80U + (csi2_ctx) * 4)
- 
- /* CAL CSI2 PHY register offsets */
- #define CAL_CSI2_PHY_REG0		0x000
 -- 
 2.25.1
 
