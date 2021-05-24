@@ -2,102 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BE0738E7C1
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 15:36:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF94238E91C
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 16:46:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232858AbhEXNh5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 09:37:57 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3651 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232401AbhEXNh5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 09:37:57 -0400
-Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.58])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FpdSM5pW1zNypK;
-        Mon, 24 May 2021 21:32:51 +0800 (CST)
-Received: from dggeml759-chm.china.huawei.com (10.1.199.138) by
- dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 24 May 2021 21:36:27 +0800
-Received: from [10.174.178.165] (10.174.178.165) by
- dggeml759-chm.china.huawei.com (10.1.199.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Mon, 24 May 2021 21:36:26 +0800
-Subject: Re: [PATCH -next] media: staging: tegra-vde: Fix error return code in
- tegra_vde_probe()
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-CC:     <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-staging@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>,
-        <kernel-janitors@vger.kernel.org>, "Hulk Robot" <hulkci@huawei.com>
-References: <20210524133550.2363884-1-weiyongjun1@huawei.com>
- <db911ac9-2d08-ae30-03ea-dfb7db964441@gmail.com>
- <1e05ad22-c4d8-c443-5377-7cd9db024cb9@gmail.com>
-From:   "weiyongjun (A)" <weiyongjun1@huawei.com>
-Message-ID: <20768acd-2ab5-2e7e-263d-d3176268412e@huawei.com>
-Date:   Mon, 24 May 2021 21:36:26 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S233170AbhEXOr6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 10:47:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54084 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233137AbhEXOry (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 May 2021 10:47:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AB40D613BF;
+        Mon, 24 May 2021 14:46:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621867586;
+        bh=sVg6SB/8K3yyZdgO0ZP29Rf+pPOA/vY5LIPQHKTVJMw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=YGt5Yx4b0tdjdAwzlIEzxiLw5YpgAQuGoFFBwf4Jw1MnYepEqPQ+Vd3MyGunrqDI6
+         xaK9xTA7qfH/iwCRaddOFlZHIPWLA0w8remSC4hXZNoofdH4X+1v9lDHD/PHLVV+nx
+         k56+z3sChvtkcPuf1xCENqmsPRqwGTKCzTV9Yvy5r6s4MgYuTWTzSdinPpj7kDZgcM
+         /lYiMMQlUnRa2Lg2VMXWYBMjvqVR8+APgZmrp9JKU2o6SEsXjPTkWco8OAVwjz6zci
+         0MSpuZhu34gnedyPerIBdllyIeJOW62Mho/r6fQfDWpHj+16CsaBPfjyfMmgyhP50Z
+         qbDztG/8qD28Q==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kangjie Lu <kjlu@umn.edu>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.12 04/63] Revert "media: usb: gspca: add a missed check for goto_low_power"
+Date:   Mon, 24 May 2021 10:45:21 -0400
+Message-Id: <20210524144620.2497249-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210524144620.2497249-1-sashal@kernel.org>
+References: <20210524144620.2497249-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1e05ad22-c4d8-c443-5377-7cd9db024cb9@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.165]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggeml759-chm.china.huawei.com (10.1.199.138)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-> 24.05.2021 16:27, Dmitry Osipenko пишет:
->> 24.05.2021 16:35, Wei Yongjun пишет:
->>> Fix to return a negative error code from the error handling
->>> case instead of 0, as done elsewhere in this function.
->>>
->>> Fixes: dc8276b78917 ("staging: media: tegra-vde: use pm_runtime_resume_and_get()")
->>> Reported-by: Hulk Robot <hulkci@huawei.com>
->>> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
->>> ---
->>>   drivers/staging/media/tegra-vde/vde.c | 3 ++-
->>>   1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
->>> index e025b69776f2..321d14ba2e56 100644
->>> --- a/drivers/staging/media/tegra-vde/vde.c
->>> +++ b/drivers/staging/media/tegra-vde/vde.c
->>> @@ -1071,7 +1071,8 @@ static int tegra_vde_probe(struct platform_device *pdev)
->>>   	 * power-cycle it in order to put hardware into a predictable lower
->>>   	 * power state.
->>>   	 */
->>> -	if (pm_runtime_resume_and_get(dev) < 0)
->>> +	err = pm_runtime_resume_and_get(dev);
->>> +	if (err < 0)
->>>   		goto err_pm_runtime;
->>>   
->>>   	pm_runtime_put(dev);
->>>
->> pm_runtime_resume_and_get() doesn't return positive values, the previous
->> variant was okay.
->>
->> You should also version your patches and add changelog.
->>
-> Ah, sorry. The other patch is from Yang Yingliang.
+[ Upstream commit fd013265e5b5576a74a033920d6c571e08d7c423 ]
 
+This reverts commit 5b711870bec4dc9a6d705d41e127e73944fa3650.
 
-Sorry, it is my bad. I missed that patch.
+Because of recent interactions with developers from @umn.edu, all
+commits from them have been recently re-reviewed to ensure if they were
+correct or not.
 
+Upon review, this commit was found to do does nothing useful as a user
+can do nothing with this information and if an error did happen, the
+code would continue on as before.  Because of this, just revert it.
 
-Regards,
+Cc: Kangjie Lu <kjlu@umn.edu>
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Link: https://lore.kernel.org/r/20210503115736.2104747-7-gregkh@linuxfoundation.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/usb/gspca/cpia1.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-Wei Yongjun
+diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
+index a4f7431486f3..d93d384286c1 100644
+--- a/drivers/media/usb/gspca/cpia1.c
++++ b/drivers/media/usb/gspca/cpia1.c
+@@ -1424,7 +1424,6 @@ static int sd_config(struct gspca_dev *gspca_dev,
+ {
+ 	struct sd *sd = (struct sd *) gspca_dev;
+ 	struct cam *cam;
+-	int ret;
+ 
+ 	sd->mainsFreq = FREQ_DEF == V4L2_CID_POWER_LINE_FREQUENCY_60HZ;
+ 	reset_camera_params(gspca_dev);
+@@ -1436,10 +1435,7 @@ static int sd_config(struct gspca_dev *gspca_dev,
+ 	cam->cam_mode = mode;
+ 	cam->nmodes = ARRAY_SIZE(mode);
+ 
+-	ret = goto_low_power(gspca_dev);
+-	if (ret)
+-		gspca_err(gspca_dev, "Cannot go to low power mode: %d\n",
+-			  ret);
++	goto_low_power(gspca_dev);
+ 	/* Check the firmware version. */
+ 	sd->params.version.firmwareVersion = 0;
+ 	get_version_information(gspca_dev);
+-- 
+2.30.2
 
