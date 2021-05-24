@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D518738EA20
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 16:53:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD73F38EA8E
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 16:55:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233538AbhEXOw1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 10:52:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54514 "EHLO mail.kernel.org"
+        id S233961AbhEXO4a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 10:56:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55352 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233550AbhEXOu0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 10:50:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E8A27613FC;
-        Mon, 24 May 2021 14:47:48 +0000 (UTC)
+        id S233881AbhEXOxf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 May 2021 10:53:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5CD4F6141F;
+        Mon, 24 May 2021 14:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621867669;
-        bh=sVg6SB/8K3yyZdgO0ZP29Rf+pPOA/vY5LIPQHKTVJMw=;
+        s=k20201202; t=1621867705;
+        bh=jLKy2fs+izQ6dpIvDbWD8/SxmqacVqGQoXpuCfbhMlc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Wd+6W075RBz+rlQ7GKFZwszm6ncgRCbOoxFr61gPjEF8fzslb48jw951ZJYhlY58r
-         sXo1zce+yj1idQe47w2F8l8+V/gQYlLpOKOceZpyFXBIp2+wv+0zasjbHvddLbNb7z
-         PM9fWDYBzJrP2mVwuKw9zBPAVESAZw3gd8RSo/DhsFdUqV58skm/OvIPlAhmIPSp3U
-         L/VNzrQgvikoNWNwNNKUE6BY2WVIh2zxbzh7aFwSS2Dybt+2+gzOVk627r/4Cd5f4b
-         A1KVSfsS+M3sd7gkVZzQ3nI8bqYKRnvkko/LAO1gmj0iSehQp+284nT4lTNQ6yeJaZ
-         i4PQobXEKd/gg==
+        b=Q/cT3NSqnsHrlmT2K/ANHmCY0Ky6EVHpCUuoYHDMIQl3f9Kj9XoH7Thp9Q6P69S4G
+         7GCPVNItzo43g4xKiMl8/xhpocTMRZ28s6Molgo4eZcZmnpO6I0fBQHhB+6McejohH
+         PRBJOdRoyg6+9kVWLVbIY1OwLXMW0N+83aPdt1rqOE0DVVxEwX3D4MuI93/PUBGq3c
+         016X/9Pcsqj4zBTbbLZAxjgSwx7lm9IPTB0kEZoEj2aOfebUNEcve/+EOS4Sq+mdin
+         PNlUccP+OwLGA6YkO8fZY6uRKWxNCSmb7w9dooJ14QcsNeiCPZaO9+uATw3HNKywA3
+         Ssn9N8e5MPlnA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kangjie Lu <kjlu@umn.edu>,
+        Aditya Pakki <pakki001@umn.edu>, Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 04/62] Revert "media: usb: gspca: add a missed check for goto_low_power"
-Date:   Mon, 24 May 2021 10:46:45 -0400
-Message-Id: <20210524144744.2497894-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 33/62] Revert "media: dvb: Add check on sp8870_readreg"
+Date:   Mon, 24 May 2021 10:47:14 -0400
+Message-Id: <20210524144744.2497894-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210524144744.2497894-1-sashal@kernel.org>
 References: <20210524144744.2497894-1-sashal@kernel.org>
@@ -45,51 +45,46 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-[ Upstream commit fd013265e5b5576a74a033920d6c571e08d7c423 ]
+[ Upstream commit 47e4ff06fa7f5ba4860543a2913bbd0c164640aa ]
 
-This reverts commit 5b711870bec4dc9a6d705d41e127e73944fa3650.
+This reverts commit 467a37fba93f2b4fe3ab597ff6a517b22b566882.
 
 Because of recent interactions with developers from @umn.edu, all
 commits from them have been recently re-reviewed to ensure if they were
 correct or not.
 
-Upon review, this commit was found to do does nothing useful as a user
-can do nothing with this information and if an error did happen, the
-code would continue on as before.  Because of this, just revert it.
+Upon review, this commit was found to be incorrect for the reasons
+below, so it must be reverted.  It will be fixed up "correctly" in a
+later kernel change.
 
-Cc: Kangjie Lu <kjlu@umn.edu>
+This commit is not properly checking for an error at all, so if a
+read succeeds from this device, it will error out.
+
+Cc: Aditya Pakki <pakki001@umn.edu>
+Cc: Sean Young <sean@mess.org>
 Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Link: https://lore.kernel.org/r/20210503115736.2104747-7-gregkh@linuxfoundation.org
+Link: https://lore.kernel.org/r/20210503115736.2104747-59-gregkh@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/gspca/cpia1.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/media/dvb-frontends/sp8870.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
-index a4f7431486f3..d93d384286c1 100644
---- a/drivers/media/usb/gspca/cpia1.c
-+++ b/drivers/media/usb/gspca/cpia1.c
-@@ -1424,7 +1424,6 @@ static int sd_config(struct gspca_dev *gspca_dev,
- {
- 	struct sd *sd = (struct sd *) gspca_dev;
- 	struct cam *cam;
--	int ret;
+diff --git a/drivers/media/dvb-frontends/sp8870.c b/drivers/media/dvb-frontends/sp8870.c
+index 655db8272268..ee893a2f2261 100644
+--- a/drivers/media/dvb-frontends/sp8870.c
++++ b/drivers/media/dvb-frontends/sp8870.c
+@@ -280,9 +280,7 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
+ 	sp8870_writereg(state, 0xc05, reg0xc05);
  
- 	sd->mainsFreq = FREQ_DEF == V4L2_CID_POWER_LINE_FREQUENCY_60HZ;
- 	reset_camera_params(gspca_dev);
-@@ -1436,10 +1435,7 @@ static int sd_config(struct gspca_dev *gspca_dev,
- 	cam->cam_mode = mode;
- 	cam->nmodes = ARRAY_SIZE(mode);
+ 	// read status reg in order to clear pending irqs
+-	err = sp8870_readreg(state, 0x200);
+-	if (err)
+-		return err;
++	sp8870_readreg(state, 0x200);
  
--	ret = goto_low_power(gspca_dev);
--	if (ret)
--		gspca_err(gspca_dev, "Cannot go to low power mode: %d\n",
--			  ret);
-+	goto_low_power(gspca_dev);
- 	/* Check the firmware version. */
- 	sd->params.version.firmwareVersion = 0;
- 	get_version_information(gspca_dev);
+ 	// system controller start
+ 	sp8870_microcontroller_start(state);
 -- 
 2.30.2
 
