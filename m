@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F0C438E4EF
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 13:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32D4438E4F1
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 13:09:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232678AbhEXLLH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S232712AbhEXLLH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Mon, 24 May 2021 07:11:07 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33754 "EHLO
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33776 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232701AbhEXLK6 (ORCPT
+        with ESMTP id S232705AbhEXLLD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 07:10:58 -0400
+        Mon, 24 May 2021 07:11:03 -0400
 Received: from deskari.lan (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 900C53274;
-        Mon, 24 May 2021 13:09:25 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 313CD1575;
+        Mon, 24 May 2021 13:09:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1621854565;
-        bh=WFtTL1DzuHz31fUfyAMy1ytmb2WZ7PSXV0A0rsVj8nM=;
+        s=mail; t=1621854566;
+        bh=8vEjMRbTVoZMFNafGW4iohz7s3We09O1Pnh+Or34MMA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hdrd0I6dHO1HMbBcg+uzCR++Ry+r/UI2rCwZIUHXnH8veRpv3760T2auK7PF5/dum
-         841nXuHvBQD6Nwu8pyipOPnRmcGrgr2irLzT7YQwNg5jBv3xn8ZP1/SDtuT/VbwJmB
-         J6aE7BE9ZB1AeYo+RLUlgIOpnVhfMMM6Tovdhg2s=
+        b=bWT9hhQqKJyE0BUeRVHgpAILGjFIki4ZGmclDYvi7o8yvIVoKEyCShjCeF9e+17ia
+         zcyu7d0/1bYZGup0lZ+bhyBkme3pmH7mGJ0J+9DN57hpKU12B9EDhmZ+SfOLlUKfWe
+         YH3izTgZrQluRZ9AcgXoMBQmRk7lsjxIGB0yGI3A=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v3 17/38] media: ti-vpe: cal: allocate pix proc dynamically
-Date:   Mon, 24 May 2021 14:08:48 +0300
-Message-Id: <20210524110909.672432-18-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 18/38] media: ti-vpe: cal: add 'use_pix_proc' field
+Date:   Mon, 24 May 2021 14:08:49 +0300
+Message-Id: <20210524110909.672432-19-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
 References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
@@ -39,110 +39,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-CAL has 4 pixel processing units but the units are not needed e.g. for
-metadata. As we could be capturing 4 pixel streams and 4 metadata
-streams, i.e. using 8 DMA contexts, we cannot assign a pixel processing
-unit to every DMA context. Instead we need to reserve a pixel processing
-unit only when needed.
+We already have functions to reserve and release a pix proc unit, but we
+always reserve such and the code expects the pix proc unit to be used.
 
-Add functions to reserve and release a pix proc unit, and use them in
-cal_ctx_prepare/unprepare. Note that for the time being we still always
-reserve a pix proc unit.
+Add a new field, 'use_pix_proc', to indicate if the pix prox unit has
+been reserved and should be used. Use the flag to skip programming pix
+proc unit when not needed.
+
+Note that we still always set the use_pix_proc flag to true.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 44 +++++++++++++++++++++++++++--
+ drivers/media/platform/ti-vpe/cal.c | 10 +++++++---
  drivers/media/platform/ti-vpe/cal.h |  2 ++
- 2 files changed, 44 insertions(+), 2 deletions(-)
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index f47d2fa31a39..5ab87c9d3707 100644
+index 5ab87c9d3707..c1a6e23ff713 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -290,6 +290,37 @@ void cal_quickdump_regs(struct cal_dev *cal)
-  * ------------------------------------------------------------------
-  */
+@@ -473,13 +473,15 @@ int cal_ctx_prepare(struct cal_ctx *ctx)
+ 	}
  
-+#define CAL_MAX_PIX_PROC 4
-+
-+static int cal_reserve_pix_proc(struct cal_dev *cal)
-+{
-+	unsigned long ret;
-+
-+	spin_lock(&cal->v4l2_dev.lock);
-+
-+	ret = find_first_zero_bit(&cal->reserved_pix_proc_mask, CAL_MAX_PIX_PROC);
-+
-+	if (ret == CAL_MAX_PIX_PROC) {
-+		spin_unlock(&cal->v4l2_dev.lock);
-+		return -ENOSPC;
-+	}
-+
-+	cal->reserved_pix_proc_mask |= BIT(ret);
-+
-+	spin_unlock(&cal->v4l2_dev.lock);
-+
-+	return ret;
-+}
-+
-+static void cal_release_pix_proc(struct cal_dev *cal, unsigned int pix_proc_num)
-+{
-+	spin_lock(&cal->v4l2_dev.lock);
-+
-+	cal->reserved_pix_proc_mask &= ~BIT(pix_proc_num);
-+
-+	spin_unlock(&cal->v4l2_dev.lock);
-+}
-+
- static void cal_ctx_csi2_config(struct cal_ctx *ctx)
- {
- 	u32 val;
-@@ -433,12 +464,22 @@ static bool cal_ctx_wr_dma_stopped(struct cal_ctx *ctx)
+ 	ctx->pix_proc = ret;
++	ctx->use_pix_proc = true;
  
- int cal_ctx_prepare(struct cal_ctx *ctx)
- {
-+	int ret;
-+
-+	ret = cal_reserve_pix_proc(ctx->cal);
-+	if (ret < 0) {
-+		ctx_err(ctx, "Failed to reserve pix proc: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ctx->pix_proc = ret;
-+
  	return 0;
  }
  
  void cal_ctx_unprepare(struct cal_ctx *ctx)
  {
--
-+	cal_release_pix_proc(ctx->cal, ctx->pix_proc);
+-	cal_release_pix_proc(ctx->cal, ctx->pix_proc);
++	if (ctx->use_pix_proc)
++		cal_release_pix_proc(ctx->cal, ctx->pix_proc);
  }
  
  void cal_ctx_start(struct cal_ctx *ctx)
-@@ -873,7 +914,6 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
- 	ctx->dma_ctx = inst;
- 	ctx->csi2_ctx = inst;
- 	ctx->cport = inst;
--	ctx->pix_proc = inst;
+@@ -489,7 +491,8 @@ void cal_ctx_start(struct cal_ctx *ctx)
  
- 	ret = cal_ctx_v4l2_init(ctx);
- 	if (ret)
+ 	/* Configure the CSI-2, pixel processing and write DMA contexts. */
+ 	cal_ctx_csi2_config(ctx);
+-	cal_ctx_pix_proc_config(ctx);
++	if (ctx->use_pix_proc)
++		cal_ctx_pix_proc_config(ctx);
+ 	cal_ctx_wr_dma_config(ctx);
+ 
+ 	/* Enable IRQ_WDMA_END and IRQ_WDMA_START. */
+@@ -530,7 +533,8 @@ void cal_ctx_stop(struct cal_ctx *ctx)
+ 	cal_write(ctx->cal, CAL_CSI2_CTX(ctx->phy->instance, ctx->csi2_ctx), 0);
+ 
+ 	/* Disable pix proc */
+-	cal_write(ctx->cal, CAL_PIX_PROC(ctx->pix_proc), 0);
++	if (ctx->use_pix_proc)
++		cal_write(ctx->cal, CAL_PIX_PROC(ctx->pix_proc), 0);
+ }
+ 
+ /* ------------------------------------------------------------------
 diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-index e4db2a905f68..5d8b3193be7d 100644
+index 5d8b3193be7d..d7cc399f47da 100644
 --- a/drivers/media/platform/ti-vpe/cal.h
 +++ b/drivers/media/platform/ti-vpe/cal.h
-@@ -188,6 +188,8 @@ struct cal_dev {
- 	struct media_device	mdev;
- 	struct v4l2_device	v4l2_dev;
- 	struct v4l2_async_notifier notifier;
+@@ -223,6 +223,8 @@ struct cal_ctx {
+ 	u8			cport;
+ 	u8			csi2_ctx;
+ 	u8			pix_proc;
 +
-+	unsigned long		reserved_pix_proc_mask;
++	bool			use_pix_proc;
  };
  
- /*
+ extern unsigned int cal_debug;
 -- 
 2.25.1
 
