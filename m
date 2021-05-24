@@ -2,38 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CDF538EB4F
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 17:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF9A38EBD3
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 17:07:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234176AbhEXPCP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 11:02:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37250 "EHLO mail.kernel.org"
+        id S234207AbhEXPId (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 11:08:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37714 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234409AbhEXO7h (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 10:59:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A4A96145C;
-        Mon, 24 May 2021 14:49:45 +0000 (UTC)
+        id S233398AbhEXPCj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 May 2021 11:02:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 425136146D;
+        Mon, 24 May 2021 14:50:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621867786;
-        bh=/5mkWMxrniQRM0OIO+l/RFMqZzon2mnA8svi+4FOsBY=;
+        s=k20201202; t=1621867825;
+        bh=NVhnBFxxbsod3bZ71tcKvqdmuRUUR+JQxC8nBsemxoY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BvItbopXh++wiST0Scq3phsAtk0lNMVA4y8enYEys14v5tTeSDSnfNBh+RpBTG3gp
-         o+R2LalemIBQGpKb5iRJKFsI4tkYRLnBMUfDp6wQENiDjtAvqCNssv/UmAA2ABkS1H
-         +6wVUV4k2e2ESBXm5vxMMMB29bouBs4mUAFdWHIj2aeyva8KOPozY8WgkGdseqsGaA
-         RNSKj4LFDC3XWFss6IaMLg53ZFkmVfHo0Db4ZT3ddgJjBmAw9CkRJi5+lTXbkJUQZO
-         pVKsiIFGg6Ppw3s3xccy04tFL4DZh1EUa69tJ573g8JcDVSxR4RryMC5+GUndHL2Qw
-         FwxunDbZNTtew==
+        b=Y4Xs0b2VcCNabz7EKWSandA0BhWIK5mbNLiew0xWJWq+Lhb7ogFqUacvUAAZR9KjL
+         Pa+azSuiNAjG65B1irOtLplIDL1x5tOQAYmvzBBHMO4QdUfRqck2qWLILNtsbtZQlG
+         j8w1IPFwMG0UY4QZYvNw6e7gmmEXZYTY5AVpeHGEmRQ9qcLHAY7m0OvSXRvXjZSeyh
+         mYq4LpQojJO+Vkq/IC3+4xh3lNxuAXs1YG3Gp1o+vT6+M2Z6lkKhcrlYeOd1TlQT+n
+         9eubhl4j5QHzttciiUaSDOuwg9ORawfGDPxqdEYkyUk546obYaK6sP/aMC0pT102Zc
+         JNe3UYIK2Ef1Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc:     Alaa Emad <alaaemadhossney.ae@gmail.com>,
+        Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 35/52] media: gspca: properly check for errors in po1030_probe()
-Date:   Mon, 24 May 2021 10:48:45 -0400
-Message-Id: <20210524144903.2498518-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 13/25] media: dvb: Add check on sp8870_readreg return
+Date:   Mon, 24 May 2021 10:49:56 -0400
+Message-Id: <20210524145008.2499049-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210524144903.2498518-1-sashal@kernel.org>
-References: <20210524144903.2498518-1-sashal@kernel.org>
+In-Reply-To: <20210524145008.2499049-1-sashal@kernel.org>
+References: <20210524145008.2499049-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -42,50 +44,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Alaa Emad <alaaemadhossney.ae@gmail.com>
 
-[ Upstream commit dacb408ca6f0e34df22b40d8dd5fae7f8e777d84 ]
+[ Upstream commit c6d822c56e7fd29e6fa1b1bb91b98f6a1e942b3c ]
 
-If m5602_write_sensor() or m5602_write_bridge() fail, do not continue to
-initialize the device but return the error to the calling funtion.
+The function sp8870_readreg returns a negative value when i2c_transfer
+fails so properly check for this and return the error if it happens.
 
+Cc: Sean Young <sean@mess.org>
 Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Link: https://lore.kernel.org/r/20210503115736.2104747-64-gregkh@linuxfoundation.org
+Signed-off-by: Alaa Emad <alaaemadhossney.ae@gmail.com>
+Link: https://lore.kernel.org/r/20210503115736.2104747-60-gregkh@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/gspca/m5602/m5602_po1030.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/media/dvb-frontends/sp8870.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/gspca/m5602/m5602_po1030.c b/drivers/media/usb/gspca/m5602/m5602_po1030.c
-index 7bdbb8065146..8fd99ceee4b6 100644
---- a/drivers/media/usb/gspca/m5602/m5602_po1030.c
-+++ b/drivers/media/usb/gspca/m5602/m5602_po1030.c
-@@ -155,6 +155,7 @@ static const struct v4l2_ctrl_config po1030_greenbal_cfg = {
- int po1030_probe(struct sd *sd)
- {
- 	u8 dev_id_h = 0, i;
-+	int err;
- 	struct gspca_dev *gspca_dev = (struct gspca_dev *)sd;
+diff --git a/drivers/media/dvb-frontends/sp8870.c b/drivers/media/dvb-frontends/sp8870.c
+index 8d31cf3f4f07..3a577788041d 100644
+--- a/drivers/media/dvb-frontends/sp8870.c
++++ b/drivers/media/dvb-frontends/sp8870.c
+@@ -293,7 +293,9 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
+ 	sp8870_writereg(state, 0xc05, reg0xc05);
  
- 	if (force_sensor) {
-@@ -173,10 +174,13 @@ int po1030_probe(struct sd *sd)
- 	for (i = 0; i < ARRAY_SIZE(preinit_po1030); i++) {
- 		u8 data = preinit_po1030[i][2];
- 		if (preinit_po1030[i][0] == SENSOR)
--			m5602_write_sensor(sd,
--				preinit_po1030[i][1], &data, 1);
-+			err = m5602_write_sensor(sd, preinit_po1030[i][1],
-+						 &data, 1);
- 		else
--			m5602_write_bridge(sd, preinit_po1030[i][1], data);
-+			err = m5602_write_bridge(sd, preinit_po1030[i][1],
-+						 data);
-+		if (err < 0)
-+			return err;
- 	}
+ 	// read status reg in order to clear pending irqs
+-	sp8870_readreg(state, 0x200);
++	err = sp8870_readreg(state, 0x200);
++	if (err < 0)
++		return err;
  
- 	if (m5602_read_sensor(sd, PO1030_DEVID_H, &dev_id_h, 1))
+ 	// system controller start
+ 	sp8870_microcontroller_start(state);
 -- 
 2.30.2
 
