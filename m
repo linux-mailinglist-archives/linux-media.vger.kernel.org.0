@@ -2,122 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6254638E748
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 15:19:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1FA138E76F
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 15:27:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232869AbhEXNUy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 09:20:54 -0400
-Received: from mail-il1-f198.google.com ([209.85.166.198]:50090 "EHLO
-        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232781AbhEXNUv (ORCPT
+        id S232486AbhEXN3T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 09:29:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46930 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232401AbhEXN3S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 09:20:51 -0400
-Received: by mail-il1-f198.google.com with SMTP id w11-20020a92db4b0000b02901bb97fba647so25426314ilq.16
-        for <linux-media@vger.kernel.org>; Mon, 24 May 2021 06:19:23 -0700 (PDT)
+        Mon, 24 May 2021 09:29:18 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A087C061574;
+        Mon, 24 May 2021 06:27:49 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id w33so32719052lfu.7;
+        Mon, 24 May 2021 06:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WlD4zojrALQJ3lMjLIav5M7SKi5ELnimDryncsQ/eew=;
+        b=n+janOnwDY0e+M/oqh/h5lp+KO3spsFId0m8fYDlrunNShBYLSDx99+oihuZFnQrKb
+         p+yan76rURm+le3301pH9UEAHBSF0dey5vrlm3Gz229XQARguK7u66/P97HssAFcT/kL
+         Q49eHUPqimmyUiQr6+ylw0QD1G4lGXs8AkPEBnBLotdqPQBDLtjMzykFtPq2T5Ws7ji4
+         T3939zY0oAjChf4BxQA6FJtqXJ9v7+VEwVKHVz5rrYoQHKzTxSqRSuy7obS/A1EYKgEC
+         QvRJpo3uM/ObkgZRe1RsNhDvL4Ba93MVrtleRksDndDfVqsZFcD2SfNhkyuXJhMWVZCc
+         NIAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=xlJyul8EX30BPfx0IrWN2X0dWiT6NoPE1yBME7Ku8yY=;
-        b=iiSi1yBGtEOXrRdSpYguXv1I2r+5BTapzfbC1w1t/FGYkeHJTBEXLtDQg5A8PJCa8I
-         rSQWnaU2xot+CTX3LMYIYMEmcGt3jiAHdi31a+ye4OzQeiHyoDYtkFYOnmtyqlVQftBf
-         0Yv4jUsWqtlvmfXKyQ/LaPLqWqS0v3Zu5Gg+n3LlI8d0kflFR4+qayuu4HvBBYrGXc+S
-         lSMGEu3fnDdAvAd/jVEK90WXh99idj17qgGSXHhSmlsgELKMHcPugMIseEeL3D7Rpo56
-         jb1ZfaD85PLrIR96zuykXTFa0vUbdipBHE7fXSLtMPII56lZOLFZW1PLtIM+rYAlKA7O
-         h64w==
-X-Gm-Message-State: AOAM532qdU5MnSiK0n7YLLyjS9QPg+w9QfMaSrEKb5S+wO04aXMd4/Gm
-        pcktXO3S5Fq4VsxF+WvTUs0ukszXaktROzqdg8CvRyIkZ6+m
-X-Google-Smtp-Source: ABdhPJzWg5EheSUX48l72MPSH9pGe+SyqFLJi+CvgWH+f8EzYpTz/N9nLnSDP/N6AY7rcG4uM2y87svB8dHUB9euCm+kwxK4BWSE
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WlD4zojrALQJ3lMjLIav5M7SKi5ELnimDryncsQ/eew=;
+        b=YWLavoJwVbi0jG5hVHZqxcngWJYP+hX2eqIXpyiDnTR8VdIAVo7vu37X1AL/D2fhsS
+         oi3spZEjqCLUJmfoU63lc9d7U9T0QNfHOAK1s3QOJroyEprfXXGDTgQglzDSk2DBHDIW
+         lezo8XGmFDYLQHeWkyIJalsRO0LpkBLY/qBrveXI5o0OnTG0exr/uCCBfHh8ODXILFWc
+         4hRUV5YwJPYV3ut3TMi/rrBUwAAfGYyQeT3e08fzpQUeOWN0kQ0If1488+7HmK0J3FI0
+         3Mlu9Bc8/ZuLuxexFmborJqmWH2N5bjG3SvpQ19a2aB4iw/zHU3T11quUp9PU4/qgfl8
+         l7IA==
+X-Gm-Message-State: AOAM533XgxDK1mCdlvbIsGJ+g7ynRcITV8/6Rek/LPKNaL3tzJxZuYV3
+        yr2ZFzwOEoHvTm95w4N/emg=
+X-Google-Smtp-Source: ABdhPJx21C2ia2YRPJ+KM6HGkOOUDyuFOa4OvvZsYw21/Dc6XaNds85PS5+Mk5I/jXr0R6uagP0uBw==
+X-Received: by 2002:a05:6512:3dac:: with SMTP id k44mr10709502lfv.256.1621862867427;
+        Mon, 24 May 2021 06:27:47 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-193-110.dynamic.spd-mgts.ru. [109.252.193.110])
+        by smtp.googlemail.com with ESMTPSA id a25sm1763802ljp.11.2021.05.24.06.27.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 May 2021 06:27:47 -0700 (PDT)
+Subject: Re: [PATCH -next] media: staging: tegra-vde: Fix error return code in
+ tegra_vde_probe()
+To:     Wei Yongjun <weiyongjun1@huawei.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, kernel-janitors@vger.kernel.org,
+        Hulk Robot <hulkci@huawei.com>
+References: <20210524133550.2363884-1-weiyongjun1@huawei.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <db911ac9-2d08-ae30-03ea-dfb7db964441@gmail.com>
+Date:   Mon, 24 May 2021 16:27:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Received: by 2002:a6b:cd08:: with SMTP id d8mr16023343iog.86.1621862363043;
- Mon, 24 May 2021 06:19:23 -0700 (PDT)
-Date:   Mon, 24 May 2021 06:19:23 -0700
-In-Reply-To: <000000000000f96caf05c30fd10f@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000061f5105c3134231@google.com>
-Subject: Re: [syzbot] WARNING in rtl28xxu_ctrl_msg/usb_submit_urb
-From:   syzbot <syzbot+faf11bbadc5a372564da@syzkaller.appspotmail.com>
-To:     crope@iki.fi, gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
-        johan@kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mathias.nyman@linux.intel.com, mchehab@kernel.org,
-        stable@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210524133550.2363884-1-weiyongjun1@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has found a reproducer for the following issue on:
+24.05.2021 16:35, Wei Yongjun пишет:
+> Fix to return a negative error code from the error handling
+> case instead of 0, as done elsewhere in this function.
+> 
+> Fixes: dc8276b78917 ("staging: media: tegra-vde: use pm_runtime_resume_and_get()")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+> ---
+>  drivers/staging/media/tegra-vde/vde.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+> index e025b69776f2..321d14ba2e56 100644
+> --- a/drivers/staging/media/tegra-vde/vde.c
+> +++ b/drivers/staging/media/tegra-vde/vde.c
+> @@ -1071,7 +1071,8 @@ static int tegra_vde_probe(struct platform_device *pdev)
+>  	 * power-cycle it in order to put hardware into a predictable lower
+>  	 * power state.
+>  	 */
+> -	if (pm_runtime_resume_and_get(dev) < 0)
+> +	err = pm_runtime_resume_and_get(dev);
+> +	if (err < 0)
+>  		goto err_pm_runtime;
+>  
+>  	pm_runtime_put(dev);
+> 
 
-HEAD commit:    5cc59c41 USB: core: WARN if pipe direction != setup packet..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=17aa9217d00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1206ee92dd3d988d
-dashboard link: https://syzkaller.appspot.com/bug?extid=faf11bbadc5a372564da
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17e839d1d00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1242ce8dd00000
+pm_runtime_resume_and_get() doesn't return positive values, the previous
+variant was okay.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+faf11bbadc5a372564da@syzkaller.appspotmail.com
-
-usb 1-1: New USB device found, idVendor=0413, idProduct=6a03, bcdDevice=39.7e
-usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-usb 1-1: Product: syz
-usb 1-1: Manufacturer: syz
-usb 1-1: SerialNumber: syz
-------------[ cut here ]------------
-usb 1-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
-WARNING: CPU: 1 PID: 32 at drivers/usb/core/urb.c:410 usb_submit_urb+0x14aa/0x1830 drivers/usb/core/urb.c:410
-Modules linked in:
-CPU: 1 PID: 32 Comm: kworker/1:1 Not tainted 5.13.0-rc2-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:usb_submit_urb+0x14aa/0x1830 drivers/usb/core/urb.c:410
-Code: 84 4c 01 00 00 e8 a6 14 b3 fd 4c 89 f7 e8 4e a7 1b ff 45 89 e8 44 89 e1 48 89 ea 48 89 c6 48 c7 c7 c0 09 63 86 e8 18 f1 fb 01 <0f> 0b 49 8d 4f 5c 48 b8 00 00 00 00 00 fc ff df 48 89 ca 48 89 4c
-RSP: 0018:ffffc900001a6d50 EFLAGS: 00010286
-RAX: 0000000000000000 RBX: ffff88811ab8a058 RCX: 0000000000000000
-RDX: ffff888107fc0000 RSI: ffffffff812a6013 RDI: fffff52000034d9c
-RBP: ffff88810e79f7a8 R08: 0000000000000001 R09: 0000000000000000
-R10: ffffffff814b996b R11: 0000000000000000 R12: 0000000080000280
-R13: 00000000000000c0 R14: ffff88811ab8a0a8 R15: ffff8881097a2500
-FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055d9ffcec928 CR3: 00000001103c2000 CR4: 00000000001506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- usb_start_wait_urb+0x101/0x4c0 drivers/usb/core/message.c:58
- usb_internal_control_msg drivers/usb/core/message.c:102 [inline]
- usb_control_msg+0x31c/0x4a0 drivers/usb/core/message.c:153
- rtl28xxu_ctrl_msg+0x4b7/0x700 drivers/media/usb/dvb-usb-v2/rtl28xxu.c:43
- rtl28xxu_identify_state+0xb6/0x320 drivers/media/usb/dvb-usb-v2/rtl28xxu.c:624
- dvb_usbv2_probe+0x55b/0x7d0 drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:947
- usb_probe_interface+0x315/0x7f0 drivers/usb/core/driver.c:396
- really_probe+0x291/0xf60 drivers/base/dd.c:576
- driver_probe_device+0x298/0x410 drivers/base/dd.c:763
- __device_attach_driver+0x203/0x2c0 drivers/base/dd.c:870
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
- __device_attach+0x228/0x4b0 drivers/base/dd.c:938
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
- device_add+0xbe0/0x2100 drivers/base/core.c:3320
- usb_set_configuration+0x113f/0x1910 drivers/usb/core/message.c:2164
- usb_generic_driver_probe+0xba/0x100 drivers/usb/core/generic.c:238
- usb_probe_device+0xd9/0x2c0 drivers/usb/core/driver.c:293
- really_probe+0x291/0xf60 drivers/base/dd.c:576
- driver_probe_device+0x298/0x410 drivers/base/dd.c:763
- __device_attach_driver+0x203/0x2c0 drivers/base/dd.c:870
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
- __device_attach+0x228/0x4b0 drivers/base/dd.c:938
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
- device_add+0xbe0/0x2100 drivers/base/core.c:3320
- usb_new_device.cold+0x721/0x1058 drivers/usb/core/hub.c:2556
- hub_port_connect drivers/usb/core/hub.c:5297 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5437 [inline]
- port_event drivers/usb/core/hub.c:5583 [inline]
- hub_event+0x2357/0x4330 drivers/usb/core/hub.c:5665
- process_one_work+0x98d/0x1580 kernel/workqueue.c:2275
- worker_thread+0x64c/0x1120 kernel/workqueue.c:2421
- kthread+0x38c/0x460 kernel/kthread.c:313
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-
+You should also version your patches and add changelog.
