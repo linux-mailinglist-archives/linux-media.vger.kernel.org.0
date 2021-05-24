@@ -2,214 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CD1338E73B
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 15:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6254638E748
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 15:19:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232424AbhEXNR6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 09:17:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44340 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232401AbhEXNR5 (ORCPT
+        id S232869AbhEXNUy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 May 2021 09:20:54 -0400
+Received: from mail-il1-f198.google.com ([209.85.166.198]:50090 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232781AbhEXNUv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 09:17:57 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64BF1C061574
-        for <linux-media@vger.kernel.org>; Mon, 24 May 2021 06:16:29 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id b17so31942515ede.0
-        for <linux-media@vger.kernel.org>; Mon, 24 May 2021 06:16:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NteyrlulQjjznatG/TX6O9GBExvzsPylyJMvJfSFCOQ=;
-        b=RX/6UK6jD+NP8z6hQhTYVUdEN8Oab14tAkF5V1K+4521YQhjndxtX4uRLm1Ij5MVGs
-         UNQ2UjCCnkvz9xbHPvvj0UWLFu5CTLyBTmAw7AEG+7oK9/LTf2gzYIXZT6YA3+AbiXWb
-         mfYdlHwszN+aJj7V8u7N2jak9OWEiG7yWYylKIIXvS7JKD2MHnCwAtpcpvqQoW+ieoyI
-         7cMSccrZwzaJAqE4bcRoBTIlxAgS3ChX7MC/QuJ12vUhOUuHgx6bfXhdn/gm8FU/BIUr
-         GEptqvAXHHF2PSMVgHLR+43361qYJI3tAWgUFNGdme+xymYqhFLqEwN4Sx+UHGJsEeY4
-         c1tQ==
+        Mon, 24 May 2021 09:20:51 -0400
+Received: by mail-il1-f198.google.com with SMTP id w11-20020a92db4b0000b02901bb97fba647so25426314ilq.16
+        for <linux-media@vger.kernel.org>; Mon, 24 May 2021 06:19:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=NteyrlulQjjznatG/TX6O9GBExvzsPylyJMvJfSFCOQ=;
-        b=CzrFWVYSEWU+u+FLxuczV4e9t2/9Oh4w/mbuOPBhvnNADYfTNfMgS2akts1nZPiE94
-         7ft2x1QFZ1zvhqGTZZ6H+6uaXa19WYYoO3BtbgLSjEPzOqdRtANSCaCwXNXV5V7FCZBU
-         VV2m9dor0qb7qAbzLC9EIx4UQx9rUUenBbLwaqQmBU7ZbgFTavph4Bh/7whypIllo8k/
-         VWirQw6k8vuTM8AEr/k/2yqJpftDfKmBu+WpaWkKpJYC1qJZ620393nzyMJlRZkYcC3D
-         zCFo0mW6zuzUpDGEB1TKdJlDyhe+ttB1RHJW1HYZxgxber2i/6zQAsSsRJn90ZGOajva
-         iSdQ==
-X-Gm-Message-State: AOAM531bRUcBxSrM4SEyBGs6HIZlBZCT6hvXed1tCATihcz2Y+5zgiWM
-        n+jX4fgpoj5j3w8zIHqpMPKoGQ==
-X-Google-Smtp-Source: ABdhPJw9HCOdmGupxAgbmBBs0BwFiCsdVjm9O2w68VTLcxya5u1x0xiwp6ajb0WMkkk4p8eYHLw8LQ==
-X-Received: by 2002:a05:6402:128e:: with SMTP id w14mr11816314edv.99.1621862187926;
-        Mon, 24 May 2021 06:16:27 -0700 (PDT)
-Received: from [192.168.1.12] (hst-208-222.medicom.bg. [84.238.208.222])
-        by smtp.googlemail.com with ESMTPSA id r17sm9219964edt.33.2021.05.24.06.16.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 May 2021 06:16:27 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: Re: [RFC/WIP 0/4] HEIC image encoder
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
- <3a9c6b170817c0d9456539b683439ed1681953a2.camel@ndufresne.ca>
-Message-ID: <5b3d53b5-f4cf-bd47-047d-d554a56ac8d0@linaro.org>
-Date:   Mon, 24 May 2021 16:16:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=xlJyul8EX30BPfx0IrWN2X0dWiT6NoPE1yBME7Ku8yY=;
+        b=iiSi1yBGtEOXrRdSpYguXv1I2r+5BTapzfbC1w1t/FGYkeHJTBEXLtDQg5A8PJCa8I
+         rSQWnaU2xot+CTX3LMYIYMEmcGt3jiAHdi31a+ye4OzQeiHyoDYtkFYOnmtyqlVQftBf
+         0Yv4jUsWqtlvmfXKyQ/LaPLqWqS0v3Zu5Gg+n3LlI8d0kflFR4+qayuu4HvBBYrGXc+S
+         lSMGEu3fnDdAvAd/jVEK90WXh99idj17qgGSXHhSmlsgELKMHcPugMIseEeL3D7Rpo56
+         jb1ZfaD85PLrIR96zuykXTFa0vUbdipBHE7fXSLtMPII56lZOLFZW1PLtIM+rYAlKA7O
+         h64w==
+X-Gm-Message-State: AOAM532qdU5MnSiK0n7YLLyjS9QPg+w9QfMaSrEKb5S+wO04aXMd4/Gm
+        pcktXO3S5Fq4VsxF+WvTUs0ukszXaktROzqdg8CvRyIkZ6+m
+X-Google-Smtp-Source: ABdhPJzWg5EheSUX48l72MPSH9pGe+SyqFLJi+CvgWH+f8EzYpTz/N9nLnSDP/N6AY7rcG4uM2y87svB8dHUB9euCm+kwxK4BWSE
 MIME-Version: 1.0
-In-Reply-To: <3a9c6b170817c0d9456539b683439ed1681953a2.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a6b:cd08:: with SMTP id d8mr16023343iog.86.1621862363043;
+ Mon, 24 May 2021 06:19:23 -0700 (PDT)
+Date:   Mon, 24 May 2021 06:19:23 -0700
+In-Reply-To: <000000000000f96caf05c30fd10f@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000061f5105c3134231@google.com>
+Subject: Re: [syzbot] WARNING in rtl28xxu_ctrl_msg/usb_submit_urb
+From:   syzbot <syzbot+faf11bbadc5a372564da@syzkaller.appspotmail.com>
+To:     crope@iki.fi, gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
+        johan@kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mathias.nyman@linux.intel.com, mchehab@kernel.org,
+        stable@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
+syzbot has found a reproducer for the following issue on:
 
-Thanks for comments!
+HEAD commit:    5cc59c41 USB: core: WARN if pipe direction != setup packet..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=17aa9217d00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1206ee92dd3d988d
+dashboard link: https://syzkaller.appspot.com/bug?extid=faf11bbadc5a372564da
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17e839d1d00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1242ce8dd00000
 
-On 5/18/21 8:07 PM, Nicolas Dufresne wrote:
-> Le jeudi 29 avril 2021 à 16:28 +0300, Stanimir Varbanov a écrit :
->> Hi,
->>
->> HEIC (High-Efficiency Image Container) is a variant of HEIF (High
->> Efficiency Image File Format) where HEVC/h265 codec is used to encode
->> images.  For more info see [1].
->>
->> In this RFC we propose a new compressed pixel format V4L2_PIX_FMT_HEIC.
->> The name is debatable and could be changed (V4L2_PIX_FMT_HEVC_HEIF is
->> also an option).
->>
->> There are two encoding modes which should be selectable by clients:
->>     1. Regular image encoding
->>     2. Grid image encoding
->>
->> 1. Regular image encoding
->>
->> Propose to reuse stateful video encoder spec [2].
->>
->> - queuing one OUTPUT buffer will produce one CAPTURE buffer.  The
->> client could trigger Drain sequence at any point of time.
-> 
-> Do you know the rationale why the normal HEVC encoder isn't used and then muxed
-> into the HEIF container ? It is these days quite atypical for HW to handle the
-> container part. Perhaps they hacked the header, I am not so familiar with these
-> new ISOMBF based image format (AV1 got something very similar, though less
-> convoluted).
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+faf11bbadc5a372564da@syzkaller.appspotmail.com
 
-Maybe I did not explain well, but the Venus (and all the knowledge I
-have is based on it) does not implement the container part. The
-container part is implemented in client. For example I used libheif to
-create .heic image file from Venus encoded hevc bitstream.
+usb 1-1: New USB device found, idVendor=0413, idProduct=6a03, bcdDevice=39.7e
+usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-1: Product: syz
+usb 1-1: Manufacturer: syz
+usb 1-1: SerialNumber: syz
+------------[ cut here ]------------
+usb 1-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
+WARNING: CPU: 1 PID: 32 at drivers/usb/core/urb.c:410 usb_submit_urb+0x14aa/0x1830 drivers/usb/core/urb.c:410
+Modules linked in:
+CPU: 1 PID: 32 Comm: kworker/1:1 Not tainted 5.13.0-rc2-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:usb_submit_urb+0x14aa/0x1830 drivers/usb/core/urb.c:410
+Code: 84 4c 01 00 00 e8 a6 14 b3 fd 4c 89 f7 e8 4e a7 1b ff 45 89 e8 44 89 e1 48 89 ea 48 89 c6 48 c7 c7 c0 09 63 86 e8 18 f1 fb 01 <0f> 0b 49 8d 4f 5c 48 b8 00 00 00 00 00 fc ff df 48 89 ca 48 89 4c
+RSP: 0018:ffffc900001a6d50 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: ffff88811ab8a058 RCX: 0000000000000000
+RDX: ffff888107fc0000 RSI: ffffffff812a6013 RDI: fffff52000034d9c
+RBP: ffff88810e79f7a8 R08: 0000000000000001 R09: 0000000000000000
+R10: ffffffff814b996b R11: 0000000000000000 R12: 0000000080000280
+R13: 00000000000000c0 R14: ffff88811ab8a0a8 R15: ffff8881097a2500
+FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055d9ffcec928 CR3: 00000001103c2000 CR4: 00000000001506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ usb_start_wait_urb+0x101/0x4c0 drivers/usb/core/message.c:58
+ usb_internal_control_msg drivers/usb/core/message.c:102 [inline]
+ usb_control_msg+0x31c/0x4a0 drivers/usb/core/message.c:153
+ rtl28xxu_ctrl_msg+0x4b7/0x700 drivers/media/usb/dvb-usb-v2/rtl28xxu.c:43
+ rtl28xxu_identify_state+0xb6/0x320 drivers/media/usb/dvb-usb-v2/rtl28xxu.c:624
+ dvb_usbv2_probe+0x55b/0x7d0 drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:947
+ usb_probe_interface+0x315/0x7f0 drivers/usb/core/driver.c:396
+ really_probe+0x291/0xf60 drivers/base/dd.c:576
+ driver_probe_device+0x298/0x410 drivers/base/dd.c:763
+ __device_attach_driver+0x203/0x2c0 drivers/base/dd.c:870
+ bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x228/0x4b0 drivers/base/dd.c:938
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0xbe0/0x2100 drivers/base/core.c:3320
+ usb_set_configuration+0x113f/0x1910 drivers/usb/core/message.c:2164
+ usb_generic_driver_probe+0xba/0x100 drivers/usb/core/generic.c:238
+ usb_probe_device+0xd9/0x2c0 drivers/usb/core/driver.c:293
+ really_probe+0x291/0xf60 drivers/base/dd.c:576
+ driver_probe_device+0x298/0x410 drivers/base/dd.c:763
+ __device_attach_driver+0x203/0x2c0 drivers/base/dd.c:870
+ bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:431
+ __device_attach+0x228/0x4b0 drivers/base/dd.c:938
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:491
+ device_add+0xbe0/0x2100 drivers/base/core.c:3320
+ usb_new_device.cold+0x721/0x1058 drivers/usb/core/hub.c:2556
+ hub_port_connect drivers/usb/core/hub.c:5297 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5437 [inline]
+ port_event drivers/usb/core/hub.c:5583 [inline]
+ hub_event+0x2357/0x4330 drivers/usb/core/hub.c:5665
+ process_one_work+0x98d/0x1580 kernel/workqueue.c:2275
+ worker_thread+0x64c/0x1120 kernel/workqueue.c:2421
+ kthread+0x38c/0x460 kernel/kthread.c:313
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
 
->>
->> 2. Grid image encoding
->>
->> Propose to reuse stateful video encoder spec [2].
->>
->> - queuing one OUTPUT buffer will produce a number of grids CAPTURE
->> buffers.  The client could trigger Drain sequence at any point of time.
->>
->> This image encoding mode is used when the input image resolution is
->> bigger then the hardware can support and/or for compatibility reasons
->> (for exmaple, the HEIC decoding hardware is not capable to decode higher
->> than VGA resolutions).
->>
->> In this mode the input image is divided on square blocks (we call them grids)
->> and every block is encoded separately (the Venus driver presently supports 
->> grid size of 512x512 but that could be changed in the future).
-> 
-> Are the blocks always power of two ? Or multiple of 16 ? How do you expose this
-
-I guess the blocks will definitely be a power of two. As far as for
-multiple of 16, I guess grid size should be multiple of CTUs (32x32 or
-64x64) in case of HEVC. It might be different for the other codecs.
-
-> information to application ? It sounds like an HW decoder would also need to
-> expose these restrictions. Userspace will need to be able to check without
-> trying if the HW decoder handles the grid side to be able to fallback to
-> software decoding.
-
-Depending on what we will decide :
- - use v4l2 control for setting the grid size then we can use
-VIDIOC_QUERYCTRL
- - if we decide to set the grid size on the CAPTURE queue SFMT the we
-can use VIDIOC_ENUM_FMT
-
-> 
->>
->> To set the grid size we use a new v4l2 control.
->>
->> The side effect of this mode is that the client have to set the v4l2
->> control and thus enable grid encoding before setting the formats on
->> CAPTURE and OUTPUT queues, because the grid size reflects on the
->> selected resolutions. Also the horizontal and vertical strides will
->> also be affected because thеy have to be aligned to the grid size
->> in order to satisfy DMA alignment restrictions.
->>
->> Using of v4l2 control to set up Grid mode and Grid size above looks
->> inpractical and somehow breaks the v4l2 and v4l2 control rules, so
->> I'd give one more option. 
-> 
-> The stasteless decoders uses a control that must be set after the OUTPUT format,
-> but before enumerating capture formats. Not exactly the same, but there is a
-> control that interact with the format negotiation.
-
-I'd try to avoid such control if possible.
-
-> 
->>
->> Encoding the Grid mode/size in the new proposed HEIC pixel format:
->>
->>    V4L2_PIX_FMT_HEIC - Regular HEIC image encoding
->>    V4L2_PIX_FMT_HEIC_GRID_512x512 - Grid HEIC image encoding, grid size of 512x512 
->>    and so on ...
-> 
-> I would be worry of the about of formats that may generates.
-> 
->>
->> Comments and suggestions are welcome!
->>
->> regards,
->> Stan
->>
->> [1] https://en.wikipedia.org/wiki/High_Efficiency_Image_File_Format
->> [2] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-encoder.html
->>
->>
->> Stanimir Varbanov (4):
->>   media: Add HEIC compressed pixel format
->>   v4l2-ctrls: Add HEIC grid size control
->>   venus: helpers: Add a new helper for buffer processing
->>   venus: Add HEIC image encoder
->>
->>  .../media/v4l/pixfmt-compressed.rst           |   12 +
->>  drivers/media/platform/qcom/venus/Makefile    |    2 +
->>  drivers/media/platform/qcom/venus/core.h      |   10 +
->>  drivers/media/platform/qcom/venus/helpers.c   |   20 +
->>  drivers/media/platform/qcom/venus/helpers.h   |    1 +
->>  drivers/media/platform/qcom/venus/hfi_cmds.c  |   10 +-
->>  .../media/platform/qcom/venus/hfi_helper.h    |    5 +
->>  drivers/media/platform/qcom/venus/ienc.c      | 1348 +++++++++++++++++
->>  drivers/media/platform/qcom/venus/ienc.h      |   14 +
->>  .../media/platform/qcom/venus/ienc_ctrls.c    |   83 +
->>  drivers/media/v4l2-core/v4l2-ctrls.c          |    3 +
->>  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
->>  include/uapi/linux/v4l2-controls.h            |    1 +
->>  include/uapi/linux/videodev2.h                |    1 +
->>  14 files changed, 1510 insertions(+), 1 deletion(-)
->>  create mode 100644 drivers/media/platform/qcom/venus/ienc.c
->>  create mode 100644 drivers/media/platform/qcom/venus/ienc.h
->>  create mode 100644 drivers/media/platform/qcom/venus/ienc_ctrls.c
->>
-> 
-> 
-
--- 
-regards,
-Stan
