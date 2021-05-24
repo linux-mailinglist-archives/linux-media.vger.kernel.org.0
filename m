@@ -2,107 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10EA238ED4B
-	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 17:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE9B038F1A7
+	for <lists+linux-media@lfdr.de>; Mon, 24 May 2021 18:34:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233570AbhEXPgM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 May 2021 11:36:12 -0400
-Received: from mga03.intel.com ([134.134.136.65]:54402 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233814AbhEXPe3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 May 2021 11:34:29 -0400
-IronPort-SDR: /1BIbrrwFpPpbPHvt1rDyST/VdO1IH37rQDsd8GZ6O/WK90ydFMU+7woMbg9eMg4U9bkN4D+W5
- AFcx4mqtulXQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="202002891"
-X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
-   d="scan'208";a="202002891"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 08:32:52 -0700
-IronPort-SDR: TSVuQCCO5bDPRFhHJiq8iyGKubH2rl6VexUUuLqrub78lkVQiJ7iAfQdGmkUIOjaMn0STbV+rf
- 9dKksCxla/3w==
-X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
-   d="scan'208";a="396432635"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 08:32:50 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 8095B202F7;
-        Mon, 24 May 2021 18:32:47 +0300 (EEST)
-Date:   Mon, 24 May 2021 18:32:47 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     trix@redhat.com
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, drv@mailo.com,
-        martinsdecarvalhobeatriz@gmail.com, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging: atomisp: improve error handling in
- gc2235_detect()
-Message-ID: <20210524153247.GQ3@paasikivi.fi.intel.com>
-References: <20210521194805.2078135-1-trix@redhat.com>
+        id S233120AbhEXQgP convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 24 May 2021 12:36:15 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:25678 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232491AbhEXQgO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 May 2021 12:36:14 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-130-Su6f02UuPwmFID_yslxeDA-1; Mon, 24 May 2021 17:34:43 +0100
+X-MC-Unique: Su6f02UuPwmFID_yslxeDA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Mon, 24 May 2021 17:34:39 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Mon, 24 May 2021 17:34:39 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Mark Rutland' <mark.rutland@arm.com>,
+        Christoph Hellwig <hch@infradead.org>
+CC:     Joe Richey <joerichey94@gmail.com>,
+        "trivial@kernel.org" <trivial@kernel.org>,
+        Joe Richey <joerichey@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Zhangfei Gao <zhangfei.gao@linaro.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-accelerators@lists.ozlabs.org" 
+        <linux-accelerators@lists.ozlabs.org>
+Subject: RE: [PATCH 0/6] Don't use BIT() macro in UAPI headers
+Thread-Topic: [PATCH 0/6] Don't use BIT() macro in UAPI headers
+Thread-Index: AQHXUJhmyhlvadTh4EyDNcSC3h2x96ry0v3w
+Date:   Mon, 24 May 2021 16:34:39 +0000
+Message-ID: <56cdb86fe8984a94b4a7a8073476d849@AcuMS.aculab.com>
+References: <20210520104343.317119-1-joerichey94@gmail.com>
+ <YKuSEnfEbjpOOgLS@infradead.org> <20210524122901.GH1040@C02TD0UTHF1T.local>
+In-Reply-To: <20210524122901.GH1040@C02TD0UTHF1T.local>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210521194805.2078135-1-trix@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tom,
+From: Mark Rutland
+> Sent: 24 May 2021 13:29
+> 
+> On Mon, May 24, 2021 at 12:46:26PM +0100, Christoph Hellwig wrote:
+> > On Thu, May 20, 2021 at 03:43:37AM -0700, Joe Richey wrote:
+> > > This patch series changes all UAPI uses of BIT() to just be open-coded.
+> > > However, there really should be a check for this in checkpatch.pl
+> > > Currently, the script actually _encourages_ users to use the BIT macro
+> > > even if adding things to UAPI.
+> >
+> > Yes.  In fact it should warn about BIT() in general.  It is totally
+> > pointless obsfucation that doesn't even save any typing at all.
+> 
+> That's not quite true; the point is that if you use BIT() consistently,
+> then even when you refer to bits 32 to 63 you won't accidentally
+> introduce shifts of more than the width of int, and the definition will
+> work equally well for assembly and C, which isn't true if you use `1UL`
+> in the definition.
+> 
+> With that in mind it's shorter and clearer than its functional
+> equivalent:
+> 
+>   BIT(x)
+>   (UL(1) << (x))
+> 
+> So IMO it's preferable to use BIT() generally, or _BITUL() in uapi
+> headers.
 
-On Fri, May 21, 2021 at 12:48:05PM -0700, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
-> 
-> Static analysis reports this representative problem
-> 
-> atomisp-gc2235.c:867:20: warning: The right operand
->   of '|' is a garbage value
->         id = ((high << 8) | low);
->                           ^ ~~~
-> When gc2235_read_reg() fails, its return val is never written.
-> 
-> For gc2235_detect(), high and low are or-ed and compared
-> with GC2235_ID, 0x2235.  Initialize both to 0 and skip
-> checking the read returns, it's errors are not passed up, only
-> -ENODEV is.
-> 
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 13 +++----------
->  1 file changed, 3 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> index 38defa0f81513..3b6e02b1f45d1 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> @@ -849,21 +849,14 @@ static int gc2235_get_fmt(struct v4l2_subdev *sd,
->  static int gc2235_detect(struct i2c_client *client)
->  {
->  	struct i2c_adapter *adapter = client->adapter;
-> -	u16 high, low;
-> -	int ret;
-> +	u16 high = 0, low = 0;
->  	u16 id;
->  
->  	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C))
->  		return -ENODEV;
->  
-> -	ret = gc2235_read_reg(client, GC2235_8BIT,
-> -			      GC2235_SENSOR_ID_H, &high);
-> -	if (ret) {
-> -		dev_err(&client->dev, "sensor_id_high = 0x%x\n", high);
-> -		return -ENODEV;
+And then, suddenly the compiler warns about truncation of the
+high bits when ~BIT(x) is used to mask a 32bit value on 64bit systems.
 
-It'd be nice if the function returned a different value for different
-errors, such as there was an I/O error and that the ID was wrong.
+Once the C standard committee had decided to change from K&R's
+'sign preserving' integer promotions to 'value preserving'
+you always lose somewhere.
 
-> -	}
-> -	ret = gc2235_read_reg(client, GC2235_8BIT,
-> -			      GC2235_SENSOR_ID_L, &low);
-> +	gc2235_read_reg(client, GC2235_8BIT, GC2235_SENSOR_ID_H, &high);
-> +	gc2235_read_reg(client, GC2235_8BIT, GC2235_SENSOR_ID_L, &low);
->  	id = ((high << 8) | low);
->  
->  	if (id != GC2235_ID) {
+Personally I prefer hex constants - I can't count bits at all.
 
--- 
-Sakari Ailus
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
