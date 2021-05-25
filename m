@@ -2,115 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28957390AB4
-	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 22:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65E3F390B89
+	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 23:34:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231470AbhEYUuk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 16:50:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48752 "EHLO
+        id S232933AbhEYVgP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 May 2021 17:36:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230445AbhEYUuj (ORCPT
+        with ESMTP id S232573AbhEYVgO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 16:50:39 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDEB3C061574;
-        Tue, 25 May 2021 13:49:07 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id y184-20020a1ce1c10000b02901769b409001so13581685wmg.3;
-        Tue, 25 May 2021 13:49:07 -0700 (PDT)
+        Tue, 25 May 2021 17:36:14 -0400
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BFBC06175F
+        for <linux-media@vger.kernel.org>; Tue, 25 May 2021 14:34:43 -0700 (PDT)
+Received: by mail-oi1-x231.google.com with SMTP id w127so27839179oig.12
+        for <linux-media@vger.kernel.org>; Tue, 25 May 2021 14:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:content-transfer-encoding:date:message-id:from:to:cc
-         :subject:references:in-reply-to;
-        bh=jII/VVluno3yfO2v6lRJ0YYluonaqN09SkqoJIS1cfw=;
-        b=fGLl/uDUZ+ISpUMFDUVq4paXMAAcK8ivEawXPm/C/YVAyiEPUTIO2tzCtv8WI2nbrH
-         be5r5SldPYICUq5Ben/JBlbhYCk1mj+/Iqkn5PkmvwfF/2pvyiO4mQR8ElDiVAE7Q2x6
-         uBDKeUNW9zqpwJpiLRGO5/ZUsuAe/UuTTUcbsiJ87U8BgyO3ofgQdyDIz+3kvdVlHIku
-         YfDHuwpjjV0du9bxq4NCw1htoCpNhoGXeVGYnItCTmoySovuDOFeR32BsYyGp7MS+dbd
-         MlswfwWXIxRGlwyT67DGBj+kmjyoKXPpsf1UVTI2pq8W/p6Lc0Qe/usnZzV51rHkvZ4p
-         C5+w==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=AV1x4xY7BNlvbADnTNrQXi/pFbf3brHLvoWH+DisJu8=;
+        b=TVv/M+CITgXJfBorA0YOq7+hshFN1qCmyi7/acuHDjIxa5rN4/3A6i2PsmL5+17oV2
+         S+cCUc9QAtjPKA1TU++KXfTwbEPFGfcYc8H/W0Wd844tGn+fT6ZgcjK3Pvjho31P8dTZ
+         Zld23f9YNBRYC3Xo68O6dW7FMZ2eny1a2GHAE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding:date
-         :message-id:from:to:cc:subject:references:in-reply-to;
-        bh=jII/VVluno3yfO2v6lRJ0YYluonaqN09SkqoJIS1cfw=;
-        b=nUwz0sW5BISxktlxdo5ElJi3zi0iiYxQEnbzu0p23X26zzfQV4RHEFzB4ebzsuEifu
-         DEzvwyVejmd6FL3lSg+G5mMZ+bXNPetSG5xMJEKYodum/Y7q9+1U3t+8XF3H+FUKEnkN
-         0vZERgwNnffgCUvCGVErR6FVYqVHPwckvuTEN4fYJEEda543M2+zQXajfWZKeRyJRRnN
-         T93zSgQv3l4iUuZ+CfBERwUVf1CznaCwn7c/G6stMxKH4k83/0XrSui0XW+VlGyvX1dc
-         NIgQ/B1UJY6C7KyD1vRYHu+qBWzkUDCjI8WgozVIoj3tdfeYpPZMH3ViDyBpDmp3/dpq
-         djaw==
-X-Gm-Message-State: AOAM5308lTiwi7bbRaBPZT/EazxgSZd/vUHg6IMAKhbWUIQE0oieBDU8
-        p/Z8TR8ABbDq4i549ycNAHE=
-X-Google-Smtp-Source: ABdhPJzJlfJfIB37PK009nDgE5KqNXiHeyp9sColJ243inXDZKrA09gHbcrlDVRcpswW/LYb8SDsCg==
-X-Received: by 2002:a05:600c:3795:: with SMTP id o21mr18550555wmr.70.1621975746411;
-        Tue, 25 May 2021 13:49:06 -0700 (PDT)
-Received: from localhost (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id m11sm11668543wmq.33.2021.05.25.13.49.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 13:49:05 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Tue, 25 May 2021 21:49:04 +0100
-Message-Id: <CBMMEYM3MW7O.2U464BSP8CLQA@arch-thunder>
-From:   "Rui Miguel Silva" <rmfrfs@gmail.com>
-To:     "Wei Yongjun" <weiyongjun1@huawei.com>,
-        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
-        "Steve Longerbeam" <slongerbeam@gmail.com>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Shawn Guo" <shawnguo@kernel.org>,
-        "Sascha Hauer" <s.hauer@pengutronix.de>
-Cc:     <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kernel-janitors@vger.kernel.org>, "Hulk Robot" <hulkci@huawei.com>
-Subject: Re: [PATCH -next] media: imx: imx7_mipi_csis: Fix error return code
- in mipi_csis_async_register()
-References: <20210524133552.2365248-1-weiyongjun1@huawei.com>
-In-Reply-To: <20210524133552.2365248-1-weiyongjun1@huawei.com>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=AV1x4xY7BNlvbADnTNrQXi/pFbf3brHLvoWH+DisJu8=;
+        b=C3+Tzh3KqLTwAC91e/Uny7aw3NHO8o4OA5Njvv+xuwU7VRNLg2yg/36+tR7IOd2ceG
+         XVMepky/IDaKZuPJbg+MDG91jM7flZ8sIE89TflaXDd3lHLPTCHsHAcdKiVH3DGDvtk2
+         g5PBcp/Fs+N2kWpMY7FKF+bOkda1M+Gd2OSOVGQ55Vgqb9dmM5cVJotKSK7BFe72eZee
+         ltW2G+MAw9pmVKNfaHXwCTsumY6Gd/HeD/SuDYWkd97KNW0gMgapeHONZ7uRo30ULcBH
+         MtBFOh9Q2Ei9pDPPaeapG0zk0l1H3LZYI6do4FzHtFD43VbWr15scU9csucHAjlJasTd
+         VnIQ==
+X-Gm-Message-State: AOAM530Xk31czrDx2Rzlk3/JUVgh3MvY8GfTc85ff9kKq1407JCoNwvx
+        oQixhngqixGveovwUxowzNtYnf0+whOz66+EWUXK7w==
+X-Google-Smtp-Source: ABdhPJyDalNERHMC9OBcejmrwU3aDmCi5jtvRGCgbJT4ryJX3N8M2IpQuBdgh2aLEnO1vLHG6HGVTjg0vZ5ikvYn7LU=
+X-Received: by 2002:aca:654d:: with SMTP id j13mr262572oiw.125.1621978482401;
+ Tue, 25 May 2021 14:34:42 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 25 May 2021 17:34:41 -0400
+MIME-Version: 1.0
+In-Reply-To: <20210525131051.31250-2-rojay@codeaurora.org>
+References: <20210525131051.31250-1-rojay@codeaurora.org> <20210525131051.31250-2-rojay@codeaurora.org>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Tue, 25 May 2021 17:34:41 -0400
+Message-ID: <CAE-0n50LiQWZSgHZaPL4xq2Bf-EFTb9U7YJ6Ey3Tja1099ij6g@mail.gmail.com>
+Subject: Re: [PATCH V11 1/2] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+To:     Roja Rani Yarubandi <rojay@codeaurora.org>, wsa@kernel.org
+Cc:     dianders@chromium.org, saiprakash.ranjan@codeaurora.org,
+        gregkh@linuxfoundation.org, mka@chromium.org,
+        skananth@codeaurora.org, msavaliy@qti.qualcomm.com,
+        skakit@codeaurora.org, rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yongjun,
-Thanks for the patch.
-
-On Mon May 24, 2021 at 2:35 PM WEST, Wei Yongjun wrote:
-
-> Fix to return negative error code -EINVAL from the error handling
-> case instead of 0, as done elsewhere in this function.
+Quoting Roja Rani Yarubandi (2021-05-25 06:10:50)
+> If the hardware is still accessing memory after SMMU translation
+> is disabled (as part of smmu shutdown callback), then the
+> IOVAs (I/O virtual address) which it was using will go on the bus
+> as the physical addresses which will result in unknown crashes
+> like NoC/interconnect errors.
 >
-> Fixes: 88fc81388df9 ("media: imx: imx7_mipi_csis: Reject invalid data-lan=
-es settings")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
-
-Looks good to me, thanks.
-
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-
-------
-Cheers,
-     Rui
+> So, implement shutdown callback for i2c driver to suspend the bus
+> during system "reboot" or "shutdown".
+>
+> Fixes: 37692de5d523 ("i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C controller")
+> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
 > ---
->  drivers/staging/media/imx/imx7-mipi-csis.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging=
-/media/imx/imx7-mipi-csis.c
-> index d573f3475d28..9cd3c86fee58 100644
-> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
-> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-> @@ -1175,6 +1175,7 @@ static int mipi_csis_async_register(struct csi_stat=
-e *state)
->  		if (vep.bus.mipi_csi2.data_lanes[i] !=3D i + 1) {
->  			dev_err(state->dev,
->  				"data lanes reordering is not supported");
-> +			ret =3D -EINVAL;
->  			goto err_parse;
->  		}
->  	}
 
-
-
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
