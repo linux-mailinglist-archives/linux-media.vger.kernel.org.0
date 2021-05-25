@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0798390541
-	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 17:23:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15036390542
+	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 17:23:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231901AbhEYPZJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 11:25:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59738 "EHLO
+        id S232022AbhEYPZL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 May 2021 11:25:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232587AbhEYPYd (ORCPT
+        with ESMTP id S232625AbhEYPYe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 11:24:33 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9239DC06138F;
-        Tue, 25 May 2021 08:22:57 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id lz27so47956230ejb.11;
-        Tue, 25 May 2021 08:22:57 -0700 (PDT)
+        Tue, 25 May 2021 11:24:34 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B371CC061346;
+        Tue, 25 May 2021 08:22:59 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id p24so46716230ejb.1;
+        Tue, 25 May 2021 08:22:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5ixCuhkxgjGYv26vAQhmjGOwIvZpVeA5pt5eYFotcBs=;
-        b=DB8Wur9B3YKbvG95JM5U+vC+Vc6lHhFHFLWiCmKUjyjroTtA22QI/wE0qNw/JjK4D1
-         qbkL5TIOzqNJuksGZ9TmQaMJ4mo5y504eQuUMRcI6qjskGzvSoDd9/CIhEXtzDpchihL
-         FTGCmEgc3ZGpK9SEqkjrcOW+tcsYLtjJjqe3PJSg12failQUsuQKZKOKMcGwT4sLtSn7
-         KCOwrPU8MVou6v5bES9sv+/n8zJqPteBeSgzrVCvO7laRQl4cNKOCbF/MduI/4j8QEJc
-         Adu2hmnYl/i5oO+gsRIokZlk4h7DK69pGI3sZsbwqAs3fYcuzS0/UnapTrkZnPxbRcR4
-         MA8g==
+        bh=uUSm89YnVYY5m++JvqU0akupn8UYyGqAiLVhpP+aRLo=;
+        b=cgFhgV1aSQl0X2NElaBOt8i+dOhwIWsRHzkWlleoW7PinBuOKGPhYddsJddOhFcsff
+         +AdMNPK7kwJ6W9DlUsEEh1LrD4kyovlSEMUZokol8/B+UUiAuFHF/j2kJFLlDtkc0tXt
+         TgfEtSYhegH2dTpYcTRwE1EM4dSOifVXdsscwnRB5tHExaM4ffNJopKBJ14yRWr+zFuq
+         9kFtDtp9eqwS8RnIYqTYjTYlHhNo8MP8l/5CNm6JpHzjjWEp7QhOua5o1T0z//NRA3I2
+         1MIOM1uGqJeH4GD8yyCPdKNmJ6Y9CZsu5xjmWndXdo39YmesTx8KM0EXT/8zOgTmxHGy
+         loNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5ixCuhkxgjGYv26vAQhmjGOwIvZpVeA5pt5eYFotcBs=;
-        b=TJ0mCi9/XnoeUukf5mvTZUw5Bnm3K6CLRrwbZJg39Bn1BXtOL1t7cpaopOXlQG7gwQ
-         xT7FyXyOhMHwRzbBId6njvpadsWJ7zid9A9iVtZyiKMJoNm+17gVp3t/12kOFmITyab3
-         rAMMewY6PErtt33rtEHq5V0QWYYg/lBrjWzoLS+Cxd1RhGms5akPMKGnUjDrIkDqyjc4
-         f+7gkGMOVQKICbcUEj119QIg71pBdmIKN/+eguVzElttUPcNnggkNX3q+oNsgTZ2xKCi
-         aii+FoaGG6MQNWWNIhhSNDF17M5rS3tX33caSpwZrnYDNf638cDILOjJQTwSwW/GhPM9
-         Me3w==
-X-Gm-Message-State: AOAM530wTBPdnqRevS5rFCJhQwGGLP3zbwbcPkJhclD5TOhjguqNZ4Gy
-        GOFwuzGnKhGRl6+4iIGDiQ==
-X-Google-Smtp-Source: ABdhPJxBH9jYjC4YpeA7UcQJQXz/aX6+kXeGggQ/mN6D0rwwD0nlYm7Hts6QL1q2ZG0xKF5BjUGuYA==
-X-Received: by 2002:a17:906:ce49:: with SMTP id se9mr30130211ejb.92.1621956176154;
-        Tue, 25 May 2021 08:22:56 -0700 (PDT)
+        bh=uUSm89YnVYY5m++JvqU0akupn8UYyGqAiLVhpP+aRLo=;
+        b=Vm2clQc6ZthBer6MM7Hb/En3/kVnbIzE/spGWMIy0+5cb4vhiRyHLc3fvauckadssx
+         x3BO/gIQJqaXt7ZZ8YqH7XjlaFQCB/28DCzmYMnHlEUXOgv4EpnIeoB7gk3yKGkVVREq
+         XZB8EJVJSVM76HGSvsiJJofkP87cdJ0LyAsteKhI9R09fHWYkkukyZLTTHKywHwXwJt1
+         b2zRnNjWz4kwfrXhM9Ucwr5lZEa5O27QuuQdaAklZ3di5xRTSvaZ9sJSo8iAdKCYezQm
+         eN73Tc2dH2sg1YnmHXUC6Ab5KmGSMPp4JEeYyEgqGU3ztlt2lrudTECKGiSUBZnpWzF7
+         YqpQ==
+X-Gm-Message-State: AOAM530viXsrD7Bp5CZy+loJuJT4jpYTXZmjKLg5i5FcLqkAtsm/v19q
+        139Atd3reS1oMdcSYFT30Q==
+X-Google-Smtp-Source: ABdhPJwA172I/k9A3874kTnCJ0KUPtLokMXnEWzh6Nxw5MSf8VbsUDIQJlCNDQ1BRqaD5Y+/MP1+UA==
+X-Received: by 2002:a17:906:fa90:: with SMTP id lt16mr28818447ejb.411.1621956178206;
+        Tue, 25 May 2021 08:22:58 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:810b:f40:e00:b55:da44:4fe2:2760])
-        by smtp.googlemail.com with ESMTPSA id e23sm11212945eds.2.2021.05.25.08.22.54
+        by smtp.googlemail.com with ESMTPSA id e23sm11212945eds.2.2021.05.25.08.22.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 08:22:55 -0700 (PDT)
+        Tue, 25 May 2021 08:22:57 -0700 (PDT)
 From:   Alex Bee <knaerzche@gmail.com>
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -61,9 +61,9 @@ To:     Ezequiel Garcia <ezequiel@collabora.com>,
 Cc:     Alex Bee <knaerzche@gmail.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH 06/10] ARM: dts: rockchip: add vpu nodes for RK3066 and RK3188
-Date:   Tue, 25 May 2021 17:22:21 +0200
-Message-Id: <20210525152225.154302-7-knaerzche@gmail.com>
+Subject: [PATCH 07/10] ARM: dts: rockchip: add vpu node for RK322x
+Date:   Tue, 25 May 2021 17:22:22 +0200
+Message-Id: <20210525152225.154302-8-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210525152225.154302-1-knaerzche@gmail.com>
 References: <20210525152225.154302-1-knaerzche@gmail.com>
@@ -73,70 +73,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the vpu node to the common rk3xxx.dtsi and only the powerdomain
-property to the SoC specific device trees.
+The VPU IP block of RK322x is the same as RK3399 has and the driver can
+be used as-is.
+
+Add the respective nodes to the device tree.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
- arch/arm/boot/dts/rk3066a.dtsi |  4 ++++
- arch/arm/boot/dts/rk3188.dtsi  |  5 +++++
- arch/arm/boot/dts/rk3xxx.dtsi  | 12 ++++++++++++
- 3 files changed, 21 insertions(+)
+ arch/arm/boot/dts/rk322x.dtsi | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/rk3066a.dtsi b/arch/arm/boot/dts/rk3066a.dtsi
-index 30dcf557ec33..67d54d88fe53 100644
---- a/arch/arm/boot/dts/rk3066a.dtsi
-+++ b/arch/arm/boot/dts/rk3066a.dtsi
-@@ -869,6 +869,10 @@ &uart3 {
- 	pinctrl-0 = <&uart3_xfer>;
- };
- 
-+&vpu {
-+	power-domains = <&power RK3066_PD_VIDEO>;
-+};
-+
- &wdt {
- 	compatible = "rockchip,rk3066-wdt", "snps,dw-wdt";
- };
-diff --git a/arch/arm/boot/dts/rk3188.dtsi b/arch/arm/boot/dts/rk3188.dtsi
-index 3a0c50026b07..9d982bc0170e 100644
---- a/arch/arm/boot/dts/rk3188.dtsi
-+++ b/arch/arm/boot/dts/rk3188.dtsi
-@@ -802,6 +802,11 @@ &uart3 {
- 	pinctrl-0 = <&uart3_xfer>;
- };
- 
-+&vpu {
-+	compatible = "rockchip,rk3188-vpu", "rockchip,rk3066-vpu";
-+	power-domains = <&power RK3188_PD_VIDEO>;
-+};
-+
- &wdt {
- 	compatible = "rockchip,rk3188-wdt", "snps,dw-wdt";
- };
-diff --git a/arch/arm/boot/dts/rk3xxx.dtsi b/arch/arm/boot/dts/rk3xxx.dtsi
-index d473552e8547..e974b49cff1e 100644
---- a/arch/arm/boot/dts/rk3xxx.dtsi
-+++ b/arch/arm/boot/dts/rk3xxx.dtsi
-@@ -50,6 +50,18 @@ gpu: gpu@10090000 {
+diff --git a/arch/arm/boot/dts/rk322x.dtsi b/arch/arm/boot/dts/rk322x.dtsi
+index c8095ede7d7a..62d1113b7804 100644
+--- a/arch/arm/boot/dts/rk322x.dtsi
++++ b/arch/arm/boot/dts/rk322x.dtsi
+@@ -611,6 +611,18 @@ gpu: gpu@20000000 {
  		status = "disabled";
  	};
  
-+	vpu: video-codec@10104000 {
-+		compatible = "rockchip,rk3066-vpu";
-+		reg = <0x10104000 0x800>;
-+		interrupts = <GIC_SPI  9 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
++	vpu: video-codec@20020000 {
++		compatible = "rockchip,rk3228-vpu", "rockchip,rk3399-vpu";
++		reg = <0x20020000 0x800>;
++		interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI  9 IRQ_TYPE_LEVEL_HIGH>;
 +		interrupt-names = "vepu", "vdpu";
-+		clocks = <&cru ACLK_VDPU>, <&cru HCLK_VDPU>,
-+			 <&cru ACLK_VEPU>, <&cru HCLK_VEPU>;
-+		clock-names = "aclk_vdpu", "hclk_vdpu",
-+			      "aclk_vepu", "hclk_vepu";
++		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
++		clock-names = "aclk", "hclk";
++		power-domains = <&power RK3228_PD_VPU>;
++		iommus = <&vpu_mmu>;
 +	};
 +
- 	L2: cache-controller@10138000 {
- 		compatible = "arm,pl310-cache";
- 		reg = <0x10138000 0x1000>;
+ 	vpu_mmu: iommu@20020800 {
+ 		compatible = "rockchip,iommu";
+ 		reg = <0x20020800 0x100>;
+@@ -619,7 +631,6 @@ vpu_mmu: iommu@20020800 {
+ 		clock-names = "aclk", "iface";
+ 		power-domains = <&power RK3228_PD_VPU>;
+ 		#iommu-cells = <0>;
+-		status = "disabled";
+ 	};
+ 
+ 	vdec_mmu: iommu@20030480 {
 -- 
 2.27.0
 
