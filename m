@@ -2,93 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A0CE3901CF
-	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 15:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0E7F390338
+	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 15:58:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233113AbhEYNNi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 09:13:38 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:25080 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233057AbhEYNN0 (ORCPT
+        id S233375AbhEYOAF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 May 2021 10:00:05 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:60297 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233045AbhEYOAE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 09:13:26 -0400
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 25 May 2021 06:11:41 -0700
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 25 May 2021 06:11:39 -0700
-X-QCInternal: smtphost
-Received: from c-rojay-linux.qualcomm.com ([10.206.21.80])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 25 May 2021 18:40:58 +0530
-Received: by c-rojay-linux.qualcomm.com (Postfix, from userid 88981)
-        id 262F6334E; Tue, 25 May 2021 18:40:57 +0530 (IST)
-From:   Roja Rani Yarubandi <rojay@codeaurora.org>
-To:     wsa@kernel.org
-Cc:     swboyd@chromium.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, skananth@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        Roja Rani Yarubandi <rojay@codeaurora.org>
-Subject: [PATCH V11 2/2] i2c: i2c-qcom-geni: Suspend and resume the bus during SYSTEM_SLEEP_PM ops
-Date:   Tue, 25 May 2021 18:40:51 +0530
-Message-Id: <20210525131051.31250-3-rojay@codeaurora.org>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20210525131051.31250-1-rojay@codeaurora.org>
-References: <20210525131051.31250-1-rojay@codeaurora.org>
+        Tue, 25 May 2021 10:00:04 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id lXZmlLwklWkKblXZplABI5; Tue, 25 May 2021 15:58:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1621951114; bh=rMb8UXJAVaQnPzZ6ERAFCnYT4qjgqbLIa56jxsPZGJQ=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=UDICvj4WSxnK1PGIqAmdvRSyievVWaGRsfhNToTrYS7nCpxa4fpRNS1RRvGawoXh6
+         QSiRilsbXuvtNZ9voJv2RKNkZoH095/JIrjoCvm02KFtL4RaexcE++2qIpVL66Pp+D
+         y92G0glcWMnrr0czQXkrGamtcfs1zOAiQQY8e1bnNWplOZoYJDUQx09LbXfs/cyrcK
+         7Fl/tB+H30GWWiHIh24tJtNXCn92xwfEun64rmAU9OYtWYg6/P9A78TrxGglo6/UKj
+         wyYefINvolt61mxl6Dn2QdU7Cw2mxpBXLfBTeCEYqvm3qoI7OXSsqS0p9D312AhSWJ
+         0YFrBfnrhtSMQ==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.14] v4l2-ctrls: one fix plus refactor work
+Message-ID: <b1efb0db-9894-5f9b-e1b8-d733758822bb@xs4all.nl>
+Date:   Tue, 25 May 2021 15:58:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfMd1Le+R8RpJsO3LuiQaUWA6tW15rBPEVZqFBvPqF0ei/5K7i+/DP1LVAJefwgTiQ/3l5WdgQiQQpJprj1YzX9tUM86ufcwYh8i5cu/HHrAZjAYCaoB4
+ yXF1ClfRAL6lbGm60YvqfU7CbIfirUI/wsYVJuOYaDZ9mEO0ioLjGEW46ApOtDQUGDcmzpm/M4i40AHIY0xbm3+974c26R8ukyA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Mark bus as suspended during system suspend to block the future
-transfers. Implement geni_i2c_resume_noirq() to resume the bus.
+This PR is against media_stage/master.
 
-Fixes: 37692de5d523 ("i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C controller")
-Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
----
-Changes in V11:
- - This is newly added patch in this V11 series.
+The first patch fixes the behavior of request completion if there are no
+controls in the committed request at all. We may decide to backport this
+patch to older kernel (I don't think it is needed, but that's not entirely
+clear at the moment), which is the reason for applying this patch first
+before the second patch, which splits up the much-too-large v4l2-ctrls.c
+into four sources. This greatly improves maintainability.
 
- drivers/i2c/busses/i2c-qcom-geni.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+This split does not introduce any new functionality, it is just reorganizing
+code.
 
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index c3ae66ba6345..671f4a52275e 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -698,6 +698,8 @@ static int __maybe_unused geni_i2c_suspend_noirq(struct device *dev)
- {
- 	struct geni_i2c_dev *gi2c = dev_get_drvdata(dev);
- 
-+	i2c_mark_adapter_suspended(&gi2c->adap);
-+
- 	if (!gi2c->suspended) {
- 		geni_i2c_runtime_suspend(dev);
- 		pm_runtime_disable(dev);
-@@ -707,8 +709,16 @@ static int __maybe_unused geni_i2c_suspend_noirq(struct device *dev)
- 	return 0;
- }
- 
-+static int __maybe_unused geni_i2c_resume_noirq(struct device *dev)
-+{
-+	struct geni_i2c_dev *gi2c = dev_get_drvdata(dev);
-+
-+	i2c_mark_adapter_resumed(&gi2c->adap);
-+	return 0;
-+}
-+
- static const struct dev_pm_ops geni_i2c_pm_ops = {
--	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(geni_i2c_suspend_noirq, NULL)
-+	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(geni_i2c_suspend_noirq, geni_i2c_resume_noirq)
- 	SET_RUNTIME_PM_OPS(geni_i2c_runtime_suspend, geni_i2c_runtime_resume,
- 									NULL)
- };
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
-of Code Aurora Forum, hosted by The Linux Foundation
+Regards,
 
+	Hans
+
+The following changes since commit 2fb27551ba4053ae503ce6c3b7b5d87cd206b1fd:
+
+  media: imx: imx7_mipi_csis: Update MAINTAINERS (2021-05-23 19:21:33 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14d
+
+for you to fetch changes up to a22c6896d7f811ff15e9be51bdfeb9e3f0224d31:
+
+  v4l2-ctrls: split up into four source files (2021-05-25 10:21:15 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (2):
+      v4l2-ctrls: always copy the controls on completion
+      v4l2-ctrls: split up into four source files
+
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst |    4 +-
+ drivers/media/v4l2-core/Makefile                                    |    5 +-
+ drivers/media/v4l2-core/v4l2-ctrls-api.c                            | 1225 ++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-core.c                           | 1939 ++++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c                           | 1575 ++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h                           |   96 +
+ drivers/media/v4l2-core/v4l2-ctrls-request.c                        |  496 +++
+ drivers/media/v4l2-core/v4l2-ctrls.c                                | 5083 -------------------------------
+ 8 files changed, 5336 insertions(+), 5087 deletions(-)
+ create mode 100644 drivers/media/v4l2-core/v4l2-ctrls-api.c
+ create mode 100644 drivers/media/v4l2-core/v4l2-ctrls-core.c
+ create mode 100644 drivers/media/v4l2-core/v4l2-ctrls-defs.c
+ create mode 100644 drivers/media/v4l2-core/v4l2-ctrls-priv.h
+ create mode 100644 drivers/media/v4l2-core/v4l2-ctrls-request.c
+ delete mode 100644 drivers/media/v4l2-core/v4l2-ctrls.c
