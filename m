@@ -2,212 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3A0C39065B
-	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 18:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16EF1390661
+	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 18:15:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233209AbhEYQPv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 12:15:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43114 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232216AbhEYQPu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 12:15:50 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA82DC061574;
-        Tue, 25 May 2021 09:14:19 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 5514B1F41539
-Subject: Re: [PATCH v10 0/9] Add HANTRO G2/HEVC decoder support for IMX8MQ
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, ezequiel@collabora.com,
-        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        lee.jones@linaro.org, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel@collabora.com, cphealy@gmail.com
-References: <20210420121046.181889-1-benjamin.gaignard@collabora.com>
- <57dd758d-07b6-abbe-ab0d-2cc165b650db@xs4all.nl>
- <7ce18309-fcb2-b7cd-0b22-5a8efb237f6a@xs4all.nl>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <c4546e0e-730c-3c73-be98-bc5041da352f@collabora.com>
-Date:   Tue, 25 May 2021 18:14:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S233195AbhEYQRF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 May 2021 12:17:05 -0400
+Received: from mga11.intel.com ([192.55.52.93]:1722 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232656AbhEYQRF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 May 2021 12:17:05 -0400
+IronPort-SDR: MXnEhn8fbH0ZL5hovJF7zRUfBPXf4sU/qcBQvqOmnyGSXEWONyUtVnNvHcpprYHdEZw02/Rght
+ m6g6dNuxhiRQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="199178611"
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; 
+   d="scan'208";a="199178611"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2021 09:15:33 -0700
+IronPort-SDR: vzdYtd4OXnte46NZji95265GhqVB8lQgcSH/GQ6MHj8cQQqknKyCccd/OlC2ZThxWy7WVpArdM
+ V+oYK2rHu9DQ==
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; 
+   d="scan'208";a="476487564"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2021 09:15:31 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 1B5C620337;
+        Tue, 25 May 2021 19:15:29 +0300 (EEST)
+Date:   Tue, 25 May 2021 19:15:29 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Martiros Shakhzadyan <vrzh@vrzh.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 0/4] staging: media: atomisp: Fix minor issues in
+Message-ID: <20210525161528.GG3@paasikivi.fi.intel.com>
+References: <20210508235622.300394-1-vrzh@vrzh.net>
 MIME-Version: 1.0
-In-Reply-To: <7ce18309-fcb2-b7cd-0b22-5a8efb237f6a@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210508235622.300394-1-vrzh@vrzh.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sat, May 08, 2021 at 07:56:18PM -0400, Martiros Shakhzadyan wrote:
+> The following series of patches resolve some style and other minor
+> issues in sh_css.c
+> 
+> Martiros Shakhzadyan (4):
+>   staging: media: atomisp: Resolve goto style issue in sh_css.c
+>   staging: media: atomisp: Remove unnecessary parens in sh_css.c
+>   staging: media: atomisp: Use kcalloc instead of kzalloc with multiply
+>     in sh_css.c
+>   staging: media: atomisp: Fix line continuation style issue in sh_css.c
+> 
+>  drivers/staging/media/atomisp/pci/sh_css.c | 42 +++++++++++-----------
+>  1 file changed, 21 insertions(+), 21 deletions(-)
 
-Le 25/05/2021 à 17:39, Hans Verkuil a écrit :
-> On 05/05/2021 16:42, Hans Verkuil wrote:
->> Hi Benjamin,
->>
->> On 20/04/2021 14:10, Benjamin Gaignard wrote:
->>> The IMX8MQ got two VPUs but until now only G1 has been enabled.
->>> This series aim to add the second VPU (aka G2) and provide basic
->>> HEVC decoding support.
->>>
->>> To be able to decode HEVC it is needed to add/update some of the
->>> structures in the uapi. In addition of them one HANTRO dedicated
->>> control is required to inform the driver of the number of bits to skip
->>> at the beginning of the slice header.
->>> The hardware require to allocate few auxiliary buffers to store the
->>> references frame or tile size data.
->> This series clashes with this patch:
->>
->> https://patchwork.linuxtv.org/project/linux-media/patch/20210427071554.2222625-1-jernej.skrabec@siol.net/
->>
->> and this patch series:
->>
->> https://patchwork.linuxtv.org/project/linux-media/cover/20210401144336.2495479-1-emil.l.velikov@gmail.com/
->>
->> For both PRs are pending.
->>
->> It's probably better to wait until this is merged before rebasing this series.
-> These two have been merged today.
->
-> You find them in the master branch of https://git.linuxtv.org/media_stage.git/
->
-> In a few days they should be merged as well into our main media tree master, but
-> if you don't want to wait for that you can base your work on top of the media_stage
-> git repo, that should be perfectly fine.
-I have rebased my work on top of media_stage and send v11.
-Thanks a lot.
+Thanks!
 
-Benjamin
+For the set:
 
->
-> Regards,
->
-> 	Hans
->
->> And if drivers are going to be moved out of staging, leaving only HEVC support
->> in staging, then I'd wait until that is done as well.
->>
->> Regards,
->>
->> 	Hans
->>
->>> The driver has been tested with fluster test suite stream.
->>> For example with this command: ./fluster.py run -ts JCT-VC-HEVC_V1 -d GStreamer-H.265-V4L2SL-Gst1.0
->>>
->>> version 10:
->>>   - Shorter version of the previous series without ctrl block patches
->>>     and no DT modifications.
->>>     The scope of this series is limited to HEVC support.
->>>
->>> version 9:
->>>   - Corrections in commits messages.
->>>   - Define the dedicated control in hevc-controls.h
->>>   - Add note in documentation.
->>>   - Change max value of the dedicated control.
->>>   - Rebased on media_tree/master branch.
->>>
->>> version 8:
->>>   - Add reviewed-by and ack-by tags
->>>   - Fix the warnings reported by kernel test robot
->>>   - Only patch 9 (adding dedicated control), patch 11 (HEVC support) and
->>>     patch 13 (DT changes) are still missing of review/ack tag.
->>>
->>> version 7:
->>>   - Remove 'q' from syscon phandle name to make usable for iMX8MM too.
->>>     Update the bindings documentation.
->>>   - Add review/ack tags.
->>>   - Rebase on top of media_tree/master
->>>   - Be more accurate when computing the size of the memory needed motion
->>>     vectors.
->>>   - Explain why the all clocks need to set in the both DT node.
->>>
->>> version 6:
->>>   - fix the errors reported by kernel test robot
->>>
->>> version 5:
->>>   - use syscon instead of VPU reset driver.
->>>   - Do not break kernel/DT backward compatibility.
->>>   - Add documentation for dedicated Hantro control.
->>>   - Fix the remarks done by Ezequeil (typo, comments, unused function)
->>>   - Run v4l2-compliance without errors (see below).
->>>   - Do not add field to distinguish version, check postproc reg instead
->>>
->>> version 4:
->>> - Split the changes in hevc controls in 2 commits to make them easier to
->>>    review.
->>> - Change hantro_codec_ops run() prototype to return errors
->>> - Hantro v4l2 dedicated control is now only an integer
->>> - rebase on top of VPU reset changes posted here:
->>>    https://www.spinics.net/lists/arm-kernel/msg878440.html
->>> - Various fix from previous remarks
->>> - Limit the modifications in API to what the driver needs
->>>
->>> version 3:
->>> - Fix typo in Hantro v4l2 dedicated control
->>> - Add documentation for the new structures and fields
->>> - Rebased on top of media_tree for-linus-5.12-rc1 tag
->>>
->>> version 2:
->>> - remove all change related to scaling
->>> - squash commits to a coherent split
->>> - be more verbose about the added fields
->>> - fix the comments done by Ezequiel about dma_alloc_coherent usage
->>> - fix Dan's comments about control copy, reverse the test logic
->>> in tile_buffer_reallocate, rework some goto and return cases.
->>> - be more verbose about why I change the bindings
->>> - remove all sign-off expect mime since it is confusing
->>> - remove useless clocks in VPUs nodes
->>>
->>> Benjamin Gaignard (9):
->>>    media: hevc: Add fields and flags for hevc PPS
->>>    media: hevc: Add decode params control
->>>    media: hantro: change hantro_codec_ops run prototype to return errors
->>>    media: hantro: Define HEVC codec profiles and supported features
->>>    media: hantro: Only use postproc when post processed formats are
->>>      defined
->>>    media: uapi: Add a control for HANTRO driver
->>>    media: hantro: handle V4L2_PIX_FMT_HEVC_SLICE control
->>>    media: hantro: Introduce G2/HEVC decoder
->>>    media: hantro: IMX8M: add variant for G2/HEVC codec
->>>
->>>   .../userspace-api/media/drivers/hantro.rst    |  19 +
->>>   .../userspace-api/media/drivers/index.rst     |   1 +
->>>   .../media/v4l/ext-ctrls-codec.rst             | 108 +++-
->>>   .../media/v4l/vidioc-queryctrl.rst            |   6 +
->>>   drivers/media/v4l2-core/v4l2-ctrls.c          |  28 +-
->>>   drivers/staging/media/hantro/Makefile         |   2 +
->>>   drivers/staging/media/hantro/hantro.h         |  13 +-
->>>   drivers/staging/media/hantro/hantro_drv.c     |  99 ++-
->>>   .../staging/media/hantro/hantro_g1_h264_dec.c |  10 +-
->>>   .../media/hantro/hantro_g1_mpeg2_dec.c        |   4 +-
->>>   .../staging/media/hantro/hantro_g1_vp8_dec.c  |   6 +-
->>>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 587 ++++++++++++++++++
->>>   drivers/staging/media/hantro/hantro_g2_regs.h | 198 ++++++
->>>   .../staging/media/hantro/hantro_h1_jpeg_enc.c |   4 +-
->>>   drivers/staging/media/hantro/hantro_hevc.c    | 327 ++++++++++
->>>   drivers/staging/media/hantro/hantro_hw.h      |  69 +-
->>>   .../staging/media/hantro/hantro_postproc.c    |  14 +
->>>   drivers/staging/media/hantro/hantro_v4l2.c    |   5 +-
->>>   drivers/staging/media/hantro/imx8m_vpu_hw.c   |  74 ++-
->>>   .../media/hantro/rk3399_vpu_hw_jpeg_enc.c     |   4 +-
->>>   .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |   4 +-
->>>   .../media/hantro/rk3399_vpu_hw_vp8_dec.c      |   6 +-
->>>   drivers/staging/media/sunxi/cedrus/cedrus.c   |   6 +
->>>   drivers/staging/media/sunxi/cedrus/cedrus.h   |   1 +
->>>   .../staging/media/sunxi/cedrus/cedrus_dec.c   |   2 +
->>>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  12 +-
->>>   include/media/hevc-ctrls.h                    |  46 +-
->>>   27 files changed, 1586 insertions(+), 69 deletions(-)
->>>   create mode 100644 Documentation/userspace-api/media/drivers/hantro.rst
->>>   create mode 100644 drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->>>   create mode 100644 drivers/staging/media/hantro/hantro_g2_regs.h
->>>   create mode 100644 drivers/staging/media/hantro/hantro_hevc.c
->>>
->
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+-- 
+Sakari Ailus
