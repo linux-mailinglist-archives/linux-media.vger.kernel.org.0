@@ -2,143 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F066390C31
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 00:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70F55390C70
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 00:49:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232801AbhEYWbA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 18:31:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43082 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230222AbhEYWa7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 18:30:59 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 526FAC061574;
-        Tue, 25 May 2021 15:29:28 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id n2so33904808wrm.0;
-        Tue, 25 May 2021 15:29:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=yHrYHt9lX7EfFlqtvt9zE3RQPwkkMllvHJPqz5tzqnk=;
-        b=KctzmADNy8hq3ORFwjPbcZ+2ne8jXz8auizHW+olGT9VbwbfXURRKo6gAoz7Yd7nDz
-         +ey86WUfYFxD8kwRjjgM7wswcu6Apk5IdABUP7bj/JrLcV/iKdtks4KRFmwZo5vBBQ/s
-         IDRTQrhG+XQWJyf3tZTgqmpi9sEg/ym4yZGqv8aD96NkwZPD4g6sApuvPkfLf0ENLVKB
-         zatR1xvt/cxG3wNMEaYKuj8mkODtMRNP7wLka+zzBZerrs2xMHNbH+hQIUGMndbMdQl4
-         ohpHKVz+LgGj92Z8Vs/hf6YRnQhMs15WYeZemIHTm2n3/OQ18l3kkWVHDK7Uuu+8pWyS
-         SlfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=yHrYHt9lX7EfFlqtvt9zE3RQPwkkMllvHJPqz5tzqnk=;
-        b=gE8nLTyxcE43Pbr3tCB0UKIlU8nbsXvxcfAmKgt3HTl9ndKll1cX++XPzaJ5tLRH10
-         K28X5eY4TftM92in0SGm8SUoDfRew7CPNW4NjyI3PTrMvtKchCNBGjVNcWeCyOkCmgiL
-         HoSdao9y0Rw3tQJ8iYpMzhAnWe4lWhLUGw0CdPKfMhQtBQzO5vDaFzV1ayFscXm111+6
-         sX6BxA3IfeVxufjlX2dp2eCMp6Nvv1d3RAGm0nvSDT7cSg/QcUpeprGIVHdhjqJQsEXP
-         kxFepXiGoa3ug2TmGB8BtO/RdOnFaqRY/OsTDfOBQ0RWRSgsBIYeJcOk29poJKO6na9D
-         Kdog==
-X-Gm-Message-State: AOAM530lvRvznpXm66qnmSEElRut9bwvMfFGTxJ5iLtP2vdrOARHZU4o
-        pS1IzQGSuAzxnkAP0pvODcY=
-X-Google-Smtp-Source: ABdhPJwghEMpeIbiYervpgptKtIrJHjTkEsbsLRwUHSE49JK3LGObn65hnvWlPB00tWyLKZ8nEKFOw==
-X-Received: by 2002:a05:6000:12cc:: with SMTP id l12mr29161723wrx.91.1621981766965;
-        Tue, 25 May 2021 15:29:26 -0700 (PDT)
-Received: from [192.168.1.211] ([91.110.20.117])
-        by smtp.gmail.com with ESMTPSA id i11sm17883091wrq.26.2021.05.25.15.29.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 May 2021 15:29:26 -0700 (PDT)
-Subject: Re: [PATCH v1 1/1] ACPI: utils: Fix reference counting in
- for_each_acpi_dev_match()
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        id S231981AbhEYWui (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 May 2021 18:50:38 -0400
+Received: from gloria.sntech.de ([185.11.138.130]:54068 "EHLO gloria.sntech.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230288AbhEYWui (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 May 2021 18:50:38 -0400
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1llfrD-0006yi-3J; Wed, 26 May 2021 00:49:03 +0200
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>
-References: <20210519210253.3578025-1-andy.shevchenko@gmail.com>
- <CAJZ5v0in=qEtVULLF=RwBTiFqiRK-DyPfD4F6uUAqeUfPFB8QQ@mail.gmail.com>
- <CAJZ5v0hsDpGtLHPQvcnof3c1LBnhoZSwWyHJdj1mOov9gV_W8A@mail.gmail.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <50903d09-96f8-0dc9-a1f7-21bf1543b15a@gmail.com>
-Date:   Tue, 25 May 2021 23:29:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Rob Herring <robh+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, Alex Bee <knaerzche@gmail.com>
+Cc:     Alex Bee <knaerzche@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 04/10] media: hantro: add support for Rockchip RK3066
+Date:   Wed, 26 May 2021 00:49:02 +0200
+Message-ID: <3178385.3VsfAaAtOV@diego>
+In-Reply-To: <20210525152225.154302-5-knaerzche@gmail.com>
+References: <20210525152225.154302-1-knaerzche@gmail.com> <20210525152225.154302-5-knaerzche@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJZ5v0hsDpGtLHPQvcnof3c1LBnhoZSwWyHJdj1mOov9gV_W8A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rafael, Andy
+Am Dienstag, 25. Mai 2021, 17:22:19 CEST schrieb Alex Bee:
+> RK3066's VPU IP block is the predecessor from what RK3288 has.
+> The hardware differences are:
+>   - supports decoding frame sizes up to 1920x1088 only
+>   - doesn't have the 'G1_REG_SOFT_RESET' register
+>     (requires another .reset callback for hantro_codec_ops,
+>      since writing this register will result in non-working
+>      IP block)
+>   - has one ACLK/HCLK per vdpu/vepu
+>   - ACLKs can be clocked up to 300 MHz only
+>   - no MMU
+>     (no changes required: CMA will be transparently used)
+> 
+> Add a new RK3066 variant which reflect this differences. This variant
+> can be used for RK3188 as well.
+> 
+> Signed-off-by: Alex Bee <knaerzche@gmail.com>
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c    |   1 +
+>  drivers/staging/media/hantro/hantro_hw.h     |   1 +
+>  drivers/staging/media/hantro/rk3288_vpu_hw.c | 116 +++++++++++++++++++
+>  3 files changed, 118 insertions(+)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 2f6b01c7a6a0..38ea7b24036e 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -489,6 +489,7 @@ static const struct of_device_id of_hantro_match[] = {
+>  	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+>  	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
+>  	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
+> +	{ .compatible = "rockchip,rk3066-vpu", .data = &rk3066_vpu_variant, },
 
-On 20/05/2021 20:40, Rafael J. Wysocki wrote:
-> On Thu, May 20, 2021 at 9:13 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
->> On Wed, May 19, 2021 at 11:19 PM Andy Shevchenko
->> <andy.shevchenko@gmail.com> wrote:
->>> Currently it's possible to iterate over the dangling pointer in case the device
->>> suddenly disappears. This may happen becase callers put it at the end of a loop.
->>>
->>> Instead, let's move that call inside acpi_dev_get_next_match_dev().
->> Not really.
-> OK, I see what you want to achieve and the macro is actually buggy,
-> because it leaves unbalanced references behind.
+NIT: "someone" should introduce a separate patch ordering that list ;-)
+
+>  #endif
+>  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+>  	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index 3d8b53567f16..de2bc367a15a 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -163,6 +163,7 @@ enum hantro_enc_fmt {
+>  extern const struct hantro_variant rk3399_vpu_variant;
+>  extern const struct hantro_variant rk3328_vpu_variant;
+>  extern const struct hantro_variant rk3288_vpu_variant;
+> +extern const struct hantro_variant rk3066_vpu_variant;
+>  extern const struct hantro_variant imx8mq_vpu_variant;
+>  extern const struct hantro_variant sama5d4_vdec_variant;
+>  
+> diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> index fefd45269e52..29805c4bd92f 100644
+> --- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> @@ -10,8 +10,10 @@
+>  
+>  #include "hantro.h"
+>  #include "hantro_jpeg.h"
+> +#include "hantro_g1_regs.h"
+>  #include "hantro_h1_regs.h"
+>  
+> +#define RK3066_ACLK_MAX_FREQ (300 * 1000 * 1000)
+>  #define RK3288_ACLK_MAX_FREQ (400 * 1000 * 1000)
+>  
+>  /*
+> @@ -62,6 +64,52 @@ static const struct hantro_fmt rk3288_vpu_postproc_fmts[] = {
+>  	},
+>  };
+>  
+> +static const struct hantro_fmt rk3066_vpu_dec_fmts[] = {
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_NV12,
+> +		.codec_mode = HANTRO_MODE_NONE,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+> +		.codec_mode = HANTRO_MODE_H264_DEC,
+> +		.max_depth = 2,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 1920,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 1088,
+> +			.step_height = MB_DIM,
+> +		},
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
+> +		.codec_mode = HANTRO_MODE_MPEG2_DEC,
+> +		.max_depth = 2,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 1920,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 1088,
+> +			.step_height = MB_DIM,
+> +		},
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_VP8_FRAME,
+> +		.codec_mode = HANTRO_MODE_VP8_DEC,
+> +		.max_depth = 2,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 1920,
+> +			.step_width = MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 1088,
+> +			.step_height = MB_DIM,
+> +		},
+> +	},
+> +};
+> +
+>  static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_NV12,
+> @@ -126,6 +174,14 @@ static irqreturn_t rk3288_vepu_irq(int irq, void *dev_id)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +static int rk3066_vpu_hw_init(struct hantro_dev *vpu)
+> +{
+> +	/* Bump ACLKs to max. possible freq. to improve performance. */
+> +	clk_set_rate(vpu->clocks[0].clk, RK3066_ACLK_MAX_FREQ);
+> +	clk_set_rate(vpu->clocks[0].clk, RK3066_ACLK_MAX_FREQ);
+
+hmm, I don't think that line was supposed to be double?
 
 
-Yeah; I guess the originally intended use (which was "get all these
-devices") doesn't really tally with the naming or with the operation of
-similar functions in the kernel like the fwnode_handle ops; sorry about
-that. Anyway; I think Andy's fix is the right way to do it, so the
-calling code's responsible for holding onto a reference if it wants to
-keep it.
+Heiko
 
->
->>> Fixes: 803abec64ef9 ("media: ipu3-cio2: Add cio2-bridge to ipu3-cio2 driver")
->>> Fixes: bf263f64e804 ("media: ACPI / bus: Add acpi_dev_get_next_match_dev() and helper macro")
->>> Cc: Daniel Scally <djrscally@gmail.com>
->>> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
->>> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
->>> ---
->>>  drivers/acpi/utils.c                       | 5 +----
->>>  drivers/media/pci/intel/ipu3/cio2-bridge.c | 8 +++-----
->>>  include/acpi/acpi_bus.h                    | 5 -----
->>>  3 files changed, 4 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/drivers/acpi/utils.c b/drivers/acpi/utils.c
->>> index 3b54b8fd7396..ccfc484dbffd 100644
->>> --- a/drivers/acpi/utils.c
->>> +++ b/drivers/acpi/utils.c
->>> @@ -846,10 +846,6 @@ EXPORT_SYMBOL(acpi_dev_present);
->>>   * Return the next match of ACPI device if another matching device was present
->>>   * at the moment of invocation, or NULL otherwise.
->>>   *
->>> - * FIXME: The function does not tolerate the sudden disappearance of @adev, e.g.
->>> - * in the case of a hotplug event. That said, the caller should ensure that
->>> - * this will never happen.
->>> - *
->>>   * The caller is responsible for invoking acpi_dev_put() on the returned device.
->>>   *
->>>   * See additional information in acpi_dev_present() as well.
-> But the kerneldoc really needs to say that the caller is required to
-> obtain a reference on adev before passing it here, because that
-> reference will be dropped and the object pointed to by adev may not be
-> present any more after this returns.
->
->>> @@ -866,6 +862,7 @@ acpi_dev_get_next_match_dev(struct acpi_device *adev, const char *hid, const cha
->>>         match.hrv = hrv;
->>>
->>>         dev = bus_find_device(&acpi_bus_type, start, &match, acpi_dev_match_cb);
->>> +       acpi_dev_put(adev);
+> +	return 0;
+> +}
+> +
+>  static int rk3288_vpu_hw_init(struct hantro_dev *vpu)
+>  {
+>  	/* Bump ACLK to max. possible freq. to improve performance. */
+> @@ -133,6 +189,14 @@ static int rk3288_vpu_hw_init(struct hantro_dev *vpu)
+>  	return 0;
+>  }
+>  
+> +static void rk3066_vpu_dec_reset(struct hantro_ctx *ctx)
+> +{
+> +	struct hantro_dev *vpu = ctx->dev;
+> +
+> +	vdpu_write(vpu, G1_REG_INTERRUPT_DEC_IRQ_DIS, G1_REG_INTERRUPT);
+> +	vdpu_write(vpu, G1_REG_CONFIG_DEC_CLK_GATE_E, G1_REG_CONFIG);
+> +}
+> +
+>  static void rk3288_vpu_enc_reset(struct hantro_ctx *ctx)
+>  {
+>  	struct hantro_dev *vpu = ctx->dev;
+> @@ -145,6 +209,33 @@ static void rk3288_vpu_enc_reset(struct hantro_ctx *ctx)
+>  /*
+>   * Supported codec ops.
+>   */
+> +static const struct hantro_codec_ops rk3066_vpu_codec_ops[] = {
+> +	[HANTRO_MODE_JPEG_ENC] = {
+> +		.run = hantro_h1_jpeg_enc_run,
+> +		.reset = rk3288_vpu_enc_reset,
+> +		.init = hantro_jpeg_enc_init,
+> +		.done = hantro_jpeg_enc_done,
+> +		.exit = hantro_jpeg_enc_exit,
+> +	},
+> +	[HANTRO_MODE_H264_DEC] = {
+> +		.run = hantro_g1_h264_dec_run,
+> +		.reset = rk3066_vpu_dec_reset,
+> +		.init = hantro_h264_dec_init,
+> +		.exit = hantro_h264_dec_exit,
+> +	},
+> +	[HANTRO_MODE_MPEG2_DEC] = {
+> +		.run = hantro_g1_mpeg2_dec_run,
+> +		.reset = rk3066_vpu_dec_reset,
+> +		.init = hantro_mpeg2_dec_init,
+> +		.exit = hantro_mpeg2_dec_exit,
+> +	},
+> +	[HANTRO_MODE_VP8_DEC] = {
+> +		.run = hantro_g1_vp8_dec_run,
+> +		.reset = rk3066_vpu_dec_reset,
+> +		.init = hantro_vp8_dec_init,
+> +		.exit = hantro_vp8_dec_exit,
+> +	},
+> +};
+>  
+>  static const struct hantro_codec_ops rk3288_vpu_codec_ops[] = {
+>  	[HANTRO_MODE_JPEG_ENC] = {
+> @@ -183,10 +274,35 @@ static const struct hantro_irq rk3288_irqs[] = {
+>  	{ "vdpu", hantro_g1_irq },
+>  };
+>  
+> +static const char * const rk3066_clk_names[] = {
+> +	"aclk_vdpu", "hclk_vdpu",
+> +	"aclk_vepu", "hclk_vepu"
+> +};
+> +
+>  static const char * const rk3288_clk_names[] = {
+>  	"aclk", "hclk"
+>  };
+>  
+> +const struct hantro_variant rk3066_vpu_variant = {
+> +	.enc_offset = 0x0,
+> +	.enc_fmts = rk3288_vpu_enc_fmts,
+> +	.num_enc_fmts = ARRAY_SIZE(rk3288_vpu_enc_fmts),
+> +	.dec_offset = 0x400,
+> +	.dec_fmts = rk3066_vpu_dec_fmts,
+> +	.num_dec_fmts = ARRAY_SIZE(rk3066_vpu_dec_fmts),
+> +	.postproc_fmts = rk3288_vpu_postproc_fmts,
+> +	.num_postproc_fmts = ARRAY_SIZE(rk3288_vpu_postproc_fmts),
+> +	.postproc_regs = &hantro_g1_postproc_regs,
+> +	.codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
+> +		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
+> +	.codec_ops = rk3066_vpu_codec_ops,
+> +	.irqs = rk3288_irqs,
+> +	.num_irqs = ARRAY_SIZE(rk3288_irqs),
+> +	.init = rk3066_vpu_hw_init,
+> +	.clk_names = rk3066_clk_names,
+> +	.num_clocks = ARRAY_SIZE(rk3066_clk_names)
+> +};
+> +
+>  const struct hantro_variant rk3288_vpu_variant = {
+>  	.enc_offset = 0x0,
+>  	.enc_fmts = rk3288_vpu_enc_fmts,
+> 
+
+
+
+
