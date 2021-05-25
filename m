@@ -2,113 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 454A33905C6
-	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 17:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F3B8390644
+	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 18:12:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232381AbhEYPp4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 11:45:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36354 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230013AbhEYPp4 (ORCPT
+        id S232040AbhEYQOT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 May 2021 12:14:19 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:48924 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231321AbhEYQOT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 11:45:56 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B135C061574
-        for <linux-media@vger.kernel.org>; Tue, 25 May 2021 08:44:25 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id r12so32754230wrp.1
-        for <linux-media@vger.kernel.org>; Tue, 25 May 2021 08:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=/TPhdbNwG56DgH/bkvG9Ab2XRQjfvqy0X0TnvaIzhV0=;
-        b=hDZF3nDTIaL3tTijVRmk8XFQ4EwOKRhrmNTD8gLtvr25p3EQxAlY7YETs/ulm8ZSZU
-         CF4M7VBDV8bAuYOaMtpuVhtnu+F6k4wV3skaOSMmXCyrNhxsxnETnHixdT3DIcILd0C5
-         xh1kA7xsImRe4Vs9fwnSZJgz4KByJrvaKqpb2oNSn0/CKgE8PMw+7+emb2kAwRsW5k/Q
-         gcO5dmcMQlzOr1DnUvXy3m/sKrkZMb9NxPldH34b8EihVo8krkFLc1MKGiiQZT5QVz8w
-         iXfJu2anNKOmDeXBnSsD7pQzHUhU+GAlttGxxikRWVi9YjVjo0COzRTWXDRSxfGakxj3
-         k7yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=/TPhdbNwG56DgH/bkvG9Ab2XRQjfvqy0X0TnvaIzhV0=;
-        b=Uiopa/V0ys2RDso7ki5I42uS3woLkTY74tI391X9FGAxCS5BP9HmjR7G2qs8CV25LZ
-         MgyKROZljW8c/SGdk+/vuzRxK09o/1T5u1pdvOw/LVw46dDVisBvJPHDv4XhtQnO7l7p
-         zscYuuxl2xvXqljtd/C5Bej6vjJkrzMG8++xA4dxJ7oT/iOEtydBJ8KjR5mPG4IDirT/
-         LDB4vx7p3u1lhFvWXGpi/DRhAOZYfgAGw/64yQUrViL7XO0hzSPfajWI5UrFNox926Cj
-         /s/Ytn0m8J4ySvqOf5/fmWgjsNhd/+/9Ltf7MKCuaAGC5r7KkoCNfP8D9jtPTEKNjU1B
-         3Yrw==
-X-Gm-Message-State: AOAM530YMi1jRu978F2sGyon5H/ox8P6oAh0ROW/YVqBqmWORTtl0/u2
-        CYXy99ZA4WrHGOdvgb+WfAlIH8U/jdNe/g==
-X-Google-Smtp-Source: ABdhPJzrWRHN34EOxIx7WsXV+3mbDd6akgTvDc0b5JETAHrh2xJmi+yx/l15ZGRAJw7HAbV2Roypjw==
-X-Received: by 2002:adf:8b09:: with SMTP id n9mr28542513wra.148.1621957463762;
-        Tue, 25 May 2021 08:44:23 -0700 (PDT)
-Received: from localhost.localdomain (plowpeople3.plus.com. [80.229.223.72])
-        by smtp.gmail.com with ESMTPSA id a11sm16753212wrr.48.2021.05.25.08.44.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 08:44:23 -0700 (PDT)
-From:   David Plowman <david.plowman@raspberrypi.com>
-To:     linux-media@vger.kernel.org
-Cc:     David Plowman <david.plowman@raspberrypi.com>
-Subject: [PATCH v2 2/2] media: v4l2-ctrls: Document V4L2_CID_NOTIFY_GAIN_XXX controls
-Date:   Tue, 25 May 2021 16:44:17 +0100
-Message-Id: <20210525154417.7426-3-david.plowman@raspberrypi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210525154417.7426-1-david.plowman@raspberrypi.com>
-References: <20210525154417.7426-1-david.plowman@raspberrypi.com>
+        Tue, 25 May 2021 12:14:19 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: benjamin.gaignard)
+        with ESMTPSA id 3586A1F42827
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v11 0/9] Add HANTRO G2/HEVC decoder support for IMX8MQ
+Date:   Tue, 25 May 2021 18:12:29 +0200
+Message-Id: <20210525161238.1191168-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add documentation for each of the controls
+The IMX8MQ got two VPUs but until now only G1 has been enabled.
+This series aim to add the second VPU (aka G2) and provide basic 
+HEVC decoding support.
 
-V4L2_CID_NOTIFY_GAIN_RED
-V4L2_CID_NOTIFY_GAIN_GREENR
-V4L2_CID_NOTIFY_GAIN_BLUE
-V4L2_CID_NOTIFY_GAIN_GREENB
+To be able to decode HEVC it is needed to add/update some of the
+structures in the uapi. In addition of them one HANTRO dedicated
+control is required to inform the driver of the number of bits to skip
+at the beginning of the slice header.
+The hardware require to allocate few auxiliary buffers to store the
+references frame or tile size data.
 
-These controls are required by sensors that need to know what colour
-gains will be applied to pixels by downstream processing (such as by
-an ISP), though the sensor does not apply these gains itself.
+The driver has been tested with fluster test suite stream.
+For example with this command: ./fluster.py run -ts JCT-VC-HEVC_V1 -d GStreamer-H.265-V4L2SL-Gst1.0
 
-Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
----
- .../media/v4l/ext-ctrls-image-source.rst      | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
+version 11:
+ - Rebased on media_stage.
+ - Fix minor typo/remarks.
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-index de43f5c8486d..d50b56156a8e 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-@@ -72,3 +72,28 @@ Image Source Control IDs
-     * - __u32
-       - ``height``
-       - Height of the area.
-+
-+``V4L2_CID_NOTIFY_GAIN_RED (integer)``
-+    Please refer to ``V4L2_CID_NOTIFY_GAIN_GREENB`` below.
-+
-+``V4L2_CID_NOTIFY_GAIN_GREENR (integer)``
-+    Please refer to ``V4L2_CID_NOTIFY_GAIN_GREENB`` below.
-+
-+``V4L2_CID_NOTIFY_GAIN_BLUE (integer)``
-+    Please refer to ``V4L2_CID_NOTIFY_GAIN_GREENB`` below.
-+
-+``V4L2_CID_NOTIFY_GAIN_GREENB (integer)``
-+    Note: this description covers all four ``V4L2_CID_NOTIFY_GAIN``
-+    controls, according to the Bayer channel indicated at the end of
-+    the control name.
-+
-+    The sensor is notified what gain will be applied to this Bayer
-+    channel by subsequent processing (such as by an ISP). The sensor
-+    is merely informed of this value in case it performs processing
-+    that requires it, but it does not apply it to the output pixels
-+    themselves.
-+
-+    The units for the gain value are linear, with the default value
-+    being shared between all four controls and representing a gain of
-+    exactly 1. Other control properties, such as ranges, should also
-+    be common.
+version 10:
+ - Shorter version of the previous series without ctrl block patches
+   and no DT modifications.
+   The scope of this series is limited to HEVC support.
+
+version 9:
+ - Corrections in commits messages.
+ - Define the dedicated control in hevc-controls.h
+ - Add note in documentation.
+ - Change max value of the dedicated control.
+ - Rebased on media_tree/master branch.
+
+version 8:
+ - Add reviewed-by and ack-by tags 
+ - Fix the warnings reported by kernel test robot
+ - Only patch 9 (adding dedicated control), patch 11 (HEVC support) and
+   patch 13 (DT changes) are still missing of review/ack tag.
+
+version 7:
+ - Remove 'q' from syscon phandle name to make usable for iMX8MM too.
+   Update the bindings documentation.
+ - Add review/ack tags.
+ - Rebase on top of media_tree/master
+ - Be more accurate when computing the size of the memory needed motion
+   vectors.
+ - Explain why the all clocks need to set in the both DT node.
+
+version 6:
+ - fix the errors reported by kernel test robot
+
+version 5:
+ - use syscon instead of VPU reset driver.
+ - Do not break kernel/DT backward compatibility.
+ - Add documentation for dedicated Hantro control.
+ - Fix the remarks done by Ezequeil (typo, comments, unused function)
+ - Run v4l2-compliance without errors (see below).
+ - Do not add field to distinguish version, check postproc reg instead
+
+version 4:
+- Split the changes in hevc controls in 2 commits to make them easier to
+  review.
+- Change hantro_codec_ops run() prototype to return errors   
+- Hantro v4l2 dedicated control is now only an integer
+- rebase on top of VPU reset changes posted here:
+  https://www.spinics.net/lists/arm-kernel/msg878440.html
+- Various fix from previous remarks
+- Limit the modifications in API to what the driver needs
+
+version 3:
+- Fix typo in Hantro v4l2 dedicated control
+- Add documentation for the new structures and fields
+- Rebased on top of media_tree for-linus-5.12-rc1 tag
+
+version 2:
+- remove all change related to scaling
+- squash commits to a coherent split
+- be more verbose about the added fields
+- fix the comments done by Ezequiel about dma_alloc_coherent usage
+- fix Dan's comments about control copy, reverse the test logic
+in tile_buffer_reallocate, rework some goto and return cases.
+- be more verbose about why I change the bindings
+- remove all sign-off expect mime since it is confusing
+- remove useless clocks in VPUs nodes
+ 
+Benjamin Gaignard (9):
+  media: hevc: Add fields and flags for hevc PPS
+  media: hevc: Add decode params control
+  media: hantro: change hantro_codec_ops run prototype to return errors
+  media: hantro: Define HEVC codec profiles and supported features
+  media: hantro: Only use postproc when post processed formats are
+    defined
+  media: uapi: Add a control for HANTRO driver
+  media: hantro: handle V4L2_PIX_FMT_HEVC_SLICE control
+  media: hantro: Introduce G2/HEVC decoder
+  media: hantro: IMX8M: add variant for G2/HEVC codec
+
+ .../userspace-api/media/drivers/hantro.rst    |  19 +
+ .../userspace-api/media/drivers/index.rst     |   1 +
+ .../media/v4l/ext-ctrls-codec.rst             | 108 +++-
+ .../media/v4l/vidioc-queryctrl.rst            |   6 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |  21 +-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   4 +
+ drivers/staging/media/hantro/Makefile         |   2 +
+ drivers/staging/media/hantro/hantro.h         |  13 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  99 ++-
+ .../staging/media/hantro/hantro_g1_h264_dec.c |  10 +-
+ .../media/hantro/hantro_g1_mpeg2_dec.c        |   4 +-
+ .../staging/media/hantro/hantro_g1_vp8_dec.c  |   6 +-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 588 ++++++++++++++++++
+ drivers/staging/media/hantro/hantro_g2_regs.h | 198 ++++++
+ .../staging/media/hantro/hantro_h1_jpeg_enc.c |   4 +-
+ drivers/staging/media/hantro/hantro_hevc.c    | 327 ++++++++++
+ drivers/staging/media/hantro/hantro_hw.h      |  69 +-
+ .../staging/media/hantro/hantro_postproc.c    |  14 +
+ drivers/staging/media/hantro/hantro_v4l2.c    |   5 +-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |  96 ++-
+ .../media/hantro/rk3399_vpu_hw_jpeg_enc.c     |   4 +-
+ .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |   4 +-
+ .../media/hantro/rk3399_vpu_hw_vp8_dec.c      |   6 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |   6 +
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   1 +
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |   2 +
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  12 +-
+ include/media/hevc-ctrls.h                    |  46 +-
+ 28 files changed, 1606 insertions(+), 69 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/drivers/hantro.rst
+ create mode 100644 drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+ create mode 100644 drivers/staging/media/hantro/hantro_g2_regs.h
+ create mode 100644 drivers/staging/media/hantro/hantro_hevc.c
+
 -- 
-2.17.1
+2.25.1
 
