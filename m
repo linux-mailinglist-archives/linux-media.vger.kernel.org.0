@@ -2,103 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3DBB38FC78
-	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 10:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E9E73907E2
+	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 19:36:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232089AbhEYIRM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 04:17:12 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:3940 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231133AbhEYIRM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 04:17:12 -0400
-Received: from dggems705-chm.china.huawei.com (unknown [172.30.72.58])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Fq6Jd56pgzBwRf;
-        Tue, 25 May 2021 16:12:49 +0800 (CST)
-Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
- dggems705-chm.china.huawei.com (10.3.19.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 25 May 2021 16:15:41 +0800
-Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
- (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Tue, 25 May
- 2021 16:15:40 +0800
-From:   Baokun Li <libaokun1@huawei.com>
-To:     <bskeggs@redhat.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-        <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-        <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linaro-mm-sig@lists.linaro.org>
-CC:     <weiyongjun1@huawei.com>, <yuehaibing@huawei.com>,
-        <yangjihong1@huawei.com>, <yukuai3@huawei.com>,
-        <libaokun1@huawei.com>
-Subject: [PATCH -next] drm/nouveau: Remove set but not used variable 'dev'
-Date:   Tue, 25 May 2021 16:25:11 +0800
-Message-ID: <20210525082511.580068-1-libaokun1@huawei.com>
-X-Mailer: git-send-email 2.25.4
+        id S233784AbhEYRiH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 May 2021 13:38:07 -0400
+Received: from m12-14.163.com ([220.181.12.14]:44649 "EHLO m12-14.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234123AbhEYRhy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 May 2021 13:37:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=OdYXP
+        pa0ZDQMtZGtyalDSl75BLbfhf57+2BhDu/Wwx8=; b=EsNhscowKKFUFKJKolUyb
+        /NPI4Psb8ftmVQ+2JdePdIFhvmgsSKO+RLgycB9pXexkXmjb1oAQAxnje/Ed8Ow/
+        uicjt8oTGaFtb6jZES4bOdXheM7+/Qks8RjEFaHUzUXiHXknNzfH2yLYVSG2wLWn
+        zRXvAuslOlBH5ge9WiKNHY=
+Received: from localhost.localdomain (unknown [218.17.89.92])
+        by smtp10 (Coremail) with SMTP id DsCowAAHYW43x6xg3jaOKw--.45330S2;
+        Tue, 25 May 2021 17:45:28 +0800 (CST)
+From:   lijian_8010a29@163.com
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, ezequiel@collabora.com,
+        laurent.pinchart@ideasonboard.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lijian <lijian@yulong.com>
+Subject: [PATCH] media: v4l2-dev.c: Modified the macro SET_VALID_IOCTL
+Date:   Tue, 25 May 2021 17:41:48 +0800
+Message-Id: <20210525094148.74300-1-lijian_8010a29@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.127.227]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500020.china.huawei.com (7.185.36.88)
-X-CFilter-Loop: Reflected
+X-CM-TRANSID: DsCowAAHYW43x6xg3jaOKw--.45330S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Xry8Zr48KFW5XF17XFy7KFg_yoWkJrg_Wr
+        1kuF97XryqyF10vw1qyw1rA34qva98uryruF9xtrs3JFy5Z3WUXr1vqry3trsrW3W7ZFn8
+        XF9xWr1Ska48CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUexcTJUUUUU==
+X-Originating-IP: [218.17.89.92]
+X-CM-SenderInfo: 5olmxttqbyiikqdsmqqrwthudrp/xtbBLBOdUF++L6NhUAAAsu
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes gcc '-Wunused-but-set-variable' warning:
+From: lijian <lijian@yulong.com>
 
-drivers/gpu/drm/nouveau/nouveau_bo.c: In function 'nouveau_ttm_tt_populate':
-drivers/gpu/drm/nouveau/nouveau_bo.c:1258:17: warning:
- variable ‘dev’ set but not used [-Wunused-but-set-variable]
+Macros starting with if should be enclosed by a do - while loop
+to avoid possible if/else logic defects.
+So modified the macro SET_VALID_IOCTL with do - while loop.
 
-drivers/gpu/drm/nouveau/nouveau_bo.c: In function 'nouveau_ttm_tt_unpopulate':
-drivers/gpu/drm/nouveau/nouveau_bo.c:1281:17: warning:
- variable ‘dev’ set but not used [-Wunused-but-set-variable]
-
-It never used since introduction.
-
-Signed-off-by: Baokun Li <libaokun1@huawei.com>
+Signed-off-by: lijian <lijian@yulong.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/media/v4l2-core/v4l2-dev.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 7a2624c0ba4c..51f9a2e6532e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -1254,7 +1254,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
- {
- 	struct ttm_tt *ttm_dma = (void *)ttm;
- 	struct nouveau_drm *drm;
--	struct device *dev;
- 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
- 
- 	if (ttm_tt_is_populated(ttm))
-@@ -1267,7 +1266,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
- 	}
- 
- 	drm = nouveau_bdev(bdev);
--	dev = drm->dev->dev;
- 
- 	return ttm_pool_alloc(&drm->ttm.bdev.pool, ttm, ctx);
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+index 7d0edf3530be..15067843456e 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -520,9 +520,8 @@ static int get_index(struct video_device *vdev)
+ 	return find_first_zero_bit(used, VIDEO_NUM_DEVICES);
  }
-@@ -1277,14 +1275,12 @@ nouveau_ttm_tt_unpopulate(struct ttm_device *bdev,
- 			  struct ttm_tt *ttm)
- {
- 	struct nouveau_drm *drm;
--	struct device *dev;
- 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
  
- 	if (slave)
- 		return;
+-#define SET_VALID_IOCTL(ops, cmd, op)			\
+-	if (ops->op)					\
+-		set_bit(_IOC_NR(cmd), valid_ioctls)
++#define SET_VALID_IOCTL(ops, cmd, op) \
++	do { if (ops->op) set_bit(_IOC_NR(cmd), valid_ioctls); } while (0)
  
- 	drm = nouveau_bdev(bdev);
--	dev = drm->dev->dev;
- 
- 	return ttm_pool_free(&drm->ttm.bdev.pool, ttm);
- }
+ /* This determines which ioctls are actually implemented in the driver.
+    It's a one-time thing which simplifies video_ioctl2 as it can just do
 -- 
-2.25.4
+2.25.1
 
