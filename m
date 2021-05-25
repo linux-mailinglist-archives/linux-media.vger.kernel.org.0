@@ -2,159 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94EBD38FBF0
-	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 09:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C37C238FC35
+	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 10:08:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231877AbhEYHoD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 03:44:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39298 "EHLO
+        id S232179AbhEYIJz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 May 2021 04:09:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231477AbhEYHoC (ORCPT
+        with ESMTP id S232035AbhEYIJN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 03:44:02 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF201C061574
-        for <linux-media@vger.kernel.org>; Tue, 25 May 2021 00:42:32 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id f18so15600793ejq.10
-        for <linux-media@vger.kernel.org>; Tue, 25 May 2021 00:42:32 -0700 (PDT)
+        Tue, 25 May 2021 04:09:13 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0B4EC061344
+        for <linux-media@vger.kernel.org>; Tue, 25 May 2021 01:06:51 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id s6so34984412edu.10
+        for <linux-media@vger.kernel.org>; Tue, 25 May 2021 01:06:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5kojNRTkJM0Iidaye2FhD+TiafPI3/iaR/OGMpQj/hU=;
-        b=OQPY9l7I74iZ5U/s6wwAOFN/jUAKY050LoujmzJ1dw+Wy0sxW9wAshNHpCmjCXI2H1
-         1J3U9dB9gYtD1AXhUK5UaulV9mtccIyq/pD3hq0XSZz9cMdtgoQUp9Qth/TFTRW9jjVE
-         3DadpPoV+wkLg09ZfFmdbfAidzC8TNjzPu8q6GpP1zbRuV14b7fE+Wd+ZjLAmoeh1ZSn
-         MLHMbrJW9+RcQ28KcmPHsoc62fzhhbaCTIwccxHEUznqxrQCrx9kzWGhNXb3Q0j19LT6
-         xWCLkZ8yZNA4j98MoF3oj9Ib6URcKPjWj41iMTojYGWPWWwz+N1ecyNWaPrDXNHaHBJj
-         99Zw==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bd88TalnqZ3LuY6/Du24s6lZTeOXLy91wdCf8bz37vI=;
+        b=VxaQezS2eXZGJC806EUOiml4bqh6+BZ2t6g1CV6E9uZsWy3JBsCa1x5hXGdJ0fm6ra
+         MhKSl75VS6vcuI9YzVq1Ctwpoz/a8/vbmN3Mk7CcSgWyQ3lmVPceZmeVUJzxsEsj5Kc6
+         RK6gH1XjcsNMC4SjRa3U7vCO2Woo9yuryB/Ck=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5kojNRTkJM0Iidaye2FhD+TiafPI3/iaR/OGMpQj/hU=;
-        b=OB6Vew+i4sBoJ5o1nEkyYYyS9x+2pGhlRaQtXv47xJzXqc8m5MpGxccR0csslNLloG
-         A/0NsdUin2LQvt9HD7MH+z4SQNR3V+KAI7vvy1CZnoWx0CUg4v7SGGIxpghoqsBamvZN
-         r4jmTBeeUiULK66YFs31Kvg27niQHt1sidnvwE9iJ3z/r/dYt1m2/gKnmT+Lnoheje2t
-         B41gJmSbzcYAlA+k5yx1f/9Svey0DHN+Z2ZzBfzPVrG0LK34WVGIcWS8yazOIg8dimth
-         yxpttmNCXb54QGbN3JUw2fPaWcxxI5YFAr7OxZmnCi4mP6BbVRpubAynBPuwBP5uls63
-         dGdQ==
-X-Gm-Message-State: AOAM532PJat2ExpbUV50mSEI7wm1IAfuBUptQxbm1uxmo4pvt6AiiM5O
-        8vdXb7Cmk344HDwWk4WZVHmDzdpYkXTYp26/
-X-Google-Smtp-Source: ABdhPJwygnwtG22qLKjSh9l2jV/HkrIH8pisJsofcR1vJTKm/4wQDcOrfbfZInMYvtFUTIz1lPC5dw==
-X-Received: by 2002:a17:906:11c8:: with SMTP id o8mr26921460eja.499.1621928551243;
-        Tue, 25 May 2021 00:42:31 -0700 (PDT)
-Received: from [192.168.1.12] ([84.238.208.204])
-        by smtp.googlemail.com with ESMTPSA id ia23sm4593804ejc.70.2021.05.25.00.42.30
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bd88TalnqZ3LuY6/Du24s6lZTeOXLy91wdCf8bz37vI=;
+        b=mnRpBtd/j4+xll1bwUfZLvuo9L0GzDbpE7+/v0Y+3g1Fu9fQILqDWp/HVwaNfq3wry
+         wYvPE1HSWivKmuuBjt+5JmNlwKbRjp/bI1B44V66tqSDImdASgsC+qhlgHCl02mT9viB
+         GdZZ8HgLF7maDUFBKKvf6MrOLphgyqi3/P671oGs+kKtk6jPoRbLKE5le+i5b5P9o17z
+         O30ol+6Vfm8XwkW8YQi4nz+JRxoDa8iu73Yw1+WtKCPI4gDIRoAfucahyfiWO3uizfLK
+         /IN5m7qU0b5ZpF+jj/B5DOd8qIAleaFXuakF3eJ7qr7YMz9gBpYD/bSkvWp8fnDQ7pBM
+         TYUQ==
+X-Gm-Message-State: AOAM5311ZojHH1bkjTPkFrs81/BILkXGu+m5yPCtzcVre7T7ZW2qb+wy
+        C0Y4jTSzkX334RzjiZstLgzzezPR1HL2eQ==
+X-Google-Smtp-Source: ABdhPJwHiwG6f/1narl3+rp9PXgT/OBmRSn3Y9+gsREuHwPcErV3UBzl1EvKXxcQ4ef+7QcUjRvUQw==
+X-Received: by 2002:aa7:d786:: with SMTP id s6mr29933040edq.239.1621930009531;
+        Tue, 25 May 2021 01:06:49 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
+        by smtp.gmail.com with ESMTPSA id a22sm9717087edu.39.2021.05.25.01.06.47
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 May 2021 00:42:30 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: Re: [RFC/WIP 1/4] media: Add HEIC compressed pixel format
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
- <20210429132833.2802390-2-stanimir.varbanov@linaro.org>
- <f1ebf16082af8a540e34d834d33a1f48bc267e91.camel@ndufresne.ca>
-Message-ID: <c1693dc3-4cfa-6a1a-1981-affd0ee4f3f3@linaro.org>
-Date:   Tue, 25 May 2021 10:42:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Tue, 25 May 2021 01:06:48 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id n2so31228328wrm.0
+        for <linux-media@vger.kernel.org>; Tue, 25 May 2021 01:06:47 -0700 (PDT)
+X-Received: by 2002:a5d:4385:: with SMTP id i5mr26095922wrq.192.1621930007302;
+ Tue, 25 May 2021 01:06:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <f1ebf16082af8a540e34d834d33a1f48bc267e91.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210326095840.364424-1-ribalda@chromium.org>
+In-Reply-To: <20210326095840.364424-1-ribalda@chromium.org>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 25 May 2021 17:06:35 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AegMJCrcV7Qpb0oUQLjSiDa+Q7=ojrZs+z+WDSwLq6Ng@mail.gmail.com>
+Message-ID: <CAAFQd5AegMJCrcV7Qpb0oUQLjSiDa+Q7=ojrZs+z+WDSwLq6Ng@mail.gmail.com>
+Subject: Re: [PATCH v9 00/22] uvcvideo: Fix v4l2-compliance errors
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ricardo Ribalda <ribalda@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi everyone,
 
+On Fri, Mar 26, 2021 at 6:58 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> *v4l2-compliance -m /dev/media0 -a -f
+> Total for uvcvideo device /dev/media0: 8, Succeeded: 6, Failed: 2, Warnings: 0
+> Total for uvcvideo device /dev/video0: 54, Succeeded: 50, Failed: 4, Warnings: 2
+> Total for uvcvideo device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+> Grand Total for uvcvideo device /dev/media0: 108, Succeeded: 102,
+> Failed: 6, Warnings: 2
+>
+> After fixing all of them we go down to:
+>
+> Total for uvcvideo device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
+> Total for uvcvideo device /dev/video0: 54, Succeeded: 54, Failed: 0, Warnings: 0
+> Total for uvcvideo device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+> Grand Total for uvcvideo device /dev/media0: 108, Succeeded: 108,
+> Failed: 0, Warnings: 0
+>
+> YES, NO MORE WARNINGS :)
+>
+> Note that we depend on:
+>
+> https://patchwork.linuxtv.org/project/linux-media/patch/20210317143453.483470-1-ribalda@chromium.org/
+>
+> With Hans patch we can also pass v4l2-compliance -s.
+>
+> Changelog from v8 (Thanks to Hans)
+> - 3 patches from Hans
+> - Add Reviewed-by
+>
+> Hans Verkuil (4):
+>   uvcvideo: uvc_ctrl_is_accessible: check for INACTIVE
+>   uvcvideo: improve error handling in uvc_query_ctrl()
+>   uvcvideo: don't spam the log in uvc_ctrl_restore_values()
+>   uvc: use vb2 ioctl and fop helpers
+>
+> Ricardo Ribalda (18):
+>   media: v4l2-ioctl: Fix check_ext_ctrls
+>   media: pvrusb2: Do not check for V4L2_CTRL_WHICH_DEF_VAL
+>   media: uvcvideo: Do not check for V4L2_CTRL_WHICH_DEF_VAL
+>   media: v4l2-ioctl: S_CTRL output the right value
+>   media: uvcvideo: Remove s_ctrl and g_ctrl
+>   media: uvcvideo: Set capability in s_param
+>   media: uvcvideo: Return -EIO for control errors
+>   media: uvcvideo: refactor __uvc_ctrl_add_mapping
+>   media: uvcvideo: Add support for V4L2_CTRL_TYPE_CTRL_CLASS
+>   media: uvcvideo: Use dev->name for querycap()
+>   media: uvcvideo: Set unique vdev name based in type
+>   media: uvcvideo: Increase the size of UVC_METADATA_BUF_SIZE
+>   media: uvcvideo: Use control names from framework
+>   media: uvcvideo: Check controls flags before accessing them
+>   media: uvcvideo: Set error_idx during ctrl_commit errors
+>   media: uvcvideo: Return -EACCES to inactive controls
+>   media: docs: Document the behaviour of uvcdriver
+>   media: uvcvideo: Downgrade control error messages
+>
+>  .../userspace-api/media/v4l/vidioc-g-ctrl.rst |   5 +
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |   5 +
+>  drivers/media/usb/pvrusb2/pvrusb2-v4l2.c      |   4 -
+>  drivers/media/usb/uvc/uvc_ctrl.c              | 343 +++++++++++----
+>  drivers/media/usb/uvc/uvc_driver.c            |  22 +-
+>  drivers/media/usb/uvc/uvc_metadata.c          |  10 +-
+>  drivers/media/usb/uvc/uvc_queue.c             | 143 -------
+>  drivers/media/usb/uvc/uvc_v4l2.c              | 389 +++---------------
+>  drivers/media/usb/uvc/uvc_video.c             |  51 ++-
+>  drivers/media/usb/uvc/uvcvideo.h              |  54 +--
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  67 +--
+>  11 files changed, 444 insertions(+), 649 deletions(-)
+>
+> --
+> 2.31.0.291.g576ba9dcdaf-goog
+>
 
-On 5/18/21 8:11 PM, Nicolas Dufresne wrote:
-> Le jeudi 29 avril 2021 à 16:28 +0300, Stanimir Varbanov a écrit :
->> Add HEIC (High-Efficiency Image Container) pixel format. This an
->> image container which use HEVC codec to encoded images.
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  .../userspace-api/media/v4l/pixfmt-compressed.rst    | 12 ++++++++++++
->>  drivers/media/v4l2-core/v4l2-ioctl.c                 |  1 +
->>  include/uapi/linux/videodev2.h                       |  1 +
->>  3 files changed, 14 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
->> index ba6c0c961204..246bff90dcac 100644
->> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
->> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
->> @@ -186,6 +186,18 @@ Compressed Formats
->>  	If :ref:`VIDIOC_ENUM_FMT` reports ``V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM``
->>  	then the decoder has no	requirements since it can parse all the
->>  	information from the raw bytestream.
->> +    * .. _V4L2-PIX-FMT-HEIC:
->> +
->> +      - ``V4L2_PIX_FMT_HEIC``
->> +      - 'HEIC'
->> +      - High Efficiency Image Container is an image container file format which
->> +        uses HEVC encoding and it is a variant of HEIF (High Efficiency Image File)
->> +        format.
-> 
-> Can you clarify, is it expected that an HEIF container be compatible or not ?
-> Assuming this exist. The HEIC being a brand name, and not really a standard
-> seems rather confusing. Is this is right name, or should you introduce HEIF with
-> variant control, similar to HEVC profile control.
+Any comments on this? Could we have this merged?
 
-
-V4L2_PIX_FMT_HFIF_HEVC is a good option, I guess.
-
-> 
-> Speaking of profile, does it inherit anything from HEVC ? So we need to set HEVC
-> pofile/level ? Is there some way's to affect the quality or is it the HEVC QP
-> controls ?
-
-V4L2_PIX_FMT_HFIF_HEVC will accept
-V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE profile and the image
-quality is set through V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY
-
-> 
->>
->>
->> +	The decoder expects one Access Unit per buffer.
->> +	The encoder generates one Access Unit per buffer.
->> +	If :ref:`VIDIOC_ENUM_FMT` reports ``V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM``
->> +	then the decoder has no	requirements since it can parse all the
->> +	information from the raw bytestream.
->>      * .. _V4L2-PIX-FMT-HEVC-SLICE:
->>  
->>        - ``V4L2_PIX_FMT_HEVC_SLICE``
->> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->> index 31d1342e61e8..3a1b4c3a76c8 100644
->> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->> @@ -1454,6 +1454,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->>  		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
->>  		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
->>  		case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
->> +		case V4L2_PIX_FMT_HEIC:		descr = "HEIC Image Format"; break;
->>  		default:
->>  			if (fmt->description[0])
->>  				return;
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index 79dbde3bcf8d..2153b5c31d46 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -699,6 +699,7 @@ struct v4l2_pix_format {
->>  #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
->>  #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
->>  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
->> +#define V4L2_PIX_FMT_HEIC	v4l2_fourcc('H', 'E', 'I', 'C') /* HEIC HEVC image format */
->>  
->>  /*  Vendor-specific formats   */
->>  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
-> 
-> 
-
--- 
-regards,
-Stan
+Thanks,
+Tomasz
