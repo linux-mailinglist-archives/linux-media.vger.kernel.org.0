@@ -2,166 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F06A38FB22
-	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 08:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4193138FB42
+	for <lists+linux-media@lfdr.de>; Tue, 25 May 2021 08:53:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231360AbhEYGr6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 02:47:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54930 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231197AbhEYGr5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 02:47:57 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51502C061574;
-        Mon, 24 May 2021 23:46:27 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id y7so17264085eda.2;
-        Mon, 24 May 2021 23:46:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MtotgoFTvDfN8LrSlpxInob2bAxV6I9xstIAOzQNFEA=;
-        b=gVMO3OeOd5jORoY3jAig0E/p5N5NpWIaJuwYWhbXQzzsbG+Zp1gJLjVvvCDenjqgzc
-         yIwvOMgaNlzlhxdibX5qrgYgNdiy7PgSh8A/1gh7FUC0t6/vel7JBGgKJG5qTyBBvGT4
-         BEPR8wGwuuIJ7afYQFLgzJMW9q4RpYJo8JRR2c+E/SiTB1v127r8e5pzbG1zE5T9YuJJ
-         EVBZpanKFMJ4yVAHRTqz+l4i0xQgGiYjQr0bWuVPaIGbvI4qvXQVNsekpZSo+unRxP8/
-         V7s/oxv2dneGbWwsqzUNKy9aYphxoInetSsLdwFDt5dE8xiqlJot9KUGId2vNibVR4ET
-         XDtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MtotgoFTvDfN8LrSlpxInob2bAxV6I9xstIAOzQNFEA=;
-        b=r7E84Pl2tpgpgCUiXwlHfV6bUXMG4A7d1iBcjxGzfaGe3SVDanRl4ZQy9xCOpIewj9
-         IPHb4MamYkubuuJvQKMChWBVWr4yMHhiDtex9SKjdVYlOF3YX2NOyMhw6FJkROXbttbq
-         /To20pubnfzNe3owS4fq2n6aA6iijQmYEMhlinaHWfmhw7zhGM2xKPm3t2GE4yzUH6M/
-         V4ilRvj4OmJmLZcEsAYVH3wKeprhAg7dJ5KlGv4x07MYIWAXBIowTF/pHx184GGeuMVW
-         UDmjhbOdkd5BGdiLMMwpRUoL9/kiCntG7ZUoZ7iRzeXMOOLGMhxnej/ExYD4J0Jbs7mg
-         twMg==
-X-Gm-Message-State: AOAM531+WrbKa29cmPwnsaA6zWRz3togoKaRIdK2A+3V/P2xmMw8lcdw
-        hiyWo9wyIpPUAnPalTyXv3L/jiiJ6lIYJmC2wlaSXjQB81RuaorJzBo2uQ==
-X-Google-Smtp-Source: ABdhPJwvyd445NmT3ekuVzvWBD2yw5FCEomPJViNObLfsXON4VQDNT4tHHuELeGc+mu/rTZ6+/bsTbCPPSp+yObzJos=
-X-Received: by 2002:a05:6402:1767:: with SMTP id da7mr12755923edb.174.1621925185880;
- Mon, 24 May 2021 23:46:25 -0700 (PDT)
+        id S231320AbhEYGyy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 May 2021 02:54:54 -0400
+Received: from mail-dm6nam10on2083.outbound.protection.outlook.com ([40.107.93.83]:35170
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230366AbhEYGyx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 May 2021 02:54:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GlmXCRu8vwS5QAm+eskedBKKunjU8+XmPIcoWo37qfnc2Ll14Pc4dJIsl6EDokuaUNhBDbpc///GfCDYnasZYWP64XTIypDtB9SESnIdGEtdwzMlgRc1UQ/RAkdF3sNcR/9G0baCCaOjktU86Ff+whrQhCnZs0vBHsqZgRHgUwkT3bbmfTU080b9hg8jQ68Idn3QGPWhD7culnwjqFhUlP+sCtmcbR0VYfvPqC0l+wWq7v+VArqPwRUpTjiwh3Od6UpenGqyW1A2A6uEFDLvMdW+KPhUDatSjxlecyleu4y0Y+nVvPTCyKwvcYZR/MoTmvVGao8WXk11D4rm85Sfgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FM4yajRXzYSYrq0WA2JhOhA+GALoic+M0wXZsV1eJG8=;
+ b=RcgtghqDhuRe6I1NdUTsAN0S1AqsqBoZTjL7fQmRPUoO6FiZq15PmTKxwlIh9YOvBI+U4oPUKKsZBCGZPyXoy9Sv5or6R9bwoOCj2Hf9RD923yyXTROmWEApjwommvVVi7pVnEOjysUg5aRfGuaHIDtV699MG9NlC+U5f+D69iP4nWN2pyk7pj4/sn3AlZpgfDoM9NMyjUys4gLUJZ+IURGO3ndBZhEpX7oHDqmNglAlzhE2a1HnwIzPywjQ1N06tvE7gG9QRxFsmHtEVFL94+in/CXsLoEkcV78XsyQKMWdfSL7t/A+MLx4wLhFzbSKjR0h/wy/gwqUr1YaJDm/aA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FM4yajRXzYSYrq0WA2JhOhA+GALoic+M0wXZsV1eJG8=;
+ b=Wh7lgZQ9HOe7G3CVcXSxMV2k3Jn5zPfmUY8PJg0gUw/tStGmpRYYY693aMniHvVJltJsM9G7I7J05IZ5+GsKKquqhYfrFDVxNKhS/RAme4WPGEewLk62Dicrm140ngTzem1jhGx3RRUzdds4wDEwrzfx8DST29nXa2kN/7+Ig/M=
+Authentication-Results: lists.linaro.org; dkim=none (message not signed)
+ header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27; Tue, 25 May
+ 2021 06:53:22 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4150.027; Tue, 25 May 2021
+ 06:53:22 +0000
+Subject: Re: [PATCH] drm/amdgpu: remove unreachable code
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        alexander.deucher@amd.com
+Cc:     airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <1621853213-55876-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <7e330d33-b104-a006-c5a6-0bd3ada80b6e@amd.com>
+Date:   Tue, 25 May 2021 08:53:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <1621853213-55876-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1]
+X-ClientProxiedBy: PR0P264CA0146.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:1b::14) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-References: <20210525053359.1147899-1-mudongliangabcd@gmail.com> <20210525081958.22f1e2b6@coco.lan>
-In-Reply-To: <20210525081958.22f1e2b6@coco.lan>
-From:   =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
-Date:   Tue, 25 May 2021 14:46:00 +0800
-Message-ID: <CAD-N9QU+f1+CegprF-YOC85jrsOCTm1+W9c3cgebrG3J2psibg@mail.gmail.com>
-Subject: Re: [PATCH] media: dvd_usb: memory leak in cinergyt2_fe_attach
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        syzbot <syzbot+e1de8986786b3722050e@syzkaller.appspotmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1] (2a02:908:1252:fb60:d67f:bd9a:6dbf:33b1) by PR0P264CA0146.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1b::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Tue, 25 May 2021 06:53:21 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 990018a5-9a14-4e51-594b-08d91f49c988
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB2353247CF0F4F9502F4AF0E083259@BL0PR12MB2353.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cM2RdUg+kABk5HCyG2HXK6u2E5YF+PSio2yZEKJsopBPpMiEPlcx59UOuwvdGQYh3WPfn9S+ZCyi6A5hKTJ0Dw7gXACyMO610VbtjY/i3SNI/Tr/DZ6KCYwSVMc+DuKD2Sp87MMYjm1uVkMR5FFQzH6t1/5yvCzsIQCmgAPTYeY8PZNQJo8Hl879z0pbn46qVQ+9FV2+luZj7hQoqSUwexIYuwhafNa7qw1mJtkrM16WRYXIOgtiPu36qloKRUJ7KYQS3QStqsB7CW/OAYGqsuic0DE5OpBzs0avBvJit459d+kTCZlfDKLkdT1o6NvZFCTNrj/W7IExHTP6wQlP9/3dcFoZDvVEP3VIcCu/Z4LEsRTV3/1qWyTIiWN/+wWjXce08hb3TwOFLqNU5yzyNR4wKYOjnWfVxZ6FHsXnrIg/FB2RDlkX2NAmf1vRefKIWYxFJoxRYcMcUJs9ZDAXmUVybV72Iwa7vNSW8R3FBj0YaU0C90ojjcid496W2fLCVFCDWzQarD6TZ5NAcXkNh5BlAdcNtDZLnAfICHR6XC+Ai6QsFDSvh+SNHcWV6MdXV55F2O8fCVQUAUN0HYiNwaEfBBsolJxlIcyD5yVai/CVnvAtI9A+fWE6WSexLX8Agj/TqIZp7psi8va9hZ8xAtqPHsYcDAtGVGN+n9petfUMHt8EUUnt59Mh0VZWY+d6
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(346002)(366004)(396003)(36756003)(31686004)(6486002)(316002)(83380400001)(478600001)(2616005)(2906002)(8936002)(16526019)(52116002)(186003)(4326008)(66556008)(66476007)(66946007)(8676002)(38100700002)(5660300002)(86362001)(31696002)(6666004)(6636002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SFdGUTNzbXlobXlMUGI2RUlOeFRveDF3cmxKZWFzM1o0VUJDVXZzb08zQWVn?=
+ =?utf-8?B?dEY0N3lITE55WUdXdFE4MnZOcGIrWkVocHNTS043RitlQUp5RWxsT0ZoSUpM?=
+ =?utf-8?B?c2p3bzJxeHhORkVPK0ZadkhGT2dON01nNXc1Kzd5dnN5YkphZ0JIcnBZSng2?=
+ =?utf-8?B?ZVdoV0tLSTgvRWVqRmtaVEQ4S2htL0VuZ3lqWXdyVm9xV3hVMkdwakFySWhx?=
+ =?utf-8?B?RGZObjRHb2FneXJUTUtvT3BrQVc0UWRyaHFLMi9UUTI3Y2ZVN0RheDNMUDdF?=
+ =?utf-8?B?NEczUE01M2RMSlVQTXhZVGgrcDM2ZklpaXFpUVRGR0pwZkhMMVJITmx1WFAy?=
+ =?utf-8?B?WVE5S2trK2xXVjNxdWwyZGl6MDlYOHhNeDcrY1dnRVhSYXIwTVE1NzhrN1gz?=
+ =?utf-8?B?RGJBVSthTWV5aU15WGM5aVN2UHRZS0llQklLdGNrVFlxc0xjRnVTQzZCUGNk?=
+ =?utf-8?B?MVphNFFuZkRtWkpvOGh6REZ2MC9Ha0k3Y01LTDVwVWNYSFVaU1pYbzVtSWJu?=
+ =?utf-8?B?M1F3OE4zZnp2RVBLSlR2SnBPN0d0Nld3YTNSZlg3TmpZbWxaTU5JUzFLb3JN?=
+ =?utf-8?B?dmxYcHNxMnROWW1NcVJmSU4rZnp1ZkFrTWpFVjNVRVNDUHA2RG1STkhrejBI?=
+ =?utf-8?B?SFdtbkRMNWs3REg1NDVIU1RyV2x0U21lQVE5SnRjbFUzcVg3NjFWd1BsbXZp?=
+ =?utf-8?B?QjU2cUhHa2szbXhsdlZWZFN2b290bDREbkduOEdhc3VPdVpYMkcwSXBhendZ?=
+ =?utf-8?B?MC9xdlhvcFplcHRBWDNVQzhOcFE2dnprUVhzZ0pyNEhJcmFscFhyK1krYnVW?=
+ =?utf-8?B?SkJPazJkSE14eXcvaDhyM3Z6VW9GVjRpWWcza21kMy84d0pIeHRhMDgxakVu?=
+ =?utf-8?B?MHhRbnErQ0lIamFWdUtlMnIxQTdCelppR0ZibTloQmlwQlFNT3k0aUU1V2Ri?=
+ =?utf-8?B?NHY3eTBYZnFzc0Z3MEh0eWR6V0V1NjhweThPa1RlNW96ZWpRd3FYbnFNOWpY?=
+ =?utf-8?B?YnoyOFhubTdjR3RDTWFYckhaN3VteUdMeUpBQnAvbjV6UnFVYU0xQTQ1VjIz?=
+ =?utf-8?B?NEhSSHJZaXJuMjYrbEY3T09sS2tlQ2pCRlFxcEZFeHRVc3RLd1pjWnlQM1FU?=
+ =?utf-8?B?ZnR3STlVeGxLRzVobjVGT1lTZDM5ME1tckFMRkQ4bkxUSW9EbE1mOE9Db0k3?=
+ =?utf-8?B?aXRYaHhuQjk0L215S2JRWHBBb0c5cDR1NVhGVVR5dVpEV0NQUm5uV1gyVU1Z?=
+ =?utf-8?B?dUtPS01NbWk3TUVGWm00MkUwQTMrcVdhdGxscWYzL0lIL3pBbGV0ZnY1MGZ2?=
+ =?utf-8?B?UGxWMTdIMXljcWY5SVFEL1BrZ0pOVG9jN2loV3U1dFh1T1VwNCs1YTUwVzcx?=
+ =?utf-8?B?TDYrWUwzTFdmQzg3OHA2TklTcm9ESjhWOWxBNFp0M3NnRHhkaTM1emtpK2ZV?=
+ =?utf-8?B?ckw5Q21ia0o0eU1mdFY4Qk5zcjVsWnliYmlqcDlVZkpZaGYwUmRkWWRlZTFn?=
+ =?utf-8?B?QnBhWExZRGx0SlRJSnBWTStFT1NDc2FLTWhKVHJ2cEZnQ0VQZGo4bk5Gc29s?=
+ =?utf-8?B?UHd0VVFZdlRzMTFodmVTRGhZb1BPM3k4QWZHMjdjRzh0MVd2dnRROTE0Nmdy?=
+ =?utf-8?B?TmUxaXdmaEovWmNyYkVJQVZSSnNPRzV6UnYyWFAzMGVtcEJmY0lrd2dLV1dm?=
+ =?utf-8?B?UUhTTUVkQW14WU4vOStPTGRvTjc5anNJbkprZlAycDByRlE3aTMycTlnSGJn?=
+ =?utf-8?B?bjlHWDhyNzdJOEo1UjFBWkxVdmZ4VzE5cHRUeVBLKzVmWVUrWEJkRXBkNHBL?=
+ =?utf-8?B?TXVRRnlXQjRTSGI1WWR3NHltcUFUTkREUjFianVQd0tPUkIyOFhpemxWajI5?=
+ =?utf-8?Q?Isejud5kL9lLg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 990018a5-9a14-4e51-594b-08d91f49c988
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2021 06:53:22.6334
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DPwDaB/nYSWPkkmCrfclpfQ4XVfSQIcAaKOGJFq89ZupvqDm+Svzn03dKy94jdEz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2353
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 25, 2021 at 2:20 PM Mauro Carvalho Chehab
-<mchehab@kernel.org> wrote:
+Am 24.05.21 um 12:46 schrieb Jiapeng Chong:
+> In the function amdgpu_uvd_cs_msg(), every branch in the switch
+> statement will have a return, so the code below the switch statement
+> will not be executed.
 >
-> Em Tue, 25 May 2021 13:33:59 +0800
-> Dongliang Mu <mudongliangabcd@gmail.com> escreveu:
+> Eliminate the follow smatch warning:
 >
-> > When cinergyt2_frontend_attach returns a negative value, the allocation
-> > is already successful, but in the error handling, there is no any clean
-> > corresponding operation, which leads to memory leak.
-> >
-> > Fix it by freeing struct cinergyt2_fe_state when the return value is
-> > nonzero.
-> >
-> > backtrace:
-> >   [<0000000056e17b1a>] kmalloc include/linux/slab.h:552 [inline]
-> >   [<0000000056e17b1a>] kzalloc include/linux/slab.h:682 [inline]
-> >   [<0000000056e17b1a>] cinergyt2_fe_attach+0x21/0x80 drivers/media/usb/dvb-usb/cinergyT2-fe.c:271
-> >   [<00000000ae0b1711>] cinergyt2_frontend_attach+0x21/0x70 drivers/media/usb/dvb-usb/cinergyT2-core.c:74
-> >   [<00000000d0254861>] dvb_usb_adapter_frontend_init+0x11b/0x1b0 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:290
-> >   [<0000000002e08ac6>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:84 [inline]
-> >   [<0000000002e08ac6>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
-> >   [<0000000002e08ac6>] dvb_usb_device_init.cold+0x4d0/0x6ae drivers/media/usb/dvb-usb/dvb-usb-init.c:287
-> >
-> > Reported-by: syzbot+e1de8986786b3722050e@syzkaller.appspotmail.com
-> > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-> > ---
-> >  drivers/media/usb/dvb-usb/dvb-usb-dvb.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/usb/dvb-usb/dvb-usb-dvb.c b/drivers/media/usb/dvb-usb/dvb-usb-dvb.c
-> > index 0a7f8ba90992..f9f004fb0a92 100644
-> > --- a/drivers/media/usb/dvb-usb/dvb-usb-dvb.c
-> > +++ b/drivers/media/usb/dvb-usb/dvb-usb-dvb.c
-> > @@ -288,7 +288,7 @@ int dvb_usb_adapter_frontend_init(struct dvb_usb_adapter *adap)
-> >               }
-> >
-> >               ret = adap->props.fe[i].frontend_attach(adap);
-> > -             if (ret || adap->fe_adap[i].fe == NULL) {
-> > +             if (adap->fe_adap[i].fe == NULL) {
-> >                       /* only print error when there is no FE at all */
-> >                       if (i == 0)
-> >                               err("no frontend was attached by '%s'",
-> > @@ -297,6 +297,12 @@ int dvb_usb_adapter_frontend_init(struct dvb_usb_adapter *adap)
-> >                       return 0;
-> >               }
-> >
-> > +             if (ret) {
-> > +                     struct dvb_frontend *fe = adap->fe_adap[i].fe;
-> > +
-> > +                     fe->ops.release(fe);
-> > +                     return 0;
-> > +             }
-> > +
->
-> Touching dvb-usb core doesn't seem the right fix here, as it will
-> affect all other drivers that depend on it.
->
-> Basically, when a driver returns an error, it has to cleanup
-> whatever it did, as the core has no way to know where the
-> error happened inside the driver logic.
->
-> The problem seems to be at cinergyt2_frontend_attach() instead:
->
->         adap->fe_adap[0].fe = cinergyt2_fe_attach(adap->dev);
->
->         mutex_lock(&d->data_mutex);
->         st->data[0] = CINERGYT2_EP1_GET_FIRMWARE_VERSION;
->
->         ret = dvb_usb_generic_rw(d, st->data, 1, st->data, 3, 0);
->         if (ret < 0) {
->                 deb_rc("cinergyt2_power_ctrl() Failed to retrieve sleep state info\n");
->         }
->         mutex_unlock(&d->data_mutex);
->
->         /* Copy this pointer as we are gonna need it in the release phase */
->         cinergyt2_usb_device = adap->dev;
->
->         return ret;
->
-> See, this driver returns an error if it fails to talk with the hardware
-> when it calls dvb_usb_generic_rw(). Yet, it doesn't cleanup its own mess,
-> as it keeps the frontend attached. The right fix would be to call
-> cinergyt2_fe_release() if ret < 0.
->
-> E. g., the above code should be, instead:
->
->         if (ret < 0) {
->                 fe->ops.release(adap->fe_adap[0].fe);
->                 deb_rc("cinergyt2_power_ctrl() Failed to retrieve sleep state info\n");
->         }
+> drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:845 amdgpu_uvd_cs_msg() warn:
+> ignoring unreachable code.
 
-You're right. This is a good idea to handle the error inside the logic
-of device driver.
+Mhm, that is a NAK. IIRC we explicitely added that code because some 
+compiler versions complained that we don't return a value at the end of 
+the function.
 
-I will test this proposed patch and send patch v2.
+I suggest to drop the return from the default case and the BUG() instead.
 
-BTW, Mauro, did you see another mail thread [1] I sent? I doubt there
-is an error between dvb_usb_adapter_frontend_init and
-cinergyt2_frontend_attach
-
-[1] https://www.spinics.net/lists/linux-media/msg193227.html
+Regards,
+Christian.
 
 >
-> Thanks,
-> Mauro
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 2 --
+>   1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> index 82f0542..375b346 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> @@ -842,8 +842,6 @@ static int amdgpu_uvd_cs_msg(struct amdgpu_uvd_cs_ctx *ctx,
+>   		DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
+>   		return -EINVAL;
+>   	}
+> -	BUG();
+> -	return -EINVAL;
+>   }
+>   
+>   /**
+
