@@ -2,496 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2B6B391C3C
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 17:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4C94391C44
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 17:44:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233819AbhEZPn0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 11:43:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50142 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232537AbhEZPnZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 11:43:25 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFC88C061574;
-        Wed, 26 May 2021 08:41:52 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id gb21-20020a17090b0615b029015d1a863a91so553464pjb.2;
-        Wed, 26 May 2021 08:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p0vmPy2qph4r8t66VQg9wFM/CqhDEIysk+UQrr2yoP0=;
-        b=uAaYG7DbWxFKw1yNJmjxGvQ4QQCUgTJpUbCqnG1QuKiBEBjpC7k6HHXEz2TQvzm9QV
-         otXMZAN5H/YatmObE4mAswQc0xL/M5Qp9+CuC+VwejrTX103yoGMOKP6i3M2xZBNE35p
-         RpW/XL2ojRi7GUBNl0adeYqVlviQVA8KJ9K3fWxfBz8Z2xet7cIJF4ezuBqhg1DVY8xB
-         M/xjWeDFVBPGJNqkVay9DyIoxWfiwXTWbbrru1q5q7hkBZBmPQViWX23zGl3dc963KTZ
-         cHRdSE3IvCxfx7j3FjSFf9KMPWO0mGpQ0gMRveexoa4Mf//C32X6oerRvxE5fbfqDzGW
-         gTeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p0vmPy2qph4r8t66VQg9wFM/CqhDEIysk+UQrr2yoP0=;
-        b=PW+ZNKqVtX6/htsm2tBUjdoAgGYvKvJYT1oFz/ec7UTfXutsPQ4SELfIdOluQja37I
-         sLeBJxn6O6/AxI1idqmEbipiHKUAGETH4OXn16P3RK18psi2vR1l2IP4q1U62GIW4ylb
-         RU6BI7aRaU/d1vTCOs3cRzj415MiAhM2KQ/D4TuneHZQXVju9gHRQX2PxpiCEZl0fxiS
-         gKAdORqAjqcHYBp+R1jGvgi2otQCdC6PzgC1Wj4cenG/UJsvse/a6uEUPB1c6hxqf/DT
-         xG+XyDHqFbUB9BjEYwwACYGHlnOaGrT/wtdXTNaokp1OqPzZylRNEbf8EBDaAxTOU0ky
-         4BSw==
-X-Gm-Message-State: AOAM533TbyW1dp/j2aQwZ7FdGH+4qbdNKy4+RTtam4NlJ7WRq3M+hBZF
-        n0J2nj8HJQnaPPd95ne+cxg=
-X-Google-Smtp-Source: ABdhPJyGns4aFOo///DPAPO+iC4u7VBNm6X29jtSC28I5LnEpL1so4x7EiAyWeQ0zKDwsejp9UW8DA==
-X-Received: by 2002:a17:90a:e501:: with SMTP id t1mr4608935pjy.32.1622043712134;
-        Wed, 26 May 2021 08:41:52 -0700 (PDT)
-Received: from localhost.localdomain ([106.77.10.3])
-        by smtp.gmail.com with ESMTPSA id v9sm3786367pje.41.2021.05.26.08.41.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 08:41:51 -0700 (PDT)
-From:   Piyush Thange <pthange19@gmail.com>
-To:     mchehab@kernel.org, hverkuil@xs4all.nl, leon@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Piyush Thange <pthange19@gmail.com>
-Subject: [PATCH] media: usb: cpia2: Fixed Coding Style issues
-Date:   Wed, 26 May 2021 20:56:19 +0530
-Message-Id: <20210526152619.39069-1-pthange19@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S233118AbhEZPpe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 11:45:34 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:35858 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232537AbhEZPpe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 May 2021 11:45:34 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1llvhR-005EK6-EX; Wed, 26 May 2021 15:44:01 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1llvll-0007H9-DW; Wed, 26 May 2021 15:48:29 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] Many fixes/enhancements (#74605)
+Date:   Wed, 26 May 2021 15:48:29 +0000
+Message-Id: <20210526154829.27926-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <eaf51bb1-fc4b-388e-7469-f608faf24032@xs4all.nl>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixed all the Coding style issues generated by checkpatch.pl.
-The changes made considering the --strict option.
+From: builder@linuxtv.org
 
-Signed-off-by: Piyush Thange <pthange19@gmail.com>
----
- drivers/media/usb/cpia2/cpia2_v4l.c | 149 ++++++++++++++--------------
- 1 file changed, 74 insertions(+), 75 deletions(-)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/eaf51bb1-fc4b-388e-7469-f608faf24032@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/109920/
+Build time: 00:49:17
+Link: https://lore.kernel.org/linux-media/eaf51bb1-fc4b-388e-7469-f608faf24032@xs4all.nl
 
-diff --git a/drivers/media/usb/cpia2/cpia2_v4l.c b/drivers/media/usb/cpia2/cpia2_v4l.c
-index 69d5c628a797..926ecfc9b64a 100644
---- a/drivers/media/usb/cpia2/cpia2_v4l.c
-+++ b/drivers/media/usb/cpia2/cpia2_v4l.c
-@@ -140,10 +140,10 @@ static ssize_t cpia2_v4l_read(struct file *file, char __user *buf, size_t count,
- 			      loff_t *off)
- {
- 	struct camera_data *cam = video_drvdata(file);
--	int noblock = file->f_flags&O_NONBLOCK;
-+	int noblock = file->f_flags & O_NONBLOCK;
- 	ssize_t ret;
- 
--	if(!cam)
-+	if (!cam)
- 		return -EINVAL;
- 
- 	if (mutex_lock_interruptible(&cam->v4l2_lock))
-@@ -153,7 +153,6 @@ static ssize_t cpia2_v4l_read(struct file *file, char __user *buf, size_t count,
- 	return ret;
- }
- 
--
- /******************************************************************************
-  *
-  *  cpia2_v4l_poll
-@@ -170,7 +169,6 @@ static __poll_t cpia2_v4l_poll(struct file *filp, struct poll_table_struct *wait
- 	return res;
- }
- 
--
- static int sync(struct camera_data *cam, int frame_nr)
- {
- 	struct framebuf *frame = &cam->buffers[frame_nr];
-@@ -247,8 +245,8 @@ static int cpia2_querycap(struct file *file, void *fh, struct v4l2_capability *v
- 		break;
- 	}
- 
--	if (usb_make_path(cam->dev, vc->bus_info, sizeof(vc->bus_info)) <0)
--		memset(vc->bus_info,0, sizeof(vc->bus_info));
-+	if (usb_make_path(cam->dev, vc->bus_info, sizeof(vc->bus_info)) < 0)
-+		memset(vc->bus_info, 0, sizeof(vc->bus_info));
- 	return 0;
- }
- 
-@@ -289,7 +287,7 @@ static int cpia2_s_input(struct file *file, void *fh, unsigned int i)
-  *****************************************************************************/
- 
- static int cpia2_enum_fmt_vid_cap(struct file *file, void *fh,
--					    struct v4l2_fmtdesc *f)
-+				  struct v4l2_fmtdesc *f)
- {
- 	if (f->index > 1)
- 		return -EINVAL;
-@@ -310,13 +308,13 @@ static int cpia2_enum_fmt_vid_cap(struct file *file, void *fh,
-  *****************************************************************************/
- 
- static int cpia2_try_fmt_vid_cap(struct file *file, void *fh,
--					  struct v4l2_format *f)
-+				 struct v4l2_format *f)
- {
- 	struct camera_data *cam = video_drvdata(file);
- 
- 	if (f->fmt.pix.pixelformat != V4L2_PIX_FMT_MJPEG &&
- 	    f->fmt.pix.pixelformat != V4L2_PIX_FMT_JPEG)
--	       return -EINVAL;
-+		return -EINVAL;
- 
- 	f->fmt.pix.field = V4L2_FIELD_NONE;
- 	f->fmt.pix.bytesperline = 0;
-@@ -371,19 +369,20 @@ static int cpia2_try_fmt_vid_cap(struct file *file, void *fh,
-  *****************************************************************************/
- 
- static int cpia2_s_fmt_vid_cap(struct file *file, void *_fh,
--					struct v4l2_format *f)
-+			       struct v4l2_format *f)
- {
- 	struct camera_data *cam = video_drvdata(file);
- 	int err, frame;
- 
- 	err = cpia2_try_fmt_vid_cap(file, _fh, f);
--	if(err != 0)
-+	if (err != 0)
- 		return err;
- 
- 	cam->pixelformat = f->fmt.pix.pixelformat;
- 
- 	/* NOTE: This should be set to 1 for MJPEG, but some apps don't handle
--	 * the missing Huffman table properly. */
-+	 * the missing Huffman table properly.
-+	 */
- 	cam->params.compression.inhibit_htables = 0;
- 		/*f->fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG;*/
- 
-@@ -421,7 +420,7 @@ static int cpia2_s_fmt_vid_cap(struct file *file, void *_fh,
-  *****************************************************************************/
- 
- static int cpia2_g_fmt_vid_cap(struct file *file, void *fh,
--					struct v4l2_format *f)
-+			       struct v4l2_format *f)
- {
- 	struct camera_data *cam = video_drvdata(file);
- 
-@@ -547,9 +546,8 @@ static const struct {
- };
- 
- static int cpia2_enum_framesizes(struct file *file, void *fh,
--					 struct v4l2_frmsizeenum *fsize)
-+				 struct v4l2_frmsizeenum *fsize)
- {
--
- 	if (fsize->pixel_format != V4L2_PIX_FMT_MJPEG &&
- 	    fsize->pixel_format != V4L2_PIX_FMT_JPEG)
- 		return -EINVAL;
-@@ -563,7 +561,7 @@ static int cpia2_enum_framesizes(struct file *file, void *fh,
- }
- 
- static int cpia2_enum_frameintervals(struct file *file, void *fh,
--					   struct v4l2_frmivalenum *fival)
-+				     struct v4l2_frmivalenum *fival)
- {
- 	struct camera_data *cam = video_drvdata(file);
- 	int max = ARRAY_SIZE(framerate_controls) - 1;
-@@ -665,19 +663,18 @@ static int cpia2_g_jpegcomp(struct file *file, void *fh, struct v4l2_jpegcompres
- 	parms->quality = 80; // TODO: Can this be made meaningful?
- 
- 	parms->jpeg_markers = V4L2_JPEG_MARKER_DQT | V4L2_JPEG_MARKER_DRI;
--	if(!cam->params.compression.inhibit_htables) {
-+	if (!cam->params.compression.inhibit_htables)
- 		parms->jpeg_markers |= V4L2_JPEG_MARKER_DHT;
--	}
- 
- 	parms->APPn = cam->APPn;
- 	parms->APP_len = cam->APP_len;
--	if(cam->APP_len > 0) {
-+	if (cam->APP_len > 0) {
- 		memcpy(parms->APP_data, cam->APP_data, cam->APP_len);
- 		parms->jpeg_markers |= V4L2_JPEG_MARKER_APP;
- 	}
- 
- 	parms->COM_len = cam->COM_len;
--	if(cam->COM_len > 0) {
-+	if (cam->COM_len > 0) {
- 		memcpy(parms->COM_data, cam->COM_data, cam->COM_len);
- 		parms->jpeg_markers |= JPEG_MARKER_COM;
- 	}
-@@ -698,7 +695,7 @@ static int cpia2_g_jpegcomp(struct file *file, void *fh, struct v4l2_jpegcompres
-  *****************************************************************************/
- 
- static int cpia2_s_jpegcomp(struct file *file, void *fh,
--		const struct v4l2_jpegcompression *parms)
-+			    const struct v4l2_jpegcompression *parms)
- {
- 	struct camera_data *cam = video_drvdata(file);
- 
-@@ -708,9 +705,9 @@ static int cpia2_s_jpegcomp(struct file *file, void *fh,
- 	cam->params.compression.inhibit_htables =
- 		!(parms->jpeg_markers & V4L2_JPEG_MARKER_DHT);
- 
--	if(parms->APP_len != 0) {
--		if(parms->APP_len > 0 &&
--		   parms->APP_len <= sizeof(cam->APP_data) &&
-+	if (parms->APP_len != 0) {
-+		if (parms->APP_len > 0 &&
-+		    parms->APP_len <= sizeof(cam->APP_data) &&
- 		   parms->APPn >= 0 && parms->APPn <= 15) {
- 			cam->APPn = parms->APPn;
- 			cam->APP_len = parms->APP_len;
-@@ -724,9 +721,9 @@ static int cpia2_s_jpegcomp(struct file *file, void *fh,
- 		cam->APP_len = 0;
- 	}
- 
--	if(parms->COM_len != 0) {
--		if(parms->COM_len > 0 &&
--		   parms->COM_len <= sizeof(cam->COM_data)) {
-+	if (parms->COM_len != 0) {
-+		if (parms->COM_len > 0 &&
-+		    parms->COM_len <= sizeof(cam->COM_data)) {
- 			cam->COM_len = parms->COM_len;
- 			memcpy(cam->COM_data, parms->COM_data, parms->COM_len);
- 		} else {
-@@ -751,8 +748,8 @@ static int cpia2_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers
- {
- 	struct camera_data *cam = video_drvdata(file);
- 
--	if(req->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
--	   req->memory != V4L2_MEMORY_MMAP)
-+	if (req->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-+	    req->memory != V4L2_MEMORY_MMAP)
- 		return -EINVAL;
- 
- 	DBG("REQBUFS requested:%d returning:%d\n", req->count, cam->num_frames);
-@@ -774,8 +771,8 @@ static int cpia2_querybuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- {
- 	struct camera_data *cam = video_drvdata(file);
- 
--	if(buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
--	   buf->index >= cam->num_frames)
-+	if (buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-+	    buf->index >= cam->num_frames)
- 		return -EINVAL;
- 
- 	buf->m.offset = cam->buffers[buf->index].data - cam->frame_buffer;
-@@ -783,7 +780,7 @@ static int cpia2_querybuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- 
- 	buf->memory = V4L2_MEMORY_MMAP;
- 
--	if(cam->mmapped)
-+	if (cam->mmapped)
- 		buf->flags = V4L2_BUF_FLAG_MAPPED;
- 	else
- 		buf->flags = 0;
-@@ -806,8 +803,8 @@ static int cpia2_querybuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- 	}
- 
- 	DBG("QUERYBUF index:%d offset:%d flags:%d seq:%d bytesused:%d\n",
--	     buf->index, buf->m.offset, buf->flags, buf->sequence,
--	     buf->bytesused);
-+	    buf->index, buf->m.offset, buf->flags, buf->sequence,
-+	    buf->bytesused);
- 
- 	return 0;
- }
-@@ -824,14 +821,14 @@ static int cpia2_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- {
- 	struct camera_data *cam = video_drvdata(file);
- 
--	if(buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
--	   buf->memory != V4L2_MEMORY_MMAP ||
-+	if (buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-+	    buf->memory != V4L2_MEMORY_MMAP ||
- 	   buf->index >= cam->num_frames)
- 		return -EINVAL;
- 
- 	DBG("QBUF #%d\n", buf->index);
- 
--	if(cam->buffers[buf->index].status == FRAME_READY)
-+	if (cam->buffers[buf->index].status == FRAME_READY)
- 		cam->buffers[buf->index].status = FRAME_EMPTY;
- 
- 	return 0;
-@@ -849,9 +846,10 @@ static int find_earliest_filled_buffer(struct camera_data *cam)
- {
- 	int i;
- 	int found = -1;
--	for (i=0; i<cam->num_frames; i++) {
--		if(cam->buffers[i].status == FRAME_READY) {
--			if(found < 0) {
-+
-+	for (i = 0; i < cam->num_frames; i++) {
-+		if (cam->buffers[i].status == FRAME_READY) {
-+			if (found < 0) {
- 				found = i;
- 			} else {
- 				/* find which buffer is earlier */
-@@ -876,22 +874,23 @@ static int cpia2_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- 	struct camera_data *cam = video_drvdata(file);
- 	int frame;
- 
--	if(buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
--	   buf->memory != V4L2_MEMORY_MMAP)
-+	if (buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-+	    buf->memory != V4L2_MEMORY_MMAP)
- 		return -EINVAL;
- 
- 	frame = find_earliest_filled_buffer(cam);
- 
--	if(frame < 0 && file->f_flags&O_NONBLOCK)
-+	if (frame < 0 && file->f_flags & O_NONBLOCK)
- 		return -EAGAIN;
- 
--	if(frame < 0) {
-+	if (frame < 0) {
- 		/* Wait for a frame to become available */
--		struct framebuf *cb=cam->curbuff;
-+		struct framebuf *cb = cam->curbuff;
-+
- 		mutex_unlock(&cam->v4l2_lock);
- 		wait_event_interruptible(cam->wq_stream,
- 					 !video_is_registered(&cam->vdev) ||
--					 (cb=cam->curbuff)->status == FRAME_READY);
-+					 (cb = cam->curbuff)->status == FRAME_READY);
- 		mutex_lock(&cam->v4l2_lock);
- 		if (signal_pending(current))
- 			return -ERESTARTSYS;
-@@ -900,7 +899,6 @@ static int cpia2_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- 		frame = cb->num;
- 	}
- 
--
- 	buf->index = frame;
- 	buf->bytesused = cam->buffers[buf->index].length;
- 	buf->flags = V4L2_BUF_FLAG_MAPPED | V4L2_BUF_FLAG_DONE
-@@ -931,7 +929,7 @@ static int cpia2_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- 
- 	if (!cam->streaming) {
- 		ret = cpia2_usb_stream_start(cam,
--				cam->params.camera_state.stream_mode);
-+					     cam->params.camera_state.stream_mode);
- 		if (!ret)
- 			v4l2_ctrl_grab(cam->usb_alt, true);
- 	}
-@@ -969,7 +967,7 @@ static int cpia2_mmap(struct file *file, struct vm_area_struct *area)
- 		return -ERESTARTSYS;
- 	retval = cpia2_remap_buffer(cam, area);
- 
--	if(!retval)
-+	if (!retval)
- 		cam->stream_fh = file->private_data;
- 	mutex_unlock(&cam->v4l2_lock);
- 	return retval;
-@@ -1080,39 +1078,42 @@ int cpia2_register_camera(struct camera_data *cam)
- 
- 	v4l2_ctrl_handler_init(hdl, 12);
- 	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
--			V4L2_CID_BRIGHTNESS,
--			cam->params.pnp_id.device_type == DEVICE_STV_672 ? 1 : 0,
--			255, 1, DEFAULT_BRIGHTNESS);
-+			  V4L2_CID_BRIGHTNESS,
-+			  cam->params.pnp_id.device_type == DEVICE_STV_672 ? 1 : 0,
-+			  255, 1, DEFAULT_BRIGHTNESS);
- 	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
--			V4L2_CID_CONTRAST, 0, 255, 1, DEFAULT_CONTRAST);
-+			  V4L2_CID_CONTRAST, 0, 255, 1, DEFAULT_CONTRAST);
- 	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
--			V4L2_CID_SATURATION, 0, 255, 1, DEFAULT_SATURATION);
-+			  V4L2_CID_SATURATION, 0, 255, 1, DEFAULT_SATURATION);
- 	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
--			V4L2_CID_HFLIP, 0, 1, 1, 0);
-+			  V4L2_CID_HFLIP, 0, 1, 1, 0);
- 	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
--			V4L2_CID_JPEG_ACTIVE_MARKER, 0,
--			V4L2_JPEG_ACTIVE_MARKER_DHT, 0,
--			V4L2_JPEG_ACTIVE_MARKER_DHT);
-+			  V4L2_CID_JPEG_ACTIVE_MARKER, 0,
-+			  V4L2_JPEG_ACTIVE_MARKER_DHT, 0,
-+			  V4L2_JPEG_ACTIVE_MARKER_DHT);
- 	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
--			V4L2_CID_JPEG_COMPRESSION_QUALITY, 1,
--			100, 1, 100);
-+			  V4L2_CID_JPEG_COMPRESSION_QUALITY, 1,
-+			  100, 1, 100);
- 	cpia2_usb_alt.def = alternate;
- 	cam->usb_alt = v4l2_ctrl_new_custom(hdl, &cpia2_usb_alt, NULL);
- 	/* VP5 Only */
- 	if (cam->params.pnp_id.device_type != DEVICE_STV_672)
- 		v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
--			V4L2_CID_VFLIP, 0, 1, 1, 0);
-+				  V4L2_CID_VFLIP, 0, 1, 1, 0);
- 	/* Flicker control only valid for 672 */
- 	if (cam->params.pnp_id.device_type == DEVICE_STV_672)
- 		v4l2_ctrl_new_std_menu(hdl, &cpia2_ctrl_ops,
--			V4L2_CID_POWER_LINE_FREQUENCY,
--			V4L2_CID_POWER_LINE_FREQUENCY_60HZ, 0, 0);
-+				       V4L2_CID_POWER_LINE_FREQUENCY,
-+				       V4L2_CID_POWER_LINE_FREQUENCY_60HZ,
-+				       0, 0);
- 	/* Light control only valid for the QX5 Microscope */
- 	if (cam->params.pnp_id.product == 0x151) {
- 		cam->top_light = v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
--				V4L2_CID_ILLUMINATORS_1, 0, 1, 1, 0);
-+						   V4L2_CID_ILLUMINATORS_1,
-+						   0, 1, 1, 0);
- 		cam->bottom_light = v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
--				V4L2_CID_ILLUMINATORS_2, 0, 1, 1, 0);
-+						      V4L2_CID_ILLUMINATORS_2,
-+						      0, 1, 1, 0);
- 		v4l2_ctrl_cluster(2, &cam->top_light);
- 	}
- 
-@@ -1159,28 +1160,28 @@ void cpia2_unregister_camera(struct camera_data *cam)
-  *****************************************************************************/
- static void __init check_parameters(void)
- {
--	if(buffer_size < PAGE_SIZE) {
-+	if (buffer_size < PAGE_SIZE) {
- 		buffer_size = PAGE_SIZE;
- 		LOG("buffer_size too small, setting to %d\n", buffer_size);
--	} else if(buffer_size > 1024*1024) {
-+	} else if (buffer_size > 1024 * 1024) {
- 		/* arbitrary upper limiit */
--		buffer_size = 1024*1024;
-+		buffer_size = 1024 * 1024;
- 		LOG("buffer_size ridiculously large, setting to %d\n",
- 		    buffer_size);
- 	} else {
--		buffer_size += PAGE_SIZE-1;
--		buffer_size &= ~(PAGE_SIZE-1);
-+		buffer_size += PAGE_SIZE - 1;
-+		buffer_size &= ~(PAGE_SIZE - 1);
- 	}
- 
--	if(num_buffers < 1) {
-+	if (num_buffers < 1) {
- 		num_buffers = 1;
- 		LOG("num_buffers too small, setting to %d\n", num_buffers);
--	} else if(num_buffers > VIDEO_MAX_FRAME) {
-+	} else if (num_buffers > VIDEO_MAX_FRAME) {
- 		num_buffers = VIDEO_MAX_FRAME;
- 		LOG("num_buffers too large, setting to %d\n", num_buffers);
- 	}
- 
--	if(alternate < USBIF_ISO_1 || alternate > USBIF_ISO_6) {
-+	if (alternate < USBIF_ISO_1 || alternate > USBIF_ISO_6) {
- 		alternate = DEFAULT_ALT;
- 		LOG("alternate specified is invalid, using %d\n", alternate);
- 	}
-@@ -1197,7 +1198,6 @@ static void __init check_parameters(void)
- 
- /************   Module Stuff ***************/
- 
--
- /******************************************************************************
-  *
-  * cpia2_init/module_init
-@@ -1211,7 +1211,6 @@ static int __init cpia2_init(void)
- 	return cpia2_usb_init();
- }
- 
--
- /******************************************************************************
-  *
-  * cpia2_exit/module_exit
--- 
-2.25.1
+gpg: Signature made Wed 26 May 2021 02:45:13 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+
+Summary: got 7/53 patches with issues, being 4 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-dt-bindings-media-Document-RDA5807-FM-radio-bindings.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+   checkpatch.pl:
+	$ cat patches/0001-dt-bindings-media-Document-RDA5807-FM-radio-bindings.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:18: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0031-staging-media-zoran-fix-some-formatting-issues.patch:
+
+   checkpatch.pl:
+	$ cat patches/0031-staging-media-zoran-fix-some-formatting-issues.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0033-staging-media-zoran-multiple-assignments-should-be-a.patch:
+
+   checkpatch.pl:
+	$ cat patches/0033-staging-media-zoran-multiple-assignments-should-be-a.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:47: CHECK: Prefer kzalloc(sizeof(*ptr)...) over kzalloc(sizeof(struct zr36016)...)
+	-:61: CHECK: Prefer kzalloc(sizeof(*ptr)...) over kzalloc(sizeof(struct zr36050)...)
+
+patches/0043-uapi-linux-cec-funcs.h-set-delay-to-1-if-unnused.patch:
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+
+patches/0044-media-vicodec-Use-_BITUL-macro-in-UAPI-headers.patch:
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1929 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0049-media-gspca-sunplus-fix-zero-length-control-requests.patch:
+
+   checkpatch.pl:
+	$ cat patches/0049-media-gspca-sunplus-fix-zero-length-control-requests.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:35: WARNING: Prefer using '"%s...", __func__' to using 'reg_r', this function's name, in a string
+
+patches/0052-media-v4l2-dev.c-Modified-the-macro-SET_VALID_IOCTL.patch:
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+
+   checkpatch.pl:
+	$ cat patches/0052-media-v4l2-dev.c-Modified-the-macro-SET_VALID_IOCTL.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:28: CHECK: Macro argument 'op' may be better as '(op)' to avoid precedence issues
+
+
+Error #512 when building PDF docs
 
