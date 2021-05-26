@@ -2,95 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F380A3912B3
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 10:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F32C3912CD
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 10:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233093AbhEZItF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 04:49:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39526 "EHLO
+        id S233348AbhEZItb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 04:49:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232568AbhEZItD (ORCPT
+        with ESMTP id S233352AbhEZItX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 04:49:03 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2812C061574
-        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 01:47:31 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id v12so203620wrq.6
-        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 01:47:31 -0700 (PDT)
+        Wed, 26 May 2021 04:49:23 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D94EEC06138F
+        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 01:47:51 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id n5-20020a1c72050000b0290192e1f9a7e1so31885wmc.2
+        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 01:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WgO8pJnbycGAPr/jI7WVY+xNAObrZKGPkpv1D9egn8s=;
-        b=P07J35BETyrv+OPvGbVbCm5g4FQF/A/FA18Y0aGwAdU2nwjaPb0M/olKJPqJtiOrhX
-         8Z8R6LILF+Ut0yOpDub0YmflLxejoVIa3+BDrBaHyaLq4j773XxmCSsJs2jA9VyGfyf1
-         mp2PalUrXqEUbLW+AzzNGRy8VGNmQ+uM8dd/yO2STKe+yZBlmba4Xr/Pgr2vq9/TvfMR
-         hmpRWbM61jEczGjETUM7EdN2Qf+jibbSBzLcte+AI0H2OrklYvs+pJ7wklAjOHdCBZXL
-         miV4N+UuwnWDOZEC6vEbIbC4E0ztLPOBpZravpjuyP+TO3fP8gLn452oCtyQHAK+ZrJq
-         XF8w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=GJer5W/toWhPsUhogBXg4zIXSRSHg7fRSySLo0mmvxU=;
+        b=c4kUnaRXN1uSNT9CNqKjLxGgwMYV5KPLAkWSyqK5DOgFijFCdPEer5ag+RhVskDw8W
+         xD5Wm1G3uhkJQFCh9CEozH8HaqWRsKb3lQa6A8QKchsv4XF45F0g4L4kIRz9YnJzeM6J
+         R9O4BkOK8yTJg2L9Eh3RQJB2LisUZWeHoD0TKD7j6TAOWauUevORNcMzXlaLCANb+nWS
+         vhmPGu+ZC+SIosHydMuuyePzdK5IqegCQydfd8NglfJf/fOqcywr3kvB2QvDWBTF3LPY
+         XXV0kLgr0qrY8mZm+YmZwRmFB/vZoQRUvj0bOzwp3/0UAd60jYd5IU8l8stUaFHUn7kj
+         YJkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WgO8pJnbycGAPr/jI7WVY+xNAObrZKGPkpv1D9egn8s=;
-        b=ptMhc++M4G6lTUrfMorzcwJp29W6yjYgTNAE6BmO/HERJYO/ngNHgz2WC/xAA4j5i5
-         fjHoqbwAF6Ww5V4+jVlpejKC6+RQxUbkVAlbkq29iRttk9dEQ4CjAnqUl1fQUN/5rzWo
-         dQIfZCYgPJHfiNCqWAw7o4m7dj2bNCoBMZFyNt31nqNCpuYDarwbK1HFc2RwwBTKA58G
-         zn8D0XFCxZT53RgHkFtQT1Kq3TYF5Q2uV/2nUOnwwSoiLJuUGsJvshy6yx6vGDeVOAkh
-         +1lQ4zgnoJZnN9Q0SG+h7Uz+eCm5cZ6ITbN/ih+BTPpL3rxdhonW8RRQhwdgU1QF4J7s
-         k47Q==
-X-Gm-Message-State: AOAM533bGuUsjPjiLJ53PsQn+PnQuCA1asH6A15dMo1MhFAdMB2jB/H8
-        3gjJ61GPgPyIjPJapJlqjKVfZA==
-X-Google-Smtp-Source: ABdhPJz7Yt7N0U9dO4++M/DXckMsobASl2c3GuDArRZKHB1os8WtSXIpk/vFAHDOzBqexSS+KqxpSQ==
-X-Received: by 2002:adf:f9d0:: with SMTP id w16mr32449829wrr.336.1622018850280;
-        Wed, 26 May 2021 01:47:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GJer5W/toWhPsUhogBXg4zIXSRSHg7fRSySLo0mmvxU=;
+        b=OX5Kzis29ni4eoOMFqVxDjGwqFEyOc2T4wYn731vE6tL8cnH5MiBolfnurp7RaoMiT
+         J10feK19kp1oelaeZ1UvRCuYLShmCwxrDRThcHSvQnPaTWG10kBBRu/Z+RtRmNc+M16R
+         S2lhnglAWwLLuun3hR+UJszVkLUq4pqYlcp9bsMt67E+vbAqOxxPRYMH9MDbjkPR/+Zs
+         mzQxWoOsuqml9LrAC5XnjOuJf8ix+bkRDmGy0//CC9dpNALbzpJzA/IBK7TbW3+Is6Ik
+         I1rdmCl/tFmXlJ+GSOUhsBPSqGdQj8LNPBdwg+hxIaJMiDd/z8uXN1qhRwFm9CNP6xPF
+         EmGg==
+X-Gm-Message-State: AOAM530KXU2Ll1WFs1ksvjPtN5HhjacvdR2sJNK1o8l4MsELHggOMuTB
+        qoF4sQ48Rc5yJ3BxcnfjhtbEMw==
+X-Google-Smtp-Source: ABdhPJwHBmPkTr0OwYKxXZYQj65BdllZ8Ja6Z0GE6xo0CnlLEphmyzg+9I2oJbQU8XCK/MwCALnPqg==
+X-Received: by 2002:a1c:e284:: with SMTP id z126mr1717895wmg.108.1622018870506;
+        Wed, 26 May 2021 01:47:50 -0700 (PDT)
 Received: from dell.default ([91.110.221.223])
-        by smtp.gmail.com with ESMTPSA id l18sm18911918wrt.97.2021.05.26.01.47.28
+        by smtp.gmail.com with ESMTPSA id l18sm18911918wrt.97.2021.05.26.01.47.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 01:47:29 -0700 (PDT)
+        Wed, 26 May 2021 01:47:50 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org, Adam Jackson <ajax@redhat.com>,
-        Ajay Kumar <ajaykumar.rs@samsung.com>,
-        Akshu Agarwal <akshua@gmail.com>,
+Cc:     linux-kernel@vger.kernel.org,
         Alex Deucher <alexander.deucher@amd.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        amd-gfx@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
-        Ben Widawsky <ben@bwidawsk.net>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
-        Evan Quan <evan.quan@amd.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Huang Rui <ray.huang@amd.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Jun Lei <Jun.Lei@amd.com>, Kevin Wang <kevin1.wang@amd.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Rossi <issor.oruam@gmail.com>,
-        Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        nouveau@lists.freedesktop.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 00/34] Rid W=1 warnings from GPU
-Date:   Wed, 26 May 2021 09:46:52 +0100
-Message-Id: <20210526084726.552052-1-lee.jones@linaro.org>
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 19/34] drm/amd/amdgpu/amdgpu_device: Make local function static
+Date:   Wed, 26 May 2021 09:47:11 +0100
+Message-Id: <20210526084726.552052-20-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210526084726.552052-1-lee.jones@linaro.org>
+References: <20210526084726.552052-1-lee.jones@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -98,146 +71,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This set is part of a larger effort attempting to clean-up W=1
-kernel builds, which are currently overwhelmingly riddled with
-niggly little warnings.
+Fixes the following W=1 kernel build warning(s):
 
-Lee Jones (34):
-  drm/amd/pm/inc/smu_v13_0: Move table into the only source file that
-    uses it
-  drm/amd/pm/swsmu/smu13/aldebaran_ppt: Remove unused variable 'ret'
-  drm/amd/pm/powerplay/hwmgr/smu7_thermal: Provide function name for
-    'smu7_fan_ctrl_set_default_mode()'
-  drm/amd/pm/powerplay/hwmgr/vega12_thermal: Provide function name
-  drm/amd/pm/powerplay/hwmgr/vega12_hwmgr: Provide
-    'vega12_init_smc_table()' function name
-  drm/amd/pm/powerplay/hwmgr/vega10_hwmgr: Kernel-doc headers must
-    contain function names
-  drm/amd/pm/powerplay/hwmgr/vega20_hwmgr: Provide function name
-    'vega20_init_smc_table()'
-  drm/amd/display/dc/bios/command_table_helper: Fix function name for
-    'dal_cmd_table_helper_transmitter_bp_to_atom()'
-  drm/amd/display/dc/bios/command_table_helper2: Fix function name
-    'dal_cmd_table_helper_transmitter_bp_to_atom2()'
-  drm/amd/display/dc/bios/bios_parser: Fix formatting and misnaming
-    issues
-  drm/nouveau/nvkm/subdev/mc/tu102: Make functions called by reference
-    static
-  drm/amd/display/amdgpu_dm/amdgpu_dm: Functions must directly follow
-    their headers
-  drm/amd/display/dc/dce/dmub_outbox: Convert over to kernel-doc
-  drm/amd/display/dc/gpio/gpio_service: Pass around correct
-    dce_{version,environment} types
-  drm/amd/display/dc/dce110/dce110_hw_sequencer: Include our own header
-  drm/amd/display/dc/dce/dce_transform: Remove superfluous
-    re-initialisation of DCFE_MEM_LIGHT_SLEEP_CNTL,
-  drm/amd/display/dc/dce/dce_mem_input: Remove duplicate initialisation
-    of GRPH_CONTROL__GRPH_NUM_BANKS_{SHIFT,MASK}
-  drm/amd/display/dc/dce/dce_mem_input: Remove duplicate initialisation
-    of GRPH_CONTROL__GRPH_NUM_BANKS_{SHIFT,MASK
-  drm/amd/amdgpu/amdgpu_device: Make local function static
-  drm/amd/display/amdgpu_dm/amdgpu_dm: Fix kernel-doc formatting issue
-  drm/amd/display/dc/dce110/dce110_hw_sequencer: Include header
-    containing our prototypes
-  drm/amd/display/dc/core/dc: Convert function headers to kernel-doc
-  drm/amd/display/dmub/src/dmub_srv_stat: Convert function header to
-    kernel-doc
-  drm/amd/display/modules/hdcp/hdcp_psp: Remove unused function
-    'mod_hdcp_hdcp1_get_link_encryption_status()'
-  drm/xlnx/zynqmp_disp: Fix incorrectly named enum
-    'zynqmp_disp_layer_id'
-  drm/xlnx/zynqmp_dp: Fix incorrectly name function 'zynqmp_dp_train()'
-  drm/ttm/ttm_tt: Demote non-conformant kernel-doc header
-  drm/panel/panel-raspberrypi-touchscreen: Demote kernel-doc abuse
-  drm/panel/panel-sitronix-st7701: Demote kernel-doc abuse
-  drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc
-    format
-  drm/exynos/exynos7_drm_decon: Fix incorrect naming of
-    'decon_shadow_protect_win()'
-  drm/exynos/exynos_drm_ipp: Fix documentation for
-    'exynos_drm_ipp_get_{caps,res}_ioctl()'
-  drm/vboxvideo/hgsmi_base: Place function names into headers
-  drm/vboxvideo/modesetting: Provide function names for prototype
-    headers
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:4624:6: warning: no previous prototype for ‘amdgpu_device_recheck_guilty_jobs’ [-Wmissing-prototypes]
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  2 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 +-
- .../gpu/drm/amd/display/dc/bios/bios_parser.c |  6 +--
- .../display/dc/bios/command_table_helper.c    |  2 +-
- .../display/dc/bios/command_table_helper2.c   |  2 +-
- drivers/gpu/drm/amd/display/dc/core/dc.c      | 46 +++++--------------
- .../drm/amd/display/dc/dce/dce_mem_input.h    |  2 -
- .../drm/amd/display/dc/dce/dce_transform.h    |  3 +-
- .../gpu/drm/amd/display/dc/dce/dmub_outbox.c  | 17 ++-----
- .../display/dc/dce110/dce110_hw_sequencer.c   |  3 ++
- .../drm/amd/display/dc/gpio/gpio_service.c    | 12 ++---
- .../drm/amd/display/dmub/src/dmub_srv_stat.c  | 19 +++-----
- .../display/include/gpio_service_interface.h  |  4 +-
- .../drm/amd/display/modules/hdcp/hdcp_psp.c   | 13 ------
- drivers/gpu/drm/amd/pm/inc/smu_v13_0.h        |  6 ---
- .../drm/amd/pm/powerplay/hwmgr/smu7_thermal.c |  8 ++--
- .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 26 ++++++-----
- .../drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c |  2 +-
- .../amd/pm/powerplay/hwmgr/vega12_thermal.c   |  3 +-
- .../drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c |  2 +-
- .../drm/amd/pm/swsmu/smu13/aldebaran_ppt.c    |  9 +++-
- drivers/gpu/drm/exynos/exynos7_drm_decon.c    |  2 +-
- drivers/gpu/drm/exynos/exynos_drm_ipp.c       |  4 +-
- .../gpu/drm/nouveau/nvkm/subdev/mc/tu102.c    |  6 +--
- .../drm/panel/panel-raspberrypi-touchscreen.c |  2 +-
- drivers/gpu/drm/panel/panel-sitronix-st7701.c |  2 +-
- drivers/gpu/drm/ttm/ttm_tt.c                  |  2 +-
- drivers/gpu/drm/vboxvideo/hgsmi_base.c        | 19 +++++---
- drivers/gpu/drm/vboxvideo/modesetting.c       | 20 ++++----
- drivers/gpu/drm/vgem/vgem_drv.c               |  2 +-
- drivers/gpu/drm/xlnx/zynqmp_disp.c            |  2 +-
- drivers/gpu/drm/xlnx/zynqmp_dp.c              |  2 +-
- 32 files changed, 107 insertions(+), 147 deletions(-)
-
-Cc: Adam Jackson <ajax@redhat.com>
-Cc: Ajay Kumar <ajaykumar.rs@samsung.com>
-Cc: Akshu Agarwal <akshua@gmail.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Alistair Popple <apopple@nvidia.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: Ben Widawsky <ben@bwidawsk.net>
-Cc: Christian Koenig <christian.koenig@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Eric Anholt <eric@anholt.net>
-Cc: Evan Quan <evan.quan@amd.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-Cc: Jun Lei <Jun.Lei@amd.com>
-Cc: Kevin Wang <kevin1.wang@amd.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-media@vger.kernel.org
-Cc: linux-samsung-soc@vger.kernel.org
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Mauro Rossi <issor.oruam@gmail.com>
-Cc: Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>
-Cc: Michal Simek <michal.simek@xilinx.com>
-Cc: nouveau@lists.freedesktop.org
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 4a040f89ca5aa..f15e180762d2e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -4692,7 +4692,7 @@ static int amdgpu_device_suspend_display_audio(struct amdgpu_device *adev)
+ 	return 0;
+ }
+ 
+-void amdgpu_device_recheck_guilty_jobs(
++static void amdgpu_device_recheck_guilty_jobs(
+ 	struct amdgpu_device *adev, struct list_head *device_list_handle,
+ 	struct amdgpu_reset_context *reset_context)
+ {
 -- 
 2.31.1
 
