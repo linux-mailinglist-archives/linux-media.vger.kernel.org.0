@@ -2,173 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15BB9391AA3
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 16:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FB17391ABA
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 16:49:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235045AbhEZOtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 10:49:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234893AbhEZOtO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 10:49:14 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69CEBC061574
-        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 07:47:43 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id lz27so2855475ejb.11
-        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 07:47:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2pe98/RoIUXzCDVRxl/xmCe1bCIiBUSFO5AAZsF4X4c=;
-        b=h94NIhsp+w3WAlSlG/RIZFeoRUXlWWGh4MUY7MPq33t4R8i542F2d1Bn3c3CbpuLJw
-         8E9PckNT1KmkLBXPdrMieCm34iPGxD2QNx/vbfa9IJOjBZWzFUNNmPAk3bbtzaVBSS10
-         M/y2KJxI9YmGDgD9ZllCWYAUqxrmTR6wcWyw0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2pe98/RoIUXzCDVRxl/xmCe1bCIiBUSFO5AAZsF4X4c=;
-        b=Wv8ziigVn3dx3wQ/TEie7LwX5Gx6kJdTaNfMeQ+gfooOaJaFP7TBi/K16n69xFwAG1
-         4SxXK1T7MccducnSAL4NyoiDIuL802MiF6yigFShBR1ildkAXkGTlT+/GtWoaUQmqKmv
-         AMRIRWfs+POI7+u0YeH0tK6K57DwNxqFPvs0gihT6HUWC5M+gtDFHOD3IjUMr51w20s9
-         UZQWtUeAsn4qEm984wPf6k2vCamrTUzdGyF2YgkR4BhALnFAPo83uwjwR0ZE2l8MYXLr
-         5gvzV89Xtd+KMfmtpJdUjpmVd/kF9hCVkKhAmHMLULPBGg7dOGvli/yHQ4nH6gT4+FSh
-         pZdA==
-X-Gm-Message-State: AOAM531Vm36M5iRbw9YJWzN5gZsJIc4JFtFKOqIVjrAkiv+6pzr/+alR
-        pnMWeY/L7F2GZ/QOKPl30ufelw==
-X-Google-Smtp-Source: ABdhPJyZXNX9KlZUymaUExm4VcJW+33SUT6/OqBDRweUqpdn0+dxFRpT1SmpiGNhYHWVqDtPVWG2gw==
-X-Received: by 2002:a17:906:7696:: with SMTP id o22mr1161838ejm.298.1622040462052;
-        Wed, 26 May 2021 07:47:42 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id fb19sm10466212ejc.10.2021.05.26.07.47.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 07:47:41 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 1/3] dma-buf: Require VM_PFNMAP vma for mmap
-Date:   Wed, 26 May 2021 16:47:34 +0200
-Message-Id: <20210526144736.3277595-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.31.0
+        id S235076AbhEZOvX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 10:51:23 -0400
+Received: from mga12.intel.com ([192.55.52.136]:56101 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234894AbhEZOvX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 May 2021 10:51:23 -0400
+IronPort-SDR: +8v120IyYkGZREeqc0YgE7alOBacEwWTzCswlOGV/rMlBL6h3BvL8tLHyc5DoWwtSP63hxWB76
+ XmjO9ibuCbbA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="182128571"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; 
+   d="scan'208";a="182128571"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2021 07:49:51 -0700
+IronPort-SDR: hy6+akIv9+Y9X6iuaotpNwZKhLvTNZSpWjj/4mLsj5CTA4oByVnBG9rn2RgwoscxpNWAyRGa4+
+ U7h9OFuX4hCA==
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; 
+   d="scan'208";a="443076408"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2021 07:49:48 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 58DCA2011E;
+        Wed, 26 May 2021 17:49:46 +0300 (EEST)
+Date:   Wed, 26 May 2021 17:49:46 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Evgeny Novikov <novikov@ispras.ru>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ldv-project@linuxtesting.org
+Subject: Re: [PATCH] media: marvell-ccic: set error code in probe
+Message-ID: <20210526144946.GD3@paasikivi.fi.intel.com>
+References: <20210526143506.6945-1-novikov@ispras.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210526143506.6945-1-novikov@ispras.ru>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tldr; DMA buffers aren't normal memory, expecting that you can use
-them like that (like calling get_user_pages works, or that they're
-accounting like any other normal memory) cannot be guaranteed.
+On Wed, May 26, 2021 at 05:35:06PM +0300, Evgeny Novikov wrote:
+> When i2c_new_client_device() fails, cafe_pci_probe() cleans up all
+> resources and returns 0. The patch sets the error code on the
+> corresponding path.
+> 
+> Found by Linux Driver Verification project (linuxtesting.org).
+> 
+> Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
 
-Since some userspace only runs on integrated devices, where all
-buffers are actually all resident system memory, there's a huge
-temptation to assume that a struct page is always present and useable
-like for any more pagecache backed mmap. This has the potential to
-result in a uapi nightmare.
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
-blocks get_user_pages and all the other struct page based
-infrastructure for everyone. In spirit this is the uapi counterpart to
-the kernel-internal CONFIG_DMABUF_DEBUG.
-
-Motivated by a recent patch which wanted to swich the system dma-buf
-heap to vm_insert_page instead of vm_insert_pfn.
-
-v2:
-
-Jason brought up that we also want to guarantee that all ptes have the
-pte_special flag set, to catch fast get_user_pages (on architectures
-that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
-still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
-
-From auditing the various functions to insert pfn pte entires
-(vm_insert_pfn_prot, remap_pfn_range and all it's callers like
-dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
-this should be the correct flag to check for.
-
-References: https://lore.kernel.org/lkml/CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com/
-Acked-by: Christian König <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: John Stultz <john.stultz@linaro.org>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
---
-Resending this so I can test the next two patches for vgem/shmem in
-intel-gfx-ci. Last round failed somehow, but I can't repro that at all
-locally here.
-
-No immediate plans to merge this patch here since ttm isn't addressed
-yet (and there we have the hugepte issue, for which I don't think we
-have a clear consensus yet).
--Daniel
----
- drivers/dma-buf/dma-buf.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index eadd1eaa2fb5..dda583fb1f03 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -127,6 +127,7 @@ static struct file_system_type dma_buf_fs_type = {
- static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- {
- 	struct dma_buf *dmabuf;
-+	int ret;
- 
- 	if (!is_dma_buf_file(file))
- 		return -EINVAL;
-@@ -142,7 +143,11 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
--	return dmabuf->ops->mmap(dmabuf, vma);
-+	ret = dmabuf->ops->mmap(dmabuf, vma);
-+
-+	WARN_ON(!(vma->vm_flags & VM_PFNMAP));
-+
-+	return ret;
- }
- 
- static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
-@@ -1244,6 +1249,8 @@ EXPORT_SYMBOL_GPL(dma_buf_end_cpu_access);
- int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 		 unsigned long pgoff)
- {
-+	int ret;
-+
- 	if (WARN_ON(!dmabuf || !vma))
- 		return -EINVAL;
- 
-@@ -1264,7 +1271,11 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 	vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
--	return dmabuf->ops->mmap(dmabuf, vma);
-+	ret = dmabuf->ops->mmap(dmabuf, vma);
-+
-+	WARN_ON(!(vma->vm_flags & VM_PFNMAP));
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(dma_buf_mmap);
- 
 -- 
-2.31.0
-
+Sakari Ailus
