@@ -2,106 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64B1C3912F0
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 10:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2ADC39140E
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 11:48:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233395AbhEZIuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 04:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233386AbhEZIth (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 04:49:37 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7904BC06138B
-        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 01:48:03 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id q5so215938wrs.4
-        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 01:48:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JvuBm7KpIXmVjvwi2OsKGMdogxy/zdINv8FqDSEvNYM=;
-        b=Lqd5jcfBOyTJPW2tFudt8CJv9J24bMfUhxeVIJZ8LmLI4SntnbTDRQQKyC6gpxAHXz
-         9bN24AK6T739jCAH8GscQi8AgLUwd+1GsQcwK5rlRKI9kY7T5vOPO8+dZWVsWF1LSCZ3
-         vG+j9kMH6Avl7hje6v2lDCjezgRtIi2s8bjtXVftIff6+ZLU1WMKEWszoAmYPFPG+d0M
-         l9HPG8kGlyHpAOjOVi8ub43lhmZysDxIVeNgKCjW/MPBpSpJ6EgC0SlVBD4MLyN3Lhk6
-         xoqjjLeGwk8V6oZ2P+P27keDN+hsF4syPgMq8Kv2GGg9MDJI2j+cjGbUixn0xhZfGkxW
-         N0RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JvuBm7KpIXmVjvwi2OsKGMdogxy/zdINv8FqDSEvNYM=;
-        b=piHqTFHvKUw1J1zaZvvRpB/XyeGCyKjMFYxB2vLY5guVKEtpsY3INtBK/qLBs5d0R3
-         wXGyEybYgwuqffGZwBh3cPp5pq4LA96pKBLLOlQefViewqiQkB5U5HQyqKWcLvPHQ/3G
-         01mUuwL23XojXUVmvFTWlSZ8Aiey/rb1BTRzMvfo5p5zyyFXxv0uMoSsMDnOjte+GYsR
-         4SInfP2J5UDs2CVULDEoOBCecj69B7bwch46k8g2j7O0nhiWs5Nb6Cgbcbi9Dciqz61+
-         9rqQwbBCh/Qb24bBCbpLjUDpraORB4yS1BykBGuGBgvdPApJCyjaimsi8kb3+IeLkADW
-         6gPg==
-X-Gm-Message-State: AOAM5330BF1/0pKrZUHe6JI9geTFhxIt16eyCtkpqNxcLET4OLgMkdCg
-        zF6EfMqOOduscoLeoafWkqsaJQ==
-X-Google-Smtp-Source: ABdhPJwxA+jqhLj0tvDnM1PGh5FH/QBEyrCkQJOeG+4sHZp0/bgWOd+eUHWE5+4mhkN/TVbBG84CAQ==
-X-Received: by 2002:a5d:4346:: with SMTP id u6mr31620387wrr.304.1622018882087;
-        Wed, 26 May 2021 01:48:02 -0700 (PDT)
-Received: from dell.default ([91.110.221.223])
-        by smtp.gmail.com with ESMTPSA id l18sm18911918wrt.97.2021.05.26.01.48.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 01:48:01 -0700 (PDT)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Adam Jackson <ajax@redhat.com>,
-        Ben Widawsky <ben@bwidawsk.net>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 30/34] drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc format
-Date:   Wed, 26 May 2021 09:47:22 +0100
-Message-Id: <20210526084726.552052-31-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210526084726.552052-1-lee.jones@linaro.org>
-References: <20210526084726.552052-1-lee.jones@linaro.org>
+        id S233375AbhEZJuH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 05:50:07 -0400
+Received: from m12-12.163.com ([220.181.12.12]:37409 "EHLO m12-12.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233348AbhEZJuG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 May 2021 05:50:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=YxOm6
+        DHuFZFQ0I2jcKEP4n+Ouc0/6ud2y9Z9N7Lct7s=; b=oklor4E/3RzqD7t5Jy9yB
+        mOgBMPohaZb15dYVN16z+rfVnkXEEqn3xrhSSbweRL6R0BloCb84P6VrA6z+HmR1
+        jlyHnwGUAZjUe7YtuIQ16BIVzNSs94j0KwJnQBK/qk15WAIWptrqMfTxgER0mU4/
+        MFtp1jiyaUlnGuUM+N+p2g=
+Received: from localhost.localdomain (unknown [218.17.89.92])
+        by smtp8 (Coremail) with SMTP id DMCowACXExFdGa5gNPo4GQ--.4454S2;
+        Wed, 26 May 2021 17:48:15 +0800 (CST)
+From:   lijian_8010a29@163.com
+To:     mchehab@kernel.org, akpm@linux-foundation.org,
+        daniel.m.jordan@oracle.com, rppt@kernel.org, walken@google.com,
+        vbabka@suse.cz
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lijian <lijian@yulong.com>
+Subject: [PATCH] media: videobuf-dma-sg: void function return statements are not generally useful
+Date:   Wed, 26 May 2021 17:47:12 +0800
+Message-Id: <20210526094712.95681-1-lijian_8010a29@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: DMCowACXExFdGa5gNPo4GQ--.4454S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Gw18Zr1fXryxtF4xXr47Jwb_yoW3JFc_Z3
+        4kua4xXrWDtw4jyw1UK3y3A34jy3yxuFn7KF97t3y3JrWUJayYyr1UZr10grn2vFnFvas8
+        WFs8WF18CayfCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU5j-e7UUUUU==
+X-Originating-IP: [218.17.89.92]
+X-CM-SenderInfo: 5olmxttqbyiikqdsmqqrwthudrp/xtbBLBOdUF++L6NhUAACss
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+From: lijian <lijian@yulong.com>
 
- drivers/gpu/drm/vgem/vgem_drv.c:47: warning: expecting prototype for This is vgem, a (non-hardware(). Prototype was for DRIVER_NAME() instead
+void function videobuf_vm_close return statements are not generally useful,
+so deleted the return in function videobuf_vm_close().
 
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Adam Jackson <ajax@redhat.com>
-Cc: Ben Widawsky <ben@bwidawsk.net>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Signed-off-by: lijian <lijian@yulong.com>
 ---
- drivers/gpu/drm/vgem/vgem_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/v4l2-core/videobuf-dma-sg.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-index a0e75f1d5d016..bf38a7e319d14 100644
---- a/drivers/gpu/drm/vgem/vgem_drv.c
-+++ b/drivers/gpu/drm/vgem/vgem_drv.c
-@@ -25,7 +25,7 @@
-  *	Ben Widawsky <ben@bwidawsk.net>
-  */
+diff --git a/drivers/media/v4l2-core/videobuf-dma-sg.c b/drivers/media/v4l2-core/videobuf-dma-sg.c
+index 8dd0562de287..f75e5eedeee0 100644
+--- a/drivers/media/v4l2-core/videobuf-dma-sg.c
++++ b/drivers/media/v4l2-core/videobuf-dma-sg.c
+@@ -423,7 +423,6 @@ static void videobuf_vm_close(struct vm_area_struct *vma)
+ 		videobuf_queue_unlock(q);
+ 		kfree(map);
+ 	}
+-	return;
+ }
  
--/**
-+/*
-  * This is vgem, a (non-hardware-backed) GEM service.  This is used by Mesa's
-  * software renderer and the X server for efficient buffer sharing.
-  */
+ /*
 -- 
-2.31.1
+2.25.1
+
 
