@@ -2,91 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD2B2390CB6
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 01:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BDAE390EF1
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 05:42:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230029AbhEYXGm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 19:06:42 -0400
-Received: from gloria.sntech.de ([185.11.138.130]:54198 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229898AbhEYXGm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 19:06:42 -0400
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1llg6m-00071l-Fk; Wed, 26 May 2021 01:05:08 +0200
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, Alex Bee <knaerzche@gmail.com>
-Cc:     Alex Bee <knaerzche@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 07/10] ARM: dts: rockchip: add vpu node for RK322x
-Date:   Wed, 26 May 2021 01:05:06 +0200
-Message-ID: <4871345.LM0AJKV5NW@diego>
-In-Reply-To: <20210525152225.154302-8-knaerzche@gmail.com>
-References: <20210525152225.154302-1-knaerzche@gmail.com> <20210525152225.154302-8-knaerzche@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        id S231338AbhEZDnq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 May 2021 23:43:46 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:35847 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230313AbhEZDnp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 May 2021 23:43:45 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id lkQplQBe7WkKblkQvlBdZw; Wed, 26 May 2021 05:42:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1622000533; bh=yW6sBTvV2uFJdpPzKHT7scF+D9i7a9iBykfbpauRbYc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=AmyDr/7bKzmDnZcPQzgML89Ap9S+DIptBNViCYKzWzj5Oku4UVENtvyddPcYSHhPv
+         B/dQrfXBR9oHFwQRK7m+LiD23CIflORA0FfGwd2e89jQmi9ofSrajazgzvKSJakAH/
+         dKSMEFflOSg5lvfC46GZMDEclOz+0GIaZ4P1r2i8cTEGC/RdY1hZXxqnFMBpHMWhk8
+         reDSLra6taqH/lwCIbO4HfStTkTRoGQritO2NAxP8bZzUXZsKXEJC6Dc1IFPamxxEE
+         R1qxYlPQ8ExvdIcChFKOWLJTP1raTBGC4pSt5+mqKwG+bcFX8iUm28RZ9l6h6tpEzh
+         eu/tJm2KoZbYA==
+Message-ID: <6c3c51822842c16f28fa4419cb19a447@smtp-cloud8.xs4all.net>
+Date:   Wed, 26 May 2021 05:42:07 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfDalZg3PcudQWLZO+48EVMLO9l9AdJij4T12fE5c+8xfeWLrtTis8a9m7VajcfFHV0mnnVINgmsQCjgLkoJ2mwNaaIaTaRlQpfpTjy+aphhnKcaoBnEF
+ 9YHvbeUhZcHB+fAlCElq5XLT2PYH3Je4yrob7vytR+p9wDa1zIKfXfSI0tbkuSQoSFWph2J2f918iDIUgKeBUibCqzDkNotX1I/MjnlAWPntGIJwe6dZMp2P
+ xu/rzHcvcnZlk9EBYrkH2w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, 25. Mai 2021, 17:22:22 CEST schrieb Alex Bee:
-> The VPU IP block of RK322x is the same as RK3399 has and the driver can
-> be used as-is.
-> 
-> Add the respective nodes to the device tree.
-> 
-> Signed-off-by: Alex Bee <knaerzche@gmail.com>
-> ---
->  arch/arm/boot/dts/rk322x.dtsi | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/rk322x.dtsi b/arch/arm/boot/dts/rk322x.dtsi
-> index c8095ede7d7a..62d1113b7804 100644
-> --- a/arch/arm/boot/dts/rk322x.dtsi
-> +++ b/arch/arm/boot/dts/rk322x.dtsi
-> @@ -611,6 +611,18 @@ gpu: gpu@20000000 {
->  		status = "disabled";
->  	};
->  
-> +	vpu: video-codec@20020000 {
-> +		compatible = "rockchip,rk3228-vpu", "rockchip,rk3399-vpu";
-> +		reg = <0x20020000 0x800>;
-> +		interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI  9 IRQ_TYPE_LEVEL_HIGH>;
-> +		interrupt-names = "vepu", "vdpu";
-> +		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> +		clock-names = "aclk", "hclk";
-> +		power-domains = <&power RK3228_PD_VPU>;
-> +		iommus = <&vpu_mmu>;
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-NIT: [if you need to resend for other reasons] iommus before power-domains please
+Results of the daily build of media_tree:
 
-> +	};
-> +
->  	vpu_mmu: iommu@20020800 {
->  		compatible = "rockchip,iommu";
->  		reg = <0x20020800 0x100>;
-> @@ -619,7 +631,6 @@ vpu_mmu: iommu@20020800 {
->  		clock-names = "aclk", "iface";
->  		power-domains = <&power RK3228_PD_VPU>;
->  		#iommu-cells = <0>;
-> -		status = "disabled";
->  	};
->  
->  	vdec_mmu: iommu@20030480 {
-> 
+date:			Wed May 26 05:00:11 CEST 2021
+media-tree git hash:	bb9212fd971035597d264fc6a7cc4df0db9b5fd0
+media_build git hash:	fe2dddd7a72848ec66131d15c4f1893db7daf84b
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7445-g58776ae33
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13-rc1-i686: OK
+linux-5.13-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
