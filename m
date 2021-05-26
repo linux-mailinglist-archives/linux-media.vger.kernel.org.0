@@ -2,259 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F5A53914F1
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 12:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FFAB3914F5
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 12:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233910AbhEZKdy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 06:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35460 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233847AbhEZKdx (ORCPT
+        id S233910AbhEZKee (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 06:34:34 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:59541 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233904AbhEZKed (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 06:33:53 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33784C061574;
-        Wed, 26 May 2021 03:32:22 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id EE92E1F42CE8
-Message-ID: <3b9a076c1c426a14ed10da743fdb86c1bf2eb603.camel@collabora.com>
-Subject: Re: [PATCH 04/10] media: hantro: add support for Rockchip RK3066
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Alex Bee <knaerzche@gmail.com>,
+        Wed, 26 May 2021 06:34:33 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id lqqPlSim3WkKblqqSlCgfd; Wed, 26 May 2021 12:33:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1622025180; bh=HfB+LUZU9bKstga47lx5+/7a3YOuP1UE5uU8dLDV1tA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=S/dppd7vME+SuXDlidavUZkVc/tHcDqeEqo1Ro2AC0c9WNU1PN8bCMbX4XxhzJCex
+         hJkIKxNooJyR3hXSUpefBLuK1tGqj05fZHVIa16o+PKQ8zMpmma5Sle9tbbU/0yMgI
+         cxlIKoQQyBRKy1RBdC5SdyDWsXZxRZx73QpkDFFXfNe+J0wVLFLMSDgvt7RoxfGbD3
+         /SkwLPK0RPeP/+e1Qc5XmAERIHqawGdcTvup3Yze8Hx3bSsaAQCsLSTKXo9SBvbNIZ
+         RdG3RxYaZCeMtzzXEkNVrwN6kinbH7T6f7gpP64XiDNepxzefXnJ9ToLEu0E6Iadl/
+         Yg+UIoGWfVk6g==
+Subject: Re: [PATCHv4 0/5] media: uvcvideo: implement UVC 1.5 ROI
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Date:   Wed, 26 May 2021 07:32:12 -0300
-In-Reply-To: <20210525152225.154302-5-knaerzche@gmail.com>
-References: <20210525152225.154302-1-knaerzche@gmail.com>
-         <20210525152225.154302-5-knaerzche@gmail.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210430112611.475039-1-senozhatsky@chromium.org>
+ <8a175117-d142-9265-65ee-43302bb82444@xs4all.nl>
+ <YIy1suAHDrArv8fz@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <a3610107-bfad-415b-10d9-41fa1c03b469@xs4all.nl>
+Date:   Wed, 26 May 2021 12:32:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YIy1suAHDrArv8fz@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfMJXMizEQRxplhAcnqQNukeQ+o4fW7JvwVD4/JM4jCENfJHkYwHxxi6N4TJyA2d8SPmX2IgNoqnIzcxuxTRwD2Z+gDstF8XvAWNDb33mvs4E06erfKUr
+ M7DjdDyxJ7T2NHTBtlWRmuC4G6zdKIpxwU45oD37NpzqyuTvpwwp0Dig96dKeKv2tUh0Q2cjDFfa4pJjS+4KgTEkJ0nTRVYSWeN1OMAd2d3q+LUEjIBVxfkC
+ SG4tP2qpVbLMSgUydQVIupwK0u0HgOIDWfWeWstrJXEre72Z0rDpGfcA2LOXHdoiFKhbX+kgPism+7TTULNHoDhJh2B+RXeJbAYzuqdkptT3aemAhiYOEn4A
+ 34gzEF0nUb/hY4uwgivI0imBe3kz5GfNtV8+ApnyCr6muF4BKWry0ASVejoQgcLPKaNIG4e9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alex,
-
-Thanks for the patch.
-
-On Tue, 2021-05-25 at 17:22 +0200, Alex Bee wrote:
-> RK3066's VPU IP block is the predecessor from what RK3288 has.
-> The hardware differences are:
->   - supports decoding frame sizes up to 1920x1088 only
->   - doesn't have the 'G1_REG_SOFT_RESET' register
->     (requires another .reset callback for hantro_codec_ops,
->      since writing this register will result in non-working
->      IP block)
->   - has one ACLK/HCLK per vdpu/vepu
->   - ACLKs can be clocked up to 300 MHz only
->   - no MMU
->     (no changes required: CMA will be transparently used)
+On 01/05/2021 03:58, Sergey Senozhatsky wrote:
+> Hi Hans,
 > 
-> Add a new RK3066 variant which reflect this differences. This variant
-> can be used for RK3188 as well.
+> On (21/04/30 14:49), Hans Verkuil wrote:
+>> Hi Sergey,
+>>
+>> On 30/04/2021 13:26, Sergey Senozhatsky wrote:
+>>> Hello,
+>>>
+>>> 	This patch set implements UVC 1.5 ROI using v4l2_selection API.
+>>
+>> Is the selection API the right approach for this? Wouldn't it make
+>> sense to use controls instead?
 > 
-> Signed-off-by: Alex Bee <knaerzche@gmail.com>
-> ---
->  drivers/staging/media/hantro/hantro_drv.c    |   1 +
->  drivers/staging/media/hantro/hantro_hw.h     |   1 +
->  drivers/staging/media/hantro/rk3288_vpu_hw.c | 116 +++++++++++++++++++
->  3 files changed, 118 insertions(+)
+> [..]
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 2f6b01c7a6a0..38ea7b24036e 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -489,6 +489,7 @@ static const struct of_device_id of_hantro_match[] = {
->         { .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
->         { .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
->         { .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
-> +       { .compatible = "rockchip,rk3066-vpu", .data = &rk3066_vpu_variant, },
->  #endif
->  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
->         { .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index 3d8b53567f16..de2bc367a15a 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -163,6 +163,7 @@ enum hantro_enc_fmt {
->  extern const struct hantro_variant rk3399_vpu_variant;
->  extern const struct hantro_variant rk3328_vpu_variant;
->  extern const struct hantro_variant rk3288_vpu_variant;
-> +extern const struct hantro_variant rk3066_vpu_variant;
->  extern const struct hantro_variant imx8mq_vpu_variant;
->  extern const struct hantro_variant sama5d4_vdec_variant;
->  
-> diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
-> index fefd45269e52..29805c4bd92f 100644
-> --- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
-> @@ -10,8 +10,10 @@
->  
->  #include "hantro.h"
->  #include "hantro_jpeg.h"
-> +#include "hantro_g1_regs.h"
->  #include "hantro_h1_regs.h"
->  
-> +#define RK3066_ACLK_MAX_FREQ (300 * 1000 * 1000)
->  #define RK3288_ACLK_MAX_FREQ (400 * 1000 * 1000)
->  
->  /*
-> @@ -62,6 +64,52 @@ static const struct hantro_fmt rk3288_vpu_postproc_fmts[] = {
->         },
->  };
->  
-> +static const struct hantro_fmt rk3066_vpu_dec_fmts[] = {
-> +       {
-> +               .fourcc = V4L2_PIX_FMT_NV12,
-> +               .codec_mode = HANTRO_MODE_NONE,
-> +       },
-> +       {
-> +               .fourcc = V4L2_PIX_FMT_H264_SLICE,
-> +               .codec_mode = HANTRO_MODE_H264_DEC,
-> +               .max_depth = 2,
-> +               .frmsize = {
-> +                       .min_width = 48,
-> +                       .max_width = 1920,
-> +                       .step_width = MB_DIM,
-> +                       .min_height = 48,
-> +                       .max_height = 1088,
-> +                       .step_height = MB_DIM,
-> +               },
-> +       },
-> +       {
-> +               .fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
-> +               .codec_mode = HANTRO_MODE_MPEG2_DEC,
-> +               .max_depth = 2,
-> +               .frmsize = {
-> +                       .min_width = 48,
-> +                       .max_width = 1920,
-> +                       .step_width = MB_DIM,
-> +                       .min_height = 48,
-> +                       .max_height = 1088,
-> +                       .step_height = MB_DIM,
-> +               },
-> +       },
-> +       {
-> +               .fourcc = V4L2_PIX_FMT_VP8_FRAME,
-> +               .codec_mode = HANTRO_MODE_VP8_DEC,
-> +               .max_depth = 2,
-> +               .frmsize = {
-> +                       .min_width = 48,
-> +                       .max_width = 1920,
-> +                       .step_width = MB_DIM,
-> +                       .min_height = 48,
-> +                       .max_height = 1088,
-> +                       .step_height = MB_DIM,
-> +               },
-> +       },
-> +};
-> +
->  static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
->         {
->                 .fourcc = V4L2_PIX_FMT_NV12,
-> @@ -126,6 +174,14 @@ static irqreturn_t rk3288_vepu_irq(int irq, void *dev_id)
->         return IRQ_HANDLED;
->  }
->  
-> +static int rk3066_vpu_hw_init(struct hantro_dev *vpu)
-> +{
-> +       /* Bump ACLKs to max. possible freq. to improve performance. */
-> +       clk_set_rate(vpu->clocks[0].clk, RK3066_ACLK_MAX_FREQ);
-> +       clk_set_rate(vpu->clocks[0].clk, RK3066_ACLK_MAX_FREQ);
-> +       return 0;
-> +}
-> +
->  static int rk3288_vpu_hw_init(struct hantro_dev *vpu)
->  {
->         /* Bump ACLK to max. possible freq. to improve performance. */
-> @@ -133,6 +189,14 @@ static int rk3288_vpu_hw_init(struct hantro_dev *vpu)
->         return 0;
->  }
->  
-> +static void rk3066_vpu_dec_reset(struct hantro_ctx *ctx)
-> +{
-> +       struct hantro_dev *vpu = ctx->dev;
-> +
-> +       vdpu_write(vpu, G1_REG_INTERRUPT_DEC_IRQ_DIS, G1_REG_INTERRUPT);
-> +       vdpu_write(vpu, G1_REG_CONFIG_DEC_CLK_GATE_E, G1_REG_CONFIG);
-> +}
-> +
->  static void rk3288_vpu_enc_reset(struct hantro_ctx *ctx)
->  {
->         struct hantro_dev *vpu = ctx->dev;
-> @@ -145,6 +209,33 @@ static void rk3288_vpu_enc_reset(struct hantro_ctx *ctx)
->  /*
->   * Supported codec ops.
->   */
-> +static const struct hantro_codec_ops rk3066_vpu_codec_ops[] = {
-> +       [HANTRO_MODE_JPEG_ENC] = {
-> +               .run = hantro_h1_jpeg_enc_run,
-> +               .reset = rk3288_vpu_enc_reset,
-> +               .init = hantro_jpeg_enc_init,
-> +               .done = hantro_jpeg_enc_done,
-> +               .exit = hantro_jpeg_enc_exit,
-> +       },
-> +       [HANTRO_MODE_H264_DEC] = {
-> +               .run = hantro_g1_h264_dec_run,
-> +               .reset = rk3066_vpu_dec_reset,
-> +               .init = hantro_h264_dec_init,
-> +               .exit = hantro_h264_dec_exit,
-> +       },
-> +       [HANTRO_MODE_MPEG2_DEC] = {
-> +               .run = hantro_g1_mpeg2_dec_run,
-> +               .reset = rk3066_vpu_dec_reset,
-> +               .init = hantro_mpeg2_dec_init,
-> +               .exit = hantro_mpeg2_dec_exit,
-> +       },
-> +       [HANTRO_MODE_VP8_DEC] = {
-> +               .run = hantro_g1_vp8_dec_run,
-> +               .reset = rk3066_vpu_dec_reset,
-> +               .init = hantro_vp8_dec_init,
-> +               .exit = hantro_vp8_dec_exit,
-> +       },
-> +};
->  
->  static const struct hantro_codec_ops rk3288_vpu_codec_ops[] = {
->         [HANTRO_MODE_JPEG_ENC] = {
-> @@ -183,10 +274,35 @@ static const struct hantro_irq rk3288_irqs[] = {
->         { "vdpu", hantro_g1_irq },
->  };
->  
-> +static const char * const rk3066_clk_names[] = {
-> +       "aclk_vdpu", "hclk_vdpu",
-> +       "aclk_vepu", "hclk_vepu"
-> +};
-> +
->  static const char * const rk3288_clk_names[] = {
->         "aclk", "hclk"
->  };
->  
-> +const struct hantro_variant rk3066_vpu_variant = {
-> +       .enc_offset = 0x0,
-> +       .enc_fmts = rk3288_vpu_enc_fmts,
-> +       .num_enc_fmts = ARRAY_SIZE(rk3288_vpu_enc_fmts),
-> +       .dec_offset = 0x400,
+>> If this was discussed before, then can you give a me pointer to that discussion?
+>> I couldn't find anything for that, but I didn't look very long for it :-)
+> 
+> I believe Tomasz raised this question over IRC back in the days and there
+> was no clear conclusion at the end: selection API vs control - 50/50 split.
+> After internal discussions we decided to go with the selection API.
+> 
+>> In any case, it doesn't really feel like it is the right API for this job.
+> 
+> Well, we pass a rectangle to the driver. The driver already knows what
+> to do with some of those rectangles, we teach it to handle one more. So
+> we don't introduce anything new, but use the existing API instead.
+> 
 
-Having decoder and encoder supported by a single devicetree
-node was done for RK3288 to cope with some bug in the hardware
-that was effectively linking the decoder and the encoder.
+Yes, but this works for only one ROI since the Selection API has no provision
+for rectangle arrays, but with the upcoming dynamic array control support this
+is trivial for controls. In addition, controls are already integrated in the
+Request API, so this will automatically work with requests as well.
 
-AFAIK, Rockchip has fixed this, so unless there's a strong
-need, I prefer we keep them separated, with one DT node
-for the g1 decoder and one for the h1 encoder.
+I don't remember being involved in the irc discussion (if I was, I don't remember
+it), and that discussion definitely did not know about dynamic arrays since that's
+brand new and not even merged yet and may even precede the Request API depending
+on how long ago the irc discussion was.
 
-Thanks!
-Ezequiel
+I think being able to provide multiple ROI rectangles is an obvious feature in
+general, even if UVC currently supports only a single rectangle. Ditto for being
+able to use them in a request. You get both for free when using controls.
 
+Before I can accept this series I think I need to have feedback from others
+why they believe the Selection API is the right API to use.
+
+Regards,
+
+	Hans
