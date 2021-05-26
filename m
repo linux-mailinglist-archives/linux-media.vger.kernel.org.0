@@ -2,244 +2,338 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 774083915BB
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 13:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 090EF3915C6
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 13:15:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234194AbhEZLMf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 07:12:35 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60132 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234006AbhEZLMe (ORCPT
+        id S234232AbhEZLRW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 07:17:22 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:45913 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234060AbhEZLRW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 07:12:34 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id B44E51F42E68
-Subject: Re: [PATCH v11 9/9] media: hantro: IMX8M: add variant for G2/HEVC
- codec
-To:     Hans Verkuil <hverkuil@xs4all.nl>, ezequiel@collabora.com,
-        p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, festevam@gmail.com,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20210525161238.1191168-1-benjamin.gaignard@collabora.com>
- <20210525161238.1191168-10-benjamin.gaignard@collabora.com>
- <1454f153-c04b-6b90-8467-54bb33c6f3fa@xs4all.nl>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <3bd6a50d-6a70-ec17-2e9e-bb515ad5e832@collabora.com>
-Date:   Wed, 26 May 2021 13:10:57 +0200
+        Wed, 26 May 2021 07:17:22 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id lrVqlSzFbWkKblrVtlCreC; Wed, 26 May 2021 13:15:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1622027749; bh=LmYtKRUTNeJ98nZMJw0EdDgMeWlKCBd+Id7Urq5VWpw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Xm1B2JWS4CZbDO6rzQARdf2XfXl1ikINw2u7Ri6iZh5XdrkXYsnImStEfEXr4uUFj
+         SntQ0RUUb9KhisPleN1o9u4kLRf/wxsvXeL3OZOVyKOEtbI8emfu89aePok5T+69ZM
+         BpYDmG0pSbkIQIxCf84sWAg+DxV4/L5dCiLTvKZnyiQ34A5AJN+aMTaqquVW3VzGXG
+         6LRVD2ihsuDQImCz48CMySjpmvyJNZTYvvutQx+8yDNXPHD+QtRsR46CrgWYSisYzv
+         geJ+uOkXZ32xr5JYz0qp9rncIA/nb1N4G95HSKbXOJWbjVfm8XNFyLNEssacyd/pZ6
+         1QVL5jTJNneCw==
+Subject: Re: [PATCH 2/2] manual conversions to std::array
+To:     Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
+References: <20210424024739.83762-1-rosenp@gmail.com>
+ <20210424024739.83762-2-rosenp@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <7fd68e5a-1259-c020-9b9d-baf4f868f98c@xs4all.nl>
+Date:   Wed, 26 May 2021 13:15:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <1454f153-c04b-6b90-8467-54bb33c6f3fa@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210424024739.83762-2-rosenp@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfDJKwpJzZxfvvVemWb3qUZ6PCVJ7BYBQN/7PyL3IVIeVaG7c6ShkQkkA4yjnMKaGvkhmtdm6qzngmuYmW3efVGQzIlhPoOgopXjO9vradfIMDrOwZHEF
+ KF5MfIcZcz0hQyYwnodCaxsIoYOoVbyBK81js4n29BFZwCMfyzHxRyUQel46QrJ3mnnhbRBLk0VMEVGbtiWqLSXG8hcEeUEB4V9fbsesQ1iU1+IZQs5bIsJZ
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 24/04/2021 04:47, Rosen Penev wrote:
+> std::array avoids having to decay the array into a pointer. Also allows
+> using the at() member function for debugging.
+> 
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+>  utils/cec-follower/cec-follower.h           |  9 ++---
+>  utils/cec-follower/cec-processing.cpp       | 24 ++++++------
+>  utils/libcecutil/cec-parse.cpp              | 43 +++++++++++----------
+>  utils/v4l2-compliance/v4l2-test-buffers.cpp | 19 ++++-----
+>  utils/v4l2-compliance/v4l2-test-formats.cpp |  4 +-
+>  5 files changed, 49 insertions(+), 50 deletions(-)
+> 
+> diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
+> index 391b9ab40..b0c9e980d 100644
+> --- a/utils/cec-follower/cec-follower.h
+> +++ b/utils/cec-follower/cec-follower.h
+> @@ -8,6 +8,8 @@
+>  #ifndef _CEC_FOLLOWER_H_
+>  #define _CEC_FOLLOWER_H_
+>  
+> +#include <array>
+> +
+>  #include <linux/cec-funcs.h>
+>  #include "cec-htng-funcs.h"
+>  
+> @@ -78,14 +80,11 @@ struct node {
+>  
+>  struct la_info {
+>  	__u64 ts;
+> -	struct {
+> -		unsigned count;
+> -		__u64 ts;
+> -	} feature_aborted[256];
+> +	std::array<std::pair<unsigned, __u64>, 256> feature_aborted;
 
-Le 26/05/2021 à 11:52, Hans Verkuil a écrit :
-> On 25/05/2021 18:12, Benjamin Gaignard wrote:
->> Add variant to IMX8M to enable G2/HEVC codec.
->> Define the capabilities for the hardware up to 3840x2160.
->> G2 doesn't have a postprocessor, uses the same clocks and has it
->> own interrupt.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
->> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
->> ---
->>   drivers/staging/media/hantro/hantro_drv.c   |  1 +
->>   drivers/staging/media/hantro/hantro_hw.h    |  1 +
->>   drivers/staging/media/hantro/imx8m_vpu_hw.c | 96 ++++++++++++++++++++-
->>   3 files changed, 96 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
->> index ae8a0037706f..507cd5b454b3 100644
->> --- a/drivers/staging/media/hantro/hantro_drv.c
->> +++ b/drivers/staging/media/hantro/hantro_drv.c
->> @@ -588,6 +588,7 @@ static const struct of_device_id of_hantro_match[] = {
->>   #endif
->>   #ifdef CONFIG_VIDEO_HANTRO_IMX8M
->>   	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
->> +	{ .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
->  From checkpatch:
->
-> WARNING: DT compatible string "nxp,imx8mq-vpu-g2" appears un-documented -- check ./Documentation/devicetree/bindings/
-> #29: FILE: drivers/staging/media/hantro/hantro_drv.c:591:
-> +       { .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
->
-> Is a patch missing for bindings adding "nxp,imx8mq-vpu-g2"?
+Ah, no. This turns perfectly understandable 'count' and 'ts' fields
+into vague 'first' and 'second' fields.
 
-The DT and bindings patches are delayed because NXP guys want to use power domain to drive
-the control block:
-https://lore.kernel.org/linux-media/20210407073534.376722-1-benjamin.gaignard@collabora.com/T/#m6bd571fee94b1b1fa5c5d3fa6315ae5c9f4c8fad
+But to be honest, I see no real benefits at all to this patch. I've decided not
+to take this one.
+
+Sorry about that, but I think normal arrays are perfectly fine.
 
 Regards,
-Benjamin
 
->
-> Regards,
->
-> 	Hans
->
->
->>   #endif
->>   #ifdef CONFIG_VIDEO_HANTRO_SAMA5D4
->>   	{ .compatible = "microchip,sama5d4-vdec", .data = &sama5d4_vdec_variant, },
->> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
->> index b743b255bf32..5cc083112017 100644
->> --- a/drivers/staging/media/hantro/hantro_hw.h
->> +++ b/drivers/staging/media/hantro/hantro_hw.h
->> @@ -206,6 +206,7 @@ extern const struct hantro_variant rk3328_vpu_variant;
->>   extern const struct hantro_variant rk3288_vpu_variant;
->>   extern const struct hantro_variant imx8mq_vpu_variant;
->>   extern const struct hantro_variant sama5d4_vdec_variant;
->> +extern const struct hantro_variant imx8mq_vpu_g2_variant;
->>   
->>   extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
->>   
->> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
->> index 9eb556460e52..ea152e1e6514 100644
->> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
->> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
->> @@ -9,6 +9,9 @@
->>   #include <linux/delay.h>
->>   
->>   #include "hantro.h"
->> +#include "hantro_jpeg.h"
->> +#include "hantro_g1_regs.h"
->> +#include "hantro_g2_regs.h"
->>   
->>   #define CTRL_SOFT_RESET		0x00
->>   #define RESET_G1		BIT(1)
->> @@ -128,6 +131,62 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
->>   	},
->>   };
->>   
->> +static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
->> +	{
->> +		.fourcc = V4L2_PIX_FMT_NV12,
->> +		.codec_mode = HANTRO_MODE_NONE,
->> +	},
->> +	{
->> +		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
->> +		.codec_mode = HANTRO_MODE_HEVC_DEC,
->> +		.max_depth = 2,
->> +		.frmsize = {
->> +			.min_width = 48,
->> +			.max_width = 3840,
->> +			.step_width = MB_DIM,
->> +			.min_height = 48,
->> +			.max_height = 2160,
->> +			.step_height = MB_DIM,
->> +		},
->> +	},
->> +};
->> +
->> +static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
->> +{
->> +	struct hantro_dev *vpu = dev_id;
->> +	enum vb2_buffer_state state;
->> +	u32 status;
->> +
->> +	status = vdpu_read(vpu, G1_REG_INTERRUPT);
->> +	state = (status & G1_REG_INTERRUPT_DEC_RDY_INT) ?
->> +		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
->> +
->> +	vdpu_write(vpu, 0, G1_REG_INTERRUPT);
->> +	vdpu_write(vpu, G1_REG_CONFIG_DEC_CLK_GATE_E, G1_REG_CONFIG);
->> +
->> +	hantro_irq_done(vpu, state);
->> +
->> +	return IRQ_HANDLED;
->> +}
->> +
->> +static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
->> +{
->> +	struct hantro_dev *vpu = dev_id;
->> +	enum vb2_buffer_state state;
->> +	u32 status;
->> +
->> +	status = vdpu_read(vpu, HEVC_REG_INTERRUPT);
->> +	state = (status & HEVC_REG_INTERRUPT_DEC_RDY_INT) ?
->> +		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
->> +
->> +	vdpu_write(vpu, 0, HEVC_REG_INTERRUPT);
->> +	vdpu_write(vpu, HEVC_REG_CONFIG_DEC_CLK_GATE_E, HEVC_REG_CONFIG);
->> +
->> +	hantro_irq_done(vpu, state);
->> +
->> +	return IRQ_HANDLED;
->> +}
->> +
->>   static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
->>   {
->>   	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
->> @@ -142,6 +201,13 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
->>   	imx8m_soft_reset(vpu, RESET_G1);
->>   }
->>   
->> +static void imx8m_vpu_g2_reset(struct hantro_ctx *ctx)
->> +{
->> +	struct hantro_dev *vpu = ctx->dev;
->> +
->> +	imx8m_soft_reset(vpu, RESET_G2);
->> +}
->> +
->>   /*
->>    * Supported codec ops.
->>    */
->> @@ -167,13 +233,25 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
->>   	},
->>   };
->>   
->> +static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
->> +	[HANTRO_MODE_HEVC_DEC] = {
->> +		.run = hantro_g2_hevc_dec_run,
->> +		.reset = imx8m_vpu_g2_reset,
->> +		.init = hantro_hevc_dec_init,
->> +		.exit = hantro_hevc_dec_exit,
->> +	},
->> +};
->> +
->>   /*
->>    * VPU variants.
->>    */
->>   
->>   static const struct hantro_irq imx8mq_irqs[] = {
->> -	{ "g1", hantro_g1_irq },
->> -	{ "g2", NULL /* TODO: imx8m_vpu_g2_irq */ },
->> +	{ "g1", imx8m_vpu_g1_irq },
->> +};
->> +
->> +static const struct hantro_irq imx8mq_g2_irqs[] = {
->> +	{ "g2", imx8m_vpu_g2_irq },
->>   };
->>   
->>   static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
->> @@ -197,3 +275,17 @@ const struct hantro_variant imx8mq_vpu_variant = {
->>   	.reg_names = imx8mq_reg_names,
->>   	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
->>   };
->> +
->> +const struct hantro_variant imx8mq_vpu_g2_variant = {
->> +	.dec_offset = 0x0,
->> +	.dec_fmts = imx8m_vpu_g2_dec_fmts,
->> +	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
->> +	.codec = HANTRO_HEVC_DECODER,
->> +	.codec_ops = imx8mq_vpu_g2_codec_ops,
->> +	.init = imx8mq_vpu_hw_init,
->> +	.runtime_resume = imx8mq_runtime_resume,
->> +	.irqs = imx8mq_g2_irqs,
->> +	.num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
->> +	.clk_names = imx8mq_clk_names,
->> +	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
->> +};
->>
+	Hans
+
+>  	__u16 phys_addr;
+>  };
+>  
+> -extern struct la_info la_info[15];
+> +extern std::array<struct la_info, 15> la_info;
+>  
+>  struct short_audio_desc {
+>  	/* Byte 1 */
+> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+> index 9acaf7ec9..51eab1ae8 100644
+> --- a/utils/cec-follower/cec-processing.cpp
+> +++ b/utils/cec-follower/cec-processing.cpp
+> @@ -3,6 +3,7 @@
+>   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> +#include <array>
+>  #include <cerrno>
+>  #include <ctime>
+>  #include <string>
+> @@ -37,7 +38,7 @@ struct cec_enum_values {
+>  	__u8 value;
+>  };
+>  
+> -struct la_info la_info[15];
+> +std::array<struct la_info, 15> la_info;
+>  
+>  static struct timespec start_monotonic;
+>  static struct timeval start_timeofday;
+> @@ -120,8 +121,8 @@ void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason)
+>  	if (cec_msg_is_broadcast(msg) || cec_msg_initiator(msg) == CEC_LOG_ADDR_UNREGISTERED)
+>  		return;
+>  	if (reason == CEC_OP_ABORT_UNRECOGNIZED_OP) {
+> -		la_info[la].feature_aborted[opcode].count++;
+> -		if (la_info[la].feature_aborted[opcode].count == 2) {
+> +		la_info[la].feature_aborted[opcode].first++;
+> +		if (la_info[la].feature_aborted[opcode].first == 2) {
+>  			/* If the Abort Reason was "Unrecognized opcode", the Initiator should not send
+>  			   the same message to the same Follower again at that time to avoid saturating
+>  			   the bus. */
+> @@ -129,13 +130,11 @@ void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason)
+>  			     opcode2s(msg).c_str(), la, cec_la2s(la));
+>  			warn("replying Feature Abort [Unrecognized Opcode] to the same message.\n");
+>  		}
+> -	}
+> -	else if (la_info[la].feature_aborted[opcode].count) {
+> +	} else if (la_info[la].feature_aborted[opcode].first) {
+>  		warn("Replying Feature Abort with abort reason different than [Unrecognized Opcode]\n");
+>  		warn("to message that has previously been replied Feature Abort to with [Unrecognized Opcode].\n");
+> -	}
+> -	else
+> -		la_info[la].feature_aborted[opcode].ts = ts_now;
+> +	} else
+> +		la_info[la].feature_aborted[opcode].second = ts_now;
+>  
+>  	cec_msg_reply_feature_abort(msg, reason);
+>  	transmit(node, msg);
+> @@ -939,7 +938,7 @@ void testProcessing(struct node *node, bool wallclock)
+>  					node->state.active_source_pa = CEC_PHYS_ADDR_INVALID;
+>  					me = CEC_LOG_ADDR_INVALID;
+>  				}
+> -				memset(la_info, 0, sizeof(la_info));
+> +				la_info = {};
+>  			}
+>  		}
+>  		if (FD_ISSET(fd, &rd_fds)) {
+> @@ -962,9 +961,8 @@ void testProcessing(struct node *node, bool wallclock)
+>  			if (node->ignore_opcode[msg.msg[1]] & (1 << from))
+>  				continue;
+>  
+> -			if (from != CEC_LOG_ADDR_UNREGISTERED &&
+> -			    la_info[from].feature_aborted[opcode].ts &&
+> -			    ts_to_ms(get_ts() - la_info[from].feature_aborted[opcode].ts) < 200) {
+> +			if (from != CEC_LOG_ADDR_UNREGISTERED && la_info[from].feature_aborted[opcode].second &&
+> +			    ts_to_ms(get_ts() - la_info[from].feature_aborted[opcode].second) < 200) {
+>  				warn("Received message %s from LA %d (%s) less than 200 ms after\n",
+>  				     opcode2s(&msg).c_str(), from, cec_la2s(from));
+>  				warn("replying Feature Abort (not [Unrecognized Opcode]) to the same message.\n");
+> @@ -1016,7 +1014,7 @@ void testProcessing(struct node *node, bool wallclock)
+>  			transmit(node, &msg);
+>  			if (msg.tx_status & CEC_TX_STATUS_NACK) {
+>  				dev_info("Logical address %d stopped responding to polling message.\n", poll_la);
+> -				memset(&la_info[poll_la], 0, sizeof(la_info[poll_la]));
+> +				la_info[poll_la] = {};
+>  				node->remote_la_mask &= ~(1 << poll_la);
+>  				node->remote_phys_addr[poll_la] = CEC_PHYS_ADDR_INVALID;
+>  			}
+> diff --git a/utils/libcecutil/cec-parse.cpp b/utils/libcecutil/cec-parse.cpp
+> index fd37f5b83..f48170500 100644
+> --- a/utils/libcecutil/cec-parse.cpp
+> +++ b/utils/libcecutil/cec-parse.cpp
+> @@ -3,6 +3,7 @@
+>   * Copyright 2019 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> +#include <array>
+>  #include <cctype>
+>  #include <cstring>
+>  #include <string>
+> @@ -108,13 +109,13 @@ static __u32 *args2short_descrs(__u32 descriptor1,
+>  				__u32 descriptor3,
+>  				__u32 descriptor4)
+>  {
+> -	static __u32 descriptors[4];
+> -
+> -	descriptors[0] = descriptor1;
+> -	descriptors[1] = descriptor2;
+> -	descriptors[2] = descriptor3;
+> -	descriptors[3] = descriptor4;
+> -	return descriptors;
+> +	static std::array<__u32, 4> descriptors{
+> +		descriptor1,
+> +		descriptor2,
+> +		descriptor3,
+> +		descriptor4,
+> +	};
+> +	return descriptors.data();
+>  }
+>  
+>  static __u8 *args2short_aud_fmt_ids(__u8 audio_format_id1,
+> @@ -122,13 +123,13 @@ static __u8 *args2short_aud_fmt_ids(__u8 audio_format_id1,
+>  				    __u8 audio_format_id3,
+>  				    __u8 audio_format_id4)
+>  {
+> -	static __u8 audio_format_ids[4];
+> -
+> -	audio_format_ids[0] = audio_format_id1;
+> -	audio_format_ids[1] = audio_format_id2;
+> -	audio_format_ids[2] = audio_format_id3;
+> -	audio_format_ids[3] = audio_format_id4;
+> -	return audio_format_ids;
+> +	static std::array<__u8, 4> audio_format_ids{
+> +		audio_format_id1,
+> +		audio_format_id2,
+> +		audio_format_id3,
+> +		audio_format_id4,
+> +	};
+> +	return audio_format_ids.data();
+>  }
+>  
+>  static __u8 *args2short_aud_fmt_codes(__u8 audio_format_code1,
+> @@ -136,13 +137,13 @@ static __u8 *args2short_aud_fmt_codes(__u8 audio_format_code1,
+>  				      __u8 audio_format_code3,
+>  				      __u8 audio_format_code4)
+>  {
+> -	static __u8 audio_format_codes[4];
+> -
+> -	audio_format_codes[0] = audio_format_code1;
+> -	audio_format_codes[1] = audio_format_code2;
+> -	audio_format_codes[2] = audio_format_code3;
+> -	audio_format_codes[3] = audio_format_code4;
+> -	return audio_format_codes;
+> +	static std::array<__u8, 4> audio_format_codes{
+> +		audio_format_code1,
+> +		audio_format_code2,
+> +		audio_format_code3,
+> +		audio_format_code4,
+> +	};
+> +	return audio_format_codes.data();
+>  }
+>  
+>  int cec_parse_subopt(char **subs, const char * const *subopts, char **value)
+> diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> index e515fea48..5b0c5452b 100644
+> --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> @@ -36,8 +36,8 @@ static cv4l_fmt cur_fmt;
+>  static cv4l_fmt cur_m2m_fmt;
+>  static int stream_from_fd = -1;
+>  static bool stream_use_hdr;
+> -static unsigned max_bytesused[VIDEO_MAX_PLANES];
+> -static unsigned min_data_offset[VIDEO_MAX_PLANES];
+> +static std::array<unsigned int, VIDEO_MAX_PLANES> max_bytesused;
+> +static std::array<unsigned int, VIDEO_MAX_PLANES> min_data_offset;
+>  
+>  bool operator<(struct timeval const& n1, struct timeval const& n2)
+>  {
+> @@ -60,7 +60,7 @@ struct buf_seq {
+>  
+>  static struct buf_seq last_seq, last_m2m_seq;
+>  
+> -static int buf_req_fds[VIDEO_MAX_FRAME * 2];
+> +static std::array<int, VIDEO_MAX_FRAME * 2> buf_req_fds;
+>  
+>  static inline int named_ioctl_fd(int fd, bool trace, const char *cmd_name, unsigned long cmd, void *arg)
+>  {
+> @@ -845,7 +845,7 @@ static int captureBufs(struct node *node, struct node *node_m2m_cap, const cv4l_
+>  		cv4l_queue &m2m_q, unsigned frame_count, int pollmode,
+>  		unsigned &capture_count)
+>  {
+> -	static constexpr const char *pollmode_str[] = {
+> +	static constexpr std::array<const char *, 3> pollmode_str{
+>  		"",
+>  		" (select)",
+>  		" (epoll)",
+> @@ -1677,8 +1677,8 @@ int testUserPtr(struct node *node, struct node *node_m2m_cap, unsigned frame_cou
+>  			}
+>  		}
+>  		// captureBufs() will update these values
+> -		memset(max_bytesused, 0, sizeof(max_bytesused));
+> -		memset(min_data_offset, 0xff, sizeof(min_data_offset));
+> +		max_bytesused = {};
+> +		min_data_offset.fill(0xff);
+>  
+>  		fail_on_test(setupUserPtr(node, q));
+>  
+> @@ -2900,9 +2900,10 @@ static void streamFmt(struct node *node, __u32 pixelformat, __u32 w, __u32 h,
+>  		return;
+>  	}
+>  
+> -	v4l2_selection *selections[2][4] = {
+> -		{ &min_crop, &max_crop, &min_compose, &max_compose },
+> -		{ &min_compose, &max_compose, &min_crop, &max_crop }
+> +	using sel = std::array<v4l2_selection *, 4>;
+> +	std::array<sel, 2> selections{
+> +		sel{ &min_crop, &max_crop, &min_compose, &max_compose },
+> +		sel{ &min_compose, &max_compose, &min_crop, &max_crop },
+>  	};
+>  
+>  	selTest test = createSelTest(node);
+> diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
+> index 3761b1fa9..0ef89544c 100644
+> --- a/utils/v4l2-compliance/v4l2-test-formats.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
+> @@ -27,7 +27,7 @@
+>  #include "compiler.h"
+>  #include "v4l2-compliance.h"
+>  
+> -static constexpr __u32 buftype2cap[] = {
+> +static constexpr std::array<__u32, 15> buftype2cap{
+>  	0,
+>  	V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_M2M,
+>  	V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_VIDEO_M2M,
+> @@ -1095,7 +1095,7 @@ int testSetFormats(struct node *node)
+>  {
+>  	struct v4l2_clip clip, clip_set;
+>  	struct v4l2_format fmt, fmt_set;
+> -	struct v4l2_format initial_fmts[V4L2_BUF_TYPE_LAST + 1];
+> +	std::array<v4l2_format, V4L2_BUF_TYPE_LAST + 1> initial_fmts;
+>  	int type;
+>  	int ret;
+>  
+> 
+
