@@ -2,157 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BDAE390EF1
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 05:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA4E03910D7
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 08:42:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231338AbhEZDnq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 May 2021 23:43:46 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:35847 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230313AbhEZDnp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 May 2021 23:43:45 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id lkQplQBe7WkKblkQvlBdZw; Wed, 26 May 2021 05:42:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622000533; bh=yW6sBTvV2uFJdpPzKHT7scF+D9i7a9iBykfbpauRbYc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=AmyDr/7bKzmDnZcPQzgML89Ap9S+DIptBNViCYKzWzj5Oku4UVENtvyddPcYSHhPv
-         B/dQrfXBR9oHFwQRK7m+LiD23CIflORA0FfGwd2e89jQmi9ofSrajazgzvKSJakAH/
-         dKSMEFflOSg5lvfC46GZMDEclOz+0GIaZ4P1r2i8cTEGC/RdY1hZXxqnFMBpHMWhk8
-         reDSLra6taqH/lwCIbO4HfStTkTRoGQritO2NAxP8bZzUXZsKXEJC6Dc1IFPamxxEE
-         R1qxYlPQ8ExvdIcChFKOWLJTP1raTBGC4pSt5+mqKwG+bcFX8iUm28RZ9l6h6tpEzh
-         eu/tJm2KoZbYA==
-Message-ID: <6c3c51822842c16f28fa4419cb19a447@smtp-cloud8.xs4all.net>
-Date:   Wed, 26 May 2021 05:42:07 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfDalZg3PcudQWLZO+48EVMLO9l9AdJij4T12fE5c+8xfeWLrtTis8a9m7VajcfFHV0mnnVINgmsQCjgLkoJ2mwNaaIaTaRlQpfpTjy+aphhnKcaoBnEF
- 9YHvbeUhZcHB+fAlCElq5XLT2PYH3Je4yrob7vytR+p9wDa1zIKfXfSI0tbkuSQoSFWph2J2f918iDIUgKeBUibCqzDkNotX1I/MjnlAWPntGIJwe6dZMp2P
- xu/rzHcvcnZlk9EBYrkH2w==
+        id S232571AbhEZGo0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 02:44:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57066 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230419AbhEZGoZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 May 2021 02:44:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E48EC613C3;
+        Wed, 26 May 2021 06:42:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1622011373;
+        bh=lEpDCkdGFxeAtsrwix5D4X1FiG+U93Ll7WS12qIJF1k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MA5ONux5V0tTneMn7Of6bbOMAxEYY3vkFYvARGb4wbTeAH5AJYidLmZxwSxg4fQLJ
+         Lk9PQCjml2RMsDLy+iRyO8+y1vH6b36scZTH8HHMHDbW7qzvdKAF15vVfI1uHZatmI
+         OTdye/DISGOOo5dLCpK4S0x/kRT/f3EzYtJYNF5U=
+Date:   Wed, 26 May 2021 08:42:51 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Hridya Valsaraju <hridya@google.com>
+Cc:     daniel@ffwll.ch, Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        kernel-team@android.com, john.stultz@linaro.org, surenb@google.com,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v4] dmabuf: Add the capability to expose DMA-BUF stats in
+ sysfs
+Message-ID: <YK3t6+kOVSkGOuyb@kroah.com>
+References: <20210525183720.1739480-1-hridya@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210525183720.1739480-1-hridya@google.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, May 25, 2021 at 11:37:13AM -0700, Hridya Valsaraju wrote:
+> This patch allows statistics to be enabled for each DMA-BUF in
+> sysfs by enabling the config CONFIG_DMABUF_SYSFS_STATS.
+> 
+> The following stats will be exposed by the interface:
+> 
+> /sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
+> /sys/kernel/dmabuf/buffers/<inode_number>/size
+> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/device
+> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_counter
+> 
+> The inode_number is unique for each DMA-BUF and was added earlier [1]
+> in order to allow userspace to track DMA-BUF usage across different
+> processes.
+> 
+> Currently, this information is exposed in
+> /sys/kernel/debug/dma_buf/bufinfo.
+> However, since debugfs is considered unsafe to be mounted in production,
+> it is being duplicated in sysfs.
+> 
+> Procfs also uses the proc/<pid>/fdinfo/<fd> file to expose some
+> information about DMA-BUF fds. However, the existing procfs interfaces
+> can only provide information about the buffers for which processes
+> hold fds or have the buffers mmapped into their address space.
+> The sysfs interface also exposes attachment statistics for each buffer.
+> 
+> This information will be used to derive DMA-BUF
+> per-exporter stats and per-device usage stats for Android Bug reports.
+> The corresponding userspace changes can be found at [2].
+> Telemetry tools will also capture this information(along with other
+> memory metrics) periodically as well as on important events like a
+> foreground app kill (which might have been triggered by Low Memory
+> Killer). It will also contribute to provide a snapshot of the system
+> memory usage on other events such as OOM kills and Application Not
+> Responding events.
+> 
+> A shell script that can be run on a classic Linux environment to read
+> out the DMA-BUF statistics can be found at [3](suggested by John
+> Stultz).
+> 
+> The patch contains the following major improvements over v1:
+> 1) Each attachment is represented by its own directory to allow creating
+> a symlink to the importing device and to also provide room for future
+> expansion.
+> 2) The number of distinct mappings of each attachment is exposed in a
+> separate file.
+> 3) The per-buffer statistics are now in /sys/kernel/dmabuf/buffers
+> inorder to make the interface expandable in future.
+> 
+> All of the improvements above are based on suggestions/feedback from
+> Daniel Vetter and Christian König.
+> 
+> [1]: https://lore.kernel.org/patchwork/patch/1088791/
+> [2]: https://android-review.googlesource.com/q/topic:%22dmabuf-sysfs%22+(status:open%20OR%20status:merged)
+> [3]: https://android-review.googlesource.com/c/platform/system/memory/libmeminfo/+/1549734
+> 
+> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
 
-Results of the daily build of media_tree:
-
-date:			Wed May 26 05:00:11 CEST 2021
-media-tree git hash:	bb9212fd971035597d264fc6a7cc4df0db9b5fd0
-media_build git hash:	fe2dddd7a72848ec66131d15c4f1893db7daf84b
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7445-g58776ae33
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
-
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13-rc1-i686: OK
-linux-5.13-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
