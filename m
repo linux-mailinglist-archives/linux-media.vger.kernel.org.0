@@ -2,84 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5C39391A5D
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 16:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15BB9391AA3
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 16:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234893AbhEZOhY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 10:37:24 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:50246 "EHLO mail.ispras.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234894AbhEZOhP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 10:37:15 -0400
-Received: from hellwig.intra.ispras.ru (unknown [10.10.2.182])
-        by mail.ispras.ru (Postfix) with ESMTPS id 8FFE54076B20;
-        Wed, 26 May 2021 14:35:26 +0000 (UTC)
-From:   Evgeny Novikov <novikov@ispras.ru>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Evgeny Novikov <novikov@ispras.ru>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Vaibhav Gupta <vaibhavgupta40@gmail.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ldv-project@linuxtesting.org
-Subject: [PATCH] media: marvell-ccic: set error code in probe
-Date:   Wed, 26 May 2021 17:35:06 +0300
-Message-Id: <20210526143506.6945-1-novikov@ispras.ru>
-X-Mailer: git-send-email 2.26.2
+        id S235045AbhEZOtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 10:49:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37236 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234893AbhEZOtO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 May 2021 10:49:14 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69CEBC061574
+        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 07:47:43 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id lz27so2855475ejb.11
+        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 07:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2pe98/RoIUXzCDVRxl/xmCe1bCIiBUSFO5AAZsF4X4c=;
+        b=h94NIhsp+w3WAlSlG/RIZFeoRUXlWWGh4MUY7MPq33t4R8i542F2d1Bn3c3CbpuLJw
+         8E9PckNT1KmkLBXPdrMieCm34iPGxD2QNx/vbfa9IJOjBZWzFUNNmPAk3bbtzaVBSS10
+         M/y2KJxI9YmGDgD9ZllCWYAUqxrmTR6wcWyw0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2pe98/RoIUXzCDVRxl/xmCe1bCIiBUSFO5AAZsF4X4c=;
+        b=Wv8ziigVn3dx3wQ/TEie7LwX5Gx6kJdTaNfMeQ+gfooOaJaFP7TBi/K16n69xFwAG1
+         4SxXK1T7MccducnSAL4NyoiDIuL802MiF6yigFShBR1ildkAXkGTlT+/GtWoaUQmqKmv
+         AMRIRWfs+POI7+u0YeH0tK6K57DwNxqFPvs0gihT6HUWC5M+gtDFHOD3IjUMr51w20s9
+         UZQWtUeAsn4qEm984wPf6k2vCamrTUzdGyF2YgkR4BhALnFAPo83uwjwR0ZE2l8MYXLr
+         5gvzV89Xtd+KMfmtpJdUjpmVd/kF9hCVkKhAmHMLULPBGg7dOGvli/yHQ4nH6gT4+FSh
+         pZdA==
+X-Gm-Message-State: AOAM531Vm36M5iRbw9YJWzN5gZsJIc4JFtFKOqIVjrAkiv+6pzr/+alR
+        pnMWeY/L7F2GZ/QOKPl30ufelw==
+X-Google-Smtp-Source: ABdhPJyZXNX9KlZUymaUExm4VcJW+33SUT6/OqBDRweUqpdn0+dxFRpT1SmpiGNhYHWVqDtPVWG2gw==
+X-Received: by 2002:a17:906:7696:: with SMTP id o22mr1161838ejm.298.1622040462052;
+        Wed, 26 May 2021 07:47:42 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id fb19sm10466212ejc.10.2021.05.26.07.47.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 May 2021 07:47:41 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 1/3] dma-buf: Require VM_PFNMAP vma for mmap
+Date:   Wed, 26 May 2021 16:47:34 +0200
+Message-Id: <20210526144736.3277595-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When i2c_new_client_device() fails, cafe_pci_probe() cleans up all
-resources and returns 0. The patch sets the error code on the
-corresponding path.
+tldr; DMA buffers aren't normal memory, expecting that you can use
+them like that (like calling get_user_pages works, or that they're
+accounting like any other normal memory) cannot be guaranteed.
 
-Found by Linux Driver Verification project (linuxtesting.org).
+Since some userspace only runs on integrated devices, where all
+buffers are actually all resident system memory, there's a huge
+temptation to assume that a struct page is always present and useable
+like for any more pagecache backed mmap. This has the potential to
+result in a uapi nightmare.
 
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
+blocks get_user_pages and all the other struct page based
+infrastructure for everyone. In spirit this is the uapi counterpart to
+the kernel-internal CONFIG_DMABUF_DEBUG.
+
+Motivated by a recent patch which wanted to swich the system dma-buf
+heap to vm_insert_page instead of vm_insert_pfn.
+
+v2:
+
+Jason brought up that we also want to guarantee that all ptes have the
+pte_special flag set, to catch fast get_user_pages (on architectures
+that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
+still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
+
+From auditing the various functions to insert pfn pte entires
+(vm_insert_pfn_prot, remap_pfn_range and all it's callers like
+dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
+this should be the correct flag to check for.
+
+References: https://lore.kernel.org/lkml/CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com/
+Acked-by: Christian König <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+--
+Resending this so I can test the next two patches for vgem/shmem in
+intel-gfx-ci. Last round failed somehow, but I can't repro that at all
+locally here.
+
+No immediate plans to merge this patch here since ttm isn't addressed
+yet (and there we have the hugepte issue, for which I don't think we
+have a clear consensus yet).
+-Daniel
 ---
- drivers/media/platform/marvell-ccic/cafe-driver.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/dma-buf/dma-buf.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/marvell-ccic/cafe-driver.c b/drivers/media/platform/marvell-ccic/cafe-driver.c
-index baac86f3d153..9aa374fa8b36 100644
---- a/drivers/media/platform/marvell-ccic/cafe-driver.c
-+++ b/drivers/media/platform/marvell-ccic/cafe-driver.c
-@@ -486,6 +486,7 @@ static int cafe_pci_probe(struct pci_dev *pdev,
- 	struct cafe_camera *cam;
- 	struct mcam_camera *mcam;
- 	struct v4l2_async_subdev *asd;
-+	struct i2c_client *i2c_dev;
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index eadd1eaa2fb5..dda583fb1f03 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -127,6 +127,7 @@ static struct file_system_type dma_buf_fs_type = {
+ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ {
+ 	struct dma_buf *dmabuf;
++	int ret;
  
- 	/*
- 	 * Start putting together one of our big camera structures.
-@@ -561,11 +562,16 @@ static int cafe_pci_probe(struct pci_dev *pdev,
- 	clkdev_create(mcam->mclk, "xclk", "%d-%04x",
- 		i2c_adapter_id(cam->i2c_adapter), ov7670_info.addr);
+ 	if (!is_dma_buf_file(file))
+ 		return -EINVAL;
+@@ -142,7 +143,11 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ 	    dmabuf->size >> PAGE_SHIFT)
+ 		return -EINVAL;
  
--	if (!IS_ERR(i2c_new_client_device(cam->i2c_adapter, &ov7670_info))) {
--		cam->registered = 1;
--		return 0;
-+	i2c_dev = i2c_new_client_device(cam->i2c_adapter, &ov7670_info);
-+	if (IS_ERR(i2c_dev)) {
-+		ret = PTR_ERR(i2c_dev);
-+		goto out_mccic_shutdown;
- 	}
- 
-+	cam->registered = 1;
-+	return 0;
+-	return dmabuf->ops->mmap(dmabuf, vma);
++	ret = dmabuf->ops->mmap(dmabuf, vma);
 +
-+out_mccic_shutdown:
- 	mccic_shutdown(mcam);
- out_smbus_shutdown:
- 	cafe_smbus_shutdown(cam);
++	WARN_ON(!(vma->vm_flags & VM_PFNMAP));
++
++	return ret;
+ }
+ 
+ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
+@@ -1244,6 +1249,8 @@ EXPORT_SYMBOL_GPL(dma_buf_end_cpu_access);
+ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 		 unsigned long pgoff)
+ {
++	int ret;
++
+ 	if (WARN_ON(!dmabuf || !vma))
+ 		return -EINVAL;
+ 
+@@ -1264,7 +1271,11 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 	vma_set_file(vma, dmabuf->file);
+ 	vma->vm_pgoff = pgoff;
+ 
+-	return dmabuf->ops->mmap(dmabuf, vma);
++	ret = dmabuf->ops->mmap(dmabuf, vma);
++
++	WARN_ON(!(vma->vm_flags & VM_PFNMAP));
++
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_mmap);
+ 
 -- 
-2.26.2
+2.31.0
 
