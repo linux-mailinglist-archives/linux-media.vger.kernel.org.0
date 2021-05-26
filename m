@@ -2,94 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF929391243
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 10:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3872C391272
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 10:35:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231960AbhEZI1D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 04:27:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34342 "EHLO
+        id S232376AbhEZIhD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 04:37:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233134AbhEZI0x (ORCPT
+        with ESMTP id S232019AbhEZIhC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 04:26:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8204CC061760
-        for <linux-media@vger.kernel.org>; Wed, 26 May 2021 01:25:20 -0700 (PDT)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE411332;
-        Wed, 26 May 2021 10:25:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622017516;
-        bh=dVZAzXcvDGM/hvLuczKlcxRdQcNWL3OuJ7HsuP0g7gQ=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=UIVcedOexy2jTsIJyqWkLYj5Ck67oJvCDhddEX4Kix+oXiSq0LjWT4fs1g5bDmX7h
-         OXSXqUJpyziua99SD/5DicR9cuu7OFigpXQQn/n2IQ+hdk8bgn2nbf6bMm39mAYZdX
-         RVXMBZ8HPVik/ClXaRB7dq3DWvgzqK8u5SnjoW0g=
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v7 00/27] v4l: subdev internal routing and streams
-Message-ID: <cbb00787-d866-af91-33fa-fd8d265bc856@ideasonboard.com>
-Date:   Wed, 26 May 2021 11:25:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Wed, 26 May 2021 04:37:02 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34BF8C061574;
+        Wed, 26 May 2021 01:35:30 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id m124so323570pgm.13;
+        Wed, 26 May 2021 01:35:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7ovUdr/UfZiAvf5V9cZ5izxdltN0dsbmxECPugreCcc=;
+        b=PlV4lm9zksTMWU2VF5e2dObRzVzujrnJeTPmvV2yo/TmK8mhjalW4d8kThw2M+DgbL
+         dLpujD7+2LpXhQP3oN1fDf+j7dakOa3jEMenKqxZNxTACz4B98oOR++aCmUwm8yHwhn1
+         6NJTqXGLglJ3z9dyhRGnvLQORBldoNwN9U9eIOLCGmbstObrgLIrODe9DOPazCt6Cc08
+         4IWru3TxFkQt3aVbqfV3uX6zVCLycJ4UpdKBAvTD1VhJnq1B6pudwW3lwM4NN+RJUS90
+         iZeXv9N0B5rdJhARItnBiVcaukutRa8w2KqT6zPsDTgbrp7iiAim0MMMOpUWgfrVNGxO
+         kV2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7ovUdr/UfZiAvf5V9cZ5izxdltN0dsbmxECPugreCcc=;
+        b=hsi4VSa0/eQBQfOgy3mLgSkCx+JdjuC98b7QzYYUPGdabQW2nbbR/RWaoMnMc6TLc/
+         7h/CVS2Vj9rwNhoULKTsEPScAWY1xBcatg7UvZxcaUBwAv8PC+0GU5yEJ0Nlx0FASgVa
+         4lq82E+m/U5P0TwkTIbhwn4jQfc8qxalW+NPsgf9yvNmq0xsWYBAQvQE8VkcVWqkHP0R
+         dmCftAajB/ftzVO10rSrAPdy4qoTT30GO/Kj0AfnL6fi9J2duEYSN0Ti03i+bp2dAcGU
+         AG65xh2TLIlotZHS2c/MLOED/9slmnRT+atgIYUegsztFH6i6pLRASdem9dwbL69xbX8
+         sDMA==
+X-Gm-Message-State: AOAM530HsDBfWfDW6NMyNeLxMAZq1wSWB047No2wFU8vp6k4ohxWgq3A
+        +qi0PbvV+ZFdhlU0BAX40VxmjiqQCD04HzR/KxM=
+X-Google-Smtp-Source: ABdhPJykHhYQRw2KLnTaZd2rOvYqPSCPl/TfNeQJ6g8tjppPtu4A7EllMGHNwfM2YQFThKaa1GniRjEN2zy5ZGeU7sk=
+X-Received: by 2002:a63:b507:: with SMTP id y7mr16323273pge.74.1622018129671;
+ Wed, 26 May 2021 01:35:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210519210253.3578025-1-andy.shevchenko@gmail.com>
+ <CAJZ5v0in=qEtVULLF=RwBTiFqiRK-DyPfD4F6uUAqeUfPFB8QQ@mail.gmail.com>
+ <CAJZ5v0hsDpGtLHPQvcnof3c1LBnhoZSwWyHJdj1mOov9gV_W8A@mail.gmail.com> <50903d09-96f8-0dc9-a1f7-21bf1543b15a@gmail.com>
+In-Reply-To: <50903d09-96f8-0dc9-a1f7-21bf1543b15a@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 26 May 2021 11:35:13 +0300
+Message-ID: <CAHp75VeON6netzJAw0YR=wQBBabvQNpqSpY8MwDSxsTabpMZow@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] ACPI: utils: Fix reference counting in for_each_acpi_dev_match()
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/05/2021 13:43, Tomi Valkeinen wrote:
-> Hi,
-> 
-> This is v7 of the series, the previous one is:
-> 
-> https://lore.kernel.org/linux-media/20210427124523.990938-1-tomi.valkeinen@ideasonboard.com/
-> 
-> In this version I have changed the approach to multiplexed streams, and
-> I went with the approach described in the RFC I sent:
-> 
-> https://lore.kernel.org/linux-media/20210507123558.146948-1-tomi.valkeinen@ideasonboard.com/
-> 
-> The main change is that in this series each pad+stream combination can
-> have its own configuration, versus only pad having its own
-> configuration. In other words, a pad with 4 streams will contain 4
-> configurations.
-> 
-> The patches up to and including "v4l: Add stream to frame descriptor"
-> are the same as previously, except changes done according to the review
-> comments. After that, the new pad+stream approach is implemented.
-> 
-> This series is based on the subdev-wide state change:
-> 
-> https://lore.kernel.org/linux-media/20210519091558.562318-1-tomi.valkeinen@ideasonboard.com/
+On Wed, May 26, 2021 at 1:29 AM Daniel Scally <djrscally@gmail.com> wrote:
+> On 20/05/2021 20:40, Rafael J. Wysocki wrote:
+> > On Thu, May 20, 2021 at 9:13 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> >> On Wed, May 19, 2021 at 11:19 PM Andy Shevchenko
+> >> <andy.shevchenko@gmail.com> wrote:
+> >>> Currently it's possible to iterate over the dangling pointer in case the device
+> >>> suddenly disappears. This may happen becase callers put it at the end of a loop.
+> >>>
+> >>> Instead, let's move that call inside acpi_dev_get_next_match_dev().
+> >> Not really.
+> > OK, I see what you want to achieve and the macro is actually buggy,
+> > because it leaves unbalanced references behind.
+>
+>
+> Yeah; I guess the originally intended use (which was "get all these
+> devices") doesn't really tally with the naming or with the operation of
+> similar functions in the kernel like the fwnode_handle ops; sorry about
+> that. Anyway; I think Andy's fix is the right way to do it, so the
+> calling code's responsible for holding onto a reference if it wants to
+> keep it.
 
-While working on a few prototype bridge and sensor drivers I realized 
-that I had been missing one thing here. So far I had always used "stream 
-pipelines" which start from the sensor and go to the capture device with 
-1-to-1 routes. But I have a bridge which can "split" the input stream 
-into two streams, which didn't work with the approach in this series.
+I think we need to postpone the fix till v5.14-rc1 is out. It appears
+that some code has been changed in EFI and media subsystems so that
+patch will be in conflict with.
 
-The change was a very minor one, essentially just allowing a routing 
-table like this:
 
-(0, 0) -> (4, 0)
-(0, 0) -> (4, 1)
-
-In other words, stream 0 from pad 0 goes to pad 4 as both stream 0 and 
-stream 1. What exactly that means is of course device specific. In my 
-case it means that the bridge takes a full frame as input, but outputs 3 
-first lines tagged with CSI-2 metadata datatype, and the rest of the 
-frame as CSI-2 pixel data.
-
-  Tomi
+-- 
+With Best Regards,
+Andy Shevchenko
