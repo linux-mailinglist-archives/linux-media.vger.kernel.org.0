@@ -2,224 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 083B239154D
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 12:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 774083915BB
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 13:11:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234178AbhEZKsh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 06:48:37 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:52495 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234180AbhEZKsd (ORCPT
+        id S234194AbhEZLMf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 07:12:35 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60132 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234006AbhEZLMe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 06:48:33 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id lr3wlSo2AWkKblr40lCjKn; Wed, 26 May 2021 12:47:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622026020; bh=i3YFUAbeRpgtR5w8IcoIAuRWN20XFA+ykFnFhUAN4qE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=NNwNFzC+QaN5biEQBZT9esQ0ObcSsIaS7r8O0XZECcNai6wu26n8jik+pNmLnt4ug
-         Fq4nYiKtE9xMug2tBNjW1Otl9y9++lkEaOYJqRGr+Vo0M0dT4kn1t0+L+83BByOg12
-         i0qujg5tqkyxrlvIyzAond0n4PRzYgnn9S1YLjlrtrYvWgw15bFpCwFziWFWX3lmi4
-         gh3NTbZJPBqbg+SY+gBv1NbzL7kMo/tKGzVHBFSa5lhWv/+u7Z/T/MKGgBncMkBl8/
-         HBgSYsA9QvA8cuekXscHr8epA84quesap4DlrDEQvt8M88PvBd/5G1xXedjF+5KUo9
-         v6IdUz3L1RLYg==
-Subject: Re: [PATCH V3 1/6] PCI: Use cached Device Capabilities Register
-To:     Dongdong Liu <liudongdong3@huawei.com>, helgaas@kernel.org,
-        hch@infradead.org, linux-pci@vger.kernel.org, rajur@chelsio.com
-Cc:     linux-media@vger.kernel.org, netdev@vger.kernel.org
-References: <20210512143737.42352-1-liudongdong3@huawei.com>
- <20210512143737.42352-2-liudongdong3@huawei.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2030c1c1-6060-2b5f-74d9-f53f89e442e6@xs4all.nl>
-Date:   Wed, 26 May 2021 12:46:56 +0200
+        Wed, 26 May 2021 07:12:34 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: benjamin.gaignard)
+        with ESMTPSA id B44E51F42E68
+Subject: Re: [PATCH v11 9/9] media: hantro: IMX8M: add variant for G2/HEVC
+ codec
+To:     Hans Verkuil <hverkuil@xs4all.nl>, ezequiel@collabora.com,
+        p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, festevam@gmail.com,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20210525161238.1191168-1-benjamin.gaignard@collabora.com>
+ <20210525161238.1191168-10-benjamin.gaignard@collabora.com>
+ <1454f153-c04b-6b90-8467-54bb33c6f3fa@xs4all.nl>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <3bd6a50d-6a70-ec17-2e9e-bb515ad5e832@collabora.com>
+Date:   Wed, 26 May 2021 13:10:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210512143737.42352-2-liudongdong3@huawei.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1454f153-c04b-6b90-8467-54bb33c6f3fa@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLq7nGd6H/vP7IpWMLlg9Zd2nt3WmaFvnfVkhO8OysaMrGg5pvsCT8yfJ2DSvIWJNWEyhEJCMlYmnBKjINHYi4TxCCF73bImnhGxpp8X0GjWuTmhpsc3
- KN+AmbKq4IOAeglg42+CYraJNNFr+QBnc5WedtvgzVdhDvanfx4Cx/0by7ynlrVDurq3OkE2hXjjl3uO1m7PCmSDHckttRmWQsGxFZGXTnb/xPcoXTiXYH9F
- R2bEq47YRXHY7U0SD7+qNzZnAcMCxGfyduqwXTulkUeFCcnlhHFyNZZ1KckKk2dQjwoB66jtm6aUx5CrOJYJ8Tj5FLrPlrypkfBJ8OCrhMZZTbVgVQqDaWxW
- gDMvZrK+Cu2nJYaAhTfR1UFXPUzcDCylNeg+kbYYdYPWHm+KZdA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/05/2021 16:37, Dongdong Liu wrote:
-> It will make sense to store the pcie_devcap value in the pci_dev
-> structure instead of reading Device Capabilities Register multiple
-> times. The fisrt place to use pcie_devcap is in set_pcie_port_type(),
-> get the pcie_devcap value here, then use cached pcie_devcap in the
-> needed place.
-> 
-> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
-> ---
->  drivers/media/pci/cobalt/cobalt-driver.c |  4 ++--
 
-For the cobalt driver:
+Le 26/05/2021 à 11:52, Hans Verkuil a écrit :
+> On 25/05/2021 18:12, Benjamin Gaignard wrote:
+>> Add variant to IMX8M to enable G2/HEVC codec.
+>> Define the capabilities for the hardware up to 3840x2160.
+>> G2 doesn't have a postprocessor, uses the same clocks and has it
+>> own interrupt.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+>> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+>> ---
+>>   drivers/staging/media/hantro/hantro_drv.c   |  1 +
+>>   drivers/staging/media/hantro/hantro_hw.h    |  1 +
+>>   drivers/staging/media/hantro/imx8m_vpu_hw.c | 96 ++++++++++++++++++++-
+>>   3 files changed, 96 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+>> index ae8a0037706f..507cd5b454b3 100644
+>> --- a/drivers/staging/media/hantro/hantro_drv.c
+>> +++ b/drivers/staging/media/hantro/hantro_drv.c
+>> @@ -588,6 +588,7 @@ static const struct of_device_id of_hantro_match[] = {
+>>   #endif
+>>   #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+>>   	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
+>> +	{ .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
+>  From checkpatch:
+>
+> WARNING: DT compatible string "nxp,imx8mq-vpu-g2" appears un-documented -- check ./Documentation/devicetree/bindings/
+> #29: FILE: drivers/staging/media/hantro/hantro_drv.c:591:
+> +       { .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
+>
+> Is a patch missing for bindings adding "nxp,imx8mq-vpu-g2"?
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+The DT and bindings patches are delayed because NXP guys want to use power domain to drive
+the control block:
+https://lore.kernel.org/linux-media/20210407073534.376722-1-benjamin.gaignard@collabora.com/T/#m6bd571fee94b1b1fa5c5d3fa6315ae5c9f4c8fad
 
 Regards,
+Benjamin
 
-	Hans
-
->  drivers/pci/pci.c                        |  5 +----
->  drivers/pci/pcie/aspm.c                  | 11 ++++-------
->  drivers/pci/probe.c                      | 11 +++--------
->  drivers/pci/quirks.c                     |  3 +--
->  include/linux/pci.h                      |  1 +
->  6 files changed, 12 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
-> index 839503e..04e735f 100644
-> --- a/drivers/media/pci/cobalt/cobalt-driver.c
-> +++ b/drivers/media/pci/cobalt/cobalt-driver.c
-> @@ -193,11 +193,11 @@ void cobalt_pcie_status_show(struct cobalt *cobalt)
->  		return;
-> 
->  	/* Device */
-> -	pcie_capability_read_dword(pci_dev, PCI_EXP_DEVCAP, &capa);
->  	pcie_capability_read_word(pci_dev, PCI_EXP_DEVCTL, &ctrl);
->  	pcie_capability_read_word(pci_dev, PCI_EXP_DEVSTA, &stat);
->  	cobalt_info("PCIe device capability 0x%08x: Max payload %d\n",
-> -		    capa, get_payload_size(capa & PCI_EXP_DEVCAP_PAYLOAD));
-> +		    capa,
-> +		    get_payload_size(pci_dev->pcie_devcap & PCI_EXP_DEVCAP_PAYLOAD));
->  	cobalt_info("PCIe device control 0x%04x: Max payload %d. Max read request %d\n",
->  		    ctrl,
->  		    get_payload_size((ctrl & PCI_EXP_DEVCTL_PAYLOAD) >> 5),
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index b717680..68ccd77 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -4620,13 +4620,10 @@ EXPORT_SYMBOL(pci_wait_for_pending_transaction);
->   */
->  bool pcie_has_flr(struct pci_dev *dev)
->  {
-> -	u32 cap;
-> -
->  	if (dev->dev_flags & PCI_DEV_FLAGS_NO_FLR_RESET)
->  		return false;
-> 
-> -	pcie_capability_read_dword(dev, PCI_EXP_DEVCAP, &cap);
-> -	return cap & PCI_EXP_DEVCAP_FLR;
-> +	return dev->pcie_devcap & PCI_EXP_DEVCAP_FLR;
->  }
->  EXPORT_SYMBOL_GPL(pcie_has_flr);
-> 
-> diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
-> index ac0557a..d637564 100644
-> --- a/drivers/pci/pcie/aspm.c
-> +++ b/drivers/pci/pcie/aspm.c
-> @@ -660,7 +660,7 @@ static void pcie_aspm_cap_init(struct pcie_link_state *link, int blacklist)
-> 
->  	/* Get and check endpoint acceptable latencies */
->  	list_for_each_entry(child, &linkbus->devices, bus_list) {
-> -		u32 reg32, encoding;
-> +		u32 encoding;
->  		struct aspm_latency *acceptable =
->  			&link->acceptable[PCI_FUNC(child->devfn)];
-> 
-> @@ -668,12 +668,11 @@ static void pcie_aspm_cap_init(struct pcie_link_state *link, int blacklist)
->  		    pci_pcie_type(child) != PCI_EXP_TYPE_LEG_END)
->  			continue;
-> 
-> -		pcie_capability_read_dword(child, PCI_EXP_DEVCAP, &reg32);
->  		/* Calculate endpoint L0s acceptable latency */
-> -		encoding = (reg32 & PCI_EXP_DEVCAP_L0S) >> 6;
-> +		encoding = (child->pcie_devcap & PCI_EXP_DEVCAP_L0S) >> 6;
->  		acceptable->l0s = calc_l0s_acceptable(encoding);
->  		/* Calculate endpoint L1 acceptable latency */
-> -		encoding = (reg32 & PCI_EXP_DEVCAP_L1) >> 9;
-> +		encoding = (child->pcie_devcap & PCI_EXP_DEVCAP_L1) >> 9;
->  		acceptable->l1 = calc_l1_acceptable(encoding);
-> 
->  		pcie_aspm_check_latency(child);
-> @@ -808,7 +807,6 @@ static void free_link_state(struct pcie_link_state *link)
->  static int pcie_aspm_sanity_check(struct pci_dev *pdev)
->  {
->  	struct pci_dev *child;
-> -	u32 reg32;
-> 
->  	/*
->  	 * Some functions in a slot might not all be PCIe functions,
-> @@ -831,8 +829,7 @@ static int pcie_aspm_sanity_check(struct pci_dev *pdev)
->  		 * Disable ASPM for pre-1.1 PCIe device, we follow MS to use
->  		 * RBER bit to determine if a function is 1.1 version device
->  		 */
-> -		pcie_capability_read_dword(child, PCI_EXP_DEVCAP, &reg32);
-> -		if (!(reg32 & PCI_EXP_DEVCAP_RBER) && !aspm_force) {
-> +		if (!(child->pcie_devcap & PCI_EXP_DEVCAP_RBER) && !aspm_force) {
->  			pci_info(child, "disabling ASPM on pre-1.1 PCIe device.  You can enable it with 'pcie_aspm=force'\n");
->  			return -EINVAL;
->  		}
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index 3a62d09..7963ab2 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -1497,8 +1497,8 @@ void set_pcie_port_type(struct pci_dev *pdev)
->  	pdev->pcie_cap = pos;
->  	pci_read_config_word(pdev, pos + PCI_EXP_FLAGS, &reg16);
->  	pdev->pcie_flags_reg = reg16;
-> -	pci_read_config_word(pdev, pos + PCI_EXP_DEVCAP, &reg16);
-> -	pdev->pcie_mpss = reg16 & PCI_EXP_DEVCAP_PAYLOAD;
-> +	pci_read_config_dword(pdev, pos + PCI_EXP_DEVCAP, &pdev->pcie_devcap);
-> +	pdev->pcie_mpss = pdev->pcie_devcap & PCI_EXP_DEVCAP_PAYLOAD;
-> 
->  	parent = pci_upstream_bridge(pdev);
->  	if (!parent)
-> @@ -2008,18 +2008,13 @@ static void pci_configure_mps(struct pci_dev *dev)
->  int pci_configure_extended_tags(struct pci_dev *dev, void *ign)
->  {
->  	struct pci_host_bridge *host;
-> -	u32 cap;
->  	u16 ctl;
->  	int ret;
-> 
->  	if (!pci_is_pcie(dev))
->  		return 0;
-> 
-> -	ret = pcie_capability_read_dword(dev, PCI_EXP_DEVCAP, &cap);
-> -	if (ret)
-> -		return 0;
-> -
-> -	if (!(cap & PCI_EXP_DEVCAP_EXT_TAG))
-> +	if (!(dev->pcie_devcap & PCI_EXP_DEVCAP_EXT_TAG))
->  		return 0;
-> 
->  	ret = pcie_capability_read_word(dev, PCI_EXP_DEVCTL, &ctl);
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index dcb229d..b89b438 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -5073,8 +5073,7 @@ static void quirk_intel_qat_vf_cap(struct pci_dev *pdev)
->  		pdev->pcie_cap = pos;
->  		pci_read_config_word(pdev, pos + PCI_EXP_FLAGS, &reg16);
->  		pdev->pcie_flags_reg = reg16;
-> -		pci_read_config_word(pdev, pos + PCI_EXP_DEVCAP, &reg16);
-> -		pdev->pcie_mpss = reg16 & PCI_EXP_DEVCAP_PAYLOAD;
-> +		pdev->pcie_mpss = pdev->pcie_devcap & PCI_EXP_DEVCAP_PAYLOAD;
-> 
->  		pdev->cfg_size = PCI_CFG_SPACE_EXP_SIZE;
->  		if (pci_read_config_dword(pdev, PCI_CFG_SPACE_SIZE, &status) !=
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index c20211e..555a3ac 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -340,6 +340,7 @@ struct pci_dev {
->  	u8		rom_base_reg;	/* Config register controlling ROM */
->  	u8		pin;		/* Interrupt pin this device uses */
->  	u16		pcie_flags_reg;	/* Cached PCIe Capabilities Register */
-> +	u32		pcie_devcap;	/* Cached Device Capabilities Register */
->  	unsigned long	*dma_alias_mask;/* Mask of enabled devfn aliases */
-> 
->  	struct pci_driver *driver;	/* Driver bound to this device */
-> --
-> 2.7.4
-> 
-
+>
+> Regards,
+>
+> 	Hans
+>
+>
+>>   #endif
+>>   #ifdef CONFIG_VIDEO_HANTRO_SAMA5D4
+>>   	{ .compatible = "microchip,sama5d4-vdec", .data = &sama5d4_vdec_variant, },
+>> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>> index b743b255bf32..5cc083112017 100644
+>> --- a/drivers/staging/media/hantro/hantro_hw.h
+>> +++ b/drivers/staging/media/hantro/hantro_hw.h
+>> @@ -206,6 +206,7 @@ extern const struct hantro_variant rk3328_vpu_variant;
+>>   extern const struct hantro_variant rk3288_vpu_variant;
+>>   extern const struct hantro_variant imx8mq_vpu_variant;
+>>   extern const struct hantro_variant sama5d4_vdec_variant;
+>> +extern const struct hantro_variant imx8mq_vpu_g2_variant;
+>>   
+>>   extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
+>>   
+>> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> index 9eb556460e52..ea152e1e6514 100644
+>> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> @@ -9,6 +9,9 @@
+>>   #include <linux/delay.h>
+>>   
+>>   #include "hantro.h"
+>> +#include "hantro_jpeg.h"
+>> +#include "hantro_g1_regs.h"
+>> +#include "hantro_g2_regs.h"
+>>   
+>>   #define CTRL_SOFT_RESET		0x00
+>>   #define RESET_G1		BIT(1)
+>> @@ -128,6 +131,62 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+>>   	},
+>>   };
+>>   
+>> +static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV12,
+>> +		.codec_mode = HANTRO_MODE_NONE,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
+>> +		.codec_mode = HANTRO_MODE_HEVC_DEC,
+>> +		.max_depth = 2,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 3840,
+>> +			.step_width = MB_DIM,
+>> +			.min_height = 48,
+>> +			.max_height = 2160,
+>> +			.step_height = MB_DIM,
+>> +		},
+>> +	},
+>> +};
+>> +
+>> +static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
+>> +{
+>> +	struct hantro_dev *vpu = dev_id;
+>> +	enum vb2_buffer_state state;
+>> +	u32 status;
+>> +
+>> +	status = vdpu_read(vpu, G1_REG_INTERRUPT);
+>> +	state = (status & G1_REG_INTERRUPT_DEC_RDY_INT) ?
+>> +		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+>> +
+>> +	vdpu_write(vpu, 0, G1_REG_INTERRUPT);
+>> +	vdpu_write(vpu, G1_REG_CONFIG_DEC_CLK_GATE_E, G1_REG_CONFIG);
+>> +
+>> +	hantro_irq_done(vpu, state);
+>> +
+>> +	return IRQ_HANDLED;
+>> +}
+>> +
+>> +static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
+>> +{
+>> +	struct hantro_dev *vpu = dev_id;
+>> +	enum vb2_buffer_state state;
+>> +	u32 status;
+>> +
+>> +	status = vdpu_read(vpu, HEVC_REG_INTERRUPT);
+>> +	state = (status & HEVC_REG_INTERRUPT_DEC_RDY_INT) ?
+>> +		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+>> +
+>> +	vdpu_write(vpu, 0, HEVC_REG_INTERRUPT);
+>> +	vdpu_write(vpu, HEVC_REG_CONFIG_DEC_CLK_GATE_E, HEVC_REG_CONFIG);
+>> +
+>> +	hantro_irq_done(vpu, state);
+>> +
+>> +	return IRQ_HANDLED;
+>> +}
+>> +
+>>   static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
+>>   {
+>>   	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
+>> @@ -142,6 +201,13 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
+>>   	imx8m_soft_reset(vpu, RESET_G1);
+>>   }
+>>   
+>> +static void imx8m_vpu_g2_reset(struct hantro_ctx *ctx)
+>> +{
+>> +	struct hantro_dev *vpu = ctx->dev;
+>> +
+>> +	imx8m_soft_reset(vpu, RESET_G2);
+>> +}
+>> +
+>>   /*
+>>    * Supported codec ops.
+>>    */
+>> @@ -167,13 +233,25 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
+>>   	},
+>>   };
+>>   
+>> +static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
+>> +	[HANTRO_MODE_HEVC_DEC] = {
+>> +		.run = hantro_g2_hevc_dec_run,
+>> +		.reset = imx8m_vpu_g2_reset,
+>> +		.init = hantro_hevc_dec_init,
+>> +		.exit = hantro_hevc_dec_exit,
+>> +	},
+>> +};
+>> +
+>>   /*
+>>    * VPU variants.
+>>    */
+>>   
+>>   static const struct hantro_irq imx8mq_irqs[] = {
+>> -	{ "g1", hantro_g1_irq },
+>> -	{ "g2", NULL /* TODO: imx8m_vpu_g2_irq */ },
+>> +	{ "g1", imx8m_vpu_g1_irq },
+>> +};
+>> +
+>> +static const struct hantro_irq imx8mq_g2_irqs[] = {
+>> +	{ "g2", imx8m_vpu_g2_irq },
+>>   };
+>>   
+>>   static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
+>> @@ -197,3 +275,17 @@ const struct hantro_variant imx8mq_vpu_variant = {
+>>   	.reg_names = imx8mq_reg_names,
+>>   	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
+>>   };
+>> +
+>> +const struct hantro_variant imx8mq_vpu_g2_variant = {
+>> +	.dec_offset = 0x0,
+>> +	.dec_fmts = imx8m_vpu_g2_dec_fmts,
+>> +	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
+>> +	.codec = HANTRO_HEVC_DECODER,
+>> +	.codec_ops = imx8mq_vpu_g2_codec_ops,
+>> +	.init = imx8mq_vpu_hw_init,
+>> +	.runtime_resume = imx8mq_runtime_resume,
+>> +	.irqs = imx8mq_g2_irqs,
+>> +	.num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
+>> +	.clk_names = imx8mq_clk_names,
+>> +	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
+>> +};
+>>
