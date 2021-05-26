@@ -2,150 +2,335 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3806E391DA8
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 19:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1174F391EA8
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 20:05:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234212AbhEZRQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 13:16:31 -0400
-Received: from mga14.intel.com ([192.55.52.115]:5589 "EHLO mga14.intel.com"
+        id S232376AbhEZSGd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 14:06:33 -0400
+Received: from mga03.intel.com ([134.134.136.65]:64716 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234188AbhEZRQa (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 13:16:30 -0400
-IronPort-SDR: ewagfwxBD2wBh9ww41t60xXRMdAHyP5KcHxnGOLd/+JeLhSYUo7G4pNK/Q/EFn9vbcQP2lgQ8C
- wuvGU87+c0JA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="202277177"
+        id S232141AbhEZSGc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 May 2021 14:06:32 -0400
+IronPort-SDR: UuvKA9lbwaoEEbj2VWR/wJ2URBTG9B/Yot0EBmk5yais3Of2Z23me+NrA3vRwXFBltpXBfMmeF
+ jRgFpTEtQsJA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="202567061"
 X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; 
-   d="scan'208";a="202277177"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2021 10:14:57 -0700
-IronPort-SDR: rMn/9UR7w7MAQJDLp/3RxcLw2YnxpI1aQOCKUiXdtLLnZLpVLFCL3enkIKFrPeYR42YtUP0S89
- axXYofxh/3yQ==
+   d="scan'208";a="202567061"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2021 11:05:00 -0700
+IronPort-SDR: q+Lw5fVI2ILUuB/5BDOdnR1q1aySTHvtcBP60NjiUIRsEjrvRhJc0QR6u+qHGzqc4mfRyKJmu3
+ 0MzcNULrEOkw==
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; 
-   d="scan'208";a="615036247"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2021 10:14:49 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id DB3CD2011E;
-        Wed, 26 May 2021 20:14:47 +0300 (EEST)
-Date:   Wed, 26 May 2021 20:14:47 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: Re: [PATCH v5 00/16] Allwinner MIPI CSI-2 support for A31/V3s/A83T
-Message-ID: <20210526171447.GF3@paasikivi.fi.intel.com>
-References: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
- <f92c0812-7e1c-74e4-602b-7a885ef31454@xs4all.nl>
- <YK5M9PyUB4IfuaNU@aptenodytes>
+   d="scan'208";a="444193451"
+Received: from lkp-server02.sh.intel.com (HELO 1ec8406c5392) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 26 May 2021 11:04:59 -0700
+Received: from kbuild by 1ec8406c5392 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1llxtp-0002Ld-KL; Wed, 26 May 2021 18:04:57 +0000
+Date:   Thu, 27 May 2021 02:04:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD SUCCESS WITH WARNING
+ 71c689dc2e732d4cb190aaf0edea73116b1611bd
+Message-ID: <60ae8d9b.wZTxKTqa0/Ljnd3G%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YK5M9PyUB4IfuaNU@aptenodytes>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+tree/branch: git://git.ragnatech.se/linux media-next
+branch HEAD: 71c689dc2e732d4cb190aaf0edea73116b1611bd  media: v4l2-ctrls: split up into four source files
 
-On Wed, May 26, 2021 at 03:28:20PM +0200, Paul Kocialkowski wrote:
-> Hi,
-> 
-> On Wed 26 May 21, 14:00, Hans Verkuil wrote:
-> > Hi Paul,
-> > 
-> > On 15/01/2021 21:01, Paul Kocialkowski wrote:
-> > > This series introduces support for MIPI CSI-2, with the A31 controller that is
-> > > found on most SoCs (A31, V3s and probably V5) as well as the A83T-specific
-> > > controller. While the former uses the same MIPI D-PHY that is already supported
-> > > for DSI, the latter embeds its own D-PHY.
-> > > 
-> > > In order to distinguish the use of the D-PHY between Rx mode (for MIPI CSI-2)
-> > > and Tx mode (for MIPI DSI), a submode is introduced for D-PHY in the PHY API.
-> > > This allows adding Rx support in the A31 D-PHY driver.
-> > > 
-> > > A few changes and fixes are applied to the A31 CSI controller driver, in order
-> > > to support the MIPI CSI-2 use-case.
-> > 
-> > Besides the compile error for patch 2/16, I also get several other compile errors:
-> > 
-> > drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c: In function ‘sun6i_csi_v4l2_fwnode_init’:
-> > ./include/media/v4l2-async.h:207:10: error: expected expression before ‘)’ token
-> >   207 |  ((type *)       \
-> >       |          ^
-> > drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c:790:8: note: in expansion of macro ‘v4l2_async_notifier_add_fwnode_remote_subdev’
-> >   790 |  ret = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier,
-> >       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > ./include/media/v4l2-async.h:207:10: error: expected expression before ‘)’ token
-> >   207 |  ((type *)       \
-> >       |          ^
-> > drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c:811:8: note: in expansion of macro ‘v4l2_async_notifier_add_fwnode_remote_subdev’
-> >   811 |  ret = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier,
-> >       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > make[5]: *** [scripts/Makefile.build:272: drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.o] Error 1
-> > make[5]: *** Waiting for unfinished jobs....
-> > make[4]: *** [scripts/Makefile.build:272: drivers/media/platform/rockchip/rkisp1/rkisp1-isp.o] Error 1
-> > make[3]: *** [scripts/Makefile.build:515: drivers/media/platform/rockchip/rkisp1] Error 2
-> > make[3]: *** Waiting for unfinished jobs....
-> > In file included from ./include/media/v4l2-subdev.h:14,
-> >                  from ./include/media/v4l2-device.h:13,
-> >                  from drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:19:
-> > drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c: In function ‘sun8i_a83t_mipi_csi2_v4l2_setup’:
-> > ./include/media/v4l2-async.h:207:10: error: expected expression before ‘)’ token
-> >   207 |  ((type *)       \
-> >       |          ^
-> > drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c:495:8: note: in expansion of macro
-> > ‘v4l2_async_notifier_add_fwnode_remote_subdev’
-> >   495 |  ret = v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
-> >       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > In file included from ./include/media/v4l2-subdev.h:14,
-> >                  from ./include/media/v4l2-device.h:13,
-> >                  from drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:18:
-> > drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c: In function ‘sun6i_mipi_csi2_v4l2_setup’:
-> > ./include/media/v4l2-async.h:207:10: error: expected expression before ‘)’ token
-> >   207 |  ((type *)       \
-> >       |          ^
-> > drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:437:8: note: in expansion of macro ‘v4l2_async_notifier_add_fwnode_remote_subdev’
-> >   437 |  ret = v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
-> >       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > 
-> > Can you rebase this series?
-> 
-> Thanks for letting me know, I'll look into this for the next iteration.
-> 
-> > I also need Acked-by's for patches 1-3 from one of the PHY maintainers, but as
-> > you mentioned this might need to change as well.
-> > 
-> > Was there a reason why I haven't looked at this before? It's quite an old series,
-> > usually I don't wait for so long. If it was because I was really slow, then I
-> > apologize and please kick me sooner if you see a review like this take so long.
-> 
-> I'm not sure, but Sakari definitely went over previous interations and made
-> various comments,so the series definitely hasn't gone unreviewed!
+possible Warning in current branch:
 
-My acks seem to be missing. Let me go through it. As for Hans: please ping
-if you don't get reviews.
+drivers/media/v4l2-core/v4l2-ctrls-api.c:12:1: iwyu: warning: superfluous #include <linux/slab.h>
+drivers/media/v4l2-core/v4l2-ctrls-api.c:17:1: iwyu: warning: superfluous #include <media/v4l2-ioctl.h>
+drivers/media/v4l2-core/v4l2-ctrls-request.c:14:1: iwyu: warning: superfluous #include <media/v4l2-ioctl.h>
 
--- 
-Kind regards,
+Warning ids grouped by kconfigs:
 
-Sakari Ailus
+clang_recent_errors
+`-- x86_64-randconfig-b001-20210526
+    |-- drivers-media-v4l2-core-v4l2-ctrls-api.c:iwyu:warning:superfluous-include-linux-slab.h
+    |-- drivers-media-v4l2-core-v4l2-ctrls-api.c:iwyu:warning:superfluous-include-media-v4l2-ioctl.h
+    `-- drivers-media-v4l2-core-v4l2-ctrls-request.c:iwyu:warning:superfluous-include-media-v4l2-ioctl.h
+
+elapsed time: 1600m
+
+configs tested: 262
+configs skipped: 2
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arc                     haps_hs_smp_defconfig
+sh                           se7751_defconfig
+arm                           sunxi_defconfig
+openrisc                         alldefconfig
+arm                       imx_v6_v7_defconfig
+sh                          sdk7786_defconfig
+sh                   rts7751r2dplus_defconfig
+m68k                         amcore_defconfig
+mips                        jmr3927_defconfig
+powerpc                      ppc44x_defconfig
+mips                        nlm_xlp_defconfig
+powerpc                  iss476-smp_defconfig
+s390                          debug_defconfig
+xtensa                    xip_kc705_defconfig
+alpha                            allyesconfig
+arm                       multi_v4t_defconfig
+m68k                        m5272c3_defconfig
+arm                        oxnas_v6_defconfig
+sh                         microdev_defconfig
+arm                          ep93xx_defconfig
+x86_64                            allnoconfig
+mips                      maltasmvp_defconfig
+powerpc                  mpc866_ads_defconfig
+mips                  maltasmvp_eva_defconfig
+powerpc                     tqm8548_defconfig
+sh                           se7780_defconfig
+arm                        spear3xx_defconfig
+sh                           se7705_defconfig
+powerpc                       maple_defconfig
+arc                 nsimosci_hs_smp_defconfig
+arm                             ezx_defconfig
+arm                              alldefconfig
+powerpc                      ppc40x_defconfig
+sh                        dreamcast_defconfig
+powerpc                     stx_gp3_defconfig
+powerpc                     mpc512x_defconfig
+powerpc                     ksi8560_defconfig
+powerpc                     tqm5200_defconfig
+sh                            titan_defconfig
+mips                           ip22_defconfig
+m68k                             allyesconfig
+powerpc                     redwood_defconfig
+mips                        omega2p_defconfig
+arm                            xcep_defconfig
+powerpc                       eiger_defconfig
+arm                         socfpga_defconfig
+arm                          moxart_defconfig
+powerpc                      katmai_defconfig
+mips                         mpc30x_defconfig
+arm                            lart_defconfig
+mips                malta_qemu_32r6_defconfig
+powerpc                     tqm8555_defconfig
+arm                          simpad_defconfig
+powerpc                    ge_imp3a_defconfig
+um                               allmodconfig
+powerpc                     pq2fads_defconfig
+arm                         at91_dt_defconfig
+powerpc                       holly_defconfig
+arc                        vdk_hs38_defconfig
+arm                          pcm027_defconfig
+arm                        mvebu_v5_defconfig
+powerpc                    sam440ep_defconfig
+arm                     davinci_all_defconfig
+sparc64                          alldefconfig
+arm                          pxa910_defconfig
+mips                  cavium_octeon_defconfig
+powerpc                    klondike_defconfig
+powerpc                 mpc832x_mds_defconfig
+mips                    maltaup_xpa_defconfig
+arm                         orion5x_defconfig
+powerpc                   motionpro_defconfig
+powerpc64                           defconfig
+um                             i386_defconfig
+sparc64                             defconfig
+arm                        multi_v7_defconfig
+mips                           ip28_defconfig
+mips                         db1xxx_defconfig
+xtensa                         virt_defconfig
+nios2                            alldefconfig
+arm                      jornada720_defconfig
+arm                            pleb_defconfig
+sh                           se7343_defconfig
+powerpc                mpc7448_hpc2_defconfig
+arm                       spear13xx_defconfig
+arm                        spear6xx_defconfig
+arm                        realview_defconfig
+powerpc                  storcenter_defconfig
+arm                           tegra_defconfig
+sh                          rsk7264_defconfig
+ia64                        generic_defconfig
+arm                         axm55xx_defconfig
+sh                          landisk_defconfig
+openrisc                    or1ksim_defconfig
+mips                      maltaaprp_defconfig
+arm                         cm_x300_defconfig
+mips                          rm200_defconfig
+arm                           omap1_defconfig
+arm                       imx_v4_v5_defconfig
+sh                          r7785rp_defconfig
+powerpc                     asp8347_defconfig
+powerpc                      ppc64e_defconfig
+powerpc                 mpc837x_rdb_defconfig
+mips                            ar7_defconfig
+powerpc                      bamboo_defconfig
+arm                           u8500_defconfig
+arm                         s3c2410_defconfig
+arm                            qcom_defconfig
+powerpc                      pasemi_defconfig
+m68k                          multi_defconfig
+sh                          r7780mp_defconfig
+powerpc                    mvme5100_defconfig
+mips                          ath79_defconfig
+arm                          lpd270_defconfig
+sh                           se7750_defconfig
+mips                      pic32mzda_defconfig
+mips                         tb0219_defconfig
+m68k                       m5249evb_defconfig
+powerpc                     taishan_defconfig
+riscv                             allnoconfig
+sh                           se7206_defconfig
+arm                       cns3420vb_defconfig
+powerpc                     sequoia_defconfig
+sh                           se7619_defconfig
+s390                                defconfig
+arc                          axs101_defconfig
+sh                           se7724_defconfig
+powerpc               mpc834x_itxgp_defconfig
+parisc                generic-32bit_defconfig
+arm                         lpc18xx_defconfig
+mips                      fuloong2e_defconfig
+powerpc                      obs600_defconfig
+sparc                       sparc64_defconfig
+m68k                        stmark2_defconfig
+arm                      tct_hammer_defconfig
+xtensa                    smp_lx200_defconfig
+mips                      loongson3_defconfig
+riscv                    nommu_k210_defconfig
+alpha                            alldefconfig
+arc                    vdk_hs38_smp_defconfig
+m68k                        mvme147_defconfig
+microblaze                      mmu_defconfig
+arm                         nhk8815_defconfig
+m68k                        mvme16x_defconfig
+arm                             rpc_defconfig
+arc                            hsdk_defconfig
+riscv             nommu_k210_sdcard_defconfig
+mips                            e55_defconfig
+powerpc                 mpc8272_ads_defconfig
+powerpc                        fsp2_defconfig
+mips                          malta_defconfig
+powerpc                         wii_defconfig
+riscv                          rv32_defconfig
+sh                               j2_defconfig
+arm64                            alldefconfig
+sh                   secureedge5410_defconfig
+sh                        edosk7705_defconfig
+powerpc                      tqm8xx_defconfig
+powerpc                   currituck_defconfig
+mips                          ath25_defconfig
+arc                        nsim_700_defconfig
+mips                        nlm_xlr_defconfig
+m68k                          hp300_defconfig
+arm                       aspeed_g5_defconfig
+mips                          rb532_defconfig
+arm                        trizeps4_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a005-20210526
+x86_64               randconfig-a001-20210526
+x86_64               randconfig-a006-20210526
+x86_64               randconfig-a003-20210526
+x86_64               randconfig-a004-20210526
+x86_64               randconfig-a002-20210526
+i386                 randconfig-a001-20210526
+i386                 randconfig-a002-20210526
+i386                 randconfig-a005-20210526
+i386                 randconfig-a004-20210526
+i386                 randconfig-a003-20210526
+i386                 randconfig-a006-20210526
+i386                 randconfig-a001-20210525
+i386                 randconfig-a002-20210525
+i386                 randconfig-a005-20210525
+i386                 randconfig-a006-20210525
+i386                 randconfig-a003-20210525
+i386                 randconfig-a004-20210525
+x86_64               randconfig-a013-20210525
+x86_64               randconfig-a012-20210525
+x86_64               randconfig-a014-20210525
+x86_64               randconfig-a016-20210525
+x86_64               randconfig-a015-20210525
+x86_64               randconfig-a011-20210525
+i386                 randconfig-a011-20210525
+i386                 randconfig-a016-20210525
+i386                 randconfig-a015-20210525
+i386                 randconfig-a012-20210525
+i386                 randconfig-a014-20210525
+i386                 randconfig-a013-20210525
+i386                 randconfig-a011-20210526
+i386                 randconfig-a016-20210526
+i386                 randconfig-a015-20210526
+i386                 randconfig-a012-20210526
+i386                 randconfig-a014-20210526
+i386                 randconfig-a013-20210526
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+riscv                            allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-b001-20210525
+x86_64               randconfig-b001-20210526
+x86_64               randconfig-a005-20210525
+x86_64               randconfig-a006-20210525
+x86_64               randconfig-a001-20210525
+x86_64               randconfig-a003-20210525
+x86_64               randconfig-a004-20210525
+x86_64               randconfig-a002-20210525
+x86_64               randconfig-a013-20210526
+x86_64               randconfig-a012-20210526
+x86_64               randconfig-a014-20210526
+x86_64               randconfig-a016-20210526
+x86_64               randconfig-a015-20210526
+x86_64               randconfig-a011-20210526
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
