@@ -2,104 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA4E03910D7
-	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 08:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 355173911A9
+	for <lists+linux-media@lfdr.de>; Wed, 26 May 2021 09:56:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232571AbhEZGo0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 May 2021 02:44:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57066 "EHLO mail.kernel.org"
+        id S232053AbhEZH5q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 May 2021 03:57:46 -0400
+Received: from m12-12.163.com ([220.181.12.12]:36656 "EHLO m12-12.163.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230419AbhEZGoZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 May 2021 02:44:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E48EC613C3;
-        Wed, 26 May 2021 06:42:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1622011373;
-        bh=lEpDCkdGFxeAtsrwix5D4X1FiG+U93Ll7WS12qIJF1k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MA5ONux5V0tTneMn7Of6bbOMAxEYY3vkFYvARGb4wbTeAH5AJYidLmZxwSxg4fQLJ
-         Lk9PQCjml2RMsDLy+iRyO8+y1vH6b36scZTH8HHMHDbW7qzvdKAF15vVfI1uHZatmI
-         OTdye/DISGOOo5dLCpK4S0x/kRT/f3EzYtJYNF5U=
-Date:   Wed, 26 May 2021 08:42:51 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Hridya Valsaraju <hridya@google.com>
-Cc:     daniel@ffwll.ch, Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        kernel-team@android.com, john.stultz@linaro.org, surenb@google.com,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4] dmabuf: Add the capability to expose DMA-BUF stats in
- sysfs
-Message-ID: <YK3t6+kOVSkGOuyb@kroah.com>
-References: <20210525183720.1739480-1-hridya@google.com>
+        id S229473AbhEZH5q (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 May 2021 03:57:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=uZvhg
+        Ud0lWZ9cGLKzmaG9kFpDxY0t10Ac6P5wff8Zfs=; b=N6uj8UxySb5y5QgGO81Ad
+        YjLAsMs9Ndn/HY4yvVSw2yksAjBV8dtrktUsTGGiPcg0nFtYy7D53F3Q9jGAHiCO
+        TgpqWB1RJ6LqmRmV7XNTGICD3YjPdHP3Xa1N2t/H7xYlpG1ztlydpKXmXWgUmGUP
+        nx084Ox0VG8V1bGGPxOb1o=
+Received: from ubuntu.localdomain (unknown [218.17.89.92])
+        by smtp8 (Coremail) with SMTP id DMCowADnvC33_q1gv10qGQ--.3405S2;
+        Wed, 26 May 2021 15:55:36 +0800 (CST)
+From:   13145886936@163.com
+To:     mchehab@kernel.org, sean@mess.org, arnd@arndb.de,
+        miaoqinglang@huawei.com, Julia.Lawall@inria.fr,
+        gustavoars@kernel.org, oneukum@suse.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gushengxian <gushengxian@yulong.com>
+Subject: [PATCH] media: b2c2-flexcop-usb: revised use of space
+Date:   Wed, 26 May 2021 00:55:27 -0700
+Message-Id: <20210526075527.302903-1-13145886936@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210525183720.1739480-1-hridya@google.com>
+X-CM-TRANSID: DMCowADnvC33_q1gv10qGQ--.3405S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxuF4xZFWkAw13WF4fXr45GFg_yoW5GF4kpF
+        Zav3yqyrWUJF4a93sFy3Wku3W7tFZ7KFWrKrW2k3WFgr4fC3WDZa4rG3Wvyry8JFy8u34r
+        CrWUXF17Wr4UW37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07b5sqAUUUUU=
+X-Originating-IP: [218.17.89.92]
+X-CM-SenderInfo: 5zrdx5xxdq6xppld0qqrwthudrp/1tbiQhieg1aD-CezFQAAsv
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 25, 2021 at 11:37:13AM -0700, Hridya Valsaraju wrote:
-> This patch allows statistics to be enabled for each DMA-BUF in
-> sysfs by enabling the config CONFIG_DMABUF_SYSFS_STATS.
-> 
-> The following stats will be exposed by the interface:
-> 
-> /sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
-> /sys/kernel/dmabuf/buffers/<inode_number>/size
-> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/device
-> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_counter
-> 
-> The inode_number is unique for each DMA-BUF and was added earlier [1]
-> in order to allow userspace to track DMA-BUF usage across different
-> processes.
-> 
-> Currently, this information is exposed in
-> /sys/kernel/debug/dma_buf/bufinfo.
-> However, since debugfs is considered unsafe to be mounted in production,
-> it is being duplicated in sysfs.
-> 
-> Procfs also uses the proc/<pid>/fdinfo/<fd> file to expose some
-> information about DMA-BUF fds. However, the existing procfs interfaces
-> can only provide information about the buffers for which processes
-> hold fds or have the buffers mmapped into their address space.
-> The sysfs interface also exposes attachment statistics for each buffer.
-> 
-> This information will be used to derive DMA-BUF
-> per-exporter stats and per-device usage stats for Android Bug reports.
-> The corresponding userspace changes can be found at [2].
-> Telemetry tools will also capture this information(along with other
-> memory metrics) periodically as well as on important events like a
-> foreground app kill (which might have been triggered by Low Memory
-> Killer). It will also contribute to provide a snapshot of the system
-> memory usage on other events such as OOM kills and Application Not
-> Responding events.
-> 
-> A shell script that can be run on a classic Linux environment to read
-> out the DMA-BUF statistics can be found at [3](suggested by John
-> Stultz).
-> 
-> The patch contains the following major improvements over v1:
-> 1) Each attachment is represented by its own directory to allow creating
-> a symlink to the importing device and to also provide room for future
-> expansion.
-> 2) The number of distinct mappings of each attachment is exposed in a
-> separate file.
-> 3) The per-buffer statistics are now in /sys/kernel/dmabuf/buffers
-> inorder to make the interface expandable in future.
-> 
-> All of the improvements above are based on suggestions/feedback from
-> Daniel Vetter and Christian König.
-> 
-> [1]: https://lore.kernel.org/patchwork/patch/1088791/
-> [2]: https://android-review.googlesource.com/q/topic:%22dmabuf-sysfs%22+(status:open%20OR%20status:merged)
-> [3]: https://android-review.googlesource.com/c/platform/system/memory/libmeminfo/+/1549734
-> 
-> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> ---
+From: gushengxian <gushengxian@yulong.com>
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+The use of space should be standard.
+
+Signed-off-by: gushengxian <gushengxian@yulong.com>
+---
+ drivers/media/usb/b2c2/flexcop-usb.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
+index 5d38171b7638..ef5d50b8a321 100644
+--- a/drivers/media/usb/b2c2/flexcop-usb.c
++++ b/drivers/media/usb/b2c2/flexcop-usb.c
+@@ -171,7 +171,7 @@ static int flexcop_usb_v8_memory_req(struct flexcop_usb *fc_usb,
+ 	return ret;
+ }
+ 
+-#define bytes_left_to_read_on_page(paddr,buflen) \
++#define bytes_left_to_read_on_page(paddr, buflen) \
+ 	((V8_MEMORY_PAGE_SIZE - (paddr & V8_MEMORY_PAGE_MASK)) > buflen \
+ 	 ? buflen : (V8_MEMORY_PAGE_SIZE - (paddr & V8_MEMORY_PAGE_MASK)))
+ 
+@@ -179,11 +179,11 @@ static int flexcop_usb_memory_req(struct flexcop_usb *fc_usb,
+ 		flexcop_usb_request_t req, flexcop_usb_mem_page_t page_start,
+ 		u32 addr, int extended, u8 *buf, u32 len)
+ {
+-	int i,ret = 0;
++	int i, ret = 0;
+ 	u16 wMax;
+ 	u32 pagechunk = 0;
+ 
+-	switch(req) {
++	switch (req) {
+ 	case B2C2_USB_READ_V8_MEM:
+ 		wMax = USB_MEM_READ_MAX;
+ 		break;
+@@ -341,8 +341,8 @@ static void flexcop_usb_process_frame(struct flexcop_usb *fc_usb,
+ 		b = fc_usb->tmp_buffer;
+ 		l = fc_usb->tmp_buffer_length;
+ 	} else {
+-		b=buffer;
+-		l=buffer_length;
++		b = buffer;
++		l = buffer_length;
+ 	}
+ 
+ 	while (l >= 190) {
+@@ -368,7 +368,7 @@ static void flexcop_usb_process_frame(struct flexcop_usb *fc_usb,
+ 		}
+ 	}
+ 
+-	if (l>0)
++	if (l > 0)
+ 		memcpy(fc_usb->tmp_buffer, b, l);
+ 	fc_usb->tmp_buffer_length = l;
+ }
+@@ -399,7 +399,7 @@ static void flexcop_usb_urb_complete(struct urb *urb)
+ 		urb->iso_frame_desc[i].status = 0;
+ 		urb->iso_frame_desc[i].actual_length = 0;
+ 	}
+-	usb_submit_urb(urb,GFP_ATOMIC);
++	usb_submit_urb(urb, GFP_ATOMIC);
+ }
+ 
+ static int flexcop_usb_stream_control(struct flexcop_device *fc, int onoff)
+@@ -413,7 +413,7 @@ static void flexcop_usb_transfer_exit(struct flexcop_usb *fc_usb)
+ 	int i;
+ 	for (i = 0; i < B2C2_USB_NUM_ISO_URB; i++)
+ 		if (fc_usb->iso_urb[i] != NULL) {
+-			deb_ts("unlinking/killing urb no. %d\n",i);
++			deb_ts("unlinking/killing urb no. %d\n", i);
+ 			usb_kill_urb(fc_usb->iso_urb[i]);
+ 			usb_free_urb(fc_usb->iso_urb[i]);
+ 		}
+@@ -483,7 +483,7 @@ static int flexcop_usb_transfer_init(struct flexcop_usb *fc_usb)
+ 			err("submitting urb %d failed with %d.", i, ret);
+ 			goto urb_error;
+ 		}
+-		deb_ts("submitted urb no. %d.\n",i);
++		deb_ts("submitted urb no. %d.\n", i);
+ 	}
+ 
+ 	/* SRAM */
+-- 
+2.25.1
+
+
