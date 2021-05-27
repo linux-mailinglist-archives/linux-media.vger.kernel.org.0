@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A380C3932B7
-	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 17:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B7EC3932BD
+	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 17:46:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235949AbhE0PrE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 May 2021 11:47:04 -0400
+        id S236898AbhE0PrK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 May 2021 11:47:10 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235707AbhE0PrA (ORCPT
+        with ESMTP id S235747AbhE0PrB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 May 2021 11:47:00 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F84C061574;
-        Thu, 27 May 2021 08:45:25 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id b9so755422ejc.13;
-        Thu, 27 May 2021 08:45:25 -0700 (PDT)
+        Thu, 27 May 2021 11:47:01 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F82C061763;
+        Thu, 27 May 2021 08:45:26 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id f18so787206ejq.10;
+        Thu, 27 May 2021 08:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yNDXks9FLR1I5yslIUR5VMwMt2vdynAEYi3WAzNuIhY=;
-        b=ncyQy3M9qBDJzY5vF/S1HSzx/jwBbS/sZ18FCaJIY0QmuxnuKy6Nw39Af+ur2XPCeU
-         cUAuZItPTeR903uCj2gYnNSmi1pgjTdBLB5Gz1zHjElN0IDM4XpN7EJOGIFbQSST7G7D
-         Fz6ScxZr0CJpqq+EGMXOAgC+XSJMKsoP1Wkg/I7EdtMy4C+kWThmzC/DenjSDKTcBbRS
-         179gDcPh080+junPRS5niCTiKSyL1hCqfNFdQXJMq2cIJ5zIQEV5njD4kTk0VDIW8CcK
-         2nuXbnfF6Hg8pcDqjxRN6GDDpn4XAiy/6oqL1xDc1aRVA+mgQMPsffTW7sEDT5QJg+r3
-         i7EA==
+        bh=LhbeDQNh446HkvhryvJVLbpk8j2uXvVEVcUkEuMHp2E=;
+        b=FTTHLnFIpjK1cPpPtSC1xxfNnPb+BTJoSy4RBqhZ9LnS3jCXY3cJC7Msfwa5eCWWN+
+         n9iJBvmcwloq5Hi3lMdjbDRhJyCs/4JQs3xeXUwm3nh4/XUzQxQhMrAcW27USTVZ12n0
+         zeoccaf4855F4n8GvPahZpMxn9g3JzwyVV87n2yNckq//D7L3U4qG66a3aWX7NiwU/FA
+         LbAKiYKtrRgaNSTj6lh+pnW7JfMBYcxnzENvZnz6X44QRLP0mifoqMIBN9VjYxtOMFVB
+         EY4jttESEbgs7ipEK5z2a5643TnWz9HxaZMRAdBORuKIsQvOoj9Y9OENX5YRq9XhYxww
+         Ixhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yNDXks9FLR1I5yslIUR5VMwMt2vdynAEYi3WAzNuIhY=;
-        b=QBsJoUVP5FwTgYQGbFCShxUgZskPr9pb9ZrX1OOjnlq4N+la0qTYZ2EhVCiFXBNGns
-         W6PoHJiBpfr/nNEAOda4krFsDDCCre995cpx9WNd4aqNV+IRTNTZWtT9JpzJjfW+/P0V
-         sG5Zq04rq6aFaFD9CFxYiEaUFwKuagVi9MzTwk2blnnvEV4HSIPers81vJh1CB5kpB8D
-         1QXZAVbzRFKhDIlJviliy8PfO9A1rlAPvNSFOqNn9JChM3hoHCkTcuPDTtEL+DeHWcYA
-         GH4qVsqIK6EQAEp6kDYCkazSvWXxyOW2bBC/7+X+PsZjFC1a4zyzEvx3I/sewVGG+gfi
-         Z1Ow==
-X-Gm-Message-State: AOAM532r10Y4umiAK4XT98FSAuZQgeWyhIDavpC2HS8MuTYlLdRV2xCd
-        cWqNOlUpWcNGSGlZXHUhbg==
-X-Google-Smtp-Source: ABdhPJxyulIDT7lZSx+lDZc2lTMakSrt9KZVAuVh6gIHusstZGS92ceQkIkm8InG6m1lyq5JmMXkJQ==
-X-Received: by 2002:a17:906:454b:: with SMTP id s11mr4489001ejq.3.1622130324450;
-        Thu, 27 May 2021 08:45:24 -0700 (PDT)
+        bh=LhbeDQNh446HkvhryvJVLbpk8j2uXvVEVcUkEuMHp2E=;
+        b=DYAT3Ib4Te0Zgsq3NjXRperHG+/VHmEyNd3eE8tFeuHNF3/cWugNpxYzhGliuZ+Z5v
+         kzSKvmEPiebsdAeCpL9Q6lXcGjyhe9S2jlfLJ/9pBUcpgX2ba6iJZAwmO5GCuJAfSwNm
+         is9TWYKmq/naxRjGWEYTSOdGtJ2aO2cQtSy6ilO/yNl6KnsQzbw/mGNX8JgbbiOB1Uju
+         nETii/EUj/oUNXyFuoS8GiOAU20hiHQobGXGJXl/d7h9XF9fol6WEqnmNxo25lUQPMoZ
+         hp8fV6LJMO5WYjYedeCGQ0qG/xZWKarzxjg6L2FjNven4RlQucermlCgEPy1EOhT2NvQ
+         YkeQ==
+X-Gm-Message-State: AOAM533lXqZJaNLFHgICRHJGPc5xSutq9z/ceuaqyb228klnNksO/T0o
+        NAOaN4P+NVrE9Ybla4+Ep3M2a0I1/ghx
+X-Google-Smtp-Source: ABdhPJxjTFNjhfpg3rolbz+my5h7GjiFMYspdhCyqZehvxpDPM6Pu3T20eVZaIpo6PThuHYTyYlGuA==
+X-Received: by 2002:a17:906:5d0a:: with SMTP id g10mr4425737ejt.349.1622130325404;
+        Thu, 27 May 2021 08:45:25 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:810b:f40:e00:fefd:4d98:c981:7f97])
-        by smtp.googlemail.com with ESMTPSA id u6sm1178826ejr.55.2021.05.27.08.45.23
+        by smtp.googlemail.com with ESMTPSA id u6sm1178826ejr.55.2021.05.27.08.45.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 08:45:24 -0700 (PDT)
+        Thu, 27 May 2021 08:45:25 -0700 (PDT)
 From:   Alex Bee <knaerzche@gmail.com>
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -60,9 +60,9 @@ To:     Ezequiel Garcia <ezequiel@collabora.com>,
         devicetree@vger.kernel.org
 Cc:     Alex Bee <knaerzche@gmail.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/12] media: hantro: add support for Rockchip RK3036
-Date:   Thu, 27 May 2021 17:44:50 +0200
-Message-Id: <20210527154455.358869-8-knaerzche@gmail.com>
+Subject: [PATCH v2 08/12] ARM: dts: rockchip: add power controller for RK3036
+Date:   Thu, 27 May 2021 17:44:51 +0200
+Message-Id: <20210527154455.358869-9-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210527154455.358869-1-knaerzche@gmail.com>
 References: <20210525152225.154302-1-knaerzche@gmail.com>
@@ -73,129 +73,116 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RK3036's VPU IP block is the same as RK3288 has, except that it doesn't
-have an encoder, decoding is supported up to 1920x1088 only and the axi
-clock can be set to 300 MHz max.
-
-Add a new RK3036 variant which reflect this differences.
+Add the power controller node and the correspondending qos nodes for
+RK3036.
+Also add the power-domain property to the nodes that are already
+present.
+Note: Since the regiser offsets of the axi interconnect QoS are missing
+in the TRM (RK3036 TRM V1.0), they have been taken from vendor kernel.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
 
  Changes in v2:
- - rename rk3036_irqs -> rockchip_vdpu1_irqs
- - fix spelling error
+ - moved power-domains property after iommus-property
 
- drivers/staging/media/hantro/hantro_drv.c     |  1 +
- drivers/staging/media/hantro/hantro_hw.h      |  1 +
- .../staging/media/hantro/rockchip_vpu_hw.c    | 49 +++++++++++++++++++
- 3 files changed, 51 insertions(+)
+ arch/arm/boot/dts/rk3036.dtsi | 51 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index ae6d970b7536..64cb91d102cc 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -486,6 +486,7 @@ static const struct v4l2_file_operations hantro_fops = {
+diff --git a/arch/arm/boot/dts/rk3036.dtsi b/arch/arm/boot/dts/rk3036.dtsi
+index 9ccefa8282ba..76ab663eccf7 100644
+--- a/arch/arm/boot/dts/rk3036.dtsi
++++ b/arch/arm/boot/dts/rk3036.dtsi
+@@ -6,6 +6,7 @@
+ #include <dt-bindings/pinctrl/rockchip.h>
+ #include <dt-bindings/clock/rk3036-cru.h>
+ #include <dt-bindings/soc/rockchip,boot-mode.h>
++#include <dt-bindings/power/rk3036-power.h>
  
- static const struct of_device_id of_hantro_match[] = {
- #ifdef CONFIG_VIDEO_HANTRO_ROCKCHIP
-+	{ .compatible = "rockchip,rk3036-vpu", .data = &rk3036_vpu_variant, },
- 	{ .compatible = "rockchip,rk3066-vpu", .data = &rk3066_vpu_variant, },
- 	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
- 	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 0da8da753447..f44dc5921e87 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -161,6 +161,7 @@ enum hantro_enc_fmt {
- };
+ / {
+ 	#address-cells = <1>;
+@@ -111,6 +112,7 @@ gpu: gpu@10090000 {
+ 		assigned-clock-rates = <100000000>;
+ 		clocks = <&cru SCLK_GPU>, <&cru SCLK_GPU>;
+ 		clock-names = "bus", "core";
++		power-domains = <&power RK3036_PD_GPU>;
+ 		resets = <&cru SRST_GPU>;
+ 		status = "disabled";
+ 	};
+@@ -124,6 +126,7 @@ vop: vop@10118000 {
+ 		resets = <&cru SRST_LCDC1_A>, <&cru SRST_LCDC1_H>, <&cru SRST_LCDC1_D>;
+ 		reset-names = "axi", "ahb", "dclk";
+ 		iommus = <&vop_mmu>;
++		power-domains = <&power RK3036_PD_VIO>;
+ 		status = "disabled";
  
- extern const struct hantro_variant imx8mq_vpu_variant;
-+extern const struct hantro_variant rk3036_vpu_variant;
- extern const struct hantro_variant rk3066_vpu_variant;
- extern const struct hantro_variant rk3288_vpu_variant;
- extern const struct hantro_variant rk3328_vpu_variant;
-diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-index deb263de8fec..d4b048d3b6b9 100644
---- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
-+++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-@@ -244,6 +244,13 @@ static irqreturn_t rockchip_vpu2_vepu_irq(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
+ 		vop_out: port {
+@@ -142,10 +145,26 @@ vop_mmu: iommu@10118300 {
+ 		interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
+ 		clocks = <&cru ACLK_LCDC>, <&cru HCLK_LCDC>;
+ 		clock-names = "aclk", "iface";
++		power-domains = <&power RK3036_PD_VIO>;
+ 		#iommu-cells = <0>;
+ 		status = "disabled";
+ 	};
  
-+static int rk3036_vpu_hw_init(struct hantro_dev *vpu)
-+{
-+	/* Bump ACLK to max. possible freq. to improve performance. */
-+	clk_set_rate(vpu->clocks[0].clk, RK3066_ACLK_MAX_FREQ);
-+	return 0;
-+}
++	qos_gpu: qos@1012d000 {
++		compatible = "rockchip,rk3036-qos", "syscon";
++		reg = <0x1012d000 0x20>;
++	};
 +
- static int rk3066_vpu_hw_init(struct hantro_dev *vpu)
- {
- 	/* Bump ACLKs to max. possible freq. to improve performance. */
-@@ -297,6 +304,27 @@ static void rockchip_vpu2_enc_reset(struct hantro_ctx *ctx)
- /*
-  * Supported codec ops.
-  */
-+static const struct hantro_codec_ops rk3036_vpu_codec_ops[] = {
-+	[HANTRO_MODE_H264_DEC] = {
-+		.run = hantro_g1_h264_dec_run,
-+		.reset = hantro_g1_reset,
-+		.init = hantro_h264_dec_init,
-+		.exit = hantro_h264_dec_exit,
-+	},
-+	[HANTRO_MODE_MPEG2_DEC] = {
-+		.run = hantro_g1_mpeg2_dec_run,
-+		.reset = hantro_g1_reset,
-+		.init = hantro_mpeg2_dec_init,
-+		.exit = hantro_mpeg2_dec_exit,
-+	},
-+	[HANTRO_MODE_VP8_DEC] = {
-+		.run = hantro_g1_vp8_dec_run,
-+		.reset = hantro_g1_reset,
-+		.init = hantro_vp8_dec_init,
-+		.exit = hantro_vp8_dec_exit,
-+	},
-+};
++	qos_vpu: qos@1012e000 {
++		compatible = "rockchip,rk3036-qos", "syscon";
++		reg = <0x1012e000 0x20>;
++	};
 +
- static const struct hantro_codec_ops rk3066_vpu_codec_ops[] = {
- 	[HANTRO_MODE_JPEG_ENC] = {
- 		.run = hantro_h1_jpeg_enc_run,
-@@ -378,6 +406,10 @@ static const struct hantro_codec_ops rk3399_vpu_codec_ops[] = {
-  * VPU variant.
-  */
++	qos_vio: qos@1012f000 {
++		compatible = "rockchip,rk3036-qos", "syscon";
++		reg = <0x1012f000 0x20>;
++	};
++
+ 	gic: interrupt-controller@10139000 {
+ 		compatible = "arm,gic-400";
+ 		interrupt-controller;
+@@ -301,6 +320,38 @@ grf: syscon@20008000 {
+ 		compatible = "rockchip,rk3036-grf", "syscon", "simple-mfd";
+ 		reg = <0x20008000 0x1000>;
  
-+static const struct hantro_irq rockchip_vdpu1_irqs[] = {
-+	{ "vdpu", hantro_g1_irq },
-+};
++		power: power-controller {
++			compatible = "rockchip,rk3036-power-controller";
++			#power-domain-cells = <1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
- static const struct hantro_irq rockchip_vpu1_irqs[] = {
- 	{ "vepu", rockchip_vpu1_vepu_irq },
- 	{ "vdpu", hantro_g1_irq },
-@@ -401,6 +433,23 @@ static const char * const rockchip_vpu_clk_names[] = {
- 	"aclk", "hclk"
- };
- 
-+const struct hantro_variant rk3036_vpu_variant = {
-+	.dec_offset = 0x400,
-+	.dec_fmts = rk3066_vpu_dec_fmts,
-+	.num_dec_fmts = ARRAY_SIZE(rk3066_vpu_dec_fmts),
-+	.postproc_fmts = rockchip_vpu1_postproc_fmts,
-+	.num_postproc_fmts = ARRAY_SIZE(rockchip_vpu1_postproc_fmts),
-+	.postproc_regs = &hantro_g1_postproc_regs,
-+	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
-+		 HANTRO_H264_DECODER,
-+	.codec_ops = rk3036_vpu_codec_ops,
-+	.irqs = rockchip_vdpu1_irqs,
-+	.num_irqs = ARRAY_SIZE(rockchip_vdpu1_irqs),
-+	.init = rk3036_vpu_hw_init,
-+	.clk_names = rockchip_vpu_clk_names,
-+	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
-+};
++			power-domain@RK3036_PD_VIO {
++				reg = <RK3036_PD_VIO>;
++				clocks = <&cru ACLK_LCDC>,
++					 <&cru HCLK_LCDC>,
++					 <&cru SCLK_LCDC>;
++				pm_qos = <&qos_vio>;
++				#power-domain-cells = <0>;
++			};
 +
- /*
-  * Despite this variant has separate clocks for decoder and encoder,
-  * it's still required to enable all four of them for either decoding
++			power-domain@RK3036_PD_VPU {
++				reg = <RK3036_PD_VPU>;
++				clocks = <&cru ACLK_VCODEC>,
++					 <&cru HCLK_VCODEC>;
++				pm_qos = <&qos_vpu>;
++				#power-domain-cells = <0>;
++			};
++
++			power-domain@RK3036_PD_GPU {
++				reg = <RK3036_PD_GPU>;
++				clocks = <&cru SCLK_GPU>;
++				pm_qos = <&qos_gpu>;
++				#power-domain-cells = <0>;
++			};
++
++		};
++
+ 		reboot-mode {
+ 			compatible = "syscon-reboot-mode";
+ 			offset = <0x1d8>;
 -- 
 2.27.0
 
