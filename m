@@ -2,159 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D56A53934E1
-	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 19:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0003939366E
+	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 21:39:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235392AbhE0ReJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 May 2021 13:34:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34432 "EHLO
+        id S234229AbhE0TlE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 May 2021 15:41:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234594AbhE0ReI (ORCPT
+        with ESMTP id S229709AbhE0TlD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 May 2021 13:34:08 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EDADC061761;
-        Thu, 27 May 2021 10:32:35 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id v8so1455323qkv.1;
-        Thu, 27 May 2021 10:32:35 -0700 (PDT)
+        Thu, 27 May 2021 15:41:03 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE6A0C061574;
+        Thu, 27 May 2021 12:39:28 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id s22so1808619ejv.12;
+        Thu, 27 May 2021 12:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2/+eIfj53POdJuJ8JguUQYMLt/9wKEEN9EHnJYWkESk=;
-        b=S/Gja7fmlHHsR8eaLY1I6aybT/i/8Yx+SQKS9q1/it3rZ6RIRo0nrGXEQ4kyGVa5RR
-         Id6KHsFZfBf8f6oMpbkeqzA8mFVozV61olOkAkxhmEv2MH8E8zQaBIoESe8jmNQD89Ae
-         Pa5JqVYG7I1JpAz5+q+D9lPdcc3+yRVYp1/P57vbewvQX0N+enEA9MBQIklmNTyHW18V
-         ZVt3jhhPk1FB7Xj/xZZ3dQlqotrIXj59gaBoDnkO7/YczX6vZ4Ex/UWDLCk73AXCbAzR
-         WqJVtFZAtygVd1NLfjJwI6g8pvwSw/V0SXPalfP//trgOkZeDFl/61z6FcE0MeMVeLVH
-         Rnvw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9kKFsQH6/8hsrP1bGpKk+mHFKlheH0dIynAVi3jusF4=;
+        b=tvM+rvReBkNjP4kDXka/o+BhrQYdZwaxNKNsr1AWehp+Z4W9YEUnz68g/bc2DBOJ6y
+         fMLGcOf/peTNoZWFX/Oho9Z6YIRGkWnWMLvgXlJCTWsprRzI3Eu9Gs5QPlsUQ9O1/yCP
+         osSkVL8pqdyg3XXwkKXX3o5H+MzJjv1ECJUS4/127nxJ8+O8oGfxVbNPUzfvi810apmK
+         hPxBqogrZl+DLH0O0qZpSKtrHAqDld0ZcEXFbVu1POcYEB2/GRYKVAs7IlKB9lpxqUwP
+         e0htykQd1AouWp0Vn2kMKUO/uMj680JWC96VfuITsXTGpKNDvcnM+qco8q6+tBPayMTz
+         EZTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2/+eIfj53POdJuJ8JguUQYMLt/9wKEEN9EHnJYWkESk=;
-        b=eZ71b36BB7WiDJKjsrLciKp3FxEjC0o7JJLFULeDReDJLhq4yD6ooVxHzNNnJYgJ4P
-         ON0JKQxiC279ZAsbjGQVSEfASIojSw4bpvTgVCFoJpFWp9KMJUL70TaFx65iJ9pPYDnT
-         XqbJMkxq5QUvf8K2pEatHFnPOl2ZG/F5db9fdJno17++xJGVEaZodZz23bEHt5XTOa28
-         ZwOvdIjW7jIbY7uoyF71SScvG8/r3yzeZ9cSn4aCF/YNLi1OVt2buwl8AHmjV1JNS78C
-         Fqfq+WCG0Tx47fT0tPgaPteo77MMDIL3qwXGKAZFE82bYsZaG8MUH1GPUxnVM3lppEIv
-         oKAw==
-X-Gm-Message-State: AOAM533a/P6gHC1aBnMtWGEw1cKgXUbtHoQmSTmlCYnDkSOu/a5ngt9o
-        3LDuMkBOZriq72lHX5kei0w=
-X-Google-Smtp-Source: ABdhPJzdQG652AQAP0YTwOHv5c/o9mMWwnGJzCKe43yJvGK3vOMx3Q52OQATwhvHrm6OrXAJnWSjlA==
-X-Received: by 2002:a37:65d4:: with SMTP id z203mr4600614qkb.389.1622136754296;
-        Thu, 27 May 2021 10:32:34 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:485:504a:a1cb:22e7:5e60:5887])
-        by smtp.gmail.com with ESMTPSA id m15sm1715117qtn.47.2021.05.27.10.32.31
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9kKFsQH6/8hsrP1bGpKk+mHFKlheH0dIynAVi3jusF4=;
+        b=tmW/4jDb0fXr06Pm/rUjchyeY31L/qr239zGpJ/yzi9kXy8xGzj9Q4ttyV8VCDND/N
+         0VmJ0/jT6jwMp8WC5JWU+ja4wCR82nMqX9PsX1ecdHiJ5jiiAE13vfAAJuQJNdSI2/J8
+         h4OvYFkLwX7N2IcMmYl3TIyTa2orllJ7W5jJ9Y+BwRFIqIaJkoV0iq4kew+6P6BfqF1Y
+         7DEAB1IB7oIcVFCeYocdiVkYknGVVlodsImChA5SkiS99WeqhOQCAfSlTSHTJrfbDEsw
+         0DK84q49/PLtnKe68aN5NAnSvfSRC/+0wm5FD+CUCRvuxpr5xDbn90FmqM+37/k0vWjN
+         2wKg==
+X-Gm-Message-State: AOAM530QlDZW19ZiKEO4EkcyLWgqCzqKlYbFOFsDllV+80oUBIWw3gSf
+        kNa20nOhHx/dbuD0N7yZwjU=
+X-Google-Smtp-Source: ABdhPJwQamej6okxRqBXrf1AurvxV094DH+VNTHHnz83l1S/Gpu1LPlZQr18x5jN6nFU3c1ESySzNg==
+X-Received: by 2002:a17:906:7c4b:: with SMTP id g11mr5632032ejp.461.1622144367423;
+        Thu, 27 May 2021 12:39:27 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id p25sm1446593eja.35.2021.05.27.12.39.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 10:32:33 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     hverkuil-cisco@xs4all.nl
-Cc:     lars@metafoo.de, matthew.michilot@gmail.com, tharvey@gateworks.com,
-        linux-media@vger.kernel.org, slongerbeam@gmail.com,
-        niklas.soderlund@ragnatech.se, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH 2/2] media: i2c: adv7180: fix adv7280 BT.656-4 compatibility
-Date:   Thu, 27 May 2021 14:32:09 -0300
-Message-Id: <20210527173209.3874124-2-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210527173209.3874124-1-festevam@gmail.com>
-References: <20210527173209.3874124-1-festevam@gmail.com>
+        Thu, 27 May 2021 12:39:26 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: media: atomisp: pci: Remove checks before kfree/kvfree
+Date:   Thu, 27 May 2021 21:39:22 +0200
+Message-Id: <20210527193922.25225-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Matthew Michilot <matthew.michilot@gmail.com>
+Removed checks for pointers != NULL before freeing memory. If kvfree()
+and kfree() are given NULL pointers no operations are performed, so
+there is no need for the above-mentioned checks. Coccinelle detected the
+second of the two unnecessary checks.
 
-Captured video would be out of sync when using the adv7280 with
-the BT.656-4 protocol. Certain registers (0x04, 0x31, 0xE6) had to
-be configured properly to ensure BT.656-4 compatibility.
-
-An error in the adv7280 reference manual suggested that EAV/SAV mode
-was enabled by default, however upon inspecting register 0x31, it was
-determined to be disabled by default.
-
-Signed-off-by: Matthew Michilot <matthew.michilot@gmail.com>
-Reviewed-by: Tim Harvey <tharvey@gateworks.com>
-[fabio: Introduce "adv,adv7182-force-bt656-4"]
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
-Changes since v1:
-- Only force BT656-4 when the DT property is present.
- drivers/media/i2c/adv7180.c | 30 ++++++++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css_firmware.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 44bb6fe85644..a532df813d74 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -94,6 +94,7 @@
- #define ADV7180_REG_SHAP_FILTER_CTL_1	0x0017
- #define ADV7180_REG_CTRL_2		0x001d
- #define ADV7180_REG_VSYNC_FIELD_CTL_1	0x0031
-+#define ADV7180_VSYNC_FIELD_CTL_1_NEWAV 0x12
- #define ADV7180_REG_MANUAL_WIN_CTL_1	0x003d
- #define ADV7180_REG_MANUAL_WIN_CTL_2	0x003e
- #define ADV7180_REG_MANUAL_WIN_CTL_3	0x003f
-@@ -216,6 +217,7 @@ struct adv7180_state {
- 	struct i2c_client	*vpp_client;
- 	const struct adv7180_chip_info *chip_info;
- 	enum v4l2_field		field;
-+	bool			force_bt656_4;
- };
- #define to_adv7180_sd(_ctrl) (&container_of(_ctrl->handler,		\
- 					    struct adv7180_state,	\
-@@ -963,10 +965,26 @@ static int adv7182_init(struct adv7180_state *state)
- 		adv7180_write(state, ADV7180_REG_EXTENDED_OUTPUT_CONTROL, 0x57);
- 		adv7180_write(state, ADV7180_REG_CTRL_2, 0xc0);
- 	} else {
--		if (state->chip_info->flags & ADV7180_FLAG_V2)
--			adv7180_write(state,
--				      ADV7180_REG_EXTENDED_OUTPUT_CONTROL,
--				      0x17);
-+		if (state->chip_info->flags & ADV7180_FLAG_V2) {
-+			if (state->force_bt656_4) {
-+				/* ITU-R BT.656-4 compatible */
-+				adv7180_write(state,
-+					      ADV7180_REG_EXTENDED_OUTPUT_CONTROL,
-+					      ADV7180_EXTENDED_OUTPUT_CONTROL_NTSCDIS);
-+				/* Manually set NEWAVMODE */
-+				adv7180_write(state,
-+					      ADV7180_REG_VSYNC_FIELD_CTL_1,
-+					      ADV7180_VSYNC_FIELD_CTL_1_NEWAV);
-+				/* Manually set V bit end position in NTSC mode */
-+				adv7180_write(state,
-+					     ADV7180_REG_NTSC_V_BIT_END,
-+					     ADV7180_NTSC_V_BIT_END_MANUAL_NVEND);
-+			} else {
-+				adv7180_write(state,
-+					      ADV7180_REG_EXTENDED_OUTPUT_CONTROL,
-+					      0x17);
-+			}
-+		}
- 		else
- 			adv7180_write(state,
- 				      ADV7180_REG_EXTENDED_OUTPUT_CONTROL,
-@@ -1314,6 +1332,7 @@ static int init_device(struct adv7180_state *state)
- static int adv7180_probe(struct i2c_client *client,
- 			 const struct i2c_device_id *id)
- {
-+	struct device_node *np = client->dev.of_node;
- 	struct adv7180_state *state;
- 	struct v4l2_subdev *sd;
- 	int ret;
-@@ -1338,6 +1357,9 @@ static int adv7180_probe(struct i2c_client *client,
- 		return ret;
- 	}
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+index f4ce8ace9d50..5301cc014c7e 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+@@ -363,10 +363,8 @@ void sh_css_unload_firmware(void)
+ 		unsigned int i = 0;
  
-+	if (of_property_read_bool(np, "adv,adv7182-force-bt656-4"))
-+		state->force_bt656_4 = true;
-+
- 	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
- 		state->csi_client = i2c_new_dummy_device(client->adapter,
- 				ADV7180_DEFAULT_CSI_I2C_ADDR);
+ 		for (i = 0; i < sh_css_num_binaries; i++) {
+-			if (fw_minibuffer[i].name)
+-				kfree((void *)fw_minibuffer[i].name);
+-			if (fw_minibuffer[i].buffer)
+-				kvfree(fw_minibuffer[i].buffer);
++			kfree((void *)fw_minibuffer[i].name);
++			kvfree(fw_minibuffer[i].buffer);
+ 		}
+ 		kfree(fw_minibuffer);
+ 		fw_minibuffer = NULL;
 -- 
-2.25.1
+2.31.1
 
