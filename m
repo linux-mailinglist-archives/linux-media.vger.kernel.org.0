@@ -2,182 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43EF5392872
-	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 09:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9086C3928FB
+	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 09:54:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233203AbhE0HXz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 May 2021 03:23:55 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:48523 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233843AbhE0HXv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 May 2021 03:23:51 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id mALMlaDFMVN4kmALPlNUaq; Thu, 27 May 2021 09:22:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622100136; bh=qUkhE+15QLN3P6Ou/CZcNxg318aR/aNsr+JBp1bVN1k=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=RGMZvDCDQV82TeSGnREl5eM7VOcZia5m+4biKg8s+DC4D5EdwukPMhwmb/NbXyShW
-         QYrXDGP3iEkxmImLQJKB3cZjLK4PpHTEAZvBez2BYdhpjpcxyebEtf0h9982hkXb7h
-         +M94vYzEG+AWBg6/+oVeDc5Sw/+QB3tQKihj42LF0bf5cajuC3Y0FDTUCBya50RcH1
-         nDUnT3V5dro6gP9wtpp7uMbuz5HetEA2R0kK4+eYE7+pT6xjb4MxNje3hzFRbBOBn3
-         9rGrn7mObmZkhq07A2/cqdQTnVqw41bL0BZkYt/5Ez38Hn5jPtCq0TrluPX6dk+u2G
-         JvuscOIfYxbcQ==
-Subject: Re: [PATCHv3 1/6] drm: drm_bridge: add connector_attach/detach bridge
- ops
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     Tony Lindgren <tony@atomide.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-References: <20210428132545.1205162-1-hverkuil-cisco@xs4all.nl>
- <20210428132545.1205162-2-hverkuil-cisco@xs4all.nl>
- <bcf1d476-216f-db51-840e-7cda58585b5b@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <c3d0a979-ba34-6432-8832-1103c62cd1fd@xs4all.nl>
-Date:   Thu, 27 May 2021 09:22:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <bcf1d476-216f-db51-840e-7cda58585b5b@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKHqPwDHIDMOnu2l2AaZNS/gYEXzO7WdpUY8oWSy9qWU+bLQyuNhfQ3VP/4C9RskBsHfaf4X2Sy+Q4tqnN9HPd788n8RIhh4CN2rhc+OA+aTThsNJbaf
- dUFikNqpVa972LG3K6I4w7Ei5sSGyaK+L8xpw1nsVyPLZzH//7/92hV1AVfqjRkvu+qOwmNXfnzpw+zSPp+WmLRrod+PZEyYdKKwBWYYxQoAPN+G0K2NXxFC
- bflTFu170IkRd5Eqpkbpi8JKTcF3CxxhKrqsk5EIbCW9pHrVQRegjYO7kw4gQ9+60ggQdUNovjMgQcYmAgz3tqi7ZLucMyd3r7rlBS6yI2LLiGSWOWGii2eF
- P3Jr1KTvAXqHfr5ATsy4Moi8IIr32QqZGEcWzGflghlbN9HjB1JH6nKDm+zGH1lSCKEL+oGLwa7uBVQoN7a/bFW+MyECxHMYogs2giIHOMPllGnqiLvWw2Z+
- v9R0xZBaTwSYAFxSWAQXE9PSDDV0YMwL/jqDgQCE+j6DQ29aPnDIQdOc2HM=
+        id S235165AbhE0H4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 May 2021 03:56:25 -0400
+Received: from comms.puri.sm ([159.203.221.185]:53418 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235054AbhE0H4Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 May 2021 03:56:16 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 2DF39E204A;
+        Thu, 27 May 2021 00:54:42 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id loOtPd2eyV9H; Thu, 27 May 2021 00:54:41 -0700 (PDT)
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        robh@kernel.org
+Cc:     shawnguo@kernel.org, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, slongerbeam@gmail.com, kernel@puri.sm,
+        krzk@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: [PATCH v1 0/3] media: imx: add support for imx8mq MIPI RX
+Date:   Thu, 27 May 2021 09:54:04 +0200
+Message-Id: <20210527075407.3180744-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/05/2021 10:26, Tomi Valkeinen wrote:
-> On 28/04/2021 16:25, Hans Verkuil wrote:
->> Add bridge connector_attach/detach ops. These ops are called when a
->> bridge is attached or detached to a drm_connector. These ops can be
->> used to register and unregister an HDMI CEC adapter for a bridge that
->> supports CEC.
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> ---
->>   drivers/gpu/drm/drm_bridge_connector.c | 25 +++++++++++++++++++++++-
->>   include/drm/drm_bridge.h               | 27 ++++++++++++++++++++++++++
->>   2 files changed, 51 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
->> index 791379816837..0676677badfe 100644
->> --- a/drivers/gpu/drm/drm_bridge_connector.c
->> +++ b/drivers/gpu/drm/drm_bridge_connector.c
->> @@ -203,6 +203,11 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
->>   {
->>   	struct drm_bridge_connector *bridge_connector =
->>   		to_drm_bridge_connector(connector);
->> +	struct drm_bridge *bridge;
->> +
->> +	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge)
->> +		if (bridge->funcs->connector_detach)
->> +			bridge->funcs->connector_detach(bridge, connector);
->>   
->>   	if (bridge_connector->bridge_hpd) {
->>   		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
->> @@ -318,6 +323,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->>   	struct i2c_adapter *ddc = NULL;
->>   	struct drm_bridge *bridge;
->>   	int connector_type;
->> +	int ret;
->>   
->>   	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
->>   	if (!bridge_connector)
->> @@ -375,6 +381,23 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->>   		connector->polled = DRM_CONNECTOR_POLL_CONNECT
->>   				  | DRM_CONNECTOR_POLL_DISCONNECT;
->>   
->> -	return connector;
->> +	ret = 0;
->> +	/* call connector_attach for all bridges */
->> +	drm_for_each_bridge_in_chain(encoder, bridge) {
->> +		if (!bridge->funcs->connector_attach)
->> +			continue;
->> +		ret = bridge->funcs->connector_attach(bridge, connector);
->> +		if (ret)
->> +			break;
->> +	}
->> +	if (!ret)
->> +		return connector;
->> +
->> +	/* on error, detach any previously successfully attached connectors */
->> +	list_for_each_entry_continue_reverse(bridge, &(encoder)->bridge_chain,
-> 
-> No need for parenthesis in (encoder) here.
-> 
->> +					     chain_node)
->> +		if (bridge->funcs->connector_detach)
->> +			bridge->funcs->connector_detach(bridge, connector);
->> +	return ERR_PTR(ret);
->>   }
->>   EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
->> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
->> index 2195daa289d2..333fbc3a03e9 100644
->> --- a/include/drm/drm_bridge.h
->> +++ b/include/drm/drm_bridge.h
->> @@ -629,6 +629,33 @@ struct drm_bridge_funcs {
->>   	 * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
->>   	 */
->>   	void (*hpd_disable)(struct drm_bridge *bridge);
->> +
->> +	/**
->> +	 * @connector_attach:
->> +	 *
->> +	 * This callback is invoked whenever our bridge is being attached to a
->> +	 * &drm_connector. This is where an HDMI CEC adapter can be registered.
->> +	 *
->> +	 * The @connector_attach callback is optional.
->> +	 *
->> +	 * RETURNS:
->> +	 *
->> +	 * Zero on success, error code on failure.
->> +	 */
->> +	int (*connector_attach)(struct drm_bridge *bridge,
->> +				struct drm_connector *conn);
->> +
->> +	/**
->> +	 * @connector_detach:
->> +	 *
->> +	 * This callback is invoked whenever our bridge is being detached from a
->> +	 * &drm_connector. This is where an HDMI CEC adapter can be
->> +	 * unregistered.
->> +	 *
->> +	 * The @connector_detach callback is optional.
->> +	 */
->> +	void (*connector_detach)(struct drm_bridge *bridge,
->> +				 struct drm_connector *conn);
->>   };
->>   
->>   /**
->>
-> 
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> 
-> I can take this series as it's mostly omapdrm, but we'll need a 
-> reviewed-by/acked-by from a maintainer for this patch.
+This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
 
-Laurent, aren't you the drm bridge maintainer?
+It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
 
-If so, can you review/ack this patch so Tomi can merge it?
+I'll send the sensor driver I'm using (that will use this code via the
+imx8mq-librem5 board) later, if that's ok.
 
-Regards,
+Thanks Laurent, who helped a lot. I'm happy for any feedback,
 
-	Hans
+                           martin
 
-> 
->   Tomi
-> 
+Martin Kepplinger (3):
+  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+    controller
+  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  |  151 +++
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  102 ++
+ drivers/staging/media/imx/Makefile            |    1 +
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 1023 +++++++++++++++++
+ 4 files changed, 1277 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
+-- 
+2.30.2
 
