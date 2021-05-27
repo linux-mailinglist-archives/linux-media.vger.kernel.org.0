@@ -2,123 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A036F39342F
-	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 18:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50EFE3934DF
+	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 19:32:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236576AbhE0Qlu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 May 2021 12:41:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50806 "EHLO
+        id S235361AbhE0ReG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 May 2021 13:34:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236559AbhE0Qlm (ORCPT
+        with ESMTP id S234594AbhE0ReF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 May 2021 12:41:42 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A19C061763
-        for <linux-media@vger.kernel.org>; Thu, 27 May 2021 09:40:09 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id y15so979284pfn.13
-        for <linux-media@vger.kernel.org>; Thu, 27 May 2021 09:40:09 -0700 (PDT)
+        Thu, 27 May 2021 13:34:05 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3BCDC061574;
+        Thu, 27 May 2021 10:32:31 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id t20so783407qtx.8;
+        Thu, 27 May 2021 10:32:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rVJGtdv5l9RyklCzUTkuJlVMrqlEexKEuoefhy72CR0=;
-        b=kgYreiFdz/DW7mWZVx44Kg3X550VwtbM23UYQpOPv0T+6CDlQmzMVOI5SCHra3eewO
-         NazRITNZuvaonlg5mxsA4SFL7o7HtzDkI8M8u4SD0F8Mt6Pu3hIMcPyK9JWvoAdUUIKG
-         iANIFTgRe/kcwb5qlMPkr1CDTv5/9PI3M6NCe/cVz+RBR1+DUh751lnSNi8hzGotfzYV
-         gCxnZrbP95aNeq/zcIMSwboKp4cCm2BxRHL+PAdFA8O1NiHngoUuAfr9Jrf14M5V9uU8
-         OZO8R+2oeL2M7ijVFL/XRGqGpScFb/Ywlutr+TyrAYtetvFRBDF7kYxH7V+BGX25sm6V
-         Kc4A==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GwyD75rzyb1MrNkWNGANetxR5fjFir6hRju5tqmz7wk=;
+        b=t6pshkjXHNlOODqwgFdY8JAJ1pv1C3sGHm8RKZt1HBUNisj3jqWBkvVcR6bBFxJF+5
+         aNzZhNz8ngVrDZgk3iGVBR7wLA1AkvH+8iZb6CUaEyoPec+UXjdz5u0CTH40EuVSGwk5
+         mCIMB6HsGy2wtG/N1zQCqWENPYoHJ4C4XK1Xx5vPtExd/le1g5IAfMu6vy2hIrgJDkUo
+         tDOlNL9zhvVlyTlbJgWGk+FGkR+luLKerx3wNaRdsGNL0Hz7Q8Gd5YDYQQVf64IH+bf8
+         UXhaOQNkuxfhQsqo+YM4y1OjM41Iumq1z0o/SDYUT6MnuIZp/nPnrRpkfJXUQrPxlIRn
+         B3Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rVJGtdv5l9RyklCzUTkuJlVMrqlEexKEuoefhy72CR0=;
-        b=KHvVZ2XmCxm4UE5M2afWSJ8VJL/sluVnHuXihbIoGWL1weF+i+ak08JY7hiQRLf7bE
-         wRtEjtoz81dhnkZ887/2cpu1Qtf1QCa8Vk6q4RyX6PtD/zyFoqrgLMSdnx/YgeHvkOjO
-         CQ8VReaCZC0PXBomWdx0n2In8b1f5iJRA6n8H7+8wAvHRGyERasSLm5b5sDKYtTLaMsh
-         q8wLPAgHaUnpWuJPbu4Ebhe1Ui72p31S+I+lUt9EkxMkAmdqATyx1qrgfwmSog0o2oHe
-         YQrWrVbp2TRH1Jtm8/K/t72Q4nRZ12pP/yob33NlC1WavmzPtn+8onj8DvP6+gJ91qn2
-         6X/Q==
-X-Gm-Message-State: AOAM531/F4z6PpCy1dnnBRJho6qBB0V3W/8N0liQUWD5XzJwnJnJefk8
-        reDCaV5GzWvYZZqE+Kmvoc+iP0aJTNV3VBoi/s3D4w==
-X-Google-Smtp-Source: ABdhPJyyaPkLPUBJ3GhAZIwnFW1Zy/4B9tmFov7bAiMFKGThCv1LGhpJ18R9r+io2o4mLazRoXW+N/E9a1FNW1ZlRfk=
-X-Received: by 2002:a62:7686:0:b029:2db:551f:ed8b with SMTP id
- r128-20020a6276860000b02902db551fed8bmr4075905pfc.7.1622133609138; Thu, 27
- May 2021 09:40:09 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GwyD75rzyb1MrNkWNGANetxR5fjFir6hRju5tqmz7wk=;
+        b=DpP+CgwvEA+GxXS3n3Z62n8+ojVZXhgxEHPf4Tm+mhYmrmG8QH0oYZguGhrGbpAE7j
+         El0vWTxC+0hmXetkynXYz9/IpUZzHCUiVuK9TsYQaRr4F9cpvOD0qXlJQQcyqKrNLCXk
+         D+JrpqnpspffZ3t25+bvhMscXwt/gKbxWveEw/gLqo7H26a4qic3rz3tUnVRwHsYePhB
+         +ktKL8DaLGcdZytcTWSVzxj1osU0+QOq0zpCYlWqJ1cR+4hkZPfYfMoj3P3OVbf17dSr
+         L0f5ON85tok8sbBUSeFkW7X49CYmeVO4oA6W3idSGlZ5qQ77GjsYgS3XsKXseQwL3B71
+         Dcxw==
+X-Gm-Message-State: AOAM533y/+v0WCVDh7icY3uvPBtTdk0gJdU0wTnGDqlta4jTMskDtdZ0
+        oc/ycD5EM2jtmaWQLyzyQFs=
+X-Google-Smtp-Source: ABdhPJy8TGHNpxugwCUOfNh7IKW8METeHEyGcHLsR1Mkv5mzsb7lNNbUWXYS2CXoyqImW0Hi/9I2XA==
+X-Received: by 2002:ac8:5a8f:: with SMTP id c15mr4088636qtc.162.1622136750708;
+        Thu, 27 May 2021 10:32:30 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:485:504a:a1cb:22e7:5e60:5887])
+        by smtp.gmail.com with ESMTPSA id m15sm1715117qtn.47.2021.05.27.10.32.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 May 2021 10:32:30 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     lars@metafoo.de, matthew.michilot@gmail.com, tharvey@gateworks.com,
+        linux-media@vger.kernel.org, slongerbeam@gmail.com,
+        niklas.soderlund@ragnatech.se, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH 1/2] dt-bindings: adv7180: Introduce adv,adv7182-force-bt656-4
+Date:   Thu, 27 May 2021 14:32:08 -0300
+Message-Id: <20210527173209.3874124-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210517142923.3173431-1-festevam@gmail.com>
-In-Reply-To: <20210517142923.3173431-1-festevam@gmail.com>
-From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Thu, 27 May 2021 09:39:58 -0700
-Message-ID: <CAJ+vNU3yey37N704cPnFriCV2yivQJM0HRy4eCP62y1yY8Lg9A@mail.gmail.com>
-Subject: Re: [PATCH v3] media: imx-csi: Skip first few frames from a BT.656 source
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 17, 2021 at 7:29 AM Fabio Estevam <festevam@gmail.com> wrote:
->
-> From: Steve Longerbeam <slongerbeam@gmail.com>
->
-> Some BT.656 sensors (e.g. ADV718x) transmit frames with unstable BT.656
-> sync codes after initial power on. This confuses the imx CSI,resulting
-> in vertical and/or horizontal sync issues. Skip the first 20 frames
-> to avoid the unstable sync codes.
->
-> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
-> [fabio: fixed checkpatch warning and increased the frame skipping to 20]
-> Signed-off-by: Fabio Estevam <festevam@gmail.com>
-> ---
-> Changes since v2:
-> - Increase 'bad_frames' to 20 as 10 was not enough to avoid
-> the problem when using an NTSC camera.
->
->  drivers/staging/media/imx/imx-media-csi.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-> index e3bfd635a89a..6a94fff49bf6 100644
-> --- a/drivers/staging/media/imx/imx-media-csi.c
-> +++ b/drivers/staging/media/imx/imx-media-csi.c
-> @@ -750,9 +750,10 @@ static int csi_setup(struct csi_priv *priv)
->
->  static int csi_start(struct csi_priv *priv)
->  {
-> -       struct v4l2_fract *output_fi;
-> +       struct v4l2_fract *input_fi, *output_fi;
->         int ret;
->
-> +       input_fi = &priv->frame_interval[CSI_SINK_PAD];
->         output_fi = &priv->frame_interval[priv->active_output_pad];
->
->         /* start upstream */
-> @@ -761,6 +762,17 @@ static int csi_start(struct csi_priv *priv)
->         if (ret)
->                 return ret;
->
-> +       /* Skip first few frames from a BT.656 source */
-> +       if (priv->upstream_ep.bus_type == V4L2_MBUS_BT656) {
-> +               u32 delay_usec, bad_frames = 20;
-> +
-> +               delay_usec = DIV_ROUND_UP_ULL((u64)USEC_PER_SEC *
-> +                       input_fi->numerator * bad_frames,
-> +                       input_fi->denominator);
-> +
-> +               usleep_range(delay_usec, delay_usec + 1000);
-> +       }
-> +
->         if (priv->dest == IPU_CSI_DEST_IDMAC) {
->                 ret = csi_idmac_start(priv);
->                 if (ret)
-> --
-> 2.25.1
->
+Captured NTSC video would be out of sync when using the adv7280 with
+the BT.656-4 protocol. Certain registers (0x04, 0x31, 0xE6) need to
+be configured properly to ensure BT.656-4 compatibility.
 
-Reviewed-By: Tim Harvey <tharvey@gateworks.com>
+Introduce the 'adv,adv7182-force-bt656-4' property to allow the ADV7280
+behavior to be consistent with the ADV7180, where BT.656-4 timing
+is used.
+
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ Documentation/devicetree/bindings/media/i2c/adv7180.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+index bcfd93739b4f..83e47b0c9fa2 100644
+--- a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+@@ -35,6 +35,11 @@ properties:
+   powerdown-gpios:
+     maxItems: 1
+ 
++  adv,adv7182-force-bt656-4:
++    description:
++      Indicates that ADV7182 should output a BT.656-4 compatible stream.
++    type: boolean
++
+   port:
+     $ref: /schemas/graph.yaml#/properties/port
+ 
+-- 
+2.25.1
+
