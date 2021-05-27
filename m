@@ -2,850 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF142392BD9
-	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 12:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 876DF392E2D
+	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 14:42:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236147AbhE0Kbt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 May 2021 06:31:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50082 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236093AbhE0Kbr (ORCPT
+        id S235603AbhE0Mnt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 May 2021 08:43:49 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37250 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235530AbhE0Mns (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 May 2021 06:31:47 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3A20C061760
-        for <linux-media@vger.kernel.org>; Thu, 27 May 2021 03:30:14 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id l1so7226874ejb.6
-        for <linux-media@vger.kernel.org>; Thu, 27 May 2021 03:30:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=pJ6Kt8slUzchSWQGlLNm9K5c/EocA3tzwenHAaV7qos=;
-        b=lynuNjeO6GtnP3t960gzL7WfI9VoouBYtdGrKGb2jHkD+n3xSVHHgdqGb8Q+Cm/gVB
-         hCV6G0pi63tQijiRlNUWP2Di2XK+bhq2b9FxNMlJNwkihqlWZz5sO2X0P9TgRmLhdtzy
-         e3uIIDFJM4pmpZrGJqen3bB71Sc4EXYd+tZTI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=pJ6Kt8slUzchSWQGlLNm9K5c/EocA3tzwenHAaV7qos=;
-        b=PIGni16Xl3K6B2zX15viQzpxIHLOS45HtolbxWB8dq9fyNjP56TKUDDzQHosVw2yQv
-         eqqvt62QkoddLKsWLEpUAduq3BziFk8r6SXb6ke9wjMLS9y1uZVKWbwolQLyYOBdhkLQ
-         /NVMcDIjl4BsO1NEPu5y3alWRfsfVblAvGww2vomMgeMAc/Rf8lazwnJmznRCIjANWjT
-         +vloaq68H+nhWxC6OPEIPstvJjvGW0+LHnbpws4ZOsmtUdQriv3lxnEwVmfhHLuK7bUj
-         4UGn+422qtdoYi6kRtuNryD1nH7Rpb2wLVqc717+F/hhRsvwKyxAuoQ0b0HQ+dxMsLgv
-         ZWqQ==
-X-Gm-Message-State: AOAM532HLeag1ZQ/hotwI43+qRr5msqh/hLFBrLOhRAWuw1wB7QQx73Z
-        NnqC5qCogY9oI82mnxP9Rfl1mg==
-X-Google-Smtp-Source: ABdhPJwGKDAiN5ONKta0WBBke0tA6/MvOwl54U2crZXnhJhe++c65akX4vUksLDYJpE7ZYeKX7kD4Q==
-X-Received: by 2002:a17:907:248c:: with SMTP id zg12mr3007399ejb.268.1622111413097;
-        Thu, 27 May 2021 03:30:13 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id md21sm764770ejb.110.2021.05.27.03.30.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 03:30:12 -0700 (PDT)
-Date:   Thu, 27 May 2021 12:30:10 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Hridya Valsaraju <hridya@google.com>
-Cc:     daniel@ffwll.ch, Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        kernel-team@android.com, gregkh@linuxfoundation.org,
-        john.stultz@linaro.org, surenb@google.com,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4] dmabuf: Add the capability to expose DMA-BUF stats in
- sysfs
-Message-ID: <YK90skGgi1LvDplh@phenom.ffwll.local>
-Mail-Followup-To: Hridya Valsaraju <hridya@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        kernel-team@android.com, gregkh@linuxfoundation.org,
-        john.stultz@linaro.org, surenb@google.com,
-        kernel test robot <lkp@intel.com>
-References: <20210525183720.1739480-1-hridya@google.com>
+        Thu, 27 May 2021 08:43:48 -0400
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3AE72B2C;
+        Thu, 27 May 2021 14:42:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1622119333;
+        bh=AjWVmr0EYNCkt1EGXFm1RnUI3oKIHEaEt9jfoOrvaz0=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=S0S7QWdhhWPMex6nG1Hc2b/yiqvHgQPKIiAjfen7pAqeVH7WG6vl8NhQ6hmwK4jh0
+         q/uHo80NrFF60EQ43RcWg5HIZOOR7CPObzDzViE1ntKpUE+RwcUuNK4k1QrOzt0ZdB
+         IQ0ImDkb2KSL0m9jWyMRjDYtu07ngD38rUEueUM0=
+Subject: Re: [PATCH v2 00/18] CSI2RX support on J721E
+To:     Pratyush Yadav <p.yadav@ti.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, dmaengine@vger.kernel.org
+Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210526152308.16525-1-p.yadav@ti.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <b5d4105b-f53b-4941-ea2d-77f47540b240@ideasonboard.com>
+Date:   Thu, 27 May 2021 15:42:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210525183720.1739480-1-hridya@google.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <20210526152308.16525-1-p.yadav@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 25, 2021 at 11:37:13AM -0700, Hridya Valsaraju wrote:
-> This patch allows statistics to be enabled for each DMA-BUF in
-> sysfs by enabling the config CONFIG_DMABUF_SYSFS_STATS.
-> 
-> The following stats will be exposed by the interface:
-> 
-> /sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
-> /sys/kernel/dmabuf/buffers/<inode_number>/size
-> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/device
-> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_counter
-> 
-> The inode_number is unique for each DMA-BUF and was added earlier [1]
-> in order to allow userspace to track DMA-BUF usage across different
-> processes.
-> 
-> Currently, this information is exposed in
-> /sys/kernel/debug/dma_buf/bufinfo.
-> However, since debugfs is considered unsafe to be mounted in production,
-> it is being duplicated in sysfs.
-> 
-> Procfs also uses the proc/<pid>/fdinfo/<fd> file to expose some
-> information about DMA-BUF fds. However, the existing procfs interfaces
-> can only provide information about the buffers for which processes
-> hold fds or have the buffers mmapped into their address space.
-> The sysfs interface also exposes attachment statistics for each buffer.
-> 
-> This information will be used to derive DMA-BUF
-> per-exporter stats and per-device usage stats for Android Bug reports.
-> The corresponding userspace changes can be found at [2].
-> Telemetry tools will also capture this information(along with other
-> memory metrics) periodically as well as on important events like a
-> foreground app kill (which might have been triggered by Low Memory
-> Killer). It will also contribute to provide a snapshot of the system
-> memory usage on other events such as OOM kills and Application Not
-> Responding events.
-> 
-> A shell script that can be run on a classic Linux environment to read
-> out the DMA-BUF statistics can be found at [3](suggested by John
-> Stultz).
-> 
-> The patch contains the following major improvements over v1:
-> 1) Each attachment is represented by its own directory to allow creating
-> a symlink to the importing device and to also provide room for future
-> expansion.
-> 2) The number of distinct mappings of each attachment is exposed in a
-> separate file.
-> 3) The per-buffer statistics are now in /sys/kernel/dmabuf/buffers
-> inorder to make the interface expandable in future.
-> 
-> All of the improvements above are based on suggestions/feedback from
-> Daniel Vetter and Christian König.
-> 
-> [1]: https://lore.kernel.org/patchwork/patch/1088791/
-> [2]: https://android-review.googlesource.com/q/topic:%22dmabuf-sysfs%22+(status:open%20OR%20status:merged)
-> [3]: https://android-review.googlesource.com/c/platform/system/memory/libmeminfo/+/1549734
-> 
-> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> ---
-> 
-> Hi Daniel,
-> 
-> I am sending the latest version of the DMA-BUF sysfs statistics patch to
-> the list again as per your suggestion to restart the discussion on it :)
-> Please do take a look and let me know your thoughts, thank you!
-> 
-> Regards,
-> Hridya
-> 
-> Changes in v4:
-> -Suppress uevents from kset creation to avoid waking up uevent listeners on
-> DMA-BUF export/release.
-> 
-> Changes in v3:
-> -Fix a warning reported by the kernel test robot.
-> 
-> Changes in v2:
-> -Move statistics to /sys/kernel/dmabuf/buffers in oder to allow addition
-> of other DMA-BUF-related sysfs stats in future. Based on feedback from
-> Daniel Vetter.
-> -Each attachment has its own directory to represent attaching devices as
-> symlinks and to introduce map_count as a separate file. Based on
-> feedback from Daniel Vetter and Christian König. Thank you both!
-> -Commit messages updated to point to userspace code in AOSP that will
-> read the DMA-BUF sysfs stats.
-> 
->  .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  52 +++
->  drivers/dma-buf/Kconfig                       |  11 +
->  drivers/dma-buf/Makefile                      |   1 +
->  drivers/dma-buf/dma-buf-sysfs-stats.c         | 300 ++++++++++++++++++
->  drivers/dma-buf/dma-buf-sysfs-stats.h         |  62 ++++
->  drivers/dma-buf/dma-buf.c                     |  37 +++
->  include/linux/dma-buf.h                       |  20 ++
->  7 files changed, 483 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
->  create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
->  create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> new file mode 100644
-> index 000000000000..73a8c372b0f2
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> @@ -0,0 +1,52 @@
-> +What:		/sys/kernel/dmabuf/buffers
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	The /sys/kernel/dmabuf/buffers directory contains a
-> +		snapshot of the internal state of every DMA-BUF.
-> +		/sys/kernel/dmabuf/buffers/<inode_number> will contain the
-> +		statistics for the DMA-BUF with the unique inode number
-> +		<inode_number>
-> +Users:		kernel memory tuning/debugging tools
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This file is read-only and contains the name of the exporter of
-> +		the DMA-BUF.
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/size
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This file is read-only and specifies the size of the DMA-BUF in
-> +		bytes.
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This directory will contain subdirectories representing every
-> +		attachment of the DMA-BUF.
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_uid>
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This directory will contain information on the attaching device
+Hi Pratyush,
 
-s/attaching/attached/
-
-> +		and the number of current distinct device mappings.
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_uid>/device
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This file is read-only and is a symlink to the attaching devices's
-
-Same here.
-
-> +		sysfs entry.
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_uid>/map_counter
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This file is read-only and contains a map_counter indicating the
-> +		number of distinct device mappings of the attachment.
-> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-> index 4e16c71c24b7..9561e3d2d428 100644
-> --- a/drivers/dma-buf/Kconfig
-> +++ b/drivers/dma-buf/Kconfig
-> @@ -72,6 +72,17 @@ menuconfig DMABUF_HEAPS
->  	  allows userspace to allocate dma-bufs that can be shared
->  	  between drivers.
->  
-> +menuconfig DMABUF_SYSFS_STATS
-> +	bool "DMA-BUF sysfs statistics"
-> +	select DMA_SHARED_BUFFER
-> +	help
-> +	   Choose this option to enable DMA-BUF sysfs statistics
-> +	   in location /sys/kernel/dmabuf/buffers.
-> +
-> +	   /sys/kernel/dmabuf/buffers/<inode_number> will contain
-> +	   statistics for the DMA-BUF with the unique inode number
-> +	   <inode_number>.
-> +
->  source "drivers/dma-buf/heaps/Kconfig"
->  
->  endmenu
-> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> index 995e05f609ff..40d81f23cacf 100644
-> --- a/drivers/dma-buf/Makefile
-> +++ b/drivers/dma-buf/Makefile
-> @@ -6,6 +6,7 @@ obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
->  obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
->  obj-$(CONFIG_SW_SYNC)		+= sw_sync.o sync_debug.o
->  obj-$(CONFIG_UDMABUF)		+= udmabuf.o
-> +obj-$(CONFIG_DMABUF_SYSFS_STATS) += dma-buf-sysfs-stats.o
->  
->  dmabuf_selftests-y := \
->  	selftest.o \
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> new file mode 100644
-> index 000000000000..45717c8108c8
-> --- /dev/null
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> @@ -0,0 +1,300 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * DMA-BUF sysfs statistics.
-> + *
-> + * Copyright (C) 2021 Google LLC.
-> + */
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/dma-resv.h>
-> +#include <linux/kobject.h>
-> +#include <linux/printk.h>
-> +#include <linux/slab.h>
-> +#include <linux/sysfs.h>
-> +
-> +#include "dma-buf-sysfs-stats.h"
-> +
-> +#define to_dma_buf_entry_from_kobj(x) container_of(x, struct dma_buf_sysfs_entry, kobj)
-> +
-> +struct dma_buf_stats_attribute {
-> +	struct attribute attr;
-> +	ssize_t (*show)(struct dma_buf *dmabuf,
-> +			struct dma_buf_stats_attribute *attr, char *buf);
-> +};
-> +#define to_dma_buf_stats_attr(x) container_of(x, struct dma_buf_stats_attribute, attr)
-> +
-> +static ssize_t dma_buf_stats_attribute_show(struct kobject *kobj,
-> +					    struct attribute *attr,
-> +					    char *buf)
-> +{
-> +	struct dma_buf_stats_attribute *attribute;
-> +	struct dma_buf_sysfs_entry *sysfs_entry;
-> +	struct dma_buf *dmabuf;
-> +
-> +	attribute = to_dma_buf_stats_attr(attr);
-> +	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
-> +	dmabuf = sysfs_entry->dmabuf;
-> +
-> +	if (!dmabuf || !attribute->show)
-> +		return -EIO;
-> +
-> +	return attribute->show(dmabuf, attribute, buf);
-> +}
-> +
-> +static const struct sysfs_ops dma_buf_stats_sysfs_ops = {
-> +	.show = dma_buf_stats_attribute_show,
-> +};
-> +
-> +static ssize_t exporter_name_show(struct dma_buf *dmabuf,
-> +				  struct dma_buf_stats_attribute *attr,
-> +				  char *buf)
-> +{
-> +	return sysfs_emit(buf, "%s\n", dmabuf->exp_name);
-> +}
-> +
-> +static ssize_t size_show(struct dma_buf *dmabuf,
-> +			 struct dma_buf_stats_attribute *attr,
-> +			 char *buf)
-> +{
-> +	return sysfs_emit(buf, "%zu\n", dmabuf->size);
-> +}
-> +
-> +static struct dma_buf_stats_attribute exporter_name_attribute =
-> +	__ATTR_RO(exporter_name);
-> +static struct dma_buf_stats_attribute size_attribute = __ATTR_RO(size);
-> +
-> +static struct attribute *dma_buf_stats_default_attrs[] = {
-> +	&exporter_name_attribute.attr,
-> +	&size_attribute.attr,
-> +	NULL,
-> +};
-> +ATTRIBUTE_GROUPS(dma_buf_stats_default);
-> +
-> +static void dma_buf_sysfs_release(struct kobject *kobj)
-> +{
-> +	struct dma_buf_sysfs_entry *sysfs_entry;
-> +
-> +	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
-> +	kfree(sysfs_entry);
-> +}
-> +
-> +static struct kobj_type dma_buf_ktype = {
-> +	.sysfs_ops = &dma_buf_stats_sysfs_ops,
-> +	.release = dma_buf_sysfs_release,
-> +	.default_groups = dma_buf_stats_default_groups,
-> +};
-> +
-> +#define to_dma_buf_attach_entry_from_kobj(x) container_of(x, struct dma_buf_attach_sysfs_entry, kobj)
-> +
-> +struct dma_buf_attach_stats_attribute {
-> +	struct attribute attr;
-> +	ssize_t (*show)(struct dma_buf_attach_sysfs_entry *sysfs_entry,
-> +			struct dma_buf_attach_stats_attribute *attr, char *buf);
-> +};
-> +#define to_dma_buf_attach_stats_attr(x) container_of(x, struct dma_buf_attach_stats_attribute, attr)
-> +
-> +static ssize_t dma_buf_attach_stats_attribute_show(struct kobject *kobj,
-> +						   struct attribute *attr,
-> +						   char *buf)
-> +{
-> +	struct dma_buf_attach_stats_attribute *attribute;
-> +	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> +
-> +	attribute = to_dma_buf_attach_stats_attr(attr);
-> +	sysfs_entry = to_dma_buf_attach_entry_from_kobj(kobj);
-> +
-> +	if (!attribute->show)
-> +		return -EIO;
-> +
-> +	return attribute->show(sysfs_entry, attribute, buf);
-> +}
-> +
-> +static const struct sysfs_ops dma_buf_attach_stats_sysfs_ops = {
-> +	.show = dma_buf_attach_stats_attribute_show,
-> +};
-> +
-> +static ssize_t map_counter_show(struct dma_buf_attach_sysfs_entry *sysfs_entry,
-> +				struct dma_buf_attach_stats_attribute *attr,
-> +				char *buf)
-> +{
-> +	return sysfs_emit(buf, "%u\n", sysfs_entry->map_counter);
-> +}
-> +
-> +static struct dma_buf_attach_stats_attribute map_counter_attribute =
-> +	__ATTR_RO(map_counter);
-> +
-> +static struct attribute *dma_buf_attach_stats_default_attrs[] = {
-> +	&map_counter_attribute.attr,
-> +	NULL,
-> +};
-> +ATTRIBUTE_GROUPS(dma_buf_attach_stats_default);
-> +
-> +static void dma_buf_attach_sysfs_release(struct kobject *kobj)
-> +{
-> +	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> +
-> +	sysfs_entry = to_dma_buf_attach_entry_from_kobj(kobj);
-> +	kfree(sysfs_entry);
-> +}
-> +
-> +static struct kobj_type dma_buf_attach_ktype = {
-> +	.sysfs_ops = &dma_buf_attach_stats_sysfs_ops,
-> +	.release = dma_buf_attach_sysfs_release,
-> +	.default_groups = dma_buf_attach_stats_default_groups,
-> +};
-> +
-> +void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach)
-> +{
-> +	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> +
-> +	sysfs_entry = attach->sysfs_entry;
-> +	if (!sysfs_entry)
-> +		return;
-> +
-> +	sysfs_delete_link(&sysfs_entry->kobj, &attach->dev->kobj, "device");
-> +
-> +	kobject_del(&sysfs_entry->kobj);
-> +	kobject_put(&sysfs_entry->kobj);
-> +}
-> +
-> +int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
-> +			       unsigned int uid)
-> +{
-> +	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> +	int ret;
-> +	struct dma_buf *dmabuf;
-> +
-> +	if (!attach)
-> +		return -EINVAL;
-> +
-> +	dmabuf = attach->dmabuf;
-> +
-> +	sysfs_entry = kzalloc(sizeof(struct dma_buf_attach_sysfs_entry),
-> +			      GFP_KERNEL);
-> +	if (!sysfs_entry)
-> +		return -ENOMEM;
-> +
-> +	sysfs_entry->kobj.kset = dmabuf->sysfs_entry->attach_stats_kset;
-> +
-> +	attach->sysfs_entry = sysfs_entry;
-> +
-> +	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_attach_ktype,
-> +				   NULL, "%u", uid);
-> +	if (ret)
-> +		goto kobj_err;
-> +
-> +	ret = sysfs_create_link(&sysfs_entry->kobj, &attach->dev->kobj,
-> +				"device");
-> +	if (ret)
-> +		goto link_err;
-> +
-> +	return 0;
-> +
-> +link_err:
-> +	kobject_del(&sysfs_entry->kobj);
-> +kobj_err:
-> +	kobject_put(&sysfs_entry->kobj);
-> +	attach->sysfs_entry = NULL;
-> +
-> +	return ret;
-> +}
-> +void dma_buf_stats_teardown(struct dma_buf *dmabuf)
-> +{
-> +	struct dma_buf_sysfs_entry *sysfs_entry;
-> +
-> +	sysfs_entry = dmabuf->sysfs_entry;
-> +	if (!sysfs_entry)
-> +		return;
-> +
-> +	kset_unregister(sysfs_entry->attach_stats_kset);
-> +	kobject_del(&sysfs_entry->kobj);
-> +	kobject_put(&sysfs_entry->kobj);
-> +}
-> +
-> +
-> +/* Statistics files do not need to send uevents. */
-> +static int dmabuf_sysfs_uevent_filter(struct kset *kset, struct kobject *kobj)
-> +{
-> +	return 0;
-> +}
-> +
-> +static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops = {
-> +	.filter = dmabuf_sysfs_uevent_filter,
-> +};
-> +
-> +static struct kset *dma_buf_stats_kset;
-> +static struct kset *dma_buf_per_buffer_stats_kset;
-> +int dma_buf_init_sysfs_statistics(void)
-> +{
-> +	dma_buf_stats_kset = kset_create_and_add("dmabuf",
-> +						 &dmabuf_sysfs_no_uevent_ops,
-> +						 kernel_kobj);
-> +	if (!dma_buf_stats_kset)
-> +		return -ENOMEM;
-> +
-> +	dma_buf_per_buffer_stats_kset = kset_create_and_add("buffers",
-> +							    &dmabuf_sysfs_no_uevent_ops,
-> +							    &dma_buf_stats_kset->kobj);
-> +	if (!dma_buf_per_buffer_stats_kset) {
-> +		kset_unregister(dma_buf_stats_kset);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +void dma_buf_uninit_sysfs_statistics(void)
-> +{
-> +	kset_unregister(dma_buf_per_buffer_stats_kset);
-> +	kset_unregister(dma_buf_stats_kset);
-> +}
-> +
-> +int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> +{
-> +	struct dma_buf_sysfs_entry *sysfs_entry;
-> +	int ret;
-> +	struct kset *attach_stats_kset;
-> +
-> +	if (!dmabuf || !dmabuf->file)
-> +		return -EINVAL;
-> +
-> +	if (!dmabuf->exp_name) {
-> +		pr_err("exporter name must not be empty if stats needed\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	sysfs_entry = kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
-> +	if (!sysfs_entry)
-> +		return -ENOMEM;
-> +
-> +	sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
-> +	sysfs_entry->dmabuf = dmabuf;
-> +
-> +	dmabuf->sysfs_entry = sysfs_entry;
-> +
-> +	/* create the directory for buffer stats */
-> +	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
-> +				   "%lu", file_inode(dmabuf->file)->i_ino);
-> +	if (ret)
-> +		goto err_sysfs_dmabuf;
-> +
-> +	/* create the directory for attachment stats */
-> +	attach_stats_kset = kset_create_and_add("attachments",
-> +						&dmabuf_sysfs_no_uevent_ops,
-> +						&sysfs_entry->kobj);
-> +	if (!attach_stats_kset) {
-> +		ret = -ENOMEM;
-> +		goto err_sysfs_attach;
-> +	}
-> +
-> +	sysfs_entry->attach_stats_kset = attach_stats_kset;
-> +
-> +	return 0;
-> +
-> +err_sysfs_attach:
-> +	kobject_del(&sysfs_entry->kobj);
-> +err_sysfs_dmabuf:
-> +	kobject_put(&sysfs_entry->kobj);
-> +	dmabuf->sysfs_entry = NULL;
-> +	return ret;
-> +}
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> new file mode 100644
-> index 000000000000..5f4703249117
-> --- /dev/null
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> @@ -0,0 +1,62 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * DMA-BUF sysfs statistics.
-> + *
-> + * Copyright (C) 2021 Google LLC.
-> + */
-> +
-> +#ifndef _DMA_BUF_SYSFS_STATS_H
-> +#define _DMA_BUF_SYSFS_STATS_H
-> +
-> +#ifdef CONFIG_DMABUF_SYSFS_STATS
-> +
-> +int dma_buf_init_sysfs_statistics(void);
-> +void dma_buf_uninit_sysfs_statistics(void);
-> +
-> +int dma_buf_stats_setup(struct dma_buf *dmabuf);
-> +int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
-> +			       unsigned int uid);
-> +static inline void dma_buf_update_attachment_map_count(struct dma_buf_attachment *attach,
-> +						       int delta)
-> +{
-> +	struct dma_buf_attach_sysfs_entry *entry = attach->sysfs_entry;
-> +
-> +	entry->map_counter += delta;
-> +}
-> +void dma_buf_stats_teardown(struct dma_buf *dmabuf);
-> +void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach);
-> +static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabuf)
-> +{
-> +	struct dma_buf_sysfs_entry *entry = dmabuf->sysfs_entry;
-> +
-> +	return entry->attachment_uid++;
-> +}
-> +#else
-> +
-> +static inline int dma_buf_init_sysfs_statistics(void)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void dma_buf_uninit_sysfs_statistics(void) {}
-> +
-> +static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> +{
-> +	return 0;
-> +}
-> +static inline int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
-> +					     unsigned int uid)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
-> +static inline void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach) {}
-> +static inline void dma_buf_update_attachment_map_count(struct dma_buf_attachment *attach,
-> +						       int delta) {}
-> +static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabuf)
-> +{
-> +	return 0;
-> +}
-> +#endif
-> +#endif // _DMA_BUF_SYSFS_STATS_H
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index f264b70c383e..184dd7acb1ed 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -29,6 +29,8 @@
->  #include <uapi/linux/dma-buf.h>
->  #include <uapi/linux/magic.h>
->  
-> +#include "dma-buf-sysfs-stats.h"
-> +
->  static inline int is_dma_buf_file(struct file *);
->  
->  struct dma_buf_list {
-> @@ -79,6 +81,7 @@ static void dma_buf_release(struct dentry *dentry)
->  	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
->  		dma_resv_fini(dmabuf->resv);
->  
-> +	dma_buf_stats_teardown(dmabuf);
->  	module_put(dmabuf->owner);
->  	kfree(dmabuf->name);
->  	kfree(dmabuf);
-> @@ -580,6 +583,10 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  	file->f_mode |= FMODE_LSEEK;
->  	dmabuf->file = file;
->  
-> +	ret = dma_buf_stats_setup(dmabuf);
-> +	if (ret)
-> +		goto err_sysfs;
-> +
->  	mutex_init(&dmabuf->lock);
->  	INIT_LIST_HEAD(&dmabuf->attachments);
->  
-> @@ -589,6 +596,14 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  
->  	return dmabuf;
->  
-> +err_sysfs:
-> +	/*
-> +	 * Set file->f_path.dentry->d_fsdata to NULL so that when
-> +	 * dma_buf_release() gets invoked by dentry_ops, it exits
-> +	 * early before calling the release() dma_buf op.
-> +	 */
-> +	file->f_path.dentry->d_fsdata = NULL;
-> +	fput(file);
->  err_dmabuf:
->  	kfree(dmabuf);
->  err_module:
-> @@ -723,6 +738,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  {
->  	struct dma_buf_attachment *attach;
->  	int ret;
-> +	unsigned int attach_uid;
->  
->  	if (WARN_ON(!dmabuf || !dev))
->  		return ERR_PTR(-EINVAL);
-> @@ -748,8 +764,13 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  	}
->  	dma_resv_lock(dmabuf->resv, NULL);
->  	list_add(&attach->node, &dmabuf->attachments);
-> +	attach_uid = dma_buf_update_attach_uid(dmabuf);
->  	dma_resv_unlock(dmabuf->resv);
->  
-> +	ret = dma_buf_attach_stats_setup(attach, attach_uid);
-> +	if (ret)
-> +		goto err_sysfs;
-> +
->  	/* When either the importer or the exporter can't handle dynamic
->  	 * mappings we cache the mapping here to avoid issues with the
->  	 * reservation object lock.
-> @@ -776,6 +797,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  			dma_resv_unlock(attach->dmabuf->resv);
->  		attach->sgt = sgt;
->  		attach->dir = DMA_BIDIRECTIONAL;
-> +		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
->  	}
->  
->  	return attach;
-> @@ -792,6 +814,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  	if (dma_buf_is_dynamic(attach->dmabuf))
->  		dma_resv_unlock(attach->dmabuf->resv);
->  
-> +err_sysfs:
->  	dma_buf_detach(dmabuf, attach);
->  	return ERR_PTR(ret);
->  }
-> @@ -841,6 +864,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
->  			dma_resv_lock(attach->dmabuf->resv, NULL);
->  
->  		__unmap_dma_buf(attach, attach->sgt, attach->dir);
-> +		dma_buf_update_attachment_map_count(attach, -1 /* delta */);
->  
->  		if (dma_buf_is_dynamic(attach->dmabuf)) {
->  			dma_buf_unpin(attach);
-> @@ -854,6 +878,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
->  	if (dmabuf->ops->detach)
->  		dmabuf->ops->detach(dmabuf, attach);
->  
-> +	dma_buf_attach_stats_teardown(attach);
->  	kfree(attach);
->  }
->  EXPORT_SYMBOL_GPL(dma_buf_detach);
-> @@ -993,6 +1018,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->  	}
->  #endif /* CONFIG_DMA_API_DEBUG */
->  
-> +	if (!IS_ERR(sg_table))
-> +		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
-> +
->  	return sg_table;
->  }
->  EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
-> @@ -1030,6 +1058,8 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
->  	if (dma_buf_is_dynamic(attach->dmabuf) &&
->  	    !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
->  		dma_buf_unpin(attach);
-> +
-> +	dma_buf_update_attachment_map_count(attach, -1 /* delta */);
->  }
->  EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
->  
-> @@ -1480,6 +1510,12 @@ static inline void dma_buf_uninit_debugfs(void)
->  
->  static int __init dma_buf_init(void)
->  {
-> +	int ret;
-> +
-> +	ret = dma_buf_init_sysfs_statistics();
-> +	if (ret)
-> +		return ret;
-> +
->  	dma_buf_mnt = kern_mount(&dma_buf_fs_type);
->  	if (IS_ERR(dma_buf_mnt))
->  		return PTR_ERR(dma_buf_mnt);
-> @@ -1495,5 +1531,6 @@ static void __exit dma_buf_deinit(void)
->  {
->  	dma_buf_uninit_debugfs();
->  	kern_unmount(dma_buf_mnt);
-> +	dma_buf_uninit_sysfs_statistics();
->  }
->  __exitcall(dma_buf_deinit);
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index efdc56b9d95f..342585bd6dff 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -295,6 +295,9 @@ struct dma_buf_ops {
->   * @poll: for userspace poll support
->   * @cb_excl: for userspace poll support
->   * @cb_shared: for userspace poll support
-> + * @sysfs_entry: for exposing information about this buffer in sysfs.
-> + * The attachment_uid member of @sysfs_entry is protected by dma_resv lock
-> + * and is incremented on each attach.
->   *
->   * This represents a shared buffer, created by calling dma_buf_export(). The
->   * userspace representation is a normal file descriptor, which can be created by
-> @@ -330,6 +333,15 @@ struct dma_buf {
->  
->  		__poll_t active;
->  	} cb_excl, cb_shared;
-> +#ifdef CONFIG_DMABUF_SYSFS_STATS
-> +	/* for sysfs stats */
-> +	struct dma_buf_sysfs_entry {
-> +		struct kobject kobj;
-> +		struct dma_buf *dmabuf;
-> +		unsigned int attachment_uid;
-> +		struct kset *attach_stats_kset;
-> +	} *sysfs_entry;
-> +#endif
->  };
->  
->  /**
-> @@ -379,6 +391,7 @@ struct dma_buf_attach_ops {
->   * @importer_ops: importer operations for this attachment, if provided
->   * dma_buf_map/unmap_attachment() must be called with the dma_resv lock held.
->   * @importer_priv: importer specific attachment data.
-> + * @sysfs_entry: For exposing information about this attachment in sysfs.
->   *
->   * This structure holds the attachment information between the dma_buf buffer
->   * and its user device(s). The list contains one attachment struct per device
-> @@ -399,6 +412,13 @@ struct dma_buf_attachment {
->  	const struct dma_buf_attach_ops *importer_ops;
->  	void *importer_priv;
->  	void *priv;
-> +#ifdef CONFIG_DMABUF_SYSFS_STATS
-> +	/* for sysfs stats */
-> +	struct dma_buf_attach_sysfs_entry {
-> +		struct kobject kobj;
-> +		unsigned int map_counter;
-> +	} *sysfs_entry;
-> +#endif
->  };
->  
->  /**
-> -- 
-> 2.31.1.818.g46aad6cb9e-goog
+On 26/05/2021 18:22, Pratyush Yadav wrote:
+> Hi,
 > 
+> This series adds support for CSI2 capture on J721E. It includes some
+> fixes to the Cadence CSI2RX driver, adds Rx support to Cadence DPHY
+> driver, and finally adds the TI CSI2RX wrapper driver.
+> 
+> Tested on TI's J721E with OV5640 sensor.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I'm having some trouble unloading and reloading the modules:
+
+rmmod ti_cal
+rmmod j721e_csi2rx
+rmmod cdns_csi2rx
+rmmod cdns_dphy
+rmmod ov5640
+[   37.943128] ------------[ cut here ]------------
+[   37.947752] WARNING: CPU: 1 PID: 628 at drivers/media/v4l2-core/v4l2-ctrls-core.c:1807 __v4l2_ctrl_handler_setup+0x15c/0x170
+[   37.958963] Modules linked in: ov5640(-) v4l2_fwnode tidss ti_tfp410 tc358767 display_connector cdns_mhdp8546 panel_simple drm_kms_helper drm drm_panel_orientation_quirks cfbfill
+rect cfbimgblt cfbcopyarea phy_j721e_wiz phy_cadence_torrent [last unloaded: cdns_dphy]
+[   37.982455] CPU: 1 PID: 628 Comm: rmmod Not tainted 5.13.0-rc1-00205-g93acc23badc8 #3
+[   37.990271] Hardware name: Texas Instruments K3 J721E SoC (DT)
+[   37.996090] pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
+[   38.002085] pc : __v4l2_ctrl_handler_setup+0x15c/0x170
+[   38.007214] lr : __v4l2_ctrl_handler_setup+0x158/0x170
+[   38.012343] sp : ffff80001476fae0
+[   38.015648] x29: ffff80001476fae0 x28: ffff000806780000 x27: 0000000000000000
+[   38.022781] x26: ffff00080300b448 x25: ffff000804ad4ac0 x24: 0000000000000001
+[   38.029912] x23: 0000000000000000 x22: 0000000000000005 x21: ffff000801fa7880
+[   38.037043] x20: ffff000801fa7888 x19: ffff000801fa7ba8 x18: 0000000000000000
+[   38.044173] x17: 0000000000000000 x16: 0000000000000010 x15: 0000000000000001
+[   38.051305] x14: 000000000000003b x13: 00000000aaaaaaab x12: ffff800011a915b8
+[   38.058436] x11: 00000000000c001c x10: 000000008260a2b7 x9 : ffff800009362d9c
+[   38.065566] x8 : ffff800011887100 x7 : 0000000000000000 x6 : 0000000000000001
+[   38.072698] x5 : 0000000000000001 x4 : 0000000000000001 x3 : ffff800011260000
+[   38.079829] x2 : 00000000000000c0 x1 : 00000000000000c0 x0 : 0000000000000000
+[   38.086960] Call trace:
+[   38.089399]  __v4l2_ctrl_handler_setup+0x15c/0x170
+[   38.094181]  ov5640_resume+0x1fc/0x270 [ov5640]
+[   38.098709]  __rpm_callback+0x98/0x160
+[   38.102452]  rpm_callback+0x2c/0x90
+[   38.105934]  rpm_resume+0x45c/0x6f4
+[   38.109415]  __pm_runtime_resume+0x54/0xc0
+[   38.113503]  __device_release_driver+0x40/0x240
+[   38.118025]  driver_detach+0xd0/0x160
+[   38.121680]  bus_remove_driver+0x68/0xe0
+[   38.125595]  driver_unregister+0x3c/0x6c
+[   38.129509]  i2c_del_driver+0x64/0xb0
+[   38.133166]  ov5640_i2c_driver_exit+0x1c/0xc948 [ov5640]
+[   38.138469]  __arm64_sys_delete_module+0x1b0/0x27c
+[   38.143251]  invoke_syscall+0x50/0x120
+[   38.146995]  el0_svc_common.constprop.0+0x68/0x104
+[   38.151777]  do_el0_svc+0x30/0x9c
+[   38.155086]  el0_svc+0x2c/0x54
+[   38.158135]  el0_sync_handler+0x1a8/0x1ac
+[   38.162136]  el0_sync+0x198/0x1c0
+[   38.165444] irq event stamp: 11302
+[   38.168837] hardirqs last  enabled at (11301): [<ffff800010bf4e40>] _raw_spin_unlock_irq+0x50/0xa0
+[   38.177781] hardirqs last disabled at (11302): [<ffff800010be7a64>] el1_dbg+0x24/0xa0
+[   38.185595] softirqs last  enabled at (10378): [<ffff800010010ba0>] __do_softirq+0x500/0x6bc
+[   38.194017] softirqs last disabled at (10373): [<ffff80001005d4c4>] __irq_exit_rcu+0x1d4/0x1e0
+[   38.202614] ---[ end trace 7037324a951cb149 ]---
+rmmod v4l2_fwnode
+insmod /root/nfs/work/linux/drivers/media/v4l2-core/v4l2-fwnode.ko
+insmod /root/nfs/work/linux/drivers/phy/cadence/cdns-dphy.ko
+insmod /root/nfs/work/linux/drivers/media/platform/cadence/cdns-csi2rx.ko
+ERROR:   Unhandled External Abort received on 0x80000001 from S-EL1
+ERROR:   exception reason=0 syndrome=0xbf000000
+Unhandled Exception from EL1
+x0             = 0x0000000000000000
+x1             = 0xffff000804d59800
+x2             = 0xffff8000146c4000
+x3             = 0xffff800011260000
+x4             = 0x0000000000000001
+x5             = 0x0000000000000001
+x6             = 0x0000000000000001
+x7             = 0x0000000000000000
+x8             = 0xffff800011887100
+x9             = 0xffff800010bf5190
+x10            = 0x000000008260a2b7
+x11            = 0x00000000000c821d
+x12            = 0xffff800011a915b8
+x13            = 0x0000000000000001
+x14            = 0x0000000000000000
+x15            = 0x0000000000000020
+x16            = 0x0000000000000000
+x17            = 0x0000000000000000
+x18            = 0x00000000fffffffb
+x19            = 0xffff000806d44c00
+x20            = 0x0000000000000000
+x21            = 0xffff800009280058
+x22            = 0xffff00080583c810
+x23            = 0xffff00080583c800
+x24            = 0xffff800009280058
+x25            = 0x0000000000000047
+x26            = 0xffff8000116d71d8
+x27            = 0xffff800009280350
+x28            = 0xffff800009280148
+x29            = 0xffff80001432f850
+x30            = 0xffff8000092506b8
+scr_el3        = 0x000000000000073d
+sctlr_el3      = 0x0000000030cd183f
+cptr_el3       = 0x0000000000000000
+tcr_el3        = 0x0000000080803520
+daif           = 0x00000000000002c0
+mair_el3       = 0x00000000004404ff
+spsr_el3       = 0x0000000000000005
+elr_el3        = 0xffff80000925043c
+ttbr0_el3      = 0x0000000070010b00
+esr_el3        = 0x00000000bf000000
+far_el3        = 0x0000000000000000
+spsr_el1       = 0x0000000060000005
+elr_el1        = 0xffff800010be8cb0
+spsr_abt       = 0x0000000000000000
+spsr_und       = 0x0000000000000000
+spsr_irq       = 0x0000000000000000
+spsr_fiq       = 0x0000000000000000
+sctlr_el1      = 0x0000000034d4d91d
+actlr_el1      = 0x0000000000000000
+cpacr_el1      = 0x0000000000300000
+csselr_el1     = 0x0000000000000000
+sp_el1         = 0xffff80001432f850
+esr_el1        = 0x0000000056000000
+ttbr0_el1      = 0x0000000882773200
+ttbr1_el1      = 0x06d8000083180000
+mair_el1       = 0x000c0400bb44ffff
+amair_el1      = 0x0000000000000000
+tcr_el1        = 0x00000034f5d07590
+tpidr_el1      = 0xffff80086e790000
+tpidr_el0      = 0x0000ffff895c6910
+tpidrro_el0    = 0x0000000000000000
+par_el1        = 0x0000000000000000
+mpidr_el1      = 0x0000000080000001
+afsr0_el1      = 0x0000000000000000
+afsr1_el1      = 0x0000000000000000
+contextidr_el1 = 0x0000000000000000
+vbar_el1       = 0xffff800010011000
+cntp_ctl_el0   = 0x0000000000000005
+cntp_cval_el0  = 0x000000023f77b7a1
+cntv_ctl_el0   = 0x0000000000000000
+cntv_cval_el0  = 0x0000000000000000
+cntkctl_el1    = 0x00000000000000d6
+sp_el0         = 0x000000007000abd0
+isr_el1        = 0x0000000000000040
+dacr32_el2     = 0x0000000000000000
+ifsr32_el2     = 0x0000000000000000
+cpuectlr_el1   = 0x0000001b00000040
+cpumerrsr_el1  = 0x0000000000000000
+l2merrsr_el1   = 0x0000000000000000
