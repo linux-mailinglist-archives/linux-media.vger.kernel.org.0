@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 495253932A7
-	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 17:45:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C26C3932AA
+	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 17:45:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235470AbhE0Pqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 May 2021 11:46:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37970 "EHLO
+        id S235184AbhE0Pq5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 May 2021 11:46:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235184AbhE0Pqi (ORCPT
+        with ESMTP id S235597AbhE0Pqx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 May 2021 11:46:38 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F057C061574;
-        Thu, 27 May 2021 08:45:04 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id b9so753621ejc.13;
-        Thu, 27 May 2021 08:45:04 -0700 (PDT)
+        Thu, 27 May 2021 11:46:53 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D29BEC061760;
+        Thu, 27 May 2021 08:45:16 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id a25so1365860edr.12;
+        Thu, 27 May 2021 08:45:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UMiOHR1uiQc7x+1YMV+1TXAaL2wJozSwYNysKOYYojw=;
-        b=hOQxrOhodHvnR2rNflHrUYZZ6TPJDeV7uT8ifxABB2J1lJJHUDuylUHAm+aMdZ2IaG
-         Di8/RvxPf3HJI5mKX0dAAsCM6Ozb9aWy+Cm8SiuriYT0mZ9HXSSkd/+gS83IhNWZdsjS
-         KyPXBwJiJnT6hDIpmTYQGd8R9vRpL1yOmWdUPMPBx1QRNZY/NnQiHx/aEYiNO0fEqEn0
-         bze6ET3GzRMzfHy5UerQoqnf1INuEarHVTPE5JqdvGKypp9fPCIFfjMtGd4kvxVraNd+
-         G8tGI/YPv8jIyquwfCA/I6qXGNaW47Wi8AyFneQ/HkPNatrRhA+5UK06dFJIAZvht5mA
-         07CA==
+        bh=H3e6CRdd0/EdKHGPL7BtIypEry6FkjdG9zyNOFKlRZY=;
+        b=Zq414ODqOuxOqan5cRLla7EM1a09egGEdX54QCzdpcjPVdmU8GchM0oU1+D15vQJct
+         iOAhZd3Rbqm9eCvq+lpewz3d0Kne2pSy2MCq+e3vUDLrzYbnOUYwHMblhoqTapYzRFm7
+         FTIDWJ/wf3lMmlQ0SynMhFCTAAc2EHIBi9U7FXMBtEZ6BfMKrgiVdF5CZ0TyRPtLMS8I
+         mKg4GmsFUI3rjf7z/18m8ENQ4hkfp0yOZyTQzAsMLa64Ip2FRe9IF/Z7wujDpWElomzM
+         dv4u770vt+5zBzxgBC5o1bnoeVIO9Q/2PM4hsJv0bgWtkdNFeokOqnhL2XfHxw8lqJHe
+         C25g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UMiOHR1uiQc7x+1YMV+1TXAaL2wJozSwYNysKOYYojw=;
-        b=IXTbJVjZrPvNlFHgWSiRqq1Jb/7VZs8G6wq+2HmcjPc8qpE76mVgDgAHV/OWXi99NX
-         4z0eD2ebg63iG6S+shWNtAKbfq5JDQze/zZkuLRyos4IXbJfNMmphzkMBSAmsyiybTYN
-         rfuMn39dClN0RCDFTeYPKYAHtFYRBpvEC9lwNmCCSrqTPj8HQF032+aGnDwIVIjL3dYX
-         taZNxoL5drLEzLzo+stq89sNZjVMFjbuquFLa6Lev8XcLFyhORYM6XRUavr5Jb2+s5Zy
-         PNnpRju5GdOqXSEY3/Ldq/hAapAqkVU5vrdjq9FVyPdSLoScHy2okwau3kG+S8qg++zK
-         fgUQ==
-X-Gm-Message-State: AOAM5308r/SRiFq3tg1DJYfDOL+XujWuWxmV4m/lTpHf+Vbr4QsX/4RW
-        jvahm4WM1EQorRQKWPLTmw==
-X-Google-Smtp-Source: ABdhPJwHWleKrSYu2vhp8oAd6rpoMECMYvmzR3SmWfWw8iqIfZ4V8Ky3PrKEn080sdYKrqP78jvLvg==
-X-Received: by 2002:a17:906:1dd1:: with SMTP id v17mr4491098ejh.31.1622130303091;
-        Thu, 27 May 2021 08:45:03 -0700 (PDT)
+        bh=H3e6CRdd0/EdKHGPL7BtIypEry6FkjdG9zyNOFKlRZY=;
+        b=h7Od0U0MGGSFJtVVtaC5ESnjcSGTRvo0YGb2pSoTHQaxiySa1+LBags35lmpvSjHan
+         /r2gytzZxOpkXMXgZ8KUKlds4XVWPn3uHgIiE1EAxJM+Up7regE4ysYtjCH26BecO2nt
+         TvQcZFi76vjjEgEAjBBOGLqp04tXy3XKiMXG+bAYRhvoQes1tMgjZgtzImTZSQTBdSiT
+         XHKofm9C51DhxybGZtHsynYtlzGqq2fJEGt6nSnfNDAP0EyMJ7EOtGq1AkZM1aL59WEP
+         SBCfhrEc4jQ1kJxHj7IsKJ+7hNX1ed/wZdIsaD7kyyCReEMfavDUnAl4sB1RrrCFNZ4g
+         SW5g==
+X-Gm-Message-State: AOAM530bXDEuG7BPbOQTMlYrvnZ9OGaCSFb3jdKeMmUM5jHobjByoUZV
+        RmdHoiA5bn0gMD7rn2yNOA==
+X-Google-Smtp-Source: ABdhPJwWqRVBxukUfKDrH5kauhHqoAn2Igk5q1H89Q/2gzsKpczlUnRw6MdN4rCCTg6RzBydH6gacQ==
+X-Received: by 2002:a05:6402:290:: with SMTP id l16mr1577478edv.186.1622130315457;
+        Thu, 27 May 2021 08:45:15 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:810b:f40:e00:fefd:4d98:c981:7f97])
-        by smtp.googlemail.com with ESMTPSA id u6sm1178826ejr.55.2021.05.27.08.45.01
+        by smtp.googlemail.com with ESMTPSA id u6sm1178826ejr.55.2021.05.27.08.45.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 08:45:02 -0700 (PDT)
+        Thu, 27 May 2021 08:45:14 -0700 (PDT)
 From:   Alex Bee <knaerzche@gmail.com>
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -60,84 +60,45 @@ To:     Ezequiel Garcia <ezequiel@collabora.com>,
         devicetree@vger.kernel.org
 Cc:     Alex Bee <knaerzche@gmail.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 00/12] Add support for older Rockchip SoCs to V4L2 hantro and rkvdec drivers
-Date:   Thu, 27 May 2021 17:44:43 +0200
-Message-Id: <20210527154455.358869-1-knaerzche@gmail.com>
+Subject: [PATCH v2 01/12] dt-bindings: mfd: syscon: add Rockchip RK3036/RK3228 qos compatibles
+Date:   Thu, 27 May 2021 17:44:44 +0200
+Message-Id: <20210527154455.358869-2-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210525152225.154302-1-knaerzche@gmail.com>
+In-Reply-To: <20210527154455.358869-1-knaerzche@gmail.com>
 References: <20210525152225.154302-1-knaerzche@gmail.com>
+ <20210527154455.358869-1-knaerzche@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi list,
+Document Rockchip RK3036/RK3228 qos compatibles
 
-this series adds support for older Rockchip SoCs (RK3036, RK3066, RK3188
-and RK322x) to the existing V4L2 video decoder/-encoder drivers - namely
-hantro and rkvdec.
-They can be used as-is or with very little modifications.
+Signed-off-by: Alex Bee <knaerzche@gmail.com>
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+---
 
-In preparation to that patches 1,8 and 9 add power-controller support for
-RK3036 and RK322x, since both drivers rely on pm. The drivers for them 
-exist already in the common Rockchip pm driver, they just haven't be added
-to the device trees yet.
+ Changes in v2:
+ - collect Reviewed tag
 
-Changes in v2:
-- reordered patches as suggested by Heiko
-- fixed indentation and order issues in dt-bindings / DT patches
-- added patch to reorder variants in hantro alphanumeric
-- added patch that merges hantro platform drivers for Rockchip in one
-- added missing DT patch for RK3036 (missed to submit with v1)
-See individual patches for details about changes.
+ Documentation/devicetree/bindings/mfd/syscon.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks for your feedback,
-Alex.
-
-Alex Bee (12):
-  dt-bindings: mfd: syscon: add Rockchip RK3036/RK3228 qos compatibles
-  dt-bindings: media: rockchip-vpu: add new compatibles
-  dt-bindings: media: rockchip-vdec: add RK3228 compatible
-  media: hantro: reorder variants
-  media: hantro: merge Rockchip platform drivers
-  media: hantro: add support for Rockchip RK3066
-  media: hantro: add support for Rockchip RK3036
-  ARM: dts: rockchip: add power controller for RK3036
-  ARM: dts: rockchip: add power controller for RK322x
-  ARM: dts: rockchip: add vpu node for RK3036
-  ARM: dts: rockchip: add vpu nodes for RK3066 and RK3188
-  ARM: dts: rockchip: add vpu and vdec node for RK322x
-
- .../bindings/media/rockchip,vdec.yaml         |  10 +-
- .../bindings/media/rockchip-vpu.yaml          |  33 +-
- .../devicetree/bindings/mfd/syscon.yaml       |   2 +
- arch/arm/boot/dts/rk3036.dtsi                 |  72 +++
- arch/arm/boot/dts/rk3066a.dtsi                |   4 +
- arch/arm/boot/dts/rk3188.dtsi                 |   5 +
- arch/arm/boot/dts/rk322x.dtsi                 | 140 ++++-
- arch/arm/boot/dts/rk3xxx.dtsi                 |  12 +
- drivers/staging/media/hantro/Makefile         |   9 +-
- drivers/staging/media/hantro/hantro_drv.c     |   6 +-
- drivers/staging/media/hantro/hantro_hw.h      |  30 +-
- drivers/staging/media/hantro/rk3288_vpu_hw.c  | 208 -------
- drivers/staging/media/hantro/rk3399_vpu_hw.c  | 222 --------
- ...jpeg_enc.c => rockchip_vpu2_hw_jpeg_enc.c} |  30 +-
- ...eg2_dec.c => rockchip_vpu2_hw_mpeg2_dec.c} |  25 +-
- ...w_vp8_dec.c => rockchip_vpu2_hw_vp8_dec.c} |   2 +-
- ...rk3399_vpu_regs.h => rockchip_vpu2_regs.h} |   6 +-
- .../staging/media/hantro/rockchip_vpu_hw.c    | 526 ++++++++++++++++++
- 18 files changed, 848 insertions(+), 494 deletions(-)
- delete mode 100644 drivers/staging/media/hantro/rk3288_vpu_hw.c
- delete mode 100644 drivers/staging/media/hantro/rk3399_vpu_hw.c
- rename drivers/staging/media/hantro/{rk3399_vpu_hw_jpeg_enc.c => rockchip_vpu2_hw_jpeg_enc.c} (87%)
- rename drivers/staging/media/hantro/{rk3399_vpu_hw_mpeg2_dec.c => rockchip_vpu2_hw_mpeg2_dec.c} (93%)
- rename drivers/staging/media/hantro/{rk3399_vpu_hw_vp8_dec.c => rockchip_vpu2_hw_vp8_dec.c} (99%)
- rename drivers/staging/media/hantro/{rk3399_vpu_regs.h => rockchip_vpu2_regs.h} (99%)
- create mode 100644 drivers/staging/media/hantro/rockchip_vpu_hw.c
-
-
-base-commit: 5d765451c2409e63563fa6a3e8005bd03ab9e82f
+diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
+index f14ae6da0068..ad1121620e15 100644
+--- a/Documentation/devicetree/bindings/mfd/syscon.yaml
++++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
+@@ -45,7 +45,9 @@ properties:
+               - microchip,sparx5-cpu-syscon
+               - mstar,msc313-pmsleep
+               - rockchip,px30-qos
++              - rockchip,rk3036-qos
+               - rockchip,rk3066-qos
++              - rockchip,rk3228-qos
+               - rockchip,rk3288-qos
+               - rockchip,rk3399-qos
+               - samsung,exynos3-sysreg
 -- 
 2.27.0
 
