@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D3633932B2
-	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 17:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60A633932B0
+	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 17:45:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235753AbhE0PrB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 May 2021 11:47:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38048 "EHLO
+        id S235709AbhE0PrA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 May 2021 11:47:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235641AbhE0Pq5 (ORCPT
+        with ESMTP id S235560AbhE0Pq5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 27 May 2021 11:46:57 -0400
 Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2450C061574;
-        Thu, 27 May 2021 08:45:20 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id h20so873031ejg.1;
-        Thu, 27 May 2021 08:45:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EA0DC061763;
+        Thu, 27 May 2021 08:45:21 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id l1so818511ejb.6;
+        Thu, 27 May 2021 08:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Rke4zQwPvrSuSlZA5HEJuyAjP5qkfCV7I4D9cjIxs6c=;
-        b=IhhLJkbkySu4cWqS/Z/H/bB43kxmugCm8uX3SDcB3PMk2zlyRWdOPl294qaSyXcV1O
-         Tnvo76yHG68UM2kWcagmaTUeM/nPwpueD4DPDJxgR8lO4TjE596+77kIMHDBL7Psu7DY
-         w4UL3X3/4x6wbVkRD1CiU+TWL2K0r8E671J6TojDcLIKyjgsgvYMZvq/hdDhTILx0uTw
-         HLaMoZgpG5UF3JPJOzUKw8bY/eGktXDu3tGuxwbbur/4IXj5zJ00D53vL5EIuZ+1Pzuy
-         9ld8KCmw0KQY+KGPIDL05NUYPKZAK487zuL4HacIqM+OilwsYHsVes+2VTp6rUu4Ym4N
-         TITA==
+        bh=E+Q+v8tjGsClifKrRX6YME+wGEX80m4HSKqkKdEmGcE=;
+        b=VDF3+TvmtGGen52NbTl7a7Tn+6vQTyJSdl/nx+6URQMR8itcYzsUdbXT8e4NHaTIcX
+         rGLfHQ9UwLXeViY1045m5rcBT4piBmKxSMpQUwadM6l7yxp4KWv+HBauA9p3Sc+IZDex
+         56h6KAVr9Ec3hCxnJY8i305LVrxL1JGb5OJd/3gKiqyYz1+M2wZzSoaz2vd+AQ2gV33N
+         gKTHHNUClGgrTeNcK5voixRN5E5CvSKu9PWXGfFwSP4bOjrp3ZVdnYo0d9PUuR3hmBjU
+         wvNHYh5kGWkFUqjdUJyIyapeMYYIw1zupClmY4os/MzISwX5TnUY6ZrHLXLrlmrtLky8
+         8iUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Rke4zQwPvrSuSlZA5HEJuyAjP5qkfCV7I4D9cjIxs6c=;
-        b=nCWc7C+tnv1jLnnMtwMYw/Nbp52hYYLmv2wi7szgoWAvciUkxKrR0eIJo8lqevoP7q
-         H0/dzqMbKVF9hQLYUlHeNKm9DbDsCm/FUw9puP99DJbBqFJ+ALj02MBrb3j6JEFe2xua
-         lQAUumKGbqeCUfJ2gzm/lYgZcNN96uYxqUuZ0B1bbhVOm3yi6p+hky5ehbNk8racuuvI
-         XNibCig40SuNFjDQwAWON82eqaT2tpFXWCe1WgUOpobXZmYwsqZ7qcy+C22ao2QbXCiV
-         ZjT/zm6sRMAszKkAOWm4dpVQNUaUqyRzyxkHk5mxRlxt7UxMeTH8LiTxGQqICzqZAmc8
-         R2Ww==
-X-Gm-Message-State: AOAM531KTfiIOxJ6tkPtg1QJctyYBfWZyTX9speS0hxUL8oCk5wR7rBX
-        C0NY5JabTXfC8snjuKKfYQRrzMLSPdKh
-X-Google-Smtp-Source: ABdhPJzDcSXjNz+YkIfCR+PlqAt+rPGWLPKLLQIrDZ52/YW4NUrVZD3RIgSXYkQPeuRufNcoJOB7Nw==
-X-Received: by 2002:a17:907:7747:: with SMTP id kx7mr4525224ejc.400.1622130318547;
-        Thu, 27 May 2021 08:45:18 -0700 (PDT)
+        bh=E+Q+v8tjGsClifKrRX6YME+wGEX80m4HSKqkKdEmGcE=;
+        b=L9wJREs+rD+Ht6oJ4pDknW0IbAFkDWkh3VScIUpeBaeLL/2vEWPRId61hFi+5FUEnh
+         jG0KIR/bDOH9OYtPE8zCiephdijujjKGl/5dA/6y1CEM1c2Sv20u2r2b/hAWoJzD8V/3
+         O3wGD+8qvvPJdFYVPJ9AmgBc0XctBY6cRsUo7NSmOK2pJ9aov3uroK4ixt17WikcXg2S
+         Iz8J92ZwaW5gnkwawyBCqVh4SQune1IPHslKLg3OGOaeNTzir8VK3t1mV55DKa6RNZfu
+         XNNS1GRbfKp4LCPN6433HDobxS7AW5o9Z/0hkAHPXSabtMOWH1bOOhukPNplBPDX+aJA
+         MHfg==
+X-Gm-Message-State: AOAM530T+Ca6sDqk3yE9AUv2OliBaso95QF/1EOjXD+dOBkOq0oNuu7A
+        3WJJpxg6sGEDucH3ttvKqA==
+X-Google-Smtp-Source: ABdhPJwAZR48KAJhXbIVNmjuR0dmbAEOT7kiGts3kMqaCThBlmD0MEwO6eTtepn/Dcuq2dYtElhqgQ==
+X-Received: by 2002:a17:906:2844:: with SMTP id s4mr4509443ejc.263.1622130320169;
+        Thu, 27 May 2021 08:45:20 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:810b:f40:e00:fefd:4d98:c981:7f97])
-        by smtp.googlemail.com with ESMTPSA id u6sm1178826ejr.55.2021.05.27.08.45.17
+        by smtp.googlemail.com with ESMTPSA id u6sm1178826ejr.55.2021.05.27.08.45.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 08:45:18 -0700 (PDT)
+        Thu, 27 May 2021 08:45:19 -0700 (PDT)
 From:   Alex Bee <knaerzche@gmail.com>
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -60,9 +60,9 @@ To:     Ezequiel Garcia <ezequiel@collabora.com>,
         devicetree@vger.kernel.org
 Cc:     Alex Bee <knaerzche@gmail.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 02/12] dt-bindings: media: rockchip-vpu: add new compatibles
-Date:   Thu, 27 May 2021 17:44:45 +0200
-Message-Id: <20210527154455.358869-3-knaerzche@gmail.com>
+Subject: [PATCH v2 03/12] dt-bindings: media: rockchip-vdec: add RK3228 compatible
+Date:   Thu, 27 May 2021 17:44:46 +0200
+Message-Id: <20210527154455.358869-4-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210527154455.358869-1-knaerzche@gmail.com>
 References: <20210525152225.154302-1-knaerzche@gmail.com>
@@ -73,72 +73,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add compatibles for RK3036, RK3066, RK3188 and RK3228. Also reflect the
-changes to the additional clocks for RK3066/RK3188.
+Document the RK3228 compatible for rockchip-vdec.
+Also add the optional assigned-clocks and assigned-clock-rates
+properties.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
 
  Changes in v2:
- - fix order
  - fix indentation
-  
- .../bindings/media/rockchip-vpu.yaml          | 33 ++++++++++++++-----
- 1 file changed, 25 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-index c81dbc3e8960..b88172a59de7 100644
---- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-+++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-@@ -15,10 +15,19 @@ description:
+ .../devicetree/bindings/media/rockchip,vdec.yaml       | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+index 8d35c327018b..089f11d21b25 100644
+--- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+@@ -15,7 +15,11 @@ description: |-
  
  properties:
    compatible:
--    enum:
--      - rockchip,rk3288-vpu
--      - rockchip,rk3328-vpu
--      - rockchip,rk3399-vpu
+-    const: rockchip,rk3399-vdec
 +    oneOf:
-+      - enum:
-+          - rockchip,rk3036-vpu
-+          - rockchip,rk3066-vpu
-+          - rockchip,rk3288-vpu
-+          - rockchip,rk3328-vpu
-+          - rockchip,rk3399-vpu
++      - const: rockchip,rk3399-vdec
 +      - items:
-+          - const: rockchip,rk3188-vpu
-+          - const: rockchip,rk3066-vpu
-+      - items:
-+          - const: rockchip,rk3228-vpu
-+          - const: rockchip,rk3399-vpu
++          - const: rockchip,rk3228-vdec
++          - const: rockchip,rk3399-vdec
  
    reg:
      maxItems: 1
-@@ -35,12 +44,20 @@ properties:
-           - const: vdpu
+@@ -37,6 +41,10 @@ properties:
+       - const: cabac
+       - const: core
  
-   clocks:
--    maxItems: 2
-+    oneOf:
-+      - maxItems: 2
-+      - maxItems: 4
- 
-   clock-names:
--    items:
--      - const: aclk
--      - const: hclk
-+    oneOf:
-+      - items:
-+          - const: aclk
-+          - const: hclk
-+      - items:
-+          - const: aclk_vdpu
-+          - const: hclk_vdpu
-+          - const: aclk_vepu
-+          - const: hclk_vepu
- 
++  assigned-clocks: true
++
++  assigned-clock-rates: true
++
    power-domains:
      maxItems: 1
+ 
 -- 
 2.27.0
 
