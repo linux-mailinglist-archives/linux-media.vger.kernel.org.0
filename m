@@ -2,144 +2,949 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C17B392B98
-	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 12:19:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19A10392B9D
+	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 12:20:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236087AbhE0KUa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 May 2021 06:20:30 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:35769 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235950AbhE0KU0 (ORCPT
+        id S236087AbhE0KW2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 May 2021 06:22:28 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:12210 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236029AbhE0KW0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 May 2021 06:20:26 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id mD6BlbPpwVN4kmD6FlO1xo; Thu, 27 May 2021 12:18:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622110727; bh=KNWWA82qUSy1xiTuG0/8hVCUU5W3Fq/syTGpha8Cf48=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=mn5Hx7q/qWovu2/xOnkV/23MyoRANWn8+TWZAo0ZG6R/zpsNFYNbJvelBJfLWruxU
-         6VraQCP20KEzYYLSpts/cPYu2xEvGP0xzE+1Xk+CjDOdlM7Q57akHfNZYsZlUOMaGM
-         GryawyP4Qv4Vmaw46cWFGrmWbRqPkvSPGp45EdwBvTmowi4PnrbE0vdeBPn0xEFPVG
-         msaEs6KsWRMwED0/sqHDBXY1B0Odv++LRpOEM5tYICL4+Vnwh6YACq2WFgqdsJ3Umt
-         krtqCrqWcl6bNmvrEbSiXjzG/3AM6LgAN+M/8LZEpSYBoKCa/WzWS2dHkfXNpkG4fx
-         JmhvaKameB1xw==
-Subject: Re: [PATCH v5 00/14] media: mtk-vcodec: support for MT8183 decoder
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-References: <20210519143011.1175546-1-acourbot@chromium.org>
- <ed6610cb-5164-4185-f7c9-6d872ea16ec7@xs4all.nl>
- <CAPBb6MUFmwxaP_11kx2FNAeieOiMCV9W2WGgweuuL8z6ZWeSng@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <7d485a28-c03d-ec54-7a83-022074a0c042@xs4all.nl>
-Date:   Thu, 27 May 2021 12:18:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        Thu, 27 May 2021 06:22:26 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14RACMIk024142;
+        Thu, 27 May 2021 10:20:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=GxPAzAA2rTenVEuG3bb0AUMRve/bW+NAnHdXSBwkWTE=;
+ b=rjfXuuBbpTB06RvH2kfJAJqRhGA1y2aajUoJ1nQtkamvVuxTkEgmmVXFMBrJrktZIk8C
+ iniQxjh7929jKCrn/7qBfUplkH2hMf0FbYZRnZ9VU7Siseuvhe4/+bFw8LAP092hECXN
+ KVk9CV/Ye00tCDsPrP22N1mVQNhPph2MpflwjPlLWoRwGC+iHNRj60pcqUWE/orN31/j
+ CW0fOqNZtfIJEqNsR3JyVK97G3bK9fTtwOsQN9tBEoU59N9GImH81IDqSPCtH4M42sQR
+ g1mDL+8gOo5hXOtuKiE9C3CE/pT7UP4tlr+J0seYqolmJSseCP6N570cQN9Aclj+Diqw 0w== 
+Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 38ssybra3y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 27 May 2021 10:20:23 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14RAKMqp005434;
+        Thu, 27 May 2021 10:20:22 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3030.oracle.com with ESMTP id 38pr0dfkr4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 27 May 2021 10:20:22 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14RAAAml181291;
+        Thu, 27 May 2021 10:20:21 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 38pr0dfkqp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 27 May 2021 10:20:21 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14RAKHMK015806;
+        Thu, 27 May 2021 10:20:17 GMT
+Received: from kadam (/41.212.42.34)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 27 May 2021 03:20:16 -0700
+Date:   Thu, 27 May 2021 13:20:06 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        robh@kernel.org, shawnguo@kernel.org, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, slongerbeam@gmail.com,
+        kernel@puri.sm, krzk@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
+ phy and controller
+Message-ID: <20210527102005.GR1955@kadam>
+References: <20210527075407.3180744-1-martin.kepplinger@puri.sm>
+ <20210527075407.3180744-3-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
-In-Reply-To: <CAPBb6MUFmwxaP_11kx2FNAeieOiMCV9W2WGgweuuL8z6ZWeSng@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfF8ObVOe5CFcHYEYJI5BnewapCDUt0Gb70yZ7sURsUGzZi8ZtDPd/2nb7zld91u62w3KHwBI5f9eU7LDCg6iF3BIKDCCfpqDs+whhBCqNl5Mqi5T8IDr
- CYGwhgaZYLavPQUb63Jbvz56GeI2mdOfkO4nPD2nQnUIoI7Y+1Zh5HJH3Rgc6+Chps8Acx9IcBSPe0itnwazBPL9b7/RI2uyBmvwHFEvolJNtrFrVG2F60UC
- CuYCOq3jAiOvwF6SJ2+krmTkz4dqnQ46ZJZLzmcPnppzvl2PXJzSDDUkCnj8Jir16xogjf3ruaDEHjiBfROwqcQSq/hbRdrdC3XfKAJ9PpTFdi8dwpzh3mjC
- dueAiaKQf2f3Ubfr37MYwLFfVt+vA/wzr0pYSg88otKVd+rStPiQGtxUcZXZUN019BL7hVpdV83LQl6Y2zXFisBv8rlnWQRfK0arCaPvyj1guzNzKFFBJcL0
- j4Stmsmkhqv/t0UnOtOrvbwOO2VvzUpDKNLPCYgH0wMTpw7Cd+Y6XC5+m7A=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210527075407.3180744-3-martin.kepplinger@puri.sm>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: fLK62nis2s_su3wMEjNYBVeIfJ5QlYao
+X-Proofpoint-GUID: fLK62nis2s_su3wMEjNYBVeIfJ5QlYao
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/05/2021 12:10, Alexandre Courbot wrote:
-> On Thu, May 27, 2021 at 5:08 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> Hi Alexandre,
->>
->> On 19/05/2021 16:29, Alexandre Courbot wrote:
->>> This series adds support for the stateless API into mtk-vcodec, by first
->>> separating the stateful ops into their own source file, and introducing
->>> a new set of ops suitable for stateless decoding. As such, support for
->>> stateful decoders should remain completely unaffected.
->>>
->>> This series has been tested with both MT8183 and MT8173. Decoding was
->>> working for both chips, and in the case of MT8173 no regression has been
->>> spotted.
->>>
->>> Patches 1-5 fix a few compliance issues with the decoder and encoder, most
->>> notably by adding support for the START and STOP command for the latter. These
->>> patches were last in the previous series but have been moved to the beginning so
->>> they can be applied sooner.
->>>
->>> Patches 6-9 separates the "stateful" part of the driver into its own file and
->>> add support for the new firmware and pixel format used by MT8183.
->>>
->>> Patches 10-14 add support for H.264 stateless decoding and MT8183.
->>>
->>> Changes since v4:
->>> * Moved compliance fix patches to the head of the series.
->>> * Select MEDIA_CONTROLLER_REQUEST_API.
->>> * Properly capitalize MM21's format description string.
->>> * Reorganize stateless code as suggested by Hans.
->>> * Fix compilation errors when DEBUG is defined.
->>> * Merge double-free fixup patch into the patch that introduced the issue (was
->>>   a separate patch coming right after the one introducing the issue).
->>>
->>> Changes since v3:
->>> * Stop checking that controls are set for every request.
->>> * Add V4L2_CID_STATELESS_H264_START_CODE control.
->>> * Stop mapping OUTPUT buffers and getting the NAL type from them, use the
->>>   nal_ref_idc field instead.
->>> * Make V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control stateful-only.
->>> * Set vb2_buffer's field to V4L2_FIELD_NONE in buffer validation hook.
->>>
->>> Changes since v2:
->>> * Add follow-up patches fixing support for START/STOP commands for the
->>>   encoder, and stateful decoder.
->>>
->>> Alexandre Courbot (8):
->>>   media: mtk-vcodec: vdec: use helpers in VIDIOC_(TRY_)DECODER_CMD
->>>   media: mtk-vcodec: vdec: clamp OUTPUT resolution to hardware limits
->>>   media: mtk-vcodec: make flush buffer reusable by encoder
->>>   media: mtk-vcodec: venc: support START and STOP commands
->>>   media: mtk-vcodec: vdec: handle firmware version field
->>>   media: mtk-vcodec: support version 2 of decoder firmware ABI
->>>   media: add Mediatek's MM21 format
->>>   dt-bindings: media: document mediatek,mt8183-vcodec-dec
->>>
->>> Hirokazu Honda (1):
->>>   media: mtk-vcodec: vdec: Support H264 profile control
->>>
->>> Yunfei Dong (5):
->>>   media: mtk-vcodec: vdec: move stateful ops into their own file
->>>   media: mtk-vcodec: vdec: support stateless API
->>>   media: mtk-vcodec: vdec: support stateless H.264 decoding
->>>   media: mtk-vcodec: vdec: add media device if using stateless api
->>>   media: mtk-vcodec: enable MT8183 decoder
->>
->> Running scripts/checkpatch.pl --strict over this patch series gives
->> a lot of warnings and checks. A lot of these look like they are easy
->> to fix and reasonable.
+On Thu, May 27, 2021 at 09:54:06AM +0200, Martin Kepplinger wrote:
+> +static void mipi_csi2_sw_reset(struct csi_state *state)
+> +{
+> +	struct device *dev = state->dev;
+> +	struct device_node *np = dev->of_node;
+> +	struct device_node *node;
+> +	phandle phandle;
+> +	int ret;
+> +
+> +	dev_dbg(dev, "%s: starting\n", __func__);
+> +
+> +	ret = of_property_read_u32(np, "phy-reset", &phandle);
+> +	if (ret) {
+> +		dev_info(dev, "no csis-hw-reset property found: %d\n", ret);
+> +		return;
+> +	}
+> +
+> +	node = of_find_node_by_phandle(phandle);
+> +	if (!node) {
+> +		ret = PTR_ERR(node);
+
+Node is NULL, not an error pointer.
+
+> +		dev_dbg(dev, "not find src node by phandle: %d\n", ret);
+
+Probably change this to "error finding node by phandle\n".
+This should just return after printing the error.  syscon_node_to_regmap()
+is not going to succeed with a NULL node.
+
+> +	}
+> +	state->hw_reset = syscon_node_to_regmap(node);
+> +	if (IS_ERR(state->hw_reset)) {
+> +		ret = PTR_ERR(state->hw_reset);
+> +		dev_err(dev, "failed to get src regmap: %d\n", ret);
+
+There is a new cool %pe which prints "failed to get src regmap: -ENODEV\n".
+
+		dev_err(dev, "failed to get src regmap: %pe\n", state->hw_reset);
+
+
+> +	}
+> +	of_node_put(node);
+> +	if (ret < 0)
+> +		return;
+> +
+> +	/* reset imx8mq mipi phy */
+> +	regmap_update_bits(state->hw_reset, state->hw_reset_reg, 7, 7);
+> +	msleep(20);
+> +}
+> +
+> +static void mipi_csi2_system_enable(struct csi_state *state, int on)
+> +{
+> +	struct device *dev = state->dev;
+> +	struct device_node *np = dev->of_node;
+> +	struct device_node *node;
+> +	phandle phandle;
+> +	int ret;
+> +
+> +	if (!on) {
+> +		/* Disable Data lanes */
+> +		mipi_csi2_write(state, CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
+> +		return;
+> +	}
+> +
+> +	ret = of_property_read_u32(np, "phy-gpr", &phandle);
+> +	if (ret) {
+> +		dev_info(dev, "no phy-gpr property found\n");
+> +		return;
+> +	}
+> +
+> +	node = of_find_node_by_phandle(phandle);
+> +	if (!node) {
+> +		dev_dbg(dev, "not find gpr node by phandle\n");
+> +		ret = PTR_ERR(node);
+
+Not an error pointer.
+
+> +	}
+> +	state->phy_gpr = syscon_node_to_regmap(node);
+> +	if (IS_ERR(state->phy_gpr)) {
+> +		dev_err(dev, "failed to get gpr regmap\n");
+> +		ret = PTR_ERR(state->phy_gpr);
+> +	}
+> +	of_node_put(node);
+> +	if (ret < 0)
+> +		return;
+> +
+> +	regmap_update_bits(state->phy_gpr,
+> +			   state->phy_gpr_reg,
+> +			   0x3FFF,
+> +			   GPR_CSI2_1_RX_ENABLE |
+> +			   GPR_CSI2_1_VID_INTFC_ENB |
+> +			   GPR_CSI2_1_HSEL |
+> +			   GPR_CSI2_1_CONT_CLK_MODE |
+> +			   GPR_CSI2_1_S_PRG_RXHS_SETTLE(state->hs_settle));
+> +
+> +	dev_dbg(dev, "%s: hs_settle: 0x%X\n", __func__, state->hs_settle);
+> +}
+> +
+> +static void mipi_csi2_set_params(struct csi_state *state)
+> +{
+> +	int lanes = state->bus.num_data_lanes;
+> +	u32 val = 0;
+> +	int i;
+> +
+> +	/* Lanes */
+> +	mipi_csi2_write(state, CSI2RX_CFG_NUM_LANES, lanes - 1);
+> +
+> +	for (i = 0; i < lanes; i++)
+> +		val |= (1 << i);
+> +
+> +	val = 0xF & ~val;
+> +	mipi_csi2_write(state, CSI2RX_CFG_DISABLE_DATA_LANES, val);
+> +
+> +	dev_dbg(state->dev, "imx8mq: CSI2RX_CFG_DISABLE_DATA_LANES: 0x%X\n", val);
+> +
+> +	/* Mask interrupt */
+> +	// Don't let ULPS (ultra-low power status) interrupts flood
+> +	mipi_csi2_write(state, CSI2RX_IRQ_MASK, 0x1ff);
+> +
+> +	mipi_csi2_write(state, 0x180, 1);
+> +	/* vid_vc */
+> +	mipi_csi2_write(state, 0x184, 1);
+> +	mipi_csi2_write(state, 0x188, state->send_level);
+> +}
+> +
+> +static int mipi_csi2_clk_enable(struct csi_state *state)
+> +{
+> +	return clk_bulk_prepare_enable(ARRAY_SIZE(mipi_csi2_clk_id), state->clks);
+> +}
+> +
+> +static void mipi_csi2_clk_disable(struct csi_state *state)
+> +{
+> +	clk_bulk_disable_unprepare(ARRAY_SIZE(mipi_csi2_clk_id), state->clks);
+> +}
+> +
+> +static int mipi_csi2_clk_get(struct csi_state *state)
+> +{
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	state->clks = devm_kcalloc(state->dev, ARRAY_SIZE(mipi_csi2_clk_id),
+> +				   sizeof(*state->clks), GFP_KERNEL);
+> +
+> +	if (!state->clks)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(mipi_csi2_clk_id); i++)
+> +		state->clks[i].id = mipi_csi2_clk_id[i];
+> +
+> +	ret = devm_clk_bulk_get(state->dev, ARRAY_SIZE(mipi_csi2_clk_id),
+> +				state->clks);
+> +	return ret;
+> +}
+> +
+> +static void mipi_csi2_start_stream(struct csi_state *state)
+> +{
+> +	mipi_csi2_sw_reset(state);
+> +	mipi_csi2_set_params(state);
+> +	mipi_csi2_system_enable(state, true);
+> +}
+> +
+> +static void mipi_csi2_stop_stream(struct csi_state *state)
+> +{
+> +	mipi_csi2_system_enable(state, false);
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * V4L2 subdev operations
+> + */
+> +
+> +static struct csi_state *mipi_sd_to_csi2_state(struct v4l2_subdev *sdev)
+> +{
+> +	return container_of(sdev, struct csi_state, sd);
+> +}
+> +
+> +static int mipi_csi2_s_stream(struct v4l2_subdev *sd, int enable)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	int ret;
+> +
+> +	mipi_csi2_write(state, CSI2RX_IRQ_MASK, 0x008);
+> +
+> +	dev_dbg(state->dev, "%s: enable: %d\n", __func__, enable);
+> +
+> +	if (enable) {
+> +		ret = pm_runtime_get_sync(state->dev);
+> +		if (ret < 0) {
+> +			pm_runtime_put_noidle(state->dev);
+> +			return ret;
+> +		}
+> +		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
+> +		if (ret < 0 && ret != -ENOIOCTLCMD)
+> +			goto done;
+> +	}
+> +
+> +	mutex_lock(&state->lock);
+> +
+> +	if (enable) {
+> +		if (state->state & ST_SUSPENDED) {
+> +			ret = -EBUSY;
+> +			goto unlock;
+> +		}
+> +
+> +		mipi_csi2_start_stream(state);
+> +		ret = v4l2_subdev_call(state->src_sd, video, s_stream, 1);
+> +		if (ret < 0)
+> +			goto unlock;
+> +
+> +		state->state |= ST_STREAMING;
+> +	} else {
+> +		v4l2_subdev_call(state->src_sd, video, s_stream, 0);
+> +		ret = v4l2_subdev_call(state->src_sd, core, s_power, 0);
+> +		if (ret == -ENOIOCTLCMD)
+> +			ret = 0;
+> +		mipi_csi2_stop_stream(state);
+> +		state->state &= ~ST_STREAMING;
+> +	}
+> +
+> +unlock:
+> +	mutex_unlock(&state->lock);
+> +
+> +done:
+> +	if (!enable || ret < 0)
+> +		pm_runtime_put(state->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static struct v4l2_mbus_framefmt *
+> +mipi_csi2_get_format(struct csi_state *state,
+> +		     struct v4l2_subdev_pad_config *cfg,
+> +		     enum v4l2_subdev_format_whence which,
+> +		     unsigned int pad)
+> +{
+> +	if (which == V4L2_SUBDEV_FORMAT_TRY)
+> +		return v4l2_subdev_get_try_format(&state->sd, cfg, pad);
+> +
+> +	return &state->format_mbus;
+> +}
+> +
+> +static int mipi_csi2_init_cfg(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_pad_config *cfg)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	struct v4l2_mbus_framefmt *fmt_sink;
+> +	struct v4l2_mbus_framefmt *fmt_source;
+> +	enum v4l2_subdev_format_whence which;
+> +
+> +	which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
+> +	fmt_sink = mipi_csi2_get_format(state, cfg, which, MIPI_CSI2_PAD_SINK);
+> +
+> +	fmt_sink->code = MEDIA_BUS_FMT_SGBRG10_1X10;
+> +	fmt_sink->width = MIPI_CSI2_DEF_PIX_WIDTH;
+> +	fmt_sink->height = MIPI_CSI2_DEF_PIX_HEIGHT;
+> +	fmt_sink->field = V4L2_FIELD_NONE;
+> +
+> +	fmt_sink->colorspace = V4L2_COLORSPACE_RAW;
+> +	fmt_sink->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt_sink->colorspace);
+> +	fmt_sink->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt_sink->colorspace);
+> +	fmt_sink->quantization =
+> +		V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt_sink->colorspace,
+> +					      fmt_sink->ycbcr_enc);
+> +
+> +	/*
+> +	 * When called from mipi_csi2_subdev_init() to initialize the active
+> +	 * configuration, cfg is NULL, which indicates there's no source pad
+> +	 * configuration to set.
+> +	 */
+> +	if (!cfg)
+> +		return 0;
+> +
+> +	fmt_source = mipi_csi2_get_format(state, cfg, which, MIPI_CSI2_PAD_SOURCE);
+> +	*fmt_source = *fmt_sink;
+> +
+> +	return 0;
+> +}
+> +
+> +static int mipi_csi2_get_fmt(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_pad_config *cfg,
+> +			     struct v4l2_subdev_format *sdformat)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	struct v4l2_mbus_framefmt *fmt;
+> +
+> +	fmt = mipi_csi2_get_format(state, cfg, sdformat->which, sdformat->pad);
+> +
+> +	mutex_lock(&state->lock);
+> +	sdformat->format = *fmt;
+> +	mutex_unlock(&state->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static int mipi_csi2_enum_mbus_code(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_pad_config *cfg,
+> +				    struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +
+> +	/*
+> +	 * We can't transcode in any way, the source format is identical
+> +	 * to the sink format.
+> +	 */
+> +	if (code->pad == MIPI_CSI2_PAD_SOURCE) {
+> +		struct v4l2_mbus_framefmt *fmt;
+> +
+> +		if (code->index > 0)
+> +			return -EINVAL;
+> +
+> +		fmt = mipi_csi2_get_format(state, cfg, code->which, code->pad);
+> +		code->code = fmt->code;
+> +		return 0;
+> +	}
+> +
+> +	if (code->pad != MIPI_CSI2_PAD_SINK)
+> +		return -EINVAL;
+> +
+> +	if (code->index >= ARRAY_SIZE(mipi_csi2_formats))
+> +		return -EINVAL;
+> +
+> +	code->code = mipi_csi2_formats[code->index].code;
+> +
+> +	return 0;
+> +}
+> +
+> +static int mipi_csi2_set_fmt(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_pad_config *cfg,
+> +			     struct v4l2_subdev_format *sdformat)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	struct csi2_pix_format const *csi2_fmt;
+> +	struct v4l2_mbus_framefmt *fmt;
+> +
+> +	/*
+> +	 * The device can't transcode in any way, the source format can't be
+> +	 * modified.
+> +	 */
+> +	if (sdformat->pad == MIPI_CSI2_PAD_SOURCE)
+> +		return mipi_csi2_get_fmt(sd, cfg, sdformat);
+> +
+> +	if (sdformat->pad != MIPI_CSI2_PAD_SINK)
+> +		return -EINVAL;
+> +
+> +	csi2_fmt = find_csi2_format(sdformat->format.code);
+> +	if (!csi2_fmt) {
+> +		dev_err(state->dev, "no format found based on code %d\n",
+> +			sdformat->format.code);
+> +		csi2_fmt = &mipi_csi2_formats[0];
+> +	}
+> +
+> +	fmt = mipi_csi2_get_format(state, cfg, sdformat->which, sdformat->pad);
+> +
+> +	mutex_lock(&state->lock);
+> +
+> +	fmt->code = csi2_fmt->code;
+> +	fmt->width = sdformat->format.width;
+> +	fmt->height = sdformat->format.height;
+> +
+> +	sdformat->format = *fmt;
+> +
+> +	/* Propagate the format from sink to source. */
+> +	fmt = mipi_csi2_get_format(state, cfg, sdformat->which,
+> +				   MIPI_CSI2_PAD_SOURCE);
+> +	*fmt = sdformat->format;
+> +
+> +	/* Store the CSI2 format descriptor for active formats. */
+> +	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> +		state->csi2_fmt = csi2_fmt;
+> +
+> +	mutex_unlock(&state->lock);
+> +
+> +	/* https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744 */
+> +	if (sdformat->format.width * sdformat->format.height > 720 * 480)
+> +		state->hs_settle = 0x9;
+> +	else
+> +		state->hs_settle = 0x14;
+> +
+> +	state->send_level = 64;
+> +
+> +	dev_dbg(state->dev,
+> +		"%s: format %dx%d send_level %d hs_settle 0x%X\n", __func__,
+> +		sdformat->format.width, sdformat->format.height,
+> +		state->send_level, state->hs_settle);
+> +
+> +	return 0;
+> +}
+> +
+> +static int mipi_csi2_log_status(struct v4l2_subdev *sd)
+> +{
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +
+> +	mutex_lock(&state->lock);
+> +	mutex_unlock(&state->lock);
+> +
+> +	return 0;
+
+Please don't push stub code upstream.
+
+> +}
+> +
+> +static const struct v4l2_subdev_core_ops mipi_csi2_core_ops = {
+> +	.log_status	= mipi_csi2_log_status,
+> +};
+> +
+> +static const struct v4l2_subdev_video_ops mipi_csi2_video_ops = {
+> +	.s_stream	= mipi_csi2_s_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops mipi_csi2_pad_ops = {
+> +	.init_cfg		= mipi_csi2_init_cfg,
+> +	.enum_mbus_code		= mipi_csi2_enum_mbus_code,
+> +	.get_fmt		= mipi_csi2_get_fmt,
+> +	.set_fmt		= mipi_csi2_set_fmt,
+> +};
+> +
+> +static const struct v4l2_subdev_ops mipi_csi2_subdev_ops = {
+> +	.core	= &mipi_csi2_core_ops,
+> +	.video	= &mipi_csi2_video_ops,
+> +	.pad	= &mipi_csi2_pad_ops,
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Media entity operations
+> + */
+> +
+> +static int mipi_csi2_link_setup(struct media_entity *entity,
+> +				const struct media_pad *local_pad,
+> +				const struct media_pad *remote_pad, u32 flags)
+> +{
+> +	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	struct v4l2_subdev *remote_sd;
+> +
+> +	dev_dbg(state->dev, "link setup %s -> %s", remote_pad->entity->name,
+> +		local_pad->entity->name);
+> +
+> +	/* We only care about the link to the source. */
+> +	if (!(local_pad->flags & MEDIA_PAD_FL_SINK))
+> +		return 0;
+> +
+> +	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
+> +
+> +	if (flags & MEDIA_LNK_FL_ENABLED) {
+> +		if (state->src_sd)
+> +			return -EBUSY;
+> +
+> +		state->src_sd = remote_sd;
+> +	} else {
+> +		state->src_sd = NULL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct media_entity_operations mipi_csi2_entity_ops = {
+> +	.link_setup	= mipi_csi2_link_setup,
+> +	.link_validate	= v4l2_subdev_link_validate,
+> +	.get_fwnode_pad = v4l2_subdev_get_fwnode_pad_1_to_1,
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Async subdev notifier
+> + */
+> +
+> +static struct csi_state *
+> +mipi_notifier_to_csi2_state(struct v4l2_async_notifier *n)
+> +{
+> +	return container_of(n, struct csi_state, notifier);
+> +}
+> +
+> +static int mipi_csi2_notify_bound(struct v4l2_async_notifier *notifier,
+> +				  struct v4l2_subdev *sd,
+> +				  struct v4l2_async_subdev *asd)
+> +{
+> +	struct csi_state *state = mipi_notifier_to_csi2_state(notifier);
+> +	struct media_pad *sink = &state->sd.entity.pads[MIPI_CSI2_PAD_SINK];
+> +
+> +	return v4l2_create_fwnode_links_to_pad(sd, sink, 0);
+> +}
+> +
+> +static const struct v4l2_async_notifier_operations mipi_csi2_notify_ops = {
+> +	.bound = mipi_csi2_notify_bound,
+> +};
+> +
+> +static int mipi_csi2_async_register(struct csi_state *state)
+> +{
+> +	struct v4l2_fwnode_endpoint vep = {
+> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
+> +	};
+> +	struct v4l2_async_subdev *asd;
+> +	struct fwnode_handle *ep;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	v4l2_async_notifier_init(&state->notifier);
+> +
+> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(state->dev), 0, 0,
+> +					     FWNODE_GRAPH_ENDPOINT_NEXT);
+> +	if (!ep)
+> +		return -ENOTCONN;
+> +
+> +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> +	if (ret)
+> +		goto err_parse;
+> +
+> +	for (i = 0; i < vep.bus.mipi_csi2.num_data_lanes; ++i) {
+> +		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1) {
+> +			dev_err(state->dev,
+> +				"data lanes reordering is not supported");
+> +			goto err_parse;
+
+Missing error code.
+
+> +		}
+> +	}
+> +
+> +	state->bus = vep.bus.mipi_csi2;
+> +
+> +	dev_dbg(state->dev, "data lanes: %d\n", state->bus.num_data_lanes);
+> +	dev_dbg(state->dev, "flags: 0x%08x\n", state->bus.flags);
+> +
+> +	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&state->notifier,
+> +							   ep, struct v4l2_async_subdev);
+> +	if (IS_ERR(asd)) {
+> +		ret = PTR_ERR(asd);
+> +		goto err_parse;
+> +	}
+> +
+> +	fwnode_handle_put(ep);
+> +
+> +	state->notifier.ops = &mipi_csi2_notify_ops;
+> +
+> +	ret = v4l2_async_subdev_notifier_register(&state->sd, &state->notifier);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_async_register_subdev(&state->sd);
+> +
+> +err_parse:
+> +	fwnode_handle_put(ep);
+> +
+> +	return ret;
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Suspend/resume
+> + */
+> +
+> +static int mipi_csi2_pm_suspend(struct device *dev, bool runtime)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	int ret = 0;
+> +
+> +	mutex_lock(&state->lock);
+> +	if (state->state & ST_POWERED) {
+> +		mipi_csi2_stop_stream(state);
+> +		mipi_csi2_clk_disable(state);
+> +		state->state &= ~ST_POWERED;
+> +		if (!runtime)
+> +			state->state |= ST_SUSPENDED;
+> +	}
+> +
+> +	mutex_unlock(&state->lock);
+> +
+> +	ret = icc_set_bw(state->icc_path, 0, 0);
+> +	if (ret)
+> +		dev_err(dev, "icc_set_bw failed with %d\n", ret);
+> +
+> +	return ret ? -EAGAIN : 0;
+> +}
+> +
+> +static int mipi_csi2_pm_resume(struct device *dev, bool runtime)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	int ret = 0;
+> +
+> +	ret = icc_set_bw(state->icc_path, 0, state->icc_path_bw);
+> +	if (ret) {
+> +		dev_err(dev, "icc_set_bw failed with %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	mutex_lock(&state->lock);
+> +	if (!runtime && !(state->state & ST_SUSPENDED))
+> +		goto unlock;
+> +
+> +	if (!(state->state & ST_POWERED)) {
+> +		state->state |= ST_POWERED;
+> +		ret = mipi_csi2_clk_enable(state);
+> +	}
+> +	if (state->state & ST_STREAMING)
+> +		mipi_csi2_start_stream(state);
+> +
+> +	state->state &= ~ST_SUSPENDED;
+> +
+> +unlock:
+> +	mutex_unlock(&state->lock);
+> +
+> +	return ret ? -EAGAIN : 0;
+> +}
+> +
+> +static int __maybe_unused mipi_csi2_suspend(struct device *dev)
+> +{
+> +	return mipi_csi2_pm_suspend(dev, false);
+> +}
+> +
+> +static int __maybe_unused mipi_csi2_resume(struct device *dev)
+> +{
+> +	return mipi_csi2_pm_resume(dev, false);
+> +}
+> +
+> +static int __maybe_unused mipi_csi2_runtime_suspend(struct device *dev)
+> +{
+> +	return mipi_csi2_pm_suspend(dev, true);
+> +}
+> +
+> +static int __maybe_unused mipi_csi2_runtime_resume(struct device *dev)
+> +{
+> +	return mipi_csi2_pm_resume(dev, true);
+> +}
+> +
+> +static const struct dev_pm_ops mipi_csi2_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(mipi_csi2_runtime_suspend, mipi_csi2_runtime_resume,
+> +			   NULL)
+> +	SET_SYSTEM_SLEEP_PM_OPS(mipi_csi2_suspend, mipi_csi2_resume)
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Probe/remove & platform driver
+> + */
+> +
+> +static int mipi_csi2_subdev_init(struct csi_state *state)
+> +{
+> +	struct v4l2_subdev *sd = &state->sd;
+> +
+> +	v4l2_subdev_init(sd, &mipi_csi2_subdev_ops);
+> +	sd->owner = THIS_MODULE;
+> +	snprintf(sd->name, sizeof(sd->name), "%s.%d",
+> +		 MIPI_CSI2_SUBDEV_NAME, state->index);
+> +
+> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	sd->ctrl_handler = NULL;
+> +
+> +	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> +	sd->entity.ops = &mipi_csi2_entity_ops;
+> +
+> +	sd->dev = state->dev;
+> +
+> +	state->csi2_fmt = &mipi_csi2_formats[0];
+> +	mipi_csi2_init_cfg(sd, NULL);
+> +
+> +	state->pads[MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK
+> +					 | MEDIA_PAD_FL_MUST_CONNECT;
+> +	state->pads[MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE
+> +					   | MEDIA_PAD_FL_MUST_CONNECT;
+> +	return media_entity_pads_init(&sd->entity, MIPI_CSI2_PADS_NUM,
+> +				      state->pads);
+> +}
+> +
+> +static int init_icc(struct platform_device *pdev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(&pdev->dev);
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	int ret;
+> +
+> +	/* Optional interconnect request */
+> +	state->icc_path = of_icc_get(&pdev->dev, "dram");
+> +	if (IS_ERR(state->icc_path)) {
+> +		ret = PTR_ERR(state->icc_path);
+> +		if (ret == -EPROBE_DEFER)
+> +			return ret;
+> +
+> +		state->icc_path = NULL;
+> +		return 0;
+
+Normally if a feature is optional feature then it will return NULL if
+the option is disabled and error pointers if there is an error.  And
+that's true here too because of_icc_get() will return NULL if it's
+disabled.
+
+And normally if there is an error then we treat it like an error instead
+of just disabling it.  The user can then fix the error or disable the
+feature and try again.  It's like at a restaurant if you order pancakes
+but they don't have any, they don't silently replace it with fried egg
+because pancakes are not a requirement for life.
+
+So my instinct is that this should be written as:
+
+	state->icc_path = of_icc_get(&pdev->dev, "dram");
+	if (PTR_ERR_OR_NULL(state->icc_path))
+		return PTR_ERR(state->icc_path);
+
+> +	}
+> +
+> +	state->icc_path_bw = MBps_to_icc(700);
+> +
+> +	ret = icc_set_bw(state->icc_path, 0, state->icc_path_bw);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "icc_set_bw failed with %d\n", ret);
+> +		return ret;
+
+Probably we need to call icc_put(state->icc_path) before returning?
+I wish there were a of_icc_put() function even if it were very simple:
+
+void of_icc_put(struct icc_path *path)
+{
+	icc_put(path);
+}
+
+There needs to be a free function for init_icc() as well:
+
+void release_icc(struct platform_device *pdev)
+{
+	struct v4l2_subdev *sd = dev_get_drvdata(&pdev->dev);
+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+
+	icc_put(state->path);
+}
+
+We could call it from probe if mipi_csi2_pm_resume() fails.  Currently
+that leaks.  Also we could call it from the remove function instead of
+calling icc_put() directly.
+
+
+regards,
+dan carpenter
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int mipi_csi2_parse_dt(struct csi_state *state)
+> +{
+> +	struct device_node *node = state->dev->of_node;
+> +	const u32 *addr;
+> +	int len;
+> +	int reg;
+> +
+> +	addr = of_get_property(node, "reg", &len);
+> +	if (!addr) {
+> +		dev_err(state->dev, "no reg property found\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	reg = be32_to_cpup(addr);
+> +
+> +	if ((reg >> 16) == MIPI_CSI2_RX_CSR_1_BASE_ADDR >> 16) {
+> +		state->phy_gpr_reg = MIPI_CSI2_RX_CSR_1_GPR_REG;
+> +		state->hw_reset_reg = MIPI_CSI2_RX_CSR_1_HW_RESET_REG;
+> +	} else if ((reg >> 16) == MIPI_CSI2_RX_CSR_2_BASE_ADDR >> 16) {
+> +		state->phy_gpr_reg = MIPI_CSI2_RX_CSR_2_GPR_REG;
+> +		state->hw_reset_reg = MIPI_CSI2_RX_CSR_2_HW_RESET_REG;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int mipi_csi2_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct csi_state *state;
+> +	int ret;
+> +
+> +	state = devm_kzalloc(dev, sizeof(*state), GFP_KERNEL);
+> +	if (!state)
+> +		return -ENOMEM;
+> +
+> +	mutex_init(&state->lock);
+> +
+> +	state->dev = dev;
+> +
+> +	ret = mipi_csi2_parse_dt(state);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to parse device tree: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	/* Acquire resources. */
+> +	state->regs = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(state->regs))
+> +		return PTR_ERR(state->regs);
+> +
+> +	ret = mipi_csi2_clk_get(state);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/* Initialize and register the subdev. */
+> +	ret = mipi_csi2_subdev_init(state);
+> +	if (ret < 0)
+> +		goto disable_clock;
+> +
+> +	platform_set_drvdata(pdev, &state->sd);
+> +
+> +	ret = mipi_csi2_async_register(state);
+> +	if (ret < 0) {
+> +		dev_err(dev, "async register failed: %d\n", ret);
+> +		goto cleanup;
+> +	}
+> +
+> +	ret = init_icc(pdev);
+> +	if (ret)
+> +		goto cleanup;
+> +
+> +	/* Enable runtime PM. */
+> +	pm_runtime_enable(dev);
+> +	if (!pm_runtime_enabled(dev)) {
+> +		ret = mipi_csi2_pm_resume(dev, true);
+> +		if (ret < 0)
+> +			goto cleanup;
+> +	}
+> +
+> +	dev_info(dev, "lanes: %d\n", state->bus.num_data_lanes);
+> +
+> +	return 0;
+> +
+> +cleanup:
+> +	media_entity_cleanup(&state->sd.entity);
+> +	v4l2_async_notifier_unregister(&state->notifier);
+> +	v4l2_async_notifier_cleanup(&state->notifier);
+> +	v4l2_async_unregister_subdev(&state->sd);
+> +disable_clock:
+> +	mipi_csi2_clk_disable(state);
+> +	mutex_destroy(&state->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int mipi_csi2_remove(struct platform_device *pdev)
+> +{
+> +	struct v4l2_subdev *sd = platform_get_drvdata(pdev);
+> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +
+> +	v4l2_async_notifier_unregister(&state->notifier);
+> +	v4l2_async_notifier_cleanup(&state->notifier);
+> +	v4l2_async_unregister_subdev(&state->sd);
+> +
+> +	pm_runtime_disable(&pdev->dev);
+> +	mipi_csi2_pm_suspend(&pdev->dev, true);
+> +	mipi_csi2_clk_disable(state);
+> +	media_entity_cleanup(&state->sd.entity);
+> +	mutex_destroy(&state->lock);
+> +	pm_runtime_set_suspended(&pdev->dev);
+> +	icc_put(state->icc_path);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id mipi_csi2_of_match[] = {
+> +	{ .compatible = "fsl,imx8mq-mipi-csi2",},
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, mipi_csi2_of_match);
+> +
+> +static struct platform_driver mipi_csi2_driver = {
+> +	.probe		= mipi_csi2_probe,
+> +	.remove		= mipi_csi2_remove,
+> +	.driver		= {
+> +		.of_match_table = mipi_csi2_of_match,
+> +		.name		= MIPI_CSI2_DRIVER_NAME,
+> +		.pm		= &mipi_csi2_pm_ops,
+> +	},
+> +};
+> +
+> +module_platform_driver(mipi_csi2_driver);
+> +
+> +MODULE_DESCRIPTION("i.MX8MQ MIPI CSI-2 receiver driver");
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_ALIAS("platform:imx8mq-mipi-csi2");
+> -- 
+> 2.30.2
 > 
-> Apologies, I forgot to use --strict. It's not pretty indeed. I've
-> fixed most of the problems reported ; a few are more tricky or would
-> require extra cleanup patches like converting e.g. uint32_t to u32
-> when adding a member to a struct, which would make sense if we convert
-> all members of the struct (or better, the whole driver) separately.
-> Hopefully these can be overlooked for the time being.
-
-Fair enough, just mention that in the cover letter.
-
-Regards,
-
-	Hans
-
-> 
-
