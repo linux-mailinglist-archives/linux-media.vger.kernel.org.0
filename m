@@ -2,63 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CCF3392B7A
-	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 12:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 446B1392B7C
+	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 12:10:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236083AbhE0KML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 May 2021 06:12:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45536 "EHLO
+        id S236113AbhE0KMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 May 2021 06:12:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236100AbhE0KMG (ORCPT
+        with ESMTP id S236105AbhE0KMR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 May 2021 06:12:06 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A86FC061760
-        for <linux-media@vger.kernel.org>; Thu, 27 May 2021 03:10:32 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id p20so41800ljj.8
-        for <linux-media@vger.kernel.org>; Thu, 27 May 2021 03:10:31 -0700 (PDT)
+        Thu, 27 May 2021 06:12:17 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74058C061760
+        for <linux-media@vger.kernel.org>; Thu, 27 May 2021 03:10:44 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id e2so65184ljk.4
+        for <linux-media@vger.kernel.org>; Thu, 27 May 2021 03:10:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=x4yEjCZpjXjlLtm8fIGk3hS7YCL51ZB0U7PousVU3z0=;
-        b=ehfhag2ColEd2R3+qduQ1URjFhb+8Dy6hnhyDGq+Z/YorltmfPecHA0Qzss59HJrj5
-         6PzCTDrPNFTQmDDJI9s/Ic5C6WRxC1A2y+095uulcjneTfYYKOUIZeTUv+fv8EvvR86q
-         0VemvTJREFYEOfXJ8XtOcP4X+X38X49UwA5ck=
+        bh=Jm/6jFCe3/7FOinz4SHy1Ee5ISvSki/EZvOhN9srBpY=;
+        b=LGZVhXqBUDdX1KmMdSxzLcJeA+4qUVmlfy8wrXeVpW8TABCjHmnkD9dGcbbP71xWLg
+         7Vxy1H6Br35G36rwv5dOVypvJYzC0jSVtg/wZomZQDxm2xB/vkWoMCzI/Tjgg9wl6R7j
+         do9h37JCcYmF5NUhoh1KeG2QlKpOrIcgL4R+s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=x4yEjCZpjXjlLtm8fIGk3hS7YCL51ZB0U7PousVU3z0=;
-        b=jRNeldtLzT7uO3iGFJ1PDQGfrICvx+RYhgCcMISRxo/Uzxxcr18lTJfQ9FUOdzFz5b
-         BlXB8RKkk+5rRD5NMKPd61751YKSS6OaJQtnKXiyBswVxsw+HOaRYOFG0anFjo+7SpCd
-         K7xTcoATp2IsNnxvNzX56y4FqQvyj8KJBJN9GJWoLPwWTj/Q5AUsLEfHW//vRb6+/VgY
-         xwA2+PwjVpQy88aW0x9fnHQil0fmuuwFHSKUxsHnp9j7mTfgsVHm/G/7WUKPDPE4o20q
-         dUSSV8bbmWxdWdkMAkfnu1UqRgus8caVaev5YYt5Uw7KECVna2vsJDpp0rb7SsOhhJoo
-         k+YQ==
-X-Gm-Message-State: AOAM5337ggQz1PnJIhroGt9nwr2COmQRtRuCFyEbcqri7H7X3OqvQ52m
-        4kopKaaRdFU0hBI5OQAcfJEzhk6ghgoktA==
-X-Google-Smtp-Source: ABdhPJw3cuGY36lP5SILh4zKNbmgQbDyks95o9VjTShMyB/MsmTGa6dQiCGssBPprUL4PClZSlDqdw==
-X-Received: by 2002:a2e:7a06:: with SMTP id v6mr1912281ljc.219.1622110229836;
-        Thu, 27 May 2021 03:10:29 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id y22sm159462lfh.154.2021.05.27.03.10.29
+        bh=Jm/6jFCe3/7FOinz4SHy1Ee5ISvSki/EZvOhN9srBpY=;
+        b=kOqAoCcceeVIml9582zBkZ3Lr8UrLv77Uz4xq1046WJgnHYA3Bl8jF4EkR4v6EYuxP
+         HXH68FKHbkwTxkok2UBavtr1OtRN54gfNdDgBdl6X3sJSpHQt3Wss2EoFsZgCvypQFrZ
+         T+/kqAiBAD6DuuCRFlCxh5AhAgWVdWIqQ0+y0bONQb4NNgrHWJ7S3Q3bmr9iWfAddfGh
+         kXabk9kv/mVwG5gggZjCbWbxsaNOh8R9Vsf9xNUG16cbTzSCNupqRztnEjaoD1hdG1jI
+         GFy+HfShMnTw8frwKD7szv0exzjrpEixCXDV+jrRBu0Nbuqw3LbyaWcYWANgTKb7idqB
+         3Jng==
+X-Gm-Message-State: AOAM532ioupG98MCl/1iQ//C+qJ6kL59qM8BfekbltMTB29lax8mM9Kr
+        MFWj7wBIs4G7241aoDip7Qj95beY3dVOqg==
+X-Google-Smtp-Source: ABdhPJwAmuABvSmmhNQpw1wb4lrZYtkc4fI/ljTDLV4mO7SBDs2bvKY5IlHaUdrtLYbn99IOOU9KJw==
+X-Received: by 2002:a2e:9e90:: with SMTP id f16mr1958063ljk.437.1622110242479;
+        Thu, 27 May 2021 03:10:42 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id v203sm160373lfa.156.2021.05.27.03.10.41
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 May 2021 03:10:29 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id v8so7176116lft.8
-        for <linux-media@vger.kernel.org>; Thu, 27 May 2021 03:10:29 -0700 (PDT)
-X-Received: by 2002:a19:6102:: with SMTP id v2mr1818325lfb.403.1622110228818;
- Thu, 27 May 2021 03:10:28 -0700 (PDT)
+        Thu, 27 May 2021 03:10:41 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id w15so28510ljo.10
+        for <linux-media@vger.kernel.org>; Thu, 27 May 2021 03:10:41 -0700 (PDT)
+X-Received: by 2002:a2e:988b:: with SMTP id b11mr2014124ljj.87.1622110241115;
+ Thu, 27 May 2021 03:10:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210519143011.1175546-1-acourbot@chromium.org>
- <20210519143011.1175546-6-acourbot@chromium.org> <CA+Px+wUaA9o+Aom4weuTH4TDpCfFpxv0YHDArCJswEs6QmCw0A@mail.gmail.com>
-In-Reply-To: <CA+Px+wUaA9o+Aom4weuTH4TDpCfFpxv0YHDArCJswEs6QmCw0A@mail.gmail.com>
+ <20210519143011.1175546-7-acourbot@chromium.org> <CA+Px+wV2N9uRuMGBzZDibCYqPVigPb5K40Q1BuLa58K2RY_eaA@mail.gmail.com>
+In-Reply-To: <CA+Px+wV2N9uRuMGBzZDibCYqPVigPb5K40Q1BuLa58K2RY_eaA@mail.gmail.com>
 From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Thu, 27 May 2021 19:10:16 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MXnv0g5knZ_KNhTKkwyRh29zQWqKV-vyA+dQyDn4qkMGA@mail.gmail.com>
-Message-ID: <CAPBb6MXnv0g5knZ_KNhTKkwyRh29zQWqKV-vyA+dQyDn4qkMGA@mail.gmail.com>
-Subject: Re: [PATCH v5 05/14] media: mtk-vcodec: venc: support START and STOP commands
+Date:   Thu, 27 May 2021 19:10:28 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXFrneXmhA=1FshkrGLZOder4_KeyzD7xGdw66o0hTBZw@mail.gmail.com>
+Message-ID: <CAPBb6MXFrneXmhA=1FshkrGLZOder4_KeyzD7xGdw66o0hTBZw@mail.gmail.com>
+Subject: Re: [PATCH v5 06/14] media: mtk-vcodec: vdec: move stateful ops into
+ their own file
 To:     Tzung-Bi Shih <tzungbi@google.com>
 Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -69,8 +70,7 @@ Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>
+        <linux-mediatek@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -80,18 +80,136 @@ On Fri, May 21, 2021 at 10:37 PM Tzung-Bi Shih <tzungbi@google.com> wrote:
 >
 > On Wed, May 19, 2021 at 10:31 PM Alexandre Courbot
 > <acourbot@chromium.org> wrote:
-> > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> > [hsinyi: fix double-free issue if flush buffer was not dequeued by the
-> > time streamoff is called]
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+> > new file mode 100644
+> > index 000000000000..ed4b1308a0e4
+> > --- /dev/null
+> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+> > @@ -0,0 +1,667 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +
+> > +#include <media/v4l2-event.h>
+> > +#include <media/v4l2-mem2mem.h>
+> > +#include <media/videobuf2-dma-contig.h>
+> > +
+> > +#include "mtk_vcodec_drv.h"
+> > +#include "mtk_vcodec_dec.h"
+> > +#include "mtk_vcodec_intr.h"
+> > +#include "mtk_vcodec_util.h"
+> > +#include "vdec_drv_if.h"
+> > +#include "mtk_vcodec_dec_pm.h"
 >
-> Per guideline[1]:
-> > Notably, the last Signed-off-by: must always be that of the developer submitting the patch.
->
-> In the case, should you provide another signed-off at the last line?
->
-> [1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
+> Would be good practice to sort them.
 
-IIUC the main author's signoff should come first, and you should not
-sign patches twice. checkpatch.pl did not raise any objection, so I
-suppose the current form is correct?
+Did what I could, but the order seems to somehow matter. :/
+
+>
+> > +static struct vb2_buffer *get_display_buffer(struct mtk_vcodec_ctx *ctx)
+> > +{
+> > +       struct vdec_fb *disp_frame_buffer = NULL;
+> > +       struct mtk_video_dec_buf *dstbuf;
+> > +       struct vb2_v4l2_buffer *vb;
+> > +
+> > +       mtk_v4l2_debug(3, "[%d]", ctx->id);
+> > +       if (vdec_if_get_param(ctx,
+> > +                       GET_PARAM_DISP_FRAME_BUFFER,
+> > +                       &disp_frame_buffer)) {
+> > +               mtk_v4l2_err("[%d]Cannot get param : GET_PARAM_DISP_FRAME_BUFFER",
+> > +                       ctx->id);
+> > +               return NULL;
+> > +       }
+> > +
+> > +       if (disp_frame_buffer == NULL) {
+>
+> Although this is a move refactor, to be neat, !disp_frame_buffer.
+
+These were also raised by checkpatch.pl --strict, they are now all fixed.
+
+>
+> > +static struct vb2_buffer *get_free_buffer(struct mtk_vcodec_ctx *ctx)
+> > +{
+> > +       struct mtk_video_dec_buf *dstbuf;
+> > +       struct vdec_fb *free_frame_buffer = NULL;
+> > +       struct vb2_v4l2_buffer *vb;
+> > +
+> > +       if (vdec_if_get_param(ctx,
+> > +                               GET_PARAM_FREE_FRAME_BUFFER,
+> > +                               &free_frame_buffer)) {
+> > +               mtk_v4l2_err("[%d] Error!! Cannot get param", ctx->id);
+> > +               return NULL;
+> > +       }
+> > +       if (free_frame_buffer == NULL) {
+>
+> The same concern as above.
+>
+> > +static void clean_display_buffer(struct mtk_vcodec_ctx *ctx)
+> > +{
+> > +       struct vb2_buffer *framptr;
+> > +
+> > +       do {
+> > +               framptr = get_display_buffer(ctx);
+> > +       } while (framptr);
+> > +}
+> > +
+> > +static void clean_free_buffer(struct mtk_vcodec_ctx *ctx)
+> > +{
+> > +       struct vb2_buffer *framptr;
+> > +
+> > +       do {
+> > +               framptr = get_free_buffer(ctx);
+> > +       } while (framptr);
+> > +}
+>
+> while (get_display_buffer(ctx)) ;
+> and
+> while (get_free_buffer(ctx)) ;
+> looks better.
+
+Done.
+
+>
+> > +static int mtk_vdec_flush_decoder(struct mtk_vcodec_ctx *ctx)
+> > +{
+> > +       bool res_chg;
+> > +       int ret = 0;
+>
+> No need to initialize.
+
+Done.
+
+>
+> > +static void mtk_vdec_worker(struct work_struct *work)
+> > +{
+> > +       struct mtk_vcodec_ctx *ctx = container_of(work, struct mtk_vcodec_ctx,
+> > +                               decode_work);
+> > +       struct mtk_vcodec_dev *dev = ctx->dev;
+> > +       struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> > +       struct mtk_vcodec_mem buf;
+> > +       struct vdec_fb *pfb;
+> > +       bool res_chg = false;
+> > +       int ret;
+> > +       struct mtk_video_dec_buf *dst_buf_info, *src_buf_info;
+> > +
+> > +       src_buf = v4l2_m2m_next_src_buf(ctx->m2m_ctx);
+> > +       if (src_buf == NULL) {
+>
+> To neat, !src_buf.
+>
+> > +       dst_buf = v4l2_m2m_next_dst_buf(ctx->m2m_ctx);
+> > +       if (dst_buf == NULL) {
+>
+> To neat, !dst_buf.
+>
+> > +static void vb2ops_vdec_stateful_buf_queue(struct vb2_buffer *vb)
+> > +{
+> > +       struct vb2_v4l2_buffer *src_buf;
+> > +       struct mtk_vcodec_mem src_mem;
+> > +       bool res_chg = false;
+> > +       int ret = 0;
+> > +       unsigned int dpbsize = 1, i = 0;
+> > +       struct mtk_vcodec_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+> > +       struct vb2_v4l2_buffer *vb2_v4l2 = NULL;
+>
+> ret, i, and vb2_v4l2 are obviously no need to initialize.
+
+Done, thanks!
