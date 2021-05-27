@@ -2,167 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBD4F392900
-	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 09:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E788D392938
+	for <lists+linux-media@lfdr.de>; Thu, 27 May 2021 10:08:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235178AbhE0H4s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 May 2021 03:56:48 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:49541 "EHLO
+        id S235087AbhE0IJt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 May 2021 04:09:49 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:59023 "EHLO
         lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235169AbhE0H40 (ORCPT
+        by vger.kernel.org with ESMTP id S229793AbhE0IJt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 May 2021 03:56:26 -0400
+        Thu, 27 May 2021 04:09:49 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id mAqulaPv0VN4kmAqylNZyE; Thu, 27 May 2021 09:54:52 +0200
+        id mB3plaVOCVN4kmB3slNcXi; Thu, 27 May 2021 10:08:15 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622102092; bh=iRozK57aD38922wBPIqM+mPlF2ZSkmLhmWfW+6TOOPw=;
+        t=1622102895; bh=5LIlnKliUzmvBxewoH5nL1xb3w4buWTu/k3+pHw1gwk=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=nnKc9HVxyv2mtu0DezX4xoETYeRiqFmVXF2LuqjUIhHPYk5s0S7TKUrQovHjlP22Y
-         2ws0+e6HpMHwZ59YXAHwv06qjAos2iXkB53xYYGhCnfmvoteuzOezEV7GmSNEEsGGG
-         Z9j8vIL8LcphzZEUlP81oK6WJb7kUCEh1l8wiH0teDS7acQMGnSaNX2lNjM8mgaA+J
-         5RY8cOyFpbW+FeowyY1p6VkKZFFrC58iHZlD5a8ZBYOQLz4Epqe2aClD5ROWNvUB/m
-         T67zGyNPcUzyluPIogDJmxdII1zbH8qJ4sykodc7KieF8QE+Lo5RSJV5+zq1sVzxcE
-         X8kPBqBNVroGg==
-Subject: Re: [RFC/WIP 0/4] HEIC image encoder
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org
-References: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
+        b=Lr+h0hV5xuGnWeHosj7z+qGrbQzAWouRW1XG8RcsIveAX2kn/acW3ZsJ5VWZ16JJu
+         Jk2NncbDr2pgehgNj6IBBme4KKOPps03gPLwI9OGqLEeJofMwCTOJqsF11jkCj9sGM
+         3qyrN+Mb9uN9txSlxYrbYoIj4XS6KW0Yz9vV9dp/syKV8/bgGj1LazqF7bOYkyqzYG
+         t+rsmTqX0m7RDNufHtk4ZcmctZYyiFhM8yQwMo9N3G4EjP+8s7jdyvAZ/wi8OG25H1
+         oQ1EglQmU4tcgxy7ArPhs0M84HwePDtvEoQ15xQdd4PeWBAWwY/GYurE0M0iEzXB5Z
+         NBc59cBKJqbuw==
+Subject: Re: [PATCH v5 00/14] media: mtk-vcodec: support for MT8183 decoder
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <20210519143011.1175546-1-acourbot@chromium.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <ae54a98a-c1e5-e7f9-4d3f-fa4a56b9a359@xs4all.nl>
-Date:   Thu, 27 May 2021 09:54:48 +0200
+Message-ID: <ed6610cb-5164-4185-f7c9-6d872ea16ec7@xs4all.nl>
+Date:   Thu, 27 May 2021 10:08:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
+In-Reply-To: <20210519143011.1175546-1-acourbot@chromium.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfGHDem9dY35z8m1M5JhY6kWFDSMTHAzmmjYiAuF0OnASAgIi6P++gGlPumw5ROVrYfCnUAwuJF7D6R+zLKzsOh9hfFuXkV/Ak74RLbqHeF6pw9YJiey1
- LzHCRxRs86rHNC03JCUFH7HdFw3tr8JElJkYWMzEBBwN9HLTRjKe0/w8CbZAB9tKgrR2aBpziww6OODLmXDepW8WKoAqrpKJ50/4k75j6DTXcpgNwvEcPAEu
- 64mWxN0uYGkyDURj1EqTVg==
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfH+45w8wpmjxur/OI64pQjjjtsYE7fGqfPJ1UkDh/mSiWZQs+T5FiyCW4UXNZtNLofMxvRxeWgB1GFF5+NcBBAhtVjKjj3Um2QJaetd3JfS6/Q9BU9BZ
+ hTAAjcl9VnKvsmEcXaO75N2Tm3kB5gDafG0wiMKvb/jq709uYLbgLo7iirUuEbsllN0H/IFNGVSJZYXY+vNHL2KR5PcGjOQJM+XbNDRKsqFNHzSon6GxqeaD
+ HpIt2veeEcqxhHLhQ/q5aNV1nBeSSiEgnGFtEp5id4T24Pt2gisOL/+JKdHQgBIZFazcKfDbKZGEvFbS8dRaSYzsdH6v3cP8R5ChMcMdTBFCvB2ht4K+iU8m
+ 97RyDlSm7t7uFJ6pTRoDuu6l1cCwYb9EnB8JwYKgQjd2L3rSKH2ZTweK1Bhf+iff2B1D6e+/pcqxii33RVMvvHSP1XEl0qpG/Ecl6VRvg6ZNkhOQSS4Da95Y
+ Hu5PN6Lfub/NdxTgNyoOGmfeuQ0+WuTOLmjLU1trP8D0xMezcmM5bw16yEk=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stanimir,
+Hi Alexandre,
 
-On 29/04/2021 15:28, Stanimir Varbanov wrote:
-> Hi,
+On 19/05/2021 16:29, Alexandre Courbot wrote:
+> This series adds support for the stateless API into mtk-vcodec, by first
+> separating the stateful ops into their own source file, and introducing
+> a new set of ops suitable for stateless decoding. As such, support for
+> stateful decoders should remain completely unaffected.
 > 
-> HEIC (High-Efficiency Image Container) is a variant of HEIF (High
-> Efficiency Image File Format) where HEVC/h265 codec is used to encode
-> images.  For more info see [1].
+> This series has been tested with both MT8183 and MT8173. Decoding was
+> working for both chips, and in the case of MT8173 no regression has been
+> spotted.
 > 
-> In this RFC we propose a new compressed pixel format V4L2_PIX_FMT_HEIC.
-> The name is debatable and could be changed (V4L2_PIX_FMT_HEVC_HEIF is
-> also an option).
+> Patches 1-5 fix a few compliance issues with the decoder and encoder, most
+> notably by adding support for the START and STOP command for the latter. These
+> patches were last in the previous series but have been moved to the beginning so
+> they can be applied sooner.
 > 
-> There are two encoding modes which should be selectable by clients:
->     1. Regular image encoding
->     2. Grid image encoding
+> Patches 6-9 separates the "stateful" part of the driver into its own file and
+> add support for the new firmware and pixel format used by MT8183.
 > 
-> 1. Regular image encoding
+> Patches 10-14 add support for H.264 stateless decoding and MT8183.
 > 
-> Propose to reuse stateful video encoder spec [2].
+> Changes since v4:
+> * Moved compliance fix patches to the head of the series.
+> * Select MEDIA_CONTROLLER_REQUEST_API.
+> * Properly capitalize MM21's format description string.
+> * Reorganize stateless code as suggested by Hans.
+> * Fix compilation errors when DEBUG is defined.
+> * Merge double-free fixup patch into the patch that introduced the issue (was
+>   a separate patch coming right after the one introducing the issue).
 > 
-> - queuing one OUTPUT buffer will produce one CAPTURE buffer.  The
-> client could trigger Drain sequence at any point of time.
+> Changes since v3:
+> * Stop checking that controls are set for every request.
+> * Add V4L2_CID_STATELESS_H264_START_CODE control.
+> * Stop mapping OUTPUT buffers and getting the NAL type from them, use the
+>   nal_ref_idc field instead.
+> * Make V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control stateful-only.
+> * Set vb2_buffer's field to V4L2_FIELD_NONE in buffer validation hook.
 > 
-> 2. Grid image encoding
+> Changes since v2:
+> * Add follow-up patches fixing support for START/STOP commands for the
+>   encoder, and stateful decoder.
 > 
-> Propose to reuse stateful video encoder spec [2].
+> Alexandre Courbot (8):
+>   media: mtk-vcodec: vdec: use helpers in VIDIOC_(TRY_)DECODER_CMD
+>   media: mtk-vcodec: vdec: clamp OUTPUT resolution to hardware limits
+>   media: mtk-vcodec: make flush buffer reusable by encoder
+>   media: mtk-vcodec: venc: support START and STOP commands
+>   media: mtk-vcodec: vdec: handle firmware version field
+>   media: mtk-vcodec: support version 2 of decoder firmware ABI
+>   media: add Mediatek's MM21 format
+>   dt-bindings: media: document mediatek,mt8183-vcodec-dec
 > 
-> - queuing one OUTPUT buffer will produce a number of grids CAPTURE
-> buffers.  The client could trigger Drain sequence at any point of time.
+> Hirokazu Honda (1):
+>   media: mtk-vcodec: vdec: Support H264 profile control
 > 
-> This image encoding mode is used when the input image resolution is
-> bigger then the hardware can support and/or for compatibility reasons
-> (for exmaple, the HEIC decoding hardware is not capable to decode higher
-> than VGA resolutions).
+> Yunfei Dong (5):
+>   media: mtk-vcodec: vdec: move stateful ops into their own file
+>   media: mtk-vcodec: vdec: support stateless API
+>   media: mtk-vcodec: vdec: support stateless H.264 decoding
+>   media: mtk-vcodec: vdec: add media device if using stateless api
+>   media: mtk-vcodec: enable MT8183 decoder
 
-Is grid image encoding part of the spec for this format? Is this something
-that the venus hardware needs due to image resolution limitations as
-described above?
-
-Would it be possible for the driver to handle this internally? I.e.,
-if it detects that it needs to switch to grid mode, can it just encode
-each grid and copy it in the capture buffer? This assumes that there is
-metadata that can be used by a decoder do find and decode each grid.
-
-> 
-> In this mode the input image is divided on square blocks (we call them grids)
-> and every block is encoded separately (the Venus driver presently supports 
-> grid size of 512x512 but that could be changed in the future).
-> 
-> To set the grid size we use a new v4l2 control.
-
-Can the driver make a choice of the grid size, and the control just
-reports the grid size? I.e., does it make sense for userspace to set
-this?
-
-The wiki page [1] doesn't mention grids, so where does this come from?
-Is it part of some spec? Or is it a venus-specific feature?
-
-> 
-> The side effect of this mode is that the client have to set the v4l2
-> control and thus enable grid encoding before setting the formats on
-> CAPTURE and OUTPUT queues, because the grid size reflects on the
-> selected resolutions. Also the horizontal and vertical strides will
-> also be affected because thеy have to be aligned to the grid size
-> in order to satisfy DMA alignment restrictions.
-> 
-> Using of v4l2 control to set up Grid mode and Grid size above looks
-> inpractical and somehow breaks the v4l2 and v4l2 control rules, so
-> I'd give one more option. 
-> 
-> Encoding the Grid mode/size in the new proposed HEIC pixel format:
-> 
->    V4L2_PIX_FMT_HEIC - Regular HEIC image encoding
->    V4L2_PIX_FMT_HEIC_GRID_512x512 - Grid HEIC image encoding, grid size of 512x512 
->    and so on ...
-> 
-> Comments and suggestions are welcome!
-
-I notice that this RFC just talks about the encoder, does venus also
-support a decoder? How would a HW decoder handle grids?
+Running scripts/checkpatch.pl --strict over this patch series gives
+a lot of warnings and checks. A lot of these look like they are easy
+to fix and reasonable.
 
 Regards,
 
 	Hans
 
 > 
-> regards,
-> Stan
+>  .../bindings/media/mediatek-vcodec.txt        |   1 +
+>  .../media/v4l/pixfmt-reserved.rst             |   7 +
+>  drivers/media/platform/Kconfig                |   3 +
+>  drivers/media/platform/mtk-vcodec/Makefile    |   3 +
+>  .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 817 +++---------------
+>  .../platform/mtk-vcodec/mtk_vcodec_dec.h      |  27 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  66 +-
+>  .../mtk-vcodec/mtk_vcodec_dec_stateful.c      | 668 ++++++++++++++
+>  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     | 366 ++++++++
+>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  58 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 135 ++-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |   4 +
+>  .../mtk-vcodec/vdec/vdec_h264_req_if.c        | 780 +++++++++++++++++
+>  .../media/platform/mtk-vcodec/vdec_drv_if.c   |   3 +
+>  .../media/platform/mtk-vcodec/vdec_drv_if.h   |   1 +
+>  .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  23 +-
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  43 +-
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   5 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+>  include/uapi/linux/videodev2.h                |   1 +
+>  20 files changed, 2290 insertions(+), 722 deletions(-)
+>  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+>  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+>  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
 > 
-> [1] https://en.wikipedia.org/wiki/High_Efficiency_Image_File_Format
-> [2] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-encoder.html
-> 
-> 
-> Stanimir Varbanov (4):
->   media: Add HEIC compressed pixel format
->   v4l2-ctrls: Add HEIC grid size control
->   venus: helpers: Add a new helper for buffer processing
->   venus: Add HEIC image encoder
-> 
->  .../media/v4l/pixfmt-compressed.rst           |   12 +
->  drivers/media/platform/qcom/venus/Makefile    |    2 +
->  drivers/media/platform/qcom/venus/core.h      |   10 +
->  drivers/media/platform/qcom/venus/helpers.c   |   20 +
->  drivers/media/platform/qcom/venus/helpers.h   |    1 +
->  drivers/media/platform/qcom/venus/hfi_cmds.c  |   10 +-
->  .../media/platform/qcom/venus/hfi_helper.h    |    5 +
->  drivers/media/platform/qcom/venus/ienc.c      | 1348 +++++++++++++++++
->  drivers/media/platform/qcom/venus/ienc.h      |   14 +
->  .../media/platform/qcom/venus/ienc_ctrls.c    |   83 +
->  drivers/media/v4l2-core/v4l2-ctrls.c          |    3 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
->  include/uapi/linux/v4l2-controls.h            |    1 +
->  include/uapi/linux/videodev2.h                |    1 +
->  14 files changed, 1510 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/platform/qcom/venus/ienc.c
->  create mode 100644 drivers/media/platform/qcom/venus/ienc.h
->  create mode 100644 drivers/media/platform/qcom/venus/ienc_ctrls.c
+> --
+> 2.31.1.751.gd2f1c929bd-goog
 > 
 
