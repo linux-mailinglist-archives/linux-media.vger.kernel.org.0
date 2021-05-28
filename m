@@ -2,77 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8218393EF8
-	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 10:48:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11DB0393FD6
+	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 11:23:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235292AbhE1IuW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 May 2021 04:50:22 -0400
-Received: from m12-17.163.com ([220.181.12.17]:33395 "EHLO m12-17.163.com"
+        id S236041AbhE1JZP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 May 2021 05:25:15 -0400
+Received: from mga11.intel.com ([192.55.52.93]:63633 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233054AbhE1IuV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 May 2021 04:50:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=NPgfd
-        6MPtzDIXDJfmmg/h4Y5meuB7xT639mAubjg2cw=; b=i+3w3IEVW0rh2qwNakDEA
-        e4CZ2wG+KB7Pv84NBse4y9vcURJ9BUWyL2vCFhrcpovUo7iCUPD4GCSp9GTfjs+G
-        wdW5tYToJ355GUT3nRF92OqjofXQytBzeYVXwbaBJK8VW4rvAfn7lgTw4KPkDOUG
-        gLfsKJPCUMlibrJj0kagf0=
-Received: from localhost.localdomain (unknown [218.17.89.92])
-        by smtp13 (Coremail) with SMTP id EcCowAB3oYVprrBgHcF83w--.15570S2;
-        Fri, 28 May 2021 16:48:42 +0800 (CST)
-From:   lijian_8010a29@163.com
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lijian <lijian@yulong.com>
-Subject: [PATCH] media: via-camera: deleted these redundant semicolons
-Date:   Fri, 28 May 2021 16:47:40 +0800
-Message-Id: <20210528084740.173201-1-lijian_8010a29@163.com>
-X-Mailer: git-send-email 2.25.1
+        id S236007AbhE1JZP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 May 2021 05:25:15 -0400
+IronPort-SDR: YyqMaewHJMiDRaROYAaP+F7muYyAgTzM/y8OSWhn5OGN9l4Q4N+dkSPqzLz6OkI6iShznyqt81
+ 8zbTCFMt7DbA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9997"; a="199887478"
+X-IronPort-AV: E=Sophos;i="5.83,229,1616482800"; 
+   d="scan'208";a="199887478"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2021 02:23:36 -0700
+IronPort-SDR: OYJiS7GMVN3kdCP0T3Fk5QW14KYnzMOD98Qg35WhHpFHrXVXzw//2E/90UMf61risilBjandaz
+ r9+dIO/YD33g==
+X-IronPort-AV: E=Sophos;i="5.83,229,1616482800"; 
+   d="scan'208";a="465818184"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2021 02:23:33 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lmYiJ-00FHHv-24; Fri, 28 May 2021 12:23:31 +0300
+Date:   Fri, 28 May 2021 12:23:31 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Wolfram Sang <wsa@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-i2c@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/6] i2c: acpi: Export i2c_acpi_find_client_by_adev()
+ for users
+Message-ID: <YLC2k/5hqNNBnN6e@smile.fi.intel.com>
+References: <20210526124322.48915-1-andriy.shevchenko@linux.intel.com>
+ <YLAAedlB6UaJQh0X@kunai>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EcCowAB3oYVprrBgHcF83w--.15570S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Xry8Zr4xGr1fJF48JryrWFg_yoWktrcEqr
-        nYvFs3X3y8GFZrtFyjkF4rWryFvayYvr48uFnxtFWYyry7t3yUW3WYgry7Xw42va129F98
-        GFn09rn7Cr1SvjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU5oxRDUUUUU==
-X-Originating-IP: [218.17.89.92]
-X-CM-SenderInfo: 5olmxttqbyiikqdsmqqrwthudrp/1tbiHRqfUFSIq6n55gABsI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YLAAedlB6UaJQh0X@kunai>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: lijian <lijian@yulong.com>
+On Thu, May 27, 2021 at 10:26:33PM +0200, Wolfram Sang wrote:
+> On Wed, May 26, 2021 at 03:43:17PM +0300, Andy Shevchenko wrote:
+> > There is at least one user that will gain from the
+> > i2c_acpi_find_client_by_adev() being exported.
+> 
+> No objections per se. But as the user is in staging, I want to ask if
+> the use there is really a solution we would also accept outside of
+> staging? Or is it a hack?
 
-Macros should not use a trailing semicolon，and it was used
-the semicolon after macro cam_dbg called in viacam_vb2_prepare,
-so deleted these redundant semicolons.
+The similar OF API is exported for users, although amount of users and their
+locations are different. The AtomISP driver is not in the best shape, I agree,
+but for now any possible steps to make it better would be good steps in my
+opinion. Later we may see if we can do this piece of code differently (IIRC
+current way is probably the best taking into account legacy platforms support).
 
-Signed-off-by: lijian <lijian@yulong.com>
----
- drivers/media/platform/via-camera.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/via-camera.c b/drivers/media/platform/via-camera.c
-index ed0ad68c5c48..5a6ace37c157 100644
---- a/drivers/media/platform/via-camera.c
-+++ b/drivers/media/platform/via-camera.c
-@@ -132,11 +132,11 @@ static struct via_camera *via_cam_info;
-  * Debugging and related.
-  */
- #define cam_err(cam, fmt, arg...) \
--	dev_err(&(cam)->platdev->dev, fmt, ##arg);
-+	dev_err(&(cam)->platdev->dev, fmt, ##arg)
- #define cam_warn(cam, fmt, arg...) \
--	dev_warn(&(cam)->platdev->dev, fmt, ##arg);
-+	dev_warn(&(cam)->platdev->dev, fmt, ##arg)
- #define cam_dbg(cam, fmt, arg...) \
--	dev_dbg(&(cam)->platdev->dev, fmt, ##arg);
-+	dev_dbg(&(cam)->platdev->dev, fmt, ##arg)
- 
- /*
-  * Format handling.  This is ripped almost directly from Hans's changes
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
 
 
