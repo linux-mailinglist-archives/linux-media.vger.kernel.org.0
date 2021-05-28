@@ -2,75 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44AB3393EDE
-	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 10:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8218393EF8
+	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 10:48:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235361AbhE1Ii0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 May 2021 04:38:26 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33864 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232481AbhE1Ii0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 May 2021 04:38:26 -0400
-Received: from localhost.localdomain (unknown [IPv6:2a00:a040:193:3500:ed56:60fb:a74f:177d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AFD2F1F43DB8;
-        Fri, 28 May 2021 09:36:49 +0100 (BST)
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     dafna.hirschfeld@collabora.com, hverkuil@xs4all.nl,
-        kernel@collabora.com, dafna3@gmail.com, mchehab@kernel.org,
-        tfiga@chromium.org, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, matthias.bgg@gmail.com,
-        hsinyi@chromium.org, maoguang.meng@mediatek.com,
-        irui.wang@mediatek.com
-Subject: [PATCH] media: mtk-vcodec: venc: fix return value when start_streaming fails
-Date:   Fri, 28 May 2021 11:36:41 +0300
-Message-Id: <20210528083641.5227-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+        id S235292AbhE1IuW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 May 2021 04:50:22 -0400
+Received: from m12-17.163.com ([220.181.12.17]:33395 "EHLO m12-17.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233054AbhE1IuV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 May 2021 04:50:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=NPgfd
+        6MPtzDIXDJfmmg/h4Y5meuB7xT639mAubjg2cw=; b=i+3w3IEVW0rh2qwNakDEA
+        e4CZ2wG+KB7Pv84NBse4y9vcURJ9BUWyL2vCFhrcpovUo7iCUPD4GCSp9GTfjs+G
+        wdW5tYToJ355GUT3nRF92OqjofXQytBzeYVXwbaBJK8VW4rvAfn7lgTw4KPkDOUG
+        gLfsKJPCUMlibrJj0kagf0=
+Received: from localhost.localdomain (unknown [218.17.89.92])
+        by smtp13 (Coremail) with SMTP id EcCowAB3oYVprrBgHcF83w--.15570S2;
+        Fri, 28 May 2021 16:48:42 +0800 (CST)
+From:   lijian_8010a29@163.com
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lijian <lijian@yulong.com>
+Subject: [PATCH] media: via-camera: deleted these redundant semicolons
+Date:   Fri, 28 May 2021 16:47:40 +0800
+Message-Id: <20210528084740.173201-1-lijian_8010a29@163.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: EcCowAB3oYVprrBgHcF83w--.15570S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Xry8Zr4xGr1fJF48JryrWFg_yoWktrcEqr
+        nYvFs3X3y8GFZrtFyjkF4rWryFvayYvr48uFnxtFWYyry7t3yUW3WYgry7Xw42va129F98
+        GFn09rn7Cr1SvjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU5oxRDUUUUU==
+X-Originating-IP: [218.17.89.92]
+X-CM-SenderInfo: 5olmxttqbyiikqdsmqqrwthudrp/1tbiHRqfUFSIq6n55gABsI
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In case vb2ops_venc_start_streaming fails, the error value
-is overwritten by the ret value of pm_runtime_put which might
-be 0. Fix it.
+From: lijian <lijian@yulong.com>
 
-Fixes: 985c73693fe5a (" media: mtk-vcodec: Separating mtk encoder driver")
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Macros should not use a trailing semicolon，and it was used
+the semicolon after macro cam_dbg called in viacam_vb2_prepare,
+so deleted these redundant semicolons.
+
+Signed-off-by: lijian <lijian@yulong.com>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/platform/via-camera.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-index 4831052f475d..5e0c53112c15 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-@@ -780,7 +780,7 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
- {
- 	struct mtk_vcodec_ctx *ctx = vb2_get_drv_priv(q);
- 	struct venc_enc_param param;
--	int ret;
-+	int ret, pm_ret;
- 	int i;
+diff --git a/drivers/media/platform/via-camera.c b/drivers/media/platform/via-camera.c
+index ed0ad68c5c48..5a6ace37c157 100644
+--- a/drivers/media/platform/via-camera.c
++++ b/drivers/media/platform/via-camera.c
+@@ -132,11 +132,11 @@ static struct via_camera *via_cam_info;
+  * Debugging and related.
+  */
+ #define cam_err(cam, fmt, arg...) \
+-	dev_err(&(cam)->platdev->dev, fmt, ##arg);
++	dev_err(&(cam)->platdev->dev, fmt, ##arg)
+ #define cam_warn(cam, fmt, arg...) \
+-	dev_warn(&(cam)->platdev->dev, fmt, ##arg);
++	dev_warn(&(cam)->platdev->dev, fmt, ##arg)
+ #define cam_dbg(cam, fmt, arg...) \
+-	dev_dbg(&(cam)->platdev->dev, fmt, ##arg);
++	dev_dbg(&(cam)->platdev->dev, fmt, ##arg)
  
- 	/* Once state turn into MTK_STATE_ABORT, we need stop_streaming
-@@ -832,9 +832,9 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
- 	return 0;
- 
- err_set_param:
--	ret = pm_runtime_put(&ctx->dev->plat_dev->dev);
--	if (ret < 0)
--		mtk_v4l2_err("pm_runtime_put fail %d", ret);
-+	pm_ret = pm_runtime_put(&ctx->dev->plat_dev->dev);
-+	if (pm_ret < 0)
-+		mtk_v4l2_err("pm_runtime_put fail %d", pm_ret);
- 
- err_start_stream:
- 	for (i = 0; i < q->num_buffers; ++i) {
+ /*
+  * Format handling.  This is ripped almost directly from Hans's changes
 -- 
-2.17.1
+2.25.1
+
 
