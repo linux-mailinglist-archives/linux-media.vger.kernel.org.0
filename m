@@ -2,89 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2257393D98
-	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 09:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0A3D393DA6
+	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 09:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235465AbhE1HSj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 May 2021 03:18:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48512 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235299AbhE1HSi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 May 2021 03:18:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 654F1C061574;
-        Fri, 28 May 2021 00:17:03 -0700 (PDT)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D034D8C7;
-        Fri, 28 May 2021 09:16:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622186220;
-        bh=CrcGIprNiWYjyNBEAjRVKsmiWp0B7Zru8OKtl8SwMMk=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=A0eMB83vn68dWs7oY99yf0EZalzsYf95dAS70wN57DUz9ssEnwPExUddDg/5/qlvg
-         1qDRHuQcYJ5YkG9lvGraoXFdT2OEEHmRnlYp3OTJVoCvSa6weUV8pl+eL36HnVc4f4
-         c21rik+TaQd1LNBve6I7psWrPHyNnHuZvSrfQ9kw=
-Subject: Re: [PATCH v2 10/18] media: cadence: csi2rx: Populate subdev devnode
-To:     Pratyush Yadav <p.yadav@ti.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-phy@lists.infradead.org, dmaengine@vger.kernel.org
-Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210526152308.16525-1-p.yadav@ti.com>
- <20210526152308.16525-11-p.yadav@ti.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <9c38a72c-18e8-1e54-b3b4-85ff5d47857a@ideasonboard.com>
-Date:   Fri, 28 May 2021 10:16:58 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S235709AbhE1HW7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 May 2021 03:22:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48758 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234626AbhE1HWv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 May 2021 03:22:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C66C9613ED;
+        Fri, 28 May 2021 07:21:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622186476;
+        bh=N3l+H3FWpz9hTS6R0dJJeiT9f5Hegbgor3bxDoeiZB4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=q17llRD5bNPqI2YOYou1mHif2jH1R4u5xPWmUtaumzWMCJ+/sb8OIeXoYHio5GF7A
+         uLtH6EHXeA9atfcpT43lGjq6PFs2AhRZgvolLvJQzTK9jLRjpLF8V+i24STdmwQ/qc
+         /gPFqkPwcj5HgMXA4sBCr41WGr85shiy7xgil3lBq7o5vZG8ZupQkO3WT2aqiS8ZI9
+         yEWBRrpnf8Bosh3EZsWSAyTT2fRbC0vhfQGwU+khQztIM3d+im05hX/xOk6GoZ04Sb
+         gmDJjeTF0eXV0Fy4lbWM8BD0n4y/Jy7rJhrg3kH83cpxWPO6D99A+KOj33qWh7KaDA
+         Czsw9UbTtYSWA==
+Received: by mail-wr1-f48.google.com with SMTP id g17so2182578wrs.13;
+        Fri, 28 May 2021 00:21:16 -0700 (PDT)
+X-Gm-Message-State: AOAM531AtTdYeICvR73hE0Bu2Al4fh/o9nJBHl544X27oxEgxJN+069s
+        jlX7CAoQ9BEu8AxP6mBSdYCN8ZgRX2fQ4ulUhds=
+X-Google-Smtp-Source: ABdhPJxHykzZrhj/hPM+SDXiG/bev9q2vVIuln4XTNDNI7FPpPyt6Z0g0tnEwyXB+ttH+lNiT9Q9Rs7Og0EDShA9RSw=
+X-Received: by 2002:adf:e589:: with SMTP id l9mr7433932wrm.361.1622186475355;
+ Fri, 28 May 2021 00:21:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210526152308.16525-11-p.yadav@ti.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210516204818.2967910-1-arnd@kernel.org> <20210524151829.GO3@paasikivi.fi.intel.com>
+In-Reply-To: <20210524151829.GO3@paasikivi.fi.intel.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Fri, 28 May 2021 09:19:46 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1--fRJ0A+XwOPFLNDNUU7uFWi_LiPCAoCQ53GYZknvpg@mail.gmail.com>
+Message-ID: <CAK8P3a1--fRJ0A+XwOPFLNDNUU7uFWi_LiPCAoCQ53GYZknvpg@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: remove compat_ioctl32 code
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Christoph Hellwig <hch@lst.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/05/2021 18:23, Pratyush Yadav wrote:
-> The devnode can be used by media-ctl and other userspace tools to
-> perform configurations on the subdev. Without it, media-ctl returns
-> ENOENT when setting format on the sensor subdev.
-> 
-> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> ---
-> 
-> (no changes since v1)
-> 
->   drivers/media/platform/cadence/cdns-csi2rx.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> index 1df21f462f3c..49bed63d5faa 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> @@ -613,6 +613,7 @@ static int csi2rx_probe(struct platform_device *pdev)
->   	csi2rx->pads[CSI2RX_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
->   	for (i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++)
->   		csi2rx->pads[i].flags = MEDIA_PAD_FL_SOURCE;
-> +	csi2rx->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->   
->   	ret = media_entity_pads_init(&csi2rx->subdev.entity, CSI2RX_PAD_MAX,
->   				     csi2rx->pads);
-> 
+On Mon, May 24, 2021 at 5:18 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+> On Sun, May 16, 2021 at 10:47:43PM +0200, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > This is one of the last remaining users of compat_alloc_user_space()
+> > and copy_in_user(), which are in the process of getting removed.
+> >
+> > As of commit 57e6b6f2303e ("media: atomisp_fops.c: disable
+> > atomisp_compat_ioctl32"), nothing in this file is actually getting used
+> > as the only reference has been stubbed out.
+>
+> This patch was made redundant by another one that fixed the bug. But I
+> guess you're right in the sense that no-one could have used this because of
+> the patch that disabled it.
+>
+> So:
+>
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>
+> But:
+>
+> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> > index f1e6b2597853..e383e17c5072 100644
+> > --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> > +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> > @@ -1283,7 +1283,8 @@ const struct v4l2_file_operations atomisp_fops = {
+> >       .unlocked_ioctl = video_ioctl2,
+> >  #ifdef CONFIG_COMPAT
+> >       /*
+> > -      * There are problems with this code. Disable this for now.
+> > +      * this was removed because of bugs, the interface
+> > +      * needs to be made safe for compat tasks instead.
+> >       .compat_ioctl32 = atomisp_compat_ioctl32,
+>
+> I think the comment could go, too.
 
-I don't understand this one. There's nothing to configure in cdns-csi2rx 
-from userspace, as far as I can see, so why is the dev node needed? And 
-why would the lack of csi2rx dev node cause sensor subdev config to fail?
+Should I replace it with an entry in the TODO file then?
 
-  Tomi
+       Arnd
