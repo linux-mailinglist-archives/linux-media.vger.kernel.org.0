@@ -2,292 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D7BD3941DB
-	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 13:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C94A394269
+	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 14:18:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229641AbhE1Lgf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 May 2021 07:36:35 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55028 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbhE1Lgd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 May 2021 07:36:33 -0400
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7980D580;
-        Fri, 28 May 2021 13:34:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622201697;
-        bh=aT/AmQrykMHSfwPfgRZaq+68OkP8U5sR4avORes0PE0=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=qJfkhMcuArhlZWI2JFyI4xBrQy6mZHE8WdAaQ9B9cjO9OWdy9LhSg2gl4pvQzZT53
-         P81s0MnzOUexF5oGLkEmuvFJuyVGQaHtRnFQPNSuVByFHcpxQZPg2BZPjiOqLwfKDb
-         tKCtkpl4CgXAOHndoa/gtzVnG4GZQ9ET4AWteCYU=
-Subject: Re: [PATCH v7 24/27] v4l: subdev: use streams in
- v4l2_subdev_link_validate()
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-References: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
- <20210524104408.599645-25-tomi.valkeinen@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <cda0def4-6977-268a-ab7d-5fe2aa4f7fd0@ideasonboard.com>
-Date:   Fri, 28 May 2021 14:34:55 +0300
+        id S236304AbhE1MUF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 May 2021 08:20:05 -0400
+Received: from mail-bn7nam10on2043.outbound.protection.outlook.com ([40.107.92.43]:64705
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230243AbhE1MUF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 May 2021 08:20:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qql8pdkNaJJtVCGPX6MzHPvhq+uhONKMbdmqd99GKrasOu9ud17yyka2gIgMdMcJP26qLPrw/FHtr7NgvzqYdvUSFg9RcU/gmJcG8jnHvkSUOB+LzZDwnqrC/0JBWtW8yQ/tRh2jecwEBaV/lmd1QMbAhmt5AuZVDv9yCQfanT0TrWRhKX/dEoJttYPXUsznT+3EIYGRmOK0aVAFYAvir1MouyQkryV0cQ+SRRuGMIYuyPmjCg2ObxwrQe+iDU04wksu+jWUPK/g1G/wkwT2WuoJJkieUaucAuE/BYbCQJpaiAgn/GxnA1pDgiRugBetj8axMb0Hj8SbIA/M8GQRvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WU/d0yAslbJCuaO8uINvMc1IGDajUOC9Ejc96ICdXYo=;
+ b=E4JBmXQjkBhaE9wuCBznYlHpXzz6FNBbvgz2X3qjjv01e0E2/imY7hLVs3pwfp+vzAnHIfFJ9IMkB2yvFmPuwEz0679uBxHw3g8WDSQo3QDDiY9o6ng0iVR4KiODBqsKqzgVLah6oPXZEPKhGKfmjbgkHq44cAkXfWJlS2cqsVFgGFVVD+NVJ+9Jhh9MVvp3g9JZkXeITCuNRxS5FIrbBcP7KmlWMPo/X5yVCq8aS6ragoVHmT+iEr/QNpraSwMm8O4zd+IB0y/q55dC8DxPo8YDOwelQUpmHUGDjDfzDSt5dcAQRN51i6YvGauVJNw8bAuyiJGtU3/1r9c68TiLyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WU/d0yAslbJCuaO8uINvMc1IGDajUOC9Ejc96ICdXYo=;
+ b=HnCxtOiV9SBFhj1C8tsUILoTMBDRZmoWcUAQ5vcLgY6Vai57KY/Yts1hszpAp13g/DbzPg46+Vr8g4om1yuXhFW0EQX/2unwGf7+j8u/TXtxeTGEX6aLhF4C2aS5Pj63ko7KXwZtgvbuMccH6OxdSQVZMTaK2qC/atvwJJl0P6E=
+Authentication-Results: lists.linaro.org; dkim=none (message not signed)
+ header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4739.namprd12.prod.outlook.com (2603:10b6:208:81::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Fri, 28 May
+ 2021 12:18:27 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6d4d:4674:1cf6:8d34%6]) with mapi id 15.20.4173.024; Fri, 28 May 2021
+ 12:18:27 +0000
+Subject: Re: [PATCH v3] amdgpu: remove unreachable code
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        alexander.deucher@amd.com
+Cc:     airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <1622194158-70898-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <37a4f0bf-4acb-3961-699b-8335e194e315@amd.com>
+Date:   Fri, 28 May 2021 14:18:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210524104408.599645-25-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <1622194158-70898-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [2a02:908:1252:fb60:c3f6:1c8f:ede0:3bcb]
+X-ClientProxiedBy: AM8P191CA0006.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21a::11) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:c3f6:1c8f:ede0:3bcb] (2a02:908:1252:fb60:c3f6:1c8f:ede0:3bcb) by AM8P191CA0006.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21a::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Fri, 28 May 2021 12:18:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7d3e2f93-e7c6-40ec-73b6-08d921d2b227
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4739:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4739EFCC791330925B348FE683229@BL0PR12MB4739.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: J9wsCu3xruOOaogQzadeInkBiVFIk8rMakkXb2TTl0garPxhkMumZAy5K4W9lVqghNDanva8Jx2pSpb4OZ4+P/XVSS9z2ZC/XFsanVg1AUP1wor8yR6VSuraQJpk3Q1SoLds8wHNdTa/ZsLIfuI7vcHW+ew62gJSCAYHchCCU43u8qcTL0LEXf1q3FbdJZQGSVybHNlKX5plqTcwjHBU6ilpjiapqCSNcL2b1Ni8TEAf/QRKGn4OyoFN3lYxWg3nqo3GuP5vGED/ynIeSLyCbxjv1RwSWvJUcRKo4Vf08Mz5urU3cw6uZQu5nma2GsoYsM0eDOd/Yg3ZdDrTBKn+AGMkMxpG4DgzMzi58+jMh0X0WDMqA4Gd6m6LRyMJCcIsToHlGYhUUeTg16XXgnjJVBfgTEPqmynXt+MVMPE9o0eytufV2VEm9fYf+mddvXmZy/jcAuyUn7+uqDZG0IHd5vgMuFTsfNp7dotPRj3omtxU6KdSdS0IFQHgDVsSw5t4UXcv3f5cCfup0Ac4Vok8cmlJoVWWf6vXW+DcZKl15rJkOlwWOCZGZcmRTE0Y3cSopr9yE9oiPurVopIGYvk+yPCJCNQnwz4cdhHFFaDHiicgHNBLzqQvtfKXl0XVuqjgTZ8rOMFxqTrGrkRs9MO9POQXu2nLUctOSpiHHK/ej4ybuiJpsJ4RA4jl79dgjDONiz7S6u7OvUxFNHAVoI3+HQ4crBehxht7XPxXjYDZvih0ql+6v2SyCMjYSKyoa+W79RVj/P5XXEf5uavGfAZlUoWKCv7FN49Bz2NDeFypUfrJ3eYAHbzxYHow7mg0+fKM
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(366004)(396003)(346002)(376002)(136003)(4326008)(478600001)(31686004)(6666004)(2616005)(966005)(36756003)(66946007)(5660300002)(2906002)(6486002)(8676002)(16526019)(6636002)(8936002)(66574015)(66476007)(38100700002)(83380400001)(186003)(66556008)(31696002)(86362001)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WkR3cE9ZTC94VTdvRExXcktrQVFvQ1htZi8xb3VMYzd0T0xabTExOTlwYzhN?=
+ =?utf-8?B?THZZbGhuZ2NUaVpYNE9ySHY2QkRXRUxnWGVUbDlkVWxBV1NqcG5lUUFqellh?=
+ =?utf-8?B?aktGcEZRNElFdVFoQ3hMODl4UCtyenNhcW5yaDZOT0pPdWhGMzZaMVhJYWRT?=
+ =?utf-8?B?dmdhdzBMSWxRZm9QM0FTeVRYYldxczlnMkVVeEJOOVdBa2RmMm1LcnM1RTdz?=
+ =?utf-8?B?VlZDcjMxSEpLVmhCbkhXWWQwL2VjcDNVL3lWL3F5TlZqdWQvV1Y3VGp5L2Rr?=
+ =?utf-8?B?Z1huaEUvbTZhdVovakk5UkgyTWs2U0VDeFFId0lIVWpGMzRnVnBvMktlMC96?=
+ =?utf-8?B?ZXhCZTIvV00rUG9YVXNEcG1ReUlxclNhUEE4Y2pzUkdxeFZiUmNVMENkZTZX?=
+ =?utf-8?B?WjJQd3RJeks2UnhxRnJrN1VHY3BqakJwQTZkRzBRemtaTmZoTDFaYlBSUUEw?=
+ =?utf-8?B?V2kxa1VCTUsvNHVLcGl0NkRFeWkrUEZ1bWFGTlV6WUdINEJCWXlGL0lJTUti?=
+ =?utf-8?B?ZERPWGloZ3hJaCtvcTJTaXV2UTUyZzlIU3RKVkNiTXJyOUVReWJnZ2NxSGh4?=
+ =?utf-8?B?aTV4R252VHl3WEM5U2VyTldwQStMODlDTWh6TzNxN1R0UHpBeXppZC9qRjNp?=
+ =?utf-8?B?UkN6cnRXM2Jyc3JMYS9sdDRmZXRqTCtNWDBXbVZMTCtKY0Z0d3FUWWMxZ0F2?=
+ =?utf-8?B?RVk5YkFublBiSUxzcVRiU1I2cWFkWjNOZFZob1FOOGtFWFRUYjFQUTkvL3kv?=
+ =?utf-8?B?U1RpUVNFRVo1dG9NVWFXbldUcE9iQlJzMFkwcGUrT0dYU093OFpseWRJcWk1?=
+ =?utf-8?B?by9PbDJNeGdZWG8reHgwRUN1Z1F4eEgzTGV0ZVJISmMzNmVMY3JIcDEzUGxl?=
+ =?utf-8?B?OU1sZ1lMWXhHZjRUaFk5M29JUWl5cmNhNlYyM1ZFaWdNa3ZtQVZiQjlCSkJX?=
+ =?utf-8?B?NG9PVS95RXU1K0hmdHE5NjJkWTM5T29wUFJJYlhlU2JIZWtIQkw5QkFWalRO?=
+ =?utf-8?B?dWFUVkh1QlNKQ0lveE4zcGhYL05IOG1nWnVPajgwVFg1dWw3ZmI4MlVxYmZ1?=
+ =?utf-8?B?djY0dCtublhIcDc5alE5c2w1NGVGM04weHRzT0NrZExkWDJoVnZ1WFVNRmRP?=
+ =?utf-8?B?THpTSkFJS2tlYWRVOTJrTEpLQWVRWE5lQ2tZd1lsZkRzQnZ2cXpVM2FCMjlZ?=
+ =?utf-8?B?TWFURUU5WjRCWnZhMzFpUG14TGJhVWg2amU4WjZ3RDhpYUxYeEl2bnNpckp6?=
+ =?utf-8?B?T29pT3ZJc1Y4YU5mOUVRYjR0WmVXSjMrQnJXdEMrdUtlTC9FWER3QVNBNkxr?=
+ =?utf-8?B?bXlRMVdBejBta3VMc1doV0x0cGlNendsTGtvckN2MGZXUVBRV2lpa2lYTldj?=
+ =?utf-8?B?dVlDZFQ2andPcnpUdVFTNGlhZXJ4dmxqVDdtcmI2WFJtblF2bGVEVXlsVFV3?=
+ =?utf-8?B?TWJYKzQ1OWdNa2pGWkxKTjQ4RFU1NThQZUcxbTErUzdnOHhDaFF6NFdRbkRN?=
+ =?utf-8?B?ckhNdG5EaS9MSklhY3lnYWhyTVJmYlpZZ2h4cVNOMWpkTzdEVHNzNDAvQk5N?=
+ =?utf-8?B?bk4zK3VJZ005TENXbVR2UjVhWXR0Ym53Qm91VXNLRHFBR1lCc0lVSHh5azFO?=
+ =?utf-8?B?N29jUmhMU1VDWnphWHdDRVR6cENzcHRzR3UxdWVVSTNZM1daYUJGU1M2VkxX?=
+ =?utf-8?B?OFNlM0hVTGdTUmpVUm1CZ0JWZ29VZ3kvT3lzNyt6TzBSMEdHZFhvVTR3VEZl?=
+ =?utf-8?B?b08wckRaNUowSWJieTlNamxnb3ZxcndsblpaTUwxdlpOOG51WXYvKzROb0lC?=
+ =?utf-8?B?UUZicmhQTXlJRnhjbGNvTkZBTTdidVdtM0pZRnFraGlwRmZLdXBDYk5jS1pq?=
+ =?utf-8?Q?GJSe8RJstrpGu?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d3e2f93-e7c6-40ec-73b6-08d921d2b227
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2021 12:18:27.1571
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k1pVA7bMP0POSqYQFSY/btxKVkt4oKesxZSVoc42VJc1bDiG8KLNp+Yba1DawWh/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4739
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/05/2021 13:44, Tomi Valkeinen wrote:
-> Update v4l2_subdev_link_validate() to use routing and streams for
-> validation.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Am 28.05.21 um 11:29 schrieb Jiapeng Chong:
+> In the function amdgpu_uvd_cs_msg(), every branch in the switch
+> statement will have a return, so the code below the switch statement
+> will not be executed.
+>
+> Eliminate the follow smatch warning:
+>
+> drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:845 amdgpu_uvd_cs_msg() warn:
+> ignoring unreachable code.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+
+Reviewed-by: Christian König <christian.koenig@amd.com>
+
 > ---
->   drivers/media/v4l2-core/v4l2-subdev.c | 184 +++++++++++++++++++++++---
->   1 file changed, 166 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index da6ea9b14631..b30b456d8d99 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -16,6 +16,7 @@
->   #include <linux/videodev2.h>
->   #include <linux/export.h>
->   #include <linux/version.h>
-> +#include <linux/sort.h>
+> Changes in v2:
+>    -For the follow advice: https://lore.kernel.org/patchwork/patch/1435968/
+>
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> index c6dbc08..35f6874 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+> @@ -829,9 +829,8 @@ static int amdgpu_uvd_cs_msg(struct amdgpu_uvd_cs_ctx *ctx,
 >   
->   #include <media/v4l2-ctrls.h>
->   #include <media/v4l2-device.h>
-> @@ -894,6 +895,7 @@ EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate_default);
->   
->   static int
->   v4l2_subdev_link_validate_get_format(struct media_pad *pad,
-> +				     u32 stream,
->   				     struct v4l2_subdev_format *fmt)
->   {
->   	if (is_media_entity_v4l2_subdev(pad->entity)) {
-> @@ -902,6 +904,7 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
->   
->   		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
->   		fmt->pad = pad->index;
-> +		fmt->stream = stream;
->   		return v4l2_subdev_call(sd, pad, get_fmt, NULL, fmt);
+>   	default:
+>   		DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
+> -		return -EINVAL;
 >   	}
->   
-> @@ -1012,31 +1015,176 @@ bool v4l2_subdev_has_route(struct v4l2_subdev_krouting *routing,
+> -	BUG();
+> +
+>   	return -EINVAL;
 >   }
->   EXPORT_SYMBOL_GPL(v4l2_subdev_has_route);
->   
-> +static int cmp_u32(const void *a, const void *b)
-> +{
-> +	u32 a32 = *(u32 *)a;
-> +	u32 b32 = *(u32 *)b;
-> +
-> +	return a32 > b32 ? 1 : (a32 < b32 ? -1 : 0);
-> +}
-> +
->   int v4l2_subdev_link_validate(struct media_link *link)
->   {
-> -	struct v4l2_subdev *sink;
-> -	struct v4l2_subdev_format sink_fmt, source_fmt;
-> -	int rval;
-> +	int ret;
-> +	unsigned int i;
->   
-> -	rval = v4l2_subdev_link_validate_get_format(
-> -		link->source, &source_fmt);
-> -	if (rval < 0)
-> -		return 0;
-> +	struct v4l2_subdev *source_subdev =
-> +		media_entity_to_v4l2_subdev(link->source->entity);
-> +	struct v4l2_subdev *sink_subdev =
-> +		media_entity_to_v4l2_subdev(link->sink->entity);
-> +	struct device *dev = sink_subdev->entity.graph_obj.mdev->dev;
->   
-> -	rval = v4l2_subdev_link_validate_get_format(
-> -		link->sink, &sink_fmt);
-> -	if (rval < 0)
-> -		return 0;
-> +	struct v4l2_subdev_krouting routing;
->   
-> -	sink = media_entity_to_v4l2_subdev(link->sink->entity);
-> +	static const u32 default_streams[] = { 0 };
->   
-> -	rval = v4l2_subdev_call(sink, pad, link_validate, link,
-> -				&source_fmt, &sink_fmt);
-> -	if (rval != -ENOIOCTLCMD)
-> -		return rval;
-> +	u32 num_source_streams = 0;
-> +	const u32 *source_streams;
-> +	u32 num_sink_streams = 0;
-> +	const u32 *sink_streams;
-> +
-> +	dev_dbg(dev, "validating link \"%s\":%u -> \"%s\":%u\n",
-> +		link->source->entity->name, link->source->index,
-> +		link->sink->entity->name, link->sink->index);
-> +
-> +	/* Get source streams */
-> +
-> +	memset(&routing, 0, sizeof(routing));
-> +
-> +	ret = v4l2_subdev_get_routing(source_subdev, NULL, &routing);
-> +
-> +	if (ret && ret != -ENOIOCTLCMD)
-> +		return ret;
-> +
-> +	if (ret == -ENOIOCTLCMD) {
-> +		num_source_streams = 1;
-> +		source_streams = default_streams;
-> +	} else {
-> +		u32 *streams;
-> +
-> +		streams = kmalloc_array(routing.num_routes, sizeof(u32),
-> +					GFP_KERNEL);
-> +
-> +		for (i = 0; i < routing.num_routes; ++i) {
-> +			struct v4l2_subdev_route *route = &routing.routes[i];
-> +
-> +			if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-> +				continue;
-> +
-> +			if (route->source_pad == link->source->index)
-> +				streams[num_source_streams++] =
-> +					route->source_stream;
-> +		}
-> +
-> +		sort(streams, num_source_streams, sizeof(u32), &cmp_u32, NULL);
-> +
-> +		source_streams = streams;
-> +
-> +		v4l2_subdev_free_routing(&routing);
-> +	}
-> +
-> +	/* Get sink streams */
-> +
-> +	memset(&routing, 0, sizeof(routing));
-> +
-> +	ret = v4l2_subdev_get_routing(sink_subdev, NULL, &routing);
-> +
-> +	if (ret && ret != -ENOIOCTLCMD)
-> +		return ret;
-> +
-> +	if (ret == -ENOIOCTLCMD) {
-> +		num_sink_streams = 1;
-> +		sink_streams = default_streams;
-> +	} else {
-> +		u32 *streams;
->   
-> -	return v4l2_subdev_link_validate_default(
-> -		sink, link, &source_fmt, &sink_fmt);
-> +		streams = kmalloc_array(routing.num_routes, sizeof(u32),
-> +					GFP_KERNEL);
-> +
-> +		for (i = 0; i < routing.num_routes; ++i) {
-> +			struct v4l2_subdev_route *route = &routing.routes[i];
-> +
-> +			if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-> +				continue;
-> +
-> +			if (route->sink_pad == link->sink->index)
-> +				streams[num_sink_streams++] =
-> +					route->sink_stream;
-> +		}
-> +
-> +		sort(streams, num_sink_streams, sizeof(u32), &cmp_u32, NULL);
-> +
-> +		sink_streams = streams;
-> +
-> +		v4l2_subdev_free_routing(&routing);
-> +	}
-> +
-> +	if (num_source_streams != num_sink_streams) {
-> +		dev_err(dev,
-> +			"Sink and source stream count mismatch: %d vs %d\n",
-> +			num_source_streams, num_sink_streams);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Validate source and sink stream formats */
-> +
-> +	for (i = 0; i < num_source_streams; ++i) {
-> +		struct v4l2_subdev_format sink_fmt, source_fmt;
-> +		u32 stream;
-> +		int ret;
-> +
-> +		if (source_streams[i] != sink_streams[i]) {
-> +			dev_err(dev, "Sink and source streams do not match\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		stream = source_streams[i];
-> +
-> +		dev_dbg(dev, "validating stream \"%s\":%u:%u -> \"%s\":%u:%u\n",
-> +			link->source->entity->name, link->source->index, stream,
-> +			link->sink->entity->name, link->sink->index, stream);
-> +
-> +		ret = v4l2_subdev_link_validate_get_format(link->source, stream,
-> +							   &source_fmt);
-> +		if (ret < 0) {
-> +			dev_err(dev, "Failed to get format for \"%s\":%u:%u\n",
-> +				link->source->entity->name, link->source->index,
-> +				stream);
-> +			return ret;
-> +		}
-> +
-> +		ret = v4l2_subdev_link_validate_get_format(link->sink, stream,
-> +							   &sink_fmt);
-> +		if (ret < 0) {
-> +			dev_err(dev, "Failed to get format for \"%s\":%u:%u\n",
-> +				link->sink->entity->name, link->sink->index,
-> +				stream);
-> +			return ret;
-> +		}
-> +
-> +		/* TODO: add stream number to link_validate() */
-> +		ret = v4l2_subdev_call(sink_subdev, pad, link_validate, link,
-> +				       &source_fmt, &sink_fmt);
-> +		if (!ret)
-> +			continue;
-> +
-> +		if (ret != -ENOIOCTLCMD)
-> +			return ret;
-> +
-> +		ret = v4l2_subdev_link_validate_default(sink_subdev, link,
-> +							&source_fmt, &sink_fmt);
-> +
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (source_streams != default_streams)
-> +		kfree(source_streams);
-> +
-> +	if (sink_streams != default_streams)
-> +		kfree(sink_streams);
-> +
-> +	return 0;
->   }
->   EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
 >   
 
-I noticed two issues with this patch:
-
-- It leaks memory on error cases.
-
-- The previous behavior silently ignored failures to get format from 
-subdevs, and returned 0. This one fails.
-
-I'll fix those.
-
-  Tomi
