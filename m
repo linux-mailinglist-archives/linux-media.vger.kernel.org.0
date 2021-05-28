@@ -2,290 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C876393CC9
-	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 07:57:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4914393CDA
+	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 08:02:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235026AbhE1F7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 May 2021 01:59:25 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60180 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234811AbhE1F7W (ORCPT
+        id S234181AbhE1GE1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 May 2021 02:04:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60112 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232975AbhE1GDs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 May 2021 01:59:22 -0400
-Received: from [IPv6:2a00:a040:193:3500:ed56:60fb:a74f:177d] (unknown [IPv6:2a00:a040:193:3500:ed56:60fb:a74f:177d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D0F161F43EDC;
-        Fri, 28 May 2021 06:57:05 +0100 (BST)
-Subject: Re: [PATCH v4,6/6] media: mtk-vcodec: Support MT8192 H264 4K encoding
-To:     Irui Wang <irui.wang@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yong Wu <yong.wu@mediatek.com>
-Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20210521070139.20644-1-irui.wang@mediatek.com>
- <20210521070139.20644-7-irui.wang@mediatek.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <045d7e8e-967e-dc52-8c48-514edee0c1d1@collabora.com>
-Date:   Fri, 28 May 2021 08:57:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 28 May 2021 02:03:48 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140A3C061574;
+        Thu, 27 May 2021 23:02:13 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id d25so3048304ioe.1;
+        Thu, 27 May 2021 23:02:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZIKsiA6+DMLHlkOcLKlnyxoQnxJIdOFeXeN3ppix/L4=;
+        b=WcOyuZpLp8/NgLIQ4nqwWd4KXdbL259MTJbeb0eyFD28gXEt0DV0eLYwdeHVCAgWvH
+         nRVo97cISue8EqqhlnBKbpNgJpGyOp4gf01JHA16SSh3N3JoOEPEndI+HqFebcviwWuY
+         1VV9DdhXOX7KL7JxIB4w9dK2lE0hxy8rGheT7f79pgZiPFGabXJIorvUGBvllltH2GQp
+         MBDig6CjzxpaFpQ4Ry6cy12cEz4Ix37wmmoiAEVV8gjzQdQgxB8SAHC2zklJO/CHWihE
+         dv7PxsqNMdICYLWr2hG69BvuuUwxzUJbsv6G1nRnhoDjMIVadgFY7kzeUevyej7rNUHz
+         Htmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZIKsiA6+DMLHlkOcLKlnyxoQnxJIdOFeXeN3ppix/L4=;
+        b=ZK9ig7xnaDH5dJs+NKS+I093iUDqfKSs7+XuZIwnzC4hCUw7KDWRyfpHwQPVYXMnvf
+         hEx7zEyXIVJLFt5GbOi4Dl8KR5SUw2VKwJMf+NP/QcVuIlP1ky9E1/2Gxinp2M/IzU2o
+         dSt+3cx+qMHdnEgEA0YzmJACt6joBLq27byq4vnwXpFgdzHuv3cTdmPEQBSbQAe2gSk/
+         ccUwXbKBYlTtuqY6Mvazci1cd7mywyqG5de3lRTB2M+1ZJh2+IFxaPX/u2BEZPLx5IKu
+         5zktk1zx6jziI+IsMtG+EgYIBSlBJP5J1vXhhqTh4cEIfVzBEm+fjy7lnb/Pwybz5g5g
+         nIvw==
+X-Gm-Message-State: AOAM533DaPRBpHlPbJHePk84T9qGDE9PW4ljwj4TvIR6NfVIsBOme5fO
+        VNftmjFhQbGsMG+mfUXPJg3mhN2cnCkJokCS+/8=
+X-Google-Smtp-Source: ABdhPJy/7qLyDzEHIvmiA1LxjfP77NXexXSqCA9JNBvDQXHSEFhVrZZWFXtqlefcsUWQ7Go6TECwG6uKcRQzudBsD6g=
+X-Received: by 2002:a5d:9e0b:: with SMTP id h11mr5844650ioh.60.1622181732336;
+ Thu, 27 May 2021 23:02:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210521070139.20644-7-irui.wang@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1620990152-19255-1-git-send-email-dillon.minfei@gmail.com>
+In-Reply-To: <1620990152-19255-1-git-send-email-dillon.minfei@gmail.com>
+From:   Dillon Min <dillon.minfei@gmail.com>
+Date:   Fri, 28 May 2021 14:01:36 +0800
+Message-ID: <CAL9mu0KUwTiVqSymL-8MLTOMe2OuOBNtLecKaJt=EJfUY_drqw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Fix the i2c/clk bug of stm32 mcu platform
+To:     Patrice CHOTARD <patrice.chotard@foss.st.com>,
+        pierre-yves.mordret@foss.st.com, alain.volmat@foss.st.com,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@foss.st.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        christian.koenig@amd.com,
+        Michael Turquette <mturquette@baylibre.com>
+Cc:     Stephen Boyd <sboyd@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Wolfram Sang <wsa@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Patrice, Alain,
 
-On 21.05.21 10:01, Irui Wang wrote:
-> MT8192 H264 support 4k(3840x2176) and Level 5.1 encoding,
-> add related path according to enc_capability.
-> 
-> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> ---
->   .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 75 ++++++++++++-------
->   .../platform/mtk-vcodec/venc/venc_h264_if.c   |  4 +
->   2 files changed, 54 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> index 42ff13867940..7396a5050b45 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> @@ -19,23 +19,32 @@
->   
->   #define MTK_VENC_MIN_W	160U
->   #define MTK_VENC_MIN_H	128U
-> -#define MTK_VENC_MAX_W	1920U
-> -#define MTK_VENC_MAX_H	1088U
-> +#define MTK_VENC_HD_MAX_W	1920U
-> +#define MTK_VENC_HD_MAX_H	1088U
-> +#define MTK_VENC_4K_MAX_W	3840U
-> +#define MTK_VENC_4K_MAX_H	2176U
-> +
->   #define DFT_CFG_WIDTH	MTK_VENC_MIN_W
->   #define DFT_CFG_HEIGHT	MTK_VENC_MIN_H
->   #define MTK_MAX_CTRLS_HINT	20
->   
->   #define MTK_DEFAULT_FRAMERATE_NUM 1001
->   #define MTK_DEFAULT_FRAMERATE_DENOM 30000
-> +#define MTK_VENC_4K_CAPABILITY_ENABLE BIT(0)
->   
->   static void mtk_venc_worker(struct work_struct *work);
->   
-> -static const struct v4l2_frmsize_stepwise mtk_venc_framesizes = {
-> -	MTK_VENC_MIN_W, MTK_VENC_MAX_W, 16,
-> -	MTK_VENC_MIN_H, MTK_VENC_MAX_H, 16,
-> +static const struct v4l2_frmsize_stepwise mtk_venc_hd_framesizes = {
-> +	MTK_VENC_MIN_W, MTK_VENC_HD_MAX_W, 16,
-> +	MTK_VENC_MIN_H, MTK_VENC_HD_MAX_H, 16,
-> +};
-> +
-> +static const struct v4l2_frmsize_stepwise mtk_venc_4k_framesizes = {
-> +	MTK_VENC_MIN_W, MTK_VENC_4K_MAX_W, 16,
-> +	MTK_VENC_MIN_H, MTK_VENC_4K_MAX_H, 16,
->   };
->   
-> -#define NUM_SUPPORTED_FRAMESIZE ARRAY_SIZE(mtk_venc_framesizes)
-> +#define NUM_SUPPORTED_FRAMESIZE ARRAY_SIZE(mtk_venc_hd_framesizes)
+Could you help to take a look at this patchset, thanks.
 
-This define is never used so it can be removed.
+This series is the rebase to the newest kernel commit:
+88b06399c9c766c283e070b022b5ceafa4f63f19
 
-Thanks,
-Dafna
+according to the request from:
+https://lore.kernel.org/lkml/ff2bc09d-1a17-50d4-d3ee-16fd3a86d7f1@foss.st.com/
 
->   
->   static int vidioc_venc_s_ctrl(struct v4l2_ctrl *ctrl)
->   {
-> @@ -151,17 +160,20 @@ static int vidioc_enum_framesizes(struct file *file, void *fh,
->   				  struct v4l2_frmsizeenum *fsize)
->   {
->   	const struct mtk_video_fmt *fmt;
-> +	struct mtk_vcodec_ctx *ctx = fh_to_ctx(fh);
->   
->   	if (fsize->index != 0)
->   		return -EINVAL;
->   
->   	fmt = mtk_venc_find_format(fsize->pixel_format,
-> -				   fh_to_ctx(fh)->dev->venc_pdata);
-> +				   ctx->dev->venc_pdata);
->   	if (!fmt)
->   		return -EINVAL;
->   
->   	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-> -	fsize->stepwise = mtk_venc_framesizes;
-> +	fsize->stepwise =
-> +		(ctx->dev->enc_capability & MTK_VENC_4K_CAPABILITY_ENABLE) ?
-> +		mtk_venc_4k_framesizes : mtk_venc_hd_framesizes;
->   
->   	return 0;
->   }
-> @@ -248,7 +260,7 @@ static struct mtk_q_data *mtk_venc_get_q_data(struct mtk_vcodec_ctx *ctx,
->   /* V4L2 specification suggests the driver corrects the format struct if any of
->    * the dimensions is unsupported
->    */
-> -static int vidioc_try_fmt(struct v4l2_format *f,
-> +static int vidioc_try_fmt(struct mtk_vcodec_ctx *ctx, struct v4l2_format *f,
->   			  const struct mtk_video_fmt *fmt)
->   {
->   	struct v4l2_pix_format_mplane *pix_fmt_mp = &f->fmt.pix_mp;
-> @@ -260,13 +272,22 @@ static int vidioc_try_fmt(struct v4l2_format *f,
->   		pix_fmt_mp->plane_fmt[0].bytesperline = 0;
->   	} else if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
->   		int tmp_w, tmp_h;
-> +		unsigned int max_width, max_height;
-> +
-> +		if (ctx->dev->enc_capability & MTK_VENC_4K_CAPABILITY_ENABLE) {
-> +			max_width = MTK_VENC_4K_MAX_W;
-> +			max_height = MTK_VENC_4K_MAX_H;
-> +		} else {
-> +			max_width = MTK_VENC_HD_MAX_W;
-> +			max_height = MTK_VENC_HD_MAX_H;
-> +		}
->   
->   		pix_fmt_mp->height = clamp(pix_fmt_mp->height,
->   					MTK_VENC_MIN_H,
-> -					MTK_VENC_MAX_H);
-> +					max_height);
->   		pix_fmt_mp->width = clamp(pix_fmt_mp->width,
->   					MTK_VENC_MIN_W,
-> -					MTK_VENC_MAX_W);
-> +					max_width);
->   
->   		/* find next closer width align 16, heign align 32, size align
->   		 * 64 rectangle
-> @@ -275,16 +296,16 @@ static int vidioc_try_fmt(struct v4l2_format *f,
->   		tmp_h = pix_fmt_mp->height;
->   		v4l_bound_align_image(&pix_fmt_mp->width,
->   					MTK_VENC_MIN_W,
-> -					MTK_VENC_MAX_W, 4,
-> +					max_width, 4,
->   					&pix_fmt_mp->height,
->   					MTK_VENC_MIN_H,
-> -					MTK_VENC_MAX_H, 5, 6);
-> +					max_height, 5, 6);
->   
->   		if (pix_fmt_mp->width < tmp_w &&
-> -			(pix_fmt_mp->width + 16) <= MTK_VENC_MAX_W)
-> +			(pix_fmt_mp->width + 16) <= max_width)
->   			pix_fmt_mp->width += 16;
->   		if (pix_fmt_mp->height < tmp_h &&
-> -			(pix_fmt_mp->height + 32) <= MTK_VENC_MAX_H)
-> +			(pix_fmt_mp->height + 32) <= max_height)
->   			pix_fmt_mp->height += 32;
->   
->   		mtk_v4l2_debug(0,
-> @@ -405,7 +426,7 @@ static int vidioc_venc_s_fmt_cap(struct file *file, void *priv,
->   	}
->   
->   	q_data->fmt = fmt;
-> -	ret = vidioc_try_fmt(f, q_data->fmt);
-> +	ret = vidioc_try_fmt(ctx, f, q_data->fmt);
->   	if (ret)
->   		return ret;
->   
-> @@ -467,7 +488,7 @@ static int vidioc_venc_s_fmt_out(struct file *file, void *priv,
->   		f->fmt.pix.pixelformat = fmt->fourcc;
->   	}
->   
-> -	ret = vidioc_try_fmt(f, fmt);
-> +	ret = vidioc_try_fmt(ctx, f, fmt);
->   	if (ret)
->   		return ret;
->   
-> @@ -545,7 +566,7 @@ static int vidioc_try_fmt_vid_cap_mplane(struct file *file, void *priv,
->   	f->fmt.pix_mp.quantization = ctx->quantization;
->   	f->fmt.pix_mp.xfer_func = ctx->xfer_func;
->   
-> -	return vidioc_try_fmt(f, fmt);
-> +	return vidioc_try_fmt(ctx, f, fmt);
->   }
->   
->   static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
-> @@ -567,7 +588,7 @@ static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
->   		f->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
->   	}
->   
-> -	return vidioc_try_fmt(f, fmt);
-> +	return vidioc_try_fmt(ctx, f, fmt);
->   }
->   
->   static int vidioc_venc_g_selection(struct file *file, void *priv,
-> @@ -1171,16 +1192,16 @@ void mtk_vcodec_enc_set_default_params(struct mtk_vcodec_ctx *ctx)
->   
->   	v4l_bound_align_image(&q_data->coded_width,
->   				MTK_VENC_MIN_W,
-> -				MTK_VENC_MAX_W, 4,
-> +				MTK_VENC_HD_MAX_W, 4,
->   				&q_data->coded_height,
->   				MTK_VENC_MIN_H,
-> -				MTK_VENC_MAX_H, 5, 6);
-> +				MTK_VENC_HD_MAX_H, 5, 6);
->   
->   	if (q_data->coded_width < DFT_CFG_WIDTH &&
-> -		(q_data->coded_width + 16) <= MTK_VENC_MAX_W)
-> +		(q_data->coded_width + 16) <= MTK_VENC_HD_MAX_W)
->   		q_data->coded_width += 16;
->   	if (q_data->coded_height < DFT_CFG_HEIGHT &&
-> -		(q_data->coded_height + 32) <= MTK_VENC_MAX_H)
-> +		(q_data->coded_height + 32) <= MTK_VENC_HD_MAX_H)
->   		q_data->coded_height += 32;
->   
->   	q_data->sizeimage[0] =
-> @@ -1210,6 +1231,9 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
->   {
->   	const struct v4l2_ctrl_ops *ops = &mtk_vcodec_enc_ctrl_ops;
->   	struct v4l2_ctrl_handler *handler = &ctx->ctrl_hdl;
-> +	const u8 h264_max_level =
-> +		(ctx->dev->enc_capability & MTK_VENC_4K_CAPABILITY_ENABLE) ?
-> +		V4L2_MPEG_VIDEO_H264_LEVEL_5_1 : V4L2_MPEG_VIDEO_H264_LEVEL_4_2;
->   
->   	v4l2_ctrl_handler_init(handler, MTK_MAX_CTRLS_HINT);
->   
-> @@ -1240,8 +1264,9 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
->   			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
->   			0, V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
->   	v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_H264_LEVEL,
-> -			V4L2_MPEG_VIDEO_H264_LEVEL_4_2,
-> -			0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
-> +			       h264_max_level,
-> +			       0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
-> +
->   	if (handler->error) {
->   		mtk_v4l2_err("Init control handler fail %d",
->   				handler->error);
-> diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-> index d0123dfc5f93..b6a4f2074fa5 100644
-> --- a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-> +++ b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-> @@ -215,6 +215,10 @@ static unsigned int h264_get_level(struct venc_h264_inst *inst,
->   		return 41;
->   	case V4L2_MPEG_VIDEO_H264_LEVEL_4_2:
->   		return 42;
-> +	case V4L2_MPEG_VIDEO_H264_LEVEL_5_0:
-> +		return 50;
-> +	case V4L2_MPEG_VIDEO_H264_LEVEL_5_1:
-> +		return 51;
->   	default:
->   		mtk_vcodec_debug(inst, "unsupported level %d", level);
->   		return 31;
-> 
+The clk bug affects the kernel bootup on stm32f469-disco board
+in case display config(CONFIG_DRM_STM, CONFIG_DRM_STM_DSI,
+DRM_PANEL_ORISETECH_OTM8009A)
+enabled.
+
+If you want to test clk patch on stm32f429-disco board, the
+panel-ilitek-ili9341.c can be
+used for that purpose (CONFIG_DRM_STM, DRM_PANEL_ILITEK_ILI9341)
+
+i2c driver patch intent to fix the touch panel driver get data through
+i2c bus timeout issue.
+
+Best regards.
+Dillon
+
+On Fri, May 14, 2021 at 7:02 PM <dillon.minfei@gmail.com> wrote:
+>
+> From: Dillon Min <dillon.minfei@gmail.com>
+>
+> This seriese fix three i2c/clk bug for stm32 f4/f7
+> - kernel runing in sdram, i2c driver get data timeout
+> - ltdc clk turn off after kernel console active
+> - kernel hang in set ltdc clock rate
+>
+> clk bug found on stm32f429/f469-disco board
+>
+> Hi Patrice:
+> below is the guide to verify the patch:
+>
+> setup test env with following files(link at below 'files link'):
+> [1] u-boot-dtb.bin
+> [2] rootfs zip file (used in kernel initramfs)
+> [3] u-boot's mkimage to create itb file
+> [4] kernel config file
+> [5] my itb with-or-without i2c patch
+>
+> This patch based on kernel commit:
+> 88b06399c9c766c283e070b022b5ceafa4f63f19
+>
+> Note:
+> panel-ilitek-ili9341.c is the driver which was submitted last year, but not
+> get accepted. it's used to setup touch screen calibration, then test i2c.
+>
+> create itb file(please correct path of 'data'):
+> ./mkimage -f stm32.its stm32.itb
+>
+> HW setup:
+> console:
+>        PA9, PA10
+>        usart0
+>        serial@40011000
+>        115200 8n1
+>
+> -- flash u-boot.bin to stm32f429-disco on PC
+> $ sudo openocd -f board/stm32f429discovery.cfg -c \
+>   '{PATH-TO-YOUR-UBOOT}/u-boot-dtb.bin 0x08000000 exit reset'
+>
+> -- setup kernel load bootargs at u-boot
+> U-Boot > setenv bootargs 'console=tty0 console=ttySTM0,115200
+>                     root=/dev/ram rdinit=/linuxrc loglevel=8 fbcon=rotate:2'
+> U-Boot > loady;bootm
+> (download stm32.dtb or your kernel with itb format, or download zImage, dtb)
+>
+> -- setup ts_calibrate running env on stm32f429-disco
+> / # export TSLIB_CONFFILE=/etc/ts.conf
+> / # export TSLIB_TSDEVICE=/dev/input/event0
+> / # export TSLIB_CONSOLEDEVICE=none
+> / # export TSLIB_FBDEVICE=/dev/fb0
+>
+> -- clear screen
+> / # ./fb
+>
+> -- run ts_calibrate
+> / # ts_calibrate
+> (you can calibrate touchscreen now, and get below errors)
+>
+> [  113.942087] stmpe-i2c0-0041: failed to read regs 0x52: -110
+> [  114.063598] stmpe-i2c 0-0041: failed to read reg 0x4b: -16
+> [  114.185629] stmpe-i2c 0-0041: failed to read reg 0x40: -16
+> [  114.307257] stmpe-i2c 0-0041: failed to write reg 0xb: -16
+>
+> ...
+> with i2c patch applied, you will find below logs:
+>
+> RAW---------------------> 3164 908 183 118.110884
+> TS_READ_RAW----> x = 3164, y =908, pressure = 183
+> RAW---------------------> 3166 922 126 118.138946
+> TS_READ_RAW----> x = 3166, y = 922, pressure = 126
+> ....
+>
+> files link:
+> https://drive.google.com/drive/folders/1qNbjChcB6UGtKzne2F5x9_WG_sZFyo3o?usp=sharing
+>
+>
+>
+>
+> Dillon Min (4):
+>   drm/panel: Add ilitek ili9341 panel driver
+>   i2c: stm32f4: Fix stmpe811 get xyz data timeout issue
+>   clk: stm32: Fix stm32f429's ltdc driver hang in set clock rate
+>   clk: stm32: Fix ltdc's clock turn off by clk_disable_unused() after
+>     kernel startup
+>
+>  drivers/clk/clk-stm32f4.c                    |   10 +-
+>  drivers/gpu/drm/panel/Kconfig                |   12 +
+>  drivers/gpu/drm/panel/Makefile               |    1 +
+>  drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 1285 ++++++++++++++++++++++++++
+>  drivers/i2c/busses/i2c-stm32f4.c             |   12 +-
+>  5 files changed, 1310 insertions(+), 10 deletions(-)
+>  create mode 100755 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+>
+> --
+> 2.7.4
+>
