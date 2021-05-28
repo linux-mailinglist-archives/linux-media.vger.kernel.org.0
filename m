@@ -2,197 +2,309 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4914393CDA
-	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 08:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7569A393CEC
+	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 08:09:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234181AbhE1GE1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 May 2021 02:04:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60112 "EHLO
+        id S235486AbhE1GLL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 May 2021 02:11:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232975AbhE1GDs (ORCPT
+        with ESMTP id S234715AbhE1GLC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 May 2021 02:03:48 -0400
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140A3C061574;
-        Thu, 27 May 2021 23:02:13 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id d25so3048304ioe.1;
-        Thu, 27 May 2021 23:02:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZIKsiA6+DMLHlkOcLKlnyxoQnxJIdOFeXeN3ppix/L4=;
-        b=WcOyuZpLp8/NgLIQ4nqwWd4KXdbL259MTJbeb0eyFD28gXEt0DV0eLYwdeHVCAgWvH
-         nRVo97cISue8EqqhlnBKbpNgJpGyOp4gf01JHA16SSh3N3JoOEPEndI+HqFebcviwWuY
-         1VV9DdhXOX7KL7JxIB4w9dK2lE0hxy8rGheT7f79pgZiPFGabXJIorvUGBvllltH2GQp
-         MBDig6CjzxpaFpQ4Ry6cy12cEz4Ix37wmmoiAEVV8gjzQdQgxB8SAHC2zklJO/CHWihE
-         dv7PxsqNMdICYLWr2hG69BvuuUwxzUJbsv6G1nRnhoDjMIVadgFY7kzeUevyej7rNUHz
-         Htmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZIKsiA6+DMLHlkOcLKlnyxoQnxJIdOFeXeN3ppix/L4=;
-        b=ZK9ig7xnaDH5dJs+NKS+I093iUDqfKSs7+XuZIwnzC4hCUw7KDWRyfpHwQPVYXMnvf
-         hEx7zEyXIVJLFt5GbOi4Dl8KR5SUw2VKwJMf+NP/QcVuIlP1ky9E1/2Gxinp2M/IzU2o
-         dSt+3cx+qMHdnEgEA0YzmJACt6joBLq27byq4vnwXpFgdzHuv3cTdmPEQBSbQAe2gSk/
-         ccUwXbKBYlTtuqY6Mvazci1cd7mywyqG5de3lRTB2M+1ZJh2+IFxaPX/u2BEZPLx5IKu
-         5zktk1zx6jziI+IsMtG+EgYIBSlBJP5J1vXhhqTh4cEIfVzBEm+fjy7lnb/Pwybz5g5g
-         nIvw==
-X-Gm-Message-State: AOAM533DaPRBpHlPbJHePk84T9qGDE9PW4ljwj4TvIR6NfVIsBOme5fO
-        VNftmjFhQbGsMG+mfUXPJg3mhN2cnCkJokCS+/8=
-X-Google-Smtp-Source: ABdhPJy/7qLyDzEHIvmiA1LxjfP77NXexXSqCA9JNBvDQXHSEFhVrZZWFXtqlefcsUWQ7Go6TECwG6uKcRQzudBsD6g=
-X-Received: by 2002:a5d:9e0b:: with SMTP id h11mr5844650ioh.60.1622181732336;
- Thu, 27 May 2021 23:02:12 -0700 (PDT)
+        Fri, 28 May 2021 02:11:02 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87599C061574;
+        Thu, 27 May 2021 23:09:28 -0700 (PDT)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB4168C7;
+        Fri, 28 May 2021 08:09:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1622182167;
+        bh=jDi8jSXdNVCFkVabP69b1FsiwFVcxxaghC6ZX3Y2Wh8=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ALKPxTKurVV3J/hhWaapdlQIBfCUG2H/vzXBM8nOrEf6L9tF0tej1oqbr4a0uKZ2a
+         1+/0vF1qGf28iM1zMs/CheknE+gmyVSFrI6aA6bU4jtswKHXXW084l+V+4YopcJ44C
+         wb1JdXxad/9xVE41rU0+nSzuWz1LEyEw9EU5X0Dk=
+Subject: Re: [PATCH v2 04/18] phy: cdns-dphy: Add Rx support
+To:     Pratyush Yadav <p.yadav@ti.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, dmaengine@vger.kernel.org
+Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210526152308.16525-1-p.yadav@ti.com>
+ <20210526152308.16525-5-p.yadav@ti.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <b4de2fb9-6169-136b-e7b3-9eb4b0240eb8@ideasonboard.com>
+Date:   Fri, 28 May 2021 09:09:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <1620990152-19255-1-git-send-email-dillon.minfei@gmail.com>
-In-Reply-To: <1620990152-19255-1-git-send-email-dillon.minfei@gmail.com>
-From:   Dillon Min <dillon.minfei@gmail.com>
-Date:   Fri, 28 May 2021 14:01:36 +0800
-Message-ID: <CAL9mu0KUwTiVqSymL-8MLTOMe2OuOBNtLecKaJt=EJfUY_drqw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] Fix the i2c/clk bug of stm32 mcu platform
-To:     Patrice CHOTARD <patrice.chotard@foss.st.com>,
-        pierre-yves.mordret@foss.st.com, alain.volmat@foss.st.com,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@foss.st.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        christian.koenig@amd.com,
-        Michael Turquette <mturquette@baylibre.com>
-Cc:     Stephen Boyd <sboyd@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Wolfram Sang <wsa@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210526152308.16525-5-p.yadav@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Patrice, Alain,
+On 26/05/2021 18:22, Pratyush Yadav wrote:
+> The Cadence DPHY can be used to receive image data over the CSI-2
+> protocol. Add support for Rx mode. The programming sequence differs from
+> the Tx mode so it is added as a separate set of hooks to isolate the two
+> paths.
+> 
+> The PHY is in Tx mode by default and it needs to be set in Rx mode by
+> setting the submode to PHY_MIPI_DPHY_SUBMODE_RX in the set_mode()
+> callback.
+> 
+> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> ---
+> 
+> (no changes since v1)
+> 
+>   drivers/phy/cadence/cdns-dphy.c | 237 ++++++++++++++++++++++++++++++++
+>   1 file changed, 237 insertions(+)
+> 
+> diff --git a/drivers/phy/cadence/cdns-dphy.c b/drivers/phy/cadence/cdns-dphy.c
+> index 7d5f7b333893..7bbca679e2bb 100644
+> --- a/drivers/phy/cadence/cdns-dphy.c
+> +++ b/drivers/phy/cadence/cdns-dphy.c
+> @@ -1,11 +1,14 @@
+>   // SPDX-License-Identifier: GPL-2.0+
+>   /*
+>    * Copyright: 2017-2018 Cadence Design Systems, Inc.
+> + * Copyright (C) 2021 Texas Instruments Incorporated - https://www.ti.com/
+>    */
+>   
+>   #include <linux/bitops.h>
+> +#include <linux/bitfield.h>
+>   #include <linux/clk.h>
+>   #include <linux/io.h>
+> +#include <linux/iopoll.h>
+>   #include <linux/module.h>
+>   #include <linux/of_address.h>
+>   #include <linux/of_device.h>
+> @@ -25,10 +28,14 @@
+>   #define DPHY_PMA_RCLK(reg)		(0x600 + (reg))
+>   #define DPHY_PMA_RDATA(lane, reg)	(0x700 + ((lane) * 0x100) + (reg))
+>   #define DPHY_PCS(reg)			(0xb00 + (reg))
+> +#define DPHY_ISO(reg)			(0xc00 + (reg))
+>   
+>   #define DPHY_CMN_SSM			DPHY_PMA_CMN(0x20)
+>   #define DPHY_CMN_SSM_EN			BIT(0)
+> +#define DPHY_CMN_RX_BANDGAP_TIMER_MASK	GENMASK(8, 1)
+>   #define DPHY_CMN_TX_MODE_EN		BIT(9)
+> +#define DPHY_CMN_RX_MODE_EN		BIT(10)
+> +#define DPHY_CMN_RX_BANDGAP_TIMER	0x14
+>   
+>   #define DPHY_CMN_PWM			DPHY_PMA_CMN(0x40)
+>   #define DPHY_CMN_PWM_DIV(x)		((x) << 20)
+> @@ -45,10 +52,27 @@
+>   #define DPHY_CMN_OPDIV_FROM_REG		BIT(6)
+>   #define DPHY_CMN_OPDIV(x)		((x) << 7)
+>   
+> +#define DPHY_BAND_CFG			DPHY_PCS(0x0)
+> +#define DPHY_BAND_CFG_LEFT_BAND		GENMASK(4, 0)
+> +#define DPHY_BAND_CFG_RIGHT_BAND	GENMASK(9, 5)
+> +
+>   #define DPHY_PSM_CFG			DPHY_PCS(0x4)
+>   #define DPHY_PSM_CFG_FROM_REG		BIT(0)
+>   #define DPHY_PSM_CLK_DIV(x)		((x) << 1)
+>   
+> +#define DPHY_POWER_ISLAND_EN_DATA	DPHY_PCS(0x8)
+> +#define DPHY_POWER_ISLAND_EN_DATA_VAL	0xaaaaaaaa
+> +#define DPHY_POWER_ISLAND_EN_CLK	DPHY_PCS(0xc)
+> +#define DPHY_POWER_ISLAND_EN_CLK_VAL	0xaa
+> +
+> +#define DPHY_ISO_CL_CTRL_L		DPHY_ISO(0x10)
+> +#define DPHY_ISO_DL_CTRL_L0		DPHY_ISO(0x14)
+> +#define DPHY_ISO_DL_CTRL_L1		DPHY_ISO(0x20)
+> +#define DPHY_ISO_DL_CTRL_L2		DPHY_ISO(0x30)
+> +#define DPHY_ISO_DL_CTRL_L3		DPHY_ISO(0x3c)
+> +#define DPHY_ISO_LANE_READY_BIT		0
+> +#define DPHY_ISO_LANE_READY_TIMEOUT_MS	100UL
+> +
+>   #define DSI_HBP_FRAME_OVERHEAD		12
+>   #define DSI_HSA_FRAME_OVERHEAD		14
+>   #define DSI_HFP_FRAME_OVERHEAD		6
+> @@ -57,6 +81,9 @@
+>   #define DSI_NULL_FRAME_OVERHEAD		6
+>   #define DSI_EOT_PKT_SIZE		4
+>   
+> +#define DPHY_LANES_MIN			1
+> +#define DPHY_LANES_MAX			4
+> +
+>   struct cdns_dphy_cfg {
+>   	u8 pll_ipdiv;
+>   	u8 pll_opdiv;
+> @@ -312,6 +339,214 @@ static const struct cdns_dphy_ops tx_ref_dphy_ops = {
+>   	.set_psm_div = cdns_dphy_ref_set_psm_div,
+>   };
+>   
+> +static int cdns_dphy_rx_power_on(struct cdns_dphy *dphy)
+> +{
+> +	/* Start RX state machine. */
+> +	writel(DPHY_CMN_SSM_EN | DPHY_CMN_RX_MODE_EN |
+> +	       FIELD_PREP(DPHY_CMN_RX_BANDGAP_TIMER_MASK,
+> +			  DPHY_CMN_RX_BANDGAP_TIMER),
+> +	       dphy->regs + DPHY_CMN_SSM);
+> +
+> +	return 0;
+> +}
+> +
+> +static int cdns_dphy_rx_power_off(struct cdns_dphy *dphy)
+> +{
+> +	writel(0, dphy->regs + DPHY_CMN_SSM);
+> +
+> +	return 0;
+> +}
+> +
+> +static int cdns_dphy_rx_get_band_ctrl(unsigned long hs_clk_rate)
+> +{
+> +	unsigned int rate = hs_clk_rate / 1000000UL;
+> +
+> +	if (rate < 80 || rate >= 2500)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (rate >= 80 && rate < 100)
+> +		return 0;
+> +
+> +	if (rate >= 100 && rate < 120)
+> +		return 1;
+> +
+> +	if (rate >= 120 && rate < 160)
+> +		return 2;
+> +
+> +	if (rate >= 160 && rate < 200)
+> +		return 3;
+> +
+> +	if (rate >= 200 && rate < 240)
+> +		return 4;
+> +
+> +	if (rate >= 240 && rate < 280)
+> +		return 5;
+> +
+> +	if (rate >= 280 && rate < 320)
+> +		return 6;
+> +
+> +	if (rate >= 320 && rate < 360)
+> +		return 7;
+> +
+> +	if (rate >= 360 && rate < 400)
+> +		return 8;
+> +
+> +	if (rate >= 400 && rate < 480)
+> +		return 9;
+> +
+> +	if (rate >= 480 && rate < 560)
+> +		return 10;
+> +
+> +	if (rate >= 560 && rate < 640)
+> +		return 11;
+> +
+> +	if (rate >= 640 && rate < 720)
+> +		return 12;
+> +
+> +	if (rate >= 720 && rate < 800)
+> +		return 13;
+> +
+> +	if (rate >= 800 && rate < 880)
+> +		return 14;
+> +
+> +	if (rate >= 880 && rate < 1040)
+> +		return 15;
+> +
+> +	if (rate >= 1040 && rate < 1200)
+> +		return 16;
+> +
+> +	if (rate >= 1200 && rate < 1350)
+> +		return 17;
+> +
+> +	if (rate >= 1350 && rate < 1500)
+> +		return 18;
+> +
+> +	if (rate >= 1500 && rate < 1750)
+> +		return 19;
+> +
+> +	if (rate >= 1750 && rate < 2000)
+> +		return 20;
+> +
+> +	if (rate >= 2000 && rate < 2250)
+> +		return 21;
+> +
+> +	if (rate >= 2250 && rate < 2500)
+> +		return 22;
+> +
 
-Could you help to take a look at this patchset, thanks.
+All the above could be handled with a simple table and a for loop.
 
-This series is the rebase to the newest kernel commit:
-88b06399c9c766c283e070b022b5ceafa4f63f19
+> +	/* Unreachable. */
+> +	WARN(1, "Reached unreachable code.");
+> +	return -EINVAL;
+> +}
+> +
+> +static int cdns_dphy_rx_wait_for_bit(void __iomem *addr, unsigned int bit)
+> +{
+> +	u32 val;
+> +
+> +	return readl_relaxed_poll_timeout(addr, val, val & BIT(bit), 10,
+> +					  DPHY_ISO_LANE_READY_TIMEOUT_MS * 1000);
+> +}
+> +
+> +static int cdns_dphy_rx_wait_lane_ready(struct cdns_dphy *dphy, int lanes)
+> +{
+> +	void __iomem *reg = dphy->regs;
+> +	int ret;
+> +
+> +	if (lanes < DPHY_LANES_MIN || lanes > DPHY_LANES_MAX)
+> +		return -EINVAL;
+> +
+> +	/* Clock lane */
+> +	ret = cdns_dphy_rx_wait_for_bit(reg + DPHY_ISO_CL_CTRL_L,
+> +					DPHY_ISO_LANE_READY_BIT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Data lanes. Minimum one lane is mandatory. */
+> +	ret = cdns_dphy_rx_wait_for_bit(reg + DPHY_ISO_DL_CTRL_L0,
+> +					DPHY_ISO_LANE_READY_BIT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (lanes < 2)
+> +		return 0;
+> +
+> +	ret = cdns_dphy_rx_wait_for_bit(reg + DPHY_ISO_DL_CTRL_L1,
+> +					DPHY_ISO_LANE_READY_BIT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (lanes < 3)
+> +		return 0;
+> +
+> +	ret = cdns_dphy_rx_wait_for_bit(reg + DPHY_ISO_DL_CTRL_L2,
+> +					DPHY_ISO_LANE_READY_BIT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (lanes < 4)
+> +		return 0;
+> +
+> +	ret = cdns_dphy_rx_wait_for_bit(reg + DPHY_ISO_DL_CTRL_L3,
+> +					DPHY_ISO_LANE_READY_BIT);
+> +	if (ret)
+> +		return ret;
+> +
 
-according to the request from:
-https://lore.kernel.org/lkml/ff2bc09d-1a17-50d4-d3ee-16fd3a86d7f1@foss.st.com/
+This, too, could be handled with an array (for the regs) and a for loop.
 
-The clk bug affects the kernel bootup on stm32f469-disco board
-in case display config(CONFIG_DRM_STM, CONFIG_DRM_STM_DSI,
-DRM_PANEL_ORISETECH_OTM8009A)
-enabled.
-
-If you want to test clk patch on stm32f429-disco board, the
-panel-ilitek-ili9341.c can be
-used for that purpose (CONFIG_DRM_STM, DRM_PANEL_ILITEK_ILI9341)
-
-i2c driver patch intent to fix the touch panel driver get data through
-i2c bus timeout issue.
-
-Best regards.
-Dillon
-
-On Fri, May 14, 2021 at 7:02 PM <dillon.minfei@gmail.com> wrote:
->
-> From: Dillon Min <dillon.minfei@gmail.com>
->
-> This seriese fix three i2c/clk bug for stm32 f4/f7
-> - kernel runing in sdram, i2c driver get data timeout
-> - ltdc clk turn off after kernel console active
-> - kernel hang in set ltdc clock rate
->
-> clk bug found on stm32f429/f469-disco board
->
-> Hi Patrice:
-> below is the guide to verify the patch:
->
-> setup test env with following files(link at below 'files link'):
-> [1] u-boot-dtb.bin
-> [2] rootfs zip file (used in kernel initramfs)
-> [3] u-boot's mkimage to create itb file
-> [4] kernel config file
-> [5] my itb with-or-without i2c patch
->
-> This patch based on kernel commit:
-> 88b06399c9c766c283e070b022b5ceafa4f63f19
->
-> Note:
-> panel-ilitek-ili9341.c is the driver which was submitted last year, but not
-> get accepted. it's used to setup touch screen calibration, then test i2c.
->
-> create itb file(please correct path of 'data'):
-> ./mkimage -f stm32.its stm32.itb
->
-> HW setup:
-> console:
->        PA9, PA10
->        usart0
->        serial@40011000
->        115200 8n1
->
-> -- flash u-boot.bin to stm32f429-disco on PC
-> $ sudo openocd -f board/stm32f429discovery.cfg -c \
->   '{PATH-TO-YOUR-UBOOT}/u-boot-dtb.bin 0x08000000 exit reset'
->
-> -- setup kernel load bootargs at u-boot
-> U-Boot > setenv bootargs 'console=tty0 console=ttySTM0,115200
->                     root=/dev/ram rdinit=/linuxrc loglevel=8 fbcon=rotate:2'
-> U-Boot > loady;bootm
-> (download stm32.dtb or your kernel with itb format, or download zImage, dtb)
->
-> -- setup ts_calibrate running env on stm32f429-disco
-> / # export TSLIB_CONFFILE=/etc/ts.conf
-> / # export TSLIB_TSDEVICE=/dev/input/event0
-> / # export TSLIB_CONSOLEDEVICE=none
-> / # export TSLIB_FBDEVICE=/dev/fb0
->
-> -- clear screen
-> / # ./fb
->
-> -- run ts_calibrate
-> / # ts_calibrate
-> (you can calibrate touchscreen now, and get below errors)
->
-> [  113.942087] stmpe-i2c0-0041: failed to read regs 0x52: -110
-> [  114.063598] stmpe-i2c 0-0041: failed to read reg 0x4b: -16
-> [  114.185629] stmpe-i2c 0-0041: failed to read reg 0x40: -16
-> [  114.307257] stmpe-i2c 0-0041: failed to write reg 0xb: -16
->
-> ...
-> with i2c patch applied, you will find below logs:
->
-> RAW---------------------> 3164 908 183 118.110884
-> TS_READ_RAW----> x = 3164, y =908, pressure = 183
-> RAW---------------------> 3166 922 126 118.138946
-> TS_READ_RAW----> x = 3166, y = 922, pressure = 126
-> ....
->
-> files link:
-> https://drive.google.com/drive/folders/1qNbjChcB6UGtKzne2F5x9_WG_sZFyo3o?usp=sharing
->
->
->
->
-> Dillon Min (4):
->   drm/panel: Add ilitek ili9341 panel driver
->   i2c: stm32f4: Fix stmpe811 get xyz data timeout issue
->   clk: stm32: Fix stm32f429's ltdc driver hang in set clock rate
->   clk: stm32: Fix ltdc's clock turn off by clk_disable_unused() after
->     kernel startup
->
->  drivers/clk/clk-stm32f4.c                    |   10 +-
->  drivers/gpu/drm/panel/Kconfig                |   12 +
->  drivers/gpu/drm/panel/Makefile               |    1 +
->  drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 1285 ++++++++++++++++++++++++++
->  drivers/i2c/busses/i2c-stm32f4.c             |   12 +-
->  5 files changed, 1310 insertions(+), 10 deletions(-)
->  create mode 100755 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
->
-> --
-> 2.7.4
->
+  Tomi
