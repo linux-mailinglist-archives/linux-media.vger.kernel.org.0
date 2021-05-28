@@ -2,114 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CB37394919
-	for <lists+linux-media@lfdr.de>; Sat, 29 May 2021 01:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E79A39493A
+	for <lists+linux-media@lfdr.de>; Sat, 29 May 2021 01:46:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbhE1XXI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 May 2021 19:23:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38440 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbhE1XXI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 May 2021 19:23:08 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 805D4C061574
-        for <linux-media@vger.kernel.org>; Fri, 28 May 2021 16:21:31 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id l18-20020a1c79120000b0290181c444b2d0so3180296wme.5
-        for <linux-media@vger.kernel.org>; Fri, 28 May 2021 16:21:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nbfWgi9ugROl98i8h1KKJEb5+VK0QvP+xO1HNZaf/A0=;
-        b=nt2G7OL2qJG3SBKQBy3msw8pwuyszEDQwM3pde/Tr9Gd+8jtrOIMW1J4/+YfmR7bFl
-         t50SU4DztHgSI31HTQPjSW4aj1xAz2ojZxrYRiehr0BSMsxWhI4/+CuX6nndwLHKcVmn
-         Z4OH5SX5S97wuQ4Y8Wmejbw5053pr0/eFQ+GXFoMZdmUlqAo8ULdDjiqLL3H95CPmgTk
-         +rWqXyVt/S/9vtF4cN+PX31T0r4HQkd7ya3m01NTWtwPo667m6o9pg/ljXvcVuzpvNu2
-         elOrbJawZf8lklXVXQSDn0uzNU8a1HZ7Gw5bo4l0QGc3sY//H15khBQObqY8P/MMCJKi
-         I83A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nbfWgi9ugROl98i8h1KKJEb5+VK0QvP+xO1HNZaf/A0=;
-        b=GWJyAIApTVi3Zbl5tCrkZsXOHqZ/e6CXMaeElekmudHLLPW+hr185RcBJRYa8UWaLw
-         jSPQFo7LwqVKsCMB55zt5pe6eGV6N0eoI02ijqo8TY3J2qJEaGqQSZ6XAly3KQyRvvY1
-         89+2gpHnednnTRLCFLCRtC6JmFhExmaWMQMbt6QiMNReigrqEiBJv81p7HFl0As5cub0
-         iXnE2e+1HDw6n3G/oBvVx728rM5NVbU6sBi13NnAgvtiKZ0KjPK/mprsL8BrhoZTjYoG
-         arAp9hcKEMFyol1ucdHN3iYVkZkiMX7sVEj+XPNwCwnVSFqvpgChiCX6u0o118aq/00L
-         gsIA==
-X-Gm-Message-State: AOAM532JNlo51/PzjFbtVumAz8EL7oiiVPDiZ5oN4llPvZoHYpl13b6u
-        H8rYvKKsCN1pSAKXmzhv1dE4FzsGK65227Ml
-X-Google-Smtp-Source: ABdhPJyvszG68D2lFIKDDNWFnXZPkb5Y8pjArUB302Avtr42O25rk2Mtw2xV33Iiz3/ZOWX3UDt4Mg==
-X-Received: by 2002:a1c:4c03:: with SMTP id z3mr10509385wmf.58.1622244090032;
-        Fri, 28 May 2021 16:21:30 -0700 (PDT)
-Received: from localhost.localdomain (hst-221-87.medicom.bg. [84.238.221.87])
-        by smtp.gmail.com with ESMTPSA id h13sm8268992wml.26.2021.05.28.16.21.29
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 May 2021 16:21:29 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.14] Venus updates
-Date:   Sat, 29 May 2021 02:21:20 +0300
-Message-Id: <20210528232120.326677-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        id S229541AbhE1Xrg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 May 2021 19:47:36 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:56014 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229500AbhE1Xrf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 May 2021 19:47:35 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lmmAx-0092FD-AQ; Fri, 28 May 2021 23:45:59 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lmmFH-0003Oe-QI; Fri, 28 May 2021 23:50:28 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] Venus updates (#74679)
+Date:   Fri, 28 May 2021 23:50:27 +0000
+Message-Id: <20210528235027.13015-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210528232120.326677-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The changes this time includes:
-  * Conversion to devm variants of OPP APIs
-  * Enable low power setting for encoder.
-  * Few small fixes.
+From: builder@linuxtv.org
 
-Please pull.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210528232120.326677-1-stanimir.varbanov@linaro.org/
+Build log: https://builder.linuxtv.org/job/patchwork/110590/
+Build time: 00:16:45
+Link: https://lore.kernel.org/linux-media/20210528232120.326677-1-stanimir.varbanov@linaro.org
 
-regards,
-Stan
+gpg: Signature made Fri 28 May 2021 11:14:21 PM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
-The following changes since commit 71c689dc2e732d4cb190aaf0edea73116b1611bd:
+Summary: got 2/5 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-  media: v4l2-ctrls: split up into four source files (2021-05-25 17:03:29 +0200)
+Error/warnings:
 
-are available in the Git repository at:
+patches/0001-venus-hfi_cmds-Fix-conceal-color-property.patch:
 
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.14
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
 
-for you to fetch changes up to f7b9607889df645ad689e00a1a2971ff3714fbe0:
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1931 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-  media: venus: helpers: Delete an unneeded bool conversion (2021-05-29 02:13:01 +0300)
+patches/0003-media-venus-hfi_cmds.h-Replace-one-element-array-wit.patch:
 
-----------------------------------------------------------------
-Venus updates for v5.14
+   checkpatch.pl:
+	$ cat patches/0003-media-venus-hfi_cmds.h-Replace-one-element-array-wit.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-----------------------------------------------------------------
-Dikshita Agarwal (1):
-      media: venus: Enable low power setting for encoder
 
-Gustavo A. R. Silva (1):
-      media: venus: hfi_cmds.h: Replace one-element array with flexible-array member
+Error #512 when building PDF docs
 
-Stanimir Varbanov (1):
-      venus: hfi_cmds: Fix conceal color property
-
-Yangtao Li (1):
-      media: venus: Convert to use resource-managed OPP API
-
-Zhen Lei (1):
-      media: venus: helpers: Delete an unneeded bool conversion
-
- drivers/media/platform/qcom/venus/core.h           |   7 +-
- drivers/media/platform/qcom/venus/helpers.c        |   5 +-
- drivers/media/platform/qcom/venus/hfi_cmds.c       |  22 +--
- drivers/media/platform/qcom/venus/hfi_cmds.h       |   2 +-
- drivers/media/platform/qcom/venus/hfi_helper.h     |  10 +-
- drivers/media/platform/qcom/venus/hfi_platform.c   |  16 +++
- drivers/media/platform/qcom/venus/hfi_platform.h   |   4 +
- .../media/platform/qcom/venus/hfi_platform_v4.c    |  28 ++--
- .../media/platform/qcom/venus/hfi_platform_v6.c    |  28 ++--
- drivers/media/platform/qcom/venus/pm_helpers.c     | 150 ++++++++++++++-------
- 10 files changed, 191 insertions(+), 81 deletions(-)
