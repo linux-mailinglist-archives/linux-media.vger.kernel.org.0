@@ -2,355 +2,348 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C880393D50
-	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 08:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E70D393D6A
+	for <lists+linux-media@lfdr.de>; Fri, 28 May 2021 09:03:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230127AbhE1GqY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 May 2021 02:46:24 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48552 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbhE1GqX (ORCPT
+        id S233807AbhE1HFJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 May 2021 03:05:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229574AbhE1HFI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 May 2021 02:46:23 -0400
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57E1D8C7;
-        Fri, 28 May 2021 08:44:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622184287;
-        bh=8iafTruYlTPcuzhTxWfAHVoehPZpu5bhMZEgahfJlLw=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=nfc7s4rHvEsaYjalxos3+r1ZPGBOc//BIv1gwkoDeTHXhKeWqd4SJTaI61gNeGaTz
-         L85FBYKY7a5AHD3n8Pt98VNoK3I2qrnh1wZj2VgMPZPchGyliBWbK1psXZDxj/EpO9
-         hHutshhHOrmO7U57OD6gQ2qfEBRMOB8ZteoDcaeg=
-To:     Pratyush Yadav <p.yadav@ti.com>,
-        Maxime Ripard <mripard@kernel.org>,
+        Fri, 28 May 2021 03:05:08 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B96C061574;
+        Fri, 28 May 2021 00:03:33 -0700 (PDT)
+Received: from [IPv6:2a00:a040:193:3500:ed56:60fb:a74f:177d] (unknown [IPv6:2a00:a040:193:3500:ed56:60fb:a74f:177d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2BBE51F40243;
+        Fri, 28 May 2021 08:03:30 +0100 (BST)
+Subject: Re: [PATCH v5 05/14] media: mtk-vcodec: venc: support START and STOP
+ commands
+To:     Alexandre Courbot <acourbot@chromium.org>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-phy@lists.infradead.org, dmaengine@vger.kernel.org
-Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210526152308.16525-1-p.yadav@ti.com>
- <20210526152308.16525-6-p.yadav@ti.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v2 05/18] media: ov5640: Use runtime PM to control sensor
- power
-Message-ID: <72352182-66ac-121e-ab09-da52af1b7581@ideasonboard.com>
-Date:   Fri, 28 May 2021 09:44:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Hsin-Yi Wang <hsinyi@chromium.org>
+References: <20210519143011.1175546-1-acourbot@chromium.org>
+ <20210519143011.1175546-6-acourbot@chromium.org>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <9b37044d-f909-9169-3d22-fa6c5f788822@collabora.com>
+Date:   Fri, 28 May 2021 10:03:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210526152308.16525-6-p.yadav@ti.com>
+In-Reply-To: <20210519143011.1175546-6-acourbot@chromium.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/05/2021 18:22, Pratyush Yadav wrote:
-> Calling s_power subdev callback is discouraged. Instead, the subdevs
-> should use runtime PM to control its power. Use runtime PM callbacks to
-> control sensor power. The pm counter is incremented when the stream is
-> started and decremented when the stream is stopped.
+Hi,
+
+I applied this patchset and tested the stateful encoder on debian with the command:
+
+[gst-master] root@debian:~/gst-build# gst-launch-1.0 filesrc location=images/jelly-800-640.YU12 ! rawvideoparse width=800 height=640 format=i420 ! videoconvert ! v4l2h264enc ! h264parse ! mp4mux ! filesink location=jelly-800-640.mp4
+
+I get:
+
+Setting pipeline[   79.703879] [MTK_V4L2] level=0 fops_vcodec_open(),190: encoder capability 10000000
+  to PAUSED ...
+Pipeline is PREROLLING ...
+Redistribute latency...
+[   80.621076] mtk-iommu 10205000.iommu: Partial TLB flush timed out, falling back to full flush
+[   80.631232] mtk-iommu 10205000.iommu: Partial TLB flush timed out, falling back to full flush
+[   80.640878] mtk-iommu 10205000.iommu: Partial TLB flush timed out, falling back to full flush
+[   80.650766] mtk-iommu 10205000.iommu: Partial TLB flush timed out, falling back to full flush
+[   80.660430] mtk-iommu 10205000.iommu: Partial TLB flush timed out, falling back to full flush
+[   80.670194] mtk-iommu 10205000.iommu: Partial TLB flush timed out, falling back to full flush
+[   80.680967] mtk-iommu 10205000.iommu: Partial TLB flush timed out, falling back to full flush
+[   80.691376] mtk-iommu 10205000.iommu: Partial TLB flush timed out, falling back to full flush
+[   80.701718] mtk-iommu 10205000.iommu: Partial TLB flush timed out, falling back to full flush
+[   80.712106] mtk-iommu 10205000.iommu: Partial TLB flush timed out, falling back to full flush
+[   80.722272] [MTK_V4L2] level=0 mtk_venc_set_param(),371: fmt 0x3, P/L 0/0, w/h 800/640, buf 800/640, fps/bps 25/4000000, gop 0, i_period 0
+Pipeline is PREROLLED ...
+Setting pipeline to PLAYING ...
+New clock: GstSystemClock
+[   81.918747] [MTK_V4L2][ERROR] mtk_vcodec_wait_for_done_ctx:32: [3] ctx->type=1, cmd=1, wait_event_interruptible_timeout time=1000ms out 0 0!
+[   81.931392] [MTK_VCODEC][ERROR][3]: h264_encode_frame() irq_status=0 failed
+[   81.938470] [MTK_V4L2][ERROR] mtk_venc_worker:1219: venc_if_encode failed=-5
+[   82.974746] [MTK_V4L2][ERROR] mtk_vcodec_wait_for_done_ctx:32: [3] ctx->type=1, cmd=1, wait_event_interruptible_timeout time=1000ms out 0 0!
+[   82.987392] [MTK_VCODEC][ERROR][3]: h264_encode_frame() irq_status=0 failed
+[   82.994471] [MTK_V4L2][ERROR] mtk_venc_worker:1219: venc_if_encode failed=-5
+[  104.163977] cros-ec-dev cros-ec-dev.2.auto: Some logs may have been dropped...
+0:00:00.4 / 99:99:99.
+0:00:00.4 / 99:99:99.
+0:00:00.4 / 99:99:99.
+0:00:00.4 / 99:99:99.
+0:00:00.4 / 99:99:99.
+0:00:00.4 / 99:99:99.
+0:00:00.4 / 99:99:99.
+0:00:00.4 / 99:99:99.
+0:00:00.4 / 99:99:99.
+0:00:00.4 / 99:99:99.
+^Chandling interrupt.
+
+And then the streaming hangs. The same error happens without this patchset, but without
+this patchset the statful encoder does not support V4L2_ENC_CMD_STOP/START needed by the spec.
+I am not sure what cause the error and wether those mtk-iommu erros has to do with that. The issue
+could also come from the mtk-vpu used by the encoder.
+Do you have any idea where this can come from?
+
+Thanks,
+Dafna
+
+
+
+On 19.05.21 17:30, Alexandre Courbot wrote:
+> The V4L2 encoder specification requires encoders to support the
+> V4L2_ENC_CMD_START and V4L2_ENC_CMD_STOP commands. Add support for these
+> to the mtk-vcodec encoder by reusing the same flush buffer as used by
+> the decoder driver.
 > 
-> Refactor s_stream() a bit to make this new control flow easier. Add a
-> helper to choose whether mipi or dvp set_stream needs to be called. The
-> logic flow is also changed to make it a bit clearer.
-> 
-> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> 
+> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> [hsinyi: fix double-free issue if flush buffer was not dequeued by the
+> time streamoff is called]
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > ---
+>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   2 +
+>   .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 135 +++++++++++++++++-
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |   4 +
+>   3 files changed, 134 insertions(+), 7 deletions(-)
 > 
-> Changes in v2:
-> - New in v2.
-> 
->   drivers/media/i2c/Kconfig  |   2 +-
->   drivers/media/i2c/ov5640.c | 124 +++++++++++++++++++++++--------------
->   2 files changed, 77 insertions(+), 49 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 462c0e059754..5588fc1cc14a 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -914,7 +914,7 @@ config VIDEO_OV2740
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> index c6fe61253f43..37a62c0f406f 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> @@ -252,6 +252,7 @@ struct vdec_pic_info {
+>    * @last_decoded_picinfo: pic information get from latest decode
+>    * @empty_flush_buf: a fake size-0 capture buffer that indicates flush. Only
+>    *		     to be used with encoder and stateful decoder.
+> + * @is_flushing: set to true if flushing is in progress.
+>    *
+>    * @colorspace: enum v4l2_colorspace; supplemental to pixelformat
+>    * @ycbcr_enc: enum v4l2_ycbcr_encoding, Y'CbCr encoding
+> @@ -290,6 +291,7 @@ struct mtk_vcodec_ctx {
+>   	struct work_struct encode_work;
+>   	struct vdec_pic_info last_decoded_picinfo;
+>   	struct v4l2_m2m_buffer empty_flush_buf;
+> +	bool is_flushing;
 >   
->   config VIDEO_OV5640
->   	tristate "OmniVision OV5640 sensor support"
-> -	depends on OF
-> +	depends on OF && PM
->   	depends on GPIOLIB && VIDEO_V4L2 && I2C
->   	select MEDIA_CONTROLLER
->   	select VIDEO_V4L2_SUBDEV_API
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 5b9cc71df473..4ed5758e2398 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -15,6 +15,7 @@
->   #include <linux/init.h>
->   #include <linux/module.h>
->   #include <linux/of_device.h>
-> +#include <linux/pm_runtime.h>
->   #include <linux/regulator/consumer.h>
->   #include <linux/slab.h>
->   #include <linux/types.h>
-> @@ -238,8 +239,6 @@ struct ov5640_dev {
->   	/* lock to protect all members below */
->   	struct mutex lock;
->   
-> -	int power_count;
-> -
->   	struct v4l2_mbus_framefmt fmt;
->   	bool pending_fmt_change;
->   
-> @@ -1277,6 +1276,14 @@ static int ov5640_set_stream_mipi(struct ov5640_dev *sensor, bool on)
->   				on ? 0x00 : 0x0f);
->   }
->   
-> +static int ov5640_set_stream(struct ov5640_dev *sensor, bool on)
-> +{
-> +	if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-> +		return ov5640_set_stream_mipi(sensor, on);
-> +	else
-> +		return ov5640_set_stream_dvp(sensor, on);
-> +}
-> +
->   static int ov5640_get_sysclk(struct ov5640_dev *sensor)
+>   	enum v4l2_colorspace colorspace;
+>   	enum v4l2_ycbcr_encoding ycbcr_enc;
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+> index 4831052f475d..4701dea251ca 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
+> @@ -659,6 +659,7 @@ static int vidioc_venc_dqbuf(struct file *file, void *priv,
+>   			     struct v4l2_buffer *buf)
 >   {
->   	 /* calculate sysclk */
-> @@ -2155,37 +2162,6 @@ static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
+>   	struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
+> +	int ret;
 >   
->   /* --------------- Subdev Operations --------------- */
->   
-> -static int ov5640_s_power(struct v4l2_subdev *sd, int on)
-> -{
-> -	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> -	int ret = 0;
-> -
-> -	mutex_lock(&sensor->lock);
-> -
-> -	/*
-> -	 * If the power count is modified from 0 to != 0 or from != 0 to 0,
-> -	 * update the power state.
-> -	 */
-> -	if (sensor->power_count == !on) {
-> -		ret = ov5640_set_power(sensor, !!on);
-> -		if (ret)
-> -			goto out;
-> -	}
-> -
-> -	/* Update the power count. */
-> -	sensor->power_count += on ? 1 : -1;
-> -	WARN_ON(sensor->power_count < 0);
-> -out:
-> -	mutex_unlock(&sensor->lock);
-> -
-> -	if (on && !ret && sensor->power_count == 1) {
-> -		/* restore controls */
-> -		ret = v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
-> -	}
-> -
-> -	return ret;
-> -}
-> -
->   static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
->   				     struct v4l2_fract *fi,
->   				     u32 width, u32 height)
-> @@ -2681,6 +2657,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
->   {
->   	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
->   	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> +	struct device *dev = &sensor->i2c_client->dev;
->   	int ret;
->   
->   	/* v4l2_ctrl_lock() locks our own mutex */
-> @@ -2690,7 +2667,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
->   	 * not apply any controls to H/W at this time. Instead
->   	 * the controls will be restored right after power-up.
->   	 */
-> -	if (sensor->power_count == 0)
-> +	if (pm_runtime_suspended(dev))
->   		return 0;
->   
->   	switch (ctrl->id) {
-> @@ -2939,39 +2916,56 @@ static int ov5640_enum_mbus_code(struct v4l2_subdev *sd,
->   static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
->   {
->   	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> +	struct device *dev = &sensor->i2c_client->dev;
->   	int ret = 0;
->   
->   	mutex_lock(&sensor->lock);
->   
-> -	if (sensor->streaming == !enable) {
-> -		if (enable && sensor->pending_mode_change) {
-> +	if (sensor->streaming == enable)
-> +		goto out;
-> +
-> +	if (enable) {
-> +		ret = pm_runtime_get_sync(dev);
-> +		if (ret < 0) {
-> +			pm_runtime_put_noidle(dev);
-> +			goto out;
-> +		}
-
-There now seems to be a function to do the above steps: 
-pm_runtime_resume_and_get.
-
-> +
-> +		if (sensor->pending_mode_change) {
->   			ret = ov5640_set_mode(sensor);
->   			if (ret)
-> -				goto out;
-> +				goto put_pm;
->   		}
->   
-> -		if (enable && sensor->pending_fmt_change) {
-> +		if (sensor->pending_fmt_change) {
->   			ret = ov5640_set_framefmt(sensor, &sensor->fmt);
->   			if (ret)
-> -				goto out;
-> +				goto put_pm;
->   			sensor->pending_fmt_change = false;
->   		}
->   
-> -		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-> -			ret = ov5640_set_stream_mipi(sensor, enable);
-> -		else
-> -			ret = ov5640_set_stream_dvp(sensor, enable);
-> +		ret = ov5640_set_stream(sensor, enable);
-> +		if (ret)
-> +			goto put_pm;
-> +	} else {
-> +		ret = ov5640_set_stream(sensor, enable);
-
-Instead of using "enable" here (and in the enable path above), just use 
-true/false. It'll be more readable.
-
-> +		if (ret)
-> +			goto out;
->   
-> -		if (!ret)
-> -			sensor->streaming = enable;
-> +		pm_runtime_put(dev);
+>   	if (ctx->state == MTK_STATE_ABORT) {
+>   		mtk_v4l2_err("[%d] Call on QBUF after unrecoverable error",
+> @@ -666,7 +667,77 @@ static int vidioc_venc_dqbuf(struct file *file, void *priv,
+>   		return -EIO;
 >   	}
-> +
-> +	sensor->streaming = enable;
-> +	goto out;
-> +
-> +put_pm:
-> +	pm_runtime_put(dev);
->   out:
->   	mutex_unlock(&sensor->lock);
->   	return ret;
->   }
-
-The flow in the above function is quite confusing. I think you should 
-either 1) have a separate error paths via gotos and a return 0 before 
-the error labels, or 2) common error and success path, without that 
-final "goto out" you have above.
-
-Maybe if you move the code in the "if (enable) {} else {}" to the 
-ov5640_set_stream(), the flow will be easier to manage.
-
 >   
->   static const struct v4l2_subdev_core_ops ov5640_core_ops = {
-> -	.s_power = ov5640_s_power,
->   	.log_status = v4l2_ctrl_subdev_log_status,
->   	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
->   	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> @@ -3037,6 +3031,29 @@ static int ov5640_check_chip_id(struct ov5640_dev *sensor)
->   	return ret;
->   }
->   
-> +static int ov5640_suspend(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> +	struct ov5640_dev *sensor = to_ov5640_dev(subdev);
-> +
-> +	return ov5640_set_power(sensor, false);
-> +}
-> +
-> +static int ov5640_resume(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> +	struct ov5640_dev *sensor = to_ov5640_dev(subdev);
-> +	int ret = 0;
-> +
-> +	ret = ov5640_set_power(sensor, true);
+> -	return v4l2_m2m_dqbuf(file, ctx->m2m_ctx, buf);
+> +	ret = v4l2_m2m_dqbuf(file, ctx->m2m_ctx, buf);
 > +	if (ret)
 > +		return ret;
 > +
-> +	return __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
+> +	/*
+> +	 * Complete flush if the user dequeued the 0-payload LAST buffer.
+> +	 * We check the payload because a buffer with the LAST flag can also
+> +	 * be seen during resolution changes. If we happen to be flushing at
+> +	 * that time, the last buffer before the resolution changes could be
+> +	 * misinterpreted for the buffer generated by the flush and terminate
+> +	 * it earlier than we want.
+> +	 */
+> +	if (!V4L2_TYPE_IS_OUTPUT(buf->type) &&
+> +	    buf->flags & V4L2_BUF_FLAG_LAST &&
+> +	    buf->m.planes[0].bytesused == 0 &&
+> +	    ctx->is_flushing) {
+> +		/*
+> +		 * Last CAPTURE buffer is dequeued, we can allow another flush
+> +		 * to take place.
+> +		 */
+> +		ctx->is_flushing = false;
+> +	}
+> +
+> +	return 0;
 > +}
 > +
->   static int ov5640_probe(struct i2c_client *client)
->   {
->   	struct device *dev = &client->dev;
-> @@ -3162,13 +3179,17 @@ static int ov5640_probe(struct i2c_client *client)
->   	if (ret)
->   		goto entity_cleanup;
->   
-> +	pm_runtime_enable(dev);
-> +	pm_runtime_set_suspended(dev);
+> +static int vidioc_encoder_cmd(struct file *file, void *priv,
+> +			      struct v4l2_encoder_cmd *cmd)
+> +{
+> +	struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
+> +	struct vb2_queue *src_vq, *dst_vq;
+> +	int ret;
 > +
->   	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
->   	if (ret)
-> -		goto free_ctrls;
-> +		goto error_pm;
->   
->   	return 0;
->   
-> -free_ctrls:
-> +error_pm:
-> +	pm_runtime_disable(dev);
-
-The label style used here seems to be the 
-"label-tells-what-will-be-done", so I think instead of "error_pm", it 
-should be, perhaps, "pm_disable".
-
->   	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
->   entity_cleanup:
->   	media_entity_cleanup(&sensor->sd.entity);
-> @@ -3178,17 +3199,23 @@ static int ov5640_probe(struct i2c_client *client)
->   
->   static int ov5640_remove(struct i2c_client *client)
->   {
-> +	struct device *dev = &client->dev;
->   	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->   	struct ov5640_dev *sensor = to_ov5640_dev(sd);
->   
->   	v4l2_async_unregister_subdev(&sensor->sd);
->   	media_entity_cleanup(&sensor->sd.entity);
-> +	pm_runtime_disable(dev);
->   	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
->   	mutex_destroy(&sensor->lock);
->   
->   	return 0;
+> +	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, cmd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Calling START or STOP is invalid if a flush is in progress */
+> +	if (ctx->is_flushing)
+> +		return -EBUSY;
+> +
+> +	mtk_v4l2_debug(1, "encoder cmd=%u", cmd->cmd);
+> +
+> +	dst_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
+> +				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+> +	switch (cmd->cmd) {
+> +	case V4L2_ENC_CMD_STOP:
+> +		src_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
+> +				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+> +		if (!vb2_is_streaming(src_vq)) {
+> +			mtk_v4l2_debug(1, "Output stream is off. No need to flush.");
+> +			return 0;
+> +		}
+> +		if (!vb2_is_streaming(dst_vq)) {
+> +			mtk_v4l2_debug(1, "Capture stream is off. No need to flush.");
+> +			return 0;
+> +		}
+> +		ctx->is_flushing = true;
+> +		v4l2_m2m_buf_queue(ctx->m2m_ctx, &ctx->empty_flush_buf.vb);
+> +		v4l2_m2m_try_schedule(ctx->m2m_ctx);
+> +		break;
+> +
+> +	case V4L2_ENC_CMD_START:
+> +		vb2_clear_last_buffer_dequeued(dst_vq);
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
 >   }
 >   
-> +static const struct dev_pm_ops ov5640_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(ov5640_suspend, ov5640_resume, NULL)
-> +};
+>   const struct v4l2_ioctl_ops mtk_venc_ioctl_ops = {
+> @@ -702,6 +773,9 @@ const struct v4l2_ioctl_ops mtk_venc_ioctl_ops = {
+>   
+>   	.vidioc_g_selection		= vidioc_venc_g_selection,
+>   	.vidioc_s_selection		= vidioc_venc_s_selection,
 > +
->   static const struct i2c_device_id ov5640_id[] = {
->   	{"ov5640", 0},
->   	{},
-> @@ -3205,6 +3232,7 @@ static struct i2c_driver ov5640_i2c_driver = {
->   	.driver = {
->   		.name  = "ov5640",
->   		.of_match_table	= ov5640_dt_ids,
-> +		.pm = &ov5640_pm_ops,
->   	},
->   	.id_table = ov5640_id,
->   	.probe_new = ov5640_probe,
+> +	.vidioc_encoder_cmd		= vidioc_encoder_cmd,
+> +	.vidioc_try_encoder_cmd		= v4l2_m2m_ioctl_try_encoder_cmd,
+>   };
+>   
+>   static int vb2ops_venc_queue_setup(struct vb2_queue *vq,
+> @@ -869,9 +943,39 @@ static void vb2ops_venc_stop_streaming(struct vb2_queue *q)
+>   			dst_buf->vb2_buf.planes[0].bytesused = 0;
+>   			v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
+>   		}
+> +		/* STREAMOFF on the CAPTURE queue completes any ongoing flush */
+> +		if (ctx->is_flushing) {
+> +			struct v4l2_m2m_buffer *b, *n;
+> +
+> +			mtk_v4l2_debug(1, "STREAMOFF called while flushing");
+> +			/*
+> +			 * STREAMOFF could be called before the flush buffer is
+> +			 * dequeued. Check whether empty flush buf is still in
+> +			 * queue before removing it.
+> +			 */
+> +			v4l2_m2m_for_each_src_buf_safe(ctx->m2m_ctx, b, n) {
+> +				if (b == &ctx->empty_flush_buf) {
+> +					v4l2_m2m_src_buf_remove_by_buf(
+> +							ctx->m2m_ctx, &b->vb);
+> +					break;
+> +				}
+> +			}
+> +			ctx->is_flushing = false;
+> +		}
+>   	} else {
+> -		while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx)))
+> -			v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+> +		while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
+> +			if (src_buf != &ctx->empty_flush_buf.vb)
+> +				v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+> +		}
+> +		if (ctx->is_flushing) {
+> +			/*
+> +			 * If we are in the middle of a flush, put the flush
+> +			 * buffer back into the queue so the next CAPTURE
+> +			 * buffer gets returned with the LAST flag set.
+> +			 */
+> +			v4l2_m2m_buf_queue(ctx->m2m_ctx,
+> +					   &ctx->empty_flush_buf.vb);
+> +		}
+>   	}
+>   
+>   	if ((q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+> @@ -971,12 +1075,15 @@ static int mtk_venc_param_change(struct mtk_vcodec_ctx *ctx)
+>   {
+>   	struct venc_enc_param enc_prm;
+>   	struct vb2_v4l2_buffer *vb2_v4l2 = v4l2_m2m_next_src_buf(ctx->m2m_ctx);
+> -	struct mtk_video_enc_buf *mtk_buf =
+> -			container_of(vb2_v4l2, struct mtk_video_enc_buf,
+> -				     m2m_buf.vb);
+> -
+> +	struct mtk_video_enc_buf *mtk_buf;
+>   	int ret = 0;
+>   
+> +	/* Don't upcast the empty flush buffer */
+> +	if (vb2_v4l2 == &ctx->empty_flush_buf.vb)
+> +		return 0;
+> +
+> +	mtk_buf = container_of(vb2_v4l2, struct mtk_video_enc_buf, m2m_buf.vb);
+> +
+>   	memset(&enc_prm, 0, sizeof(enc_prm));
+>   	if (mtk_buf->param_change == MTK_ENCODE_PARAM_NONE)
+>   		return 0;
+> @@ -1062,6 +1169,20 @@ static void mtk_venc_worker(struct work_struct *work)
+>   	}
+>   
+>   	src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+> +
+> +	/*
+> +	 * If we see the flush buffer, send an empty buffer with the LAST flag
+> +	 * to the client. is_flushing will be reset at the time the buffer
+> +	 * is dequeued.
+> +	 */
+> +	if (src_buf == &ctx->empty_flush_buf.vb) {
+> +		vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
+> +		dst_buf->flags |= V4L2_BUF_FLAG_LAST;
+> +		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
+> +		v4l2_m2m_job_finish(ctx->dev->m2m_dev_enc, ctx->m2m_ctx);
+> +		return;
+> +	}
+> +
+>   	memset(&frm_buf, 0, sizeof(frm_buf));
+>   	for (i = 0; i < src_buf->vb2_buf.num_planes ; i++) {
+>   		frm_buf.fb_addr[i].dma_addr =
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+> index 7d7b8cfc2cc5..2dd6fef896df 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+> @@ -131,6 +131,7 @@ static int fops_vcodec_open(struct file *file)
+>   	struct mtk_vcodec_dev *dev = video_drvdata(file);
+>   	struct mtk_vcodec_ctx *ctx = NULL;
+>   	int ret = 0;
+> +	struct vb2_queue *src_vq;
+>   
+>   	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+>   	if (!ctx)
+> @@ -164,6 +165,9 @@ static int fops_vcodec_open(struct file *file)
+>   				ret);
+>   		goto err_m2m_ctx_init;
+>   	}
+> +	src_vq = v4l2_m2m_get_vq(ctx->m2m_ctx,
+> +				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+> +	ctx->empty_flush_buf.vb.vb2_buf.vb2_queue = src_vq;
+>   	mtk_vcodec_enc_set_default_params(ctx);
+>   
+>   	if (v4l2_fh_is_singular(&ctx->fh)) {
 > 
-
