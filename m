@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C25DB395404
-	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 04:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E0D6395407
+	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 04:52:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbhEaCxr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 May 2021 22:53:47 -0400
-Received: from mail-vi1eur05on2075.outbound.protection.outlook.com ([40.107.21.75]:13568
+        id S230116AbhEaCyL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 May 2021 22:54:11 -0400
+Received: from mail-vi1eur05on2059.outbound.protection.outlook.com ([40.107.21.59]:54529
         "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230085AbhEaCxo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 May 2021 22:53:44 -0400
+        id S230083AbhEaCyA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 30 May 2021 22:54:00 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ab85+Wp6qE7SR0DO/SjAInapd3+311v757ivUFWABjS3NN/JP/XCh2f6F1YXDOnQmRnCg4pt3X6r6qRywgjXD86JiVwFM5q8pqJAQpAbxIlEghic0M7cgQk0uy0GgnH6YZL7CnNZICj5CorIgFzivUL2ZlhrIa3O1of01rPDpfABZY87uTYopNP0S4swDeB9dt9bc6F4CCVOY/+Op+GPcAiC0zkIGne85kR96AOj6uFA8p3nZYa5byuV91LojxSBXGT6WV+rv4LuQqFbG3s/H2wL4qSaju6zCXYLG0MTQErw+OYHxxMx0ybEuccIwKBNkQFJ1jqMtLFAfDUwDkg+lg==
+ b=TV+6r1aNvD5A/3c7Qq+/bSYY53R75YFeXSgjTfX8/Pz7XLox3V/OhDNue57IcLS5PZieSWOKzw4lDg4VJHr/5lFiuGG6ax0hla7W4cg9C8OwNJ8GykEXdmPTPtIoTesm3bb7UZCXWZOFK6j+e9jqYHQd+pZD8ybpZ2ai+OArWpzIlWzgbxWkdANLs1bwlvE/EYhLAZE9ysJmRt6wcfMx+qVgve8znyl7ABQP0diH2ykaMF8zYD4S8R7gfr3c7hmwLbA2fElsvvq5xPF0QkkcSQhqLKrdUYrA8Ek8dXs3Vn4sr3ApefArffA5TT3hFAUKmET/fEf4oZRbjWnqQSrCcw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8kMq5OJobJpmW7pcbyxi2TiLm+qcfjLn1Zz9F458vq4=;
- b=BUkj8ZhP2FQcuhOAyKAR+/SJwp3QPO3c1aV7vYhjKC1zPpZZlja++qFKulqFbBwa9NIV44KAAyzlM1R4HJ6FXhr6B/dFN/YTZ4lE9e/P7pt/IYRGspXcKmBfIOSShTAoCD92Y4+fsUigHbahzcPDqLod0gB56edpXfXHdfRX2Otzp5q5ewpxeTZDj+Pp1jC1rWEcF1XdE9V+wCG8lBmUEoIgQE4U4C11aME/Qi/VjY4qJgqf0mrmYddr+j+dKS0vQZC86+QXPasAuxSH8A32soLD93EmXwT1fFPtVi+KY0G8RCTiY9KA0RPwUL7vwDCSyumurWlJSphDlOWlM2Ip1Q==
+ bh=f6DAY7aLMxuGV9sNtpoFKQOs/Z9bMQ+hE0dCB4uEMuA=;
+ b=OaovvhsM6YIfP4Iub1amevkHinYR67Y5t8ZWVFo50BNU2OqKoEz4E4tu5a+3vfO1U/I+hCFF/Y6j/LM/Q29N/tvW/ghoUhcGVOmTT8reLwPCkImGpmP3fhkIoWKxvOT5o+xwmhIASotSNk9dcV/ZNI0oTP+pEbCgDD+dFZ3z5W5B3MfmDPAJjQ0oEyZ3JEiLcovNm9XAiD/eOF4Enl6hmXKktZnRv7rXcYz+iDeRXXksF52a5g9QWBuX5stxj4FTZhvZ3Oi107XW7CKUlgSRyaX0+4OnbC32xhkmQwxdjUJoc8Q3Zae/JE1BtbJEu627M+EgLDN+cnO2T4ZOFZIl2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8kMq5OJobJpmW7pcbyxi2TiLm+qcfjLn1Zz9F458vq4=;
- b=rwlbGyt34crIVJ1JIt1VEssGHEeJC37c46weKAwlPZWiW2lyeFImtV5wgHRHAbAKmo6aW/fK9+z0OF8/wnwM3cc34A/3/QxTPKYIVzE/g/iShiM4gv+geu9JRncDq3r5knPOYfljjdHOfHfDl5e3fgAF1QSY5Qd+O79ckhgE9lk=
+ bh=f6DAY7aLMxuGV9sNtpoFKQOs/Z9bMQ+hE0dCB4uEMuA=;
+ b=OaEM3o7DwvlSrZlJ9k8QDW0dPxHw4JIjRO0xv3rKLY19Mk3wZl6AmBHda3m6LdXj13kbHtmiZsCfyCA1CLEu8dtwrAYr8krzIjO7JC6Rqd33PpdPMgYdUcdX0CDMHXExjVKUfHiaH4bRDtoJMq7acmAHHuk/PIlDzj1HJfVTR50=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
  by AM5PR0401MB2546.eurprd04.prod.outlook.com (2603:10a6:203:38::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Mon, 31 May
- 2021 02:52:03 +0000
+ 2021 02:52:18 +0000
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::c5c1:3625:26e4:4276]) by AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::c5c1:3625:26e4:4276%5]) with mapi id 15.20.4173.030; Mon, 31 May 2021
- 02:52:03 +0000
+ 02:52:18 +0000
 From:   Ming Qian <ming.qian@nxp.com>
 To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
         s.hauer@pengutronix.de
@@ -44,9 +44,9 @@ Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
         festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 2/5] media: v4l: add some definition of v4l2 colorspace/xfer_func/ycbcr_encoding
-Date:   Mon, 31 May 2021 10:51:10 +0800
-Message-Id: <b53c651305e2b1351230f73d6abad03b9de49e52.1622429026.git.ming.qian@nxp.com>
+Subject: [PATCH 4/5] ARM64: dts: freescale: imx8q: add imx vpu codec entries
+Date:   Mon, 31 May 2021 10:51:12 +0800
+Message-Id: <c902977e0f3687ba77bd3290248de5e053c86baf.1622429026.git.ming.qian@nxp.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622429025.git.ming.qian@nxp.com>
 References: <cover.1622429025.git.ming.qian@nxp.com>
@@ -58,127 +58,229 @@ X-ClientProxiedBy: MA1PR01CA0160.INDPRD01.PROD.OUTLOOK.COM
  (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by MA1PR01CA0160.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:71::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Mon, 31 May 2021 02:51:58 +0000
+Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by MA1PR01CA0160.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:71::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Mon, 31 May 2021 02:52:13 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b496c33d-2e8e-4119-5981-08d923df11ed
+X-MS-Office365-Filtering-Correlation-Id: 14620825-b3de-45c0-5ead-08d923df1ad2
 X-MS-TrafficTypeDiagnostic: AM5PR0401MB2546:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0401MB25469034A8D76407FEAE4583E73F9@AM5PR0401MB2546.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1107;
+X-Microsoft-Antispam-PRVS: <AM5PR0401MB25460B5990359423C3CE96E4E73F9@AM5PR0401MB2546.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HDZkItnDiLI8MlTV3CZpK+0Du74cff4EeeWqKu42hucyj/E9uTsJDihsmhVuUiD1Nyfz5oTsj1oHhkNSZqfvRHgsAlMngB6tWiJch/+7yc1UzjNfnxqk/mAOth6ARrBiKs2claHnFtqVGBzBSzIp2dxF+x1KvOS9n8GDEXpeyZ6AjnFFxgtj5PAsZNLOqsYKtTg3/aJkH3ND4OnLPZhex/Z9Y4nQFb8Ewe0QGAUXQFVQcTK4jGJKBlR8DTJpl3s3R5lDhqPJF0iy2zMpTGW7Dgg0TUPzZTQWCrNZ4cNh/3UoAtlth0e4GyyEEfV4UVNbulfaFCT+6106mE8Y7ppb5b77A1J3ppPbRxO0P8n4wuZOHwHnmBfFl0bunEUuUraOH20YX7vv2lTRnFKdGci6dFhIUTw4GbM3yPCVaAHNlEZPmK8xKgdlBPFeIvmytlOvMGtmLD0LQzxln9tioPOJgDUK/P53BfIHqvepZ76aJ9evGUYapWIFDklu/74ePMPFcErwuVcgIGx3l5MUZ96wWLzhQxtYWue5nJM01JvYrayETkDOT2otw2Q+DeGx28CMs/bTmvqlQ8gwXdGgAQYskTr+1DOoFasyedVVHdyXZDbFe+yZcVeCSo39w9KcUySvBdGU2V3LwcF6/K9SdrM43Gfzhe1CJwIeK17T+9DjicU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(366004)(39860400002)(136003)(5660300002)(4326008)(6666004)(36756003)(16526019)(66946007)(66476007)(66556008)(38350700002)(86362001)(38100700002)(44832011)(186003)(7696005)(2616005)(478600001)(8676002)(6486002)(316002)(956004)(2906002)(26005)(7416002)(8936002)(52116002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Tnv0tAb8CsjqOH0m1Wh9Ef426uLdPVBLj7nkzwfXI5GUoq8vBEK8W3fJ8QgO?=
- =?us-ascii?Q?XgwfCDzu9y1pVXia8OOTwhSEoOMvZQ2/CMgssveWqq6Y6U1I1VBmRfTaDaLy?=
- =?us-ascii?Q?oPFIcir44VZ9PS/1Y7zyzVK5heoce7WitkDpR7mIgD1AI05tG14Csd5mTJ67?=
- =?us-ascii?Q?c4y5yy++74aVKA0cfquoujlc35Du7DSF4jDMIxAy3cTdHwgCUJV3/0itF1Am?=
- =?us-ascii?Q?kdveglGiIcbBehyDLcEycgS8RtGDbG16JVf60mZmz+zB1cM1o+2ynjKR1Ycv?=
- =?us-ascii?Q?v8hiWiu/BBcEoR/M1eh1wj1Ckoww8VwcNnpTo2lQPvIE61kePnyfz91P+Vyy?=
- =?us-ascii?Q?z3IqpolPxiin89uRiDjsE6jVTLHiiB2E0EpYngpcMPzFqTNubNfLOX3+X9Bh?=
- =?us-ascii?Q?T2Toie9WAblT3sXEpnkXW+eer1mchyQViVtGqODChgGHGmmBDEPi4RMECkL6?=
- =?us-ascii?Q?HDxh4ggnF2+vuebf4ZJJaMe0KyuElWK90AidFHOSvSAHsIGzbAuFS/tHgGMJ?=
- =?us-ascii?Q?dyCX8XZEnO+Qg7nhqFx08McZlXa7Y8FuJRhHfO+V8cNYzium7WOiL+9GmGS9?=
- =?us-ascii?Q?Cda+SLHQl0/oviVtpCW4jl1HbingsI8C5qf8ydUBSAKWwaZ2Jv82vSLJa+7G?=
- =?us-ascii?Q?SAPoFo6IkbqiF67LKmyRsjV7ecZhqnj6bbdwlyrc3wLVBeMgFQbPRU4dM3l0?=
- =?us-ascii?Q?YCHbCbJzt5mu07vaIFPgZg7clvjTulEbpSLoIq7/3lxUJKzdsjEQYj7bG7ym?=
- =?us-ascii?Q?diaVLTRxEcpRtMzf8WFIxwOo1032GzAZykJ09nMLSOm1CYXYEHLw/JzEUB1P?=
- =?us-ascii?Q?AKo4qRhYpMdiexGr9Gwm/BRvSTYOPtld/hAWVWp6eRhsaac/KaRmexQ797qp?=
- =?us-ascii?Q?WTD6MIZucA3alKvYWVF2whmJTAODxIaVWuhUK88f5BqFKuJ0f5fYakwT06DU?=
- =?us-ascii?Q?Xy3c8ahOYai7OWFt33Gn9wwZoNqoPuSnNTN0iuPucjVpldPgyw3zi2yZGvB4?=
- =?us-ascii?Q?U2fOEQ3Ia/UY8jk1eD0Ruh/hy+b+J2FFWJw2rdOVpDdAKZdFp55XIl+1ZDF3?=
- =?us-ascii?Q?9fA+dEh5FO+TjHHLEEv96tAlVrJjILtZv/Jnu3LHecyK4mUogZjd3+jQGyxN?=
- =?us-ascii?Q?lPpC7nQHGvE1z2b+YnwUrioqJ1/UP/Z82ThuffN3JallwId07j6buXSgtZo6?=
- =?us-ascii?Q?ERFnCOT6bhP2Qb1qpOiIoTwM0V/eHf9aCaCxotxzombUiszbOAHUMfMqzA3F?=
- =?us-ascii?Q?6NZoXScbSIQaPrgRppdJ91sQU92gJHsBAH41V6MlS9bXM3brC1giUxwk1QtX?=
- =?us-ascii?Q?UKWXAgTWAKLDiTcWU5+LI9kQ?=
+X-Microsoft-Antispam-Message-Info: wt4O8faBpOUKTvMNg0PPMxcEM8V7gHIJk37lmXmlmdKFcNSfNeVfqfIACWLzJOKS8naAvZo3g40LmzSPZSzBr7VTr0Wq3CfEXQr/MltCspxH8GkLLPC4J6ajj3syu32ZqMvsdbDMrEqiZQQob5BODWSKIXhYWomdQgYN05GjTDZJxb4sIvdYBn7ds5kzHJ2p480Y5DxeyTIzoPLFPC8ueDmmtqtHy/MmNUDfcdvrwJ02vk/oHTqa7Ct5eOsBV5rXVCAd6b3n9BGSYIm7hFwiCvTZbpdWG6FZzBw2ycgvTj4DUKsC+rZE/nHhZudocjdZEAUw006cjb7Fc1VDN0//QEtYUpdTYqYrx3K1jUYd1sFloaIHY+HvUPEGB1SplHp/HiUFxXcuSVi1VVx/pB1rEnj3VFw3Zd87wPxAmIBERu2u37l3fhzGPmpAfELQqIeNe20BKoul3acQrSzLuXqeMhw8PDhYrFylHbdfdk6fCCGQfClt/XYo7/3dSRBOaYCXAqsVOV5uwHe5pd1KBL0si9paaJm7ynYgb5I1XYICfog4J2Xy/JvpfCSt8pEOlbK1JRyPouKzY9xxkxFzO9MbbHWytn6n+SWHlQ/yNYUHarJc4v4ehnu6j+LGW9FV7UTasVRVyHnHh+/rqVNkAz41XM5GZdq6LQMRcYmkOLvBb0TU31+uDvP9sDSgb4PtyvrDB+6YyTbINNQV5lZsWZx4bHkmsFp1qDKPz6243j6gZkE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(366004)(39860400002)(136003)(5660300002)(4326008)(83380400001)(36756003)(16526019)(66946007)(66476007)(66556008)(38350700002)(86362001)(38100700002)(44832011)(186003)(7696005)(2616005)(478600001)(8676002)(6486002)(316002)(956004)(2906002)(26005)(7416002)(8936002)(52116002)(32563001)(473944003)(414714003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ac5OvsklTmYki63RpMDiaNe/Fgu874wlU0UtcCrBXG57n3gMoszlc4joHMAA?=
+ =?us-ascii?Q?A5cE6qvb8D9onP8U2eRE7PJUL+buZxPa6q8tJjkxlV/8BspmzqDq/kMuWr7d?=
+ =?us-ascii?Q?tqMcMmpFR1hIqD1syfzSdFo77L9yzEtzxH6GY4euH+TOUslwPhQSchvqtriu?=
+ =?us-ascii?Q?DnkYA4CV4bouIkqVPFwyxAouG6ZdHUK6u0PAMl6XZE0HDicR8T7L6mEvJJsE?=
+ =?us-ascii?Q?Ae5BaAGXDI9US/a4iaV5Kdh9dReQYS5kjdtFlgm8MiY73wKSF7KKiFW+AWg9?=
+ =?us-ascii?Q?vBAJoJZRlxfDubRkYq+2ZGIJ4aUpGJa92TukHXLJuYLlhlGgdYx7h05FyeLs?=
+ =?us-ascii?Q?HuvVSZi+svwoAHHrd0MLtxA0BV+/+pK0P6AWKabO1gkhrsBhd5Uic1uTNYlO?=
+ =?us-ascii?Q?tJ6MDcmVmVC6IPKwVaPMx1PwKgBdbCbbCIbjhholkKfeo+WNSYG1gQhtHVZq?=
+ =?us-ascii?Q?0gJMm+Szl7HaGmv244QgmGKlQf4JwVPKQw5ejkoznxwQJr7PVkP7SD1l5i/R?=
+ =?us-ascii?Q?tsv0JhSmdYZetvwQSMg5F7KCaOXQmapnEGWOQDGh2GUorU3ZkL6J4rMG8zCj?=
+ =?us-ascii?Q?Kz0PqZ9aHEK0SiGkHXXS78Se2wivKGSL8sE+tF1eWnnwT3Vu30lFNgnQU5ew?=
+ =?us-ascii?Q?+Ceah901S24YZB6KRbljeTZ5VgRrKWylDuorijto8Kx7ui7T3JvgSqekTEn7?=
+ =?us-ascii?Q?BL9NP5IKf2OLIK9ft+GPc9z7mE6Lb22pk6cr0BhQU0D36a3b69qtmNqWgLui?=
+ =?us-ascii?Q?5N4L3QqsIT8bdIpKb6+OjMb4SI018BDs5lPM+5q0cAzVzki2gTqdcXvl4Ps7?=
+ =?us-ascii?Q?eVZ3kwuiijqqsHZNMBoBOaNM8pub7OScJdyhcQrfeodUFo59A2+TkSYqDPoa?=
+ =?us-ascii?Q?igdb6ftUtymrYdBZ45wtzJpU+V51abvqobK6MKlOC1nY3NTSamF1jHJFRR2t?=
+ =?us-ascii?Q?BMsGJd5PhoQin2roeT6P4ipB9z4uHqu1wR3uDby/GLaSQhxsZkLVWsy3bjQF?=
+ =?us-ascii?Q?7i6vsB8CJjQu3LA2Zyg/FmuPXyCjJzEiE1p+ko99jtoZvj911yFaMKCpB735?=
+ =?us-ascii?Q?0J5J/lkgjvIgUHexFVm3mufd862xr7CuXfetVoBO+Zmb1cQWcLsRImbMf6Nd?=
+ =?us-ascii?Q?LLvUyo0N3ufK2KIepstrcjBuuwi8Y9VPDiazTDKoLVcdY17sxE/8CkEgQJha?=
+ =?us-ascii?Q?UPKolcYjDtU7Qd6Fo6zhHUXp9tLj24jh7+vWXMdZB1jrpsEbTRc+1/pCgiyl?=
+ =?us-ascii?Q?zZcHrBsjVnVlcN6sxslrMHesUzSs4FcJzyfjCo3GBbuYIGFF79hTrCLYuWLk?=
+ =?us-ascii?Q?hts4XFrdSmwojT8/0Dqx0iR5?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b496c33d-2e8e-4119-5981-08d923df11ed
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14620825-b3de-45c0-5ead-08d923df1ad2
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 02:52:03.7301
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 02:52:18.6588
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: me+5TxSEP6BycPSD0sM3EBQUu+mqN//OXD65Rw9qTHnnDS/LnSvOsiHnYKwA5Vhn0YjClnUdpZNuk8/hlE+eSA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: PO+n8XCSIrZXtOtAWa+8L8yW09t9VY41F1xHeV8DInBYnrwr1y397Zr/a+Zaqk2pNmXDxtfdvDvikpyw8bXMew==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0401MB2546
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some definition of colorspace/xfer_func/ycbcr_encoding
-are defined in ISO, but missed in V4L2,
-so add some definition according VPU driver's requirement
+Add the Video Processing Unit node for IMX8Q SoC.
 
 Signed-off-by: Ming Qian <ming.qian@nxp.com>
-Reviewed-by: Shijie Qin <shijie.qin@nxp.com>
+Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
+Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
 ---
- include/uapi/linux/videodev2.h | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ .../arm64/boot/dts/freescale/imx8-ss-vpu.dtsi | 76 +++++++++++++++++++
+ arch/arm64/boot/dts/freescale/imx8qxp-mek.dts | 22 ++++++
+ arch/arm64/boot/dts/freescale/imx8qxp.dtsi    | 27 +++++++
+ 3 files changed, 125 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 534eaa4d39bc..545f2c329bc9 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -247,6 +247,12 @@ enum v4l2_colorspace {
- 
- 	/* DCI-P3 colorspace, used by cinema projectors */
- 	V4L2_COLORSPACE_DCI_P3        = 12,
+diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi b/arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
+new file mode 100644
+index 000000000000..6e9437f11817
+--- /dev/null
++++ b/arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
+@@ -0,0 +1,76 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright 2021 NXP
++ *	Dong Aisheng <aisheng.dong@nxp.com>
++ */
 +
-+	/* Generic film (colour filters using Illuminant C) */
-+	V4L2_COLORSPACE_GENERIC_FILM  = 13,
++vpu: vpu-bus@2c000000 {
++	compatible = "simple-bus";
++	#address-cells = <1>;
++	#size-cells = <1>;
++	ranges = <0x2c000000 0x0 0x2c000000 0x2000000>;
++	reg = <0 0x2c000000 0 0x1000000>;
++	power-domains = <&pd IMX_SC_R_VPU>;
++	status = "disabled";
 +
-+	/* SMPTE ST 428-1 */
-+	V4L2_COLORSPACE_ST428         = 14,
++	mu_m0: mailbox@2d000000 {
++		compatible = "fsl,imx6sx-mu";
++		reg = <0x2d000000 0x20000>;
++		interrupts = <GIC_SPI 469 IRQ_TYPE_LEVEL_HIGH>;
++		#mbox-cells = <2>;
++		power-domains = <&pd IMX_SC_R_VPU_MU_0>;
++		status = "okay";
++	};
++
++	mu1_m0: mailbox@2d020000 {
++		compatible = "fsl,imx6sx-mu";
++		reg = <0x2d020000 0x20000>;
++		interrupts = <GIC_SPI 470 IRQ_TYPE_LEVEL_HIGH>;
++		#mbox-cells = <2>;
++		power-domains = <&pd IMX_SC_R_VPU_MU_1>;
++		status = "okay";
++	};
++
++	mu2_m0: mailbox@2d040000 {
++		compatible = "fsl,imx6sx-mu";
++		reg = <0x2d040000 0x20000>;
++		interrupts = <GIC_SPI 474 IRQ_TYPE_LEVEL_HIGH>;
++		#mbox-cells = <2>;
++		power-domains = <&pd IMX_SC_R_VPU_MU_2>;
++		status = "disabled";
++	};
++
++	vpu_core0: vpu_decoder@2d080000 {
++		reg = <0x2d080000 0x10000>;
++		compatible = "nxp,imx8q-vpu-decoder";
++		power-domains = <&pd IMX_SC_R_VPU_DEC_0>;
++		mbox-names = "tx0", "tx1", "rx";
++		mboxes = <&mu_m0 0 0
++			&mu_m0 0 1
++			&mu_m0 1 0>;
++		id = <0>;
++		status = "disabled";
++	};
++	vpu_core1: vpu_encoder@2d090000 {
++		reg = <0x2d090000 0x10000>;
++		compatible = "nxp,imx8q-vpu-encoder";
++		power-domains = <&pd IMX_SC_R_VPU_ENC_0>;
++		mbox-names = "tx0", "tx1", "rx";
++		mboxes = <&mu1_m0 0 0
++			&mu1_m0 0 1
++			&mu1_m0 1 0>;
++		id = <1>;
++		status = "disabled";
++	};
++	vpu_core2: vpu_encoder@2d0a0000 {
++		reg = <0x2d0a0000 0x10000>;
++		compatible = "nxp,imx8q-vpu-encoder";
++		power-domains = <&pd IMX_SC_R_VPU_ENC_1>;
++		mbox-names = "tx0", "tx1", "rx";
++		mboxes = <&mu2_m0 0 0
++			&mu2_m0 0 1
++			&mu2_m0 1 0>;
++		id = <2>;
++		status = "disabled";
++	};
++};
+diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
+index 46437d3c7a04..d79eaa0a28ac 100644
+--- a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
++++ b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
+@@ -196,6 +196,28 @@ &usdhc2 {
+ 	status = "okay";
  };
  
- /*
-@@ -276,6 +282,20 @@ enum v4l2_xfer_func {
- 	 * V4L2_COLORSPACE_RAW: V4L2_XFER_FUNC_NONE
- 	 *
- 	 * V4L2_COLORSPACE_DCI_P3: V4L2_XFER_FUNC_DCI_P3
-+	 *
-+	 * V4L2_XFER_FUNC_LINEAR: Linear transfer characteristics
-+	 *
-+	 * V4L2_XFER_FUNC_GAMMA22: Assumed display gamma 2.2
-+	 *
-+	 * V4L2_XFER_FUNC_GAMMA28: Assumed display gamma 2.8
-+	 *
-+	 * V4L2_XFER_FUNC_HLG: STD-B67, Rec. ITU-R BT.2100-2 hybrid-log-gamma
-+	 *
-+	 * V4L2_XFER_FUNC_XVYCC: IEC 61966-2-4
-+	 *
-+	 * V4L2_XFER_FUNC_BT1361: Rec. ITU-R BT.1361-0 extended colour gamut
-+	 *
-+	 * V4L2_XFER_FUNC_ST428: SMPTE ST 428-1
- 	 */
- 	V4L2_XFER_FUNC_DEFAULT     = 0,
- 	V4L2_XFER_FUNC_709         = 1,
-@@ -285,6 +305,13 @@ enum v4l2_xfer_func {
- 	V4L2_XFER_FUNC_NONE        = 5,
- 	V4L2_XFER_FUNC_DCI_P3      = 6,
- 	V4L2_XFER_FUNC_SMPTE2084   = 7,
-+	V4L2_XFER_FUNC_LINEAR      = 8,
-+	V4L2_XFER_FUNC_GAMMA22     = 9,
-+	V4L2_XFER_FUNC_GAMMA28     = 10,
-+	V4L2_XFER_FUNC_HLG         = 11,
-+	V4L2_XFER_FUNC_XVYCC       = 12,
-+	V4L2_XFER_FUNC_BT1361      = 13,
-+	V4L2_XFER_FUNC_ST428       = 14,
- };
- 
- /*
-@@ -345,6 +372,9 @@ enum v4l2_ycbcr_encoding {
- 
- 	/* SMPTE 240M -- Obsolete HDTV */
- 	V4L2_YCBCR_ENC_SMPTE240M      = 8,
++&vpu {
++	compatible = "nxp,imx8qxp-vpu", "simple-bus";
++	memory-region = <&vpu_reserved>;
++	status = "okay";
++};
 +
-+	/* KR=0.30, KB=0.11 or equivalent */
-+	V4L2_YCBCR_ENC_BT470_6M       = 9,
- };
++&vpu_core0 {
++	reg = <0x2d040000 0x10000>;
++	boot-region = <&decoder_boot>;
++	rpc-region = <&decoder_rpc>;
++	print-offset = <0x180000>;
++	status = "okay";
++};
++
++&vpu_core1 {
++	reg = <0x2d050000 0x10000>;
++	boot-region = <&encoder_boot>;
++	rpc-region = <&encoder_rpc>;
++	print-offset = <0x80000>;
++	status = "okay";
++};
++
+ &iomuxc {
+ 	pinctrl_fec1: fec1grp {
+ 		fsl,pins = <
+diff --git a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+index e46faac1fe71..74900686ec37 100644
+--- a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+@@ -133,10 +133,34 @@ reserved-memory {
+ 		#size-cells = <2>;
+ 		ranges;
  
- /*
++		decoder_boot: decoder-boot@84000000 {
++			reg = <0 0x84000000 0 0x2000000>;
++			no-map;
++		};
++
++		encoder_boot: encoder-boot@86000000 {
++			reg = <0 0x86000000 0 0x200000>;
++			no-map;
++		};
++
++		decoder_rpc: decoder-rpc@0x92000000 {
++			reg = <0 0x92000000 0 0x200000>;
++			no-map;
++		};
++
++		encoder_rpc: encoder-rpc@0x92200000 {
++			reg = <0 0x92200000 0 0x100000>;
++			no-map;
++		};
+ 		dsp_reserved: dsp@92400000 {
+ 			reg = <0 0x92400000 0 0x2000000>;
+ 			no-map;
+ 		};
++		vpu_reserved: vpu_reserved@94400000 {
++			compatible = "shared-dma-pool";
++			no-map;
++			reg = <0 0x94400000 0 0x800000>;
++		};
+ 	};
+ 
+ 	pmu {
+@@ -629,4 +653,7 @@ map0 {
+ 			};
+ 		};
+ 	};
++
++	/* sorted in register address */
++	#include "imx8-ss-vpu.dtsi"
+ };
 -- 
 2.31.1
 
