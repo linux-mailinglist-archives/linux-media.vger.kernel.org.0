@@ -2,66 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A9E3395992
-	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 13:20:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AFB9395993
+	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 13:20:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231360AbhEaLVu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 May 2021 07:21:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58082 "EHLO
+        id S231377AbhEaLVx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 May 2021 07:21:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231377AbhEaLVr (ORCPT
+        with ESMTP id S231376AbhEaLVr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 31 May 2021 07:21:47 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C68AC06174A
-        for <linux-media@vger.kernel.org>; Mon, 31 May 2021 04:19:33 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id b9so16076695ejc.13
-        for <linux-media@vger.kernel.org>; Mon, 31 May 2021 04:19:33 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D82A3C061761
+        for <linux-media@vger.kernel.org>; Mon, 31 May 2021 04:19:56 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id n4so10551207wrw.3
+        for <linux-media@vger.kernel.org>; Mon, 31 May 2021 04:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3BI+WxFeJVP/z4UaiBvZQjKoXdxnhoRpGlAlohrIfqk=;
-        b=Je6AmO3k7uAXvUnE/I3GzXmyor6nphE3Brq+PSZx3AeFDCGiaTdDWdrGOPn+AKjCn/
-         Vw0uGlBtR9Cgdhx5ozG5RiN/RJjX6TsGxGDpgS4WUo2rmJxF3gCLoVH5dF+57a5ljdHN
-         Ef1i7torbtI3FcsALpLqEgttAxFXUQ3WYyceoiWY5Tw7oMuYEYhfqDq4LA9/oCHRszJ+
-         pjsfXZSm3m3+wveFvyEEzvIKI3X9ZzhIvqpBaurwoxmZF4rqZa+PrSVVY+DjWt4mTqJi
-         2qgnbqAZSkfhqyFOFlQP861TEp0wRbuCGeE0hHUYSiljyqMooxhTPr0aXpLw6rQcA+Ym
-         KZaA==
+        bh=oUs1Ch1W6XuZQWHxuWCfWzh2D1v+wPWvtS2pC3Cph6A=;
+        b=BKpTdykIchu0BdLJbPIdTBG6OPJWQ2NWxJJ2DgJrdAckZRlbfrgLtz/6OMc85nIjvp
+         AF4mYrsSkzmCfALsXQP8dXGV+qP5M+l5PfiroKiH2S3p0g8POSXvnd7gn7Gx6rMpmFnQ
+         G/GRUb1xk628c7JS5WTxh5Eec8eGO2IE9anVEiCI/TtT+JnRvx7hv39c+qsnvTWOb6f3
+         3NI5Hw7oItV7eNbZ8w4QbvdCDXHwmHFTf3WkE/xKWTTOSyXhpVw63bwBPkPHeHUm2b72
+         tcnLGyJ4P5YCigsik3A6O1BIsZMSyvBwO1/dxCco3c9U6uG0W+Dv1jUioYOwlFD7p+M7
+         qtsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=3BI+WxFeJVP/z4UaiBvZQjKoXdxnhoRpGlAlohrIfqk=;
-        b=PJygMFhldPFCSX0ep+x7i7+vMa9jqhAv+wIqqD90uLGzBxFJZ+9Azkx1VoLTNgxjL/
-         JYMO3LtAZwzKhNTYL1gEC8ihnfVxqHKD9WX1jejUXN1q37LOK/A0I/q11Ojdfth7Ht+L
-         6bDQvGkhanDG29i2dXXsDhJp8tiw1DjxG8ghal65BtK0UGSy6/kvDVIXhkbt3oF19koC
-         ZnZCKhDIc3LppucBkqrnjfF3ugL8mk+uV6buP4OU+MNsy8ADEgKwB8vE08qGXrInz1Fp
-         T8yY9kUhO4tYy8uJZRk3LddxOB4Vme+IL6MmJbent2dI/8ZKWLb+mCviYK24Qo4lt2uv
-         RB+Q==
-X-Gm-Message-State: AOAM531dE5Q1ETZb5vBFfuV336GnExClT6u/ehqQHe7bxaVZE1HurHxY
-        mtC9gRzhTpFSredg40l3wG4ohw==
-X-Google-Smtp-Source: ABdhPJxxUEd7xyydidSoSmThKBcU+xRMvqiwt1PryCgVYHpffzNDjd/oUUhfEb7YVXX8kPyDcjhusQ==
-X-Received: by 2002:a17:906:22c6:: with SMTP id q6mr22567073eja.275.1622459972171;
-        Mon, 31 May 2021 04:19:32 -0700 (PDT)
+        bh=oUs1Ch1W6XuZQWHxuWCfWzh2D1v+wPWvtS2pC3Cph6A=;
+        b=L8wbwpo3YHrsZ/1XtFbIJWNOJeXpbPWy0K901k17EHiFrjmKpQaGq6z32t9SoI3KFv
+         yOgSqEO30hYnQ9pIpg8wGMnCbRaOqmmucMrfQ5Oh6fXyrKy3wr2wZVZSasZIXaT5uPgY
+         WtxxcYBtpaypUBa77B+jJsqANKaniHZSbJKT7crkzJU5F3M1JRlfrdv5OZa6sQSN1Lrp
+         55PJqWgrx6QuhoWRkNIvMQ8ks7IZmJU+Yb5AmvA1NKx+Ivi2Gjuu0heJlCFHiPmRWpQS
+         rlxsCLo0vg1Wbd3tjRZvWA99R+Ln21R+s3o49QNgkn+4qF0cgg60xxEsCY9/vXe8RYnp
+         9pwg==
+X-Gm-Message-State: AOAM532LHiQHMPkf5ciCd8WlBOhUZaHF7FUroANdtX85CXTc8d6fKDWJ
+        +beRNnifnfCA1olbhpBPR783xn3sd9awvxcb
+X-Google-Smtp-Source: ABdhPJxAcE+HR6VWeHGocdXFdWS/JOouoXaV3UQ+Jkgsf/qphTpZhEYdJ9smPocSSlZVzrwnF7CpcA==
+X-Received: by 2002:a5d:64eb:: with SMTP id g11mr22103935wri.260.1622459995349;
+        Mon, 31 May 2021 04:19:55 -0700 (PDT)
 Received: from [192.168.1.28] (hst-221-6.medicom.bg. [84.238.221.6])
-        by smtp.googlemail.com with ESMTPSA id q4sm6699275edv.24.2021.05.31.04.19.31
+        by smtp.googlemail.com with ESMTPSA id d9sm16708458wrx.11.2021.05.31.04.19.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 May 2021 04:19:31 -0700 (PDT)
-Subject: Re: [PATCH 3/7] media: venus: Add num_vpp_pipes to resource structure
+        Mon, 31 May 2021 04:19:55 -0700 (PDT)
+Subject: Re: [PATCH 4/7] media: venus: hfi: Skip AON register programming for
+ V6 1pipe
 To:     Dikshita Agarwal <dikshita@codeaurora.org>,
         linux-media@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, vgarodia@codeaurora.org
 References: <1621417008-6117-1-git-send-email-dikshita@codeaurora.org>
- <1621417008-6117-4-git-send-email-dikshita@codeaurora.org>
+ <1621417008-6117-5-git-send-email-dikshita@codeaurora.org>
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <705244eb-33af-57aa-9c96-9076a11e8436@linaro.org>
-Date:   Mon, 31 May 2021 14:19:31 +0300
+Message-ID: <48d9044c-aa5f-db63-ebf8-df05714cb2bc@linaro.org>
+Date:   Mon, 31 May 2021 14:19:54 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <1621417008-6117-4-git-send-email-dikshita@codeaurora.org>
+In-Reply-To: <1621417008-6117-5-git-send-email-dikshita@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,18 +73,17 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 5/19/21 12:36 PM, Dikshita Agarwal wrote:
-> V6 HW can have vpp pipes as 1 or 4, add num_vpp_pipes
-> to resource struture to differentiate.
+> AON register programming is used to set NOC to low
+> power mode during V6 power off sequence. However
+> AON register memory map is not applicable to 1pipe,
+> hence skipping AON register programming.
 > 
+> Co-developed-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+> Co-developed-by: Vikash Garodia <vgarodia@codeaurora.org>
 > Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
 > ---
->  drivers/media/platform/qcom/venus/core.c            |  2 ++
->  drivers/media/platform/qcom/venus/core.h            |  1 +
->  drivers/media/platform/qcom/venus/helpers.c         |  2 +-
->  drivers/media/platform/qcom/venus/hfi_platform.c    | 13 -------------
->  drivers/media/platform/qcom/venus/hfi_platform.h    |  2 --
->  drivers/media/platform/qcom/venus/hfi_platform_v6.c |  6 ------
->  6 files changed, 4 insertions(+), 22 deletions(-)
+>  drivers/media/platform/qcom/venus/hfi_venus.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
 
 Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
