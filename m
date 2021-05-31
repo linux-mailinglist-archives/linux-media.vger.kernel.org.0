@@ -2,107 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBB033959A3
-	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 13:23:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A22CD3959AB
+	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 13:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231357AbhEaLYr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 May 2021 07:24:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58814 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231331AbhEaLYo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 May 2021 07:24:44 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33CC6C06174A;
-        Mon, 31 May 2021 04:23:05 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id c10so7654871qtx.10;
-        Mon, 31 May 2021 04:23:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Mt7POv9PaCwKFvdwIODXsLJlyClKZZS8dpjMNwC08Rk=;
-        b=FpkAUxBHyO6WxH6MjvrfYwHqOShz/gWIonA+Zb6HgAqE7r/GxLuo7uPfudu/hlT4Cz
-         EvoMTXEi8geOdv0lx/bn7vQDJIXeSoBupCGmZZfQ1sCCzNIMy/+0X7zU2kt+KNqGIhp3
-         MhVs2rNyUU5oP+zHJG6kfWdlOMrj/HN83OAK3AKPzG25FDxOF4TkZitdjQ+UVjXVxpTi
-         5KKji0u8fvXeyel7lUPyDgyCvXztM0CfChX2TKFs8zLMM4lhB2C6wnkICSmNRZYtpZjA
-         F0/RajNllgXEK6ftJ4FaprWp+O8at6YCo46gLDFWaUZPbGIzSUnMTNCqJrifVIWyfyN1
-         qB2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Mt7POv9PaCwKFvdwIODXsLJlyClKZZS8dpjMNwC08Rk=;
-        b=RQCwh0SDrwNJQ5HzMLuB/He2QnXNk5MtKtoFjY5cWZOCGOBnCw/6fjgl3j0mCOrogc
-         R1rcjqxrFRGxlfn7d+MeCZbrpUFr+mFiJA7bnhBYokZ0WTa4RgskgXxJu9+hWZWF+vpz
-         fsbYctFWnQ7Kjdfc/FCNgfjhVcL151OEM/pIThDvBMpsmTmOAOPLyghLVjlELdVObaX1
-         nQ1kRyv0vb3dQNhrBphZ6BNdyX4Jxl/374uXnDn5yFrzfsai0vHWCR08pjo11mNrpnmF
-         TWZUMbqBJpJKzpVa14yFy1JsHf1Uzm2yU8G9mVS1OePRcWAaLVTF3xh5uBihplm3aigT
-         UrSQ==
-X-Gm-Message-State: AOAM533vEJ+YVAs9RO6wqNkKvdulKFiu5m79Ho4no3cOX3JZ1lXUeo+Z
-        xJL+/0Lc2AhKnCjnbJaAXBY=
-X-Google-Smtp-Source: ABdhPJxzSZAUeVtEqtOK6G/lO950T7d9LNRDEcB1h+2IPLpRndsKnrbArB4s83shNBHe9LfY3fRZOw==
-X-Received: by 2002:ac8:51c4:: with SMTP id d4mr14458594qtn.186.1622460184409;
-        Mon, 31 May 2021 04:23:04 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:485:504a:df45:f91c:ea2e:9334])
-        by smtp.gmail.com with ESMTPSA id h5sm9105480qkg.122.2021.05.31.04.23.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 May 2021 04:23:04 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     hverkuil-cisco@xs4all.nl
-Cc:     lars@metafoo.de, robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, tharvey@gateworks.com,
-        frieder.schrempf@kontron.de, niklas.soderlund@ragnatech.se,
-        Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2 3/3] media: i2c: adv7180: Print the chip ID on probe
-Date:   Mon, 31 May 2021 08:22:37 -0300
-Message-Id: <20210531112237.706063-3-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210531112237.706063-1-festevam@gmail.com>
-References: <20210531112237.706063-1-festevam@gmail.com>
-MIME-Version: 1.0
+        id S231404AbhEaL00 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 May 2021 07:26:26 -0400
+Received: from comms.puri.sm ([159.203.221.185]:59570 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231426AbhEaL0J (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 31 May 2021 07:26:09 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 02A32E2129;
+        Mon, 31 May 2021 04:24:00 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id FRmpZGmW29Pq; Mon, 31 May 2021 04:23:58 -0700 (PDT)
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     martin.kepplinger@puri.sm, festevam@gmail.com, krzk@kernel.org,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        robh@kernel.org
+Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de, kernel@puri.sm,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, shawnguo@kernel.org,
+        slongerbeam@gmail.com, phone-devel@vger.kernel.org
+Subject: [PATCH v2 0/3] media: imx: add support for imx8mq MIPI RX
+Date:   Mon, 31 May 2021 13:23:23 +0200
+Message-Id: <20210531112326.90094-1-martin.kepplinger@puri.sm>
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Improve the probe message by printing the chip ID version.
+This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
----
-Changes since v1:
-- Added Frieder's Reviewed-by tag.
+It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
 
- drivers/media/i2c/adv7180.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+Thanks Laurent who helped a lot. I'm happy for any feedback,
 
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 2890041cc231..4f99b46e7eaa 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -1415,11 +1415,19 @@ static int adv7180_probe(struct i2c_client *client,
- 	if (ret)
- 		goto err_free_irq;
- 
--	v4l_info(client, "chip found @ 0x%02x (%s)\n",
--		 client->addr, client->adapter->name);
-+	mutex_lock(&state->mutex);
-+	ret = adv7180_read(state, ADV7180_REG_IDENT);
-+	mutex_unlock(&state->mutex);
-+	if (ret < 0)
-+		goto err_v4l2_async_unregister;
-+
-+	v4l_info(client, "chip id 0x%x found @ 0x%02x (%s)\n",
-+		 ret, client->addr, client->adapter->name);
- 
- 	return 0;
- 
-+err_v4l2_async_unregister:
-+	v4l2_async_unregister_subdev(sd);
- err_free_irq:
- 	if (state->irq > 0)
- 		free_irq(client->irq, state);
+                           martin
+
+revision history
+----------------
+v2: (thank you, Dan and Guido)
+among fixes according to v1 reviews, changes include:
+* remove status property from dt-bindings example
+* define a few bits in order to have less magic values
+* use "imx8mq_mipi_csi_" as local function prefix
+* read DT properties only during probe()
+* remove dead code (log_status)
+* add imx8mq_mipi_csi_release_icc()
+* fix imx8mq_mipi_csi_init_icc()
+
+v1:
+https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+
+
+Martin Kepplinger (3):
+  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+    controller
+  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  |  162 +++
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  102 ++
+ drivers/staging/media/imx/Makefile            |    1 +
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 1000 +++++++++++++++++
+ 4 files changed, 1265 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
 -- 
-2.25.1
+2.30.2
 
