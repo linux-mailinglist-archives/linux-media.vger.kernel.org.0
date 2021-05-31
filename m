@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 352713953FD
-	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 04:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35689395401
+	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 04:52:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230013AbhEaCx0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 May 2021 22:53:26 -0400
-Received: from mail-vi1eur05on2056.outbound.protection.outlook.com ([40.107.21.56]:27681
+        id S230055AbhEaCxh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 May 2021 22:53:37 -0400
+Received: from mail-vi1eur05on2070.outbound.protection.outlook.com ([40.107.21.70]:14000
         "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229998AbhEaCx0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 May 2021 22:53:26 -0400
+        id S230052AbhEaCxg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 30 May 2021 22:53:36 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mJI7jKlwdTKgi8hvRQ1RNHKJ49eDBAafOlr7CU11nf1MHEocmH9QPt+BlZ+Ijhw8HUi0K+A0M5jze7pyDBFLQIGGuMiIVeQX6OJMWxSfV0cE5pRxd0zQ6i3KUXp84iQmbhdH54eCap+uPgVWMAyO0WWtQoWLlBZ3WxKtDAlRKegM+T7iJbx6UzRuWNRNryE+iH8MoUa+n5xIre2SHRqY32IdgmKqhSxOLDv0yY773UTXETwyLJ6FOSDVK/h+7HBgwbvhlLKADDWhwKb++Sb2I3CipNsEI4uU2YbOvxI2lwETwdyTHR3JDLyfoeoPW/nIUZgVwVTwaGUXqjrmaGTf5Q==
+ b=frWr3JPi5Ro3yTQ/i/pmEjRGiCUy5ddYYY9+azSAzEJ14I5mLN0bLfWGdEpmV8sicbCGnpBTLst8ZXTd3xXA/ZvSbKiMUNchDUTOHJW4XH8UtqD2UkTL65QBmTCUOTia/0HeeiHpLBjUCMGSWEGWSSAE76Ivncx59OXuM1XQIXHGRjmkm3OkNdkedeZ0MpKPmDqDj2NEZAGlzrIdltU9KpR62Ni/TgMP9GiC+KHdSAeXEEf+rnNVTxA2EouojMleooWQpF8z8hbgNxe4yXpVJmNbykF+oD6I7whX3gDoGSWaST/x0EmX97C7ODxKYjX0qI9fIOFpG3AhSwaswaddKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BNoWQmFAjV/aZuiV3AZ+tkNQadN7HlNHvK5WbROMJHc=;
- b=FNyZSqoZW06T2h4jV+ywDKkFLJPavPHRIBBr4SpidguKyKiZFuamrlzBfNkp32V2wUSEzF0YTiGh8eNlWUQa/CJ+0PDrHAk9zAStuWL34lK0xfhzpkkwhVG7bUNVQPsSzMHRGOMGtDGfXBKo0pil8jiulJMwdxfyMXGEGCI3DJjHHLlfBBuGzDqMq4QgzqkKPeqYDc5OQ26vAF7xRqXBY00Cbis1qyP9HWAAbZN+EMdaCZwQAishsuifmY5sVxOg1jP2Ho53+GDF4SbpabjXDmjDF/VZIhnC/ForbsIIjPYibLTcn4vJW8eebz/IaeTnQomWK5r5tG0NM5bspzSsNw==
+ bh=lzwnFucpAPTlVewRCMgLU81k74K6NkA4iWDR4xehk+4=;
+ b=KvIkzCihZOpfUNZlwxMcGG0ysmD0+ZfmCHX22H/fHlbt+zhXIuandh1J9hFDnBo3cNtXW+7BgNXe4T5bUn+Nj9JRCHfv/dIDThTxHsncrRs96mousZ5TD1ftevY0oJTi0R9TNbvZVgysfILeeWshL/D3BLJxfQJoM5R+elrT1xhObFd/Rtm/yoMtkYJGltprBfcvcWO3ZLqPC+75cxOP2Jpz/7kFPKN64ERg4wz5Ru7eC2qpk1GvmmHOmqU2E3bGE4sZKEEA25hDDqd7In963D3k9aXTKvSsLpgJkwSK91MncJtwuGpmOj0NmtCyT5WhVqlMTW8gH33qsbj7CXe56Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BNoWQmFAjV/aZuiV3AZ+tkNQadN7HlNHvK5WbROMJHc=;
- b=HL1+qVox8++y+LWsj+49d2hEULAW+SkZRLof0KHSXVmebqnCXHxWELIeMSeT9RbaQJKII6IYs0v9ITDPHzxk9s9WMB7ZaQxhgO049gwNxN467I0SXXxJKxT+v7pQ5dw9CQc8/KcdNUKMBsaAw1IJox8Su53PLVeoLVvviG2MMpA=
+ bh=lzwnFucpAPTlVewRCMgLU81k74K6NkA4iWDR4xehk+4=;
+ b=egt60YhEGmryoKS3Ev/dYxENV09jtT0Lvc8mub1Cx+PdFM9sXcR4v4/CH+if+SZzTaCbdWxsA9alu3MqG0cXfR2IvJ1+dkOHz5t+fHVBmjBS0A+niQq/5rpqn4jdsOClFe2nqpNey2phiaV6/hXPxQerGOVFcb049Qa3FCOoe0g=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
  by AM5PR0401MB2546.eurprd04.prod.outlook.com (2603:10a6:203:38::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Mon, 31 May
- 2021 02:51:43 +0000
+ 2021 02:51:55 +0000
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::c5c1:3625:26e4:4276]) by AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::c5c1:3625:26e4:4276%5]) with mapi id 15.20.4173.030; Mon, 31 May 2021
- 02:51:43 +0000
+ 02:51:54 +0000
 From:   Ming Qian <ming.qian@nxp.com>
 To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
         s.hauer@pengutronix.de
@@ -44,10 +44,12 @@ Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
         festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 0/5] imx8q video decoder/encoder driver
-Date:   Mon, 31 May 2021 10:51:08 +0800
-Message-Id: <cover.1622429025.git.ming.qian@nxp.com>
+Subject: [PATCH 1/5] dt-bindings: media: imx8q: add imx video codec bindings
+Date:   Mon, 31 May 2021 10:51:09 +0800
+Message-Id: <dd2c66ba07a8025da2c377c1b6e46f9d7304c9bc.1622429026.git.ming.qian@nxp.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1622429025.git.ming.qian@nxp.com>
+References: <cover.1622429025.git.ming.qian@nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [119.31.174.70]
@@ -56,353 +58,272 @@ X-ClientProxiedBy: MA1PR01CA0160.INDPRD01.PROD.OUTLOOK.COM
  (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by MA1PR01CA0160.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:71::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Mon, 31 May 2021 02:51:38 +0000
+Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by MA1PR01CA0160.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:71::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Mon, 31 May 2021 02:51:49 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 07eca550-34e5-41ff-4864-08d923df05a4
+X-MS-Office365-Filtering-Correlation-Id: 38b97f81-2809-4008-1b9d-08d923df0c5f
 X-MS-TrafficTypeDiagnostic: AM5PR0401MB2546:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0401MB2546A0A40E37A30A48566C35E73F9@AM5PR0401MB2546.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <AM5PR0401MB2546C932B8C0794B73DB8DF5E73F9@AM5PR0401MB2546.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CxCEt+qggvEqoqqm2NIMQjpBQ+5u56pofWtfJStNnqjxzGlMxJOUNd50UXvimvKm7xLdud0/QO5ISQoZy9NHfz4B5/QnBMte4b/G9mMJg3m1jDU09GvtJfD60eP4Y2puuNSU3EnItZVPNsPY/E/cK/K5Gdf2oJWRqjZKPx8dyHsbUWv2X/0msNYLOTho2PVlnFOOB7ofe2+yMl0Ue6NekxjANHawqqnq1mq7n/q8n/HX7aZA5AoyMO/Qj/82hCN9+vu6bGAwCPW4SUHYfV/sQ4VB93+QU6Q34AgfRCZCtiFoOxNRglT9hbbEz8i5XZRqUA4ROPProMwm4FjzL5Vc5xI0IPN6uXHkqVKA44FQQ7bVhkzKwehwO0kCx4pLIeN7rGiJRm02zsR/yxACHYWUuIqbI55wn/DSBvZ0o/xBdwOyCvZDKDilMeY8CYuMcuyuZgwtsXjbohbSCKvf8anTeReGcxPgd9WosGxOlZzcqyKLJVX8wT6+dOOOnh5NIKZ9lB3zDY9lLjDYhVv9f9JND1zWylePYw5+n5Ria8vmHGmcF4bSEQndr2ZY/uxEC2Df7Y/N8iJDtescgLTK0wCEJPIM3tjJOkZQeMRue4n0Fp5GjG9GDeNDQ7r6cKOZgkhwJF5DIEIe9tvlmYhO9dbDJ1hKj/+F1b+/hI4z67I5rMI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(366004)(39860400002)(136003)(5660300002)(4326008)(83380400001)(6666004)(36756003)(16526019)(66946007)(66476007)(66556008)(38350700002)(86362001)(38100700002)(44832011)(186003)(7696005)(2616005)(478600001)(30864003)(8676002)(6486002)(316002)(956004)(2906002)(26005)(7416002)(8936002)(52116002)(32563001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?21XphWrgbrHmkLoTC13z+L37B6qCpeAmndGzGnWPHRx3XsjlaEEg6ztG05/m?=
- =?us-ascii?Q?CYbU10qDD63AseROK00DMNP0CbmdtnMh9AAezI9XD0xpQz6W0pfY2x8KE65E?=
- =?us-ascii?Q?ipmAr44UTigb8JbaBQ1xZG3ngzklN0BtkhaVZdgrEtE0v+fr2fYGrnNg9FU+?=
- =?us-ascii?Q?+euhUWM6g2QWpjcBH723tVSqtUtzYUVT8lcHLBPmUynxuPssm2FANJMI4J/5?=
- =?us-ascii?Q?VnfV8XIfetOO4Y/lUUug9kMd/e+WJH4Tqn1MM8sKTo/csidjAgeoLTAiBW63?=
- =?us-ascii?Q?V3WsLTIpchbcFB5vXF/LYnUKvcVYtfn98PGQ9XgStTMGkhxmnUgRByPQDQMt?=
- =?us-ascii?Q?xSr94iJkV/h+V9tJq2t4DZO74ch8PMV1jMsqyT72ILAU2pjIulex24uU5U2n?=
- =?us-ascii?Q?yL8et1EJJNifbmeDfLHKk+sH1yAkwPVnSJbTFu4c0jxiSoxCifswwKxxM2Es?=
- =?us-ascii?Q?+SPEE+XYbo4I20lQjSA1nSyHJW4chWW9dSmjH20vWghAw+WKms8FE8SdJphX?=
- =?us-ascii?Q?aNNuoRjGIYJNJgeKtic5zdpU4i5PIhfcGMVItDWXzgWunhlk4ZA5Yydn76sB?=
- =?us-ascii?Q?nGmryqhq1Qk6Uclf9bgx/YTjGYOVbad0j3fVU3SlcLKluhxM4HuIyHI4NZZk?=
- =?us-ascii?Q?pwnTjZ6g57LXqx9Ssq8jKMQDa8i4g9WVY6XNYO84tvfBvplJUB3KFqMqU6cY?=
- =?us-ascii?Q?3Llem1WnAMytpxGpMEdqErngEkokgcjmpkcGpjZs9FQkwoZZTmMliZVdmlfj?=
- =?us-ascii?Q?YYu7n6rSJZ77okwG4xTSeNRWbkCp+rXnEY0OVr89g/GGblq+DQoS5/pSpQUN?=
- =?us-ascii?Q?cZz5DjeEe2BBcJ2msxXu4RSz8Z8KoBCErOS8yTuwtIByR4WAWJ7W+ecPB8Y+?=
- =?us-ascii?Q?ej/sq4z5RqiF5e9n3z9I3UY5o+6z5oWVqCRj2kVO6fi81s+ha3mkzPRHeG+T?=
- =?us-ascii?Q?kp1VZ5F+RKiCeHUlA4Ee8nj9O+P8fJUw5r+AGj+qC3GViIlTFbv6BdR++K6u?=
- =?us-ascii?Q?mI2Ykgt3/1N+rHQ1emfkob2cJcFkG2WDbduRyJ2eQQH0fo/+xP3wKtb1cctj?=
- =?us-ascii?Q?VlZWQqoDwI0inAynwtR170nLE7YbJBzArmRp1f/XQL4RBtJo2wjyL6Aqlx/T?=
- =?us-ascii?Q?FqOtvqsI1gnE5HzqPGi4FDpS2HNp2VgUHUd1Kn+uV6+DUvewjP9HfAbNgyRo?=
- =?us-ascii?Q?ntYvXAXtoyGjEWELcFHPwVi99ek6AKIf8GZkr3vfHo42KyAuhPRViTo4FWN/?=
- =?us-ascii?Q?Vgt6PRFUTtzqMMSOHaweyjt0+2TXsFSNNiBNhN6RBL8GT/MWqjeho9tlyZwj?=
- =?us-ascii?Q?CiA8nN+wn2uI6Shq9v/zyUXa?=
+X-Microsoft-Antispam-Message-Info: egun2SaEHsrCfDYrte85/apMHt0io210WXUSfV+w1XY6jB53vqk08pI4fiq+wNhEMBKItDYFhopOvnfgoCTdSD2SdRgtD5l3x8lfrUnHwKfixjQOBtAIpeyF6MXjwlaqj7t/3/Z4yaPQdfFwVu1mXdbIDhRsbGeAa9NKUdd9KXsr0+eVZcO/8W5ijczMhAGsMuJD5Iw3GWqTxzX5nob/XV3nHDE1XGhFn9gfOabsbMa1VUnCg1yoyAipAoHDviO2jgndOKuFfxA4M+VZOa7S8mw5YivVSzPwAEcVHjLmKJdR1DBQNg4nJkV/vHPx0mjq0r61v7sXaOvPvoNsdDg92g5hJzbcY35DFjbZREQdZGVOYbiwTmUdrBQL4FlK4CNZaVG1+7rqBdJTqj8V5FbUSrKv3fZvzY5jJHIGgxWcWjfNR+gRfFHd9E0YhApSckEctXwFJb6zfqp62P5SjfdFrgCdlyhR3k8005vx4LxyWYWzgozq364eh2kIIkUBHJISrPnIh6njWyeL0XW2PaJ3LUDwLIcjevmRfUJ2Z+ERPFf0872v6sfy5LdbYxXIwUJNBaQ/+R8r5AiO76IV0oT8E2rmP0uwsMdpFLn444BU7iHchRIGLoEwrkq24ofdq+akf0BfPjR2wSyzTnkoLlzqgaIHMKcHxO57xdPJz6JukwStqibcNbnJ14iPOrDFLHIGFTrYP1IxXnPaQi3zJQ7n0lGYIcYMuX0ZoVfWktbUtAuzPLBdWxOD3ZB6vv3fDV0BbBW965Jggi9p3z77lYlzLrutCMsL1W5rHugibtN4Mo6NkeY7d6bLykWtV68cdUbf8ftcBItpdieIaZlvtoX9Cw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(366004)(39860400002)(136003)(5660300002)(4326008)(83380400001)(6666004)(966005)(36756003)(16526019)(66946007)(66476007)(66556008)(38350700002)(86362001)(38100700002)(44832011)(186003)(7696005)(2616005)(478600001)(8676002)(6486002)(316002)(956004)(2906002)(26005)(7416002)(8936002)(52116002)(32563001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?+se/4jMQypB4kzZRhQap/DSl4xLrqHCX6SC01EnrBvX2pCXDRJEZQVJYW1XI?=
+ =?us-ascii?Q?DfP6Dj2+AvcK4aq4joNMf7bQALzjkCDNNtKfVSK1JG+0/g8WPArrcIsGTS+T?=
+ =?us-ascii?Q?VZdPQt/Ntotqvs8r19KQkGxY6PV8KKo0NsfnvxZtuZbYsxZxI66vMAljVeo3?=
+ =?us-ascii?Q?11XYrTvf0NLA9GsIVBnCFEU7hD2HdnOeOpVWXj/Zuqdd8IMkhb/edxIonGJi?=
+ =?us-ascii?Q?Ua58y+TJvpgDawwJg9ULasf+RnFz15rmonIxE650oeEGugjGZfZ2ATgKgGxs?=
+ =?us-ascii?Q?3ZkrMySr9ylZIpAjXcCQo5lSdnkwrDZ/zp2nat7lAOC7cNFocPc4PUQSkZR9?=
+ =?us-ascii?Q?Ojhd5GBQd7utAv4axoD6PVFuw6dZe2ETL4IOAhalji1BUDWcWlM/LI6pMX0z?=
+ =?us-ascii?Q?T2bD3GH5uBvwNkQ4BWYHk+Ilt8dVuGdHdrqp7gcsGo9NKrcERXwYlTguEue1?=
+ =?us-ascii?Q?mouVA79YVqFBbAiaeAwY1+QojP73gdAR+ZO2Sid6oIm+sQG7ciBKz/WMoOtk?=
+ =?us-ascii?Q?4SfPF32gizp29HtppNl5wy/GY9hRY202oMVLS1xF+Wha+GxkqlX03lrnsfhf?=
+ =?us-ascii?Q?705FY6X61wLnI9Ls5fL2FU/tRSCRvEbPXwGCqEHcdmOvKBlXZBp9Jy01nHdO?=
+ =?us-ascii?Q?w4WG7khHovR4Q/Cbt/sP30qNLR2T0XhxQc/2dE9peA8Ah/XB6cszpi//7L29?=
+ =?us-ascii?Q?BzEEyu95oLRkSVdmDFlMIOS9yI/yhEc0CQC3CpU1TKoExiIOtiLk9tTvQSGk?=
+ =?us-ascii?Q?W51Ep5JVMh21qVCi114gl5TKHiksUmHonB/XwKR58GUL0AGdXIeAZOiP+wJv?=
+ =?us-ascii?Q?1Mx0kP3KS+/ocFyzOJhsmlbU+Yf5IFnwN+rg8u/QbWAMXTXsfBn4/pFnaxGd?=
+ =?us-ascii?Q?FmHtqZ7MD+AfCR4acrX21kvZuco2txdht2b/KzCdAEx6rYETYr19Qv3VS1Tt?=
+ =?us-ascii?Q?ZJTJ1WS0VxHuWMYnDq4dCYT9UF3JMSkSVd5/fBOTMAGmgAFZTBabofIlxDiV?=
+ =?us-ascii?Q?uC3OUCaOzbWyfbsFt+aEyVnie3wUsjwIb2DSRydfMOIdZjJVuZG1tsb2H7bT?=
+ =?us-ascii?Q?3YcptE3yxdbOfP0h7v38Z6e8olWaitOU8Do5Zo+xyUysDwLSboDn0/J/WejG?=
+ =?us-ascii?Q?E/hu0UcXwdjtob/N8Dq17JIfMTHAXDn79UqcfBgIVLsIJP8CduXWD8mJ2aVo?=
+ =?us-ascii?Q?vfdrzfKyHtqck21Aqhiw+CkIeWw+6tWQ6rJoR+UqOWaX4Vg5TZ0Ac+zp2HEI?=
+ =?us-ascii?Q?pgDzAcZhIFMHZGNU9srCbHPdT2VgTFYqh98sHiVMXdZ0ByZXn+I+1LBSwQhb?=
+ =?us-ascii?Q?wtwI4kUL2DuVFw8sQ5S4fj7X?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07eca550-34e5-41ff-4864-08d923df05a4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38b97f81-2809-4008-1b9d-08d923df0c5f
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 02:51:43.2445
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 02:51:54.4263
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HAlFQNAdneZ9GsyYSKDEIDnPo+VtOXkNN/Xalj2DM6+YeGPSmcyOoqOPnZExIDcDgSzMyA4afxnbsuhp55F4NQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: T83xKe9HOlf+VwkIEYLGuYmgV5kVVe0i1HCEHQiE2wQ7zhNVNpAwsGJcvFPimFH3tw2P1OFkWKlOegTGu50j2g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0401MB2546
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+Add devicetree binding documentation for IMX8Q Video Processing Unit IP
 
-This patch series adds support for
-the imx8q video encoder and decoder
-via the VPU block present in imx8q platforms.
-Currently, support for IMX8QXP and IMX8QM is included.
-
-It features decoding for the following formats:
-- H.264
-- HEVC
-- MPEG4
-- MPEG2
-- MJPEG
-- VC1
-- VP8
-- AVS
-
-It features encoding for the following formats:
-- H.264
-
-The driver creates a separate device node for
-the encoder and decoder.
-
-Compliance
-==========
-# v4l2-compliance -d /dev/video0
-v4l2-compliance SHA: not available
-, 64 bits, 64-bit time_t
-
-Compliance test for vpu B0 device /dev/video0:
-
-Driver Info:
-	Driver name      : vpu B0
-	Card type        : imx vpu decoder
-	Bus info         : platform: imx8q-vpu
-	Driver version   : 5.10.35
-	Capabilities     : 0x84204000
-		Video Memory-to-Memory Multiplanar
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x04204000
-		Video Memory-to-Memory Multiplanar
-		Streaming
-		Extended Pix Format
-
-Required ioctls:
-	test VIDIOC_QUERYCAP: OK
-
-Allow for multiple opens:
-	test second /dev/video0 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
-
-	test invalid ioctls: OK
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-	test VIDIOC_QUERYCTRL: OK
-	test VIDIOC_G/S_CTRL: OK
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 3 Private Controls: 2
-
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK (Not Supported)
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK
-	test Composing: OK
-	test Scaling: OK
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Total for vpu b0 device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 0
-
-# v4l2-compliance -d /dev/video1
-v4l2-compliance SHA: not available
-, 64 bits, 64-bit time_t
-
-Compliance test for imx vpu encoder device /dev/video1:
-
-Driver Info:
-	Driver name      : imx vpu encoder
-	Card type        : imx vpu encoder
-	Bus info         : platform: imx8q-vpu
-	Driver version   : 5.10.35
-	Capabilities     : 0x84204000
-		Video Memory-to-Memory Multiplanar
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x04204000
-		Video Memory-to-Memory Multiplanar
-		Streaming
-		Extended Pix Format
-	Detected Stateful Encoder
-
-Required ioctls:
-	test VIDIOC_QUERYCAP: OK
-
-Allow for multiple opens:
-	test second /dev/video1 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
-
-	test invalid ioctls: OK
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-	test VIDIOC_QUERYCTRL: OK
-	test VIDIOC_G/S_CTRL: OK
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 20 Private Controls: 0
-
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK
-	test Composing: OK (Not Supported)
-	test Scaling: OK (Not Supported)
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Total for imx vpu encoder device /dev/video1: 45, Succeeded: 45, Failed: 0, Warnings: 0
-
-Ming Qian (5):
-  dt-bindings: media: imx8q: add imx video codec bindings
-  media: v4l: add some definition of v4l2
-    colorspace/xfer_func/ycbcr_encoding
-  media: imx: imx8q: add v4l2 m2m video codec driver
-  ARM64: dts: freescale: imx8q: add imx vpu codec entries
-  firmware: imx: scu-pd: imx8q: add vpu mu resources
-
- .../bindings/media/nxp,imx8q-vpu.yaml         |  201 ++
- .../arm64/boot/dts/freescale/imx8-ss-vpu.dtsi |   76 +
- arch/arm64/boot/dts/freescale/imx8qxp-mek.dts |   22 +
- arch/arm64/boot/dts/freescale/imx8qxp.dtsi    |   27 +
- drivers/firmware/imx/scu-pd.c                 |    4 +
- drivers/media/platform/Kconfig                |    2 +
- drivers/media/platform/Makefile               |    2 +
- drivers/media/platform/imx/Kconfig            |   19 +
- drivers/media/platform/imx/Makefile           |    1 +
- drivers/media/platform/imx/vpu-8q/Makefile    |   23 +
- drivers/media/platform/imx/vpu-8q/vdec.c      | 1783 +++++++++++++++++
- drivers/media/platform/imx/vpu-8q/venc.c      | 1411 +++++++++++++
- drivers/media/platform/imx/vpu-8q/vpu.h       |  339 ++++
- drivers/media/platform/imx/vpu-8q/vpu_cmds.c  |  443 ++++
- drivers/media/platform/imx/vpu-8q/vpu_cmds.h  |   34 +
- drivers/media/platform/imx/vpu-8q/vpu_codec.h |   77 +
- drivers/media/platform/imx/vpu-8q/vpu_color.c |  201 ++
- drivers/media/platform/imx/vpu-8q/vpu_core.c  |  923 +++++++++
- drivers/media/platform/imx/vpu-8q/vpu_core.h  |   26 +
- drivers/media/platform/imx/vpu-8q/vpu_dbg.c   |  505 +++++
- drivers/media/platform/imx/vpu-8q/vpu_defs.h  |  194 ++
- .../media/platform/imx/vpu-8q/vpu_dev_imx8q.c |   82 +
- drivers/media/platform/imx/vpu-8q/vpu_drv.c   |  248 +++
- .../media/platform/imx/vpu-8q/vpu_helpers.c   |  405 ++++
- .../media/platform/imx/vpu-8q/vpu_helpers.h   |   80 +
- drivers/media/platform/imx/vpu-8q/vpu_imx8q.c |  227 +++
- drivers/media/platform/imx/vpu-8q/vpu_imx8q.h |  125 ++
- drivers/media/platform/imx/vpu-8q/vpu_log.h   |   53 +
- .../media/platform/imx/vpu-8q/vpu_malone.c    | 1744 ++++++++++++++++
- .../media/platform/imx/vpu-8q/vpu_malone.h    |   51 +
- drivers/media/platform/imx/vpu-8q/vpu_mbox.c  |  135 ++
- drivers/media/platform/imx/vpu-8q/vpu_mbox.h  |   25 +
- drivers/media/platform/imx/vpu-8q/vpu_msgs.c  |  420 ++++
- drivers/media/platform/imx/vpu-8q/vpu_msgs.h  |   23 +
- drivers/media/platform/imx/vpu-8q/vpu_rpc.c   |  266 +++
- drivers/media/platform/imx/vpu-8q/vpu_rpc.h   |  472 +++++
- drivers/media/platform/imx/vpu-8q/vpu_v4l2.c  |  730 +++++++
- drivers/media/platform/imx/vpu-8q/vpu_v4l2.h  |   56 +
- .../media/platform/imx/vpu-8q/vpu_windsor.c   | 1253 ++++++++++++
- .../media/platform/imx/vpu-8q/vpu_windsor.h   |   48 +
- include/linux/imx_vpu.h                       |   19 +
- include/uapi/linux/imx_vpu.h                  |  120 ++
- include/uapi/linux/videodev2.h                |   30 +
- 43 files changed, 12925 insertions(+)
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
+Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
+---
+ .../bindings/media/nxp,imx8q-vpu.yaml         | 201 ++++++++++++++++++
+ 1 file changed, 201 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
- create mode 100644 arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
- create mode 100644 drivers/media/platform/imx/Kconfig
- create mode 100644 drivers/media/platform/imx/Makefile
- create mode 100644 drivers/media/platform/imx/vpu-8q/Makefile
- create mode 100644 drivers/media/platform/imx/vpu-8q/vdec.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/venc.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_cmds.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_cmds.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_codec.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_color.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_core.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_core.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_dbg.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_defs.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_dev_imx8q.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_drv.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_helpers.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_helpers.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_imx8q.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_imx8q.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_log.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_malone.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_malone.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_mbox.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_mbox.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_msgs.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_msgs.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_rpc.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_rpc.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_v4l2.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_v4l2.h
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_windsor.c
- create mode 100644 drivers/media/platform/imx/vpu-8q/vpu_windsor.h
- create mode 100644 include/linux/imx_vpu.h
- create mode 100644 include/uapi/linux/imx_vpu.h
 
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
+new file mode 100644
+index 000000000000..97e428dbfdbe
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/nxp,imx8q-vpu.yaml
+@@ -0,0 +1,201 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/nxp,imx8q-vpu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NXP i.MX8Q video encode and decode accelerators
++
++maintainers:
++  - ming_qian <ming.qian@nxp.com>
++  - Shijie Qin <shijie.qin@nxp.com>
++
++description: |-
++  The Amphion MXC video encode and decode accelerators present on NXP i.MX8Q SoCs.
++
++allOf:
++  - $ref: /schemas/simple-bus.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++        - nxp,imx8qxp-vpu
++        - nxp,imx8qm-vpu
++
++  reg:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  memory-region:
++    description:
++      Phandle to a node describing reserved memory used by VPU.
++      (see bindings/reserved-memory/reserved-memory.txt)
++
++  vpu_lpcg:
++    description:
++      This is vpu Low-Power Clock Gate (LPCG) module.
++
++  mu_m0:
++    description:
++      Each vpu core correspond a MU node, which used for communication between
++      driver and firmware. Implement via mailbox on driver.
++
++    vpu_core:
++      type: object
++      additionalProperties: false
++      description:
++        Each core correspond a decoder or encoder, need to configure them
++        separately.
++
++      properties:
++        compatible:
++          oneOf:
++            - const: nxp,imx8q-vpu-decoder
++            - const: nxp,imx8q-vpu-encoder
++
++        reg:
++          maxItems: 1
++
++        power-domains:
++          maxItems: 1
++
++        mbox-names:
++            - const: tx0
++            - const: tx1
++            - const: rx
++
++        mboxes:
++          maxItems: 3
++          description:
++            List of phandle of 2 MU channels for tx, 1 MU channel for rx.
++
++        boot-region:
++          description:
++            Phandle to a node describing reserved memory used by firmware
++            loading.
++
++        rpc-region:
++          description:
++            Phandle to a node describing reserved memory used by RPC shared
++            memory between firmware and driver.
++
++        print-offset:
++          description:
++            The memory offset from RPC address, used by reserve firmware log.
++
++        id:
++          description: Index of vpu core.
++
++      required:
++      - compatible
++      - reg
++      - power-domains
++      - mbox-names
++      - mboxes
++      - boot-region
++      - rpc-region
++      - print-offset
++      - id
++
++
++required:
++  - compatible
++  - reg
++  - power-domains
++  - memory-region
++  - vpu_lpcg
++  - mu_m0
++  - vpu_core
++
++examples:
++  # Device node example for i.MX8QM platform:
++  - |
++    #include <dt-bindings/firmware/imx/rsrc.h>
++
++    vpu: vpu-bus@2c000000 {
++      compatible = "nxp,imx8qm-vpu", "simple-bus";
++      ranges = <0x2c000000 0x2c000000 0x2000000>;
++      reg = <0x2c000000 0x1000000>;
++      #address-cells = <1>;
++      #size-cells = <1>;
++      power-domains = <&pd IMX_SC_R_VPU>;
++      memory-region = <&vpu_reserved>;
++
++      vpu_lpcg: clock-controller@2c000000 {
++        compatible = "fsl,imx8qxp-lpcg-vpu";
++        reg = <0x2c000000 0x2000000>;
++        #clock-cells = <1>;
++        status = "disabled";
++      };
++
++      mu_m0: mailbox@2d000000 {
++        compatible = "fsl,imx6sx-mu";
++        reg = <0x2d000000 0x20000>;
++        interrupts = <0 472 4>;
++        #mbox-cells = <2>;
++        power-domains = <&pd IMX_SC_R_VPU_MU_0>;
++      };
++
++      mu1_m0: mailbox@2d020000 {
++        compatible = "fsl,imx6sx-mu";
++        reg = <0x2d020000 0x20000>;
++        interrupts = <0 473 4>;
++        #mbox-cells = <2>;
++        power-domains = <&pd IMX_SC_R_VPU_MU_1>;
++      };
++
++      mu2_m0: mailbox@2d040000 {
++        compatible = "fsl,imx6sx-mu";
++        reg = <0x2d040000 0x20000>;
++        interrupts = <0 474 4>;
++        #mbox-cells = <2>;
++        power-domains = <&pd IMX_SC_R_VPU_MU_2>;
++      };
++
++      vpu_core0: vpu_decoder@2d080000 {
++        compatible = "nxp,imx8q-vpu-decoder";
++        reg = <0x2d080000 0x10000>;
++        power-domains = <&pd IMX_SC_R_VPU_DEC_0>;
++        mbox-names = "tx0", "tx1", "rx";
++        mboxes = <&mu_m0 0 0
++                  &mu_m0 0 1
++                  &mu_m0 1 0>;
++        boot-region = <&decoder_boot>;
++        rpc-region = <&decoder_rpc>;
++        print-offset = <0x180000>;
++        id = <0>;
++      };
++
++      vpu_core1: vpu_encoder@2d090000 {
++        compatible = "nxp,imx8q-vpu-encoder";
++        reg = <0x2d090000 0x10000>;
++        power-domains = <&pd IMX_SC_R_VPU_ENC_0>;
++        mbox-names = "tx0", "tx1", "rx";
++        mboxes = <&mu1_m0 0 0
++                  &mu1_m0 0 1
++                  &mu1_m0 1 0>;
++        boot-region = <&encoder1_boot>;
++        rpc-region = <&encoder1_rpc>;
++        print-offset = <0x80000>;
++        id = <1>;
++      };
++
++      vpu_core2: vpu_encoder@2d0a0000 {
++        reg = <0x2d0a0000 0x10000>;
++        compatible = "nxp,imx8q-vpu-encoder";
++        power-domains = <&pd IMX_SC_R_VPU_ENC_1>;
++        mbox-names = "tx0", "tx1", "rx";
++        mboxes = <&mu2_m0 0 0
++                  &mu2_m0 0 1
++                  &mu2_m0 1 0>;
++        boot-region = <&encoder2_boot>;
++        rpc-region = <&encoder2_rpc>;
++        id = <2>;
++      };
++    };
++
++...
 -- 
 2.31.1
 
