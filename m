@@ -2,93 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25ECE39599F
-	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 13:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1BD33959A1
+	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 13:23:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231245AbhEaLYk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 May 2021 07:24:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58788 "EHLO
+        id S231315AbhEaLYn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 May 2021 07:24:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231240AbhEaLYj (ORCPT
+        with ESMTP id S231240AbhEaLYl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 May 2021 07:24:39 -0400
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D4DBC061574;
-        Mon, 31 May 2021 04:22:59 -0700 (PDT)
-Received: by mail-qk1-x72f.google.com with SMTP id c124so6091037qkd.8;
-        Mon, 31 May 2021 04:22:59 -0700 (PDT)
+        Mon, 31 May 2021 07:24:41 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC32C061574;
+        Mon, 31 May 2021 04:23:02 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id h21so7678310qtu.5;
+        Mon, 31 May 2021 04:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QdxY2TSl0gwzlhyshpBXtvrmDyNfej//+830SK0uF3E=;
-        b=QB5MyuA0jJGqzpxu+ZEJsVG7xpKGL5beDN4U5l4eceeiKD+gJ6HZXrIbJOVXhmmotX
-         DrhcxE2XWIaSnUV9o1UzuJpC/KzPfabOicscs59/h7W/Uemiei5L+/FcqVOLoOln6V7r
-         NpFuGN+OQbziaUxKk4774vTVLAL/dV8BVHmx5j2lRok8kLYjYUC9gpDNkpEY9sck4Uox
-         TLYpGhuIZDwrtRB+KDd2FkoV/pY4ooECedwGi+PdaGwEOrHuCfpUyUI3Sx/Wgq522hBF
-         YQbjmrl1gqWXOYfaWQITmgKYQYMg9vXNZI8XdqdZKs4yXCT2NGKsP7mhG061R5cDfKpC
-         E6wA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=xrfxJ0vUNlyHJx75Ay206N50rBJDEg6+qdqzHboImHE=;
+        b=fZMt9EaARWg7ten4vYUQJP4EW1nnBbv3E0tEwalPotIUJfbWZ0EYgj8Tku50Jk835s
+         3t/va79wqBMrClGS/K8h0dqfm+FgbrCTNDDNbvd2lU5AOhnpIuPjmX8XevWntVWmfY2r
+         khcDxYZ8H000+yfAsreDkTUhUN3BVQgCBPvwLHH5UcKufxcpF+X+DAX621/+LsgMY9IM
+         2gbwfk/irgxEgqLz8ixIlclzhG4/b8ERfOBT5O67W+uNXskczV4mDbPdk6WY21ktBCVF
+         mVNHOrHlIIB0hhD8rSHRDZpwum/uOjWR6wqMf4r+ew1wWVr0B6JeGt2UjWw4osGzwr+R
+         IaTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QdxY2TSl0gwzlhyshpBXtvrmDyNfej//+830SK0uF3E=;
-        b=CBIh5tzJI7D1I6KdqmniBTazm7wC1uZEUMHegXA63HiQ8FnAJkqfOctU7kyYiHbY6X
-         wjmADBzvL5uW+zhUxSM44jZLCpXcNOGv8+AeShgTu2FiU5KmYbQlg7NTW3/efhtDc+Ii
-         IrqrJB5BFhZwjL9VjbmWETum67wCpu6XV6GTe78elmIL04XT1x+6cXWUdzjcpwIWC63x
-         mPDgypjdXIj9ebm81F8rM2mIKhAySxiB+lDi8UqB0DYrhHYasG4hyleWlJFlNUAIMIY5
-         7NyCn6QIXAHpdWZj86Xl/3AojoUkePYzyjmmsT5GOR5Hi2VV65+5nnT2+JEzM7sOZuqf
-         mRzQ==
-X-Gm-Message-State: AOAM532Tqs+rs2z9MMJDsop2EVgOLVk72TBZQNdWDEretBIH0J8xYKYa
-        J2+ylo+4kf/pYqKxK0c5n5zDpo6fZ8KRKQ==
-X-Google-Smtp-Source: ABdhPJxinxg32/xaSP8/JVn93NBl6Uh3GlIRFfwRr90KhHH2vm8S5vJ2gT/OLy5CkYUrNuaLfFGj7Q==
-X-Received: by 2002:ae9:f310:: with SMTP id p16mr15703396qkg.267.1622460178449;
-        Mon, 31 May 2021 04:22:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=xrfxJ0vUNlyHJx75Ay206N50rBJDEg6+qdqzHboImHE=;
+        b=fWbb+Ghyk0MA1CquQpVWqGm0AXTKdsyIgY8u0nq9bgq9X11qsJzPMI9cf0l8wddICs
+         mKaoODoY7SRHzxEIGmoHaQpSOXqJ0vGkAW7498VIfr/I1UxHFuLsCosfCZARsBEPRKiz
+         9THzPudFNP49NUuPl/7gW/G/BSu8upGtrK2LZZsXG0kcsRSWqc+tmOMBbwLmMi6ikoNe
+         Nq0Ub/PAP2/hfpV6SqUI8JTFnfV3M122nz2Zr9By+fpdLRj6w13NAHjYhC0wTw5A/T1h
+         o183MBo7uLXAOOoin7MWWTgmmboBtN1GfYEgJ9MOXsPc7FLT5mX6LkRK1taN9iZ7juRv
+         whgQ==
+X-Gm-Message-State: AOAM530FHYDkuBoXE03tqGQEurPT2UIx6rZeslON3dsRBOuDiw4vP/Wq
+        s/qrjecXZbxfxt9ocD4ekr8=
+X-Google-Smtp-Source: ABdhPJwre6+S9/iuADIyu3vZjblwYPYFlJIGUEQpe6jpyuLVb63qfp2WrWrOfQPTJgcVRwgY7MbLQQ==
+X-Received: by 2002:ac8:1188:: with SMTP id d8mr14180945qtj.218.1622460181439;
+        Mon, 31 May 2021 04:23:01 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14c:485:504a:df45:f91c:ea2e:9334])
-        by smtp.gmail.com with ESMTPSA id h5sm9105480qkg.122.2021.05.31.04.22.55
+        by smtp.gmail.com with ESMTPSA id h5sm9105480qkg.122.2021.05.31.04.22.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 May 2021 04:22:58 -0700 (PDT)
+        Mon, 31 May 2021 04:23:01 -0700 (PDT)
 From:   Fabio Estevam <festevam@gmail.com>
 To:     hverkuil-cisco@xs4all.nl
 Cc:     lars@metafoo.de, robh+dt@kernel.org, devicetree@vger.kernel.org,
         linux-media@vger.kernel.org, tharvey@gateworks.com,
         frieder.schrempf@kontron.de, niklas.soderlund@ragnatech.se,
         Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2 1/3] dt-bindings: adv7180: Introduce the 'reset-gpios' property
-Date:   Mon, 31 May 2021 08:22:35 -0300
-Message-Id: <20210531112237.706063-1-festevam@gmail.com>
+Subject: [PATCH v2 2/3] media: adv7180: Add optional reset GPIO
+Date:   Mon, 31 May 2021 08:22:36 -0300
+Message-Id: <20210531112237.706063-2-festevam@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210531112237.706063-1-festevam@gmail.com>
+References: <20210531112237.706063-1-festevam@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Introduce the 'reset-gpios' property to describe the GPIO that connects
-to the ADV7180 reset pin.
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
 
+There is a reset input that can be controlled by GPIO. Let's add it
+to let the driver control it if required.
+
+Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
 Changes since v1:
-- None
+- Used Frieder's version of the patch.
 
- Documentation/devicetree/bindings/media/i2c/adv7180.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/i2c/adv7180.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
-index bcfd93739b4f..1f1aa46f5724 100644
---- a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
-@@ -35,6 +35,9 @@ properties:
-   powerdown-gpios:
-     maxItems: 1
+diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+index 44bb6fe85644..2890041cc231 100644
+--- a/drivers/media/i2c/adv7180.c
++++ b/drivers/media/i2c/adv7180.c
+@@ -205,6 +205,7 @@ struct adv7180_state {
+ 	struct mutex		mutex; /* mutual excl. when accessing chip */
+ 	int			irq;
+ 	struct gpio_desc	*pwdn_gpio;
++	struct gpio_desc	*rst_gpio;
+ 	v4l2_std_id		curr_norm;
+ 	bool			powered;
+ 	bool			streaming;
+@@ -484,6 +485,19 @@ static void adv7180_set_power_pin(struct adv7180_state *state, bool on)
+ 	}
+ }
  
-+  reset-gpios:
-+    maxItems: 1
++static void adv7180_set_reset_pin(struct adv7180_state *state, bool on)
++{
++	if (!state->rst_gpio)
++		return;
 +
-   port:
-     $ref: /schemas/graph.yaml#/properties/port
++	if (on) {
++		gpiod_set_value_cansleep(state->rst_gpio, 1);
++	} else {
++		gpiod_set_value_cansleep(state->rst_gpio, 0);
++		usleep_range(5000, 10000);
++	}
++}
++
+ static int adv7180_set_power(struct adv7180_state *state, bool on)
+ {
+ 	u8 val;
+@@ -1263,6 +1277,7 @@ static int init_device(struct adv7180_state *state)
+ 	mutex_lock(&state->mutex);
  
+ 	adv7180_set_power_pin(state, true);
++	adv7180_set_reset_pin(state, false);
+ 
+ 	adv7180_write(state, ADV7180_REG_PWR_MAN, ADV7180_PWR_MAN_RES);
+ 	usleep_range(5000, 10000);
+@@ -1338,6 +1353,14 @@ static int adv7180_probe(struct i2c_client *client,
+ 		return ret;
+ 	}
+ 
++	state->rst_gpio = devm_gpiod_get_optional(&client->dev, "reset",
++						   GPIOD_OUT_HIGH);
++	if (IS_ERR(state->rst_gpio)) {
++		ret = PTR_ERR(state->rst_gpio);
++		v4l_err(client, "request for reset pin failed: %d\n", ret);
++		return ret;
++	}
++
+ 	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
+ 		state->csi_client = i2c_new_dummy_device(client->adapter,
+ 				ADV7180_DEFAULT_CSI_I2C_ADDR);
+@@ -1428,6 +1451,7 @@ static int adv7180_remove(struct i2c_client *client)
+ 	i2c_unregister_device(state->vpp_client);
+ 	i2c_unregister_device(state->csi_client);
+ 
++	adv7180_set_reset_pin(state, true);
+ 	adv7180_set_power_pin(state, false);
+ 
+ 	mutex_destroy(&state->mutex);
 -- 
 2.25.1
 
