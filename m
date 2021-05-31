@@ -2,98 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FD1B39688F
-	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 21:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B2EF39690E
+	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 22:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231151AbhEaTzu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 May 2021 15:55:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59088 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230385AbhEaTzs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 May 2021 15:55:48 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C057C061574
-        for <linux-media@vger.kernel.org>; Mon, 31 May 2021 12:54:08 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 78DC68AB;
-        Mon, 31 May 2021 21:54:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622490843;
-        bh=DVrZn0SXyV7UdDYkLtcdBLN13wNTWLoANjfWAvpoND4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HnAmlH34Q+FTF8Ek4S5dBOFevRbJdXfCRlIDX2c9A30S4y3JOOjvzRmG2z95gJNfH
-         kZeuLBErbWEyY8EFf3InwQvZVniVW4cz5ZSOZayq0OEoNSYftWYst/QZsbNrin8mwb
-         n4HWMhgm3waNfdZYEgl49/lcJE+l9GG94KT7xVjw=
-Date:   Mon, 31 May 2021 22:53:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ian Arkver <ian.arkver.dev@gmail.com>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: Implementing input IOCTLs for imx capture
-Message-ID: <YLU+0aDEdyL7ska2@pendragon.ideasonboard.com>
-References: <CAOMZO5BLdB_iaGrxvaOCAd4jhX6TJt9qiQd5=BYKmJF3OBhTiQ@mail.gmail.com>
- <838ee713-3bca-a6b2-0799-c0adb6800140@gmail.com>
+        id S232185AbhEaUjj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 May 2021 16:39:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54596 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230032AbhEaUji (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 31 May 2021 16:39:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EBD9611CB;
+        Mon, 31 May 2021 20:37:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622493478;
+        bh=GK7h9fk/CXJpmmpAdZO37HIYc4XszrgUo8eFRVrvFbA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EsuB0/Oq4wO8mDqGFoCv+juOz7gcg6BFAC59OTYC7pfthUiibesrVuSdPe7167Fm9
+         8BC+tFXOUwNAx1FSPZT4UYoibIj2cVttwzJWLMHyZRfniadYipjKt7MbS0stLiZPgY
+         CVMXfTbLI6CCiS9hPN4NRa1cxUk2z8J/TdZklyHIlqbSlT7QbbI3R9HptRaYQjpYje
+         P1uw0QJq+UWyeJfnGOehu3WxXBwNUl6jGsAG7Mm+lNYKHJGeIiSFYsifik50y1bTbw
+         xKKnALZsoJ+xrTFWMWpkqtRnGmlnBPgfLaoyle4ziNtOLsyvk0r4/bBpCsJxODpMy5
+         TjtUJmR36yhKA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lnofb-000hsx-Jb; Mon, 31 May 2021 22:37:55 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alaa Emad <alaaemadhossney.ae@gmail.com>,
+        Brad Love <brad@nextdimension.cc>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxim Plotnikov <wgh@torlan.ru>, Sean Young <sean@mess.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: [PATCH] media: sp8870: move it to staging
+Date:   Mon, 31 May 2021 22:37:54 +0200
+Message-Id: <5e694bc1b0670b58b93a9fea5712ed0f306e6050.1622493461.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <838ee713-3bca-a6b2-0799-c0adb6800140@gmail.com>
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+This driver is used only ba av7110, which is preparing for
+its retirement. So, move this ancillary driver to stay together
+with av7110.
 
-On Mon, May 31, 2021 at 07:22:12PM +0100, Ian Arkver wrote:
-> On 31/05/2021 18:55, Fabio Estevam wrote:
-> > Hi,
-> > 
-> > On an imx6dl based board with an ADV7280, I can successfully capture
-> > from an analog camera using the following Gstreamer pipeline:
-> > 
-> > gst-launch-1.0 v4l2src device=/dev/video2 ! kmssink
-> > 
-> > The next goal is to integrate it within the Qt multimedia application:
-> > https://github.com/qt/qtmultimedia/blob/5.15.2/src/gsttools/qgstutils.cpp#L631-L687
-> > 
-> > The Qt app uses the VIDIOC_ENUMINPUT and VIDIOC_S_INPUT ioctl's, but
-> > as these are not implemented by the imx-media-capture driver yet, it
-> > causes the camera to not be detected.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/media/dvb-frontends/Kconfig           | 12 -----------
+ drivers/media/dvb-frontends/Makefile          |  1 -
+ drivers/staging/media/av7110/Kconfig          | 20 +++++++++++++++++++
+ drivers/staging/media/av7110/Makefile         |  2 ++
+ .../media/av7110}/sp8870.c                    |  0
+ .../media/av7110}/sp8870.h                    |  0
+ 6 files changed, 22 insertions(+), 13 deletions(-)
+ rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.c (100%)
+ rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.h (100%)
 
-I'd argue this should be fixed in Qt though :-) Those ioctls really
-don't make sense for the IPU driver.
-
-> Seems to me (naively, without looking into it in depth) that the v4l2 
-> framework default should be to enumerate a single input, return that 
-> input with g_input and succeed in setting that input with s_input.
-
-This is done in
-
-commit f645e6256bd1b12523b759fcc610861fb21c24c7
-Author: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Date:   Tue Apr 21 15:57:38 2020 +0200
-
-    media: v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
-
-but only when V4L2_CAP_IO_MC is set.
-
-> Maybe there's a reason why it doesn't?
-> 
-> > Does anyone have any suggestions as to how to add support for
-> > .vidioc_enum_input, .vidioc_g_input and .vidioc_s_input in
-> > drivers/staging/media/imx/imx-media-capture.c ?
-> > 
-> > I tried to look at how the other drivers implement these hooks, but my
-> > attempts to add support for them to the imx capture driver didn't
-> > work.
-
+diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
+index 3468b07b62fe..2c1ed98d43c5 100644
+--- a/drivers/media/dvb-frontends/Kconfig
++++ b/drivers/media/dvb-frontends/Kconfig
+@@ -323,18 +323,6 @@ config DVB_TDA10071
+ comment "DVB-T (terrestrial) frontends"
+ 	depends on DVB_CORE
+ 
+-config DVB_SP8870
+-	tristate "Spase sp8870 based"
+-	depends on DVB_CORE && I2C
+-	default m if !MEDIA_SUBDRV_AUTOSELECT
+-	help
+-	  A DVB-T tuner module. Say Y when you want to support this frontend.
+-
+-	  This driver needs external firmware. Please use the command
+-	  "<kerneldir>/scripts/get_dvb_firmware sp8870" to
+-	  download/extract it, and then copy it to /usr/lib/hotplug/firmware
+-	  or /lib/firmware (depending on configuration of firmware hotplug).
+-
+ config DVB_SP887X
+ 	tristate "Spase sp887x based"
+ 	depends on DVB_CORE && I2C
+diff --git a/drivers/media/dvb-frontends/Makefile b/drivers/media/dvb-frontends/Makefile
+index b9f47d68e14e..d32e4c0be576 100644
+--- a/drivers/media/dvb-frontends/Makefile
++++ b/drivers/media/dvb-frontends/Makefile
+@@ -20,7 +20,6 @@ obj-$(CONFIG_DVB_PLL) += dvb-pll.o
+ obj-$(CONFIG_DVB_STV0299) += stv0299.o
+ obj-$(CONFIG_DVB_STB0899) += stb0899.o
+ obj-$(CONFIG_DVB_STB6100) += stb6100.o
+-obj-$(CONFIG_DVB_SP8870) += sp8870.o
+ obj-$(CONFIG_DVB_CX22700) += cx22700.o
+ obj-$(CONFIG_DVB_S5H1432) += s5h1432.o
+ obj-$(CONFIG_DVB_CX24110) += cx24110.o
+diff --git a/drivers/staging/media/av7110/Kconfig b/drivers/staging/media/av7110/Kconfig
+index e19d24bf2eb4..f2d706acc131 100644
+--- a/drivers/staging/media/av7110/Kconfig
++++ b/drivers/staging/media/av7110/Kconfig
+@@ -72,3 +72,23 @@ config DVB_BUDGET_PATCH
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called budget-patch.
++
++if DVB_AV7110
++
++# frontend drivers that are used only by AV7110 driver
++# While those are technically independent, it doesn't make sense to keep
++# them if we drop support for AV7110
++
++config DVB_SP8870
++	tristate "Spase sp8870 based"
++	depends on DVB_CORE && I2C
++	default m if !MEDIA_SUBDRV_AUTOSELECT
++	help
++	  A DVB-T tuner module. Say Y when you want to support this frontend.
++
++	  This driver needs external firmware. Please use the command
++	  "<kerneldir>/scripts/get_dvb_firmware sp8870" to
++	  download/extract it, and then copy it to /usr/lib/hotplug/firmware
++	  or /lib/firmware (depending on configuration of firmware hotplug).
++
++endif
+diff --git a/drivers/staging/media/av7110/Makefile b/drivers/staging/media/av7110/Makefile
+index dcabecf1abde..307b267598ea 100644
+--- a/drivers/staging/media/av7110/Makefile
++++ b/drivers/staging/media/av7110/Makefile
+@@ -14,6 +14,8 @@ obj-$(CONFIG_DVB_BUDGET_PATCH) += budget-patch.o
+ 
+ obj-$(CONFIG_DVB_AV7110) += dvb-ttpci.o
+ 
++obj-$(CONFIG_DVB_SP8870) += sp8870.o
++
+ ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
+ ccflags-y += -I $(srctree)/drivers/media/tuners
+ ccflags-y += -I $(srctree)/drivers/media/pci/ttpci
+diff --git a/drivers/media/dvb-frontends/sp8870.c b/drivers/staging/media/av7110/sp8870.c
+similarity index 100%
+rename from drivers/media/dvb-frontends/sp8870.c
+rename to drivers/staging/media/av7110/sp8870.c
+diff --git a/drivers/media/dvb-frontends/sp8870.h b/drivers/staging/media/av7110/sp8870.h
+similarity index 100%
+rename from drivers/media/dvb-frontends/sp8870.h
+rename to drivers/staging/media/av7110/sp8870.h
 -- 
-Regards,
+2.31.1
 
-Laurent Pinchart
