@@ -2,95 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 947FC3958D7
-	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 12:17:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 758AD3958F5
+	for <lists+linux-media@lfdr.de>; Mon, 31 May 2021 12:32:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231329AbhEaKT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 May 2021 06:19:28 -0400
-Received: from gofer.mess.org ([88.97.38.141]:58109 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231320AbhEaKTG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 May 2021 06:19:06 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 78152C65C0; Mon, 31 May 2021 11:17:25 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1622456245; bh=bf7SEBXgrhjrigUxjJ91LJdvxUVGe/MCLngjuc5WRjQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JBqh+wd0FoIg3SiUDHDd0iS2SLG0rZ9NG8unWUXOyBGBef13lK68A+BydCbf3AqDs
-         Gdx0kyVVmniB1L5NflJimiE0DYQ7LD6D5SexZyQnXljuLjmAe/rstd7spN7SRstbGA
-         UJyNSnqAJvUByN9MH6SY5Yp1R5bV2FdVdV5OhlTqAj/QGSoeX7/7KIQR7bus+S4yFt
-         PEfKvo6Vi8gQtnyLEBbZjqdVCbMplyrmtSb9AydSG99XkclUOePJlJV62EY1t5MPvd
-         I7Z0SLHO1E3Oo0p3ON/9uqJBknO1CLX3/Z9Dp5gcSJ0om2pexLxXAf8eLHqe9koCv3
-         n3Y2+J2/FB/TA==
-Date:   Mon, 31 May 2021 11:17:25 +0100
-From:   Sean Young <sean@mess.org>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Yasunari.Takiguchi@sony.com, mchehab@kernel.org,
-        narmstrong@baylibre.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: cxd2880-spi: Fix an error handling path
-Message-ID: <20210531101725.GB30390@gofer.mess.org>
-References: <28a115d7207b258715a029f822ab88f7a4ee05e6.1621599392.git.christophe.jaillet@wanadoo.fr>
+        id S231240AbhEaKeY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 May 2021 06:34:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47344 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231164AbhEaKeX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 31 May 2021 06:34:23 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBDA3C061574
+        for <linux-media@vger.kernel.org>; Mon, 31 May 2021 03:32:42 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id l11-20020a05600c4f0bb029017a7cd488f5so6309121wmq.0
+        for <linux-media@vger.kernel.org>; Mon, 31 May 2021 03:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=cWWmu24DcI6+LxTaWh70NPaWRoUZ7MO3IMlEue/FVZA=;
+        b=E3ThoyhlIPMxXwWUDLm6t+clN2naDQPjv4zJHwNgZaDEewyyuEPiSY7QzdCEztPYQF
+         XMXb6phaOMpvw1EoXt3C9vb/fAjEbkgS041Vt3BOvaNykF95ep0zekBHbG2iOJJA6HNs
+         LRhOLz8nqaXHYKeDvVOVH89UKKer3v6nD5oThOJuuMH88agpVuuZRmvdLo6wLiYzmHhU
+         hZEZn7MHs4tZtLCD0QErlzDY1XXZyoQnGpqA4EPd3tysy4BpdQH/fhtG1oXtfzSpFvCz
+         As63y9bZyIGRvVP2EhLpi0xwXcz46xCTAUgW/Hpc2tPwmrhejalr8QhTdYFzTmRaMedE
+         EPIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=cWWmu24DcI6+LxTaWh70NPaWRoUZ7MO3IMlEue/FVZA=;
+        b=LsMsRaY08I4Bmg3ENqZy3Y1biwCtx6fJu+6dReG1mYTEnS4obSmnKw5+fxbvwkcG9K
+         1baS6OC6XZWjuLcEkSauI5x9cnh4JOqtC+p+grS23CrhsMOqTBaFzwydPEVtmKckUvpb
+         JrPy8AE55KCO59EBzFh1nc0er14TEgl4HO83z33x02opGYuROIcTB77lpGkSVpfI6ZM/
+         GG0GV2OESy1MgdLJYBPICwUgxK/p8XLyBxsn+tZst2ZCwC76TTIJHA8WWJukMRgUtMfW
+         5BNq4JaVG2V/J5mQKm+kD0BKNbji9oTEnkgz95GINMaKMF4OitPcesQKNPygPJ7mGdj+
+         yrhw==
+X-Gm-Message-State: AOAM530up+nMVx446QXbSIL/q8TNFU+7ap2WslfHox0n9Q0vPcRGueyc
+        R+YaaNqPzRo1K0l6E9fjDVGSnw==
+X-Google-Smtp-Source: ABdhPJz4UvlPrI9eDd5ZIGlvRHY+p+kPB+/Nje+MbHgp30dF+y32DbsnFSqzHCU5tEckYqc5Jf8TFw==
+X-Received: by 2002:a7b:c761:: with SMTP id x1mr9892260wmk.118.1622457161431;
+        Mon, 31 May 2021 03:32:41 -0700 (PDT)
+Received: from [192.168.1.28] (hst-221-34.medicom.bg. [84.238.221.34])
+        by smtp.googlemail.com with ESMTPSA id y20sm25122822wmi.0.2021.05.31.03.32.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 May 2021 03:32:41 -0700 (PDT)
+Subject: Re: [PATCH 5/7] venus: vdec: set work route to fw
+To:     Dikshita Agarwal <dikshita@codeaurora.org>,
+        linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, vgarodia@codeaurora.org
+References: <1621417008-6117-1-git-send-email-dikshita@codeaurora.org>
+ <1621417008-6117-6-git-send-email-dikshita@codeaurora.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <6a17e585-2714-6ed2-2526-56b4e0bf61b8@linaro.org>
+Date:   Mon, 31 May 2021 13:32:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <28a115d7207b258715a029f822ab88f7a4ee05e6.1621599392.git.christophe.jaillet@wanadoo.fr>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1621417008-6117-6-git-send-email-dikshita@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 21, 2021 at 02:18:14PM +0200, Christophe JAILLET wrote:
-> If an error occurs after a successful 'regulator_enable()' call,
-> 'regulator_disable()' must be called.
+
+
+On 5/19/21 12:36 PM, Dikshita Agarwal wrote:
+> Set work route to FW based on num of vpp pipes.
 > 
-> Fix the error handling path of the probe accordingly.
-> 
-> Fixes: cb496cd472af ("media: cxd2880-spi: Add optional vcc regulator")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
 > ---
->  drivers/media/spi/cxd2880-spi.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  drivers/media/platform/qcom/venus/hfi_cmds.c   |  7 +++++++
+>  drivers/media/platform/qcom/venus/hfi_helper.h |  5 +++++
+>  drivers/media/platform/qcom/venus/vdec.c       | 21 +++++++++++++++++++++
+>  3 files changed, 33 insertions(+)
 > 
-> diff --git a/drivers/media/spi/cxd2880-spi.c b/drivers/media/spi/cxd2880-spi.c
-> index 931ec0727cd3..df1335e7061c 100644
-> --- a/drivers/media/spi/cxd2880-spi.c
-> +++ b/drivers/media/spi/cxd2880-spi.c
-> @@ -524,13 +524,13 @@ cxd2880_spi_probe(struct spi_device *spi)
->  	if (IS_ERR(dvb_spi->vcc_supply)) {
->  		if (PTR_ERR(dvb_spi->vcc_supply) == -EPROBE_DEFER) {
->  			ret = -EPROBE_DEFER;
-> -			goto fail_adapter;
-> +			goto fail_regulator;
->  		}
->  		dvb_spi->vcc_supply = NULL;
-
-vcc_supply is set to null in this path.
-
->  	} else {
->  		ret = regulator_enable(dvb_spi->vcc_supply);
->  		if (ret)
-> -			goto fail_adapter;
-> +			goto fail_regulator;
+> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> index 11a8347..837fb80 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> @@ -1290,6 +1290,13 @@ pkt_session_set_property_6xx(struct hfi_session_set_property_pkt *pkt,
+>  		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*color);
+>  		break;
 >  	}
+> +	case HFI_PROPERTY_PARAM_WORK_ROUTE: {
+> +		struct hfi_video_work_route *in = pdata, *wr = prop_data;
+> +
+> +		wr->video_work_route = in->video_work_route;
+> +		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*wr);
+> +		break;
+> +	}
+>  	default:
+>  		return pkt_session_set_property_4xx(pkt, cookie, ptype, pdata);
+>  	}
+> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+> index 63cd347..185c302 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> @@ -451,6 +451,7 @@
+>  #define HFI_PROPERTY_PARAM_MVC_BUFFER_LAYOUT			0x100f
+>  #define HFI_PROPERTY_PARAM_MAX_SESSIONS_SUPPORTED		0x1010
+>  #define HFI_PROPERTY_PARAM_WORK_MODE				0x1015
+> +#define HFI_PROPERTY_PARAM_WORK_ROUTE				0x1017
 >  
->  	dvb_spi->spi = spi;
-> @@ -618,6 +618,9 @@ cxd2880_spi_probe(struct spi_device *spi)
->  fail_attach:
->  	dvb_unregister_adapter(&dvb_spi->adapter);
->  fail_adapter:
-> +	if (!IS_ERR(dvb_spi->vcc_supply))
-> +		regulator_disable(dvb_spi->vcc_supply);
-
-IS_ERR(NULL) -> false
-regulator_disable will dereference a null pointer.
-
-
-Sean
-
-> +fail_regulator:
->  	kfree(dvb_spi);
->  	return ret;
+>  /*
+>   * HFI_PROPERTY_CONFIG_COMMON_START
+> @@ -864,6 +865,10 @@ struct hfi_video_work_mode {
+>  	u32 video_work_mode;
+>  };
+>  
+> +struct hfi_video_work_route {
+> +	u32 video_work_route;
+> +};
+> +
+>  struct hfi_h264_vui_timing_info {
+>  	u32 enable;
+>  	u32 fixed_framerate;
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index ddb7cd3..a674281 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -653,6 +653,21 @@ static int vdec_set_properties(struct venus_inst *inst)
+>  	return 0;
 >  }
-> -- 
-> 2.30.2
+>  
+> +static int vdec_set_work_route(struct venus_inst *inst)
+> +{
+> +	struct hfi_video_work_route wr;
+> +	u32 ptype;
+> +	int ret;
+> +
+> +	wr.video_work_route = inst->core->res->num_vpp_pipes;
+> +
+> +	ptype = HFI_PROPERTY_PARAM_WORK_ROUTE;
+> +	ret = hfi_session_set_property(inst, ptype, &wr);
+> +	if (ret)
+> +		return ret;
+> +	return 0;
+> +}
+> +
+>  #define is_ubwc_fmt(fmt) (!!((fmt) & HFI_COLOR_FORMAT_UBWC_BASE))
+>  
+>  static int vdec_output_conf(struct venus_inst *inst)
+> @@ -1039,6 +1054,12 @@ static int vdec_start_output(struct venus_inst *inst)
+>  	if (ret)
+>  		return ret;
+>  
+> +	if (IS_V6(inst->core)) {
+
+Please move this IS_V6 check in vdec_set_work_route().
+
+> +		ret = vdec_set_work_route(inst);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	ret = vdec_output_conf(inst);
+>  	if (ret)
+>  		return ret;
+> 
+
+-- 
+regards,
+Stan
