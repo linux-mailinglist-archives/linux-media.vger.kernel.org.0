@@ -2,82 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60A09397300
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jun 2021 14:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1183F397379
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jun 2021 14:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233764AbhFAMK0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Jun 2021 08:10:26 -0400
-Received: from gofer.mess.org ([88.97.38.141]:32949 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231201AbhFAMK0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Jun 2021 08:10:26 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id A58D9C638E; Tue,  1 Jun 2021 13:08:43 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1622549323; bh=c75HU7gSCv2j0DiUFuks4AxvIXEOFfhhUaF4eC6V5Ig=;
-        h=From:To:Subject:Date:From;
-        b=YASebteYQfM7ATocAvh58EEh3o9o1NUc/cr2gPcu4fMbtYCz4zh5DCG16ekFP43A6
-         Q7ni8scI/DGFbV6tpBoY2bvVUomtFhBcrJq9Do8BiauQtemXSwxle014C4YMXUYCq0
-         AuZjEdiJMvAG839BWq4HlScp6P8zbt/fEip6s5rftK6rYVBd8LVYNwexIcaJ7ywICZ
-         4Jv6BdQLzsD5T/WsuOy9d1oVJz+EUk6w1iQ3PH1dI49uYcVb1xmxM246Ugi1rx9nHg
-         dblajaDwX8jkcoR4HdknijEK68Ywix+Jj5U8QSjlN0BIZBfCyVZ+QPQi9W5ZWURi6O
-         5eqYt5kn27GGg==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH] media: cinergyt2: make properties const
-Date:   Tue,  1 Jun 2021 13:08:43 +0100
-Message-Id: <20210601120843.14973-1-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
+        id S233336AbhFAMsi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Jun 2021 08:48:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232965AbhFAMsh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Jun 2021 08:48:37 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2D6C061574;
+        Tue,  1 Jun 2021 05:46:56 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D3C0F88C;
+        Tue,  1 Jun 2021 14:46:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1622551613;
+        bh=pEVvmyFStsOwrTtf+TJW7eOTlI/2Bu2ObexnAPsjg1Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LVH9e96ZzxEBe9OxvsKUkdLcT1KcuKyzPyLZxa9IR7alvgqTs5TVS1G//vlZ9I9Ym
+         sBArtMpicHvJcJss2Yhm89DYJZh78gqirWFfsHX6xKOgq9uNsFA/j9+41eJl0g0Va7
+         25N8BfrhGtz4PB8PsCDN1AA/q2W875ZIxxceUzbE=
+Date:   Tue, 1 Jun 2021 15:46:42 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     trix@redhat.com
+Cc:     rmfrfs@gmail.com, slongerbeam@gmail.com, p.zabel@pengutronix.de,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: imx: imx7_mipi_csis: convert some switch cases to
+ the default
+Message-ID: <YLYsMifcjA2c0eDN@pendragon.ideasonboard.com>
+References: <20210531174300.2594109-1-trix@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210531174300.2594109-1-trix@redhat.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The dvb_usb_device_properties can be const. This makes it clear that
-the static can be shared across threads.
+Hi Tom,
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/usb/dvb-usb/cinergyT2-core.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/media/usb/dvb-usb/cinergyT2-core.c b/drivers/media/usb/dvb-usb/cinergyT2-core.c
-index 4116ba5c45fc..23f1093d28f8 100644
---- a/drivers/media/usb/dvb-usb/cinergyT2-core.c
-+++ b/drivers/media/usb/dvb-usb/cinergyT2-core.c
-@@ -29,10 +29,8 @@ struct cinergyt2_state {
- 	unsigned char data[64];
- };
- 
--/* We are missing a release hook with usb_device data */
--static struct dvb_usb_device *cinergyt2_usb_device;
--
--static struct dvb_usb_device_properties cinergyt2_properties;
-+/* Forward declaration */
-+static const struct dvb_usb_device_properties cinergyt2_properties;
- 
- static int cinergyt2_streaming_ctrl(struct dvb_usb_adapter *adap, int enable)
- {
-@@ -84,9 +82,6 @@ static int cinergyt2_frontend_attach(struct dvb_usb_adapter *adap)
- 	}
- 	mutex_unlock(&d->data_mutex);
- 
--	/* Copy this pointer as we are gonna need it in the release phase */
--	cinergyt2_usb_device = adap->dev;
--
- 	return ret;
- }
- 
-@@ -205,7 +200,7 @@ static struct usb_device_id cinergyt2_usb_table[] = {
- 
- MODULE_DEVICE_TABLE(usb, cinergyt2_usb_table);
- 
--static struct dvb_usb_device_properties cinergyt2_properties = {
-+static const struct dvb_usb_device_properties cinergyt2_properties = {
- 	.size_of_priv = sizeof(struct cinergyt2_state),
- 	.num_adapters = 1,
- 	.adapter = {
+On Mon, May 31, 2021 at 10:43:00AM -0700, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
+> 
+> Static analysis reports this false positive
+> imx7-mipi-csis.c:1027:2: warning: 4th function call argument is
+>   an uninitialized value
+> 
+> The variable 'align' is falsely reported as uninitialized.
+> Even though all the cases are covered in the
+> 	switch (csis_fmt->width % 8) {
+> 
+> Because there is no default case, it is reported as uninialized.
+> 
+> Improve the switch by converting the most numerous set of cases
+> to the default and silence the false positive.
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/staging/media/imx/imx7-mipi-csis.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> index d573f3475d28..330f283030ec 100644
+> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> @@ -1016,10 +1016,8 @@ static int mipi_csis_set_fmt(struct v4l2_subdev *sd,
+>  	case 6:
+>  		align = 2;
+>  		break;
+> -	case 1:
+> -	case 3:
+> -	case 5:
+> -	case 7:
+> +	default:
+> +		/* 1, 3, 5, 7 */
+>  		align = 3;
+>  		break;
+>  	}
+
 -- 
-2.31.1
+Regards,
 
+Laurent Pinchart
