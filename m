@@ -2,77 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E96703976DD
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jun 2021 17:38:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE92939770F
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jun 2021 17:46:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233059AbhFAPkS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Jun 2021 11:40:18 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:36425 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234066AbhFAPkS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Jun 2021 11:40:18 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id o6TPl6vkuEXL0o6TSlu6XP; Tue, 01 Jun 2021 17:38:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622561915; bh=14B2l39gX2JOttpb7Wa5lm2RBI9eVm1w3Y+rTiJsPn8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=kmQjR7khNSYp4r5wdP/+h2dhOXMcVjzuCusUk6Og7+Z7C8jR9EqIrA0BkZS7P1zEz
-         RbT1lZOHwedeT9kHQvxWVGxdfUY86Qr8IWzXt3I6dFQftTeiZy3EYH6eF4M8V6Umjn
-         uPmDNM2Q+kg8efCmELgS/w6x8x8ofJwOYzZeHLpk+AJx9x3mCv2fRVQkPdBwAFOUXy
-         KC0Jge2yil5qBCQLdhvxNjLunAglkiWUQDCnGILnkdybk9sOfIrWPSAIZmE4keqbIc
-         CH3eYgKqfebqamhfl9lSBJSMLTh1baYLDag2Zl3o4LzhHWYcwoqJUXa/iSpj+riLdU
-         pBzWu5zK0Vjrw==
-Subject: Re: [GIT FIXES FOR v5.13] Three fixes for 5.13.
-To:     Fabio Estevam <festevam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <e2d6324c-b001-7468-2eb6-3df9f044ae8c@xs4all.nl>
- <CAOMZO5CSWnnCA29GWySYAJNeZGfHom_4LfRP3JNBR2CZFyFpxw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <8fa6b0c1-3c3d-3aaf-4bbf-7ccde6895450@xs4all.nl>
-Date:   Tue, 1 Jun 2021 17:38:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        id S234497AbhFAPsi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Jun 2021 11:48:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44140 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234495AbhFAPsh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Jun 2021 11:48:37 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9167EC061756
+        for <linux-media@vger.kernel.org>; Tue,  1 Jun 2021 08:46:55 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id c3so14837732wrp.8
+        for <linux-media@vger.kernel.org>; Tue, 01 Jun 2021 08:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=exFIxZuOrD7Plr1Np3AS/tQawGwgEP79Gok5C1va520=;
+        b=Sjx9YHyswPIyxritg2eQKQLwWxgZcxEjPBd1aoPRJx2iVjp8I4s7B2xEcC0qChfNs6
+         8oXfF7L7nZ2PrCZTD2bsNk1ohhgRp5nEv/rIS6rN3kvm9S21t+YfU3gplobwvWxIpCrW
+         kfH4ajPSDEkTfn2ozzy6+7muVP9uK0diLv4k7hYHKLfvJ41av+52MQ4P+J4PASOO7pJG
+         h5BuNxJ9aoiljsBK7yFfV4KnnhHOvqHSHzs2+9wa9uv23ryXn24sO5zvwnCf0aT1Og0z
+         ALzEwl+zrozYTSRE/AySTHxZ0oWTkA+TeMfMbxkMOyQHY4M7K+WGL4eQ6HCgRBaIysiA
+         gSEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=exFIxZuOrD7Plr1Np3AS/tQawGwgEP79Gok5C1va520=;
+        b=IvRIpkX4AFdXNDyXXofRjCvFgweX28zJE4/lNn+QxncVsniaCh64kbuPAoPE/YrO0L
+         9UYg4+73fuuitoJE9ZUG4nwwd7rZERbTkUizk8j8ltc2VUxj7xEUkal8MIoSWfQlSS1A
+         Hm2bkZSCkQWHESpEwA5A3KK8RebNprecru82GduEJuQvUT9yo8wMLD23A7HPnlUL06KG
+         rBO9h5ek48dWYNf5WmhBCsKD3J2bs0vPEs2EHk33x5RTPduuEE0s/tPAYSiME8SYuyqF
+         A9IAJjBxZvVdXJ7xaFtsfvEWG5rQ/D2PLp/Xpq7WIkTk3IQwYNJpRezjTyh6+wh9pznL
+         kSrw==
+X-Gm-Message-State: AOAM530edxpc6jnDKYh+VipBVMrxOou6x9cwu1xiCoz4TIa5FfKzgTbm
+        aNlqH7JQWYmYSsWXuSfZlKewVA==
+X-Google-Smtp-Source: ABdhPJxF67vbMP6BSXVX7i7BEayuWA1qe+1M9Gi9KHneZ4+6CHVCj6+4FxBdy6cgFyCIxJV3874yLQ==
+X-Received: by 2002:a5d:4a4b:: with SMTP id v11mr14929357wrs.246.1622562414194;
+        Tue, 01 Jun 2021 08:46:54 -0700 (PDT)
+Received: from dell ([91.110.221.249])
+        by smtp.gmail.com with ESMTPSA id u8sm2738305wmq.29.2021.06.01.08.46.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jun 2021 08:46:53 -0700 (PDT)
+Date:   Tue, 1 Jun 2021 16:46:51 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Alex Bee <knaerzche@gmail.com>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/12] dt-bindings: mfd: syscon: add Rockchip
+ RK3036/RK3228 qos compatibles
+Message-ID: <20210601154651.GE2159518@dell>
+References: <20210525152225.154302-1-knaerzche@gmail.com>
+ <20210527154455.358869-1-knaerzche@gmail.com>
+ <20210527154455.358869-2-knaerzche@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOMZO5CSWnnCA29GWySYAJNeZGfHom_4LfRP3JNBR2CZFyFpxw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGM0O1Rg+GS8vgghxFz+r0AoZVeEjBc1+C7/BRI66xn4G+Y3wZ8q5J4S0subttob/lJHij8hRbCV2NbI5i95Ad7TP9ep2OrgTqWt2528pvD9eEbTw0ym
- g0wwldr0ISgq+FKeAL/93mItAVJTI1OjPnWHhSac9f/lVSoe1viEU1LFYQk2VlVFX7/UAB+JB+21iz8Ot5vxYqULZHYw5ZIxUpoj+QdLO7YRI9VvOxtkTfh9
- I8sUQKegoybF0zEcr56Wfqy3aW8c6RqfE7zy8R4jHi0v4l00JqRfHf4hFNpSXYBdRShESopbvvOzG3m9srsSqCUGLGvv5DgJAtToeh87bSyDSCjDFEGUzjPY
- FWVb2k4Nidfn3kktGWFrIg4RnLLeGA==
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210527154455.358869-2-knaerzche@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 31/05/2021 23:36, Fabio Estevam wrote:
-> On Wed, May 5, 2021 at 8:38 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+On Thu, 27 May 2021, Alex Bee wrote:
+
+> Document Rockchip RK3036/RK3228 qos compatibles
 > 
->> Philipp Zabel (1):
->>       media: video-mux: Skip dangling endpoints
+> Signed-off-by: Alex Bee <knaerzche@gmail.com>
+> Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> ---
 > 
-> Looks like this pull request is still missing to be applied. I don't
-> see this patch in linux-next yet.
-
-Neither do I. It is marked as Accepted, but I can't find these patches
-anywhere. I asked Mauro about this, it looks like something went wrong here.
-
-Thanks for the heads up!
-
-Regards,
-
-	Hans
-
+>  Changes in v2:
+>  - collect Reviewed tag
 > 
-> Without Philipp's fix the imx-capture driver is broken in mainline.
-> 
-> Thanks
-> 
+>  Documentation/devicetree/bindings/mfd/syscon.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
+Applied, thanks.
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
