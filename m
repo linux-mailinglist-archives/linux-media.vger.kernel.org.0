@@ -2,85 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8D09396EE8
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jun 2021 10:28:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2220D396F4E
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jun 2021 10:47:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233218AbhFAIaQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Jun 2021 04:30:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34312 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232963AbhFAIaQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Jun 2021 04:30:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 818CA61003;
-        Tue,  1 Jun 2021 08:28:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622536115;
-        bh=bedRNk8wKv9NNSArocmrL5fhZW3QrCccbA4cX/dEOdc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tgWxKFb46eJYPD/PnkAXyI8LDCApIWd3GHG/fyhfFfyFiSbjUSNuWjDj5ShGwFONM
-         RZgzn7tu17i4WOx4ZtuDZxDbbROuULhzo/S8oktQHERFhrx+rkytFudN72++fK98Nc
-         894NSiCoXzQDYXcNdyZAKV+P/4gsK7DsE2zF15SL5tcqZ3EDhKHb9gMbUst9Kkbhon
-         vIFo4DZsRrI3qh68zkhvkPx6t0BzavOufxg3wxtXJoQfOOrBxu1VjI/M1EPoxw6Yg9
-         izZigHWQxDKLWPC0UKUMNHSudlbdvYUjaptZPC0J8y0fPHkx7R4brhcwIukny8knac
-         voSA9ZWr/Mbkg==
-Date:   Tue, 1 Jun 2021 10:28:29 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Alaa Emad <alaaemadhossney.ae@gmail.com>,
-        Brad Love <brad@nextdimension.cc>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        id S233450AbhFAIsh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Jun 2021 04:48:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60728 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233354AbhFAIsh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Jun 2021 04:48:37 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 868ECC061574
+        for <linux-media@vger.kernel.org>; Tue,  1 Jun 2021 01:46:56 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id u7so6494800plq.4
+        for <linux-media@vger.kernel.org>; Tue, 01 Jun 2021 01:46:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=My2vf1o9P1BvHaxwXlTiuBUtfkfpIL2XgVqXjExCZx8=;
+        b=ezhrcnnBRxAIAzaRnZ89x5V29XwK4SMf3gzA3NJHO2lYsPYJXFekIuWRmqza+eLmwo
+         RRoivh+W17gO/QIPjzUA6YZLuXdhMQax0VqqXZY4msbghCFv7UVUHVF+AyeGjbFuG26s
+         MdzWMjM+hdRlxQ8yMp/wMDRKWdLhyGkP/Or54=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=My2vf1o9P1BvHaxwXlTiuBUtfkfpIL2XgVqXjExCZx8=;
+        b=PXczrpxuoHuDFGn9GdYhvZ2qgjLJ2YlaFPlWVrfO6Coc0QUpf42bCo34TWYD+hZNtT
+         3ffIsHiLL7mostMBX7Vsc+N8Dfj5heiI3EFLJzICqaAh8U5b3FKvYxTkXHb8SHvWMexI
+         P1HWYLtLGdtpp6Y8xdMpOWcevYChNbh2eKLSYYMy5ZhKKvwoaoe4g1tfbH4BcvuxeQaP
+         Rbvm23G85jUl/3G4nAIlIgbYM4v4DVl8N0HUeCCRa1X4nss8r7YcODpl1pe/+zo008ZN
+         klUUlvNAbQaRW0+WAyOWnhgY+WeL0lfjQVcZ6yG1qVXT88rXzHIqqEqIeNKi2/9ScixI
+         2B+g==
+X-Gm-Message-State: AOAM530AXUf8Gbu7yvWEyvQ7sBW03BvHjTz82z72RxLUdiTPakcqoRt2
+        xjbrh/kS7FNjVkGJSzygOaCRJQ==
+X-Google-Smtp-Source: ABdhPJz7sE8nUuEgxbxj7dHNZCQqV/rxJu5aJk54+EZiin2KVOukvmCGhxgGZKJBqgbbzZLoMF2CTA==
+X-Received: by 2002:a17:90b:350a:: with SMTP id ls10mr24184505pjb.181.1622537216051;
+        Tue, 01 Jun 2021 01:46:56 -0700 (PDT)
+Received: from google.com ([2409:10:2e40:5100:8cea:584c:cbae:6e37])
+        by smtp.gmail.com with ESMTPSA id 15sm13085834pfy.15.2021.06.01.01.46.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jun 2021 01:46:55 -0700 (PDT)
+Date:   Tue, 1 Jun 2021 17:46:50 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxim Plotnikov <wgh@torlan.ru>, Sean Young <sean@mess.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: sp8870: move it to staging
-Message-ID: <20210601102829.37d9447a@coco.lan>
-In-Reply-To: <YLW8rkDRNp1TdWqY@kroah.com>
-References: <5e694bc1b0670b58b93a9fea5712ed0f306e6050.1622493461.git.mchehab+huawei@kernel.org>
-        <YLW8rkDRNp1TdWqY@kroah.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv5 0/5] media: uvcvideo: implement UVC 1.5 ROI
+Message-ID: <YLXz+r8PkKx1VMVc@google.com>
+References: <20210501082001.100533-1-senozhatsky@chromium.org>
+ <8583ed26-ef35-3341-5058-32dbf219d10c@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8583ed26-ef35-3341-5058-32dbf219d10c@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 1 Jun 2021 06:50:54 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-
-> On Mon, May 31, 2021 at 10:37:54PM +0200, Mauro Carvalho Chehab wrote:
-> > This driver is used only ba av7110, which is preparing for
-> > its retirement. So, move this ancillary driver to stay together
-> > with av7110.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  drivers/media/dvb-frontends/Kconfig           | 12 -----------
-> >  drivers/media/dvb-frontends/Makefile          |  1 -
-> >  drivers/staging/media/av7110/Kconfig          | 20 +++++++++++++++++++
-> >  drivers/staging/media/av7110/Makefile         |  2 ++
-> >  .../media/av7110}/sp8870.c                    |  0
-> >  .../media/av7110}/sp8870.h                    |  0
-> >  6 files changed, 22 insertions(+), 13 deletions(-)
-> >  rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.c (100%)
-> >  rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.h (100%)  
+On (21/05/26 12:38), Hans Verkuil wrote:
+> Hi Sergey,
 > 
-> Don't you need a TODO file for these moves that says what is wrong with
-> the driver and when it will be removed and to not send cleanups for it?
+> On 01/05/2021 10:19, Sergey Senozhatsky wrote:
+> > Hello,
+> > 
+> > 	This patch set implements UVC 1.5 ROI using v4l2_selection API.
+> > 
+> > v5:
+> > -- fixed UAPI typo: STABILIXATION
+> > -- moved V4L2_CID_REGION_OF_INTEREST_AUTO to V4L2_CID_CAMERA_CLASS_BASE+36
+> > -- added more comments (Ricardo)
+> > -- added V4L2_CID_REGION_OF_INTEREST_AUTO to v4l2_ctrl_get_name() (Ricardo)
+> > 
+> > Sergey Senozhatsky (5):
+> >   media: v4l UAPI: add ROI selection targets
+> 
+> As mentioned in my reply to v4 0/5, I am quite strongly opposed to using the
+> Selection API for this as opposed to using controls. Unless someone can provide
+> strong arguments for using the Selection API, I am inclined to reject this.
+> 
+> Sorry about that, I probably should have been reviewing this series sooner.
 
-Yes, but it was added on the previous patch that moved the master driver
-(av7110):
-
-	https://lore.kernel.org/linux-media/4e7136434c68eabcdb66d25f44946ab794f4af0b.1622476959.git.mchehab+huawei@kernel.org/T/#u
-
-The TODO is just saying:
-
-	This driver is too old and relies on a different API.
-	Drop it from Kernel on a couple of versions.
-
-(there was a typo there, I'll fix at the next version)
-
-Thanks,
-Mauro
+Hans, any suggestions regarding the UVCs GET_CUR, GET_DEF, GET_MIN/MAX
+requests handling?
