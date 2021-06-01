@@ -2,115 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F73E397A47
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jun 2021 20:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ED25397B4C
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jun 2021 22:34:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234539AbhFAS40 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Jun 2021 14:56:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45660 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233397AbhFAS40 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Jun 2021 14:56:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7F85F610CB;
-        Tue,  1 Jun 2021 18:54:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622573684;
-        bh=4iiEd5l4m2/Ori1jLtEYI+2KE4P8L7ttrQhdycPrOOk=;
-        h=Date:From:To:Cc:Subject:From;
-        b=nBekMZtwL/tRKQOe4vtdXvaTrO24vkHhYK381uoJS+i1eTKvmYoxcgvoBPkN8w0nt
-         K4ZT1NwbQU7huhXgV1L+6OUpuaC5xdTF6NiRZKIA210U3nf5kwDVjddWSzxh+ndPXc
-         YITb2XKQQD0dsUb9WIYApAdzHbhYbSJfe4E7Nr6ER/2sQvNLtec4RBTFpljUDf+K0n
-         An8RZFY+SvJ0TIkvxGNWUE9tXq6Euzos2WbMrHfnx7f3BPrTiWO8aAUvS3jN9xBx0g
-         TU0fXiT1Un7SB3LEsguqnmi1y/vaxsAU0fswm49xaioOzHOnQ6T1PAUHnOZIObA+6q
-         LfSmJVqeGj4Ag==
-Date:   Tue, 1 Jun 2021 13:55:50 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH v2][venus-for-next-v5.14] media: venus: hfi_cmds: Fix packet
- size calculation
-Message-ID: <20210601185550.GA39330@embeddedor>
+        id S234793AbhFAUgS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Jun 2021 16:36:18 -0400
+Received: from forward105j.mail.yandex.net ([5.45.198.248]:60887 "EHLO
+        forward105j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234671AbhFAUgS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Jun 2021 16:36:18 -0400
+X-Greylist: delayed 370 seconds by postgrey-1.27 at vger.kernel.org; Tue, 01 Jun 2021 16:36:17 EDT
+Received: from myt6-640abdf8240b.qloud-c.yandex.net (myt6-640abdf8240b.qloud-c.yandex.net [IPv6:2a02:6b8:c12:238c:0:640:640a:bdf8])
+        by forward105j.mail.yandex.net (Yandex) with ESMTP id 22029B20562;
+        Tue,  1 Jun 2021 23:28:18 +0300 (MSK)
+Received: from myt6-efff10c3476a.qloud-c.yandex.net (myt6-efff10c3476a.qloud-c.yandex.net [2a02:6b8:c12:13a3:0:640:efff:10c3])
+        by myt6-640abdf8240b.qloud-c.yandex.net (mxback/Yandex) with ESMTP id Odkf8wDvLA-SHJqaEG7;
+        Tue, 01 Jun 2021 23:28:18 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ya.ru; s=mail; t=1622579298;
+        bh=VIm8SC8iGm6JjXeLW6aICVBlDZmmbjIXsRJVbWSSChI=;
+        h=Date:Subject:To:From:Message-Id:Cc;
+        b=kSk9pyfQrSb1dE5qWTwGCkndqsJBDUtfUAGQh8LdqX3VeSwIva0UMK4C5gEBiRKdS
+         dUhLgLwwCzu9c3dljL2WMnKktHsYxfGVPtWx7I4AVOslJKqHrmuti6HCLo+RQ+8naF
+         geV4m7NMNgdodvRJDwhFPgvquqcwH2pxiFUOecWs=
+Authentication-Results: myt6-640abdf8240b.qloud-c.yandex.net; dkim=pass header.i=@ya.ru
+Received: by myt6-efff10c3476a.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id S5fBcGf33l-SHLWsSvi;
+        Tue, 01 Jun 2021 23:28:17 +0300
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client certificate not present)
+From:   Alexander Voronov <avv.0@ya.ru>
+Cc:     sean@mess.org, robh+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        avv.0@ya.ru
+Subject: [PATCH] media: rc: add keymap for Toshiba CT-90405 remote
+Date:   Tue,  1 Jun 2021 23:28:12 +0300
+Message-Id: <20210601202812.97898-1-avv.0@ya.ru>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that a one-element array was replaced with a flexible-array member
-in struct hfi_sys_set_property_pkt, use the struct_size() helper to
-correctly calculate the packet size.
+This is an NEC remote control device shipped with some Toshiba TVs.
 
-Fixes: 701e10b3fd9f ("media: venus: hfi_cmds.h: Replace one-element array with flexible-array member")
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Alexander Voronov <avv.0@ya.ru>
 ---
-Changes in v2:
- - Include linux/overflow.h
+ .../devicetree/bindings/media/rc.yaml         |  1 +
+ drivers/media/rc/keymaps/Makefile             |  1 +
+ drivers/media/rc/keymaps/rc-ct-90405.c        | 86 +++++++++++++++++++
+ include/media/rc-map.h                        |  1 +
+ 4 files changed, 89 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-ct-90405.c
 
-BTW... it seems that a similar problem is present in[1] and that is
-what is causing the regression. I will send v2 of that patch,
-shortly. Thanks.
-
-[1] https://lore.kernel.org/linux-hardening/20210211001044.GA69612@embeddedor/
-
- drivers/media/platform/qcom/venus/hfi_cmds.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index 4b9dea7f6940..a4fec1c563bb 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -5,6 +5,7 @@
-  */
- #include <linux/errno.h>
- #include <linux/hash.h>
-+#include <linux/overflow.h>
- 
- #include "hfi_cmds.h"
- 
-@@ -27,7 +28,7 @@ void pkt_sys_idle_indicator(struct hfi_sys_set_property_pkt *pkt, u32 enable)
- {
- 	struct hfi_enable *hfi = (struct hfi_enable *)&pkt->data[1];
- 
--	pkt->hdr.size = sizeof(*pkt) + sizeof(*hfi) + sizeof(u32);
-+	pkt->hdr.size = struct_size(pkt, data, 2) + sizeof(*hfi);
- 	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
- 	pkt->num_properties = 1;
- 	pkt->data[0] = HFI_PROPERTY_SYS_IDLE_INDICATOR;
-@@ -39,7 +40,7 @@ void pkt_sys_debug_config(struct hfi_sys_set_property_pkt *pkt, u32 mode,
- {
- 	struct hfi_debug_config *hfi;
- 
--	pkt->hdr.size = sizeof(*pkt) + sizeof(*hfi) + sizeof(u32);
-+	pkt->hdr.size = struct_size(pkt, data, 2) + sizeof(*hfi);
- 	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
- 	pkt->num_properties = 1;
- 	pkt->data[0] = HFI_PROPERTY_SYS_DEBUG_CONFIG;
-@@ -50,7 +51,7 @@ void pkt_sys_debug_config(struct hfi_sys_set_property_pkt *pkt, u32 mode,
- 
- void pkt_sys_coverage_config(struct hfi_sys_set_property_pkt *pkt, u32 mode)
- {
--	pkt->hdr.size = sizeof(*pkt) + sizeof(u32);
-+	pkt->hdr.size = struct_size(pkt, data, 2);
- 	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
- 	pkt->num_properties = 1;
- 	pkt->data[0] = HFI_PROPERTY_SYS_CONFIG_COVERAGE;
-@@ -116,7 +117,7 @@ void pkt_sys_power_control(struct hfi_sys_set_property_pkt *pkt, u32 enable)
- {
- 	struct hfi_enable *hfi = (struct hfi_enable *)&pkt->data[1];
- 
--	pkt->hdr.size = sizeof(*pkt) + sizeof(*hfi) + sizeof(u32);
-+	pkt->hdr.size = struct_size(pkt, data, 2) + sizeof(*hfi);
- 	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
- 	pkt->num_properties = 1;
- 	pkt->data[0] = HFI_PROPERTY_SYS_CODEC_POWER_PLANE_CTRL;
+diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
+index e3cea8cd7..b9ee13838 100644
+--- a/Documentation/devicetree/bindings/media/rc.yaml
++++ b/Documentation/devicetree/bindings/media/rc.yaml
+@@ -45,6 +45,7 @@ properties:
+       - rc-cec
+       - rc-cinergy
+       - rc-cinergy-1400
++      - rc-ct-90405
+       - rc-d680-dmb
+       - rc-delock-61959
+       - rc-dib0700-nec
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index ae7474a22..f93cf3298 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -24,6 +24,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-cec.o \
+ 			rc-cinergy-1400.o \
+ 			rc-cinergy.o \
++			rc-ct-90405.o \
+ 			rc-d680-dmb.o \
+ 			rc-delock-61959.o \
+ 			rc-dib0700-nec.o \
+diff --git a/drivers/media/rc/keymaps/rc-ct-90405.c b/drivers/media/rc/keymaps/rc-ct-90405.c
+new file mode 100644
+index 000000000..8914c83c9
+--- /dev/null
++++ b/drivers/media/rc/keymaps/rc-ct-90405.c
+@@ -0,0 +1,86 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Toshiba CT-90405 remote controller keytable
++ *
++ * Copyright (C) 2021 Alexander Voronov <avv.0@ya.ru>
++ */
++
++#include <media/rc-map.h>
++#include <linux/module.h>
++
++static struct rc_map_table ct_90405[] = {
++	{ 0x4014, KEY_SWITCHVIDEOMODE },
++	{ 0x4012, KEY_POWER },
++	{ 0x4044, KEY_TV },
++	{ 0x40be43, KEY_3D_MODE },
++	{ 0x400c, KEY_SUBTITLE },
++	{ 0x4001, KEY_NUMERIC_1 },
++	{ 0x4002, KEY_NUMERIC_2 },
++	{ 0x4003, KEY_NUMERIC_3 },
++	{ 0x4004, KEY_NUMERIC_4 },
++	{ 0x4005, KEY_NUMERIC_5 },
++	{ 0x4006, KEY_NUMERIC_6 },
++	{ 0x4007, KEY_NUMERIC_7 },
++	{ 0x4008, KEY_NUMERIC_8 },
++	{ 0x4009, KEY_NUMERIC_9 },
++	{ 0x4062, KEY_AUDIO_DESC },
++	{ 0x4000, KEY_NUMERIC_0 },
++	{ 0x401a, KEY_VOLUMEUP },
++	{ 0x401e, KEY_VOLUMEDOWN },
++	{ 0x4016, KEY_INFO },
++	{ 0x4010, KEY_MUTE },
++	{ 0x401b, KEY_CHANNELUP },
++	{ 0x401f, KEY_CHANNELDOWN },
++	{ 0x40da, KEY_VENDOR },
++	{ 0x4066, KEY_PLAYER },
++	{ 0x4017, KEY_TEXT },
++	{ 0x4047, KEY_LIST },
++	{ 0x4073, KEY_PAGEUP },
++	{ 0x4045, KEY_PROGRAM },
++	{ 0x4043, KEY_EXIT },
++	{ 0x4074, KEY_PAGEDOWN },
++	{ 0x4064, KEY_BACK },
++	{ 0x405b, KEY_MENU },
++	{ 0x4019, KEY_UP },
++	{ 0x4040, KEY_RIGHT },
++	{ 0x401d, KEY_DOWN },
++	{ 0x4042, KEY_LEFT },
++	{ 0x4021, KEY_OK },
++	{ 0x4053, KEY_REWIND },
++	{ 0x4067, KEY_PLAY },
++	{ 0x400d, KEY_FASTFORWARD },
++	{ 0x4054, KEY_PREVIOUS },
++	{ 0x4068, KEY_STOP },
++	{ 0x406a, KEY_PAUSE },
++	{ 0x4015, KEY_NEXT },
++	{ 0x4048, KEY_RED },
++	{ 0x4049, KEY_GREEN },
++	{ 0x404a, KEY_YELLOW },
++	{ 0x404b, KEY_BLUE },
++	{ 0x406f, KEY_RECORD }
++};
++
++static struct rc_map_list ct_90405_map = {
++	.map = {
++		.scan     = ct_90405,
++		.size     = ARRAY_SIZE(ct_90405),
++		.rc_proto = RC_PROTO_NEC,
++		.name     = RC_MAP_CT_90405,
++	}
++};
++
++static int __init init_rc_map_ct_90405(void)
++{
++	return rc_map_register(&ct_90405_map);
++}
++
++static void __exit exit_rc_map_ct_90405(void)
++{
++	rc_map_unregister(&ct_90405_map);
++}
++
++module_init(init_rc_map_ct_90405)
++module_exit(exit_rc_map_ct_90405)
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Alexander Voronov <avv.0@ya.ru>");
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index 7bb94278e..562bc9ea1 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -224,6 +224,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_CEC                       "rc-cec"
+ #define RC_MAP_CINERGY                   "rc-cinergy"
+ #define RC_MAP_CINERGY_1400              "rc-cinergy-1400"
++#define RC_MAP_CT_90405                  "rc-ct-90405"
+ #define RC_MAP_D680_DMB                  "rc-d680-dmb"
+ #define RC_MAP_DELOCK_61959              "rc-delock-61959"
+ #define RC_MAP_DIB0700_NEC_TABLE         "rc-dib0700-nec"
 -- 
-2.27.0
+2.31.1
 
