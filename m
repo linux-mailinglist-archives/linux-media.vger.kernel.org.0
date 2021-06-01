@@ -2,105 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1A433975BD
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jun 2021 16:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E96703976DD
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jun 2021 17:38:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234135AbhFAOsx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Jun 2021 10:48:53 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:52146 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233797AbhFAOsx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Jun 2021 10:48:53 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 151EjOXC185494;
-        Tue, 1 Jun 2021 14:46:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=NzPYCRnwavId3swqe43Sh4YoNVz7T0kuF+uL9OiFttI=;
- b=aszaS9sfNff08KM7+lVhOHe1hxaeqXusGjZeJl8Qn6P4gsrYo/WEen47yLZnschRBvW7
- CQQVok2mYUjbA1eZ6QtcJ2yUy7dhccJ7ajq4LdBvvyH1E8KhRAWVu9ZP0vm/rAX+t4kf
- +L+rx8UxfDxyooaN9Y3Nia7GF+hSD7ru8PPMQO6HSVTqvUSMHeQvvqJttTgZGSA3e+Gz
- KKXe/d1UytDErlPWQL+2ZSLO5HnucV2mvwDT2rwx4s32T8I48nTirZ47D234pWBePRfs
- 0/2FFNykt2UnwrU9hItebJON1ClIMQy8PiaGJDLX+tdrIoL823qbD+2700MaUWWUbgS9 Jg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2130.oracle.com with ESMTP id 38ub4cntws-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 01 Jun 2021 14:46:57 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 151EkSLx167489;
-        Tue, 1 Jun 2021 14:46:56 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by aserp3030.oracle.com with ESMTP id 38ubnd8679-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 01 Jun 2021 14:46:56 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 151Ekuw1168071;
-        Tue, 1 Jun 2021 14:46:56 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3030.oracle.com with ESMTP id 38ubnd866t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 01 Jun 2021 14:46:56 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 151Ekq1m028325;
-        Tue, 1 Jun 2021 14:46:52 GMT
-Received: from kadam (/41.212.42.34)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 01 Jun 2021 14:46:51 +0000
-Date:   Tue, 1 Jun 2021 17:46:44 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Zheng Yongjun <zhengyongjun3@huawei.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org
-Subject: Re: [PATCH -next] media: atomisp: Remove unneeded if-null-free check
-Message-ID: <20210601144644.GB1955@kadam>
-References: <20210601142005.4132018-1-zhengyongjun3@huawei.com>
+        id S233059AbhFAPkS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Jun 2021 11:40:18 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:36425 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234066AbhFAPkS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Jun 2021 11:40:18 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id o6TPl6vkuEXL0o6TSlu6XP; Tue, 01 Jun 2021 17:38:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1622561915; bh=14B2l39gX2JOttpb7Wa5lm2RBI9eVm1w3Y+rTiJsPn8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=kmQjR7khNSYp4r5wdP/+h2dhOXMcVjzuCusUk6Og7+Z7C8jR9EqIrA0BkZS7P1zEz
+         RbT1lZOHwedeT9kHQvxWVGxdfUY86Qr8IWzXt3I6dFQftTeiZy3EYH6eF4M8V6Umjn
+         uPmDNM2Q+kg8efCmELgS/w6x8x8ofJwOYzZeHLpk+AJx9x3mCv2fRVQkPdBwAFOUXy
+         KC0Jge2yil5qBCQLdhvxNjLunAglkiWUQDCnGILnkdybk9sOfIrWPSAIZmE4keqbIc
+         CH3eYgKqfebqamhfl9lSBJSMLTh1baYLDag2Zl3o4LzhHWYcwoqJUXa/iSpj+riLdU
+         pBzWu5zK0Vjrw==
+Subject: Re: [GIT FIXES FOR v5.13] Three fixes for 5.13.
+To:     Fabio Estevam <festevam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+References: <e2d6324c-b001-7468-2eb6-3df9f044ae8c@xs4all.nl>
+ <CAOMZO5CSWnnCA29GWySYAJNeZGfHom_4LfRP3JNBR2CZFyFpxw@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <8fa6b0c1-3c3d-3aaf-4bbf-7ccde6895450@xs4all.nl>
+Date:   Tue, 1 Jun 2021 17:38:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210601142005.4132018-1-zhengyongjun3@huawei.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: 4laRrVAYnDnxliylLSPvZFBHd1nhqE9Z
-X-Proofpoint-ORIG-GUID: 4laRrVAYnDnxliylLSPvZFBHd1nhqE9Z
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10002 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 mlxscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- clxscore=1015 impostorscore=0 adultscore=0 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106010100
+In-Reply-To: <CAOMZO5CSWnnCA29GWySYAJNeZGfHom_4LfRP3JNBR2CZFyFpxw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfGM0O1Rg+GS8vgghxFz+r0AoZVeEjBc1+C7/BRI66xn4G+Y3wZ8q5J4S0subttob/lJHij8hRbCV2NbI5i95Ad7TP9ep2OrgTqWt2528pvD9eEbTw0ym
+ g0wwldr0ISgq+FKeAL/93mItAVJTI1OjPnWHhSac9f/lVSoe1viEU1LFYQk2VlVFX7/UAB+JB+21iz8Ot5vxYqULZHYw5ZIxUpoj+QdLO7YRI9VvOxtkTfh9
+ I8sUQKegoybF0zEcr56Wfqy3aW8c6RqfE7zy8R4jHi0v4l00JqRfHf4hFNpSXYBdRShESopbvvOzG3m9srsSqCUGLGvv5DgJAtToeh87bSyDSCjDFEGUzjPY
+ FWVb2k4Nidfn3kktGWFrIg4RnLLeGA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 01, 2021 at 10:20:05PM +0800, Zheng Yongjun wrote:
-> Eliminate the following coccicheck warning:
+On 31/05/2021 23:36, Fabio Estevam wrote:
+> On Wed, May 5, 2021 at 8:38 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 > 
-> drivers/staging/media/atomisp/pci/sh_css_firmware.c:369:4-10: WARNING:
-> NULL check before some freeing functions is not needed.
+>> Philipp Zabel (1):
+>>       media: video-mux: Skip dangling endpoints
 > 
-> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
-> ---
->  drivers/staging/media/atomisp/pci/sh_css_firmware.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> Looks like this pull request is still missing to be applied. I don't
+> see this patch in linux-next yet.
+
+Neither do I. It is marked as Accepted, but I can't find these patches
+anywhere. I asked Mauro about this, it looks like something went wrong here.
+
+Thanks for the heads up!
+
+Regards,
+
+	Hans
+
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> index f4ce8ace9d50..980fc09fcc8b 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> @@ -365,8 +365,7 @@ void sh_css_unload_firmware(void)
->  		for (i = 0; i < sh_css_num_binaries; i++) {
->  			if (fw_minibuffer[i].name)
->  				kfree((void *)fw_minibuffer[i].name);
+> Without Philipp's fix the imx-capture driver is broken in mainline.
+> 
+> Thanks
+> 
 
-Change this too.
-
-> -			if (fw_minibuffer[i].buffer)
-> -				kvfree(fw_minibuffer[i].buffer);
-> +			kvfree(fw_minibuffer[i].buffer);
->  		}
->  		kfree(fw_minibuffer);
->  		fw_minibuffer = NULL;
-
-regards,
-dan carpenter
