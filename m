@@ -2,70 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44097398486
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 10:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1EB63984FD
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 11:10:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232806AbhFBIvd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 04:51:33 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:46389 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231124AbhFBIvd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Jun 2021 04:51:33 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id oMZNlTrZAIpGyoMZQlP1fQ; Wed, 02 Jun 2021 10:49:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622623788; bh=Fk6mOJfI0KMK8RD6zklaYz+4UElEq76LH4RsVTCOcjQ=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=XYWhz2OHmhFu6+K43EfB+Xz90i6mHRa5WbkSXUbG/PANzIKTqtSQ6yvVdbgZKtW3K
-         IYHGJiFRJz/eafJquabEYQ+4R4M46HuRAFhZWzEZfPdOIPudpOwr3unMxRvL2MWD7g
-         IsyeuXg53eaBkzNXJ9xUZ6yZTFQAefSHcTY+y0VcMyjPM17VTksYSLsGve9ZAyCiqv
-         RzVtNB8dUWNbx5W/hI8PJKgpBR02CLx/Z1ZVe7CA0p7iK0lAtUGMZObNCO2HuTBO02
-         JXdxRPJUkBjrFh2XFWgQp0KuToNXf7Pv++JJifMy7i0LYKiD4FJ6uC0qksnkqMiFdl
-         v67/nZ6dUGw7g==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.14] mc-request.c: allow object_bind in QUEUED state
-Message-ID: <84d88438-f821-bead-c9f1-83d6580e8cc1@xs4all.nl>
-Date:   Wed, 2 Jun 2021 10:49:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        id S229745AbhFBJLx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 05:11:53 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:38108 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229603AbhFBJLw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Jun 2021 05:11:52 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1loMt6-00G1u0-87; Wed, 02 Jun 2021 09:10:08 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1loMxT-0002XB-5A; Wed, 02 Jun 2021 09:14:39 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] mc-request.c: allow object_bind in QUEUED state (#74724)
+Date:   Wed,  2 Jun 2021 09:14:38 +0000
+Message-Id: <20210602091438.9687-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <84d88438-f821-bead-c9f1-83d6580e8cc1@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfICX8xPcRTw/5yqFq5L7k969zZ40cz40XHkNFlUWtFV4E1blu7T855OZ1kCPR+LU8Yq243aQjbm5qwdBqRkdhU7TzLm2pFTpMi7+JJ5cXkJFzl0OTs58
- RNBhzmpJ5vGV3DENOjwXLPjTmxzh0pu8VF7BmK+8jfD+lDXkbsMrz5wkcGJulqeXDOD48EHxEs+UvqVPwVaTQ/IOQbnMwpFVA6k=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Posting PR for this since this is a serious bug.
+From: builder@linuxtv.org
 
-Regards,
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/84d88438-f821-bead-c9f1-83d6580e8cc1@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/111852/
+Build time: 00:15:49
+Link: https://lore.kernel.org/linux-media/84d88438-f821-bead-c9f1-83d6580e8cc1@xs4all.nl
 
-	Hans
+gpg: Signature made Wed 02 Jun 2021 08:47:47 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-The following changes since commit 71c689dc2e732d4cb190aaf0edea73116b1611bd:
+Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-  media: v4l2-ctrls: split up into four source files (2021-05-25 17:03:29 +0200)
+Error/warnings:
 
-are available in the Git repository at:
+patches/0001-mc-request.c-allow-object_bind-in-QUEUED-state.patch:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14g
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
 
-for you to fetch changes up to da302cc94160251d25653c67e6f8f191ee6ecb0f:
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-  mc-request.c: allow object_bind in QUEUED state (2021-06-02 10:42:28 +0200)
 
-----------------------------------------------------------------
-Tag branch
+Error #512 when building PDF docs
 
-----------------------------------------------------------------
-Hans Verkuil (1):
-      mc-request.c: allow object_bind in QUEUED state
-
- drivers/media/mc/mc-request.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
