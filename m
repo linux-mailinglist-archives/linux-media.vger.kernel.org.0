@@ -2,121 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EFFC397E4A
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 03:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47116397F99
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 05:41:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230203AbhFBB7a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Jun 2021 21:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38844 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229635AbhFBB73 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Jun 2021 21:59:29 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91403C061574;
-        Tue,  1 Jun 2021 18:57:46 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id w127so1228598oig.12;
-        Tue, 01 Jun 2021 18:57:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=SU3VNhIHP4qFfMS6BHdB+T/4wdfQUGXE54wCPeu58gQ=;
-        b=QQO75cNDTpDKr0tOdLOk5vG9ysCKgZa/phRsAdD89jlR+TT9Wjgl3mHuc1yXOnZu9L
-         xsRhHTI9U8g5BYgBihgDXw6SikyKy9uI+vcBR/0GRLeuZPZPL/sZ+Q8NyhCrFi6h/8Rq
-         ZEOkfNeRAWeAfwfI/4mLVNOdfpqIvjsk/+BgiSUjprCSv3xhbHyQZJvd23gxCfFk6QKD
-         QOImaejnjZGYi3c+IWhtKD14pHWKC11iaZ1fLPcXIYgwoFVMWYOv7mN3EYxOAP7W4T9/
-         yHHTxTAYdLhrWVepaPX/WcM0IxKK2z1R8oLv3rcFrSmis3GkxABc1obOY4Yh0u0nmFw4
-         Ckkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=SU3VNhIHP4qFfMS6BHdB+T/4wdfQUGXE54wCPeu58gQ=;
-        b=qUeuVpZFppJmDFsyW5XS1qHCIl8KNtrxcDAAiHnjkGtZdQY4dz5vB4FDbEWcpRVMvZ
-         IwThj+felhl5bcvA9vmoP+j6fpYPI2lbH1SEEM/E+S5/CJ2h7q1KHXWEfKuSCmRCMdGS
-         cZWNO/0PnYJIs2bu1tjy3Wi8UrHMSMqHQjpWsmZ8a1y0q8LQivyXYjcbMEUAy3/lwz3c
-         M7A0jKPpEC/XkZ6yWOb0BW2WiAY8VFXQoKHiGW7xzwYgvq6q4204nsiDwEbVcqZT1jxS
-         FaCion38U6NXiE36P6PaPYYeQxCD5UcD+aGa5z9w0Wkw37FVc6gTmvAGlMrT0BIBA3Xc
-         bFpQ==
-X-Gm-Message-State: AOAM533Go/l6E2UmvrmlDKIo/66yfR6HpKavakorKLMe13XeN3x/0Mpn
-        +2w59558iPZhvJOFzkboplvrdjvCcjGPLbp6oaI=
-X-Google-Smtp-Source: ABdhPJz1oJcj/TIW7IPXKfUGMx+mKb7O5I8+KY9nNPCZgngt3Y0TTxSNjp3R9qmQkBVU/dtI0mfS9UGxQ14qdDZsEFg=
-X-Received: by 2002:a05:6808:1592:: with SMTP id t18mr19903224oiw.123.1622599066060;
- Tue, 01 Jun 2021 18:57:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <1622194158-70898-1-git-send-email-jiapeng.chong@linux.alibaba.com>
- <37a4f0bf-4acb-3961-699b-8335e194e315@amd.com>
-In-Reply-To: <37a4f0bf-4acb-3961-699b-8335e194e315@amd.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 1 Jun 2021 21:57:35 -0400
-Message-ID: <CADnq5_NY_uWzB6QjsM0_+xcbQkMfy1wm2gQx3v7xW_eHQ804YA@mail.gmail.com>
-Subject: Re: [PATCH v3] amdgpu: remove unreachable code
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-        "Deucher, Alexander" <alexander.deucher@amd.com>,
-        Dave Airlie <airlied@linux.ie>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S229835AbhFBDm4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Jun 2021 23:42:56 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:57963 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229625AbhFBDmz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Jun 2021 23:42:55 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id oHkjlB34zEXL0oHkmlvt5r; Wed, 02 Jun 2021 05:41:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1622605272; bh=IGPculyjseYVMOEO71L1i/4lt3Dw6XN/FZkOdM18EhY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=E2I3u0xkXDYaTnniV0SpEM4hctLbfC96otOGn2SVRHAYmvEfVTVfIkKfwq0SIUkvM
+         ebWO5PaMS+siNd1roRWQCQ3nDGSi7NR7AaO6GPnCnrG35ySpaaFhU3hq0VqEilySlx
+         1UzE3hQwI5hnactW4VhNNgcPksy0EOxYDxRN15hBZ6Qxk6Ug4GbchRgtdv8LeB4++D
+         1PtqKbwo6JJorBvhuVKkXrJijotDy23DoNxuFsrAEIO4BcMSF1wIcHMGqI2gJaCDaZ
+         cudnI3i4zByfzITU/++cP0/QeledR9Lt/E7VuohvRVcPLDqGJjZJLJqjoeshcZwote
+         m+VcImthq98oA==
+Message-ID: <7063d8a251ec836b7efe047a4e2fae8d@smtp-cloud9.xs4all.net>
+Date:   Wed, 02 Jun 2021 05:41:09 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfFVBbb49Rp5l8QcoUdl6BomOvfOwwzYxJApPpwp/D7GBK/7/16zyB4tO14THcK+wos51s3IfI1jAmbrSTpF7Wjowa+kzFX50fW5xfmyVCzqksAdzr9K+
+ QIX0i7tVPUCxFDPMLB5OyZxLG1z8JaJH+RtXKb/eeREKbAa8i85r7N1/h0CC9q8mqobYmcPC7u0cN1OlbbQ4+6Cqk8YxPwNNelSSBOrYVN9J8H9N9YcrxoEO
+ q6e+ieNaAjFU8euIjNsIRg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Applied.  Thanks!
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Fri, May 28, 2021 at 8:18 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 28.05.21 um 11:29 schrieb Jiapeng Chong:
-> > In the function amdgpu_uvd_cs_msg(), every branch in the switch
-> > statement will have a return, so the code below the switch statement
-> > will not be executed.
-> >
-> > Eliminate the follow smatch warning:
-> >
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:845 amdgpu_uvd_cs_msg() warn:
-> > ignoring unreachable code.
-> >
-> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> > ---
-> > Changes in v2:
-> >    -For the follow advice: https://lore.kernel.org/patchwork/patch/1435=
-968/
-> >
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_uvd.c
-> > index c6dbc08..35f6874 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> > @@ -829,9 +829,8 @@ static int amdgpu_uvd_cs_msg(struct amdgpu_uvd_cs_c=
-tx *ctx,
-> >
-> >       default:
-> >               DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
-> > -             return -EINVAL;
-> >       }
-> > -     BUG();
-> > +
-> >       return -EINVAL;
-> >   }
-> >
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+Results of the daily build of media_tree:
+
+date:			Wed Jun  2 05:00:08 CEST 2021
+media-tree git hash:	71c689dc2e732d4cb190aaf0edea73116b1611bd
+media_build git hash:	b85393d37cdac84cb846802f0d62259aa679c994
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7445-g58776ae33
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13-rc1-i686: OK
+linux-5.13-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2963, Succeeded: 2959, Failed: 4, Warnings: 0
+virtme-32: ERRORS: Final Summary: 3023, Succeeded: 3022, Failed: 1, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
