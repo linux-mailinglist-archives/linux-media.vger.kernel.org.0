@@ -2,79 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32A4239847E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 10:47:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44097398486
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 10:49:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232814AbhFBItT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 04:49:19 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:57325 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230517AbhFBItT (ORCPT
+        id S232806AbhFBIvd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 04:51:33 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:46389 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231124AbhFBIvd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Jun 2021 04:49:19 -0400
+        Wed, 2 Jun 2021 04:51:33 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id oMXElTqt9IpGyoMXHlP1M5; Wed, 02 Jun 2021 10:47:35 +0200
+        id oMZNlTrZAIpGyoMZQlP1fQ; Wed, 02 Jun 2021 10:49:48 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622623655; bh=GeBnTPsbpVKLWCT7oZPo+DnHu/e6dwvW2f1gxsMyohU=;
+        t=1622623788; bh=Fk6mOJfI0KMK8RD6zklaYz+4UElEq76LH4RsVTCOcjQ=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=MwVq85Xq7OQah8Nk+bbZKrPaVUXNf/sC8s92MVT0CF+8MKvXdcQe7qAj7eqBXTdSF
-         kw0NY1GlygT3Pw8JtDmLBrCnLAVQY6MyGKyrSy/M+KKqzsx9yHkeL/SNKBQKKOenkq
-         ztNHv+ZEuW3Qbbmrwd8woxyOibaOYBa3TAx7p4X2xcrlYkpZRQDXFBJ7tLIqMx5S+6
-         FrdWitaJdFMkChaY1trqAI+dXs966SzjIEx1GJaAIQ2bRXy0FXjd09FjegNaeTEf1U
-         //Laa//aKpnODbLZTBSF3tJz2RH2SeeuHmxJj9Vu6QmzMUpyYbzSRL4hUfPRGdX26C
-         WPc8jtKOfpJSQ==
+        b=XYWhz2OHmhFu6+K43EfB+Xz90i6mHRa5WbkSXUbG/PANzIKTqtSQ6yvVdbgZKtW3K
+         IYHGJiFRJz/eafJquabEYQ+4R4M46HuRAFhZWzEZfPdOIPudpOwr3unMxRvL2MWD7g
+         IsyeuXg53eaBkzNXJ9xUZ6yZTFQAefSHcTY+y0VcMyjPM17VTksYSLsGve9ZAyCiqv
+         RzVtNB8dUWNbx5W/hI8PJKgpBR02CLx/Z1ZVe7CA0p7iK0lAtUGMZObNCO2HuTBO02
+         JXdxRPJUkBjrFh2XFWgQp0KuToNXf7Pv++JJifMy7i0LYKiD4FJ6uC0qksnkqMiFdl
+         v67/nZ6dUGw7g==
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] mc-request.c: allow object_bind in QUEUED state
-Message-ID: <f4c01888-3aec-5d4a-ff3d-d2b47368fc16@xs4all.nl>
-Date:   Wed, 2 Jun 2021 10:47:31 +0200
+Subject: [GIT PULL FOR v5.14] mc-request.c: allow object_bind in QUEUED state
+Message-ID: <84d88438-f821-bead-c9f1-83d6580e8cc1@xs4all.nl>
+Date:   Wed, 2 Jun 2021 10:49:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJZw4oLeE5/ILNITRzKt0vz4ukMrtZ0nPz6P75pnNH8jFHtNw1cZ6s9O3cY5tg2U5VlLKdoke5jnG/2JfjMzXQBdey1VA9HQwsE17JLSGmsXO+stY1Vk
- dEYeO1bwCYHbhryv/ZXV4HT19SRLaC+KprGb6lPvOF8NklQfYQGcHm4TmZsXp8jPmwwm9YR45/WSkPe3l5KVmvUI0FrsI2TyUaI=
+X-CMAE-Envelope: MS4xfICX8xPcRTw/5yqFq5L7k969zZ40cz40XHkNFlUWtFV4E1blu7T855OZ1kCPR+LU8Yq243aQjbm5qwdBqRkdhU7TzLm2pFTpMi7+JJ5cXkJFzl0OTs58
+ RNBhzmpJ5vGV3DENOjwXLPjTmxzh0pu8VF7BmK+8jfD+lDXkbsMrz5wkcGJulqeXDOD48EHxEs+UvqVPwVaTQ/IOQbnMwpFVA6k=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If a request was queued without a control handler object, and
-a control handler object is then created and bound to the request
-when copying controls on request completion, then a WARN_ON in
-mc-request.c is triggered since at that time the request is in
-state QUEUED, and not UPDATING.
+Posting PR for this since this is a serious bug.
 
-But this is too strict, and in this case it must also allow
-binding objects when in state QUEUED.
+Regards,
 
-This patch was unfortunately lost when the "always copy the controls
-on completion" patch was posted, it should have been part of that
-commit.
+	Hans
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Fixes: c3bf5129f339 ("media: v4l2-ctrls: always copy the controls on completion")
----
+The following changes since commit 71c689dc2e732d4cb190aaf0edea73116b1611bd:
+
+  media: v4l2-ctrls: split up into four source files (2021-05-25 17:03:29 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14g
+
+for you to fetch changes up to da302cc94160251d25653c67e6f8f191ee6ecb0f:
+
+  mc-request.c: allow object_bind in QUEUED state (2021-06-02 10:42:28 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      mc-request.c: allow object_bind in QUEUED state
+
  drivers/media/mc/mc-request.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
-index c0782fd96c59..addb8f2d8939 100644
---- a/drivers/media/mc/mc-request.c
-+++ b/drivers/media/mc/mc-request.c
-@@ -414,7 +414,8 @@ int media_request_object_bind(struct media_request *req,
-
- 	spin_lock_irqsave(&req->lock, flags);
-
--	if (WARN_ON(req->state != MEDIA_REQUEST_STATE_UPDATING))
-+	if (WARN_ON(req->state != MEDIA_REQUEST_STATE_UPDATING &&
-+		    req->state != MEDIA_REQUEST_STATE_QUEUED))
- 		goto unlock;
-
- 	obj->req = req;
--- 
-2.30.2
-
