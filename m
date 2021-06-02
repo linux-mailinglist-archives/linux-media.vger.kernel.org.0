@@ -2,550 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EAFB3989F3
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 14:45:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B6B4398A5E
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 15:25:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbhFBMrf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 08:47:35 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:57703 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229541AbhFBMre (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Jun 2021 08:47:34 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id oQFllEiQrEXL0oQFply6Nu; Wed, 02 Jun 2021 14:45:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622637949; bh=Dc6QaBoyDmn+2746fvBeKcmGoOKA5ei1jXTW6AYJ59E=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=AB3RBDAVd2/POXkWkvAeYjxYtdagZcvVP/4sNAS2IH/1w6B7hDYKgazeee5A+EvhL
-         noaajlTRa619//aAE0CoHPJCtZ+SZJKd6clzowo3GJhmqU0mnMJuhc/tnS0FMTC7KU
-         woO9glMemIQPGsvrcFp020hsuiPCxMp3DD0WveLnn8g61VB4e2yogYcuE7cIoq4VtG
-         TJyeriEejK+nWrEKtZQVY5pzdgq5CUDriDUH2N2r/tqdnpmX58UjRizIK4OwEIWU/D
-         eYZfMg9gXM05Woit4m7VLH+LL8XHGwWO0YcR5KC/JAppJzwsg1e/a8dKxs8tooSNk8
-         chdzK/9CSJang==
-Subject: Re: [PATCH 9/9] media: dwc: dw-hdmi-rx: Add support for CEC
-To:     Nelson Costa <Nelson.Costa@synopsys.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jose Abreu <Jose.Abreu@synopsys.com>
-References: <cover.1622631488.git.nelson.costa@synopsys.com>
- <86557797e979ce29ed97dd1ed0db8499a6ccbc34.1622631488.git.nelson.costa@synopsys.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <746222a8-4b3f-2655-c5de-15d25e8b8852@xs4all.nl>
-Date:   Wed, 2 Jun 2021 14:45:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        id S229799AbhFBN05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 09:26:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39070 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229593AbhFBN0z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Jun 2021 09:26:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 63DE06024A;
+        Wed,  2 Jun 2021 13:25:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622640312;
+        bh=FV+x3WxqlmUwMsQyV+Gb3ENhCp68U7GBVBr1EI3Wgv8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TlQWh4JsQYBN9CkhhCoASBSgDddqLirbSLtxwZwAF8/U8RJA83feGs1sSd6q0chAL
+         Vhs2Ca7ZuWZGisyAUEiTJj51SPYptRxORRPGHX7FUlezF3u7Dln01EjYLo3dBZaEV6
+         FwsO9zixrSnyZxlpInhv/vKHJ2pnoFRbvSzs4maruafEdtOHE33Gtm0ihp0lu/ybD0
+         t2XUMp5m19MGp25Nr6ajPXzRpgNnQqs3Z5O0T2bqMJHj5/NrDFi/HqUY0SchZddy4c
+         4t6dJqo8UIO4oN5oC8iA1Y2Vhnj2qs5sovufIkuhhOPXRv6ExtZM7D38FcqpL6qf6u
+         JYszKQ35B6txw==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1loQrt-006UP6-UK; Wed, 02 Jun 2021 15:25:09 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andy Walls <awalls@md.metrocast.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: [PATCH 0/3] Move audio/video/osd APIs to be together with av7110
+Date:   Wed,  2 Jun 2021 15:25:06 +0200
+Message-Id: <cover.1622639751.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <86557797e979ce29ed97dd1ed0db8499a6ccbc34.1622631488.git.nelson.costa@synopsys.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNjulgeh/vKDxlGTa3YoJAWf7LYytDOg2VsUydqam2X2P9SV0iZ1hGiGAcgLVwqDOvG05TehSBAluCy0G/+0TjI83lccA7MRk3kwLFTZQX2MFEfYCQXA
- Tfb4kFsmr5WrCq83dVb5QuoL9U1G14txyJ4CRTureI7RsqXedutIrZCWWhnPcex7z94S/mUE/2zkq4rxHvkvpSyGCxSW+r9XnCxRY3MQf1DnCEBtOeDGeIzd
- Sr4PioZtZ00+3EKJaeI8tqR1xylXhIGRlEnwVjiM3w/ze8mFNj4Ogy3vflBvnQP1GCsJbOoFiHcGa3FITxGxxnAKIqd25REEcK1lUs/9HjgnTjTc1WQuiPXX
- 5MrMravxiJZ7hVVAGimYmfxINEn6rdHhz/R974pKHAZPc43iu8oKL3MAPOvpA6/JXBBEHx8mO7Md575xbYm9/UdklzxIjmMXZpwFB+0R6HDPBLcH+dcEs4yf
- GzP1RoQ8XjdbrR2hWaCJ8q3QL8ZRSCXgHnHPODnOIVJ7UMu9tHpzHGg0SGo=
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/06/2021 13:24, Nelson Costa wrote:
-> This adds support for the optional HDMI CEC feature
-> for the Synopsys DesignWare HDMI RX Controller.
-> 
-> It uses the generic CEC framework interface.
-> 
-> Signed-off-by: Jose Abreu <jose.abreu@synopsys.com>
-> Signed-off-by: Nelson Costa <nelson.costa@synopsys.com>
-> ---
->  drivers/media/platform/dwc/Kconfig      |  10 ++
->  drivers/media/platform/dwc/dw-hdmi-rx.c | 259 +++++++++++++++++++++++++++++++-
->  drivers/media/platform/dwc/dw-hdmi-rx.h |  57 +++++++
->  3 files changed, 324 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/dwc/Kconfig b/drivers/media/platform/dwc/Kconfig
-> index e915ca6..b487a92 100644
-> --- a/drivers/media/platform/dwc/Kconfig
-> +++ b/drivers/media/platform/dwc/Kconfig
-> @@ -11,3 +11,13 @@ config VIDEO_DWC_HDMI_RX
->  
->  	  To compile this driver as a module, choose M here. The module
->  	  will be called dw-hdmi-rx.
-> +
-> +config VIDEO_DWC_HDMI_RX_CEC
-> +	bool "Synopsys DesignWare HDMI Receiver CEC support"
-> +	depends on VIDEO_DWC_HDMI_RX
-> +	select CEC_CORE
-> +	help
-> +	  When selected the Synopsys DesignWare HDMI RX controller
-> +	  will support the optional HDMI CEC feature.
-> +
-> +	  It uses the generic CEC framework interface.
-> diff --git a/drivers/media/platform/dwc/dw-hdmi-rx.c b/drivers/media/platform/dwc/dw-hdmi-rx.c
-> index a468a93..5d6b1c0 100644
-> --- a/drivers/media/platform/dwc/dw-hdmi-rx.c
-> +++ b/drivers/media/platform/dwc/dw-hdmi-rx.c
-> @@ -21,6 +21,7 @@
->  #include <linux/workqueue.h>
->  #include <linux/rational.h>
->  #include <linux/hdmi.h>
-> +#include <media/cec.h>
->  #include <media/v4l2-async.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
-> @@ -36,6 +37,7 @@
->  #define DW_HDMI_JTAG_TAP_WRITE_CMD	1
->  #define DW_HDMI_JTAG_TAP_READ_CMD	3
->  #define DW_HDMI_AUDIO_FREQ_RANGE	1000
-> +#define DW_HDMI_CEC_MAX_LOG_ADDRS	CEC_MAX_LOG_ADDRS
->  
->  /* EDID for HDMI RX */
->  static u32 dw_hdmi_edid[] = {
-> @@ -164,6 +166,9 @@ struct dw_hdmi_dev {
->  	union hdmi_infoframe audioif;
->  	union hdmi_infoframe vsif;
->  
-> +	/* CEC */
-> +	struct cec_adapter *cec_adap;
-> +
->  	/* v4l2 device */
->  	struct v4l2_subdev sd;
->  	struct v4l2_ctrl_handler hdl;
-> @@ -365,6 +370,20 @@ static void dw_hdmi_reset(struct dw_hdmi_dev *dw_dev)
->  	dw_hdmi_main_reset(dw_dev);
->  
->  	dw_hdmi_disable_hpd(dw_dev);
-> +
-> +	/* After a main reset try to re-enable the cec adapter in order to
-> +	 * reconfigure the required cec registers. For this the physical address
-> +	 * is invalidated and reconfigured, and with CEC_CAP_NEEDS_HPD allowing
-> +	 * to re-enable the adapter.
-> +	 */
-> +	if (dw_dev->cec_adap) {
-> +		u16 phys_addr = dw_dev->cec_adap->phys_addr;
-> +
-> +		cec_phys_addr_invalidate(dw_dev->cec_adap);
-> +		cec_s_phys_addr(dw_dev->cec_adap, phys_addr, false);
-> +		dev_dbg(dw_dev->dev, "%s: re-enable cec adapter\n",
-> +			__func__);
-> +	}
->  }
->  
->  static inline bool is_off(struct dw_hdmi_dev *dw_dev)
-> @@ -1460,6 +1479,184 @@ static u32 dw_hdmi_get_int_val(struct dw_hdmi_dev *dw_dev, u32 ists, u32 ien)
->  	return hdmi_readl(dw_dev, ists) & hdmi_readl(dw_dev, ien);
->  }
->  
-> +#if IS_ENABLED(CONFIG_VIDEO_DWC_HDMI_RX_CEC)
-> +static void dw_hdmi_cec_enable_ints(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	u32 mask = DW_HDMI_DONE_ISTS | DW_HDMI_EOM_ISTS |
-> +		DW_HDMI_NACK_ISTS | DW_HDMI_ARBLST_ISTS |
-> +		DW_HDMI_ERROR_INIT_ISTS | DW_HDMI_ERROR_FOLL_ISTS;
-> +
-> +	hdmi_writel(dw_dev, mask, DW_HDMI_AUD_CEC_IEN_SET);
-> +	hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_MASK);
-> +}
-> +
-> +static void dw_hdmi_cec_disable_ints(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_AUD_CEC_IEN_CLR);
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_CEC_MASK);
-> +}
-> +
-> +static void dw_hdmi_cec_clear_ints(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_AUD_CEC_ICLR);
-> +}
-> +
-> +static void dw_hdmi_cec_tx_raw_status(struct dw_hdmi_dev *dw_dev, u32 stat)
-> +{
-> +	if (hdmi_readl(dw_dev, DW_HDMI_CEC_CTRL) & DW_HDMI_SEND_MASK) {
-> +		dev_dbg(dw_dev->dev, "%s: tx is busy\n", __func__);
-> +		return;
-> +	}
-> +
-> +	if (stat & DW_HDMI_ARBLST_ISTS) {
-> +		cec_transmit_attempt_done(dw_dev->cec_adap,
-> +					  CEC_TX_STATUS_ARB_LOST);
-> +		return;
-> +	}
-> +
-> +	if (stat & DW_HDMI_NACK_ISTS) {
-> +		cec_transmit_attempt_done(dw_dev->cec_adap, CEC_TX_STATUS_NACK);
-> +		return;
-> +	}
-> +
-> +	if (stat & DW_HDMI_ERROR_INIT_ISTS) {
-> +		dev_dbg(dw_dev->dev, "%s: got low drive error\n", __func__);
-> +		cec_transmit_attempt_done(dw_dev->cec_adap,
-> +					  CEC_TX_STATUS_LOW_DRIVE);
-> +		return;
-> +	}
-> +
-> +	if (stat & DW_HDMI_DONE_ISTS) {
-> +		cec_transmit_attempt_done(dw_dev->cec_adap, CEC_TX_STATUS_OK);
-> +		return;
-> +	}
-> +}
-> +
-> +static void dw_hdmi_cec_received_msg(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	struct cec_msg msg;
-> +	u8 i;
-> +
-> +	msg.len = hdmi_readl(dw_dev, DW_HDMI_CEC_RX_CNT);
-> +	if (!msg.len || msg.len > DW_HDMI_CEC_RX_DATA_MAX)
-> +		return; /* it's an invalid/non-existent message */
-> +
-> +	for (i = 0; i < msg.len; i++)
-> +		msg.msg[i] = hdmi_readl(dw_dev, DW_HDMI_CEC_RX_DATA(i));
-> +
-> +	hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_LOCK);
-> +	cec_received_msg(dw_dev->cec_adap, &msg);
-> +}
-> +
-> +static int dw_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = cec_get_drvdata(adap);
-> +
-> +	dev_dbg(dw_dev->dev, "%s: enable=%d\n", __func__, enable);
-> +
-> +	hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_ADDR_L);
-> +	hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_ADDR_H);
-> +
-> +	if (enable) {
-> +		hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_LOCK);
-> +		dw_hdmi_cec_clear_ints(dw_dev);
-> +		dw_hdmi_cec_enable_ints(dw_dev);
-> +	} else {
-> +		dw_hdmi_cec_disable_ints(dw_dev);
-> +		dw_hdmi_cec_clear_ints(dw_dev);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_cec_adap_log_addr(struct cec_adapter *adap, u8 addr)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = cec_get_drvdata(adap);
-> +	u32 tmp;
-> +
-> +	dev_dbg(dw_dev->dev, "%s: addr=%d\n", __func__, addr);
-> +
-> +	if (addr == CEC_LOG_ADDR_INVALID) {
-> +		hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_ADDR_L);
-> +		hdmi_writel(dw_dev, 0x0, DW_HDMI_CEC_ADDR_H);
-> +		return 0;
-> +	}
-> +
-> +	if (addr >= 8) {
-> +		tmp = hdmi_readl(dw_dev, DW_HDMI_CEC_ADDR_H);
-> +		tmp |= BIT(addr - 8);
-> +		hdmi_writel(dw_dev, tmp, DW_HDMI_CEC_ADDR_H);
-> +	} else {
-> +		tmp = hdmi_readl(dw_dev, DW_HDMI_CEC_ADDR_L);
-> +		tmp |= BIT(addr);
-> +		hdmi_writel(dw_dev, tmp, DW_HDMI_CEC_ADDR_L);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
-> +				     u32 signal_free_time, struct cec_msg *msg)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = cec_get_drvdata(adap);
-> +	u8 len = msg->len;
-> +	u32 reg;
-> +	u8 i;
-> +
-> +	dev_dbg(dw_dev->dev, "%s: len=%d\n", __func__, len);
-> +
-> +	if (hdmi_readl(dw_dev, DW_HDMI_CEC_CTRL) & DW_HDMI_SEND_MASK) {
-> +		dev_err(dw_dev->dev, "%s: tx is busy\n", __func__);
-> +		return -EBUSY;
-> +	}
-> +
-> +	for (i = 0; i < len; i++)
-> +		hdmi_writel(dw_dev, msg->msg[i], DW_HDMI_CEC_TX_DATA(i));
-> +
-> +	switch (signal_free_time) {
-> +	case CEC_SIGNAL_FREE_TIME_RETRY:
-> +		reg = 0x0;
-> +		break;
-> +	case CEC_SIGNAL_FREE_TIME_NEXT_XFER:
-> +		reg = 0x2;
-> +		break;
-> +	case CEC_SIGNAL_FREE_TIME_NEW_INITIATOR:
-> +	default:
-> +		reg = 0x1;
-> +		break;
-> +	}
-> +
-> +	hdmi_writel(dw_dev, len, DW_HDMI_CEC_TX_CNT);
-> +	hdmi_mask_writel(dw_dev, reg, DW_HDMI_CEC_CTRL,
-> +			 DW_HDMI_FRAME_TYP_OFFSET,
-> +			 DW_HDMI_FRAME_TYP_MASK);
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEC_CTRL,
-> +			 DW_HDMI_SEND_OFFSET,
-> +			 DW_HDMI_SEND_MASK);
-> +	return 0;
-> +}
-> +
-> +static const struct cec_adap_ops dw_hdmi_cec_adap_ops = {
-> +	.adap_enable = dw_hdmi_cec_adap_enable,
-> +	.adap_log_addr = dw_hdmi_cec_adap_log_addr,
-> +	.adap_transmit = dw_hdmi_cec_adap_transmit,
-> +};
-> +
-> +static void dw_hdmi_cec_irq_handler(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	u32 cec_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_AUD_CEC_ISTS,
-> +			DW_HDMI_AUD_CEC_IEN);
-> +
-> +	dw_hdmi_cec_clear_ints(dw_dev);
-> +
-> +	if (cec_ists) {
-> +		dw_hdmi_cec_tx_raw_status(dw_dev, cec_ists);
-> +		if (cec_ists & DW_HDMI_EOM_ISTS)
-> +			dw_hdmi_cec_received_msg(dw_dev);
-> +	}
-> +}
-> +#endif /* CONFIG_VIDEO_DWC_HDMI_RX_CEC */
-> +
->  static u8 dw_hdmi_get_curr_vic(struct dw_hdmi_dev *dw_dev, bool *is_hdmi_vic)
->  {
->  	u8 vic = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_AVI_PB,
-> @@ -2058,6 +2255,10 @@ static irqreturn_t dw_hdmi_irq_handler(int irq, void *dev_data)
->  		}
->  	}
->  
-> +#if IS_ENABLED(CONFIG_VIDEO_DWC_HDMI_RX_CEC)
-> +	dw_hdmi_cec_irq_handler(dw_dev);
-> +#endif /* CONFIG_VIDEO_DWC_HDMI_RX_CEC */
-> +
->  	return IRQ_HANDLED;
->  }
->  
-> @@ -2556,14 +2757,27 @@ static int dw_hdmi_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
->  	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
->  	int input_count = dw_dev->config->phy->input_count;
->  	int size, ret;
-> +	u16 phys_addr;
->  	u32 *tmp;
->  
->  	memset(edid->reserved, 0, sizeof(edid->reserved));
->  
-> -	if (edid->pad >= input_count || !edid->edid || !edid->blocks)
-> +	if (edid->pad >= input_count || !edid->edid)
->  		return -EINVAL;
->  	if (edid->start_block != 0)
->  		return -EINVAL;
-> +	if (!edid->blocks) {
-> +		phys_addr = CEC_PHYS_ADDR_INVALID;
-> +		goto set_phys_addr;
-> +	}
-> +
-> +	/* get the source physical address (PA) from edid */
-> +	phys_addr = cec_get_edid_phys_addr(edid->edid, edid->blocks * 128,
-> +					   NULL);
-> +	/* get the own physical address getting the parent of Source PA */
-> +	ret = v4l2_phys_addr_validate(phys_addr, &phys_addr, NULL);
-> +	if (ret)
-> +		return ret;
+The ivtv is abusing a DVB API, as this is a V4L2 driver only.
+While this got fixed several years ago, a backward-compat code
+was added on that time (2016) by
+commit 6689638025a9 ("[media] ivtv: mark DVB "borrowed" ioctls as deprecated").
 
-Something I should have asked in my review for 6/9: if there are
-multiple inputs, does each input have its own EDID area?
+It is time to drop support for it.
 
-If there are multiple inputs, are the CEC lines of each input part
-of the same CEC bus? This is typically the case for e.g. TVs, and as
-far as I can see it's the case for this receiver driver as well.
+With that, the only remaining upstream driver to use those APIs is the
+av7110, which is now at staging. So, move the API to staging too, in order
+to be together with the driver that will retire on a couple of versions.
 
->  
->  	/* Clear old EDID */
->  	size = dw_dev->curr_edid_blocks[edid->pad] * 128;
-> @@ -2592,7 +2806,9 @@ static int dw_hdmi_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
->  	if (ret)
->  		return ret;
->  
-> +set_phys_addr:
->  	dw_dev->curr_edid_blocks[edid->pad] = edid->blocks;
-> +	cec_s_phys_addr(dw_dev->cec_adap, phys_addr, false);
->  	return 0;
->  }
->  
-> @@ -2825,15 +3041,33 @@ static int dw_hdmi_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
->  static int dw_hdmi_registered(struct v4l2_subdev *sd)
->  {
->  	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +	int ret;
-> +
-> +	ret = cec_register_adapter(dw_dev->cec_adap, dw_dev->dev);
-> +	if (ret) {
-> +		dev_err(dw_dev->dev, "failed to register CEC adapter\n");
-> +		goto err_adapter;
-> +	}
-> +	cec_s_phys_addr(dw_dev->cec_adap, 0, false);
+Mauro Carvalho Chehab (3):
+  media: ivtv: get rid of DVB deprecated ioctls
+  media: dvb header files: move some headers to staging
+  media: docs: move DVB audio/video docs to staging
 
-This isn't right. When you set the EDID you will also set the physical
-address, you don't do that when registering the CEC adapter, there is no
-physical address yet.
+ Documentation/userspace-api/media/Makefile    |  10 +-
+ .../media/audio.h.rst.exceptions              |  19 --
+ .../userspace-api/media/dvb/headers.rst       |   7 -
+ .../media/dvb/legacy_dvb_apis.rst             |   7 -
+ .../media/video.h.rst.exceptions              |  39 ----
+ drivers/media/pci/ivtv/Kconfig                |  12 -
+ drivers/media/pci/ivtv/ivtv-driver.h          |   2 -
+ drivers/media/pci/ivtv/ivtv-ioctl.c           | 221 ------------------
+ .../audio-bilingual-channel-select.rst        |   0
+ .../media/av7110}/audio-channel-select.rst    |   0
+ .../media/av7110}/audio-clear-buffer.rst      |   0
+ .../staging/media/av7110}/audio-continue.rst  |   0
+ .../staging/media/av7110}/audio-fclose.rst    |   0
+ .../staging/media/av7110}/audio-fopen.rst     |   0
+ .../staging/media/av7110}/audio-fwrite.rst    |   0
+ .../media/av7110}/audio-get-capabilities.rst  |   0
+ .../media/av7110}/audio-get-status.rst        |   0
+ .../staging/media/av7110}/audio-pause.rst     |   0
+ .../staging/media/av7110}/audio-play.rst      |   0
+ .../media/av7110}/audio-select-source.rst     |   0
+ .../media/av7110}/audio-set-av-sync.rst       |   0
+ .../media/av7110}/audio-set-bypass-mode.rst   |   0
+ .../staging/media/av7110}/audio-set-id.rst    |   0
+ .../staging/media/av7110}/audio-set-mixer.rst |   0
+ .../staging/media/av7110}/audio-set-mute.rst  |   0
+ .../media/av7110}/audio-set-streamtype.rst    |   0
+ .../staging/media/av7110}/audio-stop.rst      |   0
+ .../staging/media/av7110}/audio.h             |   0
+ .../staging/media/av7110}/audio.rst           |   0
+ .../media/av7110}/audio_data_types.rst        |   0
+ .../media/av7110}/audio_function_calls.rst    |   0
+ drivers/staging/media/av7110/av7110.h         |   7 +-
+ .../staging/media/av7110}/osd.h               |   0
+ .../media/av7110}/video-clear-buffer.rst      |   0
+ .../staging/media/av7110}/video-command.rst   |   0
+ .../staging/media/av7110}/video-continue.rst  |   0
+ .../media/av7110}/video-fast-forward.rst      |   0
+ .../staging/media/av7110}/video-fclose.rst    |   0
+ .../staging/media/av7110}/video-fopen.rst     |   0
+ .../staging/media/av7110}/video-freeze.rst    |   0
+ .../staging/media/av7110}/video-fwrite.rst    |   0
+ .../media/av7110}/video-get-capabilities.rst  |   0
+ .../staging/media/av7110}/video-get-event.rst |   0
+ .../media/av7110}/video-get-frame-count.rst   |   0
+ .../staging/media/av7110}/video-get-pts.rst   |   0
+ .../staging/media/av7110}/video-get-size.rst  |   0
+ .../media/av7110}/video-get-status.rst        |   0
+ .../staging/media/av7110}/video-play.rst      |   0
+ .../media/av7110}/video-select-source.rst     |   0
+ .../staging/media/av7110}/video-set-blank.rst |   0
+ .../av7110}/video-set-display-format.rst      |   0
+ .../media/av7110}/video-set-format.rst        |   0
+ .../media/av7110}/video-set-streamtype.rst    |   0
+ .../media/av7110}/video-slowmotion.rst        |   0
+ .../media/av7110}/video-stillpicture.rst      |   0
+ .../staging/media/av7110}/video-stop.rst      |   0
+ .../media/av7110}/video-try-command.rst       |   0
+ .../staging/media/av7110}/video.h             |   0
+ .../staging/media/av7110}/video.rst           |   0
+ .../media/av7110}/video_function_calls.rst    |   0
+ .../staging/media/av7110}/video_types.rst     |   0
+ 61 files changed, 6 insertions(+), 318 deletions(-)
+ delete mode 100644 Documentation/userspace-api/media/audio.h.rst.exceptions
+ delete mode 100644 Documentation/userspace-api/media/video.h.rst.exceptions
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-bilingual-channel-select.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-channel-select.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-clear-buffer.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-continue.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-fclose.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-fopen.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-fwrite.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-get-capabilities.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-get-status.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-pause.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-play.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-select-source.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-set-av-sync.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-set-bypass-mode.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-set-id.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-set-mixer.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-set-mute.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-set-streamtype.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio-stop.rst (100%)
+ rename {include/uapi/linux/dvb => drivers/staging/media/av7110}/audio.h (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio_data_types.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/audio_function_calls.rst (100%)
+ rename {include/uapi/linux/dvb => drivers/staging/media/av7110}/osd.h (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-clear-buffer.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-command.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-continue.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-fast-forward.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-fclose.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-fopen.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-freeze.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-fwrite.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-get-capabilities.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-get-event.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-get-frame-count.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-get-pts.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-get-size.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-get-status.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-play.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-select-source.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-set-blank.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-set-display-format.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-set-format.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-set-streamtype.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-slowmotion.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-stillpicture.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-stop.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video-try-command.rst (100%)
+ rename {include/uapi/linux/dvb => drivers/staging/media/av7110}/video.h (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video_function_calls.rst (100%)
+ rename {Documentation/userspace-api/media/dvb => drivers/staging/media/av7110}/video_types.rst (100%)
 
-> +	if (dw_dev->cec_adap)
-> +		dev_info(dw_dev->dev,
-> +			 "CEC adapter %s registered for HDMI input\n",
-> +			 dev_name(&dw_dev->cec_adap->devnode.dev));
->  
->  	dw_dev->registered = true;
->  	return 0;
-> +
-> +err_adapter:
-> +	cec_delete_adapter(dw_dev->cec_adap);
-> +	return ret;
->  }
->  
->  static void dw_hdmi_unregistered(struct v4l2_subdev *sd)
->  {
->  	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
->  
-> +	cec_unregister_adapter(dw_dev->cec_adap);
-> +
->  	dw_dev->registered = false;
->  }
->  
-> @@ -3194,10 +3428,29 @@ static int dw_hdmi_rx_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto err_phy_exit;
->  
-> +	/* CEC */
-> +#if IS_ENABLED(CONFIG_VIDEO_DWC_HDMI_RX_CEC)
-> +	dw_dev->cec_adap = cec_allocate_adapter(&dw_hdmi_cec_adap_ops,
-> +						dw_dev, dev_name(dev),
-> +						(CEC_CAP_DEFAULTS |
-> +						 CEC_CAP_NEEDS_HPD |
+-- 
+2.31.1
 
-This cap makes no sense for a receiver.
-
-> +						 CEC_CAP_CONNECTOR_INFO),
-
-This cap also should be removed: connector info is not (yet) supported
-for receivers, only for transmitters.
-
-Regards,
-
-	Hans
-
-> +						DW_HDMI_CEC_MAX_LOG_ADDRS);
-> +	ret = PTR_ERR_OR_ZERO(dw_dev->cec_adap);
-> +	if (ret) {
-> +		dev_err(dev, "failed to allocate CEC adapter\n");
-> +		goto err_cec;
-> +	}
-> +
-> +	dev_info(dev, "CEC is enabled\n");
-> +#else
-> +	dev_info(dev, "CEC is disabled\n");
-> +#endif /* CONFIG_VIDEO_DWC_HDMI_RX_CEC */
-> +
->  	ret = v4l2_async_register_subdev(sd);
->  	if (ret) {
->  		dev_err(dev, "failed to register subdev\n");
-> -		goto err_phy_exit;
-> +		goto err_cec;
->  	}
->  
->  	/* Fill initial format settings */
-> @@ -3230,6 +3483,8 @@ static int dw_hdmi_rx_probe(struct platform_device *pdev)
->  
->  err_subdev:
->  	v4l2_async_unregister_subdev(sd);
-> +err_cec:
-> +	cec_delete_adapter(dw_dev->cec_adap);
->  err_phy_exit:
->  	dw_hdmi_phy_exit(dw_dev);
->  err_hdl:
-> diff --git a/drivers/media/platform/dwc/dw-hdmi-rx.h b/drivers/media/platform/dwc/dw-hdmi-rx.h
-> index f0ea1d4..775b7a9 100644
-> --- a/drivers/media/platform/dwc/dw-hdmi-rx.h
-> +++ b/drivers/media/platform/dwc/dw-hdmi-rx.h
-> @@ -325,6 +325,25 @@
->  
->  #define DW_HDMI_HDCP22_STATUS			0x08fc
->  
-> +/* id_audio_and_cec_interrupt Registers */
-> +#define DW_HDMI_AUD_CEC_IEN_CLR			0x0f90
-> +#define DW_HDMI_AUD_CEC_IEN_SET			0x0f94
-> +
-> +#define DW_HDMI_AUD_CEC_ISTS			0x0f98
-> +#define DW_HDMI_WAKEUPCTRL_ISTS			BIT(22)
-> +#define DW_HDMI_ERROR_FOLL_ISTS			BIT(21)
-> +#define DW_HDMI_ERROR_INIT_ISTS			BIT(20)
-> +#define DW_HDMI_ARBLST_ISTS			BIT(19)
-> +#define DW_HDMI_NACK_ISTS			BIT(18)
-> +#define DW_HDMI_EOM_ISTS			BIT(17)
-> +#define DW_HDMI_DONE_ISTS			BIT(16)
-> +#define DW_HDMI_SCK_STABLE_ISTS			BIT(1)
-> +#define DW_HDMI_CTSN_CNT_ISTS			BIT(0)
-> +
-> +#define DW_HDMI_AUD_CEC_IEN			0x0f9c
-> +#define DW_HDMI_AUD_CEC_ICLR			0x0fa0
-> +#define DW_HDMI_AUD_CEC_ISET			0x0fa4
-> +
->  /* id_mode_detection_interrupt Registers */
->  #define DW_HDMI_MD_IEN_CLR			0x0fc0
->  #define DW_HDMI_MD_IEN_SET			0x0fc4
-> @@ -426,6 +445,44 @@
->  #define DW_HDMI_HDMI_ENABLE_MASK		BIT(2)
->  #define DW_HDMI_HDMI_ENABLE_OFFSET		2
->  
-> +/* id_cec Registers */
-> +#define DW_HDMI_CEC_CTRL			0x1f00
-> +#define DW_HDMI_STANDBY_MASK			BIT(4)
-> +#define DW_HDMI_STANDBY_OFFSET			4
-> +#define DW_HDMI_BC_NACK_MASK			BIT(3)
-> +#define DW_HDMI_BC_NACK_OFFSET			3
-> +#define DW_HDMI_FRAME_TYP_MASK			GENMASK(2, 1)
-> +#define DW_HDMI_FRAME_TYP_OFFSET		1
-> +#define DW_HDMI_SEND_MASK			BIT(0)
-> +#define DW_HDMI_SEND_OFFSET			0
-> +
-> +#define DW_HDMI_CEC_MASK			0x1f08
-> +#define DW_HDMI_WAKEUP_MASK			BIT(6)
-> +#define DW_HDMI_WAKEUP_OFFSET			6
-> +#define DW_HDMI_ERROR_FLOW_MASK			BIT(5)
-> +#define DW_HDMI_ERROR_FLOW_OFFSET		5
-> +#define DW_HDMI_ERROR_INITITATOR_MASK		BIT(4)
-> +#define DW_HDMI_ERROR_INITITATOR_OFFSET		4
-> +#define DW_HDMI_ARB_LOST_MASK			BIT(3)
-> +#define DW_HDMI_ARB_LOST_OFFSET			3
-> +#define DW_HDMI_NACK_MASK			BIT(2)
-> +#define DW_HDMI_NACK_OFFSET			2
-> +#define DW_HDMI_EOM_MASK			BIT(1)
-> +#define DW_HDMI_EOM_OFFSET			1
-> +#define DW_HDMI_DONE_MASK			BIT(0)
-> +#define DW_HDMI_DONE_OFFSET			0
-> +
-> +#define DW_HDMI_CEC_ADDR_L			0x1f14
-> +#define DW_HDMI_CEC_ADDR_H			0x1f18
-> +#define DW_HDMI_CEC_TX_CNT			0x1f1c
-> +#define DW_HDMI_CEC_RX_CNT			0x1f20
-> +#define DW_HDMI_CEC_TX_DATA(i)			(0x1f40 + ((i) * 4))
-> +#define DW_HDMI_CEC_TX_DATA_MAX			16
-> +#define DW_HDMI_CEC_RX_DATA(i)			(0x1f80 + ((i) * 4))
-> +#define DW_HDMI_CEC_RX_DATA_MAX			16
-> +#define DW_HDMI_CEC_LOCK			0x1fc0
-> +#define DW_HDMI_CEC_WAKEUPCTRL			0x1fc4
-> +
->  /* id_cbus Registers */
->  #define DW_HDMI_CBUSIOCTRL			0x3020
->  #define DW_HDMI_DATAPATH_CBUSZ_MASK		BIT(24)
-> 
 
