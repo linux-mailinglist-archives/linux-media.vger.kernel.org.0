@@ -2,307 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF3EC398BD4
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 16:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3198C398C44
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 16:16:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231562AbhFBOKi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 10:10:38 -0400
-Received: from foss.arm.com ([217.140.110.172]:45640 "EHLO foss.arm.com"
+        id S231959AbhFBOQz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 10:16:55 -0400
+Received: from comms.puri.sm ([159.203.221.185]:52480 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231558AbhFBOIg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Jun 2021 10:08:36 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 44A161042;
-        Wed,  2 Jun 2021 07:06:53 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 47D133F73D;
-        Wed,  2 Jun 2021 07:06:51 -0700 (PDT)
-Subject: Re: [PATCH 03/11] drm/panfrost: Use xarray and helpers for depedency
- tracking
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Daniel Vetter <daniel.vetter@intel.com>
-References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
- <20210521090959.1663703-3-daniel.vetter@ffwll.ch>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <2054fee7-dcd2-a4fa-5d50-7fe6f1b474be@arm.com>
-Date:   Wed, 2 Jun 2021 15:06:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210521090959.1663703-3-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+        id S231669AbhFBOO7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Jun 2021 10:14:59 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 396EBDFAEF;
+        Wed,  2 Jun 2021 07:12:44 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id ff76JJN6Hjvg; Wed,  2 Jun 2021 07:12:39 -0700 (PDT)
+Message-ID: <76437d47e5ac920baed3429d8839b6175864d13d.camel@puri.sm>
+Subject: Re: [PATCH v2 2/5] dt-bindings: media: document SK Hynix Hi-846
+ MIPI CSI-2 8M pixel sensor
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     mchehab@kernel.org, devicetree@vger.kernel.org, kernel@puri.sm,
+        krzysztof.kozlowski@canonical.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, paul.kocialkowski@bootlin.com,
+        robh@kernel.org, shawnx.tu@intel.com
+Date:   Wed, 02 Jun 2021 16:12:33 +0200
+In-Reply-To: <YLeQGjDdTX0iohZ0@pendragon.ideasonboard.com>
+References: <20210528081336.3858700-1-martin.kepplinger@puri.sm>
+         <20210528081336.3858700-3-martin.kepplinger@puri.sm>
+         <20210602135137.GW3@valkosipuli.retiisi.eu>
+         <YLeQGjDdTX0iohZ0@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/05/2021 10:09, Daniel Vetter wrote:
-> More consistency and prep work for the next patch.
+Am Mittwoch, dem 02.06.2021 um 17:05 +0300 schrieb Laurent Pinchart:
+> On Wed, Jun 02, 2021 at 04:51:37PM +0300, Sakari Ailus wrote:
+> > Hi Martin,
+> > 
+> > On Fri, May 28, 2021 at 10:13:33AM +0200, Martin Kepplinger wrote:
+> > > Document the bindings used for the SK Hynix Hi-846 CMOS camera
+> > > driver.
+> > > 
+> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > 
+> > Could you read Documentation/driver-api/media/camera-sensor.rst,
+> > please?
+> > 
+> > I believe you'll need assigned-clock-rates device property as well
+> > as
 > 
-> Aside: I wonder whether we shouldn't just move this entire xarray
-> business into the scheduler so that not everyone has to reinvent the
-> same wheels. Cc'ing some scheduler people for this too.
+> I dn't think assigned-clock-rates should be part of the bindings,
+> it's a
+> mechanism that can be used in any DT device node.
 > 
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Luben Tuikov <luben.tuikov@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-
-Two comments below, but otherwise looks like a nice cleanup.
-
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 41 ++++++++---------
->  drivers/gpu/drm/panfrost/panfrost_job.c | 61 ++++++++++---------------
->  drivers/gpu/drm/panfrost/panfrost_job.h |  8 ++--
->  3 files changed, 46 insertions(+), 64 deletions(-)
+> > link-frequencies endpoint property.
+> > 
+> > > ---
+> > >  .../bindings/media/i2c/hynix,hi846.yaml       | 99
+> > > +++++++++++++++++++
+> > >  1 file changed, 99 insertions(+)
+> > >  create mode 100644
+> > > Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+> > > 
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+> > > b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+> > > new file mode 100644
+> > > index 000000000000..2991108e23e5
+> > > --- /dev/null
+> > > +++
+> > > b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+> > > @@ -0,0 +1,99 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/hynix,hi846.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: SK Hynix Hi-846 1/4" 8M Pixel MIPI CSI-2 sensor
+> > > +
+> > > +maintainers:
+> > > +  - Martin Kepplinger <martin.kepplinger@puri.sm>
+> > > +
+> > > +description: |-
+> > > +  The Hi-846 is a raw image sensor with an MIPI CSI-2 image data
+> > > +  interface and CCI (I2C compatible) control bus. The output
+> > > format
+> > > +  is 10bit Bayer.
+> > 
+> > Virtually all Bayer sensors can do 8 bpp, too. I'd drop the
+> > sentence
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index ca07098a6141..7977b4752b5c 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -137,12 +137,6 @@ panfrost_lookup_bos(struct drm_device *dev,
->  	if (!job->bo_count)
->  		return 0;
->  
-> -	job->implicit_fences = kvmalloc_array(job->bo_count,
-> -				  sizeof(struct dma_fence *),
-> -				  GFP_KERNEL | __GFP_ZERO);
-> -	if (!job->implicit_fences)
-> -		return -ENOMEM;
-> -
->  	ret = drm_gem_objects_lookup(file_priv,
->  				     (void __user *)(uintptr_t)args->bo_handles,
->  				     job->bo_count, &job->bos);
-> @@ -173,7 +167,7 @@ panfrost_lookup_bos(struct drm_device *dev,
->  }
->  
->  /**
-> - * panfrost_copy_in_sync() - Sets up job->in_fences[] with the sync objects
-> + * panfrost_copy_in_sync() - Sets up job->deps with the sync objects
->   * referenced by the job.
->   * @dev: DRM device
->   * @file_priv: DRM file for this fd
-> @@ -193,22 +187,14 @@ panfrost_copy_in_sync(struct drm_device *dev,
->  {
->  	u32 *handles;
->  	int ret = 0;
-> -	int i;
-> +	int i, in_fence_count;
->  
-> -	job->in_fence_count = args->in_sync_count;
-> +	in_fence_count = args->in_sync_count;
->  
-> -	if (!job->in_fence_count)
-> +	if (!in_fence_count)
->  		return 0;
->  
-> -	job->in_fences = kvmalloc_array(job->in_fence_count,
-> -					sizeof(struct dma_fence *),
-> -					GFP_KERNEL | __GFP_ZERO);
-> -	if (!job->in_fences) {
-> -		DRM_DEBUG("Failed to allocate job in fences\n");
-> -		return -ENOMEM;
-> -	}
-> -
-> -	handles = kvmalloc_array(job->in_fence_count, sizeof(u32), GFP_KERNEL);
-> +	handles = kvmalloc_array(in_fence_count, sizeof(u32), GFP_KERNEL);
->  	if (!handles) {
->  		ret = -ENOMEM;
->  		DRM_DEBUG("Failed to allocate incoming syncobj handles\n");
-> @@ -217,16 +203,23 @@ panfrost_copy_in_sync(struct drm_device *dev,
->  
->  	if (copy_from_user(handles,
->  			   (void __user *)(uintptr_t)args->in_syncs,
-> -			   job->in_fence_count * sizeof(u32))) {
-> +			   in_fence_count * sizeof(u32))) {
->  		ret = -EFAULT;
->  		DRM_DEBUG("Failed to copy in syncobj handles\n");
->  		goto fail;
->  	}
->  
-> -	for (i = 0; i < job->in_fence_count; i++) {
-> +	for (i = 0; i < in_fence_count; i++) {
-> +		struct dma_fence *fence;
-> +
->  		ret = drm_syncobj_find_fence(file_priv, handles[i], 0, 0,
-> -					     &job->in_fences[i]);
-> -		if (ret == -EINVAL)
-> +					     &fence);
-> +		if (ret)
-> +			goto fail;
-> +
-> +		ret = drm_gem_fence_array_add(&job->deps, fence);
-> +
-> +		if (ret)
->  			goto fail;
->  	}
->  
-> @@ -264,6 +257,8 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
->  
->  	kref_init(&job->refcount);
->  
-> +	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
-> +
->  	job->pfdev = pfdev;
->  	job->jc = args->jc;
->  	job->requirements = args->requirements;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index f5d39ee14ab5..707d912ff64a 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -196,14 +196,21 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
->  	job_write(pfdev, JS_COMMAND_NEXT(js), JS_COMMAND_START);
->  }
->  
-> -static void panfrost_acquire_object_fences(struct drm_gem_object **bos,
-> -					   int bo_count,
-> -					   struct dma_fence **implicit_fences)
-> +static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
-> +					  int bo_count,
-> +					  struct xarray *deps)
->  {
-> -	int i;
-> +	int i, ret;
->  
-> -	for (i = 0; i < bo_count; i++)
-> -		implicit_fences[i] = dma_resv_get_excl_rcu(bos[i]->resv);
-> +	for (i = 0; i < bo_count; i++) {
-> +		struct dma_fence *fence = dma_resv_get_excl_rcu(bos[i]->resv);
-> +
-> +		ret = drm_gem_fence_array_add(deps, fence);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
->  }
->  
->  static void panfrost_attach_object_fences(struct drm_gem_object **bos,
-> @@ -236,8 +243,10 @@ int panfrost_job_push(struct panfrost_job *job)
->  
->  	kref_get(&job->refcount); /* put by scheduler job completion */
->  
-> -	panfrost_acquire_object_fences(job->bos, job->bo_count,
-> -				       job->implicit_fences);
-> +	ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
-> +					     &job->deps);
-> +	if (ret)
-> +		goto unlock;
+> Not this one according to its datasheet (we can't rule out that this
+> would be possible an undocumented of course).
 
-I think this needs to move above the kref_get() otherwise we'll leak the
-job on failure.
+actually there is one register that mentions raw8 output but I never
+got that to work. I don't have to mention 10bit in this description.
+thanks.
 
->  
->  	drm_sched_entity_push_job(&job->base, entity);
->  
-> @@ -254,18 +263,15 @@ static void panfrost_job_cleanup(struct kref *ref)
->  {
->  	struct panfrost_job *job = container_of(ref, struct panfrost_job,
->  						refcount);
-> +	struct dma_fence *fence;
-> +	unsigned long index;
->  	unsigned int i;
->  
-> -	if (job->in_fences) {
-> -		for (i = 0; i < job->in_fence_count; i++)
-> -			dma_fence_put(job->in_fences[i]);
-> -		kvfree(job->in_fences);
-> -	}
-> -	if (job->implicit_fences) {
-> -		for (i = 0; i < job->bo_count; i++)
-> -			dma_fence_put(job->implicit_fences[i]);
-> -		kvfree(job->implicit_fences);
-> +	xa_for_each(&job->deps, index, fence) {
-> +		dma_fence_put(fence);
->  	}
-> +	xa_destroy(&job->deps);
-> +
->  	dma_fence_put(job->done_fence);
->  	dma_fence_put(job->render_done_fence);
->  
-> @@ -308,26 +314,9 @@ static struct dma_fence *panfrost_job_dependency(struct drm_sched_job *sched_job
->  						 struct drm_sched_entity *s_entity)
->  {
->  	struct panfrost_job *job = to_panfrost_job(sched_job);
-> -	struct dma_fence *fence;
-> -	unsigned int i;
->  
-> -	/* Explicit fences */
-> -	for (i = 0; i < job->in_fence_count; i++) {
-> -		if (job->in_fences[i]) {
-> -			fence = job->in_fences[i];
-> -			job->in_fences[i] = NULL;
-> -			return fence;
-> -		}
-> -	}
-> -
-> -	/* Implicit fences, max. one per BO */
-> -	for (i = 0; i < job->bo_count; i++) {
-> -		if (job->implicit_fences[i]) {
-> -			fence = job->implicit_fences[i];
-> -			job->implicit_fences[i] = NULL;
-> -			return fence;
-> -		}
-> -	}
-> +	if (!xa_empty(&job->deps))
-> +		return xa_erase(&job->deps, job->last_dep++);
-
-Rather than tracking last_dep separately this could be written using
-xa_find():
-
-    if (xa_find(&job->deps, &i, ULONG_MAX, XA_PRESENT))
-	return xa_erase(&job->deps, &i);
-
-Steve
-
->  
->  	return NULL;
->  }
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
-> index bbd3ba97ff67..82306a03b57e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-> @@ -19,9 +19,9 @@ struct panfrost_job {
->  	struct panfrost_device *pfdev;
->  	struct panfrost_file_priv *file_priv;
->  
-> -	/* Optional fences userspace can pass in for the job to depend on. */
-> -	struct dma_fence **in_fences;
-> -	u32 in_fence_count;
-> +	/* Contains both explicit and implicit fences */
-> +	struct xarray deps;
-> +	unsigned long last_dep;
->  
->  	/* Fence to be signaled by IRQ handler when the job is complete. */
->  	struct dma_fence *done_fence;
-> @@ -30,8 +30,6 @@ struct panfrost_job {
->  	__u32 requirements;
->  	__u32 flush_id;
->  
-> -	/* Exclusive fences we have taken from the BOs to wait for */
-> -	struct dma_fence **implicit_fences;
->  	struct panfrost_gem_mapping **mappings;
->  	struct drm_gem_object **bos;
->  	u32 bo_count;
 > 
+> > mentoning 10 bits.
+> > 
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: hynix,hi846
+> > > +
+> > > +  reg:
+> > > +    description: I2C device address.
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    description: Reference to the mclk clock.
+> > > +    maxItems: 1
+> > > +
+> > > +  clock-names:
+> > > +    const: mclk
+> > > +
+> > > +  rst-gpios:
+> > > +    description: Reference to the GPIO connected to the reset
+> > > pin. Active low.
+> > > +    maxItems: 1
+> > > +
+> > > +  vdd-supply:
+> > > +    description: Definition of the regulator used as 1.8V
+> > > digital power supply.
+> > > +
+> > > +  port:
+> > > +    $ref: /schemas/graph.yaml#/properties/port
+> > > +    additionalProperties: false
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        $ref: /schemas/media/video-interfaces.yaml#
+> > > +        unevaluatedProperties: false
+> > > +
+> > > +        properties:
+> > > +          data-lanes:
+> > > +            oneOf:
+> > > +              - items:
+> > > +                  - const: 1
+> > > +                  - const: 2
+> > > +                  - const: 3
+> > > +                  - const: 4
+> > > +              - items:
+> > > +                  - const: 1
+> > > +                  - const: 2
+> > > +
+> > > +        required:
+> > > +          - data-lanes
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - clocks
+> > > +  - clock-names
+> > > +  - rst-gpios
+> > > +  - vdd-supply
+> > > +  - port
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +
+> > > +    i2c {
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +
+> > > +        hi846: camera@20 {
+> > > +            compatible = "hynix,hi846";
+> > > +            reg = <0x20>;
+> > > +            clocks = <&clk>;
+> > > +            clock-names = "mclk";
+> > > +            vdd-supply = <&reg_camera_pwr_en>; /* 1.8v */
+> > > +            rst-gpios = <&gpio1 25 GPIO_ACTIVE_LOW>;
+> > > +
+> > > +            port {
+> > > +                camera_out: endpoint {
+> > > +                    remote-endpoint = <&csi1_ep1>;
+> > > +                    data-lanes = <1 2>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +...
+> 
+
 
