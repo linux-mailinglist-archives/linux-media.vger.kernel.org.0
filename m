@@ -2,169 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC8539860B
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 12:13:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B053539882A
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 13:24:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232105AbhFBKPO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 06:15:14 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:37963 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230073AbhFBKPN (ORCPT
+        id S232653AbhFBL0b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 07:26:31 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:59156 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232305AbhFBL0W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Jun 2021 06:15:13 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id oNsLlUJ0HIpGyoNsOlPEI0; Wed, 02 Jun 2021 12:13:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622628809; bh=bUYMd0RzTLxd4QK2km6G8mx81+/nGJbGFGBtTxiFJYs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ne71Ell9zTaPHyMNkkSakNwb90Vtu2YaJlM3SlwSbhbMqJF3CJvUqNdY8E3GSdk1Y
-         w5zoib4JBKIippCfQ/jzxmYMQOnCEBonFkf2fMBfxr8Go1cjz5hPDbn4HxoFL4+8Zp
-         g/Z150yvAwQd9uutAafXCX28Pc1l7EzE0Jk/D5vKn1Wx30sG+U2c6t6PNwIscsX4wK
-         fUIcj409NLjtCho23iqXq03p3n7rLMpnXAtLHTaNBOaji6C4X0/4ymbODUUmqm8VUk
-         6l+Sq0WInYsuYPkHE94VaSO7e0KWuyDwv16hyjEkmnQSK1Au/sIRGBmz6oMgjM8ySv
-         JwpS0V24wQ5jQ==
-Subject: Re: [PATCH v4 1/2] media: v4l2-ctrls: Add intra-refresh period
- control
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        nicolas.dufresne@collabora.com
-References: <20210602094714.607828-1-stanimir.varbanov@linaro.org>
- <20210602094714.607828-2-stanimir.varbanov@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <d7807e7a-a72f-75be-ecd3-36faf4d2f3ca@xs4all.nl>
-Date:   Wed, 2 Jun 2021 12:13:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210602094714.607828-2-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfG93JJgiup/emqwC2KkBjzDXunk3+yBrrChwPmPNzYRk+eeOAni2jgMt+2n0ChteYKzK4CvX+MXDMGjtd2jPOwUyc5QDt96LuUqA+z+3HrpNR97d6Ha5
- FZiGnnRlaA4E/81GoJcuqTvB+/wYT5Ot2De6lqGaF5F8lJqQb5NP9bwc+EdH7dhG7gTuiuaWhRv+S+fuzE9MPKcnJYcZ2ASfOlw8Nitq1CvTTM9iBfJDIEJN
- FBT7BfPgxMbjC5jenRfzfYFP+9lvn3PzVgXljkab+JVYvhXpgFkuyq6193ziSixvO6d1MIeSzxGgRElukM7/y4gKj0345QqebYl5VUi03Mux+gfSACDMRbpP
- 0uKJyVeUz8O3BFCobsVQAoUTz/SvZ1u0Bg1pPEeM1sK8z8Es2QBkV+0A6sQnBibwp4krNM3W
+        Wed, 2 Jun 2021 07:26:22 -0400
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com [10.225.0.210])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A175FC047D;
+        Wed,  2 Jun 2021 11:24:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1622633079; bh=o8fUj4cnDTlc5py1s3Yw542RYJUwKpkMsXpFixB/w+o=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XgDKuelTAhGK4P2M85CZRF/+PMdzcfsUWWRaRTf/NgNPyooq63Zckeha3wHUFHgZR
+         hIZmcugz7srFNyjAtrzd0NUsG7tEyT5wIXR7aRnXD7pUH55EN96vlZ0ocjrp+GyOBl
+         Su56UPFrfOAIc5JGRovEmUkq/8NIuc3+Ar0ww8pIRG85WkIxCONhtvLoM98ct8P+ah
+         0Ok+yYXjybMnOIvykp864gHbDDtqijtEpiTlugeBy0cn91E5ynyjrvhfm3ZaCAWY5P
+         q+yupLrLkXiNhI7RkewQgu91hD0wvCKCJRLp80YF9i8OAh7dbobwSrUieTKG0KWIhz
+         MOXWrWa/tXJiw==
+Received: from de02dwvm009.internal.synopsys.com (de02dwvm009.internal.synopsys.com [10.225.17.73])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 94B06A005E;
+        Wed,  2 Jun 2021 11:24:36 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From:   Nelson Costa <Nelson.Costa@synopsys.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        Nelson Costa <Nelson.Costa@synopsys.com>
+Subject: [PATCH 0/9] Add Synopsys DesignWare HDMI RX Controller and PHY drivers
+Date:   Wed,  2 Jun 2021 13:24:18 +0200
+Message-Id: <cover.1622631488.git.nelson.costa@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/06/2021 11:47, Stanimir Varbanov wrote:
-> Add a control to set intra-refresh period.
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  .../media/v4l/ext-ctrls-codec.rst              | 18 +++++++++++++++++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c      |  2 ++
->  include/uapi/linux/v4l2-controls.h             |  1 +
->  3 files changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 0b8061666c57..803fb655af1c 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1174,7 +1174,23 @@ enum v4l2_mpeg_video_h264_entropy_mode -
->      Cyclic intra macroblock refresh. This is the number of continuous
->      macroblocks refreshed every frame. Each frame a successive set of
->      macroblocks is refreshed until the cycle completes and starts from
-> -    the top of the frame. Applicable to H264, H263 and MPEG4 encoder.
-> +    the top of the frame.  Note that intra-refresh period is
+This series implements support for the Synopsys DesignWare HDMI RX Controller
+and PHYs e405/e406 drivers, being compliant with standard HDMI 1.4 and
+HDMI 2.0.
 
-intra-refresh period -> this control
+The Controller + PHY pipeline can be integrated into a fully featured
+system that can be able to receive video up to 4k@60Hz with basic audio.
 
-> +    mutually exclusive with V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD
+This solution is mainly composed by two modules: phy-dw-hdmi-e40x and
+dw-hdmi-rx.
 
-with -> with the
+phy-dw-hdmi-e40x: it's the PHY (Physical Layer) driver that implements
+support for Synopsys DesignWare e405 and e406 PHYs. It is responsible to
+configure the PHY and equalize it for the best settings, in order to
+receive and decode video to be delivered to the Controller.
+This driver is integrated in the PHY subsystem.
+The main features of this module are:
+ - Equalizer algorithm that chooses the phy best settings
+ according to the detected HDMI cable characteristics
+ - Support for scrambling
+ - Support for color depth up to 48bpp
+ - Support for HDMI 2.0 modes up to 6G (HDMI 4k@60Hz).
 
-> +    control, aka the client must set this one or the other but not both.
+dw-hdmi-rx: it's the Controller driver that implements support for
+Synopsys DesignWare HDMI RX Controller. It is responsible to manage and
+handle the PHY (through the PHY API) and the Controller configurations in
+order to configure the video and audio pipeline.
+This driver is implemented as a standard V4L2 subdevice.
+The main features of this module are:
+ - Support for scrambling
+ - Support for color depth up to 48bpp
+ - Support for HDMI 2.0 modes up to 6G (HDMI 4k@60Hz)
+ - Support for RGB, YCC444, YCC422 and YCC420
+ - Support for basic audio (LPCM 2ch, 32KHz/44.1KHz/48KHz, 16bit)
+ - Support for Aspect Ratio
+ - Support for CEC
+ - Internal state machine that reconfigures phy and controller
+ - JTAG communication with phy
+ - Inter-module communication with phy driver:
+   * through the PHY API using the phy reference "hdmi-phy"
+   * through the callbacks that phy dwc driver needs.
+ - Debug write/read ioctls
 
-'aka' is not really the right abbreviation to use. How about 'i.e.'?
+NOTES: This patch series has two specific patches (Patch [4/8] and [7/8])
+one for the PHY API and the other for v4l2-dv-timings.
 
-> +    Applicable to H264, H263 and MPEG4 encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD (integer)``
-> +    Intra macroblock refresh period. This sets the period to refresh
-> +    the whole frame. In other words, this defines the number of frames
-> +    for which the whole frame will be intra-refreshed.  An example:
-> +    setting period to 1 means that the whole frame will be refreshed,
-> +    setting period to 2 means that the half of macroblocks will be
-> +    intra-refreshed on frameX and the other half of macroblocks
-> +    will be refreshed in frameX + 1 and so on. Setting period to zero
+Patch [4/8] adds phy standard HDMI opts to the phy API that contributes
+for the PHY subsystem, which allows to integrate the PHY driver in the
+PHY subsystem using this new HDMI opts structure, because there are hdmi
+options that are needed to pass between the Controller and PHY drivers
+using the standard API.
 
-period -> the period
+Patch [7/8] adds more CEA/CTA-861 video format timings that contributes
+to the v4l2 media subsystem, which in our case is needed to provide
+information about the Aspect Ratio.
 
-> +    means no period is specified.  Note that intra-refresh period is
+PATCH v1:
+ - Fix "undefined reference to `hdmi_infoframe_unpack'", adding config
+  HDMI selectable for config VIDEO_DWC_HDMI_RX.
+  Reported-by: default avatarkernel test robot <lkp@intel.com>
+ - Add MEDIA_CONTROLLER and VIDEO_V4L2_SUBDEV_API also selectable
+  for config VIDEO_DWC_HDMI_RX.
 
-intra-refresh period -> this control
+RFC v2:
+ - The original media Device Tree bindings was divided in two independent
+  Device Trees:
+  * Device tree for PHYs e405/e406 in PHY dt bindings
+  * Device tree for HDMI RX Controller in media dt bindings
+ - Add OF graph ports connection model in the Device Trees
+  (Thanks to Laurent Pinchart <laurent.pinchart@ideasonboard.com>)
+ - The HDMI RX Controller was adjusted in order to work with the new
+  Device Trees Model:
+  * the "input-count" field was removed from original Device Tree and now
+  the count is done based on port child count.
+  * Changed the way to get the phy node, removing the dependency as child
+  node of Controller node
+ - Fix reported kernel test robot issues:
+  * Fix "warning: no previous prototype for 'dw_phy_eq_settings'"
+  * Fix "warning: integer literal is too large to be represented in type
+  'long', interpreting as 'unsigned long' per C89; this literal will have
+  type 'long long' in C99 onwards [-Wc99-compat]"
+  Reported-by: kernel test robot <lkp@intel.com>
+ - Fix phy power off/on issue when the system startups without the cable
+  connected.
+ - Fix "CHECK: Comparison to NULL could be written
+  "of_device_get_match_data"".
 
-> +    mutually exclusive with V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB
+Nelson Costa (9):
+  dt-bindings: phy: Document Synopsys DesignWare HDMI RX PHYs e405 and
+    e406
+  dt-bindings: media: Document Synopsys DesignWare HDMI RX
+  MAINTAINERS: Add entry for Synopsys DesignWare HDMI drivers
+  phy: Add PHY standard HDMI opts to the PHY API
+  phy: dwc: Add Synopsys DesignWare HDMI RX PHYs e405 and e406 Driver
+  media: platform: Add Synopsys DesignWare HDMI RX Controller Driver
+  media: v4l2-dv-timings: Add more CEA/CTA-861 video format timings
+  media: dwc: dw-hdmi-rx: Add support for Aspect Ratio
+  media: dwc: dw-hdmi-rx: Add support for CEC
 
-with -> with the
+ .../devicetree/bindings/media/snps,dw-hdmi-rx.yaml |   98 +
+ .../bindings/phy/snps,phy-dw-hdmi-e40x.yaml        |   93 +
+ MAINTAINERS                                        |   11 +
+ drivers/media/platform/Kconfig                     |    2 +
+ drivers/media/platform/Makefile                    |    1 +
+ drivers/media/platform/dwc/Kconfig                 |   23 +
+ drivers/media/platform/dwc/Makefile                |    3 +
+ drivers/media/platform/dwc/dw-hdmi-rx.c            | 3542 ++++++++++++++++++++
+ drivers/media/platform/dwc/dw-hdmi-rx.h            |  533 +++
+ drivers/media/v4l2-core/v4l2-dv-timings.c          |  139 +
+ drivers/phy/Kconfig                                |    1 +
+ drivers/phy/Makefile                               |    1 +
+ drivers/phy/dwc/Kconfig                            |   20 +
+ drivers/phy/dwc/Makefile                           |    9 +
+ drivers/phy/dwc/phy-dw-hdmi-e405.c                 |  497 +++
+ drivers/phy/dwc/phy-dw-hdmi-e406.c                 |  475 +++
+ drivers/phy/dwc/phy-dw-hdmi-e40x-core.c            |  514 +++
+ drivers/phy/dwc/phy-dw-hdmi-e40x.h                 |  219 ++
+ include/linux/phy/dwc/dw-hdmi-phy-pdata.h          |   73 +
+ include/linux/phy/phy-hdmi.h                       |  102 +
+ include/linux/phy/phy.h                            |    7 +-
+ include/media/dwc/dw-hdmi-rx-pdata.h               |  126 +
+ include/uapi/linux/v4l2-dv-timings.h               | 1595 ++++++++-
+ 23 files changed, 8082 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/snps,phy-dw-hdmi-e40x.yaml
+ create mode 100644 drivers/media/platform/dwc/Kconfig
+ create mode 100644 drivers/media/platform/dwc/Makefile
+ create mode 100644 drivers/media/platform/dwc/dw-hdmi-rx.c
+ create mode 100644 drivers/media/platform/dwc/dw-hdmi-rx.h
+ create mode 100644 drivers/phy/dwc/Kconfig
+ create mode 100644 drivers/phy/dwc/Makefile
+ create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e405.c
+ create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e406.c
+ create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e40x-core.c
+ create mode 100644 drivers/phy/dwc/phy-dw-hdmi-e40x.h
+ create mode 100644 include/linux/phy/dwc/dw-hdmi-phy-pdata.h
+ create mode 100644 include/linux/phy/phy-hdmi.h
+ create mode 100644 include/media/dwc/dw-hdmi-rx-pdata.h
 
-> +    control, aka the client must set this one or the other but not both.
-
-aka -> i.e.
-
-> +    Applicable to H264 and HEVC encoders.
-
-This text is still problematic. Saying that 'the client must set this one or
-the other but not both' makes no sense, since controls are *always* set to
-some value. Now, V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD can be set to 0
-to indicate that no period is specified. Can the same be done with
-V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB? The description makes no mention
-of that, perhaps it should be updated?
-
-If V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB can be 0, then you can write
-something like: 'both controls cannot both have non-0 values' (but better
-phrased, but you get my drift). Or setting one should set the other to
-0? Or if both are non-0, then control X takes priority. I'm not entirely sure
-what works best. I think having one control have a higher prio might make the
-most sense. I.e. "if V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD is not 0, then
-V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB shall be ignored."
-
-It's surprisingly hard to unambiguously define things like this!
-
-Regards,
-
-	Hans
-
->  
->  ``V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE (boolean)``
->      Frame level rate control enable. If this control is disabled then
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 7963c7b43450..3d73c28bafa7 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -833,6 +833,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:	return "Decoder Slice Interface";
->  	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:	return "MPEG4 Loop Filter Enable";
->  	case V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB:	return "Number of Intra Refresh MBs";
-> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:		return "Intra Refresh Period";
->  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:		return "Frame Level Rate Control Enable";
->  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate Control";
->  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:			return "Sequence Header Mode";
-> @@ -1257,6 +1258,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE:
->  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
->  	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY:
-> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:
->  		*type = V4L2_CTRL_TYPE_INTEGER;
->  		break;
->  	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index f96bea19c991..a34a18ec7f69 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -434,6 +434,7 @@ enum v4l2_mpeg_video_multi_slice_mode {
->  #define V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX		(V4L2_CID_CODEC_BASE+233)
->  #define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+234)
->  #define V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR		(V4L2_CID_CODEC_BASE+235)
-> +#define V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD	(V4L2_CID_CODEC_BASE+236)
->  
->  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
->  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
-> 
+-- 
+2.7.4
 
