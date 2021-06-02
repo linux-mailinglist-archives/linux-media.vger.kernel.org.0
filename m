@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07F16398834
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 13:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A381398836
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 13:25:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232733AbhFBL0h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 07:26:37 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:59252 "EHLO
+        id S232585AbhFBL0j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 07:26:39 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:59242 "EHLO
         smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232463AbhFBL0X (ORCPT
+        by vger.kernel.org with ESMTP id S232454AbhFBL0X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 2 Jun 2021 07:26:23 -0400
 Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com [10.225.0.210])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A51B8C04A5;
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A935CC04AA;
         Wed,  2 Jun 2021 11:24:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1622633080; bh=14D6Y/V2hhwU9Cql/YcqdyUKU2AFZ+8cIiorB01A3Co=;
+        t=1622633079; bh=NCc9VfuZSU/NmUWwHbY97uDvqD/lQNUrB/kpKoSOU9c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
          References:From;
-        b=ll19lGFtyt1PTJAKajrkkA/ucAR4QPikqInIGorJwHr2LzIQjwkCObi2V5QClHe5f
-         DjjeojQtITPtRMZuL8D8HmcdHUj3449uTY07qFFSik9GvonW5aa/BRUKtyoILnMdB0
-         T6DsT/S5JJ7wlpF6IoPKSo6IPqfIlY8vzK+9/1j2MNN2mzpSnyuXbC2whtKRR6cqbV
-         158bUC2AdpxxmmYxICZUoJ0CSeirM3RnA+iIwbi4RQhjCReFBZVvar32CbJuQfo3WU
-         cMCM/wccZXAiG1OwEWgqnszmVZvvVEZ7q0BUlKPBflQpPSgAqWcNcul7Keo6vhzBiU
-         /NlLAI9UilnWg==
+        b=dEgX55PYLartB9LdRC8Obqaw72EHSRppwYk1Pt/Kf4F1wlAca9ru/kslvdd0hZARJ
+         l/kuO7wk7lpIIes8AnuWkzM7CEuGDqAkKpcxtxmBS5cLP0sPqPsSe0BTGj/PVuXP0H
+         BvRA8Rd4AG4fiBdnL0jqMjq+f3iWzM2lbM2kb0xll+p2NKdQTEF1Lkq6VvYcebyCxi
+         zvnNF593yoFtnhYdLr9o5x8bjdQlhIjzGSlrk4BXeUrBuBf0HjJMP1EhO3opw7PBW6
+         qoPmwB4aO1oi46dG5pKcilpWjvTnZS7PyikxD3yu2LxkzwGLgbxvnaFVrBIFhqOSI0
+         FVq/c2xnPZjbQ==
 Received: from de02dwvm009.internal.synopsys.com (de02dwvm009.internal.synopsys.com [10.225.17.73])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 5641DA0074;
+        by mailhost.synopsys.com (Postfix) with ESMTP id 69C50A0077;
         Wed,  2 Jun 2021 11:24:37 +0000 (UTC)
 X-SNPS-Relay: synopsys.com
 From:   Nelson Costa <Nelson.Costa@synopsys.com>
@@ -41,11 +41,10 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Vinod Koul <vkoul@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Jose Abreu <Jose.Abreu@synopsys.com>,
-        Nelson Costa <Nelson.Costa@synopsys.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>
-Subject: [PATCH 6/9] media: platform: Add Synopsys DesignWare HDMI RX Controller Driver
-Date:   Wed,  2 Jun 2021 13:24:24 +0200
-Message-Id: <42b1ff078618a90973f25311eae725f0f151acc5.1622631488.git.nelson.costa@synopsys.com>
+        Nelson Costa <Nelson.Costa@synopsys.com>
+Subject: [PATCH 7/9] media: v4l2-dv-timings: Add more CEA/CTA-861 video format timings
+Date:   Wed,  2 Jun 2021 13:24:25 +0200
+Message-Id: <6a0dcbd4f6dae00c664e5ef80cde3f1eb530c382.1622631488.git.nelson.costa@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1622631488.git.nelson.costa@synopsys.com>
 References: <cover.1622631488.git.nelson.costa@synopsys.com>
@@ -55,3954 +54,1788 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an initial submission for the Synopsys DesignWare HDMI RX
-Controller Driver. It is responsible to manage and handle the PHY
-(through the PHY API) and the Controller configurations in order
-to configure the video and audio pipeline.
+This extends the support for more video format timings based
+on SPECs CEA-861-F and CTA-861-G.
 
-This driver is implemented as a standard V4L2 subdevice.
-The main features of this module are:
- - Support for scrambling
- - Support for color depth up to 48bpp
- - Support for HDMI 2.0 modes up to 6G (HDMI 4k@60Hz)
- - Support for RGB, YCC444, YCC422 and YCC420
- - Support for basic audio (LPCM 2ch, 32KHz/44.1KHz/48KHz, 16bit)
- - Support for Aspect Ratio
- - Support for CEC
- - Internal state machine that reconfigures PHY and controller
- - JTAG communication with PHY
- - Inter-module communication with PHY driver:
-   * through the PHY API using the PHY reference "hdmi-phy"
-   * through the callbacks that PHY DWC driver needs.
- - Debug write/read ioctls.
+NOTE: For the newer SPECs the CEA was unified to the CTA.
+The CTA-861-G then includes the CEA-861-F timings besides
+the new timings that are specified.
 
-Signed-off-by: Jose Abreu <jose.abreu@synopsys.com>
+CEA-861-F: Specifies the Video timings for VICs 1-107.
+CTA-861-G: Specifies the Video timings for VICs 1-107, 108-127, 193-219.
+
+With this patch, the array v4l2_dv_timings_presets has support for
+all video timings specified in CTA-861-G.
+
 Signed-off-by: Nelson Costa <nelson.costa@synopsys.com>
 ---
- drivers/media/platform/Kconfig          |    2 +
- drivers/media/platform/Makefile         |    1 +
- drivers/media/platform/dwc/Kconfig      |   13 +
- drivers/media/platform/dwc/Makefile     |    3 +
- drivers/media/platform/dwc/dw-hdmi-rx.c | 3237 +++++++++++++++++++++++++++++++
- drivers/media/platform/dwc/dw-hdmi-rx.h |  476 +++++
- include/media/dwc/dw-hdmi-rx-pdata.h    |  126 ++
- 7 files changed, 3858 insertions(+)
- create mode 100644 drivers/media/platform/dwc/Kconfig
- create mode 100644 drivers/media/platform/dwc/Makefile
- create mode 100644 drivers/media/platform/dwc/dw-hdmi-rx.c
- create mode 100644 drivers/media/platform/dwc/dw-hdmi-rx.h
- create mode 100644 include/media/dwc/dw-hdmi-rx-pdata.h
+ drivers/media/v4l2-core/v4l2-dv-timings.c |  139 +++
+ include/uapi/linux/v4l2-dv-timings.h      | 1595 ++++++++++++++++++++++++++++-
+ 2 files changed, 1733 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index b238a92..20db68d 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -29,6 +29,8 @@ source "drivers/media/platform/cadence/Kconfig"
+diff --git a/drivers/media/v4l2-core/v4l2-dv-timings.c b/drivers/media/v4l2-core/v4l2-dv-timings.c
+index 230d65a..0766e0c 100644
+--- a/drivers/media/v4l2-core/v4l2-dv-timings.c
++++ b/drivers/media/v4l2-core/v4l2-dv-timings.c
+@@ -133,6 +133,145 @@ const struct v4l2_dv_timings v4l2_dv_timings_presets[] = {
+ 	V4L2_DV_BT_CEA_4096X2160P50,
+ 	V4L2_DV_BT_DMT_4096X2160P59_94_RB,
+ 	V4L2_DV_BT_CEA_4096X2160P60,
++	V4L2_DV_BT_CEA_720X480P60_PA16_9,
++	V4L2_DV_BT_CEA_720X480I60_PA16_9,
++	V4L2_DV_BT_CEA_720X240P60_VTOT262_PA4_3,
++	V4L2_DV_BT_CEA_720X240P60_VTOT263_PA4_3,
++	V4L2_DV_BT_CEA_720X240P60_VTOT262_PA16_9,
++	V4L2_DV_BT_CEA_720X240P60_VTOT263_PA16_9,
++	V4L2_DV_BT_CEA_2880X480I60_PA4_3,
++	V4L2_DV_BT_CEA_2880X480I60_PA16_9,
++	V4L2_DV_BT_CEA_2880X240P60_VTOT262_PA4_3,
++	V4L2_DV_BT_CEA_2880X240P60_VTOT263_PA4_3,
++	V4L2_DV_BT_CEA_2880X240P60_VTOT262_PA16_9,
++	V4L2_DV_BT_CEA_2880X240P60_VTOT263_PA16_9,
++	V4L2_DV_BT_CEA_1440X480P60_PA4_3,
++	V4L2_DV_BT_CEA_1440X480P60_PA16_9,
++	V4L2_DV_BT_CEA_720X576P50_PA16_9,
++	V4L2_DV_BT_CEA_1920X1080I50_PA16_9,
++	V4L2_DV_BT_CEA_720X576I50_PA16_9,
++	V4L2_DV_BT_CEA_720X288P50_VTOT312_PA4_3,
++	V4L2_DV_BT_CEA_720X288P50_VTOT313_PA4_3,
++	V4L2_DV_BT_CEA_720X288P50_VTOT314_PA4_3,
++	V4L2_DV_BT_CEA_720X288P50_VTOT312_PA16_9,
++	V4L2_DV_BT_CEA_720X288P50_VTOT313_PA16_9,
++	V4L2_DV_BT_CEA_720X288P50_VTOT314_PA16_9,
++	V4L2_DV_BT_CEA_2880X576I50_PA4_3,
++	V4L2_DV_BT_CEA_2880X576I50_PA16_9,
++	V4L2_DV_BT_CEA_2880X288P50_VTOT312_PA4_3,
++	V4L2_DV_BT_CEA_2880X288P50_VTOT313_PA4_3,
++	V4L2_DV_BT_CEA_2880X288P50_VTOT314_PA4_3,
++	V4L2_DV_BT_CEA_2880X288P50_VTOT312_PA16_9,
++	V4L2_DV_BT_CEA_2880X288P50_VTOT313_PA16_9,
++	V4L2_DV_BT_CEA_2880X288P50_VTOT314_PA16_9,
++	V4L2_DV_BT_CEA_1440X576P50_PA4_3,
++	V4L2_DV_BT_CEA_1440X576P50_PA16_9,
++	V4L2_DV_BT_CEA_2880X480P60_PA4_3,
++	V4L2_DV_BT_CEA_2880X480P60_PA16_9,
++	V4L2_DV_BT_CEA_2880X576P50_PA4_3,
++	V4L2_DV_BT_CEA_2880X576P50_PA16_9,
++	V4L2_DV_BT_CEA_1920X1080I50_PA16_9,
++	V4L2_DV_BT_CEA_1920X1080I100_PA16_9,
++	V4L2_DV_BT_CEA_1280X720P100_PA16_9,
++	V4L2_DV_BT_CEA_720X576P100_PA4_3,
++	V4L2_DV_BT_CEA_720X576P100_PA16_9,
++	V4L2_DV_BT_CEA_1440X576I100_PA4_3,
++	V4L2_DV_BT_CEA_1440X576I100_PA16_9,
++	V4L2_DV_BT_CEA_1920X1080I120_PA16_9,
++	V4L2_DV_BT_CEA_1280X720P120_PA16_9,
++	V4L2_DV_BT_CEA_720X480P120_PA4_3,
++	V4L2_DV_BT_CEA_720X480P120_PA16_9,
++	V4L2_DV_BT_CEA_1440X480I120_PA4_3,
++	V4L2_DV_BT_CEA_1440X480I120_PA16_9,
++	V4L2_DV_BT_CEA_720X576P200_PA4_3,
++	V4L2_DV_BT_CEA_720X576P200_PA16_9,
++	V4L2_DV_BT_CEA_1440X576I200_PA4_3,
++	V4L2_DV_BT_CEA_1440X576I200_PA16_9,
++	V4L2_DV_BT_CEA_720X480P240_PA4_3,
++	V4L2_DV_BT_CEA_720X480P240_PA16_9,
++	V4L2_DV_BT_CEA_1440X480I240_PA4_3,
++	V4L2_DV_BT_CEA_1440X480I240_PA16_9,
++	V4L2_DV_BT_CEA_1920X1080P120_PA16_9,
++	V4L2_DV_BT_CEA_1920X1080P100_PA16_9,
++	V4L2_DV_BT_CEA_1280X720P24_PA64_27,
++	V4L2_DV_BT_CEA_1280X720P25_PA64_27,
++	V4L2_DV_BT_CEA_1280X720P30_PA64_27,
++	V4L2_DV_BT_CEA_1280X720P50_PA64_27,
++	V4L2_DV_BT_CEA_1280X720P60_PA64_27,
++	V4L2_DV_BT_CEA_1280X720P100_PA64_27,
++	V4L2_DV_BT_CEA_1280X720P120_PA64_27,
++	V4L2_DV_BT_CEA_1920X1080P24_PA64_27,
++	V4L2_DV_BT_CEA_1920X1080P25_PA64_27,
++	V4L2_DV_BT_CEA_1920X1080P30_PA64_27,
++	V4L2_DV_BT_CEA_1920X1080P50_PA64_27,
++	V4L2_DV_BT_CEA_1920X1080P60_PA64_27,
++	V4L2_DV_BT_CEA_1920X1080P100_PA64_27,
++	V4L2_DV_BT_CEA_1920X1080P120_PA64_27,
++	V4L2_DV_BT_CEA_1680X720P24_PA64_27,
++	V4L2_DV_BT_CEA_1680X720P25_PA64_27,
++	V4L2_DV_BT_CEA_1680X720P30_PA64_27,
++	V4L2_DV_BT_CEA_1680X720P50_PA64_27,
++	V4L2_DV_BT_CEA_1680X720P60_PA64_27,
++	V4L2_DV_BT_CEA_1680X720P100_PA64_27,
++	V4L2_DV_BT_CEA_1680X720P120_PA64_27,
++	V4L2_DV_BT_CEA_2560X1080P24_PA64_27,
++	V4L2_DV_BT_CEA_2560X1080P25_PA64_27,
++	V4L2_DV_BT_CEA_2560X1080P30_PA64_27,
++	V4L2_DV_BT_CEA_2560X1080P50_PA64_27,
++	V4L2_DV_BT_CEA_2560X1080P60_PA64_27,
++	V4L2_DV_BT_CEA_2560X1080P100_PA64_27,
++	V4L2_DV_BT_CEA_2560X1080P120_PA64_27,
++	V4L2_DV_BT_CEA_3840X2160P24_PA64_27,
++	V4L2_DV_BT_CEA_3840X2160P25_PA64_27,
++	V4L2_DV_BT_CEA_3840X2160P30_PA64_27,
++	V4L2_DV_BT_CEA_3840X2160P50_PA64_27,
++	V4L2_DV_BT_CEA_3840X2160P60_PA64_27,
++	V4L2_DV_BT_CEA_1280X720P48_PA16_9,
++	V4L2_DV_BT_CEA_1280X720P48_PA64_27,
++	V4L2_DV_BT_CEA_1680X720P48_PA64_27,
++	V4L2_DV_BT_CEA_1920X1080P48_PA16_9,
++	V4L2_DV_BT_CEA_1920X1080P48_PA64_27,
++	V4L2_DV_BT_CEA_3840X2160P48_PA16_9,
++	V4L2_DV_BT_CEA_4096X2160P48_PA256_135,
++	V4L2_DV_BT_CEA_3840X2160P48_PA64_27,
++	V4L2_DV_BT_CEA_3840X2160P100_PA16_9,
++	V4L2_DV_BT_CEA_3840X2160P120_PA16_9,
++	V4L2_DV_BT_CEA_3840X2160P100_PA64_27,
++	V4L2_DV_BT_CEA_3840X2160P120_PA64_27,
++	V4L2_DV_BT_CEA_5120X2160P24_PA64_27,
++	V4L2_DV_BT_CEA_5120X2160P25_PA64_27,
++	V4L2_DV_BT_CEA_5120X2160P30_PA64_27,
++	V4L2_DV_BT_CEA_5120X2160P48_PA64_27,
++	V4L2_DV_BT_CEA_5120X2160P50_PA64_27,
++	V4L2_DV_BT_CEA_5120X2160P60_PA64_27,
++	V4L2_DV_BT_CEA_5120X2160P100_PA64_27,
++	V4L2_DV_BT_CEA_5120X2160P120_PA64_27,
++	V4L2_DV_BT_CEA_7680X4320P24_PA16_9,
++	V4L2_DV_BT_CEA_7680X4320P25_PA16_9,
++	V4L2_DV_BT_CEA_7680X4320P30_PA16_9,
++	V4L2_DV_BT_CEA_7680X4320P48_PA16_9,
++	V4L2_DV_BT_CEA_7680X4320P50_PA16_9,
++	V4L2_DV_BT_CEA_7680X4320P60_PA16_9,
++	V4L2_DV_BT_CEA_7680X4320P100_PA16_9,
++	V4L2_DV_BT_CEA_7680X4320P120_PA16_9,
++	V4L2_DV_BT_CEA_7680X4320P24_PA64_27,
++	V4L2_DV_BT_CEA_7680X4320P25_PA64_27,
++	V4L2_DV_BT_CEA_7680X4320P30_PA64_27,
++	V4L2_DV_BT_CEA_7680X4320P48_PA64_27,
++	V4L2_DV_BT_CEA_7680X4320P50_PA64_27,
++	V4L2_DV_BT_CEA_7680X4320P60_PA64_27,
++	V4L2_DV_BT_CEA_7680X4320P100_PA64_27,
++	V4L2_DV_BT_CEA_7680X4320P120_PA64_27,
++	V4L2_DV_BT_CEA_10240X4320P24_PA64_27,
++	V4L2_DV_BT_CEA_10240X4320P25_PA64_27,
++	V4L2_DV_BT_CEA_10240X4320P30_PA64_27,
++	V4L2_DV_BT_CEA_10240X4320P48_PA64_27,
++	V4L2_DV_BT_CEA_10240X4320P50_PA64_27,
++	V4L2_DV_BT_CEA_10240X4320P60_PA64_27,
++	V4L2_DV_BT_CEA_10240X4320P100_PA64_27,
++	V4L2_DV_BT_CEA_10240X4320P120_PA64_27,
++	V4L2_DV_BT_CEA_4096X2160P100_PA256_135,
++	V4L2_DV_BT_CEA_4096X2160P120_PA256_135,
+ 	{ }
+ };
+ EXPORT_SYMBOL_GPL(v4l2_dv_timings_presets);
+diff --git a/include/uapi/linux/v4l2-dv-timings.h b/include/uapi/linux/v4l2-dv-timings.h
+index b52b67c..900530b 100644
+--- a/include/uapi/linux/v4l2-dv-timings.h
++++ b/include/uapi/linux/v4l2-dv-timings.h
+@@ -29,7 +29,14 @@
+ 	.bt = { _width , ## args }
+ #endif
  
- source "drivers/media/platform/davinci/Kconfig"
+-/* CEA-861-F timings (i.e. standard HDTV timings) */
++/* CEA-861-F timings (i.e. standard HDTV timings)
++ * NOTE: For the newer SPECs the CEA was unified to the CTA.
++ * The CTA-861-G includes the CEA-861-F timings besides the
++ * new timings that are specified.
++ *
++ * CEA-861-F: Specifies the Video timings for VICs 1-107
++ * CTA-861-G: Specifies the Video timings for VICs 1-107, 108-127, 193-219
++ */
  
-+source "drivers/media/platform/dwc/Kconfig"
-+
- source "drivers/media/platform/omap/Kconfig"
+ #define V4L2_DV_BT_CEA_640X480P59_94 { \
+ 	.type = V4L2_DV_BT_656_1120, \
+@@ -297,6 +304,1592 @@
+ 		V4L2_DV_FL_HAS_CEA861_VIC, { 0, 0 }, 102) \
+ }
  
- config VIDEO_ASPEED
-diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-index eedc14a..955aae6 100644
---- a/drivers/media/platform/Makefile
-+++ b/drivers/media/platform/Makefile
-@@ -6,6 +6,7 @@
- obj-$(CONFIG_VIDEO_ALLEGRO_DVT)		+= allegro-dvt/
- obj-$(CONFIG_VIDEO_ASPEED)		+= aspeed-video.o
- obj-$(CONFIG_VIDEO_CADENCE)		+= cadence/
-+obj-y					+= dwc/
- obj-$(CONFIG_VIDEO_VIA_CAMERA) += via-camera.o
- obj-$(CONFIG_VIDEO_CAFE_CCIC) += marvell-ccic/
- obj-$(CONFIG_VIDEO_MMP_CAMERA) += marvell-ccic/
-diff --git a/drivers/media/platform/dwc/Kconfig b/drivers/media/platform/dwc/Kconfig
-new file mode 100644
-index 0000000..e915ca6
---- /dev/null
-+++ b/drivers/media/platform/dwc/Kconfig
-@@ -0,0 +1,13 @@
-+# SPDX-License-Identifier: GPL-2.0
-+config VIDEO_DWC_HDMI_RX
-+	tristate "Synopsys DesignWare HDMI Receiver driver"
-+	depends on VIDEO_V4L2
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select HDMI
-+	help
-+	  Support for Synopsys DesignWare HDMI RX Controller.
-+	  This driver supports HDMI 2.0 version.
++/* VIC=3 */
++#define V4L2_DV_BT_CEA_720X480P60_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 480, 0, 0, \
++		27000000, 16, 62, 60, 9, 6, 30, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 3) \
++}
 +
-+	  To compile this driver as a module, choose M here. The module
-+	  will be called dw-hdmi-rx.
-diff --git a/drivers/media/platform/dwc/Makefile b/drivers/media/platform/dwc/Makefile
-new file mode 100644
-index 0000000..fddd30c
---- /dev/null
-+++ b/drivers/media/platform/dwc/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-$(CONFIG_VIDEO_DWC_HDMI_RX) += dw-hdmi-rx.o
-diff --git a/drivers/media/platform/dwc/dw-hdmi-rx.c b/drivers/media/platform/dwc/dw-hdmi-rx.c
-new file mode 100644
-index 0000000..b20eccc
---- /dev/null
-+++ b/drivers/media/platform/dwc/dw-hdmi-rx.c
-@@ -0,0 +1,3237 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare HDMI Receiver controller driver
-+ *
-+ * Author: Jose Abreu <jose.abreu@synopsys.com>
-+ * Author: Nelson Costa <nelson.costa@synopsys.com>
++/* VIC=7 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
 + */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
-+#include <linux/platform_device.h>
-+#include <linux/phy/phy.h>
-+#include <linux/phy/dwc/dw-hdmi-phy-pdata.h>
-+#include <linux/v4l2-dv-timings.h>
-+#include <linux/workqueue.h>
-+#include <linux/rational.h>
-+#include <linux/hdmi.h>
-+#include <media/v4l2-async.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-dv-timings.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-subdev.h>
-+#include <media/dwc/dw-hdmi-rx-pdata.h>
-+
-+#include "dw-hdmi-rx.h"
-+
-+#define DW_HDMI_DEFAULT_TIMING		V4L2_DV_BT_CEA_640X480P59_94
-+#define DW_HDMI_JTAG_TAP_ADDR_CMD	0
-+#define DW_HDMI_JTAG_TAP_WRITE_CMD	1
-+#define DW_HDMI_JTAG_TAP_READ_CMD	3
-+#define DW_HDMI_AUDIO_FREQ_RANGE	1000
-+
-+/* EDID for HDMI RX */
-+static u32 dw_hdmi_edid[] = {
-+	/* V2 Support for                           */
-+	/*  - Video modes up-to 2.97Gbps            */
-+	/*  - RGB, Ycc444/422/420                   */
-+	/*  - Audio 2Ch L-PCM                       */
-+	/*  - SCDC CED                              */
-+	0x00FFFFFF, 0xFFFFFF00, 0x4F2E4A21, 0x00000000,
-+	0x331E0103, 0x80462878, 0x0A0DC9A0, 0x57479827,
-+	0x12484C20, 0x00000101, 0x01010101, 0x01010101,
-+	0x01010101, 0x0101023A, 0x80187138, 0x2D40582C,
-+	0x450020C2, 0x3100001E, 0x011D0072, 0x51D01E20,
-+	0x6E285500, 0x20C23100, 0x001E0000, 0x00FC0053,
-+	0x4E505320, 0x48444D49, 0x2052580A, 0x000000FD,
-+	0x0017780F, 0x871E000A, 0x20202020, 0x20200160,
-+
-+	0x02035771, 0x83010000, 0x57696867, 0x6463625F,
-+	0x5E5D901F, 0x04131211, 0x0302015A, 0x59585756,
-+	0x55555453, 0x5251504F, 0x4E4D4C4B, 0x4A494847,
-+	0x46454443, 0x42412309, 0x07076E03, 0x0C001000,
-+	0xF83B2000, 0x80010203, 0x0467D85D, 0xC4010080,
-+	0x00E50E66, 0x65616000, 0x00000000, 0x00000000,
-+	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-+	0x00000000, 0x00000000, 0x00000000, 0x000000B6,
-+};
-+
-+static const struct v4l2_dv_timings_cap dw_hdmi_timings_cap = {
-+	.type = V4L2_DV_BT_656_1120,
-+	.reserved = { 0 },
-+	V4L2_INIT_BT_TIMINGS(640, 4096,			/* min/max width */
-+			     480, 4455,			/* min/max height */
-+			     20000000, 600000000,	/* min/max pixelclock */
-+			     /* standards */
-+			     V4L2_DV_BT_STD_CEA861,
-+			     /* capabilities */
-+			     V4L2_DV_BT_CAP_PROGRESSIVE)
-+};
-+
-+static const struct v4l2_event dw_hdmi_event_fmt = {
-+	.type = V4L2_EVENT_SOURCE_CHANGE,
-+	.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
-+};
-+
-+enum dw_hdmi_state {
-+	HDMI_STATE_NO_INIT = 0,
-+	HDMI_STATE_POWER_OFF,
-+	HDMI_STATE_POWER_UP,
-+	HDMI_STATE_PHY_CONFIG,
-+	HDMI_STATE_HPD,
-+	HDMI_STATE_EQUALIZER,
-+	HDMI_STATE_DATAPATH,
-+	HDMI_STATE_VIDEO_UNSTABLE,
-+	HDMI_STATE_AUDIO,
-+	HDMI_STATE_POWER_ON,
-+};
-+
-+struct dw_hdmi_infoframe_cfg {
-+	const char *desc;
-+	u8 header[3];
-+	u32 header_addr;
-+	u32 payload_addr;
-+	u32 payload_len;
-+	void *frame;
-+	unsigned int frame_size;
-+};
-+
-+struct dw_hdmi_dev {
-+	struct device *dev;
-+	struct device_node *of_node;
-+	void __iomem *regs;
-+	struct clk *clk;
-+
-+	/* Platform Data configuration */
-+	struct dw_hdmi_rx_pdata *config;
-+
-+	/* Phy info */
-+	struct platform_device *phy_pdev;
-+	struct dw_phy_pdata phy_config;
-+	struct phy *phy;
-+
-+	/*
-+	 * Used to prevent race conditions between multiple
-+	 * concurrent calls to handle the state machine changes
-+	 * and pending configurations.
-+	 */
-+	spinlock_t lock;
-+	/*
-+	 * Used to prevent race conditions between multiple
-+	 * concurrent calls to notify the audio changes.
-+	 */
-+	spinlock_t event_lock;
-+
-+	/* Work queue to handle the state machine */
-+	struct workqueue_struct *wq;
-+	struct work_struct work;
-+
-+	/* State machine variables */
-+	enum dw_hdmi_state state;
-+	u32 mbus_code;
-+	u32 old_mbus;
-+	u8 *curr_edid_blocks;
-+	u8 current_vic;
-+	bool current_vic_is_4k;
-+	bool registered;
-+	bool pending_config;
-+	bool force_off;
-+	bool is_hdmi2;
-+	bool is_scrambled;
-+	bool phy_eq_force;
-+	bool phy_eq_on;
-+	bool hw_reset_on_hot_plug;
-+	bool *input_connected;
-+	unsigned int selected_input;
-+	unsigned int configured_input;
-+	unsigned int input_stat;
-+	unsigned int audio_sf;
-+	unsigned int tmds_valid_wait_count;
-+	unsigned int has_clock_wait_ms;
-+	unsigned int video_stable_wait_ms;
-+	unsigned int reset_datapath_enable;
-+
-+	/* Infoframes */
-+	union hdmi_infoframe aviif;
-+	union hdmi_infoframe spdif;
-+	union hdmi_infoframe audioif;
-+	union hdmi_infoframe vsif;
-+
-+	/* v4l2 device */
-+	struct v4l2_subdev sd;
-+	struct v4l2_ctrl_handler hdl;
-+	struct v4l2_ctrl *detect_tx_5v_ctrl;
-+	struct v4l2_dv_timings timings;
-+};
-+
-+static const char *get_state_name(enum dw_hdmi_state state)
-+{
-+	switch (state) {
-+	case HDMI_STATE_NO_INIT:
-+		return "NO_INIT";
-+	case HDMI_STATE_POWER_OFF:
-+		return "POWER_OFF";
-+	case HDMI_STATE_POWER_UP:
-+		return "POWER_UP";
-+	case HDMI_STATE_PHY_CONFIG:
-+		return "PHY_CONFIG";
-+	case HDMI_STATE_HPD:
-+		return "HPD";
-+	case HDMI_STATE_EQUALIZER:
-+		return "EQUALIZER";
-+	case HDMI_STATE_DATAPATH:
-+		return "DATAPATH";
-+	case HDMI_STATE_VIDEO_UNSTABLE:
-+		return "VIDEO_UNSTABLE";
-+	case HDMI_STATE_AUDIO:
-+		return "AUDIO";
-+	case HDMI_STATE_POWER_ON:
-+		return "POWER_ON";
-+	default:
-+		return "UNKNOWN";
-+	}
-+}
-+
-+static inline void dw_hdmi_set_state(struct dw_hdmi_dev *dw_dev,
-+				     enum dw_hdmi_state new_state)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&dw_dev->lock, flags);
-+	dev_dbg(dw_dev->dev, "old_state=%s, new_state=%s\n",
-+		get_state_name(dw_dev->state),
-+		get_state_name(new_state));
-+	dw_dev->state = new_state;
-+	spin_unlock_irqrestore(&dw_dev->lock, flags);
-+}
-+
-+static inline struct dw_hdmi_dev *to_dw_dev(struct v4l2_subdev *sd)
-+{
-+	return container_of(sd, struct dw_hdmi_dev, sd);
-+}
-+
-+static inline void hdmi_writel(struct dw_hdmi_dev *dw_dev, u32 val, int reg)
-+{
-+	writel(val, dw_dev->regs + reg);
-+}
-+
-+static inline u32 hdmi_readl(struct dw_hdmi_dev *dw_dev, int reg)
-+{
-+	return readl(dw_dev->regs + reg);
-+}
-+
-+static void hdmi_modl(struct dw_hdmi_dev *dw_dev, u32 data, u32 mask, int reg)
-+{
-+	u32 val = hdmi_readl(dw_dev, reg) & ~mask;
-+
-+	val |= data & mask;
-+	hdmi_writel(dw_dev, val, reg);
-+}
-+
-+static void hdmi_mask_writel(struct dw_hdmi_dev *dw_dev, u32 data, int reg,
-+			     u32 shift, u32 mask)
-+{
-+	hdmi_modl(dw_dev, data << shift, mask, reg);
-+}
-+
-+static u32 hdmi_mask_readl(struct dw_hdmi_dev *dw_dev, int reg, u32 shift,
-+			   u32 mask)
-+{
-+	return (hdmi_readl(dw_dev, reg) & mask) >> shift;
-+}
-+
-+static bool dw_hdmi_5v_status(struct dw_hdmi_dev *dw_dev, int input)
-+{
-+	void __iomem *arg = dw_dev->config->dw_5v_arg;
-+
-+	if (dw_dev->config->dw_5v_status)
-+		return dw_dev->config->dw_5v_status(arg, input);
-+
-+	return false;
-+}
-+
-+static void dw_hdmi_5v_disable(struct dw_hdmi_dev *dw_dev, int input)
-+{
-+	void __iomem *arg = dw_dev->config->dw_5v_arg;
-+
-+	if (!dw_dev->config->dw_5v_disable)
-+		return;
-+
-+	dw_dev->config->dw_5v_disable(arg, input);
-+}
-+
-+static void dw_hdmi_5v_enable(struct dw_hdmi_dev *dw_dev, int input)
-+{
-+	void __iomem *arg = dw_dev->config->dw_5v_arg;
-+
-+	if (!dw_dev->config->dw_5v_enable)
-+		return;
-+
-+	dw_dev->config->dw_5v_enable(arg, input);
-+}
-+
-+static u32 dw_hdmi_edid_read(struct dw_hdmi_dev *dw_dev, int input, u32 offset)
-+{
-+	void __iomem *arg = dw_dev->config->dw_edid_arg;
-+
-+	if (!dw_dev->config->dw_edid_read)
-+		return 0x0;
-+
-+	return dw_dev->config->dw_edid_read(arg, input, offset);
-+}
-+
-+static int dw_hdmi_edid_write(struct dw_hdmi_dev *dw_dev, int input, u32 *edid,
-+			      int size)
-+{
-+	void __iomem *arg = dw_dev->config->dw_edid_arg;
-+
-+	if (!dw_dev->config->dw_edid_write)
-+		return 0;
-+
-+	return dw_dev->config->dw_edid_write(arg, input, edid, size);
-+}
-+
-+static u32 dw_hdmi_edid_4blocks_le(struct dw_hdmi_dev *dw_dev)
-+{
-+	void __iomem *arg = dw_dev->config->dw_edid_arg;
-+
-+	if (!dw_dev->config->dw_edid_4blocks_le)
-+		return 0x0;
-+
-+	return dw_dev->config->dw_edid_4blocks_le(arg);
-+}
-+
-+static int dw_hdmi_update_edid(struct dw_hdmi_dev *dw_dev, int input,
-+			       u8 *edid, int size, u8 invert_bytes)
-+{
-+	unsigned int i, j;
-+	u32 *w_edid_srt;
-+	int ret;
-+
-+	if (invert_bytes) {
-+		/* invert the order of bytes to register 32bit */
-+		w_edid_srt = devm_kzalloc(dw_dev->dev, size, GFP_KERNEL);
-+		if (!w_edid_srt) {
-+			devm_kfree(dw_dev->dev, w_edid_srt);
-+			return -ENOMEM;
-+		}
-+
-+		for (i = 0; i < size / sizeof(u32); i++) {
-+			for (j = 0; j < 4; j++) {
-+				w_edid_srt[i] |=
-+					edid[i * 4 + j] << (8 * (3 - j));
-+			}
-+		}
-+
-+		ret = dw_hdmi_edid_write(dw_dev, input, (u32 *)w_edid_srt,
-+					 size / sizeof(u32));
-+		devm_kfree(dw_dev->dev, w_edid_srt);
-+	} else {
-+		/* no need to invert bytes */
-+		ret = dw_hdmi_edid_write(dw_dev, input, (u32 *)edid,
-+					 size / sizeof(u32));
-+	}
-+	dw_dev->curr_edid_blocks[input] = size / 128;
-+
-+	return ret;
-+}
-+
-+static void dw_hdmi_main_reset(struct dw_hdmi_dev *dw_dev)
-+{
-+	void __iomem *arg = dw_dev->config->dw_reset_arg;
-+
-+	if (!dw_dev->config->dw_reset_all)
-+		return;
-+
-+	dev_dbg(dw_dev->dev, "%s: main reset\n", __func__);
-+
-+	dw_dev->config->dw_reset_all(arg);
-+}
-+
-+static void dw_hdmi_disable_hpd(struct dw_hdmi_dev *dw_dev);
-+
-+static void dw_hdmi_reset(struct dw_hdmi_dev *dw_dev)
-+{
-+	dev_dbg(dw_dev->dev, "%s: reset\n", __func__);
-+
-+	/* perform main reset */
-+	dw_hdmi_main_reset(dw_dev);
-+
-+	dw_hdmi_disable_hpd(dw_dev);
-+}
-+
-+static inline bool is_off(struct dw_hdmi_dev *dw_dev)
-+{
-+	return dw_dev->state <= HDMI_STATE_POWER_OFF;
-+}
-+
-+static inline bool is_on(struct dw_hdmi_dev *dw_dev)
-+{
-+	return dw_dev->state == HDMI_STATE_POWER_ON;
-+}
-+
-+static bool has_signal(struct dw_hdmi_dev *dw_dev, unsigned int input)
-+{
-+	return dw_dev->input_connected[input];
-+}
-+
-+static inline bool is_hdmi2(struct dw_hdmi_dev *dw_dev)
-+{
-+	return hdmi_readl(dw_dev, DW_HDMI_SCDC_REGS0) &
-+			DW_HDMI_SCDC_TMDSBITCLKRATIO_MASK;
-+}
-+
-+static inline bool is_scrambled(struct dw_hdmi_dev *dw_dev)
-+{
-+	return hdmi_readl(dw_dev, DW_HDMI_SCDC_REGS0) &
-+			DW_HDMI_SCDC_SCRAMBSTATUS_MASK;
-+}
-+
-+static void hdmi_phy_jtag_send_pulse(struct dw_hdmi_dev *dw_dev, u8 tms, u8 tdi)
-+{
-+	u8 val;
-+
-+	val = tms ? DW_HDMI_JTAG_TMS : 0;
-+	val |= tdi ? DW_HDMI_JTAG_TDI : 0;
-+
-+	hdmi_writel(dw_dev, 0, DW_HDMI_JTAG_TAP_TCLK);
-+	hdmi_writel(dw_dev, val, DW_HDMI_JTAG_TAP_IN);
-+	hdmi_writel(dw_dev, 1, DW_HDMI_JTAG_TAP_TCLK);
-+}
-+
-+static void hdmi_phy_jtag_shift_dr(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
-+	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-+	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-+}
-+
-+static void hdmi_phy_jtag_shift_ir(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
-+	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
-+	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-+	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-+}
-+
-+static u16 hdmi_phy_jtag_send(struct dw_hdmi_dev *dw_dev, u8 cmd, u16 val)
-+{
-+	u32 in = (cmd << 16) | val;
-+	u16 out = 0;
-+	u8 i;
-+
-+	for (i = 0; i < 16; i++) {
-+		hdmi_phy_jtag_send_pulse(dw_dev, 0, in & 0x1);
-+		out |= (hdmi_readl(dw_dev, DW_HDMI_JTAG_TAP_OUT) & 0x1) << i;
-+		in >>= 1;
-+	}
-+
-+	hdmi_phy_jtag_send_pulse(dw_dev, 0, in & 0x1);
-+	in >>= 1;
-+	hdmi_phy_jtag_send_pulse(dw_dev, 1, in & 0x1);
-+
-+	out |= (hdmi_readl(dw_dev, DW_HDMI_JTAG_TAP_OUT) & 0x1) << ++i;
-+	return out;
-+}
-+
-+static void hdmi_phy_jtag_idle(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
-+	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-+}
-+
-+static void hdmi_phy_jtag_init(struct dw_hdmi_dev *dw_dev, u8 addr)
-+{
-+	u8 i;
-+
-+	hdmi_writel(dw_dev, addr, DW_HDMI_JTAG_ADDR);
-+
-+	/* reset */
-+	hdmi_writel(dw_dev, 0x10, DW_HDMI_JTAG_TAP_IN);
-+	hdmi_writel(dw_dev, 0x0, DW_HDMI_JTAG_CONF);
-+	hdmi_writel(dw_dev, 0x1, DW_HDMI_JTAG_CONF);
-+	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-+
-+	/* soft reset */
-+	for (i = 0; i < 5; i++)
-+		hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
-+	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-+
-+	/* set slave address */
-+	hdmi_phy_jtag_shift_ir(dw_dev);
-+	for (i = 0; i < 7; i++) {
-+		hdmi_phy_jtag_send_pulse(dw_dev, 0, addr & 0x1);
-+		addr >>= 1;
-+	}
-+	hdmi_phy_jtag_send_pulse(dw_dev, 1, addr & 0x1);
-+	hdmi_phy_jtag_idle(dw_dev);
-+}
-+
-+static void hdmi_phy_jtag_write(struct dw_hdmi_dev *dw_dev, u16 val, u16 addr)
-+{
-+	hdmi_phy_jtag_shift_dr(dw_dev);
-+	hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_ADDR_CMD, addr << 8);
-+	hdmi_phy_jtag_idle(dw_dev);
-+	hdmi_phy_jtag_shift_dr(dw_dev);
-+	hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_WRITE_CMD, val);
-+	hdmi_phy_jtag_idle(dw_dev);
-+}
-+
-+static u16 hdmi_phy_jtag_read(struct dw_hdmi_dev *dw_dev, u16 addr)
-+{
-+	u16 val;
-+
-+	hdmi_phy_jtag_shift_dr(dw_dev);
-+	hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_ADDR_CMD, addr << 8);
-+	hdmi_phy_jtag_idle(dw_dev);
-+	hdmi_phy_jtag_shift_dr(dw_dev);
-+	val = hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_READ_CMD, 0xFFFF);
-+	hdmi_phy_jtag_idle(dw_dev);
-+
-+	return val;
-+}
-+
-+static void dw_hdmi_phy_write(void *arg, u16 val, u16 addr)
-+{
-+	struct dw_hdmi_dev *dw_dev = arg;
-+	u16 rval;
-+
-+	hdmi_phy_jtag_init(dw_dev, dw_dev->config->phy->jtag_addr);
-+	hdmi_phy_jtag_write(dw_dev, val, addr);
-+	rval = hdmi_phy_jtag_read(dw_dev, addr);
-+
-+	if (rval != val) {
-+		dev_err(dw_dev->dev,
-+			"JTAG read-back failed: expected=0x%x, got=0x%x\n",
-+			val, rval);
-+	}
-+}
-+
-+static u16 dw_hdmi_phy_read(void *arg, u16 addr)
-+{
-+	struct dw_hdmi_dev *dw_dev = arg;
-+
-+	hdmi_phy_jtag_init(dw_dev, dw_dev->config->phy->jtag_addr);
-+	return hdmi_phy_jtag_read(dw_dev, addr);
-+}
-+
-+static void dw_hdmi_phy_reset(void *arg, int enable)
-+{
-+	struct dw_hdmi_dev *dw_dev = arg;
-+
-+	hdmi_mask_writel(dw_dev, enable, DW_HDMI_PHY_CTRL,
-+			 DW_HDMI_PHYRESET_OFFSET,
-+			 DW_HDMI_PHYRESET_MASK);
-+}
-+
-+static void dw_hdmi_phy_pddq(void *arg, int enable)
-+{
-+	struct dw_hdmi_dev *dw_dev = arg;
-+
-+	hdmi_mask_writel(dw_dev, enable, DW_HDMI_PHY_CTRL,
-+			 DW_HDMI_PHYPDDQ_OFFSET,
-+			 DW_HDMI_PHYPDDQ_MASK);
-+}
-+
-+static void dw_hdmi_phy_svsmode(void *arg, int enable)
-+{
-+	struct dw_hdmi_dev *dw_dev = arg;
-+
-+	hdmi_mask_writel(dw_dev, enable, DW_HDMI_PHY_CTRL,
-+			 DW_HDMI_PHYSVSRETMODEZ_OFFSET,
-+			 DW_HDMI_PHYSVSRETMODEZ_MASK);
-+}
-+
-+static void dw_hdmi_zcal_reset(void *arg)
-+{
-+	struct dw_hdmi_dev *dw_dev = arg;
-+
-+	if (dw_dev->config->dw_zcal_reset)
-+		dw_dev->config->dw_zcal_reset(dw_dev->config->dw_zcal_arg);
-+}
-+
-+static bool dw_hdmi_zcal_done(void *arg)
-+{
-+	struct dw_hdmi_dev *dw_dev = arg;
-+	void __iomem *zcal_arg = dw_dev->config->dw_zcal_arg;
-+
-+	if (dw_dev->config->dw_zcal_done)
-+		return dw_dev->config->dw_zcal_done(zcal_arg);
-+
-+	return false;
-+}
-+
-+static bool dw_hdmi_tmds_valid(void *arg)
-+{
-+	struct dw_hdmi_dev *dw_dev = arg;
-+
-+	return (hdmi_readl(dw_dev, DW_HDMI_PLL_LCK_STS) & DW_HDMI_PLL_LOCKED);
-+}
-+
-+static bool dw_hdmi_audio_valid(void *arg)
-+{
-+	struct dw_hdmi_dev *dw_dev = arg;
-+
-+	return ((hdmi_readl(dw_dev, DW_HDMI_AUD_PLL_CTRL) &
-+			DW_HDMI_PLL_LOCK_STABLE_MASK) != 0);
-+}
-+
-+static const struct dw_phy_funcs dw_hdmi_phy_funcs = {
-+	.write = dw_hdmi_phy_write,
-+	.read = dw_hdmi_phy_read,
-+	.reset = dw_hdmi_phy_reset,
-+	.pddq = dw_hdmi_phy_pddq,
-+	.svsmode = dw_hdmi_phy_svsmode,
-+	.zcal_reset = dw_hdmi_zcal_reset,
-+	.zcal_done = dw_hdmi_zcal_done,
-+	.tmds_valid = dw_hdmi_tmds_valid,
-+};
-+
-+static const struct of_device_id dw_hdmi_supported_phys[] = {
-+	{ .compatible = "snps,dw-hdmi-phy-e405", .data = DW_PHY_E40X_DRVNAME, },
-+	{ .compatible = "snps,dw-hdmi-phy-e406", .data = DW_PHY_E40X_DRVNAME, },
-+	{ },
-+};
-+
-+static struct device_node *
-+dw_hdmi_get_phy_of_node(struct dw_hdmi_dev *dw_dev,
-+			const struct of_device_id **found_id)
-+{
-+	const struct of_device_id *id = NULL;
-+	struct device_node *np = NULL;
-+
-+	np = of_find_matching_node_and_match(NULL, dw_hdmi_supported_phys, &id);
-+
-+	if (!id)
-+		return NULL;
-+
-+	if (found_id)
-+		*found_id = id;
-+
-+	return np;
-+}
-+
-+static bool dw_hdmi_has_dt(struct dw_hdmi_dev *dw_dev)
-+{
-+	const struct of_device_id *of_id;
-+
-+	if (!dw_dev->of_node ||
-+	    !dw_hdmi_get_phy_of_node(dw_dev, &of_id) ||
-+	    !of_id || !of_id->data) {
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
-+static const struct dw_hdmi_phy_cfg {
-+	const char *drvname;
-+	const struct dw_phy_funcs *funcs;
-+	int (*extra_init)(struct dw_hdmi_dev *dw_dev);
-+} dw_hdmi_phys[] = {
-+	{
-+		.drvname = DW_PHY_E40X_DRVNAME,
-+		.funcs = &dw_hdmi_phy_funcs,
-+	},
-+};
-+
-+static int dw_hdmi_phy_init_dt(struct dw_hdmi_dev *dw_dev)
-+{
-+	const struct dw_hdmi_phy_cfg *phy_config = NULL;
-+	struct dw_phy_pdata *phy = &dw_dev->phy_config;
-+	struct of_dev_auxdata lookup = { };
-+	const struct of_device_id *of_id;
-+	struct device_node *child;
-+	const char *drvname;
-+	unsigned int i;
-+	int ret;
-+
-+	child = dw_hdmi_get_phy_of_node(dw_dev, &of_id);
-+	if (!child || !of_id || !of_id->data) {
-+		dev_err(dw_dev->dev, "no supported PHY found in DT\n");
-+		return -EINVAL;
-+	}
-+
-+	drvname = of_id->data;
-+	for (i = 0; i < ARRAY_SIZE(dw_hdmi_phys); i++) {
-+		if (!strcmp(dw_hdmi_phys[i].drvname, drvname))
-+			phy_config = &dw_hdmi_phys[i];
-+	}
-+
-+	if (!phy_config) {
-+		dev_err(dw_dev->dev, "failed to find PHY configuration\n");
-+		return -EINVAL;
-+	}
-+
-+	if (phy_config->extra_init) {
-+		ret = phy_config->extra_init(dw_dev);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	phy->funcs = phy_config->funcs;
-+	phy->funcs_arg = dw_dev;
-+
-+	lookup.compatible = (char *)of_id->compatible;
-+	lookup.platform_data = phy;
-+
-+	request_module(drvname);
-+
-+	ret = of_platform_populate(dw_dev->of_node, NULL, &lookup, dw_dev->dev);
-+	if (ret) {
-+		dev_err(dw_dev->dev, "failed to populate PHY driver\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_phy_init_pd(struct dw_hdmi_dev *dw_dev)
-+{
-+	const char *drv_name = dw_dev->config->phy->drv_name;
-+	const struct dw_hdmi_phy_cfg *phy_config = NULL;
-+	struct platform_device_info pdevinfo;
-+	unsigned int i;
-+	int ret;
-+
-+	memset(&pdevinfo, 0, sizeof(pdevinfo));
-+
-+	for (i = 0; i < ARRAY_SIZE(dw_hdmi_phys); i++) {
-+		if (!strcmp(dw_hdmi_phys[i].drvname, drv_name))
-+			phy_config = &dw_hdmi_phys[i];
-+	}
-+
-+	if (!phy_config) {
-+		dev_err(dw_dev->dev, "failed to find PHY configuration\n");
-+		return -EINVAL;
-+	}
-+
-+	if (phy_config->extra_init) {
-+		ret = phy_config->extra_init(dw_dev);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	dw_dev->phy_config.version = dw_dev->config->phy->version;
-+	dw_dev->phy_config.cfg_clk = dw_dev->config->phy->cfg_clk;
-+	dw_dev->phy_config.funcs = phy_config->funcs;
-+	dw_dev->phy_config.funcs_arg = dw_dev;
-+
-+	pdevinfo.parent = dw_dev->dev;
-+	pdevinfo.id = PLATFORM_DEVID_NONE;
-+	pdevinfo.name = drv_name;
-+	pdevinfo.data = &dw_dev->phy_config;
-+	pdevinfo.size_data = sizeof(dw_dev->phy_config);
-+	pdevinfo.dma_mask = DMA_BIT_MASK(32);
-+
-+	request_module(pdevinfo.name);
-+
-+	dw_dev->phy_pdev = platform_device_register_full(&pdevinfo);
-+	if (IS_ERR(dw_dev->phy_pdev)) {
-+		dev_err(dw_dev->dev, "failed to register PHY device\n");
-+		return PTR_ERR(dw_dev->phy_pdev);
-+	}
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_phy_init(struct dw_hdmi_dev *dw_dev)
-+{
-+	int ret;
-+
-+	if (dw_hdmi_has_dt(dw_dev)) {
-+		/* init PHY based on device tree */
-+		ret = dw_hdmi_phy_init_dt(dw_dev);
-+	} else {
-+		/* init PHY based on platform device */
-+		ret = dw_hdmi_phy_init_pd(dw_dev);
-+	}
-+
-+	/* get the HDMI PHY reference */
-+	dw_dev->phy = devm_phy_get(dw_dev->dev, "hdmi-phy");
-+	if (IS_ERR(dw_dev->phy)) {
-+		if (PTR_ERR(dw_dev->phy) != -EPROBE_DEFER)
-+			dev_err(dw_dev->dev, "Couldn't get the HDMI PHY\n");
-+		return PTR_ERR(dw_dev->phy);
-+	}
-+
-+	return ret;
-+}
-+
-+static void dw_hdmi_phy_exit(struct dw_hdmi_dev *dw_dev)
-+{
-+	if (dw_hdmi_has_dt(dw_dev)) {
-+		/* exit PHY based on device tree */
-+		of_platform_depopulate(dw_dev->dev);
-+	} else {
-+		/* exit PHY based on platform device */
-+		if (!IS_ERR(dw_dev->phy_pdev))
-+			platform_device_unregister(dw_dev->phy_pdev);
-+	}
-+}
-+
-+static int dw_hdmi_phy_eq_init(struct dw_hdmi_dev *dw_dev, u16 acq, bool force)
-+{
-+	union phy_configure_opts opts;
-+	struct phy_configure_opts_hdmi *hdmi_opts = &opts.hdmi;
-+	int ret = 0;
-+
-+	/* load the required options for calibration */
-+	hdmi_opts->calibration_acq = acq;
-+	hdmi_opts->calibration_force = force;
-+	/* to avoid other reconfigurations when is to calibrate */
-+	hdmi_opts->set_color_depth = 0;
-+	hdmi_opts->set_tmds_bit_clock_ratio = 0;
-+	hdmi_opts->set_scrambling = 0;
-+
-+	/* set PHY configuration */
-+	ret = phy_configure(dw_dev->phy, &opts);
-+	if (ret) {
-+		dev_err(dw_dev->dev, "%s: Couldn't PHY configure (err: %d)\n",
-+			__func__, ret);
-+		goto err;
-+	}
-+
-+	/* call PHY calibrate */
-+	ret = phy_calibrate(dw_dev->phy);
-+	if (ret) {
-+		dev_err(dw_dev->dev, "%s: Couldn't PHY calibrate (err: %d)\n",
-+			__func__, ret);
-+		goto err;
-+	}
-+
-+err:
-+	return ret;
-+}
-+
-+static int dw_hdmi_phy_config(struct dw_hdmi_dev *dw_dev,
-+			      unsigned char color_depth, bool hdmi2,
-+			      bool scrambling)
-+{
-+	union phy_configure_opts opts;
-+	struct phy_configure_opts_hdmi *hdmi_opts = &opts.hdmi;
-+	int ret = 0;
-+
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
-+			 DW_HDMI_DATAPATH_CBUSZ_OFFSET,
-+			 DW_HDMI_DATAPATH_CBUSZ_MASK);
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
-+			 DW_HDMI_CBUS_SVSRETMODEZ_OFFSET,
-+			 DW_HDMI_CBUS_SVSRETMODEZ_MASK);
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
-+			 DW_HDMI_CBUS_PDDQ_OFFSET,
-+			 DW_HDMI_CBUS_PDDQ_MASK);
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
-+			 DW_HDMI_CBUS_RESET_OFFSET,
-+			 DW_HDMI_CBUS_RESET_MASK);
-+
-+	/* load the required options for power on */
-+	hdmi_opts->color_depth = color_depth;
-+	hdmi_opts->tmds_bit_clock_ratio = hdmi2;
-+	hdmi_opts->scrambling = scrambling;
-+	/* to avoid color depth reconfiguration before the power on */
-+	hdmi_opts->set_color_depth = 0;
-+
-+	/* set PHY configuration */
-+	ret = phy_configure(dw_dev->phy, &opts);
-+	if (ret) {
-+		dev_err(dw_dev->dev, "%s: Couldn't PHY configure (err: %d)\n",
-+			__func__, ret);
-+		goto err;
-+	}
-+
-+	/* call PHY power off if needed */
-+	if (dw_dev->phy->power_count > 0) {
-+		ret = phy_power_off(dw_dev->phy);
-+		if (ret) {
-+			dev_err(dw_dev->dev, "%s: Couldn't PHY power off (err: %d)\n",
-+				__func__, ret);
-+		}
-+	}
-+
-+	/* call PHY power on */
-+	ret = phy_power_on(dw_dev->phy);
-+	if (ret) {
-+		dev_err(dw_dev->dev, "%s: Couldn't PHY power on (err: %d)\n",
-+			__func__, ret);
-+		goto err;
-+	}
-+
-+err:
-+	return ret;
-+}
-+
-+static int dw_hdmi_phy_set_color_depth(struct dw_hdmi_dev *dw_dev,
-+				       u8 color_depth)
-+{
-+	union phy_configure_opts opts;
-+	struct phy_configure_opts_hdmi *hdmi_opts = &opts.hdmi;
-+	int ret = 0;
-+
-+	/* load the required options for color depth reconfiguration */
-+	hdmi_opts->color_depth = color_depth;
-+	/* to avoid other reconfigurations when is to set only color depth */
-+	hdmi_opts->set_tmds_bit_clock_ratio = 0;
-+	hdmi_opts->set_scrambling = 0;
-+
-+	/* set PHY configuration */
-+	ret = phy_configure(dw_dev->phy, &opts);
-+	if (ret) {
-+		dev_err(dw_dev->dev, "%s: Couldn't PHY configure (err: %d)\n",
-+			__func__, ret);
-+		goto err;
-+	}
-+
-+err:
-+	return ret;
-+}
-+
-+static void dw_hdmi_event_source_change(struct dw_hdmi_dev *dw_dev)
-+{
-+	if (dw_dev->registered)
-+		v4l2_subdev_notify_event(&dw_dev->sd, &dw_hdmi_event_fmt);
-+}
-+
-+static int dw_hdmi_reset_ceavid(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEAVID_CONFIG,
-+			 DW_HDMI_CEAVID_RST_OFFSET,
-+			 DW_HDMI_CEAVID_RST_MASK);
-+	msleep(100);
-+	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_CEAVID_CONFIG,
-+			 DW_HDMI_CEAVID_RST_OFFSET,
-+			 DW_HDMI_CEAVID_RST_MASK);
-+
-+	return 0;
-+}
-+
-+static void dw_hdmi_update_avmute(struct dw_hdmi_dev *dw_dev, u32 mbus_code)
-+{
-+	u32 val_l = 0x0, val_h = 0x0;
-+
-+	switch (mbus_code) {
-+	case MEDIA_BUS_FMT_YUYV8_1X16: /* YCbCr 4:2:2 */
-+		val_h = 0x00008000;
-+		val_l = 0x00008000;
-+		break;
-+	case MEDIA_BUS_FMT_YUYV12_1X24: /* YCbCr 4:4:4 */
-+		val_h = 0x00008000;
-+		val_l = 0x00008000;
-+		break;
-+	case MEDIA_BUS_FMT_YVYU8_1X16: /* YCbCr 4:2:0 */
-+		val_h = 0x00000f00;
-+		val_l = 0x0f007f00;
-+		break;
-+	case MEDIA_BUS_FMT_RGB888_2X12_BE: /* RGB */
-+	default:
-+		break;
-+	}
-+
-+	hdmi_writel(dw_dev, val_l, DW_HDMI_VM_CFG_CH_0_1);
-+	hdmi_mask_writel(dw_dev, val_h, DW_HDMI_VM_CFG_CH2,
-+			 DW_HDMI_VM_CH2_COL_VALUE_OFFSET,
-+			 DW_HDMI_VM_CH2_COL_VALUE_MASK);
-+}
-+
-+static u32 dw_hdmi_get_mbus_code(struct dw_hdmi_dev *dw_dev)
-+{
-+	enum hdmi_colorspace cs = dw_dev->aviif.avi.colorspace;
-+
-+	switch (cs) {
-+	case HDMI_COLORSPACE_RGB: /* RGB */
-+		return MEDIA_BUS_FMT_RGB888_2X12_BE;
-+	case HDMI_COLORSPACE_YUV422: /* YCbCr 4:2:2 */
-+		return MEDIA_BUS_FMT_YUYV8_1X16;
-+	case HDMI_COLORSPACE_YUV444: /* YCbCr 4:4:4 */
-+		return MEDIA_BUS_FMT_YUYV12_1X24;
-+	case HDMI_COLORSPACE_YUV420: /* YCbCr 4:2:0 */
-+		return MEDIA_BUS_FMT_YVYU8_1X16;
-+	default:
-+		return MEDIA_BUS_FMT_RGB888_2X12_BE;
-+	}
-+}
-+
-+static u8 dw_hdmi_infoframe_checksum(u8 *ptr, size_t size)
-+{
-+	u8 csum = 0;
-+	size_t i;
-+
-+	for (i = 0; i < size; i++)
-+		csum += ptr[i];
-+	return 256 - csum;
-+}
-+
-+static void dw_hdmi_get_raw_infoframe_avi(struct dw_hdmi_dev *dw_dev,
-+					  struct dw_hdmi_infoframe_cfg *fcfg)
-+{
-+	u32 pb, ph = hdmi_readl(dw_dev, fcfg->header_addr);
-+	union hdmi_infoframe *frame = fcfg->frame;
-+	u8 packet_hlen = sizeof(fcfg->header);
-+	u8 packet_len = (ph >> 8) & 0xff;
-+	unsigned int i, j, pos = 0;
-+	u8 packet[35] = {0};
-+
-+	dev_dbg(dw_dev->dev, "%s[%s]: packet_header=0x%x\n", __func__,
-+		fcfg->desc, ph);
-+
-+	if (!ph) /* Fail silently if there is no packet */
-+		return;
-+
-+	if ((packet_len + packet_hlen + 1) > sizeof(packet)) {
-+		dev_dbg(dw_dev->dev, "%s: invalid length\n", __func__);
-+		goto out;
-+	}
-+
-+	memcpy(packet, fcfg->header, packet_hlen);
-+	packet[2] = packet_len; /* Replace fake header size by real header */
-+	pos += packet_hlen + 1;
-+
-+	for (i = 0; i < fcfg->payload_len; i++) {
-+		j = 0;
-+
-+		/* specific for AVI */
-+		if (fcfg->header[0] == HDMI_INFOFRAME_TYPE_AVI && i == 1) {
-+			/* read YQx, CNx, PRx from AVI PH register */
-+			u32 offset = DW_HDMI_PIX_REP_FACTOR_OFFSET;
-+			u32 mask = DW_HDMI_QUANT_RANGE_MASK |
-+				DW_HDMI_CONTENT_TYPE_MASK |
-+				DW_HDMI_PIX_REP_FACTOR_MASK;
-+
-+			pb = hdmi_mask_readl(dw_dev, fcfg->header_addr, offset,
-+					     mask);
-+			packet[pos++] = pb & 0xff;
-+			j = 1;
-+		}
-+
-+		/* the registers are aligned with the standard raw packet */
-+		pb = hdmi_readl(dw_dev, fcfg->payload_addr + 4 * i);
-+		for (; j < 4; j++) {
-+			if (pos >= (packet_len + packet_hlen + 1))
-+				break;
-+			packet[pos++] = (pb >> (8 * j)) & 0xff;
-+		}
-+	}
-+
-+	packet[3] = dw_hdmi_infoframe_checksum(packet, packet_len +
-+			packet_hlen + 1);
-+
-+	/*print all packet bytes */
-+	for (j = 0; j < pos; j++) {
-+		dev_dbg(dw_dev->dev, "%s[%s]: packet=0x%x\n", __func__,
-+			fcfg->desc, packet[j]);
-+	}
-+
-+	if (hdmi_infoframe_unpack(frame, packet, sizeof(packet))) {
-+		dev_dbg(dw_dev->dev, "%s[%s]: failed to unpack\n",
-+			__func__, fcfg->desc);
-+		goto out;
-+	}
-+
-+	return;
-+out:
-+	dev_err(dw_dev->dev, "[INVALID INFOFRAME]\n");
-+}
-+
-+static void dw_hdmi_get_raw_infoframe_aud(struct dw_hdmi_dev *dw_dev,
-+					  struct dw_hdmi_infoframe_cfg *fcfg)
-+{
-+	u32 pb, ph = hdmi_readl(dw_dev, fcfg->header_addr);
-+	union hdmi_infoframe *frame = fcfg->frame;
-+	u8 packet_hlen = sizeof(fcfg->header);
-+	u8 packet_len = (ph >> 8) & 0xff;
-+	unsigned int i, j, pos = 0;
-+	u8 packet[35] = {0};
-+
-+	dev_dbg(dw_dev->dev, "%s[%s]: packet_header=0x%x\n", __func__,
-+		fcfg->desc, ph);
-+
-+	if (!ph) /* Fail silently if there is no packet */
-+		return;
-+
-+	if ((packet_len + packet_hlen + 1) > sizeof(packet)) {
-+		dev_dbg(dw_dev->dev, "%s: invalid length\n", __func__);
-+		goto out;
-+	}
-+
-+	memcpy(packet, fcfg->header, packet_hlen);
-+	packet[2] = packet_len; /* Replace fake header size by real header */
-+	pos += packet_hlen + 1;
-+
-+	for (i = 0; i < fcfg->payload_len; i++) {
-+		j = 0;
-+
-+		/* specific for audio */
-+		if (fcfg->header[0] == HDMI_INFOFRAME_TYPE_AUDIO && i == 1) {
-+			pb = hdmi_readl(dw_dev, fcfg->payload_addr + 4 * i);
-+			packet[pos++] = (pb |
-+			    ((pb & DW_HDMI_LFE_PLAYBACK_LEVEL_MASK)
-+			    >> DW_HDMI_LFE_PLAYBACK_LEVEL_OFFSET)) &
-+			    0xff;
-+			break;
-+		}
-+
-+		/* the registers are aligned with the standard raw packet */
-+		pb = hdmi_readl(dw_dev, fcfg->payload_addr + 4 * i);
-+		for (; j < 4; j++) {
-+			if (pos >= (packet_len + packet_hlen + 1))
-+				break;
-+			packet[pos++] = (pb >> (8 * j)) & 0xff;
-+		}
-+	}
-+
-+	packet[3] = dw_hdmi_infoframe_checksum(packet, packet_len +
-+			packet_hlen + 1);
-+
-+	/*print all packet bytes */
-+	for (j = 0; j < pos; j++) {
-+		dev_dbg(dw_dev->dev, "%s[%s]: packet=0x%x\n", __func__,
-+			fcfg->desc, packet[j]);
-+	}
-+
-+	if (hdmi_infoframe_unpack(frame, packet, sizeof(packet))) {
-+		dev_dbg(dw_dev->dev, "%s[%s]: failed to unpack\n",
-+			__func__, fcfg->desc);
-+		goto out;
-+	}
-+
-+	return;
-+out:
-+	dev_err(dw_dev->dev, "[INVALID INFOFRAME]\n");
-+}
-+
-+static void dw_hdmi_get_raw_infoframe_vs(struct dw_hdmi_dev *dw_dev,
-+					 struct dw_hdmi_infoframe_cfg *fcfg)
-+{
-+	u32 pb, ph = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
-+				     DW_HDMI_LENGTH_OFFSET,
-+				     DW_HDMI_LENGTH_MASK);
-+	union hdmi_infoframe *frame = fcfg->frame;
-+	u8 packet_hlen = sizeof(fcfg->header);
-+	unsigned int j, pos = 0;
-+	u8 packet[35] = {0};
-+	u8 packet_len = ph;
-+
-+	dev_dbg(dw_dev->dev, "%s[%s]: packet_header=0x%x\n", __func__,
-+		fcfg->desc, ph);
-+
-+	if (!ph) /* Fail silently if there is no packet */
-+		return;
-+
-+	if ((packet_len + packet_hlen + 1) > sizeof(packet)) {
-+		dev_dbg(dw_dev->dev, "%s: invalid length\n", __func__);
-+		goto out;
-+	}
-+
-+	memcpy(packet, fcfg->header, packet_hlen);
-+	packet[2] = packet_len; /* Replace fake header size by real header */
-+	pos += packet_hlen + 1;
-+
-+	/* 24bit IEEE Registration identifier */
-+	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST0,
-+			     DW_HDMI_IEEE_REG_ID_OFFSET,
-+			     DW_HDMI_IEEE_REG_ID_MASK);
-+	for (j = 0; j < 3; j++) {
-+		if (pos >= (packet_len + packet_hlen + 1))
-+			break;
-+		packet[pos++] = (pb >> (8 * j)) & 0xff;
-+	}
-+
-+	/* HDMI video format */
-+	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
-+			     DW_HDMI_HDMI_VIDEO_FORMAT_OFFSET,
-+			     DW_HDMI_HDMI_VIDEO_FORMAT_MASK);
-+	packet[pos++] = (pb << DW_HDMI_HDMI_VIDEO_FORMAT_OFFSET) &
-+			0xff;
-+
-+	/* HDMI vic */
-+	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
-+			     DW_HDMI_HDMI_VIC_OFFSET,
-+			     DW_HDMI_HDMI_VIC_MASK);
-+	packet[pos++] = pb & 0xff;
-+
-+	/* 3d structure */
-+	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
-+			     DW_HDMI_H3D_STRUCTURE_OFFSET,
-+			     DW_HDMI_H3D_STRUCTURE_MASK);
-+	packet[pos++] = (pb << 4) & 0xff;
-+
-+	/* 3d ext data */
-+	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
-+			     DW_HDMI_H3D_EXT_DATA_OFFSET,
-+			     DW_HDMI_H3D_EXT_DATA_MASK);
-+	packet[pos++] = (pb << 4) & 0xff;
-+
-+	packet[3] = dw_hdmi_infoframe_checksum(packet, packet_len +
-+			packet_hlen + 1);
-+
-+	/*print all packet bytes */
-+	for (j = 0; j < pos; j++) {
-+		dev_dbg(dw_dev->dev, "%s[%s]: packet=0x%x\n", __func__,
-+			fcfg->desc, packet[j]);
-+	}
-+
-+	if (hdmi_infoframe_unpack(frame, packet, sizeof(packet))) {
-+		dev_dbg(dw_dev->dev, "%s[%s]: failed to unpack\n",
-+			__func__, fcfg->desc);
-+		goto out;
-+	}
-+
-+	return;
-+out:
-+	dev_err(dw_dev->dev, "[INVALID INFOFRAME]\n");
-+}
-+
-+static void dw_hdmi_get_raw_infoframe(struct dw_hdmi_dev *dw_dev,
-+				      struct dw_hdmi_infoframe_cfg *fcfg)
-+{
-+	switch (fcfg->header[0]) {
-+	case HDMI_INFOFRAME_TYPE_AVI:
-+		dw_hdmi_get_raw_infoframe_avi(dw_dev, fcfg);
-+		break;
-+	case HDMI_INFOFRAME_TYPE_SPD:
-+		dev_dbg(dw_dev->dev,
-+			"%s[%s]: not processed infoframe packet type %d\n",
-+			__func__, fcfg->desc, fcfg->header[0]);
-+		break;
-+	case HDMI_INFOFRAME_TYPE_AUDIO:
-+		dw_hdmi_get_raw_infoframe_aud(dw_dev, fcfg);
-+		break;
-+	case HDMI_INFOFRAME_TYPE_VENDOR:
-+		dw_hdmi_get_raw_infoframe_vs(dw_dev, fcfg);
-+		break;
-+	case HDMI_INFOFRAME_TYPE_DRM:
-+		dev_dbg(dw_dev->dev,
-+			"%s[%s]: not processed infoframe packet type %d\n",
-+			__func__, fcfg->desc, fcfg->header[0]);
-+		break;
-+	default:
-+		dev_dbg(dw_dev->dev,
-+			"%s[%s]: invalid infoframe packet type %d\n",
-+			__func__, fcfg->desc, fcfg->header[0]);
-+		break;
-+	}
-+}
-+
-+/* Forward declaration needed because of color encoding change */
-+static void dw_hdmi_power_off(struct dw_hdmi_dev *dw_dev);
-+static void dw_hdmi_controller_power_off(struct dw_hdmi_dev *dw_dev);
-+static int dw_hdmi_power_on(struct dw_hdmi_dev *dw_dev, unsigned int input);
-+
-+static void dw_hdmi_get_infoframes(struct dw_hdmi_dev *dw_dev)
-+{
-+	struct dw_hdmi_infoframe_cfg ifs[] = {
-+		{
-+			.desc = "AVI",
-+			.header = {HDMI_INFOFRAME_TYPE_AVI, 2,
-+				   HDMI_AVI_INFOFRAME_SIZE},
-+			.header_addr = DW_HDMI_PDEC_AVI_HB,
-+			.payload_addr = DW_HDMI_PDEC_AVI_PB,
-+			.payload_len = DW_HDMI_PDEC_AVI_PBLEN,
-+			.frame = &dw_dev->aviif,
-+			.frame_size = sizeof(dw_dev->aviif),
-+		}, {
-+			.desc = "Audio",
-+			.header = {HDMI_INFOFRAME_TYPE_AUDIO, 1,
-+				   HDMI_AUDIO_INFOFRAME_SIZE},
-+			.header_addr = DW_HDMI_PDEC_AIF_HB,
-+			.payload_addr = DW_HDMI_PDEC_AIF_PB0,
-+			.payload_len = DW_HDMI_PDEC_AIF_PBLEN,
-+			.frame = &dw_dev->audioif,
-+			.frame_size = sizeof(dw_dev->audioif),
-+		}, {
-+			.desc = "Vendor Specific",
-+			.header = {HDMI_INFOFRAME_TYPE_VENDOR, 1,
-+				   HDMI_VENDOR_INFOFRAME_SIZE},
-+			.frame = &dw_dev->vsif,
-+			.frame_size = sizeof(dw_dev->vsif),
-+		},
-+	};
-+	union hdmi_vendor_any_infoframe *vendor;
-+	struct hdmi_avi_infoframe *avi;
-+	unsigned int i;
-+	u32 old_mbus;
-+
-+	for (i = 0; i < ARRAY_SIZE(ifs); i++) {
-+		memset(ifs[i].frame, 0, ifs[i].frame_size);
-+		dw_hdmi_get_raw_infoframe(dw_dev, &ifs[i]);
-+	}
-+
-+	/* Update color space */
-+	old_mbus = dw_dev->mbus_code;
-+	dw_dev->mbus_code = dw_hdmi_get_mbus_code(dw_dev);
-+	if (dw_dev->mbus_code != old_mbus && is_on(dw_dev)) {
-+		dw_hdmi_power_off(dw_dev);
-+		if (has_signal(dw_dev, dw_dev->configured_input))
-+			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-+	}
-+
-+	/* Update AVMute value */
-+	dw_hdmi_update_avmute(dw_dev, dw_dev->mbus_code);
-+
-+	vendor = &dw_dev->vsif.vendor;
-+	avi = &dw_dev->aviif.avi;
-+
-+	/*
-+	 * Update current VIC: When transmitting any extended video format
-+	 * indicated through use of the HDMI_VIC field in the HDMI Vendor
-+	 * Specific InfoFrame or any other format which is not described in
-+	 * the above cases, an HDMI Source shall set the AVI InfoFrame VIC
-+	 * field to zero.
-+	 */
-+	if (vendor->hdmi.vic && !avi->video_code) {
-+		dw_dev->current_vic = vendor->hdmi.vic;
-+		dw_dev->current_vic_is_4k = true;
-+	} else {
-+		dw_dev->current_vic = avi->video_code;
-+		dw_dev->current_vic_is_4k = false;
-+	}
-+}
-+
-+static int dw_hdmi_wait_phy_lock_poll(struct dw_hdmi_dev *dw_dev)
-+{
-+	int timeout = dw_dev->tmds_valid_wait_count;
-+
-+	while (!dw_hdmi_tmds_valid(dw_dev) && timeout-- && !dw_dev->force_off)
-+		usleep_range(5000, 10000);
-+
-+	if (!dw_hdmi_tmds_valid(dw_dev))
-+		return -ETIMEDOUT;
-+
-+	return 0;
-+}
-+
-+static void dw_hdmi_reset_datapath(struct dw_hdmi_dev *dw_dev)
-+{
-+	u32 val = DW_HDMI_TMDS_SWRESET |
-+		DW_HDMI_HDCP_SWRESET |
-+		DW_HDMI_VID_SWRESET |
-+		DW_HDMI_PIXEL_SWRESET |
-+		DW_HDMI_CEC_SWRESET |
-+		DW_HDMI_AUD_SWRESET |
-+		DW_HDMI_BUS_SWRESET |
-+		DW_HDMI_HDMI_SWRESET |
-+		DW_HDMI_MODET_SWRESET;
-+
-+	hdmi_writel(dw_dev, val & dw_dev->reset_datapath_enable,
-+		    DW_HDMI_DMI_SW_RST);
-+}
-+
-+static void dw_hdmi_reset_audio(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_writel(dw_dev, DW_HDMI_AUD_SWRESET, DW_HDMI_DMI_SW_RST);
-+}
-+
-+static void dw_hdmi_restart_audio_fifo(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_AUD_FIFO_CTRL,
-+			 DW_HDMI_AFIF_INIT_OFFSET,
-+			 DW_HDMI_AFIF_INIT_MASK);
-+	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_AUD_FIFO_CTRL,
-+			 DW_HDMI_AFIF_INIT_OFFSET,
-+			 DW_HDMI_AFIF_INIT_MASK);
-+}
-+
-+static int dw_hdmi_wait_audio_lock_poll(struct dw_hdmi_dev *dw_dev)
-+{
-+	int timeout = 10;
-+
-+	while (!dw_hdmi_audio_valid(dw_dev) && timeout-- && !dw_dev->force_off)
-+		usleep_range(5000, 10000);
-+
-+	if (!dw_hdmi_audio_valid(dw_dev))
-+		return -ETIMEDOUT;
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_config_audio(struct dw_hdmi_dev *dw_dev)
-+{
-+	int ret;
-+
-+	ret = dw_hdmi_wait_audio_lock_poll(dw_dev);
-+	if (ret) {
-+		dev_err(dw_dev->dev, "failed to wait for audio pll lock\n");
-+		return ret;
-+	}
-+
-+	/* trigger offset for N and CTS interrupts */
-+	hdmi_mask_writel(dw_dev, 0x05, DW_HDMI_PDEC_ACRM_CTRL,
-+			 DW_HDMI_DELTACTS_IRQTRIG_OFFSET,
-+			 DW_HDMI_DELTACTS_IRQTRIG_MASK);
-+
-+	/* Config */
-+	hdmi_mask_writel(dw_dev, 0x01, DW_HDMI_AUD_MUTE_CTRL,
-+			 DW_HDMI_AUD_MUTE_SEL_OFFSET,
-+			 DW_HDMI_AUD_MUTE_SEL_MASK);
-+
-+	/* enable all outputs and select 16-bit for I2S */
-+	hdmi_writel(dw_dev, 0x00, DW_HDMI_AUD_SAO_CTRL);
-+
-+	/* Start */
-+	dw_hdmi_restart_audio_fifo(dw_dev);
-+	return 0;
-+}
-+
-+static void dw_hdmi_config_packet(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_CTRL,
-+			 DW_HDMI_PFIFO_STORE_FILTER_EN_OFFSET,
-+			 DW_HDMI_PFIFO_STORE_FILTER_EN_MASK);
-+
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_ASP_CTRL,
-+			 DW_HDMI_AUTO_VMUTE_OFFSET,
-+			 DW_HDMI_AUTO_VMUTE_MASK);
-+
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_ASP_CTRL,
-+			 DW_HDMI_AUTO_SPFLAT_MUTE_OFFSET,
-+			 DW_HDMI_AUTO_SPFLAT_MUTE_MASK);
-+
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_CTRL,
-+			 DW_HDMI_PD_FIFO_CLR_OFFSET,
-+			 DW_HDMI_PD_FIFO_CLR_MASK);
-+}
-+
-+static void dw_hdmi_wait_video_stable(struct dw_hdmi_dev *dw_dev)
-+{
-+	/*
-+	 * Empiric value. Video should be stable way longer before the
-+	 * end of this sleep time. Though, we can have some video change
-+	 * interrupts before the video is stable so filter them by sleeping.
-+	 */
-+	msleep(dw_dev->video_stable_wait_ms);
-+}
-+
-+static void dw_hdmi_enable_ints(struct dw_hdmi_dev *dw_dev)
-+{
-+	u32 pdec_ints = 0;
-+
-+	/* video interrupts */
-+	hdmi_writel(dw_dev, DW_HDMI_CLK_CHANGE_ISTS | DW_HDMI_PLL_LCK_CHG_ISTS |
-+			DW_HDMI_DCM_CURRENT_MODE_CHG_ISTS, DW_HDMI_IEN_SET);
-+	hdmi_writel(dw_dev, (DW_HDMI_VACT_LIN_ISTS | DW_HDMI_HACT_PIX_ISTS),
-+		    DW_HDMI_MD_IEN_SET);
-+
-+	/* infoframes interrupts */
-+	pdec_ints = (DW_HDMI_VSI_CKS_CHG_ISTS |
-+		     DW_HDMI_DRM_CKS_CHG_ISTS |
-+		     DW_HDMI_AVI_CKS_CHG_ISTS);
-+
-+	/* audio interrupts */
-+	pdec_ints |= (DW_HDMI_AUD_TYPE_CHG_ISTS |
-+		      DW_HDMI_AIF_CKS_CHG_ISTS |
-+		      DW_HDMI_ACR_N_CHG_ISTS |
-+		      DW_HDMI_ACR_CTS_CHG_ISTS |
-+		      DW_HDMI_GCP_AV_MUTE_CHG_ISTS);
-+
-+	hdmi_writel(dw_dev, pdec_ints, DW_HDMI_PDEC_IEN_SET);
-+	hdmi_writel(dw_dev, (DW_HDMI_AFIF_OVERFL_ISTS |
-+			DW_HDMI_AFIF_UNDERFL_ISTS |
-+			DW_HDMI_AFIF_THS_PASS_ISTS),
-+		    DW_HDMI_AUD_FIFO_IEN_SET);
-+}
-+
-+static void dw_hdmi_disable_ints(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_IEN_CLR);
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_MD_IEN_CLR);
-+
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_PDEC_IEN_CLR);
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_AUD_FIFO_IEN_CLR);
-+}
-+
-+static void dw_hdmi_clear_ints(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_ICLR);
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_MD_ICLR);
-+
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_PDEC_ICLR);
-+	hdmi_writel(dw_dev, ~0x0, DW_HDMI_AUD_FIFO_ICLR);
-+}
-+
-+static u32 dw_hdmi_get_int_val(struct dw_hdmi_dev *dw_dev, u32 ists, u32 ien)
-+{
-+	return hdmi_readl(dw_dev, ists) & hdmi_readl(dw_dev, ien);
-+}
-+
-+static u8 dw_hdmi_get_curr_vic(struct dw_hdmi_dev *dw_dev, bool *is_hdmi_vic)
-+{
-+	u8 vic = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_AVI_PB,
-+				 DW_HDMI_VID_IDENT_CODE_OFFSET,
-+				 DW_HDMI_VID_IDENT_CODE_MASK);
-+
-+	if (!vic) {
-+		vic = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_PAYLOAD0,
-+				      DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_OFFSET,
-+				      DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_MASK);
-+		if (is_hdmi_vic)
-+			*is_hdmi_vic = true;
-+	} else {
-+		if (is_hdmi_vic)
-+			*is_hdmi_vic = false;
-+	}
-+
-+	return vic;
-+}
-+
-+static u32 dw_hdmi_get_evaltime(struct dw_hdmi_dev *dw_dev)
-+{
-+	return hdmi_mask_readl(dw_dev, DW_HDMI_CKM_EVLTM,
-+			       DW_HDMI_EVAL_TIME_OFFSET,
-+			       DW_HDMI_EVAL_TIME_MASK);
-+}
-+
-+static u32 dw_hdmi_get_clkrate(struct dw_hdmi_dev *dw_dev)
-+{
-+	return hdmi_mask_readl(dw_dev, DW_HDMI_CKM_RESULT,
-+			       DW_HDMI_CLKRATE_OFFSET,
-+			       DW_HDMI_CLKRATE_MASK);
-+}
-+
-+static u32 dw_hdmi_get_cts(struct dw_hdmi_dev *dw_dev)
-+{
-+	return hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_ACR_CTS,
-+			       DW_HDMI_CTS_DECODED_OFFSET,
-+			       DW_HDMI_CTS_DECODED_MASK);
-+}
-+
-+static u32 dw_hdmi_get_n(struct dw_hdmi_dev *dw_dev)
-+{
-+	return hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_ACR_N,
-+			       DW_HDMI_N_DECODED_OFFSET,
-+			       DW_HDMI_N_DECODED_MASK);
-+}
-+
-+static u32 dw_hdmi_get_tmds_clk(struct dw_hdmi_dev *dw_dev)
-+{
-+	u32 rate = dw_hdmi_get_clkrate(dw_dev);
-+	u64 tmp = (u64)rate * (u64)dw_dev->config->iref_clk * 1000000;
-+	u32 evaltime = dw_hdmi_get_evaltime(dw_dev);
-+
-+	do_div(tmp, evaltime);
-+	return tmp;
-+}
-+
-+static u32 dw_hdmi_get_colordepth(struct dw_hdmi_dev *dw_dev)
-+{
-+	u32 dcm = hdmi_mask_readl(dw_dev, DW_HDMI_STS,
-+				  DW_HDMI_DCM_CURRENT_MODE_OFFSET,
-+				  DW_HDMI_DCM_CURRENT_MODE_MASK);
-+
-+	switch (dcm) {
-+	case 0x4:
-+		return 24;
-+	case 0x5:
-+		return 30;
-+	case 0x6:
-+		return 36;
-+	case 0x7:
-+		return 48;
-+	default:
-+		return 24;
-+	}
-+}
-+
-+static u64 dw_hdmi_get_pixelclk(struct dw_hdmi_dev *dw_dev)
-+{
-+	u32 tmds_clk = dw_hdmi_get_tmds_clk(dw_dev);
-+	u32 cd = dw_hdmi_get_colordepth(dw_dev);
-+	u32 pix_clk = 0;
-+
-+	switch (cd) {
-+	case 24:
-+		pix_clk = tmds_clk;
-+		break;
-+	case 30:
-+		pix_clk = (tmds_clk * 100) / 125;
-+		break;
-+	case 36:
-+		pix_clk = (tmds_clk * 10) / 15;
-+		break;
-+	case 48:
-+		pix_clk = tmds_clk / 2;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return pix_clk;
-+}
-+
-+static void dw_hdmi_set_input(struct dw_hdmi_dev *dw_dev, u32 input)
-+{
-+	hdmi_mask_writel(dw_dev, input, DW_HDMI_PHY_CTRL,
-+			 DW_HDMI_PORTSELECT_OFFSET,
-+			 DW_HDMI_PORTSELECT_MASK);
-+	dw_dev->configured_input = input;
-+	dw_dev->selected_input = input;
-+	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_INPUT_CHANGED,
-+			   &dw_dev->configured_input);
-+}
-+
-+static void dw_hdmi_enable_hpd(struct dw_hdmi_dev *dw_dev, u32 input_mask)
-+{
-+	hdmi_mask_writel(dw_dev, input_mask, DW_HDMI_SETUP_CTRL,
-+			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_OFFSET,
-+			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_MASK);
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_SETUP_CTRL,
-+			 DW_HDMI_HOT_PLUG_DETECT_OFFSET,
-+			 DW_HDMI_HOT_PLUG_DETECT_MASK);
-+}
-+
-+static void dw_hdmi_disable_hpd(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_SETUP_CTRL,
-+			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_OFFSET,
-+			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_MASK);
-+	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_SETUP_CTRL,
-+			 DW_HDMI_HOT_PLUG_DETECT_OFFSET,
-+			 DW_HDMI_HOT_PLUG_DETECT_MASK);
-+}
-+
-+static void dw_hdmi_enable_scdc(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_SCDC_CONFIG,
-+			 DW_HDMI_POWERPROVIDED_OFFSET,
-+			 DW_HDMI_POWERPROVIDED_MASK);
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_IEN_SET,
-+			 DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_OFFSET,
-+			 DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_MASK);
-+}
-+
-+static void dw_hdmi_disable_scdc(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_SCDC_CONFIG,
-+			 DW_HDMI_POWERPROVIDED_OFFSET,
-+			 DW_HDMI_POWERPROVIDED_MASK);
-+}
-+
-+static void dw_hdmi_handle_audio_mute_change(struct dw_hdmi_dev *dw_dev);
-+
-+static void dw_hdmi_enable_hdmi_domain(struct dw_hdmi_dev *dw_dev, bool enable)
-+{
-+	hdmi_mask_writel(dw_dev, enable, DW_HDMI_DMI_DISABLE_IF,
-+			 DW_HDMI_HDMI_ENABLE_OFFSET,
-+			 DW_HDMI_HDMI_ENABLE_MASK);
-+}
-+
-+static int dw_hdmi_initial_config(struct dw_hdmi_dev *dw_dev, u32 input);
-+
-+static int dw_hdmi_config(struct dw_hdmi_dev *dw_dev, u32 input)
-+{
-+	u32 in_state = dw_dev->state;
-+	u32 cd1 = 0, cd2 = 0;
-+	int eqret, ret = 0;
-+
-+	while (1) {
-+		/* Give up silently if we are forcing off */
-+		if (dw_dev->force_off) {
-+			ret = 0;
-+			goto out;
-+		}
-+		/* Give up silently if input has disconnected */
-+		if (!has_signal(dw_dev, input)) {
-+			ret = 0;
-+			goto out;
-+		}
-+
-+		switch (dw_dev->state) {
-+		case HDMI_STATE_POWER_OFF:
-+			dw_hdmi_disable_ints(dw_dev);
-+			dw_hdmi_set_state(dw_dev, HDMI_STATE_PHY_CONFIG);
-+			break;
-+		case HDMI_STATE_POWER_UP:
-+			/* when connect the cable */
-+			dw_hdmi_disable_ints(dw_dev);
-+			/* reset */
-+			if (dw_dev->hw_reset_on_hot_plug)
-+				dw_hdmi_reset(dw_dev);
-+			/* initial configuration */
-+			dw_hdmi_initial_config(dw_dev, input);
-+			dw_hdmi_set_state(dw_dev, HDMI_STATE_PHY_CONFIG);
-+			break;
-+		case HDMI_STATE_PHY_CONFIG:
-+			cd1 = 24;
-+			dw_dev->is_hdmi2 = is_hdmi2(dw_dev);
-+			dw_dev->is_scrambled = is_scrambled(dw_dev);
-+			dw_hdmi_phy_config(dw_dev, cd1, dw_dev->is_hdmi2,
-+					   dw_dev->is_scrambled);
-+			dw_hdmi_set_state(dw_dev, HDMI_STATE_HPD);
-+			break;
-+		case HDMI_STATE_HPD:
-+			/* disable HDMI domain to avoid the DCM INTs */
-+			dw_hdmi_enable_hdmi_domain(dw_dev, false);
-+			dw_hdmi_enable_scdc(dw_dev);
-+			dw_hdmi_enable_hpd(dw_dev, dw_dev->input_stat);
-+			dw_hdmi_set_state(dw_dev, HDMI_STATE_EQUALIZER);
-+			break;
-+		case HDMI_STATE_EQUALIZER:
-+			if (dw_dev->phy_eq_on) {
-+				bool phy_eq_force = dw_dev->phy_eq_force;
-+
-+				eqret = dw_hdmi_phy_eq_init(dw_dev, 5,
-+							    phy_eq_force);
-+			} else {
-+				/* Clear equalizer error status if not on */
-+				eqret = 0;
-+			}
-+
-+			ret = dw_hdmi_wait_phy_lock_poll(dw_dev);
-+
-+			/* Do not force equalizer */
-+			dw_dev->phy_eq_force = false;
-+
-+			if (ret || eqret) {
-+				if (ret || eqret == -ETIMEDOUT) {
-+					/* No TMDSVALID signal:
-+					 * - force equalizer
-+					 */
-+					dw_dev->phy_eq_force = true;
-+				}
-+				break;
-+			}
-+
-+			dw_hdmi_set_state(dw_dev, HDMI_STATE_DATAPATH);
-+			break;
-+		case HDMI_STATE_DATAPATH:
-+			dw_hdmi_reset_datapath(dw_dev);
-+			/* reenable HDMI domain */
-+			dw_hdmi_enable_hdmi_domain(dw_dev, true);
-+			dw_hdmi_set_state(dw_dev, HDMI_STATE_VIDEO_UNSTABLE);
-+			break;
-+		case HDMI_STATE_VIDEO_UNSTABLE:
-+			dw_hdmi_wait_video_stable(dw_dev);
-+			dw_hdmi_set_state(dw_dev, HDMI_STATE_AUDIO);
-+			break;
-+		case HDMI_STATE_AUDIO:
-+			ret = dw_hdmi_config_audio(dw_dev);
-+			dw_hdmi_config_packet(dw_dev);
-+
-+			if (in_state != HDMI_STATE_EQUALIZER)
-+				dw_hdmi_clear_ints(dw_dev);
-+
-+			dw_hdmi_get_infoframes(dw_dev);
-+
-+			/* check if there was deep color changes */
-+			if (cd1) {
-+				cd2 = dw_hdmi_get_colordepth(dw_dev);
-+				if (cd1 != cd2)
-+					dw_hdmi_phy_set_color_depth(dw_dev,
-+								    cd2);
-+			}
-+
-+			/* reset CEA video */
-+			dw_hdmi_reset_ceavid(dw_dev);
-+
-+			dw_hdmi_enable_ints(dw_dev);
-+			dw_hdmi_set_state(dw_dev, HDMI_STATE_POWER_ON);
-+			break;
-+		case HDMI_STATE_POWER_ON:
-+			break;
-+		default:
-+			dev_err(dw_dev->dev, "%s called with state (%d)\n",
-+				__func__, dw_dev->state);
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		if (dw_dev->state == HDMI_STATE_POWER_ON) {
-+			dev_info(dw_dev->dev, "HDMI-RX configured\n");
-+			dw_hdmi_event_source_change(dw_dev);
-+			dw_hdmi_handle_audio_mute_change(dw_dev);
-+			return 0;
-+		}
-+	}
-+
-+out:
-+	dw_hdmi_set_state(dw_dev, HDMI_STATE_POWER_OFF);
-+	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_IS_OFF, NULL);
-+	return ret;
-+}
-+
-+static int __dw_hdmi_power_on(struct dw_hdmi_dev *dw_dev, u32 input)
-+{
-+	unsigned long flags;
-+	int ret;
-+
-+	ret = dw_hdmi_config(dw_dev, input);
-+
-+	spin_lock_irqsave(&dw_dev->lock, flags);
-+	dw_dev->pending_config = false;
-+	spin_unlock_irqrestore(&dw_dev->lock, flags);
-+
-+	return ret;
-+}
-+
-+static void dw_hdmi_work_handler(struct work_struct *work)
-+{
-+	struct dw_hdmi_dev *dw_dev = container_of(work, struct dw_hdmi_dev,
-+						  work);
-+
-+	__dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-+}
-+
-+static int dw_hdmi_power_on(struct dw_hdmi_dev *dw_dev, u32 input)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&dw_dev->lock, flags);
-+	if (dw_dev->pending_config) {
-+		spin_unlock_irqrestore(&dw_dev->lock, flags);
-+		return 0;
-+	}
-+
-+	INIT_WORK(&dw_dev->work, dw_hdmi_work_handler);
-+	dw_dev->configured_input = input;
-+	dw_dev->pending_config = true;
-+	queue_work(dw_dev->wq, &dw_dev->work);
-+	spin_unlock_irqrestore(&dw_dev->lock, flags);
-+	return 0;
-+}
-+
-+static void dw_hdmi_power_off(struct dw_hdmi_dev *dw_dev)
-+{
-+	unsigned long flags;
-+
-+	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_IS_OFF, NULL);
-+
-+	dw_dev->force_off = true;
-+	flush_workqueue(dw_dev->wq);
-+	dw_dev->force_off = false;
-+
-+	spin_lock_irqsave(&dw_dev->lock, flags);
-+	dw_dev->pending_config = false;
-+	dw_dev->state = HDMI_STATE_POWER_OFF;
-+	spin_unlock_irqrestore(&dw_dev->lock, flags);
-+
-+	/* Reset variables */
-+	dw_dev->phy_eq_force = true;
-+	dw_dev->audio_sf = 0;
-+}
-+
-+static void dw_hdmi_force_off(struct dw_hdmi_dev *dw_dev)
-+{
-+	unsigned long flags;
-+
-+	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_IS_OFF, NULL);
-+
-+	dw_dev->force_off = true;
-+	flush_workqueue(dw_dev->wq);
-+	dw_dev->force_off = false;
-+
-+	spin_lock_irqsave(&dw_dev->lock, flags);
-+	dw_dev->pending_config = false;
-+	spin_unlock_irqrestore(&dw_dev->lock, flags);
-+}
-+
-+static void dw_hdmi_power_up(struct dw_hdmi_dev *dw_dev)
-+{
-+	dw_hdmi_force_off(dw_dev);
-+	dw_hdmi_set_state(dw_dev, HDMI_STATE_POWER_UP);
-+
-+	/* Reset variables */
-+	dw_dev->phy_eq_force = true;
-+	dw_dev->audio_sf = 0;
-+}
-+
-+static void dw_hdmi_controller_power_off(struct dw_hdmi_dev *dw_dev)
-+{
-+	dw_hdmi_force_off(dw_dev);
-+	dw_hdmi_set_state(dw_dev, HDMI_STATE_EQUALIZER);
-+
-+	dw_dev->phy_eq_force = false;
-+	dw_dev->audio_sf = 0;
-+}
-+
-+static int dw_hdmi_query_dv_timings(struct v4l2_subdev *sd,
-+				    struct v4l2_dv_timings *timings);
-+
-+static void dw_hdmi_handle_video_change(struct dw_hdmi_dev *dw_dev)
-+{
-+	struct v4l2_dv_timings timings;
-+
-+	if (is_on(dw_dev)) {
-+		dev_dbg(dw_dev->dev, "[VIDEO] video change interrupt\n");
-+		dw_hdmi_query_dv_timings(&dw_dev->sd, &timings);
-+		dw_hdmi_controller_power_off(dw_dev);
-+		dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-+	}
-+}
-+
-+static u32 dw_hdmi_round_freq(int freq)
-+{
-+	static const u32 base_freqs[] = { 32000, 44100, 48000, 0 };
-+	unsigned int i;
-+
-+	for (i = 0; base_freqs[i]; i++) {
-+		if ((freq <= (base_freqs[i] + DW_HDMI_AUDIO_FREQ_RANGE)) &&
-+		    (freq >= (base_freqs[i] - DW_HDMI_AUDIO_FREQ_RANGE))) {
-+			return base_freqs[i];
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static unsigned int dw_hdmi_get_sample_freq(struct dw_hdmi_dev *dw_dev)
-+{
-+	u64 tmp;
-+	u32 cts;
-+	u32 sf;
-+	u32 n;
-+
-+	n = dw_hdmi_get_n(dw_dev);
-+	cts = dw_hdmi_get_cts(dw_dev);
-+
-+	if (!n || !cts) {
-+		dev_dbg(dw_dev->dev, "%s: cts: %d, n: %d\n", __func__, cts, n);
-+		return 0;
-+	}
-+
-+	dev_dbg(dw_dev->dev, "%s: tmds_clk: %d\n",
-+		__func__, dw_hdmi_get_tmds_clk(dw_dev));
-+
-+	/* regenerate the audio clock from tmds clock */
-+	tmp = (u64)dw_hdmi_get_tmds_clk(dw_dev) * (u64)n;
-+	do_div(tmp, cts);
-+	do_div(tmp, 128);
-+	sf = tmp;
-+
-+	dev_dbg(dw_dev->dev, "%s: sf: %d\n", __func__, sf);
-+	sf = dw_hdmi_round_freq(sf);
-+	dev_dbg(dw_dev->dev, "%s: sf(round): %d\n", __func__, sf);
-+
-+	return sf;
-+}
-+
-+static void dw_hdmi_handle_audio_mute_change(struct dw_hdmi_dev *dw_dev)
-+{
-+	unsigned long flags;
-+	unsigned int sf;
-+
-+	spin_lock_irqsave(&dw_dev->event_lock, flags);
-+	sf = dw_hdmi_get_sample_freq(dw_dev);
-+	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_AUDIO_CHANGED, &sf);
-+	dw_dev->audio_sf = sf;
-+	spin_unlock_irqrestore(&dw_dev->event_lock, flags);
-+}
-+
-+static void dw_hdmi_handle_audio_change(struct dw_hdmi_dev *dw_dev,
-+					u32 afif_stat, u32 pdec_stat)
-+{
-+	bool restart = true;
-+
-+	if (pdec_stat & DW_HDMI_GCP_AV_MUTE_CHG_ISTS) {
-+		dev_dbg(dw_dev->dev, "[interrupt:audio] AV Mute change\n");
-+		dw_hdmi_handle_audio_mute_change(dw_dev);
-+		restart = false;
-+	}
-+
-+	if (pdec_stat & DW_HDMI_AUD_TYPE_CHG_ISTS) {
-+		dev_dbg(dw_dev->dev, "[interrupt:audio] type change\n");
-+		restart = true;
-+	}
-+	if (pdec_stat & DW_HDMI_AIF_CKS_CHG_ISTS) {
-+		dev_dbg(dw_dev->dev, "[interrupt:audio] aif change\n");
-+		restart = true;
-+	}
-+	if (pdec_stat & DW_HDMI_ACR_N_CHG_ISTS) {
-+		dev_dbg(dw_dev->dev, "[interrupt:audio] N change\n");
-+		restart = true;
-+	}
-+	if (pdec_stat & DW_HDMI_ACR_CTS_CHG_ISTS) {
-+		dev_dbg(dw_dev->dev, "[interrupt:audio] CTS change\n");
-+		restart = true;
-+	}
-+	if (afif_stat & DW_HDMI_AFIF_UNDERFL_ISTS) {
-+		dev_dbg(dw_dev->dev, "[interrupt:audio] fifo underflow\n");
-+		restart = true;
-+	}
-+	if (afif_stat & DW_HDMI_AFIF_OVERFL_ISTS) {
-+		dev_dbg(dw_dev->dev, "[interrupt:audio] fifo overflow\n");
-+		restart = true;
-+	}
-+	if (afif_stat & DW_HDMI_AFIF_THS_PASS_ISTS) {
-+		dev_dbg(dw_dev->dev, "[interrupt:audio] TRH Pass\n");
-+		dw_hdmi_handle_audio_mute_change(dw_dev);
-+		restart = false;
-+	}
-+
-+	if (restart) {
-+		dw_hdmi_handle_audio_mute_change(dw_dev);
-+		dw_hdmi_wait_audio_lock_poll(dw_dev);
-+		dw_hdmi_reset_audio(dw_dev);
-+		dw_hdmi_restart_audio_fifo(dw_dev);
-+	}
-+}
-+
-+static irqreturn_t dw_hdmi_irq_handler(int irq, void *dev_data)
-+{
-+	struct dw_hdmi_dev *dw_dev = dev_data;
-+	u32 hdmi_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_ISTS, DW_HDMI_IEN);
-+	u32 md_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_MD_ISTS,
-+					  DW_HDMI_MD_IEN);
-+	u32 pdec_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_PDEC_ISTS,
-+					    DW_HDMI_PDEC_IEN);
-+	u32 afif_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_AUD_FIFO_ISTS,
-+					    DW_HDMI_AUD_FIFO_IEN);
-+	u32 cd = 0;
-+
-+	dw_hdmi_clear_ints(dw_dev);
-+
-+	/* video handling */
-+	if (hdmi_ists & DW_HDMI_CLK_CHANGE_ISTS) {
-+		dev_dbg(dw_dev->dev, "[HDMI] clock rate change\n");
-+		dw_hdmi_power_off(dw_dev);
-+		if (has_signal(dw_dev, dw_dev->configured_input))
-+			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-+
-+		return IRQ_HANDLED;
-+	}
-+	if (hdmi_ists & DW_HDMI_PLL_LCK_CHG_ISTS) {
-+		dev_dbg(dw_dev->dev,
-+			"[PHY] PLL lock state changed (tmds_valid: %d)\n",
-+			dw_hdmi_tmds_valid(dw_dev));
-+		dw_hdmi_power_off(dw_dev);
-+
-+		if (has_signal(dw_dev, dw_dev->configured_input))
-+			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-+
-+		return IRQ_HANDLED;
-+	}
-+	if (hdmi_ists & DW_HDMI_DCM_CURRENT_MODE_CHG_ISTS) {
-+		dev_dbg(dw_dev->dev,
-+			"[HDMI] deep color changed\n");
-+
-+		cd = dw_hdmi_get_colordepth(dw_dev);
-+		if (cd)
-+			dw_hdmi_phy_set_color_depth(dw_dev, cd);
-+
-+		/* reset CEA video */
-+		dw_hdmi_reset_ceavid(dw_dev);
-+
-+		return IRQ_HANDLED;
-+	}
-+	if (md_ists || pdec_ists &
-+	    (DW_HDMI_VSI_CKS_CHG_ISTS |
-+	     DW_HDMI_DRM_CKS_CHG_ISTS |
-+	     DW_HDMI_AVI_CKS_CHG_ISTS)) {
-+		dw_hdmi_handle_video_change(dw_dev);
-+		dev_dbg(dw_dev->dev,
-+			"   md_ists: 0x%x, pdec_ists: 0x%x\n",
-+			md_ists, pdec_ists);
-+	}
-+
-+	/* infoframes */
-+	if (pdec_ists & DW_HDMI_AIF_CKS_CHG_ISTS)
-+		dw_hdmi_get_infoframes(dw_dev);
-+
-+	/* audio handling */
-+	if (pdec_ists & (DW_HDMI_AUD_TYPE_CHG_ISTS |
-+			 DW_HDMI_AIF_CKS_CHG_ISTS |
-+			 DW_HDMI_ACR_N_CHG_ISTS |
-+			 DW_HDMI_ACR_CTS_CHG_ISTS |
-+			 DW_HDMI_GCP_AV_MUTE_CHG_ISTS) ||
-+	    afif_ists & (DW_HDMI_AFIF_UNDERFL_ISTS |
-+			 DW_HDMI_AFIF_OVERFL_ISTS |
-+			 DW_HDMI_AFIF_THS_PASS_ISTS)) {
-+		dw_hdmi_handle_audio_change(dw_dev, afif_ists, pdec_ists);
-+	}
-+
-+	/* scdc */
-+	if (hdmi_ists & DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_MASK) {
-+		dev_dbg(dw_dev->dev, "[SCDC] hdmi2=%d->%d, scrambling=%d->%d\n",
-+			dw_dev->is_hdmi2, is_hdmi2(dw_dev),
-+			dw_dev->is_scrambled, is_scrambled(dw_dev));
-+		if (dw_dev->is_hdmi2 != is_hdmi2(dw_dev) ||
-+		    dw_dev->is_scrambled != is_scrambled(dw_dev)) {
-+			dw_dev->is_hdmi2 = is_hdmi2(dw_dev);
-+			dw_dev->is_scrambled = is_scrambled(dw_dev);
-+			dw_hdmi_power_off(dw_dev);
-+			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-+		}
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int dw_hdmi_detect_tx_5v_ctrl(struct dw_hdmi_dev *dw_dev)
-+{
-+	bool current_on = dw_hdmi_5v_status(dw_dev, dw_dev->configured_input);
-+	unsigned int input_count = dw_dev->config->phy->input_count;
-+	unsigned int old_input = dw_dev->configured_input;
-+	unsigned int new_input = old_input;
-+	bool pending_config = false;
-+	unsigned int stat = 0;
-+	unsigned int i;
-+
-+	for (i = 0; i < input_count; i++) {
-+		bool on = dw_hdmi_5v_status(dw_dev, i);
-+
-+		stat |= on << i;
-+
-+		if (on && on != dw_dev->input_connected[i]) {
-+			dw_hdmi_disable_ints(dw_dev);
-+			dw_hdmi_power_off(dw_dev);
-+			dw_hdmi_power_up(dw_dev);
-+			dw_dev->input_connected[i] = true;
-+			dw_hdmi_power_on(dw_dev, i);
-+			dw_hdmi_set_input(dw_dev, i);
-+			new_input = i;
-+			pending_config = true;
-+		} else {
-+			dw_dev->input_connected[i] = on;
-+		}
-+	}
-+
-+	dw_dev->input_stat = stat;
-+
-+	if (!pending_config && !current_on) {
-+		dw_hdmi_disable_ints(dw_dev);
-+		dw_hdmi_disable_hpd(dw_dev);
-+		dw_hdmi_disable_scdc(dw_dev);
-+		dw_hdmi_power_off(dw_dev);
-+		if (dw_dev->phy->power_count > 0)
-+			phy_power_off(dw_dev->phy);
-+	}
-+
-+	dev_dbg(dw_dev->dev, "%s: stat=0x%x, input=%d->%d\n", __func__,
-+		stat, old_input, new_input);
-+	return v4l2_ctrl_s_ctrl(dw_dev->detect_tx_5v_ctrl, stat);
-+}
-+
-+static irqreturn_t dw_hdmi_5v_irq_handler(int irq, void *dev_data)
-+{
-+	struct dw_hdmi_dev *dw_dev = dev_data;
-+
-+	dw_hdmi_detect_tx_5v_ctrl(dw_dev);
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t dw_hdmi_5v_hard_irq_handler(int irq, void *dev_data)
-+{
-+	struct dw_hdmi_dev *dw_dev = dev_data;
-+	unsigned int input_count = dw_dev->config->phy->input_count;
-+	u32 stat = 0x0;
-+	unsigned int i;
-+
-+	/* Clear interrupts */
-+	for (i = 0; i < input_count; i++) {
-+		dw_hdmi_5v_disable(dw_dev, i);
-+		dw_hdmi_5v_enable(dw_dev, i);
-+		stat |= dw_hdmi_5v_status(dw_dev, i) << i;
-+	}
-+
-+	if (!stat) {
-+		/*
-+		 * If there are no connected ports disable whole HPD and SCDC
-+		 * also.
-+		 */
-+		dw_hdmi_disable_hpd(dw_dev);
-+		dw_hdmi_disable_scdc(dw_dev);
-+	}
-+
-+	return IRQ_WAKE_THREAD;
-+}
-+
-+static int dw_hdmi_s_routing(struct v4l2_subdev *sd, u32 input, u32 output,
-+			     u32 config)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+	int ret;
-+
-+	if (!has_signal(dw_dev, input))
-+		return -EINVAL;
-+
-+	dw_dev->selected_input = input;
-+	if (input == dw_dev->configured_input)
-+		return 0;
-+
-+	dw_hdmi_power_off(dw_dev);
-+	ret = dw_hdmi_power_on(dw_dev, input);
-+	dw_hdmi_set_input(dw_dev, input);
-+	return ret;
-+}
-+
-+static int dw_hdmi_g_input_status(struct v4l2_subdev *sd, u32 *status)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+
-+	*status = 0;
-+	if (!has_signal(dw_dev, dw_dev->selected_input))
-+		*status |= V4L2_IN_ST_NO_POWER;
-+	if (!is_on(dw_dev))
-+		*status |= V4L2_IN_ST_NO_SIGNAL;
-+
-+	dev_dbg(dw_dev->dev, "%s: status=0x%x\n", __func__, *status);
-+	return 0;
-+}
-+
-+static int dw_hdmi_g_frame_interval(struct v4l2_subdev *sd,
-+				    struct v4l2_subdev_frame_interval *ival)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+	u32 htot, vtot, fps;
-+	unsigned long n, d;
-+	u64 pclk;
-+
-+	htot = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT1,
-+			       DW_HDMI_HTOT_PIX_OFFSET,
-+			       DW_HDMI_HTOT_PIX_MASK);
-+	vtot = hdmi_readl(dw_dev, DW_HDMI_MD_VTL);
-+	pclk = dw_hdmi_get_pixelclk(dw_dev);
-+
-+	fps = (htot * vtot) > 0 ? div_u64((100 * pclk), (htot * vtot)) : 0;
-+	if (!fps)
-+		return 0;
-+
-+	rational_best_approximation(fps, 100, fps, 100, &n, &d);
-+
-+	ival->interval.numerator = d;
-+	ival->interval.denominator = n;
-+
-+	dev_dbg(dw_dev->dev, "%s: %lu / %lu\n", __func__, d, n);
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_s_dv_timings(struct v4l2_subdev *sd,
-+				struct v4l2_dv_timings *timings)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+
-+	if (!v4l2_valid_dv_timings(timings, &dw_hdmi_timings_cap, NULL, NULL))
-+		return -EINVAL;
-+	if (v4l2_match_dv_timings(timings, &dw_dev->timings, 0, false))
-+		return 0;
-+
-+	dw_dev->timings = *timings;
-+	return 0;
-+}
-+
-+static int dw_hdmi_g_dv_timings(struct v4l2_subdev *sd,
-+				struct v4l2_dv_timings *timings)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+
-+	*timings = dw_dev->timings;
-+	return 0;
-+}
-+
-+static u32 dw_hdmi_get_width(struct dw_hdmi_dev *dw_dev)
-+{
-+	u32 width = hdmi_readl(dw_dev, DW_HDMI_MD_HACT_PX);
-+	u32 cd = dw_hdmi_get_colordepth(dw_dev);
-+
-+	switch (cd) {
-+	case 30:
-+		width = (width * 100) / 125;
-+		break;
-+	case 36:
-+		width = (width * 10) / 15;
-+		break;
-+	case 48:
-+		width /= 2;
-+		break;
-+	case 24:
-+	default:
-+		break;
-+	}
-+
-+	if (dw_hdmi_get_mbus_code(dw_dev) == MEDIA_BUS_FMT_YVYU8_1X16)
-+		width *= 2;
-+
-+	return width;
-+}
-+
-+static int dw_hdmi_query_dv_timings(struct v4l2_subdev *sd,
-+				    struct v4l2_dv_timings *timings)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+	struct v4l2_bt_timings *bt = &timings->bt;
-+	bool is_hdmi_vic;
-+	u32 htot, hofs;
-+	u32 vtot;
-+	u8 vic;
-+
-+	memset(timings, 0, sizeof(*timings));
-+
-+	if (is_off(dw_dev)) {
-+		dev_dbg(dw_dev->dev, "%s: controller is off\n", __func__);
-+		return -ENOLINK;
-+	}
-+
-+	if (!is_on(dw_dev)) {
-+		dev_dbg(dw_dev->dev, "%s: controller is being configured\n",
-+			__func__);
-+		return -EAGAIN;
-+	}
-+
-+	timings->type = V4L2_DV_BT_656_1120;
-+	bt->width = dw_hdmi_get_width(dw_dev);
-+	bt->height = hdmi_readl(dw_dev, DW_HDMI_MD_VAL);
-+	bt->interlaced =
-+		hdmi_readl(dw_dev, DW_HDMI_MD_STS) & DW_HDMI_ILACE_STS ?
-+			V4L2_DV_INTERLACED : V4L2_DV_PROGRESSIVE;
-+
-+	if (hdmi_readl(dw_dev, DW_HDMI_ISTS) & DW_HDMI_VS_POL_ADJ_ISTS)
-+		bt->polarities |= V4L2_DV_VSYNC_POS_POL;
-+	if (hdmi_readl(dw_dev, DW_HDMI_ISTS) & DW_HDMI_HS_POL_ADJ_ISTS)
-+		bt->polarities |= V4L2_DV_HSYNC_POS_POL;
-+
-+	bt->pixelclock = dw_hdmi_get_pixelclk(dw_dev);
-+
-+	/* HTOT = HACT + HFRONT + HSYNC + HBACK */
-+	htot = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT1,
-+			       DW_HDMI_HTOT_PIX_OFFSET,
-+			       DW_HDMI_HTOT_PIX_MASK);
-+	/* HOFS = HSYNC + HBACK */
-+	hofs = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT1,
-+			       DW_HDMI_HOFS_PIX_OFFSET,
-+			       DW_HDMI_HOFS_PIX_MASK);
-+
-+	bt->hfrontporch = htot - hofs - bt->width;
-+	bt->hsync = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT0,
-+				    DW_HDMI_HS_CLK_OFFSET,
-+				    DW_HDMI_HS_CLK_MASK);
-+	bt->hbackporch = hofs - bt->hsync;
-+
-+	/* VTOT = VACT + VFRONT + VSYNC + VBACK */
-+	vtot = hdmi_readl(dw_dev, DW_HDMI_MD_VTL);
-+
-+	bt->vsync = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
-+
-+	bt->vbackporch = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
-+	bt->vfrontporch = vtot - bt->height - bt->vsync - bt->vbackporch;
-+
-+	if (bt->interlaced == V4L2_DV_INTERLACED) {
-+		hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MD_VCTRL,
-+				 DW_HDMI_V_MODE_OFFSET,
-+				 DW_HDMI_V_MODE_MASK);
-+		msleep(100); /* Wait for 2 fields */
-+
-+		vtot = hdmi_readl(dw_dev, DW_HDMI_MD_VTL);
-+		hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MD_VCTRL,
-+				 DW_HDMI_V_OFFS_LIN_MODE_OFFSET,
-+				 DW_HDMI_V_OFFS_LIN_MODE_MASK);
-+		msleep(50); /* Wait for 1 field */
-+		bt->il_vsync = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
-+
-+		hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_MD_VCTRL,
-+				 DW_HDMI_V_OFFS_LIN_MODE_OFFSET,
-+				 DW_HDMI_V_OFFS_LIN_MODE_MASK);
-+		msleep(50);
-+		bt->il_vbackporch = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
-+		bt->il_vfrontporch = vtot - bt->height - bt->il_vsync -
-+			bt->il_vbackporch;
-+
-+		hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_MD_VCTRL,
-+				 DW_HDMI_V_MODE_OFFSET,
-+				 DW_HDMI_V_MODE_MASK);
-+	}
-+
-+	bt->standards = V4L2_DV_BT_STD_CEA861;
-+
-+	vic = dw_hdmi_get_curr_vic(dw_dev, &is_hdmi_vic);
-+	if (vic) {
-+		if (is_hdmi_vic) {
-+			bt->flags |= V4L2_DV_FL_HAS_HDMI_VIC;
-+			bt->hdmi_vic = vic;
-+			bt->cea861_vic = 0;
-+		} else {
-+			bt->flags |= V4L2_DV_FL_HAS_CEA861_VIC;
-+			bt->hdmi_vic = 0;
-+			bt->cea861_vic = vic;
-+		}
-+	}
-+
-+	dev_dbg(dw_dev->dev, "%s: width=%u, height=%u, mbuscode=%u\n", __func__,
-+		bt->width, bt->height, dw_hdmi_get_mbus_code(dw_dev));
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_enum_mbus_code(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_pad_config *cfg,
-+				  struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+
-+	if (code->index != 0)
-+		return -EINVAL;
-+
-+	code->code = dw_dev->mbus_code;
-+	return 0;
-+}
-+
-+static int dw_hdmi_fill_format(struct dw_hdmi_dev *dw_dev,
-+			       struct v4l2_mbus_framefmt *format)
-+{
-+	enum hdmi_extended_colorimetry extcol;
-+	enum hdmi_colorimetry col;
-+	int ret;
-+
-+	memset(format, 0, sizeof(*format));
-+
-+	/* Update timings */
-+	ret = dw_hdmi_query_dv_timings(&dw_dev->sd, &dw_dev->timings);
-+	if (ret)
-+		return ret;
-+
-+	/* Update infoframe contents */
-+	dw_hdmi_get_infoframes(dw_dev);
-+
-+	col = dw_dev->aviif.avi.colorimetry;
-+	extcol = dw_dev->aviif.avi.extended_colorimetry;
-+
-+	switch (col) {
-+	case HDMI_COLORIMETRY_ITU_601:
-+		format->colorspace = V4L2_COLORSPACE_SMPTE170M;
-+		break;
-+	case HDMI_COLORIMETRY_EXTENDED:
-+		switch (extcol) {
-+		case HDMI_EXTENDED_COLORIMETRY_XV_YCC_601:
-+			format->colorspace = V4L2_COLORSPACE_SMPTE170M;
-+			break;
-+		case HDMI_EXTENDED_COLORIMETRY_XV_YCC_709:
-+		case HDMI_EXTENDED_COLORIMETRY_S_YCC_601:
-+		case HDMI_EXTENDED_COLORIMETRY_OPYCC_601:
-+		case HDMI_EXTENDED_COLORIMETRY_OPRGB:
-+		case HDMI_EXTENDED_COLORIMETRY_BT2020_CONST_LUM:
-+		case HDMI_EXTENDED_COLORIMETRY_BT2020:
-+		case HDMI_EXTENDED_COLORIMETRY_RESERVED:
-+		default:
-+			format->colorspace = V4L2_COLORSPACE_REC709;
-+			break;
-+		}
-+
-+		break;
-+	case HDMI_COLORIMETRY_NONE:
-+	case HDMI_COLORIMETRY_ITU_709:
-+	default:
-+		format->colorspace = V4L2_COLORSPACE_REC709;
-+		break;
-+	}
-+
-+	format->width = dw_dev->timings.bt.width;
-+	format->height = dw_dev->timings.bt.height;
-+	format->code = dw_dev->mbus_code;
-+	if (dw_dev->timings.bt.interlaced)
-+		format->field = V4L2_FIELD_ALTERNATE;
-+	else
-+		format->field = V4L2_FIELD_NONE;
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_get_fmt(struct v4l2_subdev *sd,
-+			   struct v4l2_subdev_pad_config *cfg,
-+			   struct v4l2_subdev_format *format)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+
-+	return dw_hdmi_fill_format(dw_dev, &format->format);
-+}
-+
-+static int dw_hdmi_set_fmt(struct v4l2_subdev *sd,
-+			   struct v4l2_subdev_pad_config *cfg,
-+			   struct v4l2_subdev_format *format)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+
-+	if (format->format.code != dw_dev->mbus_code) {
-+		dev_dbg(dw_dev->dev, "invalid format\n");
-+		return -EINVAL;
-+	}
-+
-+	return dw_hdmi_get_fmt(sd, cfg, format);
-+}
-+
-+static int dw_hdmi_get_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+	unsigned int input_count = dw_dev->config->phy->input_count;
-+	unsigned int i, j, start, end;
-+	u8 *ptr = edid->edid;
-+	u8 blocks;
-+
-+	memset(edid->reserved, 0, sizeof(edid->reserved));
-+
-+	if (edid->pad >= input_count || !ptr)
-+		return -EINVAL;
-+
-+	blocks = dw_dev->curr_edid_blocks[edid->pad];
-+
-+	if (!edid->start_block && !edid->blocks) {
-+		edid->blocks = blocks;
-+		return 0;
-+	}
-+	if (!blocks)
-+		return -ENODATA;
-+	if (edid->start_block >= blocks)
-+		return -EINVAL;
-+	if ((edid->start_block + edid->blocks) > blocks)
-+		edid->blocks = blocks - edid->start_block;
-+
-+	start = (edid->start_block * 128) / sizeof(u32);
-+	end = start + (edid->blocks * 128) / sizeof(u32);
-+
-+	for (i = start; i < end; i++) {
-+		u32 raw = dw_hdmi_edid_read(dw_dev, edid->pad, i * sizeof(u32));
-+
-+		if (!dw_hdmi_edid_4blocks_le(dw_dev)) {
-+			u32 raw_srt = 0;
-+			/* little endian representation, need to invert */
-+			for (j = 0; j < 4; j++) {
-+				raw_srt |= ((raw >> (8 * (3 - j))) & 0xff)
-+					<< (j * 8);
-+			}
-+			raw = raw_srt;
-+		}
-+		memcpy(ptr, &raw, sizeof(u32));
-+		ptr += sizeof(u32);
-+	}
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+	int input_count = dw_dev->config->phy->input_count;
-+	int size, ret;
-+	u32 *tmp;
-+
-+	memset(edid->reserved, 0, sizeof(edid->reserved));
-+
-+	if (edid->pad >= input_count || !edid->edid || !edid->blocks)
-+		return -EINVAL;
-+	if (edid->start_block != 0)
-+		return -EINVAL;
-+
-+	/* Clear old EDID */
-+	size = dw_dev->curr_edid_blocks[edid->pad] * 128;
-+	tmp = devm_kzalloc(dw_dev->dev, size, GFP_KERNEL);
-+	if (!tmp)
-+		return -ENOMEM;
-+
-+	ret = dw_hdmi_edid_write(dw_dev, edid->pad, tmp, size / sizeof(u32));
-+	devm_kfree(dw_dev->dev, tmp);
-+
-+	if (ret)
-+		return ret;
-+
-+	dw_dev->curr_edid_blocks[edid->pad] = 0;
-+
-+	/* Set new EDID */
-+	if (dw_hdmi_edid_4blocks_le(dw_dev)) {
-+		/* little endian representation, no need to invert bytes */
-+		ret = dw_hdmi_update_edid(dw_dev, edid->pad, (u8 *)edid->edid,
-+					  (edid->blocks * 128), false);
-+	} else {
-+		/* invert the order of bytes to register 32bit */
-+		ret = dw_hdmi_update_edid(dw_dev, edid->pad, (u8 *)edid->edid,
-+					  (edid->blocks * 128), true);
-+	}
-+	if (ret)
-+		return ret;
-+
-+	dw_dev->curr_edid_blocks[edid->pad] = edid->blocks;
-+	return 0;
-+}
-+
-+static int dw_hdmi_dv_timings_cap(struct v4l2_subdev *sd,
-+				  struct v4l2_dv_timings_cap *cap)
-+{
-+	unsigned int pad = cap->pad;
-+
-+	*cap = dw_hdmi_timings_cap;
-+	cap->pad = pad;
-+	return 0;
-+}
-+
-+static int dw_hdmi_enum_dv_timings(struct v4l2_subdev *sd,
-+				   struct v4l2_enum_dv_timings *timings)
-+{
-+	return v4l2_enum_dv_timings_cap(timings, &dw_hdmi_timings_cap,
-+					NULL, NULL);
-+}
-+
-+static int dw_hdmi_log_status(struct v4l2_subdev *sd)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+	struct v4l2_dv_timings timings;
-+
-+	v4l2_info(sd, "--- Chip configuration ---\n");
-+	v4l2_info(sd, "iref_clk=%dMHz\n", dw_dev->config->iref_clk);
-+	v4l2_info(sd, "phy_drv=%s, phy_jtag_addr=0x%x\n",
-+		  dw_dev->phy ? "present" : "not present",
-+		  dw_dev->config->phy->jtag_addr);
-+
-+	v4l2_info(sd, "--- Chip status ---\n");
-+	v4l2_info(sd, "selected_input=%d: signal=%d\n", dw_dev->selected_input,
-+		  has_signal(dw_dev, dw_dev->selected_input));
-+	v4l2_info(sd, "configured_input=%d: signal=%d\n",
-+		  dw_dev->configured_input,
-+		  has_signal(dw_dev, dw_dev->configured_input));
-+
-+	v4l2_info(sd, "--- Video status ---\n");
-+	v4l2_info(sd, "type=%s, color_depth=%dbits",
-+		  hdmi_readl(dw_dev, DW_HDMI_PDEC_STS) &
-+		  DW_HDMI_DVIDET ? "dvi" : "hdmi",
-+		  dw_hdmi_get_colordepth(dw_dev));
-+
-+	v4l2_info(sd, "--- Video timings ---\n");
-+	if (dw_hdmi_query_dv_timings(sd, &timings))
-+		v4l2_info(sd, "No video detected\n");
-+	else
-+		v4l2_print_dv_timings(sd->name, "Detected format: ",
-+				      &timings, true);
-+	v4l2_print_dv_timings(sd->name, "Configured format: ",
-+			      &dw_dev->timings, true);
-+
-+	v4l2_ctrl_subdev_log_status(sd);
-+	return 0;
-+}
-+
-+#ifdef CONFIG_VIDEO_ADV_DEBUG
-+static void dw_hdmi_invalid_register(struct dw_hdmi_dev *dw_dev, u64 reg)
-+{
-+	dev_err(dw_dev->dev, "register 0x%llx not supported\n", reg);
-+	dev_err(dw_dev->dev, "0x0000-0x7fff: Main controller map\n");
-+	dev_err(dw_dev->dev, "0x8000-0x8fff: Debug registers\n");
-+	dev_err(dw_dev->dev, "  0x8000: TMDSVALID wait count\n");
-+	dev_err(dw_dev->dev, "  0x8001: SW state\n");
-+	dev_err(dw_dev->dev, "  0x8002: Equalizer ON/OFF\n");
-+	dev_err(dw_dev->dev, "  0x8003: PHY Version\n");
-+	dev_err(dw_dev->dev, "  0x8004: Video Stable Wait Time (ms)\n");
-+	dev_err(dw_dev->dev, "  0x8005: Clock wait time (ms)\n");
-+	dev_err(dw_dev->dev, "  0x8006: iref_clk value\n");
-+	dev_err(dw_dev->dev, "  0x8007: reset_datapath_enable mask value\n");
-+	dev_err(dw_dev->dev, "  0x8008: audio sample frequency (read only)\n");
-+	dev_err(dw_dev->dev, "  0x8009: hw_reset_on_hot_plug (1=enabled, 0=disabled)");
-+	dev_err(dw_dev->dev, "0x10000-0x100ff: PHY map\n");
-+}
-+
-+static bool dw_hdmi_is_reserved_register(struct dw_hdmi_dev *dw_dev, u32 reg)
-+{
-+	/*
-+	 * NOTE: Some of the HDCP registers are write only. This means that
-+	 * a read from these registers will never return and can block the bus
-+	 * in some architectures. Disable the read to these registers and also
-+	 * disable the write as a safety measure because userspace should not
-+	 * be able to set HDCP registers.
-+	 */
-+	if (reg >= DW_HDMI_HDCP_CTRL && reg <= DW_HDMI_HDCP_STS)
-+		return true;
-+	if (reg == DW_HDMI_HDCP22_CONTROL)
-+		return true;
-+	if (reg == DW_HDMI_HDCP22_STATUS)
-+		return true;
-+	return false;
-+}
-+
-+static int dw_hdmi_g_register(struct v4l2_subdev *sd,
-+			      struct v4l2_dbg_register *reg)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+
-+	switch (reg->reg >> 15) {
-+	case 0: /* Controller core read */
-+		if (dw_hdmi_is_reserved_register(dw_dev, reg->reg & 0x7fff))
-+			return -EINVAL;
-+
-+		reg->size = 4;
-+		reg->val = hdmi_readl(dw_dev, reg->reg & 0x7fff);
-+		return 0;
-+	case 1: /* Debug registers */
-+		reg->size = 4;
-+
-+		switch (reg->reg & GENMASK(14, 0)) {
-+		case 0:
-+			reg->val = dw_dev->tmds_valid_wait_count;
-+			return 0;
-+		case 1:
-+			reg->val = dw_dev->state;
-+			return 0;
-+		case 2:
-+			reg->val = dw_dev->phy_eq_on;
-+			return 0;
-+		case 3:
-+			reg->val = dw_dev->config->phy->version;
-+			return 0;
-+		case 4:
-+			reg->val = dw_dev->video_stable_wait_ms;
-+			return 0;
-+		case 5:
-+			reg->val = dw_dev->has_clock_wait_ms;
-+			return 0;
-+		case 6:
-+			reg->val = dw_dev->config->iref_clk;
-+			return 0;
-+		case 7:
-+			reg->val = dw_dev->reset_datapath_enable;
-+			return 0;
-+		case 8:
-+			reg->val = dw_hdmi_get_sample_freq(dw_dev);
-+			return 0;
-+		case 9:
-+			reg->val = dw_dev->hw_reset_on_hot_plug;
-+			return 0;
-+		default:
-+			break;
-+		}
-+		break;
-+	case 2: /* PHY read */
-+		if ((reg->reg & ~0xff) != BIT(16))
-+			break;
-+
-+		reg->size = 2;
-+		reg->val = dw_hdmi_phy_read(dw_dev, reg->reg & 0xff);
-+		return 0;
-+	default:
-+		break;
-+	}
-+
-+	dw_hdmi_invalid_register(dw_dev, reg->reg);
-+	return 0;
-+}
-+
-+static int dw_hdmi_s_register(struct v4l2_subdev *sd,
-+			      const struct v4l2_dbg_register *reg)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+
-+	switch (reg->reg >> 15) {
-+	case 0: /* Controller core write */
-+		if (dw_hdmi_is_reserved_register(dw_dev, reg->reg & 0x7fff))
-+			return -EINVAL;
-+
-+		hdmi_writel(dw_dev, reg->val & GENMASK(31, 0),
-+			    reg->reg & 0x7fff);
-+		return 0;
-+	case 1: /* Debug registers */
-+		switch (reg->reg & GENMASK(14, 0)) {
-+		case 0:
-+			dw_dev->tmds_valid_wait_count = reg->val;
-+			return 0;
-+		case 1:
-+			dw_hdmi_set_state(dw_dev, reg->val & 0xff);
-+			return 0;
-+		case 2:
-+			dw_dev->phy_eq_on = reg->val;
-+			return 0;
-+		case 4:
-+			dw_dev->video_stable_wait_ms = reg->val;
-+			return 0;
-+		case 5:
-+			dw_dev->has_clock_wait_ms = reg->val;
-+			return 0;
-+		case 7:
-+			dw_dev->reset_datapath_enable = reg->val;
-+			return 0;
-+		/* case 8 is read-only */
-+		case 9:
-+			dw_dev->hw_reset_on_hot_plug = reg->val;
-+			return 0;
-+		case 400:
-+			dev_warn(dw_dev->dev, "synmp debug select timeout\n");
-+			return 0;
-+		default:
-+			break;
-+		}
-+		break;
-+	case 2: /* PHY write */
-+		if ((reg->reg & ~0xff) != BIT(16))
-+			break;
-+		dw_hdmi_phy_write(dw_dev, reg->val & 0xffff, reg->reg & 0xff);
-+		return 0;
-+	default:
-+		break;
-+	}
-+
-+	dw_hdmi_invalid_register(dw_dev, reg->reg);
-+	return 0;
-+}
-+#endif
-+
-+static int dw_hdmi_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
-+				   struct v4l2_event_subscription *sub)
-+{
-+	switch (sub->type) {
-+	case V4L2_EVENT_SOURCE_CHANGE:
-+		return v4l2_src_change_event_subdev_subscribe(sd, fh, sub);
-+	default:
-+		return v4l2_ctrl_subdev_subscribe_event(sd, fh, sub);
-+	}
-+}
-+
-+static int dw_hdmi_registered(struct v4l2_subdev *sd)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+
-+	dw_dev->registered = true;
-+	return 0;
-+}
-+
-+static void dw_hdmi_unregistered(struct v4l2_subdev *sd)
-+{
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+
-+	dw_dev->registered = false;
-+}
-+
-+static const struct v4l2_subdev_core_ops dw_hdmi_sd_core_ops = {
-+	.log_status = dw_hdmi_log_status,
-+#ifdef CONFIG_VIDEO_ADV_DEBUG
-+	.g_register = dw_hdmi_g_register,
-+	.s_register = dw_hdmi_s_register,
-+#endif
-+	.subscribe_event = dw_hdmi_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
-+static const struct v4l2_subdev_video_ops dw_hdmi_sd_video_ops = {
-+	.s_routing = dw_hdmi_s_routing,
-+	.g_input_status = dw_hdmi_g_input_status,
-+	.g_frame_interval = dw_hdmi_g_frame_interval,
-+	.s_dv_timings = dw_hdmi_s_dv_timings,
-+	.g_dv_timings = dw_hdmi_g_dv_timings,
-+	.query_dv_timings = dw_hdmi_query_dv_timings,
-+};
-+
-+static const struct v4l2_subdev_pad_ops dw_hdmi_sd_pad_ops = {
-+	.enum_mbus_code = dw_hdmi_enum_mbus_code,
-+	.get_fmt = dw_hdmi_get_fmt,
-+	.set_fmt = dw_hdmi_set_fmt,
-+	.get_edid = dw_hdmi_get_edid,
-+	.set_edid = dw_hdmi_set_edid,
-+	.dv_timings_cap = dw_hdmi_dv_timings_cap,
-+	.enum_dv_timings = dw_hdmi_enum_dv_timings,
-+};
-+
-+static const struct v4l2_subdev_ops dw_hdmi_sd_ops = {
-+	.core = &dw_hdmi_sd_core_ops,
-+	.video = &dw_hdmi_sd_video_ops,
-+	.pad = &dw_hdmi_sd_pad_ops,
-+};
-+
-+static const struct v4l2_subdev_internal_ops dw_hdmi_internal_ops = {
-+	.registered = dw_hdmi_registered,
-+	.unregistered = dw_hdmi_unregistered,
-+};
-+
-+static int dw_hdmi_parse_pd(struct dw_hdmi_dev *dw_dev)
-+{
-+	/* PHY address already comes from platform data */
-+	if (!dw_dev->config->phy->jtag_addr) {
-+		dev_err(dw_dev->dev, "missing PHY jtag address in PD\n");
-+		return -EINVAL;
-+	}
-+
-+	/* clock already comes from platform data */
-+	if (!dw_dev->config->iref_clk) {
-+		dev_err(dw_dev->dev, "invalid cfg clock frequency in PD\n");
-+		return -EINVAL;
-+	}
-+
-+	/* PHY input count already comes from platform data */
-+	if (!dw_dev->config->phy->input_count) {
-+		dev_err(dw_dev->dev, "invalid PHY input count\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_parse_dt(struct dw_hdmi_dev *dw_dev)
-+{
-+	struct device_node *phy_node, *np = dw_dev->of_node;
-+	struct device_node *port_node;
-+	u32 tmp = 0;
-+	int ret;
-+
-+	if (!np) {
-+		dev_err(dw_dev->dev, "missing DT node\n");
-+		return -EINVAL;
-+	}
-+
-+	/* PHY properties parsing */
-+	phy_node = dw_hdmi_get_phy_of_node(dw_dev, NULL);
-+	ret = of_property_read_u32(phy_node, "reg", &tmp);
-+	if (ret) {
-+		dev_err(dw_dev->dev, "missing PHY jtag address in DT\n");
-+		return ret;
-+	}
-+
-+	dw_dev->config->phy->jtag_addr = tmp & 0xff;
-+
-+	/* Get config clock value */
-+	dw_dev->clk = devm_clk_get(dw_dev->dev, "cfg");
-+	if (IS_ERR(dw_dev->clk)) {
-+		dev_err(dw_dev->dev, "failed to get cfg clock\n");
-+		return PTR_ERR(dw_dev->clk);
-+	}
-+
-+	ret = clk_prepare_enable(dw_dev->clk);
-+	if (ret) {
-+		dev_err(dw_dev->dev, "failed to enable cfg clock\n");
-+		return ret;
-+	}
-+
-+	dw_dev->config->iref_clk = clk_get_rate(dw_dev->clk) / 1000000U;
-+	if (!dw_dev->config->iref_clk) {
-+		dev_err(dw_dev->dev, "invalid cfg clock frequency\n");
-+		ret = -EINVAL;
-+		goto err_clk;
-+	}
-+
-+	/* Get PHY input count through the port children count */
-+	port_node = of_get_child_by_name(phy_node, "port");
-+	dw_dev->config->phy->input_count = of_get_child_count(port_node);
-+	if (!dw_dev->config->phy->input_count) {
-+		dev_err(dw_dev->dev, "invalid PHY input count\n");
-+		ret = -EINVAL;
-+		goto err_clk;
-+	}
-+
-+	return 0;
-+
-+err_clk:
-+	clk_disable_unprepare(dw_dev->clk);
-+	return ret;
-+}
-+
-+static void dw_hdmi_config_ced(struct dw_hdmi_dev *dw_dev)
-+{
-+	hdmi_mask_writel(dw_dev, 0x1f, DW_HDMI_HDMI20_CONTROL,
-+			 DW_HDMI_CTRLCHECKEN_OFFSET,
-+			 DW_HDMI_VIDDATACHECKEN_MASK |
-+			 DW_HDMI_DATAISCHECKEN_MASK |
-+			 DW_HDMI_GBCHECKEN_MASK |
-+			 DW_HDMI_PREAMBCHECKEN_MASK |
-+			 DW_HDMI_CTRLCHECKEN_MASK);
-+}
-+
-+static void dw_hdmi_config_mode_recover(struct dw_hdmi_dev *dw_dev)
-+{
-+	/*NOTE: avoid instability of md_ists interrupts */
-+
-+	/* set HDMI_MODE_HYST */
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MODE_RECOVER,
-+			 DW_HDMI_HDMI_MODE_HYST_OFFSET,
-+			 DW_HDMI_HDMI_MODE_HYST_MASK);
-+	/* set DVI_MODE_HYST */
-+	hdmi_mask_writel(dw_dev, 0x8, DW_HDMI_MODE_RECOVER,
-+			 DW_HDMI_DVI_MODE_HYST_OFFSET,
-+			 DW_HDMI_DVI_MODE_HYST_MASK);
-+	/* set SPIKE_FILTER_EN */
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MODE_RECOVER,
-+			 DW_HDMI_SPIKE_FILTER_EN_OFFSET,
-+			 DW_HDMI_SPIKE_FILTER_EN_MASK);
-+
-+	/* enable BCH error correction */
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_CTRL,
-+			 DW_HDMI_PDEC_BCH_EN_OFFSET,
-+			 DW_HDMI_PDEC_BCH_EN_MASK);
-+}
-+
-+static void dw_hdmi_config_scdc(struct dw_hdmi_dev *dw_dev)
-+{
-+	u32 chlock = dw_dev->config->iref_clk * 1000;
-+
-+	/* set HDMI_CHLOCK_CONFIG */
-+	hdmi_mask_writel(dw_dev, chlock, DW_HDMI_CHLOCK_CONFIG,
-+			 DW_HDMI_MILISECTIMERLIMIT_OFFSET,
-+			 DW_HDMI_MILISECTIMERLIMIT_MASK);
-+}
-+
-+static void dw_hdmi_config_ceavid(struct dw_hdmi_dev *dw_dev)
-+{
-+	/* set CEA YCC 422 IPI Mapping */
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEAVID_CONFIG,
-+			 DW_HDMI_CEAVID_YCC422_IPIMAP_OFFSET,
-+			 DW_HDMI_CEAVID_YCC422_IPIMAP_MASK);
-+	/* set CEA YCC 420 IPI Mapping */
-+	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEAVID_CONFIG,
-+			 DW_HDMI_CEAVID_YCC420_IPIMAP_OFFSET,
-+			 DW_HDMI_CEAVID_YCC420_IPIMAP_MASK);
-+}
-+
-+static int dw_hdmi_initial_config(struct dw_hdmi_dev *dw_dev, u32 input)
-+{
-+	/* disable interrupts */
-+	dw_hdmi_disable_ints(dw_dev);
-+	/* Disable HPD */
-+	dw_hdmi_disable_hpd(dw_dev);
-+
-+	/* select PHY port */
-+	hdmi_mask_writel(dw_dev, input, DW_HDMI_PHY_CTRL,
-+			 DW_HDMI_PORTSELECT_OFFSET,
-+			 DW_HDMI_PORTSELECT_MASK);
-+
-+	/* ced */
-+	dw_hdmi_config_ced(dw_dev);
-+
-+	/* HDMI recover configurations */
-+	dw_hdmi_config_mode_recover(dw_dev);
-+
-+	/* scdc configurations */
-+	dw_hdmi_config_scdc(dw_dev);
-+
-+	/* ceavid configuration */
-+	dw_hdmi_config_ceavid(dw_dev);
-+
-+	return 0;
-+}
-+
-+static int dw_hdmi_rx_probe(struct platform_device *pdev)
-+{
-+	const struct v4l2_dv_timings timings_def = DW_HDMI_DEFAULT_TIMING;
-+	struct dw_hdmi_rx_pdata *pdata = pdev->dev.platform_data;
-+	struct device *dev = &pdev->dev;
-+	struct v4l2_ctrl_handler *hdl;
-+	struct dw_hdmi_dev *dw_dev;
-+	struct v4l2_subdev *sd;
-+	struct resource *res;
-+	u32 input_count;
-+	unsigned int i;
-+	int ret, irq;
-+
-+	/* Resource allocation */
-+	dw_dev = devm_kzalloc(dev, sizeof(*dw_dev), GFP_KERNEL);
-+	if (!dw_dev)
-+		return -ENOMEM;
-+
-+	/* Resource initialization */
-+	if (!pdata) {
-+		dev_err(dev, "missing platform data\n");
-+		return -EINVAL;
-+	}
-+
-+	dw_dev->dev = dev;
-+	dw_dev->config = pdata;
-+	dw_dev->state = HDMI_STATE_NO_INIT;
-+	dw_dev->of_node = dev->of_node;
-+	dw_dev->tmds_valid_wait_count = 100;
-+	dw_dev->has_clock_wait_ms = 200;
-+	dw_dev->video_stable_wait_ms = 200;
-+	dw_dev->reset_datapath_enable = 0xFFFFFFFF;
-+	dw_dev->phy_eq_on = true;
-+	dw_dev->hw_reset_on_hot_plug = 1;
-+	spin_lock_init(&dw_dev->lock);
-+	spin_lock_init(&dw_dev->event_lock);
-+
-+	if (dw_hdmi_has_dt(dw_dev)) {
-+		/* init PHY based on device tree */
-+		ret = dw_hdmi_parse_dt(dw_dev);
-+	} else {
-+		/* init PHY based on platform data */
-+		ret = dw_hdmi_parse_pd(dw_dev);
-+	}
-+	if (ret)
-+		return ret;
-+
-+	input_count = dw_dev->config->phy->input_count;
-+
-+	dw_dev->curr_edid_blocks =
-+		devm_kzalloc(dev,
-+			     sizeof(*dw_dev->curr_edid_blocks) * input_count,
-+			     GFP_KERNEL);
-+	if (!dw_dev->curr_edid_blocks)
-+		return -ENOMEM;
-+
-+	dw_dev->input_connected =
-+		devm_kzalloc(dev,
-+			     sizeof(*dw_dev->input_connected) * input_count,
-+			     GFP_KERNEL);
-+	if (!dw_dev->input_connected)
-+		return -ENOMEM;
-+
-+	/* Deferred work */
-+	dw_dev->wq = create_singlethread_workqueue(DW_HDMI_RX_DRVNAME);
-+	if (!dw_dev->wq) {
-+		dev_err(dev, "failed to create workqueue\n");
-+		return -ENOMEM;
-+	}
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	dw_dev->regs = devm_ioremap_resource(dev, res);
-+	if (IS_ERR(dw_dev->regs)) {
-+		dev_err(dev, "failed to remap resource\n");
-+		ret = PTR_ERR(dw_dev->regs);
-+		goto err_wq;
-+	}
-+
-+	/* Disable 5V and write EDID */
-+	for (i = 0; i < input_count; i++) {
-+		dw_dev->curr_edid_blocks[i] = ARRAY_SIZE(dw_hdmi_edid) / 32;
-+		dw_hdmi_5v_disable(dw_dev, i);
-+		if (dw_hdmi_edid_4blocks_le(dw_dev)) {
-+			/* little endian representation, needs to invert */
-+			ret = dw_hdmi_update_edid(dw_dev, i, (u8 *)dw_hdmi_edid,
-+						  ARRAY_SIZE(dw_hdmi_edid) *
-+							sizeof(u32),
-+						  true);
-+		} else {
-+			/* no need to invert */
-+			ret = dw_hdmi_update_edid(dw_dev, i, (u8 *)dw_hdmi_edid,
-+						  ARRAY_SIZE(dw_hdmi_edid) *
-+							sizeof(u32),
-+						  false);
-+		}
-+		if (ret)
-+			goto err_wq;
-+	}
-+
-+	dw_hdmi_initial_config(dw_dev, 0);
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0) {
-+		ret = irq;
-+		goto err_wq;
-+	}
-+
-+	ret = devm_request_threaded_irq(dev, irq, NULL, dw_hdmi_irq_handler,
-+					IRQF_ONESHOT, DW_HDMI_RX_DRVNAME,
-+					dw_dev);
-+	if (ret)
-+		goto err_wq;
-+
-+	/* V4L2 initialization */
-+	sd = &dw_dev->sd;
-+	v4l2_subdev_init(sd, &dw_hdmi_sd_ops);
-+	strscpy(sd->name, dev_name(dev), sizeof(sd->name));
-+	sd->dev = dev;
-+	sd->internal_ops = &dw_hdmi_internal_ops;
-+	sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
-+
-+	/* Control handlers */
-+	hdl = &dw_dev->hdl;
-+	v4l2_ctrl_handler_init(hdl, 1);
-+	dw_dev->detect_tx_5v_ctrl =
-+		v4l2_ctrl_new_std(hdl, NULL, V4L2_CID_DV_RX_POWER_PRESENT, 0,
-+				  BIT(4) - 1, 0, 0);
-+
-+	sd->ctrl_handler = hdl;
-+	if (hdl->error) {
-+		ret = hdl->error;
-+		goto err_hdl;
-+	}
-+
-+	/* Wait for ctrl handler register before requesting 5v interrupt */
-+	irq = platform_get_irq(pdev, 1);
-+	if (irq < 0) {
-+		ret = irq;
-+		goto err_hdl;
-+	}
-+
-+	ret = devm_request_threaded_irq(dev, irq, dw_hdmi_5v_hard_irq_handler,
-+					dw_hdmi_5v_irq_handler, IRQF_ONESHOT,
-+					DW_HDMI_RX_DRVNAME "-5v-handler",
-+					dw_dev);
-+	if (ret)
-+		goto err_hdl;
-+
-+	/* PHY loading */
-+	ret = dw_hdmi_phy_init(dw_dev);
-+	if (ret)
-+		goto err_phy_exit;
-+
-+	ret = v4l2_async_register_subdev(sd);
-+	if (ret) {
-+		dev_err(dev, "failed to register subdev\n");
-+		goto err_phy_exit;
-+	}
-+
-+	/* Fill initial format settings */
-+	dw_dev->timings = timings_def;
-+	dw_dev->mbus_code = MEDIA_BUS_FMT_BGR888_1X24;
-+
-+	dev_set_drvdata(dev, sd);
-+	dw_dev->state = HDMI_STATE_POWER_OFF;
-+	dw_dev->is_hdmi2 = is_hdmi2(dw_dev);
-+	dw_dev->is_scrambled = is_scrambled(dw_dev);
-+	dev_info(dev, "using PHY: %s (GEN%d)\n", pdata->phy->name,
-+		 pdata->phy->gen);
-+	dev_info(dev, "HDMI mode=%s\n", dw_dev->is_hdmi2 ? "2.x" : "1.4");
-+
-+	/* Set initial input, if any */
-+	ret = dw_hdmi_detect_tx_5v_ctrl(dw_dev);
-+	if (ret) {
-+		dev_err(dev, "failed to set 5V ctrl initial value\n");
-+		goto err_subdev;
-+	}
-+
-+	dev_info(dev, "selected_input=%d, state=%s\n",
-+		 dw_dev->selected_input, get_state_name(dw_dev->state));
-+
-+	for (i = 0; i < input_count; i++)
-+		dw_hdmi_5v_enable(dw_dev, i);
-+
-+	dev_dbg(dev, "driver probed\n");
-+	return 0;
-+
-+err_subdev:
-+	v4l2_async_unregister_subdev(sd);
-+err_phy_exit:
-+	dw_hdmi_phy_exit(dw_dev);
-+err_hdl:
-+	v4l2_ctrl_handler_free(hdl);
-+err_wq:
-+	destroy_workqueue(dw_dev->wq);
-+	if (dw_dev->clk)
-+		clk_disable_unprepare(dw_dev->clk);
-+
-+	return ret;
-+}
-+
-+static int dw_hdmi_rx_remove(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-+	unsigned int i, input_count = dw_dev->config->phy->input_count;
-+
-+	dw_hdmi_disable_ints(dw_dev);
-+	dw_hdmi_disable_hpd(dw_dev);
-+	dw_hdmi_disable_scdc(dw_dev);
-+	dw_hdmi_power_off(dw_dev);
-+	phy_power_off(dw_dev->phy);
-+	for (i = 0; i < input_count; i++)
-+		dw_hdmi_5v_disable(dw_dev, i);
-+	flush_workqueue(dw_dev->wq);
-+	destroy_workqueue(dw_dev->wq);
-+	dw_hdmi_phy_exit(dw_dev);
-+	v4l2_ctrl_handler_free(sd->ctrl_handler);
-+	clk_disable_unprepare(dw_dev->clk);
-+	dev_dbg(dev, "driver removed\n");
-+	return 0;
-+}
-+
-+static const struct of_device_id dw_hdmi_rx_id[] = {
-+	{ .compatible = "snps,dw-hdmi-rx" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, dw_hdmi_rx_id);
-+
-+static struct platform_driver dw_hdmi_rx_driver = {
-+	.probe = dw_hdmi_rx_probe,
-+	.remove = dw_hdmi_rx_remove,
-+	.driver = {
-+		.name = DW_HDMI_RX_DRVNAME,
-+		.of_match_table = dw_hdmi_rx_id,
-+	}
-+};
-+module_platform_driver(dw_hdmi_rx_driver);
-+
-+MODULE_AUTHOR("Jose Abreu <jose.abreu@synopsys.com>");
-+MODULE_AUTHOR("Nelson Costa <nelson.costa@synopsys.com>");
-+MODULE_DESCRIPTION("DesignWare HDMI Receiver Driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/media/platform/dwc/dw-hdmi-rx.h b/drivers/media/platform/dwc/dw-hdmi-rx.h
-new file mode 100644
-index 0000000..f0ea1d4
---- /dev/null
-+++ b/drivers/media/platform/dwc/dw-hdmi-rx.h
-@@ -0,0 +1,476 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare HDMI Receiver controller driver
-+ *
-+ * Author: Jose Abreu <jose.abreu@synopsys.com>
-+ * Author: Nelson Costa <nelson.costa@synopsys.com>
++#define V4L2_DV_BT_CEA_720X480I60_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 480, 1, 0, \
++		13500000, 19, 62, 57, 4, 3, 15, 4, 3, 16, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 7) \
++}
++
++/* VIC=8 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
 + */
-+
-+#ifndef __DW_HDMI_RX_H__
-+#define __DW_HDMI_RX_H__
-+
-+#include <linux/bitops.h>
-+
-+/* id_hdmi Registers */
-+#define DW_HDMI_SETUP_CTRL			0x0000
-+#define DW_HDMI_HOT_PLUG_DETECT_INPUT_X_MASK	GENMASK(27, 24)
-+#define DW_HDMI_HOT_PLUG_DETECT_INPUT_X_OFFSET	24
-+#define DW_HDMI_HDMIBUS_RESET_OVR_EN_MASK	BIT(21)
-+#define DW_HDMI_HDMIBUS_RESET_OVR_EN_OFFSET	21
-+#define DW_HDMI_BUS_RESET_OVR_MASK		BIT(20)
-+#define DW_HDMI_BUS_RESET_OVR_OFFSET		20
-+#define DW_HDMI_HDMI_RESET_OVR_MASK		BIT(19)
-+#define DW_HDMI_HDMI_RESET_OVR_OFFSET		19
-+#define DW_HDMI_PON_RESET_OVR_MASK		BIT(18)
-+#define DW_HDMI_PON_RESET_OVR_OFFSET		18
-+#define DW_HDMI_RESET_OVR_MASK			BIT(17)
-+#define DW_HDMI_RESET_OVR_OFFSET		17
-+#define DW_HDMI_RESET_OVR_EN_MASK		BIT(16)
-+#define DW_HDMI_RESET_OVR_EN_OFFSET		16
-+#define DW_HDMI_EQ_OSM_OVR_MASK			BIT(15)
-+#define DW_HDMI_EQ_OSM_OVR_OFFSET		15
-+#define DW_HDMI_EQ_OSM_OVR_EN_MASK		BIT(14)
-+#define DW_HDMI_EQ_OSM_OVR_EN_OFFSET		14
-+#define DW_HDMI_NOWAIT_ACTIVITY_MASK		BIT(13)
-+#define DW_HDMI_NOWAIT_ACTIVITY_OFFSET		13
-+#define DW_HDMI_EQ_CAL_TIME_MASK		GENMASK(12, 7)
-+#define DW_HDMI_EQ_CAL_TIME_OFFSET		7
-+#define DW_HDMI_USE_PLL_LOCK_MASK		BIT(6)
-+#define DW_HDMI_USE_PLL_LOCK_OFFSET		6
-+#define DW_HDMI_FORCE_STATE_MASK		BIT(5)
-+#define DW_HDMI_FORCE_STATE_OFFSET		5
-+#define DW_HDMI_TARGET_STATE_MASK		GENMASK(4, 1)
-+#define DW_HDMI_TARGET_STATE_OFFSET		1
-+#define DW_HDMI_HOT_PLUG_DETECT_MASK		BIT(0)
-+#define DW_HDMI_HOT_PLUG_DETECT_OFFSET		0
-+
-+#define DW_HDMI_PLL_LCK_STS			0x0030
-+#define DW_HDMI_PLL_LOCKED			BIT(0)
-+
-+#define DW_HDMI_MODE_RECOVER			0x0080
-+#define DW_HDMI_SPIKE_FILTER_EN_MASK		BIT(18)
-+#define DW_HDMI_SPIKE_FILTER_EN_OFFSET		18
-+#define DW_HDMI_DVI_MODE_HYST_MASK		GENMASK(17, 13)
-+#define DW_HDMI_DVI_MODE_HYST_OFFSET		13
-+#define DW_HDMI_HDMI_MODE_HYST_MASK		GENMASK(12, 8)
-+#define DW_HDMI_HDMI_MODE_HYST_OFFSET		8
-+
-+#define DW_HDMI_CKM_EVLTM			0x0094
-+#define DW_HDMI_LOCK_HYST_MASK			GENMASK(21, 20)
-+#define DW_HDMI_LOCK_HYST_OFFSET		20
-+#define DW_HDMI_CLK_HYST_MASK			GENMASK(18, 16)
-+#define DW_HDMI_CLK_HYST_OFFSET			16
-+#define DW_HDMI_EVAL_TIME_MASK			GENMASK(15, 4)
-+#define DW_HDMI_EVAL_TIME_OFFSET		4
-+#define DW_HDMI_CLK_MEAS_INPUT_SRC_MASK		BIT(0)
-+#define DW_HDMI_CLK_MEAS_INPUT_SRC_OFFSET	0
-+
-+#define DW_HDMI_CKM_RESULT			0x009c
-+#define DW_HDMI_CLOCK_IN_RANGE			BIT(17)
-+#define DW_HDMI_FREQ_LOCKED			BIT(16)
-+#define DW_HDMI_CLKRATE_MASK			GENMASK(15, 0)
-+#define DW_HDMI_CLKRATE_OFFSET			0
-+
-+#define DW_HDMI_VM_CFG_CH_0_1			0x00b0
-+#define DW_HDMI_VM_CH1_COL_VALUE_MASK		GENMASK(31, 16)
-+#define DW_HDMI_VM_CH1_COL_VALUE_OFFSET		16
-+#define DW_HDMI_VM_CH0_COL_VALUE_MASK		GENMASK(15, 0)
-+#define DW_HDMI_VM_CH0_COL_VALUE_OFFSET		0
-+
-+#define DW_HDMI_VM_CFG_CH2			0x00b4
-+#define DW_HDMI_VM_CH2_COL_VALUE_MASK		GENMASK(15, 0)
-+#define DW_HDMI_VM_CH2_COL_VALUE_OFFSET		0
-+
-+#define DW_HDMI_STS				0x00bc
-+#define DW_HDMI_DCM_CURRENT_MODE_MASK		GENMASK(31, 28)
-+#define DW_HDMI_DCM_CURRENT_MODE_OFFSET		28
-+#define DW_HDMI_DCM_LAST_PIXEL_PHASE_STS_MASK	GENMASK(27, 24)
-+#define DW_HDMI_DCM_LAST_PIXEL_PHASE_STS_OFFSET	24
-+#define DW_HDMI_DCM_PHASE_DIFF_CNT_MASK		GENMASK(23, 16)
-+#define DW_HDMI_DCM_PH_DIFF_CNT_OVERFL		BIT(15)
-+#define DW_HDMI_DCM_GCP_ZERO_FIELDS_PASS	BIT(14)
-+#define DW_HDMI_CTL3_STS			BIT(13)
-+#define DW_HDMI_CTL2_STS			BIT(12)
-+#define DW_HDMI_CTL1_STS			BIT(11)
-+#define DW_HDMI_CTL0_STS			BIT(10)
-+#define DW_HDMI_VS_POL_ADJ_STS			BIT(9)
-+#define DW_HDMI_HS_POL_ADJ_STS			BIT(8)
-+#define DW_HDMI_RES_OVERLOAD_STS		BIT(7)
-+#define DW_HDMI_DCM_CURRENT_PP_MASK		GENMASK(3, 0)
-+#define DW_HDMI_DCM_CURRENT_PP_OFFSET		0
-+
-+/* id_hdcp_1_4 Registers */
-+#define DW_HDMI_HDCP_CTRL			0x00c0
-+#define DW_HDMI_HDCP_STS			0x00fc
-+
-+/* id_mode_detection Registers */
-+#define DW_HDMI_MD_HT0				0x0148
-+#define DW_HDMI_HTOT32_CLK_MASK			GENMASK(31, 16)
-+#define DW_HDMI_HTOT32_CLK_OFFSET		16
-+#define DW_HDMI_HS_CLK_MASK			GENMASK(15, 0)
-+#define DW_HDMI_HS_CLK_OFFSET			0
-+
-+#define DW_HDMI_MD_HT1				0x014c
-+#define DW_HDMI_HTOT_PIX_MASK			GENMASK(31, 16)
-+#define DW_HDMI_HTOT_PIX_OFFSET			16
-+#define DW_HDMI_HOFS_PIX_MASK			GENMASK(15, 0)
-+#define DW_HDMI_HOFS_PIX_OFFSET			0
-+
-+#define DW_HDMI_MD_HACT_PX			0x0150
-+
-+#define DW_HDMI_MD_VCTRL			0x0158
-+#define DW_HDMI_V_OFFS_LIN_MODE_MASK		BIT(4)
-+#define DW_HDMI_V_OFFS_LIN_MODE_OFFSET		4
-+#define DW_HDMI_V_EDGE_MASK			BIT(1)
-+#define DW_HDMI_V_EDGE_OFFSET			1
-+#define DW_HDMI_V_MODE_MASK			BIT(0)
-+#define DW_HDMI_V_MODE_OFFSET			0
-+
-+#define DW_HDMI_MD_VOL				0x0164
-+#define DW_HDMI_MD_VAL				0x0168
-+#define DW_HDMI_MD_VTL				0x0170
-+
-+#define DW_HDMI_MD_STS				0x0180
-+#define DW_HDMI_ILACE_STS			BIT(3)
-+#define DW_HDMI_DE_ACTIVITY_STS			BIT(2)
-+#define DW_HDMI_VS_ACT_STS			BIT(1)
-+#define DW_HDMI_HS_ACT_STS			BIT(0)
-+
-+/* id_phy_configuration Registers */
-+#define DW_HDMI_PHY_CTRL			0x02c0
-+#define DW_HDMI_PHYSVSRETMODEZ_MASK		BIT(6)
-+#define DW_HDMI_PHYSVSRETMODEZ_OFFSET		6
-+#define DW_HDMI_CFGCLKFREQ_MASK			GENMASK(5, 4)
-+#define DW_HDMI_CFGCLKFREQ_OFFSET		4
-+#define DW_HDMI_PORTSELECT_MASK			GENMASK(3, 2)
-+#define DW_HDMI_PORTSELECT_OFFSET		2
-+#define DW_HDMI_PHYPDDQ_MASK			BIT(1)
-+#define DW_HDMI_PHYPDDQ_OFFSET			1
-+#define DW_HDMI_PHYRESET_MASK			BIT(0)
-+#define DW_HDMI_PHYRESET_OFFSET			0
-+
-+#define DW_HDMI_JTAG_CONF			0x02ec
-+#define DW_HDMI_JTAG_TAP_TCLK			0x02f0
-+
-+#define DW_HDMI_JTAG_TAP_IN			0x02f4
-+#define DW_HDMI_JTAG_TMS			BIT(4)
-+#define DW_HDMI_JTAG_TDI			BIT(0)
-+
-+#define DW_HDMI_JTAG_TAP_OUT			0x02f8
-+#define DW_HDMI_JTAG_ADDR			0x02fc
-+
-+/* id_packet_decoder Registers */
-+#define DW_HDMI_PDEC_CTRL			0x0300
-+#define DW_HDMI_PFIFO_STORE_FILTER_EN_MASK	BIT(31)
-+#define DW_HDMI_PFIFO_STORE_FILTER_EN_OFFSET	31
-+#define DW_HDMI_PD_FIFO_CLR_MASK		BIT(5)
-+#define DW_HDMI_PD_FIFO_CLR_OFFSET		5
-+#define DW_HDMI_PDEC_BCH_EN_MASK		BIT(0)
-+#define DW_HDMI_PDEC_BCH_EN_OFFSET		0
-+
-+#define DW_HDMI_PDEC_ACRM_CTRL			0x0330
-+#define DW_HDMI_DELTACTS_IRQTRIG_MASK		GENMASK(4, 2)
-+#define DW_HDMI_DELTACTS_IRQTRIG_OFFSET		2
-+
-+#define DW_HDMI_PDEC_ASP_CTRL			0x0340
-+#define DW_HDMI_AUTO_VMUTE_MASK			BIT(6)
-+#define DW_HDMI_AUTO_VMUTE_OFFSET		6
-+#define DW_HDMI_AUTO_SPFLAT_MUTE_MASK		GENMASK(5, 2)
-+#define DW_HDMI_AUTO_SPFLAT_MUTE_OFFSET		2
-+
-+#define DW_HDMI_PDEC_STS			0x0360
-+#define DW_HDMI_DRM_CKS_CHG			BIT(31)
-+#define DW_HDMI_DRM_RCV				BIT(30)
-+#define DW_HDMI_NTSCVBI_CKS_CHG			BIT(29)
-+#define DW_HDMI_DVIDET				BIT(28)
-+#define DW_HDMI_VSI_CKS_CHG			BIT(27)
-+#define DW_HDMI_GMD_CKS_CHG			BIT(26)
-+#define DW_HDMI_AIF_CKS_CHG			BIT(25)
-+#define DW_HDMI_AVI_CKS_CHG			BIT(24)
-+#define DW_HDMI_ACR_N_CHG			BIT(23)
-+#define DW_HDMI_ACR_CTS_CHG			BIT(22)
-+#define DW_HDMI_GCP_AV_MUTE_CHG			BIT(21)
-+#define DW_HDMI_GMD_RCV				BIT(20)
-+#define DW_HDMI_AIF_RCV				BIT(19)
-+#define DW_HDMI_AVI_RCV				BIT(18)
-+#define DW_HDMI_ACR_RCV				BIT(17)
-+#define DW_HDMI_GCP_RCV				BIT(16)
-+#define DW_HDMI_VSI_RCV				BIT(15)
-+#define DW_HDMI_AMP_RCV				BIT(14)
-+#define DW_HDMI_NTSCVBI_RCV			BIT(13)
-+#define DW_HDMI_OBA_LAYOUT			BIT(12)
-+#define DW_HDMI_AUDS_LAYOUT			BIT(11)
-+#define DW_HDMI_PD_FIFO_NEW_ENTRY		BIT(8)
-+#define DW_HDMI_PD_FIFO_OVERFL			BIT(4)
-+#define DW_HDMI_PD_FIFO_UNDERFL			BIT(3)
-+#define DW_HDMI_PD_FIFO_TH_START_PASS		BIT(2)
-+#define DW_HDMI_PD_FIFO_TH_MAX_PASS		BIT(1)
-+#define DW_HDMI_PD_FIFO_TH_MIN_PASS		BIT(0)
-+
-+#define DW_HDMI_PDEC_VSI_PAYLOAD0		0x0368
-+#define DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_MASK	GENMASK(15, 8)
-+#define DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_OFFSET	8
-+
-+#define DW_HDMI_PDEC_ACR_CTS			0x0390
-+#define DW_HDMI_CTS_DECODED_MASK		GENMASK(19, 0)
-+#define DW_HDMI_CTS_DECODED_OFFSET		0
-+
-+#define DW_HDMI_PDEC_ACR_N			0x0394
-+#define DW_HDMI_N_DECODED_MASK			GENMASK(19, 0)
-+#define DW_HDMI_N_DECODED_OFFSET		0
-+
-+#define DW_HDMI_PDEC_AVI_HB			0x03a0
-+#define DW_HDMI_QUANT_RANGE_MASK		GENMASK(31, 30)
-+#define DW_HDMI_QUANT_RANGE_OFFSET		30
-+#define DW_HDMI_CONTENT_TYPE_MASK		GENMASK(29, 28)
-+#define DW_HDMI_CONTENT_TYPE_OFFSET		28
-+#define DW_HDMI_PIX_REP_FACTOR_MASK		GENMASK(27, 24)
-+#define DW_HDMI_PIX_REP_FACTOR_OFFSET		24
-+
-+#define DW_HDMI_PDEC_AVI_PB			0x03a4
-+#define DW_HDMI_VID_IDENT_CODE_MASK		GENMASK(31, 24)
-+#define DW_HDMI_VID_IDENT_CODE_OFFSET		24
-+#define DW_HDMI_IT_CONTENT			BIT(23)
-+#define DW_HDMI_EXT_COLORIMETRY_MASK		GENMASK(22, 20)
-+#define DW_HDMI_EXT_COLORIMETRY_OFFSET		20
-+#define DW_HDMI_RGB_QUANT_RANGE_MASK		GENMASK(19, 18)
-+#define DW_HDMI_RGB_QUANT_RANGE_OFFSET		18
-+#define DW_HDMI_NON_UNIF_SCALE_MASK		GENMASK(17, 16)
-+#define DW_HDMI_NON_UNIF_SCALE_OFFSET		16
-+#define DW_HDMI_COLORIMETRY_MASK		GENMASK(15, 14)
-+#define DW_HDMI_COLORIMETRY_OFFSET		14
-+#define DW_HDMI_PIC_ASPECT_RAT_MASK		GENMASK(13, 12)
-+#define DW_HDMI_PIC_ASPECT_RAT_OFFSET		12
-+#define DW_HDMI_ACT_ASPECT_RAT_MASK		GENMASK(11, 8)
-+#define DW_HDMI_ACT_ASPECT_RAT_OFFSET		8
-+#define DW_HDMI_VIDEO_FORMAT_MASK		GENMASK(7, 5)
-+#define DW_HDMI_VIDEO_FORMAT_OFFSET		5
-+#define DW_HDMI_ACT_INFO_PRESENT		BIT(4)
-+#define DW_HDMI_BAR_INFO_VALID_MASK		GENMASK(3, 2)
-+#define DW_HDMI_BAR_INFO_VALID_OFFSET		2
-+#define DW_HDMI_SCAN_INFO_MASK			GENMASK(1, 0)
-+#define DW_HDMI_SCAN_INFO_OFFSET		0
-+
-+#define DW_HDMI_PDEC_AVI_PBLEN			4
-+
-+#define DW_HDMI_PDEC_AVI_TBB			0x03a8
-+#define DW_HDMI_PDEC_AVI_LRB			0x03ac
-+#define DW_HDMI_PDEC_AIF_HB			0x03c4
-+#define DW_HDMI_PDEC_AIF_PB0			0x03c8
-+
-+#define DW_HDMI_PDEC_AIF_PB1			0x03cc
-+#define DW_HDMI_LFE_PLAYBACK_LEVEL_MASK		GENMASK(9, 8)
-+#define DW_HDMI_LFE_PLAYBACK_LEVEL_OFFSET	8
-+
-+#define DW_HDMI_PDEC_AIF_PBLEN			2
-+
-+#define DW_HDMI_PDEC_VSI_ST0			0x3e0
-+#define DW_HDMI_IEEE_REG_ID_MASK		GENMASK(23, 0)
-+#define DW_HDMI_IEEE_REG_ID_OFFSET		0
-+
-+#define DW_HDMI_PDEC_VSI_ST1			0x3e4
-+#define DW_HDMI_H3D_EXT_DATA_MASK		GENMASK(23, 20)
-+#define DW_HDMI_H3D_EXT_DATA_OFFSET		20
-+#define DW_HDMI_H3D_STRUCTURE_MASK		GENMASK(19, 16)
-+#define DW_HDMI_H3D_STRUCTURE_OFFSET		16
-+#define DW_HDMI_HDMI_VIC_MASK			GENMASK(15, 8)
-+#define DW_HDMI_HDMI_VIC_OFFSET			8
-+#define DW_HDMI_HDMI_VIDEO_FORMAT_MASK		GENMASK(7, 5)
-+#define DW_HDMI_HDMI_VIDEO_FORMAT_OFFSET	5
-+#define DW_HDMI_LENGTH_MASK			GENMASK(4, 0)
-+#define DW_HDMI_LENGTH_OFFSET			0
-+
-+/* id_cea_video Registers */
-+#define DW_HDMI_CEAVID_CONFIG			0x400
-+#define DW_HDMI_CEAVID_RST_MASK			BIT(31)
-+#define DW_HDMI_CEAVID_RST_OFFSET		31
-+#define DW_HDMI_CEAVID_YCC422_IPIMAP_MASK	BIT(21)
-+#define DW_HDMI_CEAVID_YCC422_IPIMAP_OFFSET	21
-+#define DW_HDMI_CEAVID_YCC420_IPIMAP_MASK	BIT(20)
-+#define DW_HDMI_CEAVID_YCC420_IPIMAP_OFFSET	20
-+
-+/* id_hdmi_2_0 Registers */
-+#define DW_HDMI_HDMI20_CONTROL			0x0800
-+#define DW_HDMI_VIDDATACHECKEN_MASK		BIT(12)
-+#define DW_HDMI_VIDDATACHECKEN_OFFSET		12
-+#define DW_HDMI_DATAISCHECKEN_MASK		BIT(11)
-+#define DW_HDMI_DATAISCHECKEN_OFFSET		11
-+#define DW_HDMI_GBCHECKEN_MASK			BIT(10)
-+#define DW_HDMI_GBCHECKEN_OFFSET		10
-+#define DW_HDMI_PREAMBCHECKEN_MASK		BIT(9)
-+#define DW_HDMI_PREAMBCHECKEN_OFFSET		9
-+#define DW_HDMI_CTRLCHECKEN_MASK		BIT(8)
-+#define DW_HDMI_CTRLCHECKEN_OFFSET		8
-+
-+#define DW_HDMI_SCDC_CONFIG			0x0808
-+#define DW_HDMI_HPDLOW_MASK			BIT(1)
-+#define DW_HDMI_HPDLOW_OFFSET			1
-+#define DW_HDMI_POWERPROVIDED_MASK		BIT(0)
-+#define DW_HDMI_POWERPROVIDED_OFFSET		0
-+
-+#define DW_HDMI_CHLOCK_CONFIG			0x080c
-+#define DW_HDMI_MILISECTIMERLIMIT_MASK		GENMASK(15, 0)
-+#define DW_HDMI_MILISECTIMERLIMIT_OFFSET	0
-+
-+#define DW_HDMI_HDCP22_CONTROL			0x081c
-+
-+#define DW_HDMI_SCDC_REGS0			0x0820
-+#define DW_HDMI_SCDC_SCRAMBSTATUS_MASK		BIT(24)
-+#define DW_HDMI_SCDC_SCRAMBSTATUS_OFFSET	24
-+#define DW_HDMI_SCDC_TMDSBITCLKRATIO_MASK	BIT(17)
-+#define DW_HDMI_SCDC_TMDSBITCLKRATIO_OFFSET	17
-+#define DW_HDMI_SCDC_SCRAMBEN_MASK		BIT(16)
-+#define DW_HDMI_SCDC_SCRAMBEN_OFFSET		16
-+
-+#define DW_HDMI_HDCP22_STATUS			0x08fc
-+
-+/* id_mode_detection_interrupt Registers */
-+#define DW_HDMI_MD_IEN_CLR			0x0fc0
-+#define DW_HDMI_MD_IEN_SET			0x0fc4
-+
-+#define DW_HDMI_MD_ISTS				0x0fc8
-+#define DW_HDMI_VOFS_LIN_ISTS			BIT(11)
-+#define DW_HDMI_VTOT_LIN_ISTS			BIT(10)
-+#define DW_HDMI_VACT_LIN_ISTS			BIT(9)
-+#define DW_HDMI_VS_CLK_ISTS			BIT(8)
-+#define DW_HDMI_VTOT_CLK_ISTS			BIT(7)
-+#define DW_HDMI_HACT_PIX_ISTS			BIT(6)
-+#define DW_HDMI_HS_CLK_ISTS			BIT(5)
-+#define DW_HDMI_HTOT32_CLK_ISTS			BIT(4)
-+#define DW_HDMI_ILACE_ISTS			BIT(3)
-+#define DW_HDMI_DE_ACTIVITY_ISTS		BIT(2)
-+#define DW_HDMI_VS_ACT_ISTS			BIT(1)
-+#define DW_HDMI_HS_ACT_ISTS			BIT(0)
-+
-+#define DW_HDMI_MD_IEN				0x0fcc
-+#define DW_HDMI_MD_ICLR				0x0fd0
-+#define DW_HDMI_MD_ISET				0x0fd4
-+
-+/* id_hdmi_interrupt Registers */
-+#define DW_HDMI_IEN_CLR				0x0fd8
-+#define DW_HDMI_IEN_SET				0x0fdc
-+
-+#define DW_HDMI_ISTS				0x0fe0
-+#define DW_HDMI_I2CMP_ARBLOST_ISTS_ISTS		BIT(30)
-+#define DW_HDMI_I2CMPNACK_ISTS			BIT(29)
-+#define DW_HDMI_I2CMPDONE_ISTS			BIT(28)
-+#define DW_HDMI_VS_THR_REACHED_ISTS		BIT(27)
-+#define DW_HDMI_VSYNC_ACT_EDGE_ISTS		BIT(26)
-+#define DW_HDMI_AKSV_RCV_ISTS			BIT(25)
-+#define DW_HDMI_PLL_CLOCK_GATED_ISTS		BIT(24)
-+#define DW_HDMI_DESER_MISAL_ISTS		BIT(23)
-+#define DW_HDMI_CDSENSE_CHG_ISTS		BIT(22)
-+#define DW_HDMI_CEAVID_EMPTY_ISTS		BIT(21)
-+#define DW_HDMI_CEAVID_FULL_ISTS		BIT(20)
-+#define DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_MASK	BIT(19)
-+#define DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_OFFSET	19
-+#define DW_HDMI_SCDCSCSTATUSCHANGE_ISTS		BIT(18)
-+#define DW_HDMI_SCDCCFGCHANGE_ISTS		BIT(17)
-+#define DW_HDMI_DCM_CURRENT_MODE_CHG_ISTS	BIT(16)
-+#define DW_HDMI_DCM_PH_DIFF_CNT_OVERFL_ISTS	BIT(15)
-+#define DW_HDMI_DCM_GCP_ZERO_FIELDS_PASS_ISTS	BIT(14)
-+#define DW_HDMI_CTL3_CHANGE_ISTS		BIT(13)
-+#define DW_HDMI_CTL2_CHANGE_ISTS		BIT(12)
-+#define DW_HDMI_CTL1_CHANGE_ISTS		BIT(11)
-+#define DW_HDMI_CTL0_CHANGE_ISTS		BIT(10)
-+#define DW_HDMI_VS_POL_ADJ_ISTS			BIT(9)
-+#define DW_HDMI_HS_POL_ADJ_ISTS			BIT(8)
-+#define DW_HDMI_RES_OVERLOAD_ISTS		BIT(7)
-+#define DW_HDMI_CLK_CHANGE_ISTS			BIT(6)
-+#define DW_HDMI_PLL_LCK_CHG_ISTS		BIT(5)
-+#define DW_HDMI_EQGAIN_DONE_ISTS		BIT(4)
-+#define DW_HDMI_OFFSCAL_DONE_ISTS		BIT(3)
-+#define DW_HDMI_RESCAL_DONE_ISTS		BIT(2)
-+#define DW_HDMI_ACT_CHANGE_ISTS			BIT(1)
-+#define DW_HDMI_STATE_REACHED_ISTS		BIT(0)
-+
-+#define DW_HDMI_IEN				0x0fe4
-+#define DW_HDMI_ICLR				0x0fe8
-+#define DW_HDMI_ISET				0x0fec
-+
-+/* id_packet_decoder_interrupt Registers */
-+#define DW_HDMI_PDEC_IEN_CLR			0x0f78
-+#define DW_HDMI_PDEC_IEN_SET			0x0f7c
-+
-+#define DW_HDMI_PDEC_ISTS			0x0f80
-+#define DW_HDMI_DRM_CKS_CHG_ISTS		BIT(31)
-+#define DW_HDMI_AUD_TYPE_CHG_ISTS		BIT(29)
-+#define DW_HDMI_VSI_CKS_CHG_ISTS		BIT(27)
-+#define DW_HDMI_AIF_CKS_CHG_ISTS		BIT(25)
-+#define DW_HDMI_AVI_CKS_CHG_ISTS		BIT(24)
-+#define DW_HDMI_ACR_N_CHG_ISTS			BIT(23)
-+#define DW_HDMI_ACR_CTS_CHG_ISTS		BIT(22)
-+#define DW_HDMI_GCP_AV_MUTE_CHG_ISTS		BIT(21)
-+#define DW_HDMI_PD_FIFO_OVERFL_ISTS		BIT(4)
-+#define DW_HDMI_PD_FIFO_UNDERFL_ISTS		BIT(3)
-+
-+#define DW_HDMI_PDEC_IEN			0x0f84
-+#define DW_HDMI_PDEC_ICLR			0x0f88
-+#define DW_HDMI_PDEC_ISET			0x0f8c
-+
-+/* id_dmi Registers */
-+#define DW_HDMI_DMI_SW_RST			0x0ff0
-+#define DW_HDMI_TMDS_SWRESET			BIT(16)
-+#define DW_HDMI_HDCP_SWRESET			BIT(8)
-+#define DW_HDMI_VID_SWRESET			BIT(7)
-+#define DW_HDMI_PIXEL_SWRESET			BIT(6)
-+#define DW_HDMI_CEC_SWRESET			BIT(5)
-+#define DW_HDMI_AUD_SWRESET			BIT(4)
-+#define DW_HDMI_BUS_SWRESET			BIT(3)
-+#define DW_HDMI_HDMI_SWRESET			BIT(2)
-+#define DW_HDMI_MODET_SWRESET			BIT(1)
-+#define DW_HDMI_MAIN_SWRESET			BIT(0)
-+
-+#define DW_HDMI_DMI_DISABLE_IF			0x0ff4
-+#define DW_HDMI_HDMI_ENABLE_MASK		BIT(2)
-+#define DW_HDMI_HDMI_ENABLE_OFFSET		2
-+
-+/* id_cbus Registers */
-+#define DW_HDMI_CBUSIOCTRL			0x3020
-+#define DW_HDMI_DATAPATH_CBUSZ_MASK		BIT(24)
-+#define DW_HDMI_DATAPATH_CBUSZ_OFFSET		24
-+#define DW_HDMI_CBUS_SVSRETMODEZ_MASK		BIT(16)
-+#define DW_HDMI_CBUS_SVSRETMODEZ_OFFSET		16
-+#define DW_HDMI_CBUS_PDDQ_MASK			BIT(8)
-+#define DW_HDMI_CBUS_PDDQ_OFFSET		8
-+#define DW_HDMI_CBUS_RESET_MASK			BIT(0)
-+#define DW_HDMI_CBUS_RESET_OFFSET		0
-+
-+/* id_audio Registers */
-+#define DW_HDMI_AUD_CTRL			0x0200
-+
-+#define DW_HDMI_AUD_PLL_CTRL			0x0208
-+#define DW_HDMI_PLL_LOCK_STABLE_MASK		BIT(31)
-+#define DW_HDMI_PLL_LOCK_STABLE_OFFSET		31
-+
-+#define DW_HDMI_AUD_FIFO_CTRL			0x0240
-+#define DW_HDMI_AFIF_INIT_MASK			BIT(0)
-+#define DW_HDMI_AFIF_INIT_OFFSET		0
-+
-+#define DW_HDMI_AUD_MUTE_CTRL			0x0258
-+#define DW_HDMI_AUD_MUTE_SEL_MASK		GENMASK(6, 5)
-+#define DW_HDMI_AUD_MUTE_SEL_OFFSET		5
-+
-+#define DW_HDMI_AUD_SAO_CTRL			0x0260
-+#define DW_HDMI_WS_DISABLE_MASK			BIT(10)
-+#define DW_HDMI_WS_DISABLE_OFFSET		10
-+#define DW_HDMI_I2S_32_16_MASK			BIT(0)
-+#define DW_HDMI_I2S_32_16_OFFSET		0
-+
-+/* id_audio_fifo_interrupt Registers */
-+#define DW_HDMI_AUD_FIFO_IEN_CLR		0x0fa8
-+#define DW_HDMI_AUD_FIFO_IEN_SET		0x0fac
-+
-+#define DW_HDMI_AUD_FIFO_ISTS			0x0fb0
-+#define DW_HDMI_AFIF_OVERFL_ISTS		BIT(4)
-+#define DW_HDMI_AFIF_UNDERFL_ISTS		BIT(3)
-+#define DW_HDMI_AFIF_THS_PASS_ISTS		BIT(2)
-+#define DW_HDMI_AFIF_TH_MAX_ISTS		BIT(1)
-+#define DW_HDMI_AFIF_TH_MIN_ISTS		BIT(0)
-+
-+#define DW_HDMI_AUD_FIFO_IEN			0x0fb4
-+#define DW_HDMI_AUD_FIFO_ICLR			0x0fb8
-+#define DW_HDMI_AUD_FIFO_ISET			0x0fbc
-+
-+#endif /* __DW_HDMI_RX_H__ */
-diff --git a/include/media/dwc/dw-hdmi-rx-pdata.h b/include/media/dwc/dw-hdmi-rx-pdata.h
-new file mode 100644
-index 0000000..a2a5440
---- /dev/null
-+++ b/include/media/dwc/dw-hdmi-rx-pdata.h
-@@ -0,0 +1,126 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-+ * Synopsys DesignWare HDMI Receiver controller platform data
-+ *
-+ * Author: Jose Abreu <jose.abreu@synopsys.com>
-+ * Author: Nelson Costa <nelson.costa@synopsys.com>
++#define V4L2_DV_BT_CEA_720X240P60_VTOT262_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 240, 0, 0, \
++		13500000, 19, 62, 57, 4, 3, 15, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 8) \
++}
++
++/* VIC=8 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
 + */
++#define V4L2_DV_BT_CEA_720X240P60_VTOT263_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 240, 0, 0, \
++		13500000, 19, 62, 57, 5, 3, 15, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 8) \
++}
 +
-+#ifndef __DW_HDMI_RX_PDATA_H__
-+#define __DW_HDMI_RX_PDATA_H__
-+
-+#define DW_HDMI_RX_DRVNAME			"dw-hdmi-rx"
-+
-+/* Notify events */
-+#define DW_HDMI_NOTIFY_IS_OFF		1
-+#define DW_HDMI_NOTIFY_INPUT_CHANGED	2
-+#define DW_HDMI_NOTIFY_AUDIO_CHANGED	3
-+#define DW_HDMI_NOTIFY_IS_STABLE	4
-+
-+/* HDCP 1.4 */
-+#define DW_HDMI_HDCP14_BKSV_SIZE	2
-+#define DW_HDMI_HDCP14_KEYS_SIZE	(2 * 40)
-+
-+/**
-+ * struct dw_hdmi_phy_config - Phy configuration for HDMI receiver.
-+ *
-+ * @name: The name of the phy.
-+ *
-+ * @drv_name: Driver name of the phy.
-+ *
-+ * @gen: The generation of the phy.
-+ *
-+ * @version: The version of the phy.
-+ *
-+ * @cfg_clk: The configuration clock used for phy.
-+ *
-+ * @input_count: Number of input ports supported by the phy.
-+ *
-+ * @jtag_addr: The JTAG address of phy.
++/* VIC=9 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
 + */
-+struct dw_hdmi_phy_config {
-+	const char *name;
-+	const char *drv_name;
-+	unsigned int gen;
-+	unsigned int version;
-+	unsigned int cfg_clk;
-+	unsigned int input_count;
-+	u8 jtag_addr;
-+};
++#define V4L2_DV_BT_CEA_720X240P60_VTOT262_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 240, 0, 0, \
++		13500000, 19, 62, 57, 4, 3, 15, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 9) \
++}
 +
-+/**
-+ * struct dw_hdmi_rx_pdata - Platform Data configuration for HDMI receiver.
-+ *
-+ * @phy: Phy configuration parameters.
-+ *
-+ * @iref_clk: Configuration clock.
-+ *
-+ * @dw_5v_status: 5v status callback. Shall return the status of the given
-+ * input, i.e. shall be true if a cable is connected to the specified input.
-+ *
-+ * @dw_5v_detected: 5v detected callback. Shall return the status changes of
-+ * the given input, i.e. shall be true if a cable was (dis)connected to a
-+ * specified input.
-+ *
-+ * @dw_5v_disable: 5v disable callback. Shall clear the interrupt associated
-+ * with the 5v sense controller.
-+ *
-+ * @dw_5v_enable: 5v enable callback. Shall enable the interrupt associated with
-+ * the 5v sense controller.
-+ *
-+ * @dw_5v_arg: Argument to be used with the 5v sense callbacks.
-+ *
-+ * @dw_zcal_reset: Impedance calibration reset callback. Shall be called when
-+ * the impedance calibration needs to be restarted. This is used by phy driver
-+ * only.
-+ *
-+ * @dw_zcal_done: Impedance calibration status callback. Shall return true if
-+ * the impedance calibration procedure has ended. This is used by phy driver
-+ * only.
-+ *
-+ * @dw_zcal_arg: Argument to be used with the ZCAL calibration callbacks.
-+ *
-+ * @dw_edid_read: EDID read callback.
-+ *
-+ * @dw_edid_write: EDID write callback.
-+ *
-+ * @dw_edid_4blocks_le: EDID byte ordering callback.
-+ *
-+ * @dw_edid_arg: Argument to be used with the EDID callbacks.
-+ *
-+ * @dw_reset_all: Reset all callback.
-+ *
-+ * @dw_reset_arg: Argument to be used with Reset callbacks.
++/* VIC=9 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
 + */
-+struct dw_hdmi_rx_pdata {
-+	/* Phy configuration */
-+	struct dw_hdmi_phy_config *phy;
-+	/* Controller configuration */
-+	unsigned int iref_clk; /* MHz */
++#define V4L2_DV_BT_CEA_720X240P60_VTOT263_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 240, 0, 0, \
++		13500000, 19, 62, 57, 5, 3, 15, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 9) \
++}
 +
-+	/* 5V sense interface */
-+	bool (*dw_5v_status)(void __iomem *regs, int input);
-+	bool (*dw_5v_detected)(void __iomem *regs, int input);
-+	void (*dw_5v_disable)(void __iomem *regs, int input);
-+	void (*dw_5v_enable)(void __iomem *regs, int input);
-+	void __iomem *dw_5v_arg;
++/* VIC=10 */
++#define V4L2_DV_BT_CEA_2880X480I60_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 480, 1, 0, \
++		54000000, 76, 248, 228, 4, 3, 15, 4, 3, 16, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 10) \
++}
 +
-+	/* Zcal interface */
-+	void (*dw_zcal_reset)(void __iomem *regs);
-+	bool (*dw_zcal_done)(void __iomem *regs);
-+	void __iomem *dw_zcal_arg;
++/* VIC=11 */
++#define V4L2_DV_BT_CEA_2880X480I60_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 480, 1, 0, \
++		54000000, 76, 248, 228, 4, 3, 15, 4, 3, 16, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 11) \
++}
 +
-+	/* EDID */
-+	u32 (*dw_edid_read)(void __iomem *regs, int input, u32 offset);
-+	int (*dw_edid_write)(void __iomem *regs, int input, u32 *edid,
-+			     int size);
-+	u32 (*dw_edid_4blocks_le)(void __iomem *regs);
-+	void __iomem *dw_edid_arg;
++/* VIC=12 */
++#define V4L2_DV_BT_CEA_2880X240P60_VTOT262_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 240, 0, 0, \
++		54000000, 76, 248, 228, 4, 3, 15, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 12) \
++}
 +
-+	/* Reset functions */
-+	void (*dw_reset_all)(void __iomem *regs);
-+	void __iomem *dw_reset_arg;
-+};
++/* VIC=12 */
++#define V4L2_DV_BT_CEA_2880X240P60_VTOT263_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 240, 0, 0, \
++		54000000, 76, 248, 228, 5, 3, 15, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 12) \
++}
 +
-+#endif /* __DW_HDMI_RX_PDATA_H__ */
++/* VIC=13 */
++#define V4L2_DV_BT_CEA_2880X240P60_VTOT262_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 240, 0, 0, \
++		54000000, 76, 248, 228, 4, 3, 15, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 13) \
++}
++
++/* VIC=13 */
++#define V4L2_DV_BT_CEA_2880X240P60_VTOT263_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 240, 0, 0, \
++		54000000, 76, 248, 228, 5, 3, 15, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 13) \
++}
++
++/* VIC=14 */
++#define V4L2_DV_BT_CEA_1440X480P60_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 480, 0, 0, \
++		54000000, 32, 124, 120, 9, 6, 30, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 14) \
++}
++
++/* VIC=15 */
++#define V4L2_DV_BT_CEA_1440X480P60_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 480, 0, 0, \
++		54000000, 32, 124, 120, 9, 6, 30, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 15) \
++}
++
++/* VIC=18 */
++#define V4L2_DV_BT_CEA_720X576P50_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 576, 0, 0, \
++		27000000, 12, 64, 68, 5, 5, 39, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 18) \
++}
++
++/* VIC=22 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
++ */
++#define V4L2_DV_BT_CEA_720X576I50_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 576, 1, 0, \
++		13500000, 12, 63, 69, 2, 3, 19, 2, 3, 20, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 22) \
++}
++
++/* VIC=23 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
++ */
++#define V4L2_DV_BT_CEA_720X288P50_VTOT312_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
++		13500000, 12, 63, 69, 2, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 23) \
++}
++
++/* VIC=23 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
++ */
++#define V4L2_DV_BT_CEA_720X288P50_VTOT313_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
++		13500000, 12, 63, 69, 3, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 23) \
++}
++
++/* VIC=23 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
++ */
++#define V4L2_DV_BT_CEA_720X288P50_VTOT314_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
++		13500000, 12, 63, 69, 4, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 23) \
++}
++
++/* VIC=24 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
++ */
++#define V4L2_DV_BT_CEA_720X288P50_VTOT312_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
++		13500000, 12, 63, 69, 2, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 24) \
++}
++
++/* VIC=24 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
++ */
++#define V4L2_DV_BT_CEA_720X288P50_VTOT313_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
++		13500000, 12, 63, 69, 3, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 24) \
++}
++
++/* VIC=24 */
++/* Note: these are the nominal timings, for HDMI links this format is typically
++ * double-clocked to meet the minimum pixelclock requirements.
++ */
++#define V4L2_DV_BT_CEA_720X288P50_VTOT314_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
++		13500000, 12, 63, 69, 4, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 24) \
++}
++
++/* VIC=25 */
++#define V4L2_DV_BT_CEA_2880X576I50_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 576, 1, 0, \
++		54000000, 48, 252, 276, 2, 3, 19, 2, 3, 20, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 25) \
++}
++
++/* VIC=26 */
++#define V4L2_DV_BT_CEA_2880X576I50_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 576, 1, 0, \
++		54000000, 48, 252, 276, 2, 3, 19, 2, 3, 20, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 26) \
++}
++
++/* VIC=27 */
++#define V4L2_DV_BT_CEA_2880X288P50_VTOT312_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
++		54000000, 48, 252, 276, 2, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 27) \
++}
++
++/* VIC=27 */
++#define V4L2_DV_BT_CEA_2880X288P50_VTOT313_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
++		54000000, 48, 252, 276, 3, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 27) \
++}
++
++/* VIC=27 */
++#define V4L2_DV_BT_CEA_2880X288P50_VTOT314_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
++		54000000, 48, 252, 276, 4, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 27) \
++}
++
++/* VIC=28 */
++#define V4L2_DV_BT_CEA_2880X288P50_VTOT312_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
++		54000000, 48, 252, 276, 2, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 28) \
++}
++
++/* VIC=28 */
++#define V4L2_DV_BT_CEA_2880X288P50_VTOT313_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
++		54000000, 48, 252, 276, 3, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 28) \
++}
++
++/* VIC=28 */
++#define V4L2_DV_BT_CEA_2880X288P50_VTOT314_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
++		54000000, 48, 252, 276, 4, 3, 19, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 28) \
++}
++
++/* VIC=29 */
++#define V4L2_DV_BT_CEA_1440X576P50_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 576, 0, 0, \
++		54000000, 24, 128, 136, 5, 5, 39, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 29) \
++}
++
++/* VIC=30 */
++#define V4L2_DV_BT_CEA_1440X576P50_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 576, 0, 0, \
++		54000000, 24, 128, 136, 5, 5, 39, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 30) \
++}
++
++/* VIC=35 */
++#define V4L2_DV_BT_CEA_2880X480P60_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 480, 0, 0, \
++		108000000, 64, 248, 240, 9, 6, 30, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 35) \
++}
++
++/* VIC=36 */
++#define V4L2_DV_BT_CEA_2880X480P60_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 480, 0, 0, \
++		108000000, 64, 248, 240, 9, 6, 30, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 36) \
++}
++
++/* VIC=37 */
++#define V4L2_DV_BT_CEA_2880X576P50_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 576, 0, 0, \
++		108000000, 48, 256, 272, 5, 5, 39, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 37) \
++}
++
++/* VIC=38 */
++#define V4L2_DV_BT_CEA_2880X576P50_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2880, 576, 0, 0, \
++		108000000, 48, 256, 272, 5, 5, 39, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 38) \
++}
++
++/* VIC=39 */
++#define V4L2_DV_BT_CEA_1920X1080I50_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 1, V4L2_DV_HSYNC_POS_POL, \
++		72000000, 32, 168, 184, 23, 5, 57, 23, 5, 58, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 39) \
++}
++
++/* VIC=40 */
++#define V4L2_DV_BT_CEA_1920X1080I100_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 1, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		148500000, 528, 44, 148, 2, 5, 15, 2, 5, 16, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 40) \
++}
++
++/* VIC=41 */
++#define V4L2_DV_BT_CEA_1280X720P100_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		148500000, 440, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 41) \
++}
++
++/* VIC=42 */
++#define V4L2_DV_BT_CEA_720X576P100_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 576, 0, 0, \
++		54000000, 12, 64, 68, 5, 5, 39, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 42) \
++}
++
++/* VIC=43 */
++#define V4L2_DV_BT_CEA_720X576P100_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 576, 0, 0, \
++		54000000, 12, 64, 68, 5, 5, 39, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 43) \
++}
++
++/* VIC=44 */
++#define V4L2_DV_BT_CEA_1440X576I100_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 576, 1, 0, \
++		54000000, 24, 126, 138, 2, 3, 19, 2, 3, 20, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 44) \
++}
++
++/* VIC=45 */
++#define V4L2_DV_BT_CEA_1440X576I100_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 576, 1, 0, \
++		54000000, 24, 126, 138, 2, 3, 19, 2, 3, 20, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 45) \
++}
++
++/* VIC=46 */
++#define V4L2_DV_BT_CEA_1920X1080I120_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 1, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		148500000, 88, 44, 148, 2, 5, 15, 2, 5, 16, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 46) \
++}
++
++/* VIC=47 */
++#define V4L2_DV_BT_CEA_1280X720P120_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		148500000, 110, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 47) \
++}
++
++/* VIC=48 */
++#define V4L2_DV_BT_CEA_720X480P120_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 480, 0, 0, \
++		54000000, 16, 62, 60, 9, 6, 30, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 48) \
++}
++
++/* VIC=49 */
++#define V4L2_DV_BT_CEA_720X480P120_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 480, 0, 0, \
++		54000000, 16, 62, 60, 9, 6, 30, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 49) \
++}
++
++/* VIC=50 */
++#define V4L2_DV_BT_CEA_1440X480I120_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 480, 1, 0, \
++		54000000, 38, 124, 114, 4, 3, 15, 4, 3, 16, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 50) \
++}
++
++/* VIC=51 */
++#define V4L2_DV_BT_CEA_1440X480I120_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 480, 1, 0, \
++		54000000, 38, 124, 114, 4, 3, 15, 4, 3, 16, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 51) \
++}
++
++/* VIC=52 */
++#define V4L2_DV_BT_CEA_720X576P200_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 576, 0, 0, \
++		108000000, 12, 64, 68, 5, 5, 39, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 52) \
++}
++
++/* VIC=53 */
++#define V4L2_DV_BT_CEA_720X576P200_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 576, 0, 0, \
++		108000000, 12, 64, 68, 5, 5, 39, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 53) \
++}
++
++/* VIC=54 */
++#define V4L2_DV_BT_CEA_1440X576I200_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 576, 1, 0, \
++		108000000, 24, 126, 138, 2, 3, 19, 2, 3, 20, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 54) \
++}
++
++/* VIC=55 */
++#define V4L2_DV_BT_CEA_1440X576I200_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 576, 1, 0, \
++		108000000, 24, 126, 138, 2, 3, 19, 2, 3, 20, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 55) \
++}
++
++/* VIC=56 */
++#define V4L2_DV_BT_CEA_720X480P240_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 480, 0, 0, \
++		108000000, 16, 62, 60, 9, 6, 30, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 4, 3 }, 56) \
++}
++
++/* VIC=57 */
++#define V4L2_DV_BT_CEA_720X480P240_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(720, 480, 0, 0, \
++		108000000, 16, 62, 60, 9, 6, 30, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 57) \
++}
++
++/* VIC=58 */
++#define V4L2_DV_BT_CEA_1440X480I240_PA4_3 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 480, 1, 0, \
++		108000000, 38, 124, 114, 4, 3, 15, 4, 3, 16, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 58) \
++}
++
++/* VIC=59 */
++#define V4L2_DV_BT_CEA_1440X480I240_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1440, 480, 1, 0, \
++		108000000, 38, 124, 114, 4, 3, 15, 4, 3, 16, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 59) \
++}
++
++/* VIC=63 */
++#define V4L2_DV_BT_CEA_1920X1080P120_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		297000000, 88, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 63) \
++}
++
++/* VIC=64 */
++#define V4L2_DV_BT_CEA_1920X1080P100_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		297000000, 528, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 64) \
++}
++
++/* VIC=65 */
++#define V4L2_DV_BT_CEA_1280X720P24_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		59400000, 1760, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 65) \
++}
++
++/* VIC=66 */
++#define V4L2_DV_BT_CEA_1280X720P25_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		74250000, 2420, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 66) \
++}
++
++/* VIC=67 */
++#define V4L2_DV_BT_CEA_1280X720P30_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		74250000, 1760, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 67) \
++}
++
++/* VIC=68 */
++#define V4L2_DV_BT_CEA_1280X720P50_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		74250000, 440, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 68) \
++}
++
++/* VIC=69 */
++#define V4L2_DV_BT_CEA_1280X720P60_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		74250000, 110, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 69) \
++}
++
++/* VIC=70 */
++#define V4L2_DV_BT_CEA_1280X720P100_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		148500000, 440, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 70) \
++}
++
++/* VIC=71 */
++#define V4L2_DV_BT_CEA_1280X720P120_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		148500000, 110, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 71) \
++}
++
++/* VIC=72 */
++#define V4L2_DV_BT_CEA_1920X1080P24_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		74250000, 638, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 72) \
++}
++
++/* VIC=73 */
++#define V4L2_DV_BT_CEA_1920X1080P25_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		74250000, 528, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 73) \
++}
++
++/* VIC=74 */
++#define V4L2_DV_BT_CEA_1920X1080P30_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		74250000, 88, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 74) \
++}
++
++/* VIC=75 */
++#define V4L2_DV_BT_CEA_1920X1080P50_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		148500000, 528, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 75) \
++}
++
++/* VIC=76 */
++#define V4L2_DV_BT_CEA_1920X1080P60_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		148500000, 88, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 76) \
++}
++
++/* VIC=77 */
++#define V4L2_DV_BT_CEA_1920X1080P100_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		297000000, 528, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 77) \
++}
++
++/* VIC=78 */
++#define V4L2_DV_BT_CEA_1920X1080P120_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		297000000, 88, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 78) \
++}
++
++/* VIC=79 */
++#define V4L2_DV_BT_CEA_1680X720P24_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		59400000, 1360, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 79) \
++}
++
++/* VIC=80 */
++#define V4L2_DV_BT_CEA_1680X720P25_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		59400000, 1228, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 80) \
++}
++
++/* VIC=81 */
++#define V4L2_DV_BT_CEA_1680X720P30_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		59400000, 700, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 81) \
++}
++
++/* VIC=82 */
++#define V4L2_DV_BT_CEA_1680X720P50_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		82500000, 260, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 82) \
++}
++
++/* VIC=83 */
++#define V4L2_DV_BT_CEA_1680X720P60_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		99000000, 260, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 83) \
++}
++
++/* VIC=84 */
++#define V4L2_DV_BT_CEA_1680X720P100_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		165000000, 60, 40, 220, 5, 5, 95, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 84) \
++}
++
++/* VIC=85 */
++#define V4L2_DV_BT_CEA_1680X720P120_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		198000000, 60, 40, 220, 5, 5, 95, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 85) \
++}
++
++/* VIC=86 */
++#define V4L2_DV_BT_CEA_2560X1080P24_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		99000000, 998, 44, 148, 4, 5, 11, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 86) \
++}
++
++/* VIC=87 */
++#define V4L2_DV_BT_CEA_2560X1080P25_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		90000000, 448, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 87) \
++}
++
++/* VIC=88 */
++#define V4L2_DV_BT_CEA_2560X1080P30_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		118800000, 768, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 88) \
++}
++
++/* VIC=89 */
++#define V4L2_DV_BT_CEA_2560X1080P50_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		185625000, 548, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 89) \
++}
++
++/* VIC=90 */
++#define V4L2_DV_BT_CEA_2560X1080P60_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		198000000, 248, 44, 148, 4, 5, 11, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 90) \
++}
++
++/* VIC=91 */
++#define V4L2_DV_BT_CEA_2560X1080P100_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		371250000, 218, 44, 148, 4, 5, 161, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 91) \
++}
++
++/* VIC=92 */
++#define V4L2_DV_BT_CEA_2560X1080P120_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		495000000, 548, 44, 148, 4, 5, 161, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 92) \
++}
++
++/* VIC=103 */
++#define V4L2_DV_BT_CEA_3840X2160P24_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		297000000, 1276, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 103) \
++}
++
++/* VIC=104 */
++#define V4L2_DV_BT_CEA_3840X2160P25_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		297000000, 1056, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 104) \
++}
++
++/* VIC=105 */
++#define V4L2_DV_BT_CEA_3840X2160P30_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		297000000, 176, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 105) \
++}
++
++/* VIC=106 */
++#define V4L2_DV_BT_CEA_3840X2160P50_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		594000000, 1056, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 106) \
++}
++
++/* VIC=107 */
++#define V4L2_DV_BT_CEA_3840X2160P60_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		594000000, 176, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 107) \
++}
++
++/* VIC=108 */
++#define V4L2_DV_BT_CEA_1280X720P48_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		90000000, 960, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 108) \
++}
++
++/* VIC=109 */
++#define V4L2_DV_BT_CEA_1280X720P48_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		90000000, 960, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 109) \
++}
++
++/* VIC=110 */
++#define V4L2_DV_BT_CEA_1680X720P48_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		99000000, 810, 40, 220, 5, 5, 20, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 110) \
++}
++
++/* VIC=111 */
++#define V4L2_DV_BT_CEA_1920X1080P48_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		148500000, 638, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 111) \
++}
++
++/* VIC=112 */
++#define V4L2_DV_BT_CEA_1920X1080P48_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		148500000, 638, 44, 148, 4, 5, 36, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 112) \
++}
++
++/* VIC=114 */
++#define V4L2_DV_BT_CEA_3840X2160P48_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		594000000, 1276, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 114) \
++}
++
++/* VIC=115 */
++#define V4L2_DV_BT_CEA_4096X2160P48_PA256_135 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(4096, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		594000000, 1020, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 256, 135 }, 115) \
++}
++
++/* VIC=116 */
++#define V4L2_DV_BT_CEA_3840X2160P48_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		594000000, 1276, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 116) \
++}
++
++/* VIC=117 */
++#define V4L2_DV_BT_CEA_3840X2160P100_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 1056, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 117) \
++}
++
++/* VIC=118 */
++#define V4L2_DV_BT_CEA_3840X2160P120_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 176, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 118) \
++}
++
++/* VIC=119 */
++#define V4L2_DV_BT_CEA_3840X2160P100_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 1056, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 119) \
++}
++
++/* VIC=120 */
++#define V4L2_DV_BT_CEA_3840X2160P120_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 176, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 120) \
++}
++
++/* VIC=121 */
++#define V4L2_DV_BT_CEA_5120X2160P24_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		396000000, 1996, 88, 296, 8, 10, 22, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 121) \
++}
++
++/* VIC=122 */
++#define V4L2_DV_BT_CEA_5120X2160P25_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		396000000, 1696, 88, 296, 8, 10, 22, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 122) \
++}
++
++/* VIC=123 */
++#define V4L2_DV_BT_CEA_5120X2160P30_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		396000000, 664, 88, 296, 8, 10, 22, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 123) \
++}
++
++/* VIC=124 */
++#define V4L2_DV_BT_CEA_5120X2160P48_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		742500000, 746, 88, 296, 8, 10, 297, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 124) \
++}
++
++/* VIC=125 */
++#define V4L2_DV_BT_CEA_5120X2160P50_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		742500000, 1096, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 125) \
++}
++
++/* VIC=126 */
++#define V4L2_DV_BT_CEA_5120X2160P60_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		742500000, 164, 88, 128, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 126) \
++}
++
++/* VIC=127 */
++#define V4L2_DV_BT_CEA_5120X2160P100_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1485000000, 1096, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 127) \
++}
++
++/* VIC=193 */
++#define V4L2_DV_BT_CEA_5120X2160P120_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1485000000, 154, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 193) \
++}
++
++/* VIC=194 */
++#define V4L2_DV_BT_CEA_7680X4320P24_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 2552, 176, 592, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 194) \
++}
++
++/* VIC=195 */
++#define V4L2_DV_BT_CEA_7680X4320P25_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 2352, 176, 592, 16, 20, 44, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 195) \
++}
++
++/* VIC=196 */
++#define V4L2_DV_BT_CEA_7680X4320P30_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 552, 176, 592, 16, 20, 44, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 196) \
++}
++
++/* VIC=197 */
++#define V4L2_DV_BT_CEA_7680X4320P48_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		2376000000ULL, 2552, 176, 592, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 197) \
++}
++
++/* VIC=198 */
++#define V4L2_DV_BT_CEA_7680X4320P50_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		2376000000ULL, 2352, 176, 592, 16, 20, 44, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 198) \
++}
++
++/* VIC=199 */
++#define V4L2_DV_BT_CEA_7680X4320P60_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		2376000000ULL, 552, 176, 592, 16, 20, 44, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 199) \
++}
++
++/* VIC=200 */
++#define V4L2_DV_BT_CEA_7680X4320P100_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		4752000000ULL, 2112, 176, 592, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 200) \
++}
++
++/* VIC=201 */
++#define V4L2_DV_BT_CEA_7680X4320P120_PA16_9 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		4752000000ULL, 352, 176, 592, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 16, 9 }, 201) \
++}
++
++/* VIC=202 */
++#define V4L2_DV_BT_CEA_7680X4320P24_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 2552, 176, 592, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 202) \
++}
++
++/* VIC=203 */
++#define V4L2_DV_BT_CEA_7680X4320P25_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 2352, 176, 592, 16, 20, 44, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 203) \
++}
++
++/* VIC=204 */
++#define V4L2_DV_BT_CEA_7680X4320P30_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 552, 176, 592, 16, 20, 44, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 204) \
++}
++
++/* VIC=205 */
++#define V4L2_DV_BT_CEA_7680X4320P48_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		2376000000ULL, 2552, 176, 592, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 205) \
++}
++
++/* VIC=206 */
++#define V4L2_DV_BT_CEA_7680X4320P50_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		2376000000ULL, 2352, 176, 592, 16, 20, 44, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 206) \
++}
++
++/* VIC=207 */
++#define V4L2_DV_BT_CEA_7680X4320P60_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		2376000000ULL, 552, 176, 592, 16, 20, 44, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 207) \
++}
++
++/* VIC=208 */
++#define V4L2_DV_BT_CEA_7680X4320P100_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		4752000000ULL, 2112, 176, 592, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 208) \
++}
++
++/* VIC=209 */
++#define V4L2_DV_BT_CEA_7680X4320P120_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		4752000000ULL, 352, 176, 592, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 209) \
++}
++
++/* VIC=210 */
++#define V4L2_DV_BT_CEA_10240X4320P24_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1485000000, 1492, 176, 592, 16, 20, 594, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 210) \
++}
++
++/* VIC=211 */
++#define V4L2_DV_BT_CEA_10240X4320P25_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1485000000, 2492, 176, 592, 16, 20, 44, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 211) \
++}
++
++/* VIC=212 */
++#define V4L2_DV_BT_CEA_10240X4320P30_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1485000000, 288, 176, 296, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 212) \
++}
++
++/* VIC=213 */
++#define V4L2_DV_BT_CEA_10240X4320P48_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		2970000000ULL, 1492, 176, 592, 16, 20, 594, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 213) \
++}
++
++/* VIC=214 */
++#define V4L2_DV_BT_CEA_10240X4320P50_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		2970000000ULL, 2492, 176, 592, 16, 20, 44, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 214) \
++}
++
++/* VIC=215 */
++#define V4L2_DV_BT_CEA_10240X4320P60_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		2970000000ULL, 288, 176, 296, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 215) \
++}
++
++/* VIC=216 */
++#define V4L2_DV_BT_CEA_10240X4320P100_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		5940000000ULL, 2192, 176, 592, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 216) \
++}
++
++/* VIC=217 */
++#define V4L2_DV_BT_CEA_10240X4320P120_PA64_27 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		5940000000ULL, 288, 176, 296, 16, 20, 144, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 64, 27 }, 217) \
++}
++
++/* VIC=218 */
++#define V4L2_DV_BT_CEA_4096X2160P100_PA256_135 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(4096, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 800, 88, 296, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
++		V4L2_DV_FL_HAS_CEA861_VIC, { 256, 135 }, 218) \
++}
++
++/* VIC=219 */
++#define V4L2_DV_BT_CEA_4096X2160P120_PA256_135 { \
++	.type = V4L2_DV_BT_656_1120, \
++	V4L2_INIT_BT_TIMINGS(4096, 2160, 0, \
++		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
++		1188000000, 88, 88, 128, 8, 10, 72, 0, 0, 0, \
++		V4L2_DV_BT_STD_CEA861, \
++		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
++		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
++		{ 256, 135 }, 219) \
++}
+ 
+ /* VESA Discrete Monitor Timings as per version 1.0, revision 12 */
+ 
 -- 
 2.7.4
 
