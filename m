@@ -2,198 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3198C398C44
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 16:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82274398D10
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 16:34:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231959AbhFBOQz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 10:16:55 -0400
-Received: from comms.puri.sm ([159.203.221.185]:52480 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231669AbhFBOO7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Jun 2021 10:14:59 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 396EBDFAEF;
-        Wed,  2 Jun 2021 07:12:44 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ff76JJN6Hjvg; Wed,  2 Jun 2021 07:12:39 -0700 (PDT)
-Message-ID: <76437d47e5ac920baed3429d8839b6175864d13d.camel@puri.sm>
-Subject: Re: [PATCH v2 2/5] dt-bindings: media: document SK Hynix Hi-846
- MIPI CSI-2 8M pixel sensor
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     mchehab@kernel.org, devicetree@vger.kernel.org, kernel@puri.sm,
-        krzysztof.kozlowski@canonical.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, paul.kocialkowski@bootlin.com,
-        robh@kernel.org, shawnx.tu@intel.com
-Date:   Wed, 02 Jun 2021 16:12:33 +0200
-In-Reply-To: <YLeQGjDdTX0iohZ0@pendragon.ideasonboard.com>
-References: <20210528081336.3858700-1-martin.kepplinger@puri.sm>
-         <20210528081336.3858700-3-martin.kepplinger@puri.sm>
-         <20210602135137.GW3@valkosipuli.retiisi.eu>
-         <YLeQGjDdTX0iohZ0@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        id S230382AbhFBOgM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 10:36:12 -0400
+Received: from mail-wm1-f52.google.com ([209.85.128.52]:37747 "EHLO
+        mail-wm1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231693AbhFBOgH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Jun 2021 10:36:07 -0400
+Received: by mail-wm1-f52.google.com with SMTP id t16-20020a05600c1990b02901a0d45ff03aso372258wmq.2
+        for <linux-media@vger.kernel.org>; Wed, 02 Jun 2021 07:34:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hexu7cKSeKzuwDGfSYjJ5Naq4syeodeMqWoX460WR6c=;
+        b=YnUg9R7FAfDth6b0+i7LnprXoGOHmxfpsGVrwM1uR4qc3ylGDcN2fMm7g5Cw2B/cIW
+         j30w+lYL/AREtK2OKb6Mpkh+UhMcDOqEW8PseOYarGU/zP/skxG0FKrFJ0rR1Zs6txh8
+         5+8n+muAZdpofmyn1MIYZF5LmLJvIhct3uXEcUaKJfZq0a6R+yt4uSJuh8vvcT+wLdbZ
+         GmfEoZH5U46rZrJkBqJWpH87XABFe/4GcwKakQj6Sjpv/7rIFKu+YxANUoRR6Jxmo3RT
+         kUj/s0mLMiLiZ+uLUu1nFREt38x9aoB2pic1i2duhXYWl2LDDriXoDDCyZGQ/7coEEoi
+         NO2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hexu7cKSeKzuwDGfSYjJ5Naq4syeodeMqWoX460WR6c=;
+        b=qzKwSyy6XvVLMyj8VUvZMulmL3Vg0vPlbx4Dl69dlE8HR7N1AlaRrJcaUrcMd6bYCG
+         qzf4gVXNh1u0A0hY9HiAKt7GOe14auYcPjxQ592n4d3hYL5W97sSso20p0sAfM04ptKa
+         yFSGtFL1HfeBs/UCzvgnDds9Mi2e3CGh0YEgunzx4ODw2fgXMt6FTyPIKu70zyorSk0F
+         ACkqX5gSojCUGBRt4hC7ktIVRBNWd+C44+GQ6glEVXsBi0BzR3D2uMp7NwLbQBkLtF5f
+         C+CtOhs1yrkZzRAkBLLFdXqwIpo6di9nsRoyRirVgV1g8d6B2Xy0GEU2FM/dxGJAxkNZ
+         jDnA==
+X-Gm-Message-State: AOAM531xfNxLL3UgH5Ghdy3CvD8Z5Upvl2bPxiVtSwZwKXlsd+gPEfba
+        pRcwoBUIMwaAJPGdKOWTxvmAqg==
+X-Google-Smtp-Source: ABdhPJwH8/eJTRs27ADnedTTW55aDfi99/T9FH9EumVjgB06SEnGQcD9JLwfnOw2xFcXpsN5fAwH9w==
+X-Received: by 2002:a05:600c:2cd2:: with SMTP id l18mr31968202wmc.142.1622644389928;
+        Wed, 02 Jun 2021 07:33:09 -0700 (PDT)
+Received: from dell.default ([91.110.221.214])
+        by smtp.gmail.com with ESMTPSA id o11sm132315wrq.93.2021.06.02.07.33.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jun 2021 07:33:09 -0700 (PDT)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org, Adam Jackson <ajax@redhat.com>,
+        Ajay Kumar <ajaykumar.rs@samsung.com>,
+        Akshu Agarwal <akshua@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Alistair Popple <apopple@nvidia.com>,
+        amd-gfx@lists.freedesktop.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Ben Widawsky <ben@bwidawsk.net>,
+        Chandan Uddaraju <chandanu@codeaurora.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
+        Fabien Dessenne <fabien.dessenne@st.com>,
+        freedreno@lists.freedesktop.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Huang Rui <ray.huang@amd.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Krishna Manikandan <mkrishn@codeaurora.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kuogee Hsieh <khsieh@codeaurora.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Rossi <issor.oruam@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        nouveau@lists.freedesktop.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Vincent Abriou <vincent.abriou@st.com>
+Subject: [RESEND 00/26] Rid W=1 warnings from GPU
+Date:   Wed,  2 Jun 2021 15:32:34 +0100
+Message-Id: <20210602143300.2330146-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Mittwoch, dem 02.06.2021 um 17:05 +0300 schrieb Laurent Pinchart:
-> On Wed, Jun 02, 2021 at 04:51:37PM +0300, Sakari Ailus wrote:
-> > Hi Martin,
-> > 
-> > On Fri, May 28, 2021 at 10:13:33AM +0200, Martin Kepplinger wrote:
-> > > Document the bindings used for the SK Hynix Hi-846 CMOS camera
-> > > driver.
-> > > 
-> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > 
-> > Could you read Documentation/driver-api/media/camera-sensor.rst,
-> > please?
-> > 
-> > I believe you'll need assigned-clock-rates device property as well
-> > as
-> 
-> I dn't think assigned-clock-rates should be part of the bindings,
-> it's a
-> mechanism that can be used in any DT device node.
-> 
-> > link-frequencies endpoint property.
-> > 
-> > > ---
-> > >  .../bindings/media/i2c/hynix,hi846.yaml       | 99
-> > > +++++++++++++++++++
-> > >  1 file changed, 99 insertions(+)
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > 
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > new file mode 100644
-> > > index 000000000000..2991108e23e5
-> > > --- /dev/null
-> > > +++
-> > > b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > @@ -0,0 +1,99 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/hynix,hi846.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: SK Hynix Hi-846 1/4" 8M Pixel MIPI CSI-2 sensor
-> > > +
-> > > +maintainers:
-> > > +  - Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > +
-> > > +description: |-
-> > > +  The Hi-846 is a raw image sensor with an MIPI CSI-2 image data
-> > > +  interface and CCI (I2C compatible) control bus. The output
-> > > format
-> > > +  is 10bit Bayer.
-> > 
-> > Virtually all Bayer sensors can do 8 bpp, too. I'd drop the
-> > sentence
-> 
-> Not this one according to its datasheet (we can't rule out that this
-> would be possible an undocumented of course).
+Some off these patches have been knocking around for a while.
 
-actually there is one register that mentions raw8 output but I never
-got that to work. I don't have to mention 10bit in this description.
-thanks.
+Who will hoover them up please?
 
-> 
-> > mentoning 10 bits.
-> > 
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: hynix,hi846
-> > > +
-> > > +  reg:
-> > > +    description: I2C device address.
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    description: Reference to the mclk clock.
-> > > +    maxItems: 1
-> > > +
-> > > +  clock-names:
-> > > +    const: mclk
-> > > +
-> > > +  rst-gpios:
-> > > +    description: Reference to the GPIO connected to the reset
-> > > pin. Active low.
-> > > +    maxItems: 1
-> > > +
-> > > +  vdd-supply:
-> > > +    description: Definition of the regulator used as 1.8V
-> > > digital power supply.
-> > > +
-> > > +  port:
-> > > +    $ref: /schemas/graph.yaml#/properties/port
-> > > +    additionalProperties: false
-> > > +
-> > > +    properties:
-> > > +      endpoint:
-> > > +        $ref: /schemas/media/video-interfaces.yaml#
-> > > +        unevaluatedProperties: false
-> > > +
-> > > +        properties:
-> > > +          data-lanes:
-> > > +            oneOf:
-> > > +              - items:
-> > > +                  - const: 1
-> > > +                  - const: 2
-> > > +                  - const: 3
-> > > +                  - const: 4
-> > > +              - items:
-> > > +                  - const: 1
-> > > +                  - const: 2
-> > > +
-> > > +        required:
-> > > +          - data-lanes
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - clock-names
-> > > +  - rst-gpios
-> > > +  - vdd-supply
-> > > +  - port
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +
-> > > +    i2c {
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +
-> > > +        hi846: camera@20 {
-> > > +            compatible = "hynix,hi846";
-> > > +            reg = <0x20>;
-> > > +            clocks = <&clk>;
-> > > +            clock-names = "mclk";
-> > > +            vdd-supply = <&reg_camera_pwr_en>; /* 1.8v */
-> > > +            rst-gpios = <&gpio1 25 GPIO_ACTIVE_LOW>;
-> > > +
-> > > +            port {
-> > > +                camera_out: endpoint {
-> > > +                    remote-endpoint = <&csi1_ep1>;
-> > > +                    data-lanes = <1 2>;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +
-> > > +...
-> 
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
+Lee Jones (26):
+  drm/mediatek/mtk_disp_color: Strip incorrect doc and demote header
+  drm/mediatek/mtk_disp_gamma: Strip and demote non-conformant
+    kernel-doc header
+  drm/mediatek/mtk_disp_ovl: Strip and demote non-conformant header
+  drm/mediatek/mtk_disp_rdma: Strip and demote non-conformant kernel-doc
+    header
+  drm/sti/sti_hdmi_tx3g4c28phy: Provide function names for kernel-doc
+    headers
+  drm/sti/sti_hda: Provide missing function names
+  drm/sti/sti_tvout: Provide a bunch of missing function names
+  drm/sti/sti_hqvdp: Fix incorrectly named function 'sti_hqvdp_vtg_cb()'
+  drm/msm/disp/dpu1/dpu_encoder_phys_cmd: Remove unused variable
+    'cmd_enc'
+  drm/msm/disp/dpu1/dpu_hw_interrupts: Demote a bunch of kernel-doc
+    abuses
+  drm/msm/disp/dpu1/dpu_plane: Fix a couple of naming issues
+  drm/msm/msm_gem: Demote kernel-doc abuses
+  drm/msm/dp/dp_catalog: Correctly document param 'dp_catalog'
+  drm/msm/dp/dp_link: Fix some potential doc-rot
+  drm/nouveau/nvkm/subdev/mc/tu102: Make functions called by reference
+    static
+  drm/amd/display/dc/dce/dce_transform: Remove superfluous
+    re-initialisation of DCFE_MEM_LIGHT_SLEEP_CNTL,
+  drm/xlnx/zynqmp_disp: Fix incorrectly named enum
+    'zynqmp_disp_layer_id'
+  drm/xlnx/zynqmp_dp: Fix incorrectly name function 'zynqmp_dp_train()'
+  drm/ttm/ttm_tt: Demote non-conformant kernel-doc header
+  drm/panel/panel-raspberrypi-touchscreen: Demote kernel-doc abuse
+  drm/panel/panel-sitronix-st7701: Demote kernel-doc abuse
+  drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc
+    format
+  drm/exynos/exynos7_drm_decon: Fix incorrect naming of
+    'decon_shadow_protect_win()'
+  drm/exynos/exynos_drm_ipp: Fix documentation for
+    'exynos_drm_ipp_get_{caps,res}_ioctl()'
+  drm/vboxvideo/hgsmi_base: Place function names into headers
+  drm/vboxvideo/modesetting: Provide function names for prototype
+    headers
+
+ .../drm/amd/display/dc/dce/dce_transform.h    |  3 +-
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c    |  2 +-
+ drivers/gpu/drm/exynos/exynos_drm_ipp.c       |  4 +--
+ drivers/gpu/drm/mediatek/mtk_disp_color.c     |  3 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c     |  4 +--
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  3 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  4 +--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  4 ---
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 32 +++++++++----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  4 +--
+ drivers/gpu/drm/msm/dp/dp_catalog.c           |  2 +-
+ drivers/gpu/drm/msm/dp/dp_link.c              |  6 ++--
+ drivers/gpu/drm/msm/msm_gem.c                 |  4 +--
+ .../gpu/drm/nouveau/nvkm/subdev/mc/tu102.c    |  6 ++--
+ .../drm/panel/panel-raspberrypi-touchscreen.c |  2 +-
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c |  2 +-
+ drivers/gpu/drm/sti/sti_hda.c                 |  6 ++--
+ drivers/gpu/drm/sti/sti_hdmi_tx3g4c28phy.c    |  4 +--
+ drivers/gpu/drm/sti/sti_hqvdp.c               |  2 +-
+ drivers/gpu/drm/sti/sti_tvout.c               | 18 +++++------
+ drivers/gpu/drm/ttm/ttm_tt.c                  |  2 +-
+ drivers/gpu/drm/vboxvideo/hgsmi_base.c        | 19 +++++++----
+ drivers/gpu/drm/vboxvideo/modesetting.c       | 20 +++++++-----
+ drivers/gpu/drm/vgem/vgem_drv.c               |  2 +-
+ drivers/gpu/drm/xlnx/zynqmp_disp.c            |  2 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              |  2 +-
+ 26 files changed, 80 insertions(+), 82 deletions(-)
+
+Cc: Adam Jackson <ajax@redhat.com>
+Cc: Ajay Kumar <ajaykumar.rs@samsung.com>
+Cc: Akshu Agarwal <akshua@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Ben Widawsky <ben@bwidawsk.net>
+Cc: Chandan Uddaraju <chandanu@codeaurora.org>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Eric Anholt <eric@anholt.net>
+Cc: Fabien Dessenne <fabien.dessenne@st.com>
+Cc: freedreno@lists.freedesktop.org
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc: Kuogee Hsieh <khsieh@codeaurora.org>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Mauro Rossi <issor.oruam@gmail.com>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: nouveau@lists.freedesktop.org
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Stephen Boyd <swboyd@chromium.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Vincent Abriou <vincent.abriou@st.com>
+-- 
+2.31.1
 
