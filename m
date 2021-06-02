@@ -2,1989 +2,567 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44DB339926E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 20:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03BCF399270
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 20:20:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229894AbhFBSVX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 14:21:23 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:50581 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229854AbhFBSVU (ORCPT
+        id S229828AbhFBSV5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 14:21:57 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:50224 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229541AbhFBSV4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Jun 2021 14:21:20 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id oVSflGmVlEXL0oVSilzDKt; Wed, 02 Jun 2021 20:19:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622657969; bh=l9b7WBvpzUo8rjhqV0qjGfprZpE+KB7RuJOlX1MvxtM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=tPxakrqlC04761ERy/Yn2ziMlO6CAPOuVJbVI8Yv6iBcrIulzvfWQEOWlNgk06x0u
-         7wWPm2H6izZ2/EjocFzy8bDDPlE/sDgUyLx8mHZz6c9Gk9EDhH10iW+kbUV/EEW4Qm
-         lPKgXlKtELjOgAN4x9J+V+IoY5sld8o2hE4duGdfDpS6Tqmt0udc9HvYZv2IPM4F4I
-         7VLvGSndA1k58jDnq+si7k3su/AO9P51RxhTX1Q0VvCaFaO/Zn0clJQxRvFb9xuYV7
-         2PJmihDXKSnZ0CR7OphWQjuDOcl8TwGRC+pTSr27a2Ju4RLFaqSdxDr0UHwkgpPJAS
-         meiP1rTa01ZxA==
-Subject: Re: [PATCH 7/9] media: v4l2-dv-timings: Add more CEA/CTA-861 video
- format timings
-To:     Nelson Costa <Nelson.Costa@synopsys.com>,
+        Wed, 2 Jun 2021 14:21:56 -0400
+Received: from mailhost.synopsys.com (us03-mailhost2.synopsys.com [10.4.17.18])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 91864C0092;
+        Wed,  2 Jun 2021 18:20:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1622658013; bh=Re6ftEW9p+RPCkTq6mevlBtS744HdtCwrVGMeUS0GNs=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=MTRKGb44Yjw1yaJRpzYAMGwVeR3uwgT/2tTDZ9Lg2rvmVByW3mu3Ojj5aA73AKlo8
+         UVSCzGt7OgR2ZNOoiaOgCNZMuWaC1sb83oguGLKm0Keg8Qs091EySksE6/zbbxKx0I
+         j2GAl7eEb6LDe0X09maudkmbNnQan088LH6gTLQtJxei2v3BUgnN9rGKp3fJY1rYRo
+         sCx1MqOj45ydbv+BWY6cLHS2cX9Sqbjc8TvZqsE7Od58IVPmuj6jxUgkTkpeQSehkl
+         9buYTleanRVdt8EJMPeStq/fCvmDWgGVurIxV2xDgyWPKAnc9KQCugwR6NahQzkgLe
+         sGm3sWWzFHg8Q==
+Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com [10.4.161.139])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 05841A0062;
+        Wed,  2 Jun 2021 18:20:11 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2102.outbound.protection.outlook.com [104.47.58.102])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
+        by o365relay-in.synopsys.com (Postfix) with ESMTPS id D0A3A8026B;
+        Wed,  2 Jun 2021 18:20:10 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=nelsonc@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="D5TakpSk";
+        dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BI2q8aTFk2H9DxFmf36MKQE9UWmFCwtTyfY+WF8Flw90KBcEaqdBq2IMG1lI6fbPTAqDuReLBVjnxesDZpBO7Eu/oLXrcWzCmTFlt2yHBWgNRr6sz0YF28RNVLPf0Apl0zStlgJILJdyvqD68DBcgMf8Hx2+qeP38tcq9OXIWVLw+5SAdFsqQvvWYK5f7d1O3gmmn1+qC9FvB+qIXDNP8qni1Z4fASXBYIy5RFkoRNaGu31I2l+fVnqgKp9ZvaNc8bIZr0FHGDBfbXDnQlq2jujdJbKorFDuUetXoav32pIAENdpGk1p0OvrUMma0Sy9RhWlpy9QfOQGbH6GNnuNIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Re6ftEW9p+RPCkTq6mevlBtS744HdtCwrVGMeUS0GNs=;
+ b=mvsOm9cE3Mu/tr21FG2xuSfFUQSH2KNpTV2kLzs0vDCKr7O3sedj1w8METVkz8qRBIJUobRqew44SmaDWIOET9zBFPIqppZ5Xkubfedna8ki4MyO07PMDPhKrPx+Wj0/r67z6OCyqWH8fSQelfvbXyk2w4MXJShf9kZKOhcMrA4bvj8mhWFslb4ri6QI5Ap/pHpZ7a3AEABeOnY98N1DlwUY760lVZt+5x8tJJ9IvxeAD+oAI8YfF12qwshqX92tDc4BUK6fswknUgwEg0oaqW84fzQjHFJcCC3u2NfFpifN9tqlT2a9ILiKZeYAVY/mmWBVpgaPL5TTF79a5A02vA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Re6ftEW9p+RPCkTq6mevlBtS744HdtCwrVGMeUS0GNs=;
+ b=D5TakpSkG/qjIjcsYGXCsuXUZoxOhTNoX7rYR2EAGfyig3VgwnsZesnEHsQWTkhFOIT0v8Y/MQ/jXhWjm4UTPBKhreyHxPlxtg3tYkfmhUKl8/fqQW6nbthugOmG4kz21rWy8M/Nss6I7PqW8Bz4t9yqr8ikANEBw5dLYdx5uDM=
+Received: from MW3PR12MB4459.namprd12.prod.outlook.com (2603:10b6:303:56::22)
+ by MWHPR12MB1584.namprd12.prod.outlook.com (2603:10b6:301:a::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Wed, 2 Jun
+ 2021 18:20:08 +0000
+Received: from MW3PR12MB4459.namprd12.prod.outlook.com
+ ([fe80::f806:3409:f651:a085]) by MW3PR12MB4459.namprd12.prod.outlook.com
+ ([fe80::f806:3409:f651:a085%3]) with mapi id 15.20.4173.030; Wed, 2 Jun 2021
+ 18:20:08 +0000
+X-SNPS-Relay: synopsys.com
+From:   Nelson Costa <Nelson.Costa@synopsys.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kishon Vijay Abraham I <kishon@ti.com>,
         Vinod Koul <vkoul@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Jose Abreu <Jose.Abreu@synopsys.com>
+Subject: RE: [PATCH 9/9] media: dwc: dw-hdmi-rx: Add support for CEC
+Thread-Topic: [PATCH 9/9] media: dwc: dw-hdmi-rx: Add support for CEC
+Thread-Index: AQHXV6HhlhxLCxzJgUa4q1NnFmK8yKsAqySAgABRkEA=
+Date:   Wed, 2 Jun 2021 18:20:08 +0000
+Message-ID: <MW3PR12MB4459CED2A8E155673DCB6019C13D9@MW3PR12MB4459.namprd12.prod.outlook.com>
 References: <cover.1622631488.git.nelson.costa@synopsys.com>
- <6a0dcbd4f6dae00c664e5ef80cde3f1eb530c382.1622631488.git.nelson.costa@synopsys.com>
- <d4b681b1-7bac-7b6f-fd44-5beb68d3f820@xs4all.nl>
- <MW3PR12MB4459A066F9B85A478CA92977C13D9@MW3PR12MB4459.namprd12.prod.outlook.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <c4122867-9b06-2a1f-a1a0-9176f6ae7b52@xs4all.nl>
-Date:   Wed, 2 Jun 2021 20:19:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <MW3PR12MB4459A066F9B85A478CA92977C13D9@MW3PR12MB4459.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
+ <86557797e979ce29ed97dd1ed0db8499a6ccbc34.1622631488.git.nelson.costa@synopsys.com>
+ <746222a8-4b3f-2655-c5de-15d25e8b8852@xs4all.nl>
+In-Reply-To: <746222a8-4b3f-2655-c5de-15d25e8b8852@xs4all.nl>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfHAu4e7w7YaCncFfLfeD9ygLMMQWynezMwZxcJsK/SxMPHeMIlKhVbAtr9y3j0wQJpv5aR5YdOzwS3esS+en9nJf1qrhCU0bJWQvQ4bNQ4wwUaeDWPoy
- sIDPKUGY5giItbFTY14f0x2EsP2OaUKTrYU9Myvs9KtKhs6jSBqtYlf5lqIkbgmhyh2m25B6cEA0xuQgrcU8vDho8detK+hA2pVDprbDHV2pktUWiyJpVSXO
- WkrWe5U9xC/FlHgqIaJChiBPtUGy+oWGU3G9DcX9sOItnz1PDpKlex2DIg8toTYE4VbIcu/E/HWYgntGbHgnnSdLoOYKpBMA2ROg9O2OOjUnPtjN8iExcCgI
- 1QioETmk4f8H3xObbD8s7LV3kWEzFdP72xbdUdzZB3nT7ECN8P/Ednzqyw+RoJWFHe4PIpV06T8HsneCOb3zmDG08RZaL6gA8UcWTFIkH4LjB/gSdUC5WK+3
- MjUOOmbh+G3tDRqHb6HMaJInAsNKPqurKMGyuSSuSTaSRbUybGZZvx0+HiU=
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
+ =?utf-8?B?bk5jYm1Wc2MyOXVZMXhoY0hCa1lYUmhYSEp2WVcxcGJtZGNNRGxrT0RRNVlq?=
+ =?utf-8?B?WXRNekprTXkwMFlUUXdMVGcxWldVdE5tSTROR0poTWpsbE16VmlYRzF6WjNO?=
+ =?utf-8?B?Y2JYTm5MVEkxTUdaa09EWTJMV016WTJZdE1URmxZaTA1Tm1aa0xXSTBaRFZp?=
+ =?utf-8?B?Wkdaa09UUTRNRnhoYldVdGRHVnpkRnd5TlRCbVpEZzJOeTFqTTJObUxURXha?=
+ =?utf-8?B?V0l0T1RabVpDMWlOR1ExWW1SbVpEazBPREJpYjJSNUxuUjRkQ0lnYzNvOUlq?=
+ =?utf-8?B?RTRNamN6SWlCMFBTSXhNekkyTnpFek1UWXdOVGt5TkRZNE5qa2lJR2c5SWt0?=
+ =?utf-8?B?bFNFeHhTR0ZJZEdGV04wTjJUSEpFVERadldYWXZhVEoyY3owaUlHbGtQU0lp?=
+ =?utf-8?B?SUdKc1BTSXdJaUJpYnowaU1TSWdZMms5SW1OQlFVRkJSVkpJVlRGU1UxSlZS?=
+ =?utf-8?B?azVEWjFWQlFVaFpTVUZCUVZaVldtcHdNakZtV0VGVWRXVnFRekJEV2psRlIw?=
+ =?utf-8?B?ODFOazFNVVVwdU1GRlpUa0ZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRklRVUZCUVVGSFEwRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGRlFVRlJRVUpCUVVGQk5XaENaREpCUVVGQlFVRkJRVUZCUVVGQlFVRkJT?=
+ =?utf-8?B?alJCUVVGQ2JVRkhhMEZpWjBKb1FVYzBRVmwzUW14QlJqaEJZMEZDYzBGSFJV?=
+ =?utf-8?B?RmlaMEoxUVVkclFXSm5RbTVCUmpoQlpIZENhRUZJVVVGYVVVSjVRVWN3UVZs?=
+ =?utf-8?B?UlFubEJSM05CUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVWQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlowRkJRVUZCUVc1blFVRkJSMWxCWW5kQ01VRkhORUZhUVVKNVFVaHJRVmgz?=
+ =?utf-8?B?UW5kQlIwVkJZMmRDTUVGSE5FRmFVVUo1UVVoTlFWaDNRbTVCUjFsQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRlJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRMEZCUVVGQlFVTmxRVUZCUVZwblFuWkJTRlZCWW1kQ2Ew?=
+ =?utf-8?B?RklTVUZsVVVKbVFVaEJRVmxSUW5sQlNGRkJZbWRDYkVGSVNVRmpkMEptUVVo?=
+ =?utf-8?B?TlFWbFJRblJCU0UxQlpGRkNkVUZIWTBGWWQwSnFRVWM0UVdKblFtMUJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZDUVVGQlFVRkJRVUZCUVVsQlFVRkJRVUZLTkVGQlFVSnRRVWM0?=
+ =?utf-8?B?UVdSUlFuVkJSMUZCWTJkQ05VRkdPRUZqUVVKb1FVaEpRV1JCUW5WQlIxVkJZ?=
+ =?utf-8?B?MmRDZWtGR09FRmpkMEowUVVkclFWbDNRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlJVRkJRVUZCUVVGQlFVRm5RVUZCUVVGQmJt?=
+ =?utf-8?B?ZEJRVUZIV1VGaWQwSXhRVWMwUVZwQlFubEJTR3RCV0hkQ2QwRkhSVUZqWjBJ?=
+ =?utf-8?B?d1FVYzBRVnBSUW5sQlNFMUJXSGRDZWtGSVVVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVkZCUVVGQlFVRkJRVUZE?=
+ =?utf-8?B?UVVGQlFVRkJRMlZCUVVGQldtZENka0ZJVlVGaVowSnJRVWhKUVdWUlFtWkJT?=
+ =?utf-8?B?RUZCV1ZGQ2VVRklVVUZpWjBKc1FVaEpRV04zUW1aQlNGRkJZM2RDZEVGSFRV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVKQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlNVRkJRVUZCUVVvMFFVRkJRbTFCUnpoQlpGRkNkVUZIVVVG?=
+ =?utf-8?B?alowSTFRVVk0UVdOQlFtaEJTRWxCWkVGQ2RVRkhWVUZqWjBKNlFVWTRRV1JS?=
+ =?utf-8?B?UW5SQlIwMUJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkZRVUZCUVVGQlFVRkJRV2RCUVVGQlFVRnVaMEZCUVVkalFXUkJR?=
+ =?utf-8?B?bnBCUmpoQlkwRkNlVUZIT0VGYVFVSXhRVWROUVdSQlFtWkJTRkZCWTJkQ2FF?=
+ =?utf-8?B?RkhhMEZpWjBKd1FVYzBRVnAzUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCVVVGQlFVRkJRVUZCUVVOQlFVRkJRVUZEWlVG?=
+ =?utf-8?B?QlFVRmpkMEpvUVVkM1FWcFJRbnBCUmpoQldWRkNha0ZIVFVGaWQwSXhRVWMw?=
+ =?utf-8?B?UVdSQlFtWkJTRUZCWWtGQ2FFRkhORUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFrRkJRVUZCUVVGQlFVRkpR?=
+ =?utf-8?B?VUZCUVVGQlNqUkJRVUZDZWtGSFJVRmlRVUpzUVVoTlFWaDNRbmhCU0ZWQllu?=
+ =?utf-8?B?ZENNRUZIVlVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVVZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCWjBGQlFVRkJRVzVuUVVGQlNFMUJZbWRDZDBGSVRVRllkMEp6?=
+ =?utf-8?B?UVVkclFWbDNRbXhCUnpSQlkzZENiRUZHT0VGa1FVSnNRVWhKUVdKUlFtWkJS?=
+ =?utf-8?B?RVZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGUlFVRkJRVUZCUVVGQlEwRkJRVUZCUVVObFFVRkJRV04zUW5WQlNF?=
+ =?utf-8?B?RkJZM2RDWmtGSGQwRmhVVUpxUVVkVlFXSm5RbnBCUjFWQldIZENNRUZIVlVG?=
+ =?utf-8?B?alowSjBRVVk0UVdOM1FqQkJTRlZCV2tGQ2JFRkhORUZrUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkNRVUZCUVVGQlFVRkJRVWxCUVVGQlFVRktORUZC?=
+ =?utf-8?B?UVVJeVFVZGpRVmgzUW5KQlIxVkJaVkZDTTBGSE9FRmpaMEpyUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUlVGQlFVRkJRVUZCUVVGblFV?=
+ =?utf-8?B?RkJRVUZCSWk4K1BDOXRaWFJoUGc9PQ==?=
+authentication-results: xs4all.nl; dkim=none (message not signed)
+ header.d=none;xs4all.nl; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [2.80.233.231]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9a94965c-b669-4194-279d-08d925f30d6d
+x-ms-traffictypediagnostic: MWHPR12MB1584:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR12MB1584D0FC036FA88876EBB127C13D9@MWHPR12MB1584.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:935;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: u5K2aNuIXCK/0i9/Ovs6eEXB5A/g/z7cwD458jUfkT7biTFDie56njeUiC6dfJ8bFjDuDbkKe162X3Gj7TWa9YpUwv0gIZQ/qQTvwuWfVggeG20fKElSR1DGf9QCztOxdvBvPR0082A8wHzmgMIxYJurvWayMiWQE7FhvNiMw9PY69OqX/tKD8SaQFiOZvZcwSWoKPLqKxB8lPsNoktRnaY4/O2IEcCqHEba9IsUj5PB0vuRs+Msk/ci88c2mbS0T8ZZjy0vxywI4cjKYcQ1WOteXCotg+Va/18J9rC2+dc3PyLsWspqCt8M/scls2a8z6oLRcQskZzHtYspklB34wOR7MU7m/z4dYRLS6rcCHQXjAOm5XDxEMLsopRQq1l1VMlHa8H4091K/omK78jZvqeLJ5g4NFW4KRULUkPb5vFLG4WIV4vLv/2QcEj7CS9g9WbUyevQ6OTtZpwlJ88BqEHbipgfpN6+kgSKhjOtWLZ6B7aLxPX2w1ED5De4AgMTykBnNooRnnaDhDhvMvte+KnGg0qJ5t+RnEiM7XasB6rk9MjLIFWP2eYqnvkIl3F9T9LI72oaN1sz/xP9WoHbbweUkOvgEpOQRhu7CL2YXcA=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4459.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(346002)(366004)(39840400004)(376002)(136003)(9686003)(7696005)(66556008)(8676002)(64756008)(478600001)(8936002)(30864003)(2906002)(53546011)(6506007)(52536014)(38100700002)(86362001)(110136005)(54906003)(55016002)(107886003)(122000001)(5660300002)(66946007)(4326008)(76116006)(83380400001)(316002)(26005)(71200400001)(66476007)(66446008)(186003)(33656002)(579004);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?utf-8?B?RjBhUTBUMUplUEo2SjRsSTlkZHM4SFZ6anIyZlgwNEcvWk5nUTNUSld6Mk1M?=
+ =?utf-8?B?M25WSDZxZXBLL1VwUDNGYkp4UzBQaDZ3K09kRm00bnhaRkx0SGhteExYOWk5?=
+ =?utf-8?B?ZVJ2cnQxMlJpVGV6bmFONGFqaTk4UFB1OWd2T00wTzRHWmJaWjNOdkpYOEtt?=
+ =?utf-8?B?NDMwK2liNXZncXBuSkxRQ3RxS3U0MXlFVmVvWm9HSnRiK3BkKzNoUENKV2ox?=
+ =?utf-8?B?cVlLRTZYN1RyQnRIVkt5REFUUTFLalN0emFORmZ4eVROc1BsVGp0NFlYTkNo?=
+ =?utf-8?B?SzNnYWFxbUFuZVFQc2RmQTFBK3VGdlNBcmhneUhSWUd1eTFjYlRHQXhObllq?=
+ =?utf-8?B?eFNQZTVpc1BqK2MwbThTY0FucGZoMWQ2NklqVFZLTE5jaVE4dC9TR1NtZDRp?=
+ =?utf-8?B?YUhYRGdicjNlQUJjaFczVk9lbTdockJrM2Mxd2NaRTA2L09GbDJ6dkhtanNa?=
+ =?utf-8?B?S1BCRUgvUnhzSVMvUVJIZjJ4RVZHbU9aNVczaWJhdUtVMHhFWjVTSGtYSWt1?=
+ =?utf-8?B?UDNYUjFjQ25JdzUvSy8wNmwxYXdRS3BHSEdIWWw1dTZIY2NBTnhIbElNUTdk?=
+ =?utf-8?B?UVFmZE5IaFp5aWxsTlNoOXUwQ3FyWFljaHdzT082OXJoTW5VRkZ2WXYrTUdQ?=
+ =?utf-8?B?V3JydUJlOVpmUWlZVURFWU03TXkxdE93bnFqS2VYVXRkb3FQN1lKUW9qU1NC?=
+ =?utf-8?B?YWpFQ0M3a0FzWkllU2oxYVY1OFFyQjMvMDBxZHllL1owaVhkVEdjdnVaZkJG?=
+ =?utf-8?B?Q1V4U3I0ZWJaTndINGNabkg5TWNibUMrSUFxZndITTBDK1FPUG41NXZsL2Uw?=
+ =?utf-8?B?WGU5elZiNTc3M1J3c3RYMURCSnhsVStyQlcvckwrL1RXOWNPeXNZRStJQVpK?=
+ =?utf-8?B?dlRGZzJjYnBQeUR1elhTTUgzQnRoZjZzVjNkY3pFT3h3bVJiZ3NvczlJbStB?=
+ =?utf-8?B?YWRpeDVLVEUxRUUzNENnek9pVXJlS3dFa3luRTBVSGlsQVc4RW1UaFZ0TXcr?=
+ =?utf-8?B?OGhlTGtKelE1UEgvQytwOHYzcHhvYXNxZnNKMWNBa05LYnB2cC9UWWhsbDNv?=
+ =?utf-8?B?WmU0UG5JMWVzVW5ETWh3VFJ4Vlo4L0o0ZVBYUXp5ZnBDZ2JjUjZoM0Zkc21I?=
+ =?utf-8?B?Y1k5aWZzbmluTmR4MmNFWk9Pc0FvT1hnTDhMd3ljREgySDZWRUt6WVVxR0Q5?=
+ =?utf-8?B?cElteVVBdWFwNnVlTUkzQ3VTZzMzUlhkdzU3YktpR2tSMWIwdytLWnRjakdX?=
+ =?utf-8?B?MUlwUjlBZ2pNOFlwK2k5ZllabiszREpZZ0lweHFYZU5vZXh6NWQ2RlkxMUJ6?=
+ =?utf-8?B?SEwwdWFpM0V5bnZOZEZvZFhjOGI2clFyVVIrWEZtaVExMk9zdzI5UXF3dTE0?=
+ =?utf-8?B?c0N3bkY3OUg5R2pYUmdWbUZvU2J6RElNWWRFaE5hQmU3NklRdlJUQkhMNE5C?=
+ =?utf-8?B?bWFnNFUrZU9JR2ttSmZJR3V0T3NWUXhyUkgxcjdvZGhnek12cXNNbTNVbWtS?=
+ =?utf-8?B?bDVnWWRPblo5elJPbEJjanhFdEtnOUFCaXhHNDcvTEg4K0FtUFpFcEFUdjFU?=
+ =?utf-8?B?NjVXUHVsVStyWUVnMWNXZVNSczJ0THk1MEdXcm1qMlNWMWFqTEQ3VG11VVRH?=
+ =?utf-8?B?dUlRV2VnVnRHUWxDN2gzY0ZleDJpaFBtM2xEUi9sTHRTbzBkaHJLZDNCNFRv?=
+ =?utf-8?B?b0l6MmV0ZEVIV3ZLbm1ONEdSZ3VSandBM0ltVHh2emhVVzNmQXlpVENmME9J?=
+ =?utf-8?Q?8DCw9SO81G4pXa8xbk=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4459.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a94965c-b669-4194-279d-08d925f30d6d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2021 18:20:08.0501
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Wp0nS4yM1ObnwQ5l1bzWXM0xutYtZ4rtDrzZ5mDni27S7Jsb3P6dxR0xSlwdb67PfBv4Ns+M08qiQnDiamrXnw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1584
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/06/2021 19:15, Nelson Costa wrote:
-> Hi Hans,
-> 
-> Thanks for your comments and feedback!
-> 
-> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Date: qua, jun 02, 2021 at 13:26:17
-> 
->> Hi Nelson,
->>
->> On 02/06/2021 13:24, Nelson Costa wrote:
->>> This extends the support for more video format timings based
->>> on SPECs CEA-861-F and CTA-861-G.
->>>
->>> NOTE: For the newer SPECs the CEA was unified to the CTA.
->>> The CTA-861-G then includes the CEA-861-F timings besides
->>> the new timings that are specified.
->>>
->>> CEA-861-F: Specifies the Video timings for VICs 1-107.
->>> CTA-861-G: Specifies the Video timings for VICs 1-107, 108-127, 193-219.
->>>
->>> With this patch, the array v4l2_dv_timings_presets has support for
->>> all video timings specified in CTA-861-G.
->>>
->>> Signed-off-by: Nelson Costa <nelson.costa@synopsys.com>
->>> ---
->>>  drivers/media/v4l2-core/v4l2-dv-timings.c |  139 +++
->>>  include/uapi/linux/v4l2-dv-timings.h      | 1595 ++++++++++++++++++++++++++++-
->>
->> I prefer to split this up in two patches, one for each header.
->>
-> 
-> I agree! It will be addressed in the next patch series.
-> 
->> The v4l2-dv-timings.h changes look good (my compliments for all the
->> work you put into that!).
->>
-> 
-> Thanks!
-> 
->> I am more concerned about adding all these timings to v4l2_dv_timings_presets.
->>
->> There are really two different things going on here: the v4l2_dv_timings_presets
->> array is used both by v4l2_enum_dv_timings_cap() to list supported commonly used
->> timings, or to match against timings parameters (v4l2_find_dv_timings_cap()), and
->> as a lookup table when receiving a specific VIC code (v4l2_find_dv_timings_cea861_vic()).
->>
->> All the new timings you added are really only relevant in the last case when you
->> have the vic code.
->>
->> I think it is better to create a second array v4l2_dv_timings_non_square_vics[]
->> (or a better name!) that contains these timings.
->>
-> 
-> I understood.
-> 
-> We can then create another array as you said. But when you say 
-> "non_square"
-> you mean that the vics have "Pixel Aspect Ratio != 1:1"?
-> 
-> Because the new vics added have both kind of vics with "Pixel Aspect 
-> Ratio != 1:1"
-> and also "Pixel Aspect Ratio == 1:1".
-
-There are? It's confusing since for 1:1 pixel aspect ratios I expect that the
-picture aspect ratio is set to { 0, 0 }, instead they are all filled in.
-
-I think it will be clearer if I see a v2 where the picture aspect ratio and
-the V4L2_DV_FL_HAS_PICTURE_ASPECT flag are only set for the non-square pixel
-timings. Also, for the timings with 1:1 pixel aspect ratio you don't need to
-add the PA... suffix. That suffix only makes sense for non-square pixel aspect
-ratios. It's confusing otherwise.
-
-> 
-> So, for the new vics should we create a second array with name 
-> v4l2_dv_timings_extended_vics[]?
-
-The new vics with non-square pixel aspect ratios, or with pixel repetition.
-
-> 
->> Then if v4l2_find_dv_timings_cea861_vic() can't find the vic in the presets table
->> it will look for it in the new table.
->>
-> 
-> I agree.
-> 
->> For the 'variable vertical total lines timings' there probably should be a new
->> arg added to the v4l2_find_dv_timings_cea861_vic() parameter list with the
->> detected number of lines, and v4l2_find_dv_timings_cea861_vic() can use that
->> to find the correct VTOT variant.
->>
-> 
-> Makes sense, because we can have different timings with the same vic but
-> with different VTOT.
-> 
->> Another issue I have is that I am unsure about the pixel repetition support in
->> current HDMI receiver drivers. I've never tested this, and so I am not sure
->> what will happen if you transmit such a format. Have you tested this yourself?
->>
-> 
-> I'll try to test that. But in our driver we use these vics info mainly to 
-> get
-> the Picture Aspect info, and so some other fields are not used. So the 
-> test might
-> not be useful for this kind of validation.
-
-Well, you still have to be able to capture the video, right? That's really
-the question: can you capture it and does it look as expected?
-
-> 
->> I wonder if support for such VICs should be optional, perhaps again through
->> an argument to v4l2_find_dv_timings_cea861_vic() so drivers can decide to
->> support such formats or not.
->>
-> 
-> You mean something like this below?
-> 
-> v4l2_find_dv_timings_cea861_vic(.., vic, bool check_extended, 
-> vtot_extended)
-> 
-> where:
->  - check_extended:
->     * if true means to check the vic in the second array?
->     * if false means to check the vic only in the presets array?
->  - vtot_extended: the value of VTOT variant
-
-Something along those lines, yes. I don't really like 'extended', perhaps
-bool presets_only? So inverting the meaning. 'vtot_extended' can just be vtot.
-
-> 
-> My concern here is the incompatibility that the change of this function 
-> would cause in other implementations.
-
-Why? It's only used in adv7604.c, and there you can set check_extended to
-false.
-
-> 
-> Once the idea would be to create a second array, should we think to
-> create a second function for that like 
-> v4l2_find_dv_timings_cea861_extended_vic()?
-> What do you think?
-
-Not really worth it to make a new function, it's easier to just update adv7604.
-
-Regards,
-
-	Hans
-
-> 
-> Thanks,
-> 
-> BR,
-> 
-> Nelson Costa
-> 
->> Regards,
->>
->> 	Hans
->>
->>>  2 files changed, 1733 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-dv-timings.c b/drivers/media/v4l2-core/v4l2-dv-timings.c
->>> index 230d65a..0766e0c 100644
->>> --- a/drivers/media/v4l2-core/v4l2-dv-timings.c
->>> +++ b/drivers/media/v4l2-core/v4l2-dv-timings.c
->>> @@ -133,6 +133,145 @@ const struct v4l2_dv_timings v4l2_dv_timings_presets[] = {
->>>  	V4L2_DV_BT_CEA_4096X2160P50,
->>>  	V4L2_DV_BT_DMT_4096X2160P59_94_RB,
->>>  	V4L2_DV_BT_CEA_4096X2160P60,
->>> +	V4L2_DV_BT_CEA_720X480P60_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X480I60_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X240P60_VTOT262_PA4_3,
->>> +	V4L2_DV_BT_CEA_720X240P60_VTOT263_PA4_3,
->>> +	V4L2_DV_BT_CEA_720X240P60_VTOT262_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X240P60_VTOT263_PA16_9,
->>> +	V4L2_DV_BT_CEA_2880X480I60_PA4_3,
->>> +	V4L2_DV_BT_CEA_2880X480I60_PA16_9,
->>> +	V4L2_DV_BT_CEA_2880X240P60_VTOT262_PA4_3,
->>> +	V4L2_DV_BT_CEA_2880X240P60_VTOT263_PA4_3,
->>> +	V4L2_DV_BT_CEA_2880X240P60_VTOT262_PA16_9,
->>> +	V4L2_DV_BT_CEA_2880X240P60_VTOT263_PA16_9,
->>> +	V4L2_DV_BT_CEA_1440X480P60_PA4_3,
->>> +	V4L2_DV_BT_CEA_1440X480P60_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X576P50_PA16_9,
->>> +	V4L2_DV_BT_CEA_1920X1080I50_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X576I50_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X288P50_VTOT312_PA4_3,
->>> +	V4L2_DV_BT_CEA_720X288P50_VTOT313_PA4_3,
->>> +	V4L2_DV_BT_CEA_720X288P50_VTOT314_PA4_3,
->>> +	V4L2_DV_BT_CEA_720X288P50_VTOT312_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X288P50_VTOT313_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X288P50_VTOT314_PA16_9,
->>> +	V4L2_DV_BT_CEA_2880X576I50_PA4_3,
->>> +	V4L2_DV_BT_CEA_2880X576I50_PA16_9,
->>> +	V4L2_DV_BT_CEA_2880X288P50_VTOT312_PA4_3,
->>> +	V4L2_DV_BT_CEA_2880X288P50_VTOT313_PA4_3,
->>> +	V4L2_DV_BT_CEA_2880X288P50_VTOT314_PA4_3,
->>> +	V4L2_DV_BT_CEA_2880X288P50_VTOT312_PA16_9,
->>> +	V4L2_DV_BT_CEA_2880X288P50_VTOT313_PA16_9,
->>> +	V4L2_DV_BT_CEA_2880X288P50_VTOT314_PA16_9,
->>> +	V4L2_DV_BT_CEA_1440X576P50_PA4_3,
->>> +	V4L2_DV_BT_CEA_1440X576P50_PA16_9,
->>> +	V4L2_DV_BT_CEA_2880X480P60_PA4_3,
->>> +	V4L2_DV_BT_CEA_2880X480P60_PA16_9,
->>> +	V4L2_DV_BT_CEA_2880X576P50_PA4_3,
->>> +	V4L2_DV_BT_CEA_2880X576P50_PA16_9,
->>> +	V4L2_DV_BT_CEA_1920X1080I50_PA16_9,
->>> +	V4L2_DV_BT_CEA_1920X1080I100_PA16_9,
->>> +	V4L2_DV_BT_CEA_1280X720P100_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X576P100_PA4_3,
->>> +	V4L2_DV_BT_CEA_720X576P100_PA16_9,
->>> +	V4L2_DV_BT_CEA_1440X576I100_PA4_3,
->>> +	V4L2_DV_BT_CEA_1440X576I100_PA16_9,
->>> +	V4L2_DV_BT_CEA_1920X1080I120_PA16_9,
->>> +	V4L2_DV_BT_CEA_1280X720P120_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X480P120_PA4_3,
->>> +	V4L2_DV_BT_CEA_720X480P120_PA16_9,
->>> +	V4L2_DV_BT_CEA_1440X480I120_PA4_3,
->>> +	V4L2_DV_BT_CEA_1440X480I120_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X576P200_PA4_3,
->>> +	V4L2_DV_BT_CEA_720X576P200_PA16_9,
->>> +	V4L2_DV_BT_CEA_1440X576I200_PA4_3,
->>> +	V4L2_DV_BT_CEA_1440X576I200_PA16_9,
->>> +	V4L2_DV_BT_CEA_720X480P240_PA4_3,
->>> +	V4L2_DV_BT_CEA_720X480P240_PA16_9,
->>> +	V4L2_DV_BT_CEA_1440X480I240_PA4_3,
->>> +	V4L2_DV_BT_CEA_1440X480I240_PA16_9,
->>> +	V4L2_DV_BT_CEA_1920X1080P120_PA16_9,
->>> +	V4L2_DV_BT_CEA_1920X1080P100_PA16_9,
->>> +	V4L2_DV_BT_CEA_1280X720P24_PA64_27,
->>> +	V4L2_DV_BT_CEA_1280X720P25_PA64_27,
->>> +	V4L2_DV_BT_CEA_1280X720P30_PA64_27,
->>> +	V4L2_DV_BT_CEA_1280X720P50_PA64_27,
->>> +	V4L2_DV_BT_CEA_1280X720P60_PA64_27,
->>> +	V4L2_DV_BT_CEA_1280X720P100_PA64_27,
->>> +	V4L2_DV_BT_CEA_1280X720P120_PA64_27,
->>> +	V4L2_DV_BT_CEA_1920X1080P24_PA64_27,
->>> +	V4L2_DV_BT_CEA_1920X1080P25_PA64_27,
->>> +	V4L2_DV_BT_CEA_1920X1080P30_PA64_27,
->>> +	V4L2_DV_BT_CEA_1920X1080P50_PA64_27,
->>> +	V4L2_DV_BT_CEA_1920X1080P60_PA64_27,
->>> +	V4L2_DV_BT_CEA_1920X1080P100_PA64_27,
->>> +	V4L2_DV_BT_CEA_1920X1080P120_PA64_27,
->>> +	V4L2_DV_BT_CEA_1680X720P24_PA64_27,
->>> +	V4L2_DV_BT_CEA_1680X720P25_PA64_27,
->>> +	V4L2_DV_BT_CEA_1680X720P30_PA64_27,
->>> +	V4L2_DV_BT_CEA_1680X720P50_PA64_27,
->>> +	V4L2_DV_BT_CEA_1680X720P60_PA64_27,
->>> +	V4L2_DV_BT_CEA_1680X720P100_PA64_27,
->>> +	V4L2_DV_BT_CEA_1680X720P120_PA64_27,
->>> +	V4L2_DV_BT_CEA_2560X1080P24_PA64_27,
->>> +	V4L2_DV_BT_CEA_2560X1080P25_PA64_27,
->>> +	V4L2_DV_BT_CEA_2560X1080P30_PA64_27,
->>> +	V4L2_DV_BT_CEA_2560X1080P50_PA64_27,
->>> +	V4L2_DV_BT_CEA_2560X1080P60_PA64_27,
->>> +	V4L2_DV_BT_CEA_2560X1080P100_PA64_27,
->>> +	V4L2_DV_BT_CEA_2560X1080P120_PA64_27,
->>> +	V4L2_DV_BT_CEA_3840X2160P24_PA64_27,
->>> +	V4L2_DV_BT_CEA_3840X2160P25_PA64_27,
->>> +	V4L2_DV_BT_CEA_3840X2160P30_PA64_27,
->>> +	V4L2_DV_BT_CEA_3840X2160P50_PA64_27,
->>> +	V4L2_DV_BT_CEA_3840X2160P60_PA64_27,
->>> +	V4L2_DV_BT_CEA_1280X720P48_PA16_9,
->>> +	V4L2_DV_BT_CEA_1280X720P48_PA64_27,
->>> +	V4L2_DV_BT_CEA_1680X720P48_PA64_27,
->>> +	V4L2_DV_BT_CEA_1920X1080P48_PA16_9,
->>> +	V4L2_DV_BT_CEA_1920X1080P48_PA64_27,
->>> +	V4L2_DV_BT_CEA_3840X2160P48_PA16_9,
->>> +	V4L2_DV_BT_CEA_4096X2160P48_PA256_135,
->>> +	V4L2_DV_BT_CEA_3840X2160P48_PA64_27,
->>> +	V4L2_DV_BT_CEA_3840X2160P100_PA16_9,
->>> +	V4L2_DV_BT_CEA_3840X2160P120_PA16_9,
->>> +	V4L2_DV_BT_CEA_3840X2160P100_PA64_27,
->>> +	V4L2_DV_BT_CEA_3840X2160P120_PA64_27,
->>> +	V4L2_DV_BT_CEA_5120X2160P24_PA64_27,
->>> +	V4L2_DV_BT_CEA_5120X2160P25_PA64_27,
->>> +	V4L2_DV_BT_CEA_5120X2160P30_PA64_27,
->>> +	V4L2_DV_BT_CEA_5120X2160P48_PA64_27,
->>> +	V4L2_DV_BT_CEA_5120X2160P50_PA64_27,
->>> +	V4L2_DV_BT_CEA_5120X2160P60_PA64_27,
->>> +	V4L2_DV_BT_CEA_5120X2160P100_PA64_27,
->>> +	V4L2_DV_BT_CEA_5120X2160P120_PA64_27,
->>> +	V4L2_DV_BT_CEA_7680X4320P24_PA16_9,
->>> +	V4L2_DV_BT_CEA_7680X4320P25_PA16_9,
->>> +	V4L2_DV_BT_CEA_7680X4320P30_PA16_9,
->>> +	V4L2_DV_BT_CEA_7680X4320P48_PA16_9,
->>> +	V4L2_DV_BT_CEA_7680X4320P50_PA16_9,
->>> +	V4L2_DV_BT_CEA_7680X4320P60_PA16_9,
->>> +	V4L2_DV_BT_CEA_7680X4320P100_PA16_9,
->>> +	V4L2_DV_BT_CEA_7680X4320P120_PA16_9,
->>> +	V4L2_DV_BT_CEA_7680X4320P24_PA64_27,
->>> +	V4L2_DV_BT_CEA_7680X4320P25_PA64_27,
->>> +	V4L2_DV_BT_CEA_7680X4320P30_PA64_27,
->>> +	V4L2_DV_BT_CEA_7680X4320P48_PA64_27,
->>> +	V4L2_DV_BT_CEA_7680X4320P50_PA64_27,
->>> +	V4L2_DV_BT_CEA_7680X4320P60_PA64_27,
->>> +	V4L2_DV_BT_CEA_7680X4320P100_PA64_27,
->>> +	V4L2_DV_BT_CEA_7680X4320P120_PA64_27,
->>> +	V4L2_DV_BT_CEA_10240X4320P24_PA64_27,
->>> +	V4L2_DV_BT_CEA_10240X4320P25_PA64_27,
->>> +	V4L2_DV_BT_CEA_10240X4320P30_PA64_27,
->>> +	V4L2_DV_BT_CEA_10240X4320P48_PA64_27,
->>> +	V4L2_DV_BT_CEA_10240X4320P50_PA64_27,
->>> +	V4L2_DV_BT_CEA_10240X4320P60_PA64_27,
->>> +	V4L2_DV_BT_CEA_10240X4320P100_PA64_27,
->>> +	V4L2_DV_BT_CEA_10240X4320P120_PA64_27,
->>> +	V4L2_DV_BT_CEA_4096X2160P100_PA256_135,
->>> +	V4L2_DV_BT_CEA_4096X2160P120_PA256_135,
->>>  	{ }
->>>  };
->>>  EXPORT_SYMBOL_GPL(v4l2_dv_timings_presets);
->>> diff --git a/include/uapi/linux/v4l2-dv-timings.h b/include/uapi/linux/v4l2-dv-timings.h
->>> index b52b67c..900530b 100644
->>> --- a/include/uapi/linux/v4l2-dv-timings.h
->>> +++ b/include/uapi/linux/v4l2-dv-timings.h
->>> @@ -29,7 +29,14 @@
->>>  	.bt = { _width , ## args }
->>>  #endif
->>>  
->>> -/* CEA-861-F timings (i.e. standard HDTV timings) */
->>> +/* CEA-861-F timings (i.e. standard HDTV timings)
->>> + * NOTE: For the newer SPECs the CEA was unified to the CTA.
->>> + * The CTA-861-G includes the CEA-861-F timings besides the
->>> + * new timings that are specified.
->>> + *
->>> + * CEA-861-F: Specifies the Video timings for VICs 1-107
->>> + * CTA-861-G: Specifies the Video timings for VICs 1-107, 108-127, 193-219
->>> + */
->>>  
->>>  #define V4L2_DV_BT_CEA_640X480P59_94 { \
->>>  	.type = V4L2_DV_BT_656_1120, \
->>> @@ -297,6 +304,1592 @@
->>>  		V4L2_DV_FL_HAS_CEA861_VIC, { 0, 0 }, 102) \
->>>  }
->>>  
->>> +/* VIC=3 */
->>> +#define V4L2_DV_BT_CEA_720X480P60_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 480, 0, 0, \
->>> +		27000000, 16, 62, 60, 9, 6, 30, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 3) \
->>> +}
->>> +
->>> +/* VIC=7 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X480I60_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 480, 1, 0, \
->>> +		13500000, 19, 62, 57, 4, 3, 15, 4, 3, 16, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 7) \
->>> +}
->>> +
->>> +/* VIC=8 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X240P60_VTOT262_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 240, 0, 0, \
->>> +		13500000, 19, 62, 57, 4, 3, 15, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 8) \
->>> +}
->>> +
->>> +/* VIC=8 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X240P60_VTOT263_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 240, 0, 0, \
->>> +		13500000, 19, 62, 57, 5, 3, 15, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 8) \
->>> +}
->>> +
->>> +/* VIC=9 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X240P60_VTOT262_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 240, 0, 0, \
->>> +		13500000, 19, 62, 57, 4, 3, 15, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 9) \
->>> +}
->>> +
->>> +/* VIC=9 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X240P60_VTOT263_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 240, 0, 0, \
->>> +		13500000, 19, 62, 57, 5, 3, 15, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 9) \
->>> +}
->>> +
->>> +/* VIC=10 */
->>> +#define V4L2_DV_BT_CEA_2880X480I60_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 480, 1, 0, \
->>> +		54000000, 76, 248, 228, 4, 3, 15, 4, 3, 16, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 10) \
->>> +}
->>> +
->>> +/* VIC=11 */
->>> +#define V4L2_DV_BT_CEA_2880X480I60_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 480, 1, 0, \
->>> +		54000000, 76, 248, 228, 4, 3, 15, 4, 3, 16, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 11) \
->>> +}
->>> +
->>> +/* VIC=12 */
->>> +#define V4L2_DV_BT_CEA_2880X240P60_VTOT262_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 240, 0, 0, \
->>> +		54000000, 76, 248, 228, 4, 3, 15, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 12) \
->>> +}
->>> +
->>> +/* VIC=12 */
->>> +#define V4L2_DV_BT_CEA_2880X240P60_VTOT263_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 240, 0, 0, \
->>> +		54000000, 76, 248, 228, 5, 3, 15, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 12) \
->>> +}
->>> +
->>> +/* VIC=13 */
->>> +#define V4L2_DV_BT_CEA_2880X240P60_VTOT262_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 240, 0, 0, \
->>> +		54000000, 76, 248, 228, 4, 3, 15, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 13) \
->>> +}
->>> +
->>> +/* VIC=13 */
->>> +#define V4L2_DV_BT_CEA_2880X240P60_VTOT263_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 240, 0, 0, \
->>> +		54000000, 76, 248, 228, 5, 3, 15, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 13) \
->>> +}
->>> +
->>> +/* VIC=14 */
->>> +#define V4L2_DV_BT_CEA_1440X480P60_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 480, 0, 0, \
->>> +		54000000, 32, 124, 120, 9, 6, 30, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 14) \
->>> +}
->>> +
->>> +/* VIC=15 */
->>> +#define V4L2_DV_BT_CEA_1440X480P60_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 480, 0, 0, \
->>> +		54000000, 32, 124, 120, 9, 6, 30, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 15) \
->>> +}
->>> +
->>> +/* VIC=18 */
->>> +#define V4L2_DV_BT_CEA_720X576P50_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 576, 0, 0, \
->>> +		27000000, 12, 64, 68, 5, 5, 39, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 18) \
->>> +}
->>> +
->>> +/* VIC=22 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X576I50_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 576, 1, 0, \
->>> +		13500000, 12, 63, 69, 2, 3, 19, 2, 3, 20, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 22) \
->>> +}
->>> +
->>> +/* VIC=23 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X288P50_VTOT312_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
->>> +		13500000, 12, 63, 69, 2, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 23) \
->>> +}
->>> +
->>> +/* VIC=23 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X288P50_VTOT313_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
->>> +		13500000, 12, 63, 69, 3, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 23) \
->>> +}
->>> +
->>> +/* VIC=23 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X288P50_VTOT314_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
->>> +		13500000, 12, 63, 69, 4, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 23) \
->>> +}
->>> +
->>> +/* VIC=24 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X288P50_VTOT312_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
->>> +		13500000, 12, 63, 69, 2, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 24) \
->>> +}
->>> +
->>> +/* VIC=24 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X288P50_VTOT313_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
->>> +		13500000, 12, 63, 69, 3, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 24) \
->>> +}
->>> +
->>> +/* VIC=24 */
->>> +/* Note: these are the nominal timings, for HDMI links this format is typically
->>> + * double-clocked to meet the minimum pixelclock requirements.
->>> + */
->>> +#define V4L2_DV_BT_CEA_720X288P50_VTOT314_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 288, 0, 0, \
->>> +		13500000, 12, 63, 69, 4, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 24) \
->>> +}
->>> +
->>> +/* VIC=25 */
->>> +#define V4L2_DV_BT_CEA_2880X576I50_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 576, 1, 0, \
->>> +		54000000, 48, 252, 276, 2, 3, 19, 2, 3, 20, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 25) \
->>> +}
->>> +
->>> +/* VIC=26 */
->>> +#define V4L2_DV_BT_CEA_2880X576I50_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 576, 1, 0, \
->>> +		54000000, 48, 252, 276, 2, 3, 19, 2, 3, 20, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 26) \
->>> +}
->>> +
->>> +/* VIC=27 */
->>> +#define V4L2_DV_BT_CEA_2880X288P50_VTOT312_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
->>> +		54000000, 48, 252, 276, 2, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 27) \
->>> +}
->>> +
->>> +/* VIC=27 */
->>> +#define V4L2_DV_BT_CEA_2880X288P50_VTOT313_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
->>> +		54000000, 48, 252, 276, 3, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 27) \
->>> +}
->>> +
->>> +/* VIC=27 */
->>> +#define V4L2_DV_BT_CEA_2880X288P50_VTOT314_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
->>> +		54000000, 48, 252, 276, 4, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 27) \
->>> +}
->>> +
->>> +/* VIC=28 */
->>> +#define V4L2_DV_BT_CEA_2880X288P50_VTOT312_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
->>> +		54000000, 48, 252, 276, 2, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 28) \
->>> +}
->>> +
->>> +/* VIC=28 */
->>> +#define V4L2_DV_BT_CEA_2880X288P50_VTOT313_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
->>> +		54000000, 48, 252, 276, 3, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 28) \
->>> +}
->>> +
->>> +/* VIC=28 */
->>> +#define V4L2_DV_BT_CEA_2880X288P50_VTOT314_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 288, 0, 0, \
->>> +		54000000, 48, 252, 276, 4, 3, 19, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 28) \
->>> +}
->>> +
->>> +/* VIC=29 */
->>> +#define V4L2_DV_BT_CEA_1440X576P50_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 576, 0, 0, \
->>> +		54000000, 24, 128, 136, 5, 5, 39, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 29) \
->>> +}
->>> +
->>> +/* VIC=30 */
->>> +#define V4L2_DV_BT_CEA_1440X576P50_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 576, 0, 0, \
->>> +		54000000, 24, 128, 136, 5, 5, 39, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 30) \
->>> +}
->>> +
->>> +/* VIC=35 */
->>> +#define V4L2_DV_BT_CEA_2880X480P60_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 480, 0, 0, \
->>> +		108000000, 64, 248, 240, 9, 6, 30, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 35) \
->>> +}
->>> +
->>> +/* VIC=36 */
->>> +#define V4L2_DV_BT_CEA_2880X480P60_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 480, 0, 0, \
->>> +		108000000, 64, 248, 240, 9, 6, 30, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 36) \
->>> +}
->>> +
->>> +/* VIC=37 */
->>> +#define V4L2_DV_BT_CEA_2880X576P50_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 576, 0, 0, \
->>> +		108000000, 48, 256, 272, 5, 5, 39, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 37) \
->>> +}
->>> +
->>> +/* VIC=38 */
->>> +#define V4L2_DV_BT_CEA_2880X576P50_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2880, 576, 0, 0, \
->>> +		108000000, 48, 256, 272, 5, 5, 39, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 38) \
->>> +}
->>> +
->>> +/* VIC=39 */
->>> +#define V4L2_DV_BT_CEA_1920X1080I50_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 1, V4L2_DV_HSYNC_POS_POL, \
->>> +		72000000, 32, 168, 184, 23, 5, 57, 23, 5, 58, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 39) \
->>> +}
->>> +
->>> +/* VIC=40 */
->>> +#define V4L2_DV_BT_CEA_1920X1080I100_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 1, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		148500000, 528, 44, 148, 2, 5, 15, 2, 5, 16, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 40) \
->>> +}
->>> +
->>> +/* VIC=41 */
->>> +#define V4L2_DV_BT_CEA_1280X720P100_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		148500000, 440, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 41) \
->>> +}
->>> +
->>> +/* VIC=42 */
->>> +#define V4L2_DV_BT_CEA_720X576P100_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 576, 0, 0, \
->>> +		54000000, 12, 64, 68, 5, 5, 39, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 42) \
->>> +}
->>> +
->>> +/* VIC=43 */
->>> +#define V4L2_DV_BT_CEA_720X576P100_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 576, 0, 0, \
->>> +		54000000, 12, 64, 68, 5, 5, 39, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 43) \
->>> +}
->>> +
->>> +/* VIC=44 */
->>> +#define V4L2_DV_BT_CEA_1440X576I100_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 576, 1, 0, \
->>> +		54000000, 24, 126, 138, 2, 3, 19, 2, 3, 20, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 44) \
->>> +}
->>> +
->>> +/* VIC=45 */
->>> +#define V4L2_DV_BT_CEA_1440X576I100_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 576, 1, 0, \
->>> +		54000000, 24, 126, 138, 2, 3, 19, 2, 3, 20, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 45) \
->>> +}
->>> +
->>> +/* VIC=46 */
->>> +#define V4L2_DV_BT_CEA_1920X1080I120_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 1, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		148500000, 88, 44, 148, 2, 5, 15, 2, 5, 16, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 46) \
->>> +}
->>> +
->>> +/* VIC=47 */
->>> +#define V4L2_DV_BT_CEA_1280X720P120_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		148500000, 110, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 47) \
->>> +}
->>> +
->>> +/* VIC=48 */
->>> +#define V4L2_DV_BT_CEA_720X480P120_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 480, 0, 0, \
->>> +		54000000, 16, 62, 60, 9, 6, 30, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 48) \
->>> +}
->>> +
->>> +/* VIC=49 */
->>> +#define V4L2_DV_BT_CEA_720X480P120_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 480, 0, 0, \
->>> +		54000000, 16, 62, 60, 9, 6, 30, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 49) \
->>> +}
->>> +
->>> +/* VIC=50 */
->>> +#define V4L2_DV_BT_CEA_1440X480I120_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 480, 1, 0, \
->>> +		54000000, 38, 124, 114, 4, 3, 15, 4, 3, 16, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 50) \
->>> +}
->>> +
->>> +/* VIC=51 */
->>> +#define V4L2_DV_BT_CEA_1440X480I120_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 480, 1, 0, \
->>> +		54000000, 38, 124, 114, 4, 3, 15, 4, 3, 16, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 51) \
->>> +}
->>> +
->>> +/* VIC=52 */
->>> +#define V4L2_DV_BT_CEA_720X576P200_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 576, 0, 0, \
->>> +		108000000, 12, 64, 68, 5, 5, 39, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 52) \
->>> +}
->>> +
->>> +/* VIC=53 */
->>> +#define V4L2_DV_BT_CEA_720X576P200_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 576, 0, 0, \
->>> +		108000000, 12, 64, 68, 5, 5, 39, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 53) \
->>> +}
->>> +
->>> +/* VIC=54 */
->>> +#define V4L2_DV_BT_CEA_1440X576I200_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 576, 1, 0, \
->>> +		108000000, 24, 126, 138, 2, 3, 19, 2, 3, 20, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 54) \
->>> +}
->>> +
->>> +/* VIC=55 */
->>> +#define V4L2_DV_BT_CEA_1440X576I200_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 576, 1, 0, \
->>> +		108000000, 24, 126, 138, 2, 3, 19, 2, 3, 20, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_HALF_LINE | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 55) \
->>> +}
->>> +
->>> +/* VIC=56 */
->>> +#define V4L2_DV_BT_CEA_720X480P240_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 480, 0, 0, \
->>> +		108000000, 16, 62, 60, 9, 6, 30, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 4, 3 }, 56) \
->>> +}
->>> +
->>> +/* VIC=57 */
->>> +#define V4L2_DV_BT_CEA_720X480P240_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(720, 480, 0, 0, \
->>> +		108000000, 16, 62, 60, 9, 6, 30, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 57) \
->>> +}
->>> +
->>> +/* VIC=58 */
->>> +#define V4L2_DV_BT_CEA_1440X480I240_PA4_3 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 480, 1, 0, \
->>> +		108000000, 38, 124, 114, 4, 3, 15, 4, 3, 16, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 4, 3 }, 58) \
->>> +}
->>> +
->>> +/* VIC=59 */
->>> +#define V4L2_DV_BT_CEA_1440X480I240_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1440, 480, 1, 0, \
->>> +		108000000, 38, 124, 114, 4, 3, 15, 4, 3, 16, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_HALF_LINE | \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 59) \
->>> +}
->>> +
->>> +/* VIC=63 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P120_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		297000000, 88, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 63) \
->>> +}
->>> +
->>> +/* VIC=64 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P100_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		297000000, 528, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 64) \
->>> +}
->>> +
->>> +/* VIC=65 */
->>> +#define V4L2_DV_BT_CEA_1280X720P24_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		59400000, 1760, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 65) \
->>> +}
->>> +
->>> +/* VIC=66 */
->>> +#define V4L2_DV_BT_CEA_1280X720P25_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		74250000, 2420, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 66) \
->>> +}
->>> +
->>> +/* VIC=67 */
->>> +#define V4L2_DV_BT_CEA_1280X720P30_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		74250000, 1760, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 67) \
->>> +}
->>> +
->>> +/* VIC=68 */
->>> +#define V4L2_DV_BT_CEA_1280X720P50_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		74250000, 440, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 68) \
->>> +}
->>> +
->>> +/* VIC=69 */
->>> +#define V4L2_DV_BT_CEA_1280X720P60_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		74250000, 110, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 69) \
->>> +}
->>> +
->>> +/* VIC=70 */
->>> +#define V4L2_DV_BT_CEA_1280X720P100_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		148500000, 440, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 70) \
->>> +}
->>> +
->>> +/* VIC=71 */
->>> +#define V4L2_DV_BT_CEA_1280X720P120_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		148500000, 110, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 71) \
->>> +}
->>> +
->>> +/* VIC=72 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P24_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		74250000, 638, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 72) \
->>> +}
->>> +
->>> +/* VIC=73 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P25_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		74250000, 528, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 73) \
->>> +}
->>> +
->>> +/* VIC=74 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P30_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		74250000, 88, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 74) \
->>> +}
->>> +
->>> +/* VIC=75 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P50_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		148500000, 528, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 75) \
->>> +}
->>> +
->>> +/* VIC=76 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P60_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		148500000, 88, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 76) \
->>> +}
->>> +
->>> +/* VIC=77 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P100_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		297000000, 528, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 77) \
->>> +}
->>> +
->>> +/* VIC=78 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P120_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		297000000, 88, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 78) \
->>> +}
->>> +
->>> +/* VIC=79 */
->>> +#define V4L2_DV_BT_CEA_1680X720P24_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		59400000, 1360, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 79) \
->>> +}
->>> +
->>> +/* VIC=80 */
->>> +#define V4L2_DV_BT_CEA_1680X720P25_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		59400000, 1228, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 80) \
->>> +}
->>> +
->>> +/* VIC=81 */
->>> +#define V4L2_DV_BT_CEA_1680X720P30_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		59400000, 700, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 81) \
->>> +}
->>> +
->>> +/* VIC=82 */
->>> +#define V4L2_DV_BT_CEA_1680X720P50_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		82500000, 260, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 82) \
->>> +}
->>> +
->>> +/* VIC=83 */
->>> +#define V4L2_DV_BT_CEA_1680X720P60_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		99000000, 260, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 83) \
->>> +}
->>> +
->>> +/* VIC=84 */
->>> +#define V4L2_DV_BT_CEA_1680X720P100_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		165000000, 60, 40, 220, 5, 5, 95, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 84) \
->>> +}
->>> +
->>> +/* VIC=85 */
->>> +#define V4L2_DV_BT_CEA_1680X720P120_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		198000000, 60, 40, 220, 5, 5, 95, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 85) \
->>> +}
->>> +
->>> +/* VIC=86 */
->>> +#define V4L2_DV_BT_CEA_2560X1080P24_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		99000000, 998, 44, 148, 4, 5, 11, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 86) \
->>> +}
->>> +
->>> +/* VIC=87 */
->>> +#define V4L2_DV_BT_CEA_2560X1080P25_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		90000000, 448, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 87) \
->>> +}
->>> +
->>> +/* VIC=88 */
->>> +#define V4L2_DV_BT_CEA_2560X1080P30_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		118800000, 768, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 88) \
->>> +}
->>> +
->>> +/* VIC=89 */
->>> +#define V4L2_DV_BT_CEA_2560X1080P50_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		185625000, 548, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 89) \
->>> +}
->>> +
->>> +/* VIC=90 */
->>> +#define V4L2_DV_BT_CEA_2560X1080P60_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		198000000, 248, 44, 148, 4, 5, 11, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 90) \
->>> +}
->>> +
->>> +/* VIC=91 */
->>> +#define V4L2_DV_BT_CEA_2560X1080P100_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		371250000, 218, 44, 148, 4, 5, 161, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 91) \
->>> +}
->>> +
->>> +/* VIC=92 */
->>> +#define V4L2_DV_BT_CEA_2560X1080P120_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(2560, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		495000000, 548, 44, 148, 4, 5, 161, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 92) \
->>> +}
->>> +
->>> +/* VIC=103 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P24_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		297000000, 1276, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 103) \
->>> +}
->>> +
->>> +/* VIC=104 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P25_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		297000000, 1056, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 104) \
->>> +}
->>> +
->>> +/* VIC=105 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P30_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		297000000, 176, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 105) \
->>> +}
->>> +
->>> +/* VIC=106 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P50_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		594000000, 1056, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 106) \
->>> +}
->>> +
->>> +/* VIC=107 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P60_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		594000000, 176, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 107) \
->>> +}
->>> +
->>> +/* VIC=108 */
->>> +#define V4L2_DV_BT_CEA_1280X720P48_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		90000000, 960, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 108) \
->>> +}
->>> +
->>> +/* VIC=109 */
->>> +#define V4L2_DV_BT_CEA_1280X720P48_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1280, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		90000000, 960, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 109) \
->>> +}
->>> +
->>> +/* VIC=110 */
->>> +#define V4L2_DV_BT_CEA_1680X720P48_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1680, 720, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		99000000, 810, 40, 220, 5, 5, 20, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 110) \
->>> +}
->>> +
->>> +/* VIC=111 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P48_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		148500000, 638, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 111) \
->>> +}
->>> +
->>> +/* VIC=112 */
->>> +#define V4L2_DV_BT_CEA_1920X1080P48_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(1920, 1080, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		148500000, 638, 44, 148, 4, 5, 36, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 112) \
->>> +}
->>> +
->>> +/* VIC=114 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P48_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		594000000, 1276, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 114) \
->>> +}
->>> +
->>> +/* VIC=115 */
->>> +#define V4L2_DV_BT_CEA_4096X2160P48_PA256_135 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(4096, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		594000000, 1020, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 256, 135 }, 115) \
->>> +}
->>> +
->>> +/* VIC=116 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P48_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		594000000, 1276, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 116) \
->>> +}
->>> +
->>> +/* VIC=117 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P100_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 1056, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 117) \
->>> +}
->>> +
->>> +/* VIC=118 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P120_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 176, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 118) \
->>> +}
->>> +
->>> +/* VIC=119 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P100_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 1056, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 119) \
->>> +}
->>> +
->>> +/* VIC=120 */
->>> +#define V4L2_DV_BT_CEA_3840X2160P120_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(3840, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 176, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 120) \
->>> +}
->>> +
->>> +/* VIC=121 */
->>> +#define V4L2_DV_BT_CEA_5120X2160P24_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		396000000, 1996, 88, 296, 8, 10, 22, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 121) \
->>> +}
->>> +
->>> +/* VIC=122 */
->>> +#define V4L2_DV_BT_CEA_5120X2160P25_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		396000000, 1696, 88, 296, 8, 10, 22, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 122) \
->>> +}
->>> +
->>> +/* VIC=123 */
->>> +#define V4L2_DV_BT_CEA_5120X2160P30_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		396000000, 664, 88, 296, 8, 10, 22, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 123) \
->>> +}
->>> +
->>> +/* VIC=124 */
->>> +#define V4L2_DV_BT_CEA_5120X2160P48_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		742500000, 746, 88, 296, 8, 10, 297, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 124) \
->>> +}
->>> +
->>> +/* VIC=125 */
->>> +#define V4L2_DV_BT_CEA_5120X2160P50_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		742500000, 1096, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 125) \
->>> +}
->>> +
->>> +/* VIC=126 */
->>> +#define V4L2_DV_BT_CEA_5120X2160P60_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		742500000, 164, 88, 128, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 126) \
->>> +}
->>> +
->>> +/* VIC=127 */
->>> +#define V4L2_DV_BT_CEA_5120X2160P100_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1485000000, 1096, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 127) \
->>> +}
->>> +
->>> +/* VIC=193 */
->>> +#define V4L2_DV_BT_CEA_5120X2160P120_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(5120, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1485000000, 154, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 193) \
->>> +}
->>> +
->>> +/* VIC=194 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P24_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 2552, 176, 592, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 194) \
->>> +}
->>> +
->>> +/* VIC=195 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P25_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 2352, 176, 592, 16, 20, 44, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 195) \
->>> +}
->>> +
->>> +/* VIC=196 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P30_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 552, 176, 592, 16, 20, 44, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 196) \
->>> +}
->>> +
->>> +/* VIC=197 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P48_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		2376000000ULL, 2552, 176, 592, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 197) \
->>> +}
->>> +
->>> +/* VIC=198 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P50_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		2376000000ULL, 2352, 176, 592, 16, 20, 44, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 198) \
->>> +}
->>> +
->>> +/* VIC=199 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P60_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		2376000000ULL, 552, 176, 592, 16, 20, 44, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 199) \
->>> +}
->>> +
->>> +/* VIC=200 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P100_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		4752000000ULL, 2112, 176, 592, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 16, 9 }, 200) \
->>> +}
->>> +
->>> +/* VIC=201 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P120_PA16_9 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		4752000000ULL, 352, 176, 592, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 16, 9 }, 201) \
->>> +}
->>> +
->>> +/* VIC=202 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P24_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 2552, 176, 592, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 202) \
->>> +}
->>> +
->>> +/* VIC=203 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P25_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 2352, 176, 592, 16, 20, 44, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 203) \
->>> +}
->>> +
->>> +/* VIC=204 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P30_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 552, 176, 592, 16, 20, 44, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 204) \
->>> +}
->>> +
->>> +/* VIC=205 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P48_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		2376000000ULL, 2552, 176, 592, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 205) \
->>> +}
->>> +
->>> +/* VIC=206 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P50_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		2376000000ULL, 2352, 176, 592, 16, 20, 44, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 206) \
->>> +}
->>> +
->>> +/* VIC=207 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P60_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		2376000000ULL, 552, 176, 592, 16, 20, 44, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 207) \
->>> +}
->>> +
->>> +/* VIC=208 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P100_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		4752000000ULL, 2112, 176, 592, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 208) \
->>> +}
->>> +
->>> +/* VIC=209 */
->>> +#define V4L2_DV_BT_CEA_7680X4320P120_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(7680, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		4752000000ULL, 352, 176, 592, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 209) \
->>> +}
->>> +
->>> +/* VIC=210 */
->>> +#define V4L2_DV_BT_CEA_10240X4320P24_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1485000000, 1492, 176, 592, 16, 20, 594, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 210) \
->>> +}
->>> +
->>> +/* VIC=211 */
->>> +#define V4L2_DV_BT_CEA_10240X4320P25_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1485000000, 2492, 176, 592, 16, 20, 44, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 211) \
->>> +}
->>> +
->>> +/* VIC=212 */
->>> +#define V4L2_DV_BT_CEA_10240X4320P30_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1485000000, 288, 176, 296, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 212) \
->>> +}
->>> +
->>> +/* VIC=213 */
->>> +#define V4L2_DV_BT_CEA_10240X4320P48_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		2970000000ULL, 1492, 176, 592, 16, 20, 594, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 213) \
->>> +}
->>> +
->>> +/* VIC=214 */
->>> +#define V4L2_DV_BT_CEA_10240X4320P50_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		2970000000ULL, 2492, 176, 592, 16, 20, 44, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 214) \
->>> +}
->>> +
->>> +/* VIC=215 */
->>> +#define V4L2_DV_BT_CEA_10240X4320P60_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		2970000000ULL, 288, 176, 296, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 215) \
->>> +}
->>> +
->>> +/* VIC=216 */
->>> +#define V4L2_DV_BT_CEA_10240X4320P100_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		5940000000ULL, 2192, 176, 592, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 64, 27 }, 216) \
->>> +}
->>> +
->>> +/* VIC=217 */
->>> +#define V4L2_DV_BT_CEA_10240X4320P120_PA64_27 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(10240, 4320, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		5940000000ULL, 288, 176, 296, 16, 20, 144, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 64, 27 }, 217) \
->>> +}
->>> +
->>> +/* VIC=218 */
->>> +#define V4L2_DV_BT_CEA_4096X2160P100_PA256_135 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(4096, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 800, 88, 296, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_IS_CE_VIDEO | V4L2_DV_FL_HAS_PICTURE_ASPECT | \
->>> +		V4L2_DV_FL_HAS_CEA861_VIC, { 256, 135 }, 218) \
->>> +}
->>> +
->>> +/* VIC=219 */
->>> +#define V4L2_DV_BT_CEA_4096X2160P120_PA256_135 { \
->>> +	.type = V4L2_DV_BT_656_1120, \
->>> +	V4L2_INIT_BT_TIMINGS(4096, 2160, 0, \
->>> +		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
->>> +		1188000000, 88, 88, 128, 8, 10, 72, 0, 0, 0, \
->>> +		V4L2_DV_BT_STD_CEA861, \
->>> +		V4L2_DV_FL_CAN_REDUCE_FPS | V4L2_DV_FL_IS_CE_VIDEO | \
->>> +		V4L2_DV_FL_HAS_PICTURE_ASPECT | V4L2_DV_FL_HAS_CEA861_VIC, \
->>> +		{ 256, 135 }, 219) \
->>> +}
->>>  
->>>  /* VESA Discrete Monitor Timings as per version 1.0, revision 12 */
->>>  
->>>
-> 
-> 
-
+SGkgSGFucywNCg0KVGhhbmtzIGZvciB5b3VyIGNvbW1lbnRzIGFuZCBmZWVkYmFjayENCg0KRnJv
+bTogSGFucyBWZXJrdWlsIDxodmVya3VpbC1jaXNjb0B4czRhbGwubmw+DQpEYXRlOiBxdWEsIGp1
+biAwMiwgMjAyMSBhdCAxMzo0NTo0NQ0KDQo+IE9uIDAyLzA2LzIwMjEgMTM6MjQsIE5lbHNvbiBD
+b3N0YSB3cm90ZToNCj4gPiBUaGlzIGFkZHMgc3VwcG9ydCBmb3IgdGhlIG9wdGlvbmFsIEhETUkg
+Q0VDIGZlYXR1cmUNCj4gPiBmb3IgdGhlIFN5bm9wc3lzIERlc2lnbldhcmUgSERNSSBSWCBDb250
+cm9sbGVyLg0KPiA+IA0KPiA+IEl0IHVzZXMgdGhlIGdlbmVyaWMgQ0VDIGZyYW1ld29yayBpbnRl
+cmZhY2UuDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogSm9zZSBBYnJldSA8am9zZS5hYnJldUBz
+eW5vcHN5cy5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogTmVsc29uIENvc3RhIDxuZWxzb24uY29z
+dGFAc3lub3BzeXMuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL2R3
+Yy9LY29uZmlnICAgICAgfCAgMTAgKysNCj4gPiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9kd2Mv
+ZHctaGRtaS1yeC5jIHwgMjU5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystDQo+ID4g
+IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vZHdjL2R3LWhkbWktcnguaCB8ICA1NyArKysrKysrDQo+
+ID4gIDMgZmlsZXMgY2hhbmdlZCwgMzI0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+
+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vZHdjL0tjb25maWcg
+Yi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2R3Yy9LY29uZmlnDQo+ID4gaW5kZXggZTkxNWNhNi4u
+YjQ4N2E5MiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2R3Yy9LY29u
+ZmlnDQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9kd2MvS2NvbmZpZw0KPiA+IEBA
+IC0xMSwzICsxMSwxMyBAQCBjb25maWcgVklERU9fRFdDX0hETUlfUlgNCj4gPiAgDQo+ID4gIAkg
+IFRvIGNvbXBpbGUgdGhpcyBkcml2ZXIgYXMgYSBtb2R1bGUsIGNob29zZSBNIGhlcmUuIFRoZSBt
+b2R1bGUNCj4gPiAgCSAgd2lsbCBiZSBjYWxsZWQgZHctaGRtaS1yeC4NCj4gPiArDQo+ID4gK2Nv
+bmZpZyBWSURFT19EV0NfSERNSV9SWF9DRUMNCj4gPiArCWJvb2wgIlN5bm9wc3lzIERlc2lnbldh
+cmUgSERNSSBSZWNlaXZlciBDRUMgc3VwcG9ydCINCj4gPiArCWRlcGVuZHMgb24gVklERU9fRFdD
+X0hETUlfUlgNCj4gPiArCXNlbGVjdCBDRUNfQ09SRQ0KPiA+ICsJaGVscA0KPiA+ICsJICBXaGVu
+IHNlbGVjdGVkIHRoZSBTeW5vcHN5cyBEZXNpZ25XYXJlIEhETUkgUlggY29udHJvbGxlcg0KPiA+
+ICsJICB3aWxsIHN1cHBvcnQgdGhlIG9wdGlvbmFsIEhETUkgQ0VDIGZlYXR1cmUuDQo+ID4gKw0K
+PiA+ICsJICBJdCB1c2VzIHRoZSBnZW5lcmljIENFQyBmcmFtZXdvcmsgaW50ZXJmYWNlLg0KPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2R3Yy9kdy1oZG1pLXJ4LmMgYi9k
+cml2ZXJzL21lZGlhL3BsYXRmb3JtL2R3Yy9kdy1oZG1pLXJ4LmMNCj4gPiBpbmRleCBhNDY4YTkz
+Li41ZDZiMWMwIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vZHdjL2R3
+LWhkbWktcnguYw0KPiA+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vZHdjL2R3LWhkbWkt
+cnguYw0KPiA+IEBAIC0yMSw2ICsyMSw3IEBADQo+ID4gICNpbmNsdWRlIDxsaW51eC93b3JrcXVl
+dWUuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3JhdGlvbmFsLmg+DQo+ID4gICNpbmNsdWRlIDxs
+aW51eC9oZG1pLmg+DQo+ID4gKyNpbmNsdWRlIDxtZWRpYS9jZWMuaD4NCj4gPiAgI2luY2x1ZGUg
+PG1lZGlhL3Y0bDItYXN5bmMuaD4NCj4gPiAgI2luY2x1ZGUgPG1lZGlhL3Y0bDItY3RybHMuaD4N
+Cj4gPiAgI2luY2x1ZGUgPG1lZGlhL3Y0bDItZGV2aWNlLmg+DQo+ID4gQEAgLTM2LDYgKzM3LDcg
+QEANCj4gPiAgI2RlZmluZSBEV19IRE1JX0pUQUdfVEFQX1dSSVRFX0NNRAkxDQo+ID4gICNkZWZp
+bmUgRFdfSERNSV9KVEFHX1RBUF9SRUFEX0NNRAkzDQo+ID4gICNkZWZpbmUgRFdfSERNSV9BVURJ
+T19GUkVRX1JBTkdFCTEwMDANCj4gPiArI2RlZmluZSBEV19IRE1JX0NFQ19NQVhfTE9HX0FERFJT
+CUNFQ19NQVhfTE9HX0FERFJTDQo+ID4gIA0KPiA+ICAvKiBFRElEIGZvciBIRE1JIFJYICovDQo+
+ID4gIHN0YXRpYyB1MzIgZHdfaGRtaV9lZGlkW10gPSB7DQo+ID4gQEAgLTE2NCw2ICsxNjYsOSBA
+QCBzdHJ1Y3QgZHdfaGRtaV9kZXYgew0KPiA+ICAJdW5pb24gaGRtaV9pbmZvZnJhbWUgYXVkaW9p
+ZjsNCj4gPiAgCXVuaW9uIGhkbWlfaW5mb2ZyYW1lIHZzaWY7DQo+ID4gIA0KPiA+ICsJLyogQ0VD
+ICovDQo+ID4gKwlzdHJ1Y3QgY2VjX2FkYXB0ZXIgKmNlY19hZGFwOw0KPiA+ICsNCj4gPiAgCS8q
+IHY0bDIgZGV2aWNlICovDQo+ID4gIAlzdHJ1Y3QgdjRsMl9zdWJkZXYgc2Q7DQo+ID4gIAlzdHJ1
+Y3QgdjRsMl9jdHJsX2hhbmRsZXIgaGRsOw0KPiA+IEBAIC0zNjUsNiArMzcwLDIwIEBAIHN0YXRp
+YyB2b2lkIGR3X2hkbWlfcmVzZXQoc3RydWN0IGR3X2hkbWlfZGV2ICpkd19kZXYpDQo+ID4gIAlk
+d19oZG1pX21haW5fcmVzZXQoZHdfZGV2KTsNCj4gPiAgDQo+ID4gIAlkd19oZG1pX2Rpc2FibGVf
+aHBkKGR3X2Rldik7DQo+ID4gKw0KPiA+ICsJLyogQWZ0ZXIgYSBtYWluIHJlc2V0IHRyeSB0byBy
+ZS1lbmFibGUgdGhlIGNlYyBhZGFwdGVyIGluIG9yZGVyIHRvDQo+ID4gKwkgKiByZWNvbmZpZ3Vy
+ZSB0aGUgcmVxdWlyZWQgY2VjIHJlZ2lzdGVycy4gRm9yIHRoaXMgdGhlIHBoeXNpY2FsIGFkZHJl
+c3MNCj4gPiArCSAqIGlzIGludmFsaWRhdGVkIGFuZCByZWNvbmZpZ3VyZWQsIGFuZCB3aXRoIENF
+Q19DQVBfTkVFRFNfSFBEIGFsbG93aW5nDQo+ID4gKwkgKiB0byByZS1lbmFibGUgdGhlIGFkYXB0
+ZXIuDQo+ID4gKwkgKi8NCj4gPiArCWlmIChkd19kZXYtPmNlY19hZGFwKSB7DQo+ID4gKwkJdTE2
+IHBoeXNfYWRkciA9IGR3X2Rldi0+Y2VjX2FkYXAtPnBoeXNfYWRkcjsNCj4gPiArDQo+ID4gKwkJ
+Y2VjX3BoeXNfYWRkcl9pbnZhbGlkYXRlKGR3X2Rldi0+Y2VjX2FkYXApOw0KPiA+ICsJCWNlY19z
+X3BoeXNfYWRkcihkd19kZXYtPmNlY19hZGFwLCBwaHlzX2FkZHIsIGZhbHNlKTsNCj4gPiArCQlk
+ZXZfZGJnKGR3X2Rldi0+ZGV2LCAiJXM6IHJlLWVuYWJsZSBjZWMgYWRhcHRlclxuIiwNCj4gPiAr
+CQkJX19mdW5jX18pOw0KPiA+ICsJfQ0KPiA+ICB9DQo+ID4gIA0KPiA+ICBzdGF0aWMgaW5saW5l
+IGJvb2wgaXNfb2ZmKHN0cnVjdCBkd19oZG1pX2RldiAqZHdfZGV2KQ0KPiA+IEBAIC0xNDYwLDYg
+KzE0NzksMTg0IEBAIHN0YXRpYyB1MzIgZHdfaGRtaV9nZXRfaW50X3ZhbChzdHJ1Y3QgZHdfaGRt
+aV9kZXYgKmR3X2RldiwgdTMyIGlzdHMsIHUzMiBpZW4pDQo+ID4gIAlyZXR1cm4gaGRtaV9yZWFk
+bChkd19kZXYsIGlzdHMpICYgaGRtaV9yZWFkbChkd19kZXYsIGllbik7DQo+ID4gIH0NCj4gPiAg
+DQo+ID4gKyNpZiBJU19FTkFCTEVEKENPTkZJR19WSURFT19EV0NfSERNSV9SWF9DRUMpDQo+ID4g
+K3N0YXRpYyB2b2lkIGR3X2hkbWlfY2VjX2VuYWJsZV9pbnRzKHN0cnVjdCBkd19oZG1pX2RldiAq
+ZHdfZGV2KQ0KPiA+ICt7DQo+ID4gKwl1MzIgbWFzayA9IERXX0hETUlfRE9ORV9JU1RTIHwgRFdf
+SERNSV9FT01fSVNUUyB8DQo+ID4gKwkJRFdfSERNSV9OQUNLX0lTVFMgfCBEV19IRE1JX0FSQkxT
+VF9JU1RTIHwNCj4gPiArCQlEV19IRE1JX0VSUk9SX0lOSVRfSVNUUyB8IERXX0hETUlfRVJST1Jf
+Rk9MTF9JU1RTOw0KPiA+ICsNCj4gPiArCWhkbWlfd3JpdGVsKGR3X2RldiwgbWFzaywgRFdfSERN
+SV9BVURfQ0VDX0lFTl9TRVQpOw0KPiA+ICsJaGRtaV93cml0ZWwoZHdfZGV2LCAweDAsIERXX0hE
+TUlfQ0VDX01BU0spOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgdm9pZCBkd19oZG1pX2Nl
+Y19kaXNhYmxlX2ludHMoc3RydWN0IGR3X2hkbWlfZGV2ICpkd19kZXYpDQo+ID4gK3sNCj4gPiAr
+CWhkbWlfd3JpdGVsKGR3X2RldiwgfjB4MCwgRFdfSERNSV9BVURfQ0VDX0lFTl9DTFIpOw0KPiA+
+ICsJaGRtaV93cml0ZWwoZHdfZGV2LCB+MHgwLCBEV19IRE1JX0NFQ19NQVNLKTsNCj4gPiArfQ0K
+PiA+ICsNCj4gPiArc3RhdGljIHZvaWQgZHdfaGRtaV9jZWNfY2xlYXJfaW50cyhzdHJ1Y3QgZHdf
+aGRtaV9kZXYgKmR3X2RldikNCj4gPiArew0KPiA+ICsJaGRtaV93cml0ZWwoZHdfZGV2LCB+MHgw
+LCBEV19IRE1JX0FVRF9DRUNfSUNMUik7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyB2b2lk
+IGR3X2hkbWlfY2VjX3R4X3Jhd19zdGF0dXMoc3RydWN0IGR3X2hkbWlfZGV2ICpkd19kZXYsIHUz
+MiBzdGF0KQ0KPiA+ICt7DQo+ID4gKwlpZiAoaGRtaV9yZWFkbChkd19kZXYsIERXX0hETUlfQ0VD
+X0NUUkwpICYgRFdfSERNSV9TRU5EX01BU0spIHsNCj4gPiArCQlkZXZfZGJnKGR3X2Rldi0+ZGV2
+LCAiJXM6IHR4IGlzIGJ1c3lcbiIsIF9fZnVuY19fKTsNCj4gPiArCQlyZXR1cm47DQo+ID4gKwl9
+DQo+ID4gKw0KPiA+ICsJaWYgKHN0YXQgJiBEV19IRE1JX0FSQkxTVF9JU1RTKSB7DQo+ID4gKwkJ
+Y2VjX3RyYW5zbWl0X2F0dGVtcHRfZG9uZShkd19kZXYtPmNlY19hZGFwLA0KPiA+ICsJCQkJCSAg
+Q0VDX1RYX1NUQVRVU19BUkJfTE9TVCk7DQo+ID4gKwkJcmV0dXJuOw0KPiA+ICsJfQ0KPiA+ICsN
+Cj4gPiArCWlmIChzdGF0ICYgRFdfSERNSV9OQUNLX0lTVFMpIHsNCj4gPiArCQljZWNfdHJhbnNt
+aXRfYXR0ZW1wdF9kb25lKGR3X2Rldi0+Y2VjX2FkYXAsIENFQ19UWF9TVEFUVVNfTkFDSyk7DQo+
+ID4gKwkJcmV0dXJuOw0KPiA+ICsJfQ0KPiA+ICsNCj4gPiArCWlmIChzdGF0ICYgRFdfSERNSV9F
+UlJPUl9JTklUX0lTVFMpIHsNCj4gPiArCQlkZXZfZGJnKGR3X2Rldi0+ZGV2LCAiJXM6IGdvdCBs
+b3cgZHJpdmUgZXJyb3JcbiIsIF9fZnVuY19fKTsNCj4gPiArCQljZWNfdHJhbnNtaXRfYXR0ZW1w
+dF9kb25lKGR3X2Rldi0+Y2VjX2FkYXAsDQo+ID4gKwkJCQkJICBDRUNfVFhfU1RBVFVTX0xPV19E
+UklWRSk7DQo+ID4gKwkJcmV0dXJuOw0KPiA+ICsJfQ0KPiA+ICsNCj4gPiArCWlmIChzdGF0ICYg
+RFdfSERNSV9ET05FX0lTVFMpIHsNCj4gPiArCQljZWNfdHJhbnNtaXRfYXR0ZW1wdF9kb25lKGR3
+X2Rldi0+Y2VjX2FkYXAsIENFQ19UWF9TVEFUVVNfT0spOw0KPiA+ICsJCXJldHVybjsNCj4gPiAr
+CX0NCj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIHZvaWQgZHdfaGRtaV9jZWNfcmVjZWl2ZWRf
+bXNnKHN0cnVjdCBkd19oZG1pX2RldiAqZHdfZGV2KQ0KPiA+ICt7DQo+ID4gKwlzdHJ1Y3QgY2Vj
+X21zZyBtc2c7DQo+ID4gKwl1OCBpOw0KPiA+ICsNCj4gPiArCW1zZy5sZW4gPSBoZG1pX3JlYWRs
+KGR3X2RldiwgRFdfSERNSV9DRUNfUlhfQ05UKTsNCj4gPiArCWlmICghbXNnLmxlbiB8fCBtc2cu
+bGVuID4gRFdfSERNSV9DRUNfUlhfREFUQV9NQVgpDQo+ID4gKwkJcmV0dXJuOyAvKiBpdCdzIGFu
+IGludmFsaWQvbm9uLWV4aXN0ZW50IG1lc3NhZ2UgKi8NCj4gPiArDQo+ID4gKwlmb3IgKGkgPSAw
+OyBpIDwgbXNnLmxlbjsgaSsrKQ0KPiA+ICsJCW1zZy5tc2dbaV0gPSBoZG1pX3JlYWRsKGR3X2Rl
+diwgRFdfSERNSV9DRUNfUlhfREFUQShpKSk7DQo+ID4gKw0KPiA+ICsJaGRtaV93cml0ZWwoZHdf
+ZGV2LCAweDAsIERXX0hETUlfQ0VDX0xPQ0spOw0KPiA+ICsJY2VjX3JlY2VpdmVkX21zZyhkd19k
+ZXYtPmNlY19hZGFwLCAmbXNnKTsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIGludCBkd19o
+ZG1pX2NlY19hZGFwX2VuYWJsZShzdHJ1Y3QgY2VjX2FkYXB0ZXIgKmFkYXAsIGJvb2wgZW5hYmxl
+KQ0KPiA+ICt7DQo+ID4gKwlzdHJ1Y3QgZHdfaGRtaV9kZXYgKmR3X2RldiA9IGNlY19nZXRfZHJ2
+ZGF0YShhZGFwKTsNCj4gPiArDQo+ID4gKwlkZXZfZGJnKGR3X2Rldi0+ZGV2LCAiJXM6IGVuYWJs
+ZT0lZFxuIiwgX19mdW5jX18sIGVuYWJsZSk7DQo+ID4gKw0KPiA+ICsJaGRtaV93cml0ZWwoZHdf
+ZGV2LCAweDAsIERXX0hETUlfQ0VDX0FERFJfTCk7DQo+ID4gKwloZG1pX3dyaXRlbChkd19kZXYs
+IDB4MCwgRFdfSERNSV9DRUNfQUREUl9IKTsNCj4gPiArDQo+ID4gKwlpZiAoZW5hYmxlKSB7DQo+
+ID4gKwkJaGRtaV93cml0ZWwoZHdfZGV2LCAweDAsIERXX0hETUlfQ0VDX0xPQ0spOw0KPiA+ICsJ
+CWR3X2hkbWlfY2VjX2NsZWFyX2ludHMoZHdfZGV2KTsNCj4gPiArCQlkd19oZG1pX2NlY19lbmFi
+bGVfaW50cyhkd19kZXYpOw0KPiA+ICsJfSBlbHNlIHsNCj4gPiArCQlkd19oZG1pX2NlY19kaXNh
+YmxlX2ludHMoZHdfZGV2KTsNCj4gPiArCQlkd19oZG1pX2NlY19jbGVhcl9pbnRzKGR3X2Rldik7
+DQo+ID4gKwl9DQo+ID4gKw0KPiA+ICsJcmV0dXJuIDA7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0
+YXRpYyBpbnQgZHdfaGRtaV9jZWNfYWRhcF9sb2dfYWRkcihzdHJ1Y3QgY2VjX2FkYXB0ZXIgKmFk
+YXAsIHU4IGFkZHIpDQo+ID4gK3sNCj4gPiArCXN0cnVjdCBkd19oZG1pX2RldiAqZHdfZGV2ID0g
+Y2VjX2dldF9kcnZkYXRhKGFkYXApOw0KPiA+ICsJdTMyIHRtcDsNCj4gPiArDQo+ID4gKwlkZXZf
+ZGJnKGR3X2Rldi0+ZGV2LCAiJXM6IGFkZHI9JWRcbiIsIF9fZnVuY19fLCBhZGRyKTsNCj4gPiAr
+DQo+ID4gKwlpZiAoYWRkciA9PSBDRUNfTE9HX0FERFJfSU5WQUxJRCkgew0KPiA+ICsJCWhkbWlf
+d3JpdGVsKGR3X2RldiwgMHgwLCBEV19IRE1JX0NFQ19BRERSX0wpOw0KPiA+ICsJCWhkbWlfd3Jp
+dGVsKGR3X2RldiwgMHgwLCBEV19IRE1JX0NFQ19BRERSX0gpOw0KPiA+ICsJCXJldHVybiAwOw0K
+PiA+ICsJfQ0KPiA+ICsNCj4gPiArCWlmIChhZGRyID49IDgpIHsNCj4gPiArCQl0bXAgPSBoZG1p
+X3JlYWRsKGR3X2RldiwgRFdfSERNSV9DRUNfQUREUl9IKTsNCj4gPiArCQl0bXAgfD0gQklUKGFk
+ZHIgLSA4KTsNCj4gPiArCQloZG1pX3dyaXRlbChkd19kZXYsIHRtcCwgRFdfSERNSV9DRUNfQURE
+Ul9IKTsNCj4gPiArCX0gZWxzZSB7DQo+ID4gKwkJdG1wID0gaGRtaV9yZWFkbChkd19kZXYsIERX
+X0hETUlfQ0VDX0FERFJfTCk7DQo+ID4gKwkJdG1wIHw9IEJJVChhZGRyKTsNCj4gPiArCQloZG1p
+X3dyaXRlbChkd19kZXYsIHRtcCwgRFdfSERNSV9DRUNfQUREUl9MKTsNCj4gPiArCX0NCj4gPiAr
+DQo+ID4gKwlyZXR1cm4gMDsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIGludCBkd19oZG1p
+X2NlY19hZGFwX3RyYW5zbWl0KHN0cnVjdCBjZWNfYWRhcHRlciAqYWRhcCwgdTggYXR0ZW1wdHMs
+DQo+ID4gKwkJCQkgICAgIHUzMiBzaWduYWxfZnJlZV90aW1lLCBzdHJ1Y3QgY2VjX21zZyAqbXNn
+KQ0KPiA+ICt7DQo+ID4gKwlzdHJ1Y3QgZHdfaGRtaV9kZXYgKmR3X2RldiA9IGNlY19nZXRfZHJ2
+ZGF0YShhZGFwKTsNCj4gPiArCXU4IGxlbiA9IG1zZy0+bGVuOw0KPiA+ICsJdTMyIHJlZzsNCj4g
+PiArCXU4IGk7DQo+ID4gKw0KPiA+ICsJZGV2X2RiZyhkd19kZXYtPmRldiwgIiVzOiBsZW49JWRc
+biIsIF9fZnVuY19fLCBsZW4pOw0KPiA+ICsNCj4gPiArCWlmIChoZG1pX3JlYWRsKGR3X2Rldiwg
+RFdfSERNSV9DRUNfQ1RSTCkgJiBEV19IRE1JX1NFTkRfTUFTSykgew0KPiA+ICsJCWRldl9lcnIo
+ZHdfZGV2LT5kZXYsICIlczogdHggaXMgYnVzeVxuIiwgX19mdW5jX18pOw0KPiA+ICsJCXJldHVy
+biAtRUJVU1k7DQo+ID4gKwl9DQo+ID4gKw0KPiA+ICsJZm9yIChpID0gMDsgaSA8IGxlbjsgaSsr
+KQ0KPiA+ICsJCWhkbWlfd3JpdGVsKGR3X2RldiwgbXNnLT5tc2dbaV0sIERXX0hETUlfQ0VDX1RY
+X0RBVEEoaSkpOw0KPiA+ICsNCj4gPiArCXN3aXRjaCAoc2lnbmFsX2ZyZWVfdGltZSkgew0KPiA+
+ICsJY2FzZSBDRUNfU0lHTkFMX0ZSRUVfVElNRV9SRVRSWToNCj4gPiArCQlyZWcgPSAweDA7DQo+
+ID4gKwkJYnJlYWs7DQo+ID4gKwljYXNlIENFQ19TSUdOQUxfRlJFRV9USU1FX05FWFRfWEZFUjoN
+Cj4gPiArCQlyZWcgPSAweDI7DQo+ID4gKwkJYnJlYWs7DQo+ID4gKwljYXNlIENFQ19TSUdOQUxf
+RlJFRV9USU1FX05FV19JTklUSUFUT1I6DQo+ID4gKwlkZWZhdWx0Og0KPiA+ICsJCXJlZyA9IDB4
+MTsNCj4gPiArCQlicmVhazsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwloZG1pX3dyaXRlbChkd19k
+ZXYsIGxlbiwgRFdfSERNSV9DRUNfVFhfQ05UKTsNCj4gPiArCWhkbWlfbWFza193cml0ZWwoZHdf
+ZGV2LCByZWcsIERXX0hETUlfQ0VDX0NUUkwsDQo+ID4gKwkJCSBEV19IRE1JX0ZSQU1FX1RZUF9P
+RkZTRVQsDQo+ID4gKwkJCSBEV19IRE1JX0ZSQU1FX1RZUF9NQVNLKTsNCj4gPiArCWhkbWlfbWFz
+a193cml0ZWwoZHdfZGV2LCAweDEsIERXX0hETUlfQ0VDX0NUUkwsDQo+ID4gKwkJCSBEV19IRE1J
+X1NFTkRfT0ZGU0VULA0KPiA+ICsJCQkgRFdfSERNSV9TRU5EX01BU0spOw0KPiA+ICsJcmV0dXJu
+IDA7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgY2VjX2FkYXBfb3Bz
+IGR3X2hkbWlfY2VjX2FkYXBfb3BzID0gew0KPiA+ICsJLmFkYXBfZW5hYmxlID0gZHdfaGRtaV9j
+ZWNfYWRhcF9lbmFibGUsDQo+ID4gKwkuYWRhcF9sb2dfYWRkciA9IGR3X2hkbWlfY2VjX2FkYXBf
+bG9nX2FkZHIsDQo+ID4gKwkuYWRhcF90cmFuc21pdCA9IGR3X2hkbWlfY2VjX2FkYXBfdHJhbnNt
+aXQsDQo+ID4gK307DQo+ID4gKw0KPiA+ICtzdGF0aWMgdm9pZCBkd19oZG1pX2NlY19pcnFfaGFu
+ZGxlcihzdHJ1Y3QgZHdfaGRtaV9kZXYgKmR3X2RldikNCj4gPiArew0KPiA+ICsJdTMyIGNlY19p
+c3RzID0gZHdfaGRtaV9nZXRfaW50X3ZhbChkd19kZXYsIERXX0hETUlfQVVEX0NFQ19JU1RTLA0K
+PiA+ICsJCQlEV19IRE1JX0FVRF9DRUNfSUVOKTsNCj4gPiArDQo+ID4gKwlkd19oZG1pX2NlY19j
+bGVhcl9pbnRzKGR3X2Rldik7DQo+ID4gKw0KPiA+ICsJaWYgKGNlY19pc3RzKSB7DQo+ID4gKwkJ
+ZHdfaGRtaV9jZWNfdHhfcmF3X3N0YXR1cyhkd19kZXYsIGNlY19pc3RzKTsNCj4gPiArCQlpZiAo
+Y2VjX2lzdHMgJiBEV19IRE1JX0VPTV9JU1RTKQ0KPiA+ICsJCQlkd19oZG1pX2NlY19yZWNlaXZl
+ZF9tc2coZHdfZGV2KTsNCj4gPiArCX0NCj4gPiArfQ0KPiA+ICsjZW5kaWYgLyogQ09ORklHX1ZJ
+REVPX0RXQ19IRE1JX1JYX0NFQyAqLw0KPiA+ICsNCj4gPiAgc3RhdGljIHU4IGR3X2hkbWlfZ2V0
+X2N1cnJfdmljKHN0cnVjdCBkd19oZG1pX2RldiAqZHdfZGV2LCBib29sICppc19oZG1pX3ZpYykN
+Cj4gPiAgew0KPiA+ICAJdTggdmljID0gaGRtaV9tYXNrX3JlYWRsKGR3X2RldiwgRFdfSERNSV9Q
+REVDX0FWSV9QQiwNCj4gPiBAQCAtMjA1OCw2ICsyMjU1LDEwIEBAIHN0YXRpYyBpcnFyZXR1cm5f
+dCBkd19oZG1pX2lycV9oYW5kbGVyKGludCBpcnEsIHZvaWQgKmRldl9kYXRhKQ0KPiA+ICAJCX0N
+Cj4gPiAgCX0NCj4gPiAgDQo+ID4gKyNpZiBJU19FTkFCTEVEKENPTkZJR19WSURFT19EV0NfSERN
+SV9SWF9DRUMpDQo+ID4gKwlkd19oZG1pX2NlY19pcnFfaGFuZGxlcihkd19kZXYpOw0KPiA+ICsj
+ZW5kaWYgLyogQ09ORklHX1ZJREVPX0RXQ19IRE1JX1JYX0NFQyAqLw0KPiA+ICsNCj4gPiAgCXJl
+dHVybiBJUlFfSEFORExFRDsNCj4gPiAgfQ0KPiA+ICANCj4gPiBAQCAtMjU1NiwxNCArMjc1Nywy
+NyBAQCBzdGF0aWMgaW50IGR3X2hkbWlfc2V0X2VkaWQoc3RydWN0IHY0bDJfc3ViZGV2ICpzZCwg
+c3RydWN0IHY0bDJfZWRpZCAqZWRpZCkNCj4gPiAgCXN0cnVjdCBkd19oZG1pX2RldiAqZHdfZGV2
+ID0gdG9fZHdfZGV2KHNkKTsNCj4gPiAgCWludCBpbnB1dF9jb3VudCA9IGR3X2Rldi0+Y29uZmln
+LT5waHktPmlucHV0X2NvdW50Ow0KPiA+ICAJaW50IHNpemUsIHJldDsNCj4gPiArCXUxNiBwaHlz
+X2FkZHI7DQo+ID4gIAl1MzIgKnRtcDsNCj4gPiAgDQo+ID4gIAltZW1zZXQoZWRpZC0+cmVzZXJ2
+ZWQsIDAsIHNpemVvZihlZGlkLT5yZXNlcnZlZCkpOw0KPiA+ICANCj4gPiAtCWlmIChlZGlkLT5w
+YWQgPj0gaW5wdXRfY291bnQgfHwgIWVkaWQtPmVkaWQgfHwgIWVkaWQtPmJsb2NrcykNCj4gPiAr
+CWlmIChlZGlkLT5wYWQgPj0gaW5wdXRfY291bnQgfHwgIWVkaWQtPmVkaWQpDQo+ID4gIAkJcmV0
+dXJuIC1FSU5WQUw7DQo+ID4gIAlpZiAoZWRpZC0+c3RhcnRfYmxvY2sgIT0gMCkNCj4gPiAgCQly
+ZXR1cm4gLUVJTlZBTDsNCj4gPiArCWlmICghZWRpZC0+YmxvY2tzKSB7DQo+ID4gKwkJcGh5c19h
+ZGRyID0gQ0VDX1BIWVNfQUREUl9JTlZBTElEOw0KPiA+ICsJCWdvdG8gc2V0X3BoeXNfYWRkcjsN
+Cj4gPiArCX0NCj4gPiArDQo+ID4gKwkvKiBnZXQgdGhlIHNvdXJjZSBwaHlzaWNhbCBhZGRyZXNz
+IChQQSkgZnJvbSBlZGlkICovDQo+ID4gKwlwaHlzX2FkZHIgPSBjZWNfZ2V0X2VkaWRfcGh5c19h
+ZGRyKGVkaWQtPmVkaWQsIGVkaWQtPmJsb2NrcyAqIDEyOCwNCj4gPiArCQkJCQkgICBOVUxMKTsN
+Cj4gPiArCS8qIGdldCB0aGUgb3duIHBoeXNpY2FsIGFkZHJlc3MgZ2V0dGluZyB0aGUgcGFyZW50
+IG9mIFNvdXJjZSBQQSAqLw0KPiA+ICsJcmV0ID0gdjRsMl9waHlzX2FkZHJfdmFsaWRhdGUocGh5
+c19hZGRyLCAmcGh5c19hZGRyLCBOVUxMKTsNCj4gPiArCWlmIChyZXQpDQo+ID4gKwkJcmV0dXJu
+IHJldDsNCj4gDQo+IFNvbWV0aGluZyBJIHNob3VsZCBoYXZlIGFza2VkIGluIG15IHJldmlldyBm
+b3IgNi85OiBpZiB0aGVyZSBhcmUNCj4gbXVsdGlwbGUgaW5wdXRzLCBkb2VzIGVhY2ggaW5wdXQg
+aGF2ZSBpdHMgb3duIEVESUQgYXJlYT8NCj4gDQoNClllcywgdGhlcmUgaXMgb25lIEVESUQgYXJl
+YSBmb3IgZWFjaCBpbnB1dCBwb3J0Lg0KDQo+IElmIHRoZXJlIGFyZSBtdWx0aXBsZSBpbnB1dHMs
+IGFyZSB0aGUgQ0VDIGxpbmVzIG9mIGVhY2ggaW5wdXQgcGFydA0KPiBvZiB0aGUgc2FtZSBDRUMg
+YnVzPyBUaGlzIGlzIHR5cGljYWxseSB0aGUgY2FzZSBmb3IgZS5nLiBUVnMsIGFuZCBhcw0KPiBm
+YXIgYXMgSSBjYW4gc2VlIGl0J3MgdGhlIGNhc2UgZm9yIHRoaXMgcmVjZWl2ZXIgZHJpdmVyIGFz
+IHdlbGwuDQo+IA0KDQpZZXMuDQoNCj4gPiAgDQo+ID4gIAkvKiBDbGVhciBvbGQgRURJRCAqLw0K
+PiA+ICAJc2l6ZSA9IGR3X2Rldi0+Y3Vycl9lZGlkX2Jsb2Nrc1tlZGlkLT5wYWRdICogMTI4Ow0K
+PiA+IEBAIC0yNTkyLDcgKzI4MDYsOSBAQCBzdGF0aWMgaW50IGR3X2hkbWlfc2V0X2VkaWQoc3Ry
+dWN0IHY0bDJfc3ViZGV2ICpzZCwgc3RydWN0IHY0bDJfZWRpZCAqZWRpZCkNCj4gPiAgCWlmIChy
+ZXQpDQo+ID4gIAkJcmV0dXJuIHJldDsNCj4gPiAgDQo+ID4gK3NldF9waHlzX2FkZHI6DQo+ID4g
+IAlkd19kZXYtPmN1cnJfZWRpZF9ibG9ja3NbZWRpZC0+cGFkXSA9IGVkaWQtPmJsb2NrczsNCj4g
+PiArCWNlY19zX3BoeXNfYWRkcihkd19kZXYtPmNlY19hZGFwLCBwaHlzX2FkZHIsIGZhbHNlKTsN
+Cj4gPiAgCXJldHVybiAwOw0KPiA+ICB9DQo+ID4gIA0KPiA+IEBAIC0yODI1LDE1ICszMDQxLDMz
+IEBAIHN0YXRpYyBpbnQgZHdfaGRtaV9zdWJzY3JpYmVfZXZlbnQoc3RydWN0IHY0bDJfc3ViZGV2
+ICpzZCwgc3RydWN0IHY0bDJfZmggKmZoLA0KPiA+ICBzdGF0aWMgaW50IGR3X2hkbWlfcmVnaXN0
+ZXJlZChzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkKQ0KPiA+ICB7DQo+ID4gIAlzdHJ1Y3QgZHdfaGRt
+aV9kZXYgKmR3X2RldiA9IHRvX2R3X2RldihzZCk7DQo+ID4gKwlpbnQgcmV0Ow0KPiA+ICsNCj4g
+PiArCXJldCA9IGNlY19yZWdpc3Rlcl9hZGFwdGVyKGR3X2Rldi0+Y2VjX2FkYXAsIGR3X2Rldi0+
+ZGV2KTsNCj4gPiArCWlmIChyZXQpIHsNCj4gPiArCQlkZXZfZXJyKGR3X2Rldi0+ZGV2LCAiZmFp
+bGVkIHRvIHJlZ2lzdGVyIENFQyBhZGFwdGVyXG4iKTsNCj4gPiArCQlnb3RvIGVycl9hZGFwdGVy
+Ow0KPiA+ICsJfQ0KPiA+ICsJY2VjX3NfcGh5c19hZGRyKGR3X2Rldi0+Y2VjX2FkYXAsIDAsIGZh
+bHNlKTsNCj4gDQo+IFRoaXMgaXNuJ3QgcmlnaHQuIFdoZW4geW91IHNldCB0aGUgRURJRCB5b3Ug
+d2lsbCBhbHNvIHNldCB0aGUgcGh5c2ljYWwNCj4gYWRkcmVzcywgeW91IGRvbid0IGRvIHRoYXQg
+d2hlbiByZWdpc3RlcmluZyB0aGUgQ0VDIGFkYXB0ZXIsIHRoZXJlIGlzIG5vDQo+IHBoeXNpY2Fs
+IGFkZHJlc3MgeWV0Lg0KPiANCg0KQXMgaW4gdGhlIHBhdGNoIFs2LzldIHdlIGhhZCB0aGUgZGVm
+YXVsdCBlZGlkICJkd19oZG1pX2VkaWQiLCB0aGF0IHdhcw0KYmVpbmcgbG9hZGVkIGluIHRoZSBk
+cml2ZXIgcHJvYmUsIHdlIGFsc28gaW5pdGlhbGl6ZWQgdGhlIGNlYyBwaHlzaWNhbA0KYWRkcmVz
+cyAiMCIgYWNjb3JkaW5nbHkgd2l0aCB0aGUgZGVmYXVsdCBlZGlkLg0KDQpCdXQgZm9sbG93aW5n
+IHlvdXIgY29tbWVudHMgaW4gcGF0Y2ggWzYvOV0sIHRoZSBkZWZhdWx0IGVkaWQgbXVzdCBiZQ0K
+cmVtb3ZlZCBhbmQgc28gdGhpcyBpbml0aWFsIGNlYyBwaHlzaWNhbCBhZGRyZXNzICIwIiB3aWxs
+IGJlIHJlbW92ZWQNCmFjY29yZGluZ2x5IGFsc28gYXMgeW91IGFyZSBhc2tpbmcgOikuDQoNCj4g
+PiArCWlmIChkd19kZXYtPmNlY19hZGFwKQ0KPiA+ICsJCWRldl9pbmZvKGR3X2Rldi0+ZGV2LA0K
+PiA+ICsJCQkgIkNFQyBhZGFwdGVyICVzIHJlZ2lzdGVyZWQgZm9yIEhETUkgaW5wdXRcbiIsDQo+
+ID4gKwkJCSBkZXZfbmFtZSgmZHdfZGV2LT5jZWNfYWRhcC0+ZGV2bm9kZS5kZXYpKTsNCj4gPiAg
+DQo+ID4gIAlkd19kZXYtPnJlZ2lzdGVyZWQgPSB0cnVlOw0KPiA+ICAJcmV0dXJuIDA7DQo+ID4g
+Kw0KPiA+ICtlcnJfYWRhcHRlcjoNCj4gPiArCWNlY19kZWxldGVfYWRhcHRlcihkd19kZXYtPmNl
+Y19hZGFwKTsNCj4gPiArCXJldHVybiByZXQ7DQo+ID4gIH0NCj4gPiAgDQo+ID4gIHN0YXRpYyB2
+b2lkIGR3X2hkbWlfdW5yZWdpc3RlcmVkKHN0cnVjdCB2NGwyX3N1YmRldiAqc2QpDQo+ID4gIHsN
+Cj4gPiAgCXN0cnVjdCBkd19oZG1pX2RldiAqZHdfZGV2ID0gdG9fZHdfZGV2KHNkKTsNCj4gPiAg
+DQo+ID4gKwljZWNfdW5yZWdpc3Rlcl9hZGFwdGVyKGR3X2Rldi0+Y2VjX2FkYXApOw0KPiA+ICsN
+Cj4gPiAgCWR3X2Rldi0+cmVnaXN0ZXJlZCA9IGZhbHNlOw0KPiA+ICB9DQo+ID4gIA0KPiA+IEBA
+IC0zMTk0LDEwICszNDI4LDI5IEBAIHN0YXRpYyBpbnQgZHdfaGRtaV9yeF9wcm9iZShzdHJ1Y3Qg
+cGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+ICAJaWYgKHJldCkNCj4gPiAgCQlnb3RvIGVycl9w
+aHlfZXhpdDsNCj4gPiAgDQo+ID4gKwkvKiBDRUMgKi8NCj4gPiArI2lmIElTX0VOQUJMRUQoQ09O
+RklHX1ZJREVPX0RXQ19IRE1JX1JYX0NFQykNCj4gPiArCWR3X2Rldi0+Y2VjX2FkYXAgPSBjZWNf
+YWxsb2NhdGVfYWRhcHRlcigmZHdfaGRtaV9jZWNfYWRhcF9vcHMsDQo+ID4gKwkJCQkJCWR3X2Rl
+diwgZGV2X25hbWUoZGV2KSwNCj4gPiArCQkJCQkJKENFQ19DQVBfREVGQVVMVFMgfA0KPiA+ICsJ
+CQkJCQkgQ0VDX0NBUF9ORUVEU19IUEQgfA0KPiANCj4gVGhpcyBjYXAgbWFrZXMgbm8gc2Vuc2Ug
+Zm9yIGEgcmVjZWl2ZXIuDQo+IA0KDQpUaGlzIGNhcCB3YXMgYWRkZWQgaW4gb3JkZXIgdG8gb3Zl
+cmNvbWUgYSBzY2VuYXJpbyB0aGF0IHdlIGhhdmUgd2hlbiANCnRoZXJlDQp3YXMgYW4gaG90IHBs
+dWcuIFRoZSBkcml2ZXIgcGVyZm9ybXMgYSBtYWluIHJlc2V0IHRoYXQgY2F1c2UgdGhlIGxvc3Mg
+b2YNCmNlYyBjb250cm9sbGVyIGNvbmZpZ3VyYXRpb24uIEFuZCBpbiB0aGF0IGNhc2UgaW4gb3Jk
+ZXIgdG8gcmVjb25maWd1cmUgDQp0aGUNCmNlYyB0aGlzIGNhcCB3YXMgYWRkZWQuIEJlY2F1c2Ug
+d2hlbmV2ZXIgdGhlcmUgaXMgYSByZXNldCB0aGUgcGh5c2ljYWwNCmFkZHJlc3MgaXMgcmVjb25m
+aWd1cmVkIChpbnZhbGlkYXRlZCBhbmQgc2V0KSBhbmQgd2l0aCB0aGlzIGNhcCB0aGUgY2VjDQpj
+b25maWd1cmF0aW9uIGNhbGxiYWNrIGZ1bmN0aW9uIChhZGFwX2VuYWJsZSkgaXMgY2FsbGVkIGFn
+YWluIGFsbG93aW5nIHRvDQpyZWNvbmZpZ3VyZSB0aGUgY2VjLg0KDQpEb2VzIGl0IG1ha2Ugc2Vu
+c2U/DQoNCklmIG5vdCwgd2hhdCBzaG91bGQgYmUgdGhlIGJlc3QgYXBwcm9hY2ggaW4gb3JkZXIg
+dG8gZGVhbCB3aXRoIHRoaXMgDQpzY2VuYXJpbz8NCg0KPiA+ICsJCQkJCQkgQ0VDX0NBUF9DT05O
+RUNUT1JfSU5GTyksDQo+IA0KPiBUaGlzIGNhcCBhbHNvIHNob3VsZCBiZSByZW1vdmVkOiBjb25u
+ZWN0b3IgaW5mbyBpcyBub3QgKHlldCkgc3VwcG9ydGVkDQo+IGZvciByZWNlaXZlcnMsIG9ubHkg
+Zm9yIHRyYW5zbWl0dGVycy4NCj4gDQoNCkkgYWdyZWUhIFdpbGwgYmUgYWRkcmVzc2VkIGluIHRo
+ZSBuZXh0IHBhdGNoIHNlcmllcy4NCg0KVGhhbmtzIGEgbG90LA0KDQpCUiwNCg0KTmVsc29uIENv
+c3RhDQoNCj4gUmVnYXJkcywNCj4gDQo+IAlIYW5zDQo+IA0KPiA+ICsJCQkJCQlEV19IRE1JX0NF
+Q19NQVhfTE9HX0FERFJTKTsNCj4gPiArCXJldCA9IFBUUl9FUlJfT1JfWkVSTyhkd19kZXYtPmNl
+Y19hZGFwKTsNCj4gPiArCWlmIChyZXQpIHsNCj4gPiArCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0
+byBhbGxvY2F0ZSBDRUMgYWRhcHRlclxuIik7DQo+ID4gKwkJZ290byBlcnJfY2VjOw0KPiA+ICsJ
+fQ0KPiA+ICsNCj4gPiArCWRldl9pbmZvKGRldiwgIkNFQyBpcyBlbmFibGVkXG4iKTsNCj4gPiAr
+I2Vsc2UNCj4gPiArCWRldl9pbmZvKGRldiwgIkNFQyBpcyBkaXNhYmxlZFxuIik7DQo+ID4gKyNl
+bmRpZiAvKiBDT05GSUdfVklERU9fRFdDX0hETUlfUlhfQ0VDICovDQo+ID4gKw0KPiA+ICAJcmV0
+ID0gdjRsMl9hc3luY19yZWdpc3Rlcl9zdWJkZXYoc2QpOw0KPiA+ICAJaWYgKHJldCkgew0KPiA+
+ICAJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIHJlZ2lzdGVyIHN1YmRldlxuIik7DQo+ID4gLQkJ
+Z290byBlcnJfcGh5X2V4aXQ7DQo+ID4gKwkJZ290byBlcnJfY2VjOw0KPiA+ICAJfQ0KPiA+ICAN
+Cj4gPiAgCS8qIEZpbGwgaW5pdGlhbCBmb3JtYXQgc2V0dGluZ3MgKi8NCj4gPiBAQCAtMzIzMCw2
+ICszNDgzLDggQEAgc3RhdGljIGludCBkd19oZG1pX3J4X3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9k
+ZXZpY2UgKnBkZXYpDQo+ID4gIA0KPiA+ICBlcnJfc3ViZGV2Og0KPiA+ICAJdjRsMl9hc3luY191
+bnJlZ2lzdGVyX3N1YmRldihzZCk7DQo+ID4gK2Vycl9jZWM6DQo+ID4gKwljZWNfZGVsZXRlX2Fk
+YXB0ZXIoZHdfZGV2LT5jZWNfYWRhcCk7DQo+ID4gIGVycl9waHlfZXhpdDoNCj4gPiAgCWR3X2hk
+bWlfcGh5X2V4aXQoZHdfZGV2KTsNCj4gPiAgZXJyX2hkbDoNCj4gPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9tZWRpYS9wbGF0Zm9ybS9kd2MvZHctaGRtaS1yeC5oIGIvZHJpdmVycy9tZWRpYS9wbGF0
+Zm9ybS9kd2MvZHctaGRtaS1yeC5oDQo+ID4gaW5kZXggZjBlYTFkNC4uNzc1YjdhOSAxMDA2NDQN
+Cj4gPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2R3Yy9kdy1oZG1pLXJ4LmgNCj4gPiAr
+KysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2R3Yy9kdy1oZG1pLXJ4LmgNCj4gPiBAQCAtMzI1
+LDYgKzMyNSwyNSBAQA0KPiA+ICANCj4gPiAgI2RlZmluZSBEV19IRE1JX0hEQ1AyMl9TVEFUVVMJ
+CQkweDA4ZmMNCj4gPiAgDQo+ID4gKy8qIGlkX2F1ZGlvX2FuZF9jZWNfaW50ZXJydXB0IFJlZ2lz
+dGVycyAqLw0KPiA+ICsjZGVmaW5lIERXX0hETUlfQVVEX0NFQ19JRU5fQ0xSCQkJMHgwZjkwDQo+
+ID4gKyNkZWZpbmUgRFdfSERNSV9BVURfQ0VDX0lFTl9TRVQJCQkweDBmOTQNCj4gPiArDQo+ID4g
+KyNkZWZpbmUgRFdfSERNSV9BVURfQ0VDX0lTVFMJCQkweDBmOTgNCj4gPiArI2RlZmluZSBEV19I
+RE1JX1dBS0VVUENUUkxfSVNUUwkJCUJJVCgyMikNCj4gPiArI2RlZmluZSBEV19IRE1JX0VSUk9S
+X0ZPTExfSVNUUwkJCUJJVCgyMSkNCj4gPiArI2RlZmluZSBEV19IRE1JX0VSUk9SX0lOSVRfSVNU
+UwkJCUJJVCgyMCkNCj4gPiArI2RlZmluZSBEV19IRE1JX0FSQkxTVF9JU1RTCQkJQklUKDE5KQ0K
+PiA+ICsjZGVmaW5lIERXX0hETUlfTkFDS19JU1RTCQkJQklUKDE4KQ0KPiA+ICsjZGVmaW5lIERX
+X0hETUlfRU9NX0lTVFMJCQlCSVQoMTcpDQo+ID4gKyNkZWZpbmUgRFdfSERNSV9ET05FX0lTVFMJ
+CQlCSVQoMTYpDQo+ID4gKyNkZWZpbmUgRFdfSERNSV9TQ0tfU1RBQkxFX0lTVFMJCQlCSVQoMSkN
+Cj4gPiArI2RlZmluZSBEV19IRE1JX0NUU05fQ05UX0lTVFMJCQlCSVQoMCkNCj4gPiArDQo+ID4g
+KyNkZWZpbmUgRFdfSERNSV9BVURfQ0VDX0lFTgkJCTB4MGY5Yw0KPiA+ICsjZGVmaW5lIERXX0hE
+TUlfQVVEX0NFQ19JQ0xSCQkJMHgwZmEwDQo+ID4gKyNkZWZpbmUgRFdfSERNSV9BVURfQ0VDX0lT
+RVQJCQkweDBmYTQNCj4gPiArDQo+ID4gIC8qIGlkX21vZGVfZGV0ZWN0aW9uX2ludGVycnVwdCBS
+ZWdpc3RlcnMgKi8NCj4gPiAgI2RlZmluZSBEV19IRE1JX01EX0lFTl9DTFIJCQkweDBmYzANCj4g
+PiAgI2RlZmluZSBEV19IRE1JX01EX0lFTl9TRVQJCQkweDBmYzQNCj4gPiBAQCAtNDI2LDYgKzQ0
+NSw0NCBAQA0KPiA+ICAjZGVmaW5lIERXX0hETUlfSERNSV9FTkFCTEVfTUFTSwkJQklUKDIpDQo+
+ID4gICNkZWZpbmUgRFdfSERNSV9IRE1JX0VOQUJMRV9PRkZTRVQJCTINCj4gPiAgDQo+ID4gKy8q
+IGlkX2NlYyBSZWdpc3RlcnMgKi8NCj4gPiArI2RlZmluZSBEV19IRE1JX0NFQ19DVFJMCQkJMHgx
+ZjAwDQo+ID4gKyNkZWZpbmUgRFdfSERNSV9TVEFOREJZX01BU0sJCQlCSVQoNCkNCj4gPiArI2Rl
+ZmluZSBEV19IRE1JX1NUQU5EQllfT0ZGU0VUCQkJNA0KPiA+ICsjZGVmaW5lIERXX0hETUlfQkNf
+TkFDS19NQVNLCQkJQklUKDMpDQo+ID4gKyNkZWZpbmUgRFdfSERNSV9CQ19OQUNLX09GRlNFVAkJ
+CTMNCj4gPiArI2RlZmluZSBEV19IRE1JX0ZSQU1FX1RZUF9NQVNLCQkJR0VOTUFTSygyLCAxKQ0K
+PiA+ICsjZGVmaW5lIERXX0hETUlfRlJBTUVfVFlQX09GRlNFVAkJMQ0KPiA+ICsjZGVmaW5lIERX
+X0hETUlfU0VORF9NQVNLCQkJQklUKDApDQo+ID4gKyNkZWZpbmUgRFdfSERNSV9TRU5EX09GRlNF
+VAkJCTANCj4gPiArDQo+ID4gKyNkZWZpbmUgRFdfSERNSV9DRUNfTUFTSwkJCTB4MWYwOA0KPiA+
+ICsjZGVmaW5lIERXX0hETUlfV0FLRVVQX01BU0sJCQlCSVQoNikNCj4gPiArI2RlZmluZSBEV19I
+RE1JX1dBS0VVUF9PRkZTRVQJCQk2DQo+ID4gKyNkZWZpbmUgRFdfSERNSV9FUlJPUl9GTE9XX01B
+U0sJCQlCSVQoNSkNCj4gPiArI2RlZmluZSBEV19IRE1JX0VSUk9SX0ZMT1dfT0ZGU0VUCQk1DQo+
+ID4gKyNkZWZpbmUgRFdfSERNSV9FUlJPUl9JTklUSVRBVE9SX01BU0sJCUJJVCg0KQ0KPiA+ICsj
+ZGVmaW5lIERXX0hETUlfRVJST1JfSU5JVElUQVRPUl9PRkZTRVQJCTQNCj4gPiArI2RlZmluZSBE
+V19IRE1JX0FSQl9MT1NUX01BU0sJCQlCSVQoMykNCj4gPiArI2RlZmluZSBEV19IRE1JX0FSQl9M
+T1NUX09GRlNFVAkJCTMNCj4gPiArI2RlZmluZSBEV19IRE1JX05BQ0tfTUFTSwkJCUJJVCgyKQ0K
+PiA+ICsjZGVmaW5lIERXX0hETUlfTkFDS19PRkZTRVQJCQkyDQo+ID4gKyNkZWZpbmUgRFdfSERN
+SV9FT01fTUFTSwkJCUJJVCgxKQ0KPiA+ICsjZGVmaW5lIERXX0hETUlfRU9NX09GRlNFVAkJCTEN
+Cj4gPiArI2RlZmluZSBEV19IRE1JX0RPTkVfTUFTSwkJCUJJVCgwKQ0KPiA+ICsjZGVmaW5lIERX
+X0hETUlfRE9ORV9PRkZTRVQJCQkwDQo+ID4gKw0KPiA+ICsjZGVmaW5lIERXX0hETUlfQ0VDX0FE
+RFJfTAkJCTB4MWYxNA0KPiA+ICsjZGVmaW5lIERXX0hETUlfQ0VDX0FERFJfSAkJCTB4MWYxOA0K
+PiA+ICsjZGVmaW5lIERXX0hETUlfQ0VDX1RYX0NOVAkJCTB4MWYxYw0KPiA+ICsjZGVmaW5lIERX
+X0hETUlfQ0VDX1JYX0NOVAkJCTB4MWYyMA0KPiA+ICsjZGVmaW5lIERXX0hETUlfQ0VDX1RYX0RB
+VEEoaSkJCQkoMHgxZjQwICsgKChpKSAqIDQpKQ0KPiA+ICsjZGVmaW5lIERXX0hETUlfQ0VDX1RY
+X0RBVEFfTUFYCQkJMTYNCj4gPiArI2RlZmluZSBEV19IRE1JX0NFQ19SWF9EQVRBKGkpCQkJKDB4
+MWY4MCArICgoaSkgKiA0KSkNCj4gPiArI2RlZmluZSBEV19IRE1JX0NFQ19SWF9EQVRBX01BWAkJ
+CTE2DQo+ID4gKyNkZWZpbmUgRFdfSERNSV9DRUNfTE9DSwkJCTB4MWZjMA0KPiA+ICsjZGVmaW5l
+IERXX0hETUlfQ0VDX1dBS0VVUENUUkwJCQkweDFmYzQNCj4gPiArDQo+ID4gIC8qIGlkX2NidXMg
+UmVnaXN0ZXJzICovDQo+ID4gICNkZWZpbmUgRFdfSERNSV9DQlVTSU9DVFJMCQkJMHgzMDIwDQo+
+ID4gICNkZWZpbmUgRFdfSERNSV9EQVRBUEFUSF9DQlVTWl9NQVNLCQlCSVQoMjQpDQo+ID4gDQoN
+Cg==
