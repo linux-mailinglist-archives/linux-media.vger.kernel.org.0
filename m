@@ -2,40 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CFE8398DD4
+	by mail.lfdr.de (Postfix) with ESMTP id C61AE398DD5
 	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 17:05:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231707AbhFBPHL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 11:07:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37140 "EHLO mail.kernel.org"
+        id S231822AbhFBPHM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 11:07:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37150 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230482AbhFBPHK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S231200AbhFBPHK (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 2 Jun 2021 11:07:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E73D6613D0;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E4E36613BF;
         Wed,  2 Jun 2021 15:05:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1622646327;
-        bh=JZH2HyNn+bokqhbpV6owb8yumaHCOUaoiPPXWSuP7RQ=;
+        bh=O+MVZK2/VWrOv0uNopPTZk4ef5SjBfIFg4HgutEUxc4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kIbwOdIs/E+yLFKzNEl2LI2MTR5H5X78n4NCRWmX8AsPpuUb8wlEsefatwflmFA24
-         F6zBT0br9QpX24PG86M1+O4j2VROs2MqZhqPKyzc/qIrT5WbiOYWqdHGws+CzY1Yol
-         v36vk9fYduS1S5GujZALtivIqouKBsOT7HASn3TyoWL2KPixaL9VsgpigVXkmXHISE
-         imsqAIrXqNrKHlF8YwJDoClDaZ0vQwaH3ag2Tb6D+VzRMRaa3TxIsiA2sQ51B6Vx0L
-         CKGos8ja9nuiN5VQl8OQ5pX4Dib65lX4/1KYBZ7cLQJD/9wepJd9YWQPhMb8NKm4Se
-         kusLeMktNKLpw==
+        b=M2dpSqDMav4VZzm17qWX3o18vHiY0sFfvlftLEIwcDyfxZs9nS51U7xANVUh31S1X
+         h1EuuzY13soZbe19UGG+tJwuPRb4pIjaeBPxy2lliZkdCaiJcO8BHAQi8DwIT08i+u
+         M6JomKk3PBwSPnf+zyJGMK9DRUnwQBPVVr84KEtEQoT9+9DjnkVlGoRQULVCrkFqvO
+         TwKGKG2OezPfo+Ty45YS68LT/LrXR8dSd1fT9qFuKZhP6KPUMWbuxPekOKB5vOv9OK
+         hJCh7y4/rm/U2Inex1qDwUqMHZBTyjZHxkxZ63PJbDFf3KQVqCAM38wUEg23Ky/YjI
+         j2o62Dkf/dzzQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1loSQu-006Waj-Rq; Wed, 02 Jun 2021 17:05:24 +0200
+        id 1loSQu-006Wan-T3; Wed, 02 Jun 2021 17:05:24 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 3/6] media: allegro-dvt: avoid EN DASH char
-Date:   Wed,  2 Jun 2021 17:05:20 +0200
-Message-Id: <94f20b3817342ace2ac06057150b73996874c43f.1622646256.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 4/6] media: saa7134: drop a NO-BREAK SPACE
+Date:   Wed,  2 Jun 2021 17:05:21 +0200
+Message-Id: <c5bfa09582f2bf1e9eb4666b12758ffda01db8b6.1622646256.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1622646256.git.mchehab+huawei@kernel.org>
 References: <cover.1622646256.git.mchehab+huawei@kernel.org>
@@ -48,42 +48,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While there's nothing wrong with EN DASH on C code, this probably
-came from some cut-and paste from an ITU-T table.
-It sounds better to just an HYPHEN here.
+There are two spaces on a comment there, being one of them
+an U+00a0 (' '): NO-BREAK SPACE.
+
+Drop it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/allegro-dvt/nal-h264.c | 2 +-
- drivers/media/platform/allegro-dvt/nal-hevc.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/pci/saa7134/saa7134-tvaudio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/allegro-dvt/nal-h264.c b/drivers/media/platform/allegro-dvt/nal-h264.c
-index 94dd9266d850..a02095eb3fcf 100644
---- a/drivers/media/platform/allegro-dvt/nal-h264.c
-+++ b/drivers/media/platform/allegro-dvt/nal-h264.c
-@@ -25,7 +25,7 @@
- #include "nal-rbsp.h"
- 
- /*
-- * See Rec. ITU-T H.264 (04/2017) Table 7-1 – NAL unit type codes, syntax
-+ * See Rec. ITU-T H.264 (04/2017) Table 7-1 -- NAL unit type codes, syntax
-  * element categories, and NAL unit type classes
-  */
- enum nal_unit_type {
-diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.c b/drivers/media/platform/allegro-dvt/nal-hevc.c
-index 5db540c69bfe..15a352e45831 100644
---- a/drivers/media/platform/allegro-dvt/nal-hevc.c
-+++ b/drivers/media/platform/allegro-dvt/nal-hevc.c
-@@ -25,7 +25,7 @@
- #include "nal-rbsp.h"
- 
- /*
-- * See Rec. ITU-T H.265 (02/2018) Table 7-1 – NAL unit type codes and NAL unit
-+ * See Rec. ITU-T H.265 (02/2018) Table 7-1 - NAL unit type codes and NAL unit
-  * type classes
-  */
- enum nal_unit_type {
+diff --git a/drivers/media/pci/saa7134/saa7134-tvaudio.c b/drivers/media/pci/saa7134/saa7134-tvaudio.c
+index aa0895d2d735..9e0c442abc76 100644
+--- a/drivers/media/pci/saa7134/saa7134-tvaudio.c
++++ b/drivers/media/pci/saa7134/saa7134-tvaudio.c
+@@ -871,7 +871,7 @@ void saa7134_enable_i2s(struct saa7134_dev *dev)
+ 	switch (dev->pci->device) {
+ 	case PCI_DEVICE_ID_PHILIPS_SAA7133:
+ 	case PCI_DEVICE_ID_PHILIPS_SAA7135:
+-		/* Set I2S format (SONY)  */
++		/* Set I2S format (SONY) */
+ 		saa_writeb(SAA7133_I2S_AUDIO_CONTROL, 0x00);
+ 		/* Start I2S */
+ 		saa_writeb(SAA7134_I2S_AUDIO_OUTPUT, 0x11);
 -- 
 2.31.1
 
