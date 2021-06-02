@@ -2,4046 +2,2473 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A93D93988A9
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 13:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBFD93988C5
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 14:01:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbhFBL4c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 07:56:32 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:44107 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229822AbhFBL43 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Jun 2021 07:56:29 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id oPSIlEKCiEXL0oPSMlxs2G; Wed, 02 Jun 2021 13:54:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622634882; bh=XsoURXdcyZr8YFnAyIsDJT8tSUFkPHX2Hwkz+0tjtN4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=OQ9EndQVtf7JDks3MCWZk14UhTkS4GQLk5TFZ81/roU3VucLAnSXRyOGV3s4IEwKV
-         XIZ+3bmscKKYJE8U8OYrm8Eih/g5QbWiDipZAjn8cQ29rKd+0C1Kc2J1wstUs7lVoi
-         qQ91nBBIPQ37dIoNjB7fBNcjd/vzVW6kocGi7JMn+uJbBgIrBZk2UMyYEq6P39XgJ9
-         LyLrrDeanXzO3YTv45YpZbPjS8jTcCMC8w/W+Fht8zDld1D7M/nuzRKNAkUflpc7/3
-         QsMDBBTxiJ5kdtW/TWB0idZlo4cmLWJ+8YQxfPfGcXnebsgx4Q6Wt2/OxG9D0sIGzm
-         jS+QQ2QyaVoqA==
-Subject: Re: [PATCH 6/9] media: platform: Add Synopsys DesignWare HDMI RX
- Controller Driver
-To:     Nelson Costa <Nelson.Costa@synopsys.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jose Abreu <Jose.Abreu@synopsys.com>
-References: <cover.1622631488.git.nelson.costa@synopsys.com>
- <42b1ff078618a90973f25311eae725f0f151acc5.1622631488.git.nelson.costa@synopsys.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <19a78e24-b767-e5bb-e932-e704fe8614be@xs4all.nl>
-Date:   Wed, 2 Jun 2021 13:54:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <42b1ff078618a90973f25311eae725f0f151acc5.1622631488.git.nelson.costa@synopsys.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJMdgD55Bc1PLmtLZ8Ld9jSb9TqswtgqqS6vRIl2LpLafYLEfxNrTVzEWhObU98iJCHXNywyaykqxuSuoOdYuwh4QL9vdK7cUG6TXWIkBGVoI44LEgBo
- 6esSKoPCqSPMfANlGZGJrvjPrhMJvHbEZJdxZ1vqn6Jqx/oyWqZFwaAx8dBUGGvwmSrzwfMvNgAHp2Tu3g5cv+J1P4Bud/1inlPrX8HsaRUJNEM3avlUc84Y
- vXzU1KIh10Z/sr+2zKmihibecV7xcfh8iS9ddyX7Ao6D9H8ioM07szku9Z7KgI+F9VW54uzrH86J3qDuBDMcCUaf3oO1fX/oTLmdHSZlotj9d1dr1dS2DzpO
- 2fAeLRzXLJZQHwdlnVImllgVhgATIlLXPRZis3FRkaXHwYx1kOayZEld3duIIWfANvCX38mRQHxovlI9mRO6h1Errf59abTWu/OMEjAjiTp/XKG/427KEV8N
- E7OOd6bEtwjppVRPC0lMwKQluhbsQrofOcm6ZuR4njRHWeiopNv0PnP6sRI=
+        id S229707AbhFBMCs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 08:02:48 -0400
+Received: from comms.puri.sm ([159.203.221.185]:47736 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229668AbhFBMCf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Jun 2021 08:02:35 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 455B7DFB83;
+        Wed,  2 Jun 2021 05:00:50 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id vZERyP1jboqV; Wed,  2 Jun 2021 05:00:33 -0700 (PDT)
+Message-ID: <84292af283a5a37289940478a25402631018c973.camel@puri.sm>
+Subject: Re: [PATCH v3 3/5] media: i2c: add driver for the SK Hynix Hi-846
+ 8M pixel camera
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     pavel@ucw.cz, krzysztof.kozlowski@canonical.com,
+        mchehab@kernel.org, paul.kocialkowski@bootlin.com, robh@kernel.org,
+        shawnx.tu@intel.com, devicetree@vger.kernel.org, kernel@puri.sm,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        phone-devel@vger.kernel.org
+Date:   Wed, 02 Jun 2021 14:00:11 +0200
+In-Reply-To: <YLV7+tuTZbr3boTw@pendragon.ideasonboard.com>
+References: <20210531120737.168496-1-martin.kepplinger@puri.sm>
+         <20210531120737.168496-4-martin.kepplinger@puri.sm>
+         <YLV7+tuTZbr3boTw@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nelson,
-
-Thank you for this patch. Some initial comments below, I will
-need to go over this another time for some of the colorimetry
-related functions.
-
-BTW, if you are interested in HDCP support, let me know. Cisco worked
-on an API for this, but due to various reasons we have not been able
-to upstream it. But we do use it in our products.
-
-On 02/06/2021 13:24, Nelson Costa wrote:
-> This is an initial submission for the Synopsys DesignWare HDMI RX
-> Controller Driver. It is responsible to manage and handle the PHY
-> (through the PHY API) and the Controller configurations in order
-> to configure the video and audio pipeline.
+Am Dienstag, dem 01.06.2021 um 03:14 +0300 schrieb Laurent Pinchart:
+> Hi Martin,
 > 
-> This driver is implemented as a standard V4L2 subdevice.
-> The main features of this module are:
->  - Support for scrambling
->  - Support for color depth up to 48bpp
->  - Support for HDMI 2.0 modes up to 6G (HDMI 4k@60Hz)
->  - Support for RGB, YCC444, YCC422 and YCC420
->  - Support for basic audio (LPCM 2ch, 32KHz/44.1KHz/48KHz, 16bit)
->  - Support for Aspect Ratio
->  - Support for CEC
->  - Internal state machine that reconfigures PHY and controller
->  - JTAG communication with PHY
->  - Inter-module communication with PHY driver:
->    * through the PHY API using the PHY reference "hdmi-phy"
->    * through the callbacks that PHY DWC driver needs.
->  - Debug write/read ioctls.
+> Thank you for the patch.
 > 
-> Signed-off-by: Jose Abreu <jose.abreu@synopsys.com>
-> Signed-off-by: Nelson Costa <nelson.costa@synopsys.com>
-> ---
->  drivers/media/platform/Kconfig          |    2 +
->  drivers/media/platform/Makefile         |    1 +
->  drivers/media/platform/dwc/Kconfig      |   13 +
->  drivers/media/platform/dwc/Makefile     |    3 +
->  drivers/media/platform/dwc/dw-hdmi-rx.c | 3237 +++++++++++++++++++++++++++++++
->  drivers/media/platform/dwc/dw-hdmi-rx.h |  476 +++++
->  include/media/dwc/dw-hdmi-rx-pdata.h    |  126 ++
->  7 files changed, 3858 insertions(+)
->  create mode 100644 drivers/media/platform/dwc/Kconfig
->  create mode 100644 drivers/media/platform/dwc/Makefile
->  create mode 100644 drivers/media/platform/dwc/dw-hdmi-rx.c
->  create mode 100644 drivers/media/platform/dwc/dw-hdmi-rx.h
->  create mode 100644 include/media/dwc/dw-hdmi-rx-pdata.h
+> On Mon, May 31, 2021 at 02:07:35PM +0200, Martin Kepplinger wrote:
+> > The SK Hynix Hi-846 is a 1/4" 8M Pixel CMOS Image Sensor. It
+> > supports
+> > usual features like I2C control, CSI-2 for frame data,
+> > digital/analog
+> > gain control or test patterns.
+> > 
+> > This driver supports the 640x480, 1280x720 and 1632x1224 resolution
+> > modes. It supports runtime PM in order not to draw any unnecessary
+> > power.
+> > 
+> > The part is also called YACG4D0C9SHC and a datasheet can be found
+> > at
+> > https://product.skhynix.com/products/cis/cis.go
+> > 
+> > The large sets of partly undocumented register values are for
+> > example
+> > found when searching for the hi846_mipi_raw_Sensor.c Android
+> > driver.
 > 
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index b238a92..20db68d 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -29,6 +29,8 @@ source "drivers/media/platform/cadence/Kconfig"
->  
->  source "drivers/media/platform/davinci/Kconfig"
->  
-> +source "drivers/media/platform/dwc/Kconfig"
-> +
->  source "drivers/media/platform/omap/Kconfig"
->  
->  config VIDEO_ASPEED
-> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> index eedc14a..955aae6 100644
-> --- a/drivers/media/platform/Makefile
-> +++ b/drivers/media/platform/Makefile
-> @@ -6,6 +6,7 @@
->  obj-$(CONFIG_VIDEO_ALLEGRO_DVT)		+= allegro-dvt/
->  obj-$(CONFIG_VIDEO_ASPEED)		+= aspeed-video.o
->  obj-$(CONFIG_VIDEO_CADENCE)		+= cadence/
-> +obj-y					+= dwc/
->  obj-$(CONFIG_VIDEO_VIA_CAMERA) += via-camera.o
->  obj-$(CONFIG_VIDEO_CAFE_CCIC) += marvell-ccic/
->  obj-$(CONFIG_VIDEO_MMP_CAMERA) += marvell-ccic/
-> diff --git a/drivers/media/platform/dwc/Kconfig b/drivers/media/platform/dwc/Kconfig
-> new file mode 100644
-> index 0000000..e915ca6
-> --- /dev/null
-> +++ b/drivers/media/platform/dwc/Kconfig
-> @@ -0,0 +1,13 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +config VIDEO_DWC_HDMI_RX
-> +	tristate "Synopsys DesignWare HDMI Receiver driver"
-> +	depends on VIDEO_V4L2
-> +	select MEDIA_CONTROLLER
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	select HDMI
-> +	help
-> +	  Support for Synopsys DesignWare HDMI RX Controller.
-> +	  This driver supports HDMI 2.0 version.
-> +
-> +	  To compile this driver as a module, choose M here. The module
-> +	  will be called dw-hdmi-rx.
-> diff --git a/drivers/media/platform/dwc/Makefile b/drivers/media/platform/dwc/Makefile
-> new file mode 100644
-> index 0000000..fddd30c
-> --- /dev/null
-> +++ b/drivers/media/platform/dwc/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +obj-$(CONFIG_VIDEO_DWC_HDMI_RX) += dw-hdmi-rx.o
-> diff --git a/drivers/media/platform/dwc/dw-hdmi-rx.c b/drivers/media/platform/dwc/dw-hdmi-rx.c
-> new file mode 100644
-> index 0000000..b20eccc
-> --- /dev/null
-> +++ b/drivers/media/platform/dwc/dw-hdmi-rx.c
-> @@ -0,0 +1,3237 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-> + * Synopsys DesignWare HDMI Receiver controller driver
-> + *
-> + * Author: Jose Abreu <jose.abreu@synopsys.com>
-> + * Author: Nelson Costa <nelson.costa@synopsys.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/phy/phy.h>
-> +#include <linux/phy/dwc/dw-hdmi-phy-pdata.h>
-> +#include <linux/v4l2-dv-timings.h>
-> +#include <linux/workqueue.h>
-> +#include <linux/rational.h>
-> +#include <linux/hdmi.h>
-> +#include <media/v4l2-async.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-dv-timings.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-subdev.h>
-> +#include <media/dwc/dw-hdmi-rx-pdata.h>
-> +
-> +#include "dw-hdmi-rx.h"
-> +
-> +#define DW_HDMI_DEFAULT_TIMING		V4L2_DV_BT_CEA_640X480P59_94
-> +#define DW_HDMI_JTAG_TAP_ADDR_CMD	0
-> +#define DW_HDMI_JTAG_TAP_WRITE_CMD	1
-> +#define DW_HDMI_JTAG_TAP_READ_CMD	3
-> +#define DW_HDMI_AUDIO_FREQ_RANGE	1000
-> +
-> +/* EDID for HDMI RX */
-> +static u32 dw_hdmi_edid[] = {
-> +	/* V2 Support for                           */
-> +	/*  - Video modes up-to 2.97Gbps            */
-> +	/*  - RGB, Ycc444/422/420                   */
-> +	/*  - Audio 2Ch L-PCM                       */
-> +	/*  - SCDC CED                              */
-> +	0x00FFFFFF, 0xFFFFFF00, 0x4F2E4A21, 0x00000000,
-> +	0x331E0103, 0x80462878, 0x0A0DC9A0, 0x57479827,
-> +	0x12484C20, 0x00000101, 0x01010101, 0x01010101,
-> +	0x01010101, 0x0101023A, 0x80187138, 0x2D40582C,
-> +	0x450020C2, 0x3100001E, 0x011D0072, 0x51D01E20,
-> +	0x6E285500, 0x20C23100, 0x001E0000, 0x00FC0053,
-> +	0x4E505320, 0x48444D49, 0x2052580A, 0x000000FD,
-> +	0x0017780F, 0x871E000A, 0x20202020, 0x20200160,
-> +
-> +	0x02035771, 0x83010000, 0x57696867, 0x6463625F,
-> +	0x5E5D901F, 0x04131211, 0x0302015A, 0x59585756,
-> +	0x55555453, 0x5251504F, 0x4E4D4C4B, 0x4A494847,
-> +	0x46454443, 0x42412309, 0x07076E03, 0x0C001000,
-> +	0xF83B2000, 0x80010203, 0x0467D85D, 0xC4010080,
-> +	0x00E50E66, 0x65616000, 0x00000000, 0x00000000,
-> +	0x00000000, 0x00000000, 0x00000000, 0x00000000,
-> +	0x00000000, 0x00000000, 0x00000000, 0x000000B6,
-> +};
-
-This won't work, it's a bad idea to have a default EDID since it is almost
-certainly wrong anyway. Userspace has to set the EDID since userspace knows
-the capabilities of the device as a whole. I.e., while this receiver supports
-up to 2.97 Gbps, there might other contraints that would lower this value.
-And the EDID contains vendor and model information, and addition blocks and
-capabilities might have to be set.
-
-So keep the EDID empty and the HPD low at start up, and leave it to userspace
-to write the EDID (for testing the v4l2-ctl utility comes with a bunch of
-predefined EDIDs).
-
-> +
-> +static const struct v4l2_dv_timings_cap dw_hdmi_timings_cap = {
-> +	.type = V4L2_DV_BT_656_1120,
-> +	.reserved = { 0 },
-> +	V4L2_INIT_BT_TIMINGS(640, 4096,			/* min/max width */
-> +			     480, 4455,			/* min/max height */
-> +			     20000000, 600000000,	/* min/max pixelclock */
-> +			     /* standards */
-> +			     V4L2_DV_BT_STD_CEA861,
-> +			     /* capabilities */
-> +			     V4L2_DV_BT_CAP_PROGRESSIVE)
-> +};
-> +
-> +static const struct v4l2_event dw_hdmi_event_fmt = {
-> +	.type = V4L2_EVENT_SOURCE_CHANGE,
-> +	.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
-> +};
-> +
-> +enum dw_hdmi_state {
-> +	HDMI_STATE_NO_INIT = 0,
-> +	HDMI_STATE_POWER_OFF,
-> +	HDMI_STATE_POWER_UP,
-> +	HDMI_STATE_PHY_CONFIG,
-> +	HDMI_STATE_HPD,
-> +	HDMI_STATE_EQUALIZER,
-> +	HDMI_STATE_DATAPATH,
-> +	HDMI_STATE_VIDEO_UNSTABLE,
-> +	HDMI_STATE_AUDIO,
-> +	HDMI_STATE_POWER_ON,
-> +};
-> +
-> +struct dw_hdmi_infoframe_cfg {
-> +	const char *desc;
-> +	u8 header[3];
-> +	u32 header_addr;
-> +	u32 payload_addr;
-> +	u32 payload_len;
-> +	void *frame;
-> +	unsigned int frame_size;
-> +};
-> +
-> +struct dw_hdmi_dev {
-> +	struct device *dev;
-> +	struct device_node *of_node;
-> +	void __iomem *regs;
-> +	struct clk *clk;
-> +
-> +	/* Platform Data configuration */
-> +	struct dw_hdmi_rx_pdata *config;
-> +
-> +	/* Phy info */
-> +	struct platform_device *phy_pdev;
-> +	struct dw_phy_pdata phy_config;
-> +	struct phy *phy;
-> +
-> +	/*
-> +	 * Used to prevent race conditions between multiple
-> +	 * concurrent calls to handle the state machine changes
-> +	 * and pending configurations.
-> +	 */
-> +	spinlock_t lock;
-> +	/*
-> +	 * Used to prevent race conditions between multiple
-> +	 * concurrent calls to notify the audio changes.
-> +	 */
-> +	spinlock_t event_lock;
-> +
-> +	/* Work queue to handle the state machine */
-> +	struct workqueue_struct *wq;
-> +	struct work_struct work;
-> +
-> +	/* State machine variables */
-> +	enum dw_hdmi_state state;
-> +	u32 mbus_code;
-> +	u32 old_mbus;
-> +	u8 *curr_edid_blocks;
-> +	u8 current_vic;
-> +	bool current_vic_is_4k;
-> +	bool registered;
-> +	bool pending_config;
-> +	bool force_off;
-> +	bool is_hdmi2;
-> +	bool is_scrambled;
-> +	bool phy_eq_force;
-> +	bool phy_eq_on;
-> +	bool hw_reset_on_hot_plug;
-> +	bool *input_connected;
-> +	unsigned int selected_input;
-> +	unsigned int configured_input;
-> +	unsigned int input_stat;
-> +	unsigned int audio_sf;
-> +	unsigned int tmds_valid_wait_count;
-> +	unsigned int has_clock_wait_ms;
-> +	unsigned int video_stable_wait_ms;
-> +	unsigned int reset_datapath_enable;
-> +
-> +	/* Infoframes */
-> +	union hdmi_infoframe aviif;
-> +	union hdmi_infoframe spdif;
-> +	union hdmi_infoframe audioif;
-> +	union hdmi_infoframe vsif;
-> +
-> +	/* v4l2 device */
-> +	struct v4l2_subdev sd;
-> +	struct v4l2_ctrl_handler hdl;
-> +	struct v4l2_ctrl *detect_tx_5v_ctrl;
-> +	struct v4l2_dv_timings timings;
-> +};
-> +
-> +static const char *get_state_name(enum dw_hdmi_state state)
-> +{
-> +	switch (state) {
-> +	case HDMI_STATE_NO_INIT:
-> +		return "NO_INIT";
-> +	case HDMI_STATE_POWER_OFF:
-> +		return "POWER_OFF";
-> +	case HDMI_STATE_POWER_UP:
-> +		return "POWER_UP";
-> +	case HDMI_STATE_PHY_CONFIG:
-> +		return "PHY_CONFIG";
-> +	case HDMI_STATE_HPD:
-> +		return "HPD";
-> +	case HDMI_STATE_EQUALIZER:
-> +		return "EQUALIZER";
-> +	case HDMI_STATE_DATAPATH:
-> +		return "DATAPATH";
-> +	case HDMI_STATE_VIDEO_UNSTABLE:
-> +		return "VIDEO_UNSTABLE";
-> +	case HDMI_STATE_AUDIO:
-> +		return "AUDIO";
-> +	case HDMI_STATE_POWER_ON:
-> +		return "POWER_ON";
-> +	default:
-> +		return "UNKNOWN";
-> +	}
-> +}
-> +
-> +static inline void dw_hdmi_set_state(struct dw_hdmi_dev *dw_dev,
-> +				     enum dw_hdmi_state new_state)
-> +{
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&dw_dev->lock, flags);
-> +	dev_dbg(dw_dev->dev, "old_state=%s, new_state=%s\n",
-> +		get_state_name(dw_dev->state),
-> +		get_state_name(new_state));
-> +	dw_dev->state = new_state;
-> +	spin_unlock_irqrestore(&dw_dev->lock, flags);
-> +}
-> +
-> +static inline struct dw_hdmi_dev *to_dw_dev(struct v4l2_subdev *sd)
-> +{
-> +	return container_of(sd, struct dw_hdmi_dev, sd);
-> +}
-> +
-> +static inline void hdmi_writel(struct dw_hdmi_dev *dw_dev, u32 val, int reg)
-> +{
-> +	writel(val, dw_dev->regs + reg);
-> +}
-> +
-> +static inline u32 hdmi_readl(struct dw_hdmi_dev *dw_dev, int reg)
-> +{
-> +	return readl(dw_dev->regs + reg);
-> +}
-> +
-> +static void hdmi_modl(struct dw_hdmi_dev *dw_dev, u32 data, u32 mask, int reg)
-> +{
-> +	u32 val = hdmi_readl(dw_dev, reg) & ~mask;
-> +
-> +	val |= data & mask;
-> +	hdmi_writel(dw_dev, val, reg);
-> +}
-> +
-> +static void hdmi_mask_writel(struct dw_hdmi_dev *dw_dev, u32 data, int reg,
-> +			     u32 shift, u32 mask)
-> +{
-> +	hdmi_modl(dw_dev, data << shift, mask, reg);
-> +}
-> +
-> +static u32 hdmi_mask_readl(struct dw_hdmi_dev *dw_dev, int reg, u32 shift,
-> +			   u32 mask)
-> +{
-> +	return (hdmi_readl(dw_dev, reg) & mask) >> shift;
-> +}
-> +
-> +static bool dw_hdmi_5v_status(struct dw_hdmi_dev *dw_dev, int input)
-> +{
-> +	void __iomem *arg = dw_dev->config->dw_5v_arg;
-> +
-> +	if (dw_dev->config->dw_5v_status)
-> +		return dw_dev->config->dw_5v_status(arg, input);
-> +
-> +	return false;
-> +}
-> +
-> +static void dw_hdmi_5v_disable(struct dw_hdmi_dev *dw_dev, int input)
-> +{
-> +	void __iomem *arg = dw_dev->config->dw_5v_arg;
-> +
-> +	if (!dw_dev->config->dw_5v_disable)
-> +		return;
-> +
-> +	dw_dev->config->dw_5v_disable(arg, input);
-> +}
-> +
-> +static void dw_hdmi_5v_enable(struct dw_hdmi_dev *dw_dev, int input)
-> +{
-> +	void __iomem *arg = dw_dev->config->dw_5v_arg;
-> +
-> +	if (!dw_dev->config->dw_5v_enable)
-> +		return;
-> +
-> +	dw_dev->config->dw_5v_enable(arg, input);
-> +}
-> +
-> +static u32 dw_hdmi_edid_read(struct dw_hdmi_dev *dw_dev, int input, u32 offset)
-> +{
-> +	void __iomem *arg = dw_dev->config->dw_edid_arg;
-> +
-> +	if (!dw_dev->config->dw_edid_read)
-> +		return 0x0;
-> +
-> +	return dw_dev->config->dw_edid_read(arg, input, offset);
-> +}
-> +
-> +static int dw_hdmi_edid_write(struct dw_hdmi_dev *dw_dev, int input, u32 *edid,
-> +			      int size)
-> +{
-> +	void __iomem *arg = dw_dev->config->dw_edid_arg;
-> +
-> +	if (!dw_dev->config->dw_edid_write)
-> +		return 0;
-> +
-> +	return dw_dev->config->dw_edid_write(arg, input, edid, size);
-> +}
-> +
-> +static u32 dw_hdmi_edid_4blocks_le(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	void __iomem *arg = dw_dev->config->dw_edid_arg;
-> +
-> +	if (!dw_dev->config->dw_edid_4blocks_le)
-> +		return 0x0;
-> +
-> +	return dw_dev->config->dw_edid_4blocks_le(arg);
-> +}
-> +
-> +static int dw_hdmi_update_edid(struct dw_hdmi_dev *dw_dev, int input,
-> +			       u8 *edid, int size, u8 invert_bytes)
-> +{
-> +	unsigned int i, j;
-> +	u32 *w_edid_srt;
-> +	int ret;
-> +
-> +	if (invert_bytes) {
-> +		/* invert the order of bytes to register 32bit */
-> +		w_edid_srt = devm_kzalloc(dw_dev->dev, size, GFP_KERNEL);
-> +		if (!w_edid_srt) {
-> +			devm_kfree(dw_dev->dev, w_edid_srt);
-> +			return -ENOMEM;
-> +		}
-> +
-> +		for (i = 0; i < size / sizeof(u32); i++) {
-> +			for (j = 0; j < 4; j++) {
-> +				w_edid_srt[i] |=
-> +					edid[i * 4 + j] << (8 * (3 - j));
-> +			}
-> +		}
-> +
-> +		ret = dw_hdmi_edid_write(dw_dev, input, (u32 *)w_edid_srt,
-> +					 size / sizeof(u32));
-> +		devm_kfree(dw_dev->dev, w_edid_srt);
-> +	} else {
-> +		/* no need to invert bytes */
-> +		ret = dw_hdmi_edid_write(dw_dev, input, (u32 *)edid,
-> +					 size / sizeof(u32));
-> +	}
-> +	dw_dev->curr_edid_blocks[input] = size / 128;
-> +
-> +	return ret;
-> +}
-> +
-> +static void dw_hdmi_main_reset(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	void __iomem *arg = dw_dev->config->dw_reset_arg;
-> +
-> +	if (!dw_dev->config->dw_reset_all)
-> +		return;
-> +
-> +	dev_dbg(dw_dev->dev, "%s: main reset\n", __func__);
-> +
-> +	dw_dev->config->dw_reset_all(arg);
-> +}
-> +
-> +static void dw_hdmi_disable_hpd(struct dw_hdmi_dev *dw_dev);
-> +
-> +static void dw_hdmi_reset(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	dev_dbg(dw_dev->dev, "%s: reset\n", __func__);
-> +
-> +	/* perform main reset */
-> +	dw_hdmi_main_reset(dw_dev);
-> +
-> +	dw_hdmi_disable_hpd(dw_dev);
-> +}
-> +
-> +static inline bool is_off(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	return dw_dev->state <= HDMI_STATE_POWER_OFF;
-> +}
-> +
-> +static inline bool is_on(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	return dw_dev->state == HDMI_STATE_POWER_ON;
-> +}
-> +
-> +static bool has_signal(struct dw_hdmi_dev *dw_dev, unsigned int input)
-> +{
-> +	return dw_dev->input_connected[input];
-> +}
-> +
-> +static inline bool is_hdmi2(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	return hdmi_readl(dw_dev, DW_HDMI_SCDC_REGS0) &
-> +			DW_HDMI_SCDC_TMDSBITCLKRATIO_MASK;
-> +}
-> +
-> +static inline bool is_scrambled(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	return hdmi_readl(dw_dev, DW_HDMI_SCDC_REGS0) &
-> +			DW_HDMI_SCDC_SCRAMBSTATUS_MASK;
-> +}
-> +
-> +static void hdmi_phy_jtag_send_pulse(struct dw_hdmi_dev *dw_dev, u8 tms, u8 tdi)
-> +{
-> +	u8 val;
-> +
-> +	val = tms ? DW_HDMI_JTAG_TMS : 0;
-> +	val |= tdi ? DW_HDMI_JTAG_TDI : 0;
-> +
-> +	hdmi_writel(dw_dev, 0, DW_HDMI_JTAG_TAP_TCLK);
-> +	hdmi_writel(dw_dev, val, DW_HDMI_JTAG_TAP_IN);
-> +	hdmi_writel(dw_dev, 1, DW_HDMI_JTAG_TAP_TCLK);
-> +}
-> +
-> +static void hdmi_phy_jtag_shift_dr(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-> +}
-> +
-> +static void hdmi_phy_jtag_shift_ir(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-> +}
-> +
-> +static u16 hdmi_phy_jtag_send(struct dw_hdmi_dev *dw_dev, u8 cmd, u16 val)
-> +{
-> +	u32 in = (cmd << 16) | val;
-> +	u16 out = 0;
-> +	u8 i;
-> +
-> +	for (i = 0; i < 16; i++) {
-> +		hdmi_phy_jtag_send_pulse(dw_dev, 0, in & 0x1);
-> +		out |= (hdmi_readl(dw_dev, DW_HDMI_JTAG_TAP_OUT) & 0x1) << i;
-> +		in >>= 1;
-> +	}
-> +
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 0, in & 0x1);
-> +	in >>= 1;
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 1, in & 0x1);
-> +
-> +	out |= (hdmi_readl(dw_dev, DW_HDMI_JTAG_TAP_OUT) & 0x1) << ++i;
-> +	return out;
-> +}
-> +
-> +static void hdmi_phy_jtag_idle(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-> +}
-> +
-> +static void hdmi_phy_jtag_init(struct dw_hdmi_dev *dw_dev, u8 addr)
-> +{
-> +	u8 i;
-> +
-> +	hdmi_writel(dw_dev, addr, DW_HDMI_JTAG_ADDR);
-> +
-> +	/* reset */
-> +	hdmi_writel(dw_dev, 0x10, DW_HDMI_JTAG_TAP_IN);
-> +	hdmi_writel(dw_dev, 0x0, DW_HDMI_JTAG_CONF);
-> +	hdmi_writel(dw_dev, 0x1, DW_HDMI_JTAG_CONF);
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-> +
-> +	/* soft reset */
-> +	for (i = 0; i < 5; i++)
-> +		hdmi_phy_jtag_send_pulse(dw_dev, 1, 0);
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 0, 0);
-> +
-> +	/* set slave address */
-> +	hdmi_phy_jtag_shift_ir(dw_dev);
-> +	for (i = 0; i < 7; i++) {
-> +		hdmi_phy_jtag_send_pulse(dw_dev, 0, addr & 0x1);
-> +		addr >>= 1;
-> +	}
-> +	hdmi_phy_jtag_send_pulse(dw_dev, 1, addr & 0x1);
-> +	hdmi_phy_jtag_idle(dw_dev);
-> +}
-> +
-> +static void hdmi_phy_jtag_write(struct dw_hdmi_dev *dw_dev, u16 val, u16 addr)
-> +{
-> +	hdmi_phy_jtag_shift_dr(dw_dev);
-> +	hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_ADDR_CMD, addr << 8);
-> +	hdmi_phy_jtag_idle(dw_dev);
-> +	hdmi_phy_jtag_shift_dr(dw_dev);
-> +	hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_WRITE_CMD, val);
-> +	hdmi_phy_jtag_idle(dw_dev);
-> +}
-> +
-> +static u16 hdmi_phy_jtag_read(struct dw_hdmi_dev *dw_dev, u16 addr)
-> +{
-> +	u16 val;
-> +
-> +	hdmi_phy_jtag_shift_dr(dw_dev);
-> +	hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_ADDR_CMD, addr << 8);
-> +	hdmi_phy_jtag_idle(dw_dev);
-> +	hdmi_phy_jtag_shift_dr(dw_dev);
-> +	val = hdmi_phy_jtag_send(dw_dev, DW_HDMI_JTAG_TAP_READ_CMD, 0xFFFF);
-> +	hdmi_phy_jtag_idle(dw_dev);
-> +
-> +	return val;
-> +}
-> +
-> +static void dw_hdmi_phy_write(void *arg, u16 val, u16 addr)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = arg;
-> +	u16 rval;
-> +
-> +	hdmi_phy_jtag_init(dw_dev, dw_dev->config->phy->jtag_addr);
-> +	hdmi_phy_jtag_write(dw_dev, val, addr);
-> +	rval = hdmi_phy_jtag_read(dw_dev, addr);
-> +
-> +	if (rval != val) {
-> +		dev_err(dw_dev->dev,
-> +			"JTAG read-back failed: expected=0x%x, got=0x%x\n",
-> +			val, rval);
-> +	}
-> +}
-> +
-> +static u16 dw_hdmi_phy_read(void *arg, u16 addr)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = arg;
-> +
-> +	hdmi_phy_jtag_init(dw_dev, dw_dev->config->phy->jtag_addr);
-> +	return hdmi_phy_jtag_read(dw_dev, addr);
-> +}
-> +
-> +static void dw_hdmi_phy_reset(void *arg, int enable)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = arg;
-> +
-> +	hdmi_mask_writel(dw_dev, enable, DW_HDMI_PHY_CTRL,
-> +			 DW_HDMI_PHYRESET_OFFSET,
-> +			 DW_HDMI_PHYRESET_MASK);
-> +}
-> +
-> +static void dw_hdmi_phy_pddq(void *arg, int enable)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = arg;
-> +
-> +	hdmi_mask_writel(dw_dev, enable, DW_HDMI_PHY_CTRL,
-> +			 DW_HDMI_PHYPDDQ_OFFSET,
-> +			 DW_HDMI_PHYPDDQ_MASK);
-> +}
-> +
-> +static void dw_hdmi_phy_svsmode(void *arg, int enable)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = arg;
-> +
-> +	hdmi_mask_writel(dw_dev, enable, DW_HDMI_PHY_CTRL,
-> +			 DW_HDMI_PHYSVSRETMODEZ_OFFSET,
-> +			 DW_HDMI_PHYSVSRETMODEZ_MASK);
-> +}
-> +
-> +static void dw_hdmi_zcal_reset(void *arg)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = arg;
-> +
-> +	if (dw_dev->config->dw_zcal_reset)
-> +		dw_dev->config->dw_zcal_reset(dw_dev->config->dw_zcal_arg);
-> +}
-> +
-> +static bool dw_hdmi_zcal_done(void *arg)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = arg;
-> +	void __iomem *zcal_arg = dw_dev->config->dw_zcal_arg;
-> +
-> +	if (dw_dev->config->dw_zcal_done)
-> +		return dw_dev->config->dw_zcal_done(zcal_arg);
-> +
-> +	return false;
-> +}
-> +
-> +static bool dw_hdmi_tmds_valid(void *arg)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = arg;
-> +
-> +	return (hdmi_readl(dw_dev, DW_HDMI_PLL_LCK_STS) & DW_HDMI_PLL_LOCKED);
-> +}
-> +
-> +static bool dw_hdmi_audio_valid(void *arg)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = arg;
-> +
-> +	return ((hdmi_readl(dw_dev, DW_HDMI_AUD_PLL_CTRL) &
-> +			DW_HDMI_PLL_LOCK_STABLE_MASK) != 0);
-> +}
-> +
-> +static const struct dw_phy_funcs dw_hdmi_phy_funcs = {
-> +	.write = dw_hdmi_phy_write,
-> +	.read = dw_hdmi_phy_read,
-> +	.reset = dw_hdmi_phy_reset,
-> +	.pddq = dw_hdmi_phy_pddq,
-> +	.svsmode = dw_hdmi_phy_svsmode,
-> +	.zcal_reset = dw_hdmi_zcal_reset,
-> +	.zcal_done = dw_hdmi_zcal_done,
-> +	.tmds_valid = dw_hdmi_tmds_valid,
-> +};
-> +
-> +static const struct of_device_id dw_hdmi_supported_phys[] = {
-> +	{ .compatible = "snps,dw-hdmi-phy-e405", .data = DW_PHY_E40X_DRVNAME, },
-> +	{ .compatible = "snps,dw-hdmi-phy-e406", .data = DW_PHY_E40X_DRVNAME, },
-> +	{ },
-> +};
-> +
-> +static struct device_node *
-> +dw_hdmi_get_phy_of_node(struct dw_hdmi_dev *dw_dev,
-> +			const struct of_device_id **found_id)
-> +{
-> +	const struct of_device_id *id = NULL;
-> +	struct device_node *np = NULL;
-> +
-> +	np = of_find_matching_node_and_match(NULL, dw_hdmi_supported_phys, &id);
-> +
-> +	if (!id)
-> +		return NULL;
-> +
-> +	if (found_id)
-> +		*found_id = id;
-> +
-> +	return np;
-> +}
-> +
-> +static bool dw_hdmi_has_dt(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	const struct of_device_id *of_id;
-> +
-> +	if (!dw_dev->of_node ||
-> +	    !dw_hdmi_get_phy_of_node(dw_dev, &of_id) ||
-> +	    !of_id || !of_id->data) {
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +static const struct dw_hdmi_phy_cfg {
-> +	const char *drvname;
-> +	const struct dw_phy_funcs *funcs;
-> +	int (*extra_init)(struct dw_hdmi_dev *dw_dev);
-> +} dw_hdmi_phys[] = {
-> +	{
-> +		.drvname = DW_PHY_E40X_DRVNAME,
-> +		.funcs = &dw_hdmi_phy_funcs,
-> +	},
-> +};
-> +
-> +static int dw_hdmi_phy_init_dt(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	const struct dw_hdmi_phy_cfg *phy_config = NULL;
-> +	struct dw_phy_pdata *phy = &dw_dev->phy_config;
-> +	struct of_dev_auxdata lookup = { };
-> +	const struct of_device_id *of_id;
-> +	struct device_node *child;
-> +	const char *drvname;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	child = dw_hdmi_get_phy_of_node(dw_dev, &of_id);
-> +	if (!child || !of_id || !of_id->data) {
-> +		dev_err(dw_dev->dev, "no supported PHY found in DT\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	drvname = of_id->data;
-> +	for (i = 0; i < ARRAY_SIZE(dw_hdmi_phys); i++) {
-> +		if (!strcmp(dw_hdmi_phys[i].drvname, drvname))
-> +			phy_config = &dw_hdmi_phys[i];
-> +	}
-> +
-> +	if (!phy_config) {
-> +		dev_err(dw_dev->dev, "failed to find PHY configuration\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (phy_config->extra_init) {
-> +		ret = phy_config->extra_init(dw_dev);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	phy->funcs = phy_config->funcs;
-> +	phy->funcs_arg = dw_dev;
-> +
-> +	lookup.compatible = (char *)of_id->compatible;
-> +	lookup.platform_data = phy;
-> +
-> +	request_module(drvname);
-> +
-> +	ret = of_platform_populate(dw_dev->of_node, NULL, &lookup, dw_dev->dev);
-> +	if (ret) {
-> +		dev_err(dw_dev->dev, "failed to populate PHY driver\n");
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_phy_init_pd(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	const char *drv_name = dw_dev->config->phy->drv_name;
-> +	const struct dw_hdmi_phy_cfg *phy_config = NULL;
-> +	struct platform_device_info pdevinfo;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	memset(&pdevinfo, 0, sizeof(pdevinfo));
-> +
-> +	for (i = 0; i < ARRAY_SIZE(dw_hdmi_phys); i++) {
-> +		if (!strcmp(dw_hdmi_phys[i].drvname, drv_name))
-> +			phy_config = &dw_hdmi_phys[i];
-> +	}
-> +
-> +	if (!phy_config) {
-> +		dev_err(dw_dev->dev, "failed to find PHY configuration\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (phy_config->extra_init) {
-> +		ret = phy_config->extra_init(dw_dev);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	dw_dev->phy_config.version = dw_dev->config->phy->version;
-> +	dw_dev->phy_config.cfg_clk = dw_dev->config->phy->cfg_clk;
-> +	dw_dev->phy_config.funcs = phy_config->funcs;
-> +	dw_dev->phy_config.funcs_arg = dw_dev;
-> +
-> +	pdevinfo.parent = dw_dev->dev;
-> +	pdevinfo.id = PLATFORM_DEVID_NONE;
-> +	pdevinfo.name = drv_name;
-> +	pdevinfo.data = &dw_dev->phy_config;
-> +	pdevinfo.size_data = sizeof(dw_dev->phy_config);
-> +	pdevinfo.dma_mask = DMA_BIT_MASK(32);
-> +
-> +	request_module(pdevinfo.name);
-> +
-> +	dw_dev->phy_pdev = platform_device_register_full(&pdevinfo);
-> +	if (IS_ERR(dw_dev->phy_pdev)) {
-> +		dev_err(dw_dev->dev, "failed to register PHY device\n");
-> +		return PTR_ERR(dw_dev->phy_pdev);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_phy_init(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	int ret;
-> +
-> +	if (dw_hdmi_has_dt(dw_dev)) {
-> +		/* init PHY based on device tree */
-> +		ret = dw_hdmi_phy_init_dt(dw_dev);
-> +	} else {
-> +		/* init PHY based on platform device */
-> +		ret = dw_hdmi_phy_init_pd(dw_dev);
-> +	}
-> +
-> +	/* get the HDMI PHY reference */
-> +	dw_dev->phy = devm_phy_get(dw_dev->dev, "hdmi-phy");
-> +	if (IS_ERR(dw_dev->phy)) {
-> +		if (PTR_ERR(dw_dev->phy) != -EPROBE_DEFER)
-> +			dev_err(dw_dev->dev, "Couldn't get the HDMI PHY\n");
-> +		return PTR_ERR(dw_dev->phy);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static void dw_hdmi_phy_exit(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	if (dw_hdmi_has_dt(dw_dev)) {
-> +		/* exit PHY based on device tree */
-> +		of_platform_depopulate(dw_dev->dev);
-> +	} else {
-> +		/* exit PHY based on platform device */
-> +		if (!IS_ERR(dw_dev->phy_pdev))
-> +			platform_device_unregister(dw_dev->phy_pdev);
-> +	}
-> +}
-> +
-> +static int dw_hdmi_phy_eq_init(struct dw_hdmi_dev *dw_dev, u16 acq, bool force)
-> +{
-> +	union phy_configure_opts opts;
-> +	struct phy_configure_opts_hdmi *hdmi_opts = &opts.hdmi;
-> +	int ret = 0;
-> +
-> +	/* load the required options for calibration */
-> +	hdmi_opts->calibration_acq = acq;
-> +	hdmi_opts->calibration_force = force;
-> +	/* to avoid other reconfigurations when is to calibrate */
-> +	hdmi_opts->set_color_depth = 0;
-> +	hdmi_opts->set_tmds_bit_clock_ratio = 0;
-> +	hdmi_opts->set_scrambling = 0;
-> +
-> +	/* set PHY configuration */
-> +	ret = phy_configure(dw_dev->phy, &opts);
-> +	if (ret) {
-> +		dev_err(dw_dev->dev, "%s: Couldn't PHY configure (err: %d)\n",
-> +			__func__, ret);
-> +		goto err;
-> +	}
-> +
-> +	/* call PHY calibrate */
-> +	ret = phy_calibrate(dw_dev->phy);
-> +	if (ret) {
-> +		dev_err(dw_dev->dev, "%s: Couldn't PHY calibrate (err: %d)\n",
-> +			__func__, ret);
-> +		goto err;
-> +	}
-> +
-> +err:
-> +	return ret;
-> +}
-> +
-> +static int dw_hdmi_phy_config(struct dw_hdmi_dev *dw_dev,
-> +			      unsigned char color_depth, bool hdmi2,
-> +			      bool scrambling)
-> +{
-> +	union phy_configure_opts opts;
-> +	struct phy_configure_opts_hdmi *hdmi_opts = &opts.hdmi;
-> +	int ret = 0;
-> +
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
-> +			 DW_HDMI_DATAPATH_CBUSZ_OFFSET,
-> +			 DW_HDMI_DATAPATH_CBUSZ_MASK);
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
-> +			 DW_HDMI_CBUS_SVSRETMODEZ_OFFSET,
-> +			 DW_HDMI_CBUS_SVSRETMODEZ_MASK);
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
-> +			 DW_HDMI_CBUS_PDDQ_OFFSET,
-> +			 DW_HDMI_CBUS_PDDQ_MASK);
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CBUSIOCTRL,
-> +			 DW_HDMI_CBUS_RESET_OFFSET,
-> +			 DW_HDMI_CBUS_RESET_MASK);
-> +
-> +	/* load the required options for power on */
-> +	hdmi_opts->color_depth = color_depth;
-> +	hdmi_opts->tmds_bit_clock_ratio = hdmi2;
-> +	hdmi_opts->scrambling = scrambling;
-> +	/* to avoid color depth reconfiguration before the power on */
-> +	hdmi_opts->set_color_depth = 0;
-> +
-> +	/* set PHY configuration */
-> +	ret = phy_configure(dw_dev->phy, &opts);
-> +	if (ret) {
-> +		dev_err(dw_dev->dev, "%s: Couldn't PHY configure (err: %d)\n",
-> +			__func__, ret);
-> +		goto err;
-> +	}
-> +
-> +	/* call PHY power off if needed */
-> +	if (dw_dev->phy->power_count > 0) {
-> +		ret = phy_power_off(dw_dev->phy);
-> +		if (ret) {
-> +			dev_err(dw_dev->dev, "%s: Couldn't PHY power off (err: %d)\n",
-> +				__func__, ret);
-> +		}
-> +	}
-> +
-> +	/* call PHY power on */
-> +	ret = phy_power_on(dw_dev->phy);
-> +	if (ret) {
-> +		dev_err(dw_dev->dev, "%s: Couldn't PHY power on (err: %d)\n",
-> +			__func__, ret);
-> +		goto err;
-> +	}
-> +
-> +err:
-> +	return ret;
-> +}
-> +
-> +static int dw_hdmi_phy_set_color_depth(struct dw_hdmi_dev *dw_dev,
-> +				       u8 color_depth)
-> +{
-> +	union phy_configure_opts opts;
-> +	struct phy_configure_opts_hdmi *hdmi_opts = &opts.hdmi;
-> +	int ret = 0;
-> +
-> +	/* load the required options for color depth reconfiguration */
-> +	hdmi_opts->color_depth = color_depth;
-> +	/* to avoid other reconfigurations when is to set only color depth */
-> +	hdmi_opts->set_tmds_bit_clock_ratio = 0;
-> +	hdmi_opts->set_scrambling = 0;
-> +
-> +	/* set PHY configuration */
-> +	ret = phy_configure(dw_dev->phy, &opts);
-> +	if (ret) {
-> +		dev_err(dw_dev->dev, "%s: Couldn't PHY configure (err: %d)\n",
-> +			__func__, ret);
-> +		goto err;
-> +	}
-> +
-> +err:
-> +	return ret;
-> +}
-> +
-> +static void dw_hdmi_event_source_change(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	if (dw_dev->registered)
-> +		v4l2_subdev_notify_event(&dw_dev->sd, &dw_hdmi_event_fmt);
-> +}
-> +
-> +static int dw_hdmi_reset_ceavid(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEAVID_CONFIG,
-> +			 DW_HDMI_CEAVID_RST_OFFSET,
-> +			 DW_HDMI_CEAVID_RST_MASK);
-> +	msleep(100);
-> +	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_CEAVID_CONFIG,
-> +			 DW_HDMI_CEAVID_RST_OFFSET,
-> +			 DW_HDMI_CEAVID_RST_MASK);
-> +
-> +	return 0;
-> +}
-> +
-> +static void dw_hdmi_update_avmute(struct dw_hdmi_dev *dw_dev, u32 mbus_code)
-> +{
-> +	u32 val_l = 0x0, val_h = 0x0;
-> +
-> +	switch (mbus_code) {
-> +	case MEDIA_BUS_FMT_YUYV8_1X16: /* YCbCr 4:2:2 */
-> +		val_h = 0x00008000;
-> +		val_l = 0x00008000;
-> +		break;
-> +	case MEDIA_BUS_FMT_YUYV12_1X24: /* YCbCr 4:4:4 */
-> +		val_h = 0x00008000;
-> +		val_l = 0x00008000;
-> +		break;
-> +	case MEDIA_BUS_FMT_YVYU8_1X16: /* YCbCr 4:2:0 */
-> +		val_h = 0x00000f00;
-> +		val_l = 0x0f007f00;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB888_2X12_BE: /* RGB */
-> +	default:
-> +		break;
-> +	}
-> +
-> +	hdmi_writel(dw_dev, val_l, DW_HDMI_VM_CFG_CH_0_1);
-> +	hdmi_mask_writel(dw_dev, val_h, DW_HDMI_VM_CFG_CH2,
-> +			 DW_HDMI_VM_CH2_COL_VALUE_OFFSET,
-> +			 DW_HDMI_VM_CH2_COL_VALUE_MASK);
-> +}
-> +
-> +static u32 dw_hdmi_get_mbus_code(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	enum hdmi_colorspace cs = dw_dev->aviif.avi.colorspace;
-> +
-> +	switch (cs) {
-> +	case HDMI_COLORSPACE_RGB: /* RGB */
-> +		return MEDIA_BUS_FMT_RGB888_2X12_BE;
-> +	case HDMI_COLORSPACE_YUV422: /* YCbCr 4:2:2 */
-> +		return MEDIA_BUS_FMT_YUYV8_1X16;
-> +	case HDMI_COLORSPACE_YUV444: /* YCbCr 4:4:4 */
-> +		return MEDIA_BUS_FMT_YUYV12_1X24;
-> +	case HDMI_COLORSPACE_YUV420: /* YCbCr 4:2:0 */
-> +		return MEDIA_BUS_FMT_YVYU8_1X16;
-> +	default:
-> +		return MEDIA_BUS_FMT_RGB888_2X12_BE;
-> +	}
-> +}
-> +
-> +static u8 dw_hdmi_infoframe_checksum(u8 *ptr, size_t size)
-> +{
-> +	u8 csum = 0;
-> +	size_t i;
-> +
-> +	for (i = 0; i < size; i++)
-> +		csum += ptr[i];
-> +	return 256 - csum;
-> +}
-> +
-> +static void dw_hdmi_get_raw_infoframe_avi(struct dw_hdmi_dev *dw_dev,
-> +					  struct dw_hdmi_infoframe_cfg *fcfg)
-> +{
-> +	u32 pb, ph = hdmi_readl(dw_dev, fcfg->header_addr);
-> +	union hdmi_infoframe *frame = fcfg->frame;
-> +	u8 packet_hlen = sizeof(fcfg->header);
-> +	u8 packet_len = (ph >> 8) & 0xff;
-> +	unsigned int i, j, pos = 0;
-> +	u8 packet[35] = {0};
-> +
-> +	dev_dbg(dw_dev->dev, "%s[%s]: packet_header=0x%x\n", __func__,
-> +		fcfg->desc, ph);
-> +
-> +	if (!ph) /* Fail silently if there is no packet */
-> +		return;
-> +
-> +	if ((packet_len + packet_hlen + 1) > sizeof(packet)) {
-> +		dev_dbg(dw_dev->dev, "%s: invalid length\n", __func__);
-> +		goto out;
-> +	}
-> +
-> +	memcpy(packet, fcfg->header, packet_hlen);
-> +	packet[2] = packet_len; /* Replace fake header size by real header */
-> +	pos += packet_hlen + 1;
-> +
-> +	for (i = 0; i < fcfg->payload_len; i++) {
-> +		j = 0;
-> +
-> +		/* specific for AVI */
-> +		if (fcfg->header[0] == HDMI_INFOFRAME_TYPE_AVI && i == 1) {
-> +			/* read YQx, CNx, PRx from AVI PH register */
-> +			u32 offset = DW_HDMI_PIX_REP_FACTOR_OFFSET;
-> +			u32 mask = DW_HDMI_QUANT_RANGE_MASK |
-> +				DW_HDMI_CONTENT_TYPE_MASK |
-> +				DW_HDMI_PIX_REP_FACTOR_MASK;
-> +
-> +			pb = hdmi_mask_readl(dw_dev, fcfg->header_addr, offset,
-> +					     mask);
-> +			packet[pos++] = pb & 0xff;
-> +			j = 1;
-> +		}
-> +
-> +		/* the registers are aligned with the standard raw packet */
-> +		pb = hdmi_readl(dw_dev, fcfg->payload_addr + 4 * i);
-> +		for (; j < 4; j++) {
-> +			if (pos >= (packet_len + packet_hlen + 1))
-> +				break;
-> +			packet[pos++] = (pb >> (8 * j)) & 0xff;
-> +		}
-> +	}
-> +
-> +	packet[3] = dw_hdmi_infoframe_checksum(packet, packet_len +
-> +			packet_hlen + 1);
-> +
-> +	/*print all packet bytes */
-> +	for (j = 0; j < pos; j++) {
-> +		dev_dbg(dw_dev->dev, "%s[%s]: packet=0x%x\n", __func__,
-> +			fcfg->desc, packet[j]);
-> +	}
-> +
-> +	if (hdmi_infoframe_unpack(frame, packet, sizeof(packet))) {
-> +		dev_dbg(dw_dev->dev, "%s[%s]: failed to unpack\n",
-> +			__func__, fcfg->desc);
-> +		goto out;
-> +	}
-> +
-> +	return;
-> +out:
-> +	dev_err(dw_dev->dev, "[INVALID INFOFRAME]\n");
-> +}
-> +
-> +static void dw_hdmi_get_raw_infoframe_aud(struct dw_hdmi_dev *dw_dev,
-> +					  struct dw_hdmi_infoframe_cfg *fcfg)
-> +{
-> +	u32 pb, ph = hdmi_readl(dw_dev, fcfg->header_addr);
-> +	union hdmi_infoframe *frame = fcfg->frame;
-> +	u8 packet_hlen = sizeof(fcfg->header);
-> +	u8 packet_len = (ph >> 8) & 0xff;
-> +	unsigned int i, j, pos = 0;
-> +	u8 packet[35] = {0};
-> +
-> +	dev_dbg(dw_dev->dev, "%s[%s]: packet_header=0x%x\n", __func__,
-> +		fcfg->desc, ph);
-> +
-> +	if (!ph) /* Fail silently if there is no packet */
-> +		return;
-> +
-> +	if ((packet_len + packet_hlen + 1) > sizeof(packet)) {
-> +		dev_dbg(dw_dev->dev, "%s: invalid length\n", __func__);
-> +		goto out;
-> +	}
-> +
-> +	memcpy(packet, fcfg->header, packet_hlen);
-> +	packet[2] = packet_len; /* Replace fake header size by real header */
-> +	pos += packet_hlen + 1;
-> +
-> +	for (i = 0; i < fcfg->payload_len; i++) {
-> +		j = 0;
-> +
-> +		/* specific for audio */
-> +		if (fcfg->header[0] == HDMI_INFOFRAME_TYPE_AUDIO && i == 1) {
-> +			pb = hdmi_readl(dw_dev, fcfg->payload_addr + 4 * i);
-> +			packet[pos++] = (pb |
-> +			    ((pb & DW_HDMI_LFE_PLAYBACK_LEVEL_MASK)
-> +			    >> DW_HDMI_LFE_PLAYBACK_LEVEL_OFFSET)) &
-> +			    0xff;
-> +			break;
-> +		}
-> +
-> +		/* the registers are aligned with the standard raw packet */
-> +		pb = hdmi_readl(dw_dev, fcfg->payload_addr + 4 * i);
-> +		for (; j < 4; j++) {
-> +			if (pos >= (packet_len + packet_hlen + 1))
-> +				break;
-> +			packet[pos++] = (pb >> (8 * j)) & 0xff;
-> +		}
-> +	}
-> +
-> +	packet[3] = dw_hdmi_infoframe_checksum(packet, packet_len +
-> +			packet_hlen + 1);
-> +
-> +	/*print all packet bytes */
-> +	for (j = 0; j < pos; j++) {
-> +		dev_dbg(dw_dev->dev, "%s[%s]: packet=0x%x\n", __func__,
-> +			fcfg->desc, packet[j]);
-> +	}
-> +
-> +	if (hdmi_infoframe_unpack(frame, packet, sizeof(packet))) {
-> +		dev_dbg(dw_dev->dev, "%s[%s]: failed to unpack\n",
-> +			__func__, fcfg->desc);
-> +		goto out;
-> +	}
-> +
-> +	return;
-> +out:
-> +	dev_err(dw_dev->dev, "[INVALID INFOFRAME]\n");
-> +}
-> +
-> +static void dw_hdmi_get_raw_infoframe_vs(struct dw_hdmi_dev *dw_dev,
-> +					 struct dw_hdmi_infoframe_cfg *fcfg)
-> +{
-> +	u32 pb, ph = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
-> +				     DW_HDMI_LENGTH_OFFSET,
-> +				     DW_HDMI_LENGTH_MASK);
-> +	union hdmi_infoframe *frame = fcfg->frame;
-> +	u8 packet_hlen = sizeof(fcfg->header);
-> +	unsigned int j, pos = 0;
-> +	u8 packet[35] = {0};
-> +	u8 packet_len = ph;
-> +
-> +	dev_dbg(dw_dev->dev, "%s[%s]: packet_header=0x%x\n", __func__,
-> +		fcfg->desc, ph);
-> +
-> +	if (!ph) /* Fail silently if there is no packet */
-> +		return;
-> +
-> +	if ((packet_len + packet_hlen + 1) > sizeof(packet)) {
-> +		dev_dbg(dw_dev->dev, "%s: invalid length\n", __func__);
-> +		goto out;
-> +	}
-> +
-> +	memcpy(packet, fcfg->header, packet_hlen);
-> +	packet[2] = packet_len; /* Replace fake header size by real header */
-> +	pos += packet_hlen + 1;
-> +
-> +	/* 24bit IEEE Registration identifier */
-> +	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST0,
-> +			     DW_HDMI_IEEE_REG_ID_OFFSET,
-> +			     DW_HDMI_IEEE_REG_ID_MASK);
-> +	for (j = 0; j < 3; j++) {
-> +		if (pos >= (packet_len + packet_hlen + 1))
-> +			break;
-> +		packet[pos++] = (pb >> (8 * j)) & 0xff;
-> +	}
-> +
-> +	/* HDMI video format */
-> +	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
-> +			     DW_HDMI_HDMI_VIDEO_FORMAT_OFFSET,
-> +			     DW_HDMI_HDMI_VIDEO_FORMAT_MASK);
-> +	packet[pos++] = (pb << DW_HDMI_HDMI_VIDEO_FORMAT_OFFSET) &
-> +			0xff;
-> +
-> +	/* HDMI vic */
-> +	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
-> +			     DW_HDMI_HDMI_VIC_OFFSET,
-> +			     DW_HDMI_HDMI_VIC_MASK);
-> +	packet[pos++] = pb & 0xff;
-> +
-> +	/* 3d structure */
-> +	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
-> +			     DW_HDMI_H3D_STRUCTURE_OFFSET,
-> +			     DW_HDMI_H3D_STRUCTURE_MASK);
-> +	packet[pos++] = (pb << 4) & 0xff;
-> +
-> +	/* 3d ext data */
-> +	pb = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_ST1,
-> +			     DW_HDMI_H3D_EXT_DATA_OFFSET,
-> +			     DW_HDMI_H3D_EXT_DATA_MASK);
-> +	packet[pos++] = (pb << 4) & 0xff;
-> +
-> +	packet[3] = dw_hdmi_infoframe_checksum(packet, packet_len +
-> +			packet_hlen + 1);
-> +
-> +	/*print all packet bytes */
-> +	for (j = 0; j < pos; j++) {
-> +		dev_dbg(dw_dev->dev, "%s[%s]: packet=0x%x\n", __func__,
-> +			fcfg->desc, packet[j]);
-> +	}
-> +
-> +	if (hdmi_infoframe_unpack(frame, packet, sizeof(packet))) {
-> +		dev_dbg(dw_dev->dev, "%s[%s]: failed to unpack\n",
-> +			__func__, fcfg->desc);
-> +		goto out;
-> +	}
-> +
-> +	return;
-> +out:
-> +	dev_err(dw_dev->dev, "[INVALID INFOFRAME]\n");
-> +}
-> +
-> +static void dw_hdmi_get_raw_infoframe(struct dw_hdmi_dev *dw_dev,
-> +				      struct dw_hdmi_infoframe_cfg *fcfg)
-> +{
-> +	switch (fcfg->header[0]) {
-> +	case HDMI_INFOFRAME_TYPE_AVI:
-> +		dw_hdmi_get_raw_infoframe_avi(dw_dev, fcfg);
-> +		break;
-> +	case HDMI_INFOFRAME_TYPE_SPD:
-> +		dev_dbg(dw_dev->dev,
-> +			"%s[%s]: not processed infoframe packet type %d\n",
-> +			__func__, fcfg->desc, fcfg->header[0]);
-> +		break;
-> +	case HDMI_INFOFRAME_TYPE_AUDIO:
-> +		dw_hdmi_get_raw_infoframe_aud(dw_dev, fcfg);
-> +		break;
-> +	case HDMI_INFOFRAME_TYPE_VENDOR:
-> +		dw_hdmi_get_raw_infoframe_vs(dw_dev, fcfg);
-> +		break;
-> +	case HDMI_INFOFRAME_TYPE_DRM:
-> +		dev_dbg(dw_dev->dev,
-> +			"%s[%s]: not processed infoframe packet type %d\n",
-> +			__func__, fcfg->desc, fcfg->header[0]);
-> +		break;
-> +	default:
-> +		dev_dbg(dw_dev->dev,
-> +			"%s[%s]: invalid infoframe packet type %d\n",
-> +			__func__, fcfg->desc, fcfg->header[0]);
-> +		break;
-> +	}
-> +}
-> +
-> +/* Forward declaration needed because of color encoding change */
-> +static void dw_hdmi_power_off(struct dw_hdmi_dev *dw_dev);
-> +static void dw_hdmi_controller_power_off(struct dw_hdmi_dev *dw_dev);
-> +static int dw_hdmi_power_on(struct dw_hdmi_dev *dw_dev, unsigned int input);
-> +
-> +static void dw_hdmi_get_infoframes(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	struct dw_hdmi_infoframe_cfg ifs[] = {
-> +		{
-> +			.desc = "AVI",
-> +			.header = {HDMI_INFOFRAME_TYPE_AVI, 2,
-> +				   HDMI_AVI_INFOFRAME_SIZE},
-> +			.header_addr = DW_HDMI_PDEC_AVI_HB,
-> +			.payload_addr = DW_HDMI_PDEC_AVI_PB,
-> +			.payload_len = DW_HDMI_PDEC_AVI_PBLEN,
-> +			.frame = &dw_dev->aviif,
-> +			.frame_size = sizeof(dw_dev->aviif),
-> +		}, {
-> +			.desc = "Audio",
-> +			.header = {HDMI_INFOFRAME_TYPE_AUDIO, 1,
-> +				   HDMI_AUDIO_INFOFRAME_SIZE},
-> +			.header_addr = DW_HDMI_PDEC_AIF_HB,
-> +			.payload_addr = DW_HDMI_PDEC_AIF_PB0,
-> +			.payload_len = DW_HDMI_PDEC_AIF_PBLEN,
-> +			.frame = &dw_dev->audioif,
-> +			.frame_size = sizeof(dw_dev->audioif),
-> +		}, {
-> +			.desc = "Vendor Specific",
-> +			.header = {HDMI_INFOFRAME_TYPE_VENDOR, 1,
-> +				   HDMI_VENDOR_INFOFRAME_SIZE},
-> +			.frame = &dw_dev->vsif,
-> +			.frame_size = sizeof(dw_dev->vsif),
-> +		},
-> +	};
-> +	union hdmi_vendor_any_infoframe *vendor;
-> +	struct hdmi_avi_infoframe *avi;
-> +	unsigned int i;
-> +	u32 old_mbus;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(ifs); i++) {
-> +		memset(ifs[i].frame, 0, ifs[i].frame_size);
-> +		dw_hdmi_get_raw_infoframe(dw_dev, &ifs[i]);
-> +	}
-> +
-> +	/* Update color space */
-> +	old_mbus = dw_dev->mbus_code;
-> +	dw_dev->mbus_code = dw_hdmi_get_mbus_code(dw_dev);
-> +	if (dw_dev->mbus_code != old_mbus && is_on(dw_dev)) {
-> +		dw_hdmi_power_off(dw_dev);
-> +		if (has_signal(dw_dev, dw_dev->configured_input))
-> +			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-> +	}
-> +
-> +	/* Update AVMute value */
-> +	dw_hdmi_update_avmute(dw_dev, dw_dev->mbus_code);
-> +
-> +	vendor = &dw_dev->vsif.vendor;
-> +	avi = &dw_dev->aviif.avi;
-> +
-> +	/*
-> +	 * Update current VIC: When transmitting any extended video format
-> +	 * indicated through use of the HDMI_VIC field in the HDMI Vendor
-> +	 * Specific InfoFrame or any other format which is not described in
-> +	 * the above cases, an HDMI Source shall set the AVI InfoFrame VIC
-> +	 * field to zero.
-> +	 */
-> +	if (vendor->hdmi.vic && !avi->video_code) {
-> +		dw_dev->current_vic = vendor->hdmi.vic;
-> +		dw_dev->current_vic_is_4k = true;
-> +	} else {
-> +		dw_dev->current_vic = avi->video_code;
-> +		dw_dev->current_vic_is_4k = false;
-> +	}
-> +}
-> +
-> +static int dw_hdmi_wait_phy_lock_poll(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	int timeout = dw_dev->tmds_valid_wait_count;
-> +
-> +	while (!dw_hdmi_tmds_valid(dw_dev) && timeout-- && !dw_dev->force_off)
-> +		usleep_range(5000, 10000);
-> +
-> +	if (!dw_hdmi_tmds_valid(dw_dev))
-> +		return -ETIMEDOUT;
-> +
-> +	return 0;
-> +}
-> +
-> +static void dw_hdmi_reset_datapath(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	u32 val = DW_HDMI_TMDS_SWRESET |
-> +		DW_HDMI_HDCP_SWRESET |
-> +		DW_HDMI_VID_SWRESET |
-> +		DW_HDMI_PIXEL_SWRESET |
-> +		DW_HDMI_CEC_SWRESET |
-> +		DW_HDMI_AUD_SWRESET |
-> +		DW_HDMI_BUS_SWRESET |
-> +		DW_HDMI_HDMI_SWRESET |
-> +		DW_HDMI_MODET_SWRESET;
-> +
-> +	hdmi_writel(dw_dev, val & dw_dev->reset_datapath_enable,
-> +		    DW_HDMI_DMI_SW_RST);
-> +}
-> +
-> +static void dw_hdmi_reset_audio(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_writel(dw_dev, DW_HDMI_AUD_SWRESET, DW_HDMI_DMI_SW_RST);
-> +}
-> +
-> +static void dw_hdmi_restart_audio_fifo(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_AUD_FIFO_CTRL,
-> +			 DW_HDMI_AFIF_INIT_OFFSET,
-> +			 DW_HDMI_AFIF_INIT_MASK);
-> +	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_AUD_FIFO_CTRL,
-> +			 DW_HDMI_AFIF_INIT_OFFSET,
-> +			 DW_HDMI_AFIF_INIT_MASK);
-> +}
-> +
-> +static int dw_hdmi_wait_audio_lock_poll(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	int timeout = 10;
-> +
-> +	while (!dw_hdmi_audio_valid(dw_dev) && timeout-- && !dw_dev->force_off)
-> +		usleep_range(5000, 10000);
-> +
-> +	if (!dw_hdmi_audio_valid(dw_dev))
-> +		return -ETIMEDOUT;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_config_audio(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	int ret;
-> +
-> +	ret = dw_hdmi_wait_audio_lock_poll(dw_dev);
-> +	if (ret) {
-> +		dev_err(dw_dev->dev, "failed to wait for audio pll lock\n");
-> +		return ret;
-> +	}
-> +
-> +	/* trigger offset for N and CTS interrupts */
-> +	hdmi_mask_writel(dw_dev, 0x05, DW_HDMI_PDEC_ACRM_CTRL,
-> +			 DW_HDMI_DELTACTS_IRQTRIG_OFFSET,
-> +			 DW_HDMI_DELTACTS_IRQTRIG_MASK);
-> +
-> +	/* Config */
-> +	hdmi_mask_writel(dw_dev, 0x01, DW_HDMI_AUD_MUTE_CTRL,
-> +			 DW_HDMI_AUD_MUTE_SEL_OFFSET,
-> +			 DW_HDMI_AUD_MUTE_SEL_MASK);
-> +
-> +	/* enable all outputs and select 16-bit for I2S */
-> +	hdmi_writel(dw_dev, 0x00, DW_HDMI_AUD_SAO_CTRL);
-> +
-> +	/* Start */
-> +	dw_hdmi_restart_audio_fifo(dw_dev);
-> +	return 0;
-> +}
-> +
-> +static void dw_hdmi_config_packet(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_CTRL,
-> +			 DW_HDMI_PFIFO_STORE_FILTER_EN_OFFSET,
-> +			 DW_HDMI_PFIFO_STORE_FILTER_EN_MASK);
-> +
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_ASP_CTRL,
-> +			 DW_HDMI_AUTO_VMUTE_OFFSET,
-> +			 DW_HDMI_AUTO_VMUTE_MASK);
-> +
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_ASP_CTRL,
-> +			 DW_HDMI_AUTO_SPFLAT_MUTE_OFFSET,
-> +			 DW_HDMI_AUTO_SPFLAT_MUTE_MASK);
-> +
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_CTRL,
-> +			 DW_HDMI_PD_FIFO_CLR_OFFSET,
-> +			 DW_HDMI_PD_FIFO_CLR_MASK);
-> +}
-> +
-> +static void dw_hdmi_wait_video_stable(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	/*
-> +	 * Empiric value. Video should be stable way longer before the
-> +	 * end of this sleep time. Though, we can have some video change
-> +	 * interrupts before the video is stable so filter them by sleeping.
-> +	 */
-> +	msleep(dw_dev->video_stable_wait_ms);
-> +}
-> +
-> +static void dw_hdmi_enable_ints(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	u32 pdec_ints = 0;
-> +
-> +	/* video interrupts */
-> +	hdmi_writel(dw_dev, DW_HDMI_CLK_CHANGE_ISTS | DW_HDMI_PLL_LCK_CHG_ISTS |
-> +			DW_HDMI_DCM_CURRENT_MODE_CHG_ISTS, DW_HDMI_IEN_SET);
-> +	hdmi_writel(dw_dev, (DW_HDMI_VACT_LIN_ISTS | DW_HDMI_HACT_PIX_ISTS),
-> +		    DW_HDMI_MD_IEN_SET);
-> +
-> +	/* infoframes interrupts */
-> +	pdec_ints = (DW_HDMI_VSI_CKS_CHG_ISTS |
-> +		     DW_HDMI_DRM_CKS_CHG_ISTS |
-> +		     DW_HDMI_AVI_CKS_CHG_ISTS);
-> +
-> +	/* audio interrupts */
-> +	pdec_ints |= (DW_HDMI_AUD_TYPE_CHG_ISTS |
-> +		      DW_HDMI_AIF_CKS_CHG_ISTS |
-> +		      DW_HDMI_ACR_N_CHG_ISTS |
-> +		      DW_HDMI_ACR_CTS_CHG_ISTS |
-> +		      DW_HDMI_GCP_AV_MUTE_CHG_ISTS);
-> +
-> +	hdmi_writel(dw_dev, pdec_ints, DW_HDMI_PDEC_IEN_SET);
-> +	hdmi_writel(dw_dev, (DW_HDMI_AFIF_OVERFL_ISTS |
-> +			DW_HDMI_AFIF_UNDERFL_ISTS |
-> +			DW_HDMI_AFIF_THS_PASS_ISTS),
-> +		    DW_HDMI_AUD_FIFO_IEN_SET);
-> +}
-> +
-> +static void dw_hdmi_disable_ints(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_IEN_CLR);
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_MD_IEN_CLR);
-> +
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_PDEC_IEN_CLR);
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_AUD_FIFO_IEN_CLR);
-> +}
-> +
-> +static void dw_hdmi_clear_ints(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_ICLR);
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_MD_ICLR);
-> +
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_PDEC_ICLR);
-> +	hdmi_writel(dw_dev, ~0x0, DW_HDMI_AUD_FIFO_ICLR);
-> +}
-> +
-> +static u32 dw_hdmi_get_int_val(struct dw_hdmi_dev *dw_dev, u32 ists, u32 ien)
-> +{
-> +	return hdmi_readl(dw_dev, ists) & hdmi_readl(dw_dev, ien);
-> +}
-> +
-> +static u8 dw_hdmi_get_curr_vic(struct dw_hdmi_dev *dw_dev, bool *is_hdmi_vic)
-> +{
-> +	u8 vic = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_AVI_PB,
-> +				 DW_HDMI_VID_IDENT_CODE_OFFSET,
-> +				 DW_HDMI_VID_IDENT_CODE_MASK);
-> +
-> +	if (!vic) {
-> +		vic = hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_VSI_PAYLOAD0,
-> +				      DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_OFFSET,
-> +				      DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_MASK);
-> +		if (is_hdmi_vic)
-> +			*is_hdmi_vic = true;
-> +	} else {
-> +		if (is_hdmi_vic)
-> +			*is_hdmi_vic = false;
-> +	}
-> +
-> +	return vic;
-> +}
-> +
-> +static u32 dw_hdmi_get_evaltime(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	return hdmi_mask_readl(dw_dev, DW_HDMI_CKM_EVLTM,
-> +			       DW_HDMI_EVAL_TIME_OFFSET,
-> +			       DW_HDMI_EVAL_TIME_MASK);
-> +}
-> +
-> +static u32 dw_hdmi_get_clkrate(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	return hdmi_mask_readl(dw_dev, DW_HDMI_CKM_RESULT,
-> +			       DW_HDMI_CLKRATE_OFFSET,
-> +			       DW_HDMI_CLKRATE_MASK);
-> +}
-> +
-> +static u32 dw_hdmi_get_cts(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	return hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_ACR_CTS,
-> +			       DW_HDMI_CTS_DECODED_OFFSET,
-> +			       DW_HDMI_CTS_DECODED_MASK);
-> +}
-> +
-> +static u32 dw_hdmi_get_n(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	return hdmi_mask_readl(dw_dev, DW_HDMI_PDEC_ACR_N,
-> +			       DW_HDMI_N_DECODED_OFFSET,
-> +			       DW_HDMI_N_DECODED_MASK);
-> +}
-> +
-> +static u32 dw_hdmi_get_tmds_clk(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	u32 rate = dw_hdmi_get_clkrate(dw_dev);
-> +	u64 tmp = (u64)rate * (u64)dw_dev->config->iref_clk * 1000000;
-> +	u32 evaltime = dw_hdmi_get_evaltime(dw_dev);
-> +
-> +	do_div(tmp, evaltime);
-> +	return tmp;
-> +}
-> +
-> +static u32 dw_hdmi_get_colordepth(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	u32 dcm = hdmi_mask_readl(dw_dev, DW_HDMI_STS,
-> +				  DW_HDMI_DCM_CURRENT_MODE_OFFSET,
-> +				  DW_HDMI_DCM_CURRENT_MODE_MASK);
-> +
-> +	switch (dcm) {
-> +	case 0x4:
-> +		return 24;
-> +	case 0x5:
-> +		return 30;
-> +	case 0x6:
-> +		return 36;
-> +	case 0x7:
-> +		return 48;
-> +	default:
-> +		return 24;
-> +	}
-> +}
-> +
-> +static u64 dw_hdmi_get_pixelclk(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	u32 tmds_clk = dw_hdmi_get_tmds_clk(dw_dev);
-> +	u32 cd = dw_hdmi_get_colordepth(dw_dev);
-> +	u32 pix_clk = 0;
-> +
-> +	switch (cd) {
-> +	case 24:
-> +		pix_clk = tmds_clk;
-> +		break;
-> +	case 30:
-> +		pix_clk = (tmds_clk * 100) / 125;
-> +		break;
-> +	case 36:
-> +		pix_clk = (tmds_clk * 10) / 15;
-> +		break;
-> +	case 48:
-> +		pix_clk = tmds_clk / 2;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return pix_clk;
-> +}
-> +
-> +static void dw_hdmi_set_input(struct dw_hdmi_dev *dw_dev, u32 input)
-> +{
-> +	hdmi_mask_writel(dw_dev, input, DW_HDMI_PHY_CTRL,
-> +			 DW_HDMI_PORTSELECT_OFFSET,
-> +			 DW_HDMI_PORTSELECT_MASK);
-> +	dw_dev->configured_input = input;
-> +	dw_dev->selected_input = input;
-> +	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_INPUT_CHANGED,
-> +			   &dw_dev->configured_input);
-> +}
-> +
-> +static void dw_hdmi_enable_hpd(struct dw_hdmi_dev *dw_dev, u32 input_mask)
-> +{
-> +	hdmi_mask_writel(dw_dev, input_mask, DW_HDMI_SETUP_CTRL,
-> +			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_OFFSET,
-> +			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_MASK);
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_SETUP_CTRL,
-> +			 DW_HDMI_HOT_PLUG_DETECT_OFFSET,
-> +			 DW_HDMI_HOT_PLUG_DETECT_MASK);
-> +}
-> +
-> +static void dw_hdmi_disable_hpd(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_SETUP_CTRL,
-> +			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_OFFSET,
-> +			 DW_HDMI_HOT_PLUG_DETECT_INPUT_X_MASK);
-> +	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_SETUP_CTRL,
-> +			 DW_HDMI_HOT_PLUG_DETECT_OFFSET,
-> +			 DW_HDMI_HOT_PLUG_DETECT_MASK);
-> +}
-> +
-> +static void dw_hdmi_enable_scdc(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_SCDC_CONFIG,
-> +			 DW_HDMI_POWERPROVIDED_OFFSET,
-> +			 DW_HDMI_POWERPROVIDED_MASK);
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_IEN_SET,
-> +			 DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_OFFSET,
-> +			 DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_MASK);
-> +}
-> +
-> +static void dw_hdmi_disable_scdc(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_SCDC_CONFIG,
-> +			 DW_HDMI_POWERPROVIDED_OFFSET,
-> +			 DW_HDMI_POWERPROVIDED_MASK);
-> +}
-> +
-> +static void dw_hdmi_handle_audio_mute_change(struct dw_hdmi_dev *dw_dev);
-> +
-> +static void dw_hdmi_enable_hdmi_domain(struct dw_hdmi_dev *dw_dev, bool enable)
-> +{
-> +	hdmi_mask_writel(dw_dev, enable, DW_HDMI_DMI_DISABLE_IF,
-> +			 DW_HDMI_HDMI_ENABLE_OFFSET,
-> +			 DW_HDMI_HDMI_ENABLE_MASK);
-> +}
-> +
-> +static int dw_hdmi_initial_config(struct dw_hdmi_dev *dw_dev, u32 input);
-> +
-> +static int dw_hdmi_config(struct dw_hdmi_dev *dw_dev, u32 input)
-> +{
-> +	u32 in_state = dw_dev->state;
-> +	u32 cd1 = 0, cd2 = 0;
-> +	int eqret, ret = 0;
-> +
-> +	while (1) {
-> +		/* Give up silently if we are forcing off */
-> +		if (dw_dev->force_off) {
-> +			ret = 0;
-> +			goto out;
-> +		}
-> +		/* Give up silently if input has disconnected */
-> +		if (!has_signal(dw_dev, input)) {
-> +			ret = 0;
-> +			goto out;
-> +		}
-> +
-> +		switch (dw_dev->state) {
-> +		case HDMI_STATE_POWER_OFF:
-> +			dw_hdmi_disable_ints(dw_dev);
-> +			dw_hdmi_set_state(dw_dev, HDMI_STATE_PHY_CONFIG);
-> +			break;
-> +		case HDMI_STATE_POWER_UP:
-> +			/* when connect the cable */
-> +			dw_hdmi_disable_ints(dw_dev);
-> +			/* reset */
-> +			if (dw_dev->hw_reset_on_hot_plug)
-> +				dw_hdmi_reset(dw_dev);
-> +			/* initial configuration */
-> +			dw_hdmi_initial_config(dw_dev, input);
-> +			dw_hdmi_set_state(dw_dev, HDMI_STATE_PHY_CONFIG);
-> +			break;
-> +		case HDMI_STATE_PHY_CONFIG:
-> +			cd1 = 24;
-> +			dw_dev->is_hdmi2 = is_hdmi2(dw_dev);
-> +			dw_dev->is_scrambled = is_scrambled(dw_dev);
-> +			dw_hdmi_phy_config(dw_dev, cd1, dw_dev->is_hdmi2,
-> +					   dw_dev->is_scrambled);
-> +			dw_hdmi_set_state(dw_dev, HDMI_STATE_HPD);
-> +			break;
-> +		case HDMI_STATE_HPD:
-> +			/* disable HDMI domain to avoid the DCM INTs */
-> +			dw_hdmi_enable_hdmi_domain(dw_dev, false);
-> +			dw_hdmi_enable_scdc(dw_dev);
-> +			dw_hdmi_enable_hpd(dw_dev, dw_dev->input_stat);
-> +			dw_hdmi_set_state(dw_dev, HDMI_STATE_EQUALIZER);
-> +			break;
-> +		case HDMI_STATE_EQUALIZER:
-> +			if (dw_dev->phy_eq_on) {
-> +				bool phy_eq_force = dw_dev->phy_eq_force;
-> +
-> +				eqret = dw_hdmi_phy_eq_init(dw_dev, 5,
-> +							    phy_eq_force);
-> +			} else {
-> +				/* Clear equalizer error status if not on */
-> +				eqret = 0;
-> +			}
-> +
-> +			ret = dw_hdmi_wait_phy_lock_poll(dw_dev);
-> +
-> +			/* Do not force equalizer */
-> +			dw_dev->phy_eq_force = false;
-> +
-> +			if (ret || eqret) {
-> +				if (ret || eqret == -ETIMEDOUT) {
-> +					/* No TMDSVALID signal:
-> +					 * - force equalizer
-> +					 */
-> +					dw_dev->phy_eq_force = true;
-> +				}
-> +				break;
-> +			}
-> +
-> +			dw_hdmi_set_state(dw_dev, HDMI_STATE_DATAPATH);
-> +			break;
-> +		case HDMI_STATE_DATAPATH:
-> +			dw_hdmi_reset_datapath(dw_dev);
-> +			/* reenable HDMI domain */
-> +			dw_hdmi_enable_hdmi_domain(dw_dev, true);
-> +			dw_hdmi_set_state(dw_dev, HDMI_STATE_VIDEO_UNSTABLE);
-> +			break;
-> +		case HDMI_STATE_VIDEO_UNSTABLE:
-> +			dw_hdmi_wait_video_stable(dw_dev);
-> +			dw_hdmi_set_state(dw_dev, HDMI_STATE_AUDIO);
-> +			break;
-> +		case HDMI_STATE_AUDIO:
-> +			ret = dw_hdmi_config_audio(dw_dev);
-> +			dw_hdmi_config_packet(dw_dev);
-> +
-> +			if (in_state != HDMI_STATE_EQUALIZER)
-> +				dw_hdmi_clear_ints(dw_dev);
-> +
-> +			dw_hdmi_get_infoframes(dw_dev);
-> +
-> +			/* check if there was deep color changes */
-> +			if (cd1) {
-> +				cd2 = dw_hdmi_get_colordepth(dw_dev);
-> +				if (cd1 != cd2)
-> +					dw_hdmi_phy_set_color_depth(dw_dev,
-> +								    cd2);
-> +			}
-> +
-> +			/* reset CEA video */
-> +			dw_hdmi_reset_ceavid(dw_dev);
-> +
-> +			dw_hdmi_enable_ints(dw_dev);
-> +			dw_hdmi_set_state(dw_dev, HDMI_STATE_POWER_ON);
-> +			break;
-> +		case HDMI_STATE_POWER_ON:
-> +			break;
-> +		default:
-> +			dev_err(dw_dev->dev, "%s called with state (%d)\n",
-> +				__func__, dw_dev->state);
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
-> +
-> +		if (dw_dev->state == HDMI_STATE_POWER_ON) {
-> +			dev_info(dw_dev->dev, "HDMI-RX configured\n");
-> +			dw_hdmi_event_source_change(dw_dev);
-> +			dw_hdmi_handle_audio_mute_change(dw_dev);
-> +			return 0;
-> +		}
-> +	}
-> +
-> +out:
-> +	dw_hdmi_set_state(dw_dev, HDMI_STATE_POWER_OFF);
-> +	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_IS_OFF, NULL);
-> +	return ret;
-> +}
-> +
-> +static int __dw_hdmi_power_on(struct dw_hdmi_dev *dw_dev, u32 input)
-> +{
-> +	unsigned long flags;
-> +	int ret;
-> +
-> +	ret = dw_hdmi_config(dw_dev, input);
-> +
-> +	spin_lock_irqsave(&dw_dev->lock, flags);
-> +	dw_dev->pending_config = false;
-> +	spin_unlock_irqrestore(&dw_dev->lock, flags);
-> +
-> +	return ret;
-> +}
-> +
-> +static void dw_hdmi_work_handler(struct work_struct *work)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = container_of(work, struct dw_hdmi_dev,
-> +						  work);
-> +
-> +	__dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-> +}
-> +
-> +static int dw_hdmi_power_on(struct dw_hdmi_dev *dw_dev, u32 input)
-> +{
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&dw_dev->lock, flags);
-> +	if (dw_dev->pending_config) {
-> +		spin_unlock_irqrestore(&dw_dev->lock, flags);
-> +		return 0;
-> +	}
-> +
-> +	INIT_WORK(&dw_dev->work, dw_hdmi_work_handler);
-> +	dw_dev->configured_input = input;
-> +	dw_dev->pending_config = true;
-> +	queue_work(dw_dev->wq, &dw_dev->work);
-> +	spin_unlock_irqrestore(&dw_dev->lock, flags);
-> +	return 0;
-> +}
-> +
-> +static void dw_hdmi_power_off(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	unsigned long flags;
-> +
-> +	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_IS_OFF, NULL);
-> +
-> +	dw_dev->force_off = true;
-> +	flush_workqueue(dw_dev->wq);
-> +	dw_dev->force_off = false;
-> +
-> +	spin_lock_irqsave(&dw_dev->lock, flags);
-> +	dw_dev->pending_config = false;
-> +	dw_dev->state = HDMI_STATE_POWER_OFF;
-> +	spin_unlock_irqrestore(&dw_dev->lock, flags);
-> +
-> +	/* Reset variables */
-> +	dw_dev->phy_eq_force = true;
-> +	dw_dev->audio_sf = 0;
-> +}
-> +
-> +static void dw_hdmi_force_off(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	unsigned long flags;
-> +
-> +	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_IS_OFF, NULL);
-> +
-> +	dw_dev->force_off = true;
-> +	flush_workqueue(dw_dev->wq);
-> +	dw_dev->force_off = false;
-> +
-> +	spin_lock_irqsave(&dw_dev->lock, flags);
-> +	dw_dev->pending_config = false;
-> +	spin_unlock_irqrestore(&dw_dev->lock, flags);
-> +}
-> +
-> +static void dw_hdmi_power_up(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	dw_hdmi_force_off(dw_dev);
-> +	dw_hdmi_set_state(dw_dev, HDMI_STATE_POWER_UP);
-> +
-> +	/* Reset variables */
-> +	dw_dev->phy_eq_force = true;
-> +	dw_dev->audio_sf = 0;
-> +}
-> +
-> +static void dw_hdmi_controller_power_off(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	dw_hdmi_force_off(dw_dev);
-> +	dw_hdmi_set_state(dw_dev, HDMI_STATE_EQUALIZER);
-> +
-> +	dw_dev->phy_eq_force = false;
-> +	dw_dev->audio_sf = 0;
-> +}
-> +
-> +static int dw_hdmi_query_dv_timings(struct v4l2_subdev *sd,
-> +				    struct v4l2_dv_timings *timings);
-> +
-> +static void dw_hdmi_handle_video_change(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	struct v4l2_dv_timings timings;
-> +
-> +	if (is_on(dw_dev)) {
-> +		dev_dbg(dw_dev->dev, "[VIDEO] video change interrupt\n");
-> +		dw_hdmi_query_dv_timings(&dw_dev->sd, &timings);
-> +		dw_hdmi_controller_power_off(dw_dev);
-> +		dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-> +	}
-> +}
-> +
-> +static u32 dw_hdmi_round_freq(int freq)
-> +{
-> +	static const u32 base_freqs[] = { 32000, 44100, 48000, 0 };
-> +	unsigned int i;
-> +
-> +	for (i = 0; base_freqs[i]; i++) {
-> +		if ((freq <= (base_freqs[i] + DW_HDMI_AUDIO_FREQ_RANGE)) &&
-> +		    (freq >= (base_freqs[i] - DW_HDMI_AUDIO_FREQ_RANGE))) {
-> +			return base_freqs[i];
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static unsigned int dw_hdmi_get_sample_freq(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	u64 tmp;
-> +	u32 cts;
-> +	u32 sf;
-> +	u32 n;
-> +
-> +	n = dw_hdmi_get_n(dw_dev);
-> +	cts = dw_hdmi_get_cts(dw_dev);
-> +
-> +	if (!n || !cts) {
-> +		dev_dbg(dw_dev->dev, "%s: cts: %d, n: %d\n", __func__, cts, n);
-> +		return 0;
-> +	}
-> +
-> +	dev_dbg(dw_dev->dev, "%s: tmds_clk: %d\n",
-> +		__func__, dw_hdmi_get_tmds_clk(dw_dev));
-> +
-> +	/* regenerate the audio clock from tmds clock */
-> +	tmp = (u64)dw_hdmi_get_tmds_clk(dw_dev) * (u64)n;
-> +	do_div(tmp, cts);
-> +	do_div(tmp, 128);
-> +	sf = tmp;
-> +
-> +	dev_dbg(dw_dev->dev, "%s: sf: %d\n", __func__, sf);
-> +	sf = dw_hdmi_round_freq(sf);
-> +	dev_dbg(dw_dev->dev, "%s: sf(round): %d\n", __func__, sf);
-> +
-> +	return sf;
-> +}
-> +
-> +static void dw_hdmi_handle_audio_mute_change(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	unsigned long flags;
-> +	unsigned int sf;
-> +
-> +	spin_lock_irqsave(&dw_dev->event_lock, flags);
-> +	sf = dw_hdmi_get_sample_freq(dw_dev);
-> +	v4l2_subdev_notify(&dw_dev->sd, DW_HDMI_NOTIFY_AUDIO_CHANGED, &sf);
-> +	dw_dev->audio_sf = sf;
-> +	spin_unlock_irqrestore(&dw_dev->event_lock, flags);
-> +}
-> +
-> +static void dw_hdmi_handle_audio_change(struct dw_hdmi_dev *dw_dev,
-> +					u32 afif_stat, u32 pdec_stat)
-> +{
-> +	bool restart = true;
-> +
-> +	if (pdec_stat & DW_HDMI_GCP_AV_MUTE_CHG_ISTS) {
-> +		dev_dbg(dw_dev->dev, "[interrupt:audio] AV Mute change\n");
-> +		dw_hdmi_handle_audio_mute_change(dw_dev);
-> +		restart = false;
-> +	}
-> +
-> +	if (pdec_stat & DW_HDMI_AUD_TYPE_CHG_ISTS) {
-> +		dev_dbg(dw_dev->dev, "[interrupt:audio] type change\n");
-> +		restart = true;
-> +	}
-> +	if (pdec_stat & DW_HDMI_AIF_CKS_CHG_ISTS) {
-> +		dev_dbg(dw_dev->dev, "[interrupt:audio] aif change\n");
-> +		restart = true;
-> +	}
-> +	if (pdec_stat & DW_HDMI_ACR_N_CHG_ISTS) {
-> +		dev_dbg(dw_dev->dev, "[interrupt:audio] N change\n");
-> +		restart = true;
-> +	}
-> +	if (pdec_stat & DW_HDMI_ACR_CTS_CHG_ISTS) {
-> +		dev_dbg(dw_dev->dev, "[interrupt:audio] CTS change\n");
-> +		restart = true;
-> +	}
-> +	if (afif_stat & DW_HDMI_AFIF_UNDERFL_ISTS) {
-> +		dev_dbg(dw_dev->dev, "[interrupt:audio] fifo underflow\n");
-> +		restart = true;
-> +	}
-> +	if (afif_stat & DW_HDMI_AFIF_OVERFL_ISTS) {
-> +		dev_dbg(dw_dev->dev, "[interrupt:audio] fifo overflow\n");
-> +		restart = true;
-> +	}
-> +	if (afif_stat & DW_HDMI_AFIF_THS_PASS_ISTS) {
-> +		dev_dbg(dw_dev->dev, "[interrupt:audio] TRH Pass\n");
-> +		dw_hdmi_handle_audio_mute_change(dw_dev);
-> +		restart = false;
-> +	}
-> +
-> +	if (restart) {
-> +		dw_hdmi_handle_audio_mute_change(dw_dev);
-> +		dw_hdmi_wait_audio_lock_poll(dw_dev);
-> +		dw_hdmi_reset_audio(dw_dev);
-> +		dw_hdmi_restart_audio_fifo(dw_dev);
-> +	}
-> +}
-> +
-> +static irqreturn_t dw_hdmi_irq_handler(int irq, void *dev_data)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = dev_data;
-> +	u32 hdmi_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_ISTS, DW_HDMI_IEN);
-> +	u32 md_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_MD_ISTS,
-> +					  DW_HDMI_MD_IEN);
-> +	u32 pdec_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_PDEC_ISTS,
-> +					    DW_HDMI_PDEC_IEN);
-> +	u32 afif_ists = dw_hdmi_get_int_val(dw_dev, DW_HDMI_AUD_FIFO_ISTS,
-> +					    DW_HDMI_AUD_FIFO_IEN);
-> +	u32 cd = 0;
-> +
-> +	dw_hdmi_clear_ints(dw_dev);
-> +
-> +	/* video handling */
-> +	if (hdmi_ists & DW_HDMI_CLK_CHANGE_ISTS) {
-> +		dev_dbg(dw_dev->dev, "[HDMI] clock rate change\n");
-> +		dw_hdmi_power_off(dw_dev);
-> +		if (has_signal(dw_dev, dw_dev->configured_input))
-> +			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-> +
-> +		return IRQ_HANDLED;
-> +	}
-> +	if (hdmi_ists & DW_HDMI_PLL_LCK_CHG_ISTS) {
-> +		dev_dbg(dw_dev->dev,
-> +			"[PHY] PLL lock state changed (tmds_valid: %d)\n",
-> +			dw_hdmi_tmds_valid(dw_dev));
-> +		dw_hdmi_power_off(dw_dev);
-> +
-> +		if (has_signal(dw_dev, dw_dev->configured_input))
-> +			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-> +
-> +		return IRQ_HANDLED;
-> +	}
-> +	if (hdmi_ists & DW_HDMI_DCM_CURRENT_MODE_CHG_ISTS) {
-> +		dev_dbg(dw_dev->dev,
-> +			"[HDMI] deep color changed\n");
-> +
-> +		cd = dw_hdmi_get_colordepth(dw_dev);
-> +		if (cd)
-> +			dw_hdmi_phy_set_color_depth(dw_dev, cd);
-> +
-> +		/* reset CEA video */
-> +		dw_hdmi_reset_ceavid(dw_dev);
-> +
-> +		return IRQ_HANDLED;
-> +	}
-> +	if (md_ists || pdec_ists &
-> +	    (DW_HDMI_VSI_CKS_CHG_ISTS |
-> +	     DW_HDMI_DRM_CKS_CHG_ISTS |
-> +	     DW_HDMI_AVI_CKS_CHG_ISTS)) {
-> +		dw_hdmi_handle_video_change(dw_dev);
-> +		dev_dbg(dw_dev->dev,
-> +			"   md_ists: 0x%x, pdec_ists: 0x%x\n",
-> +			md_ists, pdec_ists);
-> +	}
-> +
-> +	/* infoframes */
-> +	if (pdec_ists & DW_HDMI_AIF_CKS_CHG_ISTS)
-> +		dw_hdmi_get_infoframes(dw_dev);
-> +
-> +	/* audio handling */
-> +	if (pdec_ists & (DW_HDMI_AUD_TYPE_CHG_ISTS |
-> +			 DW_HDMI_AIF_CKS_CHG_ISTS |
-> +			 DW_HDMI_ACR_N_CHG_ISTS |
-> +			 DW_HDMI_ACR_CTS_CHG_ISTS |
-> +			 DW_HDMI_GCP_AV_MUTE_CHG_ISTS) ||
-> +	    afif_ists & (DW_HDMI_AFIF_UNDERFL_ISTS |
-> +			 DW_HDMI_AFIF_OVERFL_ISTS |
-> +			 DW_HDMI_AFIF_THS_PASS_ISTS)) {
-> +		dw_hdmi_handle_audio_change(dw_dev, afif_ists, pdec_ists);
-> +	}
-> +
-> +	/* scdc */
-> +	if (hdmi_ists & DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_MASK) {
-> +		dev_dbg(dw_dev->dev, "[SCDC] hdmi2=%d->%d, scrambling=%d->%d\n",
-> +			dw_dev->is_hdmi2, is_hdmi2(dw_dev),
-> +			dw_dev->is_scrambled, is_scrambled(dw_dev));
-> +		if (dw_dev->is_hdmi2 != is_hdmi2(dw_dev) ||
-> +		    dw_dev->is_scrambled != is_scrambled(dw_dev)) {
-> +			dw_dev->is_hdmi2 = is_hdmi2(dw_dev);
-> +			dw_dev->is_scrambled = is_scrambled(dw_dev);
-> +			dw_hdmi_power_off(dw_dev);
-> +			dw_hdmi_power_on(dw_dev, dw_dev->configured_input);
-> +		}
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int dw_hdmi_detect_tx_5v_ctrl(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	bool current_on = dw_hdmi_5v_status(dw_dev, dw_dev->configured_input);
-> +	unsigned int input_count = dw_dev->config->phy->input_count;
-> +	unsigned int old_input = dw_dev->configured_input;
-> +	unsigned int new_input = old_input;
-> +	bool pending_config = false;
-> +	unsigned int stat = 0;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < input_count; i++) {
-> +		bool on = dw_hdmi_5v_status(dw_dev, i);
-> +
-> +		stat |= on << i;
-> +
-> +		if (on && on != dw_dev->input_connected[i]) {
-> +			dw_hdmi_disable_ints(dw_dev);
-> +			dw_hdmi_power_off(dw_dev);
-> +			dw_hdmi_power_up(dw_dev);
-> +			dw_dev->input_connected[i] = true;
-> +			dw_hdmi_power_on(dw_dev, i);
-> +			dw_hdmi_set_input(dw_dev, i);
-> +			new_input = i;
-> +			pending_config = true;
-> +		} else {
-> +			dw_dev->input_connected[i] = on;
-> +		}
-> +	}
-> +
-> +	dw_dev->input_stat = stat;
-> +
-> +	if (!pending_config && !current_on) {
-> +		dw_hdmi_disable_ints(dw_dev);
-> +		dw_hdmi_disable_hpd(dw_dev);
-> +		dw_hdmi_disable_scdc(dw_dev);
-> +		dw_hdmi_power_off(dw_dev);
-> +		if (dw_dev->phy->power_count > 0)
-> +			phy_power_off(dw_dev->phy);
-> +	}
-> +
-> +	dev_dbg(dw_dev->dev, "%s: stat=0x%x, input=%d->%d\n", __func__,
-> +		stat, old_input, new_input);
-> +	return v4l2_ctrl_s_ctrl(dw_dev->detect_tx_5v_ctrl, stat);
-> +}
-> +
-> +static irqreturn_t dw_hdmi_5v_irq_handler(int irq, void *dev_data)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = dev_data;
-> +
-> +	dw_hdmi_detect_tx_5v_ctrl(dw_dev);
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static irqreturn_t dw_hdmi_5v_hard_irq_handler(int irq, void *dev_data)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = dev_data;
-> +	unsigned int input_count = dw_dev->config->phy->input_count;
-> +	u32 stat = 0x0;
-> +	unsigned int i;
-> +
-> +	/* Clear interrupts */
-> +	for (i = 0; i < input_count; i++) {
-> +		dw_hdmi_5v_disable(dw_dev, i);
-> +		dw_hdmi_5v_enable(dw_dev, i);
-> +		stat |= dw_hdmi_5v_status(dw_dev, i) << i;
-> +	}
-> +
-> +	if (!stat) {
-> +		/*
-> +		 * If there are no connected ports disable whole HPD and SCDC
-> +		 * also.
-> +		 */
-> +		dw_hdmi_disable_hpd(dw_dev);
-> +		dw_hdmi_disable_scdc(dw_dev);
-> +	}
-> +
-> +	return IRQ_WAKE_THREAD;
-> +}
-> +
-> +static int dw_hdmi_s_routing(struct v4l2_subdev *sd, u32 input, u32 output,
-> +			     u32 config)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +	int ret;
-> +
-> +	if (!has_signal(dw_dev, input))
-> +		return -EINVAL;
-> +
-> +	dw_dev->selected_input = input;
-> +	if (input == dw_dev->configured_input)
-> +		return 0;
-> +
-> +	dw_hdmi_power_off(dw_dev);
-> +	ret = dw_hdmi_power_on(dw_dev, input);
-> +	dw_hdmi_set_input(dw_dev, input);
-> +	return ret;
-> +}
-> +
-> +static int dw_hdmi_g_input_status(struct v4l2_subdev *sd, u32 *status)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +
-> +	*status = 0;
-> +	if (!has_signal(dw_dev, dw_dev->selected_input))
-> +		*status |= V4L2_IN_ST_NO_POWER;
-> +	if (!is_on(dw_dev))
-> +		*status |= V4L2_IN_ST_NO_SIGNAL;
-> +
-> +	dev_dbg(dw_dev->dev, "%s: status=0x%x\n", __func__, *status);
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_g_frame_interval(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_frame_interval *ival)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +	u32 htot, vtot, fps;
-> +	unsigned long n, d;
-> +	u64 pclk;
-> +
-> +	htot = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT1,
-> +			       DW_HDMI_HTOT_PIX_OFFSET,
-> +			       DW_HDMI_HTOT_PIX_MASK);
-> +	vtot = hdmi_readl(dw_dev, DW_HDMI_MD_VTL);
-> +	pclk = dw_hdmi_get_pixelclk(dw_dev);
-> +
-> +	fps = (htot * vtot) > 0 ? div_u64((100 * pclk), (htot * vtot)) : 0;
-> +	if (!fps)
-> +		return 0;
-> +
-> +	rational_best_approximation(fps, 100, fps, 100, &n, &d);
-> +
-> +	ival->interval.numerator = d;
-> +	ival->interval.denominator = n;
-> +
-> +	dev_dbg(dw_dev->dev, "%s: %lu / %lu\n", __func__, d, n);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_s_dv_timings(struct v4l2_subdev *sd,
-> +				struct v4l2_dv_timings *timings)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +
-> +	if (!v4l2_valid_dv_timings(timings, &dw_hdmi_timings_cap, NULL, NULL))
-> +		return -EINVAL;
-> +	if (v4l2_match_dv_timings(timings, &dw_dev->timings, 0, false))
-> +		return 0;
-> +
-> +	dw_dev->timings = *timings;
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_g_dv_timings(struct v4l2_subdev *sd,
-> +				struct v4l2_dv_timings *timings)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +
-> +	*timings = dw_dev->timings;
-> +	return 0;
-> +}
-> +
-> +static u32 dw_hdmi_get_width(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	u32 width = hdmi_readl(dw_dev, DW_HDMI_MD_HACT_PX);
-> +	u32 cd = dw_hdmi_get_colordepth(dw_dev);
-> +
-> +	switch (cd) {
-> +	case 30:
-> +		width = (width * 100) / 125;
-> +		break;
-> +	case 36:
-> +		width = (width * 10) / 15;
-> +		break;
-> +	case 48:
-> +		width /= 2;
-> +		break;
-> +	case 24:
-> +	default:
-> +		break;
-> +	}
-> +
-> +	if (dw_hdmi_get_mbus_code(dw_dev) == MEDIA_BUS_FMT_YVYU8_1X16)
-> +		width *= 2;
-> +
-> +	return width;
-> +}
-> +
-> +static int dw_hdmi_query_dv_timings(struct v4l2_subdev *sd,
-> +				    struct v4l2_dv_timings *timings)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +	struct v4l2_bt_timings *bt = &timings->bt;
-> +	bool is_hdmi_vic;
-> +	u32 htot, hofs;
-> +	u32 vtot;
-> +	u8 vic;
-> +
-> +	memset(timings, 0, sizeof(*timings));
-> +
-> +	if (is_off(dw_dev)) {
-> +		dev_dbg(dw_dev->dev, "%s: controller is off\n", __func__);
-> +		return -ENOLINK;
-> +	}
-> +
-> +	if (!is_on(dw_dev)) {
-> +		dev_dbg(dw_dev->dev, "%s: controller is being configured\n",
-> +			__func__);
-> +		return -EAGAIN;
-> +	}
-> +
-> +	timings->type = V4L2_DV_BT_656_1120;
-> +	bt->width = dw_hdmi_get_width(dw_dev);
-> +	bt->height = hdmi_readl(dw_dev, DW_HDMI_MD_VAL);
-> +	bt->interlaced =
-> +		hdmi_readl(dw_dev, DW_HDMI_MD_STS) & DW_HDMI_ILACE_STS ?
-> +			V4L2_DV_INTERLACED : V4L2_DV_PROGRESSIVE;
-> +
-> +	if (hdmi_readl(dw_dev, DW_HDMI_ISTS) & DW_HDMI_VS_POL_ADJ_ISTS)
-> +		bt->polarities |= V4L2_DV_VSYNC_POS_POL;
-> +	if (hdmi_readl(dw_dev, DW_HDMI_ISTS) & DW_HDMI_HS_POL_ADJ_ISTS)
-> +		bt->polarities |= V4L2_DV_HSYNC_POS_POL;
-> +
-> +	bt->pixelclock = dw_hdmi_get_pixelclk(dw_dev);
-> +
-> +	/* HTOT = HACT + HFRONT + HSYNC + HBACK */
-> +	htot = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT1,
-> +			       DW_HDMI_HTOT_PIX_OFFSET,
-> +			       DW_HDMI_HTOT_PIX_MASK);
-> +	/* HOFS = HSYNC + HBACK */
-> +	hofs = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT1,
-> +			       DW_HDMI_HOFS_PIX_OFFSET,
-> +			       DW_HDMI_HOFS_PIX_MASK);
-> +
-> +	bt->hfrontporch = htot - hofs - bt->width;
-> +	bt->hsync = hdmi_mask_readl(dw_dev, DW_HDMI_MD_HT0,
-> +				    DW_HDMI_HS_CLK_OFFSET,
-> +				    DW_HDMI_HS_CLK_MASK);
-> +	bt->hbackporch = hofs - bt->hsync;
-> +
-> +	/* VTOT = VACT + VFRONT + VSYNC + VBACK */
-> +	vtot = hdmi_readl(dw_dev, DW_HDMI_MD_VTL);
-> +
-> +	bt->vsync = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
-> +
-> +	bt->vbackporch = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
-> +	bt->vfrontporch = vtot - bt->height - bt->vsync - bt->vbackporch;
-> +
-> +	if (bt->interlaced == V4L2_DV_INTERLACED) {
-> +		hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MD_VCTRL,
-> +				 DW_HDMI_V_MODE_OFFSET,
-> +				 DW_HDMI_V_MODE_MASK);
-> +		msleep(100); /* Wait for 2 fields */
-> +
-> +		vtot = hdmi_readl(dw_dev, DW_HDMI_MD_VTL);
-> +		hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MD_VCTRL,
-> +				 DW_HDMI_V_OFFS_LIN_MODE_OFFSET,
-> +				 DW_HDMI_V_OFFS_LIN_MODE_MASK);
-> +		msleep(50); /* Wait for 1 field */
-> +		bt->il_vsync = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
-> +
-> +		hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_MD_VCTRL,
-> +				 DW_HDMI_V_OFFS_LIN_MODE_OFFSET,
-> +				 DW_HDMI_V_OFFS_LIN_MODE_MASK);
-> +		msleep(50);
-> +		bt->il_vbackporch = hdmi_readl(dw_dev, DW_HDMI_MD_VOL);
-> +		bt->il_vfrontporch = vtot - bt->height - bt->il_vsync -
-> +			bt->il_vbackporch;
-> +
-> +		hdmi_mask_writel(dw_dev, 0x0, DW_HDMI_MD_VCTRL,
-> +				 DW_HDMI_V_MODE_OFFSET,
-> +				 DW_HDMI_V_MODE_MASK);
-> +	}
-> +
-> +	bt->standards = V4L2_DV_BT_STD_CEA861;
-> +
-> +	vic = dw_hdmi_get_curr_vic(dw_dev, &is_hdmi_vic);
-> +	if (vic) {
-> +		if (is_hdmi_vic) {
-> +			bt->flags |= V4L2_DV_FL_HAS_HDMI_VIC;
-> +			bt->hdmi_vic = vic;
-> +			bt->cea861_vic = 0;
-> +		} else {
-> +			bt->flags |= V4L2_DV_FL_HAS_CEA861_VIC;
-> +			bt->hdmi_vic = 0;
-> +			bt->cea861_vic = vic;
-> +		}
-> +	}
-> +
-> +	dev_dbg(dw_dev->dev, "%s: width=%u, height=%u, mbuscode=%u\n", __func__,
-> +		bt->width, bt->height, dw_hdmi_get_mbus_code(dw_dev));
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_enum_mbus_code(struct v4l2_subdev *sd,
-> +				  struct v4l2_subdev_pad_config *cfg,
-> +				  struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +
-> +	if (code->index != 0)
-> +		return -EINVAL;
-> +
-> +	code->code = dw_dev->mbus_code;
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_fill_format(struct dw_hdmi_dev *dw_dev,
-> +			       struct v4l2_mbus_framefmt *format)
-> +{
-> +	enum hdmi_extended_colorimetry extcol;
-> +	enum hdmi_colorimetry col;
-> +	int ret;
-> +
-> +	memset(format, 0, sizeof(*format));
-> +
-> +	/* Update timings */
-> +	ret = dw_hdmi_query_dv_timings(&dw_dev->sd, &dw_dev->timings);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Update infoframe contents */
-> +	dw_hdmi_get_infoframes(dw_dev);
-> +
-> +	col = dw_dev->aviif.avi.colorimetry;
-> +	extcol = dw_dev->aviif.avi.extended_colorimetry;
-> +
-> +	switch (col) {
-> +	case HDMI_COLORIMETRY_ITU_601:
-> +		format->colorspace = V4L2_COLORSPACE_SMPTE170M;
-> +		break;
-> +	case HDMI_COLORIMETRY_EXTENDED:
-> +		switch (extcol) {
-> +		case HDMI_EXTENDED_COLORIMETRY_XV_YCC_601:
-> +			format->colorspace = V4L2_COLORSPACE_SMPTE170M;
-> +			break;
-> +		case HDMI_EXTENDED_COLORIMETRY_XV_YCC_709:
-> +		case HDMI_EXTENDED_COLORIMETRY_S_YCC_601:
-> +		case HDMI_EXTENDED_COLORIMETRY_OPYCC_601:
-> +		case HDMI_EXTENDED_COLORIMETRY_OPRGB:
-> +		case HDMI_EXTENDED_COLORIMETRY_BT2020_CONST_LUM:
-> +		case HDMI_EXTENDED_COLORIMETRY_BT2020:
-> +		case HDMI_EXTENDED_COLORIMETRY_RESERVED:
-> +		default:
-> +			format->colorspace = V4L2_COLORSPACE_REC709;
-> +			break;
-> +		}
-> +
-> +		break;
-> +	case HDMI_COLORIMETRY_NONE:
-> +	case HDMI_COLORIMETRY_ITU_709:
-> +	default:
-> +		format->colorspace = V4L2_COLORSPACE_REC709;
-> +		break;
-> +	}
-> +
-> +	format->width = dw_dev->timings.bt.width;
-> +	format->height = dw_dev->timings.bt.height;
-> +	format->code = dw_dev->mbus_code;
-> +	if (dw_dev->timings.bt.interlaced)
-> +		format->field = V4L2_FIELD_ALTERNATE;
-> +	else
-> +		format->field = V4L2_FIELD_NONE;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_get_fmt(struct v4l2_subdev *sd,
-> +			   struct v4l2_subdev_pad_config *cfg,
-> +			   struct v4l2_subdev_format *format)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +
-> +	return dw_hdmi_fill_format(dw_dev, &format->format);
-> +}
-> +
-> +static int dw_hdmi_set_fmt(struct v4l2_subdev *sd,
-> +			   struct v4l2_subdev_pad_config *cfg,
-> +			   struct v4l2_subdev_format *format)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +
-> +	if (format->format.code != dw_dev->mbus_code) {
-> +		dev_dbg(dw_dev->dev, "invalid format\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	return dw_hdmi_get_fmt(sd, cfg, format);
-> +}
-> +
-> +static int dw_hdmi_get_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +	unsigned int input_count = dw_dev->config->phy->input_count;
-> +	unsigned int i, j, start, end;
-> +	u8 *ptr = edid->edid;
-> +	u8 blocks;
-> +
-> +	memset(edid->reserved, 0, sizeof(edid->reserved));
-> +
-> +	if (edid->pad >= input_count || !ptr)
-> +		return -EINVAL;
-> +
-> +	blocks = dw_dev->curr_edid_blocks[edid->pad];
-> +
-> +	if (!edid->start_block && !edid->blocks) {
-> +		edid->blocks = blocks;
-> +		return 0;
-> +	}
-> +	if (!blocks)
-> +		return -ENODATA;
-> +	if (edid->start_block >= blocks)
-> +		return -EINVAL;
-> +	if ((edid->start_block + edid->blocks) > blocks)
-> +		edid->blocks = blocks - edid->start_block;
-> +
-> +	start = (edid->start_block * 128) / sizeof(u32);
-> +	end = start + (edid->blocks * 128) / sizeof(u32);
-> +
-> +	for (i = start; i < end; i++) {
-> +		u32 raw = dw_hdmi_edid_read(dw_dev, edid->pad, i * sizeof(u32));
-> +
-> +		if (!dw_hdmi_edid_4blocks_le(dw_dev)) {
-> +			u32 raw_srt = 0;
-> +			/* little endian representation, need to invert */
-> +			for (j = 0; j < 4; j++) {
-> +				raw_srt |= ((raw >> (8 * (3 - j))) & 0xff)
-> +					<< (j * 8);
-> +			}
-> +			raw = raw_srt;
-> +		}
-> +		memcpy(ptr, &raw, sizeof(u32));
-> +		ptr += sizeof(u32);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +	int input_count = dw_dev->config->phy->input_count;
-> +	int size, ret;
-> +	u32 *tmp;
-> +
-> +	memset(edid->reserved, 0, sizeof(edid->reserved));
-> +
-> +	if (edid->pad >= input_count || !edid->edid || !edid->blocks)
-> +		return -EINVAL;
-> +	if (edid->start_block != 0)
-> +		return -EINVAL;
-> +
-> +	/* Clear old EDID */
-> +	size = dw_dev->curr_edid_blocks[edid->pad] * 128;
-> +	tmp = devm_kzalloc(dw_dev->dev, size, GFP_KERNEL);
-> +	if (!tmp)
-> +		return -ENOMEM;
-> +
-> +	ret = dw_hdmi_edid_write(dw_dev, edid->pad, tmp, size / sizeof(u32));
-> +	devm_kfree(dw_dev->dev, tmp);
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	dw_dev->curr_edid_blocks[edid->pad] = 0;
-> +
-> +	/* Set new EDID */
-> +	if (dw_hdmi_edid_4blocks_le(dw_dev)) {
-> +		/* little endian representation, no need to invert bytes */
-> +		ret = dw_hdmi_update_edid(dw_dev, edid->pad, (u8 *)edid->edid,
-> +					  (edid->blocks * 128), false);
-> +	} else {
-> +		/* invert the order of bytes to register 32bit */
-> +		ret = dw_hdmi_update_edid(dw_dev, edid->pad, (u8 *)edid->edid,
-> +					  (edid->blocks * 128), true);
-> +	}
-> +	if (ret)
-> +		return ret;
-> +
-> +	dw_dev->curr_edid_blocks[edid->pad] = edid->blocks;
-
-I don't see any checks on edid->blocks: that can't be right. The typical max
-number of blocks for an EDID is 2 or 4, I haven't seen any implementations
-for more than 4 blocks.
-
-I also don't see any signaling of the HPD: it must be pulled low before you
-start writing the EDID, and pulled high again at least 100ms later (150 ms or so
-is recommended to keep a margin).
-
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_dv_timings_cap(struct v4l2_subdev *sd,
-> +				  struct v4l2_dv_timings_cap *cap)
-> +{
-> +	unsigned int pad = cap->pad;
-> +
-> +	*cap = dw_hdmi_timings_cap;
-> +	cap->pad = pad;
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_enum_dv_timings(struct v4l2_subdev *sd,
-> +				   struct v4l2_enum_dv_timings *timings)
-> +{
-> +	return v4l2_enum_dv_timings_cap(timings, &dw_hdmi_timings_cap,
-> +					NULL, NULL);
-> +}
-> +
-> +static int dw_hdmi_log_status(struct v4l2_subdev *sd)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +	struct v4l2_dv_timings timings;
-> +
-> +	v4l2_info(sd, "--- Chip configuration ---\n");
-> +	v4l2_info(sd, "iref_clk=%dMHz\n", dw_dev->config->iref_clk);
-> +	v4l2_info(sd, "phy_drv=%s, phy_jtag_addr=0x%x\n",
-> +		  dw_dev->phy ? "present" : "not present",
-> +		  dw_dev->config->phy->jtag_addr);
-> +
-> +	v4l2_info(sd, "--- Chip status ---\n");
-> +	v4l2_info(sd, "selected_input=%d: signal=%d\n", dw_dev->selected_input,
-> +		  has_signal(dw_dev, dw_dev->selected_input));
-> +	v4l2_info(sd, "configured_input=%d: signal=%d\n",
-> +		  dw_dev->configured_input,
-> +		  has_signal(dw_dev, dw_dev->configured_input));
-> +
-> +	v4l2_info(sd, "--- Video status ---\n");
-> +	v4l2_info(sd, "type=%s, color_depth=%dbits",
-> +		  hdmi_readl(dw_dev, DW_HDMI_PDEC_STS) &
-> +		  DW_HDMI_DVIDET ? "dvi" : "hdmi",
-> +		  dw_hdmi_get_colordepth(dw_dev));
-> +
-> +	v4l2_info(sd, "--- Video timings ---\n");
-> +	if (dw_hdmi_query_dv_timings(sd, &timings))
-> +		v4l2_info(sd, "No video detected\n");
-> +	else
-> +		v4l2_print_dv_timings(sd->name, "Detected format: ",
-> +				      &timings, true);
-> +	v4l2_print_dv_timings(sd->name, "Configured format: ",
-> +			      &dw_dev->timings, true);
-> +
-> +	v4l2_ctrl_subdev_log_status(sd);
-> +	return 0;
-> +}
-> +
-> +#ifdef CONFIG_VIDEO_ADV_DEBUG
-> +static void dw_hdmi_invalid_register(struct dw_hdmi_dev *dw_dev, u64 reg)
-> +{
-> +	dev_err(dw_dev->dev, "register 0x%llx not supported\n", reg);
-> +	dev_err(dw_dev->dev, "0x0000-0x7fff: Main controller map\n");
-> +	dev_err(dw_dev->dev, "0x8000-0x8fff: Debug registers\n");
-> +	dev_err(dw_dev->dev, "  0x8000: TMDSVALID wait count\n");
-> +	dev_err(dw_dev->dev, "  0x8001: SW state\n");
-> +	dev_err(dw_dev->dev, "  0x8002: Equalizer ON/OFF\n");
-> +	dev_err(dw_dev->dev, "  0x8003: PHY Version\n");
-> +	dev_err(dw_dev->dev, "  0x8004: Video Stable Wait Time (ms)\n");
-> +	dev_err(dw_dev->dev, "  0x8005: Clock wait time (ms)\n");
-> +	dev_err(dw_dev->dev, "  0x8006: iref_clk value\n");
-> +	dev_err(dw_dev->dev, "  0x8007: reset_datapath_enable mask value\n");
-> +	dev_err(dw_dev->dev, "  0x8008: audio sample frequency (read only)\n");
-> +	dev_err(dw_dev->dev, "  0x8009: hw_reset_on_hot_plug (1=enabled, 0=disabled)");
-> +	dev_err(dw_dev->dev, "0x10000-0x100ff: PHY map\n");
-> +}
-> +
-> +static bool dw_hdmi_is_reserved_register(struct dw_hdmi_dev *dw_dev, u32 reg)
-> +{
-> +	/*
-> +	 * NOTE: Some of the HDCP registers are write only. This means that
-> +	 * a read from these registers will never return and can block the bus
-> +	 * in some architectures. Disable the read to these registers and also
-> +	 * disable the write as a safety measure because userspace should not
-> +	 * be able to set HDCP registers.
-> +	 */
-> +	if (reg >= DW_HDMI_HDCP_CTRL && reg <= DW_HDMI_HDCP_STS)
-> +		return true;
-> +	if (reg == DW_HDMI_HDCP22_CONTROL)
-> +		return true;
-> +	if (reg == DW_HDMI_HDCP22_STATUS)
-> +		return true;
-> +	return false;
-> +}
-> +
-> +static int dw_hdmi_g_register(struct v4l2_subdev *sd,
-> +			      struct v4l2_dbg_register *reg)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +
-> +	switch (reg->reg >> 15) {
-> +	case 0: /* Controller core read */
-> +		if (dw_hdmi_is_reserved_register(dw_dev, reg->reg & 0x7fff))
-> +			return -EINVAL;
-> +
-> +		reg->size = 4;
-> +		reg->val = hdmi_readl(dw_dev, reg->reg & 0x7fff);
-> +		return 0;
-> +	case 1: /* Debug registers */
-> +		reg->size = 4;
-> +
-> +		switch (reg->reg & GENMASK(14, 0)) {
-> +		case 0:
-> +			reg->val = dw_dev->tmds_valid_wait_count;
-> +			return 0;
-> +		case 1:
-> +			reg->val = dw_dev->state;
-> +			return 0;
-> +		case 2:
-> +			reg->val = dw_dev->phy_eq_on;
-> +			return 0;
-> +		case 3:
-> +			reg->val = dw_dev->config->phy->version;
-> +			return 0;
-> +		case 4:
-> +			reg->val = dw_dev->video_stable_wait_ms;
-> +			return 0;
-> +		case 5:
-> +			reg->val = dw_dev->has_clock_wait_ms;
-> +			return 0;
-> +		case 6:
-> +			reg->val = dw_dev->config->iref_clk;
-> +			return 0;
-> +		case 7:
-> +			reg->val = dw_dev->reset_datapath_enable;
-> +			return 0;
-> +		case 8:
-> +			reg->val = dw_hdmi_get_sample_freq(dw_dev);
-> +			return 0;
-> +		case 9:
-> +			reg->val = dw_dev->hw_reset_on_hot_plug;
-> +			return 0;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case 2: /* PHY read */
-> +		if ((reg->reg & ~0xff) != BIT(16))
-> +			break;
-> +
-> +		reg->size = 2;
-> +		reg->val = dw_hdmi_phy_read(dw_dev, reg->reg & 0xff);
-> +		return 0;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	dw_hdmi_invalid_register(dw_dev, reg->reg);
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_s_register(struct v4l2_subdev *sd,
-> +			      const struct v4l2_dbg_register *reg)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +
-> +	switch (reg->reg >> 15) {
-> +	case 0: /* Controller core write */
-> +		if (dw_hdmi_is_reserved_register(dw_dev, reg->reg & 0x7fff))
-> +			return -EINVAL;
-> +
-> +		hdmi_writel(dw_dev, reg->val & GENMASK(31, 0),
-> +			    reg->reg & 0x7fff);
-> +		return 0;
-> +	case 1: /* Debug registers */
-> +		switch (reg->reg & GENMASK(14, 0)) {
-> +		case 0:
-> +			dw_dev->tmds_valid_wait_count = reg->val;
-> +			return 0;
-> +		case 1:
-> +			dw_hdmi_set_state(dw_dev, reg->val & 0xff);
-> +			return 0;
-> +		case 2:
-> +			dw_dev->phy_eq_on = reg->val;
-> +			return 0;
-> +		case 4:
-> +			dw_dev->video_stable_wait_ms = reg->val;
-> +			return 0;
-> +		case 5:
-> +			dw_dev->has_clock_wait_ms = reg->val;
-> +			return 0;
-> +		case 7:
-> +			dw_dev->reset_datapath_enable = reg->val;
-> +			return 0;
-> +		/* case 8 is read-only */
-> +		case 9:
-> +			dw_dev->hw_reset_on_hot_plug = reg->val;
-> +			return 0;
-> +		case 400:
-> +			dev_warn(dw_dev->dev, "synmp debug select timeout\n");
-> +			return 0;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case 2: /* PHY write */
-> +		if ((reg->reg & ~0xff) != BIT(16))
-> +			break;
-> +		dw_hdmi_phy_write(dw_dev, reg->val & 0xffff, reg->reg & 0xff);
-> +		return 0;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	dw_hdmi_invalid_register(dw_dev, reg->reg);
-> +	return 0;
-> +}
-> +#endif
-> +
-> +static int dw_hdmi_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
-> +				   struct v4l2_event_subscription *sub)
-> +{
-> +	switch (sub->type) {
-> +	case V4L2_EVENT_SOURCE_CHANGE:
-> +		return v4l2_src_change_event_subdev_subscribe(sd, fh, sub);
-> +	default:
-> +		return v4l2_ctrl_subdev_subscribe_event(sd, fh, sub);
-> +	}
-> +}
-> +
-> +static int dw_hdmi_registered(struct v4l2_subdev *sd)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +
-> +	dw_dev->registered = true;
-> +	return 0;
-> +}
-> +
-> +static void dw_hdmi_unregistered(struct v4l2_subdev *sd)
-> +{
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +
-> +	dw_dev->registered = false;
-> +}
-> +
-> +static const struct v4l2_subdev_core_ops dw_hdmi_sd_core_ops = {
-> +	.log_status = dw_hdmi_log_status,
-> +#ifdef CONFIG_VIDEO_ADV_DEBUG
-> +	.g_register = dw_hdmi_g_register,
-> +	.s_register = dw_hdmi_s_register,
-> +#endif
-> +	.subscribe_event = dw_hdmi_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> +};
-> +
-> +static const struct v4l2_subdev_video_ops dw_hdmi_sd_video_ops = {
-> +	.s_routing = dw_hdmi_s_routing,
-> +	.g_input_status = dw_hdmi_g_input_status,
-> +	.g_frame_interval = dw_hdmi_g_frame_interval,
-> +	.s_dv_timings = dw_hdmi_s_dv_timings,
-> +	.g_dv_timings = dw_hdmi_g_dv_timings,
-> +	.query_dv_timings = dw_hdmi_query_dv_timings,
-> +};
-> +
-> +static const struct v4l2_subdev_pad_ops dw_hdmi_sd_pad_ops = {
-> +	.enum_mbus_code = dw_hdmi_enum_mbus_code,
-> +	.get_fmt = dw_hdmi_get_fmt,
-> +	.set_fmt = dw_hdmi_set_fmt,
-> +	.get_edid = dw_hdmi_get_edid,
-> +	.set_edid = dw_hdmi_set_edid,
-> +	.dv_timings_cap = dw_hdmi_dv_timings_cap,
-> +	.enum_dv_timings = dw_hdmi_enum_dv_timings,
-> +};
-> +
-> +static const struct v4l2_subdev_ops dw_hdmi_sd_ops = {
-> +	.core = &dw_hdmi_sd_core_ops,
-> +	.video = &dw_hdmi_sd_video_ops,
-> +	.pad = &dw_hdmi_sd_pad_ops,
-> +};
-> +
-> +static const struct v4l2_subdev_internal_ops dw_hdmi_internal_ops = {
-> +	.registered = dw_hdmi_registered,
-> +	.unregistered = dw_hdmi_unregistered,
-> +};
-> +
-> +static int dw_hdmi_parse_pd(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	/* PHY address already comes from platform data */
-> +	if (!dw_dev->config->phy->jtag_addr) {
-> +		dev_err(dw_dev->dev, "missing PHY jtag address in PD\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* clock already comes from platform data */
-> +	if (!dw_dev->config->iref_clk) {
-> +		dev_err(dw_dev->dev, "invalid cfg clock frequency in PD\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* PHY input count already comes from platform data */
-> +	if (!dw_dev->config->phy->input_count) {
-> +		dev_err(dw_dev->dev, "invalid PHY input count\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_parse_dt(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	struct device_node *phy_node, *np = dw_dev->of_node;
-> +	struct device_node *port_node;
-> +	u32 tmp = 0;
-> +	int ret;
-> +
-> +	if (!np) {
-> +		dev_err(dw_dev->dev, "missing DT node\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* PHY properties parsing */
-> +	phy_node = dw_hdmi_get_phy_of_node(dw_dev, NULL);
-> +	ret = of_property_read_u32(phy_node, "reg", &tmp);
-> +	if (ret) {
-> +		dev_err(dw_dev->dev, "missing PHY jtag address in DT\n");
-> +		return ret;
-> +	}
-> +
-> +	dw_dev->config->phy->jtag_addr = tmp & 0xff;
-> +
-> +	/* Get config clock value */
-> +	dw_dev->clk = devm_clk_get(dw_dev->dev, "cfg");
-> +	if (IS_ERR(dw_dev->clk)) {
-> +		dev_err(dw_dev->dev, "failed to get cfg clock\n");
-> +		return PTR_ERR(dw_dev->clk);
-> +	}
-> +
-> +	ret = clk_prepare_enable(dw_dev->clk);
-> +	if (ret) {
-> +		dev_err(dw_dev->dev, "failed to enable cfg clock\n");
-> +		return ret;
-> +	}
-> +
-> +	dw_dev->config->iref_clk = clk_get_rate(dw_dev->clk) / 1000000U;
-> +	if (!dw_dev->config->iref_clk) {
-> +		dev_err(dw_dev->dev, "invalid cfg clock frequency\n");
-> +		ret = -EINVAL;
-> +		goto err_clk;
-> +	}
-> +
-> +	/* Get PHY input count through the port children count */
-> +	port_node = of_get_child_by_name(phy_node, "port");
-> +	dw_dev->config->phy->input_count = of_get_child_count(port_node);
-> +	if (!dw_dev->config->phy->input_count) {
-> +		dev_err(dw_dev->dev, "invalid PHY input count\n");
-> +		ret = -EINVAL;
-> +		goto err_clk;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_clk:
-> +	clk_disable_unprepare(dw_dev->clk);
-> +	return ret;
-> +}
-> +
-> +static void dw_hdmi_config_ced(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	hdmi_mask_writel(dw_dev, 0x1f, DW_HDMI_HDMI20_CONTROL,
-> +			 DW_HDMI_CTRLCHECKEN_OFFSET,
-> +			 DW_HDMI_VIDDATACHECKEN_MASK |
-> +			 DW_HDMI_DATAISCHECKEN_MASK |
-> +			 DW_HDMI_GBCHECKEN_MASK |
-> +			 DW_HDMI_PREAMBCHECKEN_MASK |
-> +			 DW_HDMI_CTRLCHECKEN_MASK);
-> +}
-> +
-> +static void dw_hdmi_config_mode_recover(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	/*NOTE: avoid instability of md_ists interrupts */
-> +
-> +	/* set HDMI_MODE_HYST */
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MODE_RECOVER,
-> +			 DW_HDMI_HDMI_MODE_HYST_OFFSET,
-> +			 DW_HDMI_HDMI_MODE_HYST_MASK);
-> +	/* set DVI_MODE_HYST */
-> +	hdmi_mask_writel(dw_dev, 0x8, DW_HDMI_MODE_RECOVER,
-> +			 DW_HDMI_DVI_MODE_HYST_OFFSET,
-> +			 DW_HDMI_DVI_MODE_HYST_MASK);
-> +	/* set SPIKE_FILTER_EN */
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_MODE_RECOVER,
-> +			 DW_HDMI_SPIKE_FILTER_EN_OFFSET,
-> +			 DW_HDMI_SPIKE_FILTER_EN_MASK);
-> +
-> +	/* enable BCH error correction */
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_PDEC_CTRL,
-> +			 DW_HDMI_PDEC_BCH_EN_OFFSET,
-> +			 DW_HDMI_PDEC_BCH_EN_MASK);
-> +}
-> +
-> +static void dw_hdmi_config_scdc(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	u32 chlock = dw_dev->config->iref_clk * 1000;
-> +
-> +	/* set HDMI_CHLOCK_CONFIG */
-> +	hdmi_mask_writel(dw_dev, chlock, DW_HDMI_CHLOCK_CONFIG,
-> +			 DW_HDMI_MILISECTIMERLIMIT_OFFSET,
-> +			 DW_HDMI_MILISECTIMERLIMIT_MASK);
-> +}
-> +
-> +static void dw_hdmi_config_ceavid(struct dw_hdmi_dev *dw_dev)
-> +{
-> +	/* set CEA YCC 422 IPI Mapping */
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEAVID_CONFIG,
-> +			 DW_HDMI_CEAVID_YCC422_IPIMAP_OFFSET,
-> +			 DW_HDMI_CEAVID_YCC422_IPIMAP_MASK);
-> +	/* set CEA YCC 420 IPI Mapping */
-> +	hdmi_mask_writel(dw_dev, 0x1, DW_HDMI_CEAVID_CONFIG,
-> +			 DW_HDMI_CEAVID_YCC420_IPIMAP_OFFSET,
-> +			 DW_HDMI_CEAVID_YCC420_IPIMAP_MASK);
-> +}
-> +
-> +static int dw_hdmi_initial_config(struct dw_hdmi_dev *dw_dev, u32 input)
-> +{
-> +	/* disable interrupts */
-> +	dw_hdmi_disable_ints(dw_dev);
-> +	/* Disable HPD */
-> +	dw_hdmi_disable_hpd(dw_dev);
-> +
-> +	/* select PHY port */
-> +	hdmi_mask_writel(dw_dev, input, DW_HDMI_PHY_CTRL,
-> +			 DW_HDMI_PORTSELECT_OFFSET,
-> +			 DW_HDMI_PORTSELECT_MASK);
-> +
-> +	/* ced */
-> +	dw_hdmi_config_ced(dw_dev);
-> +
-> +	/* HDMI recover configurations */
-> +	dw_hdmi_config_mode_recover(dw_dev);
-> +
-> +	/* scdc configurations */
-> +	dw_hdmi_config_scdc(dw_dev);
-> +
-> +	/* ceavid configuration */
-> +	dw_hdmi_config_ceavid(dw_dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_rx_probe(struct platform_device *pdev)
-> +{
-> +	const struct v4l2_dv_timings timings_def = DW_HDMI_DEFAULT_TIMING;
-> +	struct dw_hdmi_rx_pdata *pdata = pdev->dev.platform_data;
-> +	struct device *dev = &pdev->dev;
-> +	struct v4l2_ctrl_handler *hdl;
-> +	struct dw_hdmi_dev *dw_dev;
-> +	struct v4l2_subdev *sd;
-> +	struct resource *res;
-> +	u32 input_count;
-> +	unsigned int i;
-> +	int ret, irq;
-> +
-> +	/* Resource allocation */
-> +	dw_dev = devm_kzalloc(dev, sizeof(*dw_dev), GFP_KERNEL);
-> +	if (!dw_dev)
-> +		return -ENOMEM;
-> +
-> +	/* Resource initialization */
-> +	if (!pdata) {
-> +		dev_err(dev, "missing platform data\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	dw_dev->dev = dev;
-> +	dw_dev->config = pdata;
-> +	dw_dev->state = HDMI_STATE_NO_INIT;
-> +	dw_dev->of_node = dev->of_node;
-> +	dw_dev->tmds_valid_wait_count = 100;
-> +	dw_dev->has_clock_wait_ms = 200;
-> +	dw_dev->video_stable_wait_ms = 200;
-> +	dw_dev->reset_datapath_enable = 0xFFFFFFFF;
-> +	dw_dev->phy_eq_on = true;
-> +	dw_dev->hw_reset_on_hot_plug = 1;
-> +	spin_lock_init(&dw_dev->lock);
-> +	spin_lock_init(&dw_dev->event_lock);
-> +
-> +	if (dw_hdmi_has_dt(dw_dev)) {
-> +		/* init PHY based on device tree */
-> +		ret = dw_hdmi_parse_dt(dw_dev);
-> +	} else {
-> +		/* init PHY based on platform data */
-> +		ret = dw_hdmi_parse_pd(dw_dev);
-> +	}
-> +	if (ret)
-> +		return ret;
-> +
-> +	input_count = dw_dev->config->phy->input_count;
-> +
-> +	dw_dev->curr_edid_blocks =
-> +		devm_kzalloc(dev,
-> +			     sizeof(*dw_dev->curr_edid_blocks) * input_count,
-> +			     GFP_KERNEL);
-> +	if (!dw_dev->curr_edid_blocks)
-> +		return -ENOMEM;
-> +
-> +	dw_dev->input_connected =
-> +		devm_kzalloc(dev,
-> +			     sizeof(*dw_dev->input_connected) * input_count,
-> +			     GFP_KERNEL);
-> +	if (!dw_dev->input_connected)
-> +		return -ENOMEM;
-> +
-> +	/* Deferred work */
-> +	dw_dev->wq = create_singlethread_workqueue(DW_HDMI_RX_DRVNAME);
-> +	if (!dw_dev->wq) {
-> +		dev_err(dev, "failed to create workqueue\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	dw_dev->regs = devm_ioremap_resource(dev, res);
-> +	if (IS_ERR(dw_dev->regs)) {
-> +		dev_err(dev, "failed to remap resource\n");
-> +		ret = PTR_ERR(dw_dev->regs);
-> +		goto err_wq;
-> +	}
-> +
-> +	/* Disable 5V and write EDID */
-> +	for (i = 0; i < input_count; i++) {
-> +		dw_dev->curr_edid_blocks[i] = ARRAY_SIZE(dw_hdmi_edid) / 32;
-> +		dw_hdmi_5v_disable(dw_dev, i);
-> +		if (dw_hdmi_edid_4blocks_le(dw_dev)) {
-> +			/* little endian representation, needs to invert */
-> +			ret = dw_hdmi_update_edid(dw_dev, i, (u8 *)dw_hdmi_edid,
-> +						  ARRAY_SIZE(dw_hdmi_edid) *
-> +							sizeof(u32),
-> +						  true);
-> +		} else {
-> +			/* no need to invert */
-> +			ret = dw_hdmi_update_edid(dw_dev, i, (u8 *)dw_hdmi_edid,
-> +						  ARRAY_SIZE(dw_hdmi_edid) *
-> +							sizeof(u32),
-> +						  false);
-> +		}
-
-This should be dropped, start with an empty EDID and pull the HPD low.
-
-> +		if (ret)
-> +			goto err_wq;
-> +	}
-> +
-> +	dw_hdmi_initial_config(dw_dev, 0);
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0) {
-> +		ret = irq;
-> +		goto err_wq;
-> +	}
-> +
-> +	ret = devm_request_threaded_irq(dev, irq, NULL, dw_hdmi_irq_handler,
-> +					IRQF_ONESHOT, DW_HDMI_RX_DRVNAME,
-> +					dw_dev);
-> +	if (ret)
-> +		goto err_wq;
-> +
-> +	/* V4L2 initialization */
-> +	sd = &dw_dev->sd;
-> +	v4l2_subdev_init(sd, &dw_hdmi_sd_ops);
-> +	strscpy(sd->name, dev_name(dev), sizeof(sd->name));
-> +	sd->dev = dev;
-> +	sd->internal_ops = &dw_hdmi_internal_ops;
-> +	sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +
-> +	/* Control handlers */
-> +	hdl = &dw_dev->hdl;
-> +	v4l2_ctrl_handler_init(hdl, 1);
-> +	dw_dev->detect_tx_5v_ctrl =
-> +		v4l2_ctrl_new_std(hdl, NULL, V4L2_CID_DV_RX_POWER_PRESENT, 0,
-> +				  BIT(4) - 1, 0, 0);
-> +
-> +	sd->ctrl_handler = hdl;
-> +	if (hdl->error) {
-> +		ret = hdl->error;
-> +		goto err_hdl;
-> +	}
-> +
-> +	/* Wait for ctrl handler register before requesting 5v interrupt */
-> +	irq = platform_get_irq(pdev, 1);
-> +	if (irq < 0) {
-> +		ret = irq;
-> +		goto err_hdl;
-> +	}
-> +
-> +	ret = devm_request_threaded_irq(dev, irq, dw_hdmi_5v_hard_irq_handler,
-> +					dw_hdmi_5v_irq_handler, IRQF_ONESHOT,
-> +					DW_HDMI_RX_DRVNAME "-5v-handler",
-> +					dw_dev);
-> +	if (ret)
-> +		goto err_hdl;
-> +
-> +	/* PHY loading */
-> +	ret = dw_hdmi_phy_init(dw_dev);
-> +	if (ret)
-> +		goto err_phy_exit;
-> +
-> +	ret = v4l2_async_register_subdev(sd);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register subdev\n");
-> +		goto err_phy_exit;
-> +	}
-> +
-> +	/* Fill initial format settings */
-> +	dw_dev->timings = timings_def;
-> +	dw_dev->mbus_code = MEDIA_BUS_FMT_BGR888_1X24;
-> +
-> +	dev_set_drvdata(dev, sd);
-> +	dw_dev->state = HDMI_STATE_POWER_OFF;
-> +	dw_dev->is_hdmi2 = is_hdmi2(dw_dev);
-> +	dw_dev->is_scrambled = is_scrambled(dw_dev);
-> +	dev_info(dev, "using PHY: %s (GEN%d)\n", pdata->phy->name,
-> +		 pdata->phy->gen);
-> +	dev_info(dev, "HDMI mode=%s\n", dw_dev->is_hdmi2 ? "2.x" : "1.4");
-> +
-> +	/* Set initial input, if any */
-> +	ret = dw_hdmi_detect_tx_5v_ctrl(dw_dev);
-> +	if (ret) {
-> +		dev_err(dev, "failed to set 5V ctrl initial value\n");
-> +		goto err_subdev;
-> +	}
-> +
-> +	dev_info(dev, "selected_input=%d, state=%s\n",
-> +		 dw_dev->selected_input, get_state_name(dw_dev->state));
-> +
-> +	for (i = 0; i < input_count; i++)
-> +		dw_hdmi_5v_enable(dw_dev, i);
-> +
-> +	dev_dbg(dev, "driver probed\n");
-> +	return 0;
-> +
-> +err_subdev:
-> +	v4l2_async_unregister_subdev(sd);
-> +err_phy_exit:
-> +	dw_hdmi_phy_exit(dw_dev);
-> +err_hdl:
-> +	v4l2_ctrl_handler_free(hdl);
-> +err_wq:
-> +	destroy_workqueue(dw_dev->wq);
-> +	if (dw_dev->clk)
-> +		clk_disable_unprepare(dw_dev->clk);
-> +
-> +	return ret;
-> +}
-> +
-> +static int dw_hdmi_rx_remove(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct dw_hdmi_dev *dw_dev = to_dw_dev(sd);
-> +	unsigned int i, input_count = dw_dev->config->phy->input_count;
-> +
-> +	dw_hdmi_disable_ints(dw_dev);
-> +	dw_hdmi_disable_hpd(dw_dev);
-> +	dw_hdmi_disable_scdc(dw_dev);
-> +	dw_hdmi_power_off(dw_dev);
-> +	phy_power_off(dw_dev->phy);
-> +	for (i = 0; i < input_count; i++)
-> +		dw_hdmi_5v_disable(dw_dev, i);
-> +	flush_workqueue(dw_dev->wq);
-> +	destroy_workqueue(dw_dev->wq);
-> +	dw_hdmi_phy_exit(dw_dev);
-> +	v4l2_ctrl_handler_free(sd->ctrl_handler);
-> +	clk_disable_unprepare(dw_dev->clk);
-> +	dev_dbg(dev, "driver removed\n");
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id dw_hdmi_rx_id[] = {
-> +	{ .compatible = "snps,dw-hdmi-rx" },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(of, dw_hdmi_rx_id);
-> +
-> +static struct platform_driver dw_hdmi_rx_driver = {
-> +	.probe = dw_hdmi_rx_probe,
-> +	.remove = dw_hdmi_rx_remove,
-> +	.driver = {
-> +		.name = DW_HDMI_RX_DRVNAME,
-> +		.of_match_table = dw_hdmi_rx_id,
-> +	}
-> +};
-> +module_platform_driver(dw_hdmi_rx_driver);
-> +
-> +MODULE_AUTHOR("Jose Abreu <jose.abreu@synopsys.com>");
-> +MODULE_AUTHOR("Nelson Costa <nelson.costa@synopsys.com>");
-> +MODULE_DESCRIPTION("DesignWare HDMI Receiver Driver");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/media/platform/dwc/dw-hdmi-rx.h b/drivers/media/platform/dwc/dw-hdmi-rx.h
-> new file mode 100644
-> index 0000000..f0ea1d4
-> --- /dev/null
-> +++ b/drivers/media/platform/dwc/dw-hdmi-rx.h
-> @@ -0,0 +1,476 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-> + * Synopsys DesignWare HDMI Receiver controller driver
-> + *
-> + * Author: Jose Abreu <jose.abreu@synopsys.com>
-> + * Author: Nelson Costa <nelson.costa@synopsys.com>
-> + */
-> +
-> +#ifndef __DW_HDMI_RX_H__
-> +#define __DW_HDMI_RX_H__
-> +
-> +#include <linux/bitops.h>
-> +
-> +/* id_hdmi Registers */
-> +#define DW_HDMI_SETUP_CTRL			0x0000
-> +#define DW_HDMI_HOT_PLUG_DETECT_INPUT_X_MASK	GENMASK(27, 24)
-> +#define DW_HDMI_HOT_PLUG_DETECT_INPUT_X_OFFSET	24
-> +#define DW_HDMI_HDMIBUS_RESET_OVR_EN_MASK	BIT(21)
-> +#define DW_HDMI_HDMIBUS_RESET_OVR_EN_OFFSET	21
-> +#define DW_HDMI_BUS_RESET_OVR_MASK		BIT(20)
-> +#define DW_HDMI_BUS_RESET_OVR_OFFSET		20
-> +#define DW_HDMI_HDMI_RESET_OVR_MASK		BIT(19)
-> +#define DW_HDMI_HDMI_RESET_OVR_OFFSET		19
-> +#define DW_HDMI_PON_RESET_OVR_MASK		BIT(18)
-> +#define DW_HDMI_PON_RESET_OVR_OFFSET		18
-> +#define DW_HDMI_RESET_OVR_MASK			BIT(17)
-> +#define DW_HDMI_RESET_OVR_OFFSET		17
-> +#define DW_HDMI_RESET_OVR_EN_MASK		BIT(16)
-> +#define DW_HDMI_RESET_OVR_EN_OFFSET		16
-> +#define DW_HDMI_EQ_OSM_OVR_MASK			BIT(15)
-> +#define DW_HDMI_EQ_OSM_OVR_OFFSET		15
-> +#define DW_HDMI_EQ_OSM_OVR_EN_MASK		BIT(14)
-> +#define DW_HDMI_EQ_OSM_OVR_EN_OFFSET		14
-> +#define DW_HDMI_NOWAIT_ACTIVITY_MASK		BIT(13)
-> +#define DW_HDMI_NOWAIT_ACTIVITY_OFFSET		13
-> +#define DW_HDMI_EQ_CAL_TIME_MASK		GENMASK(12, 7)
-> +#define DW_HDMI_EQ_CAL_TIME_OFFSET		7
-> +#define DW_HDMI_USE_PLL_LOCK_MASK		BIT(6)
-> +#define DW_HDMI_USE_PLL_LOCK_OFFSET		6
-> +#define DW_HDMI_FORCE_STATE_MASK		BIT(5)
-> +#define DW_HDMI_FORCE_STATE_OFFSET		5
-> +#define DW_HDMI_TARGET_STATE_MASK		GENMASK(4, 1)
-> +#define DW_HDMI_TARGET_STATE_OFFSET		1
-> +#define DW_HDMI_HOT_PLUG_DETECT_MASK		BIT(0)
-> +#define DW_HDMI_HOT_PLUG_DETECT_OFFSET		0
-> +
-> +#define DW_HDMI_PLL_LCK_STS			0x0030
-> +#define DW_HDMI_PLL_LOCKED			BIT(0)
-> +
-> +#define DW_HDMI_MODE_RECOVER			0x0080
-> +#define DW_HDMI_SPIKE_FILTER_EN_MASK		BIT(18)
-> +#define DW_HDMI_SPIKE_FILTER_EN_OFFSET		18
-> +#define DW_HDMI_DVI_MODE_HYST_MASK		GENMASK(17, 13)
-> +#define DW_HDMI_DVI_MODE_HYST_OFFSET		13
-> +#define DW_HDMI_HDMI_MODE_HYST_MASK		GENMASK(12, 8)
-> +#define DW_HDMI_HDMI_MODE_HYST_OFFSET		8
-> +
-> +#define DW_HDMI_CKM_EVLTM			0x0094
-> +#define DW_HDMI_LOCK_HYST_MASK			GENMASK(21, 20)
-> +#define DW_HDMI_LOCK_HYST_OFFSET		20
-> +#define DW_HDMI_CLK_HYST_MASK			GENMASK(18, 16)
-> +#define DW_HDMI_CLK_HYST_OFFSET			16
-> +#define DW_HDMI_EVAL_TIME_MASK			GENMASK(15, 4)
-> +#define DW_HDMI_EVAL_TIME_OFFSET		4
-> +#define DW_HDMI_CLK_MEAS_INPUT_SRC_MASK		BIT(0)
-> +#define DW_HDMI_CLK_MEAS_INPUT_SRC_OFFSET	0
-> +
-> +#define DW_HDMI_CKM_RESULT			0x009c
-> +#define DW_HDMI_CLOCK_IN_RANGE			BIT(17)
-> +#define DW_HDMI_FREQ_LOCKED			BIT(16)
-> +#define DW_HDMI_CLKRATE_MASK			GENMASK(15, 0)
-> +#define DW_HDMI_CLKRATE_OFFSET			0
-> +
-> +#define DW_HDMI_VM_CFG_CH_0_1			0x00b0
-> +#define DW_HDMI_VM_CH1_COL_VALUE_MASK		GENMASK(31, 16)
-> +#define DW_HDMI_VM_CH1_COL_VALUE_OFFSET		16
-> +#define DW_HDMI_VM_CH0_COL_VALUE_MASK		GENMASK(15, 0)
-> +#define DW_HDMI_VM_CH0_COL_VALUE_OFFSET		0
-> +
-> +#define DW_HDMI_VM_CFG_CH2			0x00b4
-> +#define DW_HDMI_VM_CH2_COL_VALUE_MASK		GENMASK(15, 0)
-> +#define DW_HDMI_VM_CH2_COL_VALUE_OFFSET		0
-> +
-> +#define DW_HDMI_STS				0x00bc
-> +#define DW_HDMI_DCM_CURRENT_MODE_MASK		GENMASK(31, 28)
-> +#define DW_HDMI_DCM_CURRENT_MODE_OFFSET		28
-> +#define DW_HDMI_DCM_LAST_PIXEL_PHASE_STS_MASK	GENMASK(27, 24)
-> +#define DW_HDMI_DCM_LAST_PIXEL_PHASE_STS_OFFSET	24
-> +#define DW_HDMI_DCM_PHASE_DIFF_CNT_MASK		GENMASK(23, 16)
-> +#define DW_HDMI_DCM_PH_DIFF_CNT_OVERFL		BIT(15)
-> +#define DW_HDMI_DCM_GCP_ZERO_FIELDS_PASS	BIT(14)
-> +#define DW_HDMI_CTL3_STS			BIT(13)
-> +#define DW_HDMI_CTL2_STS			BIT(12)
-> +#define DW_HDMI_CTL1_STS			BIT(11)
-> +#define DW_HDMI_CTL0_STS			BIT(10)
-> +#define DW_HDMI_VS_POL_ADJ_STS			BIT(9)
-> +#define DW_HDMI_HS_POL_ADJ_STS			BIT(8)
-> +#define DW_HDMI_RES_OVERLOAD_STS		BIT(7)
-> +#define DW_HDMI_DCM_CURRENT_PP_MASK		GENMASK(3, 0)
-> +#define DW_HDMI_DCM_CURRENT_PP_OFFSET		0
-> +
-> +/* id_hdcp_1_4 Registers */
-> +#define DW_HDMI_HDCP_CTRL			0x00c0
-> +#define DW_HDMI_HDCP_STS			0x00fc
-> +
-> +/* id_mode_detection Registers */
-> +#define DW_HDMI_MD_HT0				0x0148
-> +#define DW_HDMI_HTOT32_CLK_MASK			GENMASK(31, 16)
-> +#define DW_HDMI_HTOT32_CLK_OFFSET		16
-> +#define DW_HDMI_HS_CLK_MASK			GENMASK(15, 0)
-> +#define DW_HDMI_HS_CLK_OFFSET			0
-> +
-> +#define DW_HDMI_MD_HT1				0x014c
-> +#define DW_HDMI_HTOT_PIX_MASK			GENMASK(31, 16)
-> +#define DW_HDMI_HTOT_PIX_OFFSET			16
-> +#define DW_HDMI_HOFS_PIX_MASK			GENMASK(15, 0)
-> +#define DW_HDMI_HOFS_PIX_OFFSET			0
-> +
-> +#define DW_HDMI_MD_HACT_PX			0x0150
-> +
-> +#define DW_HDMI_MD_VCTRL			0x0158
-> +#define DW_HDMI_V_OFFS_LIN_MODE_MASK		BIT(4)
-> +#define DW_HDMI_V_OFFS_LIN_MODE_OFFSET		4
-> +#define DW_HDMI_V_EDGE_MASK			BIT(1)
-> +#define DW_HDMI_V_EDGE_OFFSET			1
-> +#define DW_HDMI_V_MODE_MASK			BIT(0)
-> +#define DW_HDMI_V_MODE_OFFSET			0
-> +
-> +#define DW_HDMI_MD_VOL				0x0164
-> +#define DW_HDMI_MD_VAL				0x0168
-> +#define DW_HDMI_MD_VTL				0x0170
-> +
-> +#define DW_HDMI_MD_STS				0x0180
-> +#define DW_HDMI_ILACE_STS			BIT(3)
-> +#define DW_HDMI_DE_ACTIVITY_STS			BIT(2)
-> +#define DW_HDMI_VS_ACT_STS			BIT(1)
-> +#define DW_HDMI_HS_ACT_STS			BIT(0)
-> +
-> +/* id_phy_configuration Registers */
-> +#define DW_HDMI_PHY_CTRL			0x02c0
-> +#define DW_HDMI_PHYSVSRETMODEZ_MASK		BIT(6)
-> +#define DW_HDMI_PHYSVSRETMODEZ_OFFSET		6
-> +#define DW_HDMI_CFGCLKFREQ_MASK			GENMASK(5, 4)
-> +#define DW_HDMI_CFGCLKFREQ_OFFSET		4
-> +#define DW_HDMI_PORTSELECT_MASK			GENMASK(3, 2)
-> +#define DW_HDMI_PORTSELECT_OFFSET		2
-> +#define DW_HDMI_PHYPDDQ_MASK			BIT(1)
-> +#define DW_HDMI_PHYPDDQ_OFFSET			1
-> +#define DW_HDMI_PHYRESET_MASK			BIT(0)
-> +#define DW_HDMI_PHYRESET_OFFSET			0
-> +
-> +#define DW_HDMI_JTAG_CONF			0x02ec
-> +#define DW_HDMI_JTAG_TAP_TCLK			0x02f0
-> +
-> +#define DW_HDMI_JTAG_TAP_IN			0x02f4
-> +#define DW_HDMI_JTAG_TMS			BIT(4)
-> +#define DW_HDMI_JTAG_TDI			BIT(0)
-> +
-> +#define DW_HDMI_JTAG_TAP_OUT			0x02f8
-> +#define DW_HDMI_JTAG_ADDR			0x02fc
-> +
-> +/* id_packet_decoder Registers */
-> +#define DW_HDMI_PDEC_CTRL			0x0300
-> +#define DW_HDMI_PFIFO_STORE_FILTER_EN_MASK	BIT(31)
-> +#define DW_HDMI_PFIFO_STORE_FILTER_EN_OFFSET	31
-> +#define DW_HDMI_PD_FIFO_CLR_MASK		BIT(5)
-> +#define DW_HDMI_PD_FIFO_CLR_OFFSET		5
-> +#define DW_HDMI_PDEC_BCH_EN_MASK		BIT(0)
-> +#define DW_HDMI_PDEC_BCH_EN_OFFSET		0
-> +
-> +#define DW_HDMI_PDEC_ACRM_CTRL			0x0330
-> +#define DW_HDMI_DELTACTS_IRQTRIG_MASK		GENMASK(4, 2)
-> +#define DW_HDMI_DELTACTS_IRQTRIG_OFFSET		2
-> +
-> +#define DW_HDMI_PDEC_ASP_CTRL			0x0340
-> +#define DW_HDMI_AUTO_VMUTE_MASK			BIT(6)
-> +#define DW_HDMI_AUTO_VMUTE_OFFSET		6
-> +#define DW_HDMI_AUTO_SPFLAT_MUTE_MASK		GENMASK(5, 2)
-> +#define DW_HDMI_AUTO_SPFLAT_MUTE_OFFSET		2
-> +
-> +#define DW_HDMI_PDEC_STS			0x0360
-> +#define DW_HDMI_DRM_CKS_CHG			BIT(31)
-> +#define DW_HDMI_DRM_RCV				BIT(30)
-> +#define DW_HDMI_NTSCVBI_CKS_CHG			BIT(29)
-> +#define DW_HDMI_DVIDET				BIT(28)
-> +#define DW_HDMI_VSI_CKS_CHG			BIT(27)
-> +#define DW_HDMI_GMD_CKS_CHG			BIT(26)
-> +#define DW_HDMI_AIF_CKS_CHG			BIT(25)
-> +#define DW_HDMI_AVI_CKS_CHG			BIT(24)
-> +#define DW_HDMI_ACR_N_CHG			BIT(23)
-> +#define DW_HDMI_ACR_CTS_CHG			BIT(22)
-> +#define DW_HDMI_GCP_AV_MUTE_CHG			BIT(21)
-> +#define DW_HDMI_GMD_RCV				BIT(20)
-> +#define DW_HDMI_AIF_RCV				BIT(19)
-> +#define DW_HDMI_AVI_RCV				BIT(18)
-> +#define DW_HDMI_ACR_RCV				BIT(17)
-> +#define DW_HDMI_GCP_RCV				BIT(16)
-> +#define DW_HDMI_VSI_RCV				BIT(15)
-> +#define DW_HDMI_AMP_RCV				BIT(14)
-> +#define DW_HDMI_NTSCVBI_RCV			BIT(13)
-> +#define DW_HDMI_OBA_LAYOUT			BIT(12)
-> +#define DW_HDMI_AUDS_LAYOUT			BIT(11)
-> +#define DW_HDMI_PD_FIFO_NEW_ENTRY		BIT(8)
-> +#define DW_HDMI_PD_FIFO_OVERFL			BIT(4)
-> +#define DW_HDMI_PD_FIFO_UNDERFL			BIT(3)
-> +#define DW_HDMI_PD_FIFO_TH_START_PASS		BIT(2)
-> +#define DW_HDMI_PD_FIFO_TH_MAX_PASS		BIT(1)
-> +#define DW_HDMI_PD_FIFO_TH_MIN_PASS		BIT(0)
-> +
-> +#define DW_HDMI_PDEC_VSI_PAYLOAD0		0x0368
-> +#define DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_MASK	GENMASK(15, 8)
-> +#define DW_HDMI_VSI_PAYLOAD1_HDMI_VIC_OFFSET	8
-> +
-> +#define DW_HDMI_PDEC_ACR_CTS			0x0390
-> +#define DW_HDMI_CTS_DECODED_MASK		GENMASK(19, 0)
-> +#define DW_HDMI_CTS_DECODED_OFFSET		0
-> +
-> +#define DW_HDMI_PDEC_ACR_N			0x0394
-> +#define DW_HDMI_N_DECODED_MASK			GENMASK(19, 0)
-> +#define DW_HDMI_N_DECODED_OFFSET		0
-> +
-> +#define DW_HDMI_PDEC_AVI_HB			0x03a0
-> +#define DW_HDMI_QUANT_RANGE_MASK		GENMASK(31, 30)
-> +#define DW_HDMI_QUANT_RANGE_OFFSET		30
-> +#define DW_HDMI_CONTENT_TYPE_MASK		GENMASK(29, 28)
-> +#define DW_HDMI_CONTENT_TYPE_OFFSET		28
-> +#define DW_HDMI_PIX_REP_FACTOR_MASK		GENMASK(27, 24)
-> +#define DW_HDMI_PIX_REP_FACTOR_OFFSET		24
-> +
-> +#define DW_HDMI_PDEC_AVI_PB			0x03a4
-> +#define DW_HDMI_VID_IDENT_CODE_MASK		GENMASK(31, 24)
-> +#define DW_HDMI_VID_IDENT_CODE_OFFSET		24
-> +#define DW_HDMI_IT_CONTENT			BIT(23)
-> +#define DW_HDMI_EXT_COLORIMETRY_MASK		GENMASK(22, 20)
-> +#define DW_HDMI_EXT_COLORIMETRY_OFFSET		20
-> +#define DW_HDMI_RGB_QUANT_RANGE_MASK		GENMASK(19, 18)
-> +#define DW_HDMI_RGB_QUANT_RANGE_OFFSET		18
-> +#define DW_HDMI_NON_UNIF_SCALE_MASK		GENMASK(17, 16)
-> +#define DW_HDMI_NON_UNIF_SCALE_OFFSET		16
-> +#define DW_HDMI_COLORIMETRY_MASK		GENMASK(15, 14)
-> +#define DW_HDMI_COLORIMETRY_OFFSET		14
-> +#define DW_HDMI_PIC_ASPECT_RAT_MASK		GENMASK(13, 12)
-> +#define DW_HDMI_PIC_ASPECT_RAT_OFFSET		12
-> +#define DW_HDMI_ACT_ASPECT_RAT_MASK		GENMASK(11, 8)
-> +#define DW_HDMI_ACT_ASPECT_RAT_OFFSET		8
-> +#define DW_HDMI_VIDEO_FORMAT_MASK		GENMASK(7, 5)
-> +#define DW_HDMI_VIDEO_FORMAT_OFFSET		5
-> +#define DW_HDMI_ACT_INFO_PRESENT		BIT(4)
-> +#define DW_HDMI_BAR_INFO_VALID_MASK		GENMASK(3, 2)
-> +#define DW_HDMI_BAR_INFO_VALID_OFFSET		2
-> +#define DW_HDMI_SCAN_INFO_MASK			GENMASK(1, 0)
-> +#define DW_HDMI_SCAN_INFO_OFFSET		0
-> +
-> +#define DW_HDMI_PDEC_AVI_PBLEN			4
-> +
-> +#define DW_HDMI_PDEC_AVI_TBB			0x03a8
-> +#define DW_HDMI_PDEC_AVI_LRB			0x03ac
-> +#define DW_HDMI_PDEC_AIF_HB			0x03c4
-> +#define DW_HDMI_PDEC_AIF_PB0			0x03c8
-> +
-> +#define DW_HDMI_PDEC_AIF_PB1			0x03cc
-> +#define DW_HDMI_LFE_PLAYBACK_LEVEL_MASK		GENMASK(9, 8)
-> +#define DW_HDMI_LFE_PLAYBACK_LEVEL_OFFSET	8
-> +
-> +#define DW_HDMI_PDEC_AIF_PBLEN			2
-> +
-> +#define DW_HDMI_PDEC_VSI_ST0			0x3e0
-> +#define DW_HDMI_IEEE_REG_ID_MASK		GENMASK(23, 0)
-> +#define DW_HDMI_IEEE_REG_ID_OFFSET		0
-> +
-> +#define DW_HDMI_PDEC_VSI_ST1			0x3e4
-> +#define DW_HDMI_H3D_EXT_DATA_MASK		GENMASK(23, 20)
-> +#define DW_HDMI_H3D_EXT_DATA_OFFSET		20
-> +#define DW_HDMI_H3D_STRUCTURE_MASK		GENMASK(19, 16)
-> +#define DW_HDMI_H3D_STRUCTURE_OFFSET		16
-> +#define DW_HDMI_HDMI_VIC_MASK			GENMASK(15, 8)
-> +#define DW_HDMI_HDMI_VIC_OFFSET			8
-> +#define DW_HDMI_HDMI_VIDEO_FORMAT_MASK		GENMASK(7, 5)
-> +#define DW_HDMI_HDMI_VIDEO_FORMAT_OFFSET	5
-> +#define DW_HDMI_LENGTH_MASK			GENMASK(4, 0)
-> +#define DW_HDMI_LENGTH_OFFSET			0
-> +
-> +/* id_cea_video Registers */
-> +#define DW_HDMI_CEAVID_CONFIG			0x400
-> +#define DW_HDMI_CEAVID_RST_MASK			BIT(31)
-> +#define DW_HDMI_CEAVID_RST_OFFSET		31
-> +#define DW_HDMI_CEAVID_YCC422_IPIMAP_MASK	BIT(21)
-> +#define DW_HDMI_CEAVID_YCC422_IPIMAP_OFFSET	21
-> +#define DW_HDMI_CEAVID_YCC420_IPIMAP_MASK	BIT(20)
-> +#define DW_HDMI_CEAVID_YCC420_IPIMAP_OFFSET	20
-> +
-> +/* id_hdmi_2_0 Registers */
-> +#define DW_HDMI_HDMI20_CONTROL			0x0800
-> +#define DW_HDMI_VIDDATACHECKEN_MASK		BIT(12)
-> +#define DW_HDMI_VIDDATACHECKEN_OFFSET		12
-> +#define DW_HDMI_DATAISCHECKEN_MASK		BIT(11)
-> +#define DW_HDMI_DATAISCHECKEN_OFFSET		11
-> +#define DW_HDMI_GBCHECKEN_MASK			BIT(10)
-> +#define DW_HDMI_GBCHECKEN_OFFSET		10
-> +#define DW_HDMI_PREAMBCHECKEN_MASK		BIT(9)
-> +#define DW_HDMI_PREAMBCHECKEN_OFFSET		9
-> +#define DW_HDMI_CTRLCHECKEN_MASK		BIT(8)
-> +#define DW_HDMI_CTRLCHECKEN_OFFSET		8
-> +
-> +#define DW_HDMI_SCDC_CONFIG			0x0808
-> +#define DW_HDMI_HPDLOW_MASK			BIT(1)
-> +#define DW_HDMI_HPDLOW_OFFSET			1
-> +#define DW_HDMI_POWERPROVIDED_MASK		BIT(0)
-> +#define DW_HDMI_POWERPROVIDED_OFFSET		0
-> +
-> +#define DW_HDMI_CHLOCK_CONFIG			0x080c
-> +#define DW_HDMI_MILISECTIMERLIMIT_MASK		GENMASK(15, 0)
-> +#define DW_HDMI_MILISECTIMERLIMIT_OFFSET	0
-> +
-> +#define DW_HDMI_HDCP22_CONTROL			0x081c
-> +
-> +#define DW_HDMI_SCDC_REGS0			0x0820
-> +#define DW_HDMI_SCDC_SCRAMBSTATUS_MASK		BIT(24)
-> +#define DW_HDMI_SCDC_SCRAMBSTATUS_OFFSET	24
-> +#define DW_HDMI_SCDC_TMDSBITCLKRATIO_MASK	BIT(17)
-> +#define DW_HDMI_SCDC_TMDSBITCLKRATIO_OFFSET	17
-> +#define DW_HDMI_SCDC_SCRAMBEN_MASK		BIT(16)
-> +#define DW_HDMI_SCDC_SCRAMBEN_OFFSET		16
-> +
-> +#define DW_HDMI_HDCP22_STATUS			0x08fc
-> +
-> +/* id_mode_detection_interrupt Registers */
-> +#define DW_HDMI_MD_IEN_CLR			0x0fc0
-> +#define DW_HDMI_MD_IEN_SET			0x0fc4
-> +
-> +#define DW_HDMI_MD_ISTS				0x0fc8
-> +#define DW_HDMI_VOFS_LIN_ISTS			BIT(11)
-> +#define DW_HDMI_VTOT_LIN_ISTS			BIT(10)
-> +#define DW_HDMI_VACT_LIN_ISTS			BIT(9)
-> +#define DW_HDMI_VS_CLK_ISTS			BIT(8)
-> +#define DW_HDMI_VTOT_CLK_ISTS			BIT(7)
-> +#define DW_HDMI_HACT_PIX_ISTS			BIT(6)
-> +#define DW_HDMI_HS_CLK_ISTS			BIT(5)
-> +#define DW_HDMI_HTOT32_CLK_ISTS			BIT(4)
-> +#define DW_HDMI_ILACE_ISTS			BIT(3)
-> +#define DW_HDMI_DE_ACTIVITY_ISTS		BIT(2)
-> +#define DW_HDMI_VS_ACT_ISTS			BIT(1)
-> +#define DW_HDMI_HS_ACT_ISTS			BIT(0)
-> +
-> +#define DW_HDMI_MD_IEN				0x0fcc
-> +#define DW_HDMI_MD_ICLR				0x0fd0
-> +#define DW_HDMI_MD_ISET				0x0fd4
-> +
-> +/* id_hdmi_interrupt Registers */
-> +#define DW_HDMI_IEN_CLR				0x0fd8
-> +#define DW_HDMI_IEN_SET				0x0fdc
-> +
-> +#define DW_HDMI_ISTS				0x0fe0
-> +#define DW_HDMI_I2CMP_ARBLOST_ISTS_ISTS		BIT(30)
-> +#define DW_HDMI_I2CMPNACK_ISTS			BIT(29)
-> +#define DW_HDMI_I2CMPDONE_ISTS			BIT(28)
-> +#define DW_HDMI_VS_THR_REACHED_ISTS		BIT(27)
-> +#define DW_HDMI_VSYNC_ACT_EDGE_ISTS		BIT(26)
-> +#define DW_HDMI_AKSV_RCV_ISTS			BIT(25)
-> +#define DW_HDMI_PLL_CLOCK_GATED_ISTS		BIT(24)
-> +#define DW_HDMI_DESER_MISAL_ISTS		BIT(23)
-> +#define DW_HDMI_CDSENSE_CHG_ISTS		BIT(22)
-> +#define DW_HDMI_CEAVID_EMPTY_ISTS		BIT(21)
-> +#define DW_HDMI_CEAVID_FULL_ISTS		BIT(20)
-> +#define DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_MASK	BIT(19)
-> +#define DW_HDMI_SCDCTMDSCFGCHANGE_ISTS_OFFSET	19
-> +#define DW_HDMI_SCDCSCSTATUSCHANGE_ISTS		BIT(18)
-> +#define DW_HDMI_SCDCCFGCHANGE_ISTS		BIT(17)
-> +#define DW_HDMI_DCM_CURRENT_MODE_CHG_ISTS	BIT(16)
-> +#define DW_HDMI_DCM_PH_DIFF_CNT_OVERFL_ISTS	BIT(15)
-> +#define DW_HDMI_DCM_GCP_ZERO_FIELDS_PASS_ISTS	BIT(14)
-> +#define DW_HDMI_CTL3_CHANGE_ISTS		BIT(13)
-> +#define DW_HDMI_CTL2_CHANGE_ISTS		BIT(12)
-> +#define DW_HDMI_CTL1_CHANGE_ISTS		BIT(11)
-> +#define DW_HDMI_CTL0_CHANGE_ISTS		BIT(10)
-> +#define DW_HDMI_VS_POL_ADJ_ISTS			BIT(9)
-> +#define DW_HDMI_HS_POL_ADJ_ISTS			BIT(8)
-> +#define DW_HDMI_RES_OVERLOAD_ISTS		BIT(7)
-> +#define DW_HDMI_CLK_CHANGE_ISTS			BIT(6)
-> +#define DW_HDMI_PLL_LCK_CHG_ISTS		BIT(5)
-> +#define DW_HDMI_EQGAIN_DONE_ISTS		BIT(4)
-> +#define DW_HDMI_OFFSCAL_DONE_ISTS		BIT(3)
-> +#define DW_HDMI_RESCAL_DONE_ISTS		BIT(2)
-> +#define DW_HDMI_ACT_CHANGE_ISTS			BIT(1)
-> +#define DW_HDMI_STATE_REACHED_ISTS		BIT(0)
-> +
-> +#define DW_HDMI_IEN				0x0fe4
-> +#define DW_HDMI_ICLR				0x0fe8
-> +#define DW_HDMI_ISET				0x0fec
-> +
-> +/* id_packet_decoder_interrupt Registers */
-> +#define DW_HDMI_PDEC_IEN_CLR			0x0f78
-> +#define DW_HDMI_PDEC_IEN_SET			0x0f7c
-> +
-> +#define DW_HDMI_PDEC_ISTS			0x0f80
-> +#define DW_HDMI_DRM_CKS_CHG_ISTS		BIT(31)
-> +#define DW_HDMI_AUD_TYPE_CHG_ISTS		BIT(29)
-> +#define DW_HDMI_VSI_CKS_CHG_ISTS		BIT(27)
-> +#define DW_HDMI_AIF_CKS_CHG_ISTS		BIT(25)
-> +#define DW_HDMI_AVI_CKS_CHG_ISTS		BIT(24)
-> +#define DW_HDMI_ACR_N_CHG_ISTS			BIT(23)
-> +#define DW_HDMI_ACR_CTS_CHG_ISTS		BIT(22)
-> +#define DW_HDMI_GCP_AV_MUTE_CHG_ISTS		BIT(21)
-> +#define DW_HDMI_PD_FIFO_OVERFL_ISTS		BIT(4)
-> +#define DW_HDMI_PD_FIFO_UNDERFL_ISTS		BIT(3)
-> +
-> +#define DW_HDMI_PDEC_IEN			0x0f84
-> +#define DW_HDMI_PDEC_ICLR			0x0f88
-> +#define DW_HDMI_PDEC_ISET			0x0f8c
-> +
-> +/* id_dmi Registers */
-> +#define DW_HDMI_DMI_SW_RST			0x0ff0
-> +#define DW_HDMI_TMDS_SWRESET			BIT(16)
-> +#define DW_HDMI_HDCP_SWRESET			BIT(8)
-> +#define DW_HDMI_VID_SWRESET			BIT(7)
-> +#define DW_HDMI_PIXEL_SWRESET			BIT(6)
-> +#define DW_HDMI_CEC_SWRESET			BIT(5)
-> +#define DW_HDMI_AUD_SWRESET			BIT(4)
-> +#define DW_HDMI_BUS_SWRESET			BIT(3)
-> +#define DW_HDMI_HDMI_SWRESET			BIT(2)
-> +#define DW_HDMI_MODET_SWRESET			BIT(1)
-> +#define DW_HDMI_MAIN_SWRESET			BIT(0)
-> +
-> +#define DW_HDMI_DMI_DISABLE_IF			0x0ff4
-> +#define DW_HDMI_HDMI_ENABLE_MASK		BIT(2)
-> +#define DW_HDMI_HDMI_ENABLE_OFFSET		2
-> +
-> +/* id_cbus Registers */
-> +#define DW_HDMI_CBUSIOCTRL			0x3020
-> +#define DW_HDMI_DATAPATH_CBUSZ_MASK		BIT(24)
-> +#define DW_HDMI_DATAPATH_CBUSZ_OFFSET		24
-> +#define DW_HDMI_CBUS_SVSRETMODEZ_MASK		BIT(16)
-> +#define DW_HDMI_CBUS_SVSRETMODEZ_OFFSET		16
-> +#define DW_HDMI_CBUS_PDDQ_MASK			BIT(8)
-> +#define DW_HDMI_CBUS_PDDQ_OFFSET		8
-> +#define DW_HDMI_CBUS_RESET_MASK			BIT(0)
-> +#define DW_HDMI_CBUS_RESET_OFFSET		0
-> +
-> +/* id_audio Registers */
-> +#define DW_HDMI_AUD_CTRL			0x0200
-> +
-> +#define DW_HDMI_AUD_PLL_CTRL			0x0208
-> +#define DW_HDMI_PLL_LOCK_STABLE_MASK		BIT(31)
-> +#define DW_HDMI_PLL_LOCK_STABLE_OFFSET		31
-> +
-> +#define DW_HDMI_AUD_FIFO_CTRL			0x0240
-> +#define DW_HDMI_AFIF_INIT_MASK			BIT(0)
-> +#define DW_HDMI_AFIF_INIT_OFFSET		0
-> +
-> +#define DW_HDMI_AUD_MUTE_CTRL			0x0258
-> +#define DW_HDMI_AUD_MUTE_SEL_MASK		GENMASK(6, 5)
-> +#define DW_HDMI_AUD_MUTE_SEL_OFFSET		5
-> +
-> +#define DW_HDMI_AUD_SAO_CTRL			0x0260
-> +#define DW_HDMI_WS_DISABLE_MASK			BIT(10)
-> +#define DW_HDMI_WS_DISABLE_OFFSET		10
-> +#define DW_HDMI_I2S_32_16_MASK			BIT(0)
-> +#define DW_HDMI_I2S_32_16_OFFSET		0
-> +
-> +/* id_audio_fifo_interrupt Registers */
-> +#define DW_HDMI_AUD_FIFO_IEN_CLR		0x0fa8
-> +#define DW_HDMI_AUD_FIFO_IEN_SET		0x0fac
-> +
-> +#define DW_HDMI_AUD_FIFO_ISTS			0x0fb0
-> +#define DW_HDMI_AFIF_OVERFL_ISTS		BIT(4)
-> +#define DW_HDMI_AFIF_UNDERFL_ISTS		BIT(3)
-> +#define DW_HDMI_AFIF_THS_PASS_ISTS		BIT(2)
-> +#define DW_HDMI_AFIF_TH_MAX_ISTS		BIT(1)
-> +#define DW_HDMI_AFIF_TH_MIN_ISTS		BIT(0)
-> +
-> +#define DW_HDMI_AUD_FIFO_IEN			0x0fb4
-> +#define DW_HDMI_AUD_FIFO_ICLR			0x0fb8
-> +#define DW_HDMI_AUD_FIFO_ISET			0x0fbc
-> +
-> +#endif /* __DW_HDMI_RX_H__ */
-> diff --git a/include/media/dwc/dw-hdmi-rx-pdata.h b/include/media/dwc/dw-hdmi-rx-pdata.h
-> new file mode 100644
-> index 0000000..a2a5440
-> --- /dev/null
-> +++ b/include/media/dwc/dw-hdmi-rx-pdata.h
-> @@ -0,0 +1,126 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
-> + * Synopsys DesignWare HDMI Receiver controller platform data
-> + *
-> + * Author: Jose Abreu <jose.abreu@synopsys.com>
-> + * Author: Nelson Costa <nelson.costa@synopsys.com>
-> + */
-> +
-> +#ifndef __DW_HDMI_RX_PDATA_H__
-> +#define __DW_HDMI_RX_PDATA_H__
-> +
-> +#define DW_HDMI_RX_DRVNAME			"dw-hdmi-rx"
-> +
-> +/* Notify events */
-> +#define DW_HDMI_NOTIFY_IS_OFF		1
-> +#define DW_HDMI_NOTIFY_INPUT_CHANGED	2
-> +#define DW_HDMI_NOTIFY_AUDIO_CHANGED	3
-> +#define DW_HDMI_NOTIFY_IS_STABLE	4
-> +
-> +/* HDCP 1.4 */
-> +#define DW_HDMI_HDCP14_BKSV_SIZE	2
-> +#define DW_HDMI_HDCP14_KEYS_SIZE	(2 * 40)
-> +
-> +/**
-> + * struct dw_hdmi_phy_config - Phy configuration for HDMI receiver.
-> + *
-> + * @name: The name of the phy.
-> + *
-> + * @drv_name: Driver name of the phy.
-> + *
-> + * @gen: The generation of the phy.
-> + *
-> + * @version: The version of the phy.
-> + *
-> + * @cfg_clk: The configuration clock used for phy.
-> + *
-> + * @input_count: Number of input ports supported by the phy.
-> + *
-> + * @jtag_addr: The JTAG address of phy.
-> + */
-> +struct dw_hdmi_phy_config {
-> +	const char *name;
-> +	const char *drv_name;
-> +	unsigned int gen;
-> +	unsigned int version;
-> +	unsigned int cfg_clk;
-> +	unsigned int input_count;
-> +	u8 jtag_addr;
-> +};
-> +
-> +/**
-> + * struct dw_hdmi_rx_pdata - Platform Data configuration for HDMI receiver.
-> + *
-> + * @phy: Phy configuration parameters.
-> + *
-> + * @iref_clk: Configuration clock.
-> + *
-> + * @dw_5v_status: 5v status callback. Shall return the status of the given
-> + * input, i.e. shall be true if a cable is connected to the specified input.
-> + *
-> + * @dw_5v_detected: 5v detected callback. Shall return the status changes of
-> + * the given input, i.e. shall be true if a cable was (dis)connected to a
-> + * specified input.
-> + *
-> + * @dw_5v_disable: 5v disable callback. Shall clear the interrupt associated
-> + * with the 5v sense controller.
-> + *
-> + * @dw_5v_enable: 5v enable callback. Shall enable the interrupt associated with
-> + * the 5v sense controller.
-> + *
-> + * @dw_5v_arg: Argument to be used with the 5v sense callbacks.
-> + *
-> + * @dw_zcal_reset: Impedance calibration reset callback. Shall be called when
-> + * the impedance calibration needs to be restarted. This is used by phy driver
-> + * only.
-> + *
-> + * @dw_zcal_done: Impedance calibration status callback. Shall return true if
-> + * the impedance calibration procedure has ended. This is used by phy driver
-> + * only.
-> + *
-> + * @dw_zcal_arg: Argument to be used with the ZCAL calibration callbacks.
-> + *
-> + * @dw_edid_read: EDID read callback.
-> + *
-> + * @dw_edid_write: EDID write callback.
-> + *
-> + * @dw_edid_4blocks_le: EDID byte ordering callback.
-> + *
-> + * @dw_edid_arg: Argument to be used with the EDID callbacks.
-> + *
-> + * @dw_reset_all: Reset all callback.
-> + *
-> + * @dw_reset_arg: Argument to be used with Reset callbacks.
-> + */
-> +struct dw_hdmi_rx_pdata {
-> +	/* Phy configuration */
-> +	struct dw_hdmi_phy_config *phy;
-> +	/* Controller configuration */
-> +	unsigned int iref_clk; /* MHz */
-> +
-> +	/* 5V sense interface */
-> +	bool (*dw_5v_status)(void __iomem *regs, int input);
-> +	bool (*dw_5v_detected)(void __iomem *regs, int input);
-> +	void (*dw_5v_disable)(void __iomem *regs, int input);
-> +	void (*dw_5v_enable)(void __iomem *regs, int input);
-> +	void __iomem *dw_5v_arg;
-> +
-> +	/* Zcal interface */
-> +	void (*dw_zcal_reset)(void __iomem *regs);
-> +	bool (*dw_zcal_done)(void __iomem *regs);
-> +	void __iomem *dw_zcal_arg;
-> +
-> +	/* EDID */
-> +	u32 (*dw_edid_read)(void __iomem *regs, int input, u32 offset);
-> +	int (*dw_edid_write)(void __iomem *regs, int input, u32 *edid,
-> +			     int size);
-> +	u32 (*dw_edid_4blocks_le)(void __iomem *regs);
-> +	void __iomem *dw_edid_arg;
-> +
-> +	/* Reset functions */
-> +	void (*dw_reset_all)(void __iomem *regs);
-> +	void __iomem *dw_reset_arg;
-> +};
-> +
-> +#endif /* __DW_HDMI_RX_PDATA_H__ */
+> A common story, unfortunately :-S
+> 
+> I've done an initial review, I'll likely have more comments on v4,
+> but
+> you should have quite a few things to address already :-)
+> 
+> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > ---
+> >  MAINTAINERS                |    6 +
+> >  drivers/media/i2c/Kconfig  |   13 +
+> >  drivers/media/i2c/Makefile |    1 +
+> >  drivers/media/i2c/hi846.c  | 2138
+> > ++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 2158 insertions(+)
+> >  create mode 100644 drivers/media/i2c/hi846.c
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 503fd21901f1..27283b289123 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -8432,6 +8432,12 @@ S:       Maintained
+> >  T:     git git://linuxtv.org/media_tree.git
+> >  F:     drivers/media/i2c/hi556.c
+> >  
+> > +HYNIX HI846 SENSOR DRIVER
+> > +M:     Martin Kepplinger <martin.kepplinger@puri.sm>
+> > +L:     linux-media@vger.kernel.org
+> > +S:     Maintained
+> > +F:     drivers/media/i2c/hi846.c
+> > +
+> >  Hyper-V/Azure CORE AND DRIVERS
+> >  M:     "K. Y. Srinivasan" <kys@microsoft.com>
+> >  M:     Haiyang Zhang <haiyangz@microsoft.com>
+> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > index 462c0e059754..f8cf5bf8eb68 100644
+> > --- a/drivers/media/i2c/Kconfig
+> > +++ b/drivers/media/i2c/Kconfig
+> > @@ -738,6 +738,19 @@ config VIDEO_HI556
+> >           To compile this driver as a module, choose M here: the
+> >           module will be called hi556.
+> >  
+> > +config VIDEO_HI846
+> > +       tristate "Hynix Hi-846 sensor support"
+> > +       depends on I2C && VIDEO_V4L2
+> > +       select MEDIA_CONTROLLER
+> > +       select VIDEO_V4L2_SUBDEV_API
+> > +       select V4L2_FWNODE
+> > +       help
+> > +         This is a Video4Linux2 sensor driver for the Hynix
+> > +         Hi-846 camera.
+> > +
+> > +         To compile this driver as a module, choose M here: the
+> > +         module will be called hi846.
+> > +
+> >  config VIDEO_IMX214
+> >         tristate "Sony IMX214 sensor support"
+> >         depends on GPIOLIB && I2C && VIDEO_V4L2
+> > diff --git a/drivers/media/i2c/Makefile
+> > b/drivers/media/i2c/Makefile
+> > index 0c067beca066..1194c5e6708b 100644
+> > --- a/drivers/media/i2c/Makefile
+> > +++ b/drivers/media/i2c/Makefile
+> > @@ -116,6 +116,7 @@ obj-$(CONFIG_VIDEO_ML86V7667)       +=
+> > ml86v7667.o
+> >  obj-$(CONFIG_VIDEO_OV2659)     += ov2659.o
+> >  obj-$(CONFIG_VIDEO_TC358743)   += tc358743.o
+> >  obj-$(CONFIG_VIDEO_HI556)      += hi556.o
+> > +obj-$(CONFIG_VIDEO_HI846)      += hi846.o
+> >  obj-$(CONFIG_VIDEO_IMX214)     += imx214.o
+> >  obj-$(CONFIG_VIDEO_IMX219)     += imx219.o
+> >  obj-$(CONFIG_VIDEO_IMX258)     += imx258.o
+> > diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
+> > new file mode 100644
+> > index 000000000000..80d1ccb15123
+> > --- /dev/null
+> > +++ b/drivers/media/i2c/hi846.c
+> > @@ -0,0 +1,2138 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +// Copyright (c) 2021 Purism SPC
+> > +
+> > +#include <asm/unaligned.h>
+> > +#include <linux/clk.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/gpio.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of_gpio.h>
+> > +#include <linux/of_graph.h>
+> > +#include <linux/regulator/consumer.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include <linux/pm.h>
+> 
+> Please keep the headers sorted alphabetically.
+> 
+> > +#include <media/v4l2-ctrls.h>
+> > +#include <media/v4l2-device.h>
+> > +#include <media/v4l2-fwnode.h>
+> > +
+> > +
+> > +#define HI846_MEDIA_BUS_FORMAT         MEDIA_BUS_FMT_SGBRG10_1X10
+> > +#define HI846_RGB_DEPTH                        10
+> > +#define DEFAULT_FPS                    30
+> 
+> Not used.
+> 
+> > +
+> > +/* Frame length lines / Vertical timings */
+> > +#define HI846_REG_FLL                  0x0006
+> > +#define HI846_FLL_MAX                  0xffff
+> > +
+> > +/* Horizontal timing */
+> > +#define HI846_REG_LLP                  0x0008
+> > +#define HI846_LINE_LENGTH              3800
+> > +
+> > +#define HI846_REG_BINNING_MODE         0x000c
+> > +
+> > +#define HI846_REG_IMAGE_ORIENTATION    0x000e
+> > +
+> > +#define HI846_REG_UNKNOWN_0022         0x0022
+> > +
+> > +#define HI846_REG_Y_ADDR_START_VACT_H  0x0026
+> > +#define HI846_REG_Y_ADDR_START_VACT_L  0x0027
+> > +#define HI846_REG_UNKNOWN_0028         0x0028
+> > +
+> > +#define HI846_REG_Y_ADDR_END_VACT_H    0x002c
+> > +#define HI846_REG_Y_ADDR_END_VACT_L    0x002d
+> > +
+> > +#define HI846_REG_Y_ODD_INC_FOBP       0x002e
+> > +#define HI846_REG_Y_EVEN_INC_FOBP      0x002f
+> > +
+> > +#define HI846_REG_Y_ODD_INC_VACT       0x0032
+> > +#define HI846_REG_Y_EVEN_INC_VACT      0x0033
+> > +
+> > +#define HI846_REG_GROUPED_PARA_HOLD    0x0046
+> > +
+> > +#define HI846_REG_TG_ENABLE            0x004c
+> > +
+> > +#define HI846_REG_UNKNOWN_005C         0x005c
+> > +
+> > +#define HI846_REG_UNKNOWN_006A         0x006a
+> > +
+> > +/* Long exposure time. Actually, exposure is a 20 bit value that
+> 
+> The kernel coding style starts multi-line comments with '/*' on a
+> line
+> of its own.
+> 
+> > + * includes the lower 4 bits of 0x0073 too. only 16 bit are used
+> > + * right now
+> > + */
+> > +#define HI846_REG_EXPOSURE             0x0074
+> > +#define HI846_EXPOSURE_MIN             6
+> > +#define HI846_EXPOSURE_MAX_MARGIN      2
+> > +#define HI846_EXPOSURE_STEP            1
+> > +
+> > +/* Analog gain controls from sensor */
+> > +#define HI846_REG_ANALOG_GAIN          0x0077
+> > +#define HI846_ANAL_GAIN_MIN            0
+> > +#define HI846_ANAL_GAIN_MAX            240
+> > +#define HI846_ANAL_GAIN_STEP           8
+> > +
+> > +/* Digital gain controls from sensor */
+> > +#define HI846_REG_MWB_GR_GAIN_H                0x0078
+> > +#define HI846_REG_MWB_GR_GAIN_L                0x0079
+> > +#define HI846_REG_MWB_GB_GAIN_H                0x007a
+> > +#define HI846_REG_MWB_GB_GAIN_L                0x007b
+> > +#define HI846_REG_MWB_R_GAIN_H         0x007c
+> > +#define HI846_REG_MWB_R_GAIN_L         0x007d
+> > +#define HI846_REG_MWB_B_GAIN_H         0x007e
+> > +#define HI846_REG_MWB_B_GAIN_L         0x007f
+> > +#define HI846_DGTL_GAIN_MIN            0
+> > +#define HI846_DGTL_GAIN_MAX            8191
+> > +#define HI846_DGTL_GAIN_STEP           1
+> > +#define HI846_DGTL_GAIN_DEFAULT                256
+> > +
+> > +#define HI846_REG_X_ADDR_START_HACT_H  0x0120
+> > +#define HI846_REG_X_ADDR_END_HACT_H    0x0122
+> > +
+> > +#define HI846_REG_UNKNOWN_012A         0x012a
+> > +
+> > +#define HI846_REG_UNKNOWN_0200         0x0200
+> > +
+> > +#define HI846_REG_UNKNOWN_021C         0x021c
+> > +#define HI846_REG_UNKNOWN_021E         0x021e
+> > +
+> > +#define HI846_REG_UNKNOWN_0402         0x0402
+> > +#define HI846_REG_UNKNOWN_0404         0x0404
+> > +#define HI846_REG_UNKNOWN_0408         0x0408
+> > +#define HI846_REG_UNKNOWN_0410         0x0410
+> > +#define HI846_REG_UNKNOWN_0412         0x0412
+> > +#define HI846_REG_UNKNOWN_0414         0x0414
+> > +
+> > +#define HI846_REG_UNKNOWN_0418         0x0418
+> > +
+> > +#define HI846_REG_UNKNOWN_051E         0x051e
+> > +
+> > +/* Formatter */
+> > +#define HI846_REG_X_START_H            0x0804
+> > +#define HI846_REG_X_START_L            0x0805
+> > +
+> > +/* MIPI */
+> > +#define HI846_REG_UNKNOWN_0900         0x0900
+> > +#define HI846_REG_MIPI_TX_OP_EN                0x0901
+> > +#define HI846_REG_MIPI_TX_OP_MODE      0x0902
+> > +#define HI846_RAW8                     BIT(5)
+> > +
+> > +#define HI846_REG_UNKNOWN_090C         0x090c
+> > +#define HI846_REG_UNKNOWN_090E         0x090e
+> > +
+> > +#define HI846_REG_UNKNOWN_0914         0x0914
+> > +#define HI846_REG_TLPX                 0x0915
+> > +#define HI846_REG_TCLK_PREPARE         0x0916
+> > +#define HI846_REG_TCLK_ZERO            0x0917
+> > +#define HI846_REG_UNKNOWN_0918         0x0918
+> > +#define HI846_REG_THS_PREPARE          0x0919
+> > +#define HI846_REG_THS_ZERO             0x091a
+> > +#define HI846_REG_THS_TRAIL            0x091b
+> > +#define HI846_REG_TCLK_POST            0x091c
+> > +#define HI846_REG_TCLK_TRAIL_MIN       0x091d
+> > +#define HI846_REG_UNKNOWN_091E         0x091e
+> > +
+> > +#define HI846_REG_UNKNOWN_0954         0x0954
+> > +#define HI846_REG_UNKNOWN_0956         0x0956
+> > +#define HI846_REG_UNKNOWN_0958         0x0958
+> > +#define HI846_REG_UNKNOWN_095A         0x095a
+> > +
+> > +/* ISP Common */
+> > +#define HI846_REG_MODE_SELECT          0x0a00
+> > +#define HI846_MODE_STANDBY             0x00
+> > +#define HI846_MODE_STREAMING           0x01
+> > +#define HI846_REG_FAST_STANDBY_MODE    0x0a02
+> > +#define HI846_REG_ISP_EN_H             0x0a04
+> > +
+> > +/* Test Pattern Control */
+> > +#define HI846_REG_ISP                  0x0a05
+> > +#define HI846_REG_ISP_TPG_EN           0x01
+> > +#define HI846_REG_TEST_PATTERN         0x020a /* 1-9 */
+> > +
+> > +#define HI846_REG_UNKNOWN_0A0C         0x0a0c
+> > +
+> > +/* Windowing */
+> > +#define HI846_REG_X_OUTPUT_SIZE_H      0x0a12
+> > +#define HI846_REG_X_OUTPUT_SIZE_L      0x0a13
+> > +#define HI846_REG_Y_OUTPUT_SIZE_H      0x0a14
+> > +#define HI846_REG_Y_OUTPUT_SIZE_L      0x0a15
+> > +
+> > +/* ISP Common */
+> > +#define HI846_REG_PEDESTAL_EN          0x0a1a
+> > +
+> > +#define HI846_REG_UNKNOWN_0A1E         0x0a1e
+> > +
+> > +/* Horizontal Binning Mode */
+> > +#define HI846_REG_HBIN_MODE            0x0a22
+> > +
+> > +#define HI846_REG_UNKNOWN_0A24         0x0a24
+> > +#define HI846_REG_UNKNOWN_0B02         0x0b02
+> > +#define HI846_REG_UNKNOWN_0B10         0x0b10
+> > +#define HI846_REG_UNKNOWN_0B12         0x0b12
+> > +#define HI846_REG_UNKNOWN_0B14         0x0b14
+> > +
+> > +/* BLC (Black Level Calibration) */
+> > +#define HI846_REG_BLC_CTL0             0x0c00
+> > +
+> > +#define HI846_REG_UNKNOWN_0C06         0x0c06
+> > +#define HI846_REG_UNKNOWN_0C10         0x0c10
+> > +#define HI846_REG_UNKNOWN_0C12         0x0c12
+> > +#define HI846_REG_UNKNOWN_0C14         0x0c14
+> > +#define HI846_REG_UNKNOWN_0C16         0x0c16
+> > +
+> > +#define HI846_REG_UNKNOWN_0E04         0x0e04
+> > +
+> > +#define HI846_REG_CHIP_ID_L            0x0f16
+> > +#define HI846_REG_CHIP_ID_H            0x0f17
+> > +#define HI846_CHIP_ID_L                        0x46
+> > +#define HI846_CHIP_ID_H                        0x08
+> > +
+> > +#define HI846_REG_UNKNOWN_0F04         0x0f04
+> > +#define HI846_REG_UNKNOWN_0F08         0x0f08
+> > +
+> > +/* PLL */
+> > +#define HI846_REG_PLL_CFG_MIPI2_H      0x0f2a
+> > +#define HI846_REG_PLL_CFG_MIPI2_L      0x0f2b
+> > +
+> > +#define HI846_REG_UNKNOWN_0F30         0x0f30
+> > +#define HI846_REG_PLL_CFG_RAMP1_H      0x0f32
+> > +#define HI846_REG_UNKNOWN_0F36         0x0f36
+> > +#define HI846_REG_PLL_CFG_MIPI1_H      0x0f38
+> > +
+> > +#define HI846_REG_UNKNOWN_2008         0x2008
+> > +#define HI846_REG_UNKNOWN_326E         0x326e
+> > +
+> > +struct hi846_reg {
+> > +       u16 address;
+> > +       u16 val;
+> > +};
+> > +
+> > +struct hi846_reg_list {
+> > +       u32 num_of_regs;
+> > +       const struct hi846_reg *regs;
+> > +};
+> > +
+> > +struct hi846_mode {
+> > +       /* Frame width in pixels */
+> > +       u32 width;
+> > +
+> > +       /* Frame height in pixels */
+> > +       u32 height;
+> > +
+> > +       /* Horizontal timing size */
+> > +       u32 llp;
+> > +
+> > +       /* Link frequency needed for this resolution */
+> > +       u8 link_freq_index;
+> > +
+> > +       u16 fps;
+> > +
+> > +       /* vertical timining size */
+> > +       u16 frame_len;
+> > +
+> > +       const struct hi846_reg_list reg_list_config;
+> > +       const struct hi846_reg_list reg_list_2lane;
+> > +       const struct hi846_reg_list reg_list_4lane;
+> > +};
+> > +
+> > +#define to_hi846(_sd) container_of(_sd, struct hi846, sd)
+> 
+> Could you replace the macro with an inline function ? It provides
+> additional compile-time type checks.
+> 
+> > +
+> > +static const struct hi846_reg hi846_init_2lane[] = {
+> > +       {HI846_REG_MODE_SELECT,         0x0000},
+> > +       /* regs below are unknown */
+> > +       {0x2000, 0x100A},
+> 
+> Lower-case for hex constants please.
+> 
+> > +       {0x2002, 0x00FF},
+> > +       {0x2004, 0x0007},
+> > +       {0x2006, 0x3FFF},
+> > +       {0x2008, 0x3FFF},
+> > +       {0x200A, 0xC216},
+> > +       {0x200C, 0x1292},
+> > +       {0x200E, 0xC01A},
+> > +       {0x2010, 0x403D},
+> > +       {0x2012, 0x000E},
+> > +       {0x2014, 0x403E},
+> > +       {0x2016, 0x0B80},
+> > +       {0x2018, 0x403F},
+> > +       {0x201A, 0x82AE},
+> > +       {0x201C, 0x1292},
+> > +       {0x201E, 0xC00C},
+> > +       {0x2020, 0x4130},
+> > +       {0x2022, 0x43E2},
+> > +       {0x2024, 0x0180},
+> > +       {0x2026, 0x4130},
+> > +       {0x2028, 0x7400},
+> > +       {0x202A, 0x5000},
+> > +       {0x202C, 0x0253},
+> > +       {0x202E, 0x0AD1},
+> > +       {0x2030, 0x2360},
+> > +       {0x2032, 0x0009},
+> > +       {0x2034, 0x5020},
+> > +       {0x2036, 0x000B},
+> > +       {0x2038, 0x0002},
+> > +       {0x203A, 0x0044},
+> > +       {0x203C, 0x0016},
+> > +       {0x203E, 0x1792},
+> > +       {0x2040, 0x7002},
+> > +       {0x2042, 0x154F},
+> > +       {0x2044, 0x00D5},
+> > +       {0x2046, 0x000B},
+> > +       {0x2048, 0x0019},
+> > +       {0x204A, 0x1698},
+> > +       {0x204C, 0x000E},
+> > +       {0x204E, 0x099A},
+> > +       {0x2050, 0x0058},
+> > +       {0x2052, 0x7000},
+> > +       {0x2054, 0x1799},
+> > +       {0x2056, 0x0310},
+> > +       {0x2058, 0x03C3},
+> > +       {0x205A, 0x004C},
+> > +       {0x205C, 0x064A},
+> > +       {0x205E, 0x0001},
+> > +       {0x2060, 0x0007},
+> > +       {0x2062, 0x0BC7},
+> > +       {0x2064, 0x0055},
+> > +       {0x2066, 0x7000},
+> > +       {0x2068, 0x1550},
+> > +       {0x206A, 0x158A},
+> > +       {0x206C, 0x0004},
+> > +       {0x206E, 0x1488},
+> > +       {0x2070, 0x7010},
+> > +       {0x2072, 0x1508},
+> > +       {0x2074, 0x0004},
+> > +       {0x2076, 0x0016},
+> > +       {0x2078, 0x03D5},
+> > +       {0x207A, 0x0055},
+> > +       {0x207C, 0x08CA},
+> > +       {0x207E, 0x2019},
+> > +       {0x2080, 0x0007},
+> > +       {0x2082, 0x7057},
+> > +       {0x2084, 0x0FC7},
+> > +       {0x2086, 0x5041},
+> > +       {0x2088, 0x12C8},
+> > +       {0x208A, 0x5060},
+> > +       {0x208C, 0x5080},
+> > +       {0x208E, 0x2084},
+> > +       {0x2090, 0x12C8},
+> > +       {0x2092, 0x7800},
+> > +       {0x2094, 0x0802},
+> > +       {0x2096, 0x040F},
+> > +       {0x2098, 0x1007},
+> > +       {0x209A, 0x0803},
+> > +       {0x209C, 0x080B},
+> > +       {0x209E, 0x3803},
+> > +       {0x20A0, 0x0807},
+> > +       {0x20A2, 0x0404},
+> > +       {0x20A4, 0x0400},
+> > +       {0x20A6, 0xFFFF},
+> > +       {0x20A8, 0xF0B2},
+> > +       {0x20AA, 0xFFEF},
+> > +       {0x20AC, 0x0A84},
+> > +       {0x20AE, 0x1292},
+> > +       {0x20B0, 0xC02E},
+> > +       {0x20B2, 0x4130},
+> > +       {0x23FE, 0xC056},
+> > +       {0x3232, 0xFC0C},
+> > +       {0x3236, 0xFC22},
+> > +       {0x3248, 0xFCA8},
+> > +       {0x326A, 0x8302},
+> > +       {0x326C, 0x830A},
+> > +       {0x326E, 0x0000},
+> > +       {0x32CA, 0xFC28},
+> > +       {0x32CC, 0xC3BC},
+> > +       {0x32CE, 0xC34C},
+> > +       {0x32D0, 0xC35A},
+> > +       {0x32D2, 0xC368},
+> > +       {0x32D4, 0xC376},
+> > +       {0x32D6, 0xC3C2},
+> > +       {0x32D8, 0xC3E6},
+> > +       {0x32DA, 0x0003},
+> > +       {0x32DC, 0x0003},
+> > +       {0x32DE, 0x00C7},
+> > +       {0x32E0, 0x0031},
+> > +       {0x32E2, 0x0031},
+> > +       {0x32E4, 0x0031},
+> > +       {0x32E6, 0xFC28},
+> > +       {0x32E8, 0xC3BC},
+> > +       {0x32EA, 0xC384},
+> > +       {0x32EC, 0xC392},
+> > +       {0x32EE, 0xC3A0},
+> > +       {0x32F0, 0xC3AE},
+> > +       {0x32F2, 0xC3C4},
+> > +       {0x32F4, 0xC3E6},
+> > +       {0x32F6, 0x0003},
+> > +       {0x32F8, 0x0003},
+> > +       {0x32FA, 0x00C7},
+> > +       {0x32FC, 0x0031},
+> > +       {0x32FE, 0x0031},
+> > +       {0x3300, 0x0031},
+> > +       {0x3302, 0x82CA},
+> > +       {0x3304, 0xC164},
+> > +       {0x3306, 0x82E6},
+> > +       {0x3308, 0xC19C},
+> > +       {0x330A, 0x001F},
+> > +       {0x330C, 0x001A},
+> > +       {0x330E, 0x0034},
+> > +       {0x3310, 0x0000},
+> > +       {0x3312, 0x0000},
+> > +       {0x3314, 0xFC94},
+> > +       {0x3316, 0xC3D8},
+> > +       /* regs above are unknown */
+> > +       {HI846_REG_MODE_SELECT,                 0x0000},
+> > +       {HI846_REG_UNKNOWN_0E04,                0x0012},
+> > +       {HI846_REG_Y_ODD_INC_FOBP,              0x1111},
+> > +       {HI846_REG_Y_ODD_INC_VACT,              0x1111},
+> > +       {HI846_REG_UNKNOWN_0022,                0x0008},
+> > +       {HI846_REG_Y_ADDR_START_VACT_H,         0x0040},
+> > +       {HI846_REG_UNKNOWN_0028,                0x0017},
+> > +       {HI846_REG_Y_ADDR_END_VACT_H,           0x09CF},
+> > +       {HI846_REG_UNKNOWN_005C,                0x2101},
+> > +       {HI846_REG_FLL,                         0x09DE},
+> > +       {HI846_REG_LLP,                         0x0ED8},
+> > +       {HI846_REG_IMAGE_ORIENTATION,           0x0100},
+> > +       {HI846_REG_BINNING_MODE,                0x0022},
+> > +       {HI846_REG_HBIN_MODE,                   0x0000},
+> > +       {HI846_REG_UNKNOWN_0A24,                0x0000},
+> > +       {HI846_REG_X_START_H,                   0x0000},
+> > +       {HI846_REG_X_OUTPUT_SIZE_H,             0x0CC0},
+> > +       {HI846_REG_Y_OUTPUT_SIZE_H,             0x0990},
+> > +       {HI846_REG_EXPOSURE,                    0x09D8},
+> > +       {HI846_REG_ANALOG_GAIN,                 0x0000},
+> > +       {HI846_REG_GROUPED_PARA_HOLD,           0x0000},
+> > +       {HI846_REG_UNKNOWN_051E,                0x0000},
+> > +       {HI846_REG_UNKNOWN_0200,                0x0400},
+> > +       {HI846_REG_PEDESTAL_EN,                 0x0C00},
+> > +       {HI846_REG_UNKNOWN_0A0C,                0x0010},
+> > +       {HI846_REG_UNKNOWN_0A1E,                0x0CCF},
+> > +       {HI846_REG_UNKNOWN_0402,                0x0110},
+> > +       {HI846_REG_UNKNOWN_0404,                0x00F4},
+> > +       {HI846_REG_UNKNOWN_0408,                0x0000},
+> > +       {HI846_REG_UNKNOWN_0410,                0x008D},
+> > +       {HI846_REG_UNKNOWN_0412,                0x011A},
+> > +       {HI846_REG_UNKNOWN_0414,                0x864C},
+> > +       {HI846_REG_UNKNOWN_021C,                0x0003},
+> > +       {HI846_REG_UNKNOWN_021E,                0x0235},
+> > +       {HI846_REG_BLC_CTL0,                    0x9150},
+> > +       {HI846_REG_UNKNOWN_0C06,                0x0021},
+> > +       {HI846_REG_UNKNOWN_0C10,                0x0040},
+> > +       {HI846_REG_UNKNOWN_0C12,                0x0040},
+> > +       {HI846_REG_UNKNOWN_0C14,                0x0040},
+> > +       {HI846_REG_UNKNOWN_0C16,                0x0040},
+> > +       {HI846_REG_FAST_STANDBY_MODE,           0x0100},
+> > +       {HI846_REG_ISP_EN_H,                    0x014A},
+> > +       {HI846_REG_UNKNOWN_0418,                0x0000},
+> > +       {HI846_REG_UNKNOWN_012A,                0x03B4},
+> > +       {HI846_REG_X_ADDR_START_HACT_H,         0x0046},
+> > +       {HI846_REG_X_ADDR_END_HACT_H,           0x0376},
+> > +       {HI846_REG_UNKNOWN_0B02,                0xE04D},
+> > +       {HI846_REG_UNKNOWN_0B10,                0x6821},
+> > +       {HI846_REG_UNKNOWN_0B12,                0x0120},
+> > +       {HI846_REG_UNKNOWN_0B14,                0x0001},
+> > +       {HI846_REG_UNKNOWN_2008,                0x38FD},
+> > +       {HI846_REG_UNKNOWN_326E,                0x0000},
+> > +       {HI846_REG_UNKNOWN_0900,                0x0320},
+> > +       {HI846_REG_MIPI_TX_OP_MODE,             0xC31A},
+> > +       {HI846_REG_UNKNOWN_0914,                0xC109},
+> > +       {HI846_REG_TCLK_PREPARE,                0x061A},
+> > +       {HI846_REG_UNKNOWN_0918,                0x0306},
+> > +       {HI846_REG_THS_ZERO,                    0x0B09},
+> > +       {HI846_REG_TCLK_POST,                   0x0C07},
+> > +       {HI846_REG_UNKNOWN_091E,                0x0A00},
+> > +       {HI846_REG_UNKNOWN_090C,                0x042A},
+> > +       {HI846_REG_UNKNOWN_090E,                0x006B},
+> > +       {HI846_REG_UNKNOWN_0954,                0x0089},
+> > +       {HI846_REG_UNKNOWN_0956,                0x0000},
+> > +       {HI846_REG_UNKNOWN_0958,                0xCA00},
+> > +       {HI846_REG_UNKNOWN_095A,                0x9240},
+> > +       {HI846_REG_UNKNOWN_0F08,                0x2F04},
+> > +       {HI846_REG_UNKNOWN_0F30,                0x001F},
+> > +       {HI846_REG_UNKNOWN_0F36,                0x001F},
+> > +       {HI846_REG_UNKNOWN_0F04,                0x3A00},
+> > +       {HI846_REG_PLL_CFG_RAMP1_H,             0x025A},
+> > +       {HI846_REG_PLL_CFG_MIPI1_H,             0x025A},
+> > +       {HI846_REG_PLL_CFG_MIPI2_H,             0x0024},
+> > +       {HI846_REG_UNKNOWN_006A,                0x0100},
+> > +       {HI846_REG_TG_ENABLE,                   0x0100},
+> > +};
+> > +
+> > +static const struct hi846_reg hi846_init_4lane[] = {
+> > +       {0x2000, 0x987A},
+> > +       {0x2002, 0x00FF},
+> > +       {0x2004, 0x0047},
+> > +       {0x2006, 0x3FFF},
+> > +       {0x2008, 0x3FFF},
+> > +       {0x200A, 0xC216},
+> > +       {0x200C, 0x1292},
+> > +       {0x200E, 0xC01A},
+> > +       {0x2010, 0x403D},
+> > +       {0x2012, 0x000E},
+> > +       {0x2014, 0x403E},
+> > +       {0x2016, 0x0B80},
+> > +       {0x2018, 0x403F},
+> > +       {0x201A, 0x82AE},
+> > +       {0x201C, 0x1292},
+> > +       {0x201E, 0xC00C},
+> > +       {0x2020, 0x4130},
+> > +       {0x2022, 0x43E2},
+> > +       {0x2024, 0x0180},
+> > +       {0x2026, 0x4130},
+> > +       {0x2028, 0x7400},
+> > +       {0x202A, 0x5000},
+> > +       {0x202C, 0x0253},
+> > +       {0x202E, 0x0AD1},
+> > +       {0x2030, 0x2360},
+> > +       {0x2032, 0x0009},
+> > +       {0x2034, 0x5020},
+> > +       {0x2036, 0x000B},
+> > +       {0x2038, 0x0002},
+> > +       {0x203A, 0x0044},
+> > +       {0x203C, 0x0016},
+> > +       {0x203E, 0x1792},
+> > +       {0x2040, 0x7002},
+> > +       {0x2042, 0x154F},
+> > +       {0x2044, 0x00D5},
+> > +       {0x2046, 0x000B},
+> > +       {0x2048, 0x0019},
+> > +       {0x204A, 0x1698},
+> > +       {0x204C, 0x000E},
+> > +       {0x204E, 0x099A},
+> > +       {0x2050, 0x0058},
+> > +       {0x2052, 0x7000},
+> > +       {0x2054, 0x1799},
+> > +       {0x2056, 0x0310},
+> > +       {0x2058, 0x03C3},
+> > +       {0x205A, 0x004C},
+> > +       {0x205C, 0x064A},
+> > +       {0x205E, 0x0001},
+> > +       {0x2060, 0x0007},
+> > +       {0x2062, 0x0BC7},
+> > +       {0x2064, 0x0055},
+> > +       {0x2066, 0x7000},
+> > +       {0x2068, 0x1550},
+> > +       {0x206A, 0x158A},
+> > +       {0x206C, 0x0004},
+> > +       {0x206E, 0x1488},
+> > +       {0x2070, 0x7010},
+> > +       {0x2072, 0x1508},
+> > +       {0x2074, 0x0004},
+> > +       {0x2076, 0x0016},
+> > +       {0x2078, 0x03D5},
+> > +       {0x207A, 0x0055},
+> > +       {0x207C, 0x08CA},
+> > +       {0x207E, 0x2019},
+> > +       {0x2080, 0x0007},
+> > +       {0x2082, 0x7057},
+> > +       {0x2084, 0x0FC7},
+> > +       {0x2086, 0x5041},
+> > +       {0x2088, 0x12C8},
+> > +       {0x208A, 0x5060},
+> > +       {0x208C, 0x5080},
+> > +       {0x208E, 0x2084},
+> > +       {0x2090, 0x12C8},
+> > +       {0x2092, 0x7800},
+> > +       {0x2094, 0x0802},
+> > +       {0x2096, 0x040F},
+> > +       {0x2098, 0x1007},
+> > +       {0x209A, 0x0803},
+> > +       {0x209C, 0x080B},
+> > +       {0x209E, 0x3803},
+> > +       {0x20A0, 0x0807},
+> > +       {0x20A2, 0x0404},
+> > +       {0x20A4, 0x0400},
+> > +       {0x20A6, 0xFFFF},
+> > +       {0x20A8, 0xF0B2},
+> > +       {0x20AA, 0xFFEF},
+> > +       {0x20AC, 0x0A84},
+> > +       {0x20AE, 0x1292},
+> > +       {0x20B0, 0xC02E},
+> > +       {0x20B2, 0x4130},
+> > +       {0x20B4, 0xF0B2},
+> > +       {0x20B6, 0xFFBF},
+> > +       {0x20B8, 0x2004},
+> > +       {0x20BA, 0x403F},
+> > +       {0x20BC, 0x00C3},
+> > +       {0x20BE, 0x4FE2},
+> > +       {0x20C0, 0x8318},
+> > +       {0x20C2, 0x43CF},
+> > +       {0x20C4, 0x0000},
+> > +       {0x20C6, 0x9382},
+> > +       {0x20C8, 0xC314},
+> > +       {0x20CA, 0x2003},
+> > +       {0x20CC, 0x12B0},
+> > +       {0x20CE, 0xCAB0},
+> > +       {0x20D0, 0x4130},
+> > +       {0x20D2, 0x12B0},
+> > +       {0x20D4, 0xC90A},
+> > +       {0x20D6, 0x4130},
+> > +       {0x20D8, 0x42D2},
+> > +       {0x20DA, 0x8318},
+> > +       {0x20DC, 0x00C3},
+> > +       {0x20DE, 0x9382},
+> > +       {0x20E0, 0xC314},
+> > +       {0x20E2, 0x2009},
+> > +       {0x20E4, 0x120B},
+> > +       {0x20E6, 0x120A},
+> > +       {0x20E8, 0x1209},
+> > +       {0x20EA, 0x1208},
+> > +       {0x20EC, 0x1207},
+> > +       {0x20EE, 0x1206},
+> > +       {0x20F0, 0x4030},
+> > +       {0x20F2, 0xC15E},
+> > +       {0x20F4, 0x4130},
+> > +       {0x20F6, 0x1292},
+> > +       {0x20F8, 0xC008},
+> > +       {0x20FA, 0x4130},
+> > +       {0x20FC, 0x42D2},
+> > +       {0x20FE, 0x82A1},
+> > +       {0x2100, 0x00C2},
+> > +       {0x2102, 0x1292},
+> > +       {0x2104, 0xC040},
+> > +       {0x2106, 0x4130},
+> > +       {0x2108, 0x1292},
+> > +       {0x210A, 0xC006},
+> > +       {0x210C, 0x42A2},
+> > +       {0x210E, 0x7324},
+> > +       {0x2110, 0x9382},
+> > +       {0x2112, 0xC314},
+> > +       {0x2114, 0x2011},
+> > +       {0x2116, 0x425F},
+> > +       {0x2118, 0x82A1},
+> > +       {0x211A, 0xF25F},
+> > +       {0x211C, 0x00C1},
+> > +       {0x211E, 0xF35F},
+> > +       {0x2120, 0x2406},
+> > +       {0x2122, 0x425F},
+> > +       {0x2124, 0x00C0},
+> > +       {0x2126, 0xF37F},
+> > +       {0x2128, 0x522F},
+> > +       {0x212A, 0x4F82},
+> > +       {0x212C, 0x7324},
+> > +       {0x212E, 0x425F},
+> > +       {0x2130, 0x82D4},
+> > +       {0x2132, 0xF35F},
+> > +       {0x2134, 0x4FC2},
+> > +       {0x2136, 0x01B3},
+> > +       {0x2138, 0x93C2},
+> > +       {0x213A, 0x829F},
+> > +       {0x213C, 0x2421},
+> > +       {0x213E, 0x403E},
+> > +       {0x2140, 0xFFFE},
+> > +       {0x2142, 0x40B2},
+> > +       {0x2144, 0xEC78},
+> > +       {0x2146, 0x831C},
+> > +       {0x2148, 0x40B2},
+> > +       {0x214A, 0xEC78},
+> > +       {0x214C, 0x831E},
+> > +       {0x214E, 0x40B2},
+> > +       {0x2150, 0xEC78},
+> > +       {0x2152, 0x8320},
+> > +       {0x2154, 0xB3D2},
+> > +       {0x2156, 0x008C},
+> > +       {0x2158, 0x2405},
+> > +       {0x215A, 0x4E0F},
+> > +       {0x215C, 0x503F},
+> > +       {0x215E, 0xFFD8},
+> > +       {0x2160, 0x4F82},
+> > +       {0x2162, 0x831C},
+> > +       {0x2164, 0x90F2},
+> > +       {0x2166, 0x0003},
+> > +       {0x2168, 0x008C},
+> > +       {0x216A, 0x2401},
+> > +       {0x216C, 0x4130},
+> > +       {0x216E, 0x421F},
+> > +       {0x2170, 0x831C},
+> > +       {0x2172, 0x5E0F},
+> > +       {0x2174, 0x4F82},
+> > +       {0x2176, 0x831E},
+> > +       {0x2178, 0x5E0F},
+> > +       {0x217A, 0x4F82},
+> > +       {0x217C, 0x8320},
+> > +       {0x217E, 0x3FF6},
+> > +       {0x2180, 0x432E},
+> > +       {0x2182, 0x3FDF},
+> > +       {0x2184, 0x421F},
+> > +       {0x2186, 0x7100},
+> > +       {0x2188, 0x4F0E},
+> > +       {0x218A, 0x503E},
+> > +       {0x218C, 0xFFD8},
+> > +       {0x218E, 0x4E82},
+> > +       {0x2190, 0x7A04},
+> > +       {0x2192, 0x421E},
+> > +       {0x2194, 0x831C},
+> > +       {0x2196, 0x5F0E},
+> > +       {0x2198, 0x4E82},
+> > +       {0x219A, 0x7A06},
+> > +       {0x219C, 0x0B00},
+> > +       {0x219E, 0x7304},
+> > +       {0x21A0, 0x0050},
+> > +       {0x21A2, 0x40B2},
+> > +       {0x21A4, 0xD081},
+> > +       {0x21A6, 0x0B88},
+> > +       {0x21A8, 0x421E},
+> > +       {0x21AA, 0x831E},
+> > +       {0x21AC, 0x5F0E},
+> > +       {0x21AE, 0x4E82},
+> > +       {0x21B0, 0x7A0E},
+> > +       {0x21B2, 0x521F},
+> > +       {0x21B4, 0x8320},
+> > +       {0x21B6, 0x4F82},
+> > +       {0x21B8, 0x7A10},
+> > +       {0x21BA, 0x0B00},
+> > +       {0x21BC, 0x7304},
+> > +       {0x21BE, 0x007A},
+> > +       {0x21C0, 0x40B2},
+> > +       {0x21C2, 0x0081},
+> > +       {0x21C4, 0x0B88},
+> > +       {0x21C6, 0x4392},
+> > +       {0x21C8, 0x7A0A},
+> > +       {0x21CA, 0x0800},
+> > +       {0x21CC, 0x7A0C},
+> > +       {0x21CE, 0x0B00},
+> > +       {0x21D0, 0x7304},
+> > +       {0x21D2, 0x022B},
+> > +       {0x21D4, 0x40B2},
+> > +       {0x21D6, 0xD081},
+> > +       {0x21D8, 0x0B88},
+> > +       {0x21DA, 0x0B00},
+> > +       {0x21DC, 0x7304},
+> > +       {0x21DE, 0x0255},
+> > +       {0x21E0, 0x40B2},
+> > +       {0x21E2, 0x0081},
+> > +       {0x21E4, 0x0B88},
+> > +       {0x21E6, 0x4130},
+> > +       {0x23FE, 0xC056},
+> > +       {0x3232, 0xFC0C},
+> > +       {0x3236, 0xFC22},
+> > +       {0x3238, 0xFCFC},
+> > +       {0x323A, 0xFD84},
+> > +       {0x323C, 0xFD08},
+> > +       {0x3246, 0xFCD8},
+> > +       {0x3248, 0xFCA8},
+> > +       {0x324E, 0xFCB4},
+> > +       {0x326A, 0x8302},
+> > +       {0x326C, 0x830A},
+> > +       {0x326E, 0x0000},
+> > +       {0x32CA, 0xFC28},
+> > +       {0x32CC, 0xC3BC},
+> > +       {0x32CE, 0xC34C},
+> > +       {0x32D0, 0xC35A},
+> > +       {0x32D2, 0xC368},
+> > +       {0x32D4, 0xC376},
+> > +       {0x32D6, 0xC3C2},
+> > +       {0x32D8, 0xC3E6},
+> > +       {0x32DA, 0x0003},
+> > +       {0x32DC, 0x0003},
+> > +       {0x32DE, 0x00C7},
+> > +       {0x32E0, 0x0031},
+> > +       {0x32E2, 0x0031},
+> > +       {0x32E4, 0x0031},
+> > +       {0x32E6, 0xFC28},
+> > +       {0x32E8, 0xC3BC},
+> > +       {0x32EA, 0xC384},
+> > +       {0x32EC, 0xC392},
+> > +       {0x32EE, 0xC3A0},
+> > +       {0x32F0, 0xC3AE},
+> > +       {0x32F2, 0xC3C4},
+> > +       {0x32F4, 0xC3E6},
+> > +       {0x32F6, 0x0003},
+> > +       {0x32F8, 0x0003},
+> > +       {0x32FA, 0x00C7},
+> > +       {0x32FC, 0x0031},
+> > +       {0x32FE, 0x0031},
+> > +       {0x3300, 0x0031},
+> > +       {0x3302, 0x82CA},
+> > +       {0x3304, 0xC164},
+> > +       {0x3306, 0x82E6},
+> > +       {0x3308, 0xC19C},
+> > +       {0x330A, 0x001F},
+> > +       {0x330C, 0x001A},
+> > +       {0x330E, 0x0034},
+> > +       {0x3310, 0x0000},
+> > +       {0x3312, 0x0000},
+> > +       {0x3314, 0xFC94},
+> > +       {0x3316, 0xC3D8},
+> > +
+> > +       {0x0A00, 0x0000},
+> > +       {0x0E04, 0x0012},
+> > +       {0x002E, 0x1111},
+> > +       {0x0032, 0x1111},
+> > +       {0x0022, 0x0008},
+> > +       {0x0026, 0x0040},
+> > +       {0x0028, 0x0017},
+> > +       {0x002C, 0x09CF},
+> > +       {0x005C, 0x2101},
+> > +       {0x0006, 0x09DE},
+> > +       {0x0008, 0x0ED8},
+> > +       {0x000E, 0x0100},
+> > +       {0x000C, 0x0022},
+> > +       {0x0A22, 0x0000},
+> > +       {0x0A24, 0x0000},
+> > +       {0x0804, 0x0000},
+> > +       {0x0A12, 0x0CC0},
+> > +       {0x0A14, 0x0990},
+> > +       {0x0074, 0x09D8},
+> > +       {0x0076, 0x0000},
+> > +       {0x051E, 0x0000},
+> > +       {0x0200, 0x0400},
+> > +       {0x0A1A, 0x0C00},
+> > +       {0x0A0C, 0x0010},
+> > +       {0x0A1E, 0x0CCF},
+> > +       {0x0402, 0x0110},
+> > +       {0x0404, 0x00F4},
+> > +       {0x0408, 0x0000},
+> > +       {0x0410, 0x008D},
+> > +       {0x0412, 0x011A},
+> > +       {0x0414, 0x864C},
+> > +       /* For OTP */
+> > +       {0x021C, 0x0003},
+> > +       {0x021E, 0x0235},
+> > +       /* For OTP */
+> > +       {0x0C00, 0x9950},
+> > +       {0x0C06, 0x0021},
+> > +       {0x0C10, 0x0040},
+> > +       {0x0C12, 0x0040},
+> > +       {0x0C14, 0x0040},
+> > +       {0x0C16, 0x0040},
+> > +       {0x0A02, 0x0100},
+> > +       {0x0A04, 0x015A},
+> > +       {0x0418, 0x0000},
+> > +       {0x0128, 0x0028},
+> > +       {0x012A, 0xFFFF},
+> > +       {0x0120, 0x0046},
+> > +       {0x0122, 0x0376},
+> > +       {0x012C, 0x0020},
+> > +       {0x012E, 0xFFFF},
+> > +       {0x0124, 0x0040},
+> > +       {0x0126, 0x0378},
+> > +       {0x0746, 0x0050},
+> > +       {0x0748, 0x01D5},
+> > +       {0x074A, 0x022B},
+> > +       {0x074C, 0x03B0},
+> > +       {0x0756, 0x043F},
+> > +       {0x0758, 0x3F1D},
+> > +       {0x0B02, 0xE04D},
+> > +       {0x0B10, 0x6821},
+> > +       {0x0B12, 0x0120},
+> > +       {0x0B14, 0x0001},
+> > +       {0x2008, 0x38FD},
+> > +       {0x326E, 0x0000},
+> > +       {0x0900, 0x0300},
+> > +       {0x0902, 0xC319},
+> > +       {0x0914, 0xC109},
+> > +       {0x0916, 0x061A},
+> > +       {0x0918, 0x0407},
+> > +       {0x091A, 0x0A0B},
+> > +       {0x091C, 0x0E08},
+> > +       {0x091E, 0x0A00},
+> > +       {0x090C, 0x0427},
+> > +       {0x090E, 0x0059},
+> > +       {0x0954, 0x0089},
+> > +       {0x0956, 0x0000},
+> > +       {0x0958, 0xCA80},
+> > +       {0x095A, 0x9240},
+> > +       {0x0F08, 0x2F04},
+> > +       {0x0F30, 0x001F},
+> > +       {0x0F36, 0x001F},
+> > +       {0x0F04, 0x3A00},
+> > +       {0x0F32, 0x025A},
+> > +       {0x0F38, 0x025A},
+> > +       {0x0F2A, 0x4124},
+> > +       {0x006A, 0x0100},
+> > +       {0x004C, 0x0100},
+> > +       {0x0044, 0x0001},
+> > +};
+> > +
+> > +static const struct hi846_reg mode_640x480_config[] = {
+> > +       {HI846_REG_MODE_SELECT,                 0x0000},
+> > +       {HI846_REG_Y_ODD_INC_FOBP,              0x7711},
+> > +       {HI846_REG_Y_ODD_INC_VACT,              0x7711},
+> > +       {HI846_REG_Y_ADDR_START_VACT_H,         0x0148},
+> > +       {HI846_REG_Y_ADDR_END_VACT_H,           0x08C7},
+> > +       {HI846_REG_UNKNOWN_005C,                0x4404},
+> > +       {HI846_REG_FLL,                         0x0277},
+> > +       {HI846_REG_LLP,                         0x0ED8},
+> > +       {HI846_REG_BINNING_MODE,                0x0322},
+> > +       {HI846_REG_HBIN_MODE,                   0x0200},
+> > +       {HI846_REG_UNKNOWN_0A24,                0x0000},
+> > +       {HI846_REG_X_START_H,                   0x0058},
+> > +       {HI846_REG_X_OUTPUT_SIZE_H,             0x0280},
+> > +       {HI846_REG_Y_OUTPUT_SIZE_H,             0x01E0},
+> > +
+> > +       /* For OTP */
+> > +       {HI846_REG_UNKNOWN_021C,                0x0003},
+> > +       {HI846_REG_UNKNOWN_021E,                0x0235},
+> > +
+> > +       {HI846_REG_ISP_EN_H,                    0x017A},
+> > +       {HI846_REG_UNKNOWN_0418,                0x0210},
+> > +       {HI846_REG_UNKNOWN_0B02,                0xE04D},
+> > +       {HI846_REG_UNKNOWN_0B10,                0x7021},
+> > +       {HI846_REG_UNKNOWN_0B12,                0x0120},
+> > +       {HI846_REG_UNKNOWN_0B14,                0x0001},
+> > +       {HI846_REG_UNKNOWN_2008,                0x38FD},
+> > +       {HI846_REG_UNKNOWN_326E,                0x0000},
+> > +};
+> > +
+> > +static const struct hi846_reg mode_640x480_mipi_2lane[] = {
+> > +       {HI846_REG_UNKNOWN_0900,                0x0300},
+> > +       {HI846_REG_MIPI_TX_OP_MODE,             0x4319},
+> > +       {HI846_REG_UNKNOWN_0914,                0xC105},
+> > +       {HI846_REG_TCLK_PREPARE,                0x030C},
+> > +       {HI846_REG_UNKNOWN_0918,                0x0304},
+> > +       {HI846_REG_THS_ZERO,                    0x0708},
+> > +       {HI846_REG_TCLK_POST,                   0x0B04},
+> > +       {HI846_REG_UNKNOWN_091E,                0x0500},
+> > +       {HI846_REG_UNKNOWN_090C,                0x0208},
+> > +       {HI846_REG_UNKNOWN_090E,                0x009A},
+> > +       {HI846_REG_UNKNOWN_0954,                0x0089},
+> > +       {HI846_REG_UNKNOWN_0956,                0x0000},
+> > +       {HI846_REG_UNKNOWN_0958,                0xCA80},
+> > +       {HI846_REG_UNKNOWN_095A,                0x9240},
+> > +       {HI846_REG_PLL_CFG_MIPI2_H,             0x4924},
+> > +       {HI846_REG_TG_ENABLE,                   0x0100},
+> > +};
+> > +
+> > +static const struct hi846_reg mode_1280x720_config[] = {
+> > +       {HI846_REG_MODE_SELECT,                 0x0000},
+> > +       {HI846_REG_Y_ODD_INC_FOBP,              0x3311},
+> > +       {HI846_REG_Y_ODD_INC_VACT,              0x3311},
+> > +       {HI846_REG_Y_ADDR_START_VACT_H,         0x0238},
+> > +       {HI846_REG_Y_ADDR_END_VACT_H,           0x07D7},
+> > +       {HI846_REG_UNKNOWN_005C,                0x4202},
+> > +       {HI846_REG_FLL,                         0x034A},
+> > +       {HI846_REG_LLP,                         0x0ED8},
+> > +       {HI846_REG_BINNING_MODE,                0x0122},
+> > +       {HI846_REG_HBIN_MODE,                   0x0100},
+> > +       {HI846_REG_UNKNOWN_0A24,                0x0000},
+> > +       {HI846_REG_X_START_H,                   0x00B0},
+> > +       {HI846_REG_X_OUTPUT_SIZE_H,             0x0500},
+> > +       {HI846_REG_Y_OUTPUT_SIZE_H,             0x02D0},
+> > +       {HI846_REG_EXPOSURE,                    0x0344},
+> > +
+> > +       /* For OTP */
+> > +       {HI846_REG_UNKNOWN_021C,                0x0003},
+> > +       {HI846_REG_UNKNOWN_021E,                0x0235},
+> > +
+> > +       {HI846_REG_ISP_EN_H,                    0x017A},
+> > +       {HI846_REG_UNKNOWN_0418,                0x0410},
+> > +       {HI846_REG_UNKNOWN_0B02,                0xE04D},
+> > +       {HI846_REG_UNKNOWN_0B10,                0x6C21},
+> > +       {HI846_REG_UNKNOWN_0B12,                0x0120},
+> > +       {HI846_REG_UNKNOWN_0B14,                0x0005},
+> > +       {HI846_REG_UNKNOWN_2008,                0x38FD},
+> > +       {HI846_REG_UNKNOWN_326E,                0x0000},
+> > +};
+> > +
+> > +static const struct hi846_reg mode_1280x720_mipi_2lane[] = {
+> > +       {HI846_REG_UNKNOWN_0900,                0x0300},
+> > +       {HI846_REG_MIPI_TX_OP_MODE,             0x4319},
+> > +       {HI846_REG_UNKNOWN_0914,                0xC109},
+> > +       {HI846_REG_TCLK_PREPARE,                0x061A},
+> > +       {HI846_REG_UNKNOWN_0918,                0x0407},
+> > +       {HI846_REG_THS_ZERO,                    0x0A0B},
+> > +       {HI846_REG_TCLK_POST,                   0x0E08},
+> > +       {HI846_REG_UNKNOWN_091E,                0x0A00},
+> > +       {HI846_REG_UNKNOWN_090C,                0x0427},
+> > +       {HI846_REG_UNKNOWN_090E,                0x0145},
+> > +       {HI846_REG_UNKNOWN_0954,                0x0089},
+> > +       {HI846_REG_UNKNOWN_0956,                0x0000},
+> > +       {HI846_REG_UNKNOWN_0958,                0xCA80},
+> > +       {HI846_REG_UNKNOWN_095A,                0x9240},
+> > +       {HI846_REG_PLL_CFG_MIPI2_H,             0x4124},
+> > +       {HI846_REG_TG_ENABLE,                   0x0100},
+> > +};
+> > +
+> > +static const struct hi846_reg mode_1280x720_mipi_4lane[] = {
+> > +       /* 360Mbps */
+> > +       {HI846_REG_UNKNOWN_0900,                0x0300},
+> > +       {HI846_REG_MIPI_TX_OP_MODE,             0xC319},
+> > +       {HI846_REG_UNKNOWN_0914,                0xC105},
+> > +       {HI846_REG_TCLK_PREPARE,                0x030C},
+> > +       {HI846_REG_UNKNOWN_0918,                0x0304},
+> > +       {HI846_REG_THS_ZERO,                    0x0708},
+> > +       {HI846_REG_TCLK_POST,                   0x0B04},
+> > +       {HI846_REG_UNKNOWN_091E,                0x0500},
+> > +       {HI846_REG_UNKNOWN_090C,                0x0208},
+> > +       {HI846_REG_UNKNOWN_090E,                0x008A},
+> > +       {HI846_REG_UNKNOWN_0954,                0x0089},
+> > +       {HI846_REG_UNKNOWN_0956,                0x0000},
+> > +       {HI846_REG_UNKNOWN_0958,                0xCA80},
+> > +       {HI846_REG_UNKNOWN_095A,                0x9240},
+> > +       {HI846_REG_PLL_CFG_MIPI2_H,             0x4924},
+> > +       {HI846_REG_TG_ENABLE,                   0x0100},
+> > +};
+> > +
+> > +static const struct hi846_reg mode_1632x1224_config[] = {
+> > +       {HI846_REG_MODE_SELECT,                 0x0000},
+> > +       {HI846_REG_Y_ODD_INC_FOBP,              0x3311},
+> > +       {HI846_REG_Y_ODD_INC_VACT,              0x3311},
+> > +       {HI846_REG_Y_ADDR_START_VACT_H,         0x0040},
+> > +       {HI846_REG_Y_ADDR_END_VACT_H,           0x09CF},
+> > +       {HI846_REG_UNKNOWN_005C,                0x4202},
+> > +       {HI846_REG_FLL,                         0x09DE},
+> > +       {HI846_REG_LLP,                         0x0ED8},
+> > +       {HI846_REG_BINNING_MODE,                0x0122},
+> > +       {HI846_REG_HBIN_MODE,                   0x0100},
+> > +       {HI846_REG_UNKNOWN_0A24,                0x0000},
+> > +       {HI846_REG_X_START_H,                   0x0000},
+> > +       {HI846_REG_X_OUTPUT_SIZE_H,             0x0660},
+> > +       {HI846_REG_Y_OUTPUT_SIZE_H,             0x04C8},
+> > +       {HI846_REG_EXPOSURE,                    0x09D8},
+> > +       {HI846_REG_ISP_EN_H,                    0x017A},
+> > +
+> > +       /* For OTP */
+> > +       {HI846_REG_UNKNOWN_021C,                0x0003},
+> > +       {HI846_REG_UNKNOWN_021E,                0x0235},
+> > +
+> > +       {HI846_REG_UNKNOWN_0418,                0x0000},
+> > +       {HI846_REG_UNKNOWN_0B02,                0xE04D},
+> > +       {HI846_REG_UNKNOWN_0B10,                0x6C21},
+> > +       {HI846_REG_UNKNOWN_0B12,                0x0120},
+> > +       {HI846_REG_UNKNOWN_0B14,                0x0005},
+> > +       {HI846_REG_UNKNOWN_2008,                0x38FD},
+> > +       {HI846_REG_UNKNOWN_326E,                0x0000},
+> > +};
+> > +
+> > +static const struct hi846_reg mode_1632x1224_mipi_2lane[] = {
+> > +       {HI846_REG_UNKNOWN_0900,                0x0300},
+> > +       {HI846_REG_MIPI_TX_OP_MODE,             0x4319},
+> > +       {HI846_REG_UNKNOWN_0914,                0xC109},
+> > +       {HI846_REG_TCLK_PREPARE,                0x061A},
+> > +       {HI846_REG_UNKNOWN_0918,                0x0407},
+> > +       {HI846_REG_THS_ZERO,                    0x0A0B},
+> > +       {HI846_REG_TCLK_POST,                   0x0E08},
+> > +       {HI846_REG_UNKNOWN_091E,                0x0A00},
+> > +       {HI846_REG_UNKNOWN_090C,                0x0427},
+> > +       {HI846_REG_UNKNOWN_090E,                0x0069},
+> > +       {HI846_REG_UNKNOWN_0954,                0x0089},
+> > +       {HI846_REG_UNKNOWN_0956,                0x0000},
+> > +       {HI846_REG_UNKNOWN_0958,                0xCA80},
+> > +       {HI846_REG_UNKNOWN_095A,                0x9240},
+> > +       {HI846_REG_PLL_CFG_MIPI2_H,             0x4124},
+> > +       {HI846_REG_TG_ENABLE,                   0x0100},
+> > +};
+> > +
+> > +static const struct hi846_reg mode_1632x1224_mipi_4lane[] = {
+> > +       {HI846_REG_UNKNOWN_0900,                0x0300},
+> > +       {HI846_REG_MIPI_TX_OP_MODE,             0xC319},
+> > +       {HI846_REG_UNKNOWN_0914,                0xC105},
+> > +       {HI846_REG_TCLK_PREPARE,                0x030C},
+> > +       {HI846_REG_UNKNOWN_0918,                0x0304},
+> > +       {HI846_REG_THS_ZERO,                    0x0708},
+> > +       {HI846_REG_TCLK_POST,                   0x0B04},
+> > +       {HI846_REG_UNKNOWN_091E,                0x0500},
+> > +       {HI846_REG_UNKNOWN_090C,                0x0208},
+> > +       {HI846_REG_UNKNOWN_090E,                0x001C},
+> > +       {HI846_REG_UNKNOWN_0954,                0x0089},
+> > +       {HI846_REG_UNKNOWN_0956,                0x0000},
+> > +       {HI846_REG_UNKNOWN_0958,                0xCA80},
+> > +       {HI846_REG_UNKNOWN_095A,                0x9240},
+> > +       {HI846_REG_PLL_CFG_MIPI2_H,             0x4924},
+> > +       {HI846_REG_TG_ENABLE,                   0x0100},
+> > +};
+> > +
+> > +static const char * const hi846_test_pattern_menu[] = {
+> > +       "Disabled",
+> > +       "Solid Colour",
+> > +       "100% Colour Bars",
+> > +       "Fade To Grey Colour Bars",
+> > +       "PN9",
+> > +       "Gradient Horizontal",
+> > +       "Gradient Vertical",
+> > +       "Check Board",
+> > +       "Slant Pattern",
+> > +       "Resolution Pattern",
+> > +};
+> > +
+> > +#define FREQ_INDEX_640 0
+> > +#define FREQ_INDEX_1280        1
+> > +static const s64 hi846_link_freqs[] = {
+> > +       [FREQ_INDEX_640] = 80000000,
+> > +       [FREQ_INDEX_1280] = 200000000,
+> > +};
+> > +
+> > +static const struct hi846_reg_list hi846_init_regs_list_2lane = {
+> > +       .num_of_regs = ARRAY_SIZE(hi846_init_2lane),
+> > +       .regs = hi846_init_2lane,
+> > +};
+> > +
+> > +static const struct hi846_reg_list hi846_init_regs_list_4lane = {
+> > +       .num_of_regs = ARRAY_SIZE(hi846_init_4lane),
+> > +       .regs = hi846_init_4lane,
+> > +};
+> > +
+> > +static const struct hi846_mode supported_modes[] = {
+> > +       {
+> > +               .width = 640,
+> > +               .height = 480,
+> > +               .link_freq_index = FREQ_INDEX_640,
+> > +               .fps = 120,
+> > +               .frame_len = 631,
+> > +               .llp = HI846_LINE_LENGTH,
+> > +               .reg_list_config = {
+> > +                       .num_of_regs =
+> > ARRAY_SIZE(mode_640x480_config),
+> > +                       .regs = mode_640x480_config,
+> > +               },
+> > +               .reg_list_2lane = {
+> > +                       .num_of_regs =
+> > ARRAY_SIZE(mode_640x480_mipi_2lane),
+> > +                       .regs = mode_640x480_mipi_2lane,
+> > +               },
+> > +       },
+> > +       {
+> > +               .width = 1280,
+> > +               .height = 720,
+> > +               .link_freq_index = FREQ_INDEX_1280,
+> > +               .fps = 90,
+> > +               .frame_len = 842,
+> > +               .llp = HI846_LINE_LENGTH,
+> > +               .reg_list_config = {
+> > +                       .num_of_regs =
+> > ARRAY_SIZE(mode_1280x720_config),
+> > +                       .regs = mode_1280x720_config,
+> > +               },
+> > +               .reg_list_2lane = {
+> > +                       .num_of_regs =
+> > ARRAY_SIZE(mode_1280x720_mipi_2lane),
+> > +                       .regs = mode_1280x720_mipi_2lane,
+> > +               },
+> > +               .reg_list_4lane = {
+> > +                       .num_of_regs =
+> > ARRAY_SIZE(mode_1280x720_mipi_4lane),
+> > +                       .regs = mode_1280x720_mipi_4lane,
+> > +               },
+> > +       },
+> > +       {
+> > +               .width = 1632,
+> > +               .height = 1224,
+> > +               .link_freq_index = FREQ_INDEX_1280,
+> > +               .fps = 30,
+> > +               .frame_len = 2526,
+> > +               .llp = HI846_LINE_LENGTH,
+> > +               .reg_list_config = {
+> > +                       .num_of_regs =
+> > ARRAY_SIZE(mode_1632x1224_config),
+> > +                       .regs = mode_1632x1224_config,
+> > +               },
+> > +               .reg_list_2lane = {
+> > +                       .num_of_regs =
+> > ARRAY_SIZE(mode_1632x1224_mipi_2lane),
+> > +                       .regs = mode_1632x1224_mipi_2lane,
+> > +               },
+> > +               .reg_list_4lane = {
+> > +                       .num_of_regs =
+> > ARRAY_SIZE(mode_1632x1224_mipi_4lane),
+> > +                       .regs = mode_1632x1224_mipi_4lane,
+> > +               },
+> > +       }
+> > +};
+> > +
+> > +struct hi846_gpio {
+> > +       int gpio;
+> > +       int level;
+> > +};
+> 
+> Please use the gpiod_* API, it will handle the level automatically
+> for
+> you.
+> 
+> > +
+> > +struct hi846_datafmt {
+> > +       u32 code;
+> > +       enum v4l2_colorspace colorspace;
+> > +};
+> > +
+> > +struct hi846 {
+> > +       struct hi846_gpio rst_gpio;
+> > +       struct regulator *vdd1_regulator;
+> > +       struct regulator *vdd_regulator;
+> > +       struct clk *clock;
+> > +       struct hi846_datafmt *fmt;
+> > +       struct v4l2_subdev sd;
+> > +       struct media_pad pad;
+> > +       struct v4l2_ctrl_handler ctrl_handler;
+> > +       u8 nr_lanes;
+> > +
+> > +       struct v4l2_ctrl *link_freq;
+> > +       struct v4l2_ctrl *pixel_rate;
+> > +       struct v4l2_ctrl *vblank;
+> > +       struct v4l2_ctrl *hblank;
+> > +       struct v4l2_ctrl *exposure;
+> > +
+> > +       const struct hi846_mode *cur_mode;
+> > +       struct mutex mutex;
+> > +       bool streaming;
+> > +};
+> > +
+> > +static struct hi846_datafmt hi846_colour_fmts[] = {
+> 
+> This should be const.
+> 
+> > +       {HI846_MEDIA_BUS_FORMAT, V4L2_COLORSPACE_RAW},
+> 
+> We usually add a space after { and before }.
+> 
+> > +};
+> > +
+> > +static struct hi846_datafmt *hi846_find_datafmt(u32 code)
+> > +{
+> > +       int i;
+> > +
+> > +       for (i = 0; i < ARRAY_SIZE(hi846_colour_fmts); i++)
+> > +               if (hi846_colour_fmts[i].code == code)
+> > +                       return hi846_colour_fmts + i;
+> 
+>                         return &hi846_colour_fmts[i];
+> 
+> would be more customary. There are other similar constructs below.
+> 
+> > +
+> > +       return NULL;
+> > +}
+> > +
+> > +static inline u8 hi846_get_link_freq_index(struct hi846 *hi846)
+> > +{
+> > +       return hi846->cur_mode->link_freq_index;
+> > +}
+> > +
+> > +static s64 hi846_get_link_freq(struct hi846 *hi846)
+> > +{
+> > +       u8 index = hi846_get_link_freq_index(hi846);
+> > +
+> > +       return *(hi846_link_freqs + index);
+> 
+> Here for instance.
+> 
+> > +}
+> > +
+> > +static u64 hi846_calc_pixel_rate(struct hi846 *hi846)
+> > +{
+> > +       s64 link_freq = hi846_get_link_freq(hi846);
+> > +       u64 pixel_rate = link_freq * 2 * hi846->nr_lanes;
+> > +
+> > +       do_div(pixel_rate, HI846_RGB_DEPTH);
+> > +
+> > +       return pixel_rate;
+> > +}
+> > +
+> > +static int hi846_read_reg(struct hi846 *hi846, u16 reg, u8 *val)
+> > +{
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&hi846-
+> > >sd);
+> > +       struct i2c_msg msgs[2];
+> > +       u8 addr_buf[2];
+> > +       u8 data_buf[1] = {0};
+> > +       int ret;
+> > +
+> > +       put_unaligned_be16(reg, addr_buf);
+> > +       msgs[0].addr = client->addr;
+> > +       msgs[0].flags = 0;
+> > +       msgs[0].len = sizeof(addr_buf);
+> > +       msgs[0].buf = addr_buf;
+> > +       msgs[1].addr = client->addr;
+> > +       msgs[1].flags = I2C_M_RD;
+> > +       msgs[1].len = 1;
+> > +       msgs[1].buf = &data_buf[0];
+> > +
+> > +       ret = i2c_transfer(client->adapter, msgs,
+> > ARRAY_SIZE(msgs));
+> > +       if (ret != ARRAY_SIZE(msgs)) {
+> > +               dev_err(&client->dev, "i2c read error: %d\n", ret);
+> > +               return -EIO;
+> > +       }
+> > +
+> > +       *val = data_buf[0];
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_write_reg_16(struct hi846 *hi846, u16 reg, u16
+> > val)
+> > +{
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&hi846-
+> > >sd);
+> > +       u8 buf[6];
+> > +
+> > +       put_unaligned_be16(reg, buf);
+> > +       put_unaligned_be32(val << 8 * 2, buf + 2);
+> > +       if (i2c_master_send(client, buf, 4) != 4)
+> > +               return -EIO;
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_write_reg_list(struct hi846 *hi846,
+> > +                               const struct hi846_reg_list
+> > *r_list)
+> > +{
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&hi846-
+> > >sd);
+> > +       unsigned int i;
+> > +       int ret;
+> > +
+> > +       for (i = 0; i < r_list->num_of_regs; i++) {
+> > +               ret = hi846_write_reg_16(hi846, r_list-
+> > >regs[i].address,
+> > +                                        r_list->regs[i].val);
+> > +               if (ret) {
+> > +                       dev_err_ratelimited(&client->dev,
+> > +                                           "failed to write reg
+> > 0x%4.4x. error = %d",
+> > +                                           r_list-
+> > >regs[i].address, ret);
+> > +                       return ret;
+> > +               }
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_write_reg(struct hi846 *hi846, u16 reg, u8 val)
+> > +{
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&hi846-
+> > >sd);
+> > +       u8 buf[3] = { reg >> 8, reg & 0xff, val };
+> > +       int ret;
+> > +
+> > +       struct i2c_msg msg[] = {
+> > +               { .addr = client->addr, .flags = 0,
+> > +                 .len = ARRAY_SIZE(buf), .buf = buf },
+> > +       };
+> > +
+> > +       ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
+> > +       if (ret != ARRAY_SIZE(msg)) {
+> > +               dev_err(&client->dev, "i2c write error\n");
+> > +               return -EIO;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_update_digital_gain(struct hi846 *hi846, u16
+> > d_gain)
+> > +{
+> > +       int ret;
+> > +
+> > +       ret = hi846_write_reg_16(hi846, HI846_REG_MWB_GR_GAIN_H,
+> > d_gain);
+> > +       if (ret)
+> > +               return ret;
+> 
+> Let's simplify error checks by passing an error status pointer to the
+> write function. You can see how that can be implemented at
+> https://git.linuxtv.org/pinchartl/media.git/tree/drivers/media/i2c/mt9m114.c?h=mt9m114&id=73181111a72ec7171b5c4f84ff3f304ad9a591e6#n681
+> .
+> The code in this function would then become
+> 
+>         int ret = 0;
+> 
+>         hi846_write_reg_16(hi846, HI846_REG_MWB_GR_GAIN_H, d_gain,
+> &ret);
+>         hi846_write_reg_16(hi846, HI846_REG_MWB_GB_GAIN_H, d_gain,
+> &ret);
+>         hi846_write_reg_16(hi846, HI846_REG_MWB_R_GAIN_H, d_gain,
+> &ret);
+>         hi846_write_reg_16(hi846, HI846_REG_MWB_B_GAIN_H, d_gain,
+> &ret);
+> 
+>         return ret;
+> 
+> I'd also recommend, given that you have a mix of 8-bit and 16-bit
+> registers, to use the same mechanism as in the mt9m114 driver to
+> simplify writes, with the register macro encoding both the address
+> and
+> the size.
+> 
+> > +
+> > +       ret = hi846_write_reg_16(hi846, HI846_REG_MWB_GB_GAIN_H,
+> > d_gain);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       ret = hi846_write_reg_16(hi846, HI846_REG_MWB_R_GAIN_H,
+> > d_gain);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       return hi846_write_reg_16(hi846, HI846_REG_MWB_B_GAIN_H,
+> > d_gain);
+> > +}
+> > +
+> > +static int hi846_test_pattern(struct hi846 *hi846, u32 pattern)
+> > +{
+> > +       int ret;
+> > +       u8 val;
+> > +
+> > +       if (pattern) {
+> > +               ret = hi846_read_reg(hi846, HI846_REG_ISP, &val);
+> > +               if (ret)
+> > +                       return ret;
+> > +
+> > +               ret = hi846_write_reg(hi846, HI846_REG_ISP,
+> > +                                     val | HI846_REG_ISP_TPG_EN);
+> > +               if (ret)
+> > +                       return ret;
+> > +       }
+> > +
+> > +       return hi846_write_reg(hi846, HI846_REG_TEST_PATTERN,
+> > pattern);
+> > +}
+> > +
+> > +static int hi846_set_ctrl(struct v4l2_ctrl *ctrl)
+> > +{
+> > +       struct hi846 *hi846 = container_of(ctrl->handler,
+> > +                                            struct hi846,
+> > ctrl_handler);
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&hi846-
+> > >sd);
+> > +       s64 exposure_max;
+> > +       int ret = 0;
+> > +       u32 shutter, frame_len;
+> > +
+> > +       if (!pm_runtime_get_if_in_use(&client->dev))
+> > +               goto out;
+> > +
+> > +       /* Propagate change of current control to all related
+> > controls */
+> > +       if (ctrl->id == V4L2_CID_VBLANK) {
+> > +               /* Update max exposure while meeting expected
+> > vblanking */
+> > +               exposure_max = hi846->cur_mode->height + ctrl->val
+> > -
+> > +                              HI846_EXPOSURE_MAX_MARGIN;
+> > +               __v4l2_ctrl_modify_range(hi846->exposure,
+> > +                                        hi846->exposure->minimum,
+> > +                                        exposure_max, hi846-
+> > >exposure->step,
+> > +                                        exposure_max);
+> > +       }
+> > +
+> > +       switch (ctrl->id) {
+> > +       case V4L2_CID_ANALOGUE_GAIN:
+> > +               ret = hi846_write_reg(hi846, HI846_REG_ANALOG_GAIN,
+> > ctrl->val);
+> > +               break;
+> > +
+> > +       case V4L2_CID_DIGITAL_GAIN:
+> > +               ret = hi846_update_digital_gain(hi846, ctrl->val);
+> > +               break;
+> > +
+> > +       case V4L2_CID_EXPOSURE:
+> > +               shutter = ctrl->val;
+> > +               frame_len = hi846->cur_mode->frame_len;
+> > +
+> > +               if (shutter > frame_len - 6) { /* margin */
+> > +                       frame_len = shutter + 6;
+> > +                       if (frame_len > 0xffff) { /* max frame len
+> > */
+> > +                               frame_len = 0xffff;
+> > +                       }
+> > +               }
+> > +
+> > +               if (shutter < 6)
+> > +                       shutter = 6;
+> > +               if (shutter > (0xffff - 6))
+> > +                       shutter = 0xffff - 6;
+> > +
+> > +               ret = hi846_write_reg_16(hi846, HI846_REG_FLL,
+> > +                                        frame_len);
+> > +               ret = hi846_write_reg_16(hi846, HI846_REG_EXPOSURE,
+> > +                                        shutter);
+> > +               break;
+> > +
+> > +       case V4L2_CID_VBLANK:
+> > +               /* Update FLL that meets expected vertical blanking
+> > */
+> > +               ret = hi846_write_reg_16(hi846, HI846_REG_FLL,
+> > +                                        hi846->cur_mode->height +
+> > ctrl->val);
+> > +               break;
+> > +       case V4L2_CID_TEST_PATTERN:
+> > +               ret = hi846_test_pattern(hi846, ctrl->val);
+> > +               break;
+> > +
+> > +       default:
+> > +               ret = -EINVAL;
+> > +               break;
+> > +       }
+> > +
+> > +       pm_runtime_put(&client->dev);
+> > +out:
+> > +       return ret;
+> > +}
+> > +
+> > +static const struct v4l2_ctrl_ops hi846_ctrl_ops = {
+> > +       .s_ctrl = hi846_set_ctrl,
+> > +};
+> > +
+> > +static int hi846_init_controls(struct hi846 *hi846)
+> > +{
+> > +       struct v4l2_ctrl_handler *ctrl_hdlr;
+> > +       s64 exposure_max, h_blank;
+> > +       int ret;
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&hi846-
+> > >sd);
+> > +
+> > +       ctrl_hdlr = &hi846->ctrl_handler;
+> > +       ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       ctrl_hdlr->lock = &hi846->mutex;
+> > +
+> > +       hi846->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
+> > &hi846_ctrl_ops,
+> > +                                                
+> > V4L2_CID_LINK_FREQ,
+> > +                                       ARRAY_SIZE(hi846_link_freqs
+> > ) - 1,
+> > +                                       0, hi846_link_freqs);
+> > +       if (hi846->link_freq)
+> > +               hi846->link_freq->flags |=
+> > V4L2_CTRL_FLAG_READ_ONLY;
+> > +
+> > +       hi846->pixel_rate = v4l2_ctrl_new_std
+> > +                           (ctrl_hdlr, &hi846_ctrl_ops,
+> > +                            V4L2_CID_PIXEL_RATE, 0,
+> > +                            hi846_calc_pixel_rate(hi846),
+> > +                            1,
+> > +                            hi846_calc_pixel_rate(hi846));
+> > +       hi846->vblank = v4l2_ctrl_new_std(ctrl_hdlr,
+> > &hi846_ctrl_ops,
+> > +                                         V4L2_CID_VBLANK,
+> > +                                         hi846->cur_mode-
+> > >frame_len -
+> > +                                         hi846->cur_mode->height,
+> > +                                         HI846_FLL_MAX -
+> > +                                         hi846->cur_mode->height,
+> > 1,
+> > +                                         hi846->cur_mode-
+> > >frame_len -
+> > +                                         hi846->cur_mode->height);
+> > +
+> > +       h_blank = hi846->cur_mode->llp - hi846->cur_mode->width;
+> > +
+> > +       hi846->hblank = v4l2_ctrl_new_std(ctrl_hdlr,
+> > &hi846_ctrl_ops,
+> > +                                         V4L2_CID_HBLANK, h_blank,
+> > h_blank, 1,
+> > +                                         h_blank);
+> > +       if (hi846->hblank)
+> > +               hi846->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > +
+> > +       v4l2_ctrl_new_std(ctrl_hdlr, &hi846_ctrl_ops,
+> > V4L2_CID_ANALOGUE_GAIN,
+> > +                         HI846_ANAL_GAIN_MIN, HI846_ANAL_GAIN_MAX,
+> > +                         HI846_ANAL_GAIN_STEP,
+> > HI846_ANAL_GAIN_MIN);
+> > +       v4l2_ctrl_new_std(ctrl_hdlr, &hi846_ctrl_ops,
+> > V4L2_CID_DIGITAL_GAIN,
+> > +                         HI846_DGTL_GAIN_MIN, HI846_DGTL_GAIN_MAX,
+> > +                         HI846_DGTL_GAIN_STEP,
+> > HI846_DGTL_GAIN_DEFAULT);
+> > +       exposure_max = hi846->cur_mode->frame_len -
+> > HI846_EXPOSURE_MAX_MARGIN;
+> > +       hi846->exposure = v4l2_ctrl_new_std(ctrl_hdlr,
+> > &hi846_ctrl_ops,
+> > +                                           V4L2_CID_EXPOSURE,
+> > +                                           HI846_EXPOSURE_MIN,
+> > exposure_max,
+> > +                                           HI846_EXPOSURE_STEP,
+> > +                                           exposure_max);
+> > +       v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &hi846_ctrl_ops,
+> > +                                    V4L2_CID_TEST_PATTERN,
+> > +                                   
+> > ARRAY_SIZE(hi846_test_pattern_menu) - 1,
+> > +                                    0, 0,
+> > hi846_test_pattern_menu);
+> > +       if (ctrl_hdlr->error) {
+> > +               dev_err(&client->dev, "v4l ctrl handler error:
+> > %d\n",
+> > +                       ctrl_hdlr->error);
+> > +               return ctrl_hdlr->error;
+> > +       }
+> > +
+> > +       hi846->sd.ctrl_handler = ctrl_hdlr;
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_set_video_mode(struct hi846 *hi846, int fps)
+> > +{
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&hi846-
+> > >sd);
+> > +       int frame_length;
+> > +       int ret;
+> > +       int dummy_lines;
+> > +       s64 link_freq = hi846_get_link_freq(hi846);
+> > +
+> > +       dev_dbg(&client->dev, "%s: link freq: %lld\n", __func__,
+> > +               hi846_get_link_freq(hi846));
+> > +
+> > +       frame_length = do_div(link_freq, do_div(fps,
+> > HI846_LINE_LENGTH));
+> > +       dummy_lines = (frame_length > hi846->cur_mode->frame_len) ?
+> > +                       (frame_length - hi846->cur_mode->frame_len)
+> > : 0;
+> > +
+> > +       frame_length = hi846->cur_mode->frame_len + dummy_lines;
+> > +
+> > +       dev_dbg(&client->dev, "%s: frame length calculated: %d\n",
+> > __func__,
+> > +               frame_length);
+> > +
+> > +       ret = hi846_write_reg_16(hi846, HI846_REG_FLL, frame_length
+> > & 0xFFFF);
+> > +       ret = hi846_write_reg_16(hi846, HI846_REG_LLP,
+> > HI846_LINE_LENGTH & 0xFFFF);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static int hi846_start_streaming(struct hi846 *hi846)
+> > +{
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&hi846-
+> > >sd);
+> > +       int ret = 0;
+> > +       u8 val;
+> > +
+> > +       if (hi846->nr_lanes == 2)
+> > +               ret = hi846_write_reg_list(hi846,
+> > &hi846_init_regs_list_2lane);
+> > +       else
+> > +               ret = hi846_write_reg_list(hi846,
+> > &hi846_init_regs_list_4lane);
+> > +       if (ret) {
+> > +               dev_err(&client->dev, "failed to set plls: %d\n",
+> > ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       ret = hi846_write_reg_list(hi846, &hi846->cur_mode-
+> > >reg_list_config);
+> > +       if (ret) {
+> > +               dev_err(&client->dev, "failed to set mode: %d\n",
+> > ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       if (hi846->nr_lanes == 2) {
+> > +               if (!&hi846->cur_mode->reg_list_2lane) {
+> > +                       dev_err(&client->dev, "2 lanes unsupported
+> > for this mode\n");
+> > +                       return -EINVAL;
+> > +               }
+> > +               ret = hi846_write_reg_list(hi846, &hi846->cur_mode-
+> > >reg_list_2lane);
+> > +       } else {
+> > +               if (!&hi846->cur_mode->reg_list_4lane) {
+> > +                       dev_err(&client->dev, "4 lanes unsupported
+> > for this mode\n");
+> > +                       return -EINVAL;
+> > +               }
+> > +               ret = hi846_write_reg_list(hi846, &hi846->cur_mode-
+> > >reg_list_4lane);
+> > +       }
+> > +       if (ret) {
+> > +               dev_err(&client->dev, "failed to set mipi mode:
+> > %d\n", ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       hi846_set_video_mode(hi846, hi846->cur_mode->fps);
+> > +
+> > +       ret = __v4l2_ctrl_handler_setup(hi846->sd.ctrl_handler);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       /*
+> > +        * Reading 0x0034 is purely done for debugging reasons: It
+> > is not
+> > +        * documented in the DS but only mentioned once:
+> > +        * "If 0x0034[2] bit is disabled , Visible pixel width and
+> > height is 0."
+> > +        * So even though that sounds like we won't see anything,
+> > we don't
+> > +        * know more about this, so in that case only inform the
+> > user but do
+> > +        * nothing more.
+> > +        */
+> > +       ret = hi846_read_reg(hi846, 0x0034, &val);
+> > +       if (ret)
+> > +               return ret;
+> > +       if (!(val & BIT(2)))
+> > +               dev_info(&client->dev, "visible pixel width and
+> > height is 0\n");
+> > +
+> > +       ret = hi846_write_reg(hi846, HI846_REG_MODE_SELECT,
+> > +                             HI846_MODE_STREAMING);
+> > +       if (ret) {
+> > +               dev_err(&client->dev, "failed to start stream");
+> > +               return ret;
+> > +       }
+> > +
+> > +       hi846->streaming = 1;
+> > +
+> > +       dev_dbg(&client->dev, "%s: started streaming
+> > successfully\n", __func__);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static void hi846_stop_streaming(struct hi846 *hi846)
+> > +{
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&hi846-
+> > >sd);
+> > +
+> > +       if (hi846_write_reg(hi846, HI846_REG_MODE_SELECT,
+> > HI846_MODE_STANDBY))
+> > +               dev_err(&client->dev, "failed to stop stream");
+> > +
+> > +       hi846->streaming = 0;
+> > +}
+> > +
+> > +static int hi846_set_stream(struct v4l2_subdev *sd, int enable)
+> > +{
+> > +       struct hi846 *hi846 = to_hi846(sd);
+> > +       struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > +       int ret = 0;
+> > +
+> > +       if (hi846->streaming == enable)
+> > +               return 0;
+> > +
+> > +       mutex_lock(&hi846->mutex);
+> > +
+> > +       if (enable) {
+> > +               ret = pm_runtime_get_sync(&client->dev);
+> > +               if (ret < 0) {
+> > +                       pm_runtime_put_noidle(&client->dev);
+> > +                       goto out;
+> > +               }
+> > +
+> > +               ret = hi846_start_streaming(hi846);
+> > +               if (ret) {
+> > +                       enable = 0;
+> > +                       hi846_stop_streaming(hi846);
+> > +                       pm_runtime_put(&client->dev);
+> > +               }
+> > +       } else {
+> > +               hi846_stop_streaming(hi846);
+> > +               pm_runtime_put(&client->dev);
+> > +       }
+> > +
+> > +out:
+> > +       mutex_unlock(&hi846->mutex);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static int hi846_regulator_enable(struct hi846 *hi846)
+> > +{
+> > +       int ret = 0;
+> > +
+> > +       ret = regulator_enable(hi846->vdd_regulator);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       return regulator_enable(hi846->vdd1_regulator);
+> 
+> If this fails, vdd should be disabled. You can use the bulk regulator
+> API to handle this.
+> 
+> > +}
+> > +
+> > +static void hi846_regulator_disable(struct hi846 *hi846)
+> > +{
+> > +       if (regulator_is_enabled(hi846->vdd1_regulator))
+> > +               regulator_disable(hi846->vdd1_regulator);
+> 
+> Regulator enable/disable calls always need to be balanced, checking
+> if
+> the regulator is enabled before disabling it is most often not
+> correct.
+> 
+> > +
+> > +       if (regulator_is_enabled(hi846->vdd_regulator))
+> > +               regulator_disable(hi846->vdd_regulator);
+> > +}
+> > +
+> > +static int __maybe_unused hi846_suspend(struct device *dev)
+> > +{
+> > +       struct i2c_client *client = to_i2c_client(dev);
+> > +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +       struct hi846 *hi846 = to_hi846(sd);
+> > +
+> > +       if (hi846->streaming)
+> > +               hi846_stop_streaming(hi846);
+> > +
+> > +       if (!IS_ERR(hi846->clock))
+> 
+> Can this happen ?
+> 
+> > +               clk_disable_unprepare(hi846->clock);
+> > +
+> > +       hi846_regulator_disable(hi846);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int __maybe_unused hi846_resume(struct device *dev)
+> > +{
+> > +       struct i2c_client *client = to_i2c_client(dev);
+> > +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +       struct hi846 *hi846 = to_hi846(sd);
+> > +       int ret;
+> > +
+> > +       ret = hi846_regulator_enable(hi846);
+> > +       if (ret) {
+> > +               dev_err(dev, "enable regulator failed: %d\n", ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       ret = clk_prepare_enable(hi846->clock);
+> > +       if (ret < 0) {
+> > +               dev_err(dev, "enable clk failed: %d\n", ret);
+> > +               goto error_regulator;
+> > +       }
+> > +
+> > +       msleep(100);
+> > +
+> > +       if (hi846->streaming) {
+> > +               ret = hi846_start_streaming(hi846);
+> > +               if (ret) {
+> > +                       dev_err(dev, "%s: start streaming failed:
+> > %d\n",
+> > +                               __func__, ret);
+> > +                       goto error;
+> > +               }
+> > +       }
+> > +
+> > +       return 0;
+> > +
+> > +error:
+> > +       clk_disable_unprepare(hi846->clock);
+> > +
+> > +error_regulator:
+> > +       hi846_regulator_disable(hi846);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static int hi846_set_format(struct v4l2_subdev *sd,
+> > +                           struct v4l2_subdev_pad_config *cfg,
+> > +                           struct v4l2_subdev_format *format)
+> > +{
+> > +       struct hi846 *hi846 = to_hi846(sd);
+> > +       struct v4l2_mbus_framefmt *mf = &format->format;
+> > +       struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > +       struct hi846_datafmt *fmt = hi846_find_datafmt(mf->code);
+> > +       u32 tgt_fps;
+> > +       s32 vblank_def, h_blank;
+> > +
+> > +       if (!fmt) {
+> > +               mf->code = hi846_colour_fmts[0].code;
+> > +               mf->colorspace = hi846_colour_fmts[0].colorspace;
+> > +               fmt = &hi846_colour_fmts[0];
+> > +       }
+> > +
+> > +       if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> > +               *v4l2_subdev_get_try_format(sd, cfg, format->pad) =
+> > *mf;
+> > +               return 0;
+> > +       }
+> > +
+> > +       mutex_lock(&hi846->mutex);
+> > +
+> > +       if (hi846->streaming) {
+> > +               mutex_unlock(&hi846->mutex);
+> > +               return -EBUSY;
+> > +       }
+> > +
+> > +       hi846->fmt = fmt;
+> > +
+> > +       hi846->cur_mode = v4l2_find_nearest_size(supported_modes,
+> > +                                     ARRAY_SIZE(supported_modes),
+> > width,
+> > +                                     height, mf->width,
+> > +                                     mf->height);
+> > +       dev_dbg(&client->dev, "%s: found mode: %dx%d\n", __func__,
+> > +               hi846->cur_mode->width, hi846->cur_mode->height);
+> > +
+> > +       tgt_fps = hi846->cur_mode->fps;
+> > +       dev_dbg(&client->dev, "%s: target fps: %d\n", __func__,
+> > tgt_fps);
+> > +
+> > +       mf->width = hi846->cur_mode->width;
+> > +       mf->height = hi846->cur_mode->height;
+> > +       mf->code = HI846_MEDIA_BUS_FORMAT;
+> > +       mf->field = V4L2_FIELD_NONE;
+> > +
+> > +       __v4l2_ctrl_s_ctrl(hi846->link_freq,
+> > hi846_get_link_freq_index(hi846));
+> > +       __v4l2_ctrl_s_ctrl_int64(hi846->pixel_rate,
+> > +                                hi846_calc_pixel_rate(hi846));
+> > +
+> > +       /* Update limits and set FPS to default */
+> > +       vblank_def = hi846->cur_mode->frame_len - hi846->cur_mode-
+> > >height;
+> > +       __v4l2_ctrl_modify_range(hi846->vblank,
+> > +                                hi846->cur_mode->frame_len -
+> > hi846->cur_mode->height,
+> > +                                HI846_FLL_MAX - hi846->cur_mode-
+> > >height, 1,
+> > +                                vblank_def);
+> > +       __v4l2_ctrl_s_ctrl(hi846->vblank, vblank_def);
+> > +
+> > +       h_blank = hi846->cur_mode->llp - hi846->cur_mode->width;
+> > +
+> > +       __v4l2_ctrl_modify_range(hi846->hblank, h_blank, h_blank,
+> > 1,
+> > +                                h_blank);
+> > +
+> > +       dev_dbg(&client->dev, "Set fmt w=%d h=%d code=0x%x
+> > colorspace=0x%x\n",
+> > +               mf->width, mf->height,
+> > +               fmt->code, fmt->colorspace);
+> > +
+> > +       mutex_unlock(&hi846->mutex);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_get_format(struct v4l2_subdev *sd,
+> > +                           struct v4l2_subdev_pad_config *cfg,
+> > +                           struct v4l2_subdev_format *format)
+> > +{
+> > +       struct hi846 *hi846 = to_hi846(sd);
+> > +       struct v4l2_mbus_framefmt *mf = &format->format;
+> > +       struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > +
+> > +       if (format->pad)
+> > +               return -EINVAL;
+> > +
+> > +       if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> > +               format->format =
+> > *v4l2_subdev_get_try_format(&hi846->sd,
+> > +                                                       cfg,
+> > +                                                       format-
+> > >pad);
+> > +               return 0;
+> > +       }
+> > +
+> > +       mutex_lock(&hi846->mutex);
+> > +       mf->code        = HI846_MEDIA_BUS_FORMAT;
+> > +       mf->colorspace  = V4L2_COLORSPACE_RAW;
+> > +       mf->field       = V4L2_FIELD_NONE;
+> > +       mf->width       = hi846->cur_mode->width;
+> > +       mf->height      = hi846->cur_mode->height;
+> > +       mutex_unlock(&hi846->mutex);
+> > +       dev_dbg(&client->dev,
+> > +               "Get format w=%d h=%d code=0x%x colorspace=0x%x\n",
+> > +               mf->width, mf->height, mf->code, mf->colorspace);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_enum_mbus_code(struct v4l2_subdev *sd,
+> > +                               struct v4l2_subdev_pad_config *cfg,
+> > +                               struct v4l2_subdev_mbus_code_enum
+> > *code)
+> > +{
+> > +       if (code->pad || code->index > 0)
+> > +               return -EINVAL;
+> > +
+> > +       code->code = HI846_MEDIA_BUS_FORMAT;
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_enum_frame_size(struct v4l2_subdev *sd,
+> > +                                struct v4l2_subdev_pad_config
+> > *cfg,
+> > +                                struct v4l2_subdev_frame_size_enum
+> > *fse)
+> > +{
+> > +       struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > +
+> > +       if (fse->pad || fse->index >= ARRAY_SIZE(supported_modes))
+> > +               return -EINVAL;
+> > +
+> > +       if (fse->code != HI846_MEDIA_BUS_FORMAT) {
+> > +               dev_err(&client->dev, "frame size enum not
+> > matching\n");
+> > +               return -EINVAL;
+> > +       }
+> > +
+> > +       fse->min_width = supported_modes[fse->index].width;
+> > +       fse->max_width = supported_modes[fse->index].width;
+> > +       fse->min_height = supported_modes[fse->index].height;
+> > +       fse->max_height = supported_modes[fse->index].height;
+> > +
+> > +       dev_dbg(&client->dev, "%s: max width: %d max height: %d\n",
+> > __func__,
+> > +               fse->max_width, fse->max_height);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_s_power(struct v4l2_subdev *sd, int on)
+> > +{
+> > +       struct hi846 *hi846 = to_hi846(sd);
+> > +       struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > +       struct device *dev = &client->dev;
+> > +       int ret = 0;
+> > +
+> > +       mutex_lock(&hi846->mutex);
+> > +       if (on) {
+> > +               ret = hi846_resume(dev);
+> > +               if (ret)
+> > +                       goto out;
+> > +       } else {
+> > +               ret = hi846_suspend(dev);
+> > +               if (ret)
+> > +                       goto out;
+> > +       }
+> > +out:
+> > +       mutex_unlock(&hi846->mutex);
+> > +       return ret;
+> > +}
+> > +
+> > +static int hi846_open(struct v4l2_subdev *sd, struct
+> > v4l2_subdev_fh *fh)
+> > +{
+> > +       struct hi846 *hi846 = to_hi846(sd);
+> > +       struct v4l2_mbus_framefmt *mf;
+> > +
+> > +       mf = v4l2_subdev_get_try_format(sd, fh->pad, 0);
+> > +
+> > +       mutex_lock(&hi846->mutex);
+> > +       mf->code        = HI846_MEDIA_BUS_FORMAT;
+> > +       mf->colorspace  = V4L2_COLORSPACE_RAW;
+> > +       mf->field       = V4L2_FIELD_NONE;
+> > +       mf->width       = hi846->cur_mode->width;
+> > +       mf->height      = hi846->cur_mode->height;
+> > +       mutex_unlock(&hi846->mutex);
+> > +
+> > +       return 0;
+> > +}
+> 
+> Initialization of the try format is better performed in the
+> .init_cfg()
+> function, you can then drop .open().
+> 
+> > +
+> > +static const struct v4l2_subdev_video_ops hi846_video_ops = {
+> > +       .s_stream = hi846_set_stream,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_pad_ops hi846_pad_ops = {
+> > +       .enum_frame_size = hi846_enum_frame_size,
+> > +       .enum_mbus_code = hi846_enum_mbus_code,
+> > +       .set_fmt = hi846_set_format,
+> > +       .get_fmt = hi846_get_format,
+> 
+> Please also implement .get_selection() to allow querying the CROP,
+> CROP_BOUNDS and CROP_DEFAULT. The first one can depend on the current
+> mode, the last two should be fixed.
+> 
+> > +};
+> > +
+> > +static struct v4l2_subdev_core_ops hi846_core_ops = {
+> 
+> This should be const.
+> 
+> > +       .s_power = hi846_s_power,
+> 
+> .s_power() is deprecated, power should be controlled at .s_stream()
+> time
+> with runtime PM, and the driver should use the runtime PM autoidle
+> feature.
+> 
+> > +       .log_status = v4l2_ctrl_subdev_log_status,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_ops hi846_subdev_ops = {
+> > +       .core = &hi846_core_ops,
+> > +       .video = &hi846_video_ops,
+> > +       .pad = &hi846_pad_ops,
+> > +};
+> > +
+> > +static const struct media_entity_operations
+> > hi846_subdev_entity_ops = {
+> > +       .link_validate = v4l2_subdev_link_validate,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_internal_ops hi846_internal_ops =
+> > {
+> > +       .open = hi846_open,
+> > +};
+> > +
+> > +static void hi846_rst_gpio_assert(struct hi846 *hi846, bool on)
+> > +{
+> > +       struct hi846_gpio *gpio = &hi846->rst_gpio;
+> > +
+> > +       if (gpio == NULL)
+> > +               return;
+> > +
+> > +       if (on)
+> > +               gpio_set_value(gpio->gpio, gpio->level);
+> > +       else
+> > +               gpio_set_value(gpio->gpio, !gpio->level);
+> > +}
+> > +
+> > +static int hi846_parse_gpio(struct hi846_gpio *gpio, struct device
+> > *dev)
+> > +{
+> > +       struct device_node *node = dev->of_node;
+> > +       enum of_gpio_flags flags;
+> > +       int ret;
+> > +
+> > +       ret = of_get_named_gpio_flags(node, "reset-gpios", 0,
+> > &flags);
+> > +       if (ret < 0) {
+> > +               dev_err(dev, "no reset-gpios provided: %d\n", ret);
+> > +               return ret;
+> > +       }
+> > +       gpio->gpio = ret;
+> > +       gpio->level = !(flags & OF_GPIO_ACTIVE_LOW);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_identify_module(struct hi846 *hi846)
+> > +{
+> > +       struct i2c_client *client = v4l2_get_subdevdata(&hi846-
+> > >sd);
+> > +       int ret;
+> > +       u8 hi, lo;
+> > +
+> > +       ret = hi846_read_reg(hi846, HI846_REG_CHIP_ID_L, &lo);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       if (lo != HI846_CHIP_ID_L) {
+> > +               dev_err(&client->dev, "wrong chip id low byte: %x",
+> > lo);
+> > +               return -ENXIO;
+> > +       }
+> > +
+> > +       ret = hi846_read_reg(hi846, HI846_REG_CHIP_ID_H, &hi);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       if (hi != HI846_CHIP_ID_H) {
+> > +               dev_err(&client->dev, "wrong chip id high byte:
+> > %x", hi);
+> > +               return -ENXIO;
+> > +       }
+> > +
+> > +       dev_info(&client->dev, "chip id %02X %02X using %d mipi
+> > lanes\n", hi, lo,
+> > +                hi846->nr_lanes);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int hi846_check_hwcfg(struct device *dev, u8 *lanes)
+> > +{
+> > +       struct fwnode_handle *ep;
+> > +       struct fwnode_handle *fwnode = dev_fwnode(dev);
+> > +       struct v4l2_fwnode_endpoint bus_cfg = {
+> > +               .bus_type = V4L2_MBUS_CSI2_DPHY
+> > +       };
+> > +       int ret = 0;
+> 
+> No need to initialize ret to 0.
+> 
+> > +
+> > +       if (!fwnode)
+> > +               return -ENXIO;
+> 
+> Can this happen ?
+> 
+> > +
+> > +       ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> > +       if (!ep)
+> 
+> An error message would be nice.
+> 
+> > +               return -ENXIO;
+> > +
+> > +       ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> > +       fwnode_handle_put(ep);
+> > +       if (ret)
+> 
+> Same here.
+> 
+> > +               return ret;
+> > +
+> > +       if (bus_cfg.bus.mipi_csi2.num_data_lanes != 2 &&
+> > +           bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
+> > +               dev_err(dev, "number of CSI2 data lanes %d is not
+> > supported",
+> > +                       bus_cfg.bus.mipi_csi2.num_data_lanes);
+> > +               ret = -EINVAL;
+> > +               goto check_hwcfg_error;
+> > +       }
+> > +
+> > +       *lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
+> > +
+> > +check_hwcfg_error:
+> > +       v4l2_fwnode_endpoint_free(&bus_cfg);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static int hi846_remove(struct i2c_client *client)
+> > +{
+> > +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +       struct hi846 *hi846 = to_hi846(sd);
+> > +
+> > +       v4l2_async_unregister_subdev(sd);
+> > +       media_entity_cleanup(&sd->entity);
+> > +       v4l2_ctrl_handler_free(sd->ctrl_handler);
+> > +
+> > +       pm_runtime_disable(&client->dev);
+> > +       if (!pm_runtime_status_suspended(&client->dev))
+> > +               hi846_suspend(&client->dev);
+> > +       pm_runtime_set_suspended(&client->dev);
+> > +
+> > +       mutex_destroy(&hi846->mutex);
+> > +
+> > +       return 0;
+> > +}
+> 
+> It's customary to place remove() after probe() (but not required).
+> 
+> > +
+> > +static int hi846_probe(struct i2c_client *client)
+> > +{
+> > +       struct hi846 *hi846;
+> > +       int ret;
+> > +       u8 lanes;
+> > +
+> > +       ret = hi846_check_hwcfg(&client->dev, &lanes);
+> > +       if (ret) {
+> > +               dev_err(&client->dev, "failed to check HW
+> > configuration: %d",
+> > +                       ret);
+> > +               return ret;
+> > +       }
+> 
+> I'd move this after the devm_kzalloc(). The function will then be
+> able
+> to set hi846->nr_lanes directly. I'd also rename it to
+> hi846_parse_dt()
+> or something similar.
+> 
+> > +
+> > +       hi846 = devm_kzalloc(&client->dev, sizeof(*hi846),
+> > GFP_KERNEL);
+> > +       if (!hi846)
+> > +               return -ENOMEM;
+> > +
+> > +       hi846->nr_lanes = lanes;
+> > +
+> > +       v4l2_i2c_subdev_init(&hi846->sd, client,
+> > &hi846_subdev_ops);
+> 
+> Let's acquire all the resources (GPIOs, clocks and regulators) before
+> dealing with subdev initialization.
+> 
+> > +
+> > +       ret = hi846_parse_gpio(&hi846->rst_gpio, &client->dev);
+> > +       if (ret < 0) {
+> > +               dev_err(&client->dev, "parse gpio failed: %d\n",
+> > ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       hi846->vdd_regulator = devm_regulator_get(&client->dev,
+> > "vdd");
+> > +       if (IS_ERR(hi846->vdd_regulator))
+> > +               dev_warn(&client->dev, "cannot get voltage
+> > regulator\n");
+> > +
+> > +       hi846->vdd1_regulator = devm_regulator_get(&client->dev,
+> > "vdd1");
+> 
+> Not documented in the DT bindings, and there's no VDD1 supply in the
+> datasheet.
+> 
+> > +       if (IS_ERR(hi846->vdd1_regulator))
+> > +               dev_warn(&client->dev, "cannot get voltage
+> > regulator\n");
+> > +
+> > +       ret = hi846_regulator_enable(hi846);
+> > +       if (ret) {
+> > +               dev_err(&client->dev, "regulator enable failed:
+> > %d\n", ret);
+> > +               return ret;
+> > +       }
+> 
+> And let's move the regualtor enable with the clock prepare below. I'd
+> actually move the regulator enable, clock enable and reset handling
+> to a
+> separate hi846_power_on() function, as you need to do the same here
+> and
+> in hi846_resume(). Same for power off.
+> 
+> > +
+> > +       hi846->clock = devm_clk_get(hi846->sd.dev, "mclk");
+> > +       if (IS_ERR(hi846->clock)) {
+> > +               dev_err(&client->dev, "get clk failed\n");
+> > +               ret = -EPROBE_DEFER;
+> > +               goto probe_error_regulator;
+> > +       }
+> > +
+> > +       ret = clk_prepare_enable(hi846->clock);
+> > +       if (ret < 0)
+> > +               goto probe_error_regulator;
+> > +
+> > +       msleep(100);
+> 
+> I see corresponding delay in the datasheet. There's however a 2400
+> MCLK
+> cycles delay required after deassering RESETB before issuing the
+> first
+> I2C transaction.
+> 
 > 
 
-Regards,
 
-	Hans
+Thank you, Laurent for that wonderful review. It made me rework/fix the
+power supply interface + sequencing in the driver (and even better
+understand how it's supplied on my board).
+
+I want to take all your review into account for a next revision, except
+for the additional bits for the register definitions, that should
+encode the length, if that's ok. We can choose whether to write 1 or 2
+bytes at a given address and it just looks nice and simple to me as it
+is.
+
+so long,
+                                  martin
+
