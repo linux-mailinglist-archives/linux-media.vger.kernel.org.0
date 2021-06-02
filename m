@@ -2,81 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3019E397E11
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 03:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BBF8397E2A
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 03:39:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbhFBBeX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Jun 2021 21:34:23 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3499 "EHLO
+        id S230143AbhFBBlB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Jun 2021 21:41:01 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2940 "EHLO
         szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229899AbhFBBeW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Jun 2021 21:34:22 -0400
-Received: from dggeme759-chm.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Fvs026ZQwzYsPY;
-        Wed,  2 Jun 2021 09:29:54 +0800 (CST)
-Received: from dggeme760-chm.china.huawei.com (10.3.19.106) by
- dggeme759-chm.china.huawei.com (10.3.19.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Wed, 2 Jun 2021 09:32:38 +0800
-Received: from dggeme760-chm.china.huawei.com ([10.6.80.70]) by
- dggeme760-chm.china.huawei.com ([10.6.80.70]) with mapi id 15.01.2176.012;
- Wed, 2 Jun 2021 09:32:39 +0800
-From:   zhengyongjun <zhengyongjun3@huawei.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-CC:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        with ESMTP id S229988AbhFBBlB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Jun 2021 21:41:01 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Fvs7S1CN6z6917;
+        Wed,  2 Jun 2021 09:36:20 +0800 (CST)
+Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 2 Jun 2021 09:39:17 +0800
+Received: from [10.174.178.95] (10.174.178.95) by
+ dggpemm000001.china.huawei.com (7.185.36.245) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 2 Jun 2021 09:39:17 +0800
+Subject: Re: [PATCH -next] media: rc: Fix a typo in lirc_ioctl
+To:     Sean Young <sean@mess.org>
+References: <20210601100235.69935-1-tongtiangen@huawei.com>
+ <20210601102506.GA13203@gofer.mess.org>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Subject: =?gb2312?B?tPC4tDogW1BBVENIIC1uZXh0XSBtZWRpYTogYXRvbWlzcDogUmVtb3ZlIHVu?=
- =?gb2312?Q?needed_if-null-free_check?=
-Thread-Topic: [PATCH -next] media: atomisp: Remove unneeded if-null-free check
-Thread-Index: AQHXVu9Q97VgF0SyCkOeh4YsEDg3Kar+teYAgAE6dpA=
-Date:   Wed, 2 Jun 2021 01:32:38 +0000
-Message-ID: <9087d9398abf469f9f1ff30fcb608719@huawei.com>
-References: <20210601142005.4132018-1-zhengyongjun3@huawei.com>
- <20210601144644.GB1955@kadam>
-In-Reply-To: <20210601144644.GB1955@kadam>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.176.64]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From:   tongtiangen <tongtiangen@huawei.com>
+Message-ID: <8a18bc10-8e6d-3cb8-5551-899cc20d2b1f@huawei.com>
+Date:   Wed, 2 Jun 2021 09:39:17 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
+In-Reply-To: <20210601102506.GA13203@gofer.mess.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.95]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm000001.china.huawei.com (7.185.36.245)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-VGhhbmtzIGZvciB5b3VyIGFkdmljZSwgSSBzZW5kIHBhdGNoIHYyIG5vdyA6KQ0KDQotLS0tLdPK
-vP7Urbz+LS0tLS0NCreivP7IyzogRGFuIENhcnBlbnRlciBbbWFpbHRvOmRhbi5jYXJwZW50ZXJA
-b3JhY2xlLmNvbV0gDQq3osvNyrG85DogMjAyMcTqNtTCMcjVIDIyOjQ3DQrK1bz+yMs6IHpoZW5n
-eW9uZ2p1biA8emhlbmd5b25nanVuM0BodWF3ZWkuY29tPg0Ks63LzTogbWNoZWhhYkBrZXJuZWwu
-b3JnOyBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LXN0YWdpbmdAbGlzdHMubGlu
-dXguZGV2OyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBzYWthcmkuYWlsdXNAbGludXgu
-aW50ZWwuY29tOyBncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZw0K1vfM4jogUmU6IFtQQVRDSCAt
-bmV4dF0gbWVkaWE6IGF0b21pc3A6IFJlbW92ZSB1bm5lZWRlZCBpZi1udWxsLWZyZWUgY2hlY2sN
-Cg0KT24gVHVlLCBKdW4gMDEsIDIwMjEgYXQgMTA6MjA6MDVQTSArMDgwMCwgWmhlbmcgWW9uZ2p1
-biB3cm90ZToNCj4gRWxpbWluYXRlIHRoZSBmb2xsb3dpbmcgY29jY2ljaGVjayB3YXJuaW5nOg0K
-PiANCj4gZHJpdmVycy9zdGFnaW5nL21lZGlhL2F0b21pc3AvcGNpL3NoX2Nzc19maXJtd2FyZS5j
-OjM2OTo0LTEwOiBXQVJOSU5HOg0KPiBOVUxMIGNoZWNrIGJlZm9yZSBzb21lIGZyZWVpbmcgZnVu
-Y3Rpb25zIGlzIG5vdCBuZWVkZWQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBaaGVuZyBZb25nanVu
-IDx6aGVuZ3lvbmdqdW4zQGh1YXdlaS5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9zdGFnaW5nL21l
-ZGlhL2F0b21pc3AvcGNpL3NoX2Nzc19maXJtd2FyZS5jIHwgMyArLS0NCj4gIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3NzX2Zpcm13YXJlLmMgYi9kcml2
-ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3NzX2Zpcm13YXJlLmMNCj4gaW5kZXgg
-ZjRjZThhY2U5ZDUwLi45ODBmYzA5ZmNjOGIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvc3RhZ2lu
-Zy9tZWRpYS9hdG9taXNwL3BjaS9zaF9jc3NfZmlybXdhcmUuYw0KPiArKysgYi9kcml2ZXJzL3N0
-YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3NzX2Zpcm13YXJlLmMNCj4gQEAgLTM2NSw4ICsz
-NjUsNyBAQCB2b2lkIHNoX2Nzc191bmxvYWRfZmlybXdhcmUodm9pZCkNCj4gIAkJZm9yIChpID0g
-MDsgaSA8IHNoX2Nzc19udW1fYmluYXJpZXM7IGkrKykgew0KPiAgCQkJaWYgKGZ3X21pbmlidWZm
-ZXJbaV0ubmFtZSkNCj4gIAkJCQlrZnJlZSgodm9pZCAqKWZ3X21pbmlidWZmZXJbaV0ubmFtZSk7
-DQoNCkNoYW5nZSB0aGlzIHRvby4NCg0KPiAtCQkJaWYgKGZ3X21pbmlidWZmZXJbaV0uYnVmZmVy
-KQ0KPiAtCQkJCWt2ZnJlZShmd19taW5pYnVmZmVyW2ldLmJ1ZmZlcik7DQo+ICsJCQlrdmZyZWUo
-ZndfbWluaWJ1ZmZlcltpXS5idWZmZXIpOw0KPiAgCQl9DQo+ICAJCWtmcmVlKGZ3X21pbmlidWZm
-ZXIpOw0KPiAgCQlmd19taW5pYnVmZmVyID0gTlVMTDsNCg0KcmVnYXJkcywNCmRhbiBjYXJwZW50
-ZXINCg==
+
+
+On 2021/6/1 18:25, Sean Young wrote:
+> On Tue, Jun 01, 2021 at 06:02:35PM +0800, Tong Tiangen wrote:
+>> Fix a typo in lirc_ioctl, apparently min_timeout should be used
+>> in this case.
+>>
+>> Fixes: e589333f346b ("V4L/DVB: IR: extend interfaces to support more device settings")
+>> Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
+>> ---
+>>   drivers/media/rc/lirc_dev.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
+>> index 116daf90c858..abbeae2ccd4a 100644
+>> --- a/drivers/media/rc/lirc_dev.c
+>> +++ b/drivers/media/rc/lirc_dev.c
+>> @@ -534,7 +534,7 @@ static long lirc_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+>>   
+>>   	/* Generic timeout support */
+>>   	case LIRC_GET_MIN_TIMEOUT:
+>> -		if (!dev->max_timeout)
+>> +		if (!dev->min_timeout)
+> So maybe this isn't the clearest piece of code, but all rc drivers set
+> either both of min_timeout & max_timeout, or neither. Having a max_timeout
+> without a min_timeout does not make any sense.
+>
+> Changing this to min_timeout gives the impression min_timeout can be set
+> without max_timeout, which is not the case. This should at least commented.
+>
+> Thanks
+>
+> Sean
+
+I agree,  the necessary comments should be added here.
+
+Thanks
+
+>
+>>   			ret = -ENOTTY;
+>>   		else
+>>   			val = dev->min_timeout;
+>> -- 
+>> 2.18.0.huawei.25
+> .
+>
+
