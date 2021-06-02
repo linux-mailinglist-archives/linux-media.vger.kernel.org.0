@@ -2,157 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47116397F99
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 05:41:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21003398090
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jun 2021 07:07:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbhFBDm4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Jun 2021 23:42:56 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:57963 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229625AbhFBDmz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Jun 2021 23:42:55 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id oHkjlB34zEXL0oHkmlvt5r; Wed, 02 Jun 2021 05:41:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622605272; bh=IGPculyjseYVMOEO71L1i/4lt3Dw6XN/FZkOdM18EhY=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=E2I3u0xkXDYaTnniV0SpEM4hctLbfC96otOGn2SVRHAYmvEfVTVfIkKfwq0SIUkvM
-         ebWO5PaMS+siNd1roRWQCQ3nDGSi7NR7AaO6GPnCnrG35ySpaaFhU3hq0VqEilySlx
-         1UzE3hQwI5hnactW4VhNNgcPksy0EOxYDxRN15hBZ6Qxk6Ug4GbchRgtdv8LeB4++D
-         1PtqKbwo6JJorBvhuVKkXrJijotDy23DoNxuFsrAEIO4BcMSF1wIcHMGqI2gJaCDaZ
-         cudnI3i4zByfzITU/++cP0/QeledR9Lt/E7VuohvRVcPLDqGJjZJLJqjoeshcZwote
-         m+VcImthq98oA==
-Message-ID: <7063d8a251ec836b7efe047a4e2fae8d@smtp-cloud9.xs4all.net>
-Date:   Wed, 02 Jun 2021 05:41:09 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfFVBbb49Rp5l8QcoUdl6BomOvfOwwzYxJApPpwp/D7GBK/7/16zyB4tO14THcK+wos51s3IfI1jAmbrSTpF7Wjowa+kzFX50fW5xfmyVCzqksAdzr9K+
- QIX0i7tVPUCxFDPMLB5OyZxLG1z8JaJH+RtXKb/eeREKbAa8i85r7N1/h0CC9q8mqobYmcPC7u0cN1OlbbQ4+6Cqk8YxPwNNelSSBOrYVN9J8H9N9YcrxoEO
- q6e+ieNaAjFU8euIjNsIRg==
+        id S229850AbhFBFJN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 01:09:13 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:18605 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229863AbhFBFJL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Jun 2021 01:09:11 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1622610448; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=FkvZYbRbC/cAozRjP4BPGysEfk7mZXUuzUP30C8/JvY=;
+ b=h1uVrM6GMHr2pUzreugYpqY/5tmacvBf1X6zxeA8IXDAWeZTZZ4kFeQq9t++AgD8U3K2IW6K
+ Bc82bLJ7SBv13KXrE4VYTasPtuy+ac+6vycDTHYAJ51LeJ/aPTBUF/U2TiOas9rYJOkdUXhc
+ yYe9qCUbgC09UhFj03knQ7KpQJw=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 60b7120f6ddc3305c4ccc9d5 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 02 Jun 2021 05:07:27
+ GMT
+Sender: rojay=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 95E2AC4323A; Wed,  2 Jun 2021 05:07:26 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: rojay)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id DC05FC433F1;
+        Wed,  2 Jun 2021 05:07:25 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 02 Jun 2021 10:37:25 +0530
+From:   rojay@codeaurora.org
+To:     wsa@kernel.org
+Cc:     swboyd@chromium.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, skananth@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH V11 1/2] i2c: i2c-qcom-geni: Add shutdown callback for i2c
+Mail-Followup-To: wsa@kernel.org, swboyd@chromium.org,
+ dianders@chromium.org, saiprakash.ranjan@codeaurora.org,
+ gregkh@linuxfoundation.org, mka@chromium.org, skananth@codeaurora.org,
+ msavaliy@qti.qualcomm.com, skakit@codeaurora.org, rnayak@codeaurora.org,
+ agross@kernel.org, bjorn.andersson@linaro.org,
+ linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
+In-Reply-To: <YLClq6hZKUA1Y4ZW@kunai>
+References: <20210525131051.31250-1-rojay@codeaurora.org>
+ <20210525131051.31250-2-rojay@codeaurora.org> <YLClq6hZKUA1Y4ZW@kunai>
+Message-ID: <f0b92d196a92201696b7f8984ab34523@codeaurora.org>
+X-Sender: rojay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 2021-05-28 13:41, Wolfram Sang wrote:
+> On Tue, May 25, 2021 at 06:40:50PM +0530, Roja Rani Yarubandi wrote:
+>> If the hardware is still accessing memory after SMMU translation
+>> is disabled (as part of smmu shutdown callback), then the
+>> IOVAs (I/O virtual address) which it was using will go on the bus
+>> as the physical addresses which will result in unknown crashes
+>> like NoC/interconnect errors.
+>> 
+>> So, implement shutdown callback for i2c driver to suspend the bus
+>> during system "reboot" or "shutdown".
+>> 
+>> Fixes: 37692de5d523 ("i2c: i2c-qcom-geni: Add bus driver for the 
+>> Qualcomm GENI I2C controller")
+>> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
+> 
+> Do we need patch 1 after patch 2 was applied? I always thought all
+> devices are suspended before shutdown/reboot?
+> 
 
-Results of the daily build of media_tree:
+Yes, both patch 1 and patch 2 are required.
+Devices are not suspended during shutdown/reboot.
 
-date:			Wed Jun  2 05:00:08 CEST 2021
-media-tree git hash:	71c689dc2e732d4cb190aaf0edea73116b1611bd
-media_build git hash:	b85393d37cdac84cb846802f0d62259aa679c994
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7445-g58776ae33
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+> Nice to see that 'mark_adapter_suspended' becomes useful again!
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13-rc1-i686: OK
-linux-5.13-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2963, Succeeded: 2959, Failed: 4, Warnings: 0
-virtme-32: ERRORS: Final Summary: 3023, Succeeded: 3022, Failed: 1, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Thanks,
+Roja
