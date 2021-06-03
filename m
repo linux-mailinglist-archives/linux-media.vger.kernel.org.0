@@ -2,173 +2,353 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B5D039A03F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 13:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3173139A074
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 13:59:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbhFCLyY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Jun 2021 07:54:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37388 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbhFCLyX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 07:54:23 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFB4CC06175F
-        for <linux-media@vger.kernel.org>; Thu,  3 Jun 2021 04:52:38 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id s5-20020a7bc0c50000b0290147d0c21c51so3527593wmh.4
-        for <linux-media@vger.kernel.org>; Thu, 03 Jun 2021 04:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Nxij94IMFMsp61zYWJS5XKMycKfWOvntSLUdgR9Luec=;
-        b=PP1Vx2P7z4p7uzC7frRq63E4x3I08msTGMShcvAdEGFQwbgoSQLam6TY7qFtZnfrip
-         sZ2vdZz58OMVJtBV+LV7UtfH3hRj1TGjasngZ2KltASWY+0UFk1GkCFvbmMy1zh8VBMP
-         dPoAp8/Papp6e6Y9syxE5WTIn3EkF63IUFXhjOyvBnTk1EZXXSJ1zWN+ZFpLmyfRRgmV
-         zaZeW5clEklapwp4mQNAksAoChe6wCnp4zD6/sK7bIoELjiqOV1BWj7Fd7qq0A12wR59
-         YBj4xTZnnoKIwJpwtS8WL69eLi0TYKCyPQcOnDWAOzYthTaMGxq+z6P1knTVhENqAX1n
-         l+Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Nxij94IMFMsp61zYWJS5XKMycKfWOvntSLUdgR9Luec=;
-        b=WKOIYcuBrK2fD8MEWk/oiugOOKQO9mSFNU2vrmEzBp67S+Z3KyCZaNM/jw57PhZpQ5
-         12R4OAnMaFpgT7qzrS22YOI3xn4BLl0+SR9WWVbFz4NQ/Xq2bSplxjW4/zcrYjq8Laip
-         /GTL2X/Z1oFnGJh9+krKjxQyvVeLRNmT5xLmMezSMK6k6nnpsQVODnBcbMB7QZrW2GdQ
-         p+0uCizJk8J191jUaSpgmcxRCA6w/Un129Vco247P+2z0Ansl3WH5xOQj9Rqcq6ULi0z
-         RdEUm1cHqnemI4Rh1YutYPCWc7VghDhs4brYieohudBZ5sEb75NYA4RS1Vau18VLovy0
-         IWCQ==
-X-Gm-Message-State: AOAM531r6n23/tJPEkRilsO3eu03a4x7KOD5OFBUm0VbNpgtT/k1+8SI
-        Pyrpq8pmDLnybKR3vC+VgilHlw==
-X-Google-Smtp-Source: ABdhPJy5Njm66nMjE/L6HCMm1K6dzFQlD8FyCcfSndwd7kIwe0+i4mO9AXShjFboYjDIKB2XcsUlUA==
-X-Received: by 2002:a05:600c:4e8b:: with SMTP id f11mr4461550wmq.40.1622721157306;
-        Thu, 03 Jun 2021 04:52:37 -0700 (PDT)
-Received: from dell ([91.110.221.214])
-        by smtp.gmail.com with ESMTPSA id h9sm2479488wmb.35.2021.06.03.04.52.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 04:52:36 -0700 (PDT)
-Date:   Thu, 3 Jun 2021 12:52:34 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     linux-kernel@vger.kernel.org, Adam Jackson <ajax@redhat.com>,
-        Ajay Kumar <ajaykumar.rs@samsung.com>,
-        Akshu Agarwal <akshua@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        amd-gfx@lists.freedesktop.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Ben Widawsky <ben@bwidawsk.net>,
-        Chandan Uddaraju <chandanu@codeaurora.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
-        Fabien Dessenne <fabien.dessenne@st.com>,
-        freedreno@lists.freedesktop.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Huang Rui <ray.huang@amd.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Krishna Manikandan <mkrishn@codeaurora.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kuogee Hsieh <khsieh@codeaurora.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Rossi <issor.oruam@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        nouveau@lists.freedesktop.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Clark <robdclark@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Vincent Abriou <vincent.abriou@st.com>
-Subject: Re: [RESEND 00/26] Rid W=1 warnings from GPU
-Message-ID: <20210603115234.GA2435141@dell>
-References: <20210602143300.2330146-1-lee.jones@linaro.org>
- <YLi+KJrLjKbdXLxH@phenom.ffwll.local>
+        id S229871AbhFCMBm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Jun 2021 08:01:42 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:59819 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229747AbhFCMBl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Jun 2021 08:01:41 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id om0ulbl8qIpGyom0xlRZDb; Thu, 03 Jun 2021 13:59:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1622721596; bh=AW2E+LndgntmgXR1pFLfiiExeEpYWPk/nwb66rMkL2w=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=WIkzMd76ZCu7G05O6iUW+7lIKWQUmSYjUmgfM5X9pf74qwVUrRmacHhk5yaHk3kHU
+         YeNYwWBJtd7iceMLSWQVcsNhpAY8Dz0GYJ9jG98hDfONAFo72KeOrP9Rf3a9N6/PIn
+         H5ZBGMwocuuEXQFdusrTPnPh0urYyIeooir3NY/r/jWSKLi+JbCoxa9OPllAhdU+2a
+         vmrTSzJJBRM2cnFOe5lfFxyofhhFaEKB3bmQf5I1smURgYa1iT0exP6QQ2hb175Ucp
+         1/HlNy0rQ42CNduDlB1ib7jpZCysqYleziqzf4NgLvtzB6IFTkv/H5kATSG57pA1zy
+         Jj16zC8/LeFWw==
+Subject: Re: [PATCHv2 8/8] videobuf2: handle non-contiguous DMA allocations
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210427131344.139443-1-senozhatsky@chromium.org>
+ <20210427131344.139443-9-senozhatsky@chromium.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl>
+Date:   Thu, 3 Jun 2021 13:59:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210427131344.139443-9-senozhatsky@chromium.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YLi+KJrLjKbdXLxH@phenom.ffwll.local>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfAYrHzvBcPfqG8u2vhz38wm5UNvY+T0Kh1qffrhWzjCXtfvMc7zIYnsspn4igYy6pjzKkNJcTVO3trQVqVIt7NCE0c7LBA3n3z03efIFQ7hoYb8X55U5
+ 9c0eFcAwuESbmeHHwHmRSuyXiH5ujkA07a+sQRKBnZ+rUMPpBvure7nJSkDb4R3feqH/6rq+lZzB5blP4My99h8/DcaMSiOaFOOO7W5+AkmeGQS9vj+/Jylq
+ jjx/l94x2WJLAMa5yleBqXUT9T6n1uebmN/Mfyu9+fiTg7PivdSeeJIlPDHK8tvHq2ZwY3qwXnwlUrI/wyDCexLb1GzllLgAeow7QwCJ/ZPSKVR55ie3ovuE
+ 4B5/h453M6pO7ImfOMoKLQIhLCQgWYLG2Pus+w4pH5w7aOp+axQ=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 03 Jun 2021, Daniel Vetter wrote:
-
-> On Wed, Jun 02, 2021 at 03:32:34PM +0100, Lee Jones wrote:
-> > Some off these patches have been knocking around for a while.
-> > 
-> > Who will hoover them up please?
-> > 
-> > This set is part of a larger effort attempting to clean-up W=1
-> > kernel builds, which are currently overwhelmingly riddled with
-> > niggly little warnings.
-> > 
-> > Lee Jones (26):
-> >   drm/mediatek/mtk_disp_color: Strip incorrect doc and demote header
-> >   drm/mediatek/mtk_disp_gamma: Strip and demote non-conformant
-> >     kernel-doc header
-> >   drm/mediatek/mtk_disp_ovl: Strip and demote non-conformant header
-> >   drm/mediatek/mtk_disp_rdma: Strip and demote non-conformant kernel-doc
-> >     header
-> >   drm/sti/sti_hdmi_tx3g4c28phy: Provide function names for kernel-doc
-> >     headers
-> >   drm/sti/sti_hda: Provide missing function names
-> >   drm/sti/sti_tvout: Provide a bunch of missing function names
-> >   drm/sti/sti_hqvdp: Fix incorrectly named function 'sti_hqvdp_vtg_cb()'
-> >   drm/msm/disp/dpu1/dpu_encoder_phys_cmd: Remove unused variable
-> >     'cmd_enc'
-> >   drm/msm/disp/dpu1/dpu_hw_interrupts: Demote a bunch of kernel-doc
-> >     abuses
-> >   drm/msm/disp/dpu1/dpu_plane: Fix a couple of naming issues
-> >   drm/msm/msm_gem: Demote kernel-doc abuses
-> >   drm/msm/dp/dp_catalog: Correctly document param 'dp_catalog'
-> >   drm/msm/dp/dp_link: Fix some potential doc-rot
-> >   drm/nouveau/nvkm/subdev/mc/tu102: Make functions called by reference
-> >     static
-> >   drm/amd/display/dc/dce/dce_transform: Remove superfluous
-> >     re-initialisation of DCFE_MEM_LIGHT_SLEEP_CNTL,
-> >   drm/xlnx/zynqmp_disp: Fix incorrectly named enum
-> >     'zynqmp_disp_layer_id'
-> >   drm/xlnx/zynqmp_dp: Fix incorrectly name function 'zynqmp_dp_train()'
-> >   drm/ttm/ttm_tt: Demote non-conformant kernel-doc header
-> >   drm/panel/panel-raspberrypi-touchscreen: Demote kernel-doc abuse
-> >   drm/panel/panel-sitronix-st7701: Demote kernel-doc abuse
-> >   drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc
-> >     format
-> >   drm/exynos/exynos7_drm_decon: Fix incorrect naming of
-> >     'decon_shadow_protect_win()'
-> >   drm/exynos/exynos_drm_ipp: Fix documentation for
-> >     'exynos_drm_ipp_get_{caps,res}_ioctl()'
-> >   drm/vboxvideo/hgsmi_base: Place function names into headers
-> >   drm/vboxvideo/modesetting: Provide function names for prototype
-> >     headers
+On 27/04/2021 15:13, Sergey Senozhatsky wrote:
+> This adds support for new noncontiguous DMA API, which
+> requires allocators to have two execution branches: one
+> for the current API, and one for the new one.
 > 
-> Except for msm (Rob Clark promised on irc he'll pick them up for 5.14
-> soon) and amd (Alex is on top of things I think) I picked them all up and
-> merged into drm-misc-next.
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> [hch: untested conversion to the ne API]
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  .../common/videobuf2/videobuf2-dma-contig.c   | 140 +++++++++++++++---
+>  1 file changed, 116 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 1e218bc440c6..40eaaef1565b 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/sched.h>
+>  #include <linux/slab.h>
+>  #include <linux/dma-mapping.h>
+> +#include <linux/highmem.h>
+>  
+>  #include <media/videobuf2-v4l2.h>
+>  #include <media/videobuf2-dma-contig.h>
+> @@ -42,6 +43,7 @@ struct vb2_dc_buf {
+>  	struct dma_buf_attachment	*db_attach;
+>  
+>  	struct vb2_buffer		*vb;
+> +	bool				coherent_mem;
+>  };
+>  
+>  /*********************************************/
+> @@ -78,14 +80,22 @@ static void *vb2_dc_cookie(struct vb2_buffer *vb, void *buf_priv)
+>  static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
+>  {
+>  	struct vb2_dc_buf *buf = buf_priv;
+> -	struct dma_buf_map map;
+> -	int ret;
+>  
+> -	if (!buf->vaddr && buf->db_attach) {
+> -		ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
+> -		buf->vaddr = ret ? NULL : map.vaddr;
+> +	if (buf->vaddr)
+> +		return buf->vaddr;
+> +
+> +	if (buf->db_attach) {
+> +		struct dma_buf_map map;
+> +
+> +		if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
+> +			buf->vaddr = map.vaddr;
+> +
+> +		return buf->vaddr;
+>  	}
+>  
+> +	/* Non-coherent memory */
+> +	buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size, buf->dma_sgt);
+> +
 
-Superstar!  Thanks Daniel.
+This function can use some comments. What is happening AFAICS is that
+buf->vaddr is either set in vb2_dc_alloc_coherent (unless
+DMA_ATTR_NO_KERNEL_MAPPING was set), it is obtained through dma_buf_vmap()
+if the buffer was attached to a dma_buf, or it is allocated via
+dma_vmap_noncontiguous() for non-coherent memory.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+But this leaves coherent memory with DMA_ATTR_NO_KERNEL_MAPPING set, what
+is vaddr in that case? I think it will call dma_vmap_noncontiguous()
+incorrectly in that case, shouldn't there be a check for !buf->coherent_mem
+before the call to dma_vmap_noncontiguous()?
+
+It's quite confusing since vaddr can be set in different functions.
+
+>  	return buf->vaddr;
+>  }
+>  
+> @@ -101,13 +111,26 @@ static void vb2_dc_prepare(void *buf_priv)
+>  	struct vb2_dc_buf *buf = buf_priv;
+>  	struct sg_table *sgt = buf->dma_sgt;
+>  
+> +	/* This takes care of DMABUF and user-enforced cache sync hint */
+>  	if (buf->vb->skip_cache_sync_on_prepare)
+>  		return;
+>  
+> +	/*
+> +	 * Coherent MMAP buffers do not need to be synced, unlike USERPTR
+> +	 * and non-coherent MMAP buffers.
+> +	 */
+> +	if (buf->vb->memory == V4L2_MEMORY_MMAP && buf->coherent_mem)
+> +		return;
+> +
+>  	if (!sgt)
+>  		return;
+>  
+> +	/* For both USERPTR and non-coherent MMAP */
+>  	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+> +
+> +	/* Non-coherent MMAP only */
+> +	if (!buf->coherent_mem && buf->vaddr)
+> +		flush_kernel_vmap_range(buf->vaddr, buf->size);
+>  }
+>  
+>  static void vb2_dc_finish(void *buf_priv)
+> @@ -115,19 +138,46 @@ static void vb2_dc_finish(void *buf_priv)
+>  	struct vb2_dc_buf *buf = buf_priv;
+>  	struct sg_table *sgt = buf->dma_sgt;
+>  
+> +	/* This takes care of DMABUF and user-enforced cache sync hint */
+>  	if (buf->vb->skip_cache_sync_on_finish)
+>  		return;
+>  
+> +	/*
+> +	 * Coherent MMAP buffers do not need to be synced, unlike USERPTR
+> +	 * and non-coherent MMAP buffers.
+> +	 */
+> +	if (buf->vb->memory == V4L2_MEMORY_MMAP && buf->coherent_mem)
+> +		return;
+> +
+>  	if (!sgt)
+>  		return;
+>  
+> +	/* For both USERPTR and non-coherent MMAP */
+>  	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+> +
+> +	/* Non-coherent MMAP only */
+> +	if (!buf->coherent_mem && buf->vaddr)
+> +		invalidate_kernel_vmap_range(buf->vaddr, buf->size);
+>  }
+>  
+>  /*********************************************/
+>  /*        callbacks for MMAP buffers         */
+>  /*********************************************/
+>  
+> +static void __vb2_dc_put(struct vb2_dc_buf *buf)
+> +{
+> +	if (buf->coherent_mem) {
+> +		dma_free_attrs(buf->dev, buf->size, buf->cookie,
+> +			       buf->dma_addr, buf->attrs);
+> +		return;
+> +	}
+> +
+> +	if (buf->vaddr)
+> +		dma_vunmap_noncontiguous(buf->dev, buf->vaddr);
+> +	dma_free_noncontiguous(buf->dev, buf->size,
+> +			       buf->dma_sgt, buf->dma_addr);
+> +}
+
+Is there a reason for creating __vb2_dc_put()? I found it more
+a hindrance when reviewing than an advantage. I prefer to have
+it moved to vb2_dc_put, that way all the clean up happens in that
+single function.
+
+> +
+>  static void vb2_dc_put(void *buf_priv)
+>  {
+>  	struct vb2_dc_buf *buf = buf_priv;
+> @@ -139,17 +189,52 @@ static void vb2_dc_put(void *buf_priv)
+>  		sg_free_table(buf->sgt_base);
+>  		kfree(buf->sgt_base);
+>  	}
+> -	dma_free_attrs(buf->dev, buf->size, buf->cookie, buf->dma_addr,
+> -		       buf->attrs);
+> +	__vb2_dc_put(buf);
+>  	put_device(buf->dev);
+>  	kfree(buf);
+>  }
+>  
+> +static int vb2_dc_alloc_coherent(struct vb2_dc_buf *buf)
+> +{
+> +	struct vb2_queue *q = buf->vb->vb2_queue;
+> +
+> +	buf->cookie = dma_alloc_attrs(buf->dev,
+> +				      buf->size,
+> +				      &buf->dma_addr,
+> +				      GFP_KERNEL | q->gfp_flags,
+> +				      buf->attrs);
+> +	if (!buf->cookie)
+> +		return -ENOMEM;
+> +	if ((q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
+> +		buf->vaddr = buf->cookie;
+> +	return 0;
+> +}
+> +
+> +static int vb2_dc_alloc_non_coherent(struct vb2_dc_buf *buf)
+> +{
+> +	struct vb2_queue *q = buf->vb->vb2_queue;
+> +
+> +	buf->dma_sgt = dma_alloc_noncontiguous(buf->dev,
+> +					       buf->size,
+> +					       buf->dma_dir,
+> +					       GFP_KERNEL | q->gfp_flags,
+> +					       buf->attrs);
+> +	if (!buf->dma_sgt)
+> +		return -ENOMEM;
+> +	/*
+> +	 * For requests that need kernel mapping (DMA_ATTR_NO_KERNEL_MAPPING
+
+I'm confused about this comment: DMA_ATTR_NO_KERNEL_MAPPING is only checked
+in vb2_dc_alloc_coherent(), so is this comment valid?
+
+> +	 * bit is cleared) we perform dma_vmap_noncontiguous() later, in
+> +	 * vb2_dc_vadd().
+
+Typo: vb2_dc_vadd -> vb2_dc_vaddr
+
+> +	 */
+
+So this leaves buf->vaddr to NULL.
+
+Is it possible that after allocating the buffer, the buffer is exported as a
+dma_buf and another device calls dma_buf_ops vb2_dc_dmabuf_ops_vmap, which
+in turn calls dma_buf_map_set_vaddr(map, buf->vaddr); with a NULL buf->vaddr?
+
+I may be barking up the wrong tree here, to really understand it I would have
+to spend more time.
+
+> +	return 0;
+> +}
+> +
+>  static void *vb2_dc_alloc(struct vb2_buffer *vb,
+>  			  struct device *dev,
+>  			  unsigned long size)
+>  {
+>  	struct vb2_dc_buf *buf;
+> +	int ret;
+>  
+>  	if (WARN_ON(!dev))
+>  		return ERR_PTR(-EINVAL);
+> @@ -159,27 +244,28 @@ static void *vb2_dc_alloc(struct vb2_buffer *vb,
+>  		return ERR_PTR(-ENOMEM);
+>  
+>  	buf->attrs = vb->vb2_queue->dma_attrs;
+> -	buf->cookie = dma_alloc_attrs(dev, size, &buf->dma_addr,
+> -				      GFP_KERNEL | vb->vb2_queue->gfp_flags,
+> -				      buf->attrs);
+> -	if (!buf->cookie) {
+> -		dev_err(dev, "dma_alloc_coherent of size %ld failed\n", size);
+> -		kfree(buf);
+> -		return ERR_PTR(-ENOMEM);
+> -	}
+> -
+> -	if ((buf->attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
+> -		buf->vaddr = buf->cookie;
+> +	buf->dma_dir = vb->vb2_queue->dma_dir;
+> +	buf->vb = vb;
+> +	buf->coherent_mem = vb->vb2_queue->coherent_mem;
+>  
+> +	buf->size = size;
+>  	/* Prevent the device from being released while the buffer is used */
+>  	buf->dev = get_device(dev);
+> -	buf->size = size;
+> -	buf->dma_dir = vb->vb2_queue->dma_dir;
+> +
+> +	if (buf->coherent_mem)
+> +		ret = vb2_dc_alloc_coherent(buf);
+> +	else
+> +		ret = vb2_dc_alloc_non_coherent(buf);
+> +
+> +	if (ret) {
+> +		dev_err(dev, "dma alloc of size %ld failed\n", size);
+> +		kfree(buf);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+>  
+>  	buf->handler.refcount = &buf->refcount;
+>  	buf->handler.put = vb2_dc_put;
+>  	buf->handler.arg = buf;
+> -	buf->vb = vb;
+>  
+>  	refcount_set(&buf->refcount, 1);
+>  
+> @@ -196,9 +282,12 @@ static int vb2_dc_mmap(void *buf_priv, struct vm_area_struct *vma)
+>  		return -EINVAL;
+>  	}
+>  
+> -	ret = dma_mmap_attrs(buf->dev, vma, buf->cookie,
+> -		buf->dma_addr, buf->size, buf->attrs);
+> -
+> +	if (buf->coherent_mem)
+> +		ret = dma_mmap_attrs(buf->dev, vma, buf->cookie, buf->dma_addr,
+> +				     buf->size, buf->attrs);
+> +	else
+> +		ret = dma_mmap_noncontiguous(buf->dev, vma, buf->size,
+> +					     buf->dma_sgt);
+>  	if (ret) {
+>  		pr_err("Remapping memory failed, error: %d\n", ret);
+>  		return ret;
+> @@ -390,6 +479,9 @@ static struct sg_table *vb2_dc_get_base_sgt(struct vb2_dc_buf *buf)
+>  	int ret;
+>  	struct sg_table *sgt;
+>  
+> +	if (!buf->coherent_mem)
+> +		return buf->dma_sgt;
+> +
+>  	sgt = kmalloc(sizeof(*sgt), GFP_KERNEL);
+>  	if (!sgt) {
+>  		dev_err(buf->dev, "failed to alloc sg table\n");
+> 
+
+Regards,
+
+	Hans
