@@ -2,79 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2478399BEA
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 09:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3EAA399C4F
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 10:16:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbhFCHtx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Jun 2021 03:49:53 -0400
-Received: from foss.arm.com ([217.140.110.172]:34558 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229635AbhFCHtw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Jun 2021 03:49:52 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B27D11FB;
-        Thu,  3 Jun 2021 00:48:08 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3F32B3F774;
-        Thu,  3 Jun 2021 00:48:06 -0700 (PDT)
-Subject: Re: [PATCH 03/11] drm/panfrost: Use xarray and helpers for depedency
- tracking
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Daniel Vetter <daniel.vetter@intel.com>
-References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
- <20210521090959.1663703-3-daniel.vetter@ffwll.ch>
- <2054fee7-dcd2-a4fa-5d50-7fe6f1b474be@arm.com>
- <YLfTGbb52KtbPk7q@phenom.ffwll.local>
-From:   Steven Price <steven.price@arm.com>
-Message-ID: <e9081dec-0225-a24d-261c-3ab750b29614@arm.com>
-Date:   Thu, 3 Jun 2021 08:48:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229718AbhFCISH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Jun 2021 04:18:07 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:52622 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229506AbhFCISG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 04:18:06 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 1538G9Em086091;
+        Thu, 3 Jun 2021 03:16:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1622708169;
+        bh=5wwte9CRzT+YNJ2vP9j/C62EmP//YgO8AMYtKlKvqDc=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=cFlU62NDbrQ7UvVXWMaEKMDFSa9srdP5LtFjdFAn+YemRMpnOwlSBLhmGz/WmY+Ja
+         XAszj0auUyk2UXjK1pWyRB9TkAyqkXcU+D7K2m/lptnckNV/VqLHCixG0+fbQIFIZn
+         XMuerxx7nhepSUKJIc5szuXqWA+xOoj0cfkmJXjc=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 1538G9pw074737
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 3 Jun 2021 03:16:09 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 3 Jun
+ 2021 03:16:09 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Thu, 3 Jun 2021 03:16:08 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 1538G80x052919;
+        Thu, 3 Jun 2021 03:16:08 -0500
+Date:   Thu, 3 Jun 2021 13:46:07 +0530
+From:   Pratyush Yadav <p.yadav@ti.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <dmaengine@vger.kernel.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 17/18] phy: dt-bindings: cdns,dphy: make clocks
+ optional
+Message-ID: <20210603081605.v7b5peuqjbsivmzb@ti.com>
+References: <20210526152308.16525-1-p.yadav@ti.com>
+ <20210526152308.16525-18-p.yadav@ti.com>
+ <20210602132728.5lv5n2mgap2o7eyx@gilmour>
 MIME-Version: 1.0
-In-Reply-To: <YLfTGbb52KtbPk7q@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20210602132728.5lv5n2mgap2o7eyx@gilmour>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/06/2021 19:51, Daniel Vetter wrote:
-> On Wed, Jun 02, 2021 at 03:06:50PM +0100, Steven Price wrote:
->> On 21/05/2021 10:09, Daniel Vetter wrote:
-[...]
->>> +	if (!xa_empty(&job->deps))
->>> +		return xa_erase(&job->deps, job->last_dep++);
->>
->> Rather than tracking last_dep separately this could be written using
->> xa_find():
->>
->>     if (xa_find(&job->deps, &i, ULONG_MAX, XA_PRESENT))
->> 	return xa_erase(&job->deps, &i);
+On 02/06/21 03:27PM, Maxime Ripard wrote:
+> Hi,
 > 
-> I copypasted this from other drivers, imo consistency is better than
-> looking pretty. I think eventually we should stuff this as optional
-> helpers into drm/scheduler.
+> On Wed, May 26, 2021 at 08:53:07PM +0530, Pratyush Yadav wrote:
+> > The clocks are not used by the DPHY when used in Rx mode so make them
+> > optional.
+> > 
+> > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> > 
+> > ---
+> > 
+> > Changes in v2:
+> > - Re-order subject prefixes.
+> > 
+> >  Documentation/devicetree/bindings/phy/cdns,dphy.yaml | 2 --
+> >  1 file changed, 2 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/phy/cdns,dphy.yaml b/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
+> > index b90a58773bf2..3bb5be05e825 100644
+> > --- a/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
+> > +++ b/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
+> > @@ -33,8 +33,6 @@ properties:
+> >  required:
+> >    - compatible
+> >    - reg
+> > -  - clocks
+> > -  - clock-names
 > 
-> Also yours walks the xa twice.
+> As far as I can remember from the cadence documentation, those clocks
+> were required. I guess this is the integration that provides a few fixed
+> clocks?
 
-Agreed this isn't as efficient (I was somewhat disappointed xarray
-doesn't expose a "get and remove the first element" API). Moving this
-into drm/scheduler seems like the right long term solution - so matching
-other drivers first is a good move.
+Yes. The clock divider/frequency has been set via the DPHY pins so no 
+need to set them via software.
 
-Thanks,
-
-Steve
+-- 
+Regards,
+Pratyush Yadav
+Texas Instruments Inc.
