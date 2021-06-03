@@ -2,396 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA39339A0C0
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 14:24:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78B4D39A123
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 14:35:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229944AbhFCMZ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Jun 2021 08:25:58 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:44618 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229747AbhFCMZ5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 08:25:57 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 153CO0qS093714;
-        Thu, 3 Jun 2021 07:24:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1622723040;
-        bh=ai1clPbxvAZw8thc0Ws/5DLpv7Z63ynOCpq+k0vWHJ0=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=qiW1o0OinAOjZCA+tAlPiuxEAqh6/Gb0NxwWGp9stR39YdbRVheFCit7ODLKxWa51
-         1dpsxqC0X5jKwgrSTD0ouiSZ0EqiZ+yrNGc9DN9BNvhF//Lp+BX215uRC5u7wnPk0d
-         I1i/Qwtla96Kop2tx8AAfcl5DBjkEFbh0ByNZz/E=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 153CO0rS093633
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 3 Jun 2021 07:24:00 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 3 Jun
- 2021 07:24:00 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Thu, 3 Jun 2021 07:24:00 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 153CNxRY026458;
-        Thu, 3 Jun 2021 07:23:59 -0500
-Date:   Thu, 3 Jun 2021 17:53:58 +0530
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <dmaengine@vger.kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 15/18] media: dt-bindings: Convert Cadence CSI2RX
- binding to YAML
-Message-ID: <20210603122356.7tsjb3rfmpr4p7k6@ti.com>
-References: <20210526152308.16525-1-p.yadav@ti.com>
- <20210526152308.16525-16-p.yadav@ti.com>
- <20210601174519.GA666193@robh.at.kernel.org>
+        id S230272AbhFCMgr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Jun 2021 08:36:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46692 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230131AbhFCMgq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 08:36:46 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEA3C06174A
+        for <linux-media@vger.kernel.org>; Thu,  3 Jun 2021 05:35:01 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62EA5EF;
+        Thu,  3 Jun 2021 14:34:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1622723699;
+        bh=onUa2iH+tMw4evUZL7Xjj7ms/k5ag5WQdNG+bLSFEX4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KUgEmSe8e299vmclnx3lLykffZ+PpPo/nnFTdTo7A6gV7pKlEbOTSEHPRit5SDXjF
+         bGeK9zGudc32PKn8vGMHsFWqJeqes9EAI0sYXTPxGrwhvkYhwVZ5qQjiZ61cfZXT5D
+         C61JvOkBmn1E3n+8R2GpXnTN2qf4mUx4EWVgiucA=
+Date:   Thu, 3 Jun 2021 15:34:46 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Tony Lindgren <tony@atomide.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCHv3 1/6] drm: drm_bridge: add connector_attach/detach
+ bridge ops
+Message-ID: <YLjMZiX71mcQNQdO@pendragon.ideasonboard.com>
+References: <20210428132545.1205162-1-hverkuil-cisco@xs4all.nl>
+ <20210428132545.1205162-2-hverkuil-cisco@xs4all.nl>
+ <bcf1d476-216f-db51-840e-7cda58585b5b@ideasonboard.com>
+ <c3d0a979-ba34-6432-8832-1103c62cd1fd@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210601174519.GA666193@robh.at.kernel.org>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <c3d0a979-ba34-6432-8832-1103c62cd1fd@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/06/21 12:45PM, Rob Herring wrote:
-> On Wed, May 26, 2021 at 08:53:05PM +0530, Pratyush Yadav wrote:
-> > Convert the Cadence CSI2RX binding to use YAML schema.
-> > 
-> > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> > 
-> > ---
-> > 
-> > Changes in v2:
-> > - New in v2.
-> > 
-> >  .../devicetree/bindings/media/cdns,csi2rx.txt | 100 -----------
-> >  .../bindings/media/cdns,csi2rx.yaml           | 164 ++++++++++++++++++
-> >  2 files changed, 164 insertions(+), 100 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-> >  create mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt b/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-> > deleted file mode 100644
-> > index 6b02a0657ad9..000000000000
-> > --- a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-> > +++ /dev/null
-> > @@ -1,100 +0,0 @@
-> > -Cadence MIPI-CSI2 RX controller
-> > -===============================
-> > -
-> > -The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
-> > -lanes in input, and 4 different pixel streams in output.
-> > -
-> > -Required properties:
-> > -  - compatible: must be set to "cdns,csi2rx" and an SoC-specific compatible
-> > -  - reg: base address and size of the memory mapped region
-> > -  - clocks: phandles to the clocks driving the controller
-> > -  - clock-names: must contain:
-> > -    * sys_clk: main clock
-> > -    * p_clk: register bank clock
-> > -    * pixel_if[0-3]_clk: pixel stream output clock, one for each stream
-> > -                         implemented in hardware, between 0 and 3
-> > -
-> > -Optional properties:
-> > -  - phys: phandle to the external D-PHY, phy-names must be provided
-> > -  - phy-names: must contain "dphy", if the implementation uses an
-> > -               external D-PHY
-> > -
-> > -Required subnodes:
-> > -  - ports: A ports node with one port child node per device input and output
-> > -           port, in accordance with the video interface bindings defined in
-> > -           Documentation/devicetree/bindings/media/video-interfaces.txt. The
-> > -           port nodes are numbered as follows:
-> > -
-> > -           Port Description
-> > -           -----------------------------
-> > -           0    CSI-2 input
-> > -           1    Stream 0 output
-> > -           2    Stream 1 output
-> > -           3    Stream 2 output
-> > -           4    Stream 3 output
-> > -
-> > -           The stream output port nodes are optional if they are not
-> > -           connected to anything at the hardware level or implemented
-> > -           in the design.Since there is only one endpoint per port,
-> > -           the endpoints are not numbered.
-> > -
-> > -
-> > -Example:
-> > -
-> > -csi2rx: csi-bridge@0d060000 {
-> > -	compatible = "cdns,csi2rx";
-> > -	reg = <0x0d060000 0x1000>;
-> > -	clocks = <&byteclock>, <&byteclock>
-> > -		 <&coreclock>, <&coreclock>,
-> > -		 <&coreclock>, <&coreclock>;
-> > -	clock-names = "sys_clk", "p_clk",
-> > -		      "pixel_if0_clk", "pixel_if1_clk",
-> > -		      "pixel_if2_clk", "pixel_if3_clk";
-> > -
-> > -	ports {
-> > -		#address-cells = <1>;
-> > -		#size-cells = <0>;
-> > -
-> > -		port@0 {
-> > -			reg = <0>;
-> > -
-> > -			csi2rx_in_sensor: endpoint {
-> > -				remote-endpoint = <&sensor_out_csi2rx>;
-> > -				clock-lanes = <0>;
-> > -				data-lanes = <1 2>;
-> > -			};
-> > -		};
-> > -
-> > -		port@1 {
-> > -			reg = <1>;
-> > -
-> > -			csi2rx_out_grabber0: endpoint {
-> > -				remote-endpoint = <&grabber0_in_csi2rx>;
-> > -			};
-> > -		};
-> > -
-> > -		port@2 {
-> > -			reg = <2>;
-> > -
-> > -			csi2rx_out_grabber1: endpoint {
-> > -				remote-endpoint = <&grabber1_in_csi2rx>;
-> > -			};
-> > -		};
-> > -
-> > -		port@3 {
-> > -			reg = <3>;
-> > -
-> > -			csi2rx_out_grabber2: endpoint {
-> > -				remote-endpoint = <&grabber2_in_csi2rx>;
-> > -			};
-> > -		};
-> > -
-> > -		port@4 {
-> > -			reg = <4>;
-> > -
-> > -			csi2rx_out_grabber3: endpoint {
-> > -				remote-endpoint = <&grabber3_in_csi2rx>;
-> > -			};
-> > -		};
-> > -	};
-> > -};
-> > diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> > new file mode 100644
-> > index 000000000000..ff5dd4211ac9
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> > @@ -0,0 +1,164 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Cadence MIPI-CSI2 RX controller
-> > +
-> > +description: |
-> > +  The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
-> > +  lanes in input, and 4 different pixel streams in output.
-> > +
-> > +maintainers:
-> > +  - Pratyush Yadav <p.yadav@ti.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - const: cdns,csi2rx
-> 
-> Since there has to be an SoC specific compatible, this should be:
-> 
-> compatible:
->   contains:
->     const: cdns,csi2rx
+Hi Hans,
 
-Ok.
-
+On Thu, May 27, 2021 at 09:22:12AM +0200, Hans Verkuil wrote:
+> On 04/05/2021 10:26, Tomi Valkeinen wrote:
+> > On 28/04/2021 16:25, Hans Verkuil wrote:
+> >> Add bridge connector_attach/detach ops. These ops are called when a
+> >> bridge is attached or detached to a drm_connector. These ops can be
+> >> used to register and unregister an HDMI CEC adapter for a bridge that
+> >> supports CEC.
+> >>
+> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> >> ---
+> >>   drivers/gpu/drm/drm_bridge_connector.c | 25 +++++++++++++++++++++++-
+> >>   include/drm/drm_bridge.h               | 27 ++++++++++++++++++++++++++
+> >>   2 files changed, 51 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+> >> index 791379816837..0676677badfe 100644
+> >> --- a/drivers/gpu/drm/drm_bridge_connector.c
+> >> +++ b/drivers/gpu/drm/drm_bridge_connector.c
+> >> @@ -203,6 +203,11 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
+> >>   {
+> >>   	struct drm_bridge_connector *bridge_connector =
+> >>   		to_drm_bridge_connector(connector);
+> >> +	struct drm_bridge *bridge;
+> >> +
+> >> +	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge)
+> >> +		if (bridge->funcs->connector_detach)
+> >> +			bridge->funcs->connector_detach(bridge, connector);
+> >>   
+> >>   	if (bridge_connector->bridge_hpd) {
+> >>   		struct drm_bridge *hpd = bridge_connector->bridge_hpd;
+> >> @@ -318,6 +323,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+> >>   	struct i2c_adapter *ddc = NULL;
+> >>   	struct drm_bridge *bridge;
+> >>   	int connector_type;
+> >> +	int ret;
+> >>   
+> >>   	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
+> >>   	if (!bridge_connector)
+> >> @@ -375,6 +381,23 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+> >>   		connector->polled = DRM_CONNECTOR_POLL_CONNECT
+> >>   				  | DRM_CONNECTOR_POLL_DISCONNECT;
+> >>   
+> >> -	return connector;
+> >> +	ret = 0;
+> >> +	/* call connector_attach for all bridges */
+> >> +	drm_for_each_bridge_in_chain(encoder, bridge) {
+> >> +		if (!bridge->funcs->connector_attach)
+> >> +			continue;
+> >> +		ret = bridge->funcs->connector_attach(bridge, connector);
+> >> +		if (ret)
+> >> +			break;
+> >> +	}
+> >> +	if (!ret)
+> >> +		return connector;
+> >> +
+> >> +	/* on error, detach any previously successfully attached connectors */
+> >> +	list_for_each_entry_continue_reverse(bridge, &(encoder)->bridge_chain,
+> > 
+> > No need for parenthesis in (encoder) here.
+> > 
+> >> +					     chain_node)
+> >> +		if (bridge->funcs->connector_detach)
+> >> +			bridge->funcs->connector_detach(bridge, connector);
+> >> +	return ERR_PTR(ret);
+> >>   }
+> >>   EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
+> >> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> >> index 2195daa289d2..333fbc3a03e9 100644
+> >> --- a/include/drm/drm_bridge.h
+> >> +++ b/include/drm/drm_bridge.h
+> >> @@ -629,6 +629,33 @@ struct drm_bridge_funcs {
+> >>   	 * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
+> >>   	 */
+> >>   	void (*hpd_disable)(struct drm_bridge *bridge);
+> >> +
+> >> +	/**
+> >> +	 * @connector_attach:
+> >> +	 *
+> >> +	 * This callback is invoked whenever our bridge is being attached to a
+> >> +	 * &drm_connector. This is where an HDMI CEC adapter can be registered.
+> >> +	 *
+> >> +	 * The @connector_attach callback is optional.
+> >> +	 *
+> >> +	 * RETURNS:
+> >> +	 *
+> >> +	 * Zero on success, error code on failure.
+> >> +	 */
+> >> +	int (*connector_attach)(struct drm_bridge *bridge,
+> >> +				struct drm_connector *conn);
+> >> +
+> >> +	/**
+> >> +	 * @connector_detach:
+> >> +	 *
+> >> +	 * This callback is invoked whenever our bridge is being detached from a
+> >> +	 * &drm_connector. This is where an HDMI CEC adapter can be
+> >> +	 * unregistered.
+> >> +	 *
+> >> +	 * The @connector_detach callback is optional.
+> >> +	 */
+> >> +	void (*connector_detach)(struct drm_bridge *bridge,
+> >> +				 struct drm_connector *conn);
+> >>   };
+> >>   
+> >>   /**
+> >>
+> > 
+> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > 
+> > I can take this series as it's mostly omapdrm, but we'll need a 
+> > reviewed-by/acked-by from a maintainer for this patch.
 > 
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    minItems: 3
-> > +    maxItems: 6
-> > +
-> > +  clock-names:
-> > +    minItems: 3
-> > +    maxItems: 6
-> > +    items:
-> > +      - const: sys_clk # main clock
-> > +      - const: p_clk # register bank clock
-> > +      - const: pixel_if0_clk # pixel stream 0 output clock
-> > +      - const: pixel_if1_clk # pixel stream 1 output clock
-> > +      - const: pixel_if2_clk # pixel stream 2 output clock
-> > +      - const: pixel_if3_clk # pixel stream 3 output clock
-> > +
-> > +  phys:
-> > +    maxItems: 1
-> > +    description: phandle to the external D-PHY
-> > +
-> > +  phy-names:
-> > +    items:
-> > +      - const: dphy
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description: CSI-2 input
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              clock-lanes:
-> > +                maxItems: 1
-> > +
-> > +              data-lanes:
-> > +                maxItems: 1
-> 
-> If there's only 1 lane, are you assigning between clock and data lanes? 
-> If not, then there's no mapping needed.
+> Laurent, aren't you the drm bridge maintainer?
 
-There can be 4 data lanes, so my first thought after reading your 
-message was that this should have minItems: 1 and maxItems: 4. I 
-wondered why dt_binding_check never picked this up because the example 
-uses 2 data lanes.
+I'm merely a reviewer, but one without much free time these days :-(
 
-I went and looked at it a bit more. It seems like maxItems: 1 is the 
-right thing to do. There will only be one element in the data-lanes 
-property. The list of data lanes is a tuple with multiple members like: 
-data-lanes = <1 2 3>. So we need a way to add constraints on the members 
-of a tuple. I am not sure how that can be done. I need to learn more 
-about JSON schema I guess (any hints welcome though ;-)
+> If so, can you review/ack this patch so Tomi can merge it?
 
-> 
-> > +
-> > +            required:
-> > +              - clock-lanes
-> > +              - data-lanes
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Stream 0 output
-> > +
-> > +      port@2:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Stream 1 output
-> > +
-> > +      port@3:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Stream 2 output
-> > +
-> > +      port@4:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Stream 3 output
-> > +
-> > +    required:
-> > +      - port@0
-> > +
-> > +
-> > +dependencies:
-> > +  phys: [ 'phy-names' ]
-> > +  phy-names: [ 'phys' ]
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    csi2rx: csi-bridge@d060000 {
-> > +      compatible = "cdns,csi2rx";
-> > +      reg = <0x0d060000 0x1000>;
-> > +      clocks = <&byteclock>, <&byteclock>,
-> > +        <&coreclock>, <&coreclock>,
-> > +        <&coreclock>, <&coreclock>;
-> > +      clock-names = "sys_clk", "p_clk",
-> > +              "pixel_if0_clk", "pixel_if1_clk",
-> > +              "pixel_if2_clk", "pixel_if3_clk";
-> > +      phys = <&dphy0>;
-> > +      phy-names = "dphy";
-> > +
-> > +      ports {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        port@0 {
-> > +          reg = <0>;
-> > +
-> > +          csi2rx_in_sensor: endpoint {
-> > +            remote-endpoint = <&sensor_out_csi2rx>;
-> > +            clock-lanes = <0>;
-> > +            data-lanes = <1 2>;
-> > +          };
-> > +        };
-> > +
-> > +        port@1 {
-> > +          reg = <1>;
-> > +
-> > +          csi2rx_out_grabber0: endpoint {
-> > +            remote-endpoint = <&grabber0_in_csi2rx>;
-> > +          };
-> > +        };
-> > +
-> > +        port@2 {
-> > +          reg = <2>;
-> > +
-> > +          csi2rx_out_grabber1: endpoint {
-> > +            remote-endpoint = <&grabber1_in_csi2rx>;
-> > +          };
-> > +        };
-> > +
-> > +        port@3 {
-> > +          reg = <3>;
-> > +
-> > +          csi2rx_out_grabber2: endpoint {
-> > +            remote-endpoint = <&grabber2_in_csi2rx>;
-> > +          };
-> > +        };
-> > +
-> > +        port@4 {
-> > +          reg = <4>;
-> > +
-> > +          csi2rx_out_grabber3: endpoint {
-> > +            remote-endpoint = <&grabber3_in_csi2rx>;
-> > +          };
-> > +        };
-> > +      };
-> > +    };
-> > -- 
-> > 2.30.0
+Overall, I'm not fond of giving access to the connector to individual
+bridges. It breaks the abstraction layers, and seems to be a bit of a
+hack. On the other hand, a proper solution would likely involve lots of
+work, so I'm not rejecting this, but I fear these operations will be
+abused and we'll regret it later.
 
 -- 
 Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+
+Laurent Pinchart
