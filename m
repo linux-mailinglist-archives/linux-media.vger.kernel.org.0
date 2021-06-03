@@ -2,926 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8F51399D22
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 10:51:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7C4F399D95
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 11:19:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229894AbhFCIxc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Jun 2021 04:53:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54268 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229774AbhFCIxc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 04:53:32 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF5AFC061756
-        for <linux-media@vger.kernel.org>; Thu,  3 Jun 2021 01:51:47 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id jt22so8077602ejb.7
-        for <linux-media@vger.kernel.org>; Thu, 03 Jun 2021 01:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=NnBJzuMRU1ena3ZILIuXFWIpnH5uEG60vFcd3Ivc7h0=;
-        b=Rg4jls0Jz7o9+tQzndkJRKdtyVegU60pdRaYLZGH4L4QRDkw/aSXt2CymGO1lxUU4p
-         XG/xLOEIH/I9LCy5O5QUs/q4lBQZXkmV74c2SeK2ntyZE9PLB0BeBnvah9LnwsuBGgpp
-         Pdj2hhOym1BPVHB6CYFfRCIKzSBrTG7u45xzQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=NnBJzuMRU1ena3ZILIuXFWIpnH5uEG60vFcd3Ivc7h0=;
-        b=cdFvA+ecuPD5ynteXvMAhbTotJZsjdZxpi0SBb1iuCZGaGcZ6GBp3j6kzbFAbDeMjB
-         RPPp2cWK2i/rJuXEiwVgu6LL6ptTJtd9fmQfCoOkSF74ct4FtcxUFJNQYFAKbdDCTD8M
-         8MaVyqSgFyH6555KPcW2ph7SgXj+NcP7911WxwmNvS7EXYT9VF04e1UF4kOEBtUB6jAH
-         nRupxoSEhjuxBjnGuACv06gOBSkkqB2YJWRyjgQXDIKgY55aciZe6Og/CSJJfMm9SNpJ
-         jMx72cYSOXp9tW2amCALQuZyAgDv6fU+jlWXBgvt5/9+VD8A5weIlnQrOmFEMYAEjhgx
-         F40A==
-X-Gm-Message-State: AOAM531kfLbuA6vudbdyiwbF1hqES11DDiOxb+iQVqL7P8Lb1JiHbLUi
-        t/QyK7SsvMwQz2PaoBQv6uQHwA==
-X-Google-Smtp-Source: ABdhPJyCqLh2mdh4CbYXxDs1TBYv7xofgnEiI2L1s7ae+K991zUd5FPgzyEuyZ2Qt1VBTjYqs2ulIw==
-X-Received: by 2002:a17:907:e86:: with SMTP id ho6mr30734478ejc.333.1622710305995;
-        Thu, 03 Jun 2021 01:51:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id f3sm1389932eds.59.2021.06.03.01.51.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 01:51:45 -0700 (PDT)
-Date:   Thu, 3 Jun 2021 10:51:43 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Hridya Valsaraju <hridya@google.com>
-Cc:     daniel@ffwll.ch, Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-doc@vger.kernel.org, kernel-team@android.com,
-        john.stultz@linaro.org, surenb@google.com,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5] dmabuf: Add the capability to expose DMA-BUF stats in
- sysfs
-Message-ID: <YLiYH/FdHIXPTAUX@phenom.ffwll.local>
-Mail-Followup-To: Hridya Valsaraju <hridya@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-doc@vger.kernel.org, kernel-team@android.com,
-        john.stultz@linaro.org, surenb@google.com,
-        kernel test robot <lkp@intel.com>
-References: <20210602222937.2628266-1-hridya@google.com>
+        id S229765AbhFCJVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Jun 2021 05:21:07 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:34581 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229576AbhFCJVH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Jun 2021 05:21:07 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id ojVPlaug5IpGyojVTlRARF; Thu, 03 Jun 2021 11:19:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1622711961; bh=IXQ3t6qOZzpezRNUQjlBPukx7l+NBDO2OI2DLuH5NWQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Px+Giv7ZPo83csRa5MH1UxYl3oPXVgVE90sNyEJHZL/O8faq+2ecGDFzjbAess3xi
+         oAJ26fAHXnScuVj5rVbPea24SN3qNHR2YS4RUYKXOiMpPS/PvDSce4OgQecBFKr3NQ
+         VotRa+vSvkdsIhk1q1Tfi5FxXj5EgEYSbU/ZamuSL3cJNPKCJzWaQ6pqcMiwzk2nz7
+         h9IvBqDTVJjr1j+csYlFUJQSO4qdb41dAahCxa3mAQzv+zuDTB8pwOS1K9OiwmeZZA
+         1PDA5oEw3lLx4sl0E2MMifmRkH96/sBQPii+stW5YKJ90hG2/kOjGz6YSa5ylSZUdB
+         mNdzMOAUNIXVw==
+Subject: Re: [PATCH v12 0/9] Add HANTRO G2/HEVC decoder support for IMX8MQ
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
+        andrzej.p@collabora.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20210526124516.2039434-1-benjamin.gaignard@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <1627e9d3-7008-dda5-19d1-251c4715af9e@xs4all.nl>
+Date:   Thu, 3 Jun 2021 11:19:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210602222937.2628266-1-hridya@google.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <20210526124516.2039434-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfE/5cuyJKGykF94syzgFlWsnr+LsARjE9ELRRtG95HZiIh0Ag90RwkQzWB09PufCUJFZBoKXBgVUVawAzYVNOX//g3wexekpo+CJRRRtNgtzJ7JsNgsb
+ p/h95zHfNC2LMAN2Drdram3powV+ZCLG0sd/aZc8wG3KJ+h67T1Nolfrcb8/kBm/n89d3qsyH4jImzF3M7BW0i0OszWlJ+PgOVTUH+NPN3ojSMtN5Z8xnNdC
+ U3PB39Bmb5/0KjotpCpWcgSaQ00YeSYQ63H1YWTTd32SiXaBczhUNpmz7DZFBlGutgzrEW0PFHjK0Z/PTCraELg7DwNJIt2LVm9J6hhNpwlytOpYYd3onA+S
+ tmCO+uMwJC4DOXVD9mO4ijK0rjjvp9wEr0h5YZs7fPWhF+e/8tEVvovBtNjW+zm+E+E8R10F8Lp70MLu25tDXiV2YRZWoF/F2xMgfNrmzTy+6C/PIc30QMJH
+ SvIcbRuJr/1FuFy6J1yGH3cD+zMTpHHDMLZ7TCnrlx8N69OAGKa977Wr2BXjGXN7CpkgAzlCkfoLK3MeukCk8aKro2rf1VRRUq7ESuA43msWFG9ulYOihG7W
+ XJbedwYF4RtaRRS5Os3bQQiPVf1rfPfB97zFpwgAyMa37c2l7GFW0sLWb75g4geeMIgNJLIdDR3Lgq3hW+xXYKe0wFe+ijjf3zA1HhFdX8LAS6hPmb9wrFA3
+ s1nKP+hwuSgJso+ocw1NlUriBwSAlhDK3DLjXsq5XwC27brTcUJyebHipdxGyDBKlNtb/0847DQX+u4RE9eBH5pFdzl+cP6W2Ybv9RJHEKEsastGV4wM2Xho
+ Faf8G7MkIuhFmjGcmrCxUVDOZ62cRu/cVg7ewsSzfPPZucvdW2JxY9v9nuuj5A==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 03:29:30PM -0700, Hridya Valsaraju wrote:
-> Overview
-> ========
-> The patch adds DMA-BUF statistics to /sys/kernel/dmabuf/buffers. It
-> allows statistics to be enabled for each DMA-BUF in sysfs by enabling
-> the config CONFIG_DMABUF_SYSFS_STATS.
-> 
-> The following stats will be exposed by the interface:
-> 
-> /sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
-> /sys/kernel/dmabuf/buffers/<inode_number>/size
-> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/device
-> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_counter
-> 
-> The inode_number is unique for each DMA-BUF and was added earlier [1]
-> in order to allow userspace to track DMA-BUF usage across different
-> processes.
-> 
-> Use Cases
-> =========
-> The interface provides a way to gather DMA-BUF per-buffer statistics
-> from production devices. These statistics will be used to derive DMA-BUF
-> per-exporter stats and per-device usage stats for Android Bug reports.
-> The corresponding userspace changes can be found at [2].
-> Telemetry tools will also capture this information(along with other
-> memory metrics) periodically as well as on important events like a
-> foreground app kill (which might have been triggered by Low Memory
-> Killer). It will also contribute to provide a snapshot of the system
-> memory usage on other events such as OOM kills and Application Not
-> Responding events.
-> 
-> Background
-> ==========
-> Currently, there are two existing interfaces that provide information
-> about DMA-BUFs.
-> 1) /sys/kernel/debug/dma_buf/bufinfo
-> debugfs is however unsuitable to be mounted in production systems and
-> cannot be considered as an alternative to the sysfs interface being
-> proposed.
-> 2) proc/<pid>/fdinfo/<fd>
-> The proc/<pid>/fdinfo/<fd> files expose information about DMA-BUF fds.
-> However, the existing procfs interfaces can only provide information
-> about the buffers for which processes hold fds or have the buffers
-> mmapped into their address space. Since the procfs interfaces alone
-> cannot provide a full picture of all DMA-BUFs in the system, there is
-> the need for an alternate interface to provide this information on
-> production systems.
-> 
-> The patch contains the following major improvements over v1:
-> 1) Each attachment is represented by its own directory to allow creating
-> a symlink to the importing device and to also provide room for future
-> expansion.
-> 2) The number of distinct mappings of each attachment is exposed in a
-> separate file.
-> 3) The per-buffer statistics are now in /sys/kernel/dmabuf/buffers
-> inorder to make the interface expandable in future.
-> 
-> All of the improvements above are based on suggestions/feedback from
-> Daniel Vetter and Christian König.
-> 
-> A shell script that can be run on a classic Linux environment to read
-> out the DMA-BUF statistics can be found at [3](suggested by John
-> Stultz).
-> 
-> [1]: https://lore.kernel.org/patchwork/patch/1088791/
-> [2]: https://android-review.googlesource.com/q/topic:%22dmabuf-sysfs%22+(status:open%20OR%20status:merged)
-> [3]: https://android-review.googlesource.com/c/platform/system/memory/libmeminfo/+/1549734
-> 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> ---
-> 
-> Hi Daniel,
-> 
-> I rewrote the commit message and added a new section to
-> Documentation/driver-api/dma-buf.rst as per your suggestions. Please
-> do take another look when you get a chance. Thanks again for the
-> guidance.
-> 
-> Regards,
-> Hridya
-> 
-> Change in v5:
-> -Added a section on DMA-BUF statistics to
-> Documentation/driver-api/dma-buf.rst. Organized the commit message to
-> clearly state the need for the new interface and provide the
-> background on why the existing means of DMA-BUF accounting will not
-> suffice. Based on feedback from Daniel Vetter.
-> 
-> Changes in v4:
-> -Suppress uevents from kset creation to avoid waking up uevent listeners
-> on DMA-BUF export/release.
-> 
-> Changes in v3:
-> -Fix a warning reported by the kernel test robot.
-> 
-> Changes in v2:
-> -Move statistics to /sys/kernel/dmabuf/buffers in oder to allow addition
-> of other DMA-BUF-related sysfs stats in future. Based on feedback from
-> Daniel Vetter.
-> -Each attachment has its own directory to represent attached devices as
-> symlinks and to introduce map_count as a separate file. Based on
-> feedback from Daniel Vetter and Christian König. Thank you both!
-> -Commit messages updated to point to userspace code in AOSP that will
-> read the DMA-BUF sysfs stats.
-> 
->  .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  52 +++
->  Documentation/driver-api/dma-buf.rst          |  34 ++
->  drivers/dma-buf/Kconfig                       |  11 +
->  drivers/dma-buf/Makefile                      |   1 +
->  drivers/dma-buf/dma-buf-sysfs-stats.c         | 300 ++++++++++++++++++
->  drivers/dma-buf/dma-buf-sysfs-stats.h         |  62 ++++
->  drivers/dma-buf/dma-buf.c                     |  37 +++
->  include/linux/dma-buf.h                       |  20 ++
->  8 files changed, 517 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
->  create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
->  create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> new file mode 100644
-> index 000000000000..a243984ed420
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> @@ -0,0 +1,52 @@
-> +What:		/sys/kernel/dmabuf/buffers
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	The /sys/kernel/dmabuf/buffers directory contains a
-> +		snapshot of the internal state of every DMA-BUF.
-> +		/sys/kernel/dmabuf/buffers/<inode_number> will contain the
-> +		statistics for the DMA-BUF with the unique inode number
-> +		<inode_number>
-> +Users:		kernel memory tuning/debugging tools
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This file is read-only and contains the name of the exporter of
-> +		the DMA-BUF.
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/size
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This file is read-only and specifies the size of the DMA-BUF in
-> +		bytes.
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This directory will contain subdirectories representing every
-> +		attachment of the DMA-BUF.
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_uid>
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This directory will contain information on the attached device
-> +		and the number of current distinct device mappings.
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_uid>/device
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This file is read-only and is a symlink to the attached device's
-> +		sysfs entry.
-> +
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attachment_uid>/map_counter
-> +Date:		May 2021
-> +KernelVersion:	v5.13
-> +Contact:	Hridya Valsaraju <hridya@google.com>
-> +Description:	This file is read-only and contains a map_counter indicating the
-> +		number of distinct device mappings of the attachment.
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> index 7f37ec30d9fd..4027762a824a 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -106,6 +106,40 @@ Implicit Fence Poll Support
->  .. kernel-doc:: drivers/dma-buf/dma-buf.c
->     :doc: implicit fence polling
->  
-> +DMA-BUF statistics
-> +~~~~~~~~~~~~~~~~~~
-> +
-> +``/sys/kernel/debug/dma_buf/bufinfo`` provides an overview of every DMA-BUF in the
-> +system. However, since debugfs is not safe to be mounted in production,
-> +procfs and sysfs can be used to gather DMA-BUF statistics on production systems.
-> +
-> +The ``/proc/<pid>/fdinfo/<fd>`` files in procfs can be used to gather information
-> +about DMA-BUF fds. Detailed documentation about the interface is present in
-> +Documentation/filesystems/proc.rst.
-> +Unfortunately, the existing procfs interfaces can only provide information about
-> +the DMA-BUFs for which processes hold fds or have the buffers mmapped into their
-> +address space. This necessitated the creation of the DMA-BUF sysfs statistics
-> +interface to provide per-buffer information on production systems.
-> +
-> +The interface at ``/sys/kernel/dma-buf/buffers`` exposes information about
-> +every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
-> +
-> +The following stats are exposed by the interface:
-> +
-> +* ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
-> +* ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
-> +* ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/device``
-> +* ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_counter``
-> +
-> +The information in the interface can also be used to derive per-exporter and
-> +per-device usage statistics. The data from the interface can be gathered
-> +on error conditions or other important events to provide a snapshot of
-> +DMA-BUF usage. It can also be collected periodically by telemetry to monitor
-> +various metrics.
-> +
-> +Detailed documentation about the interface is present in
-> +Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+Hi Benjamin,
 
-Ok this looks neat, but I prefer if this is done as a DOC: overview
-section in the source code, and pulled into the documentation with an
-include directive. That way the docs are closer to the code, and so higher
-chances they get updated if something changes.
+On 26/05/2021 14:45, Benjamin Gaignard wrote:
+> The IMX8MQ got two VPUs but until now only G1 has been enabled.
+> This series aim to add the second VPU (aka G2) and provide basic 
+> HEVC decoding support.
+> 
+> To be able to decode HEVC it is needed to add/update some of the
+> structures in the uapi. In addition of them one HANTRO dedicated
+> control is required to inform the driver of the number of bits to skip
+> at the beginning of the slice header.
+> The hardware require to allocate few auxiliary buffers to store the
+> references frame or tile size data.
+> 
+> The driver has been tested with fluster test suite stream.
+> For example with this command: ./fluster.py run -ts JCT-VC-HEVC_V1 -d GStreamer-H.265-V4L2SL-Gst1.0
+> 
+> version 12:
+>  - Change macro to avoid the final ';'
+>  - Made arrays static and const
+>  - Distinguish G2 generic fields (i.e these who could be reused for VP9)
+>    from HEVC dedicated fields.
 
-And since add an entire new file for this I think this makes more sense.
+I ran the latest checkpatch/smatch/sparse etc. over this series and got a lot
+of issues.
 
-Can you pls respin once more with that? I think then we're really good for
-sure.
--Daniel
+The trickiest first:
 
-> +
->  Kernel Functions and Structures Reference
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
-> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-> index 4e16c71c24b7..9561e3d2d428 100644
-> --- a/drivers/dma-buf/Kconfig
-> +++ b/drivers/dma-buf/Kconfig
-> @@ -72,6 +72,17 @@ menuconfig DMABUF_HEAPS
->  	  allows userspace to allocate dma-bufs that can be shared
->  	  between drivers.
->  
-> +menuconfig DMABUF_SYSFS_STATS
-> +	bool "DMA-BUF sysfs statistics"
-> +	select DMA_SHARED_BUFFER
-> +	help
-> +	   Choose this option to enable DMA-BUF sysfs statistics
-> +	   in location /sys/kernel/dmabuf/buffers.
-> +
-> +	   /sys/kernel/dmabuf/buffers/<inode_number> will contain
-> +	   statistics for the DMA-BUF with the unique inode number
-> +	   <inode_number>.
-> +
->  source "drivers/dma-buf/heaps/Kconfig"
->  
->  endmenu
-> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> index 995e05f609ff..40d81f23cacf 100644
-> --- a/drivers/dma-buf/Makefile
-> +++ b/drivers/dma-buf/Makefile
-> @@ -6,6 +6,7 @@ obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
->  obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
->  obj-$(CONFIG_SW_SYNC)		+= sw_sync.o sync_debug.o
->  obj-$(CONFIG_UDMABUF)		+= udmabuf.o
-> +obj-$(CONFIG_DMABUF_SYSFS_STATS) += dma-buf-sysfs-stats.o
->  
->  dmabuf_selftests-y := \
->  	selftest.o \
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> new file mode 100644
-> index 000000000000..45717c8108c8
-> --- /dev/null
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> @@ -0,0 +1,300 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * DMA-BUF sysfs statistics.
-> + *
-> + * Copyright (C) 2021 Google LLC.
-> + */
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/dma-resv.h>
-> +#include <linux/kobject.h>
-> +#include <linux/printk.h>
-> +#include <linux/slab.h>
-> +#include <linux/sysfs.h>
-> +
-> +#include "dma-buf-sysfs-stats.h"
-> +
-> +#define to_dma_buf_entry_from_kobj(x) container_of(x, struct dma_buf_sysfs_entry, kobj)
-> +
-> +struct dma_buf_stats_attribute {
-> +	struct attribute attr;
-> +	ssize_t (*show)(struct dma_buf *dmabuf,
-> +			struct dma_buf_stats_attribute *attr, char *buf);
-> +};
-> +#define to_dma_buf_stats_attr(x) container_of(x, struct dma_buf_stats_attribute, attr)
-> +
-> +static ssize_t dma_buf_stats_attribute_show(struct kobject *kobj,
-> +					    struct attribute *attr,
-> +					    char *buf)
-> +{
-> +	struct dma_buf_stats_attribute *attribute;
-> +	struct dma_buf_sysfs_entry *sysfs_entry;
-> +	struct dma_buf *dmabuf;
-> +
-> +	attribute = to_dma_buf_stats_attr(attr);
-> +	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
-> +	dmabuf = sysfs_entry->dmabuf;
-> +
-> +	if (!dmabuf || !attribute->show)
-> +		return -EIO;
-> +
-> +	return attribute->show(dmabuf, attribute, buf);
-> +}
-> +
-> +static const struct sysfs_ops dma_buf_stats_sysfs_ops = {
-> +	.show = dma_buf_stats_attribute_show,
-> +};
-> +
-> +static ssize_t exporter_name_show(struct dma_buf *dmabuf,
-> +				  struct dma_buf_stats_attribute *attr,
-> +				  char *buf)
-> +{
-> +	return sysfs_emit(buf, "%s\n", dmabuf->exp_name);
-> +}
-> +
-> +static ssize_t size_show(struct dma_buf *dmabuf,
-> +			 struct dma_buf_stats_attribute *attr,
-> +			 char *buf)
-> +{
-> +	return sysfs_emit(buf, "%zu\n", dmabuf->size);
-> +}
-> +
-> +static struct dma_buf_stats_attribute exporter_name_attribute =
-> +	__ATTR_RO(exporter_name);
-> +static struct dma_buf_stats_attribute size_attribute = __ATTR_RO(size);
-> +
-> +static struct attribute *dma_buf_stats_default_attrs[] = {
-> +	&exporter_name_attribute.attr,
-> +	&size_attribute.attr,
-> +	NULL,
-> +};
-> +ATTRIBUTE_GROUPS(dma_buf_stats_default);
-> +
-> +static void dma_buf_sysfs_release(struct kobject *kobj)
-> +{
-> +	struct dma_buf_sysfs_entry *sysfs_entry;
-> +
-> +	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
-> +	kfree(sysfs_entry);
-> +}
-> +
-> +static struct kobj_type dma_buf_ktype = {
-> +	.sysfs_ops = &dma_buf_stats_sysfs_ops,
-> +	.release = dma_buf_sysfs_release,
-> +	.default_groups = dma_buf_stats_default_groups,
-> +};
-> +
-> +#define to_dma_buf_attach_entry_from_kobj(x) container_of(x, struct dma_buf_attach_sysfs_entry, kobj)
-> +
-> +struct dma_buf_attach_stats_attribute {
-> +	struct attribute attr;
-> +	ssize_t (*show)(struct dma_buf_attach_sysfs_entry *sysfs_entry,
-> +			struct dma_buf_attach_stats_attribute *attr, char *buf);
-> +};
-> +#define to_dma_buf_attach_stats_attr(x) container_of(x, struct dma_buf_attach_stats_attribute, attr)
-> +
-> +static ssize_t dma_buf_attach_stats_attribute_show(struct kobject *kobj,
-> +						   struct attribute *attr,
-> +						   char *buf)
-> +{
-> +	struct dma_buf_attach_stats_attribute *attribute;
-> +	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> +
-> +	attribute = to_dma_buf_attach_stats_attr(attr);
-> +	sysfs_entry = to_dma_buf_attach_entry_from_kobj(kobj);
-> +
-> +	if (!attribute->show)
-> +		return -EIO;
-> +
-> +	return attribute->show(sysfs_entry, attribute, buf);
-> +}
-> +
-> +static const struct sysfs_ops dma_buf_attach_stats_sysfs_ops = {
-> +	.show = dma_buf_attach_stats_attribute_show,
-> +};
-> +
-> +static ssize_t map_counter_show(struct dma_buf_attach_sysfs_entry *sysfs_entry,
-> +				struct dma_buf_attach_stats_attribute *attr,
-> +				char *buf)
-> +{
-> +	return sysfs_emit(buf, "%u\n", sysfs_entry->map_counter);
-> +}
-> +
-> +static struct dma_buf_attach_stats_attribute map_counter_attribute =
-> +	__ATTR_RO(map_counter);
-> +
-> +static struct attribute *dma_buf_attach_stats_default_attrs[] = {
-> +	&map_counter_attribute.attr,
-> +	NULL,
-> +};
-> +ATTRIBUTE_GROUPS(dma_buf_attach_stats_default);
-> +
-> +static void dma_buf_attach_sysfs_release(struct kobject *kobj)
-> +{
-> +	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> +
-> +	sysfs_entry = to_dma_buf_attach_entry_from_kobj(kobj);
-> +	kfree(sysfs_entry);
-> +}
-> +
-> +static struct kobj_type dma_buf_attach_ktype = {
-> +	.sysfs_ops = &dma_buf_attach_stats_sysfs_ops,
-> +	.release = dma_buf_attach_sysfs_release,
-> +	.default_groups = dma_buf_attach_stats_default_groups,
-> +};
-> +
-> +void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach)
-> +{
-> +	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> +
-> +	sysfs_entry = attach->sysfs_entry;
-> +	if (!sysfs_entry)
-> +		return;
-> +
-> +	sysfs_delete_link(&sysfs_entry->kobj, &attach->dev->kobj, "device");
-> +
-> +	kobject_del(&sysfs_entry->kobj);
-> +	kobject_put(&sysfs_entry->kobj);
-> +}
-> +
-> +int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
-> +			       unsigned int uid)
-> +{
-> +	struct dma_buf_attach_sysfs_entry *sysfs_entry;
-> +	int ret;
-> +	struct dma_buf *dmabuf;
-> +
-> +	if (!attach)
-> +		return -EINVAL;
-> +
-> +	dmabuf = attach->dmabuf;
-> +
-> +	sysfs_entry = kzalloc(sizeof(struct dma_buf_attach_sysfs_entry),
-> +			      GFP_KERNEL);
-> +	if (!sysfs_entry)
-> +		return -ENOMEM;
-> +
-> +	sysfs_entry->kobj.kset = dmabuf->sysfs_entry->attach_stats_kset;
-> +
-> +	attach->sysfs_entry = sysfs_entry;
-> +
-> +	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_attach_ktype,
-> +				   NULL, "%u", uid);
-> +	if (ret)
-> +		goto kobj_err;
-> +
-> +	ret = sysfs_create_link(&sysfs_entry->kobj, &attach->dev->kobj,
-> +				"device");
-> +	if (ret)
-> +		goto link_err;
-> +
-> +	return 0;
-> +
-> +link_err:
-> +	kobject_del(&sysfs_entry->kobj);
-> +kobj_err:
-> +	kobject_put(&sysfs_entry->kobj);
-> +	attach->sysfs_entry = NULL;
-> +
-> +	return ret;
-> +}
-> +void dma_buf_stats_teardown(struct dma_buf *dmabuf)
-> +{
-> +	struct dma_buf_sysfs_entry *sysfs_entry;
-> +
-> +	sysfs_entry = dmabuf->sysfs_entry;
-> +	if (!sysfs_entry)
-> +		return;
-> +
-> +	kset_unregister(sysfs_entry->attach_stats_kset);
-> +	kobject_del(&sysfs_entry->kobj);
-> +	kobject_put(&sysfs_entry->kobj);
-> +}
-> +
-> +
-> +/* Statistics files do not need to send uevents. */
-> +static int dmabuf_sysfs_uevent_filter(struct kset *kset, struct kobject *kobj)
-> +{
-> +	return 0;
-> +}
-> +
-> +static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops = {
-> +	.filter = dmabuf_sysfs_uevent_filter,
-> +};
-> +
-> +static struct kset *dma_buf_stats_kset;
-> +static struct kset *dma_buf_per_buffer_stats_kset;
-> +int dma_buf_init_sysfs_statistics(void)
-> +{
-> +	dma_buf_stats_kset = kset_create_and_add("dmabuf",
-> +						 &dmabuf_sysfs_no_uevent_ops,
-> +						 kernel_kobj);
-> +	if (!dma_buf_stats_kset)
-> +		return -ENOMEM;
-> +
-> +	dma_buf_per_buffer_stats_kset = kset_create_and_add("buffers",
-> +							    &dmabuf_sysfs_no_uevent_ops,
-> +							    &dma_buf_stats_kset->kobj);
-> +	if (!dma_buf_per_buffer_stats_kset) {
-> +		kset_unregister(dma_buf_stats_kset);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +void dma_buf_uninit_sysfs_statistics(void)
-> +{
-> +	kset_unregister(dma_buf_per_buffer_stats_kset);
-> +	kset_unregister(dma_buf_stats_kset);
-> +}
-> +
-> +int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> +{
-> +	struct dma_buf_sysfs_entry *sysfs_entry;
-> +	int ret;
-> +	struct kset *attach_stats_kset;
-> +
-> +	if (!dmabuf || !dmabuf->file)
-> +		return -EINVAL;
-> +
-> +	if (!dmabuf->exp_name) {
-> +		pr_err("exporter name must not be empty if stats needed\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	sysfs_entry = kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
-> +	if (!sysfs_entry)
-> +		return -ENOMEM;
-> +
-> +	sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
-> +	sysfs_entry->dmabuf = dmabuf;
-> +
-> +	dmabuf->sysfs_entry = sysfs_entry;
-> +
-> +	/* create the directory for buffer stats */
-> +	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
-> +				   "%lu", file_inode(dmabuf->file)->i_ino);
-> +	if (ret)
-> +		goto err_sysfs_dmabuf;
-> +
-> +	/* create the directory for attachment stats */
-> +	attach_stats_kset = kset_create_and_add("attachments",
-> +						&dmabuf_sysfs_no_uevent_ops,
-> +						&sysfs_entry->kobj);
-> +	if (!attach_stats_kset) {
-> +		ret = -ENOMEM;
-> +		goto err_sysfs_attach;
-> +	}
-> +
-> +	sysfs_entry->attach_stats_kset = attach_stats_kset;
-> +
-> +	return 0;
-> +
-> +err_sysfs_attach:
-> +	kobject_del(&sysfs_entry->kobj);
-> +err_sysfs_dmabuf:
-> +	kobject_put(&sysfs_entry->kobj);
-> +	dmabuf->sysfs_entry = NULL;
-> +	return ret;
-> +}
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> new file mode 100644
-> index 000000000000..5f4703249117
-> --- /dev/null
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> @@ -0,0 +1,62 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * DMA-BUF sysfs statistics.
-> + *
-> + * Copyright (C) 2021 Google LLC.
-> + */
-> +
-> +#ifndef _DMA_BUF_SYSFS_STATS_H
-> +#define _DMA_BUF_SYSFS_STATS_H
-> +
-> +#ifdef CONFIG_DMABUF_SYSFS_STATS
-> +
-> +int dma_buf_init_sysfs_statistics(void);
-> +void dma_buf_uninit_sysfs_statistics(void);
-> +
-> +int dma_buf_stats_setup(struct dma_buf *dmabuf);
-> +int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
-> +			       unsigned int uid);
-> +static inline void dma_buf_update_attachment_map_count(struct dma_buf_attachment *attach,
-> +						       int delta)
-> +{
-> +	struct dma_buf_attach_sysfs_entry *entry = attach->sysfs_entry;
-> +
-> +	entry->map_counter += delta;
-> +}
-> +void dma_buf_stats_teardown(struct dma_buf *dmabuf);
-> +void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach);
-> +static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabuf)
-> +{
-> +	struct dma_buf_sysfs_entry *entry = dmabuf->sysfs_entry;
-> +
-> +	return entry->attachment_uid++;
-> +}
-> +#else
-> +
-> +static inline int dma_buf_init_sysfs_statistics(void)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void dma_buf_uninit_sysfs_statistics(void) {}
-> +
-> +static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> +{
-> +	return 0;
-> +}
-> +static inline int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
-> +					     unsigned int uid)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
-> +static inline void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach) {}
-> +static inline void dma_buf_update_attachment_map_count(struct dma_buf_attachment *attach,
-> +						       int delta) {}
-> +static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *dmabuf)
-> +{
-> +	return 0;
-> +}
-> +#endif
-> +#endif // _DMA_BUF_SYSFS_STATS_H
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index f264b70c383e..184dd7acb1ed 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -29,6 +29,8 @@
->  #include <uapi/linux/dma-buf.h>
->  #include <uapi/linux/magic.h>
->  
-> +#include "dma-buf-sysfs-stats.h"
-> +
->  static inline int is_dma_buf_file(struct file *);
->  
->  struct dma_buf_list {
-> @@ -79,6 +81,7 @@ static void dma_buf_release(struct dentry *dentry)
->  	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
->  		dma_resv_fini(dmabuf->resv);
->  
-> +	dma_buf_stats_teardown(dmabuf);
->  	module_put(dmabuf->owner);
->  	kfree(dmabuf->name);
->  	kfree(dmabuf);
-> @@ -580,6 +583,10 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  	file->f_mode |= FMODE_LSEEK;
->  	dmabuf->file = file;
->  
-> +	ret = dma_buf_stats_setup(dmabuf);
-> +	if (ret)
-> +		goto err_sysfs;
-> +
->  	mutex_init(&dmabuf->lock);
->  	INIT_LIST_HEAD(&dmabuf->attachments);
->  
-> @@ -589,6 +596,14 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  
->  	return dmabuf;
->  
-> +err_sysfs:
-> +	/*
-> +	 * Set file->f_path.dentry->d_fsdata to NULL so that when
-> +	 * dma_buf_release() gets invoked by dentry_ops, it exits
-> +	 * early before calling the release() dma_buf op.
-> +	 */
-> +	file->f_path.dentry->d_fsdata = NULL;
-> +	fput(file);
->  err_dmabuf:
->  	kfree(dmabuf);
->  err_module:
-> @@ -723,6 +738,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  {
->  	struct dma_buf_attachment *attach;
->  	int ret;
-> +	unsigned int attach_uid;
->  
->  	if (WARN_ON(!dmabuf || !dev))
->  		return ERR_PTR(-EINVAL);
-> @@ -748,8 +764,13 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  	}
->  	dma_resv_lock(dmabuf->resv, NULL);
->  	list_add(&attach->node, &dmabuf->attachments);
-> +	attach_uid = dma_buf_update_attach_uid(dmabuf);
->  	dma_resv_unlock(dmabuf->resv);
->  
-> +	ret = dma_buf_attach_stats_setup(attach, attach_uid);
-> +	if (ret)
-> +		goto err_sysfs;
-> +
->  	/* When either the importer or the exporter can't handle dynamic
->  	 * mappings we cache the mapping here to avoid issues with the
->  	 * reservation object lock.
-> @@ -776,6 +797,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  			dma_resv_unlock(attach->dmabuf->resv);
->  		attach->sgt = sgt;
->  		attach->dir = DMA_BIDIRECTIONAL;
-> +		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
->  	}
->  
->  	return attach;
-> @@ -792,6 +814,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  	if (dma_buf_is_dynamic(attach->dmabuf))
->  		dma_resv_unlock(attach->dmabuf->resv);
->  
-> +err_sysfs:
->  	dma_buf_detach(dmabuf, attach);
->  	return ERR_PTR(ret);
->  }
-> @@ -841,6 +864,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
->  			dma_resv_lock(attach->dmabuf->resv, NULL);
->  
->  		__unmap_dma_buf(attach, attach->sgt, attach->dir);
-> +		dma_buf_update_attachment_map_count(attach, -1 /* delta */);
->  
->  		if (dma_buf_is_dynamic(attach->dmabuf)) {
->  			dma_buf_unpin(attach);
-> @@ -854,6 +878,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
->  	if (dmabuf->ops->detach)
->  		dmabuf->ops->detach(dmabuf, attach);
->  
-> +	dma_buf_attach_stats_teardown(attach);
->  	kfree(attach);
->  }
->  EXPORT_SYMBOL_GPL(dma_buf_detach);
-> @@ -993,6 +1018,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->  	}
->  #endif /* CONFIG_DMA_API_DEBUG */
->  
-> +	if (!IS_ERR(sg_table))
-> +		dma_buf_update_attachment_map_count(attach, 1 /* delta */);
-> +
->  	return sg_table;
->  }
->  EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
-> @@ -1030,6 +1058,8 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
->  	if (dma_buf_is_dynamic(attach->dmabuf) &&
->  	    !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
->  		dma_buf_unpin(attach);
-> +
-> +	dma_buf_update_attachment_map_count(attach, -1 /* delta */);
->  }
->  EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
->  
-> @@ -1480,6 +1510,12 @@ static inline void dma_buf_uninit_debugfs(void)
->  
->  static int __init dma_buf_init(void)
->  {
-> +	int ret;
-> +
-> +	ret = dma_buf_init_sysfs_statistics();
-> +	if (ret)
-> +		return ret;
-> +
->  	dma_buf_mnt = kern_mount(&dma_buf_fs_type);
->  	if (IS_ERR(dma_buf_mnt))
->  		return PTR_ERR(dma_buf_mnt);
-> @@ -1495,5 +1531,6 @@ static void __exit dma_buf_deinit(void)
->  {
->  	dma_buf_uninit_debugfs();
->  	kern_unmount(dma_buf_mnt);
-> +	dma_buf_uninit_sysfs_statistics();
->  }
->  __exitcall(dma_buf_deinit);
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index efdc56b9d95f..342585bd6dff 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -295,6 +295,9 @@ struct dma_buf_ops {
->   * @poll: for userspace poll support
->   * @cb_excl: for userspace poll support
->   * @cb_shared: for userspace poll support
-> + * @sysfs_entry: for exposing information about this buffer in sysfs.
-> + * The attachment_uid member of @sysfs_entry is protected by dma_resv lock
-> + * and is incremented on each attach.
->   *
->   * This represents a shared buffer, created by calling dma_buf_export(). The
->   * userspace representation is a normal file descriptor, which can be created by
-> @@ -330,6 +333,15 @@ struct dma_buf {
->  
->  		__poll_t active;
->  	} cb_excl, cb_shared;
-> +#ifdef CONFIG_DMABUF_SYSFS_STATS
-> +	/* for sysfs stats */
-> +	struct dma_buf_sysfs_entry {
-> +		struct kobject kobj;
-> +		struct dma_buf *dmabuf;
-> +		unsigned int attachment_uid;
-> +		struct kset *attach_stats_kset;
-> +	} *sysfs_entry;
-> +#endif
->  };
->  
->  /**
-> @@ -379,6 +391,7 @@ struct dma_buf_attach_ops {
->   * @importer_ops: importer operations for this attachment, if provided
->   * dma_buf_map/unmap_attachment() must be called with the dma_resv lock held.
->   * @importer_priv: importer specific attachment data.
-> + * @sysfs_entry: For exposing information about this attachment in sysfs.
->   *
->   * This structure holds the attachment information between the dma_buf buffer
->   * and its user device(s). The list contains one attachment struct per device
-> @@ -399,6 +412,13 @@ struct dma_buf_attachment {
->  	const struct dma_buf_attach_ops *importer_ops;
->  	void *importer_priv;
->  	void *priv;
-> +#ifdef CONFIG_DMABUF_SYSFS_STATS
-> +	/* for sysfs stats */
-> +	struct dma_buf_attach_sysfs_entry {
-> +		struct kobject kobj;
-> +		unsigned int map_counter;
-> +	} *sysfs_entry;
-> +#endif
->  };
->  
->  /**
-> -- 
-> 2.32.0.rc0.204.g9fa02ecfa5-goog
+I get many reports for the register definitions in hantro_g2_regs.h:
+
+drivers/staging/media/hantro/hantro_g2_regs.h:16:33: warning: 'g2_strm_start_offset' defined but not used [-Wunused-const-variable=]
+
+I think it is a bad idea to declare variables in a header, and that's really
+what is causing this.
+
+I think it should be possible to rework this to defines such as:
+
+#define G2_DEC_REG(b, s, m) \
+        (const struct hantro_reg) { \
+                .base = G2_SWREG(b), \
+                .shift = s, \
+                .mask = m, \
+        }
+
+#define g2_strm_start_offset G2_DEC_REG(259, 0, 0xffffffff)
+
+This allows you to do:
+
+hantro_reg_write(vpu, &g2_strm_start_offset, 0);
+
+without having to declare static variables in a header.
+
+Other warnings:
+
+From the compiler:
+
+linux-git-arm-multi: WARNINGS
+
+drivers/staging/media/hantro/hantro_g2_hevc_dec.c: In function 'hantro_write_addr':
+drivers/staging/media/hantro/hantro_g2_hevc_dec.c:23:24: warning: right shift count >= width of type [-Wshift-count-overflow]
+   23 |  vdpu_write(vpu, (addr >> 32) & 0xffffffff, offset + 4);
+      |                        ^~
+
+Note: this builds on a 32-bit arm!
+
+From smatch:
+
+drivers/staging/media/hantro/hantro_hevc.c:228 tile_buffer_reallocate() error: double free of 'hevc_dec->tile_sao.cpu'
+drivers/staging/media/hantro/hantro_hevc.c:234 tile_buffer_reallocate() error: double free of 'hevc_dec->tile_bsd.cpu'
+
+From kerneldoc:
+
+drivers/staging/media/hantro/hantro_hw.h:136: warning: Function parameter or member 'ref_bufs' not described in 'hantro_hevc_dec_hw_ctx'
+drivers/staging/media/hantro/hantro_hw.h:136: warning: Function parameter or member 'ref_bufs_poc' not described in 'hantro_hevc_dec_hw_ctx'
+drivers/staging/media/hantro/hantro_hw.h:136: warning: Function parameter or member 'ref_bufs_used' not described in 'hantro_hevc_dec_hw_ctx'
+drivers/staging/media/hantro/hantro_hw.h:136: warning: Function parameter or member 'num_tile_cols_allocated' not described in
+'hantro_hevc_dec_hw_ctx'
+
+Regards,
+
+	Hans
+
+> 
+> version 11:
+>  - Rebased on media_stage.
+>  - Fix minor typo/remarks.
+> 
+> version 10:
+>  - Shorter version of the previous series without ctrl block patches
+>    and no DT modifications.
+>    The scope of this series is limited to HEVC support.
+> 
+> version 9:
+>  - Corrections in commits messages.
+>  - Define the dedicated control in hevc-controls.h
+>  - Add note in documentation.
+>  - Change max value of the dedicated control.
+>  - Rebased on media_tree/master branch.
+> 
+> version 8:
+>  - Add reviewed-by and ack-by tags 
+>  - Fix the warnings reported by kernel test robot
+>  - Only patch 9 (adding dedicated control), patch 11 (HEVC support) and
+>    patch 13 (DT changes) are still missing of review/ack tag.
+> 
+> version 7:
+>  - Remove 'q' from syscon phandle name to make usable for iMX8MM too.
+>    Update the bindings documentation.
+>  - Add review/ack tags.
+>  - Rebase on top of media_tree/master
+>  - Be more accurate when computing the size of the memory needed motion
+>    vectors.
+>  - Explain why the all clocks need to set in the both DT node.
+> 
+> version 6:
+>  - fix the errors reported by kernel test robot
+> 
+> version 5:
+>  - use syscon instead of VPU reset driver.
+>  - Do not break kernel/DT backward compatibility.
+>  - Add documentation for dedicated Hantro control.
+>  - Fix the remarks done by Ezequeil (typo, comments, unused function)
+>  - Run v4l2-compliance without errors (see below).
+>  - Do not add field to distinguish version, check postproc reg instead
+> 
+> version 4:
+> - Split the changes in hevc controls in 2 commits to make them easier to
+>   review.
+> - Change hantro_codec_ops run() prototype to return errors   
+> - Hantro v4l2 dedicated control is now only an integer
+> - rebase on top of VPU reset changes posted here:
+>   https://www.spinics.net/lists/arm-kernel/msg878440.html
+> - Various fix from previous remarks
+> - Limit the modifications in API to what the driver needs
+> 
+> version 3:
+> - Fix typo in Hantro v4l2 dedicated control
+> - Add documentation for the new structures and fields
+> - Rebased on top of media_tree for-linus-5.12-rc1 tag
+> 
+> version 2:
+> - remove all change related to scaling
+> - squash commits to a coherent split
+> - be more verbose about the added fields
+> - fix the comments done by Ezequiel about dma_alloc_coherent usage
+> - fix Dan's comments about control copy, reverse the test logic
+> in tile_buffer_reallocate, rework some goto and return cases.
+> - be more verbose about why I change the bindings
+> - remove all sign-off expect mime since it is confusing
+> - remove useless clocks in VPUs nodes
+> 
+> Benjamin Gaignard (9):
+>   media: hevc: Add fields and flags for hevc PPS
+>   media: hevc: Add decode params control
+>   media: hantro: change hantro_codec_ops run prototype to return errors
+>   media: hantro: Define HEVC codec profiles and supported features
+>   media: hantro: Only use postproc when post processed formats are
+>     defined
+>   media: uapi: Add a control for HANTRO driver
+>   media: hantro: handle V4L2_PIX_FMT_HEVC_SLICE control
+>   media: hantro: Introduce G2/HEVC decoder
+>   media: hantro: IMX8M: add variant for G2/HEVC codec
+> 
+>  .../userspace-api/media/drivers/hantro.rst    |  19 +
+>  .../userspace-api/media/drivers/index.rst     |   1 +
+>  .../media/v4l/ext-ctrls-codec.rst             | 108 +++-
+>  .../media/v4l/vidioc-queryctrl.rst            |   6 +
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  21 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   4 +
+>  drivers/staging/media/hantro/Makefile         |   2 +
+>  drivers/staging/media/hantro/hantro.h         |  13 +-
+>  drivers/staging/media/hantro/hantro_drv.c     |  99 ++-
+>  .../staging/media/hantro/hantro_g1_h264_dec.c |  10 +-
+>  .../media/hantro/hantro_g1_mpeg2_dec.c        |   4 +-
+>  .../staging/media/hantro/hantro_g1_vp8_dec.c  |   6 +-
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c | 587 ++++++++++++++++++
+>  drivers/staging/media/hantro/hantro_g2_regs.h | 206 ++++++
+>  .../staging/media/hantro/hantro_h1_jpeg_enc.c |   4 +-
+>  drivers/staging/media/hantro/hantro_hevc.c    | 327 ++++++++++
+>  drivers/staging/media/hantro/hantro_hw.h      |  69 +-
+>  .../staging/media/hantro/hantro_postproc.c    |  14 +
+>  drivers/staging/media/hantro/hantro_v4l2.c    |   5 +-
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c   |  96 ++-
+>  .../media/hantro/rk3399_vpu_hw_jpeg_enc.c     |   4 +-
+>  .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |   4 +-
+>  .../media/hantro/rk3399_vpu_hw_vp8_dec.c      |   6 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |   6 +
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |   1 +
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   2 +
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  12 +-
+>  include/media/hevc-ctrls.h                    |  46 +-
+>  28 files changed, 1613 insertions(+), 69 deletions(-)
+>  create mode 100644 Documentation/userspace-api/media/drivers/hantro.rst
+>  create mode 100644 drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>  create mode 100644 drivers/staging/media/hantro/hantro_g2_regs.h
+>  create mode 100644 drivers/staging/media/hantro/hantro_hevc.c
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
