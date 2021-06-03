@@ -2,20 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C340B39A9E2
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 20:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A4EB39A9EE
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 20:22:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229881AbhFCSSy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Jun 2021 14:18:54 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:51962 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbhFCSSy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 14:18:54 -0400
+        id S229888AbhFCSX5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Jun 2021 14:23:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229881AbhFCSXu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 14:23:50 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 898C0C06174A
+        for <linux-media@vger.kernel.org>; Thu,  3 Jun 2021 11:22:04 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 75CC51F434B7
-Message-ID: <cf495da7ff81ac5641198e813d337a4e825fb765.camel@collabora.com>
-Subject: Re: [PATCH 1/5] media: v4l2: print the fh, during qbuf/dqbuf tracing
+        with ESMTPSA id B1AD21F434B7
+Message-ID: <12bf11088ff4a78a6ef4a576e5d8c8c8bb272a70.camel@collabora.com>
+Subject: Re: [PATCH 4/5] media: v4l2-mem2mem: add v4l2_m2m_buf_done trace
+ point
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     Emil Velikov <emil.l.velikov@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -25,10 +29,10 @@ To:     Emil Velikov <emil.l.velikov@gmail.com>,
         Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
         kernel@collabora.com
 Cc:     linux-media@vger.kernel.org
-Date:   Thu, 03 Jun 2021 15:16:59 -0300
-In-Reply-To: <20210517183801.1255496-2-emil.l.velikov@gmail.com>
+Date:   Thu, 03 Jun 2021 15:21:55 -0300
+In-Reply-To: <20210517183801.1255496-5-emil.l.velikov@gmail.com>
 References: <20210517183801.1255496-1-emil.l.velikov@gmail.com>
-         <20210517183801.1255496-2-emil.l.velikov@gmail.com>
+         <20210517183801.1255496-5-emil.l.velikov@gmail.com>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.38.2-1 
@@ -40,101 +44,76 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Emil,
 
-Thanks a lot for the series, I think it's great to start
-discussing some generic tracing for the media subsytem.
-
-First of all, looks like you should fix your submission
-process, the cover letter didn't hit patchwork. See:
-
-https://patchwork.linuxtv.org/project/linux-media/list/?series=5446
-
-Unsure what's going on, but please take a look.
-
-Some feedback about this patch.
-
-On Mon, 2021-05-17 at 19:37 +0100, Emil Velikov wrote:
+On Mon, 2021-05-17 at 19:38 +0100, Emil Velikov wrote:
 > From: Emil Velikov <emil.velikov@collabora.com>
 > 
-> To correlate the buffer handling with specific jobs, we need to provide
-> the file handle (pointer) used.
+> Move the function out of the header, as required by the trace API and
+> add a tracepoint.
 > 
 
-In general, it will be useful to have more information here.
-For instance, you are changing traces, so e.g. a before/after
-could be better.
-
-Not just for this patch, but in general, I think we'd like
-to have more documentation.
+Same thing here, about too short commit descriptions.
  
 > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 > ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 10 ++++++++--
->  include/trace/events/v4l2.h          | 22 ++++++++++++----------
->  2 files changed, 20 insertions(+), 12 deletions(-)
+>  drivers/media/v4l2-core/v4l2-mem2mem.c |  9 ++++++
+>  drivers/media/v4l2-core/v4l2-trace.c   |  1 +
+>  include/media/v4l2-mem2mem.h           | 10 +++----
+>  include/trace/events/v4l2.h            | 41 ++++++++++++++++++++++++++
+>  4 files changed, 56 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 31d1342e61e8..4b56493a1bae 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -3343,10 +3343,16 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
->         }
+> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> index bf83d1fae701..a83d3e4e7a85 100644
+> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> @@ -555,6 +555,15 @@ void v4l2_m2m_buf_done_and_job_finish(struct v4l2_m2m_dev *m2m_dev,
+>  }
+>  EXPORT_SYMBOL(v4l2_m2m_buf_done_and_job_finish);
 >  
->         if (err == 0) {
-> +               struct video_device *vdev = video_devdata(file);
-> +               struct v4l2_fh *fh = NULL;
-> +
-> +               if (test_bit(V4L2_FL_USES_V4L2_FH, &vdev->flags))
-> +                       fh = file->private_data;
-> +
->                 if (cmd == VIDIOC_DQBUF)
-> -                       trace_v4l2_dqbuf(video_devdata(file)->minor, parg);
-> +                       trace_v4l2_dqbuf(fh, parg);
->                 else if (cmd == VIDIOC_QBUF)
-> -                       trace_v4l2_qbuf(video_devdata(file)->minor, parg);
-> +                       trace_v4l2_qbuf(fh, parg);
->         }
->  
->         if (has_array_args) {
-> diff --git a/include/trace/events/v4l2.h b/include/trace/events/v4l2.h
-> index 248bc09bfc99..e07311cfe5ca 100644
-> --- a/include/trace/events/v4l2.h
-> +++ b/include/trace/events/v4l2.h
-> @@ -7,6 +7,7 @@
->  
->  #include <linux/tracepoint.h>
->  #include <media/videobuf2-v4l2.h>
-> +#include <media/v4l2-device.h>
->  
->  /* Enums require being exported to userspace, for user tool parsing */
->  #undef EM
-> @@ -98,12 +99,12 @@ SHOW_FIELD
->                 { V4L2_TC_USERBITS_8BITCHARS,   "USERBITS_8BITCHARS" })
->  
->  DECLARE_EVENT_CLASS(v4l2_event_class,
-> -       TP_PROTO(int minor, struct v4l2_buffer *buf),
-> -
-> -       TP_ARGS(minor, buf),
-> +       TP_PROTO(struct v4l2_fh *fh, struct v4l2_buffer *buf),
-> +       TP_ARGS(fh, buf),
->  
->         TP_STRUCT__entry(
->                 __field(int, minor)
-> +               __field(struct v4l2_fh *, fh)
->                 __field(u32, index)
->                 __field(u32, type)
->                 __field(u32, bytesused)
-> @@ -124,7 +125,8 @@ DECLARE_EVENT_CLASS(v4l2_event_class,
->         ),
->  
->         TP_fast_assign(
-> -               __entry->minor = minor;
-> +               __entry->minor = fh ? fh->vdev->minor : -1;
+> +void
+> +v4l2_m2m_buf_done(struct vb2_v4l2_buffer *buf, enum vb2_buffer_state state)
+> +{
+> +       // TODO: Emil move the trace after done?
+> +       trace_v4l2_m2m_buf_done(&buf->vb2_buf, state);
 
-I think this is a regression now, if the driver isn't using
-V4L2_FL_USES_V4L2_FH, then minor field will be -1?
+There's a trace already in vb2_buffer_done, is that one not enough,
+or not useful?
 
-Maybe we could leave this ioctl trace, and drop this patch,
-and instead do the tracing at the mem2mem level in v4l2_m2m_qbuf.
+> +       vb2_buffer_done(&buf->vb2_buf, state);
+> +}
+> +EXPORT_SYMBOL(v4l2_m2m_buf_done);
+> +
+>  void v4l2_m2m_suspend(struct v4l2_m2m_dev *m2m_dev)
+>  {
+>         unsigned long flags;
+> diff --git a/drivers/media/v4l2-core/v4l2-trace.c b/drivers/media/v4l2-core/v4l2-trace.c
+> index cde408d06fdc..b70208101f3c 100644
+> --- a/drivers/media/v4l2-core/v4l2-trace.c
+> +++ b/drivers/media/v4l2-core/v4l2-trace.c
+> @@ -11,6 +11,7 @@ EXPORT_TRACEPOINT_SYMBOL_GPL(vb2_v4l2_buf_queue);
+>  EXPORT_TRACEPOINT_SYMBOL_GPL(vb2_v4l2_dqbuf);
+>  EXPORT_TRACEPOINT_SYMBOL_GPL(vb2_v4l2_qbuf);
+>  EXPORT_TRACEPOINT_SYMBOL_GPL(v4l2_ioctl_s_fmt);
+> +EXPORT_TRACEPOINT_SYMBOL_GPL(v4l2_m2m_buf_done);
+>  EXPORT_TRACEPOINT_SYMBOL_GPL(v4l2_m2m_schedule);
+>  EXPORT_TRACEPOINT_SYMBOL_GPL(v4l2_m2m_schedule_failed);
+>  EXPORT_TRACEPOINT_SYMBOL_GPL(v4l2_m2m_queue_job);
+> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+> index 82bf54254bd8..013fd355ff82 100644
+> --- a/include/media/v4l2-mem2mem.h
+> +++ b/include/media/v4l2-mem2mem.h
+> @@ -229,11 +229,11 @@ void v4l2_m2m_buf_done_and_job_finish(struct v4l2_m2m_dev *m2m_dev,
+>                                       struct v4l2_m2m_ctx *m2m_ctx,
+>                                       enum vb2_buffer_state state);
+>  
+> -static inline void
+> -v4l2_m2m_buf_done(struct vb2_v4l2_buffer *buf, enum vb2_buffer_state state)
+> -{
+> -       vb2_buffer_done(&buf->vb2_buf, state);
+> -}
+> +/**
+> + * Something something
+
+Something needs documented :)
 
 Thanks,
 Ezequiel
