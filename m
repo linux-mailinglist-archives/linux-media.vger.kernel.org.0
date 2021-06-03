@@ -2,219 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 485E239A02D
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 13:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B5D039A03F
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 13:52:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbhFCLwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Jun 2021 07:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36924 "EHLO
+        id S230169AbhFCLyY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Jun 2021 07:54:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229958AbhFCLwT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 07:52:19 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5FEC061756;
-        Thu,  3 Jun 2021 04:50:34 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: benjamin.gaignard)
-        with ESMTPSA id 78EFB1F42FF5
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v13 9/9] media: hantro: IMX8M: add variant for G2/HEVC codec
-Date:   Thu,  3 Jun 2021 13:50:04 +0200
-Message-Id: <20210603115004.915294-10-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210603115004.915294-1-benjamin.gaignard@collabora.com>
-References: <20210603115004.915294-1-benjamin.gaignard@collabora.com>
+        with ESMTP id S229989AbhFCLyX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 07:54:23 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFB4CC06175F
+        for <linux-media@vger.kernel.org>; Thu,  3 Jun 2021 04:52:38 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id s5-20020a7bc0c50000b0290147d0c21c51so3527593wmh.4
+        for <linux-media@vger.kernel.org>; Thu, 03 Jun 2021 04:52:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Nxij94IMFMsp61zYWJS5XKMycKfWOvntSLUdgR9Luec=;
+        b=PP1Vx2P7z4p7uzC7frRq63E4x3I08msTGMShcvAdEGFQwbgoSQLam6TY7qFtZnfrip
+         sZ2vdZz58OMVJtBV+LV7UtfH3hRj1TGjasngZ2KltASWY+0UFk1GkCFvbmMy1zh8VBMP
+         dPoAp8/Papp6e6Y9syxE5WTIn3EkF63IUFXhjOyvBnTk1EZXXSJ1zWN+ZFpLmyfRRgmV
+         zaZeW5clEklapwp4mQNAksAoChe6wCnp4zD6/sK7bIoELjiqOV1BWj7Fd7qq0A12wR59
+         YBj4xTZnnoKIwJpwtS8WL69eLi0TYKCyPQcOnDWAOzYthTaMGxq+z6P1knTVhENqAX1n
+         l+Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Nxij94IMFMsp61zYWJS5XKMycKfWOvntSLUdgR9Luec=;
+        b=WKOIYcuBrK2fD8MEWk/oiugOOKQO9mSFNU2vrmEzBp67S+Z3KyCZaNM/jw57PhZpQ5
+         12R4OAnMaFpgT7qzrS22YOI3xn4BLl0+SR9WWVbFz4NQ/Xq2bSplxjW4/zcrYjq8Laip
+         /GTL2X/Z1oFnGJh9+krKjxQyvVeLRNmT5xLmMezSMK6k6nnpsQVODnBcbMB7QZrW2GdQ
+         p+0uCizJk8J191jUaSpgmcxRCA6w/Un129Vco247P+2z0Ansl3WH5xOQj9Rqcq6ULi0z
+         RdEUm1cHqnemI4Rh1YutYPCWc7VghDhs4brYieohudBZ5sEb75NYA4RS1Vau18VLovy0
+         IWCQ==
+X-Gm-Message-State: AOAM531r6n23/tJPEkRilsO3eu03a4x7KOD5OFBUm0VbNpgtT/k1+8SI
+        Pyrpq8pmDLnybKR3vC+VgilHlw==
+X-Google-Smtp-Source: ABdhPJy5Njm66nMjE/L6HCMm1K6dzFQlD8FyCcfSndwd7kIwe0+i4mO9AXShjFboYjDIKB2XcsUlUA==
+X-Received: by 2002:a05:600c:4e8b:: with SMTP id f11mr4461550wmq.40.1622721157306;
+        Thu, 03 Jun 2021 04:52:37 -0700 (PDT)
+Received: from dell ([91.110.221.214])
+        by smtp.gmail.com with ESMTPSA id h9sm2479488wmb.35.2021.06.03.04.52.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jun 2021 04:52:36 -0700 (PDT)
+Date:   Thu, 3 Jun 2021 12:52:34 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     linux-kernel@vger.kernel.org, Adam Jackson <ajax@redhat.com>,
+        Ajay Kumar <ajaykumar.rs@samsung.com>,
+        Akshu Agarwal <akshua@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Alistair Popple <apopple@nvidia.com>,
+        amd-gfx@lists.freedesktop.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Ben Widawsky <ben@bwidawsk.net>,
+        Chandan Uddaraju <chandanu@codeaurora.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
+        Fabien Dessenne <fabien.dessenne@st.com>,
+        freedreno@lists.freedesktop.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Huang Rui <ray.huang@amd.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Krishna Manikandan <mkrishn@codeaurora.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kuogee Hsieh <khsieh@codeaurora.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Rossi <issor.oruam@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        nouveau@lists.freedesktop.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Vincent Abriou <vincent.abriou@st.com>
+Subject: Re: [RESEND 00/26] Rid W=1 warnings from GPU
+Message-ID: <20210603115234.GA2435141@dell>
+References: <20210602143300.2330146-1-lee.jones@linaro.org>
+ <YLi+KJrLjKbdXLxH@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YLi+KJrLjKbdXLxH@phenom.ffwll.local>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add variant to IMX8M to enable G2/HEVC codec.
-Define the capabilities for the hardware up to 3840x2160.
-G2 doesn't have a postprocessor, uses the same clocks and has it
-own interrupt.
+On Thu, 03 Jun 2021, Daniel Vetter wrote:
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- drivers/staging/media/hantro/hantro_drv.c   |  1 +
- drivers/staging/media/hantro/hantro_hw.h    |  1 +
- drivers/staging/media/hantro/imx8m_vpu_hw.c | 96 ++++++++++++++++++++-
- 3 files changed, 96 insertions(+), 2 deletions(-)
+> On Wed, Jun 02, 2021 at 03:32:34PM +0100, Lee Jones wrote:
+> > Some off these patches have been knocking around for a while.
+> > 
+> > Who will hoover them up please?
+> > 
+> > This set is part of a larger effort attempting to clean-up W=1
+> > kernel builds, which are currently overwhelmingly riddled with
+> > niggly little warnings.
+> > 
+> > Lee Jones (26):
+> >   drm/mediatek/mtk_disp_color: Strip incorrect doc and demote header
+> >   drm/mediatek/mtk_disp_gamma: Strip and demote non-conformant
+> >     kernel-doc header
+> >   drm/mediatek/mtk_disp_ovl: Strip and demote non-conformant header
+> >   drm/mediatek/mtk_disp_rdma: Strip and demote non-conformant kernel-doc
+> >     header
+> >   drm/sti/sti_hdmi_tx3g4c28phy: Provide function names for kernel-doc
+> >     headers
+> >   drm/sti/sti_hda: Provide missing function names
+> >   drm/sti/sti_tvout: Provide a bunch of missing function names
+> >   drm/sti/sti_hqvdp: Fix incorrectly named function 'sti_hqvdp_vtg_cb()'
+> >   drm/msm/disp/dpu1/dpu_encoder_phys_cmd: Remove unused variable
+> >     'cmd_enc'
+> >   drm/msm/disp/dpu1/dpu_hw_interrupts: Demote a bunch of kernel-doc
+> >     abuses
+> >   drm/msm/disp/dpu1/dpu_plane: Fix a couple of naming issues
+> >   drm/msm/msm_gem: Demote kernel-doc abuses
+> >   drm/msm/dp/dp_catalog: Correctly document param 'dp_catalog'
+> >   drm/msm/dp/dp_link: Fix some potential doc-rot
+> >   drm/nouveau/nvkm/subdev/mc/tu102: Make functions called by reference
+> >     static
+> >   drm/amd/display/dc/dce/dce_transform: Remove superfluous
+> >     re-initialisation of DCFE_MEM_LIGHT_SLEEP_CNTL,
+> >   drm/xlnx/zynqmp_disp: Fix incorrectly named enum
+> >     'zynqmp_disp_layer_id'
+> >   drm/xlnx/zynqmp_dp: Fix incorrectly name function 'zynqmp_dp_train()'
+> >   drm/ttm/ttm_tt: Demote non-conformant kernel-doc header
+> >   drm/panel/panel-raspberrypi-touchscreen: Demote kernel-doc abuse
+> >   drm/panel/panel-sitronix-st7701: Demote kernel-doc abuse
+> >   drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc
+> >     format
+> >   drm/exynos/exynos7_drm_decon: Fix incorrect naming of
+> >     'decon_shadow_protect_win()'
+> >   drm/exynos/exynos_drm_ipp: Fix documentation for
+> >     'exynos_drm_ipp_get_{caps,res}_ioctl()'
+> >   drm/vboxvideo/hgsmi_base: Place function names into headers
+> >   drm/vboxvideo/modesetting: Provide function names for prototype
+> >     headers
+> 
+> Except for msm (Rob Clark promised on irc he'll pick them up for 5.14
+> soon) and amd (Alex is on top of things I think) I picked them all up and
+> merged into drm-misc-next.
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index d448cdff59ea..dbc69ee0b562 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -588,6 +588,7 @@ static const struct of_device_id of_hantro_match[] = {
- #endif
- #ifdef CONFIG_VIDEO_HANTRO_IMX8M
- 	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
-+	{ .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
- #endif
- #ifdef CONFIG_VIDEO_HANTRO_SAMA5D4
- 	{ .compatible = "microchip,sama5d4-vdec", .data = &sama5d4_vdec_variant, },
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index a4aef5fa03ba..5737a7707944 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -208,6 +208,7 @@ extern const struct hantro_variant rk3328_vpu_variant;
- extern const struct hantro_variant rk3288_vpu_variant;
- extern const struct hantro_variant imx8mq_vpu_variant;
- extern const struct hantro_variant sama5d4_vdec_variant;
-+extern const struct hantro_variant imx8mq_vpu_g2_variant;
- 
- extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
- 
-diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index 9eb556460e52..ea919bfb9891 100644
---- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-+++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -9,6 +9,9 @@
- #include <linux/delay.h>
- 
- #include "hantro.h"
-+#include "hantro_jpeg.h"
-+#include "hantro_g1_regs.h"
-+#include "hantro_g2_regs.h"
- 
- #define CTRL_SOFT_RESET		0x00
- #define RESET_G1		BIT(1)
-@@ -128,6 +131,62 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
- 	},
- };
- 
-+static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
-+	{
-+		.fourcc = V4L2_PIX_FMT_NV12,
-+		.codec_mode = HANTRO_MODE_NONE,
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
-+		.codec_mode = HANTRO_MODE_HEVC_DEC,
-+		.max_depth = 2,
-+		.frmsize = {
-+			.min_width = 48,
-+			.max_width = 3840,
-+			.step_width = MB_DIM,
-+			.min_height = 48,
-+			.max_height = 2160,
-+			.step_height = MB_DIM,
-+		},
-+	},
-+};
-+
-+static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
-+{
-+	struct hantro_dev *vpu = dev_id;
-+	enum vb2_buffer_state state;
-+	u32 status;
-+
-+	status = vdpu_read(vpu, G1_REG_INTERRUPT);
-+	state = (status & G1_REG_INTERRUPT_DEC_RDY_INT) ?
-+		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
-+
-+	vdpu_write(vpu, 0, G1_REG_INTERRUPT);
-+	vdpu_write(vpu, G1_REG_CONFIG_DEC_CLK_GATE_E, G1_REG_CONFIG);
-+
-+	hantro_irq_done(vpu, state);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
-+{
-+	struct hantro_dev *vpu = dev_id;
-+	enum vb2_buffer_state state;
-+	u32 status;
-+
-+	status = vdpu_read(vpu, G2_REG_INTERRUPT);
-+	state = (status & G2_REG_INTERRUPT_DEC_RDY_INT) ?
-+		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
-+
-+	vdpu_write(vpu, 0, G2_REG_INTERRUPT);
-+	vdpu_write(vpu, G2_REG_CONFIG_DEC_CLK_GATE_E, G2_REG_CONFIG);
-+
-+	hantro_irq_done(vpu, state);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
- {
- 	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
-@@ -142,6 +201,13 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
- 	imx8m_soft_reset(vpu, RESET_G1);
- }
- 
-+static void imx8m_vpu_g2_reset(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+
-+	imx8m_soft_reset(vpu, RESET_G2);
-+}
-+
- /*
-  * Supported codec ops.
-  */
-@@ -167,13 +233,25 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
- 	},
- };
- 
-+static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
-+	[HANTRO_MODE_HEVC_DEC] = {
-+		.run = hantro_g2_hevc_dec_run,
-+		.reset = imx8m_vpu_g2_reset,
-+		.init = hantro_hevc_dec_init,
-+		.exit = hantro_hevc_dec_exit,
-+	},
-+};
-+
- /*
-  * VPU variants.
-  */
- 
- static const struct hantro_irq imx8mq_irqs[] = {
--	{ "g1", hantro_g1_irq },
--	{ "g2", NULL /* TODO: imx8m_vpu_g2_irq */ },
-+	{ "g1", imx8m_vpu_g1_irq },
-+};
-+
-+static const struct hantro_irq imx8mq_g2_irqs[] = {
-+	{ "g2", imx8m_vpu_g2_irq },
- };
- 
- static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
-@@ -197,3 +275,17 @@ const struct hantro_variant imx8mq_vpu_variant = {
- 	.reg_names = imx8mq_reg_names,
- 	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
- };
-+
-+const struct hantro_variant imx8mq_vpu_g2_variant = {
-+	.dec_offset = 0x0,
-+	.dec_fmts = imx8m_vpu_g2_dec_fmts,
-+	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
-+	.codec = HANTRO_HEVC_DECODER,
-+	.codec_ops = imx8mq_vpu_g2_codec_ops,
-+	.init = imx8mq_vpu_hw_init,
-+	.runtime_resume = imx8mq_runtime_resume,
-+	.irqs = imx8mq_g2_irqs,
-+	.num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
-+	.clk_names = imx8mq_clk_names,
-+	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
-+};
+Superstar!  Thanks Daniel.
+
 -- 
-2.25.1
-
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
