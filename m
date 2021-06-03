@@ -2,108 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3EAA399C4F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 10:16:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CED66399CDC
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 10:42:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbhFCISH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Jun 2021 04:18:07 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:52622 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbhFCISG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 04:18:06 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 1538G9Em086091;
-        Thu, 3 Jun 2021 03:16:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1622708169;
-        bh=5wwte9CRzT+YNJ2vP9j/C62EmP//YgO8AMYtKlKvqDc=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=cFlU62NDbrQ7UvVXWMaEKMDFSa9srdP5LtFjdFAn+YemRMpnOwlSBLhmGz/WmY+Ja
-         XAszj0auUyk2UXjK1pWyRB9TkAyqkXcU+D7K2m/lptnckNV/VqLHCixG0+fbQIFIZn
-         XMuerxx7nhepSUKJIc5szuXqWA+xOoj0cfkmJXjc=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 1538G9pw074737
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 3 Jun 2021 03:16:09 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 3 Jun
- 2021 03:16:09 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Thu, 3 Jun 2021 03:16:08 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 1538G80x052919;
-        Thu, 3 Jun 2021 03:16:08 -0500
-Date:   Thu, 3 Jun 2021 13:46:07 +0530
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <dmaengine@vger.kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 17/18] phy: dt-bindings: cdns,dphy: make clocks
- optional
-Message-ID: <20210603081605.v7b5peuqjbsivmzb@ti.com>
-References: <20210526152308.16525-1-p.yadav@ti.com>
- <20210526152308.16525-18-p.yadav@ti.com>
- <20210602132728.5lv5n2mgap2o7eyx@gilmour>
+        id S230039AbhFCIoF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Jun 2021 04:44:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52186 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230033AbhFCIoF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 04:44:05 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C31C06174A
+        for <linux-media@vger.kernel.org>; Thu,  3 Jun 2021 01:42:20 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id a11so3087338wrt.13
+        for <linux-media@vger.kernel.org>; Thu, 03 Jun 2021 01:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SNU7JKX7aSeTK7xjNMO/CkhBcJ6lCl+AhfJOU6hzNns=;
+        b=UcYf/2lHKlayXrEaOKqNHbasHUf900ovmhEA4V0P1Wk+dboPkf+FzAxPxvGpW20HfP
+         E9Lsg9z2e/fUjxqj/kWVjzzJot9pWBGJA5FhHZVRD3JIYrD/vr/SxIvR3nX5tOGm1iww
+         5wznIGTaU/IafI8pnf7Kqn/+xJfnzs6kCRPAzfEsISk/ZVQ5gcEl0jC9AlRfKTadyPo/
+         qgXba2AMoZN4TbYq3EbT9TM/F1NnsaF8jLGCBL76eS/68b6EXEvJi+Qxm8iiEhp+tI7t
+         PfF3UDvcMS27xUTx7XYMuVZ4jov1tvOUN4xFF3UgZpFrBLdYgo+UuJpNPREsDfk96YKH
+         KQVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SNU7JKX7aSeTK7xjNMO/CkhBcJ6lCl+AhfJOU6hzNns=;
+        b=T7l/0/K/5JcC7Yx0BEGxg1KukjQjoBtSJJZlKDdtPHWBHlOtWEgX/vDIQqPAMuNhmC
+         gtkdLQZnpYI2hTeCIaD5MEHcg7gB3VMDdrk4DKlBHiBIq+Gk62b6MEk/7zsov4aw9k+0
+         M/6b+J6INoM2C2SO5eNn8k+LF+J0pNlA0kGKSaIFqaa4tlaEp2ApBcTFdhM6R1ishmDc
+         iacQFBroGIiOJi/QdPSXaSmhS03JGSrs+prM0cJIa/6hTKkkU1HhkimBbGsfYpnUtCW1
+         wkrGzudN7O8Clq5sLkBC3k1Rjdrbf35ZBmXcW75nN4z4kITiNpC4BSmsi4PRU3cD9isI
+         5yuQ==
+X-Gm-Message-State: AOAM531Hp+b0IvLCTJlW0Ai8eNwbP/xkNdrabbue1k0LGW4bm3fq3G04
+        LD9xiqL5BGCrkXOpTRqGBSzOeQ==
+X-Google-Smtp-Source: ABdhPJy7qovuJNSsahe4jvLCLnwO65bY2WkvJC3lTYs5vxvgnCuu7RfBP7fkELCrdwjh4mvAOlep/Q==
+X-Received: by 2002:adf:c38a:: with SMTP id p10mr23301663wrf.138.1622709739038;
+        Thu, 03 Jun 2021 01:42:19 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:90c:e290:c7bb:ed8:463c:e094])
+        by smtp.gmail.com with ESMTPSA id l3sm2075176wmh.2.2021.06.03.01.42.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jun 2021 01:42:18 -0700 (PDT)
+From:   Neil Armstrong <narmstrong@baylibre.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Neil Armstrong <narmstrong@baylibre.com>
+Subject: [PATCH] media: mexon-ge2d: fixup frames size in registers
+Date:   Thu,  3 Jun 2021 10:42:15 +0200
+Message-Id: <20210603084215.368764-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20210602132728.5lv5n2mgap2o7eyx@gilmour>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3555; h=from:subject; bh=fDG0y2ajd4sQMyG0ttCCWx537eEFDH2CjN5zlWNa1zc=; b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBguJXDk1ouZJkvROuDyWlgJHb+IMnkKLSjCy8YlusE quTE+ByJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCYLiVwwAKCRB33NvayMhJ0VhnEA COQ2pz5dPikIjqm1jDCwLx8nhXSLBFdWmsZY1qlZqYEd/NQP5xMY9dmAZvrhkMmQAxOM9UtbTw22Mv Y9SxNTE54KP4MHFCXKDjze5N9R1d0LFsx2IQo3N10+2Bz2YIV81zzWJX5XnGY2rkcKKtugUi3oOa1f ey0ZzNTZCW0t1qxTCx66gu+5rjYgXGomojS8bypnjSLk8n62wKvEhM/N/T8GcRHV6nPRusIPL4Co7m 37hbQbmko1SaMyvai7mOUwM/rN9dTz5dAxxjCYsDR+AN1VnSHgx+2Xsabk50ika5EY9FlCyT8B9kVX xY87plF1bFPFGxV7fjobtBxVmF5Pg/Gh9/JuqHGNJxitrPa94q0jKB3LBn3XjBp9CQcbNVjv8BuiNj WS+VSvpaFvJi90vrTrCcjHSnKf0nPieHrcyl6h/X/KJxDudYzKhiM05BZeI7mQqM3Mspphg9j8OKPS /SuO9ig5f+qVNUrh43JkI+NcB2T304g1M6v85VMoklON/E1P/5YAoUsrssrwdtzpO/wxe4/P1DFdWj wvOlWjgDokwriuHM8FCbgpTGl3mfRrlIBbTBO3sFJdodtpdB855S58hVAhl1JXO6d0FkZswKYB4ou1 idH+alnWju8Wqb539mGDpxjKgVuBWuXVbQUxB0/Q5W1VOt+Zkrj270KVTgVA==
+X-Developer-Key: i=narmstrong@baylibre.com; a=openpgp; fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/06/21 03:27PM, Maxime Ripard wrote:
-> Hi,
-> 
-> On Wed, May 26, 2021 at 08:53:07PM +0530, Pratyush Yadav wrote:
-> > The clocks are not used by the DPHY when used in Rx mode so make them
-> > optional.
-> > 
-> > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> > 
-> > ---
-> > 
-> > Changes in v2:
-> > - Re-order subject prefixes.
-> > 
-> >  Documentation/devicetree/bindings/phy/cdns,dphy.yaml | 2 --
-> >  1 file changed, 2 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/phy/cdns,dphy.yaml b/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
-> > index b90a58773bf2..3bb5be05e825 100644
-> > --- a/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
-> > +++ b/Documentation/devicetree/bindings/phy/cdns,dphy.yaml
-> > @@ -33,8 +33,6 @@ properties:
-> >  required:
-> >    - compatible
-> >    - reg
-> > -  - clocks
-> > -  - clock-names
-> 
-> As far as I can remember from the cadence documentation, those clocks
-> were required. I guess this is the integration that provides a few fixed
-> clocks?
+The CLIP, SRC & DST registers are coded to take the pixel/line start & end,
+starting from 0. Thus the end should be the width/height minus 1.
 
-Yes. The clock divider/frequency has been set via the DPHY pins so no 
-need to set them via software.
+It can be an issue with clipping and rotation, where it will add spurious
+lines from uninitialized or unwanted data with a shift in the result.
 
+Fixes: 59a635327ca7 ("media: meson: Add M2M driver for the Amlogic GE2D Accelerator Unit")
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ drivers/media/platform/meson/ge2d/ge2d.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/media/platform/meson/ge2d/ge2d.c b/drivers/media/platform/meson/ge2d/ge2d.c
+index a1393fefa8ae..45b99964ea0a 100644
+--- a/drivers/media/platform/meson/ge2d/ge2d.c
++++ b/drivers/media/platform/meson/ge2d/ge2d.c
+@@ -215,35 +215,35 @@ static void ge2d_hw_start(struct meson_ge2d *ge2d)
+ 
+ 	regmap_write(ge2d->map, GE2D_SRC1_CLIPY_START_END,
+ 		     FIELD_PREP(GE2D_START, ctx->in.crop.top) |
+-		     FIELD_PREP(GE2D_END, ctx->in.crop.top + ctx->in.crop.height));
++		     FIELD_PREP(GE2D_END, ctx->in.crop.top + ctx->in.crop.height - 1));
+ 	regmap_write(ge2d->map, GE2D_SRC1_CLIPX_START_END,
+ 		     FIELD_PREP(GE2D_START, ctx->in.crop.left) |
+-		     FIELD_PREP(GE2D_END, ctx->in.crop.left + ctx->in.crop.width));
++		     FIELD_PREP(GE2D_END, ctx->in.crop.left + ctx->in.crop.width - 1));
+ 	regmap_write(ge2d->map, GE2D_SRC2_CLIPY_START_END,
+ 		     FIELD_PREP(GE2D_START, ctx->out.crop.top) |
+-		     FIELD_PREP(GE2D_END, ctx->out.crop.top + ctx->out.crop.height));
++		     FIELD_PREP(GE2D_END, ctx->out.crop.top + ctx->out.crop.height - 1));
+ 	regmap_write(ge2d->map, GE2D_SRC2_CLIPX_START_END,
+ 		     FIELD_PREP(GE2D_START, ctx->out.crop.left) |
+-		     FIELD_PREP(GE2D_END, ctx->out.crop.left + ctx->out.crop.width));
++		     FIELD_PREP(GE2D_END, ctx->out.crop.left + ctx->out.crop.width - 1));
+ 	regmap_write(ge2d->map, GE2D_DST_CLIPY_START_END,
+ 		     FIELD_PREP(GE2D_START, ctx->out.crop.top) |
+-		     FIELD_PREP(GE2D_END, ctx->out.crop.top + ctx->out.crop.height));
++		     FIELD_PREP(GE2D_END, ctx->out.crop.top + ctx->out.crop.height - 1));
+ 	regmap_write(ge2d->map, GE2D_DST_CLIPX_START_END,
+ 		     FIELD_PREP(GE2D_START, ctx->out.crop.left) |
+-		     FIELD_PREP(GE2D_END, ctx->out.crop.left + ctx->out.crop.width));
++		     FIELD_PREP(GE2D_END, ctx->out.crop.left + ctx->out.crop.width - 1));
+ 
+ 	regmap_write(ge2d->map, GE2D_SRC1_Y_START_END,
+-		     FIELD_PREP(GE2D_END, ctx->in.pix_fmt.height));
++		     FIELD_PREP(GE2D_END, ctx->in.pix_fmt.height - 1));
+ 	regmap_write(ge2d->map, GE2D_SRC1_X_START_END,
+-		     FIELD_PREP(GE2D_END, ctx->in.pix_fmt.width));
++		     FIELD_PREP(GE2D_END, ctx->in.pix_fmt.width - 1));
+ 	regmap_write(ge2d->map, GE2D_SRC2_Y_START_END,
+-		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.height));
++		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.height - 1));
+ 	regmap_write(ge2d->map, GE2D_SRC2_X_START_END,
+-		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.width));
++		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.width - 1));
+ 	regmap_write(ge2d->map, GE2D_DST_Y_START_END,
+-		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.height));
++		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.height - 1));
+ 	regmap_write(ge2d->map, GE2D_DST_X_START_END,
+-		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.width));
++		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.width - 1));
+ 
+ 	/* Color, no blend, use source color */
+ 	reg = GE2D_ALU_DO_COLOR_OPERATION_LOGIC(LOGIC_OPERATION_COPY,
 -- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+2.25.1
+
