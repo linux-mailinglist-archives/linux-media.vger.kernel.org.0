@@ -2,172 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D587F399613
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 00:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 861793996DB
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 02:16:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbhFBWuT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Jun 2021 18:50:19 -0400
-Received: from gateway30.websitewelcome.com ([192.185.179.30]:24901 "EHLO
-        gateway30.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229626AbhFBWuR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Jun 2021 18:50:17 -0400
-X-Greylist: delayed 1500 seconds by postgrey-1.27 at vger.kernel.org; Wed, 02 Jun 2021 18:50:17 EDT
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
-        by gateway30.websitewelcome.com (Postfix) with ESMTP id 481DF897A
-        for <linux-media@vger.kernel.org>; Wed,  2 Jun 2021 17:01:24 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id oYvUlleLqnrr4oYvUlaQrA; Wed, 02 Jun 2021 17:01:24 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=QGxXXmCFwyQE+vVNSEra/v2uZBYm6bBxxjB0/bpHJj0=; b=K5w/is1y6OWG4J4JsHJi+SeTNn
-        KC5+nKnTyg0qCm7TTgmHdYyHcGZSDwvSN3rxxEkZpbQb4uMQQmA89McPTAA2ge9a6wpzh6KGYi+Jt
-        H6CMyO0Rz5ZDD4aDVpqOrZ6vVdNYfOByVCuZEkZO55B9XEqvLMnphnrJJsF8aK6tR8QenuKt9AOoQ
-        xtpQZL44B8QYYAvqUZlosIbkrRFFjeYp6WWykaOWBuwwtlCtn0cvc9j7ie99NBGG2myMMC47LASOv
-        SFcWek5q4WzBsT5OLQahxjUBdwW6RSnIxN0531p+usneuWK2IZ61ii6knQ4RE4zTq6AltdFXuIXXq
-        S3S9cuKw==;
-Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:52554 helo=[192.168.15.8])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1loYvQ-00061U-Lg; Wed, 02 Jun 2021 17:01:20 -0500
-Subject: Re: [PATCH][venus-for-next-v5.14] media: venus: hfi_cmds: Fix packet
- size calculation
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To:     Kees Cook <keescook@chromium.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        id S229656AbhFCARo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Jun 2021 20:17:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50366 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229541AbhFCARo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Jun 2021 20:17:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D65AA6100A;
+        Thu,  3 Jun 2021 00:15:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622679360;
+        bh=yEdkcwuAhilPBcLbUWO28NG4GTX7d4iKHu4aVHEwMBE=;
+        h=Date:From:To:Cc:Subject:From;
+        b=uu9+1ZBQo/EZmWv5FGp1qdyQb2TwPdVMUd8Gai0Lzd076/EBqKLci9m3hKubk0xuE
+         uS3cEkN6UgTpNA4mA1QTke4r2EIl6gRgDkchsERpkEbZvPhr0mcrMm7dTuxX80mjAm
+         SeAybvHtyu1siOVw/IWuhYVEOjBS4YLV9oPxB6IPRaIj533yA1Z/gditQfHWpFqWzw
+         r7W8o/40j7TpPH8K8udH4G+lIX+kPDg3E6gWFuwe6rhylHRPH/TD1t24shUYbmUanD
+         li7WTp24O6Qogx8sgCREjrM47vfsDsOW3sZi5YSLLh6ddChslNiy1TUmgCEMaHPh9N
+         gKnazDIguyOQQ==
+Date:   Wed, 2 Jun 2021 19:17:08 -0500
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20210601184616.GA23488@embeddedor>
- <202106021254.39A1561075@keescook>
- <e40f4067-82e2-31ff-0694-375a59f949de@embeddedor.com>
-Message-ID: <113fd896-464c-6aef-215a-a53ac6103a62@embeddedor.com>
-Date:   Wed, 2 Jun 2021 17:02:25 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-hardening@vger.kernel.org, Kees Cook <keescook@chromium.org>
+Subject: [PATCH v3][venus-for-next-v5.14] media: venus: hfi_cmds: Fix packet
+ size calculation
+Message-ID: <20210603001708.GA55239@embeddedor>
 MIME-Version: 1.0
-In-Reply-To: <e40f4067-82e2-31ff-0694-375a59f949de@embeddedor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.31.110
-X-Source-L: No
-X-Exim-ID: 1loYvQ-00061U-Lg
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8]) [187.162.31.110]:52554
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 7
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Now that a one-element array was replaced with a flexible-array member
+in struct hfi_sys_set_property_pkt, use the struct_size() helper to
+correctly calculate the packet size.
 
+Fixes: 701e10b3fd9f ("media: venus: hfi_cmds.h: Replace one-element array with flexible-array member")
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+Changes in v3:
+ - Fix size calculation in call to struct_size().
+   Link: https://lore.kernel.org/linux-hardening/202106021254.39A1561075@keescook/
+   Link: https://lore.kernel.org/linux-hardening/113fd896-464c-6aef-215a-a53ac6103a62@embeddedor.com/
 
-On 6/2/21 15:34, Gustavo A. R. Silva wrote:
-> 
-> 
-> On 6/2/21 14:55, Kees Cook wrote:
->> On Tue, Jun 01, 2021 at 01:46:16PM -0500, Gustavo A. R. Silva wrote:
->>> Now that a one-element array was replaced with a flexible-array member
->>> in struct hfi_sys_set_property_pkt, use the struct_size() helper to
->>> correctly calculate the packet size.
->>>
->>> Fixes: 701e10b3fd9f ("media: venus: hfi_cmds.h: Replace one-element array with flexible-array member")
->>> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->>> ---
->>> BTW... it seems that a similar problem is present in
->>> https://lore.kernel.org/linux-hardening/20210211001044.GA69612@embeddedor/ 
->>> and that is what is causing the regression. I will send v2 of that
->>> patch, shortly. Thanks.
->>>
->>>  drivers/media/platform/qcom/venus/hfi_cmds.c | 8 ++++----
->>>  1 file changed, 4 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
->>> index 11a8347e5f5c..c86279e5d6e8 100644
->>> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
->>> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
->>> @@ -27,7 +27,7 @@ void pkt_sys_idle_indicator(struct hfi_sys_set_property_pkt *pkt, u32 enable)
->>>  {
->>>  	struct hfi_enable *hfi = (struct hfi_enable *)&pkt->data[1];
->>>  
->>> -	pkt->hdr.size = sizeof(*pkt) + sizeof(*hfi) + sizeof(u32);
->>> +	pkt->hdr.size = struct_size(pkt, data, 2) + sizeof(*hfi);
->>
->> I think this should be "1" not "2".
->>
->> (i.e. there is a single "data" item, followed by an entire *hfi (which
->> starts immediate after data[0]).
-> 
-> Yeah; I see your point. Here I just wanted to preserve the exact same size
-> as the original code, which turns out has a "benign" off-by-one issue.
+Changes in v2:
+ - Include linux/overflow.h for struct_size().
 
-And the reason why I say it's a "benign" off-by-one (which is actually off-by-four-bytes)
-issue is because of this piece of code:
+ drivers/media/platform/qcom/venus/hfi_cmds.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-drivers/media/platform/qcom/venus/hfi_venus.c:
- 864 static int venus_sys_set_idle_message(struct venus_hfi_device *hdev,
- 865                                       bool enable)
- 866 {
- 867         struct hfi_sys_set_property_pkt *pkt;
- 868         u8 packet[IFACEQ_VAR_SMALL_PKT_SIZE];
- 869         int ret;
- 870
- 871         if (!enable)
- 872                 return 0;
- 873
- 874         pkt = (struct hfi_sys_set_property_pkt *)packet;
- 875
- 876         pkt_sys_idle_indicator(pkt, enable);
- 877
- 878         ret = venus_iface_cmdq_write(hdev, pkt, false);
- 879         if (ret)
- 880                 return ret;
- 881
- 882         return 0;
- 883 }
+diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+index 4b9dea7f6940..f51024786991 100644
+--- a/drivers/media/platform/qcom/venus/hfi_cmds.c
++++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+@@ -3,6 +3,7 @@
+  * Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+  * Copyright (C) 2017 Linaro Ltd.
+  */
++#include <linux/overflow.h>
+ #include <linux/errno.h>
+ #include <linux/hash.h>
+ 
+@@ -27,7 +28,7 @@ void pkt_sys_idle_indicator(struct hfi_sys_set_property_pkt *pkt, u32 enable)
+ {
+ 	struct hfi_enable *hfi = (struct hfi_enable *)&pkt->data[1];
+ 
+-	pkt->hdr.size = sizeof(*pkt) + sizeof(*hfi) + sizeof(u32);
++	pkt->hdr.size = struct_size(pkt, data, 1) + sizeof(*hfi);
+ 	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
+ 	pkt->num_properties = 1;
+ 	pkt->data[0] = HFI_PROPERTY_SYS_IDLE_INDICATOR;
+@@ -39,7 +40,7 @@ void pkt_sys_debug_config(struct hfi_sys_set_property_pkt *pkt, u32 mode,
+ {
+ 	struct hfi_debug_config *hfi;
+ 
+-	pkt->hdr.size = sizeof(*pkt) + sizeof(*hfi) + sizeof(u32);
++	pkt->hdr.size = struct_size(pkt, data, 1) + sizeof(*hfi);
+ 	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
+ 	pkt->num_properties = 1;
+ 	pkt->data[0] = HFI_PROPERTY_SYS_DEBUG_CONFIG;
+@@ -50,7 +51,7 @@ void pkt_sys_debug_config(struct hfi_sys_set_property_pkt *pkt, u32 mode,
+ 
+ void pkt_sys_coverage_config(struct hfi_sys_set_property_pkt *pkt, u32 mode)
+ {
+-	pkt->hdr.size = sizeof(*pkt) + sizeof(u32);
++	pkt->hdr.size = struct_size(pkt, data, 2);
+ 	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
+ 	pkt->num_properties = 1;
+ 	pkt->data[0] = HFI_PROPERTY_SYS_CONFIG_COVERAGE;
+@@ -116,7 +117,7 @@ void pkt_sys_power_control(struct hfi_sys_set_property_pkt *pkt, u32 enable)
+ {
+ 	struct hfi_enable *hfi = (struct hfi_enable *)&pkt->data[1];
+ 
+-	pkt->hdr.size = sizeof(*pkt) + sizeof(*hfi) + sizeof(u32);
++	pkt->hdr.size = struct_size(pkt, data, 1) + sizeof(*hfi);
+ 	pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
+ 	pkt->num_properties = 1;
+ 	pkt->data[0] = HFI_PROPERTY_SYS_CODEC_POWER_PLANE_CTRL;
+-- 
+2.27.0
 
-IFACEQ_VAR_SMALL_PKT_SIZE at line 868 is of size 100, which is greater than
-
-sizeof(*pkt) + sizeof(*hfi) + sizeof(u32); in the original code:
-
-drivers/media/platform/qcom/venus/hfi_cmds.c:
-  26 void pkt_sys_idle_indicator(struct hfi_sys_set_property_pkt *pkt, u32 enable)
-  27 {
-  28         struct hfi_enable *hfi = (struct hfi_enable *)&pkt->data[1];
-  29
-  30         pkt->hdr.size = sizeof(*pkt) + sizeof(*hfi) + sizeof(u32);
-  31         pkt->hdr.pkt_type = HFI_CMD_SYS_SET_PROPERTY;
-  32         pkt->num_properties = 1;
-  33         pkt->data[0] = HFI_PROPERTY_SYS_IDLE_INDICATOR;
-  34         hfi->enable = enable;
-  35 }
-
---
-Gustavo
-
-> I'll fix it up and respin.
-> 
-> Thanks!
-> --
-> Gustavo
