@@ -2,143 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60DB339A255
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 15:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5458839A5FE
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jun 2021 18:42:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230163AbhFCNjq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Jun 2021 09:39:46 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:51480 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230116AbhFCNjq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Jun 2021 09:39:46 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lonXs-000AAT-NF; Thu, 03 Jun 2021 13:38:00 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1loncG-00076m-KA; Thu, 03 Jun 2021 13:42:32 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.14] Add HANTRO G2/HEVC decoder support for IMX8MQ (#74776)
-Date:   Thu,  3 Jun 2021 13:42:32 +0000
-Message-Id: <20210603134232.27283-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <22b74c83-28af-ff86-0b3e-94e4e48d447a@xs4all.nl>
-References: 
+        id S229812AbhFCQoF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Jun 2021 12:44:05 -0400
+Received: from mail-wr1-f49.google.com ([209.85.221.49]:43569 "EHLO
+        mail-wr1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229719AbhFCQoF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 12:44:05 -0400
+Received: by mail-wr1-f49.google.com with SMTP id u7so1073895wrs.10
+        for <linux-media@vger.kernel.org>; Thu, 03 Jun 2021 09:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2pe98/RoIUXzCDVRxl/xmCe1bCIiBUSFO5AAZsF4X4c=;
+        b=W/cifPT7EZpt/9vHjGmYsuK0ro0zZT5FXpJklAznprHaeGKtvd6DvYDbQyzXHbdN3f
+         p59wmn8/1vb+mfedSCf/Bryu9KWJcYmBZY4voTMuw55dIiic7YOsv2Grycgo6Ts8ggUx
+         ZHAb0SaYd0CS0dvzPGL5P+J66BP4M0pYsm4bs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2pe98/RoIUXzCDVRxl/xmCe1bCIiBUSFO5AAZsF4X4c=;
+        b=PYkxlxF1WzwrtQcBqWFjVivmOmuXHsvULJ4irnUqKbMAssis4a//CUdvVv0RZO+xy3
+         szMdef6q3ms88kI0TpO3negNNNFDVi2lD7jQFiF0/JjiEBQ10cFhV0dBOpzcK1EB5Wbf
+         O69cvFZIefPJeDZeWen9jOBqyDeoW/stSg8U5QM+qV1NURbz0dF+zSXCOos80BqKNXI6
+         1g9+SNIBIPb3+iqMQwhcpzGsXbZ4kUHu19IXLgZ7HNzNZEFIB5hp/Fj3Ege+J+9v2HSN
+         outdv+3lH4d1nVt6+8UvpYbhGZnpow3zKY8zWQ7kMacFfF2fDAlTaT7TpcxyNgLfwkPP
+         LyRA==
+X-Gm-Message-State: AOAM530EeJZyvidWZMxUdzRdBS2/IM+eMdiv0qjWH+eNEsOzIyUf295i
+        4VPmUhqMM1juR0QGf+OM9zuxrA==
+X-Google-Smtp-Source: ABdhPJzD/tlT71a+Zy3mCWcZmzUDwV8s7qYZLAtIZrQu7z9kQ184iUhM7haFAqZ1h4a5geonxQ7OFg==
+X-Received: by 2002:adf:ee50:: with SMTP id w16mr816579wro.187.1622738479941;
+        Thu, 03 Jun 2021 09:41:19 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id s28sm4992683wra.54.2021.06.03.09.41.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jun 2021 09:41:19 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v3 1/4] dma-buf: Require VM_PFNMAP vma for mmap
+Date:   Thu,  3 Jun 2021 18:41:10 +0200
+Message-Id: <20210603164113.1433476-2-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210603164113.1433476-1-daniel.vetter@ffwll.ch>
+References: <20210603164113.1433476-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+tldr; DMA buffers aren't normal memory, expecting that you can use
+them like that (like calling get_user_pages works, or that they're
+accounting like any other normal memory) cannot be guaranteed.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/22b74c83-28af-ff86-0b3e-94e4e48d447a@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/112168/
-Build time: 00:42:12
-Link: https://lore.kernel.org/linux-media/22b74c83-28af-ff86-0b3e-94e4e48d447a@xs4all.nl
+Since some userspace only runs on integrated devices, where all
+buffers are actually all resident system memory, there's a huge
+temptation to assume that a struct page is always present and useable
+like for any more pagecache backed mmap. This has the potential to
+result in a uapi nightmare.
 
-gpg: Signature made Thu 03 Jun 2021 12:14:30 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
+blocks get_user_pages and all the other struct page based
+infrastructure for everyone. In spirit this is the uapi counterpart to
+the kernel-internal CONFIG_DMABUF_DEBUG.
 
-Summary: got 6/9 patches with issues, being 3 at build time
+Motivated by a recent patch which wanted to swich the system dma-buf
+heap to vm_insert_page instead of vm_insert_pfn.
 
-Error/warnings:
+v2:
 
-patches/0001-media-hevc-Add-fields-and-flags-for-hevc-PPS.patch:
+Jason brought up that we also want to guarantee that all ptes have the
+pte_special flag set, to catch fast get_user_pages (on architectures
+that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
+still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+From auditing the various functions to insert pfn pte entires
+(vm_insert_pfn_prot, remap_pfn_range and all it's callers like
+dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
+this should be the correct flag to check for.
 
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1929 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+References: https://lore.kernel.org/lkml/CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com/
+Acked-by: Christian König <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+--
+Resending this so I can test the next two patches for vgem/shmem in
+intel-gfx-ci. Last round failed somehow, but I can't repro that at all
+locally here.
 
-   checkpatch.pl:
-	$ cat patches/0001-media-hevc-Add-fields-and-flags-for-hevc-PPS.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:58: CHECK: Prefer using the BIT_ULL macro
-	-:59: CHECK: Prefer using the BIT_ULL macro
+No immediate plans to merge this patch here since ttm isn't addressed
+yet (and there we have the hugepte issue, for which I don't think we
+have a clear consensus yet).
+-Daniel
+---
+ drivers/dma-buf/dma-buf.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-patches/0002-media-hevc-Add-decode-params-control.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1929 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0002-media-hevc-Add-decode-params-control.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:278: CHECK: Alignment should match open parenthesis
-	-:307: WARNING: line length of 117 exceeds 100 columns
-
-patches/0003-media-hantro-change-hantro_codec_ops-run-prototype-t.patch:
-
-   checkpatch.pl:
-	$ cat patches/0003-media-hantro-change-hantro_codec_ops-run-prototype-t.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:7: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0006-media-uapi-Add-a-control-for-HANTRO-driver.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1929 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2828 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0006-media-uapi-Add-a-control-for-HANTRO-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:21: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0008-media-hantro-Introduce-G2-HEVC-decoder.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-media-hantro-Introduce-G2-HEVC-decoder.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:136: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:348: WARNING: line length of 101 exceeds 100 columns
-
-patches/0009-media-hantro-IMX8M-add-variant-for-G2-HEVC-codec.patch:
-
-   checkpatch.pl:
-	$ cat patches/0009-media-hantro-IMX8M-add-variant-for-G2-HEVC-codec.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:29: WARNING: DT compatible string "nxp,imx8mq-vpu-g2" appears un-documented -- check ./Documentation/devicetree/bindings/
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index eadd1eaa2fb5..dda583fb1f03 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -127,6 +127,7 @@ static struct file_system_type dma_buf_fs_type = {
+ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ {
+ 	struct dma_buf *dmabuf;
++	int ret;
+ 
+ 	if (!is_dma_buf_file(file))
+ 		return -EINVAL;
+@@ -142,7 +143,11 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ 	    dmabuf->size >> PAGE_SHIFT)
+ 		return -EINVAL;
+ 
+-	return dmabuf->ops->mmap(dmabuf, vma);
++	ret = dmabuf->ops->mmap(dmabuf, vma);
++
++	WARN_ON(!(vma->vm_flags & VM_PFNMAP));
++
++	return ret;
+ }
+ 
+ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
+@@ -1244,6 +1249,8 @@ EXPORT_SYMBOL_GPL(dma_buf_end_cpu_access);
+ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 		 unsigned long pgoff)
+ {
++	int ret;
++
+ 	if (WARN_ON(!dmabuf || !vma))
+ 		return -EINVAL;
+ 
+@@ -1264,7 +1271,11 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 	vma_set_file(vma, dmabuf->file);
+ 	vma->vm_pgoff = pgoff;
+ 
+-	return dmabuf->ops->mmap(dmabuf, vma);
++	ret = dmabuf->ops->mmap(dmabuf, vma);
++
++	WARN_ON(!(vma->vm_flags & VM_PFNMAP));
++
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_mmap);
+ 
+-- 
+2.31.0
 
