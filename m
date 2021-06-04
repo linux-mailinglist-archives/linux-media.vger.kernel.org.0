@@ -2,42 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B15A39BADB
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 16:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2270639BAFF
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 16:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbhFDO1X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 10:27:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230264AbhFDO1W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 10:27:22 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76A29C061766
-        for <linux-media@vger.kernel.org>; Fri,  4 Jun 2021 07:25:36 -0700 (PDT)
+        id S229702AbhFDOkD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 10:40:03 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35704 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229656AbhFDOkC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 10:40:02 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D037F2A3;
-        Fri,  4 Jun 2021 16:25:34 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E45D2A3;
+        Fri,  4 Jun 2021 16:38:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622816735;
-        bh=L81AB/OVh/NYJ7cn7aLtOfX4jebMr9VAxCI47jEKPHg=;
+        s=mail; t=1622817495;
+        bh=xTjcZtdFEiY4zZBPYiOMxoT7iHdsHD2wxRZRBWENyqE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=enuz3vp0RUpoNrXl4YYjEDUrM5CW05YrRXCsLqBzEK8LO9hBzHa9vu6ug6E5FCQMv
-         i3x5syrnCj5Ua78FiDdC+Y2Bx9fabbaVvkBUZFXKnYIOaB9dUM/Vp1RNRg0O+Xbu6R
-         RAwnRbNdw6aEgNqAEHEI7M4qjfCbcPMSX6CsdIzI=
-Date:   Fri, 4 Jun 2021 17:25:22 +0300
+        b=n9wCcVnm0NUDl7oMeyPanELSLRPQz+HbRYoYsXu32UFwjgMnwrLu5pLGAfVR1TDch
+         kNfvRl8QlnPCrlM47KTve5Q7qUCINStCXslS1VZ9wo9/AVjMx9GpWBKDebm7YnyLUJ
+         q3dvHxfA1X2TRHTur8cKcs4lw9lDDt3sqRlWNWvU=
+Date:   Fri, 4 Jun 2021 17:38:02 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 37/38] media: ti-vpe: cal: use frame desc to get vc
- and dt
-Message-ID: <YLo30o5EJczdH2mq@pendragon.ideasonboard.com>
-References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
- <20210524110909.672432-38-tomi.valkeinen@ideasonboard.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] media: videobuf2-v4l2.c: add
+ vb2_queue_change_type() helper
+Message-ID: <YLo6yjdnODaIU8aC@pendragon.ideasonboard.com>
+References: <20210412110211.275791-1-tomi.valkeinen@ideasonboard.com>
+ <20210412110211.275791-2-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210524110909.672432-38-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20210412110211.275791-2-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -46,173 +45,87 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Mon, May 24, 2021 at 02:09:08PM +0300, Tomi Valkeinen wrote:
-> Use get_frame_desc() to get the frame desc from the connected source,
-> and use the provided virtual channel and datatype instead of hardcoded
-> ones.
+On Mon, Apr 12, 2021 at 02:02:09PM +0300, Tomi Valkeinen wrote:
+> On some platforms a video device can capture either video data or
+> metadata. The driver can implement vidioc functions for both video and
+> metadata, and use a single vb2_queue for the buffers. However, vb2_queue
+> requires choosing a single buffer type, which conflicts with the idea of
+> capturing either video or metadata.
 > 
-> get_frame_desc() works per stream, but as we don't support multiple
-> streams yet, we will just always use stream 0.
-> 
-> If the source doesn't support get_frame_desc(), fall back to the
-> previous method of always capturing virtual channel 0 and any datatype.
+> The buffer type of vb2_queue can be changed, but it's not obvious how
+> this should be done in the drivers. To help this, add a new helper
+> function vb2_queue_change_type() which ensures the correct checks and
+> documents how it can be used.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/platform/ti-vpe/cal-camerarx.c | 26 +++++++++++
->  drivers/media/platform/ti-vpe/cal.c          | 49 +++++++++++++++++++-
->  drivers/media/platform/ti-vpe/cal.h          |  3 ++
->  3 files changed, 76 insertions(+), 2 deletions(-)
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c | 14 ++++++++++++++
+>  include/media/videobuf2-v4l2.h                  | 15 +++++++++++++++
+>  2 files changed, 29 insertions(+)
 > 
-> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> index e3a4c20be1e6..cb6a37f47432 100644
-> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> @@ -583,6 +583,32 @@ static int cal_camerarx_parse_dt(struct cal_camerarx *phy)
->  	return ret;
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 7e96f67c60ba..2988bb38ceb1 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -939,6 +939,20 @@ void vb2_queue_release(struct vb2_queue *q)
 >  }
+>  EXPORT_SYMBOL_GPL(vb2_queue_release);
 >  
-> +int cal_camerarx_get_remote_frame_desc(struct cal_camerarx *phy,
-> +				       struct v4l2_mbus_frame_desc *fd)
-
-Maybe s/fd/desc/ to avoid the confusion with file descriptor ?
-
+> +int vb2_queue_change_type(struct vb2_queue *q, unsigned int type)
 > +{
-> +	struct media_pad *pad;
-> +	int ret;
+> +	if (type == q->type)
+> +		return 0;
 > +
-> +	if (!phy->source)
-> +		return -ENODEV;
-
-Would EPIPE (here and below) be a better error ? It will be returned to
-userspace from VIDIOC_STREAMON(), which already uses EPIPE to indicate
-that the links are not correctly set up.
-
+> +	if (vb2_is_busy(q))
+> +		return -EBUSY;
 > +
-> +	pad = media_entity_remote_pad(&phy->pads[CAL_CAMERARX_PAD_SINK]);
-> +	if (!pad)
-> +		return -ENODEV;
-> +
-> +	ret = v4l2_subdev_call(phy->source, pad, get_frame_desc, pad->index,
-> +			       fd);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (fd->type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
-> +		dev_err(phy->cal->dev, "Frame desc do not describe CSI-2 link");
-
-s/do not/does not/ and maybe s/desc/descriptor/
-
-> +		return -EINVAL;
-> +	}
+> +	q->type = type;
 > +
 > +	return 0;
 > +}
+> +EXPORT_SYMBOL_GPL(vb2_queue_change_type);
 > +
->  /* ------------------------------------------------------------------
->   *	V4L2 Subdev Operations
->   * ------------------------------------------------------------------
-> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> index fcc81024ae18..7975bb449acd 100644
-> --- a/drivers/media/platform/ti-vpe/cal.c
-> +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -469,10 +469,56 @@ static bool cal_ctx_wr_dma_stopped(struct cal_ctx *ctx)
->  	return stopped;
->  }
+>  __poll_t vb2_poll(struct vb2_queue *q, struct file *file, poll_table *wait)
+>  {
+>  	struct video_device *vfd = video_devdata(file);
+> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
+> index c203047eb834..12fa72a664cf 100644
+> --- a/include/media/videobuf2-v4l2.h
+> +++ b/include/media/videobuf2-v4l2.h
+> @@ -261,6 +261,21 @@ int __must_check vb2_queue_init_name(struct vb2_queue *q, const char *name);
+>   */
+>  void vb2_queue_release(struct vb2_queue *q);
 >  
-> +static int
-> +cal_get_remote_frame_desc_entry(struct cal_camerarx *phy, u32 stream,
-> +				struct v4l2_mbus_frame_desc_entry *entry)
-> +{
-> +	struct v4l2_mbus_frame_desc fd;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	ret = cal_camerarx_get_remote_frame_desc(phy, &fd);
-> +	if (ret) {
-> +		if (ret != -ENOIOCTLCMD)
-> +			dev_err(phy->cal->dev,
-> +				"Failed to get remote frame desc: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	for (i = 0; i < fd.num_entries; i++) {
-> +		if (stream == fd.entry[i].stream) {
-> +			*entry = fd.entry[i];
-> +			return 0;
-> +		}
-> +	}
-> +
+> +/**
+> + * vb2_queue_change_type() - change the type of an inactive vb2_queue
+> + * @q:		pointer to &struct vb2_queue with videobuf2 queue.
+> + *
+> + * This function changes the type of the vb2_queue. This is only possible
+> + * if the queue is not busy (i.e. no buffers have been allocated).
+> + *
+> + * vb2_queue_change_type() can be used to support multiple buffer types using
+> + * the same queue. The driver can implement v4l2_ioctl_ops.vidioc_reqbufs and
 
-A dev_dbg() would be good here, in which case you could drop the
-ctx_err() in cal_ctx_prepare() as all error paths will print a message.
+I think this should be &v4l2_ioctl_ops.vidioc_reqbufs() (same below) to
+generate links properly.
+
+> + * v4l2_ioctl_ops.vidioc_create_bufs functions and call vb2_queue_change_type()
+> + * before calling vb2_ioctl_reqbufs() or vb2_ioctl_create_bufs(), and thus
+> + * "lock" the buffer type until the buffers have been released.
+
+It would be nice if selection of the type could be moved to the
+.queue_setup() operation, but that's more difficult and would require
+rework of the reqbufs and create_bufs implementations that may be
+tricky.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> +	return -ENODEV;
-> +}
+> + */
+> +int vb2_queue_change_type(struct vb2_queue *q, unsigned int type);
 > +
->  int cal_ctx_prepare(struct cal_ctx *ctx)
->  {
-> +	struct v4l2_mbus_frame_desc_entry entry;
->  	int ret;
->  
-> +	ret = cal_get_remote_frame_desc_entry(ctx->phy, ctx->stream, &entry);
-> +
-> +	if (ret == -ENOIOCTLCMD) {
-> +		ctx->vc = 0;
-> +		ctx->datatype = CAL_CSI2_CTX_DT_ANY;
-> +	} else if (!ret) {
-> +		ctx_dbg(2, ctx, "Framedesc: stream %u, len %u, vc %u, dt %#x\n",
-> +		       entry.stream,
-> +		       entry.length,
-> +		       entry.bus.csi2.vc,
-> +		       entry.bus.csi2.dt);
-
-You can group multiple variables on the same line.
-
-> +
-> +		ctx->vc = entry.bus.csi2.vc;
-> +		ctx->datatype = entry.bus.csi2.dt;
-> +	} else {
-> +		ctx_err(ctx, "Failed to get remote frame desc: %d\n", ret);
-> +		return ret;
-> +	}
-> +
->  	ctx->use_pix_proc = !ctx->fmtinfo->meta;
->  
->  	if (ctx->use_pix_proc) {
-> @@ -925,8 +971,7 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
->  	ctx->dma_ctx = inst;
->  	ctx->csi2_ctx = inst;
->  	ctx->cport = inst;
-> -	ctx->vc = 0;
-> -	ctx->datatype = CAL_CSI2_CTX_DT_ANY;
-> +	ctx->stream = 0;
->  
->  	ret = cal_ctx_v4l2_init(ctx);
->  	if (ret)
-> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> index 29b865d1a238..3aea444f8bf8 100644
-> --- a/drivers/media/platform/ti-vpe/cal.h
-> +++ b/drivers/media/platform/ti-vpe/cal.h
-> @@ -245,6 +245,7 @@ struct cal_ctx {
->  	u8			pix_proc;
->  	u8			vc;
->  	u8			datatype;
-> +	u32			stream;
->  
->  	bool			use_pix_proc;
->  };
-> @@ -318,6 +319,8 @@ const struct cal_format_info *cal_format_by_code(u32 code);
->  
->  void cal_quickdump_regs(struct cal_dev *cal);
->  
-> +int cal_camerarx_get_remote_frame_desc(struct cal_camerarx *phy,
-> +				       struct v4l2_mbus_frame_desc *fd);
->  void cal_camerarx_disable(struct cal_camerarx *phy);
->  void cal_camerarx_i913_errata(struct cal_camerarx *phy);
->  struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  /**
+>   * vb2_poll() - implements poll userspace operation
+>   * @q:		pointer to &struct vb2_queue with videobuf2 queue.
 
 -- 
 Regards,
