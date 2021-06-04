@@ -2,122 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD57239BA8A
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 16:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11E0139BAAF
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 16:09:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231307AbhFDOGv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 10:06:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42474 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230124AbhFDOGu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 10:06:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EC52C061766
-        for <linux-media@vger.kernel.org>; Fri,  4 Jun 2021 07:05:04 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96DBF2A3;
-        Fri,  4 Jun 2021 16:05:02 +0200 (CEST)
+        id S230284AbhFDOLa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 10:11:30 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35404 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230122AbhFDOL3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 10:11:29 -0400
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A903E2A3;
+        Fri,  4 Jun 2021 16:09:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622815502;
-        bh=APqxrIj9Dooa3A2VKHJ0QvsCcloPfJ5Br/2EbI3pXDM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p+zc7ALTwoQU6jxQrm5l09cX6CaTIQs+3COY4X+6nXlw8pu86Rpg5eul8scHIBbF7
-         Emff60c67NLWcALIGc0X+obhrbZc6OfUlXVsUs0Ef2m5kYLKAOeGtYTQobck4hnVL4
-         VEWCknufJuJZPgO3kfaQCXZfH9wAvQmxfUYcouD8=
-Date:   Fri, 4 Jun 2021 17:04:50 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 32/38] media: ti-vpe: cal: use CSI-2 frame number
-Message-ID: <YLozAqLmoKnHzQEi@pendragon.ideasonboard.com>
-References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
- <20210524110909.672432-33-tomi.valkeinen@ideasonboard.com>
+        s=mail; t=1622815782;
+        bh=upvNDCOeuqJGsMaQ89KfD+hDNxc6hQ/LZQ+PqqCLFso=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=C7THKiABgo/C/WaCiLakYFv98P1aZU885DnNA41zxNsoLMov/zsfuxZgqJ2b6mss4
+         VtAxPlLdQCRfZJeXpzSAEIbgn/s9ADzJgNRhOSKBQS7aj4zcm2Br4ntQvRbpZnX7mL
+         RfoNIJ6a4DEgj0hZk8n3cplrhYeGaxmEV8geMwNc=
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210412110211.275791-1-tomi.valkeinen@ideasonboard.com>
+ <20210412110211.275791-2-tomi.valkeinen@ideasonboard.com>
+ <YLoKxlXsC/nT4rF7@chromium.org>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2 1/3] media: videobuf2-v4l2.c: add
+ vb2_queue_change_type() helper
+Message-ID: <5ee0e9a7-c6cb-fe75-7a91-5159c3233072@ideasonboard.com>
+Date:   Fri, 4 Jun 2021 17:09:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210524110909.672432-33-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <YLoKxlXsC/nT4rF7@chromium.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Hi Tomasz,
 
-Thank you for the patch.
-
-On Mon, May 24, 2021 at 02:09:03PM +0300, Tomi Valkeinen wrote:
-> The driver fills buf->vb.sequence with an increasing number which is
-> incremented by the driver. This feels a bit pointless, as the userspace
-> could as well track that kind of number itself. Instead, lets use the
-
-s/lets/let's/
-
-> frame number provided in the CSI-2 data from the sensor.
+On 04/06/2021 14:13, Tomasz Figa wrote:
+> Hi Tomi,
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/platform/ti-vpe/cal.c | 7 +++++--
->  drivers/media/platform/ti-vpe/cal.h | 1 -
->  2 files changed, 5 insertions(+), 3 deletions(-)
+> On Mon, Apr 12, 2021 at 02:02:09PM +0300, Tomi Valkeinen wrote:
+>> On some platforms a video device can capture either video data or
+>> metadata. The driver can implement vidioc functions for both video and
+>> metadata, and use a single vb2_queue for the buffers. However, vb2_queue
+>> requires choosing a single buffer type, which conflicts with the idea of
+>> capturing either video or metadata.
+>>
+>> The buffer type of vb2_queue can be changed, but it's not obvious how
+>> this should be done in the drivers. To help this, add a new helper
+>> function vb2_queue_change_type() which ensures the correct checks and
+>> documents how it can be used.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/common/videobuf2/videobuf2-v4l2.c | 14 ++++++++++++++
+>>   include/media/videobuf2-v4l2.h                  | 15 +++++++++++++++
+>>   2 files changed, 29 insertions(+)
+>>
 > 
-> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> index 888706187fd1..62c45add4efe 100644
-> --- a/drivers/media/platform/ti-vpe/cal.c
-> +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -493,7 +493,6 @@ void cal_ctx_unprepare(struct cal_ctx *ctx)
->  
->  void cal_ctx_start(struct cal_ctx *ctx)
->  {
-> -	ctx->sequence = 0;
->  	ctx->dma.state = CAL_DMA_RUNNING;
->  
->  	/* Configure the CSI-2, pixel processing and write DMA contexts. */
-> @@ -586,6 +585,10 @@ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
->  static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->  {
->  	struct cal_buffer *buf = NULL;
-> +	u32 frame_num;
-> +
-> +	frame_num = cal_read(ctx->cal, CAL_CSI2_STATUS(ctx->phy->instance,
-> +						       ctx->csi2_ctx)) & 0xffff;
->  
->  	spin_lock(&ctx->dma.lock);
->  
-> @@ -607,7 +610,7 @@ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->  	if (buf) {
->  		buf->vb.vb2_buf.timestamp = ktime_get_ns();
->  		buf->vb.field = ctx->v_fmt.fmt.pix.field;
-> -		buf->vb.sequence = ctx->sequence++;
-> +		buf->vb.sequence = frame_num;
+> Good to see you contributing to the media subsystem. Not sure if you
+> still remember me from the Common Display Framework discussions. ;)
 
-We'll need something a bit more complicated. The CSI-2 frame number is
-not mandatory, and when used, it is a 16-bit number starting at 1 and
-counting to an unspecified value larger than one, resetting to 1 at the
-end of the cycle. The V4L2 sequence number, on the other hand, is a
-monotonic counter starting at 0 and wrapping only at 2^32-1. We should
-thus keep a software sequence counter and
+I barely remember CDF... ;)
 
-- increase it by 1 if the frame number is zero
-- increase it by frame_num - last_frame_num (with wrap-around of
-  frame_num handled) otherwise
+> Anyway, thanks for the patch. I think the code itself is okay, but I'm
+> wondering why the driver couldn't just have two queues, one for each
+> type?
 
->  		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
->  	}
->  }
-> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> index 400f95485d7c..ad08c189ad3b 100644
-> --- a/drivers/media/platform/ti-vpe/cal.h
-> +++ b/drivers/media/platform/ti-vpe/cal.h
-> @@ -217,7 +217,6 @@ struct cal_ctx {
->  	const struct cal_format_info	**active_fmt;
->  	unsigned int		num_active_fmt;
->  
-> -	unsigned int		sequence;
->  	struct vb2_queue	vb_vidq;
->  	u8			dma_ctx;
->  	u8			cport;
+There was an email thread about this:
 
--- 
-Regards,
+https://www.spinics.net/lists/linux-media/msg189144.html
 
-Laurent Pinchart
+struct video_device has 'queue' field, so if you have two queues, you'd 
+need to change the vd->queue based on the format. Possibly that could be 
+a solution too (and, if I recall right, that's what I initially tried as 
+a quick hack). Changing the whole queue sounds riskier than changing 
+just the type.
+
+  Tomi
