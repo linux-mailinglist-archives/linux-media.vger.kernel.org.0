@@ -2,21 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3F3939B977
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 15:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A76DA39B979
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 15:07:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230348AbhFDNIq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 09:08:46 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35344 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230340AbhFDNIo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 09:08:44 -0400
+        id S230368AbhFDNIt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 09:08:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230350AbhFDNIq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 09:08:46 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62AECC06174A;
+        Fri,  4 Jun 2021 06:07:00 -0700 (PDT)
 Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:389:b21e:a7e4:8cad])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CEB151F439E0;
-        Fri,  4 Jun 2021 14:06:56 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1C9541F439D1;
+        Fri,  4 Jun 2021 14:06:58 +0100 (BST)
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
         mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -28,9 +31,9 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH 7/8] media: hevc: Add scaling matrix control
-Date:   Fri,  4 Jun 2021 15:06:18 +0200
-Message-Id: <20210604130619.491200-8-benjamin.gaignard@collabora.com>
+Subject: [PATCH 8/8] media: hantro: Add scaling lists feature
+Date:   Fri,  4 Jun 2021 15:06:19 +0200
+Message-Id: <20210604130619.491200-9-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210604130619.491200-1-benjamin.gaignard@collabora.com>
 References: <20210604130619.491200-1-benjamin.gaignard@collabora.com>
@@ -40,175 +43,197 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-HEVC scaling lists are used for the scaling process for transform
-coefficients.
-V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED has to set when they are
-encoded in the bitstream.
+If the bitstream embedded scaling lists allow the driver to use
+them for decode the frames.
+The scaling lists are expected to be in raster scan order (i.e. not up
+right diagonal scan order)
+Allocate the memory needed to store lists.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- .../media/v4l/ext-ctrls-codec.rst             | 45 +++++++++++++++++++
- .../media/v4l/vidioc-queryctrl.rst            |  6 +++
- drivers/media/v4l2-core/v4l2-ctrls-core.c     |  6 +++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++
- include/media/hevc-ctrls.h                    | 11 +++++
- 5 files changed, 72 insertions(+)
+ drivers/staging/media/hantro/hantro_drv.c     |  8 +--
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 52 +++++++++++++++++++
+ drivers/staging/media/hantro/hantro_hevc.c    | 21 ++++++++
+ drivers/staging/media/hantro/hantro_hw.h      |  3 ++
+ 4 files changed, 81 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 9120c5bcaf90..a4512b7cb520 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -3065,6 +3065,51 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 5e6609fa4143..324619c78ada 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -281,9 +281,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ 		    sps->bit_depth_luma_minus8 != 2)
+ 			/* Only 8-bit or 10-bit is supported */
+ 			return -EINVAL;
+-		if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED)
+-			/* No scaling support */
+-			return -EINVAL;
+ 		if (sps->bit_depth_luma_minus8 == 0 &&
+ 		    hantro_is_10bit_dst_format(ctx)) {
+ 			return -EINVAL;
+@@ -469,6 +466,11 @@ static const struct hantro_ctrl controls[] = {
+ 		.cfg = {
+ 			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
+ 		},
++	}, {
++		.codec = HANTRO_HEVC_DECODER,
++		.cfg = {
++			.id = V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
++		},
+ 	}, {
+ 		.codec = HANTRO_HEVC_DECODER,
+ 		.cfg = {
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index 741b029aef9e..f7be8629c3cc 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -597,6 +597,56 @@ static void set_buffers(struct hantro_ctx *ctx)
+ 	hantro_write_addr(vpu, G2_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
+ }
  
-     \normalsize
++static void prepare_scaling_list_buffer(struct hantro_ctx *ctx)
++{
++	struct hantro_dev *vpu = ctx->dev;
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	const struct v4l2_ctrl_hevc_scaling_matrix *sc = ctrls->scaling;
++	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
++	u8 *p = ((u8 *)ctx->hevc_dec.scaling_lists.cpu);
++	unsigned int scaling_list_enabled;
++	unsigned int i, j, k;
++
++	scaling_list_enabled = !!(sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED);
++	hantro_reg_write(vpu, &g2_scaling_list_e, scaling_list_enabled);
++
++	if (!scaling_list_enabled)
++		return;
++
++	for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_16x16); i++)
++		*p++ = sc->scaling_list_dc_coef_16x16[i];
++
++	for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_32x32); i++)
++		*p++ = sc->scaling_list_dc_coef_32x32[i];
++
++	/* 128-bit boundary */
++	p += 8;
++
++	/* write scaling lists column by column */
++
++	for (i = 0; i < 6; i++)
++		for (j = 0; j < 4; j++)
++			for (k = 0; k < 4; k++)
++				*p++ = sc->scaling_list_4x4[i][4 * k + j];
++
++	for (i = 0; i < 6; i++)
++		for (j = 0; j < 8; j++)
++			for (k = 0; k < 8; k++)
++				*p++ = sc->scaling_list_8x8[i][8 * k + j];
++
++	for (i = 0; i < 6; i++)
++		for (j = 0; j < 8; j++)
++			for (k = 0; k < 8; k++)
++				*p++ = sc->scaling_list_16x16[i][8 * k + j];
++
++	for (i = 0; i < 2; i++)
++		for (j = 0; j < 8; j++)
++			for (k = 0; k < 8; k++)
++				*p++ = sc->scaling_list_32x32[i][8 * k + j];
++
++	hantro_write_addr(vpu, HEVC_SCALING_LIST, ctx->hevc_dec.scaling_lists.dma);
++}
++
+ static void hantro_g2_check_idle(struct hantro_dev *vpu)
+ {
+ 	int i;
+@@ -657,6 +707,8 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+ 	set_buffers(ctx);
+ 	prepare_tile_info_buffer(ctx);
  
-+``V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX (struct)``
-+    Specifies the HEVC scaling matrix parameters used for the scaling process
-+    for transform coefficients.
-+    These matrix and parameters are defined according to :ref:`hevc`.
-+    They are described in section 7.4.5 "Scaling list data semantics" of
-+    the specification.
++	prepare_scaling_list_buffer(ctx);
 +
-+.. c:type:: v4l2_ctrl_hevc_scaling_matrix
-+
-+.. raw:: latex
-+
-+    \scriptsize
-+
-+.. tabularcolumns:: |p{5.4cm}|p{6.8cm}|p{5.1cm}|
-+
-+.. cssclass:: longtable
-+
-+.. flat-table:: struct v4l2_ctrl_hevc_slice_params
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       1 1 2
-+
-+    * - __u8
-+      - ``scaling_list_4x4[6][16]``
-+      -
-+    * - __u8
-+      - ``scaling_list_8x8[6][64]``
-+      -
-+    * - __u8
-+      - ``scaling_list_16x16[6][64]``
-+      -
-+    * - __u8
-+      - ``scaling_list_32x32[2][64]``
-+      -
-+    * - __u8
-+      - ``scaling_list_dc_coef_16x16[6]``
-+      -
-+    * - __u8
-+      - ``scaling_list_dc_coef_32x32[2]``
-+      -
-+
-+.. raw:: latex
-+
-+    \normalsize
-+
- .. c:type:: v4l2_hevc_dpb_entry
+ 	hantro_end_prepare_run(ctx);
  
- .. raw:: latex
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index f9ecf6276129..2f491c17dd5d 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -495,6 +495,12 @@ See also the examples in :ref:`control`.
-       - n/a
-       - A struct :c:type:`v4l2_ctrl_hevc_slice_params`, containing HEVC
- 	slice parameters for stateless video decoders.
-+    * - ``V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_ctrl_hevc_scaling_matrix`, containing HEVC
-+	scaling matrix for stateless video decoders.
-     * - ``V4L2_CTRL_TYPE_VP8_FRAME``
-       - n/a
-       - n/a
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index c4b5082849b6..70adfc1b9c81 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -687,6 +687,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 	hantro_reg_write(vpu, &g2_mode, HEVC_DEC_MODE);
+diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+index ae9827dd7086..57c1ddeaf2db 100644
+--- a/drivers/staging/media/hantro/hantro_hevc.c
++++ b/drivers/staging/media/hantro/hantro_hevc.c
+@@ -20,6 +20,8 @@
+ /* tile border coefficients of filter */
+ #define VERT_SAO_RAM_SIZE 48 /* bytes per pixel */
  
- 		break;
- 
-+	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
-+		break;
++#define SCALING_LIST_SIZE (16 * 64)
 +
- 	case V4L2_CTRL_TYPE_AREA:
- 		area = p;
- 		if (!area->width || !area->height)
-@@ -1240,6 +1243,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
- 		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
- 		break;
-+	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
-+		elem_size = sizeof(struct v4l2_ctrl_hevc_scaling_matrix);
-+		break;
- 	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
- 		elem_size = sizeof(struct v4l2_ctrl_hevc_decode_params);
- 		break;
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index b6344bbf1e00..cb29c2a7fabe 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -996,6 +996,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SPS:			return "HEVC Sequence Parameter Set";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_PPS:			return "HEVC Picture Parameter Set";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
-+	case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:		return "HEVC Scaling Matrix";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:		return "HEVC Decode Parameters";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
- 	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
-@@ -1488,6 +1489,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
- 		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:
-+		*type = V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
-+		break;
- 	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:
- 		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
- 		break;
-diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-index dc964ff7cd29..da6189ef7ab4 100644
---- a/include/media/hevc-ctrls.h
-+++ b/include/media/hevc-ctrls.h
-@@ -19,6 +19,7 @@
- #define V4L2_CID_MPEG_VIDEO_HEVC_SPS		(V4L2_CID_CODEC_BASE + 1008)
- #define V4L2_CID_MPEG_VIDEO_HEVC_PPS		(V4L2_CID_CODEC_BASE + 1009)
- #define V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS	(V4L2_CID_CODEC_BASE + 1010)
-+#define V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX	(V4L2_CID_CODEC_BASE + 1011)
- #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE + 1012)
- #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
- #define V4L2_CID_MPEG_VIDEO_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
-@@ -27,6 +28,7 @@
- #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
- #define V4L2_CTRL_TYPE_HEVC_PPS 0x0121
- #define V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS 0x0122
-+#define V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX 0x0123
- #define V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS 0x0124
+ #define MAX_TILE_COLS 20
+ #define MAX_TILE_ROWS 22
  
- enum v4l2_mpeg_video_hevc_decode_mode {
-@@ -225,6 +227,15 @@ struct v4l2_ctrl_hevc_decode_params {
- 	__u64	flags;
- };
+@@ -287,6 +289,11 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
+ 	if (WARN_ON(!ctrls->decode_params))
+ 		return -EINVAL;
  
-+struct v4l2_ctrl_hevc_scaling_matrix {
-+	__u8	scaling_list_4x4[6][16];
-+	__u8	scaling_list_8x8[6][64];
-+	__u8	scaling_list_16x16[6][64];
-+	__u8	scaling_list_32x32[2][64];
-+	__u8	scaling_list_dc_coef_16x16[6];
-+	__u8	scaling_list_dc_coef_32x32[2];
-+};
++	ctrls->scaling =
++		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
++	if (WARN_ON(!ctrls->scaling))
++		return -EINVAL;
 +
- /*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 */
- #define V4L2_CID_CODEC_HANTRO_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1200)
- /*
+ 	ctrls->sps =
+ 		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SPS);
+ 	if (WARN_ON(!ctrls->sps))
+@@ -315,6 +322,12 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
+ 				  hevc_dec->tile_sizes.dma);
+ 	hevc_dec->tile_sizes.cpu = NULL;
+ 
++	if (hevc_dec->scaling_lists.cpu)
++		dma_free_coherent(vpu->dev, hevc_dec->scaling_lists.size,
++				  hevc_dec->scaling_lists.cpu,
++				  hevc_dec->scaling_lists.dma);
++	hevc_dec->scaling_lists.cpu = NULL;
++
+ 	if (hevc_dec->tile_filter.cpu)
+ 		dma_free_coherent(vpu->dev, hevc_dec->tile_filter.size,
+ 				  hevc_dec->tile_filter.cpu,
+@@ -358,6 +371,14 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx)
+ 
+ 	hevc_dec->tile_sizes.size = size;
+ 
++	hevc_dec->scaling_lists.cpu = dma_alloc_coherent(vpu->dev, SCALING_LIST_SIZE,
++							 &hevc_dec->scaling_lists.dma,
++							 GFP_KERNEL);
++	if (!hevc_dec->scaling_lists.cpu)
++		return -ENOMEM;
++
++	hevc_dec->scaling_lists.size = SCALING_LIST_SIZE;
++
+ 	hantro_hevc_ref_init(ctx);
+ 
+ 	return 0;
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 2edb890f10af..88add18b1bad 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -108,6 +108,7 @@ struct hantro_h264_dec_hw_ctx {
+  */
+ struct hantro_hevc_dec_ctrls {
+ 	const struct v4l2_ctrl_hevc_decode_params *decode_params;
++	const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
+ 	const struct v4l2_ctrl_hevc_sps *sps;
+ 	const struct v4l2_ctrl_hevc_pps *pps;
+ 	u32 hevc_hdr_skip_length;
+@@ -120,6 +121,7 @@ struct hantro_hevc_dec_ctrls {
+  * @tile_sao:		Tile SAO buffer
+  * @tile_bsd:		Tile BSD control buffer
+  * @ref_bufs:		Internal reference buffers
++ * @scaling_lists:	Scaling lists buffer
+  * @ref_bufs_poc:	Internal reference buffers picture order count
+  * @ref_bufs_used:	Bitfield of used reference buffers
+  * @ctrls:		V4L2 controls attached to a run
+@@ -131,6 +133,7 @@ struct hantro_hevc_dec_hw_ctx {
+ 	struct hantro_aux_buf tile_sao;
+ 	struct hantro_aux_buf tile_bsd;
+ 	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
++	struct hantro_aux_buf scaling_lists;
+ 	int ref_bufs_poc[NUM_REF_PICTURES];
+ 	u32 ref_bufs_used;
+ 	struct hantro_hevc_dec_ctrls ctrls;
 -- 
 2.25.1
 
