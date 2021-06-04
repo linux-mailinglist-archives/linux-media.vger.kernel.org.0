@@ -2,39 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82D4A39BAD2
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 16:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B15A39BADB
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 16:25:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231200AbhFDOU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 10:20:56 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35538 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230124AbhFDOU4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 10:20:56 -0400
+        id S230299AbhFDO1X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 10:27:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230264AbhFDO1W (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 10:27:22 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76A29C061766
+        for <linux-media@vger.kernel.org>; Fri,  4 Jun 2021 07:25:36 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90A15A52;
-        Fri,  4 Jun 2021 16:19:08 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D037F2A3;
+        Fri,  4 Jun 2021 16:25:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622816348;
-        bh=Rb/7/3VyfIhWPjNhW4ZmARgsTnhhpdjrSU73nQuaDlM=;
+        s=mail; t=1622816735;
+        bh=L81AB/OVh/NYJ7cn7aLtOfX4jebMr9VAxCI47jEKPHg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IHipjEPH8aoFcYmEczpv9/L9nu5ChdZg+CGcjuwEROY4xSqjXmaJVhwwQBGHqspcj
-         RaPCXeVZTS/Gdjcq7G1S1WXhLhvYzCsgS3HyZERbi78ekX/BzrDELLpp6s+fKlDGof
-         KeCDYcvbkcc4ediaeJqTqrgltYTKt+wJG+IL+qWY=
-Date:   Fri, 4 Jun 2021 17:18:56 +0300
+        b=enuz3vp0RUpoNrXl4YYjEDUrM5CW05YrRXCsLqBzEK8LO9hBzHa9vu6ug6E5FCQMv
+         i3x5syrnCj5Ua78FiDdC+Y2Bx9fabbaVvkBUZFXKnYIOaB9dUM/Vp1RNRg0O+Xbu6R
+         RAwnRbNdw6aEgNqAEHEI7M4qjfCbcPMSX6CsdIzI=
+Date:   Fri, 4 Jun 2021 17:25:22 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 35/38] media: ti-vpe: cal: allow more than 1 source
- pads
-Message-ID: <YLo2UMdqrWLxgomX@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 37/38] media: ti-vpe: cal: use frame desc to get vc
+ and dt
+Message-ID: <YLo30o5EJczdH2mq@pendragon.ideasonboard.com>
 References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
- <20210524110909.672432-36-tomi.valkeinen@ideasonboard.com>
+ <20210524110909.672432-38-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210524110909.672432-36-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20210524110909.672432-38-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -43,159 +46,173 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Mon, May 24, 2021 at 02:09:06PM +0300, Tomi Valkeinen wrote:
-> CAL RX has a single sink and a single source pad. To support multiple
-> streams, we will have multiple source pads (up to 8, one for each
-> CAL context).
+On Mon, May 24, 2021 at 02:09:08PM +0300, Tomi Valkeinen wrote:
+> Use get_frame_desc() to get the frame desc from the connected source,
+> and use the provided virtual channel and datatype instead of hardcoded
+> ones.
 > 
-> Change the driver to allow creating more source pads and change the code
-> accordingly to handle multiple source pads. We still keep
-> CAL_CAMERARX_NUM_SOURCE_PADS as 1, and the behavior is unchanged.
+> get_frame_desc() works per stream, but as we don't support multiple
+> streams yet, we will just always use stream 0.
 > 
-> Also rename CAL_CAMERARX_PAD_SOURCE to CAL_CAMERARX_PAD_FIRST_SOURCE to
-> highlight that it's the first source.
+> If the source doesn't support get_frame_desc(), fall back to the
+> previous method of always capturing virtual channel 0 and any datatype.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/platform/ti-vpe/cal-camerarx.c | 13 ++++++------
->  drivers/media/platform/ti-vpe/cal-video.c    |  9 +++++++--
->  drivers/media/platform/ti-vpe/cal.h          | 21 +++++++++++++++++---
->  3 files changed, 32 insertions(+), 11 deletions(-)
+>  drivers/media/platform/ti-vpe/cal-camerarx.c | 26 +++++++++++
+>  drivers/media/platform/ti-vpe/cal.c          | 49 +++++++++++++++++++-
+>  drivers/media/platform/ti-vpe/cal.h          |  3 ++
+>  3 files changed, 76 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> index 803d53753e87..e3a4c20be1e6 100644
+> index e3a4c20be1e6..cb6a37f47432 100644
 > --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
 > +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> @@ -635,7 +635,7 @@ static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
->  	mutex_lock(&phy->mutex);
+> @@ -583,6 +583,32 @@ static int cal_camerarx_parse_dt(struct cal_camerarx *phy)
+>  	return ret;
+>  }
 >  
->  	/* No transcoding, source and sink codes must match. */
-> -	if (code->pad == CAL_CAMERARX_PAD_SOURCE) {
-> +	if (cal_rx_pad_is_source(code->pad)) {
->  		struct v4l2_mbus_framefmt *fmt;
->  
->  		if (code->index > 0) {
-> @@ -676,7 +676,7 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
->  	mutex_lock(&phy->mutex);
->  
->  	/* No transcoding, source and sink formats must match. */
-> -	if (fse->pad == CAL_CAMERARX_PAD_SOURCE) {
-> +	if (cal_rx_pad_is_source(fse->pad)) {
->  		struct v4l2_mbus_framefmt *fmt;
->  
->  		fmt = cal_camerarx_get_pad_format(phy, sd_state,
-> @@ -740,7 +740,7 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
->  	unsigned int bpp;
->  
->  	/* No transcoding, source and sink formats must match. */
-> -	if (format->pad == CAL_CAMERARX_PAD_SOURCE)
-> +	if (cal_rx_pad_is_source(format->pad))
->  		return cal_camerarx_sd_get_fmt(sd, sd_state, format);
->  
->  	/*
-> @@ -771,8 +771,7 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
->  					  format->which);
->  	*fmt = format->format;
->  
-> -	fmt = cal_camerarx_get_pad_format(phy, sd_state,
-> -					  CAL_CAMERARX_PAD_SOURCE,
-> +	fmt = cal_camerarx_get_pad_format(phy, sd_state, CAL_CAMERARX_PAD_FIRST_SOURCE,
+> +int cal_camerarx_get_remote_frame_desc(struct cal_camerarx *phy,
+> +				       struct v4l2_mbus_frame_desc *fd)
 
-I would have kept the line wrap.
+Maybe s/fd/desc/ to avoid the confusion with file descriptor ?
 
->  					  format->which);
->  	*fmt = format->format;
+> +{
+> +	struct media_pad *pad;
+> +	int ret;
+> +
+> +	if (!phy->source)
+> +		return -ENODEV;
+
+Would EPIPE (here and below) be a better error ? It will be returned to
+userspace from VIDIOC_STREAMON(), which already uses EPIPE to indicate
+that the links are not correctly set up.
+
+> +
+> +	pad = media_entity_remote_pad(&phy->pads[CAL_CAMERARX_PAD_SINK]);
+> +	if (!pad)
+> +		return -ENODEV;
+> +
+> +	ret = v4l2_subdev_call(phy->source, pad, get_frame_desc, pad->index,
+> +			       fd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (fd->type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
+> +		dev_err(phy->cal->dev, "Frame desc do not describe CSI-2 link");
+
+s/do not/does not/ and maybe s/desc/descriptor/
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /* ------------------------------------------------------------------
+>   *	V4L2 Subdev Operations
+>   * ------------------------------------------------------------------
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index fcc81024ae18..7975bb449acd 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -469,10 +469,56 @@ static bool cal_ctx_wr_dma_stopped(struct cal_ctx *ctx)
+>  	return stopped;
+>  }
 >  
-> @@ -836,6 +835,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
->  	struct cal_camerarx *phy;
->  	struct v4l2_subdev *sd;
->  	int ret;
+> +static int
+> +cal_get_remote_frame_desc_entry(struct cal_camerarx *phy, u32 stream,
+> +				struct v4l2_mbus_frame_desc_entry *entry)
+> +{
+> +	struct v4l2_mbus_frame_desc fd;
 > +	unsigned int i;
+> +	int ret;
+> +
+> +	ret = cal_camerarx_get_remote_frame_desc(phy, &fd);
+> +	if (ret) {
+> +		if (ret != -ENOIOCTLCMD)
+> +			dev_err(phy->cal->dev,
+> +				"Failed to get remote frame desc: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	for (i = 0; i < fd.num_entries; i++) {
+> +		if (stream == fd.entry[i].stream) {
+> +			*entry = fd.entry[i];
+> +			return 0;
+> +		}
+> +	}
+> +
 
-Before ret ?
+A dev_dbg() would be good here, in which case you could drop the
+ctx_err() in cal_ctx_prepare() as all error paths will print a message.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->  
->  	phy = kzalloc(sizeof(*phy), GFP_KERNEL);
->  	if (!phy)
-> @@ -877,7 +877,8 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
->  	sd->dev = cal->dev;
->  
->  	phy->pads[CAL_CAMERARX_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-> -	phy->pads[CAL_CAMERARX_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-> +	for (i = CAL_CAMERARX_PAD_FIRST_SOURCE; i < CAL_CAMERARX_NUM_PADS; ++i)
-> +		phy->pads[i].flags = MEDIA_PAD_FL_SOURCE;
->  	sd->entity.ops = &cal_camerarx_media_ops;
->  	ret = media_entity_pads_init(&sd->entity, ARRAY_SIZE(phy->pads),
->  				     phy->pads);
-> diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-> index efa08a9ccbd5..8ecae7dc2774 100644
-> --- a/drivers/media/platform/ti-vpe/cal-video.c
-> +++ b/drivers/media/platform/ti-vpe/cal-video.c
-> @@ -687,8 +687,13 @@ static void cal_release_buffers(struct cal_ctx *ctx,
->  static int cal_video_check_format(struct cal_ctx *ctx)
->  {
->  	const struct v4l2_mbus_framefmt *format;
-> +	struct media_pad *remote_pad;
->  
-> -	format = &ctx->phy->formats[CAL_CAMERARX_PAD_SOURCE];
-> +	remote_pad = media_entity_remote_pad(&ctx->pad);
-> +	if (!remote_pad)
-> +		return -ENODEV;
+> +	return -ENODEV;
+> +}
 > +
-> +	format = &ctx->phy->formats[remote_pad->index];
+>  int cal_ctx_prepare(struct cal_ctx *ctx)
+>  {
+> +	struct v4l2_mbus_frame_desc_entry entry;
+>  	int ret;
 >  
->  	if (ctx->fmtinfo->code != format->code ||
->  	    ctx->v_fmt.fmt.pix.height != format->height ||
-> @@ -941,7 +946,7 @@ int cal_ctx_v4l2_register(struct cal_ctx *ctx)
->  	}
+> +	ret = cal_get_remote_frame_desc_entry(ctx->phy, ctx->stream, &entry);
+> +
+> +	if (ret == -ENOIOCTLCMD) {
+> +		ctx->vc = 0;
+> +		ctx->datatype = CAL_CSI2_CTX_DT_ANY;
+> +	} else if (!ret) {
+> +		ctx_dbg(2, ctx, "Framedesc: stream %u, len %u, vc %u, dt %#x\n",
+> +		       entry.stream,
+> +		       entry.length,
+> +		       entry.bus.csi2.vc,
+> +		       entry.bus.csi2.dt);
+
+You can group multiple variables on the same line.
+
+> +
+> +		ctx->vc = entry.bus.csi2.vc;
+> +		ctx->datatype = entry.bus.csi2.dt;
+> +	} else {
+> +		ctx_err(ctx, "Failed to get remote frame desc: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+>  	ctx->use_pix_proc = !ctx->fmtinfo->meta;
 >  
->  	ret = media_create_pad_link(&ctx->phy->subdev.entity,
-> -				    CAL_CAMERARX_PAD_SOURCE,
-> +				    CAL_CAMERARX_PAD_FIRST_SOURCE,
->  				    &vfd->entity, 0,
->  				    MEDIA_LNK_FL_IMMUTABLE |
->  				    MEDIA_LNK_FL_ENABLED);
+>  	if (ctx->use_pix_proc) {
+> @@ -925,8 +971,7 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
+>  	ctx->dma_ctx = inst;
+>  	ctx->csi2_ctx = inst;
+>  	ctx->cport = inst;
+> -	ctx->vc = 0;
+> -	ctx->datatype = CAL_CSI2_CTX_DT_ANY;
+> +	ctx->stream = 0;
+>  
+>  	ret = cal_ctx_v4l2_init(ctx);
+>  	if (ret)
 > diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> index 8608a2c6c01a..42a3f8004077 100644
+> index 29b865d1a238..3aea444f8bf8 100644
 > --- a/drivers/media/platform/ti-vpe/cal.h
 > +++ b/drivers/media/platform/ti-vpe/cal.h
-> @@ -44,7 +44,22 @@
->  #define CAL_MAX_HEIGHT_LINES		16383
+> @@ -245,6 +245,7 @@ struct cal_ctx {
+>  	u8			pix_proc;
+>  	u8			vc;
+>  	u8			datatype;
+> +	u32			stream;
 >  
->  #define CAL_CAMERARX_PAD_SINK		0
-> -#define CAL_CAMERARX_PAD_SOURCE		1
-> +#define CAL_CAMERARX_PAD_FIRST_SOURCE	1
-> +#define CAL_CAMERARX_NUM_SOURCE_PADS	1
-> +#define CAL_CAMERARX_NUM_PADS		(1 + CAL_CAMERARX_NUM_SOURCE_PADS)
-> +
-> +static inline bool cal_rx_pad_is_sink(u32 pad)
-> +{
-> +	/* Camera RX has 1 sink pad, and N source pads */
-> +	return pad == 0;
-> +}
-> +
-> +static inline bool cal_rx_pad_is_source(u32 pad)
-> +{
-> +	/* Camera RX has 1 sink pad, and N source pads */
-> +	return pad >= CAL_CAMERARX_PAD_FIRST_SOURCE &&
-> +	       pad <= CAL_CAMERARX_NUM_SOURCE_PADS;
-> +}
+>  	bool			use_pix_proc;
+>  };
+> @@ -318,6 +319,8 @@ const struct cal_format_info *cal_format_by_code(u32 code);
 >  
->  struct device;
->  struct device_node;
-> @@ -161,8 +176,8 @@ struct cal_camerarx {
->  	struct media_pipeline	pipe;
+>  void cal_quickdump_regs(struct cal_dev *cal);
 >  
->  	struct v4l2_subdev	subdev;
-> -	struct media_pad	pads[2];
-> -	struct v4l2_mbus_framefmt	formats[2];
-> +	struct media_pad	pads[CAL_CAMERARX_NUM_PADS];
-> +	struct v4l2_mbus_framefmt	formats[CAL_CAMERARX_NUM_PADS];
->  
->  	/* mutex for camerarx ops */
->  	struct mutex		mutex;
+> +int cal_camerarx_get_remote_frame_desc(struct cal_camerarx *phy,
+> +				       struct v4l2_mbus_frame_desc *fd);
+>  void cal_camerarx_disable(struct cal_camerarx *phy);
+>  void cal_camerarx_i913_errata(struct cal_camerarx *phy);
+>  struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
 
 -- 
 Regards,
