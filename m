@@ -2,111 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EC8839B45A
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 09:53:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37F9E39B45F
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 09:54:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230196AbhFDHzA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 03:55:00 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:60643 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230145AbhFDHzA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Jun 2021 03:55:00 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id p4dilRWAahg8Zp4dllzr5a; Fri, 04 Jun 2021 09:53:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622793193; bh=/pdh2RQOsWSUlNkYPjkWUGLFeQ+HjPYjqmui9HhJnaY=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=CjmKm9OMfJay7Fa8xGx6INFhPTbaN4MAVafMxpKIO1myKTHHJZj2/9I0HIVNksIfc
-         WDP+QVgteV8DHC14nCMmegZ3AtyNowG5t5yReTqXisUX+FFosiHfrJSg6cO5zoWTC7
-         pQgEcJkgv9RrYM9GEdo6PsLZBx0tiShh6YFU3973wGR4QtgSPCJMobDr3prqWQHNwo
-         bsGm8l6LFuebfpk5ONj3YYclxmhG+YEl5ds0lX4svjmAb95uRaRlav+vkBfAfcPbKL
-         hVnXKEnErAyPMdFc5fRm77CrgQUscsYXvAFHOr4utGP/YQnmIOwfcfLlypH2T654iB
-         p92f+RbiNvRJQ==
-Subject: Re: [PATCH v4 0/2] cec: add tests for Give Deck Status message
-To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     jaffe1@gmail.com
-References: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <92b0c36a-22ab-708d-4e06-3d80db369f3b@xs4all.nl>
-Date:   Fri, 4 Jun 2021 09:53:10 +0200
+        id S230048AbhFDH4A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 03:56:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45790 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229775AbhFDHz7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 03:55:59 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8932C06174A;
+        Fri,  4 Jun 2021 00:54:13 -0700 (PDT)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C29CDA52;
+        Fri,  4 Jun 2021 09:54:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1622793250;
+        bh=ID6cE11tXic6xVbni7ARCJyiry3HhzMUrxQrto7JjFY=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ZgV/h2AydYDNQILNmqxagvf+go0bZ9gvQFYXka1bTME7wwrFP02SaahMt6qaIBcPT
+         MSaD+4eMtDy4/IBWzNm7hA2tUGTRVO52j19HARsjxG8jy37yNX7fs0IhG+SVW1TikK
+         5t7fyV5TLYUMnzmgNSrelPW1q9dvHcubb1KYxw0w=
+Subject: Re: [PATCH v2 00/18] CSI2RX support on J721E
+To:     Pratyush Yadav <p.yadav@ti.com>
+Cc:     Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, dmaengine@vger.kernel.org,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210526152308.16525-1-p.yadav@ti.com>
+ <83bcd60a-2a45-59b2-8ebe-26ad5d828965@ideasonboard.com>
+ <20210603125251.nmzibyvfzkkxfbtj@ti.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <5f837a2d-69ba-ff43-1a8d-f7b975eeacdb@ideasonboard.com>
+Date:   Fri, 4 Jun 2021 10:54:08 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210603125251.nmzibyvfzkkxfbtj@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGYSQbZhraOJNkBDokRkjZwXPzuxzuwkzG/spwrdxr7Lb6mp6vFt0Pkw1jWQuEZPHLS4bSZ6dfvC0FeJvuXRNO0X1DVME90sEKZyHDChz7Ta+YmWcPZ+
- NwMl448LzRXSy+gi2R4BJVBnDa9HJfbGsAMdGMUMDBU/3tkcwhiUMhklzMHgWsRToTuT9CeVLmfKBWi0A9GFSfGxg4lPQiubUitXOBhrAMj52fU8p7DOHp6T
- Edyjj2lcquOCQMOVEjgkpPd0u7yq6UaxHoOZGebGTuA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Deb,
+On 03/06/2021 15:52, Pratyush Yadav wrote:
+> On 27/05/21 04:23PM, Tomi Valkeinen wrote:
+>> Hi Pratyush,
+>>
+>> On 26/05/2021 18:22, Pratyush Yadav wrote:
+>>> Hi,
+>>>
+>>> This series adds support for CSI2 capture on J721E. It includes some
+>>> fixes to the Cadence CSI2RX driver, adds Rx support to Cadence DPHY
+>>> driver, and finally adds the TI CSI2RX wrapper driver.
+>>>
+>>> Tested on TI's J721E with OV5640 sensor.
+>>
+>> I also see this after a few captures:
+> 
+> Can you share the application/command you are using to test? I used
+> yavta to test and didn't see any problems after leaving the stream on
+> for around 10 minutes.
 
-Thank you for your work, I've applied the patches.
+You need to have CONFIG_DMA_API_DEBUG enabled. I think that's not 
+enabled by default on TI configs.
 
-One note for future patch series: the cover letter should also explain
-a bit about what the patch series is about, not just the change
-history. Something to keep in mind for the next patch series.
-
-Regards,
-
-	Hans
-
-On 04/06/2021 04:40, Deborah Brouwer wrote:
-> Changes since v3:
-> 	Patch 1/2:
-> 		- Remove the CEC Version checks and else block.
-> 		- Add comment explaining why it works for CEC 1.4.
-> 	Patch 2/2:
-> 		- Keep/add empty line between variable declarations and code.
-> 		- Remove restriction to playback or recording devices.
-> 		- Extract the deck status where it was previously missed.
-> 		- Extend comment to explain CEC_OP_STATUS_REQ_OFF test.
-> 		- In the invalid test, remove redundant testing.
-> 
-> Changes since v2:
-> 	Patch 1/2 cec-follower: emulate features for CEC versions < CEC 2.0
-> 	* I already sent this as a single patch, and I have not made
-> 		changes since then, I am just including it because now I
-> 		need it for Patch 2/2 to apply.
-> 
-> 	Patch 2/2 cec: add tests for Give Deck Status message
-> 	* Combine functions with same name "deck_ctl_give_status"
-> 		to avoid confusion about the naming but also to avoid
-> 		returning FAIL rather than using "fail_on_test" directly.
-> 	* Expand the "Invalid Operand" test so that it will also test a
-> 		follower running version < CEC 2.0.
-> 	* Change the invalid operand from 0xaa to 0 and add a test for
-> 		invalid operand "4", both just outside of the valid range.
-> 	* Expand the "Invalid Operand" test to catch the other reasons
-> 		for which a follower might Feature Abort (e.g. Unrecognized
-> 		Op).
-> 
-> Changes since v1:
-> 	* Remove unnecessary functions.
-> 	* Revise function for turning Give Deck Status reporting On/Off.
-> 	* Combine the Give Deck Status Reporting test into the first
-> 	   Give Deck Status test.
-> 
-> Deborah Brouwer (2):
->   cec-follower: emulate features for CEC versions < CEC 2.0
->   cec: add tests for Give Deck Status message
-> 
->  utils/cec-compliance/cec-test.cpp     | 72 ++++++++++++++++++++++-----
->  utils/cec-follower/cec-follower.cpp   | 44 +++++++++-------
->  utils/cec-follower/cec-follower.h     |  1 +
->  utils/cec-follower/cec-processing.cpp | 41 +++++++--------
->  utils/libcecutil/cec-info.cpp         |  2 -
->  5 files changed, 104 insertions(+), 56 deletions(-)
-> 
-> --
-> 2.17.1
-> 
-
+  Tomi
