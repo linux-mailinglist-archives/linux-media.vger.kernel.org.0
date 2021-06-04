@@ -2,107 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 411F239B086
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 04:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1A9739B088
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 04:42:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229892AbhFDCmu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Jun 2021 22:42:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229769AbhFDCmt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 22:42:49 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06031C06174A
-        for <linux-media@vger.kernel.org>; Thu,  3 Jun 2021 19:41:04 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id o9so3839390pgd.2
-        for <linux-media@vger.kernel.org>; Thu, 03 Jun 2021 19:41:04 -0700 (PDT)
+        id S229850AbhFDCoE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Jun 2021 22:44:04 -0400
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:42779 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229835AbhFDCoE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 22:44:04 -0400
+Received: by mail-pj1-f65.google.com with SMTP id l23-20020a17090a0717b029016ae774f973so4391918pjl.1
+        for <linux-media@vger.kernel.org>; Thu, 03 Jun 2021 19:42:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=lMR5eQqtfWiniz+A1cxsLInLL1A1FFCTPdEs1mwrt8I=;
-        b=ui5DGWgen1pGC3Ytkx5r2aNFx60+tGlBGJaeN7DcEVUUPesm8/rr7D9FpBBG0qf5gv
-         DZ0BpoY6oRxI4vlritrd0fZzMEGHV0RA9LaIhFrywjKeoRBHa/pApaHWAgDuC7iN5iwn
-         lNp7L8YAjXS5iJJr4mqastBrKkbJN+N1RbtoxnSVkmGq7ZHkZy/Uox8FcEyCc34zgSXI
-         ayqE1KF5IeGYeojuxQ7YtSB4n4/rfwHhSwKbh52eJXF/sq0vPafiRNNSCOeHI4mjU4/V
-         /JfFIoAU7LgXl/7RRnHrwCWqz60faZQckaoOmyaoSEK1hXT5sRDZeLs/EK1Osa667gyf
-         HxIw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:in-reply-to:references:content-transfer-encoding;
+        bh=JmcmQOQ5frLxEaakr6DWk0TV8VbyRPrIy9jBJZW1SDc=;
+        b=H46wvLXY8FUml/zz4D00ux4Xqcmvawb0nRRaBucz5gx7mioYuZ567c/Fj/PM39NapB
+         jBoK6y1lgc9mg3d7mdsrEqcC2/SHq+dPP4GrUlEFYyY+UqhpNiGvppxqlxzi2orHQshW
+         LVlClafUwOzWZyIga2+0Ukw6cxrODy+5yoU0iyo5h4ic7Xg3udNuBrawHLSoL8XTESOw
+         0mIR7cyeYDKTKxUam+A7kad/jcuvHON229PdPsUCeXnlqb1EGQKFYcsn/hzx9l+8hRJG
+         wtexuq+VL3UtiuBPdLUWKRglHysNld+cJ+teviZycpLs+Z05YquSlhh6uGkti6B4YZx9
+         c3wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=lMR5eQqtfWiniz+A1cxsLInLL1A1FFCTPdEs1mwrt8I=;
-        b=j11sjx2fg//jMGLS/t90jEJcOih1w4nAn4/mEzjHL0l2CieGAZ6as1t02niuoA3tfE
-         rZafNQLEqP/Y4ssbvkfTorPVCCAP6az1jgf5QQFpLoJPmTy8/Tjpo8dfPJuZSyXgagx8
-         00JcyS29A6bEYG2zT1/COMnKEO9VCxDV9CQkAGjarepERPEmpLjfkkHhOiKQcAFUXA1w
-         0MiS0tdxGhk62QOR9rx+vti5gvi25cmhzY/H9zS0Cw7DFAVEq3/thEz3M8aoAM8oVOaF
-         I8jwH4eO0DIDRHtl/ML2NBlrRthuvFj7GDGdipoBdzFSZxBnuH78gQcciBXkMdYXaN+Y
-         fYwQ==
-X-Gm-Message-State: AOAM530Axs6HfBbOpv9BdlIwRg/4Y/XSzCMujd1z1rAZ6qF38mBLaMwl
-        P4t88Rja6p4SQ04vrRoNf1gXZVCRpXE2zw==
-X-Google-Smtp-Source: ABdhPJzhQSIhKD3FLRHQePil7qBQ8JPXsrzVZ3Cxx3eJpuupgMAubFuO+jzvWBm3sIL7p9pygEaJHw==
-X-Received: by 2002:a63:1324:: with SMTP id i36mr2588226pgl.44.1622774463590;
-        Thu, 03 Jun 2021 19:41:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:in-reply-to:references
+         :content-transfer-encoding;
+        bh=JmcmQOQ5frLxEaakr6DWk0TV8VbyRPrIy9jBJZW1SDc=;
+        b=VDK+kpTz/bKPhmb3j1YPPMGkKgV2/fLHp0w+DDOyNJCotLgFeXAtjYFAcC5Cpe7c6I
+         NjIPMtM+kywiYJeTs6U1T7IKFu/AuEeNahIuhBDk4Ya1vCTj+ODWrkcP9X14JoL8NqtA
+         7uQ7XmvC7ljaH+VoL/RJZeesEOtxSzDw1sEVsrgJ11zaeK5lafe/cKeq9RZjbICNNg/K
+         WaMJBOKvnDkzBUvtrqqAZK8uqjyAgU3Gc00DVjg2aDS3DC7fa4d80QM8zkC9nCjkyYwI
+         xOsU+EhurLxHtElGjCSEThYIIWp7/zulVvae6PMfcLdaSOV3OwnwlhJnbijzp8gAgz63
+         vkfA==
+X-Gm-Message-State: AOAM531UUR17a5OtnBO7NZh+QHtU93yg8upPvFtr7FB6laLWn35q0io+
+        WYWdJRVHRyh2o15Azj1voB4AaJxSQKJl6w==
+X-Google-Smtp-Source: ABdhPJykLc7PNAudaucoCSQrNfJ8KU3hqp6KzpKLMVeovJqN7hf84/X2gCUZpp7zkcrmJHqT1MQi4w==
+X-Received: by 2002:a17:902:a983:b029:fb:973:956a with SMTP id bh3-20020a170902a983b02900fb0973956amr2121247plb.79.1622774466106;
+        Thu, 03 Jun 2021 19:41:06 -0700 (PDT)
 Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id z9sm3166356pji.47.2021.06.03.19.41.03
+        by smtp.gmail.com with ESMTPSA id z9sm3166356pji.47.2021.06.03.19.41.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 19:41:03 -0700 (PDT)
+        Thu, 03 Jun 2021 19:41:05 -0700 (PDT)
 From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil@xs4all.nl, jaffe1@gmail.com,
         Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH v4 0/2] cec: add tests for Give Deck Status message
-Date:   Thu,  3 Jun 2021 19:40:51 -0700
-Message-Id: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
+Subject: [PATCH v4 1/2] cec-follower: emulate features for CEC versions < CEC 2.0
+Date:   Thu,  3 Jun 2021 19:40:52 -0700
+Message-Id: <fdf4a535983de1c55e73767796c29c290d641202.1622773904.git.deborahbrouwer3563@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
+References: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
+References: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Changes since v3:
-	Patch 1/2:
-		- Remove the CEC Version checks and else block.
-		- Add comment explaining why it works for CEC 1.4.
-	Patch 2/2:
-		- Keep/add empty line between variable declarations and code.
-		- Remove restriction to playback or recording devices.
-		- Extract the deck status where it was previously missed.
-		- Extend comment to explain CEC_OP_STATUS_REQ_OFF test.
-		- In the invalid test, remove redundant testing.
+For CEC adapters using versions < CEC 2.0, read the CEC Features
+as configured in the CEC adapter and emulate the features that are
+present.
 
-Changes since v2:
-	Patch 1/2 cec-follower: emulate features for CEC versions < CEC 2.0
-	* I already sent this as a single patch, and I have not made
-		changes since then, I am just including it because now I
-		need it for Patch 2/2 to apply.
+Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+---
+ utils/cec-follower/cec-follower.cpp | 42 ++++++++++++++++-------------
+ utils/libcecutil/cec-info.cpp       |  2 --
+ 2 files changed, 23 insertions(+), 21 deletions(-)
 
-	Patch 2/2 cec: add tests for Give Deck Status message
-	* Combine functions with same name "deck_ctl_give_status"
-		to avoid confusion about the naming but also to avoid
-		returning FAIL rather than using "fail_on_test" directly.
-	* Expand the "Invalid Operand" test so that it will also test a
-		follower running version < CEC 2.0.
-	* Change the invalid operand from 0xaa to 0 and add a test for
-		invalid operand "4", both just outside of the valid range.
-	* Expand the "Invalid Operand" test to catch the other reasons
-		for which a follower might Feature Abort (e.g. Unrecognized
-		Op).
-
-Changes since v1:
-	* Remove unnecessary functions.
-	* Revise function for turning Give Deck Status reporting On/Off.
-	* Combine the Give Deck Status Reporting test into the first
-	   Give Deck Status test.
-
-Deborah Brouwer (2):
-  cec-follower: emulate features for CEC versions < CEC 2.0
-  cec: add tests for Give Deck Status message
-
- utils/cec-compliance/cec-test.cpp     | 72 ++++++++++++++++++++++-----
- utils/cec-follower/cec-follower.cpp   | 44 +++++++++-------
- utils/cec-follower/cec-follower.h     |  1 +
- utils/cec-follower/cec-processing.cpp | 41 +++++++--------
- utils/libcecutil/cec-info.cpp         |  2 -
- 5 files changed, 104 insertions(+), 56 deletions(-)
-
---
+diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/cec-follower.cpp
+index b7a41ac2..1f598fdf 100644
+--- a/utils/cec-follower/cec-follower.cpp
++++ b/utils/cec-follower/cec-follower.cpp
+@@ -508,26 +508,30 @@ int main(int argc, char **argv)
+ 
+ 	cec_driver_info(caps, laddrs, node.phys_addr, conn_info);
+ 
+-	if (laddrs.cec_version >= CEC_OP_CEC_VERSION_2_0) {
+-		bool is_dev_feat = false;
+-
+-		for (__u8 byte : laddrs.features[0]) {
+-			if (is_dev_feat) {
+-				node.source_has_arc_rx = (byte & CEC_OP_FEAT_DEV_SOURCE_HAS_ARC_RX) != 0;
+-				node.sink_has_arc_tx = (byte & CEC_OP_FEAT_DEV_SINK_HAS_ARC_TX) != 0;
+-				node.has_aud_rate = (byte & CEC_OP_FEAT_DEV_HAS_SET_AUDIO_RATE) != 0;
+-				node.has_deck_ctl = (byte & CEC_OP_FEAT_DEV_HAS_DECK_CONTROL) != 0;
+-				node.has_rec_tv = (byte & CEC_OP_FEAT_DEV_HAS_RECORD_TV_SCREEN) != 0;
+-				node.has_osd_string = (byte & CEC_OP_FEAT_DEV_HAS_SET_OSD_STRING) != 0;
+-				break;
+-			}
+-			if (byte & CEC_OP_FEAT_EXT)
+-				continue;
+-			if (!is_dev_feat)
+-				is_dev_feat = true;
+-			else
+-				break;
++	/*
++	 * For CEC 1.4, features of a logical address may still be
++	 * filled in according to the CEC 2.0 guidelines even though
++	 * the CEC framework won’t use the features in the CEC 2.0
++	 * CEC_MSG_REPORT_FEATURES.
++	 */
++	bool is_dev_feat = false;
++
++	for (__u8 byte : laddrs.features[0]) {
++		if (is_dev_feat) {
++			node.source_has_arc_rx = (byte & CEC_OP_FEAT_DEV_SOURCE_HAS_ARC_RX) != 0;
++			node.sink_has_arc_tx = (byte & CEC_OP_FEAT_DEV_SINK_HAS_ARC_TX) != 0;
++			node.has_aud_rate = (byte & CEC_OP_FEAT_DEV_HAS_SET_AUDIO_RATE) != 0;
++			node.has_deck_ctl = (byte & CEC_OP_FEAT_DEV_HAS_DECK_CONTROL) != 0;
++			node.has_rec_tv = (byte & CEC_OP_FEAT_DEV_HAS_RECORD_TV_SCREEN) != 0;
++			node.has_osd_string = (byte & CEC_OP_FEAT_DEV_HAS_SET_OSD_STRING) != 0;
++			break;
+ 		}
++		if (byte & CEC_OP_FEAT_EXT)
++			continue;
++		if (!is_dev_feat)
++			is_dev_feat = true;
++		else
++			break;
+ 	}
+ 	printf("\n");
+ 
+diff --git a/utils/libcecutil/cec-info.cpp b/utils/libcecutil/cec-info.cpp
+index 8b3c55e8..3c768261 100644
+--- a/utils/libcecutil/cec-info.cpp
++++ b/utils/libcecutil/cec-info.cpp
+@@ -448,8 +448,6 @@ void cec_driver_info(const struct cec_caps &caps,
+ 		       cec_prim_type2s(laddrs.primary_device_type[i]));
+ 		printf("\t    Logical Address Type   : %s\n",
+ 		       cec_la_type2s(laddrs.log_addr_type[i]));
+-		if (laddrs.cec_version < CEC_OP_CEC_VERSION_2_0)
+-			continue;
+ 		printf("\t    All Device Types       : %s\n",
+ 		       cec_all_dev_types2s(laddrs.all_device_types[i]).c_str());
+ 
+-- 
 2.17.1
 
