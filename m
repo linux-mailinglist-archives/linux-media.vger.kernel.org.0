@@ -2,145 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1A9739B088
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 04:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7044B39B087
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 04:41:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbhFDCoE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Jun 2021 22:44:04 -0400
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:42779 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229835AbhFDCoE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 22:44:04 -0400
-Received: by mail-pj1-f65.google.com with SMTP id l23-20020a17090a0717b029016ae774f973so4391918pjl.1
-        for <linux-media@vger.kernel.org>; Thu, 03 Jun 2021 19:42:06 -0700 (PDT)
+        id S229823AbhFDCnI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Jun 2021 22:43:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34432 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229576AbhFDCnI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Jun 2021 22:43:08 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7AE8C06174A
+        for <linux-media@vger.kernel.org>; Thu,  3 Jun 2021 19:41:08 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id g6so6402430pfq.1
+        for <linux-media@vger.kernel.org>; Thu, 03 Jun 2021 19:41:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:in-reply-to:references:content-transfer-encoding;
-        bh=JmcmQOQ5frLxEaakr6DWk0TV8VbyRPrIy9jBJZW1SDc=;
-        b=H46wvLXY8FUml/zz4D00ux4Xqcmvawb0nRRaBucz5gx7mioYuZ567c/Fj/PM39NapB
-         jBoK6y1lgc9mg3d7mdsrEqcC2/SHq+dPP4GrUlEFYyY+UqhpNiGvppxqlxzi2orHQshW
-         LVlClafUwOzWZyIga2+0Ukw6cxrODy+5yoU0iyo5h4ic7Xg3udNuBrawHLSoL8XTESOw
-         0mIR7cyeYDKTKxUam+A7kad/jcuvHON229PdPsUCeXnlqb1EGQKFYcsn/hzx9l+8hRJG
-         wtexuq+VL3UtiuBPdLUWKRglHysNld+cJ+teviZycpLs+Z05YquSlhh6uGkti6B4YZx9
-         c3wg==
+         :in-reply-to:references;
+        bh=YuzY5rqOYw8A5M/0LuD1wT4JDXZmGJGNCqhnC6a3nZk=;
+        b=ZRoRs5/erm52P8aqFhUYhuUovScN8LDbIecXLdGYCpJpl4sxgKHokvGRPeCiBL7V1j
+         YcILp7TeYOp/qupezKkCKw8exv1OImzMii1grBFqjhZEyjbYhvjwCSF4iNJEkGaOif2J
+         w3eIMudavDs1CEkF131UCyr7TZRb/5wZcubfGGr2qU/lUS9Mh2lfCmGfXR1H7DHMuC7C
+         G7v+CWA/e3KwFzxO/aTBt6eM76vVl9yWviADOOvlh9G1DZbouNorznzx+nc6/Z9t5aGp
+         ELTEKYf4wKGbjwN8whIW8C9+J+gsUghliaL2wz8A9U8K8vZEL3QfVhp7zIzg/zTmKEhb
+         NRHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:in-reply-to:references
-         :content-transfer-encoding;
-        bh=JmcmQOQ5frLxEaakr6DWk0TV8VbyRPrIy9jBJZW1SDc=;
-        b=VDK+kpTz/bKPhmb3j1YPPMGkKgV2/fLHp0w+DDOyNJCotLgFeXAtjYFAcC5Cpe7c6I
-         NjIPMtM+kywiYJeTs6U1T7IKFu/AuEeNahIuhBDk4Ya1vCTj+ODWrkcP9X14JoL8NqtA
-         7uQ7XmvC7ljaH+VoL/RJZeesEOtxSzDw1sEVsrgJ11zaeK5lafe/cKeq9RZjbICNNg/K
-         WaMJBOKvnDkzBUvtrqqAZK8uqjyAgU3Gc00DVjg2aDS3DC7fa4d80QM8zkC9nCjkyYwI
-         xOsU+EhurLxHtElGjCSEThYIIWp7/zulVvae6PMfcLdaSOV3OwnwlhJnbijzp8gAgz63
-         vkfA==
-X-Gm-Message-State: AOAM531UUR17a5OtnBO7NZh+QHtU93yg8upPvFtr7FB6laLWn35q0io+
-        WYWdJRVHRyh2o15Azj1voB4AaJxSQKJl6w==
-X-Google-Smtp-Source: ABdhPJykLc7PNAudaucoCSQrNfJ8KU3hqp6KzpKLMVeovJqN7hf84/X2gCUZpp7zkcrmJHqT1MQi4w==
-X-Received: by 2002:a17:902:a983:b029:fb:973:956a with SMTP id bh3-20020a170902a983b02900fb0973956amr2121247plb.79.1622774466106;
-        Thu, 03 Jun 2021 19:41:06 -0700 (PDT)
+         :references:in-reply-to:references;
+        bh=YuzY5rqOYw8A5M/0LuD1wT4JDXZmGJGNCqhnC6a3nZk=;
+        b=BiHsYKCHAirOOrh6ew8/3mEJM1tnm3nttnE5yRbCkcdBzKeu3tWcgwiWeKsU30fN9J
+         hhKGZJLP0w6v6uyVUizN6ts1VEbdAJboaZW9qZpBvAV2obkgIeJtfA2EbDU3gb1NqTmg
+         KVOc0/bZobzp5iY5nlxmqesIp/dgdwcwgLjZjcqsSTOlOxHDEv7ICPyS5I+eV7PTocRU
+         HXIYyv2IZ+MvklB5FWXjL2Em2mDLn50O9zfQd2m/RLxBb3D0FCcueipoS8kjHdOJh6C/
+         uP1GQv7A5pI6l/lD6qEHbHla/wpJGZ9mI96cO25R7R2iIcxkhlKL/qtsQYAgZlpZ/oy9
+         eHsA==
+X-Gm-Message-State: AOAM5310wdHjOA2U3uhTfn2DLU+uYc4bxUZ5HNaoU7OtfIClb2av4A/P
+        7/ov0h9ygs8kDD+JjHS9kpf4fWC6CRz4TA==
+X-Google-Smtp-Source: ABdhPJy8rXAczt0wkO2meKMLHDf1XtluWrPJ5f/dL4YUwHSPKNSp9LZWXjk9T3H94Pm30O8HtxLiGg==
+X-Received: by 2002:a63:1c1c:: with SMTP id c28mr2586494pgc.16.1622774468497;
+        Thu, 03 Jun 2021 19:41:08 -0700 (PDT)
 Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id z9sm3166356pji.47.2021.06.03.19.41.05
+        by smtp.gmail.com with ESMTPSA id z9sm3166356pji.47.2021.06.03.19.41.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 19:41:05 -0700 (PDT)
+        Thu, 03 Jun 2021 19:41:08 -0700 (PDT)
 From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil@xs4all.nl, jaffe1@gmail.com,
         Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH v4 1/2] cec-follower: emulate features for CEC versions < CEC 2.0
-Date:   Thu,  3 Jun 2021 19:40:52 -0700
-Message-Id: <fdf4a535983de1c55e73767796c29c290d641202.1622773904.git.deborahbrouwer3563@gmail.com>
+Subject: [PATCH v4 2/2] cec: add tests for Give Deck Status message
+Date:   Thu,  3 Jun 2021 19:40:53 -0700
+Message-Id: <9025929d71bf9b8b93f0d0fd25ec7a31dccc202c.1622773904.git.deborahbrouwer3563@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
 References: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
-MIME-Version: 1.0
 In-Reply-To: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
 References: <cover.1622773904.git.deborahbrouwer3563@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For CEC adapters using versions < CEC 2.0, read the CEC Features
-as configured in the CEC adapter and emulate the features that are
-present.
+Test that a valid Deck Status message is received in response to Give Deck
+Status and that Give Deck Status automatic reporting can be turned on and
+off. Test that the follower returns Feature Abort for an invalid Give Deck
+Status operand.
 
 Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 ---
- utils/cec-follower/cec-follower.cpp | 42 ++++++++++++++++-------------
- utils/libcecutil/cec-info.cpp       |  2 --
- 2 files changed, 23 insertions(+), 21 deletions(-)
+ utils/cec-compliance/cec-test.cpp     | 72 ++++++++++++++++++++++-----
+ utils/cec-follower/cec-follower.cpp   |  2 +
+ utils/cec-follower/cec-follower.h     |  1 +
+ utils/cec-follower/cec-processing.cpp | 41 +++++++--------
+ 4 files changed, 81 insertions(+), 35 deletions(-)
 
+diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
+index fb57d10b..4578dd13 100644
+--- a/utils/cec-compliance/cec-test.cpp
++++ b/utils/cec-compliance/cec-test.cpp
+@@ -601,10 +601,6 @@ static const vec_remote_subtests dev_menu_ctl_subtests{
+ 
+ /* Deck Control */
+ 
+-/*
+-  TODO: These are very rudimentary tests which should be expanded.
+- */
+-
+ static int deck_ctl_give_status(struct node *node, unsigned me, unsigned la, bool interactive)
+ {
+ 	struct cec_msg msg = {};
+@@ -613,12 +609,11 @@ static int deck_ctl_give_status(struct node *node, unsigned me, unsigned la, boo
+ 	cec_msg_give_deck_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
+ 	fail_on_test(!transmit_timeout(node, &msg));
+ 	fail_on_test(timed_out(&msg));
+-	if (is_playback_or_rec(la)) {
+-		fail_on_test_v2(node->remote[la].cec_version,
+-				node->remote[la].has_deck_ctl && cec_msg_status_is_abort(&msg));
+-		fail_on_test_v2(node->remote[la].cec_version,
+-				!node->remote[la].has_deck_ctl && !unrecognized_op(&msg));
+-	}
++
++	fail_on_test_v2(node->remote[la].cec_version,
++	                node->remote[la].has_deck_ctl && cec_msg_status_is_abort(&msg));
++	fail_on_test_v2(node->remote[la].cec_version,
++	                !node->remote[la].has_deck_ctl && !unrecognized_op(&msg));
+ 	if (unrecognized_op(&msg))
+ 		return OK_NOT_SUPPORTED;
+ 	if (refused(&msg))
+@@ -626,7 +621,51 @@ static int deck_ctl_give_status(struct node *node, unsigned me, unsigned la, boo
+ 	if (cec_msg_status_is_abort(&msg))
+ 		return OK_PRESUMED;
+ 
+-	return 0;
++	__u8 deck_info;
++
++	cec_ops_deck_status(&msg, &deck_info);
++	fail_on_test(deck_info < CEC_OP_DECK_INFO_PLAY || deck_info > CEC_OP_DECK_INFO_OTHER);
++
++	cec_msg_init(&msg, me, la);
++	cec_msg_give_deck_status(&msg, true, CEC_OP_STATUS_REQ_ON);
++	fail_on_test(!transmit_timeout(node, &msg));
++	fail_on_test(timed_out(&msg));
++	cec_ops_deck_status(&msg, &deck_info);
++	fail_on_test(deck_info < CEC_OP_DECK_INFO_PLAY || deck_info > CEC_OP_DECK_INFO_OTHER);
++
++	cec_msg_init(&msg, me, la);
++	cec_msg_give_deck_status(&msg, true, CEC_OP_STATUS_REQ_OFF);
++	/*
++	 * Reply would not normally be expected for CEC_OP_STATUS_REQ_OFF.
++	 * If a reply is received, then the follower failed to turn off
++	 * status reporting as required.
++	 */
++	msg.reply = CEC_MSG_DECK_STATUS;
++	fail_on_test(!transmit_timeout(node, &msg));
++	fail_on_test(!timed_out(&msg));
++
++	return OK;
++}
++
++static int deck_ctl_give_status_invalid(struct node *node, unsigned me, unsigned la, bool interactive)
++{
++	struct cec_msg msg = {};
++
++	cec_msg_init(&msg, me, la);
++	cec_msg_give_deck_status(&msg, true, 0); /* Invalid Operand */
++	fail_on_test(!transmit_timeout(node, &msg));
++	if (unrecognized_op(&msg))
++		return OK_NOT_SUPPORTED;
++	fail_on_test(!cec_msg_status_is_abort(&msg));
++	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
++
++	cec_msg_init(&msg, me, la);
++	cec_msg_give_deck_status(&msg, true, 4); /* Invalid Operand */
++	fail_on_test(!transmit_timeout(node, &msg));
++	fail_on_test(!cec_msg_status_is_abort(&msg));
++	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
++
++	return OK;
+ }
+ 
+ static int deck_ctl_deck_status(struct node *node, unsigned me, unsigned la, bool interactive)
+@@ -693,7 +732,16 @@ static int deck_ctl_play(struct node *node, unsigned me, unsigned la, bool inter
+ }
+ 
+ static const vec_remote_subtests deck_ctl_subtests{
+-	{ "Give Deck Status", CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD, deck_ctl_give_status },
++	{
++		"Give Deck Status",
++		CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
++		deck_ctl_give_status,
++	},
++	{
++		"Give Deck Status Invalid Operand",
++		CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
++		deck_ctl_give_status_invalid,
++	},
+ 	{ "Deck Status", CEC_LOG_ADDR_MASK_ALL, deck_ctl_deck_status },
+ 	{ "Deck Control", CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD, deck_ctl_deck_ctl },
+ 	{ "Play", CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD, deck_ctl_play },
 diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/cec-follower.cpp
-index b7a41ac2..1f598fdf 100644
+index 1f598fdf..047d7a04 100644
 --- a/utils/cec-follower/cec-follower.cpp
 +++ b/utils/cec-follower/cec-follower.cpp
-@@ -508,26 +508,30 @@ int main(int argc, char **argv)
+@@ -313,6 +313,8 @@ void state_init(struct node &node)
+ 	node.state.sac_active = false;
+ 	node.state.volume = 50;
+ 	node.state.mute = false;
++	node.state.deck_report_changes = false;
++	node.state.deck_state = CEC_OP_DECK_INFO_STOP;
+ 	tuner_dev_info_init(&node.state);
+ 	node.state.last_aud_rate_rx_ts = 0;
+ }
+diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
+index 391b9ab4..0492faa9 100644
+--- a/utils/cec-follower/cec-follower.h
++++ b/utils/cec-follower/cec-follower.h
+@@ -50,6 +50,7 @@ struct state {
+ 	bool service_by_dig_id;
+ 	bool tuner_report_changes;
+ 	bool deck_report_changes;
++	__u8 deck_state;
+ 	unsigned toggle_power_status;
+ 	__u64 last_aud_rate_rx_ts;
+ };
+diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+index 5b9db19f..3d2e4a2c 100644
+--- a/utils/cec-follower/cec-processing.cpp
++++ b/utils/cec-follower/cec-processing.cpp
+@@ -505,36 +505,31 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 		break;
  
- 	cec_driver_info(caps, laddrs, node.phys_addr, conn_info);
  
--	if (laddrs.cec_version >= CEC_OP_CEC_VERSION_2_0) {
--		bool is_dev_feat = false;
+-		/*
+-		  Deck Control
 -
--		for (__u8 byte : laddrs.features[0]) {
--			if (is_dev_feat) {
--				node.source_has_arc_rx = (byte & CEC_OP_FEAT_DEV_SOURCE_HAS_ARC_RX) != 0;
--				node.sink_has_arc_tx = (byte & CEC_OP_FEAT_DEV_SINK_HAS_ARC_TX) != 0;
--				node.has_aud_rate = (byte & CEC_OP_FEAT_DEV_HAS_SET_AUDIO_RATE) != 0;
--				node.has_deck_ctl = (byte & CEC_OP_FEAT_DEV_HAS_DECK_CONTROL) != 0;
--				node.has_rec_tv = (byte & CEC_OP_FEAT_DEV_HAS_RECORD_TV_SCREEN) != 0;
--				node.has_osd_string = (byte & CEC_OP_FEAT_DEV_HAS_SET_OSD_STRING) != 0;
--				break;
+-		  This is only a basic implementation.
+-
+-		  TODO: Device state should reflect whether we are playing,
+-		  fast forwarding, etc.
+-		*/
++		/* Deck Control */
+ 
+ 	case CEC_MSG_GIVE_DECK_STATUS:
+-		if (node->has_deck_ctl) {
+-			__u8 status_req;
++		if (!node->has_deck_ctl)
++			break;
+ 
+-			cec_ops_give_deck_status(&msg, &status_req);
+-			if (status_req < CEC_OP_STATUS_REQ_ON ||
+-			    status_req > CEC_OP_STATUS_REQ_ONCE) {
+-				reply_feature_abort(node, &msg, CEC_OP_ABORT_INVALID_OP);
+-				return;
 -			}
--			if (byte & CEC_OP_FEAT_EXT)
--				continue;
--			if (!is_dev_feat)
--				is_dev_feat = true;
--			else
--				break;
-+	/*
-+	 * For CEC 1.4, features of a logical address may still be
-+	 * filled in according to the CEC 2.0 guidelines even though
-+	 * the CEC framework won’t use the features in the CEC 2.0
-+	 * CEC_MSG_REPORT_FEATURES.
-+	 */
-+	bool is_dev_feat = false;
+-			if (status_req != CEC_OP_STATUS_REQ_ONCE)
+-				node->state.deck_report_changes =
+-					status_req == CEC_OP_STATUS_REQ_ON;
+-			if (status_req == CEC_OP_STATUS_REQ_OFF)
+-				return;
++		__u8 status_req;
++		cec_ops_give_deck_status(&msg, &status_req);
 +
-+	for (__u8 byte : laddrs.features[0]) {
-+		if (is_dev_feat) {
-+			node.source_has_arc_rx = (byte & CEC_OP_FEAT_DEV_SOURCE_HAS_ARC_RX) != 0;
-+			node.sink_has_arc_tx = (byte & CEC_OP_FEAT_DEV_SINK_HAS_ARC_TX) != 0;
-+			node.has_aud_rate = (byte & CEC_OP_FEAT_DEV_HAS_SET_AUDIO_RATE) != 0;
-+			node.has_deck_ctl = (byte & CEC_OP_FEAT_DEV_HAS_DECK_CONTROL) != 0;
-+			node.has_rec_tv = (byte & CEC_OP_FEAT_DEV_HAS_RECORD_TV_SCREEN) != 0;
-+			node.has_osd_string = (byte & CEC_OP_FEAT_DEV_HAS_SET_OSD_STRING) != 0;
-+			break;
++		switch (status_req) {
++		case CEC_OP_STATUS_REQ_ON:
++			node->state.deck_report_changes = true;
++			fallthrough;
++		case CEC_OP_STATUS_REQ_ONCE:
+ 			cec_msg_set_reply_to(&msg, &msg);
+-			cec_msg_deck_status(&msg, CEC_OP_DECK_INFO_STOP);
++			cec_msg_deck_status(&msg, node->state.deck_state);
+ 			transmit(node, &msg);
+ 			return;
++		case CEC_OP_STATUS_REQ_OFF:
++			node->state.deck_report_changes = false;
++			return;
++		default:
++			reply_feature_abort(node, &msg, CEC_OP_ABORT_INVALID_OP);
++			return;
  		}
-+		if (byte & CEC_OP_FEAT_EXT)
-+			continue;
-+		if (!is_dev_feat)
-+			is_dev_feat = true;
-+		else
-+			break;
- 	}
- 	printf("\n");
- 
-diff --git a/utils/libcecutil/cec-info.cpp b/utils/libcecutil/cec-info.cpp
-index 8b3c55e8..3c768261 100644
---- a/utils/libcecutil/cec-info.cpp
-+++ b/utils/libcecutil/cec-info.cpp
-@@ -448,8 +448,6 @@ void cec_driver_info(const struct cec_caps &caps,
- 		       cec_prim_type2s(laddrs.primary_device_type[i]));
- 		printf("\t    Logical Address Type   : %s\n",
- 		       cec_la_type2s(laddrs.log_addr_type[i]));
--		if (laddrs.cec_version < CEC_OP_CEC_VERSION_2_0)
--			continue;
- 		printf("\t    All Device Types       : %s\n",
- 		       cec_all_dev_types2s(laddrs.all_device_types[i]).c_str());
- 
+-		break;
+ 	case CEC_MSG_PLAY:
+ 		if (node->has_deck_ctl)
+ 			return;
 -- 
 2.17.1
 
