@@ -2,76 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64EC739B8D4
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 14:13:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A138139B96B
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 15:06:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230127AbhFDMOu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 08:14:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34250 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230030AbhFDMOu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 08:14:50 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2E4C9E5;
-        Fri,  4 Jun 2021 14:13:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622808783;
-        bh=e3Svrer5IwJJQfHb+ke8bzsq1KWTrBHilOrHADIbyuQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uL3az4rCrE9tOasmeobm1+oByuStK0/qPnaOm5yrcyIAYpen1NMmZAzVeyMpjpEV1
-         3oShm6PZ4B4JfbsKCvqp5y0vC+NBir4f/NVs5jI55XG1ysR8GPnuo3GJf3mtryNuhZ
-         TcCxRm/PNwHV+HRsV0RVzr6qxKjeI1T4KZMbatpY=
-Date:   Fri, 4 Jun 2021 15:12:50 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 02/38] media: ti-vpe: cal: fix error handling in
- cal_camerarx_create
-Message-ID: <YLoYwiS2PeZ8PhYL@pendragon.ideasonboard.com>
-References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
- <20210524110909.672432-3-tomi.valkeinen@ideasonboard.com>
+        id S230222AbhFDNId (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 09:08:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57684 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230162AbhFDNId (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 09:08:33 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C02C06174A;
+        Fri,  4 Jun 2021 06:06:46 -0700 (PDT)
+Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:389:b21e:a7e4:8cad])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D471B1F438B6;
+        Fri,  4 Jun 2021 14:06:37 +0100 (BST)
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
+        andrzej.p@collabora.com, jc@kynesim.co.uk
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH 0/8] Additional features for Hantro HEVC
+Date:   Fri,  4 Jun 2021 15:06:11 +0200
+Message-Id: <20210604130619.491200-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210524110909.672432-3-tomi.valkeinen@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Basic HEVC support has been added to Hantro driver in this pull request:
+https://www.spinics.net/lists/linux-media/msg193744.html
 
-Thank you for the patch.
+Thanks to that it is now possible to support more features for this driver.
 
-On Mon, May 24, 2021 at 02:08:33PM +0300, Tomi Valkeinen wrote:
-> cal_camerarx_create() doesn't handle error returned from
-> cal_camerarx_sd_init_cfg(). Fix this.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+The first patch allow to log the hardware performance per macroblock.
+The second patch makes the driver use compressed reference frames to
+reduce memory bandwidth consumption.
+Patches 3 to 5 allow to decode and produce 10-bits P010 frames.
+Patch 6 make usage of G2 post processor to scale down the frames.
+Patches 7 and 8 add the support of HEVC scaling matrix by adding a new
+control.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+All these patches enhance the HEVC support for Hantro (G2) hardware.
+Unluckily they almost all touch the same pieces of code, where buffer
+size, offset and addresses are set, so they have to be in this order.
+They depend of the series pushed in this pull request:
+https://www.spinics.net/lists/linux-media/msg193744.html
 
-> ---
->  drivers/media/platform/ti-vpe/cal-camerarx.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> index 124a4e2bdefe..e2e384a887ac 100644
-> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> @@ -845,7 +845,9 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
->  	if (ret)
->  		goto error;
->  
-> -	cal_camerarx_sd_init_cfg(sd, NULL);
-> +	ret = cal_camerarx_sd_init_cfg(sd, NULL);
-> +	if (ret)
-> +		goto error;
->  
->  	ret = v4l2_device_register_subdev(&cal->v4l2_dev, sd);
->  	if (ret)
+Benjamin
+
+Benjamin Gaignard (8):
+  media: hantro: Trace hevc hw cycles performance register
+  media: hantro: Add support of compressed reference buffers
+  media: hantro: hevc: Allow 10-bits encoded streams
+  media: Add P010 video format
+  media: hantro: hevc: Allow to produce 10-bit frames
+  media: hantro: enumerate scaled output formats
+  media: hevc: Add scaling matrix control
+  media: hantro: Add scaling lists feature
+
+ .../media/v4l/ext-ctrls-codec.rst             |  45 +++++
+ .../media/v4l/pixfmt-yuv-planar.rst           |   8 +
+ .../media/v4l/vidioc-queryctrl.rst            |   6 +
+ drivers/media/v4l2-core/v4l2-common.c         |   1 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |   6 +
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   4 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ drivers/staging/media/hantro/hantro.h         |   4 +
+ drivers/staging/media/hantro/hantro_drv.c     |  32 +++-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 175 ++++++++++++++++--
+ drivers/staging/media/hantro/hantro_g2_regs.h |  12 ++
+ drivers/staging/media/hantro/hantro_hevc.c    |  60 +++++-
+ drivers/staging/media/hantro/hantro_hw.h      |   7 +
+ drivers/staging/media/hantro/hantro_v4l2.c    |  10 +-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |   6 +
+ drivers/staging/media/hantro/trace.h          |  40 ++++
+ include/media/hevc-ctrls.h                    |  11 ++
+ include/uapi/linux/videodev2.h                |   1 +
+ 18 files changed, 407 insertions(+), 22 deletions(-)
+ create mode 100644 drivers/staging/media/hantro/trace.h
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
