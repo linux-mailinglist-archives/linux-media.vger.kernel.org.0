@@ -2,162 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85FED39B88C
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 13:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1B4D39B8B2
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 14:05:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbhFDL7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 07:59:25 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34086 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229740AbhFDL7Z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 07:59:25 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE9FA9E5;
-        Fri,  4 Jun 2021 13:57:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622807858;
-        bh=6lozi+QqT1KrEvDU4Iq+pJaBi8BnjRsNCDhbuQ/X1Uo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eTP7vQfvLXrAk6ZA7ln7gRiguvGrmd8H0yqM/o0L7vEVEqEs5RQm/f6HeYX8jI06t
-         fGTX5BQOyVYBe32XtmUMntjGqMUvl3fHHnZd3bflA8C4SxcuuzWqBk/WOEnNiIV52G
-         on/NjLFvDOuL1Bc+vdJZLMQyIHffAr7M6n7xBDuc=
-Date:   Fri, 4 Jun 2021 14:57:25 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 38/38] media: ti-vpe: cal: add multiplexed streams
- support
-Message-ID: <YLoVJRtWjaXvxG0o@pendragon.ideasonboard.com>
-References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
- <20210524110909.672432-39-tomi.valkeinen@ideasonboard.com>
- <20210527160622.c4tumqkld2rrwbva@ti.com>
- <60f6ef13-31ba-9d1d-7a36-b9f344142465@ideasonboard.com>
- <YK/JLBWfEPXqUGqY@pendragon.ideasonboard.com>
- <32487c88-b60c-3c6a-d164-7c3f587dbb4b@ideasonboard.com>
+        id S230213AbhFDMHT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 08:07:19 -0400
+Received: from mail-pl1-f179.google.com ([209.85.214.179]:34480 "EHLO
+        mail-pl1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229740AbhFDMHT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 08:07:19 -0400
+Received: by mail-pl1-f179.google.com with SMTP id u9so4456069plr.1
+        for <linux-media@vger.kernel.org>; Fri, 04 Jun 2021 05:05:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=QoSl/BIvVPZGOeDCr86CVcF0x26xO1jLabInCM7wFNY=;
+        b=KZTdfWqRcq02+8YDMhNT+EBDtYiqt16K26DYvoLBoxkw9kCC5CaTuMkZlPlBxmTtfb
+         CjPcp6JI7zHcoAa0yAVfCZG+9gZkhpr3Vnqbrt3DR0EHz8ixR6cOFCTYL47b8gu37EiU
+         24gUF3sEIxF24mKW1vxb2CzMzQ+vlwraPqwO8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QoSl/BIvVPZGOeDCr86CVcF0x26xO1jLabInCM7wFNY=;
+        b=pDg54RFJs9QM21EgBvpchQMQEj990uOuwyog/2krmZTW31brasT0gi+Zf3vZQVMFMm
+         EAhB0aefuZcyh+zisfLbB2H9VPj8mFmhe/yXlhn6dOV0bh5G/KawLOBDKdBsVzNNcCTH
+         qbnCFUBxQuTJPxGP23HUMkmIQm6j+7clnpvgP8qCaTNSHbbOuCNf/GMz+e7HDjszAOS7
+         /H97xUeEg+QXlmG0UFGUqrddyDvP120pDwLxfwtSa9gLJ2CkxxY/C+wZ0/z/vQuJagR3
+         yO2wgdQTxsAZY5tvpLSaXvj5UATrspaoWnbZQq0NUWHjrEDyqcGpv9xUQX63SGm0klvn
+         VabA==
+X-Gm-Message-State: AOAM5324wgfZX90J3EwjYgQf3B52wV2vmro9YR2UJ8QL8wrpyBUwfaI5
+        EsKel0ZmIVAE0lN0OpGCFlhoOQ==
+X-Google-Smtp-Source: ABdhPJyBKO7O1F8BltlLBKOlcpGIAVp/cs5n8v5/9T+KWJGwahqAUNPav1NdIa0924lF+32mpDVtWQ==
+X-Received: by 2002:a17:90b:2250:: with SMTP id hk16mr16079413pjb.95.1622808272875;
+        Fri, 04 Jun 2021 05:04:32 -0700 (PDT)
+Received: from chromium.org ([2401:fa00:8f:203:dbd1:4208:a05f:3593])
+        by smtp.gmail.com with ESMTPSA id u24sm1681564pfn.31.2021.06.04.05.04.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jun 2021 05:04:32 -0700 (PDT)
+Date:   Fri, 4 Jun 2021 21:04:29 +0900
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Slaby <jslaby@suse.cz>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        stable@vger.kernel.org
+Subject: Re: [PATCH v2] media: videobuf2: Fix integer overrun in vb2_mmap
+Message-ID: <YLoWzSoSUQ6HYsyO@chromium.org>
+References: <20210310075127.1045556-1-ribalda@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <32487c88-b60c-3c6a-d164-7c3f587dbb4b@ideasonboard.com>
+In-Reply-To: <20210310075127.1045556-1-ribalda@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
-
-On Thu, May 27, 2021 at 07:33:57PM +0300, Tomi Valkeinen wrote:
-> On 27/05/2021 19:30, Laurent Pinchart wrote:
-> > On Thu, May 27, 2021 at 07:10:42PM +0300, Tomi Valkeinen wrote:
-> >> On 27/05/2021 19:06, Pratyush Yadav wrote:
-> >>> On 24/05/21 02:09PM, Tomi Valkeinen wrote:
-> >>>> Add routing and stream_config support to CAL driver.
-> >>>>
-> >>>> Add multiplexed streams support. CAL has 8 dma-engines and can capture 8
-> >>>> separate streams at the same time.
-> >>>>
-> >>>> Add 8 video device nodes, each representing a single dma-engine, and set
-> >>>> the number of source pads on camerarx to 8. Each video node can be
-> >>>> connected to any of the source pads on either of the camerarx instances
-> >>>> using media links. Camerarx internal routing is used to route the
-> >>>> incoming CSI-2 streams to one of the 8 source pads.
-> >>>>
-> >>>> CAL doesn't support transcoding, so the driver currently allows changes
-> >>>> only on the camerarx sink side, and then copies the sink pad config to
-> >>>> the source pad. This becomes slighly more complex with 8 source pads and
-> >>>> multiple streams on the sink pad. A helper,
-> >>>> cal_camerarx_get_opposite_stream_format(), is added, which uses the
-> >>>> routing table to get the format from the "opposite" side.
-> >>>>
-> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >>>> ---
-> >>>>    drivers/media/platform/ti-vpe/cal-camerarx.c | 303 ++++++++++++++++---
-> >>>>    drivers/media/platform/ti-vpe/cal-video.c    | 103 ++++++-
-> >>>>    drivers/media/platform/ti-vpe/cal.c          |  34 ++-
-> >>>>    drivers/media/platform/ti-vpe/cal.h          |  12 +-
-> >>>>    4 files changed, 385 insertions(+), 67 deletions(-)
-> >>>>
-> >>> [...]
-> >>>> @@ -1178,18 +1177,33 @@ static int cal_probe(struct platform_device *pdev)
-> >>>>    	}
-> >>>>    
-> >>>>    	/* Create contexts. */
-> >>>> -	for (i = 0; i < cal->data->num_csi2_phy; ++i) {
-> >>>> -		if (!cal->phy[i]->source_node)
-> >>>> -			continue;
-> >>>> +	if (!cal_mc_api) {
-> >>>> +		for (i = 0; i < cal->data->num_csi2_phy; ++i) {
-> >>>> +			if (!cal->phy[i]->source_node)
-> >>>> +				continue;
-> >>>> +
-> >>>> +			cal->ctx[i] = cal_ctx_create(cal, i);
-> >>>> +			if (!cal->ctx[i]) {
-> >>>> +				cal_err(cal, "Failed to create context %u\n", i);
-> >>>> +				ret = -ENODEV;
-> >>>> +				goto error_context;
-> >>>> +			}
-> >>>>    
-> >>>> -		cal->ctx[i] = cal_ctx_create(cal, i);
-> >>>> -		if (!cal->ctx[i]) {
-> >>>> -			cal_err(cal, "Failed to create context %u\n", i);
-> >>>> -			ret = -ENODEV;
-> >>>> -			goto error_context;
-> >>>> +			cal->ctx[i]->phy = cal->phy[i];
-> >>>> +
-> >>>> +			cal->num_contexts++;
-> >>>>    		}
-> >>>> +	} else {
-> >>>> +		for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
-> >>>> +			cal->ctx[i] = cal_ctx_create(cal, i);
-> >>>> +			if (!cal->ctx[i]) {
-> >>>> +				cal_err(cal, "Failed to create context %u\n", i);
-> >>>> +				ret = -ENODEV;
-> >>>> +				goto error_context;
-> >>>> +			}
-> >>>>    
-> >>>> -		cal->num_contexts++;
-> >>>> +			cal->num_contexts++;
-> >>>
-> >>> In cal_async_notifier_complete() I see:
-> >>>
-> >>>     for (i = 0; i < cal->num_contexts; i++)
-> >>>       ret = cal_ctx_v4l2_register();
-> >>>
-> >>> This means that if the CAL device has 8 DMA contexts it will create 8
-> >>> /dev/videoX nodes, even if the hardware setup is only capable of 1
-> >>> stream.
-> >>>
-> >>> Would it make more sense to populate /dev/videoX nodes based on the
-> >>> configured routing? So for example, if only one pad is being used to
-> >>> output, only create one node corresponding to that pad. If there are 3
-> >>> pads being populated then create 3 nodes and so on.
-> >>
-> >> Routing is a runtime configuration, so it could mean creating or
-> >> removing video nodes every time the user changes the routing. I believe
-> >> video nodes are supposed to be more permanent than that.
-> >>
-> >> If we knew that the HW setup can only ever have N routes, we could limit
-> >> the number of video nodes, but I don't think we have means to figure
-> >> that out.
-> > 
-> > And even if we did, I think that wouldn't help userspace. The media
-> > graph is meant to model the hardware topology, it's best to minimize the
-> > complexity on the kernel side and let userspace deal with routing
-> > configuration.
+On Wed, Mar 10, 2021 at 08:51:27AM +0100, Ricardo Ribalda wrote:
+> The plane_length is an unsigned integer. So, if we have a size of
+> 0xffffffff bytes we incorrectly allocate 0 bytes instead of 1 << 32.
 > 
-> I think it's a valid question. Maybe a CSI-2 RX uses system DMA, and can 
-> support, say, 128 contexts. We probably don't want 128 video nodes (of 
-> which perhaps 1-4 are ever used). But in CAL's case, I think always 
-> having all the 8 video nodes is acceptable.
+> Suggested-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Cc: stable@vger.kernel.org
+> Fixes: 7f8414594e47 ("[media] media: videobuf2: fix the length check for mmap")
+> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 543da515c761..89c8bacb94a7 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -2256,7 +2256,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+>  	 * The buffer length was page_aligned at __vb2_buf_mem_alloc(),
+>  	 * so, we need to do the same here.
+>  	 */
+> -	length = PAGE_ALIGN(vb->planes[plane].length);
+> +	length = PAGE_ALIGN((unsigned long)vb->planes[plane].length);
+>  	if (length < (vma->vm_end - vma->vm_start)) {
+>  		dprintk(q, 1,
+>  			"MMAP invalid, as it would overflow buffer length\n");
+> -- 
+> 2.30.1.766.gb4fecdf3b7-goog
+> 
 
-Agreed, I wouldn't want to see 128 video nodes. If we had to support a
-large number of contexts (in which case those contexts would either not
-map to dedicated hardware resources, or map to very cheap hardware
-resources), then I'd vote for adding a context ID to the buffer and
-streaming ioctls on the video node. VIDIOC_STREAMON and VIDIOC_STREAMOFF
-would be problematic as there's no room for extension, but it could be a
-good occasion to introduce a VIDIOC_S_STREAM.
+Acked-by: Tomasz Figa <tfiga@chromium.org>
 
--- 
-Regards,
-
-Laurent Pinchart
+Best regards,
+Tomasz
