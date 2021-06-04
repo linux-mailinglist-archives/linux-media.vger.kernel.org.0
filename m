@@ -2,78 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E25039C18E
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 22:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2201E39C1AF
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 22:54:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231148AbhFDUrg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 16:47:36 -0400
-Received: from mail-oo1-f43.google.com ([209.85.161.43]:38489 "EHLO
-        mail-oo1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229854AbhFDUrf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 16:47:35 -0400
-Received: by mail-oo1-f43.google.com with SMTP id o66-20020a4a44450000b029020d44dea886so2545038ooa.5;
-        Fri, 04 Jun 2021 13:45:39 -0700 (PDT)
+        id S230281AbhFDU4T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 16:56:19 -0400
+Received: from mail-oi1-f181.google.com ([209.85.167.181]:37596 "EHLO
+        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229906AbhFDU4T (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 16:56:19 -0400
+Received: by mail-oi1-f181.google.com with SMTP id h9so11031410oih.4;
+        Fri, 04 Jun 2021 13:54:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=J9wbO4iepQS7fHLsPG9Sl+dEG0o3lIQGorDKRuT1O+A=;
-        b=AK+ESFzF28FQw1uxdUzyz01mrlbjA4fTaYINfeRizcVVD5M9jGHpobfmp2Uhm4C189
-         qy+XdPeIVJqnP6VdhmxCkkVz7+sTBLgORMtNl1ie4JNGNQWclfR0PWd42798cpSVjb9b
-         V3NBrRA/QIWueEXZH+thyVD/Ejp2v0/tTYDNfOP6DXF/h+ie01C1uAgwRtDPxLqPXeGk
-         XQw6A7U+ukfF7z5fXxqjI0V/I/15Nc3ScgLekpzwpyikE0gx455Si0ZnnJoadHydYWIe
-         zQdPIhly93jfjE2FyEFIVJnzIt57et7JAxpu4MEG7RWVLyzgw273Ht5WKCLrl62Cmi4h
-         7u2A==
-X-Gm-Message-State: AOAM530o8jQLeQIi0/591e3Ytgc4d+R6qpCfHB+mMQ9nXjW+z+LwN4Z0
-        aLQgiO3Y2+7dG0+Ni7ApSw==
-X-Google-Smtp-Source: ABdhPJynR4v6IWpcD8BCd5FuJd4Zwv4puzVbEb52RaGPB7CaRl9pN48d8jqREDRRIQChZUZN/E8DJw==
-X-Received: by 2002:a4a:94ef:: with SMTP id l44mr5043933ooi.84.1622839539471;
-        Fri, 04 Jun 2021 13:45:39 -0700 (PDT)
+        bh=gz+lgtM0mII+BtnwGBOzXei3KeWl3rwfr5YGfndAX+4=;
+        b=B7fpD8To/dfmVRNFu4+DOCBh+COwO7//Ms1WdOpuf+d8yunk7EiPoaprx4qMDUVHDq
+         CfiBJbZGrAns8Mt85yEooon9Odh+QTNVno453F75tV33fOCVbUUUdYQYsMMvRQMjhy9p
+         L07oteKkiZY5hMzFBN3xFz+jPSMVcnpG3b2gFlzPhB57sQewM/awu3o2oSGuemwELWE0
+         fWQ1TYa8Tpw6xp5pngrhQKnbqbjw6BvUDmKzyLYf0zawKeRo7eLJxXpfwYHI21lhrZgb
+         Jec5CiGdPd6VDh4nZaLxFQGtmKwa8W1Cg/lO+gHy+vls+unxYzsGSa0OC6aznvQUSEEc
+         mTtA==
+X-Gm-Message-State: AOAM5310KhVBmhEcC7LZ7EQgAcwSMgAOhCWMGxctSDAsLY5NKlaMIuB3
+        +GgsJzgLYfDwgfvCLZWohQ==
+X-Google-Smtp-Source: ABdhPJx/GMEf9bYIk8Jplmvt1HIaYOpj7JSD4qGH4K5ceH3YEBM4OH94c4pZe8uKzxCEu9oWj+epCw==
+X-Received: by 2002:aca:4a82:: with SMTP id x124mr3664289oia.43.1622840072378;
+        Fri, 04 Jun 2021 13:54:32 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 21sm79912otd.21.2021.06.04.13.45.38
+        by smtp.gmail.com with ESMTPSA id 129sm665752ooq.34.2021.06.04.13.54.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jun 2021 13:45:38 -0700 (PDT)
-Received: (nullmailer pid 3884907 invoked by uid 1000);
-        Fri, 04 Jun 2021 20:45:37 -0000
-Date:   Fri, 4 Jun 2021 15:45:37 -0500
+        Fri, 04 Jun 2021 13:54:31 -0700 (PDT)
+Received: (nullmailer pid 3898550 invoked by uid 1000);
+        Fri, 04 Jun 2021 20:54:30 -0000
+Date:   Fri, 4 Jun 2021 15:54:30 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Alex Bee <knaerzche@gmail.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Stuebner <heiko@sntech.de>, linux-kernel@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-rockchip@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v2 03/12] dt-bindings: media: rockchip-vdec: add RK3228
- compatible
-Message-ID: <20210604204537.GA3884845@robh.at.kernel.org>
-References: <20210525152225.154302-1-knaerzche@gmail.com>
- <20210527154455.358869-1-knaerzche@gmail.com>
- <20210527154455.358869-4-knaerzche@gmail.com>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     hverkuil-cisco@xs4all.nl, lars@metafoo.de,
+        matthew.michilot@gmail.com, tharvey@gateworks.com,
+        linux-media@vger.kernel.org, slongerbeam@gmail.com,
+        niklas.soderlund@ragnatech.se, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: adv7180: Introduce
+ adv,adv7182-force-bt656-4
+Message-ID: <20210604205430.GA3895085@robh.at.kernel.org>
+References: <20210527173209.3874124-1-festevam@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210527154455.358869-4-knaerzche@gmail.com>
+In-Reply-To: <20210527173209.3874124-1-festevam@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 27 May 2021 17:44:46 +0200, Alex Bee wrote:
-> Document the RK3228 compatible for rockchip-vdec.
-> Also add the optional assigned-clocks and assigned-clock-rates
-> properties.
+On Thu, May 27, 2021 at 02:32:08PM -0300, Fabio Estevam wrote:
+> Captured NTSC video would be out of sync when using the adv7280 with
+> the BT.656-4 protocol. Certain registers (0x04, 0x31, 0xE6) need to
+> be configured properly to ensure BT.656-4 compatibility.
 > 
-> Signed-off-by: Alex Bee <knaerzche@gmail.com>
-> ---
-> 
->  Changes in v2:
->  - fix indentation
-> 
->  .../devicetree/bindings/media/rockchip,vdec.yaml       | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
+> Introduce the 'adv,adv7182-force-bt656-4' property to allow the ADV7280
+> behavior to be consistent with the ADV7180, where BT.656-4 timing
+> is used.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+I'm confused by the part numbers. 7182 or 7280? In any case, I'd just 
+drop the part number from the property name.
+
+> 
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/adv7180.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+> index bcfd93739b4f..83e47b0c9fa2 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+> @@ -35,6 +35,11 @@ properties:
+>    powerdown-gpios:
+>      maxItems: 1
+>  
+> +  adv,adv7182-force-bt656-4:
+> +    description:
+> +      Indicates that ADV7182 should output a BT.656-4 compatible stream.
+> +    type: boolean
+> +
+>    port:
+>      $ref: /schemas/graph.yaml#/properties/port
+>  
+> -- 
+> 2.25.1
