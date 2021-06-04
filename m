@@ -2,150 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1C1D39B7B4
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 13:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85FED39B88C
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 13:57:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230228AbhFDLPA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 07:15:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229854AbhFDLPA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 07:15:00 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8097EC06174A
-        for <linux-media@vger.kernel.org>; Fri,  4 Jun 2021 04:13:14 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id c13so4493956plz.0
-        for <linux-media@vger.kernel.org>; Fri, 04 Jun 2021 04:13:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=RjN7n3e9jvHWi5uQ82UqHQyH1oxqgv/tnA4DMcfZtA0=;
-        b=mioATbcB/wJIEDEq7yBatUPbYTLQcxH/lVwaOUlQSaopv46wJWULkACrTveSmEPxdL
-         bznK24X1LMMjvniL9BPaJLCltfuTPMLQ11uoZx5C0F2Yl7uZotcTrAQNkIl3SEsj/Nxj
-         XVwpgwfwuO56UQ9WtUM4ZuZyIzorySgkxWedU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=RjN7n3e9jvHWi5uQ82UqHQyH1oxqgv/tnA4DMcfZtA0=;
-        b=uRWD3oGVFN2Q1NGgPz6knAT+C804nIgBWplI2Ff3Es1WR7ObbsaNkRJYMlka9q3uBC
-         J585aomlzXtgCmbZ6IPyrSOUDoHuaBuDyQtO8D6m43bFS8ENnEHU4lHVmjZvwvSqfAt6
-         Z8rpU/dZVrWAlkH4PaI78kFCd4vUSzjC+8ycVZvCKzNaC1ononIXYtZSG16LpbAZ4CtZ
-         N/5A7LZTy4/uISRiG2VcLRFRa/RMoymggl9yQl93IMnTGiByAT6WzjI9Cvq9fr6xly1Y
-         NGBxe3zbP4RhdngsRSSZg0p+NiKtcrMnlinmyBUR8Ruh5ZwbSqTRVUizGCU4ger9OHWU
-         jutw==
-X-Gm-Message-State: AOAM530Tjf3U5qGWOMgEw2co7Ua/IWdO4UsJKy6ZG62FOA8dKPp1Tb3u
-        N1mfVar1fqStHgP2UN9KhUKIqg==
-X-Google-Smtp-Source: ABdhPJxp0eESQ6TJ+DVqIxRUEjkscmpJGdf5qwMsMSA6u7XqTBSSqSij02jxSGQZcSGXi8WaglT3Ww==
-X-Received: by 2002:a17:902:be0a:b029:104:4f7c:8140 with SMTP id r10-20020a170902be0ab02901044f7c8140mr3760411pls.70.1622805193938;
-        Fri, 04 Jun 2021 04:13:13 -0700 (PDT)
-Received: from chromium.org ([2401:fa00:8f:203:dbd1:4208:a05f:3593])
-        by smtp.gmail.com with ESMTPSA id q4sm1578318pfg.3.2021.06.04.04.13.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jun 2021 04:13:13 -0700 (PDT)
-Date:   Fri, 4 Jun 2021 20:13:10 +0900
-From:   Tomasz Figa <tfiga@chromium.org>
+        id S229962AbhFDL7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 07:59:25 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34086 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229740AbhFDL7Z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 07:59:25 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE9FA9E5;
+        Fri,  4 Jun 2021 13:57:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1622807858;
+        bh=6lozi+QqT1KrEvDU4Iq+pJaBi8BnjRsNCDhbuQ/X1Uo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eTP7vQfvLXrAk6ZA7ln7gRiguvGrmd8H0yqM/o0L7vEVEqEs5RQm/f6HeYX8jI06t
+         fGTX5BQOyVYBe32XtmUMntjGqMUvl3fHHnZd3bflA8C4SxcuuzWqBk/WOEnNiIV52G
+         on/NjLFvDOuL1Bc+vdJZLMQyIHffAr7M6n7xBDuc=
+Date:   Fri, 4 Jun 2021 14:57:25 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 1/3] media: videobuf2-v4l2.c: add
- vb2_queue_change_type() helper
-Message-ID: <YLoKxlXsC/nT4rF7@chromium.org>
-References: <20210412110211.275791-1-tomi.valkeinen@ideasonboard.com>
- <20210412110211.275791-2-tomi.valkeinen@ideasonboard.com>
+Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 38/38] media: ti-vpe: cal: add multiplexed streams
+ support
+Message-ID: <YLoVJRtWjaXvxG0o@pendragon.ideasonboard.com>
+References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
+ <20210524110909.672432-39-tomi.valkeinen@ideasonboard.com>
+ <20210527160622.c4tumqkld2rrwbva@ti.com>
+ <60f6ef13-31ba-9d1d-7a36-b9f344142465@ideasonboard.com>
+ <YK/JLBWfEPXqUGqY@pendragon.ideasonboard.com>
+ <32487c88-b60c-3c6a-d164-7c3f587dbb4b@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210412110211.275791-2-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <32487c88-b60c-3c6a-d164-7c3f587dbb4b@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Tomi,
 
-On Mon, Apr 12, 2021 at 02:02:09PM +0300, Tomi Valkeinen wrote:
-> On some platforms a video device can capture either video data or
-> metadata. The driver can implement vidioc functions for both video and
-> metadata, and use a single vb2_queue for the buffers. However, vb2_queue
-> requires choosing a single buffer type, which conflicts with the idea of
-> capturing either video or metadata.
+On Thu, May 27, 2021 at 07:33:57PM +0300, Tomi Valkeinen wrote:
+> On 27/05/2021 19:30, Laurent Pinchart wrote:
+> > On Thu, May 27, 2021 at 07:10:42PM +0300, Tomi Valkeinen wrote:
+> >> On 27/05/2021 19:06, Pratyush Yadav wrote:
+> >>> On 24/05/21 02:09PM, Tomi Valkeinen wrote:
+> >>>> Add routing and stream_config support to CAL driver.
+> >>>>
+> >>>> Add multiplexed streams support. CAL has 8 dma-engines and can capture 8
+> >>>> separate streams at the same time.
+> >>>>
+> >>>> Add 8 video device nodes, each representing a single dma-engine, and set
+> >>>> the number of source pads on camerarx to 8. Each video node can be
+> >>>> connected to any of the source pads on either of the camerarx instances
+> >>>> using media links. Camerarx internal routing is used to route the
+> >>>> incoming CSI-2 streams to one of the 8 source pads.
+> >>>>
+> >>>> CAL doesn't support transcoding, so the driver currently allows changes
+> >>>> only on the camerarx sink side, and then copies the sink pad config to
+> >>>> the source pad. This becomes slighly more complex with 8 source pads and
+> >>>> multiple streams on the sink pad. A helper,
+> >>>> cal_camerarx_get_opposite_stream_format(), is added, which uses the
+> >>>> routing table to get the format from the "opposite" side.
+> >>>>
+> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >>>> ---
+> >>>>    drivers/media/platform/ti-vpe/cal-camerarx.c | 303 ++++++++++++++++---
+> >>>>    drivers/media/platform/ti-vpe/cal-video.c    | 103 ++++++-
+> >>>>    drivers/media/platform/ti-vpe/cal.c          |  34 ++-
+> >>>>    drivers/media/platform/ti-vpe/cal.h          |  12 +-
+> >>>>    4 files changed, 385 insertions(+), 67 deletions(-)
+> >>>>
+> >>> [...]
+> >>>> @@ -1178,18 +1177,33 @@ static int cal_probe(struct platform_device *pdev)
+> >>>>    	}
+> >>>>    
+> >>>>    	/* Create contexts. */
+> >>>> -	for (i = 0; i < cal->data->num_csi2_phy; ++i) {
+> >>>> -		if (!cal->phy[i]->source_node)
+> >>>> -			continue;
+> >>>> +	if (!cal_mc_api) {
+> >>>> +		for (i = 0; i < cal->data->num_csi2_phy; ++i) {
+> >>>> +			if (!cal->phy[i]->source_node)
+> >>>> +				continue;
+> >>>> +
+> >>>> +			cal->ctx[i] = cal_ctx_create(cal, i);
+> >>>> +			if (!cal->ctx[i]) {
+> >>>> +				cal_err(cal, "Failed to create context %u\n", i);
+> >>>> +				ret = -ENODEV;
+> >>>> +				goto error_context;
+> >>>> +			}
+> >>>>    
+> >>>> -		cal->ctx[i] = cal_ctx_create(cal, i);
+> >>>> -		if (!cal->ctx[i]) {
+> >>>> -			cal_err(cal, "Failed to create context %u\n", i);
+> >>>> -			ret = -ENODEV;
+> >>>> -			goto error_context;
+> >>>> +			cal->ctx[i]->phy = cal->phy[i];
+> >>>> +
+> >>>> +			cal->num_contexts++;
+> >>>>    		}
+> >>>> +	} else {
+> >>>> +		for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
+> >>>> +			cal->ctx[i] = cal_ctx_create(cal, i);
+> >>>> +			if (!cal->ctx[i]) {
+> >>>> +				cal_err(cal, "Failed to create context %u\n", i);
+> >>>> +				ret = -ENODEV;
+> >>>> +				goto error_context;
+> >>>> +			}
+> >>>>    
+> >>>> -		cal->num_contexts++;
+> >>>> +			cal->num_contexts++;
+> >>>
+> >>> In cal_async_notifier_complete() I see:
+> >>>
+> >>>     for (i = 0; i < cal->num_contexts; i++)
+> >>>       ret = cal_ctx_v4l2_register();
+> >>>
+> >>> This means that if the CAL device has 8 DMA contexts it will create 8
+> >>> /dev/videoX nodes, even if the hardware setup is only capable of 1
+> >>> stream.
+> >>>
+> >>> Would it make more sense to populate /dev/videoX nodes based on the
+> >>> configured routing? So for example, if only one pad is being used to
+> >>> output, only create one node corresponding to that pad. If there are 3
+> >>> pads being populated then create 3 nodes and so on.
+> >>
+> >> Routing is a runtime configuration, so it could mean creating or
+> >> removing video nodes every time the user changes the routing. I believe
+> >> video nodes are supposed to be more permanent than that.
+> >>
+> >> If we knew that the HW setup can only ever have N routes, we could limit
+> >> the number of video nodes, but I don't think we have means to figure
+> >> that out.
+> > 
+> > And even if we did, I think that wouldn't help userspace. The media
+> > graph is meant to model the hardware topology, it's best to minimize the
+> > complexity on the kernel side and let userspace deal with routing
+> > configuration.
 > 
-> The buffer type of vb2_queue can be changed, but it's not obvious how
-> this should be done in the drivers. To help this, add a new helper
-> function vb2_queue_change_type() which ensures the correct checks and
-> documents how it can be used.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-v4l2.c | 14 ++++++++++++++
->  include/media/videobuf2-v4l2.h                  | 15 +++++++++++++++
->  2 files changed, 29 insertions(+)
-> 
+> I think it's a valid question. Maybe a CSI-2 RX uses system DMA, and can 
+> support, say, 128 contexts. We probably don't want 128 video nodes (of 
+> which perhaps 1-4 are ever used). But in CAL's case, I think always 
+> having all the 8 video nodes is acceptable.
 
-Good to see you contributing to the media subsystem. Not sure if you
-still remember me from the Common Display Framework discussions. ;)
+Agreed, I wouldn't want to see 128 video nodes. If we had to support a
+large number of contexts (in which case those contexts would either not
+map to dedicated hardware resources, or map to very cheap hardware
+resources), then I'd vote for adding a context ID to the buffer and
+streaming ioctls on the video node. VIDIOC_STREAMON and VIDIOC_STREAMOFF
+would be problematic as there's no room for extension, but it could be a
+good occasion to introduce a VIDIOC_S_STREAM.
 
-Anyway, thanks for the patch. I think the code itself is okay, but I'm
-wondering why the driver couldn't just have two queues, one for each
-type?
+-- 
+Regards,
 
-Best regards,
-Tomasz
-
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 7e96f67c60ba..2988bb38ceb1 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -939,6 +939,20 @@ void vb2_queue_release(struct vb2_queue *q)
->  }
->  EXPORT_SYMBOL_GPL(vb2_queue_release);
->  
-> +int vb2_queue_change_type(struct vb2_queue *q, unsigned int type)
-> +{
-> +	if (type == q->type)
-> +		return 0;
-> +
-> +	if (vb2_is_busy(q))
-> +		return -EBUSY;
-> +
-> +	q->type = type;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(vb2_queue_change_type);
-> +
->  __poll_t vb2_poll(struct vb2_queue *q, struct file *file, poll_table *wait)
->  {
->  	struct video_device *vfd = video_devdata(file);
-> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
-> index c203047eb834..12fa72a664cf 100644
-> --- a/include/media/videobuf2-v4l2.h
-> +++ b/include/media/videobuf2-v4l2.h
-> @@ -261,6 +261,21 @@ int __must_check vb2_queue_init_name(struct vb2_queue *q, const char *name);
->   */
->  void vb2_queue_release(struct vb2_queue *q);
->  
-> +/**
-> + * vb2_queue_change_type() - change the type of an inactive vb2_queue
-> + * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-> + *
-> + * This function changes the type of the vb2_queue. This is only possible
-> + * if the queue is not busy (i.e. no buffers have been allocated).
-> + *
-> + * vb2_queue_change_type() can be used to support multiple buffer types using
-> + * the same queue. The driver can implement v4l2_ioctl_ops.vidioc_reqbufs and
-> + * v4l2_ioctl_ops.vidioc_create_bufs functions and call vb2_queue_change_type()
-> + * before calling vb2_ioctl_reqbufs() or vb2_ioctl_create_bufs(), and thus
-> + * "lock" the buffer type until the buffers have been released.
-> + */
-> +int vb2_queue_change_type(struct vb2_queue *q, unsigned int type);
-> +
->  /**
->   * vb2_poll() - implements poll userspace operation
->   * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-> -- 
-> 2.25.1
-> 
+Laurent Pinchart
