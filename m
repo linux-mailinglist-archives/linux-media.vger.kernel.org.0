@@ -2,90 +2,276 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11E0139BAAF
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 16:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90FFF39BAC4
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 16:14:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230284AbhFDOLa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 10:11:30 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35404 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230122AbhFDOL3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 10:11:29 -0400
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A903E2A3;
-        Fri,  4 Jun 2021 16:09:41 +0200 (CEST)
+        id S230359AbhFDOQh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 10:16:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44610 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230234AbhFDOQh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 10:16:37 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC2E4C061766
+        for <linux-media@vger.kernel.org>; Fri,  4 Jun 2021 07:14:50 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5256B2A3;
+        Fri,  4 Jun 2021 16:14:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622815782;
-        bh=upvNDCOeuqJGsMaQ89KfD+hDNxc6hQ/LZQ+PqqCLFso=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=C7THKiABgo/C/WaCiLakYFv98P1aZU885DnNA41zxNsoLMov/zsfuxZgqJ2b6mss4
-         VtAxPlLdQCRfZJeXpzSAEIbgn/s9ADzJgNRhOSKBQS7aj4zcm2Br4ntQvRbpZnX7mL
-         RfoNIJ6a4DEgj0hZk8n3cplrhYeGaxmEV8geMwNc=
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210412110211.275791-1-tomi.valkeinen@ideasonboard.com>
- <20210412110211.275791-2-tomi.valkeinen@ideasonboard.com>
- <YLoKxlXsC/nT4rF7@chromium.org>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v2 1/3] media: videobuf2-v4l2.c: add
- vb2_queue_change_type() helper
-Message-ID: <5ee0e9a7-c6cb-fe75-7a91-5159c3233072@ideasonboard.com>
-Date:   Fri, 4 Jun 2021 17:09:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        s=mail; t=1622816089;
+        bh=4nJI8OY7SiM6Y5CJf524Ru67EsVcx87OgRT/Dc5JIXo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hBLDETYZt+NJ2D2r+jBmnqhiSpkhDBA2PNiBzuMEjwZiPQskZrIWiZJ/AZU49muKb
+         b+g3YFfpZmHqtElWybzr7zDfNrmczDrfPRa8oK8m8VNKPDbVuka3Jmpl3nJmVVHBe9
+         Jkg6YJpQUiXAGiAmausQxQMeCzVylKqqvovnoscI=
+Date:   Fri, 4 Jun 2021 17:14:36 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 33/38] media: ti-vpe: cal: add camerarx locking
+Message-ID: <YLo1TGU/skvimy70@pendragon.ideasonboard.com>
+References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
+ <20210524110909.672432-34-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <YLoKxlXsC/nT4rF7@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210524110909.672432-34-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+Hi Tomi,
 
-On 04/06/2021 14:13, Tomasz Figa wrote:
-> Hi Tomi,
+Thank you for the patch.
+
+On Mon, May 24, 2021 at 02:09:04PM +0300, Tomi Valkeinen wrote:
+> We don't have any locking in camerarx for the subdev ops. We have
+> managed fine so far without locking, but in the future multiple video
+> capture devices can use the same camerarx, and locking is a must.
 > 
-> On Mon, Apr 12, 2021 at 02:02:09PM +0300, Tomi Valkeinen wrote:
->> On some platforms a video device can capture either video data or
->> metadata. The driver can implement vidioc functions for both video and
->> metadata, and use a single vb2_queue for the buffers. However, vb2_queue
->> requires choosing a single buffer type, which conflicts with the idea of
->> capturing either video or metadata.
->>
->> The buffer type of vb2_queue can be changed, but it's not obvious how
->> this should be done in the drivers. To help this, add a new helper
->> function vb2_queue_change_type() which ensures the correct checks and
->> documents how it can be used.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/common/videobuf2/videobuf2-v4l2.c | 14 ++++++++++++++
->>   include/media/videobuf2-v4l2.h                  | 15 +++++++++++++++
->>   2 files changed, 29 insertions(+)
->>
+> Add a mutex to protect the camerarx subdev ops. Some of the functions
+> were slightly restructured to make lock handling cleaner.
 > 
-> Good to see you contributing to the media subsystem. Not sure if you
-> still remember me from the Common Display Framework discussions. ;)
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/platform/ti-vpe/cal-camerarx.c | 81 ++++++++++++++------
+>  drivers/media/platform/ti-vpe/cal.h          |  3 +
+>  2 files changed, 61 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
+> index 82392499e663..b87ffc52feb6 100644
+> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
+> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
+> @@ -601,12 +601,18 @@ cal_camerarx_get_pad_format(struct cal_camerarx *phy,
+>  static int cal_camerarx_sd_s_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
+> +	int r = 0;
 
-I barely remember CDF... ;)
+The driver uses ret :-)
 
-> Anyway, thanks for the patch. I think the code itself is okay, but I'm
-> wondering why the driver couldn't just have two queues, one for each
-> type?
+> +
+> +	mutex_lock(&phy->mutex);
+>  
+>  	if (enable)
+> -		return cal_camerarx_start(phy);
+> +		r = cal_camerarx_start(phy);
+> +	else
+> +		cal_camerarx_stop(phy);
+>  
+> -	cal_camerarx_stop(phy);
+> -	return 0;
+> +	mutex_unlock(&phy->mutex);
+> +
+> +	return r;
+>  }
+>  
+>  static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
+> @@ -614,27 +620,36 @@ static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
+>  					  struct v4l2_subdev_mbus_code_enum *code)
+>  {
+>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
+> +	int r = 0;
+> +
+> +	mutex_lock(&phy->mutex);
+>  
+>  	/* No transcoding, source and sink codes must match. */
+>  	if (code->pad == CAL_CAMERARX_PAD_SOURCE) {
+>  		struct v4l2_mbus_framefmt *fmt;
+>  
+> -		if (code->index > 0)
+> -			return -EINVAL;
+> +		if (code->index > 0) {
+> +			r = -EINVAL;
+> +			goto out;
+> +		}
+>  
+>  		fmt = cal_camerarx_get_pad_format(phy, sd_state,
+>  						  CAL_CAMERARX_PAD_SINK,
+>  						  code->which);
+>  		code->code = fmt->code;
+> -		return 0;
+> -	}
+> +	} else {
+> +		if (code->index >= cal_num_formats) {
+> +			r = -EINVAL;
+> +			goto out;
+> +		}
+>  
+> -	if (code->index >= cal_num_formats)
+> -		return -EINVAL;
+> +		code->code = cal_formats[code->index].code;
+> +	}
+>  
+> -	code->code = cal_formats[code->index].code;
+> +out:
+> +	mutex_unlock(&phy->mutex);
+>  
+> -	return 0;
+> +	return r;
+>  }
+>  
+>  static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
+> @@ -643,10 +658,13 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
+>  {
+>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
+>  	const struct cal_format_info *fmtinfo;
+> +	int r = 0;
+>  
+>  	if (fse->index > 0)
+>  		return -EINVAL;
+>  
+> +	mutex_lock(&phy->mutex);
+> +
+>  	/* No transcoding, source and sink formats must match. */
+>  	if (fse->pad == CAL_CAMERARX_PAD_SOURCE) {
+>  		struct v4l2_mbus_framefmt *fmt;
+> @@ -654,27 +672,34 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
+>  		fmt = cal_camerarx_get_pad_format(phy, sd_state,
+>  						  CAL_CAMERARX_PAD_SINK,
+>  						  fse->which);
+> -		if (fse->code != fmt->code)
+> -			return -EINVAL;
+> +		if (fse->code != fmt->code) {
+> +			r = -EINVAL;
+> +			goto out;
+> +		}
+>  
+>  		fse->min_width = fmt->width;
+>  		fse->max_width = fmt->width;
+>  		fse->min_height = fmt->height;
+>  		fse->max_height = fmt->height;
+> +	} else {
+> +		fmtinfo = cal_format_by_code(fse->code);
+> +		if (!fmtinfo) {
+> +			r = -EINVAL;
+> +			goto out;
+> +		}
+>  
+> -		return 0;
+> +		fse->min_width =
+> +			CAL_MIN_WIDTH_BYTES * 8 / ALIGN(fmtinfo->bpp, 8);
+> +		fse->max_width =
+> +			CAL_MAX_WIDTH_BYTES * 8 / ALIGN(fmtinfo->bpp, 8);
 
-There was an email thread about this:
+This is a case where I'd write
 
-https://www.spinics.net/lists/linux-media/msg189144.html
+		fse->min_width = CAL_MIN_WIDTH_BYTES * 8
+			       / ALIGN(fmtinfo->bpp, 8);
+		fse->max_width = CAL_MAX_WIDTH_BYTES * 8
+			       / ALIGN(fmtinfo->bpp, 8);
 
-struct video_device has 'queue' field, so if you have two queues, you'd 
-need to change the vd->queue based on the format. Possibly that could be 
-a solution too (and, if I recall right, that's what I initially tried as 
-a quick hack). Changing the whole queue sounds riskier than changing 
-just the type.
+or go slightly over 80 columns.
 
-  Tomi
+> +		fse->min_height = CAL_MIN_HEIGHT_LINES;
+> +		fse->max_height = CAL_MAX_HEIGHT_LINES;
+>  	}
+>  
+> -	fmtinfo = cal_format_by_code(fse->code);
+> -	if (!fmtinfo)
+> -		return -EINVAL;
+> -
+> -	fse->min_width = CAL_MIN_WIDTH_BYTES * 8 / ALIGN(fmtinfo->bpp, 8);
+> -	fse->max_width = CAL_MAX_WIDTH_BYTES * 8 / ALIGN(fmtinfo->bpp, 8);
+> -	fse->min_height = CAL_MIN_HEIGHT_LINES;
+> -	fse->max_height = CAL_MAX_HEIGHT_LINES;
+> +out:
+> +	mutex_unlock(&phy->mutex);
+>  
+> -	return 0;
+> +	return r;
+>  }
+>  
+>  static int cal_camerarx_sd_get_fmt(struct v4l2_subdev *sd,
+> @@ -684,10 +709,14 @@ static int cal_camerarx_sd_get_fmt(struct v4l2_subdev *sd,
+>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
+>  	struct v4l2_mbus_framefmt *fmt;
+>  
+> +	mutex_lock(&phy->mutex);
+> +
+>  	fmt = cal_camerarx_get_pad_format(phy, sd_state, format->pad,
+>  					  format->which);
+>  	format->format = *fmt;
+>  
+> +	mutex_unlock(&phy->mutex);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -725,6 +754,8 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
+>  	format->format.field = V4L2_FIELD_NONE;
+>  
+>  	/* Store the format and propagate it to the source pad. */
+> +	mutex_lock(&phy->mutex);
+> +
+>  	fmt = cal_camerarx_get_pad_format(phy, sd_state,
+>  					  CAL_CAMERARX_PAD_SINK,
+>  					  format->which);
+> @@ -735,6 +766,8 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
+>  					  format->which);
+>  	*fmt = format->format;
+>  
+> +	mutex_unlock(&phy->mutex);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -801,6 +834,8 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  	phy->cal = cal;
+>  	phy->instance = instance;
+>  
+> +	mutex_init(&phy->mutex);
+
+A mutex_destroy() somewhere would be nice.
+
+> +
+>  	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>  						(instance == 0) ?
+>  						"cal_rx_core0" :
+> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+> index ad08c189ad3b..78bd2e041d9a 100644
+> --- a/drivers/media/platform/ti-vpe/cal.h
+> +++ b/drivers/media/platform/ti-vpe/cal.h
+> @@ -163,6 +163,9 @@ struct cal_camerarx {
+>  	struct v4l2_subdev	subdev;
+>  	struct media_pad	pads[2];
+>  	struct v4l2_mbus_framefmt	formats[2];
+> +
+> +	/* mutex for camerarx ops */
+> +	struct mutex		mutex;
+
+It's best when possible to list the fields protected by a lock, instead
+of the functions. It seems to be cal_camerarx.formats (but would need to
+be updated in subsequent patches).
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  };
+>  
+>  struct cal_dev {
+
+-- 
+Regards,
+
+Laurent Pinchart
