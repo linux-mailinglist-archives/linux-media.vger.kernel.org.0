@@ -2,43 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B5EC39BB0B
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 16:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D64DB39BB10
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 16:44:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230030AbhFDOnz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 10:43:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50552 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229778AbhFDOnz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 10:43:55 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF498C061766
-        for <linux-media@vger.kernel.org>; Fri,  4 Jun 2021 07:42:08 -0700 (PDT)
+        id S229746AbhFDOqY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 10:46:24 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35798 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229656AbhFDOqX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 10:46:23 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DACD2A3;
-        Fri,  4 Jun 2021 16:42:06 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4295B2A3;
+        Fri,  4 Jun 2021 16:44:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622817726;
-        bh=K+D7n4Am9aFehjxSqR/gX09tbSAn+MHWNBX0sJiQCY4=;
+        s=mail; t=1622817876;
+        bh=Rx6Nm8ibUiFAZtO9ppFDXhcsM2/hl99L/yZjWTDjCEs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WhP2E4EaFLQMWySqhFNAz0AwNTawqjzh5t+nI9tj1zLAYUvv9A/vyWPQfyxcSKiCw
-         u/nCjRl68vZmSzjBJ69mvlnx6u2LmAyIkIqoHHW+Vo4SO0SL0LGWOr1OfQRW8Ms9UI
-         FOT+b6GUEcZrvDNS3hh4yFrxRPYYxTB+MxbwJADg=
-Date:   Fri, 4 Jun 2021 17:41:53 +0300
+        b=GCDXsWU1JIhxKxl7Do/pnzHFjHlp9Khbc8Zh7ZcAoNK81IMbJNromvg4rU0mYVEYJ
+         LKvBrQYw5ZvPioVS+S0uWXvqLBIwP3pSh2tnjy1bQXEjsQZUw4UUmkyGyhCVJPjZTJ
+         by53pVcsoZZj+4DplJLWgE7aZsDgkdXCZHVHQwyg=
+Date:   Fri, 4 Jun 2021 17:44:23 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     Tomasz Figa <tfiga@chromium.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] media: vivid: remove stream_sliced_vbi_cap field
-Message-ID: <YLo7sdZd9S7qmVXI@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 3/3] media: vivid: use vb2_queue_change_type
+Message-ID: <YLo8R3HUBgQnwpwF@pendragon.ideasonboard.com>
 References: <20210412110211.275791-1-tomi.valkeinen@ideasonboard.com>
- <20210412110211.275791-3-tomi.valkeinen@ideasonboard.com>
+ <20210412110211.275791-4-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210412110211.275791-3-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20210412110211.275791-4-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -47,74 +44,107 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Mon, Apr 12, 2021 at 02:02:10PM +0300, Tomi Valkeinen wrote:
-> Vivid tracks the VBI capture mode in vivid_dev->stream_sliced_vbi_cap
-> field.  We can just look at the buffer type instead, and drop the field.
+On Mon, Apr 12, 2021 at 02:02:11PM +0300, Tomi Valkeinen wrote:
+> Use the new vb2_queue_change_type() function in .vidioc_reqbufs and
+> .vidioc_create_bufs instead of changing the queue type manually in
+> vidioc_s_fmt_vbi_cap() and vidioc_s_fmt_sliced_vbi_cap().
+> 
+> This allows for a more consistent behavior, as .vidioc_reqbufs and
+> .vidioc_create_bufs are when the queue will become "busy".
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/test-drivers/vivid/vivid-core.h        | 1 -
->  drivers/media/test-drivers/vivid/vivid-kthread-cap.c | 2 +-
->  drivers/media/test-drivers/vivid/vivid-vbi-cap.c     | 6 ++----
->  3 files changed, 3 insertions(+), 6 deletions(-)
+>  drivers/media/test-drivers/vivid/vivid-core.c | 44 ++++++++++++++++++-
+>  .../media/test-drivers/vivid/vivid-vbi-cap.c  |  2 -
+>  2 files changed, 42 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
-> index 9c2d1470b597..9af7e843c2cf 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-core.h
-> +++ b/drivers/media/test-drivers/vivid/vivid-core.h
-> @@ -428,7 +428,6 @@ struct vivid_dev {
->  	u32				vbi_cap_seq_start;
->  	u32				vbi_cap_seq_count;
->  	bool				vbi_cap_streaming;
-> -	bool				stream_sliced_vbi_cap;
->  	u32				meta_cap_seq_start;
->  	u32				meta_cap_seq_count;
->  	bool				meta_cap_streaming;
-> diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-> index 67fb3c00f9ad..781763c193eb 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-> @@ -750,7 +750,7 @@ static noinline_for_stack void vivid_thread_vid_cap_tick(struct vivid_dev *dev,
+> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+> index 0dc65ef3aa14..70676f1ac268 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-core.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
+> @@ -656,6 +656,46 @@ static const struct v4l2_file_operations vivid_radio_fops = {
+>  	.unlocked_ioctl = video_ioctl2,
+>  };
 >  
->  		v4l2_ctrl_request_setup(vbi_cap_buf->vb.vb2_buf.req_obj.req,
->  					&dev->ctrl_hdl_vbi_cap);
-> -		if (dev->stream_sliced_vbi_cap)
-> +		if (vbi_cap_buf->vb.vb2_buf.type == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE)
->  			vivid_sliced_vbi_cap_process(dev, vbi_cap_buf);
->  		else
->  			vivid_raw_vbi_cap_process(dev, vbi_cap_buf);
+> +static int vidioc_reqbufs(struct file *file, void *priv,
+> +				 struct v4l2_requestbuffers *p)
+> +{
+> +	struct video_device *vdev = video_devdata(file);
+> +	int r;
+
+s/r/ret/ to match the driver's coding style.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+> +	/*
+> +	 * Sliced and raw VBI capture share the same queue so we must
+> +	 * change the type.
+> +	 */
+> +	if (p->type == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE ||
+> +	    p->type == V4L2_BUF_TYPE_VBI_CAPTURE) {
+> +		r = vb2_queue_change_type(vdev->queue, p->type);
+> +		if (r)
+> +			return r;
+> +	}
+> +
+> +	return vb2_ioctl_reqbufs(file, priv, p);
+> +}
+> +
+> +static int vidioc_create_bufs(struct file *file, void *priv,
+> +				     struct v4l2_create_buffers *p)
+> +{
+> +	struct video_device *vdev = video_devdata(file);
+> +	int r;
+> +
+> +	/*
+> +	 * Sliced and raw VBI capture share the same queue so we must
+> +	 * change the type.
+> +	 */
+> +	if (p->format.type == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE ||
+> +	    p->format.type == V4L2_BUF_TYPE_VBI_CAPTURE) {
+> +		r = vb2_queue_change_type(vdev->queue, p->format.type);
+> +		if (r)
+> +			return r;
+> +	}
+> +
+> +	return vb2_ioctl_create_bufs(file, priv, p);
+> +}
+> +
+>  static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
+>  	.vidioc_querycap		= vidioc_querycap,
+>  
+> @@ -717,8 +757,8 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
+>  	.vidioc_g_fbuf			= vidioc_g_fbuf,
+>  	.vidioc_s_fbuf			= vidioc_s_fbuf,
+>  
+> -	.vidioc_reqbufs			= vb2_ioctl_reqbufs,
+> -	.vidioc_create_bufs		= vb2_ioctl_create_bufs,
+> +	.vidioc_reqbufs			= vidioc_reqbufs,
+> +	.vidioc_create_bufs		= vidioc_create_bufs,
+>  	.vidioc_prepare_buf		= vb2_ioctl_prepare_buf,
+>  	.vidioc_querybuf		= vb2_ioctl_querybuf,
+>  	.vidioc_qbuf			= vb2_ioctl_qbuf,
 > diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-> index 1a9348eea781..387df4ff01b0 100644
+> index 387df4ff01b0..b65b02eeeb97 100644
 > --- a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
 > +++ b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-> @@ -255,9 +255,8 @@ int vidioc_s_fmt_vbi_cap(struct file *file, void *priv,
->  
->  	if (ret)
+> @@ -257,7 +257,6 @@ int vidioc_s_fmt_vbi_cap(struct file *file, void *priv,
 >  		return ret;
-> -	if (dev->stream_sliced_vbi_cap && vb2_is_busy(&dev->vb_vbi_cap_q))
-> +	if (f->type != V4L2_BUF_TYPE_VBI_CAPTURE && vb2_is_busy(&dev->vb_vbi_cap_q))
-
-I think think this is correct. The code checks if the currently
-configured format is the sliced variant, and you replace this with a
-check for the new format.
-
+>  	if (f->type != V4L2_BUF_TYPE_VBI_CAPTURE && vb2_is_busy(&dev->vb_vbi_cap_q))
 >  		return -EBUSY;
-> -	dev->stream_sliced_vbi_cap = false;
->  	dev->vbi_cap_dev.queue->type = V4L2_BUF_TYPE_VBI_CAPTURE;
+> -	dev->vbi_cap_dev.queue->type = V4L2_BUF_TYPE_VBI_CAPTURE;
 >  	return 0;
 >  }
-> @@ -322,10 +321,9 @@ int vidioc_s_fmt_sliced_vbi_cap(struct file *file, void *fh, struct v4l2_format
 >  
->  	if (ret)
->  		return ret;
-> -	if (!dev->stream_sliced_vbi_cap && vb2_is_busy(&dev->vb_vbi_cap_q))
-> +	if (fmt->type != V4L2_BUF_TYPE_SLICED_VBI_CAPTURE && vb2_is_busy(&dev->vb_vbi_cap_q))
+> @@ -324,7 +323,6 @@ int vidioc_s_fmt_sliced_vbi_cap(struct file *file, void *fh, struct v4l2_format
+>  	if (fmt->type != V4L2_BUF_TYPE_SLICED_VBI_CAPTURE && vb2_is_busy(&dev->vb_vbi_cap_q))
 >  		return -EBUSY;
 >  	dev->service_set_cap = vbi->service_set;
-> -	dev->stream_sliced_vbi_cap = true;
->  	dev->vbi_cap_dev.queue->type = V4L2_BUF_TYPE_SLICED_VBI_CAPTURE;
+> -	dev->vbi_cap_dev.queue->type = V4L2_BUF_TYPE_SLICED_VBI_CAPTURE;
 >  	return 0;
 >  }
+>  
 
 -- 
 Regards,
