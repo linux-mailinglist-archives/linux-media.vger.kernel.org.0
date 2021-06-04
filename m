@@ -2,238 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A76DA39B979
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 15:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BEED39B9FC
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 15:41:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230368AbhFDNIt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 09:08:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57742 "EHLO
+        id S230108AbhFDNm4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 09:42:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230350AbhFDNIq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 09:08:46 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62AECC06174A;
-        Fri,  4 Jun 2021 06:07:00 -0700 (PDT)
-Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:389:b21e:a7e4:8cad])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1C9541F439D1;
-        Fri,  4 Jun 2021 14:06:58 +0100 (BST)
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH 8/8] media: hantro: Add scaling lists feature
-Date:   Fri,  4 Jun 2021 15:06:19 +0200
-Message-Id: <20210604130619.491200-9-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210604130619.491200-1-benjamin.gaignard@collabora.com>
-References: <20210604130619.491200-1-benjamin.gaignard@collabora.com>
+        with ESMTP id S230122AbhFDNmy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 09:42:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A45AC061766
+        for <linux-media@vger.kernel.org>; Fri,  4 Jun 2021 06:41:07 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7754F9E5;
+        Fri,  4 Jun 2021 15:41:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1622814065;
+        bh=/bTUlmEC01nfpFrowr4WCwtCBsNlXRjf940LnnRH3zM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qhrTwFk/oRujaiLF6ZiDTaCHOEj2pYFxdi2HXtDngQ+hW5ZnPPtXhxAT/1rtR7IQN
+         IhYIJ5NiIqgD6Gh778vpfSUhmSX3SL9IIhkJJPHDcScKPeKSEFNf1Q3XvkkTgHBeCm
+         Lz85wFIIiJ5DSPAyneqlwsVGudsKzP26TXDKGhsM=
+Date:   Fri, 4 Jun 2021 16:40:53 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 09/38] media: ti-vpe: cal: Add CSI2 context
+Message-ID: <YLotZZv6jmdRYMvE@pendragon.ideasonboard.com>
+References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
+ <20210524110909.672432-10-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210524110909.672432-10-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the bitstream embedded scaling lists allow the driver to use
-them for decode the frames.
-The scaling lists are expected to be in raster scan order (i.e. not up
-right diagonal scan order)
-Allocate the memory needed to store lists.
+Hi Tomi,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/staging/media/hantro/hantro_drv.c     |  8 +--
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 52 +++++++++++++++++++
- drivers/staging/media/hantro/hantro_hevc.c    | 21 ++++++++
- drivers/staging/media/hantro/hantro_hw.h      |  3 ++
- 4 files changed, 81 insertions(+), 3 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 5e6609fa4143..324619c78ada 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -281,9 +281,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- 		    sps->bit_depth_luma_minus8 != 2)
- 			/* Only 8-bit or 10-bit is supported */
- 			return -EINVAL;
--		if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED)
--			/* No scaling support */
--			return -EINVAL;
- 		if (sps->bit_depth_luma_minus8 == 0 &&
- 		    hantro_is_10bit_dst_format(ctx)) {
- 			return -EINVAL;
-@@ -469,6 +466,11 @@ static const struct hantro_ctrl controls[] = {
- 		.cfg = {
- 			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
- 		},
-+	}, {
-+		.codec = HANTRO_HEVC_DECODER,
-+		.cfg = {
-+			.id = V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
-+		},
- 	}, {
- 		.codec = HANTRO_HEVC_DECODER,
- 		.cfg = {
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index 741b029aef9e..f7be8629c3cc 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -597,6 +597,56 @@ static void set_buffers(struct hantro_ctx *ctx)
- 	hantro_write_addr(vpu, G2_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
- }
- 
-+static void prepare_scaling_list_buffer(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
-+	const struct v4l2_ctrl_hevc_scaling_matrix *sc = ctrls->scaling;
-+	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
-+	u8 *p = ((u8 *)ctx->hevc_dec.scaling_lists.cpu);
-+	unsigned int scaling_list_enabled;
-+	unsigned int i, j, k;
-+
-+	scaling_list_enabled = !!(sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED);
-+	hantro_reg_write(vpu, &g2_scaling_list_e, scaling_list_enabled);
-+
-+	if (!scaling_list_enabled)
-+		return;
-+
-+	for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_16x16); i++)
-+		*p++ = sc->scaling_list_dc_coef_16x16[i];
-+
-+	for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_32x32); i++)
-+		*p++ = sc->scaling_list_dc_coef_32x32[i];
-+
-+	/* 128-bit boundary */
-+	p += 8;
-+
-+	/* write scaling lists column by column */
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 4; j++)
-+			for (k = 0; k < 4; k++)
-+				*p++ = sc->scaling_list_4x4[i][4 * k + j];
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_8x8[i][8 * k + j];
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_16x16[i][8 * k + j];
-+
-+	for (i = 0; i < 2; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_32x32[i][8 * k + j];
-+
-+	hantro_write_addr(vpu, HEVC_SCALING_LIST, ctx->hevc_dec.scaling_lists.dma);
-+}
-+
- static void hantro_g2_check_idle(struct hantro_dev *vpu)
- {
- 	int i;
-@@ -657,6 +707,8 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
- 	set_buffers(ctx);
- 	prepare_tile_info_buffer(ctx);
- 
-+	prepare_scaling_list_buffer(ctx);
-+
- 	hantro_end_prepare_run(ctx);
- 
- 	hantro_reg_write(vpu, &g2_mode, HEVC_DEC_MODE);
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index ae9827dd7086..57c1ddeaf2db 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -20,6 +20,8 @@
- /* tile border coefficients of filter */
- #define VERT_SAO_RAM_SIZE 48 /* bytes per pixel */
- 
-+#define SCALING_LIST_SIZE (16 * 64)
-+
- #define MAX_TILE_COLS 20
- #define MAX_TILE_ROWS 22
- 
-@@ -287,6 +289,11 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
- 	if (WARN_ON(!ctrls->decode_params))
- 		return -EINVAL;
- 
-+	ctrls->scaling =
-+		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
-+	if (WARN_ON(!ctrls->scaling))
-+		return -EINVAL;
-+
- 	ctrls->sps =
- 		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SPS);
- 	if (WARN_ON(!ctrls->sps))
-@@ -315,6 +322,12 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
- 				  hevc_dec->tile_sizes.dma);
- 	hevc_dec->tile_sizes.cpu = NULL;
- 
-+	if (hevc_dec->scaling_lists.cpu)
-+		dma_free_coherent(vpu->dev, hevc_dec->scaling_lists.size,
-+				  hevc_dec->scaling_lists.cpu,
-+				  hevc_dec->scaling_lists.dma);
-+	hevc_dec->scaling_lists.cpu = NULL;
-+
- 	if (hevc_dec->tile_filter.cpu)
- 		dma_free_coherent(vpu->dev, hevc_dec->tile_filter.size,
- 				  hevc_dec->tile_filter.cpu,
-@@ -358,6 +371,14 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx)
- 
- 	hevc_dec->tile_sizes.size = size;
- 
-+	hevc_dec->scaling_lists.cpu = dma_alloc_coherent(vpu->dev, SCALING_LIST_SIZE,
-+							 &hevc_dec->scaling_lists.dma,
-+							 GFP_KERNEL);
-+	if (!hevc_dec->scaling_lists.cpu)
-+		return -ENOMEM;
-+
-+	hevc_dec->scaling_lists.size = SCALING_LIST_SIZE;
-+
- 	hantro_hevc_ref_init(ctx);
- 
- 	return 0;
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 2edb890f10af..88add18b1bad 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -108,6 +108,7 @@ struct hantro_h264_dec_hw_ctx {
-  */
- struct hantro_hevc_dec_ctrls {
- 	const struct v4l2_ctrl_hevc_decode_params *decode_params;
-+	const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
- 	const struct v4l2_ctrl_hevc_sps *sps;
- 	const struct v4l2_ctrl_hevc_pps *pps;
- 	u32 hevc_hdr_skip_length;
-@@ -120,6 +121,7 @@ struct hantro_hevc_dec_ctrls {
-  * @tile_sao:		Tile SAO buffer
-  * @tile_bsd:		Tile BSD control buffer
-  * @ref_bufs:		Internal reference buffers
-+ * @scaling_lists:	Scaling lists buffer
-  * @ref_bufs_poc:	Internal reference buffers picture order count
-  * @ref_bufs_used:	Bitfield of used reference buffers
-  * @ctrls:		V4L2 controls attached to a run
-@@ -131,6 +133,7 @@ struct hantro_hevc_dec_hw_ctx {
- 	struct hantro_aux_buf tile_sao;
- 	struct hantro_aux_buf tile_bsd;
- 	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
-+	struct hantro_aux_buf scaling_lists;
- 	int ref_bufs_poc[NUM_REF_PICTURES];
- 	u32 ref_bufs_used;
- 	struct hantro_hevc_dec_ctrls ctrls;
+On Mon, May 24, 2021 at 02:08:40PM +0300, Tomi Valkeinen wrote:
+> CAL has 8 CSI2 contexts per PHY, which are used to tag the incoming
+> data.  The current driver only uses the first context, but we need to
+> support all of them to implement multi-stream support.
+> 
+> Add a csi2_ctx field to cal_ctx, which indicates which of the 8 CSI2
+> contexts is used for the particular cal_ctx. Also clean up the context
+> register macros to take the CSI2 context number as a parameter.
+> 
+> Note that before this patch the CSI2 context used for both PHYs was
+> always 0. This patch always uses cal_ctx index number as the CSI2
+> context. There is no functional difference, but this approach will work
+> also in the future when we use more than 1 CSI2 context per PHY.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/platform/ti-vpe/cal.c      | 10 ++++++----
+>  drivers/media/platform/ti-vpe/cal.h      |  1 +
+>  drivers/media/platform/ti-vpe/cal_regs.h | 18 ++----------------
+>  3 files changed, 9 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index 6d6dce8001b2..98739f9200ff 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -294,7 +294,7 @@ static void cal_ctx_csi2_config(struct cal_ctx *ctx)
+>  {
+>  	u32 val;
+>  
+> -	val = cal_read(ctx->cal, CAL_CSI2_CTX0(ctx->index));
+> +	val = cal_read(ctx->cal, CAL_CSI2_CTX(ctx->phy->instance, ctx->csi2_ctx));
+>  	cal_set_field(&val, ctx->cport, CAL_CSI2_CTX_CPORT_MASK);
+>  	/*
+>  	 * DT type: MIPI CSI-2 Specs
+> @@ -310,9 +310,10 @@ static void cal_ctx_csi2_config(struct cal_ctx *ctx)
+>  	cal_set_field(&val, CAL_CSI2_CTX_ATT_PIX, CAL_CSI2_CTX_ATT_MASK);
+>  	cal_set_field(&val, CAL_CSI2_CTX_PACK_MODE_LINE,
+>  		      CAL_CSI2_CTX_PACK_MODE_MASK);
+> -	cal_write(ctx->cal, CAL_CSI2_CTX0(ctx->index), val);
+> -	ctx_dbg(3, ctx, "CAL_CSI2_CTX0(%d) = 0x%08x\n", ctx->index,
+> -		cal_read(ctx->cal, CAL_CSI2_CTX0(ctx->index)));
+> +	cal_write(ctx->cal, CAL_CSI2_CTX(ctx->phy->instance, ctx->csi2_ctx), val);
+> +	ctx_dbg(3, ctx, "CAL_CSI2_CTX(%u, %u) = 0x%08x\n",
+> +		ctx->phy->instance, ctx->csi2_ctx,
+> +		cal_read(ctx->cal, CAL_CSI2_CTX(ctx->phy->instance, ctx->csi2_ctx)));
+>  }
+>  
+>  static void cal_ctx_pix_proc_config(struct cal_ctx *ctx)
+> @@ -854,6 +855,7 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
+>  	ctx->cal = cal;
+>  	ctx->phy = cal->phy[inst];
+>  	ctx->index = inst;
+> +	ctx->csi2_ctx = inst;
+>  	ctx->cport = inst;
+>  
+>  	ret = cal_ctx_v4l2_init(ctx);
+> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+> index 251bb0ba7b3b..bcc3378b6b41 100644
+> --- a/drivers/media/platform/ti-vpe/cal.h
+> +++ b/drivers/media/platform/ti-vpe/cal.h
+> @@ -219,6 +219,7 @@ struct cal_ctx {
+>  	struct vb2_queue	vb_vidq;
+>  	u8			index;
+>  	u8			cport;
+> +	u8			csi2_ctx;
+>  };
+>  
+>  extern unsigned int cal_debug;
+> diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
+> index f752096dcf7f..bf937919a1e9 100644
+> --- a/drivers/media/platform/ti-vpe/cal_regs.h
+> +++ b/drivers/media/platform/ti-vpe/cal_regs.h
+> @@ -72,22 +72,8 @@
+>  #define CAL_CSI2_TIMING(m)		(0x314U + (m) * 0x80U)
+>  #define CAL_CSI2_VC_IRQENABLE(m)	(0x318U + (m) * 0x80U)
+>  #define CAL_CSI2_VC_IRQSTATUS(m)	(0x328U + (m) * 0x80U)
+> -#define CAL_CSI2_CTX0(m)		(0x330U + (m) * 0x80U)
+> -#define CAL_CSI2_CTX1(m)		(0x334U + (m) * 0x80U)
+> -#define CAL_CSI2_CTX2(m)		(0x338U + (m) * 0x80U)
+> -#define CAL_CSI2_CTX3(m)		(0x33cU + (m) * 0x80U)
+> -#define CAL_CSI2_CTX4(m)		(0x340U + (m) * 0x80U)
+> -#define CAL_CSI2_CTX5(m)		(0x344U + (m) * 0x80U)
+> -#define CAL_CSI2_CTX6(m)		(0x348U + (m) * 0x80U)
+> -#define CAL_CSI2_CTX7(m)		(0x34cU + (m) * 0x80U)
+> -#define CAL_CSI2_STATUS0(m)		(0x350U + (m) * 0x80U)
+> -#define CAL_CSI2_STATUS1(m)		(0x354U + (m) * 0x80U)
+> -#define CAL_CSI2_STATUS2(m)		(0x358U + (m) * 0x80U)
+> -#define CAL_CSI2_STATUS3(m)		(0x35cU + (m) * 0x80U)
+> -#define CAL_CSI2_STATUS4(m)		(0x360U + (m) * 0x80U)
+> -#define CAL_CSI2_STATUS5(m)		(0x364U + (m) * 0x80U)
+> -#define CAL_CSI2_STATUS6(m)		(0x368U + (m) * 0x80U)
+> -#define CAL_CSI2_STATUS7(m)		(0x36cU + (m) * 0x80U)
+> +#define CAL_CSI2_CTX(phy, csi2_ctx)	(0x330U + (phy) * 0x80U + (csi2_ctx) * 4)
+> +#define CAL_CSI2_STATUS(phy, csi2_ctx)	(0x350U + (phy) * 0x80U + (csi2_ctx) * 4)
+>  
+>  /* CAL CSI2 PHY register offsets */
+>  #define CAL_CSI2_PHY_REG0		0x000
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
