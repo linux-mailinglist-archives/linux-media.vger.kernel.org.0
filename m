@@ -2,87 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5852C39B2BF
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 08:40:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF38F39B411
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 09:36:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229929AbhFDGl4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 02:41:56 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:34409 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229826AbhFDGl4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Jun 2021 02:41:56 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id p3UxlRBKBhg8Zp3V1lzfbX; Fri, 04 Jun 2021 08:40:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1622788809; bh=fY6HqtHQ/Kh9hmacobyoAZhk3pc283l0lae92wfeQN0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=YiVrYHQv4eZf2BPkA/ac+S/VDqoR7WHnohQEpVGEXXo2Go7bpFYJ9WH1bFX1sj0x3
-         tCkLYTsrsRCL478gEblF3S9hjnAjMFFuKxPnDPw5ClIh1TJ7/EEuVlttCjkiIREcaZ
-         OBl16JzZjPxhtkyj+FF1Aoi9PEp4FXGPAFTSKKyCgt4EAjue5hERCKzlE5atKfJbWB
-         elCDOYd3OTb0XKDQj8qNZwxLXw18AGIrwcZT9ynw/kNvgtMSrp/8YoptDtWjGkmx1/
-         jRaB6KyggsxENvq2EidcX/qS6MyiVDtXpcu7VdVMHMPMBVRtRqfcGH7AaaVLJaaFG7
-         UaSFuaxZ7kICw==
-Subject: Re: [PATCH] Signed-off-by: Herman <yanshuaijun@yulong.com>
-To:     Herman <herman.yim88@gmail.com>, mchehab@kernel.org
-Cc:     anton@corp.bluecherry.net, andrey.utkin@corp.bluecherry.net,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        maintainers@bluecherrydvr.com, Herman <yanshuaijun@yulong.com>
-References: <20210604035246.1260-1-yanshuaijun@yulong.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <12883fa2-8de4-0807-556c-8a71d82ba4ae@xs4all.nl>
-Date:   Fri, 4 Jun 2021 08:40:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        id S230087AbhFDHiO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 03:38:14 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:33674 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229963AbhFDHiO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 4 Jun 2021 03:38:14 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lp4NW-001Uib-H3; Fri, 04 Jun 2021 07:36:26 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lp4Rs-0006fi-Hc; Fri, 04 Jun 2021 07:40:56 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] vb2_queue_change_type, hevc fix and atmel-isc (#74764)
+Date:   Fri,  4 Jun 2021 07:40:55 +0000
+Message-Id: <20210604074055.25602-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <57e15ed1-61c7-0240-5bf3-115de3bbec9c@xs4all.nl>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <20210604035246.1260-1-yanshuaijun@yulong.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfHNvcwBJTxqs95HYgC2J9yUVOv/MEXxaqvqlC5uXAm7fVs/pxGbWRYAD//SyaI+xSCySwQZg7mbSpBvZQYmhRcmk27FdRxI8tyqpXXm8YzfBRfjv0tF6
- zu3IiMyaYEH4ioI4ppYEGMbzqNYsvrkpswSX3Z3NOXp9T0cAcDhGwO1tzwIgQLdB/vrE/caqbOD434R63Fku5NJHeKhMhpbr0PU24B4kn1bbiJF8JVkWwOGo
- 2ilYNbYfllgNFnGvisbWBcjv6eY84enTT7ZrhQoe/occwjZ+Z1M8KMiTm8RHyvWdAvwQ/I81kA/8/ql/fZEeHcsMhzoOOA983kcXWs6esMacn9hSVyfsLVBc
- B+lVY4GTK5q2P1bRgZbnZT0hvUL2nRod404LICADVtmb4qxvh7QioqolDjF0HoAcHFPDn1hcKaPFepYE/PV2oCVOg/4SQIq3E+/tRiCyUgnCF3G4lgaPtUho
- Vq18Hrgq8bSX2z81
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Herman,
+From: builder@linuxtv.org
 
-Your subject line is mangled (has your Signed-off-by instead of a proper subject).
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/57e15ed1-61c7-0240-5bf3-115de3bbec9c@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/112375/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/57e15ed1-61c7-0240-5bf3-115de3bbec9c@xs4all.nl
 
-On 04/06/2021 05:52, Herman wrote:
-> drivers/media/pci/tw5864/Tw5864-reg.h: fix typo issues
-> 
-> change 'syncrous ' into 'synchrous '
+gpg: Signature made Thu 03 Jun 2021 10:47:23 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-I think this should be 'synchronous'.
 
-Regards,
-
-	Hans
-
-> 
-> Signed-off-by: Herman <yanshuaijun@yulong.com>
-> ---
->  drivers/media/pci/tw5864/tw5864-reg.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/pci/tw5864/tw5864-reg.h b/drivers/media/pci/tw5864/tw5864-reg.h
-> index a74f30f2f78e..2dd4413359df 100644
-> --- a/drivers/media/pci/tw5864/tw5864-reg.h
-> +++ b/drivers/media/pci/tw5864/tw5864-reg.h
-> @@ -663,7 +663,7 @@
->  #define TW5864_SYNC 0x8008
->  /* Define controls in register TW5864_SYNC */
->  /*
-> - * 0 vlc stream to syncrous port
-> + * 0 vlc stream to synchrous port
->   * 1 vlc stream to ddr buffers
->   */
->  #define TW5864_SYNC_CFG BIT(7)
-> 
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0028-media-atmel-atmel-isc-move-the-formats-list-into-pro.patch doesn't apply:
+Applying patch patches/0028-media-atmel-atmel-isc-move-the-formats-list-into-pro.patch
+patching file drivers/media/platform/atmel/atmel-isc-base.c
+Hunk #2 FAILED at 788.
+Hunk #3 succeeded at 1346 (offset -1 lines).
+Hunk #4 succeeded at 1383 (offset -1 lines).
+Hunk #5 succeeded at 1995 (offset -1 lines).
+Hunk #6 succeeded at 2018 (offset -1 lines).
+Hunk #7 succeeded at 2028 (offset -1 lines).
+Hunk #8 succeeded at 2049 (offset -1 lines).
+1 out of 8 hunks FAILED -- rejects in file drivers/media/platform/atmel/atmel-isc-base.c
+patching file drivers/media/platform/atmel/atmel-isc.h
+patching file drivers/media/platform/atmel/atmel-sama5d2-isc.c
+Patch patches/0028-media-atmel-atmel-isc-move-the-formats-list-into-pro.patch does not apply (enforce with -f)
 
