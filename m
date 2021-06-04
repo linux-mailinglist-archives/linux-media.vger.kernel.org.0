@@ -2,194 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91A9239BE88
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 19:21:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E86A39BEEF
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jun 2021 19:37:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230233AbhFDRXm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 13:23:42 -0400
-Received: from mout02.posteo.de ([185.67.36.66]:48505 "EHLO mout02.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229902AbhFDRXm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Jun 2021 13:23:42 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id E34B22400FC
-        for <linux-media@vger.kernel.org>; Fri,  4 Jun 2021 19:21:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1622827313; bh=WHtHWeqNoKkGAntx19d2vX4DoV1hTDSBtfCTG9oukn0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=HPRy0hcsAobFr1027npAHGfw5zOJSghOrBf3N5WojvOSgi9YkKkxpcgOBsSOT1+9O
-         oCXdH8zQ/rgqquDWbt489DuUA7KvAxF0G+GauztIs7w+nhwc3JVU8EFZYPkxy8bvAE
-         bFw/+6gmAsqCpdlUwttJcpqORowTK+1TMZ4FAu/pQkj1ECbjgyqjDxVbX3Nk4aEW4n
-         pVQp5etOgnnhQWSk2gYvxU+E7s8ZSGKl0qBod+gv3U58/i3DEfwcPi3ccxN0t18+dR
-         gRgdgO4Bux3XQo7dScdlnQD9s03keOkdnrKhoDwX9qYt6wF7yPjOZkrwz1UViBqIbq
-         LtxtHFOcX+4+Q==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4FxV1X6fYvz9rxG;
-        Fri,  4 Jun 2021 19:21:52 +0200 (CEST)
-From:   Benjamin Drung <bdrung@posteo.de>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Adam Goode <agoode@google.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Drung <bdrung@posteo.de>, stable@vger.kernel.org
-Subject: [PATCH v2] media: uvcvideo: Fix pixel format change for Elgato Cam Link 4K
-Date:   Fri,  4 Jun 2021 17:19:42 +0000
-Message-Id: <20210604171941.66136-1-bdrung@posteo.de>
-In-Reply-To: <CAOf41NnKMks8UgM+4Z5ymNtBnioPzsTE-1fh1ERMEcFfX=UoMg@mail.gmail.com>
-References: <CAOf41NnKMks8UgM+4Z5ymNtBnioPzsTE-1fh1ERMEcFfX=UoMg@mail.gmail.com>
+        id S231140AbhFDRjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 13:39:03 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:38096 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229690AbhFDRjD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 13:39:03 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 65E551F439E4
+Message-ID: <943276000b13f51e0e746b4f29f2a28d7e435622.camel@collabora.com>
+Subject: Re: [PATCH v9 03/13] media: hantro: Use syscon instead of 'ctrl'
+ register
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Lucas Stach <l.stach@pengutronix.de>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        lee.jones@linaro.org, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, hverkuil-cisco@xs4all.nl,
+        emil.l.velikov@gmail.com, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+        Jacky Bai <ping.bai@nxp.com>
+Cc:     devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-imx@nxp.com, kernel@pengutronix.de, kernel@collabora.com,
+        cphealy@gmail.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org
+Date:   Fri, 04 Jun 2021 14:37:02 -0300
+In-Reply-To: <72fef3d9f79194876f2035e996bb83f9f8b12902.camel@pengutronix.de>
+References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
+         <20210407073534.376722-4-benjamin.gaignard@collabora.com>
+         <7bcbb787d82f21d42563d8fb7e3c2e7d40123932.camel@pengutronix.de>
+         <831a59b052df02e9860b9766e631a7ab6a37c46a.camel@collabora.com>
+         <72fef3d9f79194876f2035e996bb83f9f8b12902.camel@pengutronix.de>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Elgato Cam Link 4K HDMI video capture card reports to support three
-different pixel formats, where the first format depends on the connected
-HDMI device.
+Hi Lucas,
 
-```
-$ v4l2-ctl -d /dev/video0 --list-formats-ext
-ioctl: VIDIOC_ENUM_FMT
-	Type: Video Capture
+On Mon, 2021-05-17 at 12:52 +0200, Lucas Stach wrote:
+> Hi Ezequiel,
+> 
+> Am Sonntag, dem 16.05.2021 um 19:40 -0300 schrieb Ezequiel Garcia:
+> > Hi Lucas,
+> > 
+> > On Fri, 2021-04-16 at 12:54 +0200, Lucas Stach wrote:
+> > > Am Mittwoch, dem 07.04.2021 um 09:35 +0200 schrieb Benjamin Gaignard:
+> > > > In order to be able to share the control hardware block between
+> > > > VPUs use a syscon instead a ioremap it in the driver.
+> > > > To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
+> > > > phandle is not found look at 'ctrl' reg-name.
+> > > > With the method it becomes useless to provide a list of register
+> > > > names so remove it.
+> > > 
+> > > Sorry for putting a spoke in the wheel after many iterations of the
+> > > series.
+> > > 
+> > > We just discussed a way forward on how to handle the clocks and resets
+> > > provided by the blkctl block on i.MX8MM and later and it seems there is
+> > > a consensus on trying to provide virtual power domains from a blkctl
+> > > driver, controlling clocks and resets for the devices in the power
+> > > domain. I would like to avoid introducing yet another way of handling
+> > > the blkctl and thus would like to align the i.MX8MQ VPU blkctl with
+> > > what we are planning to do on the later chip generations.
+> > > 
+> > > CC'ing Jacky Bai and Peng Fan from NXP, as they were going to give this
+> > > virtual power domain thing a shot.
+> > > 
+> > 
+> > It seems the i.MX8MM BLK-CTL series are moving forward:
+> > 
+> > https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=479175
+> > 
+> > ... but I'm unable to wrap my head around how this affects the
+> > devicetree VPU modelling for i.MX8MQ (and also i.MX8MM, i.MX8MP, ...).
+> > 
+> > 
+> For the i.MX8MQ we want to have the same virtual power-domains provided
+> by a BLK-CTRL driver for the VPUs, as on i.MX8MM. This way we should be
+> able to use the same DT bindings for the VPUs on i.MX8MQ and i.MX8MM,
+> even though the SoC integration with the blk-ctrl is a little
+> different.
+> 
+> > Can you clarify that?
+> > 
+> I'm planning on sending some patches adding i.MX8MQ VPU support to the
+> BLK-CTRL driver in the next few days. I guess that should clarify
+> things. :)
+> 
 
-	[0]: 'NV12' (Y/CbCr 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-	[1]: 'NV12' (Y/CbCr 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-	[2]: 'YU12' (Planar YUV 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-```
+As a gentle reminder, Hans sent the i.MX8MQ G2 HEVC support pull request
+and Benjamin just posted a series adding support for more features.
 
-Changing the pixel format to anything besides the first pixel format
-does not work:
+Do you think we could have the blk-ctrl support landing in v5.14?
 
-```
-$ v4l2-ctl -d /dev/video0 --try-fmt-video pixelformat=YU12
-Format Video Capture:
-	Width/Height      : 3840/2160
-	Pixel Format      : 'NV12' (Y/CbCr 4:2:0)
-	Field             : None
-	Bytes per Line    : 3840
-	Size Image        : 12441600
-	Colorspace        : sRGB
-	Transfer Function : Rec. 709
-	YCbCr/HSV Encoding: Rec. 709
-	Quantization      : Default (maps to Limited Range)
-	Flags             :
-```
+If you work on the patches, and you happen to test the G1 and G2 on
+i.MX8MM it would be great to add that too.
 
-User space applications like VLC might show an error message on the
-terminal in that case:
+Meanwhile, our next steps would be to improve the HEVC V4L2 uAPI itself.
 
-```
-libv4l2: error set_fmt gave us a different result than try_fmt!
-```
-
-Depending on the error handling of the user space applications, they
-might display a distorted video, because they use the wrong pixel format
-for decoding the stream.
-
-The Elgato Cam Link 4K responds to the USB video probe
-VS_PROBE_CONTROL/VS_COMMIT_CONTROL with a malformed data structure: The
-second byte contains bFormatIndex (instead of being the second byte of
-bmHint). The first byte is always zero. The third byte is always 1.
-
-The firmware bug was reported to Elgato on 2020-12-01 and it was
-forwarded by the support team to the developers as feature request.
-There is no firmware update available since then. The latest firmware
-for Elgato Cam Link 4K as of 2021-03-23 has MCU 20.02.19 and FPGA 67.
-
-Therefore add a quirk to correct the malformed data structure.
-
-The quirk was successfully tested with VLC, OBS, and Chromium using
-different pixel formats (YUYV, NV12, YU12), resolutions (3840x2160,
-1920x1080), and frame rates (29.970 and 59.940 fps).
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Benjamin Drung <bdrung@posteo.de>
----
-
-I am sending this patch a fourth time since I got no response and the
-last resend is over a month ago. This time I am including Linus Torvalds
-in the hope to get it reviewed.
-
- drivers/media/usb/uvc/uvc_driver.c | 13 +++++++++++++
- drivers/media/usb/uvc/uvc_video.c  | 21 +++++++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 3 files changed, 35 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 9a791d8ef200..6ce58950d78b 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3164,6 +3164,19 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/*
-+	 * Elgato Cam Link 4K
-+	 * Latest firmware as of 2021-03-23 needs this quirk.
-+	 * MCU: 20.02.19, FPGA: 67
-+	 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x0fd9,
-+	  .idProduct		= 0x0066,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FIX_FORMAT_INDEX) },
- 	/* Generic USB Video Class */
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index a777b389a66e..910d22233d74 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -131,6 +131,27 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
- 	struct uvc_frame *frame = NULL;
- 	unsigned int i;
- 
-+	/*
-+	 * The response of the Elgato Cam Link 4K is incorrect: The second byte
-+	 * contains bFormatIndex (instead of being the second byte of bmHint).
-+	 * The first byte is always zero. The third byte is always 1.
-+	 *
-+	 * The UVC 1.5 class specification defines the first five bits in the
-+	 * bmHint bitfield. The remaining bits are reserved and should be zero.
-+	 * Therefore a valid bmHint will be less than 32.
-+	 */
-+	if (stream->dev->quirks & UVC_QUIRK_FIX_FORMAT_INDEX && ctrl->bmHint > 255) {
-+		__u8 corrected_format_index;
-+
-+		corrected_format_index = ctrl->bmHint >> 8;
-+		uvc_dbg(stream->dev, CONTROL,
-+			"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: 0x%02x} to {bmHint: 0x%04x, bFormatIndex: 0x%02x}.\n",
-+			ctrl->bmHint, ctrl->bFormatIndex,
-+			ctrl->bFormatIndex, corrected_format_index);
-+		ctrl->bmHint = ctrl->bFormatIndex;
-+		ctrl->bFormatIndex = corrected_format_index;
-+	}
-+
- 	for (i = 0; i < stream->nformats; ++i) {
- 		if (stream->format[i].index == ctrl->bFormatIndex) {
- 			format = &stream->format[i];
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index cce5e38133cd..cbb4ef61a64d 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -209,6 +209,7 @@
- #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
- #define UVC_QUIRK_FORCE_Y8		0x00000800
- #define UVC_QUIRK_FORCE_BPP		0x00001000
-+#define UVC_QUIRK_FIX_FORMAT_INDEX	0x00002000
- 
- /* Format flags */
- #define UVC_FMT_FLAG_COMPRESSED		0x00000001
--- 
-2.27.0
+Thanks a lot!
+Ezequiel 
 
