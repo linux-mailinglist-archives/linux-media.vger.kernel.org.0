@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8442C39C51A
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 04:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EA1839C51C
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 04:30:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230481AbhFECb0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S231707AbhFECb0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 4 Jun 2021 22:31:26 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:37590 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231642AbhFECbX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 22:31:23 -0400
-X-UUID: 33289062065e48228e3348f0124d9e27-20210605
-X-UUID: 33289062065e48228e3348f0124d9e27-20210605
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184]:35127 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231609AbhFECbY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 22:31:24 -0400
+X-UUID: 0b3436c5e690409e96f9e206c51f33e5-20210605
+X-UUID: 0b3436c5e690409e96f9e206c51f33e5-20210605
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
         (envelope-from <irui.wang@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 2008772008; Sat, 05 Jun 2021 10:29:32 +0800
+        with ESMTP id 1073874797; Sat, 05 Jun 2021 10:29:34 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 5 Jun 2021 10:29:30 +0800
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 5 Jun 2021 10:29:32 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 5 Jun 2021 10:29:29 +0800
+ Transport; Sat, 5 Jun 2021 10:29:31 +0800
 From:   Irui Wang <irui.wang@mediatek.com>
 To:     Alexandre Courbot <acourbot@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -45,9 +45,9 @@ CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
         <srv_heupstream@mediatek.com>,
         <linux-mediatek@lists.infradead.org>,
         <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v5,3/6] media: mtk-vcodec: Support 34bits dma address for venc
-Date:   Sat, 5 Jun 2021 10:29:15 +0800
-Message-ID: <20210605022918.4213-4-irui.wang@mediatek.com>
+Subject: [PATCH v5,4/6] dt-bindings: media: mtk-vcodec: Add binding for MT8192 VENC
+Date:   Sat, 5 Jun 2021 10:29:16 +0800
+Message-ID: <20210605022918.4213-5-irui.wang@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210605022918.4213-1-irui.wang@mediatek.com>
 References: <20210605022918.4213-1-irui.wang@mediatek.com>
@@ -58,33 +58,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the dma_set_mask_and_coherent helper to set venc
-DMA bit mask to support 34bits iova space(16GB) that
-the mt8192 iommu HW support.
+Updates binding document for mt8192 encoder driver.
 
-Whole the iova range separate to 0~4G/4G~8G/8G~12G/12G~16G,
-regarding which iova range VENC actually locate, it
-depends on the dma-ranges property of venc dtsi node.
-
+Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Irui Wang <irui.wang@mediatek.com>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/devicetree/bindings/media/mediatek-vcodec.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index 7d7b8cfc2cc5..26b089e81213 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -361,6 +361,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		goto err_event_workq;
- 	}
- 
-+	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
-+		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
-+
- 	ret = video_register_device(vfd_enc, VFL_TYPE_VIDEO, 1);
- 	if (ret) {
- 		mtk_v4l2_err("Failed to register video device");
+diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+index 5bb9e6e191b7..ad1321e5a22d 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
++++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+@@ -9,6 +9,7 @@ Required properties:
+   "mediatek,mt8173-vcodec-enc" for mt8173 avc encoder.
+   "mediatek,mt8183-vcodec-enc" for MT8183 encoder.
+   "mediatek,mt8173-vcodec-dec" for MT8173 decoder.
++  "mediatek,mt8192-vcodec-enc" for MT8192 encoder.
+ - reg : Physical base address of the video codec registers and length of
+   memory mapped region.
+ - interrupts : interrupt number to the cpu.
 -- 
 2.18.0
 
