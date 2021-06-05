@@ -2,241 +2,293 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9456239C6B9
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 10:20:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95CD839C6FC
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 11:14:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229889AbhFEIVs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Jun 2021 04:21:48 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:39939 "EHLO mout01.posteo.de"
+        id S229998AbhFEJQc convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 5 Jun 2021 05:16:32 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:47538 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229892AbhFEIVr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 5 Jun 2021 04:21:47 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 668AF240029
-        for <linux-media@vger.kernel.org>; Sat,  5 Jun 2021 10:19:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1622881198; bh=nu1BLvmZrqYaytmdrBBw9GMUEofsomb+aCdcUAocJiM=;
-        h=Subject:From:To:Cc:Date:From;
-        b=BUR/4qovOyi1sZXEVZWUF+1XIOBUoPHtHHs4d4/CiZ5+jGlwDc+iOv2q0MTVFyi2k
-         p21cr1AWDgTURjymVL7RnWsiP44aPBxi/s+g1szahGQcl1jANsvzSzHFjgaoe8UZwj
-         de7C4+hW7dRl2iNSV3jEWLFiZcP2CLQ+5hXAmu+5Cexj/XjspxCAtZ1brS9QgXS/+w
-         bGLoY/Wqq0vLRTAvks2JCQ2GT4QNL6dcbC5/+DqxtBQYGtyPED7cF1kCLoOZpOFvIk
-         sRv7U+a+9ApotKbFfSomMIHrIedSFLTubDtlbbZSOad3RbQEBJVVrB22SAJbHy8EgP
-         Wu3M7tPmG67WA==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4Fxsxn147nz6tmL;
-        Sat,  5 Jun 2021 10:19:57 +0200 (CEST)
-Message-ID: <9219fc970e41188db748643bb0efe6bcbef53168.camel@posteo.de>
-Subject: Re: [PATCH v2] media: uvcvideo: Fix pixel format change for Elgato
- Cam Link 4K
-From:   Benjamin Drung <bdrung@posteo.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Adam Goode <agoode@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Date:   Sat, 05 Jun 2021 08:19:56 +0000
-In-Reply-To: <YLqnU+FYSAcWwaAZ@pendragon.ideasonboard.com>
-References: <CAOf41NnKMks8UgM+4Z5ymNtBnioPzsTE-1fh1ERMEcFfX=UoMg@mail.gmail.com>
-         <20210604171941.66136-1-bdrung@posteo.de>
-         <YLqnU+FYSAcWwaAZ@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S229996AbhFEJQc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 5 Jun 2021 05:16:32 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lpSOB-0038tZ-EE; Sat, 05 Jun 2021 09:14:43 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lpSSZ-0001Sa-PQ; Sat, 05 Jun 2021 09:19:16 +0000
+Date:   Sat, 5 Jun 2021 09:19:14 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1863991906.0.1622884755725@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3521
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+See <https://builder.linuxtv.org/job/media-build/3521/display/redirect>
 
-Am Samstag, den 05.06.2021, 01:21 +0300 schrieb Laurent Pinchart:
-> Hi Benjamin,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Jun 04, 2021 at 05:19:42PM +0000, Benjamin Drung wrote:
-> > The Elgato Cam Link 4K HDMI video capture card reports to support three
-> > different pixel formats, where the first format depends on the connected
-> > HDMI device.
-> > 
-> > ```
-> > $ v4l2-ctl -d /dev/video0 --list-formats-ext
-> > ioctl: VIDIOC_ENUM_FMT
-> > 	Type: Video Capture
-> > 
-> > 	[0]: 'NV12' (Y/CbCr 4:2:0)
-> > 		Size: Discrete 3840x2160
-> > 			Interval: Discrete 0.033s (29.970 fps)
-> > 	[1]: 'NV12' (Y/CbCr 4:2:0)
-> > 		Size: Discrete 3840x2160
-> > 			Interval: Discrete 0.033s (29.970 fps)
-> > 	[2]: 'YU12' (Planar YUV 4:2:0)
-> > 		Size: Discrete 3840x2160
-> > 			Interval: Discrete 0.033s (29.970 fps)
-> > ```
-> > 
-> > Changing the pixel format to anything besides the first pixel format
-> > does not work:
-> > 
-> > ```
-> > $ v4l2-ctl -d /dev/video0 --try-fmt-video pixelformat=YU12
-> > Format Video Capture:
-> > 	Width/Height      : 3840/2160
-> > 	Pixel Format      : 'NV12' (Y/CbCr 4:2:0)
-> > 	Field             : None
-> > 	Bytes per Line    : 3840
-> > 	Size Image        : 12441600
-> > 	Colorspace        : sRGB
-> > 	Transfer Function : Rec. 709
-> > 	YCbCr/HSV Encoding: Rec. 709
-> > 	Quantization      : Default (maps to Limited Range)
-> > 	Flags             :
-> > ```
-> > 
-> > User space applications like VLC might show an error message on the
-> > terminal in that case:
-> > 
-> > ```
-> > libv4l2: error set_fmt gave us a different result than try_fmt!
-> > ```
-> > 
-> > Depending on the error handling of the user space applications, they
-> > might display a distorted video, because they use the wrong pixel format
-> > for decoding the stream.
-> > 
-> > The Elgato Cam Link 4K responds to the USB video probe
-> > VS_PROBE_CONTROL/VS_COMMIT_CONTROL with a malformed data structure: The
-> > second byte contains bFormatIndex (instead of being the second byte of
-> > bmHint). The first byte is always zero. The third byte is always 1.
-> > 
-> > The firmware bug was reported to Elgato on 2020-12-01 and it was
-> > forwarded by the support team to the developers as feature request.
-> > There is no firmware update available since then. The latest firmware
-> > for Elgato Cam Link 4K as of 2021-03-23 has MCU 20.02.19 and FPGA 67.
-> 
-> *sigh* :-( Same vendors are depressingly unable to perform even the most
-> basic conformance testing.
-> 
-> Thanks for all this analysis and bug reports.
-> 
-> > Therefore add a quirk to correct the malformed data structure.
-> > 
-> > The quirk was successfully tested with VLC, OBS, and Chromium using
-> > different pixel formats (YUYV, NV12, YU12), resolutions (3840x2160,
-> > 1920x1080), and frame rates (29.970 and 59.940 fps).
-> > 
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Benjamin Drung <bdrung@posteo.de>
-> > ---
-> > 
-> > I am sending this patch a fourth time since I got no response and the
-> > last resend is over a month ago. This time I am including Linus Torvalds
-> > in the hope to get it reviewed.
-> 
-> The resend got to the top of my mailbox and I had time to review it
-> before it got burried again. Thanks for not giving up.
-
-Thanks for reviewing the patch.
-
-> >  drivers/media/usb/uvc/uvc_driver.c | 13 +++++++++++++
-> >  drivers/media/usb/uvc/uvc_video.c  | 21 +++++++++++++++++++++
-> >  drivers/media/usb/uvc/uvcvideo.h   |  1 +
-> >  3 files changed, 35 insertions(+)
-> > 
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index 9a791d8ef200..6ce58950d78b 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -3164,6 +3164,19 @@ static const struct usb_device_id uvc_ids[] = {
-> >  	  .bInterfaceSubClass	= 1,
-> >  	  .bInterfaceProtocol	= 0,
-> >  	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> > +	/*
-> > +	 * Elgato Cam Link 4K
-> > +	 * Latest firmware as of 2021-03-23 needs this quirk.
-> > +	 * MCU: 20.02.19, FPGA: 67
-> > +	 */
-> > +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > +	  .idVendor		= 0x0fd9,
-> > +	  .idProduct		= 0x0066,
-> > +	  .bInterfaceClass	= USB_CLASS_VIDEO,
-> > +	  .bInterfaceSubClass	= 1,
-> > +	  .bInterfaceProtocol	= 0,
-> > +	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FIX_FORMAT_INDEX) },
-> >  	/* Generic USB Video Class */
-> >  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
-> >  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
-> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > index a777b389a66e..910d22233d74 100644
-> > --- a/drivers/media/usb/uvc/uvc_video.c
-> > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > @@ -131,6 +131,27 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
-> >  	struct uvc_frame *frame = NULL;
-> >  	unsigned int i;
-> >  
-> > 
-> > +	/*
-> > +	 * The response of the Elgato Cam Link 4K is incorrect: The second byte
-> > +	 * contains bFormatIndex (instead of being the second byte of bmHint).
-> > +	 * The first byte is always zero. The third byte is always 1.
-> > +	 *
-> > +	 * The UVC 1.5 class specification defines the first five bits in the
-> > +	 * bmHint bitfield. The remaining bits are reserved and should be zero.
-> > +	 * Therefore a valid bmHint will be less than 32.
-> > +	 */
-> > +	if (stream->dev->quirks & UVC_QUIRK_FIX_FORMAT_INDEX && ctrl->bmHint > 255) {
-> 
-> Given that this is likely not going to affect other devices (at least in
-> the same way), I'd rather test the USB VID:PID that add a quirk.
-> Something along the lines of
-> 
-> 	if (usb_match_one_id(stream->dev->intf, USB_DEVICE(0x0fd9, 0x0066)) {
-
-Adam Goode suggested that the Game Capture HD 60 S+ (0fd9:006a) from the
-same vendor is probably affected by the same bug. I cannot test this
-assumption since I don't have this device (I am open for a loaner
-device). An Internet search did not reveal bug reports in this regard.
-Most search results referred to older versions (e.g. without + or
-without S+) Do you still prefer to test the USB VID:PID?
-
-> > +		__u8 corrected_format_index;
-> > +
-> > +		corrected_format_index = ctrl->bmHint >> 8;
-> > +		uvc_dbg(stream->dev, CONTROL,
-> > +			"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: 0x%02x} to {bmHint: 0x%04x, bFormatIndex: 0x%02x}.\n",
-> > +			ctrl->bmHint, ctrl->bFormatIndex,
-> > +			ctrl->bFormatIndex, corrected_format_index);
-> > +		ctrl->bmHint = ctrl->bFormatIndex;
-> 
-> According to your description above, this will always be 1. Is the third
-> byte always 1 because the driver always sets bmHint to 1, or would it
-> have a different value if we set bmHint to something else ? In the first
-> case I'd hardcode ctrl->bmHint to 1 here.
-
-I will test setting bmHint to something else than 1 to check. I will
-report back then. Either follow your sugstion or update the comment.
-
-> > +		ctrl->bFormatIndex = corrected_format_index;
-> > +	}
-> > +
-> >  	for (i = 0; i < stream->nformats; ++i) {
-> >  		if (stream->format[i].index == ctrl->bFormatIndex) {
-> >  			format = &stream->format[i];
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index cce5e38133cd..cbb4ef61a64d 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -209,6 +209,7 @@
-> >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
-> >  #define UVC_QUIRK_FORCE_Y8		0x00000800
-> >  #define UVC_QUIRK_FORCE_BPP		0x00001000
-> > +#define UVC_QUIRK_FIX_FORMAT_INDEX	0x00002000
-> >  
-> > 
-> >  /* Format flags */
-> >  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
-> 
+Changes:
 
 
+------------------------------------------
+[...truncated 4.11 KB...]
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  160M=0s
+
+2021-06-05 09:15:22 (160 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+--2021-06-05 09:15:22--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2 [following]
+--2021-06-05 09:15:23--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7290090 (7.0M) [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2’
+
+     0K .......... .......... .......... .......... ..........  0%  162K 44s
+    50K .......... .......... .......... .......... ..........  1%  326K 32s
+   100K .......... .......... .......... .......... ..........  2% 17.0M 22s
+   150K .......... .......... .......... .......... ..........  2% 1.16M 17s
+   200K .......... .......... .......... .......... ..........  3%  449K 17s
+   250K .......... .......... .......... .......... ..........  4% 17.7M 14s
+   300K .......... .......... .......... .......... ..........  4% 17.4M 12s
+   350K .......... .......... .......... .......... ..........  5% 15.0M 11s
+   400K .......... .......... .......... .......... ..........  6%  348K 11s
+   450K .......... .......... .......... .......... ..........  7% 15.5M 10s
+   500K .......... .......... .......... .......... ..........  7% 17.4M 9s
+   550K .......... .......... .......... .......... ..........  8% 21.3M 8s
+   600K .......... .......... .......... .......... ..........  9% 18.9M 8s
+   650K .......... .......... .......... .......... ..........  9% 18.4M 7s
+   700K .......... .......... .......... .......... .......... 10% 18.6M 7s
+   750K .......... .......... .......... .......... .......... 11% 22.0M 6s
+   800K .......... .......... .......... .......... .......... 11% 1.88M 6s
+   850K .......... .......... .......... .......... .......... 12%  461K 6s
+   900K .......... .......... .......... .......... .......... 13% 21.0M 6s
+   950K .......... .......... .......... .......... .......... 14% 21.0M 6s
+  1000K .......... .......... .......... .......... .......... 14% 21.9M 5s
+  1050K .......... .......... .......... .......... .......... 15% 19.3M 5s
+  1100K .......... .......... .......... .......... .......... 16% 20.6M 5s
+  1150K .......... .......... .......... .......... .......... 16% 19.6M 5s
+  1200K .......... .......... .......... .......... .......... 17% 15.2M 4s
+  1250K .......... .......... .......... .......... .......... 18% 19.1M 4s
+  1300K .......... .......... .......... .......... .......... 18% 20.7M 4s
+  1350K .......... .......... .......... .......... .......... 19% 21.8M 4s
+  1400K .......... .......... .......... .......... .......... 20% 22.1M 4s
+  1450K .......... .......... .......... .......... .......... 21% 21.7M 4s
+  1500K .......... .......... .......... .......... .......... 21% 26.1M 3s
+  1550K .......... .......... .......... .......... .......... 22% 21.7M 3s
+  1600K .......... .......... .......... .......... .......... 23% 18.2M 3s
+  1650K .......... .......... .......... .......... .......... 23% 5.47M 3s
+  1700K .......... .......... .......... .......... .......... 24% 41.8M 3s
+  1750K .......... .......... .......... .......... .......... 25%  464K 3s
+  1800K .......... .......... .......... .......... .......... 25% 46.6M 3s
+  1850K .......... .......... .......... .......... .......... 26% 34.9M 3s
+  1900K .......... .......... .......... .......... .......... 27% 65.4M 3s
+  1950K .......... .......... .......... .......... .......... 28% 45.6M 3s
+  2000K .......... .......... .......... .......... .......... 28% 23.7M 3s
+  2050K .......... .......... .......... .......... .......... 29% 49.2M 3s
+  2100K .......... .......... .......... .......... .......... 30% 52.6M 3s
+  2150K .......... .......... .......... .......... .......... 30% 24.3M 2s
+  2200K .......... .......... .......... .......... .......... 31% 20.0M 2s
+  2250K .......... .......... .......... .......... .......... 32% 22.0M 2s
+  2300K .......... .......... .......... .......... .......... 33% 20.8M 2s
+  2350K .......... .......... .......... .......... .......... 33% 20.0M 2s
+  2400K .......... .......... .......... .......... .......... 34% 18.9M 2s
+  2450K .......... .......... .......... .......... .......... 35% 22.7M 2s
+  2500K .......... .......... .......... .......... .......... 35% 24.7M 2s
+  2550K .......... .......... .......... .......... .......... 36% 24.7M 2s
+  2600K .......... .......... .......... .......... .......... 37% 21.9M 2s
+  2650K .......... .......... .......... .......... .......... 37% 26.7M 2s
+  2700K .......... .......... .......... .......... .......... 38% 25.0M 2s
+  2750K .......... .......... .......... .......... .......... 39% 25.6M 2s
+  2800K .......... .......... .......... .......... .......... 40% 19.8M 2s
+  2850K .......... .......... .......... .......... .......... 40% 27.4M 2s
+  2900K .......... .......... .......... .......... .......... 41% 26.4M 2s
+  2950K .......... .......... .......... .......... .......... 42% 27.8M 2s
+  3000K .......... .......... .......... .......... .......... 42% 24.6M 1s
+  3050K .......... .......... .......... .......... .......... 43% 26.7M 1s
+  3100K .......... .......... .......... .......... .......... 44% 25.3M 1s
+  3150K .......... .......... .......... .......... .......... 44% 28.0M 1s
+  3200K .......... .......... .......... .......... .......... 45% 21.0M 1s
+  3250K .......... .......... .......... .......... .......... 46% 27.0M 1s
+  3300K .......... .......... .......... .......... .......... 47% 26.6M 1s
+  3350K .......... .......... .......... .......... .......... 47% 27.0M 1s
+  3400K .......... .......... .......... .......... .......... 48% 24.5M 1s
+  3450K .......... .......... .......... .......... .......... 49% 28.2M 1s
+  3500K .......... .......... .......... .......... .......... 49% 23.1M 1s
+  3550K .......... .......... .......... .......... .......... 50%  565K 1s
+  3600K .......... .......... .......... .......... .......... 51% 43.7M 1s
+  3650K .......... .......... .......... .......... .......... 51% 63.6M 1s
+  3700K .......... .......... .......... .......... .......... 52% 37.4M 1s
+  3750K .......... .......... .......... .......... .......... 53% 28.7M 1s
+  3800K .......... .......... .......... .......... .......... 54% 27.5M 1s
+  3850K .......... .......... .......... .......... .......... 54% 29.2M 1s
+  3900K .......... .......... .......... .......... .......... 55% 18.5M 1s
+  3950K .......... .......... .......... .......... .......... 56% 14.0M 1s
+  4000K .......... .......... .......... .......... .......... 56% 11.0M 1s
+  4050K .......... .......... .......... .......... .......... 57% 16.8M 1s
+  4100K .......... .......... .......... .......... .......... 58% 6.34M 1s
+  4150K .......... .......... .......... .......... .......... 58% 81.4M 1s
+  4200K .......... .......... .......... .......... .......... 59%  118M 1s
+  4250K .......... .......... .......... .......... .......... 60% 16.4M 1s
+  4300K .......... .......... .......... .......... .......... 61% 18.2M 1s
+  4350K .......... .......... .......... .......... .......... 61% 18.1M 1s
+  4400K .......... .......... .......... .......... .......... 62% 14.5M 1s
+  4450K .......... .......... .......... .......... .......... 63% 18.6M 1s
+  4500K .......... .......... .......... .......... .......... 63% 19.3M 1s
+  4550K .......... .......... .......... .......... .......... 64% 17.5M 1s
+  4600K .......... .......... .......... .......... .......... 65% 19.9M 1s
+  4650K .......... .......... .......... .......... .......... 66% 19.1M 1s
+  4700K .......... .......... .......... .......... .......... 66% 17.7M 1s
+  4750K .......... .......... .......... .......... .......... 67% 20.1M 1s
+  4800K .......... .......... .......... .......... .......... 68% 19.5M 1s
+  4850K .......... .......... .......... .......... .......... 68% 1.88M 1s
+  4900K .......... .......... .......... .......... .......... 69%  769K 1s
+  4950K .......... .......... .......... .......... .......... 70% 35.7M 1s
+  5000K .......... .......... .......... .......... .......... 70% 34.7M 1s
+  5050K .......... .......... .......... .......... .......... 71% 43.8M 1s
+  5100K .......... .......... .......... .......... .......... 72% 35.8M 1s
+  5150K .......... .......... .......... .......... .......... 73% 37.2M 1s
+  5200K .......... .......... .......... .......... .......... 73% 30.7M 0s
+  5250K .......... .......... .......... .......... .......... 74% 21.9M 0s
+  5300K .......... .......... .......... .......... .......... 75% 16.7M 0s
+  5350K .......... .......... .......... .......... .......... 75% 14.7M 0s
+  5400K .......... .......... .......... .......... .......... 76% 14.0M 0s
+  5450K .......... .......... .......... .......... .......... 77% 16.3M 0s
+  5500K .......... .......... .......... .......... .......... 77% 7.14M 0s
+  5550K .......... .......... .......... .......... .......... 78% 39.6M 0s
+  5600K .......... .......... .......... .......... .......... 79% 27.3M 0s
+  5650K .......... .......... .......... .......... .......... 80% 24.3M 0s
+  5700K .......... .......... .......... .......... .......... 80% 19.4M 0s
+  5750K .......... .......... .......... .......... .......... 81% 17.4M 0s
+  5800K .......... .......... .......... .......... .......... 82% 19.3M 0s
+  5850K .......... .......... .......... .......... .......... 82% 19.5M 0s
+  5900K .......... .......... .......... .......... .......... 83% 13.1M 0s
+  5950K .......... .......... .......... .......... .......... 84% 35.6M 0s
+  6000K .......... .......... .......... .......... .......... 84% 11.4M 0s
+  6050K .......... .......... .......... .......... .......... 85% 33.0M 0s
+  6100K .......... .......... .......... .......... .......... 86% 16.1M 0s
+  6150K .......... .......... .......... .......... .......... 87% 27.2M 0s
+  6200K .......... .......... .......... .......... .......... 87% 23.6M 0s
+  6250K .......... .......... .......... .......... .......... 88%  549K 0s
+  6300K .......... .......... .......... .......... .......... 89% 75.4M 0s
+  6350K .......... .......... .......... .......... .......... 89% 9.53M 0s
+  6400K .......... .......... .......... .......... .......... 90%  147M 0s
+  6450K .......... .......... .......... .......... .......... 91%  173M 0s
+  6500K .......... .......... .......... .......... .......... 92%  179M 0s
+  6550K .......... .......... .......... .......... .......... 92%  186M 0s
+  6600K .......... .......... .......... .......... .......... 93% 54.6M 0s
+  6650K .......... .......... .......... .......... .......... 94% 23.7M 0s
+  6700K .......... .......... .......... .......... .......... 94% 13.3M 0s
+  6750K .......... .......... .......... .......... .......... 95% 18.3M 0s
+  6800K .......... .......... .......... .......... .......... 96% 12.1M 0s
+  6850K .......... .......... .......... .......... .......... 96% 20.7M 0s
+  6900K .......... .......... .......... .......... .......... 97% 6.72M 0s
+  6950K .......... .......... .......... .......... .......... 98% 42.7M 0s
+  7000K .......... .......... .......... .......... .......... 99% 37.8M 0s
+  7050K .......... .......... .......... .......... .......... 99% 35.2M 0s
+  7100K .......... .........                                  100% 14.3M=1.6s
+
+2021-06-05 09:15:25 (4.42 MB/s) - ‘linux-media.tar.bz2’ saved [7290090/7290090]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 4.19.0-12-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-12-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:131: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
