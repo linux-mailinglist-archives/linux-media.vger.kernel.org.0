@@ -2,91 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F50839CB6B
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 00:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09FC839CB7F
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 00:45:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbhFEWPE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Jun 2021 18:15:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37706 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbhFEWPD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Jun 2021 18:15:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3986AC061766;
-        Sat,  5 Jun 2021 15:13:15 -0700 (PDT)
+        id S230025AbhFEWq5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Jun 2021 18:46:57 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49582 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229998AbhFEWq5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Jun 2021 18:46:57 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E7148DB;
-        Sun,  6 Jun 2021 00:13:11 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 951D73E7;
+        Sun,  6 Jun 2021 00:45:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622931191;
-        bh=77FTQ3AWVNkSmA6RNgFH4ikvhUmfZejYCCux6ZU2gUI=;
+        s=mail; t=1622933106;
+        bh=LsudLtHyPsi6SfGcgkgYIK3AOLDW3WJbw9x6KUFbJlg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HyJEuKbyypIvOC9Zy0lI9Welz+jjhTOiqSmdUp8MiJgShbP4qwROx2nGLPuQI5gjQ
-         PzreO0Nd0tn0RMN9aPAoxPm0nxJpdU3kB6z2DXiulhAa0YBDasmFJrL59xw7/JDSEv
-         p/Nl1ayfMSsIHuRlM7nSJpnjQcbXCB5YRq/DkBwM=
-Date:   Sun, 6 Jun 2021 01:12:58 +0300
+        b=mrLEDTCqCJfotMbuxdbIbGEgYZ1MJ9XJyyH3FbREadjDxH2MDWMkJf7cAWbiCp64c
+         P0WGnzpSMdydO/SYoNeB5oEw6gRA2QH3QH+5azK9ip+sX1873sy4mUGPRjxkNj8n0Z
+         F4seTyuvR1slFr+OZ6JoMlzEKUEb01S6v+XJrYx8=
+Date:   Sun, 6 Jun 2021 01:44:53 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
-        phone-devel@vger.kernel.org, martijn@brixit.nl,
-        linux-media@vger.kernel.org, martin.kepplinger@puri.sm,
-        dorota.czaplejewicz@puri.sm
-Subject: Re: Recording videos on phones and camera on Librem 5 devboard
-Message-ID: <YLv26gjSMMQfwC44@pendragon.ideasonboard.com>
-References: <20210512214702.GB27652@duo.ucw.cz>
- <YJz0cn4OrXNhRDoO@bogon.m.sigxcpu.org>
- <20210513160724.GC19588@duo.ucw.cz>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>
+Subject: Re: [PATCH v7 20/27] v4l: subdev: add V4L2_SUBDEV_ROUTE_FL_SOURCE
+Message-ID: <YLv+Za5F/0wiD5cZ@pendragon.ideasonboard.com>
+References: <20210524104408.599645-1-tomi.valkeinen@ideasonboard.com>
+ <20210524104408.599645-21-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210513160724.GC19588@duo.ucw.cz>
+In-Reply-To: <20210524104408.599645-21-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Tomi,
 
-On Thu, May 13, 2021 at 06:07:24PM +0200, Pavel Machek wrote:
-> Hi!
-> 
-> > > Who is the right person to talk about Librem 5 cameras? Is there
-> > > mailing list I should use?
-> > 
-> > I think most of the coordination is mostly happening via the gitlab issues in
-> > 
-> > https://source.puri.sm/Librem5/linux-next
-> > 
-> > Maybe Martin and Dorota who are working on the camera drivers (put in cc:)
-> > have a more suggestions.
-> 
-> Thanks for pointers.
-> 
-> In the meantime I got silent video recording to work on Librem 5
-> devboard --
-> 
-> https://gitlab.com/tui/tui/-/tree/master/cam
-> 
-> -- but quality is awful, probably either hardware or kernel issue.
+Thank you for the patch.
 
-It's due to the lack of an ISP. As the i.MX8QM doesn't have a hardware
-ISP, the backup plan is to implement one in software, with GPU
-offloading (as the CPU alone very likely won't have the computing
-power).
+On Mon, May 24, 2021 at 01:44:01PM +0300, Tomi Valkeinen wrote:
+> Add route flag to indicate that the route is a source route. This means
+> that the route does not lead anywhere, and the sink_pad and sink_stream
+> should not be used.
 
-> Is pulseaudio supposed to be running in Phosh? I have trouble
-> capturing any audio and am wondering if I should attempt to do full
-> reinstall.
+I don't like this much. It's not a route if it doesn't lead anywhere, so
+this flag seems like a hack. If we need a way to discover streams on a
+source, I'd rather have an explicit operation to do so. Can't the get
+frame descriptor operation be used for this ?
+
+If the need is to find out that we're reaching the end of a pipeline
+while going through links and routes, I'd rather have a pad flag to
+indicate that the pad is an endpoint.
+
+> A sensor which provides multiple streams should implement get_routing
+> and use the flag to mark the routes as sources.
 > 
-> > > AFAICS from bugzillas, it is still not compeletely working. I see
-> > > megapixels packaged in the repository, but without required config
-> > > files. Are there work-in-progress configurations somewhere? Would it
-> > > be useful if I tried to get it to work on the devboard?
-> > 
-> > Megapixels work is mostly happening here atm:
-> > 
-> > https://source.puri.sm/dorota.czaplejewicz/megapixels
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  include/uapi/linux/v4l2-subdev.h | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> Ok, so you seem to have that one under control.
+> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> index 45c01799e2cd..f20491e1f53f 100644
+> --- a/include/uapi/linux/v4l2-subdev.h
+> +++ b/include/uapi/linux/v4l2-subdev.h
+> @@ -200,6 +200,13 @@ struct v4l2_subdev_capability {
+>   */
+>  #define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		BIT(1)
+>  
+> +/**
+> + * Is the route a source endpoint? A source endpoint route doesn't come
+> + * from "anywhere", and the sink_pad and sink_stream fields are unused.
+> + * Set by the driver.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_SOURCE		BIT(2)
+> +
+>  /**
+>   * struct v4l2_subdev_route - A route inside a subdev
+>   *
 
 -- 
 Regards,
