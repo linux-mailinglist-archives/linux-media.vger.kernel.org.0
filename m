@@ -2,132 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A98AB39CAA8
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 21:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68A3939CAD0
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 22:07:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230130AbhFETKg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Jun 2021 15:10:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50012 "EHLO mail.kernel.org"
+        id S230048AbhFEUI5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Jun 2021 16:08:57 -0400
+Received: from mout01.posteo.de ([185.67.36.65]:60203 "EHLO mout01.posteo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229994AbhFETKd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 5 Jun 2021 15:10:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C76CD61073;
-        Sat,  5 Jun 2021 19:08:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622920125;
-        bh=tTJEbMfaqLm+MQIdZ6b17P+wEJbY3/9z+X1SQ27izYw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=JkQm3FNW5iQVYmgT/Gt9sN9r1LoTem2cqXUl0EjU+fiv82NY1pLAYU3Bw6unpEki9
-         JXsjuSgQIFHSyh38wM93iu29TbJXvLcRhJNrLaI3uPlTWuv27IKsdkFioKL4INshFP
-         X6wWHZCeoF+O8iMlmhkcXx84GYrwHdtLzik9jQie2+N1FEL3MtfoR0dRqJZtRSpa3B
-         75ZFgP9ntAFhWGSiwsFlzS8kJV4vdjx4gNxci+2IKGEj7omJo8VOW1W/h4rNmExnEf
-         Cyd+38BTHzfhwZ6TVmr+dpfprstE/6hddhXmgX9dnEe4dYMoT8QPViKF/MrmqKI8pR
-         fNqEWypa3GLOg==
-Date:   Sat, 5 Jun 2021 21:08:36 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <n@nfraprado.net>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        coresight@lists.linaro.org, devicetree@vger.kernel.org,
-        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
-Message-ID: <20210605210836.540577d4@coco.lan>
-In-Reply-To: <20210605151109.axm3wzbcstsyxczp@notapiano>
-References: <cover.1622898327.git.mchehab+huawei@kernel.org>
-        <20210605151109.axm3wzbcstsyxczp@notapiano>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230025AbhFEUI4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 5 Jun 2021 16:08:56 -0400
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id 4A915240028
+        for <linux-media@vger.kernel.org>; Sat,  5 Jun 2021 22:07:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1622923626; bh=T4VYj3/eGK7pi6+D8aI7iDFDg9ZRzBumV2sHHqJe9VI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=B6ujzN9qKT+XdiMY5VFGsh8p/Icm38hIuTU7qer180aF168CmQL8TkixSwYTpFoZY
+         Usndwcq4OB0SkN82CrapIDfhOKjbu8lx1VLGWpcnVtngnyLSS6KScySPyMVswAnTjZ
+         1Vk59Wlf0ae9m7guMWrIxNNK+Ry8lzE0KVwBxQ93/9DziYFJfNgJyfI/vQyyFByBBj
+         7InZzFSQv+RXS2t/6LfwAYBa0gJfzxVgn9DYheZ/hZBsDfYlkNd0kuW9XfaqjNDWXC
+         TqJEu2uPj0wbN9R4W/VzNsQbnZPDLcJHLf74tf2twbq960xrUy1F18208p06QD4Yhr
+         Uc0CKW2z3D7Aw==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4Fy9dj3V9Xz9rxH;
+        Sat,  5 Jun 2021 22:07:05 +0200 (CEST)
+From:   Benjamin Drung <bdrung@posteo.de>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Adam Goode <agoode@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Drung <bdrung@posteo.de>, stable@vger.kernel.org
+Subject: [PATCH v3] media: uvcvideo: Fix pixel format change for Elgato Cam Link 4K
+Date:   Sat,  5 Jun 2021 20:05:49 +0000
+Message-Id: <20210605200548.51779-1-bdrung@posteo.de>
+In-Reply-To: <YLqnU+FYSAcWwaAZ@pendragon.ideasonboard.com>
+References: <YLqnU+FYSAcWwaAZ@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 5 Jun 2021 12:11:09 -0300
-N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
+The Elgato Cam Link 4K HDMI video capture card reports to support three
+different pixel formats, where the first format depends on the connected
+HDMI device.
 
-> Hi Mauro,
->=20
-> On Sat, Jun 05, 2021 at 03:17:59PM +0200, Mauro Carvalho Chehab wrote:
-> > As discussed at:
-> > 	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
-> >=20
-> > It is better to avoid using :doc:`foo` to refer to Documentation/foo.rs=
-t, as the
-> > automarkup.py extension should handle it automatically, on most cases.
-> >=20
-> > There are a couple of exceptions to this rule:
-> >=20
-> > 1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
-> > 2. when it is used with a named tag, e. g. :doc:`some name <foo>`;
-> >=20
-> > It should also be noticed that automarkup.py has currently an issue:
-> > if one use a markup like:
-> >=20
-> > 	Documentation/dev-tools/kunit/api/test.rst
-> > 	  - documents all of the standard testing API excluding mocking
-> > 	    or mocking related features.
-> >=20
-> > or, even:
-> >=20
-> > 	Documentation/dev-tools/kunit/api/test.rst
-> > 	    documents all of the standard testing API excluding mocking
-> > 	    or mocking related features.
-> > =09
-> > The automarkup.py will simply ignore it. Not sure why. This patch series
-> > avoid the above patterns (which is present only on 4 files), but it wou=
-ld be
-> > nice to have a followup patch fixing the issue at automarkup.py. =20
->=20
-> What I think is happening here is that we're using rST's syntax for defin=
-ition
-> lists [1]. automarkup.py ignores literal nodes, and perhaps a definition =
-is
-> considered a literal by Sphinx. Adding a blank line after the Documentati=
-on/...
-> or removing the additional indentation makes it work, like you did in your
-> 2nd and 3rd patch, since then it's not a definition anymore, although the=
-n the
-> visual output is different as well.
+```
+$ v4l2-ctl -d /dev/video0 --list-formats-ext
+ioctl: VIDIOC_ENUM_FMT
+	Type: Video Capture
 
-A literal has a different output. I think that this is not the case, but I=
-=20
-didn't check the python code from docutils/Sphinx.
-=20
-> I'm not sure this is something we need to fix. Does it make sense to use
-> definition lists for links like that? If it does, I guess one option woul=
-d be to
-> whitelist definition lists so they aren't ignored by automarkup, but I fe=
-el
-> this could get ugly really quickly.
+	[0]: 'NV12' (Y/CbCr 4:2:0)
+		Size: Discrete 3840x2160
+			Interval: Discrete 0.033s (29.970 fps)
+	[1]: 'NV12' (Y/CbCr 4:2:0)
+		Size: Discrete 3840x2160
+			Interval: Discrete 0.033s (29.970 fps)
+	[2]: 'YU12' (Planar YUV 4:2:0)
+		Size: Discrete 3840x2160
+			Interval: Discrete 0.033s (29.970 fps)
+```
 
-Yes, we should avoid handling literal blocks, as this can be a nightmare.
+Changing the pixel format to anything besides the first pixel format
+does not work:
 
-> FWIW note that it's also possible to use relative paths to docs with auto=
-markup.
+```
+$ v4l2-ctl -d /dev/video0 --try-fmt-video pixelformat=YU12
+Format Video Capture:
+	Width/Height      : 3840/2160
+	Pixel Format      : 'NV12' (Y/CbCr 4:2:0)
+	Field             : None
+	Bytes per Line    : 3840
+	Size Image        : 12441600
+	Colorspace        : sRGB
+	Transfer Function : Rec. 709
+	YCbCr/HSV Encoding: Rec. 709
+	Quantization      : Default (maps to Limited Range)
+	Flags             :
+```
 
-Not sure if you meant to say using something like ../driver-api/foo.rst.
-If so, relative paths are a problem, as it will pass unnoticed by this scri=
-pt:
+User space applications like VLC might show an error message on the
+terminal in that case:
 
-	./scripts/documentation-file-ref-check
+```
+libv4l2: error set_fmt gave us a different result than try_fmt!
+```
 
-which is meant to warn when a file is moved to be elsewhere. Ok, it
-could be taught to use "../" to identify paths, but I suspect that this
-could lead to false positives, like here:
+Depending on the error handling of the user space applications, they
+might display a distorted video, because they use the wrong pixel format
+for decoding the stream.
 
-	Documentation/usb/gadget-testing.rst:  # ln -s ../../uncompressed/u
-	Documentation/usb/gadget-testing.rst:  # cd ../../class/fs
-	Documentation/usb/gadget-testing.rst:  # ln -s ../../header/h
+The Elgato Cam Link 4K responds to the USB video probe
+VS_PROBE_CONTROL/VS_COMMIT_CONTROL with a malformed data structure: The
+second byte contains bFormatIndex (instead of being the second byte of
+bmHint). The first byte is always zero. The third byte is always 1.
 
-If you meant, instead, :doc:`../foo`, this series address those too.
+The firmware bug was reported to Elgato on 2020-12-01 and it was
+forwarded by the support team to the developers as feature request.
+There is no firmware update available since then. The latest firmware
+for Elgato Cam Link 4K as of 2021-03-23 has MCU 20.02.19 and FPGA 67.
 
-Regards,
-Mauro
+Therefore add a quirk to correct the malformed data structure.
+
+The quirk was successfully tested with VLC, OBS, and Chromium using
+different pixel formats (YUYV, NV12, YU12), resolutions (3840x2160,
+1920x1080), and frame rates (29.970 and 59.940 fps).
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Benjamin Drung <bdrung@posteo.de>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 13 +++++++++++++
+ drivers/media/usb/uvc/uvc_video.c  | 21 +++++++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 35 insertions(+)
+
+v2: enhanced the comment describing the quirk
+
+v3:
+* hardcode ctrl->bmHint to 1
+* Use UVC_DBG_VIDEO instead of UVC_DBG_CONTROL (to match the rest of the
+  file)
+
+I tried setting different values for bmHint, but the response from the
+Cam Link was always 1. So this patch hardcodes ctrl->bmHint to 1 as
+suggested.
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 9a791d8ef200..6ce58950d78b 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -3164,6 +3164,19 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/*
++	 * Elgato Cam Link 4K
++	 * Latest firmware as of 2021-03-23 needs this quirk.
++	 * MCU: 20.02.19, FPGA: 67
++	 */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x0fd9,
++	  .idProduct		= 0x0066,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FIX_FORMAT_INDEX) },
+ 	/* Generic USB Video Class */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index a777b389a66e..3f61cb2c9103 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -131,6 +131,27 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+ 	struct uvc_frame *frame = NULL;
+ 	unsigned int i;
+ 
++	/*
++	 * The response of the Elgato Cam Link 4K is incorrect: The second byte
++	 * contains bFormatIndex (instead of being the second byte of bmHint).
++	 * The first byte is always zero. The third byte is always 1.
++	 *
++	 * The UVC 1.5 class specification defines the first five bits in the
++	 * bmHint bitfield. The remaining bits are reserved and should be zero.
++	 * Therefore a valid bmHint will be less than 32.
++	 */
++	if (stream->dev->quirks & UVC_QUIRK_FIX_FORMAT_INDEX && ctrl->bmHint > 255) {
++		__u8 corrected_format_index;
++
++		corrected_format_index = ctrl->bmHint >> 8;
++		uvc_dbg(stream->dev, VIDEO,
++			"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: 0x%02x} to {bmHint: 0x%04x, bFormatIndex: 0x%02x}.\n",
++			ctrl->bmHint, ctrl->bFormatIndex,
++			1, corrected_format_index);
++		ctrl->bmHint = 1;
++		ctrl->bFormatIndex = corrected_format_index;
++	}
++
+ 	for (i = 0; i < stream->nformats; ++i) {
+ 		if (stream->format[i].index == ctrl->bFormatIndex) {
+ 			format = &stream->format[i];
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index cce5e38133cd..cbb4ef61a64d 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -209,6 +209,7 @@
+ #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
+ #define UVC_QUIRK_FORCE_Y8		0x00000800
+ #define UVC_QUIRK_FORCE_BPP		0x00001000
++#define UVC_QUIRK_FIX_FORMAT_INDEX	0x00002000
+ 
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+-- 
+2.27.0
+
