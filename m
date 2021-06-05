@@ -2,61 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EE6E39C7FA
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 13:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61C1439C7FE
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 13:56:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229957AbhFEL51 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Jun 2021 07:57:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229902AbhFEL50 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Jun 2021 07:57:26 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B805C061767
-        for <linux-media@vger.kernel.org>; Sat,  5 Jun 2021 04:55:25 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id r1so9952414pgk.8
-        for <linux-media@vger.kernel.org>; Sat, 05 Jun 2021 04:55:25 -0700 (PDT)
+        id S230226AbhFEL6g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Jun 2021 07:58:36 -0400
+Received: from mail-pf1-f172.google.com ([209.85.210.172]:39641 "EHLO
+        mail-pf1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230178AbhFEL6g (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Jun 2021 07:58:36 -0400
+Received: by mail-pf1-f172.google.com with SMTP id k15so9386900pfp.6
+        for <linux-media@vger.kernel.org>; Sat, 05 Jun 2021 04:56:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OSm6bfHH1ocv8+S+rwU7DxDHYh+fh9kq1bRy/0vMyG4=;
-        b=DJxCu2esV3AiFU5Ux9FdgvY4yjqjpDDx13OfYWRyUvQFG4hnf+x9cSEV+Cwo2y/C8o
-         EZ8oa0r8LardYP1Y5NHav7sjyMorzykkvWMvI0vjbbapeC5VIZggDM3kDn65WpU0LzVX
-         YFyfKhyNoGw++mslhlqr68BUt/vj6H9N3RCci7cLIcQrRDOrzwFR0hoBbiaoiFNwRKR0
-         eRnaTNl+owT9g2sRJXy1ySGesMFfgXIuO2A7ph0i++sdfi4jjM+nCgk8z1Ubl+QQZeL5
-         NOoGc+8cN6UDs6R6z3zMPjieNoK2p5sE0jpS1jK+WaUJ4DirbnfE+C0dFqUH4i0Or9er
-         vKqw==
+        bh=IF9z/4CR4I9nODmhixle8IEYz+JA1I8SG+9FbLFfO/8=;
+        b=avV7ATYuhsjelQ2ZmcqNoBeqwaL65oSP2Ad51A1/nlGtkmiw1lcH+IxCV0x94pB9AT
+         Xy7Jq4jWuL1xD/7+XlesAsNhGyHS2CZbbY1Aw2QdKlioomj1DnZFq9eSlyaAWp/o/le0
+         h95sBwLc0o4+n1nR0vtv1au3jKTTqnOrZK3dviowRQXvGG6NBT3BW6YiUcA+JDswjxVT
+         2aQp9I8XcDqn4lMXn1B4ktcHaeNpZg2qpfACc9OFoAmV5pkZ9jm9t8dWSQA1GlzBhdwG
+         tfgaH8UDd5Lk9MR2RcowVO3Ilj7fdOJtdTbdXM1QPyFB5pM6jWLrJTPfIS6356HiziYN
+         rJiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OSm6bfHH1ocv8+S+rwU7DxDHYh+fh9kq1bRy/0vMyG4=;
-        b=QJD/ay7U7bp/njCZ8g65vghD8JlwdgXUa5fbd8R9f2cdHQ8xqitL4nulYcccAaPwLV
-         Zd5MsDrE67rECkrnt/4NbnsiorCm8sIgSjKSawhRTawFZh4Vc2Wdn0LXpvn+tGkoDkKj
-         /vNWOFBu99GA1YqX1mo6Te6025ZDRPThrb8znT6rRAwsJiZjyNXlRucazbxeRxPM/rK5
-         SEecRkw5RlQA1gG27c+6kIDjBbh2IDUmguM1sy8TeWM9PN72yvIrHFg0sxpeOI+uIL8E
-         f9FFyvZZ4OTBkhfG5jvLPbLt8vmSiNXXrESGLugcUYxFvA9gJ8iBrWtFcNzN7QbPvAed
-         +QCA==
-X-Gm-Message-State: AOAM53035HNQmoImVWp2DtbV5L3KalG2zg+CurGnQ1FOKzJuS4ISHpYa
-        fxxJuov52aJrc49qUymcvn0DkyjzzaU=
-X-Google-Smtp-Source: ABdhPJxBVV8Vs6dV/Kv/jb5E7t/OugKrB5h6JaRSzoe42B4D4PatmhqzkQa6fMVZHLTuqzCa2RT5bw==
-X-Received: by 2002:a63:a48:: with SMTP id z8mr9418499pgk.371.1622894124762;
-        Sat, 05 Jun 2021 04:55:24 -0700 (PDT)
+        bh=IF9z/4CR4I9nODmhixle8IEYz+JA1I8SG+9FbLFfO/8=;
+        b=dTsYAFSAYsUH3kG7nljXTVj6QpFqO7PtetHUOU+1GHWMrYA44Iy4Tlh/csODgyE5oI
+         tak1xnkGqcGYoXsJ3tvWEiD4XEeg1wAmrNMTZZWCneMqM8TCCcSxFQyeqUzRlXMLf14z
+         JnWbF4GMDEIu8nzdFrMJCIkq2Ua9jHnodLYpcEI7eQ29gtS+cKqnEsDF/Wr4MZ3QDlsk
+         oOoC8ZXIPGOnLb7UPfO+k2qteasv4C1suYbeCOSHMRp7/nzb+HB0oZ3EfPccZsdFNQmQ
+         rWcDlBbdU3qRO13Pds7nRyc+aGCkDdhW9BdqBR71ujFYBvqhizo1NFOEalOrdEzp+PhB
+         eh9Q==
+X-Gm-Message-State: AOAM531uHxyaHXXXZ0zMggxM5reFTW0hIPFG2m0HpMqvUBPySpD414eW
+        0sTM3kax1C8aKuAHGhlAVnbn3B5qftw=
+X-Google-Smtp-Source: ABdhPJzrHN7KiO+uZW5WIm6J6qUByrlLX42Gjuvkf1wQtL7eLa5BLu7KPIsdDMssY2wj1k8+iek2GA==
+X-Received: by 2002:a62:cf45:0:b029:2ea:c56c:7b3e with SMTP id b66-20020a62cf450000b02902eac56c7b3emr4750756pfg.40.1622894148299;
+        Sat, 05 Jun 2021 04:55:48 -0700 (PDT)
 Received: from odkf.hopto.org ([211.58.213.153])
-        by smtp.gmail.com with ESMTPSA id p20sm3897126pff.204.2021.06.05.04.55.23
+        by smtp.gmail.com with ESMTPSA id p20sm3897126pff.204.2021.06.05.04.55.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jun 2021 04:55:24 -0700 (PDT)
+        Sat, 05 Jun 2021 04:55:47 -0700 (PDT)
 From:   Seongyong Park <euphoriccatface@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Matt Ranostay <matt.ranostay@konsulko.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Seongyong Park <euphoriccatface@gmail.com>
-Subject: [PATCH 1/2] media: video-i2c: frame delay based on last frame's end time
-Date:   Sat,  5 Jun 2021 20:54:56 +0900
-Message-Id: <20210605115456.14440-2-euphoriccatface@gmail.com>
+Subject: [PATCH V2 2/2] media: video-i2c: append register data on MLX90640's frame
+Date:   Sat,  5 Jun 2021 20:54:57 +0900
+Message-Id: <20210605115456.14440-3-euphoriccatface@gmail.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210605115456.14440-1-euphoriccatface@gmail.com>
+In-Reply-To: <20210516110902.784-1-euphoriccatface@gmail.com>
 References: <20210605115456.14440-1-euphoriccatface@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,62 +61,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Current implementation calculates frame delay based on the time of
-start of the loop. This inevitably causes the loop delay to be
-slightly longer than the actual measurement period, thus skipping a frame
-every now and then.
-
-However, MLX90640 should ideally be working without a frame skip.
-Each measurement step updates half of the pixels in the frame
+On MLX90640, Each measurement step updates half of the pixels in the frame
 (every other pixel in default "chess mode", and every other row
 in "interleave mode"), while additional coefficient data (25th & 26th row)
 updates every step. The compensational coefficient data only corresponds
 with the pixels updated in the same step.
 
-In short, if a frame is skipped, then half of a frame loses correction
-information and becomes garbage data.
+Only way to know which "subpage" was updated on the last step is to read
+"status register" on address 0x8000. Without this data,
+compensation calculation may be able to detect which sets of pixels have
+been updated, but it will have to make assumptions when frame skip happens,
+and there is no way to do it correctly when the host simply cannot
+keep up with refresh rate.
 
 Signed-off-by: Seongyong Park <euphoriccatface@gmail.com>
 ---
- drivers/media/i2c/video-i2c.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/media/i2c/video-i2c.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-index 0465832a4..2ccb08335 100644
+index 2ccb08335..f2313b446 100644
 --- a/drivers/media/i2c/video-i2c.c
 +++ b/drivers/media/i2c/video-i2c.c
-@@ -445,14 +445,16 @@ static int video_i2c_thread_vid_cap(void *priv)
- 	struct video_i2c_data *data = priv;
- 	unsigned int delay = mult_frac(HZ, data->frame_interval.numerator,
- 				       data->frame_interval.denominator);
-+	unsigned long end_jiffies = jiffies;
+@@ -74,7 +74,8 @@ static const struct v4l2_fmtdesc mlx90640_format = {
  
- 	set_freezable();
+ static const struct v4l2_frmsize_discrete mlx90640_size = {
+ 	.width = 32,
+-	.height = 26, /* 24 lines of pixel data + 2 lines of processing data */
++	.height = 27,
++	/* 24 lines of pixel data + 2 lines of processing data + 1 line of registers */
+ };
  
- 	do {
--		unsigned long start_jiffies = jiffies;
- 		struct video_i2c_buffer *vid_cap_buf = NULL;
- 		int schedule_delay;
+ static const struct regmap_config amg88xx_regmap_config = {
+@@ -168,8 +169,12 @@ static int amg88xx_xfer(struct video_i2c_data *data, char *buf)
  
-+		end_jiffies += delay;
-+
- 		try_to_freeze();
+ static int mlx90640_xfer(struct video_i2c_data *data, char *buf)
+ {
+-	return regmap_bulk_read(data->regmap, 0x400, buf,
+-				data->chip->buffer_size);
++	int ret = regmap_bulk_read(data->regmap, 0x400, buf,
++				   data->chip->buffer_size - 64);
++	if (ret)
++		return ret;
++	return regmap_bulk_read(data->regmap, 0x8000, buf + (data->chip->buffer_size - 64),
++				64);
+ }
  
- 		spin_lock(&data->slock);
-@@ -477,10 +479,9 @@ static int video_i2c_thread_vid_cap(void *priv)
- 				VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
- 		}
- 
--		schedule_delay = delay - (jiffies - start_jiffies);
--
--		if (time_after(jiffies, start_jiffies + delay))
--			schedule_delay = delay;
-+		schedule_delay = end_jiffies - jiffies;
-+		while (schedule_delay <= 0)
-+			schedule_delay += delay;
- 
- 		schedule_timeout_interruptible(schedule_delay);
- 	} while (!kthread_should_stop());
+ static int amg88xx_setup(struct video_i2c_data *data)
+@@ -375,7 +380,7 @@ static const struct video_i2c_chip video_i2c_chip[] = {
+ 		.format		= &mlx90640_format,
+ 		.frame_intervals	= mlx90640_frame_intervals,
+ 		.num_frame_intervals	= ARRAY_SIZE(mlx90640_frame_intervals),
+-		.buffer_size	= 1664,
++		.buffer_size	= 1728,
+ 		.bpp		= 16,
+ 		.regmap_config	= &mlx90640_regmap_config,
+ 		.nvmem_config	= &mlx90640_nvram_config,
 -- 
 2.31.1
 
