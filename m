@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EA1839C51C
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 04:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E971F39C522
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 04:30:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231707AbhFECb0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Jun 2021 22:31:26 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:35127 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231609AbhFECbY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 22:31:24 -0400
-X-UUID: 0b3436c5e690409e96f9e206c51f33e5-20210605
-X-UUID: 0b3436c5e690409e96f9e206c51f33e5-20210605
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+        id S231732AbhFECbd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Jun 2021 22:31:33 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:37669 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231609AbhFECbc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Jun 2021 22:31:32 -0400
+X-UUID: 86c21490bd1043a684cfca3a3ae8916c-20210605
+X-UUID: 86c21490bd1043a684cfca3a3ae8916c-20210605
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
         (envelope-from <irui.wang@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1073874797; Sat, 05 Jun 2021 10:29:34 +0800
+        with ESMTP id 1372507308; Sat, 05 Jun 2021 10:29:42 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 5 Jun 2021 10:29:32 +0800
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 5 Jun 2021 10:29:34 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 5 Jun 2021 10:29:31 +0800
+ Transport; Sat, 5 Jun 2021 10:29:33 +0800
 From:   Irui Wang <irui.wang@mediatek.com>
 To:     Alexandre Courbot <acourbot@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -45,9 +45,9 @@ CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
         <srv_heupstream@mediatek.com>,
         <linux-mediatek@lists.infradead.org>,
         <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v5,4/6] dt-bindings: media: mtk-vcodec: Add binding for MT8192 VENC
-Date:   Sat, 5 Jun 2021 10:29:16 +0800
-Message-ID: <20210605022918.4213-5-irui.wang@mediatek.com>
+Subject: [PATCH v5,5/6] media: mtk-vcodec: Add MT8192 H264 venc driver
+Date:   Sat, 5 Jun 2021 10:29:17 +0800
+Message-ID: <20210605022918.4213-6-irui.wang@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210605022918.4213-1-irui.wang@mediatek.com>
 References: <20210605022918.4213-1-irui.wang@mediatek.com>
@@ -58,26 +58,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Updates binding document for mt8192 encoder driver.
+Add MT8192 venc driver's compatible and device private data.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
 Signed-off-by: Irui Wang <irui.wang@mediatek.com>
 ---
- Documentation/devicetree/bindings/media/mediatek-vcodec.txt | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h |  1 +
+ .../media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
-index 5bb9e6e191b7..ad1321e5a22d 100644
---- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
-+++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
-@@ -9,6 +9,7 @@ Required properties:
-   "mediatek,mt8173-vcodec-enc" for mt8173 avc encoder.
-   "mediatek,mt8183-vcodec-enc" for MT8183 encoder.
-   "mediatek,mt8173-vcodec-dec" for MT8173 decoder.
-+  "mediatek,mt8192-vcodec-enc" for MT8192 encoder.
- - reg : Physical base address of the video codec registers and length of
-   memory mapped region.
- - interrupts : interrupt number to the cpu.
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+index d03cca95e99b..14893d277bb8 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+@@ -302,6 +302,7 @@ struct mtk_vcodec_ctx {
+ enum mtk_chip {
+ 	MTK_MT8173,
+ 	MTK_MT8183,
++	MTK_MT8192,
+ };
+ 
+ /**
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+index 26b089e81213..45d1870c83dd 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+@@ -425,12 +425,26 @@ static const struct mtk_vcodec_enc_pdata mt8183_pdata = {
+ 	.core_id = VENC_SYS,
+ };
+ 
++static const struct mtk_vcodec_enc_pdata mt8192_pdata = {
++	.chip = MTK_MT8192,
++	.uses_ext = true,
++	/* MT8192 supports the same capture formats as MT8183 */
++	.capture_formats = mtk_video_formats_capture_mt8183,
++	.num_capture_formats = ARRAY_SIZE(mtk_video_formats_capture_mt8183),
++	/* MT8192 supports the same output formats as MT8173 */
++	.output_formats = mtk_video_formats_output_mt8173,
++	.num_output_formats = ARRAY_SIZE(mtk_video_formats_output_mt8173),
++	.min_bitrate = 64,
++	.max_bitrate = 100000000,
++	.core_id = VENC_SYS,
++};
+ static const struct of_device_id mtk_vcodec_enc_match[] = {
+ 	{.compatible = "mediatek,mt8173-vcodec-enc",
+ 			.data = &mt8173_avc_pdata},
+ 	{.compatible = "mediatek,mt8173-vcodec-enc-vp8",
+ 			.data = &mt8173_vp8_pdata},
+ 	{.compatible = "mediatek,mt8183-vcodec-enc", .data = &mt8183_pdata},
++	{.compatible = "mediatek,mt8192-vcodec-enc", .data = &mt8192_pdata},
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, mtk_vcodec_enc_match);
 -- 
 2.18.0
 
