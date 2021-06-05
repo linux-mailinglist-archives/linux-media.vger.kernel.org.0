@@ -2,183 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 723DD39C86E
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 15:18:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F37239C8DF
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 15:37:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230203AbhFENU3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Jun 2021 09:20:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35080 "EHLO mail.kernel.org"
+        id S230075AbhFENi6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Jun 2021 09:38:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230035AbhFENU0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 5 Jun 2021 09:20:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 992C06141E;
-        Sat,  5 Jun 2021 13:18:37 +0000 (UTC)
+        id S229931AbhFENi5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 5 Jun 2021 09:38:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C23286135F;
+        Sat,  5 Jun 2021 13:37:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622899117;
-        bh=janX6lGWpNvG0PUkf3rzM6SEjOBtmIx/px5pdUZ6VA0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O58oyru+MIUDZzSrVWVjISx+l3QpbCr8+ul9AuEzs8f5ojYrYwI3Iu9LC8cos0/TE
-         UoGIBc7AQGmmNWV/JwYsRNI9UMUUBZAsi0VT7sqp8A8DEmn9Fu+qCe4TztxpxAnHNw
-         bWHymrNh8p2XBUQ9Z4Pit6Cbaer9D7V9IqYg548WZWFE30TKkSn9tHamlgp3f4uS37
-         BJDr8LsMnsGwRVZv5qngOy7NZ3PAkM15j8FX77Sqk8ELHP31Hv8SjmB++l2hKeWBV+
-         dtbzakbHG1A/8UIO9/is8zdmaY/cm1sjki0Eb08Bpbgbn+0OdOrJPJKNwjfXo6nFYz
-         9W+DDm3W+VPNg==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lpWCB-008GEr-Gf; Sat, 05 Jun 2021 15:18:35 +0200
+        s=k20201202; t=1622900229;
+        bh=vVFuxJcc2zxGSbB7UdD22Ei/qbdSpSclZeHlTn/3YhU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=YvYT6g2uMiGoR+6sy8adxF2RKOKdLfZwZM1lQ2XSeGEmVRPfj+lL9GfMuDZZyN5sW
+         owde4vG3yj7p7pLXeq7cT8Quzu5K2oje+SVTkxIFZzcqSZ8hnMEW22eBk76FE287fo
+         4UO5rHWF2ckQlxw3LXeqP9dl2lb4h/WYP8nTAjJYJK6XJoYk/G411kYe/F/2iQJhoD
+         xXRTDbDCKLXwoKXPmi6Vr+WyuZ3ew8qcXU3FezEQ7yPGxTwls2XhX7YcBJMW4KIq4h
+         iQEMQ7FEZy5AfH5qZZbVs3RolIS66jPxDTIm3nQXafdQE5dr92NhDgnKsUXTMjPJ2E
+         9HOoolYpwluWw==
+Date:   Sat, 5 Jun 2021 15:37:01 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 06/34] media: admin-guide: avoid using ReST :doc:`foo` markup
-Date:   Sat,  5 Jun 2021 15:18:05 +0200
-Message-Id: <02010aebf09b64f32c33f8d8ad2d02a9f1ff59d1.1622898327.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
+Cc:     linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        coresight@lists.linaro.org, devicetree@vger.kernel.org,
+        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
+Message-ID: <20210605153701.56a8e2d8@coco.lan>
 In-Reply-To: <cover.1622898327.git.mchehab+huawei@kernel.org>
 References: <cover.1622898327.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The :doc:`foo` tag is auto-generated via automarkup.py.
-So, use the filename at the sources, instead of :doc:`foo`.
+Em Sat,  5 Jun 2021 15:17:59 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/admin-guide/media/bt8xx.rst   | 15 ++++++++-------
- Documentation/admin-guide/media/bttv.rst    | 21 +++++++++++----------
- Documentation/admin-guide/media/saa7134.rst |  3 ++-
- 3 files changed, 21 insertions(+), 18 deletions(-)
+> As discussed at:
+> 	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
+> 
+> It is better to avoid using :doc:`foo` to refer to Documentation/foo.rst, as the
+> automarkup.py extension should handle it automatically, on most cases.
 
-diff --git a/Documentation/admin-guide/media/bt8xx.rst b/Documentation/admin-guide/media/bt8xx.rst
-index 1382ada1e38e..3589f6ab7e46 100644
---- a/Documentation/admin-guide/media/bt8xx.rst
-+++ b/Documentation/admin-guide/media/bt8xx.rst
-@@ -15,11 +15,12 @@ Authors:
- General information
- -------------------
- 
--This class of cards has a bt878a as the PCI interface, and require the bttv driver
--for accessing the i2c bus and the gpio pins of the bt8xx chipset.
-+This class of cards has a bt878a as the PCI interface, and require the bttv
-+driver for accessing the i2c bus and the gpio pins of the bt8xx chipset.
- 
--Please see :doc:`bttv-cardlist` for a complete list of Cards based on the
--Conexant Bt8xx PCI bridge supported by the Linux Kernel.
-+Please see Documentation/admin-guide/media/bttv-cardlist.rst for a complete
-+list of Cards based on the Conexant Bt8xx PCI bridge supported by the
-+Linux Kernel.
- 
- In order to be able to compile the kernel, some config options should be
- enabled::
-@@ -80,7 +81,7 @@ for dvb-bt8xx drivers by passing modprobe parameters may be necessary.
- Running TwinHan and Clones
- ~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--As shown at :doc:`bttv-cardlist`, TwinHan and
-+As shown at Documentation/admin-guide/media/bttv-cardlist.rst, TwinHan and
- clones use ``card=113`` modprobe parameter. So, in order to properly
- detect it for devices without EEPROM, you should use::
- 
-@@ -105,12 +106,12 @@ The autodetected values are determined by the cards' "response string".
- In your logs see f. ex.: dst_get_device_id: Recognize [DSTMCI].
- 
- For bug reports please send in a complete log with verbose=4 activated.
--Please also see :doc:`ci`.
-+Please also see Documentation/admin-guide/media/ci.rst.
- 
- Running multiple cards
- ~~~~~~~~~~~~~~~~~~~~~~
- 
--See :doc:`bttv-cardlist` for a complete list of
-+See Documentation/admin-guide/media/bttv-cardlist.rst for a complete list of
- Card ID. Some examples:
- 
- 	===========================	===
-diff --git a/Documentation/admin-guide/media/bttv.rst b/Documentation/admin-guide/media/bttv.rst
-index 0ef1f203104d..125f6f47123d 100644
---- a/Documentation/admin-guide/media/bttv.rst
-+++ b/Documentation/admin-guide/media/bttv.rst
-@@ -24,7 +24,8 @@ If your board has digital TV, you'll also need::
- 
-     ./scripts/config -m DVB_BT8XX
- 
--In this case, please see :doc:`bt8xx` for additional notes.
-+In this case, please see Documentation/admin-guide/media/bt8xx.rst
-+for additional notes.
- 
- Make bttv work with your card
- -----------------------------
-@@ -39,7 +40,7 @@ If it doesn't bttv likely could not autodetect your card and needs some
- insmod options.  The most important insmod option for bttv is "card=n"
- to select the correct card type.  If you get video but no sound you've
- very likely specified the wrong (or no) card type.  A list of supported
--cards is in :doc:`bttv-cardlist`.
-+cards is in Documentation/admin-guide/media/bttv-cardlist.rst.
- 
- If bttv takes very long to load (happens sometimes with the cheap
- cards which have no tuner), try adding this to your modules configuration
-@@ -57,8 +58,8 @@ directory should be enough for it to be autoload during the driver's
- probing mode (e. g. when the Kernel boots or when the driver is
- manually loaded via ``modprobe`` command).
- 
--If your card isn't listed in :doc:`bttv-cardlist` or if you have
--trouble making audio work, please read :ref:`still_doesnt_work`.
-+If your card isn't listed in Documentation/admin-guide/media/bttv-cardlist.rst
-+or if you have trouble making audio work, please read :ref:`still_doesnt_work`.
- 
- 
- Autodetecting cards
-@@ -77,8 +78,8 @@ the Subsystem ID in the second line, looks like this:
- only bt878-based cards can have a subsystem ID (which does not mean
- that every card really has one).  bt848 cards can't have a Subsystem
- ID and therefore can't be autodetected.  There is a list with the ID's
--at :doc:`bttv-cardlist` (in case you are interested or want to mail
--patches with updates).
-+at Documentation/admin-guide/media/bttv-cardlist.rst
-+(in case you are interested or want to mail patches with updates).
- 
- 
- .. _still_doesnt_work:
-@@ -259,15 +260,15 @@ bug.  It is very helpful if you can tell where exactly it broke
- With a hard freeze you probably doesn't find anything in the logfiles.
- The only way to capture any kernel messages is to hook up a serial
- console and let some terminal application log the messages.  /me uses
--screen.  See :doc:`/admin-guide/serial-console` for details on setting
--up a serial console.
-+screen.  See Documentation/admin-guide/serial-console.rst for details on
-+setting up a serial console.
- 
--Read :doc:`/admin-guide/bug-hunting` to learn how to get any useful
-+Read Documentation/admin-guide/bug-hunting.rst to learn how to get any useful
- information out of a register+stack dump printed by the kernel on
- protection faults (so-called "kernel oops").
- 
- If you run into some kind of deadlock, you can try to dump a call trace
--for each process using sysrq-t (see :doc:`/admin-guide/sysrq`).
-+for each process using sysrq-t (see Documentation/admin-guide/sysrq.rst).
- This way it is possible to figure where *exactly* some process in "D"
- state is stuck.
- 
-diff --git a/Documentation/admin-guide/media/saa7134.rst b/Documentation/admin-guide/media/saa7134.rst
-index 7ab9c70b9abe..51eae7eb5ab7 100644
---- a/Documentation/admin-guide/media/saa7134.rst
-+++ b/Documentation/admin-guide/media/saa7134.rst
-@@ -50,7 +50,8 @@ To build and install, you should run::
- Once the new Kernel is booted, saa7134 driver should be loaded automatically.
- 
- Depending on the card you might have to pass ``card=<nr>`` as insmod option.
--If so, please check :doc:`saa7134-cardlist` for valid choices.
-+If so, please check Documentation/admin-guide/media/saa7134-cardlist.rst
-+for valid choices.
- 
- Once you have your card type number, you can pass a modules configuration
- via a file (usually, it is either ``/etc/modules.conf`` or some file at
--- 
-2.31.1
+Forgot to mention:
 
+1. this series is against docs-next branch;
+2. maintainers bcc, as otherwise the e-mail would be rejected,
+   due to the number of c/c. I opted to keep c/c the mailing
+   lists.
+
+Regards,
+Mauro
+
+> 
+> There are a couple of exceptions to this rule:
+> 
+> 1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
+> 2. when it is used with a named tag, e. g. :doc:`some name <foo>`;
+> 
+> It should also be noticed that automarkup.py has currently an issue:
+> if one use a markup like:
+> 
+> 	Documentation/dev-tools/kunit/api/test.rst
+> 	  - documents all of the standard testing API excluding mocking
+> 	    or mocking related features.
+> 
+> or, even:
+> 
+> 	Documentation/dev-tools/kunit/api/test.rst
+> 	    documents all of the standard testing API excluding mocking
+> 	    or mocking related features.
+> 	
+> The automarkup.py will simply ignore it. Not sure why. This patch series
+> avoid the above patterns (which is present only on 4 files), but it would be
+> nice to have a followup patch fixing the issue at automarkup.py.
+> 
+> On this series:
+> 
+> Patch 1 manually adjust the references inside driver-api/pm/devices.rst,
+> as there it uses :file:`foo` to refer to some Documentation/ files;
+> 
+> Patch 2 converts a table at Documentation/dev-tools/kunit/api/index.rst
+> into a list, carefully avoiding the 
+> 
+> Patch 3 converts the cross-references at the media documentation, also
+> avoiding the automarkup.py bug;
+> 
+> Patches 4-34 convert the other occurrences via a replace script. They were
+> manually edited, in order to honour 80-columns where possible.
+> 
+> I did a diff between the Sphinx 2.4.4 output before and after this patch
+> series in order to double-check that all converted Documentation/ 
+> references will produce <a href=<foo>.rst>foo title</a> tags.
+> 
+> Mauro Carvalho Chehab (34):
+>   docs: devices.rst: better reference documentation docs
+>   docs: dev-tools: kunit: don't use a table for docs name
+>   media: docs: */media/index.rst: don't use ReST doc:`foo`
+>   media: userspace-api: avoid using ReST :doc:`foo` markup
+>   media: driver-api: drivers: avoid using ReST :doc:`foo` markup
+>   media: admin-guide: avoid using ReST :doc:`foo` markup
+>   docs: admin-guide: pm: avoid using ReSt :doc:`foo` markup
+>   docs: admin-guide: hw-vuln: avoid using ReST :doc:`foo` markup
+>   docs: admin-guide: sysctl: avoid using ReST :doc:`foo` markup
+>   docs: block: biodoc.rst: avoid using ReSt :doc:`foo` markup
+>   docs: bpf: bpf_lsm.rst: avoid using ReSt :doc:`foo` markup
+>   docs: core-api: avoid using ReSt :doc:`foo` markup
+>   docs: dev-tools: testing-overview.rst: avoid using ReSt :doc:`foo`
+>     markup
+>   docs: dev-tools: kunit: avoid using ReST :doc:`foo` markup
+>   docs: devicetree: bindings: submitting-patches.rst: avoid using ReSt
+>     :doc:`foo` markup
+>   docs: doc-guide: avoid using ReSt :doc:`foo` markup
+>   docs: driver-api: avoid using ReSt :doc:`foo` markup
+>   docs: driver-api: gpio: using-gpio.rst: avoid using ReSt :doc:`foo`
+>     markup
+>   docs: driver-api: surface_aggregator: avoid using ReSt :doc:`foo`
+>     markup
+>   docs: driver-api: usb: avoid using ReSt :doc:`foo` markup
+>   docs: firmware-guide: acpi: avoid using ReSt :doc:`foo` markup
+>   docs: hwmon: adm1177.rst: avoid using ReSt :doc:`foo` markup
+>   docs: i2c: avoid using ReSt :doc:`foo` markup
+>   docs: kernel-hacking: hacking.rst: avoid using ReSt :doc:`foo` markup
+>   docs: networking: devlink: avoid using ReSt :doc:`foo` markup
+>   docs: PCI: endpoint: pci-endpoint-cfs.rst: avoid using ReSt :doc:`foo`
+>     markup
+>   docs: PCI: pci.rst: avoid using ReSt :doc:`foo` markup
+>   docs: process: submitting-patches.rst: avoid using ReSt :doc:`foo`
+>     markup
+>   docs: security: landlock.rst: avoid using ReSt :doc:`foo` markup
+>   docs: trace: coresight: coresight.rst: avoid using ReSt :doc:`foo`
+>     markup
+>   docs: trace: ftrace.rst: avoid using ReSt :doc:`foo` markup
+>   docs: userspace-api: landlock.rst: avoid using ReSt :doc:`foo` markup
+>   docs: virt: kvm: s390-pv-boot.rst: avoid using ReSt :doc:`foo` markup
+>   docs: x86: avoid using ReSt :doc:`foo` markup
+> 
+>  .../PCI/endpoint/pci-endpoint-cfs.rst         |  2 +-
+>  Documentation/PCI/pci.rst                     |  6 +--
+>  .../special-register-buffer-data-sampling.rst |  3 +-
+>  Documentation/admin-guide/media/bt8xx.rst     | 15 ++++----
+>  Documentation/admin-guide/media/bttv.rst      | 21 ++++++-----
+>  Documentation/admin-guide/media/index.rst     | 12 +++---
+>  Documentation/admin-guide/media/saa7134.rst   |  3 +-
+>  Documentation/admin-guide/pm/intel_idle.rst   | 16 +++++---
+>  Documentation/admin-guide/pm/intel_pstate.rst |  9 +++--
+>  Documentation/admin-guide/sysctl/abi.rst      |  2 +-
+>  Documentation/admin-guide/sysctl/kernel.rst   | 37 ++++++++++---------
+>  Documentation/block/biodoc.rst                |  2 +-
+>  Documentation/bpf/bpf_lsm.rst                 | 13 ++++---
+>  .../core-api/bus-virt-phys-mapping.rst        |  2 +-
+>  Documentation/core-api/dma-api.rst            |  5 ++-
+>  Documentation/core-api/dma-isa-lpc.rst        |  2 +-
+>  Documentation/core-api/index.rst              |  4 +-
+>  Documentation/dev-tools/kunit/api/index.rst   |  8 ++--
+>  Documentation/dev-tools/kunit/faq.rst         |  2 +-
+>  Documentation/dev-tools/kunit/index.rst       | 14 +++----
+>  Documentation/dev-tools/kunit/start.rst       |  6 +--
+>  Documentation/dev-tools/kunit/tips.rst        |  5 ++-
+>  Documentation/dev-tools/kunit/usage.rst       |  8 ++--
+>  Documentation/dev-tools/testing-overview.rst  | 16 ++++----
+>  .../bindings/submitting-patches.rst           | 11 +++---
+>  Documentation/doc-guide/contributing.rst      |  8 ++--
+>  Documentation/driver-api/gpio/using-gpio.rst  |  4 +-
+>  Documentation/driver-api/ioctl.rst            |  2 +-
+>  .../driver-api/media/drivers/bttv-devel.rst   |  2 +-
+>  Documentation/driver-api/media/index.rst      | 10 +++--
+>  Documentation/driver-api/pm/devices.rst       |  8 ++--
+>  .../surface_aggregator/clients/index.rst      |  3 +-
+>  .../surface_aggregator/internal.rst           | 15 ++++----
+>  .../surface_aggregator/overview.rst           |  6 ++-
+>  Documentation/driver-api/usb/dma.rst          |  6 +--
+>  .../acpi/dsd/data-node-references.rst         |  3 +-
+>  .../firmware-guide/acpi/dsd/graph.rst         |  2 +-
+>  .../firmware-guide/acpi/enumeration.rst       |  7 ++--
+>  Documentation/hwmon/adm1177.rst               |  3 +-
+>  Documentation/i2c/instantiating-devices.rst   |  2 +-
+>  Documentation/i2c/old-module-parameters.rst   |  3 +-
+>  Documentation/i2c/smbus-protocol.rst          |  4 +-
+>  Documentation/kernel-hacking/hacking.rst      |  4 +-
+>  .../networking/devlink/devlink-region.rst     |  2 +-
+>  .../networking/devlink/devlink-trap.rst       |  4 +-
+>  Documentation/process/submitting-patches.rst  | 32 ++++++++--------
+>  Documentation/security/landlock.rst           |  3 +-
+>  Documentation/trace/coresight/coresight.rst   |  8 ++--
+>  Documentation/trace/ftrace.rst                |  2 +-
+>  Documentation/userspace-api/landlock.rst      | 11 +++---
+>  .../userspace-api/media/glossary.rst          |  2 +-
+>  Documentation/userspace-api/media/index.rst   | 12 +++---
+>  Documentation/virt/kvm/s390-pv-boot.rst       |  2 +-
+>  Documentation/x86/boot.rst                    |  4 +-
+>  Documentation/x86/mtrr.rst                    |  2 +-
+>  55 files changed, 217 insertions(+), 183 deletions(-)
+> 
+
+
+
+Thanks,
+Mauro
