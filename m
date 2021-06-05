@@ -2,121 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61C1439C7FE
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 13:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1617839C870
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 15:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbhFEL6g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Jun 2021 07:58:36 -0400
-Received: from mail-pf1-f172.google.com ([209.85.210.172]:39641 "EHLO
-        mail-pf1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230178AbhFEL6g (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Jun 2021 07:58:36 -0400
-Received: by mail-pf1-f172.google.com with SMTP id k15so9386900pfp.6
-        for <linux-media@vger.kernel.org>; Sat, 05 Jun 2021 04:56:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IF9z/4CR4I9nODmhixle8IEYz+JA1I8SG+9FbLFfO/8=;
-        b=avV7ATYuhsjelQ2ZmcqNoBeqwaL65oSP2Ad51A1/nlGtkmiw1lcH+IxCV0x94pB9AT
-         Xy7Jq4jWuL1xD/7+XlesAsNhGyHS2CZbbY1Aw2QdKlioomj1DnZFq9eSlyaAWp/o/le0
-         h95sBwLc0o4+n1nR0vtv1au3jKTTqnOrZK3dviowRQXvGG6NBT3BW6YiUcA+JDswjxVT
-         2aQp9I8XcDqn4lMXn1B4ktcHaeNpZg2qpfACc9OFoAmV5pkZ9jm9t8dWSQA1GlzBhdwG
-         tfgaH8UDd5Lk9MR2RcowVO3Ilj7fdOJtdTbdXM1QPyFB5pM6jWLrJTPfIS6356HiziYN
-         rJiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IF9z/4CR4I9nODmhixle8IEYz+JA1I8SG+9FbLFfO/8=;
-        b=dTsYAFSAYsUH3kG7nljXTVj6QpFqO7PtetHUOU+1GHWMrYA44Iy4Tlh/csODgyE5oI
-         tak1xnkGqcGYoXsJ3tvWEiD4XEeg1wAmrNMTZZWCneMqM8TCCcSxFQyeqUzRlXMLf14z
-         JnWbF4GMDEIu8nzdFrMJCIkq2Ua9jHnodLYpcEI7eQ29gtS+cKqnEsDF/Wr4MZ3QDlsk
-         oOoC8ZXIPGOnLb7UPfO+k2qteasv4C1suYbeCOSHMRp7/nzb+HB0oZ3EfPccZsdFNQmQ
-         rWcDlBbdU3qRO13Pds7nRyc+aGCkDdhW9BdqBR71ujFYBvqhizo1NFOEalOrdEzp+PhB
-         eh9Q==
-X-Gm-Message-State: AOAM531uHxyaHXXXZ0zMggxM5reFTW0hIPFG2m0HpMqvUBPySpD414eW
-        0sTM3kax1C8aKuAHGhlAVnbn3B5qftw=
-X-Google-Smtp-Source: ABdhPJzrHN7KiO+uZW5WIm6J6qUByrlLX42Gjuvkf1wQtL7eLa5BLu7KPIsdDMssY2wj1k8+iek2GA==
-X-Received: by 2002:a62:cf45:0:b029:2ea:c56c:7b3e with SMTP id b66-20020a62cf450000b02902eac56c7b3emr4750756pfg.40.1622894148299;
-        Sat, 05 Jun 2021 04:55:48 -0700 (PDT)
-Received: from odkf.hopto.org ([211.58.213.153])
-        by smtp.gmail.com with ESMTPSA id p20sm3897126pff.204.2021.06.05.04.55.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jun 2021 04:55:47 -0700 (PDT)
-From:   Seongyong Park <euphoriccatface@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     Matt Ranostay <matt.ranostay@konsulko.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Seongyong Park <euphoriccatface@gmail.com>
-Subject: [PATCH V2 2/2] media: video-i2c: append register data on MLX90640's frame
-Date:   Sat,  5 Jun 2021 20:54:57 +0900
-Message-Id: <20210605115456.14440-3-euphoriccatface@gmail.com>
+        id S230230AbhFENUa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Jun 2021 09:20:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35038 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230050AbhFENU0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 5 Jun 2021 09:20:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B7676140C;
+        Sat,  5 Jun 2021 13:18:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622899117;
+        bh=oJLjhT+Bdkuogp9lcH0/DqQMHssScmlrFluWHGdXmSs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KfRX9ZYH+GSgzlTzpxjctPEmvJkfTKXl+Y+RucBzSz4WBnbvAWthrJ/curB8ax41d
+         0RamzCUbuHW+hNvsvxFRNLKpwhOj6yb5j+G4AvESC4L/Ra8OFvHySvf0In/pjnoYho
+         eY0513uUzhTlAd81LYiZhM6d2eqjTpr7yOp0/3DCmJ+GuyAF6WqO8Qm1KuhLNbxF9b
+         yJTI8f1KZmiDb5cy+VNqUfelbe5X2IHFBMjmYFqyjzC6dFH+JcvuqE43jlUMhFuRed
+         3tc3s4M5VtPfikIOxkkQLqaG0CgwsjLGBqPIdOsXSEfmrN3+1RgsbpsRRxwHBsB0s5
+         0vEzE1EocfgEA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lpWCB-008GEU-71; Sat, 05 Jun 2021 15:18:35 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Jonathan Corbet" <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        coresight@lists.linaro.org, devicetree@vger.kernel.org,
+        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
+Date:   Sat,  5 Jun 2021 15:17:59 +0200
+Message-Id: <cover.1622898327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210516110902.784-1-euphoriccatface@gmail.com>
-References: <20210605115456.14440-1-euphoriccatface@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On MLX90640, Each measurement step updates half of the pixels in the frame
-(every other pixel in default "chess mode", and every other row
-in "interleave mode"), while additional coefficient data (25th & 26th row)
-updates every step. The compensational coefficient data only corresponds
-with the pixels updated in the same step.
+As discussed at:
+	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
 
-Only way to know which "subpage" was updated on the last step is to read
-"status register" on address 0x8000. Without this data,
-compensation calculation may be able to detect which sets of pixels have
-been updated, but it will have to make assumptions when frame skip happens,
-and there is no way to do it correctly when the host simply cannot
-keep up with refresh rate.
+It is better to avoid using :doc:`foo` to refer to Documentation/foo.rst, as the
+automarkup.py extension should handle it automatically, on most cases.
 
-Signed-off-by: Seongyong Park <euphoriccatface@gmail.com>
----
- drivers/media/i2c/video-i2c.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+There are a couple of exceptions to this rule:
 
-diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-index 2ccb08335..f2313b446 100644
---- a/drivers/media/i2c/video-i2c.c
-+++ b/drivers/media/i2c/video-i2c.c
-@@ -74,7 +74,8 @@ static const struct v4l2_fmtdesc mlx90640_format = {
- 
- static const struct v4l2_frmsize_discrete mlx90640_size = {
- 	.width = 32,
--	.height = 26, /* 24 lines of pixel data + 2 lines of processing data */
-+	.height = 27,
-+	/* 24 lines of pixel data + 2 lines of processing data + 1 line of registers */
- };
- 
- static const struct regmap_config amg88xx_regmap_config = {
-@@ -168,8 +169,12 @@ static int amg88xx_xfer(struct video_i2c_data *data, char *buf)
- 
- static int mlx90640_xfer(struct video_i2c_data *data, char *buf)
- {
--	return regmap_bulk_read(data->regmap, 0x400, buf,
--				data->chip->buffer_size);
-+	int ret = regmap_bulk_read(data->regmap, 0x400, buf,
-+				   data->chip->buffer_size - 64);
-+	if (ret)
-+		return ret;
-+	return regmap_bulk_read(data->regmap, 0x8000, buf + (data->chip->buffer_size - 64),
-+				64);
- }
- 
- static int amg88xx_setup(struct video_i2c_data *data)
-@@ -375,7 +380,7 @@ static const struct video_i2c_chip video_i2c_chip[] = {
- 		.format		= &mlx90640_format,
- 		.frame_intervals	= mlx90640_frame_intervals,
- 		.num_frame_intervals	= ARRAY_SIZE(mlx90640_frame_intervals),
--		.buffer_size	= 1664,
-+		.buffer_size	= 1728,
- 		.bpp		= 16,
- 		.regmap_config	= &mlx90640_regmap_config,
- 		.nvmem_config	= &mlx90640_nvram_config,
+1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
+2. when it is used with a named tag, e. g. :doc:`some name <foo>`;
+
+It should also be noticed that automarkup.py has currently an issue:
+if one use a markup like:
+
+	Documentation/dev-tools/kunit/api/test.rst
+	  - documents all of the standard testing API excluding mocking
+	    or mocking related features.
+
+or, even:
+
+	Documentation/dev-tools/kunit/api/test.rst
+	    documents all of the standard testing API excluding mocking
+	    or mocking related features.
+	
+The automarkup.py will simply ignore it. Not sure why. This patch series
+avoid the above patterns (which is present only on 4 files), but it would be
+nice to have a followup patch fixing the issue at automarkup.py.
+
+On this series:
+
+Patch 1 manually adjust the references inside driver-api/pm/devices.rst,
+as there it uses :file:`foo` to refer to some Documentation/ files;
+
+Patch 2 converts a table at Documentation/dev-tools/kunit/api/index.rst
+into a list, carefully avoiding the 
+
+Patch 3 converts the cross-references at the media documentation, also
+avoiding the automarkup.py bug;
+
+Patches 4-34 convert the other occurrences via a replace script. They were
+manually edited, in order to honour 80-columns where possible.
+
+I did a diff between the Sphinx 2.4.4 output before and after this patch
+series in order to double-check that all converted Documentation/ 
+references will produce <a href=<foo>.rst>foo title</a> tags.
+
+Mauro Carvalho Chehab (34):
+  docs: devices.rst: better reference documentation docs
+  docs: dev-tools: kunit: don't use a table for docs name
+  media: docs: */media/index.rst: don't use ReST doc:`foo`
+  media: userspace-api: avoid using ReST :doc:`foo` markup
+  media: driver-api: drivers: avoid using ReST :doc:`foo` markup
+  media: admin-guide: avoid using ReST :doc:`foo` markup
+  docs: admin-guide: pm: avoid using ReSt :doc:`foo` markup
+  docs: admin-guide: hw-vuln: avoid using ReST :doc:`foo` markup
+  docs: admin-guide: sysctl: avoid using ReST :doc:`foo` markup
+  docs: block: biodoc.rst: avoid using ReSt :doc:`foo` markup
+  docs: bpf: bpf_lsm.rst: avoid using ReSt :doc:`foo` markup
+  docs: core-api: avoid using ReSt :doc:`foo` markup
+  docs: dev-tools: testing-overview.rst: avoid using ReSt :doc:`foo`
+    markup
+  docs: dev-tools: kunit: avoid using ReST :doc:`foo` markup
+  docs: devicetree: bindings: submitting-patches.rst: avoid using ReSt
+    :doc:`foo` markup
+  docs: doc-guide: avoid using ReSt :doc:`foo` markup
+  docs: driver-api: avoid using ReSt :doc:`foo` markup
+  docs: driver-api: gpio: using-gpio.rst: avoid using ReSt :doc:`foo`
+    markup
+  docs: driver-api: surface_aggregator: avoid using ReSt :doc:`foo`
+    markup
+  docs: driver-api: usb: avoid using ReSt :doc:`foo` markup
+  docs: firmware-guide: acpi: avoid using ReSt :doc:`foo` markup
+  docs: hwmon: adm1177.rst: avoid using ReSt :doc:`foo` markup
+  docs: i2c: avoid using ReSt :doc:`foo` markup
+  docs: kernel-hacking: hacking.rst: avoid using ReSt :doc:`foo` markup
+  docs: networking: devlink: avoid using ReSt :doc:`foo` markup
+  docs: PCI: endpoint: pci-endpoint-cfs.rst: avoid using ReSt :doc:`foo`
+    markup
+  docs: PCI: pci.rst: avoid using ReSt :doc:`foo` markup
+  docs: process: submitting-patches.rst: avoid using ReSt :doc:`foo`
+    markup
+  docs: security: landlock.rst: avoid using ReSt :doc:`foo` markup
+  docs: trace: coresight: coresight.rst: avoid using ReSt :doc:`foo`
+    markup
+  docs: trace: ftrace.rst: avoid using ReSt :doc:`foo` markup
+  docs: userspace-api: landlock.rst: avoid using ReSt :doc:`foo` markup
+  docs: virt: kvm: s390-pv-boot.rst: avoid using ReSt :doc:`foo` markup
+  docs: x86: avoid using ReSt :doc:`foo` markup
+
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |  2 +-
+ Documentation/PCI/pci.rst                     |  6 +--
+ .../special-register-buffer-data-sampling.rst |  3 +-
+ Documentation/admin-guide/media/bt8xx.rst     | 15 ++++----
+ Documentation/admin-guide/media/bttv.rst      | 21 ++++++-----
+ Documentation/admin-guide/media/index.rst     | 12 +++---
+ Documentation/admin-guide/media/saa7134.rst   |  3 +-
+ Documentation/admin-guide/pm/intel_idle.rst   | 16 +++++---
+ Documentation/admin-guide/pm/intel_pstate.rst |  9 +++--
+ Documentation/admin-guide/sysctl/abi.rst      |  2 +-
+ Documentation/admin-guide/sysctl/kernel.rst   | 37 ++++++++++---------
+ Documentation/block/biodoc.rst                |  2 +-
+ Documentation/bpf/bpf_lsm.rst                 | 13 ++++---
+ .../core-api/bus-virt-phys-mapping.rst        |  2 +-
+ Documentation/core-api/dma-api.rst            |  5 ++-
+ Documentation/core-api/dma-isa-lpc.rst        |  2 +-
+ Documentation/core-api/index.rst              |  4 +-
+ Documentation/dev-tools/kunit/api/index.rst   |  8 ++--
+ Documentation/dev-tools/kunit/faq.rst         |  2 +-
+ Documentation/dev-tools/kunit/index.rst       | 14 +++----
+ Documentation/dev-tools/kunit/start.rst       |  6 +--
+ Documentation/dev-tools/kunit/tips.rst        |  5 ++-
+ Documentation/dev-tools/kunit/usage.rst       |  8 ++--
+ Documentation/dev-tools/testing-overview.rst  | 16 ++++----
+ .../bindings/submitting-patches.rst           | 11 +++---
+ Documentation/doc-guide/contributing.rst      |  8 ++--
+ Documentation/driver-api/gpio/using-gpio.rst  |  4 +-
+ Documentation/driver-api/ioctl.rst            |  2 +-
+ .../driver-api/media/drivers/bttv-devel.rst   |  2 +-
+ Documentation/driver-api/media/index.rst      | 10 +++--
+ Documentation/driver-api/pm/devices.rst       |  8 ++--
+ .../surface_aggregator/clients/index.rst      |  3 +-
+ .../surface_aggregator/internal.rst           | 15 ++++----
+ .../surface_aggregator/overview.rst           |  6 ++-
+ Documentation/driver-api/usb/dma.rst          |  6 +--
+ .../acpi/dsd/data-node-references.rst         |  3 +-
+ .../firmware-guide/acpi/dsd/graph.rst         |  2 +-
+ .../firmware-guide/acpi/enumeration.rst       |  7 ++--
+ Documentation/hwmon/adm1177.rst               |  3 +-
+ Documentation/i2c/instantiating-devices.rst   |  2 +-
+ Documentation/i2c/old-module-parameters.rst   |  3 +-
+ Documentation/i2c/smbus-protocol.rst          |  4 +-
+ Documentation/kernel-hacking/hacking.rst      |  4 +-
+ .../networking/devlink/devlink-region.rst     |  2 +-
+ .../networking/devlink/devlink-trap.rst       |  4 +-
+ Documentation/process/submitting-patches.rst  | 32 ++++++++--------
+ Documentation/security/landlock.rst           |  3 +-
+ Documentation/trace/coresight/coresight.rst   |  8 ++--
+ Documentation/trace/ftrace.rst                |  2 +-
+ Documentation/userspace-api/landlock.rst      | 11 +++---
+ .../userspace-api/media/glossary.rst          |  2 +-
+ Documentation/userspace-api/media/index.rst   | 12 +++---
+ Documentation/virt/kvm/s390-pv-boot.rst       |  2 +-
+ Documentation/x86/boot.rst                    |  4 +-
+ Documentation/x86/mtrr.rst                    |  2 +-
+ 55 files changed, 217 insertions(+), 183 deletions(-)
+
 -- 
 2.31.1
+
 
