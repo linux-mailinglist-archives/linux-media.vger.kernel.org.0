@@ -2,207 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E14CE39CB5A
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jun 2021 23:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7880D39CB64
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 00:10:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230050AbhFEV6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Jun 2021 17:58:10 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49398 "EHLO
+        id S230034AbhFEWLo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Jun 2021 18:11:44 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49438 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbhFEV6J (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Jun 2021 17:58:09 -0400
+        with ESMTP id S229998AbhFEWLn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Jun 2021 18:11:43 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C3DAB2C;
-        Sat,  5 Jun 2021 23:56:19 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E38C8DD;
+        Sun,  6 Jun 2021 00:09:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622930180;
-        bh=o7++EuxkRgDP1duOfpmAjGiDUd3n2LOpOVmtNxKeWHo=;
+        s=mail; t=1622930994;
+        bh=uqksyTRk5JSFhu6g59/qBO+7A1sgnZJ3iogFrRLlhQI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uiuVFWnpKiyUW/Ze6mnEF//D9OtE3ivdHVFYGkpwV9j8/RNV1ToBU6mpy5Pzq3299
-         H5eMMW3PiXSIUfSZ6RucPPIBN6h2EaRPk3Is5mqdSwCXGZY30TXcKvEDNqOKWN56QB
-         8WVuTwbvcR/9k6EBAYdZ+TH3VEODKxu8gjI2UwIk=
-Date:   Sun, 6 Jun 2021 00:56:06 +0300
+        b=oo+IfvGhIlMw0nnzACZPJZ8rh4PaMaLUa/wnoiMQCN5sV2tVfTGX+FwK0yF2QXLdi
+         rEbDlqnTMznl9LqDhCwNYPSlA+NZY3L27avd6kVzFNS4XiOeB2D8lc1xR4wg4OMz3x
+         kUP3cHJUK29T2ycEknF5lYzMdn630L3JK9za4TuI=
+Date:   Sun, 6 Jun 2021 01:09:40 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Benjamin Drung <bdrung@posteo.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Adam Goode <agoode@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v4] media: uvcvideo: Fix pixel format change for Elgato
- Cam Link 4K
-Message-ID: <YLvy9iE2Z+DpMvmg@pendragon.ideasonboard.com>
-References: <YLqnU+FYSAcWwaAZ@pendragon.ideasonboard.com>
- <20210605201534.53114-1-bdrung@posteo.de>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+        phone-devel@vger.kernel.org, martijn@brixit.nl,
+        linux-media@vger.kernel.org, martin.kepplinger@puri.sm,
+        dorota.czaplejewicz@puri.sm
+Subject: Re: Recording videos on phones and camera on Librem 5 devboard
+Message-ID: <YLv2JM03idf7DZ17@pendragon.ideasonboard.com>
+References: <20210512214702.GB27652@duo.ucw.cz>
+ <YJz0cn4OrXNhRDoO@bogon.m.sigxcpu.org>
+ <694c6d07525eb5f6d5a19a0c94b4f1f280b03973.camel@ndufresne.ca>
+ <20210513161929.GD19588@duo.ucw.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210605201534.53114-1-bdrung@posteo.de>
+In-Reply-To: <20210513161929.GD19588@duo.ucw.cz>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hello,
 
-Thank you for the patch.
+On Thu, May 13, 2021 at 06:19:29PM +0200, Pavel Machek wrote:
+> Hi!
+> 
+> > > > Who is the right person to talk about Librem 5 cameras? Is there
+> > > > mailing list I should use?
+> > > 
+> > > I think most of the coordination is mostly happening via the gitlab issues in
+> > > 
+> > > https://source.puri.sm/Librem5/linux-next
+> > > 
+> > > Maybe Martin and Dorota who are working on the camera drivers (put in cc:)
+> > > have a more suggestions.
+> > > 
+> > > > 
+> > > > AFAICS from bugzillas, it is still not compeletely working. I see
+> > > > megapixels packaged in the repository, but without required config
+> > > > files. Are there work-in-progress configurations somewhere? Would it
+> > > > be useful if I tried to get it to work on the devboard?
+> > > 
+> > > Megapixels work is mostly happening here atm:
+> > > 
+> > > https://source.puri.sm/dorota.czaplejewicz/megapixels
+> > 
+> > While this is interesting work, I would also keep an eye on libcamera, which I
+> > believe is a better place for HW specific media controller and request handling.
+> > Shouldn't be very hard to port this GTK3 library on top of libcamera.
+> > 
+> > https://libcamera.org/
+> 
+> Hmm, famous last words :-).
 
-On Sat, Jun 05, 2021 at 08:15:36PM +0000, Benjamin Drung wrote:
-> The Elgato Cam Link 4K HDMI video capture card reports to support three
-> different pixel formats, where the first format depends on the connected
-> HDMI device.
-> 
-> ```
-> $ v4l2-ctl -d /dev/video0 --list-formats-ext
-> ioctl: VIDIOC_ENUM_FMT
-> 	Type: Video Capture
-> 
-> 	[0]: 'NV12' (Y/CbCr 4:2:0)
-> 		Size: Discrete 3840x2160
-> 			Interval: Discrete 0.033s (29.970 fps)
-> 	[1]: 'NV12' (Y/CbCr 4:2:0)
-> 		Size: Discrete 3840x2160
-> 			Interval: Discrete 0.033s (29.970 fps)
-> 	[2]: 'YU12' (Planar YUV 4:2:0)
-> 		Size: Discrete 3840x2160
-> 			Interval: Discrete 0.033s (29.970 fps)
-> ```
-> 
-> Changing the pixel format to anything besides the first pixel format
-> does not work:
-> 
-> ```
-> $ v4l2-ctl -d /dev/video0 --try-fmt-video pixelformat=YU12
-> Format Video Capture:
-> 	Width/Height      : 3840/2160
-> 	Pixel Format      : 'NV12' (Y/CbCr 4:2:0)
-> 	Field             : None
-> 	Bytes per Line    : 3840
-> 	Size Image        : 12441600
-> 	Colorspace        : sRGB
-> 	Transfer Function : Rec. 709
-> 	YCbCr/HSV Encoding: Rec. 709
-> 	Quantization      : Default (maps to Limited Range)
-> 	Flags             :
-> ```
-> 
-> User space applications like VLC might show an error message on the
-> terminal in that case:
-> 
-> ```
-> libv4l2: error set_fmt gave us a different result than try_fmt!
-> ```
-> 
-> Depending on the error handling of the user space applications, they
-> might display a distorted video, because they use the wrong pixel format
-> for decoding the stream.
-> 
-> The Elgato Cam Link 4K responds to the USB video probe
-> VS_PROBE_CONTROL/VS_COMMIT_CONTROL with a malformed data structure: The
-> second byte contains bFormatIndex (instead of being the second byte of
-> bmHint). The first byte is always zero. The third byte is always 1.
-> 
-> The firmware bug was reported to Elgato on 2020-12-01 and it was
-> forwarded by the support team to the developers as feature request.
-> There is no firmware update available since then. The latest firmware
-> for Elgato Cam Link 4K as of 2021-03-23 has MCU 20.02.19 and FPGA 67.
-> 
-> Therefore add a quirk to correct the malformed data structure.
-> 
-> The quirk was successfully tested with VLC, OBS, and Chromium using
-> different pixel formats (YUYV, NV12, YU12), resolutions (3840x2160,
-> 1920x1080), and frame rates (29.970 and 59.940 fps).
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Benjamin Drung <bdrung@posteo.de>
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> (now sending this patch with v4 in the subject instead of falsely v3)
-> 
-> v2: enhanced the comment describing the quirk
-> 
-> v3:
-> * hardcode ctrl->bmHint to 1
-> * Use UVC_DBG_VIDEO instead of UVC_DBG_CONTROL (to match the rest of the
->   file)
-> 
-> v4:
-> * Replace quirk bit by specific check for USB VID:PID test
-> 
-> I tried setting different values for bmHint, but the response from the
-> Cam Link was always 1. So this patch hardcodes ctrl->bmHint to 1 as
-> suggested.
-> 
-> Patch version 4 implements the recommendation of Laurent Pinchart. It
-> requires defining the device ID as variable since usb_match_one_id takes
-> an pointer to it. In case more Elgato products like Game Capture
-> HD 60 S+ (0fd9:006a) are affected, this version is harder to extent.
-> 
-> Take patch version 3 or 4 depending on which version you prefer. Both
-> work and are tested.
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index a777b389a66e..35c3ce0e0716 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -130,6 +130,31 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
->  	struct uvc_format *format = NULL;
->  	struct uvc_frame *frame = NULL;
->  	unsigned int i;
-> +	static const struct usb_device_id elgato_cam_link_4k = { USB_DEVICE(0x0fd9, 0x0066) };
+No humans or animals were terminally injured during libcamera
+development :-)
 
-Let's avoid long line
+> I view megapixels as hand-optimized camera application tailored to
+> phones and taking photos (and it is good at that).
+> 
+> OTOH Unicsy camera (https://gitlab.com/tui/tui/-/tree/master/cam ) is
+> simple python wrapper over GTK+ and gstreamer aimed at videos. (It can
+> do photos, too; slowly. Hand-coded app would probably have better
+> performance).
+> 
+> Eventually it would be nice to have media controller support in
+> libcamera, gstreamer and probably some other framework I forgot about.
 
-	static const struct usb_device_id elgato_cam_link_4k = {
-		USB_DEVICE(0x0fd9, 0x0066)
-	};
-
-> +
-> +	/*
-> +	 * The response of the Elgato Cam Link 4K is incorrect: The second byte
-> +	 * contains bFormatIndex (instead of being the second byte of bmHint).
-> +	 * The first byte is always zero. The third byte is always 1.
-> +	 *
-> +	 * The UVC 1.5 class specification defines the first five bits in the
-> +	 * bmHint bitfield. The remaining bits are reserved and should be zero.
-> +	 * Therefore a valid bmHint will be less than 32.
-> +	 *
-> +	 * Latest Elgato Cam Link 4K firmware as of 2021-03-23 needs this quirk.
-> +	 * MCU: 20.02.19, FPGA: 67
-> +	 */
-> +	if (usb_match_one_id(stream->dev->intf, &elgato_cam_link_4k) && ctrl->bmHint > 255) {
-
-Similarly, I'd break this as
-
-	if (usb_match_one_id(stream->dev->intf, &elgato_cam_link_4k) &&
-	    ctrl->bmHint > 255) {
-
-> +		__u8 corrected_format_index;
-
-You can use u8 within the kernel.
-
-> +
-> +		corrected_format_index = ctrl->bmHint >> 8;
-> +		uvc_dbg(stream->dev, VIDEO,
-> +			"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: 0x%02x} to {bmHint: 0x%04x, bFormatIndex: 0x%02x}.\n",
-
-I'd print bFormatIndex with %u as it's an index and thus more readable
-as a decimal integer.
-
-If you agree with those small changes, there's no need to resubmit, I
-can fold them in when applying the patch.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +			ctrl->bmHint, ctrl->bFormatIndex,
-> +			1, corrected_format_index);
-> +		ctrl->bmHint = 1;
-> +		ctrl->bFormatIndex = corrected_format_index;
-> +	}
->  
->  	for (i = 0; i < stream->nformats; ++i) {
->  		if (stream->format[i].index == ctrl->bFormatIndex) {
+Media controller (and any camera-related kernel API really) support is
+exactly what libcamera is about. While it may make sense for gstreamer
+to deal directly with kernel devices that require configuration through
+the media controller API is some cases, for computational cameras (or
+software-defined cameras as they're also called today) it's increasingly
+a dead end. GStreamer is good as an application API, or as a framework
+wrapped in helpers that offer a simpler, higher-level API, and the
+libcamerasrc element can bridge it to the camera implementation.
 
 -- 
 Regards,
