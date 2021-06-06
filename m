@@ -2,228 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 660D339CDB6
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 08:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55F7639CDDE
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 09:21:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230129AbhFFGxF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Jun 2021 02:53:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36218 "EHLO
+        id S230003AbhFFHXH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Jun 2021 03:23:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230108AbhFFGxD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Jun 2021 02:53:03 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBD7FC061766;
-        Sat,  5 Jun 2021 23:50:56 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id w21so16155216edv.3;
-        Sat, 05 Jun 2021 23:50:56 -0700 (PDT)
+        with ESMTP id S229478AbhFFHXG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Jun 2021 03:23:06 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D54BCC061766
+        for <linux-media@vger.kernel.org>; Sun,  6 Jun 2021 00:21:06 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id l10-20020a17090a150ab0290162974722f2so8463649pja.2
+        for <linux-media@vger.kernel.org>; Sun, 06 Jun 2021 00:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=469mptNRQwR1f7SnBBAByK4/YLBmZMyMdzbD8tdgyNQ=;
-        b=gp/QSnZpXWrJkybcY+lnPKwrEE/p5kJ1/gznsVayr2M34RfymDn3n0zJ6YvdL0p2xU
-         +U5Cz6UCW7BFevNPxrm+c5Dsn7qUR0iqoUm+38u4rmXLLjVzFmnzj2z4bYm4NwVcousc
-         c8FoD2TVkeBEyXMEZJg5RMKMD448GIaM2GEVhO+TF2sbC1pfB51LVvtR8wHDZOcV3/qq
-         73R/XQx0yTZoPiZGKL1AZSC+94GRDLt09JdbC82rcYwm4L8LYAYcMlUHs0v83DBPKvmQ
-         D/QkPGOnz6QUDch4nzRlwGRy9nIizi3j7wYShV0Y1OzfbVUcH7tdHQJwUHcCEyobFFBQ
-         QHTw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=cEFcRT1a+4r2BQ//zhk6sWBfu7ihbZimnmlf/OOAxxs=;
+        b=BJAZW45LbpmUHlAOToEU350tnrOHtWIWvydbLSUnLstYEfSppJOyafVY536FwJs/Ge
+         1GAY4nVhHNekIKRZac+/GqJnYVsN+iqIlDADvxQC+9sTWGudJ0oAnT/53FSDgv0y1qUJ
+         oH2J0hIWdG/RCBzQbJEmuRDYZ22tTFtzyjA5jJedg2PexlWkOf0dG8uGiXFI8T5Vy8+w
+         uOKa4ZGZ8bt3PkJqZdz8d35kh/z6I49o6zhNDMAJhyqAI+qcPKtYc9YC2GVjhKyXMvBR
+         ai/Dc6AceMgC6qg4yeF4XPlvD+PERPUMzar56HzhA/cOtkqIzJ5enuZFb4UiKJBvmJOa
+         +F1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=469mptNRQwR1f7SnBBAByK4/YLBmZMyMdzbD8tdgyNQ=;
-        b=jpgabyL6tYzARVKT8KuBzyMmYbJMDbNqP5wrQQyOhmHZT2Hy54pIRoA4VSJ7C8XiXM
-         NcSBYpiOwSyr2AcjlF6hRWxkdRT/mmV+1FpZ+uasTK99V0wJaZyC7uhwPELDh9qtsmHz
-         +z3OHRKkmWUA4l0qTo1/XnLZXiBCft93V5n+YBZek4gN2WE+JdWQY6ErWyCQd3bXwBdc
-         VV+rEcCDwlpTVgO6P0J2RL3ke9i0eQT7kgAYt+nGEcTFJ8VEU/BEzUp/9Y1zUYvkp7vE
-         mbTJjRq84Z6nWcwBTj/5ykRYuLxqodSIQweb4QflaMcCYTOTYXi56gVTOnAugC+MEo27
-         sZRA==
-X-Gm-Message-State: AOAM532L5vCT040FRoJuDbGkCJBQjnijPoAl9+tsOTmODGEpBwOYSUXh
-        2TF56IPnAN5MwoU0IA8C9IQ=
-X-Google-Smtp-Source: ABdhPJyJ+hXvGa9AtJ9roIlSjA0yMpvvphvZ3SB43MazsDz2tq/KtRl2XCs9JpMH1CjbF9HAVVUjAQ==
-X-Received: by 2002:a50:cb85:: with SMTP id k5mr13949520edi.170.1622962255159;
-        Sat, 05 Jun 2021 23:50:55 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
-        by smtp.gmail.com with ESMTPSA id ay24sm5823455edb.2.2021.06.05.23.50.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jun 2021 23:50:54 -0700 (PDT)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] media: cedrus: hevc: Add support for scaling lists
-Date:   Sun,  6 Jun 2021 08:50:50 +0200
-Message-Id: <20210606065050.414607-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=cEFcRT1a+4r2BQ//zhk6sWBfu7ihbZimnmlf/OOAxxs=;
+        b=ibuL9y8ob1n6aDnfhrGPREp5v8JDdUL5EDRI2UE15hvQKA+A/3tIZ6t1SQJRgQpPgb
+         jmSzHe2t3os2XAyKyMjnmxp5GrJMcXbBGt6UAF+8vIpkV8cN+5R2mCYwStFMjjSf32B1
+         WS7pY9Y3W1ROBqegIjlTYOpEFWK7TxI/9bP/eThewZMbNYxt0TNcwoERTKTrhmiyM3vI
+         HQMAnjzQ/hYpR0j+3tk46hpuWeO3eGdweodfJ3tJbWpgzZBnRiLI8Y+zbyuQvT3FSSbG
+         FHTegOo4emuPpU8T+kMjREbdvnTiunYnAkr2TV/Oio7celu0ePP1/TrlmnPnNreFJGPC
+         P5vA==
+X-Gm-Message-State: AOAM532ooOC9/czpSxTT4cZsheME7EI2z4kWTCFVmDMaf7FsUp+e0F2o
+        yW7gijfIi8gcyhWla7zUtj8U5NEJ+jKVBwQayeY=
+X-Google-Smtp-Source: ABdhPJz8zn/aBwiTtigOdfzzQlEC/6tQAvyb3hV5aIu7efq+/SK1V0k9qkRWou517CAu0MlxE2KM4J/oIcm2ggyOTxk=
+X-Received: by 2002:a17:902:6b42:b029:107:a6d5:fc8a with SMTP id
+ g2-20020a1709026b42b0290107a6d5fc8amr12339755plt.76.1622964066185; Sun, 06
+ Jun 2021 00:21:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210605115456.14440-1-euphoriccatface@gmail.com>
+ <20210605115456.14440-2-euphoriccatface@gmail.com> <20210605160028.6ec30b8a@coco.lan>
+ <20210605165335.26313de9@coco.lan>
+In-Reply-To: <20210605165335.26313de9@coco.lan>
+From:   Seongyong Park <euphoriccatface@gmail.com>
+Date:   Sun, 6 Jun 2021 16:20:53 +0900
+Message-ID: <CAJp=mWRihf_AiLXojoeeY6JTqA=-mD11+aWZToRcw2ozWoB5zw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: video-i2c: frame delay based on last frame's
+ end time
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Seongyong Park <euphoriccatface@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-HEVC frames may use scaling list feature. Add support for it.
+2021=EB=85=84 6=EC=9B=94 5=EC=9D=BC (=ED=86=A0) =EC=98=A4=ED=9B=84 11:53, M=
+auro Carvalho Chehab <mchehab@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
+=B1:
+> you would need to use:
+>
+>         usleep_range(min_delay_us, max_delay_us);
+>
+> instead of:
+>
+>         schedule_timeout_interruptible(schedule_delay);
+>
+> in order to tell the realtime clock about a dead line for
+> sleeping.
+>
+> Thanks,
+> Mauro
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
+Okay, I have tried `usleep_range()` instead, and it indeed shows
+improvement in the frame rate.
+Now it's basically the same as before my patch, except for
+`jiffies_to_usecs()` and then `usleep_range()`.
 
-Note: This patch depends on "Additional features for Hantro HEVC" from
-Benjamin Gaignard.
-(https://patchwork.linuxtv.org/project/linux-media/cover/20210604130619.491200-1-benjamin.gaignard@collabora.com/)
+...
+         int schedule_delay;
++        uint64_t schedule_delay_us;
 
- drivers/staging/media/sunxi/cedrus/cedrus.c   |  6 ++
- drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
- .../staging/media/sunxi/cedrus/cedrus_dec.c   |  2 +
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 70 ++++++++++++++++++-
- .../staging/media/sunxi/cedrus/cedrus_regs.h  |  2 +
- 5 files changed, 80 insertions(+), 1 deletion(-)
+        try_to_freeze();
+...
+        if (time_after(jiffies, start_jiffies + delay))
+            schedule_delay =3D delay;
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index c0d005dafc6c..8114e2167013 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -135,6 +135,12 @@ static const struct cedrus_control cedrus_controls[] = {
- 		},
- 		.codec		= CEDRUS_CODEC_H265,
- 	},
-+	{
-+		.cfg = {
-+			.id	= V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
-+		},
-+		.codec		= CEDRUS_CODEC_H265,
-+	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE,
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index 88afba17b78b..9c7bfd2b6616 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -78,6 +78,7 @@ struct cedrus_h265_run {
- 	const struct v4l2_ctrl_hevc_pps			*pps;
- 	const struct v4l2_ctrl_hevc_slice_params	*slice_params;
- 	const struct v4l2_ctrl_hevc_decode_params	*decode_params;
-+	const struct v4l2_ctrl_hevc_scaling_matrix	*scaling_matrix;
- };
- 
- struct cedrus_vp8_run {
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-index 40e8c4123f76..a16c1422558f 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-@@ -72,6 +72,8 @@ void cedrus_device_run(void *priv)
- 			V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS);
- 		run.h265.decode_params = cedrus_find_control_data(ctx,
- 			V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS);
-+		run.h265.scaling_matrix = cedrus_find_control_data(ctx,
-+			V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
- 		break;
- 
- 	case V4L2_PIX_FMT_VP8_FRAME:
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 6821e3d05d34..788d72d06444 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -238,6 +238,69 @@ static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
- 	}
- }
- 
-+static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
-+					   struct cedrus_run *run)
-+{
-+	const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
-+	struct cedrus_dev *dev = ctx->dev;
-+	u32 i, j, k, val;
-+
-+	scaling = run->h265.scaling_matrix;
-+
-+	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_DC_COEF0,
-+		     (scaling->scaling_list_dc_coef_32x32[1] << 24) |
-+		     (scaling->scaling_list_dc_coef_32x32[0] << 16) |
-+		     (scaling->scaling_list_dc_coef_16x16[1] << 8) |
-+		     (scaling->scaling_list_dc_coef_16x16[0] << 0));
-+
-+	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_DC_COEF1,
-+		     (scaling->scaling_list_dc_coef_16x16[5] << 24) |
-+		     (scaling->scaling_list_dc_coef_16x16[4] << 16) |
-+		     (scaling->scaling_list_dc_coef_16x16[3] << 8) |
-+		     (scaling->scaling_list_dc_coef_16x16[2] << 0));
-+
-+	cedrus_h265_sram_write_offset(dev, VE_DEC_H265_SRAM_OFFSET_SCALING_LISTS);
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k += 4) {
-+				val = ((u32)scaling->scaling_list_8x8[i][j + (k + 3) * 8] << 24) |
-+				      ((u32)scaling->scaling_list_8x8[i][j + (k + 2) * 8] << 16) |
-+				      ((u32)scaling->scaling_list_8x8[i][j + (k + 1) * 8] << 8) |
-+				      scaling->scaling_list_8x8[i][j + k * 8];
-+				cedrus_write(dev, VE_DEC_H265_SRAM_DATA, val);
-+			}
-+
-+	for (i = 0; i < 2; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k += 4) {
-+				val = ((u32)scaling->scaling_list_32x32[i][j + (k + 3) * 8] << 24) |
-+				      ((u32)scaling->scaling_list_32x32[i][j + (k + 2) * 8] << 16) |
-+				      ((u32)scaling->scaling_list_32x32[i][j + (k + 1) * 8] << 8) |
-+				      scaling->scaling_list_32x32[i][j + k * 8];
-+				cedrus_write(dev, VE_DEC_H265_SRAM_DATA, val);
-+			}
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k += 4) {
-+				val = ((u32)scaling->scaling_list_16x16[i][j + (k + 3) * 8] << 24) |
-+				      ((u32)scaling->scaling_list_16x16[i][j + (k + 2) * 8] << 16) |
-+				      ((u32)scaling->scaling_list_16x16[i][j + (k + 1) * 8] << 8) |
-+				      scaling->scaling_list_16x16[i][j + k * 8];
-+				cedrus_write(dev, VE_DEC_H265_SRAM_DATA, val);
-+			}
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 4; j++) {
-+			val = ((u32)scaling->scaling_list_4x4[i][j + 12] << 24) |
-+			      ((u32)scaling->scaling_list_4x4[i][j + 8] << 16) |
-+			      ((u32)scaling->scaling_list_4x4[i][j + 4] << 8) |
-+			      scaling->scaling_list_4x4[i][j];
-+			cedrus_write(dev, VE_DEC_H265_SRAM_DATA, val);
-+		}
-+}
-+
- static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 			      struct cedrus_run *run)
- {
-@@ -521,7 +584,12 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 
- 	/* Scaling list. */
- 
--	reg = VE_DEC_H265_SCALING_LIST_CTRL0_DEFAULT;
-+	if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED) {
-+		cedrus_h265_write_scaling_list(ctx, run);
-+		reg = VE_DEC_H265_SCALING_LIST_CTRL0_FLAG_ENABLED;
-+	} else {
-+		reg = VE_DEC_H265_SCALING_LIST_CTRL0_DEFAULT;
-+	}
- 	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_CTRL0, reg);
- 
- 	/* Neightbor information address. */
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-index 92ace87c1c7d..bdb062ad8682 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-@@ -494,6 +494,8 @@
- #define VE_DEC_H265_ENTRY_POINT_OFFSET_ADDR	(VE_ENGINE_DEC_H265 + 0x64)
- #define VE_DEC_H265_TILE_START_CTB		(VE_ENGINE_DEC_H265 + 0x68)
- #define VE_DEC_H265_TILE_END_CTB		(VE_ENGINE_DEC_H265 + 0x6c)
-+#define VE_DEC_H265_SCALING_LIST_DC_COEF0	(VE_ENGINE_DEC_H265 + 0x78)
-+#define VE_DEC_H265_SCALING_LIST_DC_COEF1	(VE_ENGINE_DEC_H265 + 0x7c)
- 
- #define VE_DEC_H265_LOW_ADDR			(VE_ENGINE_DEC_H265 + 0x80)
- 
--- 
-2.31.1
+-        schedule_timeout_interruptible(schedule_delay);
++        schedule_delay_us =3D jiffies_to_usecs(schedule_delay);
++        usleep_range(schedule_delay_us * 3/4, schedule_delay_us);
+     } while (!kthread_should_stop());
 
+     return 0;
+...
+
+I decided to keep the `if (...) schedule_delay =3D delay;` part.
+The concern was that my RPi Zero was having quite a bit of constant
+drift, like showing 3FPS when set to 4FPS, 6FPS when 8FPS, 10FPS when
+16FPS, and so on.
+Now that I've confirmed the timing's good enough (usually ~0.5 FPS
+faster than the frame rate given), there's no need for me to bother
+anymore.
+
+I'll send another patchset if it doesn't look too bad.
+
+Thank you very much.
+Seongyong Park
