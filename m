@@ -2,160 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D2B839CC65
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 05:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C011639CC7A
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 05:29:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbhFFDLg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Jun 2021 23:11:36 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52148 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230158AbhFFDLg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Jun 2021 23:11:36 -0400
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F84E3E7;
-        Sun,  6 Jun 2021 05:09:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1622948985;
-        bh=j4MzRVnm3oEXsRZghAMIVrxyMi3svD00pa9hPdI3dMo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=doVMFdnbRwYNfXotulim82PCaaDfLBdAgdIHqYSTl3aJQ/Q5MhCXmgYKUqAWliMcD
-         4YbqmwZkeecntbDE+2eqOiJTyh9AHzi1DIMMQaNy9s8CaEgO5KOOdCXJy1GBV5tpDc
-         WO11hVmpO+Rq/q1BHHM/ylBEZELr8DQFya0Ph8K0=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        id S230177AbhFFDb3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Jun 2021 23:31:29 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:38269 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230075AbhFFDb3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 5 Jun 2021 23:31:29 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id pjTklXW2uhqltpjTmlFp7h; Sun, 06 Jun 2021 05:29:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1622950178; bh=HLMesqZ5erHu5t9dow6Bgj/5MoISx98oplFgCFgB6uA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=LRuvbbmkV8MQnTYGwFYB4WNxZ/Ib5SY+c1wYFf4LFOV6YSeP9vVywhNd9IUj3DSLY
+         UbE0+Ov7GaVb4EpbO95q1tO8o/inGEwmbsi02nR2J2wmg7rMpvASqq7hULkGW5V7Z1
+         2dKpHX6rnQ/DGJGhQHEmv2EOJb1N9WkV045Scs+Quv69YZo+gR63hnyNU90yQmnXBO
+         YiSFGC4PTmgN2mF44DmG+kfnZUNLtc3MGvGCC94LJJT+oSDSQynnyIo3pXgd8B84ZM
+         reUJolv01DAq0w1NxybSCOx4KQ5aKoG1l5PBfd5GyhQUwePS37MY9Qj6govobX7/3d
+         MPNVqk8V4YKQQ==
+Message-ID: <053058b7cbdf889d4f6bccca140f6a2d@smtp-cloud8.xs4all.net>
+Date:   Sun, 06 Jun 2021 05:29:36 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Benjamin Drung <bdrung@posteo.de>, Adam Goode <agoode@google.com>,
-        stable@vger.kernel.org
-Subject: [PATCH v5] media: uvcvideo: Fix pixel format change for Elgato Cam Link 4K
-Date:   Sun,  6 Jun 2021 06:09:28 +0300
-Message-Id: <20210606030928.9739-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.31.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfGpRLlIjbLDNxLDgVVue66KrkZ9tYOG3sGR2hyBQM/YSxNxDp9bIn6oXeP3HN2QqtHkclc0Z3lhulCtEVnVkCOU/JIcbqGezb/qPLM5ZrtweCUiLEhRj
+ mXpxtfLcV5qsHwvt9wiaD2fPNCZLlBjcmALb/EQrYJQKEANOPKPaIo3fH5aFOGM0DA6ojcmqNJnPqt3LvFj14N17xHGfpOPeslmwQgXBe0sliGuWtdgNwBP5
+ 6bH/CD9LxLQukRU2k5+chw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Benjamin Drung <bdrung@posteo.de>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-The Elgato Cam Link 4K HDMI video capture card reports to support three
-different pixel formats, where the first format depends on the connected
-HDMI device.
+Results of the daily build of media_tree:
 
-```
-$ v4l2-ctl -d /dev/video0 --list-formats-ext
-ioctl: VIDIOC_ENUM_FMT
-	Type: Video Capture
+date:			Sun Jun  6 05:00:11 CEST 2021
+media-tree git hash:	c11669f738f48c7b3cf3b7ec700af33e1566d9c3
+media_build git hash:	b85393d37cdac84cb846802f0d62259aa679c994
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7445-g58776ae33
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-	[0]: 'NV12' (Y/CbCr 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-	[1]: 'NV12' (Y/CbCr 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-	[2]: 'YU12' (Planar YUV 4:2:0)
-		Size: Discrete 3840x2160
-			Interval: Discrete 0.033s (29.970 fps)
-```
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: ERRORS
+linux-4.4.258-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.258-i686: ERRORS
+linux-4.9.258-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.222-i686: ERRORS
+linux-4.14.222-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.177-i686: ERRORS
+linux-4.19.177-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: ERRORS
+linux-5.1.21-x86_64: ERRORS
+linux-5.2.21-i686: ERRORS
+linux-5.2.21-x86_64: ERRORS
+linux-5.3.18-i686: ERRORS
+linux-5.3.18-x86_64: ERRORS
+linux-5.4.100-i686: ERRORS
+linux-5.4.100-x86_64: ERRORS
+linux-5.5.19-i686: ERRORS
+linux-5.5.19-x86_64: ERRORS
+linux-5.6.19-i686: ERRORS
+linux-5.6.19-x86_64: ERRORS
+linux-5.7.19-i686: ERRORS
+linux-5.7.19-x86_64: ERRORS
+linux-5.8.13-i686: ERRORS
+linux-5.8.13-x86_64: ERRORS
+linux-5.9.1-i686: ERRORS
+linux-5.9.1-x86_64: ERRORS
+linux-5.10.18-i686: ERRORS
+linux-5.10.18-x86_64: ERRORS
+linux-5.11.1-i686: ERRORS
+linux-5.11.1-x86_64: ERRORS
+linux-5.12.1-i686: ERRORS
+linux-5.12.1-x86_64: ERRORS
+linux-5.13-rc1-i686: ERRORS
+linux-5.13-rc1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 1
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
-Changing the pixel format to anything besides the first pixel format
-does not work:
+Detailed results are available here:
 
-```
-$ v4l2-ctl -d /dev/video0 --try-fmt-video pixelformat=YU12
-Format Video Capture:
-	Width/Height      : 3840/2160
-	Pixel Format      : 'NV12' (Y/CbCr 4:2:0)
-	Field             : None
-	Bytes per Line    : 3840
-	Size Image        : 12441600
-	Colorspace        : sRGB
-	Transfer Function : Rec. 709
-	YCbCr/HSV Encoding: Rec. 709
-	Quantization      : Default (maps to Limited Range)
-	Flags             :
-```
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-User space applications like VLC might show an error message on the
-terminal in that case:
+Detailed regression test results are available here:
 
-```
-libv4l2: error set_fmt gave us a different result than try_fmt!
-```
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
-Depending on the error handling of the user space applications, they
-might display a distorted video, because they use the wrong pixel format
-for decoding the stream.
+Full logs are available here:
 
-The Elgato Cam Link 4K responds to the USB video probe
-VS_PROBE_CONTROL/VS_COMMIT_CONTROL with a malformed data structure: The
-second byte contains bFormatIndex (instead of being the second byte of
-bmHint). The first byte is always zero. The third byte is always 1.
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
 
-The firmware bug was reported to Elgato on 2020-12-01 and it was
-forwarded by the support team to the developers as feature request.
-There is no firmware update available since then. The latest firmware
-for Elgato Cam Link 4K as of 2021-03-23 has MCU 20.02.19 and FPGA 67.
+The Media Infrastructure API from this daily build is here:
 
-Therefore correct the malformed data structure for this device. The
-change was successfully tested with VLC, OBS, and Chromium using
-different pixel formats (YUYV, NV12, YU12), resolutions (3840x2160,
-1920x1080), and frame rates (29.970 and 59.940 fps).
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Benjamin Drung <bdrung@posteo.de>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Benjamin, could you double-check the adjustments ? I've also updated the
-commit messages to not mention a quirk anymore.
----
- drivers/media/usb/uvc/uvc_video.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index a777b389a66e..e16464606b14 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -127,10 +127,37 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
- static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
- 	struct uvc_streaming_control *ctrl)
- {
-+	static const struct usb_device_id elgato_cam_link_4k = {
-+		USB_DEVICE(0x0fd9, 0x0066)
-+	};
- 	struct uvc_format *format = NULL;
- 	struct uvc_frame *frame = NULL;
- 	unsigned int i;
- 
-+	/*
-+	 * The response of the Elgato Cam Link 4K is incorrect: The second byte
-+	 * contains bFormatIndex (instead of being the second byte of bmHint).
-+	 * The first byte is always zero. The third byte is always 1.
-+	 *
-+	 * The UVC 1.5 class specification defines the first five bits in the
-+	 * bmHint bitfield. The remaining bits are reserved and should be zero.
-+	 * Therefore a valid bmHint will be less than 32.
-+	 *
-+	 * Latest Elgato Cam Link 4K firmware as of 2021-03-23 needs this fix.
-+	 * MCU: 20.02.19, FPGA: 67
-+	 */
-+	if (usb_match_one_id(stream->dev->intf, &elgato_cam_link_4k) &&
-+	    ctrl->bmHint > 255) {
-+		u8 corrected_format_index = ctrl->bmHint >> 8;
-+
-+		uvc_dbg(stream->dev, VIDEO,
-+			"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: %u} to {bmHint: 0x%04x, bFormatIndex: %u}\n",
-+			ctrl->bmHint, ctrl->bFormatIndex,
-+			1, corrected_format_index);
-+		ctrl->bmHint = 1;
-+		ctrl->bFormatIndex = corrected_format_index;
-+	}
-+
- 	for (i = 0; i < stream->nformats; ++i) {
- 		if (stream->format[i].index == ctrl->bFormatIndex) {
- 			format = &stream->format[i];
--- 
-Regards,
-
-Laurent Pinchart
-
+http://www.xs4all.nl/~hverkuil/spec/index.html
