@@ -2,135 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AC1F39CEA3
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 13:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D01EE39CF59
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 15:34:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbhFFLCh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Jun 2021 07:02:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49294 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229508AbhFFLCg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 6 Jun 2021 07:02:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B02666136E;
-        Sun,  6 Jun 2021 11:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622977247;
-        bh=TQvj02q/VXy+P/NegHoD5XxZGMzKI2LFBtIb1U3Smlo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=aRrDinCrMzS9bE8DZwEzqQPHjNbEyBnTIdEO3mbeBF/Rlp3ytoPx2AMEh7wPpd0OI
-         biPsI+XULb0LPVPKcpJ37uYUw2wel0d3KDyQ3iB9nPpEMrr0nSiLQ4H9vYDiwNDDHQ
-         /ZzJ2lrJh0pgJCTUoDITOFyfnPurQuqxRaVYm7KSIIuPqB6eiYsQAGdfF9d9yTHmjm
-         zeD/hhakt3XAsIpt7jG9I8l4bmJXCyFTWPlNA6Hm4NPh2J7gVx2yySY8VpaevV/mei
-         rXvp9uBVgXJJmLU4dtojTmr9eJnbzmcxOBCQvoTBhIsUoKshEUdJfEcGyTA7ODoNmm
-         Na8qCnDbMfYCQ==
-Date:   Sun, 6 Jun 2021 13:00:43 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Seongyong Park <euphoriccatface@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Matt Ranostay <matt.ranostay@konsulko.com>
-Subject: Re: [PATCH 1/2] media: video-i2c: frame delay based on last frame's
- end time
-Message-ID: <20210606130043.382d3450@coco.lan>
-In-Reply-To: <CAJp=mWRihf_AiLXojoeeY6JTqA=-mD11+aWZToRcw2ozWoB5zw@mail.gmail.com>
-References: <20210605115456.14440-1-euphoriccatface@gmail.com>
-        <20210605115456.14440-2-euphoriccatface@gmail.com>
-        <20210605160028.6ec30b8a@coco.lan>
-        <20210605165335.26313de9@coco.lan>
-        <CAJp=mWRihf_AiLXojoeeY6JTqA=-mD11+aWZToRcw2ozWoB5zw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230025AbhFFNgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Jun 2021 09:36:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229878AbhFFNgJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Jun 2021 09:36:09 -0400
+X-Greylist: delayed 57611 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Jun 2021 06:34:19 PDT
+Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DF6FC061766
+        for <linux-media@vger.kernel.org>; Sun,  6 Jun 2021 06:34:19 -0700 (PDT)
+Received: from hps2020.home.selasky.org (unknown [178.17.145.105])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.turbocat.net (Postfix) with ESMTPSA id 20CDB2602CC
+        for <linux-media@vger.kernel.org>; Sun,  6 Jun 2021 15:34:17 +0200 (CEST)
+Subject: [PATCH] Genesys Logic UVC microscopes used to work with Linux
+From:   Hans Petter Selasky <hps@selasky.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <478e73fc-0e2c-4f1b-11d4-c71067764571@selasky.org>
+Message-ID: <b3747aa3-9984-0456-943a-b16e687c0ec0@selasky.org>
+Date:   Sun, 6 Jun 2021 15:32:55 +0200
+User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <478e73fc-0e2c-4f1b-11d4-c71067764571@selasky.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sun, 6 Jun 2021 16:20:53 +0900
-Seongyong Park <euphoriccatface@gmail.com> escreveu:
+Hi,
 
-> 2021=EB=85=84 6=EC=9B=94 5=EC=9D=BC (=ED=86=A0) =EC=98=A4=ED=9B=84 11:53,=
- Mauro Carvalho Chehab <mchehab@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
-=84=B1:
-> > you would need to use:
-> >
-> >         usleep_range(min_delay_us, max_delay_us);
-> >
-> > instead of:
-> >
-> >         schedule_timeout_interruptible(schedule_delay);
-> >
-> > in order to tell the realtime clock about a dead line for
-> > sleeping.
-> >
-> > Thanks,
-> > Mauro =20
->=20
-> Okay, I have tried `usleep_range()` instead, and it indeed shows
-> improvement in the frame rate.
-> Now it's basically the same as before my patch, except for
-> `jiffies_to_usecs()` and then `usleep_range()`.
->=20
-> ...
->          int schedule_delay;
-> +        uint64_t schedule_delay_us;
->=20
->         try_to_freeze();
-> ...
->         if (time_after(jiffies, start_jiffies + delay))
->             schedule_delay =3D delay;
->=20
-> -        schedule_timeout_interruptible(schedule_delay);
-> +        schedule_delay_us =3D jiffies_to_usecs(schedule_delay);
-> +        usleep_range(schedule_delay_us * 3/4, schedule_delay_us);
->      } while (!kthread_should_stop());
->=20
->      return 0;
-> ...
->=20
-> I decided to keep the `if (...) schedule_delay =3D delay;` part.
+Some USB video class compliant devices, like Genesys Logic camera chips, 
+used in cheap microscopes, doesn't provide any image if there are UVC 
+SET current value commands for the processing unit, before the camera 
+stream is activated. Fix this by not issuing any UVC SET current value 
+commands, if the value was not changed. This should also work fine with 
+existing UVC compliant webcams and optimized the number of needed 
+processing unit control endpoint requests.
 
-Yeah, you would need something like that.
+Signed-off-by: Hans Petter Selasky <hps@selasky.org>
 
-> The concern was that my RPi Zero was having quite a bit of constant
-> drift, like showing 3FPS when set to 4FPS, 6FPS when 8FPS, 10FPS when
-> 16FPS, and so on.
-> Now that I've confirmed the timing's good enough (usually ~0.5 FPS
-> faster than the frame rate given), there's no need for me to bother
-> anymore.
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c 
+b/drivers/media/usb/uvc/uvc_ctrl.c
+index b3dde98499f4..0d7137eca331 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1697,7 +1697,13 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+         if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
+                 ctrl->handle = handle;
 
-In other to avoid the drift, the logic needs to calculate the delay based
-on something like this (pseudo-C) code:
-
-	start_jiffies =3D jiffies;
-	frame_count =3D 0;
-	i =3D 0;
-	do {
-		i++;
-		delay =3D jiffies - (start_jiffies * i * <interval>);
-...
-	}
-
-The actual logic should probably avoid multiplying stuff there, as this
-could go sideways easily due to overflows.
-
-Perhaps something like this would work better, keeping a more precise
-average fps rate:
-
-	next_jiffies =3D jiffies + delay;
-	do {
-...
-		schedule_delay_us =3D jiffies_to_usecs(next_jiffies - jiffies);
-		usleep_range(schedule_delay_us * 3/4, schedule_delay_us);		...
-		next_jiffies +=3D delay;
-	}
-
->=20
-> I'll send another patchset if it doesn't look too bad.
->=20
-> Thank you very much.
-> Seongyong Park
-
-
-
-Thanks,
-Mauro
+-       ctrl->dirty = 1;
++       /* Avoid setting the current value. */
++       if (!ctrl->dirty &&
++           memcmp(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_BACKUP),
++                  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
++                  ctrl->info.size) != 0)
++               ctrl->dirty = 1;
++
+         ctrl->modified = 1;
+         return 0;
+  }
