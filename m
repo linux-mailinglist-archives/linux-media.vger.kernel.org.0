@@ -2,161 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B3A239CE1A
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 10:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0CDE39CE59
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jun 2021 11:14:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230334AbhFFIZo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Jun 2021 04:25:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56164 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbhFFIZn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Jun 2021 04:25:43 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1DADC061789;
-        Sun,  6 Jun 2021 01:23:40 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id g20so21464896ejt.0;
-        Sun, 06 Jun 2021 01:23:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ckHIT+W+zFdzF0pdvXxvN2EcXoFnHIBls4vcXGLYoGY=;
-        b=LU58Y66UQ9FitfV6F/zH772RT9rVk1M9TCGwX2oEhpI4rXAHoIw0OPVl4OJ1WTMY4n
-         JDpht2Wjw+RwsgesIQObYGC5wk0NUhq/Pk+qnI6pkXG8GmaAnErP4fSR8IWx+d4ke2Ya
-         HIQdgTN62PvP/mWxrvmbVuIHZ/qTzuADinlXKupdjLFwsg5SYAr//OUZtsKslDZcVTD6
-         ytvHsN/vClD9RKVTqbTXCQbboJl3uopVYSHmoXJB8Bp9A/S4Q8/5pGWb02bt1C0AQ5Hd
-         Jxrol1ybnNTP3LxpxJFndvn8Pf4uByKrbvQ5p0Lrn2fhvDWXVG7BXWwtdmk7WOrKomrK
-         yy1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ckHIT+W+zFdzF0pdvXxvN2EcXoFnHIBls4vcXGLYoGY=;
-        b=LfT8ULtuOCJgHkSm7JXLg3HM7kg4ZRT8f0XJimwFUapjiJGPGkW+AqOkyp5ZLetgMf
-         iluHbXAwZmgNt89B+hXrEkHFxuSkhKJBBVLfXqYH3TeTwVdLkmPnCDM5VWf5fc+9Jj1Z
-         Yol5sXGVOllNT81lDVFO2ur7xd2KUy6+lbK+8ubzzOxIn1eanh/2WIOBAHA2IKVm5AVY
-         gF5n99bLHvZNp8wsi6YKkSGzHtCEkySCY0xRr9m+gPH9btrIgGMKtkqDRhfgq+8nfhFG
-         ouekMq6rc0rNhvaL+AuzuRCgZHeeXmYmSzLw6oyqm1N5n9j317tss6sxeaPwSM73ZqqE
-         3QOQ==
-X-Gm-Message-State: AOAM531fHXlREPbYu/Zieg9/aX8L+6qRAMrhVvoliawly5/zz+i/yXDo
-        DAPkwe/sgXQ8UGkJNmAlSu2x8kFB5X+Khw==
-X-Google-Smtp-Source: ABdhPJw1X2nuGFVnO9OCSUzei4cPO5JAv5OhSvfeDHG7Se/qVMnOjKe9TTZzzbz7LUdrSmuRs9dL/g==
-X-Received: by 2002:a17:906:2ec6:: with SMTP id s6mr12422415eji.65.1622967818617;
-        Sun, 06 Jun 2021 01:23:38 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
-        by smtp.gmail.com with ESMTPSA id y1sm4945908ejl.7.2021.06.06.01.23.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jun 2021 01:23:38 -0700 (PDT)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        hverkuil-cisco@xs4all.nl, ezequiel@collabora.com,
-        benjamin.gaignard@collabora.com, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 2/2] media: cedrus: hevc: Add support for multiple slices
-Date:   Sun,  6 Jun 2021 10:23:14 +0200
-Message-Id: <20210606082314.454193-3-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210606082314.454193-1-jernej.skrabec@gmail.com>
-References: <20210606082314.454193-1-jernej.skrabec@gmail.com>
+        id S229962AbhFFJQ2 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sun, 6 Jun 2021 05:16:28 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:58902 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229465AbhFFJQ1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 6 Jun 2021 05:16:27 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lpord-004XIq-EU; Sun, 06 Jun 2021 09:14:37 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lpow2-0000TB-KS; Sun, 06 Jun 2021 09:19:10 +0000
+Date:   Sun, 6 Jun 2021 09:19:10 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <365909342.1.1622971150600@builder.linuxtv.org>
+In-Reply-To: <1863991906.0.1622884755725@builder.linuxtv.org>
+References: <1863991906.0.1622884755725@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3522
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that segment address is available, support for multi-slice frames
-can be easily added.
+See <https://builder.linuxtv.org/job/media-build/3522/display/redirect>
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 26 ++++++++++++-------
- .../staging/media/sunxi/cedrus/cedrus_video.c |  1 +
- 2 files changed, 17 insertions(+), 10 deletions(-)
+Changes:
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 6821e3d05d34..ef0311a16d01 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -247,6 +247,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	const struct v4l2_ctrl_hevc_slice_params *slice_params;
- 	const struct v4l2_ctrl_hevc_decode_params *decode_params;
- 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
-+	unsigned int width_in_ctb_luma, ctb_size_luma;
-+	unsigned int log2_max_luma_coding_block_size;
- 	dma_addr_t src_buf_addr;
- 	dma_addr_t src_buf_end_addr;
- 	u32 chroma_log2_weight_denom;
-@@ -260,15 +262,17 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	decode_params = run->h265.decode_params;
- 	pred_weight_table = &slice_params->pred_weight_table;
- 
-+	log2_max_luma_coding_block_size =
-+		sps->log2_min_luma_coding_block_size_minus3 + 3 +
-+		sps->log2_diff_max_min_luma_coding_block_size;
-+	ctb_size_luma = 1UL << log2_max_luma_coding_block_size;
-+	width_in_ctb_luma =
-+		DIV_ROUND_UP(sps->pic_width_in_luma_samples, ctb_size_luma);
-+
- 	/* MV column buffer size and allocation. */
- 	if (!ctx->codec.h265.mv_col_buf_size) {
- 		unsigned int num_buffers =
- 			run->dst->vb2_buf.vb2_queue->num_buffers;
--		unsigned int log2_max_luma_coding_block_size =
--			sps->log2_min_luma_coding_block_size_minus3 + 3 +
--			sps->log2_diff_max_min_luma_coding_block_size;
--		unsigned int ctb_size_luma =
--			1UL << log2_max_luma_coding_block_size;
- 
- 		/*
- 		 * Each CTB requires a MV col buffer with a specific unit size.
-@@ -322,15 +326,17 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_end_addr);
- 	cedrus_write(dev, VE_DEC_H265_BITS_END_ADDR, reg);
- 
--	/* Coding tree block address: start at the beginning. */
--	reg = VE_DEC_H265_DEC_CTB_ADDR_X(0) | VE_DEC_H265_DEC_CTB_ADDR_Y(0);
-+	/* Coding tree block address */
-+	reg = VE_DEC_H265_DEC_CTB_ADDR_X(slice_params->slice_segment_addr % width_in_ctb_luma);
-+	reg |= VE_DEC_H265_DEC_CTB_ADDR_Y(slice_params->slice_segment_addr / width_in_ctb_luma);
- 	cedrus_write(dev, VE_DEC_H265_DEC_CTB_ADDR, reg);
- 
- 	cedrus_write(dev, VE_DEC_H265_TILE_START_CTB, 0);
- 	cedrus_write(dev, VE_DEC_H265_TILE_END_CTB, 0);
- 
- 	/* Clear the number of correctly-decoded coding tree blocks. */
--	cedrus_write(dev, VE_DEC_H265_DEC_CTB_NUM, 0);
-+	if (ctx->fh.m2m_ctx->new_frame)
-+		cedrus_write(dev, VE_DEC_H265_DEC_CTB_NUM, 0);
- 
- 	/* Initialize bitstream access. */
- 	cedrus_write(dev, VE_DEC_H265_TRIGGER, VE_DEC_H265_TRIGGER_INIT_SWDEC);
-@@ -482,8 +488,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 				V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT,
- 				slice_params->flags);
- 
--	/* FIXME: For multi-slice support. */
--	reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
-+	if (ctx->fh.m2m_ctx->new_frame)
-+		reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
- 
- 	cedrus_write(dev, VE_DEC_H265_DEC_SLICE_HDR_INFO0, reg);
- 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index 9ddd789d0b1f..247ff90a26b9 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -340,6 +340,7 @@ static int cedrus_s_fmt_vid_out(struct file *file, void *priv,
- 
- 	switch (ctx->src_fmt.pixelformat) {
- 	case V4L2_PIX_FMT_H264_SLICE:
-+	case V4L2_PIX_FMT_HEVC_SLICE:
- 		vq->subsystem_flags |=
- 			VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
- 		break;
--- 
-2.31.1
 
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision b85393d37cdac84cb846802f0d62259aa679c994 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f b85393d37cdac84cb846802f0d62259aa679c994 # timeout=10
+Commit message: "Update backports/pr_fmt.patch"
+ > git rev-list --no-walk b85393d37cdac84cb846802f0d62259aa679c994 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse b85393d37cdac84cb846802f0d62259aa679c994^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3521' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since 'b85393d37cdac84cb846802f0d62259aa679c994'
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@7149f950'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins17901931947641405901.sh
++ rm v4l/.version
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
+
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2021-06-06 09:15:20--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2021-06-06 09:15:20--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100% 72.2M=0s
+
+2021-06-06 09:15:21 (72.2 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 4.19.0-12-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-12-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:131: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
