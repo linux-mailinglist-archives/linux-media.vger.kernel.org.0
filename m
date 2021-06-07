@@ -2,157 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 512B339E042
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 17:24:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B062B39E137
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 17:49:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbhFGP0f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 11:26:35 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:57296 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230291AbhFGP0e (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 11:26:34 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 157F9lnX040027;
-        Mon, 7 Jun 2021 15:24:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2020-01-29; bh=4sFmb8kR3sLgxJUGMPdsPKiuG7N+rl3vjJFNPkixq5M=;
- b=lEAjeivppGVHdmeurj2xDCwuQRHrhJS4W1xqcqRHYMFWZ/cC89wTOAl1YMYoyTeQrihp
- YKWOmOaeFavn4oh1il0sDrpqSC6yHSmUDUn73Z4qqo/Cehuc0PAMETLDHgdJ0BQ15foD
- Hsa8WsPUK7yd6128ddVoaI9TmLBTc01GcRg1ZRp43XCwtlgy5kk1Q+O4oxMcUnwJJFm8
- c/mKig93imF4Fb/o9oDvq9s472IZE89HOaAbbnQvaNob/cXT/MZQcetCBEpHRwu0goUi
- J8Pq1VzhKydbAI+z2qY3tcxbRQcUESEEDcTh2XKdY7eWZ/MGHSdlf4KK6UvbR+Ch3q2A Kw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 39017nbckc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 07 Jun 2021 15:24:01 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 157FAKjo060030;
-        Mon, 7 Jun 2021 15:24:00 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 38yxctxc37-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 07 Jun 2021 15:24:00 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 157FNuit020067;
-        Mon, 7 Jun 2021 15:23:56 GMT
-Received: from kadam (/41.212.42.34)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 07 Jun 2021 08:23:55 -0700
-Date:   Mon, 7 Jun 2021 18:23:48 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Luo Likang <luolikang@nsfocus.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        Yang Yanchao <yangyanchao6@huawei.com>
-Subject: [PATCH v2] media: firewire: firedtv-avc: fix a buffer overflow in
- avc_ca_pmt()
-Message-ID: <20210607152348.GX1955@kadam>
+        id S231266AbhFGPvj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 11:51:39 -0400
+Received: from mail-pl1-f171.google.com ([209.85.214.171]:36527 "EHLO
+        mail-pl1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230255AbhFGPvi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 11:51:38 -0400
+Received: by mail-pl1-f171.google.com with SMTP id x10so8922185plg.3
+        for <linux-media@vger.kernel.org>; Mon, 07 Jun 2021 08:49:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1cSDyRqs4/waFFpp4XK4bTohmPsgMHDek8V3s+9aWfY=;
+        b=XWcJ8Pq86ApEWUqDjcMFt4Szfu0Nm0jhb7uS/2rKv98XxQ+xxglNjfhSE8FoDQoNEw
+         fViBV2ca32xN8SjCgrGv6tSSLoXEnD51WyXXWAX2r+5l17aXo56RfMJkjrX4/+UV//3H
+         tNF1di6YqKjDDUqGgn/yaIwnVWu2Ps4RygiRMXvFrpheucbHR+6720sYEkP1q48gQ0SQ
+         2pttc+Z+rJNdbsh1xbi2OhLsJJjPA64jPuy90nPnq8JYjfNnJz3RJr2twUeyBvKwXX+e
+         gqxw/nWFjNuF7JGWOZgpA2fZsuScGx996opkk1yHJkzehKS+q94wNAtT1dZEcwIlk0xC
+         w6Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1cSDyRqs4/waFFpp4XK4bTohmPsgMHDek8V3s+9aWfY=;
+        b=I9P47/PNf/efv3b1gBcfFbUO1T2g/vKZzu6ubeMMnuin3XrH4go8IbzHjiAaTGi97E
+         rgyXxC4JE9SrFVv9r2n9FY5eDJC9BFL4L8oK2y1XH3mXbaXiDsJ7BrkI+VM+kac69PUZ
+         hIR7r/UpcEVIyW29IneovdLd7NFGKi72EgQ+XUtePF4FoB4fE85xN/I3h1V5K+g3rYQn
+         YwCuwZTdBXpwX1hL4idgGUzr4zp59ISRxz1wbTTqEQlrPJxJI8hsr35DG/xq7h8AaU3i
+         J7OAcoZnRVX7BqHlOTFGz5BOvgsVs7p5ZTGTcMWkxh1Yj+xlbl4QbnekuzxVkqACIHrh
+         RPrQ==
+X-Gm-Message-State: AOAM5331vhN9/+dtZALEXWJaMCvA91cR/M0z0mZ4fW7X7FhOl7JTJu5A
+        sNsC2lv7RFtaGRVN0VUdnIcbR9MBT3lDcQJajQgBdQ==
+X-Google-Smtp-Source: ABdhPJxGKfRV0ji63pJPz9hHFaeq12NxQqk8execz6yLGOqYuB9j2xv+69NDpQc+eKeCiqFKb8blcRd0GJXmxAnv7W0=
+X-Received: by 2002:a17:903:1241:b029:10f:ff8c:a3fe with SMTP id
+ u1-20020a1709031241b029010fff8ca3femr14775019plh.13.1623080910612; Mon, 07
+ Jun 2021 08:48:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YHaulytonFcW+lyZ@mwanda>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10008 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 mlxscore=0
- spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106070110
-X-Proofpoint-GUID: 3c61_TwFR6Ys6jEm28ymvr2QWlZRZP6m
-X-Proofpoint-ORIG-GUID: 3c61_TwFR6Ys6jEm28ymvr2QWlZRZP6m
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10008 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 spamscore=0
- mlxlogscore=999 phishscore=0 impostorscore=0 suspectscore=0 clxscore=1011
- mlxscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106070110
+References: <m3sg1uq6xu.fsf@t19.piap.pl> <dbb99d7b-18eb-317c-911a-b982486848fa@xs4all.nl>
+ <m3eeddhora.fsf@t19.piap.pl>
+In-Reply-To: <m3eeddhora.fsf@t19.piap.pl>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Mon, 7 Jun 2021 08:48:19 -0700
+Message-ID: <CAJ+vNU0E_0pB-1T+VpdmjJNVirAwCUNjKVbEV4wEbqHOzURj_A@mail.gmail.com>
+Subject: Re: [PATCH] TDA1997x: enable EDID support
+To:     =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The bounds checking in avc_ca_pmt() is not strict enough.  It should
-be checking "read_pos + 4" because it's reading 5 bytes.  If the
-"es_info_length" is non-zero then it reads a 6th byte so there needs to
-be an additional check for that.
+On Mon, Jun 7, 2021 at 4:56 AM Krzysztof Ha=C5=82asa <khalasa@piap.pl> wrot=
+e:
+>
+> Hi Hans,
+>
+> Hans Verkuil <hverkuil@xs4all.nl> writes:
+>
+> >> Without this patch, the TDA19971 chip's EDID is inactive.
+> >
+> > Was this wrong from the very beginning? How can this ever have been tes=
+ted
+> > without an EDID?
+>
+> It seems so. I suspect it might have worked in tests because this
+> register isn't cleared on reboot. I.e., setting it once after power up
+> makes it work to the next power up.
+> Or, maybe, the HDMI signal source didn't need EDID.
+>
 
-I also added checks for the "write_pos".  I don't think these are
-required because "read_pos" and "write_pos" are tied together so
-checking one ought to be enough.  But they make the code easier to
-understand for me.  The check on write_pos is:
+Krzysztof,
 
-	if (write_pos + 4 >= sizeof(c->operand) - 4) {
+Most likely it was that the HDMI signal source I tested with didn't
+need EDID. I primarily used a V-SG4K HMDI signal generator in my
+testing and development of the driver
+(http://www.marshall-usa.com/monitors/model/V-SG4K-HDI.php) which
+definitely doesn't need it. Other devices I tested with were another
+Gateworks board with HDMI out (which also didn't need EDID) and
+occasionally a 1st gen Google Chromecast and Amazon Fire stick (which
+I'm not sure about).
 
-The first "+ 4" is because we're writing 5 bytes and the last " - 4"
-is to leave space for the CRC.
+> I'm looking at the previous version of this driver from Gateworks and it
+> contains:
+>
+>      /* Configure EDID
+>       *
+>       * EDID_ENABLE bits:
+>       *  7 - nack_off
+>       *  6 - edid_only
+>       *  1 - edid_b_en
+>       *  0 - edid_a_en
+>       */
+>      reg =3D io_read(REG_EDID_ENABLE);
+>      if (!tda1997x->internal_edid)
+>          reg &=3D ~0x83; /* EDID Nack ON */
+>      else
+>          reg |=3D 0x83;  /* EDID Nack OFF */
+>      io_write(REG_EDID_ENABLE, reg);
+>
+> Not sure what the "non-internal" EDID could be - a separate I2C EEPROM
+> chip? I'm using this on Gateworks' GW54xx boards and I can't see any
+> such EEPROM in the vicinity of the TDA19971, but I don't know how it is
+> wired - perhaps Tim has some idea?
 
-The other problem is that "length" can be invalid.  It comes from
-"data_length" in fdtv_ca_pmt().
+Not sure where the source above is from (this was all so long ago) but
+my guess is that 'internal_edid' meant an EDID had been provided via
+software and the else case meant there was no EDID available. There is
+no support on that chip for an external EEPROM.
 
-Cc: stable@vger.kernel.org
-Reported-by: Luo Likang <luolikang@nsfocus.com>
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
-v2: Change the limit in fdtv_ca_pmt() from "sizeof(msg->msg) - 4" to
-"sizeof(msg->msg) - data_pos".
-
-Oh, another thing is the data_length calculation in fdtv_ca_pmt() seems
-very suspicous.  Reading more than 4 bytes in the loop will lead to
-shift wrapping.
-
- drivers/media/firewire/firedtv-avc.c | 14 +++++++++++---
- drivers/media/firewire/firedtv-ci.c  |  2 ++
- 2 files changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/firewire/firedtv-avc.c b/drivers/media/firewire/firedtv-avc.c
-index 2bf9467b917d..71991f8638e6 100644
---- a/drivers/media/firewire/firedtv-avc.c
-+++ b/drivers/media/firewire/firedtv-avc.c
-@@ -1165,7 +1165,11 @@ int avc_ca_pmt(struct firedtv *fdtv, char *msg, int length)
- 		read_pos += program_info_length;
- 		write_pos += program_info_length;
- 	}
--	while (read_pos < length) {
-+	while (read_pos + 4 < length) {
-+		if (write_pos + 4 >= sizeof(c->operand) - 4) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
- 		c->operand[write_pos++] = msg[read_pos++];
- 		c->operand[write_pos++] = msg[read_pos++];
- 		c->operand[write_pos++] = msg[read_pos++];
-@@ -1177,13 +1181,17 @@ int avc_ca_pmt(struct firedtv *fdtv, char *msg, int length)
- 		c->operand[write_pos++] = es_info_length >> 8;
- 		c->operand[write_pos++] = es_info_length & 0xff;
- 		if (es_info_length > 0) {
-+			if (read_pos >= length) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
- 			pmt_cmd_id = msg[read_pos++];
- 			if (pmt_cmd_id != 1 && pmt_cmd_id != 4)
- 				dev_err(fdtv->device, "invalid pmt_cmd_id %d at stream level\n",
- 					pmt_cmd_id);
- 
--			if (es_info_length > sizeof(c->operand) - 4 -
--					     write_pos) {
-+			if (es_info_length > sizeof(c->operand) - 4 - write_pos ||
-+			    es_info_length > length - read_pos) {
- 				ret = -EINVAL;
- 				goto out;
- 			}
-diff --git a/drivers/media/firewire/firedtv-ci.c b/drivers/media/firewire/firedtv-ci.c
-index 9363d005e2b6..2d6992ac5dd6 100644
---- a/drivers/media/firewire/firedtv-ci.c
-+++ b/drivers/media/firewire/firedtv-ci.c
-@@ -134,6 +134,8 @@ static int fdtv_ca_pmt(struct firedtv *fdtv, void *arg)
- 	} else {
- 		data_length = msg->msg[3];
- 	}
-+	if (data_length > sizeof(msg->msg) - data_pos)
-+		return -EINVAL;
- 
- 	return avc_ca_pmt(fdtv, &msg->msg[data_pos], data_length);
- }
--- 
-2.30.2
+Tim
