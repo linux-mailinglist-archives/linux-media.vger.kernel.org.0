@@ -2,143 +2,293 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 987AA39DB62
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 13:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2186D39DBC7
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 13:55:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231493AbhFGLdX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 07:33:23 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:39166 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230272AbhFGLdW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 07:33:22 -0400
-Received: from [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d] (unknown [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 7A9241F4226B;
-        Mon,  7 Jun 2021 12:31:29 +0100 (BST)
-Subject: Re: [PATCH 4/8] media: Add P010 video format
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>, hverkuil@xs4all.nl,
-        ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20210604130619.491200-1-benjamin.gaignard@collabora.com>
- <20210604130619.491200-5-benjamin.gaignard@collabora.com>
- <f9fccfc4325e32022fac5f2c7b11c5e6b42e6fc8.camel@ndufresne.ca>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <d7b89e82-4b7a-69ce-74ad-d61934c03764@collabora.com>
-Date:   Mon, 7 Jun 2021 13:31:26 +0200
+        id S230261AbhFGL5C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 07:57:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47058 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230267AbhFGL5A (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 07:57:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6DB1C061787
+        for <linux-media@vger.kernel.org>; Mon,  7 Jun 2021 04:55:08 -0700 (PDT)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFF4BE04;
+        Mon,  7 Jun 2021 13:55:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623066906;
+        bh=FlVc7+oQPtAyshW79n3JQpIX9qUygCdVSjUELSi+jtQ=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=T1uqlLkqDJ8kJGIGr8jc7NZbIDxQbUFpuW07nHGNgacKmcsNJi6mSfINjbqmdVDBi
+         DzrICnxJLD6q1TFls2iqL5AAUVWdeXMLEq6WV2WViIT4C2PMVceexozNxefN935poZ
+         BfL/QBSAGe7MhRSgW4n96aueE6kjwQHLL6BRhpkI=
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
+        linux-media@vger.kernel.org
+References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
+ <20210524110909.672432-34-tomi.valkeinen@ideasonboard.com>
+ <YLo1TGU/skvimy70@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v3 33/38] media: ti-vpe: cal: add camerarx locking
+Message-ID: <d204c557-2801-8710-23f9-cb385c9c21cf@ideasonboard.com>
+Date:   Mon, 7 Jun 2021 14:55:04 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <f9fccfc4325e32022fac5f2c7b11c5e6b42e6fc8.camel@ndufresne.ca>
+In-Reply-To: <YLo1TGU/skvimy70@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-Le 04/06/2021 à 18:17, Nicolas Dufresne a écrit :
-> Le vendredi 04 juin 2021 à 15:06 +0200, Benjamin Gaignard a écrit :
->> P010 is a YUV format with 10-bits per pixel with interleaved UV.
+On 04/06/2021 17:14, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Mon, May 24, 2021 at 02:09:04PM +0300, Tomi Valkeinen wrote:
+>> We don't have any locking in camerarx for the subdev ops. We have
+>> managed fine so far without locking, but in the future multiple video
+>> capture devices can use the same camerarx, and locking is a must.
 >>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> Add a mutex to protect the camerarx subdev ops. Some of the functions
+>> were slightly restructured to make lock handling cleaner.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 >> ---
->>   .../userspace-api/media/v4l/pixfmt-yuv-planar.rst         | 8 ++++++++
->>   drivers/media/v4l2-core/v4l2-common.c                     | 1 +
->>   drivers/media/v4l2-core/v4l2-ioctl.c                      | 1 +
->>   include/uapi/linux/videodev2.h                            | 1 +
->>   4 files changed, 11 insertions(+)
+>>   drivers/media/platform/ti-vpe/cal-camerarx.c | 81 ++++++++++++++------
+>>   drivers/media/platform/ti-vpe/cal.h          |  3 +
+>>   2 files changed, 61 insertions(+), 23 deletions(-)
 >>
->> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
->> index 090c091affd2..71fed70c03ec 100644
->> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
->> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
->> @@ -100,6 +100,13 @@ All components are stored with the same number of bits per component.
->>         - Cb, Cr
->>         - No
->>         - 64x32 macroblocks
->> +    * - V4L2_PIX_FMT_P010
->> +      - 'P010'
->> +      - 10
->> +      - 4:2:0
->> +      - Cb, Cr
->> +      - No
->> +      - Linear
->>   
->>           Horizontal Z order
->>       * - V4L2_PIX_FMT_NV12MT_16X16
->> @@ -171,6 +178,7 @@ horizontally.
->>   .. _V4L2-PIX-FMT-NV21:
->>   .. _V4L2-PIX-FMT-NV12M:
->>   .. _V4L2-PIX-FMT-NV21M:
->> +.. _V4L2-PIX-FMT-P010:
-> The NV12/21 documentation is not sufficient to describe this format. While it
-> shares the layout (two planes Y and interleaved UV), it does not share the
-> packing. In this case, assuming this is P010 (and not the P010 the Rockchip
-> tried to upstreamed previously), each 10bit worth of pixel data would be pakced
-> into 16 bits with the least significant 6 bit being padding bits.
+>> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
+>> index 82392499e663..b87ffc52feb6 100644
+>> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
+>> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
+>> @@ -601,12 +601,18 @@ cal_camerarx_get_pad_format(struct cal_camerarx *phy,
+>>   static int cal_camerarx_sd_s_stream(struct v4l2_subdev *sd, int enable)
+>>   {
+>>   	struct cal_camerarx *phy = to_cal_camerarx(sd);
+>> +	int r = 0;
+> 
+> The driver uses ret :-)
 
-Yes it 10 bits packed in 16 bits. I was think that the 'Bits per component' columns
-was referring to the number of encoded bits.
-So like this is it fine ? or does something else than the bit per component need to be changed ?
-  * - V4L2_PIX_FMT_P010
-       - 'P010'
-       - 16
-       - 4:2:0
-       - Cb, Cr
-       - No
-       - Linear
+...fine... ;)
 
-Regards,
-Benjamin
+>> +
+>> +	mutex_lock(&phy->mutex);
+>>   
+>>   	if (enable)
+>> -		return cal_camerarx_start(phy);
+>> +		r = cal_camerarx_start(phy);
+>> +	else
+>> +		cal_camerarx_stop(phy);
+>>   
+>> -	cal_camerarx_stop(phy);
+>> -	return 0;
+>> +	mutex_unlock(&phy->mutex);
+>> +
+>> +	return r;
+>>   }
+>>   
+>>   static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
+>> @@ -614,27 +620,36 @@ static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
+>>   					  struct v4l2_subdev_mbus_code_enum *code)
+>>   {
+>>   	struct cal_camerarx *phy = to_cal_camerarx(sd);
+>> +	int r = 0;
+>> +
+>> +	mutex_lock(&phy->mutex);
+>>   
+>>   	/* No transcoding, source and sink codes must match. */
+>>   	if (code->pad == CAL_CAMERARX_PAD_SOURCE) {
+>>   		struct v4l2_mbus_framefmt *fmt;
+>>   
+>> -		if (code->index > 0)
+>> -			return -EINVAL;
+>> +		if (code->index > 0) {
+>> +			r = -EINVAL;
+>> +			goto out;
+>> +		}
+>>   
+>>   		fmt = cal_camerarx_get_pad_format(phy, sd_state,
+>>   						  CAL_CAMERARX_PAD_SINK,
+>>   						  code->which);
+>>   		code->code = fmt->code;
+>> -		return 0;
+>> -	}
+>> +	} else {
+>> +		if (code->index >= cal_num_formats) {
+>> +			r = -EINVAL;
+>> +			goto out;
+>> +		}
+>>   
+>> -	if (code->index >= cal_num_formats)
+>> -		return -EINVAL;
+>> +		code->code = cal_formats[code->index].code;
+>> +	}
+>>   
+>> -	code->code = cal_formats[code->index].code;
+>> +out:
+>> +	mutex_unlock(&phy->mutex);
+>>   
+>> -	return 0;
+>> +	return r;
+>>   }
+>>   
+>>   static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
+>> @@ -643,10 +658,13 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
+>>   {
+>>   	struct cal_camerarx *phy = to_cal_camerarx(sd);
+>>   	const struct cal_format_info *fmtinfo;
+>> +	int r = 0;
+>>   
+>>   	if (fse->index > 0)
+>>   		return -EINVAL;
+>>   
+>> +	mutex_lock(&phy->mutex);
+>> +
+>>   	/* No transcoding, source and sink formats must match. */
+>>   	if (fse->pad == CAL_CAMERARX_PAD_SOURCE) {
+>>   		struct v4l2_mbus_framefmt *fmt;
+>> @@ -654,27 +672,34 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
+>>   		fmt = cal_camerarx_get_pad_format(phy, sd_state,
+>>   						  CAL_CAMERARX_PAD_SINK,
+>>   						  fse->which);
+>> -		if (fse->code != fmt->code)
+>> -			return -EINVAL;
+>> +		if (fse->code != fmt->code) {
+>> +			r = -EINVAL;
+>> +			goto out;
+>> +		}
+>>   
+>>   		fse->min_width = fmt->width;
+>>   		fse->max_width = fmt->width;
+>>   		fse->min_height = fmt->height;
+>>   		fse->max_height = fmt->height;
+>> +	} else {
+>> +		fmtinfo = cal_format_by_code(fse->code);
+>> +		if (!fmtinfo) {
+>> +			r = -EINVAL;
+>> +			goto out;
+>> +		}
+>>   
+>> -		return 0;
+>> +		fse->min_width =
+>> +			CAL_MIN_WIDTH_BYTES * 8 / ALIGN(fmtinfo->bpp, 8);
+>> +		fse->max_width =
+>> +			CAL_MAX_WIDTH_BYTES * 8 / ALIGN(fmtinfo->bpp, 8);
+> 
+> This is a case where I'd write
+> 
+> 		fse->min_width = CAL_MIN_WIDTH_BYTES * 8
+> 			       / ALIGN(fmtinfo->bpp, 8);
+> 		fse->max_width = CAL_MAX_WIDTH_BYTES * 8
+> 			       / ALIGN(fmtinfo->bpp, 8);
+> 
+> or go slightly over 80 columns.
 
->
+Yes. clang-format insist on formatting like that, and I haven't figured 
+out how to prevent it from moving everything to next line. It does that 
+for some function calls too.
+
+And I'm often relying on clang-format, as my editor doesn't like mixed 
+spaces and tabs (googling shows that most of Internet hates mixed spaces 
+and tabs...).
+
+But wouldn't the operator usually be left in the earlier line, i.e.
+
+fse->min_width = CAL_MIN_WIDTH_BYTES * 8 /
+                  ALIGN(fmtinfo->bpp, 8);
+
+? That's how I would split it.
+
+>> +		fse->min_height = CAL_MIN_HEIGHT_LINES;
+>> +		fse->max_height = CAL_MAX_HEIGHT_LINES;
+>>   	}
 >>   
->>   NV12, NV21, NV12M and NV21M
->>   ---------------------------
->> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
->> index 04af03285a20..37b5d82359dd 100644
->> --- a/drivers/media/v4l2-core/v4l2-common.c
->> +++ b/drivers/media/v4l2-core/v4l2-common.c
->> @@ -266,6 +266,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
->>   		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
->>   		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
->>   		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
->> +		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+>> -	fmtinfo = cal_format_by_code(fse->code);
+>> -	if (!fmtinfo)
+>> -		return -EINVAL;
+>> -
+>> -	fse->min_width = CAL_MIN_WIDTH_BYTES * 8 / ALIGN(fmtinfo->bpp, 8);
+>> -	fse->max_width = CAL_MAX_WIDTH_BYTES * 8 / ALIGN(fmtinfo->bpp, 8);
+>> -	fse->min_height = CAL_MIN_HEIGHT_LINES;
+>> -	fse->max_height = CAL_MAX_HEIGHT_LINES;
+>> +out:
+>> +	mutex_unlock(&phy->mutex);
 >>   
->>   		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
->>   		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
->> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->> index 2673f51aafa4..6404d5b6e350 100644
->> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->> @@ -1282,6 +1282,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->>   	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
->>   	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
->>   	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
->> +	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CrCb 4:2:0"; break;
->>   	case V4L2_PIX_FMT_NV12M:	descr = "Y/CbCr 4:2:0 (N-C)"; break;
->>   	case V4L2_PIX_FMT_NV21M:	descr = "Y/CrCb 4:2:0 (N-C)"; break;
->>   	case V4L2_PIX_FMT_NV16M:	descr = "Y/CbCr 4:2:2 (N-C)"; break;
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index 9260791b8438..e5f7acde0730 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -602,6 +602,7 @@ struct v4l2_pix_format {
->>   #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
->>   #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
->>   #define V4L2_PIX_FMT_HM12    v4l2_fourcc('H', 'M', '1', '2') /*  8  YUV 4:2:0 16x16 macroblocks */
->> +#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 15  Y/CbCr 4:2:0 10-bit per pixel*/
+>> -	return 0;
+>> +	return r;
+>>   }
 >>   
->>   /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
->>   #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
->
+>>   static int cal_camerarx_sd_get_fmt(struct v4l2_subdev *sd,
+>> @@ -684,10 +709,14 @@ static int cal_camerarx_sd_get_fmt(struct v4l2_subdev *sd,
+>>   	struct cal_camerarx *phy = to_cal_camerarx(sd);
+>>   	struct v4l2_mbus_framefmt *fmt;
+>>   
+>> +	mutex_lock(&phy->mutex);
+>> +
+>>   	fmt = cal_camerarx_get_pad_format(phy, sd_state, format->pad,
+>>   					  format->which);
+>>   	format->format = *fmt;
+>>   
+>> +	mutex_unlock(&phy->mutex);
+>> +
+>>   	return 0;
+>>   }
+>>   
+>> @@ -725,6 +754,8 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
+>>   	format->format.field = V4L2_FIELD_NONE;
+>>   
+>>   	/* Store the format and propagate it to the source pad. */
+>> +	mutex_lock(&phy->mutex);
+>> +
+>>   	fmt = cal_camerarx_get_pad_format(phy, sd_state,
+>>   					  CAL_CAMERARX_PAD_SINK,
+>>   					  format->which);
+>> @@ -735,6 +766,8 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
+>>   					  format->which);
+>>   	*fmt = format->format;
+>>   
+>> +	mutex_unlock(&phy->mutex);
+>> +
+>>   	return 0;
+>>   }
+>>   
+>> @@ -801,6 +834,8 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>>   	phy->cal = cal;
+>>   	phy->instance = instance;
+>>   
+>> +	mutex_init(&phy->mutex);
+> 
+> A mutex_destroy() somewhere would be nice.
+
+Right.
+
+>> +
+>>   	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>>   						(instance == 0) ?
+>>   						"cal_rx_core0" :
+>> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+>> index ad08c189ad3b..78bd2e041d9a 100644
+>> --- a/drivers/media/platform/ti-vpe/cal.h
+>> +++ b/drivers/media/platform/ti-vpe/cal.h
+>> @@ -163,6 +163,9 @@ struct cal_camerarx {
+>>   	struct v4l2_subdev	subdev;
+>>   	struct media_pad	pads[2];
+>>   	struct v4l2_mbus_framefmt	formats[2];
+>> +
+>> +	/* mutex for camerarx ops */
+>> +	struct mutex		mutex;
+> 
+> It's best when possible to list the fields protected by a lock, instead
+> of the functions. It seems to be cal_camerarx.formats (but would need to
+> be updated in subsequent patches).
+
+I've added this.
+
+  Tomi
