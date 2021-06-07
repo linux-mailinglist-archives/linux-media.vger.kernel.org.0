@@ -2,122 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5516439D7FC
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 10:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BC9039D85C
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 11:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230252AbhFGIzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 04:55:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230193AbhFGIzs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 04:55:48 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0572C061766
-        for <linux-media@vger.kernel.org>; Mon,  7 Jun 2021 01:53:57 -0700 (PDT)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D0BCE04;
-        Mon,  7 Jun 2021 10:53:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623056035;
-        bh=wAl3heMQf03nEo6jS0A/Au1duG4s+5C9klk3VeNIhZc=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=EY9EYVbYWGxL6wPY2qek41qm5PhQbeBTPocwGh8C7IqEnDcta9QqHckPUT4QmKPwD
-         b6JeMtPM8an77WFWA5iJqE2SYVfBH4eNRfkLcA6kEKo2cDfeZ+PNlG65Mgvx4QGBuj
-         I4Yo5eUaWYH+sWk0SmWsXvMV+Gv5x6n1Dxs0kzr0=
-Subject: Re: [PATCH v3 21/38] media: ti-vpe: cal: handle cal_ctx_v4l2_register
- error
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
-        linux-media@vger.kernel.org
-References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
- <20210524110909.672432-22-tomi.valkeinen@ideasonboard.com>
- <YLou7fPDyQaCaz1o@pendragon.ideasonboard.com>
- <a810e868-5ddf-7cf6-df70-723aa8bd447b@ideasonboard.com>
- <YL3SOsELi3yuoqDl@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <e65f2fdd-9ad9-c429-76d7-2bb7a112e507@ideasonboard.com>
-Date:   Mon, 7 Jun 2021 11:53:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S230366AbhFGJQ3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 7 Jun 2021 05:16:29 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:55762 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229966AbhFGJQ3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Jun 2021 05:16:29 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lqBLB-0061OD-Gs; Mon, 07 Jun 2021 09:14:37 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lqBPa-0007in-Ry; Mon, 07 Jun 2021 09:19:11 +0000
+Date:   Mon, 7 Jun 2021 09:19:10 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1742973435.2.1623057550762@builder.linuxtv.org>
+In-Reply-To: <365909342.1.1622971150600@builder.linuxtv.org>
+References: <365909342.1.1622971150600@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3523
 MIME-Version: 1.0
-In-Reply-To: <YL3SOsELi3yuoqDl@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/06/2021 11:00, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> On Mon, Jun 07, 2021 at 10:44:17AM +0300, Tomi Valkeinen wrote:
->> On 04/06/2021 16:47, Laurent Pinchart wrote:
->>> On Mon, May 24, 2021 at 02:08:52PM +0300, Tomi Valkeinen wrote:
->>>> cal_async_notifier_complete() doesn't handle errors returned from
->>>> cal_ctx_v4l2_register(). Add the error handling.
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>    drivers/media/platform/ti-vpe/cal.c | 8 ++++++--
->>>>    1 file changed, 6 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
->>>> index ba8821a3b262..9e051c2e84a9 100644
->>>> --- a/drivers/media/platform/ti-vpe/cal.c
->>>> +++ b/drivers/media/platform/ti-vpe/cal.c
->>>> @@ -743,8 +743,12 @@ static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
->>>>    	int ret = 0;
->>>>    
->>>>    	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
->>>> -		if (cal->ctx[i])
->>>> -			cal_ctx_v4l2_register(cal->ctx[i]);
->>>> +		if (!cal->ctx[i])
->>>> +			continue;
->>>> +
->>>> +		ret = cal_ctx_v4l2_register(cal->ctx[i]);
->>>> +		if (ret)
->>>> +			return ret;
->>>
->>> This part looks good, so
->>>
->>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>
->>> Don't we need to call cal_ctx_v4l2_unregister() in the error path of
->>> cal_async_notifier_register() though ?
->>
->> Hmm, can you elaborate? I don't understand where and why we need to call
->> the unregister.
-> 
-> cal_async_notifier_complete() can be called synchronously by
-> v4l2_async_notifier_register() if all async subdevs are present. If
-> cal_ctx_v4l2_register() fails for one contexts, the failure will be
-> propagated to cal_async_notifier_register(), then to
-> cal_media_register(), and cal_probe(). Unless I'm mistaken, the contexts
-> for which cal_ctx_v4l2_register() succeeded will not be cleaned
-> properly.
+See <https://builder.linuxtv.org/job/media-build/3523/display/redirect>
 
-Right. I think this can be solved easily by unrolling in the complete callback:
+Changes:
 
-@@ -748,7 +748,16 @@ static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
-  
-  		ret = cal_ctx_v4l2_register(cal->ctx[i]);
-  		if (ret)
--			return ret;
-+			break;
-+	}
-+
-+	if (ret) {
-+		unsigned int j;
-+
-+		for (j = 0; j < i; ++j)
-+			cal_ctx_v4l2_unregister(cal->ctx[j]);
-+
-+		return ret;
-  	}
-  
-  	if (cal_mc_api)
 
-I'll squash this diff to this patch.
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision b85393d37cdac84cb846802f0d62259aa679c994 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f b85393d37cdac84cb846802f0d62259aa679c994 # timeout=10
+Commit message: "Update backports/pr_fmt.patch"
+ > git rev-list --no-walk b85393d37cdac84cb846802f0d62259aa679c994 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse b85393d37cdac84cb846802f0d62259aa679c994^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
+[GitCheckoutListener] Found previous build 'media-build #3522' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since 'b85393d37cdac84cb846802f0d62259aa679c994'
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@7149f950'
+[GitCheckoutListener] -> No new commits found
+[media-build] $ /bin/sh -xe /tmp/jenkins507076143413389498.sh
++ rm v4l/.version
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
 
-  Tomi
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2021-06-07 09:15:20--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2021-06-07 09:15:20--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  124M=0s
+
+2021-06-07 09:15:21 (124 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 4.19.0-12-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-12-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:131: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
