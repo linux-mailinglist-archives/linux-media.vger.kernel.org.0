@@ -2,39 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C05439DCAB
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 14:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF81039DD55
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 15:10:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230217AbhFGMlj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 08:41:39 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57286 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230198AbhFGMli (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 08:41:38 -0400
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 858AB8DB;
-        Mon,  7 Jun 2021 14:39:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623069586;
-        bh=W9n/33z2bW0ox0ItPnZjbzarLY7HCIwV9z97A+0qRw0=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=n8EN6u+Uh0jXPS0rCXR7EwoYDa7QPNsMiC1I2NO777iKVgkG2cTPdjQCEEPhAvKXP
-         TkA79uHOqveDci2xNDao6aqLxDEE1wlo55u7/FoJRwoHBRC/lDxZbmJ0L4ayCcpzo9
-         9tG4ArW0cWGNFvk4onJ2ID50oWOrANXjhE6jfkN4=
-Subject: Re: [PATCH v3 32/38] media: ti-vpe: cal: use CSI-2 frame number
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
-        linux-media@vger.kernel.org
-References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
- <20210524110909.672432-33-tomi.valkeinen@ideasonboard.com>
- <YLozAqLmoKnHzQEi@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <ca4c24d2-4edc-5ba4-970c-381195545a00@ideasonboard.com>
-Date:   Mon, 7 Jun 2021 15:39:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S230209AbhFGNMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 09:12:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35614 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230207AbhFGNMS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 09:12:18 -0400
+Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B962AC061766
+        for <linux-media@vger.kernel.org>; Mon,  7 Jun 2021 06:10:27 -0700 (PDT)
+Received: from hps2020.home.selasky.org (unknown [178.17.145.105])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by mail.turbocat.net (Postfix) with ESMTPSA id 101C4260074;
+        Mon,  7 Jun 2021 15:10:26 +0200 (CEST)
+Subject: Re: Genesys Logic UVC microscopes used to work with Linux, but no
+ longer do
+To:     Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <478e73fc-0e2c-4f1b-11d4-c71067764571@selasky.org>
+ <CAPybu_0q21sgn+o-AQYifks74TpHLnS2a3F-GtqJb4CJy1VEiQ@mail.gmail.com>
+From:   Hans Petter Selasky <hps@selasky.org>
+Message-ID: <8e2c7b08-f282-c263-a73d-00d74bfc0281@selasky.org>
+Date:   Mon, 7 Jun 2021 15:09:04 +0200
+User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YLozAqLmoKnHzQEi@pendragon.ideasonboard.com>
+In-Reply-To: <CAPybu_0q21sgn+o-AQYifks74TpHLnS2a3F-GtqJb4CJy1VEiQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -42,79 +40,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/06/2021 17:04, Laurent Pinchart wrote:
-> Hi Tomi,
+On 6/6/21 9:41 PM, Ricardo Ribalda Delgado wrote:
+> Hi Hans
 > 
-> Thank you for the patch.
+> Could you try running git bisect to figure out exactly at what commit
+> the device stops working?
+> https://git-scm.com/docs/git-bisect
 > 
-> On Mon, May 24, 2021 at 02:09:03PM +0300, Tomi Valkeinen wrote:
->> The driver fills buf->vb.sequence with an increasing number which is
->> incremented by the driver. This feels a bit pointless, as the userspace
->> could as well track that kind of number itself. Instead, lets use the
+> Usually in 7 steps or so you will get an answer and it will really
+> help the debug process.
 > 
-> s/lets/let's/
+> Thanks!
 > 
->> frame number provided in the CSI-2 data from the sensor.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/platform/ti-vpe/cal.c | 7 +++++--
->>   drivers/media/platform/ti-vpe/cal.h | 1 -
->>   2 files changed, 5 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
->> index 888706187fd1..62c45add4efe 100644
->> --- a/drivers/media/platform/ti-vpe/cal.c
->> +++ b/drivers/media/platform/ti-vpe/cal.c
->> @@ -493,7 +493,6 @@ void cal_ctx_unprepare(struct cal_ctx *ctx)
->>   
->>   void cal_ctx_start(struct cal_ctx *ctx)
->>   {
->> -	ctx->sequence = 0;
->>   	ctx->dma.state = CAL_DMA_RUNNING;
->>   
->>   	/* Configure the CSI-2, pixel processing and write DMA contexts. */
->> @@ -586,6 +585,10 @@ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
->>   static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->>   {
->>   	struct cal_buffer *buf = NULL;
->> +	u32 frame_num;
->> +
->> +	frame_num = cal_read(ctx->cal, CAL_CSI2_STATUS(ctx->phy->instance,
->> +						       ctx->csi2_ctx)) & 0xffff;
->>   
->>   	spin_lock(&ctx->dma.lock);
->>   
->> @@ -607,7 +610,7 @@ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->>   	if (buf) {
->>   		buf->vb.vb2_buf.timestamp = ktime_get_ns();
->>   		buf->vb.field = ctx->v_fmt.fmt.pix.field;
->> -		buf->vb.sequence = ctx->sequence++;
->> +		buf->vb.sequence = frame_num;
-> 
-> We'll need something a bit more complicated. The CSI-2 frame number is
-> not mandatory, and when used, it is a 16-bit number starting at 1 and
-> counting to an unspecified value larger than one, resetting to 1 at the
-> end of the cycle. The V4L2 sequence number, on the other hand, is a
-> monotonic counter starting at 0 and wrapping only at 2^32-1. We should
-> thus keep a software sequence counter and
-> 
-> - increase it by 1 if the frame number is zero
-> - increase it by frame_num - last_frame_num (with wrap-around of
->    frame_num handled) otherwise
 
-Ok... I wonder if we need a new field for this, though. The problem I 
-was solving when I changed this to use the CSI-2 frame-number was how to 
-associate a pixel frame and a metadata frame.
+Hi Ricardo,
 
-Their CSI-2 frame-numbers match (as they are from the same original 
-CSI-2 frame), so the userspace can use that to figure the matching 
-frames. While the above method you suggest should give us identical 
-sequence numbers for pixel and metadata, I think it's going a bit away 
-from my intended purpose, and possibly risks ending up with different 
-sequences for pixel and metadata.
+I did a quick bisect back to Linux 4.2 (Torvald's Linux), but was unable 
+to find the offending commit. All revisions didn't work. This was done 
+on FreeBSD. I'm pretty sure this has worked before, because I have some 
+microscope pictures saved on my computer from 7th of February 2020. That 
+UVC code was on Linux 5.10-rc6 (Torvald's Linux).
 
-So do we need the sequence number, as it is currently, and something new 
-for this buffer matching purpose?
+Then I didn't use the USB microscope for a year. And when I plugged it 
+again recently, I only got it working with MacOSX.
 
-  Tomi
+Then I made a USB trace, and found that Linux sent a lot of default 
+value parameters during attach.
+
+When I removed those, the device started working again.
+
+So maybe some timing issue then :-(
+
+Anyways optimizing away those redundant parameters settings should be a 
+good thing to reduce stress on UVC devices during attach. See separate 
+patch I posted.
+
+Thank you for your time!
+
+--HPS
