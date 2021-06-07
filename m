@@ -2,259 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87CFA39E734
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 21:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C26539E839
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 22:19:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbhFGTJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 15:09:33 -0400
-Received: from gateway24.websitewelcome.com ([192.185.50.45]:33915 "EHLO
-        gateway24.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230311AbhFGTJc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Jun 2021 15:09:32 -0400
-Received: from cm13.websitewelcome.com (cm13.websitewelcome.com [100.42.49.6])
-        by gateway24.websitewelcome.com (Postfix) with ESMTP id 276E36593A
-        for <linux-media@vger.kernel.org>; Mon,  7 Jun 2021 14:05:01 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id qKWalCtVnVBxyqKWaldtVa; Mon, 07 Jun 2021 14:03:00 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=yngJfhdJltO5vFUnNbwfVYVcqu0UX/H3j06Drqm3jmM=; b=h7OzdLp9emwfcv6H1B7jdYZoF5
-        Mux6TczeCdyqYjjirBLxJiO5YE5mky9UWgp55m8muvF2y/e+CNo8Jy4S08qbpAhKfK4SUBe7QF7x5
-        2c1iBU/SJWDwL1QFzCYPCVsLxUB8UGOmzH6La5F7xZLllX0RGSCZsVgP/WIxmbqpld/9+P/UrwwWu
-        efcNzJXAmGh2WJr/IvsztlJdtUiA+8vetus7RVT73P2PfVQhoTXXX6959KPnM7rYFGyJSXTTCs4hg
-        utqmMj4kaJnN4tcpW9yoBjgDPgwgXwMWzW28NbqUEFlAufoaGpBxJmQ44l/jYA3OPTYH9thOL9gMn
-        ip9PqY4w==;
-Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:50482 helo=[192.168.15.8])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1lqKWX-0028rF-SY; Mon, 07 Jun 2021 14:02:57 -0500
-Subject: Re: [PATCH RESEND][next] media: siano: Fix out-of-bounds warnings in
- smscore_load_firmware_family2()
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org, Kees Cook <keescook@chromium.org>
-References: <20210511174547.GA33234@embeddedor>
- <fbff2fe5-6675-1538-f9aa-a8d77810a63b@embeddedor.com>
-Message-ID: <97eb2065-e8cd-d818-9fcf-7e399d245bc1@embeddedor.com>
-Date:   Mon, 7 Jun 2021 14:04:08 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S231263AbhFGUU7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 16:20:59 -0400
+Received: from mail-lj1-f182.google.com ([209.85.208.182]:39707 "EHLO
+        mail-lj1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230502AbhFGUU7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 16:20:59 -0400
+Received: by mail-lj1-f182.google.com with SMTP id c11so23942923ljd.6
+        for <linux-media@vger.kernel.org>; Mon, 07 Jun 2021 13:18:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aVD8lq1uNANeZKWp0ZPkE9JXADJnLuidcBKbXh2dcbI=;
+        b=Bv1Pt/sAx0q2PDSnmNa0pGYRgEyRTbhZO5Zmb99/9IvWZxsicenBbsIaT4QeU0SE8Y
+         41Ab/+s5z1Lon0v7c34t3H0SNH5Xu6kF3TKNZI3AWAGBaAbBwPdC8tUwQhimimY+vHks
+         DA7AjLy6eRbBDzvQZRwoBNmxF2CSYVEatbDPkD99QS9L2tKQcrZPqXTDqnXPZ6gM+1X4
+         uYY/hdsNaDsCMcKiVrFEQscpeCPXY/+8OUvzwnhYnzhYscra1lnFY/sBYSlm/h1AqO1i
+         VsWURb4NbccZ+2hOD/x1cF1JoBee+e+Bvw12ElTKM0lloTRBaof4wAU/JnXakQqtIQLa
+         nPDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aVD8lq1uNANeZKWp0ZPkE9JXADJnLuidcBKbXh2dcbI=;
+        b=ZIBkDrV3/M3YlpipU17eHx8IBveq3qrt3QFB1wWYxwuNHYjsN+/97pNerONkjCAJ+H
+         w41N3xwzX/TG5SE2P54AzsO59jARA4GWwDg7GG6/Ov5pmyVvCG3r65BRgC/u00DPC8lR
+         SHYnBIp75tlqtIqQ8ulZ7yYPqporvEGlhUh/ffB73sQ1gH8Fc28vrXo2C+9echL+7U7q
+         5hwRF0zckonvoe1gEZH39V6MDyAJmcC+I9jbLIUI6o5t4mIyIyy9Ik8MMMYiD+r4bFrY
+         mf5jR1MB1niQ8etyRiKIFep/wfcKfE7gjoLHxCYs4Iz8W46ke0wkhdIYXT032EKxIZ/h
+         xBqw==
+X-Gm-Message-State: AOAM533e3sYy7Rc1MJkJvxCw1aQWE2rXf2acI9nisgmYrbRrcWA4Q3++
+        AuqGk9jyfec3KEY7dSM2nb4q36YU1q4WQBKsgmgoqtA3Ya0=
+X-Google-Smtp-Source: ABdhPJw0/qPxUNO5vXTaB06yRHt8+85C/oalaRbTTgF25himPKRudMcaDKldQ9WXAPwVsbnZuFE0N3PJqcVVn5yNDHE=
+X-Received: by 2002:a2e:9e53:: with SMTP id g19mr16475855ljk.58.1623097071585;
+ Mon, 07 Jun 2021 13:17:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <fbff2fe5-6675-1538-f9aa-a8d77810a63b@embeddedor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.31.110
-X-Source-L: No
-X-Exim-ID: 1lqKWX-0028rF-SY
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8]) [187.162.31.110]:50482
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 3
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+References: <478e73fc-0e2c-4f1b-11d4-c71067764571@selasky.org> <b3747aa3-9984-0456-943a-b16e687c0ec0@selasky.org>
+In-Reply-To: <b3747aa3-9984-0456-943a-b16e687c0ec0@selasky.org>
+From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date:   Mon, 7 Jun 2021 22:17:35 +0200
+Message-ID: <CAPybu_3058QGK3uRZn4Q9Pru5ReMjVyD4tj9_+Lt4y0kxskfcA@mail.gmail.com>
+Subject: Re: [PATCH] Genesys Logic UVC microscopes used to work with Linux
+To:     Hans Petter Selasky <hps@selasky.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+Maybe you want to handle this with a quirk? I suspect that some
+devices might work differently with this patches?
 
-As I haven't received any response for this patch in almost three months[1] since I first
-sent it out, I'm taking this in my -next[2] branch for v5.14.
-
-Thanks
---
-Gustavo
-
-[1] https://lore.kernel.org/linux-hardening/20210311021947.GA129388@embeddedor/
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/log/?h=for-next/kspp
-
-On 6/1/21 17:12, Gustavo A. R. Silva wrote:
+On Sun, Jun 6, 2021 at 3:36 PM Hans Petter Selasky <hps@selasky.org> wrote:
+>
 > Hi,
-> 
-> I've been pinging and resending this patch multiple times. Is there someone out there
-> that can give me some feedback on this, please?
-> 
-> I'm fine with adding this to my -next branch for 5.14 if no one cares. :)
-> 
-> Thanks
-> --
-> Gustavo
-> 
-> On 5/11/21 12:45, Gustavo A. R. Silva wrote:
->> Rename struct sms_msg_data4 to sms_msg_data5 and increase the size of
->> its msg_data array from 4 to 5 elements. Notice that at some point
->> the 5th element of msg_data is being accessed in function
->> smscore_load_firmware_family2():
->>
->> 1006                 trigger_msg->msg_data[4] = 4; /* Task ID */
->>
->> Also, there is no need for the object _trigger_msg_ of type struct
->> sms_msg_data *, when _msg_ can be used, directly. Notice that msg_data
->> in struct sms_msg_data is a one-element array, which causes multiple
->> out-of-bounds warnings when accessing beyond its first element
->> in function smscore_load_firmware_family2():
->>
->>  992                 struct sms_msg_data *trigger_msg =                                                  
->>  993                         (struct sms_msg_data *) msg;                                                
->>  994                                                                                                     
->>  995                 pr_debug("sending MSG_SMS_SWDOWNLOAD_TRIGGER_REQ\n");                               
->>  996                 SMS_INIT_MSG(&msg->x_msg_header,                                                    
->>  997                                 MSG_SMS_SWDOWNLOAD_TRIGGER_REQ,                                     
->>  998                                 sizeof(struct sms_msg_hdr) +                                        
->>  999                                 sizeof(u32) * 5);                                                   
->> 1000                                                                                                     
->> 1001                 trigger_msg->msg_data[0] = firmware->start_address;                                 
->> 1002                                         /* Entry point */                                           
->> 1003                 trigger_msg->msg_data[1] = 6; /* Priority */                                        
->> 1004                 trigger_msg->msg_data[2] = 0x200; /* Stack size */                                  
->> 1005                 trigger_msg->msg_data[3] = 0; /* Parameter */                                       
->> 1006                 trigger_msg->msg_data[4] = 4; /* Task ID */ 
->>
->> even when enough dynamic memory is allocated for _msg_:
->>
->>  929         /* PAGE_SIZE buffer shall be enough and dma aligned */
->>  930         msg = kmalloc(PAGE_SIZE, GFP_KERNEL | coredev->gfp_buf_flags);
->>
->> but as _msg_ is casted to (struct sms_msg_data *):
->>
->>  992                 struct sms_msg_data *trigger_msg =
->>  993                         (struct sms_msg_data *) msg;
->>
->> the out-of-bounds warnings are actually valid and should be addressed.
->>
->> Fix this by declaring object _msg_ of type struct sms_msg_data5 *,
->> which contains a 5-elements array, instead of just 4. And use
->> _msg_ directly, instead of creating object trigger_msg.
->>
->> This helps with the ongoing efforts to enable -Warray-bounds by fixing
->> the following warnings:
->>
->>   CC [M]  drivers/media/common/siano/smscoreapi.o
->> drivers/media/common/siano/smscoreapi.c: In function ‘smscore_load_firmware_family2’:
->> drivers/media/common/siano/smscoreapi.c:1003:24: warning: array subscript 1 is above array bounds of ‘u32[1]’ {aka ‘unsigned int[1]’} [-Warray-bounds]
->>  1003 |   trigger_msg->msg_data[1] = 6; /* Priority */
->>       |   ~~~~~~~~~~~~~~~~~~~~~^~~
->> In file included from drivers/media/common/siano/smscoreapi.c:12:
->> drivers/media/common/siano/smscoreapi.h:619:6: note: while referencing ‘msg_data’
->>   619 |  u32 msg_data[1];
->>       |      ^~~~~~~~
->> drivers/media/common/siano/smscoreapi.c:1004:24: warning: array subscript 2 is above array bounds of ‘u32[1]’ {aka ‘unsigned int[1]’} [-Warray-bounds]
->>  1004 |   trigger_msg->msg_data[2] = 0x200; /* Stack size */
->>       |   ~~~~~~~~~~~~~~~~~~~~~^~~
->> In file included from drivers/media/common/siano/smscoreapi.c:12:
->> drivers/media/common/siano/smscoreapi.h:619:6: note: while referencing ‘msg_data’
->>   619 |  u32 msg_data[1];
->>       |      ^~~~~~~~
->> drivers/media/common/siano/smscoreapi.c:1005:24: warning: array subscript 3 is above array bounds of ‘u32[1]’ {aka ‘unsigned int[1]’} [-Warray-bounds]
->>  1005 |   trigger_msg->msg_data[3] = 0; /* Parameter */
->>       |   ~~~~~~~~~~~~~~~~~~~~~^~~
->> In file included from drivers/media/common/siano/smscoreapi.c:12:
->> drivers/media/common/siano/smscoreapi.h:619:6: note: while referencing ‘msg_data’
->>   619 |  u32 msg_data[1];
->>       |      ^~~~~~~~
->> drivers/media/common/siano/smscoreapi.c:1006:24: warning: array subscript 4 is above array bounds of ‘u32[1]’ {aka ‘unsigned int[1]’} [-Warray-bounds]
->>  1006 |   trigger_msg->msg_data[4] = 4; /* Task ID */
->>       |   ~~~~~~~~~~~~~~~~~~~~~^~~
->> In file included from drivers/media/common/siano/smscoreapi.c:12:
->> drivers/media/common/siano/smscoreapi.h:619:6: note: while referencing ‘msg_data’
->>   619 |  u32 msg_data[1];
->>       |      ^~~~~~~~
->>
->> Fixes: 018b0c6f8acb ("[media] siano: make load firmware logic to work with newer firmwares")
->> Co-developed-by: Kees Cook <keescook@chromium.org>
->> Signed-off-by: Kees Cook <keescook@chromium.org>
->> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->> ---
->> Hi,
->>
->> We are about to be able to globally enable -Warray-bounds and,
->> these are pretty much the last out-of-bounds warnings in linux-next.
->>
->> Thanks
->>
->>  drivers/media/common/siano/smscoreapi.c | 22 +++++++++-------------
->>  drivers/media/common/siano/smscoreapi.h |  4 ++--
->>  2 files changed, 11 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/media/common/siano/smscoreapi.c b/drivers/media/common/siano/smscoreapi.c
->> index 410cc3ac6f94..bceaf91faa15 100644
->> --- a/drivers/media/common/siano/smscoreapi.c
->> +++ b/drivers/media/common/siano/smscoreapi.c
->> @@ -908,7 +908,7 @@ static int smscore_load_firmware_family2(struct smscore_device_t *coredev,
->>  					 void *buffer, size_t size)
->>  {
->>  	struct sms_firmware *firmware = (struct sms_firmware *) buffer;
->> -	struct sms_msg_data4 *msg;
->> +	struct sms_msg_data5 *msg;
->>  	u32 mem_address,  calc_checksum = 0;
->>  	u32 i, *ptr;
->>  	u8 *payload = firmware->payload;
->> @@ -989,24 +989,20 @@ static int smscore_load_firmware_family2(struct smscore_device_t *coredev,
->>  		goto exit_fw_download;
->>  
->>  	if (coredev->mode == DEVICE_MODE_NONE) {
->> -		struct sms_msg_data *trigger_msg =
->> -			(struct sms_msg_data *) msg;
->> -
->>  		pr_debug("sending MSG_SMS_SWDOWNLOAD_TRIGGER_REQ\n");
->>  		SMS_INIT_MSG(&msg->x_msg_header,
->>  				MSG_SMS_SWDOWNLOAD_TRIGGER_REQ,
->> -				sizeof(struct sms_msg_hdr) +
->> -				sizeof(u32) * 5);
->> +				sizeof(*msg));
->>  
->> -		trigger_msg->msg_data[0] = firmware->start_address;
->> +		msg->msg_data[0] = firmware->start_address;
->>  					/* Entry point */
->> -		trigger_msg->msg_data[1] = 6; /* Priority */
->> -		trigger_msg->msg_data[2] = 0x200; /* Stack size */
->> -		trigger_msg->msg_data[3] = 0; /* Parameter */
->> -		trigger_msg->msg_data[4] = 4; /* Task ID */
->> +		msg->msg_data[1] = 6; /* Priority */
->> +		msg->msg_data[2] = 0x200; /* Stack size */
->> +		msg->msg_data[3] = 0; /* Parameter */
->> +		msg->msg_data[4] = 4; /* Task ID */
->>  
->> -		rc = smscore_sendrequest_and_wait(coredev, trigger_msg,
->> -					trigger_msg->x_msg_header.msg_length,
->> +		rc = smscore_sendrequest_and_wait(coredev, msg,
->> +					msg->x_msg_header.msg_length,
->>  					&coredev->trigger_done);
->>  	} else {
->>  		SMS_INIT_MSG(&msg->x_msg_header, MSG_SW_RELOAD_EXEC_REQ,
->> diff --git a/drivers/media/common/siano/smscoreapi.h b/drivers/media/common/siano/smscoreapi.h
->> index 4a6b9f4c44ac..f8789ee0d554 100644
->> --- a/drivers/media/common/siano/smscoreapi.h
->> +++ b/drivers/media/common/siano/smscoreapi.h
->> @@ -624,9 +624,9 @@ struct sms_msg_data2 {
->>  	u32 msg_data[2];
->>  };
->>  
->> -struct sms_msg_data4 {
->> +struct sms_msg_data5 {
->>  	struct sms_msg_hdr x_msg_header;
->> -	u32 msg_data[4];
->> +	u32 msg_data[5];
->>  };
->>  
->>  struct sms_data_download {
->>
+>
+> Some USB video class compliant devices, like Genesys Logic camera chips,
+> used in cheap microscopes, doesn't provide any image if there are UVC
+> SET current value commands for the processing unit, before the camera
+> stream is activated. Fix this by not issuing any UVC SET current value
+> commands, if the value was not changed. This should also work fine with
+> existing UVC compliant webcams and optimized the number of needed
+> processing unit control endpoint requests.
+>
+> Signed-off-by: Hans Petter Selasky <hps@selasky.org>
+>
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c
+> b/drivers/media/usb/uvc/uvc_ctrl.c
+> index b3dde98499f4..0d7137eca331 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1697,7 +1697,13 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+>          if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
+>                  ctrl->handle = handle;
+>
+> -       ctrl->dirty = 1;
+> +       /* Avoid setting the current value. */
+> +       if (!ctrl->dirty &&
+> +           memcmp(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_BACKUP),
+> +                  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+> +                  ctrl->info.size) != 0)
+> +               ctrl->dirty = 1;
+> +
+>          ctrl->modified = 1;
+>          return 0;
+>   }
+
+
+
+-- 
+Ricardo Ribalda
