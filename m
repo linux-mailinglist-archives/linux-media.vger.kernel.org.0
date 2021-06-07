@@ -2,115 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A0D539D62E
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 09:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58FF539D63C
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 09:43:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230177AbhFGHky convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 7 Jun 2021 03:40:54 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3079 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbhFGHky (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 03:40:54 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Fz4r42KKCzWsvZ;
-        Mon,  7 Jun 2021 15:34:12 +0800 (CST)
-Received: from dggpeml500016.china.huawei.com (7.185.36.70) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 7 Jun 2021 15:39:01 +0800
-Received: from huawei.com (10.174.179.133) by dggpeml500016.china.huawei.com
- (7.185.36.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 7 Jun 2021
- 15:39:01 +0800
-From:   Yang Yanchao <yangyanchao6@huawei.com>
-To:     <dan.carpenter@oracle.com>
-CC:     <linux-distros@vs.openwall.org>, <linux-media@vger.kernel.org>,
-        <linux1394-devel@lists.sourceforge.net>, <mchehab@kernel.org>,
-        <security@kernel.org>
-Subject: [PATCH] media firewire firedtv-avc fix a buffer overflow in avc_ca_pmt() 
-Date:   Mon, 7 Jun 2021 15:39:00 +0800
-Message-ID: <20210607073900.1298-1-yangyanchao6@huawei.com>
-X-Mailer: git-send-email 2.31.1.windows.1
+        id S230222AbhFGHpR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 03:45:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47518 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229545AbhFGHpQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 03:45:16 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CDB3C061766;
+        Mon,  7 Jun 2021 00:43:26 -0700 (PDT)
+Received: from [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d] (unknown [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 09C031F42088;
+        Mon,  7 Jun 2021 08:43:23 +0100 (BST)
+Subject: Re: [PATCH 1/2] media: hevc: Add segment address field
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+        hverkuil-cisco@xs4all.nl, ezequiel@collabora.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <20210606082314.454193-1-jernej.skrabec@gmail.com>
+ <20210606082314.454193-2-jernej.skrabec@gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <82dfa0fa-995a-93af-dce7-79763e762cc3@collabora.com>
+Date:   Mon, 7 Jun 2021 09:43:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain
-X-Originating-IP: [10.174.179.133]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500016.china.huawei.com (7.185.36.70)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20210606082314.454193-2-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For CVE-2021-3542:
 
-1、read_pos will be added four times in the patch, 
-so use "read_pos + 4 < length" and write_pos as well
+Le 06/06/2021 à 10:23, Jernej Skrabec a écrit :
+> If HEVC frame consists of multiple slices, segment address has to be
+> known in order to properly decode it.
+>
+> Add segment address field to slice parameters.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-2. The last four bits of c->operand are used for CRC, 
-so "sizeof (C - > operand) - 4" is used
+Reviewed-by Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-3. "read_pos+=2" is added after the end of read_pos, so add value (read_pos >= length)
-
-4. In order to avoid memcpy crossing the boundary, es_ info_ length > length - read_ pos
-
-5. When the date_length is a specific input of a construction,it will cause memcpy
- to exceed the boundary, "(MSG - > MSG [3] & 0x7F) + date_ length) > (sizeof(msg->msg) - 4)"
-
-Signed-off-by: yangyanchao <yangyanchao6@huawei.com>
----
- drivers/media/firewire/firedtv-avc.c | 14 +++++++++++---
- drivers/media/firewire/firedtv-ci.c  |  2 ++
- 2 files changed, 13 insertions(+), 3 deletions(-)
-diff --git a/drivers/media/firewire/firedtv-avc.c b/drivers/media/firewire/firedtv-avc.c
-index 3ef5df164..8c31cf90c 100644
---- a/drivers/media/firewire/firedtv-avc.c
-+++ b/drivers/media/firewire/firedtv-avc.c
-@@ -1169,7 +1169,11 @@ int avc_ca_pmt(struct firedtv *fdtv, char *msg, int length)
- 		read_pos += program_info_length;
- 		write_pos += program_info_length;
- 	}
--	while (read_pos < length) {
-+	while (read_pos + 4 < length) {
-+		if (write_pos + 4 >= sizeof(c->operand) - 4) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
- 		c->operand[write_pos++] = msg[read_pos++];
- 		c->operand[write_pos++] = msg[read_pos++];
- 		c->operand[write_pos++] = msg[read_pos++];
-@@ -1181,13 +1185,17 @@ int avc_ca_pmt(struct firedtv *fdtv, char *msg, int length)
- 		c->operand[write_pos++] = es_info_length >> 8;
- 		c->operand[write_pos++] = es_info_length & 0xff;
- 		if (es_info_length > 0) {
-+			if (read_pos >= length) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
- 			pmt_cmd_id = msg[read_pos++];
- 			if (pmt_cmd_id != 1 && pmt_cmd_id != 4)
- 				dev_err(fdtv->device, "invalid pmt_cmd_id %d at stream level\n",
- 					pmt_cmd_id);
- 
--			if (es_info_length > sizeof(c->operand) - 4 -
--					     write_pos) {
-+			if (es_info_length > sizeof(c->operand) - 4 - write_pos ||
-+			    es_info_length > length - read_pos) {
- 				ret = -EINVAL;
- 				goto out;
- 			}
-diff --git a/drivers/media/firewire/firedtv-ci.c b/drivers/media/firewire/firedtv-ci.c
-index 8dc5a7495..0e7ffa156 100644
---- a/drivers/media/firewire/firedtv-ci.c
-+++ b/drivers/media/firewire/firedtv-ci.c
-@@ -135,6 +135,8 @@ static int fdtv_ca_pmt(struct firedtv *fdtv, void *arg)
- 		data_length = 0;
- 		for (i = 0; i < (msg->msg[3] & 0x7f); i++)
- 			data_length = (data_length << 8) + msg->msg[data_pos++];
-+		if (((msg->msg[3] & 0x7f) + date_length) > (sizeof(msg->msg) - 4))
-+			return -EINVAL;
- 	} else {
- 		data_length = msg->msg[3];
- 	}
--- 
-2.23.0
+> ---
+>   Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 3 +++
+>   include/media/hevc-ctrls.h                                | 3 ++-
+>   2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 9120c5bcaf90..fac4b477da82 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2997,6 +2997,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>       * - __u8
+>         - ``pic_struct``
+>         -
+> +    * - __u32
+> +      - ``slice_segment_addr``
+> +      -
+>       * - __u8
+>         - ``ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>         - The list of L0 reference elements as indices in the DPB.
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index dc964ff7cd29..19f8e2ad3375 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -197,10 +197,11 @@ struct v4l2_ctrl_hevc_slice_params {
+>   	__u8	pic_struct;
+>   
+>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
+> +	__u32	slice_segment_addr;
+>   	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>   	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>   
+> -	__u8	padding[5];
+> +	__u8	padding;
+>   
+>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+>   	struct v4l2_hevc_pred_weight_table pred_weight_table;
