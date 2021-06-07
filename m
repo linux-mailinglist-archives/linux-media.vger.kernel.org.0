@@ -2,172 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9094539D9E6
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 12:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BDCF39DA41
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 12:53:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230256AbhFGKnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 06:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58732 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230194AbhFGKnC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 06:43:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0309EC061766
-        for <linux-media@vger.kernel.org>; Mon,  7 Jun 2021 03:41:10 -0700 (PDT)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 048778DB;
-        Mon,  7 Jun 2021 12:41:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623062468;
-        bh=7uXnSjJORVGI6qtF6jNr36BqK1Ewprlx4XEYBYXECjw=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=wJPNYAsPFdAmx/7Giwhh9aaCcd637QPKk+F954kKAtEupiaku0d94+WHw+FgJOU3k
-         oV6GK9nJgK3BmGR4RTUxuRho2tHNyS/ChaRTKET0aQchefFj0DG62jqaxfD6MuZn9B
-         haQGuZkDOr2xy0zo3PekgChcD3mF8vXLkE2iXgOI=
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
-        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
-References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
- <20210412113457.328012-16-tomi.valkeinen@ideasonboard.com>
- <YHwqLSgwYmt9ZAOU@pendragon.ideasonboard.com>
- <9d6b96f4-cdb0-5820-965d-7135a926829f@ideasonboard.com>
- <YIn2Y/HpOPBKUzh/@pendragon.ideasonboard.com>
- <YLouK5I6b+YfQBgh@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 15/28] media: ti-vpe: cal: remove wait when stopping
- camerarx
-Message-ID: <95e7b3ee-4f61-40a8-3693-8884b9629f44@ideasonboard.com>
-Date:   Mon, 7 Jun 2021 13:41:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <YLouK5I6b+YfQBgh@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+        id S231300AbhFGKyx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 06:54:53 -0400
+Received: from comms.puri.sm ([159.203.221.185]:53166 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231243AbhFGKyu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Jun 2021 06:54:50 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 1CF70E0012;
+        Mon,  7 Jun 2021 03:52:29 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id diGtBasROJRc; Mon,  7 Jun 2021 03:52:27 -0700 (PDT)
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     martin.kepplinger@puri.sm, krzysztof.kozlowski@canonical.com,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        paul.kocialkowski@bootlin.com, pavel@ucw.cz
+Cc:     devicetree@vger.kernel.org, kernel@puri.sm,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        phone-devel@vger.kernel.org, robh@kernel.org, shawnx.tu@intel.com
+Subject: [PATCH v4 0/5] Add support for the Hynix Hi-846 camera
+Date:   Mon,  7 Jun 2021 12:52:08 +0200
+Message-Id: <20210607105213.1211722-1-martin.kepplinger@puri.sm>
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/06/2021 16:44, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> On Thu, Apr 29, 2021 at 02:57:23AM +0300, Laurent Pinchart wrote:
->> On Mon, Apr 19, 2021 at 02:29:20PM +0300, Tomi Valkeinen wrote:
->>> On 18/04/2021 15:46, Laurent Pinchart wrote:
->>>> On Mon, Apr 12, 2021 at 02:34:44PM +0300, Tomi Valkeinen wrote:
->>>>> Asserting ComplexIO reset seems to affect the HW (ie. asserting reset
->>>>> will break an active capture), but the RESET_DONE bit never changes to
->>>>> "reset is ongoing" state. Thus we always get a timeout.
->>>>>
->>>>> Drop the wait, as it seems to achieve nothing.
->>>>>
->>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>>> ---
->>>>>    drivers/media/platform/ti-vpe/cal-camerarx.c | 15 ++-------------
->>>>>    1 file changed, 2 insertions(+), 13 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
->>>>> index 0354f311c5d2..245c601b992c 100644
->>>>> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
->>>>> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
->>>>> @@ -405,7 +405,6 @@ static int cal_camerarx_start(struct cal_camerarx *phy)
->>>>>    
->>>>>    static void cal_camerarx_stop(struct cal_camerarx *phy)
->>>>>    {
->>>>> -	unsigned int i;
->>>>>    	int ret;
->>>>>    
->>>>>    	cal_camerarx_ppi_disable(phy);
->>>>> @@ -419,19 +418,9 @@ static void cal_camerarx_stop(struct cal_camerarx *phy)
->>>>>    			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL,
->>>>>    			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK);
->>>>>    
->>>>> -	/* Wait for power down completion */
->>>>> -	for (i = 0; i < 10; i++) {
->>>>> -		if (cal_read_field(phy->cal,
->>>>> -				   CAL_CSI2_COMPLEXIO_CFG(phy->instance),
->>>>> -				   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_MASK) ==
->>>>> -		    CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING)
->>>>
->>>> Isn't this the wrong condition ? I would have expected
->>>> CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETCOMPLETED, not
->>>> CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING. That could explain why
->>>> you always get a timeout.
->>>
->>> No, I don't think so. The complexio reset is set active just before the
->>> wait. So the reset status should show reset ongoing, until at some point
->>> we release the reset (we do that when starting the PHY again).
->>>
->>> The TRM doesn't talk about this, though. So, I guess the status might go
->>> to RESETONGOING for a very short time and back to RESETCOMPLETED before
->>> the code can see the RESETONGOING. But I suspect the status just stays
->>> at RESETCOMPLETED.
->>
->> The TRM is indeed not very clear. My understanding was that asserting
->> RESET_CTRL initiates the reset, and RESET_DONE switches to 1 once the
->> reset completes. There's however a note in the initialization sequence
->> that states
->>
->> a. Deassert the CAMERARX reset:
->> i. Set CAL_CSI2_COMPLEXIO_CFG_j[30] RESET_CTRL to 0x1.
->> CAUTION
->> For the CAL_CSI2_COMPLEXIO_CFG_j[29] RESET_DONE bit to be set to 0x1
->> (reset completed), the external sensor must to be active and sending the
->> MIPI HS BYTECLK (that is, RXBYTECLKHS clock).
->>
->> The RESET_DONE bit may thus only toggle when de-asserting the reset
->> signal (by setting RESET_CTRL to 1). It would be useful to test that
->> hypothesis by reading RESET_DONE just before setting RESET_CTRL to 1,
->> and right after. I'd expect the values to be 0 and 1 respectively. If
->> that's the case, then this patch is likely correct, so
->>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>
->>
->> The register macros are quite confusing by the way. We have
->>
->> #define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK          BIT(30)
->> #define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL                       0
->> #define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_OPERATIONAL           1
->>
->> When reading the code, I thought
->>
->>          cal_write_field(phy->cal, CAL_CSI2_COMPLEXIO_CFG(phy->instance),
->>                          CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL,
->>                          CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK)
->>
->> meant that we were setting the reset bit to 1. I would personally get
->> rid of the _MASK suffixes for single bits, and use 0 and 1 in the code
->> instead of CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL and
->> CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_OPERATIONAL.
-> 
-> Do you think this would be a good idea ? It can be done in a follow-up
-> patch.
+hi,
 
-I'd rather keep the MASK prefix as it's used for multiple bit masks too.
+This patchset adds support for the SK Hynix Hi-846 CMOS images sensor.
+It includes dt-bindings and the driver.
 
-I think the problem here is the define for 0. The define should tell 
-what the bit value does, but here it's just the field name. The value 
-defines could perhaps be:
+Patches 4 and 5 are basically optional: if i2c-cardlist is deprecated,
+ignore it and act on it appropriately, and the arm64 defconfig is just
+convenience for now.
 
-#define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_ASSERT           0
-#define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_DEASSERT         1
+best wishes,
 
-Using just 0 or 1 may work fine at times, but often you don't know what 
-they mean. You set 1 to RESET_CTRL. Does it put the IP into reset? Or 
-release the reset?
+                              martin
 
-Some other bits in cal_regs.h are fine, like:
+revision history
+----------------
+v4: (thank you Laurent, Sakari and Rob) many driver changes, see v3 review for
+details. they include:
+* add get_selection(), remove open() callback
+* use gpiod API
+* use regulator_bulk API
+* fix power supply timing sequence and bindings
 
-#define CAL_CTRL_PWRSCPCLK_MASK			BIT(21)
-#define CAL_CTRL_PWRSCPCLK_AUTO				0
-#define CAL_CTRL_PWRSCPCLK_FORCE			1
+v3: (thank you, Laurent)
+* use do_div() for divisions
+* reset-gpios DT property name instead of rst-gpios
+* improve the dt-bindings
+* add the phone-devel list
+* https://lore.kernel.org/linux-media/20210531120737.168496-1-martin.kepplinger@puri.sm/
 
-But some have this same issue:
+v2:
+sent a bit early due to stupid mistakes
+* fix build issues
+* fix dtschema issues
+* add enable for arm64 defconfig
+* https://lore.kernel.org/linux-media/20210530212337.GA15366@duo.ucw.cz/T/#t
 
-#define CAL_CTRL_POSTED_WRITES_MASK		BIT(0)
-#define CAL_CTRL_POSTED_WRITES_NONPOSTED		0
-#define CAL_CTRL_POSTED_WRITES				1
+v1:
+* https://lore.kernel.org/linux-media/20210527091221.3335998-1-martin.kepplinger@puri.sm/
 
-  Tomi
+
+Martin Kepplinger (5):
+  dt-bindings: vendor-prefixes: Add SK Hynix Inc.
+  dt-bindings: media: document SK Hynix Hi-846 MIPI CSI-2 8M pixel
+    sensor
+  media: i2c: add driver for the SK Hynix Hi-846 8M pixel camera
+  arm64: defconfig: enable VIDEO_HI846
+  Documentation: i2c-cardlist: add the Hynix hi846 sensor
+
+ .../admin-guide/media/i2c-cardlist.rst        |    1 +
+ .../bindings/media/i2c/hynix,hi846.yaml       |  105 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |    6 +
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/media/i2c/Kconfig                     |   13 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/hi846.c                     | 2117 +++++++++++++++++
+ 8 files changed, 2246 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+ create mode 100644 drivers/media/i2c/hi846.c
+
+-- 
+2.30.2
+
