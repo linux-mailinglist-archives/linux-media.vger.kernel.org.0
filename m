@@ -2,147 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31AAB39DFBF
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 16:55:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 512B339E042
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 17:24:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231289AbhFGO5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 10:57:07 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58794 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231319AbhFGO47 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 10:56:59 -0400
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 445598DB;
-        Mon,  7 Jun 2021 16:55:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623077706;
-        bh=QOq7Z+nhB3ZMZc2KaZ2y1sMVk0RCMBVMsjNQRPIt7wo=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=wgOklYEp6JqOO7TmHq1rJz1Fs4OdOAjeAe1Az7cOI/gTDGSa+/sC3IurYgCCb5dQr
-         iywtezJxkOFAAD2H8KYhxA2zrlPf/T3xAkYsNTEdiZBD0Oe2sjxZ5Mgzp1ZgnELsWI
-         ZSKxdU0Y6UU/9o7f+GRmDMUFuqrd/iA02Nl8EBYY=
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
-        linux-media@vger.kernel.org
-References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
- <20210524110909.672432-33-tomi.valkeinen@ideasonboard.com>
- <YLozAqLmoKnHzQEi@pendragon.ideasonboard.com>
- <ca4c24d2-4edc-5ba4-970c-381195545a00@ideasonboard.com>
- <YL4iKZv5YV3LllIK@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v3 32/38] media: ti-vpe: cal: use CSI-2 frame number
-Message-ID: <b28c71d4-e7b1-2f21-530b-a108cfe0c337@ideasonboard.com>
-Date:   Mon, 7 Jun 2021 17:55:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S230330AbhFGP0f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 11:26:35 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:57296 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230291AbhFGP0e (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 11:26:34 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 157F9lnX040027;
+        Mon, 7 Jun 2021 15:24:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type : in-reply-to;
+ s=corp-2020-01-29; bh=4sFmb8kR3sLgxJUGMPdsPKiuG7N+rl3vjJFNPkixq5M=;
+ b=lEAjeivppGVHdmeurj2xDCwuQRHrhJS4W1xqcqRHYMFWZ/cC89wTOAl1YMYoyTeQrihp
+ YKWOmOaeFavn4oh1il0sDrpqSC6yHSmUDUn73Z4qqo/Cehuc0PAMETLDHgdJ0BQ15foD
+ Hsa8WsPUK7yd6128ddVoaI9TmLBTc01GcRg1ZRp43XCwtlgy5kk1Q+O4oxMcUnwJJFm8
+ c/mKig93imF4Fb/o9oDvq9s472IZE89HOaAbbnQvaNob/cXT/MZQcetCBEpHRwu0goUi
+ J8Pq1VzhKydbAI+z2qY3tcxbRQcUESEEDcTh2XKdY7eWZ/MGHSdlf4KK6UvbR+Ch3q2A Kw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2120.oracle.com with ESMTP id 39017nbckc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 07 Jun 2021 15:24:01 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 157FAKjo060030;
+        Mon, 7 Jun 2021 15:24:00 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3030.oracle.com with ESMTP id 38yxctxc37-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 07 Jun 2021 15:24:00 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 157FNuit020067;
+        Mon, 7 Jun 2021 15:23:56 GMT
+Received: from kadam (/41.212.42.34)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 07 Jun 2021 08:23:55 -0700
+Date:   Mon, 7 Jun 2021 18:23:48 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Luo Likang <luolikang@nsfocus.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        Yang Yanchao <yangyanchao6@huawei.com>
+Subject: [PATCH v2] media: firewire: firedtv-avc: fix a buffer overflow in
+ avc_ca_pmt()
+Message-ID: <20210607152348.GX1955@kadam>
 MIME-Version: 1.0
-In-Reply-To: <YL4iKZv5YV3LllIK@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YHaulytonFcW+lyZ@mwanda>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10008 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 mlxscore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106070110
+X-Proofpoint-GUID: 3c61_TwFR6Ys6jEm28ymvr2QWlZRZP6m
+X-Proofpoint-ORIG-GUID: 3c61_TwFR6Ys6jEm28ymvr2QWlZRZP6m
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10008 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 spamscore=0
+ mlxlogscore=999 phishscore=0 impostorscore=0 suspectscore=0 clxscore=1011
+ mlxscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106070110
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/06/2021 16:42, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> On Mon, Jun 07, 2021 at 03:39:45PM +0300, Tomi Valkeinen wrote:
->> On 04/06/2021 17:04, Laurent Pinchart wrote:
->>> On Mon, May 24, 2021 at 02:09:03PM +0300, Tomi Valkeinen wrote:
->>>> The driver fills buf->vb.sequence with an increasing number which is
->>>> incremented by the driver. This feels a bit pointless, as the userspace
->>>> could as well track that kind of number itself. Instead, lets use the
->>>
->>> s/lets/let's/
->>>
->>>> frame number provided in the CSI-2 data from the sensor.
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>    drivers/media/platform/ti-vpe/cal.c | 7 +++++--
->>>>    drivers/media/platform/ti-vpe/cal.h | 1 -
->>>>    2 files changed, 5 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
->>>> index 888706187fd1..62c45add4efe 100644
->>>> --- a/drivers/media/platform/ti-vpe/cal.c
->>>> +++ b/drivers/media/platform/ti-vpe/cal.c
->>>> @@ -493,7 +493,6 @@ void cal_ctx_unprepare(struct cal_ctx *ctx)
->>>>    
->>>>    void cal_ctx_start(struct cal_ctx *ctx)
->>>>    {
->>>> -	ctx->sequence = 0;
->>>>    	ctx->dma.state = CAL_DMA_RUNNING;
->>>>    
->>>>    	/* Configure the CSI-2, pixel processing and write DMA contexts. */
->>>> @@ -586,6 +585,10 @@ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
->>>>    static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->>>>    {
->>>>    	struct cal_buffer *buf = NULL;
->>>> +	u32 frame_num;
->>>> +
->>>> +	frame_num = cal_read(ctx->cal, CAL_CSI2_STATUS(ctx->phy->instance,
->>>> +						       ctx->csi2_ctx)) & 0xffff;
->>>>    
->>>>    	spin_lock(&ctx->dma.lock);
->>>>    
->>>> @@ -607,7 +610,7 @@ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->>>>    	if (buf) {
->>>>    		buf->vb.vb2_buf.timestamp = ktime_get_ns();
->>>>    		buf->vb.field = ctx->v_fmt.fmt.pix.field;
->>>> -		buf->vb.sequence = ctx->sequence++;
->>>> +		buf->vb.sequence = frame_num;
->>>
->>> We'll need something a bit more complicated. The CSI-2 frame number is
->>> not mandatory, and when used, it is a 16-bit number starting at 1 and
->>> counting to an unspecified value larger than one, resetting to 1 at the
->>> end of the cycle. The V4L2 sequence number, on the other hand, is a
->>> monotonic counter starting at 0 and wrapping only at 2^32-1. We should
->>> thus keep a software sequence counter and
->>>
->>> - increase it by 1 if the frame number is zero
->>> - increase it by frame_num - last_frame_num (with wrap-around of
->>>     frame_num handled) otherwise
->>
->> Ok... I wonder if we need a new field for this, though. The problem I
->> was solving when I changed this to use the CSI-2 frame-number was how to
->> associate a pixel frame and a metadata frame.
->>
->> Their CSI-2 frame-numbers match (as they are from the same original
->> CSI-2 frame), so the userspace can use that to figure the matching
->> frames. While the above method you suggest should give us identical
->> sequence numbers for pixel and metadata, I think it's going a bit away
->> from my intended purpose, and possibly risks ending up with different
->> sequences for pixel and metadata.
-> 
-> Why do you think they could get out of sync (assuming the sensor
-> supports frame numbers of course, if it always returns 0, that's not
-> usable for the purpose of synchronization).
+The bounds checking in avc_ca_pmt() is not strict enough.  It should
+be checking "read_pos + 4" because it's reading 5 bytes.  If the
+"es_info_length" is non-zero then it reads a 6th byte so there needs to
+be an additional check for that.
 
-If there's a requirement that the sequence starts from 0, it doesn't 
-work, as the pixel and metadata video capture may be started at 
-different times. When pixel capture starts, the frame number could be 10 
-and pixel sequence would be 0, but when metadata capture starts, the 
-frame number could be 12, and pixel seq would thus be 2 and meta seq 0.
+I also added checks for the "write_pos".  I don't think these are
+required because "read_pos" and "write_pos" are tied together so
+checking one ought to be enough.  But they make the code easier to
+understand for me.  The check on write_pos is:
 
-But even if we allow the seq to start from the current frame number, 
-this doesn't work if the frame number has wrapped between starting the 
-pixel capture and starting the meta capture.
+	if (write_pos + 4 >= sizeof(c->operand) - 4) {
 
-We have a FS irq for each virtual channel (the current sequence code is 
-in the dma-frame-end irq code which is enabled per ctx only when 
-capturing), but I don't right away see how tracking FS per VC would help 
-here...
+The first "+ 4" is because we're writing 5 bytes and the last " - 4"
+is to leave space for the CRC.
 
->> So do we need the sequence number, as it is currently, and something new
->> for this buffer matching purpose?
-> 
-> When the sensor doesn't support frame numbers, the only thing that can
-> be used is the timestamp as far as I can see.
+The other problem is that "length" can be invalid.  It comes from
+"data_length" in fdtv_ca_pmt().
 
-CAL doc says that if the sensor is not sending frame numbers, the frame 
-number register is incremented by 1 on every FS. So we always have a 
-frame number, but we don't know if it's from the sensor or not.
+Cc: stable@vger.kernel.org
+Reported-by: Luo Likang <luolikang@nsfocus.com>
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+v2: Change the limit in fdtv_ca_pmt() from "sizeof(msg->msg) - 4" to
+"sizeof(msg->msg) - data_pos".
 
-  Tomi
+Oh, another thing is the data_length calculation in fdtv_ca_pmt() seems
+very suspicous.  Reading more than 4 bytes in the loop will lead to
+shift wrapping.
+
+ drivers/media/firewire/firedtv-avc.c | 14 +++++++++++---
+ drivers/media/firewire/firedtv-ci.c  |  2 ++
+ 2 files changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/firewire/firedtv-avc.c b/drivers/media/firewire/firedtv-avc.c
+index 2bf9467b917d..71991f8638e6 100644
+--- a/drivers/media/firewire/firedtv-avc.c
++++ b/drivers/media/firewire/firedtv-avc.c
+@@ -1165,7 +1165,11 @@ int avc_ca_pmt(struct firedtv *fdtv, char *msg, int length)
+ 		read_pos += program_info_length;
+ 		write_pos += program_info_length;
+ 	}
+-	while (read_pos < length) {
++	while (read_pos + 4 < length) {
++		if (write_pos + 4 >= sizeof(c->operand) - 4) {
++			ret = -EINVAL;
++			goto out;
++		}
+ 		c->operand[write_pos++] = msg[read_pos++];
+ 		c->operand[write_pos++] = msg[read_pos++];
+ 		c->operand[write_pos++] = msg[read_pos++];
+@@ -1177,13 +1181,17 @@ int avc_ca_pmt(struct firedtv *fdtv, char *msg, int length)
+ 		c->operand[write_pos++] = es_info_length >> 8;
+ 		c->operand[write_pos++] = es_info_length & 0xff;
+ 		if (es_info_length > 0) {
++			if (read_pos >= length) {
++				ret = -EINVAL;
++				goto out;
++			}
+ 			pmt_cmd_id = msg[read_pos++];
+ 			if (pmt_cmd_id != 1 && pmt_cmd_id != 4)
+ 				dev_err(fdtv->device, "invalid pmt_cmd_id %d at stream level\n",
+ 					pmt_cmd_id);
+ 
+-			if (es_info_length > sizeof(c->operand) - 4 -
+-					     write_pos) {
++			if (es_info_length > sizeof(c->operand) - 4 - write_pos ||
++			    es_info_length > length - read_pos) {
+ 				ret = -EINVAL;
+ 				goto out;
+ 			}
+diff --git a/drivers/media/firewire/firedtv-ci.c b/drivers/media/firewire/firedtv-ci.c
+index 9363d005e2b6..2d6992ac5dd6 100644
+--- a/drivers/media/firewire/firedtv-ci.c
++++ b/drivers/media/firewire/firedtv-ci.c
+@@ -134,6 +134,8 @@ static int fdtv_ca_pmt(struct firedtv *fdtv, void *arg)
+ 	} else {
+ 		data_length = msg->msg[3];
+ 	}
++	if (data_length > sizeof(msg->msg) - data_pos)
++		return -EINVAL;
+ 
+ 	return avc_ca_pmt(fdtv, &msg->msg[data_pos], data_length);
+ }
+-- 
+2.30.2
