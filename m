@@ -2,75 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38A8639D8BA
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 11:27:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9094539D9E6
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 12:41:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbhFGJ3C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 05:29:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43924 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230127AbhFGJ3C (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Jun 2021 05:29:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 071B0610A1;
-        Mon,  7 Jun 2021 09:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623058018;
-        bh=KO0ay+dCHrHSAS+hWho1t9DunNnSg9fCilCENS/YlGY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xSiXwKh2uEcA4kRyocx12eHOiLKq9ex6vWlSVdnwoJ3zVlSwFTcmKpTIkxw0NaUvB
-         WgLt8gltSvMKLEHrGDPWcJnFCPqXNjdOqFQrGE8RLtpv+bgP1uYwgckvfDrUmq+fNP
-         2lfaonnQQaWLcwfelFZSTomMe2B8d8VaLpNrtiCU=
-Date:   Mon, 7 Jun 2021 11:26:56 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Yang Yanchao <yangyanchao6@huawei.com>
-Cc:     dan.carpenter@oracle.com, linux-distros@vs.openwall.org,
-        linux-media@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        mchehab@kernel.org, security@kernel.org
-Subject: Re: [PATCH] media firewire firedtv-avc fix a buffer overflow in
- avc_ca_pmt()
-Message-ID: <YL3mYOYx2tf729o4@kroah.com>
-References: <20210607073900.1298-1-yangyanchao6@huawei.com>
+        id S230256AbhFGKnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 06:43:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58732 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230194AbhFGKnC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 06:43:02 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0309EC061766
+        for <linux-media@vger.kernel.org>; Mon,  7 Jun 2021 03:41:10 -0700 (PDT)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 048778DB;
+        Mon,  7 Jun 2021 12:41:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623062468;
+        bh=7uXnSjJORVGI6qtF6jNr36BqK1Ewprlx4XEYBYXECjw=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=wJPNYAsPFdAmx/7Giwhh9aaCcd637QPKk+F954kKAtEupiaku0d94+WHw+FgJOU3k
+         oV6GK9nJgK3BmGR4RTUxuRho2tHNyS/ChaRTKET0aQchefFj0DG62jqaxfD6MuZn9B
+         haQGuZkDOr2xy0zo3PekgChcD3mF8vXLkE2iXgOI=
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Benoit Parrot <bparrot@ti.com>, Pratyush Yadav <p.yadav@ti.com>,
+        Lokesh Vutla <lokeshvutla@ti.com>, linux-media@vger.kernel.org
+References: <20210412113457.328012-1-tomi.valkeinen@ideasonboard.com>
+ <20210412113457.328012-16-tomi.valkeinen@ideasonboard.com>
+ <YHwqLSgwYmt9ZAOU@pendragon.ideasonboard.com>
+ <9d6b96f4-cdb0-5820-965d-7135a926829f@ideasonboard.com>
+ <YIn2Y/HpOPBKUzh/@pendragon.ideasonboard.com>
+ <YLouK5I6b+YfQBgh@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 15/28] media: ti-vpe: cal: remove wait when stopping
+ camerarx
+Message-ID: <95e7b3ee-4f61-40a8-3693-8884b9629f44@ideasonboard.com>
+Date:   Mon, 7 Jun 2021 13:41:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210607073900.1298-1-yangyanchao6@huawei.com>
+In-Reply-To: <YLouK5I6b+YfQBgh@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 07, 2021 at 03:39:00PM +0800, Yang Yanchao wrote:
-> For CVE-2021-3542:
-
-What does that mean?  We don't know what cve numbers refer to as there
-is no way to really track and update the information with them.  Please
-spell out the issue please.
-
+On 04/06/2021 16:44, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> 1???read_pos will be added four times in the patch, 
-> so use "read_pos + 4 < length" and write_pos as well
-
-what is "???" here?
-
+> On Thu, Apr 29, 2021 at 02:57:23AM +0300, Laurent Pinchart wrote:
+>> On Mon, Apr 19, 2021 at 02:29:20PM +0300, Tomi Valkeinen wrote:
+>>> On 18/04/2021 15:46, Laurent Pinchart wrote:
+>>>> On Mon, Apr 12, 2021 at 02:34:44PM +0300, Tomi Valkeinen wrote:
+>>>>> Asserting ComplexIO reset seems to affect the HW (ie. asserting reset
+>>>>> will break an active capture), but the RESET_DONE bit never changes to
+>>>>> "reset is ongoing" state. Thus we always get a timeout.
+>>>>>
+>>>>> Drop the wait, as it seems to achieve nothing.
+>>>>>
+>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>>> ---
+>>>>>    drivers/media/platform/ti-vpe/cal-camerarx.c | 15 ++-------------
+>>>>>    1 file changed, 2 insertions(+), 13 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
+>>>>> index 0354f311c5d2..245c601b992c 100644
+>>>>> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
+>>>>> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
+>>>>> @@ -405,7 +405,6 @@ static int cal_camerarx_start(struct cal_camerarx *phy)
+>>>>>    
+>>>>>    static void cal_camerarx_stop(struct cal_camerarx *phy)
+>>>>>    {
+>>>>> -	unsigned int i;
+>>>>>    	int ret;
+>>>>>    
+>>>>>    	cal_camerarx_ppi_disable(phy);
+>>>>> @@ -419,19 +418,9 @@ static void cal_camerarx_stop(struct cal_camerarx *phy)
+>>>>>    			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL,
+>>>>>    			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK);
+>>>>>    
+>>>>> -	/* Wait for power down completion */
+>>>>> -	for (i = 0; i < 10; i++) {
+>>>>> -		if (cal_read_field(phy->cal,
+>>>>> -				   CAL_CSI2_COMPLEXIO_CFG(phy->instance),
+>>>>> -				   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_MASK) ==
+>>>>> -		    CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING)
+>>>>
+>>>> Isn't this the wrong condition ? I would have expected
+>>>> CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETCOMPLETED, not
+>>>> CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING. That could explain why
+>>>> you always get a timeout.
+>>>
+>>> No, I don't think so. The complexio reset is set active just before the
+>>> wait. So the reset status should show reset ongoing, until at some point
+>>> we release the reset (we do that when starting the PHY again).
+>>>
+>>> The TRM doesn't talk about this, though. So, I guess the status might go
+>>> to RESETONGOING for a very short time and back to RESETCOMPLETED before
+>>> the code can see the RESETONGOING. But I suspect the status just stays
+>>> at RESETCOMPLETED.
+>>
+>> The TRM is indeed not very clear. My understanding was that asserting
+>> RESET_CTRL initiates the reset, and RESET_DONE switches to 1 once the
+>> reset completes. There's however a note in the initialization sequence
+>> that states
+>>
+>> a. Deassert the CAMERARX reset:
+>> i. Set CAL_CSI2_COMPLEXIO_CFG_j[30] RESET_CTRL to 0x1.
+>> CAUTION
+>> For the CAL_CSI2_COMPLEXIO_CFG_j[29] RESET_DONE bit to be set to 0x1
+>> (reset completed), the external sensor must to be active and sending the
+>> MIPI HS BYTECLK (that is, RXBYTECLKHS clock).
+>>
+>> The RESET_DONE bit may thus only toggle when de-asserting the reset
+>> signal (by setting RESET_CTRL to 1). It would be useful to test that
+>> hypothesis by reading RESET_DONE just before setting RESET_CTRL to 1,
+>> and right after. I'd expect the values to be 0 and 1 respectively. If
+>> that's the case, then this patch is likely correct, so
+>>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>
+>>
+>> The register macros are quite confusing by the way. We have
+>>
+>> #define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK          BIT(30)
+>> #define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL                       0
+>> #define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_OPERATIONAL           1
+>>
+>> When reading the code, I thought
+>>
+>>          cal_write_field(phy->cal, CAL_CSI2_COMPLEXIO_CFG(phy->instance),
+>>                          CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL,
+>>                          CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK)
+>>
+>> meant that we were setting the reset bit to 1. I would personally get
+>> rid of the _MASK suffixes for single bits, and use 0 and 1 in the code
+>> instead of CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL and
+>> CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_OPERATIONAL.
 > 
-> 2. The last four bits of c->operand are used for CRC, 
-> so "sizeof (C - > operand) - 4" is used
-> 
-> 3. "read_pos+=2" is added after the end of read_pos, so add value (read_pos >= length)
-> 
-> 4. In order to avoid memcpy crossing the boundary, es_ info_ length > length - read_ pos
-> 
-> 5. When the date_length is a specific input of a construction,it will cause memcpy
->  to exceed the boundary, "(MSG - > MSG [3] & 0x7F) + date_ length) > (sizeof(msg->msg) - 4)"
+> Do you think this would be a good idea ? It can be done in a follow-up
+> patch.
 
-I do not understand, this is saying what you did, not _why_ you did it.
-can you please rework this to make it more obvious what you are doing?
+I'd rather keep the MASK prefix as it's used for multiple bit masks too.
 
-And shouldn't this be more than one patch?  A series of patches, each
-fixing one thing?
+I think the problem here is the define for 0. The define should tell 
+what the bit value does, but here it's just the field name. The value 
+defines could perhaps be:
 
-And no need to put security@kernel.org on this now that you have sent it
-to a public mailing list.
+#define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_ASSERT           0
+#define CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_DEASSERT         1
 
-thanks,
+Using just 0 or 1 may work fine at times, but often you don't know what 
+they mean. You set 1 to RESET_CTRL. Does it put the IP into reset? Or 
+release the reset?
 
-greg k-h
+Some other bits in cal_regs.h are fine, like:
+
+#define CAL_CTRL_PWRSCPCLK_MASK			BIT(21)
+#define CAL_CTRL_PWRSCPCLK_AUTO				0
+#define CAL_CTRL_PWRSCPCLK_FORCE			1
+
+But some have this same issue:
+
+#define CAL_CTRL_POSTED_WRITES_MASK		BIT(0)
+#define CAL_CTRL_POSTED_WRITES_NONPOSTED		0
+#define CAL_CTRL_POSTED_WRITES				1
+
+  Tomi
