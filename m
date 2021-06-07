@@ -2,262 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B462539D5E3
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 09:23:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F70F39D620
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 09:35:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbhFGHZV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 03:25:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43130 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbhFGHZV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 03:25:21 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1234EC061766;
-        Mon,  7 Jun 2021 00:23:30 -0700 (PDT)
-Received: from [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d] (unknown [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 356041F41FA4;
-        Mon,  7 Jun 2021 08:23:26 +0100 (BST)
-Subject: Re: [PATCH 7/8] media: hevc: Add scaling matrix control
-To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20210604130619.491200-1-benjamin.gaignard@collabora.com>
- <20210604130619.491200-8-benjamin.gaignard@collabora.com>
- <2618802.xq3rs0cueg@kista>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <ec4f601e-9c21-2b46-91c9-e798a18e909e@collabora.com>
-Date:   Mon, 7 Jun 2021 09:23:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S230256AbhFGHgY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 03:36:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49074 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230231AbhFGHgU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Jun 2021 03:36:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 29FEA60720;
+        Mon,  7 Jun 2021 07:34:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623051269;
+        bh=0ypPpkJHDs3edXD5bDeKaiim7X/xfBueG4AuE8+Qj+U=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=MCZa/wfgoJSof9wCVVOv/LrdFcXdwY1vCJuTly8zaeAIwTuRDtC8rzfgyHA9r6/+g
+         NW2tP3feh93C/5Dxty7jg+vScZHZGMhUEyWQ5FgxO8vpWG7sfVd2/FVm9kFVWmNyKF
+         EQBYWqrXHDSSXIu/AIkm5+Ioyl/4Y8qqVlITSp7EP1AHAdF2gq6+t5N/EukG8nlrD5
+         /Z/7kCrp6V3McL/0xD3Opj9oSYMVR4OQwEiMuDlxNhhxICUhrFF3xy6Xf7sAtNEHPC
+         UZ6EjZnr6psnuld6cX9JYfcpHnFwEGAKkBcwq4fn3pJEE/OA/DfL7AgTqkUjjnfOU7
+         t/jaztuq+MVCA==
+Date:   Mon, 7 Jun 2021 09:34:22 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <n@nfraprado.net>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        coresight@lists.linaro.org, devicetree@vger.kernel.org,
+        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
+Message-ID: <20210607093422.0a369909@coco.lan>
+In-Reply-To: <20210606225225.fz4dsyz6im4bqena@notapiano>
+References: <cover.1622898327.git.mchehab+huawei@kernel.org>
+        <20210605151109.axm3wzbcstsyxczp@notapiano>
+        <20210605210836.540577d4@coco.lan>
+        <20210606225225.fz4dsyz6im4bqena@notapiano>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <2618802.xq3rs0cueg@kista>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Em Sun, 6 Jun 2021 19:52:25 -0300
+N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
 
-Le 06/06/2021 à 09:49, Jernej Škrabec a écrit :
-> Hi!
->
-> Dne petek, 04. junij 2021 ob 15:06:18 CEST je Benjamin Gaignard napisal(a):
->> HEVC scaling lists are used for the scaling process for transform
->> coefficients.
->> V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED has to set when they are
->> encoded in the bitstream.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   .../media/v4l/ext-ctrls-codec.rst             | 45 +++++++++++++++++++
->>   .../media/v4l/vidioc-queryctrl.rst            |  6 +++
->>   drivers/media/v4l2-core/v4l2-ctrls-core.c     |  6 +++
->>   drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++
->>   include/media/hevc-ctrls.h                    | 11 +++++
->>   5 files changed, 72 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
-> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index 9120c5bcaf90..a4512b7cb520 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -3065,6 +3065,51 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>   
->>       \normalsize
->>   
->> +``V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX (struct)``
->> +    Specifies the HEVC scaling matrix parameters used for the scaling
-> process
->> +    for transform coefficients.
->> +    These matrix and parameters are defined according to :ref:`hevc`.
->> +    They are described in section 7.4.5 "Scaling list data semantics" of
->> +    the specification.
->> +
->> +.. c:type:: v4l2_ctrl_hevc_scaling_matrix
->> +
->> +.. raw:: latex
->> +
->> +    \scriptsize
->> +
->> +.. tabularcolumns:: |p{5.4cm}|p{6.8cm}|p{5.1cm}|
->> +
->> +.. cssclass:: longtable
->> +
->> +.. flat-table:: struct v4l2_ctrl_hevc_slice_params
-> ^ copy paste error? It should be v4l2_ctrl_hevc_scaling_matrix.
+> On Sat, Jun 05, 2021 at 09:08:36PM +0200, Mauro Carvalho Chehab wrote:
+> > Em Sat, 5 Jun 2021 12:11:09 -0300
+> > N=C3=ADcolas F. R. A. Prado <n@nfraprado.net> escreveu:
+> >  =20
+> > > Hi Mauro,
+> > >=20
+> > > On Sat, Jun 05, 2021 at 03:17:59PM +0200, Mauro Carvalho Chehab wrote=
+: =20
+> > > > As discussed at:
+> > > > 	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
+> > > >=20
+> > > > It is better to avoid using :doc:`foo` to refer to Documentation/fo=
+o.rst, as the
+> > > > automarkup.py extension should handle it automatically, on most cas=
+es.
+> > > >=20
+> > > > There are a couple of exceptions to this rule:
+> > > >=20
+> > > > 1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
+> > > > 2. when it is used with a named tag, e. g. :doc:`some name <foo>`;
+> > > >=20
+> > > > It should also be noticed that automarkup.py has currently an issue:
+> > > > if one use a markup like:
+> > > >=20
+> > > > 	Documentation/dev-tools/kunit/api/test.rst
+> > > > 	  - documents all of the standard testing API excluding mocking
+> > > > 	    or mocking related features.
+> > > >=20
+> > > > or, even:
+> > > >=20
+> > > > 	Documentation/dev-tools/kunit/api/test.rst
+> > > > 	    documents all of the standard testing API excluding mocking
+> > > > 	    or mocking related features.
+> > > > =09
+> > > > The automarkup.py will simply ignore it. Not sure why. This patch s=
+eries
+> > > > avoid the above patterns (which is present only on 4 files), but it=
+ would be
+> > > > nice to have a followup patch fixing the issue at automarkup.py.   =
+=20
+> > >=20
+> > > What I think is happening here is that we're using rST's syntax for d=
+efinition
+> > > lists [1]. automarkup.py ignores literal nodes, and perhaps a definit=
+ion is
+> > > considered a literal by Sphinx. Adding a blank line after the Documen=
+tation/...
+> > > or removing the additional indentation makes it work, like you did in=
+ your
+> > > 2nd and 3rd patch, since then it's not a definition anymore, although=
+ then the
+> > > visual output is different as well. =20
+> >=20
+> > A literal has a different output. I think that this is not the case, bu=
+t I=20
+> > didn't check the python code from docutils/Sphinx. =20
+>=20
+> Okay, I went in deeper to understand the issue and indeed it wasn't what I
+> thought. The reason definitions are ignored by automarkup.py is because t=
+he main
+> loop iterates only over nodes that are of type paragraph:
+>=20
+>     for para in doctree.traverse(nodes.paragraph):
+>         for node in para.traverse(nodes.Text):
+>             if not isinstance(node.parent, nodes.literal):
+>                 node.parent.replace(node, markup_refs(name, app, node))
+>=20
+> And inspecting the HTML output from your example, the definition name is =
+inside
+> a <dt> tag, and it doesn't have a <p> inside. So in summary, automarkup.p=
+y will
+> only work on elements which are inside a <p> in the output.
 
-Yes I will fix it in the next version.
-Thanks
 
-Benjamin
+Yeah, that's what I was suspecting, based on the comments.
 
->
-> Best regards,
-> Jernej
->
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +    :widths:       1 1 2
->> +
->> +    * - __u8
->> +      - ``scaling_list_4x4[6][16]``
->> +      -
->> +    * - __u8
->> +      - ``scaling_list_8x8[6][64]``
->> +      -
->> +    * - __u8
->> +      - ``scaling_list_16x16[6][64]``
->> +      -
->> +    * - __u8
->> +      - ``scaling_list_32x32[2][64]``
->> +      -
->> +    * - __u8
->> +      - ``scaling_list_dc_coef_16x16[6]``
->> +      -
->> +    * - __u8
->> +      - ``scaling_list_dc_coef_32x32[2]``
->> +      -
->> +
->> +.. raw:: latex
->> +
->> +    \normalsize
->> +
->>   .. c:type:: v4l2_hevc_dpb_entry
->>   
->>   .. raw:: latex
->> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/
-> Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
->> index f9ecf6276129..2f491c17dd5d 100644
->> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
->> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
->> @@ -495,6 +495,12 @@ See also the examples in :ref:`control`.
->>         - n/a
->>         - A struct :c:type:`v4l2_ctrl_hevc_slice_params`, containing HEVC
->>   	slice parameters for stateless video decoders.
->> +    * - ``V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX``
->> +      - n/a
->> +      - n/a
->> +      - n/a
->> +      - A struct :c:type:`v4l2_ctrl_hevc_scaling_matrix`, containing HEVC
->> +	scaling matrix for stateless video decoders.
->>       * - ``V4L2_CTRL_TYPE_VP8_FRAME``
->>         - n/a
->>         - n/a
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-
-> core/v4l2-ctrls-core.c
->> index c4b5082849b6..70adfc1b9c81 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
->> @@ -687,6 +687,9 @@ static int std_validate_compound(const struct v4l2_ctrl
-> *ctrl, u32 idx,
->>   
->>   		break;
->>   
->> +	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
->> +		break;
->> +
->>   	case V4L2_CTRL_TYPE_AREA:
->>   		area = p;
->>   		if (!area->width || !area->height)
->> @@ -1240,6 +1243,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct
-> v4l2_ctrl_handler *hdl,
->>   	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
->>   		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
->>   		break;
->> +	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
->> +		elem_size = sizeof(struct
-> v4l2_ctrl_hevc_scaling_matrix);
->> +		break;
->>   	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
->>   		elem_size = sizeof(struct
-> v4l2_ctrl_hevc_decode_params);
->>   		break;
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-
-> core/v4l2-ctrls-defs.c
->> index b6344bbf1e00..cb29c2a7fabe 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> @@ -996,6 +996,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>   	case V4L2_CID_MPEG_VIDEO_HEVC_SPS:			
-> return "HEVC Sequence Parameter Set";
->>   	case V4L2_CID_MPEG_VIDEO_HEVC_PPS:			
-> return "HEVC Picture Parameter Set";
->>   	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return
-> "HEVC Slice Parameters";
->> +	case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:		
-> return "HEVC Scaling Matrix";
->>   	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:		
-> return "HEVC Decode Parameters";
->>   	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC
-> Decode Mode";
->>   	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return
-> "HEVC Start Code";
->> @@ -1488,6 +1489,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
-> v4l2_ctrl_type *type,
->>   	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
->>   		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
->>   		break;
->> +	case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:
->> +		*type = V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
->> +		break;
->>   	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:
->>   		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->>   		break;
->> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->> index dc964ff7cd29..da6189ef7ab4 100644
->> --- a/include/media/hevc-ctrls.h
->> +++ b/include/media/hevc-ctrls.h
->> @@ -19,6 +19,7 @@
->>   #define V4L2_CID_MPEG_VIDEO_HEVC_SPS		(V4L2_CID_CODEC_BASE +
-> 1008)
->>   #define V4L2_CID_MPEG_VIDEO_HEVC_PPS		(V4L2_CID_CODEC_BASE +
-> 1009)
->>   #define V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS	(V4L2_CID_CODEC_BASE +
-> 1010)
->> +#define V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX	(V4L2_CID_CODEC_BASE +
-> 1011)
->>   #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE +
-> 1012)
->>   #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE +
-> 1015)
->>   #define V4L2_CID_MPEG_VIDEO_HEVC_START_CODE	(V4L2_CID_CODEC_BASE +
-> 1016)
->> @@ -27,6 +28,7 @@
->>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->>   #define V4L2_CTRL_TYPE_HEVC_PPS 0x0121
->>   #define V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS 0x0122
->> +#define V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX 0x0123
->>   #define V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS 0x0124
->>   
->>   enum v4l2_mpeg_video_hevc_decode_mode {
->> @@ -225,6 +227,15 @@ struct v4l2_ctrl_hevc_decode_params {
->>   	__u64	flags;
->>   };
->>   
->> +struct v4l2_ctrl_hevc_scaling_matrix {
->> +	__u8	scaling_list_4x4[6][16];
->> +	__u8	scaling_list_8x8[6][64];
->> +	__u8	scaling_list_16x16[6][64];
->> +	__u8	scaling_list_32x32[2][64];
->> +	__u8	scaling_list_dc_coef_16x16[6];
->> +	__u8	scaling_list_dc_coef_32x32[2];
->> +};
->> +
->>   /*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2
-> */
->>   #define V4L2_CID_CODEC_HANTRO_BASE				
-> (V4L2_CTRL_CLASS_CODEC | 0x1200)
->>   /*
->>
->
+Maybe something similar to the above could be done also for some
+non-paragraph data. By looking at:
+
+	https://docutils.sourceforge.io/docs/ref/doctree.html
+
+It says that the body elements are:
+
+	admonition, attention, block_quote, bullet_list, caution, citation,=20
+	comment, compound, container, danger, definition_list, doctest_block,=20
+	enumerated_list, error, field_list, figure, footnote, hint, image,=20
+	important, line_block, literal_block, note, option_list, paragraph,=20
+	pending, raw, rubric, substitution_definition, system_message,=20
+	table, target, tip, warning
+
+So, perhaps a similar loop for definition_list would do the trick,
+but maybe automarkup should also look at other types, like enum lists,
+notes (and their variants, like error/warning) and footnotes.
+
+No idea how this would affect the docs build time, though.
+
+> Only applying the automarkup inside paragraphs seems like a good decision=
+ (which
+> covers text in lists and tables as well), so unless there are other types=
+ of
+> elements without paragraphs where automarkup should work, I think we shou=
+ld just
+> avoid using definition lists pointing to documents like that.
+
+Checking the code or doing some tests are needed for us to be sure about wh=
+at
+of the above types docutils don't consider a paragraph.
+
+Thanks,
+Mauro
