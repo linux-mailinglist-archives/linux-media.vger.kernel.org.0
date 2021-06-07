@@ -2,28 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4931739DB12
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 13:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 987AA39DB62
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 13:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231424AbhFGLWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 07:22:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39358 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230215AbhFGLWe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 07:22:34 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 158DCC061766;
-        Mon,  7 Jun 2021 04:20:43 -0700 (PDT)
+        id S231493AbhFGLdX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 07:33:23 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:39166 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230272AbhFGLdW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 07:33:22 -0400
 Received: from [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d] (unknown [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B526E1F42359;
-        Mon,  7 Jun 2021 12:20:39 +0100 (BST)
-Subject: Re: [PATCH 0/8] Additional features for Hantro HEVC
-To:     Ezequiel Garcia <ezequiel@collabora.com>, hverkuil@xs4all.nl,
-        p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, festevam@gmail.com,
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 7A9241F4226B;
+        Mon,  7 Jun 2021 12:31:29 +0100 (BST)
+Subject: Re: [PATCH 4/8] media: Add P010 video format
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>, hverkuil@xs4all.nl,
+        ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
         gregkh@linuxfoundation.org, mripard@kernel.org,
         paul.kocialkowski@bootlin.com, wens@csie.org,
         jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
@@ -32,14 +29,15 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20210604130619.491200-1-benjamin.gaignard@collabora.com>
- <d0e28e5b7ca686162116148c2b94a8e19520bc1b.camel@collabora.com>
+ <20210604130619.491200-5-benjamin.gaignard@collabora.com>
+ <f9fccfc4325e32022fac5f2c7b11c5e6b42e6fc8.camel@ndufresne.ca>
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <74858817-e122-4731-3163-ed20c8b9df33@collabora.com>
-Date:   Mon, 7 Jun 2021 13:20:37 +0200
+Message-ID: <d7b89e82-4b7a-69ce-74ad-d61934c03764@collabora.com>
+Date:   Mon, 7 Jun 2021 13:31:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <d0e28e5b7ca686162116148c2b94a8e19520bc1b.camel@collabora.com>
+In-Reply-To: <f9fccfc4325e32022fac5f2c7b11c5e6b42e6fc8.camel@ndufresne.ca>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -48,121 +46,99 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-Le 04/06/2021 à 18:49, Ezequiel Garcia a écrit :
-> Hi Benjamin,
->
-> Thanks for posting this so quickly.
->
-> On Fri, 2021-06-04 at 15:06 +0200, Benjamin Gaignard wrote:
->> Basic HEVC support has been added to Hantro driver in this pull request:
->> https://www.spinics.net/lists/linux-media/msg193744.html
+Le 04/06/2021 à 18:17, Nicolas Dufresne a écrit :
+> Le vendredi 04 juin 2021 à 15:06 +0200, Benjamin Gaignard a écrit :
+>> P010 is a YUV format with 10-bits per pixel with interleaved UV.
 >>
->> Thanks to that it is now possible to support more features for this driver.
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   .../userspace-api/media/v4l/pixfmt-yuv-planar.rst         | 8 ++++++++
+>>   drivers/media/v4l2-core/v4l2-common.c                     | 1 +
+>>   drivers/media/v4l2-core/v4l2-ioctl.c                      | 1 +
+>>   include/uapi/linux/videodev2.h                            | 1 +
+>>   4 files changed, 11 insertions(+)
 >>
->> The first patch allow to log the hardware performance per macroblock.
->> The second patch makes the driver use compressed reference frames to
->> reduce memory bandwidth consumption.
-> As I commented, it would be nice to do some measurements here
+>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> index 090c091affd2..71fed70c03ec 100644
+>> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> @@ -100,6 +100,13 @@ All components are stored with the same number of bits per component.
+>>         - Cb, Cr
+>>         - No
+>>         - 64x32 macroblocks
+>> +    * - V4L2_PIX_FMT_P010
+>> +      - 'P010'
+>> +      - 10
+>> +      - 4:2:0
+>> +      - Cb, Cr
+>> +      - No
+>> +      - Linear
+>>   
+>>           Horizontal Z order
+>>       * - V4L2_PIX_FMT_NV12MT_16X16
+>> @@ -171,6 +178,7 @@ horizontally.
+>>   .. _V4L2-PIX-FMT-NV21:
+>>   .. _V4L2-PIX-FMT-NV12M:
+>>   .. _V4L2-PIX-FMT-NV21M:
+>> +.. _V4L2-PIX-FMT-P010:
+> The NV12/21 documentation is not sufficient to describe this format. While it
+> shares the layout (two planes Y and interleaved UV), it does not share the
+> packing. In this case, assuming this is P010 (and not the P010 the Rockchip
+> tried to upstreamed previously), each 10bit worth of pixel data would be pakced
+> into 16 bits with the least significant 6 bit being padding bits.
 
-The performances measured by the first patch (the number of macroblock per cycle) remain
-the same because the goal of using compressed frames is to save memory bandwidth.
-That doesn't impact what is measure by the Hantro hardware block itself.
-To give you an example that is the result of decoding one of the fluster reference file.
+Yes it 10 bits packed in 16 bits. I was think that the 'Bits per component' columns
+was referring to the number of encoded bits.
+So like this is it fine ? or does something else than the bit per component need to be changed ?
+  * - V4L2_PIX_FMT_P010
+       - 'P010'
+       - 16
+       - 4:2:0
+       - Cb, Cr
+       - No
+       - Linear
 
-gst-launch-1.0 filesrc location=AMP_A_Samsung_7.hevc ! h265parse ! v4l2slh265dec ! fakesink
-
-cat /sys/kernel/debug/tracing/trace
-#
-# entries-in-buffer/entries-written: 17/17   #P:4
-#
-#                                _-----=> irqs-off
-#                               / _----=> need-resched
-#                              | / _---=> hardirq/softirq
-#                              || / _--=> preempt-depth
-#                              ||| /     delay
-#           TASK-PID     CPU#  ||||   TIMESTAMP  FUNCTION
-#              | |         |   ||||      |         |
-           <idle>-0       [000] d.h1   143.745124: hantro_hevc_perf: minor = 1,      180 cycles / mb
-           <idle>-0       [000] d.h1   143.758086: hantro_hevc_perf: minor = 1,      172 cycles / mb
-           <idle>-0       [000] d.h1   143.770829: hantro_hevc_perf: minor = 1,      167 cycles / mb
-           <idle>-0       [000] d.h1   143.782757: hantro_hevc_perf: minor = 1,      166 cycles / mb
-           <idle>-0       [000] d.h1   143.794866: hantro_hevc_perf: minor = 1,      165 cycles / mb
-           <idle>-0       [000] d.h1   143.808012: hantro_hevc_perf: minor = 1,      165 cycles / mb
-           <idle>-0       [000] d.h1   143.818225: hantro_hevc_perf: minor = 1,      166 cycles / mb
-           <idle>-0       [000] d.h1   143.828063: hantro_hevc_perf: minor = 1,      165 cycles / mb
-           <idle>-0       [000] d.h1   143.838217: hantro_hevc_perf: minor = 1,      165 cycles / mb
-           <idle>-0       [000] d.h1   143.848728: hantro_hevc_perf: minor = 1,      172 cycles / mb
-           <idle>-0       [000] d.h1   143.858677: hantro_hevc_perf: minor = 1,      167 cycles / mb
-           <idle>-0       [000] d.h1   143.868576: hantro_hevc_perf: minor = 1,      166 cycles / mb
-           <idle>-0       [000] d.h1   143.878431: hantro_hevc_perf: minor = 1,      165 cycles / mb
-           <idle>-0       [000] d.h1   143.888684: hantro_hevc_perf: minor = 1,      165 cycles / mb
-           <idle>-0       [000] d.h1   143.898827: hantro_hevc_perf: minor = 1,      166 cycles / mb
-           <idle>-0       [000] d.h1   143.908645: hantro_hevc_perf: minor = 1,      165 cycles / mb
-           <idle>-0       [000] d.h1   143.918772: hantro_hevc_perf: minor = 1,      165 cycles / mb
-
->
->> Patches 3 to 5 allow to decode and produce 10-bits P010 frames.
-> I suppose this means that some 10-bit test vectors in Fluster HEVC
-> test suite are now passing?
->
->> Patch 6 make usage of G2 post processor to scale down the frames.
->> Patches 7 and 8 add the support of HEVC scaling matrix by adding a new
->> control.
->>
-> Ditto, the test vectors with scaling lists should now pass, any chance
-> you post the test suite run before and after this series, just for reference?
-
-Files like SLIST_A_Sony_5, SLIST_B_Sony_9, SLIST_C_Sony_4, SLIST_D_Sony_9 or
-DBLK_A_MAIN10_VIXS_4 are now decoded by the driver.
-
-fluster score is 70/147.
-I think it could be better but, in few cases, it seems that the last frames
-isn't retrieved by the userland stack but that need to be verify and debug
-in an other series ;-)
-
+Regards,
 Benjamin
 
 >
-> Thanks again,
-> Ezequiel
->
->> All these patches enhance the HEVC support for Hantro (G2) hardware.
->> Unluckily they almost all touch the same pieces of code, where buffer
->> size, offset and addresses are set, so they have to be in this order.
->> They depend of the series pushed in this pull request:
->> https://www.spinics.net/lists/linux-media/msg193744.html
->>
->> Benjamin
->>
->> Benjamin Gaignard (8):
->>    media: hantro: Trace hevc hw cycles performance register
->>    media: hantro: Add support of compressed reference buffers
->>    media: hantro: hevc: Allow 10-bits encoded streams
->>    media: Add P010 video format
->>    media: hantro: hevc: Allow to produce 10-bit frames
->>    media: hantro: enumerate scaled output formats
->>    media: hevc: Add scaling matrix control
->>    media: hantro: Add scaling lists feature
->>
->>   .../media/v4l/ext-ctrls-codec.rst             |  45 +++++
->>   .../media/v4l/pixfmt-yuv-planar.rst           |   8 +
->>   .../media/v4l/vidioc-queryctrl.rst            |   6 +
->>   drivers/media/v4l2-core/v4l2-common.c         |   1 +
->>   drivers/media/v4l2-core/v4l2-ctrls-core.c     |   6 +
->>   drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   4 +
->>   drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
->>   drivers/staging/media/hantro/hantro.h         |   4 +
->>   drivers/staging/media/hantro/hantro_drv.c     |  32 +++-
->>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 175 ++++++++++++++++--
->>   drivers/staging/media/hantro/hantro_g2_regs.h |  12 ++
->>   drivers/staging/media/hantro/hantro_hevc.c    |  60 +++++-
->>   drivers/staging/media/hantro/hantro_hw.h      |   7 +
->>   drivers/staging/media/hantro/hantro_v4l2.c    |  10 +-
->>   drivers/staging/media/hantro/imx8m_vpu_hw.c   |   6 +
->>   drivers/staging/media/hantro/trace.h          |  40 ++++
->>   include/media/hevc-ctrls.h                    |  11 ++
->>   include/uapi/linux/videodev2.h                |   1 +
->>   18 files changed, 407 insertions(+), 22 deletions(-)
->>   create mode 100644 drivers/staging/media/hantro/trace.h
->>
+>>   
+>>   NV12, NV21, NV12M and NV21M
+>>   ---------------------------
+>> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+>> index 04af03285a20..37b5d82359dd 100644
+>> --- a/drivers/media/v4l2-core/v4l2-common.c
+>> +++ b/drivers/media/v4l2-core/v4l2-common.c
+>> @@ -266,6 +266,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>>   		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+>>   		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>>   		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>> +		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+>>   
+>>   		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
+>>   		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
+>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> index 2673f51aafa4..6404d5b6e350 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> @@ -1282,6 +1282,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>>   	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
+>>   	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
+>>   	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
+>> +	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CrCb 4:2:0"; break;
+>>   	case V4L2_PIX_FMT_NV12M:	descr = "Y/CbCr 4:2:0 (N-C)"; break;
+>>   	case V4L2_PIX_FMT_NV21M:	descr = "Y/CrCb 4:2:0 (N-C)"; break;
+>>   	case V4L2_PIX_FMT_NV16M:	descr = "Y/CbCr 4:2:2 (N-C)"; break;
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index 9260791b8438..e5f7acde0730 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -602,6 +602,7 @@ struct v4l2_pix_format {
+>>   #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
+>>   #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
+>>   #define V4L2_PIX_FMT_HM12    v4l2_fourcc('H', 'M', '1', '2') /*  8  YUV 4:2:0 16x16 macroblocks */
+>> +#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 15  Y/CbCr 4:2:0 10-bit per pixel*/
+>>   
+>>   /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
+>>   #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
 >
