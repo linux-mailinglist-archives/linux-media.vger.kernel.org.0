@@ -2,94 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A2E239DA9C
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 13:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE5D739DAD6
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 13:12:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230341AbhFGLHu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 07:07:50 -0400
-Received: from ni.piap.pl ([195.187.100.5]:48682 "EHLO ni.piap.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230215AbhFGLHt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Jun 2021 07:07:49 -0400
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ni.piap.pl (Postfix) with ESMTPSA id AD2DB44421E;
-        Mon,  7 Jun 2021 13:05:57 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl AD2DB44421E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1623063957; bh=mhirheRq8WviKByzNYMicvIkW+qgbFBkujfQT55US3A=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Ignk56jgjlAatUcTN61FQfbDdno+josMW0wUw6iLc3Em/zwWbUH4kK21fV0hEukOQ
-         HEmRamY6fbx2sBjrQ9uc+JIXBWMjLXC2eVpv4duDPuqHx2re1vfKUeBsP1A6I05xcS
-         IDe+VGhIP4Ou/r9my4ldmUibQeh0ZkERVtmq+DDc=
-From:   "Krzysztof Halasa" <khalasa@piap.pl>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
+        id S230230AbhFGLNx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 07:13:53 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:59245 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230131AbhFGLNw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Jun 2021 07:13:52 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id qDAglhjHdhqltqDAklKWH2; Mon, 07 Jun 2021 13:12:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623064320; bh=KpZdlWL2P8yjtAatyx6/oPtWRFHD5h6IXihvSIBk2E8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=wSxlRzufI9XnCtU+1t7KJTAhAY6GX3IpEoLzXYMtDazhrTlSPBIfiCYKOhPY4YRJb
+         GxsEn9EC1p7wHWxc06kJ1uStv3bk3gir4Jd6VqDicfBvnN3HzIdl2IvIDxtcrHVgD2
+         w7Jc1sZIlU1WjfodNaqmZi6/4HeQT6qiT/ZKuAaUmOQQVJ0/c8KzGfMp+CmzU6saYN
+         gzaZeXMvWXkA+C5BeQg14Ktg7NmtQuGoPWtD+7Za9nQ7coD/25nxL594zsB59TsMTq
+         GHfTk4dJnnO4bf6AMpR6SNgqV6iclRM0k/CX9UOnK+qeWT2sI/6HNvuytGxo5vfZXB
+         L5Ykt+BOAMXOA==
+Subject: Re: [PATCH] TDA1997x: enable EDID support
+To:     =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Tim Harvey <tharvey@gateworks.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESENT] MEDIA CODA: Fix NULL ptr dereference in the encoder.
-Lines:  49
-Sender: khalasa@piap.pl
-Date:   Mon, 07 Jun 2021 13:05:57 +0200
-Message-ID: <m3k0n6gciy.fsf@t19.piap.pl>
+        linux-media@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
+References: <m3sg1uq6xu.fsf@t19.piap.pl>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <dbb99d7b-18eb-317c-911a-b982486848fa@xs4all.nl>
+Date:   Mon, 7 Jun 2021 13:11:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
+In-Reply-To: <m3sg1uq6xu.fsf@t19.piap.pl>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-KLMS-Rule-ID: 4
-X-KLMS-Message-Action: skipped
-X-KLMS-AntiSpam-Status: not scanned, whitelist
-X-KLMS-AntiPhishing: not scanned, whitelist
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfG0ne/tuq0sNWpINBRto2ZAp9WAZhKCY12jpuVboaBieq9x23RiaRtBEUiaoJN7tJXm4Vn3/cKubZQxb72lw4geS1t+L0M9hkhWhRHWww7y5XKVAPPRr
+ Ob4yj600Vpkt0wUzUhXlS9R8kOTLkZp7+mnRnAhj9qkKEQRAAVVcO3DZNthanj1bICwORmTfNWgFh1hdXiWk/nJlWdiuN1u6lWltQc9kJs3LC16hD73mKfhV
+ bAStqGaw6Lqj0KfgBlHgnFdFk3ZHpaaqEoZG+4SyjVFi+aCLP1AYq+/Sq9XImutcuN8ytTeOrjB2jRUViLug0RZmo5Jtmc9sHGnMoUolsLc=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-ctx->mb_err_cnt_ctrl could be NULL in case of failed initialization
-(on decoders), and encoders don't use it at all.
+Hi Krzysztof,
 
-Fixes: b2d3bef1aa78 ("media: coda: Add a V4L2 user for control error macrob=
-locks count")
-Signed-off-by: Krzysztof Halasa <khalasa@piap.pl>
-Cc: stable@vger.kernel.org # 5.11+
+On 07/06/2021 12:56, Krzysztof Hałasa wrote:
+> Without this patch, the TDA19971 chip's EDID is inactive.
 
-diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platfor=
-m/coda/coda-bit.c
-index 2f42808c43a4..26e37cbfe8dd 100644
---- a/drivers/media/platform/coda/coda-bit.c
-+++ b/drivers/media/platform/coda/coda-bit.c
-@@ -2373,8 +2373,10 @@ static void coda_finish_decode(struct coda_ctx *ctx)
- 	if (err_mb > 0) {
- 		if (__ratelimit(&dev->mb_err_rs))
- 			coda_dbg(1, ctx, "errors in %d macroblocks\n", err_mb);
--		v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl,
--				 v4l2_ctrl_g_ctrl(ctx->mb_err_cnt_ctrl) + err_mb);
-+		if (ctx->mb_err_cnt_ctrl)
-+			v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl,
-+					 v4l2_ctrl_g_ctrl(ctx->mb_err_cnt_ctrl)
-+					 + err_mb);
- 	}
-=20
- 	if (dev->devtype->product =3D=3D CODA_HX4 ||
-diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/plat=
-form/coda/coda-common.c
-index 96802b8f47ea..285c80f87b65 100644
---- a/drivers/media/platform/coda/coda-common.c
-+++ b/drivers/media/platform/coda/coda-common.c
-@@ -2062,7 +2062,8 @@ static int coda_start_streaming(struct vb2_queue *q, =
-unsigned int count)
- 	if (q_data_dst->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
- 		ctx->params.gop_size =3D 1;
- 	ctx->gopcounter =3D ctx->params.gop_size - 1;
--	v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl, 0);
-+	if (ctx->mb_err_cnt_ctrl)
-+		v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl, 0);
-=20
- 	ret =3D ctx->ops->start_streaming(ctx);
- 	if (ctx->inst_type =3D=3D CODA_INST_DECODER) {
+Was this wrong from the very beginning? How can this ever have been tested
+without an EDID?
 
---=20
-Krzysztof Ha=C5=82asa
+If it broke in a later patch, then please add a Fixes tag.
 
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+Regards,
+
+	Hans
+
+> 
+> Signed-off-by: Krzysztof Halasa <khalasa@piap.pl>
+> 
+> --- a/drivers/media/i2c/tda1997x.c
+> +++ b/drivers/media/i2c/tda1997x.c
+> @@ -2233,6 +2233,7 @@ static int tda1997x_core_init(struct v4l2_subdev *sd)
+>  	/* get initial HDMI status */
+>  	state->hdmi_status = io_read(sd, REG_HDMI_FLAGS);
+>  
+> +	io_write(sd, REG_EDID_ENABLE, EDID_ENABLE_A_EN | EDID_ENABLE_B_EN);
+>  	return 0;
+>  }
+>  
+> 
+
