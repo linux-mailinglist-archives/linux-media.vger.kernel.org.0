@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D30AF39DA99
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 13:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A2E239DA9C
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jun 2021 13:06:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231282AbhFGLG1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 07:06:27 -0400
-Received: from ni.piap.pl ([195.187.100.5]:48522 "EHLO ni.piap.pl"
+        id S230341AbhFGLHu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 07:07:50 -0400
+Received: from ni.piap.pl ([195.187.100.5]:48682 "EHLO ni.piap.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230483AbhFGLG0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Jun 2021 07:06:26 -0400
-X-Greylist: delayed 485 seconds by postgrey-1.27 at vger.kernel.org; Mon, 07 Jun 2021 07:06:26 EDT
+        id S230215AbhFGLHt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Jun 2021 07:07:49 -0400
 Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
         (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ni.piap.pl (Postfix) with ESMTPSA id DA54444421E;
-        Mon,  7 Jun 2021 12:56:29 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl DA54444421E
+        by ni.piap.pl (Postfix) with ESMTPSA id AD2DB44421E;
+        Mon,  7 Jun 2021 13:05:57 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl AD2DB44421E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1623063390; bh=bIhGyPfdPrGhgn4HB6nQiigqBUnu3qmIFy2LxWXegeQ=;
+        t=1623063957; bh=mhirheRq8WviKByzNYMicvIkW+qgbFBkujfQT55US3A=;
         h=From:To:Cc:Subject:Date:From;
-        b=mtuxot/zddC0WIdM+d9zoQYOgXuLOVxOxthPRUSs2BDapRrsS4ZX4ZmQXeHAAIE8A
-         1INtF9ft+RMH6y9IVHeuJPD/CwHlW/giXAsrrHAhTMdar9c0aaDrq419eI6+70exON
-         SYdt769KprzCu9apZmy9qVtmK6/NS7vJLcYpZr5w=
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Tim Harvey <tharvey@gateworks.com>
+        b=Ignk56jgjlAatUcTN61FQfbDdno+josMW0wUw6iLc3Em/zwWbUH4kK21fV0hEukOQ
+         HEmRamY6fbx2sBjrQ9uc+JIXBWMjLXC2eVpv4duDPuqHx2re1vfKUeBsP1A6I05xcS
+         IDe+VGhIP4Ou/r9my4ldmUibQeh0ZkERVtmq+DDc=
+From:   "Krzysztof Halasa" <khalasa@piap.pl>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH] TDA1997x: enable EDID support
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH RESENT] MEDIA CODA: Fix NULL ptr dereference in the encoder.
+Lines:  49
 Sender: khalasa@piap.pl
-Date:   Mon, 07 Jun 2021 12:56:29 +0200
-Message-ID: <m3sg1uq6xu.fsf@t19.piap.pl>
+Date:   Mon, 07 Jun 2021 13:05:57 +0200
+Message-ID: <m3k0n6gciy.fsf@t19.piap.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -44,20 +44,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Without this patch, the TDA19971 chip's EDID is inactive.
+ctx->mb_err_cnt_ctrl could be NULL in case of failed initialization
+(on decoders), and encoders don't use it at all.
 
+Fixes: b2d3bef1aa78 ("media: coda: Add a V4L2 user for control error macrob=
+locks count")
 Signed-off-by: Krzysztof Halasa <khalasa@piap.pl>
+Cc: stable@vger.kernel.org # 5.11+
 
---- a/drivers/media/i2c/tda1997x.c
-+++ b/drivers/media/i2c/tda1997x.c
-@@ -2233,6 +2233,7 @@ static int tda1997x_core_init(struct v4l2_subdev *sd)
- 	/* get initial HDMI status */
- 	state->hdmi_status =3D io_read(sd, REG_HDMI_FLAGS);
+diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platfor=
+m/coda/coda-bit.c
+index 2f42808c43a4..26e37cbfe8dd 100644
+--- a/drivers/media/platform/coda/coda-bit.c
++++ b/drivers/media/platform/coda/coda-bit.c
+@@ -2373,8 +2373,10 @@ static void coda_finish_decode(struct coda_ctx *ctx)
+ 	if (err_mb > 0) {
+ 		if (__ratelimit(&dev->mb_err_rs))
+ 			coda_dbg(1, ctx, "errors in %d macroblocks\n", err_mb);
+-		v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl,
+-				 v4l2_ctrl_g_ctrl(ctx->mb_err_cnt_ctrl) + err_mb);
++		if (ctx->mb_err_cnt_ctrl)
++			v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl,
++					 v4l2_ctrl_g_ctrl(ctx->mb_err_cnt_ctrl)
++					 + err_mb);
+ 	}
 =20
-+	io_write(sd, REG_EDID_ENABLE, EDID_ENABLE_A_EN | EDID_ENABLE_B_EN);
- 	return 0;
- }
+ 	if (dev->devtype->product =3D=3D CODA_HX4 ||
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/plat=
+form/coda/coda-common.c
+index 96802b8f47ea..285c80f87b65 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -2062,7 +2062,8 @@ static int coda_start_streaming(struct vb2_queue *q, =
+unsigned int count)
+ 	if (q_data_dst->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
+ 		ctx->params.gop_size =3D 1;
+ 	ctx->gopcounter =3D ctx->params.gop_size - 1;
+-	v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl, 0);
++	if (ctx->mb_err_cnt_ctrl)
++		v4l2_ctrl_s_ctrl(ctx->mb_err_cnt_ctrl, 0);
 =20
+ 	ret =3D ctx->ops->start_streaming(ctx);
+ 	if (ctx->inst_type =3D=3D CODA_INST_DECODER) {
 
 --=20
 Krzysztof Ha=C5=82asa
