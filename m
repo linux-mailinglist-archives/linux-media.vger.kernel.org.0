@@ -2,106 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0997139ECD2
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 05:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74FA039EDD7
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 06:55:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbhFHDQv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 23:16:51 -0400
-Received: from mail-lj1-f180.google.com ([209.85.208.180]:44583 "EHLO
-        mail-lj1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230237AbhFHDQv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 23:16:51 -0400
-Received: by mail-lj1-f180.google.com with SMTP id d2so20825880ljj.11
-        for <linux-media@vger.kernel.org>; Mon, 07 Jun 2021 20:14:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+yarrfhfRh68/NScLHISiafJkt7tmtmWn5drOAmC634=;
-        b=OeIWvtDAwguHXI9B0LwOkUbP9DsszLXx+m/Ca1BSfg0j5yQvMLMfnwb4o/YvppVlmU
-         q2f25AiSHVkTvadXOpMWvjHVoA+U2CNYPVoGYdMLMnW1mPWJLgkRpHsIUw1kTWiCpjze
-         UKZgW7/GnrCwQYkjN1eMYd9T3/uFSyK5MSe/+c1X1dpomDxvE/J0t5SRqydPpNOeVkP3
-         gT3VpyhR1H5cjjUOqmI0z51Ud7s7y2DuKc8v6M33j5qzAsO0b+wAS+guxelxGXfbfcJV
-         6o1Pxzo/kmqUKh5qdqL/RtiuPz7wiOQ/5EbPHFjsODupDa0ySAD1WorWdU6nncAV+CEG
-         W42Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+yarrfhfRh68/NScLHISiafJkt7tmtmWn5drOAmC634=;
-        b=XFdFkt+RoJ0Jh96oJlEkc62Ven55ODSNFDBiehIeHL8Bd4EppZ4y7+8hiQISxS7GQg
-         9g+K1GVLxCQAE6wHRhTVWTNsBowm4e48HbLKKRDL4RERSE1LbVlK9NS0/kzvM9Zhg78/
-         PoX/c4XjQVoR+bdhigltJDdKNEqlXLRawYvMTKMkWcuMqexW7fppZajv27zoj05GO8ip
-         emmj/PuPDVnxrlwIyjH77h7dyUbP371tb+nSH5lqNO3Z+N8IUaB4vqBn7ryZZrAdOnfa
-         EXlsAq6aj0gfCg87h/XwjmeFVM2PlnmvrqI0bM29h1SLNfkNHQ2Oi456qHoY7dn6AUL/
-         p+/A==
-X-Gm-Message-State: AOAM532gx1ztB6MazGw+nMpXHMlln+DsrtD5r//V0gkAfy0H96gTq4rq
-        NEZSjKVR+6rooUcsJAAOGdO6+IvZdWZHCSxrBvI=
-X-Google-Smtp-Source: ABdhPJwwBvCsr4sZ7KF7Jpj0frlYkbl9LagjU+rZCqoVYPyik6Ms7of2pFYsqj680UNEy7216cgT/ccPAKkSLpBQw3U=
-X-Received: by 2002:a05:651c:a06:: with SMTP id k6mr16985836ljq.347.1623122022877;
- Mon, 07 Jun 2021 20:13:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAOMZO5A0nV2bubWt3EzkaWVBoD96YNTYB10y-qB79mX2pTBu0w@mail.gmail.com>
- <CAOMZO5CfCZcngeOj4yEV+g5s6Wy4F0=wCu3PD3LyZAUMz9V2LQ@mail.gmail.com>
-In-Reply-To: <CAOMZO5CfCZcngeOj4yEV+g5s6Wy4F0=wCu3PD3LyZAUMz9V2LQ@mail.gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Tue, 8 Jun 2021 00:13:31 -0300
-Message-ID: <CAOMZO5C6ai+Vze6e4o1WYCa42p2YK5_cjo99Q7qKc50E+ebgSA@mail.gmail.com>
-Subject: Re: Unable to capture adv7280-m on i.MX6Q
-To:     Schrempf Frieder <frieder.schrempf@kontron.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        id S230212AbhFHE4v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Jun 2021 00:56:51 -0400
+Received: from ni.piap.pl ([195.187.100.5]:60968 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229457AbhFHE4v (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Jun 2021 00:56:51 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ni.piap.pl (Postfix) with ESMTPSA id 6393344423B;
+        Tue,  8 Jun 2021 06:54:57 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 6393344423B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1623128097; bh=/stu7ctuibAfiv1X5o6r5DPEF2P5U2Vh+/K/Hb/4FvM=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=FIKygQWJu7fMFBf6d2M45Okhkz3JID53xc9dg9C8iWmgROrfAFR2kUhJaKq9IQWCj
+         bLM/O/lt/QQe6YI/9Nbu3L0VsdnrVReJwytj4FGxiAMUJhgoZx3z7ZeR9RvZngIleK
+         wLZJLQ1l890AEDuztyTcvurxCubX2c443vHM0dWo=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Tim Harvey <tharvey@gateworks.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media <linux-media@vger.kernel.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] TDA1997x: enable EDID support
+References: <m3sg1uq6xu.fsf@t19.piap.pl>
+        <dbb99d7b-18eb-317c-911a-b982486848fa@xs4all.nl>
+        <m3eeddhora.fsf@t19.piap.pl>
+        <CAJ+vNU0E_0pB-1T+VpdmjJNVirAwCUNjKVbEV4wEbqHOzURj_A@mail.gmail.com>
+Sender: khalasa@piap.pl
+Date:   Tue, 08 Jun 2021 06:54:57 +0200
+In-Reply-To: <CAJ+vNU0E_0pB-1T+VpdmjJNVirAwCUNjKVbEV4wEbqHOzURj_A@mail.gmail.com>
+        (Tim Harvey's message of "Mon, 7 Jun 2021 08:48:19 -0700")
+Message-ID: <m3k0n57y72.fsf@t19.piap.pl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 4
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 17, 2021 at 8:48 PM Fabio Estevam <festevam@gmail.com> wrote:
+Tim,
 
-> Setting pipeline to PAUSED ...
-> Pipeline is live and does not need PREROLL ...
-> Pipeline is PREROLLED ...
-> Setting pipeline to PLAYING ...
-> New clock: GstSystemClock
-> [   11.745511] imx6-mipi-csi2: LP-11 wait timeout, likely a sensor
-> driver bug, expect capture failures.
-> [   11.754956] imx6-mipi-csi2: phy_state = 0x00000200
-> [   12.259957] imx6-mipi-csi2: clock lane timeout, phy_state = 0x00000200
-> [   12.266630] ipu1_ic_prpvf: upstream stream on failed: -110
-> [   12.274082] ipu1_ic_prpvf: pipeline start failed with -110
-> ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
-> to allocate required memory.
-> Additional debug info:
-> ../sys/v4l2/gstv4l2src.c(659): gst_v4l2src_decide_allocation ():
-> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-> Buffer pool activation failed
-> Execution ended after 0:00:01.072478334
-> Setting pipeline to NULL ...
-> Freeing pipeline ...
->
-> Not sure why I am getting LP-11 and clock lane timeouts though.
+Tim Harvey <tharvey@gateworks.com> writes:
 
-I saw this post:
-https://ez.analog.com/linux-software-drivers/f/q-a/535279/adv7282-m-dts-how-to-connect-adv-to-ipu1_csi0
+>> I'm looking at the previous version of this driver from Gateworks and it
+>> contains:
+>>
+>>      /* Configure EDID
+>>       *
+>>       * EDID_ENABLE bits:
+>>       *  7 - nack_off
+>>       *  6 - edid_only
+>>       *  1 - edid_b_en
+>>       *  0 - edid_a_en
+>>       */
+>>      reg =3D io_read(REG_EDID_ENABLE);
+>>      if (!tda1997x->internal_edid)
+>>          reg &=3D ~0x83; /* EDID Nack ON */
+>>      else
+>>          reg |=3D 0x83;  /* EDID Nack OFF */
+>>      io_write(REG_EDID_ENABLE, reg);
 
-and Frieder's patch:
-https://git.kontron-electronics.de/linux/linux/-/commit/0d90331a44d0f718b7327a94fc72612ddcb4ac0f.patch
+> Not sure where the source above is from (this was all so long ago) but
 
-I applied Frieder's patch, but still getting the same errors below
-upon launching Gstreamer.:
+That's your gateworks_fslc_3.14_1.0.x_ga branch (3.14 is the kernel and
+1.0.x_ga is IIRC some Freescale versioning) :-)
 
- New clock: GstSystemClock
- [   11.745511] imx6-mipi-csi2: LP-11 wait timeout, likely a sensor
- driver bug, expect capture failures.
- [   11.754956] imx6-mipi-csi2: phy_state = 0x00000200
- [   12.259957] imx6-mipi-csi2: clock lane timeout, phy_state = 0x00000200
- [   12.266630] ipu1_ic_prpvf: upstream stream on failed: -110
- [   12.274082] ipu1_ic_prpvf: pipeline start failed with -110
+> my guess is that 'internal_edid' meant an EDID had been provided via
+> software and the else case meant there was no EDID available.
+> There is no support on that chip for an external EEPROM.
 
-Does anyone know what needs to be done to avoid the LP-11 timeout error?
+Right. I guess the else meant it was available and &=3D ~83 meant no
+EDID... Anyway one could simply drop a 24c02 or a similar chip directly
+to SDA/SCL HDMI lines, that's what the monitor makers had been doing for
+a long time. Then, I guess, you would need the internal_edid =3D 0
+(otherwise the TDA chip would be fighting the EEPROM on the SDA line).
+Not that I know of any such design using this driver, I guess we can
+safely skip this part.
+--=20
+Krzysztof Ha=C5=82asa
 
-Thanks
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
