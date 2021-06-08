@@ -2,48 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 474173A072B
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 00:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57D4C3A06FF
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 00:37:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235423AbhFHWlE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Jun 2021 18:41:04 -0400
-Received: from mail-qv1-f44.google.com ([209.85.219.44]:45635 "EHLO
-        mail-qv1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235335AbhFHWky (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 18:40:54 -0400
-Received: by mail-qv1-f44.google.com with SMTP id g12so11737215qvx.12
-        for <linux-media@vger.kernel.org>; Tue, 08 Jun 2021 15:38:49 -0700 (PDT)
+        id S235070AbhFHWjr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Jun 2021 18:39:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234228AbhFHWjp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 18:39:45 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38B9CC0617A6
+        for <linux-media@vger.kernel.org>; Tue,  8 Jun 2021 15:37:51 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id k4so21968640qkd.0
+        for <linux-media@vger.kernel.org>; Tue, 08 Jun 2021 15:37:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=marek-ca.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=h7Ze/0FZcrCZ8/ohSgsWEa3JmZJ0LCpIBTZQMUOgUhU=;
-        b=eamqO/u0HsdTmoA2C+587eGJ/oIlmXzpEBuM4yEYfeq/+5KIr54POJmXjSNQihc0xo
-         FvRcPA7xjYbdstnOkPYSq+ZSg9Zhn9JuBwifgaM99JZHmXVwL/flBt9Hwh/lp53Nz4PE
-         kbmslmWXvmuMZyLYqzCphXQ8ZJoHDNvk5r+QFfE7D1uI7gPntADS6j+Qn4VRJomaG6ZP
-         AqAtOtq1sOEX4vvZzCCMyYP5YHK3INw/4z01UGpgpgetwUjZL5wtj3cgERYHJs3aS4a1
-         5w33tilvCQwscRsrHM2Qk8TxLfow0LAKbVE0R0ZKqpNE+hLDbpIoM2YEHdtsS2mq+A47
-         JOsA==
+        bh=pBISRGXcYaTjdyy7zFRwXRZ/Xqtc0LVrOOtyDwss3eg=;
+        b=02f0lZJ5PP3Eiylz/zR/mouRFgBT9n4kVgKwIm5HemxQLen0zBBwqlvzZ7tt3c6jdk
+         44M3xC65Ss+GGObi0v41j7qIMTbZ4ofRsUSfE6ORIYiC9iSURdabjKZ1ZXSwWRnyw+UE
+         JHdTPrpKfY2MjFPD0aAc3W4tv6gV6uX+WG0nImNQiX51ak7LRj2Dn9ljPVn31qZtacNw
+         DButh6ySOFQlQ/OecgdHyt6HT9kZP+OM5ofR/oIGYd3pk4jCXo9+hSVdI/jX7UsGmPiP
+         FSH4yLiy0wAAJD9Mj37rd2MUFFtyjJSMPMTf6vi4C237AcEHtXTfMeBX8cLEyy5kWG5U
+         kFwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=h7Ze/0FZcrCZ8/ohSgsWEa3JmZJ0LCpIBTZQMUOgUhU=;
-        b=a+m/PMN+7NQ673Vpm0mBBYb5wVwGWt5+KzNqqKJS934gMmHXoF/xHrv7QputpgqHEo
-         9uqZERIrruwAIpoMSDdwS4ZhiyeTkkk2xJX71Mh422hAWHbqrVfesVhCRDTZBqIChxDq
-         Ekd0faAMLRgOoIjEmzwdBaoV1t1ZnUrb/FxWw4/+4jI6qPbYdoOMy3/lGrr2bdl0XzQ3
-         xv2rinMh5mh72etyhub8kuTfvDlGTQWSc3+sho+MkiVO7smihCIahxGfN5Sk4PNRubjJ
-         pBoPGf7unnHM+RF17H9qtzl83h7aed9d3T+dmmkx9HzKM3FY8QYhCs/ifu+13e4b8rSk
-         RHfQ==
-X-Gm-Message-State: AOAM531Qc0kO2+Fm/TMnU4K1XYDpTafCRKkThjqRsLz3DenhCLlWGakO
-        uOA8KwNX55j5MteKt3J3cn8UcQ==
-X-Google-Smtp-Source: ABdhPJzDHkTFsvO+r15hgBa0ALf0Crvy2Ll+TqLfx+jjBK9zYG3L2pU67agXtLjgoW5GtSl4ohzU6A==
-X-Received: by 2002:a05:6214:240b:: with SMTP id fv11mr2695139qvb.23.1623191869113;
-        Tue, 08 Jun 2021 15:37:49 -0700 (PDT)
+        bh=pBISRGXcYaTjdyy7zFRwXRZ/Xqtc0LVrOOtyDwss3eg=;
+        b=hqKcq+AZegz/tphaEhii43odgrrPzfJnFtPUD08wvXyOomJcaYXfotceJILBS3T4A4
+         UGV780PmVaksh6nHcLU3IeRdE/R6LuCx/8xYn28SZpGoyUQxJOnT4R8CpPZ3HULSkEQ5
+         nKLepuY4KG9DN+M+0WKLfyiepFRcde//Xe1mquutdrHPVlOCFTCCpR7zDRLdP2Q/u/Ru
+         uwnIygV3th3IMvN6De8BdqWXw++Soky0ACDjuv/G3rguGIj7ehV9JtjM425UKS/E6+7k
+         Olxr1bF+Utz7/SkUvVMkIhwfo4YCttQOjmZaEpemWMeZzRZZClzCN+zGxp7faNYivopi
+         sWlw==
+X-Gm-Message-State: AOAM532WsIL0+pqe3586w6MFsfl2F4h/xDmaD7EbsPadXWjGmEFhPT04
+        f2wPYsA99YSue50GBQ7alOMrmQ==
+X-Google-Smtp-Source: ABdhPJzYn15uMI1dfCue0mox6oIAlMHImpKRCx4PXqnoGK4XIj1dR517BqHINIa26ujrL+u+9S1Fbw==
+X-Received: by 2002:a37:b3c5:: with SMTP id c188mr24031804qkf.242.1623191870438;
+        Tue, 08 Jun 2021 15:37:50 -0700 (PDT)
 Received: from localhost.localdomain (modemcable068.184-131-66.mc.videotron.ca. [66.131.184.68])
-        by smtp.gmail.com with ESMTPSA id m3sm2324266qkh.135.2021.06.08.15.37.48
+        by smtp.gmail.com with ESMTPSA id m3sm2324266qkh.135.2021.06.08.15.37.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 15:37:48 -0700 (PDT)
+        Tue, 08 Jun 2021 15:37:49 -0700 (PDT)
 From:   Jonathan Marek <jonathan@marek.ca>
 To:     linux-arm-msm@vger.kernel.org
 Cc:     robert.foss@linaro.org, andrey.konovalov@linaro.org,
@@ -51,11 +54,12 @@ Cc:     robert.foss@linaro.org, andrey.konovalov@linaro.org,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org (open list:QUALCOMM CAMERA SUBSYSTEM DRIVER),
         linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 03/17] media: camss: csiphy-3ph: add support for SM8250 CSI DPHY
-Date:   Tue,  8 Jun 2021 18:34:52 -0400
-Message-Id: <20210608223513.23193-4-jonathan@marek.ca>
+Subject: [PATCH 04/17] media: camss: csid-170: fix non-10bit formats
+Date:   Tue,  8 Jun 2021 18:34:53 -0400
+Message-Id: <20210608223513.23193-5-jonathan@marek.ca>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20210608223513.23193-1-jonathan@marek.ca>
 References: <20210608223513.23193-1-jonathan@marek.ca>
@@ -65,223 +69,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for CSIPHY (2PH/DPHY mode) found on SM8250 hardware.
+Use the decode_format/data_type from the "format" struct instead of a
+hardcoded 10-bit format.
 
+Fixes: eebe6d00e9bf ("media: camss: Add support for CSID hardware version Titan 170")
 Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 Reviewed-by: Robert Foss <robert.foss@linaro.org>
 ---
- .../qcom/camss/camss-csiphy-3ph-1-0.c         | 147 ++++++++++++++++--
- drivers/media/platform/qcom/camss/camss.h     |   1 +
- 2 files changed, 139 insertions(+), 9 deletions(-)
+ drivers/media/platform/qcom/camss/camss-csid-170.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index 783b65295d20b..c5b0a91b36f88 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -62,6 +62,7 @@ struct csiphy_reg_t {
- 	u32 csiphy_param_type;
- };
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-170.c b/drivers/media/platform/qcom/camss/camss-csid-170.c
+index ac22ff29d2a9f..aa65043c33037 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-170.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-170.c
+@@ -366,7 +366,7 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+ 			val |= input_format->width & 0x1fff << TPG_DT_n_CFG_0_FRAME_WIDTH;
+ 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_0(0));
  
-+/* GEN2 1.0 2PH */
- static const struct
- csiphy_reg_t lane_regs_sdm845[5][14] = {
- 	{
-@@ -146,6 +147,121 @@ csiphy_reg_t lane_regs_sdm845[5][14] = {
- 	},
- };
+-			val = DATA_TYPE_RAW_10BIT << TPG_DT_n_CFG_1_DATA_TYPE;
++			val = format->data_type << TPG_DT_n_CFG_1_DATA_TYPE;
+ 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_1(0));
  
-+/* GEN2 1.2.1 2PH */
-+static const struct
-+csiphy_reg_t lane_regs_sm8250[5][20] = {
-+	{
-+		{0x0030, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0900, 0x05, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0908, 0x10, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0904, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0904, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0034, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0010, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x001C, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x003C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0008, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+		{0x0000, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x000c, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0038, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0014, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0028, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0024, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	},
-+	{
-+		{0x0730, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0C80, 0x05, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0C88, 0x10, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0C84, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0C84, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0704, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x072C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0734, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0710, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x071C, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x073C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0708, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+		{0x0700, 0x80, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x070c, 0xA5, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0738, 0x1F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0714, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0728, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0724, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	},
-+	{
-+		{0x0230, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0A00, 0x05, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0A08, 0x10, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0A04, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0A04, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0204, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x022C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0234, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0210, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x021C, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x023C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0208, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+		{0x0200, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x020c, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0238, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0214, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0228, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0224, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	},
-+	{
-+		{0x0430, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0B00, 0x05, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0B08, 0x10, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0B04, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0B04, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0404, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x042C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0434, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0410, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x041C, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x043C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0408, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+		{0x0400, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x040c, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0438, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0414, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0428, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0424, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	},
-+	{
-+		{0x0630, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0C00, 0x05, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0C08, 0x10, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0C04, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0C04, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0604, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x062C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0634, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0610, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x061C, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x063C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0608, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+		{0x0600, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x060c, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0638, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0614, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0628, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0624, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	},
-+};
-+
- static void csiphy_hw_version_read(struct csiphy_device *csiphy,
- 				   struct device *dev)
- {
-@@ -298,13 +414,25 @@ static void csiphy_gen1_config_lanes(struct csiphy_device *csiphy,
- static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
- 				     u8 settle_cnt)
- {
--	int i, l;
-+	const struct csiphy_reg_t *r;
-+	int i, l, array_size;
- 	u32 val;
- 
--	for (l = 0; l < 5; l++) {
--		for (i = 0; i < 14; i++) {
--			const struct csiphy_reg_t *r = &lane_regs_sdm845[l][i];
-+	switch (csiphy->camss->version) {
-+	case CAMSS_845:
-+		r = &lane_regs_sdm845[0][0];
-+		array_size = ARRAY_SIZE(lane_regs_sdm845[0]);
-+		break;
-+	case CAMSS_8250:
-+		r = &lane_regs_sm8250[0][0];
-+		array_size = ARRAY_SIZE(lane_regs_sm8250[0]);
-+		break;
-+	default:
-+		unreachable();
-+	}
- 
-+	for (l = 0; l < 5; l++) {
-+		for (i = 0; i < array_size; i++, r++) {
- 			switch (r->csiphy_param_type) {
- 			case CSIPHY_SETTLE_CNT_LOWER_BYTE:
- 				val = settle_cnt & 0xff;
-@@ -325,13 +453,15 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
- 				s64 link_freq, u8 lane_mask)
- {
- 	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
-+	bool is_gen2 = (csiphy->camss->version == CAMSS_845 ||
-+			csiphy->camss->version == CAMSS_8250);
- 	u8 settle_cnt;
- 	u8 val;
- 	int i;
- 
- 	settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
- 
--	val = BIT(c->clk.pos);
-+	val = is_gen2 ? BIT(7) : BIT(c->clk.pos);
- 	for (i = 0; i < c->num_data; i++)
- 		val |= BIT(c->data[i].pos * 2);
- 
-@@ -346,11 +476,10 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
- 	val = 0x00;
- 	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(0));
- 
--	if (csiphy->camss->version == CAMSS_8x16 ||
--	    csiphy->camss->version == CAMSS_8x96)
--		csiphy_gen1_config_lanes(csiphy, cfg, settle_cnt);
--	else if (csiphy->camss->version == CAMSS_845)
-+	if (is_gen2)
- 		csiphy_gen2_config_lanes(csiphy, settle_cnt);
-+	else
-+		csiphy_gen1_config_lanes(csiphy, cfg, settle_cnt);
- 
- 	/* IRQ_MASK registers - disable all interrupts */
- 	for (i = 11; i < 22; i++)
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index dc8b4154f92b3..377e2474a485f 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -69,6 +69,7 @@ enum camss_version {
- 	CAMSS_8x96,
- 	CAMSS_660,
- 	CAMSS_845,
-+	CAMSS_8250,
- };
- 
- struct camss {
+ 			val = tg->mode << TPG_DT_n_CFG_2_PAYLOAD_MODE;
+@@ -382,8 +382,9 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+ 		val = 1 << RDI_CFG0_BYTE_CNTR_EN;
+ 		val |= 1 << RDI_CFG0_FORMAT_MEASURE_EN;
+ 		val |= 1 << RDI_CFG0_TIMESTAMP_EN;
++		/* note: for non-RDI path, this should be format->decode_format */
+ 		val |= DECODE_FORMAT_PAYLOAD_ONLY << RDI_CFG0_DECODE_FORMAT;
+-		val |= DATA_TYPE_RAW_10BIT << RDI_CFG0_DATA_TYPE;
++		val |= format->data_type << RDI_CFG0_DATA_TYPE;
+ 		val |= vc << RDI_CFG0_VIRTUAL_CHANNEL;
+ 		val |= dt_id << RDI_CFG0_DT_ID;
+ 		writel_relaxed(val, csid->base + CSID_RDI_CFG0(0));
 -- 
 2.26.1
 
