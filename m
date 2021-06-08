@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EFDB39FA99
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 17:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D25639FA9C
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 17:26:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231237AbhFHP2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Jun 2021 11:28:20 -0400
-Received: from mail-pj1-f42.google.com ([209.85.216.42]:54836 "EHLO
-        mail-pj1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231652AbhFHP2L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 11:28:11 -0400
-Received: by mail-pj1-f42.google.com with SMTP id g24so12119773pji.4
-        for <linux-media@vger.kernel.org>; Tue, 08 Jun 2021 08:26:18 -0700 (PDT)
+        id S230460AbhFHP2Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Jun 2021 11:28:25 -0400
+Received: from mail-pl1-f182.google.com ([209.85.214.182]:44651 "EHLO
+        mail-pl1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231694AbhFHP2Y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 11:28:24 -0400
+Received: by mail-pl1-f182.google.com with SMTP id b12so4839846plg.11
+        for <linux-media@vger.kernel.org>; Tue, 08 Jun 2021 08:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Y67AglBKHaankHKgtfxy4RSwV9tG9pH2Koc8u0qf15g=;
-        b=Xb6BCTxCAR9+DSv3PxHqT4RL8esJXW7vq0xQw3qXKxPzFrbrtdNl7v2HreeklUGSDk
-         nxdIkk/TN5QYzJmSCVcBeWoKI5zJAQX19koMpyPi4GOrXxaulgUwKtm0gElpUMTGrw7A
-         VVG/LwC6bKJMaVArT/6YhOf8FuENWHU1yhHRIG8uP5utnFuVPWw79dIIsTwW/bkxPAQy
-         GL14uUkFWsfao1yM9G7AMyFCfwQoqOcBBiBdIw+eMm1YoTur6XhskR6qql2gtkMej0op
-         nbZq65TyQB+3+auv7bcMbsq5DAO+J/AsdgmNxL0je47i9lt2pYHbvyEFRCPLKnhKTYwL
-         nI/w==
+        bh=R6GoIE2w8uwO1CRLMthy9ZvDr93rSRBTSHKv3/wrWWI=;
+        b=ndo1VItZ2u6gUcjZzkodUOa7zJstQ20jBklTaLdc/BegTJ2fWMWwbL52ONv5QjkzWN
+         umQeRdO7vIf2Br3I/LN4TisFpFMK8veYiWxI2b8xMjtKH/ey/yDKWVvCWGNN1Zvusrcf
+         HcTbzELevcNpShm3QPweILD3Z+Aq8Xgofu6nC7SBd53nQ9/W+yesM9gohJBv8K4O6Z/M
+         COnNcfuJR1/dVB74fOcccHcDmxwrwYzDjljCP1ozwrsG9xYLdDDXcHSQQ7i3pOuW4zi0
+         jgZ63JYyICSsbr4enfWyvz3ntyxiH+64rTrQdykxV8UhYtkaGdcmM3sdHTXiHNOM+dIb
+         9QJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Y67AglBKHaankHKgtfxy4RSwV9tG9pH2Koc8u0qf15g=;
-        b=PWOvZP8W4IlNZzdkSuRhr4kLswyroW3b8CAdrwMwBvp3j6u91YYlcgamozUMUnAQwS
-         vnB2qC36POJKRxiwvGJcECQXuuyYu09BnnhcIPozXJ6iErUkYWjRDTI2FeYKOhKtkoRj
-         ydkruD6B+e6IVkkatZ2+v3M5iEqzJe3RLmYSotGYU+uGonaU4OQIGLwTHbKvxk7RyBtw
-         ZD/lx9NWjcT4biwxlm3+rjdsjLXSujKnIfN+R/S2/qGRzpA5CKp4j46zqLYQYvbJk4O8
-         R/4Yw7C2TcdBjeqyOrh++v/dkWMxNwPWhyhjCnOURJa6+3TFMNjMXecYYvQXxFuDqZHK
-         ERIw==
-X-Gm-Message-State: AOAM530p1LbfFAYJA9N23GsYc5u1Kcve5pBiC3QMHPUdgZtQmO0Y3dF3
-        fg+cUJru6g3RKpJZWGRaJBD/LAbK75Y=
-X-Google-Smtp-Source: ABdhPJzGAykH1a/M8w/+GaTdT6nXT6X2DDDpznkmFPu0uX6G29JMGQyYArHx39ycE1arJtZz1MU0/g==
-X-Received: by 2002:a17:90b:955:: with SMTP id dw21mr2127171pjb.28.1623165917814;
-        Tue, 08 Jun 2021 08:25:17 -0700 (PDT)
+        bh=R6GoIE2w8uwO1CRLMthy9ZvDr93rSRBTSHKv3/wrWWI=;
+        b=e1qOtsVW4DRCQLFZuyAFX2iLQeDSQRWh7BHEc1bruM6E1tnodYId/v7fZ+y1Xgq9m6
+         P06ZOg5uWoTiViFCeA3fiWZ+leSuFMGtiZQa/r8rUxHxwNbSNPA7uS53WrZPKU4nTeLy
+         81pv5iiyiLMBhkV+M+YMkC49vSg74kP58LLYMemE9PpTCz95avRp4ZJunKpZuHbYEO5P
+         NuNLeo/SFDBGvOBEexuSmUPppFNq0ihAjYxDKd18I9+TngFcXtjp/aaRyYwvz2WS63tP
+         hTWYvuIKPYtPG/0ZZajvSbbNdhH7RMQnsKOVe9TpLq7hzZ1TXo05qWN3wUt+IMYbEGLU
+         U1bA==
+X-Gm-Message-State: AOAM532NfxBcPUAZ2rTjGch5F06ubuHKp99jH8po3/PVdFjEAr05RN4R
+        +/NQ/hMKHuyFqfhr+s/UqB58vhyT9WI=
+X-Google-Smtp-Source: ABdhPJwcR8W+OrU5/DeUbpl6XdhdSNssaMLMjcNHv6CHQN87/BVYSqxzgi+cpVCde8k/mX910WTPog==
+X-Received: by 2002:a17:90a:e60d:: with SMTP id j13mr25819477pjy.112.1623165922191;
+        Tue, 08 Jun 2021 08:25:22 -0700 (PDT)
 Received: from odkf.hopto.org ([211.58.213.153])
-        by smtp.gmail.com with ESMTPSA id nn6sm14726668pjb.57.2021.06.08.08.25.16
+        by smtp.gmail.com with ESMTPSA id nn6sm14726668pjb.57.2021.06.08.08.25.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 08:25:17 -0700 (PDT)
+        Tue, 08 Jun 2021 08:25:21 -0700 (PDT)
 From:   Seongyong Park <euphoriccatface@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Matt Ranostay <matt.ranostay@konsulko.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Seongyong Park <euphoriccatface@gmail.com>
-Subject: [PATCH v3 1/2] media: video-i2c: more precise intervals between frames
-Date:   Wed,  9 Jun 2021 00:24:50 +0900
-Message-Id: <20210608152451.14730-2-euphoriccatface@gmail.com>
+Subject: [PATCH v3 2/2] media: video-i2c: append register data on MLX90640's frame
+Date:   Wed,  9 Jun 2021 00:24:51 +0900
+Message-Id: <20210608152451.14730-3-euphoriccatface@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608152451.14730-1-euphoriccatface@gmail.com>
 References: <20210608152451.14730-1-euphoriccatface@gmail.com>
@@ -61,79 +61,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-MLX90640 should ideally be working without a frame skip.
-In short, if a frame is skipped, then half of a frame loses correction
-information, having no way to retrieve its original compensation.
+On MLX90640, Each measurement step updates half of the pixels in the frame
+(every other pixel in default "chess mode", and every other row
+in "interleave mode"), while additional coefficient data (25th & 26th row)
+updates every step. The compensational coefficient data only corresponds
+with the pixels updated in the same step.
 
-This patch improves the timing in three ways:
-
-1) Replaced schedule_timeout_interruptible() to usleep_range()
-The former "only ensures that it will sleep for at least
-schedule_delay (if not interrupted)", as pointed out by mchehab.
-As a result, the frame rate could lag behind than the actual capability
-of the hardware
-(Raspberry Pi would show a few Hz slower than set value)
-
-2) Calculation based on us, not jiffies
-Jiffies usually has resolution of 100Hz, and possibly even cruder.
-MLX90640 can go up to 64Hz frame rate, which does not make sense to
-calculate the interval with aforementioned resolution.
-
-3) Interval calculation based on the last frame's end time
-Using the start time of the current frame will probably make tiny bit
-of drift every time. This made more sense when I didn't realize 1),
-but it still makes sense without adding virtually any complexity,
-so this stays in.
+Only way to know which "subpage" was updated on the last step is to read
+"status register" on address 0x8000. Without this data,
+compensation calculation may be able to detect which sets of pixels have
+been updated, but it will have to make assumptions when frame skip happens,
+and there is no way to do it correctly when the host simply cannot
+keep up with refresh rate.
 
 Signed-off-by: Seongyong Park <euphoriccatface@gmail.com>
 ---
- drivers/media/i2c/video-i2c.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ drivers/media/i2c/video-i2c.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-index 0465832a4..64ba96329 100644
+index 64ba96329..2b50a76f3 100644
 --- a/drivers/media/i2c/video-i2c.c
 +++ b/drivers/media/i2c/video-i2c.c
-@@ -443,14 +443,15 @@ static void buffer_queue(struct vb2_buffer *vb)
- static int video_i2c_thread_vid_cap(void *priv)
+@@ -74,7 +74,8 @@ static const struct v4l2_fmtdesc mlx90640_format = {
+ 
+ static const struct v4l2_frmsize_discrete mlx90640_size = {
+ 	.width = 32,
+-	.height = 26, /* 24 lines of pixel data + 2 lines of processing data */
++	.height = 27,
++	/* 24 lines of pixel data + 2 lines of processing data + 1 line of registers */
+ };
+ 
+ static const struct regmap_config amg88xx_regmap_config = {
+@@ -168,8 +169,12 @@ static int amg88xx_xfer(struct video_i2c_data *data, char *buf)
+ 
+ static int mlx90640_xfer(struct video_i2c_data *data, char *buf)
  {
- 	struct video_i2c_data *data = priv;
--	unsigned int delay = mult_frac(HZ, data->frame_interval.numerator,
--				       data->frame_interval.denominator);
-+	u32 delay = mult_frac(1000000UL, data->frame_interval.numerator,
-+			       data->frame_interval.denominator);
-+	s64 end_us = ktime_to_us(ktime_get());
+-	return regmap_bulk_read(data->regmap, 0x400, buf,
+-				data->chip->buffer_size);
++	int ret = regmap_bulk_read(data->regmap, 0x400, buf,
++				   data->chip->buffer_size - 64);
++	if (ret)
++		return ret;
++	return regmap_bulk_read(data->regmap, 0x8000, buf + (data->chip->buffer_size - 64),
++				64);
+ }
  
- 	set_freezable();
- 
- 	do {
--		unsigned long start_jiffies = jiffies;
- 		struct video_i2c_buffer *vid_cap_buf = NULL;
-+		s64 current_us;
- 		int schedule_delay;
- 
- 		try_to_freeze();
-@@ -477,12 +478,14 @@ static int video_i2c_thread_vid_cap(void *priv)
- 				VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
- 		}
- 
--		schedule_delay = delay - (jiffies - start_jiffies);
--
--		if (time_after(jiffies, start_jiffies + delay))
--			schedule_delay = delay;
--
--		schedule_timeout_interruptible(schedule_delay);
-+		end_us += delay;
-+		current_us = ktime_to_us(ktime_get());
-+		if (current_us < end_us) {
-+			schedule_delay = end_us - current_us;
-+			usleep_range(schedule_delay * 3/4, schedule_delay);
-+		} else {
-+			end_us = current_us;
-+		}
- 	} while (!kthread_should_stop());
- 
- 	return 0;
+ static int amg88xx_setup(struct video_i2c_data *data)
+@@ -375,7 +380,7 @@ static const struct video_i2c_chip video_i2c_chip[] = {
+ 		.format		= &mlx90640_format,
+ 		.frame_intervals	= mlx90640_frame_intervals,
+ 		.num_frame_intervals	= ARRAY_SIZE(mlx90640_frame_intervals),
+-		.buffer_size	= 1664,
++		.buffer_size	= 1728,
+ 		.bpp		= 16,
+ 		.regmap_config	= &mlx90640_regmap_config,
+ 		.nvmem_config	= &mlx90640_nvram_config,
 -- 
 2.31.1
 
