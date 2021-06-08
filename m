@@ -2,265 +2,311 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EEFB39F564
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 13:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31B8739F70F
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 14:46:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232209AbhFHLpj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Jun 2021 07:45:39 -0400
-Received: from mail-ed1-f49.google.com ([209.85.208.49]:41761 "EHLO
-        mail-ed1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232208AbhFHLpj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 07:45:39 -0400
-Received: by mail-ed1-f49.google.com with SMTP id g18so22130016edq.8
-        for <linux-media@vger.kernel.org>; Tue, 08 Jun 2021 04:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=26aHXU1SXvSZ0A6RHa6DT3t7eKawhrtLsouvlIaEHEQ=;
-        b=mtLvh6jYIsKx7MN3I7KBDJBag2UsHkcXvWAKZEtmSkTqP8Y9wdlB/gG80/5K/trLuW
-         GX/S00MpVl4VCv+h6NOkLppIHqigFzAS0hyYNk/IdLiFg+Yh9fQmehiPah8t2cUfGjsR
-         gCiviMeiB26bXFUXkPBfURcYC+Rm4dO7P1769S3DNKAiWyhXNlZdYSK6l1eaJ/uxE88R
-         NU8EcLiATM5c1gFBZNUOAOuxbEdzD+g2TacKexrd17UFWrsOf35Pl0P/gZ9vbo6WD5Rp
-         jvOzuDwkXgLEFZSiHIKpmDzK+MiYm9Y2xdI6zXfodGm3LkHdSayNmrIvCYjOKYQ9y7fv
-         OWNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=26aHXU1SXvSZ0A6RHa6DT3t7eKawhrtLsouvlIaEHEQ=;
-        b=qbXwq0lRDT5AmUcs0UDayA1DXDWchYGcaa7vNUgTxjFmXZiHQGIqG/ZMMX12gsk4mY
-         vTqFBq1yLoDWgnOnJ54AARxs6kg15HMRziPXBsbrrlSQGEj4d5r1LdfeSyMJ7TA4l+4C
-         XNJRmwo7t7OEyn0hhXM9xF2/OQkYiY9xlF/Ogd9DqM87g/5fDlfLmONGmXrFFhNa3AE1
-         Kr4bGps4jzNqStO9bU79yXhhLYGJdcGwicFBEr8J9Bo//vjHuY+uSHiujxS5wt9eysPq
-         MgQgxDlo+2JVk4KKwGMThXvGimtBFFC4My454o6GyLW77j6j8YR7yj21WOiWyLJifmBT
-         hNPg==
-X-Gm-Message-State: AOAM531QngwQT8H17Uz/8UfB8o9PZbcdEmmYRBKJ+PRAyaHuXSar/mRc
-        KO2kqs7Af7+KFTZS5yxUPOXN+dL+3BrMzHCe
-X-Google-Smtp-Source: ABdhPJyqD94ChqseTxPk/jjLnW5VWOvfKFqeClavDa5+Inp/+Zu2pxdo/bBUECF/ez5e5WDNv610Vg==
-X-Received: by 2002:a05:6402:170e:: with SMTP id y14mr25601743edu.367.1623152551937;
-        Tue, 08 Jun 2021 04:42:31 -0700 (PDT)
-Received: from localhost.localdomain (hst-221-104.medicom.bg. [84.238.221.104])
-        by smtp.gmail.com with ESMTPSA id x4sm8754740edq.23.2021.06.08.04.42.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 04:42:31 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v2 5/5] venus: Handle fatal errors during encoding and decoding
-Date:   Tue,  8 Jun 2021 14:41:56 +0300
-Message-Id: <20210608114156.87018-6-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210608114156.87018-1-stanimir.varbanov@linaro.org>
-References: <20210608114156.87018-1-stanimir.varbanov@linaro.org>
+        id S232772AbhFHMsT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Jun 2021 08:48:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232744AbhFHMsS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 08:48:18 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9363CC061574
+        for <linux-media@vger.kernel.org>; Tue,  8 Jun 2021 05:46:25 -0700 (PDT)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D5C23E6;
+        Tue,  8 Jun 2021 14:46:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623156382;
+        bh=9m0EqAgQT7YQAU3mAqeGXH3PSkRfp1efRdL1QVOAntY=;
+        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+        b=cQMqysj0afk3H/ea27oieFh45qLyR++2FkCeTr201GqtpsQxPT/cd+f77W59zB8sh
+         4LhALTLE8eZQlRiDbiEHftflYxT53O095PyiYbC9pkzwGP+uodvijhDFTJpya7RE+2
+         KwJ+7OnzFr2DmulxixPpLXYtIRBrUMdP24alg0x0=
+Subject: Re: [PATCH v3 32/38] media: ti-vpe: cal: use CSI-2 frame number
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
+        linux-media@vger.kernel.org
+References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
+ <20210524110909.672432-33-tomi.valkeinen@ideasonboard.com>
+ <YLozAqLmoKnHzQEi@pendragon.ideasonboard.com>
+ <ca4c24d2-4edc-5ba4-970c-381195545a00@ideasonboard.com>
+ <YL4iKZv5YV3LllIK@pendragon.ideasonboard.com>
+ <b28c71d4-e7b1-2f21-530b-a108cfe0c337@ideasonboard.com>
+ <YL5OpCAmfrMUibXq@pendragon.ideasonboard.com>
+ <d72d4f1e-19e1-8e9f-19da-469e88638653@ideasonboard.com>
+Message-ID: <3721c31f-d2a4-6800-cb27-4bd47971d401@ideasonboard.com>
+Date:   Tue, 8 Jun 2021 15:46:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <d72d4f1e-19e1-8e9f-19da-469e88638653@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to stateful decoder docs a fatal failure of decoding
-(and encoding) could be recover it by closing the corresponding
-file handle and open new one or reinitialize decoding (and encoding)
-by stop streaming on both queues. In order to satisfy this
-requirement we add a mechanism ins sys_error_handler and
-corresponding decoder and encoder drivers to wait for sys_error_done
-waitqueue in reqbuf.
+On 08/06/2021 10:38, Tomi Valkeinen wrote:
+> On 07/06/2021 19:51, Laurent Pinchart wrote:
+>> Hi Tomi,
+>>
+>> On Mon, Jun 07, 2021 at 05:55:05PM +0300, Tomi Valkeinen wrote:
+>>> On 07/06/2021 16:42, Laurent Pinchart wrote:
+>>>> On Mon, Jun 07, 2021 at 03:39:45PM +0300, Tomi Valkeinen wrote:
+>>>>> On 04/06/2021 17:04, Laurent Pinchart wrote:
+>>>>>> On Mon, May 24, 2021 at 02:09:03PM +0300, Tomi Valkeinen wrote:
+>>>>>>> The driver fills buf->vb.sequence with an increasing number which is
+>>>>>>> incremented by the driver. This feels a bit pointless, as the 
+>>>>>>> userspace
+>>>>>>> could as well track that kind of number itself. Instead, lets use 
+>>>>>>> the
+>>>>>>
+>>>>>> s/lets/let's/
+>>>>>>
+>>>>>>> frame number provided in the CSI-2 data from the sensor.
+>>>>>>>
+>>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>>>>> ---
+>>>>>>>     drivers/media/platform/ti-vpe/cal.c | 7 +++++--
+>>>>>>>     drivers/media/platform/ti-vpe/cal.h | 1 -
+>>>>>>>     2 files changed, 5 insertions(+), 3 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/media/platform/ti-vpe/cal.c 
+>>>>>>> b/drivers/media/platform/ti-vpe/cal.c
+>>>>>>> index 888706187fd1..62c45add4efe 100644
+>>>>>>> --- a/drivers/media/platform/ti-vpe/cal.c
+>>>>>>> +++ b/drivers/media/platform/ti-vpe/cal.c
+>>>>>>> @@ -493,7 +493,6 @@ void cal_ctx_unprepare(struct cal_ctx *ctx)
+>>>>>>>     void cal_ctx_start(struct cal_ctx *ctx)
+>>>>>>>     {
+>>>>>>> -    ctx->sequence = 0;
+>>>>>>>         ctx->dma.state = CAL_DMA_RUNNING;
+>>>>>>>         /* Configure the CSI-2, pixel processing and write DMA 
+>>>>>>> contexts. */
+>>>>>>> @@ -586,6 +585,10 @@ static inline void cal_irq_wdma_start(struct 
+>>>>>>> cal_ctx *ctx)
+>>>>>>>     static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
+>>>>>>>     {
+>>>>>>>         struct cal_buffer *buf = NULL;
+>>>>>>> +    u32 frame_num;
+>>>>>>> +
+>>>>>>> +    frame_num = cal_read(ctx->cal, 
+>>>>>>> CAL_CSI2_STATUS(ctx->phy->instance,
+>>>>>>> +                               ctx->csi2_ctx)) & 0xffff;
+>>>>>>>         spin_lock(&ctx->dma.lock);
+>>>>>>> @@ -607,7 +610,7 @@ static inline void cal_irq_wdma_end(struct 
+>>>>>>> cal_ctx *ctx)
+>>>>>>>         if (buf) {
+>>>>>>>             buf->vb.vb2_buf.timestamp = ktime_get_ns();
+>>>>>>>             buf->vb.field = ctx->v_fmt.fmt.pix.field;
+>>>>>>> -        buf->vb.sequence = ctx->sequence++;
+>>>>>>> +        buf->vb.sequence = frame_num;
+>>>>>>
+>>>>>> We'll need something a bit more complicated. The CSI-2 frame 
+>>>>>> number is
+>>>>>> not mandatory, and when used, it is a 16-bit number starting at 1 and
+>>>>>> counting to an unspecified value larger than one, resetting to 1 
+>>>>>> at the
+>>>>>> end of the cycle. The V4L2 sequence number, on the other hand, is a
+>>>>>> monotonic counter starting at 0 and wrapping only at 2^32-1. We 
+>>>>>> should
+>>>>>> thus keep a software sequence counter and
+>>>>>>
+>>>>>> - increase it by 1 if the frame number is zero
+>>>>>> - increase it by frame_num - last_frame_num (with wrap-around of
+>>>>>>      frame_num handled) otherwise
+>>>>>
+>>>>> Ok... I wonder if we need a new field for this, though. The problem I
+>>>>> was solving when I changed this to use the CSI-2 frame-number was 
+>>>>> how to
+>>>>> associate a pixel frame and a metadata frame.
+>>>>>
+>>>>> Their CSI-2 frame-numbers match (as they are from the same original
+>>>>> CSI-2 frame), so the userspace can use that to figure the matching
+>>>>> frames. While the above method you suggest should give us identical
+>>>>> sequence numbers for pixel and metadata, I think it's going a bit away
+>>>>> from my intended purpose, and possibly risks ending up with different
+>>>>> sequences for pixel and metadata.
+>>>>
+>>>> Why do you think they could get out of sync (assuming the sensor
+>>>> supports frame numbers of course, if it always returns 0, that's not
+>>>> usable for the purpose of synchronization).
+>>>
+>>> If there's a requirement that the sequence starts from 0, it doesn't
+>>> work, as the pixel and metadata video capture may be started at
+>>> different times. When pixel capture starts, the frame number could be 10
+>>> and pixel sequence would be 0, but when metadata capture starts, the
+>>> frame number could be 12, and pixel seq would thus be 2 and meta seq 0.
+>>>
+>>> But even if we allow the seq to start from the current frame number,
+>>
+>> Good point. I think we can allow starting at a non-zero value to handle
+>> this.
+>>
+>>> this doesn't work if the frame number has wrapped between starting the
+>>> pixel capture and starting the meta capture.
+>>
+>> The timestamp should be enough to handle this, the timestamp difference
+>> between two wraparounds should be large enough to sync the two streams
+>> without any risk.
+> 
+> Well, this still won't work, as CAL doesn't know when the sensor's frame 
+> counter wraps. CAL can detect that the counter has wrapped, but it 
+> doesn't know if some frames were missed. This leads to the two streams 
+> getting out of sync.
+> 
+> I'll try to figure out if I can somehow handle the frame counter in a 
+> shared manner, so that multiple streams that originate from the same 
+> frame would always use the same sequence numbers for same frame numbers.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/core.c    |  9 ++++++---
- drivers/media/platform/qcom/venus/core.h    |  3 +++
- drivers/media/platform/qcom/venus/helpers.c |  2 ++
- drivers/media/platform/qcom/venus/vdec.c    | 16 ++++++++++++++++
- drivers/media/platform/qcom/venus/venc.c    | 13 +++++++++++++
- 5 files changed, 40 insertions(+), 3 deletions(-)
+How about something like this:
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index cc6195f2409c..b1fa9b349efb 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -95,9 +95,8 @@ static void venus_sys_error_handler(struct work_struct *work)
- 		failed = true;
- 	}
- 
--	hfi_core_deinit(core, true);
+commit 22fb554bd2b71fa6d245e2595424639bee0ed604
+Author: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date:   Tue Apr 13 11:20:41 2021 +0300
+
+     media: ti-vpe: cal: use CSI-2 frame number
+     
+     The userspace needs a way to match received metadata buffers to pixel
+     data buffers. The obvious way to do this is to use the CSI-2 frame
+     number, as both the metadata and the pixel data have the same frame
+     number as they come from the same frame.
+     
+     However, we don't have means to convey the frame number to userspace. We
+     do have the 'sequence' field, which with a few tricks can be used for
+     this purpose.
+     
+     To achieve this, track the frame number for each virtual channel and
+     increase the sequence for each virtual channel by frame-number -
+     previous-frame-number, also taking into account the eventual wrap of the
+     CSI-2 frame number.
+     
+     This way we get a monotonically increasing sequence number which is
+     common to all streams using the same virtual channel.
+     
+     Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
+index 82392499e663..3ca629278fd4 100644
+--- a/drivers/media/platform/ti-vpe/cal-camerarx.c
++++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
+@@ -801,6 +801,8 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+  	phy->cal = cal;
+  	phy->instance = instance;
+  
++	spin_lock_init(&phy->vc_lock);
++
+  	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+  						(instance == 0) ?
+  						"cal_rx_core0" :
+diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+index 7a92bb9429d4..0594e47a2c88 100644
+--- a/drivers/media/platform/ti-vpe/cal.c
++++ b/drivers/media/platform/ti-vpe/cal.c
+@@ -493,7 +493,22 @@ void cal_ctx_unprepare(struct cal_ctx *ctx)
+  
+  void cal_ctx_start(struct cal_ctx *ctx)
+  {
+-	ctx->sequence = 0;
++	struct cal_camerarx *phy = ctx->phy;
++
++	/*
++	 * Reset the frame number & sequence number, but only if the
++	 * virtual channel is not already in use.
++	 */
++
++	spin_lock(&phy->vc_lock);
++
++	if (phy->vc_enable_count[ctx->vc]++ == 0) {
++		phy->vc_frame_number[ctx->vc] = 0;
++		phy->vc_sequence[ctx->vc] = 0;
++	}
++
++	spin_unlock(&phy->vc_lock);
++
+  	ctx->dma.state = CAL_DMA_RUNNING;
+  
+  	/* Configure the CSI-2, pixel processing and write DMA contexts. */
+@@ -513,8 +528,15 @@ void cal_ctx_start(struct cal_ctx *ctx)
+  
+  void cal_ctx_stop(struct cal_ctx *ctx)
+  {
++	struct cal_camerarx *phy = ctx->phy;
+  	long timeout;
+  
++	WARN_ON(phy->vc_enable_count[ctx->vc] == 0);
++
++	spin_lock(&phy->vc_lock);
++	phy->vc_enable_count[ctx->vc]--;
++	spin_unlock(&phy->vc_lock);
++
+  	/*
+  	 * Request DMA stop and wait until it completes. If completion times
+  	 * out, forcefully disable the DMA.
+@@ -586,7 +608,6 @@ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
+  static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
+  {
+  	struct cal_buffer *buf = NULL;
 -
--	mutex_lock(&core->lock);
-+	core->ops->core_deinit(core);
-+	core->state = CORE_UNINIT;
- 
- 	for (i = 0; i < max_attempts; i++) {
- 		if (!pm_runtime_active(core->dev_dec) && !pm_runtime_active(core->dev_enc))
-@@ -105,6 +104,8 @@ static void venus_sys_error_handler(struct work_struct *work)
- 		msleep(10);
- 	}
- 
-+	mutex_lock(&core->lock);
+  	spin_lock(&ctx->dma.lock);
+  
+  	/* If the DMA context was stopping, it is now stopped. */
+@@ -605,9 +626,28 @@ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
+  	spin_unlock(&ctx->dma.lock);
+  
+  	if (buf) {
++		struct cal_dev *cal = ctx->cal;
++		struct cal_camerarx *phy = ctx->phy;
++		u32 prev_frame_num, frame_num;
++		u8 vc = ctx->vc;
 +
- 	venus_shutdown(core);
- 
- 	venus_coredump(core);
-@@ -162,6 +163,7 @@ static void venus_sys_error_handler(struct work_struct *work)
- 
- 	mutex_lock(&core->lock);
- 	clear_bit(0, &core->sys_error);
-+	wake_up_all(&core->sys_err_done);
- 	mutex_unlock(&core->lock);
- }
- 
-@@ -318,6 +320,7 @@ static int venus_probe(struct platform_device *pdev)
- 	INIT_LIST_HEAD(&core->instances);
- 	mutex_init(&core->lock);
- 	INIT_DELAYED_WORK(&core->work, venus_sys_error_handler);
-+	init_waitqueue_head(&core->sys_err_done);
- 
- 	ret = devm_request_threaded_irq(dev, core->irq, hfi_isr, hfi_isr_thread,
- 					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index a625a8477f75..0f65a3beecbb 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -183,6 +183,7 @@ struct venus_core {
- 	struct completion done;
- 	unsigned int error;
- 	unsigned long sys_error;
-+	wait_queue_head_t sys_err_done;
- 	const struct hfi_core_ops *core_ops;
- 	const struct venus_pm_ops *pm_ops;
- 	struct mutex pm_lock;
-@@ -333,6 +334,7 @@ enum venus_inst_modes {
-  * @registeredbufs:	a list of registered capture bufferes
-  * @delayed_process:	a list of delayed buffers
-  * @delayed_process_work:	a work_struct for process delayed buffers
-+ * @nonblock:		nonblocking flag
-  * @ctrl_handler:	v4l control handler
-  * @controls:	a union of decoder and encoder control parameters
-  * @fh:	 a holder of v4l file handle structure
-@@ -396,6 +398,7 @@ struct venus_inst {
- 	struct list_head registeredbufs;
- 	struct list_head delayed_process;
- 	struct work_struct delayed_process_work;
-+	bool nonblock;
- 
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	union {
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index abd41ebf3c1b..46aaa25efe9e 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -1501,6 +1501,8 @@ void venus_helper_vb2_stop_streaming(struct vb2_queue *q)
- 
- 	venus_pm_release_core(inst);
- 
-+	inst->session_error = 0;
++		frame_num = cal_read(cal, CAL_CSI2_STATUS(ctx->phy->instance,
++							  ctx->csi2_ctx)) & 0xffff;
 +
- 	mutex_unlock(&inst->lock);
- }
- EXPORT_SYMBOL_GPL(venus_helper_vb2_stop_streaming);
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 68736359fc2c..5c416c8b9365 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -830,6 +830,7 @@ static int vdec_queue_setup(struct vb2_queue *q,
- 			    unsigned int sizes[], struct device *alloc_devs[])
- {
- 	struct venus_inst *inst = vb2_get_drv_priv(q);
-+	struct venus_core *core = inst->core;
- 	unsigned int in_num, out_num;
- 	int ret = 0;
- 
-@@ -855,6 +856,16 @@ static int vdec_queue_setup(struct vb2_queue *q,
- 		return 0;
- 	}
- 
-+	if (test_bit(0, &core->sys_error)) {
-+		if (inst->nonblock)
-+			return -EAGAIN;
++		if (phy->vc_frame_number[vc] != frame_num) {
++			prev_frame_num = phy->vc_frame_number[vc];
 +
-+		ret = wait_event_interruptible(core->sys_err_done,
-+					       !test_bit(0, &core->sys_error));
-+		if (ret)
-+			return ret;
-+	}
++			if (prev_frame_num > frame_num)
++				prev_frame_num = 0;
 +
- 	ret = vdec_pm_get(inst);
- 	if (ret)
- 		return ret;
-@@ -1178,6 +1189,8 @@ static void vdec_stop_streaming(struct vb2_queue *q)
- 
- 	venus_helper_buffers_done(inst, q->type, VB2_BUF_STATE_ERROR);
- 
-+	inst->session_error = 0;
++			phy->vc_sequence[vc] += frame_num - prev_frame_num;
++			phy->vc_frame_number[vc] = frame_num;
++		}
 +
- 	if (ret)
- 		goto unlock;
- 
-@@ -1448,6 +1461,7 @@ static void vdec_event_notify(struct venus_inst *inst, u32 event,
- 	switch (event) {
- 	case EVT_SESSION_ERROR:
- 		inst->session_error = true;
-+		venus_helper_vb2_queue_error(inst);
- 		dev_err(dev, "dec: event session error %x\n", inst->error);
- 		break;
- 	case EVT_SYS_EVENT_CHANGE:
-@@ -1568,6 +1582,8 @@ static int vdec_open(struct file *file)
- 	inst->bit_depth = VIDC_BITDEPTH_8;
- 	inst->pic_struct = HFI_INTERLACE_FRAME_PROGRESSIVE;
- 	init_waitqueue_head(&inst->reconf_wait);
-+	inst->nonblock = file->f_flags & O_NONBLOCK;
+  		buf->vb.vb2_buf.timestamp = ktime_get_ns();
+  		buf->vb.field = ctx->v_fmt.fmt.pix.field;
+-		buf->vb.sequence = ctx->sequence++;
++		buf->vb.sequence = phy->vc_sequence[vc];
 +
- 	venus_helper_init_instance(inst);
- 
- 	ret = vdec_ctrl_init(inst);
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 47badd43145d..33a5b4a94cb4 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -926,6 +926,7 @@ static int venc_queue_setup(struct vb2_queue *q,
- 			    unsigned int sizes[], struct device *alloc_devs[])
- {
- 	struct venus_inst *inst = vb2_get_drv_priv(q);
-+	struct venus_core *core = inst->core;
- 	unsigned int num, min = 4;
- 	int ret;
- 
-@@ -949,6 +950,16 @@ static int venc_queue_setup(struct vb2_queue *q,
- 		return 0;
- 	}
- 
-+	if (test_bit(0, &core->sys_error)) {
-+		if (inst->nonblock)
-+			return -EAGAIN;
+  		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+  	}
+  }
+diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+index 400f95485d7c..309413e8a932 100644
+--- a/drivers/media/platform/ti-vpe/cal.h
++++ b/drivers/media/platform/ti-vpe/cal.h
+@@ -163,6 +163,12 @@ struct cal_camerarx {
+  	struct v4l2_subdev	subdev;
+  	struct media_pad	pads[2];
+  	struct v4l2_mbus_framefmt	formats[2];
 +
-+		ret = wait_event_interruptible(core->sys_err_done,
-+					       !test_bit(0, &core->sys_error));
-+		if (ret)
-+			return ret;
-+	}
-+
- 	ret = venc_pm_get(inst);
- 	if (ret)
- 		return ret;
-@@ -1208,6 +1219,7 @@ static void venc_event_notify(struct venus_inst *inst, u32 event,
- 
- 	if (event == EVT_SESSION_ERROR) {
- 		inst->session_error = true;
-+		venus_helper_vb2_queue_error(inst);
- 		dev_err(dev, "enc: event session error %x\n", inst->error);
- 	}
- }
-@@ -1291,6 +1303,7 @@ static int venc_open(struct file *file)
- 	inst->session_type = VIDC_SESSION_TYPE_ENC;
- 	inst->clk_data.core_id = VIDC_CORE_ID_DEFAULT;
- 	inst->core_acquired = false;
-+	inst->nonblock = file->f_flags & O_NONBLOCK;
- 
- 	venus_helper_init_instance(inst);
- 
--- 
-2.25.1
-
++	/* protects the vc_* fields below */
++	spinlock_t		vc_lock;
++	u8			vc_enable_count[4];
++	u8			vc_frame_number[4];
++	u32			vc_sequence[4];
+  };
+  
+  struct cal_dev {
+@@ -217,7 +223,6 @@ struct cal_ctx {
+  	const struct cal_format_info	**active_fmt;
+  	unsigned int		num_active_fmt;
+  
+-	unsigned int		sequence;
+  	struct vb2_queue	vb_vidq;
+  	u8			dma_ctx;
+  	u8			cport;
