@@ -2,156 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18A4E39EFD1
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 09:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 229F839EFFA
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 09:54:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230280AbhFHHkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Jun 2021 03:40:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52850 "EHLO
+        id S230184AbhFHH4r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Jun 2021 03:56:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbhFHHkA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 03:40:00 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48D91C061574
-        for <linux-media@vger.kernel.org>; Tue,  8 Jun 2021 00:38:08 -0700 (PDT)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD6433E6;
-        Tue,  8 Jun 2021 09:38:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623137886;
-        bh=GV3YKDvS7RuAg87Co5RnqVg2HtnZoInCrVY3yXIO4yM=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=P2zstLaXU+BdPq9nhXREbRhF1I0zlurmok9vWkRDLzAwEgZKY1LO5Z7TcN7/BS7FV
-         G0axgiDH45TUWCykThz9rH9whczO/5Uh+H9mUcJ4dpZPPdHNAQ2WFxqrSizlmpX4sU
-         7LYIUoK80igwycGSdkB25/CyqSveQIjP0akQrXTA=
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
-        linux-media@vger.kernel.org
-References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
- <20210524110909.672432-33-tomi.valkeinen@ideasonboard.com>
- <YLozAqLmoKnHzQEi@pendragon.ideasonboard.com>
- <ca4c24d2-4edc-5ba4-970c-381195545a00@ideasonboard.com>
- <YL4iKZv5YV3LllIK@pendragon.ideasonboard.com>
- <b28c71d4-e7b1-2f21-530b-a108cfe0c337@ideasonboard.com>
- <YL5OpCAmfrMUibXq@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v3 32/38] media: ti-vpe: cal: use CSI-2 frame number
-Message-ID: <d72d4f1e-19e1-8e9f-19da-469e88638653@ideasonboard.com>
-Date:   Tue, 8 Jun 2021 10:38:04 +0300
+        with ESMTP id S230145AbhFHH4q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 03:56:46 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68F8FC061574
+        for <linux-media@vger.kernel.org>; Tue,  8 Jun 2021 00:54:53 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id s70-20020a1ca9490000b02901a589651424so1102385wme.0
+        for <linux-media@vger.kernel.org>; Tue, 08 Jun 2021 00:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=F/7L4LjTeTH0Ua34h8n3ICV1Je6H5seJYc0cDfDKGLc=;
+        b=CktvRc3ve8OnQbrgWNKi8Mhq3pBRncgVxgSCrowjIbpMDpBxLlOs1xpmixPrgTHFxP
+         no5/JK82MWDAM9YerH4gd79B/HHQZxmvh2dPoQLP//1YNqJPEVZ/GUcUIoGdbB4kbj96
+         z25+KnxLPrrVt8ki7uGJV9IvrOHvEdSDGf3mZcLgw9SLpVfxxfZiNjpIeWVUP1I9hhTL
+         oxBQ9zHtqoeG97jPoaRyFWaO7gW5cl3JLYYtjCt0apiIZ7vIioHLCo3SbnIdeEtgkfSw
+         iPLvYgXj1RpSaW2Zefx60fFB02b/pU00DMo7HjG1MFh+LRh8aRLEtQm3VnHlKIjeAKUb
+         1aSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=F/7L4LjTeTH0Ua34h8n3ICV1Je6H5seJYc0cDfDKGLc=;
+        b=k+Glh6vPKh9eXNkm0tn9WLUSEtQGK2JCpag05IkEkedE+blbtnCwefw0OGId9e7pT8
+         x9vn7Kxaw+wpYpzapMbZvZ0IyVFmL9LoCWNNI0tHaoQPF9S/IGgi4UKPuIlOM813OHKu
+         SFklLSsJMZutdzFla/hH4EYYeVYKS1u3Vop+dRTddEKNUDpA3B22sHic92BoCarYHkHv
+         nwin85WgKcRQB4lhG/0SuKrddWrl+LZJAvSsKfn6gBJ35nPu4sCaRTLYZv1rR9HgMwDl
+         oSi280f/jMf1fDeqBIlz7FUJCO2JnOZpBNKJ2mKAFOvbzpjZ3Zv31/d0xRqoaWqsMqBn
+         V47g==
+X-Gm-Message-State: AOAM533pHiHPWqQBdr6tb8KermgFvskU7+jqkwsTBSch2kuL9X3YMg3a
+        YD3i/Y9ds+oXhRxfWKpA2W18IvKkhsM=
+X-Google-Smtp-Source: ABdhPJywRKSyfcw8hi6be3PaZEzpWYdbId6Kkk3RHFYGOX1Zm7VVl3tdtUDKEs7r0P5ytciVk4XAXg==
+X-Received: by 2002:a05:600c:2194:: with SMTP id e20mr2727293wme.138.1623138891919;
+        Tue, 08 Jun 2021 00:54:51 -0700 (PDT)
+Received: from ?IPv6:2a00:23c4:1c07:9700:6acb:61b6:ae46:2431? ([2a00:23c4:1c07:9700:6acb:61b6:ae46:2431])
+        by smtp.googlemail.com with ESMTPSA id j18sm18780727wrw.30.2021.06.08.00.54.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Jun 2021 00:54:51 -0700 (PDT)
+Subject: Re: Unable to capture adv7280-m on i.MX6Q
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <CAOMZO5A0nV2bubWt3EzkaWVBoD96YNTYB10y-qB79mX2pTBu0w@mail.gmail.com>
+ <CAOMZO5CfCZcngeOj4yEV+g5s6Wy4F0=wCu3PD3LyZAUMz9V2LQ@mail.gmail.com>
+ <CAOMZO5C6ai+Vze6e4o1WYCa42p2YK5_cjo99Q7qKc50E+ebgSA@mail.gmail.com>
+ <cad89872382bad67fdd8e12c392d023bff2a3ff9.camel@pengutronix.de>
+From:   Ian Arkver <ian.arkver.dev@gmail.com>
+Message-ID: <768ccb5c-a02f-576a-29ab-57e3c6d46d26@gmail.com>
+Date:   Tue, 8 Jun 2021 08:54:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YL5OpCAmfrMUibXq@pendragon.ideasonboard.com>
+In-Reply-To: <cad89872382bad67fdd8e12c392d023bff2a3ff9.camel@pengutronix.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/06/2021 19:51, Laurent Pinchart wrote:
-> Hi Tomi,
+Hi,
+
+On 08/06/2021 08:09, Philipp Zabel wrote:
+> Hi Fabio,
 > 
-> On Mon, Jun 07, 2021 at 05:55:05PM +0300, Tomi Valkeinen wrote:
->> On 07/06/2021 16:42, Laurent Pinchart wrote:
->>> On Mon, Jun 07, 2021 at 03:39:45PM +0300, Tomi Valkeinen wrote:
->>>> On 04/06/2021 17:04, Laurent Pinchart wrote:
->>>>> On Mon, May 24, 2021 at 02:09:03PM +0300, Tomi Valkeinen wrote:
->>>>>> The driver fills buf->vb.sequence with an increasing number which is
->>>>>> incremented by the driver. This feels a bit pointless, as the userspace
->>>>>> could as well track that kind of number itself. Instead, lets use the
->>>>>
->>>>> s/lets/let's/
->>>>>
->>>>>> frame number provided in the CSI-2 data from the sensor.
->>>>>>
->>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>>>> ---
->>>>>>     drivers/media/platform/ti-vpe/cal.c | 7 +++++--
->>>>>>     drivers/media/platform/ti-vpe/cal.h | 1 -
->>>>>>     2 files changed, 5 insertions(+), 3 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
->>>>>> index 888706187fd1..62c45add4efe 100644
->>>>>> --- a/drivers/media/platform/ti-vpe/cal.c
->>>>>> +++ b/drivers/media/platform/ti-vpe/cal.c
->>>>>> @@ -493,7 +493,6 @@ void cal_ctx_unprepare(struct cal_ctx *ctx)
->>>>>>     
->>>>>>     void cal_ctx_start(struct cal_ctx *ctx)
->>>>>>     {
->>>>>> -	ctx->sequence = 0;
->>>>>>     	ctx->dma.state = CAL_DMA_RUNNING;
->>>>>>     
->>>>>>     	/* Configure the CSI-2, pixel processing and write DMA contexts. */
->>>>>> @@ -586,6 +585,10 @@ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
->>>>>>     static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->>>>>>     {
->>>>>>     	struct cal_buffer *buf = NULL;
->>>>>> +	u32 frame_num;
->>>>>> +
->>>>>> +	frame_num = cal_read(ctx->cal, CAL_CSI2_STATUS(ctx->phy->instance,
->>>>>> +						       ctx->csi2_ctx)) & 0xffff;
->>>>>>     
->>>>>>     	spin_lock(&ctx->dma.lock);
->>>>>>     
->>>>>> @@ -607,7 +610,7 @@ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->>>>>>     	if (buf) {
->>>>>>     		buf->vb.vb2_buf.timestamp = ktime_get_ns();
->>>>>>     		buf->vb.field = ctx->v_fmt.fmt.pix.field;
->>>>>> -		buf->vb.sequence = ctx->sequence++;
->>>>>> +		buf->vb.sequence = frame_num;
->>>>>
->>>>> We'll need something a bit more complicated. The CSI-2 frame number is
->>>>> not mandatory, and when used, it is a 16-bit number starting at 1 and
->>>>> counting to an unspecified value larger than one, resetting to 1 at the
->>>>> end of the cycle. The V4L2 sequence number, on the other hand, is a
->>>>> monotonic counter starting at 0 and wrapping only at 2^32-1. We should
->>>>> thus keep a software sequence counter and
->>>>>
->>>>> - increase it by 1 if the frame number is zero
->>>>> - increase it by frame_num - last_frame_num (with wrap-around of
->>>>>      frame_num handled) otherwise
->>>>
->>>> Ok... I wonder if we need a new field for this, though. The problem I
->>>> was solving when I changed this to use the CSI-2 frame-number was how to
->>>> associate a pixel frame and a metadata frame.
->>>>
->>>> Their CSI-2 frame-numbers match (as they are from the same original
->>>> CSI-2 frame), so the userspace can use that to figure the matching
->>>> frames. While the above method you suggest should give us identical
->>>> sequence numbers for pixel and metadata, I think it's going a bit away
->>>> from my intended purpose, and possibly risks ending up with different
->>>> sequences for pixel and metadata.
+> On Tue, 2021-06-08 at 00:13 -0300, Fabio Estevam wrote:
+>> On Mon, May 17, 2021 at 8:48 PM Fabio Estevam <festevam@gmail.com> wrote:
+>>
+>>> Setting pipeline to PAUSED ...
+>>> Pipeline is live and does not need PREROLL ...
+>>> Pipeline is PREROLLED ...
+>>> Setting pipeline to PLAYING ...
+>>> New clock: GstSystemClock
+>>> [   11.745511] imx6-mipi-csi2: LP-11 wait timeout, likely a sensor
+>>> driver bug, expect capture failures.
+>>> [   11.754956] imx6-mipi-csi2: phy_state = 0x00000200
+>>> [   12.259957] imx6-mipi-csi2: clock lane timeout, phy_state = 0x00000200
+>>> [   12.266630] ipu1_ic_prpvf: upstream stream on failed: -110
+>>> [   12.274082] ipu1_ic_prpvf: pipeline start failed with -110
+>>> ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
+>>> to allocate required memory.
+>>> Additional debug info:
+>>> ../sys/v4l2/gstv4l2src.c(659): gst_v4l2src_decide_allocation ():
+>>> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+>>> Buffer pool activation failed
+>>> Execution ended after 0:00:01.072478334
+>>> Setting pipeline to NULL ...
+>>> Freeing pipeline ...
 >>>
->>> Why do you think they could get out of sync (assuming the sensor
->>> supports frame numbers of course, if it always returns 0, that's not
->>> usable for the purpose of synchronization).
+>>> Not sure why I am getting LP-11 and clock lane timeouts though.
 >>
->> If there's a requirement that the sequence starts from 0, it doesn't
->> work, as the pixel and metadata video capture may be started at
->> different times. When pixel capture starts, the frame number could be 10
->> and pixel sequence would be 0, but when metadata capture starts, the
->> frame number could be 12, and pixel seq would thus be 2 and meta seq 0.
+>> I saw this post:
+>> https://ez.analog.com/linux-software-drivers/f/q-a/535279/adv7282-m-dts-how-to-connect-adv-to-ipu1_csi0
 >>
->> But even if we allow the seq to start from the current frame number,
-> 
-> Good point. I think we can allow starting at a non-zero value to handle
-> this.
-> 
->> this doesn't work if the frame number has wrapped between starting the
->> pixel capture and starting the meta capture.
-> 
-> The timestamp should be enough to handle this, the timestamp difference
-> between two wraparounds should be large enough to sync the two streams
-> without any risk.
+>> and Frieder's patch:
+>> https://git.kontron-electronics.de/linux/linux/-/commit/0d90331a44d0f718b7327a94fc72612ddcb4ac0f.patch
 
-Well, this still won't work, as CAL doesn't know when the sensor's frame 
-counter wraps. CAL can detect that the counter has wrapped, but it 
-doesn't know if some frames were missed. This leads to the two streams 
-getting out of sync.
+Frieder's moved adv writes should maybe be inside if (enable) though, 
+with the else write-to-clear as well. Maybe gst sends a stream off?
 
-I'll try to figure out if I can somehow handle the frame counter in a 
-shared manner, so that multiple streams that originate from the same 
-frame would always use the same sequence numbers for same frame numbers.
+Regards,
+Ian
 
-  Tomi
+>>
+>> I applied Frieder's patch, but still getting the same errors below
+>> upon launching Gstreamer.:
+>>
+>>   New clock: GstSystemClock
+>>   [   11.745511] imx6-mipi-csi2: LP-11 wait timeout, likely a sensor
+>>   driver bug, expect capture failures.
+>>   [   11.754956] imx6-mipi-csi2: phy_state = 0x00000200
+>>   [   12.259957] imx6-mipi-csi2: clock lane timeout, phy_state = 0x00000200
+>>   [   12.266630] ipu1_ic_prpvf: upstream stream on failed: -110
+>>   [   12.274082] ipu1_ic_prpvf: pipeline start failed with -110
+>>
+>> Does anyone know what needs to be done to avoid the LP-11 timeout error?
+> 
+> The i.MX6 CSI-2 RX needs to see the LP-11 low power state on the lanes
+> during streamon (before it calls the ADV7280-M s_stream(1)). That's
+> where the LP-11 timeout error occurs.
+> 
+> According to the ADV7280(-M) datasheet, "after the ADV7280-M is
+> programmed, the clock lanes exit low power mode and remain in high speed
+> mode until the part is reset or powered down."
+> So it appears the ADV7280-M has to be freshly powered on in s_power(1)
+> for this to work. Is the ADV7280-M powerdown GPIO connected properly on
+> your board? Moving the CSI-2 configuration from s_power to s_stream was
+> exactly the right thing to do in my mind.
+> 
+> Just as a test, if you remove the CSI-2 register writes from either
+> s_power and s_stream from the adv7180 driver completely, do you still
+> run into the LP-11 timeout? If the CSI-2 TX never leaves the low power
+> state, I would expect seeing the clock lane timeout instead
+> 
+> regards
+> Philipp
+> 
