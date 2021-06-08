@@ -2,68 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 782D039F34A
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 12:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5467F39F3D3
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 12:42:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230463AbhFHKRQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Jun 2021 06:17:16 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:33430 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229626AbhFHKRP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 06:17:15 -0400
-X-UUID: 968a5aa102434385859ef1fc8cbb58a1-20210608
-X-UUID: 968a5aa102434385859ef1fc8cbb58a1-20210608
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-        (envelope-from <lecopzer.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 939033216; Tue, 08 Jun 2021 18:15:20 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 8 Jun 2021 18:15:11 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 8 Jun 2021 18:15:11 +0800
-From:   Lecopzer Chen <lecopzer.chen@mediatek.com>
-To:     <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <yj.chiang@mediatek.com>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: [PATCH] media: Kconfig: Fix DVB_CORE can't be selected as module
-Date:   Tue, 8 Jun 2021 18:14:51 +0800
-Message-ID: <20210608101451.9301-1-lecopzer.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+        id S231601AbhFHKo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Jun 2021 06:44:29 -0400
+Received: from comms.puri.sm ([159.203.221.185]:55658 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231184AbhFHKoY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Jun 2021 06:44:24 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 4AD31DF76C;
+        Tue,  8 Jun 2021 03:42:02 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id pXdu_X8l6uZj; Tue,  8 Jun 2021 03:42:01 -0700 (PDT)
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     martin.kepplinger@puri.sm, festevam@gmail.com, krzk@kernel.org,
+        laurent.pinchart@ideasonboard.com
+Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de, kernel@puri.sm,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mchehab@kernel.org,
+        phone-devel@vger.kernel.org, robh@kernel.org, shawnguo@kernel.org,
+        slongerbeam@gmail.com
+Subject: [PATCH v3 0/3] media: imx: add support for imx8mq MIPI RX
+Date:   Tue,  8 Jun 2021 12:41:25 +0200
+Message-Id: <20210608104128.1616028-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The DVB_CORE now depends on MEDIA_DIGITAL_TV_SUPPORT and
-default MEDIA_DIGITAL_TV_SUPPORT, and this makes it can never be =m
-since the type of MEDIA_DIGITAL_TV_SUPPORT is bool.
+This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
 
-Change MEDIA_DIGITAL_TV_SUPPORT to tristate so it's possible to set
-DVB_CORE as =m.
+It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
 
-Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
----
- drivers/media/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks Laurent who helped a lot. I'm happy for any feedback,
 
-diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index b07812657cee..c3baf92b4d02 100644
---- a/drivers/media/Kconfig
-+++ b/drivers/media/Kconfig
-@@ -88,7 +88,7 @@ config MEDIA_ANALOG_TV_SUPPORT
- 		will disable support for them.
- 
- config MEDIA_DIGITAL_TV_SUPPORT
--	bool
-+	tristate
- 	prompt "Digital TV" if MEDIA_SUPPORT_FILTER
- 	default y if !MEDIA_SUPPORT_FILTER
- 	help
+                           martin
+
+revision history
+----------------
+v3: (thank you, Rob and Laurent)
+among minor other things according to v2 review, changes include:
+* better describe the clocks
+* rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
+
+v2: (thank you, Dan and Guido)
+among fixes according to v1 reviews, changes include:
+* remove status property from dt-bindings example
+* define a few bits in order to have less magic values
+* use "imx8mq_mipi_csi_" as local function prefix
+* read DT properties only during probe()
+* remove dead code (log_status)
+* add imx8mq_mipi_csi_release_icc()
+* fix imx8mq_mipi_csi_init_icc()
+https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
+
+v1:
+https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+
+
+Martin Kepplinger (3):
+  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+    controller
+  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 161 +++
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 102 ++
+ drivers/staging/media/imx/Makefile            |   1 +
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 997 ++++++++++++++++++
+ 4 files changed, 1261 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
 -- 
-2.18.0
+2.30.2
 
