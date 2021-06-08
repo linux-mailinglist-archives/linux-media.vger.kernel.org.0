@@ -2,207 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49BBD39EAD4
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 02:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0997139ECD2
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 05:15:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231184AbhFHAhr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Jun 2021 20:37:47 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:38513 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230266AbhFHAhp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 20:37:45 -0400
-Received: (Authenticated sender: n@nfraprado.net)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 8FFC460006;
-        Tue,  8 Jun 2021 00:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nfraprado.net;
-        s=gm1; t=1623112550;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MgIRy6Q6KMGL5hWxoGPNnPkNfCR3aLlJDfZGUzWbz/E=;
-        b=P9jivunjlN1sJ9eOlTMDyLjCEywxVya2Ftqz+hEdSkSw0/elvz6gS8kWLVyXaJ6oaaoyx0
-        qIDIGMwtUglmC/Vgb2Ie9iI6I0cHBdlTTnMy0oKmq/2UNRiAziWlj8Gnr6eAAD4ELzFqsD
-        mHk+x34HxuC0DbsYokBCWzuGfyBXhTfAMoYOS4Pq4ppxQdlPzzlEBRkzLLaXWwWCR9C72i
-        Dqrf/Tb06aPjdbgxtbg/24TPHZncci0Ry+4s1AiNAxQNYtnBdo+YvtUor3hzZf1RWlrLDP
-        UyqtEZ8lSyOFbJLN0PVHDwww5JkrI1RST7HtFLradWY3jd3nAcizBoEu2ztOUQ==
-Date:   Mon, 7 Jun 2021 21:34:58 -0300
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <n@nfraprado.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        coresight@lists.linaro.org, devicetree@vger.kernel.org,
-        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH 00/34] docs: avoid using ReST :doc:`foo` tag
-Message-ID: <20210608003458.kwhbn6mraekcutlt@notapiano>
-References: <cover.1622898327.git.mchehab+huawei@kernel.org>
- <20210605151109.axm3wzbcstsyxczp@notapiano>
- <20210605210836.540577d4@coco.lan>
- <20210606225225.fz4dsyz6im4bqena@notapiano>
- <20210607093422.0a369909@coco.lan>
+        id S230351AbhFHDQv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Jun 2021 23:16:51 -0400
+Received: from mail-lj1-f180.google.com ([209.85.208.180]:44583 "EHLO
+        mail-lj1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230237AbhFHDQv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Jun 2021 23:16:51 -0400
+Received: by mail-lj1-f180.google.com with SMTP id d2so20825880ljj.11
+        for <linux-media@vger.kernel.org>; Mon, 07 Jun 2021 20:14:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+yarrfhfRh68/NScLHISiafJkt7tmtmWn5drOAmC634=;
+        b=OeIWvtDAwguHXI9B0LwOkUbP9DsszLXx+m/Ca1BSfg0j5yQvMLMfnwb4o/YvppVlmU
+         q2f25AiSHVkTvadXOpMWvjHVoA+U2CNYPVoGYdMLMnW1mPWJLgkRpHsIUw1kTWiCpjze
+         UKZgW7/GnrCwQYkjN1eMYd9T3/uFSyK5MSe/+c1X1dpomDxvE/J0t5SRqydPpNOeVkP3
+         gT3VpyhR1H5cjjUOqmI0z51Ud7s7y2DuKc8v6M33j5qzAsO0b+wAS+guxelxGXfbfcJV
+         6o1Pxzo/kmqUKh5qdqL/RtiuPz7wiOQ/5EbPHFjsODupDa0ySAD1WorWdU6nncAV+CEG
+         W42Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+yarrfhfRh68/NScLHISiafJkt7tmtmWn5drOAmC634=;
+        b=XFdFkt+RoJ0Jh96oJlEkc62Ven55ODSNFDBiehIeHL8Bd4EppZ4y7+8hiQISxS7GQg
+         9g+K1GVLxCQAE6wHRhTVWTNsBowm4e48HbLKKRDL4RERSE1LbVlK9NS0/kzvM9Zhg78/
+         PoX/c4XjQVoR+bdhigltJDdKNEqlXLRawYvMTKMkWcuMqexW7fppZajv27zoj05GO8ip
+         emmj/PuPDVnxrlwIyjH77h7dyUbP371tb+nSH5lqNO3Z+N8IUaB4vqBn7ryZZrAdOnfa
+         EXlsAq6aj0gfCg87h/XwjmeFVM2PlnmvrqI0bM29h1SLNfkNHQ2Oi456qHoY7dn6AUL/
+         p+/A==
+X-Gm-Message-State: AOAM532gx1ztB6MazGw+nMpXHMlln+DsrtD5r//V0gkAfy0H96gTq4rq
+        NEZSjKVR+6rooUcsJAAOGdO6+IvZdWZHCSxrBvI=
+X-Google-Smtp-Source: ABdhPJwwBvCsr4sZ7KF7Jpj0frlYkbl9LagjU+rZCqoVYPyik6Ms7of2pFYsqj680UNEy7216cgT/ccPAKkSLpBQw3U=
+X-Received: by 2002:a05:651c:a06:: with SMTP id k6mr16985836ljq.347.1623122022877;
+ Mon, 07 Jun 2021 20:13:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210607093422.0a369909@coco.lan>
+References: <CAOMZO5A0nV2bubWt3EzkaWVBoD96YNTYB10y-qB79mX2pTBu0w@mail.gmail.com>
+ <CAOMZO5CfCZcngeOj4yEV+g5s6Wy4F0=wCu3PD3LyZAUMz9V2LQ@mail.gmail.com>
+In-Reply-To: <CAOMZO5CfCZcngeOj4yEV+g5s6Wy4F0=wCu3PD3LyZAUMz9V2LQ@mail.gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Tue, 8 Jun 2021 00:13:31 -0300
+Message-ID: <CAOMZO5C6ai+Vze6e4o1WYCa42p2YK5_cjo99Q7qKc50E+ebgSA@mail.gmail.com>
+Subject: Re: Unable to capture adv7280-m on i.MX6Q
+To:     Schrempf Frieder <frieder.schrempf@kontron.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Mon, May 17, 2021 at 8:48 PM Fabio Estevam <festevam@gmail.com> wrote:
 
-On Mon, Jun 07, 2021 at 09:34:22AM +0200, Mauro Carvalho Chehab wrote:
-> Em Sun, 6 Jun 2021 19:52:25 -0300
-> Nícolas F. R. A. Prado <n@nfraprado.net> escreveu:
-> 
-> > On Sat, Jun 05, 2021 at 09:08:36PM +0200, Mauro Carvalho Chehab wrote:
-> > > Em Sat, 5 Jun 2021 12:11:09 -0300
-> > > Nícolas F. R. A. Prado <n@nfraprado.net> escreveu:
-> > >   
-> > > > Hi Mauro,
-> > > > 
-> > > > On Sat, Jun 05, 2021 at 03:17:59PM +0200, Mauro Carvalho Chehab wrote:  
-> > > > > As discussed at:
-> > > > > 	https://lore.kernel.org/linux-doc/871r9k6rmy.fsf@meer.lwn.net/
-> > > > > 
-> > > > > It is better to avoid using :doc:`foo` to refer to Documentation/foo.rst, as the
-> > > > > automarkup.py extension should handle it automatically, on most cases.
-> > > > > 
-> > > > > There are a couple of exceptions to this rule:
-> > > > > 
-> > > > > 1. when :doc:  tag is used to point to a kernel-doc DOC: markup;
-> > > > > 2. when it is used with a named tag, e. g. :doc:`some name <foo>`;
-> > > > > 
-> > > > > It should also be noticed that automarkup.py has currently an issue:
-> > > > > if one use a markup like:
-> > > > > 
-> > > > > 	Documentation/dev-tools/kunit/api/test.rst
-> > > > > 	  - documents all of the standard testing API excluding mocking
-> > > > > 	    or mocking related features.
-> > > > > 
-> > > > > or, even:
-> > > > > 
-> > > > > 	Documentation/dev-tools/kunit/api/test.rst
-> > > > > 	    documents all of the standard testing API excluding mocking
-> > > > > 	    or mocking related features.
-> > > > > 	
-> > > > > The automarkup.py will simply ignore it. Not sure why. This patch series
-> > > > > avoid the above patterns (which is present only on 4 files), but it would be
-> > > > > nice to have a followup patch fixing the issue at automarkup.py.    
-> > > > 
-> > > > What I think is happening here is that we're using rST's syntax for definition
-> > > > lists [1]. automarkup.py ignores literal nodes, and perhaps a definition is
-> > > > considered a literal by Sphinx. Adding a blank line after the Documentation/...
-> > > > or removing the additional indentation makes it work, like you did in your
-> > > > 2nd and 3rd patch, since then it's not a definition anymore, although then the
-> > > > visual output is different as well.  
-> > > 
-> > > A literal has a different output. I think that this is not the case, but I 
-> > > didn't check the python code from docutils/Sphinx.  
-> > 
-> > Okay, I went in deeper to understand the issue and indeed it wasn't what I
-> > thought. The reason definitions are ignored by automarkup.py is because the main
-> > loop iterates only over nodes that are of type paragraph:
-> > 
-> >     for para in doctree.traverse(nodes.paragraph):
-> >         for node in para.traverse(nodes.Text):
-> >             if not isinstance(node.parent, nodes.literal):
-> >                 node.parent.replace(node, markup_refs(name, app, node))
-> > 
-> > And inspecting the HTML output from your example, the definition name is inside
-> > a <dt> tag, and it doesn't have a <p> inside. So in summary, automarkup.py will
-> > only work on elements which are inside a <p> in the output.
-> 
-> 
-> Yeah, that's what I was suspecting, based on the comments.
-> 
-> Maybe something similar to the above could be done also for some
-> non-paragraph data. By looking at:
-> 
-> 	https://docutils.sourceforge.io/docs/ref/doctree.html
-> 
-> It says that the body elements are:
-> 
-> 	admonition, attention, block_quote, bullet_list, caution, citation, 
-> 	comment, compound, container, danger, definition_list, doctest_block, 
-> 	enumerated_list, error, field_list, figure, footnote, hint, image, 
-> 	important, line_block, literal_block, note, option_list, paragraph, 
-> 	pending, raw, rubric, substitution_definition, system_message, 
-> 	table, target, tip, warning
+> Setting pipeline to PAUSED ...
+> Pipeline is live and does not need PREROLL ...
+> Pipeline is PREROLLED ...
+> Setting pipeline to PLAYING ...
+> New clock: GstSystemClock
+> [   11.745511] imx6-mipi-csi2: LP-11 wait timeout, likely a sensor
+> driver bug, expect capture failures.
+> [   11.754956] imx6-mipi-csi2: phy_state = 0x00000200
+> [   12.259957] imx6-mipi-csi2: clock lane timeout, phy_state = 0x00000200
+> [   12.266630] ipu1_ic_prpvf: upstream stream on failed: -110
+> [   12.274082] ipu1_ic_prpvf: pipeline start failed with -110
+> ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
+> to allocate required memory.
+> Additional debug info:
+> ../sys/v4l2/gstv4l2src.c(659): gst_v4l2src_decide_allocation ():
+> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> Buffer pool activation failed
+> Execution ended after 0:00:01.072478334
+> Setting pipeline to NULL ...
+> Freeing pipeline ...
+>
+> Not sure why I am getting LP-11 and clock lane timeouts though.
 
-Ok, I went through each one by searching the term on [1] and inspecting the
-element to see if it contained a <p> or not. The vast majority did. These are
-the ones I didn't find there or didn't make sense:
+I saw this post:
+https://ez.analog.com/linux-software-drivers/f/q-a/535279/adv7282-m-dts-how-to-connect-adv-to-ipu1_csi0
 
-	comment
-	container
-	image
-	pending
-	raw
-	substitution_definition
-	system_message
-	target
+and Frieder's patch:
+https://git.kontron-electronics.de/linux/linux/-/commit/0d90331a44d0f718b7327a94fc72612ddcb4ac0f.patch
 
-We can safely ignore them. And these are the ones that matter and don't have
-paragraphs:
+I applied Frieder's patch, but still getting the same errors below
+upon launching Gstreamer.:
 
-	1. literal_block
-	2. doctest_block
-	3. definition_list
-	4. field_list
-	5. option_list
-	6. line_block
+ New clock: GstSystemClock
+ [   11.745511] imx6-mipi-csi2: LP-11 wait timeout, likely a sensor
+ driver bug, expect capture failures.
+ [   11.754956] imx6-mipi-csi2: phy_state = 0x00000200
+ [   12.259957] imx6-mipi-csi2: clock lane timeout, phy_state = 0x00000200
+ [   12.266630] ipu1_ic_prpvf: upstream stream on failed: -110
+ [   12.274082] ipu1_ic_prpvf: pipeline start failed with -110
 
-1 and 2 are literals, so we don't care about them.
+Does anyone know what needs to be done to avoid the LP-11 timeout error?
 
-3 is the one you noticed the issue with. It's worth mentioning that the
-definition term doesn't have a paragraph, but its definition does (as can be
-checked by inspecting [2]).
-
-4 is basically the same as 3, the rst syntax is different but the output is the
-same. That said, I believe we only use those to set options at the top of the
-file, like in translations, and I can't see automarkup being useful in there.
-
-5 is similar to 3 and 4, but the term is formatted using <kbd>, so it's like a
-literal and therefore not relevant.
-
-6 is useful just to preserve indentation, and I'm pretty sure we don't use it in
-the docs.
-
-So in the end, I think the only contenders to be added to automarkup are
-definition lists, and even then I still think we should just substitute those
-definition lists with alternatives like you did in your patches. Personally I
-don't see much gain in using definitions instead of a simple paragraph. But if
-you really think it's an improvement in some way, it could probably be added to
-automarkup in the way you described.
-
-Thanks,
-Nícolas
-
-[1] https://sphinx-rtd-theme.readthedocs.io/en/stable/index.html
-[2] https://sphinx-rtd-theme.readthedocs.io/en/stable/demo/lists_tables.html?highlight=definition%20list#definition-lists
-
-> 
-> So, perhaps a similar loop for definition_list would do the trick,
-> but maybe automarkup should also look at other types, like enum lists,
-> notes (and their variants, like error/warning) and footnotes.
-> 
-> No idea how this would affect the docs build time, though.
-> 
-> > Only applying the automarkup inside paragraphs seems like a good decision (which
-> > covers text in lists and tables as well), so unless there are other types of
-> > elements without paragraphs where automarkup should work, I think we should just
-> > avoid using definition lists pointing to documents like that.
-> 
-> Checking the code or doing some tests are needed for us to be sure about what
-> of the above types docutils don't consider a paragraph.
-> 
-> Thanks,
-> Mauro
+Thanks
