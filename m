@@ -2,116 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0938F39EF3C
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 09:09:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57FFC39EF80
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jun 2021 09:27:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbhFHHLa convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 8 Jun 2021 03:11:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbhFHHL3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 03:11:29 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E84DC061574
-        for <linux-media@vger.kernel.org>; Tue,  8 Jun 2021 00:09:37 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1lqVre-0005SQ-TZ; Tue, 08 Jun 2021 09:09:30 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1lqVrd-0000Ll-BN; Tue, 08 Jun 2021 09:09:29 +0200
-Message-ID: <cad89872382bad67fdd8e12c392d023bff2a3ff9.camel@pengutronix.de>
-Subject: Re: Unable to capture adv7280-m on i.MX6Q
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Fabio Estevam <festevam@gmail.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
+        id S229942AbhFHH3a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Jun 2021 03:29:30 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:37275 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229507AbhFHH30 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Jun 2021 03:29:26 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qW8ylrCJ5hg8ZqW93l7CNL; Tue, 08 Jun 2021 09:27:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623137249; bh=Q7hh9gRx3Ux+4QdoF45Yv4KNeVoIs/48lD80JxvEO2s=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=FHI8svZ6h5MkTxZ3DfRgv0I3eig0DQmc3dh0WvYoKSz3tjWOg9VPCnmGye4Q6c5bn
+         abbT0Z6EkLz7JZcdvPbA2OeHGjl1KHFtIU7Zsky9Brqjx74BFbtMuZKfhJchaFGWC3
+         MsqOu3KslnDhpZtGbjgZ8Dfv7Svcx5SzHGm1X+jiRea6rTtRMdIJnnJsb/6EPAQPhO
+         toDROQLKdLpIL+CX832WxLvOM5hnnEIHfBhErF372AleLmPDfgPepKQ8R+z1vWeXQJ
+         Vt1GAKXm2LpnUETDMsN2REuvizBlPomh5y8FMMpg22N1KbXvNw/pMRM2OEMnX6FDJT
+         C6b7H9SyBrChA==
+Subject: Re: [PATCH] TDA1997x: enable EDID support
+To:     =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
         Tim Harvey <tharvey@gateworks.com>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media <linux-media@vger.kernel.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Date:   Tue, 08 Jun 2021 09:09:29 +0200
-In-Reply-To: <CAOMZO5C6ai+Vze6e4o1WYCa42p2YK5_cjo99Q7qKc50E+ebgSA@mail.gmail.com>
-References: <CAOMZO5A0nV2bubWt3EzkaWVBoD96YNTYB10y-qB79mX2pTBu0w@mail.gmail.com>
-         <CAOMZO5CfCZcngeOj4yEV+g5s6Wy4F0=wCu3PD3LyZAUMz9V2LQ@mail.gmail.com>
-         <CAOMZO5C6ai+Vze6e4o1WYCa42p2YK5_cjo99Q7qKc50E+ebgSA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        lkml <linux-kernel@vger.kernel.org>
+References: <m3sg1uq6xu.fsf@t19.piap.pl>
+ <dbb99d7b-18eb-317c-911a-b982486848fa@xs4all.nl> <m3eeddhora.fsf@t19.piap.pl>
+ <CAJ+vNU0E_0pB-1T+VpdmjJNVirAwCUNjKVbEV4wEbqHOzURj_A@mail.gmail.com>
+ <m3k0n57y72.fsf@t19.piap.pl>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <e9acc316-54c4-0387-eaaf-18dfb4dce34e@xs4all.nl>
+Date:   Tue, 8 Jun 2021 09:27:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <m3k0n57y72.fsf@t19.piap.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfJ24cG//JXre495N2nXQjCXFY1+2ufdW66QbEWC8fkXL8mLZNED5sWy1vUK8+Gy6OtrB9vbELVwHRd2LTgDCWglkzqbUULJlAY/KQQfht3PlMtbTKTzl
+ QORN8j+0aiqK0M0dn01KKCZgWI+sGkzxvKTS9eU+sZBjfX/deijhkGt8p8m7TJsVdTqvk+Ugz8Nki/7pS1nQUd+bpvH+iGJW9LMtCcuZHzFDye3KvH0v9D1P
+ UhYjJVB6DlPZ4zovNArt/QdCMs+UOWKbqpSfjPpucREbbeMP4gG8SX6acNIsBjEM1348PIqaXNyeGee91t2gFFl88rdqPTt+QBERThSLMTQ=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabio,
+Hi Krzysztof,
 
-On Tue, 2021-06-08 at 00:13 -0300, Fabio Estevam wrote:
-> On Mon, May 17, 2021 at 8:48 PM Fabio Estevam <festevam@gmail.com> wrote:
+On 08/06/2021 06:54, Krzysztof Hałasa wrote:
+> Tim,
 > 
-> > Setting pipeline to PAUSED ...
-> > Pipeline is live and does not need PREROLL ...
-> > Pipeline is PREROLLED ...
-> > Setting pipeline to PLAYING ...
-> > New clock: GstSystemClock
-> > [   11.745511] imx6-mipi-csi2: LP-11 wait timeout, likely a sensor
-> > driver bug, expect capture failures.
-> > [   11.754956] imx6-mipi-csi2: phy_state = 0x00000200
-> > [   12.259957] imx6-mipi-csi2: clock lane timeout, phy_state = 0x00000200
-> > [   12.266630] ipu1_ic_prpvf: upstream stream on failed: -110
-> > [   12.274082] ipu1_ic_prpvf: pipeline start failed with -110
-> > ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
-> > to allocate required memory.
-> > Additional debug info:
-> > ../sys/v4l2/gstv4l2src.c(659): gst_v4l2src_decide_allocation ():
-> > /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-> > Buffer pool activation failed
-> > Execution ended after 0:00:01.072478334
-> > Setting pipeline to NULL ...
-> > Freeing pipeline ...
-> > 
-> > Not sure why I am getting LP-11 and clock lane timeouts though.
+> Tim Harvey <tharvey@gateworks.com> writes:
 > 
-> I saw this post:
-> https://ez.analog.com/linux-software-drivers/f/q-a/535279/adv7282-m-dts-how-to-connect-adv-to-ipu1_csi0
+>>> I'm looking at the previous version of this driver from Gateworks and it
+>>> contains:
+>>>
+>>>      /* Configure EDID
+>>>       *
+>>>       * EDID_ENABLE bits:
+>>>       *  7 - nack_off
+>>>       *  6 - edid_only
+>>>       *  1 - edid_b_en
+>>>       *  0 - edid_a_en
+>>>       */
+>>>      reg = io_read(REG_EDID_ENABLE);
+>>>      if (!tda1997x->internal_edid)
+>>>          reg &= ~0x83; /* EDID Nack ON */
+>>>      else
+>>>          reg |= 0x83;  /* EDID Nack OFF */
+>>>      io_write(REG_EDID_ENABLE, reg);
 > 
-> and Frieder's patch:
-> https://git.kontron-electronics.de/linux/linux/-/commit/0d90331a44d0f718b7327a94fc72612ddcb4ac0f.patch
+>> Not sure where the source above is from (this was all so long ago) but
 > 
-> I applied Frieder's patch, but still getting the same errors below
-> upon launching Gstreamer.:
+> That's your gateworks_fslc_3.14_1.0.x_ga branch (3.14 is the kernel and
+> 1.0.x_ga is IIRC some Freescale versioning) :-)
 > 
->  New clock: GstSystemClock
->  [   11.745511] imx6-mipi-csi2: LP-11 wait timeout, likely a sensor
->  driver bug, expect capture failures.
->  [   11.754956] imx6-mipi-csi2: phy_state = 0x00000200
->  [   12.259957] imx6-mipi-csi2: clock lane timeout, phy_state = 0x00000200
->  [   12.266630] ipu1_ic_prpvf: upstream stream on failed: -110
->  [   12.274082] ipu1_ic_prpvf: pipeline start failed with -110
+>> my guess is that 'internal_edid' meant an EDID had been provided via
+>> software and the else case meant there was no EDID available.
+>> There is no support on that chip for an external EEPROM.
 > 
-> Does anyone know what needs to be done to avoid the LP-11 timeout error?
+> Right. I guess the else meant it was available and &= ~83 meant no
+> EDID... Anyway one could simply drop a 24c02 or a similar chip directly
+> to SDA/SCL HDMI lines, that's what the monitor makers had been doing for
+> a long time. Then, I guess, you would need the internal_edid = 0
+> (otherwise the TDA chip would be fighting the EEPROM on the SDA line).
+> Not that I know of any such design using this driver, I guess we can
+> safely skip this part.
+> 
 
-The i.MX6 CSI-2 RX needs to see the LP-11 low power state on the lanes
-during streamon (before it calls the ADV7280-M s_stream(1)). That's
-where the LP-11 timeout error occurs.
+OK, I think the history is clear. Can you post a v2 with a Fixes tag and
+comment a bit on why this was not caught before?
 
-According to the ADV7280(-M) datasheet, "after the ADV7280-M is
-programmed, the clock lanes exit low power mode and remain in high speed
-mode until the part is reset or powered down."
-So it appears the ADV7280-M has to be freshly powered on in s_power(1)
-for this to work. Is the ADV7280-M powerdown GPIO connected properly on
-your board? Moving the CSI-2 configuration from s_power to s_stream was
-exactly the right thing to do in my mind.
+Regards,
 
-Just as a test, if you remove the CSI-2 register writes from either
-s_power and s_stream from the adv7180 driver completely, do you still
-run into the LP-11 timeout? If the CSI-2 TX never leaves the low power
-state, I would expect seeing the clock lane timeout instead 
-
-regards
-Philipp
+	Hans
