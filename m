@@ -2,62 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9375C3A1804
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 16:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC0683A18AA
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 17:10:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238387AbhFIO4E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Jun 2021 10:56:04 -0400
-Received: from mga01.intel.com ([192.55.52.88]:35631 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230239AbhFIO4D (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 9 Jun 2021 10:56:03 -0400
-IronPort-SDR: x+PTooIsecnKJsRsal4AwMbx5ntyZfve1n5T8YQr2GHk1KEDkaIWyHCBnpC+s3c71vxRWU/WdH
- K904Q0isS+Yg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="226457692"
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; 
-   d="scan'208";a="226457692"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 07:54:08 -0700
-IronPort-SDR: lqZE0eQv+v5lrVzBazQmDGO0q9nm+JbbXoTZ+SGwgEuL7AVOjWtaR/GnyU2eqMyfDGIIUsXcQy
- fqDscxUFbdbQ==
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; 
-   d="scan'208";a="449968541"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 07:54:06 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 7FC5020116;
-        Wed,  9 Jun 2021 17:54:04 +0300 (EEST)
-Date:   Wed, 9 Jun 2021 17:54:04 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Colin King <colin.king@canonical.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: remove redundant initialization of
- variable ret
-Message-ID: <20210609145404.GI3@paasikivi.fi.intel.com>
-References: <20210609121408.186239-1-colin.king@canonical.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210609121408.186239-1-colin.king@canonical.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S238848AbhFIPLd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Jun 2021 11:11:33 -0400
+Received: from flippie-beckerswealth-sa.xyz ([62.173.147.2]:56474 "EHLO
+        host.flippie-beckerswealth-sa.xyz" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229685AbhFIPL3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 9 Jun 2021 11:11:29 -0400
+X-Greylist: delayed 9170 seconds by postgrey-1.27 at vger.kernel.org; Wed, 09 Jun 2021 11:11:29 EDT
+Received: from flippie-beckerswealth-sa.xyz (ec2-3-131-99-163.us-east-2.compute.amazonaws.com [3.131.99.163])
+        by host.flippie-beckerswealth-sa.xyz (Postfix) with ESMTPA id 4EC0830B8905
+        for <linux-media@vger.kernel.org>; Wed,  9 Jun 2021 15:10:28 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippie-beckerswealth-sa.xyz 4EC0830B8905
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flippie-beckerswealth-sa.xyz; s=default; t=1623240628;
+        bh=h0ivQLrZuUWuyEKz/TWb+FP9AASpHhVqOsJtRcwKQV4=;
+        h=Reply-To:From:To:Subject:Date:From;
+        b=C/k27sJb5Tvl3VBqZqsExw8+gDYR+zqjbEjV5CTj8h+KdaEBg9FTRK+G88IZNwYne
+         +jKMBdNNkUt7CjLCyS80c59pEPTsJKJ2VESCBMOFfNiCSYvlHZ+vcUDjgyFq8FJTlV
+         Fg1gcWQ7qmMDfbiH76p7Nsxa5yTEBlTmKRifRrmM=
+DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippie-beckerswealth-sa.xyz 4EC0830B8905
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flippie-beckerswealth-sa.xyz; s=default; t=1623240628;
+        bh=h0ivQLrZuUWuyEKz/TWb+FP9AASpHhVqOsJtRcwKQV4=;
+        h=Reply-To:From:To:Subject:Date:From;
+        b=C/k27sJb5Tvl3VBqZqsExw8+gDYR+zqjbEjV5CTj8h+KdaEBg9FTRK+G88IZNwYne
+         +jKMBdNNkUt7CjLCyS80c59pEPTsJKJ2VESCBMOFfNiCSYvlHZ+vcUDjgyFq8FJTlV
+         Fg1gcWQ7qmMDfbiH76p7Nsxa5yTEBlTmKRifRrmM=
+Reply-To: jmasuku40@flippiebeckerwealthservices.com
+From:   Jotham Masuku <jmasuku40@flippie-beckerswealth-sa.xyz>
+To:     linux-media@vger.kernel.org
+Subject: Proposal
+Date:   09 Jun 2021 12:10:27 +0000
+Message-ID: <20210609121027.AFB9D424737A90C6@flippie-beckerswealth-sa.xyz>
+Mime-Version: 1.0
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 09, 2021 at 01:14:08PM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> The variable ret is being initialized with a value that is never read,
-> it is being updated later on. The assignment is redundant and can be
-> removed.
-> 
-> Addresses-Coverity: ("Unused value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Hello there,
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+I hope this message finds you in good spirits especially during=20
+this challenging time of coronavirus pandemic. I hope you and=20
+your family are well and keeping safe. Anyway, I am Jotham=20
+Masuku, a broker working with Flippiebecker Wealth. I got your=20
+contact (along with few other contacts) through an online=20
+business directory and I thought I should contact you to see if=20
+you are interested in this opportunity. I am contacting you=20
+because one of my high profile clients is interested in investing=20
+abroad and has asked me to look for individuals and companies=20
+with interesting business ideas and projects that he can invest=20
+in. He wants to invest a substantial amount of asset abroad.
 
--- 
-Sakari Ailus
+Please kindly respond back to this email if you are interested in=20
+this opportunity. Once I receive your response, I will give you=20
+more details and we can plan a strategy that will be beneficial=20
+to all parties.
+
+Best regards
+
+J Masuku
+Flippiebecker Wealth
