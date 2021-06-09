@@ -2,235 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6D2E3A1BC5
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 19:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A186B3A1BC3
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 19:28:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230052AbhFIRaZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Jun 2021 13:30:25 -0400
-Received: from mail-wr1-f41.google.com ([209.85.221.41]:34347 "EHLO
-        mail-wr1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229961AbhFIRaY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 13:30:24 -0400
-Received: by mail-wr1-f41.google.com with SMTP id q5so26392631wrm.1
-        for <linux-media@vger.kernel.org>; Wed, 09 Jun 2021 10:28:29 -0700 (PDT)
+        id S229989AbhFIRaT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Jun 2021 13:30:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50514 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229961AbhFIRaT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 13:30:19 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 925F6C061574
+        for <linux-media@vger.kernel.org>; Wed,  9 Jun 2021 10:28:12 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id o3so7994418wri.8
+        for <linux-media@vger.kernel.org>; Wed, 09 Jun 2021 10:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wskYStBmcNPDTfLKW+BNbupo93MWxUbiOgqVR0Uy7TY=;
-        b=RCZIwzvEEPiiNaMlsrNb+FrtVr6RUFvlmtxJpoi6jgXIxNeVpnkM63fQoz8aSLJecW
-         vQsSXynCwN5BYS30a0odBPMYTjneAUbtlmy7BwQ66dHjmHiqQJEucS1KrvcFZjjGepRk
-         UGWSIfQjvyeh8KCviBAq/apMEK/vi7oKXqeI5XPyG1pvLjj5q/jnixm/gfXLUJoBKpkq
-         eZcrfOl0MW/KhBCAeg9wH17zKhGhr6Fh7N/luSnbFeuFmJJc0tOUCSlFw5Wc6vK7+Bgh
-         WPTGJoROAChZpn2k0P1GFUOpX1IipvHJETlIPtmdtQZWd1lSyc2EMU0phYhXfsa0Z+uy
-         1GaQ==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7+rBoL2O4UlV5pjg0rkpaWLZYflspD7RnTxSjqJDLA0=;
+        b=LPL0G/OlXZv5dDzmpbZG3erbJ1c4eURW3jo3at1UJuzARQfn9Qc4QXrKw3J8uhEshz
+         wp3USP5AEHRtOL4HEQQKWzjSaPuKzbUojvPSkueQJLFqI+C2Q+usfF59EcoJs/d8ZCis
+         FVxmIMq14ZWOb22zILz8li6UlojLpNvDKtkeKm3tBq/TKJ4Rbh7uf0xKHNXaAIlji4FU
+         v5RMEKDcxVGSgSZAZGXufy64l5ZvB4r7ny6UW/s610raLlSsWfrowVfFWKzsHZHRqlgq
+         /5WJp1afrWnMBB+BmC8nH42l++wpcXHfufSMtsaqAkDgWme2ylX3EfqRtO7cm+5Psuq+
+         XTrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wskYStBmcNPDTfLKW+BNbupo93MWxUbiOgqVR0Uy7TY=;
-        b=P7yrdsTd9whkwqp4/SlrQT+rWu//ii39pjajvafTvmNdjqApGcz/FDT/iyDROMCJ38
-         3MV2DrmT6foK6uiaUJw1CPM7XZCZb2lBJt2jGX5U/e5nwhMJ7BGKRvCe9Ri8dYMHjl5i
-         O8SONYvZ6QJT4XGXKrytLWXlmx56z9OY95hdFfuJwKmIMedlZ9CjBhq/0jAdcRirVnTt
-         9mbBn7Q/LxovC3m/QSwxSVM+BMnXMpr61ILQSSwnq1vJZwo9/rsRIBVLJ8Tg+9IUY0gD
-         yBJ+zc5cyrKFx7PLiIl0/+Okv8fGzayg3M6CamK/bSWMQS71cIX1yNJByEayRGNlEYpd
-         63Yw==
-X-Gm-Message-State: AOAM532sWUAlmQ54EmuYGJEwWSDtXF6taN+ZtHXYVHpQLS4/W/arTkju
-        xnQE4sn7yRm/shAb+2gDg1zGNOLbDl0SOyNa/ZNdbIFR+73Fqaqp
-X-Google-Smtp-Source: ABdhPJxb8dpkLxRt/0SrRdoenBb8VWzRfdgquE7QUEDKlCSUZgjNl/yP1WUX+gPAJ8Jr+9f0CsUId7xTLbZEQJ+ZXCA=
-X-Received: by 2002:a5d:47ce:: with SMTP id o14mr888846wrc.273.1623259648922;
- Wed, 09 Jun 2021 10:27:28 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7+rBoL2O4UlV5pjg0rkpaWLZYflspD7RnTxSjqJDLA0=;
+        b=T0LYyu9KQDSIfdvunq39EsG3ETJFkDrA8G7Aqx37yWRw656GoymoSLtTIVHCIYlfrf
+         VSDWzvkIV61g4l6gkKNHdrTI6XQa6RHiicdp+wS85RATtMvtF63EhBbiRhODvcUP7+Es
+         ShSyMkPzrD7Xo85Zdl9cg0lv9p7FMBweyk3tuDe5xBOuJWvPtWzmBIs4ey/Dsngryh+C
+         La9DPCTeSbLtmi5X5CoC+LEpbKAbG96A6KYaa21pFHbMWiL6rwPULfFR4qB38/GDSsJw
+         oei7rMCp5mBxZEJoWII7RoftwbSewyT8l+gEcexUvnosczMWUKphmffIUBnHjGI9E0Em
+         MWpA==
+X-Gm-Message-State: AOAM530N3BS+Q6rFmDjJdYQlMPKHHV2VP7QHw2jh8NTWftWe5LeEMLSQ
+        KKBgt/W1fiG1aZS4PRBYamzv75aHW7w=
+X-Google-Smtp-Source: ABdhPJzsgYWNq4Pj+ayKlmcv4NLpHqTupE3QVHvOGy5dqjwzIOy99QK+E5POe4AFmqbuDxlm941KWQ==
+X-Received: by 2002:a5d:630f:: with SMTP id i15mr917119wru.155.1623259691145;
+        Wed, 09 Jun 2021 10:28:11 -0700 (PDT)
+Received: from ?IPv6:2a00:23c4:1c07:9700:6acb:61b6:ae46:2431? ([2a00:23c4:1c07:9700:6acb:61b6:ae46:2431])
+        by smtp.googlemail.com with ESMTPSA id x3sm6770623wmj.30.2021.06.09.10.28.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Jun 2021 10:28:10 -0700 (PDT)
+Subject: Re: Unable to capture adv7280-m on i.MX6Q
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     Schrempf Frieder <frieder.schrempf@kontron.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <CAOMZO5A0nV2bubWt3EzkaWVBoD96YNTYB10y-qB79mX2pTBu0w@mail.gmail.com>
+ <CAOMZO5CfCZcngeOj4yEV+g5s6Wy4F0=wCu3PD3LyZAUMz9V2LQ@mail.gmail.com>
+ <CAOMZO5C6ai+Vze6e4o1WYCa42p2YK5_cjo99Q7qKc50E+ebgSA@mail.gmail.com>
+ <cad89872382bad67fdd8e12c392d023bff2a3ff9.camel@pengutronix.de>
+ <CAOMZO5CxDtPa_WYEJf9dkLa8x1UthicBqB=RBJUgxKud+srsDQ@mail.gmail.com>
+ <a6322fe86be905c028ede9ee2abee278266e1b35.camel@pengutronix.de>
+From:   Ian Arkver <ian.arkver.dev@gmail.com>
+Message-ID: <fec3a57d-6b37-e5dd-4586-cdacf311159c@gmail.com>
+Date:   Wed, 9 Jun 2021 18:28:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <427466e4-1b6f-f7c3-3d5e-89c7a7f2ec79@jm0.eu> <19a143de-818d-4c21-94c1-f4ebf57e3802@jm0.eu>
- <35096323-4f28-6c04-2308-de9895c2751d@jm0.eu>
-In-Reply-To: <35096323-4f28-6c04-2308-de9895c2751d@jm0.eu>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Wed, 9 Jun 2021 18:27:13 +0100
-Message-ID: <CAPY8ntBEDFJi2zUN9nhwYvicn1kf926L63GzG2CfmM0=p33C3Q@mail.gmail.com>
-Subject: Re: [BUG] tc358743: division by zero
-To:     "Ing. Josua Mayer" <josua.mayer@jm0.eu>
-Cc:     matrandg@cisco.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <a6322fe86be905c028ede9ee2abee278266e1b35.camel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Josua
+Hi,
 
-On Wed, 9 Jun 2021 at 18:08, Ing. Josua Mayer <josua.mayer@jm0.eu> wrote:
->
-> Hello again,
->
-> I added debug prints to tc358743_probe_of and
-> tc358743_num_csi_lanes_needed, tracking the values of pll_prd and pll_fbd.
->
-> I believe the bug is caused by probe returning early when it encounters
-> an unsupported datarate of more than 1gbps per lane, which skips the
-> code that would initialize pll_fbd.
-> Hence later in tc358743_num_csi_lanes_needed, pll_fbd is zero - leading
-> to divide by zero.
->
-> The interesting parts of dmesg leading to this conclusion:
-> [   16.393072] imx6_mipi_csi2: module is from the staging directory, the
-> quality is unknown, you have been warned.
-> [   16.891557] tc358743 0-000f: initialized pll_prd = 4
-> [   16.896618] tc358743 0-000f: unsupported bps per lane: 1188000000 bps
-> # pll_prd has been initialized, but pll_fbd has not
-> [   17.203559] tc358743 0-000f: pll_prd = 4
-> [   17.207588] tc358743 0-000f: pll_fbd = 0
-> # using pll_fbd value 0
-> [   17.211539] Division by zero in kernel.
-> [   17.215415] CPU: 1 PID: 208 Comm: systemd-udevd Tainted: G        WC
->   E     5.10.0-7-armmp #1 Debian 5.10.40-2
-> [   17.225418] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-> [   17.231947] Backtrace:
-> [   17.234417] [<c0cf1fe8>] (dump_backtrace) from [<c0cf2394>]
-> (show_stack+0x20/0x24)
-> [   17.247662] [<c0cf2374>] (show_stack) from [<c0cf74c4>]
-> (dump_stack+0xc8/0xdc)
-> [   17.254892] [<c0cf73fc>] (dump_stack) from [<c0cf216c>]
-> (__div0+0x24/0x28)
-> [   17.267442] [<c0cf2148>] (__div0) from [<c07b1254>] (Ldiv0+0x8/0x10)
-> [   17.273844] [<bf4cea34>] (tc358743_num_csi_lanes_needed [tc358743])
-> from [<bf4cec3c>] (tc358743_set_csi+0x1c/0x2f8 [tc358743])
-> [   17.290929] [<bf4cec20>] (tc358743_set_csi [tc358743]) from
-> [<bf4ccaac>] (tc358743_s_dv_timings+0x104/0x1a8 [tc358743])
-> [   17.307430] [<bf4cc9a8>] (tc358743_s_dv_timings [tc358743]) from
-> [<bf4ce384>] (tc358743_probe+0x93c/0xfec [tc358743])
-> [   17.323757] [<bf4cda48>] (tc358743_probe [tc358743]) from
-> [<c0a3ace4>] (i2c_device_probe+0x100/0x2e0)
->
-> I don't really know where this condition should be checked for, or
-> avoided. Hopefully though this gives somebody else enough information to
-> find a solution.
+On 09/06/2021 08:20, Philipp Zabel wrote:
+> Hi Fabio,
+> 
+> On Tue, 2021-06-08 at 23:34 -0300, Fabio Estevam wrote:
+>> Hi Philipp,
+>>
+>> On Tue, Jun 8, 2021 at 4:09 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+>>
+>>> The i.MX6 CSI-2 RX needs to see the LP-11 low power state on the lanes
+>>> during streamon (before it calls the ADV7280-M s_stream(1)). That's
+>>> where the LP-11 timeout error occurs.
+>>>
+>>> According to the ADV7280(-M) datasheet, "after the ADV7280-M is
+>>> programmed, the clock lanes exit low power mode and remain in high speed
+>>> mode until the part is reset or powered down."
+>>> So it appears the ADV7280-M has to be freshly powered on in s_power(1)
 
-In both the
-    default:
-        dev_err(dev, "unsupported refclk rate: %u Hz\n",
-            state->pdata.refclk_hz);
-        goto disable_clk;
-and
-   if (bps_pr_lane < 62500000U || bps_pr_lane > 1000000000U) {
-        dev_err(dev, "unsupported bps per lane: %u bps\n", bps_pr_lane);
-        goto disable_clk;
-    }
-cases, you want a
-   ret = -EINVAL;
-or similar before the goto disable_clk;
+Page 55 of the ADV7280-M HW Ref Manual shows how the CLK and DATA lanes 
+can be (separately) forced into Ultra Low Power State. It mentions that 
+when exiting ULPS it transmits the ULPS exit sequence, though it doesn't 
+define what that sequence is. Perhaps this sequence includes 
+transitioning through LP-11 enough to keep the CSI-2 RX happy?
 
-Most of the other cases are doing a ret = <some function call> and
-checking ret. That's not the case with these validation checks, so it
-is aborting but has left ret at the value from the previous call
-(which succeeded).
+Just a thought.
+Regards,
+Ian
 
-Hope that helps. If it works then a patch would be welcome.
-
-  Dave
-
-> Yours sincerely
-> Josua Mayer
->
->
-> Am 09.06.21 um 17:08 schrieb Ing. Josua Mayer:
-> > and I forgot about the promised dts :( .. I am realyl sorry for spamming
-> > your mailbox like this ...
-> >
-> > Am 09.06.21 um 17:07 schrieb Ing. Josua Mayer:
-> >> Dear Maintainers,
-> >>
-> >> During my attempts at capturing HDMI via the csi-2 port on i.MX6
-> >> HummingBoard, I triggered a division by zero in
-> >> tc358743_num_csi_lanes_needed!
-> >> I am running Debian testing, with linux 5.10.40 - built from debian
-> >> sources with the tc358743 driver enabled:
-> >> Linux sr-imx6 5.10.0-7-armmp #1 SMP Debian 5.10.40-2 (2021-05-29)
-> >> armv7l GNU/Linux
-> >>
-> >> The crash is triggered from userspace as I execute:
-> >> media-ctl -l "'tc358743 0-000f':0->'imx6-mipi-csi2':0[1]"
-> >> media-ctl -l "'imx6-mipi-csi2':1->'ipu1_csi0_mux':0[1]"
-> >> media-ctl -l "'ipu1_csi0_mux':2->'ipu1_csi0':0[1]"
-> >> media-ctl -l "'ipu1_csi0':2->'ipu1_csi0 capture':0[1]"
-> >> v4l2-ctl -d /dev/v4l-subdev7 --set-edid=file=tc358743-edid.hex && sleep 1
-> >> v4l2-ctl -d /dev/v4l-subdev7 --set-dv-bt-timings query && sleep 1
-> >>
-> >> [   60.985439] Division by zero in kernel.
-> >> [   60.989333] CPU: 1 PID: 395 Comm: v4l2-ctl Tainted: G        WC  E
-> >>   5.10.0-7-armmp #1 Debian 5.10.40-2
-> >> [   60.998904] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-> >> [   61.005438] Backtrace:
-> >> [   61.007911] [<c0cf1fe8>] (dump_backtrace) from [<c0cf2394>]
-> >> (show_stack+0x20/0x24)
-> >> [   61.015489]  r7:00000018 r6:600b0013 r5:00000000 r4:c14cdc90
-> >> [   61.021162] [<c0cf2374>] (show_stack) from [<c0cf74c4>]
-> >> (dump_stack+0xc8/0xdc)
-> >> [   61.028394] [<c0cf73fc>] (dump_stack) from [<c0cf216c>]
-> >> (__div0+0x24/0x28)
-> >> [   61.035276]  r7:00000018 r6:034bc000 r5:c1f67890 r4:4f1a0000
-> >> [   61.040951] [<c0cf2148>] (__div0) from [<c07b1254>] (Ldiv0+0x8/0x10)
-> >> [   61.047336] [<bf412000>] (tc358743_num_csi_lanes_needed [tc358743])
-> >> from [<bf412a44>] (tc358743_set_csi+0x1c/0x3f0 [tc358743])
-> >> [   61.058734]  r9:00000000 r8:c2b8b400 r7:c1f67a59 r6:bf419380
-> >> r5:c1f679e8 r4:c1f67890
-> >> [   61.066495] [<bf412a28>] (tc358743_set_csi [tc358743]) from
-> >> [<bf413f64>] (tc358743_s_dv_timings+0x104/0x1a8 [tc358743])
-> >> [   61.077283]  r7:c1f67a59 r6:bf419380 r5:c1f679e8 r4:c1f67890
-> >> [   61.082961] [<bf413e60>] (tc358743_s_dv_timings [tc358743]) from
-> >> [<c0a79fd4>] (subdev_do_ioctl+0x430/0xd0c)
-> >> [   61.092708]  r7:c1f67890 r6:c2ea0780 r5:c2d91c00 r4:c0845657
-> >> [   61.098376] [<c0a79ba4>] (subdev_do_ioctl) from [<c0a7a934>]
-> >> (subdev_do_ioctl_lock+0x84/0xb4)
-> >> [   61.106909]  r10:c2d91c00 r9:bea08dec r8:c0845657 r7:00000000
-> >> r6:c2d91c00 r5:c2ea0780
-> >> [   61.114741]  r4:c2e35000
-> >> [   61.117294] [<c0a7a8b0>] (subdev_do_ioctl_lock) from [<c0a6c4b4>]
-> >> (video_usercopy+0x190/0x674)
-> >> [   61.125913]  r9:bea08dec r8:c2d91c00 r7:bea08dec r6:c0845657
-> >> r5:00000000 r4:c0845657
-> >> [   61.133668] [<c0a6c324>] (video_usercopy) from [<c0a79254>]
-> >> (subdev_ioctl+0x20/0x24)
-> >> [   61.141419]  r10:c30372a8 r9:00000003 r8:c2ea0780 r7:bea08dec
-> >> r6:c2ea0780 r5:00000000
-> >> [   61.149251]  r4:c0a79234
-> >> [   61.151797] [<c0a79234>] (subdev_ioctl) from [<c0a64920>]
-> >> (v4l2_ioctl+0x4c/0x60)
-> >> [   61.159207] [<c0a648d4>] (v4l2_ioctl) from [<c05a90ac>]
-> >> (sys_ioctl+0x130/0xa74)
-> >> [   61.166520]  r5:00000000 r4:c0845657
-> >> [   61.170107] [<c05a8f7c>] (sys_ioctl) from [<c03000c0>]
-> >> (ret_fast_syscall+0x0/0x54)
-> >> [   61.177681] Exception stack(0xc48adfa8 to 0xc48adff0)
-> >> [   61.182742] dfa0:                   005023a4 004dad3c 00000003
-> >> c0845657 bea08dec 00000000
-> >> [   61.190927] dfc0: 005023a4 004dad3c 00000003 00000036 0050c808
-> >> bea09494 bea08fa0 00000000
-> >> [   61.199109] dfe0: 00500df8 bea08d2c 004a635d b6cde418
-> >> [   61.204169]  r10:00000036 r9:c48ac000 r8:c03002c4 r7:00000036
-> >> r6:00000003 r5:004dad3c
-> >> [   61.212000]  r4:005023a4
-> >>
-> >> I am attaching the device-tree changes as a file for reference. Any
-> >> ideas what is happening here?
-> >>
-> >> I can see 2 divisions:
-> >> 1. pdata->refclk_hz / pdata->pll_prd
-> >> 2. DIV_ROUND_UP(bps, bps_pr_lane)
-> >>
-> >> 1. should never be 0, since it is initialized during probe and then
-> >> never changed
-> >>
-> >> 2. see how the divisor can be 0
-> >> pdata->refclk_hz / pdata->pll_prd is the inversion of how pll_prd is
-> >> calculated, and should equal to 6MHz from probe.
-> >> pll_fbd is also set in probe: pll_fbd = bps_pr_lane / refclk_hz * pll_prd
-> >> As I have specified a link-frequency of 594MHz, that produces:
-> >> bps_pr_lane = 2 * 594MHz
-> >> pll_fbd = 2 * 594MHz / 27MHz * (27MHz / 6MHz) = 2 * 594MHz / 6MHz = 198
-> >>
-> >> Apparently from initialization, the division by zero can not occur :(
-> >> (unless I made a mistake here).
-> >>
-> >> Thank you for reading this far!
-> >> Yours sincerely
-> >> Josua Mayer
+>>
+>> What do you mean by freshly powered on?
+> 
+> That the ADV7280-M is in the state before "the clock lanes exit low
+> power mode" due to being "programmed". Basically I was hoping that after
+> the initial reset sequence, and after power on, before the CSI-2
+> registers are written, the clock lanes are in LP-11 state (and stay
+> there until then).
+> Unfortunately that doesn't appear to be the case below ...
+> 
+>>> for this to work. Is the ADV7280-M powerdown GPIO connected properly on
+>>> your board? Moving the CSI-2 configuration from s_power to s_stream was
+>>> exactly the right thing to do in my mind.
+>>>
+>>> Just as a test, if you remove the CSI-2 register writes from either
+>>> s_power and s_stream from the adv7180 driver completely, do you still
+>>> run into the LP-11 timeout? If the CSI-2 TX never leaves the low power
+>>> state, I would expect seeing the clock lane timeout instead
+>>
+>> If I do this test, the first time I run the pipeline I get LP-11, the
+>> second time I get clock lane timeout.
+> 
+> ... at least the first time.
+> 
+> So now I wonder what happens between the first and second time (in
+> s_stream? in s_power(0)?) that does put the lanes into LP-11 from
+> whatever state they were in before. When you get the clock lane timeout,
+> is phy_state = 0x610? Does it stay there when you repeat this again?
+> 
+> regards
+> Philipp
+> 
