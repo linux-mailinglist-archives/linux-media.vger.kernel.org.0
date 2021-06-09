@@ -2,333 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD0D3A14DB
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 14:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2148C3A1505
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 15:00:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231268AbhFIMt7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Jun 2021 08:49:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230000AbhFIMt6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 08:49:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DA84C061574
-        for <linux-media@vger.kernel.org>; Wed,  9 Jun 2021 05:48:04 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E377246E;
-        Wed,  9 Jun 2021 14:48:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623242881;
-        bh=p8JeHwa67ShAuJQ4qISQCbEm247UWVl4MsibGpc1Kyw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HaT7fWn8tbybl4WNmPFP4okMiEcL5F+r1BiyR0TIga36sgvYUkfP1qtlncudTJPWl
-         LMAgKmpAWgAyvrWqWG22lEJTqvhwijSdp9p6IAJy1SVk84bjLECgcS+szWndR2wu7l
-         ZkvqHdo81Vn8PBZlB99PtPl9LwvcW4zpumdGYvJw=
-Date:   Wed, 9 Jun 2021 15:47:42 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>, Lokesh Vutla <lokeshvutla@ti.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 32/38] media: ti-vpe: cal: use CSI-2 frame number
-Message-ID: <YMC4buUoB0LrkIlW@pendragon.ideasonboard.com>
-References: <20210524110909.672432-1-tomi.valkeinen@ideasonboard.com>
- <20210524110909.672432-33-tomi.valkeinen@ideasonboard.com>
- <YLozAqLmoKnHzQEi@pendragon.ideasonboard.com>
- <ca4c24d2-4edc-5ba4-970c-381195545a00@ideasonboard.com>
- <YL4iKZv5YV3LllIK@pendragon.ideasonboard.com>
- <b28c71d4-e7b1-2f21-530b-a108cfe0c337@ideasonboard.com>
- <YL5OpCAmfrMUibXq@pendragon.ideasonboard.com>
- <d72d4f1e-19e1-8e9f-19da-469e88638653@ideasonboard.com>
- <3721c31f-d2a4-6800-cb27-4bd47971d401@ideasonboard.com>
+        id S233143AbhFINCr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Jun 2021 09:02:47 -0400
+Received: from esa.microchip.iphmx.com ([68.232.153.233]:44815 "EHLO
+        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233028AbhFINCm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 09:02:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1623243647; x=1654779647;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BpqxinrRCUKxHtv0Qy6tpZJ1UbGKCSXrOA7Y3esQIFI=;
+  b=VzzIJsk3ygiy6i8bKMk5AH1+cX+1PGtHEzyu64BQsb20GDZrc9psp/3f
+   36Z3BOLnPqjE/05IEMimF1o4dgOmtnyiEpMQ+no8pC0m4bFx7XqDl2MAQ
+   gnejNwcDMsQMzTeWLzS0/9Ebi+m2dCu0o4eMsOIT/LIHKTyWTIz8Iz+g6
+   a7oZc8WE7UXzxvv2+f8iR7ayhLczrVZwD2T6Gd5AtWal+eKOyMboCbqO1
+   djLaL2My2qnf+eUk4fXdTi4hxmd4YLRsPRyV2DzKo7Lqkj/gnFBTiw0aK
+   uxXJwANLi/EAWckNCaWHjf8mIC9UzqnVIBRFVLXaSYJWk9Z5eC7EheKN5
+   Q==;
+IronPort-SDR: 8Jpmgq50PDtZkxIiug3oW4ArytJmqwG/a7/V07scvWkqzWVi43y8CzHJfopjUSoxeflBY74jiV
+ XW6HqlI1z0HARlWuyIrdCMC/3gQm72OOmYTfI3LA0vAOxLz2EBjCu+LNsw/ktU/muWDdw4LNWf
+ hLhuLiHzfZ2rsFZZ5LPFu0YTp97rGFlx2sBnuputlpTk8zdfXZSTAm1JzENmJ9RN2LGFcyNLr/
+ hvmxs72IzaBBLFfWcZXX2a7MkzXyIhZJfyphFw/iZiXlFlA80iBtx59Vw0S/IRv48NtALqvKus
+ ko8=
+X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; 
+   d="scan'208";a="124643305"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 09 Jun 2021 06:00:46 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 9 Jun 2021 06:00:46 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2176.2 via Frontend Transport; Wed, 9 Jun 2021 06:00:45 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <linux-media@vger.kernel.org>, <hverkuil@xs4all.nl>
+CC:     <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH] media: atmel: atmel-sama5d2-isc: fix YUYV format
+Date:   Wed, 9 Jun 2021 16:00:28 +0300
+Message-ID: <20210609130028.394348-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3721c31f-d2a4-6800-cb27-4bd47971d401@ideasonboard.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+SAMA5D2 does not have the YCYC field for the RLP (rounding, limiting, packaging)
+module.
+The YCYC field is supposed to work with interleaved YUV formats like YUYV.
+In SAMA5D2, we have to use YYCC field, which is used for both planar formats
+like YUV420 and interleaved formats like YUYV.
+Fix the according rlp callback to replace the generic YCYC field (which makes
+more sense from a logical point of view) with the required YYCC field.
 
-On Tue, Jun 08, 2021 at 03:46:21PM +0300, Tomi Valkeinen wrote:
-> On 08/06/2021 10:38, Tomi Valkeinen wrote:
-> > On 07/06/2021 19:51, Laurent Pinchart wrote:
-> >> On Mon, Jun 07, 2021 at 05:55:05PM +0300, Tomi Valkeinen wrote:
-> >>> On 07/06/2021 16:42, Laurent Pinchart wrote:
-> >>>> On Mon, Jun 07, 2021 at 03:39:45PM +0300, Tomi Valkeinen wrote:
-> >>>>> On 04/06/2021 17:04, Laurent Pinchart wrote:
-> >>>>>> On Mon, May 24, 2021 at 02:09:03PM +0300, Tomi Valkeinen wrote:
-> >>>>>>> The driver fills buf->vb.sequence with an increasing number which is
-> >>>>>>> incremented by the driver. This feels a bit pointless, as the userspace
-> >>>>>>> could as well track that kind of number itself. Instead, lets use the
-> >>>>>>
-> >>>>>> s/lets/let's/
-> >>>>>>
-> >>>>>>> frame number provided in the CSI-2 data from the sensor.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >>>>>>> ---
-> >>>>>>>     drivers/media/platform/ti-vpe/cal.c | 7 +++++--
-> >>>>>>>     drivers/media/platform/ti-vpe/cal.h | 1 -
-> >>>>>>>     2 files changed, 5 insertions(+), 3 deletions(-)
-> >>>>>>>
-> >>>>>>> diff --git a/drivers/media/platform/ti-vpe/cal.c 
-> >>>>>>> b/drivers/media/platform/ti-vpe/cal.c
-> >>>>>>> index 888706187fd1..62c45add4efe 100644
-> >>>>>>> --- a/drivers/media/platform/ti-vpe/cal.c
-> >>>>>>> +++ b/drivers/media/platform/ti-vpe/cal.c
-> >>>>>>> @@ -493,7 +493,6 @@ void cal_ctx_unprepare(struct cal_ctx *ctx)
-> >>>>>>>     void cal_ctx_start(struct cal_ctx *ctx)
-> >>>>>>>     {
-> >>>>>>> -    ctx->sequence = 0;
-> >>>>>>>         ctx->dma.state = CAL_DMA_RUNNING;
-> >>>>>>>         /* Configure the CSI-2, pixel processing and write DMA 
-> >>>>>>> contexts. */
-> >>>>>>> @@ -586,6 +585,10 @@ static inline void cal_irq_wdma_start(struct 
-> >>>>>>> cal_ctx *ctx)
-> >>>>>>>     static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
-> >>>>>>>     {
-> >>>>>>>         struct cal_buffer *buf = NULL;
-> >>>>>>> +    u32 frame_num;
-> >>>>>>> +
-> >>>>>>> +    frame_num = cal_read(ctx->cal, 
-> >>>>>>> CAL_CSI2_STATUS(ctx->phy->instance,
-> >>>>>>> +                               ctx->csi2_ctx)) & 0xffff;
-> >>>>>>>         spin_lock(&ctx->dma.lock);
-> >>>>>>> @@ -607,7 +610,7 @@ static inline void cal_irq_wdma_end(struct 
-> >>>>>>> cal_ctx *ctx)
-> >>>>>>>         if (buf) {
-> >>>>>>>             buf->vb.vb2_buf.timestamp = ktime_get_ns();
-> >>>>>>>             buf->vb.field = ctx->v_fmt.fmt.pix.field;
-> >>>>>>> -        buf->vb.sequence = ctx->sequence++;
-> >>>>>>> +        buf->vb.sequence = frame_num;
-> >>>>>>
-> >>>>>> We'll need something a bit more complicated. The CSI-2 frame 
-> >>>>>> number is
-> >>>>>> not mandatory, and when used, it is a 16-bit number starting at 1 and
-> >>>>>> counting to an unspecified value larger than one, resetting to 1 
-> >>>>>> at the
-> >>>>>> end of the cycle. The V4L2 sequence number, on the other hand, is a
-> >>>>>> monotonic counter starting at 0 and wrapping only at 2^32-1. We 
-> >>>>>> should
-> >>>>>> thus keep a software sequence counter and
-> >>>>>>
-> >>>>>> - increase it by 1 if the frame number is zero
-> >>>>>> - increase it by frame_num - last_frame_num (with wrap-around of
-> >>>>>>      frame_num handled) otherwise
-> >>>>>
-> >>>>> Ok... I wonder if we need a new field for this, though. The problem I
-> >>>>> was solving when I changed this to use the CSI-2 frame-number was 
-> >>>>> how to
-> >>>>> associate a pixel frame and a metadata frame.
-> >>>>>
-> >>>>> Their CSI-2 frame-numbers match (as they are from the same original
-> >>>>> CSI-2 frame), so the userspace can use that to figure the matching
-> >>>>> frames. While the above method you suggest should give us identical
-> >>>>> sequence numbers for pixel and metadata, I think it's going a bit away
-> >>>>> from my intended purpose, and possibly risks ending up with different
-> >>>>> sequences for pixel and metadata.
-> >>>>
-> >>>> Why do you think they could get out of sync (assuming the sensor
-> >>>> supports frame numbers of course, if it always returns 0, that's not
-> >>>> usable for the purpose of synchronization).
-> >>>
-> >>> If there's a requirement that the sequence starts from 0, it doesn't
-> >>> work, as the pixel and metadata video capture may be started at
-> >>> different times. When pixel capture starts, the frame number could be 10
-> >>> and pixel sequence would be 0, but when metadata capture starts, the
-> >>> frame number could be 12, and pixel seq would thus be 2 and meta seq 0.
-> >>>
-> >>> But even if we allow the seq to start from the current frame number,
-> >>
-> >> Good point. I think we can allow starting at a non-zero value to handle
-> >> this.
-> >>
-> >>> this doesn't work if the frame number has wrapped between starting the
-> >>> pixel capture and starting the meta capture.
-> >>
-> >> The timestamp should be enough to handle this, the timestamp difference
-> >> between two wraparounds should be large enough to sync the two streams
-> >> without any risk.
-> > 
-> > Well, this still won't work, as CAL doesn't know when the sensor's frame 
-> > counter wraps. CAL can detect that the counter has wrapped, but it 
-> > doesn't know if some frames were missed. This leads to the two streams 
-> > getting out of sync.
-> > 
-> > I'll try to figure out if I can somehow handle the frame counter in a 
-> > shared manner, so that multiple streams that originate from the same 
-> > frame would always use the same sequence numbers for same frame numbers.
-> 
-> How about something like this:
-> 
-> commit 22fb554bd2b71fa6d245e2595424639bee0ed604
-> Author: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Date:   Tue Apr 13 11:20:41 2021 +0300
-> 
->      media: ti-vpe: cal: use CSI-2 frame number
->      
->      The userspace needs a way to match received metadata buffers to pixel
->      data buffers. The obvious way to do this is to use the CSI-2 frame
->      number, as both the metadata and the pixel data have the same frame
->      number as they come from the same frame.
->      
->      However, we don't have means to convey the frame number to userspace. We
->      do have the 'sequence' field, which with a few tricks can be used for
->      this purpose.
->      
->      To achieve this, track the frame number for each virtual channel and
->      increase the sequence for each virtual channel by frame-number -
->      previous-frame-number, also taking into account the eventual wrap of the
->      CSI-2 frame number.
->      
->      This way we get a monotonically increasing sequence number which is
->      common to all streams using the same virtual channel.
->      
->      Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> 
-> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> index 82392499e663..3ca629278fd4 100644
-> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> @@ -801,6 +801,8 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
->   	phy->cal = cal;
->   	phy->instance = instance;
->   
-> +	spin_lock_init(&phy->vc_lock);
-> +
->   	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->   						(instance == 0) ?
->   						"cal_rx_core0" :
-> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> index 7a92bb9429d4..0594e47a2c88 100644
-> --- a/drivers/media/platform/ti-vpe/cal.c
-> +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -493,7 +493,22 @@ void cal_ctx_unprepare(struct cal_ctx *ctx)
->   
->   void cal_ctx_start(struct cal_ctx *ctx)
->   {
-> -	ctx->sequence = 0;
-> +	struct cal_camerarx *phy = ctx->phy;
-> +
-> +	/*
-> +	 * Reset the frame number & sequence number, but only if the
-> +	 * virtual channel is not already in use.
-> +	 */
-> +
-> +	spin_lock(&phy->vc_lock);
-> +
-> +	if (phy->vc_enable_count[ctx->vc]++ == 0) {
-> +		phy->vc_frame_number[ctx->vc] = 0;
-> +		phy->vc_sequence[ctx->vc] = 0;
-> +	}
-> +
-> +	spin_unlock(&phy->vc_lock);
-> +
->   	ctx->dma.state = CAL_DMA_RUNNING;
->   
->   	/* Configure the CSI-2, pixel processing and write DMA contexts. */
-> @@ -513,8 +528,15 @@ void cal_ctx_start(struct cal_ctx *ctx)
->   
->   void cal_ctx_stop(struct cal_ctx *ctx)
->   {
-> +	struct cal_camerarx *phy = ctx->phy;
->   	long timeout;
->   
-> +	WARN_ON(phy->vc_enable_count[ctx->vc] == 0);
-> +
-> +	spin_lock(&phy->vc_lock);
-> +	phy->vc_enable_count[ctx->vc]--;
-> +	spin_unlock(&phy->vc_lock);
+Fixes: 0733a77ae78c ("media: atmel: atmel-isc-base: add support for more formats and additional pipeline modules")
+Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+---
+Hello Hans,
 
-Can cal_ctx_start() and cal_ctx_stop() be called concurrently, aren't
-they serialized at higher levels ? You could drop the spinlock in that
-case.
+This should go on top of my ISC series which you sent a PR for :
+https://lore.kernel.org/linux-media/57e15ed1-61c7-0240-5bf3-115de3bbec9c@xs4all.nl/
 
-> +
->   	/*
->   	 * Request DMA stop and wait until it completes. If completion times
->   	 * out, forcefully disable the DMA.
-> @@ -586,7 +608,6 @@ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
->   static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->   {
->   	struct cal_buffer *buf = NULL;
-> -
+I noticed this was introduced with one of the commits.
+It would be great if it can go as a fix for 5.14 , if not together with the
+initial series.
 
-Doesn't checkpatch warn about this ?
+Thanks !
+Eugen
 
->   	spin_lock(&ctx->dma.lock);
->   
->   	/* If the DMA context was stopping, it is now stopped. */
-> @@ -605,9 +626,28 @@ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->   	spin_unlock(&ctx->dma.lock);
->   
->   	if (buf) {
-> +		struct cal_dev *cal = ctx->cal;
-> +		struct cal_camerarx *phy = ctx->phy;
-> +		u32 prev_frame_num, frame_num;
-> +		u8 vc = ctx->vc;
-> +
-> +		frame_num = cal_read(cal, CAL_CSI2_STATUS(ctx->phy->instance,
-> +							  ctx->csi2_ctx)) & 0xffff;
+ .../media/platform/atmel/atmel-sama5d2-isc.c    | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-I'm worried about race conditions here, as this is the DMA end IRQ
-handler. When it the frame number updated in this register ?
-
-> +
-> +		if (phy->vc_frame_number[vc] != frame_num) {
-> +			prev_frame_num = phy->vc_frame_number[vc];
-> +
-> +			if (prev_frame_num > frame_num)
-> +				prev_frame_num = 0;
-
-If we happen to miss a frame when wrapping around, I don't think this
-will produce the right result. We don't know when the counter wraps
-around, so there's not much we can do, except perhaps keeping track of
-the maximum frame number to figure out when it wraps around. It may be
-overkill, I'm not sure.
-
-> +
-> +			phy->vc_sequence[vc] += frame_num - prev_frame_num;
-> +			phy->vc_frame_number[vc] = frame_num;
-> +		}
-> +
->   		buf->vb.vb2_buf.timestamp = ktime_get_ns();
->   		buf->vb.field = ctx->v_fmt.fmt.pix.field;
-> -		buf->vb.sequence = ctx->sequence++;
-> +		buf->vb.sequence = phy->vc_sequence[vc];
-> +
->   		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
->   	}
->   }
-> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> index 400f95485d7c..309413e8a932 100644
-> --- a/drivers/media/platform/ti-vpe/cal.h
-> +++ b/drivers/media/platform/ti-vpe/cal.h
-> @@ -163,6 +163,12 @@ struct cal_camerarx {
->   	struct v4l2_subdev	subdev;
->   	struct media_pad	pads[2];
->   	struct v4l2_mbus_framefmt	formats[2];
-> +
-> +	/* protects the vc_* fields below */
-> +	spinlock_t		vc_lock;
-> +	u8			vc_enable_count[4];
-> +	u8			vc_frame_number[4];
-> +	u32			vc_sequence[4];
->   };
->   
->   struct cal_dev {
-> @@ -217,7 +223,6 @@ struct cal_ctx {
->   	const struct cal_format_info	**active_fmt;
->   	unsigned int		num_active_fmt;
->   
-> -	unsigned int		sequence;
->   	struct vb2_queue	vb_vidq;
->   	u8			dma_ctx;
->   	u8			cport;
-
+diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+index cab2989103f9..34efd12fef55 100644
+--- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
++++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+@@ -255,6 +255,23 @@ void isc_sama5d2_config_rlp(struct isc_device *isc)
+ 	struct regmap *regmap = isc->regmap;
+ 	u32 rlp_mode = isc->config.rlp_cfg_mode;
+ 
++	/*
++	 * In sama5d2, the YUV planar modes and the YUYV modes are treated
++	 * in the same way in RLP register.
++	 * Normally, YYCC mode should be Luma(n) - Color B(n) - Color R (n)
++	 * and YCYC should be Luma(n + 1) - Color B (n) - Luma (n) - Color R (n)
++	 * but in sama5d2, the YCYC mode does not exist, and YYCC must be
++	 * selected for both planar and interleaved modes, as in fact
++	 * both modes are supported.
++	 *
++	 * Thus, if the YCYC mode is selected, replace it with the
++	 * sama5d2-compliant mode which is YYCC .
++	 */
++	if ((rlp_mode & ISC_RLP_CFG_MODE_YCYC) == ISC_RLP_CFG_MODE_YCYC) {
++		rlp_mode &= ~ISC_RLP_CFG_MODE_MASK;
++		rlp_mode |= ISC_RLP_CFG_MODE_YYCC;
++	}
++
+ 	regmap_update_bits(regmap, ISC_RLP_CFG + isc->offsets.rlp,
+ 			   ISC_RLP_CFG_MODE_MASK, rlp_mode);
+ }
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
