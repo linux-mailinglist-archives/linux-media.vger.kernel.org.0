@@ -2,59 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D1DD3A0F04
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 10:52:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 255383A0F77
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 11:16:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237738AbhFIIyp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Jun 2021 04:54:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48122 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232697AbhFIIyo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 04:54:44 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38B6C061574;
-        Wed,  9 Jun 2021 01:52:50 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id c13so12215429plz.0;
-        Wed, 09 Jun 2021 01:52:50 -0700 (PDT)
+        id S233891AbhFIJR5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Jun 2021 05:17:57 -0400
+Received: from mail-pl1-f175.google.com ([209.85.214.175]:39479 "EHLO
+        mail-pl1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231219AbhFIJRz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 05:17:55 -0400
+Received: by mail-pl1-f175.google.com with SMTP id v11so3731822ply.6;
+        Wed, 09 Jun 2021 02:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0/ufYcgj2Y9s6a1RMhi7VQMo9p53LwRlh8d9Dq2wfzM=;
-        b=vTRKqZysWcP96FSwqbugYLTrZBnsE16ht2Geq4llJkc15i+j86llFPvn/t5rr57Ul+
-         H0ygiVWBhLN3qA2zGY9BptJYbj0bVc4PxVqaOaLZm3DmxhAO/JV8xza1xT/VigOvyafm
-         IQT3B/h7U/Ta/JFLVYJp5fSIJnx85620ecKRvxXexKmYWPAPDz6ebPwEfWgRorQvulpM
-         VR+JZP0NCt+NCKJFx1UF5O5D7lnTw9TYd7GLnCImYaLSyug7/uGLVgub0tkJZ6b59XWH
-         XksJfIPqsSa6rqrpbeSojieZdrrvtAfE8jflx6eZX5RbgoOckue22P4kbaAATr+eCzae
-         Wgzg==
+        bh=Zjr34m0AKEScRESKJjmcqpAJJfMFZb3QOIDT6vq0Cqk=;
+        b=FqpzN/73PwZwn8EoGtfkUXC6sl4zaJFXruFcJf5ZzrHID/w7T9FSmPFzX/3OWZFVzI
+         6joY6tbJrV3ECsVOZrt2p5i8DYt64BXFaMOG4TARjyrjf+9rvylW2DFbJd1x1HGy65pO
+         QXO6jZtsy14ek1Yj+Ros44KUYvOLjexQBsz6UgZZ1dZ1vRHsmfjUhiwSufS7+JW5BmVh
+         K0dxwYcKaaK0nQyHf1RfbNpfG/cGWPI6Pwb5lj2mObFL7ARvUvbQfZq0jgWoS6PmLH5x
+         rMq9Y5yK4BWWTnYgBixlb5coqycJZhK2XpA0urzzEnJ35wzsZ51z01S91TnXjJUMD9+o
+         XYtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0/ufYcgj2Y9s6a1RMhi7VQMo9p53LwRlh8d9Dq2wfzM=;
-        b=WcRndjG4rvMunOTBLwOSNtvS9uS/u/0hkXZOELzfPKDxKHmW/D3W5so7NmyecHqBcB
-         7nYoACl+yJUtrGHwtYbEfnsEzW2J3A2Op6AS6eTHRTe83buo4vfklbHillvBFhHTc9U3
-         yW9v9AbM5x9jBBghbLOZD35y4Z0t4UnsIByDFgdryqcpQLt+3ptoFntN4edsmqERRgYT
-         nWQTlmWw+Cgtwf9DegHTH6Somx1JLDxeACj0rrUwIjai5EIAuY1HVwjpzXhVhIF/p/Vq
-         +t2IjrEvyefXoMsfERI8YFLwIP0Tx+S+QOjQ85WRZIeGoA4NutkN5H6ekON8c5ATAAzU
-         yhqA==
-X-Gm-Message-State: AOAM531dCnrgjL3n6vNmafwou0pCk9JXta0KL0kz5Wb095ApKNfysELS
-        Hds67Ztf9xAYzPu9A1os7As=
-X-Google-Smtp-Source: ABdhPJyN1hfxt4FeMFoTiad8gFl9+ulWI8mo+YG2Aa87mjgPJF3aW9wniVsRXvojdhCAxxtuXHJyOA==
-X-Received: by 2002:a17:902:d64c:b029:101:17cb:e63c with SMTP id y12-20020a170902d64cb029010117cbe63cmr4436544plh.3.1623228770031;
-        Wed, 09 Jun 2021 01:52:50 -0700 (PDT)
+        bh=Zjr34m0AKEScRESKJjmcqpAJJfMFZb3QOIDT6vq0Cqk=;
+        b=SP5Kiyj4lvNvdncyMicar6Jb3KrkpxYYhCp3nK7F4hBZ+chuMPnJlD+dQZA7ypT26p
+         TQ3yJcB6YGOSPbj/uuw4SC4fJhrRH170IvM6rhED4gHvBXimkUEe/gLD0FmrvcIv2Ng8
+         o26NopejJoBakZdXg3OaVU/4TRhekHw31uD8LeLqjmA3aEGeNQg7KRfxuqwEmK3dJT63
+         RYs09REU/CWr7mxUbWo4JdTmeLEVwXyeD+cYcSuNj+onYepuWo6+4Rb91kFETbhIvnLR
+         0A+oFF4fDAhSN9L8eiJcVdCFm9HDI70v3iXKtxqsc/6Ibh5s1aMAxTlSbSs4Mvh0cp7d
+         u/lQ==
+X-Gm-Message-State: AOAM530lWTFgFn03bk3l81//3cU2+v86/9EEjme1QzbhBupFy34o8P8k
+        k05bX3gmVj9yQJe2X4gOmwmTfdhIIFZ+Dg==
+X-Google-Smtp-Source: ABdhPJwDucyna3SNcgLSXuVv2bRXWHjmB0XyS06o3opyO8I2OX4ok8mtRP36aJCGLmw5qwirmJF+fA==
+X-Received: by 2002:a17:90b:4a01:: with SMTP id kk1mr4157868pjb.129.1623230101543;
+        Wed, 09 Jun 2021 02:15:01 -0700 (PDT)
 Received: from localhost.localdomain ([103.220.76.197])
-        by smtp.gmail.com with ESMTPSA id mi10sm4188784pjb.10.2021.06.09.01.52.48
+        by smtp.gmail.com with ESMTPSA id t17sm16461261pji.9.2021.06.09.02.14.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 01:52:49 -0700 (PDT)
+        Wed, 09 Jun 2021 02:15:01 -0700 (PDT)
 From:   Herman <herman.yim88@gmail.com>
 X-Google-Original-From: Herman <yanshuaijun@yulong.com>
 To:     mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         hverkuil@xs4all.nl, Herman <yanshuaijun@yulong.com>
-Subject: [PATCH] drivers/media/usb/gspca/zc3xx.c: fix typo Fliker -> Flicker
-Date:   Wed,  9 Jun 2021 16:52:40 +0800
-Message-Id: <20210609085240.9491-1-yanshuaijun@yulong.com>
+Subject: [PATCH] drivers/media/usb/gspca: fix typo Fliker -> Flicker
+Date:   Wed,  9 Jun 2021 17:14:19 +0800
+Message-Id: <20210609091419.10205-1-yanshuaijun@yulong.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -66,9 +63,34 @@ change 'Fliker' into 'Flicker'
 
 Signed-off-by: Herman <yanshuaijun@yulong.com>
 ---
- drivers/media/usb/gspca/zc3xx.c | 134 ++++++++++++++++----------------
- 1 file changed, 67 insertions(+), 67 deletions(-)
+ drivers/media/usb/gspca/vc032x.c |   6 +-
+ drivers/media/usb/gspca/zc3xx.c  | 134 +++++++++++++++----------------
+ 2 files changed, 70 insertions(+), 70 deletions(-)
 
+diff --git a/drivers/media/usb/gspca/vc032x.c b/drivers/media/usb/gspca/vc032x.c
+index 4cb7c92ea132..e7a534be061d 100644
+--- a/drivers/media/usb/gspca/vc032x.c
++++ b/drivers/media/usb/gspca/vc032x.c
+@@ -1796,7 +1796,7 @@ static const u8 ov7660_60HZ[][4] = {
+ 	{}
+ };
+ 
+-static const u8 ov7660_NoFliker[][4] = {
++static const u8 ov7660_NoFlicker[][4] = {
+ 	{0x00, 0x13, 0x87, 0xaa},
+ 	{}
+ };
+@@ -3319,8 +3319,8 @@ static void sethvflip(struct gspca_dev *gspca_dev, bool hflip, bool vflip)
+ static void setlightfreq(struct gspca_dev *gspca_dev, s32 val)
+ {
+ 	struct sd *sd = (struct sd *) gspca_dev;
+-	static const u8 (*ov7660_freq_tb[3])[4] =
+-		{ov7660_NoFliker, ov7660_50HZ, ov7660_60HZ};
++	static const u8 (*ov7660_freq_tb[3])[4] = {
++		ov7660_NoFlicker, ov7660_50HZ, ov7660_60HZ};
+ 
+ 	if (sd->sensor != SENSOR_OV7660)
+ 		return;
 diff --git a/drivers/media/usb/gspca/zc3xx.c b/drivers/media/usb/gspca/zc3xx.c
 index aa285d5d6c0d..5bcbf0d40147 100644
 --- a/drivers/media/usb/gspca/zc3xx.c
