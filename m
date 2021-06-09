@@ -2,56 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 255383A0F77
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 11:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C49A3A10A4
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 12:49:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233891AbhFIJR5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Jun 2021 05:17:57 -0400
-Received: from mail-pl1-f175.google.com ([209.85.214.175]:39479 "EHLO
-        mail-pl1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231219AbhFIJRz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 05:17:55 -0400
-Received: by mail-pl1-f175.google.com with SMTP id v11so3731822ply.6;
-        Wed, 09 Jun 2021 02:16:01 -0700 (PDT)
+        id S238465AbhFIJz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Jun 2021 05:55:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33610 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238448AbhFIJz4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 05:55:56 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D5ABC061574;
+        Wed,  9 Jun 2021 02:54:02 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id o9so16174693pgd.2;
+        Wed, 09 Jun 2021 02:54:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Zjr34m0AKEScRESKJjmcqpAJJfMFZb3QOIDT6vq0Cqk=;
-        b=FqpzN/73PwZwn8EoGtfkUXC6sl4zaJFXruFcJf5ZzrHID/w7T9FSmPFzX/3OWZFVzI
-         6joY6tbJrV3ECsVOZrt2p5i8DYt64BXFaMOG4TARjyrjf+9rvylW2DFbJd1x1HGy65pO
-         QXO6jZtsy14ek1Yj+Ros44KUYvOLjexQBsz6UgZZ1dZ1vRHsmfjUhiwSufS7+JW5BmVh
-         K0dxwYcKaaK0nQyHf1RfbNpfG/cGWPI6Pwb5lj2mObFL7ARvUvbQfZq0jgWoS6PmLH5x
-         rMq9Y5yK4BWWTnYgBixlb5coqycJZhK2XpA0urzzEnJ35wzsZ51z01S91TnXjJUMD9+o
-         XYtA==
+        bh=tCtGWNF4TwG48MYkGWlbxA21RCyiuY4TVJKkx7SKrH4=;
+        b=Cc0Y68OMUYAQ6CdxhsXhAscmskNFGvWcLTMnpkSaAvj2XGZAhWY+2YShfrPFyvz+/n
+         tkZw9TLqgJjpUw+uBeVV0gS+hWYFxZGLXa0fjab7CminGHi1jsoVezmTdbMqYftPDFXK
+         eDl6OmYC72CVuQdfEITczlraL/sZMk4ERvILSaFDpARZkYK2QtBF1Ytcozlzldtymmct
+         DezgJRLck8OFiaAxacJgeoeCoRTNEWzDF3s0BmjHtpk5yg8FFiZBYKk/2TWWfqO1acy3
+         6Ap4PF12AYXfGNK+yNHB9jOzle2rYpSvdYnPzldeX8KbR7H+l7HzXYZXk3I/lTfGbWqj
+         ZYDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Zjr34m0AKEScRESKJjmcqpAJJfMFZb3QOIDT6vq0Cqk=;
-        b=SP5Kiyj4lvNvdncyMicar6Jb3KrkpxYYhCp3nK7F4hBZ+chuMPnJlD+dQZA7ypT26p
-         TQ3yJcB6YGOSPbj/uuw4SC4fJhrRH170IvM6rhED4gHvBXimkUEe/gLD0FmrvcIv2Ng8
-         o26NopejJoBakZdXg3OaVU/4TRhekHw31uD8LeLqjmA3aEGeNQg7KRfxuqwEmK3dJT63
-         RYs09REU/CWr7mxUbWo4JdTmeLEVwXyeD+cYcSuNj+onYepuWo6+4Rb91kFETbhIvnLR
-         0A+oFF4fDAhSN9L8eiJcVdCFm9HDI70v3iXKtxqsc/6Ibh5s1aMAxTlSbSs4Mvh0cp7d
-         u/lQ==
-X-Gm-Message-State: AOAM530lWTFgFn03bk3l81//3cU2+v86/9EEjme1QzbhBupFy34o8P8k
-        k05bX3gmVj9yQJe2X4gOmwmTfdhIIFZ+Dg==
-X-Google-Smtp-Source: ABdhPJwDucyna3SNcgLSXuVv2bRXWHjmB0XyS06o3opyO8I2OX4ok8mtRP36aJCGLmw5qwirmJF+fA==
-X-Received: by 2002:a17:90b:4a01:: with SMTP id kk1mr4157868pjb.129.1623230101543;
-        Wed, 09 Jun 2021 02:15:01 -0700 (PDT)
+        bh=tCtGWNF4TwG48MYkGWlbxA21RCyiuY4TVJKkx7SKrH4=;
+        b=lWdgz0TskfgN5AJdAk17xartlOf1EB/+kQHD9iOK/BFaxq5a8mJ2e74W6D43sMxr10
+         NAp7eRd/e5QQolp7lWPimVttcKx0I/sXGRU5e5MWTC53BcHFxPVG3dEgJJIBGg7ugWBs
+         JS/2QbVVlIFL8aB4DBpq9LqQcTfN8c+6GvxuotgHW85rif5ETEN5j64PrfvjNmd+xV2J
+         vMUVTPF2RH5v7xwtZaIiopJqnaCrl4vHqo9G4uaYcj6E90+OigeWr6VrqfvbRwcURR7h
+         FesK56YnPBr9zAZpVszTy25I4Cixe3M/1H/j2Is1zSKb1bfit7yK0+rT/GxZkE/V0ciL
+         syPg==
+X-Gm-Message-State: AOAM530iAXQU/kqtBni39JM38tw+fg+uGe5+gadzaPlkJ++hWsDXUqa6
+        zPcAPAyQHzooC8YB3oYoBoM=
+X-Google-Smtp-Source: ABdhPJxGREgsghBNQmObupSY1hDr3PcqwUGALDTgKih9n7E/NmPqIbIHVgfnJAPKkZcXmFYIwsRccQ==
+X-Received: by 2002:a63:1022:: with SMTP id f34mr3046275pgl.334.1623232441805;
+        Wed, 09 Jun 2021 02:54:01 -0700 (PDT)
 Received: from localhost.localdomain ([103.220.76.197])
-        by smtp.gmail.com with ESMTPSA id t17sm16461261pji.9.2021.06.09.02.14.59
+        by smtp.gmail.com with ESMTPSA id v11sm4785496pju.27.2021.06.09.02.53.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 02:15:01 -0700 (PDT)
+        Wed, 09 Jun 2021 02:54:00 -0700 (PDT)
 From:   Herman <herman.yim88@gmail.com>
 X-Google-Original-From: Herman <yanshuaijun@yulong.com>
 To:     mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         hverkuil@xs4all.nl, Herman <yanshuaijun@yulong.com>
-Subject: [PATCH] drivers/media/usb/gspca: fix typo Fliker -> Flicker
-Date:   Wed,  9 Jun 2021 17:14:19 +0800
-Message-Id: <20210609091419.10205-1-yanshuaijun@yulong.com>
+Subject: [PATCH v2] drivers/media/usb/gspca: fix typo Fliker -> Flicker
+Date:   Wed,  9 Jun 2021 17:53:22 +0800
+Message-Id: <20210609095322.10360-1-yanshuaijun@yulong.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,10 +62,14 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-change 'Fliker' into 'Flicker'
+Change 'Fliker' into 'Flicker'.
 
 Signed-off-by: Herman <yanshuaijun@yulong.com>
 ---
+
+v2 : drivers/media/usb/gspca/vc032x.c Fliker > Flicker
+v1 : drivers/media/usb/gspca/zc3xx.c  Fliker > Flicker
+
  drivers/media/usb/gspca/vc032x.c |   6 +-
  drivers/media/usb/gspca/zc3xx.c  | 134 +++++++++++++++----------------
  2 files changed, 70 insertions(+), 70 deletions(-)
