@@ -2,98 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06FA63A0AB8
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 05:38:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB0443A0AD0
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 05:43:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236495AbhFIDkJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Jun 2021 23:40:09 -0400
-Received: from mail-pl1-f172.google.com ([209.85.214.172]:46891 "EHLO
-        mail-pl1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236493AbhFIDkI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Jun 2021 23:40:08 -0400
-Received: by mail-pl1-f172.google.com with SMTP id e1so11807179pld.13;
-        Tue, 08 Jun 2021 20:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k+n/pA6p3AzaSZEumNtpsPgnM1a8UgNMxk8Yo9VkS/0=;
-        b=ECa21rCsZv0K+oxyaQ0e9LtETPxuIH/smkpkOgMI0YEhKkyRC2nDCwk4ZBkeN4+uI5
-         aiiaTD+nh+ec7HkTXSemgnpCI99ff96FvONAAR31orVfeemrxkOAsdn6PackTgEr9Gyj
-         QyM/hjeiOp4hUyy8YRcpUhqIBOORnMC3SlN/NCddhSRkp79mKL6Rywa4TCRVqNbrR7sr
-         wNgQZgVtZ5gaDzdoV4nlYDH9Bn09Bhd/sAqkmcZdvNEaREK8OGlkNJfgtDYeia8cqBYw
-         z0jM3bnMIWhBUeXA0FQzWHtGBI+xPrBBroKqYY81sFWdAH9nO2HaLH9VjaXyRp3YOxI3
-         vu9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k+n/pA6p3AzaSZEumNtpsPgnM1a8UgNMxk8Yo9VkS/0=;
-        b=PYRv2gRaHRs7/V2rIKZZGXt1HvydP/7mLi5nTz9CX3YkLx7FvQQBclnm8q3OonfCXF
-         i8PS7ykzVpyTSx3o6PA2wFCxg6R+qjbxGxvKDiPcUVBjSPAoY0/rAV4bGlv4vimJ7UWf
-         Hj6K1O68xt6EQsMwHfK3LNiY963iGlIsQYzGbwKc/H0nhxxAjtwgF3fw0clFhR77K+w6
-         wNtraOotTQekQ/Vq2w8lngwOSrdtxoAwvUWgXMjem8ZAyfAfrxbRJGwByXq9zGlMZL4j
-         pz+5PUOVZCkFKWvnwf6NHkMw2wgwpEE7vXw4wHYY3GUNjw2Hm0kupunjSt4yhMjjkOX6
-         rmbg==
-X-Gm-Message-State: AOAM532LkQnmCzVPyZ+bmlzlHp+MwM6Cmma/Q+1d7O/WkG1Ouqn7KEuz
-        6ivV/t2zvg7iqpwut4E9fmQDLkM75jRofA==
-X-Google-Smtp-Source: ABdhPJwmJtdf+n0jjAMpN3ddngR2DsAl6EUB0Atlemu7ajAh0g6Y5YsiByNLJme2T7eZMFwhkq8msA==
-X-Received: by 2002:a17:90a:b94c:: with SMTP id f12mr29729708pjw.32.1623209819220;
-        Tue, 08 Jun 2021 20:36:59 -0700 (PDT)
-Received: from localhost.localdomain ([103.220.76.197])
-        by smtp.gmail.com with ESMTPSA id b23sm11731099pfi.34.2021.06.08.20.36.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 20:36:58 -0700 (PDT)
-From:   Herman <herman.yim88@gmail.com>
-X-Google-Original-From: Herman <yanshuaijun@yulong.com>
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Herman <yanshuaijun@yulong.com>
-Subject: [PATCH] drivers/media/usb/gspca: fix typo issues
-Date:   Wed,  9 Jun 2021 11:32:45 +0800
-Message-Id: <20210609033245.3410-1-yanshuaijun@yulong.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S236552AbhFIDpN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Jun 2021 23:45:13 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:58489 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233525AbhFIDpM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Jun 2021 23:45:12 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qp7Zlxyxjhg8Zqp7bl9K6g; Wed, 09 Jun 2021 05:43:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623210196; bh=wyCHHtnjUwPcp9AhKCXj3UmNbX/agi6U/ybcBZO2DwY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=K7MvHhLkteKjTjAd5lk/5EqNpD1SPOyqCSi6Xoz9AWJQGGuwiySCxhdFqq/z9wQVS
+         ykBldGX+wf5iJ2Dq2edDzqSeZQfOfDEq/dmrNxGrz/2TV70l9PTr9HTAdwB6t7hQas
+         GZCQ46NaK3fJwhVHnrjHj8aD8k5NL+IzA3diIDQJLU2rH8vk16bGlD6/SmFq/ntv2a
+         sfRTMccnDK1IwjOml2E/gJMPlvjs5E7UDWWnW6xdZQB700w2NqLLaSmrCRbelxBEqY
+         TwGfv4OrRF5NvLqqA9UUIMHsBk9HugmUDtnuq4RlV1lefQqSfMvzKCZ0KJeyWcNBR4
+         MxOxBxmAffdEQ==
+Message-ID: <03ebd4416f0ee7bb5ac3415f30ef2063@smtp-cloud9.xs4all.net>
+Date:   Wed, 09 Jun 2021 05:43:13 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfDaRxsLCdtw8+lpD94p6wmqj66sm9UXavZoMZI1WRC/2E0yQnk74eXzxq2lFxF+WErXjmMTqeW5gbtwlm5/w9oM5nmLqB2OOQkGEhcVuf3fNw+7BWglH
+ YW99fVWPVtBrr0mfsmds/nRyo41jzWL5L0jiC/+gTSk5dXAl5Jg96sMGWM4vp5WCTS6hNbPPcIudKePIeb9Esc/ZB8gciywLidaj9a0kp/8Jiuvl13HV1c3T
+ p/tjtfQMTV72LOhz8MWV8w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-spca501.c : remove redundant 'is'
-zc3xx.c   : change 'outdoore' into 'outdoor'
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Herman <yanshuaijun@yulong.com>
----
- drivers/media/usb/gspca/spca501.c | 2 +-
- drivers/media/usb/gspca/zc3xx.c   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/usb/gspca/spca501.c b/drivers/media/usb/gspca/spca501.c
-index ecc97f807cfa..f7c75d7535c4 100644
---- a/drivers/media/usb/gspca/spca501.c
-+++ b/drivers/media/usb/gspca/spca501.c
-@@ -488,7 +488,7 @@ static const __u16 spca501_init_data[][3] = {
- 
- /* Data for video camera init before capture.
-  * Capture and decoding by Colin Peart.
-- * This is is for the 3com HomeConnect Lite which is spca501a based.
-+ * This is for the 3com HomeConnect Lite which is spca501a based.
-  */
- static const __u16 spca501_3com_open_data[][3] = {
- 	/* bmRequest,value,index */
-diff --git a/drivers/media/usb/gspca/zc3xx.c b/drivers/media/usb/gspca/zc3xx.c
-index aa285d5d6c0d..1bbf8071dde0 100644
---- a/drivers/media/usb/gspca/zc3xx.c
-+++ b/drivers/media/usb/gspca/zc3xx.c
-@@ -5806,7 +5806,7 @@ static void setquality(struct gspca_dev *gspca_dev)
-  * Valid frequencies are:
-  *	50Hz, for European and Asian lighting (default)
-  *	60Hz, for American lighting
-- *	0 = No Fliker (for outdoore usage)
-+ *	0 = No Fliker (for outdoor usage)
-  */
- static void setlightfreq(struct gspca_dev *gspca_dev, s32 val)
- {
--- 
-2.25.1
+date:			Wed Jun  9 05:00:12 CEST 2021
+media-tree git hash:	5b448065febe1c6bb6693735844f2fb2b7b654dc
+media_build git hash:	691fbc9868c51f0b82bc0d67a9c1ae2e566c8dde
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7445-g58776ae33
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: ERRORS
+linux-4.4.258-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.258-i686: ERRORS
+linux-4.9.258-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13-rc1-i686: OK
+linux-5.13-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
