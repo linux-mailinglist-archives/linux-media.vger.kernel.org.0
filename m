@@ -2,59 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C49A3A10A4
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 12:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1039D3A10CE
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 12:49:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238465AbhFIJz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Jun 2021 05:55:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33610 "EHLO
+        id S238610AbhFIKEp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Jun 2021 06:04:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238448AbhFIJz4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 05:55:56 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D5ABC061574;
-        Wed,  9 Jun 2021 02:54:02 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id o9so16174693pgd.2;
-        Wed, 09 Jun 2021 02:54:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tCtGWNF4TwG48MYkGWlbxA21RCyiuY4TVJKkx7SKrH4=;
-        b=Cc0Y68OMUYAQ6CdxhsXhAscmskNFGvWcLTMnpkSaAvj2XGZAhWY+2YShfrPFyvz+/n
-         tkZw9TLqgJjpUw+uBeVV0gS+hWYFxZGLXa0fjab7CminGHi1jsoVezmTdbMqYftPDFXK
-         eDl6OmYC72CVuQdfEITczlraL/sZMk4ERvILSaFDpARZkYK2QtBF1Ytcozlzldtymmct
-         DezgJRLck8OFiaAxacJgeoeCoRTNEWzDF3s0BmjHtpk5yg8FFiZBYKk/2TWWfqO1acy3
-         6Ap4PF12AYXfGNK+yNHB9jOzle2rYpSvdYnPzldeX8KbR7H+l7HzXYZXk3I/lTfGbWqj
-         ZYDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tCtGWNF4TwG48MYkGWlbxA21RCyiuY4TVJKkx7SKrH4=;
-        b=lWdgz0TskfgN5AJdAk17xartlOf1EB/+kQHD9iOK/BFaxq5a8mJ2e74W6D43sMxr10
-         NAp7eRd/e5QQolp7lWPimVttcKx0I/sXGRU5e5MWTC53BcHFxPVG3dEgJJIBGg7ugWBs
-         JS/2QbVVlIFL8aB4DBpq9LqQcTfN8c+6GvxuotgHW85rif5ETEN5j64PrfvjNmd+xV2J
-         vMUVTPF2RH5v7xwtZaIiopJqnaCrl4vHqo9G4uaYcj6E90+OigeWr6VrqfvbRwcURR7h
-         FesK56YnPBr9zAZpVszTy25I4Cixe3M/1H/j2Is1zSKb1bfit7yK0+rT/GxZkE/V0ciL
-         syPg==
-X-Gm-Message-State: AOAM530iAXQU/kqtBni39JM38tw+fg+uGe5+gadzaPlkJ++hWsDXUqa6
-        zPcAPAyQHzooC8YB3oYoBoM=
-X-Google-Smtp-Source: ABdhPJxGREgsghBNQmObupSY1hDr3PcqwUGALDTgKih9n7E/NmPqIbIHVgfnJAPKkZcXmFYIwsRccQ==
-X-Received: by 2002:a63:1022:: with SMTP id f34mr3046275pgl.334.1623232441805;
-        Wed, 09 Jun 2021 02:54:01 -0700 (PDT)
-Received: from localhost.localdomain ([103.220.76.197])
-        by smtp.gmail.com with ESMTPSA id v11sm4785496pju.27.2021.06.09.02.53.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 02:54:00 -0700 (PDT)
-From:   Herman <herman.yim88@gmail.com>
-X-Google-Original-From: Herman <yanshuaijun@yulong.com>
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hverkuil@xs4all.nl, Herman <yanshuaijun@yulong.com>
-Subject: [PATCH v2] drivers/media/usb/gspca: fix typo Fliker -> Flicker
-Date:   Wed,  9 Jun 2021 17:53:22 +0800
-Message-Id: <20210609095322.10360-1-yanshuaijun@yulong.com>
+        with ESMTP id S234154AbhFIKEo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 06:04:44 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 212AEC061574
+        for <linux-media@vger.kernel.org>; Wed,  9 Jun 2021 03:02:50 -0700 (PDT)
+Received: from deskari.lan (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D29E46E;
+        Wed,  9 Jun 2021 12:02:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623232968;
+        bh=GbYfgZonnjhBLAHwop0wLZcj3AGkZX0JX4eJ8zHQSPU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DgkLFuZR8MBivTxQJCGvk1x8ADiADlk7XnvGzVTgZat4oMM7RzOJWCsl09t2mlruq
+         daSQYo+mCpHDvgu+RaRzZFzT7N1RLXXv7de+pt9R+Op7gQfDpfB215TekjrC07KToF
+         GfErb2TjK6gZN7TgrINa+uop2SfPhXw0gyZoQcfw=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 0/1] media: v4l2-subdev: add subdev-wide state struct
+Date:   Wed,  9 Jun 2021 13:02:27 +0300
+Message-Id: <20210609100228.278798-1-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -62,426 +41,189 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Change 'Fliker' into 'Flicker'.
+Hi,
 
-Signed-off-by: Herman <yanshuaijun@yulong.com>
----
+v3 of the patch. I rebased on top of latest linux-media, and applied the
+semantic patch. I've addressed Laurent's comment (fix kfree, kernel doc
+fixes, return cleanup).
 
-v2 : drivers/media/usb/gspca/vc032x.c Fliker > Flicker
-v1 : drivers/media/usb/gspca/zc3xx.c  Fliker > Flicker
+v2 can be found from:
 
- drivers/media/usb/gspca/vc032x.c |   6 +-
- drivers/media/usb/gspca/zc3xx.c  | 134 +++++++++++++++----------------
- 2 files changed, 70 insertions(+), 70 deletions(-)
+https://lore.kernel.org/linux-media/20210527094244.617473-1-tomi.valkeinen@ideasonboard.com/
 
-diff --git a/drivers/media/usb/gspca/vc032x.c b/drivers/media/usb/gspca/vc032x.c
-index 4cb7c92ea132..e7a534be061d 100644
---- a/drivers/media/usb/gspca/vc032x.c
-+++ b/drivers/media/usb/gspca/vc032x.c
-@@ -1796,7 +1796,7 @@ static const u8 ov7660_60HZ[][4] = {
- 	{}
- };
- 
--static const u8 ov7660_NoFliker[][4] = {
-+static const u8 ov7660_NoFlicker[][4] = {
- 	{0x00, 0x13, 0x87, 0xaa},
- 	{}
- };
-@@ -3319,8 +3319,8 @@ static void sethvflip(struct gspca_dev *gspca_dev, bool hflip, bool vflip)
- static void setlightfreq(struct gspca_dev *gspca_dev, s32 val)
- {
- 	struct sd *sd = (struct sd *) gspca_dev;
--	static const u8 (*ov7660_freq_tb[3])[4] =
--		{ov7660_NoFliker, ov7660_50HZ, ov7660_60HZ};
-+	static const u8 (*ov7660_freq_tb[3])[4] = {
-+		ov7660_NoFlicker, ov7660_50HZ, ov7660_60HZ};
- 
- 	if (sd->sensor != SENSOR_OV7660)
- 		return;
-diff --git a/drivers/media/usb/gspca/zc3xx.c b/drivers/media/usb/gspca/zc3xx.c
-index aa285d5d6c0d..5bcbf0d40147 100644
---- a/drivers/media/usb/gspca/zc3xx.c
-+++ b/drivers/media/usb/gspca/zc3xx.c
-@@ -323,7 +323,7 @@ static const struct usb_action adcm2700_60HZ[] = {
- 	{0xaa, 0x28, 0x0002},				/* 00,28,02,aa */
- 	{}
- };
--static const struct usb_action adcm2700_NoFliker[] = {
-+static const struct usb_action adcm2700_NoFlicker[] = {
- 	{0xa0, 0x01, ZC3XX_R010_CMOSSENSORSELECT},	/* 00,10,01,cc */
- 	{0xaa, 0xfe, 0x0002},				/* 00,fe,02,aa */
- 	{0xa0, 0x0a, ZC3XX_R010_CMOSSENSORSELECT},	/* 00,10,0a,cc */
-@@ -525,7 +525,7 @@ static const struct usb_action cs2102_60HZ[] = {
- 	{0xa0, 0xff, ZC3XX_R020_HSYNC_3},
- 	{}
- };
--static const struct usb_action cs2102_NoFlikerScale[] = {
-+static const struct usb_action cs2102_NoFlickerScale[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},
- 	{0xaa, 0x23, 0x0001},
- 	{0xaa, 0x24, 0x005f},
-@@ -547,7 +547,7 @@ static const struct usb_action cs2102_NoFlikerScale[] = {
- 	{0xa0, 0xff, ZC3XX_R020_HSYNC_3},
- 	{}
- };
--static const struct usb_action cs2102_NoFliker[] = {
-+static const struct usb_action cs2102_NoFlicker[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},
- 	{0xaa, 0x23, 0x0000},
- 	{0xaa, 0x24, 0x00af},
-@@ -1385,7 +1385,7 @@ static const struct usb_action gc0305_60HZ[] = {
- 	{}
- };
- 
--static const struct usb_action gc0305_NoFliker[] = {
-+static const struct usb_action gc0305_NoFlicker[] = {
- 	{0xa0, 0x0c, ZC3XX_R100_OPERATIONMODE},	/* 01,00,0c,cc */
- 	{0xaa, 0x82, 0x0000},	/* 00,82,00,aa */
- 	{0xaa, 0x83, 0x0000},	/* 00,83,00,aa */
-@@ -1710,7 +1710,7 @@ static const struct usb_action hdcs2020_60HZ[] = {
- 	{0xa0, 0x2c, ZC3XX_R01F_HSYNC_2}, /* 00,1f,2c,cc */
- 	{}
- };
--static const struct usb_action hdcs2020_NoFliker[] = {
-+static const struct usb_action hdcs2020_NoFlicker[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS}, /* 00,19,00,cc */
- 	{0xaa, 0x13, 0x0010},			/* 00,13,10,aa */
- 	{0xaa, 0x14, 0x0001},			/* 00,14,01,aa */
-@@ -1925,7 +1925,7 @@ static const struct usb_action hv7131b_60HZScale[] = {	/* 320x240 */
- 	{0xa0, 0x40, ZC3XX_R020_HSYNC_3},	/* 00,20,40,cc */
- 	{}
- };
--static const struct usb_action hv7131b_NoFliker[] = {	/* 640x480*/
-+static const struct usb_action hv7131b_NoFlicker[] = {	/* 640x480*/
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},	/* 00,19,00,cc */
- 	{0xaa, 0x25, 0x0003},			/* 00,25,03,aa */
- 	{0xaa, 0x26, 0x0000},			/* 00,26,00,aa */
-@@ -1950,7 +1950,7 @@ static const struct usb_action hv7131b_NoFliker[] = {	/* 640x480*/
- 	{0xa0, 0x03, ZC3XX_R020_HSYNC_3},	/* 00,20,03,cc */
- 	{}
- };
--static const struct usb_action hv7131b_NoFlikerScale[] = { /* 320x240 */
-+static const struct usb_action hv7131b_NoFlickerScale[] = { /* 320x240 */
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},	/* 00,19,00,cc */
- 	{0xaa, 0x25, 0x0003},			/* 00,25,03,aa */
- 	{0xaa, 0x26, 0x0000},			/* 00,26,00,aa */
-@@ -2141,7 +2141,7 @@ static const struct usb_action hv7131r_60HZScale[] = {
- 	{0xa0, 0x08, ZC3XX_R020_HSYNC_3},
- 	{}
- };
--static const struct usb_action hv7131r_NoFliker[] = {
-+static const struct usb_action hv7131r_NoFlicker[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},
- 	{0xa0, 0x2f, ZC3XX_R190_EXPOSURELIMITHIGH},
- 	{0xa0, 0xf8, ZC3XX_R191_EXPOSURELIMITMID},
-@@ -2159,7 +2159,7 @@ static const struct usb_action hv7131r_NoFliker[] = {
- 	{0xa0, 0x08, ZC3XX_R020_HSYNC_3},
- 	{}
- };
--static const struct usb_action hv7131r_NoFlikerScale[] = {
-+static const struct usb_action hv7131r_NoFlickerScale[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},
- 	{0xa0, 0x2f, ZC3XX_R190_EXPOSURELIMITHIGH},
- 	{0xa0, 0xf8, ZC3XX_R191_EXPOSURELIMITMID},
-@@ -2662,7 +2662,7 @@ static const struct usb_action icm105a_60HZ[] = {
- 	{0xa0, 0xc0, ZC3XX_R1A8_DIGITALGAIN}, /* 01,a8,c0,cc */
- 	{}
- };
--static const struct usb_action icm105a_NoFlikerScale[] = {
-+static const struct usb_action icm105a_NoFlickerScale[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS}, /* 00,19,00,cc */
- 	{0xaa, 0x0d, 0x0003}, /* 00,0d,03,aa */
- 	{0xaa, 0x0c, 0x0004}, /* 00,0c,04,aa */
-@@ -2693,7 +2693,7 @@ static const struct usb_action icm105a_NoFlikerScale[] = {
- 	{0xa0, 0xff, ZC3XX_R020_HSYNC_3}, /* 00,20,ff,cc */
- 	{}
- };
--static const struct usb_action icm105a_NoFliker[] = {
-+static const struct usb_action icm105a_NoFlicker[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS}, /* 00,19,00,cc */
- 	{0xaa, 0x0d, 0x0003}, /* 00,0d,03,aa */
- 	{0xaa, 0x0c, 0x0004}, /* 00,0c,04,aa */
-@@ -3009,7 +3009,7 @@ static const struct usb_action mc501cb_60HZScale[] = {
- 	{}
- };
- 
--static const struct usb_action mc501cb_NoFliker[] = {
-+static const struct usb_action mc501cb_NoFlicker[] = {
- 	{0xaa, 0x03, 0x0003}, /* 00,03,03,aa */
- 	{0xaa, 0x10, 0x00fc}, /* 00,10,fc,aa */
- 	{0xaa, 0x36, 0x0018}, /* 00,36,18,aa */
-@@ -3021,7 +3021,7 @@ static const struct usb_action mc501cb_NoFliker[] = {
- 	{}
- };
- 
--static const struct usb_action mc501cb_NoFlikerScale[] = {
-+static const struct usb_action mc501cb_NoFlickerScale[] = {
- 	{0xaa, 0x03, 0x0003}, /* 00,03,03,aa */
- 	{0xaa, 0x10, 0x00fc}, /* 00,10,fc,aa */
- 	{0xaa, 0x36, 0x0030}, /* 00,36,30,aa */
-@@ -3211,7 +3211,7 @@ static const struct usb_action ov7620_60HZ[] = {
- 	{0xa1, 0x01, 0x0037},		*/
- 	{}
- };
--static const struct usb_action ov7620_NoFliker[] = {
-+static const struct usb_action ov7620_NoFlicker[] = {
- 	{0xdd, 0x00, 0x0100},			/* 00,01,00,dd */
- 	{0xaa, 0x2b, 0x0000},			/* 00,2b,00,aa */
- 	/* disable 1/120s & 1/100s exposures for banding filter */
-@@ -3827,7 +3827,7 @@ static const struct usb_action pas106b_60HZ[] = {
- 	{0xa0, 0x04, ZC3XX_R1A9_DIGITALLIMITDIFF}, /* 01,a9,04,cc */
- 	{}
- };
--static const struct usb_action pas106b_NoFliker[] = {
-+static const struct usb_action pas106b_NoFlicker[] = {
- 	{0xa0, 0x00, ZC3XX_R190_EXPOSURELIMITHIGH}, /* 01,90,00,cc */
- 	{0xa0, 0x06, ZC3XX_R191_EXPOSURELIMITMID}, /* 01,91,06,cc */
- 	{0xa0, 0x50, ZC3XX_R192_EXPOSURELIMITLOW}, /* 01,92,50,cc */
-@@ -4051,7 +4051,7 @@ static const struct usb_action pas202b_60HZScale[] = {
- 	{0xa0, 0x0e, ZC3XX_R088_EXPTIMELOW},		/* 00,88,0e,cc */
- 	{}
- };
--static const struct usb_action pas202b_NoFliker[] = {
-+static const struct usb_action pas202b_NoFlicker[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},		/* 00,19,00,cc */
- 	{0xa0, 0x20, ZC3XX_R087_EXPTIMEMID},		/* 00,87,20,cc */
- 	{0xa0, 0x21, ZC3XX_R088_EXPTIMELOW},		/* 00,88,21,cc */
-@@ -4080,7 +4080,7 @@ static const struct usb_action pas202b_NoFliker[] = {
- 	{0xa0, 0x0e, ZC3XX_R088_EXPTIMELOW},		/* 00,88,0e,cc */
- 	{}
- };
--static const struct usb_action pas202b_NoFlikerScale[] = {
-+static const struct usb_action pas202b_NoFlickerScale[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},		/* 00,19,00,cc */
- 	{0xa0, 0x20, ZC3XX_R087_EXPTIMEMID},		/* 00,87,20,cc */
- 	{0xa0, 0x21, ZC3XX_R088_EXPTIMELOW},		/* 00,88,21,cc */
-@@ -4309,7 +4309,7 @@ static const struct usb_action mt9v111_1_AE60HZScale[] = {
- 	{0xa0, 0x42, ZC3XX_R180_AUTOCORRECTENABLE},
- 	{}
- };
--static const struct usb_action mt9v111_1_AENoFliker[] = {
-+static const struct usb_action mt9v111_1_AENoFlicker[] = {
- 	{0xa0, 0x00, ZC3XX_R180_AUTOCORRECTENABLE},
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},
- 	{0xbb, 0x00, 0x0509},
-@@ -4332,7 +4332,7 @@ static const struct usb_action mt9v111_1_AENoFliker[] = {
- 	{0xa0, 0x42, ZC3XX_R180_AUTOCORRECTENABLE},
- 	{}
- };
--static const struct usb_action mt9v111_1_AENoFlikerScale[] = {
-+static const struct usb_action mt9v111_1_AENoFlickerScale[] = {
- 	{0xa0, 0x00, ZC3XX_R180_AUTOCORRECTENABLE},
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},
- 	{0xbb, 0x00, 0x0534},
-@@ -4554,7 +4554,7 @@ static const struct usb_action mt9v111_3_AE60HZScale[] = {
- 	{0xa0, 0x42, ZC3XX_R180_AUTOCORRECTENABLE},
- 	{}
- };
--static const struct usb_action mt9v111_3_AENoFliker[] = {
-+static const struct usb_action mt9v111_3_AENoFlicker[] = {
- 	{0xa0, 0x00, ZC3XX_R180_AUTOCORRECTENABLE},
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},
- 	{0xaa, 0x05, 0x0034},
-@@ -4577,7 +4577,7 @@ static const struct usb_action mt9v111_3_AENoFliker[] = {
- 	{0xa0, 0x42, ZC3XX_R180_AUTOCORRECTENABLE},
- 	{}
- };
--static const struct usb_action mt9v111_3_AENoFlikerScale[] = {
-+static const struct usb_action mt9v111_3_AENoFlickerScale[] = {
- 	{0xa0, 0x00, ZC3XX_R180_AUTOCORRECTENABLE},
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},
- 	{0xaa, 0x05, 0x0034},
-@@ -4787,7 +4787,7 @@ static const struct usb_action pb0330_60HZScale[] = {
- 	{0xa0, 0xd0, ZC3XX_R020_HSYNC_3},
- 	{}
- };
--static const struct usb_action pb0330_NoFliker[] = {
-+static const struct usb_action pb0330_NoFlicker[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},
- 	{0xbb, 0x00, 0x0509},
- 	{0xbb, 0x02, 0x0940},
-@@ -4809,7 +4809,7 @@ static const struct usb_action pb0330_NoFliker[] = {
- 	{0xa0, 0xe0, ZC3XX_R020_HSYNC_3},
- 	{}
- };
--static const struct usb_action pb0330_NoFlikerScale[] = {
-+static const struct usb_action pb0330_NoFlickerScale[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS},
- 	{0xbb, 0x00, 0x0535},
- 	{0xbb, 0x01, 0x0980},
-@@ -5031,7 +5031,7 @@ static const struct usb_action po2030_60HZ[] = {
- 	{}
- };
- 
--static const struct usb_action po2030_NoFliker[] = {
-+static const struct usb_action po2030_NoFlicker[] = {
- 	{0xa0, 0x02, ZC3XX_R180_AUTOCORRECTENABLE}, /* 01,80,02,cc */
- 	{0xaa, 0x8d, 0x000d}, /* 00,8d,0d,aa */
- 	{0xaa, 0x1a, 0x0000}, /* 00,1a,00,aa */
-@@ -5215,7 +5215,7 @@ static const struct usb_action tas5130c_60HZScale[] = {
- 	{0xa0, 0x50, ZC3XX_R11D_GLOBALGAIN},
- 	{}
- };
--static const struct usb_action tas5130c_NoFliker[] = {
-+static const struct usb_action tas5130c_NoFlicker[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS}, /* 00,19,00,cc */
- 	{0xaa, 0xa3, 0x0001}, /* 00,a3,01,aa */
- 	{0xaa, 0xa4, 0x0040}, /* 00,a4,40,aa */
-@@ -5241,7 +5241,7 @@ static const struct usb_action tas5130c_NoFliker[] = {
- 	{}
- };
- 
--static const struct usb_action tas5130c_NoFlikerScale[] = {
-+static const struct usb_action tas5130c_NoFlickerScale[] = {
- 	{0xa0, 0x00, ZC3XX_R019_AUTOADJUSTFPS}, /* 00,19,00,cc */
- 	{0xaa, 0xa3, 0x0001}, /* 00,a3,01,aa */
- 	{0xaa, 0xa4, 0x0090}, /* 00,a4,90,aa */
-@@ -5482,7 +5482,7 @@ static const struct usb_action gc0303_60HZScale[] = {
- 	{}
- };
- 
--static const struct usb_action gc0303_NoFliker[] = {
-+static const struct usb_action gc0303_NoFlicker[] = {
- 	{0xa0, 0x0c, ZC3XX_R100_OPERATIONMODE},		/* 01,00,0c,cc, */
- 	{0xaa, 0x82, 0x0000},		/* 00,82,00,aa */
- 	{0xaa, 0x83, 0x0000},		/* 00,83,00,aa */
-@@ -5504,7 +5504,7 @@ static const struct usb_action gc0303_NoFliker[] = {
- 	{}
- };
- 
--static const struct usb_action gc0303_NoFlikerScale[] = {
-+static const struct usb_action gc0303_NoFlickerScale[] = {
- 	{0xa0, 0x0c, ZC3XX_R100_OPERATIONMODE},		/* 01,00,0c,cc, */
- 	{0xaa, 0x82, 0x0000},		/* 00,82,00,aa */
- 	{0xaa, 0x83, 0x0000},		/* 00,83,00,aa */
-@@ -5806,7 +5806,7 @@ static void setquality(struct gspca_dev *gspca_dev)
-  * Valid frequencies are:
-  *	50Hz, for European and Asian lighting (default)
-  *	60Hz, for American lighting
-- *	0 = No Fliker (for outdoore usage)
-+ *	0 = No Flicker (for outdoor usage)
-  */
- static void setlightfreq(struct gspca_dev *gspca_dev, s32 val)
- {
-@@ -5814,80 +5814,80 @@ static void setlightfreq(struct gspca_dev *gspca_dev, s32 val)
- 	int i, mode;
- 	const struct usb_action *zc3_freq;
- 	static const struct usb_action *freq_tb[SENSOR_MAX][6] = {
--	[SENSOR_ADCM2700] =
--		{adcm2700_NoFliker, adcm2700_NoFliker,
-+	[SENSOR_ADCM2700] = {
-+		 adcm2700_NoFlicker, adcm2700_NoFlicker,
- 		 adcm2700_50HZ, adcm2700_50HZ,
- 		 adcm2700_60HZ, adcm2700_60HZ},
--	[SENSOR_CS2102] =
--		{cs2102_NoFliker, cs2102_NoFlikerScale,
-+	[SENSOR_CS2102] = {
-+		 cs2102_NoFlicker, cs2102_NoFlickerScale,
- 		 cs2102_50HZ, cs2102_50HZScale,
- 		 cs2102_60HZ, cs2102_60HZScale},
--	[SENSOR_CS2102K] =
--		{cs2102_NoFliker, cs2102_NoFlikerScale,
-+	[SENSOR_CS2102K] = {
-+		 cs2102_NoFlicker, cs2102_NoFlickerScale,
- 		 NULL, NULL, /* currently disabled */
- 		 NULL, NULL},
--	[SENSOR_GC0303] =
--		{gc0303_NoFliker, gc0303_NoFlikerScale,
-+	[SENSOR_GC0303] = {
-+		 gc0303_NoFlicker, gc0303_NoFlickerScale,
- 		 gc0303_50HZ, gc0303_50HZScale,
- 		 gc0303_60HZ, gc0303_60HZScale},
--	[SENSOR_GC0305] =
--		{gc0305_NoFliker, gc0305_NoFliker,
-+	[SENSOR_GC0305] = {
-+		 gc0305_NoFlicker, gc0305_NoFlicker,
- 		 gc0305_50HZ, gc0305_50HZ,
- 		 gc0305_60HZ, gc0305_60HZ},
--	[SENSOR_HDCS2020] =
--		{hdcs2020_NoFliker, hdcs2020_NoFliker,
-+	[SENSOR_HDCS2020] = {
-+		 hdcs2020_NoFlicker, hdcs2020_NoFlicker,
- 		 hdcs2020_50HZ, hdcs2020_50HZ,
- 		 hdcs2020_60HZ, hdcs2020_60HZ},
--	[SENSOR_HV7131B] =
--		{hv7131b_NoFliker, hv7131b_NoFlikerScale,
-+	[SENSOR_HV7131B] = {
-+		 hv7131b_NoFlicker, hv7131b_NoFlickerScale,
- 		 hv7131b_50HZ, hv7131b_50HZScale,
- 		 hv7131b_60HZ, hv7131b_60HZScale},
--	[SENSOR_HV7131R] =
--		{hv7131r_NoFliker, hv7131r_NoFlikerScale,
-+	[SENSOR_HV7131R] = {
-+		 hv7131r_NoFlicker, hv7131r_NoFlickerScale,
- 		 hv7131r_50HZ, hv7131r_50HZScale,
- 		 hv7131r_60HZ, hv7131r_60HZScale},
--	[SENSOR_ICM105A] =
--		{icm105a_NoFliker, icm105a_NoFlikerScale,
-+	[SENSOR_ICM105A] = {
-+		 icm105a_NoFlicker, icm105a_NoFlickerScale,
- 		 icm105a_50HZ, icm105a_50HZScale,
- 		 icm105a_60HZ, icm105a_60HZScale},
--	[SENSOR_MC501CB] =
--		{mc501cb_NoFliker, mc501cb_NoFlikerScale,
-+	[SENSOR_MC501CB] = {
-+		 mc501cb_NoFlicker, mc501cb_NoFlickerScale,
- 		 mc501cb_50HZ, mc501cb_50HZScale,
- 		 mc501cb_60HZ, mc501cb_60HZScale},
--	[SENSOR_MT9V111_1] =
--		{mt9v111_1_AENoFliker, mt9v111_1_AENoFlikerScale,
-+	[SENSOR_MT9V111_1] = {
-+		 mt9v111_1_AENoFlicker, mt9v111_1_AENoFlickerScale,
- 		 mt9v111_1_AE50HZ, mt9v111_1_AE50HZScale,
- 		 mt9v111_1_AE60HZ, mt9v111_1_AE60HZScale},
--	[SENSOR_MT9V111_3] =
--		{mt9v111_3_AENoFliker, mt9v111_3_AENoFlikerScale,
-+	[SENSOR_MT9V111_3] = {
-+		 mt9v111_3_AENoFlicker, mt9v111_3_AENoFlickerScale,
- 		 mt9v111_3_AE50HZ, mt9v111_3_AE50HZScale,
- 		 mt9v111_3_AE60HZ, mt9v111_3_AE60HZScale},
--	[SENSOR_OV7620] =
--		{ov7620_NoFliker, ov7620_NoFliker,
-+	[SENSOR_OV7620] = {
-+		 ov7620_NoFlicker, ov7620_NoFlicker,
- 		 ov7620_50HZ, ov7620_50HZ,
- 		 ov7620_60HZ, ov7620_60HZ},
--	[SENSOR_OV7630C] =
--		{NULL, NULL,
-+	[SENSOR_OV7630C] = {
-+		 NULL, NULL,
- 		 NULL, NULL,
- 		 NULL, NULL},
--	[SENSOR_PAS106] =
--		{pas106b_NoFliker, pas106b_NoFliker,
-+	[SENSOR_PAS106] = {
-+		 pas106b_NoFlicker, pas106b_NoFlicker,
- 		 pas106b_50HZ, pas106b_50HZ,
- 		 pas106b_60HZ, pas106b_60HZ},
--	[SENSOR_PAS202B] =
--		{pas202b_NoFliker, pas202b_NoFlikerScale,
-+	[SENSOR_PAS202B] = {
-+		 pas202b_NoFlicker, pas202b_NoFlickerScale,
- 		 pas202b_50HZ, pas202b_50HZScale,
- 		 pas202b_60HZ, pas202b_60HZScale},
--	[SENSOR_PB0330] =
--		{pb0330_NoFliker, pb0330_NoFlikerScale,
-+	[SENSOR_PB0330] = {
-+		 pb0330_NoFlicker, pb0330_NoFlickerScale,
- 		 pb0330_50HZ, pb0330_50HZScale,
- 		 pb0330_60HZ, pb0330_60HZScale},
--	[SENSOR_PO2030] =
--		{po2030_NoFliker, po2030_NoFliker,
-+	[SENSOR_PO2030] = {
-+		 po2030_NoFlicker, po2030_NoFlicker,
- 		 po2030_50HZ, po2030_50HZ,
- 		 po2030_60HZ, po2030_60HZ},
--	[SENSOR_TAS5130C] =
--		{tas5130c_NoFliker, tas5130c_NoFlikerScale,
-+	[SENSOR_TAS5130C] = {
-+		 tas5130c_NoFlicker, tas5130c_NoFlickerScale,
- 		 tas5130c_50HZ, tas5130c_50HZScale,
- 		 tas5130c_60HZ, tas5130c_60HZScale},
- 	};
+ Tomi
+
+Tomi Valkeinen (1):
+  media: v4l2-subdev: add subdev-wide state struct
+
+ drivers/media/i2c/adv7170.c                   |   6 +-
+ drivers/media/i2c/adv7175.c                   |   6 +-
+ drivers/media/i2c/adv7180.c                   |  18 +--
+ drivers/media/i2c/adv7183.c                   |   8 +-
+ drivers/media/i2c/adv748x/adv748x-afe.c       |  13 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c      |  14 +-
+ drivers/media/i2c/adv748x/adv748x-hdmi.c      |  13 +-
+ drivers/media/i2c/adv7511-v4l2.c              |  10 +-
+ drivers/media/i2c/adv7604.c                   |  12 +-
+ drivers/media/i2c/adv7842.c                   |  12 +-
+ drivers/media/i2c/ak881x.c                    |   6 +-
+ drivers/media/i2c/ccs/ccs-core.c              |  84 ++++++-----
+ drivers/media/i2c/cx25840/cx25840-core.c      |   2 +-
+ drivers/media/i2c/et8ek8/et8ek8_driver.c      |  23 +--
+ drivers/media/i2c/hi556.c                     |  15 +-
+ drivers/media/i2c/imx208.c                    |  19 +--
+ drivers/media/i2c/imx214.c                    |  37 ++---
+ drivers/media/i2c/imx219.c                    |  30 ++--
+ drivers/media/i2c/imx258.c                    |  19 +--
+ drivers/media/i2c/imx274.c                    |  32 ++--
+ drivers/media/i2c/imx290.c                    |  20 +--
+ drivers/media/i2c/imx319.c                    |  18 +--
+ drivers/media/i2c/imx334.c                    |  18 +--
+ drivers/media/i2c/imx355.c                    |  18 +--
+ drivers/media/i2c/m5mols/m5mols_core.c        |  21 ++-
+ drivers/media/i2c/max9286.c                   |  17 ++-
+ drivers/media/i2c/ml86v7667.c                 |   4 +-
+ drivers/media/i2c/mt9m001.c                   |  18 +--
+ drivers/media/i2c/mt9m032.c                   |  34 +++--
+ drivers/media/i2c/mt9m111.c                   |  18 +--
+ drivers/media/i2c/mt9p031.c                   |  45 +++---
+ drivers/media/i2c/mt9t001.c                   |  44 +++---
+ drivers/media/i2c/mt9t112.c                   |  14 +-
+ drivers/media/i2c/mt9v011.c                   |   6 +-
+ drivers/media/i2c/mt9v032.c                   |  44 +++---
+ drivers/media/i2c/mt9v111.c                   |  23 +--
+ drivers/media/i2c/noon010pc30.c               |  19 ++-
+ drivers/media/i2c/ov02a10.c                   |  17 ++-
+ drivers/media/i2c/ov13858.c                   |  18 +--
+ drivers/media/i2c/ov2640.c                    |  16 +-
+ drivers/media/i2c/ov2659.c                    |  14 +-
+ drivers/media/i2c/ov2680.c                    |  23 +--
+ drivers/media/i2c/ov2685.c                    |  10 +-
+ drivers/media/i2c/ov2740.c                    |  15 +-
+ drivers/media/i2c/ov5640.c                    |  14 +-
+ drivers/media/i2c/ov5645.c                    |  38 ++---
+ drivers/media/i2c/ov5647.c                    |  26 ++--
+ drivers/media/i2c/ov5648.c                    |  14 +-
+ drivers/media/i2c/ov5670.c                    |  19 +--
+ drivers/media/i2c/ov5675.c                    |  15 +-
+ drivers/media/i2c/ov5695.c                    |  15 +-
+ drivers/media/i2c/ov6650.c                    |  28 ++--
+ drivers/media/i2c/ov7251.c                    |  39 ++---
+ drivers/media/i2c/ov7670.c                    |  17 ++-
+ drivers/media/i2c/ov772x.c                    |  12 +-
+ drivers/media/i2c/ov7740.c                    |  17 ++-
+ drivers/media/i2c/ov8856.c                    |  15 +-
+ drivers/media/i2c/ov8865.c                    |  14 +-
+ drivers/media/i2c/ov9640.c                    |   8 +-
+ drivers/media/i2c/ov9650.c                    |  17 ++-
+ drivers/media/i2c/ov9734.c                    |  15 +-
+ drivers/media/i2c/rdacm20.c                   |   4 +-
+ drivers/media/i2c/rdacm21.c                   |   4 +-
+ drivers/media/i2c/rj54n1cb0c.c                |  12 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  55 +++----
+ drivers/media/i2c/s5k4ecgx.c                  |  22 +--
+ drivers/media/i2c/s5k5baf.c                   |  49 +++---
+ drivers/media/i2c/s5k6a3.c                    |  19 ++-
+ drivers/media/i2c/s5k6aa.c                    |  39 ++---
+ drivers/media/i2c/saa6752hs.c                 |   6 +-
+ drivers/media/i2c/saa7115.c                   |   2 +-
+ drivers/media/i2c/saa717x.c                   |   2 +-
+ drivers/media/i2c/sr030pc30.c                 |   8 +-
+ drivers/media/i2c/st-mipid02.c                |  21 +--
+ drivers/media/i2c/tc358743.c                  |   8 +-
+ drivers/media/i2c/tda1997x.c                  |  14 +-
+ drivers/media/i2c/tvp514x.c                   |   6 +-
+ drivers/media/i2c/tvp5150.c                   |  20 +--
+ drivers/media/i2c/tvp7002.c                   |  11 +-
+ drivers/media/i2c/tw9910.c                    |  10 +-
+ drivers/media/i2c/vs6624.c                    |   8 +-
+ drivers/media/pci/cx18/cx18-av-core.c         |   2 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  17 ++-
+ drivers/media/pci/saa7134/saa7134-empress.c   |   5 +-
+ drivers/media/platform/atmel/atmel-isc-base.c |  19 ++-
+ drivers/media/platform/atmel/atmel-isi.c      |  19 ++-
+ drivers/media/platform/cadence/cdns-csi2tx.c  |  14 +-
+ .../media/platform/exynos4-is/fimc-capture.c  |  22 +--
+ drivers/media/platform/exynos4-is/fimc-isp.c  |  37 +++--
+ drivers/media/platform/exynos4-is/fimc-lite.c |  39 ++---
+ drivers/media/platform/exynos4-is/mipi-csis.c |  17 ++-
+ .../media/platform/marvell-ccic/mcam-core.c   |   5 +-
+ drivers/media/platform/omap3isp/ispccdc.c     |  85 ++++++-----
+ drivers/media/platform/omap3isp/ispccp2.c     |  41 +++---
+ drivers/media/platform/omap3isp/ispcsi2.c     |  41 +++---
+ drivers/media/platform/omap3isp/isppreview.c  |  69 +++++----
+ drivers/media/platform/omap3isp/ispresizer.c  |  70 +++++----
+ drivers/media/platform/pxa_camera.c           |   5 +-
+ .../media/platform/qcom/camss/camss-csid.c    |  35 ++---
+ .../media/platform/qcom/camss/camss-csiphy.c  |  40 ++---
+ .../media/platform/qcom/camss/camss-ispif.c   |  36 ++---
+ drivers/media/platform/qcom/camss/camss-vfe.c |  84 +++++------
+ drivers/media/platform/rcar-vin/rcar-csi2.c   |   8 +-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   |  10 +-
+ drivers/media/platform/renesas-ceu.c          |   7 +-
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 112 ++++++++------
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c |  95 +++++++-----
+ .../media/platform/s3c-camif/camif-capture.c  |  18 +--
+ drivers/media/platform/stm32/stm32-dcmi.c     |  14 +-
+ .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |  16 +-
+ drivers/media/platform/ti-vpe/cal-camerarx.c  |  35 +++--
+ drivers/media/platform/via-camera.c           |   5 +-
+ drivers/media/platform/video-mux.c            |  22 +--
+ drivers/media/platform/vsp1/vsp1_brx.c        |  34 +++--
+ drivers/media/platform/vsp1/vsp1_clu.c        |  13 +-
+ drivers/media/platform/vsp1/vsp1_entity.c     |  53 +++----
+ drivers/media/platform/vsp1/vsp1_entity.h     |  20 +--
+ drivers/media/platform/vsp1/vsp1_histo.c      |  51 ++++---
+ drivers/media/platform/vsp1/vsp1_hsit.c       |  14 +-
+ drivers/media/platform/vsp1/vsp1_lif.c        |  13 +-
+ drivers/media/platform/vsp1/vsp1_lut.c        |  13 +-
+ drivers/media/platform/vsp1/vsp1_rwpf.c       |  32 ++--
+ drivers/media/platform/vsp1/vsp1_rwpf.h       |   2 +-
+ drivers/media/platform/vsp1/vsp1_sru.c        |  22 +--
+ drivers/media/platform/vsp1/vsp1_uds.c        |  22 +--
+ drivers/media/platform/vsp1/vsp1_uif.c        |  27 ++--
+ .../media/platform/xilinx/xilinx-csi2rxss.c   |  20 +--
+ drivers/media/platform/xilinx/xilinx-tpg.c    |  25 ++--
+ drivers/media/platform/xilinx/xilinx-vip.c    |   8 +-
+ drivers/media/platform/xilinx/xilinx-vip.h    |   4 +-
+ .../media/test-drivers/vimc/vimc-debayer.c    |  20 +--
+ drivers/media/test-drivers/vimc/vimc-scaler.c |  36 ++---
+ drivers/media/test-drivers/vimc/vimc-sensor.c |  16 +-
+ drivers/media/usb/go7007/s2250-board.c        |   2 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         | 139 ++++++++++--------
+ .../media/atomisp/i2c/atomisp-gc0310.c        |  10 +-
+ .../media/atomisp/i2c/atomisp-gc2235.c        |  10 +-
+ .../media/atomisp/i2c/atomisp-mt9m114.c       |  12 +-
+ .../media/atomisp/i2c/atomisp-ov2680.c        |  10 +-
+ .../media/atomisp/i2c/atomisp-ov2722.c        |  10 +-
+ .../media/atomisp/i2c/ov5693/atomisp-ov5693.c |  10 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  33 +++--
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |  28 ++--
+ .../staging/media/atomisp/pci/atomisp_csi2.h  |   2 +-
+ .../staging/media/atomisp/pci/atomisp_file.c  |  14 +-
+ .../staging/media/atomisp/pci/atomisp_fops.c  |   6 +-
+ .../media/atomisp/pci/atomisp_subdev.c        |  64 ++++----
+ .../media/atomisp/pci/atomisp_subdev.h        |   9 +-
+ .../staging/media/atomisp/pci/atomisp_tpg.c   |  12 +-
+ drivers/staging/media/imx/imx-ic-prp.c        |  19 +--
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |  31 ++--
+ drivers/staging/media/imx/imx-media-csi.c     |  82 ++++++-----
+ drivers/staging/media/imx/imx-media-utils.c   |   4 +-
+ drivers/staging/media/imx/imx-media-vdic.c    |  24 +--
+ drivers/staging/media/imx/imx-media.h         |   2 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c    |  12 +-
+ drivers/staging/media/imx/imx7-media-csi.c    |  33 +++--
+ drivers/staging/media/imx/imx7-mipi-csis.c    |  34 +++--
+ drivers/staging/media/ipu3/ipu3-v4l2.c        |  26 ++--
+ drivers/staging/media/omap4iss/iss_csi2.c     |  37 ++---
+ drivers/staging/media/omap4iss/iss_ipipe.c    |  37 ++---
+ drivers/staging/media/omap4iss/iss_ipipeif.c  |  47 +++---
+ drivers/staging/media/omap4iss/iss_resizer.c  |  39 ++---
+ drivers/staging/media/tegra-video/csi.c       |  10 +-
+ drivers/staging/media/tegra-video/vi.c        |  24 +--
+ include/media/v4l2-subdev.h                   |  74 ++++++----
+ 166 files changed, 2134 insertions(+), 1777 deletions(-)
+
 -- 
 2.25.1
 
