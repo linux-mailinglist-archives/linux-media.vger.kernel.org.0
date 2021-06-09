@@ -2,130 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C083A0D6B
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 09:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E1633A0DA7
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jun 2021 09:20:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237151AbhFIHQP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Jun 2021 03:16:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54614 "EHLO
+        id S236624AbhFIHWg convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 9 Jun 2021 03:22:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235471AbhFIHQO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 03:16:14 -0400
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6198C061574
-        for <linux-media@vger.kernel.org>; Wed,  9 Jun 2021 00:14:10 -0700 (PDT)
-Received: by mail-il1-x131.google.com with SMTP id h16so11218032ila.6
-        for <linux-media@vger.kernel.org>; Wed, 09 Jun 2021 00:14:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X3DtYst6A/mBqMOXmXvZKUfqHu7r5s5KvyZbfU1v3sU=;
-        b=qI/UbSz9bcifVyvpfiHIGhboZU8MjrqvrmZBjYk/Xl/NYCgnS7XEusjLLFqpaZbtdM
-         UXxwUD/qIl/9GKNpFSlLaPuIf+R5OiS9WwhkMi33P78U9PB8WEp4r/rTpwbYJXizTA5k
-         GdXIHWNoRpHJlwfeCW4P1rk/+MGT7cZRmjapY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X3DtYst6A/mBqMOXmXvZKUfqHu7r5s5KvyZbfU1v3sU=;
-        b=PaeEssGRZic5N4qaWdZzTWxliMUgmgjRAm4CaGhd+YHGK10qOGaD9DdCFxavJSNVVK
-         cEAJ7YYX0jTWffnhhVxYmtUOYzJYYtL6STpAQ2ci8sCV3HkdGiaPleYqtGnaPCdgoW24
-         KG3ZCSOiK66jj+osrUzW0cgwKro89Kn329ccFI3c79+GjBoGrfwLrg5j1PMehvxDqkNl
-         aZsutWDytfbepG+f2Gl4wG1pjdXBKVpVLiX4TRFBH7e61blYFNO5QiN/IpbqtyL2KmB2
-         cYV3bB6/3le12oBabfRnMcHmI8ebm98F+skGNaGe08wOT+f0CPuDa/3wpOugFc79Q4V7
-         pEvQ==
-X-Gm-Message-State: AOAM5334+4GEnjIAeTzwhdf5pHSys7BRy8Zn36EJaKzuOyMyB5dsUwvd
-        aaSvCOJrDcUTJeIbz0PoqTE/kyodvYHdJVos+8E7nw==
-X-Google-Smtp-Source: ABdhPJyv0vQJfjh5xp+zfLZdJ1/0jw/hfzSIKqDUn5HJ7FHQlwN/BHhoy7ib0qp79vam5jNQvLbltBL+k+w9XkVOVo0=
-X-Received: by 2002:a05:6602:2145:: with SMTP id y5mr220349ioy.46.1623222850295;
- Wed, 09 Jun 2021 00:14:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210608152451.14730-1-euphoriccatface@gmail.com> <20210608152451.14730-3-euphoriccatface@gmail.com>
-In-Reply-To: <20210608152451.14730-3-euphoriccatface@gmail.com>
-From:   Matt Ranostay <matt.ranostay@konsulko.com>
-Date:   Wed, 9 Jun 2021 00:13:59 -0700
-Message-ID: <CAJCx=g=hngBOv-6ov1_0YQ0qRC+fTngfNHopcmpHmF5ToAEVaw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] media: video-i2c: append register data on
- MLX90640's frame
-To:     Seongyong Park <euphoriccatface@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
+        with ESMTP id S235510AbhFIHWf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Jun 2021 03:22:35 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D107BC061574
+        for <linux-media@vger.kernel.org>; Wed,  9 Jun 2021 00:20:41 -0700 (PDT)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1lqsVw-0002k0-Fi; Wed, 09 Jun 2021 09:20:36 +0200
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1lqsVv-0001ht-7f; Wed, 09 Jun 2021 09:20:35 +0200
+Message-ID: <a6322fe86be905c028ede9ee2abee278266e1b35.camel@pengutronix.de>
+Subject: Re: Unable to capture adv7280-m on i.MX6Q
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Schrempf Frieder <frieder.schrempf@kontron.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Date:   Wed, 09 Jun 2021 09:20:35 +0200
+In-Reply-To: <CAOMZO5CxDtPa_WYEJf9dkLa8x1UthicBqB=RBJUgxKud+srsDQ@mail.gmail.com>
+References: <CAOMZO5A0nV2bubWt3EzkaWVBoD96YNTYB10y-qB79mX2pTBu0w@mail.gmail.com>
+         <CAOMZO5CfCZcngeOj4yEV+g5s6Wy4F0=wCu3PD3LyZAUMz9V2LQ@mail.gmail.com>
+         <CAOMZO5C6ai+Vze6e4o1WYCa42p2YK5_cjo99Q7qKc50E+ebgSA@mail.gmail.com>
+         <cad89872382bad67fdd8e12c392d023bff2a3ff9.camel@pengutronix.de>
+         <CAOMZO5CxDtPa_WYEJf9dkLa8x1UthicBqB=RBJUgxKud+srsDQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 8, 2021 at 8:25 AM Seongyong Park <euphoriccatface@gmail.com> wrote:
->
-> On MLX90640, Each measurement step updates half of the pixels in the frame
-> (every other pixel in default "chess mode", and every other row
-> in "interleave mode"), while additional coefficient data (25th & 26th row)
-> updates every step. The compensational coefficient data only corresponds
-> with the pixels updated in the same step.
->
-> Only way to know which "subpage" was updated on the last step is to read
-> "status register" on address 0x8000. Without this data,
-> compensation calculation may be able to detect which sets of pixels have
-> been updated, but it will have to make assumptions when frame skip happens,
-> and there is no way to do it correctly when the host simply cannot
-> keep up with refresh rate.
->
-> Signed-off-by: Seongyong Park <euphoriccatface@gmail.com>
-> ---
->  drivers/media/i2c/video-i2c.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-> index 64ba96329..2b50a76f3 100644
-> --- a/drivers/media/i2c/video-i2c.c
-> +++ b/drivers/media/i2c/video-i2c.c
-> @@ -74,7 +74,8 @@ static const struct v4l2_fmtdesc mlx90640_format = {
->
->  static const struct v4l2_frmsize_discrete mlx90640_size = {
->         .width = 32,
-> -       .height = 26, /* 24 lines of pixel data + 2 lines of processing data */
-> +       .height = 27,
-> +       /* 24 lines of pixel data + 2 lines of processing data + 1 line of registers */
+Hi Fabio,
 
-Guess you hit the 80 character line here and checkpatch.pl complained
-.. But should all be one line since it is
-much more clear on one line.
+On Tue, 2021-06-08 at 23:34 -0300, Fabio Estevam wrote:
+> Hi Philipp,
+> 
+> On Tue, Jun 8, 2021 at 4:09 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> 
+> > The i.MX6 CSI-2 RX needs to see the LP-11 low power state on the lanes
+> > during streamon (before it calls the ADV7280-M s_stream(1)). That's
+> > where the LP-11 timeout error occurs.
+> > 
+> > According to the ADV7280(-M) datasheet, "after the ADV7280-M is
+> > programmed, the clock lanes exit low power mode and remain in high speed
+> > mode until the part is reset or powered down."
+> > So it appears the ADV7280-M has to be freshly powered on in s_power(1)
+> 
+> What do you mean by freshly powered on?
 
->  };
->
->  static const struct regmap_config amg88xx_regmap_config = {
-> @@ -168,8 +169,12 @@ static int amg88xx_xfer(struct video_i2c_data *data, char *buf)
->
->  static int mlx90640_xfer(struct video_i2c_data *data, char *buf)
->  {
-> -       return regmap_bulk_read(data->regmap, 0x400, buf,
-> -                               data->chip->buffer_size);
-> +       int ret = regmap_bulk_read(data->regmap, 0x400, buf,
-> +                                  data->chip->buffer_size - 64);
-> +       if (ret)
-> +               return ret;
-> +       return regmap_bulk_read(data->regmap, 0x8000, buf + (data->chip->buffer_size - 64),
-> +                               64);
->  }
->
->  static int amg88xx_setup(struct video_i2c_data *data)
-> @@ -375,7 +380,7 @@ static const struct video_i2c_chip video_i2c_chip[] = {
->                 .format         = &mlx90640_format,
->                 .frame_intervals        = mlx90640_frame_intervals,
->                 .num_frame_intervals    = ARRAY_SIZE(mlx90640_frame_intervals),
-> -               .buffer_size    = 1664,
-> +               .buffer_size    = 1728,
+That the ADV7280-M is in the state before "the clock lanes exit low
+power mode" due to being "programmed". Basically I was hoping that after
+the initial reset sequence, and after power on, before the CSI-2
+registers are written, the clock lanes are in LP-11 state (and stay
+there until then).
+Unfortunately that doesn't appear to be the case below ...
 
-Minus nitpick above looks good to me. You can keep the acked-by if
-that is only change
+> > for this to work. Is the ADV7280-M powerdown GPIO connected properly on
+> > your board? Moving the CSI-2 configuration from s_power to s_stream was
+> > exactly the right thing to do in my mind.
+> > 
+> > Just as a test, if you remove the CSI-2 register writes from either
+> > s_power and s_stream from the adv7180 driver completely, do you still
+> > run into the LP-11 timeout? If the CSI-2 TX never leaves the low power
+> > state, I would expect seeing the clock lane timeout instead
+> 
+> If I do this test, the first time I run the pipeline I get LP-11, the
+> second time I get clock lane timeout.
 
-Acked-by: Matt Ranostay <matt.ranostay@konsulko.com>
+... at least the first time.
 
+So now I wonder what happens between the first and second time (in
+s_stream? in s_power(0)?) that does put the lanes into LP-11 from
+whatever state they were in before. When you get the clock lane timeout,
+is phy_state = 0x610? Does it stay there when you repeat this again?
 
->                 .bpp            = 16,
->                 .regmap_config  = &mlx90640_regmap_config,
->                 .nvmem_config   = &mlx90640_nvram_config,
-> --
-> 2.31.1
->
+regards
+Philipp
