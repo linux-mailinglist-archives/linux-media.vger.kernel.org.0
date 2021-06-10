@@ -2,224 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3EAE3A3658
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 23:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FB683A3826
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 01:58:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231177AbhFJVrM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 17:47:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54464 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231152AbhFJVrK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 17:47:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B0FCD613F1;
-        Thu, 10 Jun 2021 21:45:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623361513;
-        bh=U2SlJFPjqiJGJhDgRDNbHFUEIsyVZohfiDYFhhApgy4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SQLTil0vvNlutEUpG12Ikto3B2DhHcmKtVokI6XgKkjxs/PCDysbczW+heGUqq0LT
-         4VKprgunCKQSnh18vP3892sum7LizfE+a3Q9/6JLmshAuDbXIy6uzfao2RC0dgIYX+
-         lMdF4vTiILcUoHMvmL/o/isR1WY9wsP6/0YciqTB8kIYkiSRskSEPkZRs/UkSsymJG
-         qUJ1Oajr8CFiYbxZZi/ETq7oI8cUCnG1/lPF4J2oKJfMuLQtkBzkk5Uotv19qNwid+
-         tYsXaQrXsG/AFfWnEDP9aJcXeGEjrSOuF1ZiL/4l8uYPPbqVLzxCA+ifXVDpUzNzNZ
-         r/7PFr8FTJSdw==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vaibhav Gupta <vaibhavgupta40@gmail.com>,
-        Liu Shixin <liushixin2@huawei.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, stable@vger.kernel.org
-Subject: [PATCH v2 7/7] media: subdev: disallow ioctl for saa6588/davinci
-Date:   Thu, 10 Jun 2021 23:43:05 +0200
-Message-Id: <20210610214305.4170835-8-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210610214305.4170835-1-arnd@kernel.org>
-References: <20210610214305.4170835-1-arnd@kernel.org>
+        id S230336AbhFKAAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 20:00:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229578AbhFKAAT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Jun 2021 20:00:19 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35AE0C061574
+        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 16:58:14 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id u126so2937769pfu.13
+        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 16:58:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2MkTyqfaMdRBRVHtEBjLJNCYRnasj6TF/uZ2TgxYUR4=;
+        b=NbovhhBNaYrym0Xknu7bwPyjH/I6UTUu8OwMIPurzBsfIDA0VGXPDHFP2eaPtx43k3
+         Vbq1nF6j94yKlZgI7wNtVHlm/a7qAdmSxBC/0Fj7k1esjcjuI285yaf+fOsS0jghWE7L
+         NDnrZrKKRcx6TU/LgOQ9gpNEmcKxlEYvQg8J9KvigER8dmAL7WXNV8GnqtQ8H4wd+1II
+         aOqUp8R3zyFiv1vbcLMt4WYVs2Tr/WUgbMnDPnkVhPwBHhZ84D3bxnCYoKfk5nSrwSwC
+         vF93WXAlhxAn7gaBP+SaGlvZg5QA2VPnDaq2FVATkvYp2ClYviTjrePrGRb3800AilbO
+         qMEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2MkTyqfaMdRBRVHtEBjLJNCYRnasj6TF/uZ2TgxYUR4=;
+        b=FvoA7tbsuHmwWzHqvB7Bll//fVkjPT4fAM9rOL0eSVUrAQa2/gu2KWWPNsM3O9MHN0
+         rhvr/Wxj8ABNjZ3vv0ZfSdFpyb+yrCVY//yPq9PMoTvOUtf2otmqmdG0TyAkXZRHL/dB
+         oiEfBsyCy+XyvpRzs9yoEahPLVDdhN4zjsNLGIFkC0nzpJey83nLXWoCea9L2bF/8E28
+         cgCHhRndW8F4BQSoi+wcIpEGUf9XoCTeAWgUr3RotWcqMqoxW1ZCf9SZPgNH0NlM/WtX
+         /cejl8erlRrsOWRAgbb3Jl4AtIwmuJeYpYtozK82tOM+IJ287WvyrriBX4taZoOx4eMo
+         p3ow==
+X-Gm-Message-State: AOAM530Lid/puIraJ4PxfWQ7GOx5rrUdTCfEnVYn1WPnxf3EYe53l5PI
+        0ez4UWeKPCM3dAOOqKIm1EMUB+KSS3WBDg==
+X-Google-Smtp-Source: ABdhPJzT6LPpa+4yFOCqa7pcp1kD/3h3g80ApGdoBSB/MhETQmUolFkKFZ9VMqu/h01LdHtuE2jAxA==
+X-Received: by 2002:a63:7e56:: with SMTP id o22mr842478pgn.278.1623369493625;
+        Thu, 10 Jun 2021 16:58:13 -0700 (PDT)
+Received: from ada-comp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
+        by smtp.gmail.com with ESMTPSA id c4sm3588133pfo.189.2021.06.10.16.58.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jun 2021 16:58:13 -0700 (PDT)
+From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, jaffe1@gmail.com,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: [PATCH v6 0/3] cec: Deck Control tests
+Date:   Thu, 10 Jun 2021 16:58:01 -0700
+Message-Id: <cover.1623368302.git.deborahbrouwer3563@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+This is part of an Outreachy project to expand the testing of
+Deck Control messages as handled by CEC adapters.
 
-The saa6588_ioctl() function expects to get called from other kernel
-functions with a 'saa6588_command' pointer, but I found nothing stops it
-from getting called from user space instead, which seems rather dangerous.
+Changes since v5:
+	cec-compliance:
+	- check for Feature Abort before getting deck status.
+	cec-follower:
+	- send updates to the logical address of the device that
+		requested ongoing status updates which may be
+		different from the device that requests deck status
+		on a one-time basis.
 
-The same thing happens in the davinci vpbe driver with its VENC_GET_FLD
-command.
+Changes since v4:
+	cec-compliance:
+	- Change deck_status to a reference and initialize to 0.
+	- Revise test results after receiving Feature Abort with
+		Incorrect Mode.
+	- Simplify for loop for Skip Forward and Reverse.
+	- Remove Play as a possible response to Eject.
+	- Rename "match" and its argument,  add fail on abort.
+	- Rearrange play tests to see clearly all three options
+		(MIN/MED/MAX).
+	cec-follower:
+	- Set deck_skip_start to 0 if a new command or standby occurs
+		in the interval between Skip Forward/Reverse and Play.
+	- Move skip timer to the end of while loop in testProcessing.
+	- Add helper function update_deck_state.
 
-As a quick fix, add a separate .command() callback pointer for this
-driver and change the two callers over to that.  This change can easily
-get backported to stable kernels if necessary, but since there are only
-two drivers, we may want to eventually replace this with a set of more
-specialized callbacks in the long run.
+Changes since v3:
+	cec-compliance:
+		- Stop using REQ_On for monitoring deck status changes; 
+			instead add a helper function to get and return deck status.
+		- Allow Stop or Eject to return Feature Abort, Incorrect Mode.
+		- Replace passive util_receive with an active deck query to see
+			if the deck status changes to Play after Skip Forward/Reverse.
+		- Add helper function to match play mode and expected deck status.
+		- Remove the Deck Status test.
+	cec-follower:
+		- Track the elasped time since Skip Forward/Reverse and Play after 2s.
+		- Remove tray open/close toggle from Eject
 
-Fixes: c3fda7f835b0 ("V4L/DVB (10537): saa6588: convert to v4l2_subdev.")
-Cc: stable@vger.kernel.org
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/media/i2c/saa6588.c                   | 4 ++--
- drivers/media/pci/bt8xx/bttv-driver.c         | 6 +++---
- drivers/media/pci/saa7134/saa7134-video.c     | 6 +++---
- drivers/media/platform/davinci/vpbe_display.c | 2 +-
- drivers/media/platform/davinci/vpbe_venc.c    | 6 ++----
- include/media/v4l2-subdev.h                   | 4 ++++
- 6 files changed, 15 insertions(+), 13 deletions(-)
+Changes since v2:
+	cec-compliance:
+		- If a deck returns Feature Abort, Incorrect Mode, just provide info
+			unless the deck actually has media, then issue a warning.
+		- If a deck reports Skip Forward/Reverse status, wait until the status
+			changes again before resuming testing to avoid prematurely
+			failing the test.
+		- Rearrange/change the tests to trigger deck status changes.
+	cec-follower:
+		- Only report actual status changes, not just every Deck Control
+			message that is processed.
+		- Send Skip Forward/Reverse and then sleep 2 seconds before
+			sending Play.
+		- Remove the toggle between Play Forward/Play Still.
 
-diff --git a/drivers/media/i2c/saa6588.c b/drivers/media/i2c/saa6588.c
-index ecb491d5f2ab..d1e0716bdfff 100644
---- a/drivers/media/i2c/saa6588.c
-+++ b/drivers/media/i2c/saa6588.c
-@@ -380,7 +380,7 @@ static void saa6588_configure(struct saa6588 *s)
- 
- /* ---------------------------------------------------------------------- */
- 
--static long saa6588_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
-+static long saa6588_command(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
- {
- 	struct saa6588 *s = to_saa6588(sd);
- 	struct saa6588_command *a = arg;
-@@ -433,7 +433,7 @@ static int saa6588_s_tuner(struct v4l2_subdev *sd, const struct v4l2_tuner *vt)
- /* ----------------------------------------------------------------------- */
- 
- static const struct v4l2_subdev_core_ops saa6588_core_ops = {
--	.ioctl = saa6588_ioctl,
-+	.command = saa6588_command,
- };
- 
- static const struct v4l2_subdev_tuner_ops saa6588_tuner_ops = {
-diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-index 1f62a9d8ea1d..0e9df8b35ac6 100644
---- a/drivers/media/pci/bt8xx/bttv-driver.c
-+++ b/drivers/media/pci/bt8xx/bttv-driver.c
-@@ -3179,7 +3179,7 @@ static int radio_release(struct file *file)
- 
- 	btv->radio_user--;
- 
--	bttv_call_all(btv, core, ioctl, SAA6588_CMD_CLOSE, &cmd);
-+	bttv_call_all(btv, core, command, SAA6588_CMD_CLOSE, &cmd);
- 
- 	if (btv->radio_user == 0)
- 		btv->has_radio_tuner = 0;
-@@ -3260,7 +3260,7 @@ static ssize_t radio_read(struct file *file, char __user *data,
- 	cmd.result = -ENODEV;
- 	radio_enable(btv);
- 
--	bttv_call_all(btv, core, ioctl, SAA6588_CMD_READ, &cmd);
-+	bttv_call_all(btv, core, command, SAA6588_CMD_READ, &cmd);
- 
- 	return cmd.result;
- }
-@@ -3281,7 +3281,7 @@ static __poll_t radio_poll(struct file *file, poll_table *wait)
- 	cmd.instance = file;
- 	cmd.event_list = wait;
- 	cmd.poll_mask = res;
--	bttv_call_all(btv, core, ioctl, SAA6588_CMD_POLL, &cmd);
-+	bttv_call_all(btv, core, command, SAA6588_CMD_POLL, &cmd);
- 
- 	return cmd.poll_mask;
- }
-diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
-index 0f9d6b9edb90..374c8e1087de 100644
---- a/drivers/media/pci/saa7134/saa7134-video.c
-+++ b/drivers/media/pci/saa7134/saa7134-video.c
-@@ -1181,7 +1181,7 @@ static int video_release(struct file *file)
- 
- 	saa_call_all(dev, tuner, standby);
- 	if (vdev->vfl_type == VFL_TYPE_RADIO)
--		saa_call_all(dev, core, ioctl, SAA6588_CMD_CLOSE, &cmd);
-+		saa_call_all(dev, core, command, SAA6588_CMD_CLOSE, &cmd);
- 	mutex_unlock(&dev->lock);
- 
- 	return 0;
-@@ -1200,7 +1200,7 @@ static ssize_t radio_read(struct file *file, char __user *data,
- 	cmd.result = -ENODEV;
- 
- 	mutex_lock(&dev->lock);
--	saa_call_all(dev, core, ioctl, SAA6588_CMD_READ, &cmd);
-+	saa_call_all(dev, core, command, SAA6588_CMD_READ, &cmd);
- 	mutex_unlock(&dev->lock);
- 
- 	return cmd.result;
-@@ -1216,7 +1216,7 @@ static __poll_t radio_poll(struct file *file, poll_table *wait)
- 	cmd.event_list = wait;
- 	cmd.poll_mask = 0;
- 	mutex_lock(&dev->lock);
--	saa_call_all(dev, core, ioctl, SAA6588_CMD_POLL, &cmd);
-+	saa_call_all(dev, core, command, SAA6588_CMD_POLL, &cmd);
- 	mutex_unlock(&dev->lock);
- 
- 	return rc | cmd.poll_mask;
-diff --git a/drivers/media/platform/davinci/vpbe_display.c b/drivers/media/platform/davinci/vpbe_display.c
-index d19bad997f30..bf3c3e76b921 100644
---- a/drivers/media/platform/davinci/vpbe_display.c
-+++ b/drivers/media/platform/davinci/vpbe_display.c
-@@ -47,7 +47,7 @@ static int venc_is_second_field(struct vpbe_display *disp_dev)
- 
- 	ret = v4l2_subdev_call(vpbe_dev->venc,
- 			       core,
--			       ioctl,
-+			       command,
- 			       VENC_GET_FLD,
- 			       &val);
- 	if (ret < 0) {
-diff --git a/drivers/media/platform/davinci/vpbe_venc.c b/drivers/media/platform/davinci/vpbe_venc.c
-index 8caa084e5704..bde241c26d79 100644
---- a/drivers/media/platform/davinci/vpbe_venc.c
-+++ b/drivers/media/platform/davinci/vpbe_venc.c
-@@ -521,9 +521,7 @@ static int venc_s_routing(struct v4l2_subdev *sd, u32 input, u32 output,
- 	return ret;
- }
- 
--static long venc_ioctl(struct v4l2_subdev *sd,
--			unsigned int cmd,
--			void *arg)
-+static long venc_command(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
- {
- 	u32 val;
- 
-@@ -542,7 +540,7 @@ static long venc_ioctl(struct v4l2_subdev *sd,
- }
- 
- static const struct v4l2_subdev_core_ops venc_core_ops = {
--	.ioctl      = venc_ioctl,
-+	.command      = venc_command,
- };
- 
- static const struct v4l2_subdev_video_ops venc_video_ops = {
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 42aa1f6c7c3f..115b1e41e933 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -162,6 +162,9 @@ struct v4l2_subdev_io_pin_config {
-  * @s_gpio: set GPIO pins. Very simple right now, might need to be extended with
-  *	a direction argument if needed.
-  *
-+ * @command: called by in-kernel drivers in order to call functions internal
-+ *	   to subdev drivers driver that have a separate callback.
-+ *
-  * @ioctl: called at the end of ioctl() syscall handler at the V4L2 core.
-  *	   used to provide support for private ioctls used on the driver.
-  *
-@@ -193,6 +196,7 @@ struct v4l2_subdev_core_ops {
- 	int (*load_fw)(struct v4l2_subdev *sd);
- 	int (*reset)(struct v4l2_subdev *sd, u32 val);
- 	int (*s_gpio)(struct v4l2_subdev *sd, u32 val);
-+	long (*command)(struct v4l2_subdev *sd, unsigned int cmd, void *arg);
- 	long (*ioctl)(struct v4l2_subdev *sd, unsigned int cmd, void *arg);
- #ifdef CONFIG_COMPAT
- 	long (*compat_ioctl32)(struct v4l2_subdev *sd, unsigned int cmd, void *arg);
+Changes since v1:
+	- Remove unnecessary functions and node states.
+	- Assume that media is present and use the "No Media"
+		deck state solely to indicate whether the tray is open.
+	- Change and add invalid operands so operands just
+		outside of the valid range are tested.
+	- Remove restriction to playback/record device.
+
+Deborah Brouwer (3):
+  cec: add tests for Deck Control message
+  cec: add tests for Deck Play message
+  cec-compliance: remove Deck Status test
+
+ utils/cec-compliance/cec-compliance.h |   5 +
+ utils/cec-compliance/cec-test.cpp     | 213 ++++++++++++++++++++++----
+ utils/cec-follower/cec-follower.cpp   |   2 +
+ utils/cec-follower/cec-follower.h     |   2 +
+ utils/cec-follower/cec-processing.cpp | 138 ++++++++++++++++-
+ 5 files changed, 325 insertions(+), 35 deletions(-)
+
 -- 
-2.29.2
+2.25.1
 
