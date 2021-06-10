@@ -2,214 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0BB13A3295
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 19:57:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C525E3A336F
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 20:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230374AbhFJR7y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 13:59:54 -0400
-Received: from mail-ot1-f41.google.com ([209.85.210.41]:38672 "EHLO
-        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230103AbhFJR7x (ORCPT
+        id S231342AbhFJSmk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 14:42:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45472 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230086AbhFJSmk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 13:59:53 -0400
-Received: by mail-ot1-f41.google.com with SMTP id j11-20020a9d738b0000b02903ea3c02ded8so543289otk.5;
-        Thu, 10 Jun 2021 10:57:40 -0700 (PDT)
+        Thu, 10 Jun 2021 14:42:40 -0400
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE18FC061574
+        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 11:40:29 -0700 (PDT)
+Received: by mail-il1-x12c.google.com with SMTP id b9so2812855ilr.2
+        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 11:40:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Nf6J5VPNhOdTIuNzS3DZB8U4CF2Pa9aEYKvb9flUDmE=;
+        b=L9ROHi2BHpv08ujQ0qbHKjVArHSZnmhGjjBBzyRm68KOimSWOubX9EnG8CQ0OXAVev
+         +CJgYDykJlToHLMoS/FMyD5TmcfVYoP2/XrCIqGk92OfAGYPgPU0piy1c776G5VCviVD
+         uFvX2DGmcDFLBAYbS3HHS+ZqUy0mFxi3w67Xw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=V2+0pbawt/0s4pIlgGvctFlDIbaFKg1ZRcW2jg9lKwU=;
-        b=IBmMjdAZDg+p1dGY5Z9F83czaTR4kQ6gPdNz8Xj3qiHniIM2j8spulumCIb28JhZJ6
-         brHnmZXm4f+pWL9/6tgO4JTtsTUejLs5ksJmEwPHF/pE59xDK02MD2OOD6QijGZ0ZMrC
-         /5w+btVnH/QWciZ+0AR4Yt4+9Ondb7SngJOpRbwGPNZwjgyyaK8ItExLpWLXuwZiyeAa
-         m9ALlSRH6qifMBD2GN1hYGSITF5M61D2rF5yVwauFW+AY44ZudfpfW6FDEWiodqy9tPn
-         lUKeRnqwPGf6ios3m57zLTdJ7fhn/AFudl8Xmw14kpbJmaMpPpRLQPhcUrQlVZqZADeO
-         PUtA==
-X-Gm-Message-State: AOAM531dRLbPtSq7sotzfYF7y2XSxk5oqDYsMggou89eG2nn/P033fBY
-        K9YQ41PY/AYnzbOdSUT73g==
-X-Google-Smtp-Source: ABdhPJwAToOJiC0mSKtLICASE5GDIks9Jjnq5vnMBj4u9NB123xg0atsrTWOBPHjGsKEgaadumLqeQ==
-X-Received: by 2002:a9d:526:: with SMTP id 35mr3433392otw.176.1623347860197;
-        Thu, 10 Jun 2021 10:57:40 -0700 (PDT)
-Received: from robh.at.kernel.org ([172.58.99.113])
-        by smtp.gmail.com with ESMTPSA id p10sm787423otf.45.2021.06.10.10.57.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 10:57:39 -0700 (PDT)
-Received: (nullmailer pid 2389055 invoked by uid 1000);
-        Thu, 10 Jun 2021 17:57:36 -0000
-Date:   Thu, 10 Jun 2021 12:57:36 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Marek Vasut <marex@denx.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add Intersil ISL79987 DT
- bindings
-Message-ID: <20210610175736.GA2337424@robh.at.kernel.org>
-References: <20210602132950.4167596-1-m.tretter@pengutronix.de>
- <20210602132950.4167596-2-m.tretter@pengutronix.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Nf6J5VPNhOdTIuNzS3DZB8U4CF2Pa9aEYKvb9flUDmE=;
+        b=Nq3OpuEqFVXZkhZKYAENCIpaNHO0J+8m2oZEPax+Qrdb18tM2XZ5suae5hxWb5SZO/
+         OPeVJWUvU65xw4gs2x5eAEB81ARvN2rJl9WQKLYu8kd2EAn2i5+1DEquOqilbesYI6GE
+         udlQskti6hf1Hb3gf0hZKVhcT19srg8jod6kneCq3IGWmdkEaqheetIs/SpjtDkKxG2u
+         6Qzv+tDrEgfkalQolKPWiMrNcb6rLSnPdi3x28ISg2QDo7RyS0uwEhhfvfHp2hLG5Jht
+         W+6NYqQj2g1a1VSb/tlBYC7MVUfrq8f4lE/7lGoGseM9z7q2rQ6EpJ/1qxG7ij1PucMC
+         G4GQ==
+X-Gm-Message-State: AOAM53038+451gsaNaaLWD+YkugxMXJippeXFX5iNUfHUv88hSvLeGjt
+        2/h7WGgj9mSzRLjko+UomqCGeiPfRa7Peg==
+X-Google-Smtp-Source: ABdhPJwNGTnj4JaITWy+iodJOpOiSwdgCF6XmQd5fQEhmABCkgM5VBs795zUtRJfwiFFnMERwTAaHw==
+X-Received: by 2002:a05:6e02:1a4f:: with SMTP id u15mr153930ilv.147.1623350427567;
+        Thu, 10 Jun 2021 11:40:27 -0700 (PDT)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com. [209.85.166.51])
+        by smtp.gmail.com with ESMTPSA id a22sm2003417iot.37.2021.06.10.11.40.26
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Jun 2021 11:40:27 -0700 (PDT)
+Received: by mail-io1-f51.google.com with SMTP id 5so28137130ioe.1
+        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 11:40:26 -0700 (PDT)
+X-Received: by 2002:a5e:974d:: with SMTP id h13mr4904715ioq.150.1623350426300;
+ Thu, 10 Jun 2021 11:40:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210602132950.4167596-2-m.tretter@pengutronix.de>
+References: <20210326095840.364424-1-ribalda@chromium.org> <20210326095840.364424-17-ribalda@chromium.org>
+ <YMJLxPgH756t+4qY@pendragon.ideasonboard.com>
+In-Reply-To: <YMJLxPgH756t+4qY@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 10 Jun 2021 20:40:15 +0200
+X-Gmail-Original-Message-ID: <CANiDSCu5jtm1gvS0j1QjPny5bfXa8DRKy9EdZ=xbo0i--8sMJQ@mail.gmail.com>
+Message-ID: <CANiDSCu5jtm1gvS0j1QjPny5bfXa8DRKy9EdZ=xbo0i--8sMJQ@mail.gmail.com>
+Subject: Re: [PATCH v9 16/22] media: uvcvideo: Return -EACCES to inactive controls
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 03:29:49PM +0200, Michael Tretter wrote:
-> From: Marek Vasut <marex@denx.de>
-> 
-> Add bindings for the Intersil ISL79987 analog to MIPI CSI-2 decoder.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> To: linux-media@vger.kernel.org
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
-> Changelog:
-> 
-> v2:
-> 
-> - convert binding to yaml
-> - change description to match only isl79987
-> - replace num-inputs property with multiple ports
-> - add reset gpio
-> ---
->  .../bindings/media/i2c/isil,isl79987.yaml     | 108 ++++++++++++++++++
->  1 file changed, 108 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/isil,isl79987.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/isil,isl79987.yaml b/Documentation/devicetree/bindings/media/i2c/isil,isl79987.yaml
-> new file mode 100644
-> index 000000000000..4aa27511b1ab
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/isil,isl79987.yaml
-> @@ -0,0 +1,108 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/isil,isl79987.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Intersil ISL79987 Analog to MIPI CSI-2 decoder
-> +
-> +maintainers:
-> +  - Michael Tretter <m.tretter@pengutronix.de>
-> +  - Marek Vasut <marex@denx.de>
-> +
-> +description:
-> +  The Intersil ISL79987 is an analog to MIPI CSI-2 decoder which is capable of
-> +  receiving up to four analog stream and multiplexing them into up to four MIPI
-> +  CSI-2 virtual channels, using one MIPI clock lane and 1/2 data lanes.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - isil,isl79987
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description:
-> +      A GPIO spec for the RSTB pin (active high)
-> +
-> +  pd-gpios:
+Hi Laurent
 
-powerdown-gpios is the somewhat standard name.
+Thanks for your review!
 
-> +    maxItems: 1
-> +    description:
-> +      A GPIO spec for the Power Down pin (active high)
-> +
-> +  ports:
-> +    type: object
+On Thu, 10 Jun 2021 at 19:28, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the patch.
+>
+> On Fri, Mar 26, 2021 at 10:58:34AM +0100, Ricardo Ribalda wrote:
+> > If a control is inactive return -EACCES to let the userspace know that
+> > the value will not be applied automatically when the control is active
+> > again.
+>
+> Isn't the device supposed to stall the control set in that case, with
+> the bRequestErrorCode set to "Wrong state", which uvc_query_ctrl()
+> translates to -EACCES already ? Could you elaborate on why this patch is
+> needed ?
 
-Please reference the graph.yaml schema. There's several examples in the 
-tree now what this should look like.
+The problem is that the hardware was not returning the equivalent of
+EACCES, so we had to capture it manually.
+I will try to revert the patch and capture an error.
 
-> +    description:
-> +      A node containing input and output port nodes with endpoint definitions
-> +      as documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+>
+> > Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_ctrl.c | 71 +++++++++++++++++++++-----------
+> >  1 file changed, 48 insertions(+), 23 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > index bcebf9d1a46f..d9d4add1e813 100644
+> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > @@ -1082,13 +1082,36 @@ static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
+> >       return "Unknown Control";
+> >  }
+> >
+> > +static bool uvc_ctrl_is_inactive(struct uvc_video_chain *chain,
+> > +                              struct uvc_control *ctrl,
+> > +                              struct uvc_control_mapping *mapping)
+> > +{
+> > +     struct uvc_control_mapping *master_map = NULL;
+> > +     struct uvc_control *master_ctrl = NULL;
+> > +     s32 val;
+> > +     int ret;
+> > +
+> > +     if (!mapping->master_id)
+> > +             return false;
+> > +
+> > +     __uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
+> > +                        &master_ctrl, 0);
+> > +
+> > +     if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
+> > +             return false;
+> > +
+> > +     ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> > +     if (ret < 0 || val == mapping->master_manual)
+> > +             return false;
+> > +
+> > +     return true;
+> > +}
+> > +
+> >  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> >       struct uvc_control *ctrl,
+> >       struct uvc_control_mapping *mapping,
+> >       struct v4l2_queryctrl *v4l2_ctrl)
+> >  {
+> > -     struct uvc_control_mapping *master_map = NULL;
+> > -     struct uvc_control *master_ctrl = NULL;
+> >       const struct uvc_menu_info *menu;
+> >       unsigned int i;
+> >
+> > @@ -1104,18 +1127,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> >       if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+> >               v4l2_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> >
+> > -     if (mapping->master_id)
+> > -             __uvc_find_control(ctrl->entity, mapping->master_id,
+> > -                                &master_map, &master_ctrl, 0);
+> > -     if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+> > -             s32 val;
+> > -             int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> > -             if (ret < 0)
+> > -                     return ret;
+>
+> There's a small change in behaviour here, the driver used to return an
+> error, now it will ignore it. Is it intentional ?
 
-This is now video-interfaces.yaml, but it's not actually used here.
+AFAIK The error did not follow the v4l2 spec. You shall always be able
+to query a ctrl.
 
-> +    properties:
+I will add it to the commit message to make it clear.
 
-> +      '#address-cells':
-> +        const: 1
-> +      '#size-cells':
-> +        const: 0
+>
+> > -
+> > -             if (val != mapping->master_manual)
+> > -                             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> > -     }
+> > +     if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
+> > +             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> >
+> >       if (!ctrl->cached) {
+> >               int ret = uvc_ctrl_populate_cache(chain, ctrl);
+> > @@ -1638,25 +1651,37 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
+> >       return 0;
+> >  }
+> >
+> > -static int uvc_ctrl_find_ctrlidx(struct uvc_entity *entity,
+> > +static int uvc_ctrl_commit_error(struct uvc_video_chain *chain,
+> > +                              struct uvc_entity *entity,
+> >                                struct v4l2_ext_controls *ctrls,
+> > -                              struct uvc_control *uvc_control)
+> > +                              struct uvc_control *err_control,
+> > +                              int ret)
+> >  {
+> >       struct uvc_control_mapping *mapping;
+> >       struct uvc_control *ctrl_found;
+> >       unsigned int i;
+> >
+> > -     if (!entity)
+> > -             return ctrls->count;
+> > +     if (!entity) {
+> > +             ctrls->error_idx = ctrls->count;
+> > +             return ret;
+> > +     }
+> >
+> >       for (i = 0; i < ctrls->count; i++) {
+> >               __uvc_find_control(entity, ctrls->controls[i].id, &mapping,
+> >                                  &ctrl_found, 0);
+> > -             if (uvc_control == ctrl_found)
+> > -                     return i;
+> > +             if (err_control == ctrl_found)
+> > +                     break;
+> >       }
+> > +     ctrls->error_idx = i;
+>
+> I think this line should be moved after the next check.
 
-These can be dropped (covered by graph.yaml).
+Not really, if we cannot find a control, we cannot blame it on control 0 ;)
 
-> +      port@0:
-> +        type: object
-> +        description: Output port
-> +
-> +    patternProperties:
-> +      "^port@[1-4]$":
-> +        type: object
-> +        description: Input ports
-> +
-> +    required:
-> +      - port@0
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - ports
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      isl7998x_mipi@44 {
-> +        compatible = "isil,isl79987";
-> +        reg = <0x44>;
-> +        pd-gpios = <&gpio3 27 GPIO_ACTIVE_HIGH>;
-> +        reset-gpios = <&gpio3 28 GPIO_ACTIVE_HIGH>;
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          port@0 {
-> +            reg = <0>;
-> +            isl79987_out: endpoint {
-> +              remote-endpoint = <&mipi_csi2_in>;
-> +              clock-lanes = <0>;
-> +              data-lanes = <1 2>;
-> +            };
-> +          };
-> +
-> +          port@1 {
-> +            reg = <1>;
-> +            endpoint {
-> +              remote-endpoint = <&camera_0>;
-> +            };
-> +          };
-> +
-> +          port@2 {
-> +            reg = <2>;
-> +            endpoint {
-> +              remote-endpoint = <&camera_1>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> -- 
-> 2.29.2
+>
+> > +
+> > +     /* We could not find the control that failed. */
+> > +     if (i == ctrls->count)
+> > +             return ret;
+> >
+> > -     return ctrls->count;
+> > +     if (uvc_ctrl_is_inactive(chain, err_control, mapping))
+> > +             return -EACCES;
+> > +
+> > +     return ret;
+> >  }
+> >
+> >  int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
+> > @@ -1679,8 +1704,8 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
+> >               uvc_ctrl_send_events(handle, ctrls->controls, ctrls->count);
+> >  done:
+> >       if (ret < 0 && ctrls)
+> > -             ctrls->error_idx = uvc_ctrl_find_ctrlidx(entity, ctrls,
+> > -                                                      err_ctrl);
+> > +             ret = uvc_ctrl_commit_error(chain, entity, ctrls, err_ctrl,
+> > +                                         ret);
+> >       mutex_unlock(&chain->ctrl_mutex);
+> >       return ret;
+> >  }
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+-- 
+Ricardo Ribalda
