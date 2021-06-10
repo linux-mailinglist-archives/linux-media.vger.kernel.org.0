@@ -2,122 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C26F3A31BC
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 19:08:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62CD03A31D7
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 19:14:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230166AbhFJRKp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 13:10:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53314 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229802AbhFJRKp (ORCPT
+        id S231200AbhFJRQT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 13:16:19 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48590 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229802AbhFJRQS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 13:10:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB431C061574;
-        Thu, 10 Jun 2021 10:08:48 -0700 (PDT)
+        Thu, 10 Jun 2021 13:16:18 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0EEDA8D4;
-        Thu, 10 Jun 2021 19:08:47 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8EE78D4;
+        Thu, 10 Jun 2021 19:14:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623344927;
-        bh=kMKwf3AUh1KMGBP8YTMcEFrwdeUsUAggQ5TeZiDXopI=;
+        s=mail; t=1623345261;
+        bh=W3SG8UnrOuR0iNr7YMC6xV0NHhWpG2qC0B18el8uGRY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mDK3foDuNjaGlsy/SF/D+mLBSSRksMVJsrkfCbPfjIxiZ1BpiCgAuSSs6kvSlXTH/
-         lN9RV2zszMuXnl+ZB1EmPe5o0lJfjFB3GEIHvY33c0ruOgCsWT5LJCgayv9cC5iZu5
-         Gypy1bG7KIj94sVlBGfzU9yfLqxmQ1Tas8M+T1Mw=
-Date:   Thu, 10 Jun 2021 20:08:28 +0300
+        b=CWs4pucu7yHlt13WsWWDMESpaBZ19pWRiJViN5CTYioV6Vd2b3vucesFsxQyScg39
+         dhQnGZNEVeIJ97MQCJWfeq2ue5YQ1lE8JTnke1B6AwLK9EXU76wCxmVKDS1GYcPd+M
+         s7KkN5GmI10Pd+7CpCwlFgeF+F/K6x7NDeCy3Kw4=
+Date:   Thu, 10 Jun 2021 20:14:02 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH v9 17/22] media: docs: Document the behaviour of uvcdriver
-Message-ID: <YMJHDLSoimKCMsB9@pendragon.ideasonboard.com>
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org, Hans Verkuil <hans.verkuil@cisco.com>
+Subject: Re: [PATCH v9 20/22] uvcvideo: improve error handling in
+ uvc_query_ctrl()
+Message-ID: <YMJIWtvp2AkaRw8T@pendragon.ideasonboard.com>
 References: <20210326095840.364424-1-ribalda@chromium.org>
- <20210326095840.364424-18-ribalda@chromium.org>
- <417be36b-850a-84b2-dc68-c1bec85e2edb@xs4all.nl>
- <CANiDSCsikQaCMFKdrKfqYv=NuhCxy2v--QBUPd00c5jAo6OGnQ@mail.gmail.com>
+ <20210326095840.364424-21-ribalda@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANiDSCsikQaCMFKdrKfqYv=NuhCxy2v--QBUPd00c5jAo6OGnQ@mail.gmail.com>
+In-Reply-To: <20210326095840.364424-21-ribalda@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+Hi Ricardo and Hans,
 
 Thank you for the patch.
 
-On Sat, Mar 27, 2021 at 01:01:05PM +0100, Ricardo Ribalda wrote:
-> On Sat, Mar 27, 2021 at 12:19 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> > On 26/03/2021 10:58, Ricardo Ribalda wrote:
-> > > The uvc driver relies on the camera firmware to keep the control states
-> > > and therefore is not capable of changing an inactive control.
-> > >
-> > > Allow returning -EACESS in those cases.
-> >
-> > -EACCES
+On Fri, Mar 26, 2021 at 10:58:38AM +0100, Ricardo Ribalda wrote:
+> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > 
-> This british people that like to have a lot of double consonants :)
+> - If __uvc_query_ctrl() failed with a non-EPIPE error, then
+>   report that with dev_err. If an error code is obtained, then
+>   report that with dev_dbg.
 > 
-> I have updated the series at:
+> - For error 2 (Wrong state) return -EACCES instead of -EILSEQ.
+>   EACCES is a much more appropriate error code. EILSEQ will return
+>   "Invalid or incomplete multibyte or wide character." in strerror(),
+>   which is a *very* confusing message.
+
+I would have split the commit in two.
+
+> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+> ---
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/ribalda/linux.git/log/?h=uvc-compliance-v10
+> I have changed a bit the patch from the original version.
 > 
-> Will not post until there is more feedback to avoid spamming the list.
+> drivers/media/usb/uvc/uvc_video.c | 38 +++++++++++++++++--------------
+>  1 file changed, 21 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index b63c073ec30e..1c3a94d91724 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -76,35 +76,31 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>  	if (likely(ret == size))
+>  		return 0;
+>  
+> -	dev_dbg(&dev->udev->dev,
+> -		"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+> -		uvc_query_name(query), cs, unit, ret, size);
+> -
+> -	if (ret != -EPIPE)
+> -		return ret;
+> +	if (ret < 0 && ret != -EPIPE)
+> +		goto err;
+>  
+> +	// reuse data[0] for request the error code.
 
-s/uvcdriver/uvcvideo driver/ in the subject line.
+C-style comments please.
 
-For the version in that branch,
+s/for request/to request/
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>  	tmp = *(u8 *)data;
+> -
+>  	ret = __uvc_query_ctrl(dev, UVC_GET_CUR, 0, intfnum,
+>  			       UVC_VC_REQUEST_ERROR_CODE_CONTROL, data, 1,
+>  			       UVC_CTRL_CONTROL_TIMEOUT);
+> -
 
-> > >
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  Documentation/userspace-api/media/v4l/vidioc-g-ctrl.rst      | 5 +++++
-> > >  Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst | 5 +++++
-> > >  2 files changed, 10 insertions(+)
-> > >
-> > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ctrl.rst
-> > > index 4f1bed53fad5..8c0a203385c2 100644
-> > > --- a/Documentation/userspace-api/media/v4l/vidioc-g-ctrl.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ctrl.rst
-> > > @@ -95,3 +95,8 @@ EBUSY
-> > >
-> > >  EACCES
-> > >      Attempt to set a read-only control or to get a write-only control.
-> > > +
-> > > +    Or if there is an attempt to set an inactive control and the driver is
-> > > +    not capable of keeping the new value until the control is active again.
-> >
-> > keeping: 'caching' or 'storing' are better words, I think.
-> >
-> > > +    This is the case for drivers that do not use the standard control
-> > > +    framework and rely purely on the hardware to keep the controls' state.
-> >
-> > I would drop that last sentence. It is not relevant information to the users of
-> > the API.
-> >
-> > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> > > index b9c62affbb5a..bb7de7a25241 100644
-> > > --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> > > @@ -438,3 +438,8 @@ EACCES
-> > >
-> > >      Or the ``which`` field was set to ``V4L2_CTRL_WHICH_REQUEST_VAL`` but the
-> > >      device does not support requests.
-> > > +
-> > > +    Or if there is an attempt to set an inactive control and the driver is
-> > > +    not capable of keeping the new value until the control is active again.
-> > > +    This is the case for drivers that do not use the standard control
-> > > +    framework and rely purely on the hardware to keep the controls' state.
-> >
-> > Same comments as above.
+No need to drop the blank lines.
+
+>  	error = *(u8 *)data;
+>  	*(u8 *)data = tmp;
+>  
+> -	if (ret != 1)
+> -		return ret < 0 ? ret : -EPIPE;
+> +	if (ret != 1) {
+> +		ret = ret < 0 ? ret : -EPIPE;
+> +		goto err;
+> +	}
+>  
+> -	uvc_dbg(dev, CONTROL, "Control error %u\n", error);
+> +	dev_dbg(&dev->udev->dev,
+
+Why not uvc_dbg ?
+
+> +		"Failed to query (%s) UVC control %u on unit %u: got error %u.\n",
+> +		uvc_query_name(query), cs, unit, error);
+>  
+>  	switch (error) {
+> -	case 0:
+> -		/* Cannot happen - we received a STALL */
+> -		return -EPIPE;
+>  	case 1: /* Not ready */
+>  		return -EBUSY;
+>  	case 2: /* Wrong state */
+> -		return -EILSEQ;
+> +		return -EACCES;
+>  	case 3: /* Power */
+>  		return -EREMOTE;
+>  	case 4: /* Out of range */
+> @@ -120,10 +116,18 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>  	case 8: /* Invalid value within range */
+>  		return -EINVAL;
+>  	default: /* reserved or unknown */
+> -		break;
+> +		dev_err(&dev->udev->dev,
+> +			"Failed to query (%s) UVC control %u on unit %u: got error %u.\n",
+> +			uvc_query_name(query), cs, unit, error);
+
+when debugging is enabled, this will print the error message a second
+time, it's not very nice.
+
+> +		return -EPIPE;
+>  	}
+>  
+> -	return -EPIPE;
+> +err:
+> +	dev_err(&dev->udev->dev,
+> +		"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+> +		uvc_query_name(query), cs, unit, ret, size);
+> +
+> +	return ret;
+>  }
+>  
+>  static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
 
 -- 
 Regards,
