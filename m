@@ -2,86 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90DE43A3455
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 21:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 633AB3A35D6
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 23:27:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230346AbhFJT4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 15:56:33 -0400
-Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:52961 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230216AbhFJT4c (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 15:56:32 -0400
-Received: from localhost.localdomain ([86.243.172.93])
-        by mwinf5d69 with ME
-        id FXuX2500721Fzsu03XuYBA; Thu, 10 Jun 2021 21:54:33 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 10 Jun 2021 21:54:33 +0200
-X-ME-IP: 86.243.172.93
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Yasunari.Takiguchi@sony.com, mchehab@kernel.org,
-        narmstrong@baylibre.com, sean@mess.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH v2] media: cxd2880-spi: Fix an error handling path
-Date:   Thu, 10 Jun 2021 21:54:31 +0200
-Message-Id: <40b114d7200d2a87150249f8228b88f7a4ee15e0.1621599392.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.30.2
+        id S230117AbhFJV3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 17:29:54 -0400
+Received: from mga18.intel.com ([134.134.136.126]:8326 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229963AbhFJV3x (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Jun 2021 17:29:53 -0400
+IronPort-SDR: 9Uhhbae9NbrksonUDep+wCz+O1v1JnTPZbo793fkUOYqrSEn9wVhjOf/KrDIquoW2kvOVV8D9K
+ iBkHA3j8pzjA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="192722742"
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; 
+   d="scan'208";a="192722742"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 14:27:56 -0700
+IronPort-SDR: ofXaOKfwEBrxBrOp9ajNsJR236ZnmE4Sc7VRbaGLTWI8B2WGBj7S4FeIE3cdfyaTnUz+pSnk/5
+ wEG+aA/6UT7Q==
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; 
+   d="scan'208";a="441364532"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 14:27:53 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 6231D2036A;
+        Fri, 11 Jun 2021 00:27:51 +0300 (EEST)
+Date:   Fri, 11 Jun 2021 00:27:51 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Martina Krasteva <martinax.krasteva@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        robh+dt@kernel.org, devicetree@vger.kernel.org,
+        daniele.alessandrelli@linux.intel.com,
+        paul.j.murphy@linux.intel.com, gjorgjix.rosikopulos@linux.intel.com
+Subject: Re: [PATCH v2 0/6] Camera Sensor Drivers
+Message-ID: <20210610212751.GJ3@paasikivi.fi.intel.com>
+References: <20210527142145.173-1-martinax.krasteva@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210527142145.173-1-martinax.krasteva@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If an error occurs after a successful 'regulator_enable()' call,
-'regulator_disable()' must be called.
+Hi Martina,
 
-Fix the error handling path of the probe accordingly.
+On Thu, May 27, 2021 at 03:21:39PM +0100, Martina Krasteva wrote:
+> From: Martina Krasteva <martinax.krasteva@intel.com>
+> 
+> Patch series contains Sony IMX335, Sony IMX412 and OmniVision OV9282
+> camera sensor drivers and respective binding documentation.
+> 
+> v1->v2:
+> - define maxItems for reset-gpios in dt binding document
+> - make sure the device is powered off on remove
+> - use pm_runtime_resume_and_get() instead of pm_runtime_get_sync()
+> 
+> v1: https://patchwork.kernel.org/project/linux-media/list/?series=458115
 
-Fixes: cb496cd472af ("media: cxd2880-spi: Add optional vcc regulator")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-v2: In case of error 'dvb_spi->vcc_supply' is set to NULL
-    So test for NULL instead of IS_ERR as spotted by Sean Young
+Thanks for the update.
 
-v1 was part of a small serie. Patch 2/2 has been applied, so this update
-is now sent as a single patch
----
- drivers/media/spi/cxd2880-spi.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+The patches seem fine, but I noticed one problem: the analogue gain is only
+updated when exposure is set. This is a bug.
 
-diff --git a/drivers/media/spi/cxd2880-spi.c b/drivers/media/spi/cxd2880-spi.c
-index 931ec0727cd3..df1335e7061c 100644
---- a/drivers/media/spi/cxd2880-spi.c
-+++ b/drivers/media/spi/cxd2880-spi.c
-@@ -524,13 +524,13 @@ cxd2880_spi_probe(struct spi_device *spi)
- 	if (IS_ERR(dvb_spi->vcc_supply)) {
- 		if (PTR_ERR(dvb_spi->vcc_supply) == -EPROBE_DEFER) {
- 			ret = -EPROBE_DEFER;
--			goto fail_adapter;
-+			goto fail_regulator;
- 		}
- 		dvb_spi->vcc_supply = NULL;
- 	} else {
- 		ret = regulator_enable(dvb_spi->vcc_supply);
- 		if (ret)
--			goto fail_adapter;
-+			goto fail_regulator;
- 	}
- 
- 	dvb_spi->spi = spi;
-@@ -618,6 +618,9 @@ cxd2880_spi_probe(struct spi_device *spi)
- fail_attach:
- 	dvb_unregister_adapter(&dvb_spi->adapter);
- fail_adapter:
-+	if (!dvb_spi->vcc_supply)
-+		regulator_disable(dvb_spi->vcc_supply);
-+fail_regulator:
- 	kfree(dvb_spi);
- 	return ret;
- }
+Most drivers do not try to synchronise setting analogue gain and exposure
+to the same frame. Do you need that? Alternatively the control framework
+would probably need to be amended a little --- something that would have
+other benefits, too.
+
+I don't think that blocks merging the drivers though. But this needs to be
+addressed.
+
 -- 
-2.30.2
+Kind regards,
 
+Sakari Ailus
