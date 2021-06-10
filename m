@@ -2,81 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 053C63A244E
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 08:11:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAAAC3A2452
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 08:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbhFJGNl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 02:13:41 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:57275 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229740AbhFJGNl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 02:13:41 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id rDuml5SfWhqltrDuqlWSSF; Thu, 10 Jun 2021 08:11:44 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623305504; bh=P2OeFkwNOpkS8x8TMF1SF/nr7rZZKLTA2gQ20AHnSl4=;
-        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=We00TN6/+oa4FmPU27rhaXx/XMX9oCVPMr+sJgiuZ7UGgblJTaghXsu8/8AnDgzck
-         uucxXpHobTIWyMEHwtDURxLs3tCUaMOtTK8yoJjjgBWNR634jv/In9UuNWmXZw0pQ5
-         bXDM3jxCHSo6Zv1P92fJaKeb4nTv8J/l/kNsQkGSTm+KgI/qlgryRSwVcLE7U98Ayu
-         50JlnsH5MBu150duX3LE5vwaXMO4+wZebvf5BGKJHZY8aeg1tSpafgW8ZZiYnNTMpP
-         TGej5RB1k0d59+jXikFvnMoNlThpzYrgXISG0V1PcFKOu5zYv+OXItkhgNpQO1iUU9
-         XXxe8/4wTpoXQ==
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] adv7842: remove spurious & and fix vga_edid size
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Message-ID: <2ca8a9d9-c96d-f525-8bd3-5b72f5bbc5ef@xs4all.nl>
-Date:   Thu, 10 Jun 2021 08:11:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        id S229740AbhFJGQf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 02:16:35 -0400
+Received: from ni.piap.pl ([195.187.100.5]:59880 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229634AbhFJGQe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Jun 2021 02:16:34 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ni.piap.pl (Postfix) with ESMTPSA id 8D15E443166;
+        Thu, 10 Jun 2021 08:14:34 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 8D15E443166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1623305674; bh=xrBsq3MH+xFTU3NQYMsHqFUPF2E/FqDBLg+Y3x9Dmfo=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=ZpA6oJ78T/8xf/1afo0ZvqWE9l0l7HpqvV+EkhqbtcU7NXXQnaXGxIaHGT1iScW2A
+         /tbCwvPMvsEOt2tWef4eBEDB3Sa/eq7U2VxyMpeYhAiB9dlzZDRDwKgAbT4vuIc0rm
+         ELgiCKR9REdujEEcZEzBmoiDZ4iSOPtHj32H7hxY=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESENT] MEDIA CODA: Fix NULL ptr dereference in the
+ encoder.
+References: <m3k0n6gciy.fsf@t19.piap.pl>
+        <7ff9ab255bc95ae7400b77bef6e0a2949858f04c.camel@pengutronix.de>
+Sender: khalasa@piap.pl
+Date:   Thu, 10 Jun 2021 08:14:34 +0200
+In-Reply-To: <7ff9ab255bc95ae7400b77bef6e0a2949858f04c.camel@pengutronix.de>
+        (Philipp Zabel's message of "Tue, 08 Jun 2021 11:55:03 +0200")
+Message-ID: <m34ke68cvp.fsf@t19.piap.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfApGYGSSqHG2YjLR6a7EJDsVNbbiy0dsG8/Gheed6KRQz3SvOKk5KiKKLImuFIRWICkx/1l7en9VPQc3cYrf7JezpH+oTeLhBvcAi8i4wnuHI/t9KhEN
- /8sVFI0bRhT6mUTV10u5m8hinhaPGcSVO++kEEHsel21MRWWcksWsZ7hurQILyy+0N0q+EzbTB9ez/CLx1599KcAhumDWiRMAyA=
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 4
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-No need to use & to get the start address of an array.
+Hi Philipp,
 
-Fix the size of vga_edid.edid to a single block (128 bytes) to fix
-this smatch error:
+> I don't think this is required though.
 
-adv7842.c:2538 adv7842_set_edid() error: memcpy() '&state->vga_edid.edid' too small (128 vs 512)
+and
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-index 78e61fe6f2f0..21dde17e6b37 100644
---- a/drivers/media/i2c/adv7842.c
-+++ b/drivers/media/i2c/adv7842.c
-@@ -2531,20 +2531,20 @@ static int adv7842_set_edid(struct v4l2_subdev *sd, struct v4l2_edid *e)
+> This is already fixed by [1] in media-tree/master.
 
- 	switch (e->pad) {
- 	case ADV7842_EDID_PORT_VGA:
--		memset(&state->vga_edid.edid, 0, sizeof(state->vga_edid.edid));
-+		memset(state->vga_edid.edid, 0, sizeof(state->vga_edid.edid));
- 		state->vga_edid.blocks = e->blocks;
- 		state->vga_edid.present = e->blocks ? 0x1 : 0x0;
- 		if (e->blocks)
--			memcpy(&state->vga_edid.edid, e->edid, 128 * e->blocks);
-+			memcpy(state->vga_edid.edid, e->edid, 128);
- 		err = edid_write_vga_segment(sd);
- 		break;
- 	case ADV7842_EDID_PORT_A:
- 	case ADV7842_EDID_PORT_B:
--		memset(&state->hdmi_edid.edid, 0, sizeof(state->hdmi_edid.edid));
-+		memset(state->hdmi_edid.edid, 0, sizeof(state->hdmi_edid.edid));
- 		state->hdmi_edid.blocks = e->blocks;
- 		if (e->blocks) {
- 			state->hdmi_edid.present |= 0x04 << e->pad;
--			memcpy(&state->hdmi_edid.edid, e->edid, 128 * e->blocks);
-+			memcpy(state->hdmi_edid.edid, e->edid, 128 * e->blocks);
- 		} else {
- 			state->hdmi_edid.present &= ~(0x04 << e->pad);
- 			adv7842_s_detect_tx_5v_ctrl(sd);
+Ok, thanks, sorry for the noise.
+--=20
+Krzysztof Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
