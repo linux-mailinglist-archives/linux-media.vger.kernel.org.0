@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F1A43A364D
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 23:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 086173A364E
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 23:45:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230483AbhFJVrA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 17:47:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54184 "EHLO mail.kernel.org"
+        id S230504AbhFJVrB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 17:47:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54276 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230286AbhFJVq5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 17:46:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 131D96141D;
-        Thu, 10 Jun 2021 21:44:57 +0000 (UTC)
+        id S230487AbhFJVrA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Jun 2021 17:47:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 19B1F613CA;
+        Thu, 10 Jun 2021 21:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623361500;
-        bh=ql1oV1rq//CRvUy0F7HDTW6q+eFb02wnUXlrJrXa2hs=;
+        s=k20201202; t=1623361503;
+        bh=P0W2KJ4lzuzwWS6G/VqMgKtWboi7bu1bEPiy8Gk27bA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=o3zoNLqSXfQITog8yYtrX+ZX2vylMv1/BTTCG7KcA0/JgoQgIbZG5XIKnLPzzWbQm
-         Tbo/h0e+5wB1KzXJUU3BrKDim5wLvvfNoEGb8O41Lpc0l/y50E3/BgXQImwLd+yByT
-         PPCHOr+TSzEDJxf3tymMNcBXoDIIOI63e+BdbxyiNE9SqbKlzJ6LdLJQVM1Du7mvDY
-         CxyK/DYN1BQFjBVOfS+8IRnSQzSMDhGYEWYo0A5rGadJoKyIYaPMr15hruK+wzW3y/
-         KT97fYsXzFN0CmJMl9h2XdAMw1/5XkZhXGWGWtx3Ac2OJOiEnKYF5YioL/lHO9QAI9
-         6WRt+eiriNmJw==
+        b=bk+P31Vcczg79DOEhKZYLisjfWMS1pomZiAAU6ijgXlVDNL419cxL0Ic3e+ajxpQt
+         VEjQUmlUnmuaAr8tbZ7uFUohE9EEY5zJawTfyO3VJbC6FIVu1WHSYXTmCNWQKn4uEU
+         lbjRyvYti+7w2lUQd1e4/Z60ZbjyvwvO3zAHllXBscZo02phLxDMk4PwEDE4O3aJM0
+         TLSZXLCuNjMu+OgbFSaZjGf2brQPx/kszy4OaIIwIegN1hLeYeFrUisfbe5n7pLGEI
+         EmaT9Th2KRaqom9BjblutrBcd2+TRIYjkMVeFFVUyqVjKJlC5noWmWQ1uUZtM12TmZ
+         l4tsbpLM8WL3Q==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -38,9 +38,9 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH v2 3/7] media: subdev: remove VIDIOC_DQEVENT_TIME32 handling
-Date:   Thu, 10 Jun 2021 23:43:01 +0200
-Message-Id: <20210610214305.4170835-4-arnd@kernel.org>
+Subject: [PATCH v2 4/7] media: v4l2-core: return -ENODEV from ioctl when not registered
+Date:   Thu, 10 Jun 2021 23:43:02 +0200
+Message-Id: <20210610214305.4170835-5-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210610214305.4170835-1-arnd@kernel.org>
 References: <20210610214305.4170835-1-arnd@kernel.org>
@@ -52,57 +52,33 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Converting the VIDIOC_DQEVENT_TIME32/VIDIOC_DQEVENT32/
-VIDIOC_DQEVENT32_TIME32 arguments to the canonical form is done in common
-code, but for some reason I ended up adding another conversion helper to
-subdev_do_ioctl() as well. I must have concluded that this does not go
-through the common conversion, but it has done that since the ioctl
-handler was first added.
+I spotted a minor difference is handling of unregistered devices
+between native and compat ioctls: the native handler never tries
+to call into the driver if a device is not marked as registered.
 
-I assume this one is harmless as there should be no way to arrive here
-from user space, but since it is dead code, it should just get removed.
+I did not check whether this can cause issues in the kernel, or
+just a different between return codes, but it clearly makes
+sense that both should behave the same way.
 
-Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 24 ------------------------
- 1 file changed, 24 deletions(-)
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 956dafab43d4..bf3aa9252458 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -428,30 +428,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+index 0ca75f6784c5..47aff3b19742 100644
+--- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
++++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+@@ -1244,6 +1244,9 @@ long v4l2_compat_ioctl32(struct file *file, unsigned int cmd, unsigned long arg)
+ 	if (!file->f_op->unlocked_ioctl)
+ 		return ret;
  
- 		return v4l2_event_dequeue(vfh, arg, file->f_flags & O_NONBLOCK);
- 
--	case VIDIOC_DQEVENT_TIME32: {
--		struct v4l2_event_time32 *ev32 = arg;
--		struct v4l2_event ev = { };
--
--		if (!(sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS))
--			return -ENOIOCTLCMD;
--
--		rval = v4l2_event_dequeue(vfh, &ev, file->f_flags & O_NONBLOCK);
--
--		*ev32 = (struct v4l2_event_time32) {
--			.type		= ev.type,
--			.pending	= ev.pending,
--			.sequence	= ev.sequence,
--			.timestamp.tv_sec  = ev.timestamp.tv_sec,
--			.timestamp.tv_nsec = ev.timestamp.tv_nsec,
--			.id		= ev.id,
--		};
--
--		memcpy(&ev32->u, &ev.u, sizeof(ev.u));
--		memcpy(&ev32->reserved, &ev.reserved, sizeof(ev.reserved));
--
--		return rval;
--	}
--
- 	case VIDIOC_SUBSCRIBE_EVENT:
- 		return v4l2_subdev_call(sd, core, subscribe_event, vfh, arg);
- 
++	if (!video_is_registered(vdev))
++		return -ENODEV;
++
+ 	if (_IOC_TYPE(cmd) == 'V' && _IOC_NR(cmd) < BASE_VIDIOC_PRIVATE)
+ 		ret = file->f_op->unlocked_ioctl(file, cmd,
+ 					(unsigned long)compat_ptr(arg));
 -- 
 2.29.2
 
