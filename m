@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 188E83A2A66
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 13:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 346CC3A2A64
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 13:36:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230468AbhFJLiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 07:38:25 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:41895 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230452AbhFJLiV (ORCPT
+        id S230466AbhFJLiY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 07:38:24 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:56353 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230450AbhFJLiU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 07:38:21 -0400
+        Thu, 10 Jun 2021 07:38:20 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id rIytl7kZmhqltrIz1lXjT4; Thu, 10 Jun 2021 13:36:23 +0200
+        id rIytl7kZmhqltrIz1lXjTL; Thu, 10 Jun 2021 13:36:23 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623324983; bh=tfZjIy0DAqTPo6JYTWeiz3De0hajqoq8scpK97TGa8Q=;
+        t=1623324983; bh=IQA0zSZGm4wQ6dZbo5ivFXUk/IFeej2CpRbZMp/0/KI=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=ldjKiqMSEjH0LAWR2RdbTV0kbhLhejMm4MHRFW0OF/ErgzyQ2XjfmNdPaXdh9AXHa
-         8O1k5veWVz9AyzxctIBuLUPrkFOGyb+6ViZl2QNimhG+/T11TjvUf37yOEkP8B8yUB
-         Et6Ol0ZaE21bhd9ZpizAoaiRx6xXaAzPnZP8JSK+zCKy0gpdVZf9bhTCMDY2SjepLY
-         68l+lGdHoHBKobYXTqGY1/E+U/TACzALPR+N7JCmZV2v2m5BPCybsHLWWFNyaScSRt
-         Zeo5wmmfLpOyzlczbxB2eI2vtZKh4Q22gW1vVztBxYGs91i/sL0ofKWBPMr2RHacoC
-         Nozd7Q4vrwkKQ==
+        b=gcxbq4YFgtTcdvxd63u5VdJYnB39DDDlh4uoXQKQWhJZ/+LSe5NHeAUWl7VguIfoY
+         ABjqS8zDjwsXZeCL/2ohWCwAIV6CsGY7A9mf+x/oOgWAwLeuwchlb7Gvpxtz8kPbYD
+         PiouYx/X2pNaYY/8Zr+cYLV6fFMEJeptZmbjdEgwWIJdORFR6hlf+X4GLFOWYOc0am
+         O3NvpnJo2hhAgFgc++as4yOhSvUIZTGk0qPEXaQdJ3oJ5n6rtMwoGYGvw9/JaSP1lh
+         iuCuB6KUo3NDyK1D7q5+wPHMXRDk8NU8QCc1H1h7Zn0h8wT6PAZ783v0GCax14zH0s
+         2lF2D37oqvKPw==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
@@ -32,9 +32,9 @@ Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
         John Cox <jc@kynesim.co.uk>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [RFC PATCHv2 05/11] videodev2.h: add V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS
-Date:   Thu, 10 Jun 2021 13:36:09 +0200
-Message-Id: <20210610113615.785359-6-hverkuil-cisco@xs4all.nl>
+Subject: [RFC PATCHv2 06/11] videobuf2-core: add vb2_request_buffer_first()
+Date:   Thu, 10 Jun 2021 13:36:10 +0200
+Message-Id: <20210610113615.785359-7-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210610113615.785359-1-hverkuil-cisco@xs4all.nl>
 References: <20210610113615.785359-1-hverkuil-cisco@xs4all.nl>
@@ -48,87 +48,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds support for the V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS
-flag. This flag is used for Read-Only Requests.
-
-Based on a patch from Yunfei Dong <yunfei.dong@mediatek.com>.
+Add the vb2_request_buffer_first() helper function to obtain the
+first vb2 buffer in the request.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/common/videobuf2/videobuf2-core.c | 3 +++
- drivers/media/common/videobuf2/videobuf2-v4l2.c | 4 +++-
- drivers/media/v4l2-core/v4l2-mem2mem.c          | 3 ++-
- include/media/videobuf2-core.h                  | 1 +
- include/uapi/linux/videodev2.h                  | 1 +
- 5 files changed, 10 insertions(+), 2 deletions(-)
+ .../media/common/videobuf2/videobuf2-core.c   | 19 +++++++++++++++++++
+ include/media/videobuf2-core.h                |  7 +++++++
+ 2 files changed, 26 insertions(+)
 
 diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 02281d13505f..10c552638878 100644
+index 10c552638878..3157fefe6500 100644
 --- a/drivers/media/common/videobuf2/videobuf2-core.c
 +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -2331,6 +2331,9 @@ int vb2_core_queue_init(struct vb2_queue *q)
- 	if (WARN_ON(q->requires_requests && !q->supports_requests))
- 		return -EINVAL;
- 
-+	if (WARN_ON(q->supports_ro_requests && !q->supports_requests))
-+		return -EINVAL;
-+
- 	INIT_LIST_HEAD(&q->queued_list);
- 	INIT_LIST_HEAD(&q->done_list);
- 	spin_lock_init(&q->done_lock);
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 7e96f67c60ba..c63ee7bc3331 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -712,7 +712,9 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
- 	if (q->allow_cache_hints && q->io_modes & VB2_MMAP)
- 		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
- #ifdef CONFIG_MEDIA_CONTROLLER_REQUEST_API
--	if (q->supports_requests)
-+	if (q->supports_ro_requests)
-+		*caps |= V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS;
-+	else if (q->supports_requests)
- 		*caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
- #endif
+@@ -1477,6 +1477,25 @@ unsigned int vb2_request_buffer_cnt(struct media_request *req)
  }
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index e7f4bf5bc8dd..0d7c27a07224 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -753,7 +753,8 @@ int v4l2_m2m_qbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ EXPORT_SYMBOL_GPL(vb2_request_buffer_cnt);
  
- 	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
- 	if (V4L2_TYPE_IS_CAPTURE(vq->type) &&
--	    (buf->flags & V4L2_BUF_FLAG_REQUEST_FD)) {
-+	    (buf->flags & V4L2_BUF_FLAG_REQUEST_FD) &&
-+	    !vq->supports_ro_requests) {
- 		dprintk("%s: requests cannot be used with capture buffers\n",
- 			__func__);
- 		return -EPERM;
++struct vb2_buffer *vb2_request_buffer_first(struct media_request *req)
++{
++	struct media_request_object *obj;
++	struct vb2_buffer *vb = NULL;
++	unsigned long flags;
++
++	spin_lock_irqsave(&req->lock, flags);
++	list_for_each_entry(obj, &req->objects, list) {
++		if (vb2_request_object_is_buffer(obj)) {
++			vb = container_of(obj, struct vb2_buffer, req_obj);
++			break;
++		}
++	}
++	spin_unlock_irqrestore(&req->lock, flags);
++
++	return vb;
++}
++EXPORT_SYMBOL_GPL(vb2_request_buffer_first);
++
+ int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
+ {
+ 	struct vb2_buffer *vb;
 diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 12955cb460d2..0760f967365a 100644
+index 0760f967365a..f508ce6b3152 100644
 --- a/include/media/videobuf2-core.h
 +++ b/include/media/videobuf2-core.h
-@@ -578,6 +578,7 @@ struct vb2_queue {
- 	unsigned int			allow_zero_bytesused:1;
- 	unsigned int		   quirk_poll_must_check_waiting_for_buffers:1;
- 	unsigned int			supports_requests:1;
-+	unsigned int			supports_ro_requests:1;
- 	unsigned int			requires_requests:1;
- 	unsigned int			uses_qbuf:1;
- 	unsigned int			uses_requests:1;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 7222fc855d6b..a70126ad0899 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -964,6 +964,7 @@ struct v4l2_requestbuffers {
- #define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS		(1 << 4)
- #define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
- #define V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS		(1 << 6)
-+#define V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS		(1 << 7)
+@@ -1258,4 +1258,11 @@ bool vb2_request_object_is_buffer(struct media_request_object *obj);
+  */
+ unsigned int vb2_request_buffer_cnt(struct media_request *req);
  
- /**
-  * struct v4l2_plane - plane info for multi-planar buffers
++/**
++ * vb2_request_buffer_first() - return the first buffer in the request
++ *
++ * @req:	the request.
++ */
++struct vb2_buffer *vb2_request_buffer_first(struct media_request *req);
++
+ #endif /* _MEDIA_VIDEOBUF2_CORE_H */
 -- 
 2.30.2
 
