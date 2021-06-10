@@ -2,75 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A13513A2F14
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 17:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 613733A2FA4
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 17:45:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230322AbhFJPOc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 11:14:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55440 "EHLO
+        id S231768AbhFJPq6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 11:46:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231374AbhFJPOb (ORCPT
+        with ESMTP id S231654AbhFJPqw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 11:14:31 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28F76C061574
-        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 08:12:35 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B39D98D4
-        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 17:12:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623337953;
-        bh=qEJrD42DHtsDEncuco3APQZEszfwYXDGrZGZw1QAZXg=;
-        h=Date:From:To:Subject:From;
-        b=Mu2ex1bDk3TR6F7MfMrOlzzsr9+90ESggERGRAovap3JEVYXh9GVGErNQRb8VzlJr
-         6h1iFZLM/QeytfSk+o4anV3FiuO4cthf4I9ab8yffpUK4lP4PDLTn4NUzEleJQ8OKK
-         97K2iGTpnmVfXh2E3IVQVBFlRY+HftAqCDGRIWAE=
-Date:   Thu, 10 Jun 2021 18:12:15 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: i.MX7 & i.MX8 camera improvements
-Message-ID: <YMIrzxH04KRdc3F5@pendragon.ideasonboard.com>
+        Thu, 10 Jun 2021 11:46:52 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD3F6C061574;
+        Thu, 10 Jun 2021 08:44:54 -0700 (PDT)
+Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:cb4:bb8b:23cb:d0d0])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0A5451F43E3E;
+        Thu, 10 Jun 2021 16:44:50 +0100 (BST)
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
+        andrzej.p@collabora.com, jc@kynesim.co.uk, jernej.skrabec@gmail.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 0/8] Additional features for Hantro HEVC
+Date:   Thu, 10 Jun 2021 17:44:34 +0200
+Message-Id: <20210610154442.806107-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+version 2:
+ - Fix structure name in ext-ctrls-codec.rst
+ - Define the value for compression storage size
+ - Add comments about registers usage
+ - Add documentation about P010 padding
 
-The following changes since commit 5b448065febe1c6bb6693735844f2fb2b7b654dc:
+Basic HEVC support has been added to Hantro driver in this pull request:
+https://www.spinics.net/lists/linux-media/msg193744.html
 
-  media: pci: tw5864: avoid usage of some characters (2021-06-04 08:11:12 +0200)
+Thanks to that it is now possible to support more features for this driver.
 
-are available in the Git repository at:
+The first patch allow to log the hardware performance per macroblock.
+The second patch makes the driver use compressed reference frames to
+reduce memory bandwidth consumption.
+Patches 3 to 5 allow to decode and produce 10-bits P010 frames.
+Patch 6 make usage of G2 post processor to scale down the frames.
+Patches 7 and 8 add the support of HEVC scaling matrix by adding a new
+control.
 
-  git://linuxtv.org/pinchartl/media.git tags/imx-20210610
+All these patches enhance the HEVC support for Hantro (G2) hardware.
+Unluckily they almost all touch the same pieces of code, where buffer
+size, offset and addresses are set, so they have to be in this order.
+They depend of the series pushed in this pull request:
+https://www.spinics.net/lists/linux-media/msg193744.html
 
-for you to fetch changes up to b5541e1c071f462f0b60fdb55b7b13f5dc96ee6e:
+Benjamin
 
-  media: imx: imx7_mipi_csis: convert some switch cases to the default (2021-06-10 17:59:53 +0300)
+Benjamin Gaignard (8):
+  media: hantro: Trace hevc hw cycles performance register
+  media: hantro: Add support of compressed reference buffers
+  media: hantro: hevc: Allow 10-bits encoded streams
+  media: Add P010 video format
+  media: hantro: hevc: Allow to produce 10-bit frames
+  media: hantro: enumerate scaled output formats
+  media: hevc: Add scaling matrix control
+  media: hantro: Add scaling lists feature
 
-----------------------------------------------------------------
-- i.MX8MM support in the imx7-media-csi driver
-- Miscellaneous imx7-mipi-csis fix
-
-----------------------------------------------------------------
-Laurent Pinchart (4):
-      dt-bindings: media: nxp,imx7-csi: Add i.MX8MM support
-      media: imx: imx7-media-csi: Set TWO_8BIT_SENSOR for >= 10-bit formats
-      media: imx: imx7-media-csi: Don't set PIXEL_BIT in CSICR1
-      media: imx: imx7-media-csi: Fix buffer return upon stream start failure
-
-Tom Rix (1):
-      media: imx: imx7_mipi_csis: convert some switch cases to the default
-
- Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml | 12 ++++++++----
- drivers/staging/media/imx/imx7-media-csi.c                | 36 ++++++++++++++----------------------
- drivers/staging/media/imx/imx7-mipi-csis.c                |  6 ++----
- 3 files changed, 24 insertions(+), 30 deletions(-)
+ .../media/v4l/ext-ctrls-codec.rst             |  45 +++++
+ .../media/v4l/pixfmt-yuv-planar.rst           |  78 +++++++-
+ .../media/v4l/vidioc-queryctrl.rst            |   6 +
+ drivers/media/v4l2-core/v4l2-common.c         |   1 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |   6 +
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   4 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ drivers/staging/media/hantro/hantro.h         |   4 +
+ drivers/staging/media/hantro/hantro_drv.c     |  32 ++-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 186 ++++++++++++++++--
+ drivers/staging/media/hantro/hantro_g2_regs.h |  12 ++
+ drivers/staging/media/hantro/hantro_hevc.c    |  67 ++++++-
+ drivers/staging/media/hantro/hantro_hw.h      |   7 +
+ drivers/staging/media/hantro/hantro_v4l2.c    |  10 +-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |   6 +
+ drivers/staging/media/hantro/trace.h          |  40 ++++
+ include/media/hevc-ctrls.h                    |  11 ++
+ include/uapi/linux/videodev2.h                |   1 +
+ 18 files changed, 493 insertions(+), 24 deletions(-)
+ create mode 100644 drivers/staging/media/hantro/trace.h
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
