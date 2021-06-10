@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A07563A2A65
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 13:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 847513A2A67
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 13:36:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbhFJLiY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 07:38:24 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:47265 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230453AbhFJLiV (ORCPT
+        id S230469AbhFJLiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 07:38:25 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:57079 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230457AbhFJLiV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 10 Jun 2021 07:38:21 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id rIytl7kZmhqltrIz1lXjTb; Thu, 10 Jun 2021 13:36:23 +0200
+        id rIytl7kZmhqltrIz1lXjTn; Thu, 10 Jun 2021 13:36:24 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623324983; bh=UWPpr148bvjhhxY0nTUxxn5XcRoR5N8SWUhjvOYIvHA=;
+        t=1623324984; bh=t22WTrW8+JFusXDdj4HAREjuuzOKT+rNXDu4SmLIBsg=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=m9PQvTIQ8pPWHeOMyhMZSKoAhy1/qneu1wTFhW2BQ+usKyWGyKwICu5cjWxehRMx2
-         DxLAw+SRVj95ELc7yvr5wjmCPtipkUjXAfmgQEfVafMcx0V1wb9AoGvuo49pAwOPcY
-         HFvGxeS9Qm1/d0l9zavaUTSVVIRRgVtdv29JI1rn47RZpMA5tzmnE47MGmhNCvzU6q
-         zUV88pfMBxwbBEbmjUowY1BfEOqpbrKlUZ82NU02Ni0SMjQAkltxWNf3rG69uZmNJF
-         iWU1+suZJVSK6wzGzofMLikuEp043PoIGqSs+tYyBrINxemqnb+JJoBgzihT7FLTbe
-         5pUnEPWVHd74Q==
+        b=WMMtmj/A0akY+PjekL+oyW7v5MtFJ7XfCWM/iv7vjgPS9bjb6HQBUpZy3+LlOnfsg
+         LYFOWFi5EKpW4oQ22iWqbhrGjJQuO6u4vh9LzwLvoe/9APMWA4bT4G1waVAeEqjVKL
+         6R+o57K+WmC9o1CncuRRwDXnfMmwhbPmwKIQCMp5+pyXiNf8iLkzaQlX0D44EQzD6d
+         NlegKvOQlzkOl8T5+3nlBT+8rfLDm7DBJvKUp2h1hq0oPUyeV0a7Fnp9QUtdlBugAl
+         TqogH3Yrc29Vm7hzY2iHDl+Wa7JykyDA2mFZQlBtLYDHvM5/J12qcoX/3DoKTjubho
+         q5GAxeUMVF52A==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
@@ -32,71 +32,60 @@ Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
         John Cox <jc@kynesim.co.uk>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [RFC PATCHv2 07/11] videobuf2-v4l2.c: vb2_request_validate: support RO requests
-Date:   Thu, 10 Jun 2021 13:36:11 +0200
-Message-Id: <20210610113615.785359-8-hverkuil-cisco@xs4all.nl>
+Subject: [RFC PATCHv2 08/11] v4l2-mem2mem.c: allow requests for capture queues
+Date:   Thu, 10 Jun 2021 13:36:12 +0200
+Message-Id: <20210610113615.785359-9-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210610113615.785359-1-hverkuil-cisco@xs4all.nl>
 References: <20210610113615.785359-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfOQXvprzNOxv3dllV8tYfCqFEZTxHVPvxwWq5j8/dztnYXnbIicoUV+916/WWo0LY09C7617zTll/A7TMa6JUFvfEI1cabtbfthGymVXA0bj0OTVGvmw
- 32gLTaZy4XaVSdDIhHJ6fkbG0mBttYK1ToKmZsQiTpwbb1XalHZWI/3X9wdNyTVrYY0q1yIwAI7Rb4+ieozrulYufEwfhUnekUPcIgNxExwxp4q3Nf2X5c42
- Leobpu8kZOX3ZFgSPlwyQnR4MT9ODGPWxWTbdyBSUfGs8zs2LXF/FtbQ+IUiyMjxY9WV/zcClPUmxYcBDI+z34stHLy+n15SyLqaZLNMQGCn+veDXqRp+Ut/
- 2b7QvzCsLz/EIQObz+K1JoGhVoC7JwavZrfwg1CpwTsujvZCyWFfDfllN8TalhXPKy6EvvvF
+X-CMAE-Envelope: MS4xfPnmug6ZXHlb/ZvmC4vbNHpxD73xFb4M0tsprMr6EdAuDd6oNWZt2PXVubXtTOyCb/7VEbxIceoKE0V2AfbWJPh9otbmfksO3D/oXia8aoOXFDH8ic97
+ 4tbXpucSAudlbehnxYyTSy42Jbr5n3ywcjq+0WLAAeSno+XW7IpFee8wqdTQlWwc7MfSSF0CCrEuuqzrYU1c18DJ5iixB4V78OH/jewuA/vpb53SvEU2JypW
+ YQD07JXW85ijiW9dWVf7G/7LSIS2vO5pf+SsJXchHjqhjv70U+Q7crbvrkKE5JR9aJMFO1vsWkykfvKPIXZq4MD+B8JpH0Pel2U1/LS9tSkjtdWXcUGIJ2vc
+ tMlf7ZqBUjOquByjzzQpkua+L+BIwfTQSLRBVtMZ+Q+vLN2c7bKwiFvxDnCxyt9mICqMxYBI
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the vb2_queue for which the request is validated only supports
-read-only requests, then check if non-buffer objects are in the
-request and return -EINVAL if that is the case.
+Capture queues can support requests as well, so add support for this.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- .../media/common/videobuf2/videobuf2-v4l2.c   | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ drivers/media/v4l2-core/v4l2-mem2mem.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index c63ee7bc3331..93897c3f32e9 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -1278,12 +1278,20 @@ EXPORT_SYMBOL_GPL(vb2_ops_wait_finish);
- int vb2_request_validate(struct media_request *req)
- {
- 	struct media_request_object *obj;
-+	struct vb2_queue *q = NULL;
-+	bool buffers_only = true;
- 	int ret = 0;
+diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+index 0d7c27a07224..e068ffa9006b 100644
+--- a/drivers/media/v4l2-core/v4l2-mem2mem.c
++++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+@@ -20,6 +20,7 @@
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-fh.h>
+ #include <media/v4l2-event.h>
++#include <media/v4l2-ctrls.h>
  
--	if (!vb2_request_buffer_cnt(req))
--		return -ENOENT;
--
- 	list_for_each_entry(obj, &req->objects, list) {
-+		if (!vb2_request_object_is_buffer(obj)) {
-+			buffers_only = false;
-+		} else if (!q) {
-+			struct vb2_buffer *vb;
-+
-+			vb = container_of(obj, struct vb2_buffer, req_obj);
-+			q = vb->vb2_queue;
-+		}
-+
- 		if (!obj->ops->prepare)
- 			continue;
- 
-@@ -1292,6 +1300,11 @@ int vb2_request_validate(struct media_request *req)
- 			break;
- 	}
- 
-+	if (!q)
-+		ret = -ENOENT;
-+	else if (q->supports_ro_requests && !buffers_only)
-+		ret = -EINVAL;
-+
- 	if (ret) {
- 		list_for_each_entry_continue_reverse(obj, &req->objects, list)
- 			if (obj->ops->unprepare)
+ MODULE_DESCRIPTION("Mem to mem device framework for videobuf");
+ MODULE_AUTHOR("Pawel Osciak, <pawel@osciak.com>");
+@@ -1284,10 +1285,14 @@ void v4l2_m2m_request_queue(struct media_request *req)
+ 		if (vb2_request_object_is_buffer(obj)) {
+ 			/* Sanity checks */
+ 			vb = container_of(obj, struct vb2_buffer, req_obj);
+-			WARN_ON(!V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type));
+-			m2m_ctx_obj = container_of(vb->vb2_queue,
+-						   struct v4l2_m2m_ctx,
+-						   out_q_ctx.q);
++			if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type))
++				m2m_ctx_obj = container_of(vb->vb2_queue,
++							   struct v4l2_m2m_ctx,
++							   out_q_ctx.q);
++			else
++				m2m_ctx_obj = container_of(vb->vb2_queue,
++							   struct v4l2_m2m_ctx,
++							   cap_q_ctx.q);
+ 			WARN_ON(m2m_ctx && m2m_ctx_obj != m2m_ctx);
+ 			m2m_ctx = m2m_ctx_obj;
+ 		}
 -- 
 2.30.2
 
