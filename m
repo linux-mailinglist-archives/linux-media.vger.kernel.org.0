@@ -2,236 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66AC63A2FAF
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 17:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B19423A3065
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 18:20:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231812AbhFJPrW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 11:47:22 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:57968 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231771AbhFJPq7 (ORCPT
+        id S231143AbhFJQWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 12:22:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42200 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230211AbhFJQWA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 11:46:59 -0400
-Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:cb4:bb8b:23cb:d0d0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id ABA261F43E53;
-        Thu, 10 Jun 2021 16:45:01 +0100 (BST)
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk, jernej.skrabec@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 8/8] media: hantro: Add scaling lists feature
-Date:   Thu, 10 Jun 2021 17:44:42 +0200
-Message-Id: <20210610154442.806107-9-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210610154442.806107-1-benjamin.gaignard@collabora.com>
-References: <20210610154442.806107-1-benjamin.gaignard@collabora.com>
+        Thu, 10 Jun 2021 12:22:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97AA7C061574;
+        Thu, 10 Jun 2021 09:20:04 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F3458D4;
+        Thu, 10 Jun 2021 18:20:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623342002;
+        bh=BzGXdhhvS+7/Ft9bTCTS7hlMOBX5DbO4oiIXKPVtD1U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rWg9gd1eDQexldBezKEvnFl1SjTqIBRPl9L6hrk2f0RO4o07jl1bxVLKd6jzfQaod
+         3VEWNbOuX9eHYgB3dAagwCpqpIOHgjbA2V8nSV6kx/pThDxaVmD+YL+t46wYzKZ8fv
+         1Ys5sKmiTSd2vcmylwwuflEVCaJ396CFuD0YBJEA=
+Date:   Thu, 10 Jun 2021 19:19:43 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org, stable@vger.kernel.org
+Subject: Re: [PATCH v9 01/22] media: v4l2-ioctl: Fix check_ext_ctrls
+Message-ID: <YMI7n11nRO/tcP1j@pendragon.ideasonboard.com>
+References: <20210326095840.364424-1-ribalda@chromium.org>
+ <20210326095840.364424-2-ribalda@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210326095840.364424-2-ribalda@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the bitstream embedded scaling lists allow the driver to use
-them for decode the frames.
-The scaling lists are expected to be in raster scan order (i.e. not up
-right diagonal scan order)
-Allocate the memory needed to store lists.
+Hi Ricardo,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/staging/media/hantro/hantro_drv.c     |  8 +--
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 52 +++++++++++++++++++
- drivers/staging/media/hantro/hantro_hevc.c    | 21 ++++++++
- drivers/staging/media/hantro/hantro_hw.h      |  3 ++
- 4 files changed, 81 insertions(+), 3 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 5e6609fa4143..324619c78ada 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -281,9 +281,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- 		    sps->bit_depth_luma_minus8 != 2)
- 			/* Only 8-bit or 10-bit is supported */
- 			return -EINVAL;
--		if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED)
--			/* No scaling support */
--			return -EINVAL;
- 		if (sps->bit_depth_luma_minus8 == 0 &&
- 		    hantro_is_10bit_dst_format(ctx)) {
- 			return -EINVAL;
-@@ -469,6 +466,11 @@ static const struct hantro_ctrl controls[] = {
- 		.cfg = {
- 			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
- 		},
-+	}, {
-+		.codec = HANTRO_HEVC_DECODER,
-+		.cfg = {
-+			.id = V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
-+		},
- 	}, {
- 		.codec = HANTRO_HEVC_DECODER,
- 		.cfg = {
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index b3c6e1e50f49..887b13538794 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -608,6 +608,56 @@ static void set_buffers(struct hantro_ctx *ctx)
- 	hantro_write_addr(vpu, G2_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
- }
- 
-+static void prepare_scaling_list_buffer(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
-+	const struct v4l2_ctrl_hevc_scaling_matrix *sc = ctrls->scaling;
-+	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
-+	u8 *p = ((u8 *)ctx->hevc_dec.scaling_lists.cpu);
-+	unsigned int scaling_list_enabled;
-+	unsigned int i, j, k;
-+
-+	scaling_list_enabled = !!(sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED);
-+	hantro_reg_write(vpu, &g2_scaling_list_e, scaling_list_enabled);
-+
-+	if (!scaling_list_enabled)
-+		return;
-+
-+	for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_16x16); i++)
-+		*p++ = sc->scaling_list_dc_coef_16x16[i];
-+
-+	for (i = 0; i < ARRAY_SIZE(sc->scaling_list_dc_coef_32x32); i++)
-+		*p++ = sc->scaling_list_dc_coef_32x32[i];
-+
-+	/* 128-bit boundary */
-+	p += 8;
-+
-+	/* write scaling lists column by column */
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 4; j++)
-+			for (k = 0; k < 4; k++)
-+				*p++ = sc->scaling_list_4x4[i][4 * k + j];
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_8x8[i][8 * k + j];
-+
-+	for (i = 0; i < 6; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_16x16[i][8 * k + j];
-+
-+	for (i = 0; i < 2; i++)
-+		for (j = 0; j < 8; j++)
-+			for (k = 0; k < 8; k++)
-+				*p++ = sc->scaling_list_32x32[i][8 * k + j];
-+
-+	hantro_write_addr(vpu, HEVC_SCALING_LIST, ctx->hevc_dec.scaling_lists.dma);
-+}
-+
- static void hantro_g2_check_idle(struct hantro_dev *vpu)
- {
- 	int i;
-@@ -668,6 +718,8 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
- 	set_buffers(ctx);
- 	prepare_tile_info_buffer(ctx);
- 
-+	prepare_scaling_list_buffer(ctx);
-+
- 	hantro_end_prepare_run(ctx);
- 
- 	hantro_reg_write(vpu, &g2_mode, HEVC_DEC_MODE);
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index b646bd559ffe..ec1b86e03b83 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -20,6 +20,8 @@
- /* tile border coefficients of filter */
- #define VERT_SAO_RAM_SIZE 48 /* bytes per pixel */
- 
-+#define SCALING_LIST_SIZE (16 * 64)
-+
- #define MAX_TILE_COLS 20
- #define MAX_TILE_ROWS 22
- 
-@@ -294,6 +296,11 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
- 	if (WARN_ON(!ctrls->decode_params))
- 		return -EINVAL;
- 
-+	ctrls->scaling =
-+		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
-+	if (WARN_ON(!ctrls->scaling))
-+		return -EINVAL;
-+
- 	ctrls->sps =
- 		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SPS);
- 	if (WARN_ON(!ctrls->sps))
-@@ -322,6 +329,12 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
- 				  hevc_dec->tile_sizes.dma);
- 	hevc_dec->tile_sizes.cpu = NULL;
- 
-+	if (hevc_dec->scaling_lists.cpu)
-+		dma_free_coherent(vpu->dev, hevc_dec->scaling_lists.size,
-+				  hevc_dec->scaling_lists.cpu,
-+				  hevc_dec->scaling_lists.dma);
-+	hevc_dec->scaling_lists.cpu = NULL;
-+
- 	if (hevc_dec->tile_filter.cpu)
- 		dma_free_coherent(vpu->dev, hevc_dec->tile_filter.size,
- 				  hevc_dec->tile_filter.cpu,
-@@ -365,6 +378,14 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx)
- 
- 	hevc_dec->tile_sizes.size = size;
- 
-+	hevc_dec->scaling_lists.cpu = dma_alloc_coherent(vpu->dev, SCALING_LIST_SIZE,
-+							 &hevc_dec->scaling_lists.dma,
-+							 GFP_KERNEL);
-+	if (!hevc_dec->scaling_lists.cpu)
-+		return -ENOMEM;
-+
-+	hevc_dec->scaling_lists.size = SCALING_LIST_SIZE;
-+
- 	hantro_hevc_ref_init(ctx);
- 
- 	return 0;
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 2edb890f10af..88add18b1bad 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -108,6 +108,7 @@ struct hantro_h264_dec_hw_ctx {
-  */
- struct hantro_hevc_dec_ctrls {
- 	const struct v4l2_ctrl_hevc_decode_params *decode_params;
-+	const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
- 	const struct v4l2_ctrl_hevc_sps *sps;
- 	const struct v4l2_ctrl_hevc_pps *pps;
- 	u32 hevc_hdr_skip_length;
-@@ -120,6 +121,7 @@ struct hantro_hevc_dec_ctrls {
-  * @tile_sao:		Tile SAO buffer
-  * @tile_bsd:		Tile BSD control buffer
-  * @ref_bufs:		Internal reference buffers
-+ * @scaling_lists:	Scaling lists buffer
-  * @ref_bufs_poc:	Internal reference buffers picture order count
-  * @ref_bufs_used:	Bitfield of used reference buffers
-  * @ctrls:		V4L2 controls attached to a run
-@@ -131,6 +133,7 @@ struct hantro_hevc_dec_hw_ctx {
- 	struct hantro_aux_buf tile_sao;
- 	struct hantro_aux_buf tile_bsd;
- 	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
-+	struct hantro_aux_buf scaling_lists;
- 	int ref_bufs_poc[NUM_REF_PICTURES];
- 	u32 ref_bufs_used;
- 	struct hantro_hevc_dec_ctrls ctrls;
+On Fri, Mar 26, 2021 at 10:58:19AM +0100, Ricardo Ribalda wrote:
+> Drivers that do not use the ctrl-framework use this function instead.
+> 
+> Fix the following issues:
+> 
+> - Do not check for multiple classes when getting the DEF_VAL.
+> - Return -EINVAL for request_api calls
+> - Default value cannot be changed, return EINVAL as soon as possible.
+> - Return the right error_idx
+> [If an error is found when validating the list of controls passed with
+> VIDIOC_G_EXT_CTRLS, then error_idx shall be set to ctrls->count to
+> indicate to userspace that no actual hardware was touched.
+> It would have been much nicer of course if error_idx could point to the
+> control index that failed the validation, but sadly that's not how the
+> API was designed.]
+> 
+> Fixes v4l2-compliance:
+> Control ioctls (Input 0):
+>         warn: v4l2-test-controls.cpp(834): error_idx should be equal to count
+>         warn: v4l2-test-controls.cpp(855): error_idx should be equal to count
+> 		fail: v4l2-test-controls.cpp(813): doioctl(node, VIDIOC_G_EXT_CTRLS, &ctrls)
+> 	test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+> Buffer ioctls (Input 0):
+> 		fail: v4l2-test-buffers.cpp(1994): ret != EINVAL && ret != EBADR && ret != ENOTTY
+> 	test Requests: FAIL
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 6fa6f831f095 ("media: v4l2-ctrls: add core request support")
+> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 60 ++++++++++++++++++----------
+>  1 file changed, 39 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 31d1342e61e8..7b5ebdd329e8 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -908,7 +908,7 @@ static void v4l_print_default(const void *arg, bool write_only)
+>  	pr_cont("driver-specific ioctl\n");
+>  }
+>  
+> -static int check_ext_ctrls(struct v4l2_ext_controls *c, int allow_priv)
+> +static bool check_ext_ctrls(struct v4l2_ext_controls *c, unsigned long ioctl)
+>  {
+>  	__u32 i;
+>  
+> @@ -917,23 +917,41 @@ static int check_ext_ctrls(struct v4l2_ext_controls *c, int allow_priv)
+>  	for (i = 0; i < c->count; i++)
+>  		c->controls[i].reserved2[0] = 0;
+>  
+> -	/* V4L2_CID_PRIVATE_BASE cannot be used as control class
+> -	   when using extended controls.
+> -	   Only when passed in through VIDIOC_G_CTRL and VIDIOC_S_CTRL
+> -	   is it allowed for backwards compatibility.
+> -	 */
+> -	if (!allow_priv && c->which == V4L2_CID_PRIVATE_BASE)
+> -		return 0;
+> -	if (!c->which)
+> -		return 1;
+> +	switch (c->which) {
+> +	case V4L2_CID_PRIVATE_BASE:
+> +		/*
+> +		 * V4L2_CID_PRIVATE_BASE cannot be used as control class
+> +		 * when using extended controls.
+> +		 * Only when passed in through VIDIOC_G_CTRL and VIDIOC_S_CTRL
+> +		 * is it allowed for backwards compatibility.
+> +		 */
+> +		if (ioctl == VIDIOC_G_CTRL || ioctl == VIDIOC_S_CTRL)
+> +			return false;
+> +		break;
+> +	case V4L2_CTRL_WHICH_DEF_VAL:
+> +		/* Default value cannot be changed */
+> +		if (ioctl == VIDIOC_S_EXT_CTRLS ||
+> +		    ioctl == VIDIOC_TRY_EXT_CTRLS) {
+> +			c->error_idx = c->count;
+> +			return false;
+> +		}
+> +		return true;
+> +	case V4L2_CTRL_WHICH_CUR_VAL:
+> +		return true;
+> +	case V4L2_CTRL_WHICH_REQUEST_VAL:
+> +		c->error_idx = c->count;
+> +		return false;
+> +	}
+> +
+>  	/* Check that all controls are from the same control class. */
+>  	for (i = 0; i < c->count; i++) {
+>  		if (V4L2_CTRL_ID2WHICH(c->controls[i].id) != c->which) {
+> -			c->error_idx = i;
+> -			return 0;
+> +			c->error_idx = ioctl == VIDIOC_TRY_EXT_CTRLS ? i :
+> +								      c->count;
+> +			return false;
+>  		}
+>  	}
+> -	return 1;
+> +	return true;
+>  }
+>  
+>  static int check_fmt(struct file *file, enum v4l2_buf_type type)
+> @@ -2229,7 +2247,7 @@ static int v4l_g_ctrl(const struct v4l2_ioctl_ops *ops,
+>  	ctrls.controls = &ctrl;
+>  	ctrl.id = p->id;
+>  	ctrl.value = p->value;
+> -	if (check_ext_ctrls(&ctrls, 1)) {
+> +	if (check_ext_ctrls(&ctrls, VIDIOC_G_CTRL)) {
+>  		int ret = ops->vidioc_g_ext_ctrls(file, fh, &ctrls);
+>  
+>  		if (ret == 0)
+> @@ -2263,7 +2281,7 @@ static int v4l_s_ctrl(const struct v4l2_ioctl_ops *ops,
+>  	ctrls.controls = &ctrl;
+>  	ctrl.id = p->id;
+>  	ctrl.value = p->value;
+> -	if (check_ext_ctrls(&ctrls, 1))
+> +	if (check_ext_ctrls(&ctrls, VIDIOC_S_CTRL))
+>  		return ops->vidioc_s_ext_ctrls(file, fh, &ctrls);
+>  	return -EINVAL;
+>  }
+> @@ -2285,8 +2303,8 @@ static int v4l_g_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+>  					vfd, vfd->v4l2_dev->mdev, p);
+>  	if (ops->vidioc_g_ext_ctrls == NULL)
+>  		return -ENOTTY;
+> -	return check_ext_ctrls(p, 0) ? ops->vidioc_g_ext_ctrls(file, fh, p) :
+> -					-EINVAL;
+> +	return check_ext_ctrls(p, VIDIOC_G_EXT_CTRLS) ?
+> +				ops->vidioc_g_ext_ctrls(file, fh, p) : -EINVAL;
+>  }
+>  
+>  static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+> @@ -2306,8 +2324,8 @@ static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+>  					vfd, vfd->v4l2_dev->mdev, p);
+>  	if (ops->vidioc_s_ext_ctrls == NULL)
+>  		return -ENOTTY;
+> -	return check_ext_ctrls(p, 0) ? ops->vidioc_s_ext_ctrls(file, fh, p) :
+> -					-EINVAL;
+> +	return check_ext_ctrls(p, VIDIOC_S_EXT_CTRLS) ?
+> +				ops->vidioc_s_ext_ctrls(file, fh, p) : -EINVAL;
+>  }
+>  
+>  static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+> @@ -2327,8 +2345,8 @@ static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+>  					  vfd, vfd->v4l2_dev->mdev, p);
+>  	if (ops->vidioc_try_ext_ctrls == NULL)
+>  		return -ENOTTY;
+> -	return check_ext_ctrls(p, 0) ? ops->vidioc_try_ext_ctrls(file, fh, p) :
+> -					-EINVAL;
+> +	return check_ext_ctrls(p, VIDIOC_TRY_EXT_CTRLS) ?
+> +			ops->vidioc_try_ext_ctrls(file, fh, p) : -EINVAL;
+>  }
+>  
+>  /*
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
