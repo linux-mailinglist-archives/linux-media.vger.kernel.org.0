@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 847513A2A67
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 13:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0666D3A2A68
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jun 2021 13:36:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230469AbhFJLiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 07:38:25 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:57079 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230457AbhFJLiV (ORCPT
+        id S230470AbhFJLi0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 07:38:26 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51789 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230458AbhFJLiW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 07:38:21 -0400
+        Thu, 10 Jun 2021 07:38:22 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id rIytl7kZmhqltrIz1lXjTn; Thu, 10 Jun 2021 13:36:24 +0200
+        id rIytl7kZmhqltrIz2lXjU2; Thu, 10 Jun 2021 13:36:24 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623324984; bh=t22WTrW8+JFusXDdj4HAREjuuzOKT+rNXDu4SmLIBsg=;
+        t=1623324984; bh=s45d0M31g/3dKjbi6k0G16oD+b69JqE3R/X2+CQyswY=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=WMMtmj/A0akY+PjekL+oyW7v5MtFJ7XfCWM/iv7vjgPS9bjb6HQBUpZy3+LlOnfsg
-         LYFOWFi5EKpW4oQ22iWqbhrGjJQuO6u4vh9LzwLvoe/9APMWA4bT4G1waVAeEqjVKL
-         6R+o57K+WmC9o1CncuRRwDXnfMmwhbPmwKIQCMp5+pyXiNf8iLkzaQlX0D44EQzD6d
-         NlegKvOQlzkOl8T5+3nlBT+8rfLDm7DBJvKUp2h1hq0oPUyeV0a7Fnp9QUtdlBugAl
-         TqogH3Yrc29Vm7hzY2iHDl+Wa7JykyDA2mFZQlBtLYDHvM5/J12qcoX/3DoKTjubho
-         q5GAxeUMVF52A==
+        b=NaoKJYhzZlYek+t7O8G2mfhviyw+sZvPF2+ywgabcBiG+OUtGLGZy3lL5aY9Jyqvq
+         YOL1pGieEtwBCmJmEzDvfOTk3AQXWSaD+93Gfxl5L5gRbw66CyE1idJ6PIpNQQqbFh
+         wd7hnrAm0Z60YCW26KBLiDnK/vd404QETHlZGj8ixl+FX6havDhNQoOi+7/qjO6foA
+         nJsLrcgxIZ+k9XRBECZJBXovDfydrPPdVfYWZPFiNxPJXRYeAAz6ND/Y+EcYVP5RT2
+         cFDNFHhDIbVlfYG9MuVm86I/hWiNfo8qVa3Umksapmgs8nJfcDdxpYs5F5d7jRiDaq
+         s+bgVu46NZqRg==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
@@ -32,9 +32,9 @@ Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
         John Cox <jc@kynesim.co.uk>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [RFC PATCHv2 08/11] v4l2-mem2mem.c: allow requests for capture queues
-Date:   Thu, 10 Jun 2021 13:36:12 +0200
-Message-Id: <20210610113615.785359-9-hverkuil-cisco@xs4all.nl>
+Subject: [RFC PATCHv2 09/11] vivid: add ro_requests module option
+Date:   Thu, 10 Jun 2021 13:36:13 +0200
+Message-Id: <20210610113615.785359-10-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210610113615.785359-1-hverkuil-cisco@xs4all.nl>
 References: <20210610113615.785359-1-hverkuil-cisco@xs4all.nl>
@@ -48,44 +48,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Capture queues can support requests as well, so add support for this.
+Add the ro_requests module option to test Read-Only Requests with vivid.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-mem2mem.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/media/vivid.rst     | 10 ++++++++++
+ drivers/media/test-drivers/vivid/vivid-core.c | 10 ++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 0d7c27a07224..e068ffa9006b 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -20,6 +20,7 @@
- #include <media/v4l2-device.h>
- #include <media/v4l2-fh.h>
- #include <media/v4l2-event.h>
-+#include <media/v4l2-ctrls.h>
+diff --git a/Documentation/admin-guide/media/vivid.rst b/Documentation/admin-guide/media/vivid.rst
+index 6d7175f96f74..423a61797a1d 100644
+--- a/Documentation/admin-guide/media/vivid.rst
++++ b/Documentation/admin-guide/media/vivid.rst
+@@ -302,6 +302,16 @@ all configurable using the following module options:
+ 		- 0: forbid hints
+ 		- 1: allow hints
  
- MODULE_DESCRIPTION("Mem to mem device framework for videobuf");
- MODULE_AUTHOR("Pawel Osciak, <pawel@osciak.com>");
-@@ -1284,10 +1285,14 @@ void v4l2_m2m_request_queue(struct media_request *req)
- 		if (vb2_request_object_is_buffer(obj)) {
- 			/* Sanity checks */
- 			vb = container_of(obj, struct vb2_buffer, req_obj);
--			WARN_ON(!V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type));
--			m2m_ctx_obj = container_of(vb->vb2_queue,
--						   struct v4l2_m2m_ctx,
--						   out_q_ctx.q);
-+			if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type))
-+				m2m_ctx_obj = container_of(vb->vb2_queue,
-+							   struct v4l2_m2m_ctx,
-+							   out_q_ctx.q);
-+			else
-+				m2m_ctx_obj = container_of(vb->vb2_queue,
-+							   struct v4l2_m2m_ctx,
-+							   cap_q_ctx.q);
- 			WARN_ON(m2m_ctx && m2m_ctx_obj != m2m_ctx);
- 			m2m_ctx = m2m_ctx_obj;
- 		}
++- ro_requests:
++
++	specifies if the capture device supports the standard Request API (i.e.
++	userspace can set controls in a request before queueing it), or
++	the Read-Only Request API (userspace can only read back controls after
++	the request was completed). Default is 0.
++
++		- 0: regular requests
++		- 1: read-only requests
++
+ Taken together, all these module options allow you to precisely customize
+ the driver behavior and test your application with all sorts of permutations.
+ It is also very suitable to emulate hardware that is not yet available, e.g.
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+index ca0ebf6ad9cc..641d8c75e8c9 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.c
++++ b/drivers/media/test-drivers/vivid/vivid-core.c
+@@ -177,6 +177,14 @@ MODULE_PARM_DESC(cache_hints, " user-space cache hints, default is 0.\n"
+ 			     "\t\t    0 == forbid\n"
+ 			     "\t\t    1 == allow");
+ 
++static unsigned int ro_requests[VIVID_MAX_DEVS] = {
++	[0 ... (VIVID_MAX_DEVS - 1)] = 0
++};
++module_param_array(ro_requests, uint, NULL, 0444);
++MODULE_PARM_DESC(ro_requests, " use read-only requests for video capture instead of regular requests, default is 0.\n"
++			     "\t\t    0 == regular requests\n"
++			     "\t\t    1 == read-only requests");
++
+ static struct vivid_dev *vivid_devs[VIVID_MAX_DEVS];
+ 
+ const struct v4l2_rect vivid_min_rect = {
+@@ -847,6 +855,8 @@ static int vivid_create_queue(struct vivid_dev *dev,
+ 	q->lock = &dev->mutex;
+ 	q->dev = dev->v4l2_dev.dev;
+ 	q->supports_requests = true;
++	if (V4L2_TYPE_IS_CAPTURE(buf_type))
++		q->supports_ro_requests = (ro_requests[dev->inst] == 1);
+ 	q->allow_cache_hints = (cache_hints[dev->inst] == 1);
+ 
+ 	return vb2_queue_init(q);
 -- 
 2.30.2
 
