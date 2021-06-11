@@ -2,137 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4E903A3975
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 03:59:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB0C3A3A6B
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 05:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231256AbhFKCBI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 22:01:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230356AbhFKCBH (ORCPT
+        id S231622AbhFKDmg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 23:42:36 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:35523 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231419AbhFKDmf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 22:01:07 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B0EAC0617AD
-        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 18:58:59 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id s26so95827ioe.9
-        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 18:58:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zZJde4o2L2qg8vNw7HtP2CFLX1sOraFXZhqavB6u28E=;
-        b=HlbEw/IgXPWlFlo5xmewtDujAgpnKlacrXyXaWF8GPL/1k0dBg8z5PMwMl+NT4bto1
-         x6Agoa5Tcwft8dvKREYpTefTCPXRO9p8X4dKZRaocFaenR0PotQHwrcHDrLBHQfXbeXr
-         cvb0v86EJCg0u+5jVGidvPMt0Ou3JOl/zSHZw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zZJde4o2L2qg8vNw7HtP2CFLX1sOraFXZhqavB6u28E=;
-        b=ABsgQkILABTPW5G8v2uFUtZDXbsNRsn0eMZBu5XplOTtdDU/G4FKd9DPhqU/WIDMYN
-         g1ukCxowsbNLlU7NkA77/TBOl2wCpL6Wbsc2b9mUDF4vOgjhRXLBAghDR0d4FxxM/MA+
-         qOHbl3GheD2vjb0gqy0uC/oGbPQ7C9aa9/3sc48QG8Q5xlkqDbE3xknHLMukkMxjbEYI
-         BnnyJ4geT/B0HtR9dXvYzRAO1AqNySahvvghNFh7x1g+FNVf1/xJ9dYliV8Rg/l2RBJ+
-         cRs9MaTJE4lL4PeUEZdjJ2oyx5fmrUYnsXPyxxr4JEFd5JhOdveP+sF69I890ZH2vRPf
-         VY/g==
-X-Gm-Message-State: AOAM531WrexV6N0UmCY3m2TdCpNusqJTuNaPQHEviJsZUhSFi5jUZ5IA
-        0rACxxCu4UpZh2wH4UVp98jhsg==
-X-Google-Smtp-Source: ABdhPJy5dyB25zNPV/G1vZwDtG6mro/vxYNPOH0KijCRQMYYArulRACmbS3ga0zv//1UXMp/D0aa4g==
-X-Received: by 2002:a05:6638:1682:: with SMTP id f2mr1376788jat.139.1623376738776;
-        Thu, 10 Jun 2021 18:58:58 -0700 (PDT)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id n20sm2623663ioo.23.2021.06.10.18.58.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 18:58:58 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        dan.carpenter@oracle.com, mchehab@kernel.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: [PATCH] media: Fix Media Controller API config checks
-Date:   Thu, 10 Jun 2021 19:58:49 -0600
-Message-Id: <20210611015849.42589-1-skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Thu, 10 Jun 2021 23:42:35 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id rY26lASCChg8ZrY29lEmkN; Fri, 11 Jun 2021 05:40:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623382837; bh=Qpw5tPbWBDAIn3baPz9i9JQ2I7Opn4ShwJEYEb4mZ04=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=SgC/di3gNYxiYy/bEnk9Hp9CgsHIWYeBA5i8FmTsCp/ey9f2BizjXMtp2Tycyfnj1
+         EPEWWTwVOgTjY7NK2X1Svi/eICkSqVQWjuXPBfIEWXEvqcAfuSMnOYcBfHRn89BQSN
+         EnI/AqzLV7vyr2eDi9yXySvO71Y4iIul+L5GfO7NHXMjtt5marrWA0Bafbl9wS7wds
+         iannJSAAThBd64CqSJ8HCOOYlL4cBJP5mFcpDjG85nJja9+ypVcjo1Wjrrl8Jq6UHY
+         nVIxxh6HcxkTh/XUvG8KHwwg35NfEUeW2Aab/EU+mWumpz4YFmN44AThGhlMe8W1Jt
+         RRUkEhotAR1/g==
+Message-ID: <bb666d517f3b427ad165d70465c84b42@smtp-cloud9.xs4all.net>
+Date:   Fri, 11 Jun 2021 05:40:34 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfFvKuxNm5TpzNhjYivrentXf5yYvz82RmIXX7e8ZBXbx/kLhCEQnhjmTG7ycitHAtdy3Qe+T9uo5OqLjH7OPhub5x9zDXrUQPU3Eb4DMWri8ByYUUp6E
+ emk3em60jYdmtw/yCo+LtGJO0x8GrQTGpvN1Fk1Y/BoyQ496YgXBokyjhUkBw4Jx1Q37yUvfx+1EpXuMA9QammT6N7BRkPELdG8d0LArBzymqJFwjjcfMkqk
+ 19UXtxnlvY1FZfZ88WkODA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Smatch static checker warns that "mdev" can be null:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-sound/usb/media.c:287 snd_media_device_create()
-    warn: 'mdev' can also be NULL
+Results of the daily build of media_tree:
 
-If CONFIG_MEDIA_CONTROLLER is disabled, this file should not be included
-in the build.
+date:			Fri Jun 11 05:00:11 CEST 2021
+media-tree git hash:	5b448065febe1c6bb6693735844f2fb2b7b654dc
+media_build git hash:	8dab03da8769cd94afc5df1fe14c67400dc2f16e
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7445-g58776ae33
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-The below conditions in the sound/usb/Makefile are in place to ensure that
-media.c isn't included in the build.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13-rc1-i686: OK
+linux-5.13-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2963, Succeeded: 2962, Failed: 1, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
-sound/usb/Makefile:
-snd-usb-audio-$(CONFIG_SND_USB_AUDIO_USE_MEDIA_CONTROLLER) += media.o
+Detailed results are available here:
 
-select SND_USB_AUDIO_USE_MEDIA_CONTROLLER if MEDIA_CONTROLLER &&
-       (MEDIA_SUPPORT=y || MEDIA_SUPPORT=SND_USB_AUDIO)
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
 
-The following config check in include/media/media-dev-allocator.h is
-in place to enable the API only when CONFIG_MEDIA_CONTROLLER and
-CONFIG_USB are enabled.
+Detailed regression test results are available here:
 
- #if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
 
-This check doesn't work as intended when CONFIG_USB=m. When CONFIG_USB=m,
-CONFIG_USB_MODULE is defined and CONFIG_USB is not. The above config check
-doesn't catch that CONFIG_USB is defined as a module and disables the API.
-This results in sound/usb enabling Media Controller specific ALSA driver
-code, while Media disables the Media Controller API.
+Full logs are available here:
 
-Fix the problem requires two changes:
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
 
-1. Change the check to use IS_ENABLED to detect when CONFIG_USB is enabled
-   as a module or static. Since CONFIG_MEDIA_CONTROLLER is a bool, leave
-   the check unchanged to be consistent with drivers/media/Makefile.
+The Media Infrastructure API from this daily build is here:
 
-2. Change the drivers/media/mc/Makefile to include mc-dev-allocator.o
-   in mc-objs when CONFIG_USB is y or m.
-
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Link: https://lore.kernel.org/alsa-devel/YLeAvT+R22FQ%2FEyw@mwanda/
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- drivers/media/mc/Makefile           | 2 +-
- include/media/media-dev-allocator.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/mc/Makefile b/drivers/media/mc/Makefile
-index 119037f0e686..140f0a78540e 100644
---- a/drivers/media/mc/Makefile
-+++ b/drivers/media/mc/Makefile
-@@ -3,7 +3,7 @@
- mc-objs	:= mc-device.o mc-devnode.o mc-entity.o \
- 	   mc-request.o
- 
--ifeq ($(CONFIG_USB),y)
-+ifeq ($(CONFIG_USB),$(filter $(CONFIG_USB),y m))
- 	mc-objs += mc-dev-allocator.o
- endif
- 
-diff --git a/include/media/media-dev-allocator.h b/include/media/media-dev-allocator.h
-index b35ea6062596..2ab54d426c64 100644
---- a/include/media/media-dev-allocator.h
-+++ b/include/media/media-dev-allocator.h
-@@ -19,7 +19,7 @@
- 
- struct usb_device;
- 
--#if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
-+#if defined(CONFIG_MEDIA_CONTROLLER) && IS_ENABLED(CONFIG_USB)
- /**
-  * media_device_usb_allocate() - Allocate and return struct &media device
-  *
--- 
-2.30.2
-
+http://www.xs4all.nl/~hverkuil/spec/index.html
