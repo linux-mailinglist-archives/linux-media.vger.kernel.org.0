@@ -2,113 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4ADD3A421B
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 14:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D1F83A42D4
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 15:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231289AbhFKMl3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Jun 2021 08:41:29 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:58472 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230291AbhFKMl3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Jun 2021 08:41:29 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lrgRe-00BvW0-I3; Fri, 11 Jun 2021 12:39:30 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lrgW5-0000iq-Gf; Fri, 11 Jun 2021 12:44:05 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.14] Venus updates part2 (#74989)
-Date:   Fri, 11 Jun 2021 12:44:04 +0000
-Message-Id: <20210611124404.2735-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210611121601.330645-1-stanimir.varbanov@linaro.org>
-References: 
+        id S231817AbhFKNPF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Jun 2021 09:15:05 -0400
+Received: from mail-ed1-f48.google.com ([209.85.208.48]:43758 "EHLO
+        mail-ed1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231822AbhFKNPF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Jun 2021 09:15:05 -0400
+Received: by mail-ed1-f48.google.com with SMTP id s6so37040401edu.10
+        for <linux-media@vger.kernel.org>; Fri, 11 Jun 2021 06:13:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:subject:to:references:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=Hr2Qn7RQQnVZre9fhZ8UebR0WUcPtKIYg46SlclCvv4=;
+        b=uHQtKMSAMu2/oJK/FSIUTSnOo0slWc+kwkkTM4ModlU0y4mG29sglhomBL3mTI4Jcl
+         i/dj3csO6FyYDiu/0U9eGrbeFq7G5I7ieHKdzJ4Ib5ZJkksnN3ZCfnEbeGTD4jHfhyuh
+         sQT/rJhG8NUinkPCbn+k34MMHNwQI7ug3j3zUvKWzKcABn1E8PESUGAbc7wtqahb2A9N
+         4SNPE76keZLhP3Y2o6g7BTKj3IHioZT0y+NtDP/vdd/Dwe0Utk8TC+MT47hIfFFZl40V
+         U70MJY0Nc7cOnocMmoTxvOfyZ5JIcC7c1Pd313SDPk/LxclEkQKXj2Dachi7mh8rwxZh
+         M5TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Hr2Qn7RQQnVZre9fhZ8UebR0WUcPtKIYg46SlclCvv4=;
+        b=dvwdYc/2KotFrb01dikayKdWux0xlLch1eGzuJRNILYEFJiTTAzn/V3TlcdJgLzw8X
+         9k+deKEYPTlv4MvZAxpb02LTv7crvwSDv6UOEExik/SoAput+WDebt+V4/8AdZ4yzh+/
+         rDa8vEvRpPCApqOoS5SbCfjUr6oFew5R3MjuicEp2QFJ/DDZdGduflwi+5rXm2gWGDDH
+         xGMxbd9enKL6I0YFyNxma3mi8OZ3xyuUD/e6p4KtzL147N7XTRLzD6OmvnFewVKToAWK
+         TEGmSDp6bTNnzNW7rVjSG+Fu1GcBPQ2kua6bl/GZb2JKkSf0oFfzT1RozSa1LxIyr93m
+         zBNQ==
+X-Gm-Message-State: AOAM532sXM46syPeaflpUDNzSrorsoS8qG/hvkWhmpKIFCwLsXgVKNUw
+        jPly66T3yeaJlI1WjUt1mx2gwbpbUYX0lIRM
+X-Google-Smtp-Source: ABdhPJzHY5eBNUOMJu3WpagNmBCGz8APwevp3XkzbqSioBUeDo2wQrA5WpCiZgGgOq4W2pMJxwgTfA==
+X-Received: by 2002:a05:6402:4395:: with SMTP id o21mr3625845edc.163.1623417126537;
+        Fri, 11 Jun 2021 06:12:06 -0700 (PDT)
+Received: from [192.168.1.28] (hst-221-46.medicom.bg. [84.238.221.46])
+        by smtp.googlemail.com with ESMTPSA id k21sm2566483edo.41.2021.06.11.06.12.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Jun 2021 06:12:06 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: Re: [RFC/WIP 0/4] HEIC image encoder
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+References: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
+ <ae54a98a-c1e5-e7f9-4d3f-fa4a56b9a359@xs4all.nl>
+Message-ID: <3916c03f-9996-3de3-4365-3e88abf052d2@linaro.org>
+Date:   Fri, 11 Jun 2021 16:12:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <ae54a98a-c1e5-e7f9-4d3f-fa4a56b9a359@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Hans,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210611121601.330645-1-stanimir.varbanov@linaro.org/
-Build log: https://builder.linuxtv.org/job/patchwork/114431/
-Build time: 00:15:46
-Link: https://lore.kernel.org/linux-media/20210611121601.330645-1-stanimir.varbanov@linaro.org
+On 5/27/21 10:54 AM, Hans Verkuil wrote:
+> Hi Stanimir,
+> 
+> On 29/04/2021 15:28, Stanimir Varbanov wrote:
+>> Hi,
+>>
+>> HEIC (High-Efficiency Image Container) is a variant of HEIF (High
+>> Efficiency Image File Format) where HEVC/h265 codec is used to encode
+>> images.  For more info see [1].
+>>
+>> In this RFC we propose a new compressed pixel format V4L2_PIX_FMT_HEIC.
+>> The name is debatable and could be changed (V4L2_PIX_FMT_HEVC_HEIF is
+>> also an option).
+>>
+>> There are two encoding modes which should be selectable by clients:
+>>     1. Regular image encoding
+>>     2. Grid image encoding
+>>
+>> 1. Regular image encoding
+>>
+>> Propose to reuse stateful video encoder spec [2].
+>>
+>> - queuing one OUTPUT buffer will produce one CAPTURE buffer.  The
+>> client could trigger Drain sequence at any point of time.
+>>
+>> 2. Grid image encoding
+>>
+>> Propose to reuse stateful video encoder spec [2].
+>>
+>> - queuing one OUTPUT buffer will produce a number of grids CAPTURE
+>> buffers.  The client could trigger Drain sequence at any point of time.
+>>
+>> This image encoding mode is used when the input image resolution is
+>> bigger then the hardware can support and/or for compatibility reasons
+>> (for exmaple, the HEIC decoding hardware is not capable to decode higher
+>> than VGA resolutions).
+> 
+> Is grid image encoding part of the spec for this format? Is this something
+> that the venus hardware needs due to image resolution limitations as
+> described above?
 
-gpg: Signature made Fri 11 Jun 2021 12:08:27 PM UTC
-gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
-gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
-gpg: Note: This key has expired!
-Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
-     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+Yes, it is part of the ISO/IEC 23008-12 (2017). The spec defines Image
+grid derivation, where each tile is a separate image and associated with
+derived image of type _grid_ which reconstruct all tiles into a single
+image for display.
 
-Summary: got 2/2 patches with issues, being 2 at build time, plus one error when buinding PDF document
+> 
+> Would it be possible for the driver to handle this internally? I.e.,
+> if it detects that it needs to switch to grid mode, can it just encode
+> each grid and copy it in the capture buffer? This assumes that there is
+> metadata that can be used by a decoder do find and decode each grid.
+> 
 
-Error/warnings:
+In case that is is part of the spec I don't think we have to do it.
+Something more, when each tile is separate image the decoding process
+could be done in parallel.
 
-patches/0001-media-venus-hfi_cmds-Fix-packet-size-calculation.patch:
+>>
+>> In this mode the input image is divided on square blocks (we call them grids)
+>> and every block is encoded separately (the Venus driver presently supports 
+>> grid size of 512x512 but that could be changed in the future).
+>>
+>> To set the grid size we use a new v4l2 control.
+> 
+> Can the driver make a choice of the grid size, and the control just
+> reports the grid size? I.e., does it make sense for userspace to set
+> this?
+> 
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+I'm not familiar with userspace implementations so far, but my feeling
+is that the userspace should configure that - at least this will give
+clients flexibility. References with more information [1] - [5].
 
-    allyesconfig: return code #512:
-	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	(null):builtin:2:0: error: missing terminating " character
-	No such file: drivers/media/platform/atmel/atmel-xisc"
-	SPARSE:(null) builtin:2:0:  warning: missing terminating " character
-	No such file: drivers/media/platform/atmel/atmel-xisc"
-	make[5]: *** [../scripts/Makefile.build:272: drivers/media/platform/atmel/atmel-isc-base.o] Error 1
-	make[5]: *** Deleting file 'drivers/media/platform/atmel/atmel-isc-base.o'
-	make[4]: *** [../scripts/Makefile.build:515: drivers/media/platform/atmel] Error 2
-	make[4]: *** Waiting for unfinished jobs....
-	make[3]: *** [../scripts/Makefile.build:515: drivers/media/platform] Error 2
-	make[3]: *** Waiting for unfinished jobs....
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
-	make: *** [Makefile:215: __sub-make] Error 2
+> The wiki page [1] doesn't mention grids, so where does this come from?
+> Is it part of some spec? Or is it a venus-specific feature?
+> 
+>>
+>> The side effect of this mode is that the client have to set the v4l2
+>> control and thus enable grid encoding before setting the formats on
+>> CAPTURE and OUTPUT queues, because the grid size reflects on the
+>> selected resolutions. Also the horizontal and vertical strides will
+>> also be affected because thеy have to be aligned to the grid size
+>> in order to satisfy DMA alignment restrictions.
+>>
+>> Using of v4l2 control to set up Grid mode and Grid size above looks
+>> inpractical and somehow breaks the v4l2 and v4l2 control rules, so
+>> I'd give one more option. 
+>>
+>> Encoding the Grid mode/size in the new proposed HEIC pixel format:
+>>
+>>    V4L2_PIX_FMT_HEIC - Regular HEIC image encoding
+>>    V4L2_PIX_FMT_HEIC_GRID_512x512 - Grid HEIC image encoding, grid size of 512x512 
+>>    and so on ...
+>>
+>> Comments and suggestions are welcome!
+> 
+> I notice that this RFC just talks about the encoder, does venus also
+> support a decoder? How would a HW decoder handle grids?
 
-patches/0002-media-venus-hfi_msgs.h-Replace-one-element-arrays-wi.patch:
+AFAIK the decoding part is not doing something special and
+reconstructing the whole image from tiles is done by the userspace
+client [6].
 
-    allyesconfig: return code #512:
-	(null):builtin:2:0: error: missing terminating " character
-	No such file: drivers/media/platform/atmel/atmel-xisc"
-	SPARSE:(null) builtin:2:0:  warning: missing terminating " character
-	No such file: drivers/media/platform/atmel/atmel-xisc"
-	make[5]: *** [../scripts/Makefile.build:272: drivers/media/platform/atmel/atmel-isc-base.o] Error 1
-	make[5]: *** Deleting file 'drivers/media/platform/atmel/atmel-isc-base.o'
-	make[5]: *** Waiting for unfinished jobs....
-	make[4]: *** [../scripts/Makefile.build:515: drivers/media/platform/atmel] Error 2
-	make[3]: *** [../scripts/Makefile.build:515: drivers/media/platform] Error 2
-	make[3]: *** Waiting for unfinished jobs....
-	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
-	make: *** [Makefile:215: __sub-make] Error 2
+> 
+> Regards,
+> 
+> 	Hans
 
-   checkpatch.pl:
-	$ cat patches/0002-media-venus-hfi_msgs.h-Replace-one-element-arrays-wi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+-- 
+regards,
+Stan
 
-
-Error #512 when building PDF docs
-
+[1] https://0xc0000054.github.io/pdn-avif/using-image-grids.html#fnref:3
+[2] https://nokiatech.github.io/heif/technical.html
+[3] https://github.com/lclevy/canon_cr3/blob/master/heif.md
+[4]
+https://github.com/nokiatech/heif/blob/master/srcs/api-cpp/GridImageItem.cpp
+[5]
+https://github.com/strukturag/libheif/blob/master/libheif/heif_context.cc#L163
+[6]
+https://github.com/strukturag/libheif/blob/master/libheif/heif_context.cc#L1317
