@@ -2,57 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1DEC3A3FE9
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 12:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24A313A4061
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 12:46:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231535AbhFKKQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Jun 2021 06:16:48 -0400
-Received: from comms.puri.sm ([159.203.221.185]:51616 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231342AbhFKKQr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Jun 2021 06:16:47 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id D84B9E01C9;
-        Fri, 11 Jun 2021 03:14:49 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id nmdMuW5XXsJ7; Fri, 11 Jun 2021 03:14:49 -0700 (PDT)
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     martin.kepplinger@puri.sm, krzysztof.kozlowski@canonical.com,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        paul.kocialkowski@bootlin.com, pavel@ucw.cz
-Cc:     devicetree@vger.kernel.org, kernel@puri.sm,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        phone-devel@vger.kernel.org, robh@kernel.org, shawnx.tu@intel.com
-Subject: [PATCH v5 5/5] Documentation: i2c-cardlist: add the Hynix hi846 sensor
-Date:   Fri, 11 Jun 2021 12:14:04 +0200
-Message-Id: <20210611101404.2553818-6-martin.kepplinger@puri.sm>
-In-Reply-To: <20210611101404.2553818-1-martin.kepplinger@puri.sm>
-References: <20210611101404.2553818-1-martin.kepplinger@puri.sm>
-Content-Transfer-Encoding: 8bit
+        id S231217AbhFKKsX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Jun 2021 06:48:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33022 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230365AbhFKKsW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Jun 2021 06:48:22 -0400
+Received: from theia.8bytes.org (8bytes.org [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7377AC061574;
+        Fri, 11 Jun 2021 03:46:24 -0700 (PDT)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id 376EC2FB; Fri, 11 Jun 2021 12:46:21 +0200 (CEST)
+Date:   Fri, 11 Jun 2021 12:46:19 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Yong Wu <yong.wu@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>, srv_heupstream@mediatek.com,
+        Devicetree List <devicetree@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
+        chao.hao@mediatek.com, ming-fan.chen@mediatek.com,
+        yi.kuo@mediatek.com, eizan@chromium.org,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Irui Wang <irui.wang@mediatek.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 13/16] media: mtk-vcodec: Get rid of
+ mtk_smi_larb_get/put
+Message-ID: <YMM++ySKo38OUMXQ@8bytes.org>
+References: <20210410091128.31823-1-yong.wu@mediatek.com>
+ <20210410091128.31823-14-yong.wu@mediatek.com>
+ <CAJMQK-iTrQRDDm_=LNqSpvXFd431LYRxXMasJHUpN+K8rJ=Qpg@mail.gmail.com>
+ <1620822547.2983.8.camel@mhfsdcap03>
+ <c1422242-8d8c-9592-c22d-288c503cd8b1@gmail.com>
+ <1623326528.23717.20.camel@mhfsdcap03>
+ <e7269c80-5437-6ab9-c1db-df0b94eb97d8@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e7269c80-5437-6ab9-c1db-df0b94eb97d8@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the SK Hynix Hi-846 8M Pixel CMOS image sensor to the i2c-cardlist.
+On Fri, Jun 11, 2021 at 12:07:24PM +0200, Matthias Brugger wrote:
+> That's a good question. I think the media tree would be a good
+> candidate, as it has the biggest bunch of patches. But that would mean
+> that Joerg is fine that.  The DTS part could still go through my tree.
 
-Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
----
- Documentation/admin-guide/media/i2c-cardlist.rst | 1 +
- 1 file changed, 1 insertion(+)
+IOMMU changes are only a minor part of this, so it should not go through
+the IOMMU tree. When Matthias has reviewed the IOMMU changes, feel free
+to add my
 
-diff --git a/Documentation/admin-guide/media/i2c-cardlist.rst b/Documentation/admin-guide/media/i2c-cardlist.rst
-index e60d459d18a9..185e07a3da43 100644
---- a/Documentation/admin-guide/media/i2c-cardlist.rst
-+++ b/Documentation/admin-guide/media/i2c-cardlist.rst
-@@ -60,6 +60,7 @@ Driver        Name
- ============  ==========================================================
- et8ek8        ET8EK8 camera sensor
- hi556         Hynix Hi-556 sensor
-+hi846         Hynix Hi-846 sensor
- imx214        Sony IMX214 sensor
- imx219        Sony IMX219 sensor
- imx258        Sony IMX258 sensor
--- 
-2.30.2
+	Acked-by: Joerg Roedel <jroedel@suse.de>
 
+to them.
+
+Regards,
+
+	Joerg
