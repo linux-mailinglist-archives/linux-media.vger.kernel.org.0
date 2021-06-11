@@ -2,93 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94DCD3A41D5
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 14:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4ADD3A421B
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 14:39:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231193AbhFKMSK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Jun 2021 08:18:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229777AbhFKMSK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Jun 2021 08:18:10 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78E78C061574
-        for <linux-media@vger.kernel.org>; Fri, 11 Jun 2021 05:16:12 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id t3so36868772edc.7
-        for <linux-media@vger.kernel.org>; Fri, 11 Jun 2021 05:16:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hviSTLngad9mLUVeG10yk+UTd9gBgWfA6RzLDDl4+W0=;
-        b=bneBr+x3fhzlgAaSHkG6UdGBj1OIJz5hVZ7Yypz4kjAx5Ytse2x+11AYyd7OwacCLS
-         FyJ+eJ1vO5nEfmTAlU2PDIyc4h+ro+bXpufejpxYDy5I1+lEFtfQTBiJBmlSsWQSTgkI
-         kBYRpD7A//prUruZsnq+WBs7TbkmagPAfQ63qDnqpra6yDRP1+dUBojRKrm20T3B4Ovi
-         DtFW5S0opbK2MPzWS0jr5Jg30sA3CLUyBjlhJi7ELoS+gM3KLFH+v+FQASMsR7v9gpg6
-         YM4LOwEnkC5PpR1C7d/88e0ZD6ET/YtFPq7TsI6SeYcVCp0FBggG+0lfMSe1+WGx+tUg
-         xHZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hviSTLngad9mLUVeG10yk+UTd9gBgWfA6RzLDDl4+W0=;
-        b=UkwFPZW9FOFp3HfnBjqp2xr4yGc2RvbugnTFFMZLt6a9KaoHcol0KovaAK7ShVp9E/
-         DkouB9FC6HBDkMigmnQns/rCmmmCJwYZeCRYsCiMwXJVySzgCD46SQshI2J3cljNWFNn
-         z9BVBWD8GDy3HE7OwJGidQYvlLHfE4bHF7vSr/WG/FPonmdhyndNsbUhoiqkp5op89wm
-         Rz7KSsf5S0bV33EJqFpZ79Ar7MnGewviu8uPNG/NZWsyDK+PIdBpO8JcfZdubL4KXN9B
-         kbLhpiW08cH3dAvIGOquPXLKD+MkVdqyDEVKKzpa31XU0Bz/sC8vd53fnuaFqccmbETw
-         kZzw==
-X-Gm-Message-State: AOAM531qVbDkoxCgQnPo1tqLuJPHR7i14fh2476OOkZqcGUigXHX7zWa
-        1WKcIT7eMYrhvg5pStuDGKuCbRyswMEGrBSo
-X-Google-Smtp-Source: ABdhPJwBMcxy9vbUXHE+XhLKj8SGnP7QosSBQHBNIax29aRfzsVutbsOrF+LhwA00PQRlmWqXTs6Tg==
-X-Received: by 2002:a05:6402:4c5:: with SMTP id n5mr3376956edw.322.1623413770835;
-        Fri, 11 Jun 2021 05:16:10 -0700 (PDT)
-Received: from localhost.localdomain (hst-221-69.medicom.bg. [84.238.221.69])
-        by smtp.gmail.com with ESMTPSA id v23sm2581237eds.25.2021.06.11.05.16.10
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 05:16:10 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.14] Venus updates part2
-Date:   Fri, 11 Jun 2021 15:16:01 +0300
-Message-Id: <20210611121601.330645-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        id S231289AbhFKMl3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Jun 2021 08:41:29 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:58472 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230291AbhFKMl3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Jun 2021 08:41:29 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lrgRe-00BvW0-I3; Fri, 11 Jun 2021 12:39:30 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lrgW5-0000iq-Gf; Fri, 11 Jun 2021 12:44:05 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] Venus updates part2 (#74989)
+Date:   Fri, 11 Jun 2021 12:44:04 +0000
+Message-Id: <20210611124404.2735-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210611121601.330645-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Here are two more fixes related to ongoing efforts to enable -Warray-bounds.
+From: builder@linuxtv.org
 
-Please pull.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210611121601.330645-1-stanimir.varbanov@linaro.org/
+Build log: https://builder.linuxtv.org/job/patchwork/114431/
+Build time: 00:15:46
+Link: https://lore.kernel.org/linux-media/20210611121601.330645-1-stanimir.varbanov@linaro.org
 
-regards,
-Stan
+gpg: Signature made Fri 11 Jun 2021 12:08:27 PM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
-The following changes since commit 5b448065febe1c6bb6693735844f2fb2b7b654dc:
+Summary: got 2/2 patches with issues, being 2 at build time, plus one error when buinding PDF document
 
-  media: pci: tw5864: avoid usage of some characters (2021-06-04 08:11:12 +0200)
+Error/warnings:
 
-are available in the Git repository at:
+patches/0001-media-venus-hfi_cmds-Fix-packet-size-calculation.patch:
 
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.14-part2
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
 
-for you to fetch changes up to 0d6281c5e9323d854340b8a456dadd86622ca911:
+    allyesconfig: return code #512:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	(null):builtin:2:0: error: missing terminating " character
+	No such file: drivers/media/platform/atmel/atmel-xisc"
+	SPARSE:(null) builtin:2:0:  warning: missing terminating " character
+	No such file: drivers/media/platform/atmel/atmel-xisc"
+	make[5]: *** [../scripts/Makefile.build:272: drivers/media/platform/atmel/atmel-isc-base.o] Error 1
+	make[5]: *** Deleting file 'drivers/media/platform/atmel/atmel-isc-base.o'
+	make[4]: *** [../scripts/Makefile.build:515: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:515: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
+	make: *** [Makefile:215: __sub-make] Error 2
 
-  media: venus: hfi_msgs.h: Replace one-element arrays with flexible-array members (2021-06-11 15:07:25 +0300)
+patches/0002-media-venus-hfi_msgs.h-Replace-one-element-arrays-wi.patch:
 
-----------------------------------------------------------------
-Venus updates for v5.14 part2
+    allyesconfig: return code #512:
+	(null):builtin:2:0: error: missing terminating " character
+	No such file: drivers/media/platform/atmel/atmel-xisc"
+	SPARSE:(null) builtin:2:0:  warning: missing terminating " character
+	No such file: drivers/media/platform/atmel/atmel-xisc"
+	make[5]: *** [../scripts/Makefile.build:272: drivers/media/platform/atmel/atmel-isc-base.o] Error 1
+	make[5]: *** Deleting file 'drivers/media/platform/atmel/atmel-isc-base.o'
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:515: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:515: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
+	make: *** [Makefile:215: __sub-make] Error 2
 
-----------------------------------------------------------------
-Gustavo A. R. Silva (2):
-      media: venus: hfi_cmds: Fix packet size calculation
-      media: venus: hfi_msgs.h: Replace one-element arrays with flexible-array members
+   checkpatch.pl:
+	$ cat patches/0002-media-venus-hfi_msgs.h-Replace-one-element-arrays-wi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
- drivers/media/platform/qcom/venus/hfi_cmds.c |  9 +++++----
- drivers/media/platform/qcom/venus/hfi_msgs.c | 16 ++++++++--------
- drivers/media/platform/qcom/venus/hfi_msgs.h |  6 ++++--
- 3 files changed, 17 insertions(+), 14 deletions(-)
+
+Error #512 when building PDF docs
+
