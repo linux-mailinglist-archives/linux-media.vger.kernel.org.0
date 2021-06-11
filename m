@@ -2,117 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B4B13A3DAD
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 10:01:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA8613A3DEB
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 10:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbhFKIDT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Jun 2021 04:03:19 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:5387 "EHLO
-        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231261AbhFKIDB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Jun 2021 04:03:01 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G1Y8d39rkz6wbZ;
-        Fri, 11 Jun 2021 15:57:05 +0800 (CST)
-Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 11 Jun 2021 16:00:59 +0800
-Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
- (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 11 Jun
- 2021 16:00:58 +0800
-From:   Baokun Li <libaokun1@huawei.com>
-To:     <mchehab@kernel.org>, <sakari.ailus@linux.intel.com>,
-        <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
-        <kaixuxia@tencent.com>, <gustavoars@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-        <linux-kernel@vger.kernel.org>
-CC:     <weiyongjun1@huawei.com>, <yuehaibing@huawei.com>,
-        <yangjihong1@huawei.com>, <yukuai3@huawei.com>,
-        <libaokun1@huawei.com>, "Hulk Robot" <hulkci@huawei.com>
-Subject: [PATCH -next v3] media: staging: atomisp: use list_splice_init in atomisp_compat_css20.c
-Date:   Fri, 11 Jun 2021 16:10:04 +0800
-Message-ID: <20210611081004.1348026-1-libaokun1@huawei.com>
-X-Mailer: git-send-email 2.31.1
+        id S229960AbhFKIUn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Jun 2021 04:20:43 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:33444 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229584AbhFKIUn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Jun 2021 04:20:43 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lrcNJ-00Bc1o-Bp; Fri, 11 Jun 2021 08:18:45 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lrcRj-0002Lw-NA; Fri, 11 Jun 2021 08:23:19 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] uvcvideo fix (#74981)
+Date:   Fri, 11 Jun 2021 08:23:19 +0000
+Message-Id: <20210611082319.9003-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <YMMUgjx67yfqvKNV@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.127.227]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500020.china.huawei.com (7.185.36.88)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Using list_splice_init() instead of entire while-loops
-in atomisp_compat_css20.c.
+From: builder@linuxtv.org
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Baokun Li <libaokun1@huawei.com>
----
-V1->V2:
-	CC mailist
-V2->V3:
-        Using list_move_tail() -> Using list_splice_init()
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YMMUgjx67yfqvKNV@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/114381/
+Build time: 00:19:19
+Link: https://lore.kernel.org/linux-media/YMMUgjx67yfqvKNV@pendragon.ideasonboard.com
 
- .../media/atomisp/pci/atomisp_compat_css20.c  | 35 +++----------------
- 1 file changed, 5 insertions(+), 30 deletions(-)
+gpg: Signature made Fri 11 Jun 2021 07:42:19 AM UTC
+gpg:                using RSA key CB9D6877529820CD53099B1B65F89C37BC54210D
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index f60198bb8a1a..3844180d32b5 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -2144,42 +2144,17 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
- 	}
- 
- 	/* move stats buffers to free queue list */
--	while (!list_empty(&asd->s3a_stats_in_css)) {
--		s3a_buf = list_entry(asd->s3a_stats_in_css.next,
--				     struct atomisp_s3a_buf, list);
--		list_del(&s3a_buf->list);
--		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
--	}
--	while (!list_empty(&asd->s3a_stats_ready)) {
--		s3a_buf = list_entry(asd->s3a_stats_ready.next,
--				     struct atomisp_s3a_buf, list);
--		list_del(&s3a_buf->list);
--		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
--	}
-+	list_splice_init(&asd->s3a_stats_in_css, &asd->s3a_stats);
-+	list_splice_init(&asd->s3a_stats_ready, &asd->s3a_stats);
- 
- 	spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
--	while (!list_empty(&asd->dis_stats_in_css)) {
--		dis_buf = list_entry(asd->dis_stats_in_css.next,
--				     struct atomisp_dis_buf, list);
--		list_del(&dis_buf->list);
--		list_add_tail(&dis_buf->list, &asd->dis_stats);
--	}
-+	list_splice_init(&asd->dis_stats_in_css, &asd->dis_stats);
- 	asd->params.dis_proj_data_valid = false;
- 	spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
- 
- 	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
--		while (!list_empty(&asd->metadata_in_css[i])) {
--			md_buf = list_entry(asd->metadata_in_css[i].next,
--					    struct atomisp_metadata_buf, list);
--			list_del(&md_buf->list);
--			list_add_tail(&md_buf->list, &asd->metadata[i]);
--		}
--		while (!list_empty(&asd->metadata_ready[i])) {
--			md_buf = list_entry(asd->metadata_ready[i].next,
--					    struct atomisp_metadata_buf, list);
--			list_del(&md_buf->list);
--			list_add_tail(&md_buf->list, &asd->metadata[i]);
--		}
-+		list_splice_init(&asd->metadata_in_css[i], &asd->asd->metadata[i]);
-+		list_splice_init(&asd->metadata_ready[i], &asd->asd->metadata[i]);
- 	}
- 
- 	atomisp_flush_params_queue(&asd->video_out_capture);
--- 
-2.31.1
+Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-uvcvideo-Fix-pixel-format-change-for-Elgato-Ca.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+
+    allyesconfig: return code #512:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1971 vivid_create_instance() parse error: turning off implications after 60 seconds
+	(null):builtin:2:0: error: missing terminating " character
+	No such file: drivers/media/platform/atmel/atmel-xisc"
+	SPARSE:(null) builtin:2:0:  warning: missing terminating " character
+	No such file: drivers/media/platform/atmel/atmel-xisc"
+	make[5]: *** [../scripts/Makefile.build:272: drivers/media/platform/atmel/atmel-isc-base.o] Error 1
+	make[5]: *** Deleting file 'drivers/media/platform/atmel/atmel-isc-base.o'
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:515: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:515: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
+	make: *** [Makefile:215: __sub-make] Error 2
+
+
+Error #512 when building PDF docs
 
