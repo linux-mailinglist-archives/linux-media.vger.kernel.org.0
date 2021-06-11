@@ -2,109 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B70353A382A
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 01:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4E903A3975
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jun 2021 03:59:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230458AbhFKABd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Jun 2021 20:01:33 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:41895 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbhFKABc (ORCPT
+        id S231256AbhFKCBI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Jun 2021 22:01:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57188 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230356AbhFKCBH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Jun 2021 20:01:32 -0400
-Received: by mail-pl1-f196.google.com with SMTP id e1so1892168plh.8
-        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 16:59:25 -0700 (PDT)
+        Thu, 10 Jun 2021 22:01:07 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B0EAC0617AD
+        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 18:58:59 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id s26so95827ioe.9
+        for <linux-media@vger.kernel.org>; Thu, 10 Jun 2021 18:58:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Sbj+0jWrqnwzITA5DlB3Zj2Vdv8O3eqgINtEBO7obv8=;
-        b=raZti0gSsbKKc/0uLPS5zT0EnFfgmLy349K3UVMI8faWbSHSOsB8i3gCoNXatO5yl7
-         4wQU6TCFUd6TKM4WMIo6ErbMc6Bl8VMltSJIaHtDgaX3NVlapHsz7nY4wMJZJ84NI/+Q
-         ga7+IdMkQDL1OdGq39Ec9PIEg47w8FPpRY+oTguEJJWg9fvhCn0HCsdMOWs8kK0H61Ri
-         VJ1yvYyNCPXCMBRh80vtNRm+LYT1cLFd347V3CLeH/kh+r25IRslF6AKHgg2bfyeYbga
-         bMeMm4kEc3zWleXm5Sseg0q7SBVhgBSEqISHq8AeTILAp0ogE2jldzKG8+aGQ/Ntf71J
-         2TAQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zZJde4o2L2qg8vNw7HtP2CFLX1sOraFXZhqavB6u28E=;
+        b=HlbEw/IgXPWlFlo5xmewtDujAgpnKlacrXyXaWF8GPL/1k0dBg8z5PMwMl+NT4bto1
+         x6Agoa5Tcwft8dvKREYpTefTCPXRO9p8X4dKZRaocFaenR0PotQHwrcHDrLBHQfXbeXr
+         cvb0v86EJCg0u+5jVGidvPMt0Ou3JOl/zSHZw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Sbj+0jWrqnwzITA5DlB3Zj2Vdv8O3eqgINtEBO7obv8=;
-        b=aFogU/klAusLr8Qgc4phIym9cIGg0FVJfRTf7iiltorrhQFp9Aope0WMlq0y0mXYmE
-         i1WlShO9pEoFcZN3kxSqShXw8IguygN0MFEawEIxvjpZGYmoLj9TosrFamGWZsPNHQkd
-         oBlmC1tjwEPiMHkl5idPeuI6Te+1e3Ney/trGhCeH+FgSRqg1/z/4CUHbDiowhNy3Ez7
-         51hwEu2httTjjj2BSUHhwimYy1YC+wNFuqTRz+URnjH6UbMhSsS1PrVawW3IOXljb83C
-         nu/ZUAHgccJtsDf7feX8vQTSMBqjjsAP+osvDvJi66702fbI3RQDsBMzsdWtT68iQW2x
-         uxIw==
-X-Gm-Message-State: AOAM532f70RUSmZYch8w5eIAsFVl4qTR9dTGVbOCqjFe1EZJXWToGcl+
-        8hgXF34xXUcgpdsW6acMtYa46A0GboBPsQ==
-X-Google-Smtp-Source: ABdhPJyvhaNxUJywAfx8A+4Wrkeb87yUqL0Ra1yP7qGIcw/S//BN9nKbACQwvWOFk1EwI6tTSt1lWg==
-X-Received: by 2002:a17:90a:e94c:: with SMTP id kp12mr5903353pjb.134.1623369505327;
-        Thu, 10 Jun 2021 16:58:25 -0700 (PDT)
-Received: from ada-comp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id c4sm3588133pfo.189.2021.06.10.16.58.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zZJde4o2L2qg8vNw7HtP2CFLX1sOraFXZhqavB6u28E=;
+        b=ABsgQkILABTPW5G8v2uFUtZDXbsNRsn0eMZBu5XplOTtdDU/G4FKd9DPhqU/WIDMYN
+         g1ukCxowsbNLlU7NkA77/TBOl2wCpL6Wbsc2b9mUDF4vOgjhRXLBAghDR0d4FxxM/MA+
+         qOHbl3GheD2vjb0gqy0uC/oGbPQ7C9aa9/3sc48QG8Q5xlkqDbE3xknHLMukkMxjbEYI
+         BnnyJ4geT/B0HtR9dXvYzRAO1AqNySahvvghNFh7x1g+FNVf1/xJ9dYliV8Rg/l2RBJ+
+         cRs9MaTJE4lL4PeUEZdjJ2oyx5fmrUYnsXPyxxr4JEFd5JhOdveP+sF69I890ZH2vRPf
+         VY/g==
+X-Gm-Message-State: AOAM531WrexV6N0UmCY3m2TdCpNusqJTuNaPQHEviJsZUhSFi5jUZ5IA
+        0rACxxCu4UpZh2wH4UVp98jhsg==
+X-Google-Smtp-Source: ABdhPJy5dyB25zNPV/G1vZwDtG6mro/vxYNPOH0KijCRQMYYArulRACmbS3ga0zv//1UXMp/D0aa4g==
+X-Received: by 2002:a05:6638:1682:: with SMTP id f2mr1376788jat.139.1623376738776;
+        Thu, 10 Jun 2021 18:58:58 -0700 (PDT)
+Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id n20sm2623663ioo.23.2021.06.10.18.58.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 16:58:24 -0700 (PDT)
-From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, jaffe1@gmail.com,
-        Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH v6 3/3] cec-compliance: remove Deck Status test
-Date:   Thu, 10 Jun 2021 16:58:04 -0700
-Message-Id: <f178858fc479d6c84f38a4c0e1f310b844fcb275.1623368303.git.deborahbrouwer3563@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1623368302.git.deborahbrouwer3563@gmail.com>
-References: <cover.1623368302.git.deborahbrouwer3563@gmail.com>
+        Thu, 10 Jun 2021 18:58:58 -0700 (PDT)
+From:   Shuah Khan <skhan@linuxfoundation.org>
+To:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        dan.carpenter@oracle.com, mchehab@kernel.org
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: [PATCH] media: Fix Media Controller API config checks
+Date:   Thu, 10 Jun 2021 19:58:49 -0600
+Message-Id: <20210611015849.42589-1-skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove the Deck Status message test because invalid Deck Status messages
-are already captured by cec-compliance in other tests.
+Smatch static checker warns that "mdev" can be null:
 
-Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+sound/usb/media.c:287 snd_media_device_create()
+    warn: 'mdev' can also be NULL
+
+If CONFIG_MEDIA_CONTROLLER is disabled, this file should not be included
+in the build.
+
+The below conditions in the sound/usb/Makefile are in place to ensure that
+media.c isn't included in the build.
+
+sound/usb/Makefile:
+snd-usb-audio-$(CONFIG_SND_USB_AUDIO_USE_MEDIA_CONTROLLER) += media.o
+
+select SND_USB_AUDIO_USE_MEDIA_CONTROLLER if MEDIA_CONTROLLER &&
+       (MEDIA_SUPPORT=y || MEDIA_SUPPORT=SND_USB_AUDIO)
+
+The following config check in include/media/media-dev-allocator.h is
+in place to enable the API only when CONFIG_MEDIA_CONTROLLER and
+CONFIG_USB are enabled.
+
+ #if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
+
+This check doesn't work as intended when CONFIG_USB=m. When CONFIG_USB=m,
+CONFIG_USB_MODULE is defined and CONFIG_USB is not. The above config check
+doesn't catch that CONFIG_USB is defined as a module and disables the API.
+This results in sound/usb enabling Media Controller specific ALSA driver
+code, while Media disables the Media Controller API.
+
+Fix the problem requires two changes:
+
+1. Change the check to use IS_ENABLED to detect when CONFIG_USB is enabled
+   as a module or static. Since CONFIG_MEDIA_CONTROLLER is a bool, leave
+   the check unchanged to be consistent with drivers/media/Makefile.
+
+2. Change the drivers/media/mc/Makefile to include mc-dev-allocator.o
+   in mc-objs when CONFIG_USB is y or m.
+
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Link: https://lore.kernel.org/alsa-devel/YLeAvT+R22FQ%2FEyw@mwanda/
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 ---
- utils/cec-compliance/cec-test.cpp | 18 ------------------
- 1 file changed, 18 deletions(-)
+ drivers/media/mc/Makefile           | 2 +-
+ include/media/media-dev-allocator.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
-index f2ec4e90..8f2188ff 100644
---- a/utils/cec-compliance/cec-test.cpp
-+++ b/utils/cec-compliance/cec-test.cpp
-@@ -696,23 +696,6 @@ static int deck_ctl_give_status_invalid(struct node *node, unsigned me, unsigned
- 	return OK;
- }
+diff --git a/drivers/media/mc/Makefile b/drivers/media/mc/Makefile
+index 119037f0e686..140f0a78540e 100644
+--- a/drivers/media/mc/Makefile
++++ b/drivers/media/mc/Makefile
+@@ -3,7 +3,7 @@
+ mc-objs	:= mc-device.o mc-devnode.o mc-entity.o \
+ 	   mc-request.o
  
--static int deck_ctl_deck_status(struct node *node, unsigned me, unsigned la, bool interactive)
--{
--	struct cec_msg msg = {};
--
--	cec_msg_init(&msg, me, la);
--	cec_msg_deck_status(&msg, CEC_OP_DECK_INFO_STOP);
--	fail_on_test(!transmit_timeout(node, &msg));
--	if (unrecognized_op(&msg))
--		return OK_NOT_SUPPORTED;
--	if (refused(&msg))
--		return OK_REFUSED;
--	if (cec_msg_status_is_abort(&msg))
--		return OK_PRESUMED;
--
--	return 0;
--}
--
- static int deck_ctl_deck_ctl(struct node *node, unsigned me, unsigned la, bool interactive)
- {
- 	struct cec_msg msg = {};
-@@ -893,7 +876,6 @@ static const vec_remote_subtests deck_ctl_subtests{
- 		CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
- 		deck_ctl_give_status_invalid,
- 	},
--	{ "Deck Status", CEC_LOG_ADDR_MASK_ALL, deck_ctl_deck_status },
- 	{
- 		"Deck Control",
- 		CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
+-ifeq ($(CONFIG_USB),y)
++ifeq ($(CONFIG_USB),$(filter $(CONFIG_USB),y m))
+ 	mc-objs += mc-dev-allocator.o
+ endif
+ 
+diff --git a/include/media/media-dev-allocator.h b/include/media/media-dev-allocator.h
+index b35ea6062596..2ab54d426c64 100644
+--- a/include/media/media-dev-allocator.h
++++ b/include/media/media-dev-allocator.h
+@@ -19,7 +19,7 @@
+ 
+ struct usb_device;
+ 
+-#if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
++#if defined(CONFIG_MEDIA_CONTROLLER) && IS_ENABLED(CONFIG_USB)
+ /**
+  * media_device_usb_allocate() - Allocate and return struct &media device
+  *
 -- 
-2.25.1
+2.30.2
 
