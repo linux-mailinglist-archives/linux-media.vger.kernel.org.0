@@ -2,52 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A1913A4B50
-	for <lists+linux-media@lfdr.de>; Sat, 12 Jun 2021 01:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 716CA3A4B54
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jun 2021 01:43:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230201AbhFKXoT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Jun 2021 19:44:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35082 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbhFKXoS (ORCPT
+        id S230380AbhFKXpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Jun 2021 19:45:08 -0400
+Received: from mail-lf1-f49.google.com ([209.85.167.49]:34452 "EHLO
+        mail-lf1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230349AbhFKXpH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Jun 2021 19:44:18 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4F1CC061574;
-        Fri, 11 Jun 2021 16:42:08 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id e11so11666972ljn.13;
-        Fri, 11 Jun 2021 16:42:08 -0700 (PDT)
+        Fri, 11 Jun 2021 19:45:07 -0400
+Received: by mail-lf1-f49.google.com with SMTP id f30so10962944lfj.1;
+        Fri, 11 Jun 2021 16:43:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KTTMXD301kubhW2/lDFQivGY+zMl/SXEE2+hyaAZPMw=;
-        b=AAlWfOT9kxVgBrPjr04TbtJLpzb6hSuO4UjxJCcdGPM869pk2XrMdOg5Rg+1bObIDF
-         28dP027NfCPSh7gTLQCA86QKmm67940slX+tQlq12Tms7XNCBXnee6+5YFBvxuPB3Xkc
-         zJvbNA3LQ9SgcYFOGOFfsn4oDWw1XxibeRfDBod3lMmO/1FVjaq3GhE2r8A0z2pYEvBH
-         p4spnenJDDftXmzlG8pC16Z52+HCE5zMCzA7mqahACl8/6DA+Kms2ebop4oOGe/7opAc
-         oDiE/6Q4f8PyGdMpIvpkW3WJC5ZuAxKbZgP22UG927A+DVuGSGN8GblM+ARiLvFnSl7S
-         86rQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Vw+MJMCk1jvVznn1bkcb+1btNeiCegoCcjrwneORPn4=;
+        b=nswv/6Od8pYV0DsvhYiMUEaJPp0AH1JzRT1nil1Wi8VvYdLZKkcIpVhxsw6LBVNPp2
+         HF9FNiszxO9OZuRvYZ4AYxc8DTI29o1gFmibh5rDaTSZGGWdukjqrByCkwFaR9j2lhJB
+         qSWTcFCsaG1nMwksvx8I+ox9bOOtDKnL+j7HFLwTwUXVCNpuWYQimcGQMb/xT7+jjrbe
+         KqD/BQlvbaQKIdeKsZuSAoEAjiegVthqeqm523TOz5pksIHZMHNgW9oPj7ckkOIH2sU+
+         AY8daE1CarjRwIGIc/URJDWEedZ49J8+66C+5LaTFIjAz46mdVLvKcRVEqDDM+44yTnD
+         2PQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KTTMXD301kubhW2/lDFQivGY+zMl/SXEE2+hyaAZPMw=;
-        b=pQ17TM+FtE7sTWd/NCMG5JyPG+k8g+uqYrST8+msKfc2rrhReBZ7FgYlkJ44ypayeu
-         WYlq3GUOrapJK6O4VUnndMQPvYn0hl23hF3WJ0FnXsEXRMKDeUwTNunkUC0kvfSakX4H
-         ID+jUKVSUPRdQJgWSrbRHnWyeC2l2gOZNlclAqODTBHmh/4E3v75fIQyt4xea2SJQ3ZG
-         ofRgdNf9pw0x3Si6FQLI39j7DMHx3mxPgvPSXzoLvJjux/xE77AXRc07Hoy0oSkGp3xh
-         RSdjg95Un+FA7QfaQHUH7FJpUUKvCbfeGFP5gkE3tcc+fJeBvTeOx+gE5W6B/gB5rZNE
-         5UGw==
-X-Gm-Message-State: AOAM533xicJfFo+ckPLG97H4roZ0LnCXFETmWBDk0ltOW101NgYjhRXM
-        PbRFeAOck0JOXwXH5wnpCdw=
-X-Google-Smtp-Source: ABdhPJz03pnMer1043kcAhLObD/q1by1c27SVXXSVXFSWAKVMB7kyxN+SHnXZTTIW3Cb2Z1F2ew2aw==
-X-Received: by 2002:a2e:878b:: with SMTP id n11mr4561617lji.225.1623454927182;
-        Fri, 11 Jun 2021 16:42:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Vw+MJMCk1jvVznn1bkcb+1btNeiCegoCcjrwneORPn4=;
+        b=r/3Jcu6IVLxmVBo5wzYvgHmZSt2I4+bSKkSr+GUBHi/3N7+yFm1CG2RZAAj39SK3G9
+         lYcRqfx/aHAelymtVZR6HDhF53rcIryw7YrNtYHfO3EltIkk1SgVRJgNOJt8nSuelXGT
+         1Jz6btHh2dZL9eHKSEoq0CJhFgesjjsFwAfuy+ah/qwocQcC3NzG1+8hjiQMda1vjUgZ
+         xdY4TARcNsUp+X6fw/Y0FuHqWoA2THQ4km2usXbBSD5Or3UZIOnqvHMc7GHf2FzQZint
+         Q+6Gv+//HPED/JvSOMyk+5nbGe9Hq0yazFvJeqq80MOi7pR4SYgfgl1f4r0R+VghC590
+         vhCQ==
+X-Gm-Message-State: AOAM533FFV9rvEGihFzCUusvULR8zomP88BtJaW2liq6F3mhgUrbmwRA
+        BPXk5i6cLO2ybT7Z8rufmfY=
+X-Google-Smtp-Source: ABdhPJwOlIahKWZ2Fur9W+yJYlZjD9gGe8qx8jU5PX+Yu+zdSgtvBdTq9FTbytMqqCIAfVF+h4HNzw==
+X-Received: by 2002:a19:7410:: with SMTP id v16mr3989980lfe.189.1623454928069;
+        Fri, 11 Jun 2021 16:42:08 -0700 (PDT)
 Received: from localhost.localdomain (h-98-128-228-193.NA.cust.bahnhof.se. [98.128.228.193])
-        by smtp.gmail.com with ESMTPSA id b23sm972246ljk.18.2021.06.11.16.42.06
+        by smtp.gmail.com with ESMTPSA id b23sm972246ljk.18.2021.06.11.16.42.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 16:42:06 -0700 (PDT)
+        Fri, 11 Jun 2021 16:42:07 -0700 (PDT)
 From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
 To:     Mirela Rabulea <mirela.rabulea@nxp.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -59,33 +56,40 @@ Cc:     NXP Linux Team <linux-imx@nxp.com>,
         linux-kernel@vger.kernel.org,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: [PATCH 0/2] media: imx-jpeg: Constify a few static structs
-Date:   Sat, 12 Jun 2021 01:41:59 +0200
-Message-Id: <20210611234201.64832-1-rikard.falkeborn@gmail.com>
+Subject: [PATCH 1/2] media: imx-jpeg: Constify static struct v4l2_m2m_ops
+Date:   Sat, 12 Jun 2021 01:42:00 +0200
+Message-Id: <20210611234201.64832-2-rikard.falkeborn@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210611234201.64832-1-rikard.falkeborn@gmail.com>
+References: <20210611234201.64832-1-rikard.falkeborn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Constify two structs that are never modified.
+The only usage of mxc_jpeg_m2m_ops is to pass its address to
+v4l2_m2m_init() which takes a pointer to const struct v4l2_m2m_ops. Make
+it const to allow the compiler to put it in read-only memory.
 
-The first patch constifies a static v4l2_m2m_ops struct which contains
-function pointers.
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+---
+ drivers/media/platform/imx-jpeg/mxc-jpeg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The second constifies mxc_jpeg_fmt, which contains read-only data. In
-order to do that, a number of function arguments, return values and
-pointers was made const as well.
-
-Rikard Falkeborn (2):
-  media: imx-jpeg: Constify static struct v4l2_m2m_ops
-  media: imx-jpeg: Constify static struct mxc_jpeg_fmt
-
- drivers/media/platform/imx-jpeg/mxc-jpeg.c | 18 +++++++++---------
- drivers/media/platform/imx-jpeg/mxc-jpeg.h | 18 +++++++++---------
- 2 files changed, 18 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
+index 03b9264af068..3a49007e1264 100644
+--- a/drivers/media/platform/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
+@@ -1890,7 +1890,7 @@ static const struct v4l2_file_operations mxc_jpeg_fops = {
+ 	.mmap		= v4l2_m2m_fop_mmap,
+ };
+ 
+-static struct v4l2_m2m_ops mxc_jpeg_m2m_ops = {
++static const struct v4l2_m2m_ops mxc_jpeg_m2m_ops = {
+ 	.device_run	= mxc_jpeg_device_run,
+ };
+ 
 -- 
 2.32.0
 
