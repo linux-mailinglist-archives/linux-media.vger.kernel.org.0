@@ -2,188 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82B813A4B56
-	for <lists+linux-media@lfdr.de>; Sat, 12 Jun 2021 01:43:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8031B3A4C7C
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jun 2021 05:39:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230446AbhFKXp0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Jun 2021 19:45:26 -0400
-Received: from mail-lj1-f180.google.com ([209.85.208.180]:33785 "EHLO
-        mail-lj1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230349AbhFKXpY (ORCPT
+        id S229931AbhFLDld (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Jun 2021 23:41:33 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:47125 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229584AbhFLDld (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Jun 2021 19:45:24 -0400
-Received: by mail-lj1-f180.google.com with SMTP id r16so11825921ljc.0;
-        Fri, 11 Jun 2021 16:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=aRw7BPNktlSQ8Bpwkfd9XqquSjVtSyBra5TkrCf39nw=;
-        b=SkSPQn1YLgf4eB2184cpjDPdofARNgCS+pxpukZiniDyhQ+CcJKIuPW4uzFOqaSXJv
-         J+BmnsELecpkMSn6+1zDTxFIVg41BNTtm7SWehd7ua/9PPp76/FBwIHeQSQJScr/1oga
-         JOvUPHKaygDlDhzaue76p5+osbFTwyRUV6eBewnkXL5pCR3Uuq1dVlxdHJ8FhfH6kcn2
-         JQ/mSXN9I7k/NT0Xsh7/DTLiusg0wj7SHIF0EFUrDQiq3q5LQS4dQ78G1EdzrAAz1S89
-         ychDj4dkNiXXzaXfEZbhabb1NcX94aZfvu2CXcx2jcfxupXtMxd1s7RaXQJ6519eNiHh
-         Y0qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=aRw7BPNktlSQ8Bpwkfd9XqquSjVtSyBra5TkrCf39nw=;
-        b=ov9BtS/M0St9XrO7ipm0nwR/NqJLnYbnaLJJI3nDDdsRiqm04Cq+bTtMD7blOF9XI1
-         ZCdCJMgW8zpE2mcocGk8blyT6uv67VtLwarEkFoeD8g7FbONQD7f69q8FNGhBEUHGiTL
-         EHr5uTfesmnj7nbbl5AVpx8gToRgftbyVkHBBY1EpfgXRg0Mt2Po+39oopPro6AK3HnP
-         +XPljKxlYeqDqc2TNIT2X2M8cLMIA7YCMNiGCW62M5xjOOpv8JuQXYtL0SsU1hAIv5H8
-         Hkq/3PL6KM2aOdq6L97SWXYsAbUL8NMsMnph/c8+4EsRsTeVNhlGmxiiFTlJFGyMfPZR
-         YQog==
-X-Gm-Message-State: AOAM532GCyvjk4Iy8JiCRDCIhRuKDlx3tlrmhwFnD/DftWzIqaD5sut5
-        +v16ZNOA389OcFU/NaL2bfY=
-X-Google-Smtp-Source: ABdhPJzdZQgVxu8KHs5S94L9UZiEP/Hh55YTVP6uT5f2rUjXtodE9hgli7NLwIHJymqAJzMFLEgJjQ==
-X-Received: by 2002:a2e:a4c2:: with SMTP id p2mr4821128ljm.365.1623454928898;
-        Fri, 11 Jun 2021 16:42:08 -0700 (PDT)
-Received: from localhost.localdomain (h-98-128-228-193.NA.cust.bahnhof.se. [98.128.228.193])
-        by smtp.gmail.com with ESMTPSA id b23sm972246ljk.18.2021.06.11.16.42.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 16:42:08 -0700 (PDT)
-From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To:     Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Cc:     NXP Linux Team <linux-imx@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: [PATCH 2/2] media: imx-jpeg: Constify static struct mxc_jpeg_fmt
-Date:   Sat, 12 Jun 2021 01:42:01 +0200
-Message-Id: <20210611234201.64832-3-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210611234201.64832-1-rikard.falkeborn@gmail.com>
-References: <20210611234201.64832-1-rikard.falkeborn@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 11 Jun 2021 23:41:33 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ruUYlGMwThg8ZruUelGvZk; Sat, 12 Jun 2021 05:39:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623469173; bh=fV6ikhKQUhA5j3CLgiYCO/NDddcdF4Gy9pZoyN0Olds=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=gZ14fMCksmsKqPw3nDpGnwX7dA9Hf/m3Ga6l0DLXozhhutMwq8k5GOxXTb+ERoKJK
+         jCm4RrwgS9xnJdaMWxEnPWvJeg9PLSz0ZQP4cfXY1pjljvKV/MQ4aXB9rb5LcoIpC0
+         GXwdqigotUkKGTURUCcaLFmFrQxx9d45D4thAOyr+dkZR4Kb6YFvg2/kU6yQdFuQiU
+         4r2mrPlhKCEmHZU5Ykl6ljjpu4xd8jAb2rr3cM7xMSz2VtV5cz49riccXOZXSBMa5U
+         1lg+6n4OxG/TrkBRBO3f6DuoXnrYyEUS90z3sl41Mrx3/GAZ+2uyvMo1847bcnAFrK
+         ZMIxrKAmS0kHw==
+Message-ID: <23a90976837b1c2094320a734593e10c@smtp-cloud9.xs4all.net>
+Date:   Sat, 12 Jun 2021 05:39:26 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfNe+bYCDXY46CrimAhWbaZF1IKKymIKLPkOmweXoIXT7rGa46I6MMy6R+tWO9RhLTMr76VyctbeJNVug2oIMDBdIsk++RsrXs9Zif/X/yfgkWrpIGSob
+ hlfKXCnX/i26Eys4a3Kw5+ZxCOCD6HSj65OrJ/9CyXIfRLofI8Ov+fm7DBMPtWLbmadffrQ8o/SAliC0i5hNpRh5H17unTz+RLF7PwTEJp4T8Z3WYKrWEefS
+ v38T9ds3evHg1vhlvT+hoA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It is only read-from, so make it const. In order to be able to do this,
-constify all places where mxc_jpeg_fmt is used, in function arguments,
-return values and pointers. On top of that, make the name a pointer to
-const char.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On aarch64, this shrinks object code size with 550 bytes with gcc 11.1.0,
-and almost 2kB with clang 12.0.0.
+Results of the daily build of media_tree:
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
- drivers/media/platform/imx-jpeg/mxc-jpeg.c | 16 ++++++++--------
- drivers/media/platform/imx-jpeg/mxc-jpeg.h | 18 +++++++++---------
- 2 files changed, 17 insertions(+), 17 deletions(-)
+date:			Sat Jun 12 05:00:12 CEST 2021
+media-tree git hash:	5b448065febe1c6bb6693735844f2fb2b7b654dc
+media_build git hash:	8dab03da8769cd94afc5df1fe14c67400dc2f16e
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7445-g58776ae33
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-index 3a49007e1264..755138063ee6 100644
---- a/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-@@ -62,7 +62,7 @@
- #include "mxc-jpeg-hw.h"
- #include "mxc-jpeg.h"
- 
--static struct mxc_jpeg_fmt mxc_formats[] = {
-+static const struct mxc_jpeg_fmt mxc_formats[] = {
- 	{
- 		.name		= "JPEG",
- 		.fourcc		= V4L2_PIX_FMT_JPEG,
-@@ -341,7 +341,7 @@ static inline struct mxc_jpeg_ctx *mxc_jpeg_fh_to_ctx(struct v4l2_fh *fh)
- 	return container_of(fh, struct mxc_jpeg_ctx, fh);
- }
- 
--static int enum_fmt(struct mxc_jpeg_fmt *mxc_formats, int n,
-+static int enum_fmt(const struct mxc_jpeg_fmt *mxc_formats, int n,
- 		    struct v4l2_fmtdesc *f, u32 type)
- {
- 	int i, num = 0;
-@@ -368,13 +368,13 @@ static int enum_fmt(struct mxc_jpeg_fmt *mxc_formats, int n,
- 	return 0;
- }
- 
--static struct mxc_jpeg_fmt *mxc_jpeg_find_format(struct mxc_jpeg_ctx *ctx,
--						 u32 pixelformat)
-+static const struct mxc_jpeg_fmt *mxc_jpeg_find_format(struct mxc_jpeg_ctx *ctx,
-+						       u32 pixelformat)
- {
- 	unsigned int k;
- 
- 	for (k = 0; k < MXC_JPEG_NUM_FORMATS; k++) {
--		struct mxc_jpeg_fmt *fmt = &mxc_formats[k];
-+		const struct mxc_jpeg_fmt *fmt = &mxc_formats[k];
- 
- 		if (fmt->fourcc == pixelformat)
- 			return fmt;
-@@ -1536,7 +1536,7 @@ static int mxc_jpeg_enum_fmt_vid_out(struct file *file, void *priv,
- 				MXC_JPEG_FMT_TYPE_RAW);
- }
- 
--static int mxc_jpeg_try_fmt(struct v4l2_format *f, struct mxc_jpeg_fmt *fmt,
-+static int mxc_jpeg_try_fmt(struct v4l2_format *f, const struct mxc_jpeg_fmt *fmt,
- 			    struct mxc_jpeg_ctx *ctx, int q_type)
- {
- 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-@@ -1612,7 +1612,7 @@ static int mxc_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
- 	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
- 	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
- 	struct device *dev = jpeg->dev;
--	struct mxc_jpeg_fmt *fmt;
-+	const struct mxc_jpeg_fmt *fmt;
- 	u32 fourcc = f->fmt.pix_mp.pixelformat;
- 
- 	int q_type = (jpeg->mode == MXC_JPEG_DECODE) ?
-@@ -1643,7 +1643,7 @@ static int mxc_jpeg_try_fmt_vid_out(struct file *file, void *priv,
- 	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
- 	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
- 	struct device *dev = jpeg->dev;
--	struct mxc_jpeg_fmt *fmt;
-+	const struct mxc_jpeg_fmt *fmt;
- 	u32 fourcc = f->fmt.pix_mp.pixelformat;
- 
- 	int q_type = (jpeg->mode == MXC_JPEG_ENCODE) ?
-diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg.h b/drivers/media/platform/imx-jpeg/mxc-jpeg.h
-index 7697de490d2e..4c210852e876 100644
---- a/drivers/media/platform/imx-jpeg/mxc-jpeg.h
-+++ b/drivers/media/platform/imx-jpeg/mxc-jpeg.h
-@@ -51,7 +51,7 @@ enum mxc_jpeg_mode {
-  * @flags:	flags describing format applicability
-  */
- struct mxc_jpeg_fmt {
--	char					*name;
-+	const char				*name;
- 	u32					fourcc;
- 	enum v4l2_jpeg_chroma_subsampling	subsampling;
- 	int					nc;
-@@ -74,14 +74,14 @@ struct mxc_jpeg_desc {
- } __packed;
- 
- struct mxc_jpeg_q_data {
--	struct mxc_jpeg_fmt	*fmt;
--	u32			sizeimage[MXC_JPEG_MAX_PLANES];
--	u32			bytesperline[MXC_JPEG_MAX_PLANES];
--	int			w;
--	int			w_adjusted;
--	int			h;
--	int			h_adjusted;
--	unsigned int		sequence;
-+	const struct mxc_jpeg_fmt	*fmt;
-+	u32				sizeimage[MXC_JPEG_MAX_PLANES];
-+	u32				bytesperline[MXC_JPEG_MAX_PLANES];
-+	int				w;
-+	int				w_adjusted;
-+	int				h;
-+	int				h_adjusted;
-+	unsigned int			sequence;
- };
- 
- struct mxc_jpeg_ctx {
--- 
-2.32.0
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13-rc1-i686: OK
+linux-5.13-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2963, Succeeded: 2963, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3023, Succeeded: 3023, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
