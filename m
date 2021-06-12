@@ -2,153 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A5443A4D48
-	for <lists+linux-media@lfdr.de>; Sat, 12 Jun 2021 09:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD5993A4DB4
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jun 2021 10:35:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230370AbhFLHMQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Jun 2021 03:12:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46784 "EHLO
+        id S229942AbhFLIhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Jun 2021 04:37:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbhFLHMQ (ORCPT
+        with ESMTP id S229584AbhFLIhn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Jun 2021 03:12:16 -0400
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4E9AC061574
-        for <linux-media@vger.kernel.org>; Sat, 12 Jun 2021 00:10:15 -0700 (PDT)
-Received: by mail-il1-x132.google.com with SMTP id i17so7246159ilj.11
-        for <linux-media@vger.kernel.org>; Sat, 12 Jun 2021 00:10:15 -0700 (PDT)
+        Sat, 12 Jun 2021 04:37:43 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB09C061574
+        for <linux-media@vger.kernel.org>; Sat, 12 Jun 2021 01:35:43 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id k7so8058476ejv.12
+        for <linux-media@vger.kernel.org>; Sat, 12 Jun 2021 01:35:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=2r88LMJZr7tIQEKfbOMwWJK+eANRkD15tgCK2MYTKEw=;
-        b=IRMnqHkJGQy/FaoEHfyzA/wvoyGqe0su9QVczLxGbuqRSRF/GxZ+ulZ9BbxXbhyIjW
-         bVTQJOh1S3yq+wq4AEi3+fRHkru/2u7ZndpUo8e8wxPVkNgAaN6h5SzK32V1ew7NRFD2
-         b5udT3upOo2lPFXY0VASjQCxnl+2dqJPGPBl4=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Y17o1CwKed3ewmX6HPexv1Ft5E+hPY1b3KZ4Tlud1wY=;
+        b=DP2I1qEHrDEscnVPZL9zrld22PPK4e567sPdzYJ41coQJGE/vzM0l8NBBEndccfK8X
+         pYp1s0YEH58BCgFoWbwFDTkM2y7VnN7Ni4wzWGrrr5cXsnBvtIhIKQxx1O34pwHIV5G4
+         ayHXSGljM9QKzQB/KWk4IvcJoXfy+zaFdGZ/eOyxtzk8oGRr6YS7yMiDW4Fp0/1Adcp9
+         njzIdqessrRgyEtoEsUmgDwaiqq+rB2WYPFAuy4dHb+csvGxWvHrcPFLVnYQnu7uONaM
+         bbNMe/hoy9JGG1ZOQb5eVXSgm17S1yXlskGP87LxjNYoByHzGLRgrR0BasPnD+ZhiqbH
+         8b0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=2r88LMJZr7tIQEKfbOMwWJK+eANRkD15tgCK2MYTKEw=;
-        b=n9tG6NB3JkVzGIREWBmj5ppbBul0sKwiRj1RMCxZwrTLYt6O9pH7es9kkCz+KbERsf
-         awIaVepq+3ZcfO35J9XhJMhKB1PPkeur0DMw6a52L+SNH84aY+JupY0i1stVKABVSCls
-         aPOc5K+CBr29CjtL3TIjagZ7eP8FVn1shHz+cyopC+OlENTJvG/OAv6bmh4hXAXLj1ES
-         Gh+y9L9mLWlKRn/CJnQSBxgdkLLP7/PiNrHpThrfBg5bdV3yAGlrttxvHeKQtmy861dx
-         dMiN88SqWfJW0zkXl5DCupx6LF/C9UOev0bRR6rrucySPerdnAx2l3rpmSkSDsIsDoz8
-         jY+Q==
-X-Gm-Message-State: AOAM531aULL0YGexcBa8kXg5sJJV9AbS3hL3acrO2NDWgYFk4E1zQXb2
-        c+MTjycAhByOQwO55ZfJ4ry2y+EfROZ2tB23d/9aiGr3B1ikLQ==
-X-Google-Smtp-Source: ABdhPJyht3SDduifUXGzWBD9Pg6RGNWPy2R2RKc1gOByk83C3OUY6x00liN15I6NTmMulAjZMpeDUkkdT70bQ5v8vR8=
-X-Received: by 2002:a05:6e02:d51:: with SMTP id h17mr6140809ilj.177.1623481815211;
- Sat, 12 Jun 2021 00:10:15 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Y17o1CwKed3ewmX6HPexv1Ft5E+hPY1b3KZ4Tlud1wY=;
+        b=phmFDCZiT37crzFnEIWnrvJhNuxB8GsTbo5UixvAnZxgW8BVE/5K8en8hM/5njnxuZ
+         fS5XM8asWd16HoyGr+afUcsNR7Bjf3m9579iGkc95pdGx9+HmxfROrOWnR98Rl52RjwM
+         Np5XNqjRtVCOfWYwWcUYA8rM6strCLjTkYcLVwtqa5wPwJaEq6feVkOBR7sP7Uz45bqK
+         C3sfSsfol/LDAT/bBOjVcKWCYzQnXYG5ZCgfebv/GerNP9Nil95Z26f+UA5Wq5egNoTn
+         W7gWlEDgv4epoeWGMmmBFslGvtqFpHcpoqtIZPZjpTa1jGGpNjlemAcxDgOhPrj7a2+e
+         OExw==
+X-Gm-Message-State: AOAM533PEB6D2YHJmZdYLh6OIEACxZl2NtztVerbiblPbm+4KaEEkpF9
+        JkAnU+shb8KSDKYapZltJXmClp+RYWFLpA==
+X-Google-Smtp-Source: ABdhPJwWw/Y34I6DavsRQM9d3e9RdK6NEMjN+Rch1CASmc5ho2OnjV0e2M7yk1UZXPBdCWDLr5oq3Q==
+X-Received: by 2002:a17:906:b7d7:: with SMTP id fy23mr7338466ejb.49.1623486942296;
+        Sat, 12 Jun 2021 01:35:42 -0700 (PDT)
+Received: from [10.8.0.2] (terefe.re. [5.255.96.200])
+        by smtp.gmail.com with ESMTPSA id p5sm2824760ejm.115.2021.06.12.01.35.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Jun 2021 01:35:41 -0700 (PDT)
+Subject: Re: Logilink DVB-T2 stick VG0022A
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Sean Young <sean@mess.org>, Gon Solo <gonsolo@gmail.com>,
+        Antti Palosaari <crope@iki.fi>
+Cc:     linux-media@vger.kernel.org
+References: <20210611144917.26rvhietmpbuuo5p@pengutronix.de>
+From:   Tomasz Maciej Nowak <tmn505@gmail.com>
+Message-ID: <6934ee17-9dd7-fdc2-9629-cfff286a8031@gmail.com>
+Date:   Sat, 12 Jun 2021 10:35:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210608152451.14730-1-euphoriccatface@gmail.com>
- <20210608152451.14730-3-euphoriccatface@gmail.com> <CAJCx=g=hngBOv-6ov1_0YQ0qRC+fTngfNHopcmpHmF5ToAEVaw@mail.gmail.com>
- <CAJp=mWQ_SKw7NAnnMjaS2rp5s1ShHV5cFKX_ecVY6cKMw3ZMsA@mail.gmail.com>
-In-Reply-To: <CAJp=mWQ_SKw7NAnnMjaS2rp5s1ShHV5cFKX_ecVY6cKMw3ZMsA@mail.gmail.com>
-From:   Matt Ranostay <matt.ranostay@konsulko.com>
-Date:   Sat, 12 Jun 2021 00:10:04 -0700
-Message-ID: <CAJCx=g=8mYoeSdK3v9jG7-JPDNLfdvDp20GGApJUzixeaDr4rA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] media: video-i2c: append register data on
- MLX90640's frame
-To:     Seongyong Park <euphoriccatface@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210611144917.26rvhietmpbuuo5p@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 11, 2021 at 10:55 PM Seongyong Park
-<euphoriccatface@gmail.com> wrote:
->
-> 2021=EB=85=84 6=EC=9B=94 10=EC=9D=BC (=EB=AA=A9) =EC=98=A4=EC=A0=84 8:13,=
- Seongyong Park <euphoriccatface@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
-=84=B1:
-> >
-> > 2021=EB=85=84 6=EC=9B=94 9=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 4:14=
-, Matt Ranostay <matt.ranostay@konsulko.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
-=84=B1:
-> > >
-> > > On Tue, Jun 8, 2021 at 8:25 AM Seongyong Park <euphoriccatface@gmail.=
-com> wrote:
-> > >
-> > > > -       .height =3D 26, /* 24 lines of pixel data + 2 lines of proc=
-essing data */
-> > > > +       .height =3D 27,
-> > > > +       /* 24 lines of pixel data + 2 lines of processing data + 1 =
-line of registers */
-> > >
-> > > Guess you hit the 80 character line here and checkpatch.pl complained
-> > > .. But should all be one line since it is
-> > > much more clear on one line.
-> > >
-> > > >  };
-> > > >
-> > > >  static const struct regmap_config amg88xx_regmap_config =3D {
-> > > > @@ -168,8 +169,12 @@ static int amg88xx_xfer(struct video_i2c_data =
-*data, char *buf)
-> > > >
-> > > >  static int mlx90640_xfer(struct video_i2c_data *data, char *buf)
-> > > >  {
-> > > > -       return regmap_bulk_read(data->regmap, 0x400, buf,
-> > > > -                               data->chip->buffer_size);
-> > > > +       int ret =3D regmap_bulk_read(data->regmap, 0x400, buf,
-> > > > +                                  data->chip->buffer_size - 64);
-> > > > +       if (ret)
-> > > > +               return ret;
-> > > > +       return regmap_bulk_read(data->regmap, 0x8000, buf + (data->=
-chip->buffer_size - 64),
-> > > > +                               64);
-> > > >  }
-> > > >
-> > > >  static int amg88xx_setup(struct video_i2c_data *data)
-> > > > @@ -375,7 +380,7 @@ static const struct video_i2c_chip video_i2c_ch=
-ip[] =3D {
-> > > >                 .format         =3D &mlx90640_format,
-> > > >                 .frame_intervals        =3D mlx90640_frame_interval=
-s,
-> > > >                 .num_frame_intervals    =3D ARRAY_SIZE(mlx90640_fra=
-me_intervals),
-> > > > -               .buffer_size    =3D 1664,
-> > > > +               .buffer_size    =3D 1728,
-> > >
-> > > Minus nitpick above looks good to me. You can keep the acked-by if
-> > > that is only change
-> > >
-> > > Acked-by: Matt Ranostay <matt.ranostay@konsulko.com>
-> > >
-> > Yes, other than your suggestion, indeed that is the only change I made
-> > for this commit between v1 and v2 (and v3 is the same as v2.)
-> > and that is because of the checkpatch.pl indeed :)
-> >
-> > Thanks,
-> > Seongyong Park
->
-> Re-sending this mail mainly because I have made a direct reply, rather
-> than a reply to all.
-> Sorry about that.
->
-> Matt, while we're at it, if I happen to make another revision of this pat=
-chset,
-> would you find it looking okay to make a line break after the second para=
-meter?
-> The odd arrangement was partly because I wanted to make a line break
-> after the same number of parameters.
->
-> The lines will look like this:
-> +       int ret =3D regmap_bulk_read(data->regmap, 0x400,
-> +                                  buf, data->chip->buffer_size - 64);
-> ...
-> +       return regmap_bulk_read(data->regmap, 0x8000,
-> +                               buf + (data->chip->buffer_size - 64), 64)=
-;
->
+W dniu 11.06.2021 o 16:49, Uwe Kleine-König pisze:
+> Hello,
 
-Yeah this is fine by me. Keep the signed off if this is the  only change.
+Hi Uwe.
 
-- Matt
+> 
+> I have a Logilink VG0022A stick and when I plug it in I get:
+> 
+> [  426.019171] usb 1-1.3: new high-speed USB device number 5 using xhci-hcd
+> [  426.171443] usb 1-1.3: New USB device found, idVendor=1d19, idProduct=0100, bcdDevice= 1.00
+> [  426.172184] usb 1-1.3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+> [  426.172822] usb 1-1.3: Product: TS Aggregator
+> [  426.173205] usb 1-1.3: Manufacturer: ITE Tech., Inc.
+> [  426.173641] usb 1-1.3: SerialNumber: AF0102020700001
+> [  426.180314] dvb_usb_af9035 1-1.3:1.0: prechip_version=83 chip_version=01 chip_type=9306
+> [  426.181324] usb 1-1.3: dvb_usb_v2: found a 'Logilink VG0022A' in cold state
+> [  426.182034] usb 1-1.3: firmware: direct-loading firmware dvb-usb-it9303-01.fw
+> [  426.182666] usb 1-1.3: dvb_usb_v2: downloading firmware from file 'dvb-usb-it9303-01.fw'
+> [  426.221915] dvb_usb_af9035 1-1.3:1.0: firmware version=1.4.0.0
+> [  426.222456] usb 1-1.3: dvb_usb_v2: found a 'Logilink VG0022A' in warm state
+> [  426.224991] usb 1-1.3: dvb_usb_v2: will pass the complete MPEG2 transport stream to the software demuxer
+> [  426.225998] dvbdev: DVB: registering new adapter (Logilink VG0022A)
+> [  426.226551] usb 1-1.3: media controller created
+> [  426.229845] dvbdev: dvb_create_media_entity: media entity 'dvb-demux' registered.
+> [  426.454279] i2c i2c-9: Added multiplexed i2c bus 10
+> [  426.454726] si2168 9-0067: Silicon Labs Si2168-B40 successfully identified
+> [  426.455377] si2168 9-0067: firmware version: B 4.0.2
+> [  426.458522] usb 1-1.3: DVB: registering adapter 0 frontend 0 (Silicon Labs Si2168)...
+> [  426.460236] dvbdev: dvb_create_media_entity: media entity 'Silicon Labs Si2168' registered.
+> [  426.469300] si2157 10-0063: Silicon Labs Si2147/2148/2157/2158 successfully attached
+> [  426.489642] usb 1-1.3: dvb_usb_v2: 'Logilink VG0022A' successfully initialized and connected
+> 
+> which looks fine. But when I try to use it (using mumudvb2) I get:
+> 
+> [  479.915150] si2168 9-0067: firmware: direct-loading firmware dvb-demod-si2168-b40-01.fw
+> [  479.915871] si2168 9-0067: downloading firmware from file 'dvb-demod-si2168-b40-01.fw'
+> [  480.436016] si2168 9-0067: firmware version: B 4.0.11
+> [  480.444089] si2157 10-0063: device is buggy, skipping firmware download
+> [  480.496756] si2157 10-0063: firmware version: �.�.255
 
-> Thanks,
-> - Seongyong Park
+That is to be expected, the device provides its own (patched?) firmware. This output is very
+similar to what I have and it works fine. Tested reception on both DVB-T standards with
+kaffeine, mumudvb2 tip and t2scan. You'll see the second part of dmesg message each time
+You'll switch the channel or start tuning.
+
+> 
+> and it fails to tune.
+> 
+> Do you have a hint?
+
+What differentiates between Your configuration and mine is I tested the stick in USB 2.0
+port. Also what I'm missing from Your log is loading of dvb-demod-si2168-02.fw, I assume
+it's present, since the driver doesn't complain.
+I don't know if it's enough of a hint, since I'm not 100% sure if my TerraTec TC2 Stick is
+exactly the same as VG0022A, but hope it helps
+
+> 
+> Best regards
+> Uwe
+> 
+
+Regards, Tomek.
+
+-- 
+TMN
