@@ -2,83 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA7E13A4FE1
-	for <lists+linux-media@lfdr.de>; Sat, 12 Jun 2021 19:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A50B93A50F2
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jun 2021 23:24:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbhFLRS3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Jun 2021 13:18:29 -0400
-Received: from mail-qt1-f172.google.com ([209.85.160.172]:36795 "EHLO
-        mail-qt1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbhFLRS2 (ORCPT
+        id S229874AbhFLV0I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Jun 2021 17:26:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229753AbhFLV0H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Jun 2021 13:18:28 -0400
-Received: by mail-qt1-f172.google.com with SMTP id r20so5207157qtp.3
-        for <linux-media@vger.kernel.org>; Sat, 12 Jun 2021 10:16:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=zmDZNjyo1qj0EvhgWleEEw1tYK3dwTCROWNCFpPFy9Y=;
-        b=U02PO42PMPcxSPKKXki3/0QwzysfOzK3GMgc8sqhh+MMtSpfYJUviyNUE2S8G9pNwO
-         ejdddejEwDKBSNL1qUFNTPqfKyjgNCdxe+m9UHNQ5Fu9NcLj0MYPhX1xFDoKCGXc+CJX
-         yuNcWxqWcyK6vZMeh+5bW+RykFeJaw9LZEuMzEpeFvaKnV73RHguHDV+dBjq1fyRVtwf
-         IJPDzR7sL0t6ilkW5cRh6g7aspzlhMwSfbiTZiPfv7grfCHsLl7b/Sb3GC55CcPoLJ1m
-         krrFywoEqzORYG9IRlbLLpdxETCFyo9HdYk68Y39wn+E7KdRvxZEJawELwMTUjqpNAJN
-         yrcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=zmDZNjyo1qj0EvhgWleEEw1tYK3dwTCROWNCFpPFy9Y=;
-        b=KHUptMAA9KpWP+BAyXvVP3eOLWF+UZU4cEBGWohhWhZd7i8qAMOfT+m4Ns6KATC8Oj
-         w3WCzY+eRj7rv7HUf1qFU6G96i9LKPcbuV4NiPMiV4KmLXKTfB55dc2TWyLG9ZLR5vu/
-         r6eam7EK9rUKa1JrLmQACfxxaW2JPR32MJ9sIBUEb+5pqilR1spPRXu8OcaZrzv5j/TW
-         y9NmPnYheAK5UUQcsBwwh2iQdd+oanc/v7GiZy2Wcl+ILv4z3ZQkrW2buOdej1z0e2Ul
-         /TMIXBJgKwoYiBBdw+25ctH1dYLZNUH3EIPJLOjatGbch+EBlaId9BcdcxqQmIwMJAPd
-         7bXQ==
-X-Gm-Message-State: AOAM530cCi65WvO73aApOMk/bOTzHMNYmaeYBYETmA/wJboGcOcSWNLX
-        E3UdN1haoV7bPv4y1+andzWu0ycP13Y2/RC7Wg==
-X-Google-Smtp-Source: ABdhPJx4tvw+XfdjR6FQ5EtOFxRjoYHpx+puIoPIouXmC3YOqLyEN4UiEVmku6D57b6uEXiYsFtvH9NaT220Ooo8ki4=
-X-Received: by 2002:aed:3071:: with SMTP id 104mr9227708qte.119.1623518128870;
- Sat, 12 Jun 2021 10:15:28 -0700 (PDT)
+        Sat, 12 Jun 2021 17:26:07 -0400
+X-Greylist: delayed 184 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 12 Jun 2021 14:24:07 PDT
+Received: from mxd2.seznam.cz (mxd2.seznam.cz [IPv6:2a02:598:2::210])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717AAC061574
+        for <linux-media@vger.kernel.org>; Sat, 12 Jun 2021 14:24:06 -0700 (PDT)
+Received: from email.seznam.cz
+        by email-smtpc4a.ng.seznam.cz (email-smtpc4a.ng.seznam.cz [10.23.10.105])
+        id 007bbef8d7c0079d00d3a03f;
+        Sat, 12 Jun 2021 23:24:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=post.cz; s=beta;
+        t=1623533045; bh=biO9MiX9+s+3zjObTbD6rPRJ7EVcESPl9t/MHrpInYQ=;
+        h=Received:From:To:Date:MIME-Version:Subject:Message-ID:Priority:
+         In-reply-to:References:X-mailer:Content-type:
+         Content-transfer-encoding:Content-description;
+        b=jZCtBqdestkMTnvwgtX0palu+vYHyDWhfFk1DvgZxgKtB3AZd1kyQBw5JGNdzHJLX
+         ULH7XizaiqNCaVg2CY6vO1Iyw2I5adQd8U2YCTJJw+/RisVb//aMedtWi9+31vcnMS
+         uxlpYra6g6lUq9fYenvVwg+jh1ndH/OAG6Za7kxI=
+Received: from [192.168.30.118] (47.94.cust.tetanet.cz [109.202.94.47])
+        by email-relay11.ng.seznam.cz (Seznam SMTPD 1.3.125) with ESMTP;
+        Sat, 12 Jun 2021 23:20:56 +0200 (CEST)  
+From:   "Frantisek Rysanek" <Frantisek.Rysanek@post.cz>
+To:     linux-media@vger.kernel.org
+Date:   Sat, 12 Jun 2021 23:20:53 +0200
 MIME-Version: 1.0
-Received: by 2002:ad4:4e33:0:0:0:0:0 with HTTP; Sat, 12 Jun 2021 10:15:28
- -0700 (PDT)
-Reply-To: bazaatg@gmail.com
-From:   Tchao Ago Bazaa <osarumweseigiebor@gmail.com>
-Date:   Sat, 12 Jun 2021 10:15:28 -0700
-Message-ID: <CAAV8wLGL4p6KBMHS0A_HebO4wSWJLn_eh_KmiiJ+=_0i+aRC9g@mail.gmail.com>
-Subject: Hallo
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: Logilink DVB-T2 stick VG0022A
+Message-ID: <60C52535.20482.128FE994@Frantisek.Rysanek.post.cz>
+In-reply-to: <20210612084102.u3hvrlfudu3sz3vj@pengutronix.de>
+References: <20210611144917.26rvhietmpbuuo5p@pengutronix.de>, <20210612084102.u3hvrlfudu3sz3vj@pengutronix.de>
+X-mailer: Pegasus Mail for Windows (4.73.639)
+Content-type: text/plain; charset=US-ASCII
+Content-transfer-encoding: 7BIT
+Content-description: Mail message body
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hallo
+Guten Tag Uwe,
 
-Mijn excuses voor het gebruik van dit medium om contact met u op te
-nemen. Mijn naam is Barrister Tchao Ago Bazaa en ik ben advocaat van
-beroep. Ik neem contact met u op met betrekking tot mijn overleden
-cli=C3=ABnt die dezelfde achternaam draagt =E2=80=8B=E2=80=8Bals u en een b=
-urger van uw
-land, mijn overleden cli=C3=ABnt stierf enkele jaren geleden samen met zijn
-familie bij een auto-ongeluk, zonder nabestaanden achter te laten.
-Mijn overleden cli=C3=ABnt was een zakenman die zich bezighield met de
-olie- en goudhandel hier in mijn land.
+What does the signal level and CNR look like?
+Not sure if your TV viewer app can display those stats.
+The femon plugin in VDR can do it.
+There are command-line tools that can show these stats:
+https://linuxtv.org/wiki/index.php/Dvbv5-zap
+https://linuxtv.org/wiki/index.php/Dvb-fe-tool
+I am slightly sad that these tools show signal level in %, rather 
+than dBmW or dBuV.
 
-Hij liet een depositowaarde van het fonds achter van (alleen vijf
-miljoen negenhonderdduizend Amerikaanse dollars). zoek je
-sinds partnerschap aangezien u dezelfde familienamen deelt met mijn
-overleden cli=C3=ABnt en waarschijnlijk uit hetzelfde land komt, aarzel dan
-niet om mij de volgende informatie hieronder te sturen voor
-gemakkelijke communicatie en probeer via mijn priv=C3=A9 e-mailadres te
-antwoorden voor meer details:
+In my experience with a single dongle (the T230C2), CNR of 25 dB is 
+barely okay. I've never seen a CNR better than say 38 dB.
 
-Uw volledige namen
-Uw priv=C3=A9 telefoonnummer
-
-Bedankt
-
-Tchao Ago Bazaa
+Frank
