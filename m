@@ -2,136 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB5573A4DBA
-	for <lists+linux-media@lfdr.de>; Sat, 12 Jun 2021 10:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF1B33A4DBD
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jun 2021 10:45:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229942AbhFLInJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Jun 2021 04:43:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37974 "EHLO
+        id S230012AbhFLIrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Jun 2021 04:47:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbhFLInJ (ORCPT
+        with ESMTP id S229584AbhFLIrs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Jun 2021 04:43:09 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6265C061574
-        for <linux-media@vger.kernel.org>; Sat, 12 Jun 2021 01:41:09 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lrzCV-0003jp-6G; Sat, 12 Jun 2021 10:41:07 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lrzCT-0003pj-S4; Sat, 12 Jun 2021 10:41:05 +0200
-Date:   Sat, 12 Jun 2021 10:41:02 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Tomasz Maciej Nowak <tmn505@gmail.com>, Sean Young <sean@mess.org>,
-        Gon Solo <gonsolo@gmail.com>, Antti Palosaari <crope@iki.fi>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Logilink DVB-T2 stick VG0022A
-Message-ID: <20210612084102.u3hvrlfudu3sz3vj@pengutronix.de>
-References: <20210611144917.26rvhietmpbuuo5p@pengutronix.de>
+        Sat, 12 Jun 2021 04:47:48 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6682C061574
+        for <linux-media@vger.kernel.org>; Sat, 12 Jun 2021 01:45:48 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id my49so8105873ejc.7
+        for <linux-media@vger.kernel.org>; Sat, 12 Jun 2021 01:45:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=QnYXtr3VSWQos2QaVTGH2IOlQtQOHwndJdzl6Wlmr9I=;
+        b=ZpLySUzqQ8/xU23UYUwuHOb2KC/dPVE3QuLSikGihUSLm7+MCrIiHxoWOeotEQN5pO
+         Gcj+qhL6+u2GK12Tx5r1bj7VsiV6UGaTc8CB/7FZRNOZaTP4jc2gk5lctOrBmJbp0E3q
+         i/T09tVD6G6ABCaYjikpIboCJJYP0To5ELQ2kMmSPxruAI8fIHhgztx9/ebfNnO79Xjh
+         Cknx1G26QskuA/q3dAlknRi1VkxxN40MF5pbTGNWNW6ETjZMsbmXBE07woenhZUpNpuu
+         5cRYEDYMIfiHSzFO7PjTo3S7Btm+TvmU40NDTSPD4j34vtwl/kd0sN7VKt7dUD0TELkA
+         MNKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QnYXtr3VSWQos2QaVTGH2IOlQtQOHwndJdzl6Wlmr9I=;
+        b=gyGXiEacCPxhqk2FuvUpHQo8ZIM4SZbZsNkdnoF204tzTPgXvSSPjPYTPKyl11gYIZ
+         EqvO4J8SS8QHsSfARX7mPhzyDWcsEm78J1uNROxY6+1izzO+LO2xsVCxOhKZuCp+uD2u
+         MWDWygZGaOa7ML/k9DNbzIBQr5HiRuv9VoMHF6iJkEi0+tMpjyMYwbOpqPCvM8OTDByL
+         cGrv/YWXmxXC5lOV5fkXRkEHCMYboW2eu0DB7LUhsgvmo4K6PLgN3Qxl2eGwVykl3UdG
+         MXJdFMlzrhHfPyS6yCXHhVbjA9zJyOxIC8NfSeb9CY3YT/jcMDVGwBwy2OL9hopAlf2V
+         hCwg==
+X-Gm-Message-State: AOAM530IJO5eA1gbYCrbOi992Ev8IMrrrTfw6V5wYcYfg5ZAUqZtSaLh
+        Uj+0eqXqdz0eEuFQuldPwc0JRMq4eVDjugjK
+X-Google-Smtp-Source: ABdhPJzKpJeJbhEOYbhcFuIv2MLT5OaOPm44BHpU23WizyTTitI0zmPg4IyYtzNTPljfiM2JC7mj2A==
+X-Received: by 2002:a17:906:17d8:: with SMTP id u24mr7252454eje.106.1623487547222;
+        Sat, 12 Jun 2021 01:45:47 -0700 (PDT)
+Received: from [192.168.1.12] (hst-221-11.medicom.bg. [84.238.221.11])
+        by smtp.googlemail.com with ESMTPSA id e24sm2881165ejb.52.2021.06.12.01.45.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Jun 2021 01:45:46 -0700 (PDT)
+Subject: Re: [RFC/WIP 0/4] HEIC image encoder
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+References: <20210429132833.2802390-1-stanimir.varbanov@linaro.org>
+ <ae54a98a-c1e5-e7f9-4d3f-fa4a56b9a359@xs4all.nl>
+ <3916c03f-9996-3de3-4365-3e88abf052d2@linaro.org>
+ <7bcab342492b41c952522c26eb2aaa497b90c5f8.camel@ndufresne.ca>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <b3fcf30b-ba89-faf2-88f6-85d6403b04c2@linaro.org>
+Date:   Sat, 12 Jun 2021 11:45:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="rx3har6iggzjga4c"
-Content-Disposition: inline
-In-Reply-To: <20210611144917.26rvhietmpbuuo5p@pengutronix.de>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <7bcab342492b41c952522c26eb2aaa497b90c5f8.camel@ndufresne.ca>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---rx3har6iggzjga4c
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On 6/11/21 5:46 PM, Nicolas Dufresne wrote:
+> Le vendredi 11 juin 2021 à 16:12 +0300, Stanimir Varbanov a écrit :
+>>>
+>>> Would it be possible for the driver to handle this internally? I.e.,
+>>> if it detects that it needs to switch to grid mode, can it just encode
+>>> each grid and copy it in the capture buffer? This assumes that there is
+>>> metadata that can be used by a decoder do find and decode each grid.
+>>>
+>>
+>> In case that is is part of the spec I don't think we have to do it.
+>> Something more, when each tile is separate image the decoding process
+>> could be done in parallel.
+> 
+> Does it means there is no userspace (or at least no Open Source) userspace for
+> it ?
+> 
+> 
 
-On Fri, Jun 11, 2021 at 04:49:17PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> Hello,
->=20
-> I have a Logilink VG0022A stick and when I plug it in I get:
->=20
-> [  426.019171] usb 1-1.3: new high-speed USB device number 5 using xhci-h=
-cd
-> [  426.171443] usb 1-1.3: New USB device found, idVendor=3D1d19, idProduc=
-t=3D0100, bcdDevice=3D 1.00
-> [  426.172184] usb 1-1.3: New USB device strings: Mfr=3D1, Product=3D2, S=
-erialNumber=3D3
-> [  426.172822] usb 1-1.3: Product: TS Aggregator
-> [  426.173205] usb 1-1.3: Manufacturer: ITE Tech., Inc.
-> [  426.173641] usb 1-1.3: SerialNumber: AF0102020700001
-> [  426.180314] dvb_usb_af9035 1-1.3:1.0: prechip_version=3D83 chip_versio=
-n=3D01 chip_type=3D9306
-> [  426.181324] usb 1-1.3: dvb_usb_v2: found a 'Logilink VG0022A' in cold =
-state
-> [  426.182034] usb 1-1.3: firmware: direct-loading firmware dvb-usb-it930=
-3-01.fw
-> [  426.182666] usb 1-1.3: dvb_usb_v2: downloading firmware from file 'dvb=
--usb-it9303-01.fw'
-> [  426.221915] dvb_usb_af9035 1-1.3:1.0: firmware version=3D1.4.0.0
-> [  426.222456] usb 1-1.3: dvb_usb_v2: found a 'Logilink VG0022A' in warm =
-state
-> [  426.224991] usb 1-1.3: dvb_usb_v2: will pass the complete MPEG2 transp=
-ort stream to the software demuxer
-> [  426.225998] dvbdev: DVB: registering new adapter (Logilink VG0022A)
-> [  426.226551] usb 1-1.3: media controller created
-> [  426.229845] dvbdev: dvb_create_media_entity: media entity 'dvb-demux' =
-registered.
-> [  426.454279] i2c i2c-9: Added multiplexed i2c bus 10
-> [  426.454726] si2168 9-0067: Silicon Labs Si2168-B40 successfully identi=
-fied
-> [  426.455377] si2168 9-0067: firmware version: B 4.0.2
-> [  426.458522] usb 1-1.3: DVB: registering adapter 0 frontend 0 (Silicon =
-Labs Si2168)...
-> [  426.460236] dvbdev: dvb_create_media_entity: media entity 'Silicon Lab=
-s Si2168' registered.
-> [  426.469300] si2157 10-0063: Silicon Labs Si2147/2148/2157/2158 success=
-fully attached
-> [  426.489642] usb 1-1.3: dvb_usb_v2: 'Logilink VG0022A' successfully ini=
-tialized and connected
->=20
-> which looks fine. But when I try to use it (using mumudvb2) I get:
->=20
-> [  479.915150] si2168 9-0067: firmware: direct-loading firmware dvb-demod=
--si2168-b40-01.fw
-> [  479.915871] si2168 9-0067: downloading firmware from file 'dvb-demod-s=
-i2168-b40-01.fw'
-> [  480.436016] si2168 9-0067: firmware version: B 4.0.11
-> [  480.444089] si2157 10-0063: device is buggy, skipping firmware download
-> [  480.496756] si2157 10-0063: firmware version: =EF=BF=BD.=EF=BF=BD.255
->=20
-> and it fails to tune.
+My searching came to two libraries:
+ * the open source library [1].
+ * library from Nokia [2].
 
-Never mind. I use a different anntenna now, and it tunes in just fine
-\o/
+-- 
+regards,
+Stan
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---rx3har6iggzjga4c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmDEcxwACgkQwfwUeK3K
-7AnidAf8Dzw/P4P8BOyK+4NVnzNFHJzG2dSkkpXbjIFnxtoALQRWITk7PrGeOINI
-ywe1eUc0PXbj9gFcyMIeR4GMN7j2jErNFEuFiFnyAfgw91krpHK7weGWyD5pLx/9
-O06PxzmaDEoBkvAxaFdxW/YR0aiRyF8APC/Acs3U5GnL9dAjp2hwuhaAksCrpt8i
-/1DrvfwtCLJmUJuV0Dcht/qsfZoNQfaLoS3jhCf6VZBs4bDVdqkAE0+mc0gzXCHB
-3uIWQykpGOLutm/evRMdji+fW/VJVwnbAfiez30xpx79E8Y/SDA5+zO9TzRTNeWP
-XR2LuNmrcFyFzn8Ljv6JuvJDR64Cgw==
-=JqSB
------END PGP SIGNATURE-----
-
---rx3har6iggzjga4c--
+[1] https://github.com/strukturag/libheif
+[2] https://github.com/nokiatech/heif
