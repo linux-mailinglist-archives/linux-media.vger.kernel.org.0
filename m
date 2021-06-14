@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78F7A3A6CAB
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 19:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C92D63A6CAE
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 19:05:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235386AbhFNRGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Jun 2021 13:06:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34326 "EHLO
+        id S235398AbhFNRGt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Jun 2021 13:06:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234104AbhFNRG3 (ORCPT
+        with ESMTP id S235102AbhFNRGt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Jun 2021 13:06:29 -0400
+        Mon, 14 Jun 2021 13:06:49 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E70AFC061574;
-        Mon, 14 Jun 2021 10:04:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A2BCC061767;
+        Mon, 14 Jun 2021 10:04:46 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BAB2436;
-        Mon, 14 Jun 2021 19:04:24 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A543F436;
+        Mon, 14 Jun 2021 19:04:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623690264;
+        s=mail; t=1623690284;
         bh=Y6kZhAkHeLzvqk5DlBXOp7E5flMwNJLdlCS66qJQBw4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ph27wsm4B+vgQE2k+3XExxZ+SvZ9IQ9M6uaCtKdV77+K2aHdR/42PuEM/CazY1PiC
-         aG6CKC868MtvJFcCKX6vOUYGteZ2xxZ7v/Veq5TJe9MmXaZ34HY8LhB5urthe3h2uM
-         xg+XGQVnk6/n+9rPVd+G4X7sYqeyeBG7lTMeUIsU=
-Date:   Mon, 14 Jun 2021 20:04:04 +0300
+        b=eBOMjvG/5Yu0Yyl3EVPMy0ekkQ/GZmYW7F7QDFeljkKttg8XUpr/Tce0p5XGaVwiB
+         xY6nNbyND4EGO+W0M6lIEpIGcyYPdZW32PgF9hox+pJBOGxPBaAU0+kinFdR4NhkIN
+         5VH3NSidSVJkM2Eao/JGyPNNLyv39mX+4BGhv6bk=
+Date:   Mon, 14 Jun 2021 20:04:25 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Arnd Bergmann <arnd@kernel.org>
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -43,7 +43,7 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-staging@lists.linux.dev
 Subject: Re: [PATCH v3 5/8] media: v4l2-core: return -ENODEV from ioctl when
  not registered
-Message-ID: <YMeMBKUc1X7hsMjO@pendragon.ideasonboard.com>
+Message-ID: <YMeMGbJqiRimgzxy@pendragon.ideasonboard.com>
 References: <20210614103409.3154127-1-arnd@kernel.org>
  <20210614103409.3154127-6-arnd@kernel.org>
 MIME-Version: 1.0
