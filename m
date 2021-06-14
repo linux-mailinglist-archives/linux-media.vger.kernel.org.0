@@ -2,262 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A96B3A5D3E
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 08:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AEDB3A5DB0
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 09:28:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232476AbhFNGv2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Jun 2021 02:51:28 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:28336 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232394AbhFNGvZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Jun 2021 02:51:25 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1623653363; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=I38mQxV/Tbn+T1jBm45ueY8hqSAqFaS9oTZBJvKWkoU=;
- b=A2nBupqPjwi23pOGQyFCK9pMRhJQChySxDB+39jO+IHMPkT7WglbFtnwVcTQYMOggSeEFJ4F
- ijUHRwqESAE8UbBmhgtIwOukikv2lbayqhioF9HIWduhQ8ScqZPWxSmsgUgH7BIgrPd2BCdQ
- cYtlK7oZPdftsTbMy8oKM0uryew=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 60c6fbeae27c0cc77f921577 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 14 Jun 2021 06:49:14
- GMT
-Sender: mansur=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 6626EC43460; Mon, 14 Jun 2021 06:49:13 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: mansur)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 21BD3C433D3;
-        Mon, 14 Jun 2021 06:49:12 +0000 (UTC)
+        id S232531AbhFNHaJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Jun 2021 03:30:09 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:33643 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232507AbhFNHaG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Jun 2021 03:30:06 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id sh0nlaX5ihqltsh0rllihu; Mon, 14 Jun 2021 09:28:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623655682; bh=4lI4GyL9GH2nvrTQ0o6Wt6NwFx3+9870W0SH7rM1Pog=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=FxhymAtJghFfLbs4vBLozp5YyQlaXt+9hk2xi7PQp1THWvAVw1wvekqw9gbOAxtUR
+         nt5hL/FUayClf4wXsEObms+olahY+qVwbxw11pQs6wQPaOPwSWgnAvdRTZFCoId06r
+         D54e1xzLU53hDWB0j8+GgfrTqam17JZGuhxYyiv6c1h6IKwfNPNyPJwcAiMEICmYl9
+         +TXDNAik5gR3gbg+rgPBXYhNaddcciWHO8g1se0h0+vwFQQr0P0Y9rx+CmGp8f8qB1
+         Bfu2ViUisMjG8dILq+HhFV358pYGgAg/3QEGB8Do5lyHa7npHkehOOObrv+4VBTk6h
+         GuBQ0lr05e4rg==
+Subject: Re: [PATCH v2 7/8] media: hevc: Add scaling matrix control
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
+        andrzej.p@collabora.com, jc@kynesim.co.uk, jernej.skrabec@gmail.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20210610154442.806107-1-benjamin.gaignard@collabora.com>
+ <20210610154442.806107-8-benjamin.gaignard@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <87a1e585-688e-7c4d-b9a9-24f42772a1a8@xs4all.nl>
+Date:   Mon, 14 Jun 2021 09:27:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+In-Reply-To: <20210610154442.806107-8-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Date:   Mon, 14 Jun 2021 12:19:12 +0530
-From:   mansur@codeaurora.org
-To:     Fritz Koenig <frkoenig@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: Re: [PATCH] venus: venc: add support for
- V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM control
-In-Reply-To: <CAMfZQbyHN14OXVH4x8SsXD0My1QzdHocMLoi++pfCTk-XbABxg@mail.gmail.com>
-References: <1622438514-16657-1-git-send-email-mansur@codeaurora.org>
- <CAMfZQbyHN14OXVH4x8SsXD0My1QzdHocMLoi++pfCTk-XbABxg@mail.gmail.com>
-Message-ID: <7b26fdd6169ab8f8af475f2d4e68efcb@codeaurora.org>
-X-Sender: mansur@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-CMAE-Envelope: MS4xfDe2Ij7GluQvLG2QfGzNQyhKNDrRlbl2UUH3ErnB7fmuzSVsHHgozJI325a40B22/ELAxqePFc+7UYHeXwOD8aHQ+hXSeiZrZK0I65CmX3+aYwnhvNEj
+ ++n1Ejt18wRP78kREgG39hdNonzCKyj/MLDu3GNWk3QDznBIaVhmZx9eF2WwH2Hv5k1LaJWJfL1YAVMhmZru2YWng3KSmu1aRBxhWU3lOdz2uRbW9uGVLXt+
+ AaZlY27U8YuZQ5VRRB7ktXJvQS+5yRKsi7jCBEjWttvSo679sPSjx/LKV+K6bB3LrgySPA9j+vxQxSHWilwv2F9rJwyd6HTcN3J2WuXkfdi69JBBt07DJoee
+ GyrQaVFeVw7O7LlDSunzXfmfKRlhvmBILfz4rLayH9evPyLO0SvIrB57UZ2h66b3rVwC1R/WYzCQjD9Ki8BfF7u435M5ODvq0dNKUYocYdje1roLmUkK97S1
+ y0+ejr2fWxN2zSXyZ9J5V3iVAFgn0eSLrz0r1snpCDHYSyKACQresRQ5rJVU2fRxGcYLVrs87VwvYsyYgudSfG8gTg5G7i6D1K7b+5RjWGXzRVHe+ZmAXUJ2
+ Ys0sjYP/OS6zCqv3fxKQI++87umteMb/wTDV8+M7dBheUz37oZEWr7escZ2j95HLGtg2HfrX/rl1XyXohpckgGGDJP4BUaip0wJbDzffuc5gjg1dxj34/t2H
+ kcXz81L0K5Zr8/Os4ZKK5TZioT6gD+btoE+kl1zuiK0QS66ezbs720wZDsO7Y7Y80BlcH94HvBsvcAd/YWOJG4lsPgs4hklYcf61UWUH1nZzAz4tK+SHoQ0+
+ hLsny2Bf8ReFUi5QF3gfBeMboUqyebLSF+Fe4pJrMJL2dJVJ5ieSB3l2PDztcJjZozj2CnJzWUXEgz5XFPtAVJthu0rnd5vNDkls+VeJMEyotx6Dy0YHjtq9
+ QHIxTw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> On 2021-06-02 23:10, Fritz Koenig wrote:
->> On Sun, May 30, 2021 at 10:22 PM Mansur Alisha Shaik
->> <mansur@codeaurora.org> wrote:
->>> 
->>> Add support for V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM control for
->>> H264 high profile and constrained high profile.
->>> 
->>> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
->>> ---
->>>  drivers/media/platform/qcom/venus/core.h       |  1 +
->>>  drivers/media/platform/qcom/venus/hfi_cmds.c   | 10 ++++++++++
->>>  drivers/media/platform/qcom/venus/hfi_helper.h |  5 +++++
->>>  drivers/media/platform/qcom/venus/venc.c       | 11 +++++++++++
->>>  drivers/media/platform/qcom/venus/venc_ctrls.c | 12 +++++++++++-
->>>  5 files changed, 38 insertions(+), 1 deletion(-)
->>> 
->>> diff --git a/drivers/media/platform/qcom/venus/core.h 
->>> b/drivers/media/platform/qcom/venus/core.h
->>> index 745f226..103fbd8 100644
->>> --- a/drivers/media/platform/qcom/venus/core.h
->>> +++ b/drivers/media/platform/qcom/venus/core.h
->>> @@ -235,6 +235,7 @@ struct venc_controls {
->>>         u32 h264_loop_filter_mode;
->>>         s32 h264_loop_filter_alpha;
->>>         s32 h264_loop_filter_beta;
->>> +       u32 h264_8x8_transform;
->>> 
->>>         u32 hevc_i_qp;
->>>         u32 hevc_p_qp;
->>> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c 
->>> b/drivers/media/platform/qcom/venus/hfi_cmds.c
->>> index 11a8347..61d04a5 100644
->>> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
->>> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
->>> @@ -1178,6 +1178,7 @@ pkt_session_set_property_4xx(struct 
->>> hfi_session_set_property_pkt *pkt,
->>>  {
->>>         void *prop_data;
->>> 
->>> +
->>>         if (!pkt || !cookie || !pdata)
->>>                 return -EINVAL;
->>> 
->>> @@ -1227,6 +1228,15 @@ pkt_session_set_property_4xx(struct 
->>> hfi_session_set_property_pkt *pkt,
->>>                 break;
->>>         }
->>> 
->>> +       case HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8: {
->>> +               struct hfi_h264_8x8x_transform *in = pdata, *tm = 
->>> prop_data;
->>> +
->>> +               tm->enable_type = in->enable_type;
->>> +               pkt->shdr.hdr.size += sizeof(u32) + sizeof(*tm);
->>> +               break;
->>> +
->>> +       }
->>> +
->>>         case HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE:
->>>         case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER:
->>>         case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE:
->>> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h 
->>> b/drivers/media/platform/qcom/venus/hfi_helper.h
->>> index 63cd347..81d0536 100644
->>> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
->>> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
->>> @@ -510,6 +510,7 @@
->>>  #define HFI_PROPERTY_PARAM_VENC_MAX_NUM_B_FRAMES               
->>> 0x2005020
->>>  #define HFI_PROPERTY_PARAM_VENC_H264_VUI_BITSTREAM_RESTRC      
->>> 0x2005021
->>>  #define HFI_PROPERTY_PARAM_VENC_PRESERVE_TEXT_QUALITY          
->>> 0x2005023
->>> +#define HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8                   
->>>   0x2005025
->>>  #define HFI_PROPERTY_PARAM_VENC_HIER_P_MAX_NUM_ENH_LAYER       
->>> 0x2005026
->>>  #define HFI_PROPERTY_PARAM_VENC_DISABLE_RC_TIMESTAMP           
->>> 0x2005027
->>>  #define HFI_PROPERTY_PARAM_VENC_INITIAL_QP                     
->>> 0x2005028
->>> @@ -565,6 +566,10 @@ struct hfi_bitrate {
->>>         u32 layer_id;
->>>  };
->>> 
->>> +struct hfi_h264_8x8x_transform {
->>> +       u32 enable_type;
->>> +};
->>> +
->>>  #define HFI_CAPABILITY_FRAME_WIDTH                     0x01
->>>  #define HFI_CAPABILITY_FRAME_HEIGHT                    0x02
->>>  #define HFI_CAPABILITY_MBS_PER_FRAME                   0x03
->>> diff --git a/drivers/media/platform/qcom/venus/venc.c 
->>> b/drivers/media/platform/qcom/venus/venc.c
->>> index 8dd49d4..4ecf331 100644
->>> --- a/drivers/media/platform/qcom/venus/venc.c
->>> +++ b/drivers/media/platform/qcom/venus/venc.c
->>> @@ -567,6 +567,7 @@ static int venc_set_properties(struct venus_inst 
->>> *inst)
->>>                 struct hfi_h264_vui_timing_info info;
->>>                 struct hfi_h264_entropy_control entropy;
->>>                 struct hfi_h264_db_control deblock;
->>> +               struct hfi_h264_8x8x_transform h264_transform;
->>> 
->>>                 ptype = HFI_PROPERTY_PARAM_VENC_H264_VUI_TIMING_INFO;
->>>                 info.enable = 1;
->>> @@ -597,6 +598,16 @@ static int venc_set_properties(struct venus_inst 
->>> *inst)
->>>                 ret = hfi_session_set_property(inst, ptype, 
->>> &deblock);
->>>                 if (ret)
->>>                         return ret;
->>> +
->>> +               ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
->>> +               if (ctr->profile.h264 == HFI_H264_PROFILE_HIGH ||
->>> +                       ctr->profile.h264 == 
->>> HFI_H264_PROFILE_CONSTRAINED_HIGH)
->>> +                       h264_transform.enable_type = 
->>> ctr->h264_8x8_transform;
->>> +
->>> +               ret = hfi_session_set_property(inst, ptype, 
->>> &h264_transform);
->>> +               if (ret)
->>> +                       return ret;
->>> +
->>>         }
->>> 
->>>         if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
->>> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c 
->>> b/drivers/media/platform/qcom/venus/venc_ctrls.c
->>> index 637c92f..e3ef611 100644
->>> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
->>> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
->>> @@ -319,6 +319,13 @@ static int venc_op_s_ctrl(struct v4l2_ctrl 
->>> *ctrl)
->>>         case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
->>>                 ctr->mastering = *ctrl->p_new.p_hdr10_mastering;
->>>                 break;
->>> +       case V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM:
->>> +               if (ctr->profile.h264 != HFI_H264_PROFILE_HIGH ||
->>> +                       ctr->profile.h264 != 
->>> HFI_H264_PROFILE_CONSTRAINED_HIGH)
->> 
->> This appears to be incorrect as the comparison will always be true.  I
->> think it should be written as:
->>                if (ctr->profile.h264 == HFI_H264_PROFILE_HIGH ||
->>                        ctr->profile.h264 == 
->> HFI_H264_PROFILE_CONSTRAINED_HIGH)
->>                        ctr->h264_8x8_transform = ctrl->val;
->> 
->>> +                       return -EINVAL;
->> 
->> I'm not sure -EINVAL is appropriate here.  venc_op_s_ctrl will be
->> called to initialize the default control values from
->> v4l2_ctrl_handler_setup.  If the default profile isn't high or
->> constrained high, the driver will fail to initialize.
->> 
-As per codec spec, the 8x8 transform is enabled for high profile and
-constrained high profile, but I didn't found any document what happens
-when we set 8x8 transform for other profiles.
-Hence added a check to reject other profiles to inform the same to 
-client
->>> +
->>> +               ctr->h264_8x8_transform = ctrl->val;
->>> +               break;
->>> 
->>>         default:
->>>                 return -EINVAL;
->>>         }
->>> @@ -334,7 +341,7 @@ int venc_ctrl_init(struct venus_inst *inst)
->>>  {
->>>         int ret;
->>> 
->>> -       ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 57);
->>> +       ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 58);
->>>         if (ret)
->>>                 return ret;
->>> 
->>> @@ -438,6 +445,9 @@ int venc_ctrl_init(struct venus_inst *inst)
->>>                           V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MIN_QP, 1, 
->>> 51, 1, 1);
->>> 
->>>         v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
->>> +               V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM, 0, 1, 1, 0);
->>> +
->>> +       v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
->>>                           V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MIN_QP, 1, 
->>> 51, 1, 1);
->>> 
->>>         v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
->>> --
->>> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
->>> member
->>> of Code Aurora Forum, hosted by The Linux Foundation
->>> 
+On 10/06/2021 17:44, Benjamin Gaignard wrote:
+> HEVC scaling lists are used for the scaling process for transform
+> coefficients.
+> V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED has to set when they are
+> encoded in the bitstream.
+
+Comparing H264 with HEVC I noticed that the corresponding flag for H264 is
+called V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT.
+
+Should those names be aligned? Also, it is part of PPS for H264 and SPS in HEVC,
+is that difference correct?
+
+Regards,
+
+	Hans
+
 > 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 2:
+>  - Fix structure name in ext-ctrls-codec.rst
+> 
+>  .../media/v4l/ext-ctrls-codec.rst             | 45 +++++++++++++++++++
+>  .../media/v4l/vidioc-queryctrl.rst            |  6 +++
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  6 +++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++
+>  include/media/hevc-ctrls.h                    | 11 +++++
+>  5 files changed, 72 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 8c6e2a11ed95..d4f40bb85263 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -3068,6 +3068,51 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>  
+>      \normalsize
+>  
+> +``V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX (struct)``
+> +    Specifies the HEVC scaling matrix parameters used for the scaling process
+> +    for transform coefficients.
+> +    These matrix and parameters are defined according to :ref:`hevc`.
+> +    They are described in section 7.4.5 "Scaling list data semantics" of
+> +    the specification.
+> +
+> +.. c:type:: v4l2_ctrl_hevc_scaling_matrix
+> +
+> +.. raw:: latex
+> +
+> +    \scriptsize
+> +
+> +.. tabularcolumns:: |p{5.4cm}|p{6.8cm}|p{5.1cm}|
+> +
+> +.. cssclass:: longtable
+> +
+> +.. flat-table:: struct v4l2_ctrl_hevc_scaling_matrix
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 1 2
+> +
+> +    * - __u8
+> +      - ``scaling_list_4x4[6][16]``
+> +      -
+> +    * - __u8
+> +      - ``scaling_list_8x8[6][64]``
+> +      -
+> +    * - __u8
+> +      - ``scaling_list_16x16[6][64]``
+> +      -
+> +    * - __u8
+> +      - ``scaling_list_32x32[2][64]``
+> +      -
+> +    * - __u8
+> +      - ``scaling_list_dc_coef_16x16[6]``
+> +      -
+> +    * - __u8
+> +      - ``scaling_list_dc_coef_32x32[2]``
+> +      -
+> +
+> +.. raw:: latex
+> +
+> +    \normalsize
+> +
+>  .. c:type:: v4l2_hevc_dpb_entry
+>  
+>  .. raw:: latex
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> index f9ecf6276129..2f491c17dd5d 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> @@ -495,6 +495,12 @@ See also the examples in :ref:`control`.
+>        - n/a
+>        - A struct :c:type:`v4l2_ctrl_hevc_slice_params`, containing HEVC
+>  	slice parameters for stateless video decoders.
+> +    * - ``V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX``
+> +      - n/a
+> +      - n/a
+> +      - n/a
+> +      - A struct :c:type:`v4l2_ctrl_hevc_scaling_matrix`, containing HEVC
+> +	scaling matrix for stateless video decoders.
+>      * - ``V4L2_CTRL_TYPE_VP8_FRAME``
+>        - n/a
+>        - n/a
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index c4b5082849b6..70adfc1b9c81 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -687,6 +687,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  
+>  		break;
+>  
+> +	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
+> +		break;
+> +
+>  	case V4L2_CTRL_TYPE_AREA:
+>  		area = p;
+>  		if (!area->width || !area->height)
+> @@ -1240,6 +1243,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
+>  		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
+>  		break;
+> +	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
+> +		elem_size = sizeof(struct v4l2_ctrl_hevc_scaling_matrix);
+> +		break;
+>  	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
+>  		elem_size = sizeof(struct v4l2_ctrl_hevc_decode_params);
+>  		break;
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index b6344bbf1e00..cb29c2a7fabe 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -996,6 +996,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_SPS:			return "HEVC Sequence Parameter Set";
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_PPS:			return "HEVC Picture Parameter Set";
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
+> +	case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:		return "HEVC Scaling Matrix";
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:		return "HEVC Decode Parameters";
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
+> @@ -1488,6 +1489,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
+>  		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
+>  		break;
+> +	case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:
+> +		*type = V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
+> +		break;
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:
+>  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>  		break;
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index 53c0038c792b..0e5c4a2eecff 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -19,6 +19,7 @@
+>  #define V4L2_CID_MPEG_VIDEO_HEVC_SPS		(V4L2_CID_CODEC_BASE + 1008)
+>  #define V4L2_CID_MPEG_VIDEO_HEVC_PPS		(V4L2_CID_CODEC_BASE + 1009)
+>  #define V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS	(V4L2_CID_CODEC_BASE + 1010)
+> +#define V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX	(V4L2_CID_CODEC_BASE + 1011)
+>  #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE + 1012)
+>  #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
+>  #define V4L2_CID_MPEG_VIDEO_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+> @@ -27,6 +28,7 @@
+>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+>  #define V4L2_CTRL_TYPE_HEVC_PPS 0x0121
+>  #define V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS 0x0122
+> +#define V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX 0x0123
+>  #define V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS 0x0124
+>  
+>  enum v4l2_mpeg_video_hevc_decode_mode {
+> @@ -224,6 +226,15 @@ struct v4l2_ctrl_hevc_decode_params {
+>  	__u64	flags;
+>  };
+>  
+> +struct v4l2_ctrl_hevc_scaling_matrix {
+> +	__u8	scaling_list_4x4[6][16];
+> +	__u8	scaling_list_8x8[6][64];
+> +	__u8	scaling_list_16x16[6][64];
+> +	__u8	scaling_list_32x32[2][64];
+> +	__u8	scaling_list_dc_coef_16x16[6];
+> +	__u8	scaling_list_dc_coef_32x32[2];
+> +};
+> +
+>  /*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 */
+>  #define V4L2_CID_CODEC_HANTRO_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1200)
+>  /*
+> 
+
