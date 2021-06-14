@@ -2,241 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7780D3A5F65
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 11:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F19F3A5F8B
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 11:55:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232753AbhFNJwk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Jun 2021 05:52:40 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:56911 "EHLO
+        id S232745AbhFNJ5i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Jun 2021 05:57:38 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:45413 "EHLO
         lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232630AbhFNJwk (ORCPT
+        by vger.kernel.org with ESMTP id S232579AbhFNJ5i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Jun 2021 05:52:40 -0400
+        Mon, 14 Jun 2021 05:57:38 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id sjEnlbU7ThqltsjEqlmOHV; Mon, 14 Jun 2021 11:50:36 +0200
+        id sjJalbW64hqltsjJdlmPc3; Mon, 14 Jun 2021 11:55:33 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623664236; bh=y/rDRH6lRJ1+5NeeJFVodWeZPWVnK95lRdFmnzZQrm0=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1623664533; bh=h1QaFllNSMbEspZsTu9vh7/Sp9Elx95/sHYX7TXVj+s=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=EA266WFKWdyDpFFWIJtUeQmP2R5O4onNh8xcQjg+YL+oYNsPXIjBgaxhPenBNL/uL
-         NIJeMH9Yz86pCncPNHmoa9GMsnyKzMnK2+z1TNPHwmvEumR5GaueY1vDXFKSC9sfxY
-         6Cxunj4x7JTOAlazH9bmo4gIsWnWxfsJvHp+sCNWN0USipkm70+uv6BXbyOg4180/D
-         ju/0uSqecSMb9CoX8O0CuPEoURaER7jGw4YDJmf1tKMtQUdFkpzFuwnv9fN470/V4O
-         6hJhFSLF7MDgJEvp4JnQfLRSkDa9Q5JQ+WUzaPYirBdrycgwNyuZUL3SA3DuR2vca8
-         hhx11K68QpoMQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.14] v2: v4l2-subdev: add subdev-wide state struct
-Message-ID: <c54f4d29-23b1-02b0-72b1-3fb4134e1b03@xs4all.nl>
-Date:   Mon, 14 Jun 2021 11:50:33 +0200
+        b=WNIOST+fYRM8X7g/AzZpvCTmfVTkVppgJbVsKZTZpxHEPaDSVlwhXuWizfAa4TJma
+         GvxXAw8EtvG1vjK9xpAKVfVfExbE+ySO9mP6ljElcgf3qZiRiPWTJepbW9eVy6TTXF
+         bATbamLNT3MmkyNiJHJ8eGLqBlMfK9ebRK8lxPNdj9omUymc7U5fd+AIp1bpBZ5CSC
+         j2dtwg3LagIcTSRYFogD9NDBFNcmbs2uZKMd4LL5IA1E3slI/ysGcPYX3rx6C9trPE
+         vwbamu7QzIm8yu76WLpNGaeK1ToE4rq/7Q5x7UwZQr4qemm8aRM8Aj5AytHsyQXlp1
+         EGOiVJ3gFW0Iw==
+Subject: Re: [PATCH v4 16/17] media: v4l2-subdev: De-deprecate init() subdev
+ op
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+References: <20210412093451.14198-1-jacopo+renesas@jmondi.org>
+ <20210412093451.14198-17-jacopo+renesas@jmondi.org>
+ <2ad9747e-7e2d-2c95-a98b-b6b0e7534e42@xs4all.nl>
+ <20210614094548.ufd6qczjj5zpkbfb@uno.localdomain>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <07c42c41-138a-7e48-a320-4a9e8873a168@xs4all.nl>
+Date:   Mon, 14 Jun 2021 11:55:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210614094548.ufd6qczjj5zpkbfb@uno.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLSOi70vZRf0udok9/XVOVQXq5DOwgdYzSWsPnswtYcUIXCIcVXVYJ9xtPBiX1jTvAokZxWbg3jOr5nFKHqX1vZZPJAcEcDmxpTlLhAsUsWI1CO5Ttlo
- F8w2gEABU9SwjwyTEp1Vbv3ECYxB9q4Gy+ghfV4yCr68ZqGaEo4lEWDLvg10l7gQaBZa/fMqXbG4oJ3ZGXMoUBp9yLOJJ7oPcp4BrFuvT0tnNkxpKqMU5u8J
- 3OwauShKwyqIuPFPe1pD2A==
+X-CMAE-Envelope: MS4xfOXFssleaqyRgfZHQbYetbMYLLh5KQhaxxbwXoDSuGRuper5ubsze1tunY4NVu5lVjgYsBJ+AIt5YGXQdaE8ZE1/bnMJsICrQQWyuUaAiYm8M+FxPqlZ
+ DH2QJgswbJ/QVeW7fUETr0gh2o+/hqKaRCteUU7Gc75zl0KXtI0nhwujyo256MYCovlxSiJ432qOtNQfh/LZ04eezSB14LIQg6P8faMZi0YXlfoSpp40ZMWV
+ ycfDoi5jOxsim6RhTBIufYHEgyX42ddALUnZNskOusHLjD5Zyd1xjqSISvzLtEToJhafMZpxFffZ9/9Qry1z9+XNSGFSK9whVT+CRSwYFTXLQY0s4RJOBKFl
+ yj9VbAPj9MdqiJF0zKTRHDVMrpqE+hN9lCyLYhtU+xWoxEEqVVEwHKfTSqVW0LoH5N+nmdD9bgss1m3SfAaCxYKndFaz5WIwGco8z8BCMMsFeVhOGKUzhP7S
+ zGeeFjPTEmdHlYyRnikJTpdt58sIRbfviQpeIp3wIdpmQPXAxlPTsPOWwf9IMTCsATIhlH0Q+L8y7FUiWwgwUU+dqwW05Bhnf3jtvlHwa36MIkNWiQ42g+5F
+ A5UAwNPiX/uOR7/df3W1v6cBIVwT/WqHR/Qs0RLR8fs69g==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Note: this PR is against media_stage/master.
+On 14/06/2021 11:45, Jacopo Mondi wrote:
+> Hi Hans,
+>    thanks for your reply
+> 
+> On Mon, Jun 14, 2021 at 10:51:25AM +0200, Hans Verkuil wrote:
+>> On 12/04/2021 11:34, Jacopo Mondi wrote:
+>>> The init() subdev core operation is deemed to be deprecated for new
+>>> subdevice drivers. However it could prove useful for complex
+>>> architectures to defer operation that require access to the
+>>> communication bus if said bus is not available (or fully configured)
+>>> at the time when the subdevice probe() function is run.
+>>>
+>>> As an example, the GMSL architecture requires the GMSL configuration
+>>> link to be configured on the host side after the remote subdevice
+>>> has completed its probe function. After the configuration on the host
+>>> side has been performed, the subdevice registers can be accessed through
+>>> the communication bus.
+>>>
+>>> In particular:
+>>>
+>>> 	HOST			REMOTE
+>>>
+>>> 	probe()
+>>> 	   |
+>>> 	   ---------------------> |
+>>> 				  probe() {
+>>> 				     bus config()
+>>> 				  }
+>>> 	   |<--------------------|
+>>> 	v4l2 async bound {
+>>> 	    bus config()
+>>> 	    call subdev init()
+>>> 	   |-------------------->|
+>>> 				 init() {
+>>> 				     access register on the bus()
+>>> 				}
+>>> 	   |<-------------------
+>>> 	}
+>>>
+>>> In the GMSL use case the bus configuration requires the enablement of the
+>>> noise immunity threshold on the remote side which ensures reliability
+>>> of communications in electrically noisy environments. After the subdevice
+>>> has enabled the threshold at the end of its probe() sequence the host
+>>> side shall compensate it with an higher signal amplitude. Once this
+>>> sequence has completed the bus can be accessed with noise protection
+>>> enabled and all the operations that require a considerable number of
+>>> transactions on the bus (such as the image sensor configuration
+>>> sequence) are run in the subdevice init() operation implementation.
+>>>
+>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> ---
+>>>  include/media/v4l2-subdev.h | 15 ++++++++++++---
+>>>  1 file changed, 12 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>>> index d0e9a5bdb08b..3068d9940669 100644
+>>> --- a/include/media/v4l2-subdev.h
+>>> +++ b/include/media/v4l2-subdev.h
+>>> @@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
+>>>   *	each pin being configured.  This function could be called at times
+>>>   *	other than just subdevice initialization.
+>>>   *
+>>> - * @init: initialize the sensor registers to some sort of reasonable default
+>>> - *	values. Do not use for new drivers and should be removed in existing
+>>> - *	drivers.
+>>> + * @init: initialize the subdevice registers to some sort of reasonable default
+>>> + *	values. Do not use for new drivers (and should be removed in existing
+>>> + *	ones) for regular architectures where the image sensor is connected to
+>>> + *	the host receiver. For more complex architectures where the subdevice
+>>> + *	initialization should be deferred to the completion of the probe
+>>> + *	sequence of some intermediate component, or the communication bus
+>>> + *	requires configurations on the host side that depend on the completion
+>>> + *	of the probe sequence of the remote subdevices, the usage of this
+>>> + *	operation could be considered to allow the devices along the pipeline to
+>>> + *	probe and register in the media graph and to defer any operation that
+>>> + *	require actual access to the communication bus to their init() function
+>>> + *	implementation.
+>>
+>> I don't like de-deprecating init. It was deprecated for a good reason, and
+>> I'd like to keep it that way.
+> 
+> I see, fair enough :)
+> 
+>>
+>> There are two alternatives: one is a bit quick-and-dirty, the other is a hint
+>> towards a more generic solution (just a hint since it will require more research):
+>>
+>> 1) Quick-and-dirty: use the core callback op to create a custom INIT callback.
+>> This depends on this patch:
+>>
+>> https://patchwork.linuxtv.org/project/linux-media/patch/20210610214305.4170835-8-arnd@kernel.org/
+>>
+>> This will make it clear to the reader that this is a highly specific interaction
+>> between two drivers that are tightly coupled. It works in the current situation,
+>> but not if we want to make this more generic.
+> 
+> Depends what you mean with 'generic' :) I think such a solution would
+> slightly abuse a generic API like 'command' is, but the GMSL
+> deserializers/serializers are tighly coupled by definition, so this is
+> less a concern, as long as we have a single driver for the whole
+> camera module. If we're going to split it in 3 subdev drivers then
+> yes, they will all have to implement .command() and they can be used
+> with in isolation with a generic receiver driver.
+> 
+>>
+>> 2) Subdev drivers can implement the registered() op which is called by
+>> v4l2_device_register_subdev(). This in turn is called from v4l2_async_match_notify().
+>>
+>> What you want is that when max9286 calls v4l2_async_subdev_notifier_register, it
+>> can set a flag or something indicating that initialization has to be postponed.
+>> Then, when v4l2_async_match_notify() calls the register() callback, that flag can
+>> be read. If false, then the register() callback will initialize the device, if
+>> true then that won't happen. Instead, it will do that when the max9286 calls a
+>> post_register() callback.
+> 
+> 2 questions to help me better understand this:
+> 1) s/register()/registered() in this paragraph ?
 
-Changes since v1:
+Yes, sorry.
 
-Added https://patchwork.linuxtv.org/project/linux-media/patch/20210611054909.28155-1-tomi.valkeinen@ideasonboard.com/
+> 2) $ git grep post_register drivers/media/ include/media/
+>    gives me back nothing.
+> 
+>    Are you suggesting a new operation ?
+
+Yes, that would be a new op.
 
 Regards,
 
 	Hans
 
-The following changes since commit 45040f675041956ad763f9ef139ecee3647aa8bb:
+> 
+> Thanks
+>    j
+> 
+>>
+>> This is a lot more work (and research, since this is just a brainstorm from my
+>> side), but it is a way towards making this a generic solution.
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>   *
+>>>   * @load_fw: load firmware.
+>>>   *
+>>> --
+>>> 2.31.1
+>>>
+>>
 
-  media: hantro: IMX8M: add variant for G2/HEVC codec (2021-06-08 16:13:53 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14j
-
-for you to fetch changes up to c802a4174beeb25cb539c806c9d0d3c0f61dfa53:
-
-  media: v4l2-subdev: add subdev-wide state struct (2021-06-14 11:47:05 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Tomi Valkeinen (1):
-      media: v4l2-subdev: add subdev-wide state struct
-
- drivers/media/i2c/adv7170.c                               |   6 +-
- drivers/media/i2c/adv7175.c                               |   6 +-
- drivers/media/i2c/adv7180.c                               |  18 +++---
- drivers/media/i2c/adv7183.c                               |   8 +--
- drivers/media/i2c/adv748x/adv748x-afe.c                   |  13 ++--
- drivers/media/i2c/adv748x/adv748x-csi2.c                  |  14 ++---
- drivers/media/i2c/adv748x/adv748x-hdmi.c                  |  13 ++--
- drivers/media/i2c/adv7511-v4l2.c                          |  10 ++--
- drivers/media/i2c/adv7604.c                               |  12 ++--
- drivers/media/i2c/adv7842.c                               |  12 ++--
- drivers/media/i2c/ak881x.c                                |   6 +-
- drivers/media/i2c/ccs/ccs-core.c                          |  84 +++++++++++++-------------
- drivers/media/i2c/cx25840/cx25840-core.c                  |   2 +-
- drivers/media/i2c/et8ek8/et8ek8_driver.c                  |  23 +++----
- drivers/media/i2c/hi556.c                                 |  15 ++---
- drivers/media/i2c/imx208.c                                |  19 +++---
- drivers/media/i2c/imx214.c                                |  37 ++++++------
- drivers/media/i2c/imx219.c                                |  30 +++++-----
- drivers/media/i2c/imx258.c                                |  19 +++---
- drivers/media/i2c/imx274.c                                |  38 ++++++------
- drivers/media/i2c/imx290.c                                |  20 +++----
- drivers/media/i2c/imx319.c                                |  18 +++---
- drivers/media/i2c/imx334.c                                |  28 ++++-----
- drivers/media/i2c/imx355.c                                |  18 +++---
- drivers/media/i2c/m5mols/m5mols_core.c                    |  21 ++++---
- drivers/media/i2c/max9286.c                               |  17 +++---
- drivers/media/i2c/ml86v7667.c                             |   4 +-
- drivers/media/i2c/mt9m001.c                               |  18 +++---
- drivers/media/i2c/mt9m032.c                               |  38 ++++++------
- drivers/media/i2c/mt9m111.c                               |  18 +++---
- drivers/media/i2c/mt9p031.c                               |  45 ++++++++------
- drivers/media/i2c/mt9t001.c                               |  44 ++++++++------
- drivers/media/i2c/mt9t112.c                               |  14 ++---
- drivers/media/i2c/mt9v011.c                               |   6 +-
- drivers/media/i2c/mt9v032.c                               |  44 ++++++++------
- drivers/media/i2c/mt9v111.c                               |  25 ++++----
- drivers/media/i2c/noon010pc30.c                           |  19 +++---
- drivers/media/i2c/ov02a10.c                               |  17 +++---
- drivers/media/i2c/ov13858.c                               |  18 +++---
- drivers/media/i2c/ov2640.c                                |  16 ++---
- drivers/media/i2c/ov2659.c                                |  14 ++---
- drivers/media/i2c/ov2680.c                                |  23 +++----
- drivers/media/i2c/ov2685.c                                |  10 ++--
- drivers/media/i2c/ov2740.c                                |  15 ++---
- drivers/media/i2c/ov5640.c                                |  14 ++---
- drivers/media/i2c/ov5645.c                                |  38 ++++++------
- drivers/media/i2c/ov5647.c                                |  26 ++++----
- drivers/media/i2c/ov5648.c                                |  14 ++---
- drivers/media/i2c/ov5670.c                                |  19 +++---
- drivers/media/i2c/ov5675.c                                |  15 ++---
- drivers/media/i2c/ov5695.c                                |  15 ++---
- drivers/media/i2c/ov6650.c                                |  28 ++++-----
- drivers/media/i2c/ov7251.c                                |  39 ++++++------
- drivers/media/i2c/ov7670.c                                |  17 +++---
- drivers/media/i2c/ov772x.c                                |  12 ++--
- drivers/media/i2c/ov7740.c                                |  17 +++---
- drivers/media/i2c/ov8856.c                                |  15 ++---
- drivers/media/i2c/ov8865.c                                |  14 ++---
- drivers/media/i2c/ov9640.c                                |   8 +--
- drivers/media/i2c/ov9650.c                                |  17 +++---
- drivers/media/i2c/ov9734.c                                |  15 ++---
- drivers/media/i2c/rdacm20.c                               |   4 +-
- drivers/media/i2c/rdacm21.c                               |   4 +-
- drivers/media/i2c/rj54n1cb0c.c                            |  12 ++--
- drivers/media/i2c/s5c73m3/s5c73m3-core.c                  |  55 +++++++++--------
- drivers/media/i2c/s5k4ecgx.c                              |  22 ++++---
- drivers/media/i2c/s5k5baf.c                               |  49 ++++++++-------
- drivers/media/i2c/s5k6a3.c                                |  19 +++---
- drivers/media/i2c/s5k6aa.c                                |  39 ++++++------
- drivers/media/i2c/saa6752hs.c                             |   6 +-
- drivers/media/i2c/saa7115.c                               |   2 +-
- drivers/media/i2c/saa717x.c                               |   2 +-
- drivers/media/i2c/sr030pc30.c                             |   8 +--
- drivers/media/i2c/st-mipid02.c                            |  21 +++----
- drivers/media/i2c/tc358743.c                              |   8 +--
- drivers/media/i2c/tda1997x.c                              |  14 ++---
- drivers/media/i2c/tvp514x.c                               |  12 ++--
- drivers/media/i2c/tvp5150.c                               |  20 +++----
- drivers/media/i2c/tvp7002.c                               |  11 ++--
- drivers/media/i2c/tw9910.c                                |  10 ++--
- drivers/media/i2c/vs6624.c                                |   8 +--
- drivers/media/pci/cx18/cx18-av-core.c                     |   2 +-
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c             |  17 +++---
- drivers/media/pci/saa7134/saa7134-empress.c               |   5 +-
- drivers/media/platform/atmel/atmel-isc-base.c             |  19 +++---
- drivers/media/platform/atmel/atmel-isi.c                  |  19 +++---
- drivers/media/platform/cadence/cdns-csi2tx.c              |  14 ++---
- drivers/media/platform/exynos4-is/fimc-capture.c          |  22 +++----
- drivers/media/platform/exynos4-is/fimc-isp.c              |  37 +++++++-----
- drivers/media/platform/exynos4-is/fimc-lite.c             |  39 ++++++------
- drivers/media/platform/exynos4-is/mipi-csis.c             |  17 +++---
- drivers/media/platform/marvell-ccic/mcam-core.c           |   5 +-
- drivers/media/platform/omap3isp/ispccdc.c                 |  85 +++++++++++++++-----------
- drivers/media/platform/omap3isp/ispccp2.c                 |  49 ++++++++-------
- drivers/media/platform/omap3isp/ispcsi2.c                 |  41 +++++++------
- drivers/media/platform/omap3isp/isppreview.c              |  69 ++++++++++++---------
- drivers/media/platform/omap3isp/ispresizer.c              |  70 ++++++++++++----------
- drivers/media/platform/pxa_camera.c                       |   5 +-
- drivers/media/platform/qcom/camss/camss-csid.c            |  35 +++++------
- drivers/media/platform/qcom/camss/camss-csiphy.c          |  40 +++++++------
- drivers/media/platform/qcom/camss/camss-ispif.c           |  36 +++++------
- drivers/media/platform/qcom/camss/camss-vfe.c             |  84 +++++++++++++-------------
- drivers/media/platform/rcar-vin/rcar-csi2.c               |   8 +--
- drivers/media/platform/rcar-vin/rcar-v4l2.c               |  10 ++--
- drivers/media/platform/renesas-ceu.c                      |   7 ++-
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c       | 112 +++++++++++++++++++---------------
- drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c   |  95 ++++++++++++++++++-----------
- drivers/media/platform/s3c-camif/camif-capture.c          |  18 +++---
- drivers/media/platform/stm32/stm32-dcmi.c                 |  14 +++--
- drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c       |  16 ++---
- drivers/media/platform/ti-vpe/cal-camerarx.c              |  35 ++++++-----
- drivers/media/platform/via-camera.c                       |   5 +-
- drivers/media/platform/video-mux.c                        |  22 +++----
- drivers/media/platform/vsp1/vsp1_brx.c                    |  34 ++++++-----
- drivers/media/platform/vsp1/vsp1_clu.c                    |  13 ++--
- drivers/media/platform/vsp1/vsp1_entity.c                 |  59 +++++++++---------
- drivers/media/platform/vsp1/vsp1_entity.h                 |  20 +++----
- drivers/media/platform/vsp1/vsp1_histo.c                  |  51 +++++++++-------
- drivers/media/platform/vsp1/vsp1_hsit.c                   |  14 +++--
- drivers/media/platform/vsp1/vsp1_lif.c                    |  13 ++--
- drivers/media/platform/vsp1/vsp1_lut.c                    |  13 ++--
- drivers/media/platform/vsp1/vsp1_rwpf.c                   |  32 +++++-----
- drivers/media/platform/vsp1/vsp1_rwpf.h                   |   2 +-
- drivers/media/platform/vsp1/vsp1_sru.c                    |  22 +++----
- drivers/media/platform/vsp1/vsp1_uds.c                    |  22 +++----
- drivers/media/platform/vsp1/vsp1_uif.c                    |  27 +++++----
- drivers/media/platform/xilinx/xilinx-csi2rxss.c           |  26 ++++----
- drivers/media/platform/xilinx/xilinx-tpg.c                |  25 ++++----
- drivers/media/platform/xilinx/xilinx-vip.c                |  12 ++--
- drivers/media/platform/xilinx/xilinx-vip.h                |   4 +-
- drivers/media/test-drivers/vimc/vimc-debayer.c            |  20 +++----
- drivers/media/test-drivers/vimc/vimc-scaler.c             |  36 +++++------
- drivers/media/test-drivers/vimc/vimc-sensor.c             |  16 ++---
- drivers/media/usb/go7007/s2250-board.c                    |   2 +-
- drivers/media/v4l2-core/v4l2-subdev.c                     | 142 +++++++++++++++++++++++++-------------------
- drivers/staging/media/atomisp/i2c/atomisp-gc0310.c        |  10 ++--
- drivers/staging/media/atomisp/i2c/atomisp-gc2235.c        |  10 ++--
- drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c       |  12 ++--
- drivers/staging/media/atomisp/i2c/atomisp-ov2680.c        |  10 ++--
- drivers/staging/media/atomisp/i2c/atomisp-ov2722.c        |  10 ++--
- drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c |  10 ++--
- drivers/staging/media/atomisp/pci/atomisp_cmd.c           |  33 ++++++----
- drivers/staging/media/atomisp/pci/atomisp_csi2.c          |  28 +++++----
- drivers/staging/media/atomisp/pci/atomisp_csi2.h          |   2 +-
- drivers/staging/media/atomisp/pci/atomisp_file.c          |  14 ++---
- drivers/staging/media/atomisp/pci/atomisp_fops.c          |   6 +-
- drivers/staging/media/atomisp/pci/atomisp_subdev.c        |  64 +++++++++++---------
- drivers/staging/media/atomisp/pci/atomisp_subdev.h        |   9 +--
- drivers/staging/media/atomisp/pci/atomisp_tpg.c           |  12 ++--
- drivers/staging/media/imx/imx-ic-prp.c                    |  19 +++---
- drivers/staging/media/imx/imx-ic-prpencvf.c               |  31 +++++-----
- drivers/staging/media/imx/imx-media-csi.c                 |  82 +++++++++++++------------
- drivers/staging/media/imx/imx-media-utils.c               |   4 +-
- drivers/staging/media/imx/imx-media-vdic.c                |  24 ++++----
- drivers/staging/media/imx/imx-media.h                     |   2 +-
- drivers/staging/media/imx/imx6-mipi-csi2.c                |  12 ++--
- drivers/staging/media/imx/imx7-media-csi.c                |  33 +++++-----
- drivers/staging/media/imx/imx7-mipi-csis.c                |  34 ++++++-----
- drivers/staging/media/ipu3/ipu3-v4l2.c                    |  26 ++++----
- drivers/staging/media/omap4iss/iss_csi2.c                 |  37 ++++++------
- drivers/staging/media/omap4iss/iss_ipipe.c                |  37 ++++++------
- drivers/staging/media/omap4iss/iss_ipipeif.c              |  47 ++++++++-------
- drivers/staging/media/omap4iss/iss_resizer.c              |  39 ++++++------
- drivers/staging/media/tegra-video/csi.c                   |  10 ++--
- drivers/staging/media/tegra-video/vi.c                    |  24 ++++----
- include/media/v4l2-subdev.h                               |  74 +++++++++++++----------
- 166 files changed, 2163 insertions(+), 1803 deletions(-)
