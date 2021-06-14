@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6623D3A6157
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 12:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 866003A615E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 12:44:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233311AbhFNKqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Jun 2021 06:46:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50484 "EHLO mail.kernel.org"
+        id S233490AbhFNKq3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Jun 2021 06:46:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47606 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234105AbhFNKoJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Jun 2021 06:44:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5CFCC61445;
-        Mon, 14 Jun 2021 10:36:14 +0000 (UTC)
+        id S234187AbhFNKo1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Jun 2021 06:44:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6457A61404;
+        Mon, 14 Jun 2021 10:36:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623666977;
-        bh=8W/ZXGZjpUtm/og8bVr+bOo9zj9+oALHaRtC050jLqU=;
+        s=k20201202; t=1623666980;
+        bh=ql1oV1rq//CRvUy0F7HDTW6q+eFb02wnUXlrJrXa2hs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=S81+0IpkKdPFxZyFrE0j8Ha05DgDcAnxEyLgwOBcUJsb/JRkXwDXHixZ9TWLuIWs8
-         AxrFejftFXYLCKxPInq028CDzaB8h16mbnJoMsTAbH6AUpVCbmaf90luX5AX2lYDJ8
-         z6ySPx+MozeCfZnL7IH7Vl3LWI3hoYRObB8Lg540fZ3dPyBKZwtGAWEUdV7OaDGGtn
-         Gce/d1ugu1NOXsp1KJHd5gzFmlb5H3bDWx/YcXeoQRl1axwHfCqnIv9Gbfj+zGSfSJ
-         W8rDVgQwJ+dB0OtbZoxe6Ol515fnM7sPggiPmHvBEA8ssmyGpCP9mmsGBeuak6w0jT
-         uTkyRRJRafMVQ==
+        b=KUruyy5gO6Rmb9YkIRNn/KwupM5Pb0ct4xe1wCoCaBnmYprT1PW9wqxiuu2Xunb7R
+         qrEUnCiomDmSUCPgnyvv8y6bYDk0bcci3f2U0amKU/oKmuvJl9Z6RvPntny/JT3feD
+         2bYU8/RhCaW+A0ehXoiP+mktv7qyupCkZKNxkWLqj5vDAPICGNd1D5VMeNqIQzrMEd
+         0o1Ug/EUQeklXR3bH5p6MHpZlADgSxXUQ69J3l0Y/q2XlkKzT6N5skalKKc/0dEa1k
+         8uETFO7ZrPtTMoEUittl+hs7k5ywoQni8JuDoZULVXmVhfxA/Gxu1Kw+FXVhtB4eff
+         +b0GHFN11F7lg==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -38,9 +38,9 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH v3 3/8] media: v4l2-core: fix whitespace damage in video_get_user()
-Date:   Mon, 14 Jun 2021 12:34:04 +0200
-Message-Id: <20210614103409.3154127-4-arnd@kernel.org>
+Subject: [PATCH v3 4/8] media: subdev: remove VIDIOC_DQEVENT_TIME32 handling
+Date:   Mon, 14 Jun 2021 12:34:05 +0200
+Message-Id: <20210614103409.3154127-5-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210614103409.3154127-1-arnd@kernel.org>
 References: <20210614103409.3154127-1-arnd@kernel.org>
@@ -52,49 +52,57 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The initialization was indented with an extra tab in most lines,
-remove them to get the normal coding style.
+Converting the VIDIOC_DQEVENT_TIME32/VIDIOC_DQEVENT32/
+VIDIOC_DQEVENT32_TIME32 arguments to the canonical form is done in common
+code, but for some reason I ended up adding another conversion helper to
+subdev_do_ioctl() as well. I must have concluded that this does not go
+through the common conversion, but it has done that since the ioctl
+handler was first added.
 
+I assume this one is harmless as there should be no way to arrive here
+from user space, but since it is dead code, it should just get removed.
+
+Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/media/v4l2-core/v4l2-ioctl.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index f19e56116e53..d94389145479 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -3142,18 +3142,18 @@ static int video_get_user(void __user *arg, void *parg,
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 956dafab43d4..bf3aa9252458 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -428,30 +428,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
  
- 			*vb = (struct v4l2_buffer) {
- 				.index		= vb32.index,
--					.type		= vb32.type,
--					.bytesused	= vb32.bytesused,
--					.flags		= vb32.flags,
--					.field		= vb32.field,
--					.timestamp.tv_sec	= vb32.timestamp.tv_sec,
--					.timestamp.tv_usec	= vb32.timestamp.tv_usec,
--					.timecode	= vb32.timecode,
--					.sequence	= vb32.sequence,
--					.memory		= vb32.memory,
--					.m.userptr	= vb32.m.userptr,
--					.length		= vb32.length,
--					.request_fd	= vb32.request_fd,
-+				.type		= vb32.type,
-+				.bytesused	= vb32.bytesused,
-+				.flags		= vb32.flags,
-+				.field		= vb32.field,
-+				.timestamp.tv_sec	= vb32.timestamp.tv_sec,
-+				.timestamp.tv_usec	= vb32.timestamp.tv_usec,
-+				.timecode	= vb32.timecode,
-+				.sequence	= vb32.sequence,
-+				.memory		= vb32.memory,
-+				.m.userptr	= vb32.m.userptr,
-+				.length		= vb32.length,
-+				.request_fd	= vb32.request_fd,
- 			};
- 			break;
- 		}
+ 		return v4l2_event_dequeue(vfh, arg, file->f_flags & O_NONBLOCK);
+ 
+-	case VIDIOC_DQEVENT_TIME32: {
+-		struct v4l2_event_time32 *ev32 = arg;
+-		struct v4l2_event ev = { };
+-
+-		if (!(sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS))
+-			return -ENOIOCTLCMD;
+-
+-		rval = v4l2_event_dequeue(vfh, &ev, file->f_flags & O_NONBLOCK);
+-
+-		*ev32 = (struct v4l2_event_time32) {
+-			.type		= ev.type,
+-			.pending	= ev.pending,
+-			.sequence	= ev.sequence,
+-			.timestamp.tv_sec  = ev.timestamp.tv_sec,
+-			.timestamp.tv_nsec = ev.timestamp.tv_nsec,
+-			.id		= ev.id,
+-		};
+-
+-		memcpy(&ev32->u, &ev.u, sizeof(ev.u));
+-		memcpy(&ev32->reserved, &ev.reserved, sizeof(ev.reserved));
+-
+-		return rval;
+-	}
+-
+ 	case VIDIOC_SUBSCRIBE_EVENT:
+ 		return v4l2_subdev_call(sd, core, subscribe_event, vfh, arg);
+ 
 -- 
 2.29.2
 
