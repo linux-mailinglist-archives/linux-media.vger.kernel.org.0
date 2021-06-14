@@ -2,79 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B6B53A6086
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 12:33:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B3703A6151
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 12:44:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233508AbhFNKfT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Jun 2021 06:35:19 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:50053 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233322AbhFNKdm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Jun 2021 06:33:42 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id sjsUlbkl9hqltsjsYlmZXM; Mon, 14 Jun 2021 12:31:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623666698; bh=TNJqZcRrzeEPdaRFmIOAmhBOKnjBWBut14V74IFBqJc=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=npNz/ulGPlPd4nwEjoMdzsYqmoN5whL9J9QCMpF/OxAMfwgvN4Empl12M2pgThUGM
-         n5y36r0e3Uz7bLoCfUavF35rzMx1w50plra1VMU3LWR9a4DpK5B2hGFxHWL9nLM4dm
-         UAfK80NPMqr96UdVVFmA232pMu8TnM70AaawxoO0N1ROLUwJQjl1R65qfI3YlhYx4U
-         66vqdRIn4czjlbz2eI3lKka6ZT8F9g8xIqdBQFjeOq54ja+9vXTMe2CK2xU8C3gYgv
-         fExUsaEoFPmGjqkqv+WAWPOIdVO0WeyE33Nxg8E0+4Sqq4kQSoZ79yBF6iBwcxD/kz
-         2eOmUiLygDdTA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Irui Wang <irui.wang@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tomasz Figa <tfiga@google.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.14] Support H264 4K on MT8192
-Message-ID: <f0d85b90-4fd1-50f6-632f-02d5fec120b2@xs4all.nl>
-Date:   Mon, 14 Jun 2021 12:31:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        id S233843AbhFNKqN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Jun 2021 06:46:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50316 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233563AbhFNKnz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Jun 2021 06:43:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 123DF613FF;
+        Mon, 14 Jun 2021 10:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623666967;
+        bh=JPZ5zj3IxD3FR5sU3ObVpGn5WX3fiepB/VsQBEhqAYk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Xizi1Cfi7uzc+y8ytgZAVcH2DMxZ4vsuIfZG43hqDIPabjS6HSXVyDvBVXXg6wzHv
+         O2YOuGTurGxte+isxXYsj4j8348mQ3xmVJDyJIGwfLZijHFFMjej9MtZsBAJe9R2kL
+         88dHpVPUS110dDyHuJ0FYLd17haxpSmjGF+73n7tnfAxMcO0KMDk/EygWpR/5irOAM
+         rjkrbKjrB+g3jFuym8dvBZLFYKtK0XT4oJEuR9vkEOci2GCLv2B8f8w0loGw//z8O8
+         kCN3BFVgRq245aaToXfsUpB9exojN64K7k057UyZuyIXQOQfDCoi3jpyS8HjzKWiaQ
+         OQphDq5rokEdg==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+        Liu Shixin <liushixin2@huawei.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: [PATCH v3 0/7] media: v4l2: compat ioctl fixes
+Date:   Mon, 14 Jun 2021 12:34:01 +0200
+Message-Id: <20210614103409.3154127-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfDEwFCVBR94uR2c+kJH0H0O/+XpUYYnQZY+tsAbW8UZxqoH7VvXYiamL6N6vMXvRfFchs9wBQ+0/98ntSRqdKJ4XC5NEG/v/7zlvWeDA5paRP4rIAaBT
- GyMwpVs+ljb6MKebr/OEeBhJTs5MxDjlYg+7vfrZpx8omPXcN+snCg725MBDrcunhlICrjSeYR9AAACAxIErmjD8BNAnfsIGA0Fxt97kHdqg07mpe6i/yHuH
- UfOBwf7lIRqfBgPgNgYTMlu78qGIxCKPggzMF6Pxy3lWIiuCJ9js1H4foYws5R4X
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 4c6e0976295add7f0ed94d276c04a3d6f1ea8f83:
+From: Arnd Bergmann <arnd@arndb.de>
 
-  media: uvcvideo: Fix pixel format change for Elgato Cam Link 4K (2021-06-11 11:23:56 +0200)
+There was a report from Syzbot a while ago that I tried fixed earlier,
+but my fix did not get picked up because of a merge conflict with
+another patch I had in my tree.
 
-are available in the Git repository at:
+I finally managed to take a close enough look at the merge conflict
+to figure out that the subdev driver handling for VIDIOC_DQEVENT_TIME32
+was wrong in all combinations of the patches and just needs to be
+removed. In the process I also came across a couple of other issues,
+so the series has now grown to seven patches.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14m
+I have done randconfig build testing and found no compile time issues,
+but the driver specific patches have not been tested so far.
 
-for you to fetch changes up to 9834ccfe04154e9920ecb6dce74d8da8b478a871:
+        Arnd
 
-  media: mtk-vcodec: Support MT8192 H264 4K encoding (2021-06-14 12:22:46 +0200)
+Link: https://patchwork.linuxtv.org/project/linux-media/patch/20210318134334.2933141-1-arnd@kernel.org/
+Link: https://patchwork.linuxtv.org/project/linux-media/list/?series=5655
 
-----------------------------------------------------------------
-Tag branch
+Arnd Bergmann (8):
+  media: v4l2-core: ignore native time32 ioctls on 64-bit
+  media: v4l2-core: explicitly clear ioctl input data
+  media: v4l2-core: fix whitespace damage in video_get_user()
+  media: subdev: remove VIDIOC_DQEVENT_TIME32 handling
+  media: v4l2-core: return -ENODEV from ioctl when not registered
+  media: atomisp: remove compat_ioctl32 code
+  media: subdev: fix compat_ioctl32
+  media: subdev: disallow ioctl for saa6588/davinci
 
-----------------------------------------------------------------
-Alexandre Courbot (1):
-      media: mtk-vcodec: venc: remove redundant code
+ drivers/media/i2c/adv7842.c                   |    3 +
+ drivers/media/i2c/saa6588.c                   |    4 +-
+ drivers/media/pci/bt8xx/bttv-driver.c         |    6 +-
+ drivers/media/pci/saa7134/saa7134-video.c     |    6 +-
+ drivers/media/platform/davinci/vpbe_display.c |    2 +-
+ drivers/media/platform/davinci/vpbe_venc.c    |    6 +-
+ drivers/media/radio/si4713/si4713.c           |    3 +
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c |    3 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   32 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         |   43 +-
+ drivers/staging/media/atomisp/Makefile        |    1 -
+ drivers/staging/media/atomisp/TODO            |    5 +
+ .../atomisp/pci/atomisp_compat_ioctl32.c      | 1202 -----------------
+ .../staging/media/atomisp/pci/atomisp_fops.c  |    8 +-
+ include/media/v4l2-subdev.h                   |    7 +-
+ 15 files changed, 66 insertions(+), 1265 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_compat_ioctl32.c
 
-Irui Wang (5):
-      dt-bindings: media: mtk-vcodec: Add dma-ranges property
-      media: mtk-vcodec: Support 34bits dma address for venc
-      dt-bindings: media: mtk-vcodec: Add binding for MT8192 VENC
-      media: mtk-vcodec: Add MT8192 H264 venc driver
-      media: mtk-vcodec: Support MT8192 H264 4K encoding
+-- 
+2.29.2
 
- Documentation/devicetree/bindings/media/mediatek-vcodec.txt |  2 +
- drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h          |  1 +
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c          | 92 ++++++++++++++++++++++++++-----------------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c      | 17 ++++++++
- drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c       |  4 ++
- 5 files changed, 80 insertions(+), 36 deletions(-)
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Eduardo Valentin <edubezval@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Cc: Liu Shixin <liushixin2@huawei.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+
+
