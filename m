@@ -2,116 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7577F3A6C57
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 18:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7C6A3A6C6E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 18:51:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234988AbhFNQs4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Jun 2021 12:48:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58644 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233948AbhFNQs4 (ORCPT
+        id S235185AbhFNQxT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Jun 2021 12:53:19 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37500 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234032AbhFNQxQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Jun 2021 12:48:56 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22944C061574;
-        Mon, 14 Jun 2021 09:46:53 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id s70-20020a1ca9490000b02901a589651424so257615wme.0;
-        Mon, 14 Jun 2021 09:46:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=tvljP/FADgJBhPk8ME8L4V47cVc2f6d7/8FHRIYD954=;
-        b=B8T6dmxQE+0ZeP3z3goo/uCBgwFxsqBnOtsv8GUo1GTgIyTt2spvcvGsEqtuFBUZWK
-         vFqBP36fjaqMSIiqnXoQ/A3/Xz4fE3JW3llo67SASmqge3+wpBE2MQGKpswswYUNXjYy
-         hC5yVts0+mPVxHWOqj6q6nWfgTSS+APojDJ0X7g0zF4kUOuG9//tygMwPL4F76vlfryV
-         2SL14T1k//Lq59mbsY/3Ey2q6vtCpxX9FdHPB9nmoNXpYtIsxllswOSA3UVhKEPO6sc0
-         qiUtzhBlkS/UTy6d2FM2nxVnMeHqrC8NMGrQJuQbhqXOGEjJP20YcnqZkwmcBf4e9PRI
-         mqHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=tvljP/FADgJBhPk8ME8L4V47cVc2f6d7/8FHRIYD954=;
-        b=cwpP73TOF+pftvHxopvaHxWyDWPd6SskdeAwLFLjTvYEbzNBBM86r2M+zG68j0Ez60
-         2c1oMWApsDAq/WuE1bZ2FYoHDK9B/BYQNJby8GzF84L/b30LVs30FHrb6NYwh3o6NOiX
-         EFCF2Z9Vu33g6vDC4hsJCfmSBv+WsLuJxtdGjOCamFFg1x7JZG0NKezNrwU0JBfHjFpK
-         WEYwu9Q4dS8x4DsU4xtljuEwornAnvB3bDOhcbaorl3/zurAOtNL1h35ZPWUFubJoSxw
-         MViZz+StfAhRgs8jkzLVLKsov3Mt38PpNh4DgBm+TuyFhgTodZEvBMPpV3tIiahvPunw
-         EQWw==
-X-Gm-Message-State: AOAM5320Gcb+I9SfF/SUfUBXPVn86pB0R9+y0rXI4V4t/gNiK1V/vRHM
-        Nd+q0ljkGwToF3J0MRvIMA==
-X-Google-Smtp-Source: ABdhPJz/TgPYRiMBAJkO6DK6KCQhd3nMPx3VN/0cIYRHyDbVaEy82gCi6urK85Tm6qF8t3KosZFFRQ==
-X-Received: by 2002:a05:600c:4ba1:: with SMTP id e33mr10664wmp.39.1623689211594;
-        Mon, 14 Jun 2021 09:46:51 -0700 (PDT)
-Received: from [192.168.200.247] (ip5b434b8b.dynamic.kabel-deutschland.de. [91.67.75.139])
-        by smtp.gmail.com with ESMTPSA id x10sm16580048wrt.26.2021.06.14.09.46.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Jun 2021 09:46:51 -0700 (PDT)
-Subject: Re: [PATCH v2 06/12] media: hantro: add support for Rockchip RK3066
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Mon, 14 Jun 2021 12:53:16 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFC50A59;
+        Mon, 14 Jun 2021 18:51:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623689471;
+        bh=8qOYKilo3VDR4JOmaCNCxvAPF/6CG2VJgci4N0Qz8Zc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fZ9RGzyx+SHbsZzn4TIBrM9xMJ/3HQN+ccsKwoBqmBhyIpK+d/OhxRm1KK6J2H0Vg
+         yyF1SQUH+MwZf5Z6mwNRtIWI9ZqyOS/Ea0sy2g3ceKIhnPnK/G/R8GMrBYkQamjYlL
+         6AbVOUUHwYPHvXGFugFi4UUrPSjFy/0GXPqFtY5E=
+Date:   Mon, 14 Jun 2021 19:50:52 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-References: <20210525152225.154302-1-knaerzche@gmail.com>
- <20210527154455.358869-1-knaerzche@gmail.com>
- <20210527154455.358869-7-knaerzche@gmail.com>
- <09885c89dd37ca56305630c96da88333e81a2f25.camel@collabora.com>
-From:   Alex Bee <knaerzche@gmail.com>
-Message-ID: <25edf9d4-6740-4ce3-90e4-8633b936fc5b@gmail.com>
-Date:   Mon, 14 Jun 2021 18:46:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+        Liu Shixin <liushixin2@huawei.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        syzbot+142888ffec98ab194028@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3 1/8] media: v4l2-core: ignore native time32 ioctls on
+ 64-bit
+Message-ID: <YMeI7GhgmXM4aIQQ@pendragon.ideasonboard.com>
+References: <20210614103409.3154127-1-arnd@kernel.org>
+ <20210614103409.3154127-2-arnd@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <09885c89dd37ca56305630c96da88333e81a2f25.camel@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210614103409.3154127-2-arnd@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+Hi Arnd,
 
-Am 11.06.21 um 17:50 schrieb Ezequiel Garcia:
-> Hi Alex,
->
-> On Thu, 2021-05-27 at 17:44 +0200, Alex Bee wrote:
->> RK3066's VPU IP block is the predecessor from what RK3288 has.
->> The hardware differences are:
->>    - supports decoding frame sizes up to 1920x1088 only
->>    - doesn't have the 'G1_REG_SOFT_RESET' register
->>      (requires another .reset callback for hantro_codec_ops,
->>       since writing this register will result in non-working
->>       IP block)
->>    - has one ACLK/HCLK per vdpu/vepu
->>    - ACLKs can be clocked up to 300 MHz only
-> Have you tested trying 400 MHz (or more) ?
+Thank you for the patch.
 
-Yes, I've tried this on both RK3066 and RK3036 variants - everything 
-above  300 MHz results in non-functioning IP block.
+On Mon, Jun 14, 2021 at 12:34:02PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Syzbot found that passing ioctl command 0xc0505609 into a 64-bit
+> kernel from a 32-bit process causes uninitialized kernel memory to
+> get passed to drivers instead of the user space data:
+> 
+> BUG: KMSAN: uninit-value in check_array_args drivers/media/v4l2-core/v4l2-ioctl.c:3041 [inline]
+> BUG: KMSAN: uninit-value in video_usercopy+0x1631/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3315
+> CPU: 0 PID: 19595 Comm: syz-executor.4 Not tainted 5.11.0-rc7-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> Call Trace:
+>  __dump_stack lib/dump_stack.c:79 [inline]
+>  dump_stack+0x21c/0x280 lib/dump_stack.c:120
+>  kmsan_report+0xfb/0x1e0 mm/kmsan/kmsan_report.c:118
+>  __msan_warning+0x5f/0xa0 mm/kmsan/kmsan_instr.c:197
+>  check_array_args drivers/media/v4l2-core/v4l2-ioctl.c:3041 [inline]
+>  video_usercopy+0x1631/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3315
+>  video_ioctl2+0x9f/0xb0 drivers/media/v4l2-core/v4l2-ioctl.c:3391
+>  v4l2_ioctl+0x255/0x290 drivers/media/v4l2-core/v4l2-dev.c:360
+>  v4l2_compat_ioctl32+0x2c6/0x370 drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1248
+>  __do_compat_sys_ioctl fs/ioctl.c:842 [inline]
+>  __se_compat_sys_ioctl+0x53d/0x1100 fs/ioctl.c:793
+>  __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:793
+>  do_syscall_32_irqs_on arch/x86/entry/common.c:79 [inline]
+>  __do_fast_syscall_32+0x102/0x160 arch/x86/entry/common.c:141
+>  do_fast_syscall_32+0x6a/0xc0 arch/x86/entry/common.c:166
+>  do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:209
+>  entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+> 
+> The time32 commands are defined but were never meant to be called on
+> 64-bit machines, as those have always used time64 interfaces.  I missed
+> this in my patch that introduced the time64 handling on 32-bit platforms.
+> 
+> The problem in this case is the mismatch of one function checking for
+> the numeric value of the command and another function checking for the
+> type of process (native vs compat) instead, with the result being that
+> for this combination, nothing gets copied into the buffer at all.
+> 
+> Avoid this by only trying to convert the time32 commands when running
+> on a 32-bit kernel where these are defined in a meaningful way.
+> 
+> Fixes: 577c89b0ce72 ("media: v4l2-core: fix v4l2_buffer handling for time64 ABI")
+> Reported-by: syzbot+142888ffec98ab194028@syzkaller.appspotmail.com
+> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> This patch adds two more changes than the version that Hans tested
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-See comment in RK3036 devicetree in vendor kernel at [1].
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[1] 
-https://github.com/rockchip-linux/kernel/blob/develop-4.4/arch/arm/boot/dts/rk3036.dtsi#L246-L248
+> ---
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 2673f51aafa4..58df927aec7e 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -3073,7 +3073,7 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
+>  static unsigned int video_translate_cmd(unsigned int cmd)
+>  {
+>  	switch (cmd) {
+> -#ifdef CONFIG_COMPAT_32BIT_TIME
+> +#if !defined(CONFIG_64BIT) && defined(CONFIG_COMPAT_32BIT_TIME)
+>  	case VIDIOC_DQEVENT_TIME32:
+>  		return VIDIOC_DQEVENT;
+>  	case VIDIOC_QUERYBUF_TIME32:
+> @@ -3127,7 +3127,7 @@ static int video_get_user(void __user *arg, void *parg,
+>  		err = v4l2_compat_get_user(arg, parg, cmd);
+>  	} else {
+>  		switch (cmd) {
+> -#ifdef CONFIG_COMPAT_32BIT_TIME
+> +#if !defined(CONFIG_64BIT) && defined(CONFIG_COMPAT_32BIT_TIME)
+>  		case VIDIOC_QUERYBUF_TIME32:
+>  		case VIDIOC_QBUF_TIME32:
+>  		case VIDIOC_DQBUF_TIME32:
+> @@ -3182,7 +3182,7 @@ static int video_put_user(void __user *arg, void *parg,
+>  		return v4l2_compat_put_user(arg, parg, cmd);
+>  
+>  	switch (cmd) {
+> -#ifdef CONFIG_COMPAT_32BIT_TIME
+> +#if !defined(CONFIG_64BIT) && defined(CONFIG_COMPAT_32BIT_TIME)
+>  	case VIDIOC_DQEVENT_TIME32: {
+>  		struct v4l2_event *ev = parg;
+>  		struct v4l2_event_time32 ev32;
 
->
->>    - no MMU
->>      (no changes required: CMA will be transparently used)
->>
->> Add a new RK3066 variant which reflect this differences. This variant
->> can be used for RK3188 as well.
->>
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
->
-> Thanks!
-> Ezequiel
->
+-- 
+Regards,
+
+Laurent Pinchart
