@@ -2,248 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AEDB3A5DB0
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 09:28:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46CD13A5DBB
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 09:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232531AbhFNHaJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Jun 2021 03:30:09 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:33643 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232507AbhFNHaG (ORCPT
+        id S232536AbhFNHfn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Jun 2021 03:35:43 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:59627 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232424AbhFNHfm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Jun 2021 03:30:06 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id sh0nlaX5ihqltsh0rllihu; Mon, 14 Jun 2021 09:28:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623655682; bh=4lI4GyL9GH2nvrTQ0o6Wt6NwFx3+9870W0SH7rM1Pog=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=FxhymAtJghFfLbs4vBLozp5YyQlaXt+9hk2xi7PQp1THWvAVw1wvekqw9gbOAxtUR
-         nt5hL/FUayClf4wXsEObms+olahY+qVwbxw11pQs6wQPaOPwSWgnAvdRTZFCoId06r
-         D54e1xzLU53hDWB0j8+GgfrTqam17JZGuhxYyiv6c1h6IKwfNPNyPJwcAiMEICmYl9
-         +TXDNAik5gR3gbg+rgPBXYhNaddcciWHO8g1se0h0+vwFQQr0P0Y9rx+CmGp8f8qB1
-         Bfu2ViUisMjG8dILq+HhFV358pYGgAg/3QEGB8Do5lyHa7npHkehOOObrv+4VBTk6h
-         GuBQ0lr05e4rg==
-Subject: Re: [PATCH v2 7/8] media: hevc: Add scaling matrix control
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk, jernej.skrabec@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20210610154442.806107-1-benjamin.gaignard@collabora.com>
- <20210610154442.806107-8-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <87a1e585-688e-7c4d-b9a9-24f42772a1a8@xs4all.nl>
-Date:   Mon, 14 Jun 2021 09:27:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        Mon, 14 Jun 2021 03:35:42 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 116541BF20D;
+        Mon, 14 Jun 2021 07:33:34 +0000 (UTC)
+Date:   Mon, 14 Jun 2021 09:34:25 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 16/17] media: v4l2-subdev: De-deprecate init() subdev
+ op
+Message-ID: <20210614073425.p4dlkx5tv5pddogo@uno.localdomain>
+References: <20210412093451.14198-1-jacopo+renesas@jmondi.org>
+ <20210412093451.14198-17-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-In-Reply-To: <20210610154442.806107-8-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfDe2Ij7GluQvLG2QfGzNQyhKNDrRlbl2UUH3ErnB7fmuzSVsHHgozJI325a40B22/ELAxqePFc+7UYHeXwOD8aHQ+hXSeiZrZK0I65CmX3+aYwnhvNEj
- ++n1Ejt18wRP78kREgG39hdNonzCKyj/MLDu3GNWk3QDznBIaVhmZx9eF2WwH2Hv5k1LaJWJfL1YAVMhmZru2YWng3KSmu1aRBxhWU3lOdz2uRbW9uGVLXt+
- AaZlY27U8YuZQ5VRRB7ktXJvQS+5yRKsi7jCBEjWttvSo679sPSjx/LKV+K6bB3LrgySPA9j+vxQxSHWilwv2F9rJwyd6HTcN3J2WuXkfdi69JBBt07DJoee
- GyrQaVFeVw7O7LlDSunzXfmfKRlhvmBILfz4rLayH9evPyLO0SvIrB57UZ2h66b3rVwC1R/WYzCQjD9Ki8BfF7u435M5ODvq0dNKUYocYdje1roLmUkK97S1
- y0+ejr2fWxN2zSXyZ9J5V3iVAFgn0eSLrz0r1snpCDHYSyKACQresRQ5rJVU2fRxGcYLVrs87VwvYsyYgudSfG8gTg5G7i6D1K7b+5RjWGXzRVHe+ZmAXUJ2
- Ys0sjYP/OS6zCqv3fxKQI++87umteMb/wTDV8+M7dBheUz37oZEWr7escZ2j95HLGtg2HfrX/rl1XyXohpckgGGDJP4BUaip0wJbDzffuc5gjg1dxj34/t2H
- kcXz81L0K5Zr8/Os4ZKK5TZioT6gD+btoE+kl1zuiK0QS66ezbs720wZDsO7Y7Y80BlcH94HvBsvcAd/YWOJG4lsPgs4hklYcf61UWUH1nZzAz4tK+SHoQ0+
- hLsny2Bf8ReFUi5QF3gfBeMboUqyebLSF+Fe4pJrMJL2dJVJ5ieSB3l2PDztcJjZozj2CnJzWUXEgz5XFPtAVJthu0rnd5vNDkls+VeJMEyotx6Dy0YHjtq9
- QHIxTw==
+Content-Disposition: inline
+In-Reply-To: <20210412093451.14198-17-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/06/2021 17:44, Benjamin Gaignard wrote:
-> HEVC scaling lists are used for the scaling process for transform
-> coefficients.
-> V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED has to set when they are
-> encoded in the bitstream.
+Hello linux-media,
 
-Comparing H264 with HEVC I noticed that the corresponding flag for H264 is
-called V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT.
+On Mon, Apr 12, 2021 at 11:34:50AM +0200, Jacopo Mondi wrote:
+> The init() subdev core operation is deemed to be deprecated for new
+> subdevice drivers. However it could prove useful for complex
+> architectures to defer operation that require access to the
+> communication bus if said bus is not available (or fully configured)
+> at the time when the subdevice probe() function is run.
+>
+> As an example, the GMSL architecture requires the GMSL configuration
+> link to be configured on the host side after the remote subdevice
+> has completed its probe function. After the configuration on the host
+> side has been performed, the subdevice registers can be accessed through
+> the communication bus.
+>
+> In particular:
+>
+> 	HOST			REMOTE
+>
+> 	probe()
+> 	   |
+> 	   ---------------------> |
+> 				  probe() {
+> 				     bus config()
+> 				  }
+> 	   |<--------------------|
+> 	v4l2 async bound {
+> 	    bus config()
+> 	    call subdev init()
+> 	   |-------------------->|
+> 				 init() {
+> 				     access register on the bus()
+> 				}
+> 	   |<-------------------
+> 	}
+>
+> In the GMSL use case the bus configuration requires the enablement of the
+> noise immunity threshold on the remote side which ensures reliability
+> of communications in electrically noisy environments. After the subdevice
+> has enabled the threshold at the end of its probe() sequence the host
+> side shall compensate it with an higher signal amplitude. Once this
+> sequence has completed the bus can be accessed with noise protection
+> enabled and all the operations that require a considerable number of
+> transactions on the bus (such as the image sensor configuration
+> sequence) are run in the subdevice init() operation implementation.
+>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Should those names be aligned? Also, it is part of PPS for H264 and SPS in HEVC,
-is that difference correct?
+This change is key for the whole series to get in, and requires the
+approval of linux-media maintainers as it use a function now deemed as
+deprecated.
 
-Regards,
+Could I get an ack/nack please ?
 
-	Hans
+Thanks
+   j
 
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
-> version 2:
->  - Fix structure name in ext-ctrls-codec.rst
-> 
->  .../media/v4l/ext-ctrls-codec.rst             | 45 +++++++++++++++++++
->  .../media/v4l/vidioc-queryctrl.rst            |  6 +++
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  6 +++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 ++
->  include/media/hevc-ctrls.h                    | 11 +++++
->  5 files changed, 72 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 8c6e2a11ed95..d4f40bb85263 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -3068,6 +3068,51 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->  
->      \normalsize
->  
-> +``V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX (struct)``
-> +    Specifies the HEVC scaling matrix parameters used for the scaling process
-> +    for transform coefficients.
-> +    These matrix and parameters are defined according to :ref:`hevc`.
-> +    They are described in section 7.4.5 "Scaling list data semantics" of
-> +    the specification.
-> +
-> +.. c:type:: v4l2_ctrl_hevc_scaling_matrix
-> +
-> +.. raw:: latex
-> +
-> +    \scriptsize
-> +
-> +.. tabularcolumns:: |p{5.4cm}|p{6.8cm}|p{5.1cm}|
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_ctrl_hevc_scaling_matrix
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``scaling_list_4x4[6][16]``
-> +      -
-> +    * - __u8
-> +      - ``scaling_list_8x8[6][64]``
-> +      -
-> +    * - __u8
-> +      - ``scaling_list_16x16[6][64]``
-> +      -
-> +    * - __u8
-> +      - ``scaling_list_32x32[2][64]``
-> +      -
-> +    * - __u8
-> +      - ``scaling_list_dc_coef_16x16[6]``
-> +      -
-> +    * - __u8
-> +      - ``scaling_list_dc_coef_32x32[2]``
-> +      -
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
->  .. c:type:: v4l2_hevc_dpb_entry
->  
->  .. raw:: latex
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> index f9ecf6276129..2f491c17dd5d 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> @@ -495,6 +495,12 @@ See also the examples in :ref:`control`.
->        - n/a
->        - A struct :c:type:`v4l2_ctrl_hevc_slice_params`, containing HEVC
->  	slice parameters for stateless video decoders.
-> +    * - ``V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX``
-> +      - n/a
-> +      - n/a
-> +      - n/a
-> +      - A struct :c:type:`v4l2_ctrl_hevc_scaling_matrix`, containing HEVC
-> +	scaling matrix for stateless video decoders.
->      * - ``V4L2_CTRL_TYPE_VP8_FRAME``
->        - n/a
->        - n/a
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index c4b5082849b6..70adfc1b9c81 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -687,6 +687,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  
->  		break;
->  
-> +	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
-> +		break;
-> +
->  	case V4L2_CTRL_TYPE_AREA:
->  		area = p;
->  		if (!area->width || !area->height)
-> @@ -1240,6 +1243,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
->  		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
->  		break;
-> +	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
-> +		elem_size = sizeof(struct v4l2_ctrl_hevc_scaling_matrix);
-> +		break;
->  	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
->  		elem_size = sizeof(struct v4l2_ctrl_hevc_decode_params);
->  		break;
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index b6344bbf1e00..cb29c2a7fabe 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -996,6 +996,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_HEVC_SPS:			return "HEVC Sequence Parameter Set";
->  	case V4L2_CID_MPEG_VIDEO_HEVC_PPS:			return "HEVC Picture Parameter Set";
->  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:		return "HEVC Scaling Matrix";
->  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:		return "HEVC Decode Parameters";
->  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
->  	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
-> @@ -1488,6 +1489,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
->  		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
->  		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:
-> +		*type = V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
-> +		break;
->  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:
->  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->  		break;
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index 53c0038c792b..0e5c4a2eecff 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -19,6 +19,7 @@
->  #define V4L2_CID_MPEG_VIDEO_HEVC_SPS		(V4L2_CID_CODEC_BASE + 1008)
->  #define V4L2_CID_MPEG_VIDEO_HEVC_PPS		(V4L2_CID_CODEC_BASE + 1009)
->  #define V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS	(V4L2_CID_CODEC_BASE + 1010)
-> +#define V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX	(V4L2_CID_CODEC_BASE + 1011)
->  #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE + 1012)
->  #define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
->  #define V4L2_CID_MPEG_VIDEO_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
-> @@ -27,6 +28,7 @@
->  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->  #define V4L2_CTRL_TYPE_HEVC_PPS 0x0121
->  #define V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS 0x0122
-> +#define V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX 0x0123
->  #define V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS 0x0124
->  
->  enum v4l2_mpeg_video_hevc_decode_mode {
-> @@ -224,6 +226,15 @@ struct v4l2_ctrl_hevc_decode_params {
->  	__u64	flags;
->  };
->  
-> +struct v4l2_ctrl_hevc_scaling_matrix {
-> +	__u8	scaling_list_4x4[6][16];
-> +	__u8	scaling_list_8x8[6][64];
-> +	__u8	scaling_list_16x16[6][64];
-> +	__u8	scaling_list_32x32[2][64];
-> +	__u8	scaling_list_dc_coef_16x16[6];
-> +	__u8	scaling_list_dc_coef_32x32[2];
-> +};
-> +
->  /*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 */
->  #define V4L2_CID_CODEC_HANTRO_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1200)
->  /*
-> 
-
+>  include/media/v4l2-subdev.h | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+>
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index d0e9a5bdb08b..3068d9940669 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -148,9 +148,18 @@ struct v4l2_subdev_io_pin_config {
+>   *	each pin being configured.  This function could be called at times
+>   *	other than just subdevice initialization.
+>   *
+> - * @init: initialize the sensor registers to some sort of reasonable default
+> - *	values. Do not use for new drivers and should be removed in existing
+> - *	drivers.
+> + * @init: initialize the subdevice registers to some sort of reasonable default
+> + *	values. Do not use for new drivers (and should be removed in existing
+> + *	ones) for regular architectures where the image sensor is connected to
+> + *	the host receiver. For more complex architectures where the subdevice
+> + *	initialization should be deferred to the completion of the probe
+> + *	sequence of some intermediate component, or the communication bus
+> + *	requires configurations on the host side that depend on the completion
+> + *	of the probe sequence of the remote subdevices, the usage of this
+> + *	operation could be considered to allow the devices along the pipeline to
+> + *	probe and register in the media graph and to defer any operation that
+> + *	require actual access to the communication bus to their init() function
+> + *	implementation.
+>   *
+>   * @load_fw: load firmware.
+>   *
+> --
+> 2.31.1
+>
