@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36FEB3A6572
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 13:43:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 956123A65B4
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jun 2021 13:43:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235968AbhFNLiU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Jun 2021 07:38:20 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58264 "EHLO
+        id S235383AbhFNLmA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Jun 2021 07:42:00 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58260 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235206AbhFNLgN (ORCPT
+        with ESMTP id S236172AbhFNLiA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Jun 2021 07:36:13 -0400
+        Mon, 14 Jun 2021 07:38:00 -0400
 Received: from deskari.lan (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A94CA5E9B;
-        Mon, 14 Jun 2021 13:24:07 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27D4D5E9D;
+        Mon, 14 Jun 2021 13:24:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1623669848;
-        bh=JuLgHAGBlW21rYNAspfavRvEqNaJ6ERpEzqSVYt0Ndw=;
+        bh=PA5A0FNCshrb5wVZTDQR8khr5AFf8ornvOHO6rzn19Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bzX6nMUPiWpDVKbnXlhDCPBedwALXkECSZYohM/X/1mOI0WWClpsv2KLXoHy/0s0g
-         K+iaKngQqzA9yCTD6KbfMlCOdxVHsxXV+nvUT72n8C77zvmHap9gxSNaR+8A4wGBqN
-         cHU4bVN+GRs6Z3v7Akj7O/9NdZyC3HKb2Bo2A48c=
+        b=Fg71EdiZD/FC1BUVfNL92pjvAAorUQczQGkAUbiIiJfOAUUiPUcK3ORbeBgaGt8dr
+         eFPThQjrJAW8bauqEAJw1YyUPbv3rJyKHVxdUFskFDD3uJT68NtH6Rv0uAT5EyyrkG
+         0MyjgelfS9hlR8dVV+6IrK87ZS/H8TRHi6RCSGhc=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, Lokesh Vutla <lokeshvutla@ti.com>,
         Pratyush Yadav <p.yadav@ti.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v4 14/35] media: ti-vpe: cal: catch VC errors
-Date:   Mon, 14 Jun 2021 14:23:24 +0300
-Message-Id: <20210614112345.2032435-15-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v4 15/35] media: ti-vpe: cal: remove wait when stopping camerarx
+Date:   Mon, 14 Jun 2021 14:23:25 +0300
+Message-Id: <20210614112345.2032435-16-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210614112345.2032435-1-tomi.valkeinen@ideasonboard.com>
 References: <20210614112345.2032435-1-tomi.valkeinen@ideasonboard.com>
@@ -39,88 +39,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-CAL driver currently ignores VC related errors. To help catch error
-conditions, enable all the VC error interrupts and handle them in the
-interrupt handler by printing an error.
+Asserting ComplexIO reset seems to affect the HW (ie. asserting reset
+will break an active capture), but the RESET_DONE bit never changes to
+"reset is ongoing" state. Thus we always get a timeout.
+
+Drop the wait, as it seems to achieve nothing.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal-camerarx.c | 25 ++++++++++++++++----
- drivers/media/platform/ti-vpe/cal.c          | 10 ++++++++
- 2 files changed, 31 insertions(+), 4 deletions(-)
+ drivers/media/platform/ti-vpe/cal-camerarx.c | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-index 3bc63a5e9317..b36e55b63718 100644
+index b36e55b63718..a8cca30f3f51 100644
 --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
 +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-@@ -226,24 +226,41 @@ static void cal_camerarx_enable_irqs(struct cal_camerarx *phy)
- 		CAL_CSI2_COMPLEXIO_IRQ_FIFO_OVR_MASK |
- 		CAL_CSI2_COMPLEXIO_IRQ_SHORT_PACKET_MASK |
- 		CAL_CSI2_COMPLEXIO_IRQ_ECC_NO_CORRECTION_MASK;
--
--	/* Enable CIO error IRQs. */
-+	const u32 vc_err_mask =
-+		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(0) |
-+		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(1) |
-+		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(2) |
-+		CAL_CSI2_VC_IRQ_CS_IRQ_MASK(3) |
-+		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(0) |
-+		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(1) |
-+		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(2) |
-+		CAL_CSI2_VC_IRQ_ECC_CORRECTION_IRQ_MASK(3);
-+
-+	/* Enable CIO & VC error IRQs. */
- 	cal_write(phy->cal, CAL_HL_IRQENABLE_SET(0),
--		  CAL_HL_IRQ_CIO_MASK(phy->instance));
-+		  CAL_HL_IRQ_CIO_MASK(phy->instance) |
-+		  CAL_HL_IRQ_VC_MASK(phy->instance));
- 	cal_write(phy->cal, CAL_CSI2_COMPLEXIO_IRQENABLE(phy->instance),
- 		  cio_err_mask);
-+	cal_write(phy->cal, CAL_CSI2_VC_IRQENABLE(phy->instance),
-+		  vc_err_mask);
- }
+@@ -407,7 +407,6 @@ static int cal_camerarx_start(struct cal_camerarx *phy)
  
- static void cal_camerarx_disable_irqs(struct cal_camerarx *phy)
+ static void cal_camerarx_stop(struct cal_camerarx *phy)
  {
- 	/* Disable CIO error irqs */
- 	cal_write(phy->cal, CAL_HL_IRQENABLE_CLR(0),
--		  CAL_HL_IRQ_CIO_MASK(phy->instance));
-+		  CAL_HL_IRQ_CIO_MASK(phy->instance) |
-+		  CAL_HL_IRQ_VC_MASK(phy->instance));
- 	cal_write(phy->cal, CAL_CSI2_COMPLEXIO_IRQENABLE(phy->instance), 0);
-+	cal_write(phy->cal, CAL_CSI2_VC_IRQENABLE(phy->instance), 0);
- }
+-	unsigned int i;
+ 	int ret;
  
- static void cal_camerarx_ppi_enable(struct cal_camerarx *phy)
- {
-+	cal_write_field(phy->cal, CAL_CSI2_PPI_CTRL(phy->instance),
-+			1, CAL_CSI2_PPI_CTRL_ECC_EN_MASK);
-+
- 	cal_write_field(phy->cal, CAL_CSI2_PPI_CTRL(phy->instance),
- 			1, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
- }
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 964dc602f5af..759dc414a5bb 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -577,6 +577,16 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
- 				cal_write(cal, CAL_CSI2_COMPLEXIO_IRQSTATUS(i),
- 					  cio_stat);
- 			}
-+
-+			if (status & CAL_HL_IRQ_VC_MASK(i)) {
-+				u32 vc_stat = cal_read(cal, CAL_CSI2_VC_IRQSTATUS(i));
-+
-+				dev_err_ratelimited(cal->dev,
-+						    "CIO%u VC error: %#08x\n",
-+						    i, vc_stat);
-+
-+				cal_write(cal, CAL_CSI2_VC_IRQSTATUS(i), vc_stat);
-+			}
- 		}
- 	}
+ 	cal_camerarx_ppi_disable(phy);
+@@ -421,19 +420,9 @@ static void cal_camerarx_stop(struct cal_camerarx *phy)
+ 			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL,
+ 			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK);
  
+-	/* Wait for power down completion */
+-	for (i = 0; i < 10; i++) {
+-		if (cal_read_field(phy->cal,
+-				   CAL_CSI2_COMPLEXIO_CFG(phy->instance),
+-				   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_MASK) ==
+-		    CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETONGOING)
+-			break;
+-		usleep_range(1000, 1100);
+-	}
+-	phy_dbg(3, phy, "CAL_CSI2_COMPLEXIO_CFG(%d) = 0x%08x Complex IO in Reset (%d) %s\n",
++	phy_dbg(3, phy, "CAL_CSI2_COMPLEXIO_CFG(%d) = 0x%08x Complex IO in Reset\n",
+ 		phy->instance,
+-		cal_read(phy->cal, CAL_CSI2_COMPLEXIO_CFG(phy->instance)), i,
+-		(i >= 10) ? "(timeout)" : "");
++		cal_read(phy->cal, CAL_CSI2_COMPLEXIO_CFG(phy->instance)));
+ 
+ 	/* Disable the phy */
+ 	cal_camerarx_disable(phy);
 -- 
 2.25.1
 
