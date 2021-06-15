@@ -2,208 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 220523A7FBD
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 15:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA7F93A8050
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 15:36:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231555AbhFONbz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Jun 2021 09:31:55 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:58297 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231651AbhFONbY (ORCPT
+        id S231523AbhFONiR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Jun 2021 09:38:17 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:59015 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231437AbhFONiQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Jun 2021 09:31:24 -0400
+        Tue, 15 Jun 2021 09:38:16 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id t97zlm180hqltt982lrlMH; Tue, 15 Jun 2021 15:29:18 +0200
+        id t9Eblm3twhqltt9Eflrn3Z; Tue, 15 Jun 2021 15:36:10 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623763758; bh=+imYr7Q3leZ01q1T2ltFEv2bDZNu+vrKNCA9U1m3V4A=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1623764170; bh=TYZsxWK3pyuuhL9w4imZapk5ZEIWECc0wzFBU2fCKpM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=X0mvNeqrcWmNmZiTuwsqSz+/ZGSoE+ok1zqWHjfh/qrqI0YvRxvnF6bhWt7baPBOy
-         ftwYi290YKv2gch2psHBoGv3hfK6N+ZTOTdW+UOre+a9EuTvuXDppdJPnS6Vvse9/E
-         tlhxccrxkKxFdlpurENQT0KqZPz+l5GertEiskFSuFwgaMoc9zZZg+Jbkv6+f83LUX
-         Q/LyuyJ44aASFZm9cEA+QPBsoaUBQvM3B5XfOTnGVC+AhHF/1tsnvweYTUvsGlXv0N
-         SdgDspqOaoIQAtZJnyuzDyLWvf8/NTWTbIfJzvWq+UC5LZ46bRm7B22/69CwlBl7XX
-         eRGNbtP/7zv3Q==
-Subject: Re: [PATCH v2] cec: add Deck Control wake-up handling tests
+        b=rHJ0usjNf3YcqQjumM4sQB8OAegejpxDtk06UkoA9pGImM3uFaLcj013ZiGAsguKR
+         b6liFsu0UbsdWl6nssQU3gmm2Tns1QbV05FRdwbVw+WOqIb0xEtLux1N4G9SU8s3Uz
+         99ohpaG4eOpWj+0R02QoZ2oJQM8jV53GCLrawzBbviUR6z5+PuP8NCVlfmJeXy6z4Y
+         LZhne5wmE8Ut3f68pKbjYNKgR5EkAIy/lSEGlyO5Eal8BrxvsvcPDc+GPhYkIiv3Eu
+         73aEdWflfpX9eixE6HcuzRiDK7F4HZYGdSeBmhYdC+MSLtqAXnfQE33K0ZRoYH48xh
+         weo7l0YVrfA0A==
+Subject: Re: [PATCH] media: Fix Media Controller API config checks
+To:     Shuah Khan <skhan@linuxfoundation.org>,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        dan.carpenter@oracle.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        alsa-devel@alsa-project.org
+References: <20210611015849.42589-1-skhan@linuxfoundation.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     jaffe1@gmail.com
-References: <20210614135338.8838-1-deborahbrouwer3563@gmail.com>
- <23d440c3-6f4c-1765-b79e-b2f920c35c0a@xs4all.nl>
-Message-ID: <c4ce938a-f4da-14be-e52d-97efe4aada60@xs4all.nl>
-Date:   Tue, 15 Jun 2021 15:29:15 +0200
+Message-ID: <3745852a-a14d-3e66-dd9f-409ec7e43f48@xs4all.nl>
+Date:   Tue, 15 Jun 2021 15:36:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <23d440c3-6f4c-1765-b79e-b2f920c35c0a@xs4all.nl>
+In-Reply-To: <20210611015849.42589-1-skhan@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfEmEyk6hdiIfuahnFiqtWTUn6nRsiHUq+seP1GoE342rPBQQTUSyBznpKn4pzuGOT0zSyumwNFOCDBzUvMCVKuk4Kx6u7lDytkG1RSLnyfnVcRmp/rjQ
- AA+oHQXV6skhl5PJVowkyEjgsKBFH5Std0YvNz6haS+Aoq/3MdUjdwjoPx1VrnZWFd4wCMs7SD8wNUjTnpcu6Hpvo3T9naJnmNGnKqIsZr1iblb2cD79WNv1
- iEE30fY2WUC5k+jjNXF05vYn/24IabpDzbGnnDNOUp8=
+X-CMAE-Envelope: MS4xfIY3fpQsqyTxg/12EwjXTdXJ4H4fQhDvhvUsUDPDNaiFJn7cFHi+oEO5t9qlFvaoCNJitZT/UimCmnJLCJGf9mat5FDlGkx0DTVritfHTWTeawb5H0Qi
+ 19R0pAfngkCvuuMLWdD/91NTVXYfe15e8v89srtADlTf77TA9YasfbTs1CGh+KtWDLVRvmaen/cK1do/S4crI8Blx85vwD93cRFHyZ+uNSs370zGpEXSBtHt
+ K0zFAelyLKtpCadoGqjOMPXXfCijHFMrbE+bE/CHJCUI0DWEQECP9BoIi4WOF6VQqTBCdlJfyJVHjL1Lwqmm01m8aRQ9qslIDkUrd117sWrbO/ZjJuEr/Bp5
+ jdFoShJhQTZS3SupGa2qw4xs2eIPo2lDuXUci7wAH17x+OIXM0tRTFrgbEvWzXuCMKoPnmyX5vpgYzA+oZwpuMrgFyc0KhuGLdmKmNSedc0zSMTZeHeCb+26
+ VOX5e4xC3D68ah1M
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/06/2021 10:08, Hans Verkuil wrote:
-> Hi Deb,
-> 
-> On 14/06/2021 15:53, Deborah Brouwer wrote:
->> Test that a deck in standby will wake up upon receiving the Deck Control
->> messages Eject or Play Forward.
->>
->> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
->> ---
->> This is part of an Outreachy project to expand the testing of
->> Deck Control messages as handled by CEC adapters.
->>
->> Changes since v2:
->> 	- move tests to cec-test-power.cpp
->> 	- check if deck control is supported by sending REQ_ONCE
->> 	- use a single function that accepts different ops
->>
->>  utils/cec-compliance/cec-compliance.h   |  1 +
->>  utils/cec-compliance/cec-test-power.cpp | 58 +++++++++++++++++++++++++
->>  utils/cec-compliance/cec-test.cpp       |  1 +
->>  utils/cec-follower/cec-processing.cpp   |  2 +
->>  4 files changed, 62 insertions(+)
->>
->> diff --git a/utils/cec-compliance/cec-compliance.h b/utils/cec-compliance/cec-compliance.h
->> index 818181ab..057f42c4 100644
->> --- a/utils/cec-compliance/cec-compliance.h
->> +++ b/utils/cec-compliance/cec-compliance.h
->> @@ -468,5 +468,6 @@ extern const vec_remote_subtests standby_subtests;
->>  extern const vec_remote_subtests one_touch_play_subtests;
->>  extern const vec_remote_subtests power_status_subtests;
->>  extern const vec_remote_subtests standby_resume_subtests;
->> +extern const vec_remote_subtests deck_ctl_standby_resume_subtests;
->>  
->>  #endif
->> diff --git a/utils/cec-compliance/cec-test-power.cpp b/utils/cec-compliance/cec-test-power.cpp
->> index bc88eca7..49241093 100644
->> --- a/utils/cec-compliance/cec-test-power.cpp
->> +++ b/utils/cec-compliance/cec-test-power.cpp
->> @@ -652,3 +652,61 @@ const vec_remote_subtests standby_resume_subtests{
->>  	{ "Wake up TV on Text View On", CEC_LOG_ADDR_MASK_TV, standby_resume_wakeup_text_view_on },
->>  	{ "Power State Transitions", CEC_LOG_ADDR_MASK_TV, power_state_transitions, false, true },
->>  };
->> +
->> +static int standby_resume_wakeup_deck(struct node *node, unsigned me, unsigned la, bool interactive, __u8 opcode)
->> +{
->> +	struct cec_msg msg = {};
->> +
->> +	cec_msg_init(&msg, me, la);
->> +	cec_msg_give_deck_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
->> +	fail_on_test(!transmit_timeout(node, &msg));
->> +	if (timed_out_or_abort(&msg))
->> +		return OK_NOT_SUPPORTED;
->> +
->> +	unsigned unresponsive_time = 0;
->> +
->> +	fail_on_test(!poll_stable_power_status(node, me, la, CEC_OP_POWER_STATUS_ON, unresponsive_time));
->> +
->> +	int ret = standby_resume_standby(node, me, la, interactive);
->> +
->> +	if (ret)
->> +		return ret;
->> +
->> +	cec_msg_init(&msg, me, la);
->> +	if (opcode == CEC_OP_PLAY_MODE_PLAY_FWD)
->> +		cec_msg_play(&msg, CEC_OP_PLAY_MODE_PLAY_FWD);
->> +	else
->> +		cec_msg_deck_control(&msg, CEC_OP_DECK_CTL_MODE_EJECT);
->> +	fail_on_test(!transmit_timeout(node, &msg));
->> +	fail_on_test(cec_msg_status_is_abort(&msg));
->> +
->> +	unresponsive_time = 0;
->> +	fail_on_test(!poll_stable_power_status(node, me, la, CEC_OP_POWER_STATUS_ON, unresponsive_time));
->> +	fail_on_test(interactive && !question("Is the device in On state?"));
->> +
->> +	return OK;
->> +}
->> +
->> +
->> +static int standby_resume_wakeup_deck_eject(struct node *node, unsigned me, unsigned la, bool interactive)
->> +{
->> +	return standby_resume_wakeup_deck(node, me, la, interactive, CEC_OP_DECK_CTL_MODE_EJECT);
->> +}
->> +
->> +static int standby_resume_wakeup_deck_play(struct node *node, unsigned me, unsigned la, bool interactive)
->> +{
->> +	return standby_resume_wakeup_deck(node, me, la, interactive, CEC_OP_PLAY_MODE_PLAY_FWD);
->> +}
->> +
->> +const vec_remote_subtests deck_ctl_standby_resume_subtests{
-> 
-> Space before {
-> 
-> Also, make this static and make it part of the 'Standby/Resume and Power Status'
-> tests, do not add this to the deck control tests.
-> 
-> The reason is that these power status tests should all be done at the end, not
-> in the middle of other tests.
+Hi Shuah,
 
-Sorry, it's been a while since I last looked at this. This shouldn't be a separate
-vector of tests, instead...
+On 11/06/2021 03:58, Shuah Khan wrote:
+> Smatch static checker warns that "mdev" can be null:
+> 
+> sound/usb/media.c:287 snd_media_device_create()
+>     warn: 'mdev' can also be NULL
+> 
+> If CONFIG_MEDIA_CONTROLLER is disabled, this file should not be included
+> in the build.
+> 
+> The below conditions in the sound/usb/Makefile are in place to ensure that
+> media.c isn't included in the build.
+> 
+> sound/usb/Makefile:
+> snd-usb-audio-$(CONFIG_SND_USB_AUDIO_USE_MEDIA_CONTROLLER) += media.o
+> 
+> select SND_USB_AUDIO_USE_MEDIA_CONTROLLER if MEDIA_CONTROLLER &&
+>        (MEDIA_SUPPORT=y || MEDIA_SUPPORT=SND_USB_AUDIO)
+> 
+> The following config check in include/media/media-dev-allocator.h is
+> in place to enable the API only when CONFIG_MEDIA_CONTROLLER and
+> CONFIG_USB are enabled.
+> 
+>  #if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
+> 
+> This check doesn't work as intended when CONFIG_USB=m. When CONFIG_USB=m,
+> CONFIG_USB_MODULE is defined and CONFIG_USB is not. The above config check
+> doesn't catch that CONFIG_USB is defined as a module and disables the API.
+> This results in sound/usb enabling Media Controller specific ALSA driver
+> code, while Media disables the Media Controller API.
+> 
+> Fix the problem requires two changes:
+> 
+> 1. Change the check to use IS_ENABLED to detect when CONFIG_USB is enabled
+>    as a module or static. Since CONFIG_MEDIA_CONTROLLER is a bool, leave
+>    the check unchanged to be consistent with drivers/media/Makefile.
+> 
+> 2. Change the drivers/media/mc/Makefile to include mc-dev-allocator.o
+>    in mc-objs when CONFIG_USB is y or m.
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
->> +	{
->> +		"Deck Eject Standby Resume",
->> +		CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
->> +		standby_resume_wakeup_deck_eject,
->> +	},
->> +	{
->> +		"Deck Play Standby Resume",
->> +		CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
->> +		standby_resume_wakeup_deck_play,
->> +	}
+If I test this patch, then I get:
 
-... add these to the existing standby_resume_subtests.
+drivers/media/mc/mc-dev-allocator.c:97:22: error: redefinition of 'media_device_usb_allocate'
+   97 | struct media_device *media_device_usb_allocate(struct usb_device *udev,
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from drivers/media/mc/mc-dev-allocator.c:24:
+include/media/media-dev-allocator.h:55:36: note: previous definition of 'media_device_usb_allocate' was here
+   55 | static inline struct media_device *media_device_usb_allocate(
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/media/mc/mc-dev-allocator.c:119:6: error: redefinition of 'media_device_delete'
+  119 | void media_device_delete(struct media_device *mdev, const char *module_name,
+      |      ^~~~~~~~~~~~~~~~~~~
+In file included from drivers/media/mc/mc-dev-allocator.c:24:
+include/media/media-dev-allocator.h:59:20: note: previous definition of 'media_device_delete' was here
+   59 | static inline void media_device_delete(
+      |                    ^~~~~~~~~~~~~~~~~~~
+
+The .config has:
+
+# CONFIG_USB_SUPPORT is not set
+CONFIG_MEDIA_CONTROLLER=y
 
 Regards,
 
 	Hans
 
->> +};
->> diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
->> index 283abe43..cd50c52d 100644
->> --- a/utils/cec-compliance/cec-test.cpp
->> +++ b/utils/cec-compliance/cec-test.cpp
->> @@ -1658,6 +1658,7 @@ static const remote_test tests[] = {
->>  	{ "Remote Control Passthrough feature", TAG_REMOTE_CONTROL_PASSTHROUGH, rc_passthrough_subtests },
->>  	{ "Device Menu Control feature", TAG_DEVICE_MENU_CONTROL, dev_menu_ctl_subtests },
->>  	{ "Deck Control feature", TAG_DECK_CONTROL, deck_ctl_subtests },
->> +	{ "Deck Control Standby/Resume", TAG_STANDBY_RESUME, deck_ctl_standby_resume_subtests },
->>  	{ "Tuner Control feature", TAG_TUNER_CONTROL, tuner_ctl_subtests },
->>  	{ "One Touch Record feature", TAG_ONE_TOUCH_RECORD, one_touch_rec_subtests },
->>  	{ "Timer Programming feature", TAG_TIMER_PROGRAMMING, timer_prog_subtests },
->> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
->> index 876e0bc0..5385b335 100644
->> --- a/utils/cec-follower/cec-processing.cpp
->> +++ b/utils/cec-follower/cec-processing.cpp
->> @@ -561,6 +561,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
->>  
->>  		switch (play_mode) {
->>  		case CEC_OP_PLAY_MODE_PLAY_FWD:
->> +			exit_standby(node);
->>  			deck_state = CEC_OP_DECK_INFO_PLAY;
->>  			break;
->>  		case CEC_OP_PLAY_MODE_PLAY_REV:
->> @@ -618,6 +619,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
->>  			node->state.deck_skip_start = 0;
->>  			break;
->>  		case CEC_OP_DECK_CTL_MODE_EJECT:
->> +			exit_standby(node);
->>  			deck_state = CEC_OP_DECK_INFO_NO_MEDIA;
->>  			node->state.deck_skip_start = 0;
->>  			break;
->>
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Link: https://lore.kernel.org/alsa-devel/YLeAvT+R22FQ%2FEyw@mwanda/
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+>  drivers/media/mc/Makefile           | 2 +-
+>  include/media/media-dev-allocator.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/mc/Makefile b/drivers/media/mc/Makefile
+> index 119037f0e686..140f0a78540e 100644
+> --- a/drivers/media/mc/Makefile
+> +++ b/drivers/media/mc/Makefile
+> @@ -3,7 +3,7 @@
+>  mc-objs	:= mc-device.o mc-devnode.o mc-entity.o \
+>  	   mc-request.o
+>  
+> -ifeq ($(CONFIG_USB),y)
+> +ifeq ($(CONFIG_USB),$(filter $(CONFIG_USB),y m))
+>  	mc-objs += mc-dev-allocator.o
+>  endif
+>  
+> diff --git a/include/media/media-dev-allocator.h b/include/media/media-dev-allocator.h
+> index b35ea6062596..2ab54d426c64 100644
+> --- a/include/media/media-dev-allocator.h
+> +++ b/include/media/media-dev-allocator.h
+> @@ -19,7 +19,7 @@
+>  
+>  struct usb_device;
+>  
+> -#if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
+> +#if defined(CONFIG_MEDIA_CONTROLLER) && IS_ENABLED(CONFIG_USB)
+>  /**
+>   * media_device_usb_allocate() - Allocate and return struct &media device
+>   *
 > 
 
