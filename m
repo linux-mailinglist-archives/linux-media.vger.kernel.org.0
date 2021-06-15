@@ -2,177 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73C8E3A774C
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 08:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C61B3A78C6
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 10:08:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230074AbhFOGqi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Jun 2021 02:46:38 -0400
-Received: from mail-co1nam11on2086.outbound.protection.outlook.com ([40.107.220.86]:7904
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229520AbhFOGqg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Jun 2021 02:46:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eLwxMwHWVehN/11n6BcluqTpiHGcROBTZd4e6SOO3SzKJofYWMHhvck1/CA0yS5rN1zpyZQxqSTC3W/RPmAaMKd6iL5QUI9pASojRAJk18XCTE5FMfYzpI4KPwILAJHUNjgU6oUNT7Zr8cPvUwSl29Kkeua434aGLBhUvaumfg6ZjTOcZpe/LcciPKD1GFvhvLEaOJed5NWFRxYrQcupkF8NT/a0+5gssJv7+cbvauBM0msElC/fe/ImvS+oREBboe6t/KDvVciB/dk39GbLSv+tD9SBP6Uox5n5xZ83sv5vs6IyXHQMUML3uHp2MIwZYmDIKYb6uOqlY8mDsegFBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bWHTTXXpMeSCLdh5AVcSSRzw99o4C63XWrcT8n8KWFg=;
- b=AuH59as8b/YGpOwkprm/TIwoTUUXvBWkbnmslb5eXBCdoaudcTkYn5qRIaYkTqbPPfBadWpLTtxBxk0qhr6Ev4lc6GBs4NpsYFkWQlAEB5XfEeX7dmyEKY3oml8/a2CZw0ibWYVc69KNZ9t4S4j63s+L6+szpBVtPsvMdF8PIhZChYMDdgWgn++gQQaaYiULYBoJo2m/Kn4d4Jz0Jz9EFxmuKbtAeSDa+AmaIas1Aj9spMJsoN9gNteomLYfRZkhy4LYUyaSh5HFxTDaZ1GCTnVXqFFONuN/oOweglYgiroFXIMxE/RcehQBgsPzUaIjMwfmStrkCbIv79i3sFS8oA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bWHTTXXpMeSCLdh5AVcSSRzw99o4C63XWrcT8n8KWFg=;
- b=IygDohQHiUnn0zOukKMPS2HPHeXEgm8j5gUGKNfU8GyHOEeJFKuNc7NraqVMGxBn/5mj9AmXENoFcXvBYtv6in+dr2IUU2OnTFUDUIfIYzHuorXxjhKaPQ04K0zQgN7GqqeC5LaAN3mnDV9IVcAKGp1VNs8hpwi+rnPjyeBU594=
-Authentication-Results: huawei.com; dkim=none (message not signed)
- header.d=none;huawei.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3965.namprd12.prod.outlook.com (2603:10b6:208:168::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.24; Tue, 15 Jun
- 2021 06:44:30 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4219.025; Tue, 15 Jun 2021
- 06:44:30 +0000
-Subject: Re: [PATCH -next] drm/nouveau: Remove set but not used variable 'dev'
-To:     Baokun Li <libaokun1@huawei.com>, bskeggs@redhat.com,
-        airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Cc:     weiyongjun1@huawei.com, yuehaibing@huawei.com,
-        yangjihong1@huawei.com, yukuai3@huawei.com
-References: <20210525082511.580068-1-libaokun1@huawei.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <13227d03-d5d6-345f-5295-04bf9361bea2@amd.com>
-Date:   Tue, 15 Jun 2021 08:44:24 +0200
+        id S230486AbhFOIKQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Jun 2021 04:10:16 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:39941 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230448AbhFOIKQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Jun 2021 04:10:16 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id t47DlZwHUhg8Zt47GlNSCb; Tue, 15 Jun 2021 10:08:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623744490; bh=O4/uhMlHxihIc0mq60xxbCoTXa/4QfOBp7FMkEJUKvI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=B1CyZHGmMwaoaymKkhy8wgA17AgVnGsvHaFWtS9YpFoQqqNDLBiziDe2qJqK78ihW
+         nmw4bZa4FRk+R28wrwYPoOpEAWxtrmYdGZzFaC5225/Nje+nCmlQq+FgC9CYACghLY
+         dB5585KFX674l8aqMDg2ay6U3vKQgvkQwsg3vJ1ThoWn4Ea6kfx112bb+FOg43LlxF
+         zgHtVv/MCaaJeFPDrxUJP5o5mJxJ89IZaG9bRuQQgx5cMi5SG42K00OVKtgvtK8cam
+         MHp/3lfISxi54Ue/63pebx4rkVJP3OBReEXX/4DjgMNk36e7nTPDcaOr2bwIsnoNQi
+         00jng9OemHI7w==
+Subject: Re: [PATCH v2] cec: add Deck Control wake-up handling tests
+To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     jaffe1@gmail.com
+References: <20210614135338.8838-1-deborahbrouwer3563@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <23d440c3-6f4c-1765-b79e-b2f920c35c0a@xs4all.nl>
+Date:   Tue, 15 Jun 2021 10:08:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210525082511.580068-1-libaokun1@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:f438:4e93:3853:400c]
-X-ClientProxiedBy: FR3P281CA0069.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::16) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:f438:4e93:3853:400c] (2a02:908:1252:fb60:f438:4e93:3853:400c) by FR3P281CA0069.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4b::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.9 via Frontend Transport; Tue, 15 Jun 2021 06:44:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 35822569-378b-4146-899c-08d92fc906dc
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3965:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB39650A858778597F0D942B0083309@MN2PR12MB3965.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:53;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GEauWcnPFU1MhQokSoFr/m35yajBnNA/igRu5xVvykS2yB0hv7hRozJ8LHjo315z7oglXNJheFvY/5yBdWCkBR4pzGW0eB+SHSsGAVWk6WoUn/FmpVQWH6Ufi5FMmrByjRLLXmmOPzY91pByU4Qo6JtlvEKL/wcerdPC9Xz0AyG6AtcUN2rki3vKoNcbIEtvvnKypHgMLgO6DsiO8oBupcAIT2LwAnp9OeT10eil6yntabpogmbwLDsAZ6ERXQMeHeKInBQ7iVU81FgbrI8u5s0OCSUbaIuVvi4jq9JYY+ZaRS+GFMpgb3mUptnAbJDmXd3twLDbISpYfz+CGQdQcnA5PrjvN7owQCeSzOA9o8Ns/SJfBVAZqtFIRy1nEdCsggwUZ73+m8wDAfJZoI6a0YdPWYgLawXY+mm4exwYmw2ZEURxp/GiDj8O/0Gfc5AvbMVqmufUX740dcW5lCVPMJoCv+bgw4mKVwz/+9fRLMeheScfqwKbFKMJxau5i41cDRHOWqmZiYxIV2PtKHFGJlAtg+E08ykoXBT2W+dm+KYiCEkDimqtY08W6L5gBlXQa+BSmBEjis/EW1VSky6YbNcnGZPaCL4obzzoODpAD3FcO/b6xLnuvzEgqFu08Wkfawne11v7fEx+cgFOpddrae22ksMQdbV5vfTw3Pn9BPp/MupcXxWFjEB1DIxmibWmtmOayJb5hz77sm08kwJd5Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(366004)(396003)(376002)(346002)(136003)(38100700002)(4326008)(478600001)(2906002)(83380400001)(31686004)(921005)(6666004)(66574015)(8676002)(16526019)(7416002)(5660300002)(186003)(2616005)(31696002)(36756003)(86362001)(66476007)(8936002)(66556008)(316002)(66946007)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmVkRmR5a1BTdkNEelNZZG5hcWgrWHFUVUcyWHdvaG5zMnIxRFpUT1l6Tk5m?=
- =?utf-8?B?NTR4RDdGYVhGWk9Oa0k0THdpaHdHWC9DdFJPbE00a0xXaFUwZEp5bzB5S1RQ?=
- =?utf-8?B?dVhaR0dnNUhncTV4SVoxR0JLaFRUNkhaejV0cVl3WmZCcmY0ZmRzcyt4dkty?=
- =?utf-8?B?bHdIZ3Q3NjVoTVpHZEtPd2JZeFFoQ1hjOStOMXJNTDdGYXJHY2x3Q2xoc1pQ?=
- =?utf-8?B?RDIzVVlVd0Q3d3RhTklDRmtvMzJXYzkxaTBJbU1Fa29hdkViRm1wa1c0MVdT?=
- =?utf-8?B?UnVEcktyaklsOVY0NWxaMlp4RWM1ZXVKMjYyRHFHWGdOZi9sSnNpeEFHaEdk?=
- =?utf-8?B?SmNOMEdKUXk2cEg2aStnZis0QStaMW5OZ3ZsdVlCRzZGZDRDMmNWMXJLcUR6?=
- =?utf-8?B?QzhZNXJTeGxmOVNWL1NOZTQ5Znh3b2pIWGRiZTRrZ3JkdWwvRE5OcldJYlpE?=
- =?utf-8?B?QWJobDk1Um9XSHIxNkJablNqalpiS0V2TGhocmNZZUJzb0wzaGszUFovRmtK?=
- =?utf-8?B?Z3ljUTBsMldUYUR1TnM0UG1FeThwZU5aR05Jby92M2NMeWZxbFJua0hnb2VR?=
- =?utf-8?B?OUZEalRraEZtaHZrRnE1eWVWa1haN1FJQVUvZ21IbTFWdklZU3hVTG9mcStk?=
- =?utf-8?B?WGkydG1XYlBSdEhuVnJYeEJGcDdLQzJGM1duMUFSRVRvN0hVcFJjVCt5dm1I?=
- =?utf-8?B?cVpSYkFMK0VDM2RmZHEwSUo2OG1qRTBEMmNhYkNlOGphWWZiUTl4S2VTN3Jx?=
- =?utf-8?B?endYZmxRNHE3WmNnSFAzdzVuWjNIM1ZzVUFPbHZmU0FLekZZWFBXQ2V1YUdi?=
- =?utf-8?B?TU01ZkVtdE44Q3ZwaS8wb0I5UG83YmRDSGFRaGlGV2VUNzBKRGx6NnJyRGJY?=
- =?utf-8?B?enNBaW9JZGNhNk9vMVEyanNzRjQxKy9ZbTlwV05hWWg1d3d6NnBsUE9hMDBZ?=
- =?utf-8?B?Nm5WeThUR2VpajVUcjVkcU9lOGR2ZUpMUUpYK3Z1Nmw4SFJCU1RsMURSdDlC?=
- =?utf-8?B?bDg4ZFhXQnFMN0xqaFB3emtwa0JxSWNENlBDRi9LMjVQOG1rZWlOOHBHZ0Rw?=
- =?utf-8?B?cGlsL01kSWlJUldrMTlnN3FFODJhTUhXSUlNd0tBZjZKeWpIQm1sdEE5eUZP?=
- =?utf-8?B?SndOSlpUczhZNFBhTUlkc1lrSzJuZ2orUnRCVFpQZ0txMWc3TUVhaVZaQ0wv?=
- =?utf-8?B?aDNhOExBSmozOEJKSVJhdGR4WGdDY1czT1dkUE9TZk1qNUEwQUhEN2JpWWhj?=
- =?utf-8?B?WHpaaENOMVIwc0U1bFJRVmJtTm9iSTF2cmFZcWFDTjY5dUF6WlFOT29Kd2lC?=
- =?utf-8?B?N2NrNWU3TTVXU2RpQ0wyd0FEQitnVXhVYTBzUVIweHdkdHUxcmVMRTMxNkpS?=
- =?utf-8?B?VEVPSjZFKytHT2JEOFpobVdTNDFhQUhkenpHYVNjc2xmTTMyWGtCaDdubXpD?=
- =?utf-8?B?VVM5Qzg4NkdwcERnU1RZcW1NM1hoV3o3enF6U0ttTEJablEycTR3OG1sVEZr?=
- =?utf-8?B?bHI1cFNyWXpKV2pVaVlRTWdVWGc5cTFHMzhuYmtEd29MVXdPU0xDZTVMVkla?=
- =?utf-8?B?RzY1S3pMd2pVNDU5ZlExQ3Y1dk4yc284eDV1TXM5S3oyejMzQmhyRHp6SUJC?=
- =?utf-8?B?NVdFK2lQMnV0R3ZOSFh5bzlOOEZoOTdoLzMxbmQzUUpEZXhhRjBiVktNLy9Y?=
- =?utf-8?B?dktjUXcwZTdONXJ3aS9Rd1V6bmdqRHlBQkt2M0crbzdDYWgrRFBYdVNxT0lB?=
- =?utf-8?B?NXFvZkZsa2o0ZStWM1gwaTJqYWRCNlhiYW8rYmpGT2FnVTQyY2k4WlY2anEv?=
- =?utf-8?B?eU5ZWGF3S1RQL1haQUl2RlBHa0ZmOWlURDdtcUpDUGVIVlZNeFUyamc3bXVu?=
- =?utf-8?Q?ApDqhtbf7qj0i?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35822569-378b-4146-899c-08d92fc906dc
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2021 06:44:30.2292
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6ouqZBGFp+HIM5n2vV/lFPPZEWyJqOHSRe7cpFjR7C9nCCa6SRNBII7efoc7GUAH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3965
+In-Reply-To: <20210614135338.8838-1-deborahbrouwer3563@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfMZFYA0MnN6ymWtQHRe4fVYdHMtvaEoNNp8/haj02K8Botl3zcwZwrxUfPLJjIC42LnAUs617BckzkrqmXWeBtjz+vsS7TW89l9i9r6vD8+rgDnK44dz
+ OKZkQ26A9pNQp9RjZJDPaeCyMa7Q7xmY7j5gjjby4Rvibo+fIWU0jg5d4ooz1+BjHRKSiqAGg5UzUSKWjT8rlF2DM4cr1SrzqK1yprupwLfNZo/eolg6bg9C
+ 74FT9LPBGzybUjqzdWhzFK+ctIG8WnPWFEfsVcVIrkU=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 25.05.21 um 10:25 schrieb Baokun Li:
-> Fixes gcc '-Wunused-but-set-variable' warning:
->
-> drivers/gpu/drm/nouveau/nouveau_bo.c: In function 'nouveau_ttm_tt_populate':
-> drivers/gpu/drm/nouveau/nouveau_bo.c:1258:17: warning:
->   variable ‘dev’ set but not used [-Wunused-but-set-variable]
->
-> drivers/gpu/drm/nouveau/nouveau_bo.c: In function 'nouveau_ttm_tt_unpopulate':
-> drivers/gpu/drm/nouveau/nouveau_bo.c:1281:17: warning:
->   variable ‘dev’ set but not used [-Wunused-but-set-variable]
->
-> It never used since introduction.
->
-> Signed-off-by: Baokun Li <libaokun1@huawei.com>
+Hi Deb,
 
-Acked-by: Christian König <christian.koenig@amd.com>
-
+On 14/06/2021 15:53, Deborah Brouwer wrote:
+> Test that a deck in standby will wake up upon receiving the Deck Control
+> messages Eject or Play Forward.
+> 
+> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 > ---
->   drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ----
->   1 file changed, 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> index 7a2624c0ba4c..51f9a2e6532e 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -1254,7 +1254,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
->   {
->   	struct ttm_tt *ttm_dma = (void *)ttm;
->   	struct nouveau_drm *drm;
-> -	struct device *dev;
->   	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
->   
->   	if (ttm_tt_is_populated(ttm))
-> @@ -1267,7 +1266,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
->   	}
->   
->   	drm = nouveau_bdev(bdev);
-> -	dev = drm->dev->dev;
->   
->   	return ttm_pool_alloc(&drm->ttm.bdev.pool, ttm, ctx);
->   }
-> @@ -1277,14 +1275,12 @@ nouveau_ttm_tt_unpopulate(struct ttm_device *bdev,
->   			  struct ttm_tt *ttm)
->   {
->   	struct nouveau_drm *drm;
-> -	struct device *dev;
->   	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
->   
->   	if (slave)
->   		return;
->   
->   	drm = nouveau_bdev(bdev);
-> -	dev = drm->dev->dev;
->   
->   	return ttm_pool_free(&drm->ttm.bdev.pool, ttm);
->   }
+> This is part of an Outreachy project to expand the testing of
+> Deck Control messages as handled by CEC adapters.
+> 
+> Changes since v2:
+> 	- move tests to cec-test-power.cpp
+> 	- check if deck control is supported by sending REQ_ONCE
+> 	- use a single function that accepts different ops
+> 
+>  utils/cec-compliance/cec-compliance.h   |  1 +
+>  utils/cec-compliance/cec-test-power.cpp | 58 +++++++++++++++++++++++++
+>  utils/cec-compliance/cec-test.cpp       |  1 +
+>  utils/cec-follower/cec-processing.cpp   |  2 +
+>  4 files changed, 62 insertions(+)
+> 
+> diff --git a/utils/cec-compliance/cec-compliance.h b/utils/cec-compliance/cec-compliance.h
+> index 818181ab..057f42c4 100644
+> --- a/utils/cec-compliance/cec-compliance.h
+> +++ b/utils/cec-compliance/cec-compliance.h
+> @@ -468,5 +468,6 @@ extern const vec_remote_subtests standby_subtests;
+>  extern const vec_remote_subtests one_touch_play_subtests;
+>  extern const vec_remote_subtests power_status_subtests;
+>  extern const vec_remote_subtests standby_resume_subtests;
+> +extern const vec_remote_subtests deck_ctl_standby_resume_subtests;
+>  
+>  #endif
+> diff --git a/utils/cec-compliance/cec-test-power.cpp b/utils/cec-compliance/cec-test-power.cpp
+> index bc88eca7..49241093 100644
+> --- a/utils/cec-compliance/cec-test-power.cpp
+> +++ b/utils/cec-compliance/cec-test-power.cpp
+> @@ -652,3 +652,61 @@ const vec_remote_subtests standby_resume_subtests{
+>  	{ "Wake up TV on Text View On", CEC_LOG_ADDR_MASK_TV, standby_resume_wakeup_text_view_on },
+>  	{ "Power State Transitions", CEC_LOG_ADDR_MASK_TV, power_state_transitions, false, true },
+>  };
+> +
+> +static int standby_resume_wakeup_deck(struct node *node, unsigned me, unsigned la, bool interactive, __u8 opcode)
+> +{
+> +	struct cec_msg msg = {};
+> +
+> +	cec_msg_init(&msg, me, la);
+> +	cec_msg_give_deck_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
+> +	fail_on_test(!transmit_timeout(node, &msg));
+> +	if (timed_out_or_abort(&msg))
+> +		return OK_NOT_SUPPORTED;
+> +
+> +	unsigned unresponsive_time = 0;
+> +
+> +	fail_on_test(!poll_stable_power_status(node, me, la, CEC_OP_POWER_STATUS_ON, unresponsive_time));
+> +
+> +	int ret = standby_resume_standby(node, me, la, interactive);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	cec_msg_init(&msg, me, la);
+> +	if (opcode == CEC_OP_PLAY_MODE_PLAY_FWD)
+> +		cec_msg_play(&msg, CEC_OP_PLAY_MODE_PLAY_FWD);
+> +	else
+> +		cec_msg_deck_control(&msg, CEC_OP_DECK_CTL_MODE_EJECT);
+> +	fail_on_test(!transmit_timeout(node, &msg));
+> +	fail_on_test(cec_msg_status_is_abort(&msg));
+> +
+> +	unresponsive_time = 0;
+> +	fail_on_test(!poll_stable_power_status(node, me, la, CEC_OP_POWER_STATUS_ON, unresponsive_time));
+> +	fail_on_test(interactive && !question("Is the device in On state?"));
+> +
+> +	return OK;
+> +}
+> +
+> +
+> +static int standby_resume_wakeup_deck_eject(struct node *node, unsigned me, unsigned la, bool interactive)
+> +{
+> +	return standby_resume_wakeup_deck(node, me, la, interactive, CEC_OP_DECK_CTL_MODE_EJECT);
+> +}
+> +
+> +static int standby_resume_wakeup_deck_play(struct node *node, unsigned me, unsigned la, bool interactive)
+> +{
+> +	return standby_resume_wakeup_deck(node, me, la, interactive, CEC_OP_PLAY_MODE_PLAY_FWD);
+> +}
+> +
+> +const vec_remote_subtests deck_ctl_standby_resume_subtests{
+
+Space before {
+
+Also, make this static and make it part of the 'Standby/Resume and Power Status'
+tests, do not add this to the deck control tests.
+
+The reason is that these power status tests should all be done at the end, not
+in the middle of other tests.
+
+Regards,
+
+	Hans
+
+> +	{
+> +		"Deck Eject Standby Resume",
+> +		CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
+> +		standby_resume_wakeup_deck_eject,
+> +	},
+> +	{
+> +		"Deck Play Standby Resume",
+> +		CEC_LOG_ADDR_MASK_PLAYBACK | CEC_LOG_ADDR_MASK_RECORD,
+> +		standby_resume_wakeup_deck_play,
+> +	}
+> +};
+> diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
+> index 283abe43..cd50c52d 100644
+> --- a/utils/cec-compliance/cec-test.cpp
+> +++ b/utils/cec-compliance/cec-test.cpp
+> @@ -1658,6 +1658,7 @@ static const remote_test tests[] = {
+>  	{ "Remote Control Passthrough feature", TAG_REMOTE_CONTROL_PASSTHROUGH, rc_passthrough_subtests },
+>  	{ "Device Menu Control feature", TAG_DEVICE_MENU_CONTROL, dev_menu_ctl_subtests },
+>  	{ "Deck Control feature", TAG_DECK_CONTROL, deck_ctl_subtests },
+> +	{ "Deck Control Standby/Resume", TAG_STANDBY_RESUME, deck_ctl_standby_resume_subtests },
+>  	{ "Tuner Control feature", TAG_TUNER_CONTROL, tuner_ctl_subtests },
+>  	{ "One Touch Record feature", TAG_ONE_TOUCH_RECORD, one_touch_rec_subtests },
+>  	{ "Timer Programming feature", TAG_TIMER_PROGRAMMING, timer_prog_subtests },
+> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+> index 876e0bc0..5385b335 100644
+> --- a/utils/cec-follower/cec-processing.cpp
+> +++ b/utils/cec-follower/cec-processing.cpp
+> @@ -561,6 +561,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+>  
+>  		switch (play_mode) {
+>  		case CEC_OP_PLAY_MODE_PLAY_FWD:
+> +			exit_standby(node);
+>  			deck_state = CEC_OP_DECK_INFO_PLAY;
+>  			break;
+>  		case CEC_OP_PLAY_MODE_PLAY_REV:
+> @@ -618,6 +619,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+>  			node->state.deck_skip_start = 0;
+>  			break;
+>  		case CEC_OP_DECK_CTL_MODE_EJECT:
+> +			exit_standby(node);
+>  			deck_state = CEC_OP_DECK_INFO_NO_MEDIA;
+>  			node->state.deck_skip_start = 0;
+>  			break;
+> 
 
