@@ -2,138 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4DA63A81ED
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 16:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FC743A82B3
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 16:25:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbhFOOMZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Jun 2021 10:12:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35998 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230452AbhFOOMB (ORCPT
+        id S231250AbhFOO1F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Jun 2021 10:27:05 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:39503 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230076AbhFOOZ2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Jun 2021 10:12:01 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3637FC061767
-        for <linux-media@vger.kernel.org>; Tue, 15 Jun 2021 07:09:53 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id 66-20020a9d02c80000b02903615edf7c1aso14360772otl.13
-        for <linux-media@vger.kernel.org>; Tue, 15 Jun 2021 07:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=G03LeVSqzx4r6UWRg21tN37T3lMTHXfodYVAYedgndk=;
-        b=CQWma7GynKiGTf/Cfus0SAXooczcUtAUWmj8IMcII3ayR0fKCmZlvQCTp2kl51BNqC
-         UBRoHcbAAUBRK+qrsVV2EAsxHEOBbQnbH9nChYvVvUDW34ReH9str/1pEbuzDJXnn6x2
-         LE5uC+WvITpjeejAf1fIDtVu5tyUBV5lx0kGE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=G03LeVSqzx4r6UWRg21tN37T3lMTHXfodYVAYedgndk=;
-        b=YTOwk+K1VDn8BO/XoSKmtei3pk//HOAK8v2XxxZNjjY78cvoQrpGa4aggrbLbm20uN
-         U8swcJT6BmdnBGhWSg3lUzXaCTydnDGKDZT5TqwRqQcO6NZKp2RGhIfnHzbUXlSY67yQ
-         jpXiaLSKvfhRmMjZCF+HkZdEkgs1tKnUQhlT9HsILQWwZQrGQKVT4n5SK4RZCVTPQGs/
-         DikSftTufi190UhWMmpW2JQhyiKGF8NFvEumnSlcp9k4WLo3VzvJ0Rtn0P7DzRuIkjgS
-         vTis1U9q83WTfSmzQTLBBrnkWKxXVPd0Jb8tp7J7mAj4zvtIhOrVWLBOEpriHS81AQBS
-         hUSw==
-X-Gm-Message-State: AOAM532q+38GNi0l5hndMLsjbF2zfBZf73f7fap1X/g/KHrbOCisulHP
-        3RWGrDM0vXzeNSXXWkY9LLmVbQ==
-X-Google-Smtp-Source: ABdhPJzif/rlAZ6AcdzlQfzAzDQSxFh0lbrTGIvzUs2Bf5Btgj19yIiD+Dgccd+ZOgiGbJJ3LAy97g==
-X-Received: by 2002:a05:6830:17c8:: with SMTP id p8mr17682543ota.167.1623766192538;
-        Tue, 15 Jun 2021 07:09:52 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id k8sm3760778ool.5.2021.06.15.07.09.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Jun 2021 07:09:51 -0700 (PDT)
-Subject: Re: [PATCH] media: Fix Media Controller API config checks
-To:     Hans Verkuil <hverkuil@xs4all.nl>, sakari.ailus@linux.intel.com,
-        laurent.pinchart@ideasonboard.com, dan.carpenter@oracle.com,
-        mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alsa-devel@alsa-project.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20210611015849.42589-1-skhan@linuxfoundation.org>
- <3745852a-a14d-3e66-dd9f-409ec7e43f48@xs4all.nl>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <04f0ce7b-71c3-948c-fdb0-72e234f8c7da@linuxfoundation.org>
-Date:   Tue, 15 Jun 2021 08:09:50 -0600
+        Tue, 15 Jun 2021 10:25:28 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id t9yHlmNUFhqltt9yKlrzOG; Tue, 15 Jun 2021 16:23:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623767001; bh=4W9GwisFDBb9nhoEJL6huo/q/MmGyhJDiQFsFqe1Bgo=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=EQn6t8rfItlfrEiEC5j4P7welo3glaTD7WPBreB60PBhqNtKy/hkGVar4uqJIyfrP
+         Yr2kJZZl8302O1vQT+EqQXuWBkFYJJy8YEMNWlyoAUvAbSJP+D99zkdvHrzFwvbGTF
+         YtxuuFku37ucCDvGNYd0TB6S2U+v8QtdZ5TB3xDGW99MFC2+Xw8YrookpNjAEQqlN+
+         Ip1PN01hbLY0MkHn0LwVvLmCtpEw5BkExku5CJFFNYAjlGfubT7ggN/bx2uwJSXPnl
+         CW9k31QFPrXFgH0WXpIvAfn2fyFNOOxFtgKGGUb6fFxFGEhi/oBP24vpLL6PtxtvVc
+         qnhgVYgxxb67w==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Alex Bee <knaerzche@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Heiko Stuebner <heiko@sntech.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.14] Add support for older Rockchip SoCs to V4L2
+ hantro and rkvdec drivers
+Message-ID: <c103c08f-295b-38d3-4a38-44f5edc1a594@xs4all.nl>
+Date:   Tue, 15 Jun 2021 16:23:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <3745852a-a14d-3e66-dd9f-409ec7e43f48@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfAWBiObb3ZjowkYcgOypKFOaUn7mx124J77DDAFP1MlTtDSo/GzyYFaE5/3RNtrB/y7ulFI5vNKhpEiwSqGPenQhfSOzPwk0tMKQeKQ1F3CS30+tYVaP
+ RcWkszLf1v1EMedEEEDObkHgJTxpCWUKIwC8MAf1aeuOr7vT7seKqwyX9JmkWp0iPMjh0RbWnOwyD5js+yIZI1Hzl5KqoJrTtHDD3nP/mlyPSwNP41tSaiI/
+ X6PQuhl3kqM4Fi1aiYZiiVJdkEEEFx/HtqdKlLGB1+pawVDRXymEQyhAs/sRbM0Q
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/15/21 7:36 AM, Hans Verkuil wrote:
-> Hi Shuah,
-> 
-> On 11/06/2021 03:58, Shuah Khan wrote:
->> Smatch static checker warns that "mdev" can be null:
->>
->> sound/usb/media.c:287 snd_media_device_create()
->>      warn: 'mdev' can also be NULL
->>
->> If CONFIG_MEDIA_CONTROLLER is disabled, this file should not be included
->> in the build.
->>
->> The below conditions in the sound/usb/Makefile are in place to ensure that
->> media.c isn't included in the build.
->>
->> sound/usb/Makefile:
->> snd-usb-audio-$(CONFIG_SND_USB_AUDIO_USE_MEDIA_CONTROLLER) += media.o
->>
->> select SND_USB_AUDIO_USE_MEDIA_CONTROLLER if MEDIA_CONTROLLER &&
->>         (MEDIA_SUPPORT=y || MEDIA_SUPPORT=SND_USB_AUDIO)
->>
->> The following config check in include/media/media-dev-allocator.h is
->> in place to enable the API only when CONFIG_MEDIA_CONTROLLER and
->> CONFIG_USB are enabled.
->>
->>   #if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
->>
->> This check doesn't work as intended when CONFIG_USB=m. When CONFIG_USB=m,
->> CONFIG_USB_MODULE is defined and CONFIG_USB is not. The above config check
->> doesn't catch that CONFIG_USB is defined as a module and disables the API.
->> This results in sound/usb enabling Media Controller specific ALSA driver
->> code, while Media disables the Media Controller API.
->>
->> Fix the problem requires two changes:
->>
->> 1. Change the check to use IS_ENABLED to detect when CONFIG_USB is enabled
->>     as a module or static. Since CONFIG_MEDIA_CONTROLLER is a bool, leave
->>     the check unchanged to be consistent with drivers/media/Makefile.
->>
->> 2. Change the drivers/media/mc/Makefile to include mc-dev-allocator.o
->>     in mc-objs when CONFIG_USB is y or m.
-> 
-> If I test this patch, then I get:
-> 
-> drivers/media/mc/mc-dev-allocator.c:97:22: error: redefinition of 'media_device_usb_allocate'
->     97 | struct media_device *media_device_usb_allocate(struct usb_device *udev,
->        |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from drivers/media/mc/mc-dev-allocator.c:24:
-> include/media/media-dev-allocator.h:55:36: note: previous definition of 'media_device_usb_allocate' was here
->     55 | static inline struct media_device *media_device_usb_allocate(
->        |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/media/mc/mc-dev-allocator.c:119:6: error: redefinition of 'media_device_delete'
->    119 | void media_device_delete(struct media_device *mdev, const char *module_name,
->        |      ^~~~~~~~~~~~~~~~~~~
-> In file included from drivers/media/mc/mc-dev-allocator.c:24:
-> include/media/media-dev-allocator.h:59:20: note: previous definition of 'media_device_delete' was here
->     59 | static inline void media_device_delete(
->        |                    ^~~~~~~~~~~~~~~~~~~
-> 
-> The .config has:
-> 
-> # CONFIG_USB_SUPPORT is not set
-> CONFIG_MEDIA_CONTROLLER=y
->
-Oops. I tried different combinations of CONFIG_USB and didn't try this
-one. Will send v2.
+The following changes since commit 45040f675041956ad763f9ef139ecee3647aa8bb:
 
-thanks,
--- Shuah
+  media: hantro: IMX8M: add variant for G2/HEVC codec (2021-06-08 16:13:53 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14o
+
+for you to fetch changes up to e47575ad338b8b303884d7d820c1f4b73bf464fc:
+
+  media: hantro: add support for Rockchip RK3036 (2021-06-15 15:39:35 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Alex Bee (6):
+      dt-bindings: media: rockchip-vpu: add new compatibles
+      dt-bindings: media: rockchip-vdec: add RK3228 compatible
+      media: hantro: reorder variants
+      media: hantro: merge Rockchip platform drivers
+      media: hantro: add support for Rockchip RK3066
+      media: hantro: add support for Rockchip RK3036
+
+ Documentation/devicetree/bindings/media/rockchip,vdec.yaml            |  10 +-
+ Documentation/devicetree/bindings/media/rockchip-vpu.yaml             |  33 +-
+ drivers/staging/media/hantro/Makefile                                 |   9 +-
+ drivers/staging/media/hantro/hantro_drv.c                             |   6 +-
+ drivers/staging/media/hantro/hantro_hw.h                              |  32 +-
+ drivers/staging/media/hantro/rk3288_vpu_hw.c                          | 208 -------------
+ drivers/staging/media/hantro/rk3399_vpu_hw.c                          | 222 --------------
+ .../hantro/{rk3399_vpu_hw_jpeg_enc.c => rockchip_vpu2_hw_jpeg_enc.c}  |  30 +-
+ .../{rk3399_vpu_hw_mpeg2_dec.c => rockchip_vpu2_hw_mpeg2_dec.c}       |  25 +-
+ .../hantro/{rk3399_vpu_hw_vp8_dec.c => rockchip_vpu2_hw_vp8_dec.c}    |   2 +-
+ .../staging/media/hantro/{rk3399_vpu_regs.h => rockchip_vpu2_regs.h}  |   6 +-
+ drivers/staging/media/hantro/rockchip_vpu_hw.c                        | 526 ++++++++++++++++++++++++++++++++
+ 12 files changed, 616 insertions(+), 493 deletions(-)
+ delete mode 100644 drivers/staging/media/hantro/rk3288_vpu_hw.c
+ delete mode 100644 drivers/staging/media/hantro/rk3399_vpu_hw.c
+ rename drivers/staging/media/hantro/{rk3399_vpu_hw_jpeg_enc.c => rockchip_vpu2_hw_jpeg_enc.c} (87%)
+ rename drivers/staging/media/hantro/{rk3399_vpu_hw_mpeg2_dec.c => rockchip_vpu2_hw_mpeg2_dec.c} (94%)
+ rename drivers/staging/media/hantro/{rk3399_vpu_hw_vp8_dec.c => rockchip_vpu2_hw_vp8_dec.c} (99%)
+ rename drivers/staging/media/hantro/{rk3399_vpu_regs.h => rockchip_vpu2_regs.h} (99%)
+ create mode 100644 drivers/staging/media/hantro/rockchip_vpu_hw.c
