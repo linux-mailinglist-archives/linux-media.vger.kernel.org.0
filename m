@@ -2,167 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9962A3A792F
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 10:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 361293A7947
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 10:45:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231169AbhFOImB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Jun 2021 04:42:01 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:37363 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230455AbhFOImB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Jun 2021 04:42:01 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id t4bwla9VIhg8Zt4bzlNaUe; Tue, 15 Jun 2021 10:39:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623746395; bh=P272GEMadL8ZFN1YvcW3dMHdgber4KEpXLxvk//n2Ys=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=eICmrzWstZ7AN++H0c8Q/gITGcC0Xl09uqdVWcEQr3wJs5JdcQ8MZZYHWw1bqa0jd
-         mB4XJjN2bWix+VzzOFobdXIhsuRV7//yqYHjmppUZoICT2YmEu36F+K4ECSS0hKa4z
-         b0sgAd/9J9gTJ5PLZZi6tPz8a0M/QD/Ut9jAdyJhQMkumda9qdL69wnit/XyIoENtU
-         ovXpYJVM6h1/Dosx0Ik0kAdbSnJ5R8UEEJ9dO7bJ34MbqbbJ5DoINtnrd2oe2UXvuC
-         8hBBXcxZXVa1TXMEyFu4UoP6iWWERzihA4Gggbne1b9hoUHE1b7FcnNY7NVniJmpPT
-         obXpYYduipt5g==
-Subject: Re: [PATCH 7/9] media: v4l2-dv-timings: Add more CEA/CTA-861 video
- format timings
-To:     Nelson Costa <Nelson.Costa@synopsys.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jose Abreu <Jose.Abreu@synopsys.com>
-References: <cover.1622631488.git.nelson.costa@synopsys.com>
- <6a0dcbd4f6dae00c664e5ef80cde3f1eb530c382.1622631488.git.nelson.costa@synopsys.com>
- <d4b681b1-7bac-7b6f-fd44-5beb68d3f820@xs4all.nl>
- <MW3PR12MB4459A066F9B85A478CA92977C13D9@MW3PR12MB4459.namprd12.prod.outlook.com>
- <c4122867-9b06-2a1f-a1a0-9176f6ae7b52@xs4all.nl>
- <MW3PR12MB4459428F816C3816B1EBB583C1319@MW3PR12MB4459.namprd12.prod.outlook.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <a6f78f33-99b8-c02e-b58c-86eb1bd97969@xs4all.nl>
-Date:   Tue, 15 Jun 2021 10:39:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        id S231209AbhFOIrw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Jun 2021 04:47:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42678 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230502AbhFOIrv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Jun 2021 04:47:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E2D9B613D9;
+        Tue, 15 Jun 2021 08:45:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623746747;
+        bh=euu46a5HmIGMgUUgLt4AGXGV7qIelJ+jWdnF2TyhCgg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=JLEdEbVvKwso5c+26NS5xce3UvtFRd81H0tncwj8JIbfIos+F7vkOhB5UHGJbdPMF
+         DOtHqMquRv0S5aWWUEg6z/5PxSNs9SGXLxhH8bCrctgk+l3miXeNbuqbtK2L5VRH7p
+         XPKbjFLE9Y1pP0kIXiT9m+S3sdpORYvz1Q0qtfi41Wkg0B+uyFoy5uZg9jk9S2VIcp
+         9OFVy8EKni+2iM0Dm04SXOuvfBWTTGyoeRAl9SdOHGC0wqM6fCabkZ21OVfpMd9ItI
+         nEC08xtBRf4/rxpp09drbo0+QHfJ+muHDPG36Gu5yOladHup/YmFD5TxiN7wrdE83c
+         znh8QLtoceKAQ==
+Received: by mail-wr1-f45.google.com with SMTP id c9so17373794wrt.5;
+        Tue, 15 Jun 2021 01:45:47 -0700 (PDT)
+X-Gm-Message-State: AOAM530OQ2wV3m+CYxve9SoGlUbhsAZVniil3iPxsQlAzFanCuZ5vuX6
+        SlVA6RcQgrgjsa0waQSLiPuNM2H8If4/uUcx9vw=
+X-Google-Smtp-Source: ABdhPJw+QLMgXeE31DnC/gXDVzuLKSe8HXzA+bDPY1jQioViACBluaP0ozszto46RsU0ZGQccBLP7EnooEuRM6ToECk=
+X-Received: by 2002:a5d:4050:: with SMTP id w16mr23823101wrp.99.1623746746586;
+ Tue, 15 Jun 2021 01:45:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <MW3PR12MB4459428F816C3816B1EBB583C1319@MW3PR12MB4459.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfL6NW/1ucZk6RvK/RGh8CVaFh54+iXNMlqxXjlwsZBIeh3ZfrQgmkhckOJAEgkCQdl9XEAmP4VtGW9Sx1loV8lsvjnFW0mPC6CfhxB6N21qu4NWNgG4/
- eP2a4YSKhm0FphrbRrR5V+0gZG5zNxYPShxucWAfR+XxRb3j/kEtxm33UxARkfcGHgP7WvFCHgl9PIpppKxnmBCr1fH11Ox4A0MIg14axcf2v6JMwodlIqvD
- U6qWmCnve9B97KT/2Gn9gXdpUD4OK9mo0via65pPfuXYT6mnKucrXggIEAnZQ6MufL1lpRqtAWTW5lT3ub6v7fa2mEje39PFW8Uz3t+cBEevVcQKDk1oTt35
- QNDf2xk5LqWPgw4035G2/nP0xDfMrco/FCezFO3m2b1KtPenkR/ZQ990ORr26RAW5R0C7G2mhhtoEQeXrru2xihTNgllr+IF4LBWNZFGLKu5Y3cwd/w/LcJF
- 4piFUojQj/OinvCHdGsBDPJYl6yd9kNmUBidP2i1Wfy7SxICY3yw6PNxZP4=
+References: <20210614103409.3154127-1-arnd@kernel.org> <20210614103409.3154127-5-arnd@kernel.org>
+ <YMeLlvALJ5nJbQGg@pendragon.ideasonboard.com>
+In-Reply-To: <YMeLlvALJ5nJbQGg@pendragon.ideasonboard.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Tue, 15 Jun 2021 10:43:41 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1+cWFn8=xyGwZ0c7fWr6+tdEF_sXtMpPCZypDBA_UryA@mail.gmail.com>
+Message-ID: <CAK8P3a1+cWFn8=xyGwZ0c7fWr6+tdEF_sXtMpPCZypDBA_UryA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/8] media: subdev: remove VIDIOC_DQEVENT_TIME32 handling
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+        Liu Shixin <liushixin2@huawei.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/06/2021 19:04, Nelson Costa wrote:
-> Hi Hans,
-> 
-> Thanks for your comments!
-> 
-> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Date: qua, jun 02, 2021 at 19:19:25
-> 
->> On 02/06/2021 19:15, Nelson Costa wrote:
->>> Hi Hans,
->>>
->>> Thanks for your comments and feedback!
->>>
->>> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>> Date: qua, jun 02, 2021 at 13:26:17
->>>
->>>> Hi Nelson,
->>>>
->>>> On 02/06/2021 13:24, Nelson Costa wrote:
->>>>> This extends the support for more video format timings based
->>>>> on SPECs CEA-861-F and CTA-861-G.
->>>>>
->>>>> NOTE: For the newer SPECs the CEA was unified to the CTA.
->>>>> The CTA-861-G then includes the CEA-861-F timings besides
->>>>> the new timings that are specified.
->>>>>
->>>>> CEA-861-F: Specifies the Video timings for VICs 1-107.
->>>>> CTA-861-G: Specifies the Video timings for VICs 1-107, 108-127, 193-219.
->>>>>
->>>>> With this patch, the array v4l2_dv_timings_presets has support for
->>>>> all video timings specified in CTA-861-G.
->>>>>
->>>>> Signed-off-by: Nelson Costa <nelson.costa@synopsys.com>
->>>>> ---
->>>>>  drivers/media/v4l2-core/v4l2-dv-timings.c |  139 +++
->>>>>  include/uapi/linux/v4l2-dv-timings.h      | 1595 ++++++++++++++++++++++++++++-
->>>>
->>>> I prefer to split this up in two patches, one for each header.
->>>>
->>>
->>> I agree! It will be addressed in the next patch series.
->>>
->>>> The v4l2-dv-timings.h changes look good (my compliments for all the
->>>> work you put into that!).
->>>>
->>>
->>> Thanks!
->>>
->>>> I am more concerned about adding all these timings to v4l2_dv_timings_presets.
->>>>
->>>> There are really two different things going on here: the v4l2_dv_timings_presets
->>>> array is used both by v4l2_enum_dv_timings_cap() to list supported commonly used
->>>> timings, or to match against timings parameters (v4l2_find_dv_timings_cap()), and
->>>> as a lookup table when receiving a specific VIC code (v4l2_find_dv_timings_cea861_vic()).
->>>>
->>>> All the new timings you added are really only relevant in the last case when you
->>>> have the vic code.
->>>>
->>>> I think it is better to create a second array v4l2_dv_timings_non_square_vics[]
->>>> (or a better name!) that contains these timings.
->>>>
->>>
->>> I understood.
->>>
->>> We can then create another array as you said. But when you say 
->>> "non_square"
->>> you mean that the vics have "Pixel Aspect Ratio != 1:1"?
->>>
->>> Because the new vics added have both kind of vics with "Pixel Aspect 
->>> Ratio != 1:1"
->>> and also "Pixel Aspect Ratio == 1:1".
->>
->> There are? It's confusing since for 1:1 pixel aspect ratios I expect that the
->> picture aspect ratio is set to { 0, 0 }, instead they are all filled in.
->>
->> I think it will be clearer if I see a v2 where the picture aspect ratio and
->> the V4L2_DV_FL_HAS_PICTURE_ASPECT flag are only set for the non-square pixel
->> timings. Also, for the timings with 1:1 pixel aspect ratio you don't need to
->> add the PA... suffix. That suffix only makes sense for non-square pixel aspect
->> ratios. It's confusing otherwise.
->>
-> 
-> It makes sense! That way it will assure coherence with the current 
-> implementation.
-> In the v2 patch series this will be addressed.
-> 
->>>
->>> So, for the new vics should we create a second array with name 
->>> v4l2_dv_timings_extended_vics[]?
->>
->> The new vics with non-square pixel aspect ratios, or with pixel repetition.
->>
-> 
-> You mean the new vics added that are square should be kept in the 
-> original array?
-> 
-> And only the new vics that are non-square or with pixel repetition should 
-> go to a second array?
+On Mon, Jun 14, 2021 at 7:02 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Mon, Jun 14, 2021 at 12:34:05PM +0200, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > Converting the VIDIOC_DQEVENT_TIME32/VIDIOC_DQEVENT32/
+> > VIDIOC_DQEVENT32_TIME32 arguments to the canonical form is done in common
+> > code, but for some reason I ended up adding another conversion helper to
+> > subdev_do_ioctl() as well. I must have concluded that this does not go
+> > through the common conversion, but it has done that since the ioctl
+> > handler was first added.
+> >
+> > I assume this one is harmless as there should be no way to arrive here
+> > from user space, but since it is dead code, it should just get removed.
+>
+> If I'm not mistaken, this could be reached when
+> !CONFIG_COMPAT_32BIT_TIME, can't it ? Still, there's no need for this
+> code in that case, so it seems fine to me.
 
-Correct.
+Yes, that is correct, I missed that condition. We definitely should not handle
+the command in that case.
 
-Regards,
+Hans, since you mentioned you would pick up this patch, I assume  you
+are going to reword the patch as you see fit. If you prefer me to resend it,
+let me know.
 
-	Hans
+       Arnd
