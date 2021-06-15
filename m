@@ -2,105 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B341B3A74D3
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 05:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F191C3A7497
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 05:03:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230240AbhFODRH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Jun 2021 23:17:07 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:4905 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229869AbhFODRG (ORCPT
+        id S229868AbhFODFl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Jun 2021 23:05:41 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:4776 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229609AbhFODFk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Jun 2021 23:17:06 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G3rxH3x8kz6yrs;
-        Tue, 15 Jun 2021 09:55:15 +0800 (CST)
-Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 15 Jun 2021 09:58:24 +0800
-Received: from [10.174.177.174] (10.174.177.174) by
- dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 15 Jun 2021 09:58:23 +0800
-Subject: Re: [PATCH -next] drm/nouveau: Remove set but not used variable 'dev'
-To:     <bskeggs@redhat.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-        <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-        <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linaro-mm-sig@lists.linaro.org>
-CC:     <weiyongjun1@huawei.com>, <yuehaibing@huawei.com>,
-        <yangjihong1@huawei.com>, <yukuai3@huawei.com>
-References: <20210525082511.580068-1-libaokun1@huawei.com>
-From:   "libaokun (A)" <libaokun1@huawei.com>
-Message-ID: <cee44d34-81c1-4972-e68b-e6b193598763@huawei.com>
-Date:   Tue, 15 Jun 2021 09:58:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        Mon, 14 Jun 2021 23:05:40 -0400
+Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G3tLM0sRMzXfRw;
+        Tue, 15 Jun 2021 10:58:35 +0800 (CST)
+Received: from [10.67.103.235] (10.67.103.235) by
+ dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Tue, 15 Jun 2021 11:03:34 +0800
+Subject: Re: [RESEND PATCH V3 1/6] PCI: Use cached Device Capabilities
+ Register
+To:     Christoph Hellwig <hch@infradead.org>
+References: <1623576555-40338-1-git-send-email-liudongdong3@huawei.com>
+ <1623576555-40338-2-git-send-email-liudongdong3@huawei.com>
+ <YMbsSfQR65TLkbiX@infradead.org>
+CC:     <helgaas@kernel.org>, <kw@linux.com>, <linux-pci@vger.kernel.org>,
+        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
+From:   Dongdong Liu <liudongdong3@huawei.com>
+Message-ID: <93187571-48bf-53d4-05b8-d29075efb792@huawei.com>
+Date:   Tue, 15 Jun 2021 11:03:34 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210525082511.580068-1-libaokun1@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.174]
+In-Reply-To: <YMbsSfQR65TLkbiX@infradead.org>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.235]
 X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500020.china.huawei.com (7.185.36.88)
+ dggeme758-chm.china.huawei.com (10.3.19.104)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-ping
 
-在 2021/5/25 16:25, Baokun Li 写道:
-> Fixes gcc '-Wunused-but-set-variable' warning:
+On 2021/6/14 13:42, Christoph Hellwig wrote:
+> On Sun, Jun 13, 2021 at 05:29:10PM +0800, Dongdong Liu wrote:
+>> It will make sense to store the pcie_devcap value in the pci_dev
+>> structure instead of reading Device Capabilities Register multiple
+>> times. The fisrt place to use pcie_devcap is in set_pcie_port_type(),
+>> get the pcie_devcap value here, then use cached pcie_devcap in the
+>> needed place.
+>>
+>> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+>> ---
+>>  drivers/media/pci/cobalt/cobalt-driver.c |  4 ++--
+>>  drivers/pci/pci.c                        |  5 +----
+>>  drivers/pci/pcie/aspm.c                  | 11 ++++-------
+>>  drivers/pci/probe.c                      | 11 +++--------
+>>  drivers/pci/quirks.c                     |  3 +--
+>>  include/linux/pci.h                      |  1 +
+>>  6 files changed, 12 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
+>> index 839503e..04e735f 100644
+>> --- a/drivers/media/pci/cobalt/cobalt-driver.c
+>> +++ b/drivers/media/pci/cobalt/cobalt-driver.c
+>> @@ -193,11 +193,11 @@ void cobalt_pcie_status_show(struct cobalt *cobalt)
+>>  		return;
+>>
+>>  	/* Device */
+>> -	pcie_capability_read_dword(pci_dev, PCI_EXP_DEVCAP, &capa);
+>>  	pcie_capability_read_word(pci_dev, PCI_EXP_DEVCTL, &ctrl);
+>>  	pcie_capability_read_word(pci_dev, PCI_EXP_DEVSTA, &stat);
+>>  	cobalt_info("PCIe device capability 0x%08x: Max payload %d\n",
+>> -		    capa, get_payload_size(capa & PCI_EXP_DEVCAP_PAYLOAD));
+>> +		    capa,
+>> +		    get_payload_size(pci_dev->pcie_devcap & PCI_EXP_DEVCAP_PAYLOAD));
 >
-> drivers/gpu/drm/nouveau/nouveau_bo.c: In function 'nouveau_ttm_tt_populate':
-> drivers/gpu/drm/nouveau/nouveau_bo.c:1258:17: warning:
->   variable ‘dev’ set but not used [-Wunused-but-set-variable]
+> Overly long line.
+Will fix
 >
-> drivers/gpu/drm/nouveau/nouveau_bo.c: In function 'nouveau_ttm_tt_unpopulate':
-> drivers/gpu/drm/nouveau/nouveau_bo.c:1281:17: warning:
->   variable ‘dev’ set but not used [-Wunused-but-set-variable]
+>> +		if (!(child->pcie_devcap & PCI_EXP_DEVCAP_RBER) && !aspm_force) {
 >
-> It never used since introduction.
+> Another one.
+Will fix.
+
+Thanks,
+Dongdong
 >
-> Signed-off-by: Baokun Li <libaokun1@huawei.com>
-> ---
->   drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ----
->   1 file changed, 4 deletions(-)
+> Otherwise looks good:
 >
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> index 7a2624c0ba4c..51f9a2e6532e 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -1254,7 +1254,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
->   {
->   	struct ttm_tt *ttm_dma = (void *)ttm;
->   	struct nouveau_drm *drm;
-> -	struct device *dev;
->   	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
->   
->   	if (ttm_tt_is_populated(ttm))
-> @@ -1267,7 +1266,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
->   	}
->   
->   	drm = nouveau_bdev(bdev);
-> -	dev = drm->dev->dev;
->   
->   	return ttm_pool_alloc(&drm->ttm.bdev.pool, ttm, ctx);
->   }
-> @@ -1277,14 +1275,12 @@ nouveau_ttm_tt_unpopulate(struct ttm_device *bdev,
->   			  struct ttm_tt *ttm)
->   {
->   	struct nouveau_drm *drm;
-> -	struct device *dev;
->   	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
->   
->   	if (slave)
->   		return;
->   
->   	drm = nouveau_bdev(bdev);
-> -	dev = drm->dev->dev;
->   
->   	return ttm_pool_free(&drm->ttm.bdev.pool, ttm);
->   }
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> .
+>
