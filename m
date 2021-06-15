@@ -2,157 +2,266 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C4FC3A755B
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 05:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E65DE3A7690
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 07:42:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230444AbhFODqS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Jun 2021 23:46:18 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:44851 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230387AbhFODqS (ORCPT
+        id S229613AbhFOFoz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Jun 2021 01:44:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59786 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230236AbhFOFoy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Jun 2021 23:46:18 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id szzmlYkmJhg8ZszzolMrqL; Tue, 15 Jun 2021 05:44:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623728652; bh=mRcLl0sd8fUCn6a08+5CPpzakwDLPt2vPWZfSOT7Jn4=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=CeGq+++D7ALrprj7N9nDmBH7JyooxB8roWeIagQdyW31+y/CoSCWlmmYQhHE1pA5u
-         8jrIf73c3gFPtucPsJBUyIUy2NNgdLGyfBCH0cv6ZXV/ITHh9FkbovVq24arBpZ70p
-         +OE+955nE+Gqechdwp5aJ1fma07wYWM8yxYfArZIXGHJfgojRO2S3D9bGuyluETv3X
-         3bCq5W3erwMzO3WCIY6dg/mhK+Yz+NiT4AbxZtmT+IPEVGFsTo9vF3zmZWXEgQv9Bw
-         SLqbRdD1DMbI8CFCuWhJwyGZ6ONhWdmehvYI8hZvkY5Kr9QkiEZ7T4n75qH73t3kRH
-         oa8NkGokhy/Ow==
-Message-ID: <8746daff5afbaa497117aa99121a2e46@smtp-cloud9.xs4all.net>
-Date:   Tue, 15 Jun 2021 05:44:10 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfARqeSKtmoB/gmRWX6LOMIrLwx1+4pUI1+s6FTF4nkiDiisLdnTkTyy3qruQme4BFxa/cMX2tk5oDtvDogRv0HVNC7rUnwZO5wQ+devdjwNzBf0FJatk
- HrI88BeFR22uqsrAjkkHMDgX5tW0HySVwLpJEoQEtaVq7jELX/3LsitfGF8n/QfvtbCRGX4Xox8HM1iXJrLurzV9ujwwbvWga34w1jboHzq6nDwzNvhJNe7t
- G9t5FimhPvJ2SuubMK/yeg==
+        Tue, 15 Jun 2021 01:44:54 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CCBCC061574
+        for <linux-media@vger.kernel.org>; Mon, 14 Jun 2021 22:42:50 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 750551F42D02
+Subject: Re: [PATCH v2 2/7] media: rockchip: rkisp1: allow separate interrupts
+To:     Heiko Stuebner <heiko@sntech.de>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     ezequiel@collabora.com, helen.koike@collabora.com,
+        Laurent.pinchart@ideasonboard.com,
+        linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+References: <20210615003741.3758316-1-heiko@sntech.de>
+ <20210615003741.3758316-3-heiko@sntech.de>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <a60a5dce-eb81-06c4-011e-ba567f143d59@collabora.com>
+Date:   Tue, 15 Jun 2021 08:42:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210615003741.3758316-3-heiko@sntech.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi,
 
-Results of the daily build of media_tree:
+On 15.06.21 03:37, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> 
+> Depending on the per-soc implementation there can be one interrupt
+> for isp, mipi and capture events or separate per-event interrupts.
+> 
+> So simply check for the presence of a named "mi" interrupt
+> to differentiate between the two cases.
 
-date:			Tue Jun 15 05:00:09 CEST 2021
-media-tree git hash:	45040f675041956ad763f9ef139ecee3647aa8bb
-media_build git hash:	8dab03da8769cd94afc5df1fe14c67400dc2f16e
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+So in this patch you actually relay on the 'interrupt-names' property added to
+the binding right? So I think you should also update the 'rockchip-isp1.yaml' file.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: OK
-linux-4.4.258-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.258-i686: OK
-linux-4.9.258-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.222-i686: OK
-linux-4.14.222-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.177-i686: OK
-linux-4.19.177-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13-rc1-i686: OK
-linux-5.13-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
+Thanks,
+Dafna
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> 
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> ---
+>   .../platform/rockchip/rkisp1/rkisp1-capture.c |  9 ++-
+>   .../platform/rockchip/rkisp1/rkisp1-common.h  |  7 ++-
+>   .../platform/rockchip/rkisp1/rkisp1-dev.c     | 58 ++++++++++++++-----
+>   .../platform/rockchip/rkisp1/rkisp1-isp.c     | 16 +++--
+>   4 files changed, 69 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> index 5f6c9d1623e4..f70c66c2a1d7 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> @@ -685,12 +685,17 @@ static void rkisp1_handle_buffer(struct rkisp1_capture *cap)
+>   	spin_unlock(&cap->buf.lock);
+>   }
+>   
+> -void rkisp1_capture_isr(struct rkisp1_device *rkisp1)
+> +irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
+>   {
+> +	struct device *dev = ctx;
+> +	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
+>   	unsigned int i;
+>   	u32 status;
+>   
+>   	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
+> +	if (!status)
+> +		return IRQ_NONE;
+> +
+>   	rkisp1_write(rkisp1, status, RKISP1_CIF_MI_ICR);
+>   
+>   	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); ++i) {
+> @@ -718,6 +723,8 @@ void rkisp1_capture_isr(struct rkisp1_device *rkisp1)
+>   		cap->is_streaming = false;
+>   		wake_up(&cap->done);
+>   	}
+> +
+> +	return IRQ_HANDLED;
+>   }
+>   
+>   /* ----------------------------------------------------------------------------
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index be8a350c7527..25dd5c93620e 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -12,6 +12,7 @@
+>   #define _RKISP1_COMMON_H
+>   
+>   #include <linux/clk.h>
+> +#include <linux/interrupt.h>
+>   #include <linux/mutex.h>
+>   #include <linux/rkisp1-config.h>
+>   #include <media/media-device.h>
+> @@ -459,9 +460,9 @@ void rkisp1_params_configure(struct rkisp1_params *params,
+>   void rkisp1_params_disable(struct rkisp1_params *params);
+>   
+>   /* irq handlers */
+> -void rkisp1_isp_isr(struct rkisp1_device *rkisp1);
+> -void rkisp1_mipi_isr(struct rkisp1_device *rkisp1);
+> -void rkisp1_capture_isr(struct rkisp1_device *rkisp1);
+> +irqreturn_t rkisp1_isp_isr(int irq, void *ctx);
+> +irqreturn_t rkisp1_mipi_isr(int irq, void *ctx);
+> +irqreturn_t rkisp1_capture_isr(int irq, void *ctx);
+>   void rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris);
+>   void rkisp1_params_isr(struct rkisp1_device *rkisp1);
+>   
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index 7afa4c123834..ddc05189c62a 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -385,18 +385,15 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
+>   
+>   static irqreturn_t rkisp1_isr(int irq, void *ctx)
+>   {
+> -	struct device *dev = ctx;
+> -	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
+> -
+>   	/*
+>   	 * Call rkisp1_capture_isr() first to handle the frame that
+>   	 * potentially completed using the current frame_sequence number before
+>   	 * it is potentially incremented by rkisp1_isp_isr() in the vertical
+>   	 * sync.
+>   	 */
+> -	rkisp1_capture_isr(rkisp1);
+> -	rkisp1_isp_isr(rkisp1);
+> -	rkisp1_mipi_isr(rkisp1);
+> +	rkisp1_capture_isr(irq, ctx);
+> +	rkisp1_isp_isr(irq, ctx);
+> +	rkisp1_mipi_isr(irq, ctx);
+>   
+>   	return IRQ_HANDLED;
+>   }
+> @@ -478,15 +475,50 @@ static int rkisp1_probe(struct platform_device *pdev)
+>   	if (IS_ERR(rkisp1->base_addr))
+>   		return PTR_ERR(rkisp1->base_addr);
+>   
+> -	irq = platform_get_irq(pdev, 0);
+> -	if (irq < 0)
+> +	irq = platform_get_irq_byname_optional(pdev, "mi");
+> +	if (irq == -EPROBE_DEFER) {
+>   		return irq;
+> +	} else if (irq < 0) {
+> +		irq = platform_get_irq(pdev, 0);
+> +		if (irq < 0)
+> +			return irq;
+> +
+> +		ret = devm_request_irq(dev, irq, rkisp1_isr, IRQF_SHARED,
+> +				       dev_driver_string(dev), dev);
+> +		if (ret) {
+> +			dev_err(dev, "request irq failed: %d\n", ret);
+> +			return ret;
+> +		}
+> +	} else {
+> +		/* we test-got the MI (capture) interrupt */
+> +		ret = devm_request_irq(dev, irq, rkisp1_capture_isr, IRQF_SHARED,
+> +				       dev_driver_string(dev), dev);
+> +		if (ret) {
+> +			dev_err(dev, "request mi irq failed: %d\n", ret);
+> +			return ret;
+> +		}
+>   
+> -	ret = devm_request_irq(dev, irq, rkisp1_isr, IRQF_SHARED,
+> -			       dev_driver_string(dev), dev);
+> -	if (ret) {
+> -		dev_err(dev, "request irq failed: %d\n", ret);
+> -		return ret;
+> +		irq = platform_get_irq_byname_optional(pdev, "mipi");
+> +		if (irq < 0)
+> +			return irq;
+> +
+> +		ret = devm_request_irq(dev, irq, rkisp1_mipi_isr, IRQF_SHARED,
+> +				       dev_driver_string(dev), dev);
+> +		if (ret) {
+> +			dev_err(dev, "request mipi irq failed: %d\n", ret);
+> +			return ret;
+> +		}
+> +
+> +		irq = platform_get_irq_byname_optional(pdev, "isp");
+> +		if (irq < 0)
+> +			return irq;
+> +
+> +		ret = devm_request_irq(dev, irq, rkisp1_isp_isr, IRQF_SHARED,
+> +				       dev_driver_string(dev), dev);
+> +		if (ret) {
+> +			dev_err(dev, "request isp irq failed: %d\n", ret);
+> +			return ret;
+> +		}
+>   	}
+>   
+>   	for (i = 0; i < match_data->size; i++)
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> index 2e5b57e3aedc..1de98e688008 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> @@ -1090,13 +1090,15 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
+>    * Interrupt handlers
+>    */
+>   
+> -void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
+> +irqreturn_t rkisp1_mipi_isr(int irq, void *ctx)
+>   {
+> +	struct device *dev = ctx;
+> +	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
+>   	u32 val, status;
+>   
+>   	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
+>   	if (!status)
+> -		return;
+> +		return IRQ_NONE;
+>   
+>   	rkisp1_write(rkisp1, status, RKISP1_CIF_MIPI_ICR);
+>   
+> @@ -1131,6 +1133,8 @@ void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
+>   	} else {
+>   		rkisp1->debug.mipi_error++;
+>   	}
+> +
+> +	return IRQ_HANDLED;
+>   }
+>   
+>   static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
+> @@ -1143,13 +1147,15 @@ static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
+>   	v4l2_event_queue(isp->sd.devnode, &event);
+>   }
+>   
+> -void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
+> +irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+>   {
+> +	struct device *dev = ctx;
+> +	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
+>   	u32 status, isp_err;
+>   
+>   	status = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
+>   	if (!status)
+> -		return;
+> +		return IRQ_NONE;
+>   
+>   	rkisp1_write(rkisp1, status, RKISP1_CIF_ISP_ICR);
+>   
+> @@ -1191,4 +1197,6 @@ void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
+>   		 */
+>   		rkisp1_params_isr(rkisp1);
+>   	}
+> +
+> +	return IRQ_HANDLED;
+>   }
+> 
