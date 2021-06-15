@@ -2,1933 +2,854 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4D9F3A895B
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jun 2021 21:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E92A3A8BDC
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 00:31:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbhFOTSF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Jun 2021 15:18:05 -0400
-Received: from mail-il1-f179.google.com ([209.85.166.179]:46028 "EHLO
-        mail-il1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229946AbhFOTSD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Jun 2021 15:18:03 -0400
-Received: by mail-il1-f179.google.com with SMTP id b5so75780ilc.12;
-        Tue, 15 Jun 2021 12:15:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pzmsEVG+BFh15mF6RX30K2WyDEugqeRNaUVN262FxvE=;
-        b=bu4TMVwp/RYllsF3LRBLFJcYzTMrsDu5aI+v4LhzSAuFsGqiK2prVy2ZXZ92o83sfh
-         RD+qJuEN6P0/C1B5yxZCQkSK6hNd/wQTlHE37fDrWnpCYHjkKfUhhNJO2E0ZAqwIzJGx
-         QoPk9WhXFlNDJ4uK7oN7x7G1HLsu9Ky59aU/1qvdMWjpK5kHVhTTLlq9Vg9SjYaylk37
-         OqWyVK0X1zl0YgUGkf14VVmS+xQkBd6e9AdFaRHLGsE8Sw2aFIa6AN6iggE5lYGh4ouH
-         SeLEImB3o5MgX7Ra5F1fJ13UZ3Ja/SLdkMPQ3JGRA9X2e+TKKZZeSXtXFKDYaAJdBShA
-         08Ow==
-X-Gm-Message-State: AOAM5317mQrVbvsnOiVN5+e/fZIXFqZyqW0wmymAk3wwBKprObpYZs8A
-        YG3NyJ/0a2B+CUE1iR02eaVH+3Y7LA==
-X-Google-Smtp-Source: ABdhPJzVYNsNJTJ8+Hq2KQwlke8DmuE2Mnta9SrXOZv7JZ5cn3Mx6eZ0gJt1dLd/DmM1gKPEpdPHKg==
-X-Received: by 2002:a05:6e02:1289:: with SMTP id y9mr801615ilq.88.1623784555446;
-        Tue, 15 Jun 2021 12:15:55 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.248])
-        by smtp.googlemail.com with ESMTPSA id r11sm9659921ilo.10.2021.06.15.12.15.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 12:15:53 -0700 (PDT)
-From:   Rob Herring <robh@kernel.org>
-To:     devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-crypto@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-iio@vger.kernel.org, alsa-devel@alsa-project.org,
-        iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-can@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH] dt-bindings: Drop redundant minItems/maxItems
-Date:   Tue, 15 Jun 2021 13:15:43 -0600
-Message-Id: <20210615191543.1043414-1-robh@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        id S230040AbhFOWdh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Jun 2021 18:33:37 -0400
+Received: from gloria.sntech.de ([185.11.138.130]:52572 "EHLO gloria.sntech.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229898AbhFOWdg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Jun 2021 18:33:36 -0400
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1ltHag-0002Qq-MK; Wed, 16 Jun 2021 00:31:26 +0200
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     ezequiel@collabora.com, helen.koike@collabora.com,
+        Laurent.pinchart@ideasonboard.com,
+        linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] media: rockchip: rkisp1: add support for v12 isp variants
+Date:   Wed, 16 Jun 2021 00:31:25 +0200
+Message-ID: <17383387.0ZKypZ73Fx@diego>
+In-Reply-To: <b2c07baa-a01c-d4f2-26c2-bc3f5f577d2f@collabora.com>
+References: <20210615003741.3758316-1-heiko@sntech.de> <20210615003741.3758316-7-heiko@sntech.de> <b2c07baa-a01c-d4f2-26c2-bc3f5f577d2f@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
-same size as the list is redundant and can be dropped. Note that is DT
-schema specific behavior and not standard json-schema behavior. The tooling
-will fixup the final schema adding any unspecified minItems/maxItems.
+Am Dienstag, 15. Juni 2021, 08:33:50 CEST schrieb Dafna Hirschfeld:
+> Hi,
+> 
+> On 15.06.21 03:37, Heiko Stuebner wrote:
+> > From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> > 
+> > The rkisp1 evolved over soc generations and the rk3326/px30 introduced
+> > the so called v12 - probably meaning v1.2.
+> > 
+> > Add the new register definitions.
+> > 
+> > Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> > ---
+> >   .../platform/rockchip/rkisp1/rkisp1-isp.c     |  13 +
+> >   .../platform/rockchip/rkisp1/rkisp1-params.c  | 338 +++++++++++++++++-
+> >   .../platform/rockchip/rkisp1/rkisp1-regs.h    | 111 ++++++
+> >   .../platform/rockchip/rkisp1/rkisp1-stats.c   |  73 +++-
+> >   4 files changed, 533 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > index 1de98e688008..36829e3bdda0 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > @@ -408,6 +408,10 @@ static int rkisp1_config_mipi(struct rkisp1_device *rkisp1)
+> >   
+> >   	rkisp1_write(rkisp1, mipi_ctrl, RKISP1_CIF_MIPI_CTRL);
+> >   
+> > +	/* V12 could also use a newer csi2-host, but we don't want that yet */
+> > +	if (rkisp1->media_dev.hw_revision == RKISP1_V12)
+> > +		rkisp1_write(rkisp1, 0, RKISP1_CIF_ISP_CSI0_CTRL0);
+> > +
+> >   	/* Configure Data Type and Virtual Channel */
+> >   	rkisp1_write(rkisp1,
+> >   		     RKISP1_CIF_MIPI_DATA_SEL_DT(sink_fmt->mipi_dt) |
+> > @@ -527,6 +531,15 @@ static void rkisp1_config_clk(struct rkisp1_device *rkisp1)
+> >   		  RKISP1_CIF_ICCL_DCROP_CLK;
+> >   
+> >   	rkisp1_write(rkisp1, val, RKISP1_CIF_ICCL);
+> > +
+> > +	/* ensure sp and mp can run at the same time in V12 */
+> > +	if (rkisp1->media_dev.hw_revision == RKISP1_V12) {
+> > +		val = RKISP1_CIF_CLK_CTRL_MI_Y12 | RKISP1_CIF_CLK_CTRL_MI_SP |
+> > +		      RKISP1_CIF_CLK_CTRL_MI_RAW0 | RKISP1_CIF_CLK_CTRL_MI_RAW1 |
+> > +		      RKISP1_CIF_CLK_CTRL_MI_READ | RKISP1_CIF_CLK_CTRL_MI_RAWRD |
+> > +		      RKISP1_CIF_CLK_CTRL_CP | RKISP1_CIF_CLK_CTRL_IE;
+> > +		rkisp1_write(rkisp1, val, RKISP1_CIF_VI_ISP_CLK_CTRL_V12);
+> > +	}
+> >   }
+> >   
+> >   static void rkisp1_isp_start(struct rkisp1_device *rkisp1)
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > index 427c7cc400b2..0d2b77dd11f5 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> 
+> I wonder if we should add two new files 'rkisp1-params-v10.c' 'rkisp1-params-v12.c'
+> and move all the callback implementations to those files so not to overload 'rkisp1-params.c'
 
-This condition is partially checked with the meta-schema already, but
-only if both 'minItems' and 'maxItems' are equal to the 'items' length.
-An improved meta-schema is pending.
+I'm open to that ;-) ... just wondering if someone else might then
+request all back into rkisp1-params.c
 
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc: Kamal Dasu <kdasu.kdev@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Marc Zyngier <maz@kernel.org>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Jassi Brar <jassisinghbrar@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Wolfgang Grandegger <wg@grandegger.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>
-Cc: Vivien Didelot <vivien.didelot@gmail.com>
-Cc: Vladimir Oltean <olteanv@gmail.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Kishon Vijay Abraham I <kishon@ti.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: Ohad Ben-Cohen <ohad@wizery.com>
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Albert Ou <aou@eecs.berkeley.edu>
-Cc: Alessandro Zummo <a.zummo@towertech.it>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Zhang Rui <rui.zhang@intel.com>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/ata/nvidia,tegra-ahci.yaml          | 1 -
- .../devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml  | 2 --
- .../devicetree/bindings/clock/qcom,gcc-apq8064.yaml         | 1 -
- Documentation/devicetree/bindings/clock/qcom,gcc-sdx55.yaml | 2 --
- .../devicetree/bindings/clock/qcom,gcc-sm8350.yaml          | 2 --
- .../devicetree/bindings/clock/sprd,sc9863a-clk.yaml         | 1 -
- .../devicetree/bindings/crypto/allwinner,sun8i-ce.yaml      | 2 --
- Documentation/devicetree/bindings/crypto/fsl-dcp.yaml       | 1 -
- .../display/allwinner,sun4i-a10-display-backend.yaml        | 6 ------
- .../bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml      | 1 -
- .../bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml      | 4 ----
- .../bindings/display/allwinner,sun8i-a83t-hdmi-phy.yaml     | 2 --
- .../bindings/display/allwinner,sun8i-r40-tcon-top.yaml      | 2 --
- .../devicetree/bindings/display/bridge/cdns,mhdp8546.yaml   | 2 --
- .../bindings/display/rockchip/rockchip,dw-hdmi.yaml         | 2 --
- Documentation/devicetree/bindings/display/st,stm32-dsi.yaml | 2 --
- .../devicetree/bindings/display/st,stm32-ltdc.yaml          | 1 -
- .../devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml | 4 ----
- .../devicetree/bindings/dma/renesas,rcar-dmac.yaml          | 1 -
- .../devicetree/bindings/edac/amazon,al-mc-edac.yaml         | 2 --
- Documentation/devicetree/bindings/eeprom/at24.yaml          | 1 -
- Documentation/devicetree/bindings/example-schema.yaml       | 2 --
- Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml     | 1 -
- Documentation/devicetree/bindings/gpu/vivante,gc.yaml       | 1 -
- Documentation/devicetree/bindings/i2c/brcm,brcmstb-i2c.yaml | 1 -
- .../devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml        | 2 --
- .../devicetree/bindings/i2c/mellanox,i2c-mlxbf.yaml         | 1 -
- .../devicetree/bindings/iio/adc/amlogic,meson-saradc.yaml   | 1 -
- .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml     | 2 --
- .../bindings/interrupt-controller/fsl,irqsteer.yaml         | 1 -
- .../bindings/interrupt-controller/loongson,liointc.yaml     | 1 -
- Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml    | 1 -
- .../devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml       | 1 -
- .../devicetree/bindings/mailbox/st,stm32-ipcc.yaml          | 2 --
- .../devicetree/bindings/media/amlogic,gx-vdec.yaml          | 1 -
- Documentation/devicetree/bindings/media/i2c/adv7604.yaml    | 1 -
- .../devicetree/bindings/media/marvell,mmp2-ccic.yaml        | 1 -
- .../devicetree/bindings/media/qcom,sc7180-venus.yaml        | 1 -
- .../devicetree/bindings/media/qcom,sdm845-venus-v2.yaml     | 1 -
- .../devicetree/bindings/media/qcom,sm8250-venus.yaml        | 1 -
- Documentation/devicetree/bindings/media/renesas,drif.yaml   | 1 -
- .../bindings/memory-controllers/mediatek,smi-common.yaml    | 6 ++----
- .../bindings/memory-controllers/mediatek,smi-larb.yaml      | 1 -
- .../devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml    | 2 --
- Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml    | 1 -
- Documentation/devicetree/bindings/mmc/mtk-sd.yaml           | 2 --
- Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml     | 2 --
- Documentation/devicetree/bindings/mmc/sdhci-am654.yaml      | 1 -
- Documentation/devicetree/bindings/mmc/sdhci-pxa.yaml        | 1 -
- .../devicetree/bindings/net/amlogic,meson-dwmac.yaml        | 2 --
- .../devicetree/bindings/net/brcm,bcm4908-enet.yaml          | 2 --
- Documentation/devicetree/bindings/net/can/bosch,m_can.yaml  | 2 --
- Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml     | 2 --
- Documentation/devicetree/bindings/net/snps,dwmac.yaml       | 2 --
- Documentation/devicetree/bindings/net/stm32-dwmac.yaml      | 1 -
- Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml    | 2 --
- Documentation/devicetree/bindings/pci/loongson.yaml         | 1 -
- .../devicetree/bindings/pci/mediatek-pcie-gen3.yaml         | 1 -
- .../devicetree/bindings/pci/microchip,pcie-host.yaml        | 2 --
- Documentation/devicetree/bindings/perf/arm,cmn.yaml         | 1 -
- .../devicetree/bindings/phy/brcm,bcm63xx-usbh-phy.yaml      | 1 -
- .../devicetree/bindings/phy/brcm,brcmstb-usb-phy.yaml       | 3 ---
- Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml    | 1 -
- Documentation/devicetree/bindings/phy/mediatek,tphy.yaml    | 2 --
- .../devicetree/bindings/phy/phy-cadence-sierra.yaml         | 2 --
- .../devicetree/bindings/phy/phy-cadence-torrent.yaml        | 4 ----
- .../devicetree/bindings/phy/qcom,ipq806x-usb-phy-hs.yaml    | 1 -
- .../devicetree/bindings/phy/qcom,ipq806x-usb-phy-ss.yaml    | 1 -
- Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml     | 1 -
- Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml   | 2 --
- Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml | 2 --
- Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml | 1 -
- .../devicetree/bindings/pinctrl/actions,s500-pinctrl.yaml   | 1 -
- .../devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml    | 1 -
- .../devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml    | 1 -
- .../devicetree/bindings/remoteproc/st,stm32-rproc.yaml      | 2 --
- .../devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml     | 1 -
- .../devicetree/bindings/remoteproc/ti,omap-remoteproc.yaml  | 1 -
- Documentation/devicetree/bindings/reset/fsl,imx-src.yaml    | 1 -
- .../devicetree/bindings/riscv/sifive-l2-cache.yaml          | 1 -
- .../devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml    | 1 -
- Documentation/devicetree/bindings/rtc/imxdi-rtc.yaml        | 1 -
- Documentation/devicetree/bindings/serial/fsl-lpuart.yaml    | 2 --
- Documentation/devicetree/bindings/serial/samsung_uart.yaml  | 1 -
- .../devicetree/bindings/soc/qcom/qcom,geni-se.yaml          | 1 -
- Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml      | 2 --
- .../bindings/sound/nvidia,tegra-audio-graph-card.yaml       | 1 -
- .../devicetree/bindings/sound/nvidia,tegra210-i2s.yaml      | 2 --
- Documentation/devicetree/bindings/sound/st,stm32-sai.yaml   | 3 ---
- .../devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml     | 1 -
- .../devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml          | 2 --
- .../bindings/thermal/allwinner,sun8i-a83t-ths.yaml          | 2 --
- Documentation/devicetree/bindings/thermal/qcom-tsens.yaml   | 1 -
- .../bindings/timer/allwinner,sun5i-a13-hstimer.yaml         | 1 -
- Documentation/devicetree/bindings/timer/arm,arch_timer.yaml | 1 -
- .../devicetree/bindings/timer/arm,arch_timer_mmio.yaml      | 2 --
- .../devicetree/bindings/timer/intel,ixp4xx-timer.yaml       | 1 -
- .../devicetree/bindings/usb/maxim,max3420-udc.yaml          | 2 --
- .../devicetree/bindings/usb/nvidia,tegra-xudc.yaml          | 4 ----
- Documentation/devicetree/bindings/usb/renesas,usbhs.yaml    | 3 ---
- .../devicetree/bindings/watchdog/st,stm32-iwdg.yaml         | 1 -
- 101 files changed, 2 insertions(+), 163 deletions(-)
+Another option would be to just leave it be and wait for what might be
+needed for the new rkisp type.
 
-diff --git a/Documentation/devicetree/bindings/ata/nvidia,tegra-ahci.yaml b/Documentation/devicetree/bindings/ata/nvidia,tegra-ahci.yaml
-index a75e9a8f539a..3c7a2425f3e6 100644
---- a/Documentation/devicetree/bindings/ata/nvidia,tegra-ahci.yaml
-+++ b/Documentation/devicetree/bindings/ata/nvidia,tegra-ahci.yaml
-@@ -20,7 +20,6 @@ properties:
- 
-   reg:
-     minItems: 2
--    maxItems: 3
-     items:
-       - description: AHCI registers
-       - description: SATA configuration and IPFS registers
-diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml
-index a27025cd3909..c4b7243ddcf2 100644
---- a/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml
-+++ b/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml
-@@ -51,7 +51,6 @@ properties:
- 
-   clocks:
-     minItems: 2
--    maxItems: 4
-     items:
-       - description: High Frequency Oscillator (usually at 24MHz)
-       - description: Low Frequency Oscillator (usually at 32kHz)
-@@ -60,7 +59,6 @@ properties:
- 
-   clock-names:
-     minItems: 2
--    maxItems: 4
-     items:
-       - const: hosc
-       - const: losc
-diff --git a/Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml b/Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml
-index eacccc88bbf6..8e2eac6cbfb9 100644
---- a/Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml
-+++ b/Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml
-@@ -46,7 +46,6 @@ properties:
- 
-   nvmem-cell-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: calib
-       - const: calib_backup
-diff --git a/Documentation/devicetree/bindings/clock/qcom,gcc-sdx55.yaml b/Documentation/devicetree/bindings/clock/qcom,gcc-sdx55.yaml
-index 1121b3934cb9..b0d1c65aa354 100644
---- a/Documentation/devicetree/bindings/clock/qcom,gcc-sdx55.yaml
-+++ b/Documentation/devicetree/bindings/clock/qcom,gcc-sdx55.yaml
-@@ -27,7 +27,6 @@ properties:
-       - description: Sleep clock source
-       - description: PLL test clock source (Optional clock)
-     minItems: 2
--    maxItems: 3
- 
-   clock-names:
-     items:
-@@ -35,7 +34,6 @@ properties:
-       - const: sleep_clk
-       - const: core_bi_pll_test_se # Optional clock
-     minItems: 2
--    maxItems: 3
- 
-   '#clock-cells':
-     const: 1
-diff --git a/Documentation/devicetree/bindings/clock/qcom,gcc-sm8350.yaml b/Documentation/devicetree/bindings/clock/qcom,gcc-sm8350.yaml
-index 78f35832aa41..1122700dcc2b 100644
---- a/Documentation/devicetree/bindings/clock/qcom,gcc-sm8350.yaml
-+++ b/Documentation/devicetree/bindings/clock/qcom,gcc-sm8350.yaml
-@@ -36,7 +36,6 @@ properties:
-       - description: USB3 phy wrapper pipe clock source (Optional clock)
-       - description: USB3 phy sec pipe clock source (Optional clock)
-     minItems: 2
--    maxItems: 13
- 
-   clock-names:
-     items:
-@@ -54,7 +53,6 @@ properties:
-       - const: usb3_phy_wrapper_gcc_usb30_pipe_clk # Optional clock
-       - const: usb3_uni_phy_sec_gcc_usb30_pipe_clk # Optional clock
-     minItems: 2
--    maxItems: 13
- 
-   '#clock-cells':
-     const: 1
-diff --git a/Documentation/devicetree/bindings/clock/sprd,sc9863a-clk.yaml b/Documentation/devicetree/bindings/clock/sprd,sc9863a-clk.yaml
-index 4069e09cb62d..47e1ab08c95d 100644
---- a/Documentation/devicetree/bindings/clock/sprd,sc9863a-clk.yaml
-+++ b/Documentation/devicetree/bindings/clock/sprd,sc9863a-clk.yaml
-@@ -40,7 +40,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 4
-     items:
-       - const: ext-26m
-       - const: ext-32k
-diff --git a/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml b/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
-index 6ab07eba7778..00648f9d9278 100644
---- a/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
-+++ b/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
-@@ -30,7 +30,6 @@ properties:
-       - description: Module clock
-       - description: MBus clock
-     minItems: 2
--    maxItems: 3
- 
-   clock-names:
-     items:
-@@ -38,7 +37,6 @@ properties:
-       - const: mod
-       - const: ram
-     minItems: 2
--    maxItems: 3
- 
-   resets:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/crypto/fsl-dcp.yaml b/Documentation/devicetree/bindings/crypto/fsl-dcp.yaml
-index a30bf38a4a49..99be01539fcd 100644
---- a/Documentation/devicetree/bindings/crypto/fsl-dcp.yaml
-+++ b/Documentation/devicetree/bindings/crypto/fsl-dcp.yaml
-@@ -27,7 +27,6 @@ properties:
-       - description: MXS DCP DCP interrupt
-       - description: MXS DCP secure interrupt
-     minItems: 2
--    maxItems: 3
- 
-   clocks:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-backend.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-backend.yaml
-index 12a7df0e38b2..3d8ea3c2d8dd 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-backend.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-backend.yaml
-@@ -26,14 +26,12 @@ properties:
- 
-   reg:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: Display Backend registers
-       - description: SAT registers
- 
-   reg-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: be
-       - const: sat
-@@ -43,7 +41,6 @@ properties:
- 
-   clocks:
-     minItems: 3
--    maxItems: 4
-     items:
-       - description: The backend interface clock
-       - description: The backend module clock
-@@ -52,7 +49,6 @@ properties:
- 
-   clock-names:
-     minItems: 3
--    maxItems: 4
-     items:
-       - const: ahb
-       - const: mod
-@@ -61,14 +57,12 @@ properties:
- 
-   resets:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: The Backend reset line
-       - description: The SAT reset line
- 
-   reset-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: be
-       - const: sat
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-index a738d7c12a97..bf0bdf54e5f9 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-@@ -24,7 +24,6 @@ properties:
- 
-   clocks:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: Bus Clock
-       - description: Module Clock
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
-index 907fb47cc84a..5d42d36608d9 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
-@@ -46,7 +46,6 @@ properties:
- 
-   clocks:
-     minItems: 3
--    maxItems: 6
-     items:
-       - description: Bus Clock
-       - description: Register Clock
-@@ -57,7 +56,6 @@ properties:
- 
-   clock-names:
-     minItems: 3
--    maxItems: 6
-     items:
-       - const: iahb
-       - const: isfr
-@@ -68,14 +66,12 @@ properties:
- 
-   resets:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: HDMI Controller Reset
-       - description: HDCP Reset
- 
-   reset-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: ctrl
-       - const: hdcp
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-hdmi-phy.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-hdmi-phy.yaml
-index 501cec16168c..a97366aaf924 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-hdmi-phy.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-hdmi-phy.yaml
-@@ -27,7 +27,6 @@ properties:
- 
-   clocks:
-     minItems: 2
--    maxItems: 4
-     items:
-       - description: Bus Clock
-       - description: Module Clock
-@@ -36,7 +35,6 @@ properties:
- 
-   clock-names:
-     minItems: 2
--    maxItems: 4
-     items:
-       - const: bus
-       - const: mod
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-index ec21e8bf2767..61ef7b337218 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-@@ -48,7 +48,6 @@ properties:
- 
-   clocks:
-     minItems: 2
--    maxItems: 6
-     items:
-       - description: The TCON TOP interface clock
-       - description: The TCON TOP TV0 clock
-@@ -59,7 +58,6 @@ properties:
- 
-   clock-names:
-     minItems: 2
--    maxItems: 6
-     items:
-       - const: bus
-       - const: tcon-tv0
-diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-index 63427878715e..9a3208a15137 100644
---- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-@@ -18,7 +18,6 @@ properties:
- 
-   reg:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description:
-           Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
-@@ -29,7 +28,6 @@ properties:
- 
-   reg-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: mhdptx
-       - const: j721e-intg
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-index 75cd9c686e98..da3b889ad8fc 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-@@ -29,7 +29,6 @@ properties:
- 
-   clocks:
-     minItems: 2
--    maxItems: 5
-     items:
-       - {}
-       - {}
-@@ -41,7 +40,6 @@ properties:
- 
-   clock-names:
-     minItems: 2
--    maxItems: 5
-     items:
-       - {}
-       - {}
-diff --git a/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml b/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml
-index 679daed4124e..ed310bbe3afe 100644
---- a/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml
-@@ -29,7 +29,6 @@ properties:
-       - description: DSI bus clock
-       - description: Pixel clock
-     minItems: 2
--    maxItems: 3
- 
-   clock-names:
-     items:
-@@ -37,7 +36,6 @@ properties:
-       - const: ref
-       - const: px_clk
-     minItems: 2
--    maxItems: 3
- 
-   resets:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
-index d54f9ca207af..4ae3d75492d3 100644
---- a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
-+++ b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
-@@ -22,7 +22,6 @@ properties:
-       - description: events interrupt line.
-       - description: errors interrupt line.
-     minItems: 1
--    maxItems: 2
- 
-   clocks:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
-index 403d57977ee7..d88bd93f4b80 100644
---- a/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
-+++ b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
-@@ -65,7 +65,6 @@ properties:
-       The APB clock and at least one video clock are mandatory, the audio clock
-       is optional.
-     minItems: 2
--    maxItems: 4
-     items:
-       - description: dp_apb_clk is the APB clock
-       - description: dp_aud_clk is the Audio clock
-@@ -78,13 +77,11 @@ properties:
-   clock-names:
-     oneOf:
-       - minItems: 2
--        maxItems: 3
-         items:
-           - const: dp_apb_clk
-           - enum: [ dp_vtc_pixel_clk_in, dp_live_video_in_clk ]
-           - enum: [ dp_vtc_pixel_clk_in, dp_live_video_in_clk ]
-       - minItems: 3
--        maxItems: 4
-         items:
-           - const: dp_apb_clk
-           - const: dp_aud_clk
-@@ -116,7 +113,6 @@ properties:
-     maxItems: 2
-   phy-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: dp-phy0
-       - const: dp-phy1
-diff --git a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
-index 7f2a54bc732d..d8142cbd13d3 100644
---- a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
-+++ b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
-@@ -52,7 +52,6 @@ properties:
- 
-   interrupt-names:
-     minItems: 9
--    maxItems: 17
-     items:
-       - const: error
-       - pattern: "^ch([0-9]|1[0-5])$"
-diff --git a/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.yaml b/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.yaml
-index 57e5270a0741..4cfc3a187004 100644
---- a/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.yaml
-+++ b/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.yaml
-@@ -30,14 +30,12 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: uncorrectable error interrupt
-       - description: correctable error interrupt
- 
-   interrupt-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: ue
-       - const: ce
-diff --git a/Documentation/devicetree/bindings/eeprom/at24.yaml b/Documentation/devicetree/bindings/eeprom/at24.yaml
-index 021d8ae42da3..914a423ec449 100644
---- a/Documentation/devicetree/bindings/eeprom/at24.yaml
-+++ b/Documentation/devicetree/bindings/eeprom/at24.yaml
-@@ -32,7 +32,6 @@ properties:
-     oneOf:
-       - allOf:
-           - minItems: 1
--            maxItems: 2
-             items:
-               - pattern: "^(atmel|catalyst|microchip|nxp|ramtron|renesas|rohm|st),(24(c|cs|lc|mac)[0-9]+|spd)$"
-               - pattern: "^atmel,(24(c|cs|mac)[0-9]+|spd)$"
-diff --git a/Documentation/devicetree/bindings/example-schema.yaml b/Documentation/devicetree/bindings/example-schema.yaml
-index a97f39109f8d..ff6ec65145cf 100644
---- a/Documentation/devicetree/bindings/example-schema.yaml
-+++ b/Documentation/devicetree/bindings/example-schema.yaml
-@@ -91,7 +91,6 @@ properties:
-   interrupts:
-     # Either 1 or 2 interrupts can be present
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: tx or combined interrupt
-       - description: rx interrupt
-@@ -105,7 +104,6 @@ properties:
-   interrupt-names:
-     # minItems must be specified here because the default would be 2
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: tx irq
-       - const: rx irq
-diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-index 9d72264fa90a..e6485f7b046f 100644
---- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-+++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-@@ -34,7 +34,6 @@ properties:
-       - enum: [ bridge, gca ]
-       - enum: [ bridge, gca ]
-     minItems: 2
--    maxItems: 4
- 
-   interrupts:
-     items:
-diff --git a/Documentation/devicetree/bindings/gpu/vivante,gc.yaml b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
-index 3ed172629974..93e7244cdc0e 100644
---- a/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
-+++ b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
-@@ -36,7 +36,6 @@ properties:
-       - description: AHB/slave interface clock (only required if GPU can gate
-           slave interface independently)
-     minItems: 1
--    maxItems: 4
- 
-   clock-names:
-     items:
-diff --git a/Documentation/devicetree/bindings/i2c/brcm,brcmstb-i2c.yaml b/Documentation/devicetree/bindings/i2c/brcm,brcmstb-i2c.yaml
-index edbca2476128..7070c04469ed 100644
---- a/Documentation/devicetree/bindings/i2c/brcm,brcmstb-i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/brcm,brcmstb-i2c.yaml
-@@ -21,7 +21,6 @@ properties:
- 
-   reg:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: BSC register range
-       - description: Auto-I2C register range
-diff --git a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-index eb72dd571def..f771c09aabfc 100644
---- a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-@@ -43,14 +43,12 @@ properties:
- 
-   clocks:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: Reference clock for the I2C bus
-       - description: Bus clock (Only for Armada 7K/8K)
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: core
-       - const: reg
-diff --git a/Documentation/devicetree/bindings/i2c/mellanox,i2c-mlxbf.yaml b/Documentation/devicetree/bindings/i2c/mellanox,i2c-mlxbf.yaml
-index d2b401d062b9..93198d5d43a6 100644
---- a/Documentation/devicetree/bindings/i2c/mellanox,i2c-mlxbf.yaml
-+++ b/Documentation/devicetree/bindings/i2c/mellanox,i2c-mlxbf.yaml
-@@ -20,7 +20,6 @@ properties:
- 
-   reg:
-     minItems: 3
--    maxItems: 4
-     items:
-       - description: Smbus block registers
-       - description: Cause master registers
-diff --git a/Documentation/devicetree/bindings/iio/adc/amlogic,meson-saradc.yaml b/Documentation/devicetree/bindings/iio/adc/amlogic,meson-saradc.yaml
-index 3be8955587e4..7e8328e9ce13 100644
---- a/Documentation/devicetree/bindings/iio/adc/amlogic,meson-saradc.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/amlogic,meson-saradc.yaml
-@@ -41,7 +41,6 @@ properties:
- 
-   clock-names:
-     minItems: 2
--    maxItems: 4
-     items:
-       - const: clkin
-       - const: core
-diff --git a/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml b/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-index 1e7894e524f9..733351dee252 100644
---- a/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-@@ -38,14 +38,12 @@ properties:
-           dfsdm clock can also feed CLKOUT, when CLKOUT is used.
-       - description: audio clock can be used as an alternate to feed CLKOUT.
-     minItems: 1
--    maxItems: 2
- 
-   clock-names:
-     items:
-       - const: dfsdm
-       - const: audio
-     minItems: 1
--    maxItems: 2
- 
-   "#address-cells":
-     const: 1
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/fsl,irqsteer.yaml b/Documentation/devicetree/bindings/interrupt-controller/fsl,irqsteer.yaml
-index 3b11a1a15398..bcb5e20fa9ca 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/fsl,irqsteer.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/fsl,irqsteer.yaml
-@@ -35,7 +35,6 @@ properties:
-       - description: output interrupt 6
-       - description: output interrupt 7
-     minItems: 1
--    maxItems: 8
- 
-   clocks:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/loongson,liointc.yaml b/Documentation/devicetree/bindings/interrupt-controller/loongson,liointc.yaml
-index 067165c4b836..edf26452dc72 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/loongson,liointc.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/loongson,liointc.yaml
-@@ -50,7 +50,6 @@ properties:
-       - const: int2
-       - const: int3
-     minItems: 1
--    maxItems: 4
- 
-   '#interrupt-cells':
-     const: 2
-diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
-index 5951c6f98c74..e87bfbcc6913 100644
---- a/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
-+++ b/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
-@@ -38,7 +38,6 @@ properties:
-           If provided, then the combined interrupt will be used in preference to
-           any others.
-       - minItems: 2
--        maxItems: 4
-         items:
-           - const: eventq     # Event Queue not empty
-           - const: gerror     # Global Error activated
-diff --git a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-index dda44976acc1..02c69a95c332 100644
---- a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-+++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-@@ -49,7 +49,6 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    maxItems: 2
-     description:
-       Specifiers for the MMU fault interrupts. Not required for cache IPMMUs.
-     items:
-diff --git a/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml b/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml
-index 3b7ab61a144f..b15da9ba90b2 100644
---- a/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml
-+++ b/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml
-@@ -32,7 +32,6 @@ properties:
-       - description: tx channel free
-       - description: wakeup source
-     minItems: 2
--    maxItems: 3
- 
-   interrupt-names:
-     items:
-@@ -40,7 +39,6 @@ properties:
-       - const: tx
-       - const: wakeup
-     minItems: 2
--    maxItems: 3
- 
-   wakeup-source: true
- 
-diff --git a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-index b902495d278b..5044c4bb94e0 100644
---- a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-+++ b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-@@ -67,7 +67,6 @@ properties:
- 
-   clock-names:
-     minItems: 4
--    maxItems: 5
-     items:
-       - const: dos_parser
-       - const: dos
-diff --git a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml b/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
-index df634b0c1f8c..de15cebe2955 100644
---- a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
-@@ -30,7 +30,6 @@ properties:
- 
-   reg-names:
-     minItems: 1
--    maxItems: 13
-     items:
-       - const: main
-       - enum: [ avlink, cec, infoframe, esdp, dpp, afe, rep, edid, hdmi, test, cp, vdp ]
-diff --git a/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml b/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml
-index c14c7d827b00..b39b84c5f012 100644
---- a/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml
-+++ b/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml
-@@ -43,7 +43,6 @@ properties:
- 
-   clocks:
-     minItems: 1
--    maxItems: 3
-     items:
-       - description: AXI bus interface clock
-       - description: Peripheral clock
-diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-index 04013e5dd044..90b4af2c9724 100644
---- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-@@ -30,7 +30,6 @@ properties:
- 
-   power-domain-names:
-     minItems: 2
--    maxItems: 3
-     items:
-       - const: venus
-       - const: vcodec0
-diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-index 04b9af4db191..177bf81544b1 100644
---- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-@@ -30,7 +30,6 @@ properties:
- 
-   power-domain-names:
-     minItems: 3
--    maxItems: 4
-     items:
-       - const: venus
-       - const: vcodec0
-diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-index 7b81bd7f2399..ebf8f3d866a5 100644
---- a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-@@ -30,7 +30,6 @@ properties:
- 
-   power-domain-names:
-     minItems: 2
--    maxItems: 3
-     items:
-       - const: venus
-       - const: vcodec0
-diff --git a/Documentation/devicetree/bindings/media/renesas,drif.yaml b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-index 9cd56ff2c316..817a6d566738 100644
---- a/Documentation/devicetree/bindings/media/renesas,drif.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-@@ -78,7 +78,6 @@ properties:
- 
-   dma-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: rx
-       - const: rx
-diff --git a/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml b/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
-index a08a32340987..e87e4382807c 100644
---- a/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
-@@ -53,14 +53,12 @@ properties:
-       apb and smi are mandatory. the async is only for generation 1 smi HW.
-       gals(global async local sync) also is optional, see below.
-     minItems: 2
--    maxItems: 4
-     items:
-       - description: apb is Advanced Peripheral Bus clock, It's the clock for
-           setting the register.
-       - description: smi is the clock for transfer data and command.
--      - description: async is asynchronous clock, it help transform the smi
--          clock into the emi clock domain.
--      - description: gals0 is the path0 clock of gals.
-+      - description: Either asynchronous clock to help transform the smi clock
-+          into the emi clock domain on Gen1 h/w, or the path0 clock of gals.
-       - description: gals1 is the path1 clock of gals.
- 
-   clock-names:
-diff --git a/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml b/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-index 7ed7839ff0a7..2353f6cf3c80 100644
---- a/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-@@ -37,7 +37,6 @@ properties:
-     description: |
-       apb and smi are mandatory. gals(global async local sync) is optional.
-     minItems: 2
--    maxItems: 3
-     items:
-       - description: apb is Advanced Peripheral Bus clock, It's the clock for
-           setting the register.
-diff --git a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-index e75b3a8ba816..4f62ad6ce50c 100644
---- a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-+++ b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-@@ -64,7 +64,6 @@ properties:
- 
-   clocks:
-     minItems: 2
--    maxItems: 4
-     items:
-       - description: Bus Clock
-       - description: Module Clock
-@@ -73,7 +72,6 @@ properties:
- 
-   clock-names:
-     minItems: 2
--    maxItems: 4
-     items:
-       - const: ahb
-       - const: mmc
-diff --git a/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml b/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
-index 369471814496..b5baf439fbac 100644
---- a/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
-+++ b/Documentation/devicetree/bindings/mmc/fsl-imx-esdhc.yaml
-@@ -116,7 +116,6 @@ properties:
- 
-   pinctrl-names:
-     minItems: 1
--    maxItems: 4
-     items:
-       - const: default
-       - const: state_100mhz
-diff --git a/Documentation/devicetree/bindings/mmc/mtk-sd.yaml b/Documentation/devicetree/bindings/mmc/mtk-sd.yaml
-index 8648d48dbbfd..4e553fd0349f 100644
---- a/Documentation/devicetree/bindings/mmc/mtk-sd.yaml
-+++ b/Documentation/devicetree/bindings/mmc/mtk-sd.yaml
-@@ -38,7 +38,6 @@ properties:
-     description:
-       Should contain phandle for the clock feeding the MMC controller.
-     minItems: 2
--    maxItems: 8
-     items:
-       - description: source clock (required).
-       - description: HCLK which used for host (required).
-@@ -51,7 +50,6 @@ properties:
- 
-   clock-names:
-     minItems: 2
--    maxItems: 8
-     items:
-       - const: source
-       - const: hclk
-diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-index 1118b6fa93c9..677989bc5924 100644
---- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-+++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-@@ -75,7 +75,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: core
-       - const: cd
-@@ -107,7 +106,6 @@ properties:
- 
-   pinctrl-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: default
-       - const: state_uhs
-diff --git a/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml b/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
-index 3a79e39253d2..94a96174f99a 100644
---- a/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
-+++ b/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
-@@ -45,7 +45,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: clk_ahb
-       - const: clk_xin
-diff --git a/Documentation/devicetree/bindings/mmc/sdhci-pxa.yaml b/Documentation/devicetree/bindings/mmc/sdhci-pxa.yaml
-index aa12480648a5..1c87f4218e18 100644
---- a/Documentation/devicetree/bindings/mmc/sdhci-pxa.yaml
-+++ b/Documentation/devicetree/bindings/mmc/sdhci-pxa.yaml
-@@ -57,7 +57,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: io
-       - const: core
-diff --git a/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml b/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml
-index 0467441d7037..608e1d62bed5 100644
---- a/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml
-@@ -43,7 +43,6 @@ allOf:
-       properties:
-         clocks:
-           minItems: 3
--          maxItems: 4
-           items:
-             - description: GMAC main clock
-             - description: First parent clock of the internal mux
-@@ -52,7 +51,6 @@ allOf:
- 
-         clock-names:
-           minItems: 3
--          maxItems: 4
-           items:
-             - const: stmmaceth
-             - const: clkin0
-diff --git a/Documentation/devicetree/bindings/net/brcm,bcm4908-enet.yaml b/Documentation/devicetree/bindings/net/brcm,bcm4908-enet.yaml
-index 2f46e45dcd60..a93d2f165899 100644
---- a/Documentation/devicetree/bindings/net/brcm,bcm4908-enet.yaml
-+++ b/Documentation/devicetree/bindings/net/brcm,bcm4908-enet.yaml
-@@ -23,14 +23,12 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: RX interrupt
-       - description: TX interrupt
- 
-   interrupt-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: rx
-       - const: tx
-diff --git a/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml b/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
-index 798fa5fb7bb2..f84e31348d80 100644
---- a/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
-+++ b/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
-@@ -30,14 +30,12 @@ properties:
-       - description: interrupt line0
-       - description: interrupt line1
-     minItems: 1
--    maxItems: 2
- 
-   interrupt-names:
-     items:
-       - const: int0
-       - const: int1
-     minItems: 1
--    maxItems: 2
- 
-   clocks:
-     items:
-diff --git a/Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml b/Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml
-index d730fe5a4355..d159ac78cec1 100644
---- a/Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml
-+++ b/Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml
-@@ -48,14 +48,12 @@ properties:
- 
-   clocks:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: switch's main clock
-       - description: dividing of the switch core clock
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: sw_switch
-       - const: sw_switch_mdiv
-diff --git a/Documentation/devicetree/bindings/net/snps,dwmac.yaml b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-index 2edd8bea993e..5d4b028e5620 100644
---- a/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-@@ -82,7 +82,6 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    maxItems: 3
-     items:
-       - description: Combined signal for various interrupt events
-       - description: The interrupt to manage the remote wake-up packet detection
-@@ -90,7 +89,6 @@ properties:
- 
-   interrupt-names:
-     minItems: 1
--    maxItems: 3
-     items:
-       - const: macirq
-       - const: eth_wake_irq
-diff --git a/Documentation/devicetree/bindings/net/stm32-dwmac.yaml b/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-index 27eb6066793f..19c7bd482a51 100644
---- a/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-@@ -46,7 +46,6 @@ properties:
- 
-   clocks:
-     minItems: 3
--    maxItems: 5
-     items:
-       - description: GMAC main clock
-       - description: MAC TX clock
-diff --git a/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml b/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
-index f90557f6deb8..b9589a0daa5c 100644
---- a/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
-+++ b/Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
-@@ -25,14 +25,12 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: PCIe host controller
-       - description: builtin MSI controller
- 
-   interrupt-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: pcie
-       - const: msi
-diff --git a/Documentation/devicetree/bindings/pci/loongson.yaml b/Documentation/devicetree/bindings/pci/loongson.yaml
-index 81bae060cbde..82bc6c486ca3 100644
---- a/Documentation/devicetree/bindings/pci/loongson.yaml
-+++ b/Documentation/devicetree/bindings/pci/loongson.yaml
-@@ -24,7 +24,6 @@ properties:
- 
-   reg:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: CFG0 standard config space register
-       - description: CFG1 extended config space register
-diff --git a/Documentation/devicetree/bindings/pci/mediatek-pcie-gen3.yaml b/Documentation/devicetree/bindings/pci/mediatek-pcie-gen3.yaml
-index e7b1f9892da4..742206dbd965 100644
---- a/Documentation/devicetree/bindings/pci/mediatek-pcie-gen3.yaml
-+++ b/Documentation/devicetree/bindings/pci/mediatek-pcie-gen3.yaml
-@@ -70,7 +70,6 @@ properties:
- 
-   reset-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: phy
-       - const: mac
-diff --git a/Documentation/devicetree/bindings/pci/microchip,pcie-host.yaml b/Documentation/devicetree/bindings/pci/microchip,pcie-host.yaml
-index 04251d71f56b..fb95c276a986 100644
---- a/Documentation/devicetree/bindings/pci/microchip,pcie-host.yaml
-+++ b/Documentation/devicetree/bindings/pci/microchip,pcie-host.yaml
-@@ -26,14 +26,12 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: PCIe host controller
-       - description: builtin MSI controller
- 
-   interrupt-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: pcie
-       - const: msi
-diff --git a/Documentation/devicetree/bindings/perf/arm,cmn.yaml b/Documentation/devicetree/bindings/perf/arm,cmn.yaml
-index e4fcc0de25e2..42424ccbdd0c 100644
---- a/Documentation/devicetree/bindings/perf/arm,cmn.yaml
-+++ b/Documentation/devicetree/bindings/perf/arm,cmn.yaml
-@@ -21,7 +21,6 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    maxItems: 4
-     items:
-       - description: Overflow interrupt for DTC0
-       - description: Overflow interrupt for DTC1
-diff --git a/Documentation/devicetree/bindings/phy/brcm,bcm63xx-usbh-phy.yaml b/Documentation/devicetree/bindings/phy/brcm,bcm63xx-usbh-phy.yaml
-index 9a2e779e6d38..0f0bcde9eb88 100644
---- a/Documentation/devicetree/bindings/phy/brcm,bcm63xx-usbh-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/brcm,bcm63xx-usbh-phy.yaml
-@@ -28,7 +28,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: usbh
-       - const: usb_ref
-diff --git a/Documentation/devicetree/bindings/phy/brcm,brcmstb-usb-phy.yaml b/Documentation/devicetree/bindings/phy/brcm,brcmstb-usb-phy.yaml
-index 5f9e91bfb5ff..43a4b880534c 100644
---- a/Documentation/devicetree/bindings/phy/brcm,brcmstb-usb-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/brcm,brcmstb-usb-phy.yaml
-@@ -22,7 +22,6 @@ properties:
- 
-   reg:
-     minItems: 1
--    maxItems: 6
-     items:
-       - description: the base CTRL register
-       - description: XHCI EC register
-@@ -33,7 +32,6 @@ properties:
- 
-   reg-names:
-     minItems: 1
--    maxItems: 6
-     items:
-       - const: ctrl
-       - const: xhci_ec
-@@ -51,7 +49,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: sw_usb
-       - const: sw_usb3
-diff --git a/Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml b/Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml
-index 04edda504ab6..cb1aa325336f 100644
---- a/Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml
-@@ -35,7 +35,6 @@ properties:
- 
-   reg-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: phy
-       - const: phy-ctrl
-diff --git a/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml b/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-index b8a7651a3d9a..ef9d9d4e6875 100644
---- a/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-+++ b/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-@@ -131,7 +131,6 @@ patternProperties:
- 
-       clocks:
-         minItems: 1
--        maxItems: 2
-         items:
-           - description: Reference clock, (HS is 48Mhz, SS/P is 24~27Mhz)
-           - description: Reference clock of analog phy
-@@ -141,7 +140,6 @@ patternProperties:
- 
-       clock-names:
-         minItems: 1
--        maxItems: 2
-         items:
-           - const: ref
-           - const: da_ref
-diff --git a/Documentation/devicetree/bindings/phy/phy-cadence-sierra.yaml b/Documentation/devicetree/bindings/phy/phy-cadence-sierra.yaml
-index 84383e2e0b34..e71b32c9c0d1 100644
---- a/Documentation/devicetree/bindings/phy/phy-cadence-sierra.yaml
-+++ b/Documentation/devicetree/bindings/phy/phy-cadence-sierra.yaml
-@@ -31,14 +31,12 @@ properties:
- 
-   resets:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: Sierra PHY reset.
-       - description: Sierra APB reset. This is optional.
- 
-   reset-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: sierra_reset
-       - const: sierra_apb
-diff --git a/Documentation/devicetree/bindings/phy/phy-cadence-torrent.yaml b/Documentation/devicetree/bindings/phy/phy-cadence-torrent.yaml
-index 320a232c7208..bd9ae11c9994 100644
---- a/Documentation/devicetree/bindings/phy/phy-cadence-torrent.yaml
-+++ b/Documentation/devicetree/bindings/phy/phy-cadence-torrent.yaml
-@@ -52,28 +52,24 @@ properties:
- 
-   reg:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: Offset of the Torrent PHY configuration registers.
-       - description: Offset of the DPTX PHY configuration registers.
- 
-   reg-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: torrent_phy
-       - const: dptx_phy
- 
-   resets:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: Torrent PHY reset.
-       - description: Torrent APB reset. This is optional.
- 
-   reset-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: torrent_reset
-       - const: torrent_apb
-diff --git a/Documentation/devicetree/bindings/phy/qcom,ipq806x-usb-phy-hs.yaml b/Documentation/devicetree/bindings/phy/qcom,ipq806x-usb-phy-hs.yaml
-index 17f132ce5516..35296c588e78 100644
---- a/Documentation/devicetree/bindings/phy/qcom,ipq806x-usb-phy-hs.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,ipq806x-usb-phy-hs.yaml
-@@ -30,7 +30,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: ref
-       - const: xo
-diff --git a/Documentation/devicetree/bindings/phy/qcom,ipq806x-usb-phy-ss.yaml b/Documentation/devicetree/bindings/phy/qcom,ipq806x-usb-phy-ss.yaml
-index 17fd7f6b83bb..6cf5c6c06072 100644
---- a/Documentation/devicetree/bindings/phy/qcom,ipq806x-usb-phy-ss.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,ipq806x-usb-phy-ss.yaml
-@@ -30,7 +30,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: ref
-       - const: xo
-diff --git a/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml
-index 7808ec8bc712..a2de5202eb5e 100644
---- a/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml
-@@ -49,7 +49,6 @@ properties:
- 
-   reg:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: Address and length of PHY's common serdes block.
-       - description: Address and length of PHY's DP_COM control block.
-diff --git a/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
-index 9f9cf07b7d45..930da598c969 100644
---- a/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
-@@ -36,7 +36,6 @@ properties:
- 
-   clocks:
-     minItems: 2
--    maxItems: 3
-     items:
-       - description: phy config clock
-       - description: 19.2 MHz ref clk
-@@ -44,7 +43,6 @@ properties:
- 
-   clock-names:
-     minItems: 2
--    maxItems: 3
-     items:
-       - const: cfg_ahb
-       - const: ref
-diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-index 0f358d5b84ef..d5dc5a3cdceb 100644
---- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-@@ -39,7 +39,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: fck
-       - const: usb_x1
-@@ -61,7 +60,6 @@ properties:
- 
-   resets:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: reset of USB 2.0 host side
-       - description: reset of USB 2.0 peripheral side
-diff --git a/Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml
-index f3ef738a3ff6..b8483f9edbfc 100644
---- a/Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml
-@@ -33,7 +33,6 @@ properties:
-     # If you want to use the ssc, the clock-frequency of usb_extal
-     # must not be 0.
-     minItems: 2
--    maxItems: 3
-     items:
-       - const: usb3-if # The funcional clock
-       - const: usb3s_clk # The usb3's external clock
-diff --git a/Documentation/devicetree/bindings/pinctrl/actions,s500-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/actions,s500-pinctrl.yaml
-index ccdd9e3820d7..3f94f6944740 100644
---- a/Documentation/devicetree/bindings/pinctrl/actions,s500-pinctrl.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/actions,s500-pinctrl.yaml
-@@ -26,7 +26,6 @@ properties:
-       - description: PAD Pull Control + PAD Schmitt Trigger Enable + PAD Control
-       - description: PAD Drive Capacity Select
-     minItems: 1
--    maxItems: 4
- 
-   clocks:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml b/Documentation/devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml
-index d30f85cc395e..f005abac7079 100644
---- a/Documentation/devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml
-+++ b/Documentation/devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml
-@@ -37,7 +37,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: vpu
-       - const: vapb
-diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
-index 7dcab2bf8128..54a7700df08f 100644
---- a/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
-+++ b/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
-@@ -37,7 +37,6 @@ properties:
- 
-   clocks:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: Module Clock
-       - description: Bus Clock
-diff --git a/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml
-index 64afdcfb613d..1e6225677e00 100644
---- a/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml
-+++ b/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml
-@@ -72,7 +72,6 @@ properties:
-             - from local to remote, where ACK from the remote means that communnication
-               as been stopped on the remote side.
-     minItems: 1
--    maxItems: 4
- 
-   mbox-names:
-     items:
-@@ -81,7 +80,6 @@ properties:
-       - const: shutdown
-       - const: detach
-     minItems: 1
--    maxItems: 4
- 
-   memory-region:
-     description:
-diff --git a/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml
-index 6070456a7b67..f399743b631b 100644
---- a/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml
-+++ b/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml
-@@ -57,7 +57,6 @@ properties:
- 
-   memory-region:
-     minItems: 2
--    maxItems: 8
-     description: |
-       phandle to the reserved memory nodes to be associated with the remoteproc
-       device. There should be at least two reserved memory nodes defined. The
-diff --git a/Documentation/devicetree/bindings/remoteproc/ti,omap-remoteproc.yaml b/Documentation/devicetree/bindings/remoteproc/ti,omap-remoteproc.yaml
-index 73400bc6e91d..75161f191ac3 100644
---- a/Documentation/devicetree/bindings/remoteproc/ti,omap-remoteproc.yaml
-+++ b/Documentation/devicetree/bindings/remoteproc/ti,omap-remoteproc.yaml
-@@ -116,7 +116,6 @@ properties:
-       list, in the specified order, each representing the corresponding
-       internal RAM memory region.
-     minItems: 1
--    maxItems: 3
-     items:
-       - const: l2ram
-       - const: l1pram
-diff --git a/Documentation/devicetree/bindings/reset/fsl,imx-src.yaml b/Documentation/devicetree/bindings/reset/fsl,imx-src.yaml
-index 27c5e34a3ac6..b11ac533f914 100644
---- a/Documentation/devicetree/bindings/reset/fsl,imx-src.yaml
-+++ b/Documentation/devicetree/bindings/reset/fsl,imx-src.yaml
-@@ -59,7 +59,6 @@ properties:
-       - description: SRC interrupt
-       - description: CPU WDOG interrupts out of SRC
-     minItems: 1
--    maxItems: 2
- 
-   '#reset-cells':
-     const: 1
-diff --git a/Documentation/devicetree/bindings/riscv/sifive-l2-cache.yaml b/Documentation/devicetree/bindings/riscv/sifive-l2-cache.yaml
-index 23b227614366..1d38ff76d18f 100644
---- a/Documentation/devicetree/bindings/riscv/sifive-l2-cache.yaml
-+++ b/Documentation/devicetree/bindings/riscv/sifive-l2-cache.yaml
-@@ -56,7 +56,6 @@ properties:
- 
-   interrupts:
-     minItems: 3
--    maxItems: 4
-     items:
-       - description: DirError interrupt
-       - description: DataError interrupt
-diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-index b1b0ee769b71..beeb90e55727 100644
---- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-+++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-@@ -32,7 +32,6 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: RTC Alarm 0
-       - description: RTC Alarm 1
-diff --git a/Documentation/devicetree/bindings/rtc/imxdi-rtc.yaml b/Documentation/devicetree/bindings/rtc/imxdi-rtc.yaml
-index 06bd737821c1..4807c95a663c 100644
---- a/Documentation/devicetree/bindings/rtc/imxdi-rtc.yaml
-+++ b/Documentation/devicetree/bindings/rtc/imxdi-rtc.yaml
-@@ -21,7 +21,6 @@ properties:
-       - description: rtc alarm interrupt
-       - description: dryice security violation interrupt
-     minItems: 1
--    maxItems: 2
- 
-   clocks:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/serial/fsl-lpuart.yaml b/Documentation/devicetree/bindings/serial/fsl-lpuart.yaml
-index bd21060d26e0..a90c971b4f1f 100644
---- a/Documentation/devicetree/bindings/serial/fsl-lpuart.yaml
-+++ b/Documentation/devicetree/bindings/serial/fsl-lpuart.yaml
-@@ -36,14 +36,12 @@ properties:
-       - description: ipg clock
-       - description: baud clock
-     minItems: 1
--    maxItems: 2
- 
-   clock-names:
-     items:
-       - const: ipg
-       - const: baud
-     minItems: 1
--    maxItems: 2
- 
-   dmas:
-     items:
-diff --git a/Documentation/devicetree/bindings/serial/samsung_uart.yaml b/Documentation/devicetree/bindings/serial/samsung_uart.yaml
-index 97ec8a093bf3..3ec3822bd114 100644
---- a/Documentation/devicetree/bindings/serial/samsung_uart.yaml
-+++ b/Documentation/devicetree/bindings/serial/samsung_uart.yaml
-@@ -44,7 +44,6 @@ properties:
-   clock-names:
-     description: N = 0 is allowed for SoCs without internal baud clock mux.
-     minItems: 2
--    maxItems: 5
-     items:
-       - const: uart
-       - pattern: '^clk_uart_baud[0-3]$'
-diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.yaml
-index 84671950ca0d..4663c2bcad50 100644
---- a/Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.yaml
-+++ b/Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.yaml
-@@ -164,7 +164,6 @@ patternProperties:
- 
-       interrupts:
-         minItems: 1
--        maxItems: 2
-         items:
-           - description: UART core irq
-           - description: Wakeup irq (RX GPIO)
-diff --git a/Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml b/Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml
-index dbc62821c60b..9790617af1bc 100644
---- a/Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml
-+++ b/Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml
-@@ -100,7 +100,6 @@ patternProperties:
-     properties:
-       reg:
-         minItems: 2 # On AM437x one of two PRUSS units don't contain Shared RAM.
--        maxItems: 3
-         items:
-           - description: Address and size of the Data RAM0.
-           - description: Address and size of the Data RAM1.
-@@ -111,7 +110,6 @@ patternProperties:
- 
-       reg-names:
-         minItems: 2
--        maxItems: 3
-         items:
-           - const: dram0
-           - const: dram1
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-graph-card.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-graph-card.yaml
-index 249970952202..5bdd30a8a404 100644
---- a/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-graph-card.yaml
-+++ b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-graph-card.yaml
-@@ -28,7 +28,6 @@ properties:
-     minItems: 2
- 
-   clock-names:
--    minItems: 2
-     items:
-       - const: pll_a
-       - const: plla_out0
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml
-index 38e52e7dbb40..63370709c768 100644
---- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml
-+++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml
-@@ -34,7 +34,6 @@ properties:
- 
-   clocks:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: I2S bit clock
-       - description:
-@@ -48,7 +47,6 @@ properties:
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: i2s
-       - const: sync_input
-diff --git a/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml b/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
-index f2443b651282..06e83461705c 100644
---- a/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
-+++ b/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
-@@ -26,7 +26,6 @@ properties:
-       - description: Base address and size of SAI common register set.
-       - description: Base address and size of SAI identification register set.
-     minItems: 1
--    maxItems: 2
- 
-   ranges:
-     maxItems: 1
-@@ -81,14 +80,12 @@ patternProperties:
-           - description: sai_ck clock feeding the internal clock generator.
-           - description: MCLK clock from a SAI set as master clock provider.
-         minItems: 1
--        maxItems: 2
- 
-       clock-names:
-         items:
-           - const: sai_ck
-           - const: MCLK
-         minItems: 1
--        maxItems: 2
- 
-       dmas:
-         maxItems: 1
-diff --git a/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml b/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml
-index e3fb553d9180..4d46c49ec32b 100644
---- a/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml
-+++ b/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml
-@@ -35,7 +35,6 @@ properties:
- 
-   clocks:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: controller register bus clock
-       - description: baud rate generator and delay control clock
-diff --git a/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml b/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml
-index 6ee19d49fd3c..ec5873919170 100644
---- a/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml
-+++ b/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml
-@@ -56,7 +56,6 @@ properties:
- 
-   reg-names:
-     minItems: 1
--    maxItems: 5
-     items:
-       - const: mspi
-       - const: bspi
-@@ -71,7 +70,6 @@ properties:
-   interrupt-names:
-     oneOf:
-       - minItems: 1
--        maxItems: 7
-         items:
-           - const: mspi_done
-           - const: mspi_halted
-diff --git a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-index bf97d1fb33e7..6e0b110153b0 100644
---- a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-+++ b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-@@ -23,14 +23,12 @@ properties:
- 
-   clocks:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: Bus Clock
-       - description: Module Clock
- 
-   clock-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: bus
-       - const: mod
-diff --git a/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml b/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-index 0242fd91b622..0b3b6af7bd5b 100644
---- a/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-+++ b/Documentation/devicetree/bindings/thermal/qcom-tsens.yaml
-@@ -77,7 +77,6 @@ properties:
- 
-   nvmem-cell-names:
-     minItems: 1
--    maxItems: 2
-     items:
-       - const: calib
-       - enum:
-diff --git a/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml b/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml
-index b6a6d03a08b2..2ecac754e1cd 100644
---- a/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml
-+++ b/Documentation/devicetree/bindings/timer/allwinner,sun5i-a13-hstimer.yaml
-@@ -24,7 +24,6 @@ properties:
- 
-   interrupts:
-     minItems: 2
--    maxItems: 4
-     items:
-       - description: Timer 0 Interrupt
-       - description: Timer 1 Interrupt
-diff --git a/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml b/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-index 7f5e3af58255..df8ce87fd54b 100644
---- a/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-+++ b/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-@@ -35,7 +35,6 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    maxItems: 5
-     items:
-       - description: secure timer irq
-       - description: non-secure timer irq
-diff --git a/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml b/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
-index d83a1f97f911..cd2176cad53a 100644
---- a/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
-+++ b/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
-@@ -71,14 +71,12 @@ patternProperties:
- 
-       interrupts:
-         minItems: 1
--        maxItems: 2
-         items:
-           - description: physical timer irq
-           - description: virtual timer irq
- 
-       reg:
-         minItems: 1
--        maxItems: 2
-         items:
-           - description: 1st view base address
-           - description: 2nd optional view base address
-diff --git a/Documentation/devicetree/bindings/timer/intel,ixp4xx-timer.yaml b/Documentation/devicetree/bindings/timer/intel,ixp4xx-timer.yaml
-index a8de99b0c0f9..f32575d4b5aa 100644
---- a/Documentation/devicetree/bindings/timer/intel,ixp4xx-timer.yaml
-+++ b/Documentation/devicetree/bindings/timer/intel,ixp4xx-timer.yaml
-@@ -22,7 +22,6 @@ properties:
- 
-   interrupts:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: Timer 1 interrupt
-       - description: Timer 2 interrupt
-diff --git a/Documentation/devicetree/bindings/usb/maxim,max3420-udc.yaml b/Documentation/devicetree/bindings/usb/maxim,max3420-udc.yaml
-index 4241d38d5864..1d893d3d3432 100644
---- a/Documentation/devicetree/bindings/usb/maxim,max3420-udc.yaml
-+++ b/Documentation/devicetree/bindings/usb/maxim,max3420-udc.yaml
-@@ -30,14 +30,12 @@ properties:
-       - description: usb irq from max3420
-       - description: vbus detection irq
-     minItems: 1
--    maxItems: 2
- 
-   interrupt-names:
-     items:
-       - const: udc
-       - const: vbus
-     minItems: 1
--    maxItems: 2
- 
-   spi-max-frequency:
-     maximum: 26000000
-diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
-index e60e590dbe12..8428415896ce 100644
---- a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
-+++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
-@@ -25,7 +25,6 @@ properties:
- 
-   reg:
-     minItems: 2
--    maxItems: 3
-     items:
-       - description: XUSB device controller registers
-       - description: XUSB device PCI Config registers
-@@ -33,7 +32,6 @@ properties:
- 
-   reg-names:
-     minItems: 2
--    maxItems: 3
-     items:
-       - const: base
-       - const: fpci
-@@ -45,7 +43,6 @@ properties:
- 
-   clocks:
-     minItems: 4
--    maxItems: 5
-     items:
-       - description: Clock to enable core XUSB dev clock.
-       - description: Clock to enable XUSB super speed clock.
-@@ -55,7 +52,6 @@ properties:
- 
-   clock-names:
-     minItems: 4
--    maxItems: 5
-     items:
-       - const: dev
-       - const: ss
-diff --git a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-index e67223d90bb7..ad73339ffe1d 100644
---- a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-+++ b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-@@ -53,7 +53,6 @@ properties:
- 
-   clocks:
-     minItems: 1
--    maxItems: 3
-     items:
-       - description: USB 2.0 host
-       - description: USB 2.0 peripheral
-@@ -86,7 +85,6 @@ properties:
- 
-   dma-names:
-     minItems: 2
--    maxItems: 4
-     items:
-       - const: ch0
-       - const: ch1
-@@ -100,7 +98,6 @@ properties:
- 
-   resets:
-     minItems: 1
--    maxItems: 2
-     items:
-       - description: USB 2.0 host
-       - description: USB 2.0 peripheral
-diff --git a/Documentation/devicetree/bindings/watchdog/st,stm32-iwdg.yaml b/Documentation/devicetree/bindings/watchdog/st,stm32-iwdg.yaml
-index 3f1ba1d6c6b5..481bf91f988a 100644
---- a/Documentation/devicetree/bindings/watchdog/st,stm32-iwdg.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/st,stm32-iwdg.yaml
-@@ -27,7 +27,6 @@ properties:
-       - description: Low speed clock
-       - description: Optional peripheral clock
-     minItems: 1
--    maxItems: 2
- 
-   clock-names:
-     items:
--- 
-2.27.0
+
+Heiko
+
+> 
+> Thanks,
+> Dafna
+> 
+> > @@ -255,6 +255,78 @@ rkisp1_lsc_matrix_config_v10(struct rkisp1_params *params,
+> >   		     RKISP1_CIF_ISP_LSC_TABLE_SEL);
+> >   }
+> >   
+> > +static void
+> > +rkisp1_lsc_matrix_config_v12(struct rkisp1_params *params,
+> > +			     const struct rkisp1_cif_isp_lsc_config *pconfig)
+> > +{
+> > +	unsigned int isp_lsc_status, sram_addr, isp_lsc_table_sel, i, j, data;
+> > +
+> > +	isp_lsc_status = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_LSC_STATUS);
+> > +
+> > +	/* RKISP1_CIF_ISP_LSC_TABLE_ADDRESS_153 = ( 17 * 18 ) >> 1 */
+> > +	sram_addr = (isp_lsc_status & RKISP1_CIF_ISP_LSC_ACTIVE_TABLE) ?
+> > +		     RKISP1_CIF_ISP_LSC_TABLE_ADDRESS_0 :
+> > +		     RKISP1_CIF_ISP_LSC_TABLE_ADDRESS_153;
+> > +	rkisp1_write(params->rkisp1, sram_addr, RKISP1_CIF_ISP_LSC_R_TABLE_ADDR);
+> > +	rkisp1_write(params->rkisp1, sram_addr, RKISP1_CIF_ISP_LSC_GR_TABLE_ADDR);
+> > +	rkisp1_write(params->rkisp1, sram_addr, RKISP1_CIF_ISP_LSC_GB_TABLE_ADDR);
+> > +	rkisp1_write(params->rkisp1, sram_addr, RKISP1_CIF_ISP_LSC_B_TABLE_ADDR);
+> > +
+> > +	/* program data tables (table size is 9 * 17 = 153) */
+> > +	for (i = 0; i < RKISP1_CIF_ISP_LSC_SAMPLES_MAX; i++) {
+> > +		/*
+> > +		 * 17 sectors with 2 values in one DWORD = 9
+> > +		 * DWORDs (2nd value of last DWORD unused)
+> > +		 */
+> > +		for (j = 0; j < RKISP1_CIF_ISP_LSC_SAMPLES_MAX - 1; j += 2) {
+> > +			data = RKISP1_CIF_ISP_LSC_TABLE_DATA_V12(
+> > +					pconfig->r_data_tbl[i][j],
+> > +					pconfig->r_data_tbl[i][j + 1]);
+> > +			rkisp1_write(params->rkisp1, data,
+> > +				     RKISP1_CIF_ISP_LSC_R_TABLE_DATA);
+> > +
+> > +			data = RKISP1_CIF_ISP_LSC_TABLE_DATA_V12(
+> > +					pconfig->gr_data_tbl[i][j],
+> > +					pconfig->gr_data_tbl[i][j + 1]);
+> > +			rkisp1_write(params->rkisp1, data,
+> > +				     RKISP1_CIF_ISP_LSC_GR_TABLE_DATA);
+> > +
+> > +			data = RKISP1_CIF_ISP_LSC_TABLE_DATA_V12(
+> > +					pconfig->gb_data_tbl[i][j],
+> > +					pconfig->gb_data_tbl[i][j + 1]);
+> > +			rkisp1_write(params->rkisp1, data,
+> > +				     RKISP1_CIF_ISP_LSC_GB_TABLE_DATA);
+> > +
+> > +			data = RKISP1_CIF_ISP_LSC_TABLE_DATA_V12(
+> > +					pconfig->b_data_tbl[i][j],
+> > +					pconfig->b_data_tbl[i][j + 1]);
+> > +			rkisp1_write(params->rkisp1, data,
+> > +				     RKISP1_CIF_ISP_LSC_B_TABLE_DATA);
+> > +		}
+> > +
+> > +		data = RKISP1_CIF_ISP_LSC_TABLE_DATA_V12(pconfig->r_data_tbl[i][j], 0);
+> > +		rkisp1_write(params->rkisp1, data,
+> > +			     RKISP1_CIF_ISP_LSC_R_TABLE_DATA);
+> > +
+> > +		data = RKISP1_CIF_ISP_LSC_TABLE_DATA_V12(pconfig->gr_data_tbl[i][j], 0);
+> > +		rkisp1_write(params->rkisp1, data,
+> > +			     RKISP1_CIF_ISP_LSC_GR_TABLE_DATA);
+> > +
+> > +		data = RKISP1_CIF_ISP_LSC_TABLE_DATA_V12(pconfig->gb_data_tbl[i][j], 0);
+> > +		rkisp1_write(params->rkisp1, data,
+> > +			     RKISP1_CIF_ISP_LSC_GB_TABLE_DATA);
+> > +
+> > +		data = RKISP1_CIF_ISP_LSC_TABLE_DATA_V12(pconfig->b_data_tbl[i][j], 0);
+> > +		rkisp1_write(params->rkisp1, data,
+> > +			     RKISP1_CIF_ISP_LSC_B_TABLE_DATA);
+> > +	}
+> > +	isp_lsc_table_sel = (isp_lsc_status & RKISP1_CIF_ISP_LSC_ACTIVE_TABLE) ?
+> > +			    RKISP1_CIF_ISP_LSC_TABLE_0 :
+> > +			    RKISP1_CIF_ISP_LSC_TABLE_1;
+> > +	rkisp1_write(params->rkisp1, isp_lsc_table_sel,
+> > +		     RKISP1_CIF_ISP_LSC_TABLE_SEL);
+> > +}
+> > +
+> >   static void rkisp1_lsc_config(struct rkisp1_params *params,
+> >   			      const struct rkisp1_cif_isp_lsc_config *arg)
+> >   {
+> > @@ -396,6 +468,25 @@ static void rkisp1_goc_config_v10(struct rkisp1_params *params,
+> >   			     RKISP1_CIF_ISP_GAMMA_OUT_Y_0_V10 + i * 4);
+> >   }
+> >   
+> > +static void rkisp1_goc_config_v12(struct rkisp1_params *params,
+> > +				  const struct rkisp1_cif_isp_goc_config *arg)
+> > +{
+> > +	unsigned int i;
+> > +	u32 value;
+> > +
+> > +	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CTRL,
+> > +				RKISP1_CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
+> > +	rkisp1_write(params->rkisp1, arg->mode, RKISP1_CIF_ISP_GAMMA_OUT_MODE_V12);
+> > +
+> > +	for (i = 0; i < RKISP1_CIF_ISP_GAMMA_OUT_MAX_SAMPLES_V12 / 2; i++) {
+> > +		value = RKISP1_CIF_ISP_GAMMA_VALUE_V12(
+> > +			arg->gamma_y[2 * i + 1],
+> > +			arg->gamma_y[2 * i]);
+> > +		rkisp1_write(params->rkisp1, value,
+> > +			     RKISP1_CIF_ISP_GAMMA_OUT_Y_0_V12 + i * 4);
+> > +	}
+> > +}
+> > +
+> >   /* ISP Cross Talk */
+> >   static void rkisp1_ctk_config(struct rkisp1_params *params,
+> >   			      const struct rkisp1_cif_isp_ctk_config *arg)
+> > @@ -473,6 +564,45 @@ static void rkisp1_awb_meas_config_v10(struct rkisp1_params *params,
+> >   		     arg->frames, RKISP1_CIF_ISP_AWB_FRAMES_V10);
+> >   }
+> >   
+> > +static void rkisp1_awb_meas_config_v12(struct rkisp1_params *params,
+> > +				       const struct rkisp1_cif_isp_awb_meas_config *arg)
+> > +{
+> > +	u32 reg_val = 0;
+> > +	/* based on the mode,configure the awb module */
+> > +	if (arg->awb_mode == RKISP1_CIF_ISP_AWB_MODE_YCBCR) {
+> > +		/* Reference Cb and Cr */
+> > +		rkisp1_write(params->rkisp1,
+> > +			     RKISP1_CIF_ISP_AWB_REF_CR_SET(arg->awb_ref_cr) |
+> > +			     arg->awb_ref_cb, RKISP1_CIF_ISP_AWB_REF_V12);
+> > +		/* Yc Threshold */
+> > +		rkisp1_write(params->rkisp1,
+> > +			     RKISP1_CIF_ISP_AWB_MAX_Y_SET(arg->max_y) |
+> > +			     RKISP1_CIF_ISP_AWB_MIN_Y_SET(arg->min_y) |
+> > +			     RKISP1_CIF_ISP_AWB_MAX_CS_SET(arg->max_csum) |
+> > +			     arg->min_c, RKISP1_CIF_ISP_AWB_THRESH_V12);
+> > +	}
+> > +
+> > +	reg_val = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_AWB_PROP_V12);
+> > +	if (arg->enable_ymax_cmp)
+> > +		reg_val |= RKISP1_CIF_ISP_AWB_YMAX_CMP_EN;
+> > +	else
+> > +		reg_val &= ~RKISP1_CIF_ISP_AWB_YMAX_CMP_EN;
+> > +	reg_val &= ~RKISP1_CIF_ISP_AWB_SET_FRAMES_MASK_V12;
+> > +	reg_val |= RKISP1_CIF_ISP_AWB_SET_FRAMES_V12(arg->frames);
+> > +	rkisp1_write(params->rkisp1, reg_val, RKISP1_CIF_ISP_AWB_PROP_V12);
+> > +
+> > +	/* window offset */
+> > +	rkisp1_write(params->rkisp1,
+> > +		     arg->awb_wnd.v_offs << 16 |
+> > +		     arg->awb_wnd.h_offs,
+> > +		     RKISP1_CIF_ISP_AWB_OFFS_V12);
+> > +	/* AWB window size */
+> > +	rkisp1_write(params->rkisp1,
+> > +		     arg->awb_wnd.v_size << 16 |
+> > +		     arg->awb_wnd.h_size,
+> > +		     RKISP1_CIF_ISP_AWB_SIZE_V12);
+> > +}
+> > +
+> >   static void
+> >   rkisp1_awb_meas_enable_v10(struct rkisp1_params *params,
+> >   			   const struct rkisp1_cif_isp_awb_meas_config *arg,
+> > @@ -502,6 +632,35 @@ rkisp1_awb_meas_enable_v10(struct rkisp1_params *params,
+> >   	}
+> >   }
+> >   
+> > +static void
+> > +rkisp1_awb_meas_enable_v12(struct rkisp1_params *params,
+> > +			   const struct rkisp1_cif_isp_awb_meas_config *arg,
+> > +			   bool en)
+> > +{
+> > +	u32 reg_val = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_AWB_PROP_V12);
+> > +
+> > +	/* switch off */
+> > +	reg_val &= RKISP1_CIF_ISP_AWB_MODE_MASK_NONE;
+> > +
+> > +	if (en) {
+> > +		if (arg->awb_mode == RKISP1_CIF_ISP_AWB_MODE_RGB)
+> > +			reg_val |= RKISP1_CIF_ISP_AWB_MODE_RGB_EN;
+> > +		else
+> > +			reg_val |= RKISP1_CIF_ISP_AWB_MODE_YCBCR_EN;
+> > +
+> > +		rkisp1_write(params->rkisp1, reg_val, RKISP1_CIF_ISP_AWB_PROP_V12);
+> > +
+> > +		/* Measurements require AWB block be active. */
+> > +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
+> > +				      RKISP1_CIF_ISP_CTRL_ISP_AWB_ENA);
+> > +	} else {
+> > +		rkisp1_write(params->rkisp1,
+> > +			     reg_val, RKISP1_CIF_ISP_AWB_PROP_V12);
+> > +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CTRL,
+> > +					RKISP1_CIF_ISP_CTRL_ISP_AWB_ENA);
+> > +	}
+> > +}
+> > +
+> >   static void
+> >   rkisp1_awb_gain_config_v10(struct rkisp1_params *params,
+> >   			   const struct rkisp1_cif_isp_awb_gain_config *arg)
+> > @@ -515,6 +674,19 @@ rkisp1_awb_gain_config_v10(struct rkisp1_params *params,
+> >   		     arg->gain_blue, RKISP1_CIF_ISP_AWB_GAIN_RB_V10);
+> >   }
+> >   
+> > +static void
+> > +rkisp1_awb_gain_config_v12(struct rkisp1_params *params,
+> > +			   const struct rkisp1_cif_isp_awb_gain_config *arg)
+> > +{
+> > +	rkisp1_write(params->rkisp1,
+> > +		     RKISP1_CIF_ISP_AWB_GAIN_R_SET(arg->gain_green_r) |
+> > +		     arg->gain_green_b, RKISP1_CIF_ISP_AWB_GAIN_G_V12);
+> > +
+> > +	rkisp1_write(params->rkisp1,
+> > +		     RKISP1_CIF_ISP_AWB_GAIN_R_SET(arg->gain_red) |
+> > +		     arg->gain_blue, RKISP1_CIF_ISP_AWB_GAIN_RB_V12);
+> > +}
+> > +
+> >   static void rkisp1_aec_config_v10(struct rkisp1_params *params,
+> >   				  const struct rkisp1_cif_isp_aec_config *arg)
+> >   {
+> > @@ -548,6 +720,38 @@ static void rkisp1_aec_config_v10(struct rkisp1_params *params,
+> >   		     RKISP1_CIF_ISP_EXP_V_SIZE_V10);
+> >   }
+> >   
+> > +static void rkisp1_aec_config_v12(struct rkisp1_params *params,
+> > +			       const struct rkisp1_cif_isp_aec_config *arg)
+> > +{
+> > +	u32 exp_ctrl;
+> > +	u32 block_hsize, block_vsize;
+> > +	u32 wnd_num_idx = 1;
+> > +	const u32 ae_wnd_num[] = { 5, 9, 15, 15 };
+> > +
+> > +	/* avoid to override the old enable value */
+> > +	exp_ctrl = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_EXP_CTRL);
+> > +	exp_ctrl &= RKISP1_CIF_ISP_EXP_ENA;
+> > +	if (arg->autostop)
+> > +		exp_ctrl |= RKISP1_CIF_ISP_EXP_CTRL_AUTOSTOP;
+> > +	if (arg->mode == RKISP1_CIF_ISP_EXP_MEASURING_MODE_1)
+> > +		exp_ctrl |= RKISP1_CIF_ISP_EXP_CTRL_MEASMODE_1;
+> > +	exp_ctrl |= RKISP1_CIF_ISP_EXP_CTRL_WNDNUM_SET_V12(wnd_num_idx);
+> > +	rkisp1_write(params->rkisp1, exp_ctrl, RKISP1_CIF_ISP_EXP_CTRL);
+> > +
+> > +	rkisp1_write(params->rkisp1,
+> > +		     RKISP1_CIF_ISP_EXP_V_OFFSET_SET_V12(arg->meas_window.v_offs) |
+> > +		     RKISP1_CIF_ISP_EXP_H_OFFSET_SET_V12(arg->meas_window.h_offs),
+> > +		     RKISP1_CIF_ISP_EXP_OFFS_V12);
+> > +
+> > +	block_hsize = arg->meas_window.h_size / ae_wnd_num[wnd_num_idx] - 1;
+> > +	block_vsize = arg->meas_window.v_size / ae_wnd_num[wnd_num_idx] - 1;
+> > +
+> > +	rkisp1_write(params->rkisp1,
+> > +		     RKISP1_CIF_ISP_EXP_V_SIZE_SET_V12(block_vsize) |
+> > +		     RKISP1_CIF_ISP_EXP_H_SIZE_SET_V12(block_hsize),
+> > +		     RKISP1_CIF_ISP_EXP_SIZE_V12);
+> > +}
+> > +
+> >   static void rkisp1_cproc_config(struct rkisp1_params *params,
+> >   				const struct rkisp1_cif_isp_cproc_config *arg)
+> >   {
+> > @@ -625,6 +829,64 @@ static void rkisp1_hst_config_v10(struct rkisp1_params *params,
+> >   	rkisp1_write(params->rkisp1, weight[0] & 0x1F, RKISP1_CIF_ISP_HIST_WEIGHT_44_V10);
+> >   }
+> >   
+> > +static void rkisp1_hst_config_v12(struct rkisp1_params *params,
+> > +				  const struct rkisp1_cif_isp_hst_config *arg)
+> > +{
+> > +	unsigned int i, j;
+> > +	u32 block_hsize, block_vsize;
+> > +	u32 wnd_num_idx, hist_weight_num, hist_ctrl, value;
+> > +	u8 weight15x15[RKISP1_CIF_ISP_HIST_WEIGHT_REG_SIZE_V12];
+> > +	const u32 hist_wnd_num[] = { 5, 9, 15, 15 };
+> > +
+> > +	/* now we just support 9x9 window */
+> > +	wnd_num_idx = 1;
+> > +	memset(weight15x15, 0x00, sizeof(weight15x15));
+> > +	/* avoid to override the old enable value */
+> > +	hist_ctrl = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_HIST_CTRL_V12);
+> > +	hist_ctrl &= RKISP1_CIF_ISP_HIST_CTRL_MODE_MASK_V12 |
+> > +		     RKISP1_CIF_ISP_HIST_CTRL_EN_MASK_V12;
+> > +	hist_ctrl = hist_ctrl |
+> > +		    RKISP1_CIF_ISP_HIST_CTRL_INTRSEL_SET_V12(1) |
+> > +		    RKISP1_CIF_ISP_HIST_CTRL_DATASEL_SET_V12(0) |
+> > +		    RKISP1_CIF_ISP_HIST_CTRL_WATERLINE_SET_V12(0) |
+> > +		    RKISP1_CIF_ISP_HIST_CTRL_AUTOSTOP_SET_V12(0) |
+> > +		    RKISP1_CIF_ISP_HIST_CTRL_WNDNUM_SET_V12(1) |
+> > +		    RKISP1_CIF_ISP_HIST_CTRL_STEPSIZE_SET_V12(arg->histogram_predivider);
+> > +	rkisp1_write(params->rkisp1, hist_ctrl, RKISP1_CIF_ISP_HIST_CTRL_V12);
+> > +
+> > +	rkisp1_write(params->rkisp1,
+> > +		     RKISP1_CIF_ISP_HIST_OFFS_SET_V12(arg->meas_window.h_offs,
+> > +						      arg->meas_window.v_offs),
+> > +		     RKISP1_CIF_ISP_HIST_OFFS_V12);
+> > +
+> > +	block_hsize = arg->meas_window.h_size / hist_wnd_num[wnd_num_idx] - 1;
+> > +	block_vsize = arg->meas_window.v_size / hist_wnd_num[wnd_num_idx] - 1;
+> > +	rkisp1_write(params->rkisp1,
+> > +		     RKISP1_CIF_ISP_HIST_SIZE_SET_V12(block_hsize, block_vsize),
+> > +		     RKISP1_CIF_ISP_HIST_SIZE_V12);
+> > +
+> > +	for (i = 0; i < hist_wnd_num[wnd_num_idx]; i++) {
+> > +		for (j = 0; j < hist_wnd_num[wnd_num_idx]; j++) {
+> > +			weight15x15[i * RKISP1_CIF_ISP_HIST_ROW_NUM_V12 + j] =
+> > +				arg->hist_weight[i * hist_wnd_num[wnd_num_idx] + j];
+> > +		}
+> > +	}
+> > +
+> > +	hist_weight_num = RKISP1_CIF_ISP_HIST_WEIGHT_REG_SIZE_V12;
+> > +	for (i = 0; i < (hist_weight_num / 4); i++) {
+> > +		value = RKISP1_CIF_ISP_HIST_WEIGHT_SET_V12(
+> > +				 weight15x15[4 * i + 0],
+> > +				 weight15x15[4 * i + 1],
+> > +				 weight15x15[4 * i + 2],
+> > +				 weight15x15[4 * i + 3]);
+> > +		rkisp1_write(params->rkisp1, value,
+> > +				 RKISP1_CIF_ISP_HIST_WEIGHT_V12 + 4 * i);
+> > +	}
+> > +	value = RKISP1_CIF_ISP_HIST_WEIGHT_SET_V12(weight15x15[4 * i + 0], 0, 0, 0);
+> > +	rkisp1_write(params->rkisp1, value,
+> > +				 RKISP1_CIF_ISP_HIST_WEIGHT_V12 + 4 * i);
+> > +}
+> > +
+> >   static void
+> >   rkisp1_hst_enable_v10(struct rkisp1_params *params,
+> >   		      const struct rkisp1_cif_isp_hst_config *arg, bool en)
+> > @@ -643,6 +905,26 @@ rkisp1_hst_enable_v10(struct rkisp1_params *params,
+> >   	}
+> >   }
+> >   
+> > +static void
+> > +rkisp1_hst_enable_v12(struct rkisp1_params *params,
+> > +		      const struct rkisp1_cif_isp_hst_config *arg, bool en)
+> > +{
+> > +	if (en) {
+> > +		u32 hist_ctrl = rkisp1_read(params->rkisp1,
+> > +					    RKISP1_CIF_ISP_HIST_CTRL_V12);
+> > +
+> > +		hist_ctrl &= ~RKISP1_CIF_ISP_HIST_CTRL_MODE_MASK_V12;
+> > +		hist_ctrl |= RKISP1_CIF_ISP_HIST_CTRL_MODE_SET_V12(arg->mode);
+> > +		hist_ctrl |= RKISP1_CIF_ISP_HIST_CTRL_EN_SET_V12(1);
+> > +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_HIST_CTRL_V12,
+> > +				      hist_ctrl);
+> > +	} else {
+> > +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_HIST_CTRL_V12,
+> > +					RKISP1_CIF_ISP_HIST_CTRL_MODE_MASK_V12 |
+> > +					RKISP1_CIF_ISP_HIST_CTRL_EN_MASK_V12);
+> > +	}
+> > +}
+> > +
+> >   static void rkisp1_afm_config_v10(struct rkisp1_params *params,
+> >   				  const struct rkisp1_cif_isp_afc_config *arg)
+> >   {
+> > @@ -674,6 +956,45 @@ static void rkisp1_afm_config_v10(struct rkisp1_params *params,
+> >   	rkisp1_write(params->rkisp1, afm_ctrl, RKISP1_CIF_ISP_AFM_CTRL);
+> >   }
+> >   
+> > +static void rkisp1_afm_config_v12(struct rkisp1_params *params,
+> > +				  const struct rkisp1_cif_isp_afc_config *arg)
+> > +{
+> > +	size_t num_of_win = min_t(size_t, ARRAY_SIZE(arg->afm_win),
+> > +				  arg->num_afm_win);
+> > +	u32 afm_ctrl = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_AFM_CTRL);
+> > +	u32 lum_var_shift, afm_var_shift;
+> > +	unsigned int i;
+> > +
+> > +	/* Switch off to configure. */
+> > +	rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_AFM_CTRL,
+> > +				RKISP1_CIF_ISP_AFM_ENA);
+> > +
+> > +	for (i = 0; i < num_of_win; i++) {
+> > +		rkisp1_write(params->rkisp1,
+> > +			     RKISP1_CIF_ISP_AFM_WINDOW_X(arg->afm_win[i].h_offs) |
+> > +			     RKISP1_CIF_ISP_AFM_WINDOW_Y(arg->afm_win[i].v_offs),
+> > +			     RKISP1_CIF_ISP_AFM_LT_A + i * 8);
+> > +		rkisp1_write(params->rkisp1,
+> > +			     RKISP1_CIF_ISP_AFM_WINDOW_X(arg->afm_win[i].h_size +
+> > +							 arg->afm_win[i].h_offs) |
+> > +			     RKISP1_CIF_ISP_AFM_WINDOW_Y(arg->afm_win[i].v_size +
+> > +							 arg->afm_win[i].v_offs),
+> > +			     RKISP1_CIF_ISP_AFM_RB_A + i * 8);
+> > +	}
+> > +	rkisp1_write(params->rkisp1, arg->thres, RKISP1_CIF_ISP_AFM_THRES);
+> > +
+> > +	lum_var_shift = RKISP1_CIF_ISP_AFM_GET_LUM_SHIFT_a_V12(arg->var_shift);
+> > +	afm_var_shift = RKISP1_CIF_ISP_AFM_GET_AFM_SHIFT_a_V12(arg->var_shift);
+> > +	rkisp1_write(params->rkisp1,
+> > +		     RKISP1_CIF_ISP_AFM_SET_SHIFT_a_V12(lum_var_shift, afm_var_shift) |
+> > +		     RKISP1_CIF_ISP_AFM_SET_SHIFT_b_V12(lum_var_shift, afm_var_shift) |
+> > +		     RKISP1_CIF_ISP_AFM_SET_SHIFT_c_V12(lum_var_shift, afm_var_shift),
+> > +		     RKISP1_CIF_ISP_AFM_VAR_SHIFT);
+> > +
+> > +	/* restore afm status */
+> > +	rkisp1_write(params->rkisp1, afm_ctrl, RKISP1_CIF_ISP_AFM_CTRL);
+> > +}
+> > +
+> >   static void rkisp1_ie_config(struct rkisp1_params *params,
+> >   			     const struct rkisp1_cif_isp_ie_config *arg)
+> >   {
+> > @@ -1305,6 +1626,18 @@ static struct rkisp1_params_ops rkisp1_v10_params_ops = {
+> >   	.afm_config = rkisp1_afm_config_v10,
+> >   };
+> >   
+> > +static struct rkisp1_params_ops rkisp1_v12_params_ops = {
+> > +	.lsc_matrix_config = rkisp1_lsc_matrix_config_v12,
+> > +	.goc_config = rkisp1_goc_config_v12,
+> > +	.awb_meas_config = rkisp1_awb_meas_config_v12,
+> > +	.awb_meas_enable = rkisp1_awb_meas_enable_v12,
+> > +	.awb_gain_config = rkisp1_awb_gain_config_v12,
+> > +	.aec_config = rkisp1_aec_config_v12,
+> > +	.hst_config = rkisp1_hst_config_v12,
+> > +	.hst_enable = rkisp1_hst_enable_v12,
+> > +	.afm_config = rkisp1_afm_config_v12,
+> > +};
+> > +
+> >   static int rkisp1_params_enum_fmt_meta_out(struct file *file, void *priv,
+> >   					   struct v4l2_fmtdesc *f)
+> >   {
+> > @@ -1472,7 +1805,10 @@ static void rkisp1_init_params(struct rkisp1_params *params)
+> >   	params->vdev_fmt.fmt.meta.buffersize =
+> >   		sizeof(struct rkisp1_params_cfg);
+> >   
+> > -	params->ops = &rkisp1_v10_params_ops;
+> > +	if (params->rkisp1->media_dev.hw_revision == RKISP1_V12)
+> > +		params->ops = &rkisp1_v12_params_ops;
+> > +	else
+> > +		params->ops = &rkisp1_v10_params_ops;
+> >   }
+> >   
+> >   int rkisp1_params_register(struct rkisp1_device *rkisp1)
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> > index c71ccd148bde..d326214c7e07 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> > @@ -396,6 +396,38 @@
+> >   #define RKISP1_CIF_ISP_HIST_COLUMN_NUM_V10		5
+> >   #define RKISP1_CIF_ISP_HIST_GET_BIN_V10(x)		((x) & 0x000FFFFF)
+> >   
+> > +/* ISP HISTOGRAM CALCULATION : CIF_ISP_HIST */
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_EN_SET_V12(x)		(((x) & 0x01) << 0)
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_EN_MASK_V12		RKISP1_CIF_ISP_HIST_CTRL_EN_SET_V12(0x01)
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_STEPSIZE_SET_V12(x)	(((x) & 0x7F) << 1)
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_MODE_SET_V12(x)	(((x) & 0x07) << 8)
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_MODE_MASK_V12		RKISP1_CIF_ISP_HIST_CTRL_MODE_SET_V12(0x07)
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_AUTOSTOP_SET_V12(x)	(((x) & 0x01) << 11)
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_WATERLINE_SET_V12(x)	(((x) & 0xFFF) << 12)
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_DATASEL_SET_V12(x)	(((x) & 0x07) << 24)
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_INTRSEL_SET_V12(x)	(((x) & 0x01) << 27)
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_WNDNUM_SET_V12(x)	(((x) & 0x03) << 28)
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_DBGEN_SET_V12(x)	(((x) & 0x01) << 30)
+> > +#define RKISP1_CIF_ISP_HIST_ROW_NUM_V12		15
+> > +#define RKISP1_CIF_ISP_HIST_COLUMN_NUM_V12		15
+> > +#define RKISP1_CIF_ISP_HIST_WEIGHT_REG_SIZE_V12	\
+> > +				(RKISP1_CIF_ISP_HIST_ROW_NUM_V12 * RKISP1_CIF_ISP_HIST_COLUMN_NUM_V12)
+> > +
+> > +#define RKISP1_CIF_ISP_HIST_WEIGHT_SET_V12(v0, v1, v2, v3)	\
+> > +				(((v0) & 0x3F) | (((v1) & 0x3F) << 8) |\
+> > +				(((v2) & 0x3F) << 16) |\
+> > +				(((v3) & 0x3F) << 24))
+> > +
+> > +#define RKISP1_CIF_ISP_HIST_OFFS_SET_V12(v0, v1)	\
+> > +				(((v0) & 0x1FFF) | (((v1) & 0x1FFF) << 16))
+> > +#define RKISP1_CIF_ISP_HIST_SIZE_SET_V12(v0, v1)	\
+> > +				(((v0) & 0x7FF) | (((v1) & 0x7FF) << 16))
+> > +
+> > +#define RKISP1_CIF_ISP_HIST_GET_BIN0_V12(x)	\
+> > +				((x) & 0xFFFF)
+> > +#define RKISP1_CIF_ISP_HIST_GET_BIN1_V12(x)	\
+> > +				(((x) >> 16) & 0xFFFF)
+> > +
+> >   /* AUTO FOCUS MEASUREMENT:  ISP_AFM_CTRL */
+> >   #define RKISP1_ISP_AFM_CTRL_ENABLE			BIT(0)
+> >   
+> > @@ -430,6 +462,8 @@
+> >   #define RKISP1_CIF_ISP_AWB_MODE_YCBCR_EN		((0 << 31) | (0x2 << 0))
+> >   #define RKISP1_CIF_ISP_AWB_MODE_MASK_NONE		0xFFFFFFFC
+> >   #define RKISP1_CIF_ISP_AWB_MODE_READ(x)			((x) & 3)
+> > +#define RKISP1_CIF_ISP_AWB_SET_FRAMES_V12(x)		(((x) & 0x07) << 28)
+> > +#define RKISP1_CIF_ISP_AWB_SET_FRAMES_MASK_V12		RKISP1_CIF_ISP_AWB_SET_FRAMES_V12(0x07)
+> >   /* ISP_AWB_GAIN_RB, ISP_AWB_GAIN_G  */
+> >   #define RKISP1_CIF_ISP_AWB_GAIN_R_SET(x)		(((x) & 0x3FF) << 16)
+> >   #define RKISP1_CIF_ISP_AWB_GAIN_R_READ(x)		(((x) >> 16) & 0x3FF)
+> > @@ -464,6 +498,7 @@
+> >   /* ISP_EXP_CTRL */
+> >   #define RKISP1_CIF_ISP_EXP_ENA				BIT(0)
+> >   #define RKISP1_CIF_ISP_EXP_CTRL_AUTOSTOP		BIT(1)
+> > +#define RKISP1_CIF_ISP_EXP_CTRL_WNDNUM_SET_V12(x)	(((x) & 0x03) << 2)
+> >   /*
+> >    *'1' luminance calculation according to  Y=(R+G+B) x 0.332 (85/256)
+> >    *'0' luminance calculation according to Y=16+0.25R+0.5G+0.1094B
+> > @@ -473,15 +508,22 @@
+> >   /* ISP_EXP_H_SIZE */
+> >   #define RKISP1_CIF_ISP_EXP_H_SIZE_SET_V10(x)		((x) & 0x7FF)
+> >   #define RKISP1_CIF_ISP_EXP_HEIGHT_MASK_V10			0x000007FF
+> > +#define RKISP1_CIF_ISP_EXP_H_SIZE_SET_V12(x)		((x) & 0x7FF)
+> > +#define RKISP1_CIF_ISP_EXP_HEIGHT_MASK_V12		0x000007FF
+> >   /* ISP_EXP_V_SIZE : vertical size must be a multiple of 2). */
+> >   #define RKISP1_CIF_ISP_EXP_V_SIZE_SET_V10(x)		((x) & 0x7FE)
+> > +#define RKISP1_CIF_ISP_EXP_V_SIZE_SET_V12(x)		(((x) & 0x7FE) << 16)
+> >   
+> >   /* ISP_EXP_H_OFFSET */
+> >   #define RKISP1_CIF_ISP_EXP_H_OFFSET_SET_V10(x)		((x) & 0x1FFF)
+> >   #define RKISP1_CIF_ISP_EXP_MAX_HOFFS_V10		2424
+> > +#define RKISP1_CIF_ISP_EXP_H_OFFSET_SET_V12(x)		((x) & 0x1FFF)
+> > +#define RKISP1_CIF_ISP_EXP_MAX_HOFFS_V12		0x1FFF
+> >   /* ISP_EXP_V_OFFSET */
+> >   #define RKISP1_CIF_ISP_EXP_V_OFFSET_SET_V10(x)		((x) & 0x1FFF)
+> >   #define RKISP1_CIF_ISP_EXP_MAX_VOFFS_V10		1806
+> > +#define RKISP1_CIF_ISP_EXP_V_OFFSET_SET_V12(x)		(((x) & 0x1FFF) << 16)
+> > +#define RKISP1_CIF_ISP_EXP_MAX_VOFFS_V12		0x1FFF
+> >   
+> >   #define RKISP1_CIF_ISP_EXP_ROW_NUM_V10			5
+> >   #define RKISP1_CIF_ISP_EXP_COLUMN_NUM_V10			5
+> > @@ -500,13 +542,40 @@
+> >   #define RKISP1_CIF_ISP_EXP_MIN_VSIZE_V10	\
+> >   	(RKISP1_CIF_ISP_EXP_BLOCK_MIN_VSIZE_V10 * RKISP1_CIF_ISP_EXP_ROW_NUM_V10 + 1)
+> >   
+> > +#define RKISP1_CIF_ISP_EXP_ROW_NUM_V12			15
+> > +#define RKISP1_CIF_ISP_EXP_COLUMN_NUM_V12		15
+> > +#define RKISP1_CIF_ISP_EXP_NUM_LUMA_REGS_V12 \
+> > +	(RKISP1_CIF_ISP_EXP_ROW_NUM_V12 * RKISP1_CIF_ISP_EXP_COLUMN_NUM_V12)
+> > +
+> > +#define RKISP1_CIF_ISP_EXP_BLOCK_MAX_HSIZE_V12		0x7FF
+> > +#define RKISP1_CIF_ISP_EXP_BLOCK_MIN_HSIZE_V12		0xE
+> > +#define RKISP1_CIF_ISP_EXP_BLOCK_MAX_VSIZE_V12		0x7FE
+> > +#define RKISP1_CIF_ISP_EXP_BLOCK_MIN_VSIZE_V12		0xE
+> > +#define RKISP1_CIF_ISP_EXP_MAX_HSIZE_V12	\
+> > +	(RKISP1_CIF_ISP_EXP_BLOCK_MAX_HSIZE_V12 * RKISP1_CIF_ISP_EXP_COLUMN_NUM_V12 + 1)
+> > +#define RKISP1_CIF_ISP_EXP_MIN_HSIZE_V12	\
+> > +	(RKISP1_CIF_ISP_EXP_BLOCK_MIN_HSIZE_V12 * RKISP1_CIF_ISP_EXP_COLUMN_NUM_V12 + 1)
+> > +#define RKISP1_CIF_ISP_EXP_MAX_VSIZE_V12	\
+> > +	(RKISP1_CIF_ISP_EXP_BLOCK_MAX_VSIZE_V12 * RKISP1_CIF_ISP_EXP_ROW_NUM_V12 + 1)
+> > +#define RKISP1_CIF_ISP_EXP_MIN_VSIZE_V12	\
+> > +	(RKISP1_CIF_ISP_EXP_BLOCK_MIN_VSIZE_V12 * RKISP1_CIF_ISP_EXP_ROW_NUM_V12 + 1)
+> > +
+> > +#define RKISP1_CIF_ISP_EXP_GET_MEAN_xy0_V12(x)		((x) & 0xFF)
+> > +#define RKISP1_CIF_ISP_EXP_GET_MEAN_xy1_V12(x)		(((x) >> 8) & 0xFF)
+> > +#define RKISP1_CIF_ISP_EXP_GET_MEAN_xy2_V12(x)		(((x) >> 16) & 0xFF)
+> > +#define RKISP1_CIF_ISP_EXP_GET_MEAN_xy3_V12(x)		(((x) >> 24) & 0xFF)
+> > +
+> >   /* LSC: ISP_LSC_CTRL */
+> >   #define RKISP1_CIF_ISP_LSC_CTRL_ENA			BIT(0)
+> >   #define RKISP1_CIF_ISP_LSC_SECT_SIZE_RESERVED		0xFC00FC00
+> >   #define RKISP1_CIF_ISP_LSC_GRAD_RESERVED_V10		0xF000F000
+> >   #define RKISP1_CIF_ISP_LSC_SAMPLE_RESERVED_V10		0xF000F000
+> > +#define RKISP1_CIF_ISP_LSC_GRAD_RESERVED_V12		0xE000E000
+> > +#define RKISP1_CIF_ISP_LSC_SAMPLE_RESERVED_V12		0xE000E000
+> >   #define RKISP1_CIF_ISP_LSC_TABLE_DATA_V10(v0, v1)     \
+> >   	(((v0) & 0xFFF) | (((v1) & 0xFFF) << 12))
+> > +#define RKISP1_CIF_ISP_LSC_TABLE_DATA_V12(v0, v1)     \
+> > +	(((v0) & 0x1FFF) | (((v1) & 0x1FFF) << 13))
+> >   #define RKISP1_CIF_ISP_LSC_SECT_SIZE(v0, v1)      \
+> >   	(((v0) & 0xFFF) | (((v1) & 0xFFF) << 16))
+> >   #define RKISP1_CIF_ISP_LSC_GRAD_SIZE(v0, v1)      \
+> > @@ -579,6 +648,10 @@
+> >   	(1 << 15) | (1 << 11) | (1 << 7) | (1 << 3))
+> >   #define RKISP1_CIFISP_DEGAMMA_Y_RESERVED		0xFFFFF000
+> >   
+> > +/* GAMMA-OUT */
+> > +#define RKISP1_CIF_ISP_GAMMA_VALUE_V12(x, y)	\
+> > +	(((x) & 0xFFF) << 16 | ((y) & 0xFFF) << 0)
+> > +
+> >   /* AFM */
+> >   #define RKISP1_CIF_ISP_AFM_ENA				BIT(0)
+> >   #define RKISP1_CIF_ISP_AFM_THRES_RESERVED		0xFFFF0000
+> > @@ -589,6 +662,11 @@
+> >   #define RKISP1_CIF_ISP_AFM_WINDOW_Y_MIN			0x2
+> >   #define RKISP1_CIF_ISP_AFM_WINDOW_X(x)			(((x) & 0x1FFF) << 16)
+> >   #define RKISP1_CIF_ISP_AFM_WINDOW_Y(x)			((x) & 0x1FFF)
+> > +#define RKISP1_CIF_ISP_AFM_SET_SHIFT_a_V12(x, y)	(((x) & 0x7) << 16 | ((y) & 0x7) << 0)
+> > +#define RKISP1_CIF_ISP_AFM_SET_SHIFT_b_V12(x, y)	(((x) & 0x7) << 20 | ((y) & 0x7) << 4)
+> > +#define RKISP1_CIF_ISP_AFM_SET_SHIFT_c_V12(x, y)	(((x) & 0x7) << 24 | ((y) & 0x7) << 8)
+> > +#define RKISP1_CIF_ISP_AFM_GET_LUM_SHIFT_a_V12(x)	(((x) & 0x70000) >> 16)
+> > +#define RKISP1_CIF_ISP_AFM_GET_AFM_SHIFT_a_V12(x)	((x) & 0x7)
+> >   
+> >   /* DPF */
+> >   #define RKISP1_CIF_ISP_DPF_MODE_EN			BIT(0)
+> > @@ -611,6 +689,7 @@
+> >   #define RKISP1_CIF_CTRL_BASE			0x00000000
+> >   #define RKISP1_CIF_CCL				(RKISP1_CIF_CTRL_BASE + 0x00000000)
+> >   #define RKISP1_CIF_VI_ID			(RKISP1_CIF_CTRL_BASE + 0x00000008)
+> > +#define RKISP1_CIF_VI_ISP_CLK_CTRL_V12		(RKISP1_CIF_CTRL_BASE + 0x0000000C)
+> >   #define RKISP1_CIF_ICCL				(RKISP1_CIF_CTRL_BASE + 0x00000010)
+> >   #define RKISP1_CIF_IRCL				(RKISP1_CIF_CTRL_BASE + 0x00000014)
+> >   #define RKISP1_CIF_VI_DPCL			(RKISP1_CIF_CTRL_BASE + 0x00000018)
+> > @@ -708,6 +787,23 @@
+> >   #define RKISP1_CIF_ISP_AWB_GAIN_RB_V10		(RKISP1_CIF_ISP_BASE + 0x0000013C)
+> >   #define RKISP1_CIF_ISP_AWB_WHITE_CNT_V10	(RKISP1_CIF_ISP_BASE + 0x00000140)
+> >   #define RKISP1_CIF_ISP_AWB_MEAN_V10		(RKISP1_CIF_ISP_BASE + 0x00000144)
+> > +#define RKISP1_CIF_ISP_AWB_PROP_V12		(RKISP1_CIF_ISP_BASE + 0x00000110)
+> > +#define RKISP1_CIF_ISP_AWB_SIZE_V12		(RKISP1_CIF_ISP_BASE + 0x00000114)
+> > +#define RKISP1_CIF_ISP_AWB_OFFS_V12		(RKISP1_CIF_ISP_BASE + 0x00000118)
+> > +#define RKISP1_CIF_ISP_AWB_REF_V12		(RKISP1_CIF_ISP_BASE + 0x0000011C)
+> > +#define RKISP1_CIF_ISP_AWB_THRESH_V12		(RKISP1_CIF_ISP_BASE + 0x00000120)
+> > +#define RKISP1_CIF_ISP_X_COOR12_V12		(RKISP1_CIF_ISP_BASE + 0x00000124)
+> > +#define RKISP1_CIF_ISP_X_COOR34_V12		(RKISP1_CIF_ISP_BASE + 0x00000128)
+> > +#define RKISP1_CIF_ISP_AWB_WHITE_CNT_V12	(RKISP1_CIF_ISP_BASE + 0x0000012C)
+> > +#define RKISP1_CIF_ISP_AWB_MEAN_V12		(RKISP1_CIF_ISP_BASE + 0x00000130)
+> > +#define RKISP1_CIF_ISP_DEGAIN_V12		(RKISP1_CIF_ISP_BASE + 0x00000134)
+> > +#define RKISP1_CIF_ISP_AWB_GAIN_G_V12		(RKISP1_CIF_ISP_BASE + 0x00000138)
+> > +#define RKISP1_CIF_ISP_AWB_GAIN_RB_V12		(RKISP1_CIF_ISP_BASE + 0x0000013C)
+> > +#define RKISP1_CIF_ISP_REGION_LINE_V12		(RKISP1_CIF_ISP_BASE + 0x00000140)
+> > +#define RKISP1_CIF_ISP_WP_CNT_REGION0_V12	(RKISP1_CIF_ISP_BASE + 0x00000160)
+> > +#define RKISP1_CIF_ISP_WP_CNT_REGION1_V12	(RKISP1_CIF_ISP_BASE + 0x00000164)
+> > +#define RKISP1_CIF_ISP_WP_CNT_REGION2_V12	(RKISP1_CIF_ISP_BASE + 0x00000168)
+> > +#define RKISP1_CIF_ISP_WP_CNT_REGION3_V12	(RKISP1_CIF_ISP_BASE + 0x0000016C)
+> >   #define RKISP1_CIF_ISP_CC_COEFF_0		(RKISP1_CIF_ISP_BASE + 0x00000170)
+> >   #define RKISP1_CIF_ISP_CC_COEFF_1		(RKISP1_CIF_ISP_BASE + 0x00000174)
+> >   #define RKISP1_CIF_ISP_CC_COEFF_2		(RKISP1_CIF_ISP_BASE + 0x00000178)
+> > @@ -765,6 +861,8 @@
+> >   #define RKISP1_CIF_ISP_CT_OFFSET_R		(RKISP1_CIF_ISP_BASE + 0x00000248)
+> >   #define RKISP1_CIF_ISP_CT_OFFSET_G		(RKISP1_CIF_ISP_BASE + 0x0000024C)
+> >   #define RKISP1_CIF_ISP_CT_OFFSET_B		(RKISP1_CIF_ISP_BASE + 0x00000250)
+> > +#define RKISP1_CIF_ISP_GAMMA_OUT_MODE_V12	(RKISP1_CIF_ISP_BASE + 0x00000300)
+> > +#define RKISP1_CIF_ISP_GAMMA_OUT_Y_0_V12	(RKISP1_CIF_ISP_BASE + 0x00000304)
+> >   
+> >   #define RKISP1_CIF_ISP_FLASH_BASE		0x00000660
+> >   #define RKISP1_CIF_ISP_FLASH_CMD		(RKISP1_CIF_ISP_FLASH_BASE + 0x00000000)
+> > @@ -1117,6 +1215,9 @@
+> >   #define RKISP1_CIF_ISP_EXP_MEAN_24_V10		(RKISP1_CIF_ISP_EXP_BASE + 0x0000006c)
+> >   #define RKISP1_CIF_ISP_EXP_MEAN_34_V10		(RKISP1_CIF_ISP_EXP_BASE + 0x00000070)
+> >   #define RKISP1_CIF_ISP_EXP_MEAN_44_V10		(RKISP1_CIF_ISP_EXP_BASE + 0x00000074)
+> > +#define RKISP1_CIF_ISP_EXP_SIZE_V12		(RKISP1_CIF_ISP_EXP_BASE + 0x00000004)
+> > +#define RKISP1_CIF_ISP_EXP_OFFS_V12		(RKISP1_CIF_ISP_EXP_BASE + 0x00000008)
+> > +#define RKISP1_CIF_ISP_EXP_MEAN_V12		(RKISP1_CIF_ISP_EXP_BASE + 0x0000000c)
+> >   
+> >   #define RKISP1_CIF_ISP_BLS_BASE			0x00002700
+> >   #define RKISP1_CIF_ISP_BLS_CTRL			(RKISP1_CIF_ISP_BLS_BASE + 0x00000000)
+> > @@ -1277,6 +1378,16 @@
+> >   #define RKISP1_CIF_ISP_WDR_TONECURVE_YM_31_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x0000012C)
+> >   #define RKISP1_CIF_ISP_WDR_TONECURVE_YM_32_SHD	(RKISP1_CIF_ISP_WDR_BASE + 0x00000130)
+> >   
+> > +#define RKISP1_CIF_ISP_HIST_BASE_V12		0x00002C00
+> > +#define RKISP1_CIF_ISP_HIST_CTRL_V12		(RKISP1_CIF_ISP_HIST_BASE_V12 + 0x00000000)
+> > +#define RKISP1_CIF_ISP_HIST_SIZE_V12		(RKISP1_CIF_ISP_HIST_BASE_V12 + 0x00000004)
+> > +#define RKISP1_CIF_ISP_HIST_OFFS_V12		(RKISP1_CIF_ISP_HIST_BASE_V12 + 0x00000008)
+> > +#define RKISP1_CIF_ISP_HIST_DBG1_V12		(RKISP1_CIF_ISP_HIST_BASE_V12 + 0x0000000C)
+> > +#define RKISP1_CIF_ISP_HIST_DBG2_V12		(RKISP1_CIF_ISP_HIST_BASE_V12 + 0x0000001C)
+> > +#define RKISP1_CIF_ISP_HIST_DBG3_V12		(RKISP1_CIF_ISP_HIST_BASE_V12 + 0x0000002C)
+> > +#define RKISP1_CIF_ISP_HIST_WEIGHT_V12		(RKISP1_CIF_ISP_HIST_BASE_V12 + 0x0000003C)
+> > +#define RKISP1_CIF_ISP_HIST_BIN_V12		(RKISP1_CIF_ISP_HIST_BASE_V12 + 0x00000120)
+> > +
+> >   #define RKISP1_CIF_ISP_VSM_BASE			0x00002F00
+> >   #define RKISP1_CIF_ISP_VSM_MODE			(RKISP1_CIF_ISP_VSM_BASE + 0x00000000)
+> >   #define RKISP1_CIF_ISP_VSM_H_OFFS		(RKISP1_CIF_ISP_VSM_BASE + 0x00000004)
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
+> > index 3f286c55ad60..dd99d7ea9ff6 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
+> > @@ -196,6 +196,27 @@ static void rkisp1_stats_get_awb_meas_v10(struct rkisp1_stats *stats,
+> >   				RKISP1_CIF_ISP_AWB_GET_MEAN_Y_G(reg_val);
+> >   }
+> >   
+> > +static void rkisp1_stats_get_awb_meas_v12(struct rkisp1_stats *stats,
+> > +					  struct rkisp1_stat_buffer *pbuf)
+> > +{
+> > +	/* Protect against concurrent access from ISR? */
+> > +	struct rkisp1_device *rkisp1 = stats->rkisp1;
+> > +	u32 reg_val;
+> > +
+> > +	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_AWB;
+> > +	reg_val = rkisp1_read(rkisp1, RKISP1_CIF_ISP_AWB_WHITE_CNT_V12);
+> > +	pbuf->params.awb.awb_mean[0].cnt =
+> > +				RKISP1_CIF_ISP_AWB_GET_PIXEL_CNT(reg_val);
+> > +	reg_val = rkisp1_read(rkisp1, RKISP1_CIF_ISP_AWB_MEAN_V12);
+> > +
+> > +	pbuf->params.awb.awb_mean[0].mean_cr_or_r =
+> > +				RKISP1_CIF_ISP_AWB_GET_MEAN_CR_R(reg_val);
+> > +	pbuf->params.awb.awb_mean[0].mean_cb_or_b =
+> > +				RKISP1_CIF_ISP_AWB_GET_MEAN_CB_B(reg_val);
+> > +	pbuf->params.awb.awb_mean[0].mean_y_or_g =
+> > +				RKISP1_CIF_ISP_AWB_GET_MEAN_Y_G(reg_val);
+> > +}
+> > +
+> >   static void rkisp1_stats_get_aec_meas_v10(struct rkisp1_stats *stats,
+> >   					  struct rkisp1_stat_buffer *pbuf)
+> >   {
+> > @@ -209,6 +230,30 @@ static void rkisp1_stats_get_aec_meas_v10(struct rkisp1_stats *stats,
+> >   					RKISP1_CIF_ISP_EXP_MEAN_00_V10 + i * 4);
+> >   }
+> >   
+> > +static void rkisp1_stats_get_aec_meas_v12(struct rkisp1_stats *stats,
+> > +					  struct rkisp1_stat_buffer *pbuf)
+> > +{
+> > +	struct rkisp1_device *rkisp1 = stats->rkisp1;
+> > +	u32 value;
+> > +	int i;
+> > +
+> > +	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_AUTOEXP;
+> > +	for (i = 0; i < RKISP1_CIF_ISP_AE_MEAN_MAX_V12 / 4; i++) {
+> > +		value = rkisp1_read(rkisp1, RKISP1_CIF_ISP_EXP_MEAN_V12 + i * 4);
+> > +		pbuf->params.ae.exp_mean[4 * i + 0] =
+> > +				RKISP1_CIF_ISP_EXP_GET_MEAN_xy0_V12(value);
+> > +		pbuf->params.ae.exp_mean[4 * i + 1] =
+> > +				RKISP1_CIF_ISP_EXP_GET_MEAN_xy1_V12(value);
+> > +		pbuf->params.ae.exp_mean[4 * i + 2] =
+> > +				RKISP1_CIF_ISP_EXP_GET_MEAN_xy2_V12(value);
+> > +		pbuf->params.ae.exp_mean[4 * i + 3] =
+> > +				RKISP1_CIF_ISP_EXP_GET_MEAN_xy3_V12(value);
+> > +	}
+> > +
+> > +	value = rkisp1_read(rkisp1, RKISP1_CIF_ISP_EXP_MEAN_V12 + i * 4);
+> > +	pbuf->params.ae.exp_mean[4 * i + 0] = RKISP1_CIF_ISP_EXP_GET_MEAN_xy0_V12(value);
+> > +}
+> > +
+> >   static void rkisp1_stats_get_afc_meas(struct rkisp1_stats *stats,
+> >   				      struct rkisp1_stat_buffer *pbuf)
+> >   {
+> > @@ -240,6 +285,23 @@ static void rkisp1_stats_get_hst_meas_v10(struct rkisp1_stats *stats,
+> >   	}
+> >   }
+> >   
+> > +static void rkisp1_stats_get_hst_meas_v12(struct rkisp1_stats *stats,
+> > +					  struct rkisp1_stat_buffer *pbuf)
+> > +{
+> > +	struct rkisp1_device *rkisp1 = stats->rkisp1;
+> > +	u32 value;
+> > +	int i;
+> > +
+> > +	pbuf->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
+> > +	for (i = 0; i < RKISP1_CIF_ISP_HIST_BIN_N_MAX_V12 / 2; i++) {
+> > +		value = rkisp1_read(rkisp1, RKISP1_CIF_ISP_HIST_BIN_V12 + i * 4);
+> > +		pbuf->params.hist.hist_bins[2 * i] =
+> > +					RKISP1_CIF_ISP_HIST_GET_BIN0_V12(value);
+> > +		pbuf->params.hist.hist_bins[2 * i + 1] =
+> > +					RKISP1_CIF_ISP_HIST_GET_BIN1_V12(value);
+> > +	}
+> > +}
+> > +
+> >   static void rkisp1_stats_get_bls_meas(struct rkisp1_stats *stats,
+> >   				      struct rkisp1_stat_buffer *pbuf)
+> >   {
+> > @@ -293,6 +355,12 @@ static struct rkisp1_stats_ops rkisp1_v10_stats_ops = {
+> >   	.get_hst_meas = rkisp1_stats_get_hst_meas_v10,
+> >   };
+> >   
+> > +static struct rkisp1_stats_ops rkisp1_v12_stats_ops = {
+> > +	.get_awb_meas = rkisp1_stats_get_awb_meas_v12,
+> > +	.get_aec_meas = rkisp1_stats_get_aec_meas_v12,
+> > +	.get_hst_meas = rkisp1_stats_get_hst_meas_v12,
+> > +};
+> > +
+> >   static void
+> >   rkisp1_stats_send_measurement(struct rkisp1_stats *stats, u32 isp_ris)
+> >   {
+> > @@ -361,7 +429,10 @@ static void rkisp1_init_stats(struct rkisp1_stats *stats)
+> >   	stats->vdev_fmt.fmt.meta.buffersize =
+> >   		sizeof(struct rkisp1_stat_buffer);
+> >   
+> > -	stats->ops = &rkisp1_v10_stats_ops;
+> > +	if (stats->rkisp1->media_dev.hw_revision == RKISP1_V12)
+> > +		stats->ops = &rkisp1_v12_stats_ops;
+> > +	else
+> > +		stats->ops = &rkisp1_v10_stats_ops;
+> >   }
+> >   
+> >   int rkisp1_stats_register(struct rkisp1_device *rkisp1)
+> > 
+> 
+
+
+
 
