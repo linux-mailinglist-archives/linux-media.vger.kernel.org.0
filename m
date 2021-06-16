@@ -2,51 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26DA03A9EA1
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 17:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 655C83A9EA8
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 17:11:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234468AbhFPPMa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 11:12:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234469AbhFPPM3 (ORCPT
+        id S234488AbhFPPNu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 11:13:50 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59128 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234390AbhFPPNt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 11:12:29 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F197C061574
-        for <linux-media@vger.kernel.org>; Wed, 16 Jun 2021 08:10:23 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 6A4971F43925
-Message-ID: <dcf9370f0e8f407182a92ad7e844fc1d8f654f4d.camel@collabora.com>
-Subject: Re: [v4l-utils v5 0/5] Add support for meson building
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
+        Wed, 16 Jun 2021 11:13:49 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 456C13E5;
+        Wed, 16 Jun 2021 17:11:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623856301;
+        bh=sOiicZqrQxYBph3AEKu1KEJU/5pPmKS6fmccgMTllYo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iRe3emVR+VTqNxcYMHzAAtVQXMmaNrDduFoz25WOa7DNaLI95WM2IIRK3CbYYzD4b
+         NLSpZKyv/rppKv0lE6q8X0s+luSw0FoBctE7RMTTy395YEArvLjWhQNpFQ3XNzmwxD
+         VKbvheV7vYydpvVcCmy27srPVZAq+ElPkfnq0T5c=
+Date:   Wed, 16 Jun 2021 18:11:20 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Ariel D'Alessandro <ariel.dalessandro@collabora.com>,
+        kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
         hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
-        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
+        ezequiel@collabora.com, nicolas@ndufresne.ca,
         gjasny@googlemail.com, xavier.claessens@collabora.com,
-        user.vdr@gmail.com, sakari.ailus@iki.fi, rosenp@gmail.com
-Date:   Wed, 16 Jun 2021 11:10:10 -0400
-In-Reply-To: <20210616165947.70f73cec@coco.lan>
+        nicolas.dufresne@collabora.com, user.vdr@gmail.com,
+        sakari.ailus@iki.fi, rosenp@gmail.com
+Subject: Re: [v4l-utils v5 0/5] Add support for meson building
+Message-ID: <YMoUmPKSIYS68Mvh@pendragon.ideasonboard.com>
 References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
-         <f2f72ec5-e352-132f-b8d1-718589360bf0@ideasonboard.com>
-         <008aec9c-c1e6-7f8b-dde5-8fa53c1e9ee6@collabora.com>
-         <92b5c1bf-f4cf-5d5e-7c16-57d4a3446f67@ideasonboard.com>
-         <443286a1-b955-1ac1-742d-42b9182a435f@collabora.com>
-         <20210616165947.70f73cec@coco.lan>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
+ <f2f72ec5-e352-132f-b8d1-718589360bf0@ideasonboard.com>
+ <008aec9c-c1e6-7f8b-dde5-8fa53c1e9ee6@collabora.com>
+ <92b5c1bf-f4cf-5d5e-7c16-57d4a3446f67@ideasonboard.com>
+ <443286a1-b955-1ac1-742d-42b9182a435f@collabora.com>
+ <20210616165947.70f73cec@coco.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210616165947.70f73cec@coco.lan>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 16 juin 2021 à 16:59 +0200, Mauro Carvalho Chehab a écrit :
-> Em Wed, 16 Jun 2021 11:26:10 -0300
-> Ariel D'Alessandro <ariel.dalessandro@collabora.com> escreveu:
+On Wed, Jun 16, 2021 at 04:59:47PM +0200, Mauro Carvalho Chehab wrote:
+> Em Wed, 16 Jun 2021 11:26:10 -0300 Ariel D'Alessandro escreveu:
 > 
 > > Kieran,
 > > 
@@ -65,15 +68,11 @@ Le mercredi 16 juin 2021 à 16:59 +0200, Mauro Carvalho Chehab a écrit :
 > paths for most people. So, when one would try to run a program, it will
 > fail.
 
-It is the other way around, meson default to what ld.so.conf (your distribution)
-is configured to. In this case you are running a debian/unbutu system, and this
-is the proper path for multi-arch library placement.
+This depends on the distribution. On Debian-like distributions, to
+enable multi-arch support, an arch-specific directory is used. Debian
+adds it to ld.so.conf (for both /usr/lib and /usr/local/lib). On other
+distributions, /usr/lib or /usr/lib64 will be used by meson.
 
-If you try this on Fedora with a 64bit CPU, it would have picked
-/usr/local/lib64. Which is also the proper path for that Linux distribution.
-Debian has a more complex way, but it covers more use cases.
-
-> 
 > > As mentioned in another response. Autotools is building with `-g -O2` by
 > > default, that'd the equivalent meson configuration option
 > > --buildtype=debugoptimized. 
@@ -82,20 +81,13 @@ Debian has a more complex way, but it covers more use cases.
 > Basically something that it is useless for both developers and for
 > production. I wonder why they chose a crap default like that...
 
-Each projects have their own opinion on this. I believe debugoptimize is the
-right default. Here's how GStreamer project is setup (very first line of the
-meson code):
+The default is debug, so it includes debug (and no optimization). This
+can be overridden at the project level with
 
-project('gstreamer', 'c',
-  version : '1.19.1.1',
-  meson_version : '>= 0.54',
-  default_options : [ 'warning_level=1',
-                      'buildtype=debugoptimized' ])
+default_options : ['buildtype=debugoptimized']
 
-This is trivially straightforward and I understood Ariel will fix it in next
-version. Thanks for spotting.
+in the project() function.
 
-> 
 > > With this configuration the installtion
 > > sizes are not that different:
 > > 
@@ -124,10 +116,7 @@ version. Thanks for spotting.
 > Btw, that's basically one of the reasons why we print a summary of the
 > options when ./configure runs.
 
-We can and should definitely do that same.
+-- 
+Regards,
 
-> 
-> Thanks,
-> Mauro
-
-
+Laurent Pinchart
