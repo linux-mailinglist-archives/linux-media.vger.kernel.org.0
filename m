@@ -2,83 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACE313A9BAD
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 15:08:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBC863A9BBF
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 15:12:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232389AbhFPNKf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 09:10:35 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:58983 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233145AbhFPNKe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 09:10:34 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id tVHKlvM8NhqlttVHOlwLld; Wed, 16 Jun 2021 15:08:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1623848906; bh=w/KiJg39imppRsHBHOcN5ZbyrEfDh+J3SdG70/fsufc=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=vA86lBQ3sY8awFrg+i+CL5+a7z+2yufjvWO62Yn3vB6siWNOkDDXaQ+3kuzAr2qMZ
-         Lqc/9mYpbJ0UFB/jJpuIjQLvtx86ZkMRzQilxOG5pROL8gSJHCIGj8+Duljc+Iuw9h
-         G9ONfzYEFJt4S8M+0yitrO+hIyWeOHyzwQ3oi0AIPJPZpNll2IUY+VyQ+1X44xsY9w
-         b0R9XtJsXctxWg1a5Ig1Hbs4dMyFSqQj5338Hqup1w5umpEb2Qf4zdyRWKee8jQR3T
-         QMgfoXVGfjLncz2esD9XfTFTk7mgxDKKUDGzqcpGgYJal0SqHR1OvIjdqKtQHRXS6Y
-         xAmEdrl9A+kmg==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     jacopo mondi <jacopo@jmondi.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.14] gmsl: Reliability improvements
-Message-ID: <26aa3fed-ec7f-fbcc-3f05-5660d12750dd@xs4all.nl>
-Date:   Wed, 16 Jun 2021 15:08:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        id S232389AbhFPNOq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 09:14:46 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:52488 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230087AbhFPNOq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Jun 2021 09:14:46 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ltVLR-001h0T-Sh; Wed, 16 Jun 2021 13:12:37 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ltVPu-0008Q0-W3; Wed, 16 Jun 2021 13:17:15 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] v2: v4l2-subdev: add subdev-wide state struct (#75014)
+Date:   Wed, 16 Jun 2021 13:17:14 +0000
+Message-Id: <20210616131714.32319-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <c54f4d29-23b1-02b0-72b1-3fb4134e1b03@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfE3FfqZjkIW79kPL4n2QmW8UtnoSD9oxpFIjzPa4ZV3H1N505KIwxR5i+OIuICcSDLe9Dx1Cri7ikDDIdXlFraTcP0/b5iXgUBbyLUZuJ+mvyzGQHhtA
- wKTrb9AV+BWg78BvskJLXUYX0DubD3knIYhvHgtza+XO8eA7McGpe+Z6OdN/snU64EbJHBwhLevIvGYrpBDmUq4jtLqfXhIdWFHr6+B5PIQElcSi1o0IeFeR
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 45040f675041956ad763f9ef139ecee3647aa8bb:
+From: builder@linuxtv.org
 
-  media: hantro: IMX8M: add variant for G2/HEVC codec (2021-06-08 16:13:53 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/c54f4d29-23b1-02b0-72b1-3fb4134e1b03@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/115848/
+Build time: 00:14:21
+Link: https://lore.kernel.org/linux-media/c54f4d29-23b1-02b0-72b1-3fb4134e1b03@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Mon 14 Jun 2021 09:48:01 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14p
+Summary: got 1/1 patches with issues, being 1 at build time
 
-for you to fetch changes up to 3bada38185f153cc1ca1abef788dac918d37455e:
+Error/warnings:
 
-  media: i2c: rdacm20: Re-work ov10635 reset (2021-06-16 15:02:35 +0200)
+patches/0001-media-v4l2-subdev-add-subdev-wide-state-struct.patch:
 
-----------------------------------------------------------------
-Tag branch
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
 
-----------------------------------------------------------------
-Jacopo Mondi (15):
-      media: i2c: max9286: Adjust parameters indent
-      media: i2c: max9286: Rename reverse_channel_mv
-      media: i2c: max9286: Cache channel amplitude
-      media: i2c: max9286: Define high channel amplitude
-      media: i2c: max9286: Rework comments in .bound()
-      media: i2c: max9271: Check max9271_write() return
-      media: i2c: max9271: Introduce wake_up() function
-      media: i2c: rdacm21: Add delay after OV490 reset
-      media: i2c: rdacm21: Fix OV10640 powerup
-      media: i2c: rdacm21: Power up OV10640 before OV490
-      media: i2c: rdacm20: Enable noise immunity
-      media: i2c: rdacm20: Embed 'serializer' field
-      media: i2c: rdacm20: Report camera module name
-      media: i2c: rdacm20: Check return values
-      media: i2c: rdacm20: Re-work ov10635 reset
+    allyesconfig: return code #512:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	(null):builtin:2:0: error: missing terminating " character
+	No such file: drivers/media/platform/atmel/atmel-xisc"
+	SPARSE:(null) builtin:2:0:  warning: missing terminating " character
+	No such file: drivers/media/platform/atmel/atmel-xisc"
+	make[5]: *** [../scripts/Makefile.build:272: drivers/media/platform/atmel/atmel-isc-base.o] Error 1
+	make[5]: *** Deleting file 'drivers/media/platform/atmel/atmel-isc-base.o'
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:515: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:515: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
+	make: *** [Makefile:215: __sub-make] Error 2
 
- drivers/media/i2c/max9271.c | 42 +++++++++++++++++++++++++++++++-------
- drivers/media/i2c/max9271.h |  9 ++++++++
- drivers/media/i2c/max9286.c | 41 ++++++++++++++++++++-----------------
- drivers/media/i2c/rdacm20.c | 84 ++++++++++++++++++++++++++++++++++++++++++++-------------------------------
- drivers/media/i2c/rdacm21.c | 67 +++++++++++++++++++++++++++++++++++++++++-------------------
- 5 files changed, 161 insertions(+), 82 deletions(-)
+   checkpatch.pl:
+	$ cat patches/0001-media-v4l2-subdev-add-subdev-wide-state-struct.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:28: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+	-:37: ERROR: Avoid using diff content in the commit message - patch(1) might not work
+	-:9434: CHECK: Comparison to NULL could be written "!sd_state"
+	-:13212: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:13338: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:13411: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
