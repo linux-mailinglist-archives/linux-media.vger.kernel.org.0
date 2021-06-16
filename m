@@ -2,34 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F2833A9E8D
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 17:06:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26DA03A9EA1
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 17:10:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234443AbhFPPIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 11:08:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33710 "EHLO
+        id S234468AbhFPPMa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 11:12:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234432AbhFPPIX (ORCPT
+        with ESMTP id S234469AbhFPPM3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 11:08:23 -0400
+        Wed, 16 Jun 2021 11:12:29 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B839AC06175F
-        for <linux-media@vger.kernel.org>; Wed, 16 Jun 2021 08:06:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F197C061574
+        for <linux-media@vger.kernel.org>; Wed, 16 Jun 2021 08:10:23 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: xclaesse)
-        with ESMTPSA id 01A081F43912
-Message-ID: <c268f0cc04cfc892270b406fb4302425dc097477.camel@collabora.com>
+        (Authenticated sender: nicolas)
+        with ESMTPSA id 6A4971F43925
+Message-ID: <dcf9370f0e8f407182a92ad7e844fc1d8f654f4d.camel@collabora.com>
 Subject: Re: [v4l-utils v5 0/5] Add support for meson building
-From:   Xavier Claessens <xavier.claessens@collabora.com>
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 Cc:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
         hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
         laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
-        nicolas@ndufresne.ca, gjasny@googlemail.com,
-        nicolas.dufresne@collabora.com, user.vdr@gmail.com,
-        sakari.ailus@iki.fi, rosenp@gmail.com
-Date:   Wed, 16 Jun 2021 11:06:04 -0400
+        gjasny@googlemail.com, xavier.claessens@collabora.com,
+        user.vdr@gmail.com, sakari.ailus@iki.fi, rosenp@gmail.com
+Date:   Wed, 16 Jun 2021 11:10:10 -0400
 In-Reply-To: <20210616165947.70f73cec@coco.lan>
 References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
          <f2f72ec5-e352-132f-b8d1-718589360bf0@ideasonboard.com>
@@ -38,30 +37,97 @@ References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
          <443286a1-b955-1ac1-742d-42b9182a435f@collabora.com>
          <20210616165947.70f73cec@coco.lan>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 16 juin 2021 à 16:59 +0200, Mauro Carvalho Chehab a écrit :
-> As mentioned in another response. Autotools is building with `-g
-> > -O2` by
+Le mercredi 16 juin 2021 à 16:59 +0200, Mauro Carvalho Chehab a écrit :
+> Em Wed, 16 Jun 2021 11:26:10 -0300
+> Ariel D'Alessandro <ariel.dalessandro@collabora.com> escreveu:
+> 
+> > Kieran,
+> > 
+> 
+> > >  - Meson decided to default libdir to
+> > >      /usr/local/lib/x86_64-linux-gnu
+> > >    while autoconf used
+> > >      /usr/local/lib
+> > >    (it's likely handled by the package managers anyway)  
+> > 
+> >   $ meson configure ../build-meson/ | grep libdir
+> >     libdir    lib/x86_64-linux-gnu    Library directory
+> 
+> The default isn't nice, and will likely cause troubles for the users, as 
+> /usr/local/lib/x86_64-linux-gnu would hardly be at the ld.so.conf list of 
+> paths for most people. So, when one would try to run a program, it will
+> fail.
+
+It is the other way around, meson default to what ld.so.conf (your distribution)
+is configured to. In this case you are running a debian/unbutu system, and this
+is the proper path for multi-arch library placement.
+
+If you try this on Fedora with a 64bit CPU, it would have picked
+/usr/local/lib64. Which is also the proper path for that Linux distribution.
+Debian has a more complex way, but it covers more use cases.
+
+> 
+> > As mentioned in another response. Autotools is building with `-g -O2` by
 > > default, that'd the equivalent meson configuration option
 > > --buildtype=debugoptimized. 
 > 
-> I can't understand the Meson's default... no optimization and no
-> debug!
+> I can't understand the Meson's default... no optimization and no debug!
 > Basically something that it is useless for both developers and for
 > production. I wonder why they chose a crap default like that...
 
-Most project make it the default with:
-project(..., default_options : ['buildtype=debugoptimized'])
+Each projects have their own opinion on this. I believe debugoptimize is the
+right default. Here's how GStreamer project is setup (very first line of the
+meson code):
 
-I _think_ it is not the default because it is often less debugable when
-it's optimized.
+project('gstreamer', 'c',
+  version : '1.19.1.1',
+  meson_version : '>= 0.54',
+  default_options : [ 'warning_level=1',
+                      'buildtype=debugoptimized' ])
 
-Regards,
-Xavier Claessens.
+This is trivially straightforward and I understood Ariel will fix it in next
+version. Thanks for spotting.
+
+> 
+> > With this configuration the installtion
+> > sizes are not that different:
+> > 
+> >   $ du -s installation_m*
+> >   37068	installation_make
+> >   37848	installation_meson
+> 
+> It sounds a lot more coherent.
+> 
+> > In this case the difference is related to libtool `.la` files not being
+> > generated by meson and gconv/ only installed by meson. The latest is
+> > probably a feature being only detected by meson in this case, will check
+> > that out.
+> 
+> It was opted to not enable gconv by default, as similar patchset - needed
+> to support ARIB STD B-24 charset used by Japanese digital TV - was sent to 
+> gconv upstream (not sure if it was merged or not). On other words, the 
+> contrib/gconv stuff is independent of v4l-utils itself: it basically
+> adds an extra charset to be used by gconv upstream.
+> 
+> The only reason why it is present at v4l2-utils is that this charset
+> is present on ISDB tables on TV broadcasts in Japan. The gconv library
+> needs to support it, in order to  convert characters from MPEG tables
+> to the system's charset.
+> 
+> Btw, that's basically one of the reasons why we print a summary of the
+> options when ./configure runs.
+
+We can and should definitely do that same.
+
+> 
+> Thanks,
+> Mauro
+
 
