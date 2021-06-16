@@ -2,98 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60C553A94F3
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 10:27:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13B643A951D
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 10:32:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231889AbhFPI3N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 04:29:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231744AbhFPI3M (ORCPT
+        id S231381AbhFPIfB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 04:35:01 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:4944 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231334AbhFPIfB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 04:29:12 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21C99C061574
-        for <linux-media@vger.kernel.org>; Wed, 16 Jun 2021 01:27:06 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id n20so1536232edv.8
-        for <linux-media@vger.kernel.org>; Wed, 16 Jun 2021 01:27:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=IVTqokzmJtH8YP62XhkCvu3HVJ/rLNfsAlMIAEY59CE=;
-        b=EwEYNY4o/LxWqe7QhW3a60rhBvw/kRELesY+OsHJ+XaBjf0r6WAzYlVTjcdo3Q+M0B
-         hlXIM9gJRkjGWtrSWXsIB1Y9niKXfnaCOZUVlw3phEEKG7nQDYXmmmN2Ucu9vqaHWEV7
-         tWJ4gJwUSDTwiOoG/dQUHjc4hOFVi7cJ2h9TTcKLtXsUbxKE+zsrWj7tUT6UhK727GP9
-         28UoI8wNQKRUSJQQm7gGpOGysujbsiyWzIbMJ3p5hqBn6Q9UK6gdq2tnSP0kBgNjwGRM
-         jGN5xHkwvWTZXFhTHC3ye6Skxz67KYEhWjyqNJA1inGuvlzJo5C7CyopuppTDQvFj9ZZ
-         skuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IVTqokzmJtH8YP62XhkCvu3HVJ/rLNfsAlMIAEY59CE=;
-        b=ntLaoOYV2J8SIQzhUIoY+KECe0kzWuWIPEajwxdOCR572ZXuKjz4PNJjxZDnfstJJl
-         pWnG61lZJVorxKl/x3KwfQFPJZDflylRRMKHVkkijdG7fRhs+F9jtoTSE/Tn8u3MJchL
-         tMGcO9cDWzkz/PTagL2CPMUJEWK1qujlXpCiRuFTJX3iqljvhJ6pfCnzQACKadgftfWC
-         Ktvp5QUIIvPhxpO4k3lThPIK1gGH0XXD9lWgyDT+HQGmCMN4rMPjz4skuTVc7ecB4May
-         HadZYzWRRZ254ZHf6B5KGG5Z5s7eS93qq+ty9JVZWykJYD1exFCB6QU3Miv+lesqVAhn
-         cOzQ==
-X-Gm-Message-State: AOAM530ZQ0BLaFX/P34UNQ/zABiB+1dSCe+S8fL+nJTxyWAhCled59Eq
-        aVaVQHb2733+6ZaGYS0fWi7sWyVQgdg=
-X-Google-Smtp-Source: ABdhPJx4sV239SQRT2vcbJ7VyXdlQJ8tWQ82/GMk1JT2JyYbq5iZo7gKx4+Rw7i+3JlO3ydX9xlE6w==
-X-Received: by 2002:a05:6402:1644:: with SMTP id s4mr2774807edx.190.1623832024719;
-        Wed, 16 Jun 2021 01:27:04 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:8b88:17a4:582b:121f])
-        by smtp.gmail.com with ESMTPSA id v7sm1152639edx.38.2021.06.16.01.27.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 01:27:04 -0700 (PDT)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        sumit.semwal@linaro.org
-Subject: [PATCH 7/7] drm/amdgpu: drop CS workaround adding the shared manually
-Date:   Wed, 16 Jun 2021 10:26:55 +0200
-Message-Id: <20210616082655.111001-8-christian.koenig@amd.com>
+        Wed, 16 Jun 2021 04:35:01 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G4ddy67LPz6yBK;
+        Wed, 16 Jun 2021 16:29:42 +0800 (CST)
+Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 16 Jun 2021 16:32:52 +0800
+Received: from huawei.com (10.175.103.91) by dggpeml500017.china.huawei.com
+ (7.185.36.243) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 16 Jun
+ 2021 16:32:52 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
+CC:     <mchehab@kernel.org>, <verkuil-cisco@xs4all.nl>
+Subject: [PATCH -next] [media] saa7134: convert list_for_each to entry variant
+Date:   Wed, 16 Jun 2021 16:36:45 +0800
+Message-ID: <20210616083645.2523658-1-yangyingliang@huawei.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210616082655.111001-1-christian.koenig@amd.com>
-References: <20210616082655.111001-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500017.china.huawei.com (7.185.36.243)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Drop the workaround adding the shared fence manually in the CS.
+Convert list_for_each() to list_for_each_entry() where
+applicable.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/media/pci/saa7134/saa7134-alsa.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 25655414e9c0..af8f5ff5f12c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1273,14 +1273,10 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 		/*
- 		 * Work around dma_resv shortcommings by wrapping up the
- 		 * submission in a dma_fence_chain and add it as exclusive
--		 * fence, but first add the submission as shared fence to make
--		 * sure that shared fences never signal before the exclusive
--		 * one.
-+		 * fence.
- 		 */
- 		dma_fence_chain_init(chain, dma_resv_excl_fence(resv),
- 				     dma_fence_get(p->fence), 1);
--
--		dma_resv_add_shared_fence(resv, p->fence);
- 		rcu_assign_pointer(resv->fence_excl, &chain->base);
- 		e->chain = NULL;
- 	}
+diff --git a/drivers/media/pci/saa7134/saa7134-alsa.c b/drivers/media/pci/saa7134/saa7134-alsa.c
+index 7a1fb067b0e0..fb24d2ed3621 100644
+--- a/drivers/media/pci/saa7134/saa7134-alsa.c
++++ b/drivers/media/pci/saa7134/saa7134-alsa.c
+@@ -1215,15 +1215,13 @@ static int alsa_device_exit(struct saa7134_dev *dev)
+ static int saa7134_alsa_init(void)
+ {
+ 	struct saa7134_dev *dev = NULL;
+-	struct list_head *list;
+ 
+ 	saa7134_dmasound_init = alsa_device_init;
+ 	saa7134_dmasound_exit = alsa_device_exit;
+ 
+ 	pr_info("saa7134 ALSA driver for DMA sound loaded\n");
+ 
+-	list_for_each(list,&saa7134_devlist) {
+-		dev = list_entry(list, struct saa7134_dev, devlist);
++	list_for_each_entry(dev, &saa7134_devlist, devlist) {
+ 		if (dev->pci->device == PCI_DEVICE_ID_PHILIPS_SAA7130)
+ 			pr_info("%s/alsa: %s doesn't support digital audio\n",
+ 				dev->name, saa7134_boards[dev->board].name);
 -- 
 2.25.1
 
