@@ -2,110 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 511D73A9585
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 11:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43CD83A978E
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 12:35:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232197AbhFPJHl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 05:07:41 -0400
-Received: from m12-12.163.com ([220.181.12.12]:51375 "EHLO m12-12.163.com"
+        id S232508AbhFPKh2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 06:37:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50158 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232199AbhFPJHf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 05:07:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=UGFP8
-        /RSPb0vQgFHNw18cfj7EGxy7Okd4YcI1roKqFc=; b=biKT964WMFooHs81TwS5r
-        NqI7F4W5kstIoGKxCVBYD2COeHc2YVveHT/hpvL3JwZeagayfWYm46n4m0PEzR7k
-        p7nVmrOjlHAMQjc0fYSnzP/SlfHefeECtpNsPbSO7fFu0OhydVe68TCU/WBRdOak
-        wd3DyhViXlRNKuUWMBzZbY=
-Received: from localhost.localdomain (unknown [218.17.89.92])
-        by smtp8 (Coremail) with SMTP id DMCowAA3NdGec8lgbxncKA--.524S2;
-        Wed, 16 Jun 2021 11:44:32 +0800 (CST)
-From:   lijian_8010a29@163.com
-To:     mkrufky@linuxtv.org, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lijian <lijian@yulong.com>
-Subject: [PATCH] media: tuners: mxl5007t: Removed unnecessary 'return'
-Date:   Wed, 16 Jun 2021 11:43:33 +0800
-Message-Id: <20210616034333.26367-1-lijian_8010a29@163.com>
-X-Mailer: git-send-email 2.25.1
+        id S232370AbhFPKhA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Jun 2021 06:37:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 998E661107;
+        Wed, 16 Jun 2021 10:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623839691;
+        bh=uJEv3OvJMqswalWvG2rx1DCmioR+VtUOrO7CZGR2Ajw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=A6wsFevRhS9CeafwlT529v2rV3Gm9GGwn4GGkmYDghQBgvSltNdLhA2d1VwUgm9YV
+         V+BZ/Z7dkVuRC9jA+aF8uUIN4oppwPSoc0YE3UC/NPxsGiCugwhXT7XZEbbeh2pmB/
+         M4rdDOJ4s0X9LmiRn4axjJlxF+T4B+Wd1HYLAz0MgEG64RvZ+ZZaXxAxnqcCDwPJej
+         pW3zx7fe6lsVprl/vQScwg/OlH7/cEN61iAlussljsV2mRmi/pOkb0n3FbRiUdCHAK
+         H6X3SZGPBKP1nePHfXCLHq/6yaW3vQZyt5NRvZBipljaN3xhgyRVkvGP83STRQZ1Xh
+         jhhQBOeaewbeQ==
+Date:   Wed, 16 Jun 2021 16:04:47 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
+        alsa-devel@alsa-project.org, iommu@lists.linux-foundation.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] dt-bindings: Drop redundant minItems/maxItems
+Message-ID: <YMnTx4GqTWu75o2n@vkoul-mobl>
+References: <20210615191543.1043414-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DMCowAA3NdGec8lgbxncKA--.524S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AFy8GrWruw1fuF1xXrWkJFb_yoW8AryUpr
-        9xZF9xuFWqqr1DJa15try5AFn8CF4vk340vry7G3sakFyUZrs8X39rJay8Jr9ayFy8Aw1r
-        ArsF9r4Iyr4UXFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07bbwZcUUUUU=
-X-Originating-IP: [218.17.89.92]
-X-CM-SenderInfo: 5olmxttqbyiikqdsmqqrwthudrp/1tbiqwCzUFUMZ1tR3gAAsi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210615191543.1043414-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: lijian <lijian@yulong.com>
+On 15-06-21, 13:15, Rob Herring wrote:
+> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
+> same size as the list is redundant and can be dropped. Note that is DT
+> schema specific behavior and not standard json-schema behavior. The tooling
+> will fixup the final schema adding any unspecified minItems/maxItems.
+> 
+> This condition is partially checked with the meta-schema already, but
+> only if both 'minItems' and 'maxItems' are equal to the 'items' length.
+> An improved meta-schema is pending.
 
-Removed unnecessary 'return'.
+>  .../devicetree/bindings/dma/renesas,rcar-dmac.yaml          | 1 -
 
-Signed-off-by: lijian <lijian@yulong.com>
----
- drivers/media/tuners/mxl5007t.c | 9 ---------
- 1 file changed, 9 deletions(-)
+>  Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml    | 1 -
+>  Documentation/devicetree/bindings/phy/mediatek,tphy.yaml    | 2 --
+>  .../devicetree/bindings/phy/phy-cadence-sierra.yaml         | 2 --
+>  .../devicetree/bindings/phy/phy-cadence-torrent.yaml        | 4 ----
+>  .../devicetree/bindings/phy/qcom,ipq806x-usb-phy-hs.yaml    | 1 -
+>  .../devicetree/bindings/phy/qcom,ipq806x-usb-phy-ss.yaml    | 1 -
+>  Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml     | 1 -
+>  Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml   | 2 --
+>  Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml | 2 --
+>  Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml | 1 -
 
-diff --git a/drivers/media/tuners/mxl5007t.c b/drivers/media/tuners/mxl5007t.c
-index 26a277975cb1..03c46a62bf26 100644
---- a/drivers/media/tuners/mxl5007t.c
-+++ b/drivers/media/tuners/mxl5007t.c
-@@ -172,7 +172,6 @@ static void set_reg_bits(struct reg_pair_t *reg_pair, u8 reg, u8 mask, u8 val)
- 		i++;
- 
- 	}
--	return;
- }
- 
- static void copy_reg_bits(struct reg_pair_t *reg_pair1,
-@@ -193,7 +192,6 @@ static void copy_reg_bits(struct reg_pair_t *reg_pair1,
- 		}
- 		i++;
- 	}
--	return;
- }
- 
- /* ------------------------------------------------------------------------- */
-@@ -221,7 +219,6 @@ static void mxl5007t_set_mode_bits(struct mxl5007t_state *state,
- 	default:
- 		mxl_fail(-EINVAL);
- 	}
--	return;
- }
- 
- static void mxl5007t_set_if_freq_bits(struct mxl5007t_state *state,
-@@ -274,8 +271,6 @@ static void mxl5007t_set_if_freq_bits(struct mxl5007t_state *state,
- 	set_reg_bits(state->tab_init, 0x02, 0x10, invert_if ? 0x10 : 0x00);
- 
- 	state->if_freq = if_freq;
--
--	return;
- }
- 
- static void mxl5007t_set_xtal_freq_bits(struct mxl5007t_state *state,
-@@ -343,8 +338,6 @@ static void mxl5007t_set_xtal_freq_bits(struct mxl5007t_state *state,
- 		mxl_fail(-EINVAL);
- 		return;
- 	}
--
--	return;
- }
- 
- static struct reg_pair_t *mxl5007t_calc_init_regs(struct mxl5007t_state *state,
-@@ -398,8 +391,6 @@ static void mxl5007t_set_bw_bits(struct mxl5007t_state *state,
- 		return;
- 	}
- 	set_reg_bits(state->tab_rftune, 0x0c, 0x3f, val);
--
--	return;
- }
- 
- static struct
+Acked-By: Vinod Koul <vkoul@kernel.org>
+
 -- 
-2.25.1
-
-
+~Vinod
