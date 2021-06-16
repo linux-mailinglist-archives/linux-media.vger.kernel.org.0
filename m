@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B7E23A9AC7
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3AF33A9ACA
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:46:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232931AbhFPMsC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 08:48:02 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:55241 "EHLO
+        id S232985AbhFPMsI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 08:48:08 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:43289 "EHLO
         relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232925AbhFPMr6 (ORCPT
+        with ESMTP id S232941AbhFPMsB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 08:47:58 -0400
+        Wed, 16 Jun 2021 08:48:01 -0400
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id C78F81C0015;
-        Wed, 16 Jun 2021 12:45:49 +0000 (UTC)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 16C791C0006;
+        Wed, 16 Jun 2021 12:45:51 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         kieran.bingham+renesas@ideasonboard.com,
@@ -25,9 +25,9 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v5 06/15] media: i2c: max9271: Check max9271_write() return
-Date:   Wed, 16 Jun 2021 14:46:07 +0200
-Message-Id: <20210616124616.49249-7-jacopo+renesas@jmondi.org>
+Subject: [PATCH v5 07/15] media: i2c: max9271: Introduce wake_up() function
+Date:   Wed, 16 Jun 2021 14:46:08 +0200
+Message-Id: <20210616124616.49249-8-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616124616.49249-1-jacopo+renesas@jmondi.org>
 References: <20210616124616.49249-1-jacopo+renesas@jmondi.org>
@@ -37,94 +37,101 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Check the return value of the max9271_write() function in the
-max9271 library driver.
+The MAX9271 chip manual prescribes a delay of 5 milliseconds
+after the chip exits from low power state.
 
-While at it, modify an existing condition to be made identical
-to other checks.
+Add a new function to the max9271 library driver that wakes up the chip
+with a dummy i2c transaction and implements the correct delay of 5
+milliseconds after the chip exits from low power state.
+
+Use the newly introduced function in the rdacm20 and rdacm21 camera
+drivers. The former was not respecting the required delay while the
+latter was waiting for a too-short timeout.
 
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/max9271.c | 30 +++++++++++++++++++++++-------
- 1 file changed, 23 insertions(+), 7 deletions(-)
+ drivers/media/i2c/max9271.c | 12 ++++++++++++
+ drivers/media/i2c/max9271.h |  9 +++++++++
+ drivers/media/i2c/rdacm20.c |  4 +---
+ drivers/media/i2c/rdacm21.c |  5 +----
+ 4 files changed, 23 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/i2c/max9271.c b/drivers/media/i2c/max9271.c
-index c495582dcff6..2c7dc7fb9846 100644
+index 2c7dc7fb9846..ff86c8c4ea61 100644
 --- a/drivers/media/i2c/max9271.c
 +++ b/drivers/media/i2c/max9271.c
-@@ -106,7 +106,10 @@ int max9271_set_serial_link(struct max9271_device *dev, bool enable)
- 	 * Short delays here appear to show bit-errors in the writes following.
- 	 * Therefore a conservative delay seems best here.
- 	 */
--	max9271_write(dev, 0x04, val);
-+	ret = max9271_write(dev, 0x04, val);
-+	if (ret < 0)
-+		return ret;
-+
- 	usleep_range(5000, 8000);
+@@ -80,6 +80,18 @@ static int max9271_pclk_detect(struct max9271_device *dev)
+ 	return -EIO;
+ }
  
- 	return 0;
-@@ -118,7 +121,7 @@ int max9271_configure_i2c(struct max9271_device *dev, u8 i2c_config)
++void max9271_wake_up(struct max9271_device *dev)
++{
++	/*
++	 * Use the chip default address as this function has to be called
++	 * before any other one.
++	 */
++	dev->client->addr = MAX9271_DEFAULT_ADDR;
++	i2c_smbus_read_byte(dev->client);
++	usleep_range(5000, 8000);
++}
++EXPORT_SYMBOL_GPL(max9271_wake_up);
++
+ int max9271_set_serial_link(struct max9271_device *dev, bool enable)
+ {
+ 	int ret;
+diff --git a/drivers/media/i2c/max9271.h b/drivers/media/i2c/max9271.h
+index d78fb21441e9..dc5e4e70ba6f 100644
+--- a/drivers/media/i2c/max9271.h
++++ b/drivers/media/i2c/max9271.h
+@@ -85,6 +85,15 @@ struct max9271_device {
+ 	struct i2c_client *client;
+ };
+ 
++/**
++ * max9271_wake_up() - Wake up the serializer by issuing an i2c transaction
++ * @dev: The max9271 device
++ *
++ * This function shall be called before any other interaction with the
++ * serializer.
++ */
++void max9271_wake_up(struct max9271_device *dev);
++
+ /**
+  * max9271_set_serial_link() - Enable/disable serial link
+  * @dev: The max9271 device
+diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+index 90eb73f0e6e9..c1a717153303 100644
+--- a/drivers/media/i2c/rdacm20.c
++++ b/drivers/media/i2c/rdacm20.c
+@@ -455,9 +455,7 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+ 	unsigned int retry = 3;
  	int ret;
  
- 	ret = max9271_write(dev, 0x0d, i2c_config);
--	if (ret)
-+	if (ret < 0)
- 		return ret;
+-	/* Verify communication with the MAX9271: ping to wakeup. */
+-	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
+-	i2c_smbus_read_byte(dev->serializer->client);
++	max9271_wake_up(dev->serializer);
  
- 	/* The delay required after an I2C bus configuration change is not
-@@ -143,7 +146,10 @@ int max9271_set_high_threshold(struct max9271_device *dev, bool enable)
- 	 * Enable or disable reverse channel high threshold to increase
- 	 * immunity to power supply noise.
- 	 */
--	max9271_write(dev, 0x08, enable ? ret | BIT(0) : ret & ~BIT(0));
-+	ret = max9271_write(dev, 0x08, enable ? ret | BIT(0) : ret & ~BIT(0));
-+	if (ret < 0)
-+		return ret;
-+
- 	usleep_range(2000, 2500);
- 
- 	return 0;
-@@ -152,6 +158,8 @@ EXPORT_SYMBOL_GPL(max9271_set_high_threshold);
- 
- int max9271_configure_gmsl_link(struct max9271_device *dev)
+ 	/* Serial link disabled during config as it needs a valid pixel clock. */
+ 	ret = max9271_set_serial_link(dev->serializer, false);
+diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+index 179d107f494c..553e3f03752b 100644
+--- a/drivers/media/i2c/rdacm21.c
++++ b/drivers/media/i2c/rdacm21.c
+@@ -450,10 +450,7 @@ static int rdacm21_initialize(struct rdacm21_device *dev)
  {
-+	int ret;
-+
- 	/*
- 	 * Configure the GMSL link:
- 	 *
-@@ -162,16 +170,24 @@ int max9271_configure_gmsl_link(struct max9271_device *dev)
- 	 *
- 	 * TODO: Make the GMSL link configuration parametric.
- 	 */
--	max9271_write(dev, 0x07, MAX9271_DBL | MAX9271_HVEN |
--		      MAX9271_EDC_1BIT_PARITY);
-+	ret = max9271_write(dev, 0x07, MAX9271_DBL | MAX9271_HVEN |
-+			    MAX9271_EDC_1BIT_PARITY);
-+	if (ret < 0)
-+		return ret;
-+
- 	usleep_range(5000, 8000);
+ 	int ret;
  
- 	/*
- 	 * Adjust spread spectrum to +4% and auto-detect pixel clock
- 	 * and serial link rate.
- 	 */
--	max9271_write(dev, 0x02, MAX9271_SPREAD_SPECT_4 | MAX9271_R02_RES |
--		      MAX9271_PCLK_AUTODETECT | MAX9271_SERIAL_AUTODETECT);
-+	ret = max9271_write(dev, 0x02,
-+			    MAX9271_SPREAD_SPECT_4 | MAX9271_R02_RES |
-+			    MAX9271_PCLK_AUTODETECT |
-+			    MAX9271_SERIAL_AUTODETECT);
-+	if (ret < 0)
-+		return ret;
-+
- 	usleep_range(5000, 8000);
+-	/* Verify communication with the MAX9271: ping to wakeup. */
+-	dev->serializer.client->addr = MAX9271_DEFAULT_ADDR;
+-	i2c_smbus_read_byte(dev->serializer.client);
+-	usleep_range(3000, 5000);
++	max9271_wake_up(&dev->serializer);
  
- 	return 0;
+ 	/* Enable reverse channel and disable the serial link. */
+ 	ret = max9271_set_serial_link(&dev->serializer, false);
 -- 
 2.31.1
 
