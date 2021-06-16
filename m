@@ -2,186 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E807E3A8CC2
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 01:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 961593A8F3E
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 05:15:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231559AbhFOXnA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Jun 2021 19:43:00 -0400
-Received: from mail-il1-f182.google.com ([209.85.166.182]:33789 "EHLO
-        mail-il1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbhFOXm6 (ORCPT
+        id S230052AbhFPDRK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Jun 2021 23:17:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42214 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229943AbhFPDRJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Jun 2021 19:42:58 -0400
-Received: by mail-il1-f182.google.com with SMTP id z1so747774ils.0;
-        Tue, 15 Jun 2021 16:40:52 -0700 (PDT)
+        Tue, 15 Jun 2021 23:17:09 -0400
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75930C06175F
+        for <linux-media@vger.kernel.org>; Tue, 15 Jun 2021 20:15:03 -0700 (PDT)
+Received: by mail-ot1-x32c.google.com with SMTP id o17-20020a9d76510000b02903eabfc221a9so1149111otl.0
+        for <linux-media@vger.kernel.org>; Tue, 15 Jun 2021 20:15:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XX8UtdPe5UHi4QT2fZ9fVYOjixFm5+p0JuSE18O5Og4=;
+        b=iPDEXNVH5GeTa8tOCBCzkuIjNLBj0+HdOS3hepZ8X0Rf7QT/hmMXiCADRekwUdNfW1
+         plZ+yv58BNuTK956KHbfUsMzlyzNSq29dpdoPMPO/7U0RS0lvOR+VIW8acsM55SFOxQg
+         FQksOdfraDRnwDaYFbe94LYVx1Fle12443mSg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=KktScGLfwYqDmTgp0+euNKnnKCv+ORCggyGnw//dZVE=;
-        b=t1lXUaij+heClw2LhpAfHBcHu/Fg2p2QzCbxc8x1FlpPg9aJLINxRS1fDvfo8VwZ0/
-         Ps1ojFpfUjxlP4zyi7ZlQ/o7TKBWL1NjSeibqFHqOzY0B8LsbAmlhklVYscaLJNh1mEX
-         NLHfqvtMQuvLx6rnlvyu6kGDXD/LkvbtGk6pbUHNmbKp55kbpK3fxfrvn3+ygzVUZ1AR
-         vri9i1JWvyMqFuWKfLlH5/0LUCGLIYrtKGopGLmPPPy+RnIvBuZJs4OvcxRBWom/hCvo
-         j43ARJY3D/HtfXTgKZ97IsFtOG+mlR2ASQPLzTfUo/VeYbe954gjeFvQvtNQBNJmZ0IZ
-         FWQg==
-X-Gm-Message-State: AOAM533T9kr+8ncafQ4MeOQ9E3oY8T4pm0zBngtzEIetxrZ3qEaZZ7qV
-        eN3QEwZYYz4GrTw8AxOQBw==
-X-Google-Smtp-Source: ABdhPJyJ2oSvUbWTQmXG9OJo4c9tMR9ZFoLJXABAWZda+rPw4vz7JbTFJdeejg8YGgC2q/DfhQ6/XA==
-X-Received: by 2002:a92:7510:: with SMTP id q16mr1347061ilc.291.1623800451982;
-        Tue, 15 Jun 2021 16:40:51 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id j18sm289799ioo.3.2021.06.15.16.40.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 16:40:51 -0700 (PDT)
-Received: (nullmailer pid 1680952 invoked by uid 1000);
-        Tue, 15 Jun 2021 23:40:48 -0000
-Date:   Tue, 15 Jun 2021 17:40:48 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Nelson Costa <Nelson.Costa@synopsys.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XX8UtdPe5UHi4QT2fZ9fVYOjixFm5+p0JuSE18O5Og4=;
+        b=dpGPc6s50jKsEv7TcwPvhaKUv9jIpx1kgAsUEirPpKR64KBXdZIai7tNNesrWt3cAx
+         zqpZqRBl0C3BaJSMCjdnqUyJPuIyq09+ubWtcHZodQWu+3ls28N2eRC7zVAfXcbjH3kB
+         5ZCWWuZ+LIbECAH7HaMv0rTksj+QoHHuYUd6RW9CpFqPgPG2kVS3pEG70w1+QLUacwIC
+         4BKH6oxR6wUBpCgpdUd889PFRP0dfEdCyXAdSjxKhT7RvZq/Q93c9mvnSU1GRpJSuc47
+         BiiPXH56Qz55407kXRVM5HE0Ewyr60FPGAixRr9P6v+mgVC6pveQ1pue5Bf7sFCANGlc
+         TWsQ==
+X-Gm-Message-State: AOAM531FflecVUXdKdTSUIfnw6Pn69J2s/A3pZAsnf1yHQBScRpbUkNu
+        rgQHV6VqhI0Ux3QudtfUXCfrEQ==
+X-Google-Smtp-Source: ABdhPJwMTm3G+sFKstZYZM1dWqWL7LBvK2+Fx/PfxBEHT05p8XLhS4hfRLr8UG6YV1l8tWQS+mnF5Q==
+X-Received: by 2002:a9d:6c6:: with SMTP id 64mr2090919otx.199.1623813302785;
+        Tue, 15 Jun 2021 20:15:02 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id i26sm198103oig.13.2021.06.15.20.15.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Jun 2021 20:15:02 -0700 (PDT)
+Subject: Re: [PATCH] media: Fix Media Controller API config checks
+To:     Hans Verkuil <hverkuil@xs4all.nl>, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com, dan.carpenter@oracle.com,
+        mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Jose Abreu <Jose.Abreu@synopsys.com>
-Subject: Re: [PATCH 2/9] dt-bindings: media: Document Synopsys DesignWare
- HDMI RX
-Message-ID: <20210615234048.GA1668783@robh.at.kernel.org>
-References: <cover.1622631488.git.nelson.costa@synopsys.com>
- <a5a52c738db7a4b3125225ac27e5aaff19604aec.1622631488.git.nelson.costa@synopsys.com>
+        alsa-devel@alsa-project.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20210611015849.42589-1-skhan@linuxfoundation.org>
+ <3745852a-a14d-3e66-dd9f-409ec7e43f48@xs4all.nl>
+ <ee53183f-6c44-4ddb-a8b1-40d650772c73@linuxfoundation.org>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <6b1bbc25-83fb-2c40-1dff-c2eb755a99cc@linuxfoundation.org>
+Date:   Tue, 15 Jun 2021 21:15:01 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a5a52c738db7a4b3125225ac27e5aaff19604aec.1622631488.git.nelson.costa@synopsys.com>
+In-Reply-To: <ee53183f-6c44-4ddb-a8b1-40d650772c73@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 01:24:20PM +0200, Nelson Costa wrote:
-> Document the device tree bindings for the Synopsys DesignWare HDMI RX
-> Controller.
+On 6/15/21 10:55 AM, Shuah Khan wrote:
+> On 6/15/21 7:36 AM, Hans Verkuil wrote:
+>> Hi Shuah,
+>>
+>> On 11/06/2021 03:58, Shuah Khan wrote:
+>>> Smatch static checker warns that "mdev" can be null:
+>>>
+>>> sound/usb/media.c:287 snd_media_device_create()
+>>>      warn: 'mdev' can also be NULL
+>>>
+>>> If CONFIG_MEDIA_CONTROLLER is disabled, this file should not be included
+>>> in the build.
+>>>
+>>> The below conditions in the sound/usb/Makefile are in place to ensure 
+>>> that
+>>> media.c isn't included in the build.
+>>>
+>>> sound/usb/Makefile:
+>>> snd-usb-audio-$(CONFIG_SND_USB_AUDIO_USE_MEDIA_CONTROLLER) += media.o
+>>>
+>>> select SND_USB_AUDIO_USE_MEDIA_CONTROLLER if MEDIA_CONTROLLER &&
+>>>         (MEDIA_SUPPORT=y || MEDIA_SUPPORT=SND_USB_AUDIO)
+>>>
+>>> The following config check in include/media/media-dev-allocator.h is
+>>> in place to enable the API only when CONFIG_MEDIA_CONTROLLER and
+>>> CONFIG_USB are enabled.
+>>>
+>>>   #if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
+>>>
+>>> This check doesn't work as intended when CONFIG_USB=m. When 
+>>> CONFIG_USB=m,
+>>> CONFIG_USB_MODULE is defined and CONFIG_USB is not. The above config 
+>>> check
+>>> doesn't catch that CONFIG_USB is defined as a module and disables the 
+>>> API.
+>>> This results in sound/usb enabling Media Controller specific ALSA driver
+>>> code, while Media disables the Media Controller API.
+>>>
+>>> Fix the problem requires two changes:
+>>>
+>>> 1. Change the check to use IS_ENABLED to detect when CONFIG_USB is 
+>>> enabled
+>>>     as a module or static. Since CONFIG_MEDIA_CONTROLLER is a bool, 
+>>> leave
+>>>     the check unchanged to be consistent with drivers/media/Makefile.
+>>>
+>>> 2. Change the drivers/media/mc/Makefile to include mc-dev-allocator.o
+>>>     in mc-objs when CONFIG_USB is y or m.
+>>
+>> If I test this patch, then I get:
+>>
+>> drivers/media/mc/mc-dev-allocator.c:97:22: error: redefinition of 
+>> 'media_device_usb_allocate'
+>>     97 | struct media_device *media_device_usb_allocate(struct 
+>> usb_device *udev,
+>>        |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> In file included from drivers/media/mc/mc-dev-allocator.c:24:
+>> include/media/media-dev-allocator.h:55:36: note: previous definition 
+>> of 'media_device_usb_allocate' was here
+>>     55 | static inline struct media_device *media_device_usb_allocate(
+>>        |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/mc/mc-dev-allocator.c:119:6: error: redefinition of 
+>> 'media_device_delete'
+>>    119 | void media_device_delete(struct media_device *mdev, const 
+>> char *module_name,
+>>        |      ^~~~~~~~~~~~~~~~~~~
+>> In file included from drivers/media/mc/mc-dev-allocator.c:24:
+>> include/media/media-dev-allocator.h:59:20: note: previous definition 
+>> of 'media_device_delete' was here
+>>     59 | static inline void media_device_delete(
+>>        |                    ^~~~~~~~~~~~~~~~~~~
+>>
+>> The .config has:
+>>
+>> # CONFIG_USB_SUPPORT is not set
+>> CONFIG_MEDIA_CONTROLLER=y
+>>
 > 
-> Signed-off-by: Jose Abreu <jose.abreu@synopsys.com>
-> Signed-off-by: Nelson Costa <nelson.costa@synopsys.com>
-> ---
->  .../devicetree/bindings/media/snps,dw-hdmi-rx.yaml | 98 ++++++++++++++++++++++
->  1 file changed, 98 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-> new file mode 100644
-> index 0000000..4f2169e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-> @@ -0,0 +1,98 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/snps,dw-hdmi-rx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Synopsys DesignWare HDMI RX Controller Device Tree Bindings
-> +
-> +maintainers:
-> +  - Jose Abreu <jose.abreu@synopsys.com>
-> +  - Nelson Costa <nelson.costa@synopsys.com>
-> +
-> +description: |
-> +  The Synopsys DesignWare HDMI RX Controller and PHYs e405/e406 is an HDMI 2.0
-> +  Receiver solution that is able to decode video and audio.
-> +
-> +properties:
-> +  compatible:
-> +    const: snps,dw-hdmi-rx
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: |
-> +      phandle to the configuration clock
-> +
-> +  clock-names:
-> +    const: cfg
-> +
-> +  phys:
-> +    maxItems: 1
-> +    description: |
-> +      phandle for the HDMI RX PHY
-> +
-> +  phy-names:
-> +    const: hdmi-phy
 
-You don't need *-names when there is only one generally.
+Hi Hans,
 
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description: |
-> +      Input port node, multiple endpoints describing the HDMI RX data connected
-> +      to the HDMI PHY receiver.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - phys
-> +  - phy-names
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    hdmi_rx: hdmi-rx@0 {
-> +        compatible = "snps,dw-hdmi-rx";
-> +        reg = <0x0 0x10000>;
-> +        interrupts = <1 2>;
-> +
-> +        clocks = <&dw_hdmi_refclk>;
-> +        clock-names = "cfg";
-> +
-> +        phys = <&hdmi_e406_phy>;
-> +        phy-names = "hdmi-phy";
-> +
-> +        port {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            hdmi_rx_0: endpoint@0 {
-> +                reg = <0>;
-> +                remote-endpoint = <&hdmi_e406_phy_0>;
-> +            };
+I don't know why I made the logic fancy and complex. Fixed now and
+sending v2 shortly. I made sure all the combinations are tested now.
 
-I don't get why you have a connection to the phy with 'phys' and OF 
-graph? The connection should be to the remote device generating the HDMI 
-data with a PHY being somewhat transparent to that data flow.
+thanks,
+-- Shuah
 
-> +
-> +            hdmi_rx_1: endpoint@1 {
-> +                reg = <1>;
-> +                remote-endpoint = <&hdmi_e406_phy_1>;
-> +            };
-> +
-> +            hdmi_rx_2: endpoint@2 {
-> +                reg = <2>;
-> +                remote-endpoint = <&hdmi_e406_phy_2>;
-> +            };
-> +
-> +            hdmi_rx_3: endpoint@3 {
-> +                reg = <3>;
-> +                remote-endpoint = <&hdmi_e406_phy_3>;
-> +            };
-> +        };
-> +    };
-> -- 
-> 2.7.4
