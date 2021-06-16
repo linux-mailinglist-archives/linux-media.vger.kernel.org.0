@@ -2,76 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 394F83A9C13
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 15:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F7793A9D04
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 16:08:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233302AbhFPNi3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 09:38:29 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47642 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230187AbhFPNi2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 09:38:28 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: adalessandro)
-        with ESMTPSA id 5F33E1F43696
-From:   Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Subject: Re: [v4l-utils v5 0/5] Add support for meson building
-To:     kieran.bingham@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl, sean@mess.org,
-        p.zabel@pengutronix.de, laurent.pinchart@ideasonboard.com,
-        ezequiel@collabora.com, nicolas@ndufresne.ca,
-        gjasny@googlemail.com, xavier.claessens@collabora.com,
-        nicolas.dufresne@collabora.com, user.vdr@gmail.com,
-        sakari.ailus@iki.fi, rosenp@gmail.com
-References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
- <f2f72ec5-e352-132f-b8d1-718589360bf0@ideasonboard.com>
- <008aec9c-c1e6-7f8b-dde5-8fa53c1e9ee6@collabora.com>
- <92b5c1bf-f4cf-5d5e-7c16-57d4a3446f67@ideasonboard.com>
- <20210518092358.05c7a189@coco.lan>
- <78322e18-2086-1eda-3b39-bbd71160be27@ideasonboard.com>
-Message-ID: <8c260749-8b96-8587-5c22-8d7b1210862e@collabora.com>
-Date:   Wed, 16 Jun 2021 10:36:11 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S233829AbhFPOKx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 10:10:53 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:57072 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233828AbhFPOKx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Jun 2021 10:10:53 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ltWDm-001kFc-3i; Wed, 16 Jun 2021 14:08:46 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ltWIF-0000EL-9o; Wed, 16 Jun 2021 14:13:23 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] Venus updates part2 (#74989)
+Date:   Wed, 16 Jun 2021 14:13:23 +0000
+Message-Id: <20210616141323.844-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210611121601.330645-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <78322e18-2086-1eda-3b39-bbd71160be27@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran, Mauro,
+From: builder@linuxtv.org
 
-Thanks for all the feedback, I'll try to review and address all the
-comments you've posted. Just a quick comment related to the output size
-and debug level.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210611121601.330645-1-stanimir.varbanov@linaro.org/
+Build log: https://builder.linuxtv.org/job/patchwork/115849/
+Build time: 00:14:06
+Link: https://lore.kernel.org/linux-media/20210611121601.330645-1-stanimir.varbanov@linaro.org
 
-On 5/18/21 7:18 AM, Kieran Bingham wrote:
-> Hi Mauro,
-> 
-> On 18/05/2021 08:23, Mauro Carvalho Chehab wrote:
->> Em Mon, 17 May 2021 23:13:45 +0100
->> Kieran Bingham <kieran.bingham@ideasonboard.com> escreveu:
->>
-[snip]
->> Assuming that both builds used the same compilers, a difference at 
->> the order of (tens of) MB can only be explained if Meson build
->> was very incomplete, and/or the output files don't carry the same
->> debug info.
-> 
-> Indeed - compiler debug info level changes could be another thing to
-> check. That could account for a larger build output difference, but
-> there's certainly a large discrepancy to solve.
+gpg: Signature made Fri 11 Jun 2021 12:08:27 PM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
-I've just checked and autotools is building by default with -g -O2, so
-meson should be built with --buildtype=debugoptimized to get the same
-results.
+Summary: got 2/2 patches with issues, being 2 at build time, plus one error when buinding PDF document
 
-I'll dig deeper and post more soon.
+Error/warnings:
 
-Regards,
-Ariel
+patches/0001-media-venus-hfi_cmds-Fix-packet-size-calculation.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+
+    allyesconfig: return code #512:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2835 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[5]: *** [../scripts/Makefile.build:272: drivers/media/usb/em28xx/em28xx-video.o] Error 1
+	make[5]: *** Deleting file 'drivers/media/usb/em28xx/em28xx-video.o'
+	make[4]: *** [../scripts/Makefile.build:515: drivers/media/usb/em28xx] Error 2
+	make[3]: *** [../scripts/Makefile.build:515: drivers/media/usb] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
+	make: *** [Makefile:215: __sub-make] Error 2
+
+patches/0002-media-venus-hfi_msgs.h-Replace-one-element-arrays-wi.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1969 vivid_create_instance() parse error: turning off implications after 60 seconds
+	make[5]: *** [../scripts/Makefile.build:272: drivers/media/test-drivers/vivid/vivid-core.o] Error 1
+	make[5]: *** Deleting file 'drivers/media/test-drivers/vivid/vivid-core.o'
+	make[4]: *** [../scripts/Makefile.build:515: drivers/media/test-drivers/vivid] Error 2
+	make[3]: *** [../scripts/Makefile.build:515: drivers/media/test-drivers] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[5]: *** [../scripts/Makefile.build:272: drivers/media/usb/em28xx/em28xx-video.o] Error 1
+	make[5]: *** Deleting file 'drivers/media/usb/em28xx/em28xx-video.o'
+	make[4]: *** [../scripts/Makefile.build:515: drivers/media/usb/em28xx] Error 2
+	make[3]: *** [../scripts/Makefile.build:515: drivers/media/usb] Error 2
+	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
+	make: *** [Makefile:215: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0002-media-venus-hfi_msgs.h-Replace-one-element-arrays-wi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+
+Error #512 when building PDF docs
+
