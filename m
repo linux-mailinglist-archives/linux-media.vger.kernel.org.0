@@ -2,127 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEF723A92A4
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 08:30:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EF9D3A93AF
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 09:22:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231833AbhFPGdC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 02:33:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56994 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231689AbhFPGcy (ORCPT
+        id S231560AbhFPHYb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 03:24:31 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:33145 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231239AbhFPHYa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 02:32:54 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD0FC0610CE;
-        Tue, 15 Jun 2021 23:29:45 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 020571F4326D
-Subject: Re: [PATCH v3 10/10] media: rockchip: rkisp1: add support for px30
- isp version
-To:     Heiko Stuebner <heiko@sntech.de>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl
-Cc:     ezequiel@collabora.com, helen.koike@collabora.com,
-        Laurent.pinchart@ideasonboard.com,
-        linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-        robh+dt@kernel.org, devicetree@vger.kernel.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-References: <20210615225023.3929434-1-heiko@sntech.de>
- <20210615225023.3929434-11-heiko@sntech.de>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <02244fde-011b-6057-311a-7360d689114f@collabora.com>
-Date:   Wed, 16 Jun 2021 09:29:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 16 Jun 2021 03:24:30 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id tPsSlgGqohg8ZtPsVlQCXB; Wed, 16 Jun 2021 09:22:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623828143; bh=vQSJx8AO0R5qD2naHVw5TJxjJnbqHmcVSFNGZdfyq3w=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=WP3qK6LvnSLNmftZQuUSKVHdunnbYsGczvQbYvjakcqJbWl02w/F1G1MQvjau131H
+         b5/gZ/PMQ9AjLNVa1UbZTJ56LG/+ekQO3wE03dGTry/Qewyq1UBwsRGIm1qpbhVQIp
+         FSXMjErLZueKE3Fnc6boxt7qnR/RFVymBhltcnqtEPs79jwKJuJRExDQ+2dTdELJdI
+         SqkoBUoCVe1nHzkTRujgtnQGMr7OLkiKoR+kHxv496ZyFe+tlKfAdAhD2xypHQ9SZL
+         h0PzZI6XGc6ogpecMR4XMVF0IEXk59ZZAW5TTCG1y1LOS995CczoYNEYAsmIeWhtJd
+         PiQzZbbKnhGYg==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Johan Fjeldtvedt <jaffe1@gmail.com>,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] vivid: increase max number of allowed
+Message-ID: <bcc850ec-4ba3-e7db-96aa-85424d1b6826@xs4all.nl>
+Date:   Wed, 16 Jun 2021 09:22:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210615225023.3929434-11-heiko@sntech.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfOo/G6VymThlYwrCEq0/dCA1Mw6LyZcqlmv5kfD6Hcv0CZNADWq/IfL+qJVqYmzh1ZmRQ+VANQsDYGkNYdBF4KRG4nz1xzYdKSHeJFUAJxJZnVSKn36J
+ xe1xn6JOCvZ9AgF23IZNYDaBkVhX6L8tQ5kes/6iUTYY0Ad4TuCqi/RBQ5sOASsioD2CVRyN9Hg/Ol2dvQ1s3oS7ROM7Z8Vl+5QU7IJ5+ZmgVWyV4mNhuc7V
+ VCHgXMXvdTSjx7CCnRpYKofmHgleoPsU5/iFPAdmRf4=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The max number of allowed logical addresses was set to 1 in
+vivid, for no good reason. This prevented testing with multiple
+logical addresses for the same CEC device. Increase this number to
+CEC_MAX_LOG_ADDRS.
 
-
-On 16.06.21 01:50, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> 
-> The px30 uses a V12 isp block so add compatible and matchdata
-> for it.
-> 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> ---
->   .../media/platform/rockchip/rkisp1/rkisp1-dev.c | 17 +++++++++++++++++
->   1 file changed, 17 insertions(+)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> index ddc05189c62a..6e4c0710f3a3 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -398,6 +398,19 @@ static irqreturn_t rkisp1_isr(int irq, void *ctx)
->   	return IRQ_HANDLED;
->   }
->   
-> +static const char * const px30_isp_clks[] = {
-> +	"isp",
-> +	"aclk",
-> +	"hclk",
-> +	"pclk",
-> +};
-> +
-> +static const struct rkisp1_match_data px30_isp_match_data = {
-> +	.clks = px30_isp_clks,
-> +	.size = ARRAY_SIZE(px30_isp_clks),
-> +	.isp_ver = RKISP1_V12,
-> +};
-> +
->   static const char * const rk3399_isp_clks[] = {
->   	"isp",
->   	"aclk",
-> @@ -411,6 +424,10 @@ static const struct rkisp1_match_data rk3399_isp_match_data = {
->   };
->   
->   static const struct of_device_id rkisp1_of_match[] = {
-> +	{
-> +		.compatible = "rockchip,px30-cif-isp",
-> +		.data = &px30_isp_match_data,
-> +	},
->   	{
->   		.compatible = "rockchip,rk3399-cif-isp",
->   		.data = &rk3399_isp_match_data,
-> 
-
-Hi, in order to avoid the if-else in patch 4/10 maybe we can do:
-
-```
-struct interrupt_to_isr {
-	char* name;
-	irqreturn_t isr(int irq, void *ctx);
-}
-
-interrupt_to_is px30_isrs[] {
-	{"isp", rkisp1_isp_isr}
-	{"mi",  rkisp1_capture_isr}
-	{"mipi", rkisp1_mipi_isr}
-}
-static const struct rkisp1_match_data px30_isp_match_data = {
-	.clks = px30_isp_clks,
-	.size = ARRAY_SIZE(px30_isp_clks),
-	.isp_ver = RKISP1_V12,
-	.isrs = px30_isrs
-};
-//and similar for rk3399
-```
-
-Then in the probe we just do
-```
-for each (name,isr) in isrs
-	irq = platform_get_irq_byname(name)
-	devm_request_irq(dev, irq, isr,...
-```
-
-
-Thanks,
-Dafna	
-
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/test-drivers/vivid/vivid-cec.c b/drivers/media/test-drivers/vivid/vivid-cec.c
+index 4d2413e87730..55ea039fe5b2 100644
+--- a/drivers/media/test-drivers/vivid/vivid-cec.c
++++ b/drivers/media/test-drivers/vivid/vivid-cec.c
+@@ -282,5 +282,5 @@ struct cec_adapter *vivid_cec_alloc_adap(struct vivid_dev *dev,
+ 	snprintf(name, sizeof(name), "vivid-%03d-vid-%s%d",
+ 		 dev->inst, is_source ? "out" : "cap", idx);
+ 	return cec_allocate_adapter(&vivid_cec_adap_ops, dev,
+-		name, caps, 1);
++				    name, caps, CEC_MAX_LOG_ADDRS);
+ }
