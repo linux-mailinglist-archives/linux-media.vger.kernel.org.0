@@ -2,39 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1ABA3A9A59
+	by mail.lfdr.de (Postfix) with ESMTP id 249033A9A58
 	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:28:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232421AbhFPMas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 08:30:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49222 "EHLO mail.kernel.org"
+        id S232656AbhFPMar (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 08:30:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49230 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230283AbhFPMaq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S231179AbhFPMaq (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 16 Jun 2021 08:30:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7DF5B61359;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8731A61356;
         Wed, 16 Jun 2021 12:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623846520;
-        bh=nqOi7exA2OYkFrttpEgptdFAZL2FSfg8ZJVmqK1EC10=;
+        bh=DzuXxK/L6L29nZjYPejhCPD+EXffrWanY9DtdBFUzHw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W7s5YjzDLCJAnl3xLIFrS2/DOCq9zs+J42zFZHceYDblpR5xDiSrEqu9zbB2BVWR7
-         XQ0B7H4EeuCRskAE5HcoVTRQFYn8sqgDWxSrLoE3h/McIqbcdIriEyUTGKknjduqNK
-         /2GbnclE7DQBgwNZkVLCxPpD6v7VKHYR4RMDMZlz7gKQbs5Bop9S6xzO11AmalWPdb
-         CyTZahGB7NDX/eSwgQtTjBn7VxqiNag+fvbyNC9+sMR4X7W9MclHRbp4tmcaO+UhDf
-         NwzqbPZka9o5RRKTGe/zi7AHCBp0a0vDP83AUMLz813W8567JY8bw4cV8ecUiU2Ae6
-         fZkuWde92fWeQ==
+        b=fhQOAShvNZjN60DXwljR4nweOGTtAFZkmpxoqazHz2NKexrPctvIleK7jG0i349a8
+         4Fp5Mq9TbF/Un6n+1k3jkKovA7O/GbxYJxBZcqj3n1Ft5mtCkZSXXoKhBIh40h024s
+         skoypPmN02+w+pKV2a5hGzwoE9Ej0l5Ihn5W6JG2rcY6s0Rs4tgffI34NgM8BUhCZo
+         tqAEO1o7sxl96S5/bBI3bWBLmIi4f/wDSAvEC9D4LHgN9/AbAEyjGg4UXrH4ZfslLc
+         2wCCx2vBmLcCDF+984IMqcDxhcdeseY9qFn/Hz/koqXWWsoAXNyo4QhMhTWttbNIlg
+         JmU3qqaaYtJEw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltUes-004oiS-8D; Wed, 16 Jun 2021 14:28:38 +0200
+        id 1ltUes-004oiV-9G; Wed, 16 Jun 2021 14:28:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Dinghao Liu <dinghao.liu@zju.edu.cn>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peilin Ye <yepeilin.cs@gmail.com>, Sean Young <sean@mess.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 02/11] media: dvb_net: avoid speculation from net slot
-Date:   Wed, 16 Jun 2021 14:28:28 +0200
-Message-Id: <9b1948f067df308cf875a3d8ec85aaa6b7340a65.1623846327.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 03/11] media: dvbdev: fix error logic at dvb_register_device()
+Date:   Wed, 16 Jun 2021 14:28:29 +0200
+Message-Id: <56a94235a78b2313661154d6802dd8d3b9864de7.1623846327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623846327.git.mchehab+huawei@kernel.org>
 References: <cover.1623846327.git.mchehab+huawei@kernel.org>
@@ -46,82 +47,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The risk of especulation is actually almost-non-existing here,
-as there are very few users of TCP/IP using the DVB stack,
-as, this is mainly used with DVB-S/S2 cards, and only by people
-that receives TCP/IP from satellite connections, which limits
-a lot the number of users of such feature(*).
+As reported by smatch:
 
-(*) In thesis, DVB-C cards could also benefit from it, but I'm
-yet to see a hardware that supports it.
+	drivers/media/dvb-core/dvbdev.c: drivers/media/dvb-core/dvbdev.c:510 dvb_register_device() warn: '&dvbdev->list_head' not removed from list
+	drivers/media/dvb-core/dvbdev.c: drivers/media/dvb-core/dvbdev.c:530 dvb_register_device() warn: '&dvbdev->list_head' not removed from list
+	drivers/media/dvb-core/dvbdev.c: drivers/media/dvb-core/dvbdev.c:545 dvb_register_device() warn: '&dvbdev->list_head' not removed from list
 
-Yet, fixing it is trivial.
+The error logic inside dvb_register_device() doesn't remove
+devices from the dvb_adapter_list in case of errors.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/dvb-core/dvb_net.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+ drivers/media/dvb-core/dvbdev.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
-index 89620da983ba..dddebea644bb 100644
---- a/drivers/media/dvb-core/dvb_net.c
-+++ b/drivers/media/dvb-core/dvb_net.c
-@@ -45,6 +45,7 @@
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/netdevice.h>
-+#include <linux/nospec.h>
- #include <linux/etherdevice.h>
- #include <linux/dvb/net.h>
- #include <linux/uio.h>
-@@ -1462,14 +1463,20 @@ static int dvb_net_do_ioctl(struct file *file,
- 		struct net_device *netdev;
- 		struct dvb_net_priv *priv_data;
- 		struct dvb_net_if *dvbnetif = parg;
-+		int if_num = dvbnetif->if_num;
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 3862ddc86ec4..795d9bfaba5c 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -506,6 +506,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 			break;
  
--		if (dvbnetif->if_num >= DVB_NET_DEVICES_MAX ||
--		    !dvbnet->state[dvbnetif->if_num]) {
-+		if (if_num >= DVB_NET_DEVICES_MAX) {
- 			ret = -EINVAL;
- 			goto ioctl_error;
- 		}
-+		if_num = array_index_nospec(if_num, DVB_NET_DEVICES_MAX);
+ 	if (minor == MAX_DVB_MINORS) {
++		list_del (&dvbdev->list_head);
+ 		kfree(dvbdevfops);
+ 		kfree(dvbdev);
+ 		up_write(&minor_rwsem);
+@@ -526,6 +527,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 		      __func__);
  
--		netdev = dvbnet->device[dvbnetif->if_num];
-+		if (!dvbnet->state[if_num]) {
-+			ret = -EINVAL;
-+			goto ioctl_error;
-+		}
-+
-+		netdev = dvbnet->device[if_num];
- 
- 		priv_data = netdev_priv(netdev);
- 		dvbnetif->pid=priv_data->pid;
-@@ -1522,14 +1529,20 @@ static int dvb_net_do_ioctl(struct file *file,
- 		struct net_device *netdev;
- 		struct dvb_net_priv *priv_data;
- 		struct __dvb_net_if_old *dvbnetif = parg;
-+		int if_num = dvbnetif->if_num;
- 
--		if (dvbnetif->if_num >= DVB_NET_DEVICES_MAX ||
--		    !dvbnet->state[dvbnetif->if_num]) {
-+		if (if_num >= DVB_NET_DEVICES_MAX) {
- 			ret = -EINVAL;
- 			goto ioctl_error;
- 		}
-+		if_num = array_index_nospec(if_num, DVB_NET_DEVICES_MAX);
- 
--		netdev = dvbnet->device[dvbnetif->if_num];
-+		if (!dvbnet->state[if_num]) {
-+			ret = -EINVAL;
-+			goto ioctl_error;
-+		}
-+
-+		netdev = dvbnet->device[if_num];
- 
- 		priv_data = netdev_priv(netdev);
- 		dvbnetif->pid=priv_data->pid;
+ 		dvb_media_device_free(dvbdev);
++		list_del (&dvbdev->list_head);
+ 		kfree(dvbdevfops);
+ 		kfree(dvbdev);
+ 		mutex_unlock(&dvbdev_register_lock);
+@@ -541,6 +543,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 		pr_err("%s: failed to create device dvb%d.%s%d (%ld)\n",
+ 		       __func__, adap->num, dnames[type], id, PTR_ERR(clsdev));
+ 		dvb_media_device_free(dvbdev);
++		list_del (&dvbdev->list_head);
+ 		kfree(dvbdevfops);
+ 		kfree(dvbdev);
+ 		return PTR_ERR(clsdev);
 -- 
 2.31.1
 
