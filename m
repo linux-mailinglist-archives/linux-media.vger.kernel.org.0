@@ -2,34 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06CEF3AA0E8
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 18:09:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C90A3AA143
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 18:27:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234793AbhFPQLO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 12:11:14 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:42448 "EHLO www.linuxtv.org"
+        id S235210AbhFPQ37 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 12:29:59 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:45092 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229503AbhFPQLN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 12:11:13 -0400
+        id S232234AbhFPQ37 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Jun 2021 12:29:59 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1ltY6E-001rqk-D0; Wed, 16 Jun 2021 16:09:06 +0000
+        id 1ltYOO-001tCs-93; Wed, 16 Jun 2021 16:27:52 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1ltYAh-0002CT-Jo; Wed, 16 Jun 2021 16:13:43 +0000
+        id 1ltYSr-0005Yi-9M; Wed, 16 Jun 2021 16:32:29 +0000
 From:   Jenkins <jenkins@linuxtv.org>
 To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
 Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.14] Add support for older Rockchip SoCs to V4L2 (#75088)
-Date:   Wed, 16 Jun 2021 16:13:43 +0000
-Message-Id: <20210616161343.8416-1-jenkins@linuxtv.org>
+Subject: Re: [GIT PULL FOR v5.14] gmsl: Reliability improvements (#75152)
+Date:   Wed, 16 Jun 2021 16:32:29 +0000
+Message-Id: <20210616163229.21327-1-jenkins@linuxtv.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <c103c08f-295b-38d3-4a38-44f5edc1a594@xs4all.nl>
+In-Reply-To: <26aa3fed-ec7f-fbcc-3f05-5660d12750dd@xs4all.nl>
 References: 
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -37,12 +38,12 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: builder@linuxtv.org
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/c103c08f-295b-38d3-4a38-44f5edc1a594@xs4all.nl/
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/26aa3fed-ec7f-fbcc-3f05-5660d12750dd@xs4all.nl/
 Build log: https://builder.linuxtv.org/job/patchwork/115851/
-Build time: 00:14:21
-Link: https://lore.kernel.org/linux-media/c103c08f-295b-38d3-4a38-44f5edc1a594@xs4all.nl
+Build time: 00:16:45
+Link: https://lore.kernel.org/linux-media/26aa3fed-ec7f-fbcc-3f05-5660d12750dd@xs4all.nl
 
-gpg: Signature made Tue 15 Jun 2021 02:21:19 PM UTC
+gpg: Signature made Wed 16 Jun 2021 01:07:27 PM UTC
 gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
 gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
 gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
@@ -50,11 +51,11 @@ gpg: Note: This key has expired!
 Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
      Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-Summary: got 2/6 patches with issues, being 1 at build time
+Summary: got 2/15 patches with issues, being 2 at build time
 
 Error/warnings:
 
-patches/0001-dt-bindings-media-rockchip-vpu-add-new-compatibles.patch:
+patches/0001-media-i2c-max9286-Adjust-parameters-indent.patch:
 
     allyesconfig: return code #0:
 	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
@@ -77,10 +78,27 @@ patches/0001-dt-bindings-media-rockchip-vpu-add-new-compatibles.patch:
 	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1969 vivid_create_instance() parse error: turning off implications after 60 seconds
 	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-patches/0004-media-hantro-merge-Rockchip-platform-drivers.patch:
+patches/0011-media-i2c-rdacm20-Enable-noise-immunity.patch:
 
-   checkpatch.pl:
-	$ cat patches/0004-media-hantro-merge-Rockchip-platform-drivers.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:15: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-	-:34: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+    allyesconfig: return code #512:
+	../drivers/media/i2c/rdacm20.c:554:36: error: passing argument 1 of ‘max9271_set_high_threshold’ from incompatible pointer type [-Werror=incompatible-pointer-types]
+	In file included from ../drivers/media/i2c/rdacm20.c:30:
+	../drivers/media/i2c/max9271.h:127:55: note: expected ‘struct max9271_device *’ but argument is of type ‘struct max9271_device **’
+	cc1: some warnings being treated as errors
+	make[4]: *** [../scripts/Makefile.build:272: drivers/media/i2c/rdacm20.o] Error 1
+	make[3]: *** [../scripts/Makefile.build:515: drivers/media/i2c] Error 2
+	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
+	make: *** [Makefile:215: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/i2c/rdacm20.c:554:36: error: passing argument 1 of ‘max9271_set_high_threshold’ from incompatible pointer type [-Werror=incompatible-pointer-types]
+	In file included from ../drivers/media/i2c/rdacm20.c:30:
+	../drivers/media/i2c/max9271.h:127:55: note: expected ‘struct max9271_device *’ but argument is of type ‘struct max9271_device **’
+	cc1: some warnings being treated as errors
+	make[4]: *** [../scripts/Makefile.build:272: drivers/media/i2c/rdacm20.o] Error 1
+	make[3]: *** [../scripts/Makefile.build:515: drivers/media/i2c] Error 2
+	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
+	make: *** [Makefile:215: __sub-make] Error 2
 
