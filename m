@@ -2,128 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB9D43A9A62
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9F983A9A4E
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:27:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232915AbhFPMax (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 08:30:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49300 "EHLO mail.kernel.org"
+        id S232949AbhFPM3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 08:29:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48688 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232543AbhFPMaq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 08:30:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9825D613C1;
-        Wed, 16 Jun 2021 12:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623846520;
-        bh=6esczEUC+IAp1wiH2+5uojr1T2m2zz+t/CuNq/KViCQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=K4zuMsVGPMOi3SVQn90yWK7XUuLc/v436/GjGpW7KhK3WcvVWEnZmDMFSbBmvxCS3
-         vxgHiHl/GdHe1JRORqirVkCgFAy4EvHkl2o/UZtwznki4ChPk92vAkzc3TsoyGf4Xp
-         mHnCrH16I58Fn2bw0+MppGVKqI4Zybs1oI5vGa6mwhn6We0KYW1SmgSXBehLOuTXwy
-         KvmuPtVL8+swAgQ7dWnKzuGb1ymso+zhybCXODvn0QLs/uVP5vD6MyoVAVa/poACl0
-         FnRx0vNVCbdEhIedt2lBU6nKm31yt2h34usvCVmkZzNV7366Ri/R/Ap21CeNVXsQyr
-         py0l8vtepZnzQ==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1ltUes-004oj3-Hz; Wed, 16 Jun 2021 14:28:38 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S232637AbhFPM3l (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Jun 2021 08:29:41 -0400
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BBA8561369;
+        Wed, 16 Jun 2021 12:27:07 +0000 (UTC)
+Date:   Wed, 16 Jun 2021 13:29:08 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
+        alsa-devel@alsa-project.org, iommu@lists.linux-foundation.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH 11/11] media: xilinx: simplify get fourcc logic
-Date:   Wed, 16 Jun 2021 14:28:37 +0200
-Message-Id: <bc012d0e221659d0a937e5bf8a9c0e449e5f3609.1623846327.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1623846327.git.mchehab+huawei@kernel.org>
-References: <cover.1623846327.git.mchehab+huawei@kernel.org>
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] dt-bindings: Drop redundant minItems/maxItems
+Message-ID: <20210616132908.76a780b8@jic23-huawei>
+In-Reply-To: <20210615191543.1043414-1-robh@kernel.org>
+References: <20210615191543.1043414-1-robh@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Right now, there are two calls for xvip_get_format_by_fourcc().
-If the first one fails, it is called again in order to pick
-the first available format: V4L2_PIX_FMT_YUYV.
+On Tue, 15 Jun 2021 13:15:43 -0600
+Rob Herring <robh@kernel.org> wrote:
 
-This ends by producing a smatch warnings:
-	drivers/media/platform/xilinx/xilinx-dma.c:555 __xvip_dma_try_format() error: 'info' dereferencing possible ERR_PTR()
-	drivers/media/platform/xilinx/xilinx-dma.c: drivers/media/platform/xilinx/xilinx-dma.c:664 xvip_dma_init() error: 'dma->fmtinfo' dereferencing possible ERR_PTR()
+> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
+> same size as the list is redundant and can be dropped. Note that is DT
+> schema specific behavior and not standard json-schema behavior. The tooling
+> will fixup the final schema adding any unspecified minItems/maxItems.
+> 
+> This condition is partially checked with the meta-schema already, but
+> only if both 'minItems' and 'maxItems' are equal to the 'items' length.
+> An improved meta-schema is pending.
+> 
 
-as it is hard for an static analyzer to ensure that calling
-xvip_get_format_by_fourcc(XVIP_DMA_DEF_FORMAT) won't return an
-error.
+...
 
-So, better to optimize the logic, ensuring that the function
-will never return an error.
+>  .../devicetree/bindings/iio/adc/amlogic,meson-saradc.yaml   | 1 -
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/platform/xilinx/xilinx-dma.c | 5 +----
- drivers/media/platform/xilinx/xilinx-vip.c | 6 +++---
- 2 files changed, 4 insertions(+), 7 deletions(-)
+For this one, the fact it overrides maxItems elsewhere makes this a little
+bit odd.  I guess we can get used to it being implicit.
 
-diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
-index 2a56201cb853..338c3661d809 100644
---- a/drivers/media/platform/xilinx/xilinx-dma.c
-+++ b/drivers/media/platform/xilinx/xilinx-dma.c
-@@ -26,7 +26,6 @@
- #include "xilinx-vip.h"
- #include "xilinx-vipp.h"
- 
--#define XVIP_DMA_DEF_FORMAT		V4L2_PIX_FMT_YUYV
- #define XVIP_DMA_DEF_WIDTH		1920
- #define XVIP_DMA_DEF_HEIGHT		1080
- 
-@@ -549,8 +548,6 @@ __xvip_dma_try_format(struct xvip_dma *dma, struct v4l2_pix_format *pix,
- 	 * requested format isn't supported.
- 	 */
- 	info = xvip_get_format_by_fourcc(pix->pixelformat);
--	if (IS_ERR(info))
--		info = xvip_get_format_by_fourcc(XVIP_DMA_DEF_FORMAT);
- 
- 	pix->pixelformat = info->fourcc;
- 	pix->field = V4L2_FIELD_NONE;
-@@ -660,7 +657,7 @@ int xvip_dma_init(struct xvip_composite_device *xdev, struct xvip_dma *dma,
- 	INIT_LIST_HEAD(&dma->queued_bufs);
- 	spin_lock_init(&dma->queued_lock);
- 
--	dma->fmtinfo = xvip_get_format_by_fourcc(XVIP_DMA_DEF_FORMAT);
-+	dma->fmtinfo = xvip_get_format_by_fourcc(V4L2_PIX_FMT_YUYV);
- 	dma->format.pixelformat = dma->fmtinfo->fourcc;
- 	dma->format.colorspace = V4L2_COLORSPACE_SRGB;
- 	dma->format.field = V4L2_FIELD_NONE;
-diff --git a/drivers/media/platform/xilinx/xilinx-vip.c b/drivers/media/platform/xilinx/xilinx-vip.c
-index 6ad61b08a31a..a4eb57683411 100644
---- a/drivers/media/platform/xilinx/xilinx-vip.c
-+++ b/drivers/media/platform/xilinx/xilinx-vip.c
-@@ -70,8 +70,8 @@ EXPORT_SYMBOL_GPL(xvip_get_format_by_code);
-  * @fourcc: the format 4CC
-  *
-  * Return: a pointer to the format information structure corresponding to the
-- * given V4L2 format @fourcc, or ERR_PTR if no corresponding format can be
-- * found.
-+ * given V4L2 format @fourcc. If not found, return a pointer to the first
-+ * available format (V4L2_PIX_FMT_YUYV).
-  */
- const struct xvip_video_format *xvip_get_format_by_fourcc(u32 fourcc)
- {
-@@ -84,7 +84,7 @@ const struct xvip_video_format *xvip_get_format_by_fourcc(u32 fourcc)
- 			return format;
- 	}
- 
--	return ERR_PTR(-EINVAL);
-+	return &xvip_video_formats[0];
- }
- EXPORT_SYMBOL_GPL(xvip_get_format_by_fourcc);
- 
--- 
-2.31.1
+>  .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml     | 2 --
+
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
 
