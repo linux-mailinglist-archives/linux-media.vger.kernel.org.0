@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C13A3AA076
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 17:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06CEF3AA0E8
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 18:09:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234967AbhFPP5d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 11:57:33 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:40038 "EHLO www.linuxtv.org"
+        id S234793AbhFPQLO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 12:11:14 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:42448 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235000AbhFPPzl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 11:55:41 -0400
+        id S229503AbhFPQLN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Jun 2021 12:11:13 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1ltXqx-001qsQ-8l; Wed, 16 Jun 2021 15:53:19 +0000
+        id 1ltY6E-001rqk-D0; Wed, 16 Jun 2021 16:09:06 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1ltXvQ-0007UA-CZ; Wed, 16 Jun 2021 15:57:56 +0000
+        id 1ltYAh-0002CT-Jo; Wed, 16 Jun 2021 16:13:43 +0000
 From:   Jenkins <jenkins@linuxtv.org>
 To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
 Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.14] Various fixes (#75087)
-Date:   Wed, 16 Jun 2021 15:57:56 +0000
-Message-Id: <20210616155756.28733-1-jenkins@linuxtv.org>
+Subject: Re: [GIT PULL FOR v5.14] Add support for older Rockchip SoCs to V4L2 (#75088)
+Date:   Wed, 16 Jun 2021 16:13:43 +0000
+Message-Id: <20210616161343.8416-1-jenkins@linuxtv.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <199ddb07-4d21-7143-eddd-3df21f6062c3@xs4all.nl>
+In-Reply-To: <c103c08f-295b-38d3-4a38-44f5edc1a594@xs4all.nl>
 References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -37,12 +37,12 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: builder@linuxtv.org
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/199ddb07-4d21-7143-eddd-3df21f6062c3@xs4all.nl/
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/c103c08f-295b-38d3-4a38-44f5edc1a594@xs4all.nl/
 Build log: https://builder.linuxtv.org/job/patchwork/115851/
-Build time: 00:17:51
-Link: https://lore.kernel.org/linux-media/199ddb07-4d21-7143-eddd-3df21f6062c3@xs4all.nl
+Build time: 00:14:21
+Link: https://lore.kernel.org/linux-media/c103c08f-295b-38d3-4a38-44f5edc1a594@xs4all.nl
 
-gpg: Signature made Tue 15 Jun 2021 01:37:06 PM UTC
+gpg: Signature made Tue 15 Jun 2021 02:21:19 PM UTC
 gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
 gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
 gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
@@ -50,11 +50,11 @@ gpg: Note: This key has expired!
 Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
      Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-Summary: got 2/12 patches with issues, being 1 at build time
+Summary: got 2/6 patches with issues, being 1 at build time
 
 Error/warnings:
 
-patches/0001-media-coda-set-debugfs-blobs-to-read-only.patch:
+patches/0001-dt-bindings-media-rockchip-vpu-add-new-compatibles.patch:
 
     allyesconfig: return code #0:
 	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
@@ -77,9 +77,10 @@ patches/0001-media-coda-set-debugfs-blobs-to-read-only.patch:
 	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1969 vivid_create_instance() parse error: turning off implications after 60 seconds
 	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2841 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-patches/0011-adv7842-remove-spurious-and-fix-vga_edid-size.patch:
+patches/0004-media-hantro-merge-Rockchip-platform-drivers.patch:
 
    checkpatch.pl:
-	$ cat patches/0011-adv7842-remove-spurious-and-fix-vga_edid-size.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+	$ cat patches/0004-media-hantro-merge-Rockchip-platform-drivers.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:15: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+	-:34: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
