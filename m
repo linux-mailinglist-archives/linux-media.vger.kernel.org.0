@@ -2,87 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2808D3A9E18
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 16:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9283A9E60
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 16:59:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234200AbhFPOxY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 10:53:24 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:60830 "EHLO www.linuxtv.org"
+        id S234340AbhFPPCA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 11:02:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42014 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233860AbhFPOxW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 10:53:22 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ltWsq-001n10-Hm; Wed, 16 Jun 2021 14:51:12 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ltWxJ-0001iM-Oo; Wed, 16 Jun 2021 14:55:49 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.14] v2: v4l2-subdev: add subdev-wide state struct (#75014)
-Date:   Wed, 16 Jun 2021 14:55:49 +0000
-Message-Id: <20210616145549.6549-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <c54f4d29-23b1-02b0-72b1-3fb4134e1b03@xs4all.nl>
-References: 
+        id S234293AbhFPPCA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Jun 2021 11:02:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D508F6115C;
+        Wed, 16 Jun 2021 14:59:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623855594;
+        bh=uSU0h88tXbXQee4T+znHkJJnj01kzkxlTTk4NWtzrYw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Q5YUHU7/TGQIFS2BRCY/a8iKIbg7eYSijjF8XJeQHzy34OGvqF17PXR32Dav4FgFF
+         SDFfOtk4ob5KxEdJMtheLY24k91S17aVUUFmhodn+qoJNkbodfa71DClv+pqJfpE/D
+         Ba1ACdyFsD+l9KVD0ls6dha9LZ/OWrofKM/sPKzJprJVza0xrbDMRrxmbVULjCoCCR
+         1NpdP39qsjjxXIUdVfMiOxFnh59ojxtabE6R+KhjpjGP3A+MeE1XYT4oxjVVianDRj
+         lZKSPd1Y8rHAHoJpgAVyEGJNEud6Tg3xjNN8BqBSNmVq877RLsSP8HvpsoiBP0TmFs
+         gFiuMqcG4Y3/A==
+Date:   Wed, 16 Jun 2021 16:59:47 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
+        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
+        nicolas@ndufresne.ca, gjasny@googlemail.com,
+        xavier.claessens@collabora.com, nicolas.dufresne@collabora.com,
+        user.vdr@gmail.com, sakari.ailus@iki.fi, rosenp@gmail.com
+Subject: Re: [v4l-utils v5 0/5] Add support for meson building
+Message-ID: <20210616165947.70f73cec@coco.lan>
+In-Reply-To: <443286a1-b955-1ac1-742d-42b9182a435f@collabora.com>
+References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
+        <f2f72ec5-e352-132f-b8d1-718589360bf0@ideasonboard.com>
+        <008aec9c-c1e6-7f8b-dde5-8fa53c1e9ee6@collabora.com>
+        <92b5c1bf-f4cf-5d5e-7c16-57d4a3446f67@ideasonboard.com>
+        <443286a1-b955-1ac1-742d-42b9182a435f@collabora.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Em Wed, 16 Jun 2021 11:26:10 -0300
+Ariel D'Alessandro <ariel.dalessandro@collabora.com> escreveu:
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/c54f4d29-23b1-02b0-72b1-3fb4134e1b03@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/115851/
-Build time: 00:13:54
-Link: https://lore.kernel.org/linux-media/c54f4d29-23b1-02b0-72b1-3fb4134e1b03@xs4all.nl
+> Kieran,
+> 
 
-gpg: Signature made Mon 14 Jun 2021 09:48:01 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+> >  - Meson decided to default libdir to
+> >      /usr/local/lib/x86_64-linux-gnu
+> >    while autoconf used
+> >      /usr/local/lib
+> >    (it's likely handled by the package managers anyway)  
+> 
+>   $ meson configure ../build-meson/ | grep libdir
+>     libdir    lib/x86_64-linux-gnu    Library directory
 
-Summary: got 1/1 patches with issues, being 1 at build time
+The default isn't nice, and will likely cause troubles for the users, as 
+/usr/local/lib/x86_64-linux-gnu would hardly be at the ld.so.conf list of 
+paths for most people. So, when one would try to run a program, it will
+fail.
 
-Error/warnings:
+> As mentioned in another response. Autotools is building with `-g -O2` by
+> default, that'd the equivalent meson configuration option
+> --buildtype=debugoptimized. 
 
-patches/0001-media-v4l2-subdev-add-subdev-wide-state-struct.patch:
+I can't understand the Meson's default... no optimization and no debug!
+Basically something that it is useless for both developers and for
+production. I wonder why they chose a crap default like that...
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+> With this configuration the installtion
+> sizes are not that different:
+> 
+>   $ du -s installation_m*
+>   37068	installation_make
+>   37848	installation_meson
 
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1969 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2835 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+It sounds a lot more coherent.
 
-   checkpatch.pl:
-	$ cat patches/0001-media-v4l2-subdev-add-subdev-wide-state-struct.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:28: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-	-:37: ERROR: Avoid using diff content in the commit message - patch(1) might not work
-	-:9434: CHECK: Comparison to NULL could be written "!sd_state"
-	-:13212: CHECK: Prefer kernel type 'u32' over 'uint32_t'
-	-:13338: CHECK: Prefer kernel type 'u32' over 'uint32_t'
-	-:13411: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+> In this case the difference is related to libtool `.la` files not being
+> generated by meson and gconv/ only installed by meson. The latest is
+> probably a feature being only detected by meson in this case, will check
+> that out.
 
+It was opted to not enable gconv by default, as similar patchset - needed
+to support ARIB STD B-24 charset used by Japanese digital TV - was sent to 
+gconv upstream (not sure if it was merged or not). On other words, the 
+contrib/gconv stuff is independent of v4l-utils itself: it basically
+adds an extra charset to be used by gconv upstream.
+
+The only reason why it is present at v4l2-utils is that this charset
+is present on ISDB tables on TV broadcasts in Japan. The gconv library
+needs to support it, in order to  convert characters from MPEG tables
+to the system's charset.
+
+Btw, that's basically one of the reasons why we print a summary of the
+options when ./configure runs.
+
+Thanks,
+Mauro
