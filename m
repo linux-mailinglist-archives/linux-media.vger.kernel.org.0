@@ -2,107 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA9283A9E60
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 16:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F2833A9E8D
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 17:06:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234340AbhFPPCA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 11:02:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42014 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234293AbhFPPCA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 11:02:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D508F6115C;
-        Wed, 16 Jun 2021 14:59:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623855594;
-        bh=uSU0h88tXbXQee4T+znHkJJnj01kzkxlTTk4NWtzrYw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Q5YUHU7/TGQIFS2BRCY/a8iKIbg7eYSijjF8XJeQHzy34OGvqF17PXR32Dav4FgFF
-         SDFfOtk4ob5KxEdJMtheLY24k91S17aVUUFmhodn+qoJNkbodfa71DClv+pqJfpE/D
-         Ba1ACdyFsD+l9KVD0ls6dha9LZ/OWrofKM/sPKzJprJVza0xrbDMRrxmbVULjCoCCR
-         1NpdP39qsjjxXIUdVfMiOxFnh59ojxtabE6R+KhjpjGP3A+MeE1XYT4oxjVVianDRj
-         lZKSPd1Y8rHAHoJpgAVyEGJNEud6Tg3xjNN8BqBSNmVq877RLsSP8HvpsoiBP0TmFs
-         gFiuMqcG4Y3/A==
-Date:   Wed, 16 Jun 2021 16:59:47 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+        id S234443AbhFPPIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 11:08:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234432AbhFPPIX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Jun 2021 11:08:23 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B839AC06175F
+        for <linux-media@vger.kernel.org>; Wed, 16 Jun 2021 08:06:17 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: xclaesse)
+        with ESMTPSA id 01A081F43912
+Message-ID: <c268f0cc04cfc892270b406fb4302425dc097477.camel@collabora.com>
+Subject: Re: [v4l-utils v5 0/5] Add support for meson building
+From:   Xavier Claessens <xavier.claessens@collabora.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 Cc:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
         hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
         laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
         nicolas@ndufresne.ca, gjasny@googlemail.com,
-        xavier.claessens@collabora.com, nicolas.dufresne@collabora.com,
-        user.vdr@gmail.com, sakari.ailus@iki.fi, rosenp@gmail.com
-Subject: Re: [v4l-utils v5 0/5] Add support for meson building
-Message-ID: <20210616165947.70f73cec@coco.lan>
-In-Reply-To: <443286a1-b955-1ac1-742d-42b9182a435f@collabora.com>
+        nicolas.dufresne@collabora.com, user.vdr@gmail.com,
+        sakari.ailus@iki.fi, rosenp@gmail.com
+Date:   Wed, 16 Jun 2021 11:06:04 -0400
+In-Reply-To: <20210616165947.70f73cec@coco.lan>
 References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
-        <f2f72ec5-e352-132f-b8d1-718589360bf0@ideasonboard.com>
-        <008aec9c-c1e6-7f8b-dde5-8fa53c1e9ee6@collabora.com>
-        <92b5c1bf-f4cf-5d5e-7c16-57d4a3446f67@ideasonboard.com>
-        <443286a1-b955-1ac1-742d-42b9182a435f@collabora.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+         <f2f72ec5-e352-132f-b8d1-718589360bf0@ideasonboard.com>
+         <008aec9c-c1e6-7f8b-dde5-8fa53c1e9ee6@collabora.com>
+         <92b5c1bf-f4cf-5d5e-7c16-57d4a3446f67@ideasonboard.com>
+         <443286a1-b955-1ac1-742d-42b9182a435f@collabora.com>
+         <20210616165947.70f73cec@coco.lan>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 16 Jun 2021 11:26:10 -0300
-Ariel D'Alessandro <ariel.dalessandro@collabora.com> escreveu:
-
-> Kieran,
+Le mercredi 16 juin 2021 à 16:59 +0200, Mauro Carvalho Chehab a écrit :
+> As mentioned in another response. Autotools is building with `-g
+> > -O2` by
+> > default, that'd the equivalent meson configuration option
+> > --buildtype=debugoptimized. 
 > 
+> I can't understand the Meson's default... no optimization and no
+> debug!
+> Basically something that it is useless for both developers and for
+> production. I wonder why they chose a crap default like that...
 
-> >  - Meson decided to default libdir to
-> >      /usr/local/lib/x86_64-linux-gnu
-> >    while autoconf used
-> >      /usr/local/lib
-> >    (it's likely handled by the package managers anyway)  
-> 
->   $ meson configure ../build-meson/ | grep libdir
->     libdir    lib/x86_64-linux-gnu    Library directory
+Most project make it the default with:
+project(..., default_options : ['buildtype=debugoptimized'])
 
-The default isn't nice, and will likely cause troubles for the users, as 
-/usr/local/lib/x86_64-linux-gnu would hardly be at the ld.so.conf list of 
-paths for most people. So, when one would try to run a program, it will
-fail.
+I _think_ it is not the default because it is often less debugable when
+it's optimized.
 
-> As mentioned in another response. Autotools is building with `-g -O2` by
-> default, that'd the equivalent meson configuration option
-> --buildtype=debugoptimized. 
+Regards,
+Xavier Claessens.
 
-I can't understand the Meson's default... no optimization and no debug!
-Basically something that it is useless for both developers and for
-production. I wonder why they chose a crap default like that...
-
-> With this configuration the installtion
-> sizes are not that different:
-> 
->   $ du -s installation_m*
->   37068	installation_make
->   37848	installation_meson
-
-It sounds a lot more coherent.
-
-> In this case the difference is related to libtool `.la` files not being
-> generated by meson and gconv/ only installed by meson. The latest is
-> probably a feature being only detected by meson in this case, will check
-> that out.
-
-It was opted to not enable gconv by default, as similar patchset - needed
-to support ARIB STD B-24 charset used by Japanese digital TV - was sent to 
-gconv upstream (not sure if it was merged or not). On other words, the 
-contrib/gconv stuff is independent of v4l-utils itself: it basically
-adds an extra charset to be used by gconv upstream.
-
-The only reason why it is present at v4l2-utils is that this charset
-is present on ISDB tables on TV broadcasts in Japan. The gconv library
-needs to support it, in order to  convert characters from MPEG tables
-to the system's charset.
-
-Btw, that's basically one of the reasons why we print a summary of the
-options when ./configure runs.
-
-Thanks,
-Mauro
