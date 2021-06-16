@@ -2,40 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 249033A9A58
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:28:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F1963A9A5C
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:28:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232656AbhFPMar (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 08:30:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49230 "EHLO mail.kernel.org"
+        id S232708AbhFPMat (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 08:30:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49238 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231179AbhFPMaq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S231812AbhFPMaq (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 16 Jun 2021 08:30:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8731A61356;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 89F22613B9;
         Wed, 16 Jun 2021 12:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623846520;
-        bh=DzuXxK/L6L29nZjYPejhCPD+EXffrWanY9DtdBFUzHw=;
+        bh=CSld2s/3tHC+Jh6gkwfRLXdviGut2t9E50vJJvDQ1A4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fhQOAShvNZjN60DXwljR4nweOGTtAFZkmpxoqazHz2NKexrPctvIleK7jG0i349a8
-         4Fp5Mq9TbF/Un6n+1k3jkKovA7O/GbxYJxBZcqj3n1Ft5mtCkZSXXoKhBIh40h024s
-         skoypPmN02+w+pKV2a5hGzwoE9Ej0l5Ihn5W6JG2rcY6s0Rs4tgffI34NgM8BUhCZo
-         tqAEO1o7sxl96S5/bBI3bWBLmIi4f/wDSAvEC9D4LHgN9/AbAEyjGg4UXrH4ZfslLc
-         2wCCx2vBmLcCDF+984IMqcDxhcdeseY9qFn/Hz/koqXWWsoAXNyo4QhMhTWttbNIlg
-         JmU3qqaaYtJEw==
+        b=dYGXaBhaFZk2fxz4aSbTx5GpCXeLb7MdS6tVsUZZexzYIFVrVlsMaNKZQIHDNGtrW
+         oeHkiYmliklw8HBxUwxu21lnz38Y6U6tQKMAjZzo8R6N4w/5r7/7RotuGLkZNr/bWS
+         EE+8qZu2B/0f+gNO4FTlNuZO4l9YSTDNPn4azOvSMPjlq/MRVk7/4Rl8wulyiYRQ11
+         pVrcYDl04PvTDPUzoHmBdNibWU9weVAE8t73wHlC+icegaueEgOJ1gdqFpkIncHE0o
+         ZL4CgnHoXDaNRDC2iG/zLbAvTVrjFhjV1QXWJ7HFyKJaZHSrIBH2AfPQMyFRYoCJZe
+         IDK7zL+SX48KA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltUes-004oiV-9G; Wed, 16 Jun 2021 14:28:38 +0200
+        id 1ltUes-004oib-AH; Wed, 16 Jun 2021 14:28:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peilin Ye <yepeilin.cs@gmail.com>, Sean Young <sean@mess.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 03/11] media: dvbdev: fix error logic at dvb_register_device()
-Date:   Wed, 16 Jun 2021 14:28:29 +0200
-Message-Id: <56a94235a78b2313661154d6802dd8d3b9864de7.1623846327.git.mchehab+huawei@kernel.org>
+        Maxime Ripard <mripard@kernel.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: [PATCH 04/11] media: sun6i-csi: add a missing return code
+Date:   Wed, 16 Jun 2021 14:28:30 +0200
+Message-Id: <525bad50008338d96fb71e724675061ffa07ff87.1623846327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623846327.git.mchehab+huawei@kernel.org>
 References: <cover.1623846327.git.mchehab+huawei@kernel.org>
@@ -47,48 +50,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As reported by smatch:
+As pointed by smatch, there's a missing return code:
 
-	drivers/media/dvb-core/dvbdev.c: drivers/media/dvb-core/dvbdev.c:510 dvb_register_device() warn: '&dvbdev->list_head' not removed from list
-	drivers/media/dvb-core/dvbdev.c: drivers/media/dvb-core/dvbdev.c:530 dvb_register_device() warn: '&dvbdev->list_head' not removed from list
-	drivers/media/dvb-core/dvbdev.c: drivers/media/dvb-core/dvbdev.c:545 dvb_register_device() warn: '&dvbdev->list_head' not removed from list
-
-The error logic inside dvb_register_device() doesn't remove
-devices from the dvb_adapter_list in case of errors.
+	drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c:485 sun6i_video_open() warn: missing error code 'ret'
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/dvb-core/dvbdev.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 3862ddc86ec4..795d9bfaba5c 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -506,6 +506,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 			break;
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+index 3181d0781b61..07b2161392d2 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+@@ -481,8 +481,10 @@ static int sun6i_video_open(struct file *file)
+ 		goto fh_release;
  
- 	if (minor == MAX_DVB_MINORS) {
-+		list_del (&dvbdev->list_head);
- 		kfree(dvbdevfops);
- 		kfree(dvbdev);
- 		up_write(&minor_rwsem);
-@@ -526,6 +527,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 		      __func__);
+ 	/* check if already powered */
+-	if (!v4l2_fh_is_singular_file(file))
++	if (!v4l2_fh_is_singular_file(file)) {
++		ret = -EBUSY;
+ 		goto unlock;
++	}
  
- 		dvb_media_device_free(dvbdev);
-+		list_del (&dvbdev->list_head);
- 		kfree(dvbdevfops);
- 		kfree(dvbdev);
- 		mutex_unlock(&dvbdev_register_lock);
-@@ -541,6 +543,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 		pr_err("%s: failed to create device dvb%d.%s%d (%ld)\n",
- 		       __func__, adap->num, dnames[type], id, PTR_ERR(clsdev));
- 		dvb_media_device_free(dvbdev);
-+		list_del (&dvbdev->list_head);
- 		kfree(dvbdevfops);
- 		kfree(dvbdev);
- 		return PTR_ERR(clsdev);
+ 	ret = sun6i_csi_set_power(video->csi, true);
+ 	if (ret < 0)
 -- 
 2.31.1
 
