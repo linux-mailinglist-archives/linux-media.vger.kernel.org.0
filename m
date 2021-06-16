@@ -2,43 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E3F93A9A5E
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9D683A9A64
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:29:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232750AbhFPMau (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 08:30:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49254 "EHLO mail.kernel.org"
+        id S232935AbhFPMay (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 08:30:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49302 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232217AbhFPMaq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S232620AbhFPMaq (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 16 Jun 2021 08:30:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F9EC613BD;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A353613CB;
         Wed, 16 Jun 2021 12:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623846520;
-        bh=IZjqD2I+8Bdj62sCZmrApsPeQG82LsZGKTUJEvkz6E4=;
+        bh=nBySG9GXlvUgri5A+5P6So4wWVqRbxFEOGnkkfBp9EU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gJFUbmbEzqThmvQJg+a64/ryAPKBUgu6E+Q5YMtaygXjDp4wsYJWpZoM9Kxh+cXoZ
-         w18vX5dcTxGdUFk39EgEzAI85i9rBMiJxX3KUtrZ+OXuZbuJzSzoww7rH0NKC3y25E
-         zZpXHSWIU/MAWLpOeuyyb8r2/0bCdpwgL/nsLELVAydYh0eu7htjrfNufuGWFKzsjR
-         4JrdhqYAz/sI+oi2yG+IHYppk2QxVra1tfREYUHkfl2PnczYPxknBhWPL4xcw8KrW4
-         CEzmvmMsgXP/jyoo1IGLcnAH8yhWovwPFGx7jkklVMddn6t9De36neIfCxlL6gjbHM
-         I6EzKdf94Pa2Q==
+        b=CCcXMRBVhARM2ANw/W7/WRNnQtye4EnwW+IasEd+/pfCkOUxjPJZsgL4oi1KXmoJc
+         7VIoxryt4qcIWfa8AIAn8BS1xxYNsIKtHUntksfBrVkC53hi8p5TkdDa6agEH4h2PB
+         sm7iR/TywQYIvfUFT6ISKgluK81W+wwNVZghEFLzF1GabvIsSn40HftwT1VvCY/UE6
+         QGZbo+sfOkwsq9s97EJVxkO8Tos+xD6F73y3+lZkG5Qq8TCP02Kth6gSIF90P7cjbL
+         66daJgmUr/eRo4g5WQ7mP+CW+cirUOclKBlRFj3AazGhHng/OFL0n/7CSwPq+XdyFB
+         5yczfHRUtSsSg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltUes-004oij-CV; Wed, 16 Jun 2021 14:28:38 +0200
+        id 1ltUes-004oin-DV; Wed, 16 Jun 2021 14:28:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tasos Sahanidis <tasos@tasossah.com>,
-        Vaibhav Gupta <vaibhavgupta40@gmail.com>,
-        Yang Yingliang <yangyingliang@huawei.com>,
+        Nicolas Stuardo Diaz <nicolasstuardodiaz@gmail.com>,
+        Sean Young <sean@mess.org>, Ye Bin <yebin10@huawei.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 06/11] media: saa7134: fix saa7134_initdev error handling logic
-Date:   Wed, 16 Jun 2021 14:28:32 +0200
-Message-Id: <9e1b48aeaf261e37aa99d868c44acfe7df0d7fc4.1623846327.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 07/11] media: siano: fix device register error path
+Date:   Wed, 16 Jun 2021 14:28:33 +0200
+Message-Id: <73a7f08bb84ce2bd27045822fb66ad1f9c372dde.1623846327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623846327.git.mchehab+huawei@kernel.org>
 References: <cover.1623846327.git.mchehab+huawei@kernel.org>
@@ -50,40 +49,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Smatch reported an issue there:
-	drivers/media/pci/saa7134/saa7134-core.c:1302 saa7134_initdev() warn: '&dev->devlist' not removed from list
+As reported by smatch:
+	drivers/media/common/siano/smsdvb-main.c:1231 smsdvb_hotplug() warn: '&client->entry' not removed from list
 
-But besides freeing the list, the media controller graph also
-needs to be cleaned up on errors. Address those issues.
+If an error occur at the end of the registration logic, it won't
+drop the device from the list.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/pci/saa7134/saa7134-core.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/media/common/siano/smsdvb-main.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/media/pci/saa7134/saa7134-core.c b/drivers/media/pci/saa7134/saa7134-core.c
-index 97b1767f1fff..47158ab3956b 100644
---- a/drivers/media/pci/saa7134/saa7134-core.c
-+++ b/drivers/media/pci/saa7134/saa7134-core.c
-@@ -1277,14 +1277,17 @@ static int saa7134_initdev(struct pci_dev *pci_dev,
- 	 */
- #ifdef CONFIG_MEDIA_CONTROLLER
- 	err = media_device_register(dev->media_dev);
--	if (err)
-+	if (err) {
-+		media_device_cleanup(dev->media_dev);
- 		goto err_unregister_video;
-+	}
- #endif
- 
+diff --git a/drivers/media/common/siano/smsdvb-main.c b/drivers/media/common/siano/smsdvb-main.c
+index b8a163a47d09..f80caaa333da 100644
+--- a/drivers/media/common/siano/smsdvb-main.c
++++ b/drivers/media/common/siano/smsdvb-main.c
+@@ -1212,6 +1212,10 @@ static int smsdvb_hotplug(struct smscore_device_t *coredev,
  	return 0;
  
- err_unregister_video:
- 	saa7134_unregister_video(dev);
-+	list_del(&dev->devlist);
- 	saa7134_i2c_unregister(dev);
- 	free_irq(pci_dev->irq, dev);
- err_iounmap:
+ media_graph_error:
++	mutex_lock(&g_smsdvb_clientslock);
++	list_del(&client->entry);
++	mutex_unlock(&g_smsdvb_clientslock);
++
+ 	smsdvb_debugfs_release(client);
+ 
+ client_error:
 -- 
 2.31.1
 
