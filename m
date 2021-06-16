@@ -2,99 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBC863A9BBF
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 15:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 394F83A9C13
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 15:36:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232389AbhFPNOq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 09:14:46 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:52488 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230087AbhFPNOq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 09:14:46 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ltVLR-001h0T-Sh; Wed, 16 Jun 2021 13:12:37 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ltVPu-0008Q0-W3; Wed, 16 Jun 2021 13:17:15 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.14] v2: v4l2-subdev: add subdev-wide state struct (#75014)
-Date:   Wed, 16 Jun 2021 13:17:14 +0000
-Message-Id: <20210616131714.32319-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <c54f4d29-23b1-02b0-72b1-3fb4134e1b03@xs4all.nl>
-References: 
+        id S233302AbhFPNi3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 09:38:29 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47642 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230187AbhFPNi2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Jun 2021 09:38:28 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: adalessandro)
+        with ESMTPSA id 5F33E1F43696
+From:   Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Subject: Re: [v4l-utils v5 0/5] Add support for meson building
+To:     kieran.bingham@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl, sean@mess.org,
+        p.zabel@pengutronix.de, laurent.pinchart@ideasonboard.com,
+        ezequiel@collabora.com, nicolas@ndufresne.ca,
+        gjasny@googlemail.com, xavier.claessens@collabora.com,
+        nicolas.dufresne@collabora.com, user.vdr@gmail.com,
+        sakari.ailus@iki.fi, rosenp@gmail.com
+References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
+ <f2f72ec5-e352-132f-b8d1-718589360bf0@ideasonboard.com>
+ <008aec9c-c1e6-7f8b-dde5-8fa53c1e9ee6@collabora.com>
+ <92b5c1bf-f4cf-5d5e-7c16-57d4a3446f67@ideasonboard.com>
+ <20210518092358.05c7a189@coco.lan>
+ <78322e18-2086-1eda-3b39-bbd71160be27@ideasonboard.com>
+Message-ID: <8c260749-8b96-8587-5c22-8d7b1210862e@collabora.com>
+Date:   Wed, 16 Jun 2021 10:36:11 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <78322e18-2086-1eda-3b39-bbd71160be27@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Kieran, Mauro,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/c54f4d29-23b1-02b0-72b1-3fb4134e1b03@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/115848/
-Build time: 00:14:21
-Link: https://lore.kernel.org/linux-media/c54f4d29-23b1-02b0-72b1-3fb4134e1b03@xs4all.nl
+Thanks for all the feedback, I'll try to review and address all the
+comments you've posted. Just a quick comment related to the output size
+and debug level.
 
-gpg: Signature made Mon 14 Jun 2021 09:48:01 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+On 5/18/21 7:18 AM, Kieran Bingham wrote:
+> Hi Mauro,
+> 
+> On 18/05/2021 08:23, Mauro Carvalho Chehab wrote:
+>> Em Mon, 17 May 2021 23:13:45 +0100
+>> Kieran Bingham <kieran.bingham@ideasonboard.com> escreveu:
+>>
+[snip]
+>> Assuming that both builds used the same compilers, a difference at 
+>> the order of (tens of) MB can only be explained if Meson build
+>> was very incomplete, and/or the output files don't carry the same
+>> debug info.
+> 
+> Indeed - compiler debug info level changes could be another thing to
+> check. That could account for a larger build output difference, but
+> there's certainly a large discrepancy to solve.
 
-Summary: got 1/1 patches with issues, being 1 at build time
+I've just checked and autotools is building by default with -g -O2, so
+meson should be built with --buildtype=debugoptimized to get the same
+results.
 
-Error/warnings:
+I'll dig deeper and post more soon.
 
-patches/0001-media-v4l2-subdev-add-subdev-wide-state-struct.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-
-    allyesconfig: return code #512:
-	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	(null):builtin:2:0: error: missing terminating " character
-	No such file: drivers/media/platform/atmel/atmel-xisc"
-	SPARSE:(null) builtin:2:0:  warning: missing terminating " character
-	No such file: drivers/media/platform/atmel/atmel-xisc"
-	make[5]: *** [../scripts/Makefile.build:272: drivers/media/platform/atmel/atmel-isc-base.o] Error 1
-	make[5]: *** Deleting file 'drivers/media/platform/atmel/atmel-isc-base.o'
-	make[5]: *** Waiting for unfinished jobs....
-	make[4]: *** [../scripts/Makefile.build:515: drivers/media/platform/atmel] Error 2
-	make[3]: *** [../scripts/Makefile.build:515: drivers/media/platform] Error 2
-	make[3]: *** Waiting for unfinished jobs....
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	make[2]: *** [../scripts/Makefile.build:515: drivers/media] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1844: drivers] Error 2
-	make: *** [Makefile:215: __sub-make] Error 2
-
-   checkpatch.pl:
-	$ cat patches/0001-media-v4l2-subdev-add-subdev-wide-state-struct.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:28: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-	-:37: ERROR: Avoid using diff content in the commit message - patch(1) might not work
-	-:9434: CHECK: Comparison to NULL could be written "!sd_state"
-	-:13212: CHECK: Prefer kernel type 'u32' over 'uint32_t'
-	-:13338: CHECK: Prefer kernel type 'u32' over 'uint32_t'
-	-:13411: CHECK: Prefer kernel type 'u32' over 'uint32_t'
-
+Regards,
+Ariel
