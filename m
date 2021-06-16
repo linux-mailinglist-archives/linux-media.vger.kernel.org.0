@@ -2,92 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB0843AA668
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 23:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFC4A3AA780
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 01:32:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234165AbhFPVzd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 17:55:33 -0400
-Received: from gloria.sntech.de ([185.11.138.130]:60410 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234008AbhFPVzc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Jun 2021 17:55:32 -0400
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=phil.lan)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1ltdSL-0008QL-GD; Wed, 16 Jun 2021 23:52:17 +0200
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     ezequiel@collabora.com, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, Laurent.pinchart@ideasonboard.com,
-        linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-        heiko@sntech.de, robh+dt@kernel.org, devicetree@vger.kernel.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Subject: [PATCH v4 10/10] media: rockchip: rkisp1: add support for px30 isp version
-Date:   Wed, 16 Jun 2021 23:52:11 +0200
-Message-Id: <20210616215211.4002992-11-heiko@sntech.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210616215211.4002992-1-heiko@sntech.de>
-References: <20210616215211.4002992-1-heiko@sntech.de>
+        id S234630AbhFPXeO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 19:34:14 -0400
+Received: from mail-io1-f42.google.com ([209.85.166.42]:41674 "EHLO
+        mail-io1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234629AbhFPXeN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Jun 2021 19:34:13 -0400
+Received: by mail-io1-f42.google.com with SMTP id p66so1040131iod.8;
+        Wed, 16 Jun 2021 16:32:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wfIo0PmRuzO8GRCXqxMnvdj1xpzU9qFtcs6L3FAP3/g=;
+        b=Dbtauap9ouHzWQapF3riy4sjfCtDfh/lFGDv86EvqBQhvRqx+YIVCvk4L4yv+3+Yh0
+         wRK7EO0pPQD1BznwQhJ0BHUWS+WRcx918HFpqAB0q0uiBg2co0Z1gwO+IbauCJyGGKbu
+         RmwWoB4rMs/PYWdd6beJKax1NcO78TGdnAHZzoTyVa87RF1LR4E85v7WH/d0uyNtR0BN
+         0GY1ioFogo4Yk3vCz4NiYuvPgj9NkWQEMypqHAJisW08VtGVhTsvanG0siugxjWrPrhH
+         GVp35ZMqbZEO8aq00wDvEgOf4tB0OX76I7wEvMpTOUg/1u4qiNew3cAEls+lMaSrrzUV
+         Ze3Q==
+X-Gm-Message-State: AOAM532P5qF+mzWyJ9UaIcL+lnktvKV+ifsnyMRCsGaKSzKzukDxcTbu
+        BlV6KXTYaC1KuzvpSdQz2A==
+X-Google-Smtp-Source: ABdhPJxkaEwYRqwX8tOLH4uUuUH3EGmGCjbR6wM/OnagyZsvejKfnYNpcqtW9ON8QKmsYZ1K9u9gQA==
+X-Received: by 2002:a5e:df42:: with SMTP id g2mr1403655ioq.166.1623886325974;
+        Wed, 16 Jun 2021 16:32:05 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id b15sm1929018iln.17.2021.06.16.16.32.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jun 2021 16:32:05 -0700 (PDT)
+Received: (nullmailer pid 289545 invoked by uid 1000);
+        Wed, 16 Jun 2021 23:32:03 -0000
+Date:   Wed, 16 Jun 2021 17:32:03 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     tharvey@gateworks.com, robh+dt@kernel.org,
+        hverkuil-cisco@xs4all.nl, niklas.soderlund@ragnatech.se,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        lars@metafoo.de, matthew.michilot@gmail.com
+Subject: Re: [PATCH v2 1/2] dt-bindings: adv7180: Introduce
+ 'adv,force-bt656-4' property
+Message-ID: <20210616233203.GA289511@robh.at.kernel.org>
+References: <20210604212217.70518-1-festevam@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210604212217.70518-1-festevam@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+On Fri, 04 Jun 2021 18:22:16 -0300, Fabio Estevam wrote:
+> Captured NTSC video would be out of sync when using the adv7280 with
+> the BT.656-4 protocol. Certain registers (0x04, 0x31, 0xE6) need to
+> be configured properly to ensure BT.656-4 compatibility.
+> 
+> Introduce the 'adv,force-bt656-4' property to allow the ADV7280
+> behavior to be consistent with the ADV7180, where BT.656-4 timing
+> is used by default.
+> 
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> ---
+> Changes since v1:
+> - Remove the part number from the property name (Rob)
+> 
+>  Documentation/devicetree/bindings/media/i2c/adv7180.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
 
-The px30 uses a V12 isp block so add compatible and matchdata
-for it.
-
-Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
----
- .../platform/rockchip/rkisp1/rkisp1-dev.c     | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index a14a0bc39fb0..8a9bb97d334a 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -405,6 +405,27 @@ static irqreturn_t rkisp1_isr(int irq, void *ctx)
- 	return IRQ_HANDLED;
- }
- 
-+static const char * const px30_isp_clks[] = {
-+	"isp",
-+	"aclk",
-+	"hclk",
-+	"pclk",
-+};
-+
-+static const struct rkisp1_isr_data px30_isp_isrs[] = {
-+	{ "isp", rkisp1_isp_isr },
-+	{ "mi", rkisp1_capture_isr },
-+	{ "mipi", rkisp1_mipi_isr },
-+};
-+
-+static const struct rkisp1_match_data px30_isp_match_data = {
-+	.clks = px30_isp_clks,
-+	.size = ARRAY_SIZE(px30_isp_clks),
-+	.isrs = px30_isp_isrs,
-+	.isr_size = ARRAY_SIZE(px30_isp_isrs),
-+	.isp_ver = RKISP1_V12,
-+};
-+
- static const char * const rk3399_isp_clks[] = {
- 	"isp",
- 	"aclk",
-@@ -424,6 +445,10 @@ static const struct rkisp1_match_data rk3399_isp_match_data = {
- };
- 
- static const struct of_device_id rkisp1_of_match[] = {
-+	{
-+		.compatible = "rockchip,px30-cif-isp",
-+		.data = &px30_isp_match_data,
-+	},
- 	{
- 		.compatible = "rockchip,rk3399-cif-isp",
- 		.data = &rk3399_isp_match_data,
--- 
-2.29.2
-
+Acked-by: Rob Herring <robh@kernel.org>
