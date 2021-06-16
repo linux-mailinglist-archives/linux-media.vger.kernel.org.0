@@ -2,45 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDCE93A9A5B
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E75103A9A68
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jun 2021 14:29:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231179AbhFPMas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Jun 2021 08:30:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49232 "EHLO mail.kernel.org"
+        id S232971AbhFPMa5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Jun 2021 08:30:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49294 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231303AbhFPMaq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S232535AbhFPMaq (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 16 Jun 2021 08:30:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 808846135C;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 94CE2613C7;
         Wed, 16 Jun 2021 12:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1623846520;
-        bh=qMLD5L33JuSzop8XE5CQqNRAcxqJX553vmnX+Xl74Dc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=L/R2NwoGZMLbmQtky2swZPfqmxZlTIbB4ppAfSV2KG39FufEVQkDEWsG+tSOnkrRo
-         Zjx63oN3Kk4Cz/4+sAf/tADqRztyaneLNBu3PCY7MA7UEtFLwEjsYo0I5zpoTz3kIt
-         VOb05SczaB9QOKupeFsqMD7GSMF3Y8aU3tJn4FRlyw1lUh8TdUf5BcPQLvlrG6oz60
-         61SvPNCFbUn23aUKvv0tAQqnCdfHNjsbTN4QMxy8Gc5yNxk1Mt0ZbqE4paFO1BUp4k
-         tggLIXxkvTvzWXb0ZVizM7mgte/VwMYrIOuBriXtcDGKYXs+gJ7DBcb6rSf2qUFkoY
-         UsNqeYaRtmUbQ==
+        bh=oqjheYG9h6Tj93iYGW/qpgENpt3aGXsa0799OrvQ9yI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=AlcLOffiFWXL5cRggUltDdgmSWK6JreQRh0+Olh8oMZfUiMTrMymEZkeseIhwfBaU
+         +4wOSWMtGOqYlVuXi6TIHcO5OS7ZZ88Ljk0RDP19GXhLkXPYeldowC46VDcU7cTN4x
+         c+gklEMaGu5KuWBPOuHjQogcSzK85fqYjSC1Qj1kjW7K27PTlBeTHmiczYkQ25WR4Q
+         2n4xyNQFOV8+8n6rvMJkDcMOlqBmblJdt4IWXba6Hkfvq27iAPCv5B5SLzuKmeinZN
+         LmqCGUb3AJATNlhbI4+lTaU4mNgUZmotnNWdcuLAdfj0WTmx25hMRnDmUfTKQPl6T/
+         kGUS7Pq7VboEw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1ltUes-004oiL-5M; Wed, 16 Jun 2021 14:28:38 +0200
+        id 1ltUes-004oiP-7C; Wed, 16 Jun 2021 14:28:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH 00/11] Address some smatch warnings
-Date:   Wed, 16 Jun 2021 14:28:26 +0200
-Message-Id: <cover.1623846327.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 01/11] media: dvb_ca_en50221: avoid speculation from CA slot
+Date:   Wed, 16 Jun 2021 14:28:27 +0200
+Message-Id: <77322db90902cd2c9d25fa3d614bf25809e9c609.1623846327.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1623846327.git.mchehab+huawei@kernel.org>
+References: <cover.1623846327.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -49,39 +46,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are currently a couple of smatch warnings at the media subsystem.
+As warned by smatch:
+	drivers/media/dvb-core/dvb_ca_en50221.c:1392 dvb_ca_en50221_io_do_ioctl() warn: potential spectre issue 'ca->slot_info' [r] (local cap)
 
-This series fix several of them. The end goal is to reduce smatch warnings
-to be close to zero, but there are still some work to be done. I'll likely
-submit another round along this week.
+There's a potential of using a CAM ioctl for speculation.
 
-Mauro Carvalho Chehab (11):
-  media: dvb_ca_en50221: avoid speculation from CA slot
-  media: dvb_net: avoid speculation from net slot
-  media: dvbdev: fix error logic at dvb_register_device()
-  media: sun6i-csi: add a missing return code
-  media: saa7134: use more meaninful goto labels
-  media: saa7134: fix saa7134_initdev error handling logic
-  media: siano: fix device register error path
-  media: adv7842: better document EDID block size
-  media: ttusb-dec: cleanup an error handling logic
-  media: dvb-core: frontend: make GET/SET safer
-  media: xilinx: simplify get fourcc logic
+The risk here is minimum, as only a small subset of DVB
+boards have CI, with a CAM module installed. Also, exploiting
+it would require an user capable of starting a DVB application.
 
- drivers/media/common/siano/smsdvb-main.c      |   4 +
- drivers/media/dvb-core/dvb_ca_en50221.c       |   1 +
- drivers/media/dvb-core/dvb_frontend.c         | 213 ++++++++++--------
- drivers/media/dvb-core/dvb_net.c              |  25 +-
- drivers/media/dvb-core/dvbdev.c               |   3 +
- drivers/media/i2c/adv7842.c                   |  33 ++-
- drivers/media/pci/saa7134/saa7134-core.c      |  39 ++--
- .../platform/sunxi/sun6i-csi/sun6i_video.c    |   4 +-
- drivers/media/platform/xilinx/xilinx-dma.c    |   5 +-
- drivers/media/platform/xilinx/xilinx-vip.c    |   6 +-
- drivers/media/usb/ttusb-dec/ttusb_dec.c       |  25 +-
- 11 files changed, 201 insertions(+), 157 deletions(-)
+There are probably a lot of easier ways to try to exploit.
 
+Yet, it doesn't harm addressing it.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/media/dvb-core/dvb_ca_en50221.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
+index b7e4a3371176..15a08d8c69ef 100644
+--- a/drivers/media/dvb-core/dvb_ca_en50221.c
++++ b/drivers/media/dvb-core/dvb_ca_en50221.c
+@@ -1386,6 +1386,7 @@ static int dvb_ca_en50221_io_do_ioctl(struct file *file,
+ 			err = -EINVAL;
+ 			goto out_unlock;
+ 		}
++		slot = array_index_nospec(slot, ca->slot_count);
+ 
+ 		info->type = CA_CI_LINK;
+ 		info->flags = 0;
 -- 
 2.31.1
-
 
