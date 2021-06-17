@@ -2,121 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC1D93AB3E9
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 14:45:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 363813AB419
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 14:55:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231668AbhFQMrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 08:47:11 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:7472 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230473AbhFQMrK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Jun 2021 08:47:10 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G5MBg4fkKzZgDg;
-        Thu, 17 Jun 2021 20:42:03 +0800 (CST)
-Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 17 Jun 2021 20:45:00 +0800
-Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
- (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 17 Jun
- 2021 20:44:59 +0800
-From:   Baokun Li <libaokun1@huawei.com>
-To:     <libaokun1@huawei.com>, <mchehab@kernel.org>,
-        <sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
-        <andriy.shevchenko@linux.intel.com>, <kaixuxia@tencent.com>,
-        <gustavoars@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC:     <weiyongjun1@huawei.com>, <yuehaibing@huawei.com>,
-        <yangjihong1@huawei.com>, <yukuai3@huawei.com>,
+        id S231757AbhFQM5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Jun 2021 08:57:45 -0400
+Received: from mga14.intel.com ([192.55.52.115]:56980 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230137AbhFQM5o (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Jun 2021 08:57:44 -0400
+IronPort-SDR: LjwjDrABvrSZU5k9Xoid7m+pguyBzEpLZuNwZCsab1hVsH5QarZ3PTV/1iqZap+6/dcRMOw8rM
+ x05b+KKVaWcQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="206180083"
+X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
+   d="scan'208";a="206180083"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 05:55:30 -0700
+IronPort-SDR: 9hRuB0jGPR1x7UZWUt9VVEzVQJC4wSSuZGxMHE5FzVnxbkwDr9VMb/OsQSk1ji14e+cIbwkOB1
+ R7Sss0cYTfpg==
+X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
+   d="scan'208";a="637833283"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 05:55:27 -0700
+Received: from andy by smile with local (Exim 4.94.2)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ltrYK-003LQb-91; Thu, 17 Jun 2021 15:55:24 +0300
+Date:   Thu, 17 Jun 2021 15:55:24 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Baokun Li <libaokun1@huawei.com>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org, kaixuxia@tencent.com,
+        gustavoars@kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        weiyongjun1@huawei.com, yuehaibing@huawei.com,
+        yangjihong1@huawei.com, yukuai3@huawei.com,
         Hulk Robot <hulkci@huawei.com>
-Subject: [PATCH -next v5] media: staging: atomisp: use list_splice_init in atomisp_compat_css20.c
-Date:   Thu, 17 Jun 2021 20:53:57 +0800
-Message-ID: <20210617125357.675562-1-libaokun1@huawei.com>
-X-Mailer: git-send-email 2.31.1
+Subject: Re: [PATCH -next v4] media: staging: atomisp: use list_splice_init
+ in atomisp_compat_css20.c
+Message-ID: <YMtGPPgM+zv0iL5u@smile.fi.intel.com>
+References: <20210617124709.670936-1-libaokun1@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.127.227]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500020.china.huawei.com (7.185.36.88)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210617124709.670936-1-libaokun1@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Using list_splice_init() instead of entire while-loops
-in atomisp_compat_css20.c.
+On Thu, Jun 17, 2021 at 08:47:09PM +0800, Baokun Li wrote:
+> Using list_splice_init() instead of entire while-loops
+> in atomisp_compat_css20.c.
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Baokun Li <libaokun1@huawei.com>
+> ---
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Baokun Li <libaokun1@huawei.com>
----
-V1->V2:
-	CC mailist
-V2->V3:
-        Using list_move_tail() -> Using list_splice_init()
-V3->V4:
-        Remove redundant 'asd->'
-V4->V5:
-        Add the version information for 'V3->V4:'
+You missed changelog.
+And I believe you missed the changes.
+So, what's the point?
 
- .../media/atomisp/pci/atomisp_compat_css20.c  | 35 +++----------------
- 1 file changed, 5 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index f60198bb8a1a..7831bdac96ff 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -2144,42 +2144,17 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
- 	}
- 
- 	/* move stats buffers to free queue list */
--	while (!list_empty(&asd->s3a_stats_in_css)) {
--		s3a_buf = list_entry(asd->s3a_stats_in_css.next,
--				     struct atomisp_s3a_buf, list);
--		list_del(&s3a_buf->list);
--		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
--	}
--	while (!list_empty(&asd->s3a_stats_ready)) {
--		s3a_buf = list_entry(asd->s3a_stats_ready.next,
--				     struct atomisp_s3a_buf, list);
--		list_del(&s3a_buf->list);
--		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
--	}
-+	list_splice_init(&asd->s3a_stats_in_css, &asd->s3a_stats);
-+	list_splice_init(&asd->s3a_stats_ready, &asd->s3a_stats);
- 
- 	spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
--	while (!list_empty(&asd->dis_stats_in_css)) {
--		dis_buf = list_entry(asd->dis_stats_in_css.next,
--				     struct atomisp_dis_buf, list);
--		list_del(&dis_buf->list);
--		list_add_tail(&dis_buf->list, &asd->dis_stats);
--	}
-+	list_splice_init(&asd->dis_stats_in_css, &asd->dis_stats);
- 	asd->params.dis_proj_data_valid = false;
- 	spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
- 
- 	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
--		while (!list_empty(&asd->metadata_in_css[i])) {
--			md_buf = list_entry(asd->metadata_in_css[i].next,
--					    struct atomisp_metadata_buf, list);
--			list_del(&md_buf->list);
--			list_add_tail(&md_buf->list, &asd->metadata[i]);
--		}
--		while (!list_empty(&asd->metadata_ready[i])) {
--			md_buf = list_entry(asd->metadata_ready[i].next,
--					    struct atomisp_metadata_buf, list);
--			list_del(&md_buf->list);
--			list_add_tail(&md_buf->list, &asd->metadata[i]);
--		}
-+		list_splice_init(&asd->metadata_in_css[i], &asd->metadata[i]);
-+		list_splice_init(&asd->metadata_ready[i], &asd->metadata[i]);
- 	}
- 
- 	atomisp_flush_params_queue(&asd->video_out_capture);
 -- 
-2.31.1
+With Best Regards,
+Andy Shevchenko
+
 
