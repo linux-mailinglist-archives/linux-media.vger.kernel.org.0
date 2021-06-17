@@ -2,112 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E2D13ABE8A
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 00:08:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E2463ABE8D
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 00:10:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231775AbhFQWKH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 18:10:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53590 "EHLO
+        id S231819AbhFQWNB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Jun 2021 18:13:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229915AbhFQWKG (ORCPT
+        with ESMTP id S229915AbhFQWM7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Jun 2021 18:10:06 -0400
-X-Greylist: delayed 314 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 17 Jun 2021 15:07:58 PDT
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47ACC061574
-        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 15:07:58 -0700 (PDT)
-Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
+        Thu, 17 Jun 2021 18:12:59 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD8C0C061574
+        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 15:10:50 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dsl-hkibng32-54fb5d-176.dhcp.inet.fi [84.251.93.176])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: zev)
-        by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 098B62B9;
-        Thu, 17 Jun 2021 15:02:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-        s=thorn; t=1623967364;
-        bh=FQzjrW5WNAOrVkJs/Hts+Ik3+Hqt7NokValuBbhexNw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=F9Tcc6TKUxeEZshhBHAE4lTP1tdqkb4gjBU2K/1a+9NCGvuD0das9eNYChfQpq3Qu
-         4/myI7/JUaErXS8bPiH3kt6RTx0Bl2ejRLMqUxZ+n9RbXyHRkeNxhxYjdypO1opJLT
-         s1VuxP9adGTe1ztK7An+nQdgXLN1L3ZPDoKybD6M=
-From:   Zev Weiss <zev@bewilderbeest.net>
-To:     Eddie James <eajames@linux.ibm.com>
-Cc:     Zev Weiss <zev@bewilderbeest.net>,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Ryan Chen <ryan_chen@aspeedtech.com>,
-        linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
-        openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: [PATCH v3] media: aspeed-video: ignore interrupts that aren't enabled
-Date:   Thu, 17 Jun 2021 17:02:29 -0500
-Message-Id: <20210617220229.7352-1-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.32.0
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id D46DC20191
+        for <linux-media@vger.kernel.org>; Fri, 18 Jun 2021 01:10:44 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1623967844;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=q+YxXWikZz95kOm/jY4uGE5Vc7tb0nSXaEPncwSdEBY=;
+        b=viij3M66twqyiTqdC1ai9x8TCdTgbo5HnslV+C7MNY8bOlsubn1rA9Ua1TJdq1m4veOWgU
+        Wjny71t16IfvpL1dTcJY7COn7wkjjcxLUFa9in0/0CNZGUZg3S4ug/ChfeXbwVsNeKy5mB
+        0tLN+U6dsMyTnjky4fSLVOW0dicYo9k=
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C8387634C87
+        for <linux-media@vger.kernel.org>; Fri, 18 Jun 2021 01:08:44 +0300 (EEST)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1lu0Dk-0005NT-59
+        for linux-media@vger.kernel.org; Fri, 18 Jun 2021 01:10:44 +0300
+Date:   Fri, 18 Jun 2021 01:10:44 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for 5.14] V4L2 sensor driver patches
+Message-ID: <20210617221044.GJ3@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1623967844; a=rsa-sha256; cv=none;
+        b=L1SdJ4IXFjRNi4m9uuRXH0phOJEdNixnIGdKg6asz5bcT5cEXjZnB1T0pNLfFh2oHxnl4s
+        wTVy99VLseumKJ9ZSYRlQMfDlbcG3VOmvfecGetGtVgpr/7fuoXtWk20qXr3RCnSYpmdiz
+        YcXujlMjPuk/yDkJk9LfBLk/dVK4kHQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1623967844;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=q+YxXWikZz95kOm/jY4uGE5Vc7tb0nSXaEPncwSdEBY=;
+        b=dU14LtHJQ/Ed6ehhfM0wRBr650GNR0PoYYpPyjKuA3PAK6TT2Sj6lHIBRRvk2Ie04/m4ef
+        BZMjBWgGB5NJec11BnD3z1hSCO5Ik2bzuBiboa5TB3X3i3cWXK6Oo2Y1pvUa7C5k+yJeYJ
+        J0xbeev6/9LUSb6HlXdbKEtPZvJLivM=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As partially addressed in commit 65d270acb2d6 ("media: aspeed: clear
-garbage interrupts"), the ASpeed video engine sometimes asserts
-interrupts that the driver hasn't enabled.  In addition to the
-CAPTURE_COMPLETE and FRAME_COMPLETE interrupts dealt with in that
-patch, COMP_READY has also been observed.  Instead of playing
-whack-a-mole with each one individually, we can instead just blanket
-ignore everything we haven't explicitly enabled.
+Hi Mauro,
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
----
+Here's a nice little pull request for 5.14. There's a documentation fix and
+three new sensor drivers, imx335, imx412 and ov9282, all with DT bindings.
 
-Changes since v2 [1]:
- - minor commit message improvements
+Please pull.
 
-Changes since v1 [0]:
- - dropped error message
- - switched to a blanket-ignore approach as suggested by Ryan
 
-[0] https://lore.kernel.org/linux-arm-kernel/20201215024542.18888-1-zev@bewilderbeest.net/
-[1] https://lore.kernel.org/openbmc/20210506234048.3214-1-zev@bewilderbeest.net/
+The following changes since commit 198bb646e8553e8abd8d83492a27b601ab97b75d:
 
- drivers/media/platform/aspeed-video.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+  media: i2c: rdacm20: Re-work ov10635 reset (2021-06-17 12:08:55 +0200)
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 7bb6babdcade..77611c296a25 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -563,6 +563,12 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
- 	struct aspeed_video *video = arg;
- 	u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
- 
-+	/*
-+	 * Hardware sometimes asserts interrupts that we haven't actually
-+	 * enabled; ignore them if so.
-+	 */
-+	sts &= aspeed_video_read(video, VE_INTERRUPT_CTRL);
-+
- 	/*
- 	 * Resolution changed or signal was lost; reset the engine and
- 	 * re-initialize
-@@ -629,16 +635,6 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
- 			aspeed_video_start_frame(video);
- 	}
- 
--	/*
--	 * CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even when these
--	 * are disabled in the VE_INTERRUPT_CTRL register so clear them to
--	 * prevent unnecessary interrupt calls.
--	 */
--	if (sts & VE_INTERRUPT_CAPTURE_COMPLETE)
--		sts &= ~VE_INTERRUPT_CAPTURE_COMPLETE;
--	if (sts & VE_INTERRUPT_FRAME_COMPLETE)
--		sts &= ~VE_INTERRUPT_FRAME_COMPLETE;
--
- 	return sts ? IRQ_NONE : IRQ_HANDLED;
- }
- 
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.14-2-signed
+
+for you to fetch changes up to 97b317cae87ec7e33acd479ee5127881775bff49:
+
+  media: i2c: Add ov9282 camera sensor driver (2021-06-18 01:07:31 +0300)
+
+----------------------------------------------------------------
+V4L2 patches for 5.14
+
+----------------------------------------------------------------
+Martina Krasteva (6):
+      dt-bindings: media: Add bindings for imx335
+      media: i2c: Add imx335 camera sensor driver
+      dt-bindings: media: Add bindings for imx412
+      media: i2c: Add imx412 camera sensor driver
+      dt-bindings: media: Add bindings for ov9282
+      media: i2c: Add ov9282 camera sensor driver
+
+Paul Kocialkowski (1):
+      media: v4l2-subdev: Fix documentation of the subdev_notifier member
+
+ .../devicetree/bindings/media/i2c/ovti,ov9282.yaml |   91 ++
+ .../devicetree/bindings/media/i2c/sony,imx335.yaml |   91 ++
+ .../devicetree/bindings/media/i2c/sony,imx412.yaml |   91 ++
+ MAINTAINERS                                        |   27 +
+ drivers/media/i2c/Kconfig                          |   42 +
+ drivers/media/i2c/Makefile                         |    4 +-
+ drivers/media/i2c/imx335.c                         | 1129 +++++++++++++++++
+ drivers/media/i2c/imx412.c                         | 1272 ++++++++++++++++++++
+ drivers/media/i2c/ov9282.c                         | 1137 +++++++++++++++++
+ include/media/v4l2-subdev.h                        |    2 +-
+ 10 files changed, 3884 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+ create mode 100644 drivers/media/i2c/imx335.c
+ create mode 100644 drivers/media/i2c/imx412.c
+ create mode 100644 drivers/media/i2c/ov9282.c
+
 -- 
-2.32.0
-
+Sakari Ailus
