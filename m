@@ -2,87 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 943A43AB9A1
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 18:28:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B67E3AB996
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 18:28:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232363AbhFQQaL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 12:30:11 -0400
-Received: from gloria.sntech.de ([185.11.138.130]:38152 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230269AbhFQQaH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S231133AbhFQQaH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 17 Jun 2021 12:30:07 -0400
+Received: from gloria.sntech.de ([185.11.138.130]:38142 "EHLO gloria.sntech.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229741AbhFQQaG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Jun 2021 12:30:06 -0400
 Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=phil.lan)
         by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <heiko@sntech.de>)
-        id 1lturw-00057p-Ps; Thu, 17 Jun 2021 18:27:52 +0200
+        id 1lturx-00057p-6i; Thu, 17 Jun 2021 18:27:53 +0200
 From:   Heiko Stuebner <heiko@sntech.de>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
 Cc:     ezequiel@collabora.com, dafna.hirschfeld@collabora.com,
         helen.koike@collabora.com, Laurent.pinchart@ideasonboard.com,
         linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-        heiko@sntech.de, robh+dt@kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v5 0/7] rkisp1 support for px30
-Date:   Thu, 17 Jun 2021 18:27:35 +0200
-Message-Id: <20210617162745.4080975-1-heiko@sntech.de>
+        heiko@sntech.de, robh+dt@kernel.org, devicetree@vger.kernel.org,
+        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Subject: [PATCH v5 01/10] media: rockchip: rkisp1: remove unused irq variable
+Date:   Thu, 17 Jun 2021 18:27:36 +0200
+Message-Id: <20210617162745.4080975-2-heiko@sntech.de>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210617162745.4080975-1-heiko@sntech.de>
+References: <20210617162745.4080975-1-heiko@sntech.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series adds support for the slightly different v12
-variant of the ISP used for example in the px30 soc.
+From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 
-changes in v5:
-- handle interrupt-names as conditional required property (Dafna)
-- add second example for showing interrupt-names (Dafna)
+The irq variable in struct rkisp1 is unused as it is only used
+to request the irq during probe, so remove it.
 
-changes in v4:
-- clean up multi-irq case (Dafna)
-  Now each variant can have a list of interrupts
-  and their respective handlers, with or without
-  interrupt-names
+Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 1 -
+ drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c    | 2 --
+ 2 files changed, 3 deletions(-)
 
-changes in v3:
-- add necessary binding additions
-- fix pclk naming in binding
-- move v12 clk_ctrl register bits to v12 addition patch
-- fix rebase artefact with hst_enable
-
-changes in v2 (from rfc):
-- split out phy patch into a separate series
-- drop dts patches for now
-- split v12 addition and v10 prefixes into separate patches
-  to enable easier review (Dafna)
-- remove {stats,params}_config structs, we can just use the
-  correct constant (Dafna)
-- adapt to styling comments from Dafna and Helen
-- add patch to remove the unused irq variable in struct rkisp
-
-Heiko Stuebner (10):
-  media: rockchip: rkisp1: remove unused irq variable
-  dt-bindings: media: rkisp1: fix pclk clock-name
-  dt-bindings: media: rkisp1: document different irq possibilities
-  media: rockchip: rkisp1: allow separate interrupts
-  media: rockchip: rkisp1: make some isp-param functions variable
-  media: rockchip: rkisp1: make some isp-stats functions variable
-  media: rockchip: rkisp1: add prefixes for v10 specific parts
-  media: rockchip: rkisp1: add support for v12 isp variants
-  dt-bindings: media: rkisp1: document px30 isp compatible
-  media: rockchip: rkisp1: add support for px30 isp version
-
- .../bindings/media/rockchip-isp1.yaml         | 113 +++-
- .../platform/rockchip/rkisp1/rkisp1-capture.c |   9 +-
- .../platform/rockchip/rkisp1/rkisp1-common.h  |  44 +-
- .../platform/rockchip/rkisp1/rkisp1-dev.c     |  71 ++-
- .../platform/rockchip/rkisp1/rkisp1-isp.c     |  29 +-
- .../platform/rockchip/rkisp1/rkisp1-params.c  | 557 ++++++++++++++----
- .../platform/rockchip/rkisp1/rkisp1-regs.h    | 406 ++++++++-----
- .../platform/rockchip/rkisp1/rkisp1-stats.c   | 107 +++-
- 8 files changed, 1044 insertions(+), 292 deletions(-)
-
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index 038c303a8aed..be8a350c7527 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -352,7 +352,6 @@ struct rkisp1_debug {
+  */
+ struct rkisp1_device {
+ 	void __iomem *base_addr;
+-	int irq;
+ 	struct device *dev;
+ 	unsigned int clk_size;
+ 	struct clk_bulk_data clks[RKISP1_MAX_BUS_CLK];
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index 7474150b94ed..7afa4c123834 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -489,8 +489,6 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	rkisp1->irq = irq;
+-
+ 	for (i = 0; i < match_data->size; i++)
+ 		rkisp1->clks[i].id = match_data->clks[i];
+ 	ret = devm_clk_bulk_get(dev, match_data->size, rkisp1->clks);
 -- 
 2.29.2
 
