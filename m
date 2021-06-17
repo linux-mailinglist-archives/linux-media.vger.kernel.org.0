@@ -2,43 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E067D3AAF17
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 10:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B87643AAFA6
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 11:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231261AbhFQIyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 04:54:44 -0400
-Received: from verein.lst.de ([213.95.11.211]:57801 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231249AbhFQIyn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Jun 2021 04:54:43 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id ED1A168C4E; Thu, 17 Jun 2021 10:52:33 +0200 (CEST)
-Date:   Thu, 17 Jun 2021 10:52:33 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv2 8/8] videobuf2: handle non-contiguous DMA allocations
-Message-ID: <20210617085233.GA4702@lst.de>
-References: <20210427131344.139443-1-senozhatsky@chromium.org> <20210427131344.139443-9-senozhatsky@chromium.org> <10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl> <YMsAIVs7G2hUDR2F@google.com> <20210617080107.GA1422@lst.de> <CAAFQd5DiPstn-s+yQM3iMd=G9oaag39qCyX483a7-Jrn=gxWCA@mail.gmail.com>
+        id S231559AbhFQJ2p convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 17 Jun 2021 05:28:45 -0400
+Received: from 6-200-5-45.rpnnetprovedor.com.br ([45.5.200.6]:54796 "EHLO
+        srv01.rpnnetprovedor.com.br" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231433AbhFQJ2p (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Jun 2021 05:28:45 -0400
+X-Greylist: delayed 13014 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Jun 2021 05:28:44 EDT
+Received: from [84.38.130.143] (helo=IP-130-143.dataclub.eu)
+        by srv01.rpnnetprovedor.com.br with esmtpa (Exim 4.92.2)
+        (envelope-from <robertnellsona@citromail.hu>)
+        id 1ltkuL-0000zD-EZ
+        for linux-media@vger.kernel.org; Thu, 17 Jun 2021 02:49:41 -0300
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5DiPstn-s+yQM3iMd=G9oaag39qCyX483a7-Jrn=gxWCA@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: CAN YOU INVEST WITH ME?...6
+To:     linux-media@vger.kernel.org
+From:   "Mr.  Robert" <robertnellsona@citromail.hu>
+Date:   Thu, 17 Jun 2021 08:49:34 +0300
+Reply-To: robertnellsona@citromail.hu
+Message-Id: <E1ltkuL-0000zD-EZ@srv01.rpnnetprovedor.com.br>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 17, 2021 at 05:30:11PM +0900, Tomasz Figa wrote:
-> We still have use cases for dma_alloc_coherent() and DMA_ATTR_NO_KERNEL_MAPPING.
 
-dma_alloc_coherent does not take a flags argument, so you can't use
-DMA_ATTR_NO_KERNEL_MAPPING with it.  What would your use case be here
-anyway?  In general DMA_ATTR_NO_KERNEL_MAPPING is rather misnamed, as
-usually there is a kernel mapping, just not one that is coherent and
-should be used.
+ATTENTION; linux-media@vger.kernel.org,
+
+IMPORTANT INVESTMENT INFORMATION
+
+We have a good investment program going on now.
+We have $95m USD for Investment in your Country.
+We use this opportunity to invest you to join the investment program and you will never regret it.
+Please kindly invest with us and you will be receiving monthly income/return/profit every month.
+We can also give you Loan, 
+
+We have: 
+
+1. Short Term Loan, 
+
+2. Medium Term Loan 
+
+3. and Long Term Loan, 
+
+There is no need of collateral security. We will use our company to sign agreement and guarantee on your behalf and our Lawyer will sign on your behalf.
+
+Reply for more detail.
+
+Thank you Sir.
+
+Robert Nellson.
+INVESTMENT MANAGER.
