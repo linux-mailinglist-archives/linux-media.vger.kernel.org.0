@@ -2,112 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64E373AB3D8
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 14:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1D4B3AB3E3
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 14:43:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231339AbhFQMnr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 08:43:47 -0400
-Received: from mga02.intel.com ([134.134.136.20]:51984 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229891AbhFQMnr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Jun 2021 08:43:47 -0400
-IronPort-SDR: 4MhOBV7INAHhjx/JLrU0wkxXh+E58nltD62/yWlZ7w16dIkig33SsuC+8BgNVec0ZxHq4HCqDk
- VDH0VUe5x8JA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="193487923"
-X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
-   d="scan'208";a="193487923"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 05:41:39 -0700
-IronPort-SDR: +Lhz+pz9Dy+dov93trqEkBpD8LKyTxVijDNA07kQJ3g/EKsoFv/IT/gP0LSSIdenc0qxPcg9Gn
- srh3cfaa9OEw==
-X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
-   d="scan'208";a="485278416"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 05:41:35 -0700
-Received: from andy by smile with local (Exim 4.94.2)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ltrKu-003LFy-KC; Thu, 17 Jun 2021 15:41:32 +0300
-Date:   Thu, 17 Jun 2021 15:41:32 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     "libaokun (A)" <libaokun1@huawei.com>
-Cc:     kernel test robot <lkp@intel.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-        kaixuxia@tencent.com, gustavoars@kernel.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, kbuild-all@lists.01.org,
-        weiyongjun1@huawei.com
-Subject: Re: [PATCH -next v3] media: staging: atomisp: use list_splice_init
- in atomisp_compat_css20.c
-Message-ID: <YMtC/CmZeni2dD1W@smile.fi.intel.com>
-References: <20210611081004.1348026-1-libaokun1@huawei.com>
- <202106171617.BN97N8mw-lkp@intel.com>
- <d39a3cb0-4024-4abe-ad28-937fee53bc98@huawei.com>
+        id S231728AbhFQMp6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Jun 2021 08:45:58 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:40845 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230473AbhFQMp5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Jun 2021 08:45:57 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id trN3lp2PThg8ZtrN6lTsF6; Thu, 17 Jun 2021 14:43:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623933829; bh=jwvUmsHaquoe2ckc+u26W6/PLSKafPpCBXDZOT+R39s=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=BbVazoxztYlxPkMrtPdpBZC7JwEy2hzuKahupSPbFV0n8uyuyoOkZevgJ2id9nuzc
+         JkG2mEmifSSSY+73P3QxyV2/H/3SSNKpgE8kLkHogvgQXCfti00us3yPOWTivl5CQH
+         TzhrxwEmBRtcIj7dXfU/hKksJjJd0Y5QAQXQjjupZQY4O0pYHcCM1ow9tz90lQF9YK
+         K3I0yqWwT4DgmRGd1R1lpvL4LfOoHQTgfzV6OgAFw8ZoSjDgYOttRObzmeX9uYgUke
+         wkGs7keHIv5WNa89HSOuPRDUOPdskwie3SOCnFnKzk1Hqvf3GTv3R33yuNi2O8L4mE
+         xrR3TkcFnndzQ==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.14] ti-vpe: cal: improvements towards multistream
+Message-ID: <df45f248-fe1e-4dc7-b26a-51a36bba90bb@xs4all.nl>
+Date:   Thu, 17 Jun 2021 14:43:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d39a3cb0-4024-4abe-ad28-937fee53bc98@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfP3NPf9Lc70BKiqhTzPFtRc9R7d4GNP1Fv2EeSCBYrWbZAQciJwjmba7oaZQSPQok+oNPumnSDIufMj8cvuCzSy+8eB/kHftvKYVWmgNYdmo6CRuoD6Z
+ vm5Q6yugaFgScOKAWQgary/KdQOwWkCjJeIF6VFwlCwy+EWxRIvqhRTfrFy4uOlvhn5HjCQzBbVTPUkWTL+iKc3F24H3QuZ78uMOrJKBcTv3yz3faBLXgEri
+ nt5YXtHQNJJ8V2XUBaMzsA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 17, 2021 at 08:14:28PM +0800, libaokun (A) wrote:
-> Sorry, I only tested it with 'x86_64.config'.
-> 
-> I'm about to send a patch v4 with the changes to fix the error under your
-> config.
+The following changes since commit 198bb646e8553e8abd8d83492a27b601ab97b75d:
 
-Please, do not top-post!
+  media: i2c: rdacm20: Re-work ov10635 reset (2021-06-17 12:08:55 +0200)
 
+are available in the Git repository at:
 
-Problem here that you tested without additional warnings enabled.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14q
 
-Next time try to start with `make W=1 ...`
+for you to fetch changes up to 9919d1ae39582196a1852c86fb728c643d4145fa:
 
-If you have installed Sparse tool, the better option would be
-`make W=1 C=1 CF=-D__CHECK_ENDIAN__ ...`
+  media: ti-vpe: cal: add embedded data support (2021-06-17 14:37:40 +0200)
 
-> 在 2021/6/17 16:52, kernel test robot 写道:
-> > Hi Baokun,
-> > 
-> > Thank you for the patch! Yet something to improve:
-> > 
-> > [auto build test ERROR on next-20210616]
-> > 
-> > url:    https://github.com/0day-ci/linux/commits/Baokun-Li/media-staging-atomisp-use-list_splice_init-in-atomisp_compat_css20-c/20210617-043443
-> > base:    c7d4c1fd91ab4a6d2620497921a9c6bf54650ab8
-> > config: i386-allyesconfig (attached as .config)
-> > compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> > reproduce (this is a W=1 build):
-> >          # https://github.com/0day-ci/linux/commit/05c714d7b4e1722a75f949e40c5305f3ba28d048
-> >          git remote add linux-review https://github.com/0day-ci/linux
-> >          git fetch --no-tags linux-review Baokun-Li/media-staging-atomisp-use-list_splice_init-in-atomisp_compat_css20-c/20210617-043443
-> >          git checkout 05c714d7b4e1722a75f949e40c5305f3ba28d048
-> >          # save the attached .config to linux build tree
-> >          make W=1 ARCH=i386
-> > 
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: In function 'atomisp_css_stop':
-> > > > drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2156:50: error: 'struct atomisp_sub_device' has no member named 'asd'
-> >      2156 |   list_splice_init(&asd->metadata_in_css[i], &asd->asd->metadata[i]);
-> >           |                                                  ^~
-> >     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2157:49: error: 'struct atomisp_sub_device' has no member named 'asd'
-> >      2157 |   list_splice_init(&asd->metadata_ready[i], &asd->asd->metadata[i]);
-> >           |                                                 ^~
-> >     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2107:31: warning: unused variable 'md_buf' [-Wunused-variable]
-> >      2107 |  struct atomisp_metadata_buf *md_buf;
-> >           |                               ^~~~~~
-> >     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2106:26: warning: unused variable 'dis_buf' [-Wunused-variable]
-> >      2106 |  struct atomisp_dis_buf *dis_buf;
-> >           |                          ^~~~~~~
+----------------------------------------------------------------
+Tag branch
 
--- 
-With Best Regards,
-Andy Shevchenko
+----------------------------------------------------------------
+Tomi Valkeinen (35):
+      media: ti-vpe: cal: add g/s_parm for legacy API
+      media: ti-vpe: cal: fix error handling in cal_camerarx_create
+      media: ti-vpe: cal: remove unused cal_camerarx->dev field
+      media: ti-vpe: cal: rename "sensor" to "source"
+      media: ti-vpe: cal: move global config from cal_ctx_wr_dma_config to runtime resume
+      media: ti-vpe: cal: use v4l2_get_link_freq
+      media: ti-vpe: cal: add cal_ctx_prepare/unprepare
+      media: ti-vpe: cal: change index and cport to u8
+      media: ti-vpe: cal: Add CSI2 context
+      media: ti-vpe: cal: Add pixel processing context
+      media: ti-vpe: cal: rename cal_ctx->index to dma_ctx
+      media: ti-vpe: cal: rename CAL_HL_IRQ_MASK
+      media: ti-vpe: cal: clean up CAL_CSI2_VC_IRQ_* macros
+      media: ti-vpe: cal: catch VC errors
+      media: ti-vpe: cal: remove wait when stopping camerarx
+      media: ti-vpe: cal: disable csi2 ctx and pix proc at ctx_stop
+      media: ti-vpe: cal: allocate pix proc dynamically
+      media: ti-vpe: cal: add 'use_pix_proc' field
+      media: ti-vpe: cal: add cal_ctx_wr_dma_enable and fix a race
+      media: ti-vpe: cal: add vc and datatype fields to cal_ctx
+      media: ti-vpe: cal: handle cal_ctx_v4l2_register error
+      media: ti-vpe: cal: set field always to V4L2_FIELD_NONE
+      media: ti-vpe: cal: fix typo in a comment
+      media: ti-vpe: cal: add mbus_code support to cal_mc_enum_fmt_vid_cap
+      media: ti-vpe: cal: rename non-MC funcs to cal_legacy_*
+      media: ti-vpe: cal: init ctx->v_fmt correctly in MC mode
+      media: ti-vpe: cal: remove cal_camerarx->fmtinfo
+      media: ti-vpe: cal: support 8 DMA contexts
+      media: ti-vpe: cal: cleanup phy iteration in cal_remove
+      media: ti-vpe: cal: fix ctx uninitialization
+      media: ti-vpe: cal: fix queuing of the initial buffer
+      media: ti-vpe: cal: add camerarx locking
+      media: ti-vpe: cal: add camerarx enable/disable refcounting
+      media: ti-vpe: cal: allow more than 1 source pads
+      media: ti-vpe: cal: add embedded data support
 
-
+ drivers/media/platform/ti-vpe/cal-camerarx.c | 247 +++++++++++++++++++++++++++++----------------------
+ drivers/media/platform/ti-vpe/cal-video.c    | 176 +++++++++++++++++++++++++++----------
+ drivers/media/platform/ti-vpe/cal.c          | 272 +++++++++++++++++++++++++++++++++++++++------------------
+ drivers/media/platform/ti-vpe/cal.h          |  66 ++++++++++----
+ drivers/media/platform/ti-vpe/cal_regs.h     |  53 +++--------
+ 5 files changed, 521 insertions(+), 293 deletions(-)
