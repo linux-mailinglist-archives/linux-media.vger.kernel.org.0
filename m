@@ -2,187 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F0DC3AADFA
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 09:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B4483AAE17
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 09:56:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229842AbhFQHvy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 03:51:54 -0400
-Received: from mslow1.mail.gandi.net ([217.70.178.240]:54861 "EHLO
-        mslow1.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbhFQHvy (ORCPT
+        id S229773AbhFQH6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Jun 2021 03:58:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230087AbhFQH6b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Jun 2021 03:51:54 -0400
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 41F7EDBFB3;
-        Thu, 17 Jun 2021 07:41:59 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id F0988FF81A;
-        Thu, 17 Jun 2021 07:41:33 +0000 (UTC)
-Date:   Thu, 17 Jun 2021 09:42:22 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
+        Thu, 17 Jun 2021 03:58:31 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA73C06175F
+        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 00:56:22 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id h16so3311844pjv.2
+        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 00:56:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=sdiMUTIyPJj8g1PDcfcn82Go3ufrdVKwIXswDiKJXKo=;
+        b=OvuTaEokEl9rKO7QnpAerU5cGgTd2y46wi+4kK3tVRt9qo+Vv5OURDuwuKNSm+avWC
+         wh2pSZ2HKaAcsLEg70xDFEmNwkJ1Wg/nj3jWaPs20yDp/g75EDkD6TZ3/NYq+JfXVkX4
+         Xdd9YzK4TCZu9Yc9hSH3YK5CC2NXveOPuQ+sw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=sdiMUTIyPJj8g1PDcfcn82Go3ufrdVKwIXswDiKJXKo=;
+        b=oJXlKPyhcHTlECrMp/g3kjVl+BnTUTZ+IAjarA2elxEfJF/U8lgNjA3aCjsZn94qOS
+         v2uib0/B0VRNwMoDgAFA7OP4sSZPZjWsmdQcD28Fmxnxxf2cBInt3UXGc4UhrAEnCSmy
+         p3PU2G/DpngAfCdKvkm+5Pp7IkwosVtoMVbt9CgE3Q3r73Ij12AZ2W03U3vuy0C21xsl
+         6oZ/CNd92hAWpQ1dLFMyrumhW/l7F5PQw0Dpa8+0iKOVylONxH95fvxFwRJeCuaF40Iv
+         huEY24GMP8ERb1uSiQfBoTPhTb4pwuwAt7BS9q5hAYH09sRIRS29HVB8OKUgEocI6ivj
+         1FlQ==
+X-Gm-Message-State: AOAM5309GBmvsuH+5EH3tI+HqtgKQCbsB1z1JoS0P9GTZ1uqzbo9M5oE
+        7BMryt5fmOnOlr4wtH1wSiWNTQ==
+X-Google-Smtp-Source: ABdhPJx5dzmBapOrX5N9Bqqu48BExWv5NIvWw/wsDPG3r+vNYvaXUMTgM2vdXE4F4nGAZ7TfgB+bsQ==
+X-Received: by 2002:a17:90a:d18f:: with SMTP id fu15mr4239392pjb.78.1623916582471;
+        Thu, 17 Jun 2021 00:56:22 -0700 (PDT)
+Received: from google.com ([2409:10:2e40:5100:32ae:4292:bec1:e4])
+        by smtp.gmail.com with ESMTPSA id o16sm3998163pfu.75.2021.06.17.00.56.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jun 2021 00:56:21 -0700 (PDT)
+Date:   Thu, 17 Jun 2021 16:56:17 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@lst.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 12/15] media: i2c: rdacm20: Embed 'serializer' field
-Message-ID: <20210617074222.4lbcewsydre4b2nb@uno.localdomain>
-References: <20210616124616.49249-1-jacopo+renesas@jmondi.org>
- <20210616124616.49249-13-jacopo+renesas@jmondi.org>
- <YMqTyFvxer0vjsKT@pendragon.ideasonboard.com>
- <1e6e5cd0-82b1-db7a-ec70-ebb8831c11c4@xs4all.nl>
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv2 8/8] videobuf2: handle non-contiguous DMA allocations
+Message-ID: <YMsAIVs7G2hUDR2F@google.com>
+References: <20210427131344.139443-1-senozhatsky@chromium.org>
+ <20210427131344.139443-9-senozhatsky@chromium.org>
+ <10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1e6e5cd0-82b1-db7a-ec70-ebb8831c11c4@xs4all.nl>
+In-Reply-To: <10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On (21/06/03 13:59), Hans Verkuil wrote:
+[[.]
+> >  static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
+> >  {
+> >  	struct vb2_dc_buf *buf = buf_priv;
+> > -	struct dma_buf_map map;
+> > -	int ret;
+> >  
+> > -	if (!buf->vaddr && buf->db_attach) {
+> > -		ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
+> > -		buf->vaddr = ret ? NULL : map.vaddr;
+> > +	if (buf->vaddr)
+> > +		return buf->vaddr;
+> > +
+> > +	if (buf->db_attach) {
+> > +		struct dma_buf_map map;
+> > +
+> > +		if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
+> > +			buf->vaddr = map.vaddr;
+> > +
+> > +		return buf->vaddr;
+> >  	}
+> >  
+> > +	/* Non-coherent memory */
+> > +	buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size, buf->dma_sgt);
+> > +
+> 
+> This function can use some comments. What is happening AFAICS is that
+> buf->vaddr is either set in vb2_dc_alloc_coherent (unless
+> DMA_ATTR_NO_KERNEL_MAPPING was set), it is obtained through dma_buf_vmap()
+> if the buffer was attached to a dma_buf, or it is allocated via
+> dma_vmap_noncontiguous() for non-coherent memory.
 
-On Thu, Jun 17, 2021 at 08:18:42AM +0200, Hans Verkuil wrote:
-> On 17/06/2021 02:14, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > This should be moved before 11/15 to avoid a bisection breakage (or
-> > 11/15 should be fixed, and this patch updated accordingly).
->
-> Good catch!
+Yeah, it's complicated. Maybe we can make things more symmetrical.
 
-Good catch indeed... Sorry about this I shuffled patches around
-multiple times and missed this one
+> But this leaves coherent memory with DMA_ATTR_NO_KERNEL_MAPPING set, what
+> is vaddr in that case? I think it will call dma_vmap_noncontiguous()
+> incorrectly in that case, shouldn't there be a check for !buf->coherent_mem
+> before the call to dma_vmap_noncontiguous()?
 
->
-> Jacopo, I dropped the PR I made. It you just want to swap patch 11 and 12,
-> then I can do that, if you want more extensive changes, then I need a v6.
->
-> Let me know what you want.
+Thanks a lot for looking into it.
 
-I think swapping 11 and 12 is enough, thanks for handling it.
-(BTW there's one additional tag from Kieran to collect which is not in
-v5. Would you like a v6 for that ?)
+So vb2_dc_vaddr() can look like this:
 
-Thanks
-  j
+static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
+{
+        struct vb2_dc_buf *buf = buf_priv;
 
->
-> 	Hans
->
-> >
-> > On Wed, Jun 16, 2021 at 02:46:13PM +0200, Jacopo Mondi wrote:
-> >> There's no reason to allocate dynamically the 'serializer' field in
-> >> the driver structure.
-> >>
-> >> Embed the field and adjust all its users in the driver.
-> >>
-> >> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> >> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> ---
-> >>  drivers/media/i2c/rdacm20.c | 36 +++++++++++++++---------------------
-> >>  1 file changed, 15 insertions(+), 21 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> >> index 5e0314a2b1ca..029af8fd7485 100644
-> >> --- a/drivers/media/i2c/rdacm20.c
-> >> +++ b/drivers/media/i2c/rdacm20.c
-> >> @@ -312,7 +312,7 @@ static const struct ov10635_reg {
-> >>
-> >>  struct rdacm20_device {
-> >>  	struct device			*dev;
-> >> -	struct max9271_device		*serializer;
-> >> +	struct max9271_device		serializer;
-> >>  	struct i2c_client		*sensor;
-> >>  	struct v4l2_subdev		sd;
-> >>  	struct media_pad		pad;
-> >> @@ -399,7 +399,7 @@ static int rdacm20_s_stream(struct v4l2_subdev *sd, int enable)
-> >>  {
-> >>  	struct rdacm20_device *dev = sd_to_rdacm20(sd);
-> >>
-> >> -	return max9271_set_serial_link(dev->serializer, enable);
-> >> +	return max9271_set_serial_link(&dev->serializer, enable);
-> >>  }
-> >>
-> >>  static int rdacm20_enum_mbus_code(struct v4l2_subdev *sd,
-> >> @@ -455,10 +455,10 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
-> >>  	unsigned int retry = 3;
-> >>  	int ret;
-> >>
-> >> -	max9271_wake_up(dev->serializer);
-> >> +	max9271_wake_up(&dev->serializer);
-> >>
-> >>  	/* Serial link disabled during config as it needs a valid pixel clock. */
-> >> -	ret = max9271_set_serial_link(dev->serializer, false);
-> >> +	ret = max9271_set_serial_link(&dev->serializer, false);
-> >>  	if (ret)
-> >>  		return ret;
-> >>
-> >> @@ -466,35 +466,35 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
-> >>  	 *  Ensure that we have a good link configuration before attempting to
-> >>  	 *  identify the device.
-> >>  	 */
-> >> -	max9271_configure_i2c(dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
-> >> -					       MAX9271_I2CSLVTO_1024US |
-> >> -					       MAX9271_I2CMSTBT_105KBPS);
-> >> +	max9271_configure_i2c(&dev->serializer, MAX9271_I2CSLVSH_469NS_234NS |
-> >> +						MAX9271_I2CSLVTO_1024US |
-> >> +						MAX9271_I2CMSTBT_105KBPS);
-> >>
-> >> -	max9271_configure_gmsl_link(dev->serializer);
-> >> +	max9271_configure_gmsl_link(&dev->serializer);
-> >>
-> >> -	ret = max9271_verify_id(dev->serializer);
-> >> +	ret = max9271_verify_id(&dev->serializer);
-> >>  	if (ret < 0)
-> >>  		return ret;
-> >>
-> >> -	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
-> >> +	ret = max9271_set_address(&dev->serializer, dev->addrs[0]);
-> >>  	if (ret < 0)
-> >>  		return ret;
-> >> -	dev->serializer->client->addr = dev->addrs[0];
-> >> +	dev->serializer.client->addr = dev->addrs[0];
-> >>
-> >>  	/*
-> >>  	 * Reset the sensor by cycling the OV10635 reset signal connected to the
-> >>  	 * MAX9271 GPIO1 and verify communication with the OV10635.
-> >>  	 */
-> >> -	ret = max9271_enable_gpios(dev->serializer, MAX9271_GPIO1OUT);
-> >> +	ret = max9271_enable_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> >>  	if (ret)
-> >>  		return ret;
-> >>
-> >> -	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPIO1OUT);
-> >> +	ret = max9271_clear_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> >>  	if (ret)
-> >>  		return ret;
-> >>  	usleep_range(10000, 15000);
-> >>
-> >> -	ret = max9271_set_gpios(dev->serializer, MAX9271_GPIO1OUT);
-> >> +	ret = max9271_set_gpios(&dev->serializer, MAX9271_GPIO1OUT);
-> >>  	if (ret)
-> >>  		return ret;
-> >>  	usleep_range(10000, 15000);
-> >> @@ -564,13 +564,7 @@ static int rdacm20_probe(struct i2c_client *client)
-> >>  	if (!dev)
-> >>  		return -ENOMEM;
-> >>  	dev->dev = &client->dev;
-> >> -
-> >> -	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
-> >> -				       GFP_KERNEL);
-> >> -	if (!dev->serializer)
-> >> -		return -ENOMEM;
-> >> -
-> >> -	dev->serializer->client = client;
-> >> +	dev->serializer.client = client;
-> >>
-> >>  	ret = of_property_read_u32_array(client->dev.of_node, "reg",
-> >>  					 dev->addrs, 2);
-> >
->
+        if (buf->vaddr)
+                return buf->vaddr;
+
+        if (buf->db_attach) {
+                struct dma_buf_map map;
+
+                if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
+                        buf->vaddr = map.vaddr;
+
+                return buf->vaddr;
+        }
+
+        if (!buf->coherent_mem)
+                buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size,
+                                                    buf->dma_sgt);
+        return buf->vaddr;
+}
+
+And in vb2_dc_alloc functions set vaddr for !DMA_ATTR_NO_KERNEL_MAPPING
+in both coherent and non-coherent. So that we probably can have less
+branches when ->vaddr is NULL for one type of allocations, and is not
+NULL for another.
+
+static int vb2_dc_alloc_coherent(struct vb2_dc_buf *buf)
+{
+        struct vb2_queue *q = buf->vb->vb2_queue;
+
+        buf->cookie = dma_alloc_attrs(buf->dev,
+                                      buf->size,
+                                      &buf->dma_addr,
+                                      GFP_KERNEL | q->gfp_flags,
+                                      buf->attrs);
+        if (!buf->cookie)
+                return -ENOMEM;
+
+        if (q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
+                return 0;
+
+        buf->vaddr = buf->cookie;
+        return 0;
+}
+
+static int vb2_dc_alloc_non_coherent(struct vb2_dc_buf *buf)
+{
+        struct vb2_queue *q = buf->vb->vb2_queue;
+
+        buf->dma_sgt = dma_alloc_noncontiguous(buf->dev,
+                                               buf->size,
+                                               buf->dma_dir,
+                                               GFP_KERNEL | q->gfp_flags,
+                                               buf->attrs);
+        if (!buf->dma_sgt)
+                return -ENOMEM;
+
+        if (q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
+                return 0;
+
+        buf->vaddr = dma_vmap_noncontiguous(buf->dev, buf->size, buf->dma_sgt);
+        if (!buf->vaddr) {
+                dma_free_noncontiguous(buf->dev, buf->size,
+                                       buf->dma_sgt, buf->dma_addr);
+                return -ENOMEM;
+        }
+        return 0;
+}
