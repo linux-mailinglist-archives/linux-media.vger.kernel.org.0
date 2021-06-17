@@ -2,87 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47B8C3ABDF0
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 23:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E2D13ABE8A
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 00:08:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232650AbhFQV2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 17:28:42 -0400
-Received: from mail-io1-f54.google.com ([209.85.166.54]:47027 "EHLO
-        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232630AbhFQV2l (ORCPT
+        id S231775AbhFQWKH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Jun 2021 18:10:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53590 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229915AbhFQWKG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Jun 2021 17:28:41 -0400
-Received: by mail-io1-f54.google.com with SMTP id b14so4728616iow.13;
-        Thu, 17 Jun 2021 14:26:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=BK4/yKFERPq5Q5JT9ah7IGyXargZYodEJ6e9CzGiy3M=;
-        b=UenFnamiUDIznudDVz6/ZgG0DONGhQ1XSEBhuRoG8jFFHzRTJlYSbs+7rD69fLGuqx
-         hqOgmsPpjZjHnrEfaVZyZeIXI5RgXnbW4dPANp6XocH3IDwShKthMCK9FeWxHnBUw/pB
-         UEBKqqcN1SK7ej8ZdbRthkxO5xuP4F6n0cDSfx9TDIHuomBW2i6jUOZqKEMjs7kqK/Yh
-         NSK9C4Mgh4w3AyC9VXhKBHC16J+Qy7JDVfCxqtfN+4Hp+ow/A0+tk7FCXIOqrrjPSOtb
-         koQmSyEz+/VJxkuzZEKn+zX1S5LEAbHYuG6nm7q5NS2ppKYvJWsGYtnxVpgjFjVLsRwD
-         f7SQ==
-X-Gm-Message-State: AOAM531FiIXxXfavS3u/Jk6ENPynsChkcIWHCWE8cb73qfIJWuPZjE11
-        c8udwtoh8XzCITmuiL/hQw==
-X-Google-Smtp-Source: ABdhPJyJjIjZ7icIf3FV7WOoRfpkfxMCTq875Gptr5kBUuCdwKnKUEr+eYj/VVIB+lEYT3uweNNoOg==
-X-Received: by 2002:a5e:940a:: with SMTP id q10mr5487243ioj.19.1623965192578;
-        Thu, 17 Jun 2021 14:26:32 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id x18sm84588ilm.86.2021.06.17.14.26.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jun 2021 14:26:31 -0700 (PDT)
-Received: (nullmailer pid 3336123 invoked by uid 1000);
-        Thu, 17 Jun 2021 21:26:24 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Heiko Stuebner <heiko@sntech.de>
-Cc:     robh+dt@kernel.org, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        ezequiel@collabora.com, devicetree@vger.kernel.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
-        Laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, linux-rockchip@lists.infradead.org
-In-Reply-To: <20210617162745.4080975-10-heiko@sntech.de>
-References: <20210617162745.4080975-1-heiko@sntech.de> <20210617162745.4080975-10-heiko@sntech.de>
-Subject: Re: [PATCH v5 09/10] dt-bindings: media: rkisp1: document px30 isp compatible
-Date:   Thu, 17 Jun 2021 15:26:24 -0600
-Message-Id: <1623965184.614652.3336122.nullmailer@robh.at.kernel.org>
+        Thu, 17 Jun 2021 18:10:06 -0400
+X-Greylist: delayed 314 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 17 Jun 2021 15:07:58 PDT
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47ACC061574
+        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 15:07:58 -0700 (PDT)
+Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: zev)
+        by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 098B62B9;
+        Thu, 17 Jun 2021 15:02:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+        s=thorn; t=1623967364;
+        bh=FQzjrW5WNAOrVkJs/Hts+Ik3+Hqt7NokValuBbhexNw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=F9Tcc6TKUxeEZshhBHAE4lTP1tdqkb4gjBU2K/1a+9NCGvuD0das9eNYChfQpq3Qu
+         4/myI7/JUaErXS8bPiH3kt6RTx0Bl2ejRLMqUxZ+n9RbXyHRkeNxhxYjdypO1opJLT
+         s1VuxP9adGTe1ztK7An+nQdgXLN1L3ZPDoKybD6M=
+From:   Zev Weiss <zev@bewilderbeest.net>
+To:     Eddie James <eajames@linux.ibm.com>
+Cc:     Zev Weiss <zev@bewilderbeest.net>,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Ryan Chen <ryan_chen@aspeedtech.com>,
+        linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
+        openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: [PATCH v3] media: aspeed-video: ignore interrupts that aren't enabled
+Date:   Thu, 17 Jun 2021 17:02:29 -0500
+Message-Id: <20210617220229.7352-1-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 17 Jun 2021 18:27:44 +0200, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> 
-> Add the compatible for the px30-variant of the rkisp
-> 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> ---
->  .../bindings/media/rockchip-isp1.yaml         | 66 ++++++++++++++++++-
->  1 file changed, 65 insertions(+), 1 deletion(-)
-> 
+As partially addressed in commit 65d270acb2d6 ("media: aspeed: clear
+garbage interrupts"), the ASpeed video engine sometimes asserts
+interrupts that the driver hasn't enabled.  In addition to the
+CAPTURE_COMPLETE and FRAME_COMPLETE interrupts dealt with in that
+patch, COMP_READY has also been observed.  Instead of playing
+whack-a-mole with each one individually, we can instead just blanket
+ignore everything we haven't explicitly enabled.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+---
 
-yamllint warnings/errors:
+Changes since v2 [1]:
+ - minor commit message improvements
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/media/rockchip-isp1.example.dt.yaml:0:0: /example-1/parent/i2c/camera@36: failed to match any schema with compatible: ['ovti,ov5695']
-\ndoc reference errors (make refcheckdocs):
+Changes since v1 [0]:
+ - dropped error message
+ - switched to a blanket-ignore approach as suggested by Ryan
 
-See https://patchwork.ozlabs.org/patch/1493733
+[0] https://lore.kernel.org/linux-arm-kernel/20201215024542.18888-1-zev@bewilderbeest.net/
+[1] https://lore.kernel.org/openbmc/20210506234048.3214-1-zev@bewilderbeest.net/
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+ drivers/media/platform/aspeed-video.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index 7bb6babdcade..77611c296a25 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -563,6 +563,12 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+ 	struct aspeed_video *video = arg;
+ 	u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
+ 
++	/*
++	 * Hardware sometimes asserts interrupts that we haven't actually
++	 * enabled; ignore them if so.
++	 */
++	sts &= aspeed_video_read(video, VE_INTERRUPT_CTRL);
++
+ 	/*
+ 	 * Resolution changed or signal was lost; reset the engine and
+ 	 * re-initialize
+@@ -629,16 +635,6 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+ 			aspeed_video_start_frame(video);
+ 	}
+ 
+-	/*
+-	 * CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even when these
+-	 * are disabled in the VE_INTERRUPT_CTRL register so clear them to
+-	 * prevent unnecessary interrupt calls.
+-	 */
+-	if (sts & VE_INTERRUPT_CAPTURE_COMPLETE)
+-		sts &= ~VE_INTERRUPT_CAPTURE_COMPLETE;
+-	if (sts & VE_INTERRUPT_FRAME_COMPLETE)
+-		sts &= ~VE_INTERRUPT_FRAME_COMPLETE;
+-
+ 	return sts ? IRQ_NONE : IRQ_HANDLED;
+ }
+ 
+-- 
+2.32.0
 
