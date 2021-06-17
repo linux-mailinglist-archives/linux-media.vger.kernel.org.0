@@ -2,120 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 793473ABCA6
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 21:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CD183ABD3D
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 21:59:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbhFQT2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 15:28:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46330 "EHLO
+        id S232088AbhFQUCB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Jun 2021 16:02:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229784AbhFQT2U (ORCPT
+        with ESMTP id S231983AbhFQUCA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Jun 2021 15:28:20 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B92C061574
-        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 12:26:10 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id m18so8000265wrv.2
-        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 12:26:10 -0700 (PDT)
+        Thu, 17 Jun 2021 16:02:00 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4A2BC061574
+        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 12:59:52 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id l1so12024816ejb.6
+        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 12:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=uOCbhZ/ibkRBObHTOgKs1UFBQ9qhD4uIcfjgRg2K5Rs=;
-        b=IH1EtHRcSfinmclrpIc4Ng6Z7QMgqeen5j6b9qDw9LlX3wUMNyz7FR5R2CPO52LkTf
-         QD+gv9wIv5pC6wI/j5ngc570YTPSoQC2HVxc+/PgCaUlG19XD4VHTKEeFdM63kxC4KXb
-         RWLz1Vo9kZ1DZtt0ovCaSIdBs4XA0bFdD5FjA=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=vX3+zlpBxwZvAkRkerNwjWw0UW9oSlH9+B9qHX9BkGI=;
+        b=fO0Koy0K/h6TibpAxqeCP+Gi1b0cVaRmbuBIZA8W69Vn2iSiZS5UZ3BWf4HnCzQm1M
+         XSat1AVDEgr2QavO9wJoWsATvqrfw5rGOj0nMlcuTGrmsJYG4S4icjwn03j/oFOJxVGR
+         +zcOoFSVUogdcBkYmyFARaePN+U/oQBtR2ntdJP3j6DCKL+7J5jZwhuUpxoWi0sXxxiY
+         V3zGYkEGyY73LaXnbz1ZMNUt9ssWgx2N0XjMo6M+LBW6f9xs5T90zzme6FVLVNF8qker
+         NyQrOlVY3z6lGVZNUaw9A2LId10Dlrs5/3uiojw2jH+UQlPdRQyvlAaFvcZd7PPd1Of1
+         dsSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=uOCbhZ/ibkRBObHTOgKs1UFBQ9qhD4uIcfjgRg2K5Rs=;
-        b=d1JzNtW5yXy8U5x65+8sPb1Kz4ca81ffOldv3LGJF8mB0odH1NsntpVV7quqTBT3A0
-         CzhRigCnuWPKlHrXYAFa2acw4OHI2nIHFcqBMTbxvXa0KiNyRDHcpxo+NGzvAUhD+ORh
-         TYnJpb33G3ATBpIN98yBvz+L7ZwGkOpAx9pU9GIAjnL7ctBzwhTIej1/VXWQKqfI+qJY
-         yNzfbbjnvlN+0RSkqOpeoyuBfW/3bi+V4vQGHs/LQXzkwNlwQA1PUT0b/0Suho931J1/
-         J9bcrhQwAz8KzaKBGusBt8I5YJ40GFVbOOluPfsKjsWDsspCo4U0p/fUovFvs+uckHT7
-         5Jfg==
-X-Gm-Message-State: AOAM530VzaKxA1i8IHJ1jGZGU345XOxlpvgUY0bSbusRzTQTdXZFzVQY
-        ui3e2ksWuKPHU7qooUqGDYMDag==
-X-Google-Smtp-Source: ABdhPJyFfhTApY3wh24dH1FBegs1U/7U9Tg5s0DawhN6NGiIRg2uLHMj8Cb4gBd6mBJpG1xllNPadg==
-X-Received: by 2002:adf:e80c:: with SMTP id o12mr4048275wrm.425.1623957969045;
-        Thu, 17 Jun 2021 12:26:09 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id r6sm6181038wrz.91.2021.06.17.12.26.08
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=vX3+zlpBxwZvAkRkerNwjWw0UW9oSlH9+B9qHX9BkGI=;
+        b=qJWZXyPDOnmBqOiu8pl6HF6P46mfXcfXzKcTMJ3f7BbllyC57QhH+ukJVNQWIpf4oU
+         0pYs2133vMiIf6VI6TUYVp9SlPfQwVLmBEF84A86JCkMQMsrz8ZVXTP7BfDHhvOGMumM
+         qtWL8EIkVSA4NrIdDBs3SiQXW3M5hiV7NR3MxLVn9JdYfaT7vKwll4jX3YiC8Z+YmPDy
+         2LMji0hteDvD+1YaKkdnY7wC7XIa6LLZje32eid1/QSyEU8QIMADNHs3dtZqkwVkQVB+
+         AymkKxt1XObFbh8HrUwIVHzwzEyBMwQMWujDdF1ZBQNtOFQ9vvGUdF+1SlJrXPqfRFdD
+         lHDg==
+X-Gm-Message-State: AOAM532R4JPDIa6/X1xDz89o3vXdHSM3EEiq3DP3fWrbfQm8v62HM3KA
+        WSZ1B6qtA6mxPI71zdkwKDH4SaN93YXuwH/d
+X-Google-Smtp-Source: ABdhPJzpTxsY9FwMW0EvoxewsgCegE5XS3rvlkQZgo7rhr9N+vs/9pqz0fn3Yd86Sg8W4TaScWWfmQ==
+X-Received: by 2002:a17:906:5d14:: with SMTP id g20mr6920636ejt.243.1623959991001;
+        Thu, 17 Jun 2021 12:59:51 -0700 (PDT)
+Received: from kali ([185.133.60.141])
+        by smtp.gmail.com with ESMTPSA id d4sm4366846ejo.98.2021.06.17.12.59.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jun 2021 12:26:08 -0700 (PDT)
-Date:   Thu, 17 Jun 2021 21:26:06 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        sumit.semwal@linaro.org
-Subject: Re: [PATCH 1/7] dma-buf: add some more kerneldoc to
- dma_resv_add_shared_fence
-Message-ID: <YMuhzpyiNMSz3Nx+@phenom.ffwll.local>
-References: <20210616082655.111001-1-christian.koenig@amd.com>
- <20210616082655.111001-2-christian.koenig@amd.com>
+        Thu, 17 Jun 2021 12:59:50 -0700 (PDT)
+Date:   Thu, 17 Jun 2021 21:59:48 +0200
+From:   =?utf-8?B?SsOhbiDEjMOhbmk=?= <pego149@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     jp@jpvw.nl
+Subject: [PATCH] Signed-off-by: =?utf-8?B?SsOhbiA=?=
+ =?utf-8?Q?=C4=8C=C3=A1ni_=3Cpego149=40gmail=2Ecom=3E_Added_Geniatech_MyGi?=
+ =?utf-8?Q?ca_T230C2=5FLITE_and_T230?= =?utf-8?Q?A?= as many people asking
+ support for these devices on forums.
+Message-ID: <YMuptIYFLdwSmw//@kali>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210616082655.111001-2-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 16, 2021 at 10:26:49AM +0200, Christian König wrote:
-> Explicitly document that code can't assume that shared fences
-> signal after the exclusive fence.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/dma-buf/dma-resv.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index f26c71747d43..4ab02b6c387a 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -235,7 +235,10 @@ EXPORT_SYMBOL(dma_resv_reset_shared_max);
->   * @fence: the shared fence to add
->   *
->   * Add a fence to a shared slot, obj->lock must be held, and
-> - * dma_resv_reserve_shared() has been called.
-> + * dma_resv_reserve_shared() has been called. The shared fences can signal in
-> + * any order and there is especially no guarantee that shared fences signal
-> + * after the exclusive one. Code relying on any signaling order is broken and
-> + * needs to be fixed.
+---
+ drivers/media/usb/dvb-usb-v2/dvbsky.c | 37 +++++++++++++++++++--------
+ include/media/dvb-usb-ids.h           |  2 ++
+ 2 files changed, 29 insertions(+), 10 deletions(-)
 
-So I agree this are reasonable semantics, but you need to audit drivers
-first. Because currently that's not how at least a bunch of them work.
-There's way more drivers than the handful you've looked at.
-
-Imo gold standard here is what I've tried doing for the "how do we set
-fences" side, which is going through all of them. The trouble is that this
-is a bit nastier, because a) drivers play much more tricks here and b)
-understand each driver's scheduling logic is more work than how they set
-fences for a request/cs.
-
-Unfortunately I haven't gotten around to doing that yet, because it means
-a few days of uninterrupted time crawling through way too much code. I
-haven't even found time to respin my old series to make the fence setting
-more consistent (since I find a few more issues there than just the amdgpu
-one that sparked it all).
--Daniel
-
->   */
->  void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
->  {
-> -- 
-> 2.25.1
-> 
-
+diff --git a/drivers/media/usb/dvb-usb-v2/dvbsky.c b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+index 689829f1b52a..1221c924312a 100644
+--- a/drivers/media/usb/dvb-usb-v2/dvbsky.c
++++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+@@ -541,7 +541,9 @@ static int dvbsky_mygica_t230c_attach(struct dvb_usb_adapter *adap)
+ 	si2168_config.i2c_adapter = &i2c_adapter;
+ 	si2168_config.fe = &adap->fe[0];
+ 	si2168_config.ts_mode = SI2168_TS_PARALLEL;
+-	if (le16_to_cpu(d->udev->descriptor.idProduct) == USB_PID_MYGICA_T230C2)
++	if (le16_to_cpu(d->udev->descriptor.idProduct) == USB_PID_MYGICA_T230C2 ||
++	    le16_to_cpu(d->udev->descriptor.idProduct) == USB_PID_MYGICA_T230C2_LITE ||
++	    le16_to_cpu(d->udev->descriptor.idProduct) == USB_PID_MYGICA_T230A)
+ 		si2168_config.ts_mode |= SI2168_TS_CLK_MANUAL;
+ 	si2168_config.ts_clock_inv = 1;
+ 
+@@ -577,15 +579,24 @@ static int dvbsky_mygica_t230c_attach(struct dvb_usb_adapter *adap)
+ 
+ static int dvbsky_identify_state(struct dvb_usb_device *d, const char **name)
+ {
+-	dvbsky_gpio_ctrl(d, 0x04, 1);
+-	msleep(20);
+-	dvbsky_gpio_ctrl(d, 0x83, 0);
+-	dvbsky_gpio_ctrl(d, 0xc0, 1);
+-	msleep(100);
+-	dvbsky_gpio_ctrl(d, 0x83, 1);
+-	dvbsky_gpio_ctrl(d, 0xc0, 0);
+-	msleep(50);
+-
++	if (le16_to_cpu(d->udev->descriptor.idProduct) == USB_PID_MYGICA_T230A) {
++		dvbsky_gpio_ctrl(d, 0x87, 0);
++		msleep(20);
++		dvbsky_gpio_ctrl(d, 0x86, 1);
++		dvbsky_gpio_ctrl(d, 0x80, 0);
++		msleep(100);
++		dvbsky_gpio_ctrl(d, 0x80, 1);
++		msleep(50);
++	} else {
++		dvbsky_gpio_ctrl(d, 0x04, 1);
++		msleep(20);
++		dvbsky_gpio_ctrl(d, 0x83, 0);
++		dvbsky_gpio_ctrl(d, 0xc0, 1);
++		msleep(100);
++		dvbsky_gpio_ctrl(d, 0x83, 1);
++		dvbsky_gpio_ctrl(d, 0xc0, 0);
++		msleep(50);
++	}
+ 	return WARM;
+ }
+ 
+@@ -789,6 +800,12 @@ static const struct usb_device_id dvbsky_id_table[] = {
+ 	{ DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2,
+ 		&mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230C v2",
+ 		RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
++	{ DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2_LITE,
++		 &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230C v2  Lite",
++		 NULL) },
++	{ DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230A,
++		 &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230A",
++		 NULL) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(usb, dvbsky_id_table);
+diff --git a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
+index d37cb74b769c..b0a535d6893a 100644
+--- a/include/media/dvb-usb-ids.h
++++ b/include/media/dvb-usb-ids.h
+@@ -394,6 +394,8 @@
+ #define USB_PID_MYGICA_T230C				0xc689
+ #define USB_PID_MYGICA_T230C2				0xc68a
+ #define USB_PID_MYGICA_T230C_LITE			0xc699
++#define USB_PID_MYGICA_T230C2_LITE			0xc69a
++#define USB_PID_MYGICA_T230A				0x689a
+ #define USB_PID_ELGATO_EYETV_DIVERSITY			0x0011
+ #define USB_PID_ELGATO_EYETV_DTT			0x0021
+ #define USB_PID_ELGATO_EYETV_DTT_2			0x003f
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.30.2
+
