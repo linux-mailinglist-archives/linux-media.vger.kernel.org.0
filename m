@@ -2,96 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D5003ABDA2
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 22:40:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47B8C3ABDF0
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jun 2021 23:26:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232286AbhFQUm2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 16:42:28 -0400
-Received: from fortimail.online.lv ([81.198.164.220]:38826 "EHLO
-        fortimail.online.lv" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230519AbhFQUm1 (ORCPT
+        id S232650AbhFQV2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Jun 2021 17:28:42 -0400
+Received: from mail-io1-f54.google.com ([209.85.166.54]:47027 "EHLO
+        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232630AbhFQV2l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Jun 2021 16:42:27 -0400
-X-Greylist: delayed 604 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Jun 2021 16:42:27 EDT
-Received: from mailo-proxy1 (smtp.online.lv [81.198.164.193])
-        by fortimail.online.lv  with ESMTP id 15HKUCIN002411-15HKUCIP002411
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
-        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 23:30:12 +0300
-Received: from mailo-b1 (10.95.60.6) by mailo-proxy1 (Axigen)
- with ESMTPA id 1E6133; Thu, 17 Jun 2021 23:30:12 +0300
-Received: from mailo-proxy1 (10.95.60.3) by mailo-b1 (Axigen)
- with ESMTPA id 0AB930; Thu, 17 Jun 2021 23:30:12 +0300
-Received: from [10.96.45.191] (80.232.242.31) by mailo-proxy1 (Axigen)
- with ESMTPA id 2B106B; Thu, 17 Jun 2021 23:30:12 +0300
-From:   Raimonds Cicans <ray@apollo.lv>
-Subject: cx23885: risc op code error - strange solution...
-To:     linux-media@vger.kernel.org
-Message-ID: <5f01f85e-a8a0-4d79-d7a3-d32d9e4888a5@apollo.lv>
-Date:   Thu, 17 Jun 2021 23:30:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.2
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="------------3764067B96C5A62C74F125ED"
-Content-Language: en-US
-DomainKey-Status: no signature
-DKIM-Status: no signature
-X-AXIGEN-DK-Result: No records
-X-AXIGEN-DKIM-Result: No records
-X-FE-Attachment-Name: cx23885-core_risc_KASAN.patch
-X-FEAS-SPF: spf-result=pass, ip=81.198.164.193, helo=, mailFrom=ray@apollo.lv
-Authentication-Results: fortimail.online.lv;
-        spf=pass (online.lv: domain of ray@apollo.lv designates 81.198.164.193 as permitted sender) smtp.mailfrom=ray@apollo.lv
-X-FE-Policy-ID: 9:6:0:SYSTEM
+        Thu, 17 Jun 2021 17:28:41 -0400
+Received: by mail-io1-f54.google.com with SMTP id b14so4728616iow.13;
+        Thu, 17 Jun 2021 14:26:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=BK4/yKFERPq5Q5JT9ah7IGyXargZYodEJ6e9CzGiy3M=;
+        b=UenFnamiUDIznudDVz6/ZgG0DONGhQ1XSEBhuRoG8jFFHzRTJlYSbs+7rD69fLGuqx
+         hqOgmsPpjZjHnrEfaVZyZeIXI5RgXnbW4dPANp6XocH3IDwShKthMCK9FeWxHnBUw/pB
+         UEBKqqcN1SK7ej8ZdbRthkxO5xuP4F6n0cDSfx9TDIHuomBW2i6jUOZqKEMjs7kqK/Yh
+         NSK9C4Mgh4w3AyC9VXhKBHC16J+Qy7JDVfCxqtfN+4Hp+ow/A0+tk7FCXIOqrrjPSOtb
+         koQmSyEz+/VJxkuzZEKn+zX1S5LEAbHYuG6nm7q5NS2ppKYvJWsGYtnxVpgjFjVLsRwD
+         f7SQ==
+X-Gm-Message-State: AOAM531FiIXxXfavS3u/Jk6ENPynsChkcIWHCWE8cb73qfIJWuPZjE11
+        c8udwtoh8XzCITmuiL/hQw==
+X-Google-Smtp-Source: ABdhPJyJjIjZ7icIf3FV7WOoRfpkfxMCTq875Gptr5kBUuCdwKnKUEr+eYj/VVIB+lEYT3uweNNoOg==
+X-Received: by 2002:a5e:940a:: with SMTP id q10mr5487243ioj.19.1623965192578;
+        Thu, 17 Jun 2021 14:26:32 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id x18sm84588ilm.86.2021.06.17.14.26.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jun 2021 14:26:31 -0700 (PDT)
+Received: (nullmailer pid 3336123 invoked by uid 1000);
+        Thu, 17 Jun 2021 21:26:24 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Heiko Stuebner <heiko@sntech.de>
+Cc:     robh+dt@kernel.org, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        ezequiel@collabora.com, devicetree@vger.kernel.org,
+        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
+        Laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, linux-rockchip@lists.infradead.org
+In-Reply-To: <20210617162745.4080975-10-heiko@sntech.de>
+References: <20210617162745.4080975-1-heiko@sntech.de> <20210617162745.4080975-10-heiko@sntech.de>
+Subject: Re: [PATCH v5 09/10] dt-bindings: media: rkisp1: document px30 isp compatible
+Date:   Thu, 17 Jun 2021 15:26:24 -0600
+Message-Id: <1623965184.614652.3336122.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------3764067B96C5A62C74F125ED
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Thu, 17 Jun 2021 18:27:44 +0200, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> 
+> Add the compatible for the px30-variant of the rkisp
+> 
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+> ---
+>  .../bindings/media/rockchip-isp1.yaml         | 66 ++++++++++++++++++-
+>  1 file changed, 65 insertions(+), 1 deletion(-)
+> 
 
-Hi!
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Yet again I try to fight cx23885 driver's "risc op code error" bug.
+yamllint warnings/errors:
 
-I found very weird "fix":
-If I apply attached patch _AND_ enable KASAN, then problem disappear.
-If I disable KASAN or delete _ANY_ new line from patch, then problem 
-reappear.
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/media/rockchip-isp1.example.dt.yaml:0:0: /example-1/parent/i2c/camera@36: failed to match any schema with compatible: ['ovti,ov5695']
+\ndoc reference errors (make refcheckdocs):
 
-I tried to replace "printk" with delays and with memory barriers, but 
-nothing works.
+See https://patchwork.ozlabs.org/patch/1493733
 
-I would like to hear from community any ideas:
-1. why this "fix" helps
-2. what weird things "printk" can do when KASAN enabled
-3. why we need two consecutive "cx23885_irq_get_mask(dev);" commands, 
-first of which need strange "companions"
-4. what else I can try to use instead of "printk"
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-Raimonds Cicans
+pip3 install dtschema --upgrade
 
---------------3764067B96C5A62C74F125ED
-Content-Type: text/x-patch; charset=UTF-8;
- name="cx23885-core_risc_KASAN.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="cx23885-core_risc_KASAN.patch"
+Please check and re-submit.
 
---- /usr/src/linux-5.10.27-gentoo__orig/drivers/media/pci/cx23885/cx23885-core.c	2021-04-03 09:20:56.609971911 +0300
-+++ /usr/src/linux-5.10.27-gentoo/drivers/media/pci/cx23885/cx23885-core.c	2021-06-17 22:34:49.503333355 +0300
-@@ -1517,6 +1517,10 @@
- 	if (debug > 4)
- 		cx23885_tsport_reg_dump(port);
- 
-+	printk(KERN_INFO);
-+	cx23885_irq_get_mask(dev);
-+	printk(KERN_INFO);
-+
- 	cx23885_irq_get_mask(dev);
- 
- 	/* clear dma in progress */
-
---------------3764067B96C5A62C74F125ED--
