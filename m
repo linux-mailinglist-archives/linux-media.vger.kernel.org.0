@@ -2,176 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4BFF3AC52A
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 09:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBA373AC548
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 09:52:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231128AbhFRHqh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 03:46:37 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:40209 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229522AbhFRHqf (ORCPT
+        id S233369AbhFRHyd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 03:54:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40174 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233364AbhFRHyc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Jun 2021 03:46:35 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id u9ArltW7lhg8Zu9AulVdFQ; Fri, 18 Jun 2021 09:44:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1624002264; bh=WGmyb3y39hTvXUNYzhPB7bDqry0zzCAchvGJBEYKH+Y=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=c6Yx78MiWWd4Fjv08H7lv7KFxZ53cHht5F79hYy2yRvZlYqbqLJPoTCvB7yob8fGU
-         8zjf5hJxqtrWwlQAzgGnBeYJ89H38gmOj1HGpBRtm1rLl4i9irJZoQTO7t5hBCiyn0
-         Tba25DfOwvisOWOJAtp+7aACBSsA5AiokWXbbxkbvGfk+ob0KPjJNGZkumICnyCXjb
-         Sz/0NMI3yVv8DhSDIsqDj/aM8xov7obyndlr4rIcd7btJvrmorJAyzn7HKnWQMqz5Z
-         bkfc0jCSXr2siXtEuPuGeKP9w0k9Z6jGxwth8l4cT1509PblSGzMeIA4BLis+ibN4V
-         b58m3XHm1f3nw==
-Subject: Re: [PATCH v2 1/2] cec: expand One Touch Record TV Screen test
-To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     jaffe1@gmail.com
-References: <cover.1623972511.git.deborahbrouwer3563@gmail.com>
- <33ad72ef20383b4a86526c511696ed0838afa10b.1623972511.git.deborahbrouwer3563@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <43c185e4-e3ae-13f3-6a31-ef7098fe8b70@xs4all.nl>
-Date:   Fri, 18 Jun 2021 09:44:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        Fri, 18 Jun 2021 03:54:32 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937CFC06175F
+        for <linux-media@vger.kernel.org>; Fri, 18 Jun 2021 00:52:23 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id v12so4260295plo.10
+        for <linux-media@vger.kernel.org>; Fri, 18 Jun 2021 00:52:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TWKeVClJkZsu4I1NG/srDbtbqbk6CdxTWMa8/auvrQI=;
+        b=Di3abQbPqjpkNWI3bRYbeAUWNX0ZsMYqIQhd3Nw+i1sVO8GDClkuQiT30M9Ac/KrSI
+         DCWoq9PM/rq5tb232t+pqzX+4VQ75LVXZPu5t78ykMALxsvmoBefdVyfeUCMjUk83zAK
+         jvntmYbEYV9aLSzod9xcsIV97l3zg6heb8Gxc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TWKeVClJkZsu4I1NG/srDbtbqbk6CdxTWMa8/auvrQI=;
+        b=E4KkM9IcaxPNK/PxhcbeNm076xjIVAoCRnZwf9rnKz7zXbQ1NXy4514lkunrlEEYG+
+         TrB4LUgVJVU55xUOsI7XPhHWrZbYt8YllQgXyW0hs/CEQz6ZB3cgzonn1qHSB3njWDj3
+         nlcRlgLmvt3ZUX1tXMRGkTepFPDfFH5+TqcYLLz4TXWHz0Xir0vF/U79LVIgR23bZBJv
+         7M+5kBEQiqNoU9kyh9m427z0vdJmRZ8K5P0isbIH2Cr+2leJUek7gnh2Qx0x3pJtQXqz
+         HVhgMoL1Rd+jPc1DBT/5f9veMskTN+Eo52Y8O0xEtIABkrHHA3GP0aHfvhddjIC1t8a7
+         TUmQ==
+X-Gm-Message-State: AOAM532TT7ZvfJrGkbetMpsoiJ8oBADRi41azp0NIgDqOe+dXYtwIiaV
+        KZuMjXYCBqSibJaNDKsVBX6NPA==
+X-Google-Smtp-Source: ABdhPJwUHDTcPL/rQBD6it7FZK81z/Im0JEmx5fE8SmQkeR3/isJbPHDAXRl7sASTh4NTIXFVcAD3g==
+X-Received: by 2002:a17:90a:a592:: with SMTP id b18mr20970932pjq.178.1624002743104;
+        Fri, 18 Jun 2021 00:52:23 -0700 (PDT)
+Received: from localhost ([2401:fa00:9:14:3e8:19ca:3d8a:e112])
+        by smtp.gmail.com with UTF8SMTPSA id 194sm6966360pfb.139.2021.06.18.00.52.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Jun 2021 00:52:22 -0700 (PDT)
+From:   Eizan Miyamoto <eizan@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     yong.wu@mediatek.com, houlong.wei@mediatek.com,
+        enric.balletbo@collabora.com, chunkuang.hu@kernel.org,
+        wenst@chromium.org, Eizan Miyamoto <eizan@chromium.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH v3 0/8] Refactor MTK MDP driver into core/components
+Date:   Fri, 18 Jun 2021 17:52:01 +1000
+Message-Id: <20210618075209.1157766-1-eizan@chromium.org>
+X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
 MIME-Version: 1.0
-In-Reply-To: <33ad72ef20383b4a86526c511696ed0838afa10b.1623972511.git.deborahbrouwer3563@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfHxwPvgL1JsDBpplfSdddBiEFEKjIRr4eF78oiDwKzfYfLw8CsLYmMAKI9uPJehqN9IAwXsfDpb9cTX+Fp7odrJqi2FK5lJy8LC1A70Ue9HoVgzlG3BI
- N42IBCkBUjp9XWOyzuuuMkX9AIpVLILSeJqwqlKJ8HXyniQpCaFEyX/hlXaQYcpz461iMg1ZQKzs07eQT6zNyVkUvgRgwilFi5QO+h3lLGXCo7CinwNoiktl
- jygy453mQz5pXJnAEiPwU+HoAkmRvVhp2NeV+sV/5m4=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/06/2021 01:41, Deborah Brouwer wrote:
-> Check that the follower ignores the Record TV Screen message if the
-> initiator has a logical address other than Record or Backup (aka Reserved
-> in CEC Version < 2.0). If the follower replies correctly, check that the
-> source operand is valid.
-> 
-> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
-> ---
->  utils/cec-compliance/cec-test.cpp | 53 ++++++++++++++++++++++++++-----
->  utils/cec-follower/cec-tuner.cpp  |  9 ++++--
->  2 files changed, 51 insertions(+), 11 deletions(-)
-> 
-> diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
-> index 40d8369d..0051d72a 100644
-> --- a/utils/cec-compliance/cec-test.cpp
-> +++ b/utils/cec-compliance/cec-test.cpp
-> @@ -1150,13 +1150,6 @@ static const vec_remote_subtests tuner_ctl_subtests{
->  
->  static int one_touch_rec_tv_screen(struct node *node, unsigned me, unsigned la, bool interactive)
->  {
-> -	/*
-> -	  TODO:
-> -	  - Page 36 in HDMI CEC 1.4b spec lists additional behaviors that should be
-> -	    checked for.
-> -	  - The TV should ignore this message when received from other LA than Recording or
-> -	    Reserved.
-> -	 */
->  	struct cec_msg msg;
->  
->  	cec_msg_init(&msg, me, la);
-> @@ -1172,8 +1165,52 @@ static int one_touch_rec_tv_screen(struct node *node, unsigned me, unsigned la,
->  		return OK_REFUSED;
->  	if (cec_msg_status_is_abort(&msg))
->  		return OK_PRESUMED;
-> +	/*
-> +	 * Follower should ignore this message if initiator has a logical
-> +	 * address other than Record or Backup (aka "Reserved" in CEC Version < 2.0).
-> +	 */
-> +	if (!cec_has_record(1 << me) && !cec_has_backup(1 << me)) {
-> +		fail_on_test(!timed_out(&msg));
-> +		return OK;
-> +	}
-> +	fail_on_test(timed_out(&msg));
->  
-> -	return 0;
-> +	struct cec_op_record_src rec_src = {};
-> +
-> +	cec_ops_record_on(&msg, &rec_src);
-> +
-> +	if (rec_src.type < 1 || rec_src.type > 5)
 
-Don't use the numbers, use the corresponding defines (CEC_OP_RECORD_SRC_OWN and
-CEC_OP_RECORD_SRC_EXT_PHYS_ADDR).
+This is an update to
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=283075
+To address some comments and fixes.
 
-> +		return fail("Invalid source.\n");
-> +
-> +	if (rec_src.type == CEC_OP_RECORD_SRC_DIGITAL &&
-> +	    rec_src.digital.service_id_method == CEC_OP_SERVICE_ID_METHOD_BY_DIG_ID) {
-> +
-> +		switch (rec_src.digital.dig_bcast_system) {
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_GEN:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_GEN:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_GEN:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_BS:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_CS:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_T:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_CABLE:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_SAT:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_T:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_S:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_S2:
-> +		case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_T:
-> +			break;
-> +		default:
-> +			return fail("Invalid digital service broadcast system operand.\n");
-> +		}
-> +	}
-> +
-> +	if (rec_src.type == CEC_OP_RECORD_SRC_ANALOG) {
-> +		fail_on_test(rec_src.analog.ana_bcast_type > 2);
+This series has been verified to work on 5.12.
 
-Ditto here...
+It has been rebased on top of the series
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=464873
 
-> +		fail_on_test(rec_src.analog.bcast_system > 8 && rec_src.analog.bcast_system != 0x1f);
 
-...and here.
+Changes in v3:
+- get mdp master from aliases instead of strcmp against of_node->name
 
-Regards,
+Changes in v2:
+- rebased onto Linux 5.12
+- 100 char line length allowance was utilized in a few places
+- Removal of a redundant dev_err() print at the end of
+  mtk_mdp_comp_init()
+- Instead of printing errors and ignoring them, I've added a patch to
+  correctly propagate them.
+- Use of C style comments.
+- Three additional patches were added to eliminate dependency on the
+  mediatek,vpu property inside the mdp_rdma0 device node.
 
-	Hans
+Eizan Miyamoto (8):
+  mtk-mdp: add driver to probe mdp components
+  mtk-mdp: use pm_runtime in MDP component driver
+  media: mtk-mdp: don't pm_run_time_get/put for master comp in clock_on
+  mtk-mdp: soc: mediatek: register mdp from mmsys
+  media: mtk-mdp: search for vpu node instead of linking it to a
+    property
+  media: mtk-mdp: propagate errors better in pm_suspend/resume
+  media: mtk-mdp: use mdp-rdma0 alias to point to MDP master
+  dts: mtk-mdp: remove mediatek,vpu property from primary MDP device
 
-> +	}
-> +
-> +	return OK;
->  }
->  
->  static int one_touch_rec_on(struct node *node, unsigned me, unsigned la, bool interactive)
-> diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-> index b9c21684..fd11bd10 100644
-> --- a/utils/cec-follower/cec-tuner.cpp
-> +++ b/utils/cec-follower/cec-tuner.cpp
-> @@ -583,9 +583,6 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
->  		  This is only a basic implementation.
->  
->  		  TODO:
-> -		  - If we are a TV, we should only send Record On if the
-> -		    remote end is a Recording device or Reserved. Otherwise ignore.
-> -
->  		  - Device state should reflect whether we are recording, etc. In
->  		    recording mode we should ignore Standby messages.
->  		*/
-> @@ -594,6 +591,12 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
->  		if (!node->has_rec_tv)
->  			break;
->  
-> +		__u8 la = cec_msg_initiator(&msg);
-> +
-> +		/* Ignore if initiator is not Record or Backup (aka "Reserved" in CEC Version < 2.0) */
-> +		if (!cec_has_record(1 << la) && !cec_has_backup(1 << la))
-> +			return;
-> +
->  		struct cec_op_record_src rec_src = {};
->  
->  		rec_src.type = CEC_OP_RECORD_SRC_OWN;
-> 
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi      |   1 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 258 ++++++++++++++--
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  35 +--
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 281 ++++++++++++------
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.h |   3 +
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |   4 +-
+ drivers/soc/mediatek/mtk-mmsys.c              |  20 +-
+ 7 files changed, 466 insertions(+), 136 deletions(-)
+
+-- 
+2.32.0.288.g62a8d224e6-goog
 
