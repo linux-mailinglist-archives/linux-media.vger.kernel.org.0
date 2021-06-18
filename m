@@ -2,25 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A98903ACBE2
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 15:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7DCA3ACBE5
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 15:15:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233086AbhFRNRx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 09:17:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56716 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233016AbhFRNRv (ORCPT
+        id S233167AbhFRNR4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 09:17:56 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44500 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233019AbhFRNRv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 18 Jun 2021 09:17:51 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60EE7C061574;
-        Fri, 18 Jun 2021 06:15:41 -0700 (PDT)
 Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:141f:c87a:873e:7b6f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id ECD321F448D1;
-        Fri, 18 Jun 2021 14:15:38 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 701141F448D3;
+        Fri, 18 Jun 2021 14:15:40 +0100 (BST)
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
         mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -33,9 +30,9 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3 3/8] media: hantro: hevc: Allow 10-bits encoded streams
-Date:   Fri, 18 Jun 2021 15:15:21 +0200
-Message-Id: <20210618131526.566762-4-benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 4/8] media: Add P010 video format
+Date:   Fri, 18 Jun 2021 15:15:22 +0200
+Message-Id: <20210618131526.566762-5-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210618131526.566762-1-benjamin.gaignard@collabora.com>
 References: <20210618131526.566762-1-benjamin.gaignard@collabora.com>
@@ -45,143 +42,159 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allow to use 10-bits encoded streams but force the output
-to remain in 8-bits.
-Add a function to get chroma offset for the output since
-it may now not match with internal reference buffers chroma
-offset.
+P010 is a YUV format with 10-bits per pixel with interleaved UV.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/staging/media/hantro/hantro_drv.c     |  5 ++--
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 29 +++++++++++++++----
- drivers/staging/media/hantro/hantro_g2_regs.h |  1 +
- drivers/staging/media/hantro/hantro_hevc.c    |  5 ++--
- 4 files changed, 31 insertions(+), 9 deletions(-)
+version 2:
+ - Add documentation about P010 padding
+ - Fix the number of bits per component (16)
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 24a654a936ae..f6635ceb5111 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -263,8 +263,9 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- 		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
- 			/* Luma and chroma bit depth mismatch */
- 			return -EINVAL;
--		if (sps->bit_depth_luma_minus8 != 0)
--			/* Only 8-bit is supported */
-+		if (sps->bit_depth_luma_minus8 != 0 &&
-+		    sps->bit_depth_luma_minus8 != 2)
-+			/* Only 8-bit or 10-bit is supported */
- 			return -EINVAL;
- 		if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED)
- 			/* No scaling support */
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index bf19825c4d96..7c4427d8e49f 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -133,6 +133,16 @@ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
- 		vpu_debug(1, "%s: no chroma!\n", __func__);
- }
+ .../media/v4l/pixfmt-yuv-planar.rst           | 78 ++++++++++++++++++-
+ drivers/media/v4l2-core/v4l2-common.c         |  1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+ include/uapi/linux/videodev2.h                |  1 +
+ 4 files changed, 79 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+index 090c091affd2..af400d37c8fd 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+@@ -100,8 +100,13 @@ All components are stored with the same number of bits per component.
+       - Cb, Cr
+       - No
+       - 64x32 macroblocks
+-
+-        Horizontal Z order
++    * - V4L2_PIX_FMT_P010
++      - 'P010'
++      - 16
++      - 4:2:0
++      - Cb, Cr
++      - No
++      - Linear
+     * - V4L2_PIX_FMT_NV12MT_16X16
+       - 'VM12'
+       - 8
+@@ -171,6 +176,7 @@ horizontally.
+ .. _V4L2-PIX-FMT-NV21:
+ .. _V4L2-PIX-FMT-NV12M:
+ .. _V4L2-PIX-FMT-NV21M:
++.. _V4L2-PIX-FMT-P010:
  
-+static bool is_8bit_dst_format(struct hantro_ctx *ctx)
-+{
-+	switch (ctx->vpu_dst_fmt->fourcc) {
-+	case V4L2_PIX_FMT_NV12:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
+ NV12, NV21, NV12M and NV21M
+ ---------------------------
+@@ -470,6 +476,74 @@ number of lines as the luma plane.
+       - Cb\ :sub:`33`
+       - Cr\ :sub:`33`
+ 
++.. _V4L2_PIX_FMT_P010:
 +
- static void set_params(struct hantro_ctx *ctx)
- {
- 	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
-@@ -148,7 +158,8 @@ static void set_params(struct hantro_ctx *ctx)
- 	hantro_reg_write(vpu, &g2_bit_depth_y_minus8, sps->bit_depth_luma_minus8);
- 	hantro_reg_write(vpu, &g2_bit_depth_c_minus8, sps->bit_depth_chroma_minus8);
- 
--	hantro_reg_write(vpu, &g2_output_8_bits, 0);
-+	hantro_reg_write(vpu, &g2_output_8_bits, 1);
-+	hantro_reg_write(vpu, &g2_output_format, 0);
- 
- 	hantro_reg_write(vpu, &g2_hdr_skip_length, ctrls->hevc_hdr_skip_length);
- 
-@@ -522,13 +533,21 @@ static int set_ref(struct hantro_ctx *ctx)
- 	return 0;
- }
- 
-+static size_t hantro_hevc_output_chroma_offset(struct hantro_ctx *ctx)
-+{
-+	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
-+	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
-+	int bytes_per_pixel = is_8bit_dst_format(ctx) ? 1 : 2;
++P010
++----
 +
-+	return sps->pic_width_in_luma_samples *
-+		sps->pic_height_in_luma_samples * bytes_per_pixel;
-+}
++The number of bytes in one luminance row must be divisible by 16,
++which means there will be padded 0 in the right edge when necessary.
 +
- static void set_buffers(struct hantro_ctx *ctx)
- {
- 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
- 	struct hantro_dev *vpu = ctx->dev;
--	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
--	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
--	size_t cr_offset = hantro_hevc_chroma_offset(sps);
-+	size_t output_cr_offset = hantro_hevc_output_chroma_offset(ctx);
- 	dma_addr_t src_dma, dst_dma;
- 	u32 src_len, src_buf_len;
++.. raw:: latex
++
++    \begingroup
++    \small
++    \setlength{\tabcolsep}{2pt}
++
++.. tabularcolumns:: |p{2.6cm}|p{0.70cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
++
++.. flat-table:: P010 16 Bits per component
++    :header-rows:  2
++    :stub-columns: 0
++
++    * - Identifier
++      - Code
++      - :cspan:`7` Byte 0 in memory
++
++      - :cspan:`7` Byte 1
++    * -
++      -
++      - 7
++      - 6
++      - 5
++      - 4
++      - 3
++      - 2
++      - 1
++      - 0
++
++      - 7
++      - 6
++      - 5
++      - 4
++      - 3
++      - 2
++      - 1
++      - 0
++    * - ``V4L2_PIX_FMT_P010``
++      - 'P010'
++
++      - Y\ :sub:`9`
++      - Y\ :sub:`8`
++      - Y\ :sub:`7`
++      - Y\ :sub:`6`
++      - Y\ :sub:`5`
++      - Y\ :sub:`4`
++      - Y\ :sub:`3`
++      - Y\ :sub:`2`
++
++      - Y\ :sub:`1`
++      - Y\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++
++.. raw:: latex
++
++    \endgroup
  
-@@ -550,7 +569,7 @@ static void set_buffers(struct hantro_ctx *ctx)
- 	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
+ Fully Planar YUV Formats
+ ========================
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index 04af03285a20..37b5d82359dd 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -266,6 +266,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+ 		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
++		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
  
- 	hantro_write_addr(vpu, G2_RASTER_SCAN, dst_dma);
--	hantro_write_addr(vpu, G2_RASTER_SCAN_CHR, dst_dma + cr_offset);
-+	hantro_write_addr(vpu, G2_RASTER_SCAN_CHR, dst_dma + output_cr_offset);
- 	hantro_write_addr(vpu, G2_ADDR_TILE_SIZE, ctx->hevc_dec.tile_sizes.dma);
- 	hantro_write_addr(vpu, G2_TILE_FILTER, ctx->hevc_dec.tile_filter.dma);
- 	hantro_write_addr(vpu, G2_TILE_SAO, ctx->hevc_dec.tile_sao.dma);
-diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
-index 0414d92e3860..941e5482d27b 100644
---- a/drivers/staging/media/hantro/hantro_g2_regs.h
-+++ b/drivers/staging/media/hantro/hantro_g2_regs.h
-@@ -77,6 +77,7 @@
- #define g2_bit_depth_y_minus8	G2_DEC_REG(8, 6,  0x3)
- #define g2_bit_depth_c_minus8	G2_DEC_REG(8, 4,  0x3)
- #define g2_output_8_bits	G2_DEC_REG(8, 3,  0x1)
-+#define g2_output_format	G2_DEC_REG(8, 0,  0x7)
+ 		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
+ 		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 2673f51aafa4..6404d5b6e350 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1282,6 +1282,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
+ 	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
+ 	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
++	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CrCb 4:2:0"; break;
+ 	case V4L2_PIX_FMT_NV12M:	descr = "Y/CbCr 4:2:0 (N-C)"; break;
+ 	case V4L2_PIX_FMT_NV21M:	descr = "Y/CrCb 4:2:0 (N-C)"; break;
+ 	case V4L2_PIX_FMT_NV16M:	descr = "Y/CbCr 4:2:2 (N-C)"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 9260791b8438..e5f7acde0730 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -602,6 +602,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
+ #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
+ #define V4L2_PIX_FMT_HM12    v4l2_fourcc('H', 'M', '1', '2') /*  8  YUV 4:2:0 16x16 macroblocks */
++#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 15  Y/CbCr 4:2:0 10-bit per pixel*/
  
- #define g2_refidx1_active	G2_DEC_REG(9, 19, 0x1f)
- #define g2_refidx0_active	G2_DEC_REG(9, 14, 0x1f)
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index 00400dd33a3b..112b12a84df4 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -202,6 +202,7 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
- 	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
- 	unsigned int num_tile_cols = pps->num_tile_columns_minus1 + 1;
- 	unsigned int height64 = (sps->pic_height_in_luma_samples + 63) & ~63;
-+	unsigned int pixel_depth = sps->bit_depth_luma_minus8 == 0 ? 8 : 10;
- 	unsigned int size;
- 
- 	if (num_tile_cols <= 1 ||
-@@ -230,7 +231,7 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
- 		hevc_dec->tile_bsd.cpu = NULL;
- 	}
- 
--	size = VERT_FILTER_RAM_SIZE * height64 * (num_tile_cols - 1);
-+	size = (VERT_FILTER_RAM_SIZE * height64 * (num_tile_cols - 1) * pixel_depth) / 8;
- 	hevc_dec->tile_filter.cpu = dma_alloc_coherent(vpu->dev, size,
- 						       &hevc_dec->tile_filter.dma,
- 						       GFP_KERNEL);
-@@ -238,7 +239,7 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
- 		goto err_free_tile_buffers;
- 	hevc_dec->tile_filter.size = size;
- 
--	size = VERT_SAO_RAM_SIZE * height64 * (num_tile_cols - 1);
-+	size = (VERT_SAO_RAM_SIZE * height64 * (num_tile_cols - 1) * pixel_depth) / 8;
- 	hevc_dec->tile_sao.cpu = dma_alloc_coherent(vpu->dev, size,
- 						    &hevc_dec->tile_sao.dma,
- 						    GFP_KERNEL);
+ /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
+ #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
 -- 
 2.25.1
 
