@@ -2,92 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DF2D3AC8B3
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 12:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4167F3AC8ED
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 12:35:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233540AbhFRKYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 06:24:12 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:57241 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230329AbhFRKYB (ORCPT
+        id S232880AbhFRKhP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 06:37:15 -0400
+Received: from www262.sakura.ne.jp ([202.181.97.72]:57209 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232620AbhFRKhN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Jun 2021 06:24:01 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id uBd9lCbRQhqltuBdDl4lQQ; Fri, 18 Jun 2021 12:21:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1624011707; bh=XZ6lmmj6mFLoYrteU10UHsdLg3t5r9MlCkdOEPx+iys=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=FjT7K/AE+OKMKmnYv1NnQKSTg4Ldf1JkWQpy3F15ah9CkklmSdEg+Fm4d2aDF4tLn
-         AA/IOYCo5liW8NoD53oEykSqyS9YAMjyZDzJVHGwdRfKowfk63QLfqnhnZ/IxyigX/
-         4S3tOwR03TfaltdCsILDRj74eRVHcZD4iVCJLpIxqdNBLMBCw0tYLKaMiDIa7if9U5
-         ktdWI88CXJm7sVSvVytDJsjz3SfD2jB54V5h0m4hWO44P0+NjzdPY/Kxh3PAtlqCgt
-         wx5jXJT+ssI+LlP/fsC5yJ5HCESddpD//H+EDQsLxaKsZ+OxDx7Hfk2WUB1Iz0QSs1
-         V9fVKrPQusViw==
-Subject: Re: [RFC 0/4] media: Introduce post_register() subdev operation
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20210617171611.80542-1-jacopo+renesas@jmondi.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <c97229bf-84a0-f5ba-b5fc-a14b563c2684@xs4all.nl>
-Date:   Fri, 18 Jun 2021 12:21:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        Fri, 18 Jun 2021 06:37:13 -0400
+Received: from fsav103.sakura.ne.jp (fsav103.sakura.ne.jp [27.133.134.230])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 15IAYJqk033979;
+        Fri, 18 Jun 2021 19:34:19 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav103.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav103.sakura.ne.jp);
+ Fri, 18 Jun 2021 19:34:19 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav103.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 15IAYJgI033976
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 18 Jun 2021 19:34:19 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Subject: [PATCH] media: v4l2-ioctl: explicitly initialize argument buffer
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+References: <0000000000005ace4405bda4af71@google.com>
+Cc:     syzbot <syzbot+142888ffec98ab194028@syzkaller.appspotmail.com>,
+        arnd@arndb.de, glider@google.com, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        sakari.ailus@linux.intel.com, sergey.senozhatsky@gmail.com,
+        syzkaller-bugs@googlegroups.com, yepeilin.cs@gmail.com
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Message-ID: <9c393beb-c45b-6dc3-9955-867c6abffdc4@I-love.SAKURA.ne.jp>
+Date:   Fri, 18 Jun 2021 19:34:15 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210617171611.80542-1-jacopo+renesas@jmondi.org>
+In-Reply-To: <0000000000005ace4405bda4af71@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOomyovm5iMH+qP+/KMiqCpaGFX4qCTSWNK6QPIKvNkFYA6tyAP6Quby5K82EpeM3iqtVuXQcYVsZExYsFrILlQEKo3rdP4cw60mBOaq5fNRuA0C2bvL
- KpIz2ByMXKUVUBE0W9W/kuQSpRdVmCiNFDhd9fis7Dt8KPS8NY/d/TqnHWg7ZXBP6QX4ctZ1z13Oute/VSgSI38WYFJUWz1NXmJsCDYU0pNtzeYj3DUWjgA2
- 63tJhVkiY+Hh+4AUt1rGNQOtEfaj38Tb3M45IG+8Xxxg0yAntP5tis4vihSHKf9E
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/06/2021 19:16, Jacopo Mondi wrote:
-> Hello Hans,
->    this is the result of the discussion we had yesterday, sent out just to
-> have a taste of how it looks like.
-> 
-> I won't pretend I like the outcome: it feels a bit hackish and meant to support
-> this precise use case.
-> 
-> Compared to the proposal to resurect 'init()' it indeed has the advantage that
-> the subdevice driver works in both deffered and non-deferred mode, but the
-> notifier flags seems really custom.
-> 
-> Also, being the new flag part of the notifier it won't be available for i2c
-> subdevs.
-> 
-> What do you think ? Does the result match your understanding ?
+KMSAN complains that ioctl(VIDIOC_QUERYBUF_TIME32) copies uninitialized
+kernel stack memory to userspace [1], for video_usercopy() calls
+copy_to_user() even if __video_do_ioctl() returned -EINVAL error.
 
-That's what I came up with, yes. I think some of the names can be improved,
-but otherwise the mechanism is what I had in mind.
+Generally, copy_to_user() needn't be called when there was an error.
+But video_usercopy() has always_copy logic which forces copy_to_user().
+Therefore, instead of not calling copy_to_user(), explicitly initialize
+argument buffer.
 
-Regards,
+  ----------
+  /* Compile for 32bit userspace and run on 64bit kernel. */
+  #include <sys/types.h>
+  #include <sys/stat.h>
+  #include <fcntl.h>
+  #include <sys/ioctl.h>
+  #define VIDIOC_QUERYBUF_TIME32 0xc0505609
 
-	Hans
+  int main(int argc, char *argv[])
+  {
+          char buf[128] = { };
 
-> 
-> Thanks
->   j
-> 
-> Jacopo Mondi (4):
->   media: v4l2-subdev: Introduce post_register() core op
->   media: v4l2-async: Add notifier flags
->   media: v4l2-async: Call post_register() subdev op
->   media: i2c: gmsl: Defer camera intialization
-> 
->  drivers/media/i2c/max9286.c          | 21 ++++++--
->  drivers/media/i2c/rdacm20.c          | 81 ++++++++++++++++------------
->  drivers/media/v4l2-core/v4l2-async.c | 11 ++++
->  include/media/v4l2-async.h           | 10 ++++
->  include/media/v4l2-subdev.h          |  3 ++
->  5 files changed, 89 insertions(+), 37 deletions(-)
-> 
-> --
-> 2.31.1
-> 
+          ioctl(open("/dev/video0", O_RDONLY), VIDIOC_QUERYBUF_TIME32, &buf);
+          return 0;
+  }
+  ----------
+
+Link: https://syzkaller.appspot.com/bug?id=eb945b02a7b3060a8a60dab673c02f3ab20a048b [1]
+Reported-by: syzbot <syzbot+142888ffec98ab194028@syzkaller.appspotmail.com>
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+ drivers/media/v4l2-core/v4l2-ioctl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 2673f51aafa4..ba204e0200d3 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -3240,7 +3240,7 @@ long
+ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+ 	       v4l2_kioctl func)
+ {
+-	char	sbuf[128];
++	char	sbuf[128] = { };
+ 	void    *mbuf = NULL, *array_buf = NULL;
+ 	void	*parg = (void *)arg;
+ 	long	err  = -EINVAL;
+@@ -3258,7 +3258,7 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+ 			parg = sbuf;
+ 		} else {
+ 			/* too big to allocate from stack */
+-			mbuf = kmalloc(ioc_size, GFP_KERNEL);
++			mbuf = kzalloc(ioc_size, GFP_KERNEL);
+ 			if (NULL == mbuf)
+ 				return -ENOMEM;
+ 			parg = mbuf;
+-- 
+2.18.4
+
 
