@@ -2,97 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51CD93AC8F3
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 12:37:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E63A3AC913
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 12:44:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232957AbhFRKjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 06:39:41 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:38775 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232620AbhFRKjk (ORCPT
+        id S231332AbhFRKqK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 06:46:10 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:57317 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229522AbhFRKqJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Jun 2021 06:39:40 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id uBsKlChofhqltuBsNl4qYb; Fri, 18 Jun 2021 12:37:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1624012649; bh=VlAoir4iEvONAT/BY+cgI0IYuXDYmhxoRI0C9ApQ6wc=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=rDLXGSi8AsyID7i8J1ovZ3rCmDiKIFj7+HjJ3IqnxXLgLVW2Uefxy4RXM/NhSraP6
-         xUIFfkeML5loBY9IfD5l+eCGY2JEd3YoC6xfSK284fzgyeS3yAgE4ZwSV0wK+9Ny2b
-         geK1Ds/BOTolRdBuE64yGI7hkuSZVr/1+JnaE+ugnIXDun32lhcCb8cNjufkKMVk4M
-         Nrk0OSjQQug+UggvN9LQgUntduKboeQps0uX9Z2dhK3jFskgt8F8jCWl7n51KmHHaD
-         zvxd8STpK/vJgT5z+OFnvhWtF3BmeZTWtnP/CbWLiu2a4B9A1XLaVR+GpOPe/EAFIE
-         4osaNeTFdv7/g==
-Subject: Re: [PATCH] media: atomisp: fix the uninitialized use
-To:     Yizhuo Zhai <yzhai003@ucr.edu>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        akari.ailus@linux.intel.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        juant.aldea@gmail.com, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <CABvMjLRkmsrxXxHkX7PrkoRK5m=7_b3wpvyZK88V19b05CFx2w@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <8b717a74-e863-87d9-d42e-ede344a9e036@xs4all.nl>
-Date:   Fri, 18 Jun 2021 12:37:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        Fri, 18 Jun 2021 06:46:09 -0400
+Received: from mail-wr1-f53.google.com ([209.85.221.53]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1My2pz-1l5N0i0iPX-00zUJZ for <linux-media@vger.kernel.org>; Fri, 18 Jun 2021
+ 12:43:59 +0200
+Received: by mail-wr1-f53.google.com with SMTP id n7so10265124wri.3
+        for <linux-media@vger.kernel.org>; Fri, 18 Jun 2021 03:43:59 -0700 (PDT)
+X-Gm-Message-State: AOAM5319dIgBvz959zj9d9b3pConraGJ/VvOJwuHSb/Lww1/S789ykb3
+        hMi4U/BT9OqO/66hYub2+oLGmf6FjYH3HLL7WJM=
+X-Google-Smtp-Source: ABdhPJxuIGvy/nU7wg43kUKtzqP2fk265GUpWk9ZleA5Ax62vdKFIOlaBPQhILUBmmsHRrYIc3expMog+CE0qQgzpwk=
+X-Received: by 2002:a5d:4e12:: with SMTP id p18mr12123850wrt.105.1624013038834;
+ Fri, 18 Jun 2021 03:43:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CABvMjLRkmsrxXxHkX7PrkoRK5m=7_b3wpvyZK88V19b05CFx2w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKmXUTMoU7DtZ3Beut9p5klX6/m9criQsvlt5IGujsj6uzPjxzuIz7/JYvEcUkbNvJxU76YduC0OS2op4syZwei3S/ANIwgVSa6WxuQxm8aRrmOJ8YMS
- oG5Gmj7zitcf1a7SdUIst8Ai3RkYCP8H8AS9DeUS0R5WSlTJ/GelXzxS+O5CxXYQSROBQ//eKyC7YjhZDp8ORAEeqjSs+tkq9mkaw78JI+kXJ3u5cGcgz0W/
- TYem41lTtjiSVjE25fJ843JRBDJG/pArnoZDc0gOTryg1Bx1ejZVxbq+op4UGwm0nTV2F4v0xeKLlFKh3ceSnpYJPv4EIAchipFDg1IZFNd17RYIwOewbSDe
- epNG9ewqiRovObNr+TUMCBNWI45yNC36TZWekEbWulkOAWx84vVz2hLGdGjaKmJf5HjF2LE8a7jwWA/edrGYkMZ12xXtUnUagVlU0jQeS00aAe+cYVE=
+References: <0000000000005ace4405bda4af71@google.com> <9c393beb-c45b-6dc3-9955-867c6abffdc4@I-love.SAKURA.ne.jp>
+In-Reply-To: <9c393beb-c45b-6dc3-9955-867c6abffdc4@I-love.SAKURA.ne.jp>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 18 Jun 2021 12:41:47 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3=Cibm0qhijnLLWBTCK+z0r6CwkSm9zOYoc_Hjz-mDag@mail.gmail.com>
+Message-ID: <CAK8P3a3=Cibm0qhijnLLWBTCK+z0r6CwkSm9zOYoc_Hjz-mDag@mail.gmail.com>
+Subject: Re: [PATCH] media: v4l2-ioctl: explicitly initialize argument buffer
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        syzbot <syzbot+142888ffec98ab194028@syzkaller.appspotmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Peilin Ye <yepeilin.cs@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:fWrdMGsRJwo0TJTpGjHZUcnkWhT/ka9lH2hRZalcD/wGGtsuSoU
+ 8UwebbsMhIscEwNo8e5Sz0DfgitEzoNxv64D0t+BQqQGf/CFseWqSrh02CDnG0k3n93RnSi
+ ZWRs2hsqrW+11ePyTvrYNp1UA3zzdzsTaWN6TsYdrG+fjVgMRL8YE2Guvj6qxM65MDdlM/l
+ 7sYfQYdL1VpBmq0I1oUCw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BW76viOhsfU=:BHE7VYZmn6qKh/mLGHFd9G
+ 0pxK1ppuC1WOAABmg04741IDE0s+mOuFudcuAMoZmyWkuCdwTpBS/4ew9Pu/8bJN2BHQ5VfMd
+ 4FGxdl1KHsMO7NFQRNKLlju2OIKJMBjK1YbN1o45wyZH/ZgN3iYniYBJ8/67JT6x8XX0usvzg
+ +/IXjgh+eiY7GjbZOGZISzLCED3Z8DDNR+D13e9g71B/HxmqnDnng/XeUoyxcbSi2y7SJBZKw
+ JtTq0Edn0p4fUeOiw0vBTsHE6qnNN1XzfoJ/s2kq3cfodx0qm6U3KjnjS8KidZJF7SQiDzALE
+ YFpN5Fhb6kXjJoqWBPUsszjQnDJsNWmXKqFu4Apg49PRxRfUOwlg07AlMgNvzWXygzH6K49Xn
+ Cx7jdnOJsNHsaLibd7bF3mTMD3k0nSVZLC2cjLrRcUVxER/g4JJVQLEH0T6k4lHO+DEcatfok
+ pl1i1kZkNsHRQicz8EIv1O1DN88+tlffgSFuYiXv4TeNL32p7jBWyiGjWjFuqSqO/BSEBSu/E
+ f2tq6ThL2kIIskQSBKwJrs=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/06/2021 20:45, Yizhuo Zhai wrote:
-> Inside function mt9m114_detect(), variable "retvalue" could
-> be uninitialized if mt9m114_read_reg() returns error, however, it
-> is used in the later if statement, which is potentially unsafe.
-> 
-> Signed-off-by: Yizhuo <yzhai003@ucr.edu>
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> index f5de81132177..8ddddb18ffbb 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> @@ -1534,12 +1534,15 @@ static int mt9m114_detect(struct
-> mt9m114_device *dev, struct i2c_client *client)
->  {
->         struct i2c_adapter *adapter = client->adapter;
->         u32 retvalue;
-> +       int ret;
+On Fri, Jun 18, 2021 at 12:34 PM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> KMSAN complains that ioctl(VIDIOC_QUERYBUF_TIME32) copies uninitialized
+> kernel stack memory to userspace [1], for video_usercopy() calls
+> copy_to_user() even if __video_do_ioctl() returned -EINVAL error.
+>
+> Generally, copy_to_user() needn't be called when there was an error.
+> But video_usercopy() has always_copy logic which forces copy_to_user().
+> Therefore, instead of not calling copy_to_user(), explicitly initialize
+> argument buffer.
+>
+>   ----------
+>   /* Compile for 32bit userspace and run on 64bit kernel. */
+>   #include <sys/types.h>
+>   #include <sys/stat.h>
+>   #include <fcntl.h>
+>   #include <sys/ioctl.h>
+>   #define VIDIOC_QUERYBUF_TIME32 0xc0505609
+>
+>   int main(int argc, char *argv[])
+>   {
+>           char buf[128] = { };
+>
+>           ioctl(open("/dev/video0", O_RDONLY), VIDIOC_QUERYBUF_TIME32, &buf);
+>           return 0;
+>   }
+>   ----------
+>
+> Link: https://syzkaller.appspot.com/bug?id=eb945b02a7b3060a8a60dab673c02f3ab20a048b [1]
+> Reported-by: syzbot <syzbot+142888ffec98ab194028@syzkaller.appspotmail.com>
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
-Hmm, 'ret' and 'retvalue'. That's a bit confusing. Just rename 'retvalue'
-to 'model', then it makes more sense.
+This should no longer be necessary once my recent patches propagate
+into linux-next,
+see https://patchwork.linuxtv.org/project/linux-media/list/?series=5678&state=*
 
-> 
->         if (!i2c_check_functionality(adapter, I2C_FUNC_I2C)) {
->                 dev_err(&client->dev, "%s: i2c error", __func__);
->                 return -ENODEV;
->         }
-> -       mt9m114_read_reg(client, MISENSOR_16BIT, (u32)MT9M114_PID, &retvalue);
-> +       ret = mt9m114_read_reg(client, MISENSOR_16BIT,
-> (u32)MT9M114_PID, &retvalue);
-> +       if (ret)
-> +               return ret;
->         dev->real_model_id = retvalue;
-> 
->         if (retvalue != MT9M114_MOD_ID) {
-> 
-
-This patch got mangled by your mail client: long lines were wrapped around.
-
-Regards,
-
-	Hans
+      Arnd
