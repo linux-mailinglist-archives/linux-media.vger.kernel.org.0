@@ -2,94 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 280683AC142
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 05:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 066603AC172
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 05:40:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231695AbhFRDX5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 23:23:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37288 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230484AbhFRDX5 (ORCPT
+        id S231925AbhFRDma (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Jun 2021 23:42:30 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:59919 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229819AbhFRDma (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Jun 2021 23:23:57 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E76E5C06175F
-        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 20:21:48 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id og14so13429314ejc.5
-        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 20:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6aJ7JLNwP8uQqbzACgqcuvU9N5foWZsWndyEyLlqRCY=;
-        b=Bs1lVn/Fv7HQ1gsS939rabvK+bgf5OnBx3+M7rkEyVztWkpe3oLTsa8T3TpZ6VCOil
-         FuB2/gbtM56yMReJ5wFMl/eXIAK1Vx5BOp+s8bekj51rQ47Dgv4UOa8M8/pgCG/wCdpG
-         ndNqRM2AFGTW82VnxFJdle/ZOI8IF+k6V6D10=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6aJ7JLNwP8uQqbzACgqcuvU9N5foWZsWndyEyLlqRCY=;
-        b=SZ3POPOWIkRHzB51mhr2C4JfNasOpZh+PdqSMAselfEOxWmYlwdhM5PP1nGc0UIcMO
-         b+2JtcKCwQ8MbtMd2pW2lgPhQaNXr1ATgEr75nJ4Bv0jXl5KSvVv8M1qhjVzMuqt+mtH
-         Ns6XHJoJWeKd/KptjdhMIg1r1RRc+jagyBGSyoHeJ8mmFUW0/kjixuDr1pK8Te36iI9Q
-         7PdpFoRETg/NJsTgVrdPELFpbayE63L1PU7XyFimFxnuYTncFz4QtPJ2k9ATWZdS6k1L
-         s4nAf1JZsJztDsBswCTQIYxtyf5GPyrayu9jEnIZVHvfiEsDbU3bgeQc1jDU05l9EhaR
-         EBXQ==
-X-Gm-Message-State: AOAM532H2Kauh0p0gTMzIEVPSfNuQ9xED9JfjbT6Nf/AUTSd8WMbM7+N
-        Nk0j5tbavguzn+MhRS3cmK6Suz1E7r9QvQ==
-X-Google-Smtp-Source: ABdhPJwOBS6gLAir5YiqfwquEzdYiJNHy2/7EvRxvQihcYdlmAnM0aZCOKZBzwx6p8yaMTDVHdAErQ==
-X-Received: by 2002:a17:907:2648:: with SMTP id ar8mr8663977ejc.67.1623986506872;
-        Thu, 17 Jun 2021 20:21:46 -0700 (PDT)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com. [209.85.221.52])
-        by smtp.gmail.com with ESMTPSA id og26sm425893ejc.52.2021.06.17.20.21.45
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jun 2021 20:21:46 -0700 (PDT)
-Received: by mail-wr1-f52.google.com with SMTP id f2so8978961wri.11
-        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 20:21:45 -0700 (PDT)
-X-Received: by 2002:a5d:4f08:: with SMTP id c8mr9725940wru.197.1623986505267;
- Thu, 17 Jun 2021 20:21:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210427131344.139443-1-senozhatsky@chromium.org>
- <20210427131344.139443-9-senozhatsky@chromium.org> <10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl>
- <YMsAIVs7G2hUDR2F@google.com> <20210617080107.GA1422@lst.de>
- <CAAFQd5DiPstn-s+yQM3iMd=G9oaag39qCyX483a7-Jrn=gxWCA@mail.gmail.com>
- <20210617085233.GA4702@lst.de> <CAAFQd5DqK2gSTGjfo-vahXwMzzO9gv26cY=vV6urn3viDLPE7g@mail.gmail.com>
- <20210617100656.GA11107@lst.de>
-In-Reply-To: <20210617100656.GA11107@lst.de>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 18 Jun 2021 12:21:33 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CgLDkJ3t1aU2PRcGu6cGFjLXOnvMqDg62Z7Zuc8ABVHg@mail.gmail.com>
-Message-ID: <CAAFQd5CgLDkJ3t1aU2PRcGu6cGFjLXOnvMqDg62Z7Zuc8ABVHg@mail.gmail.com>
-Subject: Re: [PATCHv2 8/8] videobuf2: handle non-contiguous DMA allocations
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 17 Jun 2021 23:42:30 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id u5MglsWklhg8Zu5MilVCfS; Fri, 18 Jun 2021 05:40:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1623987620; bh=5taosls8YLpyTuhkNX8EbJVAj61chqpdPvxxjLW0toA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=UyR9S8jZcS3XejLcBzxM6NfKKXlYKQmNSozo75Qkw4j/ARPKwut+RXdU+WYQaQLA1
+         FO80pc8CTw86pUG6ENWbuIWA4CZPZOTxoBsslyewtr83Fb3/mE0Qd4hNpe3MDJtx5Y
+         Oo5Y3YPtDJhkLgaF5LRFb30YvHhT2xhjO7pcN2BAilvVoN200mJEfS+2Me10oiw+Da
+         ED01KJNz6ZkXCj/K54Wd7ssbe/fekav56tPu9s6+eY3a2u8QnEfHw+VgNz5WQXRsiu
+         rbZV+leS5pQtZdyyCSSzQcYl7qv12AAF9w5uJ9rM3Wjo6XYmO6riGD/A2T2zWjJZFP
+         7LO3Q1+AOe9wA==
+Message-ID: <5510a54ce6b3cb0781d57fb99e637cce@smtp-cloud9.xs4all.net>
+Date:   Fri, 18 Jun 2021 05:40:17 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfFTQkZM5GpTUSgtWp1mbpOqVsBGi8II18H7UVbpRlaN7OrC3zBwexRIMhTfukriqhOVG+uF73hODQsPLlfLiQIekxIh13xObo+9Q/4YktI+vN8LUUcJZ
+ 5oVnfm6ag05/SCEJfvEduSWV3JXWTSMRdNYinhPpdWvIJIZ6SwA62N+spzAfBrVCarktRkRx3reltBBC3qcbmTajYna+/KAg6l0cAAGicEB3CAPSfBb5ILu1
+ LHODQ65RdqfEIY+j1a/GgA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 17, 2021 at 7:07 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Thu, Jun 17, 2021 at 06:40:58PM +0900, Tomasz Figa wrote:
-> > Sorry, I meant dma_alloc_attrs() and yes, it's indeed a misnomer. Our
-> > use case basically has no need for the additional coherent mapping, so
-> > creation of it can be skipped to save some vmalloc space. (Yes, it
-> > probably only matters for 32-bit architectures.)
->
-> Yes, that is the normal use case, and it is solved by using
-> dma_alloc_noncoherent or dma_alloc_noncontigous without the vmap
-> step.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-True, silly me. Probably not enough coffee at the time I was looking at it.
+Results of the daily build of media_tree:
 
-With that, wouldn't it be possible to completely get rid of
-dma_alloc_{coherent,attrs}() and use dma_alloc_noncontiguous() +
-optional kernel and/or userspace mapping helper everywhere? (Possibly
-renaming it to something as simple as dma_alloc().
+date:			Fri Jun 18 05:00:09 CEST 2021
+media-tree git hash:	4c6e0976295add7f0ed94d276c04a3d6f1ea8f83
+media_build git hash:	8dab03da8769cd94afc5df1fe14c67400dc2f16e
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7481-g7f50411af
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: OK
+linux-4.4.258-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.258-i686: OK
+linux-4.9.258-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.222-i686: OK
+linux-4.14.222-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.177-i686: OK
+linux-4.19.177-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13-rc1-i686: OK
+linux-5.13-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 1
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
