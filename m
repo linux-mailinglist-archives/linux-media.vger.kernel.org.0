@@ -2,80 +2,299 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 658BA3AD2FB
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 21:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C06A43AD457
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 23:19:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234101AbhFRTkk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 15:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59034 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229816AbhFRTkj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Jun 2021 15:40:39 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27F1CC061574;
-        Fri, 18 Jun 2021 12:38:30 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 5F2001F44CE8
-Message-ID: <fbf31c292fde2f7dafb1441fc85a1ead34fdf96d.camel@collabora.com>
-Subject: Re: [PATCH v3 4/8] media: Add P010 video format
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        hverkuil@xs4all.nl, p.zabel@pengutronix.de, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk,
-        jernej.skrabec@gmail.com, nicolas@ndufresne.ca
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date:   Fri, 18 Jun 2021 16:38:17 -0300
-In-Reply-To: <20210618131526.566762-5-benjamin.gaignard@collabora.com>
-References: <20210618131526.566762-1-benjamin.gaignard@collabora.com>
-         <20210618131526.566762-5-benjamin.gaignard@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        id S234575AbhFRVVO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 17:21:14 -0400
+Received: from gofer.mess.org ([88.97.38.141]:48153 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234573AbhFRVVO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Jun 2021 17:21:14 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 23212C63A4; Fri, 18 Jun 2021 22:19:02 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1624051142; bh=nxLvW2uVuKcj6tAMeyaEHzn3cSJJ0y42IeiMmYjEYks=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HvYKOcCWri/2d3c+zXq3tbNB6I9AK/YYNqPrqA5+hJxEY22FNpGc8394+rCl7FI5j
+         GZHxK9FGyTchHFDtenkYlMFsY6Dbu4gtQIFfcctOMuIzyMjzLS54WWQRa6M2wXyyYo
+         r0EdVWAaQMDibeR+sFTT1EipEEtARVpsNzzA0XrZ/dPUgcvKRz+yvwt7Nke4aSrIRp
+         BsLbyZPkQ33fdvb4ZYNcUcFcYjhAAFMqtsMnPd2XEWAtkgZ8ffDKw3wmZ7frgAMJit
+         dI0pmmfzFN7ine7ts2TwQ8XKzd3RcWoWep7r86ti9XnUTYyh5NJraihuGJuEq3ETAS
+         6ZEoQgFJ4BCxw==
+Date:   Fri, 18 Jun 2021 22:19:01 +0100
+From:   Sean Young <sean@mess.org>
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     kernel test robot <lkp@intel.com>, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>,
+        Oliver Neukum <oneukum@suse.com>, kbuild-all@lists.01.org,
+        clang-built-linux@googlegroups.com
+Subject: Re: [PATCH v4 1/2] media: rc: new driver for USB-UIRT device
+Message-ID: <20210618211901.GA2220@gofer.mess.org>
+References: <8e380fbe6853bfebd067cdeba2e65e83a3df2922.1623318855.git.sean@mess.org>
+ <202106180629.J4nRNiax-lkp@intel.com>
+ <20210618084450.GA26388@gofer.mess.org>
+ <63f389df-e128-6438-97b4-0b66b30e7028@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <63f389df-e128-6438-97b4-0b66b30e7028@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+On Fri, Jun 18, 2021 at 10:04:58AM -0700, Nathan Chancellor wrote:
+> On 6/18/2021 1:44 AM, Sean Young wrote:
+> > On Fri, Jun 18, 2021 at 06:18:06AM +0800, kernel test robot wrote:
+> > > Hi Sean,
+> > > 
+> > > I love your patch! Perhaps something to improve:
+> > > 
+> > > [auto build test WARNING on linuxtv-media/master]
+> > > [also build test WARNING on usb-serial/usb-next usb/usb-testing peter.chen-usb/for-usb-next v5.13-rc6 next-20210617]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch]
+> > > 
+> > > url:    https://github.com/0day-ci/linux/commits/Sean-Young/IR-driver-for-USB-UIRT-device/20210616-182135
+> > > base:   git://linuxtv.org/media_tree.git master
+> > > config: powerpc64-randconfig-r012-20210617 (attached as .config)
+> > > compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 64720f57bea6a6bf033feef4a5751ab9c0c3b401)
+> > > reproduce (this is a W=1 build):
+> > >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> > >          chmod +x ~/bin/make.cross
+> > >          # install powerpc64 cross compiling tool for clang build
+> > >          # apt-get install binutils-powerpc64-linux-gnu
+> > >          # https://github.com/0day-ci/linux/commit/17d3a0332baecb0359e05e8ae755478c7a1a4468
+> > >          git remote add linux-review https://github.com/0day-ci/linux
+> > >          git fetch --no-tags linux-review Sean-Young/IR-driver-for-USB-UIRT-device/20210616-182135
+> > >          git checkout 17d3a0332baecb0359e05e8ae755478c7a1a4468
+> > >          # save the attached .config to linux build tree
+> > >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=powerpc64
+> > > 
+> > > If you fix the issue, kindly add following tag as appropriate
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > >     In file included from drivers/media/rc/uirt.c:11:
+> > >     In file included from include/linux/completion.h:12:
+> > >     In file included from include/linux/swait.h:5:
+> > >     In file included from include/linux/list.h:9:
+> > >     In file included from include/linux/kernel.h:12:
+> > >     In file included from include/linux/bitops.h:32:
+> > >     In file included from arch/powerpc/include/asm/bitops.h:62:
+> > >     arch/powerpc/include/asm/barrier.h:49:9: warning: '__lwsync' macro redefined [-Wmacro-redefined]
+> > >     #define __lwsync()      __asm__ __volatile__ (stringify_in_c(LWSYNC) : : :"memory")
+> > >             ^
+> > >     <built-in>:310:9: note: previous definition is here
+> > >     #define __lwsync __builtin_ppc_lwsync
+> > >             ^
+> > > > > drivers/media/rc/uirt.c:639:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+> > >             if (!urb)
+> > >                 ^~~~
+> > >     drivers/media/rc/uirt.c:705:9: note: uninitialized use occurs here
+> > >             return err;
+> > 
+> > This is interesting. clang is right here, there are error paths where err is
+> > not initialized. gcc-11.1 does not pick this up for some reason. The error path
+> > should be an immediate dominator so it shouldn't be complicated to detect.
+> 
+> The reason GCC does not warn about this is due to commit 78a5255ffb6a ("Stop
+> the ad-hoc games with -Wno-maybe-initialized"), which disables the GCC
+> version of this warning except with W=2, which very few people use. You
+> could use 'KCFLAGS=-Wmaybe-uninitialized' to try and see the same warning.
 
-On Fri, 2021-06-18 at 15:15 +0200, Benjamin Gaignard wrote:
-> P010 is a YUV format with 10-bits per pixel with interleaved UV.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> version 2:
->  - Add documentation about P010 padding
->  - Fix the number of bits per component (16)
-> 
->  .../media/v4l/pixfmt-yuv-planar.rst           | 78 ++++++++++++++++++-
->  drivers/media/v4l2-core/v4l2-common.c         |  1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->  include/uapi/linux/videodev2.h                |  1 +
->  4 files changed, 79 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> index 090c091affd2..af400d37c8fd 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> @@ -100,8 +100,13 @@ All components are stored with the same number of bits per component.
->        - Cb, Cr
->        - No
->        - 64x32 macroblocks
-> -
-> -        Horizontal Z order
-> +    * - V4L2_PIX_FMT_P010
+You're right, this is exactly the issue here.  When running with W=2 or
+KCFLAGS=-Wmaybe-uninitialized you do get the warning.
 
-Do we have support in GStreamer (or elsewhere) for this?
+There are paths where err are initialized, so gcc correctly says:
+
+warning: ‘err’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+
 
 Thanks,
-Ezequiel
 
+Sean
+
+> 
+> Cheers,
+> Nathan
+> 
+> > I'll send out a v5 with this issue fixed.
+> > 
+> > Sean
+> > 
+> > >                    ^~~
+> > >     drivers/media/rc/uirt.c:639:2: note: remove the 'if' if its condition is always false
+> > >             if (!urb)
+> > >             ^~~~~~~~~
+> > >     drivers/media/rc/uirt.c:630:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+> > >             if (!urb)
+> > >                 ^~~~
+> > >     drivers/media/rc/uirt.c:705:9: note: uninitialized use occurs here
+> > >             return err;
+> > >                    ^~~
+> > >     drivers/media/rc/uirt.c:630:2: note: remove the 'if' if its condition is always false
+> > >             if (!urb)
+> > >             ^~~~~~~~~
+> > >     drivers/media/rc/uirt.c:626:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+> > >             if (!rc)
+> > >                 ^~~
+> > >     drivers/media/rc/uirt.c:705:9: note: uninitialized use occurs here
+> > >             return err;
+> > >                    ^~~
+> > >     drivers/media/rc/uirt.c:626:2: note: remove the 'if' if its condition is always false
+> > >             if (!rc)
+> > >             ^~~~~~~~
+> > >     drivers/media/rc/uirt.c:622:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+> > >             if (!uirt->out)
+> > >                 ^~~~~~~~~~
+> > >     drivers/media/rc/uirt.c:705:9: note: uninitialized use occurs here
+> > >             return err;
+> > >                    ^~~
+> > >     drivers/media/rc/uirt.c:622:2: note: remove the 'if' if its condition is always false
+> > >             if (!uirt->out)
+> > >             ^~~~~~~~~~~~~~~
+> > >     drivers/media/rc/uirt.c:618:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+> > >             if (!uirt->in)
+> > >                 ^~~~~~~~~
+> > >     drivers/media/rc/uirt.c:705:9: note: uninitialized use occurs here
+> > >             return err;
+> > >                    ^~~
+> > >     drivers/media/rc/uirt.c:618:2: note: remove the 'if' if its condition is always false
+> > >             if (!uirt->in)
+> > >             ^~~~~~~~~~~~~~
+> > >     drivers/media/rc/uirt.c:604:15: note: initialize the variable 'err' to silence this warning
+> > >             int pipe, err;
+> > >                          ^
+> > >                           = 0
+> > >     6 warnings generated.
+> > > 
+> > > 
+> > > vim +639 drivers/media/rc/uirt.c
+> > > 
+> > >     594	
+> > >     595	static int uirt_probe(struct usb_interface *intf,
+> > >     596			      const struct usb_device_id *id)
+> > >     597	{
+> > >     598		struct usb_device *usbdev = interface_to_usbdev(intf);
+> > >     599		struct usb_endpoint_descriptor *ep_in;
+> > >     600		struct usb_endpoint_descriptor *ep_out;
+> > >     601		struct uirt *uirt;
+> > >     602		struct rc_dev *rc;
+> > >     603		struct urb *urb;
+> > >     604		int pipe, err;
+> > >     605	
+> > >     606		if (usb_find_common_endpoints(intf->cur_altsetting, &ep_in, &ep_out, NULL, NULL) ||
+> > >     607		    usb_endpoint_maxp(ep_in) != MAX_PACKET ||
+> > >     608		    usb_endpoint_maxp(ep_out) != MAX_PACKET) {
+> > >     609			dev_err(&intf->dev, "required endpoints not found\n");
+> > >     610			return -ENODEV;
+> > >     611		}
+> > >     612	
+> > >     613		uirt = kzalloc(sizeof(*uirt), GFP_KERNEL);
+> > >     614		if (!uirt)
+> > >     615			return -ENOMEM;
+> > >     616	
+> > >     617		uirt->in = kmalloc(MAX_PACKET, GFP_KERNEL);
+> > >     618		if (!uirt->in)
+> > >     619			goto free_uirt;
+> > >     620	
+> > >     621		uirt->out = kmalloc(MAX_PACKET, GFP_KERNEL);
+> > >     622		if (!uirt->out)
+> > >     623			goto free_uirt;
+> > >     624	
+> > >     625		rc = rc_allocate_device(RC_DRIVER_IR_RAW);
+> > >     626		if (!rc)
+> > >     627			goto free_uirt;
+> > >     628	
+> > >     629		urb = usb_alloc_urb(0, GFP_KERNEL);
+> > >     630		if (!urb)
+> > >     631			goto free_rcdev;
+> > >     632	
+> > >     633		pipe = usb_rcvbulkpipe(usbdev, ep_in->bEndpointAddress);
+> > >     634		usb_fill_bulk_urb(urb, usbdev, pipe, uirt->in, MAX_PACKET,
+> > >     635				  uirt_in_callback, uirt);
+> > >     636		uirt->urb_in = urb;
+> > >     637	
+> > >     638		urb = usb_alloc_urb(0, GFP_KERNEL);
+> > >   > 639		if (!urb)
+> > >     640			goto free_rcdev;
+> > >     641	
+> > >     642		pipe = usb_sndbulkpipe(usbdev, ep_out->bEndpointAddress);
+> > >     643		usb_fill_bulk_urb(urb, usbdev, pipe, uirt->out, MAX_PACKET,
+> > >     644				  uirt_out_callback, uirt);
+> > >     645	
+> > >     646		uirt->dev = &intf->dev;
+> > >     647		uirt->usbdev = usbdev;
+> > >     648		uirt->rc = rc;
+> > >     649		uirt->urb_out = urb;
+> > >     650		uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
+> > >     651	
+> > >     652		err = usb_submit_urb(uirt->urb_in, GFP_KERNEL);
+> > >     653		if (err != 0) {
+> > >     654			dev_err(uirt->dev, "failed to submit read urb: %d\n", err);
+> > >     655			goto free_rcdev;
+> > >     656		}
+> > >     657	
+> > >     658		err = init_ftdi(usbdev);
+> > >     659		if (err) {
+> > >     660			dev_err(uirt->dev, "failed to setup ftdi: %d\n", err);
+> > >     661			goto kill_urbs;
+> > >     662		}
+> > >     663	
+> > >     664		err = uirt_setup(uirt);
+> > >     665		if (err)
+> > >     666			goto kill_urbs;
+> > >     667	
+> > >     668		usb_make_path(usbdev, uirt->phys, sizeof(uirt->phys));
+> > >     669	
+> > >     670		rc->device_name = "USB-UIRT";
+> > >     671		rc->driver_name = KBUILD_MODNAME;
+> > >     672		rc->input_phys = uirt->phys;
+> > >     673		usb_to_input_id(usbdev, &rc->input_id);
+> > >     674		rc->dev.parent = &intf->dev;
+> > >     675		rc->priv = uirt;
+> > >     676		rc->tx_ir = uirt_tx;
+> > >     677		rc->s_tx_carrier = uirt_set_tx_carrier;
+> > >     678		rc->s_learning_mode = uirt_set_rx_wideband;
+> > >     679		rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
+> > >     680		rc->map_name = RC_MAP_RC6_MCE;
+> > >     681		rc->rx_resolution = UNIT_US;
+> > >     682		rc->timeout = IR_TIMEOUT;
+> > >     683	
+> > >     684		uirt_set_tx_carrier(rc, 38000);
+> > >     685	
+> > >     686		err = rc_register_device(rc);
+> > >     687		if (err)
+> > >     688			goto kill_urbs;
+> > >     689	
+> > >     690		usb_set_intfdata(intf, uirt);
+> > >     691	
+> > >     692		return 0;
+> > >     693	
+> > >     694	kill_urbs:
+> > >     695		usb_kill_urb(uirt->urb_in);
+> > >     696		usb_kill_urb(uirt->urb_out);
+> > >     697	free_rcdev:
+> > >     698		usb_free_urb(uirt->urb_in);
+> > >     699		usb_free_urb(uirt->urb_out);
+> > >     700		rc_free_device(rc);
+> > >     701	free_uirt:
+> > >     702		kfree(uirt->in);
+> > >     703		kfree(uirt->out);
+> > >     704		kfree(uirt);
+> > >     705		return err;
+> > >     706	}
+> > >     707	
+> > > 
+> > > ---
+> > > 0-DAY CI Kernel Test Service, Intel Corporation
+> > > https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> > 
+> > 
