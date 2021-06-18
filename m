@@ -2,168 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 953083AC83E
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 11:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F00D3AC8A5
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 12:18:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233335AbhFRKBC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 06:01:02 -0400
-Received: from comms.puri.sm ([159.203.221.185]:44542 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233139AbhFRKBB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Jun 2021 06:01:01 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id C4965E0172;
-        Fri, 18 Jun 2021 02:58:22 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 03nuqBqAsycZ; Fri, 18 Jun 2021 02:58:22 -0700 (PDT)
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     martin.kepplinger@puri.sm, laurent.pinchart@ideasonboard.com,
-        m.felsch@pengutronix.de, robh@kernel.org
-Cc:     devicetree@vger.kernel.org, festevam@gmail.com,
-        kernel@pengutronix.de, kernel@puri.sm, krzk@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mchehab@kernel.org,
-        phone-devel@vger.kernel.org, shawnguo@kernel.org,
-        slongerbeam@gmail.com
-Subject: [PATCH v5 3/3] arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
-Date:   Fri, 18 Jun 2021 11:57:53 +0200
-Message-Id: <20210618095753.114557-4-martin.kepplinger@puri.sm>
-In-Reply-To: <20210618095753.114557-1-martin.kepplinger@puri.sm>
-References: <20210618095753.114557-1-martin.kepplinger@puri.sm>
+        id S233003AbhFRKVA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 06:21:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231465AbhFRKVA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Jun 2021 06:21:00 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19B70C061574;
+        Fri, 18 Jun 2021 03:18:50 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id BE411C63DD; Fri, 18 Jun 2021 11:18:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1624011527; bh=3CYkxaPrtSAsMP1hfgeEp4xBfJ40V95crN5G3qJ8grE=;
+        h=From:To:Subject:Date:From;
+        b=YoXvJ1hm8jj2hXXmc8Kvn/GB7H02dj8x75GldwDPJt+ll4srfvvSgExYZp/0sOpD4
+         u3FZWFtIOPnSQNZx03+cI9pS/fM32jPHiZvG1AMRk89SXEULWq1plyY/iwa4AiA7pW
+         m1T1fQJN1q6CDgd1ICTW0LXy2ka7jtNBHUT0XFaVlNeg5SIWp9osTPA2ddObQ5oRjk
+         RvNfQh9cNFs8ppG2PeKyFEAWpYGy0nZ0QifkEgz4z9XpodIdbKxPBNXyPp/0s8bRUv
+         rA4Ip0dEWm0hR7hikq9WE36nu6gJOlq9s/kUQ/Whl4u+dH9oIw9z5/TQ+q+Z7KRsLH
+         Ot0nnUBD7vUTg==
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH v5 0/2] IR driver for USB-UIRT device
+Date:   Fri, 18 Jun 2021 11:18:45 +0100
+Message-Id: <cover.1624006513.git.sean@mess.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Describe the 2 available CSI interfaces on the i.MX8MQ with the MIPI-CSI2
-receiver (new driver) and the CSI Bridge that provides the user buffers
-(existing driver).
+This is a new rc-core driver for the USB-UIRT which you can see here
+http://www.usbuirt.com/
 
-An image sensor is to be connected to the MIPIs' second port, to be described
-in board files.
+This device is supported in lirc, via the usb serial kernel driver. This
+driver is both for rc-core, which means it can use kernel/BPF decoding
+ec. Also this implement is superior because it can:
+ - support learning mode
+ - setting transmit carrier
+ - larger transmits using streaming tx command
+ - Much better latency since it is a kernel driver
 
-Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
----
- arch/arm64/boot/dts/freescale/imx8mq.dtsi | 104 ++++++++++++++++++++++
- 1 file changed, 104 insertions(+)
+Changes since v4:
+ - Fixed clang warning/uninitialized variable usage
+ - Some cosmetic changes
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 91df9c5350ae..e026a39bddce 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -1099,6 +1099,110 @@ uart4: serial@30a60000 {
- 				status = "disabled";
- 			};
- 
-+			mipi_csi1: csi@30a70000 {
-+				compatible = "fsl,imx8mq-mipi-csi2";
-+				reg = <0x30a70000 0x1000>;
-+				clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+				   <&clk IMX8MQ_CLK_CSI1_ESC>,
-+				   <&clk IMX8MQ_CLK_CSI1_PHY_REF>;
-+				clock-names = "core", "esc", "ui";
-+				assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+				    <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-+				    <&clk IMX8MQ_CLK_CSI1_ESC>;
-+				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
-+				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-+					<&clk IMX8MQ_SYS2_PLL_1000M>,
-+					<&clk IMX8MQ_SYS1_PLL_800M>;
-+				power-domains = <&pgc_mipi_csi1>;
-+				resets = <&src IMX8MQ_RESET_MIPI_CSI1_CORE_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI1_PHY_REF_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI1_ESC_RESET>;
-+				fsl,mipi-phy-gpr = <&iomuxc_gpr 0x88>;
-+				interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
-+				interconnect-names = "dram";
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						csi1_mipi_ep: endpoint {
-+							remote-endpoint = <&csi1_ep>;
-+						};
-+					};
-+				};
-+			};
-+
-+			csi1: csi@30a90000 {
-+				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-+				reg = <0x30a90000 0x10000>;
-+				interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk IMX8MQ_CLK_CSI1_ROOT>;
-+				clock-names = "mclk";
-+				status = "disabled";
-+
-+				port {
-+					csi1_ep: endpoint {
-+						remote-endpoint = <&csi1_mipi_ep>;
-+					};
-+				};
-+			};
-+
-+			mipi_csi2: csi@30b60000 {
-+				compatible = "fsl,imx8mq-mipi-csi2";
-+				reg = <0x30b60000 0x1000>;
-+				clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
-+				   <&clk IMX8MQ_CLK_CSI2_ESC>,
-+				   <&clk IMX8MQ_CLK_CSI2_PHY_REF>;
-+				clock-names = "core", "esc", "ui";
-+				assigned-clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
-+				    <&clk IMX8MQ_CLK_CSI2_PHY_REF>,
-+				    <&clk IMX8MQ_CLK_CSI2_ESC>;
-+				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
-+				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-+					<&clk IMX8MQ_SYS2_PLL_1000M>,
-+					<&clk IMX8MQ_SYS1_PLL_800M>;
-+				power-domains = <&pgc_mipi_csi2>;
-+				resets = <&src IMX8MQ_RESET_MIPI_CSI2_CORE_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI2_PHY_REF_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI2_ESC_RESET>;
-+				fsl,mipi-phy-gpr = <&iomuxc_gpr 0xa4>;
-+				interconnects = <&noc IMX8MQ_ICM_CSI2 &noc IMX8MQ_ICS_DRAM>;
-+				interconnect-names = "dram";
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						csi2_mipi_ep: endpoint {
-+							remote-endpoint = <&csi2_ep>;
-+						};
-+					};
-+				};
-+			};
-+
-+			csi2: csi@30b80000 {
-+				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-+				reg = <0x30b80000 0x10000>;
-+				interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk IMX8MQ_CLK_CSI2_ROOT>;
-+				clock-names = "mclk";
-+				status = "disabled";
-+
-+				port {
-+					csi2_ep: endpoint {
-+						remote-endpoint = <&csi2_mipi_ep>;
-+					};
-+				};
-+			};
-+
- 			mu: mailbox@30aa0000 {
- 				compatible = "fsl,imx8mq-mu", "fsl,imx6sx-mu";
- 				reg = <0x30aa0000 0x10000>;
+Changes since v3:
+ - Review comments from Johan Hovold
+ - Do not move the ftdi_sio.h file an copy FTDI_* definitions instead
+
+Changes since v2:
+ - Fixed race condition is disconnect
+ - Removed superfluous kmalloc in short tx
+
+Changes since v1:
+ - Review comments from Oliver Neukum
+ - Simplified wideband read function
+
+Sean Young (2):
+  media: rc: new driver for USB-UIRT device
+  USB: serial: blacklist USB-UIRT when driver is selected
+
+ drivers/media/rc/Kconfig      |  11 +
+ drivers/media/rc/Makefile     |   1 +
+ drivers/media/rc/uirt.c       | 744 ++++++++++++++++++++++++++++++++++
+ drivers/usb/serial/ftdi_sio.c |   6 +-
+ 4 files changed, 760 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/media/rc/uirt.c
+
 -- 
-2.30.2
+2.31.1
 
