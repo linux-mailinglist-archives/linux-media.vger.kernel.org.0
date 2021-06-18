@@ -2,93 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB12E3ACBAD
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 15:03:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E46D3ACBDE
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 15:15:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232439AbhFRNGA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 09:06:00 -0400
-Received: from gloria.sntech.de ([185.11.138.130]:45172 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230441AbhFRNF7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Jun 2021 09:05:59 -0400
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=phil.lan)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1luE8y-0001y0-HC; Fri, 18 Jun 2021 15:02:44 +0200
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     ezequiel@collabora.com, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, Laurent.pinchart@ideasonboard.com,
-        linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-        heiko@sntech.de, robh+dt@kernel.org, devicetree@vger.kernel.org,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Subject: [PATCH v6 10/10] media: rockchip: rkisp1: add support for px30 isp version
-Date:   Fri, 18 Jun 2021 15:02:38 +0200
-Message-Id: <20210618130238.4171196-11-heiko@sntech.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210618130238.4171196-1-heiko@sntech.de>
-References: <20210618130238.4171196-1-heiko@sntech.de>
+        id S229782AbhFRNRs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 09:17:48 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44442 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232895AbhFRNRq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Jun 2021 09:17:46 -0400
+Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:141f:c87a:873e:7b6f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 772591F448CC;
+        Fri, 18 Jun 2021 14:15:34 +0100 (BST)
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     hverkuil@xs4all.nl, ezequiel@collabora.com, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        festevam@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
+        andrzej.p@collabora.com, jc@kynesim.co.uk,
+        jernej.skrabec@gmail.com, nicolas@ndufresne.ca
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 0/8] Additional features for Hantro HEVC
+Date:   Fri, 18 Jun 2021 15:15:18 +0200
+Message-Id: <20210618131526.566762-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+version 3:
+ - Change trace file name to hantro_trace.h
 
-The px30 uses a V12 isp block so add compatible and matchdata
-for it.
+version 2:
+ - Fix structure name in ext-ctrls-codec.rst
+ - Define the value for compression storage size
+ - Add comments about registers usage
+ - Add documentation about P010 padding
 
-Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- .../platform/rockchip/rkisp1/rkisp1-dev.c     | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Basic HEVC support has been added to Hantro driver in this pull request:
+https://www.spinics.net/lists/linux-media/msg193744.html
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index 290e9bc4c060..23ca49289feb 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -405,6 +405,27 @@ static irqreturn_t rkisp1_isr(int irq, void *ctx)
- 	return IRQ_HANDLED;
- }
- 
-+static const char * const px30_isp_clks[] = {
-+	"isp",
-+	"aclk",
-+	"hclk",
-+	"pclk",
-+};
-+
-+static const struct rkisp1_isr_data px30_isp_isrs[] = {
-+	{ "isp", rkisp1_isp_isr },
-+	{ "mi", rkisp1_capture_isr },
-+	{ "mipi", rkisp1_mipi_isr },
-+};
-+
-+static const struct rkisp1_match_data px30_isp_match_data = {
-+	.clks = px30_isp_clks,
-+	.clk_size = ARRAY_SIZE(px30_isp_clks),
-+	.isrs = px30_isp_isrs,
-+	.isr_size = ARRAY_SIZE(px30_isp_isrs),
-+	.isp_ver = RKISP1_V12,
-+};
-+
- static const char * const rk3399_isp_clks[] = {
- 	"isp",
- 	"aclk",
-@@ -424,6 +445,10 @@ static const struct rkisp1_match_data rk3399_isp_match_data = {
- };
- 
- static const struct of_device_id rkisp1_of_match[] = {
-+	{
-+		.compatible = "rockchip,px30-cif-isp",
-+		.data = &px30_isp_match_data,
-+	},
- 	{
- 		.compatible = "rockchip,rk3399-cif-isp",
- 		.data = &rk3399_isp_match_data,
+Thanks to that it is now possible to support more features for this driver.
+
+The first patch allow to log the hardware performance per macroblock.
+The second patch makes the driver use compressed reference frames to
+reduce memory bandwidth consumption.
+Patches 3 to 5 allow to decode and produce 10-bits P010 frames.
+Patch 6 make usage of G2 post processor to scale down the frames.
+Patches 7 and 8 add the support of HEVC scaling matrix by adding a new
+control.
+
+All these patches enhance the HEVC support for Hantro (G2) hardware.
+Unluckily they almost all touch the same pieces of code, where buffer
+size, offset and addresses are set, so they have to be in this order.
+They depend of the series pushed in this pull request:
+https://www.spinics.net/lists/linux-media/msg193744.html
+
+Benjamin
+
+
+Benjamin Gaignard (8):
+  media: hantro: Trace hevc hw cycles performance register
+  media: hantro: Add support of compressed reference buffers
+  media: hantro: hevc: Allow 10-bits encoded streams
+  media: Add P010 video format
+  media: hantro: hevc: Allow to produce 10-bit frames
+  media: hantro: enumerate scaled output formats
+  media: hevc: Add scaling matrix control
+  media: hantro: Add scaling lists feature
+
+ .../media/v4l/ext-ctrls-codec.rst             |  45 +++++
+ .../media/v4l/pixfmt-yuv-planar.rst           |  78 +++++++-
+ .../media/v4l/vidioc-queryctrl.rst            |   6 +
+ drivers/media/v4l2-core/v4l2-common.c         |   1 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |   6 +
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   4 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ drivers/staging/media/hantro/hantro.h         |   4 +
+ drivers/staging/media/hantro/hantro_drv.c     |  32 ++-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 186 ++++++++++++++++--
+ drivers/staging/media/hantro/hantro_g2_regs.h |  12 ++
+ drivers/staging/media/hantro/hantro_hevc.c    |  67 ++++++-
+ drivers/staging/media/hantro/hantro_hw.h      |   7 +
+ drivers/staging/media/hantro/hantro_trace.h   |  39 ++++
+ drivers/staging/media/hantro/hantro_v4l2.c    |  10 +-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |   6 +
+ include/media/hevc-ctrls.h                    |  11 ++
+ include/uapi/linux/videodev2.h                |   1 +
+ 18 files changed, 492 insertions(+), 24 deletions(-)
+ create mode 100644 drivers/staging/media/hantro/hantro_trace.h
+
 -- 
-2.29.2
+2.25.1
 
