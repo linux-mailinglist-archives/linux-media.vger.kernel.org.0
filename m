@@ -2,203 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76FF93ACAF1
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 14:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A85C3ACB5A
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 14:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234463AbhFRMcN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 08:32:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46210 "EHLO
+        id S232711AbhFRMv6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 08:51:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234384AbhFRMb4 (ORCPT
+        with ESMTP id S231585AbhFRMvz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Jun 2021 08:31:56 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 318C6C0613A4
-        for <linux-media@vger.kernel.org>; Fri, 18 Jun 2021 05:29:40 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id dm5so3255096ejc.9
-        for <linux-media@vger.kernel.org>; Fri, 18 Jun 2021 05:29:40 -0700 (PDT)
+        Fri, 18 Jun 2021 08:51:55 -0400
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63415C061574;
+        Fri, 18 Jun 2021 05:49:45 -0700 (PDT)
+Received: by mail-oo1-xc30.google.com with SMTP id x22-20020a4a62160000b0290245cf6b7feeso2419219ooc.13;
+        Fri, 18 Jun 2021 05:49:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=m+hFJNCbeJLA3oJ6JwV/uvjXUtfmTb5JQKee7MXWqMM=;
-        b=Pn2iNfaLXTvxTLKr7AgjS7DzOztYnzoQ+qw+vz1cObxUaUpcqHcnBdYrV1Ghs0mQiU
-         EOO1QrWNNG27I2Dc17mWwrtI2QJpM3iCqN9fvzVXWwczWatGYFga0O/Js1ia6VW/Kl+s
-         RAjSK1h08kwyZADbgcxDlqROI+ZnT6Lv/yJw0=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gYRQQqkflstokbPMQ45EOzFFXs3cNTWmXdnRNdqXloc=;
+        b=EfWWbdEB7R4vC8/JNVZrzmPs2b0Lrk5xFdvgVOkGZNtXPLiBcnD9WGYIogCKJi8RyQ
+         ft70CvqyLzeUFrs5Eq+xMAwhu9Mai+9jh3kUOMYXm+V5rCQ8WGRh6ORbsqTpCtYch6Rg
+         GdJCgPBbFHq3lLDGLp3ejWzlHdyhzpaY7yOfkV0pRri1HqU0I59pSwcu1Pemc9RdF/PF
+         u7SyMC5//oe4mmhUVqRmX/XEeQgFrWTAD4+24xYgLf9/h/mvFhNHlUxcA4DM3vYw3JqH
+         pI24vSWnm9gbcZRoEgtSwZE+LH4KHsnMj5skC5Wg1FN8dXD4SXis/QzT3wIM8AgvuQqp
+         WFCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=m+hFJNCbeJLA3oJ6JwV/uvjXUtfmTb5JQKee7MXWqMM=;
-        b=A1B6st3rQLj09kOFjs95p7vqxjC4KV/2juM/ev5mb3Qt3LzX/pvxYvP64OSS3A5TUw
-         i75sPbdSZviTXT2MTeywBQATmxSiDF6Xl5xXQP3W8M03wP0KHxJuBwmw9JB9iBfLKIkC
-         aM/fBhp7yGQaCSvrm9xpIL5GLbt798f6AIAVRlCup4+cAxr/qG76n5PuLNV5theQOsUZ
-         H4jjXhWbh2Ja6tJAIhf1NlEW/sre6lUh+gCPfi7lNGCRuSAlXBCpX1t8INSVSB5KR8/0
-         vrKqYa9Fu2CSvangNHTXid9VU1Fh67N+qsKZFSQBlbfk1sWyoiE106HQ5Vn1kG6Ijlct
-         tMvg==
-X-Gm-Message-State: AOAM532UOvI+y4KOzf5At6rTYT/s5xpiUN+6z7DmcYpIBD1gnWODCQB1
-        Pg95Qs6g2am800X7dXyRGVQ6YQ==
-X-Google-Smtp-Source: ABdhPJzLu0wAxu7yCNVgFKEy3ChdRdylbBM9W+1dVY78xPgjWS3AiWqgYkOM1M6l3M7odUGMig3p/w==
-X-Received: by 2002:a17:906:5289:: with SMTP id c9mr10823084ejm.342.1624019378767;
-        Fri, 18 Jun 2021 05:29:38 -0700 (PDT)
-Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id o26sm4336403edt.62.2021.06.18.05.29.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jun 2021 05:29:38 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v10 21/21] media: uvcvideo: Return -EACCES to inactive controls
-Date:   Fri, 18 Jun 2021 14:29:23 +0200
-Message-Id: <20210618122923.385938-22-ribalda@chromium.org>
-X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
-In-Reply-To: <20210618122923.385938-1-ribalda@chromium.org>
-References: <20210618122923.385938-1-ribalda@chromium.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gYRQQqkflstokbPMQ45EOzFFXs3cNTWmXdnRNdqXloc=;
+        b=OFxxdEnRuulN0g0pU5FUuugIQZF62v6K0ZTAOasmtTT+ryQidyN3soaxR5IMn5gtjd
+         LD95ctp+Fg/SpTnUAJX1DICPJGjOoQVDAjDlthIZUJSAc+xGcciFnAeXQtbGAdsdhryB
+         dmWChIA539o+YTdmmrzK5vbMchCMQhabPqQG1jFv+qeruzLjyPm+X8SMPFN4aCYd1yqx
+         HXWG1Amepjp0q316dO1AZlNmHMMpm/HEDS/V6q7RigZ7gJ3aTtC/8KChTHuBRvbRLRXj
+         vb8u3VDdZ38NdoCwcq85DKXyOFiWZjM9ibRm/xeOHqZUDdMPKJMw0tjHmoFqPSJ1yrUF
+         yM0A==
+X-Gm-Message-State: AOAM533T+iZJkPRDHtWsN07C8/RcNkae+pEgK2xGRL8oZk2bLA2IokZq
+        xsvvUehDoepJ66yNsIcQHHkqjXNxSTn5OSqE1pU=
+X-Google-Smtp-Source: ABdhPJxsNeYFNOtY5YWE85ME1DVFAJSS5hj3Ki4PDhCvGsj1DvzdeE8fSkfp5o2vm2uyoJbf3MY6e5TjxyQis22ggOc=
+X-Received: by 2002:a4a:b1c2:: with SMTP id j2mr8926777ooo.78.1624020584775;
+ Fri, 18 Jun 2021 05:49:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210522211055.15988-1-mirela.rabulea@oss.nxp.com>
+ <20210522211055.15988-3-mirela.rabulea@oss.nxp.com> <DB9PR04MB8477D8F7DC86E67F74D5D9F780269@DB9PR04MB8477.eurprd04.prod.outlook.com>
+ <e4c174afd7c55c56c68afbe69276b41c3f574964.camel@nxp.com> <CAA+hA=TEi3iZ+nOfff=aN1FrLGb6+OHfx23aWaa1J7YfZRRgtA@mail.gmail.com>
+ <15d5728aeb7895f81f833e7f7e281861c1fcef9a.camel@collabora.com>
+In-Reply-To: <15d5728aeb7895f81f833e7f7e281861c1fcef9a.camel@collabora.com>
+From:   Dong Aisheng <dongas86@gmail.com>
+Date:   Fri, 18 Jun 2021 20:47:57 +0800
+Message-ID: <CAA+hA=RB_va3TRhjFBSofVqDEpj_LxLfUM84ead5D2LLZ3KRwA@mail.gmail.com>
+Subject: Re: [PATCH v13 2/2] arm64: dts: imx: Add jpeg encoder/decoder nodes
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Mirela Rabulea <mirela.rabulea@nxp.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        "G.n. Zhou" <guoniu.zhou@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Robert Chiras <robert.chiras@nxp.com>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        Peng Fan <peng.fan@nxp.com>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If a control is inactive return -EACCES to let the userspace know that
-the value will not be applied automatically when the control is active
-again.
+On Fri, Jun 11, 2021 at 11:01 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+>
+> On Fri, 2021-06-11 at 21:33 +0800, Dong Aisheng wrote:
+> > [...]
+> >
+> > > > > +img_subsys: bus@58000000 {
+> > > > > +   compatible = "simple-bus";
+> > > > > +   #address-cells = <1>;
+> > > > > +   #size-cells = <1>;
+> > > > > +   ranges = <0x58000000 0x0 0x58000000 0x1000000>;
+> > > > > +
+> > > > > +   img_ipg_clk: clock-img-ipg {
+> > > > > +           compatible = "fixed-clock";
+> > > > > +           #clock-cells = <0>;
+> > > > > +           clock-frequency = <200000000>;
+> > > > > +           clock-output-names = "img_ipg_clk";
+> > > > > +   };
+> > > > > +
+> > > > > +   jpegdec: jpegdec@58400000 {
+> > > >
+> > > > Node should be disabled by default.
+> > > > And enable it in board dts including LPCG.
+> > >
+> > > At version v5 of this patch, the node was disabled by default, and I
+> > > received this feedback from Ezequiel Garcia:
+> > >
+> > > "Pure memory-to-memory are typically not enabled per-board, but just
+> > > per-platform.
+> > > So you can drop the disabled status here."
+> > >
+> > > So, in v6 I made it enabled by default.
+> > >
+> > > Any strong reasons for enabled/disabled per platform?
+> >
+> > AFAIK we usually only enable system basic features and let other
+> > user selectable features disabled by default in dts.
+> > Even for device LPCG clocks, if it's enabled by default and later
+> > enter runtime suspend if no users, it still consumes power.
+> >
+>
+> Well-written drivers shouldn't draw any power if not used.
+>
 
-Also make sure that query_v4l2_ctrl doesn't return an error.
+LPCG won't draw power when not used. But the power domain used by LPCG
+will still draw power when enter idle state.
 
-Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_ctrl.c | 73 +++++++++++++++++++++-----------
- 1 file changed, 49 insertions(+), 24 deletions(-)
+> And DT is about hardware-description, not about usage-description.
+> Which means, at the soc.dtsi level you disable devices that need
+> some board-level hardware thing to be enabled (e.g. a physical
+> connected, a regulator, etc.).
+> A pure memory-to-memory should be enabled by default, because
+> in practice you can't predict what the users a board will want
+> to use, nor the DT is the place for that.
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index da44d5c0b9ad..4f80c06d3c43 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1104,13 +1104,36 @@ static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
- 	return "Unknown Control";
- }
- 
-+static bool uvc_ctrl_is_inactive(struct uvc_video_chain *chain,
-+				 struct uvc_control *ctrl,
-+				 struct uvc_control_mapping *mapping)
-+{
-+	struct uvc_control_mapping *master_map = NULL;
-+	struct uvc_control *master_ctrl = NULL;
-+	s32 val;
-+	int ret;
-+
-+	if (!mapping->master_id)
-+		return false;
-+
-+	__uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
-+			   &master_ctrl, 0);
-+
-+	if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
-+		return false;
-+
-+	ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-+	if (ret < 0 || val == mapping->master_manual)
-+		return false;
-+
-+	return true;
-+}
-+
- static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 	struct uvc_control *ctrl,
- 	struct uvc_control_mapping *mapping,
- 	struct v4l2_queryctrl *v4l2_ctrl)
- {
--	struct uvc_control_mapping *master_map = NULL;
--	struct uvc_control *master_ctrl = NULL;
- 	const struct uvc_menu_info *menu;
- 	unsigned int i;
- 
-@@ -1126,18 +1149,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
- 		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
--	if (mapping->master_id)
--		__uvc_find_control(ctrl->entity, mapping->master_id,
--				   &master_map, &master_ctrl, 0);
--	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
--		s32 val;
--		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
--		if (ret < 0)
--			return ret;
--
--		if (val != mapping->master_manual)
--				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
--	}
-+	if (uvc_ctrl_is_inactive(chain, ctrl, mapping))
-+		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
- 
- 	if (!ctrl->cached) {
- 		int ret = uvc_ctrl_populate_cache(chain, ctrl);
-@@ -1660,25 +1673,37 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
- 	return 0;
- }
- 
--static int uvc_ctrl_find_ctrl_idx(struct uvc_entity *entity,
--				  struct v4l2_ext_controls *ctrls,
--				  struct uvc_control *uvc_control)
-+static int uvc_ctrl_commit_error(struct uvc_video_chain *chain,
-+				 struct uvc_entity *entity,
-+				 struct v4l2_ext_controls *ctrls,
-+				 struct uvc_control *err_control,
-+				 int ret)
- {
- 	struct uvc_control_mapping *mapping;
- 	struct uvc_control *ctrl_found;
- 	unsigned int i;
- 
--	if (!entity)
--		return ctrls->count;
-+	if (!entity) {
-+		ctrls->error_idx = ctrls->count;
-+		return ret;
-+	}
- 
- 	for (i = 0; i < ctrls->count; i++) {
- 		__uvc_find_control(entity, ctrls->controls[i].id, &mapping,
- 				   &ctrl_found, 0);
--		if (uvc_control == ctrl_found)
--			return i;
-+		if (err_control == ctrl_found)
-+			break;
- 	}
-+	ctrls->error_idx = i;
-+
-+	/* We could not find the control that failed. */
-+	if (i == ctrls->count)
-+		return ret;
-+
-+	if (uvc_ctrl_is_inactive(chain, err_control, mapping))
-+		return -EACCES;
- 
--	return ctrls->count;
-+	return ret;
- }
- 
- int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
-@@ -1701,8 +1726,8 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
- 		uvc_ctrl_send_events(handle, ctrls->controls, ctrls->count);
- done:
- 	if (ret < 0 && ctrls)
--		ctrls->error_idx = uvc_ctrl_find_ctrl_idx(entity, ctrls,
--							  err_ctrl);
-+		ret = uvc_ctrl_commit_error(chain, entity, ctrls, err_ctrl,
-+					    ret);
- 	mutex_unlock(&chain->ctrl_mutex);
- 	return ret;
- }
--- 
-2.32.0.288.g62a8d224e6-goog
+It makes sense to me. Thanks
 
+Mirela,
+Please follow up with Ezequiel's suggestion.
+For LPCGS used by jpeg, you can keep it enabled by default.
+
+Regards
+Aisheng
+
+>
+> Sticking to hardware description is the best way to get DT right :-)
+>
+> Cheers,
+> Ezequiel
+>
