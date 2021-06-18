@@ -2,102 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E63A3AC913
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 12:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9A183AC9EE
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 13:31:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231332AbhFRKqK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 06:46:10 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:57317 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbhFRKqJ (ORCPT
+        id S234055AbhFRLdy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 07:33:54 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48455 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232631AbhFRLdy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Jun 2021 06:46:09 -0400
-Received: from mail-wr1-f53.google.com ([209.85.221.53]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1My2pz-1l5N0i0iPX-00zUJZ for <linux-media@vger.kernel.org>; Fri, 18 Jun 2021
- 12:43:59 +0200
-Received: by mail-wr1-f53.google.com with SMTP id n7so10265124wri.3
-        for <linux-media@vger.kernel.org>; Fri, 18 Jun 2021 03:43:59 -0700 (PDT)
-X-Gm-Message-State: AOAM5319dIgBvz959zj9d9b3pConraGJ/VvOJwuHSb/Lww1/S789ykb3
-        hMi4U/BT9OqO/66hYub2+oLGmf6FjYH3HLL7WJM=
-X-Google-Smtp-Source: ABdhPJxuIGvy/nU7wg43kUKtzqP2fk265GUpWk9ZleA5Ax62vdKFIOlaBPQhILUBmmsHRrYIc3expMog+CE0qQgzpwk=
-X-Received: by 2002:a5d:4e12:: with SMTP id p18mr12123850wrt.105.1624013038834;
- Fri, 18 Jun 2021 03:43:58 -0700 (PDT)
+        Fri, 18 Jun 2021 07:33:54 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id uCiqlD2qfhqltuCiul53yo; Fri, 18 Jun 2021 13:31:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1624015904; bh=Oe5G5uI/js112hAcHiFDL/pSJaUXvs6e+TJk61bptbM=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=whOmvBh76JLKMjVeZY1sOvuBkN00S6BUo+/3L67IHTlBiKZl6UcOORijLdJ399Jpv
+         vHccXRE2kW7FYPyoZkhdYOI9uwb/1WmBSWtYMIYnZl790fYkUEzZv7rdZiXqOqyki1
+         IbJ0qZPr2lggyIPph8GOJRLvADLQxgHp0ORsKy5donOUg3W3THQ0U0JmGkz86lwDUG
+         nBdVTouRP6shs6cbaoiyMLpgZBph8A5TnSJac23jwA54+UWlV9zYfyzTVhSLB3oYyr
+         794Pny7XP/1/neshb54qNI53xfO050Sgepv827/qCLQ8mzFBKdRQbZKDKGujDk/uHJ
+         yRE9deJXzhmjQ==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.14] Various fixes
+Message-ID: <56e1093d-34e9-491d-01d8-2401b58a6465@xs4all.nl>
+Date:   Fri, 18 Jun 2021 13:31:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <0000000000005ace4405bda4af71@google.com> <9c393beb-c45b-6dc3-9955-867c6abffdc4@I-love.SAKURA.ne.jp>
-In-Reply-To: <9c393beb-c45b-6dc3-9955-867c6abffdc4@I-love.SAKURA.ne.jp>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 18 Jun 2021 12:41:47 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3=Cibm0qhijnLLWBTCK+z0r6CwkSm9zOYoc_Hjz-mDag@mail.gmail.com>
-Message-ID: <CAK8P3a3=Cibm0qhijnLLWBTCK+z0r6CwkSm9zOYoc_Hjz-mDag@mail.gmail.com>
-Subject: Re: [PATCH] media: v4l2-ioctl: explicitly initialize argument buffer
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        syzbot <syzbot+142888ffec98ab194028@syzkaller.appspotmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Peilin Ye <yepeilin.cs@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:fWrdMGsRJwo0TJTpGjHZUcnkWhT/ka9lH2hRZalcD/wGGtsuSoU
- 8UwebbsMhIscEwNo8e5Sz0DfgitEzoNxv64D0t+BQqQGf/CFseWqSrh02CDnG0k3n93RnSi
- ZWRs2hsqrW+11ePyTvrYNp1UA3zzdzsTaWN6TsYdrG+fjVgMRL8YE2Guvj6qxM65MDdlM/l
- 7sYfQYdL1VpBmq0I1oUCw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BW76viOhsfU=:BHE7VYZmn6qKh/mLGHFd9G
- 0pxK1ppuC1WOAABmg04741IDE0s+mOuFudcuAMoZmyWkuCdwTpBS/4ew9Pu/8bJN2BHQ5VfMd
- 4FGxdl1KHsMO7NFQRNKLlju2OIKJMBjK1YbN1o45wyZH/ZgN3iYniYBJ8/67JT6x8XX0usvzg
- +/IXjgh+eiY7GjbZOGZISzLCED3Z8DDNR+D13e9g71B/HxmqnDnng/XeUoyxcbSi2y7SJBZKw
- JtTq0Edn0p4fUeOiw0vBTsHE6qnNN1XzfoJ/s2kq3cfodx0qm6U3KjnjS8KidZJF7SQiDzALE
- YFpN5Fhb6kXjJoqWBPUsszjQnDJsNWmXKqFu4Apg49PRxRfUOwlg07AlMgNvzWXygzH6K49Xn
- Cx7jdnOJsNHsaLibd7bF3mTMD3k0nSVZLC2cjLrRcUVxER/g4JJVQLEH0T6k4lHO+DEcatfok
- pl1i1kZkNsHRQicz8EIv1O1DN88+tlffgSFuYiXv4TeNL32p7jBWyiGjWjFuqSqO/BSEBSu/E
- f2tq6ThL2kIIskQSBKwJrs=
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfLwcWfxScrZxeBL8TsjRjBOfd7oxO7sZcU1JS4BQN0mXngTtQKC5iVxP/FxpYekac/9YZS3fzF+6SPmpxpWIou4tfDMLvpktR4HysZyIuRxjB0B9NMz+
+ 8ks6Cehxtxb5sji59l6tXnbuIFqq1tJejjVYG16G5QHnQk/2NGgQnA858FylSct+87b1vXuKp9bhjrhvO5VhKKvw//aexy0rmAA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 18, 2021 at 12:34 PM Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
->
-> KMSAN complains that ioctl(VIDIOC_QUERYBUF_TIME32) copies uninitialized
-> kernel stack memory to userspace [1], for video_usercopy() calls
-> copy_to_user() even if __video_do_ioctl() returned -EINVAL error.
->
-> Generally, copy_to_user() needn't be called when there was an error.
-> But video_usercopy() has always_copy logic which forces copy_to_user().
-> Therefore, instead of not calling copy_to_user(), explicitly initialize
-> argument buffer.
->
->   ----------
->   /* Compile for 32bit userspace and run on 64bit kernel. */
->   #include <sys/types.h>
->   #include <sys/stat.h>
->   #include <fcntl.h>
->   #include <sys/ioctl.h>
->   #define VIDIOC_QUERYBUF_TIME32 0xc0505609
->
->   int main(int argc, char *argv[])
->   {
->           char buf[128] = { };
->
->           ioctl(open("/dev/video0", O_RDONLY), VIDIOC_QUERYBUF_TIME32, &buf);
->           return 0;
->   }
->   ----------
->
-> Link: https://syzkaller.appspot.com/bug?id=eb945b02a7b3060a8a60dab673c02f3ab20a048b [1]
-> Reported-by: syzbot <syzbot+142888ffec98ab194028@syzkaller.appspotmail.com>
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+The following changes since commit 198bb646e8553e8abd8d83492a27b601ab97b75d:
 
-This should no longer be necessary once my recent patches propagate
-into linux-next,
-see https://patchwork.linuxtv.org/project/linux-media/list/?series=5678&state=*
+  media: i2c: rdacm20: Re-work ov10635 reset (2021-06-17 12:08:55 +0200)
 
-      Arnd
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14r
+
+for you to fetch changes up to 893948f9b4bdef7bdb27fb4fadc34e93c454f7ee:
+
+  media: saa7164: remove redundant continue statement (2021-06-18 13:21:42 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Christophe JAILLET (1):
+      media: saa7134: switch from 'pci_' to 'dma_' API
+
+Colin Ian King (2):
+      media: atomisp: remove redundant initialization of variable ret
+      media: saa7164: remove redundant continue statement
+
+Eugen Hristev (1):
+      media: atmel: atmel-sama5d2-isc: fix YUYV format
+
+Hans Verkuil (1):
+      vivid: increase max number of allowed
+
+Herman (5):
+      drivers/media/pci/tw5864/Tw5864-reg.h: fix typo issues
+      drivers/media/usb/gspca: fix typo Fliker -> Flicker
+      drivers/media/platform/davinci/vpfe_capture.c : fix typo Proabably > Probably
+      drivers/media/platform/s5p-mfc/s5p_mfc_opr_v5.c : fix typo 'in deed imporant' > 'indeed important'
+      drivers/media/platform/marvell-ccic/mcam-core.c : fix typo 'gettig' > 'getting'
+
+Jernej Skrabec (2):
+      media: hevc: Add segment address field
+      media: cedrus: hevc: Add support for multiple slices
+
+Krzysztof Hałasa (1):
+      TDA1997x: enable EDID support
+
+Shuah Khan (1):
+      media: Fix Media Controller API config checks
+
+Yang Yingliang (1):
+      saa7134: convert list_for_each to entry variant
+
+lijian (1):
+      media: i2c: tvp5150: deleted the repeated word
+
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst |   3 +
+ drivers/media/i2c/tda1997x.c                              |   1 +
+ drivers/media/i2c/tvp5150.c                               |   2 +-
+ drivers/media/mc/Makefile                                 |   2 +-
+ drivers/media/pci/saa7134/saa7134-alsa.c                  |   4 +-
+ drivers/media/pci/saa7134/saa7134-core.c                  |   7 ++-
+ drivers/media/pci/saa7164/saa7164-cmd.c                   |   3 -
+ drivers/media/pci/tw5864/tw5864-reg.h                     |   2 +-
+ drivers/media/platform/atmel/atmel-sama5d2-isc.c          |  17 ++++++
+ drivers/media/platform/davinci/vpfe_capture.c             |   2 +-
+ drivers/media/platform/marvell-ccic/mcam-core.c           |   2 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc_opr_v5.c           |   2 +-
+ drivers/media/test-drivers/vivid/vivid-cec.c              |   2 +-
+ drivers/media/usb/gspca/vc032x.c                          |   6 +-
+ drivers/media/usb/gspca/zc3xx.c                           | 134 ++++++++++++++++++++++----------------------
+ drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c |   2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c          |  26 +++++----
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c         |   1 +
+ include/media/hevc-ctrls.h                                |   3 +-
+ include/media/media-dev-allocator.h                       |   2 +-
+ 20 files changed, 124 insertions(+), 99 deletions(-)
