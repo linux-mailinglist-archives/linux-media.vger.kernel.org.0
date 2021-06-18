@@ -2,273 +2,327 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A43F63AC667
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 10:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8906C3AC737
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 11:16:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233879AbhFRIrC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 04:47:02 -0400
-Received: from gofer.mess.org ([88.97.38.141]:43471 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233252AbhFRIrB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Jun 2021 04:47:01 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 65472C63DD; Fri, 18 Jun 2021 09:44:50 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1624005890; bh=pCColrBIeLNWcny4pt5AXF7UHcVlzbrGZEnccEJYy60=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AIizisB13sggT4jG8kbYArBahtXUYLhHeREah5DiZeG85250ebKnM/uExUoLRgdhD
-         znnMu/09ZUHkun2/jvUoVB0NkR7MkXt5/nc482BIB2pw3JXM10KCRWuC4KjyoogHf6
-         s6eTTc3K0Y0pahVwWXDhDmQ1gvqwv6i6vyOqSyDHAnSPuVyeNZRXP45XkH2jl35mYm
-         6ZMsHayFwXsO4PQcwLzd8Nk1mLaySmYmun1ItGZFklA9D0nGUlD8gcXil/PE1Hgsr2
-         2XxNnfxz9/gCVCJjJa1BA+8RWLq0qesAB63g1YXKBhxF/qJNEjwh6lc4ON97vn3ewo
-         os+WgxuugtE8A==
-Date:   Fri, 18 Jun 2021 09:44:50 +0100
-From:   Sean Young <sean@mess.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Rhees <support@usbuirt.com>,
-        Oliver Neukum <oneukum@suse.com>, kbuild-all@lists.01.org,
-        clang-built-linux@googlegroups.com
-Subject: Re: [PATCH v4 1/2] media: rc: new driver for USB-UIRT device
-Message-ID: <20210618084450.GA26388@gofer.mess.org>
-References: <8e380fbe6853bfebd067cdeba2e65e83a3df2922.1623318855.git.sean@mess.org>
- <202106180629.J4nRNiax-lkp@intel.com>
+        id S230499AbhFRJSz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 05:18:55 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:43685 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229819AbhFRJSy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Jun 2021 05:18:54 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id uAcClCBB8hqltuAcGl4T7n; Fri, 18 Jun 2021 11:16:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1624007804; bh=lhxKaOYvnZeSEJY2WenH7yZ41KO9OGDOpnkv9R/3M4o=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=FnKCdmTVdeXm8QOm4Fgbsrha8RT8pfIBFW03luomg4W1foXPCxSOY3QnY1L4PZen+
+         jTXfKBocySrJZL8IfjrFTGv4KgRhncFfCLyzHusXlMpAWgBP+ydDIy1gbca8LYb+7m
+         mPs0VJmM0CojH/eggCGY3ItoDtfSMpLYvvyzJRecr1Y5e8Xqtb1lBicfKGe/gLd9D2
+         CdaZ38MTvzNXUtRcn629G5jMZqftYVyagHOoGj6yOG9OHxqHOWt/StaziithF8jvBm
+         dzLV8Jo3be82+sK0k38+y43qiboFbNmLN83czKxPW7bssRcrUjlq1c0x0M05iKHWUy
+         nTqUizIRs6lpA==
+Subject: Re: [PATCH v2 2/2] cec: expand One Touch Record On test
+To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     jaffe1@gmail.com
+References: <cover.1623972511.git.deborahbrouwer3563@gmail.com>
+ <b9771c1afb515ce2132d9a801174127543821755.1623972511.git.deborahbrouwer3563@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c8fcbd37-91c0-a618-ccea-cef0bbee99a7@xs4all.nl>
+Date:   Fri, 18 Jun 2021 11:16:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202106180629.J4nRNiax-lkp@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <b9771c1afb515ce2132d9a801174127543821755.1623972511.git.deborahbrouwer3563@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfJ9DECz2//X3ACcqY7hkztjK1qeT0oMitSuPGVy6vrRBUZVYooEWN8DHMyNohw+u2w6VhSaCTV7jpk7ZSsJK1mckPKqcYrNmiTAILOKJChXwb/wTFnnp
+ LwrpometStC85X94+oCOTtK7Pi6PAIkLYmHxs32keZIyvhQt+wI0KQ1NSMCAMLfxY7SbeelE0d8NvvyCI7u78XYyDFpH5AkjiTq0G+BmrI3yZe0ekabc66/c
+ su6CP2zrmCap1YV6OTyo1unM/mmhgR+z9NkeV+W9DFo=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 18, 2021 at 06:18:06AM +0800, kernel test robot wrote:
-> Hi Sean,
-> 
-> I love your patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on linuxtv-media/master]
-> [also build test WARNING on usb-serial/usb-next usb/usb-testing peter.chen-usb/for-usb-next v5.13-rc6 next-20210617]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Sean-Young/IR-driver-for-USB-UIRT-device/20210616-182135
-> base:   git://linuxtv.org/media_tree.git master
-> config: powerpc64-randconfig-r012-20210617 (attached as .config)
-> compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 64720f57bea6a6bf033feef4a5751ab9c0c3b401)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install powerpc64 cross compiling tool for clang build
->         # apt-get install binutils-powerpc64-linux-gnu
->         # https://github.com/0day-ci/linux/commit/17d3a0332baecb0359e05e8ae755478c7a1a4468
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Sean-Young/IR-driver-for-USB-UIRT-device/20210616-182135
->         git checkout 17d3a0332baecb0359e05e8ae755478c7a1a4468
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=powerpc64 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/media/rc/uirt.c:11:
->    In file included from include/linux/completion.h:12:
->    In file included from include/linux/swait.h:5:
->    In file included from include/linux/list.h:9:
->    In file included from include/linux/kernel.h:12:
->    In file included from include/linux/bitops.h:32:
->    In file included from arch/powerpc/include/asm/bitops.h:62:
->    arch/powerpc/include/asm/barrier.h:49:9: warning: '__lwsync' macro redefined [-Wmacro-redefined]
->    #define __lwsync()      __asm__ __volatile__ (stringify_in_c(LWSYNC) : : :"memory")
->            ^
->    <built-in>:310:9: note: previous definition is here
->    #define __lwsync __builtin_ppc_lwsync
->            ^
-> >> drivers/media/rc/uirt.c:639:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
->            if (!urb)
->                ^~~~
->    drivers/media/rc/uirt.c:705:9: note: uninitialized use occurs here
->            return err;
+Hi Deb,
 
-This is interesting. clang is right here, there are error paths where err is
-not initialized. gcc-11.1 does not pick this up for some reason. The error path
-should be an immediate dominator so it shouldn't be complicated to detect.
-
-I'll send out a v5 with this issue fixed.
-
-Sean
-
->                   ^~~
->    drivers/media/rc/uirt.c:639:2: note: remove the 'if' if its condition is always false
->            if (!urb)
->            ^~~~~~~~~
->    drivers/media/rc/uirt.c:630:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
->            if (!urb)
->                ^~~~
->    drivers/media/rc/uirt.c:705:9: note: uninitialized use occurs here
->            return err;
->                   ^~~
->    drivers/media/rc/uirt.c:630:2: note: remove the 'if' if its condition is always false
->            if (!urb)
->            ^~~~~~~~~
->    drivers/media/rc/uirt.c:626:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
->            if (!rc)
->                ^~~
->    drivers/media/rc/uirt.c:705:9: note: uninitialized use occurs here
->            return err;
->                   ^~~
->    drivers/media/rc/uirt.c:626:2: note: remove the 'if' if its condition is always false
->            if (!rc)
->            ^~~~~~~~
->    drivers/media/rc/uirt.c:622:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
->            if (!uirt->out)
->                ^~~~~~~~~~
->    drivers/media/rc/uirt.c:705:9: note: uninitialized use occurs here
->            return err;
->                   ^~~
->    drivers/media/rc/uirt.c:622:2: note: remove the 'if' if its condition is always false
->            if (!uirt->out)
->            ^~~~~~~~~~~~~~~
->    drivers/media/rc/uirt.c:618:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
->            if (!uirt->in)
->                ^~~~~~~~~
->    drivers/media/rc/uirt.c:705:9: note: uninitialized use occurs here
->            return err;
->                   ^~~
->    drivers/media/rc/uirt.c:618:2: note: remove the 'if' if its condition is always false
->            if (!uirt->in)
->            ^~~~~~~~~~~~~~
->    drivers/media/rc/uirt.c:604:15: note: initialize the variable 'err' to silence this warning
->            int pipe, err;
->                         ^
->                          = 0
->    6 warnings generated.
+On 18/06/2021 01:41, Deborah Brouwer wrote:
+> Send all Record On source operands and check that the follower responds
+> with a corresponding Record Status. Send invalid Record On source
+> operands and make sure that the follower returns Feature Abort with
+> Invalid Operand.
 > 
-> 
-> vim +639 drivers/media/rc/uirt.c
-> 
->    594	
->    595	static int uirt_probe(struct usb_interface *intf,
->    596			      const struct usb_device_id *id)
->    597	{
->    598		struct usb_device *usbdev = interface_to_usbdev(intf);
->    599		struct usb_endpoint_descriptor *ep_in;
->    600		struct usb_endpoint_descriptor *ep_out;
->    601		struct uirt *uirt;
->    602		struct rc_dev *rc;
->    603		struct urb *urb;
->    604		int pipe, err;
->    605	
->    606		if (usb_find_common_endpoints(intf->cur_altsetting, &ep_in, &ep_out, NULL, NULL) ||
->    607		    usb_endpoint_maxp(ep_in) != MAX_PACKET ||
->    608		    usb_endpoint_maxp(ep_out) != MAX_PACKET) {
->    609			dev_err(&intf->dev, "required endpoints not found\n");
->    610			return -ENODEV;
->    611		}
->    612	
->    613		uirt = kzalloc(sizeof(*uirt), GFP_KERNEL);
->    614		if (!uirt)
->    615			return -ENOMEM;
->    616	
->    617		uirt->in = kmalloc(MAX_PACKET, GFP_KERNEL);
->    618		if (!uirt->in)
->    619			goto free_uirt;
->    620	
->    621		uirt->out = kmalloc(MAX_PACKET, GFP_KERNEL);
->    622		if (!uirt->out)
->    623			goto free_uirt;
->    624	
->    625		rc = rc_allocate_device(RC_DRIVER_IR_RAW);
->    626		if (!rc)
->    627			goto free_uirt;
->    628	
->    629		urb = usb_alloc_urb(0, GFP_KERNEL);
->    630		if (!urb)
->    631			goto free_rcdev;
->    632	
->    633		pipe = usb_rcvbulkpipe(usbdev, ep_in->bEndpointAddress);
->    634		usb_fill_bulk_urb(urb, usbdev, pipe, uirt->in, MAX_PACKET,
->    635				  uirt_in_callback, uirt);
->    636		uirt->urb_in = urb;
->    637	
->    638		urb = usb_alloc_urb(0, GFP_KERNEL);
->  > 639		if (!urb)
->    640			goto free_rcdev;
->    641	
->    642		pipe = usb_sndbulkpipe(usbdev, ep_out->bEndpointAddress);
->    643		usb_fill_bulk_urb(urb, usbdev, pipe, uirt->out, MAX_PACKET,
->    644				  uirt_out_callback, uirt);
->    645	
->    646		uirt->dev = &intf->dev;
->    647		uirt->usbdev = usbdev;
->    648		uirt->rc = rc;
->    649		uirt->urb_out = urb;
->    650		uirt->rx_state = RX_STATE_INTERSPACE_HIGH;
->    651	
->    652		err = usb_submit_urb(uirt->urb_in, GFP_KERNEL);
->    653		if (err != 0) {
->    654			dev_err(uirt->dev, "failed to submit read urb: %d\n", err);
->    655			goto free_rcdev;
->    656		}
->    657	
->    658		err = init_ftdi(usbdev);
->    659		if (err) {
->    660			dev_err(uirt->dev, "failed to setup ftdi: %d\n", err);
->    661			goto kill_urbs;
->    662		}
->    663	
->    664		err = uirt_setup(uirt);
->    665		if (err)
->    666			goto kill_urbs;
->    667	
->    668		usb_make_path(usbdev, uirt->phys, sizeof(uirt->phys));
->    669	
->    670		rc->device_name = "USB-UIRT";
->    671		rc->driver_name = KBUILD_MODNAME;
->    672		rc->input_phys = uirt->phys;
->    673		usb_to_input_id(usbdev, &rc->input_id);
->    674		rc->dev.parent = &intf->dev;
->    675		rc->priv = uirt;
->    676		rc->tx_ir = uirt_tx;
->    677		rc->s_tx_carrier = uirt_set_tx_carrier;
->    678		rc->s_learning_mode = uirt_set_rx_wideband;
->    679		rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
->    680		rc->map_name = RC_MAP_RC6_MCE;
->    681		rc->rx_resolution = UNIT_US;
->    682		rc->timeout = IR_TIMEOUT;
->    683	
->    684		uirt_set_tx_carrier(rc, 38000);
->    685	
->    686		err = rc_register_device(rc);
->    687		if (err)
->    688			goto kill_urbs;
->    689	
->    690		usb_set_intfdata(intf, uirt);
->    691	
->    692		return 0;
->    693	
->    694	kill_urbs:
->    695		usb_kill_urb(uirt->urb_in);
->    696		usb_kill_urb(uirt->urb_out);
->    697	free_rcdev:
->    698		usb_free_urb(uirt->urb_in);
->    699		usb_free_urb(uirt->urb_out);
->    700		rc_free_device(rc);
->    701	free_uirt:
->    702		kfree(uirt->in);
->    703		kfree(uirt->out);
->    704		kfree(uirt);
->    705		return err;
->    706	}
->    707	
-> 
+> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 > ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>  utils/cec-compliance/cec-test.cpp | 107 +++++++++++++++++++++++++++---
+>  utils/cec-follower/cec-tuner.cpp  |  28 +++++++-
+>  2 files changed, 125 insertions(+), 10 deletions(-)
+> 
+> diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
+> index 0051d72a..2c64d1a0 100644
+> --- a/utils/cec-compliance/cec-test.cpp
+> +++ b/utils/cec-compliance/cec-test.cpp
+> @@ -48,6 +48,43 @@ static int test_play_mode(struct node *node, unsigned me, unsigned la, __u8 play
+>  	return OK;
+>  }
+>  
+> +static int one_touch_rec_on_send(struct node *node, unsigned me, unsigned la, __u8 src, __u8 &rec_status)
+> +{
+> +	struct cec_msg msg;
+> +	struct cec_op_record_src rec_src = {};
+> +
+> +	cec_msg_init(&msg, me, la);
+> +	rec_src.type = src;
 
+You should increase the timeout value to 10s: the spec says that "it may take
+several seconds or more before a recorder is able to send an accurate
+<Record Status> after receiving a <Record On> message. That 10s is kind of
+random since the spec is again very vague about this, but you have to pick
+something here.
 
+> +	cec_msg_record_on(&msg, true, &rec_src);
+> +	fail_on_test(!transmit_timeout(node, &msg));
+> +	fail_on_test(timed_out_or_abort(&msg));
+> +	cec_ops_record_status(&msg, &rec_status);
+> +
+> +	return OK;
+> +}
+> +
+> +static bool one_touch_rec_common(__u8 rec_status)
+
+This is a poor function name as it does not describe what the function actually does.
+
+> +{
+> +	switch (rec_status) {
+> +	case CEC_OP_RECORD_STATUS_UNSUP_CA:
+> +	case CEC_OP_RECORD_STATUS_NO_CA_ENTITLEMENTS:
+> +	case CEC_OP_RECORD_STATUS_CANT_COPY_SRC:
+> +	case CEC_OP_RECORD_STATUS_NO_MORE_COPIES:
+> +	case CEC_OP_RECORD_STATUS_NO_MEDIA:
+> +	case CEC_OP_RECORD_STATUS_PLAYING:
+> +	case CEC_OP_RECORD_STATUS_ALREADY_RECORDING:
+> +	case CEC_OP_RECORD_STATUS_MEDIA_PROT:
+> +	case CEC_OP_RECORD_STATUS_NO_SIGNAL:
+> +	case CEC_OP_RECORD_STATUS_MEDIA_PROBLEM:
+> +	case CEC_OP_RECORD_STATUS_NO_SPACE:
+> +	case CEC_OP_RECORD_STATUS_PARENTAL_LOCK:
+> +	case CEC_OP_RECORD_STATUS_OTHER:
+> +		return true;
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +
+>  /* System Information */
+>  
+>  int system_info_polling(struct node *node, unsigned me, unsigned la, bool interactive)
+> @@ -1215,10 +1252,6 @@ static int one_touch_rec_tv_screen(struct node *node, unsigned me, unsigned la,
+>  
+>  static int one_touch_rec_on(struct node *node, unsigned me, unsigned la, bool interactive)
+>  {
+> -	/*
+> -	  TODO: Page 36 in HDMI CEC 1.4b spec lists additional behaviors that should be
+> -	  checked for.
+> -	 */
+>  	struct cec_msg msg;
+>  	struct cec_op_record_src rec_src = {};
+>  
+> @@ -1227,15 +1260,68 @@ static int one_touch_rec_on(struct node *node, unsigned me, unsigned la, bool in
+>  	cec_msg_record_on(&msg, true, &rec_src);
+>  	fail_on_test(!transmit_timeout(node, &msg));
+>  	fail_on_test(timed_out(&msg));
+> -	fail_on_test(cec_has_record(1 << la) && unrecognized_op(&msg));
+> -	if (unrecognized_op(&msg))
+> +	if (unrecognized_op(&msg)) {
+> +		fail_on_test(cec_has_record(1 << la) || cec_has_backup(1 << la));
+
+You can't test for cec_has_backup here since backup devices do not have to be
+recording devices.
+
+>  		return OK_NOT_SUPPORTED;
+> +	}
+>  	if (refused(&msg))
+>  		return OK_REFUSED;
+>  	if (cec_msg_status_is_abort(&msg))
+>  		return OK_PRESUMED;
+>  
+> -	return 0;
+> +	__u8 rec_status;
+> +
+> +	cec_ops_record_status(&msg, &rec_status);
+> +	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_CUR_SRC && !one_touch_rec_common(rec_status));
+
+Due to the very vague name 'one_touch_rec_common' I can't really tell what is being
+tested here. I think one_touch_rec_common() tests for 'error' states?
+
+Also, since you always test for !one_touch_rec_common() you should consider inverting
+the return value from the function.
+
+> +
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, CEC_OP_RECORD_SRC_DIGITAL, rec_status));
+> +	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_DIG_SERVICE &&
+> +	             rec_status != CEC_OP_RECORD_STATUS_NO_DIG_SERVICE &&
+> +	             rec_status != CEC_OP_RECORD_STATUS_NO_SERVICE &&
+> +	             !one_touch_rec_common(rec_status));
+> +
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, CEC_OP_RECORD_SRC_ANALOG, rec_status));
+> +	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_ANA_SERVICE &&
+> +	             rec_status != CEC_OP_RECORD_STATUS_NO_ANA_SERVICE &&
+> +	             rec_status != CEC_OP_RECORD_STATUS_NO_SERVICE &&
+> +	             !one_touch_rec_common(rec_status));
+> +
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, CEC_OP_RECORD_SRC_EXT_PLUG, rec_status));
+> +	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_EXT_INPUT &&
+> +	             rec_status != CEC_OP_RECORD_STATUS_INVALID_EXT_PLUG &&
+> +	             !one_touch_rec_common(rec_status));
+> +
+> +	fail_on_test(one_touch_rec_on_send(node, me, la, CEC_OP_RECORD_SRC_EXT_PHYS_ADDR, rec_status));
+> +	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_EXT_INPUT &&
+> +	             rec_status != CEC_OP_RECORD_STATUS_INVALID_EXT_PHYS_ADDR &&
+> +	             !one_touch_rec_common(rec_status));
+> +
+> +	return OK;
+> +}
+> +
+> +static int one_touch_rec_on_invalid(struct node *node, unsigned me, unsigned la, bool interactive)
+> +{
+> +	struct cec_msg msg;
+> +
+> +	cec_msg_init(&msg, me, la);
+> +	cec_msg_record_on_own(&msg);
+> +	msg.msg[2] = 0;  /* Invalid source operand */
+> +	fail_on_test(!transmit_timeout(node, &msg));
+> +	if (unrecognized_op(&msg))
+> +		return OK_NOT_SUPPORTED;
+> +	fail_on_test(!cec_msg_status_is_abort(&msg));
+> +	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
+> +
+> +	cec_msg_init(&msg, me, la);
+> +	cec_msg_record_on_own(&msg);
+> +	msg.msg[2] = 6;  /* Invalid source operand */
+> +	fail_on_test(!transmit_timeout(node, &msg));
+> +	if (unrecognized_op(&msg))
+> +		return OK_NOT_SUPPORTED;
+> +	fail_on_test(!cec_msg_status_is_abort(&msg));
+> +	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
+> +
+> +	return OK;
+>  }
+>  
+>  static int one_touch_rec_off(struct node *node, unsigned me, unsigned la, bool interactive)
+> @@ -1260,7 +1346,12 @@ static int one_touch_rec_off(struct node *node, unsigned me, unsigned la, bool i
+>  
+>  static const vec_remote_subtests one_touch_rec_subtests{
+>  	{ "Record TV Screen", CEC_LOG_ADDR_MASK_TV, one_touch_rec_tv_screen },
+> -	{ "Record On", CEC_LOG_ADDR_MASK_RECORD, one_touch_rec_on },
+> +	{ "Record On", CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_BACKUP, one_touch_rec_on },
+> +	{
+> +		"Record On Invalid Operand",
+> +		CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_BACKUP,
+> +		one_touch_rec_on_invalid,
+> +	},
+>  	{ "Record Off", CEC_LOG_ADDR_MASK_RECORD, one_touch_rec_off },
+>  };
+>  
+> diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
+> index fd11bd10..ebceb064 100644
+> --- a/utils/cec-follower/cec-tuner.cpp
+> +++ b/utils/cec-follower/cec-tuner.cpp
+> @@ -606,10 +606,34 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
+>  		return;
+>  	}
+>  	case CEC_MSG_RECORD_ON:
+> -		if (!cec_has_record(1 << me))
+> +		if (!cec_has_record(1 << me) && !cec_has_backup(1 << me))
+
+This won't work. cec_has_backup() doesn't mean that the device is actually a
+recording device.
+
+Instead, you need to use log_addr_type as returned by CEC_ADAP_G_LOG_ADDRS:
+
+https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/cec/cec-ioc-adap-g-log-addrs.html
+
+So in testProcessing:
+
+__u8 type = laddrs.log_addr_type[0];
+
+Then pass that info to processMsg etc. so it can be tested.
+
+Another things that cec-follower does wrong today is that it has no support
+for multiple LAs for a cec device: it just reads laddrs.log_addr[0], and does
+not check if other LAs are also available. This is a bug in the follower, this
+was simply never implemented. Testing this requires the vivid patch that I
+posted on Wednesday.
+
+This should be addressed in a separate patch, but finish the One Touch Record
+series first.
+
+> +			break;
+> +
+> +		struct cec_op_record_src rec_src;
+> +		__u8 rec_status;
+> +
+> +		cec_ops_record_on(&msg, &rec_src);
+> +
+> +		switch (rec_src.type) {
+> +		case CEC_OP_RECORD_SRC_OWN:
+> +			rec_status = CEC_OP_RECORD_STATUS_CUR_SRC;
+> +			break;
+> +		case CEC_OP_RECORD_SRC_DIGITAL:
+> +			rec_status = CEC_OP_RECORD_STATUS_DIG_SERVICE;
+>  			break;
+> +		case CEC_OP_RECORD_SRC_ANALOG:
+> +			rec_status = CEC_OP_RECORD_STATUS_ANA_SERVICE;
+> +			break;
+
+For digital and analog recording the service info needs to be checked to see
+if it is valid. For analog valid channels emulated by the follower are
+defined in analog_freqs_khz. For digital it is defined in digital_arib_data,
+digital_atsc_data and digital_dvb_data.
+
+This is probably quite a bit of work for you to figure out how this works, so
+I am OK with implementing in a later separate patch.
+
+> +		case CEC_OP_RECORD_SRC_EXT_PLUG:
+
+We should check the plug number. It makes sense if the follower just emulates,
+say, 6 external plugs.
+
+> +		case CEC_OP_RECORD_SRC_EXT_PHYS_ADDR:
+> +			rec_status = CEC_OP_RECORD_STATUS_EXT_INPUT;
+
+I think we should disallow this for now in the follower. To do this right
+it would have to emulate an additional CEC device corresponding to the
+physical address. That's just getting to be too complex.
+
+> +			break;
+> +		default:
+> +			reply_feature_abort(node, &msg, CEC_OP_ABORT_INVALID_OP);
+> +			return;
+> +		}
+>  		cec_msg_set_reply_to(&msg, &msg);
+> -		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_CUR_SRC);
+> +		cec_msg_record_status(&msg, rec_status);
+>  		transmit(node, &msg);
+>  		return;
+>  	case CEC_MSG_RECORD_OFF:
+> 
+
+The follower does need to keep track of whether it is already recording and
+return CEC_OP_RECORD_STATUS_ALREADY_RECORDING if that's the case. Also
+<Standby> should be ignored when recording.
+
+But perhaps this will be implemented in the next patch?
+
+I do think that it makes the patch easier to understand if both Record On and
+Record Off are implemented in the same patch: to keep track of the recording
+status you need both, so splitting up support for these messages doesn't make
+much sense.
+
+Regards,
+
+	Hans
