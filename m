@@ -2,327 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 797563AD208
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 20:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 830003AD26F
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 20:59:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231838AbhFRSXd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Jun 2021 14:23:33 -0400
-Received: from mga07.intel.com ([134.134.136.100]:40751 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230175AbhFRSXd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Jun 2021 14:23:33 -0400
-IronPort-SDR: TQrl73Ij4gcnKvQxJAjIHts4Cifckr0kiJ3Tn1HbGMRavQT3HjOnpNbyQvGvSShW8TBTvzclIk
- l5fxpsTiOpEA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10019"; a="270450637"
-X-IronPort-AV: E=Sophos;i="5.83,284,1616482800"; 
-   d="scan'208";a="270450637"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2021 11:21:23 -0700
-IronPort-SDR: Xo/XG5Npa/Lfyd90QCr+l06fKIieRawCjPy8FLWPX4qlQN5J9Hr/xyA/yA48+W/CzXN4EuVYjL
- N8gPluNUCzlQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,284,1616482800"; 
-   d="scan'208";a="422303797"
-Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 18 Jun 2021 11:21:21 -0700
-Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1luJ7I-00033l-Nt; Fri, 18 Jun 2021 18:21:20 +0000
-Date:   Sat, 19 Jun 2021 02:21:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- 198bb646e8553e8abd8d83492a27b601ab97b75d
-Message-ID: <60cce41d.4dbp0LQLO+kTeZg8%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S234653AbhFRTBO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Jun 2021 15:01:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50136 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231589AbhFRTBL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 18 Jun 2021 15:01:11 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 389D0C061574;
+        Fri, 18 Jun 2021 11:59:01 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id C099B1F44BE3
+Message-ID: <418311dac48d3a29b4fe9e363f7d4e82c360f586.camel@collabora.com>
+Subject: Re: [PATCH v3 1/8] media: hantro: Trace hevc hw cycles performance
+ register
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        hverkuil@xs4all.nl, p.zabel@pengutronix.de, mchehab@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
+        andrzej.p@collabora.com, jc@kynesim.co.uk,
+        jernej.skrabec@gmail.com, nicolas@ndufresne.ca
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date:   Fri, 18 Jun 2021 15:58:46 -0300
+In-Reply-To: <20210618131526.566762-2-benjamin.gaignard@collabora.com>
+References: <20210618131526.566762-1-benjamin.gaignard@collabora.com>
+         <20210618131526.566762-2-benjamin.gaignard@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-next
-branch HEAD: 198bb646e8553e8abd8d83492a27b601ab97b75d  media: i2c: rdacm20: Re-work ov10635 reset
+Hi Benjamin,
 
-elapsed time: 1817m
+On Fri, 2021-06-18 at 15:15 +0200, Benjamin Gaignard wrote:
+> After each hevc decoded frame trace the hardware performance.
+> It provides the number of hw cycles spend per decoded macroblock.
+> 
 
-configs tested: 265
-configs skipped: 3
+Please add some documentation about how these are supposed
+to be used. It will be easier to discuss after seeing
+things in actiion.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+A good place for the documentation would be:
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-sh                           se7705_defconfig
-arm                         s3c6400_defconfig
-powerpc                      arches_defconfig
-arm                          ep93xx_defconfig
-um                            kunit_defconfig
-sh                          rsk7269_defconfig
-powerpc                     asp8347_defconfig
-sh                  sh7785lcr_32bit_defconfig
-powerpc                     skiroot_defconfig
-powerpc                   bluestone_defconfig
-arc                 nsimosci_hs_smp_defconfig
-powerpc                     tqm8548_defconfig
-arm                        multi_v5_defconfig
-sh                           sh2007_defconfig
-nds32                            alldefconfig
-arm                         at91_dt_defconfig
-arm                          pcm027_defconfig
-powerpc                      ppc6xx_defconfig
-arm                        keystone_defconfig
-mips                      loongson3_defconfig
-arm                     davinci_all_defconfig
-sh                           se7750_defconfig
-mips                     loongson1c_defconfig
-arm                         lpc32xx_defconfig
-mips                          ath79_defconfig
-arm                          lpd270_defconfig
-powerpc                 mpc834x_itx_defconfig
-sh                          polaris_defconfig
-x86_64                            allnoconfig
-xtensa                       common_defconfig
-arm                          pxa168_defconfig
-arm                         cm_x300_defconfig
-mips                           ip27_defconfig
-mips                      bmips_stb_defconfig
-arm                        mini2440_defconfig
-mips                        bcm63xx_defconfig
-arm                          pxa3xx_defconfig
-mips                malta_qemu_32r6_defconfig
-arm                       multi_v4t_defconfig
-arm                         nhk8815_defconfig
-powerpc                    ge_imp3a_defconfig
-powerpc                    amigaone_defconfig
-mips                             allyesconfig
-sh                        dreamcast_defconfig
-xtensa                    xip_kc705_defconfig
-m68k                         apollo_defconfig
-mips                         db1xxx_defconfig
-powerpc                    gamecube_defconfig
-sh                          rsk7203_defconfig
-sh                         ap325rxa_defconfig
-parisc                           alldefconfig
-h8300                    h8300h-sim_defconfig
-powerpc                 mpc834x_mds_defconfig
-x86_64                           alldefconfig
-mips                        jmr3927_defconfig
-arc                        nsim_700_defconfig
-sh                            shmin_defconfig
-nios2                         3c120_defconfig
-m68k                        mvme16x_defconfig
-sh                            hp6xx_defconfig
-s390                                defconfig
-arm64                            alldefconfig
-riscv                          rv32_defconfig
-arm                        trizeps4_defconfig
-sh                      rts7751r2d1_defconfig
-arm                       omap2plus_defconfig
-s390                          debug_defconfig
-mips                         mpc30x_defconfig
-sh                          rsk7264_defconfig
-mips                          malta_defconfig
-sparc64                             defconfig
-parisc                generic-32bit_defconfig
-riscv             nommu_k210_sdcard_defconfig
-mips                  cavium_octeon_defconfig
-sh                           se7722_defconfig
-arc                      axs103_smp_defconfig
-arc                              alldefconfig
-m68k                           sun3_defconfig
-mips                       lemote2f_defconfig
-nios2                            alldefconfig
-powerpc                    adder875_defconfig
-powerpc               mpc834x_itxgp_defconfig
-m68k                            q40_defconfig
-powerpc                     tqm8560_defconfig
-arm                  colibri_pxa300_defconfig
-riscv                            allyesconfig
-powerpc                     ksi8560_defconfig
-powerpc                     ppa8548_defconfig
-arm                         axm55xx_defconfig
-powerpc                    mvme5100_defconfig
-openrisc                            defconfig
-arm                            hisi_defconfig
-arm                      jornada720_defconfig
-h8300                     edosk2674_defconfig
-xtensa                         virt_defconfig
-powerpc                      obs600_defconfig
-mips                        bcm47xx_defconfig
-mips                     decstation_defconfig
-sh                            titan_defconfig
-arm                           h5000_defconfig
-powerpc                  iss476-smp_defconfig
-arm                              alldefconfig
-arm                           corgi_defconfig
-sh                             sh03_defconfig
-mips                             allmodconfig
-xtensa                              defconfig
-powerpc                      walnut_defconfig
-arm                           h3600_defconfig
-arm                          pxa910_defconfig
-mips                      maltasmvp_defconfig
-powerpc                 mpc832x_mds_defconfig
-arm                         vf610m4_defconfig
-powerpc                      ppc40x_defconfig
-m68k                          multi_defconfig
-powerpc                    sam440ep_defconfig
-mips                         tb0219_defconfig
-arm                   milbeaut_m10v_defconfig
-mips                  decstation_64_defconfig
-powerpc64                        alldefconfig
-arc                            hsdk_defconfig
-openrisc                 simple_smp_defconfig
-mips                      pistachio_defconfig
-arm                  colibri_pxa270_defconfig
-sh                        sh7757lcr_defconfig
-arm                        spear3xx_defconfig
-mips                        omega2p_defconfig
-powerpc                          g5_defconfig
-sh                             shx3_defconfig
-powerpc                      makalu_defconfig
-arm                          moxart_defconfig
-powerpc                     redwood_defconfig
-powerpc                       ppc64_defconfig
-powerpc                       ebony_defconfig
-mips                     loongson1b_defconfig
-powerpc                     pseries_defconfig
-sh                          lboxre2_defconfig
-mips                        workpad_defconfig
-mips                           gcw0_defconfig
-arm                         lubbock_defconfig
-sparc                            allyesconfig
-arm                      footbridge_defconfig
-sparc                       sparc64_defconfig
-arm                      tct_hammer_defconfig
-arm                      pxa255-idp_defconfig
-arm                             pxa_defconfig
-arm                       mainstone_defconfig
-alpha                            alldefconfig
-powerpc                 linkstation_defconfig
-arm                           sama5_defconfig
-powerpc                        fsp2_defconfig
-arm                         s5pv210_defconfig
-powerpc                    klondike_defconfig
-powerpc                       eiger_defconfig
-ia64                            zx1_defconfig
-powerpc                      ppc64e_defconfig
-arm                           spitz_defconfig
-mips                            gpr_defconfig
-mips                            ar7_defconfig
-xtensa                          iss_defconfig
-powerpc                     sbc8548_defconfig
-powerpc                  storcenter_defconfig
-s390                             alldefconfig
-powerpc                mpc7448_hpc2_defconfig
-sh                 kfr2r09-romimage_defconfig
-powerpc                      pcm030_defconfig
-sh                          r7785rp_defconfig
-xtensa                    smp_lx200_defconfig
-m68k                          sun3x_defconfig
-arm                        cerfcube_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-sparc                               defconfig
-i386                                defconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a004-20210617
-x86_64               randconfig-a001-20210617
-x86_64               randconfig-a002-20210617
-x86_64               randconfig-a003-20210617
-x86_64               randconfig-a006-20210617
-x86_64               randconfig-a005-20210617
-i386                 randconfig-a002-20210617
-i386                 randconfig-a006-20210617
-i386                 randconfig-a001-20210617
-i386                 randconfig-a004-20210617
-i386                 randconfig-a005-20210617
-i386                 randconfig-a003-20210617
-i386                 randconfig-a002-20210618
-i386                 randconfig-a006-20210618
-i386                 randconfig-a004-20210618
-i386                 randconfig-a001-20210618
-i386                 randconfig-a005-20210618
-i386                 randconfig-a003-20210618
-x86_64               randconfig-a015-20210618
-x86_64               randconfig-a011-20210618
-x86_64               randconfig-a012-20210618
-x86_64               randconfig-a014-20210618
-x86_64               randconfig-a016-20210618
-x86_64               randconfig-a013-20210618
-i386                 randconfig-a015-20210617
-i386                 randconfig-a013-20210617
-i386                 randconfig-a016-20210617
-i386                 randconfig-a012-20210617
-i386                 randconfig-a014-20210617
-i386                 randconfig-a011-20210617
-i386                 randconfig-a015-20210618
-i386                 randconfig-a016-20210618
-i386                 randconfig-a013-20210618
-i386                 randconfig-a014-20210618
-i386                 randconfig-a012-20210618
-i386                 randconfig-a011-20210618
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+https://www.kernel.org/doc/html/latest/admin-guide/media/v4l-drivers.html
 
-clang tested configs:
-x86_64               randconfig-b001-20210618
-x86_64               randconfig-b001-20210617
-x86_64               randconfig-a002-20210618
-x86_64               randconfig-a001-20210618
-x86_64               randconfig-a004-20210618
-x86_64               randconfig-a003-20210618
-x86_64               randconfig-a006-20210618
-x86_64               randconfig-a005-20210618
-x86_64               randconfig-a015-20210617
-x86_64               randconfig-a011-20210617
-x86_64               randconfig-a014-20210617
-x86_64               randconfig-a012-20210617
-x86_64               randconfig-a013-20210617
-x86_64               randconfig-a016-20210617
+[..]
+> @@ -22,6 +23,21 @@ static inline void hantro_write_addr(struct hantro_dev *vpu,
+>         vdpu_write(vpu, addr & 0xffffffff, offset);
+>  }
+>  
+> +void hantro_g2_hevc_dec_done(struct hantro_ctx *ctx)
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+I'm worried about the runtime cost this would have.
+
+I see other drivers (i915, panfrost) seem to have an ioctl
+to enable the perf counters.
+
+Perhaps we don't need an ioctl, but a module param would be enough
+for now.
+
+> +{
+> +       const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+> +       const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+> +       struct hantro_dev *vpu = ctx->dev;
+> +       u32 hw_cycles = 0;
+> +       u32 mbs = (sps->pic_width_in_luma_samples *
+> +                  sps->pic_height_in_luma_samples) >> 8;
+> +
+> +       if (mbs)
+> +               hw_cycles = vdpu_read(vpu, G2_HW_PERFORMANCE) / mbs;
+> +
+> +       trace_hantro_hevc_perf(ctx, hw_cycles);
+> +}
+> +
+> 
+[..]
+> +
+> +TRACE_EVENT(hantro_hevc_perf,
+> +       TP_PROTO(struct hantro_ctx *ctx, u32 hw_cycles),
+> +
+> +       TP_ARGS(ctx, hw_cycles),
+> +
+> +       TP_STRUCT__entry(
+> +               __field(int, minor)
+> +               __field(u32, hw_cycles)
+> +       ),
+> +
+> +       TP_fast_assign(
+> +               __entry->minor = ctx->fh.vdev->minor;
+
+Tracking performance per minor doesn't seem useful,
+we'd like to track per-fd (i.e. per context).
+
+Thanks,
+Ezequiel
+
