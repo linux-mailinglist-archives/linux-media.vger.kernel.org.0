@@ -2,265 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 172E93ABFA3
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 01:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 280683AC142
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jun 2021 05:21:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232384AbhFQXnl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Jun 2021 19:43:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45868 "EHLO
+        id S231695AbhFRDX5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Jun 2021 23:23:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230447AbhFQXnk (ORCPT
+        with ESMTP id S230484AbhFRDX5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Jun 2021 19:43:40 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B76C061574
-        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 16:41:32 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id 69so3758311plc.5
-        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 16:41:32 -0700 (PDT)
+        Thu, 17 Jun 2021 23:23:57 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E76E5C06175F
+        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 20:21:48 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id og14so13429314ejc.5
+        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 20:21:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wznvHF42tX6esZegWeGAjqI9nVakVD+2ebx4/jB9lpM=;
-        b=DAVVb31nZgxTEEqfLBkmjezvazWpgLb4OMsBybUGZ5ByzBeubOi4lgBu3NUcRlueLq
-         MsEYHoAkjrVoCnN/VmTxCAF924pIrmMQnJ2aWvVZNk5v9uTLzP838U1iKIw1YWfMcwkj
-         USXrYrljVwPQ35qBEvMQYIn81QBv/vvKbD6rvfbb9yN02v7oTDXldBqd3XKKo2Xr+bOe
-         cVqJCDw5wEk6QwDDNHYLwuThfNux6rGwEAXHx3s3GQwe2dBpx1nl2mlDlSFO1R3f/Xl3
-         3CEVfbbaloISLKT4J9FU00NdiJmxCe+q7fBW2j98hdT53ygjEPiYzrDCIy26VzJLx7UD
-         ABQA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6aJ7JLNwP8uQqbzACgqcuvU9N5foWZsWndyEyLlqRCY=;
+        b=Bs1lVn/Fv7HQ1gsS939rabvK+bgf5OnBx3+M7rkEyVztWkpe3oLTsa8T3TpZ6VCOil
+         FuB2/gbtM56yMReJ5wFMl/eXIAK1Vx5BOp+s8bekj51rQ47Dgv4UOa8M8/pgCG/wCdpG
+         ndNqRM2AFGTW82VnxFJdle/ZOI8IF+k6V6D10=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wznvHF42tX6esZegWeGAjqI9nVakVD+2ebx4/jB9lpM=;
-        b=SKS4f/DH717wlQ1kqyjPZoMp+D6NIbbF73pAH2gFyFgcgnsG3FpJf8phOh+yn+IizB
-         VN2XxlOC4EFbPu0FGJ/cf2ywZbir+LEYLmjyyr9/QnKynv2utOOkN7D5O2n6geza9+1W
-         cvMJeYuvRYk8lOSV/o8bIqdST11W1Kr5nhb6lqupSH/mFFKMYteFCxmr+1NvpZOb0Yq8
-         zGChm2hKAiX+rIP3u4ezUSEoae8F3Oa8ja9HVYTxe6fCJFK0GT+lMWkqcnQ5zPiPMXup
-         XSNudFV0xgROsMBJhAW6cOMYhBHDpmwxP25BFhTDrcgo+Bx3GePAyEC4y4Dlymc2ZfLg
-         /Q+A==
-X-Gm-Message-State: AOAM531CYRnkvQAwWFhXRWl2mFp/1/ccQ/fOCLAa8FdIRnsSbr36wMWn
-        NgDewrd3s3Q66LYHYB1ThCL6gJbQlGxiMQ==
-X-Google-Smtp-Source: ABdhPJzvP/UCJi49+YXVnpkOZcF6CjeKpKuBkIfxhDqI7U5DqoWD1MRiEV55S1977fibO0PVdvu/gw==
-X-Received: by 2002:a17:90b:3449:: with SMTP id lj9mr241932pjb.123.1623973291990;
-        Thu, 17 Jun 2021 16:41:31 -0700 (PDT)
-Received: from ada-comp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id j19sm6452966pgm.44.2021.06.17.16.41.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jun 2021 16:41:31 -0700 (PDT)
-From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, jaffe1@gmail.com,
-        Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH v2 2/2] cec: expand One Touch Record On test
-Date:   Thu, 17 Jun 2021 16:41:12 -0700
-Message-Id: <b9771c1afb515ce2132d9a801174127543821755.1623972511.git.deborahbrouwer3563@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1623972511.git.deborahbrouwer3563@gmail.com>
-References: <cover.1623972511.git.deborahbrouwer3563@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6aJ7JLNwP8uQqbzACgqcuvU9N5foWZsWndyEyLlqRCY=;
+        b=SZ3POPOWIkRHzB51mhr2C4JfNasOpZh+PdqSMAselfEOxWmYlwdhM5PP1nGc0UIcMO
+         b+2JtcKCwQ8MbtMd2pW2lgPhQaNXr1ATgEr75nJ4Bv0jXl5KSvVv8M1qhjVzMuqt+mtH
+         Ns6XHJoJWeKd/KptjdhMIg1r1RRc+jagyBGSyoHeJ8mmFUW0/kjixuDr1pK8Te36iI9Q
+         7PdpFoRETg/NJsTgVrdPELFpbayE63L1PU7XyFimFxnuYTncFz4QtPJ2k9ATWZdS6k1L
+         s4nAf1JZsJztDsBswCTQIYxtyf5GPyrayu9jEnIZVHvfiEsDbU3bgeQc1jDU05l9EhaR
+         EBXQ==
+X-Gm-Message-State: AOAM532H2Kauh0p0gTMzIEVPSfNuQ9xED9JfjbT6Nf/AUTSd8WMbM7+N
+        Nk0j5tbavguzn+MhRS3cmK6Suz1E7r9QvQ==
+X-Google-Smtp-Source: ABdhPJwOBS6gLAir5YiqfwquEzdYiJNHy2/7EvRxvQihcYdlmAnM0aZCOKZBzwx6p8yaMTDVHdAErQ==
+X-Received: by 2002:a17:907:2648:: with SMTP id ar8mr8663977ejc.67.1623986506872;
+        Thu, 17 Jun 2021 20:21:46 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com. [209.85.221.52])
+        by smtp.gmail.com with ESMTPSA id og26sm425893ejc.52.2021.06.17.20.21.45
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Jun 2021 20:21:46 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id f2so8978961wri.11
+        for <linux-media@vger.kernel.org>; Thu, 17 Jun 2021 20:21:45 -0700 (PDT)
+X-Received: by 2002:a5d:4f08:: with SMTP id c8mr9725940wru.197.1623986505267;
+ Thu, 17 Jun 2021 20:21:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210427131344.139443-1-senozhatsky@chromium.org>
+ <20210427131344.139443-9-senozhatsky@chromium.org> <10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl>
+ <YMsAIVs7G2hUDR2F@google.com> <20210617080107.GA1422@lst.de>
+ <CAAFQd5DiPstn-s+yQM3iMd=G9oaag39qCyX483a7-Jrn=gxWCA@mail.gmail.com>
+ <20210617085233.GA4702@lst.de> <CAAFQd5DqK2gSTGjfo-vahXwMzzO9gv26cY=vV6urn3viDLPE7g@mail.gmail.com>
+ <20210617100656.GA11107@lst.de>
+In-Reply-To: <20210617100656.GA11107@lst.de>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 18 Jun 2021 12:21:33 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CgLDkJ3t1aU2PRcGu6cGFjLXOnvMqDg62Z7Zuc8ABVHg@mail.gmail.com>
+Message-ID: <CAAFQd5CgLDkJ3t1aU2PRcGu6cGFjLXOnvMqDg62Z7Zuc8ABVHg@mail.gmail.com>
+Subject: Re: [PATCHv2 8/8] videobuf2: handle non-contiguous DMA allocations
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Send all Record On source operands and check that the follower responds
-with a corresponding Record Status. Send invalid Record On source
-operands and make sure that the follower returns Feature Abort with
-Invalid Operand.
+On Thu, Jun 17, 2021 at 7:07 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Thu, Jun 17, 2021 at 06:40:58PM +0900, Tomasz Figa wrote:
+> > Sorry, I meant dma_alloc_attrs() and yes, it's indeed a misnomer. Our
+> > use case basically has no need for the additional coherent mapping, so
+> > creation of it can be skipped to save some vmalloc space. (Yes, it
+> > probably only matters for 32-bit architectures.)
+>
+> Yes, that is the normal use case, and it is solved by using
+> dma_alloc_noncoherent or dma_alloc_noncontigous without the vmap
+> step.
 
-Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
----
- utils/cec-compliance/cec-test.cpp | 107 +++++++++++++++++++++++++++---
- utils/cec-follower/cec-tuner.cpp  |  28 +++++++-
- 2 files changed, 125 insertions(+), 10 deletions(-)
+True, silly me. Probably not enough coffee at the time I was looking at it.
 
-diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
-index 0051d72a..2c64d1a0 100644
---- a/utils/cec-compliance/cec-test.cpp
-+++ b/utils/cec-compliance/cec-test.cpp
-@@ -48,6 +48,43 @@ static int test_play_mode(struct node *node, unsigned me, unsigned la, __u8 play
- 	return OK;
- }
- 
-+static int one_touch_rec_on_send(struct node *node, unsigned me, unsigned la, __u8 src, __u8 &rec_status)
-+{
-+	struct cec_msg msg;
-+	struct cec_op_record_src rec_src = {};
-+
-+	cec_msg_init(&msg, me, la);
-+	rec_src.type = src;
-+	cec_msg_record_on(&msg, true, &rec_src);
-+	fail_on_test(!transmit_timeout(node, &msg));
-+	fail_on_test(timed_out_or_abort(&msg));
-+	cec_ops_record_status(&msg, &rec_status);
-+
-+	return OK;
-+}
-+
-+static bool one_touch_rec_common(__u8 rec_status)
-+{
-+	switch (rec_status) {
-+	case CEC_OP_RECORD_STATUS_UNSUP_CA:
-+	case CEC_OP_RECORD_STATUS_NO_CA_ENTITLEMENTS:
-+	case CEC_OP_RECORD_STATUS_CANT_COPY_SRC:
-+	case CEC_OP_RECORD_STATUS_NO_MORE_COPIES:
-+	case CEC_OP_RECORD_STATUS_NO_MEDIA:
-+	case CEC_OP_RECORD_STATUS_PLAYING:
-+	case CEC_OP_RECORD_STATUS_ALREADY_RECORDING:
-+	case CEC_OP_RECORD_STATUS_MEDIA_PROT:
-+	case CEC_OP_RECORD_STATUS_NO_SIGNAL:
-+	case CEC_OP_RECORD_STATUS_MEDIA_PROBLEM:
-+	case CEC_OP_RECORD_STATUS_NO_SPACE:
-+	case CEC_OP_RECORD_STATUS_PARENTAL_LOCK:
-+	case CEC_OP_RECORD_STATUS_OTHER:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
- /* System Information */
- 
- int system_info_polling(struct node *node, unsigned me, unsigned la, bool interactive)
-@@ -1215,10 +1252,6 @@ static int one_touch_rec_tv_screen(struct node *node, unsigned me, unsigned la,
- 
- static int one_touch_rec_on(struct node *node, unsigned me, unsigned la, bool interactive)
- {
--	/*
--	  TODO: Page 36 in HDMI CEC 1.4b spec lists additional behaviors that should be
--	  checked for.
--	 */
- 	struct cec_msg msg;
- 	struct cec_op_record_src rec_src = {};
- 
-@@ -1227,15 +1260,68 @@ static int one_touch_rec_on(struct node *node, unsigned me, unsigned la, bool in
- 	cec_msg_record_on(&msg, true, &rec_src);
- 	fail_on_test(!transmit_timeout(node, &msg));
- 	fail_on_test(timed_out(&msg));
--	fail_on_test(cec_has_record(1 << la) && unrecognized_op(&msg));
--	if (unrecognized_op(&msg))
-+	if (unrecognized_op(&msg)) {
-+		fail_on_test(cec_has_record(1 << la) || cec_has_backup(1 << la));
- 		return OK_NOT_SUPPORTED;
-+	}
- 	if (refused(&msg))
- 		return OK_REFUSED;
- 	if (cec_msg_status_is_abort(&msg))
- 		return OK_PRESUMED;
- 
--	return 0;
-+	__u8 rec_status;
-+
-+	cec_ops_record_status(&msg, &rec_status);
-+	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_CUR_SRC && !one_touch_rec_common(rec_status));
-+
-+	fail_on_test(one_touch_rec_on_send(node, me, la, CEC_OP_RECORD_SRC_DIGITAL, rec_status));
-+	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_DIG_SERVICE &&
-+	             rec_status != CEC_OP_RECORD_STATUS_NO_DIG_SERVICE &&
-+	             rec_status != CEC_OP_RECORD_STATUS_NO_SERVICE &&
-+	             !one_touch_rec_common(rec_status));
-+
-+	fail_on_test(one_touch_rec_on_send(node, me, la, CEC_OP_RECORD_SRC_ANALOG, rec_status));
-+	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_ANA_SERVICE &&
-+	             rec_status != CEC_OP_RECORD_STATUS_NO_ANA_SERVICE &&
-+	             rec_status != CEC_OP_RECORD_STATUS_NO_SERVICE &&
-+	             !one_touch_rec_common(rec_status));
-+
-+	fail_on_test(one_touch_rec_on_send(node, me, la, CEC_OP_RECORD_SRC_EXT_PLUG, rec_status));
-+	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_EXT_INPUT &&
-+	             rec_status != CEC_OP_RECORD_STATUS_INVALID_EXT_PLUG &&
-+	             !one_touch_rec_common(rec_status));
-+
-+	fail_on_test(one_touch_rec_on_send(node, me, la, CEC_OP_RECORD_SRC_EXT_PHYS_ADDR, rec_status));
-+	fail_on_test(rec_status != CEC_OP_RECORD_STATUS_EXT_INPUT &&
-+	             rec_status != CEC_OP_RECORD_STATUS_INVALID_EXT_PHYS_ADDR &&
-+	             !one_touch_rec_common(rec_status));
-+
-+	return OK;
-+}
-+
-+static int one_touch_rec_on_invalid(struct node *node, unsigned me, unsigned la, bool interactive)
-+{
-+	struct cec_msg msg;
-+
-+	cec_msg_init(&msg, me, la);
-+	cec_msg_record_on_own(&msg);
-+	msg.msg[2] = 0;  /* Invalid source operand */
-+	fail_on_test(!transmit_timeout(node, &msg));
-+	if (unrecognized_op(&msg))
-+		return OK_NOT_SUPPORTED;
-+	fail_on_test(!cec_msg_status_is_abort(&msg));
-+	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
-+
-+	cec_msg_init(&msg, me, la);
-+	cec_msg_record_on_own(&msg);
-+	msg.msg[2] = 6;  /* Invalid source operand */
-+	fail_on_test(!transmit_timeout(node, &msg));
-+	if (unrecognized_op(&msg))
-+		return OK_NOT_SUPPORTED;
-+	fail_on_test(!cec_msg_status_is_abort(&msg));
-+	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
-+
-+	return OK;
- }
- 
- static int one_touch_rec_off(struct node *node, unsigned me, unsigned la, bool interactive)
-@@ -1260,7 +1346,12 @@ static int one_touch_rec_off(struct node *node, unsigned me, unsigned la, bool i
- 
- static const vec_remote_subtests one_touch_rec_subtests{
- 	{ "Record TV Screen", CEC_LOG_ADDR_MASK_TV, one_touch_rec_tv_screen },
--	{ "Record On", CEC_LOG_ADDR_MASK_RECORD, one_touch_rec_on },
-+	{ "Record On", CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_BACKUP, one_touch_rec_on },
-+	{
-+		"Record On Invalid Operand",
-+		CEC_LOG_ADDR_MASK_RECORD | CEC_LOG_ADDR_MASK_BACKUP,
-+		one_touch_rec_on_invalid,
-+	},
- 	{ "Record Off", CEC_LOG_ADDR_MASK_RECORD, one_touch_rec_off },
- };
- 
-diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-index fd11bd10..ebceb064 100644
---- a/utils/cec-follower/cec-tuner.cpp
-+++ b/utils/cec-follower/cec-tuner.cpp
-@@ -606,10 +606,34 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
- 		return;
- 	}
- 	case CEC_MSG_RECORD_ON:
--		if (!cec_has_record(1 << me))
-+		if (!cec_has_record(1 << me) && !cec_has_backup(1 << me))
-+			break;
-+
-+		struct cec_op_record_src rec_src;
-+		__u8 rec_status;
-+
-+		cec_ops_record_on(&msg, &rec_src);
-+
-+		switch (rec_src.type) {
-+		case CEC_OP_RECORD_SRC_OWN:
-+			rec_status = CEC_OP_RECORD_STATUS_CUR_SRC;
-+			break;
-+		case CEC_OP_RECORD_SRC_DIGITAL:
-+			rec_status = CEC_OP_RECORD_STATUS_DIG_SERVICE;
- 			break;
-+		case CEC_OP_RECORD_SRC_ANALOG:
-+			rec_status = CEC_OP_RECORD_STATUS_ANA_SERVICE;
-+			break;
-+		case CEC_OP_RECORD_SRC_EXT_PLUG:
-+		case CEC_OP_RECORD_SRC_EXT_PHYS_ADDR:
-+			rec_status = CEC_OP_RECORD_STATUS_EXT_INPUT;
-+			break;
-+		default:
-+			reply_feature_abort(node, &msg, CEC_OP_ABORT_INVALID_OP);
-+			return;
-+		}
- 		cec_msg_set_reply_to(&msg, &msg);
--		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_CUR_SRC);
-+		cec_msg_record_status(&msg, rec_status);
- 		transmit(node, &msg);
- 		return;
- 	case CEC_MSG_RECORD_OFF:
--- 
-2.25.1
-
+With that, wouldn't it be possible to completely get rid of
+dma_alloc_{coherent,attrs}() and use dma_alloc_noncontiguous() +
+optional kernel and/or userspace mapping helper everywhere? (Possibly
+renaming it to something as simple as dma_alloc().
