@@ -2,110 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04C0C3AD922
-	for <lists+linux-media@lfdr.de>; Sat, 19 Jun 2021 11:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D71B23AD92D
+	for <lists+linux-media@lfdr.de>; Sat, 19 Jun 2021 11:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230393AbhFSJtQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Jun 2021 05:49:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47686 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbhFSJtP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Jun 2021 05:49:15 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A426C061574;
-        Sat, 19 Jun 2021 02:47:04 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id D2E9E1F448EC
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org, bin.liu@mediatek.com,
-        rick.chang@mediatek.com
-Cc:     dafna.hirschfeld@collabora.com, hverkuil@xs4all.nl,
-        kernel@collabora.com, dafna3@gmail.com, mchehab@kernel.org,
-        tfiga@chromium.org, matthias.bgg@gmail.com,
-        enric.balletbo@collabora.com
-Subject: [PATCH] media: mtk-jpeg: fix setting plane paylod
-Date:   Sat, 19 Jun 2021 12:46:42 +0300
-Message-Id: <20210619094642.17779-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+        id S231241AbhFSJzg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Jun 2021 05:55:36 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:52950 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229477AbhFSJzf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 19 Jun 2021 05:55:35 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1luXfI-006ERl-EG; Sat, 19 Jun 2021 09:53:24 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1luXjm-0003jT-EM; Sat, 19 Jun 2021 09:58:02 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.14] Various fixes (#75283)
+Date:   Sat, 19 Jun 2021 09:58:02 +0000
+Message-Id: <20210619095802.14303-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210619093108.GA7764@gofer.mess.org>
+References: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In mtk_jpeg_buf_prepare, in case the format is V4L2_PIX_FMT_JPEG,
-then the payload of the vb2_buffer planes can be overwritten
-only if 'ctx->enable_exif' is true, in that case, the driver is
-a jpeg encoder and the payload is determined by the driver.
+From: builder@linuxtv.org
 
-If 'ctx->enable_exif' is not set and the format is V4L2_PIX_FMT_JPEG
-then the payload might came from userspace (in case of a decoder)
-and should not be overwritten by the driver.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20210619093108.GA7764@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/116618/
+Build time: 00:16:25
+Link: https://lore.kernel.org/linux-media/20210619093108.GA7764@gofer.mess.org
 
-In addition, the cb 'queue_setup' should add the MTK_JPEG_MAX_EXIF_SIZE
-to the plane sizes in case the format is V4L2_PIX_FMT_JPEG
-and ctx->enable_exif is set.
+gpg: Signature made Sat 19 Jun 2021 08:29:15 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 20 ++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+Summary: got 1/7 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-index 88a23bce569d..397a27888a84 100644
---- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-@@ -651,6 +651,7 @@ static int mtk_jpeg_queue_setup(struct vb2_queue *q,
- 	struct mtk_jpeg_ctx *ctx = vb2_get_drv_priv(q);
- 	struct mtk_jpeg_q_data *q_data = NULL;
- 	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
-+	unsigned int exif_extra;
- 	int i;
- 
- 	v4l2_dbg(1, debug, &jpeg->v4l2_dev, "(%d) buf_req count=%u\n",
-@@ -660,18 +661,20 @@ static int mtk_jpeg_queue_setup(struct vb2_queue *q,
- 	if (!q_data)
- 		return -EINVAL;
- 
-+	exif_extra = ctx->enable_exif && V4L2_TYPE_IS_CAPTURE(q->type) ?
-+		     MTK_JPEG_MAX_EXIF_SIZE : 0;
-+
- 	if (*num_planes) {
- 		for (i = 0; i < *num_planes; i++)
--			if (sizes[i] < q_data->pix_mp.plane_fmt[i].sizeimage)
-+			if (sizes[i] < q_data->pix_mp.plane_fmt[i].sizeimage + exif_extra)
- 				return -EINVAL;
- 		return 0;
- 	}
- 
- 	*num_planes = q_data->fmt->colplanes;
- 	for (i = 0; i < q_data->fmt->colplanes; i++) {
--		sizes[i] =  q_data->pix_mp.plane_fmt[i].sizeimage;
--		v4l2_dbg(1, debug, &jpeg->v4l2_dev, "sizeimage[%d]=%u\n",
--			 i, sizes[i]);
-+		sizes[i] =  q_data->pix_mp.plane_fmt[i].sizeimage + exif_extra;
-+		v4l2_dbg(1, debug, &jpeg->v4l2_dev, "sizes[%d]=%u\n", i, sizes[i]);
- 	}
- 
- 	return 0;
-@@ -690,12 +693,11 @@ static int mtk_jpeg_buf_prepare(struct vb2_buffer *vb)
- 
- 	for (i = 0; i < q_data->fmt->colplanes; i++) {
- 		plane_fmt = q_data->pix_mp.plane_fmt[i];
--		if (ctx->enable_exif &&
--		    q_data->fmt->fourcc == V4L2_PIX_FMT_JPEG)
--			vb2_set_plane_payload(vb, i, plane_fmt.sizeimage +
-+		if (q_data->fmt->fourcc != V4L2_PIX_FMT_JPEG)
-+			vb2_set_plane_payload(vb, i, plane_fmt.sizeimage);
-+		else if (ctx->enable_exif)
-+			vb2_set_plane_payload(vb, i,  plane_fmt.sizeimage +
- 					      MTK_JPEG_MAX_EXIF_SIZE);
--		else
--			vb2_set_plane_payload(vb, i,  plane_fmt.sizeimage);
- 	}
- 
- 	return 0;
--- 
-2.17.1
+Error/warnings:
+
+patches/0001-media-rc-streamzap-Removed-unnecessary-return.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1969 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+
+Error #512 when building PDF docs
 
