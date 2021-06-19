@@ -2,78 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63D7C3AD8F5
-	for <lists+linux-media@lfdr.de>; Sat, 19 Jun 2021 11:31:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04C0C3AD922
+	for <lists+linux-media@lfdr.de>; Sat, 19 Jun 2021 11:47:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233750AbhFSJdW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Jun 2021 05:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44214 "EHLO
+        id S230393AbhFSJtQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Jun 2021 05:49:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232546AbhFSJdV (ORCPT
+        with ESMTP id S229477AbhFSJtP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Jun 2021 05:33:21 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C6F7C061574
-        for <linux-media@vger.kernel.org>; Sat, 19 Jun 2021 02:31:11 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id E2494C64CE; Sat, 19 Jun 2021 10:31:08 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1624095068; bh=hFxyCN6ZJdZXH9zsRdJQE4/3CwODh0ZFupbLuq8oh34=;
-        h=Date:From:To:Subject:From;
-        b=aOnfl7a3omZqDjsggxADtSL/Iav0vaHbp3yDigi+N2lBa8XnJAmeUbbCbaFhblmp/
-         bjie0m4bsxosFOxa2sqy2Ry2bkAE+vVqrCCNIS+dJkFpfeVOq1bkFI/DBbffbIOJru
-         cvg5B9JTrboZuWOyZe5v4szLnMcZlCNwCNTlpdmBVUgMApMjAThWNkhKx9j7WaXa9K
-         TimvxyZxjzLSUT+EUFr/xpRZkNfoEa9E5IiD8bJFHZSZIF2qhteK6ksMWLXznS0Lvp
-         e05nqnZbtzS1n4dvjSDhucLPu6bm+ZVngiGpn9DNvqPC7Asdk35FpwiJ60ta5SJBXQ
-         p5y/9JJpmpWSg==
-Date:   Sat, 19 Jun 2021 10:31:08 +0100
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.14] Various fixes
-Message-ID: <20210619093108.GA7764@gofer.mess.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Sat, 19 Jun 2021 05:49:15 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A426C061574;
+        Sat, 19 Jun 2021 02:47:04 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id D2E9E1F448EC
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-kernel@vger.kernel.org, bin.liu@mediatek.com,
+        rick.chang@mediatek.com
+Cc:     dafna.hirschfeld@collabora.com, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com, mchehab@kernel.org,
+        tfiga@chromium.org, matthias.bgg@gmail.com,
+        enric.balletbo@collabora.com
+Subject: [PATCH] media: mtk-jpeg: fix setting plane paylod
+Date:   Sat, 19 Jun 2021 12:46:42 +0300
+Message-Id: <20210619094642.17779-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 198bb646e8553e8abd8d83492a27b601ab97b75d:
+In mtk_jpeg_buf_prepare, in case the format is V4L2_PIX_FMT_JPEG,
+then the payload of the vb2_buffer planes can be overwritten
+only if 'ctx->enable_exif' is true, in that case, the driver is
+a jpeg encoder and the payload is determined by the driver.
 
-  media: i2c: rdacm20: Re-work ov10635 reset (2021-06-17 12:08:55 +0200)
+If 'ctx->enable_exif' is not set and the format is V4L2_PIX_FMT_JPEG
+then the payload might came from userspace (in case of a decoder)
+and should not be overwritten by the driver.
 
-are available in the Git repository at:
+In addition, the cb 'queue_setup' should add the MTK_JPEG_MAX_EXIF_SIZE
+to the plane sizes in case the format is V4L2_PIX_FMT_JPEG
+and ctx->enable_exif is set.
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.14c
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 20 ++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-for you to fetch changes up to 631d7e123d0521165fe815205e9f2286150a0586:
+diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+index 88a23bce569d..397a27888a84 100644
+--- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+@@ -651,6 +651,7 @@ static int mtk_jpeg_queue_setup(struct vb2_queue *q,
+ 	struct mtk_jpeg_ctx *ctx = vb2_get_drv_priv(q);
+ 	struct mtk_jpeg_q_data *q_data = NULL;
+ 	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
++	unsigned int exif_extra;
+ 	int i;
+ 
+ 	v4l2_dbg(1, debug, &jpeg->v4l2_dev, "(%d) buf_req count=%u\n",
+@@ -660,18 +661,20 @@ static int mtk_jpeg_queue_setup(struct vb2_queue *q,
+ 	if (!q_data)
+ 		return -EINVAL;
+ 
++	exif_extra = ctx->enable_exif && V4L2_TYPE_IS_CAPTURE(q->type) ?
++		     MTK_JPEG_MAX_EXIF_SIZE : 0;
++
+ 	if (*num_planes) {
+ 		for (i = 0; i < *num_planes; i++)
+-			if (sizes[i] < q_data->pix_mp.plane_fmt[i].sizeimage)
++			if (sizes[i] < q_data->pix_mp.plane_fmt[i].sizeimage + exif_extra)
+ 				return -EINVAL;
+ 		return 0;
+ 	}
+ 
+ 	*num_planes = q_data->fmt->colplanes;
+ 	for (i = 0; i < q_data->fmt->colplanes; i++) {
+-		sizes[i] =  q_data->pix_mp.plane_fmt[i].sizeimage;
+-		v4l2_dbg(1, debug, &jpeg->v4l2_dev, "sizeimage[%d]=%u\n",
+-			 i, sizes[i]);
++		sizes[i] =  q_data->pix_mp.plane_fmt[i].sizeimage + exif_extra;
++		v4l2_dbg(1, debug, &jpeg->v4l2_dev, "sizes[%d]=%u\n", i, sizes[i]);
+ 	}
+ 
+ 	return 0;
+@@ -690,12 +693,11 @@ static int mtk_jpeg_buf_prepare(struct vb2_buffer *vb)
+ 
+ 	for (i = 0; i < q_data->fmt->colplanes; i++) {
+ 		plane_fmt = q_data->pix_mp.plane_fmt[i];
+-		if (ctx->enable_exif &&
+-		    q_data->fmt->fourcc == V4L2_PIX_FMT_JPEG)
+-			vb2_set_plane_payload(vb, i, plane_fmt.sizeimage +
++		if (q_data->fmt->fourcc != V4L2_PIX_FMT_JPEG)
++			vb2_set_plane_payload(vb, i, plane_fmt.sizeimage);
++		else if (ctx->enable_exif)
++			vb2_set_plane_payload(vb, i,  plane_fmt.sizeimage +
+ 					      MTK_JPEG_MAX_EXIF_SIZE);
+-		else
+-			vb2_set_plane_payload(vb, i,  plane_fmt.sizeimage);
+ 	}
+ 
+ 	return 0;
+-- 
+2.17.1
 
-  media: usb: dvb-usb-v2: af9035: let subdrv autoselect enable si2168 and si2157 (2021-06-19 09:25:01 +0100)
-
-----------------------------------------------------------------
-v5.14c
-
-----------------------------------------------------------------
-Christophe JAILLET (1):
-      media: cxd2880-spi: Fix an error handling path
-
-Uwe Kleine-König (2):
-      media: usb: dvb-usb-v2: af9035: report if i2c client isn't bound
-      media: usb: dvb-usb-v2: af9035: let subdrv autoselect enable si2168 and si2157
-
-lijian (4):
-      media: rc: streamzap: Removed unnecessary 'return'
-      media: rc: redrat3: Fix a typo
-      media: rc: rc-main.c: deleted the repeated word
-      media: dvb-frontends: cx24117: Delete 'break' after 'goto'
-
- drivers/media/dvb-frontends/cx24117.c | 1 -
- drivers/media/rc/rc-main.c            | 2 +-
- drivers/media/rc/redrat3.c            | 2 +-
- drivers/media/rc/streamzap.c          | 2 --
- drivers/media/spi/cxd2880-spi.c       | 7 +++++--
- drivers/media/usb/dvb-usb-v2/Kconfig  | 2 ++
- drivers/media/usb/dvb-usb-v2/af9035.c | 1 +
- 7 files changed, 10 insertions(+), 7 deletions(-)
