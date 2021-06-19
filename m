@@ -2,156 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 508113AD7FF
-	for <lists+linux-media@lfdr.de>; Sat, 19 Jun 2021 08:02:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDCAC3AD867
+	for <lists+linux-media@lfdr.de>; Sat, 19 Jun 2021 09:25:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233690AbhFSFyz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Jun 2021 01:54:55 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:58799 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233672AbhFSFyy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Jun 2021 01:54:54 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1624081964; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=Q/juTnKCxiBQQdyEvtKPoStE1ioIgeHfyaGfZObCiA0=;
- b=PkwR1nRX3GpWHfgqJ0TMqA6Zr9v4dlQXvirWX9jlzTBCwlkJPdE/n8hFesH0Thv3EjkKyfaX
- Pgf090F3T7pQIIldPIYfwepvzoPvUX1tbE/jUaKmp8Oo6YBV6dn7H3hXYJ858+G7X6nkgsWK
- /KktbHVt77WtY6JrpR8m63woaw4=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 60cd862b51f29e6bae2a4dcc (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 19 Jun 2021 05:52:43
- GMT
-Sender: vgarodia=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 67CC7C433F1; Sat, 19 Jun 2021 05:52:42 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: vgarodia)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9061CC433D3;
-        Sat, 19 Jun 2021 05:52:41 +0000 (UTC)
+        id S232949AbhFSH1V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Jun 2021 03:27:21 -0400
+Received: from mail-eopbgr1400104.outbound.protection.outlook.com ([40.107.140.104]:7088
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232445AbhFSH1U (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 19 Jun 2021 03:27:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CGz4bUO7FOmz4KZGIr9E1T/3tk+YDLvMMyA6qx/PTlooe0BUPPbeECcImw8tRFxHWON0T0B1fxKatFEIUIeYGQMns96jYnDqPw8Z/lo822NYFfTI5e9iEj3ej3N/LUrBX47VVoC8uOUdGmuyXuXT8uNpwyqGgPSAL9YpYnuwjc+oK8tHAEJIy0nmAzdNrStAyy9FQdVD7eOnqTJzmUBo3hEHaCaY6QZ17Vxy+pC5gdtMlOMKQqueERE5Pq0tD+ux8KsuuXtTbzgtiCzuHtXHl2OR/qw19wsgnc/I5XBgaaKj9B80YlC6cgJzNFZ3r1uod9f7uDZHiCWIIhMskjJjCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jwe/GMbhYI+ClndCQIcRkd/3NOh5mOPoURqvcJd5ZTg=;
+ b=fv5tl3+iaQcM7xcak29iZZOGpEFpgynpnAU6LMOdFKOuqVfKiHVjxin7qndQ8bRrA+/vXuAKt5E7K35/er8EOrD790B8W15P80+tKjIj2hg9Es3bUkB/umYx5nsJtW7sfiQOJW9zvFPGP8AvExqdxJZnLQlOP6pxw4G/X30ZKKq+en/ctoX+ez7uDA7TbsQdWS6OpuRMjKwpxkZVu5IZ+0yaREpTnVlaJ1lgG8yxkDram01+N5UQpkGA+DDRRHlEZynO3g/T66lf/R/1chDnN3oYh+cudFuSe0g1YoKfDV+UpGphe68EtLa3Xiiq6wMGwIFa+XCUqJDNpS+CzjFeDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jwe/GMbhYI+ClndCQIcRkd/3NOh5mOPoURqvcJd5ZTg=;
+ b=fjqXrUWAgIe1aTYmEjb64DHQGuk9LfhGC79lioGTAbj9aOKIcmHsZwJvCEazSuBLSXJdLZMjPAvb+fry/zB/V5YwlByQEfAN8KSSiBfd/bUGILxvlJN4hW1PBQSC4bL/N94Yekxk6lqOHeDse7vtAX2NvK4Oaa6p/1G+nC6H2gc=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OS3PR01MB7048.jpnprd01.prod.outlook.com (2603:1096:604:121::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Sat, 19 Jun
+ 2021 07:25:05 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b834:5e50:2ce8:9ae0]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b834:5e50:2ce8:9ae0%3]) with mapi id 15.20.4242.022; Sat, 19 Jun 2021
+ 07:25:04 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+CC:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: RE: [PATCH] media: vsp1: Simplify DRM UIF handling
+Thread-Topic: [PATCH] media: vsp1: Simplify DRM UIF handling
+Thread-Index: AQHXZHVwVRc13Ki5L0eQq/y/oBSkCasa7sUQ
+Date:   Sat, 19 Jun 2021 07:25:04 +0000
+Message-ID: <OS0PR01MB59225776AA6269C4EA2AD1C2860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20210618190905.580258-1-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20210618190905.580258-1-kieran.bingham@ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: ideasonboard.com; dkim=none (message not signed)
+ header.d=none;ideasonboard.com; dmarc=none action=none
+ header.from=bp.renesas.com;
+x-originating-ip: [86.139.26.177]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7115cb09-e4f0-4646-d017-08d932f35be4
+x-ms-traffictypediagnostic: OS3PR01MB7048:
+x-microsoft-antispam-prvs: <OS3PR01MB7048F2A759442A26CDB838C6860C9@OS3PR01MB7048.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:369;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: sqcKIH1jNFqoxnIeWVsv+bKiT44UkXgv7wyrRyvKvuh1Pkn6v6B5NFDGZXxvLgaN6USzIXjp3LtS6rjWLCI5Kh0zxIUZJoXikn9WldodaLB0vfPMfOFdHP+PhlWDTLJF9YTEVFKGC2SKT+azVTB7Pbgi22FzwJryKqZyAqWffip0xKBsEJZyF14DZfedBtYxXkrFTno9xDTn2zlteUjD9q2X79ydCGOj8Xh3W0g1EdBB3/pUp4EqxjLZLn3uWHkatbM/IuKVpi5cJnk3IF/agwLF3LDe4xviWNhSjhFhMSft3ORNVVfGL/rUxSKGV03ojx3zQ4fMlG+E0+gnKSdtEnsmp9kBvKD+XRFxN+7iXoyqk5lZcfHhnZdgylHc09cdkHA3+Sc7uhv+G32wYIuZUlwftYxLQqtbo6fAuKwwMCNiJG7E/XOusqK/TVdCMe/ViFf24sEXbuM1HgErexaHp4Epg3463sG4zfpwAuTMt/Ff5YngfAZ2XsB1TivaDfGrlfIgeZhpSiXtX0KWYZ8WsvX4rZNhYHqk5wUiI/3SIPgd+snPWtGHS4uLMu+YercJPOgou+Ddsj4GfAf+deIQmVhak4xmlZqUYEIDoghdEvA=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(366004)(39850400004)(136003)(376002)(8676002)(71200400001)(8936002)(76116006)(66946007)(52536014)(66446008)(66476007)(64756008)(5660300002)(66556008)(2906002)(6506007)(26005)(55016002)(83380400001)(9686003)(316002)(122000001)(4326008)(38100700002)(186003)(86362001)(33656002)(7696005)(110136005)(478600001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?kXNVCtqPbgIghaJq9NfjvW8ElPGCdWEgRb4OD94pmefHZvHiOOL8qIPQ8sRg?=
+ =?us-ascii?Q?6jSxdX7y7MvsP9xS0JejFPnrB0nQi3qYj7hCfgcBNVvrN0aCzY7do2VkYsif?=
+ =?us-ascii?Q?dHK9+mj2FPXihZUC3FuHWwyOw6ljPebqpl7aQi7um8AP8sUDkTf+Xm1b93QE?=
+ =?us-ascii?Q?M5Y9b8SfMSky8OpZdHV9d8fgEsbO94xU0mai18vWwjb9BT6TR0LGNNMJzKhK?=
+ =?us-ascii?Q?+kpTYM0KqMzzALty8ahzUJ/4s1Kav2E1aqUZDCEF6LFUDAKJk9hivkR7xveP?=
+ =?us-ascii?Q?VuQNmT48lq8kRGDczxsUXDkkvmvuB80yHv3LWjMuOJIra4pXhwW0u8dMFGEt?=
+ =?us-ascii?Q?hhx597JsHLt3N7ywbfxJwABa00nWZcrqgXV5g54ZD9uYNlNdSIisCWyethVK?=
+ =?us-ascii?Q?aK/cx9wskp+8DBtdgGLaFRlZJlw6g0MRMN3sWFhcMRQZLYR9ViGVHhBGDRtO?=
+ =?us-ascii?Q?TE9u32kDfQgRQWPk+nNl/5k8D51xtV0tA+LitV1hYpBK6Yns2W3ZWSDZhiHW?=
+ =?us-ascii?Q?OtX+UqEOZbLP3iYvSGxvYAc7zSllEsasyCWkrwRA4Nrml37Nz1OAPKRvqKRm?=
+ =?us-ascii?Q?BjSYOYrgFWLgpQkJbURzOwaNXzH9MslcYV7voEx8TR6vQdadYmcnVGYEeG+B?=
+ =?us-ascii?Q?9jYUqM4kiygF/UNpCe02xhVsvBqpDBkG/Fduhoed7IB4XTDEHQyhUe2VE+T3?=
+ =?us-ascii?Q?ivNlRyR75c2bSaWBd/AsBVsA2Dj7JP0asovB9IcVAfpSj3SCoUASL6L0r+N2?=
+ =?us-ascii?Q?xKRkXnAwCM5HV1KO3V0VO7JXJqyhzRxNF5/Dhku2IaoYVWgL8Jv7EmmFKkgx?=
+ =?us-ascii?Q?bFIOq1gwFnVvxGti8qkZ/weVJK8XUwcS+sB3vevJvxKzxi6LVrWXURpPJEWb?=
+ =?us-ascii?Q?7d/KvgW2FSfTF/wspP25r5BYGoUXZs7mj0qU61//iYMxb9vRmqH8G3IM66qS?=
+ =?us-ascii?Q?nB5hd98C0FPR1ar7K6kOZGuimM/3y6O6T1OD3yX3SdsXHXWGtzN3uZVeCzQS?=
+ =?us-ascii?Q?aqPKbSTCkM4ZvdZv6QvVaWaS9qcLf9oMAH94A6XOSQOjgSUR9GGfm9hdh6Nl?=
+ =?us-ascii?Q?e6pD65ledr+StAZD+d2DeaX78IXSvSe6oF6yqRuxSM4nuzvplKUmNVC3mK79?=
+ =?us-ascii?Q?3LjmMam6P9GwfuRZnhoiUO8o5D7D1SgSxt/cIcxnAYxs/ZE7mJe0NEG8LUhE?=
+ =?us-ascii?Q?YISho4CpeY50THsq70hJ2dv9mtfF+b4zeEudmNdbT0Ma64YHxG6k2n47fHbg?=
+ =?us-ascii?Q?f45WFLLfa8UnW+rgpbz7tBTJRQkl95XcDuogQ/6aDPJVhbepHrdGvMCvZAwG?=
+ =?us-ascii?Q?A+iwlCrfvrDjP4twXaPOlJ+A?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Sat, 19 Jun 2021 11:22:41 +0530
-From:   vgarodia@codeaurora.org
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     mansur@codeaurora.org,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dikshita@codeaurora.org
-Subject: Re: [PATCH] venus: helper: do not set constrained format for UBWC
-In-Reply-To: <28ab2706-2a0c-e9d6-c02c-8ede6fa01efb@linaro.org>
-References: <1622195288-18541-1-git-send-email-mansur@codeaurora.org>
- <a66e00f2-af3a-9550-0779-625152cc2719@nexus-software.ie>
- <17aaec56-bfad-63a6-b1c4-7562dedb3137@linaro.org>
- <b649a7ecb3feb1fdf6d0743135814840@codeaurora.org>
- <28ab2706-2a0c-e9d6-c02c-8ede6fa01efb@linaro.org>
-Message-ID: <05db22230b573c47376c95b624dcf23c@codeaurora.org>
-X-Sender: vgarodia@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7115cb09-e4f0-4646-d017-08d932f35be4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2021 07:25:04.6673
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ecW6zmJLLmO2Ru0mNOF59iTbG+tKz9quWNbPI3D9chTyrIz06jAPTflNHewCTRzUE1Ja2oyOvxZ4grIihsl1lUsDbxXN7vH6BA+mAm07itI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB7048
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bryan,
+Hi Kieran,
 
-On 2021-06-14 17:26, Bryan O'Donoghue wrote:
-> On 14/06/2021 07:25, mansur@codeaurora.org wrote:
->> On 2021-06-02 15:23, Stanimir Varbanov wrote:
->>> Mansur, could you answer to Bryan's comments?
->>> 
->>>> On 5/28/21 8:23 PM, Bryan O'Donoghue wrote:
->>>>> On 28/05/2021 10:48, Mansur Alisha Shaik wrote:
->>>>>> Do not set constrained format explicitly for UBWC
->>>>>> 
->>>>>> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
->>>>> 
->>>>> Could you give a little bit more detail on why, what the side 
->>>>> effects are ?
->>>>> 
->>      Sorry for late response, by default for NV12_UBWC is 128x32
->> 
-> 
-> Right so we have
-> 
-> pconstraint.plane_format[0].stride_multiples = 128;
-> pconstraint.plane_format[0].min_plane_buffer_height_multiple = 32;
-> 
-> and
-> 
-> pconstraint.plane_format[1].stride_multiples = 128;
-> pconstraint.plane_format[1].min_plane_buffer_height_multiple = 16;
-> 
-> and your patch says if opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC then the
-> we shouldn't do hfi_session_set_property()
-> 
-> I'm sure that's a fix that works but, I wonder would it be possible to
-> fix this routine to continue to do hfi_session_set_property() with
-> updated parameters for opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC ?
+Thanks for the patch.
 
-Venus hardware would always go with alignments as 128x32 for WxH 
-irrespective
-of color formats. It happened so (historically) that for NV12 (linear) 
-format,
-usecase started demanding for alignments as 256(interlace) and 
-512(HEIF), and
-hence NV12 was defaulted to align as 512x512 in firmware. This was done 
-to avoid
-carrying multiple alignments for different usecases, since aligning with 
-512x512
-would also align it with 128x32 and 256x256 as well.
-For UBWC, there is no need to override the default alignment of 128x32, 
-hence
-the api was added to override default alignments for applicable formats, 
-in
-this case NV12(Linear).
+> Subject: [PATCH] media: vsp1: Simplify DRM UIF handling
+>=20
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>=20
+> In commit 6732f3139380 ("media: v4l: vsp1: Fix uif null pointer access")
+> the handling of the UIF was over complicated, and the patch applied befor=
+e
+> review.
+>=20
+> Simplify it to keep the conditionals small.
+>=20
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> Could you drill down into the detail in the commit log a little bit
-> maybe giving a description of why returning for opb_fmt ==
-> HFI_COLOR_FORMAT_NV12_UBWC is the right thing to-do instead of adding
-> a new case to the routine for HFI_COLOR_FORMAT_NV12_UBWC and calling
-> hfi_session_set_property() ?
+I forgot this. Thanks for taking care this.
 
-Above details should provide info on the need to set this only for NV12 
-(linear)
-and skip for NV12 (UBWC).
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-> Its more for my own education on this topic :) but, also helps
-> somebody else reading the log to understand what the fix is, why it is
-> done this way.
-> 
->>>>> Should this be a Fixes: ?
->>>>> 
->>      without this fix on V6, firmware throws below SFR
->>      qcom-venus aa00000.video-codec: SFR message from FW: 
->> QC_IMAGE_VERSION_STRING=video-firmware.1.0-df9cb37cf8e507a4468265658702247652351a49 
->>      Err_Fatal - 
->> /local/mnt/workspace/pkg/builds/dynamic_timely/tree2/vendor/qcom/proprietary/video-firmware-noship/venus_proc/venus/decoders/common/src/video_decoder.c:6644:2fef3 
->>      which result in playback happens through Software codec.
-> OK, I think I can answer my own question here.
-> 
-> Technically no since 6XX isn't in the long-term-support kernel but,
-> I'd suggest adding a "Fixes" anyway, so that other users know to apply
-> this patch to their trees.
-> 
-> Fixes: bc28936bbba9 ("media: venus: helpers, hfi, vdec: Set actual
-> plane constraints to FW")
+Cheers,
+Biju
 
-Yes, it should go as "Fixes" tag to above patch which we made for 6xx 
-recently.
+> ---
+>=20
+> Another one that I had lying around in my tree for too long ....
+>=20
+>  drivers/media/platform/vsp1/vsp1_drm.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/vsp1/vsp1_drm.c
+> b/drivers/media/platform/vsp1/vsp1_drm.c
+> index 06f74d410973..0c2507dc03d6 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drm.c
+> @@ -455,6 +455,10 @@ static int vsp1_du_pipeline_setup_inputs(struct
+> vsp1_device *vsp1,
+>  		dev_err(vsp1->dev, "%s: failed to setup UIF after %s\n",
+>  			__func__, BRX_NAME(pipe->brx));
+>=20
+> +	/* If the DRM pipe does not have a UIF there is nothing we can
+> update. */
+> +	if (!drm_pipe->uif)
+> +		return 0;
+> +
+>  	/*
+>  	 * If the UIF is not in use schedule it for removal by setting its
+> pipe
+>  	 * pointer to NULL, vsp1_du_pipeline_configure() will remove it from
+> the @@ -462,9 +466,9 @@ static int vsp1_du_pipeline_setup_inputs(struct
+> vsp1_device *vsp1,
+>  	 * make sure it is present in the pipeline's list of entities if it
+>  	 * wasn't already.
+>  	 */
+> -	if (drm_pipe->uif && !use_uif) {
+> +	if (!use_uif) {
+>  		drm_pipe->uif->pipe =3D NULL;
+> -	} else if (drm_pipe->uif && !drm_pipe->uif->pipe) {
+> +	} else if (!drm_pipe->uif->pipe) {
+>  		drm_pipe->uif->pipe =3D pipe;
+>  		list_add_tail(&drm_pipe->uif->list_pipe, &pipe->entities);
+>  	}
+> --
+> 2.30.2
 
-Thanks,
-Vikash
