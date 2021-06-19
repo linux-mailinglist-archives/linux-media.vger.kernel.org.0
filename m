@@ -2,65 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62FE93AD869
-	for <lists+linux-media@lfdr.de>; Sat, 19 Jun 2021 09:29:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DDF83AD891
+	for <lists+linux-media@lfdr.de>; Sat, 19 Jun 2021 10:16:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233463AbhFSHbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Jun 2021 03:31:08 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:56425 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232445AbhFSHbH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Jun 2021 03:31:07 -0400
-X-UUID: 89e90070255a46ffbeaf675968f97a16-20210619
-X-UUID: 89e90070255a46ffbeaf675968f97a16-20210619
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-        (envelope-from <lecopzer.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 472223609; Sat, 19 Jun 2021 15:28:55 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 19 Jun 2021 15:28:53 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 19 Jun 2021 15:28:53 +0800
-From:   Lecopzer Chen <lecopzer.chen@mediatek.com>
-To:     <sean@mess.org>
-CC:     <lecopzer.chen@mediatek.com>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <mchehab@kernel.org>,
-        <yj.chiang@mediatek.com>
-Subject: Re: [PATCH] media: Kconfig: Fix DVB_CORE can't be selected as module
-Date:   Sat, 19 Jun 2021 15:28:53 +0800
-Message-ID: <20210619072853.25882-1-lecopzer.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210618162334.GA31513@gofer.mess.org>
-References: <20210618162334.GA31513@gofer.mess.org>
+        id S233840AbhFSISE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Jun 2021 04:18:04 -0400
+Received: from gofer.mess.org ([88.97.38.141]:32873 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233586AbhFSISD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 19 Jun 2021 04:18:03 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 87708C64CE; Sat, 19 Jun 2021 09:15:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1624090551; bh=6uWZ5D/Vfe+loYwha1/nll3IHXXspVs9vHhejVISxO4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mY2yXOYBSAx6pjBRMPVlMQyHzX2DGqmOL/4I0b+xcevpO4FZT73ZmTc6oaOzZ/t2M
+         R+3e5NOD4SwjUduSLcLauUyiNJvfqbFP175kE/qJLj7/WcyfjXgsO5D9Ot1RZpKdPf
+         OUzYvpil7DEsPhZ9Y+7fe7dgJvuOz7cs7THnD/TLB2BefubktvGvpCwOqHQ3Hg5hWd
+         B4aHSThpGi6Wd27fNupk6KHKfC54EMK9LDC7SgjUIKk7XrNueebeWKAo7UFpgu5Nt8
+         YlN+P1LyUHOxwOyUzmH8VyXLi7KQahiCIDGj85UcoafMXOEqIs+zg4ORTPK6JLFrcW
+         JzUE2ePKV35ug==
+Date:   Sat, 19 Jun 2021 09:15:51 +0100
+From:   Sean Young <sean@mess.org>
+To:     lijian_8010a29@163.com
+Cc:     gustavoars@kernel.org, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lijian <lijian@yulong.com>
+Subject: Re: [PATCH] media: dvb-frontends: dib0090: Delete 'break' after
+ 'goto'
+Message-ID: <20210619081551.GA6887@gofer.mess.org>
+References: <20210618070707.4731-1-lijian_8010a29@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210618070707.4731-1-lijian_8010a29@163.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> On Tue, Jun 08, 2021 at 06:14:51PM +0800, Lecopzer Chen wrote:
-> > The DVB_CORE now depends on MEDIA_DIGITAL_TV_SUPPORT and
-> > default MEDIA_DIGITAL_TV_SUPPORT, and this makes it can never be =m
-> > since the type of MEDIA_DIGITAL_TV_SUPPORT is bool.
+On Fri, Jun 18, 2021 at 03:07:07PM +0800, lijian_8010a29@163.com wrote:
+> From: lijian <lijian@yulong.com>
 > 
-> First of all, the distributions carrry dvb_core as a module, so clearly
-> it possible to set DVB_CORE=m.
+> break is not useful after a goto, so delete 'break' after 'goto',
+> and delete reused 'goto identification_error;'.
 > 
-> As far as I can see, if MEDIA_SUPPORT=m, then DVB_CORE=m. 
+> Signed-off-by: lijian <lijian@yulong.com>
+> ---
+>  drivers/media/dvb-frontends/dib0090.c | 4 ----
+>  1 file changed, 4 deletions(-)
 > 
-> So it is possible.
+> diff --git a/drivers/media/dvb-frontends/dib0090.c b/drivers/media/dvb-frontends/dib0090.c
+> index 903da33642df..9179fe1bd713 100644
+> --- a/drivers/media/dvb-frontends/dib0090.c
+> +++ b/drivers/media/dvb-frontends/dib0090.c
+> @@ -403,8 +403,6 @@ static int dib0090_identify(struct dvb_frontend *fe)
+>  			break;
+>  		case P1A_B:
+>  			dprintk("P1-A/B detected: driver is deactivated - not available\n");
+> -			goto identification_error;
+> -			break;
 
-Thanks for review.
+Removing both the break and the goto introduces a switch fallthrough; this
+would need explicit marking with the fallthrough keyword.
 
-After checking, It does change DVB_CORE=m if MEDIA_SUPPORT=m.
+Having said that, fallthrough isn't needed here. Best to avoid fallthrough
+with all it pitfalls and just keep the goto.
 
-We had MEDIA_SUPPORT=y, thus misunderstood by 'default MEDIA_DIGITAL_TV_SUPPORT'.
+>  		default:
+>  			goto identification_error;
+>  		}
+> @@ -493,8 +491,6 @@ static int dib0090_fw_identify(struct dvb_frontend *fe)
+>  			break;
+>  		case P1A_B:
+>  			dprintk("P1-A/B detected: driver is deactivated - not available\n");
+> -			goto identification_error;
+> -			break;
 
-Thanks again for figuring out this.
+Same here.
 
-
--Lecopzer
+>  		default:
+>  			goto identification_error;
+>  		}
+> -- 
+> 2.25.1
