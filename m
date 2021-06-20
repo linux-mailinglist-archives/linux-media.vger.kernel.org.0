@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DE893AE018
-	for <lists+linux-media@lfdr.de>; Sun, 20 Jun 2021 21:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB7723AE01A
+	for <lists+linux-media@lfdr.de>; Sun, 20 Jun 2021 21:47:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230028AbhFTTrw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Jun 2021 15:47:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35510 "EHLO
+        id S230014AbhFTTtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Jun 2021 15:49:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229872AbhFTTrw (ORCPT
+        with ESMTP id S229872AbhFTTtO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Jun 2021 15:47:52 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72446C061574;
-        Sun, 20 Jun 2021 12:45:39 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id d16so18996427lfn.3;
-        Sun, 20 Jun 2021 12:45:39 -0700 (PDT)
+        Sun, 20 Jun 2021 15:49:14 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9EF4C061574;
+        Sun, 20 Jun 2021 12:47:00 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id f8so14675381lfu.6;
+        Sun, 20 Jun 2021 12:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+W/O6gOP6IW6u1NkP1013U+G2XvQ//6bD4DQBNJYUMU=;
-        b=tUz4xde1JRGigviwrH3tb3lX2Ricb55oLB+6TE6UCbW235XiKNhsH/LZyKtclCGPK3
-         Dr8hfK5rWAZGzdEjtm7gVKbEEmxYFhxK246MN1CmSFuGaziDINBipKXnX0mdz/0BtI/D
-         dj7IXWX6EI9iODePoDwNQrbH2VZeXo3YIDnigt1am7Ur2XdsvP583KFrznmlxySW3c1U
-         4ltSEXw9nF6d9SAKM+D/zjUUjUFazCVY/gIgGedbeYm9uJisc1zrgt9Bzf12A3CMoxtP
-         /+1ST49RA4fdtSmWqlYF6M4m/lX6ayYGh+uzSgVVpkrDLXAWtiddDesSmtX9O4iFw+h3
-         +ipA==
+        bh=QJJTRUSYjIQLxUFD4qYl8I2m6+/94h3/V5V1FUIXn7g=;
+        b=b8acL7uZ5TxeRsArHX8WqS6j0/RXMgOHE91CxKAydAh8kONnLql2O6OxzNYeiq+r2d
+         GWgNUWVrGpBeJE1dSX4gXBpo1zJHTkg//m2hWzxFx9+G7PLZFz/OeeSCoEkF6vjp++fM
+         fP/gldhOLvEkONnEFKJAPoQ0zDmlXrEEFHyiT6OqSzYoBx3V+J91tikhXItSd2oAMsMR
+         xeEK4OdNfCEu97KiT3HgALveb++g7gUauRVaQLtybw4AyxKTI9EGH6pW4BC5yb/mTAwQ
+         jRy7FccBZrIsMlAeLAI012bexOTDE8WXJDHWKvD/IEt+Jphd7ASgoSL9TPoudN2xogLZ
+         gWSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+W/O6gOP6IW6u1NkP1013U+G2XvQ//6bD4DQBNJYUMU=;
-        b=jOUTQ/qN5ikIbwfx35NPBOEFCbRE1omLx9YwyfeLmgybJujFSO2lcqJ8knkx2OSloS
-         wOLrU7SpeWMBsdJQuTRHvutFQxdwUEJBtkKffSeJmoyRrD6fWQ8cMemiJZ8DLbY0dLZF
-         Rz/buepHgiOy1uw2alAsghemLGHNaoR3oOzmzddcTQOrxuWzJBVh/Kckvjpl86mO1Ygu
-         6fnqSkYjoerGPwNdOs4sTMOAZzZa2c3tiFulK6ZmPgqQ8IMthUztk1VO3JYWHgb6/LYd
-         Ti2Sa/L/d4nor2jAaTwfADLAh7ZgkqcMmQj3ZaEZPSlQ2lS+LSj6VFBxxhr4m1FDbr83
-         i6zQ==
-X-Gm-Message-State: AOAM530RIfqKwp5uRTEfgzW3WzQNo4JInFDe2kLHyYPxUvo9FJPLmrqN
-        zZlmTi7q8jDIvJHDyjmYm1Y=
-X-Google-Smtp-Source: ABdhPJxMf0lULcoAzc5DdX2YIKkaMEj1RP7S5PCazPu7TPz+KtwbMVAtsfmdHip+xoPolH8NnDtbKw==
-X-Received: by 2002:ac2:46c2:: with SMTP id p2mr2008492lfo.125.1624218337822;
-        Sun, 20 Jun 2021 12:45:37 -0700 (PDT)
+        bh=QJJTRUSYjIQLxUFD4qYl8I2m6+/94h3/V5V1FUIXn7g=;
+        b=oZb4QiLUcCAdGeA2dOMbxRF+nI/nJJKvJdBMQadaz3COGUj7c+5feaanwbaf3sYamE
+         a1djIzUnRC30o5okXCy86hZ4mjpJGHIyG1TjE09UaldhJLIoCjnHW/mo5AdFe3TSh+CP
+         di4QnR9wcuYzNaWNZ6Ol3B1Zx3bKnSa55DQIu4d7FHazJus7h/tTrMTsBQ33m38xPpZl
+         hYFNYGEMIlUr3BVxvBCDSKiqECzil0Xqe6reYuNE9Im240B05+bNNVGPcO7WijeKJmNP
+         6QJyIFCb4MRVNJtsQeCzhgKOcyW0zZGbTfEglDgCvGMmGvpjgq9dyAQIsw61Qdln/ZQY
+         +xWw==
+X-Gm-Message-State: AOAM531jrb8FL5kKcxxhvv/y/sb0CgXV4hIc+MIItx0YsRvccte9LLXr
+        +IaCqLJg1fILpZ0/4ic6z9c=
+X-Google-Smtp-Source: ABdhPJwzYshMhSsoaGotMT/TySkoxzGc91M+bm7SwyHt2W60/WTUbBMK0DVzN2UO49EI9B7madp+GA==
+X-Received: by 2002:a05:6512:1326:: with SMTP id x38mr11199748lfu.62.1624218419263;
+        Sun, 20 Jun 2021 12:46:59 -0700 (PDT)
 Received: from localhost.localdomain ([94.103.229.24])
-        by smtp.gmail.com with ESMTPSA id f8sm1928330ljj.110.2021.06.20.12.45.34
+        by smtp.gmail.com with ESMTPSA id z13sm1031271ljn.92.2021.06.20.12.46.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jun 2021 12:45:37 -0700 (PDT)
+        Sun, 20 Jun 2021 12:46:58 -0700 (PDT)
 From:   Pavel Skripkin <paskripkin@gmail.com>
 To:     hverkuil-cisco@xs4all.nl, mchehab@kernel.org, oneukum@suse.com,
         gregkh@suse.de
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
         Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH 1/2] media: go7007: fix memory leak in go7007_usb_probe
-Date:   Sun, 20 Jun 2021 22:45:02 +0300
-Message-Id: <fd632c9a289eb28ded37b573e999a8f4e7402ca3.1624217907.git.paskripkin@gmail.com>
+Subject: [PATCH 2/2] media: go7007: remove redundant initialization
+Date:   Sun, 20 Jun 2021 22:45:42 +0300
+Message-Id: <dc1bd4f8df4e07263e7c3ff7e1853ee3dec95df8.1624217907.git.paskripkin@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1624217907.git.paskripkin@gmail.com>
 References: <cover.1624217907.git.paskripkin@gmail.com>
@@ -66,58 +66,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In commit 137641287eb4 ("go7007: add sanity checking for endpoints")
-endpoint sanity check was introduced, but if check fails it simply
-returns with leaked pointers.
+In go7007_alloc() kzalloc() is used for struct go7007
+allocation. It means that there is no need in zeroing
+any members, because kzalloc will take care of it.
 
-Cutted log from my local syzbot instance:
+Removing these reduntant initialization steps increases
+execution speed a lot:
 
-BUG: memory leak
-unreferenced object 0xffff8880209f0000 (size 8192):
-  comm "kworker/0:4", pid 4916, jiffies 4295263583 (age 29.310s)
-  hex dump (first 32 bytes):
-    30 b0 27 22 80 88 ff ff 75 73 62 2d 64 75 6d 6d  0.'"....usb-dumm
-    79 5f 68 63 64 2e 33 2d 31 00 00 00 00 00 00 00  y_hcd.3-1.......
-  backtrace:
-    [<ffffffff860ca856>] kmalloc include/linux/slab.h:556 [inline]
-    [<ffffffff860ca856>] kzalloc include/linux/slab.h:686 [inline]
-    [<ffffffff860ca856>] go7007_alloc+0x46/0xb40 drivers/media/usb/go7007/go7007-driver.c:696
-    [<ffffffff860de74e>] go7007_usb_probe+0x13e/0x2200 drivers/media/usb/go7007/go7007-usb.c:1114
-    [<ffffffff854a5f74>] usb_probe_interface+0x314/0x7f0 drivers/usb/core/driver.c:396
-    [<ffffffff845a7151>] really_probe+0x291/0xf60 drivers/base/dd.c:576
+	Before:
+		+ 86.802 us   |    go7007_alloc();
+	After:
+		+ 29.595 us   |    go7007_alloc();
 
-BUG: memory leak
-unreferenced object 0xffff88801e2f2800 (size 512):
-  comm "kworker/0:4", pid 4916, jiffies 4295263583 (age 29.310s)
-  hex dump (first 32 bytes):
-    00 87 40 8a ff ff ff ff 00 00 00 00 00 00 00 00  ..@.............
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff860de794>] kmalloc include/linux/slab.h:556 [inline]
-    [<ffffffff860de794>] kzalloc include/linux/slab.h:686 [inline]
-    [<ffffffff860de794>] go7007_usb_probe+0x184/0x2200 drivers/media/usb/go7007/go7007-usb.c:1118
-    [<ffffffff854a5f74>] usb_probe_interface+0x314/0x7f0 drivers/usb/core/driver.c:396
-    [<ffffffff845a7151>] really_probe+0x291/0xf60 drivers/base/dd.c:576
-
-Fixes: 137641287eb4 ("go7007: add sanity checking for endpoints")
+Fixes: 866b8695d67e8 ("Staging: add the go7007 video driver")
 Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 ---
- drivers/media/usb/go7007/go7007-usb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/go7007/go7007-driver.c | 26 ------------------------
+ 1 file changed, 26 deletions(-)
 
-diff --git a/drivers/media/usb/go7007/go7007-usb.c b/drivers/media/usb/go7007/go7007-usb.c
-index dbf0455d5d50..eeb85981e02b 100644
---- a/drivers/media/usb/go7007/go7007-usb.c
-+++ b/drivers/media/usb/go7007/go7007-usb.c
-@@ -1134,7 +1134,7 @@ static int go7007_usb_probe(struct usb_interface *intf,
+diff --git a/drivers/media/usb/go7007/go7007-driver.c b/drivers/media/usb/go7007/go7007-driver.c
+index f1767be9d868..6650eab913d8 100644
+--- a/drivers/media/usb/go7007/go7007-driver.c
++++ b/drivers/media/usb/go7007/go7007-driver.c
+@@ -691,49 +691,23 @@ struct go7007 *go7007_alloc(const struct go7007_board_info *board,
+ 						struct device *dev)
+ {
+ 	struct go7007 *go;
+-	int i;
  
- 	ep = usb->usbdev->ep_in[4];
- 	if (!ep)
--		return -ENODEV;
-+		goto allocfail;
+ 	go = kzalloc(sizeof(struct go7007), GFP_KERNEL);
+ 	if (go == NULL)
+ 		return NULL;
+ 	go->dev = dev;
+ 	go->board_info = board;
+-	go->board_id = 0;
+ 	go->tuner_type = -1;
+-	go->channel_number = 0;
+-	go->name[0] = 0;
+ 	mutex_init(&go->hw_lock);
+ 	init_waitqueue_head(&go->frame_waitq);
+ 	spin_lock_init(&go->spinlock);
+ 	go->status = STATUS_INIT;
+-	memset(&go->i2c_adapter, 0, sizeof(go->i2c_adapter));
+-	go->i2c_adapter_online = 0;
+-	go->interrupt_available = 0;
+ 	init_waitqueue_head(&go->interrupt_waitq);
+-	go->input = 0;
+ 	go7007_update_board(go);
+-	go->encoder_h_halve = 0;
+-	go->encoder_v_halve = 0;
+-	go->encoder_subsample = 0;
+ 	go->format = V4L2_PIX_FMT_MJPEG;
+ 	go->bitrate = 1500000;
+ 	go->fps_scale = 1;
+-	go->pali = 0;
+ 	go->aspect_ratio = GO7007_RATIO_1_1;
+-	go->gop_size = 0;
+-	go->ipb = 0;
+-	go->closed_gop = 0;
+-	go->repeat_seqhead = 0;
+-	go->seq_header_enable = 0;
+-	go->gop_header_enable = 0;
+-	go->dvd_mode = 0;
+-	go->interlace_coding = 0;
+-	for (i = 0; i < 4; ++i)
+-		go->modet[i].enable = 0;
+-	for (i = 0; i < 1624; ++i)
+-		go->modet_map[i] = 0;
+-	go->audio_deliver = NULL;
+-	go->audio_enabled = 0;
  
- 	/* Allocate the URB and buffer for receiving incoming interrupts */
- 	usb->intr_urb = usb_alloc_urb(0, GFP_KERNEL);
+ 	return go;
+ }
 -- 
 2.32.0
 
