@@ -2,214 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54C8B3AE90C
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 14:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 813E63AE956
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 14:44:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229710AbhFUMbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 08:31:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59284 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229699AbhFUMbN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 08:31:13 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1BBDC061574
-        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 05:28:59 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id w23-20020a9d5a970000b02903d0ef989477so17459638oth.9
-        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 05:28:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HHQC6lOkJEn8B4ZK4mW/HBR6aX7M4uga90R1ZErZgKw=;
-        b=Td38oUyS/9/MPrT4jo5WsEx4w0MWOF/8bM1XyUzvOBwwzScRQorv0t2fw+zHCf7ir0
-         h8zpP6oNobDqmDV0rX43vwv23S4wvsx20o1++gTR06+eOXnxOdhaB+3kQbyaZz/2S0tV
-         GQVwEXVWhC4IEfs607x4fPCPD20Mejq78fTdQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HHQC6lOkJEn8B4ZK4mW/HBR6aX7M4uga90R1ZErZgKw=;
-        b=LTBRbFFSydNrJeNOPhjbJ3CS0x25/b8TAIbyw5/NHMHFFJgEVD4D6CWr2DW/n2JNyW
-         sYoZTI+eqlssmebD46m/R/U3O+L2seU71dLiRaANkNIhR3rddkc1T11TVcg6zciEU1iK
-         wz3zqrNiEZiseVBghJ+TOkRxEDVPCUkxSry6gc9uYkWn+Zgnf///Z7cQywrpoa6xan7J
-         29lI1azAXagrZQr6wnA3S5LZGzuXs1feQY/9ymbK3Rl5vo82MK6HXkvGqp9maDMhDwpm
-         Otd/6K2TLIY7MDk8Kl+oAiUElFr13xdqCltnFFpfhNk3utKpIPg0E6xWVnyh5n9T2cuO
-         Y0Yw==
-X-Gm-Message-State: AOAM532WnhIwYemDWwT/GQKvfFnwWJpU98XksQxz/esVdOwGTXlhbrIg
-        w0Iql8D2+Nybt6/oRt1i2sWlNjZuZDG97A/euzQ7bA==
-X-Google-Smtp-Source: ABdhPJwD0i9Zn4q4SoQulAg+xyZR3j3c5+btpLl6Z1t9xWUhyH1ThXXNgyVXCPxYSRcrINNnl8lEcpNTDGpjBNUKKJE=
-X-Received: by 2002:a9d:12eb:: with SMTP id g98mr20269296otg.303.1624278539116;
- Mon, 21 Jun 2021 05:28:59 -0700 (PDT)
+        id S230175AbhFUMqU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 08:46:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42954 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230151AbhFUMqT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Jun 2021 08:46:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 218C26100A;
+        Mon, 21 Jun 2021 12:44:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624279445;
+        bh=zBkrPCc4gukU1g4aKIjdASlfQzXliDqkFOJ3vMm+t6s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=O1zAklzB02xKPtjGbXU9ihqBoFIwm+3B6CpTPV2laRLwIz3KMPN0iYzLNTxq07fDd
+         qKZRBYVaEtgTMSH0d4zBt2ccFoao1nC3s31g5RAV2uKZ7XRVzoJJwyBsDJQdSkFbw/
+         MY0lkkf8DPUPHcWNhit4cJeU1RmuPwqHYOF8BwlPT+htFGCbUXLi16f7O6BCE8Hp8D
+         CGSR9Dts0ZeotkJQq5F2Ti9iJNoI4W/g1f+pT7hCdSsAoRMDaMY/CnO+Hx5fF+667l
+         zAGlyIR9ZRwXTLQbEdyTsv54zdmzko60P2+Rx9c1orT0mt3G8Z8MODdrHcghCER2PJ
+         L8eVrNz0NBlFg==
+Date:   Mon, 21 Jun 2021 14:44:02 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     =?UTF-8?B?SsOhbiDEjMOhbmk=?= <pego149@gmail.com>
+Cc:     linux-media@vger.kernel.org, jp@jpvw.nl
+Subject: Re: [PATCH] Signed-off-by: =?UTF-8?B?SsOhbiDEjMOhbmk=?=
+ <pego149@gmail.com> Added Geniatech MyGica T230C2_LITE and T230A as many
+ people asking support for these devices on forums.
+Message-ID: <20210621144402.303c95c0@coco.lan>
+In-Reply-To: <YMuptIYFLdwSmw//@kali>
+References: <YMuptIYFLdwSmw//@kali>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210618123615.11456-1-ogabbay@kernel.org>
-In-Reply-To: <20210618123615.11456-1-ogabbay@kernel.org>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Mon, 21 Jun 2021 14:28:48 +0200
-Message-ID: <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-To:     Oded Gabbay <ogabbay@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Doug Ledford <dledford@redhat.com>,
-        "airlied@gmail.com" <airlied@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Tomer Tayar <ttayar@habana.ai>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 18, 2021 at 2:36 PM Oded Gabbay <ogabbay@kernel.org> wrote:
-> User process might want to share the device memory with another
-> driver/device, and to allow it to access it over PCIe (P2P).
->
-> To enable this, we utilize the dma-buf mechanism and add a dma-buf
-> exporter support, so the other driver can import the device memory and
-> access it.
->
-> The device memory is allocated using our existing allocation uAPI,
-> where the user will get a handle that represents the allocation.
->
-> The user will then need to call the new
-> uAPI (HL_MEM_OP_EXPORT_DMABUF_FD) and give the handle as a parameter.
->
-> The driver will return a FD that represents the DMA-BUF object that
-> was created to match that allocation.
->
-> Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
-> Reviewed-by: Tomer Tayar <ttayar@habana.ai>
+Em Thu, 17 Jun 2021 21:59:48 +0200
+J=C3=A1n =C4=8C=C3=A1ni <pego149@gmail.com> escreveu:
 
-Mission acomplished, we've gone full circle, and the totally-not-a-gpu
-driver is now trying to use gpu infrastructure. And seems to have
-gained vram meanwhile too. Next up is going to be synchronization
-using dma_fence so you can pass buffers back&forth without stalls
-among drivers.
+Patch applied, although the e-mail subject is really weird.
 
-Bonus points for this being at v3 before it shows up on dri-devel and
-cc's dma-buf folks properly (not quite all, I added the missing
-people).
-
-I think we roughly have two options here
-
-a) Greg continues to piss off dri-devel folks while trying to look
-cute&cuddly and steadfastly claiming that this accelator doesn't work
-like any of the other accelerator drivers we have in drivers/gpu/drm.
-All while the driver ever more looks like one of these other accel
-drivers.
-
-b) We finally do what we should have done years back and treat this as
-a proper driver submission and review it on dri-devel instead of
-sneaking it in through other channels because the merge criteria
-dri-devel has are too onerous and people who don't have experience
-with accel stacks for the past 20 years or so don't like them.
-
-"But this probably means a new driver and big disruption!"
-
-Not my problem, I'm not the dude who has to come up with an excuse for
-this because I didn't merge the driver in the first place. I do get to
-throw a "we all told you so" in though, but that's not helping.
-
-Also I'm wondering which is the other driver that we share buffers
-with. The gaudi stuff doesn't have real struct pages as backing
-storage, it only fills out the dma_addr_t. That tends to blow up with
-other drivers, and the only place where this is guaranteed to work is
-if you have a dynamic importer which sets the allow_peer2peer flag.
-Adding maintainers from other subsystems who might want to chime in
-here. So even aside of the big question as-is this is broken.
-
-Currently only 2 drivers set allow_peer2peer, so those are the only
-ones who can consume these buffers from device memory. Pinging those
-folks specifically.
-
-Doug/Jason from infiniband: Should we add linux-rdma to the dma-buf
-wildcard match so that you can catch these next time around too? At
-least when people use scripts/get_maintainers.pl correctly. All the
-other subsystems using dma-buf are on there already (dri-devel,
-linux-media and linaro-mm-sig for android/arm embedded stuff).
-
-Cheers, Daniel
+Next time, please ensure that the subject line would be a short
+description of the patch, and that a more detailed description,
+plus your SoB are at the beginning of the e-mail, e. g. the e-mail
+should be like:
 
 
+Date: Thu, 17 Jun 2021 21:59:48 +0200
+Subject: [PATCH] media: dvbsky: add support for MyGica T230C2_LITE and T230A
+From: J=C3=A1n =C4=8C=C3=A1ni <pego149@gmail.com>
 
-> ---
->  include/uapi/misc/habanalabs.h | 28 +++++++++++++++++++++++++++-
->  1 file changed, 27 insertions(+), 1 deletion(-)
->
-> diff --git a/include/uapi/misc/habanalabs.h b/include/uapi/misc/habanalabs.h
-> index a47a731e4527..aa3d8e0ba060 100644
-> --- a/include/uapi/misc/habanalabs.h
-> +++ b/include/uapi/misc/habanalabs.h
-> @@ -808,6 +808,10 @@ union hl_wait_cs_args {
->  #define HL_MEM_OP_UNMAP                        3
->  /* Opcode to map a hw block */
->  #define HL_MEM_OP_MAP_BLOCK            4
-> +/* Opcode to create DMA-BUF object for an existing device memory allocation
-> + * and to export an FD of that DMA-BUF back to the caller
-> + */
-> +#define HL_MEM_OP_EXPORT_DMABUF_FD     5
->
->  /* Memory flags */
->  #define HL_MEM_CONTIGUOUS      0x1
-> @@ -878,11 +882,26 @@ struct hl_mem_in {
->                         /* Virtual address returned from HL_MEM_OP_MAP */
->                         __u64 device_virt_addr;
->                 } unmap;
-> +
-> +               /* HL_MEM_OP_EXPORT_DMABUF_FD */
-> +               struct {
-> +                       /* Handle returned from HL_MEM_OP_ALLOC. In Gaudi,
-> +                        * where we don't have MMU for the device memory, the
-> +                        * driver expects a physical address (instead of
-> +                        * a handle) in the device memory space.
-> +                        */
-> +                       __u64 handle;
-> +                       /* Size of memory allocation. Relevant only for GAUDI */
-> +                       __u64 mem_size;
-> +               } export_dmabuf_fd;
->         };
->
->         /* HL_MEM_OP_* */
->         __u32 op;
-> -       /* HL_MEM_* flags */
-> +       /* HL_MEM_* flags.
-> +        * For the HL_MEM_OP_EXPORT_DMABUF_FD opcode, this field holds the
-> +        * DMA-BUF file/FD flags.
-> +        */
->         __u32 flags;
->         /* Context ID - Currently not in use */
->         __u32 ctx_id;
-> @@ -919,6 +938,13 @@ struct hl_mem_out {
->
->                         __u32 pad;
->                 };
-> +
-> +               /* Returned in HL_MEM_OP_EXPORT_DMABUF_FD. Represents the
-> +                * DMA-BUF object that was created to describe a memory
-> +                * allocation on the device's memory space. The FD should be
-> +                * passed to the importer driver
-> +                */
-> +               __u64 fd;
->         };
->  };
->
-> --
-> 2.25.1
->
+Add Geniatech MyGica T230C2_LITE and T230A as many people
+are asking support for these devices on forums.
+
+Signed-off-by: J=C3=A1n =C4=8C=C3=A1ni <pego149@gmail.com>
+
+diff --git a/drivers/media/usb/dvb-usb-v2/dvbsky.c b/drivers/media/usb/dvb-=
+usb-v2/dvbsky.c
+index 689829f1b52a..1221c924312a 100644
+--- a/drivers/media/usb/dvb-usb-v2/dvbsky.c
++++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+@@ -541,7 +541,9 @@ static int dvbsky_mygica_t230c_attach(struct dvb_usb_ad=
+apter *adap)
+ 	si2168_config.i2c_adapter =3D &i2c_adapter;
+ 	si2168_config.fe =3D &adap->fe[0];
+ 	si2168_config.ts_mode =3D SI2168_TS_PARALLEL;
+-	if (le16_to_cpu(d->udev->descriptor.idProduct) =3D=3D USB_PID_MYGICA_T230=
+C2)
++	if (le16_to_cpu(d->udev->descriptor.idProduct) =3D=3D USB_PID_MYGICA_T230=
+C2 ||
++	    le16_to_cpu(d->udev->descriptor.idProduct) =3D=3D USB_PID_MYGICA_T230=
+C2_LITE ||
++	    le16_to_cpu(d->udev->descriptor.idProduct) =3D=3D USB_PID_MYGICA_T230=
+A)
+ 		si2168_config.ts_mode |=3D SI2168_TS_CLK_MANUAL;
+ 	si2168_config.ts_clock_inv =3D 1;
+=20
+@@ -577,15 +579,24 @@ static int dvbsky_mygica_t230c_attach(struct dvb_usb_=
+adapter *adap)
+=20
+ static int dvbsky_identify_state(struct dvb_usb_device *d, const char **na=
+me)
+ {
+-	dvbsky_gpio_ctrl(d, 0x04, 1);
+-	msleep(20);
+-	dvbsky_gpio_ctrl(d, 0x83, 0);
+-	dvbsky_gpio_ctrl(d, 0xc0, 1);
+-	msleep(100);
+-	dvbsky_gpio_ctrl(d, 0x83, 1);
+-	dvbsky_gpio_ctrl(d, 0xc0, 0);
+-	msleep(50);
+-
++	if (le16_to_cpu(d->udev->descriptor.idProduct) =3D=3D USB_PID_MYGICA_T230=
+A) {
++		dvbsky_gpio_ctrl(d, 0x87, 0);
++		msleep(20);
++		dvbsky_gpio_ctrl(d, 0x86, 1);
++		dvbsky_gpio_ctrl(d, 0x80, 0);
++		msleep(100);
++		dvbsky_gpio_ctrl(d, 0x80, 1);
++		msleep(50);
++	} else {
++		dvbsky_gpio_ctrl(d, 0x04, 1);
++		msleep(20);
++		dvbsky_gpio_ctrl(d, 0x83, 0);
++		dvbsky_gpio_ctrl(d, 0xc0, 1);
++		msleep(100);
++		dvbsky_gpio_ctrl(d, 0x83, 1);
++		dvbsky_gpio_ctrl(d, 0xc0, 0);
++		msleep(50);
++	}
+ 	return WARM;
+ }
+=20
+@@ -789,6 +800,12 @@ static const struct usb_device_id dvbsky_id_table[] =
+=3D {
+ 	{ DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2,
+ 		&mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230C v2",
+ 		RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
++	{ DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2_LITE,
++		 &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230C v2  Lite=
+",
++		 NULL) },
++	{ DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230A,
++		 &mygica_t230c_props, "MyGica Mini DVB-(T/T2/C) USB Stick T230A",
++		 NULL) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(usb, dvbsky_id_table);
+diff --git a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
+index d37cb74b769c..b0a535d6893a 100644
+--- a/include/media/dvb-usb-ids.h
++++ b/include/media/dvb-usb-ids.h
+@@ -394,6 +394,8 @@
+ #define USB_PID_MYGICA_T230C				0xc689
+ #define USB_PID_MYGICA_T230C2				0xc68a
+ #define USB_PID_MYGICA_T230C_LITE			0xc699
++#define USB_PID_MYGICA_T230C2_LITE			0xc69a
++#define USB_PID_MYGICA_T230A				0x689a
+ #define USB_PID_ELGATO_EYETV_DIVERSITY			0x0011
+ #define USB_PID_ELGATO_EYETV_DTT			0x0021
+ #define USB_PID_ELGATO_EYETV_DTT_2			0x003f
 
 
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thanks,
+Mauro
