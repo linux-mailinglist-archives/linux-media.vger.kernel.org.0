@@ -2,138 +2,226 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C90043AE29C
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 07:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8890B3AE2E5
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 07:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230051AbhFUFKd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 01:10:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44434 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229789AbhFUFKb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 01:10:31 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D62A9C061756;
-        Sun, 20 Jun 2021 22:08:15 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id b1so1097575pls.3;
-        Sun, 20 Jun 2021 22:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kMUpJT6SJolW0ymOF8PtGlnKamkYOUcs0svNbBgMhJY=;
-        b=Nudnp+zb14BLhJ0FHsvMYBCcL4Wbt6dELJeu3PBbqKQVXuriixTJmJETbQG0lguS9C
-         47EygArUq/9STsCyOZBucXahoKt4wL3Qb6atUgE3uwDNTBqulskplXOi4Tpgn1ACAomW
-         6lH/bR4g8d/891nVEa9+0BJY8UoNTGpr5JMI1MpcElzJGGMVwe3vJWHKY4UqEoYkr+IB
-         WdFXAZ+0GF12KUeAdO0Ov9yomRQqmetesnAvoR1TMCkDHdWJr2d0Vouo40ktpZBsBfQU
-         WtaJY+uw7Quni3TubnodwriNg3mYm52KdRmh66iubwN1LpquGHL54sHlBYtGggXMUuwo
-         n2DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kMUpJT6SJolW0ymOF8PtGlnKamkYOUcs0svNbBgMhJY=;
-        b=k6JHznv2+SeFVI45ozkMMgOtDNWOI0VVEHp+ohv7BXH+NSq6sKDMqm2VBL44jnZc/Q
-         7cZN15xpMjN/KsxfQRyy+MgfWWS+Oc43WTTppFigZ1Xa5vH0Eo7mfQt3Ycl/WmLUYgcP
-         SuwjUBCIdF60pMxUfIXkdoh19HlPN2P850ioXeEdQbND1NO+cE+h5R5m/XSrVm+kPDgk
-         dKidzvAQ3PBfXdF0bgCbtS26Dzv2Hp2GOSGDVE2dXNvp8W7LAZfRPrmO7mlGaMu3014f
-         zLdk9S47jh9h4LSHzIh2vaUjU3lfxrD6jqGypkmHFHtmqU2mFSxfcgKqW6CSM55CFl39
-         Z3jQ==
-X-Gm-Message-State: AOAM533ICHUKxFudw3srMe8YR4HOA7uRLsAsdx4GsVAcze3y2vnRjUjS
-        3StW9zMQ5b6nJc+uLlJIOwY=
-X-Google-Smtp-Source: ABdhPJwOhL0mLsHjkspQhaibd6HaytHoiZFH5K99xa6QKWQiQsLAaPuXd0zkdqryHwwHYb5KxQCAbg==
-X-Received: by 2002:a17:90b:1bc4:: with SMTP id oa4mr25633384pjb.18.1624252095393;
-        Sun, 20 Jun 2021 22:08:15 -0700 (PDT)
-Received: from localhost.localdomain ([45.135.186.71])
-        by smtp.gmail.com with ESMTPSA id b5sm11808783pgh.41.2021.06.20.22.08.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jun 2021 22:08:14 -0700 (PDT)
-From:   Dongliang Mu <mudongliangabcd@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Takashi Iwai <tiwai@suse.de>, Sean Young <sean@mess.org>
-Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] media: dvb-usb: Fix error handling in dvb_usb_i2c_init
-Date:   Mon, 21 Jun 2021 13:07:28 +0800
-Message-Id: <20210621050729.3898275-3-mudongliangabcd@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210621050729.3898275-1-mudongliangabcd@gmail.com>
-References: <20210621050729.3898275-1-mudongliangabcd@gmail.com>
+        id S229807AbhFUFzr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 01:55:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57072 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229837AbhFUFzq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Jun 2021 01:55:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 765176113C;
+        Mon, 21 Jun 2021 05:53:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624254813;
+        bh=oHn9vLyQFjLL+PNJb+s571o2xnhvwHG0yilY6LZWmuY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=s9r0J2xjgaLq+fczzvS8DtDEeme7Ha3Fw9HLlOg161bMu4q1spEHDobAIsb5e89ze
+         kZnxbBpWPhytimCG73bAWkM2zLn5SZhm5VSW9K9O0ogIQnSzeFRZy1IYRgD+1c8Q9B
+         fMwH5HN92wNsBBEAGlQCdzaMRgW4Ju2mbm/pF3IMyr8ENAIZ+4OXxY48k5pi61FBON
+         HpxP0Tw+7cNYlQq4oOrHrt/DdmMgxDY0Z4ijt2iF+GDeIIX9itSlS8YTxSBIUmVSb8
+         kdR/lpVr3Hh29i0R50/uRhWTDSEkPXTyohdGoaXdr8Ad7TlE0SCYaDqta/fkdKB910
+         mYN8SNxdLFIRA==
+Date:   Mon, 21 Jun 2021 11:23:29 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Nelson Costa <Nelson.Costa@synopsys.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jose Abreu <Jose.Abreu@synopsys.com>
+Subject: Re: [PATCH 5/9] phy: dwc: Add Synopsys DesignWare HDMI RX PHYs e405
+ and e406 Driver
+Message-ID: <YNApWS7tNGdWbyCm@vkoul-mobl>
+References: <cover.1622631488.git.nelson.costa@synopsys.com>
+ <ac32f8d433860c5be612b393023329f967e2c058.1622631488.git.nelson.costa@synopsys.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ac32f8d433860c5be612b393023329f967e2c058.1622631488.git.nelson.costa@synopsys.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In dvb_usb_i2c_init, if i2c_add_adapter fails, it only prints an error
-message, and then continues to set DVB_USB_STATE_I2C. This affects the
-logic of dvb_usb_i2c_exit, which leads to that, the deletion of i2c_adap
-even if the i2c_add_adapter fails.
+On 02-06-21, 13:24, Nelson Costa wrote:
 
-Fix this by returning at the failure of i2c_add_adapter and then move
-dvb_usb_i2c_exit out of the error handling code of dvb_usb_i2c_init.
+> +# Makefile for the PHY drivers.
+> +#
+> +
+> +phy-dw-hdmi-e40x-y			:= phy-dw-hdmi-e40x-core.o
+> +phy-dw-hdmi-e40x-y			+= phy-dw-hdmi-e405.o
+> +phy-dw-hdmi-e40x-y			+= phy-dw-hdmi-e406.o
 
-Fixes: 13a79f14ab28 ("media: dvb-usb: Fix memory leak at error in dvb_usb_device_init()")
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
----
- drivers/media/usb/dvb-usb/dvb-usb-i2c.c  | 9 +++++++--
- drivers/media/usb/dvb-usb/dvb-usb-init.c | 3 ++-
- 2 files changed, 9 insertions(+), 3 deletions(-)
+why not:
+phy-dw-hdmi-e40x-y                   :=  phy-dw-hdmi-e40x-core.o phy-dw-hdmi-e405.o phy-dw-hdmi-e406.o ?
 
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb-i2c.c b/drivers/media/usb/dvb-usb/dvb-usb-i2c.c
-index 2e07106f4680..bc4b2abdde1a 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb-i2c.c
-+++ b/drivers/media/usb/dvb-usb/dvb-usb-i2c.c
-@@ -17,7 +17,8 @@ int dvb_usb_i2c_init(struct dvb_usb_device *d)
- 
- 	if (d->props.i2c_algo == NULL) {
- 		err("no i2c algorithm specified");
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto err;
- 	}
- 
- 	strscpy(d->i2c_adap.name, d->desc->name, sizeof(d->i2c_adap.name));
-@@ -27,11 +28,15 @@ int dvb_usb_i2c_init(struct dvb_usb_device *d)
- 
- 	i2c_set_adapdata(&d->i2c_adap, d);
- 
--	if ((ret = i2c_add_adapter(&d->i2c_adap)) < 0)
-+	ret = i2c_add_adapter(&d->i2c_adap);
-+	if (ret < 0) {
- 		err("could not add i2c adapter");
-+		goto err;
-+	}
- 
- 	d->state |= DVB_USB_STATE_I2C;
- 
-+err:
- 	return ret;
- }
- 
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-index 21ad51be4820..ae3f76787279 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
-+++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-@@ -147,6 +147,7 @@ static int dvb_usb_exit(struct dvb_usb_device *d)
- 		d->props.priv_destroy(d);
- 
- 	kfree(d->priv);
-+	d->priv = NULL;
- 	return 0;
- }
- 
-@@ -193,8 +194,8 @@ static int dvb_usb_init(struct dvb_usb_device *d, short *adapter_nums)
- 
- err_adapter_init:
- 	dvb_usb_adapter_exit(d);
--err_i2c_init:
- 	dvb_usb_i2c_exit(d);
-+err_i2c_init:
- 	if (d->priv && d->props.priv_destroy)
- 		d->props.priv_destroy(d);
- err_priv_init:
+> +obj-$(CONFIG_VIDEO_DWC_HDMI_PHY_E40X)	+= phy-dw-hdmi-e40x.o
+> diff --git a/drivers/phy/dwc/phy-dw-hdmi-e405.c b/drivers/phy/dwc/phy-dw-hdmi-e405.c
+> new file mode 100644
+> index 0000000..5078a86
+> --- /dev/null
+> +++ b/drivers/phy/dwc/phy-dw-hdmi-e405.c
+> @@ -0,0 +1,497 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
+> + * Synopsys DesignWare HDMI PHY e405
+
+2018 - 2021 ?
+
+> +/* PHY e405 mpll configuration */
+> +static const struct dw_phy_mpll_config dw_phy_e405_mpll_cfg[] = {
+> +	{ 0x27, 0x1B94 },
+
+Lowercase please
+
+> +	{ 0x28, 0x16D2 },
+> +	{ 0x29, 0x12D9 },
+> +	{ 0x2A, 0x3249 },
+> +	{ 0x2B, 0x3653 },
+> +	{ 0x2C, 0x3436 },
+> +	{ 0x2D, 0x124D },
+> +	{ 0x2E, 0x0001 },
+> +	{ 0xCE, 0x0505 },
+> +	{ 0xCF, 0x0505 },
+> +	{ 0xD0, 0x0000 },
+> +	{ 0x00, 0x0000 },
+> +};
+> +
+> +/* PHY e405 equalization functions */
+> +static int dw_phy_eq_test(struct dw_phy_dev *dw_dev,
+> +			  u16 *fat_bit_mask, int *min_max_length)
+
+Please align this to preceding line open brace (checkpatch with --strict would warn you about this)
+
+> +{
+> +	u16 main_fsm_status, val;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < DW_PHY_EQ_WAIT_TIME_START; i++) {
+> +		main_fsm_status = dw_phy_read(dw_dev, DW_PHY_MAINFSM_STATUS1);
+> +		if (main_fsm_status & DW_PHY_CLOCK_STABLE)
+> +			break;
+> +		mdelay(DW_PHY_EQ_SLEEP_TIME_CDR);
+> +	}
+> +
+> +	if (i == DW_PHY_EQ_WAIT_TIME_START) {
+> +		dev_dbg(dw_dev->dev, "PHY start conditions not achieved\n");
+
+not error?
+
+> +		return -ETIMEDOUT;
+> +	}
+> +
+> +	if (main_fsm_status & DW_PHY_PLL_RATE_BIT1) {
+> +		dev_dbg(dw_dev->dev, "invalid pll rate\n");
+
+error?
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	val = dw_phy_read(dw_dev, DW_PHY_CDR_CTRL_CNT) &
+> +		DW_PHY_HDMI_MHL_MODE_MASK;
+
+can be single line
+
+> +static void dw_phy_eq_init_vars(struct dw_phy_eq_ch *ch)
+> +{
+> +	ch->acc = 0;
+> +	ch->acq = 0;
+> +	ch->last_acq = 0;
+> +	ch->valid_long_setting = 0;
+> +	ch->valid_short_setting = 0;
+
+memset() ?
+
+> +static bool dw_phy_eq_acquire_early_cnt(struct dw_phy_dev *dw_dev,
+> +					u16 setting, u16 acq,
+> +					struct dw_phy_eq_ch *ch0,
+> +					struct dw_phy_eq_ch *ch1,
+> +					struct dw_phy_eq_ch *ch2)
+> +{
+> +	u16 lock_vector = 0x1 << setting;
+> +	unsigned int i;
+> +
+> +	ch0->out_bound_acq = 0;
+> +	ch1->out_bound_acq = 0;
+> +	ch2->out_bound_acq = 0;
+> +	ch0->acq = 0;
+> +	ch1->acq = 0;
+> +	ch2->acq = 0;
+> +
+> +	dw_phy_eq_equal_setting(dw_dev, lock_vector);
+> +	dw_phy_eq_auto_calib(dw_dev);
+> +
+> +	mdelay(DW_PHY_EQ_SLEEP_TIME_CDR);
+> +	if (!dw_phy_tmds_valid(dw_dev))
+> +		dev_dbg(dw_dev->dev, "TMDS is NOT valid\n");
+> +
+> +	ch0->read_acq = dw_phy_read(dw_dev, DW_PHY_CH0_EQ_STATUS3);
+> +	ch1->read_acq = dw_phy_read(dw_dev, DW_PHY_CH1_EQ_STATUS3);
+> +	ch2->read_acq = dw_phy_read(dw_dev, DW_PHY_CH2_EQ_STATUS3);
+> +
+> +	ch0->acq += ch0->read_acq;
+> +	ch1->acq += ch1->read_acq;
+> +	ch2->acq += ch2->read_acq;
+> +
+> +	ch0->upper_bound_acq = ch0->read_acq + DW_PHY_EQ_BOUNDSPREAD;
+> +	ch0->lower_bound_acq = ch0->read_acq - DW_PHY_EQ_BOUNDSPREAD;
+> +	ch1->upper_bound_acq = ch1->read_acq + DW_PHY_EQ_BOUNDSPREAD;
+> +	ch1->lower_bound_acq = ch1->read_acq - DW_PHY_EQ_BOUNDSPREAD;
+> +	ch2->upper_bound_acq = ch2->read_acq + DW_PHY_EQ_BOUNDSPREAD;
+> +	ch2->lower_bound_acq = ch2->read_acq - DW_PHY_EQ_BOUNDSPREAD;
+> +
+> +	for (i = 1; i < acq; i++) {
+
+why do we start from 1 here..?
+
+> +static const struct dw_phy_mpll_config dw_phy_e406_mpll_cfg[] = {
+> +	{ 0x27, 0x1C94 },
+> +	{ 0x28, 0x3713 },
+> +	{ 0x29, 0x24DA },
+> +	{ 0x2A, 0x5492 },
+> +	{ 0x2B, 0x4B0D },
+> +	{ 0x2C, 0x4760 },
+> +	{ 0x2D, 0x008C },
+> +	{ 0x2E, 0x0010 },
+> +	{ 0x00, 0x0000 },
+
+lower case here too please
+
+> +static void dw_phy_eq_init_vars(struct dw_phy_eq_ch *ch)
+> +{
+> +	ch->acc = 0;
+> +	ch->acq = 0;
+> +	ch->last_acq = 0;
+> +	ch->valid_long_setting = 0;
+> +	ch->valid_short_setting = 0;
+> +	ch->best_setting = DW_PHY_EQ_SHORT_CABLE_SETTING;
+> +}
+
+duplicate, it would make sense to create a common lib of such functions
+and use them across these files
+
+> +static int dw_phy_set_data(struct dw_phy_dev *dw_dev)
+> +{
+> +	const struct dw_hdmi_phy_data *of_data;
+> +
+> +	of_data = of_device_get_match_data(dw_dev->dev);
+> +
+> +	if (of_data) {
+> +		dw_dev->phy_data = (struct dw_hdmi_phy_data *)of_data;
+> +	} else if (dw_dev->config->version == dw_phy_e405_data.version) {
+> +		dw_dev->phy_data = &dw_phy_e405_data;
+> +	} else if (dw_dev->config->version == dw_phy_e406_data.version) {
+> +		dw_dev->phy_data = &dw_phy_e406_data;
+
+Driver supports only of, where will these else cases get triggered?
+
 -- 
-2.25.1
-
+~Vinod
