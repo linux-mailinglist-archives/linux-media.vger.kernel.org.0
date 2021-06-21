@@ -2,123 +2,218 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 728123AF489
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 20:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98E473AF4FA
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 20:23:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233483AbhFUSN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 14:13:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52594 "EHLO
+        id S231132AbhFUSZN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 14:25:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233868AbhFUSL7 (ORCPT
+        with ESMTP id S231803AbhFUSZJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 14:11:59 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7087C08EB22
-        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 10:55:13 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id j62so32629864qke.10
-        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 10:55:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nBnKqoan/yrGPxWBtod3It942s1tDX9/KE30/nusiX8=;
-        b=WI6BslfMAmPAqlkgxzowSTflY7NQA3y+CUwTBvzVDCcyYTXaN/gVqCKCtZW3jBhDN/
-         0UzGYA3yDHe8J6UKE756wt/UmywXplBJNkqd/etU27xo1mO2WcN+0DrSqjZoZ+QPjDhS
-         gtInLkqOGVngBO5q/TzqPGZVWNWqmcspxboYPMyc17oi9+q8RPluz/FOJMrDD5spXkMZ
-         iB3ThgOIG9nqb9dMH7zmbRl6/U4PWyQ3U7jviIiuXx5UY++auipiO/9dA1mjIvhEVDLu
-         +ivFKrO9f2updS9rAE06d5iBXYJjqkZkzVL8gtnViXv9FIeNh163yuySS3rCWa1ZKLjN
-         1K9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nBnKqoan/yrGPxWBtod3It942s1tDX9/KE30/nusiX8=;
-        b=UF0zAA7YOAu/8kz7yT0gYiTn+QT4e5pebRUKRcCoXsfMSeaPoYeNfNCQlTBMWNF397
-         K6dm809p0rpOg2zqWmu2jCgefhw7VeBFpdFR1N2OlePOeXwIyA2q6HP6itzvSvCHNiNG
-         ME9Bf912LDAdIgb4o+7t+NwNkpTfLYrDDrs7Dgb7cEnJv1kri9NCtjY9kXsTKugFOW67
-         aP2ZGTxqjve70vcEW1LiDqgwuZOy1qjj1O5fnmbRHU69Fw1Z5zTYwQ2L/8kdY9tpgRDA
-         grDO70AO7hoW8sFkB6p++FI1OzDZqNC5bugGccQ3UxVXqLl9w2A3ZZMkDwOJUN9uOM4S
-         2wHg==
-X-Gm-Message-State: AOAM530R2ajx9VDfvX4GXvLsSfnn9McM9hkmWFKVDMjZ0ljyy5YEgdZX
-        DFrCKeOyJ9GdTGx3r5YIfLUZ7Q==
-X-Google-Smtp-Source: ABdhPJwrj+wsvI3VpgV3YyLo+IiwAhCuCLTr6OeqWh9+LVOcQqnKD9F9Tz10eaB52w7tWL0Ya535tw==
-X-Received: by 2002:a05:620a:440f:: with SMTP id v15mr15727716qkp.199.1624298112852;
-        Mon, 21 Jun 2021 10:55:12 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-47-55-113-94.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.113.94])
-        by smtp.gmail.com with ESMTPSA id d20sm4960737qtw.92.2021.06.21.10.55.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 10:55:12 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1lvO8d-009kwS-Ip; Mon, 21 Jun 2021 14:55:11 -0300
-Date:   Mon, 21 Jun 2021 14:55:11 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Oded Gabbay <oded.gabbay@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Doug Ledford <dledford@redhat.com>,
-        "airlied@gmail.com" <airlied@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Tomer Tayar <ttayar@habana.ai>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-Message-ID: <20210621175511.GI1096940@ziepe.ca>
-References: <20210618123615.11456-1-ogabbay@kernel.org>
- <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
- <YNCN0ulL6DQiRJaB@kroah.com>
- <20210621141217.GE1096940@ziepe.ca>
- <CAFCwf10KvCh0zfHEHqYR-Na6KJh4j+9i-6+==QaMdHHpLH1yEA@mail.gmail.com>
+        Mon, 21 Jun 2021 14:25:09 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4540C061574;
+        Mon, 21 Jun 2021 11:22:54 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6725A5E17;
+        Mon, 21 Jun 2021 20:22:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624299772;
+        bh=B1hshC97pO+3kI/cTa6a+7piw5qtRoHK8S+RKnL0igM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=C2mx3gUm+ombWTc95lt8BfRA+wZZLxWWqZZw9KFkDGW+Ye6txj68Lbo64VULEEuA3
+         IDyhTBqBRX84YdkwnzoDTuriqXVjPF1DanNmtF7RlDhSumcs+R5NPikhh+SakMqA/t
+         0o1SyqYn6APMM1/8KCPLDvtZwhUGb8nt6xhGQXUs=
+Date:   Mon, 21 Jun 2021 21:22:26 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvc: limit max bandwidth for HDMI capture
+Message-ID: <YNDY4iesZGF+7Cr0@pendragon.ideasonboard.com>
+References: <b791d5874c83663505cbd4f74907ac38d00bb727.1612206534.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAFCwf10KvCh0zfHEHqYR-Na6KJh4j+9i-6+==QaMdHHpLH1yEA@mail.gmail.com>
+In-Reply-To: <b791d5874c83663505cbd4f74907ac38d00bb727.1612206534.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 07:26:14PM +0300, Oded Gabbay wrote:
-> On Mon, Jun 21, 2021 at 5:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Mon, Jun 21, 2021 at 03:02:10PM +0200, Greg KH wrote:
-> > > On Mon, Jun 21, 2021 at 02:28:48PM +0200, Daniel Vetter wrote:
-> >
-> > > > Also I'm wondering which is the other driver that we share buffers
-> > > > with. The gaudi stuff doesn't have real struct pages as backing
-> > > > storage, it only fills out the dma_addr_t. That tends to blow up with
-> > > > other drivers, and the only place where this is guaranteed to work is
-> > > > if you have a dynamic importer which sets the allow_peer2peer flag.
-> > > > Adding maintainers from other subsystems who might want to chime in
-> > > > here. So even aside of the big question as-is this is broken.
-> > >
-> > > From what I can tell this driver is sending the buffers to other
-> > > instances of the same hardware,
-> >
-> > A dmabuf is consumed by something else in the kernel calling
-> > dma_buf_map_attachment() on the FD.
-> >
-> > What is the other side of this? I don't see any
-> > dma_buf_map_attachment() calls in drivers/misc, or added in this patch
-> > set.
+Hi Mauro,
+
+Thank you for the patch.
+
+On Mon, Feb 01, 2021 at 08:08:59PM +0100, Mauro Carvalho Chehab wrote:
+> This device:
+>         534d:2109 MacroSilicon
 > 
-> This patch-set is only to enable the support for the exporter side.
-> The "other side" is any generic RDMA networking device that will want
-> to perform p2p communication over PCIe with our GAUDI accelerator.
-> An example is indeed the mlnx5 card which has already integrated
-> support for being an "importer".
+> Announces that it supports several frame intervals for
+> their resolutions for MJPEG compression:
+> 
+>         VideoStreaming Interface Descriptor:
+>         bLength                            46
+>         bDescriptorType                    36
+>         bDescriptorSubtype                  7 (FRAME_MJPEG)
+>         bFrameIndex                         1
+>         bmCapabilities                   0x00
+>           Still image unsupported
+>         wWidth                           1920
+>         wHeight                          1080
+>         dwMinBitRate                   768000
+>         dwMaxBitRate                196608000
+>         dwMaxVideoFrameBufferSize     4147200
+>         dwDefaultFrameInterval         166666
+>         bFrameIntervalType                  5
+>         dwFrameInterval( 0)            166666
+>         dwFrameInterval( 1)            333333
+>         dwFrameInterval( 2)            400000
+>         dwFrameInterval( 3)            500000
+>         dwFrameInterval( 4)           1000000
+> 
+> However, the highest frame interval (166666), which means 60 fps
+> is not supported. For such resolution, the maximum interval
+> is, instead 333333 (30 fps).
 
-It raises the question of how you are testing this if you aren't using
-it with the only intree driver: mlx5.
+What happens if you try to select it ?
 
-Jason
+> The last format that supports such frame interval is 1280x720.
+> 
+> Add a quirk to estimate a raw bandwidth, by doing:
+>         width * height * framerate
+> E. g.:
+>         1920 * 1080 * 30 = 62208000
+> 
+> if the bandwidth is greater than such threshold, get
+> the next value from the dwFrameInterval.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 15 +++++++++++++++
+>  drivers/media/usb/uvc/uvc_video.c  | 26 +++++++++++++++++++++++---
+>  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+>  3 files changed, 40 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 1abc122a0977..c83a329f6527 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2339,6 +2339,7 @@ static int uvc_probe(struct usb_interface *intf,
+>  	dev->info = info ? info : &uvc_quirk_none;
+>  	dev->quirks = uvc_quirks_param == -1
+>  		    ? dev->info->quirks : uvc_quirks_param;
+> +	dev->max_bandwidth = dev->info->max_bandwidth;
+>  
+>  	if (id->idVendor && id->idProduct)
+>  		uvc_dbg(dev, PROBE, "Probing known UVC device %s (%04x:%04x)\n",
+> @@ -2615,6 +2616,11 @@ static const struct uvc_device_info uvc_quirk_fix_bandwidth = {
+>  	.quirks = UVC_QUIRK_FIX_BANDWIDTH,
+>  };
+>  
+> +static const struct uvc_device_info uvc_quirk_fix_bw_622 = {
+> +	.quirks = UVC_QUIRK_FIX_BANDWIDTH,
+> +	.max_bandwidth = 62208000,
+> +};
+> +
+>  static const struct uvc_device_info uvc_quirk_probe_def = {
+>  	.quirks = UVC_QUIRK_PROBE_DEF,
+>  };
+> @@ -2830,6 +2836,15 @@ static const struct usb_device_id uvc_ids[] = {
+>  	  .bInterfaceSubClass	= 1,
+>  	  .bInterfaceProtocol	= 0,
+>  	  .driver_info		= (kernel_ulong_t)&uvc_quirk_fix_bandwidth },
+> +	/* MacroSilicon HDMI capture */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x534d,
+> +	  .idProduct		= 0x2109,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= (kernel_ulong_t)&uvc_quirk_fix_bw_622 },
+>  	/* Genesys Logic USB 2.0 PC Camera */
+>  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+>  				| USB_DEVICE_ID_MATCH_INT_INFO,
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index f2f565281e63..4afc1fbe0801 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -162,9 +162,29 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+>  	if ((ctrl->dwMaxPayloadTransferSize & 0xffff0000) == 0xffff0000)
+>  		ctrl->dwMaxPayloadTransferSize &= ~0xffff0000;
+>  
+> -	if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) &&
+> -	    stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH &&
+> -	    stream->intf->num_altsetting > 1) {
+> +
+> +	if (!(stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH))
+> +		return;
+> +
+> +	/* Handle UVC_QUIRK_FIX_BANDWIDTH */
+> +
+> +	if (format->flags & UVC_FMT_FLAG_COMPRESSED &&
+> +	    stream->dev->max_bandwidth && frame->bFrameIntervalType) {
+> +		u32 bandwidth;
+> +
+> +		for (i = 0; i < frame->bFrameIntervalType - 1; ++i) {
+
+Why - 1 ?
+
+> +			bandwidth = frame->wWidth * frame->wHeight;
+> +			bandwidth *= 10000000 / frame->dwFrameInterval[i];
+> +
+> +			if (bandwidth <= stream->dev->max_bandwidth)
+> +				break;
+> +		}
+> +
+> +		ctrl->dwFrameInterval = frame->dwFrameInterval[i];
+
+This doesn't seem correct, you're selecting the first frame internal
+below the bandwidth limit, even if the user explicitly requests a lower
+frame rate.
+
+> +		return;
+> +	}
+> +
+> +	if (stream->intf->num_altsetting > 1) {
+
+There's an incorrect change in logic here. Before the patch this code
+would run only for !UVC_FMT_FLAG_COMPRESSED, while with the patch, it will
+run if UVC_FMT_FLAG_COMPRESSED && !(stream->dev->max_bandwidth &&
+frame->bFrameIntervalType).
+
+>  		u32 interval;
+>  		u32 bandwidth;
+>  
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 97df5ecd66c9..b44e0cd4c826 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -658,6 +658,7 @@ static inline u32 uvc_urb_index(const struct uvc_urb *uvc_urb)
+>  
+>  struct uvc_device_info {
+>  	u32	quirks;
+> +	u32	max_bandwidth;
+>  	u32	meta_format;
+>  	u16	uvc_version;
+>  };
+> @@ -667,6 +668,7 @@ struct uvc_device {
+>  	struct usb_interface *intf;
+>  	unsigned long warnings;
+>  	u32 quirks;
+> +	u32 max_bandwidth;
+
+uvc_device has a uvc_device_info pointer, there's no need to copy the
+field here.
+
+>  	int intfnum;
+>  	char name[32];
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
