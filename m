@@ -2,81 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 466283AE563
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 10:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DEA83AE710
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 12:28:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229946AbhFUI7F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 04:59:05 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:56918 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229618AbhFUI7F (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 04:59:05 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lvFje-0099nZ-N9; Mon, 21 Jun 2021 08:56:50 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1lvFo9-0001Lf-HM; Mon, 21 Jun 2021 09:01:29 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT FIXES FOR v5.14] Two fixes (#75299)
-Date:   Mon, 21 Jun 2021 09:01:29 +0000
-Message-Id: <20210621090129.5142-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <4bfdcbdd-6d03-9f6b-437a-3132477af788@xs4all.nl>
-References: 
+        id S230175AbhFUKam (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 06:30:42 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:7496 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229804AbhFUKaj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Jun 2021 06:30:39 -0400
+Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G7lz74j6HzZkyf;
+        Mon, 21 Jun 2021 18:25:23 +0800 (CST)
+Received: from SZX1000464847.huawei.com (10.21.59.169) by
+ dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Mon, 21 Jun 2021 18:28:22 +0800
+From:   Dongdong Liu <liudongdong3@huawei.com>
+To:     <helgaas@kernel.org>, <hch@infradead.org>, <kw@linux.com>,
+        <linux-pci@vger.kernel.org>, <rajur@chelsio.com>,
+        <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
+Subject: [PATCH V5 0/6] PCI: Enable 10-Bit tag support for PCIe devices
+Date:   Mon, 21 Jun 2021 18:27:16 +0800
+Message-ID: <1624271242-111890-1-git-send-email-liudongdong3@huawei.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.21.59.169]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggeme758-chm.china.huawei.com (10.3.19.104)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+10-Bit Tag capability, introduced in PCIe-4.0 increases the total Tag
+field size from 8 bits to 10 bits.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/4bfdcbdd-6d03-9f6b-437a-3132477af788@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/117181/
-Build time: 00:14:46
-Link: https://lore.kernel.org/linux-media/4bfdcbdd-6d03-9f6b-437a-3132477af788@xs4all.nl
+This patchset is to enable 10-Bit tag for PCIe EP devices (include VF) and
+RP devices
 
-gpg: Signature made Mon 21 Jun 2021 08:30:07 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+V4->V5:
+- Fix warning variable 'capa' is uninitialized.
+- Fix warning unused variable 'pchild'.
 
-Summary: got 1/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
+V3->V4:
+- Get the value of pcie_devcap2 in set_pcie_port_type().
+- Add Reviewed-by: Christoph Hellwig <hch@lst.de> in [PATCH V4 1/6],
+  [PATCH V4 3/6], [PATCH V4 4/6], [PATCH V4 5/6].
+- Fix some code style.
+- Rebased on v5.13-rc6.
 
-Error/warnings:
+V2->V3:
+- Use cached Device Capabilities Register suggested by Christoph.
+- Fix code style to avoid > 80 char lines.
+- Renamve devcap2 to pcie_devcap2.
 
-patches/0001-include-uapi-linux-cec.h-typo-SATERDAY-SATURDAY.patch:
+V1->V2: Fix some comments by Christoph.
+- Store the devcap2 value in the pci_dev instead of reading it multiple
+  times.
+- Change pci_info to pci_dbg to avoid the noisy log.
+- Rename ext_10bit_tag_comp_path to ext_10bit_tag.
+- Fix the compile error.
+- Rebased on v5.13-rc1.
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+Dongdong Liu (6):
+  PCI: Use cached Device Capabilities Register
+  PCI: Use cached Device Capabilities 2 Register
+  PCI: Add 10-Bit Tag register definitions
+  PCI: Enable 10-Bit tag support for PCIe Endpoint devices
+  PCI/IOV: Enable 10-Bit tag support for PCIe VF devices
+  PCI: Enable 10-Bit tag support for PCIe RP devices
 
-    allyesconfig: return code #0:
-	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
-	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1969 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+ drivers/media/pci/cobalt/cobalt-driver.c        |  5 +-
+ drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c |  4 +-
+ drivers/pci/iov.c                               |  8 +++
+ drivers/pci/pci.c                               | 14 ++---
+ drivers/pci/pcie/aspm.c                         | 11 ++--
+ drivers/pci/pcie/portdrv_pci.c                  | 72 +++++++++++++++++++++++++
+ drivers/pci/probe.c                             | 54 ++++++++++++++-----
+ drivers/pci/quirks.c                            |  3 +-
+ include/linux/pci.h                             |  5 ++
+ include/uapi/linux/pci_regs.h                   |  5 ++
+ 10 files changed, 144 insertions(+), 37 deletions(-)
 
-
-Error #512 when building PDF docs
+--
+2.7.4
 
