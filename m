@@ -2,56 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 613A83AF50E
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 20:27:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D35443AF614
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 21:24:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231910AbhFUSaA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 14:30:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56606 "EHLO
+        id S231189AbhFUT07 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 15:26:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231241AbhFUS37 (ORCPT
+        with ESMTP id S230397AbhFUT06 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 14:29:59 -0400
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B5BBC061756
-        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 11:27:45 -0700 (PDT)
-Received: by mail-oi1-x231.google.com with SMTP id s17so12129354oij.11
-        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 11:27:45 -0700 (PDT)
+        Mon, 21 Jun 2021 15:26:58 -0400
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7913BC061756;
+        Mon, 21 Jun 2021 12:24:44 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id w23-20020a9d5a970000b02903d0ef989477so18803522oth.9;
+        Mon, 21 Jun 2021 12:24:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=O9i28EclvSZx+uiFhNgb+3CTRZV2qMxp0Q3wXipsI8Q=;
-        b=K0UUo78vVrHTzSDrMgj0jT+MLT+AozMScbVhmJ6rhysrPfzfwQKb0T9CTxpGrXfVIc
-         t5jj9sX3IfqrbDRI8CthGXRxYKpUQX+02UsBeDhQ6gGIxzzzrj03gPnZr1/CyOuvjIls
-         QcmPSnajwhf1oF905MYpKHACKSXHp6adH5P4U=
+        bh=dBJ5d1VMITTeIiGdzPkAixCEDqtOI+Of2asfGh+UAZ4=;
+        b=poWdRMlEM2ZoLHlzus9H+sJm2Gyv4Ad5UYLCdoksxIn2aeAMLa+dKaekWP8LifxgyJ
+         n2jVVjTuonYLSxe3ETtsIuLK6gvACWCDRPmuF5tYeQjeJRX7OY/u7vWBpL0kZJzHl5sj
+         Ny/XMZJGPL6fogHwoJFWsiHZjsbH13H9+wxt/q/eKq5DtLZntN4WMvAkk8EZkafocBEK
+         6xqocdwV6n4EqRoI+ZBfp3axIcf4mR5Wn6oTb26BEs3yq9YTXbI3ZeEuQkoD5A+xRhEy
+         Pckce+Y9OeKX2dihb865SJYvyNOs4TOMg3c3iU7fvPH++FHzFI5BYoTOBQOjmtC3BaTY
+         AZFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=O9i28EclvSZx+uiFhNgb+3CTRZV2qMxp0Q3wXipsI8Q=;
-        b=KbqIoiKLnUO5G7APegKg1EfHSCj8l/Th2rZZjRHiomildpqjAnSyWvXbSXMJmu80vX
-         SUhXghvAXwihHpjlkSYWj5l9Dp/il1JBWjTwxg3byWY3ZwSuk2Jpr7i5vM+vqo0mH5iF
-         PeIaTIrRadUi++8X7fQG/SN/fGZHAN607k0JPRtrqGvM9GYT2A4n24bWSXwVVn2Kehjs
-         Yp5lSIml+EVMInJF/J/2VSVx3K/p7RTLbMEZ2M8KyPt8Xx48cQYO0zwWeGm/u4zQv5bS
-         dwNbUfGZniI8qNIE6GxacIFil0zIk/fo4629Q/40Ypvw4sJYkvC0+FLy38l3mA9bLNQU
-         ivXQ==
-X-Gm-Message-State: AOAM530x30otzFL88/M9RGoJmrW/TQqvNjIvxKd/R6an25kf9+lo1Gvy
-        XicEMDCKbCKTFLeRqkfJYiqDSMkt1kZvSRKEGV5jJg==
-X-Google-Smtp-Source: ABdhPJwgGuTgLpKPpXIxr+AX3ujExHAGAGTWRhPWtYA2l25rchz9pzcPelTwjoCbaEdcWSxXHh9lYgsv8xRxuaFrFw8=
-X-Received: by 2002:a54:4889:: with SMTP id r9mr11213515oic.101.1624300063935;
- Mon, 21 Jun 2021 11:27:43 -0700 (PDT)
+        bh=dBJ5d1VMITTeIiGdzPkAixCEDqtOI+Of2asfGh+UAZ4=;
+        b=Z6TcuANUJds16hTi8hffR8eVoxSYOIdorTOVAbVhPCLkRydNfApPbN9mHaU7J5vqaK
+         HfI67UOliHEvqeaglP6/4ndtXqAz/c4/pgu+/UVaJMnM+mC4gk8YMcrOiCpXe2uZMNbs
+         zLswkXMm135/eCoC1WHCquIaUa9C8zGO5Nqydds8QaZR1HB5EYJ8z8GY/S2c5L1XtlXM
+         CDrVfHxB3uItyyBfg8SS5IgD9iIpi1ronHwg5AI1EjjQFVMLkr0NAEvszmLkaRXrx3mg
+         bcfeW0gkbJllQQQzCoVfMljcvtnJA51O1bHJOXG2jPbcbZe/falexQnPp2vbu53yz9W0
+         LNUg==
+X-Gm-Message-State: AOAM533krmmjlEmIcP4Xtps9U6+5mR4rAaO4zjtzTGRO/qp2UEZNfFu4
+        JGSGXM7dcJhENC7/cmNmzwX9rxvS8vJV1tWMDEU=
+X-Google-Smtp-Source: ABdhPJxgnG68naVmqaj9VbYQpqtCzzRUWIKZ1A7mHfJtyBXgRWCjJn597bAS85CrpNuYd9PVyrIs804CEiOHGbIXZSQ=
+X-Received: by 2002:a9d:542:: with SMTP id 60mr12808otw.143.1624303483767;
+ Mon, 21 Jun 2021 12:24:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210618123615.11456-1-ogabbay@kernel.org> <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
  <YNCN0ulL6DQiRJaB@kroah.com> <20210621141217.GE1096940@ziepe.ca>
- <CAFCwf10KvCh0zfHEHqYR-Na6KJh4j+9i-6+==QaMdHHpLH1yEA@mail.gmail.com> <20210621175511.GI1096940@ziepe.ca>
-In-Reply-To: <20210621175511.GI1096940@ziepe.ca>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Mon, 21 Jun 2021 20:27:32 +0200
-Message-ID: <CAKMK7uEO1_B59DtM7N2g7kkH7pYtLM_WAkn+0f3FU3ps=XEjZQ@mail.gmail.com>
+ <CAFCwf10KvCh0zfHEHqYR-Na6KJh4j+9i-6+==QaMdHHpLH1yEA@mail.gmail.com>
+ <20210621175511.GI1096940@ziepe.ca> <CAKMK7uEO1_B59DtM7N2g7kkH7pYtLM_WAkn+0f3FU3ps=XEjZQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uEO1_B59DtM7N2g7kkH7pYtLM_WAkn+0f3FU3ps=XEjZQ@mail.gmail.com>
+From:   Oded Gabbay <oded.gabbay@gmail.com>
+Date:   Mon, 21 Jun 2021 22:24:16 +0300
+Message-ID: <CAFCwf11jOnewkbLuxUESswCJpyo7C0ovZj80UrnwUOZkPv2JYQ@mail.gmail.com>
 Subject: Re: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Oded Gabbay <oded.gabbay@gmail.com>,
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
         Greg KH <gregkh@linuxfoundation.org>,
         Oded Gabbay <ogabbay@kernel.org>,
         linux-rdma <linux-rdma@vger.kernel.org>,
@@ -75,47 +79,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 7:55 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> On Mon, Jun 21, 2021 at 07:26:14PM +0300, Oded Gabbay wrote:
-> > On Mon, Jun 21, 2021 at 5:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > >
-> > > On Mon, Jun 21, 2021 at 03:02:10PM +0200, Greg KH wrote:
-> > > > On Mon, Jun 21, 2021 at 02:28:48PM +0200, Daniel Vetter wrote:
-> > >
-> > > > > Also I'm wondering which is the other driver that we share buffers
-> > > > > with. The gaudi stuff doesn't have real struct pages as backing
-> > > > > storage, it only fills out the dma_addr_t. That tends to blow up with
-> > > > > other drivers, and the only place where this is guaranteed to work is
-> > > > > if you have a dynamic importer which sets the allow_peer2peer flag.
-> > > > > Adding maintainers from other subsystems who might want to chime in
-> > > > > here. So even aside of the big question as-is this is broken.
-> > > >
-> > > > From what I can tell this driver is sending the buffers to other
-> > > > instances of the same hardware,
-> > >
-> > > A dmabuf is consumed by something else in the kernel calling
-> > > dma_buf_map_attachment() on the FD.
-> > >
-> > > What is the other side of this? I don't see any
-> > > dma_buf_map_attachment() calls in drivers/misc, or added in this patch
-> > > set.
-> >
-> > This patch-set is only to enable the support for the exporter side.
-> > The "other side" is any generic RDMA networking device that will want
-> > to perform p2p communication over PCIe with our GAUDI accelerator.
-> > An example is indeed the mlnx5 card which has already integrated
-> > support for being an "importer".
+On Mon, Jun 21, 2021 at 9:27 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 >
-> It raises the question of how you are testing this if you aren't using
-> it with the only intree driver: mlx5.
+> On Mon, Jun 21, 2021 at 7:55 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > On Mon, Jun 21, 2021 at 07:26:14PM +0300, Oded Gabbay wrote:
+> > > On Mon, Jun 21, 2021 at 5:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > >
+> > > > On Mon, Jun 21, 2021 at 03:02:10PM +0200, Greg KH wrote:
+> > > > > On Mon, Jun 21, 2021 at 02:28:48PM +0200, Daniel Vetter wrote:
+> > > >
+> > > > > > Also I'm wondering which is the other driver that we share buffers
+> > > > > > with. The gaudi stuff doesn't have real struct pages as backing
+> > > > > > storage, it only fills out the dma_addr_t. That tends to blow up with
+> > > > > > other drivers, and the only place where this is guaranteed to work is
+> > > > > > if you have a dynamic importer which sets the allow_peer2peer flag.
+> > > > > > Adding maintainers from other subsystems who might want to chime in
+> > > > > > here. So even aside of the big question as-is this is broken.
+> > > > >
+> > > > > From what I can tell this driver is sending the buffers to other
+> > > > > instances of the same hardware,
+> > > >
+> > > > A dmabuf is consumed by something else in the kernel calling
+> > > > dma_buf_map_attachment() on the FD.
+> > > >
+> > > > What is the other side of this? I don't see any
+> > > > dma_buf_map_attachment() calls in drivers/misc, or added in this patch
+> > > > set.
+> > >
+> > > This patch-set is only to enable the support for the exporter side.
+> > > The "other side" is any generic RDMA networking device that will want
+> > > to perform p2p communication over PCIe with our GAUDI accelerator.
+> > > An example is indeed the mlnx5 card which has already integrated
+> > > support for being an "importer".
+> >
+> > It raises the question of how you are testing this if you aren't using
+> > it with the only intree driver: mlx5.
+>
+> For p2p dma-buf there's also amdgpu as a possible in-tree candiate
+> driver, that's why I added amdgpu folks. Otoh I'm not aware of AI+GPU
+> combos being much in use, at least with upstream gpu drivers (nvidia
+> blob is a different story ofc, but I don't care what they do in their
+> own world).
+> -Daniel
+> --
+We have/are doing three things:
+1. I wrote a simple "importer" driver that emulates an RDMA driver. It
+calls all the IB_UMEM_DMABUF functions, same as the mlnx5 driver does.
+And instead of using h/w, it accesses the bar directly. We wrote
+several tests that emulated the real application. i.e. asking the
+habanalabs driver to create dma-buf object and export its FD back to
+userspace. Then the userspace sends the FD to the "importer" driver,
+which attaches to it, get the SG list and accesses the memory on the
+GAUDI device. This gave me the confidence that how we integrated the
+exporter is basically correct/working.
 
-For p2p dma-buf there's also amdgpu as a possible in-tree candiate
-driver, that's why I added amdgpu folks. Otoh I'm not aware of AI+GPU
-combos being much in use, at least with upstream gpu drivers (nvidia
-blob is a different story ofc, but I don't care what they do in their
-own world).
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2. We are trying to do a POC with a MLNX card we have, WIP.
+
+3. We are working with another 3rd party RDMA device that its driver
+is now adding support for being an "importer". also WIP
+
+In both points 2&3 We haven't yet reached the actual stage of checking
+this feature.
+
+Another thing I want to emphasize is that we are doing p2p only
+through the export/import of the FD. We do *not* allow the user to
+mmap the dma-buf as we do not support direct IO. So there is no access
+to these pages through the userspace.
+
+Thanks,
+Oded
