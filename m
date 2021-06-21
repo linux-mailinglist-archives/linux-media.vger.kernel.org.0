@@ -2,246 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DBC23AEBDE
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 16:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1E383AEC44
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 17:25:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229807AbhFUPAw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 11:00:52 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.23]:34561 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229747AbhFUPAw (ORCPT
+        id S230308AbhFUP1W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 11:27:22 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:42921 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230318AbhFUP1L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 11:00:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1624287511;
-    s=strato-dkim-0002; d=jm0.eu;
-    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=wBBQ6SNyOkuPXWAj1Fnfc0kKBFyr9tKzSJZmr7XIMxQ=;
-    b=OWpUTCYU16ztrdl07HkKinRylWgLFGPWisoUE3onoyUl1Y+2Y9GcbmiTZIRQp6wXsT
-    L4NueBuqm/LAoRrasyYiA0+Zl3OhHWpaQzcG6t6NohyMYlLMhzi+NSILdpMA4zveI3nL
-    45+pI14l7TlQRrKDI5Zg8lK3PMFl6aS0gvhoUNS2kqIUjj9pbY0xvphXl+p8sjvtLJsM
-    sMZoA8gYEnoubslYdVEzotIgrWVFB7SWB+RGNuHiopOXCfeGgd5k7uJJ7+dBoBWVd9t3
-    UeMBEYTv1nx0oo6keZqrrlpwz5PXoORQar39oOrIWlYLiPIZd4ZyDe+u3MBFVDOQI9EN
-    nIfg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JmMXYEHmdv4HaV2cbPh7iS0wbr/uKIfGM0EPXvQCbXgI7t69COvinsMtCHQc3/AhnhpXVQ=="
-X-RZG-CLASS-ID: mo00
-Received: from [192.168.2.163]
-    by smtp.strato.de (RZmta 47.27.3 DYNA|AUTH)
-    with ESMTPSA id x09e06x5LEwUFtU
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Mon, 21 Jun 2021 16:58:30 +0200 (CEST)
-Subject: Re: [BUG] tc358743: division by zero
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     matrandg@cisco.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <427466e4-1b6f-f7c3-3d5e-89c7a7f2ec79@jm0.eu>
- <19a143de-818d-4c21-94c1-f4ebf57e3802@jm0.eu>
- <35096323-4f28-6c04-2308-de9895c2751d@jm0.eu>
- <CAPY8ntBEDFJi2zUN9nhwYvicn1kf926L63GzG2CfmM0=p33C3Q@mail.gmail.com>
-From:   "Ing. Josua Mayer" <josua.mayer@jm0.eu>
-Message-ID: <a02e4364-9353-313d-0ec8-915274936a8f@jm0.eu>
-Date:   Mon, 21 Jun 2021 16:58:30 +0200
+        Mon, 21 Jun 2021 11:27:11 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id vLn5lDgTHhg8ZvLn9ldWnf; Mon, 21 Jun 2021 17:24:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1624289093; bh=hOQLMrRrfFJzxZFToK3CIhIvlLxdCa2uAglYNpU8vAU=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=f0Sv+rswJHBTHjDKgV8UNShO42aIx2KohoGcil6NJJxzWug4pwk0m07BkimUt3aLm
+         sp6fePmbBsZZFwfppHpWdiui+6eDsmn0s6eNsvES1V6RAyXnltg/aIcXjwdqkfSxng
+         lkBrIklDrWcpKF6ve2W329A1tQFO+HnwaLXDwqMY32iPRwhhAI714sVHzhcR51xpXi
+         iYdKc0d1p8CheHDCJh6UHwEMl3xqWBlBND5FrS0rwyR7IMBBbSha7Wdb97jw/rZGxG
+         OYuc9Z4R/S/YJqrhQICyUwJNnc43GEz+aviHZzrS0GDKRb9F74H9/IJxgHZQ+TuxDz
+         EOR4qsSWcT1gg==
+Subject: Re: [PATCH 4/5] media: ivtv: prevent going past the hw arrays
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Andy Walls <awalls@md.metrocast.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <cover.1624276137.git.mchehab+huawei@kernel.org>
+ <94334c02c246fad023ec04a02c43b708d853b0cc.1624276138.git.mchehab+huawei@kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <39c0801c-d79f-5a80-77a3-47001d55be07@xs4all.nl>
+Date:   Mon, 21 Jun 2021 17:24:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAPY8ntBEDFJi2zUN9nhwYvicn1kf926L63GzG2CfmM0=p33C3Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <94334c02c246fad023ec04a02c43b708d853b0cc.1624276138.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfEKO8qt75kqyu7AyJxyNLd7LWlMIHGnbEQe21Q5nxfdpDvAxAWhLK3+pGW6RQ5lSAzRb7odYxw4gsZDVCdETicox1n42t6TWm8/hRw3eZGM7CI8639rI
+ t4iWX7xQbuMaqsrAmbQB56Fw3H8gKqYzuCYkDePiWknExWPQXwnZQPi6EZ6Sn8oddlfYDlNWkgpK0akJaX7RATxpHuK1vL0h66zIFjgSMxAUOYehFxiYeLJr
+ ZHOLLvL7QWb8VwB7v8E5sy4Z+cw5akDDMXeVppSGl1dmAunXkeKEt+1wAP7FBONQecIGy0VTVEPPclD/x7pOw3v08/VA0dKDxOVspYxt7yDVYht0Tie4hzv0
+ Zpr2imiqPziQz62Q82xpBikpk2wOHVNdUdn0zISAwBcx7BQf9v1PprcsdmoUErJ3alW2kqiX
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+On 21/06/2021 13:56, Mauro Carvalho Chehab wrote:
+> As warned by smatch:
+> 
+> 	drivers/media/pci/ivtv/ivtv-i2c.c:245 ivtv_i2c_register() error: buffer overflow 'hw_devicenames' 21 <= 31
+> 	drivers/media/pci/ivtv/ivtv-i2c.c:266 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
+> 	drivers/media/pci/ivtv/ivtv-i2c.c:269 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
+> 	drivers/media/pci/ivtv/ivtv-i2c.c:275 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
+> 	drivers/media/pci/ivtv/ivtv-i2c.c:280 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
+> 	drivers/media/pci/ivtv/ivtv-i2c.c:290 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
+> 
+> The logic at ivtv_i2c_register() could let buffer overflows at
+> hw_devicenames and hw_addrs arrays.
+> 
+> This won't happen in practice due to a carefully-contructed
+> logic, but it is not error-prune.
+> 
+> Change the logic in a way that will make clearer that the
+> I2C hardware flags will affect the size of those two
+> arrays, and add an explicit check to avoid buffer overflows.
+> 
+> While here, use the bit macro.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/media/pci/ivtv/ivtv-cards.h | 68 ++++++++++++++++++++---------
+>  drivers/media/pci/ivtv/ivtv-i2c.c   | 16 ++++---
+>  2 files changed, 58 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/media/pci/ivtv/ivtv-cards.h b/drivers/media/pci/ivtv/ivtv-cards.h
+> index f3e2c5634962..494982e4165d 100644
+> --- a/drivers/media/pci/ivtv/ivtv-cards.h
+> +++ b/drivers/media/pci/ivtv/ivtv-cards.h
+> @@ -78,27 +78,53 @@
+>  #define IVTV_PCI_ID_SONY		0x104d
+>  
+>  /* hardware flags, no gaps allowed */
+> -#define IVTV_HW_CX25840			(1 << 0)
+> -#define IVTV_HW_SAA7115			(1 << 1)
+> -#define IVTV_HW_SAA7127			(1 << 2)
+> -#define IVTV_HW_MSP34XX			(1 << 3)
+> -#define IVTV_HW_TUNER			(1 << 4)
+> -#define IVTV_HW_WM8775			(1 << 5)
+> -#define IVTV_HW_CS53L32A		(1 << 6)
+> -#define IVTV_HW_TVEEPROM		(1 << 7)
+> -#define IVTV_HW_SAA7114			(1 << 8)
+> -#define IVTV_HW_UPD64031A		(1 << 9)
+> -#define IVTV_HW_UPD6408X		(1 << 10)
+> -#define IVTV_HW_SAA717X			(1 << 11)
+> -#define IVTV_HW_WM8739			(1 << 12)
+> -#define IVTV_HW_VP27SMPX		(1 << 13)
+> -#define IVTV_HW_M52790			(1 << 14)
+> -#define IVTV_HW_GPIO			(1 << 15)
+> -#define IVTV_HW_I2C_IR_RX_AVER		(1 << 16)
+> -#define IVTV_HW_I2C_IR_RX_HAUP_EXT	(1 << 17) /* External before internal */
+> -#define IVTV_HW_I2C_IR_RX_HAUP_INT	(1 << 18)
+> -#define IVTV_HW_Z8F0811_IR_HAUP		(1 << 19)
+> -#define IVTV_HW_I2C_IR_RX_ADAPTEC	(1 << 20)
+> +enum ivtv_hw_bits {
+> +	IVTV_HW_BIT_CX25840		= 0,
+> +	IVTV_HW_BIT_SAA7115		= 1,
+> +	IVTV_HW_BIT_SAA7127		= 2,
+> +	IVTV_HW_BIT_MSP34XX		= 3,
+> +	IVTV_HW_BIT_TUNER		= 4,
+> +	IVTV_HW_BIT_WM8775		= 5,
+> +	IVTV_HW_BIT_CS53L32A		= 6,
+> +	IVTV_HW_BIT_TVEEPROM		= 7,
+> +	IVTV_HW_BIT_SAA7114		= 8,
+> +	IVTV_HW_BIT_UPD64031A		= 9,
+> +	IVTV_HW_BIT_UPD6408X		= 10,
+> +	IVTV_HW_BIT_SAA717X		= 11,
+> +	IVTV_HW_BIT_WM8739		= 12,
+> +	IVTV_HW_BIT_VP27SMPX		= 13,
+> +	IVTV_HW_BIT_M52790		= 14,
+> +	IVTV_HW_BIT_GPIO		= 15,
+> +	IVTV_HW_BIT_I2C_IR_RX_AVER	= 16,
+> +	IVTV_HW_BIT_I2C_IR_RX_HAUP_EXT	= 17, /* External before internal */
+> +	IVTV_HW_BIT_I2C_IR_RX_HAUP_INT	= 18,
+> +	IVTV_HW_BIT_Z8F0811_IR_HAUP	= 19,
+> +	IVTV_HW_BIT_I2C_IR_RX_ADAPTEC	= 20,
+> +
+> +	IVTV_HW_MAX_BITS		= 21	/* Should be the last bit + 1 */
 
-Thank you for the suggestion of making probe return EINVAL!
-I have verified that this properly avoids this division by zero :)
+It's an enum, so you can drop the '= nr' bit.
 
-[   16.820658] tc358743 0-000f: unsupported bps per lane: 1188000000 bps
-[   16.820696] tc358743: probe of 0-000f failed with error -22
+Other than that it looks OK to me.
 
-Therefore, I will submit a patch shortly.
+Regards,
 
-br
-Josua
+	Hans
 
-Am 09.06.21 um 19:27 schrieb Dave Stevenson:
-> Hi Josua
+> +};
+> +
+> +#define IVTV_HW_CX25840			BIT(IVTV_HW_BIT_CX25840)
+> +#define IVTV_HW_SAA7115			BIT(IVTV_HW_BIT_SAA7115)
+> +#define IVTV_HW_SAA7127			BIT(IVTV_HW_BIT_SAA7127)
+> +#define IVTV_HW_MSP34XX			BIT(IVTV_HW_BIT_MSP34XX)
+> +#define IVTV_HW_TUNER			BIT(IVTV_HW_BIT_TUNER)
+> +#define IVTV_HW_WM8775			BIT(IVTV_HW_BIT_WM8775)
+> +#define IVTV_HW_CS53L32A		BIT(IVTV_HW_BIT_CS53L32A)
+> +#define IVTV_HW_TVEEPROM		BIT(IVTV_HW_BIT_TVEEPROM)
+> +#define IVTV_HW_SAA7114			BIT(IVTV_HW_BIT_SAA7114)
+> +#define IVTV_HW_UPD64031A		BIT(IVTV_HW_BIT_UPD64031A)
+> +#define IVTV_HW_UPD6408X		BIT(IVTV_HW_BIT_UPD6408X)
+> +#define IVTV_HW_SAA717X			BIT(IVTV_HW_BIT_SAA717X)
+> +#define IVTV_HW_WM8739			BIT(IVTV_HW_BIT_WM8739)
+> +#define IVTV_HW_VP27SMPX		BIT(IVTV_HW_BIT_VP27SMPX)
+> +#define IVTV_HW_M52790			BIT(IVTV_HW_BIT_M52790)
+> +#define IVTV_HW_GPIO			BIT(IVTV_HW_BIT_GPIO)
+> +#define IVTV_HW_I2C_IR_RX_AVER		BIT(IVTV_HW_BIT_I2C_IR_RX_AVER)
+> +#define IVTV_HW_I2C_IR_RX_HAUP_EXT	BIT(IVTV_HW_BIT_I2C_IR_RX_HAUP_EXT)
+> +#define IVTV_HW_I2C_IR_RX_HAUP_INT	BIT(IVTV_HW_BIT_I2C_IR_RX_HAUP_INT)
+> +#define IVTV_HW_Z8F0811_IR_HAUP		BIT(IVTV_HW_BIT_Z8F0811_IR_HAUP)
+> +#define IVTV_HW_I2C_IR_RX_ADAPTEC	BIT(IVTV_HW_BIT_I2C_IR_RX_ADAPTEC)
+>  
+>  #define IVTV_HW_SAA711X   (IVTV_HW_SAA7115 | IVTV_HW_SAA7114)
+>  
+> diff --git a/drivers/media/pci/ivtv/ivtv-i2c.c b/drivers/media/pci/ivtv/ivtv-i2c.c
+> index 982045c4eea8..c052c57c6dce 100644
+> --- a/drivers/media/pci/ivtv/ivtv-i2c.c
+> +++ b/drivers/media/pci/ivtv/ivtv-i2c.c
+> @@ -85,7 +85,7 @@
+>  #define IVTV_ADAPTEC_IR_ADDR		0x6b
+>  
+>  /* This array should match the IVTV_HW_ defines */
+> -static const u8 hw_addrs[] = {
+> +static const u8 hw_addrs[IVTV_HW_MAX_BITS] = {
+>  	IVTV_CX25840_I2C_ADDR,
+>  	IVTV_SAA7115_I2C_ADDR,
+>  	IVTV_SAA7127_I2C_ADDR,
+> @@ -110,7 +110,7 @@ static const u8 hw_addrs[] = {
+>  };
+>  
+>  /* This array should match the IVTV_HW_ defines */
+> -static const char * const hw_devicenames[] = {
+> +static const char * const hw_devicenames[IVTV_HW_MAX_BITS] = {
+>  	"cx25840",
+>  	"saa7115",
+>  	"saa7127_auto",	/* saa7127 or saa7129 */
+> @@ -240,10 +240,16 @@ void ivtv_i2c_new_ir_legacy(struct ivtv *itv)
+>  
+>  int ivtv_i2c_register(struct ivtv *itv, unsigned idx)
+>  {
+> -	struct v4l2_subdev *sd;
+>  	struct i2c_adapter *adap = &itv->i2c_adap;
+> -	const char *type = hw_devicenames[idx];
+> -	u32 hw = 1 << idx;
+> +	struct v4l2_subdev *sd;
+> +	const char *type;
+> +	u32 hw;
+> +
+> +	if (idx >= IVTV_HW_MAX_BITS)
+> +		return -ENODEV;
+> +
+> +	type = hw_devicenames[idx];
+> +	hw = 1 << idx;
+>  
+>  	if (hw == IVTV_HW_TUNER) {
+>  		/* special tuner handling */
 > 
-> On Wed, 9 Jun 2021 at 18:08, Ing. Josua Mayer <josua.mayer@jm0.eu> wrote:
->>
->> Hello again,
->>
->> I added debug prints to tc358743_probe_of and
->> tc358743_num_csi_lanes_needed, tracking the values of pll_prd and pll_fbd.
->>
->> I believe the bug is caused by probe returning early when it encounters
->> an unsupported datarate of more than 1gbps per lane, which skips the
->> code that would initialize pll_fbd.
->> Hence later in tc358743_num_csi_lanes_needed, pll_fbd is zero - leading
->> to divide by zero.
->>
->> The interesting parts of dmesg leading to this conclusion:
->> [   16.393072] imx6_mipi_csi2: module is from the staging directory, the
->> quality is unknown, you have been warned.
->> [   16.891557] tc358743 0-000f: initialized pll_prd = 4
->> [   16.896618] tc358743 0-000f: unsupported bps per lane: 1188000000 bps
->> # pll_prd has been initialized, but pll_fbd has not
->> [   17.203559] tc358743 0-000f: pll_prd = 4
->> [   17.207588] tc358743 0-000f: pll_fbd = 0
->> # using pll_fbd value 0
->> [   17.211539] Division by zero in kernel.
->> [   17.215415] CPU: 1 PID: 208 Comm: systemd-udevd Tainted: G        WC
->>    E     5.10.0-7-armmp #1 Debian 5.10.40-2
->> [   17.225418] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
->> [   17.231947] Backtrace:
->> [   17.234417] [<c0cf1fe8>] (dump_backtrace) from [<c0cf2394>]
->> (show_stack+0x20/0x24)
->> [   17.247662] [<c0cf2374>] (show_stack) from [<c0cf74c4>]
->> (dump_stack+0xc8/0xdc)
->> [   17.254892] [<c0cf73fc>] (dump_stack) from [<c0cf216c>]
->> (__div0+0x24/0x28)
->> [   17.267442] [<c0cf2148>] (__div0) from [<c07b1254>] (Ldiv0+0x8/0x10)
->> [   17.273844] [<bf4cea34>] (tc358743_num_csi_lanes_needed [tc358743])
->> from [<bf4cec3c>] (tc358743_set_csi+0x1c/0x2f8 [tc358743])
->> [   17.290929] [<bf4cec20>] (tc358743_set_csi [tc358743]) from
->> [<bf4ccaac>] (tc358743_s_dv_timings+0x104/0x1a8 [tc358743])
->> [   17.307430] [<bf4cc9a8>] (tc358743_s_dv_timings [tc358743]) from
->> [<bf4ce384>] (tc358743_probe+0x93c/0xfec [tc358743])
->> [   17.323757] [<bf4cda48>] (tc358743_probe [tc358743]) from
->> [<c0a3ace4>] (i2c_device_probe+0x100/0x2e0)
->>
->> I don't really know where this condition should be checked for, or
->> avoided. Hopefully though this gives somebody else enough information to
->> find a solution.
-> 
-> In both the
->      default:
->          dev_err(dev, "unsupported refclk rate: %u Hz\n",
->              state->pdata.refclk_hz);
->          goto disable_clk;
-> and
->     if (bps_pr_lane < 62500000U || bps_pr_lane > 1000000000U) {
->          dev_err(dev, "unsupported bps per lane: %u bps\n", bps_pr_lane);
->          goto disable_clk;
->      }
-> cases, you want a
->     ret = -EINVAL;
-> or similar before the goto disable_clk;
-> 
-> Most of the other cases are doing a ret = <some function call> and
-> checking ret. That's not the case with these validation checks, so it
-> is aborting but has left ret at the value from the previous call
-> (which succeeded).
-> 
-> Hope that helps. If it works then a patch would be welcome.
-> 
->    Dave
-> 
->> Yours sincerely
->> Josua Mayer
->>
->>
->> Am 09.06.21 um 17:08 schrieb Ing. Josua Mayer:
->>> and I forgot about the promised dts :( .. I am realyl sorry for spamming
->>> your mailbox like this ...
->>>
->>> Am 09.06.21 um 17:07 schrieb Ing. Josua Mayer:
->>>> Dear Maintainers,
->>>>
->>>> During my attempts at capturing HDMI via the csi-2 port on i.MX6
->>>> HummingBoard, I triggered a division by zero in
->>>> tc358743_num_csi_lanes_needed!
->>>> I am running Debian testing, with linux 5.10.40 - built from debian
->>>> sources with the tc358743 driver enabled:
->>>> Linux sr-imx6 5.10.0-7-armmp #1 SMP Debian 5.10.40-2 (2021-05-29)
->>>> armv7l GNU/Linux
->>>>
->>>> The crash is triggered from userspace as I execute:
->>>> media-ctl -l "'tc358743 0-000f':0->'imx6-mipi-csi2':0[1]"
->>>> media-ctl -l "'imx6-mipi-csi2':1->'ipu1_csi0_mux':0[1]"
->>>> media-ctl -l "'ipu1_csi0_mux':2->'ipu1_csi0':0[1]"
->>>> media-ctl -l "'ipu1_csi0':2->'ipu1_csi0 capture':0[1]"
->>>> v4l2-ctl -d /dev/v4l-subdev7 --set-edid=file=tc358743-edid.hex && sleep 1
->>>> v4l2-ctl -d /dev/v4l-subdev7 --set-dv-bt-timings query && sleep 1
->>>>
->>>> [   60.985439] Division by zero in kernel.
->>>> [   60.989333] CPU: 1 PID: 395 Comm: v4l2-ctl Tainted: G        WC  E
->>>>    5.10.0-7-armmp #1 Debian 5.10.40-2
->>>> [   60.998904] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
->>>> [   61.005438] Backtrace:
->>>> [   61.007911] [<c0cf1fe8>] (dump_backtrace) from [<c0cf2394>]
->>>> (show_stack+0x20/0x24)
->>>> [   61.015489]  r7:00000018 r6:600b0013 r5:00000000 r4:c14cdc90
->>>> [   61.021162] [<c0cf2374>] (show_stack) from [<c0cf74c4>]
->>>> (dump_stack+0xc8/0xdc)
->>>> [   61.028394] [<c0cf73fc>] (dump_stack) from [<c0cf216c>]
->>>> (__div0+0x24/0x28)
->>>> [   61.035276]  r7:00000018 r6:034bc000 r5:c1f67890 r4:4f1a0000
->>>> [   61.040951] [<c0cf2148>] (__div0) from [<c07b1254>] (Ldiv0+0x8/0x10)
->>>> [   61.047336] [<bf412000>] (tc358743_num_csi_lanes_needed [tc358743])
->>>> from [<bf412a44>] (tc358743_set_csi+0x1c/0x3f0 [tc358743])
->>>> [   61.058734]  r9:00000000 r8:c2b8b400 r7:c1f67a59 r6:bf419380
->>>> r5:c1f679e8 r4:c1f67890
->>>> [   61.066495] [<bf412a28>] (tc358743_set_csi [tc358743]) from
->>>> [<bf413f64>] (tc358743_s_dv_timings+0x104/0x1a8 [tc358743])
->>>> [   61.077283]  r7:c1f67a59 r6:bf419380 r5:c1f679e8 r4:c1f67890
->>>> [   61.082961] [<bf413e60>] (tc358743_s_dv_timings [tc358743]) from
->>>> [<c0a79fd4>] (subdev_do_ioctl+0x430/0xd0c)
->>>> [   61.092708]  r7:c1f67890 r6:c2ea0780 r5:c2d91c00 r4:c0845657
->>>> [   61.098376] [<c0a79ba4>] (subdev_do_ioctl) from [<c0a7a934>]
->>>> (subdev_do_ioctl_lock+0x84/0xb4)
->>>> [   61.106909]  r10:c2d91c00 r9:bea08dec r8:c0845657 r7:00000000
->>>> r6:c2d91c00 r5:c2ea0780
->>>> [   61.114741]  r4:c2e35000
->>>> [   61.117294] [<c0a7a8b0>] (subdev_do_ioctl_lock) from [<c0a6c4b4>]
->>>> (video_usercopy+0x190/0x674)
->>>> [   61.125913]  r9:bea08dec r8:c2d91c00 r7:bea08dec r6:c0845657
->>>> r5:00000000 r4:c0845657
->>>> [   61.133668] [<c0a6c324>] (video_usercopy) from [<c0a79254>]
->>>> (subdev_ioctl+0x20/0x24)
->>>> [   61.141419]  r10:c30372a8 r9:00000003 r8:c2ea0780 r7:bea08dec
->>>> r6:c2ea0780 r5:00000000
->>>> [   61.149251]  r4:c0a79234
->>>> [   61.151797] [<c0a79234>] (subdev_ioctl) from [<c0a64920>]
->>>> (v4l2_ioctl+0x4c/0x60)
->>>> [   61.159207] [<c0a648d4>] (v4l2_ioctl) from [<c05a90ac>]
->>>> (sys_ioctl+0x130/0xa74)
->>>> [   61.166520]  r5:00000000 r4:c0845657
->>>> [   61.170107] [<c05a8f7c>] (sys_ioctl) from [<c03000c0>]
->>>> (ret_fast_syscall+0x0/0x54)
->>>> [   61.177681] Exception stack(0xc48adfa8 to 0xc48adff0)
->>>> [   61.182742] dfa0:                   005023a4 004dad3c 00000003
->>>> c0845657 bea08dec 00000000
->>>> [   61.190927] dfc0: 005023a4 004dad3c 00000003 00000036 0050c808
->>>> bea09494 bea08fa0 00000000
->>>> [   61.199109] dfe0: 00500df8 bea08d2c 004a635d b6cde418
->>>> [   61.204169]  r10:00000036 r9:c48ac000 r8:c03002c4 r7:00000036
->>>> r6:00000003 r5:004dad3c
->>>> [   61.212000]  r4:005023a4
->>>>
->>>> I am attaching the device-tree changes as a file for reference. Any
->>>> ideas what is happening here?
->>>>
->>>> I can see 2 divisions:
->>>> 1. pdata->refclk_hz / pdata->pll_prd
->>>> 2. DIV_ROUND_UP(bps, bps_pr_lane)
->>>>
->>>> 1. should never be 0, since it is initialized during probe and then
->>>> never changed
->>>>
->>>> 2. see how the divisor can be 0
->>>> pdata->refclk_hz / pdata->pll_prd is the inversion of how pll_prd is
->>>> calculated, and should equal to 6MHz from probe.
->>>> pll_fbd is also set in probe: pll_fbd = bps_pr_lane / refclk_hz * pll_prd
->>>> As I have specified a link-frequency of 594MHz, that produces:
->>>> bps_pr_lane = 2 * 594MHz
->>>> pll_fbd = 2 * 594MHz / 27MHz * (27MHz / 6MHz) = 2 * 594MHz / 6MHz = 198
->>>>
->>>> Apparently from initialization, the division by zero can not occur :(
->>>> (unless I made a mistake here).
->>>>
->>>> Thank you for reading this far!
->>>> Yours sincerely
->>>> Josua Mayer
+
