@@ -2,69 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E8713AE517
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 10:39:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 466283AE563
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 10:56:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230121AbhFUImE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 04:42:04 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:36261 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229789AbhFUImD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 04:42:03 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id vFT6lBOQjhg8ZvFTAlc2GT; Mon, 21 Jun 2021 10:39:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1624264788; bh=xv8ATVFRKS2StRFufPpb/y838sdHvtAzPB0WjC1baSM=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=V2iCZBVgtWjcalyNmG+pwIiNMcSOu79uIt4HEdG0tivURFls4s0A+DLLVZD40U/pu
-         +MEOY4YOu3RigW1Kzou6HRmc2gp0jIvlksM1Hdr6GEYuj5OICw27IzRE8e/TZ8VRTz
-         sFqOh/A25tk9UwLUe6NKKHIwl3WE2Z/ygEnqjLYKRkBfdgeMEopCQ0LxeeLXQbnNtv
-         20kJZbMioXR804L9PpB5CXDi/0wQhFT7AxZ42t2fzZ8AmBeboPbSEI96rvbt6G+OQT
-         BESSUu8WD8t2qXSrXvuF904SXu7DQU9cItT+ziJaJvxCiBp2B/fjiZdVrwWHV/jxpp
-         tcr5Rusk2g6fA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT FIXES FOR v5.14] Two fixes
-Message-ID: <4bfdcbdd-6d03-9f6b-437a-3132477af788@xs4all.nl>
-Date:   Mon, 21 Jun 2021 10:39:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        id S229946AbhFUI7F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 04:59:05 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:56918 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229618AbhFUI7F (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Jun 2021 04:59:05 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lvFje-0099nZ-N9; Mon, 21 Jun 2021 08:56:50 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1lvFo9-0001Lf-HM; Mon, 21 Jun 2021 09:01:29 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v5.14] Two fixes (#75299)
+Date:   Mon, 21 Jun 2021 09:01:29 +0000
+Message-Id: <20210621090129.5142-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <4bfdcbdd-6d03-9f6b-437a-3132477af788@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfEcepu/Nc1IjZOD1uqHLB5pd3RKysnVL8LVcjYhRVgiskL7Iq3vdB2r/fnyoMHZR72vausK4zH3Tzf7KTSsCxNWy0mhOOVTxlsoyn7+lQzoEWhxyAZgp
- m5z4QZWMOQWVcCoA8rkzLp6YucpGBlUMztTr2/8Id3rv28sAfpFXfvZA1jh+o0ifjfpTOjo+HsmYQU0r5OuxZ+wAOu50ht803vg=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 198bb646e8553e8abd8d83492a27b601ab97b75d:
+From: builder@linuxtv.org
 
-  media: i2c: rdacm20: Re-work ov10635 reset (2021-06-17 12:08:55 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/4bfdcbdd-6d03-9f6b-437a-3132477af788@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/117181/
+Build time: 00:14:46
+Link: https://lore.kernel.org/linux-media/4bfdcbdd-6d03-9f6b-437a-3132477af788@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Mon 21 Jun 2021 08:30:07 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.14s
+Summary: got 1/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to 2f54e1302f04f7c047ca381bf725ebd9e2b13b9f:
+Error/warnings:
 
-  media: gspca: Drop default m (2021-06-21 10:29:38 +0200)
+patches/0001-include-uapi-linux-cec.h-typo-SATERDAY-SATURDAY.patch:
 
-----------------------------------------------------------------
-Tag branch
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
 
-----------------------------------------------------------------
-Ezequiel Garcia (1):
-      media: gspca: Drop default m
+    allyesconfig: return code #0:
+	SPARSE:../drivers/media/cec/core/cec-core.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/mc/mc-devnode.c ../include/asm-generic/bitops/find.h:90:32:  warning: shift count is negative (-192)
+	SPARSE:../drivers/media/v4l2-core/v4l2-dev.c ../include/asm-generic/bitops/find.h:132:46:  warning: shift count is negative (-192)
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:268 v4l_print_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:292 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:302 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:328 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:347 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:352 v4l_print_format() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:362 v4l_print_framebuffer() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:735 v4l_print_frmsizeenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:762 v4l_print_frmivalenum() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/v4l2-core/v4l2-ioctl.c: ../drivers/media/v4l2-core/v4l2-ioctl.c:1424 v4l_fill_fmtdesc() error: unrecognized %p extension '4', treated as normal %p
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1969 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-Hans Verkuil (1):
-      include/uapi/linux/cec.h: typo: SATERDAY -> SATURDAY
 
- Documentation/userspace-api/media/cec.h.rst.exceptions | 2 +-
- drivers/media/usb/gspca/Kconfig                        | 1 -
- include/uapi/linux/cec.h                               | 2 +-
- 3 files changed, 2 insertions(+), 3 deletions(-)
+Error #512 when building PDF docs
+
