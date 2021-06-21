@@ -2,209 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2EEE3AF1C3
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 19:18:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 728123AF489
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 20:11:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231129AbhFURVG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 13:21:06 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:34783 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230059AbhFURVF (ORCPT
+        id S233483AbhFUSN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 14:13:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52594 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233868AbhFUSL7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 13:21:05 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id vNZLlceJThqltvNZPlH6Al; Mon, 21 Jun 2021 19:18:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1624295929; bh=hCM/Fzbw8Wex7Gv3tCGEKfT20tGCYOq2TORoB41pF4s=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=rDvltCMlimjx65rtRIpHWa7k0iYLYSG+N2nr96W85zhRBPzMBlatd4RENsFVcDgli
-         AXmRWoD/FCB6OWQb3FPjbkzeupSHlkgEz5RlOUaDxyRijUSuLG0Ex6Fx0jXUd4sdb7
-         d0jV6E122hdN9Smba3NXTVv2Gl+bYwUf0amS//PWneRf/zNU+7epMzlt8Hjtj+7bcQ
-         GuvjWJoZV43Z/gLAEdWesRFI8q3ydhvZchmCwIVORKSAHsPGk7MKTTti3HaHG6F7Pu
-         zLWsCiYimebWbRbjMxn9+v6gf+Zr6MshhF1sl2LRd+T+bTBxLwrRw60IBbcLURJ7fy
-         bvuLtkTwKUWqw==
-Subject: Re: [PATCH v2] media: ivtv: prevent going past the hw arrays
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Andy Walls <awalls@md.metrocast.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <d624c9d2f16f17ccc0448cf5256b7ae3c8852a62.1624293556.git.mchehab+huawei@kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <99ff71d6-1545-1f26-b277-ae83e270c1ad@xs4all.nl>
-Date:   Mon, 21 Jun 2021 19:18:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        Mon, 21 Jun 2021 14:11:59 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7087C08EB22
+        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 10:55:13 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id j62so32629864qke.10
+        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 10:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=nBnKqoan/yrGPxWBtod3It942s1tDX9/KE30/nusiX8=;
+        b=WI6BslfMAmPAqlkgxzowSTflY7NQA3y+CUwTBvzVDCcyYTXaN/gVqCKCtZW3jBhDN/
+         0UzGYA3yDHe8J6UKE756wt/UmywXplBJNkqd/etU27xo1mO2WcN+0DrSqjZoZ+QPjDhS
+         gtInLkqOGVngBO5q/TzqPGZVWNWqmcspxboYPMyc17oi9+q8RPluz/FOJMrDD5spXkMZ
+         iB3ThgOIG9nqb9dMH7zmbRl6/U4PWyQ3U7jviIiuXx5UY++auipiO/9dA1mjIvhEVDLu
+         +ivFKrO9f2updS9rAE06d5iBXYJjqkZkzVL8gtnViXv9FIeNh163yuySS3rCWa1ZKLjN
+         1K9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=nBnKqoan/yrGPxWBtod3It942s1tDX9/KE30/nusiX8=;
+        b=UF0zAA7YOAu/8kz7yT0gYiTn+QT4e5pebRUKRcCoXsfMSeaPoYeNfNCQlTBMWNF397
+         K6dm809p0rpOg2zqWmu2jCgefhw7VeBFpdFR1N2OlePOeXwIyA2q6HP6itzvSvCHNiNG
+         ME9Bf912LDAdIgb4o+7t+NwNkpTfLYrDDrs7Dgb7cEnJv1kri9NCtjY9kXsTKugFOW67
+         aP2ZGTxqjve70vcEW1LiDqgwuZOy1qjj1O5fnmbRHU69Fw1Z5zTYwQ2L/8kdY9tpgRDA
+         grDO70AO7hoW8sFkB6p++FI1OzDZqNC5bugGccQ3UxVXqLl9w2A3ZZMkDwOJUN9uOM4S
+         2wHg==
+X-Gm-Message-State: AOAM530R2ajx9VDfvX4GXvLsSfnn9McM9hkmWFKVDMjZ0ljyy5YEgdZX
+        DFrCKeOyJ9GdTGx3r5YIfLUZ7Q==
+X-Google-Smtp-Source: ABdhPJwrj+wsvI3VpgV3YyLo+IiwAhCuCLTr6OeqWh9+LVOcQqnKD9F9Tz10eaB52w7tWL0Ya535tw==
+X-Received: by 2002:a05:620a:440f:: with SMTP id v15mr15727716qkp.199.1624298112852;
+        Mon, 21 Jun 2021 10:55:12 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-47-55-113-94.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.113.94])
+        by smtp.gmail.com with ESMTPSA id d20sm4960737qtw.92.2021.06.21.10.55.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Jun 2021 10:55:12 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1lvO8d-009kwS-Ip; Mon, 21 Jun 2021 14:55:11 -0300
+Date:   Mon, 21 Jun 2021 14:55:11 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Oded Gabbay <oded.gabbay@gmail.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Doug Ledford <dledford@redhat.com>,
+        "airlied@gmail.com" <airlied@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Tomer Tayar <ttayar@habana.ai>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
+Message-ID: <20210621175511.GI1096940@ziepe.ca>
+References: <20210618123615.11456-1-ogabbay@kernel.org>
+ <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
+ <YNCN0ulL6DQiRJaB@kroah.com>
+ <20210621141217.GE1096940@ziepe.ca>
+ <CAFCwf10KvCh0zfHEHqYR-Na6KJh4j+9i-6+==QaMdHHpLH1yEA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <d624c9d2f16f17ccc0448cf5256b7ae3c8852a62.1624293556.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPZIx4BgtyP0JHMhWeUmlSyxdN8X+/PSC79sdfIp6ThjhyfXV1XnvEnbfg9A1IrOP6+4LShybYO+qMu0NW8nTa5TzVeWmcmrZCyVu43JXZ+LmUPRGnzs
- p3KOgWnJxHqa862tZNQ1vnN6rrK1DttUOVA4inzVoK8DUCvK0FO92g6iw60FKlizExPfE7B48CWphdqdzuAim7P3gT1disPcfQXZE7pUz+sMcCQL49lXBZv/
- sRAOl+AAx5Yr5+aM1Tz0SBQKjO2hC3CyBrt0c2tfdl8j0GCxjxjqTgX8mJHJLOKHjJFuUpIcm1vzJ5yBwE2wYQAuEQWGgGRJfmKQIBFsSnFSDSVbeZq+yqKt
- MPFchIVX5XgKljNBccVULdEKW/bn2fmtuwGt1s30mbkngH1rCDvrD7Ol47C3IjtcD36B4Jnq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFCwf10KvCh0zfHEHqYR-Na6KJh4j+9i-6+==QaMdHHpLH1yEA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/06/2021 18:39, Mauro Carvalho Chehab wrote:
-> As warned by smatch:
+On Mon, Jun 21, 2021 at 07:26:14PM +0300, Oded Gabbay wrote:
+> On Mon, Jun 21, 2021 at 5:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Mon, Jun 21, 2021 at 03:02:10PM +0200, Greg KH wrote:
+> > > On Mon, Jun 21, 2021 at 02:28:48PM +0200, Daniel Vetter wrote:
+> >
+> > > > Also I'm wondering which is the other driver that we share buffers
+> > > > with. The gaudi stuff doesn't have real struct pages as backing
+> > > > storage, it only fills out the dma_addr_t. That tends to blow up with
+> > > > other drivers, and the only place where this is guaranteed to work is
+> > > > if you have a dynamic importer which sets the allow_peer2peer flag.
+> > > > Adding maintainers from other subsystems who might want to chime in
+> > > > here. So even aside of the big question as-is this is broken.
+> > >
+> > > From what I can tell this driver is sending the buffers to other
+> > > instances of the same hardware,
+> >
+> > A dmabuf is consumed by something else in the kernel calling
+> > dma_buf_map_attachment() on the FD.
+> >
+> > What is the other side of this? I don't see any
+> > dma_buf_map_attachment() calls in drivers/misc, or added in this patch
+> > set.
 > 
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:245 ivtv_i2c_register() error: buffer overflow 'hw_devicenames' 21 <= 31
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:266 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:269 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:275 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:280 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:290 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
-> 
-> The logic at ivtv_i2c_register() could let buffer overflows at
-> hw_devicenames and hw_addrs arrays.
-> 
-> This won't happen in practice due to a carefully-contructed
-> logic, but it is not error-prune.
-> 
-> Change the logic in a way that will make clearer that the
-> I2C hardware flags will affect the size of those two
-> arrays, and add an explicit check to avoid buffer overflows.
-> 
-> While here, use the bit macro.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> This patch-set is only to enable the support for the exporter side.
+> The "other side" is any generic RDMA networking device that will want
+> to perform p2p communication over PCIe with our GAUDI accelerator.
+> An example is indeed the mlnx5 card which has already integrated
+> support for being an "importer".
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+It raises the question of how you are testing this if you aren't using
+it with the only intree driver: mlx5.
 
-Thanks!
-
-	Hans
-
-> ---
->  drivers/media/pci/ivtv/ivtv-cards.h | 68 ++++++++++++++++++++---------
->  drivers/media/pci/ivtv/ivtv-i2c.c   | 16 ++++---
->  2 files changed, 58 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/media/pci/ivtv/ivtv-cards.h b/drivers/media/pci/ivtv/ivtv-cards.h
-> index f3e2c5634962..c252733df340 100644
-> --- a/drivers/media/pci/ivtv/ivtv-cards.h
-> +++ b/drivers/media/pci/ivtv/ivtv-cards.h
-> @@ -78,27 +78,53 @@
->  #define IVTV_PCI_ID_SONY		0x104d
->  
->  /* hardware flags, no gaps allowed */
-> -#define IVTV_HW_CX25840			(1 << 0)
-> -#define IVTV_HW_SAA7115			(1 << 1)
-> -#define IVTV_HW_SAA7127			(1 << 2)
-> -#define IVTV_HW_MSP34XX			(1 << 3)
-> -#define IVTV_HW_TUNER			(1 << 4)
-> -#define IVTV_HW_WM8775			(1 << 5)
-> -#define IVTV_HW_CS53L32A		(1 << 6)
-> -#define IVTV_HW_TVEEPROM		(1 << 7)
-> -#define IVTV_HW_SAA7114			(1 << 8)
-> -#define IVTV_HW_UPD64031A		(1 << 9)
-> -#define IVTV_HW_UPD6408X		(1 << 10)
-> -#define IVTV_HW_SAA717X			(1 << 11)
-> -#define IVTV_HW_WM8739			(1 << 12)
-> -#define IVTV_HW_VP27SMPX		(1 << 13)
-> -#define IVTV_HW_M52790			(1 << 14)
-> -#define IVTV_HW_GPIO			(1 << 15)
-> -#define IVTV_HW_I2C_IR_RX_AVER		(1 << 16)
-> -#define IVTV_HW_I2C_IR_RX_HAUP_EXT	(1 << 17) /* External before internal */
-> -#define IVTV_HW_I2C_IR_RX_HAUP_INT	(1 << 18)
-> -#define IVTV_HW_Z8F0811_IR_HAUP		(1 << 19)
-> -#define IVTV_HW_I2C_IR_RX_ADAPTEC	(1 << 20)
-> +enum ivtv_hw_bits {
-> +	IVTV_HW_BIT_CX25840,
-> +	IVTV_HW_BIT_SAA7115,
-> +	IVTV_HW_BIT_SAA7127,
-> +	IVTV_HW_BIT_MSP34XX,
-> +	IVTV_HW_BIT_TUNER,
-> +	IVTV_HW_BIT_WM8775,
-> +	IVTV_HW_BIT_CS53L32A,
-> +	IVTV_HW_BIT_TVEEPROM,
-> +	IVTV_HW_BIT_SAA7114,
-> +	IVTV_HW_BIT_UPD64031A,
-> +	IVTV_HW_BIT_UPD6408X,
-> +	IVTV_HW_BIT_SAA717X,
-> +	IVTV_HW_BIT_WM8739,
-> +	IVTV_HW_BIT_VP27SMPX,
-> +	IVTV_HW_BIT_M52790,
-> +	IVTV_HW_BIT_GPIO,
-> +	IVTV_HW_BIT_I2C_IR_RX_AVER,
-> +	IVTV_HW_BIT_I2C_IR_RX_HAUP_EXT,		 /* External before internal */
-> +	IVTV_HW_BIT_I2C_IR_RX_HAUP_INT,
-> +	IVTV_HW_BIT_Z8F0811_IR_HAUP,
-> +	IVTV_HW_BIT_I2C_IR_RX_ADAPTEC,
-> +
-> +	IVTV_HW_MAX_BITS	/* Should be the last one */
-> +};
-> +
-> +#define IVTV_HW_CX25840			BIT(IVTV_HW_BIT_CX25840)
-> +#define IVTV_HW_SAA7115			BIT(IVTV_HW_BIT_SAA7115)
-> +#define IVTV_HW_SAA7127			BIT(IVTV_HW_BIT_SAA7127)
-> +#define IVTV_HW_MSP34XX			BIT(IVTV_HW_BIT_MSP34XX)
-> +#define IVTV_HW_TUNER			BIT(IVTV_HW_BIT_TUNER)
-> +#define IVTV_HW_WM8775			BIT(IVTV_HW_BIT_WM8775)
-> +#define IVTV_HW_CS53L32A		BIT(IVTV_HW_BIT_CS53L32A)
-> +#define IVTV_HW_TVEEPROM		BIT(IVTV_HW_BIT_TVEEPROM)
-> +#define IVTV_HW_SAA7114			BIT(IVTV_HW_BIT_SAA7114)
-> +#define IVTV_HW_UPD64031A		BIT(IVTV_HW_BIT_UPD64031A)
-> +#define IVTV_HW_UPD6408X		BIT(IVTV_HW_BIT_UPD6408X)
-> +#define IVTV_HW_SAA717X			BIT(IVTV_HW_BIT_SAA717X)
-> +#define IVTV_HW_WM8739			BIT(IVTV_HW_BIT_WM8739)
-> +#define IVTV_HW_VP27SMPX		BIT(IVTV_HW_BIT_VP27SMPX)
-> +#define IVTV_HW_M52790			BIT(IVTV_HW_BIT_M52790)
-> +#define IVTV_HW_GPIO			BIT(IVTV_HW_BIT_GPIO)
-> +#define IVTV_HW_I2C_IR_RX_AVER		BIT(IVTV_HW_BIT_I2C_IR_RX_AVER)
-> +#define IVTV_HW_I2C_IR_RX_HAUP_EXT	BIT(IVTV_HW_BIT_I2C_IR_RX_HAUP_EXT)
-> +#define IVTV_HW_I2C_IR_RX_HAUP_INT	BIT(IVTV_HW_BIT_I2C_IR_RX_HAUP_INT)
-> +#define IVTV_HW_Z8F0811_IR_HAUP		BIT(IVTV_HW_BIT_Z8F0811_IR_HAUP)
-> +#define IVTV_HW_I2C_IR_RX_ADAPTEC	BIT(IVTV_HW_BIT_I2C_IR_RX_ADAPTEC)
->  
->  #define IVTV_HW_SAA711X   (IVTV_HW_SAA7115 | IVTV_HW_SAA7114)
->  
-> diff --git a/drivers/media/pci/ivtv/ivtv-i2c.c b/drivers/media/pci/ivtv/ivtv-i2c.c
-> index 982045c4eea8..c052c57c6dce 100644
-> --- a/drivers/media/pci/ivtv/ivtv-i2c.c
-> +++ b/drivers/media/pci/ivtv/ivtv-i2c.c
-> @@ -85,7 +85,7 @@
->  #define IVTV_ADAPTEC_IR_ADDR		0x6b
->  
->  /* This array should match the IVTV_HW_ defines */
-> -static const u8 hw_addrs[] = {
-> +static const u8 hw_addrs[IVTV_HW_MAX_BITS] = {
->  	IVTV_CX25840_I2C_ADDR,
->  	IVTV_SAA7115_I2C_ADDR,
->  	IVTV_SAA7127_I2C_ADDR,
-> @@ -110,7 +110,7 @@ static const u8 hw_addrs[] = {
->  };
->  
->  /* This array should match the IVTV_HW_ defines */
-> -static const char * const hw_devicenames[] = {
-> +static const char * const hw_devicenames[IVTV_HW_MAX_BITS] = {
->  	"cx25840",
->  	"saa7115",
->  	"saa7127_auto",	/* saa7127 or saa7129 */
-> @@ -240,10 +240,16 @@ void ivtv_i2c_new_ir_legacy(struct ivtv *itv)
->  
->  int ivtv_i2c_register(struct ivtv *itv, unsigned idx)
->  {
-> -	struct v4l2_subdev *sd;
->  	struct i2c_adapter *adap = &itv->i2c_adap;
-> -	const char *type = hw_devicenames[idx];
-> -	u32 hw = 1 << idx;
-> +	struct v4l2_subdev *sd;
-> +	const char *type;
-> +	u32 hw;
-> +
-> +	if (idx >= IVTV_HW_MAX_BITS)
-> +		return -ENODEV;
-> +
-> +	type = hw_devicenames[idx];
-> +	hw = 1 << idx;
->  
->  	if (hw == IVTV_HW_TUNER) {
->  		/* special tuner handling */
-> 
-
+Jason
