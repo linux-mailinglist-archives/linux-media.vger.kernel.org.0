@@ -2,212 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1E383AEC44
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 17:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A4533AF117
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 18:55:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230308AbhFUP1W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 11:27:22 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:42921 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230318AbhFUP1L (ORCPT
+        id S232747AbhFUQ5v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 12:57:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34928 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233499AbhFUQ4o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 11:27:11 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id vLn5lDgTHhg8ZvLn9ldWnf; Mon, 21 Jun 2021 17:24:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1624289093; bh=hOQLMrRrfFJzxZFToK3CIhIvlLxdCa2uAglYNpU8vAU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=f0Sv+rswJHBTHjDKgV8UNShO42aIx2KohoGcil6NJJxzWug4pwk0m07BkimUt3aLm
-         sp6fePmbBsZZFwfppHpWdiui+6eDsmn0s6eNsvES1V6RAyXnltg/aIcXjwdqkfSxng
-         lkBrIklDrWcpKF6ve2W329A1tQFO+HnwaLXDwqMY32iPRwhhAI714sVHzhcR51xpXi
-         iYdKc0d1p8CheHDCJh6UHwEMl3xqWBlBND5FrS0rwyR7IMBBbSha7Wdb97jw/rZGxG
-         OYuc9Z4R/S/YJqrhQICyUwJNnc43GEz+aviHZzrS0GDKRb9F74H9/IJxgHZQ+TuxDz
-         EOR4qsSWcT1gg==
-Subject: Re: [PATCH 4/5] media: ivtv: prevent going past the hw arrays
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Andy Walls <awalls@md.metrocast.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <cover.1624276137.git.mchehab+huawei@kernel.org>
- <94334c02c246fad023ec04a02c43b708d853b0cc.1624276138.git.mchehab+huawei@kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <39c0801c-d79f-5a80-77a3-47001d55be07@xs4all.nl>
-Date:   Mon, 21 Jun 2021 17:24:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.10.0
+        Mon, 21 Jun 2021 12:56:44 -0400
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABB5C09B05B;
+        Mon, 21 Jun 2021 09:26:38 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id g19-20020a9d12930000b0290457fde18ad0so4417845otg.1;
+        Mon, 21 Jun 2021 09:26:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yoCwDUxZJP3Ut8z/hr4sZH2+48UBBB2zck9Vy5dLtgU=;
+        b=pM+MoLSU0LSJh98DQrRsTPmTh+95pmfRHHbTmKcyhP9ovDKRhZcvBC02S/55ftG/og
+         ruYrldynFgVUzXcJ5cpWd8IKQzedGdpH4I+1WfQpqdIufPWiWf72S0LDFysmflufYM4y
+         4wEreRKEOPdT1VnnTfvE5bFAmShhQkzdbAuUs7Mj25c7MYRwZ3OzmCVuPeHzDrwJTziw
+         rDSCsQLsvjXiYpI4vGyZmIa5HkJhW6dIjnKxwkKEFk6v9qnpGL7nodqGKszpOHNAzcK7
+         CHo/Eex5i6JrEqmb0tCi7M7hZujczlekBuIR9iw4PZd+ucMGW5rl9ynK99eEaKLIYyZD
+         Yulg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yoCwDUxZJP3Ut8z/hr4sZH2+48UBBB2zck9Vy5dLtgU=;
+        b=aZ3mam2bc6fZtI/oiZtfbZ08v2dsF0LIzdq/vTRGPbzu/RxfVvSwuiOsqpEPOCnWPu
+         pgzEhKtbDGCX08hcrn/mfGKRvOfwhYZnzvcszOf9lWv+fjDAdLcw9PTx0+lyzvnCka6n
+         8JuEDGQ7AeNYU3EisxnJrjgtfBMfNdLpVICCiliLr/q7gYYzR+GbG3LpwZ92+LiVWVER
+         bqbZGLsg5YIdtKWfdcvNZtmcunNCR1KGxtsZ/sOEOSwffUt0iV8szH8+l9FP9mW5iyPL
+         TBFN579YUbQuzJuQCRKsx60XjaKkbcoEwXlWKsQyWqFhi+NLQhIEEx4aSjpkzlnxnhSD
+         PDPQ==
+X-Gm-Message-State: AOAM533faXcsOwUwcsHz4H7u3JUbTbX/pEDDoZOC2sIqZdOOnY++cQQ5
+        4vEtU8CtFwDxeJ5wUvcKBosPTGG6z6jVO9r7aZ8=
+X-Google-Smtp-Source: ABdhPJyCAxXTkhs7AspbVL/ypAtCWxFLyf2+jHwkfD8UredO9wC4bcv1TQdaRkBRCIklexFbhcAJuyI6ee0+SeGt/NU=
+X-Received: by 2002:a9d:4581:: with SMTP id x1mr22307079ote.145.1624292797889;
+ Mon, 21 Jun 2021 09:26:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <94334c02c246fad023ec04a02c43b708d853b0cc.1624276138.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfEKO8qt75kqyu7AyJxyNLd7LWlMIHGnbEQe21Q5nxfdpDvAxAWhLK3+pGW6RQ5lSAzRb7odYxw4gsZDVCdETicox1n42t6TWm8/hRw3eZGM7CI8639rI
- t4iWX7xQbuMaqsrAmbQB56Fw3H8gKqYzuCYkDePiWknExWPQXwnZQPi6EZ6Sn8oddlfYDlNWkgpK0akJaX7RATxpHuK1vL0h66zIFjgSMxAUOYehFxiYeLJr
- ZHOLLvL7QWb8VwB7v8E5sy4Z+cw5akDDMXeVppSGl1dmAunXkeKEt+1wAP7FBONQecIGy0VTVEPPclD/x7pOw3v08/VA0dKDxOVspYxt7yDVYht0Tie4hzv0
- Zpr2imiqPziQz62Q82xpBikpk2wOHVNdUdn0zISAwBcx7BQf9v1PprcsdmoUErJ3alW2kqiX
+References: <20210618123615.11456-1-ogabbay@kernel.org> <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
+ <YNCN0ulL6DQiRJaB@kroah.com> <20210621141217.GE1096940@ziepe.ca>
+In-Reply-To: <20210621141217.GE1096940@ziepe.ca>
+From:   Oded Gabbay <oded.gabbay@gmail.com>
+Date:   Mon, 21 Jun 2021 19:26:14 +0300
+Message-ID: <CAFCwf10KvCh0zfHEHqYR-Na6KJh4j+9i-6+==QaMdHHpLH1yEA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Doug Ledford <dledford@redhat.com>,
+        "airlied@gmail.com" <airlied@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Tomer Tayar <ttayar@habana.ai>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/06/2021 13:56, Mauro Carvalho Chehab wrote:
-> As warned by smatch:
-> 
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:245 ivtv_i2c_register() error: buffer overflow 'hw_devicenames' 21 <= 31
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:266 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:269 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:275 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:280 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
-> 	drivers/media/pci/ivtv/ivtv-i2c.c:290 ivtv_i2c_register() error: buffer overflow 'hw_addrs' 21 <= 31
-> 
-> The logic at ivtv_i2c_register() could let buffer overflows at
-> hw_devicenames and hw_addrs arrays.
-> 
-> This won't happen in practice due to a carefully-contructed
-> logic, but it is not error-prune.
-> 
-> Change the logic in a way that will make clearer that the
-> I2C hardware flags will affect the size of those two
-> arrays, and add an explicit check to avoid buffer overflows.
-> 
-> While here, use the bit macro.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/media/pci/ivtv/ivtv-cards.h | 68 ++++++++++++++++++++---------
->  drivers/media/pci/ivtv/ivtv-i2c.c   | 16 ++++---
->  2 files changed, 58 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/media/pci/ivtv/ivtv-cards.h b/drivers/media/pci/ivtv/ivtv-cards.h
-> index f3e2c5634962..494982e4165d 100644
-> --- a/drivers/media/pci/ivtv/ivtv-cards.h
-> +++ b/drivers/media/pci/ivtv/ivtv-cards.h
-> @@ -78,27 +78,53 @@
->  #define IVTV_PCI_ID_SONY		0x104d
->  
->  /* hardware flags, no gaps allowed */
-> -#define IVTV_HW_CX25840			(1 << 0)
-> -#define IVTV_HW_SAA7115			(1 << 1)
-> -#define IVTV_HW_SAA7127			(1 << 2)
-> -#define IVTV_HW_MSP34XX			(1 << 3)
-> -#define IVTV_HW_TUNER			(1 << 4)
-> -#define IVTV_HW_WM8775			(1 << 5)
-> -#define IVTV_HW_CS53L32A		(1 << 6)
-> -#define IVTV_HW_TVEEPROM		(1 << 7)
-> -#define IVTV_HW_SAA7114			(1 << 8)
-> -#define IVTV_HW_UPD64031A		(1 << 9)
-> -#define IVTV_HW_UPD6408X		(1 << 10)
-> -#define IVTV_HW_SAA717X			(1 << 11)
-> -#define IVTV_HW_WM8739			(1 << 12)
-> -#define IVTV_HW_VP27SMPX		(1 << 13)
-> -#define IVTV_HW_M52790			(1 << 14)
-> -#define IVTV_HW_GPIO			(1 << 15)
-> -#define IVTV_HW_I2C_IR_RX_AVER		(1 << 16)
-> -#define IVTV_HW_I2C_IR_RX_HAUP_EXT	(1 << 17) /* External before internal */
-> -#define IVTV_HW_I2C_IR_RX_HAUP_INT	(1 << 18)
-> -#define IVTV_HW_Z8F0811_IR_HAUP		(1 << 19)
-> -#define IVTV_HW_I2C_IR_RX_ADAPTEC	(1 << 20)
-> +enum ivtv_hw_bits {
-> +	IVTV_HW_BIT_CX25840		= 0,
-> +	IVTV_HW_BIT_SAA7115		= 1,
-> +	IVTV_HW_BIT_SAA7127		= 2,
-> +	IVTV_HW_BIT_MSP34XX		= 3,
-> +	IVTV_HW_BIT_TUNER		= 4,
-> +	IVTV_HW_BIT_WM8775		= 5,
-> +	IVTV_HW_BIT_CS53L32A		= 6,
-> +	IVTV_HW_BIT_TVEEPROM		= 7,
-> +	IVTV_HW_BIT_SAA7114		= 8,
-> +	IVTV_HW_BIT_UPD64031A		= 9,
-> +	IVTV_HW_BIT_UPD6408X		= 10,
-> +	IVTV_HW_BIT_SAA717X		= 11,
-> +	IVTV_HW_BIT_WM8739		= 12,
-> +	IVTV_HW_BIT_VP27SMPX		= 13,
-> +	IVTV_HW_BIT_M52790		= 14,
-> +	IVTV_HW_BIT_GPIO		= 15,
-> +	IVTV_HW_BIT_I2C_IR_RX_AVER	= 16,
-> +	IVTV_HW_BIT_I2C_IR_RX_HAUP_EXT	= 17, /* External before internal */
-> +	IVTV_HW_BIT_I2C_IR_RX_HAUP_INT	= 18,
-> +	IVTV_HW_BIT_Z8F0811_IR_HAUP	= 19,
-> +	IVTV_HW_BIT_I2C_IR_RX_ADAPTEC	= 20,
-> +
-> +	IVTV_HW_MAX_BITS		= 21	/* Should be the last bit + 1 */
+On Mon, Jun 21, 2021 at 5:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Mon, Jun 21, 2021 at 03:02:10PM +0200, Greg KH wrote:
+> > On Mon, Jun 21, 2021 at 02:28:48PM +0200, Daniel Vetter wrote:
+>
+> > > Also I'm wondering which is the other driver that we share buffers
+> > > with. The gaudi stuff doesn't have real struct pages as backing
+> > > storage, it only fills out the dma_addr_t. That tends to blow up with
+> > > other drivers, and the only place where this is guaranteed to work is
+> > > if you have a dynamic importer which sets the allow_peer2peer flag.
+> > > Adding maintainers from other subsystems who might want to chime in
+> > > here. So even aside of the big question as-is this is broken.
+> >
+> > From what I can tell this driver is sending the buffers to other
+> > instances of the same hardware,
+>
+> A dmabuf is consumed by something else in the kernel calling
+> dma_buf_map_attachment() on the FD.
+>
+> What is the other side of this? I don't see any
+> dma_buf_map_attachment() calls in drivers/misc, or added in this patch
+> set.
 
-It's an enum, so you can drop the '= nr' bit.
+This patch-set is only to enable the support for the exporter side.
+The "other side" is any generic RDMA networking device that will want
+to perform p2p communication over PCIe with our GAUDI accelerator.
+An example is indeed the mlnx5 card which has already integrated
+support for being an "importer".
 
-Other than that it looks OK to me.
+This is *not* used for communication with another GAUDI device. If I
+want to communicate with another GAUDI device, our userspace
+communications library will use our internal network links, without
+any need for dma-buf.
 
-Regards,
+Oded
 
-	Hans
-
-> +};
-> +
-> +#define IVTV_HW_CX25840			BIT(IVTV_HW_BIT_CX25840)
-> +#define IVTV_HW_SAA7115			BIT(IVTV_HW_BIT_SAA7115)
-> +#define IVTV_HW_SAA7127			BIT(IVTV_HW_BIT_SAA7127)
-> +#define IVTV_HW_MSP34XX			BIT(IVTV_HW_BIT_MSP34XX)
-> +#define IVTV_HW_TUNER			BIT(IVTV_HW_BIT_TUNER)
-> +#define IVTV_HW_WM8775			BIT(IVTV_HW_BIT_WM8775)
-> +#define IVTV_HW_CS53L32A		BIT(IVTV_HW_BIT_CS53L32A)
-> +#define IVTV_HW_TVEEPROM		BIT(IVTV_HW_BIT_TVEEPROM)
-> +#define IVTV_HW_SAA7114			BIT(IVTV_HW_BIT_SAA7114)
-> +#define IVTV_HW_UPD64031A		BIT(IVTV_HW_BIT_UPD64031A)
-> +#define IVTV_HW_UPD6408X		BIT(IVTV_HW_BIT_UPD6408X)
-> +#define IVTV_HW_SAA717X			BIT(IVTV_HW_BIT_SAA717X)
-> +#define IVTV_HW_WM8739			BIT(IVTV_HW_BIT_WM8739)
-> +#define IVTV_HW_VP27SMPX		BIT(IVTV_HW_BIT_VP27SMPX)
-> +#define IVTV_HW_M52790			BIT(IVTV_HW_BIT_M52790)
-> +#define IVTV_HW_GPIO			BIT(IVTV_HW_BIT_GPIO)
-> +#define IVTV_HW_I2C_IR_RX_AVER		BIT(IVTV_HW_BIT_I2C_IR_RX_AVER)
-> +#define IVTV_HW_I2C_IR_RX_HAUP_EXT	BIT(IVTV_HW_BIT_I2C_IR_RX_HAUP_EXT)
-> +#define IVTV_HW_I2C_IR_RX_HAUP_INT	BIT(IVTV_HW_BIT_I2C_IR_RX_HAUP_INT)
-> +#define IVTV_HW_Z8F0811_IR_HAUP		BIT(IVTV_HW_BIT_Z8F0811_IR_HAUP)
-> +#define IVTV_HW_I2C_IR_RX_ADAPTEC	BIT(IVTV_HW_BIT_I2C_IR_RX_ADAPTEC)
->  
->  #define IVTV_HW_SAA711X   (IVTV_HW_SAA7115 | IVTV_HW_SAA7114)
->  
-> diff --git a/drivers/media/pci/ivtv/ivtv-i2c.c b/drivers/media/pci/ivtv/ivtv-i2c.c
-> index 982045c4eea8..c052c57c6dce 100644
-> --- a/drivers/media/pci/ivtv/ivtv-i2c.c
-> +++ b/drivers/media/pci/ivtv/ivtv-i2c.c
-> @@ -85,7 +85,7 @@
->  #define IVTV_ADAPTEC_IR_ADDR		0x6b
->  
->  /* This array should match the IVTV_HW_ defines */
-> -static const u8 hw_addrs[] = {
-> +static const u8 hw_addrs[IVTV_HW_MAX_BITS] = {
->  	IVTV_CX25840_I2C_ADDR,
->  	IVTV_SAA7115_I2C_ADDR,
->  	IVTV_SAA7127_I2C_ADDR,
-> @@ -110,7 +110,7 @@ static const u8 hw_addrs[] = {
->  };
->  
->  /* This array should match the IVTV_HW_ defines */
-> -static const char * const hw_devicenames[] = {
-> +static const char * const hw_devicenames[IVTV_HW_MAX_BITS] = {
->  	"cx25840",
->  	"saa7115",
->  	"saa7127_auto",	/* saa7127 or saa7129 */
-> @@ -240,10 +240,16 @@ void ivtv_i2c_new_ir_legacy(struct ivtv *itv)
->  
->  int ivtv_i2c_register(struct ivtv *itv, unsigned idx)
->  {
-> -	struct v4l2_subdev *sd;
->  	struct i2c_adapter *adap = &itv->i2c_adap;
-> -	const char *type = hw_devicenames[idx];
-> -	u32 hw = 1 << idx;
-> +	struct v4l2_subdev *sd;
-> +	const char *type;
-> +	u32 hw;
-> +
-> +	if (idx >= IVTV_HW_MAX_BITS)
-> +		return -ENODEV;
-> +
-> +	type = hw_devicenames[idx];
-> +	hw = 1 << idx;
->  
->  	if (hw == IVTV_HW_TUNER) {
->  		/* special tuner handling */
-> 
-
+>
+> AFAIK the only viable in-tree other side is in mlx5 (look in
+> umem_dmabuf.c)
+>
+> Though as we already talked habana has their own networking (out of
+> tree, presumably) so I suspect this is really to support some out of
+> tree stuff??
+>
+> Jason
