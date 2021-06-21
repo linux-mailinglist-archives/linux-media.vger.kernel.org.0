@@ -2,111 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 998713AE88D
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 13:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A64E53AE8C8
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 14:09:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230206AbhFUMAn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 08:00:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52224 "EHLO
+        id S229918AbhFUMLx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 08:11:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229663AbhFUMAk (ORCPT
+        with ESMTP id S229621AbhFUMLw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 08:00:40 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9318CC061760;
-        Mon, 21 Jun 2021 04:58:26 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id j1so2118276wrn.9;
-        Mon, 21 Jun 2021 04:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=80v3QdK6lvkTa+Gv+j5089kh4F58fian+x7X/sqsWnc=;
-        b=P7V1sZttRDo+gv7B209QjtKRej8sON6YfC+dLoFsoPq4CA8F251j2apZkqH+4pB0+2
-         m/cAVl7BEp+juNm9dbQIhvfxcfFQXhdNNbvQGXk+DtCEr8lmkBuzpBIMCG1uE5y37sCY
-         CexGSEG9dMFHFVYLdP2D8pGVsI4wPuy10J6ZRYidmtSdouQYEjbOj4COwiCqYTzlIyvR
-         YS/X/Dfm2oOhhci3ykaiyHOxSfwZS3XdezDqJc7VyJC/A2l/WHlDw6Jr6UVV/zanW2v9
-         ufcT0/Q34EPzXx9geuhVC3JI3cs+OUNPQ69Tlbj8Kz/TkV0OAPdM3S4fGBRJ5syZ/swm
-         C9gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=80v3QdK6lvkTa+Gv+j5089kh4F58fian+x7X/sqsWnc=;
-        b=nOd/nSKjKSMI1NXhHPblxaMreGyf25MoIqOZk08iJkX7DXgj1755yEUvFqJRkh5PJw
-         9KR3tIDPZFOgaDiYRAIaVAwgsO9YCQxLOXEumGMbimpxmUY8LvS2r9CgrOzA0UUMeBlR
-         CHtKRWrSu7txMo+SbVjfNnaFcKyBsGovYmv2cOOJPz0ViZ5U198XciKy37qpZyl9QoyE
-         PuQinVpyUGE+IpV/KxZ5qj4QuRzdR90EXIlU6dOEFoLAPNeWHSGNk3xNlvQCS4Dtx9B5
-         /M9Z7eaGidzkUvIyyX7uk1bOQghDuw+N8Nl8MQOOx7bsy8GW7oGTxH0QR+7Fhu8SxKeA
-         ducA==
-X-Gm-Message-State: AOAM532cHiFR+KQwTTJH9p/Fp+nqi06UUzRWVktrKDZSmGZtn0v+t8Sd
-        y65SynM/yoaFZUTq1+1GVq6r5PfXeesG
-X-Google-Smtp-Source: ABdhPJwFdShnzZcO1ddX2RbzeMUujpzXbXQzvHgGwyV+ILWRbHfPAIAbkr+xMsp7hH+KNcVvOyogDg==
-X-Received: by 2002:a05:6000:89:: with SMTP id m9mr27342835wrx.8.1624276705168;
-        Mon, 21 Jun 2021 04:58:25 -0700 (PDT)
-Received: from [192.168.200.247] (ip5b434b8b.dynamic.kabel-deutschland.de. [91.67.75.139])
-        by smtp.gmail.com with ESMTPSA id j17sm7254661wrx.0.2021.06.21.04.58.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jun 2021 04:58:24 -0700 (PDT)
-Subject: Re: [PATCH v2 08/12] ARM: dts: rockchip: add power controller for
- RK3036
-To:     Heiko Stuebner <heiko@sntech.de>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Mon, 21 Jun 2021 08:11:52 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B030EC061574;
+        Mon, 21 Jun 2021 05:09:38 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 980B75A1;
+        Mon, 21 Jun 2021 14:09:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624277376;
+        bh=D5aMC3nKs6AeN78dem+9AycwhE8/FV0A4CCif5//bLM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=A5p81FfzQAS3GzxbMk60HCHztOPPEQYeUAg638qc0fDSphfWmsKkwWpZuIP9+i5GX
+         ONT+PpHelDvOqS1Cvlc5GIPLYT58AqdpEV3h9KRK4YBcrmJbI8uY6py75oR/HfTCji
+         Q0kr/wMdYpIIG0HsQujKv39L8PWrV9Hx1epin5+I=
+Date:   Mon, 21 Jun 2021 15:09:10 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>
-References: <20210525152225.154302-1-knaerzche@gmail.com>
- <20210527154455.358869-9-knaerzche@gmail.com>
- <1dc782cd3956598b2eb5f89ad0680d2ce38ffd54.camel@collabora.com>
- <3783580.yKVeVyVuyW@phil>
-From:   Alex Bee <knaerzche@gmail.com>
-Message-ID: <b7650d04-bfaf-696e-c492-e53c9a4408c1@gmail.com>
-Date:   Mon, 21 Jun 2021 13:58:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/5] media: uvc: don't do DMA on stack
+Message-ID: <YNCBZtuewVrAoaVu@pendragon.ideasonboard.com>
+References: <cover.1624276137.git.mchehab+huawei@kernel.org>
+ <d9d3b95daf726f3d4dc09477b1f61669763e301a.1624276138.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <3783580.yKVeVyVuyW@phil>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d9d3b95daf726f3d4dc09477b1f61669763e301a.1624276138.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heiko,
+Hi Mauro,
 
-Am 13.06.21 um 18:22 schrieb Heiko Stuebner:
-> Am Freitag, 11. Juni 2021, 17:58:58 CEST schrieb Ezequiel Garcia:
->> Hi Heiko,
->>
->> On Thu, 2021-05-27 at 17:44 +0200, Alex Bee wrote:
->>> Add the power controller node and the correspondending qos nodes for
->>> RK3036.
->>> Also add the power-domain property to the nodes that are already
->>> present.
->>> Note: Since the regiser offsets of the axi interconnect QoS are missing
->>> in the TRM (RK3036 TRM V1.0), they have been taken from vendor kernel.
->>>
->> Can you take care of the device tree changes (patches 8 to 12)?
-> sure, I'll pick the power-domains now but need to wait for
-> the vpu nodes for the driver parts to land in the media tree.
+Thank you for the patch.
 
-Looks like I'm too late for 5.14 - just in case you didn't follow or 
-didn't receive a notification:
+On Mon, Jun 21, 2021 at 01:56:46PM +0200, Mauro Carvalho Chehab wrote:
+> As warned by smatch:
+> 	drivers/media/usb/uvc/uvc_v4l2.c:911 uvc_ioctl_g_input() error: doing dma on the stack (&i)
+> 	drivers/media/usb/uvc/uvc_v4l2.c:943 uvc_ioctl_s_input() error: doing dma on the stack (&i)
+> 
+> those two functions call uvc_query_ctrl passing a pointer to
+> a data at the DMA stack. those are used to send URBs via
+> usb_control_msg(). Using DMA stack is not supported and should
+> not work anymore on modern Linux versions.
+> 
+> So, use a temporary buffer, allocated together with
+> struct uvc_video_chain.
 
-hantro patches of this series have been merged in media_tree and vpu 
-node patches (please pick from v2) could get reviewed/applied now.
+DMA in a memory location that may share a cache line with something else
+isn't a great idea either. The buffer should be kmalloc()ed in
+uvc_ioctl_g_input() and uvc_ioctl_s_input().
 
-Thanks,
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/media/usb/uvc/uvc_v4l2.c | 10 ++++------
+>  drivers/media/usb/uvc/uvcvideo.h |  3 +++
+>  2 files changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 252136cc885c..e60d4675881a 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -900,7 +900,6 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_video_chain *chain = handle->chain;
+>  	int ret;
+> -	u8 i;
+>  
+>  	if (chain->selector == NULL ||
+>  	    (chain->dev->quirks & UVC_QUIRK_IGNORE_SELECTOR_UNIT)) {
+> @@ -910,11 +909,11 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
+>  
+>  	ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, chain->selector->id,
+>  			     chain->dev->intfnum,  UVC_SU_INPUT_SELECT_CONTROL,
+> -			     &i, 1);
+> +			     &chain->input, 1);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	*input = i - 1;
+> +	*input = chain->input - 1;
+>  	return 0;
+>  }
+>  
+> @@ -923,7 +922,6 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_video_chain *chain = handle->chain;
+>  	int ret;
+> -	u32 i;
+>  
+>  	ret = uvc_acquire_privileges(handle);
+>  	if (ret < 0)
+> @@ -939,10 +937,10 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
+>  	if (input >= chain->selector->bNrInPins)
+>  		return -EINVAL;
+>  
+> -	i = input + 1;
+> +	chain->input = input + 1;
+>  	return uvc_query_ctrl(chain->dev, UVC_SET_CUR, chain->selector->id,
+>  			      chain->dev->intfnum, UVC_SU_INPUT_SELECT_CONTROL,
+> -			      &i, 1);
+> +			      &chain->input, 1);
+>  }
+>  
+>  static int uvc_ioctl_queryctrl(struct file *file, void *fh,
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index cce5e38133cd..3c0ed90d6912 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -475,6 +475,9 @@ struct uvc_video_chain {
+>  	struct mutex ctrl_mutex;		/* Protects ctrl.info */
+>  
+>  	struct v4l2_prio_state prio;		/* V4L2 priority state */
+> +
+> +	u8 input;				/* buffer for set/get input */
+> +
+>  	u32 caps;				/* V4L2 chain-wide caps */
+>  };
+>  
 
-Alex
+-- 
+Regards,
 
->
-> Heiko
->
->
+Laurent Pinchart
