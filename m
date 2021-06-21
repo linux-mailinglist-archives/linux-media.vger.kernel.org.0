@@ -2,65 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 631BA3AEAE3
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 16:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66B9C3AEB01
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 16:18:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230151AbhFUOOr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 10:14:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54704 "EHLO
+        id S229918AbhFUOUN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 10:20:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229918AbhFUOOi (ORCPT
+        with ESMTP id S229789AbhFUOUN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 10:14:38 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C12EDC061766
-        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 07:12:19 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id c22so5898929qtn.1
-        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 07:12:19 -0700 (PDT)
+        Mon, 21 Jun 2021 10:20:13 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D324C061574
+        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 07:17:59 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id o19so13480903qtp.5
+        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 07:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ziepe.ca; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=8oJQZs0I5J7jBEQyNRVEZxX4UpsM7b71jbLdhb7hAG8=;
-        b=FvMNMxA3fW7M2xLUZMwKYbvWPDaZY4pFbcNZf8cAZEsq+AvHkkjdBFOY2pviHteDwO
-         C4Wu0SMltMsKCjOubP50lFxgNeNMSaZYEKEX7+OBgiaxrMgCwsV2iK7lgX8/+KZlk4J4
-         aF5ixG7g2CBXbZTlvfOQubAF3wyQTRyw74T4Hf0/YCR0yoYa7w3a6op9w4hFlDeDVvyE
-         l/inPVDU6NWf0eU0BOoi/ztftjOhg9DHQyzvWKPkZf5nnfR7X6d4ilITeIR/5CPUHzeR
-         Y5yxMVmbjISlSpxOsRA2pU1pIKL7Nm9mg1e4mEqnBLS+F4tdRuCspUjlf0CxKRwGVOjA
-         H0Bg==
+        bh=f5JgZDeoCfa2i8b2+lJPyccTDGeyU3UeQJEKpYqzmGw=;
+        b=iW/qNwvjUN60qOdsm7Tc/2UgFmrbPL7i3tcOoqV4K4nAE5p++VtMzaD7tQUmZY5aS/
+         08eVJcFISGR01jyo6CIqviQAi8/x8nwo8NCY7YrYTVakAPQRX4ny9mcq8xMudYSJADOQ
+         h+yKiUXxtEnGjWiqtTAEO+fkAVZBXqOEiFWJnEcxmy2hkR14/qsVhyet4cLlhORAQjbS
+         5b3b0Ub6MVs3bJel4J0zd7N6pAGiflA4WAmb2m/748JAvI/uviYVvmmbpTnenWCmngzg
+         /0zm6jCnZ052zu8m26gQyrxVJtmvIX29vAGvfAg8myajT6QOMOcUsreOn1mLyatblaTF
+         2yQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=8oJQZs0I5J7jBEQyNRVEZxX4UpsM7b71jbLdhb7hAG8=;
-        b=mYxdut8ty9QTGn2aN/l0z420gSL4mJRVoPC8h/K6ofleTCrTxZhEjr63WqDOceQ56l
-         okKRJSVJnydc7NuTrk6sorA3lj4LGPglxJYabZ9BzliOlzhgjsEFuTSL9ZDwX+XbYk4o
-         AX4V10ShtrxxPr+k0SQXvBRZeHO5qf8VHrLkXW+t3yS2Pu55qwNGcVUxwZuYagKALHJp
-         BwL4IsAjRZ6GTiH3tp3ERGjkwVEVZVXTf30iZzQzndnUKSMo36wGOZlF0mvmuFZFtsOq
-         1bbLzW5h7MGduCM7uEAbqV2Ps+h+cZRtxF8hB58XNqTH7xQLDb0GvRPJ6b9qQK/ECgVc
-         ZlBQ==
-X-Gm-Message-State: AOAM532OYvhHujMMhPCYNI/dD7XPatln1S3R82eXhEEEhU49RwiQa3YU
-        iol4BDf2lphhWwQkP+71IDsXIw==
-X-Google-Smtp-Source: ABdhPJxB8jGNP0gwOLDPKvz+lnw80kFEjkxZj8vO8hWTPyGaIbP4EFePcOB/Ss3vtT0IcT6gYom4xg==
-X-Received: by 2002:ac8:5508:: with SMTP id j8mr10071894qtq.134.1624284738855;
-        Mon, 21 Jun 2021 07:12:18 -0700 (PDT)
+        bh=f5JgZDeoCfa2i8b2+lJPyccTDGeyU3UeQJEKpYqzmGw=;
+        b=d9FskDZc+2WXrJ+vd31ugszeMBOmibKje7djZXUaQuZuudYybUcjXWqrhf8f+oGAMX
+         ulZppnFC7UpXJGBTtOD4F2LuKRRm00sZ7ImbQZ2/yymlrDpXTi65vdJnJ08ZuOh/FEO+
+         heEEorEiRZtlBMRq6vis6OKgGmEmJfxEJNANmYNvBvDkXtW4k5ZqlBshkU0bNViXsDKw
+         rCD4jXhj5hcYiBfbMauoB6wcOot6GKUp96Sn+DY36HlboH82vXuMLqwb6mEToeI1bZJS
+         Lvo3Y0V97q2k0hTN1b3Upw2lBw0To6ScJLNDybj3jp5PJ3Y0CpCkaneWd5Fb8zcmuNxE
+         lNIA==
+X-Gm-Message-State: AOAM5308pdU8teIKGdofDMiAjfosxhWAeoYTVp/OYRZPMgC4OyjtFSB8
+        AiEg6ZfHvtlnXg3FSwAAye1Vug==
+X-Google-Smtp-Source: ABdhPJwxuJR5FNaFOeQuuTYdtMofIT5+18r8iXh+MV7YhfMRJf27n/x+7ThZDE3kkaBxOtliYq23Aw==
+X-Received: by 2002:ac8:44ca:: with SMTP id b10mr24067709qto.224.1624285077981;
+        Mon, 21 Jun 2021 07:17:57 -0700 (PDT)
 Received: from ziepe.ca (hlfxns017vw-47-55-113-94.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.113.94])
-        by smtp.gmail.com with ESMTPSA id r22sm10570497qtm.82.2021.06.21.07.12.18
+        by smtp.gmail.com with ESMTPSA id y15sm10797034qto.90.2021.06.21.07.17.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 07:12:18 -0700 (PDT)
+        Mon, 21 Jun 2021 07:17:57 -0700 (PDT)
 Received: from jgg by mlx with local (Exim 4.94)
         (envelope-from <jgg@ziepe.ca>)
-        id 1lvKev-009WcM-8s; Mon, 21 Jun 2021 11:12:17 -0300
-Date:   Mon, 21 Jun 2021 11:12:17 -0300
+        id 1lvKkO-009WjS-US; Mon, 21 Jun 2021 11:17:56 -0300
+Date:   Mon, 21 Jun 2021 11:17:56 -0300
 From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Oded Gabbay <ogabbay@kernel.org>,
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     Oded Gabbay <ogabbay@kernel.org>, Christoph Hellwig <hch@lst.de>,
         linux-rdma <linux-rdma@vger.kernel.org>,
         "open list:DMA BUFFER SHARING FRAMEWORK" 
         <linux-media@vger.kernel.org>, Doug Ledford <dledford@redhat.com>,
         "airlied@gmail.com" <airlied@gmail.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
         Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
@@ -70,47 +70,48 @@ Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
         <linaro-mm-sig@lists.linaro.org>,
         amd-gfx list <amd-gfx@lists.freedesktop.org>,
         Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>
+        Leon Romanovsky <leonro@nvidia.com>
 Subject: Re: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-Message-ID: <20210621141217.GE1096940@ziepe.ca>
+Message-ID: <20210621141756.GF1096940@ziepe.ca>
 References: <20210618123615.11456-1-ogabbay@kernel.org>
  <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
- <YNCN0ulL6DQiRJaB@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YNCN0ulL6DQiRJaB@kroah.com>
+In-Reply-To: <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 03:02:10PM +0200, Greg KH wrote:
-> On Mon, Jun 21, 2021 at 02:28:48PM +0200, Daniel Vetter wrote:
+On Mon, Jun 21, 2021 at 02:28:48PM +0200, Daniel Vetter wrote:
 
-> > Also I'm wondering which is the other driver that we share buffers
-> > with. The gaudi stuff doesn't have real struct pages as backing
-> > storage, it only fills out the dma_addr_t. That tends to blow up with
-> > other drivers, and the only place where this is guaranteed to work is
-> > if you have a dynamic importer which sets the allow_peer2peer flag.
-> > Adding maintainers from other subsystems who might want to chime in
-> > here. So even aside of the big question as-is this is broken.
-> 
-> From what I can tell this driver is sending the buffers to other
-> instances of the same hardware,
+> Mission acomplished, we've gone full circle, and the totally-not-a-gpu
+> driver is now trying to use gpu infrastructure. And seems to have
+> gained vram meanwhile too. Next up is going to be synchronization
+> using dma_fence so you can pass buffers back&forth without stalls
+> among drivers.
 
-A dmabuf is consumed by something else in the kernel calling
-dma_buf_map_attachment() on the FD.
+Well, we can't even see the other side of this so who knows
 
-What is the other side of this? I don't see any
-dma_buf_map_attachment() calls in drivers/misc, or added in this patch
-set.
+This is a new uAPI, where is the userspace? In RDMA at least I require
+to see the new userspace and test suite before changes to
+include/uapi/rdma can go ahead.
 
-AFAIK the only viable in-tree other side is in mlx5 (look in
-umem_dmabuf.c)
+> Doug/Jason from infiniband: Should we add linux-rdma to the dma-buf
+> wildcard match so that you can catch these next time around too? At
+> least when people use scripts/get_maintainers.pl correctly. All the
+> other subsystems using dma-buf are on there already (dri-devel,
+> linux-media and linaro-mm-sig for android/arm embedded stuff).
 
-Though as we already talked habana has their own networking (out of
-tree, presumably) so I suspect this is really to support some out of
-tree stuff??
+My bigger concern is this doesn't seem to be implementing PCI P2P DMA
+correctly. This is following the same hacky NULL page approach that
+Christoph Hellwig already NAK'd for AMD.
+
+This should not be allowed to proliferate.
+
+I would be much happier seeing this be done using the approach of
+Logan's series here:
+
+https://lore.kernel.org/linux-block/20210513223203.5542-1-logang@deltatee.com/
 
 Jason
