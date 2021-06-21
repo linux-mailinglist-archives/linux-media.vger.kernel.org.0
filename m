@@ -2,186 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FE533AEB13
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 16:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A6333AEB31
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 16:25:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230103AbhFUOWz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 10:22:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56580 "EHLO
+        id S230040AbhFUO1a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 10:27:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229968AbhFUOWy (ORCPT
+        with ESMTP id S229876AbhFUO13 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 10:22:54 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E642C061574
-        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 07:20:39 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id r9so19882091wrz.10
-        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 07:20:38 -0700 (PDT)
+        Mon, 21 Jun 2021 10:27:29 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0365AC061756
+        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 07:25:14 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id i94so19892292wri.4
+        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 07:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:mail-followup-to:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Ec7hxlIB77SSjw/55RmOMCuUntyz8RSRzIK/yT10Dvk=;
-        b=hdjFmcsB7YIei1isj+gSWLLnQe/OhKX1iiuoZJRIb0Y5ZjSRed91RUS0dHVk5ggMn5
-         RvzeIUS7C6AplN/c1p38QeXspMIbu1dx50vmfj9IfhRCU0PvQxRWsAQsLAtFcnCZeVTs
-         LE5yRt50lgyFPVhoGDAul329GvtCpJQZUhgyk=
+        bh=N8KORs1w5sO5Pt8tvYP3PqKHK+tsp4Q8XjedmOUr0+I=;
+        b=VHh+2mmwhGNltgxbiIC+DldZJb2u+ZHeIQQqrsWcN7mpfPYQ0GSjzxa8b7bf3x37Bz
+         25EO6uOjhKyqOeC9APlx3BBggF6hPQKt60xGOpQISihSymf3JO5lS4b8NLYcsFMrnXIh
+         +pZ9lkDoTUf9jhKJeWQsyBtTvzWptqRCh/OH4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id
          :mail-followup-to:references:mime-version:content-disposition
          :in-reply-to;
-        bh=Ec7hxlIB77SSjw/55RmOMCuUntyz8RSRzIK/yT10Dvk=;
-        b=ANvZ9DnzTM2KKuv+W9M+DITgSeV/Umws1VtjAGKOcpg9RV+1rdyqABPLgnNTRfGc8z
-         mI6EPYnQCuPYo/qx/GF1wZtB4SnRm6PI6GBKMErY+LXys/Gje2+UelpvmXDCccS3e2v/
-         Yr9xSfNh2pcrUnVyOdocL31wFmxx2eZsiBhxHNv9kH3rA7dGZGfVGrTKzgrYh8UGn6A7
-         dbWkYq4xvrAhL3dQklKN9wU96S7asmcRoBkwhQvVm+AeD1GAzx7YrmeppB4jfkwxehVB
-         cUAIU7suqcOTmCmMZWMsjyi5LQLhTC/6T+HjYrK3mOV1pIxWotGNKjmwr1Wr4DoylVUe
-         E8oQ==
-X-Gm-Message-State: AOAM531iLMfwxbr9prq8/iJ+5/fVKpVTyAVhA8+S+aU/7sx2fmqSm8uZ
-        HiWr826PlnP3uUHh8G/1pvk0OQ==
-X-Google-Smtp-Source: ABdhPJzPyUcaJgvK25ATnGRsGylqHKBhORMyjB5T83l8p03Kbo46vsfx/gdiWtoNiHUQ9xmV7GCvtQ==
-X-Received: by 2002:a05:6000:12c7:: with SMTP id l7mr22475136wrx.161.1624285237673;
-        Mon, 21 Jun 2021 07:20:37 -0700 (PDT)
+        bh=N8KORs1w5sO5Pt8tvYP3PqKHK+tsp4Q8XjedmOUr0+I=;
+        b=KSs8kxB6wExZY/LEhd3kIMkocPzmfeD3XVddlO+nsXn6IXvbO+FmQASMDNhOkEMPRl
+         yf3Q147SThQlbXXLsgsVXFKSjPB9BLM+8W3VM1yWfuUhTwehs8or2W28V+/MZaruCd/i
+         4d7t/He4FoF4NjRcEyiK9Nx7ipJc6ctW11py+qo1DIebYseATdB8rAPXVwKaxuaQpHs9
+         7ysEEiLz4spsC932GWkNfAxO+RkzJe/jXzKny6iMAZrg9s6rjjHnzNIHfcCQjRi0Utfe
+         l4T6cZ9ucaPMjSoQ/8APlsVIsrTm9SGYWOTDtzpcDnso2RW8j7M4jQdpZf7u8P/83dnm
+         iTEw==
+X-Gm-Message-State: AOAM5312tA8v9qD/VIAHCpEXjD1LkbSs7OT1bngqXkePhsacOZ3mfFyQ
+        cPj6taWotBreRifTE+1g8c2WiQ==
+X-Google-Smtp-Source: ABdhPJzWikMDb6HRHwnrjRscIwfDp8Y3d+qprOGR+QBWeCWpaL374TxTEE7RKVa8r9yVS4mSkemp/Q==
+X-Received: by 2002:adf:f743:: with SMTP id z3mr19302639wrp.329.1624285512590;
+        Mon, 21 Jun 2021 07:25:12 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id 4sm17161648wry.74.2021.06.21.07.20.36
+        by smtp.gmail.com with ESMTPSA id z10sm16679734wmp.39.2021.06.21.07.25.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 07:20:37 -0700 (PDT)
-Date:   Mon, 21 Jun 2021 16:20:35 +0200
+        Mon, 21 Jun 2021 07:25:12 -0700 (PDT)
+Date:   Mon, 21 Jun 2021 16:25:10 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Doug Ledford <dledford@redhat.com>,
-        "airlied@gmail.com" <airlied@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Tomer Tayar <ttayar@habana.ai>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-Message-ID: <YNCgM1svqKGUhcFY@phenom.ffwll.local>
-Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
-        Oded Gabbay <ogabbay@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        "airlied@gmail.com" <airlied@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Tomer Tayar <ttayar@habana.ai>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>
-References: <20210618123615.11456-1-ogabbay@kernel.org>
- <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
- <YNCN0ulL6DQiRJaB@kroah.com>
+To:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        emil.l.velikov@gmail.com, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v3 1/2] drm: add a locked version of drm_is_current_master
+Message-ID: <YNChRvGjIz6++jnd@phenom.ffwll.local>
+Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
+        gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        emil.l.velikov@gmail.com
+References: <20210620110327.4964-1-desmondcheongzx@gmail.com>
+ <20210620110327.4964-2-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YNCN0ulL6DQiRJaB@kroah.com>
+In-Reply-To: <20210620110327.4964-2-desmondcheongzx@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 03:02:10PM +0200, Greg KH wrote:
-> On Mon, Jun 21, 2021 at 02:28:48PM +0200, Daniel Vetter wrote:
-> > On Fri, Jun 18, 2021 at 2:36 PM Oded Gabbay <ogabbay@kernel.org> wrote:
-> > > User process might want to share the device memory with another
-> > > driver/device, and to allow it to access it over PCIe (P2P).
-> > >
-> > > To enable this, we utilize the dma-buf mechanism and add a dma-buf
-> > > exporter support, so the other driver can import the device memory and
-> > > access it.
-> > >
-> > > The device memory is allocated using our existing allocation uAPI,
-> > > where the user will get a handle that represents the allocation.
-> > >
-> > > The user will then need to call the new
-> > > uAPI (HL_MEM_OP_EXPORT_DMABUF_FD) and give the handle as a parameter.
-> > >
-> > > The driver will return a FD that represents the DMA-BUF object that
-> > > was created to match that allocation.
-> > >
-> > > Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
-> > > Reviewed-by: Tomer Tayar <ttayar@habana.ai>
-> > 
-> > Mission acomplished, we've gone full circle, and the totally-not-a-gpu
-> > driver is now trying to use gpu infrastructure. And seems to have
-> > gained vram meanwhile too. Next up is going to be synchronization
-> > using dma_fence so you can pass buffers back&forth without stalls
-> > among drivers.
+On Sun, Jun 20, 2021 at 07:03:26PM +0800, Desmond Cheong Zhi Xi wrote:
+> While checking the master status of the DRM file in
+> drm_is_current_master(), the device's master mutex should be
+> held. Without the mutex, the pointer fpriv->master may be freed
+> concurrently by another process calling drm_setmaster_ioctl(). This
+> could lead to use-after-free errors when the pointer is subsequently
+> dereferenced in drm_lease_owner().
 > 
-> What's wrong with other drivers using dmabufs and even dma_fence?  It's
-> a common problem when shuffling memory around systems, why is that
-> somehow only allowed for gpu drivers?
+> The callers of drm_is_current_master() from drm_auth.c hold the
+> device's master mutex, but external callers do not. Hence, we implement
+> drm_is_current_master_locked() to be used within drm_auth.c, and
+> modify drm_is_current_master() to grab the device's master mutex
+> before checking the master status.
 > 
-> There are many users of these structures in the kernel today that are
-> not gpu drivers (tee, fastrpc, virtio, xen, IB, etc) as this is a common
-> thing that drivers want to do (throw chunks of memory around from
-> userspace to hardware).
-> 
-> I'm not trying to be a pain here, but I really do not understand why
-> this is a problem.  A kernel api is present, why not use it by other
-> in-kernel drivers?  We had the problem in the past where subsystems were
-> trying to create their own interfaces for the same thing, which is why
-> you all created the dmabuf api to help unify this.
+> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 
-It's the same thing as ever. 90% of an accel driver are in userspace,
-that's where all the fun is, that's where the big picture review needs to
-happen, and we've very conveniently bypassed all that a few years back
-because it was too annoying.
-
-Once we have the full driver stack and can start reviewing it I have no
-objections to totally-not-gpus using all this stuff too. But until we can
-do that this is all just causing headaches.
-
-Ofc if you assume that userspace doesn't matter then you don't care, which
-is where this giantic disconnect comes from.
-
-Also unless we're actually doing this properly there's zero incentive for
-me to review the kernel code and check whether it follows the rules
-correctly, so you have excellent chances that you just break the rules.
-And dma_buf/fence are tricky enough that you pretty much guaranteed to
-break the rules if you're not involved in the discussions. Just now we
-have a big one where everyone involved (who's been doing this for 10+
-years all at least) realizes we've fucked up big time.
-
-Anyway we've had this discussion, we're not going to move anyone here at
-all, so *shrug*. I'll keep seeing accelarators in drivers/misc as blantant
-bypassing of review by actual accelerator pieces, you keep seing dri-devel
-as ... well I dunno, people who don't know what they're talking about
-maybe. Or not relevant to your totally-not-a-gpu thing.
-
-> > Also I'm wondering which is the other driver that we share buffers
-> > with. The gaudi stuff doesn't have real struct pages as backing
-> > storage, it only fills out the dma_addr_t. That tends to blow up with
-> > other drivers, and the only place where this is guaranteed to work is
-> > if you have a dynamic importer which sets the allow_peer2peer flag.
-> > Adding maintainers from other subsystems who might want to chime in
-> > here. So even aside of the big question as-is this is broken.
-> 
-> From what I can tell this driver is sending the buffers to other
-> instances of the same hardware, as that's what is on the other "end" of
-> the network connection.  No different from IB's use of RDMA, right?
-
-There's no import afaict, but maybe I missed it. Assuming I haven't missed
-it the importing necessarily has to happen by some other drivers.
+Merged to drm-misc-fixes, thanks for your patch.
 -Daniel
+
+> ---
+>  drivers/gpu/drm/drm_auth.c | 51 ++++++++++++++++++++++++--------------
+>  1 file changed, 32 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> index 232abbba3686..86d4b72e95cb 100644
+> --- a/drivers/gpu/drm/drm_auth.c
+> +++ b/drivers/gpu/drm/drm_auth.c
+> @@ -61,6 +61,35 @@
+>   * trusted clients.
+>   */
+>  
+> +static bool drm_is_current_master_locked(struct drm_file *fpriv)
+> +{
+> +	lockdep_assert_held_once(&fpriv->master->dev->master_mutex);
+> +
+> +	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
+> +}
+> +
+> +/**
+> + * drm_is_current_master - checks whether @priv is the current master
+> + * @fpriv: DRM file private
+> + *
+> + * Checks whether @fpriv is current master on its device. This decides whether a
+> + * client is allowed to run DRM_MASTER IOCTLs.
+> + *
+> + * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
+> + * - the current master is assumed to own the non-shareable display hardware.
+> + */
+> +bool drm_is_current_master(struct drm_file *fpriv)
+> +{
+> +	bool ret;
+> +
+> +	mutex_lock(&fpriv->master->dev->master_mutex);
+> +	ret = drm_is_current_master_locked(fpriv);
+> +	mutex_unlock(&fpriv->master->dev->master_mutex);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(drm_is_current_master);
+> +
+>  int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
+>  {
+>  	struct drm_auth *auth = data;
+> @@ -223,7 +252,7 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
+>  	if (ret)
+>  		goto out_unlock;
+>  
+> -	if (drm_is_current_master(file_priv))
+> +	if (drm_is_current_master_locked(file_priv))
+>  		goto out_unlock;
+>  
+>  	if (dev->master) {
+> @@ -272,7 +301,7 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+>  	if (ret)
+>  		goto out_unlock;
+>  
+> -	if (!drm_is_current_master(file_priv)) {
+> +	if (!drm_is_current_master_locked(file_priv)) {
+>  		ret = -EINVAL;
+>  		goto out_unlock;
+>  	}
+> @@ -321,7 +350,7 @@ void drm_master_release(struct drm_file *file_priv)
+>  	if (file_priv->magic)
+>  		idr_remove(&file_priv->master->magic_map, file_priv->magic);
+>  
+> -	if (!drm_is_current_master(file_priv))
+> +	if (!drm_is_current_master_locked(file_priv))
+>  		goto out;
+>  
+>  	drm_legacy_lock_master_cleanup(dev, master);
+> @@ -342,22 +371,6 @@ void drm_master_release(struct drm_file *file_priv)
+>  	mutex_unlock(&dev->master_mutex);
+>  }
+>  
+> -/**
+> - * drm_is_current_master - checks whether @priv is the current master
+> - * @fpriv: DRM file private
+> - *
+> - * Checks whether @fpriv is current master on its device. This decides whether a
+> - * client is allowed to run DRM_MASTER IOCTLs.
+> - *
+> - * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
+> - * - the current master is assumed to own the non-shareable display hardware.
+> - */
+> -bool drm_is_current_master(struct drm_file *fpriv)
+> -{
+> -	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
+> -}
+> -EXPORT_SYMBOL(drm_is_current_master);
+> -
+>  /**
+>   * drm_master_get - reference a master pointer
+>   * @master: &struct drm_master
+> -- 
+> 2.25.1
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
