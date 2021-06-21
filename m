@@ -2,110 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF2363AE993
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 15:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AB163AE9F0
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jun 2021 15:23:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229888AbhFUNE2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 09:04:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46106 "EHLO mail.kernel.org"
+        id S229762AbhFUNZx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Jun 2021 09:25:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50402 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229640AbhFUNE1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 09:04:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A8026600D4;
-        Mon, 21 Jun 2021 13:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1624280533;
-        bh=i0BoGd9phtcsE2N4w5S/NNcCyOLvsVmvubKDwfPIMew=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=N9ZvxmN6kzyMcupSt5ch1urOqDBkE0Yg6zpYbUkiJjCrqT/WAfP0GZcwtdCxyIhN5
-         VJf2oNP6LasPeV9faVnguB0ItTYTqoiIi/KT6Spd+x7CVZUlDVNtQ1gqJ8z8De0PSa
-         aehoznUR6BHHlVGF7/uMhhG8Rm1/YXbxpCs5Xms4=
-Date:   Mon, 21 Jun 2021 15:02:10 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Oded Gabbay <ogabbay@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Doug Ledford <dledford@redhat.com>,
-        "airlied@gmail.com" <airlied@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Tomer Tayar <ttayar@habana.ai>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v3 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-Message-ID: <YNCN0ulL6DQiRJaB@kroah.com>
-References: <20210618123615.11456-1-ogabbay@kernel.org>
- <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
+        id S229707AbhFUNZx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Jun 2021 09:25:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 23777611BD;
+        Mon, 21 Jun 2021 13:23:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624281819;
+        bh=WfMt+2CnAOmcD9w6YclfhB+NcpEBJQj+GsdnDBwKwag=;
+        h=From:To:Cc:Subject:Date:From;
+        b=sA+aAXvspoGifjqV4cB9p6smfGXfpcOqcSwaLb8Kr76Hah1/cWGfrMPrT6NcSeMOw
+         uDTY9yztibFcukLUmXeN4lA7Ab7txzhTTPWmEz0okY8QtoKWFYyKwr7Hp8H4L7hQy4
+         Bkfvl7SJBtCiyjxHsjfBTtKjYJX6Vmf5G7Wi+y1J/+nt/mFxU+ydEsuJSEDXroD5dY
+         e2sHI9C3p9Gei8s94ZKdJ22HiCX+HxGzHVATIa2t7GhlsizPXNLC18nq6IV1YhBVVI
+         PjD/aswMgpyHRCoLuKwpLNbk+CHd5IOD9A8Msfs0RuM9W55dN8Y2iZk5zzs8jYWN3h
+         rMw/Q2xHzpVAg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lvJto-000X9q-KM; Mon, 21 Jun 2021 15:23:36 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH v2] media: uvc: don't do DMA on stack
+Date:   Mon, 21 Jun 2021 15:23:35 +0200
+Message-Id: <aaa1b65bf2b6c1a2da79b44fe7ada63f697ac32e.1624281807.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 02:28:48PM +0200, Daniel Vetter wrote:
-> On Fri, Jun 18, 2021 at 2:36 PM Oded Gabbay <ogabbay@kernel.org> wrote:
-> > User process might want to share the device memory with another
-> > driver/device, and to allow it to access it over PCIe (P2P).
-> >
-> > To enable this, we utilize the dma-buf mechanism and add a dma-buf
-> > exporter support, so the other driver can import the device memory and
-> > access it.
-> >
-> > The device memory is allocated using our existing allocation uAPI,
-> > where the user will get a handle that represents the allocation.
-> >
-> > The user will then need to call the new
-> > uAPI (HL_MEM_OP_EXPORT_DMABUF_FD) and give the handle as a parameter.
-> >
-> > The driver will return a FD that represents the DMA-BUF object that
-> > was created to match that allocation.
-> >
-> > Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
-> > Reviewed-by: Tomer Tayar <ttayar@habana.ai>
-> 
-> Mission acomplished, we've gone full circle, and the totally-not-a-gpu
-> driver is now trying to use gpu infrastructure. And seems to have
-> gained vram meanwhile too. Next up is going to be synchronization
-> using dma_fence so you can pass buffers back&forth without stalls
-> among drivers.
+As warned by smatch:
+	drivers/media/usb/uvc/uvc_v4l2.c:911 uvc_ioctl_g_input() error: doing dma on the stack (&i)
+	drivers/media/usb/uvc/uvc_v4l2.c:943 uvc_ioctl_s_input() error: doing dma on the stack (&i)
 
-What's wrong with other drivers using dmabufs and even dma_fence?  It's
-a common problem when shuffling memory around systems, why is that
-somehow only allowed for gpu drivers?
+those two functions call uvc_query_ctrl passing a pointer to
+a data at the DMA stack. those are used to send URBs via
+usb_control_msg(). Using DMA stack is not supported and should
+not work anymore on modern Linux versions.
 
-There are many users of these structures in the kernel today that are
-not gpu drivers (tee, fastrpc, virtio, xen, IB, etc) as this is a common
-thing that drivers want to do (throw chunks of memory around from
-userspace to hardware).
+So, use a temporary buffer, allocated together with
+struct uvc_video_chain.
 
-I'm not trying to be a pain here, but I really do not understand why
-this is a problem.  A kernel api is present, why not use it by other
-in-kernel drivers?  We had the problem in the past where subsystems were
-trying to create their own interfaces for the same thing, which is why
-you all created the dmabuf api to help unify this.
+Cc: stable@vger.kernel.org	# Kernel 4.9 and upper
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/media/usb/uvc/uvc_v4l2.c | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
-> Also I'm wondering which is the other driver that we share buffers
-> with. The gaudi stuff doesn't have real struct pages as backing
-> storage, it only fills out the dma_addr_t. That tends to blow up with
-> other drivers, and the only place where this is guaranteed to work is
-> if you have a dynamic importer which sets the allow_peer2peer flag.
-> Adding maintainers from other subsystems who might want to chime in
-> here. So even aside of the big question as-is this is broken.
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 252136cc885c..d680ae8a5f87 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -899,8 +899,8 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
+ {
+ 	struct uvc_fh *handle = fh;
+ 	struct uvc_video_chain *chain = handle->chain;
++	char *buf;
+ 	int ret;
+-	u8 i;
+ 
+ 	if (chain->selector == NULL ||
+ 	    (chain->dev->quirks & UVC_QUIRK_IGNORE_SELECTOR_UNIT)) {
+@@ -908,13 +908,18 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
+ 		return 0;
+ 	}
+ 
++	buf = kmalloc(1, GFP_KERNEL);
++
+ 	ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, chain->selector->id,
+ 			     chain->dev->intfnum,  UVC_SU_INPUT_SELECT_CONTROL,
+-			     &i, 1);
++			     buf, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	*input = i - 1;
++	*input = *buf;
++
++	kfree(buf);
++
+ 	return 0;
+ }
+ 
+@@ -922,8 +927,8 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
+ {
+ 	struct uvc_fh *handle = fh;
+ 	struct uvc_video_chain *chain = handle->chain;
++	char *buf;
+ 	int ret;
+-	u32 i;
+ 
+ 	ret = uvc_acquire_privileges(handle);
+ 	if (ret < 0)
+@@ -939,10 +944,15 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
+ 	if (input >= chain->selector->bNrInPins)
+ 		return -EINVAL;
+ 
+-	i = input + 1;
+-	return uvc_query_ctrl(chain->dev, UVC_SET_CUR, chain->selector->id,
+-			      chain->dev->intfnum, UVC_SU_INPUT_SELECT_CONTROL,
+-			      &i, 1);
++	buf = kmalloc(1, GFP_KERNEL);
++
++	*buf = input + 1;
++	ret = uvc_query_ctrl(chain->dev, UVC_SET_CUR, chain->selector->id,
++			     chain->dev->intfnum, UVC_SU_INPUT_SELECT_CONTROL,
++			     buf, 1);
++	kfree(buf);
++
++	return ret;
+ }
+ 
+ static int uvc_ioctl_queryctrl(struct file *file, void *fh,
+-- 
+2.31.1
 
-From what I can tell this driver is sending the buffers to other
-instances of the same hardware, as that's what is on the other "end" of
-the network connection.  No different from IB's use of RDMA, right?
-
-thanks,
-
-greg k-h
