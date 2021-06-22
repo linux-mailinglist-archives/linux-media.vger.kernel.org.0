@@ -2,98 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B28DB3B1002
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 00:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09F373B105D
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 01:09:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbhFVWZd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Jun 2021 18:25:33 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:40840 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229718AbhFVWZc (ORCPT
+        id S229751AbhFVXML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Jun 2021 19:12:11 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55000 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229675AbhFVXML (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Jun 2021 18:25:32 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id D68571F42BE0
-Message-ID: <dea119557eb7ba37b3b468a44a2b6b98bc56a690.camel@collabora.com>
-Subject: Re: [PATCH v3 4/8] media: Add P010 video format
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        hverkuil@xs4all.nl, p.zabel@pengutronix.de, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk, jernej.skrabec@gmail.com
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date:   Tue, 22 Jun 2021 19:21:23 -0300
-In-Reply-To: <be4b635675df2111cb7c095013323b3ba1ac246e.camel@ndufresne.ca>
-References: <20210618131526.566762-1-benjamin.gaignard@collabora.com>
-         <20210618131526.566762-5-benjamin.gaignard@collabora.com>
-         <fbf31c292fde2f7dafb1441fc85a1ead34fdf96d.camel@collabora.com>
-         <be4b635675df2111cb7c095013323b3ba1ac246e.camel@ndufresne.ca>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        Tue, 22 Jun 2021 19:12:11 -0400
+Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DF75A66;
+        Wed, 23 Jun 2021 01:09:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624403393;
+        bh=FVRrXEVbnnPDakzLrvKGWoSG/v9VaXjCe/ZNd46XvZ4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=CBNnbTT7l1IZx0NKuylT+hNbwYCHfCgu82zuCIWf/tgNhd5jRD3PbULYUPGUFqNgW
+         bOu/TjRDdi7o2qsGrWc26t+mLhZJPrfVNFPL+TAe6fRNoHZbKS9mZ/zWp81KwwbGAU
+         8MQwoVPrM/ONDFH9XoRN2G2cR5DwSgHcnRi52CdE=
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v3] media: vsp1: Add support for the V3U VSPD
+Date:   Wed, 23 Jun 2021 00:09:50 +0100
+Message-Id: <20210622230950.3207047-1-kieran.bingham@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2021-06-22 at 17:24 -0400, Nicolas Dufresne wrote:
-> Le vendredi 18 juin 2021 à 16:38 -0300, Ezequiel Garcia a écrit :
-> > Hi Benjamin,
-> > 
-> > On Fri, 2021-06-18 at 15:15 +0200, Benjamin Gaignard wrote:
-> > > P010 is a YUV format with 10-bits per pixel with interleaved UV.
-> > > 
-> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > ---
-> > > version 2:
-> > >  - Add documentation about P010 padding
-> > >  - Fix the number of bits per component (16)
-> > > 
-> > >  .../media/v4l/pixfmt-yuv-planar.rst           | 78 ++++++++++++++++++-
-> > >  drivers/media/v4l2-core/v4l2-common.c         |  1 +
-> > >  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
-> > >  include/uapi/linux/videodev2.h                |  1 +
-> > >  4 files changed, 79 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> > > index 090c091affd2..af400d37c8fd 100644
-> > > --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> > > @@ -100,8 +100,13 @@ All components are stored with the same number of bits per component.
-> > >        - Cb, Cr
-> > >        - No
-> > >        - 64x32 macroblocks
-> > > -
-> > > -        Horizontal Z order
-> > > +    * - V4L2_PIX_FMT_P010
-> > 
-> > Do we have support in GStreamer (or elsewhere) for this?
-> 
-> I believe you wanted to ask for patched framework to exercise this ? Since both
-> FFMPEG and GSTreamer have had that format for ages. For GStreamer:
-> 
-> https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/blob/master/gst-libs/gst/video/video-format.h#L102
-> 
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Ah, great. This sort of info really could be in the commit description
-as it's not always clear if a new pixel format looks sane or not.
+The V3U provides two VSPD instances, with a new update to the version
+register to detect the new SoC.
 
-> No V4L2 mapping upstream, but this is a bit normal, can't upstream a mapping for
-> something that does not exist yet.
-> 
+Add the new version and model detection, and detail the features
+available in this module.
 
-Well, if you are happy with the patch as-is could you ack it? IIRC, Hantro
-and VC8000D produce this, so we'll use it sooner or later. (This information
-could be in the commit description as well).
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+
+Whilst it has not been possible to test this with the uapi to validate
+with our VSP tests, I have now successfully used this to display an
+image over the DisplayPort connector on the V3U, so I believe it is
+suitable for integration.
+
+changes since v2:
+ - Removed VSP1_HAS_CLU
+
+
+
+ drivers/media/platform/vsp1/vsp1_drv.c  | 10 ++++++++++
+ drivers/media/platform/vsp1/vsp1_regs.h |  3 +++
+ 2 files changed, 13 insertions(+)
+
+diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+index de442d6c9926..501b592fd6d6 100644
+--- a/drivers/media/platform/vsp1/vsp1_drv.c
++++ b/drivers/media/platform/vsp1/vsp1_drv.c
+@@ -777,6 +777,16 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 		.uif_count = 2,
+ 		.wpf_count = 2,
+ 		.num_bru_inputs = 5,
++	}, {
++		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
++		.model = "VSP2-D",
++		.gen = 3,
++		.features = VSP1_HAS_BRU | VSP1_HAS_EXT_DL,
++		.lif_count = 1,
++		.rpf_count = 5,
++		.uif_count = 2,
++		.wpf_count = 1,
++		.num_bru_inputs = 5,
+ 	},
+ };
+ 
+diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
+index fe3130db1fa2..b378ea4451ce 100644
+--- a/drivers/media/platform/vsp1/vsp1_regs.h
++++ b/drivers/media/platform/vsp1/vsp1_regs.h
+@@ -766,6 +766,8 @@
+ #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
+ #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
+ #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
++#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
++
+ #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
+ #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
+ #define VI6_IP_VERSION_SOC_V2H		(0x01 << 0)
+@@ -777,6 +779,7 @@
+ #define VI6_IP_VERSION_SOC_D3		(0x04 << 0)
+ #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
+ #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
++#define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
+ 
+ /* -----------------------------------------------------------------------------
+  * RPF CLUT Registers
 -- 
-Kindly,
-Ezequiel
+2.30.2
 
