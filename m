@@ -2,169 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ABDF3AFEF3
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 10:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0CA23AFF43
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 10:29:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230377AbhFVIUA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Jun 2021 04:20:00 -0400
-Received: from mail-vs1-f54.google.com ([209.85.217.54]:46782 "EHLO
-        mail-vs1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbhFVIT7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Jun 2021 04:19:59 -0400
-Received: by mail-vs1-f54.google.com with SMTP id z15so10758892vsn.13;
-        Tue, 22 Jun 2021 01:17:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s0hVMlLFV5eIwzuXXBEJWEV7FxMfuDBGtQwv1PuAfDc=;
-        b=Yc8JShUBMH1dnjUYyQ4i3CS2+y2GF6q1YtRwv/bRUTq4JGwOzFH8jz0/QYnr8ZuDpr
-         HcEesiBUGFsp/umSzAQ1ucxKn54tANWqVfYyhNDVX62VWxoC03W6vKFzSWDS1INIUujo
-         EfpD0ZvANCW00iJ41ZnsyYqUYQ7WKnBJFLN0taGCgErNoNfbEbrJRexR6AwIwIKT2Knb
-         /0emor8cfQJbNOnIXhfpVS1iQMsX9FEwTZTkt2w2NsDGz2POO5RqhJxIgP7TG7ACSbj/
-         GkkcJgg3HdSB+eNLe7DKVV3GNyEiHob+PVe9RVIKAdqt1PMr45YhOFebl4O9XRmtiOlY
-         SQDQ==
-X-Gm-Message-State: AOAM530BLNzCLpsQ3ZsdxG/iSlElsnvEgk5f19JQOeLC0TziQs7pI7vp
-        kFMx7YZsKONrP5YDTSXRni3TndxcwI12ri99DDk=
-X-Google-Smtp-Source: ABdhPJz3clw2O8tsVFk5F4OGcaBfo9Z8eHqvoF8LwYXAPGollSTCOREHx1S0f08A9nsiznMjaM5G5srL4UVXlJSotsU=
-X-Received: by 2002:a05:6102:2011:: with SMTP id p17mr21421376vsr.40.1624349860512;
- Tue, 22 Jun 2021 01:17:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210615191543.1043414-1-robh@kernel.org>
-In-Reply-To: <20210615191543.1043414-1-robh@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 22 Jun 2021 10:17:28 +0200
-Message-ID: <CAMuHMdUGXu8yj3JWKwM8mt7axkrzGMiowC1t0PHrbpxRCBME3w@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Drop redundant minItems/maxItems
-To:     Rob Herring <robh@kernel.org>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-ide@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        linux-iio@vger.kernel.org,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, linux-can@vger.kernel.org,
-        linux-pci <linux-pci@vger.kernel.org>,
-        linux-phy@lists.infradead.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
-        <linux-remoteproc@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-rtc@vger.kernel.org,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
+        id S229844AbhFVIb1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Jun 2021 04:31:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46196 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229620AbhFVIb0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Jun 2021 04:31:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 750516128C;
+        Tue, 22 Jun 2021 08:29:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624350551;
+        bh=NXPyza1D6FRsjY/khyfK7k7VgOA4Al1gpFPKZWvZH+I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qHBDtrTowS9f4IffNuDZpH6Jqbmvn+a4J9zVQQxdXpTT+k4zsGK2jMyqs+dn25oOC
+         U6thlLweCYN+clKZyXqRsj3vxlok0vPMP0FfoH23F91RqMdPpLxkk78QkXtSfVVnE1
+         cY5LwtrdIRJzx0+2fVV7a1PGG4rObB1qBopCMt/kPvXAaVpeFAZVju2AVn7/QOuwT5
+         yGBUZqVMypOMH0m/IZ8Rw92NcHVs0GL1lDPCMnDzkpHdR/PZA7syXSuTRWe8n2f7+T
+         dDstawnqqpZwz9vGPJwSZWObHWd/sTRQcsXwVSk1+znCAideUkYm2qUV3JrauPauM0
+         mNnsAhTq022cw==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lvbmO-000pAO-VT; Tue, 22 Jun 2021 10:29:08 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2] media: uvc: limit max bandwidth for HDMI capture
+Date:   Tue, 22 Jun 2021 10:29:07 +0200
+Message-Id: <bca0634691cea503c2c5df62b98ba66f0c85bf85.1624350539.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+This device:
+        534d:2109 MacroSilicon
 
-On Tue, Jun 15, 2021 at 9:16 PM Rob Herring <robh@kernel.org> wrote:
-> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
-> same size as the list is redundant and can be dropped. Note that is DT
-> schema specific behavior and not standard json-schema behavior. The tooling
-> will fixup the final schema adding any unspecified minItems/maxItems.
->
-> This condition is partially checked with the meta-schema already, but
-> only if both 'minItems' and 'maxItems' are equal to the 'items' length.
-> An improved meta-schema is pending.
+Announces that it supports several frame intervals for
+their resolutions for MJPEG compression:
 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+        VideoStreaming Interface Descriptor:
+        bLength                            46
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         1
+        bmCapabilities                   0x00
+          Still image unsupported
+        wWidth                           1920
+        wHeight                          1080
+        dwMinBitRate                   768000
+        dwMaxBitRate                196608000
+        dwMaxVideoFrameBufferSize     4147200
+        dwDefaultFrameInterval         166666
+        bFrameIntervalType                  5
+        dwFrameInterval( 0)            166666
+        dwFrameInterval( 1)            333333
+        dwFrameInterval( 2)            400000
+        dwFrameInterval( 3)            500000
+        dwFrameInterval( 4)           1000000
 
-> --- a/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-> +++ b/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-> @@ -46,7 +46,6 @@ properties:
->
->    clocks:
->      minItems: 3
-> -    maxItems: 5
->      items:
->        - description: GMAC main clock
->        - description: MAC TX clock
+However, the highest frame interval (166666), which means 60 fps
+is not supported. If set to it, URB packages will be dropped,
+causing JPEG decoding errors and part of the video frames will
+be missed.
 
-While resolving the conflict with commit fea99822914039c6
-("dt-bindings: net: document ptp_ref clk in dwmac") in soc/for-next,
-I noticed the following construct for clock-names:
+Also, as specified at the device's documentation, for such
+resolution, the maximum interval is 30 fps (interval == 333333).
 
-  clock-names:
-    minItems: 3
-    maxItems: 6
-    contains:
-      enum:
-        - stmmaceth
-        - mac-clk-tx
-        - mac-clk-rx
-        - ethstp
-        - eth-ck
-        - ptp_ref
+The last format that supports such frame interval is 1280x720.
 
-Should this use items instead of enum, and drop maxItems, or is this
-a valid construct to support specifying the clocks in random order?
-If the latter, it does mean that the order of clock-names may not
-match the order of the clock descriptions.
+Add a quirk to estimate a raw bandwidth, by doing:
+        width * height * framerate
+E. g.:
+        1920 * 1080 * 30 = 62208000
 
-Gr{oetje,eeting}s,
+if the bandwidth is greater than such threshold, get
+the next value from the dwFrameInterval.
 
-                        Geert
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 14 ++++++++++++++
+ drivers/media/usb/uvc/uvc_video.c  | 30 +++++++++++++++++++++++++++---
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 42 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 30ef2a3110f7..bb66e71b3064 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2615,6 +2615,11 @@ static const struct uvc_device_info uvc_quirk_fix_bandwidth = {
+ 	.quirks = UVC_QUIRK_FIX_BANDWIDTH,
+ };
+ 
++static const struct uvc_device_info uvc_quirk_fix_bw_622 = {
++	.quirks = UVC_QUIRK_FIX_BANDWIDTH,
++	.max_bandwidth = 62208000,
++};
++
+ static const struct uvc_device_info uvc_quirk_probe_def = {
+ 	.quirks = UVC_QUIRK_PROBE_DEF,
+ };
+@@ -2830,6 +2835,15 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= (kernel_ulong_t)&uvc_quirk_fix_bandwidth },
++	/* MacroSilicon HDMI capture */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x534d,
++	  .idProduct		= 0x2109,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= (kernel_ulong_t)&uvc_quirk_fix_bw_622 },
+ 	/* Genesys Logic USB 2.0 PC Camera */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index f2f565281e63..84edaa7cc24d 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -162,9 +162,33 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+ 	if ((ctrl->dwMaxPayloadTransferSize & 0xffff0000) == 0xffff0000)
+ 		ctrl->dwMaxPayloadTransferSize &= ~0xffff0000;
+ 
+-	if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) &&
+-	    stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH &&
+-	    stream->intf->num_altsetting > 1) {
++
++	if (!(stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH))
++		return;
++
++	/* Handle UVC_QUIRK_FIX_BANDWIDTH */
++
++	if (format->flags & UVC_FMT_FLAG_COMPRESSED) {
++		u32 bandwidth;
++
++		if (!stream->dev->info->max_bandwidth || !frame->bFrameIntervalType)
++			return;
++
++		for (i = 0; i < frame->bFrameIntervalType; ++i) {
++			bandwidth = frame->wWidth * frame->wHeight;
++			bandwidth *= 10000000 / frame->dwFrameInterval[i];
++
++			if (bandwidth <= stream->dev->info->max_bandwidth)
++				break;
++		}
++
++		if (ctrl->dwFrameInterval < frame->dwFrameInterval[i])
++			ctrl->dwFrameInterval = frame->dwFrameInterval[i];
++
++		return;
++	}
++
++	if (stream->intf->num_altsetting > 1) {
+ 		u32 interval;
+ 		u32 bandwidth;
+ 
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 97df5ecd66c9..f1c34225d896 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -658,6 +658,7 @@ static inline u32 uvc_urb_index(const struct uvc_urb *uvc_urb)
+ 
+ struct uvc_device_info {
+ 	u32	quirks;
++	u32	max_bandwidth;
+ 	u32	meta_format;
+ 	u16	uvc_version;
+ };
+-- 
+2.31.1
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
