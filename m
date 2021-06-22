@@ -2,116 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 754643B05CB
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 15:27:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 637AC3B05D1
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 15:29:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbhFVN3X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Jun 2021 09:29:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59538 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbhFVN3W (ORCPT
+        id S230381AbhFVNbj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Jun 2021 09:31:39 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:40243 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S229988AbhFVNbi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Jun 2021 09:29:22 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A51EC061574;
-        Tue, 22 Jun 2021 06:27:07 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 5C6A71F42FC1
-Message-ID: <3849b99e6d139b02c670c9e8d1ec306b24f6f821.camel@collabora.com>
-Subject: Re: [PATCH v3 5/8] media: hantro: hevc: Allow to produce 10-bit
- frames
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        hverkuil@xs4all.nl, p.zabel@pengutronix.de, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@siol.net, emil.l.velikov@gmail.com,
-        andrzej.p@collabora.com, jc@kynesim.co.uk,
-        jernej.skrabec@gmail.com, nicolas@ndufresne.ca
-Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date:   Tue, 22 Jun 2021 10:26:42 -0300
-In-Reply-To: <20210618131526.566762-6-benjamin.gaignard@collabora.com>
-References: <20210618131526.566762-1-benjamin.gaignard@collabora.com>
-         <20210618131526.566762-6-benjamin.gaignard@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+        Tue, 22 Jun 2021 09:31:38 -0400
+Received: (qmail 453302 invoked by uid 1000); 22 Jun 2021 09:29:22 -0400
+Date:   Tue, 22 Jun 2021 09:29:22 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     David Laight <David.Laight@aculab.com>
+Cc:     'Mauro Carvalho Chehab' <mchehab+huawei@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        "mauro.chehab@huawei.com" <mauro.chehab@huawei.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH v3] media: uvc: don't do DMA on stack
+Message-ID: <20210622132922.GB452785@rowland.harvard.edu>
+References: <6832dffafd54a6a95b287c4a1ef30250d6b9237a.1624282817.git.mchehab+huawei@kernel.org>
+ <d33c39aa824044ad8cacc93234f1e1cd@AcuMS.aculab.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d33c39aa824044ad8cacc93234f1e1cd@AcuMS.aculab.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
-
-On Fri, 2021-06-18 at 15:15 +0200, Benjamin Gaignard wrote:
-> If Hantro driver receive an 10-bit encoded bitstream allow it
-> to produce 10-bit frames.
-> Check that we are not try to produce 10-bit frames from a 8-bit
-> encoded bitstream.
+On Tue, Jun 22, 2021 at 08:07:12AM +0000, David Laight wrote:
+> From: Mauro Carvalho Chehab
+> > Sent: 21 June 2021 14:40
+> > 
+> > As warned by smatch:
+> > 	drivers/media/usb/uvc/uvc_v4l2.c:911 uvc_ioctl_g_input() error: doing dma on the stack (&i)
+> > 	drivers/media/usb/uvc/uvc_v4l2.c:943 uvc_ioctl_s_input() error: doing dma on the stack (&i)
+> > 
+> > those two functions call uvc_query_ctrl passing a pointer to
+> > a data at the DMA stack. those are used to send URBs via
+> > usb_control_msg(). Using DMA stack is not supported and should
+> > not work anymore on modern Linux versions.
+> > 
+> > So, use a kmalloc'ed buffer.
+> ...
+> > +	buf = kmalloc(1, GFP_KERNEL);
+> > +	if (!buf)
+> > +		return -ENOMEM;
+> > +
+> >  	ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, chain->selector->id,
+> >  			     chain->dev->intfnum,  UVC_SU_INPUT_SELECT_CONTROL,
+> > -			     &i, 1);
+> > +			     buf, 1);
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/staging/media/hantro/hantro_drv.c      | 18 ++++++++++++++++++
->  .../staging/media/hantro/hantro_g2_hevc_dec.c  | 18 ++++++++++++++----
->  drivers/staging/media/hantro/hantro_hevc.c     |  2 +-
->  drivers/staging/media/hantro/imx8m_vpu_hw.c    |  4 ++++
->  4 files changed, 37 insertions(+), 5 deletions(-)
+> Thought...
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index f6635ceb5111..b6373934734e 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -243,6 +243,16 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
->         return vb2_queue_init(dst_vq);
->  }
->  
-> +static bool hantro_is_10bit_dst_format(struct hantro_ctx *ctx)
-> +{
-> +       switch (ctx->vpu_dst_fmt->fourcc) {
-> +       case V4L2_PIX_FMT_P010:
-> +               return true;
-> +       default:
-> +               return false;
-> +       }
-> +}
-> +
->  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
->         if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
-> @@ -259,6 +269,10 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->                         return -EINVAL;
->         } else if (ctrl->id == V4L2_CID_MPEG_VIDEO_HEVC_SPS) {
->                 const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
-> +               struct hantro_ctx *ctx;
-> +
-> +               ctx = container_of(ctrl->handler,
-> +                                  struct hantro_ctx, ctrl_handler);
->  
->                 if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
->                         /* Luma and chroma bit depth mismatch */
-> @@ -270,6 +284,10 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->                 if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED)
->                         /* No scaling support */
->                         return -EINVAL;
-> +               if (sps->bit_depth_luma_minus8 == 0 &&
-> +                   hantro_is_10bit_dst_format(ctx)) {
-> +                       return -EINVAL;
+> Is kmalloc(1, GFP_KERNEL) guaranteed to return a pointer into
+> a cache line that will not be accessed by any other code?
+> (This is slightly weaker than requiring a cache-line aligned
+> pointer - but very similar.)
 
-I had some more time to think about this,
-and I recalled that this topic was already discussed
-some time ago [1].
+As I understand it, on architectures that do not have cache-coherent 
+I/O, kmalloc is guaranteed to return a buffer that is 
+cacheline-aligned and whose length is a multiple of the cacheline 
+size.
 
-This approach won't work. You need to restrict the pixel
-formats returned by TRY/G_FMT after the SPS is set with S_EXT_CTRL,
-as per the specification.
+Now, whether that buffer ends up being accessed by any other code 
+depends on what your driver does with the pointer it gets from 
+kmalloc.  :-)
 
-https://www.spinics.net/lists/kernel/msg3576779.html
+Alan Stern
 
-Thanks,
-Ezequiel
-
+> Without that guarantee you can't use the returned buffer for
+> read dma unless the memory accesses are coherent.
+> 
+> 	David
