@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D99EC3B0A30
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 18:20:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DED33B0A48
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 18:26:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230212AbhFVQWx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Jun 2021 12:22:53 -0400
-Received: from mail-0301.mail-europe.com ([188.165.51.139]:49845 "EHLO
-        mail-0301.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229718AbhFVQWw (ORCPT
+        id S229826AbhFVQ2T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Jun 2021 12:28:19 -0400
+Received: from mail-0201.mail-europe.com ([51.77.79.158]:48224 "EHLO
+        mail-0201.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229501AbhFVQ2S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Jun 2021 12:22:52 -0400
-Date:   Tue, 22 Jun 2021 16:20:24 +0000
+        Tue, 22 Jun 2021 12:28:18 -0400
+Date:   Tue, 22 Jun 2021 16:25:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1624378832;
-        bh=kHclmWIAffgA/kXrGLvvaaT+S8kN4U+u6KviPAVzP3w=;
+        s=protonmail; t=1624379159;
+        bh=5b5dUwQT3nm9vu4Z3kg4cBfPOPJyMZz55OI5e2pxiEg=;
         h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=cLw4LHAPTPdDOnVC0pkmO4Cw5hYjxBtjrWSpQNPk+HW+opQVov201Cx5tnMFQHy6O
-         oNQrek1qAvSI8EiHnfcqz0xPqBSEXAMJYs6QT2sdaF6pf4Xri7DXDMSwvJt912Hsv+
-         rRnbo4oVMaFsrNs93k0M6gJfWH9vPjfDy3FeRdPQ=
+        b=tpLS3aUQkHNX0XV5iX9zFy97XNlUyLT0tTfhachW5i0/9bYe4OoCaPbn+aqUgK2f0
+         ZidOezViprnDRdjVbfCeU6pQwHYvCKNjlF2VpO0AATLFfp8SC9hakbTnLfN2TbrvCz
+         n75rSTbzAGGT7wz/85S+C/G64t3FlcxshMp0tbnY=
 To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
 From:   Yassine Oudjana <y.oudjana@protonmail.com>
@@ -30,8 +30,8 @@ Cc:     Yassine Oudjana <y.oudjana@protonmail.com>,
         linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
 Reply-To: Yassine Oudjana <y.oudjana@protonmail.com>
-Subject: (No Subject)
-Message-ID: <p79aCzsVmgW6eKQZNSlglPvO40ulVy4id6jcm7aTk@cp7-web-044.plabs.ch>
+Subject: [PATCH] media: dt-bindings: media: venus: Add firmware-name
+Message-ID: <g0d8gVNl7d2Tg4YiBAGKcaAGTSdNE4gZ0OJYXnkfE@cp3-web-016.plabs.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -43,9 +43,6 @@ X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
-
-Date: Tue, 22 Jun 2021 20:08:25 +0400
-Subject: [PATCH] media: dt-bindings: media: venus: Add firmware-name
 
 Support for parsing the firmware-name property was added a while ago [1],
 but the dt-bindings were never updated with the new property. This patch
