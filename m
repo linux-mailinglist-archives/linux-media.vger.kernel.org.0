@@ -2,22 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0BDF3B0529
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 14:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6A853B0548
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 14:54:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231294AbhFVMv3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Jun 2021 08:51:29 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34864 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229818AbhFVMv2 (ORCPT
+        id S231799AbhFVM5O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Jun 2021 08:57:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52164 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231418AbhFVM5N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Jun 2021 08:51:28 -0400
+        Tue, 22 Jun 2021 08:57:13 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211A3C061574;
+        Tue, 22 Jun 2021 05:54:58 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id C16AE1F41707
-Message-ID: <326b03302aeaec817f675e6e0523eb8060bf2f67.camel@collabora.com>
-Subject: Re: [PATCH v3 1/8] media: hantro: Trace hevc hw cycles performance
- register
+        with ESMTPSA id 5126D1F42F0B
+Message-ID: <3ab5878bc03eb91a785c0fa57836e8d226df524d.camel@collabora.com>
+Subject: Re: [PATCH v3 0/8] Additional features for Hantro HEVC
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         hverkuil@xs4all.nl, p.zabel@pengutronix.de, mchehab@kernel.org,
@@ -30,12 +32,9 @@ To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date:   Tue, 22 Jun 2021 09:48:49 -0300
-In-Reply-To: <41682f40-3b5e-e21c-d75e-f57f8f3310da@collabora.com>
+Date:   Tue, 22 Jun 2021 09:54:35 -0300
+In-Reply-To: <20210618131526.566762-1-benjamin.gaignard@collabora.com>
 References: <20210618131526.566762-1-benjamin.gaignard@collabora.com>
-         <20210618131526.566762-2-benjamin.gaignard@collabora.com>
-         <418311dac48d3a29b4fe9e363f7d4e82c360f586.camel@collabora.com>
-         <41682f40-3b5e-e21c-d75e-f57f8f3310da@collabora.com>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.38.2-1 
@@ -45,33 +44,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2021-06-22 at 14:23 +0200, Benjamin Gaignard wrote:
-[..]
-> > > +
-> > > +TRACE_EVENT(hantro_hevc_perf,
-> > > +       TP_PROTO(struct hantro_ctx *ctx, u32 hw_cycles),
-> > > +
-> > > +       TP_ARGS(ctx, hw_cycles),
-> > > +
-> > > +       TP_STRUCT__entry(
-> > > +               __field(int, minor)
-> > > +               __field(u32, hw_cycles)
-> > > +       ),
-> > > +
-> > > +       TP_fast_assign(
-> > > +               __entry->minor = ctx->fh.vdev->minor;
-> > Tracking performance per minor doesn't seem useful,
-> > we'd like to track per-fd (i.e. per context).
+Hi Benjamin,
+
+On Fri, 2021-06-18 at 15:15 +0200, Benjamin Gaignard wrote:
+> version 3:
+>  - Change trace file name to hantro_trace.h
 > 
-> This part of the driver doesn't know for which fd the decoding job is done
-> so impossible to add it there.
+> version 2:
+>  - Fix structure name in ext-ctrls-codec.rst
+>  - Define the value for compression storage size
+>  - Add comments about registers usage
+>  - Add documentation about P010 padding
+> 
+> Basic HEVC support has been added to Hantro driver in this pull request:
+> https://www.spinics.net/lists/linux-media/msg193744.html
+> 
+> Thanks to that it is now possible to support more features for this driver.
+> 
+> The first patch allow to log the hardware performance per macroblock.
+> The second patch makes the driver use compressed reference frames to
+> reduce memory bandwidth consumption.
+> Patches 3 to 5 allow to decode and produce 10-bits P010 frames.
+> Patch 6 make usage of G2 post processor to scale down the frames.
+> Patches 7 and 8 add the support of HEVC scaling matrix by adding a new
+> control.
 > 
 
-Maybe you can explore using struct v4l2_m2m_ctx.
-There's an RFC where this is discussed:
+For the next cover letter, please make sure you provide
+some notes about how this was tested, with a gstreamer
+public branch if needed; and also fluendo's fluster conformance
+results before/after this patchset.
 
-https://lore.kernel.org/linux-media/20210517183801.1255496-1-emil.l.velikov@gmail.com/
+While there, make sure you check for performance regressions/improvements
+and add such information to the commit descriptions. The more the merrier.
 
-Kindly,
+Thanks a lot,
 Ezequiel
 
