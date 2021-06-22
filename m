@@ -2,78 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7082A3AFDF1
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 09:33:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 422753AFEBE
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 10:07:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbhFVHf0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Jun 2021 03:35:26 -0400
-Received: from verein.lst.de ([213.95.11.211]:45444 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229628AbhFVHf0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Jun 2021 03:35:26 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id A866167373; Tue, 22 Jun 2021 09:33:08 +0200 (CEST)
-Date:   Tue, 22 Jun 2021 09:33:08 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ricardo Ribalda <ribalda@chromium.org>,
+        id S230182AbhFVIJe convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 22 Jun 2021 04:09:34 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:41722 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230013AbhFVIJc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Jun 2021 04:09:32 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-17-gw4DaDg8NEqcQhGDvViG-w-1; Tue, 22 Jun 2021 09:07:13 +0100
+X-MC-Unique: gw4DaDg8NEqcQhGDvViG-w-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 22 Jun
+ 2021 09:07:12 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.018; Tue, 22 Jun 2021 09:07:12 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Mauro Carvalho Chehab' <mchehab+huawei@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+CC:     "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        "mauro.chehab@huawei.com" <mauro.chehab@huawei.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCHv2 8/8] videobuf2: handle non-contiguous DMA allocations
-Message-ID: <20210622073308.GA32231@lst.de>
-References: <10a0903a-e295-5cba-683a-1eb89a0804ed@xs4all.nl> <YMsAIVs7G2hUDR2F@google.com> <20210617080107.GA1422@lst.de> <CAAFQd5DiPstn-s+yQM3iMd=G9oaag39qCyX483a7-Jrn=gxWCA@mail.gmail.com> <20210617085233.GA4702@lst.de> <CAAFQd5DqK2gSTGjfo-vahXwMzzO9gv26cY=vV6urn3viDLPE7g@mail.gmail.com> <20210617100656.GA11107@lst.de> <CAAFQd5CgLDkJ3t1aU2PRcGu6cGFjLXOnvMqDg62Z7Zuc8ABVHg@mail.gmail.com> <20210618042526.GA17794@lst.de> <CAAFQd5Bt9TJ87Yk5ZpqTqrX9rmP0Uq8VNwx_rwFHakWP850Axw@mail.gmail.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: RE: [PATCH v3] media: uvc: don't do DMA on stack
+Thread-Topic: [PATCH v3] media: uvc: don't do DMA on stack
+Thread-Index: AQHXZqL+Rr1YUDB8sUS3jMuLXE5TdKsfq6kg
+Date:   Tue, 22 Jun 2021 08:07:12 +0000
+Message-ID: <d33c39aa824044ad8cacc93234f1e1cd@AcuMS.aculab.com>
+References: <6832dffafd54a6a95b287c4a1ef30250d6b9237a.1624282817.git.mchehab+huawei@kernel.org>
+In-Reply-To: <6832dffafd54a6a95b287c4a1ef30250d6b9237a.1624282817.git.mchehab+huawei@kernel.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5Bt9TJ87Yk5ZpqTqrX9rmP0Uq8VNwx_rwFHakWP850Axw@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 18, 2021 at 01:44:08PM +0900, Tomasz Figa wrote:
-> > Well, dma_alloc_coherent users want a non-cached mapping.  And while
-> > some architectures provide that using a vmap with "uncached" bits in the
-> > PTE to provide that, this:
-> >
-> >  a) is not possibly everywhere
-> >  b) even where possible is not always the best idea as it creates mappings
-> >     with differnet cachability bets
+From: Mauro Carvalho Chehab
+> Sent: 21 June 2021 14:40
 > 
-> I think this could be addressed by having a dma_vmap() helper that
-> does the right thing, whether it's vmap() or dma_common_pages_remap()
-> as appropriate. Or would be this still insufficient for some
-> architectures?
-
-It can't always do the right thing.  E.g. for the case where uncached
-memory needs to be allocated from a special boot time fixed pool.
-
-> > And even without that dma_alloc_noncoherent causes less overhead than
-> > dma_alloc_noncontigious if you only need a single contiguous range.
-> >
+> As warned by smatch:
+> 	drivers/media/usb/uvc/uvc_v4l2.c:911 uvc_ioctl_g_input() error: doing dma on the stack (&i)
+> 	drivers/media/usb/uvc/uvc_v4l2.c:943 uvc_ioctl_s_input() error: doing dma on the stack (&i)
 > 
-> Given that behind the scenes dma_alloc_noncontiguous() would also just
-> call __dma_alloc_pages() for devices that need contiguous pages, would
-> the overhead be basically the creation of a single-entry sgtable?
-
-In the best case: yes.
-
-> > So while I'm happy we have something useful for more complex drivers like
-> > v4l I think the simple dma_alloc_coherent API, including some of the less
-> > crazy flags for dma_alloc_attrs is the right thing to use for more than
-> > 90% of the use cases.
+> those two functions call uvc_query_ctrl passing a pointer to
+> a data at the DMA stack. those are used to send URBs via
+> usb_control_msg(). Using DMA stack is not supported and should
+> not work anymore on modern Linux versions.
 > 
-> One thing to take into account here is that many drivers use the
-> existing "simple" way, just because there wasn't a viable alternative
-> to do something better. Agreed, though, that we shouldn't optimize for
-> the rare cases.
+> So, use a kmalloc'ed buffer.
+...
+> +	buf = kmalloc(1, GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+>  	ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, chain->selector->id,
+>  			     chain->dev->intfnum,  UVC_SU_INPUT_SELECT_CONTROL,
+> -			     &i, 1);
+> +			     buf, 1);
 
-While that might be true for a few drivers, it is absolutely not true
-for the wide majority.  I think you media people are a little special,
-with only the GPU folks contending for "specialness" :)  (although
-media handles it way better, gpu folks just create local hacks that
-can't work portably).
+Thought...
+
+Is kmalloc(1, GFP_KERNEL) guaranteed to return a pointer into
+a cache line that will not be accessed by any other code?
+(This is slightly weaker than requiring a cache-line aligned
+pointer - but very similar.)
+
+Without that guarantee you can't use the returned buffer for
+read dma unless the memory accesses are coherent.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
