@@ -2,157 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7C833AFB6C
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 05:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B22913AFC05
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 06:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230338AbhFVDii (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Jun 2021 23:38:38 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:58525 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230299AbhFVDih (ORCPT
+        id S229675AbhFVEi0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Jun 2021 00:38:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51072 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229574AbhFVEiZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Jun 2021 23:38:37 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id vXD0lGdFxhg8ZvXD2leSeo; Tue, 22 Jun 2021 05:36:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1624332981; bh=LUS5L5VvsqLqLY2OL3jAP7OWco3Izm97QJAjMQDh/go=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=BxIf0OMnY1divabVcGIQdXL1n1pSYaA6aoLxdnr+mU42itg6IEBlg8a3u0pAzbn7d
-         r2DKPY0EMl3ilYeSL/0N31OQITqNqUSZrQ/Otq3PIlT11skAYqGd3vlumVje4FKkWE
-         QYV6JDlhETV2EDp1xv8Z2paOXlS2Zqe874U6+cd/o7rE7qwTx1Hj+BSvlDHogQ7Fdm
-         IJQaTEkj1latXeet0gouqoDK5Lnao1PghvmsFN+LrFcmo5NkTeT2hgg//k7jS4Jr99
-         WMVDASxkWjmtZQHaDXWivjDef6rs8yH386FrcoYNA2+qxnmNXKq4YxNUnpaIzncD65
-         UJnE7a7ltdLVg==
-Message-ID: <70b39daddeefe4dbee3adda92667f3eb@smtp-cloud9.xs4all.net>
-Date:   Tue, 22 Jun 2021 05:36:18 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        Tue, 22 Jun 2021 00:38:25 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D89C061574
+        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 21:36:09 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id c15so9700493pls.13
+        for <linux-media@vger.kernel.org>; Mon, 21 Jun 2021 21:36:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UO2qGHCa2e5pNbvwtK9K5+O/XaNWTMTTl06t2z3PnuU=;
+        b=WFCVy+4YPyE8bb/jAQGiU8eS/3CW2J0hl1tAkxyI8fhPBc6jkKj31yYa3RoKVu5FlC
+         sdsU5vkbCYoKjecQe2snm9fnHtj16PWLxnjoVjP1ItEiLJ/zUQ4KNXxdJQb0jy4tvBzQ
+         inE0Ja4+BsYZgK0hNG+tebMSiUCwAESI0bo+qcjtK2Oohm9Rzup4paSqyFUvz8E7kUqj
+         A4YFBGAFI79L8Gj+nrfF/Q1lx+mGrBqUm3CfYkBLzs9sQZm2oj1qbNbEpzh17SDBMuKG
+         LoIQw9Y5xpS34ImL0pV3HzsXDfrcn7uXnYd9MudIptcfx92lMDamDWaJt88ogi+9S+Kx
+         EvBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UO2qGHCa2e5pNbvwtK9K5+O/XaNWTMTTl06t2z3PnuU=;
+        b=M8QIFcVCZ0ReZl7IpsnuC69Z6sk3kT87pPQOV82/boxdb83MLgPtj/p+H9IcJ2R+e3
+         QKbo8T1DLmqZB6vVqEd41n3HbGlTY3k4vG5tOcBdGJEe60RSaYMUMP5ENBUgRSEWAsiT
+         sYJkMwNPZ4KDlSi5pQJNv+BH9ZtSW90FDlvygsKFItrj2TL4v/qYl61tLWio5NODOcCj
+         APv2YUvDIybdI2jhyetsbMGNuAdMyGN58TFgdv8AR81R+gNBMYE/ezCRFzjcVjvaMvXH
+         iZV3zk8+uEOaTMVHvVkp2h0QVbICLnuQEp07XObX7WZg4HtSM28kVspd+LlApbm8kf0u
+         f2Wg==
+X-Gm-Message-State: AOAM531YI0l31dR/PhGVBVWWWQqtcr9FVsA2PX9Hm6wTVOGKWzsC9xYe
+        sB2BWy8u9IPbuITGJqFUUbZyufQqeglj+Q==
+X-Google-Smtp-Source: ABdhPJwm2O62lNT8sXvCPhiZhBopBYphDJrhS2GGYuRWGuhXPJn/M4V5cJRIUXVo1qhQcqfD1Koigg==
+X-Received: by 2002:a17:90a:206:: with SMTP id c6mr1934175pjc.174.1624336569277;
+        Mon, 21 Jun 2021 21:36:09 -0700 (PDT)
+Received: from ada-comp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
+        by smtp.gmail.com with ESMTPSA id g4sm2152562pfu.134.2021.06.21.21.36.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Jun 2021 21:36:08 -0700 (PDT)
+From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfGaGNZTNGp37en/wZs21fSogs2n9yQtDM+l/MQO6/9Kl7lpzMwzuzmiijhcyY2oXqzMcX1V7DsbHwtX2++d7BI+PFs2AwkxpJGB1yuDSFY2ol9Pl53kI
- 3ONvU0dF6+716ytG+RTJHUp5zFYpVPnzCrPBg/AvH9wGYL0GDdICt0IAgluMLPynmi/2cSLkemKrXZGBHu3BI7xerS58sJ2VE79qL4D4Ep1YfcXzY64ACy8g
- rnNByTE2D7gkn7wiQD6TOA==
+Cc:     hverkuil@xs4all.nl, jaffe1@gmail.com,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: [PATCH v3 0/3] cec: One Touch Record tests
+Date:   Mon, 21 Jun 2021 21:35:58 -0700
+Message-Id: <cover.1624336366.git.deborahbrouwer3563@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This is part of an Outreachy project to expand the testing of
+One Touch Record messages as handled by CEC adapters.
 
-Results of the daily build of media_tree:
+Changes since v2:
+	Patch 1/3 cec: expand One Touch Record TV Screen test:
+	- replace numbers with corresponding defines
 
-date:			Tue Jun 22 05:00:08 CEST 2021
-media-tree git hash:	198bb646e8553e8abd8d83492a27b601ab97b75d
-media_build git hash:	8dab03da8769cd94afc5df1fe14c67400dc2f16e
-v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-342-g92ace436
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7481-g7f50411af
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+	Patch 2/3 cec: expand One Touch Record On/Off tests
+	- rename commit to reflect expanded scope of tests
+	- increase msg timeout for reply to 10s
+	- rename helper function and invert return value
+	- use primary device type to identify remote follower
+	- use logical address type to identify remote initiator
+	- limit range of accepted external plug numbers to 6
+	- disallow external physical address source
+	- keep track of whether the device is recording
+	- add additional invalid tests
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.258-i686: ERRORS
-linux-4.4.258-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.258-i686: ERRORS
-linux-4.9.258-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.222-i686: ERRORS
-linux-4.14.222-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.177-i686: ERRORS
-linux-4.19.177-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.100-i686: OK
-linux-5.4.100-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10.18-i686: OK
-linux-5.10.18-x86_64: OK
-linux-5.11.1-i686: OK
-linux-5.11.1-x86_64: OK
-linux-5.12.1-i686: OK
-linux-5.12.1-x86_64: OK
-linux-5.13-rc1-i686: OK
-linux-5.13-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-virtme-32: OK: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+	Patch 3/3 cec: add One Touch Record Standby tests
+	- new patch
 
-Detailed results are available here:
+Changes since v1:
+	Patch 1/2 cec: expand One Touch Record TV Screen test:
+	- add space after 'switch'
+	- add "return" before fail
+	- check analog broadcast type and broadcast system operand
+	- add a comment when follower ignores message
+	
+	Patch 2/2 cec: expand One Touch Record On test
+	- new patch
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+Deborah Brouwer (3):
+  cec: expand One Touch Record TV Screen test
+  cec: expand One Touch Record On/Off tests
+  cec: add One Touch Record Standby tests
 
-Detailed regression test results are available here:
+ utils/cec-compliance/cec-compliance.h   |   5 +
+ utils/cec-compliance/cec-test-power.cpp |  63 +++++++
+ utils/cec-compliance/cec-test.cpp       | 211 ++++++++++++++++++++++--
+ utils/cec-follower/cec-follower.cpp     |   2 +
+ utils/cec-follower/cec-follower.h       |   5 +-
+ utils/cec-follower/cec-processing.cpp   |  14 +-
+ utils/cec-follower/cec-tuner.cpp        | 119 ++++++++++++-
+ 7 files changed, 388 insertions(+), 31 deletions(-)
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+-- 
+2.25.1
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
