@@ -2,154 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E4273B0D93
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 21:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F14C83B0DF5
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jun 2021 21:58:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232021AbhFVTXk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Jun 2021 15:23:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56514 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229786AbhFVTXj (ORCPT
+        id S232754AbhFVUAz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Jun 2021 16:00:55 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:60055 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S232464AbhFVUAx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Jun 2021 15:23:39 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56A61C061574
-        for <linux-media@vger.kernel.org>; Tue, 22 Jun 2021 12:21:22 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id 7-20020a9d0d070000b0290439abcef697so22319601oti.2
-        for <linux-media@vger.kernel.org>; Tue, 22 Jun 2021 12:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=NLND4Ku01kSAPaPQnJOp1FH7Yq9QVSRTNQQ4RbCxk0w=;
-        b=e5CaOZBOftVhbkEerPYPtaLJCTi7dkW17rRGwPvuHPJJoz1+U4machk4c/sWYYds9F
-         ix+7YOv/rHYeIbZ5mOBktSK7y1oi02liHSKSjMkzWSsFNHipPhBp/d7g5CMC1O/Zq8dO
-         aKmYXEe0vLST278s3JBJERKtZVE+IDiO8pDyQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=NLND4Ku01kSAPaPQnJOp1FH7Yq9QVSRTNQQ4RbCxk0w=;
-        b=jvMKxQy9JH60SbfT9sITfItWc0U5mYfWe5Gsl3LASeGLLtVB/umqE/sCRCI0QzFjfk
-         K9u6iC8DfwSjQcy7zW7Xsj3gF8JpiKrp/73XN9zi39zjKQJPoEpDAWXYdjOs3EvDcnD9
-         NWv3j7FrmpGB89Xz+8BSY6V4ubCeleHZlg3nEmYCIjQvrcA7x+QRV/jsSN+umRbgdPPP
-         CeOGuYuMcuhnEZ4e5Axr+Mi2lTsTnzULeOXHPRTCmRaKFsopqB1I7E/oo+oUp4I3OcuC
-         +w2owNYDcJWzbuyMqoULLpOyr4xhCLUE4jyAXs4cvIva72tzDUjn7dyZ2b7VS80uZu/y
-         NGWA==
-X-Gm-Message-State: AOAM533CvcdpjZ6FshDEboxBJglDtYt6SVxfbJfre9rkWkQ/3413TM94
-        nScjZbOQFprubo5OXxMbeBsh31KOxeScIE/bDZ3foA==
-X-Google-Smtp-Source: ABdhPJxEjFo8oIALPvZRWajZYHHD9+zYYML42DA/uD7PRo7j950Ok3AXzR/g8ARzZSUBUYI2JILIZh+XPK5Vw12qP60=
-X-Received: by 2002:a9d:12eb:: with SMTP id g98mr4360330otg.303.1624389681754;
- Tue, 22 Jun 2021 12:21:21 -0700 (PDT)
+        Tue, 22 Jun 2021 16:00:53 -0400
+Received: (qmail 468382 invoked by uid 1000); 22 Jun 2021 15:58:36 -0400
+Date:   Tue, 22 Jun 2021 15:58:36 -0400
+From:   'Alan Stern' <stern@rowland.harvard.edu>
+To:     David Laight <David.Laight@aculab.com>
+Cc:     'Mauro Carvalho Chehab' <mchehab+huawei@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linuxarm@huawei.com" <linuxarm@huawei.com>,
+        "mauro.chehab@huawei.com" <mauro.chehab@huawei.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH v3] media: uvc: don't do DMA on stack
+Message-ID: <20210622195836.GA468074@rowland.harvard.edu>
+References: <6832dffafd54a6a95b287c4a1ef30250d6b9237a.1624282817.git.mchehab+huawei@kernel.org>
+ <d33c39aa824044ad8cacc93234f1e1cd@AcuMS.aculab.com>
+ <20210622132922.GB452785@rowland.harvard.edu>
+ <c5dd6d33cb844025bc8451b46980d96b@AcuMS.aculab.com>
 MIME-Version: 1.0
-References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
- <20210622165511.3169559-3-daniel.vetter@ffwll.ch> <YNIzkSg5kwp9gdCR@ravnborg.org>
-In-Reply-To: <YNIzkSg5kwp9gdCR@ravnborg.org>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Tue, 22 Jun 2021 21:21:10 +0200
-Message-ID: <CAKMK7uHSade-GobvwXXP2ArNPFr0qOA+2-V1W36MqHYk0wj_+g@mail.gmail.com>
-Subject: Re: [PATCH 02/15] dma-buf: Switch to inline kerneldoc
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Deepak R Varma <mh12gx2825@gmail.com>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Kevin Wang <kevin1.wang@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Nirmoy Das <nirmoy.das@amd.com>,
-        Chen Li <chenli@uniontech.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5dd6d33cb844025bc8451b46980d96b@AcuMS.aculab.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 22, 2021 at 9:01 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Daniel.
->
-> On Tue, Jun 22, 2021 at 06:54:58PM +0200, Daniel Vetter wrote:
-> > Also review & update everything while we're at it.
-> >
-> > This is prep work to smash a ton of stuff into the kerneldoc for
-> > @resv.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > Cc: Nirmoy Das <nirmoy.das@amd.com>
-> > Cc: Deepak R Varma <mh12gx2825@gmail.com>
-> > Cc: Chen Li <chenli@uniontech.com>
-> > Cc: Kevin Wang <kevin1.wang@amd.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > ---
-> >  include/linux/dma-buf.h | 107 +++++++++++++++++++++++++++++++---------
-> >  1 file changed, 83 insertions(+), 24 deletions(-)
-> >
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 92eec38a03aa..6d18b9e448b9 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -289,28 +289,6 @@ struct dma_buf_ops {
-> >
-> >  /**
-> >   * struct dma_buf - shared buffer object
-> > - * @size: size of the buffer; invariant over the lifetime of the buffe=
-r.
-> > - * @file: file pointer used for sharing buffers across, and for refcou=
-nting.
-> > - * @attachments: list of dma_buf_attachment that denotes all devices a=
-ttached,
-> > - *               protected by dma_resv lock.
-> > - * @ops: dma_buf_ops associated with this buffer object.
-> > - * @lock: used internally to serialize list manipulation, attach/detac=
-h and
-> > - *        vmap/unmap
-> > - * @vmapping_counter: used internally to refcnt the vmaps
-> > - * @vmap_ptr: the current vmap ptr if vmapping_counter > 0
-> > - * @exp_name: name of the exporter; useful for debugging.
-> > - * @name: userspace-provided name; useful for accounting and debugging=
-,
-> > - *        protected by @resv.
-> > - * @name_lock: spinlock to protect name access
-> > - * @owner: pointer to exporter module; used for refcounting when expor=
-ter is a
-> > - *         kernel module.
-> > - * @list_node: node for dma_buf accounting and debugging.
-> > - * @priv: exporter specific private data for this buffer object.
-> > - * @resv: reservation object linked to this dma-buf
-> > - * @poll: for userspace poll support
-> > - * @cb_excl: for userspace poll support
-> > - * @cb_shared: for userspace poll support
-> > - * @sysfs_entry: for exposing information about this buffer in sysfs.
->
-> This sentence
-> >   * The attachment_uid member of @sysfs_entry is protected by dma_resv =
-lock
-> >   * and is incremented on each attach.
-> belongs to the paragraph describing sysfs_entry and should be moved too.
-> Or maybe reworded and then document all fields in dma_buf_sysfs_entry?
+On Tue, Jun 22, 2021 at 02:21:27PM +0000, David Laight wrote:
+> From: Alan Stern
+> > Sent: 22 June 2021 14:29
+> ...
+> > > Thought...
+> > >
+> > > Is kmalloc(1, GFP_KERNEL) guaranteed to return a pointer into
+> > > a cache line that will not be accessed by any other code?
+> > > (This is slightly weaker than requiring a cache-line aligned
+> > > pointer - but very similar.)
+> > 
+> > As I understand it, on architectures that do not have cache-coherent
+> > I/O, kmalloc is guaranteed to return a buffer that is
+> > cacheline-aligned and whose length is a multiple of the cacheline
+> > size.
+> > 
+> > Now, whether that buffer ends up being accessed by any other code
+> > depends on what your driver does with the pointer it gets from
+> > kmalloc.  :-)
+> 
+> Thanks for the clarification.
+> 
+> Most of the small allocates in the usb stack are for transmits
+> where it is only necessary to ensure a cache write-back.
+> 
+> I know there has been some confusion because one of the
+> allocators can add a small header to every allocation.
+> This can lead to unexpectedly inadequately aligned pointers.
+> If it is updated when the preceding block is freed (as some
+> user-space mallocs do) then it would need to be in a
+> completely separate cache line.
 
-Unfortunately kerneldoc lost the ability to document embedded
-structs/unions. At least last time I checked, it's a bit a bikeshed.
-So I'd need to pull the entire struct out. I'll just move it since
-it's indeed misplaced.
+If you really want to find out what the true story is, you should ask 
+on the linux-mm mailing list.  The rest of us are not experts on this 
+stuff.
 
-> With this fixed:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-Thanks for taking a look.
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Alan Stern
