@@ -2,403 +2,487 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 785813B1DDC
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 17:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74B9A3B1E3D
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 18:02:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231434AbhFWPwi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 11:52:38 -0400
-Received: from mga07.intel.com ([134.134.136.100]:25392 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231320AbhFWPwi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 11:52:38 -0400
-IronPort-SDR: BBEatfB76w84iBhyOHtyQl1J7FkEpjcN9JfKgYdYCz5r3z1r4zMi4p9xr3q/50A2ayaptK9dLF
- 3r9SVsaBRtag==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="271136057"
-X-IronPort-AV: E=Sophos;i="5.83,294,1616482800"; 
-   d="scan'208";a="271136057"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 08:50:13 -0700
-IronPort-SDR: wBh3YbkBho0GZjcmECammfMezoURJLBnl/+DkRqrBL6meZ9Z3nTslH5rVaj1OJvmpEvjZLEI2d
- 5gE6G/iTqQBQ==
-X-IronPort-AV: E=Sophos;i="5.83,294,1616482800"; 
-   d="scan'208";a="406347896"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 08:50:12 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id BF4EB20248;
-        Wed, 23 Jun 2021 18:50:09 +0300 (EEST)
-Date:   Wed, 23 Jun 2021 18:50:09 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>
-Subject: Re: [PATCH 1/6] Documentation: media: Improve camera sensor
- documentation
-Message-ID: <20210623155009.GG3@paasikivi.fi.intel.com>
-References: <20210622112200.13914-1-sakari.ailus@linux.intel.com>
- <20210622112200.13914-2-sakari.ailus@linux.intel.com>
- <20210623151101.flfbfw2crpwqkpna@uno.localdomain>
+        id S231438AbhFWQEX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 12:04:23 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:48702 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230430AbhFWQEW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Jun 2021 12:04:22 -0400
+Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com [10.205.2.134])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id BE5F540FE5;
+        Wed, 23 Jun 2021 16:02:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1624464125; bh=/aJPn9XNXOIL4gbnz9MH/edvpTQlpaUr6WciMfS03/4=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=WRpTjq6CLDo1NpOPa7vZXdFyy9eTzDRf3HHKtFq9MQ1vfpMlUYPug+WIk5stgCBTp
+         jS1ovEWJokM+SoTJqNskwzZ77P//WSzvno7hcGQcJ2S7ttU+Oef6dAoipmedVY7/vY
+         3i3pPjZyGmanEtmUeIKW9YNQpevPUPAWo57S8GBgJfpoi57kR/ukHQH3EUzWqyZoJi
+         7lV7Lc8PSXwm5ikxy1CYihd73wZRiWO8wN8bkS7sZPkRUP9hB7kF9CBAfftGmkUAVD
+         x7qOuuYyoeVoYnITd462SArVi54haiLpJUeJyCy8Sp481ZyFcMWkvd3g1qy9jWGYL0
+         ajoMJuecwXT7Q==
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
+        by mailhost.synopsys.com (Postfix) with ESMTPS id AB6CBA00C4;
+        Wed, 23 Jun 2021 16:02:03 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2047.outbound.protection.outlook.com [104.47.66.47])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
+        by o365relay-in.synopsys.com (Postfix) with ESMTPS id C07F040099;
+        Wed, 23 Jun 2021 16:02:02 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=nelsonc@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="mbegh6rz";
+        dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Cig9tMiyYu7bMR+3oQvewAC6EAR7moJpb0MoJAAY5tte2yyaDmBUkAJ+5MNccTEWyneLjaD4L3wJ2bRNxVOmcjZDSRFh4r4lku/twtsleZrg/RNkHhkDlJuHKJV4ItoPHFeVUyAptTHohiCB9HEUqrGSYaZoNXtEKAslzf/xSt4wMdW7WLbMfIAMIyLQf8HTRBTyvO4W7Ke2JbBtZBvJzDP0KHPXlFGTxu/qd8YC8OBNuHRB/tk3cK+v4b0OGG649PPbfgDzV87UVnRoI4LmtHAekgHmJsbE49wHzag+wQ9F4Ixpyjp/HKJWZxPWzdvHCoJGFOJFtyQ0tRPL67hmfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RL0yU1vlo55OGlZfa8YNHZ9OTC83338Qgnj8tKpq/2c=;
+ b=ieyLVoZtMXg3QM+5/ds7TUQWTGr/fFlp5r9ZlVOq9Wxk43vPmpnTnSko7cL3sFbco7eU+vUmTD3iFvyiZJSHdCAlKrcnjm4Q5mSkTOfAPgs1GGGRCFWfPydotJmIDL5kt2/lCD8OR2RI41VJmI6Lqstwy2MgUdHeTReI7cU19KypvHEkmyEIy/B7VYBBogKmBCvOjTEFQyB2RR5n0smrMWt3ZIxi80tHHAxOzvD1Txotyl2aBnHpkcsbTFfvawrwpRZIigAc2Q1Wum5zfjq+NojMMBz6JzNWWDYQFmtBADnR3RAlZA1ohteirS0zWoGYQzayKya9YdjsKSU5aSQtbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RL0yU1vlo55OGlZfa8YNHZ9OTC83338Qgnj8tKpq/2c=;
+ b=mbegh6rzJ9jdCbyjsGIwh8kP2+jawJKInyS/TTzIjtSqEgUOZEppnWz+5mvaUux92MZRNCHZ9xXr6dIv0tZkwABB5me06Z/FjzmrCPOVQioEi5yPJZrJQKAKMAfwKAvEgMePV1oFFv1sXcSpYq3guytjIabu5T+mh3fMmD6As7U=
+Received: from MW3PR12MB4459.namprd12.prod.outlook.com (2603:10b6:303:56::22)
+ by MWHPR1201MB0094.namprd12.prod.outlook.com (2603:10b6:301:5a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.21; Wed, 23 Jun
+ 2021 16:02:01 +0000
+Received: from MW3PR12MB4459.namprd12.prod.outlook.com
+ ([fe80::e03b:cca:5710:59a]) by MW3PR12MB4459.namprd12.prod.outlook.com
+ ([fe80::e03b:cca:5710:59a%8]) with mapi id 15.20.4242.023; Wed, 23 Jun 2021
+ 16:02:00 +0000
+X-SNPS-Relay: synopsys.com
+From:   Nelson Costa <Nelson.Costa@synopsys.com>
+To:     Vinod Koul <vkoul@kernel.org>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jose Abreu <Jose.Abreu@synopsys.com>
+Subject: RE: [PATCH 5/9] phy: dwc: Add Synopsys DesignWare HDMI RX PHYs e405
+ and e406 Driver
+Thread-Topic: [PATCH 5/9] phy: dwc: Add Synopsys DesignWare HDMI RX PHYs e405
+ and e406 Driver
+Thread-Index: AQHXV6Hhw52rFLqJRUefJUBB/2fxaqseFEGAgAOKeVA=
+Date:   Wed, 23 Jun 2021 16:02:00 +0000
+Message-ID: <MW3PR12MB4459E69C4CE32CDD14C93929C1089@MW3PR12MB4459.namprd12.prod.outlook.com>
+References: <cover.1622631488.git.nelson.costa@synopsys.com>
+ <ac32f8d433860c5be612b393023329f967e2c058.1622631488.git.nelson.costa@synopsys.com>
+ <YNApWS7tNGdWbyCm@vkoul-mobl>
+In-Reply-To: <YNApWS7tNGdWbyCm@vkoul-mobl>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbmVsc29uY1xh?=
+ =?us-ascii?Q?cHBkYXRhXHJvYW1pbmdcMDlkODQ5YjYtMzJkMy00YTQwLTg1ZWUtNmI4NGJh?=
+ =?us-ascii?Q?MjllMzViXG1zZ3NcbXNnLTU0N2JjOWNkLWQ0M2MtMTFlYi05NmZkLWI0ZDVi?=
+ =?us-ascii?Q?ZGZkOTQ4MFxhbWUtdGVzdFw1NDdiYzljZS1kNDNjLTExZWItOTZmZC1iNGQ1?=
+ =?us-ascii?Q?YmRmZDk0ODBib2R5LnR4dCIgc3o9IjgwMDIiIHQ9IjEzMjY4OTM3NzE3NTk2?=
+ =?us-ascii?Q?OTkyMSIgaD0iUEU0RXl0OGhYb1UzbVUzalVTNitzY0lxd3BFPSIgaWQ9IiIg?=
+ =?us-ascii?Q?Ymw9IjAiIGJvPSIxIiBjaT0iY0FBQUFFUkhVMVJTUlVGTkNnVUFBSFlJQUFD?=
+ =?us-ascii?Q?Qm9Bb1lTV2pYQWZOalNKRzdiUk8wODJOSWtidHRFN1FOQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUhBQUFBQUdDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUVBQVFBQkFBQUE1aEJkMkFBQUFBQUFBQUFBQUFBQUFKNEFBQUJtQUdrQWJn?=
+ =?us-ascii?Q?QmhBRzRBWXdCbEFGOEFjQUJzQUdFQWJnQnVBR2tBYmdCbkFGOEFkd0JoQUhR?=
+ =?us-ascii?Q?QVpRQnlBRzBBWVFCeUFHc0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?RUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtBWHdC?=
+ =?us-ascii?Q?d0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCbkFHWUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFDQUFB?=
+ =?us-ascii?Q?QUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFiZ0Js?=
+ =?us-ascii?Q?QUhJQWN3QmZBSE1BWVFCdEFITUFkUUJ1QUdjQVh3QmpBRzhBYmdCbUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1BRzhB?=
+ =?us-ascii?Q?ZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWN3QnRB?=
+ =?us-ascii?Q?R2tBWXdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFIa0FY?=
+ =?us-ascii?Q?d0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0J6QUhRQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNB?=
+ =?us-ascii?Q?QUFBQUFDZUFBQUFaZ0J2QUhVQWJnQmtBSElBZVFCZkFIQUFZUUJ5QUhRQWJn?=
+ =?us-ascii?Q?QmxBSElBY3dCZkFIUUFjd0J0QUdNQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFCbUFH?=
+ =?us-ascii?Q?OEFkUUJ1QUdRQWNnQjVBRjhBY0FCaEFISUFkQUJ1QUdVQWNnQnpBRjhBZFFC?=
+ =?us-ascii?Q?dEFHTUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR2NBZEFCekFGOEFjQUJ5QUc4?=
+ =?us-ascii?Q?QVpBQjFBR01BZEFCZkFIUUFjZ0JoQUdrQWJnQnBBRzRBWndBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFB?=
+ =?us-ascii?Q?Q0FBQUFBQUNlQUFBQWN3QmhBR3dBWlFCekFGOEFZUUJqQUdNQWJ3QjFBRzRB?=
+ =?us-ascii?Q?ZEFCZkFIQUFiQUJoQUc0QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJ6?=
+ =?us-ascii?Q?QUdFQWJBQmxBSE1BWHdCeEFIVUFid0IwQUdVQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFITUFiZ0J3QUhNQVh3QnNB?=
+ =?us-ascii?Q?R2tBWXdCbEFHNEFjd0JsQUY4QWRBQmxBSElBYlFCZkFERUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFB?=
+ =?us-ascii?Q?QUFDQUFBQUFBQ2VBQUFBY3dCdUFIQUFjd0JmQUd3QWFRQmpBR1VBYmdCekFH?=
+ =?us-ascii?Q?VUFYd0IwQUdVQWNnQnRBRjhBY3dCMEFIVUFaQUJsQUc0QWRBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFB?=
+ =?us-ascii?Q?QjJBR2NBWHdCckFHVUFlUUIzQUc4QWNnQmtBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFFQUFBQUFBQUFBQWdBQUFBQUEiLz48L21ldGE+?=
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [2.80.233.231]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9584d674-2450-4d1e-a585-08d936603c7e
+x-ms-traffictypediagnostic: MWHPR1201MB0094:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR1201MB00948E4D969F2DEE771803D1C1089@MWHPR1201MB0094.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: jT2+rdnQQrd8tSIRPFvxJcXmqIrvZQolf2j4Nu1x3DKS+ALgURh+zF8s414wCeB+c13fH7evmteP+LUV4IGfzxTFyFfHqgmtxTsm9CPgLwKhu4n9XnZ401F9Gus4Dy7Cxl5koVoKZbhCnDKyhcweHqMDtusblbNCUqWAGm9YOdI0zaSpHJLQMJhOI3j+gyXeajwidiFtSAr0SBo3DCOh+ReXoB7uBU6YMGsMlToRJkGTlF9Sua70N+fUpHLcdpZcS94LmRfgvJuiXIR50O7WZ3W7upfdVvZRvJKeDz56e+PRNS1JJdTjOFO/LMnumZkftws7IFKf6BuxSYXApfzRCGvRN58nYytFMsUNNXUKLGr5R4s2onDJjYUf66a2gnijdJPJPfV2a79fQfiFJwwZa0jG+Eja9WGbxvN/OirtlnjN5ThcHVJk6Wls5AoBfHGnLFkGZelw5gE3J3sxl+dSUeQPBhUGJKykB3mpB3bAppDG1IuGvLz/CdgK2KSjDBK+/geBJKB224d7ly3nLoS6MeoCu5mqK9BNln6pziMwqsXf5qbnMgB0EhGFmG/kGWKHNf8jzU7iOl1jDprTDH6gEzeCNqopkfRWFvwJAk3ICibZ/iceVit39mn4f++PaNDrhoCqdArSdwQVLjdGL3pgKw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4459.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(366004)(376002)(136003)(346002)(39860400002)(76116006)(66946007)(38100700002)(6916009)(64756008)(107886003)(8676002)(478600001)(66476007)(66556008)(122000001)(2906002)(66446008)(33656002)(4326008)(316002)(52536014)(8936002)(26005)(54906003)(86362001)(5660300002)(7696005)(6506007)(53546011)(186003)(55016002)(71200400001)(9686003)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PxDR9AgClLGli+M0DUK8wHFQU0YGR/cMX9HvU4SSXAUI7OFcZCQJJIJS6mm1?=
+ =?us-ascii?Q?FBf5S4JtaRlDz5NYrtoXmcV2U7rmYoCz0yhdjrf/g/H2QMK5JuGHfdViIkX3?=
+ =?us-ascii?Q?Ej62j8HJGwMEB+9AglgQJhwCKlZ0+qhxBPJJgPcvJdVfwyjGmlO+4HHPv9P/?=
+ =?us-ascii?Q?7B8CP9Ra0guDGZDzcJ0lswgkMJi0Nlq9l/KSgtOs6gAMKEXcgw3Paw9Jy0jA?=
+ =?us-ascii?Q?8fmXU9WZ3guZeRGikrgfvEWHoScz6X2wipxUCaap8r02AaXBC1jKQ8wmxThX?=
+ =?us-ascii?Q?UOCjXH/wc/+3i2pDssXEt5WjpEjqL9vIb1VYlbWx20NnrMG2Fw/KuUXkkDr4?=
+ =?us-ascii?Q?hVU4RSAS40RkTyzlEU7k8xuNvN61sLR8pzlej3rh++kxwEJobnaIR3xC/nrb?=
+ =?us-ascii?Q?02dAWZi8ylLsk9S2NOrYUJ9LmpJcg5TSL0AqYU/5up7A6ztw8JmWomr3NshW?=
+ =?us-ascii?Q?X43JqlVW+4uzR2tZnNvsfBO12vc0PkXChUojLx5IfM2r50WLSeqxK73KWpKa?=
+ =?us-ascii?Q?ONyVmx8QAP+89VahD7SYkcL5PBK5uDzMBUoCq72/B/MT27JRUorEriJQHts2?=
+ =?us-ascii?Q?igqehRg3wzm9ZgICCZ+dUvupE+LCvqxpT/Gb4P44oVXmu4Kjzt03QhRNNXlC?=
+ =?us-ascii?Q?N1ftPmh9bzq7Xfq+lbO8pREk/eqrAzKazuD7HFSSveZinsaiogZaaeNdAge2?=
+ =?us-ascii?Q?Mk8i5i1LkWMO85WAtrWaagcFNaINXBI5LL83eW6gmKKAW6uyTI4xCzTOvMlt?=
+ =?us-ascii?Q?CPgur1tGWR3YHjfAIfK9C+RQhbzOmc5nwAgBL+zgJsNdu70ufYxYHTAOXXas?=
+ =?us-ascii?Q?5eqFV/Uok3N4VJvcSBrWznuhOYH/8agWiTpYEw6f8WCiN4Iq02VBmV/e1KKa?=
+ =?us-ascii?Q?SrD9kf6wBDuUNzseFJGrYMaYphOi8zfiFI/wSUBwpXSh6T4LYjz8xa7HYNx9?=
+ =?us-ascii?Q?0o33n7UDuO5H7SEEId0pe721GSEXXgmIUPo4iT84r6fQSKk8mDMdNBFsAQBj?=
+ =?us-ascii?Q?mMJYsuTbSBaBiFPxpfrBUcdL4ceLnks5Adcu9x/wcPpjpZclRnCXRr1EdTts?=
+ =?us-ascii?Q?pKqPgNUuWEuSxsQWrGMt/5lq+BJbsQWlRSP8bmZOUK44kcEV2ZAO7Hh46RYY?=
+ =?us-ascii?Q?eOhQ8GhWPxkHKKjHrQ5MCqr4MNcoE7UGatA5bc5md9jLRORL+u052BiOCe62?=
+ =?us-ascii?Q?bZqlbh3jKojbH6xq7GqfMMSoj40akdo19pDgmT12H3Rj9PhVwnvoc3vMFTWN?=
+ =?us-ascii?Q?GYd+3/dXVXPqnpCNVCgrR22HaVywQYk+qM64tuW3Gs13F/JJZDGoa63dWgjB?=
+ =?us-ascii?Q?3cY=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210623151101.flfbfw2crpwqkpna@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4459.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9584d674-2450-4d1e-a585-08d936603c7e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2021 16:02:00.7278
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7Q0/h/xrvGiibjjy9yqB1Az1R5JFmlmO4q18dhztz+UrkRl1bpOPC/lQogNcwvDSzQ9uMAQh2Bt0yfOU2W5QvQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0094
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Vinod,
 
-Thanks for the review.
+Thanks for your initial comments and feedback!
 
-On Wed, Jun 23, 2021 at 05:11:01PM +0200, Jacopo Mondi wrote:
-> Hi Sakari,
->   thanks for addressing comments on v1
-> 
-> just a few minros, the rest looks very good!
-> 
-> On Tue, Jun 22, 2021 at 02:21:55PM +0300, Sakari Ailus wrote:
-> > Modernise the documentation to make it more precise and update the use of
-> > pixel rate control and various other changes. In particular:
-> >
-> > - Use non-proportional font for file names, properties as well as
-> >   controls.
-> >
-> > - The unit of the HBLANK control is pixels, not lines.
-> >
-> > - The unit of PIXEL_RATE control is pixels per second, not Hz.
-> >
-> > - Merge common requirements for CSI-2 and parallel busses.
-> >
-> > - Include all DT properties needed for assigned clocks.
-> >
-> > - Fix referencing the link rate control.
-> >
-> > - SMIA driver's new name is CCS driver.
-> >
-> > - The PIXEL_RATE control denotes pixel rate on the pixel array on camera
-> >   sensors. Do not suggest it is used to tell the maximum pixel rate on the
-> >   bus anymore.
-> >
-> > - Improve ReST syntax (plain struct and function names).
-> >
-> > - Remove the suggestion to use s_power() in receiver drivers.
-> >
-> > - Make MIPI website URL use HTTPS, add Wikipedia links to BT.601 and
-> >   BT.656.
-> >
-> > Fixes: e4cf8c58af75 ("media: Documentation: media: Document how to write camera sensor drivers")
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../driver-api/media/camera-sensor.rst        |  45 +++----
-> >  Documentation/driver-api/media/index.rst      |   2 +-
-> >  .../driver-api/media/{csi2.rst => tx-rx.rst}  | 114 +++++++++++-------
-> >  .../media/v4l/ext-ctrls-image-process.rst     |   2 +
-> >  4 files changed, 90 insertions(+), 73 deletions(-)
-> >  rename Documentation/driver-api/media/{csi2.rst => tx-rx.rst} (39%)
-> >
-> > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > index 7160336aa475..c7d4891bd24e 100644
-> > --- a/Documentation/driver-api/media/camera-sensor.rst
-> > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > @@ -3,10 +3,10 @@
-> >  Writing camera sensor drivers
-> >  =============================
-> >
-> > -CSI-2
-> > ------
-> > +CSI-2 and parallel (BT.601 and BT.656) busses
-> > +---------------------------------------------
-> >
-> > -Please see what is written on :ref:`MIPI_CSI_2`.
-> > +Please see :ref:`transmitter-receiver`.
-> >
-> >  Handling clocks
-> >  ---------------
-> > @@ -26,15 +26,16 @@ user.
-> >  ACPI
-> >  ~~~~
-> >
-> > -Read the "clock-frequency" _DSD property to denote the frequency. The driver can
-> > -rely on this frequency being used.
-> > +Read the ``clock-frequency`` _DSD property to denote the frequency. The driver
-> > +can rely on this frequency being used.
-> >
-> >  Devicetree
-> >  ~~~~~~~~~~
-> >
-> > -The currently preferred way to achieve this is using "assigned-clock-rates"
-> > -property. See Documentation/devicetree/bindings/clock/clock-bindings.txt for
-> > -more information. The driver then gets the frequency using clk_get_rate().
-> > +The currently preferred way to achieve this is using ``assigned-clocks``,
-> > +``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See
-> > +``Documentation/devicetree/bindings/clock/clock-bindings.txt`` for more
-> > +information. The driver then gets the frequency using ``clk_get_rate()``.
-> >
-> >  This approach has the drawback that there's no guarantee that the frequency
-> >  hasn't been modified directly or indirectly by another driver, or supported by
-> > @@ -55,7 +56,7 @@ processing pipeline as one or more sub-devices with different cropping and
-> >  scaling configurations. The output size of the device is the result of a series
-> >  of cropping and scaling operations from the device's pixel array's size.
-> >
-> > -An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
-> > +An example of such a driver is the CCS driver (see ``drivers/media/i2c/ccs``).
-> >
-> >  Register list based drivers
-> >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > @@ -67,7 +68,7 @@ level are independent. How a driver picks such configuration is based on the
-> >  format set on a source pad at the end of the device's internal pipeline.
-> >
-> >  Most sensor drivers are implemented this way, see e.g.
-> > -drivers/media/i2c/imx319.c for an example.
-> > +``drivers/media/i2c/imx319.c`` for an example.
-> >
-> >  Frame interval configuration
-> >  ----------------------------
-> > @@ -94,9 +95,10 @@ large variety of devices beyond camera sensors. Devices that have no analogue
-> >  crop, use the full source image size, i.e. pixel array size.
-> >
-> >  Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
-> > -``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
-> > -pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
-> > -unit of that control is Hz.
-> > +``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
-> > +is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
-> > +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
-> > +sub-device. The unit of that control is pixels per second.
-> >
-> >  Register list based drivers need to implement read-only sub-device nodes for the
-> >  purpose. Devices that are not register list based need these to configure the
-> > @@ -125,14 +127,14 @@ general, the device must be powered on at least when its registers are being
-> >  accessed and when it is streaming.
-> >
-> >  Existing camera sensor drivers may rely on the old
-> > -:c:type:`v4l2_subdev_core_ops`->s_power() callback for bridge or ISP drivers to
-> > +struct v4l2_subdev_core_ops->s_power() callback for bridge or ISP drivers to
-> >  manage their power state. This is however **deprecated**. If you feel you need
-> >  to begin calling an s_power from an ISP or a bridge driver, instead please add
-> >  runtime PM support to the sensor driver you are using. Likewise, new drivers
-> >  should not use s_power.
-> >
-> >  Please see examples in e.g. ``drivers/media/i2c/ov8856.c`` and
-> > -``drivers/media/i2c/smiapp/smiapp-core.c``. The two drivers work in both ACPI
-> > +``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI
-> >  and DT based systems.
-> >
-> >  Control framework
-> > @@ -149,16 +151,3 @@ used to obtain device's power state after the power state transition:
-> >  The function returns a non-zero value if it succeeded getting the power count or
-> >  runtime PM was disabled, in either of which cases the driver may proceed to
-> >  access the device.
-> > -
-> > -Controls
-> > ---------
-> > -
-> > -For camera sensors that are connected to a bus where transmitter and receiver
-> > -require common configuration set by drivers, such as CSI-2 or parallel (BT.601
-> > -or BT.656) bus, the ``V4L2_CID_LINK_FREQ`` control is mandatory on transmitter
-> > -drivers. Receiver drivers can use the ``V4L2_CID_LINK_FREQ`` to query the
-> > -frequency used on the bus.
-> > -
-> > -The transmitter drivers should also implement ``V4L2_CID_PIXEL_RATE`` control in
-> > -order to tell the maximum pixel rate to the receiver. This is required on raw
-> > -camera sensors.
-> > diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-> > index 813d7db59da7..08e206567408 100644
-> > --- a/Documentation/driver-api/media/index.rst
-> > +++ b/Documentation/driver-api/media/index.rst
-> > @@ -37,7 +37,7 @@ Documentation/userspace-api/media/index.rst
-> >      rc-core
-> >      mc-core
-> >      cec-core
-> > -    csi2
-> > +    tx-rx
-> >      camera-sensor
-> >
-> >      drivers/index
-> > diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/tx-rx.rst
-> > similarity index 39%
-> > rename from Documentation/driver-api/media/csi2.rst
-> > rename to Documentation/driver-api/media/tx-rx.rst
-> > index 11c52b0be8b8..6331f93fb249 100644
-> > --- a/Documentation/driver-api/media/csi2.rst
-> > +++ b/Documentation/driver-api/media/tx-rx.rst
-> > @@ -1,39 +1,71 @@
-> >  .. SPDX-License-Identifier: GPL-2.0
-> >
-> > -.. _MIPI_CSI_2:
-> > +.. _transmitter-receiver:
-> > +
-> > +Pixel data transmitter and receiver drivers
-> > +===========================================
-> > +
-> > +V4L2 supports various devices that transmit and receiver pixel data. Examples of
-> 
-> s/and receiver/and receives/
+From: Vinod Koul <vkoul@kernel.org>
+Date: seg, jun 21, 2021 at 06:53:29
 
-"receive"; it's plural. :-)
+> On 02-06-21, 13:24, Nelson Costa wrote:
+>=20
+> > +# Makefile for the PHY drivers.
+> > +#
+> > +
+> > +phy-dw-hdmi-e40x-y			:=3D phy-dw-hdmi-e40x-core.o
+> > +phy-dw-hdmi-e40x-y			+=3D phy-dw-hdmi-e405.o
+> > +phy-dw-hdmi-e40x-y			+=3D phy-dw-hdmi-e406.o
+>=20
+> why not:
+> phy-dw-hdmi-e40x-y                   :=3D  phy-dw-hdmi-e40x-core.o phy-dw=
+-hdmi-e405.o phy-dw-hdmi-e406.o ?
+>=20
 
-> 
-> > +these devices include a camera sensor, a TV tuner and a parallel or a CSI-2
-> > +receiver in an SoC.
-> > +
-> > +Bus types
-> > +---------
-> > +
-> > +The following busses are the most common. This section discusses these two only.
-> >
-> >  MIPI CSI-2
-> > -==========
-> > +^^^^^^^^^^
-> >
-> >  CSI-2 is a data bus intended for transferring images from cameras to
-> >  the host SoC. It is defined by the `MIPI alliance`_.
-> >
-> > -.. _`MIPI alliance`: http://www.mipi.org/
-> > +.. _`MIPI alliance`: https://www.mipi.org/
-> >
-> > -Media bus formats
-> > ------------------
-> > +Parallel
-> > +^^^^^^^^
-> >
-> > -See :ref:`v4l2-mbus-pixelcode` for details on which media bus formats should
-> > -be used for CSI-2 interfaces.
-> > +`BT.601`_ and `BT.656`_ are the most common parallel busses.
-> > +
-> > +.. _`BT.601`: https://en.wikipedia.org/wiki/Rec._601
-> > +.. _`BT.656`: https://en.wikipedia.org/wiki/ITU-R_BT.656
-> >
-> >  Transmitter drivers
-> >  -------------------
-> >
-> > -CSI-2 transmitter, such as a sensor or a TV tuner, drivers need to
-> > -provide the CSI-2 receiver with information on the CSI-2 bus
-> > -configuration. These include the V4L2_CID_LINK_FREQ and
-> > -V4L2_CID_PIXEL_RATE controls and
-> > -(:c:type:`v4l2_subdev_video_ops`->s_stream() callback). These
-> > -interface elements must be present on the sub-device represents the
-> > -CSI-2 transmitter.
-> > +Transmitter drivers generally need to provide the receiver drivers with the
-> > +configuration of the transmitter. What is required depends on the type of the
-> > +bus. These are common for both busses.
-> > +
-> > +Media bus pixel code
-> > +^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +The media bus pixel codes document parallel formats. Should the pixel data be
-> > +transported over a serial bus, the media bus pixel code that describes a
-> > +parallel format that transfers a sample on a single clock cycle is used.
-> 
-> I guess you intend to document that, in example,
-> MEDIA_BUS_FMT_YUYV8_2X8 has to be used on parallel busses, as the bus
-> width is meaningful, while MEDIA_BUS_FMT_YUYV8_1X16 should be used on
-> serial busses as the bus width it's not. I guess this could be
-> reported as an example ?
+I agree! It will be addressed in v2.
 
-We actually have such an example in media bus pixel code documentation.
+> > +obj-$(CONFIG_VIDEO_DWC_HDMI_PHY_E40X)	+=3D phy-dw-hdmi-e40x.o
+> > diff --git a/drivers/phy/dwc/phy-dw-hdmi-e405.c b/drivers/phy/dwc/phy-d=
+w-hdmi-e405.c
+> > new file mode 100644
+> > index 0000000..5078a86
+> > --- /dev/null
+> > +++ b/drivers/phy/dwc/phy-dw-hdmi-e405.c
+> > @@ -0,0 +1,497 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (c) 2018 - present Synopsys, Inc. and/or its affiliates.
+> > + * Synopsys DesignWare HDMI PHY e405
+>=20
+> 2018 - 2021 ?
+>=20
 
-How about removing the paragraph and leaving just the reference below?
- 
-> 
-> > +
-> > +See :ref:`v4l2-mbus-pixelcode`.
-> > +
-> > +Link frequency
-> > +^^^^^^^^^^^^^^
-> > +
-> > +The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
-> > +receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
-> > +
-> > +``.s_stream()`` callback
-> > +^^^^^^^^^^^^^^^^^^^^^^^^
-> >
-> > -The V4L2_CID_LINK_FREQ control is used to tell the receiver driver the
-> > -frequency (and not the symbol rate) of the link. The V4L2_CID_PIXEL_RATE
-> > -control may be used by the receiver to obtain the pixel rate the transmitter
-> > -uses. The :c:type:`v4l2_subdev_video_ops`->s_stream() callback provides an
-> > -ability to start and stop the stream.
-> > +The struct struct v4l2_subdev_video_ops->s_stream() callback is used by the
-> > +receiver driver to control the transmitter driver's streaming state.
-> >
-> > -The value of the V4L2_CID_PIXEL_RATE is calculated as follows::
-> > +
-> > +CSI-2 transmitter drivers
-> > +-------------------------
-> > +
-> > +Pixel rate
-> > +^^^^^^^^^^
-> > +
-> > +The pixel rate on the bus is calculated as follows::
-> >
-> >  	pixel_rate = link_freq * 2 * nr_of_lanes * 16 / k / bits_per_sample
-> >
-> > @@ -45,27 +77,38 @@ where
-> >     * - variable or constant
-> >       - description
-> >     * - link_freq
-> > -     - The value of the V4L2_CID_LINK_FREQ integer64 menu item.
-> > +     - The value of the ``V4L2_CID_LINK_FREQ`` integer64 menu item.
-> >     * - nr_of_lanes
-> >       - Number of data lanes used on the CSI-2 link. This can
-> >         be obtained from the OF endpoint configuration.
-> >     * - 2
-> > -     - Two bits are transferred per clock cycle per lane.
-> > +     - Data is transferred on both rising and falling edge of the signal.
-> >     * - bits_per_sample
-> >       - Number of bits per sample.
-> >     * - k
-> >       - 16 for D-PHY and 7 for C-PHY
-> >
-> > -The transmitter drivers must, if possible, configure the CSI-2
-> > -transmitter to *LP-11 mode* whenever the transmitter is powered on but
-> > -not active, and maintain *LP-11 mode* until stream on. Only at stream
-> > -on should the transmitter activate the clock on the clock lane and
-> > -transition to *HS mode*.
-> > +.. note::
-> > +
-> > +	The pixel rate calculated this way is **not** be the same thing than
-> > +	the pixel rate on the camera sensor's pixel array.
-> 
-> .. as reported by the V4L2_CID_PIXEL_RATE control.
+It will be addressed in v2.
 
-Good point. I'll use "... which is reported by ...", to 
+> > +/* PHY e405 mpll configuration */
+> > +static const struct dw_phy_mpll_config dw_phy_e405_mpll_cfg[] =3D {
+> > +	{ 0x27, 0x1B94 },
+>=20
+> Lowercase please
+>=20
 
-> 
+It will be addressed in v2.
+
+> > +	{ 0x28, 0x16D2 },
+> > +	{ 0x29, 0x12D9 },
+> > +	{ 0x2A, 0x3249 },
+> > +	{ 0x2B, 0x3653 },
+> > +	{ 0x2C, 0x3436 },
+> > +	{ 0x2D, 0x124D },
+> > +	{ 0x2E, 0x0001 },
+> > +	{ 0xCE, 0x0505 },
+> > +	{ 0xCF, 0x0505 },
+> > +	{ 0xD0, 0x0000 },
+> > +	{ 0x00, 0x0000 },
+> > +};
 > > +
-> > +LP-11 and LP-111 modes
-> > +^^^^^^^^^^^^^^^^^^^^^^
+> > +/* PHY e405 equalization functions */
+> > +static int dw_phy_eq_test(struct dw_phy_dev *dw_dev,
+> > +			  u16 *fat_bit_mask, int *min_max_length)
+>=20
+> Please align this to preceding line open brace (checkpatch with --strict =
+would warn you about this)
+>=20
+
+This is aligned in the original source code, and checkpatch clean. :)
+Seems that only in patch format due the char '+' gives that effect.
+
+> > +{
+> > +	u16 main_fsm_status, val;
+> > +	unsigned int i;
 > > +
-> > +The transmitter drivers must, if possible, configure the CSI-2 transmitter to
-> 
-> s/drivers/driver/
-> Or if you want to keep it plural drop "The" ?
+> > +	for (i =3D 0; i < DW_PHY_EQ_WAIT_TIME_START; i++) {
+> > +		main_fsm_status =3D dw_phy_read(dw_dev, DW_PHY_MAINFSM_STATUS1);
+> > +		if (main_fsm_status & DW_PHY_CLOCK_STABLE)
+> > +			break;
+> > +		mdelay(DW_PHY_EQ_SLEEP_TIME_CDR);
+> > +	}
+> > +
+> > +	if (i =3D=3D DW_PHY_EQ_WAIT_TIME_START) {
+> > +		dev_dbg(dw_dev->dev, "PHY start conditions not achieved\n");
+>=20
+> not error?
+>=20
 
-It could be singular, and indefinite. I think this is better since it
-obviously applies to all such drivers.
+In the reality this is not an error scenario.
+The 'ETIMEDOUT' return code is used by the HDMI RX Controller driver to=20
+know that the equalization was not performed due the lack of Clock=20
+Stable, and in this case the driver will keep forcing the equalization.
 
-> 
-> > +*LP-11 or LP-111 mode* whenever the transmitter is powered on but not active,
-> > +and maintain *LP-11 or LP-111 mode* until stream on. Only at stream on should
-> > +the transmitter activate the clock on the clock lane and transition to *HS
-> 
-> "Only at stream on time the transmitter should"
-> 
-> Sounds better to me, but not being a native speaker I might very well
-> be wrong :)
+This scenario is something that can happen during HDMI Source Video=20
+transitions, or even in scenarios that the Source is not sending video at=20
+all.
 
-Agreed, I added "time".
+That's why the message is not an error but instead only useful for debug=20
+purposes.
 
-> 
-> All minors, thanks for clearing this up
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+BTW, the print message will be changed in v2 to make more clear it's not=20
+an error scenario:
+"PHY start conditions not achieved\n" -> "Clock received is not stable=20
+yet\n"
 
-Thank you!
+> > +		return -ETIMEDOUT;
+> > +	}
+> > +
+> > +	if (main_fsm_status & DW_PHY_PLL_RATE_BIT1) {
+> > +		dev_dbg(dw_dev->dev, "invalid pll rate\n");
+>=20
+> error?
+>=20
 
--- 
-Kind regards,
+This is not an error scenario also.
+The 'EINVAL' return code is used by the HDMI RX Controller driver to know=20
+that the Equalization is not required and only needs to wait for tmds=20
+valid to proceed.
 
-Sakari Ailus
+BTW, the print message will be changed in v2 to make more clear it's not=20
+an error scenario:
+"invalid pll rate\n" -> "Equalization not required\n"
+
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	val =3D dw_phy_read(dw_dev, DW_PHY_CDR_CTRL_CNT) &
+> > +		DW_PHY_HDMI_MHL_MODE_MASK;
+>=20
+> can be single line
+>=20
+
+But in single line seems that would not fit in the 80 chars.
+
+> > +static void dw_phy_eq_init_vars(struct dw_phy_eq_ch *ch)
+> > +{
+> > +	ch->acc =3D 0;
+> > +	ch->acq =3D 0;
+> > +	ch->last_acq =3D 0;
+> > +	ch->valid_long_setting =3D 0;
+> > +	ch->valid_short_setting =3D 0;
+>=20
+> memset() ?
+>=20
+
+In this function we only initialize some fields of 'ch' with 0.
+There are other fields that are not supposed to be zeroed.
+
+> > +static bool dw_phy_eq_acquire_early_cnt(struct dw_phy_dev *dw_dev,
+> > +					u16 setting, u16 acq,
+> > +					struct dw_phy_eq_ch *ch0,
+> > +					struct dw_phy_eq_ch *ch1,
+> > +					struct dw_phy_eq_ch *ch2)
+> > +{
+> > +	u16 lock_vector =3D 0x1 << setting;
+> > +	unsigned int i;
+> > +
+> > +	ch0->out_bound_acq =3D 0;
+> > +	ch1->out_bound_acq =3D 0;
+> > +	ch2->out_bound_acq =3D 0;
+> > +	ch0->acq =3D 0;
+> > +	ch1->acq =3D 0;
+> > +	ch2->acq =3D 0;
+> > +
+> > +	dw_phy_eq_equal_setting(dw_dev, lock_vector);
+> > +	dw_phy_eq_auto_calib(dw_dev);
+> > +
+> > +	mdelay(DW_PHY_EQ_SLEEP_TIME_CDR);
+> > +	if (!dw_phy_tmds_valid(dw_dev))
+> > +		dev_dbg(dw_dev->dev, "TMDS is NOT valid\n");
+> > +
+> > +	ch0->read_acq =3D dw_phy_read(dw_dev, DW_PHY_CH0_EQ_STATUS3);
+> > +	ch1->read_acq =3D dw_phy_read(dw_dev, DW_PHY_CH1_EQ_STATUS3);
+> > +	ch2->read_acq =3D dw_phy_read(dw_dev, DW_PHY_CH2_EQ_STATUS3);
+> > +
+> > +	ch0->acq +=3D ch0->read_acq;
+> > +	ch1->acq +=3D ch1->read_acq;
+> > +	ch2->acq +=3D ch2->read_acq;
+> > +
+> > +	ch0->upper_bound_acq =3D ch0->read_acq + DW_PHY_EQ_BOUNDSPREAD;
+> > +	ch0->lower_bound_acq =3D ch0->read_acq - DW_PHY_EQ_BOUNDSPREAD;
+> > +	ch1->upper_bound_acq =3D ch1->read_acq + DW_PHY_EQ_BOUNDSPREAD;
+> > +	ch1->lower_bound_acq =3D ch1->read_acq - DW_PHY_EQ_BOUNDSPREAD;
+> > +	ch2->upper_bound_acq =3D ch2->read_acq + DW_PHY_EQ_BOUNDSPREAD;
+> > +	ch2->lower_bound_acq =3D ch2->read_acq - DW_PHY_EQ_BOUNDSPREAD;
+> > +
+> > +	for (i =3D 1; i < acq; i++) {
+>=20
+> why do we start from 1 here..?
+>=20
+
+Because the first acquisition is required to be done before and out of=20
+the for loop.
+
+> > +static const struct dw_phy_mpll_config dw_phy_e406_mpll_cfg[] =3D {
+> > +	{ 0x27, 0x1C94 },
+> > +	{ 0x28, 0x3713 },
+> > +	{ 0x29, 0x24DA },
+> > +	{ 0x2A, 0x5492 },
+> > +	{ 0x2B, 0x4B0D },
+> > +	{ 0x2C, 0x4760 },
+> > +	{ 0x2D, 0x008C },
+> > +	{ 0x2E, 0x0010 },
+> > +	{ 0x00, 0x0000 },
+>=20
+> lower case here too please
+>=20
+
+It will be addressed in v2.
+
+> > +static void dw_phy_eq_init_vars(struct dw_phy_eq_ch *ch)
+> > +{
+> > +	ch->acc =3D 0;
+> > +	ch->acq =3D 0;
+> > +	ch->last_acq =3D 0;
+> > +	ch->valid_long_setting =3D 0;
+> > +	ch->valid_short_setting =3D 0;
+> > +	ch->best_setting =3D DW_PHY_EQ_SHORT_CABLE_SETTING;
+> > +}
+>=20
+> duplicate, it would make sense to create a common lib of such functions
+> and use them across these files
+>=20
+
+This function initializes the 'ch->best_setting =3D=20
+DW_PHY_EQ_SHORT_CABLE_SETTING' where the define can be tuned=20
+independently for each PHY.
+
+Regarding the other fields, we can create a common function=20
+'_dw_phy_eq_init_vars()' in the common files phy-dw-hdmi-e40x.h/c and=20
+call it inside the original function.
+
+> > +static int dw_phy_set_data(struct dw_phy_dev *dw_dev)
+> > +{
+> > +	const struct dw_hdmi_phy_data *of_data;
+> > +
+> > +	of_data =3D of_device_get_match_data(dw_dev->dev);
+> > +
+> > +	if (of_data) {
+> > +		dw_dev->phy_data =3D (struct dw_hdmi_phy_data *)of_data;
+> > +	} else if (dw_dev->config->version =3D=3D dw_phy_e405_data.version) {
+> > +		dw_dev->phy_data =3D &dw_phy_e405_data;
+> > +	} else if (dw_dev->config->version =3D=3D dw_phy_e406_data.version) {
+> > +		dw_dev->phy_data =3D &dw_phy_e406_data;
+>=20
+> Driver supports only of, where will these else cases get triggered?
+>=20
+
+The driver supports the following two use cases:
+ 1. Device Tree support: where the configuration data is supported by the=20
+DT itself
+ 2. Non Device Tree support: where the configuration data is passed=20
+through the platform_data
+
+So, the "else cases" are used for the second use case (Non Device Tree=20
+support).
+
+> --=20
+> ~Vinod
+
+Thanks,
+
+BR,
+
+Nelson Costa
