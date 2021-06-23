@@ -2,216 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 072923B201C
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 20:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84E7F3B2026
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 20:19:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229758AbhFWSS4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 14:18:56 -0400
-Received: from mga01.intel.com ([192.55.52.88]:21263 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229523AbhFWSSz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 14:18:55 -0400
-IronPort-SDR: QzVGXZYyoy/nZbo9r1w8kXSp9W9RIYqRXqkQz2dP/R2g7TJ3w4gCH10zX/r1OcHWbyg0/9wG/q
- XN8DZDR8Iizw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="228898299"
-X-IronPort-AV: E=Sophos;i="5.83,294,1616482800"; 
-   d="scan'208";a="228898299"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 11:16:37 -0700
-IronPort-SDR: JrWT9J0nOsp3j0hjylIjCyf7U19fPjn1yKqNsg0+7gcffCdLpEetY3ZaWSl422LNHLg55G1cOS
- m4zwkJe6B2yg==
-X-IronPort-AV: E=Sophos;i="5.83,294,1616482800"; 
-   d="scan'208";a="490795262"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 11:16:35 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id B4BD920248;
-        Wed, 23 Jun 2021 21:16:33 +0300 (EEST)
-Date:   Wed, 23 Jun 2021 21:16:33 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Michael Tretter <m.tretter@pengutronix.de>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Marek Vasut <marex@denx.de>, Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v3 2/2] media: i2c: isl7998x: Add driver for Intersil
- ISL7998x
-Message-ID: <20210623181633.GH3@paasikivi.fi.intel.com>
-References: <20210617092538.1109021-1-m.tretter@pengutronix.de>
- <20210617092538.1109021-3-m.tretter@pengutronix.de>
- <20210617095618.GF3@paasikivi.fi.intel.com>
- <20210617124428.GB16200@pengutronix.de>
+        id S229726AbhFWSVR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 14:21:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229660AbhFWSVQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Jun 2021 14:21:16 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F1D5C061574
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 11:18:58 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (unknown [IPv6:2001:2003:f75d:b010::e64])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 252291B001A5;
+        Wed, 23 Jun 2021 21:18:54 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1624472335;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pX3gPGJ41LBD4DqVKhb5Z3JyywBpBSTWq1JhFmRVHE8=;
+        b=IGUoPRmCVbaITM+7fTgi3iEB/6vtEQd39SR7qxfT4hughD7SdHpSnj6rRwQKhxZE/R5osN
+        fyc3f6quJPxIA0CkHg2TIcGpZUPOqGh3YwOdqOew1imvDTaNEcxxqf9815c4o2P5YCDipV
+        pPJykFew2dsnpNZVkoXkPxKvDUVSgqt4dv4T74CneTW2O5uHhCG/fvye51BqgIuqc2VH3C
+        abvK7KqFjI51nWG3rztxbNDbtrwqlrRJaY1hYdH/SEV5VdkpzNov6CoS59NjKlBuO7Vm3/
+        FKoTKRa/UZ4S59ykL2PpnV4bfuslKluxn7XSqSaqRNH9eU+2G3NSEgMfuikmTA==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 41A70634C87;
+        Wed, 23 Jun 2021 21:18:41 +0300 (EEST)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+        by valkosipuli.localdomain with esmtp (Exim 4.92)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1lw7Sf-0000vZ-So; Wed, 23 Jun 2021 21:18:53 +0300
+Date:   Wed, 23 Jun 2021 21:18:53 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Marek Vasut <marex@denx.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 0/3] Explicit CSI-2 LP-11 / LP-111 support
+Message-ID: <20210623181853.GD3@valkosipuli.retiisi.eu>
+References: <20210623181302.14660-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210617124428.GB16200@pengutronix.de>
+In-Reply-To: <20210623181302.14660-1-sakari.ailus@linux.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1624472335;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pX3gPGJ41LBD4DqVKhb5Z3JyywBpBSTWq1JhFmRVHE8=;
+        b=FSKOKfOW52lD1CqlKtzcsgx2K4RAeDtVfKnXmq+x2kPldXgFziE8esEwugNYsbxipKgHFs
+        EQsfjMhkwfm535d6FSI6jxxYbRX9Ylud45l/YQXdQk8SUBQuu/fsIKiyMh6QGahdh/yWEl
+        6ayVoxZrZhtGT+dkeugxy1AtABFhs2pILbEcexwe8tzv4ABe6YaizihZAe9Z+D35qQhOxi
+        z8ZFsY4krlZQYln/tlp4zlcDg2/A7B7zBWc/1J/vHu76JVzgzHmBjrqVImejJsgqC+9h5r
+        F33X7A+eIdm/t6O3mi9m9w6Fiq+owNQ16aqPu2G7ikBRXliBHs/rwnDYJ1Ky/w==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1624472335; a=rsa-sha256;
+        cv=none;
+        b=rWZ9I9hu2TlwFDOXSlOT8zKQdziri65IBLCkhDI0viQRpVy+VOpsFlWblTVrrZg2V9NB8H
+        U79VKBYPH2QQQTPnWhXxsMwa/3gLcqQ4Eh9hqQerg/OiUW6OrdMWGopCpmLWy212NzV9WM
+        JRmbb5HIg8WI4fKpl9tffeaqJRZxWWeSKEaNDf0IWRyCtdYJ6rA0mH4PEFkTVl/gIRI/9d
+        odwP2RIu8gWX4mi9P+ppCknkzDmOv4EN3771O9pLgGyFsCuJz0PY2LMsFGl5iAEZion4LU
+        bp6GU55cKwZVhlfEIJUq1kjXNNI3DAI+GMTVrsCuyRVUp/eqxPoy13uTRhCbAg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
-
-On Thu, Jun 17, 2021 at 02:44:28PM +0200, Michael Tretter wrote:
-> Hi Sakari,
+On Wed, Jun 23, 2021 at 09:12:59PM +0300, Sakari Ailus wrote:
+> Hi all,
 > 
-> On Thu, 17 Jun 2021 12:56:18 +0300, Sakari Ailus wrote:
-> > Hi Michael,
-> > 
-> > Thanks for the patch.
-> > 
-> > On Thu, Jun 17, 2021 at 11:25:38AM +0200, Michael Tretter wrote:
-
-...
-
-> > > +/* Menu items for LINK_FREQ V4L2 control */
-> > > +static const s64 link_freq_menu_items[] = {
-> > > +	/* 1 channel, 1 lane or 2 channels, 2 lanes */
-> > > +	108000000,
-> > > +	/* 2 channels, 1 lane or 4 channels, 2 lanes */
-> > > +	216000000,
-> > > +	/* 4 channels, 1 lane */
-> > > +	432000000,
-> > 
-> > This should come from DT, or at least you should check the information in
-> > DT matches with what the driver can do.
-> > 
+> Some receiver devices requires explicit support for transitioning
+> transmitters to LP-11 or LP-111 state before starting streaming. As
+> there's currently a single operation (s_stream()) callback to do that,
+> there's no way for the receiver driver to differentiate between the two
+> things.
 > 
-> I'm not sure if I understand correctly.
+> This set adds two more callbacks, pre_streamon and post_streamon, to do
+> exactly that. The usage on CSI-2 is to set the transmitter state to LP-11
+> or LP-111 (depending on the PHY) and thus allow reliable receiver
+> initialisation.
 > 
-> The clock is generated by the ISL7998x based on the number of MIPI CSI-2 lanes
-> and input channels. The lanes and channels are already described in the device
-> tree and the clock is selected accordingly by the driver. I don't think the
-> actual frequencies belong into the device tree.
+> The set also adds support for this in the CCS driver.
 
-Right. If the clock frequency indeed is determined by the number of lanes
-and the number of lanes alone, then there's no need to put that to DT.
+I forgot to mention the set goes on top of my earlier patches I sent
+recently. This is all here:
 
-...
-
-> > > +static int isl7998x_s_stream(struct v4l2_subdev *sd, int enable)
-> > > +{
-> > > +	struct isl7998x *isl7998x = sd_to_isl7998x(sd);
-> > > +	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> > > +	struct device *dev = &client->dev;
-> > > +	int ret = 0;
-> > > +	u32 reg;
-> > > +
-> > > +	dev_dbg(dev, "stream %s\n", enable ? "ON" : "OFF");
-> > > +
-> > 
-> > I think you need to resume the device here when streaming is started, and
-> > stop it when it's stopped (at the end).
-> 
-> I am using the driver on an i.MX6. The i.MX6 MIPI CSI expects that the MIPI
-> CSI-2 device enters LP-11 before it calls s_stream to start streaming.
-> Therefore, the ISL7998x has to be powered on before s_stream is called. This
-> is also the reason, why I am still using the s_power callback.
-> 
-> Is there some other possibility to handle this or am I missing something? If I
-> can handle this differently, I will happily drop the s_power callback.
-
-Good question.
-
-There's been a plan to add new pre- and post-streaming callbacks. We could
-do that now. I've cc'd you in another set I wrote.
-
-> 
-> > 
-> > > +	if (enable) {
-> > > +		ret = isl7998x_set_test_pattern(isl7998x);
-> > > +		if (ret)
-> > > +			return ret;
-> > > +	}
-> > > +
-> > > +	regmap_read(isl7998x->regmap,
-> > > +		    ISL7998x_REG_P5_LI_ENGINE_CTL, &reg);
-> > > +	if (enable)
-> > > +		reg &= ~BIT(7);
-> > > +	else
-> > > +		reg |= BIT(7);
-> > > +	ret = regmap_write(isl7998x->regmap,
-> > > +			   ISL7998x_REG_P5_LI_ENGINE_CTL, reg);
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static int isl7998x_enum_mbus_code(struct v4l2_subdev *sd,
-> > > +				   struct v4l2_subdev_pad_config *cfg,
-> > > +				   struct v4l2_subdev_mbus_code_enum *code)
-> > > +{
-> > > +	if (code->index >= ARRAY_SIZE(isl7998x_colour_fmts))
-> > > +		return -EINVAL;
-> > > +
-> > > +	code->code = isl7998x_colour_fmts[code->index].code;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int isl7998x_enum_frame_size(struct v4l2_subdev *sd,
-> > > +				    struct v4l2_subdev_pad_config *cfg,
-> > > +				    struct v4l2_subdev_frame_size_enum *fse)
-> > > +{
-> > > +	if (fse->index >= ARRAY_SIZE(supported_modes))
-> > > +		return -EINVAL;
-> > > +
-> > > +	if (fse->code != isl7998x_colour_fmts[0].code)
-> > > +		return -EINVAL;
-> > > +
-> > > +	fse->min_width = supported_modes[fse->index].width;
-> > > +	fse->max_width = fse->min_width;
-> > > +	fse->min_height = supported_modes[fse->index].height;
-> > > +	fse->max_height = fse->min_height;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int isl7998x_get_fmt(struct v4l2_subdev *sd,
-> > > +			    struct v4l2_subdev_pad_config *cfg,
-> > > +			    struct v4l2_subdev_format *format)
-> > > +{
-> > > +	struct isl7998x *isl7998x = sd_to_isl7998x(sd);
-> > > +	struct v4l2_mbus_framefmt *mf = &format->format;
-> > > +	const struct isl7998x_mode *mode = isl7998x_get_mode(isl7998x);
-> > > +
-> > > +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-> > > +		format->format = *v4l2_subdev_get_try_format(sd, cfg, format->pad);
-> > 
-> > There seem to be a number of lines over 80 that also seem be better wrapped
-> > on the next one. Could you do that?
-> 
-> checkpatch.pl increased the limit for the line length to 100. If you want, I
-> can limit the lines to 80 and wrap them accordingly.
-
-Please. There have been no changes in coding style. checkpatch.pl simply
-assumes that if you exceed the limit you know what you're doing.
-
-...
-
-> > > +static int __maybe_unused isl7998x_runtime_resume(struct device *dev)
-> > > +{
-> > > +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > > +	struct isl7998x *isl7998x = sd_to_isl7998x(sd);
-> > > +
-> > > +	return isl7998x_power_on(isl7998x);
-> > > +}
-> > > +
-> > > +static int __maybe_unused isl7998x_runtime_suspend(struct device *dev)
-> > > +{
-> > > +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > > +	struct isl7998x *isl7998x = sd_to_isl7998x(sd);
-> > > +
-> > > +	isl7998x_power_off(isl7998x);
-> > 
-> > Please merge the two functions; same for runtime_resume callback above.
-> 
-> Ack.
-> 
-> Thanks for the review!
-
-You're welcome!
+	https://git.linuxtv.org/sailus/media_tree.git/	camera-stuff
 
 -- 
-Kind regards,
-
 Sakari Ailus
