@@ -2,99 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6FAD3B1628
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 10:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 274B43B1650
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 10:57:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbhFWIsg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 04:48:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56374 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229934AbhFWIse (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 04:48:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 301B561164;
-        Wed, 23 Jun 2021 08:46:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624437977;
-        bh=mG6ErbLJ7lSo5V7i1rljNDUgVDQwNGUi4e3zpOu3v4E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=s3Pyyo8QTH5g3DOMYBfcOVv1YW6m3r+/ul6h17e76XRM3i/yuG5G1/sqBHAKCNfZ2
-         Co4+AzYA/oD209zeeJhoHo0qJCzssCLeevSb2GV5sXYcoQbhcS6URt0TpKlvi+IGjA
-         sHU1cmKP96oXndPZMdvXYQ6acfocMwgVOp8x5DGt8/l4w5oTwAGcakxsvy7zpGsdj8
-         GCsJ1ZdMcKOWUazjGlUbNn6YHok3MpgFHSbX2eBTML9b/ul7TtpEXqp3o/C6qFy1t6
-         Pxmd3v7Zh7W8MvuiuU7tb3Z91uvRoXkP8T/W2MFfFNI7eocPxSypMNhZGRwdOoQpNy
-         hzEXYs7Kuiavw==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1lvyWV-0001s2-UM; Wed, 23 Jun 2021 10:46:15 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Antti Palosaari <crope@iki.fi>,
-        Eero Lehtinen <debiangamer2@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>,
-        syzbot+faf11bbadc5a372564da@syzkaller.appspotmail.com,
-        stable@vger.kernel.org
-Subject: [PATCH 2/2] media: rtl28xxu: fix zero-length control request
-Date:   Wed, 23 Jun 2021 10:45:21 +0200
-Message-Id: <20210623084521.7105-3-johan@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210623084521.7105-1-johan@kernel.org>
-References: <20210623084521.7105-1-johan@kernel.org>
+        id S230013AbhFWI75 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 04:59:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40672 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229881AbhFWI74 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Jun 2021 04:59:56 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C92EFC061574;
+        Wed, 23 Jun 2021 01:57:38 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id l12so995986wrt.3;
+        Wed, 23 Jun 2021 01:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=ZDxBkMAz03P8f+aMbelwxHltUcPmaJQiAy762htmSOw=;
+        b=gKPDCYXud3/Ny6GugpuD8PxV3Af5S6G9njiquRSYdnYuIyUPc5d4pP41bLP8IncC+b
+         q0G+HGYLvTHmPkI8X4/wi97s/dtCDFf49XbHlQi3Y8XHCnuItPph3HC8KyweTZ73ISLS
+         6U70DcSwpJUikE7mrhXsZVWSIjwXeGdbOwnc7Gqoc2QWpTyRWMdjNrQM48WmgKKpatH8
+         rBMNFlxNEU7ReMuigAM0E6MsLA5W/Uz06GOd1A8ft0Tyi8xffgc2Iz9N5ULy5mLXvBvT
+         cN+ZLDZs6oxy0wovyiU+HR9yKzaIKdGhpmY80/A/dYDf/wFVdMrbAX+Lqv+PElUMYYoR
+         h9Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=ZDxBkMAz03P8f+aMbelwxHltUcPmaJQiAy762htmSOw=;
+        b=EJzwHO47YKP74yDVa9fSBN3uf1jV+CvYs+8PEpUfW7UidRV6tYPJnejmOCQPRSfukh
+         MrpoVbuHpUU8dX/l1ujsZNtkskbXrxdgzqYAYc1AQOoNfCGKIafKSWFFBaAcSCnRlPeM
+         g25s6lJ9yq4K46kzvoXFgYsPdHPdywZF87CQBEjW5eIsf2ebeZu1iNSjENb3K/q5oLI1
+         w1BFPsuP1C5aZr+gmQ+2t9mQ1b42B7TUUodxXic4m8+51GiNSt3aEIi086nv8kyuyPIS
+         dmWixNurW+AUPxa6LZ015nnZ0In+h7EMFeyLaA3jZn4Uwi0IhS5UcdKN/eUk8c5fq3U3
+         Rjkw==
+X-Gm-Message-State: AOAM533SOrnYayiCUajFGGwiY97A2exfCwdh4XC4jnWdhkBqlphJ1wUU
+        sjQpFxCBsj6BVaoG+c7IMhRY68hW4vo=
+X-Google-Smtp-Source: ABdhPJyO8408BeqPk1gg6ZvXlAibkwfvIR/i0k8QSdflfw+3uxptNWJCkjKtYAdDMMiuTI3v4KYHDw==
+X-Received: by 2002:adf:8b4d:: with SMTP id v13mr9929193wra.223.1624438657460;
+        Wed, 23 Jun 2021 01:57:37 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:69e4:a619:aa86:4e9c? ([2a02:908:1252:fb60:69e4:a619:aa86:4e9c])
+        by smtp.gmail.com with ESMTPSA id u12sm2195254wrr.40.2021.06.23.01.57.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jun 2021 01:57:36 -0700 (PDT)
+Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
+ FD for DMA-BUF
+To:     Jason Gunthorpe <jgg@ziepe.ca>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     Oded Gabbay <oded.gabbay@gmail.com>,
+        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Tomer Tayar <ttayar@habana.ai>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <CAFCwf11jOnewkbLuxUESswCJpyo7C0ovZj80UrnwUOZkPv2JYQ@mail.gmail.com>
+ <20210621232912.GK1096940@ziepe.ca>
+ <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
+ <CAFCwf11h_Nj_GEdCdeTzO5jgr-Y9em+W-v_pYUfz64i5Ac25yg@mail.gmail.com>
+ <20210622120142.GL1096940@ziepe.ca>
+ <d497b0a2-897e-adff-295c-cf0f4ff93cb4@amd.com>
+ <20210622152343.GO1096940@ziepe.ca>
+ <3fabe8b7-7174-bf49-5ffe-26db30968a27@amd.com>
+ <20210622154027.GS1096940@ziepe.ca>
+ <09df4a03-d99c-3949-05b2-8b49c71a109e@amd.com>
+ <20210622160538.GT1096940@ziepe.ca>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <d600a638-9e55-6249-b574-0986cd5cea1e@gmail.com>
+Date:   Wed, 23 Jun 2021 10:57:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210622160538.GT1096940@ziepe.ca>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The direction of the pipe argument must match the request-type direction
-bit or control requests may fail depending on the host-controller-driver
-implementation.
+Am 22.06.21 um 18:05 schrieb Jason Gunthorpe:
+> On Tue, Jun 22, 2021 at 05:48:10PM +0200, Christian König wrote:
+>> Am 22.06.21 um 17:40 schrieb Jason Gunthorpe:
+>>> On Tue, Jun 22, 2021 at 05:29:01PM +0200, Christian König wrote:
+>>>> [SNIP]
+>>>> No absolutely not. NVidia GPUs work exactly the same way.
+>>>>
+>>>> And you have tons of similar cases in embedded and SoC systems where
+>>>> intermediate memory between devices isn't directly addressable with the CPU.
+>>> None of that is PCI P2P.
+>>>
+>>> It is all some specialty direct transfer.
+>>>
+>>> You can't reasonably call dma_map_resource() on non CPU mapped memory
+>>> for instance, what address would you pass?
+>>>
+>>> Do not confuse "I am doing transfers between two HW blocks" with PCI
+>>> Peer to Peer DMA transfers - the latter is a very narrow subcase.
+>>>
+>>>> No, just using the dma_map_resource() interface.
+>>> Ik, but yes that does "work". Logan's series is better.
+>> No it isn't. It makes devices depend on allocating struct pages for their
+>> BARs which is not necessary nor desired.
+> Which dramatically reduces the cost of establishing DMA mappings, a
+> loop of dma_map_resource() is very expensive.
 
-Control transfers without a data stage are treated as OUT requests by
-the USB stack and should be using usb_sndctrlpipe(). Failing to do so
-will now trigger a warning.
+Yeah, but that is perfectly ok. Our BAR allocations are either in chunks 
+of at least 2MiB or only a single 4KiB page.
 
-The driver uses a zero-length i2c-read request for type detection so
-update the control-request code to use usb_sndctrlpipe() in this case.
+Oded might run into more performance problems, but those DMA-buf 
+mappings are usually set up only once.
 
-Note that actually trying to read the i2c register in question does not
-work as the register might not exist (e.g. depending on the demodulator)
-as reported by Eero Lehtinen <debiangamer2@gmail.com>.
+>> How do you prevent direct I/O on those pages for example?
+> GUP fails.
 
-Reported-by: syzbot+faf11bbadc5a372564da@syzkaller.appspotmail.com
-Reported-by: Eero Lehtinen <debiangamer2@gmail.com>
-Tested-by: Eero Lehtinen <debiangamer2@gmail.com>
-Fixes: d0f232e823af ("[media] rtl28xxu: add heuristic to detect chip type")
-Cc: stable@vger.kernel.org      # 4.0
-Cc: Antti Palosaari <crope@iki.fi>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/media/usb/dvb-usb-v2/rtl28xxu.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+At least that is calming.
 
-diff --git a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-index 0cbdb95f8d35..795a012d4020 100644
---- a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-+++ b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-@@ -37,7 +37,16 @@ static int rtl28xxu_ctrl_msg(struct dvb_usb_device *d, struct rtl28xxu_req *req)
- 	} else {
- 		/* read */
- 		requesttype = (USB_TYPE_VENDOR | USB_DIR_IN);
--		pipe = usb_rcvctrlpipe(d->udev, 0);
-+
-+		/*
-+		 * Zero-length transfers must use usb_sndctrlpipe() and
-+		 * rtl28xxu_identify_state() uses a zero-length i2c read
-+		 * command to determine the chip type.
-+		 */
-+		if (req->size)
-+			pipe = usb_rcvctrlpipe(d->udev, 0);
-+		else
-+			pipe = usb_sndctrlpipe(d->udev, 0);
- 	}
- 
- 	ret = usb_control_msg(d->udev, pipe, 0, requesttype, req->value,
--- 
-2.31.1
+>> Allocating a struct pages has their use case, for example for exposing VRAM
+>> as memory for HMM. But that is something very specific and should not limit
+>> PCIe P2P DMA in general.
+> Sure, but that is an ideal we are far from obtaining, and nobody wants
+> to work on it prefering to do hacky hacky like this.
+>
+> If you believe in this then remove the scatter list from dmabuf, add a
+> new set of dma_map* APIs to work on physical addresses and all the
+> other stuff needed.
+
+Yeah, that's what I totally agree on. And I actually hoped that the new 
+P2P work for PCIe would go into that direction, but that didn't 
+materialized.
+
+But allocating struct pages for PCIe BARs which are essentially 
+registers and not memory is much more hacky than the dma_resource_map() 
+approach.
+
+To re-iterate why I think that having struct pages for those BARs is a 
+bad idea: Our doorbells on AMD GPUs are write and read pointers for ring 
+buffers.
+
+When you write to the BAR you essentially tell the firmware that you 
+have either filled the ring buffer or read a bunch of it. This in turn 
+then triggers an interrupt in the hardware/firmware which was eventually 
+asleep.
+
+By using PCIe P2P we want to avoid the round trip to the CPU when one 
+device has filled the ring buffer and another device must be woken up to 
+process it.
+
+Think of it as MSI-X in reverse and allocating struct pages for those 
+BARs just to work around the shortcomings of the DMA API makes no sense 
+at all to me.
+
+
+We also do have the VRAM BAR, and for HMM we do allocate struct pages 
+for the address range exposed there. But this is a different use case.
+
+Regards,
+Christian.
+
+>
+> Otherwise, we have what we have and drivers don't get to opt out. This
+> is why the stuff in AMDGPU was NAK'd.
+>
+> Jason
 
