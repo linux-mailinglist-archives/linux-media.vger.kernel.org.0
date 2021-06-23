@@ -2,107 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 290E73B2014
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 20:13:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 072923B201C
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 20:16:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbhFWSPZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 14:15:25 -0400
-Received: from retiisi.eu ([95.216.213.190]:44466 "EHLO hillosipuli.retiisi.eu"
+        id S229758AbhFWSS4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 14:18:56 -0400
+Received: from mga01.intel.com ([192.55.52.88]:21263 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229882AbhFWSPX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 14:15:23 -0400
-Received: from lanttu.localdomain (unknown [192.168.2.193])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id EFA96634C8C;
-        Wed, 23 Jun 2021 21:12:50 +0300 (EEST)
+        id S229523AbhFWSSz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Jun 2021 14:18:55 -0400
+IronPort-SDR: QzVGXZYyoy/nZbo9r1w8kXSp9W9RIYqRXqkQz2dP/R2g7TJ3w4gCH10zX/r1OcHWbyg0/9wG/q
+ XN8DZDR8Iizw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="228898299"
+X-IronPort-AV: E=Sophos;i="5.83,294,1616482800"; 
+   d="scan'208";a="228898299"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 11:16:37 -0700
+IronPort-SDR: JrWT9J0nOsp3j0hjylIjCyf7U19fPjn1yKqNsg0+7gcffCdLpEetY3ZaWSl422LNHLg55G1cOS
+ m4zwkJe6B2yg==
+X-IronPort-AV: E=Sophos;i="5.83,294,1616482800"; 
+   d="scan'208";a="490795262"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 11:16:35 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id B4BD920248;
+        Wed, 23 Jun 2021 21:16:33 +0300 (EEST)
+Date:   Wed, 23 Jun 2021 21:16:33 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     Michael Tretter <m.tretter@pengutronix.de>,
-        Marek Vasut <marex@denx.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        laurent.pinchart@ideasonboard.com
-Subject: [PATCH 3/3] ccs: Implement support for manual LP control
-Date:   Wed, 23 Jun 2021 21:13:02 +0300
-Message-Id: <20210623181302.14660-4-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210623181302.14660-1-sakari.ailus@linux.intel.com>
-References: <20210623181302.14660-1-sakari.ailus@linux.intel.com>
+To:     Michael Tretter <m.tretter@pengutronix.de>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Marek Vasut <marex@denx.de>, Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v3 2/2] media: i2c: isl7998x: Add driver for Intersil
+ ISL7998x
+Message-ID: <20210623181633.GH3@paasikivi.fi.intel.com>
+References: <20210617092538.1109021-1-m.tretter@pengutronix.de>
+ <20210617092538.1109021-3-m.tretter@pengutronix.de>
+ <20210617095618.GF3@paasikivi.fi.intel.com>
+ <20210617124428.GB16200@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210617124428.GB16200@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the pre_streamon callback to transition the transmitter to either
-LP-11 or LP-111 mode if supported by the sensor.
+Hi Michael,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/ccs/ccs-core.c | 45 ++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+On Thu, Jun 17, 2021 at 02:44:28PM +0200, Michael Tretter wrote:
+> Hi Sakari,
+> 
+> On Thu, 17 Jun 2021 12:56:18 +0300, Sakari Ailus wrote:
+> > Hi Michael,
+> > 
+> > Thanks for the patch.
+> > 
+> > On Thu, Jun 17, 2021 at 11:25:38AM +0200, Michael Tretter wrote:
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index a9403a227c6b..918be5a020f2 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -1943,6 +1943,49 @@ static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
- 	return rval;
- }
- 
-+static int ccs_pre_streamon(struct v4l2_subdev *subdev, u32 flags)
-+{
-+	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-+	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-+	int rval;
-+
-+	switch (sensor->hwcfg.csi_signalling_mode) {
-+	case CCS_CSI_SIGNALING_MODE_CSI_2_DPHY:
-+		if (!(CCS_LIM(sensor, PHY_CTRL_CAPABILITY_2) &
-+		      CCS_PHY_CTRL_CAPABILITY_2_MANUAL_LP_DPHY))
-+			return -EACCES;
-+		break;
-+	case CCS_CSI_SIGNALING_MODE_CSI_2_CPHY:
-+		if (!(CCS_LIM(sensor, PHY_CTRL_CAPABILITY_2) &
-+		      CCS_PHY_CTRL_CAPABILITY_2_MANUAL_LP_CPHY))
-+			return -EACCES;
-+		break;
-+	default:
-+		return -EACCES;
-+	}
-+
-+	rval = ccs_pm_get_init(sensor);
-+	if (rval)
-+		return rval;
-+
-+	if (flags & V4L2_SUBDEV_PRE_STREAMON_FL_MANUAL_LP) {
-+		rval = ccs_write(sensor, MANUAL_LP_CTRL,
-+				 CCS_MANUAL_LP_CTRL_ENABLE);
-+		if (rval)
-+			pm_runtime_put(&client->dev);
-+	}
-+
-+	return rval;
-+}
-+
-+static int ccs_post_streamoff(struct v4l2_subdev *subdev)
-+{
-+	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-+	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-+
-+	return pm_runtime_put(&client->dev);
-+}
-+
- static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
- 			      struct v4l2_subdev_state *sd_state,
- 			      struct v4l2_subdev_mbus_code_enum *code)
-@@ -3058,6 +3101,8 @@ static int ccs_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 
- static const struct v4l2_subdev_video_ops ccs_video_ops = {
- 	.s_stream = ccs_set_stream,
-+	.pre_streamon = ccs_pre_streamon,
-+	.post_streamoff = ccs_post_streamoff,
- };
- 
- static const struct v4l2_subdev_pad_ops ccs_pad_ops = {
+...
+
+> > > +/* Menu items for LINK_FREQ V4L2 control */
+> > > +static const s64 link_freq_menu_items[] = {
+> > > +	/* 1 channel, 1 lane or 2 channels, 2 lanes */
+> > > +	108000000,
+> > > +	/* 2 channels, 1 lane or 4 channels, 2 lanes */
+> > > +	216000000,
+> > > +	/* 4 channels, 1 lane */
+> > > +	432000000,
+> > 
+> > This should come from DT, or at least you should check the information in
+> > DT matches with what the driver can do.
+> > 
+> 
+> I'm not sure if I understand correctly.
+> 
+> The clock is generated by the ISL7998x based on the number of MIPI CSI-2 lanes
+> and input channels. The lanes and channels are already described in the device
+> tree and the clock is selected accordingly by the driver. I don't think the
+> actual frequencies belong into the device tree.
+
+Right. If the clock frequency indeed is determined by the number of lanes
+and the number of lanes alone, then there's no need to put that to DT.
+
+...
+
+> > > +static int isl7998x_s_stream(struct v4l2_subdev *sd, int enable)
+> > > +{
+> > > +	struct isl7998x *isl7998x = sd_to_isl7998x(sd);
+> > > +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > > +	struct device *dev = &client->dev;
+> > > +	int ret = 0;
+> > > +	u32 reg;
+> > > +
+> > > +	dev_dbg(dev, "stream %s\n", enable ? "ON" : "OFF");
+> > > +
+> > 
+> > I think you need to resume the device here when streaming is started, and
+> > stop it when it's stopped (at the end).
+> 
+> I am using the driver on an i.MX6. The i.MX6 MIPI CSI expects that the MIPI
+> CSI-2 device enters LP-11 before it calls s_stream to start streaming.
+> Therefore, the ISL7998x has to be powered on before s_stream is called. This
+> is also the reason, why I am still using the s_power callback.
+> 
+> Is there some other possibility to handle this or am I missing something? If I
+> can handle this differently, I will happily drop the s_power callback.
+
+Good question.
+
+There's been a plan to add new pre- and post-streaming callbacks. We could
+do that now. I've cc'd you in another set I wrote.
+
+> 
+> > 
+> > > +	if (enable) {
+> > > +		ret = isl7998x_set_test_pattern(isl7998x);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +	}
+> > > +
+> > > +	regmap_read(isl7998x->regmap,
+> > > +		    ISL7998x_REG_P5_LI_ENGINE_CTL, &reg);
+> > > +	if (enable)
+> > > +		reg &= ~BIT(7);
+> > > +	else
+> > > +		reg |= BIT(7);
+> > > +	ret = regmap_write(isl7998x->regmap,
+> > > +			   ISL7998x_REG_P5_LI_ENGINE_CTL, reg);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int isl7998x_enum_mbus_code(struct v4l2_subdev *sd,
+> > > +				   struct v4l2_subdev_pad_config *cfg,
+> > > +				   struct v4l2_subdev_mbus_code_enum *code)
+> > > +{
+> > > +	if (code->index >= ARRAY_SIZE(isl7998x_colour_fmts))
+> > > +		return -EINVAL;
+> > > +
+> > > +	code->code = isl7998x_colour_fmts[code->index].code;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int isl7998x_enum_frame_size(struct v4l2_subdev *sd,
+> > > +				    struct v4l2_subdev_pad_config *cfg,
+> > > +				    struct v4l2_subdev_frame_size_enum *fse)
+> > > +{
+> > > +	if (fse->index >= ARRAY_SIZE(supported_modes))
+> > > +		return -EINVAL;
+> > > +
+> > > +	if (fse->code != isl7998x_colour_fmts[0].code)
+> > > +		return -EINVAL;
+> > > +
+> > > +	fse->min_width = supported_modes[fse->index].width;
+> > > +	fse->max_width = fse->min_width;
+> > > +	fse->min_height = supported_modes[fse->index].height;
+> > > +	fse->max_height = fse->min_height;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int isl7998x_get_fmt(struct v4l2_subdev *sd,
+> > > +			    struct v4l2_subdev_pad_config *cfg,
+> > > +			    struct v4l2_subdev_format *format)
+> > > +{
+> > > +	struct isl7998x *isl7998x = sd_to_isl7998x(sd);
+> > > +	struct v4l2_mbus_framefmt *mf = &format->format;
+> > > +	const struct isl7998x_mode *mode = isl7998x_get_mode(isl7998x);
+> > > +
+> > > +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> > > +		format->format = *v4l2_subdev_get_try_format(sd, cfg, format->pad);
+> > 
+> > There seem to be a number of lines over 80 that also seem be better wrapped
+> > on the next one. Could you do that?
+> 
+> checkpatch.pl increased the limit for the line length to 100. If you want, I
+> can limit the lines to 80 and wrap them accordingly.
+
+Please. There have been no changes in coding style. checkpatch.pl simply
+assumes that if you exceed the limit you know what you're doing.
+
+...
+
+> > > +static int __maybe_unused isl7998x_runtime_resume(struct device *dev)
+> > > +{
+> > > +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> > > +	struct isl7998x *isl7998x = sd_to_isl7998x(sd);
+> > > +
+> > > +	return isl7998x_power_on(isl7998x);
+> > > +}
+> > > +
+> > > +static int __maybe_unused isl7998x_runtime_suspend(struct device *dev)
+> > > +{
+> > > +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> > > +	struct isl7998x *isl7998x = sd_to_isl7998x(sd);
+> > > +
+> > > +	isl7998x_power_off(isl7998x);
+> > 
+> > Please merge the two functions; same for runtime_resume callback above.
+> 
+> Ack.
+> 
+> Thanks for the review!
+
+You're welcome!
+
 -- 
-2.30.2
+Kind regards,
 
+Sakari Ailus
