@@ -2,115 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3B9F3B1ACC
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 15:10:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 469033B1AF3
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 15:18:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230263AbhFWNMk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 09:12:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38466 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230019AbhFWNMj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 09:12:39 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EA51E61076;
-        Wed, 23 Jun 2021 13:10:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624453822;
-        bh=3GHxrS4L3QbnAx1faho6OvaJPejPcxHg6A6g5Y1fwZQ=;
+        id S230411AbhFWNUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 09:20:25 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38874 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230163AbhFWNUZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Jun 2021 09:20:25 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A53529AA;
+        Wed, 23 Jun 2021 15:18:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1624454286;
+        bh=4hkUKdHT15rj2vnmOuvAjcb9HIg4wLdlU7nwjmRC69I=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rtGWujC8sqqmwvbon2nnZVkOH58WzoegDdx7+JjZ4ZxKXW0dp3f3qL0HalFYmA5ym
-         MnXkLs/pwm1vUXyptVRcNC02cnwB53wqXlTI/0cVe8vQ9RQFkWHGwyBFacPAbYGZmJ
-         S+As5O0Rinirkosnyc2ZDUqrpeUbzab+CcCRG4b9X3LyE9kTxqXGjtv+B0GAwlZvAB
-         9XB97S0ejdNebsqAf+xG1OXzuybYA79e00iEIXUXxQ1Nr996DK6NKFnVawIvGSAWsc
-         adgcYPmj/l7es0efbB98vl2ZVGwBL8dMhYXrYi00vmfP8f1R6sWb+5pNoSdO0FOOqy
-         FpdjS5yElBfPA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1lw2e4-0007Ej-GC; Wed, 23 Jun 2021 15:10:21 +0200
-Date:   Wed, 23 Jun 2021 15:10:20 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Rhees <support@usbuirt.com>
-Subject: Re: [PATCH v3 0/3] IR driver for USB-UIRT device
-Message-ID: <YNMyvCaZUIDOnSc9@hovoldconsulting.com>
-References: <cover.1620304986.git.sean@mess.org>
- <YJjrkhfN9Sgq6UX8@hovoldconsulting.com>
- <20210511103219.GA13769@gofer.mess.org>
- <YJ5cH1Z5MdZHE8HU@hovoldconsulting.com>
- <20210515092226.GA31801@gofer.mess.org>
- <YKI3vyOE8XmpNAuC@hovoldconsulting.com>
- <20210517103522.GA4644@gofer.mess.org>
- <YKZktqzkddh3amqX@hovoldconsulting.com>
- <35840cdac1dcb2808e98ebb57afeba352624d15c.camel@suse.com>
+        b=Kfxn7CGrXm6bhFXlcu2yEs0ZPR3gBBYmDz0rko913TX9FjaBt8AUuWoqrMqt4FJWI
+         XAbDl4NpsGjkmvXVga7LaYxZb9kmVjnJnCML9Dkw8ZA2vtqADPTQbcZzCouGGGfdN/
+         Me9GAPbJ81c8PFVKocYy9uow7S19MELfHrUr0jVk=
+Date:   Wed, 23 Jun 2021 16:17:37 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2] MEDIA: Driver for ON Semi AR0521 camera sensor
+Message-ID: <YNM0cZFV7/LKKFBn@pendragon.ideasonboard.com>
+References: <m3wnqm5eqo.fsf@t19.piap.pl>
+ <YNHQDNdpxcY8+IV2@pendragon.ideasonboard.com>
+ <m3r1gt5hzm.fsf@t19.piap.pl>
+ <YNK5FhAXSpI1oHJV@pendragon.ideasonboard.com>
+ <m3mtrh5evo.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <35840cdac1dcb2808e98ebb57afeba352624d15c.camel@suse.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <m3mtrh5evo.fsf@t19.piap.pl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sorry about the late reply on this one too.
-
-On Tue, May 25, 2021 at 02:25:49PM +0200, Oliver Neukum wrote:
-> Am Donnerstag, den 20.05.2021, 15:31 +0200 schrieb Johan Hovold:
-
-> > Isn't that already handled by lircd using uinput?
+On Wed, Jun 23, 2021 at 07:28:11AM +0200, Krzysztof Hałasa wrote:
+> Laurent Pinchart writes:
 > 
-> The problem with that reasoning, though it is true, is
+> > How does a lack of an SoB line prevent someone from doing exactly what
+> > you've described above ?
 > 
-> 1) We would need to remove a lot of subsystems if we took that
-> to the logical conclusion. 
+> The work is not published under GPL.
 
-Removing code is always nice. ;)
+I only review kernel code covered by the GPL, sorry :-) (And stating
+that a kernel driver isn't covered by the GPL is at the very least a
+very grey area, as it's widely understoof that drivers developed
+specifically for Linux are derivative work of the kernel)
 
-> 2) It makes runtime PM much harder
-
-Possibly, depends on the bus and device.
-
-> 3) We end up with two classes of LIRC devices
-
-We already do, right? That's kind of my point since we have lircd
-supporting uinput.
-
-> > I hear you, but we still need to have those discussions from time to
-> > time to make sure our architecture is sane. One of the problems today
-> > with the kernel development process appears to be that too few
-> > questions
-> > are asked. If it builds, ship it...
+> > Maintainers usually understand these issues. They may fail to notice,
+> > but if you point out a patch that would steal your work, that would
+> > prevent it from being merged.
 > 
-> Indeed, so, could we force a line discipline on a device on the kernel
-> level? Code duplication is bad.
+> I'd like to believe this as well. Unfortunately, it doesn't work like
+> that. See the "tw686x" (an SD TV frame grabber) case.
+> I didn't even request that the other driver wasn't merged. I only wanted
+> it as a patch on top of the original one - so the history could be
+> visible.
 
-Not sure I understand what you have mind here. serdev is sort of a
-line-discipline which we'd "force" on a device if there's a matching
-description in devicetree, while line disciplines always need to be
-instantiated by user space. Or are you referring to ldisc/serdev code
-reuse?
+Mauro, any comment on that ?
 
-> > But I think I've got that point across by now.
-> 
-> Yes and and we need to think about the conclusion we draw from
-> that point. It seems to me that an architecture that pushes data
-> through the whole tty layer into a demon, then through uinput
-> is definitely not elegant.
+-- 
+Regards,
 
-The elegant answer is serdev, but it does not yet support the features
-needed in this case (i.e. hotplugging).
-
-Since we already support user-space drivers for these devices, I see
-nothing wrong with implementing support for another one in user space
-unless there are strong reasons against doing so (e.g. performance,
-pm or usability). But if uinput works then great, we're done.
-
-> So what else can we do, so that devices that are internally
-> a serial chip plus additional stuff but externally unrelated
-> devices? It looks to me we are in need of creativity beyond two options
-> here.
-
-Why? Leaving hotplugging aside for a moment, what is it that you cannot
-do using either a serdev/ldisc driver or a user-space driver?
-
-Johan
+Laurent Pinchart
