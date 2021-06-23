@@ -2,17 +2,17 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 185983B2013
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 20:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E1293B2012
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 20:13:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229900AbhFWSPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S229889AbhFWSPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 23 Jun 2021 14:15:23 -0400
-Received: from retiisi.eu ([95.216.213.190]:44442 "EHLO hillosipuli.retiisi.eu"
+Received: from retiisi.eu ([95.216.213.190]:44456 "EHLO hillosipuli.retiisi.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229774AbhFWSPX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 14:15:23 -0400
+        id S229881AbhFWSPW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Jun 2021 14:15:22 -0400
 Received: from lanttu.localdomain (unknown [192.168.2.193])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id CAE63634C89;
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id D9641634C8B;
         Wed, 23 Jun 2021 21:12:50 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
@@ -20,80 +20,78 @@ Cc:     Michael Tretter <m.tretter@pengutronix.de>,
         Marek Vasut <marex@denx.de>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         laurent.pinchart@ideasonboard.com
-Subject: [PATCH 1/3] Documentation: v4l: Rework LP-11 documentation, add callbacks
-Date:   Wed, 23 Jun 2021 21:13:00 +0300
-Message-Id: <20210623181302.14660-2-sakari.ailus@linux.intel.com>
+Subject: [PATCH 2/3] v4l: subdev: Add pre_streamon and post_streamoff callbacks
+Date:   Wed, 23 Jun 2021 21:13:01 +0300
+Message-Id: <20210623181302.14660-3-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210623181302.14660-1-sakari.ailus@linux.intel.com>
 References: <20210623181302.14660-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rework LP-11 and LP-111 mode documentation to make it more understandable
-and useful. This involves adding pre_streamon and post_streamon callbacks
-that make it possible to explicitly transition the transmitter to either
-mode.
+Add pre_streamon and post_streamoff callbacks that can be used to set a
+CSI-2 transmitter to LP-11 or LP-111 mode. This can be used by receiver
+drivers to reliably initialise the receiver when its initialisation
+requires software involvement.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- Documentation/driver-api/media/tx-rx.rst | 40 +++++++++++++++++-------
- 1 file changed, 28 insertions(+), 12 deletions(-)
+ include/media/v4l2-subdev.h | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-index 4ba274713a61..706e839e8cec 100644
---- a/Documentation/driver-api/media/tx-rx.rst
-+++ b/Documentation/driver-api/media/tx-rx.rst
-@@ -93,18 +93,34 @@ where
- LP-11 and LP-111 modes
- ^^^^^^^^^^^^^^^^^^^^^^
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 5364e3a6ac9b..95ec18c2f49c 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -354,6 +354,16 @@ struct v4l2_mbus_frame_desc {
+ 	unsigned short num_entries;
+ };
  
--The transmitter drivers must, if possible, configure the CSI-2 transmitter to
--*LP-11 or LP-111 mode* whenever the transmitter is powered on but not active,
--and maintain *LP-11 or LP-111 mode* until stream on. Only at stream on time
--should the transmitter activate the clock on the clock lane and transition to
--*HS mode*.
--
--Some transmitters do this automatically but some have to be explicitly
--programmed to do so, and some are unable to do so altogether due to
--hardware constraints.
--
--The receiver thus need to be configured to expect LP-11 or LP-111 mode from the
--transmitter before the transmitter driver's ``.s_stream()`` op is called.
-+As part of transitioning to high speed mode, a CSI-2 transmitter typically
-+briefly sets the bus to LP-11 or LP-111 state, depending on the PHY. This period
-+may be as short as 100 µs, during which the receiver observes this state and
-+proceeds its own part of high speed mode transition.
++/**
++ * enum v4l2_subdev_pre_streamon_flags - Flags for pre_streamon subdev core op
++ *
++ * @V4L2_SUBDEV_PRE_STREAMON_FL_MANUAL_LP: Set the transmitter to either LP-11
++ *	or LP-111 mode before call to s_stream().
++ */
++enum v4l2_subdev_pre_streamon_flags {
++	V4L2_SUBDEV_PRE_STREAMON_FL_MANUAL_LP = BIT(0),
++};
 +
-+Most receivers are capable of autonomously handling this once the software has
-+configured them to do so, but there are receivers which require software
-+involvement in observing LP-11 or LP-111 state. 100 µs is a brief period to hit
-+in software, especially when there is no interrupt telling something is
-+happening.
-+
-+One way to address this is to configure the transmitter side explicitly to LP-11
-+or LP-111 mode, which requires support from the transmitter hardware. This is
-+not universally available. Many devices return to this state once streaming is
-+stopped while the state after power-on is LP-00 or LP-000.
-+
-+The ``.pre_streamon()`` callback may be used to prepare a transmitter for
-+transitioning to streaming state, but not yet start streaming. Similarly, the
-+``.post_streamoff()`` callback is used to undo what was done by the
-+``.pre_streamon()`` callback. The caller of ``.pre_streamon()`` is thus required
-+to call ``.post_streamoff()`` for each successful call of ``.pre_streamon()``.
-+
-+In the context of CSI-2, the ``.pre_streamon()`` callback is used to transition
-+the transmitter to the LP-11 or LP-111 mode. This also requires powering on the
-+device, so this should be only done when it is needed.
-+
-+Receiver drivers that do not need explicit LP-11 or LP-111 mode setup are waived
-+from calling the two callbacks.
+ /**
+  * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
+  *				  in video mode.
+@@ -409,6 +419,19 @@ struct v4l2_mbus_frame_desc {
+  * @s_rx_buffer: set a host allocated memory buffer for the subdev. The subdev
+  *	can adjust @size to a lower value and must not write more data to the
+  *	buffer starting at @data than the original value of @size.
++ *
++ * @pre_streamon: May be called before streaming is actually started, to help
++ *	initialising the bus. Current usage is to set a CSI-2 transmitter to
++ *	LP-11 or LP-111 mode before streaming. See &enum
++ *	v4l2_subdev_pre_streamon_flags.
++ *
++ *	pre_streamon shall return error if it cannot perform the operation as
++ *	indicated by the flags argument. In particular, -EACCES indicates lack
++ *	of support for the operation. The caller shall call post_streamoff for
++ *	each successful call of pre_streamon.
++ *
++ * @post_streamoff: Called after streaming is stopped, but if and only if
++ *	pre_streamon was called earlier.
+  */
+ struct v4l2_subdev_video_ops {
+ 	int (*s_routing)(struct v4l2_subdev *sd, u32 input, u32 output, u32 config);
+@@ -435,6 +458,8 @@ struct v4l2_subdev_video_ops {
+ 			struct v4l2_dv_timings *timings);
+ 	int (*s_rx_buffer)(struct v4l2_subdev *sd, void *buf,
+ 			   unsigned int *size);
++	int (*pre_streamon)(struct v4l2_subdev *sd, u32 flags);
++	int (*post_streamoff)(struct v4l2_subdev *sd);
+ };
  
- Stopping the transmitter
- ^^^^^^^^^^^^^^^^^^^^^^^^
+ /**
 -- 
 2.30.2
 
