@@ -2,40 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F39B23B1625
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 10:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6FAD3B1628
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 10:46:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230002AbhFWIsf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 04:48:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56354 "EHLO mail.kernel.org"
+        id S230137AbhFWIsg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 04:48:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56374 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229833AbhFWIse (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S229934AbhFWIse (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 23 Jun 2021 04:48:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2BB30610C7;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 301B561164;
         Wed, 23 Jun 2021 08:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1624437977;
-        bh=8jQkB37uqAWt6krV1hPvPNgUzkw9Mnx+hbQaVHHdTR0=;
+        bh=mG6ErbLJ7lSo5V7i1rljNDUgVDQwNGUi4e3zpOu3v4E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZIp6rWO1wD0wYjQQAfNePphA2Hhmt0s0a5P2dttG2ktVcZjjIe2OOtlmGjYU4+/6L
-         E5lhYFQ7BRVnM9eUtw5uqse3OzkYU7+sjzr8TIdZ0Y4G6qlLB/jmE1V6KW1Yur1YR/
-         Kky1sXOexGQ6ZDi79CQ3jW+c62dj7MTEJzu3eFB4/SGBSm+mlACDREASL6pOCYrkmJ
-         kc8P4P3EUwnhNNO8NtLeqpkoNhcU9j8fE6TiirgYrJ3XBe2O3JJnxQCR7AtrCuJurt
-         RZV6kuOVwPoyDTFswUsGRxDaIM+Z/3D0P1H09eOPUEQ9TFr6MA1wrMoU1BT1Ibs+jn
-         z9T/2j61obCYg==
+        b=s3Pyyo8QTH5g3DOMYBfcOVv1YW6m3r+/ul6h17e76XRM3i/yuG5G1/sqBHAKCNfZ2
+         Co4+AzYA/oD209zeeJhoHo0qJCzssCLeevSb2GV5sXYcoQbhcS6URt0TpKlvi+IGjA
+         sHU1cmKP96oXndPZMdvXYQ6acfocMwgVOp8x5DGt8/l4w5oTwAGcakxsvy7zpGsdj8
+         GCsJ1ZdMcKOWUazjGlUbNn6YHok3MpgFHSbX2eBTML9b/ul7TtpEXqp3o/C6qFy1t6
+         Pxmd3v7Zh7W8MvuiuU7tb3Z91uvRoXkP8T/W2MFfFNI7eocPxSypMNhZGRwdOoQpNy
+         hzEXYs7Kuiavw==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1lvyWV-0001s0-Rn; Wed, 23 Jun 2021 10:46:15 +0200
+        id 1lvyWV-0001s2-UM; Wed, 23 Jun 2021 10:46:15 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     Antti Palosaari <crope@iki.fi>,
         Eero Lehtinen <debiangamer2@gmail.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 1/2] Revert "media: rtl28xxu: fix zero-length control request"
-Date:   Wed, 23 Jun 2021 10:45:20 +0200
-Message-Id: <20210623084521.7105-2-johan@kernel.org>
+        Johan Hovold <johan@kernel.org>,
+        syzbot+faf11bbadc5a372564da@syzkaller.appspotmail.com,
+        stable@vger.kernel.org
+Subject: [PATCH 2/2] media: rtl28xxu: fix zero-length control request
+Date:   Wed, 23 Jun 2021 10:45:21 +0200
+Message-Id: <20210623084521.7105-3-johan@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210623084521.7105-1-johan@kernel.org>
 References: <20210623084521.7105-1-johan@kernel.org>
@@ -45,33 +47,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This reverts commit 25d5ce3a606a1eb23a9265d615a92a876ff9cb5f.
+The direction of the pipe argument must match the request-type direction
+bit or control requests may fail depending on the host-controller-driver
+implementation.
 
-The patch in question causes a regression and was superseded by a second
-version. Unfortunately, the first revision ended up being applied
-instead of the correct one.
+Control transfers without a data stage are treated as OUT requests by
+the USB stack and should be using usb_sndctrlpipe(). Failing to do so
+will now trigger a warning.
 
-Link: https://lore.kernel.org/r/YL3MCGY5wTsW2kEF@hovoldconsulting.com
+The driver uses a zero-length i2c-read request for type detection so
+update the control-request code to use usb_sndctrlpipe() in this case.
+
+Note that actually trying to read the i2c register in question does not
+work as the register might not exist (e.g. depending on the demodulator)
+as reported by Eero Lehtinen <debiangamer2@gmail.com>.
+
+Reported-by: syzbot+faf11bbadc5a372564da@syzkaller.appspotmail.com
+Reported-by: Eero Lehtinen <debiangamer2@gmail.com>
+Tested-by: Eero Lehtinen <debiangamer2@gmail.com>
+Fixes: d0f232e823af ("[media] rtl28xxu: add heuristic to detect chip type")
+Cc: stable@vger.kernel.org      # 4.0
+Cc: Antti Palosaari <crope@iki.fi>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/media/usb/dvb-usb-v2/rtl28xxu.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/usb/dvb-usb-v2/rtl28xxu.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-index 83705730e37e..0cbdb95f8d35 100644
+index 0cbdb95f8d35..795a012d4020 100644
 --- a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
 +++ b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-@@ -612,9 +612,8 @@ static int rtl28xxu_read_config(struct dvb_usb_device *d)
- static int rtl28xxu_identify_state(struct dvb_usb_device *d, const char **name)
- {
- 	struct rtl28xxu_dev *dev = d_to_priv(d);
--	u8 buf[1];
- 	int ret;
--	struct rtl28xxu_req req_demod_i2c = {0x0020, CMD_I2C_DA_RD, 1, buf};
-+	struct rtl28xxu_req req_demod_i2c = {0x0020, CMD_I2C_DA_RD, 0, NULL};
+@@ -37,7 +37,16 @@ static int rtl28xxu_ctrl_msg(struct dvb_usb_device *d, struct rtl28xxu_req *req)
+ 	} else {
+ 		/* read */
+ 		requesttype = (USB_TYPE_VENDOR | USB_DIR_IN);
+-		pipe = usb_rcvctrlpipe(d->udev, 0);
++
++		/*
++		 * Zero-length transfers must use usb_sndctrlpipe() and
++		 * rtl28xxu_identify_state() uses a zero-length i2c read
++		 * command to determine the chip type.
++		 */
++		if (req->size)
++			pipe = usb_rcvctrlpipe(d->udev, 0);
++		else
++			pipe = usb_sndctrlpipe(d->udev, 0);
+ 	}
  
- 	dev_dbg(&d->intf->dev, "\n");
- 
+ 	ret = usb_control_msg(d->udev, pipe, 0, requesttype, req->value,
 -- 
 2.31.1
 
