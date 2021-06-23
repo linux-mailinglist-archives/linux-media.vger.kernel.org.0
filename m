@@ -2,76 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44CD73B1A8F
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 14:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3B9F3B1ACC
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 15:10:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230304AbhFWM67 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 08:58:59 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38544 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230019AbhFWM66 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 08:58:58 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E1C99AA;
-        Wed, 23 Jun 2021 14:56:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624453000;
-        bh=MOq5yt8/oq2a0B9Z3C+/bOxpANloWJvF0E5s3omCJS4=;
+        id S230263AbhFWNMk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 09:12:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38466 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230019AbhFWNMj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Jun 2021 09:12:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EA51E61076;
+        Wed, 23 Jun 2021 13:10:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624453822;
+        bh=3GHxrS4L3QbnAx1faho6OvaJPejPcxHg6A6g5Y1fwZQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=leq6EKfUOeunGG32fL0YLu5TTPeD5p+UygbcWb6aTKIFxPgkZF+PjDKNTx7q5v7WO
-         5HT++Eoc7VotPXvROA6weF/arvUU15PXhjtJ5xarYiepgzMNFDjFcF5gwvjFe1ZJRQ
-         pf25W9RHmD1OD/6v/7A0H1jK/ZPzRu00iLbNlgRk=
-Date:   Wed, 23 Jun 2021 15:56:10 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-subdev: fix some NULL vs IS_ERR() checks
-Message-ID: <YNMvarFl/KU1pGCG@pendragon.ideasonboard.com>
-References: <YNH0WU7BcQ/60UNG@mwanda>
- <YNH87qd4eJOR296R@pendragon.ideasonboard.com>
- <20210622155858.GN1861@kadam>
- <YNKdqFNSrSBXVNqo@pendragon.ideasonboard.com>
- <20210623090325.GA2116@kadam>
+        b=rtGWujC8sqqmwvbon2nnZVkOH58WzoegDdx7+JjZ4ZxKXW0dp3f3qL0HalFYmA5ym
+         MnXkLs/pwm1vUXyptVRcNC02cnwB53wqXlTI/0cVe8vQ9RQFkWHGwyBFacPAbYGZmJ
+         S+As5O0Rinirkosnyc2ZDUqrpeUbzab+CcCRG4b9X3LyE9kTxqXGjtv+B0GAwlZvAB
+         9XB97S0ejdNebsqAf+xG1OXzuybYA79e00iEIXUXxQ1Nr996DK6NKFnVawIvGSAWsc
+         adgcYPmj/l7es0efbB98vl2ZVGwBL8dMhYXrYi00vmfP8f1R6sWb+5pNoSdO0FOOqy
+         FpdjS5yElBfPA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1lw2e4-0007Ej-GC; Wed, 23 Jun 2021 15:10:21 +0200
+Date:   Wed, 23 Jun 2021 15:10:20 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>
+Subject: Re: [PATCH v3 0/3] IR driver for USB-UIRT device
+Message-ID: <YNMyvCaZUIDOnSc9@hovoldconsulting.com>
+References: <cover.1620304986.git.sean@mess.org>
+ <YJjrkhfN9Sgq6UX8@hovoldconsulting.com>
+ <20210511103219.GA13769@gofer.mess.org>
+ <YJ5cH1Z5MdZHE8HU@hovoldconsulting.com>
+ <20210515092226.GA31801@gofer.mess.org>
+ <YKI3vyOE8XmpNAuC@hovoldconsulting.com>
+ <20210517103522.GA4644@gofer.mess.org>
+ <YKZktqzkddh3amqX@hovoldconsulting.com>
+ <35840cdac1dcb2808e98ebb57afeba352624d15c.camel@suse.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210623090325.GA2116@kadam>
+In-Reply-To: <35840cdac1dcb2808e98ebb57afeba352624d15c.camel@suse.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 12:03:26PM +0300, Dan Carpenter wrote:
-> On Wed, Jun 23, 2021 at 05:34:16AM +0300, Laurent Pinchart wrote:
-> > 
-> > Do you think an annotation could still help, by making it explicit in
-> > headers whether a function returns NULL or an error pointer, thus
-> > helping developers get it right in the first place ?
+Sorry about the late reply on this one too.
+
+On Tue, May 25, 2021 at 02:25:49PM +0200, Oliver Neukum wrote:
+> Am Donnerstag, den 20.05.2021, 15:31 +0200 schrieb Johan Hovold:
+
+> > Isn't that already handled by lircd using uinput?
 > 
-> Not really.  It wouldn't help with Smatch.  I really think error pointer
-> bugs are handled pretty well currently.  Sometimes I have seen syzbot
-> find them before the static checkers but I don't see them affecting
-> users and production kernels.
+> The problem with that reasoning, though it is true, is
+> 
+> 1) We would need to remove a lot of subsystems if we took that
+> to the logical conclusion. 
 
-I meant to ask if it would be useful for developers, not for smatch.
-When I use a function and have to figure out whether to use IS_ERR() or
-!= NULL, I first look at the header, and most of the time I then need to
-find the corresponding implementation, wherever it may be. If we had an
-annotation, the second step could be skipped. Of course the annotation
-would need to match the implementation, and that's an area where smatch
-could help.
+Removing code is always nice. ;)
 
-> There are few other things that Smatch looks for like passing positives,
-> valid pointers or NULLs to PTR_ERR().  I do wish that when functions
-> return a mix of negative error codes, 0 and 1 that they had comment
-> explaining what the 1 means.
+> 2) It makes runtime PM much harder
 
--- 
-Regards,
+Possibly, depends on the bus and device.
 
-Laurent Pinchart
+> 3) We end up with two classes of LIRC devices
+
+We already do, right? That's kind of my point since we have lircd
+supporting uinput.
+
+> > I hear you, but we still need to have those discussions from time to
+> > time to make sure our architecture is sane. One of the problems today
+> > with the kernel development process appears to be that too few
+> > questions
+> > are asked. If it builds, ship it...
+> 
+> Indeed, so, could we force a line discipline on a device on the kernel
+> level? Code duplication is bad.
+
+Not sure I understand what you have mind here. serdev is sort of a
+line-discipline which we'd "force" on a device if there's a matching
+description in devicetree, while line disciplines always need to be
+instantiated by user space. Or are you referring to ldisc/serdev code
+reuse?
+
+> > But I think I've got that point across by now.
+> 
+> Yes and and we need to think about the conclusion we draw from
+> that point. It seems to me that an architecture that pushes data
+> through the whole tty layer into a demon, then through uinput
+> is definitely not elegant.
+
+The elegant answer is serdev, but it does not yet support the features
+needed in this case (i.e. hotplugging).
+
+Since we already support user-space drivers for these devices, I see
+nothing wrong with implementing support for another one in user space
+unless there are strong reasons against doing so (e.g. performance,
+pm or usability). But if uinput works then great, we're done.
+
+> So what else can we do, so that devices that are internally
+> a serial chip plus additional stuff but externally unrelated
+> devices? It looks to me we are in need of creativity beyond two options
+> here.
+
+Why? Leaving hotplugging aside for a moment, what is it that you cannot
+do using either a serdev/ldisc driver or a user-space driver?
+
+Johan
