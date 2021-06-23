@@ -2,118 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BDE43B17C4
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 12:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B0E53B1832
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 12:41:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230175AbhFWKIf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 06:08:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56374 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230212AbhFWKIe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 06:08:34 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA89BC061574
-        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 03:06:16 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id m18so1979608wrv.2
-        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 03:06:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IWwJbaaInxRPzXQDD4t5DQbwvc5VcsNtKk9LwGC2rok=;
-        b=GCXejyW50heEg9rRADPO0LVSAwzAO932C9yCIGR2McvX1vaBc/p4bZG0OUcm2avc6b
-         cPXBOPN+uMI91BO8AFddXiY4OQkug1xzwQNrx+e8D9MI73GexkkQ4G2FMUxhIMcZZwmh
-         2bP/hJ4riM90UNCAwzJvdy9K8NCIQe3WodaE7wSIefp/ZzJAFinZYUNbiAi6KJ+3LTTD
-         363cFvHP6Np/z8GBs4xvTkYPE9n8I5VchyCnZWCRnnkU5LjAj6afEZZAXNIu46fEpCSU
-         Pw0Dw5RMZnO/oQS97TUAgBGEkREubzsso/s9aWOPHLSs+EARVqhtR/22OYuVkTfrdU/O
-         GA8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IWwJbaaInxRPzXQDD4t5DQbwvc5VcsNtKk9LwGC2rok=;
-        b=JWxcRSKfOJ9rRY8ncEpxhOjfAVCUHCTHuRGgNAPylo6iuh/0EspKlI6+NTDYrUZw1+
-         13V4bh6crPCCXqiH85hq9CFfhmR2OSvkNeJ5xR1pxXHbYzrCATVGXV7T31Nt/sPKpkZ2
-         mvZGght4nAQGjuCWq+Jgzo/8v4lNsSty5HAXMA5fdV6khyBN2ltXBEVsL/cyZuVwAlmu
-         LsDi0yETuTYnjQpjsQCK1p/KBWuGmlwcpcqjBeg4DiQgjCz+GyB4tNPaWlfBIqdi68zZ
-         xgdn73h7ENhASxxZOFFn8ouoFVgqX+wqL+6Sd0nnO7Yhl4Hzrq1ePMI6XDNJ/XaV94h/
-         vDXA==
-X-Gm-Message-State: AOAM531tlRQWPm/ze8l+5poCvtiWWQYb88lC7W1l5iCnI7W8Y/GaH4l7
-        0didYcPdrfbXXKaCxjoPioSeLVsM1qhPLEL+k2chasUDFyWaU9KP
-X-Google-Smtp-Source: ABdhPJz9YirV8E0gSGyffnE1FvpgYOvgexz/sq7WO319jVQCEDwwUB1bQ1isxogjEhw0sRl/77cHVy0ZLWRgW+ORNqk=
-X-Received: by 2002:a5d:4a51:: with SMTP id v17mr10456503wrs.150.1624442775426;
- Wed, 23 Jun 2021 03:06:15 -0700 (PDT)
+        id S230037AbhFWKnt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 06:43:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54330 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229833AbhFWKnr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Jun 2021 06:43:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8121E611CE;
+        Wed, 23 Jun 2021 10:41:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624444890;
+        bh=SfXOgGuAgO7vhYwOC+JWO72WGhlYb92qO1wdzr6JfjY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Jehgj2UonYKDScnD8sbwVPx4GPv5iK62nD1TFX2M/7zKn0Umj/aaoS6tOsa3DrINW
+         Tu6wp60Yk+lmoG/gvt+55a0wLHYAPk5/TF4ptXcmJ7pUNxdDE2n+atf9qLutW6lwmd
+         URrsLiGi+05a0Wv6vDxv9F2Pzs/vYX6RSt4VWRNwqUsYJZMiFPIGc8TDvSQIQEGMp2
+         GbsNNY17Qrnb6A2cPTkjcuD9+sdBCQSlN964HhYbFYC5Dmp4BrVz3RaPiUvLHTE+jx
+         HV4w0jbfyaAPk+8dm29o/HbHDastI0N94VPJIKgme37Vd3wYQK565XeN32MsKCZ3KA
+         sBQzwXPw9wraw==
+Received: by mail-ed1-f44.google.com with SMTP id h2so2795064edt.3;
+        Wed, 23 Jun 2021 03:41:30 -0700 (PDT)
+X-Gm-Message-State: AOAM530k4ab0OI2pmI9sBCWVVq0x3g+g7CSyoO1a6QC7Jx0nnXvBxCsN
+        0Dg1Yu3Mli67chcpMQUlIJ4CLrd9LPchxN+j7w==
+X-Google-Smtp-Source: ABdhPJwOOBSZ371QrvZL98gwzM7omrKAK7M04wdMFnvogwkefUJzh8wJIMDIyi8edPUHRmaxCXzfHELNYL4NBeuR0Yk=
+X-Received: by 2002:a05:6402:1777:: with SMTP id da23mr11259427edb.72.1624444888919;
+ Wed, 23 Jun 2021 03:41:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <427466e4-1b6f-f7c3-3d5e-89c7a7f2ec79@jm0.eu> <20210622203329.11608-1-josua@solid-run.com>
-In-Reply-To: <20210622203329.11608-1-josua@solid-run.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Wed, 23 Jun 2021 11:05:58 +0100
-Message-ID: <CAPY8ntCo+GSvPjcKxK52C8SEN8JMhFOo+yOPYRhgaNoA7wKsYA@mail.gmail.com>
-Subject: Re: [PATCH] media: tc358743: fix missing return of error code in tc358743_probe_of
-To:     Josua Mayer <josua@solid-run.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        matrandg@cisco.com, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20210623073549.24170-1-moudy.ho@mediatek.com>
+In-Reply-To: <20210623073549.24170-1-moudy.ho@mediatek.com>
+From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date:   Wed, 23 Jun 2021 18:41:18 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9dhqYutP3EfNe8tPZ0GTPU04s5zGfyT-As74wLE6Zyrg@mail.gmail.com>
+Message-ID: <CAAOTY_9dhqYutP3EfNe8tPZ0GTPU04s5zGfyT-As74wLE6Zyrg@mail.gmail.com>
+Subject: Re: [RFC PATCH V0 01/10] media: mtk-mdp3: Add Mediatek MDP Driver
+To:     Moudy Ho <moudy.ho@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, DTML <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Boichat <drinkcat@chromium.org>, acourbot@chromium.org,
+        Pi-Hsun Shih <pihsun@chromium.org>, menghui.lin@mediatek.com,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        ben.lok@mediatek.com, randy.wu@mediatek.com,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
+        <frederic.chen@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Josua
+Hi, Moudy:
 
-Thanks for the patch.
-
-On Tue, 22 Jun 2021 at 21:33, Josua Mayer <josua@solid-run.com> wrote:
+Moudy Ho <moudy.ho@mediatek.com> =E6=96=BC 2021=E5=B9=B46=E6=9C=8823=E6=97=
+=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=883:46=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> When device-tree configures an unsupported combinaion of number of lanes,
-
-s/combinaion/combination
-
-> and link frequency, e.g. by exceeding 1Gbps per lane, 0 is returned,
-> wrongly indicating success. In this case, return EINVAL instead!
-
-The change you've provided is in the check that the lane link
-frequency is within range only. Nothing to do with the number of
-lanes.
-
-> This fixes a divide-by-zero crash in tc358743_num_csi_lanes_needed,
-> where the divisor becomes zero because pll_fbd has been left at 0 by probe.
-
-There's a very similar case in this function if the refclk frequency
-is not supported.
-That will cause a divide-by-zero when calculating pll_fbd with a 0
-pll_prd value.
-
-@@ -1980,6 +1980,7 @@ static int tc358743_probe_of(struct tc358743_state *state)
-        default:
-                dev_err(dev, "unsupported refclk rate: %u Hz\n",
-                        state->pdata.refclk_hz);
-+               ret = -EINVAL;
-                goto disable_clk;
-        }
-
-Could you roll that one in too?
-
-Cheers
-  Dave
-
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
+> From: mtk18742 <moudy.ho@mediatek.com>
+>
+> Add MDP driver for MT8183
+>
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > ---
->  drivers/media/i2c/tc358743.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-> index 1b309bb743c7..f21da11caf22 100644
-> --- a/drivers/media/i2c/tc358743.c
-> +++ b/drivers/media/i2c/tc358743.c
-> @@ -1974,6 +1974,7 @@ static int tc358743_probe_of(struct tc358743_state *state)
->         bps_pr_lane = 2 * endpoint.link_frequencies[0];
->         if (bps_pr_lane < 62500000U || bps_pr_lane > 1000000000U) {
->                 dev_err(dev, "unsupported bps per lane: %u bps\n", bps_pr_lane);
-> +               ret = -EINVAL;
->                 goto disable_clk;
->         }
->
+
+[snip]
+
+> +
+> +#endif  // __MMSYS_CONFIG_H__
+> diff --git a/drivers/media/platform/mtk-mdp3/mmsys_mutex.h b/drivers/medi=
+a/platform/mtk-mdp3/mmsys_mutex.h
+> new file mode 100644
+> index 000000000000..fb8c179f11af
+> --- /dev/null
+> +++ b/drivers/media/platform/mtk-mdp3/mmsys_mutex.h
+> @@ -0,0 +1,35 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2019 MediaTek Inc.
+> + * Author: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
+> + */
+> +
+> +#ifndef __MMSYS_MUTEX_H__
+> +#define __MMSYS_MUTEX_H__
+> +
+> +#include "mmsys_reg_base.h"
+> +#include "mdp-platform.h"
+> +
+> +#define MM_MUTEX_INTEN              0x00
+> +#define MM_MUTEX_INTSTA             0x04
+> +#define MM_MUTEX_CFG                0x08
+> +
+> +#define MM_MUTEX_EN                 (0x20 + mutex_id * 0x20)
+> +#define MM_MUTEX_GET                (0x24 + mutex_id * 0x20)
+> +#define MM_MUTEX_RST                (0x28 + mutex_id * 0x20)
+> +#define MM_MUTEX_MOD                (MM_MUTEX_MOD_OFFSET + mutex_id * 0x=
+20)
+> +#define MM_MUTEX_SOF                (MM_MUTEX_SOF_OFFSET + mutex_id * 0x=
+20)
+
+mtk_mutex driver is in drivers/soc/mediatek/mtk-mutex.c, so the
+mtk_mutex control should be placed there.
+
+> +
+> +// MASK
+> +#define MM_MUTEX_INTEN_MASK         0x0fff
+> +#define MM_MUTEX_INTSTA_MASK        0x0fff
+> +#define MM_MUTEX_DEBUG_OUT_SEL_MASK 0x03
+> +#define MM_MUTEX_CFG_MASK           0x01
+> +
+> +#define MM_MUTEX_EN_MASK            0x01
+> +#define MM_MUTEX_GET_MASK           0x03
+> +#define MM_MUTEX_RST_MASK           0x01
+> +#define MM_MUTEX_MOD_MASK           0x07ffffff
+> +#define MM_MUTEX_SOF_MASK           0x0f
+> +
+
+[snip]
+
+> +int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
+> +{
+> +       struct mdp_cmd cmd;
+> +       struct mdp_path path;
+> +       int i, ret;
+> +
+> +       if (atomic_read(&mdp->suspended))
+> +               return -ECANCELED;
+> +
+> +       atomic_inc(&mdp->job_count);
+> +
+> +       cmd.pkt =3D cmdq_pkt_create(mdp->cmdq_clt, SZ_16K);
+> +       if (IS_ERR(cmd.pkt)) {
+> +               atomic_dec(&mdp->job_count);
+> +               wake_up(&mdp->callback_wq);
+> +               return PTR_ERR(cmd.pkt);
+> +       }
+> +       cmd.event =3D &mdp->event[0];
+> +
+> +       path.mdp_dev =3D mdp;
+> +       path.config =3D param->config;
+> +       path.param =3D param->param;
+> +       for (i =3D 0; i < param->param->num_outputs; i++) {
+> +               path.bounds[i].left =3D 0;
+> +               path.bounds[i].top =3D 0;
+> +               path.bounds[i].width =3D
+> +                       param->param->outputs[i].buffer.format.width;
+> +               path.bounds[i].height =3D
+> +                       param->param->outputs[i].buffer.format.height;
+> +               path.composes[i] =3D param->composes[i] ?
+> +                       param->composes[i] : &path.bounds[i];
+> +       }
+> +       ret =3D mdp_path_config(mdp, &cmd, &path);
+> +       if (ret) {
+> +               atomic_dec(&mdp->job_count);
+> +               wake_up(&mdp->callback_wq);
+> +               return ret;
+> +       }
+> +
+> +       // TODO: engine conflict dispatch
+> +       for (i =3D 0; i < param->config->num_components; i++)
+> +               mdp_comp_clock_on(&mdp->pdev->dev, path.comps[i].comp);
+> +
+> +       if (param->wait) {
+> +               ret =3D cmdq_pkt_flush(cmd.pkt);
+
+cmdq_pkt_flush() is removed in latest kernel, please rebase this
+series onto latest kernel before you send patches.
+
+Regards,
+Chun-Kuang.
+
+> +#ifdef MDP_DEBUG
+> +               if (ret) {
+> +                       struct mdp_func_struct *p_func =3D mdp_get_func()=
+;
+> +
+> +                       p_func->mdp_dump_mmsys_config();
+> +                       mdp_dump_info(~0, 1);
+> +               }
+> +#endif
+> +               if (param->mdp_ctx)
+> +                       mdp_m2m_job_finish(param->mdp_ctx);
+> +               cmdq_pkt_destroy(cmd.pkt);
+> +               for (i =3D 0; i < param->config->num_components; i++)
+> +                       mdp_comp_clock_off(&mdp->pdev->dev, path.comps[i]=
+.comp);
+> +
+> +               atomic_dec(&mdp->job_count);
+> +               wake_up(&mdp->callback_wq);
+> +       } else {
+> +               struct mdp_cmdq_cb_param *cb_param;
+> +               struct mdp_comp *comps;
+> +
+> +               cb_param =3D kzalloc(sizeof(*cb_param), GFP_KERNEL);
+> +               if (!cb_param)
+> +                       return -ENOMEM;
+> +               comps =3D kcalloc(param->config->num_components, sizeof(*=
+comps),
+> +                               GFP_KERNEL);
+> +               if (!comps) {
+> +                       kfree(cb_param);
+> +                       mdp_err("%s:comps alloc fail!\n", __func__);
+> +                       return -ENOMEM;
+> +               }
+> +
+> +               for (i =3D 0; i < param->config->num_components; i++)
+> +                       memcpy(&comps[i], path.comps[i].comp,
+> +                              sizeof(struct mdp_comp));
+> +               cb_param->mdp =3D mdp;
+> +               cb_param->user_cmdq_cb =3D param->cmdq_cb;
+> +               cb_param->user_cb_data =3D param->cb_data;
+> +               cb_param->pkt =3D cmd.pkt;
+> +               cb_param->comps =3D comps;
+> +               cb_param->num_comps =3D param->config->num_components;
+> +               cb_param->mdp_ctx =3D param->mdp_ctx;
+> +
+> +               ret =3D cmdq_pkt_flush_async(cmd.pkt,
+> +                                          mdp_handle_cmdq_callback,
+> +                                          (void *)cb_param);
+> +               if (ret) {
+> +                       mdp_err("%s:cmdq_pkt_flush_async fail!\n", __func=
+__);
+> +                       kfree(cb_param);
+> +                       kfree(comps);
+> +               }
+> +       }
+> +       return ret;
+> +}
+> +
+
 > --
-> 2.32.0
->
+> 2.18.0
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
