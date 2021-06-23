@@ -2,117 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19CC33B11D6
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 04:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 046603B123D
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 05:32:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230188AbhFWCpb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Jun 2021 22:45:31 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57304 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229786AbhFWCpa (ORCPT
+        id S230130AbhFWDfK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Jun 2021 23:35:10 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:59537 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229995AbhFWDfK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Jun 2021 22:45:30 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F8A39B1;
-        Wed, 23 Jun 2021 04:43:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624416193;
-        bh=pM/QKvcopF1gzUSyWUkRChnTaw/vLNhsb+wVhOW1X7I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jQMlYzPX2gWDrnznIa2VFkhvdyW4JDPvJY2WSrPySdABRCdXe5hlHYLcZzI4WOan6
-         twLaPZCzCHhlNEEd2VaSQaqQn8uGhGRWsU1NAm1+ALsOaWx6qCs8Nway1Rj7pUYZah
-         P7CVCSHFPK5tsZ3Dr+t1B784V59RonrPd96uCprs=
-Date:   Wed, 23 Jun 2021 05:42:44 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH v3] media: vsp1: Add support for the V3U VSPD
-Message-ID: <YNKfpIuseX3cV23Z@pendragon.ideasonboard.com>
-References: <20210622230950.3207047-1-kieran.bingham@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210622230950.3207047-1-kieran.bingham@ideasonboard.com>
+        Tue, 22 Jun 2021 23:35:10 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id vtdBlo44EhqltvtdElNH9N; Wed, 23 Jun 2021 05:32:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1624419172; bh=bv/kEid7FGZv5lL9knW91yuEKHXEAX397eGGHiXS6UI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=UIsJuOqfNWqTK5uTFOBB9j+Jvcca8y5iaWo8xIOwKpJKOHUEvDIAMa3tSWvGLmcbv
+         qIxPqhMMHd9WGCOv5KHUyVH3s4Lw/Nj2df9xUJ5hrOwU/6EK6NDxW+EySfzlWL0mHs
+         41DwpzcJ6EHSdANvgmIUFo8O9QpsPUVy0i+15wpdwPMvbUn5pdBx+BeDANEv8JWx+C
+         Ra+AMK7i4E24XInZ3UCaQrN94EaK5UNEPRZKl6n64t7wjbUKVsYzIMfKBNax2NGPlW
+         2jclfGbxrGVrKzAWixF0kZQ3jUGJsJQlanPy08RfRzTyys8yqytlPVR4gAo/ZFH9kH
+         sJeNMt0Cc/vHQ==
+Message-ID: <cc91d85950f06bf038fc30ff7f2d2f5e@smtp-cloud8.xs4all.net>
+Date:   Wed, 23 Jun 2021 05:32:49 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfK0iVdlU4MtNkm/EBO4ukm970w+dy+qq4fyvfLfWiOuEBO2ErQyQfy7XJwjuwVpJ5MWE7/wweJPBj3lzEaweKPLQMfkkDJGALH/RunYTbcvkv+6lcNEy
+ KMcPg9nUnxJ71GURN7nrgrZ/q3JWX7eWa8PFh2344G+4OxYfweCLQQlFrkA+IufppUUrkBlsZag4O9IyncC7SQMHWKCa5VhSQKp0+TYVaSWsW1QtZDBr3BOs
+ FNp00blfoAQqpx2sw/wihg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Wed, Jun 23, 2021 at 12:09:50AM +0100, Kieran Bingham wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> The V3U provides two VSPD instances, with a new update to the version
-> register to detect the new SoC.
-> 
-> Add the new version and model detection, and detail the features
-> available in this module.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+date:			Wed Jun 23 05:00:09 CEST 2021
+media-tree git hash:	198bb646e8553e8abd8d83492a27b601ab97b75d
+media_build git hash:	8dab03da8769cd94afc5df1fe14c67400dc2f16e
+v4l-utils git hash:	242ad0b774c726cabaced873864a03a52e99e315
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-342-g92ace436
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7481-g7f50411af
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b010e650519b1cd0d44b110c056ef26ae6ff80a7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.258-i686: ERRORS
+linux-4.4.258-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.258-i686: ERRORS
+linux-4.9.258-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.222-i686: ERRORS
+linux-4.14.222-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.177-i686: ERRORS
+linux-4.19.177-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.100-i686: OK
+linux-5.4.100-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10.18-i686: OK
+linux-5.10.18-x86_64: OK
+linux-5.11.1-i686: OK
+linux-5.11.1-x86_64: OK
+linux-5.12.1-i686: OK
+linux-5.12.1-x86_64: OK
+linux-5.13-rc1-i686: OK
+linux-5.13-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3035, Succeeded: 3035, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-> ---
-> 
-> Whilst it has not been possible to test this with the uapi to validate
-> with our VSP tests, I have now successfully used this to display an
-> image over the DisplayPort connector on the V3U, so I believe it is
-> suitable for integration.
-> 
-> changes since v2:
->  - Removed VSP1_HAS_CLU
-> 
->  drivers/media/platform/vsp1/vsp1_drv.c  | 10 ++++++++++
->  drivers/media/platform/vsp1/vsp1_regs.h |  3 +++
->  2 files changed, 13 insertions(+)
-> 
-> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-> index de442d6c9926..501b592fd6d6 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -777,6 +777,16 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->  		.uif_count = 2,
->  		.wpf_count = 2,
->  		.num_bru_inputs = 5,
-> +	}, {
-> +		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
-> +		.model = "VSP2-D",
-> +		.gen = 3,
-> +		.features = VSP1_HAS_BRU | VSP1_HAS_EXT_DL,
-> +		.lif_count = 1,
-> +		.rpf_count = 5,
-> +		.uif_count = 2,
-> +		.wpf_count = 1,
-> +		.num_bru_inputs = 5,
->  	},
->  };
->  
-> diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-> index fe3130db1fa2..b378ea4451ce 100644
-> --- a/drivers/media/platform/vsp1/vsp1_regs.h
-> +++ b/drivers/media/platform/vsp1/vsp1_regs.h
-> @@ -766,6 +766,8 @@
->  #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
->  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
->  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
-> +#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-> +
->  #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
->  #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
->  #define VI6_IP_VERSION_SOC_V2H		(0x01 << 0)
-> @@ -777,6 +779,7 @@
->  #define VI6_IP_VERSION_SOC_D3		(0x04 << 0)
->  #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
->  #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
-> +#define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
->  
->  /* -----------------------------------------------------------------------------
->   * RPF CLUT Registers
+Detailed results are available here:
 
--- 
-Regards,
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-Laurent Pinchart
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
