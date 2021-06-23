@@ -2,287 +2,428 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A19F63B14CA
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 09:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 779BD3B14F8
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 09:41:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230308AbhFWHia (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 03:38:30 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:47029 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230185AbhFWHiV (ORCPT
+        id S229929AbhFWHnx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 03:43:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51476 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229918AbhFWHnx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 03:38:21 -0400
-X-UUID: 35c07978e10a4887b812a0db3c03beee-20210623
-X-UUID: 35c07978e10a4887b812a0db3c03beee-20210623
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 658592435; Wed, 23 Jun 2021 15:35:59 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 23 Jun 2021 15:35:57 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 23 Jun 2021 15:35:57 +0800
-From:   Moudy Ho <moudy.ho@mediatek.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <tfiga@chromium.org>,
-        <drinkcat@chromium.org>, <acourbot@chromium.org>,
-        <pihsun@chromium.org>, <menghui.lin@mediatek.com>,
-        <sj.huang@mediatek.com>, <ben.lok@mediatek.com>,
-        <randy.wu@mediatek.com>, <moudy.ho@mediatek.com>,
-        <srv_heupstream@mediatek.com>, <frederic.chen@mediatek.com>
-Subject: [RFC PATCH V0 10/10] media: mtk-mdp3: Adjust related settings for 5.13-rc1
-Date:   Wed, 23 Jun 2021 15:35:49 +0800
-Message-ID: <20210623073549.24170-10-moudy.ho@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210623073549.24170-1-moudy.ho@mediatek.com>
-References: <20210623073549.24170-1-moudy.ho@mediatek.com>
+        Wed, 23 Jun 2021 03:43:53 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BE2FC061756
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 00:41:36 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id g19-20020a9d12930000b0290457fde18ad0so1077384otg.1
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 00:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Wgdooo7tE8WUBFLTozRpcYQPMFn+mA5tBbnFaZio7bo=;
+        b=ZR2fJWZOQSv28BMaDgx4FhpcNTWK0oEYnRM1NoAcHdJMXuiVGsi5qNyIidA/1bc/OV
+         WlFW6R2+ZL9Nvs1InVF/tb4ScKZpHco23bnPV37Nijtb8EeWJKqim0iDuvGRi5spIAg+
+         92aEWu/gYBi8rxDdaaQIKnIQsoaCYrxozpRfw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Wgdooo7tE8WUBFLTozRpcYQPMFn+mA5tBbnFaZio7bo=;
+        b=m8FfKC8asN8EczWnzyDcc0YTYjNKs12LNNK1sfhI3PHG3N6Kz+NUtOMmpqjOoV9OKD
+         tobD2cgB0kaUuBBNlIPnTzFD/UF8HvvjOSk9WdHH8ocDNT70y0cgxP7LEk0ggxYJ+pmJ
+         NjmTO7nk7t986H0IG8M/WtRldctew0LzFN4e5Wk62Q7A7WaQ+rtXmbc/iON5AbkdG54a
+         uJ2dQWVVpWGuMat149UbRYYZeSoH6RmlnLh0YOJvCaYzxHcmdswylJeU1CTt8xeniRoW
+         D9CphFVfziKS5GRekEUM0TRg2II2SyFQpjh2VgDCzOH84kZQ8agZIyFxrcL4QvjtZkzP
+         JH/w==
+X-Gm-Message-State: AOAM53074ul6VZWnzevr8IYbCbnVLdYjh3rDHOCGu0ojOxli4qE0XGM0
+        Ix2o+k/AibLYATHMGY1RaF6JyhzkIOFkre6NJ4HA7Q==
+X-Google-Smtp-Source: ABdhPJzhHnxYTsGiuDeEw7ZIofrQZR38hamg7yc/TOaAkFqZe2Iobc/6vhGIVWVWf1pp+chQ2su7UyDXFA5wVO6WmWs=
+X-Received: by 2002:a9d:12eb:: with SMTP id g98mr6534975otg.303.1624434095670;
+ Wed, 23 Jun 2021 00:41:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+References: <20210620110327.4964-1-desmondcheongzx@gmail.com>
+ <20210620110327.4964-3-desmondcheongzx@gmail.com> <YNCmeYdY8giE8M9b@phenom.ffwll.local>
+ <99ee7966-09da-3942-0afe-ee1f185620d6@gmail.com>
+In-Reply-To: <99ee7966-09da-3942-0afe-ee1f185620d6@gmail.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 23 Jun 2021 09:41:24 +0200
+Message-ID: <CAKMK7uFpwh1xm7FaOaU4hVWVF8sRYKTeU1x1m47oxxqzqT4Yhg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm: protect drm_master pointers in drm_lease.c
+To:     Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Dave Airlie <airlied@linux.ie>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Emil Velikov <emil.l.velikov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: mtk18742 <moudy.ho@mediatek.com>
+On Wed, Jun 23, 2021 at 5:49 AM Desmond Cheong Zhi Xi
+<desmondcheongzx@gmail.com> wrote:
+>
+> On 21/6/21 10:47 pm, Daniel Vetter wrote:
+> > On Sun, Jun 20, 2021 at 07:03:27PM +0800, Desmond Cheong Zhi Xi wrote:
+> >> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> >> index 86d4b72e95cb..0c64a77c67a6 100644
+> >> --- a/drivers/gpu/drm/drm_auth.c
+> >> +++ b/drivers/gpu/drm/drm_auth.c
+> >> @@ -384,6 +384,28 @@ struct drm_master *drm_master_get(struct drm_master *master)
+> >>   }
+> >>   EXPORT_SYMBOL(drm_master_get);
+> >>
+> >> +/**
+> >> + * drm_file_get_master - reference @file_priv->master
+> >> + * @file_priv: DRM file private
+> >> + *
+> >> + * Increments the reference count of @file_priv->master and returns
+> >
+> > Does this format correctly? I'd go with "&drm_file.master of @file_priv".
+> >
+>
+> Got it. "file_priv->master" was bolded, but no link to drm_file.master
+> was generated. I'll update this.
+>
+> >> + * @file_priv->master.
+> >> + *
+> >> + * Master pointers returned from this function should be unreferenced using
+> >> + * drm_master_put().
+> >> + */
+> >> +struct drm_master *drm_file_get_master(struct drm_file *file_priv)
+> >> +{
+> >> +    struct drm_master *master;
+> >> +
+> >> +    mutex_lock(&file_priv->master->dev->master_mutex);
+> >> +    master = drm_master_get(file_priv->master);
+> >> +    mutex_unlock(&file_priv->master->dev->master_mutex);
+> >> +
+> >> +    return master;
+> >> +}
+> >> +EXPORT_SYMBOL(drm_file_get_master);
+> >> +
+> >>   static void drm_master_destroy(struct kref *kref)
+> >>   {
+> >>      struct drm_master *master = container_of(kref, struct drm_master, refcount);
+> >> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+> >> index da4f085fc09e..65eab82f8acc 100644
+> >> --- a/drivers/gpu/drm/drm_lease.c
+> >> +++ b/drivers/gpu/drm/drm_lease.c
+> >> @@ -107,10 +107,17 @@ static bool _drm_has_leased(struct drm_master *master, int id)
+> >>    */
+> >>   bool _drm_lease_held(struct drm_file *file_priv, int id)
+> >>   {
+> >> +    bool ret;
+> >> +    struct drm_master *master;
+> >> +
+> >>      if (!file_priv || !file_priv->master)
+> >
+> > So here we still have a ->master access outside of the locked code
+> > section. I think the best fix for that would be to move the NULL check
+> > into drm_file_get_master (where we grab the lock already anyway), and
+> > update the kerneldoc to state that it might return NULL.
+> >
+> > Same with all the checks for ->master below.
+> >
+>
+> Moving the check into drm_file_get_master sounds good. Grabbing the lock
+> before performing the NULL check poses a little chicken-and-egg problem
+> though.
+>
+> It's true that without the lock, even if file_priv->master passes the
+> NULL check, it could be freed in the time between the check and grabbing
+> the lock.
+>
+> However, based on the original code, it seems there's the possibility
+> that file_priv->master might be NULL. In this case, grabbing the lock
+> results in a null ptr dereference because we get the mutex via
+> &file_priv->master->dev->master_mutex.
+>
+> By this reasoning, I think the safer method is still to perform the NULL
+> check before grabbing the lock.
 
-1. remove cmdq_pkt_flush usage.
-2. remove VFL_TYPE_GRABBER enum.
-3. remove undefined format
-4. Adjust CMDQ API param.
+file_priv->dev->master_mutex should also work and avoid the trouble.
 
-Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
----
- .../media/platform/mtk-mdp3/mmsys_reg_base.h  |  2 +-
- .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   | 92 +++++++------------
- .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.h   |  3 +-
- .../media/platform/mtk-mdp3/mtk-mdp3-core.c   |  2 +-
- .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |  3 +-
- .../media/platform/mtk-mdp3/mtk-mdp3-regs.c   |  2 +-
- 6 files changed, 39 insertions(+), 65 deletions(-)
+Please also cc intel-gfx list, there's a CI system there to test your
+patches. Since patch 1 of this series had pretty bad deadlock that I
+didn't see would be good to make sure we get more test coverage on
+these.
 
-diff --git a/drivers/media/platform/mtk-mdp3/mmsys_reg_base.h b/drivers/media/platform/mtk-mdp3/mmsys_reg_base.h
-index d79b82eea61b..738ecd525474 100644
---- a/drivers/media/platform/mtk-mdp3/mmsys_reg_base.h
-+++ b/drivers/media/platform/mtk-mdp3/mmsys_reg_base.h
-@@ -16,7 +16,7 @@
- 			(0xffffffff) : (mask), ##__VA_ARGS__)
- 
- #define MM_REG_WAIT(cmd, evt) \
--	cmdq_pkt_wfe(cmd->pkt, cmd->event[(evt)])
-+	cmdq_pkt_wfe(cmd->pkt, cmd->event[(evt)], true)
- 
- #define MM_REG_WAIT_NO_CLEAR(cmd, evt) \
- 	cmdq_pkt_wait_no_clear(cmd->pkt, cmd->event[(evt)])
-diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-index eac10944283a..151485933eae 100644
---- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-+++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-@@ -468,71 +468,48 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 		goto err_destory_pkt;
- 	}
- 
--	if (param->wait) {
--		ret = cmdq_pkt_flush(cmd.pkt);
--#ifdef MDP_DEBUG
--		if (ret) {
--			struct mdp_func_struct *p_func = mdp_get_func();
--
--			p_func->mdp_dump_mmsys_config();
--			mdp_dump_info(~0, 1);
--		}
--#endif
--		if (!ret) { /* error handle in mdp_m2m_worker */
--			if (param->mdp_ctx)
--				mdp_m2m_job_finish(param->mdp_ctx);
--		}
--		goto err_clock_off;
--	} else {
--		cb_param = kzalloc(sizeof(*cb_param), GFP_KERNEL);
--		if (!cb_param) {
--			ret = -ENOMEM;
--			goto err_destory_pkt;
--		}
-+	cb_param = kzalloc(sizeof(*cb_param), GFP_KERNEL);
-+	if (!cb_param) {
-+		ret = -ENOMEM;
-+		goto err_destory_pkt;
-+	}
- 
--		comps = kcalloc(param->config->num_components, sizeof(*comps),
--				GFP_KERNEL);
--		if (!comps) {
--			mdp_err("%s:comps alloc fail!\n", __func__);
--			ret = -ENOMEM;
--			goto err_destory_pkt;
--		}
-+	comps = kcalloc(param->config->num_components, sizeof(*comps),
-+			GFP_KERNEL);
-+	if (!comps) {
-+		mdp_err("%s:comps alloc fail!\n", __func__);
-+		ret = -ENOMEM;
-+		goto err_destory_pkt;
-+	}
- 
--		for (i = 0; i < param->config->num_components; i++)
--			memcpy(&comps[i], path.comps[i].comp,
--			       sizeof(struct mdp_comp));
--		cb_param->mdp = mdp;
--		cb_param->user_cmdq_cb = param->cmdq_cb;
--		cb_param->user_cb_data = param->cb_data;
--		cb_param->pkt = cmd.pkt;
--		cb_param->comps = comps;
--		cb_param->num_comps = param->config->num_components;
--		cb_param->mdp_ctx = param->mdp_ctx;
--
--		cmdq_pkt_finalize(cmd.pkt);
--		ret = cmdq_pkt_flush_async(cmd.pkt,
--					   mdp_handle_cmdq_callback,
--					   (void *)cb_param);
--		if (ret) {
--			mdp_err("%s:cmdq_pkt_flush_async fail!\n", __func__);
--			goto err_clock_off;
--		}
-+	for (i = 0; i < param->config->num_components; i++)
-+		memcpy(&comps[i], path.comps[i].comp,
-+		       sizeof(struct mdp_comp));
-+	cb_param->mdp = mdp;
-+	cb_param->user_cmdq_cb = param->cmdq_cb;
-+	cb_param->user_cb_data = param->cb_data;
-+	cb_param->pkt = cmd.pkt;
-+	cb_param->comps = comps;
-+	cb_param->num_comps = param->config->num_components;
-+	cb_param->mdp_ctx = param->mdp_ctx;
-+
-+	cmdq_pkt_finalize(cmd.pkt);
-+	ret = cmdq_pkt_flush_async(cmd.pkt,
-+				   mdp_handle_cmdq_callback,
-+				   (void *)cb_param);
-+	if (ret) {
-+		mdp_err("%s:cmdq_pkt_flush_async fail!\n", __func__);
-+		goto err_clock_off;
- 	}
- 	return 0;
- 
- err_clock_off:
--	if (param->wait) {
--		for (i = 0; i < param->config->num_components; i++)
--			mdp_comp_clock_off(&mdp->pdev->dev, path.comps[i].comp);
--	} else {
--		mdp_comp_clocks_off(&mdp->pdev->dev, cb_param->comps,
--					    cb_param->num_comps);
--	}
-+	mdp_comp_clocks_off(&mdp->pdev->dev, cb_param->comps,
-+				    cb_param->num_comps);
- err_destory_pkt:
- 	cmdq_pkt_destroy(cmd.pkt);
- 	atomic_dec(&mdp->job_count);
--	if (param->wait)
--		wake_up(&mdp->callback_wq);
-+	wake_up(&mdp->callback_wq);
- 	if (comps)
- 		kfree(comps);
- 	if (cb_param)
-@@ -543,7 +520,7 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 
- int mdp_cmdq_sendtask(struct platform_device *pdev, struct img_config *config,
- 		      struct img_ipi_frameparam *param,
--		      struct v4l2_rect *compose, unsigned int wait,
-+		      struct v4l2_rect *compose,
- 		      void (*cmdq_cb)(struct cmdq_cb_data data), void *cb_data)
- {
- 	struct mdp_dev *mdp = platform_get_drvdata(pdev);
-@@ -551,7 +528,6 @@ int mdp_cmdq_sendtask(struct platform_device *pdev, struct img_config *config,
- 		.config = config,
- 		.param = param,
- 		.composes[0] = compose,
--		.wait = wait,
- 		.cmdq_cb = cmdq_cb,
- 		.cb_data = cb_data,
- 	};
-diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h
-index 6b8b0f6b4bb5..f6394d3d0358 100644
---- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h
-+++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h
-@@ -16,7 +16,7 @@ struct platform_device *mdp_get_plat_device(struct platform_device *pdev);
- 
- int mdp_cmdq_sendtask(struct platform_device *pdev, struct img_config *config,
- 		      struct img_ipi_frameparam *param,
--		      struct v4l2_rect *compose, unsigned int wait,
-+		      struct v4l2_rect *compose,
- 		      void (*cmdq_cb)(struct cmdq_cb_data data), void *cb_data);
- 
- struct mdp_cmd {
-@@ -28,7 +28,6 @@ struct mdp_cmdq_param {
- 	struct img_config *config;
- 	struct img_ipi_frameparam *param;
- 	const struct v4l2_rect *composes[IMG_MAX_HW_OUTPUTS];
--	unsigned int wait;
- 
- 	void (*cmdq_cb)(struct cmdq_cb_data data);
- 	void *cb_data;
-diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
-index 207b55ace97b..a42e436d3a8c 100644
---- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
-+++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
-@@ -137,7 +137,7 @@ static int mdp_probe(struct platform_device *pdev)
- 	mutex_init(&mdp->vpu_lock);
- 	mutex_init(&mdp->m2m_lock);
- 
--	mdp->cmdq_clt = cmdq_mbox_create(dev, 0, 1200);
-+	mdp->cmdq_clt = cmdq_mbox_create(dev, 0);
- 	if (IS_ERR(mdp->cmdq_clt)) {
- 		ret = PTR_ERR(mdp->cmdq_clt);
- 		goto err_put_scp;
-diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
-index ff80f01be82f..536574f6bc32 100644
---- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
-+++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
-@@ -133,7 +133,6 @@ static void mdp_m2m_worker(struct work_struct *work)
- 	task.config = ctx->vpu.config;
- 	task.param = &param;
- 	task.composes[0] = &frame->compose;
--	task.wait = 0;
- 	task.cmdq_cb = NULL;
- 	task.cb_data = NULL;
- 	task.mdp_ctx = ctx;
-@@ -769,7 +768,7 @@ int mdp_m2m_device_register(struct mdp_dev *mdp)
- 		goto err_m2m_init;
- 	}
- 
--	ret = video_register_device(mdp->m2m_vdev, VFL_TYPE_GRABBER, 2);
-+	ret = video_register_device(mdp->m2m_vdev, VFL_TYPE_VIDEO, 2);
- 	if (ret) {
- 		dev_err(dev, "Failed to register video device\n");
- 		goto err_video_register;
-diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
-index 5c48a7e75efd..0c4c942b5f9c 100644
---- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
-+++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
-@@ -168,7 +168,7 @@ static const struct mdp_format mdp_formats[] = {
- 		.halign		= 5,
- 		.flags		= MDP_FMT_FLAG_OUTPUT,
- 	}, {
--		.pixelformat	= V4L2_PIX_FMT_MM21,
-+		.pixelformat	= V4L2_PIX_FMT_NV12MT,
- 		.mdp_color	= MDP_COLOR_420_BLK,
- 		.depth		= { 8, 4 },
- 		.row_depth	= { 8, 8 },
+Thanks, Daniel
+
+>
+> >>              return true;
+> >>
+> >> -    return _drm_lease_held_master(file_priv->master, id);
+> >> +    master = drm_file_get_master(file_priv);
+> >> +    ret = _drm_lease_held_master(master, id);
+> >> +    drm_master_put(&master);
+> >> +
+> >> +    return ret;
+> >>   }
+> >>
+> >>   /**
+> >> @@ -132,10 +139,11 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
+> >>      if (!file_priv || !file_priv->master || !file_priv->master->lessor)
+> >>              return true;
+> >
+> > master->lessor dereferenced outside the lock or without holding a
+> > reference.
+> >
+> >>
+> >> -    master = file_priv->master;
+> >> +    master = drm_file_get_master(file_priv);
+> >>      mutex_lock(&master->dev->mode_config.idr_mutex);
+> >>      ret = _drm_lease_held_master(master, id);
+> >>      mutex_unlock(&master->dev->mode_config.idr_mutex);
+> >> +    drm_master_put(&master);
+> >>      return ret;
+> >>   }
+> >>
+> >> @@ -158,7 +166,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
+> >>      if (!file_priv || !file_priv->master || !file_priv->master->lessor)
+> >>              return crtcs_in;
+> >
+> > Same here.
+> >
+> >>
+> >> -    master = file_priv->master;
+> >> +    master = drm_file_get_master(file_priv);
+> >>      dev = master->dev;
+> >>
+> >>      count_in = count_out = 0;
+> >> @@ -177,6 +185,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
+> >>              count_in++;
+> >>      }
+> >>      mutex_unlock(&master->dev->mode_config.idr_mutex);
+> >> +    drm_master_put(&master);
+> >>      return crtcs_out;
+> >>   }
+> >>
+> >> @@ -490,7 +499,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+> >>      size_t object_count;
+> >>      int ret = 0;
+> >>      struct idr leases;
+> >> -    struct drm_master *lessor = lessor_priv->master;
+> >> +    struct drm_master *lessor;
+> >>      struct drm_master *lessee = NULL;
+> >>      struct file *lessee_file = NULL;
+> >>      struct file *lessor_file = lessor_priv->filp;
+> >> @@ -502,12 +511,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+> >>      if (!drm_core_check_feature(dev, DRIVER_MODESET))
+> >>              return -EOPNOTSUPP;
+> >>
+> >> -    /* Do not allow sub-leases */
+> >> -    if (lessor->lessor) {
+> >> -            DRM_DEBUG_LEASE("recursive leasing not allowed\n");
+> >> -            return -EINVAL;
+> >> -    }
+> >> -
+> >>      /* need some objects */
+> >>      if (cl->object_count == 0) {
+> >>              DRM_DEBUG_LEASE("no objects in lease\n");
+> >> @@ -519,12 +522,22 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+> >>              return -EINVAL;
+> >>      }
+> >>
+> >> +    lessor = drm_file_get_master(lessor_priv);
+> >> +    /* Do not allow sub-leases */
+> >> +    if (lessor->lessor) {
+> >
+> > Here we check after grabbing the reference, so looks correct.
+> >
+> >> +            DRM_DEBUG_LEASE("recursive leasing not allowed\n");
+> >> +            ret = -EINVAL;
+> >> +            goto out_lessor;
+> >> +    }
+> >> +
+> >>      object_count = cl->object_count;
+> >>
+> >>      object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
+> >>                      array_size(object_count, sizeof(__u32)));
+> >> -    if (IS_ERR(object_ids))
+> >> -            return PTR_ERR(object_ids);
+> >> +    if (IS_ERR(object_ids)) {
+> >> +            ret = PTR_ERR(object_ids);
+> >> +            goto out_lessor;
+> >> +    }
+> >>
+> >>      idr_init(&leases);
+> >>
+> >> @@ -535,14 +548,15 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+> >>      if (ret) {
+> >>              DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
+> >>              idr_destroy(&leases);
+> >> -            return ret;
+> >> +            goto out_lessor;
+> >>      }
+> >>
+> >>      /* Allocate a file descriptor for the lease */
+> >>      fd = get_unused_fd_flags(cl->flags & (O_CLOEXEC | O_NONBLOCK));
+> >>      if (fd < 0) {
+> >>              idr_destroy(&leases);
+> >> -            return fd;
+> >> +            ret = fd;
+> >> +            goto out_lessor;
+> >>      }
+> >>
+> >>      DRM_DEBUG_LEASE("Creating lease\n");
+> >> @@ -578,6 +592,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+> >>      /* Hook up the fd */
+> >>      fd_install(fd, lessee_file);
+> >>
+> >> +    drm_master_put(&lessor);
+> >>      DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
+> >>      return 0;
+> >>
+> >> @@ -587,6 +602,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+> >>   out_leases:
+> >>      put_unused_fd(fd);
+> >>
+> >> +out_lessor:
+> >> +    drm_master_put(&lessor);
+> >>      DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
+> >>      return ret;
+> >>   }
+> >> @@ -609,7 +626,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+> >>      struct drm_mode_list_lessees *arg = data;
+> >>      __u32 __user *lessee_ids = (__u32 __user *) (uintptr_t) (arg->lessees_ptr);
+> >>      __u32 count_lessees = arg->count_lessees;
+> >> -    struct drm_master *lessor = lessor_priv->master, *lessee;
+> >> +    struct drm_master *lessor, *lessee;
+> >>      int count;
+> >>      int ret = 0;
+> >>
+> >> @@ -620,6 +637,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+> >>      if (!drm_core_check_feature(dev, DRIVER_MODESET))
+> >>              return -EOPNOTSUPP;
+> >>
+> >> +    lessor = drm_file_get_master(lessor_priv);
+> >>      DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
+> >>
+> >>      mutex_lock(&dev->mode_config.idr_mutex);
+> >> @@ -643,6 +661,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+> >>              arg->count_lessees = count;
+> >>
+> >>      mutex_unlock(&dev->mode_config.idr_mutex);
+> >> +    drm_master_put(&lessor);
+> >>
+> >>      return ret;
+> >>   }
+> >> @@ -662,7 +681,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+> >>      struct drm_mode_get_lease *arg = data;
+> >>      __u32 __user *object_ids = (__u32 __user *) (uintptr_t) (arg->objects_ptr);
+> >>      __u32 count_objects = arg->count_objects;
+> >> -    struct drm_master *lessee = lessee_priv->master;
+> >> +    struct drm_master *lessee;
+> >>      struct idr *object_idr;
+> >>      int count;
+> >>      void *entry;
+> >> @@ -676,6 +695,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+> >>      if (!drm_core_check_feature(dev, DRIVER_MODESET))
+> >>              return -EOPNOTSUPP;
+> >>
+> >> +    lessee = drm_file_get_master(lessee_priv);
+> >>      DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
+> >>
+> >>      mutex_lock(&dev->mode_config.idr_mutex);
+> >> @@ -703,6 +723,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+> >>              arg->count_objects = count;
+> >>
+> >>      mutex_unlock(&dev->mode_config.idr_mutex);
+> >> +    drm_master_put(&lessee);
+> >>
+> >>      return ret;
+> >>   }
+> >> @@ -721,7 +742,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+> >>                              void *data, struct drm_file *lessor_priv)
+> >>   {
+> >>      struct drm_mode_revoke_lease *arg = data;
+> >> -    struct drm_master *lessor = lessor_priv->master;
+> >> +    struct drm_master *lessor;
+> >>      struct drm_master *lessee;
+> >>      int ret = 0;
+> >>
+> >> @@ -731,6 +752,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+> >>      if (!drm_core_check_feature(dev, DRIVER_MODESET))
+> >>              return -EOPNOTSUPP;
+> >>
+> >> +    lessor = drm_file_get_master(lessor_priv);
+> >>      mutex_lock(&dev->mode_config.idr_mutex);
+> >>
+> >>      lessee = _drm_find_lessee(lessor, arg->lessee_id);
+> >> @@ -751,6 +773,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+> >>
+> >>   fail:
+> >>      mutex_unlock(&dev->mode_config.idr_mutex);
+> >> +    drm_master_put(&lessor);
+> >>
+> >>      return ret;
+> >>   }
+> >> diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
+> >> index 6bf8b2b78991..f99d3417f304 100644
+> >> --- a/include/drm/drm_auth.h
+> >> +++ b/include/drm/drm_auth.h
+> >> @@ -107,6 +107,7 @@ struct drm_master {
+> >>   };
+> >>
+> >>   struct drm_master *drm_master_get(struct drm_master *master);
+> >> +struct drm_master *drm_file_get_master(struct drm_file *file_priv);
+> >>   void drm_master_put(struct drm_master **master);
+> >>   bool drm_is_current_master(struct drm_file *fpriv);
+> >>
+> >> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> >> index b81b3bfb08c8..e9931fca4ab7 100644
+> >> --- a/include/drm/drm_file.h
+> >> +++ b/include/drm/drm_file.h
+> >> @@ -226,9 +226,18 @@ struct drm_file {
+> >>      /**
+> >>       * @master:
+> >>       *
+> >> -     * Master this node is currently associated with. Only relevant if
+> >> -     * drm_is_primary_client() returns true. Note that this only
+> >> -     * matches &drm_device.master if the master is the currently active one.
+> >> +     * Master this node is currently associated with. Protected by struct
+> >> +     * &drm_device.master_mutex.
+> >> +     *
+> >> +     * Only relevant if drm_is_primary_client() returns true. Note that
+> >> +     * this only matches &drm_device.master if the master is the currently
+> >> +     * active one.
+> >> +     *
+> >> +     * When obtaining a copy of this pointer, it is recommended to either
+> >> +     * hold struct &drm_device.master_mutex for the duration of the
+> >> +     * pointer's use, or to use drm_file_get_master() if struct
+> >> +     * &drm_device.master_mutex is not currently held and there is no other
+> >> +     * need to hold it. This prevents @master from being freed during use.
+> >>       *
+> >>       * See also @authentication and @is_master and the :ref:`section on
+> >>       * primary nodes and authentication <drm_primary_node>`.
+> >> --
+> >> 2.25.1
+> >>
+> >
+>
+> Thanks for the feedback, Daniel. I'll send out an updated patch to
+> address these issues.
+>
+> Best wishes,
+> Desmond
+
+
+
 -- 
-2.18.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
