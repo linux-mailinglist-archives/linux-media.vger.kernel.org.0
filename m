@@ -2,217 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DE4F3B2376
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 00:15:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DD8E3B23B2
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 00:53:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230028AbhFWWRy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 18:17:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51498 "EHLO
+        id S229889AbhFWW4A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 18:56:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbhFWWRo (ORCPT
+        with ESMTP id S229726AbhFWW4A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 18:17:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0FE3C08EB27;
-        Wed, 23 Jun 2021 15:12:44 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A231387F;
-        Thu, 24 Jun 2021 00:12:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624486361;
-        bh=vol6kpF3aMCgA3x4WowIw9eVw+hdIqAus2kw55MDYxY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dMXQcq5CVQjM+KHZhIk+qm+BeerbmD0wljQWPTO4ILDSGjR0sQ7G0cJ5vj7je84q+
-         wSNUGFO6zWu2twX7jkNsl3pLl1tgcmn2c4LY+Ksq71Llds8v3XqOaB+KuWwahHhYw2
-         g4zxjKM5rZI3fwEzYD/GDS13Hd7mcJ+CXFahwnAA=
-Date:   Thu, 24 Jun 2021 01:12:11 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kees Cook <keescook@chromium.org>
+        Wed, 23 Jun 2021 18:56:00 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44DFAC061574
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 15:53:41 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id v7so3056461pgl.2
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 15:53:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PhW/5nWJvry34gWtMWlmqOr4aezNJfCGGSSwW1Z44S4=;
+        b=Y7dexCHKupR8VvExygST6Sg82BTOYcmprRQLLuqPd75nZzlyfrWQ+VQd0nxsE9zU+N
+         vCnTJw9wcJDApxd+2hBcksBmXAmNfb8iJGVe4INj6W+SZvfkFTwERl2tEXkRghzQFcAD
+         2EsK2VLjaeZJJ/gx7GASNoXImTxNqKVW1z9pc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PhW/5nWJvry34gWtMWlmqOr4aezNJfCGGSSwW1Z44S4=;
+        b=kN7fbYF5ETYA/0kwxIAYEHnItGdz/WuaKLAqzey+5JjtbTd3XLRxyOh26nnJWigRD3
+         oUBfDuNUN1eREnySwvBrza0KDUuiCJuJ60iqOlIMXUK7bKntVUjhYorZHqZ70ClCBNIe
+         ZW6++g0bC7gQq0WDyLhGPD7Rei8qtCstcnYE9AhgTN0lcw8lBpC25RpsRIUmQ7IMzi5n
+         fc2PUy7NIYOkFb/GiVGqdcdiLSt05RGFzneV0c1Rzp3wwzRlgHpd0BUp2v0Eo4b8Ezvs
+         m6wFkSvfSxDuGTY2SPC5xes/CzJobTtHjTnGnOBSN2VaRqOQKzVQSrY+9JoQQtjNQXfk
+         vKDA==
+X-Gm-Message-State: AOAM533xw/m3yj3TnWNyMcR15jBqLi3b4/NemqJOQaGAYR5Nc/nfKyab
+        5j3QA9fgrtsv04ClrS72ih0dlg==
+X-Google-Smtp-Source: ABdhPJyUyFjDry9tl4mZDYoGZYq+Q9Sraxpjh2Y81MlBuLC2ZQWwKA6AWu5eqk4J8lc5YD4TqsG/8A==
+X-Received: by 2002:a63:755:: with SMTP id 82mr1681659pgh.209.1624488820844;
+        Wed, 23 Jun 2021 15:53:40 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id u13sm148169pga.64.2021.06.23.15.53.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jun 2021 15:53:39 -0700 (PDT)
+Date:   Wed, 23 Jun 2021 15:53:38 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 Subject: Re: [PATCH] media: omap3isp: Extract struct group for memcpy() region
-Message-ID: <YNOxuybjpLxr6sin@pendragon.ideasonboard.com>
+Message-ID: <202106231547.1212335D@keescook>
 References: <20210616185938.1225218-1-keescook@chromium.org>
  <YMpUR34kFSbiyi+q@pendragon.ideasonboard.com>
  <202106162119.859E9A80B@keescook>
+ <YNOxuybjpLxr6sin@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202106162119.859E9A80B@keescook>
+In-Reply-To: <YNOxuybjpLxr6sin@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kees,
-
-On Wed, Jun 16, 2021 at 09:22:23PM -0700, Kees Cook wrote:
-> On Wed, Jun 16, 2021 at 10:43:03PM +0300, Laurent Pinchart wrote:
-> > On Wed, Jun 16, 2021 at 11:59:38AM -0700, Kees Cook wrote:
-> > > Avoid writing past the end of a structure member by wrapping the target
-> > > region in a common named structure. This additionally fixes a
-> > > misalignment of the copy (since the size of "buf" changes between 64-bit
-> > > and 32-bit).
+On Thu, Jun 24, 2021 at 01:12:11AM +0300, Laurent Pinchart wrote:
+> Hi Kees,
+> 
+> On Wed, Jun 16, 2021 at 09:22:23PM -0700, Kees Cook wrote:
+> > On Wed, Jun 16, 2021 at 10:43:03PM +0300, Laurent Pinchart wrote:
+> > > On Wed, Jun 16, 2021 at 11:59:38AM -0700, Kees Cook wrote:
+> > > > Avoid writing past the end of a structure member by wrapping the target
+> > > > region in a common named structure. This additionally fixes a
+> > > > misalignment of the copy (since the size of "buf" changes between 64-bit
+> > > > and 32-bit).
+> > > 
+> > > Could you have been mislead by the data64 name ? The difference between
+> > > omap3isp_stat_data_time and omap3isp_stat_data_time32 is the size of the
+> > > ts field, using 32-bit timestamps with legacy userspace, and 64-bit
+> > > timestamps with more recent userspace. In both cases we're dealing with
+> > > a 32-bit platform, as the omap3isp is not used in any 64-bit ARM SoC.
+> > > The size of void __user *buf is thus 4 bytes in all cases, as is __u32
+> > > buf.
 > > 
-> > Could you have been mislead by the data64 name ? The difference between
-> > omap3isp_stat_data_time and omap3isp_stat_data_time32 is the size of the
-> > ts field, using 32-bit timestamps with legacy userspace, and 64-bit
-> > timestamps with more recent userspace. In both cases we're dealing with
-> > a 32-bit platform, as the omap3isp is not used in any 64-bit ARM SoC.
-> > The size of void __user *buf is thus 4 bytes in all cases, as is __u32
-> > buf.
+> > Ah, yes, that's true. I was hitting this on arm64 builds
+> > (CONFIG_COMPILE_TEST) where __user *buf is 64-bit. So, the "additionally
+> > fixes" bit above is misleading in the sense that nothing was ever built
+> > in the real world like that.
+> > 
+> > The patch still fixes the compile-time warnings, though.
 > 
-> Ah, yes, that's true. I was hitting this on arm64 builds
-> (CONFIG_COMPILE_TEST) where __user *buf is 64-bit. So, the "additionally
-> fixes" bit above is misleading in the sense that nothing was ever built
-> in the real world like that.
-> 
-> The patch still fixes the compile-time warnings, though.
+> I What's the compile-time warning ? I tried compiling the driver for
+> ARM64 and didn't notice any.
 
-I What's the compile-time warning ? I tried compiling the driver for
-ARM64 and didn't notice any.
+Sorry, I didn't include the background well enough in the commit log,
+but it's part of a tightening of memcpy() under FORTIFY_SOURCE and
+also -Warray-bounds enablement. Here's what I've been saying on other
+patches (this one was different because it seemed to be just broken
+code):
 
-> However, I don't think anything actually uses any of this code
-> regardless. ;)
-> 
-> > > I actually think this code is completely unused in the real world:
-> > > I don't think it could have ever worked, as it would either always
-> > > fail (with an uninitialized data->buf_size) or would cause corruption
-> > > in userspace due to the copy_to_user() in the call path against an
-> > > uninitialized data->buf value:
-> > > 
-> > > omap3isp_stat_request_statistics_time32(...)
-> > >     struct omap3isp_stat_data data64;
-> > >     ...
-> > >     omap3isp_stat_request_statistics(stat, &data64);
-> > > 
-> > > int omap3isp_stat_request_statistics(struct ispstat *stat,
-> > >                                      struct omap3isp_stat_data *data)
-> > >     ...
-> > >     buf = isp_stat_buf_get(stat, data);
-> > > 
-> > > static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
-> > >                                                struct omap3isp_stat_data *data)
-> > > ...
-> > >     if (buf->buf_size > data->buf_size) {
-> > >             ...
-> > >             return ERR_PTR(-EINVAL);
-> > >     }
-> > >     ...
-> > >     rval = copy_to_user(data->buf,
-> > >                         buf->virt_addr,
-> > >                         buf->buf_size);
-> > > 
-> > > Regardless, additionally initialize data64 to be zero-filled to avoid
-> > > undefined behavior.
-> > > 
-> > > Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
-> > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > ---
-> > >  drivers/media/platform/omap3isp/ispstat.c |  5 +--
-> > >  include/uapi/linux/omap3isp.h             | 44 +++++++++++++++++------
-> > >  2 files changed, 36 insertions(+), 13 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
-> > > index 5b9b57f4d9bf..ea8222fed38e 100644
-> > > --- a/drivers/media/platform/omap3isp/ispstat.c
-> > > +++ b/drivers/media/platform/omap3isp/ispstat.c
-> > > @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
-> > >  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
-> > >  					struct omap3isp_stat_data_time32 *data)
-> > >  {
-> > > -	struct omap3isp_stat_data data64;
-> > > +	struct omap3isp_stat_data data64 = { };
-> > >  	int ret;
-> > >  
-> > >  	ret = omap3isp_stat_request_statistics(stat, &data64);
-> > > @@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
-> > >  
-> > >  	data->ts.tv_sec = data64.ts.tv_sec;
-> > >  	data->ts.tv_usec = data64.ts.tv_usec;
-> > > -	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
-> > > +	data->buf = (uintptr_t)data64.buf;
-> > > +	memcpy(&data->frame, &data64.buf, sizeof(data->frame));
-> > >  
-> > >  	return 0;
-> > >  }
-> > > diff --git a/include/uapi/linux/omap3isp.h b/include/uapi/linux/omap3isp.h
-> > > index 87b55755f4ff..0a16af91621f 100644
-> > > --- a/include/uapi/linux/omap3isp.h
-> > > +++ b/include/uapi/linux/omap3isp.h
-> > > @@ -159,13 +159,25 @@ struct omap3isp_h3a_aewb_config {
-> > >  };
-> > >  
-> > >  /**
-> > > - * struct omap3isp_stat_data - Statistic data sent to or received from user
-> > > - * @ts: Timestamp of returned framestats.
-> > > - * @buf: Pointer to pass to user.
-> > > + * struct omap3isp_stat_frame - Statistic data without timestamp nor pointer.
-> > > + * @buf_size: Size of buffer.
-> > >   * @frame_number: Frame number of requested stats.
-> > >   * @cur_frame: Current frame number being processed.
-> > >   * @config_counter: Number of the configuration associated with the data.
-> > >   */
-> > > +struct omap3isp_stat_frame {
-> > > +	__u32 buf_size;
-> > > +	__u16 frame_number;
-> > > +	__u16 cur_frame;
-> > > +	__u16 config_counter;
-> > > +};
-> > > +
-> > > +/**
-> > > + * struct omap3isp_stat_data - Statistic data sent to or received from user
-> > > + * @ts: Timestamp of returned framestats.
-> > > + * @buf: Pointer to pass to user.
-> > > + * @frame: Statistic data for frame.
-> > > + */
-> > >  struct omap3isp_stat_data {
-> > >  #ifdef __KERNEL__
-> > >  	struct {
-> > > @@ -176,10 +188,15 @@ struct omap3isp_stat_data {
-> > >  	struct timeval ts;
-> > >  #endif
-> > >  	void __user *buf;
-> > > -	__u32 buf_size;
-> > > -	__u16 frame_number;
-> > > -	__u16 cur_frame;
-> > > -	__u16 config_counter;
-> > > +	union {
-> > > +		struct {
-> > > +			__u32 buf_size;
-> > > +			__u16 frame_number;
-> > > +			__u16 cur_frame;
-> > > +			__u16 config_counter;
-> > > +		};
-> > > +		struct omap3isp_stat_frame frame;
-> > > +	};
-> > >  };
-> > >  
-> > >  #ifdef __KERNEL__
-> > > @@ -189,10 +206,15 @@ struct omap3isp_stat_data_time32 {
-> > >  		__s32	tv_usec;
-> > >  	} ts;
-> > >  	__u32 buf;
-> > > -	__u32 buf_size;
-> > > -	__u16 frame_number;
-> > > -	__u16 cur_frame;
-> > > -	__u16 config_counter;
-> > > +	union {
-> > > +		struct {
-> > > +			__u32 buf_size;
-> > > +			__u16 frame_number;
-> > > +			__u16 cur_frame;
-> > > +			__u16 config_counter;
-> > > +		};
-> > > +		struct omap3isp_stat_frame frame;
-> > > +	};
-> > >  };
-> > >  #endif
-> > >  
+  In preparation for FORTIFY_SOURCE performing compile-time and run-time
+  field bounds checking for memcpy(), memmove(), and memset(), avoid
+  intentionally writing across neighboring fields.
+
+Anyway, I can carry this until the full series is posted, but I'm still
+working through a few more fixes before I send the whole thing. This
+patch was one of a handful that didn't have any series dependencies.
+
+-Kees
 
 -- 
-Regards,
-
-Laurent Pinchart
+Kees Cook
