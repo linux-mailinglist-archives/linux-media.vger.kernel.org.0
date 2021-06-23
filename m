@@ -2,108 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09F373B105D
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 01:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B343B11BD
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 04:29:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbhFVXML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Jun 2021 19:12:11 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55000 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbhFVXML (ORCPT
+        id S230138AbhFWCcE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Jun 2021 22:32:04 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:7503 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229890AbhFWCcD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Jun 2021 19:12:11 -0400
-Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DF75A66;
-        Wed, 23 Jun 2021 01:09:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1624403393;
-        bh=FVRrXEVbnnPDakzLrvKGWoSG/v9VaXjCe/ZNd46XvZ4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=CBNnbTT7l1IZx0NKuylT+hNbwYCHfCgu82zuCIWf/tgNhd5jRD3PbULYUPGUFqNgW
-         bOu/TjRDdi7o2qsGrWc26t+mLhZJPrfVNFPL+TAe6fRNoHZbKS9mZ/zWp81KwwbGAU
-         8MQwoVPrM/ONDFH9XoRN2G2cR5DwSgHcnRi52CdE=
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v3] media: vsp1: Add support for the V3U VSPD
-Date:   Wed, 23 Jun 2021 00:09:50 +0100
-Message-Id: <20210622230950.3207047-1-kieran.bingham@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
+        Tue, 22 Jun 2021 22:32:03 -0400
+Received: from dggeml759-chm.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G8nFv2M7lzZkm6;
+        Wed, 23 Jun 2021 10:26:43 +0800 (CST)
+Received: from [10.174.178.165] (10.174.178.165) by
+ dggeml759-chm.china.huawei.com (10.1.199.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Wed, 23 Jun 2021 10:29:43 +0800
+Subject: Re: [PATCH] media: v4l2-subdev: fix some NULL vs IS_ERR() checks
+To:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        <linux-media@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
+References: <YNH0WU7BcQ/60UNG@mwanda>
+ <YNH87qd4eJOR296R@pendragon.ideasonboard.com> <20210622155858.GN1861@kadam>
+From:   "weiyongjun (A)" <weiyongjun1@huawei.com>
+Message-ID: <623db5b4-77e6-9fbf-37b4-6d6e2925ad84@huawei.com>
+Date:   Wed, 23 Jun 2021 10:29:43 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210622155858.GN1861@kadam>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.165]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggeml759-chm.china.huawei.com (10.1.199.138)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-The V3U provides two VSPD instances, with a new update to the version
-register to detect the new SoC.
+在 2021/6/22 23:58, Dan Carpenter 写道:
+> On Tue, Jun 22, 2021 at 06:08:30PM +0300, Laurent Pinchart wrote:
+>> Hi Dan,
+>>
+>> Thank you for the patch.
+>>
+>> On Tue, Jun 22, 2021 at 05:31:53PM +0300, Dan Carpenter wrote:
+>>> The v4l2_subdev_alloc_state() function returns error pointers, it
+>>> doesn't return NULL.
+>> It's funny you send this patch today, I've been thinking about the exact
+>> same issue yesterday, albeit more globally, when trying to figure out if
+>> a function I called returned NULL or an error pointer on error.
+>>
+>> Would it make to create an __err_ptr annotation to mark functions that
+>> return an error pointer ? This would both give a simple indication to
+>> the user and allow tools such as smatch to detect errors.
+>>
+> If you have the cross function DB enabled then Smatch can figure out if
+> it returns error pointers or NULL.  The big problem is that Smatch works
+> on the precompiled code and doesn't understand ifdeffed code.
+>
+> I haven't pushed all the Smatch checks.  I told someone last month, I'd
+> give them a month to fix any bugs since it was their idea.  But I'll
+> push it soon.
+>
+> #if IS_ENABLED(CONFIG)
+> function returns error pointer or valid
+> #else
+> struct foo *function() { return NULL; }
+> #endif
+>
+> I believe that there are also people who use a two pass Coccinelle
+> system where they make a list of functions that return error pointers
+> and then check the callers.
+>
+> The Huawei devs find a bunch of these bugs through static analysis but
+> I don't know which tools they are using.
 
-Add the new version and model detection, and detail the features
-available in this module.
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-
-Whilst it has not been possible to test this with the uapi to validate
-with our VSP tests, I have now successfully used this to display an
-image over the DisplayPort connector on the V3U, so I believe it is
-suitable for integration.
-
-changes since v2:
- - Removed VSP1_HAS_CLU
+Hi Dan,
 
 
+We are using Coccinelle script to found them.
 
- drivers/media/platform/vsp1/vsp1_drv.c  | 10 ++++++++++
- drivers/media/platform/vsp1/vsp1_regs.h |  3 +++
- 2 files changed, 13 insertions(+)
 
-diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-index de442d6c9926..501b592fd6d6 100644
---- a/drivers/media/platform/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/vsp1/vsp1_drv.c
-@@ -777,6 +777,16 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 		.uif_count = 2,
- 		.wpf_count = 2,
- 		.num_bru_inputs = 5,
-+	}, {
-+		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
-+		.model = "VSP2-D",
-+		.gen = 3,
-+		.features = VSP1_HAS_BRU | VSP1_HAS_EXT_DL,
-+		.lif_count = 1,
-+		.rpf_count = 5,
-+		.uif_count = 2,
-+		.wpf_count = 1,
-+		.num_bru_inputs = 5,
- 	},
- };
- 
-diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-index fe3130db1fa2..b378ea4451ce 100644
---- a/drivers/media/platform/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/vsp1/vsp1_regs.h
-@@ -766,6 +766,8 @@
- #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
-+#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
- #define VI6_IP_VERSION_SOC_V2H		(0x01 << 0)
-@@ -777,6 +779,7 @@
- #define VI6_IP_VERSION_SOC_D3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
-+#define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
- 
- /* -----------------------------------------------------------------------------
-  * RPF CLUT Registers
--- 
-2.30.2
+First step we using coccinelle script to found all the functions return
+
+ERR_PTR or NULL, and do filter by checking all the users:  at least we
+
+found at least 5 callers, and all the caller check only NULL or ERR_PTR,
+
+then we add them to function list.
+
+
+Then using coccinelle script do analysis base on the function list give
+
+in step 1. Just do the same thing like smatch.
+
+
+Regards,
+
+Wei Yongjun
 
