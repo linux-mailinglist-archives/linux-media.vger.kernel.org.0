@@ -2,125 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E72D83B20B7
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 21:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C88E43B20DF
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 21:17:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbhFWTDO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 15:03:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36292 "EHLO
+        id S229759AbhFWTTX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 15:19:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbhFWTDO (ORCPT
+        with ESMTP id S229660AbhFWTTW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 15:03:14 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63711C061574;
-        Wed, 23 Jun 2021 12:00:56 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id r16so4496188oiw.3;
-        Wed, 23 Jun 2021 12:00:56 -0700 (PDT)
+        Wed, 23 Jun 2021 15:19:22 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C4C5C061574
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 12:17:04 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id he7so5586014ejc.13
+        for <linux-media@vger.kernel.org>; Wed, 23 Jun 2021 12:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HU0njkEAFXSJ+n1VhC5vO37YX20GbDuiyUcRu8p0LjY=;
-        b=rM3WDg9MMATVrxXbwamjLp8MYkt3nKZzzeXshLf8ILv5x6LgyXo2blESNLQIVeXsFD
-         rpjPxLKs1h6HOwdPV14GthqwAemSKTrfW+nY32gCA+UIpPY6ihPofAgehpg7681KUIJo
-         IxLdr13iGdEUHDNjN933QVGA/I/zGKtjSXUCfl9XFFp8gtAZxYi7iB3TIHJWaw+D725M
-         voWKL6spbhaM8cvdeDxt2zl3XvfYn/ragq8k6CV6q9O/DUtK/a5Pnmd6TVv8UhbanjwQ
-         P4Fo52HgvmP31qSnkL1NysqPThoMiJhTwMPxGzMMAHosCkhwP6CH4HFv2r6M9U3QsvSH
-         iaew==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=7Hua08stsWuHXUQaJW2px47NH816H2YtXOe8cA4IlCg=;
+        b=igrDooVK7zk8zc3g3dng9Z4kKomtb0NBT/xyXoKOS94YQo/bjKuJrZADYBrMzD09nW
+         8ViG1g+Jg+fDW1mVxTt0V786rlCxik1uVc+AvXawxAIArMsqXfluF3j4zx8Z0vlo9uvD
+         8Dy525bFR2inG+gm3XXR2dYbhgCibAdYaUrCU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HU0njkEAFXSJ+n1VhC5vO37YX20GbDuiyUcRu8p0LjY=;
-        b=tZpEiZfQUP3pxqwqUCicHAsUMj+8TDqluwq4DU4XGbZ/YfFQbsLOJDoggWIEfA5eN4
-         ZS5Y9FWo5CpzgGrTh5z1y3TfHbH0h7CO7ZrUUaKl1YpHhHIqNDYOpSJLxDMcW6nPdB7z
-         GXydTzjpLR94ZOEPXL7wzTct8cuGo8afRwMzCoPWbBqQ5Svfn6AwGrY/7oBgZAlRdvO+
-         qyJS0fhzPanwFCI7GZtCO0YQLVlNhmU4SnpvlDaJwwVO0AfeWnG9gT+fAHL+W8KF+jad
-         IHYN0QVPuOtGxWCBUIcXbiaY/3DG4fYM2pP5VqqsDa23jeKIvjLhAvj5iprIOxydlAys
-         S5QQ==
-X-Gm-Message-State: AOAM532yXGvtRpu6Nhw27CMRqHmuJKZ3MDz4zQI6jI7IbdgVfsQWJuBt
-        ARLoIcE1FS8UhvFAhygsp2VAmfUleX0O01bWedQ=
-X-Google-Smtp-Source: ABdhPJwZaqDGEAw39pokh5wKazMtsYd0U8zjcFHkgl/u/5WFqx2ojdszUYddCg8iZJyKUS2V1hzOATZO27SCBKnlQ9E=
-X-Received: by 2002:aca:ac02:: with SMTP id v2mr4495297oie.154.1624474855653;
- Wed, 23 Jun 2021 12:00:55 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=7Hua08stsWuHXUQaJW2px47NH816H2YtXOe8cA4IlCg=;
+        b=KLb6aOF+hKwN1dYj5rErZbu4fFlVVCbukwCa64hxU2mODIbOFij6c2UFp0sgZpq5ky
+         X0/3x+HZhWelwAAsUWaQNsFBlEEaphNkXzx/xv2mggIr4QL+FByf++gznKAtHM+sGMAG
+         jfdwLRv7ppYeM2mioMGhbdQy1MI88+oc++xN67dpcWeQlLlf3z1ljSxP/Gvto50Mhbwy
+         DOfVvsnP/NuaR5fB5+6hhtthZPlPgRLfWlmnn3AryixWqMvxh8fjbml6m82QDWZP5Ksa
+         TkrgrS4me2T0YfADGXydPPIGB+tCaC8bGHyzcWY4c+lnfQPLzRui+dSyn4wk9qz9lVzm
+         VsHw==
+X-Gm-Message-State: AOAM531SqnE2NN5LkFV/We+JRNWHyGvJ5txiri//4tw1wRXWL0e7hskF
+        IfQ8wa4l8hbej9cMskLhPw9CJQ==
+X-Google-Smtp-Source: ABdhPJzJhju7GF3OV5WfqUhYCkKTkqdmd8DF/MurQj6ivLt84BKbGtZA9SzfqW27EuszS2xGxd/K8A==
+X-Received: by 2002:a17:907:1ca0:: with SMTP id nb32mr1565572ejc.105.1624475822653;
+        Wed, 23 Jun 2021 12:17:02 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id s7sm260735ejd.88.2021.06.23.12.17.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jun 2021 12:17:02 -0700 (PDT)
+Date:   Wed, 23 Jun 2021 21:17:00 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Steven Price <steven.price@arm.com>,
+        linaro-mm-sig@lists.linaro.org,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 06/15] drm/panfrost: Fix implicit sync
+Message-ID: <YNOIrGJY7lpy+/VE@phenom.ffwll.local>
+References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
+ <20210622165511.3169559-7-daniel.vetter@ffwll.ch>
+ <20210623184737.7e47f77c@collabora.com>
 MIME-Version: 1.0
-References: <20210622120142.GL1096940@ziepe.ca> <d497b0a2-897e-adff-295c-cf0f4ff93cb4@amd.com>
- <20210622152343.GO1096940@ziepe.ca> <3fabe8b7-7174-bf49-5ffe-26db30968a27@amd.com>
- <20210622154027.GS1096940@ziepe.ca> <09df4a03-d99c-3949-05b2-8b49c71a109e@amd.com>
- <20210622160538.GT1096940@ziepe.ca> <d600a638-9e55-6249-b574-0986cd5cea1e@gmail.com>
- <20210623182435.GX1096940@ziepe.ca> <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com>
- <20210623185045.GY1096940@ziepe.ca>
-In-Reply-To: <20210623185045.GY1096940@ziepe.ca>
-From:   Oded Gabbay <oded.gabbay@gmail.com>
-Date:   Wed, 23 Jun 2021 22:00:29 +0300
-Message-ID: <CAFCwf12tW_WawFfAfrC8bgVhTRnDA7DuM+0V8w3JsUZpA2j84w@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
- FD for DMA-BUF
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Tomer Tayar <ttayar@habana.ai>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210623184737.7e47f77c@collabora.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 9:50 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Wed, Jun 23, 2021 at 09:43:04PM +0300, Oded Gabbay wrote:
->
-> > Can you please explain why it is so important to (allow) access them
-> > through the CPU ?
->
-> It is not so much important, as it reflects significant design choices
-> that are already tightly baked into alot of our stacks.
->
-> A SGL is CPU accessible by design - that is baked into this thing and
-> places all over the place assume it. Even in RDMA we have
-> RXE/SWI/HFI1/qib that might want to use the CPU side (grep for sg_page
-> to see)
->
-> So, the thing at the top of the stack - in this case the gaudi driver
-> - simply can't assume what the rest of the stack is going to do and
-> omit the CPU side. It breaks everything.
->
-> Logan's patch series is the most fully developed way out of this
-> predicament so far.
+On Wed, Jun 23, 2021 at 06:47:37PM +0200, Boris Brezillon wrote:
+> On Tue, 22 Jun 2021 18:55:02 +0200
+> Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> 
+> > Currently this has no practial relevance I think because there's not
+> > many who can pull off a setup with panfrost and another gpu in the
+> > same system. But the rules are that if you're setting an exclusive
+> > fence, indicating a gpu write access in the implicit fencing system,
+> > then you need to wait for all fences, not just the previous exclusive
+> > fence.
+> > 
+> > panfrost against itself has no problem, because it always sets the
+> > exclusive fence (but that's probably something that will need to be
+> > fixed for vulkan and/or multi-engine gpus, or you'll suffer badly).
+> > Also no problem with that against display.
+> > 
+> > With the prep work done to switch over to the dependency helpers this
+> > is now a oneliner.
+> > 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > Cc: Steven Price <steven.price@arm.com>
+> > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> 
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-I understand the argument and I agree that for the generic case, the
-top of the stack can't assume anything.
-Having said that, in this case the SGL is encapsulated inside a dma-buf object.
+Pushed the 3 panfrost patches to drm-misc-next, thanks for reviewing them.
+-Daniel
 
-Maybe its a stupid/over-simplified suggestion, but can't we add a
-property to the dma-buf object,
-that will be set by the exporter, which will "tell" the importer it
-can't use any CPU fallback ? Only "real" p2p ?
-Won't that solve the problem by eliminating the unsupported access methods ?
+> 
+> > Cc: "Christian König" <christian.koenig@amd.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > ---
+> >  drivers/gpu/drm/panfrost/panfrost_job.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > index 71cd43fa1b36..ef004d587dc4 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > @@ -203,9 +203,8 @@ static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
+> >  	int i, ret;
+> >  
+> >  	for (i = 0; i < bo_count; i++) {
+> > -		struct dma_fence *fence = dma_resv_get_excl_unlocked(bos[i]->resv);
+> > -
+> > -		ret = drm_gem_fence_array_add(deps, fence);
+> > +		/* panfrost always uses write mode in its current uapi */
+> > +		ret = drm_gem_fence_array_add_implicit(deps, bos[i], true);
+> >  		if (ret)
+> >  			return ret;
+> >  	}
+> 
 
-Oded
-
->
-> > The whole purpose is that the other device accesses my device,
-> > bypassing the CPU.
->
-> Sure, but you don't know that will happen, or if it is even possible
-> in any given system configuration. The purpose is to allow for that
-> optimization when possible, not exclude CPU based approaches.
->
-> Jason
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
