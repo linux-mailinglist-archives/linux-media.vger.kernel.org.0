@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D48D73B14C5
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 09:37:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9721B3B14D2
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jun 2021 09:37:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230267AbhFWHiX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Jun 2021 03:38:23 -0400
+        id S230429AbhFWHie (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Jun 2021 03:38:34 -0400
 Received: from mailgw02.mediatek.com ([210.61.82.184]:32810 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230161AbhFWHiU (ORCPT
+        with ESMTP id S230202AbhFWHiW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Jun 2021 03:38:20 -0400
-X-UUID: 5cbdb2f31c824079b2ddb69ff0dc0608-20210623
-X-UUID: 5cbdb2f31c824079b2ddb69ff0dc0608-20210623
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        Wed, 23 Jun 2021 03:38:22 -0400
+X-UUID: e215b238cadd4e8598a42ad26459be46-20210623
+X-UUID: e215b238cadd4e8598a42ad26459be46-20210623
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
         (envelope-from <moudy.ho@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 500013350; Wed, 23 Jun 2021 15:35:58 +0800
+        with ESMTP id 1782219528; Wed, 23 Jun 2021 15:35:58 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Wed, 23 Jun 2021 15:35:57 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
@@ -46,9 +46,9 @@ CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
         <sj.huang@mediatek.com>, <ben.lok@mediatek.com>,
         <randy.wu@mediatek.com>, <moudy.ho@mediatek.com>,
         <srv_heupstream@mediatek.com>, <frederic.chen@mediatek.com>
-Subject: [RFC PATCH V0 07/10] media: mtk-mdp3: Fix unpaired settings
-Date:   Wed, 23 Jun 2021 15:35:46 +0800
-Message-ID: <20210623073549.24170-7-moudy.ho@mediatek.com>
+Subject: [RFC PATCH V0 08/10] media: mtk-mdp3: remove illegal device node usage
+Date:   Wed, 23 Jun 2021 15:35:47 +0800
+Message-ID: <20210623073549.24170-8-moudy.ho@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210623073549.24170-1-moudy.ho@mediatek.com>
 References: <20210623073549.24170-1-moudy.ho@mediatek.com>
@@ -59,220 +59,331 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix unpaired settings about:
-1. clk on/off.
-2. CMDQ packet kzalloc/kfree.
-3. MDP job_count increase/decrease.
-
-Also revise the redundant log.
+This patch is used for review before send upstream patch.
+From Rob Herring's review comment: device node can't use same
+register address as other nodes'.
+Remove illegal device nodes in device tree.
+MDP's sub component init need to do corresponding modification.
 
 Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 ---
- .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   | 97 ++++++++++++-------
- .../media/platform/mtk-mdp3/mtk-mdp3-core.h   |  4 +-
- .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |  2 +-
- 3 files changed, 67 insertions(+), 36 deletions(-)
+ .../media/platform/mtk-mdp3/mtk-mdp3-comp.c   | 224 +++++++++++++-----
+ .../media/platform/mtk-mdp3/mtk-mdp3-comp.h   |   2 +-
+ 2 files changed, 163 insertions(+), 63 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-index a1bdf92d45f7..eac10944283a 100644
---- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-+++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-@@ -5,6 +5,7 @@
-  */
+diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
+index 157ef9408ed3..e89fd02bb556 100644
+--- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
++++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
+@@ -1016,23 +1016,15 @@ static const struct of_device_id mdp_comp_dt_ids[] = {
+ 	{}
+ };
  
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- #include "mtk-mdp3-cmdq.h"
- #include "mtk-mdp3-comp.h"
- #include "mtk-mdp3-core.h"
-@@ -230,6 +231,25 @@ static int mdp_path_subfrm_run(const struct mdp_path_subfrm *subfrm,
+-static int mdp_comp_get_id(struct device *dev, struct device_node *node,
+-			   enum mdp_comp_type type)
++static int mdp_comp_get_id(enum mdp_comp_type type, u32 alias_id)
+ {
+-	u32 alias_id;
+-	int i, ret;
+-
+-	ret = of_property_read_u32(node, "mediatek,mdp-id", &alias_id);
+-	if (ret)
+-		return ret;
++	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(mdp_comp_matches); i++)
+ 		if (mdp_comp_matches[i].type == type &&
+ 		    mdp_comp_matches[i].alias_id == alias_id)
+ 			return i;
+-
+-	dev_err(dev, "Failed to get id. type: %d, alias: %d\n", type, alias_id);
+-	return -EINVAL;
++	return -ENODEV;
+ }
+ 
+ void mdp_comp_clock_on(struct device *dev, struct mdp_comp *comp)
+@@ -1143,33 +1135,10 @@ static void __mdp_comp_init(struct mdp_dev *mdp, struct device_node *node,
+ 	comp->reg_base = base;
+ }
+ 
+-static int mdp_mm_init(struct mdp_dev *mdp,
+-		       struct mdp_comp *comp, const char *ref_name)
++static int mdp_comp_init(struct mdp_dev *mdp, struct device_node *node,
++			 struct mdp_comp *comp, enum mdp_comp_id id)
+ {
+-	struct device_node *node;
+ 	struct device *dev = &mdp->pdev->dev;
+-
+-	node = of_parse_phandle(dev->of_node, ref_name, 0);
+-	if (!node) {
+-		dev_err(dev, "Failed to parse dt %s\n", ref_name);
+-		return -EINVAL;
+-	}
+-
+-	__mdp_comp_init(mdp, node, comp);
+-	mdp_get_subsys_id(dev, node, comp);
+-	of_node_put(node);
+-	if (!comp->reg_base) {
+-		dev_err(dev, "Failed to init %s base\n", ref_name);
+-		return -EINVAL;
+-	}
+-	return 0;
+-}
+-
+-static int mdp_comp_init(struct device *dev, struct mdp_dev *mdp,
+-			 struct device_node *node, struct mdp_comp *comp,
+-			 enum mdp_comp_id id)
+-{
+-	struct platform_device *pdev;
+ 	int i;
+ 
+ 	if (id < 0 || id >= MDP_MAX_COMP_COUNT) {
+@@ -1191,32 +1160,140 @@ static int mdp_comp_init(struct device *dev, struct mdp_dev *mdp,
+ 
+ 	mdp_get_subsys_id(dev, node, comp);
+ 
+-	/* Only DMA capable components need the pm control */
+-	comp->comp_dev = NULL;
+-	if (comp->type != MDP_COMP_TYPE_RDMA &&
+-	    comp->type != MDP_COMP_TYPE_WROT &&
+-		comp->type != MDP_COMP_TYPE_WDMA)
+-		return 0;
++	return 0;
++}
+ 
+-	pdev = of_find_device_by_node(node);
+-	if (!pdev) {
+-		dev_warn(dev, "can't find platform device of node:%s\n",
+-			 node->name);
+-		return -ENODEV;
++static struct mdp_comp *mdp_comp_create(struct mdp_dev *mdp,
++					struct device_node *node,
++					enum mdp_comp_id id)
++{
++	struct device *dev = &mdp->pdev->dev;
++	struct mdp_comp *comp;
++	int ret;
++
++	if (mdp->comp[id])
++		return ERR_PTR(-EEXIST);
++
++	comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
++	if (!comp)
++		return ERR_PTR(-ENOMEM);
++
++	ret = mdp_comp_init(mdp, node, comp, id);
++	if (ret) {
++		kfree(comp);
++		return ERR_PTR(ret);
+ 	}
++	mdp->comp[id] = comp;
++
++	dev_info(dev, "%s type:%d alias:%d id:%d base:%#x regs:%p\n",
++		dev->of_node->name, comp->type, comp->alias_id, id,
++		(u32)comp->reg_base, comp->regs);
++	return comp;
++}
+ 
+-	comp->comp_dev = &pdev->dev;
+-	pm_runtime_enable(comp->comp_dev);
++static int mdp_sub_comps_create(struct mdp_dev *mdp, struct device_node *node)
++{
++	struct device *dev = &mdp->pdev->dev;
++	struct property *prop;
++	const char *name;
++	int index = 0;
++
++	of_property_for_each_string(node, "mdp-comps", prop, name) {
++		const struct of_device_id *matches = mdp_comp_dt_ids;
++		enum mdp_comp_type type = MDP_COMP_NONE;
++		u32 alias_id;
++		int id, ret;
++		struct mdp_comp *comp;
+ 
++		for (; matches->compatible[0]; matches++) {
++			if (of_compat_cmp(name, matches->compatible,
++				strlen(matches->compatible)) == 0) {
++				type = (enum mdp_comp_type)matches->data;
++				break;
++			}
++		}
++
++		ret = of_property_read_u32_index(node, "mdp-comp-ids",
++			index, &alias_id);
++		if (ret) {
++			dev_warn(dev, "Skipping unknown component %s\n", name);
++			return ret;
++		}
++
++		id = mdp_comp_get_id(type, alias_id);
++		if (id < 0) {
++			dev_err(dev, "Failed to get component id: "
++				"%s type %d, alias %d\n", name, type, alias_id);
++			return -ENODEV;
++		}
++
++		comp = mdp_comp_create(mdp, node, id);
++		if (IS_ERR(comp))
++			return PTR_ERR(comp);
++
++		index++;
++	}
  	return 0;
  }
  
-+static int mdp_path_ctx_init(struct mdp_dev *mdp, struct mdp_path *path)
+ static void mdp_comp_deinit(struct mdp_comp *comp)
+ {
+-	iounmap(comp->regs);
++	if (!comp)
++		return;
++
++	if (comp->regs)
++		iounmap(comp->regs);
+ 	/* of_node_put(comp->dev_node); */
+ }
+ 
++static int mdp_imgi_init(struct mdp_dev *mdp, const char *ref_name)
 +{
-+	const struct img_config *config = path->config;
-+	int index, ret;
++	struct device_node *node;
++	struct device *dev = &mdp->pdev->dev;
++	int ret;
 +
-+	if (config->num_components < 1)
-+	    return -EINVAL;
-+
-+	for (index = 0; index < config->num_components; index++) {
-+		ret = mdp_comp_ctx_init(mdp, &path->comps[index],
-+					&config->components[index],
-+					path->param);
-+		if (ret)
-+			return ret;
++	node = of_parse_phandle(dev->of_node, ref_name, 0);
++	if (!node) {
++		dev_err(dev, "Failed to parse dt %s\n", ref_name);
++		return -EINVAL;
 +	}
++
++	ret = mdp_sub_comps_create(mdp, node);
++	of_node_put(node);
++	if (ret)
++		return ret;
 +
 +	return 0;
 +}
 +
- static int mdp_path_config_subfrm(struct mdp_cmd *cmd, struct mdp_path *path,
- 				  u32 count)
++static int mdp_mm_init(struct mdp_dev *mdp, struct mdp_comp *comp,
++		       const char *ref_name)
++{
++	struct device_node *node;
++	struct device *dev = &mdp->pdev->dev;
++	int ret;
++
++	node = of_parse_phandle(dev->of_node, ref_name, 0);
++	if (!node) {
++		dev_err(dev, "Failed to parse dt %s\n", ref_name);
++		return -EINVAL;
++	}
++
++	__mdp_comp_init(mdp, node, comp);
++	mdp_get_subsys_id(dev, node, comp);
++	if (!comp->reg_base) {
++		dev_err(dev, "Failed to init %s base\n", ref_name);
++		of_node_put(node);
++		return -EINVAL;
++	}
++
++	ret = mdp_sub_comps_create(mdp, node);
++	of_node_put(node);
++	if (ret)
++		return ret;
++	return 0;
++}
++
+ void mdp_component_deinit(struct mdp_dev *mdp)
  {
-@@ -297,14 +317,6 @@ static int mdp_path_config(struct mdp_dev *mdp, struct mdp_cmd *cmd,
- 	struct mdp_comp_ctx *ctx;
- 	int index, count, ret;
- 
--	for (index = 0; index < config->num_components; index++) {
--		ret = mdp_comp_ctx_init(mdp, &path->comps[index],
--					&config->components[index],
--					path->param);
--		if (ret)
--			return ret;
--	}
--
- 	/* Config path frame */
- 	/* Reset components */
- 	for (index = 0; index < config->num_components; index++) {
-@@ -410,6 +422,8 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
+ 	int i;
+@@ -1235,6 +1312,8 @@ int mdp_component_init(struct mdp_dev *mdp)
  {
- 	struct mdp_cmd cmd;
- 	struct mdp_path path;
-+	struct mdp_cmdq_cb_param *cb_param = NULL;
-+	struct mdp_comp *comps = NULL;
+ 	struct device *dev = &mdp->pdev->dev;
+ 	struct device_node *node, *parent;
++	struct platform_device *pdev;
++	u32 alias_id;
  	int i, ret;
  
- 	if (atomic_read(&mdp->suspended))
-@@ -438,16 +452,23 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 		path.composes[i] = param->composes[i] ?
- 			param->composes[i] : &path.bounds[i];
- 	}
-+
-+	ret = mdp_path_ctx_init(mdp, &path);
-+	if (ret) {
-+		pr_info("%s mdp_path_ctx_init error\n", __func__);
-+		goto err_destory_pkt;
-+	}
-+
-+	for (i = 0; i < param->config->num_components; i++)
-+			mdp_comp_clock_on(&mdp->pdev->dev, path.comps[i].comp);
-+
- 	ret = mdp_path_config(mdp, &cmd, &path);
- 	if (ret) {
--		atomic_dec(&mdp->job_count);
--		wake_up(&mdp->callback_wq);
--		return ret;
-+		pr_info("%s mdp_path_config error\n", __func__);
-+		goto err_destory_pkt;
- 	}
+ 	for (i = RDMA0_SOF; i < MDP_MAX_EVENT_COUNT; i++) {
+@@ -1260,7 +1339,11 @@ int mdp_component_init(struct mdp_dev *mdp)
  
- 	if (param->wait) {
--		for (i = 0; i < param->config->num_components; i++)
--			mdp_comp_clock_on(&mdp->pdev->dev, path.comps[i].comp);
- 		ret = cmdq_pkt_flush(cmd.pkt);
- #ifdef MDP_DEBUG
- 		if (ret) {
-@@ -461,25 +482,20 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 			if (param->mdp_ctx)
- 				mdp_m2m_job_finish(param->mdp_ctx);
+ 	ret = mdp_mm_init(mdp, &mdp->mm_mutex, "mediatek,mm-mutex");
+ 	if (ret)
+-		goto err_init_mm;
++		goto err_init_comps;
++
++	ret = mdp_imgi_init(mdp, "mediatek,imgsys");
++	if (ret)
++		goto err_init_comps;
+ 
+ 	parent = dev->of_node->parent;
+ 	/* Iterate over sibling MDP function blocks */
+@@ -1281,27 +1364,44 @@ int mdp_component_init(struct mdp_dev *mdp)
  		}
--		cmdq_pkt_destroy(cmd.pkt);
--		for (i = 0; i < param->config->num_components; i++)
--			mdp_comp_clock_off(&mdp->pdev->dev, path.comps[i].comp);
--
--		atomic_dec(&mdp->job_count);
--		wake_up(&mdp->callback_wq);
-+		goto err_clock_off;
- 	} else {
--		struct mdp_cmdq_cb_param *cb_param;
--		struct mdp_comp *comps;
--
- 		cb_param = kzalloc(sizeof(*cb_param), GFP_KERNEL);
--		if (!cb_param)
--			return -ENOMEM;
-+		if (!cb_param) {
-+			ret = -ENOMEM;
-+			goto err_destory_pkt;
+ 
+ 		type = (enum mdp_comp_type)of_id->data;
+-		id = mdp_comp_get_id(dev, node, type);
+-		if (id < 0) {
++		ret = of_property_read_u32(node, "mediatek,mdp-id", &alias_id);
++		if (ret) {
+ 			dev_warn(dev, "Skipping unknown component %pOF\n",
+ 				 node);
+ 			continue;
+ 		}
++		id = mdp_comp_get_id(type, alias_id);
++		if (id < 0) {
++			dev_err(dev,
++				"Fail to get component id: type %d alias %d\n",
++				type, alias_id);
++			continue;
++		}
+ 
+-		comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
+-		if (!comp) {
+-			ret = -ENOMEM;
++		comp = mdp_comp_create(mdp, node, id);
++		if (IS_ERR(comp))
+ 			goto err_init_comps;
+-		}
+-		mdp->comp[id] = comp;
+ 
+-		ret = mdp_comp_init(dev, mdp, node, comp, id);
++		ret = mdp_sub_comps_create(mdp, node);
+ 		if (ret)
+ 			goto err_init_comps;
+ 
+-		dev_info(dev, "%s type:%d alias:%d id:%d base:%#x regs:%p\n",
+-			 of_id->compatible, type, comp->alias_id, id,
+-			(u32)comp->reg_base, comp->regs);
++		/* Only DMA capable components need the pm control */
++		comp->comp_dev = NULL;
++		if (comp->type != MDP_COMP_TYPE_RDMA &&
++		    comp->type != MDP_COMP_TYPE_WROT &&
++			comp->type != MDP_COMP_TYPE_WDMA)
++			continue;
++
++		pdev = of_find_device_by_node(node);
++		if (!pdev) {
++			dev_warn(dev, "can't find platform device of node:%s\n",
++				 node->name);
++			return -ENODEV;
 +		}
 +
- 		comps = kcalloc(param->config->num_components, sizeof(*comps),
- 				GFP_KERNEL);
- 		if (!comps) {
--			kfree(cb_param);
- 			mdp_err("%s:comps alloc fail!\n", __func__);
--			return -ENOMEM;
-+			ret = -ENOMEM;
-+			goto err_destory_pkt;
- 		}
- 
- 		for (i = 0; i < param->config->num_components; i++)
-@@ -493,20 +509,35 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 		cb_param->num_comps = param->config->num_components;
- 		cb_param->mdp_ctx = param->mdp_ctx;
- 
--		mdp_comp_clocks_on(&mdp->pdev->dev, cb_param->comps,
--				   cb_param->num_comps);
--
-+		cmdq_pkt_finalize(cmd.pkt);
- 		ret = cmdq_pkt_flush_async(cmd.pkt,
- 					   mdp_handle_cmdq_callback,
- 					   (void *)cb_param);
- 		if (ret) {
- 			mdp_err("%s:cmdq_pkt_flush_async fail!\n", __func__);
--			mdp_comp_clocks_off(&mdp->pdev->dev, cb_param->comps,
--					    cb_param->num_comps);
--			kfree(cb_param);
--			kfree(comps);
-+			goto err_clock_off;
- 		}
++		comp->comp_dev = &pdev->dev;
++		pm_runtime_enable(comp->comp_dev);
  	}
-+	return 0;
-+
-+err_clock_off:
-+	if (param->wait) {
-+		for (i = 0; i < param->config->num_components; i++)
-+			mdp_comp_clock_off(&mdp->pdev->dev, path.comps[i].comp);
-+	} else {
-+		mdp_comp_clocks_off(&mdp->pdev->dev, cb_param->comps,
-+					    cb_param->num_comps);
-+	}
-+err_destory_pkt:
-+	cmdq_pkt_destroy(cmd.pkt);
-+	atomic_dec(&mdp->job_count);
-+	if (param->wait)
-+		wake_up(&mdp->callback_wq);
-+	if (comps)
-+		kfree(comps);
-+	if (cb_param)
-+		kfree(cb_param);
-+
- 	return ret;
- }
+ 	return 0;
  
-diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h b/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h
-index 98cf54b1d92b..19f46da487aa 100644
---- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h
-+++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h
-@@ -64,12 +64,12 @@ extern int mtk_mdp_debug;
- #define mdp_dbg(level, fmt, ...)\
- 	do {\
- 		if (mtk_mdp_debug >= (level))\
--			pr_info("[MTK-MDP3] %d %s:%d: " fmt "\n",\
-+			pr_info("[MTK-MDP3] %d %s:%d: " fmt,\
- 				level, __func__, __LINE__, ##__VA_ARGS__);\
- 	} while (0)
- 
- #define mdp_err(fmt, ...)\
--	pr_err("[MTK-MDP3][ERR] %s:%d: " fmt "\n", __func__, __LINE__,\
-+	pr_err("[MTK-MDP3][ERR] %s:%d: " fmt, __func__, __LINE__,\
- 		##__VA_ARGS__)
- 
- #else
-diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
-index 1ae499f6c84b..ff80f01be82f 100644
---- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
-+++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
-@@ -133,7 +133,7 @@ static void mdp_m2m_worker(struct work_struct *work)
- 	task.config = ctx->vpu.config;
- 	task.param = &param;
- 	task.composes[0] = &frame->compose;
--	task.wait = 1;
-+	task.wait = 0;
- 	task.cmdq_cb = NULL;
- 	task.cb_data = NULL;
- 	task.mdp_ctx = ctx;
+diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h b/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
+index f201bced3c06..f5d514a51236 100644
+--- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
++++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
+@@ -112,7 +112,7 @@ struct mdp_comp {
+ 	void __iomem			*regs;
+ 	phys_addr_t			reg_base;
+ 	u8				subsys_id;
+-	struct clk			*clks[2];
++	struct clk			*clks[4];
+ 	struct device			*comp_dev;
+ 	enum mdp_comp_type		type;
+ 	enum mdp_comp_id		id;
 -- 
 2.18.0
 
