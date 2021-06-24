@@ -2,99 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5437A3B2B00
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 11:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6023D3B2B2A
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 11:13:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231203AbhFXJGA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Jun 2021 05:06:00 -0400
-Received: from mga12.intel.com ([192.55.52.136]:33521 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231350AbhFXJF7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Jun 2021 05:05:59 -0400
-IronPort-SDR: /A05oRYfUCpMz5wIYMJEjN6F+NsGcKOm+FnWG7X+RJryyGLjxW4aVRMc+/8PgcnvGqFALDnrsk
- 3WPXaKdfDjgA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="187118772"
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
-   d="scan'208";a="187118772"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 02:03:29 -0700
-IronPort-SDR: 9sgqSddcUApgXSDBIBuHa5IupkRdAekgMzrMhq0yI7+6jybo1JcX141ZHzVvlBihWe5kJR9YA2
- cRl5j2wBkRgQ==
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
-   d="scan'208";a="406579431"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 02:03:26 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 9C8482036A;
-        Thu, 24 Jun 2021 12:03:24 +0300 (EEST)
-Date:   Thu, 24 Jun 2021 12:03:24 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Yizhuo <yzhai003@ucr.edu>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S231439AbhFXJQL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Jun 2021 05:16:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56648 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231424AbhFXJQK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Jun 2021 05:16:10 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA16C061574;
+        Thu, 24 Jun 2021 02:13:52 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id B5ED6C63B7; Thu, 24 Jun 2021 10:13:49 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1624526029; bh=KUgP+ME1MWJ7e04FwEMW140Cs6G9wwty/yFb8PwlM1Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=o7VZ2d4qH4zCommCiqd1vL8NzbZm4wfNbNtvmuQQIhRvcQQCvlqKDwlNhbhdeY1ZZ
+         f+Fr5Hz4pwHYWTX8FAAK38Rn6x/w8e0l/KfsvtQjIA3HLU7gCx4IxKJCJ+Bw288G92
+         NViV/OQbeMpb0y7GTrLxfp0FHfeRNhtDwFdFkWUQ5MymW02wnvofkxCBmcsgAiJ/cY
+         kV+fDaP6948g7NUb3rIqDD/uUhbdTO0HmxN6BEGUZKdTpXZCu6ePDxFnngUixFQo9D
+         wMWkA3s+FOpwQcevTnMmFcDj+cd3pVbGXT+JCnD5013rztwXP9Wty8HMV5oeIWNDD/
+         FDLeBVO2IrGHA==
+Date:   Thu, 24 Jun 2021 10:13:49 +0100
+From:   Sean Young <sean@mess.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Oliver Neukum <oneukum@suse.com>, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: atomisp: fix the uninitialized use and rename
- "retvalue"
-Message-ID: <20210624090324.GL3@paasikivi.fi.intel.com>
-References: <20210624031719.11157-1-yzhai003@ucr.edu>
+        Jon Rhees <support@usbuirt.com>
+Subject: Re: [PATCH v3 0/3] IR driver for USB-UIRT device
+Message-ID: <20210624091349.GA7476@gofer.mess.org>
+References: <cover.1620304986.git.sean@mess.org>
+ <YJjrkhfN9Sgq6UX8@hovoldconsulting.com>
+ <20210511103219.GA13769@gofer.mess.org>
+ <YJ5cH1Z5MdZHE8HU@hovoldconsulting.com>
+ <20210515092226.GA31801@gofer.mess.org>
+ <YKI3vyOE8XmpNAuC@hovoldconsulting.com>
+ <20210517103522.GA4644@gofer.mess.org>
+ <YKZktqzkddh3amqX@hovoldconsulting.com>
+ <35840cdac1dcb2808e98ebb57afeba352624d15c.camel@suse.com>
+ <YNMyvCaZUIDOnSc9@hovoldconsulting.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210624031719.11157-1-yzhai003@ucr.edu>
+In-Reply-To: <YNMyvCaZUIDOnSc9@hovoldconsulting.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 24, 2021 at 03:17:17AM +0000, Yizhuo wrote:
-> Inside function mt9m114_detect(), variable "retvalue" could
-> be uninitialized if mt9m114_read_reg() returns error, however, it
-> is used in the later if statement, which is potentially unsafe.
+On Wed, Jun 23, 2021 at 03:10:20PM +0200, Johan Hovold wrote:
+> Sorry about the late reply on this one too.
 > 
-> The local variable "retvalue" is renamed to "model" to avoid
-> confusion.
+> On Tue, May 25, 2021 at 02:25:49PM +0200, Oliver Neukum wrote:
+> > Am Donnerstag, den 20.05.2021, 15:31 +0200 schrieb Johan Hovold:
 > 
-> Signed-off-by: Yizhuo <yzhai003@ucr.edu>
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+> > > Isn't that already handled by lircd using uinput?
+> > 
+> > The problem with that reasoning, though it is true, is
+> > 
+> > 1) We would need to remove a lot of subsystems if we took that
+> > to the logical conclusion. 
 > 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> index f5de81132177..b02a8cd3dde7 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> @@ -1533,16 +1533,20 @@ static struct v4l2_ctrl_config mt9m114_controls[] = {
->  static int mt9m114_detect(struct mt9m114_device *dev, struct i2c_client *client)
->  {
->  	struct i2c_adapter *adapter = client->adapter;
-> -	u32 retvalue;
-> +	u32 model;
-> +	int ret;
->  
->  	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C)) {
->  		dev_err(&client->dev, "%s: i2c error", __func__);
->  		return -ENODEV;
->  	}
-> -	mt9m114_read_reg(client, MISENSOR_16BIT, (u32)MT9M114_PID, &retvalue);
-> -	dev->real_model_id = retvalue;
-> +	ret = mt9m114_read_reg(client, MISENSOR_16BIT,
-> +			       (u32)MT9M114_PID, &model);
+> Removing code is always nice. ;)
 
-Thanks for the update.
+So rather than adding hotplug to serdev, we should remove line-discipline,
+serdev, and serio and all its drivers from the kernel? This is taking
+your own argument and applying it your code.
 
-The cast seems to be there still.
+> > 2) It makes runtime PM much harder
+> 
+> Possibly, depends on the bus and device.
+> 
+> > 3) We end up with two classes of LIRC devices
+> 
+> We already do, right? That's kind of my point since we have lircd
+> supporting uinput.
 
-> +	if (ret)
-> +		return ret;
-> +	dev->real_model_id = model;
->  
-> -	if (retvalue != MT9M114_MOD_ID) {
-> +	if (model != MT9M114_MOD_ID) {
->  		dev_err(&client->dev, "%s: failed: client->addr = %x\n",
->  			__func__, client->addr);
->  		return -ENODEV;
+This is not an either-or situation, lircd is the "old" solution which is
+slowing being supplanted with rc-core. All the new keymaps are rc-core and
+do not work with lircd. The new rc-core tooling (in the v4l-utils package) 
+does not work with lircd. lircd hasn't had any real patches merged for years
+now.
 
--- 
-Sakari Ailus
+There is whole new tooling in the works for rc-core which is not compatible
+with lircd.
+
+> > > I hear you, but we still need to have those discussions from time to
+> > > time to make sure our architecture is sane. One of the problems today
+> > > with the kernel development process appears to be that too few
+> > > questions
+> > > are asked. If it builds, ship it...
+> > 
+> > Indeed, so, could we force a line discipline on a device on the kernel
+> > level? Code duplication is bad.
+> 
+> Not sure I understand what you have mind here. serdev is sort of a
+> line-discipline which we'd "force" on a device if there's a matching
+> description in devicetree, while line disciplines always need to be
+> instantiated by user space. Or are you referring to ldisc/serdev code
+> reuse?
+
+I am pretty sure Oliver is suggesting that all ldisc/serdev code in
+the kernel is duplication of code which can be done in userspace, by your
+own argument.
+
+> > > But I think I've got that point across by now.
+> > 
+> > Yes and and we need to think about the conclusion we draw from
+> > that point. It seems to me that an architecture that pushes data
+> > through the whole tty layer into a demon, then through uinput
+> > is definitely not elegant.
+> 
+> The elegant answer is serdev, but it does not yet support the features
+> needed in this case (i.e. hotplugging).
+> 
+> Since we already support user-space drivers for these devices, I see
+> nothing wrong with implementing support for another one in user space
+> unless there are strong reasons against doing so (e.g. performance,
+> pm or usability). But if uinput works then great, we're done.
+
+As discussed lircd has terrible latency, and lircd is out of date and
+unmaintained and does not work with modern tooling and keymaps.
+
+Also essentially your saying that any input device that connects to a
+serial port should be done in user space. There are a ton of kernel
+drivers doing exactly that, and that is why serio exists in the first
+place.
+
+
+Sean
