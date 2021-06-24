@@ -2,181 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F0A43B2BD4
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 11:53:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 548D33B2C05
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jun 2021 11:59:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232017AbhFXJzV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Jun 2021 05:55:21 -0400
-Received: from mail-bn8nam12on2062.outbound.protection.outlook.com ([40.107.237.62]:30785
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229974AbhFXJzU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Jun 2021 05:55:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GMSovInSeqscmIjdZl28v8EUHc3qIrlIIvBsJmBLGpMdEAMPFwbsAari0+Xt12brATJPqYKkFNbXHAzfPLjK0kIvDgywOAnxFrWSuKrAOuZi73/iUETcRniJGiw9hyYl3xDC6SqbQ/3oK0FzIj6YGmTK328ET72GtnWPY67lvNdqZoN+ABJ4ZPxWpU5XAJxPs2Y8sr4WTochbh4QjpUh5MSgoaQ73CwcivTutDXQr2p9Zy2OqpK87cpCQELabRJSJFJE5vgcRqNWYErWyIeCPAvs1r6Qv92LyxVwq/Rewi7e34rQ4EQIEPUjbNTbJKuV70Li9OGr5bSXAu+K2iie8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hl6R0JiV5EtAwY4px38KP0cu53RquT2zE0HH5fII+WQ=;
- b=Q4Y3EA7SFApvOvISdk4uHq+pZtQy+RNckw36hqjCOe/lzbiy/AaPM/fc3pO9SK7MjVVIUWgsjovU1oUrMZrBNDQ3gQGcbkEl8Y5VdrSjbVmQ9x9EfnN1TOamoN8wTLPB9+gkEC3dOJshaa9UHt6I7AgUkC6p+XVykPVF3Wc98F16mzjmqBhLw7KrjS5Qqy4HCd6G3QVaknUMU+gbCTVai9Lq6JhZ5jYz/IAFCjo5yO3Mjy/Y0ZyM4dEd7Exg1K5/qY4Yla+WMx6/0bZhEy0Zk2t7T31Wbcce76m8USZrm8xKhzmhPrMdnsc2YfPAGc/EAIdagOo4A1CvJUHCBKBSZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hl6R0JiV5EtAwY4px38KP0cu53RquT2zE0HH5fII+WQ=;
- b=ty2Euy2V3IDUd8hkjda4Jr5FvpIuZJsXBUCczn6mh6GXlZKXUY1KowRRnRLyRDF13Y13ex1LTf9mwJEsqQSNIW2shAvpPDythgXpbONB1pG91r7G0NvseBU80I0ctFiAQJAprPLgjcKRvOSZDQDd+2V+ZrgHOODtCE64MvLqKJo=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4549.namprd12.prod.outlook.com (2603:10b6:208:268::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Thu, 24 Jun
- 2021 09:53:00 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4264.020; Thu, 24 Jun 2021
- 09:53:00 +0000
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
- FD for DMA-BUF
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Oded Gabbay <oded.gabbay@gmail.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Tomer Tayar <ttayar@habana.ai>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <20210622154027.GS1096940@ziepe.ca>
- <09df4a03-d99c-3949-05b2-8b49c71a109e@amd.com>
- <20210622160538.GT1096940@ziepe.ca>
- <d600a638-9e55-6249-b574-0986cd5cea1e@gmail.com>
- <20210623182435.GX1096940@ziepe.ca>
- <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com>
- <20210623185045.GY1096940@ziepe.ca>
- <CAFCwf12tW_WawFfAfrC8bgVhTRnDA7DuM+0V8w3JsUZpA2j84w@mail.gmail.com>
- <20210624053421.GA25165@lst.de>
- <9571ac7c-3a58-b013-b849-e26c3727e9b2@amd.com>
- <20210624081237.GA30289@lst.de>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <899fe0ce-b6d7-c138-04b6-4b12405f8d93@amd.com>
-Date:   Thu, 24 Jun 2021 11:52:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210624081237.GA30289@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:1b1b:b0cf:e32b:2813]
-X-ClientProxiedBy: AM0PR10CA0018.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:17c::28) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+        id S232037AbhFXKBs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Jun 2021 06:01:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39106 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231974AbhFXKBr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Jun 2021 06:01:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CC29961375;
+        Thu, 24 Jun 2021 09:59:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624528768;
+        bh=4vNra/ysCAO/400dpuyK8i8CCx6Jr7rPCY5U/MN8ex4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jIgdKaQ52wsgneAwmZUSRAir7jCqc0Ge3WA1bWJc1jGfqg42jsPw2s0iVUxJZg931
+         dC9EpqTHKpnCwtbZBkvia7C3NpV6+12kVAn0iUDKHpUUfsaF+eB4Mr2hL/gRkKzhgI
+         bg/LB/dAGW+qdA12PbJoY2sPzaEILBsAghtk3/O6tCS0HracWEhb7tPyT0Ru0WPEMW
+         +XwFKoIDn9V5I74u5TMSl3lE0a0SSKGTuCshcAUabPIVf56mAzgx74ENNrXZlGsCk8
+         oGRdwIu0xlinH73OYHpAi2UuYqzNA1TjwI4J9Gs/IqEUGorR0+NuPqx5e1XOHhyNGz
+         QE8ygRbTMlGqQ==
+Date:   Thu, 24 Jun 2021 11:59:25 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 3/5] media: v4l2-flash-led-class: drop an useless check
+Message-ID: <20210624115925.357f98b6@coco.lan>
+In-Reply-To: <20210624093153.GJ3@valkosipuli.retiisi.eu>
+References: <cover.1624276137.git.mchehab+huawei@kernel.org>
+        <e1629ac223470630eed4096361965d154aff70b7.1624276138.git.mchehab+huawei@kernel.org>
+        <20210624093153.GJ3@valkosipuli.retiisi.eu>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:1b1b:b0cf:e32b:2813] (2a02:908:1252:fb60:1b1b:b0cf:e32b:2813) by AM0PR10CA0018.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.20 via Frontend Transport; Thu, 24 Jun 2021 09:52:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 00420f8a-7e8e-4ff8-76ba-08d936f5d9d5
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4549:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB45495924BF568FB930F5736583079@MN2PR12MB4549.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fCp8qYv+ofxlyEP4O7XheNassrSOq6sm1rN/jE4dIgMHbtNxuYnkmK7fJAgKCfOCvICEba5ICiPyVRXn0Gql7H55OB5CLvLRcsGcVJm93sbdmWnNnBKRGl2loci3xZJj8QxP5ZlOZTioRjrrEbz0MfqqvX3QLqnFOvp5EkVo66FxGftaASvS/isJmfeeW98f3KK5hShjHi4IKUYkgppvhPp6STUHVJTldjYYn6HUEKt9a5AisURd5PzGRwwZLS82wXT+8O3A8SbnvUupClk3D2NxPfzKFdKicf5BHaV1iU0JoRAi62armlkwHj3UBmFAeCNwtTg2EkaQAfuSQ19jhyMOjw54N9YLfU7YbxEqsrbYU40IIpTxu0im491UON7PKePow61A7huJTKz28XceqXLqJamjgcwK1SNUhkFr2WfEUNZiIP9zPmjC9qZmsW0n6EOL+3qRjpNWUKdblh+ZlTihAKSVp79jn5MGVt7DJqMMutQW1nPLWf121KQHVG1omcc3ImNeg34VA7CJ5XEjXzNXyagjI3Fs3XDemhCKx/rHfLTg5MflesP+ziE3AE+zJuxVXn4Ywkb0E/UkCexfCPFCbbQHHXAQxqeiRvVszC91B2YG4eLRDPjyyPFXJoJ/OU0McFs94FaWmCppVW3mg68AfsV+MvKzwvxjo5D8JAzgmdwwFwjOOBoBQ6WCmLi+c8DTxsGnR1gFNREQT67qnSxXJrCr6uSWuVhcDzTgGpltTqGjPWcRLCy/jbuSNAyj
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(366004)(136003)(39860400002)(376002)(36756003)(86362001)(66476007)(66556008)(66946007)(6666004)(5660300002)(38100700002)(31696002)(6486002)(83380400001)(16526019)(186003)(4326008)(6916009)(478600001)(54906003)(7416002)(2906002)(8676002)(316002)(31686004)(8936002)(2616005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dkdVbEZDRmUyTkNQemd2c0VGbDdrdVpnanpGZ292VWgzVU11b1RxSDJuMWtz?=
- =?utf-8?B?UW1kRWtVYjdSSFU5ZXBCWG1XeWhESWI3UTZVQkxXbXJwNHdmWlp3bHAvWXVM?=
- =?utf-8?B?ekYrUjZqUUx3RHBwRmp2SkFtQ28wckxkT1NNT3hudnFQWWVCSzR4R2ZzSDMx?=
- =?utf-8?B?NEJEcFUrSytFMTRnL2pOQ0ROTFpMSTVBczkrQXVycitSaEsvai80T3RjOTRR?=
- =?utf-8?B?TzZMa0Y5ZHNXZDNCQW8xbjBqUFFjZ3B4cEQ2elJFMlBVajR4bE9Cby9hT3c0?=
- =?utf-8?B?RXlkOWMwU2lEdHVYZkJqRzF0b2ltNXVvejdWRnpVb0p2dnl0cHB6NmlnQnVG?=
- =?utf-8?B?R1k4eXFMZDliNW9aK2FWM283Y3gxbGhNMXpzb0laMDRaN2lyMjh4MVVPRmRS?=
- =?utf-8?B?MXJuUFJNc3laR1hRQmtJOG40NU5Sd2hrS0dMMks4T3ZOYTFpSDlPdHZXYTFQ?=
- =?utf-8?B?aXZVQU5CRXVpS0t3Uk1LR1VPaHR6UDJ3TXdTaTg3YXVvSjVuV3gvTEZyMVBk?=
- =?utf-8?B?SmpRQ3RjSGQvZUtENjN6VGFhS1daSkM5TGZNMElQWnhYMFpsbGt5S1g2UGdi?=
- =?utf-8?B?U0FvNE1KVnpuUmRPUFRzUmpKd3ZUOW1RY2k1alBqY1VGdUlqWEsvYnhRNURj?=
- =?utf-8?B?aU9OTnNkM2hVYkplcHpCQXp0cDlLdWU5WHdDMXJkZVBmendndFd5b1g4aDVB?=
- =?utf-8?B?dHNiUXJhYnMydWMrU0xhWEpIditQcm5odHFUTDNydGRkTUNleWJGT1RUV0kw?=
- =?utf-8?B?RjlBUE81RndGTUJuUDFNUTJrS0xzeVZJWWVDYzhrb3dOTk9LQXU1Y2w0MVBV?=
- =?utf-8?B?Q3BWMnNLQ3VTb05xZ1MzZGxwWGM4M20zUjdYdFhOaFY2NTlid1d0dGZtWGtS?=
- =?utf-8?B?Q3lvWlYwb0RWY1l2ZFM4VFpHMDdCTkNoSFQ5TmROanBDTEptRmlaU2JUejJm?=
- =?utf-8?B?aHZkRVdUREd4MEpUQlo3bmptK3FqQ0Z5SEVRMFR3eTFWemk3UmdlL3dpdVNX?=
- =?utf-8?B?dmNSVHY5RHdrcURpbEJBM0JQVUJaSnhEN0x6dEMwS25abEZiU3N2dmpPL0ZT?=
- =?utf-8?B?OVZwQjlzWGNDQlBJRlZZOUhuMFordTl4d1BCbDNsNFI4U3M4OHhkaEdtWTI3?=
- =?utf-8?B?Y3JCNk55YTgwS1d1NVJZVXZXWk10ZldiVEVDY2svR2I5RVZxOHJTdGpZNFVk?=
- =?utf-8?B?ZDJwUnhFQmFJZVVxQWVLam1XSHU0VThyMGZTdytrWmFsRG1lRVB4cGY3OXYx?=
- =?utf-8?B?TkNXOVdCSjhwY0hwcVlVdHhsaHBIYVlDenExR2RIQ1NYcWJOc2xlVE5uVk1u?=
- =?utf-8?B?U0srbUl3TFd1NmlzTEdjK215WFVhRyt4RGhzQ0FBMHhrbFlFa1N3clBqaXBv?=
- =?utf-8?B?a2dIM0RlZWxsYjAyZ0liNURUU1FGZTZtVTJmS3VvYVF2TWQzSWdwVjF4NENI?=
- =?utf-8?B?WmwzbGw1c05OcUVIMzF5cGJaTnI4UWdrRzJ5WUo3VjhSZTdSNWdrMm1MeUpk?=
- =?utf-8?B?eFpxWmdxNWdQT3J0SmlTcjc3NVlRd0c2NitiZ3dQdUlWeHZwTnZZK3VSMFVu?=
- =?utf-8?B?Vmo2OHVvRVZ5UkxPSE5iTllJWlJ2eGVrRGx6aVVjOUJTMktNc3VpZFpNMURa?=
- =?utf-8?B?ZGxxenA2OEpZV0RUWDRuK2d2b3lERU9HblJocXVyR2d4T0FQbVN0S2xEdlBF?=
- =?utf-8?B?ODZUQlJuek1KNVdZWXNxanNOQ0VRbllYazJ6RHBtZW40azdVUUJmRWVoNUpM?=
- =?utf-8?B?czBScFFsZ2hLOVVueVVIYndqaG1zdFJ0NlJSN3NFR2VwV2wrWURFWHJ3Vk9D?=
- =?utf-8?B?WFZTZi82dUtMSVlKeEttOWExSm9lVCtiTDJVeGk5ZTZLZi9Ia3lWUWxjc0VW?=
- =?utf-8?Q?/zNPVxfG09YwW?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00420f8a-7e8e-4ff8-76ba-08d936f5d9d5
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 09:53:00.1787
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mUyJEDjLX7nbe1UPsvdZTDgdodSnK7LA0BfKYd3jI6fecl5gWzqhZFW8Jtz25Q0j
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4549
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 24.06.21 um 10:12 schrieb Christoph Hellwig:
-> On Thu, Jun 24, 2021 at 10:07:14AM +0200, Christian König wrote:
->> The key point is that accessing the underlying pages even when DMA-bufs are
->> backed by system memory is illegal. Daniel even created a patch which
->> mangles the page pointers in sg_tables used by DMA-buf to make sure that
->> people don't try to use them.
-> Which is another goddamn layering violation of a subsystem that has no
-> business at all poking into the scatterlist structure, yes.
+Em Thu, 24 Jun 2021 12:31:53 +0300
+Sakari Ailus <sakari.ailus@iki.fi> escreveu:
 
-Completely agree, but it is also the easiest way to get away from the 
-scatterlist as trasnport vehicle for the dma_addresses.
+> Hi Mauro,
+> 
+> Could you check if your mail client could be configured not to add junk to
+> To: field? It often leads anything in the Cc: field being dropped.
 
-[SNIP]
+I have no idea why it is doing that. I'm just using git send-email
+here. Perhaps a git bug?
 
->> My best plan to get out of this mess is that we change the DMA-buf
->> interface to use an array of dma_addresses instead of the sg_table object
->> and I have already been working on this actively the last few month.
-> Awesome!  I have a bit of related work on the DMA mapping subsystems, so
-> let's sync up as soon as you have some first sketches.
+	$ git --version
+	git version 2.31.1
 
-Don't start cheering to fast.
+The setup is like this one:
 
-I've already converted a bunch of the GPU drivers, but there are at 
-least 6 GPU still needing to be fixed and on top of that comes VA-API 
-and a few others.
+	[sendemail]
+	        confirm = always
+	        multiedit = true
+	        chainreplyto = false
+	        aliasesfile = /home/mchehab/.addressbook
+	        aliasfiletype = pine
+	        assume8bitencoding = UTF-8
 
-What are your plans for the DMA mapping subsystem?
 
-> Btw, one thing I noticed when looking over the dma-buf instances is that
-> there is a lot of duplicated code for creating a sg_table from pages,
-> and then mapping it.  It would be good if we could move toward common
-> helpers instead of duplicating that all over again.
+> 
+> On Mon, Jun 21, 2021 at 01:56:47PM +0200, Mauro Carvalho Chehab wrote:
+> > As pointed by smatch:
+> > 	drivers/media/v4l2-core/v4l2-flash-led-class.c:264 v4l2_flash_s_ctrl() error: we previously assumed 'fled_cdev' could be null (see line 197)
+> > 
+> > It is too late to check if fled_cdev is NULL there. If such check is
+> > needed, it should be, instead, inside v4l2_flash_init().
+> > 
+> > On other words, if v4l2_flash->fled_cdev() is NULL at
+> > v4l2_flash_s_ctrl(), all led_*() function calls inside the function
+> > would try to de-reference a NULL pointer, as the logic won't prevent
+> > it.
+> > 
+> > So, remove the useless check.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-flash-led-class.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-flash-led-class.c b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> > index 10ddcc48aa17..a1653c635d82 100644
+> > --- a/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> > +++ b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> > @@ -194,7 +194,7 @@ static int v4l2_flash_s_ctrl(struct v4l2_ctrl *c)
+> >  {
+> >  	struct v4l2_flash *v4l2_flash = v4l2_ctrl_to_v4l2_flash(c);
+> >  	struct led_classdev_flash *fled_cdev = v4l2_flash->fled_cdev;
+> > -	struct led_classdev *led_cdev = fled_cdev ? &fled_cdev->led_cdev : NULL;
+> > +	struct led_classdev *led_cdev = &fled_cdev->led_cdev;  
+> 
+> fled_cdev may be NULL here. The reason is that some controls are for flash
+> LEDs only but the same sub-device may also control an indicator. This is
+> covered when the controls are created, so that the NULL pointer isn't
+> dereferenced.
 
-Can you give an example?
+I double-checked the code: if a a NULL pointer is passed, the calls
+to the leds framework will try to de-reference it or will return an
+error.
+
+For instance, those will return an error:
+
+	static inline int led_set_flash_strobe(struct led_classdev_flash *fled_cdev,
+	                                        bool state)
+	{
+	        if (!fled_cdev)
+	                return -EINVAL;
+	        return fled_cdev->ops->strobe_set(fled_cdev, state);
+	}
+
+	#define call_flash_op(fled_cdev, op, args...)           \
+	        ((has_flash_op(fled_cdev, op)) ?                        \
+	                        (fled_cdev->ops->op(fled_cdev, args)) : \
+	                        -EINVAL)
+
+No big issue here (except that the function will do nothing but
+return an error).
+
+However, there are places that it will cause it to de-reference 
+a NULL pointer:
+
+	int led_set_brightness_sync(struct led_classdev *led_cdev, unsigned int value)
+	{
+	        if (led_cdev->blink_delay_on || led_cdev->blink_delay_off)
+	                return -EBUSY;
+	
+	        led_cdev->brightness = min(value, led_cdev->max_brightness);
+
+	        if (led_cdev->flags & LED_SUSPENDED)
+	                return 0;
+
+	        return __led_set_brightness_blocking(led_cdev, led_cdev->brightness);
+	}
+
+So, this is not a false-positive, but, instead, a real issue.
+
+So, if led_cdev/fled_cdev can indeed be NULL, IMO, the right solution would be
+to explicitly check it, and return an error, e. g.:
+
+	static int v4l2_flash_s_ctrl(struct v4l2_ctrl *c)
+	{
+        	struct v4l2_flash *v4l2_flash = v4l2_ctrl_to_v4l2_flash(c);
+        	struct led_classdev_flash *fled_cdev = v4l2_flash->fled_cdev;
+		struct led_classdev *led_cdev;
+        	struct v4l2_ctrl **ctrls = v4l2_flash->ctrls;
+        	bool external_strobe;
+        	int ret = 0;
+
+		if (!fled_cdev)
+			return -EINVAL;
+
+		led_cdev = &fled_cdev->led_cdev;
+
+		...
+
+> 
+> If you wish the false positive to be addressed while also improving the
+> implementation, that could be done by e.g. splitting the switch into two,
+> the part that needs fled_cdev and another that doesn't.
+> 
+> I can send a patch for that.
+> 
+> Please also cc me to V4L2 flash class patches. I noticed this one by
+> accident only.
+
+Better to add you as a reviewer at the MAINTAINERS file, to
+ensure that you'll always be c/c on such code.
 
 Thanks,
-Christian.
+Mauro
